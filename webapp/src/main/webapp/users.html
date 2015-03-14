@@ -1,0 +1,120 @@
+<html>
+    <head>
+        <!--
+        <meta http-equiv="refresh" content="0; url=/doc/com/pantuo/web/AdbusController.html" />
+        -->
+        <meta content="text/html; charset=utf-8" http-equiv="content-type">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>用户列表</title>
+        <script type="text/javascript" language="javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script>
+        <script type="text/javascript" language="javascript" src="js/jquery-ui/jquery-ui.min.js"></script>
+        <script type="text/javascript" language="javascript" src="js/jquery.datepicker.region.cn.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.css">
+        <link rel="stylesheet" type="text/css" href="js/jquery-ui/jquery-ui.min.css">
+        <style type="text/css">
+            .center {margin: auto;}
+            .frame {width: 1000px;}
+            .div {text-align:center; margin:25px;}
+            div#toolbar {float: left;}
+            .processed {color: limegreen;}
+            .invalid {color: red;}
+        </style>
+        <script type="text/javascript">
+            var table;
+            function initTable () {
+                table = $('#table').dataTable( {
+                    "dom": '<"#toolbar">lrtip',
+                    "searching": false,
+                    "ordering": false,
+                    "serverSide": true,
+                    "ajax": {
+                        type: "GET",
+                        url: "user/list",
+                        data: function(d) {
+                            return $.extend( {}, d, {
+                                "username" : $('#username').val()
+                            } );
+                        },
+                        "dataSrc": "content",
+                    },
+                    "columns": [
+                        { "data": "username", "defaultContent": "" },
+                        { "data": "password", "defaultContent": "" },
+                        { "data": "enabled", "defaultContent": "", "render": function(data) {
+                            switch(data) {
+                                case true:
+                                    return '<span class="processed">正常</span>';
+                                default :
+                                    return '<span class="invalid">禁用</span>';
+                            }
+                        } },
+                        { "data": function( row, type, set, meta) {
+                            return row.username;
+                          },
+                          "render": function(data, type, row, meta) {
+                            return row.enabled ? '<a class="table-action" href="javascript:void(0);" url="user/' + data + '/disable">禁用</a> &nbsp;':
+                                    '<a class="table-action" href="javascript:void(0);" url="user/' + data + '/enable">启用</a>';
+                        }},
+                    ],
+                    "language": {
+                        "url": "js/jquery.dataTables.lang.cn.json"
+                    },
+                    "initComplete": initComplete,
+                    "drawCallback": drawCallback,
+                } );
+
+            }
+
+            function initComplete() {
+                $("div#toolbar").html(
+                //        '<div>' +
+                //                '    <span>用户名</span>' +
+                //                '    <span>' +
+                //                '        <input id="username" value="">' +
+                //                '    </span>' +
+                //                '</div>'
+                );
+
+                $('#username').change(function() {
+                    table.fnDraw();
+                });
+            }
+
+            function drawCallback() {
+                $('.table-action').click(function() {
+                    $.post($(this).attr("url"), function() {
+                        table.fnDraw();
+                    })
+                });
+            }
+
+            $(document).ready(function() {
+                initTable();
+            } );
+        </script>
+    </head>
+    <body>
+    <div class="center frame">
+        <div class="div" style="margin-top:75px">
+            <caption><h2>用户列表</h2></caption>
+        </div>
+        <div class="div">
+            <hr/>
+        </div>
+        <div class="div">
+            <table id="table" class="display" cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                    <th>用户名</th>
+                    <th>密码</th>
+                    <th>状态</th>
+                    <th>管理</th>
+                </tr>
+                </thead>
+
+            </table>
+        </div>
+    </div>
+    </body>
+</html>
