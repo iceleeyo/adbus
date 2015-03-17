@@ -51,7 +51,7 @@
             </properties>
         </profile>
     </profiles>
-
+<!-- 
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -63,7 +63,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
+ -->
     <modules>
         <module>wadl-generator</module>
         <module>dao</module>
