@@ -19,8 +19,10 @@ public class DataTablePage<T> extends PageImpl<T> {
     }
 
     public DataTablePage(final Page<T> page, int draw) {
+    	
         super(page.getContent(), new PageRequest(page.getNumber(), page.getSize(), page.getSort()), page.getTotalElements());
         this.draw = draw;
+        System.out.println(1);
     }
 
     public int getDraw() {
