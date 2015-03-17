@@ -24,7 +24,7 @@ public class RestExceptionResolver implements HandlerExceptionResolver {
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
-    @Override
+  //  @Override
     public ModelAndView resolveException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
         log.error("Error processing REST request {}", httpServletRequest.getRequestURI() , e);
 

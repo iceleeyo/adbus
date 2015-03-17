@@ -15,7 +15,7 @@ import java.util.Map;
 public class WebExceptionResolver implements HandlerExceptionResolver {
     private Logger log = LoggerFactory.getLogger(WebExceptionResolver.class);
 
-    @Override
+   // @Override
     public ModelAndView resolveException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
         log.error("Error processing request {}", httpServletRequest.getRequestURI() , e);
 

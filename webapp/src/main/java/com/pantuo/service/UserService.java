@@ -2,7 +2,7 @@ package com.pantuo.service;
 
 import com.pantuo.dao.UserRepository;
 import com.pantuo.dao.UserRoleRepository;
-import com.pantuo.dao.pojo.QUser;
+//import com.pantuo.dao.pojo.QUser;
 import com.pantuo.dao.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

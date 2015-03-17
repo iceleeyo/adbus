@@ -19,7 +19,7 @@ import java.util.concurrent.Executors;
 @EnableScheduling
 //@ComponentScan(basePackages = {"com.pantuo.simulate"})
 public class SchedulerConfiguration implements SchedulingConfigurer {
-    @Override
+    //@Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
         taskRegistrar.setScheduler(taskScheduler());
     }

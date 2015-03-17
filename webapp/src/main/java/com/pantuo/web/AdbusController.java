@@ -2,6 +2,8 @@ package com.pantuo.web;
 
 import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.User;
+
+
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.service.UserService;
 import org.slf4j.Logger;
@@ -63,4 +65,7 @@ public class AdbusController {
         }
         return users.get(0);
     }
+    public static void main(String[] args) {
+		System.out.println(1);
+	}
 }
