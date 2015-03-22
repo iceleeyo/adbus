@@ -1,11 +1,8 @@
 package com.pantuo;
 
-import com.pantuo.dao.RoleRepository;
-import com.pantuo.dao.UserRepository;
-import com.pantuo.dao.UserRoleRepository;
-import com.pantuo.dao.pojo.Role;
-import com.pantuo.dao.pojo.User;
-import com.pantuo.dao.pojo.UserRole;
+import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.service.UserService;
+import com.pantuo.service.security.ActivitiUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,9 +10,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
+import scala.actors.threadpool.Arrays;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,30 +28,38 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
+/*
     @Autowired
-    private UserRepository userRepo;
+    private UserDetailRepository userRepo;
 
     @Autowired
     private RoleRepository roleRepo;
 
     @Autowired
     private UserRoleRepository userRoleRepo;
+*/
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private ActivitiUserDetailsService userDetailsService;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
+        auth.userDetailsService(userDetailsService);
+/*        auth
                 .jdbcAuthentication()
                 .dataSource(dataSource)
                 .usersByUsernameQuery(
-                        "select username, password, enabled from User where username=?")
+                        "select username, password, enabled from UserDetail where username=?")
                 .authoritiesByUsernameQuery(
                         "select username, role from UserRole where username=?");
 
 
         if (userRepo.findByUsername("admin").isEmpty()) {
-            List<User> users = new ArrayList<User> ();
-            users.add(new User("admin", "123456"));
-            users.add(new User("liuchao", "abcdef"));
+            List<UserDetail> users = new ArrayList<UserDetail> ();
+            users.add(new UserDetail("admin", "123456"));
+            users.add(new UserDetail("liuchao", "abcdef"));
             userRepo.save(users);
         }
         if (roleRepo.findByName("admin").isEmpty()) {
@@ -68,9 +73,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             userRoles.add(new UserRole("admin", "user"));
             userRoles.add(new UserRole("admin", "admin"));
             userRoleRepo.save(userRoles);
-        }
+        }*/
 //        auth.inMemoryAuthentication()
 //                .withUser("admin").password("123$%^").roles("USER");
+        List<String> groups = Arrays.asList(new String[] {"user", "admin"});
+        userService.deleteUser("admin");
+        userService.deleteGroups(groups);
+        UserDetail u = new UserDetail("admin", "123456", "Admin", "nistrator", "admin@pantuo.com");
+        u.setStringGroups(groups);
+        userService.createUser(u);
     }
 
     //.csrf() is optional, enabled by default, if using WebSecurityConfigurerAdapter constructor

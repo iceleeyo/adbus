@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
+import scala.reflect.Ident;
 
 import javax.sql.DataSource;
 
@@ -72,5 +73,10 @@ public class ActivitiConfiguration {
     @Bean
     ManagementService managementService(ProcessEngine engine) {
         return engine.getManagementService();
+    }
+
+    @Bean
+    IdentityService identityService(ProcessEngine engine) {
+        return engine.getIdentityService();
     }
 }

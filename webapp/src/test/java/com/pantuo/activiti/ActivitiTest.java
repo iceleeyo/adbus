@@ -1,11 +1,7 @@
 package com.pantuo.activiti;
 
 import com.pantuo.ActivitiConfiguration;
-import com.pantuo.TestCacheConfiguration;
-import com.pantuo.TestServiceConfiguration;
 import com.pantuo.dao.DaoBeanConfiguration;
-import com.pantuo.dao.pojo.User;
-import com.pantuo.service.UserService;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
@@ -22,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

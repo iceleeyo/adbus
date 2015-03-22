@@ -21,7 +21,7 @@ import java.util.*;
 public class DaoTest {
 
     @Autowired
-    private UserRepository userRepo;
+    private UserDetailRepository userRepo;
 
     @Before
     public void before() {
@@ -30,19 +30,19 @@ public class DaoTest {
 
     @Test
     public void testUser() {
-        User u1 = new User("username1", "password1");
-        User u2 = new User("username2", "password2");
+        UserDetail u1 = new UserDetail("username1", "password1", "first1", "last1", "email1");
+        UserDetail u2 = new UserDetail("username2", "password2", "first2", "last2", "email2");
         userRepo.save(u1);
         userRepo.save(u2);
 
-        Iterable<User> users = userRepo.findAll();
-        ArrayList<User> userList = new ArrayList<User> ();
-        for (User user : users) {
+        Iterable<UserDetail> users = userRepo.findAll();
+        ArrayList<UserDetail> userList = new ArrayList<UserDetail> ();
+        for (UserDetail user : users) {
             userList.add(user);
         }
         Assert.assertEquals(2, userList.size());
 
-        User violation = new User("username1", "password1");
+        UserDetail violation = new UserDetail("username1", "password1", "first1", "last1", "email1");
         try {
             userRepo.save(violation);
             Assert.fail("Should violate the constraint");

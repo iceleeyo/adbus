@@ -1,7 +1,6 @@
 package com.pantuo.web;
 
-import java.util.List;
-
+import com.pantuo.dao.pojo.UserDetail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pantuo.dao.pojo.BaseEntity;
-import com.pantuo.dao.pojo.User;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.service.UserService;
 
@@ -39,7 +37,7 @@ public class AdbusController {
      */
     @RequestMapping(value = "/user/list", method = { RequestMethod.GET})
     @ResponseBody
-    public DataTablePage<User> getUsers(
+    public DataTablePage<UserDetail> getUsers(
             @RequestParam(value = "start", required = false, defaultValue = "0") int start,
             @RequestParam(value = "length", required = false, defaultValue = "10") int length,
             @RequestParam(value = "draw", required = false, defaultValue = "1") int draw) {
@@ -51,22 +49,21 @@ public class AdbusController {
 
     @RequestMapping(value = "/user/{username}/{enable}", method = { RequestMethod.POST})
     @ResponseBody
-    public User enableUser(@PathVariable("username") String username,
+    public UserDetail enableUser(@PathVariable("username") String username,
                               @PathVariable("enable") String enable) {
         boolean en = "enable".equals(enable);
-        List<User> users = userService.getUserRepo().findByUsername(username);
-        if (users.size() != 1) {
-            log.warn("enableUser(): find {} users for username {}", users.size(), username);
-            User u = new User();
-            u.setErrorInfo(BaseEntity.ERROR, "找到" + users.size() + "个用户");
+        UserDetail user = userService.findDetailByUsername(username);
+        if (user == null) {
+            UserDetail u = new UserDetail();
+            u.setErrorInfo(BaseEntity.ERROR, "找不到用户名为" + username + "的用户，或者数据冲突");
             return u;
         }
 
-        if (users.get(0).isEnabled() != en) {
-            users.get(0).setEnabled(en);
-            userService.getUserRepo().save(users.get(0));
+        if (user.isEnabled() != en) {
+            user.setEnabled(en);
+            userService.saveDetail(user);
         }
-        return users.get(0);
+        return user;
     }
     public static void main(String[] args) {
 		System.out.println(1);

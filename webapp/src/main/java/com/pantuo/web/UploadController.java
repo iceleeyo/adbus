@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
  * @author impanxh@gmail.com
  * @since pantuotech 1.0-SNAPSHOT
  */
-@Controller
+//@Controller
 @RequestMapping(produces = "application/json;charset=utf-8")
 public class UploadController {
 
