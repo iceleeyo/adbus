@@ -21,7 +21,9 @@ public class SBTransaction implements JavaDelegate {
 		execution.setVariable("fristpass", true);
 		else
 			execution.setVariable("fristpass", false);
-		i++;
+		if((i++)>=2) {
+			execution.setVariable("fristpass", true);
+		}
 		log.info("初审通过");
 	}
 }

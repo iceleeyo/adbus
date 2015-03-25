@@ -22,7 +22,10 @@ public class BGTransaction implements JavaDelegate {
 		execution.setVariable("deptLeaderPass", true);
 		else
 			execution.setVariable("deptLeaderPass", false);
-		i++;
+		
+		if((i++)>=2) {
+			execution.setVariable("deptLeaderPass", true);
+		}
 		log.info("终审通过");
 	}
 }
