@@ -29,9 +29,15 @@ import com.pantuo.dao.DaoBeanConfiguration;
 
 /**
  * 
- * 先执行test.activiti.sql 创建用户
- * 
- *然后运行测试类
+ * 1:先执行test.activiti.sql 创建用户
+ * 2:调整dev.jdbc.properties 在webapp目录下
+ * 	jdbc.database=MYSQL
+	jdbc.driverClassName=com.mysql.jdbc.Driver
+	jdbc.url=jdbc:mysql://112.124.14.72:3306/ad_bus?characterEncoding=UTF-8
+	jdbc.username=root
+	jdbc.password=pantuo1709
+
+ *3：然后运行测试类
  * 
  * @author pxh
  */
