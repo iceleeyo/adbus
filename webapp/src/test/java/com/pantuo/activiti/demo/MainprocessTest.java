@@ -196,7 +196,8 @@ public class MainprocessTest {
 
 		identityService.setAuthenticatedUserId("panxh");
 		String processKey = "ADProcess";
-		//建立了一个订单号 包含素材等信息 对应数据库一条记录
+		//先保存订单和素材等信息 产生一个订单号对应数据库一条记录 然后进入 工作流
+		// 
 		String orderId = String.valueOf(1);
 		Map<String, Object> variables = new HashMap<String, Object>();
 		ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey, orderId, variables);
