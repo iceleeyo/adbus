@@ -39,6 +39,7 @@
                 <value>classpath:${adbus.env}.jdbc.properties</value>
                 <value>classpath:${adbus.env}.webapp.properties</value>
                 <value>classpath:${adbus.env}.redis.properties</value>
+                <value>classpath:${adbus.env}.activiti.properties</value>
             </list>
         </property>
     </bean>

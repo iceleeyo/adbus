@@ -46,6 +46,7 @@ public class DaoBeanConfiguration {
         LocalContainerEntityManagerFactoryBean lef = new LocalContainerEntityManagerFactoryBean();
         lef.setDataSource(dataSource);
         lef.setJpaVendorAdapter(jpaVendorAdapter);
+//        lef.setPersistenceUnitName("adbus-pu");
         lef.setPackagesToScan("com.pantuo.dao");
         return lef;
     }

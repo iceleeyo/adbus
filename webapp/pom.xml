@@ -17,6 +17,15 @@
 
     <build>
         <finalName>adbus</finalName>
+		<testResources>
+			<testResource>
+				<directory>${project.basedir}/src/test/resources</directory>
+			</testResource>
+		    <testResource>
+				<directory>${project.basedir}/src/main/resources</directory>
+			</testResource>
+		</testResources>
+        <pluginManagement>  
         <plugins>
             <!-- aspectj weaver, see: http://stackoverflow.com/questions/12115996/spring-cache-cacheable-method-ignored-when-called-from-within-the-same-class -->
             <plugin>
@@ -58,6 +67,33 @@
                     <target>${jdk.version}</target>
                 </configuration>
             </plugin>
+            <!--This plugin's configuration is used to store Eclipse m2e settings   
+                only. It has no influence on the Maven build itself. -->  
+            <plugin>  
+                <groupId>org.eclipse.m2e</groupId>  
+                <artifactId>lifecycle-mapping</artifactId>  
+                <version>1.0.0</version>  
+                <configuration>  
+                    <lifecycleMappingMetadata>  
+                        <pluginExecutions>  
+                            <pluginExecution>  
+                                <pluginExecutionFilter>  
+                                    <groupId>org.codehaus.mojo</groupId>  
+                                    <artifactId>aspectj-maven-plugin</artifactId>  
+                                    <versionRange>[1.0,)</versionRange>  
+                                    <goals>  
+                                        <goal>test-compile</goal>  
+                                        <goal>compile</goal>  
+                                    </goals>  
+                                </pluginExecutionFilter>  
+                                <action>  
+                                    <execute />  
+                                </action>  
+                            </pluginExecution>  
+                        </pluginExecutions>  
+                    </lifecycleMappingMetadata>  
+                </configuration>  
+            </plugin>  
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -106,6 +142,7 @@
                 <version>2.2</version>
             </plugin>
         </plugins>
+        </pluginManagement>
     </build>
 
     <dependencies>
@@ -333,6 +370,34 @@
             <version>3.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+			<groupId>dumbster</groupId>
+			<artifactId>dumbster</artifactId>
+			<version>1.6</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.activation</groupId>
+					<artifactId>activation</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.mail</groupId>
+					<artifactId>mail</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
+			<version>1.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.1</version>
+			<scope>test</scope>
+		</dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>

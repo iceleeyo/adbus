@@ -8,6 +8,7 @@
             <list>
                 <value>classpath:test.jdbc.properties</value>
                 <value>classpath:test.redis.properties</value>
+                <value>classpath:test.activiti.properties</value>
             </list>
         </property>
     </bean>

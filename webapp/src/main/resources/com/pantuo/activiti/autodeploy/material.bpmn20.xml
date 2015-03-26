@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://activiti.org/bpmn20" id="definitions">
+  <process id="material" name="物料上传审核流程" isExecutable="true" activiti:candidateStarterGroups="advertiser">
+    <subProcess id="mainSubprocess" name="主要业务流程">
+      <startEvent id="theStart">
+        <documentation>开始物料上传审核流程，程序必须设置的process变量:
+          	1. processOwner(UserDetail類型)
+          	2. globalVar(包括theEmail，theCompany等变量)</documentation>
+      </startEvent>
+      <userTask id="submitInfo" name="广告主填写物料单" activiti:candidateUsers="${processOwner.username}" activiti:candidateGroups="ShibaMaterialManager">
+        <documentation>广告主填写并上传物料单，包括物料基本信息</documentation>
+      </userTask>
+      <userTask id="submitMaterial" name="广告主上传物料" activiti:candidateUsers="${processOwner.username}" activiti:candidateGroups="ShibaMaterialManager">
+        <documentation>广告主填写并上传物内容，可能包括视频，图片或者Info</documentation>
+      </userTask>
+      <exclusiveGateway id="approve1Gateway" name="世巴初审情况"></exclusiveGateway>
+      <userTask id="approve1" name="世巴初审" activiti:candidateGroups="ShibaMaterialManager">
+        <documentation>世巴管理员初审物料信息，程序必须设置审核结果的process变量：
+			1. approve1Result:true/false，如果为false，设置需要修改的信息：变量approve1Modify，可能值为info(返回修改物料信息),material(返回修改物料内容)
+			2. approve1Comments:描述审核结果的文本</documentation>
+      </userTask>
+      <exclusiveGateway id="denyGateway" name="审核不通过的gateway"></exclusiveGateway>
+      <endEvent id="theEnd"></endEvent>
+      <userTask id="approve2" name="北广审核并填写物料ID等信息" activiti:candidateGroups="BeiguangMaterialManager">
+        <documentation>北广管理员审核物料信息并入库，填写物料ID等信息，程序设置审核结果的process变量：
+			1.approve2Result：true/false
+			2.approve2Comments:描述审核结果的文本</documentation>
+      </userTask>
+      <exclusiveGateway id="approve2Gateway" name="北广终审情况"></exclusiveGateway>
+      <serviceTask id="denyEmail" name="发送审核不通过的邮件给广告主" activiti:type="mail">
+        <extensionElements>
+          <activiti:field name="from" expression="${globalVar.theEmail}" />
+          <activiti:field name="to" expression="${processOwner.user.email}" />
+		  <activiti:field name="charset" stringValue="utf-8" />
+          <activiti:field name="subject">
+            <activiti:expression>您的广告素材需要修改</activiti:expression>
+          </activiti:field>
+          <activiti:field name="html">
+            <activiti:expression>
+<![CDATA[
+<html>
+<body>
+	${processOwner.user.firstName}${processOwner.user.lastName} 先生/小姐，<br/><br/>
+
+	您提交的广告素材<b>需要修改</b>以下内容：<br/>
+	${approve1Comments}<br/><br/>
+	此致，<br/>
+	${globalVar.theCompany}
+</body>
+</html>
+]]>
+			</activiti:expression>
+          </activiti:field>
+        </extensionElements>
+      </serviceTask>
+      <serviceTask id="approveEmail" name="发送审核通过邮件给广告主" activiti:type="mail">
+        <extensionElements>
+          <activiti:field name="from" expression="${globalVar.theEmail}" />
+          <activiti:field name="to" expression="${processOwner.user.email}" />
+		  <activiti:field name="charset" stringValue="utf-8" />
+          <activiti:field name="subject">
+            <activiti:expression>您的广告素材已通过审核</activiti:expression>
+          </activiti:field>
+          <activiti:field name="html">
+            <activiti:expression>
+<![CDATA[
+<html>
+<body>
+	${processOwner.user.firstName}${processOwner.user.lastName} 先生/小姐，<br/><br/>
+
+	您提交的广告素材已于${now}<b>通过审核</b>。<br/><br/>
+
+	此致，<br/>
+	${globalVar.theCompany}
+</body>
+</html>
+]]>
+			</activiti:expression>
+          </activiti:field>
+        </extensionElements>
+      </serviceTask>
+      
+      <sequenceFlow id="flow13" sourceRef="approve2Gateway" targetRef="approve1">
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approve2Result == false}]]></conditionExpression>
+      </sequenceFlow>
+      <sequenceFlow id="flow15" sourceRef="approve2Gateway" targetRef="approveEmail">
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approve2Result == true}]]></conditionExpression>
+      </sequenceFlow>
+      <sequenceFlow id="flow4" sourceRef="submitInfo" targetRef="submitMaterial"></sequenceFlow>
+      <sequenceFlow id="flow1" sourceRef="theStart" targetRef="submitInfo"></sequenceFlow>
+      <sequenceFlow id="flow9" sourceRef="approve1Gateway" targetRef="approve2">
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approve1Result == true}]]></conditionExpression>
+      </sequenceFlow>
+      <sequenceFlow id="flow10" sourceRef="approve1Gateway" targetRef="denyEmail">
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approve1Result == false}]]></conditionExpression>
+      </sequenceFlow>
+      <sequenceFlow id="flow8" sourceRef="approve1" targetRef="approve1Gateway"></sequenceFlow>
+      <sequenceFlow id="flow18" sourceRef="denyGateway" targetRef="submitMaterial">
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approve1Result == false && approve1Modify == "material"}]]></conditionExpression>
+      </sequenceFlow>
+      <sequenceFlow id="flow19" sourceRef="denyGateway" targetRef="submitInfo">
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approve1Result == false && approve1Modify == "info"}]]></conditionExpression>
+      </sequenceFlow>
+      <sequenceFlow id="flow12" sourceRef="approve2" targetRef="approve2Gateway"></sequenceFlow>
+      <sequenceFlow id="flow17" sourceRef="denyEmail" targetRef="denyGateway"></sequenceFlow>
+      <sequenceFlow id="flow16" sourceRef="approveEmail" targetRef="theEnd"></sequenceFlow>
+      <sequenceFlow id="flow5" sourceRef="submitMaterial" targetRef="approve1"></sequenceFlow>
+      </subProcess>
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <sequenceFlow id="flow20" sourceRef="startevent1" targetRef="mainSubprocess"></sequenceFlow>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <sequenceFlow id="flow21" sourceRef="mainSubprocess" targetRef="endevent1"></sequenceFlow>
+    <boundaryEvent id="boundaryerror1" name="Error" attachedToRef="mainSubprocess">
+      <errorEventDefinition></errorEventDefinition>
+    </boundaryEvent>
+    <boundaryEvent id="boundarytimer1" name="Timer" attachedToRef="mainSubprocess" cancelActivity="true">
+      <timerEventDefinition>
+           <timeDuration>P7D</timeDuration>
+      </timerEventDefinition>
+    </boundaryEvent>
+    <exclusiveGateway id="errorGateway" name="异常情况处理"></exclusiveGateway>
+    <sequenceFlow id="flow22" sourceRef="boundarytimer1" targetRef="errorGateway"></sequenceFlow>
+    <sequenceFlow id="flow23" sourceRef="boundaryerror1" targetRef="errorGateway"></sequenceFlow>
+    <userTask id="errortask" name="管理员介入" activiti:candidateGroups="ShibaMaterialManager"></userTask>
+    <sequenceFlow id="flow24" sourceRef="errorGateway" targetRef="errortask"></sequenceFlow>
+    <sequenceFlow id="flow25" sourceRef="errortask" targetRef="endevent1"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_material">
+    <bpmndi:BPMNPlane bpmnElement="material" id="BPMNPlane_material">
+      <bpmndi:BPMNShape bpmnElement="mainSubprocess" id="BPMNShape_mainSubprocess">
+        <omgdc:Bounds height="331.0" width="901.0" x="140.0" y="70.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approve2Gateway" id="BPMNShape_approve2Gateway">
+        <omgdc:Bounds height="40.0" width="40.0" x="765.0" y="90.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="submitInfo" id="BPMNShape_submitInfo">
+        <omgdc:Bounds height="60.0" width="100.0" x="229.0" y="199.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="theStart" id="BPMNShape_theStart">
+        <omgdc:Bounds height="35.0" width="35.0" x="169.0" y="212.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approve1Gateway" id="BPMNShape_approve1Gateway">
+        <omgdc:Bounds height="40.0" width="40.0" x="627.0" y="325.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="submitMaterial" id="BPMNShape_submitMaterial">
+        <omgdc:Bounds height="60.0" width="100.0" x="360.0" y="199.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approve1" id="BPMNShape_approve1">
+        <omgdc:Bounds height="60.0" width="100.0" x="598.0" y="198.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="denyGateway" id="BPMNShape_denyGateway">
+        <omgdc:Bounds height="40.0" width="40.0" x="389.0" y="325.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="theEnd" id="BPMNShape_theEnd">
+        <omgdc:Bounds height="35.0" width="35.0" x="989.0" y="210.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approve2" id="BPMNShape_approve2">
+        <omgdc:Bounds height="60.0" width="100.0" x="736.0" y="198.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="denyEmail" id="BPMNShape_denyEmail">
+        <omgdc:Bounds height="55.0" width="105.0" x="479.0" y="317.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approveEmail" id="BPMNShape_approveEmail">
+        <omgdc:Bounds height="55.0" width="105.0" x="859.0" y="200.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="boundaryerror1" id="BPMNShape_boundaryerror1">
+        <omgdc:Bounds height="30.0" width="30.0" x="801.0" y="390.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="boundarytimer1" id="BPMNShape_boundarytimer1">
+        <omgdc:Bounds height="30.0" width="30.0" x="932.0" y="390.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="57.0" y="218.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="1100.0" y="218.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="errorGateway" id="BPMNShape_errorGateway">
+        <omgdc:Bounds height="40.0" width="40.0" x="860.0" y="450.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="errortask" id="BPMNShape_errortask">
+        <omgdc:Bounds height="55.0" width="105.0" x="828.0" y="540.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow13" id="BPMNEdge_flow13">
+        <omgdi:waypoint x="765.0" y="110.0"></omgdi:waypoint>
+        <omgdi:waypoint x="648.0" y="109.0"></omgdi:waypoint>
+        <omgdi:waypoint x="648.0" y="198.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow15" id="BPMNEdge_flow15">
+        <omgdi:waypoint x="805.0" y="110.0"></omgdi:waypoint>
+        <omgdi:waypoint x="911.0" y="109.0"></omgdi:waypoint>
+        <omgdi:waypoint x="911.0" y="200.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="329.0" y="229.0"></omgdi:waypoint>
+        <omgdi:waypoint x="360.0" y="229.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="204.0" y="229.0"></omgdi:waypoint>
+        <omgdi:waypoint x="229.0" y="229.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="667.0" y="345.0"></omgdi:waypoint>
+        <omgdi:waypoint x="785.0" y="345.0"></omgdi:waypoint>
+        <omgdi:waypoint x="786.0" y="258.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow10" id="BPMNEdge_flow10">
+        <omgdi:waypoint x="627.0" y="345.0"></omgdi:waypoint>
+        <omgdi:waypoint x="584.0" y="344.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="460.0" y="229.0"></omgdi:waypoint>
+        <omgdi:waypoint x="598.0" y="228.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="648.0" y="258.0"></omgdi:waypoint>
+        <omgdi:waypoint x="647.0" y="325.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow18" id="BPMNEdge_flow18">
+        <omgdi:waypoint x="409.0" y="325.0"></omgdi:waypoint>
+        <omgdi:waypoint x="410.0" y="259.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow19" id="BPMNEdge_flow19">
+        <omgdi:waypoint x="389.0" y="345.0"></omgdi:waypoint>
+        <omgdi:waypoint x="279.0" y="345.0"></omgdi:waypoint>
+        <omgdi:waypoint x="279.0" y="259.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">
+        <omgdi:waypoint x="786.0" y="198.0"></omgdi:waypoint>
+        <omgdi:waypoint x="785.0" y="130.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow17" id="BPMNEdge_flow17">
+        <omgdi:waypoint x="479.0" y="344.0"></omgdi:waypoint>
+        <omgdi:waypoint x="429.0" y="345.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow16" id="BPMNEdge_flow16">
+        <omgdi:waypoint x="964.0" y="227.0"></omgdi:waypoint>
+        <omgdi:waypoint x="989.0" y="227.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow20" id="BPMNEdge_flow20">
+        <omgdi:waypoint x="92.0" y="235.0"></omgdi:waypoint>
+        <omgdi:waypoint x="140.0" y="235.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow21" id="BPMNEdge_flow21">
+        <omgdi:waypoint x="1041.0" y="235.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1100.0" y="235.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow22" id="BPMNEdge_flow22">
+        <omgdi:waypoint x="947.0" y="420.0"></omgdi:waypoint>
+        <omgdi:waypoint x="946.0" y="470.0"></omgdi:waypoint>
+        <omgdi:waypoint x="900.0" y="470.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow23" id="BPMNEdge_flow23">
+        <omgdi:waypoint x="816.0" y="420.0"></omgdi:waypoint>
+        <omgdi:waypoint x="815.0" y="469.0"></omgdi:waypoint>
+        <omgdi:waypoint x="860.0" y="470.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow24" id="BPMNEdge_flow24">
+        <omgdi:waypoint x="880.0" y="490.0"></omgdi:waypoint>
+        <omgdi:waypoint x="880.0" y="540.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow25" id="BPMNEdge_flow25">
+        <omgdi:waypoint x="933.0" y="567.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1117.0" y="567.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1117.0" y="253.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
