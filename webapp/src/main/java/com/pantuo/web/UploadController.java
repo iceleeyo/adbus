@@ -1,7 +1,9 @@
 package com.pantuo.web;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 /**
  * 
@@ -23,12 +26,12 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
  * @author impanxh@gmail.com
  * @since pantuotech 1.0-SNAPSHOT
  */
-//@Controller
+@Controller
 @RequestMapping(produces = "application/json;charset=utf-8")
 public class UploadController {
 
 	 
-	@RequestMapping(value = "upload_enter", method = RequestMethod.GET)
+	@RequestMapping(value = "/upload_enter", method = RequestMethod.GET)
 	public String enter(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws IOException {
 		// 进入下载界面  
 		return "upload";
@@ -61,5 +64,30 @@ public class UploadController {
 		outputStream.write(b);
 		outputStream.close();
 	}
-
+	 @RequestMapping(value = "upload2" , method = RequestMethod.POST )  
+	    public String upload2(HttpServletRequest request,HttpServletResponse response) throws IllegalStateException, IOException {  
+	        //创建一个通用的多部分解析器  
+	        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());  
+	        //判断 request 是否有文件上传,即多部分请求  
+	        if(multipartResolver.isMultipart(request)){  
+	            //转换成多部分request    
+	            MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest)request;  
+	            //取得request中的所有文件名  
+	            Iterator<String> iter = multiRequest.getFileNames();  
+	            while(iter.hasNext()){  
+	                MultipartFile file = multiRequest.getFile(iter.next());  
+	                if(file != null){  
+	                    String oriFileName = file.getOriginalFilename();  
+	                    if(oriFileName.trim() !=""){  
+	                        String fileName = "demoUpload" + oriFileName;  
+	                        String path = "D:/temp/" + fileName;  
+	                        File localFile = new File(path);  
+	                        file.transferTo(localFile);  
+	                    }  
+	                }  
+	            }  
+	              
+	        }  
+	        return "success";  
+	    }  
 }
