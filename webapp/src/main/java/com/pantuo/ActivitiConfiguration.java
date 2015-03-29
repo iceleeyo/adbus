@@ -58,20 +58,27 @@ public class ActivitiConfiguration {
 //        conf.setJpaPersistenceUnitName("adbus-pu");
         conf.setJpaHandleTransaction(true);
         conf.setJpaCloseEntityManager(true);
-        conf.setJobExecutorActivate(false);
+        
+        conf.setJobExecutorActivate(true);
+        conf.setAsyncExecutorActivate(true);
 
         PathMatchingResourcePatternResolver r = new PathMatchingResourcePatternResolver();
         conf.setDeploymentResources(r.getResources(autoDeployPath));
 
         return conf;
     }
-
+    
     @Bean
-    ProcessEngine processEngine(SpringProcessEngineConfiguration conf) throws Exception {
-        ProcessEngineFactoryBean factoryBean = new ProcessEngineFactoryBean();
-        factoryBean.setProcessEngineConfiguration(conf);
-        return factoryBean.getObject();
+    ProcessEngineFactoryBean processEngineFactoryBean(SpringProcessEngineConfiguration conf) {
+    	ProcessEngineFactoryBean factoryBean = new ProcessEngineFactoryBean();
+    	factoryBean.setProcessEngineConfiguration(conf);
+    	return factoryBean;
     }
+
+//    @Bean
+//    ProcessEngine processEngine(ProcessEngineFactoryBean factoryBean) throws Exception {
+//        return factoryBean.getObject();
+//    }
 
     @Bean
     RepositoryService repositoryService (ProcessEngine engine) {

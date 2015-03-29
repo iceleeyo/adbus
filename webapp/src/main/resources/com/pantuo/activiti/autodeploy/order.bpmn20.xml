@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://activiti.org/bpmn20" id="definitions">
+  <process id="order" name="物料上传审核流程" isExecutable="true" activiti:candidateStarterGroups="advertiser">
+    <subProcess id="mainSubprocess" name="主要业务流程">
+      <startEvent id="theStart">
+        <documentation>开始物料上传审核流程，程序必须设置的process变量:
+          	1. _owner(UserDetail類型)
+          	2. 包括_theEmail，_theCompany,_timeout等变量</documentation>
+      </startEvent>
+      <userTask id="submitOrder" name="广告主填写订单" activiti:candidateUsers="${_owner.username}" activiti:candidateGroups="ShibaOrderManager">
+        <documentation>广告主填写并上传物料单，包括物料基本信息</documentation>
+      </userTask>
+      <exclusiveGateway id="approve1Gateway" name="世巴初审情况"></exclusiveGateway>
+      <userTask id="approve1" name="世巴初审" activiti:candidateGroups="ShibaOrderManager">
+        <documentation>世巴管理员初审物料信息，程序必须设置审核结果的process变量：
+			1. approve1Result:true/false
+			2. approve1Comments:描述审核结果的文本</documentation>
+      </userTask>
+      <userTask id="approve2" name="北广审核并填写物料ID等信息" activiti:candidateGroups="BeiguangMaterialManager">
+        <documentation>北广管理员审核物料信息并入库，填写物料ID等信息，程序设置审核结果的process变量：
+			1.approve2Result：true/false
+			2.approve2Comments:描述审核结果的文本</documentation>
+      </userTask>
+      <exclusiveGateway id="approve2Gateway" name="北广终审情况"></exclusiveGateway>
+      <serviceTask id="denyEmail" name="发送审核不通过的邮件给广告主" activiti:type="mail">
+        <extensionElements>
+          <activiti:field name="from">
+            <activiti:expression>${_theEmail}</activiti:expression>
+          </activiti:field>
+          <activiti:field name="to">
+            <activiti:expression>${_owner.user.email}</activiti:expression>
+          </activiti:field>
+          <activiti:field name="charset">
+            <activiti:string><![CDATA[utf-8]]></activiti:string>
+          </activiti:field>
+          <activiti:field name="subject">
+            <activiti:expression>您的广告素材需要修改</activiti:expression>
+          </activiti:field>
+          <activiti:field name="html">
+            <activiti:expression>&lt;html&gt;
+&lt;body&gt;
+	${_owner.user.firstName}${_owner.user.lastName} 先生/小姐，&lt;br/&gt;&lt;br/&gt;
+
+	您提交的广告素材&lt;b&gt;需要修改&lt;/b&gt;以下内容：&lt;br/&gt;
+	${approve1Comments}&lt;br/&gt;&lt;br/&gt;
+	此致，&lt;br/&gt;
+	${_theCompany}
+&lt;/body&gt;
+&lt;/html&gt;</activiti:expression>
+          </activiti:field>
+        </extensionElements>
+      </serviceTask>
+      <serviceTask id="approveEmail" name="发送审核通过邮件给广告主" activiti:type="mail">
+        <extensionElements>
+          <activiti:field name="from">
+            <activiti:expression>${_theEmail}</activiti:expression>
+          </activiti:field>
+          <activiti:field name="to">
+            <activiti:expression>${_owner.user.email}</activiti:expression>
+          </activiti:field>
+          <activiti:field name="charset">
+            <activiti:string><![CDATA[utf-8]]></activiti:string>
+          </activiti:field>
+          <activiti:field name="subject">
+            <activiti:expression>您的广告素材已通过审核</activiti:expression>
+          </activiti:field>
+          <activiti:field name="html">
+            <activiti:expression>&lt;html&gt;
+&lt;body&gt;
+	${_owner.user.firstName}${_owner.user.lastName} 先生/小姐，&lt;br/&gt;&lt;br/&gt;
+
+	您提交的广告素材已于${_now}&lt;b&gt;通过审核&lt;/b&gt;。&lt;br/&gt;&lt;br/&gt;
+
+	此致，&lt;br/&gt;
+	${_theCompany}
+&lt;/body&gt;
+&lt;/html&gt;</activiti:expression>
+          </activiti:field>
+        </extensionElements>
+      </serviceTask>
+      <sequenceFlow id="flow13" name="不通过" sourceRef="approve2Gateway" targetRef="approve1">
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approve2Result == false}]]></conditionExpression>
+      </sequenceFlow>
+      <sequenceFlow id="flow15" name="通过" sourceRef="approve2Gateway" targetRef="approveEmail">
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approve2Result == true}]]></conditionExpression>
+      </sequenceFlow>
+      <sequenceFlow id="flow1" sourceRef="theStart" targetRef="submitOrder"></sequenceFlow>
+      <sequenceFlow id="flow9" name="通过" sourceRef="approve1Gateway" targetRef="approve2">
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approve1Result == true}]]></conditionExpression>
+      </sequenceFlow>
+      <sequenceFlow id="flow10" name="不通过" sourceRef="approve1Gateway" targetRef="denyEmail">
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approve1Result == false}]]></conditionExpression>
+      </sequenceFlow>
+      <sequenceFlow id="flow8" sourceRef="approve1" targetRef="approve1Gateway"></sequenceFlow>
+      <sequenceFlow id="flow12" sourceRef="approve2" targetRef="approve2Gateway"></sequenceFlow>
+      <sequenceFlow id="flow16" sourceRef="approveEmail" targetRef="parallelgateway2"></sequenceFlow>
+      <parallelGateway id="parallelgateway1" name="Parallel Gateway"></parallelGateway>
+      <sequenceFlow id="flow27" sourceRef="submitOrder" targetRef="parallelgateway1"></sequenceFlow>
+      <sequenceFlow id="flow28" sourceRef="parallelgateway1" targetRef="approve1"></sequenceFlow>
+      <userTask id="payment" name="支付" activiti:candidateUsers="${_owner.username}"></userTask>
+      <sequenceFlow id="flow30" sourceRef="parallelgateway1" targetRef="payment"></sequenceFlow>
+      <userTask id="financialCheck" name="世巴财务确认" activiti:candidateGroups="ShibaFinancialManager"></userTask>
+      <sequenceFlow id="flow31" sourceRef="payment" targetRef="financialCheck"></sequenceFlow>
+      <sequenceFlow id="flow32" sourceRef="financialCheck" targetRef="parallelgateway2"></sequenceFlow>
+      <parallelGateway id="parallelgateway2" name="Exclusive Gateway"></parallelGateway>
+      <userTask id="shangboReport" name="上播报告" activiti:candidateGroups="ShibaOrderManager"></userTask>
+      <sequenceFlow id="flow33" sourceRef="effectiveEmail" targetRef="shangboReport"></sequenceFlow>
+      <endEvent id="theEnd"></endEvent>
+      <userTask id="jianboReport" name="监播报告" activiti:candidateGroups="ShibaOrderManager"></userTask>
+      <sequenceFlow id="flow34" sourceRef="shangboEmail" targetRef="jianboReport"></sequenceFlow>
+      <sequenceFlow id="flow35" sourceRef="jianboEmail" targetRef="theEnd"></sequenceFlow>
+      <sequenceFlow id="flow37" sourceRef="parallelgateway2" targetRef="generateSchedule"></sequenceFlow>
+      <serviceTask id="generateSchedule" name="生成排期表"  activiti:class="com.pantuo.activiti.GenerateSchedule"></serviceTask>
+      <userTask id="submitSchedule" name="世巴提交排期表" activiti:candidateGroups="ShibaOrderManager"></userTask>
+      <sequenceFlow id="flow38" sourceRef="generateSchedule" targetRef="submitSchedule"></sequenceFlow>
+      <userTask id="inputSchedule" name="北广录入排期表" activiti:candidateGroups="BeiguangScheduleManager"></userTask>
+      <sequenceFlow id="flow39" sourceRef="submitSchedule" targetRef="inputSchedule"></sequenceFlow>
+      <sequenceFlow id="flow40" sourceRef="inputSchedule" targetRef="effectiveEmail"></sequenceFlow>
+      <serviceTask id="effectiveEmail" name="发送订单生效邮件" activiti:type="mail">
+        <extensionElements>
+          <activiti:field name="from">
+            <activiti:expression>${_theEmail}</activiti:expression>
+          </activiti:field>
+          <activiti:field name="to">
+            <activiti:expression>${_owner.user.email}</activiti:expression>
+          </activiti:field>
+          <activiti:field name="charset">
+            <activiti:string><![CDATA[utf-8]]></activiti:string>
+          </activiti:field>
+          <activiti:field name="subject">
+            <activiti:expression>您的广告投放订单已经生效</activiti:expression>
+          </activiti:field>
+          <activiti:field name="html">
+            <activiti:expression>&lt;html&gt;
+&lt;body&gt;
+	${_owner.user.firstName}${_owner.user.lastName} 先生/小姐，&lt;br/&gt;&lt;br/&gt;
+
+	您提交的广告素材已于${_now}&lt;b&gt;进入排期&lt;/b&gt;。&lt;br/&gt;&lt;br/&gt;
+
+	此致，&lt;br/&gt;
+	${_theCompany}
+&lt;/body&gt;
+&lt;/html&gt;</activiti:expression>
+          </activiti:field>
+        </extensionElements>
+      </serviceTask>
+      <sequenceFlow id="flow41" sourceRef="shangboReport" targetRef="shangboEmail"></sequenceFlow>
+      <serviceTask id="shangboEmail" name="发送上播报告到广告主" activiti:type="mail">
+        <extensionElements>
+          <activiti:field name="from">
+            <activiti:expression>${_theEmail}</activiti:expression>
+          </activiti:field>
+          <activiti:field name="to">
+            <activiti:expression>${_owner.user.email}</activiti:expression>
+          </activiti:field>
+          <activiti:field name="charset">
+            <activiti:string><![CDATA[utf-8]]></activiti:string>
+          </activiti:field>
+          <activiti:field name="subject">
+            <activiti:expression>您的广告订单已经上播</activiti:expression>
+          </activiti:field>
+          <activiti:field name="html">
+            <activiti:expression>&lt;html&gt;
+&lt;body&gt;
+	${_owner.user.firstName}${_owner.user.lastName} 先生/小姐，&lt;br/&gt;&lt;br/&gt;
+
+	您提交的广告已于${_now}&lt;b&gt;上线播出&lt;/b&gt;。&lt;br/&gt;&lt;br/&gt;
+
+	此致，&lt;br/&gt;
+	${_theCompany}
+&lt;/body&gt;
+&lt;/html&gt;</activiti:expression>
+          </activiti:field>
+        </extensionElements>
+      </serviceTask>
+      <sequenceFlow id="flow42" sourceRef="jianboReport" targetRef="jianboEmail"></sequenceFlow>
+      <serviceTask id="jianboEmail" name="发送监播报告到广告主" activiti:type="mail">
+        <extensionElements>
+          <activiti:field name="from">
+            <activiti:expression>${_theEmail}</activiti:expression>
+          </activiti:field>
+          <activiti:field name="to">
+            <activiti:expression>${_owner.user.email}</activiti:expression>
+          </activiti:field>
+          <activiti:field name="charset">
+            <activiti:string><![CDATA[utf-8]]></activiti:string>
+          </activiti:field>
+          <activiti:field name="subject">
+            <activiti:expression>您的广告已经播出完成</activiti:expression>
+          </activiti:field>
+          <activiti:field name="html">
+            <activiti:expression>&lt;html&gt;
+&lt;body&gt;
+	${_owner.user.firstName}${_owner.user.lastName} 先生/小姐，&lt;br/&gt;&lt;br/&gt;
+
+	您提交的广告已于${_now}&lt;b&gt;播出完成&lt;/b&gt;。&lt;br/&gt;&lt;br/&gt;
+
+	此致，&lt;br/&gt;
+	${_theCompany}
+&lt;/body&gt;
+&lt;/html&gt;</activiti:expression>
+          </activiti:field>
+        </extensionElements>
+      </serviceTask>
+      <sequenceFlow id="flow43" sourceRef="denyEmail" targetRef="submitOrder"></sequenceFlow>
+    </subProcess>
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <sequenceFlow id="flow20" sourceRef="initializeTask" targetRef="mainSubprocess"></sequenceFlow>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <sequenceFlow id="flow21" sourceRef="mainSubprocess" targetRef="endevent1"></sequenceFlow>
+    <boundaryEvent id="boundaryerror1" name="Error" attachedToRef="mainSubprocess">
+      <errorEventDefinition></errorEventDefinition>
+    </boundaryEvent>
+    <boundaryEvent id="boundarytimer1" name="Timer" attachedToRef="mainSubprocess" cancelActivity="false">
+      <timerEventDefinition>
+        <timeDuration>${_timeout}</timeDuration>
+      </timerEventDefinition>
+    </boundaryEvent>
+    <sequenceFlow id="flow22" name="业务超时" sourceRef="boundarytimer1" targetRef="timeoutTask"></sequenceFlow>
+    <sequenceFlow id="flow23" name="业务异常" sourceRef="boundaryerror1" targetRef="errortask"></sequenceFlow>
+    <userTask id="errortask" name="管理员介入" activiti:candidateGroups="ShibaOrderManager"></userTask>
+    <sequenceFlow id="flow25" sourceRef="errortask" targetRef="endevent1"></sequenceFlow>
+    <userTask id="timeoutTask" name="通知管理员超时的业务" activiti:candidateGroups="ShibaOrderManager"></userTask>
+    <sequenceFlow id="flow26" sourceRef="startevent1" targetRef="initializeTask"></sequenceFlow>
+    <scriptTask id="initializeTask" name="初始化" scriptFormat="JavaScript" activiti:autoStoreVariables="false">
+      <script>
+            if (!execution.hasVariable("_theEmail")) {
+			    execution.setVariable("_theEmail", 'pantuo-service@gmail.com');
+			}
+            if (!execution.hasVariable("_theCompany")) {
+			    execution.setVariable("_theCompany", 'Pantuo Tech co., Ltd');
+			}
+            if (!execution.hasVariable("_timeout")) {
+			    execution.setVariable("_timeout", 'P7D');
+		    }
+		</script>
+    </scriptTask>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_order">
+    <bpmndi:BPMNPlane bpmnElement="order" id="BPMNPlane_order">
+      <bpmndi:BPMNShape bpmnElement="mainSubprocess" id="BPMNShape_mainSubprocess">
+        <omgdc:Bounds height="564.0" width="901.0" x="240.0" y="77.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="theStart" id="BPMNShape_theStart">
+        <omgdc:Bounds height="35.0" width="35.0" x="260.0" y="304.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="submitOrder" id="BPMNShape_submitOrder">
+        <omgdc:Bounds height="60.0" width="100.0" x="330.0" y="291.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approve1Gateway" id="BPMNShape_approve1Gateway">
+        <omgdc:Bounds height="40.0" width="40.0" x="590.0" y="117.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approve1" id="BPMNShape_approve1">
+        <omgdc:Bounds height="60.0" width="100.0" x="561.0" y="206.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approve2" id="BPMNShape_approve2">
+        <omgdc:Bounds height="60.0" width="100.0" x="714.0" y="205.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approve2Gateway" id="BPMNShape_approve2Gateway">
+        <omgdc:Bounds height="40.0" width="40.0" x="743.0" y="300.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="denyEmail" id="BPMNShape_denyEmail">
+        <omgdc:Bounds height="55.0" width="105.0" x="436.0" y="110.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approveEmail" id="BPMNShape_approveEmail">
+        <omgdc:Bounds height="55.0" width="105.0" x="850.0" y="207.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="parallelgateway1" id="BPMNShape_parallelgateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="480.0" y="300.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="payment" id="BPMNShape_payment">
+        <omgdc:Bounds height="55.0" width="105.0" x="561.0" y="360.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="financialCheck" id="BPMNShape_financialCheck">
+        <omgdc:Bounds height="55.0" width="105.0" x="711.0" y="360.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="parallelgateway2" id="BPMNShape_parallelgateway2">
+        <omgdc:Bounds height="40.0" width="40.0" x="980.0" y="300.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="shangboReport" id="BPMNShape_shangboReport">
+        <omgdc:Bounds height="55.0" width="105.0" x="436.0" y="460.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="theEnd" id="BPMNShape_theEnd">
+        <omgdc:Bounds height="35.0" width="35.0" x="610.0" y="560.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="jianboReport" id="BPMNShape_jianboReport">
+        <omgdc:Bounds height="55.0" width="105.0" x="294.0" y="550.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="generateSchedule" id="BPMNShape_generateSchedule">
+        <omgdc:Bounds height="55.0" width="105.0" x="1020.0" y="460.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="submitSchedule" id="BPMNShape_submitSchedule">
+        <omgdc:Bounds height="55.0" width="105.0" x="876.0" y="460.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="inputSchedule" id="BPMNShape_inputSchedule">
+        <omgdc:Bounds height="55.0" width="105.0" x="730.0" y="460.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="effectiveEmail" id="BPMNShape_effectiveEmail">
+        <omgdc:Bounds height="55.0" width="105.0" x="580.0" y="460.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="shangboEmail" id="BPMNShape_shangboEmail">
+        <omgdc:Bounds height="55.0" width="105.0" x="294.0" y="460.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="jianboEmail" id="BPMNShape_jianboEmail">
+        <omgdc:Bounds height="55.0" width="105.0" x="444.0" y="550.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="boundaryerror1" id="BPMNShape_boundaryerror1">
+        <omgdc:Bounds height="30.0" width="30.0" x="1001.0" y="637.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="boundarytimer1" id="BPMNShape_boundarytimer1">
+        <omgdc:Bounds height="30.0" width="30.0" x="768.0" y="637.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="20.0" y="341.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="1190.0" y="341.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="errortask" id="BPMNShape_errortask">
+        <omgdc:Bounds height="55.0" width="105.0" x="963.0" y="710.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="timeoutTask" id="BPMNShape_timeoutTask">
+        <omgdc:Bounds height="55.0" width="105.0" x="730.0" y="710.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="initializeTask" id="BPMNShape_initializeTask">
+        <omgdc:Bounds height="55.0" width="105.0" x="96.0" y="331.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow13" id="BPMNEdge_flow13">
+        <omgdi:waypoint x="743.0" y="320.0"></omgdi:waypoint>
+        <omgdi:waypoint x="611.0" y="320.0"></omgdi:waypoint>
+        <omgdi:waypoint x="611.0" y="266.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="36.0" x="898.0" y="362.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow15" id="BPMNEdge_flow15">
+        <omgdi:waypoint x="783.0" y="320.0"></omgdi:waypoint>
+        <omgdi:waypoint x="902.0" y="320.0"></omgdi:waypoint>
+        <omgdi:waypoint x="902.0" y="262.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="24.0" x="1023.0" y="373.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="295.0" y="321.0"></omgdi:waypoint>
+        <omgdi:waypoint x="330.0" y="321.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="630.0" y="137.0"></omgdi:waypoint>
+        <omgdi:waypoint x="764.0" y="137.0"></omgdi:waypoint>
+        <omgdi:waypoint x="764.0" y="205.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="24.0" x="870.0" y="190.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow10" id="BPMNEdge_flow10">
+        <omgdi:waypoint x="590.0" y="137.0"></omgdi:waypoint>
+        <omgdi:waypoint x="541.0" y="137.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="36.0" x="761.0" y="182.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="611.0" y="206.0"></omgdi:waypoint>
+        <omgdi:waypoint x="610.0" y="157.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">
+        <omgdi:waypoint x="764.0" y="265.0"></omgdi:waypoint>
+        <omgdi:waypoint x="763.0" y="300.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow16" id="BPMNEdge_flow16">
+        <omgdi:waypoint x="955.0" y="234.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1000.0" y="234.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1000.0" y="300.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow27" id="BPMNEdge_flow27">
+        <omgdi:waypoint x="430.0" y="321.0"></omgdi:waypoint>
+        <omgdi:waypoint x="480.0" y="320.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow28" id="BPMNEdge_flow28">
+        <omgdi:waypoint x="500.0" y="300.0"></omgdi:waypoint>
+        <omgdi:waypoint x="500.0" y="235.0"></omgdi:waypoint>
+        <omgdi:waypoint x="561.0" y="236.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow30" id="BPMNEdge_flow30">
+        <omgdi:waypoint x="500.0" y="340.0"></omgdi:waypoint>
+        <omgdi:waypoint x="500.0" y="387.0"></omgdi:waypoint>
+        <omgdi:waypoint x="561.0" y="387.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow31" id="BPMNEdge_flow31">
+        <omgdi:waypoint x="666.0" y="387.0"></omgdi:waypoint>
+        <omgdi:waypoint x="711.0" y="387.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow32" id="BPMNEdge_flow32">
+        <omgdi:waypoint x="816.0" y="387.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1000.0" y="387.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1000.0" y="340.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow33" id="BPMNEdge_flow33">
+        <omgdi:waypoint x="580.0" y="487.0"></omgdi:waypoint>
+        <omgdi:waypoint x="541.0" y="487.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow34" id="BPMNEdge_flow34">
+        <omgdi:waypoint x="346.0" y="515.0"></omgdi:waypoint>
+        <omgdi:waypoint x="346.0" y="550.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow35" id="BPMNEdge_flow35">
+        <omgdi:waypoint x="549.0" y="577.0"></omgdi:waypoint>
+        <omgdi:waypoint x="610.0" y="577.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow37" id="BPMNEdge_flow37">
+        <omgdi:waypoint x="1020.0" y="320.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1072.0" y="319.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1072.0" y="460.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow38" id="BPMNEdge_flow38">
+        <omgdi:waypoint x="1020.0" y="487.0"></omgdi:waypoint>
+        <omgdi:waypoint x="981.0" y="487.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow39" id="BPMNEdge_flow39">
+        <omgdi:waypoint x="876.0" y="487.0"></omgdi:waypoint>
+        <omgdi:waypoint x="835.0" y="487.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow40" id="BPMNEdge_flow40">
+        <omgdi:waypoint x="730.0" y="487.0"></omgdi:waypoint>
+        <omgdi:waypoint x="685.0" y="487.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow41" id="BPMNEdge_flow41">
+        <omgdi:waypoint x="436.0" y="487.0"></omgdi:waypoint>
+        <omgdi:waypoint x="399.0" y="487.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow42" id="BPMNEdge_flow42">
+        <omgdi:waypoint x="399.0" y="577.0"></omgdi:waypoint>
+        <omgdi:waypoint x="444.0" y="577.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow43" id="BPMNEdge_flow43">
+        <omgdi:waypoint x="436.0" y="137.0"></omgdi:waypoint>
+        <omgdi:waypoint x="379.0" y="138.0"></omgdi:waypoint>
+        <omgdi:waypoint x="380.0" y="291.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow20" id="BPMNEdge_flow20">
+        <omgdi:waypoint x="201.0" y="358.0"></omgdi:waypoint>
+        <omgdi:waypoint x="240.0" y="359.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow21" id="BPMNEdge_flow21">
+        <omgdi:waypoint x="1141.0" y="359.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1190.0" y="358.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow22" id="BPMNEdge_flow22">
+        <omgdi:waypoint x="783.0" y="667.0"></omgdi:waypoint>
+        <omgdi:waypoint x="782.0" y="710.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="48.0" x="789.0" y="680.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow23" id="BPMNEdge_flow23">
+        <omgdi:waypoint x="1016.0" y="667.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1015.0" y="710.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="48.0" x="967.0" y="680.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow25" id="BPMNEdge_flow25">
+        <omgdi:waypoint x="1068.0" y="737.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1207.0" y="737.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1207.0" y="376.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow26" id="BPMNEdge_flow26">
+        <omgdi:waypoint x="55.0" y="358.0"></omgdi:waypoint>
+        <omgdi:waypoint x="96.0" y="358.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
