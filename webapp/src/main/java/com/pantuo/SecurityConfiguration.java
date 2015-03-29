@@ -81,7 +81,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         userService.deleteGroups(groups);
         UserDetail u = new UserDetail("admin", "123456", "Admin", "nistrator", "admin@pantuo.com");
         u.setStringGroups(groups);
-        userService.createUser(u);
+    //    userService.createUser(u);
     }
 
     //.csrf() is optional, enabled by default, if using WebSecurityConfigurerAdapter constructor
