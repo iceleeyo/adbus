@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>
-		  <script type="text/javascript" language="javascript" src="js/jquery.js"></script>
+		  <script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
 		  <script type="text/javascript">  
     i = 2;  
     j = 2;  
@@ -27,14 +27,18 @@
 			<input type="submit" />
 		</form>
 		<h1>springMVC包装类上传文件</h1>   
-    <form name="userForm2" action="upload2.do" enctype="multipart/form-data" method="post"">  
+    <form name="userForm2" action="put" enctype="multipart/form-data" method="post"">  
         <div id="newUpload2">  
            <div id="div_1">
             <input type="file" name="file">  
             </div>
         </div>  
         <input type="button" id="btn_add2" value="增加一行" >  
-        <input type="text" name="a1"/>
+      <br>
+        <input type="text" name="name"/><br>
+         <input type="text" name="suppliesType"/><br>
+          <input type="text" name="infoContext"/><br>
+           <input type="text" name="a1"/><br>
         <input type="submit" value="上传" >  
     </form>   
 	</body>
