@@ -8,5 +8,7 @@
 	    <#list list as item>
 	     ${item.name}<br>
 	     </#list> 
+	     
+	     ${pageNum}
 	</body>
 </html>
