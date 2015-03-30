@@ -3,10 +3,12 @@ package com.pantuo.service;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.ManagementService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Service;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.ContractExample;
 import com.pantuo.mybatis.persistence.ContractMapper;
+import com.pantuo.util.BusinessException;
+import com.pantuo.util.Pair;
 
 /**
  * @author xl
@@ -29,15 +33,27 @@ public class ContractService {
     ContractMapper contractMapper;
     @Autowired
     private ManagementService managementService;
+	@Autowired
+	AttachmentService attachmentService;
     
     @Transactional
-    public int saveContract(Contract con) {
-    		con.setContractNum((long) 12311);
+    public Pair<Boolean, String> saveContract(Contract con,HttpServletRequest request) {
+    	Pair<Boolean, String> r = null;
+		try {
     		con.setIsUpload(0);
     		con.setCreateTime(new Date());
     		con.setStats("unstart");
-    	    return contractMapper.insert(con);
-    }
+			int dbId = contractMapper.insert(con);
+			if (dbId > 0) {
+				attachmentService.saveAttachment(request, "pxh", con.getId(), "ht_pic");
+				r = new Pair<Boolean, String>(true, "合同创建成功！");
+			}
+		} catch (BusinessException e) {
+			r = new Pair<Boolean, String>(false, "合同创建失败");
+		}
+		return r;
+	}
+    		
 
     @Transactional
     public int deleteContract(Integer id) {
