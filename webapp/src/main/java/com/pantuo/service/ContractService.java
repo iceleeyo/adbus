@@ -39,7 +39,6 @@ public class ContractService {
 	@Autowired
 	AttachmentService attachmentService;
     
-    @Transactional
     public Pair<Boolean, String> saveContract(Contract con,HttpServletRequest request) {
     	Pair<Boolean, String> r = null;
 		try {
@@ -56,7 +55,6 @@ public class ContractService {
 		}
 		return r;
 	}
-    @Transactional
     public int deleteContract(Integer id) {
     	return contractMapper.deleteByPrimaryKey(id);
     }
@@ -67,13 +65,6 @@ public class ContractService {
     	con.setIsUpload(1);
     	return contractMapper.updateByExample(con, example);
     }
-    @Transactional
-    public List<Contract> findContracts() {
-    	ContractExample example=new ContractExample();
-    	ContractExample.Criteria criteria=example.createCriteria();
-       return contractMapper.selectByExample(example);
-    }
-    @Transactional
     public int countMyList(String name,String code, HttpServletRequest request) {
 		return contractMapper.countByExample(getExample(name, code));
 	}
