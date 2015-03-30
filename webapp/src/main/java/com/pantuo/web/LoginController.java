@@ -44,7 +44,7 @@ public class LoginController {
 			if(b){
 				
 				UserDetail user = userService.findDetailByUsername(username);
-				request.getSession().setAttribute("loginuser", user);
+				request.getSession().setAttribute(com.pantuo.util.Constants.SESSION_U_KEY, user);
 				redirectAttributes.addFlashAttribute("message", "登录成功!");
 				forword="/upload_enter";//main.jsp
 			}else{

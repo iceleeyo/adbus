@@ -25,12 +25,12 @@ public class Request {
 		return ip;
 	}
 	public static UserDetail getUser(HttpServletRequest request) {
-		UserDetail u = (UserDetail) request.getSession().getAttribute("loginuser");
+		UserDetail u = (UserDetail) request.getSession().getAttribute(com.pantuo.util.Constants.SESSION_U_KEY);
 		return u;
 	}
 	public static String getUserId(HttpServletRequest request) {
 		String r = StringUtils.EMPTY;
-		UserDetail u = (UserDetail) request.getSession().getAttribute("loginuser");
+		UserDetail u = (UserDetail) request.getSession().getAttribute(com.pantuo.util.Constants.SESSION_U_KEY);
 		return u == null ? r : u.getUsername();
 	}
 }
