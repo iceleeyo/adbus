@@ -46,7 +46,8 @@ public class LoginController {
 				UserDetail user = userService.findDetailByUsername(username);
 				request.getSession().setAttribute(com.pantuo.util.Constants.SESSION_U_KEY, user);
 				redirectAttributes.addFlashAttribute("message", "登录成功!");
-				forword="/creContract";//main.jsp
+				forword="/contract/contractEnter";//main.jsp
+
 			}else{
 				redirectAttributes.addFlashAttribute("message", "用户名或密码错误!");
 				forword="/login";//login.jsp
@@ -55,7 +56,7 @@ public class LoginController {
 			forword="/login";//login.jsp
 			redirectAttributes.addFlashAttribute("message", "用户名或密码不能为空!");
 		}
-		return "redirect:"+forword;
+		return  "redirect:"+forword;
 	}
 	
     @RequestMapping(value = "/logout", produces = "text/html;charset=utf-8")

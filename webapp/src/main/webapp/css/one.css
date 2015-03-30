@@ -2446,7 +2446,8 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 
 .ui-form {
 	font-size: 14px;
-	line-height: 1.5
+	line-height: 1.5;
+	height: 470px;
 }
 
 .ui-form,.ui-form * {

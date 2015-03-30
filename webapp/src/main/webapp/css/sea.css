@@ -52,7 +52,7 @@ html{color: #666; }
 			.pg-side-item{background: #ececec;border-bottom: 1px solid #f2f2f2;}
 			.pg-header-top .pg-right .pg-nav-item:hover{color: #fff}
 			.ls-2{width:140px;float: left;margin-left: 10px;margin-right: 10px;}
-			.ls-10{width: 780px;float: left;margin-left: 10px;margin-right: 10px;}
+			.ls-10{width: 780px;height: 480px; float: left;margin-left: 10px;margin-right: 10px;}
 			.breadcrumb{padding: 0;}
 			.bread-homep{line-height: 21px;}
 			.bread-homep a:hover{color: #2ea7e0;text-decoration: none;}

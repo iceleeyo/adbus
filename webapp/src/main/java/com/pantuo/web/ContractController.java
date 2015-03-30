@@ -51,6 +51,11 @@ public class ContractController {
     {   
         return "crecontract";
     }
+    @RequestMapping(value = "/contractEnter", produces = "text/html;charset=utf-8")
+    public String contractEnter(HttpServletRequest request)
+    {   
+        return "contractEnter";
+    }
     @RequestMapping(value = "saveContract",method = RequestMethod.POST)
     @ResponseBody
 	public Pair<Boolean, String> saveContract(Contract contract,HttpServletRequest request, HttpServletResponse response)throws IllegalStateException, IOException{

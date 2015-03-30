@@ -1,0 +1,47 @@
+
+			   $(".pg-side-item-t").click(function(){
+			      $(this).next().toggle();
+			   });
+			   //鼠标移入移出事件
+			   $(".pg-nav-hover").mouseover(function(){
+				    $(".pg-nav-hover").next().show();
+				  });
+			   $(".pg-nav-hover").mouseout(function(){
+				    $(".pg-nav-hover").next().hide();
+				  });
+			   $(".pg-dropdown").mouseover(function(){
+			    $(this).show();
+			   });
+			   $(".pg-dropdown").mouseout(function(){
+			    $(this).hide();
+			   });
+
+			   $(".pg-nav-hover-us").mouseover(function(){
+				    $(".pg-nav-hover-us").next().show();
+				  });
+			   $(".pg-nav-hover-us").mouseout(function(){
+				    $(".pg-nav-hover-us").next().hide();
+				  });
+			   $(".pg-dropdown-us").mouseover(function(){
+			    $(this).show();
+			   });
+			   $(".pg-dropdown-us").mouseout(function(){
+			    $(this).hide();
+			   });
+
+			   $(".pg-nav-item-p").mouseover(function(){
+				    $(".pg-nav-dropdown").show();
+				    $(this).addClass("pg-nav-hover");
+				  });
+			   $(".pg-nav-item-p").mouseout(function(){
+				    $(".pg-nav-dropdown").hide();
+				    $(this).removeClass("pg-nav-hover");
+				  });
+			   $(".pg-nav-dropdown").mouseover(function(){
+			        $(this).show();
+			        $(".pg-nav-item-p").addClass("pg-nav-hover");
+			   });
+			   $(".pg-nav-dropdown").mouseout(function(){
+			        $(this).hide();
+			        $(".pg-nav-item-p").removeClass("pg-nav-hover");
+			   });
