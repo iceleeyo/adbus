@@ -22,13 +22,18 @@
 		  $.ajax({
 		        url:"put",
 		        type:"POST",
-		        data:$("#userForm2").formSerialize(),
+		        contentType:"multipart/form-data",
+		        data:$("#userForm2").serialize (),//formSerialize
 		        success:function(data){
 		            alert(data.left+" # "+data.right);
 		        }
 		    },"text");
-    
     }
+   function sub2(){   
+		  $('#userForm2').ajaxForm(function(data){
+           		 alert(data.left+" # "+data.right);
+        	}).submit();
+   }
 </script>  
 	</head>
 	<body>
@@ -50,7 +55,7 @@
       素材标题  <input type="text" name="name" value="name"/><br>
   素材类型         <input type="text" name="suppliesType" value ="info"/> 这里是个下拉列表有3种'video','image','info'<br>
         文本类型时 文本内容  <input type="text" name="infoContext"/><br>
-        <input type="button" onclick="sub();" value="上传" >  
+        <input type="button" onclick="sub();" value="上传" >  <input type="button" onclick="sub2();" value="上传22" >  
          <input type="submit"   value="上传submit" >  
     </form>   
 	</body>
