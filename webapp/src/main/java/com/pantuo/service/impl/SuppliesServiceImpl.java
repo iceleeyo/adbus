@@ -61,7 +61,7 @@ public class SuppliesServiceImpl implements SuppliesService {
 	}
 
 	public List<Supplies> queryMyList(NumberPageUtil page, String name, String type, HttpServletRequest request) {
-		SuppliesExample ex = getExample(name, type);
+		SuppliesExample ex = getExample(name, type,request);
 		ex.setOrderByClause("create_time desc");
 		ex.setLimitStart(page.getLimitStart());
 		ex.setLimitEnd(page.getPagesize());
@@ -70,10 +70,10 @@ public class SuppliesServiceImpl implements SuppliesService {
 
 	public int countMyList(String name, String type, HttpServletRequest request) {
 
-		return suppliesMapper.countByExample(getExample(name, type));
+		return suppliesMapper.countByExample(getExample(name, type,request));
 	}
 
-	public SuppliesExample getExample(String name, String type) {
+	public SuppliesExample getExample(String name, String type,HttpServletRequest request) {
 		SuppliesExample example = new SuppliesExample();
 		SuppliesExample.Criteria ca = example.createCriteria();
 		if (StringUtils.isNoneBlank(name)) {
@@ -82,6 +82,7 @@ public class SuppliesServiceImpl implements SuppliesService {
 		if (StringUtils.isNoneBlank(type)) {
 			ca.andSuppliesTypeEqualTo(type);
 		}
+		ca.andUserIdEqualTo(Request.getUserId(request));
 		return example;
 	}
 
