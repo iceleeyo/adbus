@@ -24,17 +24,12 @@
     function del_2(o){  
          document.getElementById("newUpload2").removeChild(document.getElementById("div_"+o));  
     }  
-    function sub(){  
-		  $.ajax({
-		        url:"saveContract",
-		        type:"POST",
-		        data:$("#userForm2").formSerialize(),
-		        success:function(data){
-		            alert(data.left+" # "+data.right);
-		        }
-		    },"text");
-    
-    }
+
+      function sub(){   
+		  $('#userForm2').ajaxForm(function(data){
+           		 alert(data.left+" # "+data.right);
+        	}).submit();
+   }
 </script>  
 </head>
 <body>
