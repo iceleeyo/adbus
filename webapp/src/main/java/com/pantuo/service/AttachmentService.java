@@ -31,9 +31,27 @@ public interface AttachmentService {
 	 */
 	public void saveAttachment(HttpServletRequest request, String user_id, int main_id, String file_type)
 			throws BusinessException;
-
+	/**
+	 * 
+	 * 根据文件id删除文件
+	 *
+	 * @param request
+	 * @param user_id
+	 * @param att_id
+	 * @return
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
 	public Pair<Boolean, String> removeAttachment(HttpServletRequest request,String user_id, int att_id);
 	
+	/**
+	 * 
+	 * 查素材下面的文件
+	 *
+	 * @param request
+	 * @param main_id
+	 * @return
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
 	public List<Attachment> queryFile(HttpServletRequest request, int main_id);
 
 }
