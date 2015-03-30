@@ -1,12 +1,27 @@
 package com.pantuo.web;
 
+import java.util.List;
+
+import org.activiti.engine.IdentityService;
+import org.activiti.engine.identity.Group;
+import org.activiti.engine.identity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import ch.qos.logback.core.joran.action.ActionConst;
+
+import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Index controller
@@ -17,17 +32,43 @@ import javax.servlet.http.HttpServletRequest;
 public class LoginController {
     private static Logger log = LoggerFactory.getLogger(LoginController.class);
 
-
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private IdentityService identityService;
+    
     @RequestMapping(value = "/login", produces = "text/html;charset=utf-8")
     public String login(HttpServletRequest request)
     {
         return "login";
     }
-
+    @RequestMapping(value="/loginin",method={RequestMethod.POST,RequestMethod.GET})
+	public String loginin(@RequestParam("username")String username,@RequestParam("password")String password,HttpServletRequest request, HttpServletResponse response,RedirectAttributes redirectAttributes){
+		String forword="";
+		if((username!=null&&username.length()>0)&&(password!=null&&password.length()>0)){
+			boolean b = identityService.checkPassword(username, password);
+			if(b){
+				
+				UserDetail user = userService.findDetailByUsername(username);
+				request.getSession().setAttribute("loginuser", user);
+				redirectAttributes.addFlashAttribute("message", "登录成功!");
+				forword="/upload_enter";//main.jsp
+			}else{
+				redirectAttributes.addFlashAttribute("message", "用户名或密码错误!");
+				forword="/login";//login.jsp
+			}
+		}else{
+			forword="/login";//login.jsp
+			redirectAttributes.addFlashAttribute("message", "用户名或密码不能为空!");
+		}
+		return "redirect:"+forword;
+	}
+	
     @RequestMapping(value = "/logout", produces = "text/html;charset=utf-8")
     public String logout(HttpServletRequest request)
     {
         try {
+        	
             request.logout();
         } catch (ServletException e) {
             log.error("Failed to logout.", e);
