@@ -20,6 +20,8 @@
 </script>  
 	</head>
 	<body>
+	   ${(message)!''}
+	        欢迎你，${(loginuser.username)!''}
 		<form method="post" action="storeFile.do" enctype="multipart/form-data">
 			<input type="file" name="file" />
 			<input type="submit" />

@@ -19,7 +19,7 @@
     </head>
     <body>
     <form name='loginForm'
-          action="login" method='POST'>
+          action="loginin" method='POST'>
         <div class="login-container">
 			<div class="pg-header">
 				<div class="pg-header-top">
@@ -49,17 +49,19 @@
 							</div>
 							<div class="s-right login-right">
 								<div class="login-info module">
-									<form class="login-form" method="" action="">
+									<form class="login-form" action="loginin" method='POST'>
 									   <fieldset><br>
+									   ${(message)!''}
 									   		<div class="login-tips mb10" style="display : none;">
 									   			<span class="login-tip">密码不能为空</span>
+									   			
 									   		</div>
 									   		<div class="login-item">
 									   			<input class="login-input input-p gray-input" type="text" placeholder="请输入用户名" id="username" name="username">
 									   			<span class="login-name-icon icon-position-user"></span>
 									   		</div>
 									   		<div class="login-item">
-									   			<input class="login-input input-p gray-input" type="text" placeholder="请输入密码">
+									   			<input class="login-input input-p gray-input" type="text" placeholder="请输入密码" name="password">
 									   			<span class="login-name-icon icon-position-pwd"></span>
 									   		</div>
 									   		<div class="login-item s-clear">
@@ -69,6 +71,7 @@
 									   		</div>
 									   		<div class="login-item p-center">
 									   			<p class="mt37"></p>
+									   			<input name="submit" type="submit" value="登录" />
 									   			<a class="login-btn login-btn-size" href="#">立即登录</a>
 									   		</div>
 									   		<div class="login-item p-center">
