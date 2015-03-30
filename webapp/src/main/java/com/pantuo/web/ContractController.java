@@ -1,8 +1,11 @@
 package com.pantuo.web;
 
+import java.io.IOException;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.activiti.engine.IdentityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,9 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.service.ContractService;
+import com.pantuo.util.Pair;
 
 /**
  * 
@@ -38,16 +44,12 @@ public class ContractController {
     @RequestMapping(value = "/creContract", produces = "text/html;charset=utf-8")
     public String creContract(HttpServletRequest request)
     {   
-        return "creContract";
+        return "crecontract";
     }
-    @RequestMapping(value="/saveContract",method={RequestMethod.POST,RequestMethod.GET})
-	public String saveContract(Contract contract,HttpServletRequest request, HttpServletResponse response,RedirectAttributes redirectAttributes){
-		if(contractService.saveContract(contract)!=0){
-			redirectAttributes.addFlashAttribute("message", "创建合同成功!");
-		}else{
-			redirectAttributes.addFlashAttribute("message", "创建合同失败!");
-		}
-		return "redirect:"+"/contractlist";
+    @RequestMapping(value="saveContract",method = RequestMethod.POST)
+    @ResponseBody
+	public Pair<Boolean, String> saveContract(Contract contract,HttpServletRequest request, HttpServletResponse response)throws IllegalStateException, IOException{
+    	return contractService.saveContract(contract,request);
 	}
 	
 
