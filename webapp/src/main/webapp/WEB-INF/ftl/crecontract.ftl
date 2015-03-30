@@ -28,6 +28,11 @@
 		    },"text");
     
     }
+    function sub2(){   
+		  $('#userForm2').ajaxForm(function(data){
+           		 alert(data.left+" # "+data.right);
+        	}).submit();
+   }
 </script>  
 	</head>
 	<body>
@@ -43,7 +48,7 @@
         </div>  
         <input type="button" id="btn_add2" value="增加一行" >  
       <br>
-         <input type="button" onclick="sub();" value="创建合同" >  
+         <input type="button" onclick="sub2();" value="创建合同" >  
     </form>   
 	</body>
 </html>
