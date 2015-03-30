@@ -1,8 +1,12 @@
 package com.pantuo.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
+import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.util.BusinessException;
+import com.pantuo.util.Pair;
 
 /**
  * 
@@ -27,5 +31,9 @@ public interface AttachmentService {
 	 */
 	public void saveAttachment(HttpServletRequest request, String user_id, int main_id, String file_type)
 			throws BusinessException;
+
+	public Pair<Boolean, String> removeAttachment(HttpServletRequest request,String user_id, int att_id);
+	
+	public List<Attachment> queryFile(HttpServletRequest request, int main_id);
 
 }

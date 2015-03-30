@@ -20,5 +20,5 @@ public interface SuppliesService {
 	public Pair<Boolean, String> addSupplies(Supplies obj,HttpServletRequest request);
 	
 	
-	
+	public Pair<Boolean, String> removeSupplies(int supplies_id  ,HttpServletRequest request);
 }

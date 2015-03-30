@@ -3,6 +3,7 @@ package com.pantuo.service.impl;
 import java.io.File;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,11 +17,13 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.pantuo.mybatis.domain.Attachment;
+import com.pantuo.mybatis.domain.AttachmentExample;
 import com.pantuo.mybatis.persistence.AttachmentMapper;
 import com.pantuo.service.AttachmentService;
 import com.pantuo.util.BusinessException;
 import com.pantuo.util.FileHelper;
 import com.pantuo.util.Pair;
+import com.pantuo.util.Request;
 
 /**
  * 
@@ -34,7 +37,7 @@ import com.pantuo.util.Pair;
  */
 
 @Service
-public class AttachmentServiceImpl implements AttachmentService {
+public class AttachmentServiceImpl implements AttachmentService { 
 
 	@Autowired
 	AttachmentMapper attachmentMapper;
@@ -48,7 +51,8 @@ public class AttachmentServiceImpl implements AttachmentService {
 					.getServletContext());
 			log.info("userid:{},main_id:{},file_type:{}", user_id, main_id, file_type);
 			if (multipartResolver.isMultipart(request)) {
-				String path = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_temp/");
+				String path = request.getSession().getServletContext()
+						.getRealPath(com.pantuo.util.Constants.FILE_UPLOAD_DIR);
 				MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
 				Iterator<String> iter = multiRequest.getFileNames();
 				while (iter.hasNext()) {
@@ -56,7 +60,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 					if (file != null && !file.isEmpty()) {
 						String oriFileName = file.getOriginalFilename();
 						if (StringUtils.isNoneBlank(oriFileName)) {
-							
+
 							Pair<String, String> p = FileHelper.getUploadFileName(path, oriFileName);
 							File localFile = new File(p.getLeft());
 							file.transferTo(localFile);
@@ -78,5 +82,33 @@ public class AttachmentServiceImpl implements AttachmentService {
 			throw new BusinessException("saveAttachment-error", e);
 		}
 
+	}
+
+	 
+	
+	@Override
+	public Pair<Boolean, String> removeAttachment(HttpServletRequest request, String user_id, int att_id) {
+		Attachment t = attachmentMapper.selectByPrimaryKey(att_id);
+		if (t != null && StringUtils.equals(user_id, t.getUserId())) {
+			if (StringUtils.isNoneBlank(t.getUrl())) {
+				String path = request.getSession().getServletContext()
+						.getRealPath(com.pantuo.util.Constants.FILE_UPLOAD_DIR);
+				File f = new File(path + "/" + t.getUrl());
+				f.delete();
+			}
+			attachmentMapper.deleteByPrimaryKey(att_id);
+			return new Pair<Boolean, String>(true, "素材文件删除成功");  
+		} else {
+			return new Pair<Boolean, String>(false, "该素材不存在或是素材属主不对!");
+		}
+	}
+
+	@Override
+	public List<Attachment> queryFile(HttpServletRequest request, int main_id) {
+		AttachmentExample example =new AttachmentExample();
+		AttachmentExample.Criteria ca=example.createCriteria();
+		ca.andMainIdEqualTo(main_id);
+		ca.andUserIdEqualTo(Request.getUserId(request));
+		return attachmentMapper.selectByExample(example);
 	}
 }
