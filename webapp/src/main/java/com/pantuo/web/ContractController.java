@@ -39,22 +39,10 @@ public class ContractController {
     @Autowired
     private IdentityService identityService;
     
-    @RequestMapping(value = "/contractlist", produces = "text/html;charset=utf-8")
-    public String contractlist(HttpServletRequest request)
-    {   
-    	List<Contract> contracts=contractService.findContracts();
-    	request.getSession().setAttribute("contracts", contracts);
-        return "contractlist";
-    }
     @RequestMapping(value = "/creContract", produces = "text/html;charset=utf-8")
     public String creContract(HttpServletRequest request)
     {   
         return "crecontract";
-    }
-    @RequestMapping(value = "/contractEnter", produces = "text/html;charset=utf-8")
-    public String contractEnter(HttpServletRequest request)
-    {   
-        return "contractEnter";
     }
     @RequestMapping(value = "saveContract",method = RequestMethod.POST)
     @ResponseBody
@@ -72,5 +60,9 @@ public class ContractController {
 		model.addAttribute("pageNum", pageNum);
 		return "contractlist";
 	}
-
+    @RequestMapping(value = "/contractEnter", produces = "text/html;charset=utf-8")
+    public String contractEnter(HttpServletRequest request)
+    {   
+        return "contractEnter";
+    }
 }
