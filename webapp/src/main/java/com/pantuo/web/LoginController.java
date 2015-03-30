@@ -70,5 +70,8 @@ public class LoginController {
 
         return "redirect:/login";
     }
+    public static void main(String[] args) {
+		System.out.println(1);
+	}
 
 }
