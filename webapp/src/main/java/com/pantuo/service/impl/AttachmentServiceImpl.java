@@ -19,6 +19,8 @@ import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.persistence.AttachmentMapper;
 import com.pantuo.service.AttachmentService;
 import com.pantuo.util.BusinessException;
+import com.pantuo.util.FileHelper;
+import com.pantuo.util.Pair;
 
 /**
  * 
@@ -54,15 +56,16 @@ public class AttachmentServiceImpl implements AttachmentService {
 					if (file != null && !file.isEmpty()) {
 						String oriFileName = file.getOriginalFilename();
 						if (StringUtils.isNoneBlank(oriFileName)) {
-							path = path + oriFileName;
-							File localFile = new File(path);
+							
+							Pair<String, String> p = FileHelper.getUploadFileName(path, oriFileName);
+							File localFile = new File(p.getLeft());
 							file.transferTo(localFile);
 							Attachment t = new Attachment();
 							t.setMainId(main_id);
 							t.setCreateTime(new Date());
 							t.setEditTime(t.getCreateTime());
-							t.setName(user_id);
-							t.setUrl(path);
+							t.setName(oriFileName);
+							t.setUrl(p.getRight());
 							t.setUserId(user_id);
 							attachmentMapper.insert(t);
 						}
