@@ -16,8 +16,11 @@ import org.springframework.stereotype.Service;
 
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.ContractExample;
+import com.pantuo.mybatis.domain.Supplies;
+import com.pantuo.mybatis.domain.SuppliesExample;
 import com.pantuo.mybatis.persistence.ContractMapper;
 import com.pantuo.util.BusinessException;
+import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 
 /**
@@ -53,14 +56,10 @@ public class ContractService {
 		}
 		return r;
 	}
-    		
-
     @Transactional
     public int deleteContract(Integer id) {
     	return contractMapper.deleteByPrimaryKey(id);
     }
-
-
     public int updateContract(Contract con){
     	ContractExample example=new ContractExample();
     	ContractExample.Criteria criteria=example.createCriteria();
@@ -74,4 +73,26 @@ public class ContractService {
     	ContractExample.Criteria criteria=example.createCriteria();
        return contractMapper.selectByExample(example);
     }
+    @Transactional
+    public int countMyList(String name,String code, HttpServletRequest request) {
+		return contractMapper.countByExample(getExample(name, code));
+	}
+    public ContractExample getExample(String name, String code) {
+    	ContractExample example = new ContractExample();
+    	ContractExample.Criteria ca = example.createCriteria();
+		if (StringUtils.isNoneBlank(name)) {
+			ca.andContractNameLike("%" + name + "%");
+		}
+		if (StringUtils.isNoneBlank(code)&&Long.parseLong(code)>0) {
+			ca.andContractNumEqualTo(Long.parseLong(code));
+		}
+		return example;
+	}
+    public List<Contract> queryContractList(NumberPageUtil page, String name, String code, HttpServletRequest request) {
+    	ContractExample ex = getExample(name, code);
+		ex.setOrderByClause("create_time desc");
+		ex.setLimitStart(page.getLimitStart());
+		ex.setLimitEnd(page.getPagesize());
+		return contractMapper.selectByExample(ex);
+	}
 }
