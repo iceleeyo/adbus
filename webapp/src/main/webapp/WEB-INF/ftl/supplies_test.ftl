@@ -48,7 +48,7 @@
         <input type="button" id="btn_add2" value="增加一行" >  
       <br>
         <input type="text" name="name" value="name"/><br>
-         <input type="text" name="suppliesType" value ="info"/><br>
+         <input type="text" name="suppliesType" value ="info"/> 这里是个下拉列表有3种'video','image','info'<br>
           <input type="text" name="infoContext"/><br>
            <input type="text" name="a1"/><br>
         <input type="button" onclick="sub();" value="上传" >  
