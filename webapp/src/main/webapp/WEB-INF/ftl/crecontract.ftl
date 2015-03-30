@@ -32,7 +32,7 @@
 	</head>
 	<body>
 	 
-    <form name="userForm2" action="saveContract" enctype="multipart/form-data" method="post"">  
+    <form name="userForm2" id="userForm2" action="saveContract" enctype="multipart/form-data" method="post"">  
         
            合同号<input type="text" name="contractNum"/><br>
            合同名称  <input type="text" name="contractName"/><br>
