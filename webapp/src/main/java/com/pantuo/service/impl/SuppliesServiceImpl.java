@@ -1,6 +1,5 @@
 package com.pantuo.service.impl;
 
-import java.io.File;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,10 +10,12 @@ import org.springframework.stereotype.Service;
 
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.Supplies;
+import com.pantuo.mybatis.domain.SuppliesExample;
 import com.pantuo.mybatis.persistence.SuppliesMapper;
 import com.pantuo.service.AttachmentService;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.util.BusinessException;
+import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 
@@ -48,17 +49,44 @@ public class SuppliesServiceImpl implements SuppliesService {
 	public Pair<Boolean, String> removeSupplies(int supplies_id, HttpServletRequest request) {
 		Supplies t = suppliesMapper.selectByPrimaryKey(supplies_id);
 		if (t != null && StringUtils.equals(Request.getUserId(request), t.getUserId())) {
-			List<Attachment> atts= attachmentService.queryFile(request, supplies_id);
-			if(!atts.isEmpty()) {
+			List<Attachment> atts = attachmentService.queryFile(request, supplies_id);
+			if (!atts.isEmpty()) {
 				for (Attachment attachment : atts) {
 					attachmentService.removeAttachment(request, Request.getUserId(request), attachment.getId());
 				}
 			}
 			suppliesMapper.deleteByPrimaryKey(supplies_id);
-			return new Pair<Boolean, String>(true, "素材文件删除成功");  
+			return new Pair<Boolean, String>(true, "素材文件删除成功");
 		} else {
 			return new Pair<Boolean, String>(false, "该素材不存在或是素材属主不对!");
 		}
+	}
+
+	@Override
+	public List<Supplies> queryMyList(NumberPageUtil page, String name, String type, HttpServletRequest request) {
+		SuppliesExample ex = getExample(name, type);
+		ex.setOrderByClause("create_time desc");
+		ex.setLimitStart(page.getLimitStart());
+		ex.setLimitEnd(page.getPagesize());
+		return suppliesMapper.selectByExample(ex);
+	}
+
+	@Override
+	public int countMyList(String name, String type, HttpServletRequest request) {
+
+		return suppliesMapper.countByExample(getExample(name, type));
+	}
+
+	public SuppliesExample getExample(String name, String type) {
+		SuppliesExample example = new SuppliesExample();
+		SuppliesExample.Criteria ca = example.createCriteria();
+		if (StringUtils.isNoneBlank(name)) {
+			ca.andNameLike("%" + name + "%");
+		}
+		if (StringUtils.isNoneBlank(type)) {
+			ca.andSuppliesTypeEqualTo(type);
+		}
+		return example;
 	}
 
 }

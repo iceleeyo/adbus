@@ -1,8 +1,11 @@
 package com.pantuo.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.pantuo.mybatis.domain.Supplies;
+import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 
 /**
@@ -17,8 +20,11 @@ import com.pantuo.util.Pair;
  */
 public interface SuppliesService {
 
-	public Pair<Boolean, String> addSupplies(Supplies obj,HttpServletRequest request);
-	
-	
-	public Pair<Boolean, String> removeSupplies(int supplies_id  ,HttpServletRequest request);
+	public Pair<Boolean, String> addSupplies(Supplies obj, HttpServletRequest request);
+
+	public List<Supplies> queryMyList(NumberPageUtil page, String name, String type, HttpServletRequest request);
+
+	public int countMyList(String name, String type, HttpServletRequest request);
+
+	public Pair<Boolean, String> removeSupplies(int supplies_id, HttpServletRequest request);
 }
