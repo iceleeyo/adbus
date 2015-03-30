@@ -1,39 +1,80 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>
-		  <script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
-		  <script type="text/javascript" src="../js/jquery.form.js"></script>
+	  <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>物料列表</title>
+      <script type="text/javascript" language="javascript" src="../../js/jquery.js"></script>
+	  <script type="text/javascript" language="javascript" src="../../js/jquery.form.js"></script>
+	  <script type="text/javascript" language="javascript" src="../../js/index.js"></script>
+      <link rel="stylesheet" type="text/css" href="../../css/sea.css">
+      <link rel="stylesheet" type="text/css" href="../../css/one.css">
+      <link rel="stylesheet" type="text/css" href="../../css/account.css">
+      <link rel="stylesheet" type="text/css" href="../../css/page.css" media="screen" /> 
 	</head>
 	<body>
-	详细参见Supplies类{<br>
-	<br>
-	CREATE TABLE `supplies` (<br>
-  `id` int(7) unsigned NOT NULL AUTO_INCREMENT,<br>
-  `name` varchar(64) DEFAULT NULL,<br>
-  `supplies_type` enum('video','image','info') DEFAULT 'video' COMMENT '类型',<br>
-  `user_id` varchar(64) DEFAULT NULL COMMENT '物料上传人',<br>
-  `file_path` varchar(128) DEFAULT NULL,<br>
-  `info_context` varchar(2048) DEFAULT NULL COMMENT 'info内容',<br>
-  `stats` enum('upload','first_pass','final_pass','refuse') DEFAULT NULL,<br>
-  `oper_fristuser` varchar(64) DEFAULT NULL COMMENT '初审用户',<br>
-  `oper_fristcomment` varchar(128) DEFAULT NULL,<br>
-  `oper_finaluser` varchar(64) DEFAULT NULL COMMENT '终审用户',<br>
-  `oper_finalcomment` varchar(64) DEFAULT NULL,<br>
-  `seq_number` varchar(32) DEFAULT NULL COMMENT '北广回填 报审号',<br>
-  `car_numer` varchar(64) DEFAULT NULL COMMENT '北广回填 磁带号',<br>
-  `response_cid` varchar(64) DEFAULT NULL COMMENT '北广回填 内容编号',<br>
-  `create_time` datetime DEFAULT NULL COMMENT '记录创建时间 ',<br>
-  `edit_time` datetime DEFAULT NULL COMMENT '最后操作时间 ',<br>
-  PRIMARY KEY (`id`)<br>
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8<br>
-	<br>
-	
-	}<br>
-	下面是列表数据
-	    <#list list as item>
-	     ${item.name}<br>
-	     </#list> 
-	     
-	     ${pageNum}
-	</body>
+	<body>
+<div class="page-container">
+<!--上部DIV-->
+	<#include "/menu/top.ftl" />
+<!--下部DIV-->
+<div class="page-container">
+	<div class="pg-container-main">
+		<!--顶部导航开始-->
+		<div class="container-12">
+		<ul class="breadcrumb ml10 m11 s-clear">
+		<li class="s-left fsize-16 bread-homep">
+		<a class="gray-text" href="/">首页</a>
+		</li>
+		<li class="s-left breadcrumb-right"></li>
+		<li class="s-left bread-child">
+		<a class="gray-text" href="#">物料列表</a>
+		</li>
+		</ul>
+		</div>
+		<!--顶部导航结束-->
+	<div class="container-12 mt10 s-clear">
+		<!--菜单开始-->
+		<#include "/menu/left.ftl" />
+		
+		<!--菜单结束-->
+		
+		<!--主体开始-->
+	<div class="ls-10">
+		<div class="withdraw-wrap color-white-bg fn-clear">
+     	 <form data-name="withdraw" name="userForm2" id="userForm2" class="ui-form" method="post" action="saveContract" enctype="multipart/form-data">
+	       
+          
+      	 
+      	 	<!--合同列表展示-->
+      	 	<div class="List-Table">
+			<table width="100%">
+				<tr>
+					<td scope="col">素材名称</td>
+					<td scope="col">素材类型</td>
+					<td scope="col">创建时间</td>
+				</tr>
+				<tbody>
+					<#list list as item>
+						<tr>
+							<td >${item.name}</td>
+							<td >${item.suppliesType}</td>
+							<td ><#setting date_format="yyyy-MM-dd     HH:MM">
+							${item.createTime?date}</td>
+						</tr>
+					</#list> 
+				</tbody>
+			</table>
+			</form>
+			</div>
+		</div>
+	</div>
+		<!--主体结束-->
+	</div>
+	</div>				
+</div>
+</div>
+
+</body>	
 </html>

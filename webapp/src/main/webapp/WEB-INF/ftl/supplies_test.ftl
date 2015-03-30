@@ -1,8 +1,13 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>
+	<title>物料上传</title>
 		  <script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
 		  <script type="text/javascript" src="../js/jquery.form.js"></script>
+	  <script type="text/javascript" language="javascript" src="../js/index.js"></script>
+      <link rel="stylesheet" type="text/css" href="../css/sea.css">
+      <link rel="stylesheet" type="text/css" href="../css/one.css">
+      <link rel="stylesheet" type="text/css" href="../css/account.css">
 		  <script type="text/javascript">  
     i = 2;  
     j = 2;  
@@ -37,26 +42,89 @@
 </script>  
 	</head>
 	<body>
-	   ${(message)!''}
-	        欢迎你，${(loginuser.username)!''}
-		<form method="post" action="storeFile.do" enctype="multipart/form-data">
-			<input type="file" name="file" />
-			<input type="submit" />
-		</form>
-		<h1>springMVC包装类上传文件</h1>   
-    <form id="userForm2" name="userForm2" action="put" enctype="multipart/form-data" method="post"">  
-        <div id="newUpload2">  
-           <div id="div_1">
-            <input type="file" name="file">  
-            </div>
-        </div>  
-        <input type="button" id="btn_add2" value="增加一行" >  
+<div class="page-container">
+<!--上部DIV-->
+	<#include "/menu/top.ftl" />
+
+<!--下部DIV-->
+<div class="page-container">
+	<div class="pg-container-main">
+		<!--顶部导航开始-->
+		<div class="container-12">
+		<ul class="breadcrumb ml10 m11 s-clear">
+		<li class="s-left fsize-16 bread-homep">
+		<a class="gray-text" href="/">首页</a>
+		</li>
+		<li class="s-left breadcrumb-right"></li>
+		<li class="s-left bread-child">
+		<a class="gray-text" href="#">物料管理</a>
+		</li>
+		<li class="s-left breadcrumb-right"></li>
+		<li class="s-left bread-child">
+		<a class="gray-text" href="#">上传物料</a>
+		</li>
+		</ul>
+		</div>
+		<!--顶部导航结束-->
+	<div class="container-12 mt10 s-clear">
+		<!--菜单开始-->
+		<#include "/menu/left.ftl" />
+		<!--菜单结束-->
+		
+		<!--主体开始-->
+<div class="ls-10">
+
+<div class="withdraw-wrap color-white-bg fn-clear">
+    <form id="userForm2" name="userForm2" action="put" enctype="multipart/form-data" method="post""> 
+     <div class="withdraw-title fn-clear">
+           	上传物料
+           	<!--
+            <ul class="fn-clear">
+              <li class="first"><a class="addBank fn-right" href="/account/userBank!toAdd.action">xxxx</a></li>
+              <li><a class="mgmtBank fn-right" id="mgmtBank" href="/account/info!bank.action">xxxx</a></li>
+            </ul>
+            -->
+	 </div> 
+	 <div class="withdrawInputs">
+	 <div class="inputs">
+          
       <br>
-      素材标题  <input type="text" name="name" value="name"/><br>
-  素材类型         <input type="text" name="suppliesType" value ="info"/> 这里是个下拉列表有3种'video','image','info'<br>
-        文本类型时 文本内容  <input type="text" name="infoContext"/><br>
-        <input type="button" onclick="sub();" value="上传" >  <input type="button" onclick="sub2();" value="上传22" >  
-         <input type="submit"   value="上传submit" >  
+      <div class="ui-form-item">
+                  <label class="ui-label mt10"><span class="ui-form-required">*</span>素材标题</label>
+	              <input class="ui-input" type="text" name="name" id="withdrawAmount" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">
+      </div>
+      
+      <div class="ui-form-item">
+                  <label class="ui-label mt10"><span class="ui-form-required">*</span>素材类型</label>
+      			  <select class="ui-input" name="suppliesType">
+      			  	<option value="video">video</option>
+      			  	<option value="image">image</option>
+      			  	<option value="info">info</option>
+      			  </select>  
+      </div>
+      
+      <div class="ui-form-item">
+                  <label class="ui-label mt10"><span class="ui-form-required">*</span>文本类型时 文本内容</label>
+	              <input class="ui-input" type="text" name="infoContext" id="withdrawAmount" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">
+      </div>
+      <div class="ui-form-item">
+      <label class="ui-label mt10">附件上传</label>
+	      <div id="newUpload2">  
+	           <div id="div_1">
+	            <input type="file" name="file">
+	            </div>
+	      </div>  
+	      <input type="button" id="btn_add2" value="增加一行" style="margin-top: 10px;" ><br>
+      </div>
+        <div class="ui-form-item widthdrawBtBox">
+                  <input type="submit" id="subWithdraw" class="block-btn" onclick="sub();" value="物料上传">
+	    </div>  
+    </div>
+   	</div>
     </form>   
+    <!--主体结束-->
+</div>
+</div>
+</div>
 	</body>
 </html>
