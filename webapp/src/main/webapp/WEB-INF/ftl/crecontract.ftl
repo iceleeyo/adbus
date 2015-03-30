@@ -1,7 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>
-		  <script type="text/javascript" language="javascript" src="./js/jquery.js"></script>
+		  <script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
+		   <script type="text/javascript" src="../js/jquery.form.js"></script>
 		  <script type="text/javascript">  
     i = 2;  
     j = 2;  
@@ -16,7 +17,17 @@
     function del_2(o){  
          document.getElementById("newUpload2").removeChild(document.getElementById("div_"+o));  
     }  
-  
+  function sub(){  
+		  $.ajax({
+		        url:"saveContract",
+		        type:"POST",
+		        data:$("#userForm2").formSerialize(),
+		        success:function(data){
+		            alert(data.left+" # "+data.right);
+		        }
+		    },"text");
+    
+    }
 </script>  
 	</head>
 	<body>
@@ -25,8 +36,6 @@
         
            合同号<input type="text" name="contractNum"/><br>
            合同名称  <input type="text" name="contractName"/><br>
-           生效日期  <input type="date" name="startDate"/><br>
-           失效日期 <input type="date" name="endDate"><br>
           上传合同附件 <div id="newUpload2">  
            <div id="div_1">
             <input type="file" name="file">  
@@ -34,7 +43,7 @@
         </div>  
         <input type="button" id="btn_add2" value="增加一行" >  
       <br>
-        <input type="submit" value="创建合同" >  
+         <input type="button" onclick="sub();" value="创建合同" >  
     </form>   
 	</body>
 </html>
