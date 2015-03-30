@@ -86,7 +86,6 @@ public class AttachmentServiceImpl implements AttachmentService {
 
 	 
 	
-	@Override
 	public Pair<Boolean, String> removeAttachment(HttpServletRequest request, String user_id, int att_id) {
 		Attachment t = attachmentMapper.selectByPrimaryKey(att_id);
 		if (t != null && StringUtils.equals(user_id, t.getUserId())) {
@@ -103,7 +102,6 @@ public class AttachmentServiceImpl implements AttachmentService {
 		}
 	}
 
-	@Override
 	public List<Attachment> queryFile(HttpServletRequest request, int main_id) {
 		AttachmentExample example =new AttachmentExample();
 		AttachmentExample.Criteria ca=example.createCriteria();

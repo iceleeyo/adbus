@@ -27,7 +27,6 @@ public class SuppliesServiceImpl implements SuppliesService {
 	@Autowired
 	AttachmentService attachmentService;
 
-	@Override
 	public Pair<Boolean, String> addSupplies(Supplies obj, HttpServletRequest request) {
 		Pair<Boolean, String> r = null;
 		if (StringUtils.isBlank(obj.getName())) {
@@ -45,7 +44,6 @@ public class SuppliesServiceImpl implements SuppliesService {
 		return r;
 	}
 
-	@Override
 	public Pair<Boolean, String> removeSupplies(int supplies_id, HttpServletRequest request) {
 		Supplies t = suppliesMapper.selectByPrimaryKey(supplies_id);
 		if (t != null && StringUtils.equals(Request.getUserId(request), t.getUserId())) {
@@ -62,7 +60,6 @@ public class SuppliesServiceImpl implements SuppliesService {
 		}
 	}
 
-	@Override
 	public List<Supplies> queryMyList(NumberPageUtil page, String name, String type, HttpServletRequest request) {
 		SuppliesExample ex = getExample(name, type);
 		ex.setOrderByClause("create_time desc");
@@ -71,7 +68,6 @@ public class SuppliesServiceImpl implements SuppliesService {
 		return suppliesMapper.selectByExample(ex);
 	}
 
-	@Override
 	public int countMyList(String name, String type, HttpServletRequest request) {
 
 		return suppliesMapper.countByExample(getExample(name, type));

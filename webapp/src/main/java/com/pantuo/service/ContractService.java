@@ -46,7 +46,7 @@ public class ContractService {
 			int dbId = contractMapper.insert(con);
 			if (dbId > 0) {
 				attachmentService.saveAttachment(request, "pxh", con.getId(), "ht_pic");
-				r = new Pair<Boolean, String>(true, "合同创建成功！");
+					r = new Pair<Boolean, String>(true, "合同创建成功！");
 			}
 		} catch (BusinessException e) {
 			r = new Pair<Boolean, String>(false, "合同创建失败");
@@ -60,9 +60,13 @@ public class ContractService {
     	return contractMapper.deleteByPrimaryKey(id);
     }
 
-    @Transactional
+
     public int updateContract(Contract con){
-    	return contractMapper.updateByPrimaryKey(con);
+    	ContractExample example=new ContractExample();
+    	ContractExample.Criteria criteria=example.createCriteria();
+    	criteria.andIdEqualTo(con.getId());
+    	con.setIsUpload(1);
+    	return contractMapper.updateByExample(con, example);
     }
     @Transactional
     public List<Contract> findContracts() {
