@@ -47,10 +47,9 @@
         </div>  
         <input type="button" id="btn_add2" value="增加一行" >  
       <br>
-        <input type="text" name="name" value="name"/><br>
-         <input type="text" name="suppliesType" value ="info"/> 这里是个下拉列表有3种'video','image','info'<br>
-          <input type="text" name="infoContext"/><br>
-           <input type="text" name="a1"/><br>
+      素材标题  <input type="text" name="name" value="name"/><br>
+  素材类型         <input type="text" name="suppliesType" value ="info"/> 这里是个下拉列表有3种'video','image','info'<br>
+        文本类型时 文本内容  <input type="text" name="infoContext"/><br>
         <input type="button" onclick="sub();" value="上传" >  
     </form>   
 	</body>
