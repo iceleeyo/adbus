@@ -1,5 +1,6 @@
 package com.pantuo.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +35,9 @@ public class SuppliesServiceImpl implements SuppliesService {
 			return r = new Pair<Boolean, String>(false, "素材说明不能为空!");
 		}
 		try {
+			obj.setUserId(Request.getUserId(request));
+			obj.setCreateTime(new Date());
+			obj.setEditTime(obj.getCreateTime());
 			int dbId = suppliesMapper.insert(obj);
 			if (dbId > 0) {
 				attachmentService.saveAttachment(request, Request.getUserId(request), obj.getId(), "su_file");
