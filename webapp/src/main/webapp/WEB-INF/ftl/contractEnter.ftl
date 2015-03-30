@@ -110,7 +110,7 @@
 	            </div>
 	            </div>
 	            <div class="ui-form-item widthdrawBtBox">
-                  <input type="submit" id="subWithdraw" class="block-btn" onclick="sub();" value="创建合同">
+                  <input type="button" id="subWithdraw" class="block-btn" onclick="sub();" value="创建合同">
 	            </div>
 	          </div>
           
