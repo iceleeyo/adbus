@@ -19,7 +19,6 @@
     }  
     
      function sub(){  
-     alert(0);
 		  $.ajax({
 		        url:"put",
 		        type:"POST",
