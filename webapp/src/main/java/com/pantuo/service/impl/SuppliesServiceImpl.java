@@ -12,6 +12,7 @@ import com.pantuo.service.AttachmentService;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.util.BusinessException;
 import com.pantuo.util.Pair;
+import com.pantuo.util.Request;
 
 @Service
 public class SuppliesServiceImpl implements SuppliesService {
@@ -30,7 +31,7 @@ public class SuppliesServiceImpl implements SuppliesService {
 		try {
 			int dbId = suppliesMapper.insert(obj);
 			if (dbId > 0) {
-				attachmentService.saveAttachment(request, "pxh", dbId, "su_file");
+				attachmentService.saveAttachment(request, Request.getUserId(request), obj.getId(), "su_file");
 			}
 		} catch (BusinessException e) {
 			r = new Pair<Boolean, String>(false, "素材文件保存失败");
