@@ -36,7 +36,7 @@
         <input type="button" id="btn_add2" value="增加一行" >  
       <br>
         <input type="text" name="name"/><br>
-         <input type="text" name="suppliesType"/><br>
+         <input type="text" name="suppliesType" value ="info"/><br>
           <input type="text" name="infoContext"/><br>
            <input type="text" name="a1"/><br>
         <input type="submit" value="上传" >  
