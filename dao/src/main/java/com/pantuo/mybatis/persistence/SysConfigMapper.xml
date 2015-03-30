@@ -11,7 +11,7 @@
     <result column="key_desc" property="keyDesc" jdbcType="VARCHAR" />
     <result column="key_code" property="keyCode" jdbcType="VARCHAR" />
   </resultMap>
-   
+      
   <sql id="Base_Column_List" >
     <!--
       WARNING - @mbggenerated
