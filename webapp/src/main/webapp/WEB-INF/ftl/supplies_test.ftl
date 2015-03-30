@@ -2,6 +2,7 @@
 <html>
 	<head>
 		  <script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
+		  <script type="text/javascript" src="../js/jquery.form.js"></script>
 		  <script type="text/javascript">  
     i = 2;  
     j = 2;  
@@ -16,7 +17,19 @@
     function del_2(o){  
          document.getElementById("newUpload2").removeChild(document.getElementById("div_"+o));  
     }  
-  
+    
+     function sub(){  
+     alert(0);
+		  $.ajax({
+		        url:"put",
+		        type:"POST",
+		        data:$("#userForm2").formSerialize(),
+		        success:function(data){
+		            alert(data.left+" # "+data.right);
+		        }
+		    },"text");
+    
+    }
 </script>  
 	</head>
 	<body>
@@ -27,7 +40,7 @@
 			<input type="submit" />
 		</form>
 		<h1>springMVC包装类上传文件</h1>   
-    <form name="userForm2" action="put" enctype="multipart/form-data" method="post"">  
+    <form id="userForm2" name="userForm2" action="put" enctype="multipart/form-data" method="post"">  
         <div id="newUpload2">  
            <div id="div_1">
             <input type="file" name="file">  
@@ -35,11 +48,11 @@
         </div>  
         <input type="button" id="btn_add2" value="增加一行" >  
       <br>
-        <input type="text" name="name"/><br>
+        <input type="text" name="name" value="name"/><br>
          <input type="text" name="suppliesType" value ="info"/><br>
           <input type="text" name="infoContext"/><br>
            <input type="text" name="a1"/><br>
-        <input type="submit" value="上传" >  
+        <input type="button" onclick="sub();" value="上传" >  
     </form>   
 	</body>
 </html>

@@ -33,6 +33,7 @@ public class SuppliesServiceImpl implements SuppliesService {
 			if (dbId > 0) {
 				attachmentService.saveAttachment(request, Request.getUserId(request), obj.getId(), "su_file");
 			}
+			r = new Pair<Boolean, String>(true, "success");
 		} catch (BusinessException e) {
 			r = new Pair<Boolean, String>(false, "素材文件保存失败");
 		}
