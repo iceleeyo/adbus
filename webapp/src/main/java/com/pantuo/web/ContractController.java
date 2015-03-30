@@ -26,6 +26,7 @@ import com.pantuo.util.Pair;
  * @author xl
  */
 @Controller
+@RequestMapping(produces = "application/json;charset=utf-8", value = "/contract")
 public class ContractController {
     private static Logger log = LoggerFactory.getLogger(ContractController.class);
 
@@ -46,7 +47,7 @@ public class ContractController {
     {   
         return "crecontract";
     }
-    @RequestMapping(value="saveContract",method = RequestMethod.POST)
+    @RequestMapping(value = "saveContract",method = RequestMethod.POST)
     @ResponseBody
 	public Pair<Boolean, String> saveContract(Contract contract,HttpServletRequest request, HttpServletResponse response)throws IllegalStateException, IOException{
     	return contractService.saveContract(contract,request);
