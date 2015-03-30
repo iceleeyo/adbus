@@ -51,6 +51,7 @@
   素材类型         <input type="text" name="suppliesType" value ="info"/> 这里是个下拉列表有3种'video','image','info'<br>
         文本类型时 文本内容  <input type="text" name="infoContext"/><br>
         <input type="button" onclick="sub();" value="上传" >  
+         <input type="submit"   value="上传submit" >  
     </form>   
 	</body>
 </html>
