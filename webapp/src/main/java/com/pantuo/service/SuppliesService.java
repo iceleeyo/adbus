@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
+import com.pantuo.web.view.SuppliesView;
 
 /**
  * 
@@ -27,4 +28,7 @@ public interface SuppliesService {
 	public int countMyList(String name, String type, HttpServletRequest request);
 
 	public Pair<Boolean, String> removeSupplies(int supplies_id, HttpServletRequest request);
+	
+	
+	public SuppliesView getSuppliesDetail(int supplies_id, HttpServletRequest request);
 }

@@ -18,6 +18,7 @@ import com.pantuo.util.BusinessException;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
+import com.pantuo.web.view.SuppliesView;
 
 @Service
 public class SuppliesServiceImpl implements SuppliesService {
@@ -61,7 +62,7 @@ public class SuppliesServiceImpl implements SuppliesService {
 	}
 
 	public List<Supplies> queryMyList(NumberPageUtil page, String name, String type, HttpServletRequest request) {
-		SuppliesExample ex = getExample(name, type,request);
+		SuppliesExample ex = getExample(name, type, request);
 		ex.setOrderByClause("create_time desc");
 		ex.setLimitStart(page.getLimitStart());
 		ex.setLimitEnd(page.getPagesize());
@@ -70,10 +71,10 @@ public class SuppliesServiceImpl implements SuppliesService {
 
 	public int countMyList(String name, String type, HttpServletRequest request) {
 
-		return suppliesMapper.countByExample(getExample(name, type,request));
+		return suppliesMapper.countByExample(getExample(name, type, request));
 	}
 
-	public SuppliesExample getExample(String name, String type,HttpServletRequest request) {
+	public SuppliesExample getExample(String name, String type, HttpServletRequest request) {
 		SuppliesExample example = new SuppliesExample();
 		SuppliesExample.Criteria ca = example.createCriteria();
 		if (StringUtils.isNoneBlank(name)) {
@@ -84,6 +85,19 @@ public class SuppliesServiceImpl implements SuppliesService {
 		}
 		ca.andUserIdEqualTo(Request.getUserId(request));
 		return example;
+	}
+
+	@Override
+	public SuppliesView getSuppliesDetail(int supplies_id, HttpServletRequest request) {
+		SuppliesView v = null;
+		Supplies supplies = suppliesMapper.selectByPrimaryKey(supplies_id);
+		if (supplies != null) {
+			v = new SuppliesView();
+			List<Attachment> files = attachmentService.queryFile(request, supplies_id);
+			v.setFiles(files);
+			v.setMainView(supplies);
+		}
+		return v;
 	}
 
 }
