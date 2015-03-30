@@ -1,0 +1,190 @@
+@charset "utf-8";
+/**
+ * CSS for Advertising page
+ * Created by Zhang Jie
+ * 2014/10/17
+ *
+*/
+
+* {padding:0;margin:0;}
+
+/* List Table */
+.List-Table table {background-color:#fff;border-collapse:collapse;border-spacing:0;border:1px solid #1fa58b;table-layout:fixed;}
+.List-Table table tr {background-color:#f9f9f9;}
+.List-Table table tr:hover {background-color:#fff;}
+.List-Table table th {background-color:#1fa58b;font-size:13px;font-weight:normal;line-height:35px;color:#fff;overflow:hidden;border:0;text-overflow:ellipsis;white-space:nowrap;}
+.List-Table table td {text-align:center;height:35px;border-top:1px solid #e7e7e7;}
+.List-Table table td a {color:#17bd9b;text-decoration:none;}
+.List-Table table td a:hover {text-decoration:underline;}
+.List-Table table td div {height:30px;float:left;}
+.List-Table table td div a {line-height:30px;}
+.List-Table table td div a.edit {display:block;background:#fff url(images/list_table_edit.gif) no-repeat 0 0;line-height:28px;text-align:left;text-decoration:none;width:34px;height:28px;padding-left:30px;margin-right:7px;border:1px solid #cccecd;}
+.List-Table table td div a.edit:hover {border-color:#35b0d1;}
+.List-Table table td div a.del {display:block;background:#fff url(images/list_table_del.gif) no-repeat 0 0;line-height:28px;text-align:left;text-decoration:none;width:64px;height:28px;padding-left:30px;margin-right:7px;border:1px solid #cccecd;}
+.List-Table table td div a.del:hover {border-color:#35b0d1;}
+.List-Table .List-Pages {text-align:right;width:100%;padding:5px 0;margin-top:15px;}
+.List-Table .List-Pages a {line-height:16px;text-decoration:none;color:#222;background-color:#fff;padding:4px 9px;border:1px solid #dee0df;}
+.List-Table .List-Pages a:hover, .List-Table .List-Pages a.Active {border-color:#34afd0;color:#34afd0;}
+.List-Table table td.form {background-color:#fff;text-align:left;padding:0 20px;}
+.List-Table table td.form input {line-height:34px;width:250px;height:34px;padding:0 10px;border:1px solid #ccc;}
+
+.selcs{
+border:1px solid #D1E9E9;	
+height: 35px;
+width: 120px;
+}
+.selcs1{
+border:1px solid #D1E9E9;	
+height: 35px;
+width: 150px;
+}
+.toolbar{float:left;}
+
+
+
+
+
+/* pagenation分页 */
+
+.pag_tbl{
+	width:99%;
+	text-align: right;
+	float: right;
+}
+
+
+
+
+#numpage ul li {
+	width:31px;
+	height: 28px;
+	line-height: 28px;
+	margin-left: 3px;
+	float: left;
+	font-size: 12px;
+	color: #17bd9b;
+}
+
+
+#numpage ul li.text {
+	width:50px;
+	height:28px;
+	line-height:28px;
+	text-align: center;
+	color: #17bd9b;
+}
+
+#numpage ul li.disabled {
+	width:50px;
+	height:28px;
+	line-height:31px;
+	text-align: center;
+	border: 1px solid #DDD;
+	color: #17bd9b;
+}
+
+
+#numpage ul li a {
+	text-decoration: none;
+	display: block;
+	border: 1px solid #DDD;
+	color: #17bd9b;
+}
+
+#numpage ul li a.number{
+	width:31px;
+	height:28px;
+	line-height:31px;
+	text-align: center;
+}
+
+#number ul li a.text{
+	width:31px;
+	height:28px;
+	line-height:31px;
+	text-align: center;
+}
+
+#numpage ul li a.select {
+	width:31px;
+	height:28px;
+	line-height:31px;
+	text-align: center;
+	background: #f5f5f5;
+	color: black;
+}
+
+#numpage ul li a.number:HOVER {
+	background: #f5f5f5;
+	color: black;
+}
+
+#numpage ul li a.text:HOVER {
+	background: #f5f5f5;
+	color: black;
+}
+
+#numpage ul li.textjs {
+	height: 28px;
+	line-height: 30px;
+	width: 220px;
+	text-align: left;
+	letter-spacing: 2px;
+	color: #17bd9b;
+	vertical-align: bottom;
+}
+
+#numpage ul li.textjs span.currpage {
+	width: 40px;
+	float: left;
+	color: #17bd9b;
+}
+
+#numpage ul li.textjs span.pagecount {
+	width: 50px;
+	float: left;
+	color: #17bd9b;
+}
+
+#numpage ul li.textjs span.go {
+	margin-left: 5px;
+	cursor: pointer;
+	float: left;
+	color: #17bd9b;
+}
+
+#numpage ul li.textjs span.skip {
+	width: 100px;
+	float: left;
+	color: #17bd9b;
+}
+
+#numpage ul li.textjs input {
+	text-align: center;
+	width: 30px;
+	border: 1px solid #666;
+	/* float: left; */
+}
+
+.button_kind{
+	background-color: #1fa58b;
+color: #fff;
+font-size: 12px;
+font-family: 'Microsoft Yahei',Arial,Helvetica,sans-serif,Verdana,'Trebuchet MS';
+line-height: 30px;
+height: 30px;
+margin-top: 5px;
+margin-right: 5px;
+border: 0;
+cursor: pointer;
+width: 100px;
+	
+}
+.button_kind:hover {background-color:#17bd9b;}
+
+.inputdevice{
+	width:50px;
+	font-size:12px;
+	
+}
+
