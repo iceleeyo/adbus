@@ -17,5 +17,10 @@ public class GenerateSchedule implements JavaDelegate {
 		// varOutFromMainprocess<->varInSubprocess
 		UserDetail owner = (UserDetail)execution.getVariable("_owner");
 		log.info("Generating schedule for order owned by " + owner);
+		if (execution.hasVariable("mockScheduleResult")) {
+			execution.setVariable("scheduleResult", execution.getVariable("mockScheduleResult"));
+		} else {
+			execution.setVariable("scheduleResult", true);
+		}
 	}
 }

@@ -24,6 +24,7 @@
 
     <logger name="com.pantuo" level="INFO"/>
     <logger name="com.pantuo.dao" level="DEBUG"/>
+    <logger name="org.activiti" level="TRACE"/>
 
     <root level="INFO">
         <appender-ref ref="stdout"/>
