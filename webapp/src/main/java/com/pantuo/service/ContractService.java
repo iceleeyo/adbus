@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.ContractExample;
 import com.pantuo.mybatis.domain.Supplies;
@@ -22,6 +23,8 @@ import com.pantuo.mybatis.persistence.ContractMapper;
 import com.pantuo.util.BusinessException;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
+import com.pantuo.web.view.ContractView;
+import com.pantuo.web.view.SuppliesView;
 
 /**
  * @author xl
@@ -85,5 +88,16 @@ public class ContractService {
 		ex.setLimitStart(page.getLimitStart());
 		ex.setLimitEnd(page.getPagesize());
 		return contractMapper.selectByExample(ex);
+	}
+	public ContractView getContractDetail(int contract_id, HttpServletRequest request) {
+		ContractView v = null;
+		Contract con = contractMapper.selectByPrimaryKey(contract_id);
+		if (con != null) {
+			v = new ContractView();
+			List<Attachment> files = attachmentService.queryFile(request, contract_id);
+			v.setFiles(files);
+			v.setMainView(con);
+		}
+		return v;
 	}
 }
