@@ -54,7 +54,7 @@
 										</a>
 										<ul class="pg-side-exp-list" style="display:none;">
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href= href="#">
+												<a class="side-exp-item-t" href="#">
 													我的订单
 												</a>
 											</li>
@@ -78,7 +78,7 @@
 										</a>
 										<ul class="pg-side-exp-list" style="display:none;">
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="#">
+												<a class="side-exp-item-t" href="/${web}/contract/contractEnter">
 													添加合同
 												</a>
 											</li>
