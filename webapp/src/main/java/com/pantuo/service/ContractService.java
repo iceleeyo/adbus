@@ -24,6 +24,7 @@ import com.pantuo.mybatis.persistence.ContractMapper;
 import com.pantuo.util.BusinessException;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
+import com.pantuo.util.Request;
 import com.pantuo.web.view.ContractView;
 import com.pantuo.web.view.SuppliesView;
 
@@ -51,7 +52,7 @@ public class ContractService {
 			con.setStats("unstart");
 			int dbId = contractMapper.insert(con);
 			if (dbId > 0) {
-				attachmentService.saveAttachment(request, "pxh", con.getId(), "ht_pic");
+				attachmentService.saveAttachment(request, Request.getUserId(request), con.getId(), "ht_pic");
 				r = new Pair<Boolean, String>(true, "合同创建成功！");
 			}
 		} catch (BusinessException e) {
