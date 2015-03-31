@@ -59,8 +59,8 @@
 						<tr>
 							<td >${item.contractCode!''}</td>
 							<td >${item.contractName!''}</td>
-							<td><#setting date_format="yyyy-MM-dd">${item.startDate?date}</td>
-							<td><#setting date_format="yyyy-MM-dd">${item.endDate?date}</td>
+							<td><#setting date_format="yyyy-MM-dd">${(item.startDate?date)!''}</td>
+							<td><#setting date_format="yyyy-MM-dd">${(item.endDate?date)!''}</td>
 						</tr>
 					</#list> 
 				</tbody>
