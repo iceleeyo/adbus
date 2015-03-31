@@ -18,6 +18,8 @@ import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
+import com.pantuo.web.view.ContractView;
+import com.pantuo.web.view.SuppliesView;
 
 @Controller
 @RequestMapping(produces = "application/json;charset=utf-8", value = "/supplies")
@@ -49,4 +51,12 @@ public class SuppliesController {
 		model.addAttribute("pageNum", pageNum);
 		return "supplies_list";
 	}
+	@RequestMapping(value = "/suppliesDetail", produces = "text/html;charset=utf-8")
+    public String suppliesDetail(Model model,HttpServletRequest request)
+    {   
+    	int supplies_id=Integer.parseInt(request.getParameter("supplies_id"));
+    	SuppliesView view=suppliesService.getSuppliesDetail(supplies_id, request);
+    	model.addAttribute("view",view);
+        return "suppliesDetail";
+    }
 }

@@ -58,11 +58,11 @@
 					<#list list as item>
 						<tr>
 							<td >${item.contractCode!''}</td>
-							<td >${item.contractName!''}</td>
+							<td ><a href="../contractDetail?contract_id=${item.id!''}">${item.contractName!''}</a></td>
 							<td><#setting date_format="yyyy-MM-dd">${(item.startDate?date)!''}</td>
 							<td><#setting date_format="yyyy-MM-dd">${(item.endDate?date)!''}</td>
 						</tr>
-					</#list> 
+					</#list>
 				</tbody>
 			</table>
 			</form>

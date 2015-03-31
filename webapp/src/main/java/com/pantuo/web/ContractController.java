@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,10 +22,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.Contract;
+import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.service.ContractService;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
+import com.pantuo.web.view.ContractView;
+import com.pantuo.web.view.SuppliesView;
 
 /**
  * 
@@ -73,4 +78,13 @@ public class ContractController {
     {   
         return "contractEnter";
     }
+    @RequestMapping(value = "/contractDetail", produces = "text/html;charset=utf-8")
+    public String contractDetail(Model model,HttpServletRequest request)
+    {   
+    	int contract_id=Integer.parseInt(request.getParameter("contract_id"));
+    	ContractView view=contractService.getContractDetail(contract_id, request);
+    	model.addAttribute("view",view);
+        return "contractDetail";
+    }
+    
 }

@@ -58,7 +58,7 @@
 				<tbody>
 					<#list list as item>
 						<tr>
-							<td >${item.name}</td>
+							<td ><a href="../suppliesDetail?supplies_id=${item.id!''}">${item.name}<a></td>
 							<td >${item.suppliesType}</td>
 							<td ><#setting date_format="yyyy-MM-dd     HH:MM">
 							${item.createTime?date}</td>
