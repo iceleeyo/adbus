@@ -17,6 +17,7 @@
 </script>
 </head>
 <body>
+<#assign web="webapp">
 	<div class="page-container">
 		<!--上部DIV-->
 		<#include "/menu/top.ftl" />
@@ -123,7 +124,9 @@
 															</td>
 															<td width="15%">
 																<div class="content-head">
-																	<a href="../contractDetail?contract_id=${item.id!''}">${item.contractName!''}</a>
+																	<a href="/${web}/contract/contractDetail?contract_id=${item.id!''}">
+																	${item.contractName!''}
+																	</a>
 																</div>
 															</td>
 															<td width="16%">
@@ -149,10 +152,11 @@
 				</div>
 			</div>
 		</div>
-		<!--底部DIV -->
+		
+	</div>
+	<!--底部DIV -->
 		<#include "/menu/foot.ftl" />
 		<!--底部DIV -->
-	</div>
 	<script type="text/javascript" language="javascript"
 		src="../../js/jquery.js"></script>
 	<script type="text/javascript" language="javascript"

@@ -70,7 +70,7 @@ function go_back(){
 															</td>
 															<td width="15%">
 																<div class="content-head">
-																<#list view.files as item> ${item.name!''}
+																<#list view.files as item> ${item.name!''} &nbsp; /
    																</#list>    
 																</div>
 															</td>
@@ -92,11 +92,9 @@ function go_back(){
 		<#include "/menu/foot.ftl" />
 		<!--底部DIV -->
 	</div>
-<script type="text/javascript" language="javascript"
-	src="../../js/jquery.js"></script>
+
+	
 <script type="text/javascript" language="javascript"
 	src="../../js/index.js"></script>
-<script type="text/javascript" language="javascript"
-	src="../../js/jquery.form.js"></script>
 </body>   
 </html>

@@ -2,14 +2,12 @@
 <html>
 <head>
 <title>物料上传</title>
-<script type="text/javascript" language="javascript"
-	src="../js/jquery.js"></script>
-<script type="text/javascript" src="../js/jquery.form.js"></script>
-<script type="text/javascript" language="javascript"
-	src="../js/index.js"></script>
+
 <link rel="stylesheet" type="text/css" href="../css/sea.css">
 <link rel="stylesheet" type="text/css" href="../css/one.css">
 <link rel="stylesheet" type="text/css" href="../css/account.css">
+<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/jquery.form.js"></script>
 <script type="text/javascript">
 	i = 2;
 	j = 2;
@@ -143,9 +141,14 @@
 							<!--主体结束-->
 						</div>
 					</div>
-					<!--底部DIV -->
-		<#include "/menu/foot.ftl" />
-		<!--底部DIV -->
 				</div>
+			</div>
+			<!--底部DIV -->
+			<#include "/menu/foot.ftl" />
+			<!--底部DIV -->
+		</div>
+	</div>
+	<script type="text/javascript" language="javascript"
+		src="../js/index.js"></script>
 </body>
 </html>

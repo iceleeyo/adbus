@@ -92,6 +92,7 @@ function go_back(){
 		<#include "/menu/foot.ftl" />
 		<!--底部DIV -->
 	</div>
+	
 <script type="text/javascript" language="javascript"
 	src="../../js/jquery.js"></script>
 <script type="text/javascript" language="javascript"

@@ -8,6 +8,8 @@
 <link rel="stylesheet" type="text/css" href="../css/sea.css">
 <link rel="stylesheet" type="text/css" href="../css/one.css">
 <link rel="stylesheet" type="text/css" href="../css/account.css">
+<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="../js/jquery.form.js"></script>
 <script type="text/javascript">
 	i = 2;
 	j = 2;
@@ -31,6 +33,7 @@
 		document.getElementById("newUpload2").removeChild(
 				document.getElementById("div_" + o));
 	}
+
 
 	function sub() {
 		$('#userForm2').ajaxForm(function(data) {
@@ -124,7 +127,7 @@
 												</div>
 											</div>
 											<input type="button" id="btn_add2" value="增加一行"
-												style="margin-top: 10px;"><br>
+												style="margin-top: 10px;" ><br>
 										</div>
 									</div>
 									<div class="ui-form-item widthdrawBtBox">
@@ -145,10 +148,7 @@
 		<!--底部DIV -->
 	</div>
 	<script type="text/javascript" language="javascript"
-		src="../js/jquery.js"></script>
-	<script type="text/javascript" language="javascript"
-		src="../js/jquery.form.js"></script>
-	<script type="text/javascript" language="javascript"
 		src="../js/index.js"></script>
+		
 </body>
 </html>
