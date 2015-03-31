@@ -51,7 +51,7 @@ public class ContractController {
 	public Pair<Boolean, String> saveContract(Contract contract,HttpServletRequest request, HttpServletResponse response)throws IllegalStateException, IOException, ParseException{
     	String start=request.getParameter("startDate1").toString();
     	String end=request.getParameter("endDate1").toString();
-    	if(start!=null&&start!=""&&end!=null&&end!=""){
+    	if(start.length()>1&&end.length()>1){
     		contract.setStartDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(start)); 
     		contract.setEndDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(end));
     	}
