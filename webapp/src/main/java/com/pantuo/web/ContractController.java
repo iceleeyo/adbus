@@ -1,7 +1,9 @@
 package com.pantuo.web;
 
 import java.io.IOException;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -46,8 +48,14 @@ public class ContractController {
     }
     @RequestMapping(value = "saveContract",method = RequestMethod.POST)
     @ResponseBody
-	public Pair<Boolean, String> saveContract(Contract contract,HttpServletRequest request, HttpServletResponse response)throws IllegalStateException, IOException{
-    	return contractService.saveContract(contract,request);
+	public Pair<Boolean, String> saveContract(Contract contract,HttpServletRequest request, HttpServletResponse response)throws IllegalStateException, IOException, ParseException{
+    	String start=request.getParameter("startDate1").toString();
+    	String end=request.getParameter("endDate1").toString();
+    	if(start!=null&&start!=""&&end!=null&&end!=""){
+    		contract.setStartDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(start)); 
+    		contract.setEndDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(end));
+    	}
+    	    return contractService.saveContract(contract,request);
 	}
     
     @RequestMapping(value = "/list/{pageNum}", method = RequestMethod.GET)
