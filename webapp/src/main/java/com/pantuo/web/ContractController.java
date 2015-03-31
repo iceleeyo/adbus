@@ -39,33 +39,43 @@ import com.pantuo.web.view.SuppliesView;
 @Controller
 @RequestMapping(produces = "application/json;charset=utf-8", value = "/contract")
 public class ContractController {
-    private static Logger log = LoggerFactory.getLogger(ContractController.class);
+	private static Logger log = LoggerFactory.getLogger(ContractController.class);
 
-    @Autowired
-    private ContractService contractService;
-    @Autowired
-    private IdentityService identityService;
-    
-    @RequestMapping(value = "/creContract", produces = "text/html;charset=utf-8")
-    public String creContract(HttpServletRequest request)
-    {   
-        return "crecontract";
-    }
-    @RequestMapping(value = "saveContract",method = RequestMethod.POST)
-    @ResponseBody
-	public Pair<Boolean, String> saveContract(Contract contract,HttpServletRequest request, HttpServletResponse response)throws IllegalStateException, IOException, ParseException{
-    	String start=request.getParameter("startDate1").toString();
-    	String end=request.getParameter("endDate1").toString();
-    	if(start.length()>1&&end.length()>1){
-    		contract.setStartDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(start)); 
-    		contract.setEndDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(end));
-    	}
-    	    return contractService.saveContract(contract,request);
+	@Autowired
+	private ContractService contractService;
+	@Autowired
+	private IdentityService identityService;
+
+	@RequestMapping(value = "contractCodeCheck", method = RequestMethod.POST)
+	@ResponseBody
+	public Pair<Boolean, String> contractCodeCheck(Model model,
+			@RequestParam(value = "code", required = false, defaultValue = "") String code, HttpServletRequest request,
+			HttpServletResponse response) {
+		return contractService.queryCode(code);
 	}
-    
-    @RequestMapping(value = "/list/{pageNum}", method = RequestMethod.GET)
-	public String contralist(Model model, @RequestParam(value = "name", required = false, defaultValue = "") String name,
-			@RequestParam(value = "code",required = false, defaultValue = "") String code, @PathVariable int pageNum,
+
+	@RequestMapping(value = "/creContract", produces = "text/html;charset=utf-8")
+	public String creContract(HttpServletRequest request) {
+		return "crecontract";
+	}
+
+	@RequestMapping(value = "saveContract", method = RequestMethod.POST)
+	@ResponseBody
+	public Pair<Boolean, String> saveContract(Contract contract, HttpServletRequest request,
+			HttpServletResponse response) throws IllegalStateException, IOException, ParseException {
+		String start = request.getParameter("startDate1").toString();
+		String end = request.getParameter("endDate1").toString();
+		if (start.length() > 1 && end.length() > 1) {
+			contract.setStartDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(start));
+			contract.setEndDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(end));
+		}
+		return contractService.saveContract(contract, request);
+	}
+
+	@RequestMapping(value = "/list/{pageNum}", method = RequestMethod.GET)
+	public String contralist(Model model,
+			@RequestParam(value = "name", required = false, defaultValue = "") String name,
+			@RequestParam(value = "code", required = false, defaultValue = "") String code, @PathVariable int pageNum,
 			HttpServletRequest request) {
 		int psize = 9;
 		NumberPageUtil page = new NumberPageUtil(contractService.countMyList(name, code, request), pageNum, psize);
@@ -73,11 +83,11 @@ public class ContractController {
 		model.addAttribute("pageNum", pageNum);
 		return "contractlist";
 	}
-    @RequestMapping(value = "/contractEnter", produces = "text/html;charset=utf-8")
-    public String contractEnter(HttpServletRequest request)
-    {   
-        return "contractEnter";
-    }
+
+	@RequestMapping(value = "/contractEnter", produces = "text/html;charset=utf-8")
+	public String contractEnter(HttpServletRequest request) {
+		return "contractEnter";
+	}
     @RequestMapping(value = "/contractDetail", produces = "text/html;charset=utf-8")
     public String contractDetail(Model model,HttpServletRequest request)
     {   

@@ -2,15 +2,11 @@ package com.pantuo.web;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.activiti.engine.IdentityService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.Order;
+import com.pantuo.service.ContractService;
 import com.pantuo.service.OrderService;
 import com.pantuo.service.ProductService;
 import com.pantuo.util.NumberPageUtil;
@@ -35,6 +32,9 @@ import com.pantuo.util.Pair;
 @Controller
 @RequestMapping(produces = "application/json;charset=utf-8", value = "/order")
 public class OrderController {
+	
+	@Autowired
+    private ContractService contractService;
 
     @Autowired
     private ProductService productService;
@@ -48,6 +48,9 @@ public class OrderController {
     {   
         return "creOrder";
     }
+   
+    
+    
     @RequestMapping(value = "/list/{pageNum}", method = RequestMethod.GET)
 	public String contralist(Model model, @RequestParam(value = "name", required = false, defaultValue = "") String name,
 			@RequestParam(value = "code",required = false, defaultValue = "") String code, @PathVariable int pageNum,

@@ -91,7 +91,7 @@ public class SuppliesServiceImpl implements SuppliesService {
 		return example;
 	}
 
-	@Override
+	//@Override
 	public SuppliesView getSuppliesDetail(int supplies_id, HttpServletRequest request) {
 		SuppliesView v = null;
 		Supplies supplies = suppliesMapper.selectByPrimaryKey(supplies_id);

@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.ManagementService;
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,49 +32,76 @@ import com.pantuo.web.view.SuppliesView;
  */
 @Service
 public class ContractService {
-    private static Logger log = LoggerFactory.getLogger(ContractService.class);
+	private static Logger log = LoggerFactory.getLogger(ContractService.class);
 
-    @Autowired
-    private IdentityService identityService;
-    @Autowired
-    ContractMapper contractMapper;
-    @Autowired
-    private ManagementService managementService;
+	@Autowired
+	private IdentityService identityService;
+	@Autowired
+	ContractMapper contractMapper;
+	@Autowired
+	private ManagementService managementService;
 	@Autowired
 	AttachmentService attachmentService;
-    
-    public Pair<Boolean, String> saveContract(Contract con,HttpServletRequest request) {
-    	Pair<Boolean, String> r = null;
+
+	public Pair<Boolean, String> saveContract(Contract con, HttpServletRequest request) {
+		Pair<Boolean, String> r = null;
 		try {
-    		con.setIsUpload(0);
-    		con.setCreateTime(new Date());
-    		con.setStats("unstart");
+			con.setIsUpload(0);
+			con.setCreateTime(new Date());
+			con.setStats("unstart");
 			int dbId = contractMapper.insert(con);
 			if (dbId > 0) {
 				attachmentService.saveAttachment(request, "pxh", con.getId(), "ht_pic");
-					r = new Pair<Boolean, String>(true, "合同创建成功！");
+				r = new Pair<Boolean, String>(true, "合同创建成功！");
 			}
 		} catch (BusinessException e) {
 			r = new Pair<Boolean, String>(false, "合同创建失败");
 		}
 		return r;
 	}
-    public int deleteContract(Integer id) {
-    	return contractMapper.deleteByPrimaryKey(id);
-    }
-    public int updateContract(Contract con){
-    	ContractExample example=new ContractExample();
-    	ContractExample.Criteria criteria=example.createCriteria();
-    	criteria.andIdEqualTo(con.getId());
-    	con.setIsUpload(1);
-    	return contractMapper.updateByExample(con, example);
-    }
-    public int countMyList(String name,String code, HttpServletRequest request) {
+
+	/**
+	 * 
+	 * 检查合同号是否存在
+	 *
+	 * @param contract_code
+	 * @return
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
+	public Contract queryContractByCode(String contract_code) {
+		ContractExample example = new ContractExample();
+		ContractExample.Criteria criteria = example.createCriteria();
+		criteria.andContractCodeEqualTo(contract_code);
+		criteria.andStatsEqualTo("starting");
+		List<Contract> list = contractMapper.selectByExample(example);
+		return list.isEmpty() ? null : list.get(0);
+	}
+
+	public Pair<Boolean, String> queryCode(String contract_code) {
+		Contract t = queryContractByCode(contract_code);
+		return ObjectUtils.equals(t, null) ? new Pair<Boolean, String>(false, "系统查不到相应的合同号！")
+				: new Pair<Boolean, String>(true, StringUtils.EMPTY);
+	}
+
+	public int deleteContract(Integer id) {
+		return contractMapper.deleteByPrimaryKey(id);
+	}
+
+	public int updateContract(Contract con) {
+		ContractExample example = new ContractExample();
+		ContractExample.Criteria criteria = example.createCriteria();
+		criteria.andIdEqualTo(con.getId());
+		con.setIsUpload(1);
+		return contractMapper.updateByExample(con, example);
+	}
+
+	public int countMyList(String name, String code, HttpServletRequest request) {
 		return contractMapper.countByExample(getExample(name, code));
 	}
-    public ContractExample getExample(String name, String code) {
-    	ContractExample example = new ContractExample();
-    	ContractExample.Criteria ca = example.createCriteria();
+
+	public ContractExample getExample(String name, String code) {
+		ContractExample example = new ContractExample();
+		ContractExample.Criteria ca = example.createCriteria();
 		if (StringUtils.isNoneBlank(name)) {
 			ca.andContractNameLike("%" + name + "%");
 		}
@@ -82,13 +110,15 @@ public class ContractService {
 		}
 		return example;
 	}
-    public List<Contract> queryContractList(NumberPageUtil page, String name, String code, HttpServletRequest request) {
-    	ContractExample ex = getExample(name, code);
+
+	public List<Contract> queryContractList(NumberPageUtil page, String name, String code, HttpServletRequest request) {
+		ContractExample ex = getExample(name, code);
 		ex.setOrderByClause("create_time desc");
 		ex.setLimitStart(page.getLimitStart());
 		ex.setLimitEnd(page.getPagesize());
 		return contractMapper.selectByExample(ex);
 	}
+
 	public ContractView getContractDetail(int contract_id, HttpServletRequest request) {
 		ContractView v = null;
 		Contract con = contractMapper.selectByPrimaryKey(contract_id);

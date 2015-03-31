@@ -22,8 +22,8 @@ public class ActivitiUserDetailsService implements UserDetailsService {
     @Autowired
     private UserService userService;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+   // @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException { 
         try {
             UserDetail user = userService.getByUsername(username);
             if (user == null)
