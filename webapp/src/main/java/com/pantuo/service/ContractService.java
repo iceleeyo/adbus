@@ -74,8 +74,8 @@ public class ContractService {
 		if (StringUtils.isNoneBlank(name)) {
 			ca.andContractNameLike("%" + name + "%");
 		}
-		if (StringUtils.isNoneBlank(code)&&Long.parseLong(code)>0) {
-			ca.andContractNumEqualTo(Long.parseLong(code));
+		if (StringUtils.isNoneBlank(code)) {
+			ca.andContractCodeEqualTo(code);
 		}
 		return example;
 	}
