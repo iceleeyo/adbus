@@ -132,8 +132,8 @@
 												style="margin-top: 10px;"><br>
 										</div>
 										<div class="ui-form-item widthdrawBtBox">
-											<input type="submit" id="subWithdraw" class="block-btn"
-												onclick="sub();" value="物料上传">
+											<input type="button" id="subWithdraw" class="block-btn"
+												onclick="sub2();" value="物料上传">
 										</div>
 									</div>
 								</div>
