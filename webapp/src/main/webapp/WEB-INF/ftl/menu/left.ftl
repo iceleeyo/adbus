@@ -1,4 +1,5 @@
 <#assign web="webapp">
+			   
 <div class="ls-2">
 							<div class="pg-side">
 								<ul class="pg-side-list">
@@ -39,7 +40,7 @@
 												</a>
 											</li>
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="#">
+												<a class="side-exp-item-t" href="/${web}/product/list/1">
 													产品查询
 												</a>
 											</li>
@@ -53,7 +54,7 @@
 										</a>
 										<ul class="pg-side-exp-list" style="display:none;">
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="#">
+												<a class="side-exp-item-t" href= href="#">
 													我的订单
 												</a>
 											</li>
@@ -71,7 +72,7 @@
 									</li>
 									
 									<li class="pg-side-item">
-										<a class="pg-side-item-t" href="/${web}/contract/list/1" > 
+										<a class="pg-side-item-t" href="#" > 
 											<i class="s-left pg-icon-a d-icon"></i>
 											合同管理
 										</a>
@@ -82,7 +83,7 @@
 												</a>
 											</li>
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="contract/contralist">
+												<a class="side-exp-item-t"  href="/${web}/contract/list/1">
 													合同列表
 												</a>
 											</li>

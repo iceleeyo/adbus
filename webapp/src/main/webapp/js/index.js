@@ -1,6 +1,6 @@
 
-			   $(".pg-side-item-t").click(function(){
-			      $(this).next().toggle();
+			  $(".pg-side-item-t").click(function(){
+				  $(this).next().toggle();
 			   });
 			   //鼠标移入移出事件
 			   $(".pg-nav-hover").mouseover(function(){
