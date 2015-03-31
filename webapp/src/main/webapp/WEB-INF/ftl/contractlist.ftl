@@ -57,10 +57,10 @@
 				<tbody>
 					<#list list as item>
 						<tr>
-							<td name="contractNum">${item.contractNum}</td>
-							<td name="contractName">${item.contractName}</td>
-							<td></td>
-							<td></td>
+							<td >${item.contractCode!''}</td>
+							<td >${item.contractName!''}</td>
+							<td><#setting date_format="yyyy-MM-dd">${item.startDate?date}</td>
+							<td><#setting date_format="yyyy-MM-dd">${item.endDate?date}</td>
 						</tr>
 					</#list> 
 				</tbody>

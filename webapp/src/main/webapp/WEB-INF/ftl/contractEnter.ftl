@@ -76,7 +76,7 @@
 	          <div class="inputs">
 	            <div class="ui-form-item">
                   <label class="ui-label mt10"><span class="ui-form-required">*</span>合同号</label>
-	              <input class="ui-input" type="text" value="" name="contractNum" id="withdrawAmount" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">
+	              <input class="ui-input" type="text" value="" name="contractCode" id="withdrawAmount" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">
                 </div>
 	            <div class="ui-form-item">
                   <label class="ui-label mt10"><span class="ui-form-required">*</span>合同名称</label>
@@ -85,18 +85,18 @@
                   
                   <input type="text" style="display: none;">
                   </div>
-                  <!--
+               
 	            
 	            <div class="ui-form-item">
 	              <label class="ui-label mt10">生效日期</label>
-	              <input class="ui-input" type="date" value="" name="startDate" id="withdrawAmount" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">
+	              <input class="ui-input" type="date" value="" name="startDate1" id="withdrawAmount" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">
 					</div>
 					
 	            <div class="ui-form-item">
 	              <label class="ui-label mt10">失效日期</label>
-	              <input class="ui-input" type="date" value="" name="endDate" id="withdrawAmount" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">
+	              <input class="ui-input" type="date" value="" name="endDate1" id="withdrawAmount" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">
 					</div>
-					-->
+					
 	            
 	            
 	            <div class="ui-form-item">
