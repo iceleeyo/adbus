@@ -90,13 +90,4 @@ public class OrderService {
 		return r;
 	}
 	
-	public Pair<Boolean, String> pay(String orderid) {
-		try{
-			
-			return  new Pair<Boolean, String>(true, "支付成功");
-		}catch(Exception e) {
-			
-			return  new Pair<Boolean, String>(true, "支付失败");
-		}
-	}
 }
