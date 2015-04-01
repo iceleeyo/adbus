@@ -103,7 +103,7 @@
 									</div>
 									<div class="ui-form-item widthdrawBtBox">
 										<input type="button" id="subWithdraw" class="block-btn"
-											onclick="sub2();" value="创建合同">
+											onclick="sub2();" value="下订单">
 									</div>
 								</div>
 

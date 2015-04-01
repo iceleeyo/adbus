@@ -8,6 +8,14 @@
 											<i class="s-left pg-icon-a a-icon"></i>
 											待办事项
 										</a>
+										<ul class="pg-side-exp-list" style="">
+											<li class="pg-side-exp-item">
+												<a class="side-exp-item-t" href="/${web}/order/myTask/1">
+													代办事项
+												</a>
+											</li>
+											
+										</ul>
 									</li>
 									<li class="pg-side-item">
 										<a class="pg-side-item-t">
@@ -44,7 +52,11 @@
 													产品查询
 												</a>
 											</li>
-											
+											<li class="pg-side-exp-item">
+												<a class="side-exp-item-t" href="/${web}/order/buypro">
+													购买产品
+												</a>
+											</li>
 										</ul>
 									</li>
 									<li class="pg-side-item">
