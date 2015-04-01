@@ -61,6 +61,9 @@ public class ActivitiConfiguration {
         
         conf.setJobExecutorActivate(true);
         conf.setAsyncExecutorActivate(true);
+        conf.setLabelFontName("宋体");
+        conf.setActivityFontName("宋体");
+        
 
         PathMatchingResourcePatternResolver r = new PathMatchingResourcePatternResolver();
         conf.setDeploymentResources(r.getResources(autoDeployPath));

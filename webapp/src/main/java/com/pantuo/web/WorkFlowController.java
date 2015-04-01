@@ -1,6 +1,7 @@
 package com.pantuo.web;
 
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -8,11 +9,13 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.activiti.bpmn.model.BpmnModel;
+import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.image.impl.DefaultProcessDiagramGenerator;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +31,9 @@ import com.pantuo.service.impl.WorkflowTraceService;
 @Controller
 @RequestMapping(produces = "application/json;charset=utf-8")
 public class WorkFlowController {
+	
+	@Autowired
+	ProcessEngine processEngine;
 	@Autowired
 	private WorkflowTraceService traceService;
 	@Autowired
@@ -97,8 +103,8 @@ public class WorkFlowController {
 			String resourceName = processDefinition.getDiagramResourceName();
 
 			//打开流程资源流
-			resourceAsStream = repositoryService.getResourceAsStream(processDefinition.getDeploymentId(), resourceName);
-
+			//resourceAsStream = repositoryService.getResourceAsStream(processDefinition.getDeploymentId(), resourceName);
+			resourceAsStream =  getDiagram(processInstanceId);
 			runtimeService.getActiveActivityIds(processInstance.getId());
 
 			//输出到浏览器
@@ -113,4 +119,20 @@ public class WorkFlowController {
 		}
 	}
 
+	
+	
+	private InputStream getDiagram(String processInstanceId){
+		//查询流程实例
+		ProcessInstance pi =this.runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+		BpmnModel bpmnModel = this.repositoryService.getBpmnModel(pi.getProcessDefinitionId());
+		//得到正在执行的环节
+		List<String> activeIds = this.runtimeService.getActiveActivityIds(pi.getId());
+		InputStream is = new DefaultProcessDiagramGenerator().generateDiagram(
+		bpmnModel, "png",
+		activeIds, Collections.<String>emptyList(), 
+		processEngine.getProcessEngineConfiguration().getActivityFontName(), 
+		processEngine.getProcessEngineConfiguration().getLabelFontName(), 
+		null, 1.0);
+		return is;
+		}
 }
