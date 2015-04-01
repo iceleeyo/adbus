@@ -47,8 +47,8 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        ResourceHandlerRegistration registration = registry.addResourceHandler("/*.html", "/js/**", "/css/**", "/images/**", "/doc/**");
-        registration.addResourceLocations("/", "/js/", "/css/", "/images/", "/doc/");
+        ResourceHandlerRegistration registration = registry.addResourceHandler("/*.html", "/js/**","/style/**", "/css/**", "/images/**", "/doc/**");
+        registration.addResourceLocations("/", "/js/","/style/", "/css/", "/images/", "/doc/");
     }
 
     @Bean
