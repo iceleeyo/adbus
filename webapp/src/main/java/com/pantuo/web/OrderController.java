@@ -54,18 +54,23 @@ public class OrderController {
 	public String buypro(HttpServletRequest request) {
 		return "creOrder";
 	}
+
 	@RequestMapping(value = "/payview", produces = "text/html;charset=utf-8")
-	public String payview(Model model,HttpServletRequest request) {
-		int order_id=Integer.parseInt(request.getParameter("order_id"));
-    	model.addAttribute("order_id",order_id);
+	public String payview(Model model,@RequestParam(value = "taskid", required = true) String taskid, HttpServletRequest request) {
+		int order_id = Integer.parseInt(request.getParameter("order_id"));
+		model.addAttribute("order_id", order_id);
+		model.addAttribute("taskid", taskid);
 		return "payview";
 	}
+
 	@RequestMapping(value = "pay", method = RequestMethod.POST)
 	@ResponseBody
-	public Pair<Boolean, String> pay(Model model,@RequestParam(value = "orderid", required = false, defaultValue = "") String orderid,
-			HttpServletRequest request,HttpServletResponse response) {
+	public Pair<Boolean, String> pay(Model model,
+			@RequestParam(value = "orderid", required = false, defaultValue = "") String orderid,
+			HttpServletRequest request, HttpServletResponse response) {
 		return orderService.pay("34");
 	}
+
 	@RequestMapping(value = "/list/{pageNum}", method = RequestMethod.GET)
 	public String contralist(Model model,
 			@RequestParam(value = "name", required = false, defaultValue = "") String name,
@@ -76,6 +81,14 @@ public class OrderController {
 		model.addAttribute("list", productService.queryContractList(page, name, code, request));
 		model.addAttribute("pageNum", pageNum);
 		return "product_list";
+	}
+
+	@RequestMapping(value = "payment")
+	@ResponseBody
+	public Pair<Boolean, String> payment(@RequestParam(value = "orderid", required = true) int orderid,
+			@RequestParam(value = "taskid", required = true) String taskid, HttpServletRequest request,
+			HttpServletResponse response) {
+		return activitiService.payment(orderid, taskid, Request.getUser(request));
 	}
 
 	@RequestMapping(value = "creOrder", method = RequestMethod.POST)

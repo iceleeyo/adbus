@@ -15,6 +15,7 @@ import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ import com.pantuo.mybatis.domain.Order;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.OrderService;
 import com.pantuo.util.NumberPageUtil;
+import com.pantuo.util.Pair;
 import com.pantuo.web.view.OrderView;
 
 @Service
@@ -110,5 +112,40 @@ public class ActivitiServiceImpl implements ActivitiService {
 				taskService.complete(task.getId());
 			}
 		}
+
+		debug(process.getId());
+	}
+
+	private void debug(String processid) {
+		List<Task> tasks;
+		tasks = taskService.createTaskQuery().processInstanceId(processid).orderByTaskCreateTime().desc()
+				.listPage(0, 1);
+		for (Task task2 : tasks) {
+			System.out.println(task2.getTaskDefinitionKey());
+		}
+	}
+
+	public Pair<Boolean, String> payment(int orderid, String taskid, UserDetail u) {
+		Pair<Boolean, String> r = null;
+		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
+		if (task != null) {
+			Map<String, Object> info = taskService.getVariables(task.getId());
+			UserDetail ul = (UserDetail) info.get("_owner");
+			if (ul != null && ObjectUtils.equals(ul.getUsername(), u.getUsername())) {
+				if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
+					taskService.claim(task.getId(), u.getUsername());
+					taskService.complete(task.getId());
+				}
+			} else {
+				r = new Pair<Boolean, String>(false, "任务属主不匹配!");
+			}
+		} else {
+			r = new Pair<Boolean, String>(false, "任务状态不存在!");
+		}
+		if (task != null) {
+			debug(task.getProcessInstanceId());
+		}
+		return r;
+
 	}
 }
