@@ -63,13 +63,6 @@ public class OrderController {
 		return "payview";
 	}
 
-	@RequestMapping(value = "pay", method = RequestMethod.POST)
-	@ResponseBody
-	public Pair<Boolean, String> pay(Model model,
-			@RequestParam(value = "orderid", required = false, defaultValue = "") String orderid,
-			HttpServletRequest request, HttpServletResponse response) {
-		return orderService.pay("34");
-	}
 
 	@RequestMapping(value = "/list/{pageNum}", method = RequestMethod.GET)
 	public String contralist(Model model,
