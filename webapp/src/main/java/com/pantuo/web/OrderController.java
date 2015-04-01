@@ -25,6 +25,7 @@ import com.pantuo.service.ProductService;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
+import com.pantuo.web.view.ContractView;
 import com.pantuo.web.view.OrderView;
 
 /**
@@ -53,7 +54,18 @@ public class OrderController {
 	public String buypro(HttpServletRequest request) {
 		return "creOrder";
 	}
-
+	@RequestMapping(value = "/payview", produces = "text/html;charset=utf-8")
+	public String payview(Model model,HttpServletRequest request) {
+		int order_id=Integer.parseInt(request.getParameter("order_id"));
+    	model.addAttribute("order_id",order_id);
+		return "payview";
+	}
+	@RequestMapping(value = "pay", method = RequestMethod.POST)
+	@ResponseBody
+	public Pair<Boolean, String> pay(Model model,@RequestParam(value = "orderid", required = false, defaultValue = "") String orderid,
+			HttpServletRequest request,HttpServletResponse response) {
+		return orderService.pay("34");
+	}
 	@RequestMapping(value = "/list/{pageNum}", method = RequestMethod.GET)
 	public String contralist(Model model,
 			@RequestParam(value = "name", required = false, defaultValue = "") String name,

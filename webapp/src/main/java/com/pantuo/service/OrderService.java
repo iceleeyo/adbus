@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,5 +88,15 @@ public class OrderService {
 			r = new Pair<Boolean, String>(false, "下订单失败！");
 		}
 		return r;
+	}
+	
+	public Pair<Boolean, String> pay(String orderid) {
+		try{
+			
+			return  new Pair<Boolean, String>(true, "支付成功");
+		}catch(Exception e) {
+			
+			return  new Pair<Boolean, String>(true, "支付失败");
+		}
 	}
 }
