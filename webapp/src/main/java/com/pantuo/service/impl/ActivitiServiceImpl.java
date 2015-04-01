@@ -60,13 +60,13 @@ public class ActivitiServiceImpl implements ActivitiService {
 		long c = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS).taskCandidateUser(userid).count();
 		page.setTotal((int) c);
 		//根据当前用户的id查询代办任务列表(已经签收)
-		//	List<Task> taskAssignees = taskService.createTaskQuery().processDefinitionKey(processDefinitionKey)
-		//			.taskAssignee(userid).orderByTaskPriority().desc().orderByTaskCreateTime().desc().list();
+			List<Task> taskAssignees = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS)
+					.taskAssignee(userid).includeProcessVariables().orderByTaskPriority().desc().orderByTaskCreateTime().desc().list();
 		//根据当前用户id查询未签收的任务列表
 		List<Task> taskCandidates = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS)
 				.taskCandidateUser(userid).includeProcessVariables().orderByTaskPriority().desc()
 				.orderByTaskCreateTime().desc().list();
-		//tasks.addAll(taskAssignees);//添加已签收准备执行的任务(已经分配到任务的人)
+		tasks.addAll(taskAssignees);//添加已签收准备执行的任务(已经分配到任务的人)
 		tasks.addAll(taskCandidates);//添加还未签收的任务(任务的候选者)
 
 		for (Task task : tasks) {
@@ -151,6 +151,21 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 	}
 
+	public Pair<Boolean, String> handle(String orderid, String taskid,
+			String comment, String isok, UserDetail user) {
+		Pair<Boolean, String> r = null;
+		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
+		if (task != null) {
+		    Map<String, Object> info = taskService.getVariables(task.getId());
+		    info.put("paymentResult",true);
+			taskService.claim(task.getId(), user.getUsername());
+		    taskService.complete(task.getId(),info);
+		    r = new Pair<Boolean, String>(true, "操作成功!");
+		} else {
+			r = new Pair<Boolean, String>(false, "任务状态不存在!");
+		}
+	       return r;
+	}
 	public String reset(String p) {
 		StringBuilder sb = new StringBuilder();
 		List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery()

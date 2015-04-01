@@ -12,31 +12,10 @@
 
 <title>公交广告交易系统</title>
 <script type="text/javascript">
-	function sub2() {
-		$('#userForm2').ajaxForm(function(data) {
-			alert(data.left + " # " + data.right);
-		}).submit();
-	}
-
-	function check() {
-	var ctx = '<%=request.getContextPath() %>';
-		var c = $("#code").val();
-		$.ajax({
-			url : "../contract/contractCodeCheck",
-			type : "POST",
-			data : {
-				"code" : c
-			},
-			success : function(data) {
-				alert(data.left + " # " + data.right);
-			}
-		}, "text");
-	}
 	function go_back() {
 		history.go(-1);
 	}
-	
-	function pay() {
+	function sub() {
 		var orderid = $("#orderid").val();
 		var taskid = $("#taskid").val();
 		$.ajax({
@@ -44,6 +23,25 @@
 			type : "POST",
 			data : {
 				"orderid" :orderid,"taskid" :taskid
+			},
+			success : function(data) {
+				alert(data.left + " # " + data.right);
+			}
+		}, "text");
+	}
+	function sub2() {
+		//var orderid = $("#orderid").val();
+		var taskid = $("#taskid").val();
+		//var isok=$("#div1 :radio[name=rad]:checked").val();
+	    //var comment=$("#comment").val();
+		$.ajax({
+			url : "../order/handle",
+			type : "POST",
+			data : {
+				//"orderid" :orderid,
+				"taskid" :taskid
+				//"isok":isok,
+				//"comment":comment
 			},
 			success : function(data) {
 				alert(data.left + " # " + data.right);
@@ -80,16 +78,15 @@
 					<!--主体开始-->
 					<div class="ls-10">
 						<div class="withdraw-wrap color-white-bg fn-clear">
-						<input type="hidden" id="orderid" value="${orderid!''}"/>
-						<input type="hidden" id="taskid" value="${taskid!''}"/>
-							支付方式：<br>
-							输入合同号：<input id="code"
-												class="ui-input" type="text" value="reg4345" name="contract_code"
-												 data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete=""> 
-											<input type="button" onclick="check();" value="合同号检查"><br>
-											<input type="button" onclick="pay();" value="确认支付"/>
-							
+						<input type="text" id="orderid" value="${orderid!''}"/>
+						<input type="text" id="taskid" value="${taskid!''}"/>
+						<div id="div1" >
+						部门领导审批意见：<br>
+				            <textarea name="comment" id="comment"></textarea><br>
+							<input type="radio" name="rad" value="true" checked="checked">支付正常
+				            <input type="radio" name="rad" value="false" >支付异常
+				            <button onclick="sub2();" >提交</button>
+							</div>
 						</div>
 						<button type="button" onclick="go_back()">返回</button>
 					</div>

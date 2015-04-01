@@ -6,8 +6,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.activiti.engine.IdentityService;
+import org.activiti.engine.TaskService;
+import org.activiti.engine.identity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.pantuo.mybatis.domain.Order;
 import com.pantuo.service.ActivitiService;
@@ -49,18 +53,26 @@ public class OrderController {
 
 	@Autowired
 	ActivitiService activitiService;
-
+	
+	@Autowired
+	private TaskService taskService;
+	
 	@RequestMapping(value = "/buypro", produces = "text/html;charset=utf-8")
 	public String buypro(HttpServletRequest request) {
 		return "creOrder";
 	}
 
 	@RequestMapping(value = "/payview", produces = "text/html;charset=utf-8")
-	public String payview(Model model,@RequestParam(value = "taskid", required = true) String taskid, HttpServletRequest request) {
-		int order_id = Integer.parseInt(request.getParameter("order_id"));
-		model.addAttribute("order_id", order_id);
+	public String payview(Model model,@RequestParam(value = "taskid", required = true) String taskid, @RequestParam(value = "orderid", required = true) String orderid,HttpServletRequest request) {
+		model.addAttribute("orderid", orderid);
 		model.addAttribute("taskid", taskid);
 		return "payview";
+	}
+	@RequestMapping(value = "/handleView", produces = "text/html;charset=utf-8")
+	public String handleView(Model model,@RequestParam(value = "taskid", required = true) String taskid, @RequestParam(value = "orderid", required = true) String orderid,HttpServletRequest request) {
+		model.addAttribute("orderid", orderid);
+		model.addAttribute("taskid", taskid);
+		return "handleView";
 	}
 
 
@@ -82,6 +94,22 @@ public class OrderController {
 			@RequestParam(value = "taskid", required = true) String taskid, HttpServletRequest request,
 			HttpServletResponse response) {
 		return activitiService.payment(orderid, taskid, Request.getUser(request));
+	}
+	@RequestMapping(value="claim",method={RequestMethod.GET})
+	@ResponseBody
+	public Pair<Boolean, String> claimTask(@RequestParam(value = "orderid", required = true) String orderid,
+			@RequestParam(value = "taskid", required = true) String taskid,HttpServletRequest request, HttpServletResponse response){
+		taskService.claim(taskid, Request.getUserId(request));
+		return new Pair<Boolean, String>(true, "任务签收成功!");
+	}
+	@RequestMapping(value = "handle")
+	@ResponseBody
+	public Pair<Boolean, String> handle(@RequestParam(value = "orderid", required = false) String orderid,
+			@RequestParam(value = "taskid", required = false) String taskid,
+			@RequestParam(value = "isok", required = false) String isok,
+			@RequestParam(value = "comment", required = false) String comment, HttpServletRequest request,
+			HttpServletResponse response) {
+		return activitiService.handle(orderid, taskid,comment, isok,Request.getUser(request));
 	}
 
 	@RequestMapping(value = "creOrder", method = RequestMethod.POST)
