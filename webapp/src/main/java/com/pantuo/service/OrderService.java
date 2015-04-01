@@ -52,6 +52,9 @@ public class OrderService {
 	ContractService contractService;
 	@Autowired
 	OrderMapper orderMapper;
+	
+	@Autowired
+	ActivitiService activitiService;
 
 	//	 public int countMyList(String name,String code, HttpServletRequest request) ;
 	//	 public List<Contract> queryContractList(NumberPageUtil page, String name, String code, HttpServletRequest request);
@@ -75,7 +78,7 @@ public class OrderService {
 			int dbId = orderMapper.insert(order);
 			if (dbId > 0) {
 				
-				
+				activitiService.startProcess(Request.getUser(request), order);
 				r = new Pair<Boolean, String>(true, "下订单成功！");
 			}
 		} catch (Exception e) {
