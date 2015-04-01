@@ -65,7 +65,8 @@
 							<td >${item.order.suppliesId!''}</td>
 							<td ><#setting date_format="yyyy-MM-dd     HH:MM">
 							${(item.order.createTime?date)!''}</td>
-							<td ><a href="../payview?order_id=${item.order.id!''}">支付订单</a></td>
+							<td ><a href="../payview?order_id=${item.order.id!''}&taskid=${item.task.id!''}">支付订单</a></td>
+							<!--<a href="../payment?orderid=${item.order.id!''}&taskid=${item.task.id!''}">支付订单</a>-->
 																	
 						</tr>
 					</#list> 

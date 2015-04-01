@@ -4,6 +4,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script type="text/javascript" language="javascript"
 	src="../js/index.js"></script>
+	      <script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
+	  <script type="text/javascript" language="javascript" src="../js/jquery.form.js"></script>
 <link rel="stylesheet" type="text/css" href="../css/sea.css">
 <link rel="stylesheet" type="text/css" href="../css/one.css">
 <link rel="stylesheet" type="text/css" href="../css/account.css">
@@ -20,7 +22,7 @@
 	var ctx = '<%=request.getContextPath() %>';
 		var c = $("#code").val();
 		$.ajax({
-			url : "ctx/contract/contractCodeCheck",
+			url : "../contract/contractCodeCheck",
 			type : "POST",
 			data : {
 				"code" : c
@@ -36,11 +38,12 @@
 	
 	function pay() {
 		var orderid = $("#orderid").val();
+		var taskid = $("#taskid").val();
 		$.ajax({
-			url : "../order/pay",
+			url : "payment",
 			type : "POST",
 			data : {
-				"orderid" :orderid
+				"orderid" :orderid,"taskid" :taskid
 			},
 			success : function(data) {
 				alert(data.left + " # " + data.right);
@@ -78,6 +81,7 @@
 					<div class="ls-10">
 						<div class="withdraw-wrap color-white-bg fn-clear">
 						<input type="hidden" id="orderid" value="${order_id!''}"/>
+						<input type="hidden" id="taskid" value="${taskid!''}"/>
 							支付方式：<br>
 							输入合同号：<input id="code"
 												class="ui-input" type="text" value="reg4345" name="contract_code"
