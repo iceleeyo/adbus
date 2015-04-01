@@ -16,6 +16,9 @@ import com.pantuo.util.Request;
 
 @Service
 public class OrderService {
+	
+	
+	
 
 	public enum Stats {
 		unpay, paid, datetime, report, finish, canel;
@@ -38,6 +41,12 @@ public class OrderService {
 			}
 		}
 	}
+	
+	public Order selectOrderById(Integer id) {
+		return orderMapper.selectByPrimaryKey(id);
+		
+	}
+	
 
 	@Autowired
 	ContractService contractService;
@@ -65,12 +74,13 @@ public class OrderService {
 			}
 			int dbId = orderMapper.insert(order);
 			if (dbId > 0) {
+				
+				
 				r = new Pair<Boolean, String>(true, "下订单成功！");
 			}
 		} catch (Exception e) {
 			r = new Pair<Boolean, String>(false, "下订单失败！");
 		}
 		return r;
-
 	}
 }

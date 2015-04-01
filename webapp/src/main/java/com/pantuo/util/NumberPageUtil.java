@@ -31,6 +31,15 @@ public class NumberPageUtil {
 
 	public void setTotal(int total) {
 		this.total = total;
+		if (total != 0) {
+			this.pagecount = total % pagesize == 0 ? total / pagesize : total / pagesize + 1;
+		} else {
+			this.pagecount = 1;
+		}
+		limitStart = (currpage - 1) * pagesize;
+
+		this.checkCurrpage();
+	
 	}
 
 	public int getCurrpage() {
@@ -79,9 +88,11 @@ public class NumberPageUtil {
 		this.bothnum = bothnum;
 	}
 
+	public NumberPageUtil(int currpage) {
+		this.  currpage=  currpage;
+	}
 	public NumberPageUtil() {
 	}
-
 	public NumberPageUtil(int total, int currpage) {
 		this.pagecount = total;
 		this.currpage = currpage;
