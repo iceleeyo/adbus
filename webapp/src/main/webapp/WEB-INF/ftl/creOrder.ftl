@@ -56,7 +56,7 @@
 					<div class="ls-10">
 						<div class="withdraw-wrap color-white-bg fn-clear">
 							<form data-name="withdraw" name="userForm2" id="userForm2"
-								class="ui-form" method="post" action="saveContract"
+								class="ui-form" method="post" action="creOrder"
 								enctype="multipart/form-data">
 								<div class="withdraw-title fn-clear">套餐订单录入</div>
 								<div class="withdrawInputs">
@@ -91,8 +91,8 @@
 
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>合同号:</label> <input
-												class="ui-input" type="text" value="reg4345" name="payType"
+												class="ui-form-required">*</span>合同号:</label> <input id="code"
+												class="ui-input" type="text" value="reg4345" name="contract_code"
 												id="withdrawAmount" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete=""> <br>
 											<input type="button" onclick="check();" value="合同号检查">
@@ -103,7 +103,7 @@
 									</div>
 									<div class="ui-form-item widthdrawBtBox">
 										<input type="button" id="subWithdraw" class="block-btn"
-											onclick="sub();" value="创建合同">
+											onclick="sub2();" value="创建合同">
 									</div>
 								</div>
 
