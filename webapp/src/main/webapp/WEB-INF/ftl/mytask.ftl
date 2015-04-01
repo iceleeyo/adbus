@@ -15,6 +15,7 @@
 	</head>
 	<body>
 	<body>
+	 
 <div class="page-container">
 <!--上部DIV-->
 	<#include "/menu/top.ftl" />
@@ -55,6 +56,7 @@
 					<td scope="col">套餐号</td>
 					<td scope="col">素材号</td>
 					<td scope="col">创建时间</td>
+					<td scope="col">当前节点	</td>
 					<td scope="col">操作</td>
 				</tr>
 				<tbody>
@@ -65,6 +67,9 @@
 							<td >${item.order.suppliesId!''}</td>
 							<td ><#setting date_format="yyyy-MM-dd     HH:MM">
 							${(item.order.createTime?date)!''}</td>
+
+		<td ><a class="trace" href='/${web}/workflow/view/${item.task.executionId}/page/${item.task.processInstanceId}' title="点击查看流程图">${item.task.name }</a></td>
+
 							<td ><a href="../payview?order_id=${item.order.id!''}&taskid=${item.task.id!''}">支付订单</a></td>
 							<!--<a href="../payment?orderid=${item.order.id!''}&taskid=${item.task.id!''}">支付订单</a>-->
 																	
