@@ -22,5 +22,12 @@ public interface ActivitiService {
 	public Pair<Boolean, String> payment(int orderid,String taskid,UserDetail u);
 	
 	public List<OrderView> findTask(String userid,NumberPageUtil page) ;
+	
+	
+	
+	/*
+	 * 扫描工作流 去掉订单不存在的工作流
+	 */
+	public String  reset(String p);
 
 }

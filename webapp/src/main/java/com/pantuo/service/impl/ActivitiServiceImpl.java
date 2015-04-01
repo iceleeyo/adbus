@@ -19,6 +19,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import scala.collection.mutable.StringBuilder;
+
 //import com.dumbster.smtp.SimpleSmtpServer;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Order;
@@ -147,5 +149,29 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		return r;
 
+	}
+
+	public String reset(String p) {
+		StringBuilder sb = new StringBuilder();
+		List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery()
+				.processDefinitionKey(MAIN_PROCESS).includeProcessVariables().list();
+		for (ProcessInstance processInstance : processInstances) {
+
+			if (StringUtils.contains(p, "deleteAll")) {
+				runtimeService.deleteProcessInstance(processInstance.getId(), "");
+
+			} else {
+				Map<String, Object> info = processInstance.getProcessVariables();
+				Integer orderid = (Integer) info.get(ORDER_ID);
+				if (orderid != null) {
+					Order order = orderService.selectOrderById(orderid);
+					if (order == null) {
+						sb.append(orderid + ",");
+						runtimeService.deleteProcessInstance(processInstance.getId(), "");
+					}
+				}
+			}
+		}
+		return sb.toString();
 	}
 }
