@@ -55,15 +55,18 @@
 					<td scope="col">套餐号</td>
 					<td scope="col">素材号</td>
 					<td scope="col">创建时间</td>
+					<td scope="col">操作</td>
 				</tr>
 				<tbody>
 					<#list list as item>
 						<tr>
-							<td >${item.order.userId}</td>
-							<td >${item.order.productId}</td>
-							<td >${item.order.suppliesId}</td>
+							<td >${item.order.userId!''}</td>
+							<td >${item.order.productId!''}</td>
+							<td >${item.order.suppliesId!''}</td>
 							<td ><#setting date_format="yyyy-MM-dd     HH:MM">
-							${item.order.createTime?date}</td>
+							${(item.order.createTime?date)!''}</td>
+							<td ><a href="../payview?order_id=${item.order.id!''}">支付订单</a></td>
+																	
 						</tr>
 					</#list> 
 				</tbody>
