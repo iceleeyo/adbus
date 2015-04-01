@@ -17,7 +17,7 @@ import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dumbster.smtp.SimpleSmtpServer;
+//import com.dumbster.smtp.SimpleSmtpServer;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Order;
 import com.pantuo.service.ActivitiService;
@@ -42,7 +42,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 	private HistoryService historyService;
 
 	private ProcessInstance instance;
-	private SimpleSmtpServer mailServer;
+	//private SimpleSmtpServer mailServer;
 	@Autowired
 	private OrderService orderService;
 
