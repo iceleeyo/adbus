@@ -14,6 +14,7 @@ import org.activiti.engine.TaskService;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.apache.commons.lang.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ import com.pantuo.service.ActivitiService;
 import com.pantuo.service.OrderService;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.web.view.OrderView;
+
 @Service
 public class ActivitiServiceImpl implements ActivitiService {
 
@@ -58,7 +60,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 		//			.taskAssignee(userid).orderByTaskPriority().desc().orderByTaskCreateTime().desc().list();
 		//根据当前用户id查询未签收的任务列表
 		List<Task> taskCandidates = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS)
-				.taskCandidateUser(userid).includeProcessVariables().orderByTaskPriority().desc().orderByTaskCreateTime().desc().list();
+				.taskCandidateUser(userid).includeProcessVariables().orderByTaskPriority().desc()
+				.orderByTaskCreateTime().desc().list();
 		//tasks.addAll(taskAssignees);//添加已签收准备执行的任务(已经分配到任务的人)
 		tasks.addAll(taskCandidates);//添加还未签收的任务(任务的候选者)
 
@@ -95,7 +98,17 @@ public class ActivitiServiceImpl implements ActivitiService {
 		initParams.put("_owner", u);
 		initParams.put(ORDER_ID, order.getId());
 		initParams.put("_now", new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
-		runtimeService.startProcessInstanceByKey(MAIN_PROCESS, initParams);
-	}
+		ProcessInstance process = runtimeService.startProcessInstanceByKey(MAIN_PROCESS, initParams);
 
+		List<Task> tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime()
+				.desc().listPage(0, 1);
+		if (!tasks.isEmpty()) {
+			Task task = tasks.get(0);
+			Map<String, Object> info = taskService.getVariables(task.getId());
+			if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
+				taskService.claim(task.getId(), u.getUsername());
+				taskService.complete(task.getId());
+			}
+		}
+	}
 }
