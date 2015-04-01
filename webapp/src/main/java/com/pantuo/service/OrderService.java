@@ -5,20 +5,22 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.Order;
 import com.pantuo.mybatis.persistence.OrderMapper;
+import com.pantuo.service.impl.SuppliesServiceImpl;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 
 @Service
 public class OrderService {
-	
-	
-	
+
+	private static Logger log = LoggerFactory.getLogger(OrderService.class);
 
 	public enum Stats {
 		unpay, paid, datetime, report, finish, canel;
@@ -41,18 +43,17 @@ public class OrderService {
 			}
 		}
 	}
-	
+
 	public Order selectOrderById(Integer id) {
 		return orderMapper.selectByPrimaryKey(id);
-		
+
 	}
-	
 
 	@Autowired
 	ContractService contractService;
 	@Autowired
 	OrderMapper orderMapper;
-	
+
 	@Autowired
 	ActivitiService activitiService;
 
@@ -77,11 +78,12 @@ public class OrderService {
 			}
 			int dbId = orderMapper.insert(order);
 			if (dbId > 0) {
-				
+
 				activitiService.startProcess(Request.getUser(request), order);
 				r = new Pair<Boolean, String>(true, "下订单成功！");
 			}
 		} catch (Exception e) {
+			log.error("order ", e);
 			r = new Pair<Boolean, String>(false, "下订单失败！");
 		}
 		return r;

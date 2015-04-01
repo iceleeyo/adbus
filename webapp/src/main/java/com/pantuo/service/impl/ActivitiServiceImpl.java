@@ -58,7 +58,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		//			.taskAssignee(userid).orderByTaskPriority().desc().orderByTaskCreateTime().desc().list();
 		//根据当前用户id查询未签收的任务列表
 		List<Task> taskCandidates = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS)
-				.taskCandidateUser(userid).orderByTaskPriority().desc().orderByTaskCreateTime().desc().list();
+				.taskCandidateUser(userid).includeProcessVariables().orderByTaskPriority().desc().orderByTaskCreateTime().desc().list();
 		//tasks.addAll(taskAssignees);//添加已签收准备执行的任务(已经分配到任务的人)
 		tasks.addAll(taskCandidates);//添加还未签收的任务(任务的候选者)
 
