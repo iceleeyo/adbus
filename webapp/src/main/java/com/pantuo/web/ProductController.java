@@ -32,7 +32,7 @@ public class ProductController {
     
      
     
-    @RequestMapping(value = "/list/{pageNum}", method = RequestMethod.GET)
+    @RequestMapping(value = "/list/{pageNum}")
 	public String contralist(Model model, @RequestParam(value = "name", required = false, defaultValue = "") String name,
 			@RequestParam(value = "code",required = false, defaultValue = "") String code, @PathVariable int pageNum,
 			HttpServletRequest request) {
@@ -40,6 +40,7 @@ public class ProductController {
 		NumberPageUtil page = new NumberPageUtil(productService.countMyList(name, code, request), pageNum, psize);
 		model.addAttribute("list", productService.queryContractList(page, name, code, request));
 		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("paginationHTML", page.showNumPageWithEmpty());
 		return "product_list";
 	}
      

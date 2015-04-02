@@ -41,7 +41,7 @@ public class SuppliesController {
 		return suppliesService.addSupplies(obj, request);
 	}
 
-	@RequestMapping(value = "/list/{pageNum}", method = RequestMethod.GET)
+	@RequestMapping(value = "/list/{pageNum}")
 	public String config(Model model, @RequestParam(value = "name", required = false, defaultValue = "") String name,
 			@RequestParam(value = "type", required = false, defaultValue = "") String type, @PathVariable int pageNum,
 			HttpServletRequest request) {
@@ -49,6 +49,8 @@ public class SuppliesController {
 		NumberPageUtil page = new NumberPageUtil(suppliesService.countMyList(name, type, request), pageNum, psize);
 		model.addAttribute("list", suppliesService.queryMyList(page, name, type, request));
 		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("paginationHTML", page.showNumPageWithEmpty());
+		model.addAttribute("name", name);
 		return "supplies_list";
 	}
 	@RequestMapping(value = "/suppliesDetail", produces = "text/html;charset=utf-8")

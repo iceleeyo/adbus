@@ -72,15 +72,20 @@ public class ContractController {
 		return contractService.saveContract(contract, request);
 	}
 
-	@RequestMapping(value = "/list/{pageNum}", method = RequestMethod.GET)
+	@RequestMapping(value = "/list/{pageNum}")
 	public String contralist(Model model,
 			@RequestParam(value = "name", required = false, defaultValue = "") String name,
 			@RequestParam(value = "code", required = false, defaultValue = "") String code, @PathVariable int pageNum,
 			HttpServletRequest request) {
 		int psize = 9;
+		
 		NumberPageUtil page = new NumberPageUtil(contractService.countMyList(name, code, request), pageNum, psize);
-		model.addAttribute("list", contractService.queryContractList(page, name, code, request));
+		List<Contract> list=contractService.queryContractList(page, name, code, request);
+		model.addAttribute("list", list);
 		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("paginationHTML", page.showNumPageWithEmpty());
+		model.addAttribute("name",name);
+		model.addAttribute("code",code);
 		return "contractlist";
 	}
 
@@ -96,5 +101,7 @@ public class ContractController {
     	model.addAttribute("view",view);
         return "contractDetail";
     }
+    public String paginationHTML;
+
     
 }
