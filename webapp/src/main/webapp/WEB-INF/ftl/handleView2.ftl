@@ -52,7 +52,7 @@ function complete(taskId, variables) {
         values: values,
         types: types
     },function(data){
-    	alert(data=="success"?"执行成功!":"执行失败!");
+    	alert(data.left==true?"执行成功!":"执行失败!");
     	var a = document.createElement('a');
     	a.href='/${web}/order/myTask/1';
     	a.target = 'main';
@@ -70,6 +70,10 @@ function approve1(){
 		{
 			key: 'approve1Result',
 			value: approve1Result,
+			type: 'B'
+		},{
+			key: 'approve2Result',
+			value: "true",
 			type: 'B'
 		},
 		{
