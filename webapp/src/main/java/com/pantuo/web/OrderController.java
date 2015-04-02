@@ -3,14 +3,19 @@ package com.pantuo.web;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.activiti.engine.IdentityService;
+import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.identity.User;
+import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.pantuo.mybatis.domain.Order;
@@ -50,7 +56,8 @@ public class OrderController {
 	private IdentityService identityService;
 	@Autowired
 	private OrderService orderService;
-
+	@Autowired
+	private RuntimeService runtimeService;
 	@Autowired
 	ActivitiService activitiService;
 	
@@ -90,10 +97,10 @@ public class OrderController {
 
 	@RequestMapping(value = "payment")
 	@ResponseBody
-	public Pair<Boolean, String> payment(@RequestParam(value = "orderid", required = true) int orderid,
+	public Pair<Boolean, String> payment(@RequestParam(value = "orderid", required = true) String orderid,
 			@RequestParam(value = "taskid", required = true) String taskid, HttpServletRequest request,
 			HttpServletResponse response) {
-		return activitiService.payment(orderid, taskid, Request.getUser(request));
+		return activitiService.payment(Integer.parseInt(orderid), taskid, Request.getUser(request));
 	}
 	@RequestMapping(value="claim",method={RequestMethod.GET})
 	@ResponseBody
@@ -102,6 +109,20 @@ public class OrderController {
 		taskService.claim(taskid, Request.getUserId(request));
 		return new Pair<Boolean, String>(true, "任务签收成功!");
 	}
+	
+	@RequestMapping(value = "/handleView2", produces = "text/html;charset=utf-8")
+	public String HandleView2(Model model,@RequestParam(value = "taskid", required = true) String taskid, HttpServletRequest request) {
+		OrderView v=activitiService.findOrderViewByTaskId(taskid);
+		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
+		ExecutionEntity executionEntity=(ExecutionEntity) runtimeService.createExecutionQuery().executionId(task.getExecutionId()).processInstanceId(task.getProcessInstanceId()).singleResult();
+		//获取当前正在执行的节点
+		String activityId = executionEntity.getActivityId();
+		model.addAttribute("taskid", taskid);
+		model.addAttribute("orderview", v);
+		model.addAttribute("activityId", activityId);
+		return "handleView2";
+	}
+	
 	@RequestMapping(value = "handle")
 	@ResponseBody
 	public Pair<Boolean, String> handle(@RequestParam(value = "orderid", required = false) String orderid,

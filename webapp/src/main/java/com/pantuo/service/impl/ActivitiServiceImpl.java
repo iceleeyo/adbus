@@ -11,6 +11,7 @@ import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import scala.collection.mutable.StringBuilder;
+
 
 //import com.dumbster.smtp.SimpleSmtpServer;
 import com.pantuo.dao.pojo.UserDetail;
@@ -188,5 +190,26 @@ public class ActivitiServiceImpl implements ActivitiService {
 			}
 		}
 		return sb.toString();
+	}
+	
+	public OrderView findOrderViewByTaskId(String taskid) {
+		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
+		ExecutionEntity executionEntity=(ExecutionEntity) runtimeService.createExecutionQuery().executionId(task.getExecutionId()).processInstanceId(task.getProcessInstanceId()).singleResult();
+		//获取当前正在执行的节点
+		String activityId = executionEntity.getActivityId();
+		String processInstanceId = task.getProcessInstanceId();
+		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+		String businessKey = processInstance.getBusinessKey();
+		OrderView v = new OrderView();
+		int orderid=(Integer)taskService.getVariables(taskid).get(ORDER_ID);
+		Order order = orderService.selectOrderById(orderid);
+		v.setOrder(order);
+		v.setTask(task);
+		v.setProcessInstance(processInstance);
+		v.setProcessInstanceId(processInstance.getId());
+		v.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+		Map<String, Object> variables = task.getProcessVariables();
+		v.setVariables(variables);
+		return v;
 	}
 }
