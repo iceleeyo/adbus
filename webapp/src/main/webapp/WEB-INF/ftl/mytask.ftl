@@ -68,9 +68,9 @@
 							<td ><#setting date_format="yyyy-MM-dd     HH:MM">
 							${(item.order.createTime?date)!''}</td>
 		                    <td ><a class="trace" href='/${web}/workflow/view/${item.task.executionId}/page/${item.task.processInstanceId}' title="点击查看流程图">${item.task.name }</a></td>
-							<td ><a href="../payview?orderid=${(item.order.id)!''}&taskid=${(item.task.id)!''}">支付订单</a>
+							<td ><!--<a href="../payview?orderid=${(item.order.id)!''}&taskid=${(item.task.id)!''}">支付订单</a>-->
 							<#if item.task.assignee?exists>
-							   <a href="../handleView?orderid=${(item.order.id)!''}&taskid=${(item.task.id)!''}">办理</a>
+							   <a href="../handleView2?orderid=${(item.order.id)!''}&taskid=${(item.task.id)!''}">办理</a>
 							  <#else>
 							   <a href="../claim?orderid=${(item.order.id)!''}&taskid=${(item.task.id)!''}">签收</a>
 							  
