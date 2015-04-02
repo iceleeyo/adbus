@@ -165,7 +165,7 @@
 																<div class="th-md">生效时间</div>
 															</td>
 															<td width="16%">
-																<div class="th-md">失效时间</div>
+																<div class="th-tail">失效时间</div>
 															</td>
 
 														</tr>
@@ -199,6 +199,7 @@
 															date_format="yyyy-MM-dd">${(item.endDate?date)!''}
 															</em>
 														</span>
+													</div>
 												</li>
 												</#list> 
 												<!-- 分页 -->

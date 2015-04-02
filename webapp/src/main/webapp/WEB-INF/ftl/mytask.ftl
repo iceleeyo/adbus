@@ -124,16 +124,16 @@
 										<div class="uplan-table-box">
 											<table width="100%" class="uplan-table">
 												<tr class="uplan-table-th">
-													<td style="width: 126px;">
+													<td style="width: 113px;">
 														<div class="th-head">下单用户</div>
 													</td>
-													<td style="width: 159px;">
-														<div class="th-md">套餐号</div>
+													<td style="width: 106px;">
+														<div class="th-md" style="width: 149px; ">套餐号</div>
 													</td>
-													<td style="width: 149px;">
-														<div class="th-md">素材号</div>
+													<td style="width: 124px;">
+														<div class="th-md" style="width: 147px; ">素材号</div>
 													</td>
-													<td style="width: 146px;">
+													<td style="width: 123px;">
 														<div class="th-md">创建时间</div>
 													</td>
 													<td>
@@ -145,18 +145,18 @@
 											<#list list as item>
 											<li class="ui-list-item dark">
 												<div class="ui-list-item-row fn-clear">
-													<span style="width: 131px; height: 35px;"
+													<span style="width: 123px; height: 35px;"
 														class="ui-list-field text-center w80 fn-left">
 														${item.order.userId!''} </span> <span
-														style="width: 155px; height: 35px;"
+														style="width: 160px; height: 35px;"
 														class="ui-list-field text-center w80 fn-left"><em
 														class="value-small"> <a
 															href="/${web}/contract/contractDetail?contract_id=${item.id!''}">
 																${item.order.productId!''} </a>
-													</em> </span> <span style="width: 170px; height: 35px;"
+													</em> </span> <span style="width: 126px; height: 35px;"
 														class="ui-list-field text-center w80 fn-left">
 														${item.order.suppliesId!''} </span> <span
-														style="width: 170px; height: 35px;"
+														style="width: 159px; height: 35px;"
 														class="ui-list-field num-s text-center w120 fn-left"><em
 														class="value-small"> <#setting
 															date_format="yyyy-MM-dd HH:MM">

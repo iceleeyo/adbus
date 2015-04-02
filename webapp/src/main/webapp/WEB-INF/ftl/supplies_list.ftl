@@ -137,12 +137,14 @@ dataType="html" enctype="multipart/form-data" class="Page-Form">
 																<div class="th-md">物料类型</div>
 															</td>
 															<td width="16%">
-																<div class="th-md">创建时间</div>
+																<div class="th-tail">创建时间</div>
 															</td>
 														</tr>
 													</tbody>
 												</table>
 												<#list list as item>
+												<li class="ui-list-item dark">
+													<div class="ui-list-item-row fn-clear">
 														<span style="width: 306px; height: 35px; " class="ui-list-field text-center w80 fn-left" >
 															<a href="../suppliesDetail?supplies_id=${item.id!''}">
 															${item.name}
@@ -160,6 +162,7 @@ dataType="html" enctype="multipart/form-data" class="Page-Form">
 														<#setting
 																	date_format="yyyy-MM-dd HH:MM"> ${item.createTime?date}
 														 </span> 
+														</div>
 												</li>
 												</#list> 
 												<!-- 分页 -->

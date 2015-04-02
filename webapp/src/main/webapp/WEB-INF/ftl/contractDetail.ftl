@@ -4,7 +4,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>合同详细</title>
+<link rel="stylesheet" type="text/css" href="../css/page.css">
+<link rel="stylesheet" type="text/css" href="../css/account.css">
 <link rel="stylesheet" type="text/css" href="../css/sea.css">
+<link rel="stylesheet" type="text/css" href="../css/one.css">
+<script type="text/javascript" language="javascript"
+	src="../../js/jquery.js"></script>
+<script type="text/javascript" language="javascript"
+	src="../../js/common.js"></script>	
+<script type="text/javascript" language="javascript"
+	src="../../js/platform.js"></script>
 <script type="text/javascript">
 function go_back(){
 	history.go(-1);
@@ -47,36 +56,40 @@ function go_back(){
 							<div class="mt20">
 							
 								<div class="module p20" style="height: 423px;">
-								<button type="button" onclick="go_back()" >返回</button>
+								<button type="button" onclick="go_back()" class="block-btn" style="margin-bottom: 10px;">返回</button>
 									<div class="tab-content">
 										<div class="tab-content-box s-clear" id="holding"
 											style="display: block;">
 											<div class="uplan-table-box">
 												<table width="100%" class="uplan-table">
 													<tbody>
-														<tr class="uplan-table-th">
-															<td width="22%">
+														<tr class="uplan-table-th" style="width: 651px; ">
+															<td style="width: 221px;" align="center">
 																<div class="th-head">合同号</div>
 															</td>
-															<td width="15%">
-																<div class="th-md">附件</div>
-															</td>
-														</tr>
-														<tr class="uplan-tanle-content">
-															<td width="22%">
-																<div class="content-head left-text u-plan-name">
-																${view.mainView.contractCode!''}
-																</div>
-															</td>
-															<td width="15%">
-																<div class="content-head">
-																<#list view.files as item> ${item.name!''} 
-																</#list>
-																</div>
+															<td align="center">
+																<div class="th-tail">附件</div>
 															</td>
 														</tr>
 													</tbody>
 												</table>
+												<li class="ui-list-item dark" >
+													<div class="ui-list-item-row fn-clear" style="width: 636px; ">
+														<span style="width: 244px; height: 35px; "
+															class="ui-list-field text-center w80 fn-left" >
+															${view.mainView.contractCode!''}
+														</span>
+													
+														<span style="width: 380px; height: 35px; " 
+															class="ui-list-field text-center w80 fn-left">
+															<#list view.files as item> ${item.name!''} 
+															</#list>
+														</span>
+													</div>
+												</li>
+												
+													
+												
 											</div>
 										</div>
 									</div>
@@ -92,13 +105,10 @@ function go_back(){
 		<!--底部DIV -->
 		</div>
 	</div>
-	
 <script type="text/javascript" language="javascript"
-	src="../../js/jquery.js"></script>
+	src="../../js/jquery.ui.dialog.js"></script>
 <script type="text/javascript" language="javascript"
-	src="../../js/index.js"></script>
-<script type="text/javascript" language="javascript"
-	src="../../js/jquery.form.js"></script>
+	src="../../../js/index.js"></script>
 </body>
 
 </html>
