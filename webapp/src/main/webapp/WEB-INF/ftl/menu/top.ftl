@@ -11,7 +11,7 @@
 							<div class="s-right s-clear">
 								<span class="pg-nav-item s-left">您好，</span>
 								<a class="pg-nav-item-p pg-nav-item-n s-left" href="#">
-									<span>福临门</span>
+									<span>${SESSION_U_KEY.username!''}</span>
 									<span class="arrow-down"></span>
 								</a>
 								<div class="pg-nav-dropdown" style="display: none;">
