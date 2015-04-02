@@ -6,9 +6,10 @@
 	src="../js/index.js"></script>
 	      <script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
 	  <script type="text/javascript" language="javascript" src="../js/jquery.form.js"></script>
-<link rel="stylesheet" type="text/css" href="../css/sea.css">
-<link rel="stylesheet" type="text/css" href="../css/one.css">
-<link rel="stylesheet" type="text/css" href="../css/account.css">
+<link rel="stylesheet" type="text/css" href="../../css/page.css">
+<link rel="stylesheet" type="text/css" href="../../css/account.css">
+<link rel="stylesheet" type="text/css" href="../../css/sea.css">
+<link rel="stylesheet" type="text/css" href="../../css/one.css">
 
 <title>公交广告交易系统</title>
 <script type="text/javascript">
@@ -87,11 +88,12 @@
 												class="ui-input" type="text" value="reg4345" name="contract_code"
 												 data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete=""> 
-											<input type="button" onclick="check();" value="合同号检查"><br>
-											<input type="button" onclick="pay();" value="确认支付"/>
-							
+											<input type="button" class="block-btn" onclick="check();" value="合同号检查">
+											<br><br>
+											<input type="button" class="block-btn" onclick="pay();" value="确认支付"/>
+						<br><br>
+						<button type="button" class="block-btn" onclick="go_back()">返回</button>
 						</div>
-						<button type="button" onclick="go_back()">返回</button>
 					</div>
 					<!--主体结束-->
 				</div>

@@ -1,10 +1,19 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-
-<link rel="stylesheet" type="text/css" href="../css/sea.css">
-<link rel="stylesheet" type="text/css" href="../css/one.css">
-<link rel="stylesheet" type="text/css" href="../css/account.css">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>下订单</title>
+<link rel="stylesheet" type="text/css" href="../../css/page.css">
+<link rel="stylesheet" type="text/css" href="../../css/account.css">
+<link rel="stylesheet" type="text/css" href="../../css/sea.css">
+<link rel="stylesheet" type="text/css" href="../../css/one.css">
+<script type="text/javascript" language="javascript"
+	src="../../js/jquery.js"></script>
+<script type="text/javascript" language="javascript"
+	src="../../js/common.js"></script>	
+<script type="text/javascript" language="javascript"
+	src="../../js/platform.js"></script>
 <script type="text/javascript">
 	function sub2() {
 		$('#userForm2').ajaxForm(function(data) {
@@ -41,7 +50,7 @@
 						<li class="s-left fsize-16 bread-homep"><a class="gray-text"
 							href="/">首页</a></li>
 						<li class="s-left breadcrumb-right"></li>
-						<li class="s-left bread-child"><a class="gray-text" href="#">合同详情录入</a>
+						<li class="s-left bread-child"><a class="gray-text" href="#">待办事项</a>
 						</li>
 					</ul>
 				</div>
@@ -76,16 +85,16 @@
 												autocomplete="off" disableautocomplete="">
 											<p class="ui-term-placeholder"></p>
 
-											<input type="text" style="display: none;">
 										</div>
 
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>支付方式:</label> <input
+												class="ui-form-required">*</span>支付方式:</label> 
+												<input
 												class="ui-input" type="text" value="ht_pay" name="payType"
 												id="withdrawAmount" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
-											<p class="ui-term-placeholder"></p>
+											
 
 										</div>
 
@@ -94,9 +103,9 @@
 												class="ui-form-required">*</span>合同号:</label> <input id="code"
 												class="ui-input" type="text" value="reg4345" name="contract_code"
 												id="withdrawAmount" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete=""> <br>
-											<input type="button" onclick="check();" value="合同号检查">
-											<p class="ui-term-placeholder"></p>
+												autocomplete="off" disableautocomplete="">
+											
+											<input type="button" onclick="check();" class="block-btn" value="合同号检查" style="width: 118px; ">
 
 										</div>
 
@@ -118,12 +127,10 @@
 		<#include "/menu/foot.ftl" />
 		<!--底部DIV -->
 	</div>
-	<script type="text/javascript" language="javascript"
-		src="../js/jquery.js"></script>
-	<script type="text/javascript" language="javascript"
-		src="../js/jquery.form.js"></script>
-	<script type="text/javascript" language="javascript"
-		src="../js/index.js"></script>
+<script type="text/javascript" language="javascript"
+	src="../../js/jquery.ui.dialog.js"></script>
+<script type="text/javascript" language="javascript"
+	src="../../js/index.js"></script>
 </body>
 </html>
 

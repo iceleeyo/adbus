@@ -1,23 +1,70 @@
+<#include "/menu/webapp.ftl" />
 <html>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>合同列表</title>
-
-
+<link rel="stylesheet" type="text/css" href="../../css/page.css">
+<link rel="stylesheet" type="text/css" href="../../css/account.css">
 <link rel="stylesheet" type="text/css" href="../../css/sea.css">
-<script>
-	function search_data() {
-		var name = ($("#Cname").val());
-		var num = ($("#Cnum").val());
-		$("#base_form").submit();
+<link rel="stylesheet" type="text/css" href="../../css/one.css">
+<script type="text/javascript" language="javascript"
+	src="../../js/jquery.js"></script>
+<script type="text/javascript" language="javascript"
+	src="../../js/common.js"></script>	
+<script type="text/javascript" language="javascript"
+	src="../../js/platform.js"></script>
+<script type="text/javascript" >
 
+	function pages(pageNum) {
+		var pattern = /^\d+$/;
+		var by = ($("#by").val());
+		var code = ($("#code").val());
+		var name = ($("#name").val());
+		var g2 = ($("#textpage").val());
+		if (g2 == undefined) {
+			g2 = 1;
+		}
+		if (!isNaN($("#textpage").val())) {
+		} else {
+			jDialog.Alert("请输入数字");
+			return;
+		}
+		if (parseInt($("#textpage").val()) <= 0) {
+			jDialog.Alert("请输入正整数");
+			return;
+		}
+		if ($("#textpage").val() > pageNum) {
+			jDialog.Alert("输入的页数超过最大页数");
+			return;
+		}
+		//  var adsts =$("#adsts").val();
+		window.location.href = "/${web}/contract/list/"+g2+ "?code=" + code + "&name="+ name;
+	}
+
+	function page(num) {
+		var code = $("#code").val();
+		var name = $("#name").val();
+		var by = ($("#by").val());
+		window.location.href = "/${web}/contract/list/"+num+"?code="+ code + "&name=" + name; 
+	}
+	
+	
+	function sub_code(){
+		var code = $("#code").val();
+		window.location.href= "/${web}/contract/list/1"+"?code="+code
+	}
+	
+	function sub_name(){
+		var name = $("#name").val();
+		window.location.href= "/${web}/contract/list/1"+"?name="+name
+		
 	}
 </script>
 </head>
 <body>
-<#assign web="webapp">
+
 	<div class="page-container">
 		<!--上部DIV-->
 		<#include "/menu/top.ftl" />
@@ -47,18 +94,26 @@
 					<!--主体开始-->
 					<div class="ls-10">
 
-						<form id="base_form" action="/supplies/list/1" method="post"
-							dataType="html" enctype="multipart/form-data" class="Page-Form">
+						<form id="base_form" action="" method="post"
+							dataType="html" enctype="multipart/form-data" class="Page-Form"	
+						>
 							<div class="module s-clear u-lump-sum p19">
 								<div class="u-sum-right">
-									<input class="ui-input" type="text" value="" name="name"
-										id="Sname" data-is="isAmount isEnough" autocomplete="off"
-										disableautocomplete placeholder="合同号" /> <input type="submit"
-										id="subWithdraw" class="block-btn" value="查询">
-									&nbsp;&nbsp;&nbsp; <input class="ui-input" type="text" value=""
-										name="name" id="Sname" data-is="isAmount isEnough"
-										autocomplete="off" disableautocomplete placeholder="合同名称" /> <input
-										type="submit" id="subWithdraw" class="block-btn" value="查询">
+									<input class="ui-input" type="text" name="code"
+										id="code" data-is="isAmount isEnough" 
+										autocomplete="off" placeholder="合同号" value="${code!''}"
+									/>
+									<input type="button" class="block-btn" 
+										value="查询" onclick="sub_code();">
+									&nbsp;&nbsp;&nbsp; 
+									
+									<input class="ui-input" type="text"
+										name="name" id="name" data-is="isAmount isEnough"
+										autocomplete="off" placeholder="合同名称"  value="${name!''}"
+									/>
+
+									<input type="button"  class="block-btn" style="height: 30px; margin-top: 5px;"
+										value="查询" onclick="sub_name();">
 								</div>
 							</div>
 						</form>
@@ -83,8 +138,6 @@
 								</div>
 								<div class="module p20" style="height: 423px;">
 									<div class="tab-content">
-										<div class="tab-content-box s-clear" id="holding"
-											style="display: block;">
 											<div class="tab-plans-type">
 												<ul class="tab-plans">
 													<li class="tab-plan-item tab-plan-width"><span>全部</span>
@@ -116,32 +169,49 @@
 															</td>
 
 														</tr>
-														<#list list as item>
-														<tr class="uplan-tanle-content">
-															<td width="22%">
-																<div class="content-head left-text u-plan-name">
-																	${item.contractCode!''}</div>
-															</td>
-															<td width="15%">
-																<div class="content-head">
-																	<a href="/${web}/contract/contractDetail?contract_id=${item.id!''}">
-																	${item.contractName!''}
-																	</a>
-																</div>
-															</td>
-															<td width="16%">
-																<div class="content-head"><#setting
-																	date_format="yyyy-MM-dd">${(item.startDate?date)!''}</div>
-															</td>
-															<td width="16%">
-																<div class="content-head"><#setting
-																	date_format="yyyy-MM-dd">${(item.endDate?date)!''}</div>
-															</td>
-														</tr>
-														</#list>
 													</tbody>
 												</table>
-											</div>
+												<#list list as item>
+												<li class="ui-list-item dark">
+													<div class="ui-list-item-row fn-clear">
+														<span style="width: 235px; height: 35px; "
+															class="ui-list-field text-center w80 fn-left" >
+															${item.contractCode!''}
+														</span>
+														 <span style="width: 155px; height: 35px; "
+															class="ui-list-field text-center w80 fn-left"><em
+															class="value-small">
+															<a
+																href="/${web}/contract/contractDetail?contract_id=${item.id!''}">
+																${item.contractName!''} </a>
+															</em> 
+														 </span>
+														 <span
+															style="width: 170px; height: 35px; "
+															class="ui-list-field text-center w80 fn-left">
+														<#setting
+															date_format="yyyy-MM-dd">${(item.startDate?date)!''}
+														 </span> <span
+															style="width: 170px; height: 35px; "
+															class="ui-list-field num-s text-center w120 fn-left"><em
+															class="value-small">
+															<#setting
+															date_format="yyyy-MM-dd">${(item.endDate?date)!''}
+															</em>
+														</span>
+												</li>
+												</#list> 
+												<!-- 分页 -->
+												<table class="pag_tbl"
+													style="width: 100%; border-width: 0px; margin-top: 10px;">
+													<tr>
+														<td style="width: 70%; text-align: right;">
+															<div id="numpage" style="float: right;">
+															${paginationHTML!''}	 
+															</div>
+														</td>
+													</tr>
+												</table>
 										</div>
 									</div>
 								</div>
@@ -149,18 +219,17 @@
 						</form>
 					</div>
 					<!--主体结束-->
+
 				</div>
+
 			</div>
 		</div>
-		
 	</div>
-	<!--底部DIV -->
-		<#include "/menu/foot.ftl" />
-		<!--底部DIV -->
-	<script type="text/javascript" language="javascript"
-		src="../../js/jquery.js"></script>
-	<script type="text/javascript" language="javascript"
-		src="../../js/index.js"></script>
+
+<script type="text/javascript" language="javascript"
+	src="../../js/jquery.ui.dialog.js"></script>
+<script type="text/javascript" language="javascript"
+	src="../../js/index.js"></script>
 
 </body>
 </html>

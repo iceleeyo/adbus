@@ -87,10 +87,10 @@ function go_back(){
 					<!--主体结束-->
 				</div>
 			</div>
-		</div>
 		<!--底部DIV -->
 		<#include "/menu/foot.ftl" />
 		<!--底部DIV -->
+		</div>
 	</div>
 	
 <script type="text/javascript" language="javascript"

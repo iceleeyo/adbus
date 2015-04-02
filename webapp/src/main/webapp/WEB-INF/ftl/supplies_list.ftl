@@ -1,17 +1,54 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<#include "/menu/webapp.ftl" />
 <html>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>物料列表</title>
-
+<link rel="stylesheet" type="text/css" href="../../css/page.css">
+<link rel="stylesheet" type="text/css" href="../../css/account.css">
 <link rel="stylesheet" type="text/css" href="../../css/sea.css">
+<link rel="stylesheet" type="text/css" href="../../css/one.css">
+<script type="text/javascript" language="javascript"
+	src="../../js/jquery.js"></script>
+<script type="text/javascript" language="javascript"
+	src="../../js/common.js"></script>	
+<script type="text/javascript" language="javascript"
+	src="../../js/platform.js"></script>
 <script>
-	function search_data() {
-		var name = ($("#Sname").val());
-		$("#base_form").submit();
+	function pages(pageNum) {
+		var by = ($("#by").val());
+		var name = ($("#name").val());
+		var g2 = ($("#textpage").val());
+		if (g2 == undefined) {
+			g2 = 1;
+		}
+		if (!isNaN($("#textpage").val())) {
+		} else {
+			alert("请输入数字");
+			return;
+		}
+		if (parseInt($("#textpage").val()) <= 0) {
+			alert("请输入正整数");
+			return;
+		}
+		if ($("#textpage").val() > pageNum) {
+			alert("输入的页数超过最大页数");
+			return;
+		}
+		window.location.href = "/${web}/supplies/list/" + g2 + "?name="+ name;
+	}
 
+	function page(num) {
+		var name = $("#name").val();
+		var by = ($("#by").val());
+		window.location.href = "/${web}/supplies/list/" + num + "?name=" + name;
+	}
+
+	function sub(){
+		var name = $("#name").val(); 
+		window.location.href= "/${web}/supplies/list/1"+"?name="+name
 	}
 </script>
 </head>
@@ -49,8 +86,8 @@
 dataType="html" enctype="multipart/form-data" class="Page-Form">						
 <div class="module s-clear u-lump-sum p19">
 <div class="u-sum-right">
-				  <input class="ui-input" type="text" value="" name="name" id="Sname" data-is="isAmount isEnough" autocomplete="off" disableautocomplete  placeholder="物料名称"/>
-                  <input type="submit" id="subWithdraw" class="block-btn" value="查询">
+		<input class="ui-input" type="text" value="${name!''}" id="name" data-is="isAmount isEnough" autocomplete="off" disableautocomplete  placeholder="物料名称"/>
+        <input type="button" id="subWithdraw" class="block-btn" value="查询" onclick="sub();">
 </div>
 </div>
 </form>
@@ -102,28 +139,40 @@ dataType="html" enctype="multipart/form-data" class="Page-Form">
 															<td width="16%">
 																<div class="th-md">创建时间</div>
 															</td>
-
 														</tr>
-														<#list list as item>
-														<tr class="uplan-tanle-content">
-															<td width="22%">
-																<div class="content-head left-text u-plan-name">
-																<a href="../suppliesDetail?supplies_id=${item.id!''}">${item.name}<a>	
-																</div>
-															</td>
-															<td width="15%">
-																<div class="content-head">${item.suppliesType}</div>
-															</td>
-															<td width="16%">
-																<div class="content-head"><#setting
-																	date_format="yyyy-MM-dd HH:MM"> ${item.createTime?date}
-																</div>
-															</td>
-														</tr>
-														</#list>
 													</tbody>
 												</table>
-											</div>
+												<#list list as item>
+														<span style="width: 306px; height: 35px; " class="ui-list-field text-center w80 fn-left" >
+															<a href="../suppliesDetail?supplies_id=${item.id!''}">
+															${item.name}
+															</a>
+														</span>
+														
+														 <span style="width: 208px; height: 35px; "
+															class="ui-list-field text-center  fn-left">
+															${item.suppliesType}
+														
+														 </span>
+														 <span
+															style="width: 224px; height: 35px; "
+															class="ui-list-field text-center w80 fn-left">
+														<#setting
+																	date_format="yyyy-MM-dd HH:MM"> ${item.createTime?date}
+														 </span> 
+												</li>
+												</#list> 
+												<!-- 分页 -->
+												<table class="pag_tbl"
+													style="width: 100%; border-width: 0px; margin-top: 10px;">
+													<tr>
+														<td style="width: 70%; text-align: right;">
+															<div id="numpage" style="float: right;">
+															${paginationHTML!''}	 
+															</div>
+														</td>
+													</tr>
+												</table>
 										</div>
 									</div>
 								</div>
@@ -139,10 +188,9 @@ dataType="html" enctype="multipart/form-data" class="Page-Form">
 		<#include "/menu/foot.ftl" />
 		<!--底部DIV -->
 	</div>
+
 <script type="text/javascript" language="javascript"
-	src="../../js/jquery.js"></script>
-<script type="text/javascript" language="javascript"
-	src="../../js/jquery.form.js"></script>
+	src="../../js/jquery.ui.dialog.js"></script>
 <script type="text/javascript" language="javascript"
 	src="../../js/index.js"></script>
 </body>

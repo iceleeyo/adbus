@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>物料列表</title>
+<title>产品查询</title>
 
 <link rel="stylesheet" type="text/css" href="../../css/sea.css">
 <link rel="stylesheet" type="text/css" href="../../css/one.css">
@@ -13,7 +13,7 @@
 	media="screen" />
 </head>
 <body>
-<body>
+<#include "/menu/webapp.ftl" />
 	<div class="page-container">
 		<!--上部DIV-->
 		<#include "/menu/top.ftl" />
@@ -43,27 +43,41 @@
 							<form data-name="withdraw" name="userForm2" id="userForm2"
 								class="ui-form" method="post" action="saveContract"
 								enctype="multipart/form-data">
-
-
-
-								<!--合同列表展示-->
-								<div class="List-Table">
-									<table width="100%">
-										<tr>
-											<td scope="col">素材名称</td>
-											<td scope="col">素材类型</td>
-											<td scope="col">创建时间</td>
+								<!--产品列表展示-->
+								<div class="uplan-table-box">
+									<table width="100%" class="uplan-table">
+										<tr class="uplan-table-th">
+											<td width="22%">
+												<div class="th-head">素材名称</div>
+											</td>
+											<td width="15%">
+												<div class="th-md">素材类型</div>
+											</td>
+											<td width="16%">
+												<div class="th-md">创建时间</div>
+											</td>
 										</tr>
-										<tbody>
-											<#list list as item>
-											<tr>
-												<td>${item.name}</td>
-												<td>${item.id}</td>
-
-											</tr>
-											</#list>
-										</tbody>
-									</table>
+										</table>
+										<#list list as item>
+												<li class="ui-list-item dark">
+														<span style="width: 306px; height: 35px; "
+															class="ui-list-field text-center w80 fn-left" >
+															${item.name}
+														</span>
+														 <span style="width: 208px; height: 35px; "
+															class="ui-list-field text-center  fn-left">
+															${item.id}
+														
+														 </span>
+														 <span
+															style="width: 224px; height: 35px; "
+															class="ui-list-field text-center w80 fn-left">
+														<#setting date_format="yyyy-MM-dd HH:MM"> 
+														 </span> 
+												</li>
+										</#list> 
+									
+								</div>
 							</form>
 						</div>
 					</div>
@@ -72,9 +86,11 @@
 			</div>
 		</div>
 	</div>
-	</div>
-      <script type="text/javascript" language="javascript" src="../../js/jquery.js"></script>
-	  <script type="text/javascript" language="javascript" src="../../js/jquery.form.js"></script>
-	  <script type="text/javascript" language="javascript" src="../../js/index.js"></script>
+	<script type="text/javascript" language="javascript"
+		src="../../js/jquery.js"></script>
+	<script type="text/javascript" language="javascript"
+		src="../../js/jquery.form.js"></script>
+	<script type="text/javascript" language="javascript"
+		src="../../js/index.js"></script>
 </body>
 </html>
