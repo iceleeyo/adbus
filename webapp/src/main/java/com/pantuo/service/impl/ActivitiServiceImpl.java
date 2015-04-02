@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 
 import scala.collection.mutable.StringBuilder;
 
-
 //import com.dumbster.smtp.SimpleSmtpServer;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Order;
@@ -62,8 +61,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 		long c = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS).taskCandidateUser(userid).count();
 		page.setTotal((int) c);
 		//根据当前用户的id查询代办任务列表(已经签收)
-			List<Task> taskAssignees = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS)
-					.taskAssignee(userid).includeProcessVariables().orderByTaskPriority().desc().orderByTaskCreateTime().desc().list();
+		List<Task> taskAssignees = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS)
+				.taskAssignee(userid).includeProcessVariables().orderByTaskPriority().desc().orderByTaskCreateTime()
+				.desc().list();
 		//根据当前用户id查询未签收的任务列表
 		List<Task> taskCandidates = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS)
 				.taskCandidateUser(userid).includeProcessVariables().orderByTaskPriority().desc()
@@ -144,30 +144,34 @@ public class ActivitiServiceImpl implements ActivitiService {
 				r = new Pair<Boolean, String>(false, "任务属主不匹配!");
 			}
 		} else {
-			r = new Pair<Boolean, String>(false, "任务状态不存在!");
+			r = new Pair<Boolean, String>(false, "任务已完成!");
 		}
 		if (task != null) {
 			debug(task.getProcessInstanceId());
 		}
-		return r;
+		return r = new Pair<Boolean, String>(false, "办理成功!");
 
 	}
 
-	public Pair<Boolean, String> handle(String orderid, String taskid,
-			String comment, String isok, UserDetail user) {
+	public Pair<Boolean, String> handle(String orderid, String taskid, String comment, String isok, UserDetail user) {
 		Pair<Boolean, String> r = null;
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 		if (task != null) {
-		    Map<String, Object> info = taskService.getVariables(task.getId());
-		    info.put("paymentResult",true);
+			Map<String, Object> info = taskService.getVariables(task.getId());
+			info.put("paymentResult", true);
 			taskService.claim(task.getId(), user.getUsername());
-		    taskService.complete(task.getId(),info);
-		    r = new Pair<Boolean, String>(true, "操作成功!");
+			taskService.complete(task.getId(), info);
+			r = new Pair<Boolean, String>(true, "操作成功!");
 		} else {
 			r = new Pair<Boolean, String>(false, "任务状态不存在!");
 		}
-	       return r;
+		return r;
 	}
+	public Pair<Boolean, String> complete(String taskId, Map<String, Object> variables, UserDetail u) {
+		taskService.complete(taskId, variables);
+		return new Pair<Boolean, String>(true, StringUtils.EMPTY);
+	}
+
 	public String reset(String p) {
 		StringBuilder sb = new StringBuilder();
 		List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery()
@@ -191,25 +195,25 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		return sb.toString();
 	}
-	
+
 	public OrderView findOrderViewByTaskId(String taskid) {
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
-		ExecutionEntity executionEntity=(ExecutionEntity) runtimeService.createExecutionQuery().executionId(task.getExecutionId()).processInstanceId(task.getProcessInstanceId()).singleResult();
-		//获取当前正在执行的节点
-		String activityId = executionEntity.getActivityId();
 		String processInstanceId = task.getProcessInstanceId();
-		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
-		String businessKey = processInstance.getBusinessKey();
+		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
+				.processInstanceId(processInstanceId).singleResult();
 		OrderView v = new OrderView();
-		int orderid=(Integer)taskService.getVariables(taskid).get(ORDER_ID);
+
+		Map<String, Object> variables = taskService.getVariables(taskid);
+		int orderid = (Integer) variables.get(ORDER_ID);
 		Order order = orderService.selectOrderById(orderid);
 		v.setOrder(order);
 		v.setTask(task);
 		v.setProcessInstance(processInstance);
 		v.setProcessInstanceId(processInstance.getId());
 		v.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
-		Map<String, Object> variables = task.getProcessVariables();
+		//Map<String, Object> variables = task.getProcessVariables();
 		v.setVariables(variables);
 		return v;
 	}
+
 }

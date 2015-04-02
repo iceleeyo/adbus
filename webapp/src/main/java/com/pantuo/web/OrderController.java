@@ -2,19 +2,15 @@ package com.pantuo.web;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
-import org.activiti.engine.identity.User;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
-import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.pantuo.mybatis.domain.Order;
 import com.pantuo.service.ActivitiService;
@@ -35,7 +29,7 @@ import com.pantuo.service.ProductService;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
-import com.pantuo.web.view.ContractView;
+import com.pantuo.util.Variable;
 import com.pantuo.web.view.OrderView;
 
 /**
@@ -60,28 +54,30 @@ public class OrderController {
 	private RuntimeService runtimeService;
 	@Autowired
 	ActivitiService activitiService;
-	
+
 	@Autowired
 	private TaskService taskService;
-	
+
 	@RequestMapping(value = "/buypro", produces = "text/html;charset=utf-8")
 	public String buypro(HttpServletRequest request) {
 		return "creOrder";
 	}
 
 	@RequestMapping(value = "/payview", produces = "text/html;charset=utf-8")
-	public String payview(Model model,@RequestParam(value = "taskid", required = true) String taskid, @RequestParam(value = "orderid", required = true) String orderid,HttpServletRequest request) {
+	public String payview(Model model, @RequestParam(value = "taskid", required = true) String taskid,
+			@RequestParam(value = "orderid", required = true) String orderid, HttpServletRequest request) {
 		model.addAttribute("orderid", orderid);
 		model.addAttribute("taskid", taskid);
 		return "payview";
 	}
+
 	@RequestMapping(value = "/handleView", produces = "text/html;charset=utf-8")
-	public String handleView(Model model,@RequestParam(value = "taskid", required = true) String taskid, @RequestParam(value = "orderid", required = true) String orderid,HttpServletRequest request) {
+	public String handleView(Model model, @RequestParam(value = "taskid", required = true) String taskid,
+			@RequestParam(value = "orderid", required = true) String orderid, HttpServletRequest request) {
 		model.addAttribute("orderid", orderid);
 		model.addAttribute("taskid", taskid);
 		return "handleView";
 	}
-
 
 	@RequestMapping(value = "/list/{pageNum}", method = RequestMethod.GET)
 	public String contralist(Model model,
@@ -102,27 +98,32 @@ public class OrderController {
 			HttpServletResponse response) {
 		return activitiService.payment(Integer.parseInt(orderid), taskid, Request.getUser(request));
 	}
-	@RequestMapping(value="claim",method={RequestMethod.GET})
+
+	@RequestMapping(value = "claim", method = { RequestMethod.GET })
 	@ResponseBody
 	public Pair<Boolean, String> claimTask(@RequestParam(value = "orderid", required = true) String orderid,
-			@RequestParam(value = "taskid", required = true) String taskid,HttpServletRequest request, HttpServletResponse response){
+			@RequestParam(value = "taskid", required = true) String taskid, HttpServletRequest request,
+			HttpServletResponse response) {
 		taskService.claim(taskid, Request.getUserId(request));
 		return new Pair<Boolean, String>(true, "任务签收成功!");
 	}
-	
+
 	@RequestMapping(value = "/handleView2", produces = "text/html;charset=utf-8")
-	public String HandleView2(Model model,@RequestParam(value = "taskid", required = true) String taskid, HttpServletRequest request) {
-		OrderView v=activitiService.findOrderViewByTaskId(taskid);
+	public String HandleView2(Model model, @RequestParam(value = "taskid", required = true) String taskid,
+			HttpServletRequest request) {
+
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
-		ExecutionEntity executionEntity=(ExecutionEntity) runtimeService.createExecutionQuery().executionId(task.getExecutionId()).processInstanceId(task.getProcessInstanceId()).singleResult();
-		//获取当前正在执行的节点
+		ExecutionEntity executionEntity = (ExecutionEntity) runtimeService.createExecutionQuery()
+				.executionId(task.getExecutionId()).processInstanceId(task.getProcessInstanceId()).singleResult();
+
+		OrderView v = activitiService.findOrderViewByTaskId(taskid);
 		String activityId = executionEntity.getActivityId();
 		model.addAttribute("taskid", taskid);
 		model.addAttribute("orderview", v);
 		model.addAttribute("activityId", activityId);
 		return "handleView2";
 	}
-	
+
 	@RequestMapping(value = "handle")
 	@ResponseBody
 	public Pair<Boolean, String> handle(@RequestParam(value = "orderid", required = false) String orderid,
@@ -130,7 +131,20 @@ public class OrderController {
 			@RequestParam(value = "isok", required = false) String isok,
 			@RequestParam(value = "comment", required = false) String comment, HttpServletRequest request,
 			HttpServletResponse response) {
-		return activitiService.handle(orderid, taskid,comment, isok,Request.getUser(request));
+		return activitiService.handle(orderid, taskid, comment, isok, Request.getUser(request));
+	}
+
+	/**
+	 * 根据任务Id完成任务
+	 * @param userid
+	 * @return
+	 */
+	@RequestMapping(value = "/{taskId}/complete", method = { RequestMethod.GET, RequestMethod.POST })
+	@ResponseBody
+	public Pair<Boolean, String> completeTask(@PathVariable("taskId") String taskId, Variable variable,
+			HttpServletRequest request) {
+		return activitiService.complete(taskId, variable.getVariableMap(), Request.getUser(request));
+
 	}
 
 	@RequestMapping(value = "creOrder", method = RequestMethod.POST)
