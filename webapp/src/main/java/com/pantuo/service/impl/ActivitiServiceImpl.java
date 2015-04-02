@@ -167,9 +167,15 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		return r;
 	}
+
 	public Pair<Boolean, String> complete(String taskId, Map<String, Object> variables, UserDetail u) {
-		taskService.complete(taskId, variables);
-		return new Pair<Boolean, String>(true, StringUtils.EMPTY);
+		Pair<Boolean, String> r = new Pair<Boolean, String>(true, StringUtils.EMPTY);
+		try {
+			taskService.complete(taskId, variables);
+		} catch (Exception e) {
+			r = new Pair<Boolean, String>(false, StringUtils.EMPTY);
+		}
+		return r;
 	}
 
 	public String reset(String p) {
