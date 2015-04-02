@@ -11,6 +11,8 @@
 <link rel="stylesheet" type="text/css" href="../css/account.css">
 
 <title>公交广告交易系统</title>
+
+<#include "/menu/webapp.ftl" />
 <script type="text/javascript">
 	
 	$(function() {
@@ -21,6 +23,63 @@
 function go_back() {
 		history.go(-1);
 	}
+
+
+/**
+ * 完成任务
+ * @param {Object} taskId
+ */
+function complete(taskId, variables) {
+	// 转换JSON为字符串
+    var keys = "", values = "", types = "";
+	if (variables) {
+		$.each(variables, function() {
+			if (keys != "") {
+				keys += ",";
+				values += ",";
+				types += ",";
+			}
+			keys += this.key;
+			values += this.value;
+			types += this.type;
+		});
+	}
+	
+	var url="/${web}/order/"+taskId+"/complete";
+	// 发送任务完成请求
+    $.post(url,{
+        keys: keys,
+        values: values,
+        types: types
+    },function(data){
+    	alert(data=="success"?"执行成功!":"执行失败!");
+    	var a = document.createElement('a');
+    	a.href='/${web}/order/myTask/1';
+    	a.target = 'main';
+    	document.body.appendChild(a);
+    	a.click();
+    });
+    
+}
+
+//部门经理审核
+function approve1(){
+	var approve1Result=$('#approve1 :radio[name=approve1Result]:checked').val();
+	var approve1Comments=$('#approve1 #approve1Comments').val();
+	complete('${taskid}',[
+		{
+			key: 'approve1Result',
+			value: approve1Result,
+			type: 'B'
+		},
+		{
+			key: 'approve1Comments',
+			value: approve1Comments,
+			type: 'S'
+		}
+	]);
+}
+
 
 function check() {
 	var ctx = '<%=request.getContextPath() %>';
@@ -114,7 +173,12 @@ function check() {
 							</div>	
 							<!-- 世巴初审 -->
                              <div id="approve1" style="display: none;">	
-                                                                                        世巴初审	
+                                 世巴初审：<br>
+				            <textarea name="approve1Comments" id="approve1Comments"></textarea><br>
+							<input type="radio" name="approve1Result" value="true" checked="checked">素材无正常
+				            <input type="radio" name="approve1Result" value="false" >素材异常
+				            <br>
+				            <button onclick="approve1();" >提交</button>
 							 </div> 
 							 
 							  <!-- 北广审核并填写物料ID等信息 -->
