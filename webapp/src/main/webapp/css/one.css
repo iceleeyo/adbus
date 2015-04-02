@@ -8,13 +8,13 @@ html {
 }
 
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section
-	{
+{
 	margin: 0;
 	padding: 0
 }
 
 article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section
-	{
+{
 	display: block
 }
 
@@ -2446,8 +2446,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 
 .ui-form {
 	font-size: 14px;
-	line-height: 1.5;
-	height: 470px;
+	line-height: 1.5
 }
 
 .ui-form,.ui-form * {
@@ -2884,6 +2883,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 
 .ui-list-s .ui-list-item {
 	border-bottom: 1px solid #efefef
+	list-style: none;
 }
 
 .ui-list-s .ui-list-item.last {
@@ -2891,12 +2891,14 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 }
 
 .ui-list-s .ui-list-item,.ui-list-s .ui-list-item:hover {
-	background: #fff
+	background: #fff;
+  list-style: none
 }
 
 .ui-list-s .ui-list-item.dark,.ui-list-s .ui-list-item.dark:hover,.table-tr-color,table tr.odd
-	{
-	background: #f6fbfd
+{
+	background: #f6fbfd;
+	list-style: none
 }
 
 .ui-list-s .ui-list-item.clickable {
@@ -6793,3 +6795,4 @@ a.ui-side-sub-item-link:hover {
 .grid_10 {
   width: 780px;
 }
+

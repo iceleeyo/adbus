@@ -9,12 +9,12 @@
 * {padding:0;margin:0;}
 
 /* List Table */
-.List-Table table {background-color:#fff;border-collapse:collapse;border-spacing:0;border:1px solid #1fa58b;table-layout:fixed;}
+.List-Table table {background-color:#fff;border-collapse:collapse;border-spacing:0;border:1px solid #3BB3DA;table-layout:fixed;}
 .List-Table table tr {background-color:#f9f9f9;}
 .List-Table table tr:hover {background-color:#fff;}
-.List-Table table th {background-color:#1fa58b;font-size:13px;font-weight:normal;line-height:35px;color:#fff;overflow:hidden;border:0;text-overflow:ellipsis;white-space:nowrap;}
+.List-Table table th {background-color:#3BB3DA;font-size:13px;font-weight:normal;line-height:35px;color:#fff;overflow:hidden;border:0;text-overflow:ellipsis;white-space:nowrap;}
 .List-Table table td {text-align:center;height:35px;border-top:1px solid #e7e7e7;}
-.List-Table table td a {color:#17bd9b;text-decoration:none;}
+.List-Table table td a {color:#3BB3DA;text-decoration:none;}
 .List-Table table td a:hover {text-decoration:underline;}
 .List-Table table td div {height:30px;float:left;}
 .List-Table table td div a {line-height:30px;}
@@ -28,6 +28,15 @@
 .List-Table table td.form {background-color:#fff;text-align:left;padding:0 20px;}
 .List-Table table td.form input {line-height:34px;width:250px;height:34px;padding:0 10px;border:1px solid #ccc;}
 
+/* jDialog */
+#jDialog {background-color:#fff;padding:40px;border:1px solid #3BB3DA;position:absolute;}
+#jDialog .jDialog_Title {font-size:16px;font-weight:bold;color:#3BB3DA;line-height:19px;}
+#jDialog_Content {margin-top:10px;overflow:hidden;}
+#jDialog_Content .Page-Loading {height:32px;}
+#jDialog .jDialog_Buttons {text-align:center;margin-top:20px;}
+#jDialog .jDialog_Buttons button {background-color:#3BB3DA;color:#fff;font-size:14px;font-family:'Microsoft Yahei',Arial,Helvetica,sans-serif,Verdana,'Trebuchet MS';line-height:37px;height:37px;padding:0 30px;margin:0 20px;border:0;cursor:pointer;}
+#jDialog .jDialog_Buttons button:hover {background-color:#17bd9b;}
+#jDialog_Overlay {background-color:#000;position:fixed;top:0;left:0;width:100%;height:100%;padding:0;margin:0;filter:alpha(opacity=50);-moz-opacity:0.5;opacity:0.5;}
 .selcs{
 border:1px solid #D1E9E9;	
 height: 35px;
@@ -62,7 +71,7 @@ width: 150px;
 	margin-left: 3px;
 	float: left;
 	font-size: 12px;
-	color: #17bd9b;
+	color: #3BB3DA;
 }
 
 
@@ -71,7 +80,7 @@ width: 150px;
 	height:28px;
 	line-height:28px;
 	text-align: center;
-	color: #17bd9b;
+	color: #3BB3DA;
 }
 
 #numpage ul li.disabled {
@@ -80,7 +89,7 @@ width: 150px;
 	line-height:31px;
 	text-align: center;
 	border: 1px solid #DDD;
-	color: #17bd9b;
+	color: #3BB3DA;
 }
 
 
@@ -88,7 +97,7 @@ width: 150px;
 	text-decoration: none;
 	display: block;
 	border: 1px solid #DDD;
-	color: #17bd9b;
+	color: #3BB3DA;
 }
 
 #numpage ul li a.number{
@@ -130,33 +139,33 @@ width: 150px;
 	width: 220px;
 	text-align: left;
 	letter-spacing: 2px;
-	color: #17bd9b;
+	color: #3BB3DA;
 	vertical-align: bottom;
 }
 
 #numpage ul li.textjs span.currpage {
 	width: 40px;
 	float: left;
-	color: #17bd9b;
+	color: #3BB3DA;
 }
 
 #numpage ul li.textjs span.pagecount {
 	width: 50px;
 	float: left;
-	color: #17bd9b;
+	color: #3BB3DA;
 }
 
 #numpage ul li.textjs span.go {
 	margin-left: 5px;
 	cursor: pointer;
 	float: left;
-	color: #17bd9b;
+	color: #3BB3DA;
 }
 
 #numpage ul li.textjs span.skip {
 	width: 100px;
 	float: left;
-	color: #17bd9b;
+	color: #3BB3DA;
 }
 
 #numpage ul li.textjs input {
@@ -167,7 +176,7 @@ width: 150px;
 }
 
 .button_kind{
-	background-color: #1fa58b;
+	background-color: #3BB3DA;
 color: #fff;
 font-size: 12px;
 font-family: 'Microsoft Yahei',Arial,Helvetica,sans-serif,Verdana,'Trebuchet MS';
@@ -180,7 +189,7 @@ cursor: pointer;
 width: 100px;
 	
 }
-.button_kind:hover {background-color:#17bd9b;}
+.button_kind:hover {background-color:#3BB3DA;}
 
 .inputdevice{
 	width:50px;
