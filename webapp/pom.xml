@@ -16,6 +16,18 @@
     <name>AdBus webapp project</name> 
 
     <build>
+    
+   		 <resources>
+            <resource>
+                <directory>${project.basedir}/src/main/resources</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+        
+        
         <finalName>adbus</finalName>
 		<testResources>
 			<testResource>
@@ -343,6 +355,11 @@
         </dependency>
 
 
+
+
+
+ 
+
         <!-- viewer template -->
         <dependency>
             <groupId>org.freemarker</groupId>
@@ -401,13 +418,13 @@
 			<groupId>javax.activation</groupId>
 			<artifactId>activation</artifactId>
 			<version>1.1</version>
-			<scope>test</scope>
+			 
 		</dependency>
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>1.4.1</version>
-			<scope>test</scope>
+			 
 		</dependency>
         <dependency>
             <groupId>com.h2database</groupId>
