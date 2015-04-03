@@ -1,6 +1,6 @@
 <#assign web="webapp">
 
-<link rel="stylesheet" type="text/css" href="/${web}/css/page.css">
+
 <script type="text/javascript" language="javascript"
 	src="/${web}/js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" language="javascript"
@@ -15,5 +15,5 @@
 <link rel="stylesheet" type="text/css" href="/${web}/css/page.css">
 <link rel="stylesheet" type="text/css" href="/${web}/css/account.css">
 <link rel="stylesheet" type="text/css" href="/${web}/css/sea.css">
-<link rel="stylesheet" type="text/css" href="/${web}/css/one.css">	
+<link rel="stylesheet" type="text/css" href="/${web}/css/one.css">		
 		

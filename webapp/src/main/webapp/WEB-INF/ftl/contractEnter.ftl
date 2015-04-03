@@ -6,12 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>合同录入</title>
 
-<link rel="stylesheet" type="text/css" href="/${web}/css/sea.css">
-<link rel="stylesheet" type="text/css" href="/${web}/css/one.css">
-<link rel="stylesheet" type="text/css" href="/${web}/css/account.css">
-<script type="text/javascript" language="javascript" src="/${web}/js/jquery-1.8.3.min.js"></script>
-<script type="text/javascript" language="javascript" src="/${web}/js/jquery.form.js"></script>
-<script type="text/javascript" language="javascript" src="/${web}/js/platform.js"></script>
 <script type="text/javascript">
 	i = 2;
 	j = 2;

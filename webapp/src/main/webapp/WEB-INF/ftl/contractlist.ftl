@@ -5,7 +5,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>合同列表</title>
-
+<link rel="stylesheet" type="text/css" href="/${web}/css/page.css">
+<link rel="stylesheet" type="text/css" href="/${web}/css/account.css">
+<link rel="stylesheet" type="text/css" href="/${web}/css/sea.css">
+<link rel="stylesheet" type="text/css" href="/${web}/css/one.css">	
 <script type="text/javascript" >
 	function pages(pageNum) {
 		var pattern = /^\d+$/;

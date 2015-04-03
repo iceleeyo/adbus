@@ -3,7 +3,7 @@
 <html>
 <head>
 <title>物料上传</title>
-=
+
 <script type="text/javascript">
 	i = 2;
 	j = 2;
