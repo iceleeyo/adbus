@@ -46,6 +46,12 @@ public class ActivitiConfiguration {
     
     @Value("${activiti.smtp.port}")
     private int smtpPort;
+    
+    @Value("${activiti.smtp.mailServerUsername}")
+    private String mailServerUsername;
+    
+    @Value("${activiti.smtp.mailServerPassword}")
+    private String mailServerPassword;
 
     @Bean
     public SpringProcessEngineConfiguration processEngineConfiguration() throws IOException {
@@ -55,6 +61,8 @@ public class ActivitiConfiguration {
         conf.setDatabaseSchemaUpdate(schemaUpdate);
         conf.setMailServerHost(smtpHost);
         conf.setMailServerPort(smtpPort);
+        conf.setMailServerUsername(mailServerUsername);
+        conf.setMailServerPassword(mailServerPassword);
 //        conf.setJpaPersistenceUnitName("adbus-pu");
         conf.setJpaHandleTransaction(true);
         conf.setJpaCloseEntityManager(true);
@@ -67,7 +75,7 @@ public class ActivitiConfiguration {
 
         PathMatchingResourcePatternResolver r = new PathMatchingResourcePatternResolver();
         conf.setDeploymentResources(r.getResources(autoDeployPath));
-
+        conf.buildProcessEngine();
         return conf;
     }
     
@@ -77,11 +85,11 @@ public class ActivitiConfiguration {
     	factoryBean.setProcessEngineConfiguration(conf);
     	return factoryBean;
     }
-
-//    @Bean
-//    ProcessEngine processEngine(ProcessEngineFactoryBean factoryBean) throws Exception {
-//        return factoryBean.getObject();
-//    }
+    /*
+    @Bean
+    ProcessEngine processEngine(ProcessEngineFactoryBean factoryBean) throws Exception {
+        return factoryBean.getObject();
+    }*/
 
     @Bean
     RepositoryService repositoryService (ProcessEngine engine) {

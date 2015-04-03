@@ -12,6 +12,7 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
+import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import scala.collection.mutable.StringBuilder;
+
 
 //import com.dumbster.smtp.SimpleSmtpServer;
 import com.pantuo.dao.pojo.UserDetail;
@@ -100,6 +102,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 	}
 
 	public void startProcess(UserDetail u, Order order) {
+	//	Deployment deployment = repositoryService.createDeployment()
+	//			.addClasspathResource("classpath*:/com/pantuo/activiti/autodeploy/order.bpmn20.xml").deploy();
 		Map<String, Object> initParams = new HashMap<String, Object>();
 		initParams.put("_owner", u);
 		initParams.put(ORDER_ID, order.getId());
@@ -171,6 +175,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 	public Pair<Boolean, String> complete(String taskId, Map<String, Object> variables, UserDetail u) {
 		Pair<Boolean, String> r = new Pair<Boolean, String>(true, StringUtils.EMPTY);
 		try {
+			Map<String, Object> variables2 = taskService.getVariables(taskId);
+		//	variables.putAll(variables2);
+			
 			taskService.complete(taskId, variables);
 		} catch (Exception e) {
 			r = new Pair<Boolean, String>(false, StringUtils.EMPTY);
