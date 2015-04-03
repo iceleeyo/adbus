@@ -130,7 +130,7 @@
 													<td style="width: 113px;">
 														<div class="th-head">下单用户</div>
 													</td>
-													<td style="width: 139px;">
+													<td style="width: 121px;">
 														<div class="th-md">套餐号</div>
 													</td>
 													<td style="width: 134px;">
@@ -142,7 +142,7 @@
 													<td style="width: 89px;">
 														<div class="th-md">当前环节</div>
 													</td>
-													<td style="width: 39px; ">
+													<td style="width: 67px; ">
 														<div class="th-md">操作</div>
 													</td>
 												</tr>
