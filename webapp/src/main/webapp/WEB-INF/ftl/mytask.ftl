@@ -127,19 +127,19 @@
 										<div class="uplan-table-box">
 											<table width="100%" class="uplan-table">
 												<tr class="uplan-table-th">
-													<td style="width: 113px;">
+													<td style="width: 98px;">
 														<div class="th-head">下单用户</div>
 													</td>
-													<td style="width: 121px;">
+													<td style="width: 112px;">
 														<div class="th-md">套餐号</div>
 													</td>
-													<td style="width: 134px;">
+													<td style="width: 111px;">
 														<div class="th-md">素材号</div>
 													</td>
-													<td style="width: 123px;">
+													<td style="width: 103px;">
 														<div class="th-md">创建时间</div>
 													</td>
-													<td style="width: 89px;">
+													<td style="width: 115px;">
 														<div class="th-md">当前环节</div>
 													</td>
 													<td style="width: 67px; ">
@@ -151,17 +151,17 @@
 											<#list list as item>
 											<li class="ui-list-item dark">
 												<div class="ui-list-item-row fn-clear">
-													<span style="width: 123px; height: 35px;"
+													<span style="width: 113px; height: 35px;"
 														class="ui-list-field text-center w80 fn-left">
 														${item.order.userId!''} </span> 
 														<span
-														style="width: 160px; height: 35px;"
+														style="width: 118px; height: 35px;"
 														class="ui-list-field text-center w80 fn-left"><em
 														class="value-small"> <a
 															href="/${web}/contract/contractDetail?contract_id=${item.id!''}">
 																${item.order.productId!''} </a>
 													</em> </span>
-													 <span style="width: 169px; height: 35px;"
+													 <span style="width: 148px; height: 35px;"
 														class="ui-list-field text-center w80 fn-left">
 														${item.order.suppliesId!''} </span> 
 														<span
@@ -172,7 +172,7 @@
 															${(item.order.createTime?date)!''} </em> </span>
 															
 													 <span
-														style="width: 67px; height: 35px;"
+														style="width: 140px; height: 35px;"
 														class="ui-list-field num-s text-center w120 fn-left"><em
 														class="value-small">
 														<a class="trace" href='/${web}/workflow/view/${item.task.executionId}/page/${item.task.processInstanceId}' title="点击查看流程图">${item.task.name }</a>
