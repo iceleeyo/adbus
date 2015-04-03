@@ -1,3 +1,9 @@
+<#include "/menu/webapp.ftl" />
+<script type="text/javascript">
+			function logout(){
+			   window.location.href = "/${web}/logout";
+			   }
+	</script>
 <div class="pg-header">
 				<div class="pg-header-top">
 					<div class="container-12 s-clear">
@@ -42,7 +48,7 @@
 										</div>
 									</div>
 								</div>
-								<a class="pg-nav-item s-left" href="#">[退出]</a>
+								<button class="pg-nav-item s-left" onclick="logout();">[退出]</button>
 								<!--<a class="pg-nav-item s-left" href="#">
 									<i class="icon-msg fsize-12">1</i>
 									消息
@@ -115,3 +121,4 @@
 					</div>
 				</div>
 			</div>
+	
