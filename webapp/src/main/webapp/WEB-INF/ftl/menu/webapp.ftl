@@ -6,7 +6,7 @@
 <script type="text/javascript" language="javascript"
 	src="/${web}/js/platform.js"></script>
 <script type="text/javascript" language="javascript"
-	src="/${web}/js/common.js"></script>	
+	src="/${web}/js/common.js"></script>
 <script type="text/javascript" language="javascript"
 	src="/${web}/js/jquery.ui.dialog.js"></script>
 <script type="text/javascript" language="javascript"

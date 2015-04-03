@@ -37,6 +37,18 @@
 		var by = ($("#by").val());
 		window.location.href = "/${web}/order/list/"+num; 
 	}
+	
+	function claim(orderid,taskid){
+ 	$.ajax({
+			url : "/${web}/order/claim?orderid="+orderid+"&taskid="+taskid,
+			type : "POST",
+			success : function(data) {
+				alert(data.left + " # " + data.right);
+				location.reload([true]);
+			}
+		}, "text");
+	  
+	}
 </script>
 </head>
 <body>
@@ -155,10 +167,10 @@
 														style="width: 170px; height: 35px;"
 														class="ui-list-field num-s text-center w120 fn-left">
 														<em class="value-small"> <#if
-															item.task.assignee?exists> <a
-															href="../handleView2?orderid=${(item.order.id)!''}&taskid=${(item.task.id)!''}">办理</a>
-															<#else> <a
-															href="../claim?orderid=${(item.order.id)!''}&taskid=${(item.task.id)!''}">签收</a>
+															item.task.assignee?exists> 
+															<a href="/${web}/order/handleView2?orderid=${(item.order.id)!''}&taskid=${(item.task.id)!''}">办理</a>
+															<#else>
+															<a href="javascript:;" onclick="claim('${(item.order.id)!''}','${(item.task.id)!''}');">签收</a>
 
 															</#if>
 													</em>

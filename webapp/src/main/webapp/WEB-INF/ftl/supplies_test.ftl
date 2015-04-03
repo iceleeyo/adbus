@@ -7,42 +7,31 @@
 <script type="text/javascript">
 	i = 2;
 	j = 2;
-	$(document)
-			.ready(
-					function() {
-
-						$("#btn_add2")
-								.click(
-										function() {
-											$("#newUpload2")
-													.append(
-															'<div id="div_'+j+'"><input  name="file_'+j+'" type="file"  style="margin-top:10px;" /><input type="button"  style="margin-top:10px;" value="删除"  onclick="del_2('
-																	+ j
-																	+ ')"/></div>');
-											j = j + 1;
-										});
-					});
+	$(document).ready(function() {$("#btn_add2").click(function() {
+		$("#newUpload2").append('<div id="div_'+j+'"><input  name="file_'+j+'" type="file"  style="margin-top:10px;" /><input type="button"  style="margin-top:10px;" value="删除"  onclick="del_2('
+		+ j + ')"/></div>');
+	j = j + 1;
+	});
 
 	function del_2(o) {
 		document.getElementById("newUpload2").removeChild(
 				document.getElementById("div_" + o));
 	}
 
-	function sub() {
-		$.ajax({
-			url : "put",
-			type : "POST",
-			contentType : "multipart/form-data",
-			data : $("#userForm2").serialize(),//formSerialize
-			success : function(data) {
-				alert(data.left + " # " + data.right);
-			}
-		}, "text");
-	}
+
 	function sub2() {
+		var name = ($("#name").val());
+		if(name==""){
+			jDialog.Alert("请填写物料名称");
+			return;
+		}
 		$('#userForm2').ajaxForm(function(data) {
-			alert(data.left + " # " + data.right);
+			jDialog.Alert(data.left + " # " + data.right);
 		}).submit();
+	}
+	
+	function Tchange(obj){
+		jDialog.Alert(obj.val());
 	}
 </script>
 </head>
@@ -95,33 +84,33 @@
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>素材标题</label> <input
-												class="ui-input" type="text" name="name" id="withdrawAmount"
+												class="ui-input" type="text" name="name" id="name"
 												data-is="isAmount isEnough" autocomplete="off"
 												disableautocomplete="">
 										</div>
 
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>素材类型</label> <select
-												class="ui-input" name="suppliesType">
-												<option value="video">video</option>
+												class="ui-form-required">*</span>素材类型</label>
+											<select class="ui-input" name="suppliesType" id="suppliesType" onchange="Tchange(this);">
+												<option value="video" selected="selected">video</option>
 												<option value="image">image</option>
 												<option value="info">info</option>
 											</select>
 										</div>
 
-										<div class="ui-form-item">
+										<div class="ui-form-item" id="text" style="display:none;">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>文本类型时 文本内容</label> <input
 												class="ui-input" type="text" name="infoContext"
-												id="withdrawAmount" data-is="isAmount isEnough"
+												id="infoContext" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
 										</div>
-										<div class="ui-form-item">
+										<div class="ui-form-item" id="file">
 											<label class="ui-label mt10">附件上传</label>
 											<div id="newUpload2">
 												<div id="div_1">
-													<input type="file" name="file">
+													<input type="file" name="file" id="Sfile">
 												</div>
 											</div>
 											<input type="button" id="btn_add2" value="增加一行"

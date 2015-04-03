@@ -31,10 +31,34 @@
 	}
 
 
-	function sub() {
+	function sub(){
+		var code = ($("#code").val());
+		var name = ($("#name").val());
+		var startDate = $("#startDate").val();
+		var endDate = ($("#endDate").val());
+		if(code==""){
+			jDialog.Alert("请填写合同号");
+			return;
+		}
+		if(name==""){
+			jDialog.Alert("请填写合同名称");
+			return;
+		}
+		if(startDate.length<1){
+			jDialog.Alert("请填写合同生效时间");
+			return;
+		}
+		if(endDate.length<1){
+			jDialog.Alert("请填写合同失效时间");
+			return;
+		}
+		if(endDate<startDate){
+			jDialog.Alert("失效时间不能小于生效时间");
+			return;
+		}
 		$('#userForm2').ajaxForm(function(data) {
 			jDialog.Alert(data.left + " # " + data.right);
-			/* window.location.href = "/${web}/contract/list/1" */
+			window.location.href = "/${web}/contract/list/1" 
 		}).submit();
 	}
 </script>
@@ -82,17 +106,21 @@
 								<div class="withdrawInputs">
 									<div class="inputs">
 										<div class="ui-form-item">
-											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>合同号</label> <input class="ui-input"
-												type="text" value="" name="contractCode" id="withdrawAmount"
+											<label class="ui-label mt10">
+											<span
+												class="ui-form-required">*
+											</span>合同号:
+											</label> 
+												<input class="ui-input"
+												type="text" name="contractCode" id="code"
 												data-is="isAmount isEnough" autocomplete="off"
 												disableautocomplete="">
 										</div>
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>合同名称</label> <input
-												class="ui-input" type="text" value="" name="contractName"
-												id="withdrawAmount" data-is="isAmount isEnough"
+												class="ui-form-required">*</span>合同名称:</label> <input
+												class="ui-input" type="text" name="contractName"
+												id="name" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
 											<p class="ui-term-placeholder"></p>
 
@@ -102,15 +130,15 @@
 
 										<div class="ui-form-item">
 											<label class="ui-label mt10">生效日期</label> <input
-												class="ui-input" type="date" value="" name="startDate1"
-												id="withdrawAmount" data-is="isAmount isEnough"
+												class="ui-input" type="date" name="startDate1"
+												id="startDate" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
 										</div>
 
 										<div class="ui-form-item">
 											<label class="ui-label mt10">失效日期</label> <input
-												class="ui-input" type="date" value="" name="endDate1"
-												id="withdrawAmount" data-is="isAmount isEnough"
+												class="ui-input" type="date" name="endDate1"
+												id="endDate" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
 										</div>
 
@@ -132,7 +160,7 @@
 											onclick="sub();" value="创建合同">
 									</div>
 								</div>
-			<div class="worm-tips">
+			<div class="worm-tips" >
             <div class="tips-title"><span class="icon"></span> 温馨提示</div>
 	          <ol>
               <li>1.请确保您输入的提现金额，以及银行帐号信息准确无误。</li>

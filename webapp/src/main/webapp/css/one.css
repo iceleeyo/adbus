@@ -46,7 +46,7 @@ th {
 	background: #f0f0f0
 }
 
-fieldset,img {
+fieldset,imgs {
 	border: 0
 }
 
@@ -646,11 +646,11 @@ html,body {
 	background-color: #f9f9f9
 }
 
-.color-dimgray-text {
+.color-dimgsray-text {
 	color: #696969
 }
 
-.color-dimgray-bg {
+.color-dimgsray-bg {
 	background-color: #696969
 }
 
@@ -678,11 +678,11 @@ html,body {
 	background-color: #464646
 }
 
-.rrdcolor-dimgray-text {
+.rrdcolor-dimgsray-text {
 	color: #555
 }
 
-.rrdcolor-dimgray-bg {
+.rrdcolor-dimgsray-bg {
 	background-color: #555
 }
 
@@ -916,7 +916,7 @@ a.black {
 	color: #000
 }
 
-a.rrd-dimgray,a.rrd-dimgray:link {
+a.rrd-dimgsray,a.rrd-dimgsray:link {
 	color: #555
 }
 
@@ -928,7 +928,7 @@ a.darkgray,a.darkgray:link {
 	color: #a9a9a9
 }
 
-a:hover,a.gray:hover,a.darkgray:hover,a.rrd-dimgray:hover,a.black:hover
+a:hover,a.gray:hover,a.darkgray:hover,a.rrd-dimgsray:hover,a.black:hover
 	{
 	color: #2ea7e0;
 	text-decoration: none
@@ -1720,12 +1720,12 @@ a.text {
 	height: 53px;
 	display: none;
 	cursor: pointer;
-	background: url(/static/img/backtop.png?v=dedd6) no-repeat;
+	background: url(/webapp/imgs/backtop.png?v=dedd6) no-repeat;
 	z-index: 999
 }
 
 .ui-goTop:hover {
-	background: url(/static/img/backtop-hover.png?v=50ef3) no-repeat
+	background: url(/webapp/imgs/backtop-hover.png?v=50ef3) no-repeat
 }
 
 .ui-icon {
@@ -1733,7 +1733,7 @@ a.text {
 	width: 14px;
 	height: 14px;
 	margin-left: 6px;
-	background: url(/static/img/icon-box.png?v=6a39e) no-repeat;
+	background: url(/webapp/imgs/icon-box.png?v=6a39e) no-repeat;
 	vertical-align: middle
 }
 
@@ -2007,7 +2007,7 @@ a.button,.button {
 .button-blue-border .icon-arrow {
 	width: 21px;
 	height: 21px;
-	background: url(/static/img/uplan-icon.png?v=063ff) no-repeat 0 0
+	background: url(/webapp/imgs/uplan-icon.png?v=063ff) no-repeat 0 0
 }
 
 .button-blue-border-on:hover {
@@ -2016,7 +2016,7 @@ a.button,.button {
 }
 
 .button-blue-border-on:hover .icon-arrow {
-	background: url(/static/img/uplan-icon.png?v=063ff) no-repeat -30px 0
+	background: url(/webapp/imgs/uplan-icon.png?v=063ff) no-repeat -30px 0
 }
 
 a.button-blue,a.button-blue:active,a.button-blue:hover {
@@ -2167,7 +2167,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	height: 200px;
 	color: #fff;
 	background-color: rgba(255, 255, 255, .7);
-	background-image: url(/static/img/loading.gif?v=1e2eb);
+	background-image: url(/webapp/imgs/loading.gif?v=1e2eb);
 	background-repeat: no-repeat;
 	background-position: center center;
 	border-radius: 5px;
@@ -2194,7 +2194,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 
 .ui-confirm-loading-text p.loading {
 	height: 50px;
-	background: url(/static/img/loading.gif?v=1e2eb) no-repeat center center
+	background: url(/webapp/imgs/loading.gif?v=1e2eb) no-repeat center center
 }
 
 .w80 {
@@ -2225,7 +2225,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 }
 
 .list-u-code {
-	background: url(/static/img/ucode.gif?v=48e35) no-repeat;
+	background: url(/webapp/imgs/ucode.gif?v=48e35) no-repeat;
 	display: inline-block;
 	height: 28px;
 	height: 25px \9;
@@ -2250,7 +2250,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 }
 
 .worm-tips .icon {
-	background: url(/static/img/input-icon/borrow-icon.gif?v=5989f)
+	background: url(/webapp/imgs/input-icon/borrow-icon.gif?v=5989f)
 		no-repeat;
 	background-position: -3px -75px;
 	display: inline-block;
@@ -2336,7 +2336,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 }
 
 .conform_pay_div .money-div .ui-form-item .use-ucode-btn {
-	position: static;
+	position: webapp;
 	margin-left: 10px
 }
 
@@ -2367,7 +2367,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 }
 
 .conform_pay_div .addCoupon .ui-selectdrop-dialog {
-	position: static
+	position: webapp
 }
 
 .conform_pay_div p label {
@@ -2497,7 +2497,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 
 .ui-form-item textarea {
 	border: 1px solid #c5c5c5;
-	background: url(/static/img/input_inner.png?v=e170d) repeat-x
+	background: url(/webapp/imgs/input_inner.png?v=e170d) repeat-x
 }
 
 .ui-form-item select {
@@ -2515,7 +2515,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 .ui-form-item .icon {
 	width: 25px;
 	height: 21px;
-	background: url(/static/img/input-icon/input-icon-all.png?v=4204d)
+	background: url(/webapp/imgs/input-icon/input-icon-all.png?v=4204d)
 		no-repeat;
 	position: absolute;
 	top: 12px;
@@ -2523,12 +2523,12 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 }
 
 .ui-form-item .input-bg-gray {
-	background: url(/static/img/input-icon/input-bg-all.png?v=959de) 0 0
+	background: url(/webapp/imgs/input-icon/input-bg-all.png?v=959de) 0 0
 		no-repeat
 }
 
 .ui-form-item .input-bg-red {
-	background: url(/static/img/input-icon/input-bg-all.png?v=959de) 0 -94px
+	background: url(/webapp/imgs/input-icon/input-bg-all.png?v=959de) 0 -94px
 		no-repeat
 }
 
@@ -2654,7 +2654,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	margin-top: 2px;
 	vertical-align: middle;
 	padding-right: 5px;
-	background-image: url(/static/img/ui-select.png?v=9ff4d);
+	background-image: url(/webapp/imgs/ui-select.png?v=9ff4d);
 	background-repeat: no-repeat
 }
 
@@ -2781,11 +2781,11 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 
 @font-face {
 	font-family: rei;
-	src: url(/static/fonts/rei.eot?v=c9f17);
-	src: url(/static/fonts/rei.eot?v=c9f17?#iefix)
-		format("embedded-opentype"), url(/static/fonts/rei.woff?v=2030d)
-		format("woff"), url(/static/fonts/rei.ttf?v=49260) format("truetype"),
-		url(/static/fonts/rei.svg#rei) format("svg");
+	src: url(/webapp/fonts/rei.eot?v=c9f17);
+	src: url(/webapp/fonts/rei.eot?v=c9f17?#iefix)
+		format("embedded-opentype"), url(/webapp/fonts/rei.woff?v=2030d)
+		format("woff"), url(/webapp/fonts/rei.ttf?v=49260) format("truetype"),
+		url(/webapp/fonts/rei.svg#rei) format("svg");
 	font-weight: 400;
 	font-style: normal
 }
@@ -2861,7 +2861,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	height: 200px;
 	color: #fff;
 	background-color: rgba(255, 255, 255, .7);
-	background-image: url(/static/img/loading.gif?v=1e2eb);
+	background-image: url(/webapp/imgs/loading.gif?v=1e2eb);
 	background-repeat: no-repeat;
 	background-position: center center;
 	border-radius: 5px;
@@ -3054,22 +3054,22 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 }
 
 .ui-icon-check-checked {
-	background: url(/static/img/icon-checked-blue-small.png?v=6adf8)
+	background: url(/webapp/imgs/icon-checked-blue-small.png?v=6adf8)
 		no-repeat center center
 }
 
 .ui-icon-check-unchecked,.ui-icon-check- {
-	background: url(/static/img/icon-unchecked-small.png?v=2ae6a) no-repeat
+	background: url(/webapp/imgs/icon-unchecked-small.png?v=2ae6a) no-repeat
 		center center
 }
 
 .ui-icon-gender-male {
-	background: url(/static/img/icon-male.png?v=25f5a) no-repeat center
+	background: url(/webapp/imgs/icon-male.png?v=25f5a) no-repeat center
 		center
 }
 
 .ui-icon-gender-female {
-	background: url(/static/img/icon-female.png?v=e1108) no-repeat center
+	background: url(/webapp/imgs/icon-female.png?v=e1108) no-repeat center
 		center
 }
 
@@ -3078,7 +3078,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	width: 30px;
 	height: 30px;
 	line-height: 30px;
-	background: url(/static/img/loantypes.png?v=a6728) no-repeat scroll left
+	background: url(/webapp/imgs/loantypes.png?v=a6728) no-repeat scroll left
 		top transparent
 }
 
@@ -3104,7 +3104,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	height: 18px;
 	line-height: 18px;
 	margin-right: 3px;
-	background: url(/static/img/loantypes-s.png?v=f05ec) no-repeat scroll
+	background: url(/webapp/imgs/loantypes-s.png?v=f05ec) no-repeat scroll
 		left top transparent;
 	vertical-align: middle
 }
@@ -3208,7 +3208,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	margin: 6px 12px 2px;
 	width: 9px;
 	height: 14px;
-	background: url(/static/img/breadcrumb-angle-right.png?v=86f26)
+	background: url(/webapp/imgs/breadcrumb-angle-right.png?v=86f26)
 		no-repeat center center
 }
 
@@ -3219,7 +3219,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	line-height: 44px;
 	font-size: 8px;
 	text-align: center;
-	background: url(/static/img/progressbar_mid.png?v=bd429)
+	background: url(/webapp/imgs/progressbar_mid.png?v=bd429)
 }
 
 .ui-progressbar-mid em {
@@ -3639,7 +3639,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	line-height: 34px;
 	text-align: center;
 	font-size: 8px;
-	background: url(/static/img/progressbar_small.png?v=f8704)
+	background: url(/webapp/imgs/progressbar_small.png?v=f8704)
 }
 
 .ui-progressbar-small em {
@@ -4121,7 +4121,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	line-height: 96px;
 	text-align: center;
 	font-size: 16px;
-	background: url(/static/img/progressbar_large.png?v=b9dbc)
+	background: url(/webapp/imgs/progressbar_large.png?v=b9dbc)
 }
 
 .ui-progressbar-large em {
@@ -4536,7 +4536,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	display: inline-block;
 	width: 18px;
 	height: 18px;
-	background: url(/static/img/icon-content.png?v=b87b8) no-repeat;
+	background: url(/webapp/imgs/icon-content.png?v=b87b8) no-repeat;
 	vertical-align: middle
 }
 
@@ -4615,7 +4615,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 .icon-calculator {
 	height: 28px;
 	width: 25px;
-	background: url(/static/img/input-icon/borrow-icon.gif?v=5989f)
+	background: url(/webapp/imgs/input-icon/borrow-icon.gif?v=5989f)
 		no-repeat scroll -27px -71px
 }
 
@@ -4644,7 +4644,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 }
 
 .icon-bill {
-	background: url(/static/img/account/bill/icon-bill.png?v=d445d)
+	background: url(/webapp/imgs/account/bill/icon-bill.png?v=d445d)
 		no-repeat
 }
 
@@ -4664,7 +4664,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	display: inline-block;
 	width: 18px;
 	height: 21px;
-	background: url(/static/img/input-icon/borrow-icon.gif?v=5989f)
+	background: url(/webapp/imgs/input-icon/borrow-icon.gif?v=5989f)
 		no-repeat scroll -3px -23px
 }
 
@@ -4707,7 +4707,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	display: block;
 	width: 24px;
 	height: 24px;
-	background: url(/static/img/icon-performace.png?v=46290) no-repeat
+	background: url(/webapp/imgs/icon-performace.png?v=46290) no-repeat
 		scroll 0 0
 }
 
@@ -4737,7 +4737,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	display: inline-block;
 	height: 28px;
 	width: 25px;
-	background: url(/static/img/uplan-type.png?v=707ef) no-repeat;
+	background: url(/webapp/imgs/uplan-type.png?v=707ef) no-repeat;
 	vertical-align: middle
 }
 
@@ -4758,7 +4758,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	display: inline-block;
 	width: 26px;
 	height: 26px;
-	background: url(/static/img/loantypes.png?v=a6728) no-repeat scroll left
+	background: url(/webapp/imgs/loantypes.png?v=a6728) no-repeat scroll left
 		top transparent;
 	vertical-align: middle
 }
@@ -4785,7 +4785,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	height: 18px;
 	line-height: 18px;
 	margin-right: 3px;
-	background: url(/static/img/loantypes-s.png?v=f05ec) no-repeat scroll
+	background: url(/webapp/imgs/loantypes-s.png?v=f05ec) no-repeat scroll
 		left top transparent;
 	vertical-align: middle
 }
@@ -4899,25 +4899,25 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 }
 
 .ui-pagination li a.page-link.prev {
-	background-image: url(/static/img/prev-gray.png?v=d2881);
+	background-image: url(/webapp/imgs/prev-gray.png?v=d2881);
 	background-position: center center;
 	background-repeat: no-repeat
 }
 
 .ui-pagination li a.page-link.next {
-	background-image: url(/static/img/next-gray.png?v=8c2d9);
+	background-image: url(/webapp/imgs/next-gray.png?v=8c2d9);
 	background-position: center center;
 	background-repeat: no-repeat
 }
 
 .ui-pagination li span.prev,.ui-pagination li a.page-link.prev:hover {
-	background-image: url(/static/img/prev-white.png?v=17c9c);
+	background-image: url(/webapp/imgs/prev-white.png?v=17c9c);
 	background-position: center center;
 	background-repeat: no-repeat
 }
 
 .ui-pagination li span.next,.ui-pagination li a.page-link.next:hover {
-	background-image: url(/static/img/next-white.png?v=0c935);
+	background-image: url(/webapp/imgs/next-white.png?v=0c935);
 	background-position: center center;
 	background-repeat: no-repeat
 }
@@ -4943,14 +4943,14 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 
 .slides {
 	position: relative;
-	background: url(/static/img/loading.gif?v=1e2eb) no-repeat center
+	background: url(/webapp/imgs/loading.gif?v=1e2eb) no-repeat center
 }
 
 .ui-slides {
 	height: 376px;
 	margin: 0 auto;
 	width: 100%;
-	background: url(/static/img/slide-intro/slides-bg.png?v=51a8c) no-repeat
+	background: url(/webapp/imgs/slide-intro/slides-bg.png?v=51a8c) no-repeat
 		center bottom;
 	position: relative
 }
@@ -5003,7 +5003,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	width: 420px
 }
 
-.ui-slides .ui-slide01-icons li img {
+.ui-slides .ui-slide01-icons li imgs {
 	display: block
 }
 
@@ -5016,25 +5016,25 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	width: 115px
 }
 
-.ui-slides .ui-slide01-icons-item-img01 {
+.ui-slides .ui-slide01-icons-item-imgs01 {
 	width: 110px;
 	height: 81px;
-	background: url(/static/img/slide-intro/slide01-icons-item-img01.png);
-	_background: url(/static/img/slide-intro/slide01-icons-item-img01.gif)
+	background: url(/webapp/imgs/slide-intro/slide01-icons-item-imgs01.png);
+	_background: url(/webapp/imgs/slide-intro/slide01-icons-item-imgs01.gif)
 }
 
-.ui-slides .ui-slide01-icons-item-img02 {
+.ui-slides .ui-slide01-icons-item-imgs02 {
 	width: 110px;
 	height: 81px;
-	background: url(/static/img/slide-intro/slide01-icons-item-img02.png);
-	_background: url(/static/img/slide-intro/slide01-icons-item-img02.gif)
+	background: url(/webapp/imgs/slide-intro/slide01-icons-item-imgs02.png);
+	_background: url(/webapp/imgs/slide-intro/slide01-icons-item-imgs02.gif)
 }
 
-.ui-slides .ui-slide01-icons-item-img03 {
+.ui-slides .ui-slide01-icons-item-imgs03 {
 	width: 110px;
 	height: 81px;
-	background: url(/static/img/slide-intro/slide01-icons-item-img03.png);
-	_background: url(/static/img/slide-intro/slide01-icons-item-img03.gif)
+	background: url(/webapp/imgs/slide-intro/slide01-icons-item-imgs03.png);
+	_background: url(/webapp/imgs/slide-intro/slide01-icons-item-imgs03.gif)
 }
 
 .ui-slides .ui-slide01-icons-item-b {
@@ -5048,7 +5048,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 }
 
 .ui-slides .ui-slide01-button {
-	background: url(/static/img/slide-intro/ui-slide01-button.png) no-repeat
+	background: url(/webapp/imgs/slide-intro/ui-slide01-button.png) no-repeat
 		scroll 111px 3px #83A700;
 	border-radius: 20px;
 	border: medium none;
@@ -5605,7 +5605,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	color: #fff
 }
 
-.comments-user-photo,.comments-user-photo img {
+.comments-user-photo,.comments-user-photo imgs {
 	width: 56px;
 	height: 56px;
 	overflow: hidden
@@ -5669,7 +5669,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 .comments-message-box em {
 	width: 8px;
 	height: 17px;
-	background: url(/static/img/arrow-left-white.png?v=c0365) no-repeat;
+	background: url(/webapp/imgs/arrow-left-white.png?v=c0365) no-repeat;
 	display: block;
 	position: absolute;
 	left: -8px;
@@ -5679,7 +5679,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 .comments-message-reply-box em {
 	width: 8px;
 	height: 17px;
-	background: url(/static/img/arrow-left-blue.png?v=11627) no-repeat;
+	background: url(/webapp/imgs/arrow-left-blue.png?v=11627) no-repeat;
 	display: block;
 	position: absolute;
 	left: -8px;
@@ -5746,7 +5746,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	right: 10px;
 	top: 50%;
 	margin-top: -3px;
-	background-image: url(/static/img/account/arrow-new.png?v=ac7ea);
+	background-image: url(/webapp/imgs/account/arrow-new.png?v=ac7ea);
 	background-repeat: no-repeat
 }
 
@@ -5777,7 +5777,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	text-align: center
 }
 
-.ui-header-top .ui-nav-dropdown .loadfail img {
+.ui-header-top .ui-nav-dropdown .loadfail imgs {
 	vertical-align: middle
 }
 
@@ -5800,7 +5800,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 .ui-header-top .user-info-container dd.user-info-container-tips {
 	width: 200px;
 	height: 44px;
-	background: url(/static/img/account/tips-bg.png?v=7bf25) no-repeat;
+	background: url(/webapp/imgs/account/tips-bg.png?v=7bf25) no-repeat;
 	padding: 2px 4px 6px 6px;
 	line-height: 20px;
 	color: #333
@@ -5830,7 +5830,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 }
 
 .ui-header-top .safe-rank {
-	background: url(/static/img/account/security-icons.png?v=bee05)
+	background: url(/webapp/imgs/account/security-icons.png?v=bee05)
 		no-repeat;
 	width: 30px;
 	height: 30px;
@@ -5899,14 +5899,14 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	display: block;
 	height: 72px;
 	width: 140px;
-	background: url(/static/img/logo.png?v=f3810) no-repeat 0 center
+	background: url(/webapp/imgs/logo.png?v=f3810) no-repeat 0 center
 }
 
 .ui-header-newyear-logo {
 	display: block;
 	width: 195px;
 	height: 72px;
-	background: url(/static/img/newyear-logo.png?v=f3012) no-repeat 0 center;
+	background: url(/webapp/imgs/newyear-logo.png?v=f3012) no-repeat 0 center;
 	position: absolute;
 	left: -42px;
 	top: 0
@@ -5930,7 +5930,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	display: block;
 	height: 72px;
 	width: 193px;
-	background: url(/static/img/slogan.png?v=34f85) no-repeat 0 center
+	background: url(/webapp/imgs/slogan.png?v=34f85) no-repeat 0 center
 }
 
 .ui-header-grid {
@@ -5950,7 +5950,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	padding-right: 4px;
 	line-height: 16px;
 	text-align: center;
-	background: url(/static/img/account/msg-new.png?v=40031) no-repeat;
+	background: url(/webapp/imgs/account/msg-new.png?v=40031) no-repeat;
 	color: #fff;
 	font-style: normal;
 	letter-spacing: -.1em
@@ -6010,7 +6010,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	display: block;
 	width: 9px;
 	height: 5px;
-	background: url(/static/img/nav-angle-up.png?v=397eb) no-repeat center
+	background: url(/webapp/imgs/nav-angle-up.png?v=397eb) no-repeat center
 		center
 }
 
@@ -6093,48 +6093,48 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	font-size: 20px
 }
 
-.ui-footer-img-link {
+.ui-footer-imgs-link {
 	display: block;
 	margin-right: 20px;
 	height: 30px;
 	font-size: 0;
 	line-height: 0;
-	background: url(/static/img/footer-icons.png?v=9fb82) no-repeat 0 0
+	background: url(/webapp/imgs/footer-icons.png?v=9fb82) no-repeat 0 0
 }
 
-.ui-footer-img-link.weibo {
+.ui-footer-imgs-link.weibo {
 	width: 99px;
 	background-position: 0 0
 }
 
-.ui-footer-img-link.weibo:hover {
+.ui-footer-imgs-link.weibo:hover {
 	background-position: 0 -30px
 }
 
-.ui-footer-img-link.qq-weibo {
+.ui-footer-imgs-link.qq-weibo {
 	width: 112px;
 	background-position: -190px 0
 }
 
-.ui-footer-img-link.qq-weibo:hover {
+.ui-footer-imgs-link.qq-weibo:hover {
 	background-position: -190px -30px
 }
 
-.ui-footer-img-link.we-chat {
+.ui-footer-imgs-link.we-chat {
 	width: 91px;
 	background-position: -99px 0
 }
 
-.ui-footer-img-link.we-chat:hover {
+.ui-footer-imgs-link.we-chat:hover {
 	background-position: -99px -30px
 }
 
-.ui-footer-img-link.online-customer-service {
+.ui-footer-imgs-link.online-customer-service {
 	width: 117px;
 	background-position: -302px 0
 }
 
-.ui-footer-img-link.online-customer-service:hover {
+.ui-footer-imgs-link.online-customer-service:hover {
 	background-position: -302px -30px
 }
 
@@ -6155,14 +6155,14 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 }
 
 .ui-footer-contact-link.qq {
-	background: url(/static/img/logos/weibo-qq.png?v=aa938) no-repeat center
+	background: url(/webapp/imgs/logos/weibo-qq.png?v=aa938) no-repeat center
 		center;
 	height: 25px;
 	width: 25px
 }
 
 .ui-footer-contact-link.sina {
-	background: url(/static/img/logos/weibo-sina.png?v=c91ba) no-repeat
+	background: url(/webapp/imgs/logos/weibo-sina.png?v=c91ba) no-repeat
 		center center;
 	height: 25px;
 	width: 25px
@@ -6200,7 +6200,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	display: block;
 	height: 50px;
 	margin: 0 10px;
-	background: url(/static/img/footer-icons.png?v=9fb82) no-repeat 0 0
+	background: url(/webapp/imgs/footer-icons.png?v=9fb82) no-repeat 0 0
 }
 
 .ui-footer-verification .internet {
@@ -6317,73 +6317,73 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 }
 
 .ui-side-item-link .ui-icon-mid.index {
-	background: url(/static/img/sidebar-icons.png?v=1548a) no-repeat 0 0
+	background: url(/webapp/imgs/sidebar-icons.png?v=1548a) no-repeat 0 0
 }
 
 .ui-side-item-link .ui-icon-mid.capital {
-	background: url(/static/img/sidebar-icons.png?v=1548a) no-repeat 0 -20px
+	background: url(/webapp/imgs/sidebar-icons.png?v=1548a) no-repeat 0 -20px
 }
 
 .ui-side-item-link .ui-icon-mid.invest {
-	background: url(/static/img/sidebar-icons.png?v=1548a) no-repeat 0 -40px
+	background: url(/webapp/imgs/sidebar-icons.png?v=1548a) no-repeat 0 -40px
 }
 
 .ui-side-item-link .ui-icon-mid.borrow {
-	background: url(/static/img/sidebar-icons.png?v=1548a) no-repeat 0 -60px
+	background: url(/webapp/imgs/sidebar-icons.png?v=1548a) no-repeat 0 -60px
 }
 
 .ui-side-item-link .ui-icon-mid.account {
-	background: url(/static/img/sidebar-icons.png?v=1548a) no-repeat 0 -80px
+	background: url(/webapp/imgs/sidebar-icons.png?v=1548a) no-repeat 0 -80px
 }
 
 .ui-side-item-link .ui-icon-mid.comm {
-	background: url(/static/img/sidebar-icons.png?v=1548a) no-repeat 0
+	background: url(/webapp/imgs/sidebar-icons.png?v=1548a) no-repeat 0
 		-100px
 }
 
 .ui-side-item-link .ui-icon-mid.coupons {
-	background: url(/static/img/sidebar-icons.png?v=1548a) no-repeat 0
+	background: url(/webapp/imgs/sidebar-icons.png?v=1548a) no-repeat 0
 		-118px
 }
 
 .ui-side-item-link:hover .ui-icon-mid.index,.ui-side-item.active .ui-icon-mid.index
 	{
-	background: url(/static/img/sidebar-icons.png?v=1548a) no-repeat -20px 0
+	background: url(/webapp/imgs/sidebar-icons.png?v=1548a) no-repeat -20px 0
 }
 
 .ui-side-item-link:hover .ui-icon-mid.capital,.ui-side-item.active .ui-icon-mid.capital
 	{
-	background: url(/static/img/sidebar-icons.png?v=1548a) no-repeat -20px
+	background: url(/webapp/imgs/sidebar-icons.png?v=1548a) no-repeat -20px
 		-20px
 }
 
 .ui-side-item-link:hover .ui-icon-mid.invest,.ui-side-item.active .ui-icon-mid.invest
 	{
-	background: url(/static/img/sidebar-icons.png?v=1548a) no-repeat -20px
+	background: url(/webapp/imgs/sidebar-icons.png?v=1548a) no-repeat -20px
 		-40px
 }
 
 .ui-side-item-link:hover .ui-icon-mid.borrow,.ui-side-item.active .ui-icon-mid.borrow
 	{
-	background: url(/static/img/sidebar-icons.png?v=1548a) no-repeat -20px
+	background: url(/webapp/imgs/sidebar-icons.png?v=1548a) no-repeat -20px
 		-60px
 }
 
 .ui-side-item-link:hover .ui-icon-mid.account,.ui-side-item.active .ui-icon-mid.account
 	{
-	background: url(/static/img/sidebar-icons.png?v=1548a) no-repeat -20px
+	background: url(/webapp/imgs/sidebar-icons.png?v=1548a) no-repeat -20px
 		-80px
 }
 
 .ui-side-item-link:hover .ui-icon-mid.comm,.ui-side-item.active .ui-icon-mid.comm
 	{
-	background: url(/static/img/sidebar-icons.png?v=1548a) no-repeat -20px
+	background: url(/webapp/imgs/sidebar-icons.png?v=1548a) no-repeat -20px
 		-100px
 }
 
 .ui-side-item-link:hover .ui-icon-mid.coupons,.ui-side-item.active .ui-icon-mid.coupons
 	{
-	background: url(/static/img/sidebar-icons.png?v=1548a) no-repeat -20px
+	background: url(/webapp/imgs/sidebar-icons.png?v=1548a) no-repeat -20px
 		-118px
 }
 
@@ -6541,7 +6541,7 @@ a.ui-side-sub-item-link:hover {
 	display: none;
 	width: 10px;
 	height: 18px;
-	background: url(/static/img/angle-right-xlargebutton.png?v=470b2)
+	background: url(/webapp/imgs/angle-right-xlargebutton.png?v=470b2)
 		no-repeat center center
 }
 
@@ -6604,7 +6604,7 @@ a.ui-side-sub-item-link:hover {
 }
 
 .ui-selectdrop .s_select_bg span.arrow em {
-	background: url(/static/img/input-icon/borrow-icon.gif?v=5989f)
+	background: url(/webapp/imgs/input-icon/borrow-icon.gif?v=5989f)
 		no-repeat;
 	background-position: -3px -55px;
 	display: inline-block;
@@ -6678,7 +6678,7 @@ a.ui-side-sub-item-link:hover {
 
 .ui-plan-latest {
 	padding: 5px 10px;
-	background: url(/static/img/plan/plan-bg.jpg?v=62b70) center center
+	background: url(/webapp/imgs/plan/plan-bg.jpg?v=62b70) center center
 }
 
 .ui-plan-latest-item {

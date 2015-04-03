@@ -6,7 +6,37 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>产品查询</title>
+<script type="text/javascript" >
+	function pages(pageNum) {
+		var pattern = /^\d+$/;
+		var by = ($("#by").val());
+		var g2 = ($("#textpage").val());
+		if (g2 == undefined) {
+			g2 = 1;
+		}
+		if (!isNaN($("#textpage").val())) {
+		} else {
+			jDialog.Alert("请输入数字");
+			return;
+		}
+		if (parseInt($("#textpage").val()) <= 0) {
+			jDialog.Alert("请输入正整数");
+			return;
+		}
+		if ($("#textpage").val() > pageNum) {
+			jDialog.Alert("输入的页数超过最大页数");
+			return;
+		}
+		//  var adsts =$("#adsts").val();
+		window.location.href = "/${web}/product/list/"+g2;
+	}
 
+	function page(num) {
+		var by = ($("#by").val());
+		window.location.href = "/${web}/product/list/"+num; 
+	}
+
+</script>
 </head>
 <body>
 <#include "/menu/webapp.ftl" />
@@ -72,7 +102,17 @@
 														 </span> 
 												</li>
 										</#list> 
-									
+										<!-- 分页 -->
+												<table class="pag_tbl"
+													style="width: 100%; border-width: 0px; margin-top: 10px;">
+													<tr>
+														<td style="width: 70%; text-align: right;">
+															<div id="numpage" style="float: right;">
+															${paginationHTML!''}	 
+															</div>
+														</td>
+													</tr>
+												</table>
 								</div>
 							</form>
 						</div>

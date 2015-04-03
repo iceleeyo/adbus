@@ -158,24 +158,39 @@ function check() {
 						<div class="withdraw-wrap color-white-bg fn-clear">
 						<input type="hidden" id="orderid" value="${orderview.order.id!''}"/>
 						<input type="hidden" id="taskid" value="${taskid!''}"/>
-						<h1>流程办理</h1>
+						<div class="withdraw-title fn-clear">
+						流程办理
+						
+						<button type="button" onclick="go_back()" class="block-btn" style="margin-left: 60px;">返回</button>
+						
+						</div>	
+						<div class="withdrawInputs">
+						<div class="inputs">
+						<div class="ui-form-item">
                         <font color="red">${message!'' }</font>
-                            <!-- 支付-->
-                            <div id="payment" style="display: none;">
-							           支付方式：<br>
-							           输入合同号：<input id="code" class="ui-input" type="text" value="reg4345" name="contract_code" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> 
-								<input type="button" onclick="check();" value="合同号检查"><br><br>
-								<input type="button" onclick="pay();" value="确认支付"/>				 
-							</div>	
+                        <!-- 支付-->
+                        <div id="payment" style="display: none;">
+							 <label class="ui-label mt10">
+							 输入合同号：
+							 </label>
+							 <input id="code" class="ui-input" type="text" value="reg4345" name="contract_code" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">
+							<input type="button" onclick="check();" class="block-btn" value="合同号检查" >
+						</div>	
+						</div> 
+						<div class="ui-form-item">
+						<input type="button" onclick="pay();" class="block-btn" value="确认支付"/>				 
+						</div>	
+							
+							
 							<!-- 世巴初审 -->
                              <div id="approve1" style="display: none;">	
-                                 世巴初审：<br>
+                                 	世巴初审：<br>
 				            <textarea name="approve1Comments" id="approve1Comments"></textarea><br>
-							<input type="radio" name="approve1Result" value="true" checked="checked">素材无正常
+							<input type="radio" name="approve1Result" value="true" checked="checked">素材正常
 				            <input type="radio" name="approve1Result" value="false" >素材异常
-				            <br>
-				            <button onclick="approve1();" >提交</button>
-							 </div> 
+				            <br><br><br>
+				            <button onclick="approve1();" class="block-btn">提交</button>
+							 
 							 
 							  <!-- 北广审核并填写物料ID等信息 -->
                              <div id="approve2" style="display: none;">	
@@ -183,16 +198,21 @@ function check() {
 							 </div>
 							 
 							  <!-- 世巴财务确认 -->
+							 <div class="ui-form-item">
                              <div id="financialCheck" style="display: none;">	
-                                                                               世巴财务确认 ：<br>
+                            <label class="ui-label mt10">
+                                                                               世巴财务确认 ：
+							</label>
 				            <textarea name="comment" id="comment"></textarea><br>
 							<input type="radio" name="rad" value="true" checked="checked">支付正常
 				            <input type="radio" name="rad" value="false" >支付异常
-				            <button onclick="financial();" >提交</button>	
+				            <button onclick="financial();" class="block-btn">提交</button>	
 							 </div>
-							 
+							 </div>
+							
 						</div>
-						<button type="button" onclick="go_back()">返回</button>
+						
+						</div>
 					</div>
 					<!--主体结束-->
 				</div>

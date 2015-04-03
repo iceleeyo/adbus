@@ -100,7 +100,7 @@ public class OrderController {
 		return activitiService.payment(Integer.parseInt(orderid), taskid, Request.getUser(request));
 	}
 
-	@RequestMapping(value = "claim", method = { RequestMethod.GET })
+	@RequestMapping(value = "claim")
 	@ResponseBody
 	public Pair<Boolean, String> claimTask(@RequestParam(value = "orderid", required = true) String orderid,
 			@RequestParam(value = "taskid", required = true) String taskid, HttpServletRequest request,
