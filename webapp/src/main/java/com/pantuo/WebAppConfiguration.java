@@ -25,6 +25,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.springframework.web.servlet.resource.VersionResourceResolver;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
@@ -36,119 +37,128 @@ import freemarker.core.Configurable;
 
 @Configuration
 @ImportResource("classpath:/properties.xml")
-@ComponentScan(basePackages = {"com.pantuo.web", "com.pantuo.service", "com.pantuo.aspect"})
+@ComponentScan(basePackages = { "com.pantuo.web", "com.pantuo.service", "com.pantuo.aspect" })
 @EnableAspectJAutoProxy
 @EnableWebMvc
 public class WebAppConfiguration extends WebMvcConfigurerAdapter {
-    @Bean
-    public HandlerExceptionResolver webExceptionResolver() {
-        return new RestExceptionResolver();
-    }
+	@Bean
+	public HandlerExceptionResolver webExceptionResolver() {
+		return new RestExceptionResolver();
+	}
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        ResourceHandlerRegistration registration = registry.addResourceHandler("/*.html", "/js/**","/style/**", "/css/**", "/images/**", "/doc/**");
-        registration.addResourceLocations("/", "/js/","/style/", "/css/", "/images/", "/doc/");
-    }
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		ResourceHandlerRegistration registration = registry.addResourceHandler("/*.html", "/js/**", "/style/**",
+				"/css/**", "/images/**", "/imgs/**", "/doc/**");
+		registration.addResourceLocations("/", "/js/", "/style/", "/css/", "/images/", "/imgs/", "/doc/");
 
-    @Bean
-    public RequestMappingHandlerMapping requestMappingHandlerMapping() {
-        RequestMappingHandlerMapping mapping = new RequestMappingHandlerMapping();
 
-        HandlerInterceptor[] interceptors = new HandlerInterceptor[1];
-        interceptors[0] = new RestLoggingInterceptor();
+		
+		
+		ResourceHandlerRegistration rdup = registry.addResourceHandler("/*.html", "**/js/**", "**/style/**",
+				"**/css/**", "**/images/**", "**/imgs/**", "/doc/**");
+		rdup.addResourceLocations("/", "/js/", "/style/", "/css/", "/images/", "/imgs/", "/doc/");
+	}
 
-        mapping.setInterceptors(interceptors);
-        return mapping;
-    }
+	@Bean
+	public RequestMappingHandlerMapping requestMappingHandlerMapping() {
+		RequestMappingHandlerMapping mapping = new RequestMappingHandlerMapping();
 
-    @Bean
-    public RequestMappingHandlerAdapter requestMappingHandlerAdapter() {
-        List<HttpMessageConverter<?>> converters = new ArrayList<HttpMessageConverter<?>>();
+		HandlerInterceptor[] interceptors = new HandlerInterceptor[1];
+		interceptors[0] = new RestLoggingInterceptor();
 
-        /** json converter */
-        {
-            MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+		mapping.setInterceptors(interceptors);
+		return mapping;
+	}
 
-            //set return content type
-            List<MediaType> mediaTypes = new ArrayList<MediaType>();
-            mediaTypes.add(new MediaType("application","json", Charset.forName("UTF-8")));
-            converter.setSupportedMediaTypes(mediaTypes);
+	@Bean
+	public RequestMappingHandlerAdapter requestMappingHandlerAdapter() {
+		List<HttpMessageConverter<?>> converters = new ArrayList<HttpMessageConverter<?>>();
 
-            //do not output keys with null values
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-            mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-            converter.setObjectMapper(mapper);
+		/** json converter */
+		{
+			MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
 
-            converters.add(converter);
-        }
+			//set return content type
+			List<MediaType> mediaTypes = new ArrayList<MediaType>();
+			mediaTypes.add(new MediaType("application", "json", Charset.forName("UTF-8")));
+			converter.setSupportedMediaTypes(mediaTypes);
 
-        /** xml converter */
-        {
-            Jaxb2RootElementHttpMessageConverter converter = new Jaxb2RootElementHttpMessageConverter();
+			//do not output keys with null values
+			ObjectMapper mapper = new ObjectMapper();
+			mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+			mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+			converter.setObjectMapper(mapper);
 
-            //set return content type
-            List<MediaType> mediaTypes = new ArrayList<MediaType>();
-            mediaTypes.add(new MediaType("application","xml", Charset.forName("UTF-8")));
-            //mediaTypes.add(new MediaType("text","html", Charset.forName("UTF-8")));
-            converter.setSupportedMediaTypes(mediaTypes);
+			converters.add(converter);
+		}
 
-            converters.add(converter);
-        }
+		/** xml converter */
+		{
+			Jaxb2RootElementHttpMessageConverter converter = new Jaxb2RootElementHttpMessageConverter();
 
-        RequestMappingHandlerAdapter adapter = new RequestMappingHandlerAdapter();
-        adapter.setMessageConverters(converters);
-        return adapter;
-    }
+			//set return content type
+			List<MediaType> mediaTypes = new ArrayList<MediaType>();
+			mediaTypes.add(new MediaType("application", "xml", Charset.forName("UTF-8")));
+			//mediaTypes.add(new MediaType("text","html", Charset.forName("UTF-8")));
+			converter.setSupportedMediaTypes(mediaTypes);
 
-    @Bean
-    public FreeMarkerConfigurer freeMarker() {
-        FreeMarkerConfigurer config = new FreeMarkerConfigurer();
-        config.setTemplateLoaderPath("/WEB-INF/ftl/");
+			converters.add(converter);
+		}
 
-        Properties setting = new Properties();
-        setting.setProperty(Configurable.DATETIME_FORMAT_KEY, "yyyy-MM-dd");
-        setting.setProperty(Configurable.NUMBER_FORMAT_KEY, "0.##");
-        config.setFreemarkerSettings(setting);
-        config.setDefaultEncoding("UTF-8");
+		RequestMappingHandlerAdapter adapter = new RequestMappingHandlerAdapter();
+		adapter.setMessageConverters(converters);
+		return adapter;
+	}
 
-//        Map<String, Object> myBuiltInMethods = new HashMap<String, Object>();
-//        myBuiltInMethods.put("MyNumberftl", new Numberftl());
-//        config.setFreemarkerVariables(myBuiltInMethods);
-        return config;
-    }
+	@Bean
+	public FreeMarkerConfigurer freeMarker() {
+		FreeMarkerConfigurer config = new FreeMarkerConfigurer();
+		config.setTemplateLoaderPath("/WEB-INF/ftl/");
 
-    @Bean
-    public ViewResolver freeMarkerViewResolver() throws IOException {
-        FreeMarkerViewResolver freeMarker = new FreeMarkerViewResolver();
-        freeMarker.setContentType("text/html;charset=UTF-8");
-        freeMarker.setExposeRequestAttributes(true);
-        freeMarker.setRequestContextAttribute("rc");
-        freeMarker.setExposeSpringMacroHelpers(true);
-        freeMarker.setOrder(1);
-        freeMarker.setSuffix(".ftl");
+		Properties setting = new Properties();
+		setting.setProperty(Configurable.DATETIME_FORMAT_KEY, "yyyy-MM-dd");
+		setting.setProperty(Configurable.NUMBER_FORMAT_KEY, "0.##");
+		config.setFreemarkerSettings(setting);
+		config.setDefaultEncoding("UTF-8");
 
-//        Properties pageResource = new Properties();
-//        InputStream in = HttpConfig.class.getResourceAsStream("/pageresource.properties");
-//        pageResource.load(in);
-//        pageResource.setProperty("OA_VER", OA_VER);
-//        pageResource.setProperty("timeZone", timeZone);
+		//        Map<String, Object> myBuiltInMethods = new HashMap<String, Object>();
+		//        myBuiltInMethods.put("MyNumberftl", new Numberftl());
+		//        config.setFreemarkerVariables(myBuiltInMethods);
+		return config;
+	}
 
-//        freeMarker.setAttributes(pageResource);
-        return freeMarker;
-    }
-    /**
-     * 
-     * 文件上传
-     *
-     * @return
-     * @since pantuotech 1.0-SNAPSHOT
-     */
-    @Bean
-    public CommonsMultipartResolver multipartResolver() {
-        CommonsMultipartResolver resolver=new CommonsMultipartResolver();
-        resolver.setDefaultEncoding("utf-8");
-        return resolver;
-    }
+	@Bean
+	public ViewResolver freeMarkerViewResolver() throws IOException {
+		FreeMarkerViewResolver freeMarker = new FreeMarkerViewResolver();
+		freeMarker.setContentType("text/html;charset=UTF-8");
+		freeMarker.setExposeRequestAttributes(true);
+		freeMarker.setRequestContextAttribute("rc");
+		freeMarker.setExposeSpringMacroHelpers(true);
+		freeMarker.setOrder(1);
+		freeMarker.setSuffix(".ftl");
+
+		//        Properties pageResource = new Properties();
+		//        InputStream in = HttpConfig.class.getResourceAsStream("/pageresource.properties");
+		//        pageResource.load(in);
+		//        pageResource.setProperty("OA_VER", OA_VER);
+		//        pageResource.setProperty("timeZone", timeZone);
+
+		//        freeMarker.setAttributes(pageResource);
+		return freeMarker;
+	}
+
+	/**
+	 * 
+	 * 文件上传
+	 *
+	 * @return
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
+	@Bean
+	public CommonsMultipartResolver multipartResolver() {
+		CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+		resolver.setDefaultEncoding("utf-8");
+		return resolver;
+	}
 }
