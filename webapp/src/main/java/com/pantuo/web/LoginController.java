@@ -43,7 +43,7 @@ public class LoginController {
 			boolean b = identityService.checkPassword(username, password);
 			if(b){
 				
-				UserDetail user = userService.findDetailByUsername(username);
+				UserDetail user = userService.findByUsername(username);
 				request.getSession().setAttribute(com.pantuo.util.Constants.SESSION_U_KEY, user);
 				redirectAttributes.addFlashAttribute("message", "登录成功!");
 				forword="/contract/contractEnter";//main.jsp
