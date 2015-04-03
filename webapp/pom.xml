@@ -16,7 +16,7 @@
     <name>AdBus webapp project</name> 
 
     <build>
-    
+    <!-- 
    		 <resources>
             <resource>
                 <directory>${project.basedir}/src/main/resources</directory>
@@ -26,7 +26,7 @@
                 <filtering>false</filtering>
             </resource>
         </resources>
-        
+        -->
         
         <finalName>adbus</finalName>
 		<testResources>
@@ -35,7 +35,14 @@
 			</testResource>
 		    <testResource>
 				<directory>${project.basedir}/src/main/resources</directory>
+				 <includes>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
 			</testResource>
+			
+			  
+			
 		</testResources>
         <pluginManagement>  
         <plugins>
