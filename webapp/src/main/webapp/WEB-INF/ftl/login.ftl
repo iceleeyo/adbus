@@ -1,3 +1,4 @@
+
 <html>
     <head>
         <meta content="text/html; charset=utf-8" http-equiv="content-type">
@@ -71,8 +72,7 @@
 									   		</div>
 									   		<div class="login-item p-center">
 									   			<p class="mt37"></p>
-									   			<input name="submit" type="submit" value="登录" />
-									   			<a class="login-btn login-btn-size" href="#">立即登录</a>
+									   			<input name="submit" type="submit" class="login-btn login-btn-size" value="立即登录" />
 									   		</div>
 									   		<div class="login-item p-center">
 									   			<span>没有账号？</span>

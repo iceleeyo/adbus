@@ -43,7 +43,7 @@
 			url : "/${web}/order/claim?orderid="+orderid+"&taskid="+taskid,
 			type : "POST",
 			success : function(data) {
-				alert(data.left + " # " + data.right);
+				alert(data.right);
 				location.reload([true]);
 			}
 		}, "text");
