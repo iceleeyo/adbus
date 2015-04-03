@@ -139,6 +139,9 @@
 													<td style="width: 123px;">
 														<div class="th-md">创建时间</div>
 													</td>
+													<td style="width: 123px;">
+														<div class="th-md">当前环节</div>
+													</td>
 													<td>
 														<div class="th-md">操作</div>
 													</td>
@@ -163,7 +166,18 @@
 														class="ui-list-field num-s text-center w120 fn-left"><em
 														class="value-small"> <#setting
 															date_format="yyyy-MM-dd HH:MM">
-															${(item.order.createTime?date)!''} </em> </span> <span
+															${(item.order.createTime?date)!''} </em> </span>
+															
+													 <span
+														style="width: 159px; height: 35px;"
+														class="ui-list-field num-s text-center w120 fn-left"><em
+														class="value-small">
+														<a class="trace" href='/${web}/workflow/view/${item.task.executionId}/page/${item.task.processInstanceId}' title="点击查看流程图">${item.task.name }</a>
+														</em>
+														</span>
+															
+															
+															 <span
 														style="width: 170px; height: 35px;"
 														class="ui-list-field num-s text-center w120 fn-left">
 														<em class="value-small"> <#if
