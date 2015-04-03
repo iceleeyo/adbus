@@ -1,4 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<#include "/menu/webapp.ftl" />
 <html>
 <head>
 <meta charset="utf-8">
@@ -6,11 +7,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>产品查询</title>
 
-<link rel="stylesheet" type="text/css" href="../../css/sea.css">
-<link rel="stylesheet" type="text/css" href="../../css/one.css">
-<link rel="stylesheet" type="text/css" href="../../css/account.css">
-<link rel="stylesheet" type="text/css" href="../../css/page.css"
-	media="screen" />
 </head>
 <body>
 <#include "/menu/webapp.ftl" />
@@ -86,11 +82,7 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript" language="javascript"
-		src="../../js/jquery.js"></script>
-	<script type="text/javascript" language="javascript"
-		src="../../js/jquery.form.js"></script>
-	<script type="text/javascript" language="javascript"
-		src="../../js/index.js"></script>
+<script type="text/javascript" language="javascript"
+	src="/${web}/js/index.js"></script>
 </body>
 </html>

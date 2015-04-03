@@ -1,15 +1,8 @@
+<#include "/menu/webapp.ftl" />
 <html>
 <head>
 <meta content="text/html; charset=utf-8" http-equiv="content-type">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script type="text/javascript" language="javascript"
-	src="../js/index.js"></script>
-	      <script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
-	  <script type="text/javascript" language="javascript" src="../js/jquery.form.js"></script>
-<link rel="stylesheet" type="text/css" href="../../css/page.css">
-<link rel="stylesheet" type="text/css" href="../../css/account.css">
-<link rel="stylesheet" type="text/css" href="../../css/sea.css">
-<link rel="stylesheet" type="text/css" href="../../css/one.css">
 
 <title>公交广告交易系统</title>
 <script type="text/javascript">
@@ -99,6 +92,8 @@
 		<#include "/menu/foot.ftl" />
 		<!--底部DIV -->
 	</div>
+<script type="text/javascript" language="javascript"
+	src="/${web}/js/index.js"></script>
 
 </body>
 </html>

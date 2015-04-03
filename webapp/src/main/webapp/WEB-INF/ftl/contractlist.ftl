@@ -5,18 +5,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>合同列表</title>
-<link rel="stylesheet" type="text/css" href="../../css/page.css">
-<link rel="stylesheet" type="text/css" href="../../css/account.css">
-<link rel="stylesheet" type="text/css" href="../../css/sea.css">
-<link rel="stylesheet" type="text/css" href="../../css/one.css">
-<script type="text/javascript" language="javascript"
-	src="../../js/jquery.js"></script>
-<script type="text/javascript" language="javascript"
-	src="../../js/common.js"></script>	
-<script type="text/javascript" language="javascript"
-	src="../../js/platform.js"></script>
-<script type="text/javascript" >
 
+<script type="text/javascript" >
 	function pages(pageNum) {
 		var pattern = /^\d+$/;
 		var by = ($("#by").val());
@@ -226,11 +216,7 @@
 			</div>
 		</div>
 	</div>
-
 <script type="text/javascript" language="javascript"
-	src="../../js/jquery.ui.dialog.js"></script>
-<script type="text/javascript" language="javascript"
-	src="../../js/index.js"></script>
-
+	src="/${web}/js/index.js"></script>
 </body>
 </html>

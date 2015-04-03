@@ -6,16 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>物料列表</title>
-<link rel="stylesheet" type="text/css" href="../../css/page.css">
-<link rel="stylesheet" type="text/css" href="../../css/account.css">
-<link rel="stylesheet" type="text/css" href="../../css/sea.css">
-<link rel="stylesheet" type="text/css" href="../../css/one.css">
-<script type="text/javascript" language="javascript"
-	src="../../js/jquery.js"></script>
-<script type="text/javascript" language="javascript"
-	src="../../js/common.js"></script>	
-<script type="text/javascript" language="javascript"
-	src="../../js/platform.js"></script>
+
 <script>
 	function pages(pageNum) {
 		var by = ($("#by").val());
@@ -26,15 +17,15 @@
 		}
 		if (!isNaN($("#textpage").val())) {
 		} else {
-			alert("请输入数字");
+			jDialog.Alert("请输入数字");
 			return;
 		}
 		if (parseInt($("#textpage").val()) <= 0) {
-			alert("请输入正整数");
+			jDialog.Alert("请输入正整数");
 			return;
 		}
 		if ($("#textpage").val() > pageNum) {
-			alert("输入的页数超过最大页数");
+			jDialog.Alert("输入的页数超过最大页数");
 			return;
 		}
 		window.location.href = "/${web}/supplies/list/" + g2 + "?name="+ name;
@@ -192,10 +183,9 @@ dataType="html" enctype="multipart/form-data" class="Page-Form">
 		<!--底部DIV -->
 	</div>
 
+
 <script type="text/javascript" language="javascript"
-	src="../../js/jquery.ui.dialog.js"></script>
-<script type="text/javascript" language="javascript"
-	src="../../js/index.js"></script>
+	src="/${web}/js/index.js"></script>
 </body>
 
 </html>

@@ -6,16 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>订单审核列表</title>
-<script type="text/javascript" language="javascript"
-	src="../../js/jquery.js"></script>
-<script type="text/javascript" language="javascript"
-	src="../../js/jquery.form.js"></script>
 
-<link rel="stylesheet" type="text/css" href="../../css/sea.css">
-<link rel="stylesheet" type="text/css" href="../../css/one.css">
-<link rel="stylesheet" type="text/css" href="../../css/account.css">
-<link rel="stylesheet" type="text/css" href="../../css/page.css"
-	media="screen" />
 <script type="text/javascript">
 
 	function pages(pageNum) {
@@ -195,7 +186,7 @@
 		</div>
 	</div>
 	</div>
-	<script type="text/javascript" language="javascript"
-		src="../../js/index.js"></script>
+<script type="text/javascript" language="javascript"
+	src="/${web}/js/index.js"></script>
 </body>
 </html>

@@ -1,13 +1,9 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<#include "/menu/webapp.ftl" />
 <html>
 <head>
 <title>物料上传</title>
-
-<link rel="stylesheet" type="text/css" href="../css/sea.css">
-<link rel="stylesheet" type="text/css" href="../css/one.css">
-<link rel="stylesheet" type="text/css" href="../css/account.css">
-<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
-<script type="text/javascript" src="../js/jquery.form.js"></script>
+=
 <script type="text/javascript">
 	i = 2;
 	j = 2;
@@ -20,7 +16,7 @@
 										function() {
 											$("#newUpload2")
 													.append(
-															'<div id="div_'+j+'"><input  name="file_'+j+'" type="file"  /><input type="button" value="删除"  onclick="del_2('
+															'<div id="div_'+j+'"><input  name="file_'+j+'" type="file"  style="margin-top:10px;" /><input type="button"  style="margin-top:10px;" value="删除"  onclick="del_2('
 																	+ j
 																	+ ')"/></div>');
 											j = j + 1;
@@ -148,7 +144,7 @@
 			<!--底部DIV -->
 		</div>
 	</div>
-	<script type="text/javascript" language="javascript"
-		src="../js/index.js"></script>
+<script type="text/javascript" language="javascript"
+	src="/${web}/js/index.js"></script>
 </body>
 </html>
