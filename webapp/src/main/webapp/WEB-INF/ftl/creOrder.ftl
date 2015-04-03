@@ -16,7 +16,7 @@
 	function check() {
 		var c = $("#code").val();
 		$.ajax({
-			url : "../contract/contractCodeCheck",
+			url : "/${web}/contract/contractCodeCheck",
 			type : "POST",
 			data : {
 				"code" : c

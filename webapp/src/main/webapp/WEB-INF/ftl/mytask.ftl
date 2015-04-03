@@ -130,19 +130,19 @@
 													<td style="width: 113px;">
 														<div class="th-head">下单用户</div>
 													</td>
-													<td style="width: 106px;">
-														<div class="th-md" style="width: 149px; ">套餐号</div>
+													<td style="width: 139px;">
+														<div class="th-md">套餐号</div>
 													</td>
-													<td style="width: 124px;">
-														<div class="th-md" style="width: 147px; ">素材号</div>
+													<td style="width: 134px;">
+														<div class="th-md">素材号</div>
 													</td>
 													<td style="width: 123px;">
 														<div class="th-md">创建时间</div>
 													</td>
-													<td style="width: 123px;">
+													<td style="width: 89px;">
 														<div class="th-md">当前环节</div>
 													</td>
-													<td>
+													<td style="width: 39px; ">
 														<div class="th-md">操作</div>
 													</td>
 												</tr>
@@ -153,23 +153,26 @@
 												<div class="ui-list-item-row fn-clear">
 													<span style="width: 123px; height: 35px;"
 														class="ui-list-field text-center w80 fn-left">
-														${item.order.userId!''} </span> <span
+														${item.order.userId!''} </span> 
+														<span
 														style="width: 160px; height: 35px;"
 														class="ui-list-field text-center w80 fn-left"><em
 														class="value-small"> <a
 															href="/${web}/contract/contractDetail?contract_id=${item.id!''}">
 																${item.order.productId!''} </a>
-													</em> </span> <span style="width: 126px; height: 35px;"
+													</em> </span>
+													 <span style="width: 169px; height: 35px;"
 														class="ui-list-field text-center w80 fn-left">
-														${item.order.suppliesId!''} </span> <span
-														style="width: 159px; height: 35px;"
+														${item.order.suppliesId!''} </span> 
+														<span
+														style="width: 129px; height: 35px;"
 														class="ui-list-field num-s text-center w120 fn-left"><em
 														class="value-small"> <#setting
 															date_format="yyyy-MM-dd HH:MM">
 															${(item.order.createTime?date)!''} </em> </span>
 															
 													 <span
-														style="width: 159px; height: 35px;"
+														style="width: 67px; height: 35px;"
 														class="ui-list-field num-s text-center w120 fn-left"><em
 														class="value-small">
 														<a class="trace" href='/${web}/workflow/view/${item.task.executionId}/page/${item.task.processInstanceId}' title="点击查看流程图">${item.task.name }</a>
@@ -178,7 +181,7 @@
 															
 															
 															 <span
-														style="width: 170px; height: 35px;"
+														style="width: 90px; height: 35px;"
 														class="ui-list-field num-s text-center w120 fn-left">
 														<em class="value-small"> <#if
 															item.task.assignee?exists> 
