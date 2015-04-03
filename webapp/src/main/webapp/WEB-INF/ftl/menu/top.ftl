@@ -48,7 +48,7 @@
 										</div>
 									</div>
 								</div>
-								<button class="pg-nav-item s-left" onclick="logout();">[退出]</button>
+								<a href="javascript:;" class="pg-nav-item s-left" onclick="logout();">[退出]</a>
 								<!--<a class="pg-nav-item s-left" href="#">
 									<i class="icon-msg fsize-12">1</i>
 									消息
