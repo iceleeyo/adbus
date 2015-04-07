@@ -33,32 +33,25 @@
 
 
 		<table schema="" tableName="product">
-			<generatedKey column="ID" sqlStatement="SELECT
-			@@IDENTITY" identity="true" />
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
 		</table>
         <table schema="" tableName="attachment">
-            <generatedKey column="ID" sqlStatement="SELECT
-			@@IDENTITY" identity="true" />
+            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
         <table schema="" tableName="contract">
-            <generatedKey column="ID" sqlStatement="SELECT
-			@@IDENTITY" identity="true" />
+            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
         <table schema="" tableName="orders">
-            <generatedKey column="ID" sqlStatement="SELECT
-			@@IDENTITY" identity="true" />
+            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
         <table schema="" tableName="supplies">
-            <generatedKey column="ID" sqlStatement="SELECT
-			@@IDENTITY" identity="true" />
+            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
         <table schema="" tableName="supplies_history">
-            <generatedKey column="ID" sqlStatement="SELECT
-			@@IDENTITY" identity="true" />
+            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
         <table schema="" tableName="sys_config">
-            <generatedKey column="ID" sqlStatement="SELECT
-			@@IDENTITY" identity="true" />
+            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
 	</context>
 </generatorConfiguration>

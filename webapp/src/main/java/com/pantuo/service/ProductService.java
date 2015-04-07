@@ -14,9 +14,7 @@ public interface ProductService {
 
     JpaProduct findById(int productId);
 
-    void createProduct(JpaProduct product);
-
-    void updateProduct(JpaProduct product);
+    void saveProduct(JpaProduct product);
 
     public int countMyList(String name, String code, HttpServletRequest request);
 

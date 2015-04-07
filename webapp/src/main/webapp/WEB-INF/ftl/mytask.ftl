@@ -136,7 +136,7 @@
 														class="ui-list-field num-s text-center w120 fn-left"><em
 														class="value-small"> <#setting
 															date_format="yyyy-MM-dd HH:MM">
-															${(item.order.createTime?date)!''} </em> </span>
+															${(item.order.created?date)!''} </em> </span>
 															
 													 <span
 														style="width: 140px; height: 35px;"

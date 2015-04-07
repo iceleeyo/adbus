@@ -11,10 +11,10 @@
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.form.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.dataTables.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery-ui/jquery-ui.min.js"></script>
-    <!--script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.ui.dialog.js"></script-->
+<#--    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.ui.dialog.js"></script>-->
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.datepicker.region.cn.js"></script>
+    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/platform.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/index.js"></script>
-<#--    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/platform.js"></script>-->
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/common.js"></script>
     <#list js as entry>
         <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/${entry}"></script>

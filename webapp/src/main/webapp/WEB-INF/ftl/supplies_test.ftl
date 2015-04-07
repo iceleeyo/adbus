@@ -5,11 +5,13 @@
 <script type="text/javascript">
 	i = 2;
 	j = 2;
-	$(document).ready(function() {$("#btn_add2").click(function() {
-		$("#newUpload2").append('<div id="div_'+j+'"><input  name="file_'+j+'" type="file"  style="margin-top:10px;" /><input type="button"  style="margin-top:10px;" value="删除"  onclick="del_2('
-		+ j + ')"/></div>');
-	j = j + 1;
-	});
+	$(document).ready(function() {
+        $("#btn_add2").click(function() {
+            $("#newUpload2").append('<div id="div_'+j+'"><input  name="file_'+j+'" type="file"  style="margin-top:10px;" /><input type="button"  style="margin-top:10px;" value="删除"  onclick="del_2('
+                    + j + ')"/></div>');
+            j = j + 1;
+        });
+    });
 
 	function del_2(o) {
 		document.getElementById("newUpload2").removeChild(
@@ -29,7 +31,7 @@
 	}
 	
 	function Tchange(obj){
-		jDialog.Alert(obj.val());
+		jDialog.Alert(obj.value);
 	}
 </script>
 							<form id="userForm2" name="userForm2" action="put"
@@ -59,9 +61,9 @@
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>素材类型</label>
 											<select class="ui-input" name="suppliesType" id="suppliesType" onchange="Tchange(this);">
-												<option value="video" selected="selected">video</option>
-												<option value="image">image</option>
-												<option value="info">info</option>
+												<option value="0" selected="selected">video</option>
+												<option value="1">image</option>
+												<option value="2">info</option>
 											</select>
 										</div>
 

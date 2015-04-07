@@ -399,9 +399,12 @@ var jDialog = {
 		});
 	}
 };
-$('button.jDialog_Close').die().live('click', function(){
-	jDialog.Hide();
+$(document).off('click', 'button.jDialog_Close').on('click', 'button.jDialog_Close', function(){
+    jDialog.Hide();
 });
+/*$('button.jDialog_Close').die().live('click', function(){
+	jDialog.Hide();
+});*/
 $(document).keydown(function(event){
 	if(event.keyCode == 27){
 		if(document.getElementById('jDialog')){

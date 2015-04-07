@@ -45,7 +45,7 @@ public class ProductController {
                     (long)(Math.abs(r.nextInt(120301))), Math.abs(r.nextInt(5)), Math.abs(r.nextInt(5)),
                     Math.abs(r.nextInt(5)), Math.abs(Math.random()), Math.abs(r.nextInt(5)), Math.abs(r.nextInt(1000000)/100.0),
                     (Math.random() > 0));
-            productService.createProduct(p);
+            productService.saveProduct(p);
         }
         /** test end **/
 
@@ -69,7 +69,7 @@ public class ProductController {
 
         if (product.isEnabled() != en) {
             product.setEnabled(en);
-            productService.updateProduct(product);
+            productService.saveProduct(product);
         }
         return product;
     }
@@ -79,8 +79,17 @@ public class ProductController {
         return "newProduct";
     }
 
-    @RequestMapping(value = "/create", method = { RequestMethod.POST}, produces = "text/html;charset=utf-8")
+    @RequestMapping(value = "/update/{id}", produces = "text/html;charset=utf-8")
+    public String updateProduct(@PathVariable int id,
+                                Model model, HttpServletRequest request) {
+        JpaProduct prod  = productService.findById(id);
+        model.addAttribute("prod", prod);
+        return "newProduct";
+    }
+
+    @RequestMapping(value = "/save", method = { RequestMethod.POST}, produces = "text/html;charset=utf-8")
     public String createProduct(
+            @RequestParam(value = "id", required = false) Integer id,
             @RequestParam(value = "type", required = true) JpaProduct.Type type,
             @RequestParam(value = "name", required = true) String name,
             @RequestParam(value = "duration", required = true) long duration,
@@ -92,14 +101,17 @@ public class ProductController {
             @RequestParam(value = "price", required = true) double price,
             HttpServletRequest request) {
         JpaProduct prod = new JpaProduct(type, name, duration, playNumber, firstNumber, lastNumber, hotRatio, days, price, false);
-        productService.createProduct(prod);
+        if (id != null)
+            prod.setId(id);
+        productService.saveProduct(prod);
         return "newProduct";
     }
 
 
     @RequestMapping(value = "/list/{pageNum}")
     public String contralist(Model model, @RequestParam(value = "name", required = false, defaultValue = "") String name,
-                             @RequestParam(value = "code", required = false, defaultValue = "") String code, @PathVariable int pageNum,
+                             @RequestParam(value = "code", required = false, defaultValue = "") String code,
+                             @PathVariable int pageNum,
                              HttpServletRequest request) {
 //        int psize = 9;
 //        NumberPageUtil page = new NumberPageUtil(productService.countMyList(name, code, request), pageNum, psize);

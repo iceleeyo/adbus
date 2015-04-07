@@ -64,8 +64,9 @@
                     return row.id;
                 },
                     "render": function(data, type, row, meta) {
-                        return row.enabled ? '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/disable">禁用</a> &nbsp;':
-                                '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/enable">启用</a>';
+                        return (row.enabled ? '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/disable">禁用</a> &nbsp;'
+                                :'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/enable">启用</a> &nbsp;')
+                        + '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/update/' + data +'">编辑</a>';
                     }},
             ],
             "language": {

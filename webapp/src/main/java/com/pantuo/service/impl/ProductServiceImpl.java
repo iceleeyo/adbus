@@ -56,12 +56,8 @@ public class ProductServiceImpl implements ProductService {
         return productRepo.findOne(productId);
     }
 
-    public void createProduct(JpaProduct product) {
-        productRepo.save(product);
-    }
-
     @Override
-    public void updateProduct(JpaProduct product) {
+    public void saveProduct(JpaProduct product) {
         productRepo.save(product);
     }
 

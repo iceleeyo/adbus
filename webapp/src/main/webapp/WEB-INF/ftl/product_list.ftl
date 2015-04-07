@@ -61,7 +61,7 @@
 							<td >${item.name}</td>
 							<td >${item.suppliesType}</td>
 							<td ><#setting date_format="yyyy-MM-dd     HH:MM">
-							${item.createTime?date}</td>
+							${item.created?date}</td>
 						</tr>
 					</#list> 
 				</tbody>
