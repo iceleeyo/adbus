@@ -2,23 +2,26 @@ package com.pantuo.web;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.pantuo.dao.pojo.BaseEntity;
+import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.pojo.DataTablePage;
 import org.activiti.engine.IdentityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.pantuo.service.ProductService;
 import com.pantuo.util.NumberPageUtil;
 
+import java.util.Random;
+import java.util.UUID;
+
 /**
- * 
- *
  * @author xl
  */
 @Controller
@@ -27,21 +30,83 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
-    @Autowired
-    private IdentityService identityService;
-    
-     
-    
+
+    @RequestMapping("ajax-list")
+    @ResponseBody
+    public DataTablePage<JpaProduct> getAllProducts( @RequestParam(value = "start", required = false, defaultValue = "0") int start,
+                                                     @RequestParam(value = "length", required = false, defaultValue = "10") int length,
+                                                     @RequestParam(value = "name", required = false) String name,
+                                                     @RequestParam(value = "draw", required = false, defaultValue = "1") int draw) {
+
+        /** test **/
+        Random r = new Random();
+        for (int i=0; i<Math.abs(r.nextInt(5)) + 2; i++) {
+            JpaProduct p = new JpaProduct(JpaProduct.Type.video, UUID.randomUUID().toString(),
+                    (long)(Math.abs(r.nextInt(120301))), Math.abs(r.nextInt(5)), Math.abs(r.nextInt(5)),
+                    Math.abs(r.nextInt(5)), Math.abs(Math.random()), Math.abs(r.nextInt(5)), Math.abs(r.nextInt(1000000)/100.0),
+                    (Math.random() > 0));
+            productService.createProduct(p);
+        }
+        /** test end **/
+
+        if (length < 1)
+            length = 1;
+
+        return new DataTablePage(productService.getAllProducts(name, start/length, length), draw);
+    }
+
+    @RequestMapping(value = "/{productId}/{enable}", method = { RequestMethod.POST})
+    @ResponseBody
+    public JpaProduct enableProduct(@PathVariable("productId") int productId,
+                                 @PathVariable("enable") String enable) {
+        boolean en = "enable".equals(enable);
+        JpaProduct product = productService.findById(productId);
+        if (product == null) {
+            JpaProduct p = new JpaProduct();
+            p.setErrorInfo(BaseEntity.ERROR, "找不到ID为" + productId + "的套餐");
+            return p;
+        }
+
+        if (product.isEnabled() != en) {
+            product.setEnabled(en);
+            productService.updateProduct(product);
+        }
+        return product;
+    }
+
+    @RequestMapping(value = "/new", produces = "text/html;charset=utf-8")
+    public String newProduct(HttpServletRequest request) {
+        return "newProduct";
+    }
+
+    @RequestMapping(value = "/create", method = { RequestMethod.POST}, produces = "text/html;charset=utf-8")
+    public String createProduct(
+            @RequestParam(value = "type", required = true) JpaProduct.Type type,
+            @RequestParam(value = "name", required = true) String name,
+            @RequestParam(value = "duration", required = true) long duration,
+            @RequestParam(value = "playNumber", required = true) int playNumber,
+            @RequestParam(value = "firstNumber", required = true) int firstNumber,
+            @RequestParam(value = "lastNumber", required = true) int lastNumber,
+            @RequestParam(value = "hotRatio", required = true) double hotRatio,
+            @RequestParam(value = "days", required = true) int days,
+            @RequestParam(value = "price", required = true) double price,
+            HttpServletRequest request) {
+        JpaProduct prod = new JpaProduct(type, name, duration, playNumber, firstNumber, lastNumber, hotRatio, days, price, false);
+        productService.createProduct(prod);
+        return "newProduct";
+    }
+
+
     @RequestMapping(value = "/list/{pageNum}")
-	public String contralist(Model model, @RequestParam(value = "name", required = false, defaultValue = "") String name,
-			@RequestParam(value = "code",required = false, defaultValue = "") String code, @PathVariable int pageNum,
-			HttpServletRequest request) {
-		int psize = 9;
-		NumberPageUtil page = new NumberPageUtil(productService.countMyList(name, code, request), pageNum, psize);
-		model.addAttribute("list", productService.queryContractList(page, name, code, request));
-		model.addAttribute("pageNum", pageNum);
-		model.addAttribute("paginationHTML", page.showNumPageWithEmpty());
-		return "product_list";
-	}
-     
+    public String contralist(Model model, @RequestParam(value = "name", required = false, defaultValue = "") String name,
+                             @RequestParam(value = "code", required = false, defaultValue = "") String code, @PathVariable int pageNum,
+                             HttpServletRequest request) {
+//        int psize = 9;
+//        NumberPageUtil page = new NumberPageUtil(productService.countMyList(name, code, request), pageNum, psize);
+//        model.addAttribute("list", productService.queryContractList(page, name, code, request));
+//        model.addAttribute("pageNum", pageNum);
+//        model.addAttribute("paginationHTML", page.showNumPageWithEmpty());
+        return "product_list2";
+    }
+
 }

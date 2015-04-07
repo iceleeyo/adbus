@@ -1,14 +1,7 @@
-<#include "/menu/webapp.ftl" />
-<html>
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>合同列表</title>
-<link rel="stylesheet" type="text/css" href="/${web}/css/page.css">
-<link rel="stylesheet" type="text/css" href="/${web}/css/account.css">
-<link rel="stylesheet" type="text/css" href="/${web}/css/sea.css">
-<link rel="stylesheet" type="text/css" href="/${web}/css/one.css">	
+<#import "template/template.ftl" as frame>
+
+<@frame.html title="合同列表">
+
 <script type="text/javascript" >
 	function pages(pageNum) {
 		var pattern = /^\d+$/;
@@ -33,59 +26,28 @@
 			return;
 		}
 		//  var adsts =$("#adsts").val();
-		window.location.href = "/${web}/contract/list/"+g2+ "?code=" + code + "&name="+ name;
+		window.location.href = "${rc.contextPath}/contract/list/"+g2+ "?code=" + code + "&name="+ name;
 	}
 
 	function page(num) {
 		var code = $("#code").val();
 		var name = $("#name").val();
 		var by = ($("#by").val());
-		window.location.href = "/${web}/contract/list/"+num+"?code="+ code + "&name=" + name; 
+		window.location.href = "${rc.contextPath}/contract/list/"+num+"?code="+ code + "&name=" + name;
 	}
 	
 	
 	function sub_code(){
 		var code = $("#code").val();
-		window.location.href= "/${web}/contract/list/1"+"?code="+code
+		window.location.href= "${rc.contextPath}/contract/list/1"+"?code="+code
 	}
 	
 	function sub_name(){
 		var name = $("#name").val();
-		window.location.href= "/${web}/contract/list/1"+"?name="+name
+		window.location.href= "${rc.contextPath}/contract/list/1"+"?name="+name
 		
 	}
 </script>
-</head>
-<body>
-
-	<div class="page-container">
-		<!--上部DIV-->
-		<#include "/menu/top.ftl" />
-		<!--下部DIV-->
-		<div class="page-container">
-			<div class="pg-container-main">
-				<!--顶部导航开始-->
-				<div class="container-12">
-					<ul class="breadcrumb ml10 m11 s-clear">
-						<li class="s-left fsize-16 bread-homep"><a class="gray-text"
-							href="/">首页</a></li>
-						<li class="s-left breadcrumb-right"></li>
-						<li class="s-left bread-child"><a class="gray-text" href="#">合同管理</a>
-						</li>
-						<li class="s-left breadcrumb-right"></li>
-						<li class="s-left bread-child"><a class="gray-text" href="#">合同列表</a>
-						</li>
-					</ul>
-				</div>
-				<!--顶部导航结束-->
-				<div class="container-12 mt10 s-clear">
-					<!--菜单开始-->
-					<#include "/menu/left.ftl" />
-
-					<!--菜单结束-->
-
-					<!--主体开始-->
-					<div class="ls-10">
 
 						<form id="base_form" action="" method="post"
 							dataType="html" enctype="multipart/form-data" class="Page-Form"	
@@ -175,7 +137,7 @@
 															class="ui-list-field text-center w80 fn-left"><em
 															class="value-small">
 															<a
-																href="/${web}/contract/contractDetail?contract_id=${item.id!''}">
+																href="${rc.contextPath}/contract/contractDetail?contract_id=${item.id!''}">
 																${item.contractName!''} </a>
 															</em> 
 														 </span>
@@ -211,15 +173,4 @@
 								</div>
 							</div>
 						</form>
-					</div>
-					<!--主体结束-->
-
-				</div>
-
-			</div>
-		</div>
-	</div>
-<script type="text/javascript" language="javascript"
-	src="/${web}/js/index.js"></script>
-</body>
-</html>
+</@frame.html>

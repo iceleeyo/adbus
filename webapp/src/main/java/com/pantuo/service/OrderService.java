@@ -1,34 +1,25 @@
 package com.pantuo.service;
 
-import java.util.Date;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
-import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.engine.task.Task;
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
+import com.pantuo.dao.pojo.JpaOrders;
+import com.pantuo.mybatis.domain.Contract;
+import com.pantuo.mybatis.domain.Orders;
+import com.pantuo.mybatis.persistence.OrdersMapper;
+import com.pantuo.util.Pair;
+import com.pantuo.util.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pantuo.mybatis.domain.Contract;
-import com.pantuo.mybatis.domain.Order;
-import com.pantuo.mybatis.persistence.OrderMapper;
-import com.pantuo.service.impl.SuppliesServiceImpl;
-import com.pantuo.util.Pair;
-import com.pantuo.util.Request;
-import com.pantuo.web.view.OrderView;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 @Service
 public class OrderService {
 
 	private static Logger log = LoggerFactory.getLogger(OrderService.class);
 
-	public enum Stats {
+/*	public enum Stats {
 		unpay, paid, datetime, report, finish, canel;
 		public static Stats getQt(String queryType) {
 			try {
@@ -48,9 +39,9 @@ public class OrderService {
 				return PayWay.ht_pay;
 			}
 		}
-	}
+	}*/
 
-	public Order selectOrderById(Integer id) {
+	public Orders selectOrderById(Integer id) {
 		return orderMapper.selectByPrimaryKey(id);
 
 	}
@@ -58,28 +49,28 @@ public class OrderService {
 	@Autowired
 	ContractService contractService;
 	@Autowired
-	OrderMapper orderMapper;
+    OrdersMapper orderMapper;
 
 	@Autowired
 	ActivitiService activitiService;
 
 	//	 public int countMyList(String name,String code, HttpServletRequest request) ;
-	//	 public List<Contract> queryContractList(NumberPageUtil page, String name, String code, HttpServletRequest request);
-	public Pair<Boolean, String> saveOrder(Order order, HttpServletRequest request) {
+	//	 public List<JpaContract> queryContractList(NumberPageUtil page, String name, String code, HttpServletRequest request);
+	public Pair<Boolean, String> saveOrder(Orders order, HttpServletRequest request) {
 		Pair<Boolean, String> r = null;
 		try {
-			order.setCreateTime(new Date());
-			order.setEditTime(new Date());
+			order.setCreated(new Date());
+			order.setUpdated(new Date());
 			//	
 			order.setUserId(Request.getUserId(request));
-			if (StringUtils.equals(order.getPayType(), PayWay.ht_pay.name())) {
+			if (order.getPayType() == JpaOrders.PayType.contract.ordinal()) {
 
-				Contract c = contractService.queryContractByCode(order.getContract_code());
+				Contract c = contractService.queryContractByCode(order.getContractCode());
 				if (c == null) {
 					return new Pair<Boolean, String>(false, "系统查不到相应的合同号！");
 				} else {
 					order.setContractId(c.getId());
-					order.setStats(Stats.paid.name());
+					order.setStats(JpaOrders.Status.paid.ordinal());
 				}
 			}
 			int dbId = orderMapper.insert(order);

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.pantuo.mybatis.domain.Orders;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
@@ -26,7 +27,7 @@ import scala.collection.mutable.StringBuilder;
 
 //import com.dumbster.smtp.SimpleSmtpServer;
 import com.pantuo.dao.pojo.UserDetail;
-import com.pantuo.mybatis.domain.Order;
+import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.OrderService;
 import com.pantuo.util.NumberPageUtil;
@@ -79,7 +80,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 					.processInstanceId(processInstanceId).singleResult();
 			Integer orderid = (Integer) task.getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
-			Order order = orderService.selectOrderById(orderid);
+			Orders order = orderService.selectOrderById(orderid);
 			v.setOrder(order);
 			v.setTask(task);
 			v.setProcessInstance(processInstance);
@@ -101,7 +102,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return processDefinition;
 	}
 
-	public void startProcess(UserDetail u, Order order) {
+	public void startProcess(UserDetail u, Orders order) {
 	//	Deployment deployment = repositoryService.createDeployment()
 	//			.addClasspathResource("classpath*:/com/pantuo/activiti/autodeploy/order.bpmn20.xml").deploy();
 		Map<String, Object> initParams = new HashMap<String, Object>();
@@ -198,7 +199,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 				Map<String, Object> info = processInstance.getProcessVariables();
 				Integer orderid = (Integer) info.get(ORDER_ID);
 				if (orderid != null) {
-					Order order = orderService.selectOrderById(orderid);
+					Orders order = orderService.selectOrderById(orderid);
 					if (order == null) {
 						sb.append(orderid + ",");
 						runtimeService.deleteProcessInstance(processInstance.getId(), "");
@@ -218,7 +219,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 		Map<String, Object> variables = taskService.getVariables(taskid);
 		int orderid = (Integer) variables.get(ORDER_ID);
-		Order order = orderService.selectOrderById(orderid);
+		Orders order = orderService.selectOrderById(orderid);
 		v.setOrder(order);
 		v.setTask(task);
 		v.setProcessInstance(processInstance);

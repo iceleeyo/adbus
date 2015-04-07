@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
+import com.pantuo.dao.pojo.JpaContract;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.ManagementService;
 import org.apache.commons.lang.ObjectUtils;
@@ -47,9 +48,9 @@ public class ContractService {
 	public Pair<Boolean, String> saveContract(Contract con, HttpServletRequest request) {
 		Pair<Boolean, String> r = null;
 		try {
-			con.setIsUpload(0);
-			con.setCreateTime(new Date());
-			con.setStats("unstart");
+			con.setIsUpload(false);
+			con.setCreated(new Date());
+			con.setStats(JpaContract.Status.not_started.ordinal());
 			int dbId = contractMapper.insert(con);
 			if (dbId > 0) {
 				attachmentService.saveAttachment(request, Request.getUserId(request), con.getId(), "ht_pic");
@@ -73,7 +74,7 @@ public class ContractService {
 		ContractExample example = new ContractExample();
 		ContractExample.Criteria criteria = example.createCriteria();
 		criteria.andContractCodeEqualTo(contract_code);
-		criteria.andStatsEqualTo("starting");
+		criteria.andStatsEqualTo(JpaContract.Status.started.ordinal());
 		List<Contract> list = contractMapper.selectByExample(example);
 		return list.isEmpty() ? null : list.get(0);
 	}
@@ -92,7 +93,7 @@ public class ContractService {
 		ContractExample example = new ContractExample();
 		ContractExample.Criteria criteria = example.createCriteria();
 		criteria.andIdEqualTo(con.getId());
-		con.setIsUpload(1);
+		con.setIsUpload(true);
 		return contractMapper.updateByExample(con, example);
 	}
 
@@ -114,7 +115,7 @@ public class ContractService {
 
 	public List<Contract> queryContractList(NumberPageUtil page, String name, String code, HttpServletRequest request) {
 		ContractExample ex = getExample(name, code);
-		ex.setOrderByClause("create_time desc");
+		ex.setOrderByClause("created desc");
 		ex.setLimitStart(page.getLimitStart());
 		ex.setLimitEnd(page.getPagesize());
 		return contractMapper.selectByExample(ex);

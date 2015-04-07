@@ -1,10 +1,6 @@
-<#include "/menu/webapp.ftl" />
-<html>
-<head>
-<meta content="text/html; charset=utf-8" http-equiv="content-type">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<#import "template/template.ftl" as frame>
 
-<title>公交广告交易系统</title>
+<@frame.html title="公交广告交易系统">
 <script type="text/javascript">
 	
 	$(function() {
@@ -37,7 +33,7 @@ function complete(taskId, variables) {
 		});
 	}
 	
-	var url="/${web}/order/"+taskId+"/complete";
+	var url="${rc.contextPath}/order/"+taskId+"/complete";
 	// 发送任务完成请求
     $.post(url,{
         keys: keys,
@@ -46,7 +42,7 @@ function complete(taskId, variables) {
     },function(data){
     	alert(data.left==true?"执行成功!":"执行失败!");
     	var a = document.createElement('a');
-    	a.href='/${web}/order/myTask/1';
+    	a.href='${rc.contextPath}/order/myTask/1';
     	a.target = 'main';
     	document.body.appendChild(a);
     	a.click();
@@ -126,36 +122,6 @@ function check() {
 		}, "text");
 	}
 </script>
-</head>
-<body>
-
-<div class="page-container">
-		<!--上部DIV-->
-		<#include "/menu/top.ftl" />
-
-		<!--下部DIV-->
-		<div class="page-container">
-			<div class="pg-container-main">
-				<!--顶部导航开始-->
-				<div class="container-12">
-					<ul class="breadcrumb ml10 m11 s-clear">
-						<li class="s-left fsize-16 bread-homep"><a class="gray-text"
-							href="/">首页</a></li>
-						<li class="s-left breadcrumb-right"></li>
-						<li class="s-left bread-child"><a class="gray-text" href="#">合同详情录入</a>
-						</li>
-					</ul>
-				</div>
-				<!--顶部导航结束-->
-				<div class="container-12 mt10 s-clear">
-					<!--菜单开始-->
-					<#include "/menu/left.ftl" />
-
-					<!--菜单结束-->
-
-					<!--主体开始-->
-					<div class="ls-10">
-						<div class="withdraw-wrap color-white-bg fn-clear">
 						<input type="hidden" id="orderid" value="${orderview.order.id!''}"/>
 						<input type="hidden" id="taskid" value="${taskid!''}"/>
 						<div class="withdraw-title fn-clear">
@@ -220,16 +186,4 @@ function check() {
 						</div>
 						
 						</div>
-					</div>
-					<!--主体结束-->
-				</div>
-			</div>
-		</div>
-		<!--底部DIV -->
-		<#include "/menu/foot.ftl" />
-		<!--底部DIV -->
-	</div>
-	<script type="text/javascript" language="javascript"
-	src="/${web}/index.js"></script>
-</body>
-</html>
+</@frame.html>

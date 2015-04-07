@@ -1,5 +1,3 @@
-<#assign web="webapp">
-			   
 <div class="ls-2">
 							<div class="pg-side">
 								<ul class="pg-side-list">
@@ -10,7 +8,7 @@
 										</a>
 										<ul class="pg-side-exp-list" style="">
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="/${web}/order/myTask/1">
+												<a class="side-exp-item-t" href="${rc.contextPath}/order/myTask/1">
 													代办事项
 												</a>
 											</li>
@@ -23,12 +21,12 @@
 										</a>
 										<ul class="pg-side-exp-list" style="">
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="/${web}/supplies/supplies_test">
+												<a class="side-exp-item-t" href="${rc.contextPath}/supplies/supplies_test">
 													上传物料
 												</a>
 											</li>
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="/${web}/supplies/list/1">
+												<a class="side-exp-item-t" href="${rc.contextPath}/supplies/list/1">
 													物料列表
 												</a>
 											</li>
@@ -40,19 +38,19 @@
 											<i class="s-left pg-icon-a c-icon"></i>
 											产品管理
 										</a>
-										<ul class="pg-side-exp-list" style="display:none;">
+										<ul class="pg-side-exp-list">
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="#">
+												<a class="side-exp-item-t" href="${rc.contextPath}/product/new">
 													产品定义
 												</a>
 											</li>
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="/${web}/product/list/1">
+												<a class="side-exp-item-t" href="${rc.contextPath}/product/list/1">
 													产品查询
 												</a>
 											</li>
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="/${web}/order/buypro">
+												<a class="side-exp-item-t" href="${rc.contextPath}/order/buypro">
 													购买产品
 												</a>
 											</li>
@@ -89,12 +87,12 @@
 										</a>
 										<ul class="pg-side-exp-list" style="display:none;">
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="/${web}/contract/contractEnter">
+												<a class="side-exp-item-t" href="${rc.contextPath}/contract/contractEnter">
 													添加合同
 												</a>
 											</li>
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t"  href="/${web}/contract/list/1">
+												<a class="side-exp-item-t"  href="${rc.contextPath}/contract/list/1">
 													合同列表
 												</a>
 											</li>

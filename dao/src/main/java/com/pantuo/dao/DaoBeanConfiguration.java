@@ -46,6 +46,7 @@ public class DaoBeanConfiguration {
         LocalContainerEntityManagerFactoryBean lef = new LocalContainerEntityManagerFactoryBean();
         lef.setDataSource(dataSource);
         lef.setJpaVendorAdapter(jpaVendorAdapter);
+        lef.getJpaPropertyMap().put("hibernate.ejb.naming_strategy", "org.hibernate.cfg.ImprovedNamingStrategy");
 //        lef.setPersistenceUnitName("adbus-pu");
         lef.setPackagesToScan("com.pantuo.dao");
         return lef;

@@ -1,7 +1,6 @@
-<#include "/menu/webapp.ftl" />
 <script type="text/javascript">
 			function logout(){
-			   window.location.href = "/${web}/logout";
+			   window.location.href = "${rc.contextPath}/logout";
 			   }
 	</script>
 <div class="pg-header">
@@ -17,7 +16,14 @@
 							<div class="s-right s-clear">
 								<span class="pg-nav-item s-left">您好，</span>
 								<a class="pg-nav-item-p pg-nav-item-n s-left" href="#">
-									<span>${SESSION_U_KEY.username!''}</span>
+									<span>
+                                        <@security.authorize access="isAuthenticated()">
+                                            <@security.authentication property="principal.username" />
+                                        </@security.authorize>
+                                        <@security.authorize access="! isAuthenticated()">
+                                            请登录
+                                        </@security.authorize>
+                                    </span>
 									<span class="arrow-down"></span>
 								</a>
 								<div class="pg-nav-dropdown" style="display: none;">
@@ -25,7 +31,7 @@
 										<div class="dropdown-account s-clear">
 											<div class="account-img-box s-left">
 												<a href="">
-													<img src="../imgs/default-img-78.png">
+													<img src="${rc.contextPath}/imgs/default-img-78.png">
 												</a>
 											</div>
 											<div class="s-left">
@@ -48,7 +54,9 @@
 										</div>
 									</div>
 								</div>
+                                <@security.authorize access="isAuthenticated()">
 								<a href="javascript:;" class="pg-nav-item s-left" onclick="logout();">[退出]</a>
+                                </@security.authorize>
 								<!--<a class="pg-nav-item s-left" href="#">
 									<i class="icon-msg fsize-12">1</i>
 									消息

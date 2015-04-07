@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <properties url="file:///${project.build.outputDirectory}/generator.properties"/>
+	<classPathEntry location="${generator.classPathEntry}" />
+	<context id="AdbusTables" targetRuntime="MyBatis3">
+		<plugin type="org.mybatis.generator.plugins.PaginationPlugin" />
+		<plugin type="org.mybatis.generator.plugins.VisibilityPlugin" />
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+		<commentGenerator>
+			<property name="suppressDate" value="true" />
+		</commentGenerator>
+		<jdbcConnection driverClass="${generator.driverClass}" connectionURL="${generator.connectionURL}"
+			userId="${generator.userId}" password="${generator.password}">
+		</jdbcConnection>
+
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+		<javaModelGenerator targetPackage="com.pantuo.mybatis.domain" targetProject="MAVEN">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+		<sqlMapGenerator targetPackage="com.pantuo.mybatis.persistence" targetProject="MAVEN">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		<javaClientGenerator type="XMLMAPPER" targetPackage="com.pantuo.mybatis.persistence"
+			targetProject="MAVEN">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+
+
+		<table schema="" tableName="product">
+			<generatedKey column="ID" sqlStatement="SELECT
+			@@IDENTITY" identity="true" />
+		</table>
+        <table schema="" tableName="attachment">
+            <generatedKey column="ID" sqlStatement="SELECT
+			@@IDENTITY" identity="true" />
+        </table>
+        <table schema="" tableName="contract">
+            <generatedKey column="ID" sqlStatement="SELECT
+			@@IDENTITY" identity="true" />
+        </table>
+        <table schema="" tableName="orders">
+            <generatedKey column="ID" sqlStatement="SELECT
+			@@IDENTITY" identity="true" />
+        </table>
+        <table schema="" tableName="supplies">
+            <generatedKey column="ID" sqlStatement="SELECT
+			@@IDENTITY" identity="true" />
+        </table>
+        <table schema="" tableName="supplies_history">
+            <generatedKey column="ID" sqlStatement="SELECT
+			@@IDENTITY" identity="true" />
+        </table>
+        <table schema="" tableName="sys_config">
+            <generatedKey column="ID" sqlStatement="SELECT
+			@@IDENTITY" identity="true" />
+        </table>
+	</context>
+</generatorConfiguration>

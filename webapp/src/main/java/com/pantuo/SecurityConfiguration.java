@@ -81,14 +81,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         userService.deleteGroups(groups);
         UserDetail u = new UserDetail("admin", "123456", "Admin", "nistrator", "admin@pantuo.com");
         u.setStringGroups(groups);
-    //    userService.createUser(u);
+        userService.createUser(u);
     }
 
     //.csrf() is optional, enabled by default, if using WebSecurityConfigurerAdapter constructor
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/*.html", "/doc/**", "/wadl").authenticated()
+                .antMatchers("/login", "/logout", "/css/**", "/images/**", "/imgs/**", "/js/**", "/style/**").permitAll()
+                .antMatchers("/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
             .formLogin()

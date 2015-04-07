@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
@@ -42,7 +43,7 @@ public interface SuppliesService {
 	 * @return
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
-	public List<Supplies> queryMyList(NumberPageUtil page, String name, String type, HttpServletRequest request);
+	public List<Supplies> queryMyList(NumberPageUtil page, String name, JpaProduct.Type type, HttpServletRequest request);
 	/**
 	 * 
 	 * 取素材列表时总记录数统计
@@ -54,7 +55,7 @@ public interface SuppliesService {
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
 	
-	public int countMyList(String name, String type, HttpServletRequest request);
+	public int countMyList(String name, JpaProduct.Type type, HttpServletRequest request);
 	/**
 	 * 
 	 * 删除素材

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.mybatis.generator</groupId>
+  <artifactId>mybatis-page-plugins</artifactId>
+  <versioning>
+    <versions>
+      <version>1.0-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20150403144241</lastUpdated>
+  </versioning>
+</metadata>

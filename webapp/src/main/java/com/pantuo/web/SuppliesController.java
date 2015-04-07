@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pantuo.dao.pojo.JpaProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,7 +44,7 @@ public class SuppliesController {
 
 	@RequestMapping(value = "/list/{pageNum}")
 	public String config(Model model, @RequestParam(value = "name", required = false, defaultValue = "") String name,
-			@RequestParam(value = "type", required = false, defaultValue = "") String type, @PathVariable int pageNum,
+			@RequestParam(value = "type", required = false) JpaProduct.Type type, @PathVariable int pageNum,
 			HttpServletRequest request) {
 		int psize = 9;
 		NumberPageUtil page = new NumberPageUtil(suppliesService.countMyList(name, type, request), pageNum, psize);

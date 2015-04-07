@@ -66,8 +66,8 @@ public class AttachmentServiceImpl implements AttachmentService {
 							file.transferTo(localFile);
 							Attachment t = new Attachment();
 							t.setMainId(main_id);
-							t.setCreateTime(new Date());
-							t.setEditTime(t.getCreateTime());
+							t.setCreated(new Date());
+							t.setUpdated(t.getCreated());
 							t.setName(oriFileName);
 							t.setUrl(p.getRight());
 							t.setUserId(user_id);

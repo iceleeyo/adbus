@@ -7,12 +7,14 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pantuo.mybatis.domain.Orders;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.pantuo.mybatis.domain.Order;
+import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.ContractService;
 import com.pantuo.service.OrderService;
@@ -131,13 +133,12 @@ public class OrderController {
 			@RequestParam(value = "taskid", required = false) String taskid,
 			@RequestParam(value = "isok", required = false) String isok,
 			@RequestParam(value = "comment", required = false) String comment, HttpServletRequest request,
-			HttpServletResponse response) {
+			HttpServletResponse response, Authentication auth) {
 		return activitiService.handle(orderid, taskid, comment, isok, Request.getUser(request));
 	}
 
 	/**
 	 * 根据任务Id完成任务
-	 * @param userid
 	 * @return
 	 */
 	@RequestMapping(value = "/{taskId}/complete", method = { RequestMethod.GET, RequestMethod.POST })
@@ -150,7 +151,7 @@ public class OrderController {
 
 	@RequestMapping(value = "creOrder", method = RequestMethod.POST)
 	@ResponseBody
-	public Pair<Boolean, String> saveOrder(Order order, HttpServletRequest request, HttpServletResponse response)
+	public Pair<Boolean, String> saveOrder(Orders order, HttpServletRequest request, HttpServletResponse response)
 			throws IllegalStateException, IOException, ParseException {
 
 		return orderService.saveOrder(order, request);

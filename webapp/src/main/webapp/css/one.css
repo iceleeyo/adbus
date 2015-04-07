@@ -4536,7 +4536,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	display: inline-block;
 	width: 18px;
 	height: 18px;
-	background: url(/webapp/imgs/icon-content.png?v=b87b8) no-repeat;
+	background: url(imgs/icon-content.png?v=b87b8) no-repeat;
 	vertical-align: middle
 }
 
@@ -5899,14 +5899,14 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	display: block;
 	height: 72px;
 	width: 140px;
-	background: url(/webapp/imgs/logo.png?v=f3810) no-repeat 0 center
+	background: url(imgs/logo.png?v=f3810) no-repeat 0 center
 }
 
 .ui-header-newyear-logo {
 	display: block;
 	width: 195px;
 	height: 72px;
-	background: url(/webapp/imgs/newyear-logo.png?v=f3012) no-repeat 0 center;
+	background: url(imgs/newyear-logo.png?v=f3012) no-repeat 0 center;
 	position: absolute;
 	left: -42px;
 	top: 0

@@ -104,7 +104,7 @@ public class UserService {
     }
 
 /*	public void test() {
-		SysConfig g = sysConfigMapper.selectByPrimaryKey(1);
+		JpaSysConfig g = sysConfigMapper.selectByPrimaryKey(1);
 		if (g != null) {
 			System.out.println(g.getKeyCode());
 		}

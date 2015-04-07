@@ -10,8 +10,9 @@
             .center {margin: auto;}
             .frame {width: 600px;}
             .div {text-align:center; margin:25px;}
-            span {display:inline-block; width: 50px; text-align: right; margin: 0 5px;}
-            form {width: 100%; border: 0}
+
+            form {border: 0}
+            fieldset {border: 0}
             #error {font-size: 12px; color: red;}
         </style>
 
@@ -19,8 +20,6 @@
       <link rel="stylesheet" type="text/css" href="css/login.css">
     </head>
     <body>
-    <form name='loginForm'
-          action="loginin" method='POST'>
         <div class="login-container">
 			<div class="pg-header">
 				<div class="pg-header-top">
@@ -50,7 +49,7 @@
 							</div>
 							<div class="s-right login-right">
 								<div class="login-info module">
-									<form class="login-form" action="loginin" method='POST'>
+									<form id='loginForm' name='loginForm' class="login-form" action="login" method='POST'>
 									   <fieldset><br>
 									   ${(message)!''}
 									   		<div class="login-tips mb10" style="display : none;">
@@ -62,7 +61,7 @@
 									   			<span class="login-name-icon icon-position-user"></span>
 									   		</div>
 									   		<div class="login-item">
-									   			<input class="login-input input-p gray-input" type="text" placeholder="请输入密码" name="password">
+									   			<input class="login-input input-p gray-input" type="password" placeholder="请输入密码" id="password" name="password">
 									   			<span class="login-name-icon icon-position-pwd"></span>
 									   		</div>
 									   		<div class="login-item s-clear">
@@ -72,8 +71,10 @@
 									   		</div>
 									   		<div class="login-item p-center">
 									   			<p class="mt37"></p>
-									   			<input name="submit" type="submit" class="login-btn login-btn-size" value="立即登录" />
+									   			<input type="submit" name="submit" value="立即登录" class="login-btn login-btn-size func-submit"/>
 									   		</div>
+                                           <input type="hidden"
+                                                  name="${(_csrf.parameterName)!''}" value="${(_csrf.token)!''}" />
 									   		<div class="login-item p-center">
 									   			<span>没有账号？</span>
 									   			<a href="#">免费注册</a>
@@ -91,11 +92,10 @@
 				</div>
 			</div>
 		</div>
-    </form>
     <script type="text/javascript">
-        if ($.QueryString().error) {
-            $("#error").html("用户名/密码错误")
-        }
+//        if ($.QueryString().error) {
+//            $("#error").html("用户名/密码错误")
+//        }
     </script>
     </body>
 </html>

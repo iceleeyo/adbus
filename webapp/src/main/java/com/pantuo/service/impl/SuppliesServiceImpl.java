@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.dao.pojo.JpaSupplies;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,8 +38,8 @@ public class SuppliesServiceImpl implements SuppliesService {
 		}
 		try {
 			obj.setUserId(Request.getUserId(request));
-			obj.setCreateTime(new Date());
-			obj.setEditTime(obj.getCreateTime());
+			obj.setCreated(new Date());
+			obj.setUpdated(obj.getCreated());
 			int dbId = suppliesMapper.insert(obj);
 			if (dbId > 0) {
 				attachmentService.saveAttachment(request, Request.getUserId(request), obj.getId(), "su_file");
@@ -65,27 +67,27 @@ public class SuppliesServiceImpl implements SuppliesService {
 		}
 	}
 
-	public List<Supplies> queryMyList(NumberPageUtil page, String name, String type, HttpServletRequest request) {
+	public List<Supplies> queryMyList(NumberPageUtil page, String name, JpaProduct.Type type, HttpServletRequest request) {
 		SuppliesExample ex = getExample(name, type, request);
-		ex.setOrderByClause("create_time desc");
+		ex.setOrderByClause("created desc");
 		ex.setLimitStart(page.getLimitStart());
 		ex.setLimitEnd(page.getPagesize());
 		return suppliesMapper.selectByExample(ex);
 	}
 
-	public int countMyList(String name, String type, HttpServletRequest request) {
+	public int countMyList(String name, JpaProduct.Type type, HttpServletRequest request) {
 
 		return suppliesMapper.countByExample(getExample(name, type, request));
 	}
 
-	public SuppliesExample getExample(String name, String type, HttpServletRequest request) {
+	public SuppliesExample getExample(String name, JpaProduct.Type type, HttpServletRequest request) {
 		SuppliesExample example = new SuppliesExample();
 		SuppliesExample.Criteria ca = example.createCriteria();
 		if (StringUtils.isNoneBlank(name)) {
 			ca.andNameLike("%" + name + "%");
 		}
-		if (StringUtils.isNoneBlank(type)) {
-			ca.andSuppliesTypeEqualTo(type);
+		if (type != null) {
+			ca.andSuppliesTypeEqualTo(type.ordinal());
 		}
 		ca.andUserIdEqualTo(Request.getUserId(request));
 		return example;

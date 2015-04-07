@@ -2,16 +2,17 @@ package com.pantuo.web.view;
 
 import java.util.Map;
 
+import com.pantuo.mybatis.domain.Orders;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 
-import com.pantuo.mybatis.domain.Order;
+import com.pantuo.mybatis.domain.Orders;
 
 public class OrderView {
 
-	Order order;
+	Orders order;
 	//-- 临时属性 --//
 
 	// 流程任务
@@ -28,11 +29,11 @@ public class OrderView {
 	// 流程定义
 	private ProcessDefinition processDefinition;
 
-	public Order getOrder() {
+	public Orders getOrder() {
 		return order;
 	}
 
-	public void setOrder(Order order) {
+	public void setOrder(Orders order) {
 		this.order = order;
 	}
 
