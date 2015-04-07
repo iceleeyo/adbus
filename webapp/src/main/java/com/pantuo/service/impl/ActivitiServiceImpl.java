@@ -7,13 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.pantuo.mybatis.domain.Orders;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
-import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
-import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -24,7 +21,7 @@ import org.springframework.stereotype.Service;
 
 import scala.collection.mutable.StringBuilder;
 
-
+import com.pantuo.dao.pojo.JpaOrders;
 //import com.dumbster.smtp.SimpleSmtpServer;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Orders;
@@ -124,6 +121,29 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 		debug(process.getId());
 	}
+	
+	public void startProcess2(UserDetail u, JpaOrders order) {
+		//	Deployment deployment = repositoryService.createDeployment()
+		//			.addClasspathResource("classpath*:/com/pantuo/activiti/autodeploy/order.bpmn20.xml").deploy();
+			Map<String, Object> initParams = new HashMap<String, Object>();
+			initParams.put("_owner", u);
+			initParams.put(ORDER_ID, String.valueOf(order.getId()));
+			initParams.put("_now", new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
+			ProcessInstance process = runtimeService.startProcessInstanceByKey(MAIN_PROCESS, initParams);
+
+			List<Task> tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime()
+					.desc().listPage(0, 1);
+			if (!tasks.isEmpty()) {
+				Task task = tasks.get(0);
+				Map<String, Object> info = taskService.getVariables(task.getId());
+				if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), String.valueOf(order.getId()))) {
+					taskService.claim(task.getId(), u.getUsername());
+					taskService.complete(task.getId());
+				}
+			}
+
+			debug(process.getId());
+		}
 
 	private void debug(String processid) {
 		List<Task> tasks;

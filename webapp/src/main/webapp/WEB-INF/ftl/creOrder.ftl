@@ -24,7 +24,7 @@
 	}
 </script>
 							<form data-name="withdraw" name="userForm2" id="userForm2"
-								class="ui-form" method="post" action="creOrder"
+								class="ui-form" method="post" action="creOrder2"
 								enctype="multipart/form-data">
 								<div class="withdraw-title fn-clear">套餐订单录入</div>
 								<div class="withdrawInputs">
@@ -50,7 +50,7 @@
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>支付方式:</label> 
 												<input
-												class="ui-input" type="text" value="ht_pay" name="payType"
+												class="ui-input" type="text" value="contract" name="payType"
 												id="withdrawAmount" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
 											
@@ -60,14 +60,14 @@
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>合同号:</label> <input id="code"
-												class="ui-input" type="text" value="reg4345" name="contract_code"
+												class="ui-input" type="text" value="reg4345" name="contractCode"
 												id="withdrawAmount" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
 											
 											<input type="button" onclick="check();" class="block-btn" value="合同号检查" style="width: 118px; ">
 
 										</div>
-
+	
 									</div>
 									<div class="ui-form-item widthdrawBtBox">
 										<input type="button" id="subWithdraw" class="block-btn"

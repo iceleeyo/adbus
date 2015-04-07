@@ -7,7 +7,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.mybatis.domain.Orders;
+
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
@@ -148,7 +150,13 @@ public class OrderController {
 		return activitiService.complete(taskId, variable.getVariableMap(), Request.getUser(request));
 
 	}
+	@RequestMapping(value = "creOrder2", method = RequestMethod.POST)
+	@ResponseBody
+	public Pair<Boolean, String> saveOrderJpa(JpaOrders order, HttpServletRequest request, HttpServletResponse response)
+			throws IllegalStateException, IOException, ParseException {
 
+		return orderService.saveOrderJpa(order, request);
+	}
 	@RequestMapping(value = "creOrder", method = RequestMethod.POST)
 	@ResponseBody
 	public Pair<Boolean, String> saveOrder(Orders order, HttpServletRequest request, HttpServletResponse response)

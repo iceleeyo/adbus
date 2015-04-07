@@ -3,6 +3,7 @@ package com.pantuo.service;
 import java.util.List;
 import java.util.Map;
 
+import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.util.NumberPageUtil;
@@ -19,6 +20,8 @@ public interface ActivitiService {
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
 	public void startProcess(UserDetail u, Orders order);
+	
+	public void startProcess2(UserDetail u, JpaOrders order);
 
 	public Pair<Boolean, String> payment(int orderid, String taskid, UserDetail u);
 
