@@ -1,5 +1,5 @@
 <#import "template/template.ftl" as frame>
-
+<#global menu="购买产品">
 <@frame.html title="下订单">
 
 <script type="text/javascript">

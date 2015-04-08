@@ -37,7 +37,7 @@ public class UserServiceTest {
         service.createUser(u1);
         service.createUser(u2);
 
-        Iterable<UserDetail> users = service.getAllUsers(0, Integer.MAX_VALUE);
+        Iterable<UserDetail> users = service.getAllUsers(null, 0, Integer.MAX_VALUE);
         ArrayList<UserDetail> userList = new ArrayList<UserDetail> ();
         for (UserDetail user : users) {
             userList.add(user);

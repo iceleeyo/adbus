@@ -32,25 +32,25 @@
 		</javaClientGenerator>
 
 
-		<table schema="" tableName="product">
+		<table schema="" tableName="product" delimitIdentifiers="true">
 			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
 		</table>
-        <table schema="" tableName="attachment">
+        <table schema="" tableName="attachment" delimitIdentifiers="true">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
-        <table schema="" tableName="contract">
+        <table schema="" tableName="contract" delimitIdentifiers="true">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
-        <table schema="" tableName="orders">
+        <table schema="" tableName="orders" delimitIdentifiers="true">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
-        <table schema="" tableName="supplies">
+        <table schema="" tableName="supplies" delimitIdentifiers="true">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
-        <table schema="" tableName="supplies_history">
+        <table schema="" tableName="supplies_history" delimitIdentifiers="true">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
-        <table schema="" tableName="sys_config">
+        <table schema="" tableName="sys_config" delimitIdentifiers="true">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
 	</context>

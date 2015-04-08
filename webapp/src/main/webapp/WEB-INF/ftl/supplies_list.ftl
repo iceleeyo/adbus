@@ -1,5 +1,5 @@
 <#import "template/template.ftl" as frame>
-
+<#global menu="物料列表">
 <@frame.html title="物料列表">
     <script>
         function pages(pageNum) {

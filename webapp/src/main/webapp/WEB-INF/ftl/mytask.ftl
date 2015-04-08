@@ -1,5 +1,5 @@
 <#import "template/template.ftl" as frame>
-
+<#global menu="待办事项">
 <@frame.html title="订单审核列表">
 
 <script type="text/javascript">

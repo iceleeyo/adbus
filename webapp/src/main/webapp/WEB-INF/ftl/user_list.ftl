@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
-<#global menu="产品查询">
-<@frame.html title="产品套餐列表">
+<#global menu="用户列表">
+<@frame.html title="用户列表">
 
 <style type="text/css">
     .center {margin: auto;}
@@ -21,7 +21,7 @@
             "serverSide": true,
             "ajax": {
                 type: "GET",
-                url: "${rc.contextPath}/product/ajax-list",
+                url: "${rc.contextPath}/user/ajax-list",
                 data: function(d) {
                     return $.extend( {}, d, {
                         "name" : $('#name').val()
@@ -30,7 +30,7 @@
                 "dataSrc": "content",
             },
             "columns": [
-                { "data": "name", "defaultContent": "",
+                { "data": "username", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         var filter = $('#name').val();
                         if (filter && filter != '') {
@@ -41,17 +41,15 @@
                         }
                     return data;
                 } },
-                { "data": "type", "defaultContent": "",
+                { "data": "groups", "defaultContent": "",
                     "render": function(data, type, row, meta) {
-                        if (data == 'video')
-                            return '视频';
-                        if (data == 'image')
-                            return '图片';
-                        if (data == 'info')
-                            return 'Info';
-                        return '';
+                        var g = '<select class="ui-input" name="groups">';
+                        $.each(data, function(i) {
+                            g += '<option value="' + data[i].id + '" >' + data[i].id + '</option>';
+                        });
+                        g += '</select>'
+                        return g;
                     } },
-                { "data": "price", "defaultContent": "" },
                 { "data": "enabled", "defaultContent": "", "render": function(data) {
                     switch(data) {
                         case true:
@@ -61,12 +59,12 @@
                     }
                 } },
                 { "data": function( row, type, set, meta) {
-                    return row.id;
+                    return row.username;
                 },
                     "render": function(data, type, row, meta) {
-                        return (row.enabled ? '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/disable">禁用</a> &nbsp;'
-                                :'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/enable">启用</a> &nbsp;')
-                        + '<a class="table-link" href="${rc.contextPath}/product/' + data +'">编辑</a>';
+                        return (row.enabled ? '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/user/' + data + '/disable">禁用</a> &nbsp;'
+                                :'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/user/' + data + '/enable">启用</a> &nbsp;')
+                        + '<a class="table-link" href="${rc.contextPath}/user/' + data +'">编辑</a>';
                     }},
             ],
             "language": {
@@ -81,7 +79,7 @@
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>套餐名称</span>' +
+                        '    <span>用户名</span>' +
                         '    <span>' +
                         '        <input id="name" value="">' +
                         '    </span>' +
@@ -105,19 +103,12 @@
         initTable();
     } );
 </script>
-<#--            <div class="div" style="margin-top:25px">
-                <caption><h2>产品套餐列表</h2></caption>
-            </div>
-            <div class="div">
-                <hr/>
-            </div>-->
             <div class="div">
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th>套餐名称</th>
-                        <th>类型</th>
-                        <th>价格</th>
+                        <th>用户名</th>
+                        <th>所属组</th>
                         <th>状态</th>
                         <th>管理</th>
                     </tr>

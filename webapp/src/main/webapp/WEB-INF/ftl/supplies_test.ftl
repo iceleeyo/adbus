@@ -1,5 +1,5 @@
 <#import "template/template.ftl" as frame>
-
+<#global menu="上传物料">
 <@frame.html title="物料上传">
 
 <script type="text/javascript">

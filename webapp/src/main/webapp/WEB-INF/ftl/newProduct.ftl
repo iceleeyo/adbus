@@ -1,28 +1,33 @@
 <#import "template/template.ftl" as frame>
 <#import "spring.ftl" as spring />
 
-<@frame.html title="增加产品套餐">
+<#global menu="产品定义">
+<#assign action="增加">
+<#if prod??><#assign action="修改"></#if>
+
+<@frame.html title="${action}产品套餐">
 
 <script type="text/javascript">
 	function sub2() {
-        $('#productForm').ajaxForm({
+        $('#productForm').ajaxForm(function(data) {
+            alert(data.error + " # " + data.name);
         }).submit();
 	}
 </script>
 							<form data-name="withdraw" name="productForm" id="productForm"
 								class="ui-form" method="post" action="save"
 								enctype="multipart/form-data">
-                                <input type="hidden" name="id" id="id" value="<#if prod??>${(prod.id)!''}<#else></#if>"/>
-								<div class="withdraw-title fn-clear">增加产品套餐</div>
+                                <input type="hidden" name="id" id="id" value="<#if prod??>${(prod.id)!''}<#else>0</#if>"/>
+								<div class="withdraw-title fn-clear">${action}产品套餐</div>
 								<div class="withdrawInputs">
 									<div class="inputs">
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>套餐类型：</label>
                                             <select class="ui-input" name="type" id="type">
-                                                <option value="video" selected="selected">video</option>
-                                                <option value="image">image</option>
-                                                <option value="info">info</option>
+                                                <option value="video" <#if (!prod?? || prod.type == 'video')>selected="selected"</#if>>video</option>
+                                                <option value="image" <#if (prod?? && prod.type == 'image')>selected="selected"</#if>>image</option>
+                                                <option value="info" <#if (prod?? && prod.type == 'info')>selected="selected"</#if>>info</option>
                                             </select>
                                         </div>
 

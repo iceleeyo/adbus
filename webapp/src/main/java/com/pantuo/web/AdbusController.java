@@ -24,30 +24,36 @@ import com.pantuo.service.UserService;
  */
 
 @Controller
-@RequestMapping(produces = "application/json;charset=utf-8")
+@RequestMapping(value="user", produces = "application/json;charset=utf-8")
 public class AdbusController {
     private static Logger log = LoggerFactory.getLogger(AdbusController.class);
 
     @Autowired
     private UserService userService;
 
+    @RequestMapping(value = "/list", method = { RequestMethod.GET})
+    public String userlist() {
+        return "user_list";
+    }
+
     /**
-     * <b>测试Ajax：获取所有用户</b>
+     * <b>Ajax：获取所有用户</b>
      *
      */
-    @RequestMapping(value = "/user/list", method = { RequestMethod.GET})
+    @RequestMapping(value = "/ajax-list", method = { RequestMethod.GET})
     @ResponseBody
     public DataTablePage<UserDetail> getUsers(
             @RequestParam(value = "start", required = false, defaultValue = "0") int start,
             @RequestParam(value = "length", required = false, defaultValue = "10") int length,
+            @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "draw", required = false, defaultValue = "1") int draw) {
         if (length < 1)
             length = 1;
         
-        return new DataTablePage(userService.getAllUsers(start/length, length), draw);
+        return new DataTablePage(userService.getAllUsers(name, start/length, length), draw);
     }
 
-    @RequestMapping(value = "/user/{username}/{enable}", method = { RequestMethod.POST})
+    @RequestMapping(value = "/{username}/{enable}", method = { RequestMethod.POST})
     @ResponseBody
     public UserDetail enableUser(@PathVariable("username") String username,
                               @PathVariable("enable") String enable) {

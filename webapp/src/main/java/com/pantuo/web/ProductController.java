@@ -27,6 +27,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping(produces = "application/json;charset=utf-8", value = "/product")
 public class ProductController {
+    private static Logger log = LoggerFactory.getLogger(ProductController.class);
 
     @Autowired
     private ProductService productService;
@@ -79,7 +80,7 @@ public class ProductController {
         return "newProduct";
     }
 
-    @RequestMapping(value = "/update/{id}", produces = "text/html;charset=utf-8")
+    @RequestMapping(value = "/{id}", produces = "text/html;charset=utf-8")
     public String updateProduct(@PathVariable int id,
                                 Model model, HttpServletRequest request) {
         JpaProduct prod  = productService.findById(id);
@@ -87,9 +88,11 @@ public class ProductController {
         return "newProduct";
     }
 
-    @RequestMapping(value = "/save", method = { RequestMethod.POST}, produces = "text/html;charset=utf-8")
-    public String createProduct(
-            @RequestParam(value = "id", required = false) Integer id,
+    @RequestMapping(value = "/save", method = { RequestMethod.POST})
+    @ResponseBody
+    public JpaProduct createProduct(
+            JpaProduct prod,
+/*            @RequestParam(value = "id", required = false) Integer id,
             @RequestParam(value = "type", required = true) JpaProduct.Type type,
             @RequestParam(value = "name", required = true) String name,
             @RequestParam(value = "duration", required = true) long duration,
@@ -98,21 +101,25 @@ public class ProductController {
             @RequestParam(value = "lastNumber", required = true) int lastNumber,
             @RequestParam(value = "hotRatio", required = true) double hotRatio,
             @RequestParam(value = "days", required = true) int days,
-            @RequestParam(value = "price", required = true) double price,
+            @RequestParam(value = "price", required = true) double price,*/
             HttpServletRequest request) {
-        JpaProduct prod = new JpaProduct(type, name, duration, playNumber, firstNumber, lastNumber, hotRatio, days, price, false);
-        if (id != null)
-            prod.setId(id);
-        productService.saveProduct(prod);
-        return "newProduct";
+//        JpaProduct prod = new JpaProduct(type, name, duration, playNumber, firstNumber, lastNumber, hotRatio, days, price, false);
+        if (prod.getId() > 0) {
+            log.info("Updating product {}", prod.getName());
+        } else {
+            log.info("Creating new product {}", prod.getName());
+        }
+        try {
+            productService.saveProduct(prod);
+        } catch (Exception e) {
+            prod.setErrorInfo(BaseEntity.ERROR, e.getMessage());
+        }
+        return prod;
     }
 
 
-    @RequestMapping(value = "/list/{pageNum}")
-    public String contralist(Model model, @RequestParam(value = "name", required = false, defaultValue = "") String name,
-                             @RequestParam(value = "code", required = false, defaultValue = "") String code,
-                             @PathVariable int pageNum,
-                             HttpServletRequest request) {
+    @RequestMapping(value = "/list")
+    public String contralist() {
 //        int psize = 9;
 //        NumberPageUtil page = new NumberPageUtil(productService.countMyList(name, code, request), pageNum, psize);
 //        model.addAttribute("list", productService.queryContractList(page, name, code, request));

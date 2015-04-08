@@ -1,5 +1,5 @@
 <#import "template/template.ftl" as frame>
-
+<#global menu="添加合同">
 <@frame.html title="合同录入">
 
 <script type="text/javascript">

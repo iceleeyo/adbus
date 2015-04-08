@@ -1,12 +1,15 @@
 package com.pantuo.service;
 
+import com.mysema.query.types.Predicate;
 import com.pantuo.dao.UserDetailRepository;
+import com.pantuo.dao.pojo.QUserDetail;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.ManagementService;
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.identity.GroupQuery;
 import org.activiti.engine.identity.User;
 import org.activiti.engine.impl.persistence.entity.UserEntity;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,14 +54,20 @@ public class UserService {
     @Autowired
     private ManagementService managementService;
 
-	public Page<UserDetail> getAllUsers(int page, int pageSize) {
+	public Page<UserDetail> getAllUsers(String name, int page, int pageSize) {
 		if (page < 0)
 			page = 0;
 		if (pageSize < 1)
 			pageSize = 1;
 		//test();
+        Page<UserDetail> result = null;
 		Pageable p = new PageRequest(page, pageSize, new Sort("id"));
-        Page<UserDetail> result = userRepo.findAll(p);
+        if (name == null || StringUtils.isEmpty(name)) {
+            result = userRepo.findAll(p);
+        } else {
+            Predicate query = QUserDetail.userDetail.username.like("%" + name + "%");
+            result = userRepo.findAll(query, p);
+        }
 
         //fetch and fill info from activiti user table
         StringBuffer userIds = new StringBuffer ();

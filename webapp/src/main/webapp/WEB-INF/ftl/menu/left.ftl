@@ -9,7 +9,7 @@
 										<ul class="pg-side-exp-list" style="">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/order/myTask/1">
-													代办事项
+													待办事项
 												</a>
 											</li>
 										</ul>
@@ -45,7 +45,7 @@
 												</a>
 											</li>
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/product/list/1">
+												<a class="side-exp-item-t" href="${rc.contextPath}/product/list">
 													产品查询
 												</a>
 											</li>
@@ -61,7 +61,7 @@
 											<i class="s-left pg-icon-a d-icon"></i>
 											订单管理
 										</a>
-										<ul class="pg-side-exp-list" style="display:none;">
+										<ul class="pg-side-exp-list">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="#">
 													我的订单
@@ -85,7 +85,7 @@
 											<i class="s-left pg-icon-a d-icon"></i>
 											合同管理
 										</a>
-										<ul class="pg-side-exp-list" style="display:none;">
+										<ul class="pg-side-exp-list">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/contract/contractEnter">
 													添加合同
@@ -109,9 +109,9 @@
 											<i class="s-left pg-icon-a e-icon"></i>
 											用户管理
 										</a>
-										<ul class="pg-side-exp-list" style="display:none;">
+										<ul class="pg-side-exp-list">
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="#">
+												<a class="side-exp-item-t" href="${rc.contextPath}/user/list">
 													用户列表
 												</a>
 											</li>
@@ -123,7 +123,7 @@
 											<i class="s-left pg-icon-a f-icon"></i>
 											时段管理
 										</a>
-										<ul class="pg-side-exp-list" style="display:none;">
+										<ul class="pg-side-exp-list">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="#">
 													视频时段
@@ -141,7 +141,7 @@
 											<i class="s-left pg-icon-a g-icon"></i>
 											报表管理
 										</a>
-										<ul class="pg-side-exp-list" style="display:none;">
+										<ul class="pg-side-exp-list">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="#">
 													时段报表
@@ -161,4 +161,33 @@
 									</li>
 								</ul>
 							</div>
-						</div>
+</div>
+<script type="text/javascript">
+    function active(menu) {
+        $(".pg-side-item").each(function(){
+            if (menu) {
+                $(this).find(".side-exp-item-t").each(function(){
+                    if ($(this).text().trim() == menu) {
+                        $(this).addClass("active");
+                    }
+                });
+            }
+
+            var active = $(this).find(".side-exp-item-t.active");
+            if (!active[0]) {
+                $(this).find(".pg-side-exp-list").hide();
+            } else {
+                $(this).find(".pg-side-exp-list").show();
+            }
+        });
+    }
+
+    $(document).ready(function(){
+        var menu = '<#if menu??>${menu}<#else></#if>';
+
+        $(".pg-side-item-t").click(function(){
+            $(this).parent(".pg-side-item").find(".pg-side-exp-list").toggle();
+        });
+        active(menu);
+    });
+</script>
