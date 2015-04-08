@@ -85,7 +85,7 @@
                         </goals>
                         <configuration>
                             <files>
-                                <file>${project.build.outputDirectory}/generator.properties</file>
+                                <file>${project.build.outputDirectory}/${adbus.env}.generator.properties</file>
                             </files>
                         </configuration>
                     </execution>

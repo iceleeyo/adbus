@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
   "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
-    <properties url="file:///${project.build.outputDirectory}/generator.properties"/>
+    <properties url="file:///${project.build.outputDirectory}/${adbus.env}.generator.properties"/>
 	<classPathEntry location="${generator.classPathEntry}" />
 	<context id="AdbusTables" targetRuntime="MyBatis3">
 		<plugin type="org.mybatis.generator.plugins.PaginationPlugin" />
@@ -32,25 +32,25 @@
 		</javaClientGenerator>
 
 
-		<table schema="" tableName="product" delimitIdentifiers="true">
+		<table schema="" tableName="product" delimitIdentifiers="${generator.delimitIdentifiers}">
 			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
 		</table>
-        <table schema="" tableName="attachment" delimitIdentifiers="true">
+        <table schema="" tableName="attachment" delimitIdentifiers="${generator.delimitIdentifiers}">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
-        <table schema="" tableName="contract" delimitIdentifiers="true">
+        <table schema="" tableName="contract" delimitIdentifiers="${generator.delimitIdentifiers}">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
-        <table schema="" tableName="orders" delimitIdentifiers="true">
+        <table schema="" tableName="orders" delimitIdentifiers="${generator.delimitIdentifiers}">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
-        <table schema="" tableName="supplies" delimitIdentifiers="true">
+        <table schema="" tableName="supplies" delimitIdentifiers="${generator.delimitIdentifiers}">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
-        <table schema="" tableName="supplies_history" delimitIdentifiers="true">
+        <table schema="" tableName="supplies_history" delimitIdentifiers="${generator.delimitIdentifiers}">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
-        <table schema="" tableName="sys_config" delimitIdentifiers="true">
+        <table schema="" tableName="sys_config" delimitIdentifiers="${generator.delimitIdentifiers}">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
 	</context>
