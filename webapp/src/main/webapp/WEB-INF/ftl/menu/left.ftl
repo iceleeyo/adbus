@@ -63,18 +63,23 @@
 										</a>
 										<ul class="pg-side-exp-list">
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="#">
+												<a class="side-exp-item-t" href="/${web}/order/myOrders/user/1">
 													我的订单
 												</a>
 											</li>
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="#">
-													订单审核
+												<a class="side-exp-item-t" href="/${web}/order/myOrders/manager/1">
+												     进行中订单
 												</a>
 											</li>
+											<!--<li class="pg-side-exp-item">
+												<a class="side-exp-item-t" href="/${web}/order/finishedOrders/user/1">
+												     已完成的订单(广告主)
+												</a>
+											</li>-->
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="#">
-													订单查询
+												<a class="side-exp-item-t" href="/${web}/order/finishedOrders/manager/1">
+												     已完成的订单
 												</a>
 											</li>
 										</ul>
@@ -94,11 +99,6 @@
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t"  href="${rc.contextPath}/contract/list/1">
 													合同列表
-												</a>
-											</li>
-											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="#">
-													订单查询
 												</a>
 											</li>
 										</ul>
