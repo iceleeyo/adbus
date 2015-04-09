@@ -122,8 +122,9 @@ public class DataInitializationService {
                 Date start = sdf.parse(time[0]);
                 String name = time[1];
                 long duration = sdf.parse(time[2]).getTime()/1000;
-                log.info("timeslot: {}, start: {}, duration {}", name, start, duration);
-                timeslots.add(new JpaTimeslot(name, start, duration));
+                boolean isPeak = "1".equals(time[3]);
+                log.info("timeslot: {}, start: {}, duration {}, peak {}", name, start, duration, isPeak);
+                timeslots.add(new JpaTimeslot(name, start, duration, isPeak));
             } catch (Exception e) {
                 log.warn("Fail to parse timeslot for {}, e={}", line, e.getMessage());
             }

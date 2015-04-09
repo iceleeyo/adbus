@@ -53,6 +53,11 @@
                         d = new Date(data * 1000 + d.getTimezoneOffset() * 60000);
                         return $.format.date(d, "mm:ss;").replace(":","'").replace(";","\"");
                     } },
+                {
+                  "data": "peak", "defaultContent": "",
+                    "render": function (data, type, row, meta) {
+                        return data? '<span class="processed">是</span>' : "否";
+                }},
             ],
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
@@ -97,6 +102,7 @@
                         <th>开始时间</th>
                         <th>时段名称</th>
                         <th>时长</th>
+                        <th>高峰</th>
                     </tr>
                     </thead>
 

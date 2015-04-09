@@ -1,11 +1,6 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<#include "/menu/webapp.ftl" />
-<html>
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>订单审核列表</title>
+<#import "template/template.ftl" as frame>
+<#global menu="已完成的订单">
+<@frame.html title="已完成的订单">
 
 <script type="text/javascript">
 
@@ -30,17 +25,17 @@
 			return;
 		}
 		//  var adsts =$("#adsts").val();
-		window.location.href = "/${web}/order/list/"+g2;
+		window.location.href = "${rc.contextPath}/order/list/"+g2;
 	}
 
 	function page(num) {
 		var by = ($("#by").val());
-		window.location.href = "/${web}/order/list/"+num; 
+		window.location.href = "${rc.contextPath}/order/list/"+num;
 	}
 	
 	function claim(orderid,taskid){
  	$.ajax({
-			url : "/${web}/order/claim?orderid="+orderid+"&taskid="+taskid,
+			url : "${rc.contextPath}/order/claim?orderid="+orderid+"&taskid="+taskid,
 			type : "POST",
 			success : function(data) {
 				alert(data.right);
@@ -50,34 +45,7 @@
 	  
 	}
 </script>
-</head>
-<body>
-<body>
-	<div class="page-container">
-		<!--上部DIV-->
-		<#include "/menu/top.ftl" />
-		<!--下部DIV-->
-		<div class="page-container">
-			<div class="pg-container-main">
-				<!--顶部导航开始-->
-				<div class="container-12">
-					<ul class="breadcrumb ml10 m11 s-clear">
-						<li class="s-left fsize-16 bread-homep"><a class="gray-text"
-							href="/">首页</a></li>
-						<li class="s-left breadcrumb-right"></li>
-						<li class="s-left bread-child"><a class="gray-text" href="#">订单审核列表</a>
-						</li>
-					</ul>
-				</div>
-				<!--顶部导航结束-->
-				<div class="container-12 mt10 s-clear">
-					<!--菜单开始-->
-					<#include "/menu/left.ftl" />
 
-					<!--菜单结束-->
-
-					<!--主体开始-->
-					<div class="ls-10">
 						<div class="module s-clear u-lump-sum p19">
 							<div class="u-sum-right">
 								<input class="ui-input" type="text" name="code" id="code"
@@ -184,14 +152,4 @@
 								</div>
 							</div>
 						</form>
-					</div>
-				</div>
-				<!--主体结束-->
-			</div>
-		</div>
-	</div>
-	</div>
-<script type="text/javascript" language="javascript"
-	src="/${web}/js/index.js"></script>
-</body>
-</html>
+</@frame.html>

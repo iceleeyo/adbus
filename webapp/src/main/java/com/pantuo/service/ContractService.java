@@ -98,11 +98,11 @@ public class ContractService {
 		return contractMapper.updateByExample(con, example);
 	}
 
-	public int countMyList(String name, String code, HttpServletRequest request) {
-		return contractMapper.countByExample(getExample(name, code));
+	public int countMyList(String name, String code, Principal principal) {
+		return contractMapper.countByExample(getExample(name, code, principal));
 	}
 
-	public ContractExample getExample(String name, String code) {
+	public ContractExample getExample(String name, String code, Principal principal) {
 		ContractExample example = new ContractExample();
 		ContractExample.Criteria ca = example.createCriteria();
 		if (StringUtils.isNoneBlank(name)) {
@@ -111,11 +111,14 @@ public class ContractService {
 		if (StringUtils.isNoneBlank(code)) {
 			ca.andContractCodeEqualTo(code);
 		}
+        if (principal != null) {
+            ca.andUserIdEqualTo(Request.getUserId(principal));
+        }
 		return example;
 	}
 
-	public List<Contract> queryContractList(NumberPageUtil page, String name, String code, HttpServletRequest request) {
-		ContractExample ex = getExample(name, code);
+	public List<Contract> queryContractList(NumberPageUtil page, String name, String code, Principal principal) {
+		ContractExample ex = getExample(name, code, principal);
 		ex.setOrderByClause("created desc");
 		ex.setLimitStart(page.getLimitStart());
 		ex.setLimitEnd(page.getPagesize());

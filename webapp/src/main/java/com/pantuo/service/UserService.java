@@ -1,6 +1,8 @@
 package com.pantuo.service;
 
 import com.mysema.query.types.Predicate;
+import com.mysema.query.types.expr.BooleanExpression;
+import com.mysema.query.types.expr.BooleanOperation;
 import com.pantuo.dao.UserDetailRepository;
 import com.pantuo.dao.pojo.QUserDetail;
 import org.activiti.engine.IdentityService;
@@ -63,6 +65,14 @@ public class UserService {
     }
 
 	public Page<UserDetail> getAllUsers(String name, int page, int pageSize) {
+        return getUsers(name, null, page, pageSize);
+    }
+
+    public Page<UserDetail> getValidUsers(int page, int pageSize) {
+        return getUsers(null, true, page, pageSize);
+    }
+
+    private Page<UserDetail> getUsers(String name, Boolean isEnabled, int page, int pageSize) {
 		if (page < 0)
 			page = 0;
 		if (pageSize < 1)
@@ -70,10 +80,17 @@ public class UserService {
 		//test();
         Page<UserDetail> result = null;
 		Pageable p = new PageRequest(page, pageSize, new Sort("id"));
-        if (name == null || StringUtils.isEmpty(name)) {
+        if (StringUtils.isEmpty(name) && isEnabled == null) {
             result = userRepo.findAll(p);
         } else {
-            Predicate query = QUserDetail.userDetail.username.like("%" + name + "%");
+            QUserDetail q = QUserDetail.userDetail;
+            BooleanExpression query = null;
+            if (!StringUtils.isEmpty(name)) {
+                query = q.username.like("%" + name + "%");
+            }
+            if (isEnabled != null) {
+                query = (query == null? q.enabled.eq(isEnabled) : query.and(q.enabled.eq(isEnabled)));
+            }
             result = userRepo.findAll(query, p);
         }
 

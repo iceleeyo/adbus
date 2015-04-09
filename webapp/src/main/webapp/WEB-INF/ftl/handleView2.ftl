@@ -176,7 +176,7 @@ function check() {
 	var ctx = '<%=request.getContextPath() %>';
 		var c = $("#code").val();
 		$.ajax({
-			url : "/${web}/contract/contractCodeCheck",
+			url : "${rc.contextPath}/contract/contractCodeCheck",
 			type : "POST",
 			data : {
 				"code" : c
@@ -190,7 +190,7 @@ function check() {
 		var orderid = $("#orderid").val();
 		var taskid = $("#taskid").val();
 		$.ajax({
-			url : "/${web}/order/payment",
+			url : "${rc.contextPath}/order/payment",
 			type : "POST",
 			data : {
 				"orderid" :orderid,"taskid" :taskid

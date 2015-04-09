@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.pantuo.mybatis.domain.Orders;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
@@ -85,7 +86,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			Integer orderid =  (Integer)tasks.get(0).getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
 			if(null!=usertype&&usertype.equals("user")){
-				List<Order> order = orderService.selectOrderByUser(userid,orderid);
+				List<Orders> order = orderService.selectOrderByUser(userid,orderid);
 				if(order.size()>0){
 					
 					v.setOrder(order.get(0));
@@ -109,7 +110,7 @@ public class ActivitiServiceImpl implements ActivitiService {
         	Integer orderid=(Integer) historicProcessInstance.getProcessVariables().get(ORDER_ID);
         	OrderView v = new OrderView();
         	if(null!=usertype&&usertype.equals("user")){
-				List<Order> order = orderService.selectOrderByUser(userid,orderid);
+				List<Orders> order = orderService.selectOrderByUser(userid,orderid);
 				if(order.size()>0){
 					v.setOrder(order.get(0));
 				}

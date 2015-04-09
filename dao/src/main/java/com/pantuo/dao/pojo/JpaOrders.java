@@ -25,12 +25,15 @@ public class JpaOrders extends BaseEntity {
 
     private String userId;
     private int suppliesId;
-    private int productId;
+    @ManyToOne
+    @JoinColumn(name = "productId")
+    private JpaProduct product;
     private int contractId;
     private String contractCode;
     private Date startTime;
+    private Date endTime;
+    private JpaProduct.Type type;
     private PayType payType;
-    private double price;
     private Status stats;
     private String creator;
 
@@ -38,15 +41,20 @@ public class JpaOrders extends BaseEntity {
         //for serialization
     }
 
-    public JpaOrders(String userId, int suppliesId, int productId, int contractId, String contractCode, Date startTime, PayType payType, double price, Status stats, String creator) {
+    public JpaOrders(String userId, int suppliesId, int productId, int contractId,
+                     String contractCode, Date startTime, Date endTime, JpaProduct.Type type,
+                     PayType payType,
+                     Status stats, String creator) {
         this.userId = userId;
         this.suppliesId = suppliesId;
-        this.productId = productId;
+        this.product = new JpaProduct();
+        this.product.setId(productId);
+        this.type = type;
         this.contractId = contractId;
         this.contractCode = contractCode;
         this.startTime = startTime;
+        this.endTime = endTime;
         this.payType = payType;
-        this.price = price;
         this.stats = stats;
         this.creator = creator;
     }
@@ -76,11 +84,19 @@ public class JpaOrders extends BaseEntity {
     }
 
     public int getProductId() {
-        return productId;
+        return product.getId();
     }
 
     public void setProductId(int productId) {
-        this.productId = productId;
+        this.product.setId(productId);
+    }
+
+    public JpaProduct getProduct() {
+        return product;
+    }
+
+    public void setProduct(JpaProduct product) {
+        this.product = product;
     }
 
     public int getContractId() {
@@ -107,20 +123,28 @@ public class JpaOrders extends BaseEntity {
         this.startTime = startTime;
     }
 
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public JpaProduct.Type getType() {
+        return type;
+    }
+
+    public void setType(JpaProduct.Type type) {
+        this.type = type;
+    }
+
     public PayType getPayType() {
         return payType;
     }
 
     public void setPayType(PayType payType) {
         this.payType = payType;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 
     public Status getStats() {
@@ -142,16 +166,17 @@ public class JpaOrders extends BaseEntity {
     @Override
     public String toString() {
         return "JpaOrders{" +
-                "stats=" + stats +
-                ", creator='" + creator + '\'' +
-                ", price=" + price +
-                ", payType=" + payType +
-                ", startTime=" + startTime +
-                ", contractCode='" + contractCode + '\'' +
-                ", contractId=" + contractId +
-                ", productId=" + productId +
+                "userId='" + userId + '\'' +
                 ", suppliesId=" + suppliesId +
-                ", userId='" + userId + '\'' +
+                ", productId=" + product.getId() +
+                ", contractId=" + contractId +
+                ", contractCode='" + contractCode + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", type=" + type +
+                ", payType=" + payType +
+                ", stats=" + stats +
+                ", creator='" + creator + '\'' +
                 '}';
     }
 }

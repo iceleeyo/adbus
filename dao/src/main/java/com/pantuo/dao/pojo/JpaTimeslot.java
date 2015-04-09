@@ -18,16 +18,18 @@ public class JpaTimeslot extends BaseEntity {
     private String name;
     private Date startTime;
     private long duration;
+    private boolean peak;
     private boolean enabled = true;
 
     public JpaTimeslot() {
         //for serialization
     }
 
-    public JpaTimeslot(String name, Date startTime, long duration) {
+    public JpaTimeslot(String name, Date startTime, long duration, boolean peak) {
         this.name = name;
         this.startTime = startTime;
         this.duration = duration;
+        this.peak = peak;
     }
 
     public int getId() {
@@ -62,6 +64,14 @@ public class JpaTimeslot extends BaseEntity {
         this.duration = duration;
     }
 
+    public boolean isPeak() {
+        return peak;
+    }
+
+    public void setPeak(boolean peak) {
+        this.peak = peak;
+    }
+
     public boolean isEnabled() {
         return enabled;
     }
@@ -73,9 +83,10 @@ public class JpaTimeslot extends BaseEntity {
     @Override
     public String toString() {
         return "JpaTimeslot{" +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", startTime=" + startTime +
                 ", duration=" + duration +
+                ", peak=" + peak +
                 ", enabled=" + enabled +
                 '}';
     }

@@ -4,13 +4,26 @@
 
 <script type="text/javascript">
 	function sub2() {
-		$('#userForm2').ajaxForm(function(data) {
-			alert(data.left + " # " + data.right);
-		}).submit();
+        var emptyInput = $("#userForm2 input, #userform2 select").filter(function() { return $(this).val() == ""; });
+        if( emptyInput[0]) {
+            var empty = '';
+            emptyInput.each(function() {
+                if ($(this)[0].nodeName == 'OPTION') {
+                    empty += $(this).parent("select").attr("name") + ' ';
+                }else {
+                    empty += $(this).attr("name") + ' ';
+                }
+            });
+            alert('请填写' + empty);
+        } else {
+            $('#userForm2').ajaxForm(function(data) {
+                alert(data.left + " # " + data.right);
+            }).submit();
+        }
 	}
 
 	function check() {
-		var c = $("#code").val();
+		var c = $("#contractCode").val();
 		$.ajax({
 			url : "${rc.contextPath}/contract/contractCodeCheck",
 			type : "POST",
@@ -31,19 +44,30 @@
 									<div class="inputs">
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>套餐ID：</label> <input
-												class="ui-input" type="number" value="" name="productId"
-												id="withdrawAmount" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="">
+												class="ui-form-required">*</span>套餐ID：</label>
+                                            <select class="ui-input" name="product.Id" id="productId">
+                                                <option value="" selected="selected"></option>
+                                                <#list products as p>
+                                                    <option value="${p.id}">${p.name}</option>
+                                                </#list>
+                                            </select>
 										</div>
+                                        <div class="ui-form-item">
+                                            <label class="ui-label mt10">开播日期</label> <input
+                                                class="ui-input" type="date" name="startTime1"
+                                                id="startTime" data-is="isAmount isEnough"
+                                                autocomplete="off" disableautocomplete="">
+                                        </div>
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>物料ID:</label> <input
-												class="ui-input" type="number" value="" name="suppliesId"
-												id="withdrawAmount" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="">
+												class="ui-form-required">*</span>物料ID:</label>
+                                            <select class="ui-input" name="suppliesId" id="suppliesId">
+                                                <option value="" selected="selected"></option>
+                                                <#list supplies as s>
+                                                    <option value="${s.id}">${s.name}</option>
+                                                </#list>
+                                            </select>
 											<p class="ui-term-placeholder"></p>
-
 										</div>
 
 										<div class="ui-form-item">
@@ -59,11 +83,13 @@
 
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>合同号:</label> <input id="code"
-												class="ui-input" type="text" value="reg4345" name="contractCode"
-												id="withdrawAmount" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="">
-											
+												class="ui-form-required">*</span>合同号:</label>
+                                            <select class="ui-input" name="contractCode" id="contractCode">
+                                                <option value="" selected="selected"></option>
+                                                <#list contracts as c>
+                                                    <option value="${c.contractCode}">${c.contractName}</option>
+                                                </#list>
+                                            </select>
 											<input type="button" onclick="check();" class="block-btn" value="合同号检查" style="width: 118px; ">
 
 										</div>

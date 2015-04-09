@@ -10,10 +10,13 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.activiti.engine.IdentityService;
+import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.mybatis.domain.Contract;
+import com.pantuo.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.pantuo.service.ContractService;
 import com.pantuo.util.NumberPageUtil;
@@ -42,7 +44,7 @@ public class ContractController {
 	@Autowired
 	private ContractService contractService;
 	@Autowired
-	private IdentityService identityService;
+	private UserService userService;
 
 	@RequestMapping(value = "contractCodeCheck", method = RequestMethod.POST)
 	@ResponseBody
@@ -73,10 +75,11 @@ public class ContractController {
 	public String contralist(Model model,
 			@RequestParam(value = "name", required = false, defaultValue = "") String name,
 			@RequestParam(value = "code", required = false, defaultValue = "") String code, @PathVariable int pageNum,
+            Principal principal,
 			HttpServletRequest request) {
 		int psize = 9;
-		NumberPageUtil page = new NumberPageUtil(contractService.countMyList(name, code, request), pageNum, psize);
-		List<Contract> list=contractService.queryContractList(page, name, code, request);
+		NumberPageUtil page = new NumberPageUtil(contractService.countMyList(name, code, principal), pageNum, psize);
+		List<Contract> list=contractService.queryContractList(page, name, code, principal);
 		model.addAttribute("list", list);
 		model.addAttribute("pageNum", pageNum);
 		model.addAttribute("paginationHTML", page.showNumPageWithEmpty());
@@ -86,13 +89,15 @@ public class ContractController {
 	}
 
 	@RequestMapping(value = "/contractEnter", produces = "text/html;charset=utf-8")
-	public String contractEnter(HttpServletRequest request) {
+	public String contractEnter(Model model, HttpServletRequest request) {
+        Page<UserDetail> users = userService.getValidUsers(0, 999);
+        model.addAttribute("users", users.getContent());
 		return "contractEnter";
 	}
     @RequestMapping(value = "/contractDetail", produces = "text/html;charset=utf-8")
     public String contractDetail(Model model, Principal principal, HttpServletRequest request)
     {   
-//    	int contract_id=Integer.parseInt(request.getParameter("contract_id"));
+    	int contract_id=Integer.parseInt(request.getParameter("contract_id"));
     	ContractView view=contractService.getContractDetail(contract_id, principal);
     	model.addAttribute("view",view);
         return "contractDetail";

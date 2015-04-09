@@ -74,6 +74,19 @@
 								</div>
 								<div class="withdrawInputs">
 									<div class="inputs">
+                                        <div class="ui-form-item">
+                                            <label class="ui-label mt10">
+											<span
+                                                    class="ui-form-required">*
+											</span>用户:
+                                            </label>
+                                            <select class="ui-input" name="userId" id="userId">
+                                                <option value="" selected="selected"></option>
+                                                <#list users as u>
+                                                    <option value="${u.username}">${u.username}</option>
+                                                </#list>
+                                            </select>
+                                        </div>
 										<div class="ui-form-item">
 											<label class="ui-label mt10">
 											<span

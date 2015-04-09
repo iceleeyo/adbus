@@ -39,17 +39,6 @@ public class ProductController {
                                                      @RequestParam(value = "name", required = false) String name,
                                                      @RequestParam(value = "draw", required = false, defaultValue = "1") int draw) {
 
-        /** test **/
-        Random r = new Random();
-        for (int i=0; i<Math.abs(r.nextInt(5)) + 2; i++) {
-            JpaProduct p = new JpaProduct(JpaProduct.Type.video, UUID.randomUUID().toString(),
-                    (long)(Math.abs(r.nextInt(120301))), Math.abs(r.nextInt(5)), Math.abs(r.nextInt(5)),
-                    Math.abs(r.nextInt(5)), Math.abs(Math.random()), Math.abs(r.nextInt(5)), Math.abs(r.nextInt(1000000)/100.0),
-                    (Math.random() > 0));
-            productService.saveProduct(p);
-        }
-        /** test end **/
-
         if (length < 1)
             length = 1;
 

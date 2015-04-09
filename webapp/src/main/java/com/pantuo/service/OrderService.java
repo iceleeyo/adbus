@@ -2,15 +2,20 @@ package com.pantuo.service;
 
 import java.security.Principal;
 import java.util.Date;
-<<<<<<< .mine
 import java.util.List;
 import java.util.Map;
-=======
->>>>>>> .r167
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.mysema.query.types.Constant;
+import com.mysema.query.types.ConstantImpl;
+import com.mysema.query.types.Ops;
+import com.mysema.query.types.Predicate;
+import com.mysema.query.types.expr.StringOperation;
 import com.pantuo.dao.OrdersRepository;
+import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.dao.pojo.QJpaOrders;
+import com.pantuo.mybatis.domain.OrdersExample;
 import com.pantuo.service.security.ActivitiUserDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,16 +26,8 @@ import org.springframework.stereotype.Service;
 
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.mybatis.domain.Contract;
-<<<<<<< .mine
-import com.pantuo.mybatis.domain.Order;
-import com.pantuo.mybatis.domain.OrderExample;
-import com.pantuo.mybatis.domain.OrderExample.Criteria;
-import com.pantuo.mybatis.persistence.OrderMapper;
-import com.pantuo.service.impl.SuppliesServiceImpl;
-=======
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.persistence.OrdersMapper;
->>>>>>> .r167
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 
@@ -65,9 +62,9 @@ public class OrderService {
 		return orderMapper.selectByPrimaryKey(id);
 
 	}
-	public List<Order> selectOrderByUser(String userid,Integer id) {
-		OrderExample example=new OrderExample();
-		OrderExample.Criteria c=example.createCriteria();
+	public List<Orders> selectOrderByUser(String userid,Integer id) {
+		OrdersExample example=new OrdersExample();
+		OrdersExample.Criteria c=example.createCriteria();
 		if(null!=userid&&userid!=""){
 			c.andUserIdEqualTo(userid);
 		}
@@ -157,5 +154,13 @@ public class OrderService {
 		return r;
 	}
 
+    public Iterable<JpaOrders> getOrdersForSchedule(Date day, JpaProduct.Type type) {
+        Predicate query = QJpaOrders.jpaOrders.startTime.stringValue().loe(StringOperation.create(Ops.STRING_CAST, ConstantImpl.create(day)))
+                .and(QJpaOrders.jpaOrders.endTime.after(day))
+                .and(QJpaOrders.jpaOrders.type.eq(type))
+                .and(QJpaOrders.jpaOrders.stats.eq(JpaOrders.Status.paid));
+
+        return ordersRepository.findAll(query);
+    }
 	
 }

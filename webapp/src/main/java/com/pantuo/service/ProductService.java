@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 public interface ProductService {
     Page<JpaProduct> getAllProducts(String name, int page, int pageSize);
 
+    Page<JpaProduct> getValidProducts(int page, int pageSize);
+
     JpaProduct findById(int productId);
 
     void saveProduct(JpaProduct product);

@@ -51,7 +51,18 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-  //  @Override
+    @Override
+    public Page<JpaProduct> getValidProducts(int page, int pageSize) {
+        if (page < 0)
+            page = 0;
+        if (pageSize < 1)
+            pageSize = 1;
+        Pageable p = new PageRequest(page, pageSize, new Sort(Sort.Direction.DESC, "id"));
+        Predicate query = QJpaProduct.jpaProduct.enabled.isTrue();
+        return productRepo.findAll(query, p);
+    }
+
+    //  @Override
     public JpaProduct findById(int productId) {
         return productRepo.findOne(productId);
     }
