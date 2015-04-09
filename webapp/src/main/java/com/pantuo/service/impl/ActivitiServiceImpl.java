@@ -11,6 +11,7 @@ import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -18,13 +19,9 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import scala.collection.mutable.StringBuilder;
-
 import com.pantuo.dao.pojo.JpaOrders;
-//import com.dumbster.smtp.SimpleSmtpServer;
 import com.pantuo.dao.pojo.UserDetail;
-import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.OrderService;
 import com.pantuo.util.NumberPageUtil;
@@ -54,23 +51,13 @@ public class ActivitiServiceImpl implements ActivitiService {
 	private OrderService orderService;
 
 	public List<OrderView> findTask(String userid, NumberPageUtil page) {
-
 		List<Task> tasks = new ArrayList<Task>();
-
 		List<OrderView> leaves = new ArrayList<OrderView>();
 		long c = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS).taskCandidateUser(userid).count();
 		page.setTotal((int) c);
-		//根据当前用户的id查询代办任务列表(已经签收)
-		List<Task> taskAssignees = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS)
-				.taskAssignee(userid).includeProcessVariables().orderByTaskPriority().desc().orderByTaskCreateTime()
-				.desc().list();
-		//根据当前用户id查询未签收的任务列表
-		List<Task> taskCandidates = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS)
-				.taskCandidateUser(userid).includeProcessVariables().orderByTaskPriority().desc()
+		 tasks = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS)
+				.taskCandidateOrAssigned(userid).includeProcessVariables().orderByTaskPriority().desc()
 				.orderByTaskCreateTime().desc().list();
-		tasks.addAll(taskAssignees);//添加已签收准备执行的任务(已经分配到任务的人)
-		tasks.addAll(taskCandidates);//添加还未签收的任务(任务的候选者)
-
 		for (Task task : tasks) {
 			String processInstanceId = task.getProcessInstanceId();
 			ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
@@ -83,12 +70,62 @@ public class ActivitiServiceImpl implements ActivitiService {
 			v.setProcessInstance(processInstance);
 			v.setProcessInstanceId(processInstance.getId());
 			v.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
-
 			leaves.add(v);
 		}
 
 		return leaves;
 	}
+	public List<OrderView> findRunningProcessInstaces(String userid, String usertype,NumberPageUtil page){
+//		int totalnum=runtimeService.createProcessInstanceQuery().processDefinitionKey(MAIN_PROCESS).list().size();
+//		page=new NumberPageUtil(totalnum, page.getCurrpage(), page.getPagesize());
+		List<OrderView> orders=new ArrayList<OrderView>();
+		List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery().processDefinitionKey(MAIN_PROCESS).listPage(page.getLimitStart(), page.getPagesize());
+		for (ProcessInstance processInstance : processInstances) {
+			List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).includeProcessVariables().orderByTaskCreateTime().desc().listPage(0, 1);
+			Integer orderid =  (Integer)tasks.get(0).getProcessVariables().get(ORDER_ID);
+			OrderView v = new OrderView();
+			if(null!=usertype&&usertype.equals("user")){
+				List<Order> order = orderService.selectOrderByUser(userid,orderid);
+				if(order.size()>0){
+					
+					v.setOrder(order.get(0));
+				}
+			}else{
+				v.setOrder(orderService.selectOrderById(orderid));
+			}
+			v.setProcessInstance(processInstance);
+			v.setProcessInstanceId(processInstance.getId());
+			v.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+			v.setTask(tasks.get(0));
+			orders.add(v);
+		}
+		return orders;
+	}
+	public List<OrderView> findFinishedProcessInstaces(String userid, String usertype,NumberPageUtil page){
+		List<OrderView> orders=new ArrayList<OrderView>();
+		List<HistoricProcessInstance> list = historyService.createHistoricProcessInstanceQuery().finished().processDefinitionKey(MAIN_PROCESS).includeProcessVariables().orderByProcessInstanceStartTime().desc().list();
+		for (HistoricProcessInstance historicProcessInstance : list) {
+//        	String businessKey = historicProcessInstance.getBusinessKey();
+        	Integer orderid=(Integer) historicProcessInstance.getProcessVariables().get(ORDER_ID);
+        	OrderView v = new OrderView();
+        	if(null!=usertype&&usertype.equals("user")){
+				List<Order> order = orderService.selectOrderByUser(userid,orderid);
+				if(order.size()>0){
+					v.setOrder(order.get(0));
+				}
+			}else{
+				if(orderid!=null&&orderid>0){
+					v.setOrder(orderService.selectOrderById(orderid));
+				}
+			}
+			v.setHistoricProcessInstance(historicProcessInstance);
+			v.setProcessDefinition(getProcessDefinition(historicProcessInstance.getProcessDefinitionId()));
+			orders.add(v);
+		}
+        page.setTotal(orders.size());
+		return orders;
+	}
+	
 
 	/**
 	 * 根据流程定义Id查询流程定义
@@ -118,7 +155,17 @@ public class ActivitiServiceImpl implements ActivitiService {
 				taskService.complete(task.getId());
 			}
 		}
-
+		tasks = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS)
+				.taskCandidateOrAssigned(u.getUsername()).includeProcessVariables().orderByTaskPriority().desc()
+				.orderByTaskCreateTime().desc().list();
+		if (!tasks.isEmpty()) {
+			Task task = tasks.get(0);
+			Map<String, Object> info = taskService.getVariables(task.getId());
+			if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
+				taskService.claim(task.getId(), u.getUsername());
+			}
+		}
+		
 		debug(process.getId());
 	}
 	
@@ -178,25 +225,11 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 	}
 
-	public Pair<Boolean, String> handle(String orderid, String taskid, String comment, String isok, UserDetail user) {
-		Pair<Boolean, String> r = null;
-		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
-		if (task != null) {
-			Map<String, Object> info = taskService.getVariables(task.getId());
-			info.put("paymentResult", true);
-			taskService.claim(task.getId(), user.getUsername());
-			taskService.complete(task.getId(), info);
-			r = new Pair<Boolean, String>(true, "操作成功!");
-		} else {
-			r = new Pair<Boolean, String>(false, "任务状态不存在!");
-		}
-		return r;
-	}
 
 	public Pair<Boolean, String> complete(String taskId, Map<String, Object> variables, UserDetail u) {
 		Pair<Boolean, String> r = new Pair<Boolean, String>(true, StringUtils.EMPTY);
 		try {
-			Map<String, Object> variables2 = taskService.getVariables(taskId);
+			//Map<String, Object> variables2 = taskService.getVariables(taskId);
 		//	variables.putAll(variables2);
 			
 			taskService.complete(taskId, variables);

@@ -2,6 +2,11 @@ package com.pantuo.service;
 
 import java.security.Principal;
 import java.util.Date;
+<<<<<<< .mine
+import java.util.List;
+import java.util.Map;
+=======
+>>>>>>> .r167
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,8 +21,16 @@ import org.springframework.stereotype.Service;
 
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.mybatis.domain.Contract;
+<<<<<<< .mine
+import com.pantuo.mybatis.domain.Order;
+import com.pantuo.mybatis.domain.OrderExample;
+import com.pantuo.mybatis.domain.OrderExample.Criteria;
+import com.pantuo.mybatis.persistence.OrderMapper;
+import com.pantuo.service.impl.SuppliesServiceImpl;
+=======
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.persistence.OrdersMapper;
+>>>>>>> .r167
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 
@@ -50,6 +63,19 @@ public class OrderService {
 
 	public Orders selectOrderById(Integer id) {
 		return orderMapper.selectByPrimaryKey(id);
+
+	}
+	public List<Order> selectOrderByUser(String userid,Integer id) {
+		OrderExample example=new OrderExample();
+		OrderExample.Criteria c=example.createCriteria();
+		if(null!=userid&&userid!=""){
+			c.andUserIdEqualTo(userid);
+		}
+		if(null!=id&&id>0){
+			c.andIdEqualTo(id);
+		}
+		
+		return orderMapper.selectByExample(example);
 
 	}
 

@@ -23,9 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.pantuo.mybatis.domain.Attachment;
-import com.pantuo.mybatis.domain.Contract;
-import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.service.ContractService;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
@@ -78,7 +75,6 @@ public class ContractController {
 			@RequestParam(value = "code", required = false, defaultValue = "") String code, @PathVariable int pageNum,
 			HttpServletRequest request) {
 		int psize = 9;
-		
 		NumberPageUtil page = new NumberPageUtil(contractService.countMyList(name, code, request), pageNum, psize);
 		List<Contract> list=contractService.queryContractList(page, name, code, request);
 		model.addAttribute("list", list);
@@ -96,7 +92,7 @@ public class ContractController {
     @RequestMapping(value = "/contractDetail", produces = "text/html;charset=utf-8")
     public String contractDetail(Model model, Principal principal, HttpServletRequest request)
     {   
-    	int contract_id=Integer.parseInt(request.getParameter("contract_id"));
+//    	int contract_id=Integer.parseInt(request.getParameter("contract_id"));
     	ContractView view=contractService.getContractDetail(contract_id, principal);
     	model.addAttribute("view",view);
         return "contractDetail";

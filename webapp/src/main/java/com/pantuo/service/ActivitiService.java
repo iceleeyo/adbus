@@ -27,7 +27,7 @@ public interface ActivitiService {
 
 	public List<OrderView> findTask(String userid, NumberPageUtil page);
 
-	public Pair<Boolean, String> handle(String orderid, String taskid, String comment, String isok, UserDetail user);
+//	public Pair<Boolean, String> handle(String orderid, String taskid, String comment, String isok, UserDetail user);
 	/**
 	 * 
 	 * 办理任务
@@ -46,4 +46,10 @@ public interface ActivitiService {
 	public String reset(String p);
 
 	public OrderView findOrderViewByTaskId(String taskid);
+
+	public List<OrderView> findRunningProcessInstaces(String userId,
+			String usertype,NumberPageUtil page);
+
+	public List<OrderView> findFinishedProcessInstaces(String userId,
+			String usertype, NumberPageUtil page);
 }

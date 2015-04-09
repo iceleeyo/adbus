@@ -3,13 +3,13 @@ package com.pantuo.web;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.pantuo.dao.pojo.JpaOrders;
-import com.pantuo.mybatis.domain.Orders;
 
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
@@ -25,12 +25,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.ContractService;
 import com.pantuo.service.OrderService;
 import com.pantuo.service.ProductService;
+import com.pantuo.service.impl.ActivitiServiceImpl;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
@@ -76,13 +77,6 @@ public class OrderController {
 		return "payview";
 	}
 
-	@RequestMapping(value = "/handleView", produces = "text/html;charset=utf-8")
-	public String handleView(Model model, @RequestParam(value = "taskid", required = true) String taskid,
-			@RequestParam(value = "orderid", required = true) String orderid, HttpServletRequest request) {
-		model.addAttribute("orderid", orderid);
-		model.addAttribute("taskid", taskid);
-		return "handleView";
-	}
 
 	@RequestMapping(value = "/list/{pageNum}")
 	public String contralist(Model model,
@@ -134,15 +128,6 @@ public class OrderController {
 		return "handleView2";
 	}
 
-	@RequestMapping(value = "handle")
-	@ResponseBody
-	public Pair<Boolean, String> handle(@RequestParam(value = "orderid", required = false) String orderid,
-			@RequestParam(value = "taskid", required = false) String taskid,
-			@RequestParam(value = "isok", required = false) String isok,
-			@RequestParam(value = "comment", required = false) String comment, HttpServletRequest request,
-			HttpServletResponse response, Principal principal) {
-		return activitiService.handle(orderid, taskid, comment, isok, Request.getUser(principal));
-	}
 
 	/**
 	 * 根据任务Id完成任务
@@ -176,5 +161,26 @@ public class OrderController {
 		model.addAttribute("list", activitiService.findTask(Request.getUserId(principal), page));
 		model.addAttribute("pageNum", page);
 		return "mytask";
+	}
+	@RequestMapping(value = "/myOrders/{usertype}/{pageNum}")
+	public String myOrders(Model model,@PathVariable("usertype") String usertype, @PathVariable int pageNum, HttpServletRequest request,
+			HttpServletResponse response) {
+		int pagesize=8;
+		int totalnum=runtimeService.createProcessInstanceQuery().processDefinitionKey("order").list().size();
+		NumberPageUtil page=new NumberPageUtil(totalnum, pageNum, pagesize);
+		List<OrderView> list = activitiService.findRunningProcessInstaces(Request.getUserId(request),usertype, page);
+		model.addAttribute("list", list);
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("paginationHTML", page.showNumPageWithEmpty());
+		return "myOrders";
+	}
+	@RequestMapping(value="/finishedOrders/{usertype}/{pageNum}")
+	public String finishedOrders(Model model,@PathVariable("usertype") String usertype,@PathVariable int pageNum,HttpServletRequest request, HttpServletResponse response){
+		NumberPageUtil page = new NumberPageUtil(pageNum);
+		page.setPagesize(30);
+		List<OrderView> list = activitiService.findFinishedProcessInstaces(Request.getUserId(request),usertype, page);
+		model.addAttribute("list", list);
+		model.addAttribute("pageNum", page);
+		return "finishedOrders";
 	}
 }
