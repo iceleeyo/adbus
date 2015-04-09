@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
-<#global menu="用户列表">
-<@frame.html title="用户列表">
+<#global menu="视频时段">
+<@frame.html title="视频时段列表" js=["jquery-dateFormat.min.js"]>
 
 <style type="text/css">
     .center {margin: auto;}
@@ -21,7 +21,7 @@
             "serverSide": true,
             "ajax": {
                 type: "GET",
-                url: "${rc.contextPath}/user/ajax-list",
+                url: "${rc.contextPath}/timeslot/ajax-list",
                 data: function(d) {
                     return $.extend( {}, d, {
                         "name" : $('#name').val()
@@ -30,7 +30,13 @@
                 "dataSrc": "content",
             },
             "columns": [
-                { "data": "username", "defaultContent": "",
+                { "data": "startTime", "defaultContent": "",
+                    "render": function(data, type, row, meta) {
+                        var d = new Date(data);
+                        d = new Date(data + d.getTimezoneOffset() * 60000);
+                        return $.format.date(d, "HH:mm:ss");
+                    } },
+                { "data": "name", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         var filter = $('#name').val();
                         if (filter && filter != '') {
@@ -41,35 +47,12 @@
                         }
                     return data;
                 } },
-                { "data": "groups", "defaultContent": "",
+                { "data": "duration", "defaultContent": "",
                     "render": function(data, type, row, meta) {
-                        if (data.length > 1) {
-                            var g = '<select class="ui-input" name="groups">';
-                            $.each(data, function(i) {
-                                g += '<option value="' + data[i].id + '" >' + data[i].id + '</option>';
-                            });
-                            g += '</select>'
-                            return g;
-                        } else {
-                            return data.length ? data[0].id : "";
-                        }
+                        var d = new Date(data * 1000);
+                        d = new Date(data * 1000 + d.getTimezoneOffset() * 60000);
+                        return $.format.date(d, "mm:ss;").replace(":","'").replace(";","\"");
                     } },
-                { "data": "enabled", "defaultContent": "", "render": function(data) {
-                    switch(data) {
-                        case true:
-                            return '<span class="processed">正常</span>';
-                        default :
-                            return '<span class="invalid">禁用</span>';
-                    }
-                } },
-                { "data": function( row, type, set, meta) {
-                    return row.username;
-                },
-                    "render": function(data, type, row, meta) {
-                        return (row.enabled ? '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/user/' + data + '/disable">禁用</a> &nbsp;'
-                                :'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/user/' + data + '/enable">启用</a> &nbsp;')
-                        + '<a class="table-link" href="${rc.contextPath}/user/' + data +'">编辑</a>';
-                    }},
             ],
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
@@ -83,7 +66,7 @@
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>用户名</span>' +
+                        '    <span>时段名称</span>' +
                         '    <span>' +
                         '        <input id="name" value="">' +
                         '    </span>' +
@@ -111,10 +94,9 @@
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th>用户名</th>
-                        <th>所属组</th>
-                        <th>状态</th>
-                        <th>管理</th>
+                        <th>开始时间</th>
+                        <th>时段名称</th>
+                        <th>时长</th>
                     </tr>
                     </thead>
 

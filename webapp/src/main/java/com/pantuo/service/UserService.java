@@ -54,6 +54,14 @@ public class UserService {
     @Autowired
     private ManagementService managementService;
 
+    public long count() {
+        return userRepo.count();
+    }
+
+    public long countGroups() {
+        return identityService.createGroupQuery().count();
+    }
+
 	public Page<UserDetail> getAllUsers(String name, int page, int pageSize) {
 		if (page < 0)
 			page = 0;
@@ -160,7 +168,7 @@ public class UserService {
             identityService.saveUser(user.getUser());
             if (user.getGroups() != null) {
                 for (Group g : user.getGroups()) {
-                    saveGroup(g);
+//                    saveGroup(g);
                     identityService.createMembership(user.getUser().getId(), g.getId());
                 }
             }

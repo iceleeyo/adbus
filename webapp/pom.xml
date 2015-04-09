@@ -16,19 +16,17 @@
     <name>AdBus webapp project</name> 
 
     <build>
-    <!-- 
+         <finalName>adbus</finalName>
    		 <resources>
             <resource>
                 <directory>${project.basedir}/src/main/resources</directory>
                 <includes>
-                    <include>**/*.xml</include>
+                    <include>**</include>
                 </includes>
                 <filtering>false</filtering>
             </resource>
         </resources>
-        -->
-        
-        <finalName>adbus</finalName>
+
 		<testResources>
 			<testResource>
 				<directory>${project.basedir}/src/test/resources</directory>
@@ -40,12 +38,8 @@
                 </includes>
                 <filtering>false</filtering>
 			</testResource>
-			
-			  
-			
 		</testResources>
 
-        <pluginManagement>  
         <plugins>
             <!-- aspectj weaver, see: http://stackoverflow.com/questions/12115996/spring-cache-cacheable-method-ignored-when-called-from-within-the-same-class -->
             <plugin>
@@ -162,7 +156,6 @@
                 <version>2.2</version>
             </plugin>
         </plugins>
-        </pluginManagement>
     </build>
 
     <dependencies>

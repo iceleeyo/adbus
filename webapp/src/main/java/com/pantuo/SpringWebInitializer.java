@@ -2,8 +2,13 @@ package com.pantuo;
 
 
 import com.pantuo.dao.DaoBeanConfiguration;
+import com.pantuo.service.DataInitializationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
 /**
  * This class will be loaded by a servlet 3.0 container automatically.
@@ -19,7 +24,7 @@ public class SpringWebInitializer extends AbstractAnnotationConfigDispatcherServ
 
     @Override
     protected Class[] getRootConfigClasses() {
-        return new Class[] { DaoBeanConfiguration.class, ActivitiConfiguration.class, WebAppConfiguration.class, SecurityConfiguration.class, CacheConfiguration.class, SchedulerConfiguration.class };
+        return new Class[] { InitializationConfiguration.class, DaoBeanConfiguration.class, ActivitiConfiguration.class, WebAppConfiguration.class, SecurityConfiguration.class, CacheConfiguration.class, SchedulerConfiguration.class };
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.pantuo.web;
 
 import java.io.IOException;
+import java.security.Principal;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,7 +29,7 @@ public class SuppliesController {
 
 	@Autowired
 	@RequestMapping(value = "/supplies_test", method = RequestMethod.GET)
-	public String r(HttpServletRequest request, HttpServletResponse response) {
+	public String r() {
 		return "supplies_test";
 	}
 
@@ -37,28 +38,28 @@ public class SuppliesController {
 
 	@RequestMapping(value = "put", method = RequestMethod.POST)
 	@ResponseBody
-	public Pair<Boolean, String> put(Supplies obj, HttpServletRequest request, HttpServletResponse response)
+	public Pair<Boolean, String> put(Supplies obj, Principal principal, HttpServletRequest request)
 			throws IllegalStateException, IOException {
-		return suppliesService.addSupplies(obj, request);
+		return suppliesService.addSupplies(obj, principal, request);
 	}
 
 	@RequestMapping(value = "/list/{pageNum}")
 	public String config(Model model, @RequestParam(value = "name", required = false, defaultValue = "") String name,
 			@RequestParam(value = "type", required = false) JpaProduct.Type type, @PathVariable int pageNum,
-			HttpServletRequest request) {
+			Principal principal) {
 		int psize = 9;
-		NumberPageUtil page = new NumberPageUtil(suppliesService.countMyList(name, type, request), pageNum, psize);
-		model.addAttribute("list", suppliesService.queryMyList(page, name, type, request));
+		NumberPageUtil page = new NumberPageUtil(suppliesService.countMyList(name, type, principal), pageNum, psize);
+		model.addAttribute("list", suppliesService.queryMyList(page, name, type, principal));
 		model.addAttribute("pageNum", pageNum);
 		model.addAttribute("paginationHTML", page.showNumPageWithEmpty());
 		model.addAttribute("name", name);
 		return "supplies_list";
 	}
 	@RequestMapping(value = "/suppliesDetail", produces = "text/html;charset=utf-8")
-    public String suppliesDetail(Model model,HttpServletRequest request)
+    public String suppliesDetail(Model model, Principal principal, HttpServletRequest request)
     {   
     	int supplies_id=Integer.parseInt(request.getParameter("supplies_id"));
-    	SuppliesView view=suppliesService.getSuppliesDetail(supplies_id, request);
+    	SuppliesView view=suppliesService.getSuppliesDetail(supplies_id, principal);
     	model.addAttribute("view",view);
         return "suppliesDetail";
     }

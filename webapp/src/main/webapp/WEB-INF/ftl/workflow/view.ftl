@@ -1,22 +1,21 @@
-<#include "/menu/webapp.ftl" />
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>流程图跟踪</title>
-        <link rel="stylesheet" href="/${web }/style/blueprint/screen.css" type="text/css" media="screen, projection">
-		<link rel="stylesheet" href="/${web }/style/blueprint/print.css" type="text/css" media="print"> 
-        <link href="/${web }/style/style.css" type="text/css" rel="stylesheet">
-		<link href="/${web }/js/qtip/jquery.qtip.min.css" type="text/css" rel="stylesheet">
-		<script src="/${web }/js/jquery.js" type="text/javascript"></script>
-		<script type="text/javascript" src="/${web }/js/qtip/jquery.qtip.pack.js"></script>
-		<script type="text/javascript" src="/${web }/js/html/jquery.outerhtml.js"></script>
+        <link rel="stylesheet" href="${rc.contextPath}/style/blueprint/screen.css" type="text/css" media="screen, projection">
+		<link rel="stylesheet" href="${rc.contextPath}/style/blueprint/print.css" type="text/css" media="print"> 
+        <link href="${rc.contextPath}/style/style.css" type="text/css" rel="stylesheet">
+		<link href="${rc.contextPath}/js/qtip/jquery.qtip.min.css" type="text/css" rel="stylesheet">
+		<script src="${rc.contextPath}/js/jquery.js" type="text/javascript"></script>
+		<script type="text/javascript" src="${rc.contextPath}/js/qtip/jquery.qtip.pack.js"></script>
+		<script type="text/javascript" src="${rc.contextPath}/js/html/jquery.outerhtml.js"></script>
         <script type="text/javascript">
         	 
         	$(function(){
         		//流程节点详细信息
-            	var traceUrl="/${web }/workflow/process/${processInstanceId}/trace";
+            	var traceUrl="${rc.contextPath}/workflow/process/${processInstanceId}/trace";
             	$.getJSON(traceUrl,function(infos){
             		 
             		var positionHtml = "";
@@ -43,7 +42,7 @@
                     });
                     
                     //流程图地址
-                    var image="<img alt='跟踪工作流' src='/${web }/workflow/view/${processInstanceId}' style='position:absolute; left:0px; top:0px;'>";
+                    var image="<img alt='跟踪工作流' src='${rc.contextPath}/workflow/view/${processInstanceId}' style='position:absolute; left:0px; top:0px;'>";
                      
                     //追加到body
                     $("body").append(image).append(positionHtml);

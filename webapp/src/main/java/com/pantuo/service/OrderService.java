@@ -1,13 +1,17 @@
 package com.pantuo.service;
 
+import java.security.Principal;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.pantuo.dao.OrdersRepository;
+import com.pantuo.service.security.ActivitiUserDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.pantuo.dao.pojo.JpaOrders;
@@ -63,13 +67,13 @@ public class OrderService {
 
 	//	 public int countMyList(String name,String code, HttpServletRequest request) ;
 	//	 public List<JpaContract> queryContractList(NumberPageUtil page, String name, String code, HttpServletRequest request);
-	public Pair<Boolean, String> saveOrder(Orders order, HttpServletRequest request) {
+	public Pair<Boolean, String> saveOrder(Orders order, Principal principal) {
 		Pair<Boolean, String> r = null;
 		try {
 			order.setCreated(new Date());
 			order.setUpdated(new Date());
 			//	
-			order.setUserId(Request.getUserId(request));
+			order.setUserId(Request.getUserId(principal));
 			if (order.getPayType() == JpaOrders.PayType.contract.ordinal()) {
 
 				Contract c = contractService.queryContractByCode(order.getContractCode());
@@ -83,7 +87,7 @@ public class OrderService {
 			int dbId = orderMapper.insert(order);
 			if (dbId > 0) {
 
-				activitiService.startProcess(Request.getUser(request), order);
+				activitiService.startProcess(Request.getUser(principal), order);
 				r = new Pair<Boolean, String>(true, "下订单成功！");
 			}
 		} catch (Exception e) {
@@ -95,13 +99,13 @@ public class OrderService {
 	
 	
 	
-	public Pair<Boolean, String> saveOrderJpa(JpaOrders order, HttpServletRequest request) {
+	public Pair<Boolean, String> saveOrderJpa(JpaOrders order, Principal principal) {
 		Pair<Boolean, String> r = null;
 		try {
 			order.setCreated(new Date());
 			order.setUpdated(new Date());
 			//	
-			order.setUserId(Request.getUserId(request));
+			order.setUserId(Request.getUserId(principal));
 			if (order.getPayType() == JpaOrders.PayType.contract) {
 				
 				Contract c = contractService.queryContractByCode(order.getContractCode());
@@ -117,7 +121,7 @@ public class OrderService {
 			//int dbId = orderMapper.insert(order);
 			if (order.getId() > 0) {
 
-				activitiService.startProcess2(Request.getUser(request), order);
+				activitiService.startProcess2(Request.getUser(principal), order);
 				r = new Pair<Boolean, String>(true, "下订单成功！");
 			}
 		} catch (Exception e) {

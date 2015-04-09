@@ -125,7 +125,7 @@
 										</a>
 										<ul class="pg-side-exp-list">
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="#">
+												<a class="side-exp-item-t" href="${rc.contextPath}/timeslot/list">
 													视频时段
 												</a>
 											</li>

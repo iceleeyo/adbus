@@ -1,0 +1,5 @@
+advertiser,广告主,user
+ShibaOrderManager,世巴订单管理员,manager
+ShibaFinancialManager,世巴财务管理员,manager
+BeiguangMaterialManager,北广物料管理员,manager
+BeiguangScheduleManager,北广排期管理员,manager

@@ -18,7 +18,8 @@
 								<a class="pg-nav-item-p pg-nav-item-n s-left" href="#">
 									<span>
                                         <@security.authorize access="isAuthenticated()">
-                                            <@security.authentication property="principal.username" />
+                                            <@security.authentication property="principal.user.firstName" />
+                                            <@security.authentication property="principal.user.lastName" />
                                         </@security.authorize>
                                         <@security.authorize access="! isAuthenticated()">
                                             请登录

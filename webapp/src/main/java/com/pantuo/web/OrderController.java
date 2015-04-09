@@ -1,6 +1,7 @@
 package com.pantuo.web;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.text.ParseException;
 import java.util.Map;
 
@@ -99,17 +100,21 @@ public class OrderController {
 	@RequestMapping(value = "payment")
 	@ResponseBody
 	public Pair<Boolean, String> payment(@RequestParam(value = "orderid", required = true) String orderid,
-			@RequestParam(value = "taskid", required = true) String taskid, HttpServletRequest request,
+			@RequestParam(value = "taskid", required = true) String taskid,
+            Principal principal,
+            HttpServletRequest request,
 			HttpServletResponse response) {
-		return activitiService.payment(Integer.parseInt(orderid), taskid, Request.getUser(request));
+		return activitiService.payment(Integer.parseInt(orderid), taskid, Request.getUser(principal));
 	}
 
 	@RequestMapping(value = "claim")
 	@ResponseBody
 	public Pair<Boolean, String> claimTask(@RequestParam(value = "orderid", required = true) String orderid,
-			@RequestParam(value = "taskid", required = true) String taskid, HttpServletRequest request,
+			@RequestParam(value = "taskid", required = true) String taskid,
+            Principal principal,
+            HttpServletRequest request,
 			HttpServletResponse response) {
-		taskService.claim(taskid, Request.getUserId(request));
+		taskService.claim(taskid, Request.getUserId(principal));
 		return new Pair<Boolean, String>(true, "任务签收成功!");
 	}
 
@@ -135,8 +140,8 @@ public class OrderController {
 			@RequestParam(value = "taskid", required = false) String taskid,
 			@RequestParam(value = "isok", required = false) String isok,
 			@RequestParam(value = "comment", required = false) String comment, HttpServletRequest request,
-			HttpServletResponse response, Authentication auth) {
-		return activitiService.handle(orderid, taskid, comment, isok, Request.getUser(request));
+			HttpServletResponse response, Principal principal) {
+		return activitiService.handle(orderid, taskid, comment, isok, Request.getUser(principal));
 	}
 
 	/**
@@ -145,32 +150,30 @@ public class OrderController {
 	 */
 	@RequestMapping(value = "/{taskId}/complete", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
-	public Pair<Boolean, String> completeTask(@PathVariable("taskId") String taskId, Variable variable,
-			HttpServletRequest request) {
-		return activitiService.complete(taskId, variable.getVariableMap(), Request.getUser(request));
+	public Pair<Boolean, String> completeTask(@PathVariable("taskId") String taskId, Principal principal, Variable variable) {
+		return activitiService.complete(taskId, variable.getVariableMap(), Request.getUser(principal));
 
 	}
 	@RequestMapping(value = "creOrder2", method = RequestMethod.POST)
 	@ResponseBody
-	public Pair<Boolean, String> saveOrderJpa(JpaOrders order, HttpServletRequest request, HttpServletResponse response)
+	public Pair<Boolean, String> saveOrderJpa(JpaOrders order, Principal principal)
 			throws IllegalStateException, IOException, ParseException {
 
-		return orderService.saveOrderJpa(order, request);
+		return orderService.saveOrderJpa(order, principal);
 	}
 	@RequestMapping(value = "creOrder", method = RequestMethod.POST)
 	@ResponseBody
-	public Pair<Boolean, String> saveOrder(Orders order, HttpServletRequest request, HttpServletResponse response)
+	public Pair<Boolean, String> saveOrder(Orders order, Principal principal)
 			throws IllegalStateException, IOException, ParseException {
 
-		return orderService.saveOrder(order, request);
+		return orderService.saveOrder(order, principal);
 	}
 
 	@RequestMapping(value = "/myTask/{pageNum}", method = RequestMethod.GET)
-	public String myTask(Model model, @PathVariable int pageNum, HttpServletRequest request,
-			HttpServletResponse response) {
+	public String myTask(Model model, @PathVariable int pageNum, Principal principal) {
 		NumberPageUtil page = new NumberPageUtil(pageNum);
 		page.setPagesize(30);
-		model.addAttribute("list", activitiService.findTask(Request.getUserId(request), page));
+		model.addAttribute("list", activitiService.findTask(Request.getUserId(principal), page));
 		model.addAttribute("pageNum", page);
 		return "mytask";
 	}

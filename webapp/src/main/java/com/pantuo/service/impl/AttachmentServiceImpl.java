@@ -1,6 +1,7 @@
 package com.pantuo.service.impl;
 
 import java.io.File;
+import java.security.Principal;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -102,11 +103,11 @@ public class AttachmentServiceImpl implements AttachmentService {
 		}
 	}
 
-	public List<Attachment> queryFile(HttpServletRequest request, int main_id) {
+	public List<Attachment> queryFile(Principal principal, int main_id) {
 		AttachmentExample example =new AttachmentExample();
 		AttachmentExample.Criteria ca=example.createCriteria();
 		ca.andMainIdEqualTo(main_id);
-		ca.andUserIdEqualTo(Request.getUserId(request));
+		ca.andUserIdEqualTo(Request.getUserId(principal));
 		return attachmentMapper.selectByExample(example);
 	}
 }

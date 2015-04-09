@@ -1,6 +1,7 @@
 package com.pantuo.web;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -61,15 +62,14 @@ public class ContractController {
 
 	@RequestMapping(value = "saveContract", method = RequestMethod.POST)
 	@ResponseBody
-	public Pair<Boolean, String> saveContract(Contract contract, HttpServletRequest request,
-			HttpServletResponse response) throws IllegalStateException, IOException, ParseException {
+	public Pair<Boolean, String> saveContract(Contract contract, Principal principal, HttpServletRequest request) throws IllegalStateException, IOException, ParseException {
 		String start = request.getParameter("startDate1").toString();
 		String end = request.getParameter("endDate1").toString();
 		if (start.length() > 1 && end.length() > 1) {
 			contract.setStartDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(start));
 			contract.setEndDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(end));
 		}
-		return contractService.saveContract(contract, request);
+		return contractService.saveContract(contract, principal, request);
 	}
 
 	@RequestMapping(value = "/list/{pageNum}")
@@ -94,10 +94,10 @@ public class ContractController {
 		return "contractEnter";
 	}
     @RequestMapping(value = "/contractDetail", produces = "text/html;charset=utf-8")
-    public String contractDetail(Model model,HttpServletRequest request)
+    public String contractDetail(Model model, Principal principal, HttpServletRequest request)
     {   
     	int contract_id=Integer.parseInt(request.getParameter("contract_id"));
-    	ContractView view=contractService.getContractDetail(contract_id, request);
+    	ContractView view=contractService.getContractDetail(contract_id, principal);
     	model.addAttribute("view",view);
         return "contractDetail";
     }

@@ -2,11 +2,15 @@ package com.pantuo.util;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.pantuo.service.security.ActivitiUserDetails;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.pantuo.dao.pojo.UserDetail;
+import org.springframework.security.core.Authentication;
+
+import java.security.Principal;
 
 public class Request {
 	private static Log log = LogFactory.getLog(Request.class);
@@ -24,13 +28,10 @@ public class Request {
 		}
 		return ip;
 	}
-	public static UserDetail getUser(HttpServletRequest request) {
-		UserDetail u = (UserDetail) request.getSession().getAttribute(com.pantuo.util.Constants.SESSION_U_KEY);
-		return u;
+	public static UserDetail getUser(Principal principal) {
+        return principal == null ? null : ((ActivitiUserDetails)((Authentication)principal).getPrincipal()).getUserDetail();
 	}
-	public static String getUserId(HttpServletRequest request) {
-		String r = StringUtils.EMPTY;
-		UserDetail u = (UserDetail) request.getSession().getAttribute(com.pantuo.util.Constants.SESSION_U_KEY);
-		return u == null ? r : u.getUsername();
+	public static String getUserId(Principal principal) {
+        return principal == null ? "" : principal.getName();
 	}
 }

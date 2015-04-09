@@ -61,7 +61,7 @@ public class MainprocessTest {
 	/**
 	 * 模拟订单
 	 */
-	static Map<Long, Order> order = new HashMap<>();
+	static Map<Long, Order> order = new HashMap<Long, Order>();
 
 	static class Order {
 		String userid;

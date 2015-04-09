@@ -1,5 +1,6 @@
 package com.pantuo.service;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class ContractService {
 	@Autowired
 	AttachmentService attachmentService;
 
-	public Pair<Boolean, String> saveContract(Contract con, HttpServletRequest request) {
+	public Pair<Boolean, String> saveContract(Contract con, Principal principal, HttpServletRequest request) {
 		Pair<Boolean, String> r = null;
 		try {
 			con.setIsUpload(false);
@@ -53,7 +54,7 @@ public class ContractService {
 			con.setStats(JpaContract.Status.not_started.ordinal());
 			int dbId = contractMapper.insert(con);
 			if (dbId > 0) {
-				attachmentService.saveAttachment(request, Request.getUserId(request), con.getId(), "ht_pic");
+				attachmentService.saveAttachment(request, Request.getUserId(principal), con.getId(), "ht_pic");
 				r = new Pair<Boolean, String>(true, "合同创建成功！");
 			}
 		} catch (BusinessException e) {
@@ -121,12 +122,12 @@ public class ContractService {
 		return contractMapper.selectByExample(ex);
 	}
 
-	public ContractView getContractDetail(int contract_id, HttpServletRequest request) {
+	public ContractView getContractDetail(int contract_id, Principal principal) {
 		ContractView v = null;
 		Contract con = contractMapper.selectByPrimaryKey(contract_id);
 		if (con != null) {
 			v = new ContractView();
-			List<Attachment> files = attachmentService.queryFile(request, contract_id);
+			List<Attachment> files = attachmentService.queryFile(principal, contract_id);
 			v.setFiles(files);
 			v.setMainView(con);
 		}

@@ -1,0 +1,5 @@
+admin,123456,Admin,nistrator,admin@pantuo.com,advertiser:ShibaOrderManager:ShibaFinancialManager:BeiguangMaterialManager:BeiguangScheduleManager
+order,123456,Shiba,Order,order@pantuo.com,ShibaOrderManager
+financial,123456,Shiba,Financial,financial@pantuo.com,ShibaFinancialManager
+material,123456,Beiguang,Material,material@pantuo.com,BeiguangMaterialManager
+schedule,123456,Beiguang,Schedule,schedule@pantuo.com,BeiguangScheduleManager

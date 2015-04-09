@@ -1,5 +1,6 @@
 package com.pantuo.service;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,8 +31,8 @@ public interface SuppliesService {
 	 * @return
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
+    Pair<Boolean, String> addSupplies(Supplies obj, Principal principal, HttpServletRequest request);
 
-	public Pair<Boolean, String> addSupplies(Supplies obj, HttpServletRequest request);
 	/**
 	 * 
 	 * 取素材列表
@@ -39,25 +40,24 @@ public interface SuppliesService {
 	 * @param page 
 	 * @param name 素材标题查询
 	 * @param type 素材类型查询
-	 * @param request
 	 * @return
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
-	public List<Supplies> queryMyList(NumberPageUtil page, String name, JpaProduct.Type type, HttpServletRequest request);
+    List<Supplies> queryMyList(NumberPageUtil page, String name, JpaProduct.Type type, Principal principal);
 	/**
 	 * 
 	 * 取素材列表时总记录数统计
 	 *
 	 * @param name
 	 * @param type
-	 * @param request
 	 * @return
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
-	
-	public int countMyList(String name, JpaProduct.Type type, HttpServletRequest request);
+
+    int countMyList(String name, JpaProduct.Type type, Principal principal);
+
 	/**
-	 * 
+	 *
 	 * 删除素材
 	 *
 	 * @param supplies_id
@@ -65,16 +65,15 @@ public interface SuppliesService {
 	 * @return
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
-	public Pair<Boolean, String> removeSupplies(int supplies_id, HttpServletRequest request);
-	
-	/**
+    Pair<Boolean, String> removeSupplies(int supplies_id, Principal principal, HttpServletRequest request);
+
+    /**
 	 * 
 	 * 查单个素材详细
 	 *
 	 * @param supplies_id
-	 * @param request
 	 * @return
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
-	public SuppliesView getSuppliesDetail(int supplies_id, HttpServletRequest request);
+	public SuppliesView getSuppliesDetail(int supplies_id, Principal principal);
 }

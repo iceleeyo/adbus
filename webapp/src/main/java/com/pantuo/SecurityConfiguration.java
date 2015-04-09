@@ -76,12 +76,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         }*/
 //        auth.inMemoryAuthentication()
 //                .withUser("admin").password("123$%^").roles("USER");
-        List<String> groups = Arrays.asList(new String[] {"advertiser", "ShibaOrderManager", "ShibaFinancialManager", "BeiguangMaterialManager", "BeiguangScheduleManager"});
-        userService.deleteUser("admin");
-        userService.deleteGroups(groups);
-        UserDetail u = new UserDetail("admin", "123456", "Admin", "nistrator", "admin@pantuo.com");
-        u.setStringGroups(groups);
-        userService.createUser(u);
+
     }
 
     //.csrf() is optional, enabled by default, if using WebSecurityConfigurerAdapter constructor

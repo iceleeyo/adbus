@@ -127,7 +127,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		//			.addClasspathResource("classpath*:/com/pantuo/activiti/autodeploy/order.bpmn20.xml").deploy();
 			Map<String, Object> initParams = new HashMap<String, Object>();
 			initParams.put("_owner", u);
-			initParams.put(ORDER_ID, String.valueOf(order.getId()));
+			initParams.put(ORDER_ID, order.getId());
 			initParams.put("_now", new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
 			ProcessInstance process = runtimeService.startProcessInstanceByKey(MAIN_PROCESS, initParams);
 
@@ -136,7 +136,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			if (!tasks.isEmpty()) {
 				Task task = tasks.get(0);
 				Map<String, Object> info = taskService.getVariables(task.getId());
-				if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), String.valueOf(order.getId()))) {
+				if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
 					taskService.claim(task.getId(), u.getUsername());
 					taskService.complete(task.getId());
 				}

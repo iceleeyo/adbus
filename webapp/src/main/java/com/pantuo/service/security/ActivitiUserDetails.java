@@ -50,7 +50,14 @@ public class ActivitiUserDetails implements UserDetails {
         return auths;
     }
 
-     
+    public UserDetail getUserDetail() {
+        return user;
+    }
+
+    public User getUser() {
+        return user.getUser();
+    }
+
     public String getPassword() {
         return user.getUser().getPassword();
     }

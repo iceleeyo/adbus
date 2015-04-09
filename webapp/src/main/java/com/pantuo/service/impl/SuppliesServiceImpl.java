@@ -1,5 +1,6 @@
 package com.pantuo.service.impl;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
@@ -31,18 +32,19 @@ public class SuppliesServiceImpl implements SuppliesService {
 	@Autowired
 	AttachmentService attachmentService;
 
-	public Pair<Boolean, String> addSupplies(Supplies obj, HttpServletRequest request) {
+    @Override
+	public Pair<Boolean, String> addSupplies(Supplies obj, Principal principal, HttpServletRequest request) {
 		Pair<Boolean, String> r = null;
 		if (StringUtils.isBlank(obj.getName())) {
 			return r = new Pair<Boolean, String>(false, "素材说明不能为空!");
 		}
 		try {
-			obj.setUserId(Request.getUserId(request));
+			obj.setUserId(Request.getUserId(principal));
 			obj.setCreated(new Date());
 			obj.setUpdated(obj.getCreated());
 			int dbId = suppliesMapper.insert(obj);
 			if (dbId > 0) {
-				attachmentService.saveAttachment(request, Request.getUserId(request), obj.getId(), "su_file");
+				attachmentService.saveAttachment(request, Request.getUserId(principal), obj.getId(), "su_file");
 			}
 			r = new Pair<Boolean, String>(true, "success");
 		} catch (BusinessException e) {
@@ -51,13 +53,14 @@ public class SuppliesServiceImpl implements SuppliesService {
 		return r;
 	}
 
-	public Pair<Boolean, String> removeSupplies(int supplies_id, HttpServletRequest request) {
+    @Override
+	public Pair<Boolean, String> removeSupplies(int supplies_id, Principal principal, HttpServletRequest request) {
 		Supplies t = suppliesMapper.selectByPrimaryKey(supplies_id);
-		if (t != null && StringUtils.equals(Request.getUserId(request), t.getUserId())) {
-			List<Attachment> atts = attachmentService.queryFile(request, supplies_id);
+		if (t != null && StringUtils.equals(Request.getUserId(principal), t.getUserId())) {
+			List<Attachment> atts = attachmentService.queryFile(principal, supplies_id);
 			if (!atts.isEmpty()) {
 				for (Attachment attachment : atts) {
-					attachmentService.removeAttachment(request, Request.getUserId(request), attachment.getId());
+					attachmentService.removeAttachment(request, Request.getUserId(principal), attachment.getId());
 				}
 			}
 			suppliesMapper.deleteByPrimaryKey(supplies_id);
@@ -67,20 +70,22 @@ public class SuppliesServiceImpl implements SuppliesService {
 		}
 	}
 
-	public List<Supplies> queryMyList(NumberPageUtil page, String name, JpaProduct.Type type, HttpServletRequest request) {
-		SuppliesExample ex = getExample(name, type, request);
+    @Override
+	public List<Supplies> queryMyList(NumberPageUtil page, String name, JpaProduct.Type type, Principal principal) {
+		SuppliesExample ex = getExample(name, type, principal);
 		ex.setOrderByClause("created desc");
 		ex.setLimitStart(page.getLimitStart());
 		ex.setLimitEnd(page.getPagesize());
 		return suppliesMapper.selectByExample(ex);
 	}
 
-	public int countMyList(String name, JpaProduct.Type type, HttpServletRequest request) {
+    @Override
+	public int countMyList(String name, JpaProduct.Type type, Principal principal) {
 
-		return suppliesMapper.countByExample(getExample(name, type, request));
+		return suppliesMapper.countByExample(getExample(name, type, principal));
 	}
 
-	public SuppliesExample getExample(String name, JpaProduct.Type type, HttpServletRequest request) {
+	public SuppliesExample getExample(String name, JpaProduct.Type type, Principal principal) {
 		SuppliesExample example = new SuppliesExample();
 		SuppliesExample.Criteria ca = example.createCriteria();
 		if (StringUtils.isNoneBlank(name)) {
@@ -89,17 +94,17 @@ public class SuppliesServiceImpl implements SuppliesService {
 		if (type != null) {
 			ca.andSuppliesTypeEqualTo(type.ordinal());
 		}
-		ca.andUserIdEqualTo(Request.getUserId(request));
+		ca.andUserIdEqualTo(Request.getUserId(principal));
 		return example;
 	}
 
 	//@Override
-	public SuppliesView getSuppliesDetail(int supplies_id, HttpServletRequest request) {
+	public SuppliesView getSuppliesDetail(int supplies_id, Principal principal) {
 		SuppliesView v = null;
 		Supplies supplies = suppliesMapper.selectByPrimaryKey(supplies_id);
 		if (supplies != null) {
 			v = new SuppliesView();
-			List<Attachment> files = attachmentService.queryFile(request, supplies_id);
+			List<Attachment> files = attachmentService.queryFile(principal, supplies_id);
 			v.setFiles(files);
 			v.setMainView(supplies);
 		}

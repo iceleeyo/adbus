@@ -1,5 +1,6 @@
 package com.pantuo.service;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,11 +48,10 @@ public interface AttachmentService {
 	 * 
 	 * 查素材下面的文件
 	 *
-	 * @param request
 	 * @param main_id
 	 * @return
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
-	public List<Attachment> queryFile(HttpServletRequest request, int main_id);
+	public List<Attachment> queryFile(Principal principal, int main_id);
 
 }
