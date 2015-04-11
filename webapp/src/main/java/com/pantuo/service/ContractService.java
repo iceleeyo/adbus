@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
+import com.pantuo.dao.pojo.JpaAttachment;
 import com.pantuo.dao.pojo.JpaContract;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.ManagementService;
@@ -46,15 +47,15 @@ public class ContractService {
 	@Autowired
 	AttachmentService attachmentService;
 
-	public Pair<Boolean, String> saveContract(Contract con, Principal principal, HttpServletRequest request) {
+	public Pair<Boolean, String> saveContract(Contract con, String username, HttpServletRequest request) {
 		Pair<Boolean, String> r = null;
 		try {
 			con.setIsUpload(false);
 			con.setCreated(new Date());
-			con.setStats(JpaContract.Status.not_started.ordinal());
+//			con.setStats(JpaContract.Status.not_started.ordinal());
 			int dbId = contractMapper.insert(con);
 			if (dbId > 0) {
-				attachmentService.saveAttachment(request, Request.getUserId(principal), con.getId(), "ht_pic");
+				attachmentService.saveAttachment(request, username, con.getId(), JpaAttachment.Type.ht_pic);
 				r = new Pair<Boolean, String>(true, "合同创建成功！");
 			}
 		} catch (BusinessException e) {

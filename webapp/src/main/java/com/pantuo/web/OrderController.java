@@ -16,6 +16,7 @@ import com.pantuo.mybatis.domain.Orders;
 
 import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.service.*;
+import com.pantuo.util.*;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
@@ -34,10 +35,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pantuo.service.impl.ActivitiServiceImpl;
-import com.pantuo.util.NumberPageUtil;
-import com.pantuo.util.Pair;
-import com.pantuo.util.Request;
-import com.pantuo.util.Variable;
 import com.pantuo.web.view.OrderView;
 
 /**
@@ -48,15 +45,6 @@ import com.pantuo.web.view.OrderView;
 @Controller
 @RequestMapping(produces = "application/json;charset=utf-8", value = "/order")
 public class OrderController {
-
-    public static ThreadLocal<SimpleDateFormat> sdf = new ThreadLocal<SimpleDateFormat>() {
-        @Override
-        protected SimpleDateFormat initialValue() {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-            return sdf;
-        }
-    };
 
 	@Autowired
 	private ContractService contractService;
@@ -172,7 +160,7 @@ public class OrderController {
         order.setType(prod.getType());
         String start = request.getParameter("startTime1").toString();
         if (!start.isEmpty()) {
-            Date startTime = sdf.get().parse(start);
+            Date startTime = GlobalMethods.sdf.get().parse(start);
             order.setStartTime(startTime);
 
             Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
@@ -182,7 +170,7 @@ public class OrderController {
         } else {
             return new Pair<Boolean, String> (false, "请指定订单开播时间");
         }
-		return orderService.saveOrderJpa(order, principal);
+		return orderService.saveOrderJpa(order, Request.getUser(principal));
 	}
 	@RequestMapping(value = "creOrder", method = RequestMethod.POST)
 	@ResponseBody

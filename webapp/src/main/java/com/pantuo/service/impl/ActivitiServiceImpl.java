@@ -32,9 +32,7 @@ import com.pantuo.web.view.OrderView;
 @Service
 public class ActivitiServiceImpl implements ActivitiService {
 
-	public final String ORDER_ID = "_orderId";
-	public final String MAIN_PROCESS = "order";
-	@Autowired
+    @Autowired
 	private RepositoryService repositoryService;
 
 	@Autowired
@@ -141,9 +139,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 	//	Deployment deployment = repositoryService.createDeployment()
 	//			.addClasspathResource("classpath*:/com/pantuo/activiti/autodeploy/order.bpmn20.xml").deploy();
 		Map<String, Object> initParams = new HashMap<String, Object>();
-		initParams.put("_owner", u);
-		initParams.put(ORDER_ID, order.getId());
-		initParams.put("_now", new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
+		initParams.put(ActivitiService.OWNER, u);
+		initParams.put(ActivitiService.ORDER_ID, order.getId());
+		initParams.put(ActivitiService.NOW, new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
 		ProcessInstance process = runtimeService.startProcessInstanceByKey(MAIN_PROCESS, initParams);
 
 		List<Task> tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime()
@@ -174,9 +172,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 		//	Deployment deployment = repositoryService.createDeployment()
 		//			.addClasspathResource("classpath*:/com/pantuo/activiti/autodeploy/order.bpmn20.xml").deploy();
 			Map<String, Object> initParams = new HashMap<String, Object>();
-			initParams.put("_owner", u);
-			initParams.put(ORDER_ID, order.getId());
-			initParams.put("_now", new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
+			initParams.put(ActivitiService.OWNER, u);
+			initParams.put(ActivitiService.ORDER_ID, order.getId());
+			initParams.put(ActivitiService.NOW, new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
 			ProcessInstance process = runtimeService.startProcessInstanceByKey(MAIN_PROCESS, initParams);
 
 			List<Task> tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime()
@@ -207,7 +205,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 		if (task != null) {
 			Map<String, Object> info = taskService.getVariables(task.getId());
-			UserDetail ul = (UserDetail) info.get("_owner");
+			UserDetail ul = (UserDetail) info.get(ActivitiService.OWNER);
 			if (ul != null && ObjectUtils.equals(ul.getUsername(), u.getUsername())) {
 				if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
 					taskService.claim(task.getId(), u.getUsername());

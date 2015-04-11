@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.pantuo.dao.pojo.JpaAttachment;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaSupplies;
 import org.apache.commons.lang3.StringUtils;
@@ -44,7 +45,7 @@ public class SuppliesServiceImpl implements SuppliesService {
 			obj.setUpdated(obj.getCreated());
 			int dbId = suppliesMapper.insert(obj);
 			if (dbId > 0) {
-				attachmentService.saveAttachment(request, Request.getUserId(principal), obj.getId(), "su_file");
+				attachmentService.saveAttachment(request, Request.getUserId(principal), obj.getId(), JpaAttachment.Type.su_file);
 			}
 			r = new Pair<Boolean, String>(true, "success");
 		} catch (BusinessException e) {

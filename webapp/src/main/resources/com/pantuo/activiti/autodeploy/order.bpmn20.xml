@@ -187,7 +187,7 @@
           </extensionElements>
         </serviceTask>
         <sequenceFlow id="flow43" sourceRef="denyEmail" targetRef="modifyOrder"></sequenceFlow>
-        <userTask id="modifyOrder" name="广告主修改订单" activiti:candidateUsers="${_owner.username}" >  
+        <userTask id="modifyOrder" name="广告主修改订单" activiti:candidateUsers="${_owner.username}" activiti:candidateGroups="ShibaOrderManager" >
           <documentation>广告主修改订单信息</documentation>
         </userTask>
         <sequenceFlow id="flow57" sourceRef="modifyOrder" targetRef="approve1"></sequenceFlow>
@@ -282,7 +282,7 @@
         
         
         <sequenceFlow id="flow56" sourceRef="paymentFailureEmail" targetRef="payment"></sequenceFlow>
-        <serviceTask id="generateSchedule" name="生成排期表" activiti:class="com.pantuo.activiti.GenerateSchedule"></serviceTask>
+        <serviceTask id="generateSchedule" name="生成排期表" activiti:delegateExpression="${GenerateScheduleBean}"></serviceTask>
         <sequenceFlow id="flow47" name="排期表OK" sourceRef="generateSchedule" targetRef="scheduleGateway"></sequenceFlow>
         <exclusiveGateway id="scheduleGateway" name="排期表情况检查"></exclusiveGateway>
         <endEvent id="endevent3" name="End"></endEvent>

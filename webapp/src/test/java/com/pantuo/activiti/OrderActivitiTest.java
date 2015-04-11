@@ -3,6 +3,7 @@ package com.pantuo.activiti;
 import com.dumbster.smtp.SimpleSmtpServer;
 import com.dumbster.smtp.SmtpMessage;
 import com.pantuo.ActivitiConfiguration;
+import com.pantuo.TestServiceConfiguration;
 import com.pantuo.dao.DaoBeanConfiguration;
 import com.pantuo.dao.pojo.UserDetail;
 
@@ -49,7 +50,7 @@ import javax.mail.internet.MimeUtility;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {DaoBeanConfiguration.class, ActivitiConfiguration.class})
+@ContextConfiguration(classes = {DaoBeanConfiguration.class, ActivitiConfiguration.class, TestServiceConfiguration.class})
 public class OrderActivitiTest {
 
     @Autowired
@@ -79,13 +80,22 @@ public class OrderActivitiTest {
 
     @Before
     public void before() {
+        repositoryService.createDeployment()
+                .addClasspathResource("com/pantuo/activiti/autodeploy/order.bpmn20.xml")
+                .deploy();
     	System.out.println("starting mock mail server");
     	mailServer = SimpleSmtpServer.start();
     }
     
     @After
     public void after() {
-    	System.out.println("stopping mock mail server");
+        System.out.println("deleting deployments");
+        List<Deployment> deployments = repositoryService.createDeploymentQuery().processDefinitionKey("order").list();
+        for (Deployment d : deployments) {
+            repositoryService.deleteDeployment(d.getId(), true);
+        }
+
+        System.out.println("stopping mock mail server");
     	mailServer.stop();
     }
 
@@ -105,7 +115,7 @@ public class OrderActivitiTest {
 				e.printStackTrace();
 				Assert.fail();
 			}
-	    	Assert.assertTrue(mail.getHeaderValue("From").indexOf("pantuo-service@gmail.com") >= 0);
+	    	Assert.assertTrue(mail.getHeaderValue("From").indexOf("ahua3515@163.com") >= 0);
 	    	Assert.assertTrue(mail.getHeaderValue("To").indexOf(owner.getUser().getEmail()) >= 0 );
     	}
     }
@@ -136,6 +146,7 @@ public class OrderActivitiTest {
     	Map<String, Object> initParams = new HashMap<String, Object> ();
     	initParams.put("_owner", owner);
     	initParams.put("_now", new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
+        initParams.put("_isTest", true);
 
     	List<Task> tasks, mtasks;
     	Task task;
@@ -320,6 +331,7 @@ public class OrderActivitiTest {
     	initParams.put("_owner", owner);
     	initParams.put("_timeout", "PT1S");
     	initParams.put("_now", new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
+        initParams.put("_isTest", true);
 
     	List<Task> tasks, mtasks;
     	Task task;
@@ -454,6 +466,7 @@ public class OrderActivitiTest {
     	Map<String, Object> initParams = new HashMap<String, Object> ();
     	initParams.put("_owner", owner);
     	initParams.put("_now", new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
+        initParams.put("_isTest", true);
 
     	List<Task> tasks, mtasks;
     	Task task;

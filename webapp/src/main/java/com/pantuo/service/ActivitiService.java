@@ -11,7 +11,16 @@ import com.pantuo.util.Pair;
 import com.pantuo.web.view.OrderView;
 
 public interface ActivitiService {
-	/**
+    //工作流中的一些变量名
+    public static final String MAIN_PROCESS = "order";
+    public static final String ORDER_ID = "_orderId";
+    public static final String OWNER = "_owner";
+    public static final String THE_EMAIL = "_theEmail";
+    public static final String THE_COMPANY = "_theCompany";
+    public static final String TIMEOUT = "_timeout";
+    public static final String NOW = "_now";
+
+    /**
 	 * 
 	 * 启动工作流
 	 *

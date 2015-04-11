@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.service.UserService;
+import com.pantuo.util.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +69,7 @@ public class ContractController {
 			contract.setStartDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(start));
 			contract.setEndDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(end));
 		}
-		return contractService.saveContract(contract, principal, request);
+		return contractService.saveContract(contract, Request.getUserId(principal), request);
 	}
 
 	@RequestMapping(value = "/list/{pageNum}")

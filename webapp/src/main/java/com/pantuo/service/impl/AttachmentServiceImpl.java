@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.pantuo.dao.pojo.JpaAttachment;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +45,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 	AttachmentMapper attachmentMapper;
 	private static Logger log = LoggerFactory.getLogger(SuppliesServiceImpl.class);
 
-	public void saveAttachment(HttpServletRequest request, String user_id, int main_id, String file_type)
+	public void saveAttachment(HttpServletRequest request, String user_id, int main_id, JpaAttachment.Type file_type)
 			throws BusinessException {
 
 		try {
@@ -67,6 +68,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 							file.transferTo(localFile);
 							Attachment t = new Attachment();
 							t.setMainId(main_id);
+                            t.setType(file_type.ordinal());
 							t.setCreated(new Date());
 							t.setUpdated(t.getCreated());
 							t.setName(oriFileName);

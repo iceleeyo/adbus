@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.pantuo.dao.pojo.JpaAttachment;
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.util.BusinessException;
 import com.pantuo.util.Pair;
@@ -30,7 +31,7 @@ public interface AttachmentService {
 	 * @param file_type
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
-	public void saveAttachment(HttpServletRequest request, String user_id, int main_id, String file_type)
+	public void saveAttachment(HttpServletRequest request, String user_id, int main_id, JpaAttachment.Type file_type)
 			throws BusinessException;
 	/**
 	 * 

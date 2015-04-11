@@ -15,6 +15,7 @@ import com.mysema.query.types.expr.StringOperation;
 import com.pantuo.dao.OrdersRepository;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.QJpaOrders;
+import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.OrdersExample;
 import com.pantuo.service.security.ActivitiUserDetails;
 import org.slf4j.Logger;
@@ -122,13 +123,13 @@ public class OrderService {
 	
 	
 	
-	public Pair<Boolean, String> saveOrderJpa(JpaOrders order, Principal principal) {
+	public Pair<Boolean, String> saveOrderJpa(JpaOrders order, UserDetail user) {
 		Pair<Boolean, String> r = null;
 		try {
 			order.setCreated(new Date());
 			order.setUpdated(new Date());
 			//	
-			order.setUserId(Request.getUserId(principal));
+			order.setUserId(user.getUsername());
 			if (order.getPayType() == JpaOrders.PayType.contract) {
 				
 				Contract c = contractService.queryContractByCode(order.getContractCode());
@@ -144,7 +145,7 @@ public class OrderService {
 			//int dbId = orderMapper.insert(order);
 			if (order.getId() > 0) {
 
-				activitiService.startProcess2(Request.getUser(principal), order);
+				activitiService.startProcess2(user, order);
 				r = new Pair<Boolean, String>(true, "下订单成功！");
 			}
 		} catch (Exception e) {
@@ -153,6 +154,10 @@ public class OrderService {
 		}
 		return r;
 	}
+
+    public JpaOrders getJpaOrder(int orderId) {
+        return ordersRepository.getOne(orderId);
+    }
 
     public Iterable<JpaOrders> getOrdersForSchedule(Date day, JpaProduct.Type type) {
         Predicate query = QJpaOrders.jpaOrders.startTime.stringValue().loe(StringOperation.create(Ops.STRING_CAST, ConstantImpl.create(day)))

@@ -17,6 +17,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.TimeZone;
 import java.util.zip.CRC32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.ZipEntry;
@@ -31,7 +32,17 @@ public class GlobalMethods {
 	private static final Logger log = Logger.getLogger(GlobalMethods.class);
 	private static final int MAX_FILE_SIZE = 10240;
 
-	//	static {
+
+    public static ThreadLocal<SimpleDateFormat> sdf = new ThreadLocal<SimpleDateFormat>() {
+        @Override
+        protected SimpleDateFormat initialValue() {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+            return sdf;
+        }
+    };
+
+    //	static {
 	//		initDirectory();
 	//	}
 
