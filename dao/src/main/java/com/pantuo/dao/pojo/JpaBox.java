@@ -12,7 +12,7 @@ import java.util.List;
 //箱子
 @Entity
 @Table(name="box", uniqueConstraints=@UniqueConstraint(columnNames={"day", "slotId"}))
-public class Box implements Comparable<Box>, Serializable {
+public class JpaBox implements Comparable<JpaBox>, Serializable {
     private static ThreadLocal<Long> PUT_WEIGHT = new ThreadLocal<Long>() {
         @Override
         protected Long initialValue() {
@@ -32,17 +32,17 @@ public class Box implements Comparable<Box>, Serializable {
     private JpaTimeslot timeslot;
 
     @OneToMany(cascade = { CascadeType.ALL }, mappedBy="box", fetch = FetchType.EAGER)
-    private List<Goods> goods;
+    private List<JpaGoods> goods;
 
     @Transient
     private long putWeight;    //刚刚堆放货物，权重降低
     @Transient
     private int seed;           //用作随机的种子
 
-    public Box() {}
+    public JpaBox() {}
 
-    public Box(Date day, int slotId, long size) {
-        goods = new ArrayList<Goods>();
+    public JpaBox(Date day, int slotId, long size) {
+        goods = new ArrayList<JpaGoods>();
         this.day = day;
         timeslot = new JpaTimeslot();
         timeslot.setId(slotId);
@@ -75,12 +75,32 @@ public class Box implements Comparable<Box>, Serializable {
         return remainStart;
     }
 
-    public List<Goods> getGoods() {
+    public List<JpaGoods> getGoods() {
         return goods;
     }
 
-    public void setGoods(List<Goods> goods) {
+    public void setGoods(List<JpaGoods> goods) {
         this.goods = goods;
+    }
+
+    public void setDay(Date day) {
+        this.day = day;
+    }
+
+    public void setSize(long size) {
+        this.size = size;
+    }
+
+    public void setRemain(long remain) {
+        this.remain = remain;
+    }
+
+    public void setRemainStart(long remainStart) {
+        this.remainStart = remainStart;
+    }
+
+    public void setTimeslot(JpaTimeslot timeslot) {
+        this.timeslot = timeslot;
     }
 
     public void increaseSeed(int seed) {
@@ -89,7 +109,7 @@ public class Box implements Comparable<Box>, Serializable {
 
     @Override
     //箱子按剩余空间由小到大排列
-    public int compareTo(Box o) {
+    public int compareTo(JpaBox o) {
         if (o == null)
             return 1;
         //刚刚放入的权重降低
@@ -99,7 +119,7 @@ public class Box implements Comparable<Box>, Serializable {
         return (int) s;
     }
 
-    private long position(Goods good) {
+    private long position(JpaGoods good) {
         if (remain < good.getSize())
             return -1;
         if (good.isFirst()) {
@@ -115,7 +135,7 @@ public class Box implements Comparable<Box>, Serializable {
         return remainStart;
     }
 
-    public boolean put(Goods good) {
+    public boolean put(JpaGoods good) {
         long pos = position(good);
         if (pos < 0)
             return false;
@@ -139,7 +159,7 @@ public class Box implements Comparable<Box>, Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Box box = (Box) o;
+        JpaBox box = (JpaBox) o;
 
         if (getSlotId() != box.getSlotId()) return false;
         if (seed != box.seed) return false;
@@ -158,7 +178,7 @@ public class Box implements Comparable<Box>, Serializable {
 
     @Override
     public String toString() {
-        return "Box{" +
+        return "JpaBox{" +
                 "slotId=" + getSlotId() +
                 ", day=" + day +
                 ", size=" + size +

@@ -280,9 +280,9 @@
           </extensionElements>
         </serviceTask>
         
-        
+
         <sequenceFlow id="flow56" sourceRef="paymentFailureEmail" targetRef="payment"></sequenceFlow>
-        <serviceTask id="generateSchedule" name="生成排期表" activiti:delegateExpression="${GenerateScheduleBean}"></serviceTask>
+        <serviceTask id="generateSchedule" name="生成排期表" activiti:delegateExpression="${generateSchedule}"></serviceTask>
         <sequenceFlow id="flow47" name="排期表OK" sourceRef="generateSchedule" targetRef="scheduleGateway"></sequenceFlow>
         <exclusiveGateway id="scheduleGateway" name="排期表情况检查"></exclusiveGateway>
         <endEvent id="endevent3" name="End"></endEvent>

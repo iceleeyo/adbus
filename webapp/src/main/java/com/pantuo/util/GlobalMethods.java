@@ -17,6 +17,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 import java.util.zip.CRC32;
 import java.util.zip.CheckedInputStream;
@@ -41,6 +42,16 @@ public class GlobalMethods {
             return sdf;
         }
     };
+
+    public static Date trimDate(Date date) {
+            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+            cal.setTime(date);
+            cal.set(Calendar.HOUR_OF_DAY, 0);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            return cal.getTime();
+    }
 
     //	static {
 	//		initDirectory();

@@ -1,7 +1,7 @@
 package com.pantuo.util;
 
-import com.pantuo.dao.pojo.Box;
-import com.pantuo.dao.pojo.Goods;
+import com.pantuo.dao.pojo.JpaBox;
+import com.pantuo.dao.pojo.JpaGoods;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,28 +13,28 @@ import java.util.*;
 public class Boxing {
     private static Logger log = LoggerFactory.getLogger(Boxing.class);
 
-    private HashSet<Box> boxes;       //箱子，用hashset生成打乱但是确定的列表
-    private HashSet<Goods> goods;      //货物，用hashset生成打乱但是确定的列表
-    private List<Goods> goodsList;
-    private List<Box> boxList;
+    private HashSet<JpaBox> boxes;       //箱子，用hashset生成打乱但是确定的列表
+    private HashSet<JpaGoods> goods;      //货物，用hashset生成打乱但是确定的列表
+    private List<JpaGoods> goodsList;
+    private List<JpaBox> boxList;
     private double remainPercentage;
 
     public Boxing() {
-        this.boxes = new HashSet<Box> ();
-        this.goods = new HashSet<Goods> ();
-        goodsList = new LinkedList<Goods> ();
-        boxList = new LinkedList<Box> ();
+        this.boxes = new HashSet<JpaBox> ();
+        this.goods = new HashSet<JpaGoods> ();
+        goodsList = new LinkedList<JpaGoods> ();
+        boxList = new LinkedList<JpaBox> ();
     }
 
-    public void addBox(Box box) {
+    public void addBox(JpaBox box) {
         this.boxes.add(box);
     }
 
-    public void addGoods(List<Goods> goods) {
+    public void addGoods(List<JpaGoods> goods) {
         this.goods.addAll(goods);
     }
 
-    public HashSet<Goods> getGoods() {
+    public HashSet<JpaGoods> getGoods() {
         return goods;
     }
 
@@ -43,23 +43,23 @@ public class Boxing {
     }
 
     //返回不能装箱的货物列表
-    public List<Goods> boxing() {
+    public List<JpaGoods> boxing() {
         log.info("Start boxing with {} boxes and {} goods", boxes.size(), goods.size());
 
-        Iterator<Goods> iter = goods.iterator();
+        Iterator<JpaGoods> iter = goods.iterator();
         while (iter.hasNext()) {
             goodsList.add(iter.next());
         }
-        Iterator<Box> iterb = boxes.iterator();
+        Iterator<JpaBox> iterb = boxes.iterator();
         while (iterb.hasNext()) {
             boxList.add(iterb.next());
         }
 
-        List<Goods> notBoxed = new ArrayList<Goods> ();
+        List<JpaGoods> notBoxed = new ArrayList<JpaGoods> ();
         Collections.sort(goodsList);
-        for (Goods g : goodsList) {
+        for (JpaGoods g : goodsList) {
             shuffleAndSortBoxes();
-            for (Box b : boxList) {
+            for (JpaBox b : boxList) {
                 if (b.put(g)) {
                     log.debug("Put good {} into box {} @ postion {}, box remain {}", g.getOrderId(), b.getSlotId(), g.getInboxPosition(), b.getRemain());
                     break;
@@ -76,13 +76,13 @@ public class Boxing {
     }
 
     private void shuffleAndSortBoxes() {
-        this.boxes = new HashSet<Box> ();
-        for (Box box : boxList) {
+        this.boxes = new HashSet<JpaBox> ();
+        for (JpaBox box : boxList) {
             box.increaseSeed(31*13);
             boxes.add(box);
         }
-        boxList = new LinkedList<Box> ();
-        Iterator<Box> iterb = boxes.iterator();
+        boxList = new LinkedList<JpaBox> ();
+        Iterator<JpaBox> iterb = boxes.iterator();
         while (iterb.hasNext()) {
             boxList.add(iterb.next());
         }
@@ -93,11 +93,11 @@ public class Boxing {
         log.info("Validating boxing");
         long totalSize = 0;
         long totalRemain = 0;
-        for (Box box : boxes) {
+        for (JpaBox box : boxes) {
             totalSize += box.getSize();
             totalRemain += box.getRemain();
             long occupied = 0;
-            for (Goods g : box.getGoods()) {
+            for (JpaGoods g : box.getGoods()) {
                 if (g.isFirst())
                     assert (g.getInboxPosition() == 0);
                 if (g.isLast())
@@ -110,11 +110,11 @@ public class Boxing {
     }
 
     //返回按照一般排序的Box列表
-    public List<Box> toOrderedBoxList() {
-        List<Box> boxes = new ArrayList<Box> (boxList);
-        Collections.sort(boxes, new Comparator<Box>() {
+    public List<JpaBox> toOrderedBoxList() {
+        List<JpaBox> boxes = new ArrayList<JpaBox> (boxList);
+        Collections.sort(boxes, new Comparator<JpaBox>() {
             @Override
-            public int compare(Box o1, Box o2) {
+            public int compare(JpaBox o1, JpaBox o2) {
                 return o1.getSlotId() - o2.getSlotId();
             }
         });
@@ -124,9 +124,9 @@ public class Boxing {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Boxes status:\n");
-        for (Box box : toOrderedBoxList()) {
+        for (JpaBox box : toOrderedBoxList()) {
             sb.append("\t").append(box).append("\n");
-            for (Goods g : box.getGoods()) {
+            for (JpaGoods g : box.getGoods()) {
                 sb.append("\t\t").append(g).append("\n");
             }
         }

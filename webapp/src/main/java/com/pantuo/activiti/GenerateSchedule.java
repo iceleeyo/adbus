@@ -3,6 +3,7 @@ package com.pantuo.activiti;
 
 
 import com.pantuo.dao.pojo.JpaOrders;
+import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.ScheduleLog;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.OrderService;
@@ -14,9 +15,9 @@ import com.pantuo.dao.pojo.UserDetail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component("GenerateScheduleBean")
+@Service("generateSchedule")
 public class GenerateSchedule implements JavaDelegate {
 	private static final Logger log = LoggerFactory.getLogger(GenerateSchedule.class);
 
@@ -49,12 +50,17 @@ public class GenerateSchedule implements JavaDelegate {
                 execution.setVariable("scheduleComments", "order " + orderId + " not exists or not paid");
                 return;
             }
-            ScheduleLog log = scheduleService.schedule(order);
-            if (log.getStatus() == ScheduleLog.Status.scheduled) {
-                execution.setVariable("scheduleResult", true);
+            if (order.getType() == JpaProduct.Type.video) {
+                ScheduleLog log = scheduleService.schedule(order);
+                if (log.getStatus() == ScheduleLog.Status.scheduled) {
+                    execution.setVariable("scheduleResult", true);
+                } else {
+                    execution.setVariable("scheduleResult", false);
+                    execution.setVariable("scheduleComments", log.getDescription());
+                }
             } else {
-                execution.setVariable("scheduleResult", false);
-                execution.setVariable("scheduleComments", log.getDescription());
+                //其他类型暂时不需要排期
+                execution.setVariable("scheduleResult", true);
             }
         }
 	}

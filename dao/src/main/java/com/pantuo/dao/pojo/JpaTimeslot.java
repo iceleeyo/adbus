@@ -1,5 +1,7 @@
 package com.pantuo.dao.pojo;
 
+import com.pantuo.util.DateUtil;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -79,6 +81,20 @@ public class JpaTimeslot extends BaseEntity {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+
+    public String getStartTimeStr() {
+        if (startTime == null)
+            return "--";
+        return DateUtil.shortDf.get().format(startTime);
+//        sb.append(" - ");
+//        Date end = new Date(startTime.getTime() + duration * 1000);
+//        sb.append(shortDf.get().format(end));
+    }
+
+    public String getDurationStr() {
+        return DateUtil.toShortStr(duration);
+    }
+
 
     @Override
     public String toString() {

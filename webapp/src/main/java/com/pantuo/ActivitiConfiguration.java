@@ -4,9 +4,11 @@ import java.io.IOException;
 
 import org.activiti.engine.*;
 import org.activiti.spring.ProcessEngineFactoryBean;
+import org.activiti.spring.SpringExpressionManager;
 import org.activiti.spring.SpringProcessEngineConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -56,7 +58,7 @@ public class ActivitiConfiguration {
     private String mailServerPassword;
 
     @Bean
-    public SpringProcessEngineConfiguration processEngineConfiguration() throws IOException {
+    public SpringProcessEngineConfiguration processEngineConfiguration(ApplicationContext context) throws IOException {
         SpringProcessEngineConfiguration conf = new SpringProcessEngineConfiguration();
         conf.setDataSource(dataSource);
         conf.setTransactionManager(transactionManager);
@@ -73,7 +75,10 @@ public class ActivitiConfiguration {
         conf.setAsyncExecutorActivate(true);
         conf.setLabelFontName("宋体");
         conf.setActivityFontName("宋体");
-        
+
+        //expose spring beans to activiti
+        conf.setExpressionManager(new SpringExpressionManager(context, null));
+        conf.setApplicationContext(context);
 
         PathMatchingResourcePatternResolver r = new PathMatchingResourcePatternResolver();
         conf.setDeploymentResources(r.getResources(autoDeployPath));
@@ -82,9 +87,10 @@ public class ActivitiConfiguration {
     }
     
     @Bean
-    ProcessEngineFactoryBean processEngineFactoryBean(SpringProcessEngineConfiguration conf) {
+    ProcessEngineFactoryBean processEngineFactoryBean(SpringProcessEngineConfiguration conf, ApplicationContext context) {
     	ProcessEngineFactoryBean factoryBean = new ProcessEngineFactoryBean();
     	factoryBean.setProcessEngineConfiguration(conf);
+        factoryBean.setApplicationContext(context);
     	return factoryBean;
     }
     /*

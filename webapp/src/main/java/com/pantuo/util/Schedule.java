@@ -14,14 +14,14 @@ public class Schedule {
     private Date day;
     private Boxing hotBoxing;
     private Boxing normalBoxing;
-    private List<Goods> normalNotBoxed;
-    private List<Goods> hotNotBoxed;
+    private List<JpaGoods> normalNotBoxed;
+    private List<JpaGoods> hotNotBoxed;
 
-    private static Box fromTimeslot(Date day, JpaTimeslot slot) {
-        return new Box(day, slot.getId(), slot.getDuration());
+    private static JpaBox fromTimeslot(Date day, JpaTimeslot slot) {
+        return new JpaBox(day, slot.getId(), slot.getDuration());
     }
 
-    private static void fromOrder(Date day, JpaOrders order, HashSet<Goods> hot, HashSet<Goods> normal) {
+    private static void fromOrder(Date day, JpaOrders order, HashSet<JpaGoods> hot, HashSet<JpaGoods> normal) {
         JpaProduct prod = order.getProduct();
         int playNumber = prod.getPlayNumber();
 
@@ -42,22 +42,22 @@ public class Schedule {
 
         int seed = 31 * 0x9572f8ad + day.hashCode();
         for (int i=0; i<normalFirst; i++) {
-            normal.add(new Goods(order.getId(), order.getProduct().getDuration(), true, false, seed++));
+            normal.add(new JpaGoods(order.getId(), order.getProduct().getDuration(), true, false, seed++));
         }
         for (int i=0; i<normalLast; i++) {
-            normal.add(new Goods(order.getId(), order.getProduct().getDuration(), false, true, seed++));
+            normal.add(new JpaGoods(order.getId(), order.getProduct().getDuration(), false, true, seed++));
         }
         for (int i=0; i<normalMiddle; i++) {
-            normal.add(new Goods(order.getId(), order.getProduct().getDuration(), false, false, seed++));
+            normal.add(new JpaGoods(order.getId(), order.getProduct().getDuration(), false, false, seed++));
         }
         for (int i=0; i<hotFirst; i++) {
-            hot.add(new Goods(order.getId(), order.getProduct().getDuration(), true, false, seed++));
+            hot.add(new JpaGoods(order.getId(), order.getProduct().getDuration(), true, false, seed++));
         }
         for (int i=0; i<hotLast; i++) {
-            hot.add(new Goods(order.getId(), order.getProduct().getDuration(), false, true, seed++));
+            hot.add(new JpaGoods(order.getId(), order.getProduct().getDuration(), false, true, seed++));
         }
         for (int i=0; i<hotMiddle; i++) {
-            hot.add(new Goods(order.getId(), order.getProduct().getDuration(), false, false, seed++));
+            hot.add(new JpaGoods(order.getId(), order.getProduct().getDuration(), false, false, seed++));
         }
     }
 
@@ -90,11 +90,11 @@ public class Schedule {
         return schedule;
     }
 
-    public static Schedule newFromBoxes(Date date, List<Box> boxes, JpaOrders order) {
+    public static Schedule newFromBoxes(Date date, List<JpaBox> boxes, JpaOrders order) {
         return newFromBoxes(date, boxes, Arrays.asList(new JpaOrders[] {order}));
     }
 
-    public static Schedule newFromBoxes(Date date, List<Box> boxes, Iterable<JpaOrders> orders) {
+    public static Schedule newFromBoxes(Date date, List<JpaBox> boxes, Iterable<JpaOrders> orders) {
         Schedule schedule = new Schedule();
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         cal.setTime(date);
@@ -106,7 +106,7 @@ public class Schedule {
 
         schedule.hotBoxing = new Boxing();
         schedule.normalBoxing = new Boxing();
-        for (Box box : boxes) {
+        for (JpaBox box : boxes) {
             if (box.getTimeslot().isPeak()) {
                 schedule.hotBoxing.addBox(box);
             } else {
@@ -131,11 +131,11 @@ public class Schedule {
         return hotNotBoxed.isEmpty();
     }
 
-    public List<Goods> getNormalNotBoxed() {
+    public List<JpaGoods> getNormalNotBoxed() {
         return normalNotBoxed;
     }
 
-    public List<Goods> getHotNotBoxed() {
+    public List<JpaGoods> getHotNotBoxed() {
         return hotNotBoxed;
     }
 
@@ -147,11 +147,11 @@ public class Schedule {
         return normalBoxing.getRemainPercentage();
     }
 
-    public List<Box> getOrderedNormalBoxList() {
+    public List<JpaBox> getOrderedNormalBoxList() {
         return normalBoxing.toOrderedBoxList();
     }
 
-    public List<Box> getOrderedHotBoxList() {
+    public List<JpaBox> getOrderedHotBoxList() {
         return hotBoxing.toOrderedBoxList();
     }
 
@@ -160,13 +160,13 @@ public class Schedule {
         sb.append("========================NORMAL BOX STATUS START========================\n");
         sb.append(normalBoxing.toString()).append("\n");
         sb.append("::Normal boxing with " + normalNotBoxed.size() + " not boxed goods that transferred to hot boxes:\n");
-        for (Goods g : normalNotBoxed) {
+        for (JpaGoods g : normalNotBoxed) {
             sb.append("\t").append(g).append("\n");
         }
         sb.append("==========================HOT BOX STATUS START=========================\n");
         sb.append(hotBoxing.toString()).append("\n");
         sb.append("::Final (hot) boxing with " + hotNotBoxed.size() + " goods not boxed:\n");
-        for (Goods g : hotNotBoxed) {
+        for (JpaGoods g : hotNotBoxed) {
             sb.append("\t").append(g).append("\n");
         }
         sb.append("=============================BOX STATUS END============================\n");

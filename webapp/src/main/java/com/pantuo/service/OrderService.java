@@ -156,7 +156,7 @@ public class OrderService {
 	}
 
     public JpaOrders getJpaOrder(int orderId) {
-        return ordersRepository.getOne(orderId);
+        return ordersRepository.findOne(orderId);
     }
 
     public Iterable<JpaOrders> getOrdersForSchedule(Date day, JpaProduct.Type type) {

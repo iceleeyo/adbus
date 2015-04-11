@@ -9,7 +9,7 @@ import java.io.Serializable;
 //货物
 @Entity
 @Table(name="goods", uniqueConstraints=@UniqueConstraint(columnNames={"orderId", "day", "seed"}))
-public class Goods implements Comparable<Goods>, Serializable {
+public class JpaGoods implements Comparable<JpaGoods>, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -27,12 +27,12 @@ public class Goods implements Comparable<Goods>, Serializable {
         @JoinColumn(name="boxSlotId", referencedColumnName="slotId"),
         @JoinColumn(name="day", referencedColumnName="day")
     })
-    private Box box = null;             //箱子
+    private JpaBox box = null;             //箱子
     private long inboxPosition = -1;    //箱子中的位置
 
-    public Goods() {}
+    public JpaGoods() {}
 
-    public Goods(int orderId, long size, boolean first, boolean last, int seed) {
+    public JpaGoods(int orderId, long size, boolean first, boolean last, int seed) {
         order = new JpaOrders();
         order.setId(orderId);
         this.size = size;
@@ -43,6 +43,10 @@ public class Goods implements Comparable<Goods>, Serializable {
 
     public int getOrderId() {
         return order.getId();
+    }
+
+    public int getId() {
+        return id;
     }
 
     public long getSize() {
@@ -69,11 +73,11 @@ public class Goods implements Comparable<Goods>, Serializable {
         this.last = last;
     }
 
-    public Box getBox() {
+    public JpaBox getBox() {
         return box;
     }
 
-    public void setBox(Box box) {
+    public void setBox(JpaBox box) {
         this.box = box;
     }
 
@@ -94,7 +98,7 @@ public class Goods implements Comparable<Goods>, Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Goods goods = (Goods) o;
+        JpaGoods goods = (JpaGoods) o;
 
         if (first != goods.first) return false;
         if (getOrderId() != goods.getOrderId()) return false;
@@ -115,7 +119,7 @@ public class Goods implements Comparable<Goods>, Serializable {
 
     @Override
     //货物先按首末播情况，再按size由大到小排列
-    public int compareTo(Goods o) {
+    public int compareTo(JpaGoods o) {
         if (o == null)
             return -1;
         boolean firstOrLast = first || last;
@@ -128,14 +132,14 @@ public class Goods implements Comparable<Goods>, Serializable {
         return (int)s;
     }
 
-    public void put(Box box, long inboxPosition) {
+    public void put(JpaBox box, long inboxPosition) {
         this.box = box;
         this.inboxPosition = inboxPosition;
     }
 
     @Override
     public String toString() {
-        return "Goods{" +
+        return "JpaGoods{" +
                 "orderId=" + getOrderId() +
                 ", inboxPosition=" + inboxPosition +
                 ", size=" + size +

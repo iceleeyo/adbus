@@ -1,15 +1,24 @@
 package com.pantuo.service;
 
+import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.dao.BoxRepository;
+import com.pantuo.dao.GoodsRepository;
 import com.pantuo.dao.ScheduleLogRepository;
 import com.pantuo.dao.pojo.*;
+import com.pantuo.mybatis.domain.Box;
+import com.pantuo.mybatis.domain.BoxExample;
+import com.pantuo.mybatis.persistence.BoxMapper;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.Schedule;
+import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -33,6 +42,10 @@ public class ScheduleService {
 
     @Autowired
     private BoxRepository boxRepo;
+    @Autowired
+    private BoxMapper boxMapper;
+    @Autowired
+    private GoodsRepository goodsRepo;
     @Autowired
     private ScheduleLogRepository scheduleLogRepository;
 
@@ -136,7 +149,7 @@ public class ScheduleService {
 
             Schedule s = null;
             boolean firstOrder = false;
-            List<Box> boxes = boxRepo.findByDay(now);
+            List<JpaBox> boxes = boxRepo.findByDay(now);
             if (!boxes.isEmpty()) {
                 log.info("There is already scheduled orders for day {}", now);
                 s = Schedule.newFromBoxes(now, boxes, order);
@@ -204,7 +217,7 @@ public class ScheduleService {
         }
 
         slogs = new ArrayList<ScheduleLog> ();
-        List<Box> scheduleResult = new LinkedList<Box> ();
+        List<JpaBox> scheduleResult = new LinkedList<JpaBox> ();
         int success = 0;
         for (int i = 0; i< days; i++) {
             cal.add(Calendar.DATE, 1);
@@ -222,7 +235,7 @@ public class ScheduleService {
                 slogs.add(slog);
 
                 Schedule s = null;
-                List<Box> boxes = boxRepo.findByDay(now);
+                List<JpaBox> boxes = boxRepo.findByDay(now);
                 if (!boxes.isEmpty()) {
                     log.info("There is already scheduled orders for day {}", now);
                     s = Schedule.newFromBoxes(now, boxes, order);
@@ -300,5 +313,26 @@ public class ScheduleService {
             return last;
         }
         return removed;
+    }
+
+    public Iterable<JpaGoods> getGoodsForOrder(Integer orderId) {
+        BooleanExpression query = QJpaGoods.goods.order.id.eq(orderId);
+        return goodsRepo.findAll(query);
+    }
+
+    /**
+     * 获取剩余时段表，不获取排期
+     * @param from inclusive
+     */
+    public List<Box> getBoxes(Date from, int days) {
+        from = GlobalMethods.trimDate(from);
+        Date to = DateUtils.addDays(from, days);
+        BoxExample example = new BoxExample();
+        example.createCriteria().andDayGreaterThanOrEqualTo(from).andDayLessThan(to);
+        return boxMapper.selectByExample(example);
+//        Predicate query = QJpaBox.box.day.stringValue().loe(StringOperation.create(Ops.STRING_CAST, ConstantImpl.create(to)))
+//                .and(QJpaBox.box.day.stringValue().goe(StringOperation.create(Ops.STRING_CAST, ConstantImpl.create(from))));
+//
+//        return boxRepo.findAll(query);
     }
 }

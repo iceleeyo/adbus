@@ -143,7 +143,7 @@
 										</a>
 										<ul class="pg-side-exp-list">
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="#">
+												<a class="side-exp-item-t" href="${rc.contextPath}/schedule/report">
 													时段报表
 												</a>
 											</li>
