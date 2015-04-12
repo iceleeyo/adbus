@@ -63,12 +63,12 @@
 										</a>
 										<ul class="pg-side-exp-list">
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/order/myOrders/user/1">
+												<a class="side-exp-item-t" href="${rc.contextPath}/order/myOrders/1">
 													我的订单
 												</a>
 											</li>
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/order/myOrders/manager/1">
+												<a class="side-exp-item-t" href="${rc.contextPath}/order/allRuningOrders/1">
 												     进行中订单
 												</a>
 											</li>
