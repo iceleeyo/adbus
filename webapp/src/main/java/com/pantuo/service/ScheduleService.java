@@ -316,7 +316,7 @@ public class ScheduleService {
     }
 
     public Iterable<JpaGoods> getGoodsForOrder(Integer orderId) {
-        BooleanExpression query = QJpaGoods.goods.order.id.eq(orderId);
+        BooleanExpression query = QJpaGoods.jpaGoods.order.id.eq(orderId);
         return goodsRepo.findAll(query);
     }
 

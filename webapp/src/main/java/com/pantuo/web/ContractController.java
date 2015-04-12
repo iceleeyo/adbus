@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.service.ContractService;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;

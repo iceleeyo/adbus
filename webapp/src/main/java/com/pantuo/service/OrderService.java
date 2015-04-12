@@ -3,31 +3,24 @@ package com.pantuo.service;
 import java.security.Principal;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.mysema.query.types.Constant;
 import com.mysema.query.types.ConstantImpl;
 import com.mysema.query.types.Ops;
 import com.mysema.query.types.Predicate;
 import com.mysema.query.types.expr.StringOperation;
 import com.pantuo.dao.OrdersRepository;
+import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.QJpaOrders;
 import com.pantuo.dao.pojo.UserDetail;
-import com.pantuo.mybatis.domain.OrdersExample;
-import com.pantuo.service.security.ActivitiUserDetails;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
-
-import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.Orders;
+import com.pantuo.mybatis.domain.OrdersExample;
 import com.pantuo.mybatis.persistence.OrdersMapper;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
@@ -60,7 +53,7 @@ public class OrderService {
 	}*/
 
 	public Orders selectOrderById(Integer id) {
-		return orderMapper.selectByPrimaryKey(id);
+		return ordersMapper.selectByPrimaryKey(id);
 
 	}
 	public List<Orders> selectOrderByUser(String userid,Integer id) {
@@ -73,14 +66,14 @@ public class OrderService {
 			c.andIdEqualTo(id);
 		}
 		
-		return orderMapper.selectByExample(example);
+		return ordersMapper.selectByExample(example);
 
 	}
 
 	@Autowired
 	ContractService contractService;
 	@Autowired
-    OrdersMapper orderMapper;
+    OrdersMapper ordersMapper;
 	
 	
 	@Autowired
@@ -108,7 +101,7 @@ public class OrderService {
 					order.setStats(JpaOrders.Status.paid.ordinal());
 				}
 			}
-			int dbId = orderMapper.insert(order);
+			int dbId = ordersMapper.insert(order);
 			if (dbId > 0) {
 
 				activitiService.startProcess(Request.getUser(principal), order);

@@ -33,7 +33,6 @@ public class SuppliesServiceImpl implements SuppliesService {
 	@Autowired
 	AttachmentService attachmentService;
 
-    @Override
 	public Pair<Boolean, String> addSupplies(Supplies obj, Principal principal, HttpServletRequest request) {
 		Pair<Boolean, String> r = null;
 		if (StringUtils.isBlank(obj.getName())) {
@@ -54,7 +53,6 @@ public class SuppliesServiceImpl implements SuppliesService {
 		return r;
 	}
 
-    @Override
 	public Pair<Boolean, String> removeSupplies(int supplies_id, Principal principal, HttpServletRequest request) {
 		Supplies t = suppliesMapper.selectByPrimaryKey(supplies_id);
 		if (t != null && StringUtils.equals(Request.getUserId(principal), t.getUserId())) {
@@ -71,7 +69,6 @@ public class SuppliesServiceImpl implements SuppliesService {
 		}
 	}
 
-    @Override
 	public List<Supplies> queryMyList(NumberPageUtil page, String name, JpaProduct.Type type, Principal principal) {
 		SuppliesExample ex = getExample(name, type, principal);
 		ex.setOrderByClause("created desc");
@@ -80,7 +77,6 @@ public class SuppliesServiceImpl implements SuppliesService {
 		return suppliesMapper.selectByExample(ex);
 	}
 
-    @Override
 	public int countMyList(String name, JpaProduct.Type type, Principal principal) {
 
 		return suppliesMapper.countByExample(getExample(name, type, principal));
@@ -93,13 +89,12 @@ public class SuppliesServiceImpl implements SuppliesService {
 			ca.andNameLike("%" + name + "%");
 		}
 		if (type != null) {
-			ca.andSuppliesTypeEqualTo(type.ordinal());
+			ca.andSuppliesTypeEqualTo(type.name());
 		}
 		ca.andUserIdEqualTo(Request.getUserId(principal));
 		return example;
 	}
 
-	//@Override
 	public SuppliesView getSuppliesDetail(int supplies_id, Principal principal) {
 		SuppliesView v = null;
 		Supplies supplies = suppliesMapper.selectByPrimaryKey(supplies_id);
