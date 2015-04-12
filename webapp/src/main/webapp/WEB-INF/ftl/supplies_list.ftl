@@ -115,7 +115,7 @@
                                         style="width: 224px; height: 35px; "
                                         class="ui-list-field text-center w80 fn-left">
                                     <#setting
-                                                date_format="yyyy-MM-dd HH:MM"> ${item.created?date}
+                                                date_format="yyyy-MM-dd HH:MM"> ${(item.created?date)!''}
                                      </span>
                                     </div>
                             </li>

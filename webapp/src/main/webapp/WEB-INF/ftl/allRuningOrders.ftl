@@ -1,9 +1,7 @@
 <#import "template/template.ftl" as frame>
-<#global menu="已完成的订单">
-<@frame.html title="已完成的订单">
-
+<#global menu="进行中的订单">
+<@frame.html title="进行中的订单">
 <script type="text/javascript">
-
 	function pages(pageNum) {
 		var pattern = /^\d+$/;
 		var by = ($("#by").val());
@@ -25,12 +23,12 @@
 			return;
 		}
 		//  var adsts =$("#adsts").val();
-		window.location.href = "${rc.contextPath}/order/finishedOrders/manage/"+g2;
+		window.location.href = "${rc.contextPath}/order/allRuningOrders/"+g2;
 	}
 
 	function page(num) {
 		var by = ($("#by").val());
-		window.location.href = "${rc.contextPath}/order/finishedOrders/manage/"+num; 
+		window.location.href = "${rc.contextPath}/order/allRuningOrders/"+num; 
 	}
 	
 	function claim(orderid,taskid){
@@ -45,7 +43,9 @@
 	  
 	}
 </script>
-
+               <form id="base_form" action="" method="post"
+							dataType="html" enctype="multipart/form-data" class="Page-Form"	>
+					<div class="ls-10">
 						<div class="module s-clear u-lump-sum p19">
 							<div class="u-sum-right">
 								<input class="ui-input" type="text" name="code" id="code"
@@ -55,28 +55,11 @@
 								&nbsp;&nbsp;&nbsp; 
 							</div>
 						</div>
-
+			  </form>
 						<form data-name="withdraw" name="userForm2" id="userForm2"
 							class="ui-form" method="post" action="saveContract"
 							enctype="multipart/form-data">
-							<div class="mt20">
-								<div class="u-tab">
-									<ul class="u-tab-items s-clear">
-										<li class="u-tab-item u-tab-item-active"><a
-											class="u-item-a" href="#holding">展示中 <em class="baget">0</em>
-										</a></li>
-										<li class="u-tab-item"><a class="u-item-a"
-											href="#booking">预订中 <em class="baget">0</em>
-										</a></li>
-										<li class="u-tab-item"><a class="u-item-a"
-											href="#exiting">已结束 <em class="baget">0</em>
-										</a></li>
-
-									</ul>
-								</div>
-
-
-								<!--合同列表展示-->
+								<!--列表展示-->
 								<div class="module p20" style="height: 423px;">
 									<div class="tab-content">
 										<div class="tab-plans-type">
@@ -107,36 +90,55 @@
 													<td style="width: 103px;">
 														<div class="th-md">创建时间</div>
 													</td>
+													<td style="width: 115px;">
+														<div class="th-md">当前环节</div>
+													</td>
+													<td style="width: 67px; ">
+														<div class="th-md">当前处理人</div>
+													</td>
 												</tr>
 											</table>
 
 											<#list list as item>
-											<#if (item.order.userId)?exists>
-													<li class="ui-list-item dark">
+											<li class="ui-list-item dark">
 												<div class="ui-list-item-row fn-clear">
 													<span style="width: 113px; height: 35px;"
 														class="ui-list-field text-center w80 fn-left">
 														${(item.order.userId)!''} </span> 
 														<span
-														style="width: 148px; height: 35px;"
+														style="width: 118px; height: 35px;"
 														class="ui-list-field text-center w80 fn-left"><em
 														class="value-small"> <a
-															href="#">
-																${(item.order.productId)!''}</a>
+															href="${rc.contextPath}/contract/contractDetail?contract_id=${(item.order.id)!''}">
+																${(item.order.productId)!''} </a>
 													</em> </span>
 													 <span style="width: 148px; height: 35px;"
 														class="ui-list-field text-center w80 fn-left">
 														${(item.order.suppliesId)!''} </span> 
 														<span
-														style="width: 159px; height: 35px;"
+														style="width: 129px; height: 35px;"
 														class="ui-list-field num-s text-center w120 fn-left"><em
 														class="value-small"> <#setting
 															date_format="yyyy-MM-dd HH:MM">
 															${(item.order.createTime?date)!''} </em> </span>
+															
+													 <span
+														style="width: 140px; height: 35px;"
+														class="ui-list-field num-s text-center w120 fn-left"><em
+														class="value-small">
+														<a class="trace" target="_blank" href='${rc.contextPath}/workflow/view/${(item.task.executionId)!''}/page/${(item.task.processInstanceId)!''}' title="点击查看流程图">${(item.task.name)!'' }</a>
+														</em>
+														</span>
+															
+															
+															 <span
+														style="width: 90px; height: 35px;"
+														class="ui-list-field num-s text-center w120 fn-left">
+														<em class="value-small"> ${(item.task.assignee)!''}
+													</em>
+													</span>
 											</li> 
-											<#else>
-											</#if>
-											 </#list>
+											</#list>
 											<!-- 分页 -->
 											<table class="pag_tbl"
 												style="width: 100%; border-width: 0px; margin-top: 10px;">

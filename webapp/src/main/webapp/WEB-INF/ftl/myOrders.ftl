@@ -1,9 +1,5 @@
 <#import "template/template.ftl" as frame>
-<#if usertype="user">
-    <#global menu="我的订单">
-<#else>
-    <#global menu="进行中订单">
-</#if>
+
 <@frame.html title="订单审核列表">
 <script type="text/javascript">
 
@@ -28,12 +24,12 @@
 			return;
 		}
 		//  var adsts =$("#adsts").val();
-		window.location.href = "${rc.contextPath}/order/myOrders/manage/"+g2;
+		window.location.href = "${rc.contextPath}/order/myOrders/"+g2;
 	}
 
 	function page(num) {
 		var by = ($("#by").val());
-		window.location.href = "${rc.contextPath}/order/myOrders/manage/"+num;
+		window.location.href = "${rc.contextPath}/order/myOrders/"+num;
 	}
 	
 	function claim(orderid,taskid){
