@@ -187,7 +187,7 @@
           </extensionElements>
         </serviceTask>
         <sequenceFlow id="flow43" sourceRef="denyEmail" targetRef="modifyOrder"></sequenceFlow>
-        <userTask id="modifyOrder" name="广告主修改订单" activiti:candidateUsers="${_owner.username}" activiti:candidateGroups="ShibaOrderManager" >
+        <userTask id="modifyOrder" name="广告主修改订单" activiti:candidateUsers="${_owner.username}"  >
           <documentation>广告主修改订单信息</documentation>
         </userTask>
         <sequenceFlow id="flow57" sourceRef="modifyOrder" targetRef="approve1"></sequenceFlow>
