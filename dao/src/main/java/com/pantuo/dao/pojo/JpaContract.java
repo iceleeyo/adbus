@@ -12,7 +12,7 @@ import java.util.Date;
 @Table(name="contract")
 public class JpaContract extends BaseEntity {
     public static enum Status {
-        not_started, started, ended
+        not_started, starting, ended
     }
 
 
