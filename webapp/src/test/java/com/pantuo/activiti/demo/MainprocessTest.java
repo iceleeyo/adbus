@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.pantuo.TestServiceConfiguration;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RepositoryService;
@@ -42,7 +43,7 @@ import com.pantuo.dao.DaoBeanConfiguration;
  * @author pxh
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { DaoBeanConfiguration.class, ActivitiConfiguration.class })
+@ContextConfiguration(classes = { DaoBeanConfiguration.class, ActivitiConfiguration.class, TestServiceConfiguration.class})
 public class MainprocessTest {
 	@Autowired
 	private RepositoryService repositoryService;

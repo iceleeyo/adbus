@@ -3,6 +3,7 @@ package com.pantuo.activiti;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.pantuo.TestServiceConfiguration;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
@@ -24,7 +25,7 @@ import com.pantuo.dao.DaoBeanConfiguration;
  * @author shirdrn
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { DaoBeanConfiguration.class, ActivitiConfiguration.class })
+@ContextConfiguration(classes = { DaoBeanConfiguration.class, ActivitiConfiguration.class, TestServiceConfiguration.class})
 public class MainprocessTest {
 	@Autowired
 	private RepositoryService repositoryService;
