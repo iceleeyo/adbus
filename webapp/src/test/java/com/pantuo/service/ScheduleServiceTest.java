@@ -71,7 +71,7 @@ public class ScheduleServiceTest {
         Contract contract = new Contract();
         contract.setContractCode("contract001");
         contract.setContractName("contract001");
-        contract.setStats(JpaContract.Status.started.ordinal());
+        contract.setStats(JpaContract.Status.starting.ordinal());
         contractService.saveContract(contract, "tliu", new MockHttpServletRequest());
 
         JpaProduct[] products = new JpaProduct[] {new JpaProduct(JpaProduct.Type.video, "30S", 30, 4, 1, 1, 0.25, 7, 12000, false),

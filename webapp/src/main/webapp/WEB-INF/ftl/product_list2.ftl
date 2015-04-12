@@ -2,15 +2,6 @@
 <#global menu="产品查询">
 <@frame.html title="产品套餐列表">
 
-<style type="text/css">
-    .center {margin: auto;}
-    .frame {width: 1000px;}
-    .div {text-align:center; margin:25px;}
-    div#toolbar {float: left;}
-    .processed {color: limegreen;}
-    .invalid {color: red;}
-    .hl {background-color: #ffff00;}
-</style>
 <script type="text/javascript">
     var table;
     function initTable () {
@@ -19,6 +10,9 @@
             "searching": false,
             "ordering": false,
             "serverSide": true,
+            "columnDefs": [
+                { "sClass": "align-left", "targets": [0] },
+            ],
             "ajax": {
                 type: "GET",
                 url: "${rc.contextPath}/product/ajax-list",
@@ -66,7 +60,8 @@
                     "render": function(data, type, row, meta) {
                         return (row.enabled ? '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/disable">禁用</a> &nbsp;'
                                 :'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/enable">启用</a> &nbsp;')
-                        + '<a class="table-link" href="${rc.contextPath}/product/' + data +'">编辑</a>';
+                        + '<a class="table-link" href="${rc.contextPath}/product/' + data +'">编辑</a>&nbsp;'
+                        + '<a class="table-link" href="${rc.contextPath}/order/buypro">购买</a>';
                     }},
             ],
             "language": {

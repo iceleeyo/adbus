@@ -121,17 +121,22 @@
 									<li class="pg-side-item">
 										<a class="pg-side-item-t">
 											<i class="s-left pg-icon-a f-icon"></i>
-											时段管理
+											媒体管理
 										</a>
 										<ul class="pg-side-exp-list">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/timeslot/list">
-													视频时段
+													媒体时段
 												</a>
 											</li>
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/schedule/report">
+                                                    剩余时段
+                                                </a>
+                                            </li>
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="#">
-													时段设置
+												<a class="side-exp-item-t" href="${rc.contextPath}/schedule/list">
+                                                    排条单
 												</a>
 											</li>
 										</ul>

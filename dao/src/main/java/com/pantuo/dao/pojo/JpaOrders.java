@@ -24,7 +24,9 @@ public class JpaOrders extends BaseEntity {
     private int id;
 
     private String userId;
-    private int suppliesId;
+    @ManyToOne
+    @JoinColumn(name = "suppliesId")
+    private JpaSupplies supplies;
     @ManyToOne
     @JoinColumn(name = "productId")
     private JpaProduct product;
@@ -46,7 +48,8 @@ public class JpaOrders extends BaseEntity {
                      PayType payType,
                      Status stats, String creator) {
         this.userId = userId;
-        this.suppliesId = suppliesId;
+        this.supplies = new JpaSupplies();
+        this.supplies.setId(suppliesId);
         this.product = new JpaProduct();
         this.product.setId(productId);
         this.type = type;
@@ -76,11 +79,19 @@ public class JpaOrders extends BaseEntity {
     }
 
     public int getSuppliesId() {
-        return suppliesId;
+        return supplies.getId();
     }
 
     public void setSuppliesId(int suppliesId) {
-        this.suppliesId = suppliesId;
+        this.supplies.setId(suppliesId);
+    }
+
+    public JpaSupplies getSupplies() {
+        return supplies;
+    }
+
+    public void setSupplies(JpaSupplies supplies) {
+        this.supplies = supplies;
     }
 
     public int getProductId() {
@@ -167,7 +178,7 @@ public class JpaOrders extends BaseEntity {
     public String toString() {
         return "JpaOrders{" +
                 "userId='" + userId + '\'' +
-                ", suppliesId=" + suppliesId +
+                ", suppliesId=" + supplies.getId() +
                 ", productId=" + product.getId() +
                 ", contractId=" + contractId +
                 ", contractCode='" + contractCode + '\'' +

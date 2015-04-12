@@ -61,7 +61,7 @@
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>物料ID:</label>
-                                            <select class="ui-input" name="suppliesId" id="suppliesId">
+                                            <select class="ui-input" name="supplies.id" id="suppliesId">
                                                 <option value="" selected="selected"></option>
                                                 <#list supplies as s>
                                                     <option value="${s.id}">${s.name}</option>

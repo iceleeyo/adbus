@@ -44,7 +44,7 @@
 						<div class="login-content s-clear">
 							<div class="s-left login-left">
 								<div class="login-box">
-									<img src="images/rrdai-login.png">
+									<img src="images/login.png">
 								</div>
 							</div>
 							<div class="s-right login-right">

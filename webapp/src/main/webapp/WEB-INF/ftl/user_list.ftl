@@ -2,15 +2,6 @@
 <#global menu="用户列表">
 <@frame.html title="用户列表">
 
-<style type="text/css">
-    .center {margin: auto;}
-    .frame {width: 1000px;}
-    .div {text-align:center; margin:25px;}
-    div#toolbar {float: left;}
-    .processed {color: limegreen;}
-    .invalid {color: red;}
-    .hl {background-color: #ffff00;}
-</style>
 <script type="text/javascript">
     var table;
     function initTable () {
@@ -19,6 +10,9 @@
             "searching": false,
             "ordering": false,
             "serverSide": true,
+            "columnDefs": [
+                { "sClass": "align-left", "targets": [0,1] },
+            ],
             "ajax": {
                 type: "GET",
                 url: "${rc.contextPath}/user/ajax-list",

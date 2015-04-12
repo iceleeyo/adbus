@@ -1,6 +1,10 @@
 package com.pantuo.service;
 
+import com.mysema.query.types.ConstantImpl;
+import com.mysema.query.types.Ops;
+import com.mysema.query.types.Predicate;
 import com.mysema.query.types.expr.BooleanExpression;
+import com.mysema.query.types.expr.StringOperation;
 import com.pantuo.dao.BoxRepository;
 import com.pantuo.dao.GoodsRepository;
 import com.pantuo.dao.ScheduleLogRepository;
@@ -10,15 +14,12 @@ import com.pantuo.mybatis.domain.BoxExample;
 import com.pantuo.mybatis.persistence.BoxMapper;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.Schedule;
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -41,11 +42,11 @@ public class ScheduleService {
     private TimeslotService timeslotService;
 
     @Autowired
+    private GoodsRepository goodsRepo;
+    @Autowired
     private BoxRepository boxRepo;
     @Autowired
     private BoxMapper boxMapper;
-    @Autowired
-    private GoodsRepository goodsRepo;
     @Autowired
     private ScheduleLogRepository scheduleLogRepository;
 
@@ -149,7 +150,7 @@ public class ScheduleService {
 
             Schedule s = null;
             boolean firstOrder = false;
-            List<JpaBox> boxes = boxRepo.findByDay(now);
+            List<Box> boxes = boxRepo.findByDay(now);
             if (!boxes.isEmpty()) {
                 log.info("There is already scheduled orders for day {}", now);
                 s = Schedule.newFromBoxes(now, boxes, order);
@@ -334,5 +335,18 @@ public class ScheduleService {
 //                .and(QJpaBox.box.day.stringValue().goe(StringOperation.create(Ops.STRING_CAST, ConstantImpl.create(from))));
 //
 //        return boxRepo.findAll(query);
+    }
+
+    /**
+     * 获取剩余时段表，并获取排期
+     * @param from inclusive
+     */
+    public Iterable<JpaBox> getBoxesAndGoods(Date from, int days) {
+        from = GlobalMethods.trimDate(from);
+        Date to = DateUtils.addDays(from, days);
+        Predicate query = QJpaBox.jpaBox.day.before(to)
+                .and(QJpaBox.jpaBox.day.stringValue().goe(StringOperation.create(Ops.STRING_CAST, ConstantImpl.create(from))));
+
+        return boxRepo.findAll(query);
     }
 }

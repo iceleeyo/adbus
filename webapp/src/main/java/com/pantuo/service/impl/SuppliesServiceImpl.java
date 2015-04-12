@@ -89,7 +89,7 @@ public class SuppliesServiceImpl implements SuppliesService {
 			ca.andNameLike("%" + name + "%");
 		}
 		if (type != null) {
-			ca.andSuppliesTypeEqualTo(type.name());
+			ca.andSuppliesTypeEqualTo(type.ordinal());
 		}
 		ca.andUserIdEqualTo(Request.getUserId(principal));
 		return example;

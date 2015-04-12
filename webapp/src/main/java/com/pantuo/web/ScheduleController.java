@@ -222,6 +222,126 @@ public class ScheduleController {
         }
     }
 
+
+    /**
+     * 排条单表单
+     * @return
+     */
+    @RequestMapping("list")
+    public String getScheduleList(Model model,
+                                    @RequestParam(value = "day", required = false) String dayStr,
+                                    @RequestParam(value = "type", required = false, defaultValue = "video") JpaProduct.Type type) {
+        Date day = null;
+
+        if (StringUtils.isNotBlank(dayStr)) {
+            try {
+                day = GlobalMethods.sdf.get().parse(dayStr);
+            } catch (Exception e) {}
+        }
+        if (day == null) {
+            day = new Date();
+        }
+
+        model.addAttribute("day", GlobalMethods.sdf.get().format(day));
+        model.addAttribute("type", type);
+
+        return "schedule_list";
+    }
+
+    /**
+     * 排条单
+     */
+    @RequestMapping("box-detail-ajax-list")
+    @ResponseBody
+    public List<Report> getScheduleDetailList (
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "day", required = false) String dayStr,
+            @RequestParam(value = "type", required = false, defaultValue = "video") JpaProduct.Type type
+    ) {
+        if (type != JpaProduct.Type.video) {
+            //TODO:image/info 排条单
+            return Collections.EMPTY_LIST;
+        }
+
+        try {
+            Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(name, 0, 999);
+            Date day = GlobalMethods.sdf.get().parse(dayStr);
+            Iterable<JpaBox> boxes = service.getBoxesAndGoods(day, 1);
+
+            //total row
+            long totalDuration = 0;
+            Map<String/*date*/, UiBox> totalBoxes = new HashMap<String, UiBox> ();
+            Date d = day;
+            String dStr = GlobalMethods.sdf.get().format(d);
+            for (int i=0; i<1; i++) {
+                UiBox t = new UiBox();
+                t.setDay(d);
+                totalBoxes.put(GlobalMethods.sdf.get().format(d), t);
+                d = DateUtils.addDays(d, 1);
+            }
+
+            List<Report> reports = new LinkedList<Report> ();
+            Map<Integer, Report> reportMap = new HashMap<Integer, Report> ();
+            for (JpaTimeslot slot : slots) {
+                totalDuration += slot.getDuration();
+                Report r = new Report(slot);
+                reports.add(r);
+                reportMap.put(slot.getId(), r);
+            }
+
+            for (Box t : totalBoxes.values()) {
+                t.setSize(totalDuration);
+                t.setRemain(totalDuration);
+            }
+
+            for (JpaBox b : boxes) {
+                Report r = reportMap.get(b.getSlotId());
+                if (r != null) {
+                    String key = r.addBox(b);
+                    Box t = totalBoxes.get(key);
+                    if (t != null) {
+                        t.setRemain(t.getRemain()- (b.getSize() - b.getRemain()));
+                    }
+                }
+
+            }
+
+            //add total row
+/*            Report totalReport = new Report(new JpaTimeslot("汇总", null, totalDuration, false));
+            totalReport.setBoxes(totalBoxes);
+            reports.add(totalReport);*/
+
+            return flatDetailForGoods(dStr, reports);
+        } catch (Exception e) {
+            log.error("invalid day {}, should be in yyyy-MM-dd", dayStr, e);
+            return Collections.EMPTY_LIST;
+        }
+    }
+
+    private List<Report> flatDetailForGoods(String day, List<Report> reports) {
+        List<Report> list = new LinkedList<Report> ();
+        for (Report r : reports) {
+            UiBox box = r.getBox(day);
+            if (box == null || box.getGoods().isEmpty()) {
+                //fill in blank box
+                list.add(r);
+            } else {
+                //create report records for each goods
+                List<JpaGoods> goods = box.fetchSortedGoods();
+                //clear goods to make it ready for later copy
+                box.setGoods(null);
+                for (JpaGoods g : goods) {
+                    UiBox b = new UiBox(box);
+                    b.addGood(g);
+                    Report newReport = new Report(r.getSlot());
+                    newReport.addBox(b);
+                    list.add(newReport);
+                }
+            }
+        }
+        return list;
+    }
+
     public static class Report implements Serializable {
         private Map<String/*date*/, UiBox> boxes;
         private JpaTimeslot slot;
@@ -233,19 +353,37 @@ public class ScheduleController {
 
         public String addBox(Box box) {
             String key = GlobalMethods.sdf.get().format(box.getDay());
-            boxes.put(key, new UiBox(box));
+            if (!(box instanceof UiBox))
+                box = new UiBox(box);
+            boxes.put(key, (UiBox)box);
+            return key;
+        }
+
+        public String addBox(JpaBox box) {
+            List<JpaGoods> goods = box.getGoods();
+
+            String key = GlobalMethods.sdf.get().format(box.getDay());
+            UiBox b = boxes.get(key);
+            if (b == null) {
+                b = new UiBox(box);
+                boxes.put(key, b);
+            }
+            if (goods != null) {
+                for (JpaGoods g : goods) {
+                    b.addGood(g);
+                }
+            }
             return key;
         }
 
         public String addBox(JpaBox box, JpaGoods good) {
-            good.setBox(null);
             String key = GlobalMethods.sdf.get().format(box.getDay());
             UiBox b = boxes.get(key);
             if (b != null) {
-                b.getGoods().add(good);
+                b.addGood(good);
             } else {
                 b = new UiBox(box);
-                b.getGoods().add(good);
+                b.addGood(good);
                 boxes.put(key, b);
             }
 
@@ -260,6 +398,10 @@ public class ScheduleController {
             this.boxes = boxes;
         }
 
+        private UiBox getBox(String dayStr) {
+            return boxes.get(dayStr);
+        }
+
         public JpaTimeslot getSlot() {
             return slot;
         }
@@ -268,15 +410,24 @@ public class ScheduleController {
     public static class UiBox extends Box {
         private List<JpaGoods> goods;
         public UiBox () {
-
+            goods = new ArrayList<JpaGoods>();
         }
         public UiBox (Box box) {
             BeanUtils.copyProperties(box, this);
+            if (goods == null) {
+                goods = new ArrayList<JpaGoods>();
+            }
         }
 
         public UiBox (JpaBox box) {
             BeanUtils.copyProperties(box, this);
             goods = new ArrayList<JpaGoods>();
+        }
+
+        public void addGood(JpaGoods good) {
+            //cut connection from JpaGoods to Box to avoid loop in serialization
+            good.setBox(null);
+            goods.add(good);
         }
 
         public List<JpaGoods> getGoods() {
@@ -285,6 +436,22 @@ public class ScheduleController {
 
         public void setGoods(List<JpaGoods> goods) {
             this.goods = goods;
+        }
+
+        public List<JpaGoods> fetchSortedGoods() {
+            List<JpaGoods> list = null;
+            if (goods != null)
+                list = new ArrayList<JpaGoods>(goods);
+            else
+                list = new ArrayList<JpaGoods>();
+
+            Collections.sort(list, new Comparator<JpaGoods>() {
+                @Override
+                public int compare(JpaGoods o1, JpaGoods o2) {
+                    return (int) (o1.getInboxPosition() - o2.getInboxPosition());
+                }
+            });
+            return list;
         }
 
         public String getRemainStr () {

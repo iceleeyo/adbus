@@ -81,6 +81,14 @@ public class JpaGoods implements Comparable<JpaGoods>, Serializable {
         this.box = box;
     }
 
+    public JpaOrders getOrder() {
+        return order;
+    }
+
+    public void setOrder(JpaOrders order) {
+        this.order = order;
+    }
+
     public long getInboxPosition() {
         return inboxPosition;
     }

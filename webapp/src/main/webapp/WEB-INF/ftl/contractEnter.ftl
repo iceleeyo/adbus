@@ -78,7 +78,7 @@
                                             <label class="ui-label mt10">
 											<span
                                                     class="ui-form-required">*
-											</span>用户:
+											</span>广告主:
                                             </label>
                                             <select class="ui-input" name="userId" id="userId">
                                                 <option value="" selected="selected"></option>
@@ -108,25 +108,37 @@
 
 											<input type="text" style="display: none;">
 										</div>
+                                        <div class="ui-form-item">
+                                            <label class="ui-label mt10"><span
+                                                    class="ui-form-required">*</span>金额:</label>
+                                        </div>
+                                        <div class="ui-form-item">
+                                            <label class="ui-label mt10"><span
+                                                    class="ui-form-required">*</span>行业:</label>
+                                        </div>
 
 
 										<div class="ui-form-item">
-											<label class="ui-label mt10">生效日期</label> <input
+											<label class="ui-label mt10">开始日期:</label> <input
 												class="ui-input" type="date" name="startDate1"
 												id="startDate" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
 										</div>
 
 										<div class="ui-form-item">
-											<label class="ui-label mt10">失效日期</label> <input
+											<label class="ui-label mt10">终止日期:</label> <input
 												class="ui-input" type="date" name="endDate1"
 												id="endDate" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
 										</div>
+                                        <div class="ui-form-item">
+                                            <label class="ui-label mt10"><span
+                                                    class="ui-form-required">*</span>合同备注:</label>
+                                        </div>
 
 
 
-										<div class="ui-form-item">
+                                        <div class="ui-form-item">
 											<label class="ui-label mt10">附件上传</label>
 											<div id="newUpload2">
 												<div id="div_1">

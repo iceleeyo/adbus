@@ -99,6 +99,7 @@
                     <tr>
                         <th>订单号</th>
                         <th>用户</th>
+                        <th>广告素材</th>
                         <th>套餐</th>
                         <th>合同号</th>
                         <th>开始时间</th>
@@ -109,6 +110,7 @@
                     <tr>
                         <td>${order.id}</td>
                         <td>${order.userId}</td>
+                        <td><a href="${rc.contextPath}/supplies/suppliesDetail?supplies_id=${order.supplies.id}" target="_blank">${order.supplies.name}</a></td>
                         <td><a href="${rc.contextPath}/product/${order.product.id}" target="_blank">${order.product.name}</a></td>
                         <td>${order.contractCode}</td>
                         <td>${order.startTime}</td>

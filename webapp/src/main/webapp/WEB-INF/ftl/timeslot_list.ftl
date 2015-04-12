@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
-<#global menu="视频时段">
-<@frame.html title="视频时段列表" js=["jquery-dateFormat.min.js"]>
+<#global menu="媒体时段">
+<@frame.html title="媒体时段列表" js=["jquery-dateFormat.min.js"]>
 
 <style type="text/css">
     .center {margin: auto;}
@@ -19,6 +19,8 @@
             "searching": false,
             "ordering": false,
             "serverSide": true,
+            "iDisplayLength" : 20,
+            "aLengthMenu": [[20, 40, 9999], [20, 40, "全部"]],
             "ajax": {
                 type: "GET",
                 url: "${rc.contextPath}/timeslot/ajax-list",
@@ -96,7 +98,7 @@
     } );
 </script>
             <div class="div">
-                <table id="table" class="display" cellspacing="0" width="100%">
+                <table id="table" class="display compact" cellspacing="0" width="100%">
                     <thead>
                     <tr>
                         <th>开始时间</th>
