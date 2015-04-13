@@ -250,6 +250,7 @@ function check() {
                                  	北广录入排期表：<br>
 				                                    意见：<textarea name="inputScheduleComments" id="inputScheduleComments" value="已录入排期表"></textarea><br>
 				               <br><br>
+				               
 				              <button onclick="inputSchedule();" class="block-btn">提交</button>
 							</div>
 							
@@ -280,6 +281,72 @@ function check() {
 							   <input type="radio" name="approve2Result" value="true" checked="checked">素材正常
 				               <input type="radio" name="approve2Result" value="false" >素材异常
 				               <br><br>
+				               <#if activitis?exists>
+				               <div class="uplan-table-box">
+											<table width="100%" class="uplan-table">
+												<tr class="uplan-table-th">
+												<td style="width: 98px;">
+														<div class="th-head">签收时间 </div>
+													</td>
+													<td style="width: 98px;">
+														<div class="th-head">办理时间 </div>
+													</td>
+													<td style="width: 112px;">
+														<div class="th-md">操作人</div>
+													</td>
+													<td style="width: 111px;">
+														<div class="th-md">操作类型</div>
+													</td>
+													
+													<!--<td style="width: 111px;">
+														<div class="th-md">是否通过</div>
+													</td>-->
+													<td style="width: 103px;">
+														<div class="th-md">备注</div>
+													</td>
+												</tr>
+											</table>
+				               	<#list activitis as act>
+				               	<li class="ui-list-item dark">
+												<div class="ui-list-item-row fn-clear">
+												<span style="width: 113px; height: 35px;"
+														class="ui-list-field text-center w80 fn-left">
+														 <#setting
+															date_format="yyyy-MM-dd HH:MM">
+														${(act.startTime?date)!''} </span> 
+													<span style="width: 113px; height: 35px;"
+														class="ui-list-field text-center w80 fn-left">
+														 <#setting
+															date_format="yyyy-MM-dd HH:MM">
+														${(act.endTime?date)!''} </span> 
+														<span
+														style="width: 118px; height: 35px;"
+														class="ui-list-field text-center w80 fn-left"><em
+														class="value-small">${act.assignee!''} 
+													</em> </span>
+													 
+														<span
+														style="width: 129px; height: 35px;"
+														class="ui-list-field num-s text-center w120 fn-left"><em
+														class="value-small">
+															${act.name}</em> </span>
+														<!--	<span
+														style="width: 129px; height: 35px;"
+														class="ui-list-field num-s text-center w120 fn-left"><em
+														class="value-small">
+															${act.result?string('yes', 'no')}</em> </span>-->
+													 <span
+														style="width: 140px; height: 35px;"
+														class="ui-list-field num-s text-center w120 fn-left"><em
+														class="value-small">
+														 ${act.comment!''}
+														</em>
+														</span>
+															 
+											</li>
+								</#list>
+									</div>
+								</#if>
 				              <button onclick="approve2();" class="block-btn">提交</button>
 							 </div>
 							 
