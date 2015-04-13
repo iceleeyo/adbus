@@ -26,8 +26,8 @@
 												</a>
 											</li>
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/supplies/list/1">
-													物料列表
+												<a class="side-exp-item-t" href="${rc.contextPath}/supplies/list">
+                                                    物料管理
 												</a>
 											</li>
 											
@@ -46,7 +46,7 @@
 											</li>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/product/list">
-													产品列表
+                                                    产品查询
 												</a>
 											</li>
 										</ul>
@@ -92,8 +92,8 @@
 												</a>
 											</li>
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t"  href="${rc.contextPath}/contract/list/1">
-													合同列表
+												<a class="side-exp-item-t"  href="${rc.contextPath}/contract/list">
+                                                    合同管理
 												</a>
 											</li>
 										</ul>

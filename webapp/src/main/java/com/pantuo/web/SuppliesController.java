@@ -10,6 +10,7 @@ import com.pantuo.dao.pojo.JpaContract;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaSupplies;
 
+import com.pantuo.pojo.TableRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,16 +51,8 @@ public class SuppliesController {
 		return suppliesService.addSupplies(obj, principal, request);
 	}
 
-	@RequestMapping(value = "/list/{pageNum}")
-	public String config(Model model, @RequestParam(value = "name", required = false, defaultValue = "") String name,
-			@RequestParam(value = "type", required = false) JpaProduct.Type type, @PathVariable int pageNum,
-			Principal principal) {
-		/*int psize = 9;
-		NumberPageUtil page = new NumberPageUtil(suppliesService.countMyList(name, type, principal), pageNum, psize);
-		model.addAttribute("list", suppliesService.queryMyList(page, name, type, principal));
-		model.addAttribute("pageNum", pageNum);
-		model.addAttribute("paginationHTML", page.showNumPageWithEmpty());
-		model.addAttribute("name", name);*/
+	@RequestMapping(value = "/list")
+	public String list() {
 		return "supplies_list";
 	}
 	@RequestMapping(value = "/suppliesDetail", produces = "text/html;charset=utf-8")
@@ -73,15 +66,7 @@ public class SuppliesController {
 	
 	@RequestMapping("ajax-list")
 	@ResponseBody
-	public DataTablePage<JpaSupplies> getAllContracts(
-			@RequestParam(value = "start", required = false, defaultValue = "0") int start,
-			@RequestParam(value = "length", required = false, defaultValue = "10") int length,
-			@RequestParam(value = "name", required = false) String name,
-			@RequestParam(value = "draw", required = false, defaultValue = "1") int draw) {
-
-		if (length < 1)
-			length = 1;
-
-		return new DataTablePage(suppliesDataService.getAllSupplies(name, start/ length, length), draw);
+	public DataTablePage<JpaSupplies> getAllContracts(TableRequest req) {
+		return new DataTablePage(suppliesDataService.getAllSupplies(req.getFilter("name"), req.getPage(), req.getLength(), req.getSort("id")), req.getDraw());
 	}
 }

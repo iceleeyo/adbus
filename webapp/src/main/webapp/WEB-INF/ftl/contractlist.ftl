@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="合同管理">
-<@frame.html title="合同列表">
+<@frame.html title="合同管理" js=["jquery-dateFormat.js"]>
 
 
 <script type="text/javascript">
@@ -9,17 +9,19 @@
         table = $('#table').dataTable( {
             "dom": '<"#toolbar">lrtip',
             "searching": false,
-            "ordering": false,
+            "ordering": true,
             "serverSide": true,
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
+                { "orderable": false, "targets": [4] },
             ],
             "ajax": {
                 type: "GET",
                 url: "${rc.contextPath}/contract/ajax-list",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "contractCode" : $('#contractCode').val()
+                        "filter[contractCode]" : $('#contractCode').val(),
+                        "filter[contractName]" : $('#contractName').val()
                     } );
                 },
                 "dataSrc": "content",
@@ -36,9 +38,23 @@
                         }
                     return data;
                 } },
-                { "data": "contractName", "defaultContent": ""},
-                { "data": "startDate", "defaultContent": ""},
-                { "data": "endDate", "defaultContent": "" },
+                { "data": "contractName", "defaultContent": "",
+                    "render": function(data, type, row, meta) {
+                        var filter = $('#contractName').val();
+                        if (filter && filter != '') {
+                            var regex = new RegExp(filter, "gi");
+                            data = data.replace(regex, function(matched) {
+                                return "<span class=\"hl\">" + matched + "</span>";
+                            });
+                        }
+                        return data;
+                }},
+                { "data": "startDate", "defaultContent": "", "render": function(data) {
+                    return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
+                }},
+                { "data": "endDate", "defaultContent": "", "render": function(data) {
+                    return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
+                } },
                 { "data": function( row, type, set, meta) {
                     return row.id;
                 },
@@ -52,7 +68,7 @@
             "initComplete": initComplete,
             "drawCallback": drawCallback,
         } );
-
+        table.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
 
     function initComplete() {
@@ -62,10 +78,14 @@
                         '    <span>' +
                         '        <input id="contractCode" value="">' +
                         '    </span>' +
+                        '    <span>合同名称</span>' +
+                        '    <span>' +
+                        '        <input id="contractName" value="">' +
+                        '    </span>' +
                         '</div>'
         );
 
-        $('#contractCode').change(function() {
+        $('#contractCode, #contractName').change(function() {
             table.fnDraw();
         });
     }
@@ -93,10 +113,10 @@
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th>合同号</th>
-                        <th>合同名称</th>
-                        <th>生效时间</th>
-                        <th>失效时间</th>
+                        <th orderBy="contractCode">合同号</th>
+                        <th orderBy="contractName">合同名称</th>
+                        <th orderBy="startDate">生效时间</th>
+                        <th orderBy="endDate">失效时间</th>
                         <th>管理</th>
                     </tr>
                     </thead>

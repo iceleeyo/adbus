@@ -2,6 +2,7 @@ package com.pantuo.web;
 
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.pojo.DataTablePage;
+import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.TimeslotService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,14 +25,9 @@ public class TimeslotController {
 
     @RequestMapping("ajax-list")
     @ResponseBody
-    public DataTablePage<JpaProduct> getAllTimeslots( @RequestParam(value = "start", required = false, defaultValue = "0") int start,
-                                                     @RequestParam(value = "length", required = false, defaultValue = "10") int length,
-                                                     @RequestParam(value = "name", required = false) String name,
-                                                     @RequestParam(value = "draw", required = false, defaultValue = "1") int draw) {
-        if (length < 1)
-            length = 1;
+    public DataTablePage<JpaProduct> getAllTimeslots(TableRequest req) {
 
-        return new DataTablePage(timeslotService.getAllTimeslots(name, start/length, length), draw);
+        return new DataTablePage(timeslotService.getAllTimeslots(req.getFilter("name"), req.getPage(), req.getLength(), req.getSort("id")), req.getDraw());
     }
 
     @RequestMapping(value = "/list")

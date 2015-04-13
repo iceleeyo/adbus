@@ -21,10 +21,10 @@
                 url: "${rc.contextPath}/schedule/box-ajax-list",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "name" : $('#name').val(),
-                        "from" : "${from}",
-                        "days" : "${days}",
-                        "type" : "${type}"
+                        "filter[name]" : $('#name').val(),
+                        "filter[from]" : "${from}",
+                        "filter[days]" : "${days}",
+                        "filter[type]" : "${type}"
                     } );
                 },
                 "dataSrc": function(json) {return json;},

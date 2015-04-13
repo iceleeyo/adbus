@@ -64,22 +64,22 @@ public class UserService {
         return identityService.createGroupQuery().count();
     }
 
-	public Page<UserDetail> getAllUsers(String name, int page, int pageSize) {
-        return getUsers(name, null, page, pageSize);
+	public Page<UserDetail> getAllUsers(String name, int page, int pageSize, Sort order) {
+        return getUsers(name, null, page, pageSize, order);
     }
 
-    public Page<UserDetail> getValidUsers(int page, int pageSize) {
-        return getUsers(null, true, page, pageSize);
+    public Page<UserDetail> getValidUsers(int page, int pageSize, Sort order) {
+        return getUsers(null, true, page, pageSize, order);
     }
 
-    private Page<UserDetail> getUsers(String name, Boolean isEnabled, int page, int pageSize) {
+    private Page<UserDetail> getUsers(String name, Boolean isEnabled, int page, int pageSize, Sort order) {
 		if (page < 0)
 			page = 0;
 		if (pageSize < 1)
 			pageSize = 1;
 		//test();
         Page<UserDetail> result = null;
-		Pageable p = new PageRequest(page, pageSize, new Sort("id"));
+		Pageable p = new PageRequest(page, pageSize, (order == null ? new Sort("id") : order));
         if (StringUtils.isEmpty(name) && isEnabled == null) {
             result = userRepo.findAll(p);
         } else {

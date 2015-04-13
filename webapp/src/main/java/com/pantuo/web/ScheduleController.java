@@ -3,6 +3,7 @@ package com.pantuo.web;
 import com.pantuo.dao.pojo.*;
 import com.pantuo.mybatis.domain.Box;
 import com.pantuo.pojo.DataTablePage;
+import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.OrderService;
 import com.pantuo.service.ScheduleService;
 import com.pantuo.service.TimeslotService;
@@ -80,7 +81,7 @@ public class ScheduleController {
                 return Collections.EMPTY_LIST;
             }
 
-            Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(null, 0, 999);
+            Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(null, 0, 999, null);
             Iterable<JpaGoods> goods = service.getGoodsForOrder(orderId);
 
             List<Report> reports = new LinkedList<Report> ();
@@ -157,19 +158,19 @@ public class ScheduleController {
      */
     @RequestMapping("box-ajax-list")
     @ResponseBody
-    public List<Report> getScheduleReportList (
-            @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "from", required = false) String fromStr,
-            @RequestParam(value = "days", required = false, defaultValue = "7") int days,
-            @RequestParam(value = "type", required = false, defaultValue = "video") JpaProduct.Type type
-    ) {
+    public List<Report> getScheduleReportList (TableRequest req) {
+        String name = req.getFilter("name");
+        String fromStr = req.getFilter("from");
+        int days = req.getFilterInt("days", 7);
+        JpaProduct.Type type = req.getFilter("type", JpaProduct.Type.class, JpaProduct.Type.video);
+
         if (type != JpaProduct.Type.video) {
             //TODO:image/info 排期单
             return Collections.EMPTY_LIST;
         }
 
         try {
-            Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(name, 0, 999);
+            Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(name, 0, 999, null);
             Date from = GlobalMethods.sdf.get().parse(fromStr);
             List<Box> boxes = service.getBoxes(from, days);
 
@@ -253,18 +254,18 @@ public class ScheduleController {
      */
     @RequestMapping("box-detail-ajax-list")
     @ResponseBody
-    public List<Report> getScheduleDetailList (
-            @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "day", required = false) String dayStr,
-            @RequestParam(value = "type", required = false, defaultValue = "video") JpaProduct.Type type
-    ) {
+    public List<Report> getScheduleDetailList (TableRequest req) {
+        String name = req.getFilter("name");
+        String dayStr = req.getFilter("day");
+        JpaProduct.Type type = req.getFilter("type", JpaProduct.Type.class, JpaProduct.Type.video);
+
         if (type != JpaProduct.Type.video) {
             //TODO:image/info 排条单
             return Collections.EMPTY_LIST;
         }
 
         try {
-            Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(name, 0, 999);
+            Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(name, 0, 999, null);
             Date day = GlobalMethods.sdf.get().parse(dayStr);
             Iterable<JpaBox> boxes = service.getBoxesAndGoods(day, 1);
 

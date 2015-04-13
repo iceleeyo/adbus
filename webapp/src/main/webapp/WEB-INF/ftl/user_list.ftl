@@ -8,17 +8,20 @@
         table = $('#table').dataTable( {
             "dom": '<"#toolbar">lrtip',
             "searching": false,
-            "ordering": false,
+            "ordering": true,
             "serverSide": true,
             "columnDefs": [
-                { "sClass": "align-left", "targets": [0,1] },
+                {
+                    "sClass": "align-left", "targets": [0,1] ,
+                    "orderable": false, "targets": [1, 3]
+                },
             ],
             "ajax": {
                 type: "GET",
                 url: "${rc.contextPath}/user/ajax-list",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "name" : $('#name').val()
+                        "filter[name]" : $('#name').val()
                     } );
                 },
                 "dataSrc": "content",
@@ -71,7 +74,7 @@
             "initComplete": initComplete,
             "drawCallback": drawCallback,
         } );
-
+        table.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
 
     function initComplete() {
@@ -105,9 +108,9 @@
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th>用户名</th>
+                        <th orderBy="username">用户名</th>
                         <th>所属组</th>
-                        <th>状态</th>
+                        <th orderBy="enabled">状态</th>
                         <th>管理</th>
                     </tr>
                     </thead>

@@ -1,6 +1,7 @@
 package com.pantuo.web;
 
 import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.pojo.TableRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,15 +43,8 @@ public class AdbusController {
      */
     @RequestMapping(value = "/ajax-list", method = { RequestMethod.GET})
     @ResponseBody
-    public DataTablePage<UserDetail> getUsers(
-            @RequestParam(value = "start", required = false, defaultValue = "0") int start,
-            @RequestParam(value = "length", required = false, defaultValue = "10") int length,
-            @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "draw", required = false, defaultValue = "1") int draw) {
-        if (length < 1)
-            length = 1;
-        
-        return new DataTablePage(userService.getAllUsers(name, start/length, length), draw);
+    public DataTablePage<UserDetail> getUsers(TableRequest req) {
+        return new DataTablePage(userService.getAllUsers(req.getFilter("name"), req.getPage(), req.getLength(), req.getSort("id")), req.getDraw());
     }
 
     @RequestMapping(value = "/{username}/{enable}", method = { RequestMethod.POST})

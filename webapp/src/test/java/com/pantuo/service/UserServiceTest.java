@@ -37,14 +37,14 @@ public class UserServiceTest {
         service.createUser(u1);
         service.createUser(u2);
 
-        Iterable<UserDetail> users = service.getAllUsers("username1", 0, Integer.MAX_VALUE);
+        Iterable<UserDetail> users = service.getAllUsers("username1", 0, Integer.MAX_VALUE, null);
         ArrayList<UserDetail> userList = new ArrayList<UserDetail> ();
         for (UserDetail user : users) {
             userList.add(user);
         }
         Assert.assertEquals(1, userList.size());
 
-        users = service.getAllUsers("username2", 0, Integer.MAX_VALUE);
+        users = service.getAllUsers("username2", 0, Integer.MAX_VALUE, null);
         userList = new ArrayList<UserDetail> ();
         for (UserDetail user : users) {
             userList.add(user);

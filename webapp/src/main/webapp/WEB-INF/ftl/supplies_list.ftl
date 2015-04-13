@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="物料管理">
-<@frame.html title="物料列表">
+<@frame.html title="物料管理" js=["jquery-dateFormat.js"]>
     <!-- <script>
         function pages(pageNum) {
             var by = ($("#by").val());
@@ -42,17 +42,18 @@
         table = $('#table').dataTable( {
             "dom": '<"#toolbar">lrtip',
             "searching": false,
-            "ordering": false,
+            "ordering": true,
             "serverSide": true,
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
+                { "orderable": false, "targets": [3] },
             ],
             "ajax": {
                 type: "GET",
                 url: "${rc.contextPath}/supplies/ajax-list",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "name" : $('#name').val()
+                        "filter[name]" : $('#name').val()
                     } );
                 },
                 "dataSrc": "content",
@@ -76,11 +77,11 @@
                         if (data == 'image')
                             return '图片';
                         if (data == 'info')
-                            return 'Info';
+                            return '文本';
                         return '';
                     } },
                 { "data": "created", "defaultContent": "","render": function(data, type, row, meta) {
-                	var d=data.format("yyyy-MM-dd hh:mm:ss");
+                	var d= $.format.date(data, "yyyy-MM-dd HH:mm:ss");
                 	return d;
                 }},
                 { "data": function( row, type, set, meta) {
@@ -96,7 +97,7 @@
             "initComplete": initComplete,
             "drawCallback": drawCallback,
         } );
-
+        table.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
 
     function initComplete() {
@@ -138,9 +139,9 @@
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th>物料名称</th>
-                        <th>物料类型</th>
-                        <th>创建时间</th>
+                        <th orderBy="name">物料名称</th>
+                        <th orderBy="suppliesType">物料类型</th>
+                        <th orderBy="created">创建时间</th>
                         <th>管理</th>
                     </tr>
                     </thead>

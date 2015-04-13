@@ -8,6 +8,16 @@
 <@frame.html title="${action}产品套餐">
 
 <script type="text/javascript">
+    $(function(){
+        $("#type").change(function(){
+            var type = $(this).val();
+            if (type == 'video') {
+                $(".toggle").show();
+            } else {
+                $(".toggle").hide();
+            }
+        });
+    });
 	function sub2() {
         $('#productForm').ajaxForm(function(data) {
             alert(data.error + " # " + data.name);
@@ -25,9 +35,9 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>套餐类型：</label>
                                             <select class="ui-input" name="type" id="type">
-                                                <option value="video" <#if (!prod?? || prod.type == 'video')>selected="selected"</#if>>video</option>
-                                                <option value="image" <#if (prod?? && prod.type == 'image')>selected="selected"</#if>>image</option>
-                                                <option value="info" <#if (prod?? && prod.type == 'info')>selected="selected"</#if>>info</option>
+                                                <option value="video" <#if (!prod?? || prod.type == 'video')>selected="selected"</#if>>视频</option>
+                                                <option value="image" <#if (prod?? && prod.type == 'image')>selected="selected"</#if>>图片</option>
+                                                <option value="info" <#if (prod?? && prod.type == 'info')>selected="selected"</#if>>文本</option>
                                             </select>
                                         </div>
 
@@ -48,7 +58,7 @@
 
 										</div>
 
-										<div class="ui-form-item">
+										<div class="ui-form-item toggle">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>单日播放次数:</label>
 												<input
@@ -57,7 +67,7 @@
 												autocomplete="off" disableautocomplete="">
 										</div>
 
-                                        <div class="ui-form-item">
+                                        <div class="ui-form-item toggle">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>首播次数:</label>
                                             <input
@@ -65,7 +75,7 @@
                                                     id="firstNumber" data-is="isAmount isEnough"
                                                     autocomplete="off" disableautocomplete="">
                                         </div>
-                                        <div class="ui-form-item">
+                                        <div class="ui-form-item toggle">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>末播次数:</label>
                                             <input
@@ -73,7 +83,7 @@
                                                     id="lastNumber" data-is="isAmount isEnough"
                                                     autocomplete="off" disableautocomplete="">
                                         </div>
-                                        <div class="ui-form-item">
+                                        <div class="ui-form-item toggle">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>高峰时段占比:</label>
                                             <input

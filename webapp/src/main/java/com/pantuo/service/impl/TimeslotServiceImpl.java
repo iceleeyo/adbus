@@ -24,12 +24,14 @@ public class TimeslotServiceImpl implements TimeslotService {
     }
 
  //   @Override
-    public Page<JpaTimeslot> getAllTimeslots(String name, int page, int pageSize) {
+    public Page<JpaTimeslot> getAllTimeslots(String name, int page, int pageSize, Sort sort) {
         if (page < 0)
             page = 0;
         if (pageSize < 1)
             pageSize = 1;
-        Pageable p = new PageRequest(page, pageSize, new Sort("id"));
+        if (sort == null)
+            sort = new Sort("id");
+        Pageable p = new PageRequest(page, pageSize, sort);
         if (name == null || StringUtils.isEmpty(name)) {
             return  timeslotRepo.findAll(p);
         } else {

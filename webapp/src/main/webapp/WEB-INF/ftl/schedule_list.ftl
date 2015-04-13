@@ -31,9 +31,9 @@
                 url: "${rc.contextPath}/schedule/box-detail-ajax-list",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "name" : $('#name').val(),
-                        "day" : "${day}",
-                        "type" : "${type}"
+                        "filter[name]" : $('#name').val(),
+                        "filter[day]" : "${day}",
+                        "filter[type]" : "${type}"
                     } );
                 },
                 "dataSrc": function(json) {return json;},
@@ -74,7 +74,7 @@
             "initComplete": initComplete,
             "drawCallback": drawCallback,
         });
-        table.fnFakeRowspan(1, [1, 2, 3]);
+        table.fnFakeRowspan(1, [1, 2, 3]).fnNameOrdering("orderBy").fnNoColumnsParams();
     }
 
     function initComplete() {

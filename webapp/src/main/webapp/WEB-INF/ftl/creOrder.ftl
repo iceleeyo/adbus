@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="购买产品">
-<@frame.html title="下订单">
+<@frame.html title="下订单" js=["jquery-ui/jquery-ui.js", "datepicker.js", "jquery.datepicker.region.cn.js"] css=["jquery-ui/jquery-ui.css"]>
 
 <script type="text/javascript">
 	function sub2() {
@@ -95,7 +95,7 @@
 										</div>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10">开播日期</label> <input
-                                                class="ui-input" type="date" name="startTime1"
+                                                class="ui-input datepicker" type="text" name="startTime1"
                                                 id="startTime" data-is="isAmount isEnough"
                                                 autocomplete="off" disableautocomplete="">
                                         </div>

@@ -9,11 +9,12 @@ import com.pantuo.mybatis.domain.Product;
 import com.pantuo.util.NumberPageUtil;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 
 public interface ProductService {
-    Page<JpaProduct> getAllProducts(String name, int page, int pageSize);
+    Page<JpaProduct> getAllProducts(String name, int page, int pageSize, Sort sort);
 
-    Page<JpaProduct> getValidProducts(int page, int pageSize);
+    Page<JpaProduct> getValidProducts(int page, int pageSize, Sort sort);
 
     JpaProduct findById(int productId);
 

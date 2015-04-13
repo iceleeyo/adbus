@@ -5,6 +5,7 @@ import com.pantuo.dao.pojo.JpaTimeslot;
 import com.pantuo.mybatis.domain.Product;
 import com.pantuo.util.NumberPageUtil;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -13,7 +14,7 @@ public interface TimeslotService {
 
     long count();
 
-    Page<JpaTimeslot> getAllTimeslots(String name, int page, int pageSize);
+    Page<JpaTimeslot> getAllTimeslots(String name, int page, int pageSize, Sort sort);
 
     JpaTimeslot findById(int id);
 

@@ -32,8 +32,12 @@ public class RestLoggingAspect {
     public void afterReturning(JoinPoint joinPoint , Object result)  {
 
         try {
-            String json = mapper.writeValueAsString(result);
-            logger.info("<== {}", json);
+            if (logger.isDebugEnabled()) {
+                String json = mapper.writeValueAsString(result);
+                logger.debug("<== {}", json);
+            } else {
+                logger.info("<== JSON (...)");
+            }
         } catch (JsonProcessingException e) {
             logger.error("<== ERROR LOGGING: {}", e);
         }

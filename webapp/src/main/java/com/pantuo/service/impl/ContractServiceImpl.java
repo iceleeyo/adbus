@@ -1,5 +1,6 @@
 package com.pantuo.service.impl;
 
+import com.mysema.query.types.expr.BooleanExpression;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,26 +25,38 @@ public class ContractServiceImpl implements ContractServiceData {
 	
 	@Autowired
     ContractRepository contractRepo;
-	public Page<JpaContract> getAllContracts(String name, int page, int pageSize) {
+	public Page<JpaContract> getAllContracts(String name, String code,int page, int pageSize, Sort sort) {
 		if (page < 0)
             page = 0;
         if (pageSize < 1)
             pageSize = 1;
-        Pageable p = new PageRequest(page, pageSize, new Sort("id"));
-        if (name == null || StringUtils.isEmpty(name)) {
+        sort = (sort == null? new Sort("id") : sort);
+        Pageable p = new PageRequest(page, pageSize, sort);
+        if (StringUtils.isBlank(name) && StringUtils.isBlank(code)) {
             return  contractRepo.findAll(p);
         } else {
-            Predicate query = QJpaProduct.jpaProduct.name.like("%" + name + "%");
+            BooleanExpression query = null;
+            if (StringUtils.isNotBlank(name)) {
+                query = QJpaContract.jpaContract.contractName.like("%" + name + "%");
+            }
+            if (StringUtils.isNoneBlank(code)) {
+                BooleanExpression q = QJpaContract.jpaContract.contractCode.like("%" + code + "%");
+                if (query == null)
+                    query = q;
+                else
+                    query = query.and(q);
+            }
             return contractRepo.findAll(query, p);
         }
 	}
 
-	public Page<JpaContract> getValidContracts(int page, int pageSize) {
+	public Page<JpaContract> getValidContracts(int page, int pageSize, Sort sort) {
 		if (page < 0)
             page = 0;
         if (pageSize < 1)
             pageSize = 1;
-        Pageable p = new PageRequest(page, pageSize, new Sort(Sort.Direction.DESC, "id"));
+        sort = (sort == null? new Sort(Sort.Direction.DESC, "id") : sort);
+        Pageable p = new PageRequest(page, pageSize, sort);
   //      Predicate query = QJpaContract.jpaContract.enabled.isTrue();
         return contractRepo.findAll( p);  
 	}

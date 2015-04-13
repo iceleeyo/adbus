@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="添加合同">
-<@frame.html title="合同录入">
+<@frame.html title="合同录入" js=["jquery-ui/jquery-ui.js", "datepicker.js", "jquery.datepicker.region.cn.js"] css=["jquery-ui/jquery-ui.css"]>
 
 <script type="text/javascript">
 	i = 2;
@@ -19,6 +19,7 @@
 																	+ ')"/></div>');
 											j = j + 1;
 										});
+
 					});
 
 	function del_2(o) {
@@ -54,8 +55,9 @@
 		}
 		$('#userForm2').ajaxForm(function(data) {
 			jDialog.Alert(data.left + " # " + data.right);
-			window.location.href = "${rc.contextPath}/contract/list/1"
+			window.location.href = "${rc.contextPath}/contract/list"
 		}).submit();
+
 	}
 </script>
 
@@ -120,14 +122,14 @@
 
 										<div class="ui-form-item">
 											<label class="ui-label mt10">开始日期:</label> <input
-												class="ui-input" type="date" name="startDate1"
+												class="ui-input datepicker" type="text" name="startDate1"
 												id="startDate" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
 										</div>
 
 										<div class="ui-form-item">
 											<label class="ui-label mt10">终止日期:</label> <input
-												class="ui-input" type="date" name="endDate1"
+												class="ui-input datepicker" type="text" name="endDate1"
 												id="endDate" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
 										</div>

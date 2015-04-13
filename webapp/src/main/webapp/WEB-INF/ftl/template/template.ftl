@@ -10,9 +10,12 @@
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.form.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery-dataTables-fnNameOrdering.js"></script>
+    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery-dataTables-fnNoColumnsParams.js"></script>
+
+    <#--<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery-ui/jquery-ui.min.js"></script>-->
 <#--    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.ui.dialog.js"></script>-->
-    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.datepicker.region.cn.js"></script>
+    <#--<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.datepicker.region.cn.js"></script>-->
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/platform.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/index.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/common.js"></script>
@@ -27,7 +30,7 @@
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/js/jquery-ui/jquery-ui.min.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/table.css">
     <#list css as entry>
-        <link rel="stylesheet" type="text/css" href="${rc.cotPath}/css/${entry}">
+        <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/${entry}">
     </#list>
 </head>
 <body>

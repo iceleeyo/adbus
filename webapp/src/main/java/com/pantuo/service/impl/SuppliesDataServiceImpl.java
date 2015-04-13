@@ -29,12 +29,13 @@ public class SuppliesDataServiceImpl implements SuppliesServiceData {
 	@Autowired
 	SuppliesRepository suppliesRepo;
 
-	public Page<JpaSupplies> getAllSupplies(String name, int page, int pageSize) {
+	public Page<JpaSupplies> getAllSupplies(String name, int page, int pageSize, Sort sort) {
 		if (page < 0)
             page = 0;
         if (pageSize < 1)
             pageSize = 1;
-        Pageable p = new PageRequest(page, pageSize, new Sort("id"));
+        sort = (sort == null? new Sort("id") : sort);
+        Pageable p = new PageRequest(page, pageSize, sort);
         if (name == null || StringUtils.isEmpty(name)) {
             return  suppliesRepo.findAll(p);
         } else {
@@ -43,12 +44,13 @@ public class SuppliesDataServiceImpl implements SuppliesServiceData {
         }
 	}
 
-	public Page<JpaSupplies> getValidSupplies(int page, int pageSize) {
+	public Page<JpaSupplies> getValidSupplies(int page, int pageSize, Sort sort) {
 		if (page < 0)
             page = 0;
         if (pageSize < 1)
             pageSize = 1;
-        Pageable p = new PageRequest(page, pageSize, new Sort(Sort.Direction.DESC, "id"));
+        sort = (sort == null? new Sort(Sort.Direction.DESC, "id") : sort);
+        Pageable p = new PageRequest(page, pageSize, sort);
         /*Predicate query = QJpaSupplies.jpaSupplies.enabled.isTrue();*/
         return suppliesRepo.findAll( p);
 	}

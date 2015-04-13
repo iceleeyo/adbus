@@ -72,7 +72,7 @@ public class OrderController {
 	@RequestMapping(value = "/buypro/{product_id}", produces = "text/html;charset=utf-8")
 	public String buypro(Model model,@PathVariable("product_id") int product_id, Principal principal, HttpServletRequest request) {
     	JpaProduct  prod=productService.findById(product_id);
-		Page<JpaProduct> products = productService.getValidProducts(0 , 9999);
+		Page<JpaProduct> products = productService.getValidProducts(0 , 9999, null);
         model.addAttribute("products", products.getContent());
         NumberPageUtil page = new NumberPageUtil(9999, 1, 9999);
         List<Supplies> supplies = suppliesService.queryMyList(page, null, null, principal);

@@ -8,17 +8,18 @@
         table = $('#table').dataTable( {
             "dom": '<"#toolbar">lrtip',
             "searching": false,
-            "ordering": false,
+            "ordering": true,
             "serverSide": true,
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
+                { "orderable": false, "targets": [4] },
             ],
             "ajax": {
                 type: "GET",
                 url: "${rc.contextPath}/product/ajax-list",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "name" : $('#name').val()
+                        "filter[name]" : $('#name').val()
                     } );
                 },
                 "dataSrc": "content",
@@ -70,7 +71,7 @@
             "initComplete": initComplete,
             "drawCallback": drawCallback,
         } );
-
+        table.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
 
     function initComplete() {
@@ -110,10 +111,10 @@
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th>套餐名称</th>
-                        <th>类型</th>
-                        <th>价格</th>
-                        <th>状态</th>
+                        <th orderBy="name">套餐名称</th>
+                        <th orderBy="type">类型</th>
+                        <th orderBy="price">价格</th>
+                        <th orderBy="enabled">状态</th>
                         <th>管理</th>
                     </tr>
                     </thead>

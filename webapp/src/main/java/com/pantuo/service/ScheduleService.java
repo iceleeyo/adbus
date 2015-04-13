@@ -242,7 +242,7 @@ public class ScheduleService {
                     s = Schedule.newFromBoxes(now, boxes, order);
                 } else {
                     log.info("First order to be scheduled for day {}", now);
-                    Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(null, 0, 9999);
+                    Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(null, 0, 9999, null);
                     s = Schedule.newFromTimeslots(now, slots.getContent(), order);
                 }
 

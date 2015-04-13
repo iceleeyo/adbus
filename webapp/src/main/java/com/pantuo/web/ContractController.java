@@ -15,6 +15,7 @@ import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.pojo.DataTablePage;
+import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ContractServiceData;
 import com.pantuo.service.UserService;
 import com.pantuo.util.Request;
@@ -79,34 +80,23 @@ public class ContractController {
 		return contractService.saveContract(contract, Request.getUserId(principal), request);
 	}
 
-	@RequestMapping(value = "/list/{pageNum}")
-	public String contralist(Model model,
-			@RequestParam(value = "name", required = false, defaultValue = "") String name,
-			@RequestParam(value = "code", required = false, defaultValue = "") String code, @PathVariable int pageNum,
-            Principal principal,
-			HttpServletRequest request) {
+	@RequestMapping(value = "/list")
+	public String contralist() {
 		
 		return "contractlist";
 	}
 	
 	@RequestMapping("ajax-list")
 	@ResponseBody
-	public DataTablePage<JpaContract> getAllContracts(
-			@RequestParam(value = "start", required = false, defaultValue = "0") int start,
-			@RequestParam(value = "length", required = false, defaultValue = "10") int length,
-			@RequestParam(value = "name", required = false) String name,
-			@RequestParam(value = "draw", required = false, defaultValue = "1") int draw) {
-
-		if (length < 1)
-			length = 1;
-
-		return new DataTablePage(contractServiceDate.getAllContracts(name, start
-				/ length, length), draw);
-	}  
+	public DataTablePage<JpaContract> getAllContracts(TableRequest req) {
+		return new DataTablePage(
+                contractServiceDate.getAllContracts(req.getFilter("contractName"), req.getFilter("contractCode"),
+                        req.getPage(), req.getLength(), req.getSort("id")), req.getDraw());
+	}
 
 	@RequestMapping(value = "/contractEnter", produces = "text/html;charset=utf-8")
 	public String contractEnter(Model model, HttpServletRequest request) {
-        Page<UserDetail> users = userService.getValidUsers(0, 999);
+        Page<UserDetail> users = userService.getValidUsers(0, 999, null);
         model.addAttribute("users", users.getContent());
 		return "contractEnter";
 	}

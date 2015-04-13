@@ -17,7 +17,7 @@
         table = $('#table').dataTable( {
             "dom": '<"#toolbar">lrtip',
             "searching": false,
-            "ordering": false,
+            "ordering": true,
             "serverSide": true,
             "iDisplayLength" : 20,
             "aLengthMenu": [[20, 40, 9999], [20, 40, "全部"]],
@@ -26,7 +26,7 @@
                 url: "${rc.contextPath}/timeslot/ajax-list",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "name" : $('#name').val()
+                        "filter[name]" : $('#name').val()
                     } );
                 },
                 "dataSrc": "content",
@@ -67,7 +67,7 @@
             "initComplete": initComplete,
             "drawCallback": drawCallback,
         } );
-
+        table.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
 
     function initComplete() {
@@ -101,10 +101,10 @@
                 <table id="table" class="display compact" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th>开始时间</th>
-                        <th>时段名称</th>
-                        <th>时长</th>
-                        <th>高峰</th>
+                        <th orderBy="startTime">开始时间</th>
+                        <th orderBy="id">时段名称</th>
+                        <th orderBy="duration">时长</th>
+                        <th orderBy="peak">高峰</th>
                     </tr>
                     </thead>
 

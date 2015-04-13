@@ -1,17 +1,30 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<#include "/menu/webapp.ftl" />
-<html>
-<head>
-<title>物料上传</title>
- 
+<#import "template/template.ftl" as frame>
+<#global menu="上传物料">
+<@frame.html title="物料上传">
+
 <script type="text/javascript">
 	i = 2;
 	j = 2;
-	$(document).ready(function() {$("#btn_add2").click(function() {
-		$("#newUpload2").append('<div id="div_'+j+'"><input  name="file_'+j+'" type="file"  style="margin-top:10px;" /><input type="button"  style="margin-top:10px;" value="删除"  onclick="del_2('
-		+ j + ')"/></div>');
-	j = j + 1;
-	}));
+	$(document).ready(function() {
+        $("#btn_add2").click(function() {
+            $("#newUpload2").append(
+                    '<div id="div_'+j+'"><input  name="file_'+j+'" type="file"  style="margin-top:10px;" />' +
+                    '<input type="button"  style="margin-top:10px;" value="删除"  onclick="del_2('+ j + ')"/></div>');
+            j = j + 1;
+        });
+
+        $("#suppliesType").change(function(){
+            var suppliesType = $(this).val();
+            if(suppliesType=="0" || suppliesType=="1"){
+                $("#text").hide();
+                $("#file").show();
+            }
+            if(suppliesType=="2"){
+                $("#text").show();
+                $("#file").hide();
+            }
+        });
+    });
 
 	function del_2(o) {
 		document.getElementById("newUpload2").removeChild(
@@ -28,58 +41,12 @@
 		$('#userForm2').ajaxForm(function(data) {
 			jDialog.Alert(data.left + " # " + data.right);
 			var uptime = window.setTimeout(function(){
-				window.location.href="/${web}/supplies/list/1"
+				window.location.href="${rc.contextPath}/supplies/list"
 			   	clearTimeout(uptime);
 						},2000)
 		}).submit();
 	}
-	
-	function Tchange(obj){
-	var suppliesType = $("#selector").val(); 
-		jDialog.Alert(obj.value);
-		jDialog.Alert(suppliesType);
-		if(suppliesType=="video" || suppliesType=="image"){
-			$("#text").style.display="none";
-			$("#file").style.display="";
-		}
-		if(suppliesType=="info"){
-			$("#text").style.display="";
-			$("#file").style.display="none";
-		}
-	}
 </script>
-</head>
-<body>
-	<div class="page-container">
-		<!--上部DIV-->
-		<#include "/menu/top.ftl" />
-
-		<!--下部DIV-->
-		<div class="page-container">
-			<div class="pg-container-main">
-				<!--顶部导航开始-->
-				<div class="container-12">
-					<ul class="breadcrumb ml10 m11 s-clear">
-						<li class="s-left fsize-16 bread-homep"><a class="gray-text"
-							href="/">首页</a></li>
-						<li class="s-left breadcrumb-right"></li>
-						<li class="s-left bread-child"><a class="gray-text" href="#">物料管理</a>
-						</li>
-						<li class="s-left breadcrumb-right"></li>
-						<li class="s-left bread-child"><a class="gray-text" href="#">上传物料</a>
-						</li>
-					</ul>
-				</div>
-				<!--顶部导航结束-->
-				<div class="container-12 mt10 s-clear">
-					<!--菜单开始-->
-					<#include "/menu/left.ftl" />
-					<!--菜单结束-->
-
-					<!--主体开始-->
-					<div class="ls-10">
-
-						<div class="withdraw-wrap color-white-bg fn-clear">
 							<form id="userForm2" name="userForm2" action="put"
 								enctype="multipart/form-data" method="post"">
 								<div class="withdraw-title fn-clear">
@@ -106,10 +73,10 @@
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>素材类型</label>
-											<select class="ui-input" name="suppliesType" id="suppliesType" onchange="Tchange(this)">
-												<option value="video" selected>video</option>
-												<option value="image">image</option>
-												<option value="info">info</option>
+											<select class="ui-input" name="suppliesType" id="suppliesType">
+												<option value="0" selected="selected">视频</option>
+												<option value="1">图片</option>
+												<option value="2">文本</option>
 											</select>
 										</div>
 
@@ -137,17 +104,4 @@
 									</div>
 								</div>
 							</form>
-							<!--主体结束-->
-						</div>
-					</div>
-				</div>
-			</div>
-			<!--底部DIV -->
-			<#include "/menu/foot.ftl" />
-			<!--底部DIV -->
-		</div>
-	</div>
-<script type="text/javascript" language="javascript"
-	src="/${web}/js/index.js"></script>
-</body>
-</html>
+</@frame.html>

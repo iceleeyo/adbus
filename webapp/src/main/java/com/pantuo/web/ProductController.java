@@ -4,22 +4,16 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.JpaProduct;
-import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.pojo.DataTablePage;
-import org.activiti.engine.IdentityService;
+import com.pantuo.pojo.TableRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.pantuo.service.ProductService;
-import com.pantuo.util.NumberPageUtil;
-
-import java.util.Random;
-import java.util.UUID;
 
 /**
  * @author xl
@@ -34,15 +28,8 @@ public class ProductController {
 
     @RequestMapping("ajax-list")
     @ResponseBody
-    public DataTablePage<JpaProduct> getAllProducts( @RequestParam(value = "start", required = false, defaultValue = "0") int start,
-                                                     @RequestParam(value = "length", required = false, defaultValue = "10") int length,
-                                                     @RequestParam(value = "name", required = false) String name,
-                                                     @RequestParam(value = "draw", required = false, defaultValue = "1") int draw) {
-
-        if (length < 1)
-            length = 1;
-
-        return new DataTablePage(productService.getAllProducts(name, start/length, length), draw);
+    public DataTablePage<JpaProduct> getAllProducts( TableRequest req ) {
+        return new DataTablePage(productService.getAllProducts(req.getFilter("name"), req.getPage(), req.getLength(), req.getSort("id")), req.getDraw());
     }
 
     @RequestMapping(value = "/{productId}/{enable}", method = { RequestMethod.POST})
