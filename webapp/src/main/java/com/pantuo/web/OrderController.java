@@ -13,13 +13,14 @@ import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.Orders;
-
 import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.service.*;
 import com.pantuo.util.*;
+
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,7 +123,7 @@ public class OrderController {
 
 	@RequestMapping(value = "/handleView2", produces = "text/html;charset=utf-8")
 	public String HandleView2(Model model, @RequestParam(value = "taskid", required = true) String taskid,
-			HttpServletRequest request) {
+			HttpServletRequest request) throws Exception {
 
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 		ExecutionEntity executionEntity = (ExecutionEntity) runtimeService.createExecutionQuery()
@@ -130,8 +131,10 @@ public class OrderController {
 
 		OrderView v = activitiService.findOrderViewByTaskId(taskid);
 		String activityId = executionEntity.getActivityId();
+		List<HistoricActivityInstance> activitis=activitiService.findHistoricUserTask(activitiService.findProcessInstanceByTaskId(taskid),activityId);
 		model.addAttribute("taskid", taskid);
 		model.addAttribute("orderview", v);
+		model.addAttribute("activitis", activitis);
 		model.addAttribute("activityId", activityId);
 		return "handleView2";
 	}

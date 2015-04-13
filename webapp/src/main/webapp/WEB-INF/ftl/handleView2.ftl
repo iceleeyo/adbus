@@ -53,7 +53,6 @@ function complete(taskId, variables) {
 //世巴初审
 function approve1(){
 	var approve1Result=$('#approve1 :radio[name=approve1Result]:checked').val();
-	var approve2Result=$('#approve1 :radio[name=approve2Result]:checked').val();
 	var approve1Comments=$('#approve1 #approve1Comments').val();
 	complete('${taskid!''}',[
 		{
@@ -63,7 +62,7 @@ function approve1(){
 		},
 		{
 			key: 'approve2Result',
-			value: "approve2Result",
+			value: "false",
 			type: 'B'
 		},
 		{
@@ -228,16 +227,18 @@ function check() {
 							   <input type="radio" name="approve1Result" value="true" checked="checked">物料正常
 				               <input type="radio" name="approve1Result" value="false" >物料异常
 				               <br><br>
-				                                        该物料是否终审过:<br><hr>
-				                <input type="radio" name="approve2Result" value="true" checked="checked" >是
-				                <input type="radio" name="approve2Result" value="false" >否
-				                <br><br>       
+				                                      
 				              <button onclick="approve1();" class="block-btn">提交</button>
 							</div>
 							
 							<!-- 世巴提交排期表 -->
                             <div id="submitSchedule" style="display: none;">	
+                                                                                          初审意见意见：${(orderview.variables.approve1Comments)!''}    <br>
                                  	世巴确认排期表并提交：<br>
+                                 	历史审批结果：<br>
+                                 	
+                                 	
+                                 	
 							   <input type="radio" name="ScheduleResult" value="true" checked="checked">通过
 				               <input type="radio" name="ScheduleResult" value="false" >不通过
 				               <br><br>
