@@ -16,8 +16,8 @@
             #error {font-size: 12px; color: red;}
         </style>
 
-      <link rel="stylesheet" type="text/css" href="css/sea.css">
-      <link rel="stylesheet" type="text/css" href="css/login.css">
+      <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/sea.css">
+      <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/login.css">
     </head>
     <body>
         <div class="login-container">
