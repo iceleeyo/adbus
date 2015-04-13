@@ -12,8 +12,10 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricActivityInstance;
+import org.activiti.engine.history.HistoricDetail;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
+import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.impl.RepositoryServiceImpl;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
@@ -30,8 +32,10 @@ import scala.collection.mutable.StringBuilder;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Orders;
+import com.pantuo.pojo.HistoricTaskView;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.OrderService;
+import com.pantuo.util.BeanUtils;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.OrderView;
@@ -59,30 +63,22 @@ public class ActivitiServiceImpl implements ActivitiService {
 	public List<OrderView> findTask(String userid, NumberPageUtil page) {
 		List<Task> tasks = new ArrayList<Task>();
 		List<OrderView> leaves = new ArrayList<OrderView>();
-		long c = taskService.createTaskQuery()
-				.processDefinitionKey(MAIN_PROCESS).taskCandidateUser(userid)
-				.count();
+		long c = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS).taskCandidateUser(userid).count();
 		page.setTotal((int) c);
-		tasks = taskService.createTaskQuery()
-				.processDefinitionKey(MAIN_PROCESS)
-				.taskCandidateOrAssigned(userid).includeProcessVariables()
-				.orderByTaskPriority().desc().orderByTaskCreateTime().desc()
-				.list();
+		tasks = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS).taskCandidateOrAssigned(userid)
+				.includeProcessVariables().orderByTaskPriority().desc().orderByTaskCreateTime().desc().list();
 		for (Task task : tasks) {
 			String processInstanceId = task.getProcessInstanceId();
-			ProcessInstance processInstance = runtimeService
-					.createProcessInstanceQuery()
+			ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
 					.processInstanceId(processInstanceId).singleResult();
-			Integer orderid = (Integer) task.getProcessVariables()
-					.get(ORDER_ID);
+			Integer orderid = (Integer) task.getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
 			Orders order = orderService.selectOrderById(orderid);
 			v.setOrder(order);
 			v.setTask(task);
 			v.setProcessInstance(processInstance);
 			v.setProcessInstanceId(processInstance.getId());
-			v.setProcessDefinition(getProcessDefinition(processInstance
-					.getProcessDefinitionId()));
+			v.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
 			leaves.add(v);
 		}
 
@@ -91,74 +87,57 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 	public List<OrderView> findMyOrders(String userid, NumberPageUtil page) {
 		List<OrderView> orders = new ArrayList<OrderView>();
-		List<ProcessInstance> processInstances = runtimeService
-				.createProcessInstanceQuery()
+		List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery()
 				.processDefinitionKey(MAIN_PROCESS).involvedUser(userid)
 				.listPage(page.getLimitStart(), page.getPagesize());
 		for (ProcessInstance processInstance : processInstances) {
-			List<Task> tasks = taskService.createTaskQuery()
-					.processInstanceId(processInstance.getId())
-					.includeProcessVariables().orderByTaskCreateTime().desc()
-					.listPage(0, 1);
-			Integer orderid = (Integer) tasks.get(0).getProcessVariables()
-					.get(ORDER_ID);
+			List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId())
+					.includeProcessVariables().orderByTaskCreateTime().desc().listPage(0, 1);
+			Integer orderid = (Integer) tasks.get(0).getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
-			List<Orders> order = orderService
-					.selectOrderByUser(userid, orderid);
+			List<Orders> order = orderService.selectOrderByUser(userid, orderid);
 			if (order.size() > 0) {
 				v.setOrder(order.get(0));
 			}
 			v.setProcessInstance(processInstance);
 			v.setProcessInstanceId(processInstance.getId());
-			v.setProcessDefinition(getProcessDefinition(processInstance
-					.getProcessDefinitionId()));
+			v.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
 			v.setTask(tasks.get(0));
 			orders.add(v);
 		}
 		return orders;
 	}
 
-	public List<OrderView> findRunningProcessInstaces(String userid,
-			NumberPageUtil page) {
+	public List<OrderView> findRunningProcessInstaces(String userid, NumberPageUtil page) {
 		List<OrderView> orders = new ArrayList<OrderView>();
-		List<ProcessInstance> processInstances = runtimeService
-				.createProcessInstanceQuery()
-				.processDefinitionKey(MAIN_PROCESS)
-				.listPage(page.getLimitStart(), page.getPagesize());
+		List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery()
+				.processDefinitionKey(MAIN_PROCESS).listPage(page.getLimitStart(), page.getPagesize());
 		for (ProcessInstance processInstance : processInstances) {
-			List<Task> tasks = taskService.createTaskQuery()
-					.processInstanceId(processInstance.getId())
-					.includeProcessVariables().orderByTaskCreateTime().desc()
-					.listPage(0, 1);
-			Integer orderid = (Integer) tasks.get(0).getProcessVariables()
-					.get(ORDER_ID);
+			List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId())
+					.includeProcessVariables().orderByTaskCreateTime().desc().listPage(0, 1);
+			Integer orderid = (Integer) tasks.get(0).getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
 			v.setOrder(orderService.selectOrderById(orderid));
 			v.setProcessInstance(processInstance);
 			v.setProcessInstanceId(processInstance.getId());
-			v.setProcessDefinition(getProcessDefinition(processInstance
-					.getProcessDefinitionId()));
+			v.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
 			v.setTask(tasks.get(0));
 			orders.add(v);
 		}
 		return orders;
 	}
 
-	public List<OrderView> findFinishedProcessInstaces(String userid,
-			String usertype, NumberPageUtil page) {
+	public List<OrderView> findFinishedProcessInstaces(String userid, String usertype, NumberPageUtil page) {
 		List<OrderView> orders = new ArrayList<OrderView>();
-		List<HistoricProcessInstance> list = historyService
-				.createHistoricProcessInstanceQuery().finished()
-				.processDefinitionKey(MAIN_PROCESS).includeProcessVariables()
-				.orderByProcessInstanceStartTime().desc().list();
+		List<HistoricProcessInstance> list = historyService.createHistoricProcessInstanceQuery().finished()
+				.processDefinitionKey(MAIN_PROCESS).includeProcessVariables().orderByProcessInstanceStartTime().desc()
+				.list();
 		for (HistoricProcessInstance historicProcessInstance : list) {
 			// String businessKey = historicProcessInstance.getBusinessKey();
-			Integer orderid = (Integer) historicProcessInstance
-					.getProcessVariables().get(ORDER_ID);
+			Integer orderid = (Integer) historicProcessInstance.getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
 			if (null != usertype && usertype.equals("user")) {
-				List<Orders> order = orderService.selectOrderByUser(userid,
-						orderid);
+				List<Orders> order = orderService.selectOrderByUser(userid, orderid);
 				if (order.size() > 0) {
 					v.setOrder(order.get(0));
 				}
@@ -168,8 +147,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 				}
 			}
 			v.setHistoricProcessInstance(historicProcessInstance);
-			v.setProcessDefinition(getProcessDefinition(historicProcessInstance
-					.getProcessDefinitionId()));
+			v.setProcessDefinition(getProcessDefinition(historicProcessInstance.getProcessDefinitionId()));
 			orders.add(v);
 		}
 		page.setTotal(orders.size());
@@ -180,8 +158,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 	 * 根据流程定义Id查询流程定义
 	 */
 	public ProcessDefinition getProcessDefinition(String processDefinitionId) {
-		ProcessDefinition processDefinition = repositoryService
-				.createProcessDefinitionQuery()
+		ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
 				.processDefinitionId(processDefinitionId).singleResult();
 		return processDefinition;
 	}
@@ -192,33 +169,26 @@ public class ActivitiServiceImpl implements ActivitiService {
 		Map<String, Object> initParams = new HashMap<String, Object>();
 		initParams.put(ActivitiService.OWNER, u);
 		initParams.put(ActivitiService.ORDER_ID, order.getId());
-		initParams.put(ActivitiService.NOW, new SimpleDateFormat(
-				"yyyy-MM-dd hh:mm").format(new Date()));
-		ProcessInstance process = runtimeService.startProcessInstanceByKey(
-				MAIN_PROCESS, initParams);
+		initParams.put(ActivitiService.NOW, new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
+		ProcessInstance process = runtimeService.startProcessInstanceByKey(MAIN_PROCESS, initParams);
 
-		List<Task> tasks = taskService.createTaskQuery()
-				.processInstanceId(process.getId()).orderByTaskCreateTime()
+		List<Task> tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime()
 				.desc().listPage(0, 1);
 		if (!tasks.isEmpty()) {
 			Task task = tasks.get(0);
 			Map<String, Object> info = taskService.getVariables(task.getId());
-			if (info.containsKey(ORDER_ID)
-					&& ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
+			if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
 				taskService.claim(task.getId(), u.getUsername());
 				taskService.complete(task.getId());
 			}
 		}
-		tasks = taskService.createTaskQuery()
-				.processDefinitionKey(MAIN_PROCESS)
-				.taskCandidateOrAssigned(u.getUsername())
-				.includeProcessVariables().orderByTaskPriority().desc()
+		tasks = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS)
+				.taskCandidateOrAssigned(u.getUsername()).includeProcessVariables().orderByTaskPriority().desc()
 				.orderByTaskCreateTime().desc().list();
 		if (!tasks.isEmpty()) {
 			Task task = tasks.get(0);
 			Map<String, Object> info = taskService.getVariables(task.getId());
-			if (info.containsKey(ORDER_ID)
-					&& ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
+			if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
 				taskService.claim(task.getId(), u.getUsername());
 			}
 		}
@@ -232,33 +202,26 @@ public class ActivitiServiceImpl implements ActivitiService {
 		Map<String, Object> initParams = new HashMap<String, Object>();
 		initParams.put(ActivitiService.OWNER, u);
 		initParams.put(ActivitiService.ORDER_ID, order.getId());
-		initParams.put(ActivitiService.NOW, new SimpleDateFormat(
-				"yyyy-MM-dd hh:mm").format(new Date()));
-		ProcessInstance process = runtimeService.startProcessInstanceByKey(
-				MAIN_PROCESS, initParams);
+		initParams.put(ActivitiService.NOW, new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
+		ProcessInstance process = runtimeService.startProcessInstanceByKey(MAIN_PROCESS, initParams);
 
-		List<Task> tasks = taskService.createTaskQuery()
-				.processInstanceId(process.getId()).orderByTaskCreateTime()
+		List<Task> tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime()
 				.desc().listPage(0, 1);
 		if (!tasks.isEmpty()) {
 			Task task = tasks.get(0);
 			Map<String, Object> info = taskService.getVariables(task.getId());
-			if (info.containsKey(ORDER_ID)
-					&& ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
+			if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
 				taskService.claim(task.getId(), u.getUsername());
 				taskService.complete(task.getId());
 			}
 		}
-		tasks = taskService.createTaskQuery()
-				.processDefinitionKey(MAIN_PROCESS)
-				.taskCandidateOrAssigned(u.getUsername())
-				.includeProcessVariables().orderByTaskPriority().desc()
+		tasks = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS)
+				.taskCandidateOrAssigned(u.getUsername()).includeProcessVariables().orderByTaskPriority().desc()
 				.orderByTaskCreateTime().desc().list();
 		if (!tasks.isEmpty()) {
 			Task task = tasks.get(0);
 			Map<String, Object> info = taskService.getVariables(task.getId());
-			if (info.containsKey(ORDER_ID)
-					&& ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
+			if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
 				taskService.claim(task.getId(), u.getUsername());
 			}
 		}
@@ -267,22 +230,20 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 	private void debug(String processid) {
 		List<Task> tasks;
-		tasks = taskService.createTaskQuery().processInstanceId(processid)
-				.orderByTaskCreateTime().desc().listPage(0, 1);
+		tasks = taskService.createTaskQuery().processInstanceId(processid).orderByTaskCreateTime().desc()
+				.listPage(0, 1);
 		for (Task task2 : tasks) {
 			System.out.println(task2.getTaskDefinitionKey());
 		}
 	}
 
-	public Pair<Boolean, String> payment(int orderid, String taskid,
-			UserDetail u) {
+	public Pair<Boolean, String> payment(int orderid, String taskid, UserDetail u) {
 		Pair<Boolean, String> r = null;
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 		if (task != null) {
 			Map<String, Object> info = taskService.getVariables(task.getId());
 			UserDetail ul = (UserDetail) info.get(ActivitiService.OWNER);
-			if (ul != null
-					&& ObjectUtils.equals(ul.getUsername(), u.getUsername())) {
+			if (ul != null && ObjectUtils.equals(ul.getUsername(), u.getUsername())) {
 				if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
 					taskService.claim(task.getId(), u.getUsername());
 					taskService.complete(task.getId());
@@ -300,15 +261,20 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 	}
 
-	public Pair<Boolean, String> complete(String taskId,
-			Map<String, Object> variables, UserDetail u) {
-		Pair<Boolean, String> r = new Pair<Boolean, String>(true,
-				StringUtils.EMPTY);
+	public Pair<Boolean, String> complete(String taskId, Map<String, Object> variables, UserDetail u) {
+		Pair<Boolean, String> r = new Pair<Boolean, String>(true, StringUtils.EMPTY);
 		try {
 			// Map<String, Object> variables2 =
 			// taskService.getVariables(taskId);
 			// variables.putAll(variables2);
-
+			if (variables != null) {
+				Map<String, Object> taskVarMap = new HashMap<String, Object>();
+				for (Map.Entry<String, Object> entry : variables.entrySet()) {
+					//参照 order:1:8
+					taskVarMap.put(String.format("taskVar:%s:%s", taskId, entry.getKey()), entry.getValue());
+				}
+				variables.putAll(taskVarMap);
+			}
 			taskService.complete(taskId, variables);
 		} catch (Exception e) {
 			r = new Pair<Boolean, String>(false, StringUtils.EMPTY);
@@ -318,26 +284,21 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 	public String reset(String p) {
 		StringBuilder sb = new StringBuilder();
-		List<ProcessInstance> processInstances = runtimeService
-				.createProcessInstanceQuery()
-				.processDefinitionKey(MAIN_PROCESS).includeProcessVariables()
-				.list();
+		List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery()
+				.processDefinitionKey(MAIN_PROCESS).includeProcessVariables().list();
 		for (ProcessInstance processInstance : processInstances) {
 
 			if (StringUtils.contains(p, "deleteAll")) {
-				runtimeService.deleteProcessInstance(processInstance.getId(),
-						"");
+				runtimeService.deleteProcessInstance(processInstance.getId(), "");
 
 			} else {
-				Map<String, Object> info = processInstance
-						.getProcessVariables();
+				Map<String, Object> info = processInstance.getProcessVariables();
 				Integer orderid = (Integer) info.get(ORDER_ID);
 				if (orderid != null) {
 					Orders order = orderService.selectOrderById(orderid);
 					if (order == null) {
 						sb.append(orderid + ",");
-						runtimeService.deleteProcessInstance(
-								processInstance.getId(), "");
+						runtimeService.deleteProcessInstance(processInstance.getId(), "");
 					}
 				}
 			}
@@ -348,8 +309,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 	public OrderView findOrderViewByTaskId(String taskid) {
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 		String processInstanceId = task.getProcessInstanceId();
-		ProcessInstance processInstance = runtimeService
-				.createProcessInstanceQuery()
+		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
 				.processInstanceId(processInstanceId).singleResult();
 		OrderView v = new OrderView();
 
@@ -360,21 +320,17 @@ public class ActivitiServiceImpl implements ActivitiService {
 		v.setTask(task);
 		v.setProcessInstance(processInstance);
 		v.setProcessInstanceId(processInstance.getId());
-		v.setProcessDefinition(getProcessDefinition(processInstance
-				.getProcessDefinitionId()));
+		v.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
 		// Map<String, Object> variables = task.getProcessVariables();
 		v.setVariables(variables);
 		return v;
 	}
 
 	// 根据taskId查找流程实例
-	public ProcessInstance findProcessInstanceByTaskId(String taskId)
-			throws Exception {
+	public ProcessInstance findProcessInstanceByTaskId(String taskId) throws Exception {
 		// 找到流程实例
-		ProcessInstance processInstance = runtimeService
-				.createProcessInstanceQuery()
-				.processInstanceId(findTaskById(taskId).getProcessInstanceId())
-				.singleResult();
+		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
+				.processInstanceId(findTaskById(taskId).getProcessInstanceId()).singleResult();
 		if (processInstance == null) {
 			throw new Exception("流程实例未找到!");
 		}
@@ -382,12 +338,10 @@ public class ActivitiServiceImpl implements ActivitiService {
 	}
 
 	// 根据taskId查找流程定义
-	public ProcessDefinitionEntity findProcessDefinitionEntityByTaskId(
-			String taskId) throws Exception {
+	public ProcessDefinitionEntity findProcessDefinitionEntityByTaskId(String taskId) throws Exception {
 		// 取得流程定义
 		ProcessDefinitionEntity processDefinition = (ProcessDefinitionEntity) ((RepositoryServiceImpl) repositoryService)
-				.getDeployedProcessDefinition(findTaskById(taskId)
-						.getProcessDefinitionId());
+				.getDeployedProcessDefinition(findTaskById(taskId).getProcessDefinitionId());
 
 		if (processDefinition == null) {
 			throw new Exception("流程定义未找到!");
@@ -397,8 +351,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 	}
 
 	public TaskEntity findTaskById(String taskId) throws Exception {
-		TaskEntity task = (TaskEntity) taskService.createTaskQuery()
-				.taskId(taskId).singleResult();
+		TaskEntity task = (TaskEntity) taskService.createTaskQuery().taskId(taskId).singleResult();
 		if (task == null) {
 			throw new Exception("任务实例未找到!");
 		}
@@ -406,8 +359,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 	}
 
 	// 根据流程实例和节点ID查找历史审批记录
-	public List<HistoricActivityInstance> findHistoricUserTask(
-			ProcessInstance processInstance, String activityId) {
+	public List<HistoricTaskView> findHistoricUserTask(ProcessInstance processInstance, String activityId) {
+
 		// 查询当前流程实例审批结束的历史节点
 		// List<HistoricActivityInstance> historicActivityInstances =
 		// historyService
@@ -415,16 +368,104 @@ public class ActivitiServiceImpl implements ActivitiService {
 		// .processInstanceId(processInstance.getId()).activityId(activityId).finished()
 		// .orderByHistoricActivityInstanceEndTime().desc().list();
 		// return historicActivityInstances;
-		List<HistoricTaskInstance> taskInstances = historyService
-				.createHistoricTaskInstanceQuery()
-				.processInstanceId(processInstance.getId()).includeProcessVariables()
-				.orderByTaskId().asc().list();
+		List<HistoricTaskInstance> taskInstances = historyService.createHistoricTaskInstanceQuery()
+				.processInstanceId(processInstance.getId()).includeProcessVariables().orderByTaskId().desc().list();
+		List<HistoricTaskView> view = new ArrayList<HistoricTaskView>();
 
-		for (HistoricTaskInstance w : taskInstances) {
-			System.err.println(w);
+		for (HistoricTaskInstance historicTaskInstance : taskInstances) {
+			HistoricTaskView w = new HistoricTaskView();
+			BeanUtils.copyProperties(historicTaskInstance, w);
+			w.setVars(w.getProcessVariables());
+			Map<String, Object> temp = w.getProcessVariables();
+
+			String f = "taskVar:%s:%s";
+			if (StringUtils.equals("approve1", w.getTaskDefinitionKey())) {
+				String key = String.format(f, historicTaskInstance.getId(), "approve1Comments");
+				String result = String.format(f, historicTaskInstance.getId(), "approve1Result");
+				w.setComment((String) temp.get(key));
+				Object r = temp.get(result);
+				w.setResult(r == null ? false : (Boolean) r);
+			}else  if (StringUtils.equals("approve2", w.getTaskDefinitionKey())) {
+				String key = String.format(f, historicTaskInstance.getId(), "approve2Comments");
+				String result = String.format(f, historicTaskInstance.getId(), "approve2Result");
+				w.setComment((String) temp.get(key));
+				Object r = temp.get(result);
+				w.setResult(r == null ? false : (Boolean) r);
+			}
+			view.add(w);
 		}
-		return null;
+		extractDebug(taskInstances);
+		return view;
 
 	}
 
+	private void extractDebug(List<HistoricTaskInstance> taskInstances) {
+		for (HistoricTaskInstance hai : taskInstances) {
+			System.out.print(" exceutionId:" + hai.getExecutionId() + "，");
+			System.out.print(" id:" + hai.getId() + "，");
+			System.out.print(" name:" + hai.getName() + "，");
+			System.out.print("key :" + hai.getTaskDefinitionKey() + "，");
+			System.out.print("pid:" + hai.getProcessInstanceId() + "，");
+			System.out.print("assignee:" + hai.getAssignee() + "，");
+			System.out.print("startTime:" + hai.getStartTime() + "，");
+			System.out.print("endTime:" + hai.getEndTime() + "，");
+			//List<HistoricVariableInstance> tw = historyService.createHistoricVariableInstanceQuery()
+			//		.taskId( hai.getId()).list();
+			//printDetail(tw);
+			System.out.print("duration:" + hai.getDurationInMillis());
+			System.out.println("vars:" + hai.getProcessVariables() + "，");
+		}
+	}
+
+	public void queryHistoricActivityInstance(String processInstanceId) throws Exception {
+		List<HistoricActivityInstance> hais = historyService.createHistoricActivityInstanceQuery()
+		// 过滤条件
+				.processInstanceId(processInstanceId)
+				// 分页条件
+				//		     .listPage(firstResult, maxResults)
+				// 排序条件
+				.orderByHistoricActivityInstanceStartTime().asc()
+				// 执行查询
+				.list();
+
+		for (HistoricActivityInstance hai : hais) {
+
+			List<HistoricVariableInstance> tw = historyService.createHistoricVariableInstanceQuery()
+					.processInstanceId(processInstanceId).excludeTaskVariables().list();
+			//	printDetail(tw);
+			System.out.print("taskId:" + hai.getTaskId() + "，");
+			System.out.print("activitiId:" + hai.getActivityId() + "，");
+			System.out.print("name:" + hai.getActivityName() + "，");
+			System.out.print("type:" + hai.getActivityType() + "，");
+			System.out.print("pid:" + hai.getProcessInstanceId() + "，");
+			System.out.print("assignee:" + hai.getAssignee() + "，");
+			System.out.print("startTime:" + hai.getStartTime() + "，");
+			System.out.print("endTime:" + hai.getEndTime() + "，");
+			System.out.println("duration:" + hai.getDurationInMillis());
+		}
+		printDetail2(processInstanceId);
+
+	}
+
+	public void printDetail2(String processInstanceId) {
+		List<HistoricDetail> detail = historyService.createHistoricDetailQuery().processInstanceId(processInstanceId)
+				.list();
+		for (HistoricDetail h : detail) {
+			System.out.print(h.getTaskId() + "，");
+			System.out.print(h.getExecutionId() + "，");
+			System.out.print(h.getId() + "，");
+			System.out.print(h.getExecutionId() + "，");
+			System.out.print(h.getExecutionId() + "，");
+			System.out.println(h.getActivityInstanceId() + "，");
+
+		}
+	}
+
+	public void printDetail(List<HistoricVariableInstance> list) {
+		for (HistoricVariableInstance hv : list) {
+			System.out.print("1:" + hv.toString() + "，");
+			System.out.print("2:" + hv.getVariableName() + "，");
+			System.out.println("3:" + hv.getValue());
+		}
+	}
 }

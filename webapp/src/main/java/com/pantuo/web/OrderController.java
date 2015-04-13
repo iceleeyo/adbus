@@ -3,29 +3,20 @@ package com.pantuo.web;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.pantuo.dao.pojo.JpaOrders;
-import com.pantuo.dao.pojo.JpaProduct;
-import com.pantuo.mybatis.domain.Contract;
-import com.pantuo.mybatis.domain.Orders;
-import com.pantuo.mybatis.domain.Supplies;
-import com.pantuo.service.*;
-import com.pantuo.util.*;
-
-import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
-import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,9 +24,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.pantuo.service.impl.ActivitiServiceImpl;
+import com.pantuo.dao.pojo.JpaOrders;
+import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.mybatis.domain.Contract;
+import com.pantuo.mybatis.domain.Orders;
+import com.pantuo.mybatis.domain.Supplies;
+import com.pantuo.pojo.HistoricTaskView;
+import com.pantuo.service.ActivitiService;
+import com.pantuo.service.ContractService;
+import com.pantuo.service.OrderService;
+import com.pantuo.service.ProductService;
+import com.pantuo.service.SuppliesService;
+import com.pantuo.util.GlobalMethods;
+import com.pantuo.util.NumberPageUtil;
+import com.pantuo.util.Pair;
+import com.pantuo.util.Request;
+import com.pantuo.util.Variable;
 import com.pantuo.web.view.OrderView;
 
 /**
@@ -130,7 +135,7 @@ public class OrderController {
 
 		OrderView v = activitiService.findOrderViewByTaskId(taskid);
 		String activityId = executionEntity.getActivityId();
-		List<HistoricActivityInstance> activitis=activitiService.findHistoricUserTask(activitiService.findProcessInstanceByTaskId(taskid),activityId);
+		List<HistoricTaskView> activitis=activitiService.findHistoricUserTask(activitiService.findProcessInstanceByTaskId(taskid),activityId);
 		model.addAttribute("taskid", taskid);
 		model.addAttribute("orderview", v);
 		model.addAttribute("activitis", activitis);

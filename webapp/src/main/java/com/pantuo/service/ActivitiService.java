@@ -3,13 +3,13 @@ package com.pantuo.service;
 import java.util.List;
 import java.util.Map;
 
-import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.runtime.ProcessInstance;
 
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Orders;
+import com.pantuo.pojo.HistoricTaskView;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.OrderView;
@@ -73,6 +73,6 @@ public interface ActivitiService {
 		 public ProcessDefinitionEntity findProcessDefinitionEntityByTaskId(  
 		            String taskId) throws Exception;
 		//根据流程实例和节点ID查找历史审批记录
-		   public List<HistoricActivityInstance> findHistoricUserTask (  
+		   public List<HistoricTaskView> findHistoricUserTask (  
 		            ProcessInstance processInstance, String activityId);
 }
