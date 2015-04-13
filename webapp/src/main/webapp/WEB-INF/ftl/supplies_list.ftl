@@ -1,7 +1,7 @@
 <#import "template/template.ftl" as frame>
-<#global menu="物料列表">
+<#global menu="物料管理">
 <@frame.html title="物料列表">
-    <script>
+    <!-- <script>
         function pages(pageNum) {
             var by = ($("#by").val());
             var name = ($("#name").val());
@@ -35,106 +35,116 @@
             var name = $("#name").val();
             window.location.href= "${rc.contextPath}/supplies/list/1"+"?name="+name
         }
-    </script>
+    </script> -->
+<script type="text/javascript">
+    var table;
+    function initTable () {
+        table = $('#table').dataTable( {
+            "dom": '<"#toolbar">lrtip',
+            "searching": false,
+            "ordering": false,
+            "serverSide": true,
+            "columnDefs": [
+                { "sClass": "align-left", "targets": [0] },
+            ],
+            "ajax": {
+                type: "GET",
+                url: "${rc.contextPath}/supplies/ajax-list",
+                data: function(d) {
+                    return $.extend( {}, d, {
+                        "name" : $('#name').val()
+                    } );
+                },
+                "dataSrc": "content",
+            },
+            "columns": [
+            	{ "data": "name", "defaultContent": "",
+                    "render": function(data, type, row, meta) {
+                        var filter = $('#name').val();
+                        if (filter && filter != '') {
+                            var regex = new RegExp(filter, "gi");
+                            data = data.replace(regex, function(matched) {
+                                return "<span class=\"hl\">" + matched + "</span>";
+                            });
+                        }
+                    return data;
+                } },
+                { "data": "suppliesType", "defaultContent": "",
+                "render": function(data, type, row, meta) {
+                        if (data == 'video')
+                            return '视频';
+                        if (data == 'image')
+                            return '图片';
+                        if (data == 'info')
+                            return 'Info';
+                        return '';
+                    } },
+                { "data": "created", "defaultContent": "","render": function(data, type, row, meta) {
+                	var d=data.format("yyyy-MM-dd hh:mm:ss");
+                	return d;
+                }},
+                { "data": function( row, type, set, meta) {
+                    return row.id;
+                },
+                    "render": function(data, type, row, meta) {
+                        return  '<a class="table-link" href="#">编辑</a>';
+                    }},
+            ],
+            "language": {
+                "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
+            },
+            "initComplete": initComplete,
+            "drawCallback": drawCallback,
+        } );
 
-    <form id="base_form" action="/supplies/list/1" method="post"
-    dataType="html" enctype="multipart/form-data" class="Page-Form">
-        <div class="module s-clear u-lump-sum p19">
-            <div class="u-sum-right">
-                    <input class="ui-input" type="text" value="${name!''}" id="name" data-is="isAmount isEnough" autocomplete="off" disableautocomplete  placeholder="物料名称"/>
-                    <input type="button" id="subWithdraw" class="block-btn" value="查询" onclick="sub();">
+    }
+
+    function initComplete() {
+        $("div#toolbar").html(
+                '<div>' +
+                        '    <span>物料名称</span>' +
+                        '    <span>' +
+                        '        <input id="name" value="">' +
+                        '    </span>' +
+                        '</div>'
+        );
+
+        $('#name').change(function() {
+            table.fnDraw();
+        });
+    }
+
+    function drawCallback() {
+        $('.table-action').click(function() {
+            $.post($(this).attr("url"), function() {
+                table.fnDraw(true);
+            })
+        });
+    }
+
+    $(document).ready(function() {
+        initTable();
+    } );
+</script>
+
+
+<#--            <div class="div" style="margin-top:25px">
+                <caption><h2>物料列表</h2></caption>
             </div>
-        </div>
-    </form>
-    <form data-name="withdraw" name="userForm2" id="userForm2"
-        class="ui-form" method="post" action="saveContract"
-        enctype="multipart/form-data">
-        <div class="mt20">
-            <div class="u-tab">
-                <ul class="u-tab-items s-clear">
-                    <li class="u-tab-item u-tab-item-active"><a
-                        class="u-item-a" href="#holding">展示中 <em class="baget">0</em>
-                    </a></li>
-                    <li class="u-tab-item"><a class="u-item-a"
-                        href="#booking">预订中 <em class="baget">0</em>
-                    </a></li>
-                    <li class="u-tab-item"><a class="u-item-a"
-                        href="#exiting">已结束 <em class="baget">0</em>
-                    </a></li>
+            <div class="div">
+                <hr/>
+            </div>-->
+            <div class="div">
+                <table id="table" class="display" cellspacing="0" width="100%">
+                    <thead>
+                    <tr>
+                        <th>物料名称</th>
+                        <th>物料类型</th>
+                        <th>创建时间</th>
+                        <th>管理</th>
+                    </tr>
+                    </thead>
 
-                </ul>
+                </table>
             </div>
-            <div class="module p20" style="height: 423px;">
-                <div class="tab-content">
-                    <div class="tab-content-box s-clear" id="holding"
-                        style="display: block;">
-                        <div class="tab-plans-type">
-                            <ul class="tab-plans">
-                                <li class="tab-plan-item tab-plan-width"><span>全部</span>
-                                </li>
-                                <li class="tab-plan-item tab-plan-width"><span>已审核</span>
-                                </li>
-                                <li class="tab-plan-item tab-plan-width"><span>已提交</span>
-                                </li>
-                                <li class="tab-plan-item tab-plan-width"><span>已展示</span>
-                                </li>
-
-                            </ul>
-                        </div>
-                        <div class="uplan-table-box">
-                            <table width="100%" class="uplan-table">
-                                <tbody>
-                                    <tr class="uplan-table-th">
-                                        <td width="22%">
-                                            <div class="th-head">物料名称</div>
-                                        </td>
-                                        <td width="15%">
-                                            <div class="th-md">物料类型</div>
-                                        </td>
-                                        <td width="16%">
-                                            <div class="th-tail">创建时间</div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <#list list as item>
-                            <li class="ui-list-item dark">
-                                <div class="ui-list-item-row fn-clear">
-                                    <span style="width: 306px; height: 35px; " class="ui-list-field text-center w80 fn-left" >
-                                        <a href="../suppliesDetail?supplies_id=${item.id!''}">
-                                        ${item.name}
-                                        </a>
-                                    </span>
-
-                                     <span style="width: 208px; height: 35px; "
-                                        class="ui-list-field text-center  fn-left">
-                                        ${item.suppliesType}
-
-                                     </span>
-                                     <span
-                                        style="width: 224px; height: 35px; "
-                                        class="ui-list-field text-center w80 fn-left">
-                                    <#setting
-                                                date_format="yyyy-MM-dd HH:mm"> ${(item.created?date)!''}
-                                     </span>
-                                    </div>
-                            </li>
-                            </#list>
-                            <!-- 分页 -->
-                            <table class="pag_tbl"
-                                style="width: 100%; border-width: 0px; margin-top: 10px;">
-                                <tr>
-                                    <td style="width: 70%; text-align: right;">
-                                        <div id="numpage" style="float: right;">
-                                        ${paginationHTML!''}
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
-
 </@frame.html>

@@ -10,10 +10,15 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pantuo.dao.pojo.JpaContract;
+import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Contract;
+import com.pantuo.pojo.DataTablePage;
+import com.pantuo.service.ContractServiceData;
 import com.pantuo.service.UserService;
 import com.pantuo.util.Request;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +31,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.service.ContractService;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.ContractView;
-import com.pantuo.web.view.SuppliesView;
 
 /**
  * 
@@ -47,6 +50,9 @@ public class ContractController {
 	private ContractService contractService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private ContractServiceData contractServiceDate;
+	
 
 	@RequestMapping(value = "contractCodeCheck", method = RequestMethod.POST)
 	@ResponseBody
@@ -79,16 +85,24 @@ public class ContractController {
 			@RequestParam(value = "code", required = false, defaultValue = "") String code, @PathVariable int pageNum,
             Principal principal,
 			HttpServletRequest request) {
-		int psize = 9;
-		NumberPageUtil page = new NumberPageUtil(contractService.countMyList(name, code, principal), pageNum, psize);
-		List<Contract> list=contractService.queryContractList(page, name, code, principal);
-		model.addAttribute("list", list);
-		model.addAttribute("pageNum", pageNum);
-		model.addAttribute("paginationHTML", page.showNumPageWithEmpty());
-		model.addAttribute("name",name);
-		model.addAttribute("code",code);
+		
 		return "contractlist";
 	}
+	
+	@RequestMapping("ajax-list")
+	@ResponseBody
+	public DataTablePage<JpaContract> getAllContracts(
+			@RequestParam(value = "start", required = false, defaultValue = "0") int start,
+			@RequestParam(value = "length", required = false, defaultValue = "10") int length,
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "draw", required = false, defaultValue = "1") int draw) {
+
+		if (length < 1)
+			length = 1;
+
+		return new DataTablePage(contractServiceDate.getAllContracts(name, start
+				/ length, length), draw);
+	}  
 
 	@RequestMapping(value = "/contractEnter", produces = "text/html;charset=utf-8")
 	public String contractEnter(Model model, HttpServletRequest request) {

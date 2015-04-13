@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 
 import com.pantuo.dao.pojo.JpaAttachment;
 import com.pantuo.dao.pojo.JpaContract;
+import com.pantuo.dao.pojo.JpaProduct;
 
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.ManagementService;
@@ -17,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.pantuo.mybatis.domain.Attachment;
@@ -137,4 +139,6 @@ public class ContractService {
 		}
 		return v;
 	}
+	
+
 }

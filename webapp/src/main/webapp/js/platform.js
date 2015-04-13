@@ -49,30 +49,7 @@ var advPlatform = {
 			}
 		});
 	},
-	//a.AjaxLoad绑定事件
-	/*initAjaxLoad: function(){
-		$('a.AjaxLoad').die().live('click', function(event){
-			var url = $(this).attr('href'),
-				type = $(this).attr('load-type'),
-				target = $(this).attr('target-element');
-			if(!target) target = 'Workspace';
-			if(!type) type = 'page';
-			if(type == 'dialog') target = 'dialog-content';
-			event.preventDefault();
-			$('#'+target).html('<div class="Page-Loading"></div>');
-			$.ajax({
-				type: 'GET',
-				url: url,
-				dataType: 'html',
-				success: function(data){
-					$('#'+target).html(data);
-				},
-				error: function(){
-					jDialog.Alert('载入页面失败');
-				}
-			});
-		});
-	},*/
+
 	Quit: function(){
 		jDialog.Confirm('确实要退出本系统吗？', function(result){
 			if(result) window.parent.location.href = "logout.action";
@@ -389,6 +366,14 @@ var jDialog = {
 			this.Show({title:'系统提示', content:msg, onend:callback});
 		}else{
 			this.Show({title:'系统提示', content:msg});
+		}
+	},
+	
+	SAlert: function(msg, callback){
+		if(typeof callback == 'function'){
+			this.Show({title:'物料列表', content:msg, onend:callback});
+		}else{
+			this.Show({title:'物料列表', content:msg});
 		}
 	},
 	Confirm: function(msg, callback){

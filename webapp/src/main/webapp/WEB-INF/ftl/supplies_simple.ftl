@@ -1,7 +1,17 @@
 <#import "template/template.ftl" as frame>
-<#global menu="用户列表">
-<@frame.html title="用户列表">
+<#global menu="物料展示">
+<@frame.html title="物料展示列表">
 
+
+<style type="text/css">
+    .center {margin: auto;}
+    .frame {width: 1000px;}
+    .div {text-align:center; margin:25px;}
+    div#toolbar {float: left;}
+    .processed {color: limegreen;}
+    .invalid {color: red;}
+    .hl {background-color: #ffff00;}
+</style>
 <script type="text/javascript">
     var table;
     function initTable () {
@@ -10,12 +20,9 @@
             "searching": false,
             "ordering": false,
             "serverSide": true,
-            "columnDefs": [
-                { "sClass": "align-left", "targets": [0,1] },
-            ],
-            "ajax": {
+            "ajax":{
                 type: "GET",
-                url: "${rc.contextPath}/user/ajax-list",
+                url: "${rc.contextPath}/supplies/ajax-simplelist",
                 data: function(d) {
                     return $.extend( {}, d, {
                         "name" : $('#name').val()
@@ -24,7 +31,7 @@
                 "dataSrc": "content",
             },
             "columns": [
-                { "data": "username", "defaultContent": "",
+                { "data": "name", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         var filter = $('#name').val();
                         if (filter && filter != '') {
@@ -35,35 +42,22 @@
                         }
                     return data;
                 } },
-                { "data": "groups", "defaultContent": "",
+                { "data": "suppliesType", "defaultContent": "",
                     "render": function(data, type, row, meta) {
-                        if (data.length > 1) {
-                            var g = '<select class="ui-input" name="groups">';
-                            $.each(data, function(i) {
-                                g += '<option value="' + data[i].id + '" >' + data[i].id + '</option>';
-                            });
-                            g += '</select>'
-                            return g;
-                        } else {
-                            return data.length ? data[0].id : "";
-                        }
+                        if (data == 'video')
+                            return '视频';
+                        if (data == 'image')
+                            return '图片';
+                        if (data == 'info')
+                            return 'Info';
+                        return '';
                     } },
-                { "data": "enabled", "defaultContent": "", "render": function(data) {
-                    switch(data) {
-                        case true:
-                            return '<span class="processed">正常</span>';
-                        default :
-                            return '<span class="invalid">禁用</span>';
-                    }
-                } },
-                { "data": function( row, type, set, meta) {
-                    return row.username;
-                },
+				{ "data": "createTime", "defaultContent": "",
                     "render": function(data, type, row, meta) {
-                        return (row.enabled ? '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/user/' + data + '/disable">禁用</a> &nbsp;'
-                                :'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/user/' + data + '/enable">启用</a> &nbsp;')
-                        + '<a class="table-link" href="#">编辑</a>';
-                    }},
+                        return row.createTime;
+                    } },    
+              
+                
             ],
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
@@ -77,7 +71,7 @@
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>用户名</span>' +
+                        '    <span>物料名称</span>' +
                         '    <span>' +
                         '        <input id="name" value="">' +
                         '    </span>' +
@@ -101,14 +95,21 @@
         initTable();
     } );
 </script>
+
+<#--            <div class="div" style="margin-top:25px">
+                <caption><h2>物料表</h2></caption>
+            </div>
+            <div class="div">
+                <hr/>
+            </div>
+-->
             <div class="div">
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th>用户名</th>
-                        <th>所属组</th>
-                        <th>状态</th>
-                        <th>管理</th>
+                        <th>物料名称</th>
+                        <th>物料类型</th>
+                        <th>创建时间</th>
                     </tr>
                     </thead>
 
