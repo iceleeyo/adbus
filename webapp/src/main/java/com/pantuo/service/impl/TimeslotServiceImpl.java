@@ -18,12 +18,12 @@ public class TimeslotServiceImpl implements TimeslotService {
     @Autowired
     TimeslotRepository timeslotRepo;
 
-    @Override
+   // @Override
     public long count() {
         return timeslotRepo.count();
     }
 
-    @Override
+ //   @Override
     public Page<JpaTimeslot> getAllTimeslots(String name, int page, int pageSize) {
         if (page < 0)
             page = 0;
@@ -38,17 +38,17 @@ public class TimeslotServiceImpl implements TimeslotService {
         }
     }
 
-    @Override
+    //@Override
     public JpaTimeslot findById(int id) {
         return timeslotRepo.findOne(id);
     }
 
-    @Override
+   // @Override
     public void saveProduct(JpaTimeslot timeslot) {
         timeslotRepo.save(timeslot);
     }
 
-    @Override
+ //   @Override
     public void saveProducts(Iterable<JpaTimeslot> timeslots) {
         timeslotRepo.save(timeslots);
     }

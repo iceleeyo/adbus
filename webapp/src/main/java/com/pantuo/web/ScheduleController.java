@@ -446,7 +446,7 @@ public class ScheduleController {
                 list = new ArrayList<JpaGoods>();
 
             Collections.sort(list, new Comparator<JpaGoods>() {
-                @Override
+              //  @Override
                 public int compare(JpaGoods o1, JpaGoods o2) {
                     return (int) (o1.getInboxPosition() - o2.getInboxPosition());
                 }

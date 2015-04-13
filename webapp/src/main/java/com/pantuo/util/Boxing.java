@@ -113,7 +113,7 @@ public class Boxing {
     public List<JpaBox> toOrderedBoxList() {
         List<JpaBox> boxes = new ArrayList<JpaBox> (boxList);
         Collections.sort(boxes, new Comparator<JpaBox>() {
-            @Override
+           // @Override
             public int compare(JpaBox o1, JpaBox o2) {
                 return o1.getSlotId() - o2.getSlotId();
             }

@@ -51,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    @Override
+  //  @Override
     public Page<JpaProduct> getValidProducts(int page, int pageSize) {
         if (page < 0)
             page = 0;
