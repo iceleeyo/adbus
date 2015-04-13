@@ -61,7 +61,7 @@
                         return (row.enabled ? '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/disable">禁用</a> &nbsp;'
                                 :'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/enable">启用</a> &nbsp;')
                         + '<a class="table-link" href="${rc.contextPath}/product/' + data +'">编辑</a>&nbsp;'
-                        + '<a class="table-link" href="${rc.contextPath}/order/buypro">购买</a>';
+                        + '<a class="table-link" href="${rc.contextPath}/order/buypro/'+data+'">购买</a>';
                     }},
             ],
             "language": {

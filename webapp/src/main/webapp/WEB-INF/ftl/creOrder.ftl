@@ -37,20 +37,61 @@
 	}
 </script>
 							<form data-name="withdraw" name="userForm2" id="userForm2"
-								class="ui-form" method="post" action="creOrder2"
+								class="ui-form" method="post" action="../creOrder2"
 								enctype="multipart/form-data">
 								<div class="withdraw-title fn-clear">套餐订单录入</div>
 								<div class="withdrawInputs">
+								    
 									<div class="inputs">
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>套餐ID：</label>
-                                            <select class="ui-input" name="product.Id" id="productId">
-                                                <option value="" selected="selected"></option>
-                                                <#list products as p>
-                                                    <option value="${p.id}">${p.name}</option>
-                                                </#list>
-                                            </select>
+												class="ui-form-required">*</span>套餐编号：</label>
+                                            <input type="text" readonly="readonly" name="product.Id" id="productId" value="${prod.id!''}"/>
+										</div>
+										<div class="ui-form-item">
+											<label class="ui-label mt10"><span
+												class="ui-form-required">*</span>媒体类型：</label>
+												${prod.type!''}
+										</div>
+										<div class="ui-form-item">
+											<label class="ui-label mt10"><span
+												class="ui-form-required">*</span>套餐名称：</label>
+												${prod.name!''}
+										</div>
+										<div class="ui-form-item">
+											<label class="ui-label mt10"><span
+												class="ui-form-required">*</span>时长（秒）：</label>
+												${prod.duration!''}
+										</div>
+										<div class="ui-form-item">
+											<label class="ui-label mt10"><span
+												class="ui-form-required">*</span>单日播放次数：</label>
+												${prod.playNumber!''}
+										</div>
+										<div class="ui-form-item">
+											<label class="ui-label mt10"><span
+												class="ui-form-required">*</span>首播次数：</label>
+												${prod.firstNumber!''}
+										</div>
+										<div class="ui-form-item">
+											<label class="ui-label mt10"><span
+												class="ui-form-required">*</span>末播次数：</label>
+												${prod.lastNumber!''}
+										</div>
+										<div class="ui-form-item">
+											<label class="ui-label mt10"><span
+												class="ui-form-required">*</span>高峰时段占比：</label>
+												${prod.hotRatio!''}
+										</div>
+										<div class="ui-form-item">
+											<label class="ui-label mt10"><span
+												class="ui-form-required">*</span>套餐播放天数：</label>
+												${prod.days!''}
+										</div>
+										<div class="ui-form-item">
+											<label class="ui-label mt10"><span
+												class="ui-form-required">*</span>套餐价格：</label>
+												${prod.price!''}
 										</div>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10">开播日期</label> <input
@@ -61,7 +102,7 @@
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>物料ID:</label>
-                                            <select class="ui-input" name="supplies.id" id="suppliesId">
+                                            <select class="ui-input" name="suppliesId" id="suppliesId">
                                                 <option value="" selected="selected"></option>
                                                 <#list supplies as s>
                                                     <option value="${s.id}">${s.name}</option>
@@ -69,31 +110,6 @@
                                             </select>
 											<p class="ui-term-placeholder"></p>
 										</div>
-
-										<div class="ui-form-item">
-											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>支付方式:</label> 
-												<input
-												class="ui-input" type="text" value="contract" name="payType"
-												id="withdrawAmount" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="">
-											
-
-										</div>
-
-										<div class="ui-form-item">
-											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>合同号:</label>
-                                            <select class="ui-input" name="contractCode" id="contractCode">
-                                                <option value="" selected="selected"></option>
-                                                <#list contracts as c>
-                                                    <option value="${c.contractCode}">${c.contractName}</option>
-                                                </#list>
-                                            </select>
-											<input type="button" onclick="check();" class="block-btn" value="合同号检查" style="width: 118px; ">
-
-										</div>
-	
 									</div>
 									<div class="ui-form-item widthdrawBtBox">
 										<input type="button" id="subWithdraw" class="block-btn"

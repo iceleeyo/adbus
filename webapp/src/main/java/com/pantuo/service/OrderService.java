@@ -21,6 +21,7 @@ import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.OrdersExample;
+import com.pantuo.mybatis.domain.Product;
 import com.pantuo.mybatis.persistence.OrdersMapper;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
@@ -74,8 +75,8 @@ public class OrderService {
 	ContractService contractService;
 	@Autowired
     OrdersMapper ordersMapper;
-	
-	
+	@Autowired
+	ProductService productService;
 	@Autowired
     OrdersRepository ordersRepository;
 
@@ -123,16 +124,16 @@ public class OrderService {
 			order.setUpdated(new Date());
 			//	
 			order.setUserId(user.getUsername());
-			if (order.getPayType() == JpaOrders.PayType.contract) {
-				
-				Contract c = contractService.queryContractByCode(order.getContractCode());
-				if (c == null) {
-					return new Pair<Boolean, String>(false, "系统查不到相应的合同号！");
-				} else {
-					order.setContractId(c.getId());
-					order.setStats(JpaOrders.Status.paid);
-				}
-			}
+//			if (order.getPayType() == JpaOrders.PayType.contract) {
+//				
+//				Contract c = contractService.queryContractByCode(order.getContractCode());
+//				if (c == null) {
+//					return new Pair<Boolean, String>(false, "系统查不到相应的合同号！");
+//				} else {
+//					order.setContractId(c.getId());
+//					order.setStats(JpaOrders.Status.paid);
+//				}
+//			}
 			 ordersRepository.save(order);
 			// System.out.println(order.getId());
 			//int dbId = orderMapper.insert(order);

@@ -64,15 +64,15 @@ public class OrderController {
 	@Autowired
 	private TaskService taskService;
 
-	@RequestMapping(value = "/buypro", produces = "text/html;charset=utf-8")
-	public String buypro(Model model, Principal principal, HttpServletRequest request) {
-        Page<JpaProduct> products = productService.getValidProducts(0 , 9999);
+	@RequestMapping(value = "/buypro/{product_id}", produces = "text/html;charset=utf-8")
+	public String buypro(Model model,@PathVariable("product_id") int product_id, Principal principal, HttpServletRequest request) {
+    	JpaProduct  prod=productService.findById(product_id);
+		Page<JpaProduct> products = productService.getValidProducts(0 , 9999);
         model.addAttribute("products", products.getContent());
-
         NumberPageUtil page = new NumberPageUtil(9999, 1, 9999);
         List<Supplies> supplies = suppliesService.queryMyList(page, null, null, principal);
         model.addAttribute("supplies", supplies);
-
+        model.addAttribute("prod", prod);
         List<Contract> contracts = contractService.queryContractList(page, null, null, principal);
         model.addAttribute("contracts", contracts);
 		return "creOrder";
@@ -85,7 +85,6 @@ public class OrderController {
 		model.addAttribute("taskid", taskid);
 		return "payview";
 	}
-
 
 	@RequestMapping(value = "/list/{pageNum}")
 	public String contralist(Model model,
