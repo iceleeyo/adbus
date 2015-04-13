@@ -1169,7 +1169,7 @@ a.text {
 .p20bs {
 	padding: 19px;
 	border: 1px solid #e0e0e0;
-	box-shadow: 0 0 2px 1px #efefef
+	
 }
 
 .ph5 {
@@ -2803,7 +2803,8 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 
 .ui-list-item {
 	border-bottom: 1px solid #e5e4e2;
-	cursor: default
+	cursor: default;
+	list-style: none
 }
 
 .ui-list-item:hover {

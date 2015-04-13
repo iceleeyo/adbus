@@ -15,7 +15,7 @@ html{color: #666; }
 			.pg-header{position:relative;box-shadow:  0 1px 4px rgba(0,0,0,.2);}
 			.pg-header-top{background: #555; color: #ccc;}
 			.pg-header-top a span{font-size: 15px;}
-			.container-12{width: 960px;margin-left: auto;margin-right: auto;}
+			.container-12{width: 1060px;margin-left: auto;margin-right: auto;}
 			.grid-12{display: inline;width: 940px;margin-left: 10px;margin-right: 10px;}
 			.pg-header-top .pg-nav-item{padding: 0 10px;font-size: 15px;color: #ccc;display: inline-block;height: 35px;line-height: 35px;}
 			.arrow-down{position: absolute;width: 11px;height: 6px;right: 10px;top: 50%;margin-top: -3px;background-image: url(../imgs/arrow-new.png?v=ac7ea);background-repeat: no-repeat;}
@@ -53,7 +53,7 @@ html{color: #666; }
 		  .pg-side-item-link{cursor: default;color: #fff;background: #2ea7e0;}
 			.pg-header-top .pg-right .pg-nav-item:hover{color: #fff}
 			.ls-2{width:140px;float: left;margin-left: 10px;margin-right: 10px;}
-			.ls-10{width: 780px;float: left;margin-left: 10px;margin-right: 10px;}
+			.ls-10{width: 880px;float: left;margin-left: 10px;margin-right: 10px;}
 			.breadcrumb{padding: 0;}
 			.bread-homep{line-height: 21px;}
 			.bread-homep a:hover{color: #2ea7e0;text-decoration: none;}
@@ -129,7 +129,7 @@ html{color: #666; }
 			.p19{padding: 19px;}
 			.plr10{padding-left: 10px; padding-right: 10px;}
 
-			.module{background: #fff;border: 1px solid #e0e0e0;box-shadow: 0 0 2px 1px #efefef;}
+			.module{background: #fff;border: 1px solid #e0e0e0;}
 			.fsize-10{font-size: 10px;}
 			.fsize-12{font-size: 12px;}
 			.fsize-14{font-size: 14px;}

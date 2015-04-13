@@ -203,23 +203,50 @@ function check() {
 </script>
 						<input type="hidden" id="orderid" value="${orderview.order.id!''}"/>
 						<input type="hidden" id="taskid" value="${taskid!''}"/>
-						 <div class="withdraw-title fn-clear">
-						  流程办理
-						 <button type="button" onclick="go_back()" class="block-btn" style="margin-left: 60px;">返回</button>
-						 </div>	
-						<div class="withdrawInputs">
-						<div class="inputs">
-						<div class="ui-form-item">
                            <!-- 支付-->
-                           <div id="payment" style="display: none;">
-							 <label class="ui-label mt10">
-							 输入合同号：
-							 </label>
-							 <input id="code" class="ui-input" type="text" value="reg4345" name="contract_code" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">
-							<input type="button" onclick="check();" class="block-btn" value="合同号检查" ><br><br>
-						    <input type="button" onclick="pay();" class="block-btn" value="确认支付"/>				 
-						   </div>	
-						</div> 
+                            <div id="payment" style="display: none;">
+                           <DIV class="grid_10">
+                          
+            <DIV class="color-white-bg border-ec">
+                <H3 class="text-xl title-box"><A class="black" href="#">订单详情-${(orderview.order.id)!''}</A></H3>
+               <DIV class="summary mt10 uplan-summary-div">
+              <UL class="uplan-detail-ul">
+  <LI style="width: 240px;"><SPAN>广告主：</SPAN><SPAN class="con">${(orderview.order.creator)!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>套餐名称：</SPAN><SPAN class="con">${prod.name!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>价格：</SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">${prod.price!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>起播时间：</SPAN><SPAN class="con"><#setting date_format="yyyy-MM-dd">${(orderview.order.startTime?date)!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>到期时间：</SPAN><SPAN class="con"><#setting date_format="yyyy-MM-dd">${(orderview.order.endTime?date)!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>媒体类型：</SPAN><SPAN class="con">${prod.type!''}</SPAN></LI>
+  <LI style="width: 200px;"><SPAN>订单状态：</SPAN><SPAN class="con">待支付</SPAN></LI>
+</UL>
+</DIV>
+</DIV>
+<br>
+                 <div class="module s-clear u-lump-sum p19">
+                      <H3 class="text-xl"><A class="black" href="#">支付订单</A></H3>								
+					<div class="u-sum-right">
+							<input type="radio" name="payType" value="contract" checked="checked">关联合同
+				             <input type="radio" name="payType" value="online" >线上支付
+				             <input type="radio" name="payType" value="others" >其他
+							<br>
+							 
+								 <select class="ui-input" name="contractCode" id="contractCode">
+                                                <option value="" selected="selected"></option>
+                                                 <#if contracts?exists>
+                                                <#list contracts as c>
+                                                    <option value="${c.contractCode}">${c.contractName!''}</option>
+                                                </#list>
+                                                </#if>
+                              </select><br>
+                              <button type="button" onclick="pay()" class="block-btn" style="margin-left: 60px;">确认支付</button>	
+                             
+	              </div>
+	              
+             </div>	
+
+						
+			</div> 
+			 </DIV>
 							<!-- 世巴初审 -->
                             <div id="approve1" style="display: none;">	
                                                                                    世巴初审：<br>
@@ -276,20 +303,49 @@ function check() {
 							 
 							  <!-- 北广审核并填写物料ID等信息 -->
                              <div id="approve2" style="display: none;">	
-                                                                                                 北广审核并填写物料ID等信息<br>
-				               <textarea name="approve2Comments" id="approve2Comments"></textarea><br>
+                             
+                             
+
+<DIV class="color-white-bg border-ec">
+                <H3 class="text-xl title-box"><A class="black" href="#">订单详情-${(orderview.order.id)!''}</A></H3>
+               <DIV class="summary mt10 uplan-summary-div">
+              <UL class="uplan-detail-ul">
+  <LI style="width: 240px;"><SPAN>广告主：</SPAN><SPAN class="con">${(orderview.order.creator)!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>套餐名称：</SPAN><SPAN class="con">${prod.name!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>价格：</SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">${prod.price!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>起播时间：</SPAN><SPAN class="con"><#setting date_format="yyyy-MM-dd">${(orderview.order.startTime?date)!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>到期时间：</SPAN><SPAN class="con"><#setting date_format="yyyy-MM-dd">${(orderview.order.endTime?date)!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>媒体类型：</SPAN><SPAN class="con">${prod.type!''}</SPAN></LI>
+  <LI style="width: 200px;"><SPAN>订单状态：</SPAN><SPAN class="con">待支付</SPAN></LI>
+</UL>
+</DIV>
+</DIV>
+<br>
+<div class="module s-clear u-lump-sum p19">
+<H3 class="text-xl"><A class="black" href="#">订单办理[北广审核并填写物料ID等信息]</A></H3>								
+								<div class="u-sum-right">
+                  <label class="mt10">审核意见</label>         
+				               
+				               <textarea name="approve2Comments" id="approve2Comments"></textarea>
 							   <input type="radio" name="approve2Result" value="true" checked="checked">素材正常
 				               <input type="radio" name="approve2Result" value="false" >素材异常
+				               <button onclick="approve2();" class="block-btn">提交</button>
 				               <br><br>
+				     </div>
+</div>	          
+
+<DIV class="p20bs mt20 color-white-bg fn-clear">
+<H3 class="text-xl"><A class="black" href="#">历史办理信息</A></H3>	
+				               
 				               <#if activitis?exists>
 				               <div class="uplan-table-box">
 											<table width="100%" class="uplan-table">
 												<tr class="uplan-table-th">
-												<td style="width: 98px;">
+												<td style="width: 130px;">
 														<div class="th-head">签收时间 </div>
 													</td>
-													<td style="width: 98px;">
-														<div class="th-head">办理时间 </div>
+													<td style="width: 130px;">
+														<div class="th-md">办理时间 </div>
 													</td>
 													<td style="width: 112px;">
 														<div class="th-md">操作人</div>
@@ -301,31 +357,31 @@ function check() {
 													<!--<td style="width: 111px;">
 														<div class="th-md">是否通过</div>
 													</td>-->
-													<td style="width: 103px;">
-														<div class="th-md">备注</div>
+													<td style="width: 333px;">
+														<div class="th-tail">备注</div>
 													</td>
 												</tr>
 											</table>
 				               	<#list activitis as act>
 				               	<li class="ui-list-item dark">
 												<div class="ui-list-item-row fn-clear">
-												<span style="width: 113px; height: 35px;"
+												<span style="width: 130px; height: 35px;"
 														class="ui-list-field text-center w80 fn-left">
 														 <#setting
 															date_format="yyyy-MM-dd HH:MM">
 														${(act.startTime?date)!''} </span> 
-													<span style="width: 113px; height: 35px;"
+													<span style="width: 130px; height: 35px;"
 														class="ui-list-field text-center w80 fn-left">
 														 <#setting
 															date_format="yyyy-MM-dd HH:MM">
 														${(act.endTime?date)!''} </span> 
-														<span
+													<span
 														style="width: 118px; height: 35px;"
 														class="ui-list-field text-center w80 fn-left"><em
 														class="value-small">${act.assignee!''} 
 													</em> </span>
 													 
-														<span
+													<span
 														style="width: 129px; height: 35px;"
 														class="ui-list-field num-s text-center w120 fn-left"><em
 														class="value-small">
@@ -336,8 +392,8 @@ function check() {
 														class="value-small">
 															${act.result?string('yes', 'no')}</em> </span>-->
 													 <span
-														style="width: 140px; height: 35px;"
-														class="ui-list-field num-s text-center w120 fn-left"><em
+														style="width: 240px; height: 35px;"
+														class="ui-list-field text-center w80 fn-left last"><em
 														class="value-small">
 														 ${act.comment!''}
 														</em>
@@ -347,7 +403,7 @@ function check() {
 								</#list>
 									</div>
 								</#if>
-				              <button onclick="approve2();" class="block-btn">提交</button>
+				              
 							 </div>
 							 
 							  <!-- 世巴财务确认 -->
@@ -361,6 +417,4 @@ function check() {
 				                <button onclick="financial();" class="block-btn">提交</button>	
 							    </div>
 							 </div>
-						</div>
-						</div>
 </@frame.html>

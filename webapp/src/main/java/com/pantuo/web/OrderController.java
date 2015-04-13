@@ -134,10 +134,13 @@ public class OrderController {
 				.executionId(task.getExecutionId()).processInstanceId(task.getProcessInstanceId()).singleResult();
 
 		OrderView v = activitiService.findOrderViewByTaskId(taskid);
+		
 		String activityId = executionEntity.getActivityId();
 		List<HistoricTaskView> activitis=activitiService.findHistoricUserTask(activitiService.findProcessInstanceByTaskId(taskid),activityId);
+		JpaProduct  prod=productService.findById(v.getOrder().getProductId());
 		model.addAttribute("taskid", taskid);
 		model.addAttribute("orderview", v);
+		model.addAttribute("prod", prod);
 		model.addAttribute("activitis", activitis);
 		model.addAttribute("activityId", activityId);
 		return "handleView2";
