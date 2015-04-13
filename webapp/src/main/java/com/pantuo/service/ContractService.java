@@ -49,9 +49,9 @@ public class ContractService {
 	public Pair<Boolean, String> saveContract(Contract con, String username, HttpServletRequest request) {
 		Pair<Boolean, String> r = null;
 		try {
-			con.setIsUpload(0);
+			con.setIsUpload(false);
 			con.setCreated(new Date());
-			con.setStats(JpaContract.Status.not_started.name());
+			con.setStats(JpaContract.Status.not_started.ordinal());
 //			con.setStats(JpaContract.Status.not_started.ordinal());
 			int dbId = contractMapper.insert(con);
 			if (dbId > 0) {
@@ -95,7 +95,7 @@ public class ContractService {
 		ContractExample example = new ContractExample();
 		ContractExample.Criteria criteria = example.createCriteria();
 		criteria.andIdEqualTo(con.getId());
-		con.setIsUpload(1);
+		con.setIsUpload(true);
 		return contractMapper.updateByExample(con, example);
 	}
 

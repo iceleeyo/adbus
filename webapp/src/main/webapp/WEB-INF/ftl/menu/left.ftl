@@ -46,7 +46,7 @@
 											</li>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/product/list">
-													产品查询
+													产品列表
 												</a>
 											</li>
 											<li class="pg-side-exp-item">
