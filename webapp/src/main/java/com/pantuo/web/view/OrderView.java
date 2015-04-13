@@ -1,12 +1,15 @@
 package com.pantuo.web.view;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
-import com.pantuo.mybatis.domain.Orders;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import com.pantuo.mybatis.domain.Orders;
 
@@ -14,6 +17,8 @@ public class OrderView {
 
 	Orders order;
 	//-- 临时属性 --//
+	
+	long longOrderId=0;
 
 	// 流程任务
 	private Task task;
@@ -33,7 +38,22 @@ public class OrderView {
 		return order;
 	}
 
+	long maxId = 100000L, split = 1000000L;
+
+	public long getIdFromDate(int id, Date date) {
+		SimpleDateFormat sd = new SimpleDateFormat("yyyyMMdd");
+		return NumberUtils.toLong(sd.format(date)) * split + +maxId + id;
+	}
+
+	public int longOrderId2DbId(long longOrderId) {
+		return (int) (longOrderId - (longOrderId / split) * split - maxId);
+	}
+	
+	
 	public void setOrder(Orders order) {
+		if(ObjectUtils.notEqual(order, null)&& ObjectUtils.notEqual(order.getId(), null)) {
+			longOrderId	 = getIdFromDate(order.getId(), order.getCreated());
+		}
 		this.order = order;
 	}
 
@@ -83,6 +103,14 @@ public class OrderView {
 
 	public void setProcessDefinition(ProcessDefinition processDefinition) {
 		this.processDefinition = processDefinition;
+	}
+
+	public long getLongOrderId() {
+		return longOrderId;
+	}
+
+	public void setLongOrderId(long longOrderId) {
+		this.longOrderId = longOrderId;
 	}
 
 }

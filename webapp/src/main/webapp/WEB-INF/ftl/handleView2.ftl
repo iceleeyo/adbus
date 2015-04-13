@@ -307,7 +307,7 @@ function check() {
                              
 
 <DIV class="color-white-bg border-ec">
-                <H3 class="text-xl title-box"><A class="black" href="#">订单详情-${(orderview.order.id)!''}</A></H3>
+                <H3 class="text-xl title-box"><A class="black" href="#">订单详情-${(orderview.longOrderId)!''}</A></H3>
                <DIV class="summary mt10 uplan-summary-div">
               <UL class="uplan-detail-ul">
   <LI style="width: 240px;"><SPAN>广告主：</SPAN><SPAN class="con">${(orderview.order.creator)!''}</SPAN></LI>
