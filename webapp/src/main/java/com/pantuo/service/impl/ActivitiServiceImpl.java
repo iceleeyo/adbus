@@ -32,6 +32,7 @@ import scala.collection.mutable.StringBuilder;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Orders;
+import com.pantuo.mybatis.persistence.OrdersMapper;
 import com.pantuo.pojo.HistoricTaskView;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.OrderService;
@@ -59,7 +60,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 	// private SimpleSmtpServer mailServer;
 	@Autowired
 	private OrderService orderService;
-
+	@Autowired
+	private OrdersMapper ordersMapper;
 	public List<OrderView> findTask(String userid, NumberPageUtil page) {
 		List<Task> tasks = new ArrayList<Task>();
 		List<OrderView> leaves = new ArrayList<OrderView>();
@@ -236,8 +238,17 @@ public class ActivitiServiceImpl implements ActivitiService {
 			System.out.println(task2.getTaskDefinitionKey());
 		}
 	}
-
-	public Pair<Boolean, String> payment(int orderid, String taskid, UserDetail u) {
+      public int relateContract(int orderid,int contractid){
+    	  
+    	  Orders orders=ordersMapper.selectByPrimaryKey(orderid);
+    	  if(orders!=null){
+    		  orders.setContractId(contractid);
+    		  return ordersMapper.updateByPrimaryKey(orders);
+    	  }
+	     return 1;
+  }
+	public Pair<Boolean, String> payment(int orderid, String taskid,int contractid, UserDetail u) {
+		relateContract(orderid,contractid);
 		Pair<Boolean, String> r = null;
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 		if (task != null) {
@@ -257,7 +268,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		if (task != null) {
 			debug(task.getProcessInstanceId());
 		}
-		return r = new Pair<Boolean, String>(false, "办理成功!");
+		return r = new Pair<Boolean, String>(false, "支付成功!");
 
 	}
 

@@ -106,12 +106,12 @@ public class OrderController {
 
 	@RequestMapping(value = "payment")
 	@ResponseBody
-	public Pair<Boolean, String> payment(@RequestParam(value = "orderid", required = true) String orderid,
+	public Pair<Boolean, String> payment(@RequestParam(value = "orderid", required = true) String orderid,@RequestParam(value = "contractid", required = true) int contractid,
 			@RequestParam(value = "taskid", required = true) String taskid,
             Principal principal,
             HttpServletRequest request,
 			HttpServletResponse response) {
-		return activitiService.payment(Integer.parseInt(orderid), taskid, Request.getUser(principal));
+		return activitiService.payment(Integer.parseInt(orderid), taskid,contractid, Request.getUser(principal));
 	}
 
 	@RequestMapping(value = "claim")
@@ -126,9 +126,9 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/handleView2", produces = "text/html;charset=utf-8")
-	public String HandleView2(Model model, @RequestParam(value = "taskid", required = true) String taskid,
+	public String HandleView2(Model model, @RequestParam(value = "taskid", required = true) String taskid,Principal principal,
 			HttpServletRequest request) throws Exception {
-
+		NumberPageUtil page = new NumberPageUtil(9999, 1, 9999);
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 		ExecutionEntity executionEntity = (ExecutionEntity) runtimeService.createExecutionQuery()
 				.executionId(task.getExecutionId()).processInstanceId(task.getProcessInstanceId()).singleResult();
@@ -138,6 +138,8 @@ public class OrderController {
 		String activityId = executionEntity.getActivityId();
 		List<HistoricTaskView> activitis=activitiService.findHistoricUserTask(activitiService.findProcessInstanceByTaskId(taskid),activityId);
 		JpaProduct  prod=productService.findById(v.getOrder().getProductId());
+		  List<Contract> contracts = contractService.queryContractList(page, null, null, principal);
+	        model.addAttribute("contracts", contracts);
 		model.addAttribute("taskid", taskid);
 		model.addAttribute("orderview", v);
 		model.addAttribute("prod", prod);

@@ -186,18 +186,34 @@ function check() {
 		}, "text");
 	}
 	function pay() {
+	var payType="";
+	     var rad=document.getElementsByName("payType");
+	     if(rad.checked){
+	         payType=rad.value;
+	     }
+	    var contractid=$("#contractCode  option:selected").text();
+	   // var contractid=$("#contractCode).val();
 		var orderid = $("#orderid").val();
 		var taskid = $("#taskid").val();
 		$.ajax({
 			url : "${rc.contextPath}/order/payment",
 			type : "POST",
 			data : {
-				"orderid" :orderid,"taskid" :taskid
+				"orderid" :orderid,
+				"taskid" :taskid,
+				"contractid":contractid,
+				"payType":payType
 			},
 			success : function(data) {
 				alert(data.left + " # " + data.right);
 			}
 		}, "text");
+	}
+	function showContract(){
+	     $("#contractCode").show();
+	}
+	function hideContract(){
+	     $("#contractCode").hide();
 	}
 	
 </script>
@@ -206,12 +222,22 @@ function check() {
                            <!-- 支付-->
                             <div id="payment" style="display: none;">
                            <DIV class="grid_10">
-                          
+                           <div id="process" class="section4">
+		            <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单</li><li id="track_time_0" class="tx3"></li></ul></div>
+            		<div class="proce ready"><ul><li class="tx1">&nbsp;</li></ul></div>
+            		<div class="node ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">支付完成</li><li id="track_time_4" class="tx3"></li></ul></div>
+            		<div class="proce ready"><ul><li class="tx1">&nbsp;</li></ul></div>
+            		<div class="node ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">物料审核</li><li id="track_time_1" class="tx3"></li></ul></div>
+            		<div class="proce ready"><ul><li class="tx1">&nbsp;</li></ul></div>
+            		<div class="node ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">正在播出</li><li id="track_time_5" class="tx3"></li></ul></div>		
+            		<div class="proce doing"><ul><li class="tx1">&nbsp;</li></ul></div>		
+            		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">订单完成</li><li id="track_time_6" class="tx3"></li></ul></div>
+            		</div>
             <DIV class="color-white-bg border-ec">
                 <H3 class="text-xl title-box"><A class="black" href="#">订单详情-${(orderview.order.id)!''}</A></H3>
                <DIV class="summary mt10 uplan-summary-div">
               <UL class="uplan-detail-ul">
-  <LI style="width: 240px;"><SPAN>广告主：</SPAN><SPAN class="con">${(orderview.order.creator)!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>下单用户：</SPAN><SPAN class="con">${(orderview.order.creator)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>套餐名称：</SPAN><SPAN class="con">${prod.name!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>价格：</SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">${prod.price!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>起播时间：</SPAN><SPAN class="con"><#setting date_format="yyyy-MM-dd">${(orderview.order.startTime?date)!''}</SPAN></LI>
@@ -225,19 +251,20 @@ function check() {
                  <div class="module s-clear u-lump-sum p19">
                       <H3 class="text-xl"><A class="black" href="#">支付订单</A></H3>								
 					<div class="u-sum-right">
-							<input type="radio" name="payType" value="contract" checked="checked">关联合同
-				             <input type="radio" name="payType" value="online" >线上支付
-				             <input type="radio" name="payType" value="others" >其他
+							<input type="radio" name="payType" onchange="showContract()" value="contract" checked="checked">关联合同
+				             <input type="radio" name="payType" value="online" onchange="hideContract()" >线上支付
+				             <input type="radio" name="payType" value="others"  onchange="hideContract()">其他
 							<br>
 							 
 								 <select class="ui-input" name="contractCode" id="contractCode">
-                                                <option value="" selected="selected"></option>
+                                                <option value="" selected="selected">请选择合同</option>
                                                  <#if contracts?exists>
                                                 <#list contracts as c>
-                                                    <option value="${c.contractCode}">${c.contractName!''}</option>
+                                                    <option value="${c.id}">${c.contractName!''}</option>
                                                 </#list>
                                                 </#if>
                               </select><br>
+                              <br>
                               <button type="button" onclick="pay()" class="block-btn" style="margin-left: 60px;">确认支付</button>	
                              
 	              </div>
