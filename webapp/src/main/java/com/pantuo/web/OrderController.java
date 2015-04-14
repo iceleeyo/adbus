@@ -218,6 +218,7 @@ public class OrderController {
 		int totalnum=runtimeService.createProcessInstanceQuery().processDefinitionKey("order").involvedUser(Request.getUserId(principal)).list().size();
 		NumberPageUtil page=new NumberPageUtil(totalnum, pageNum, pagesize);
 		List<OrderView> list = activitiService.findMyOrders(Request.getUserId(principal), page);
+		
 		model.addAttribute("list", list);
 		model.addAttribute("pageNum", pageNum);
 		model.addAttribute("paginationHTML", page.showNumPageWithEmpty());
@@ -244,31 +245,4 @@ public class OrderController {
 		model.addAttribute("pageNum", page);
 		return "finishedOrders";
 	}
-//	@RequestMapping(value = "/myOrders/{usertype}/{pageNum}")
-//	public String myOrders(Model model,@PathVariable("usertype") String usertype, @PathVariable int pageNum,
-//                           Principal principal,
-//                           HttpServletRequest request,
-//			                HttpServletResponse response) {
-//		int pagesize=8;
-//		int totalnum=runtimeService.createProcessInstanceQuery().processDefinitionKey("order").list().size();
-//		NumberPageUtil page=new NumberPageUtil(totalnum, pageNum, pagesize);
-//		List<OrderView> list = activitiService.findRunningProcessInstaces(Request.getUserId(principal),usertype, page);
-//		model.addAttribute("list", list);
-//		model.addAttribute("pageNum", pageNum);
-//        model.addAttribute("usertype", usertype);
-//		model.addAttribute("paginationHTML", page.showNumPageWithEmpty());
-//		return "myOrders";
-//	}
-//	@RequestMapping(value="/finishedOrders/{usertype}/{pageNum}")
-//	public String finishedOrders(Model model,@PathVariable("usertype") String usertype,
-//                                 @PathVariable int pageNum,
-//                                 Principal principal,
-//                                 HttpServletRequest request, HttpServletResponse response){
-//		NumberPageUtil page = new NumberPageUtil(pageNum);
-//		page.setPagesize(30);
-//		List<OrderView> list = activitiService.findFinishedProcessInstaces(Request.getUserId(principal),usertype, page);
-//		model.addAttribute("list", list);
-//		model.addAttribute("pageNum", page);
-//		return "finishedOrders";
-//	}
 }
