@@ -50,8 +50,8 @@
 							<div class="u-sum-right">
 								<input class="ui-input" type="text" name="code" id="code"
 									data-is="isAmount isEnough" autocomplete="off"
-									placeholder="套餐号" value="${code!''}" /> <input type="button"
-									class="block-btn" value="查询" onclick="sub_code();">
+									placeholder="订单号" value="${code!''}" /> <input type="button"
+									class="block-btn" value="查询" onclick="#">
 								&nbsp;&nbsp;&nbsp; 
 							</div>
 						</div>
@@ -62,19 +62,6 @@
 								<!--列表展示-->
 								<div class="module p20" style="height: 423px;">
 									<div class="tab-content">
-										<div class="tab-plans-type">
-											<ul class="tab-plans">
-												<li class="tab-plan-item tab-plan-width"><span>全部</span>
-												</li>
-												<li class="tab-plan-item tab-plan-width"><span>已审核</span>
-												</li>
-												<li class="tab-plan-item tab-plan-width"><span>已提交</span>
-												</li>
-												<li class="tab-plan-item tab-plan-width"><span>已展示</span>
-												</li>
-
-											</ul>
-										</div>
 										<div class="uplan-table-box">
 											<table width="100%" class="uplan-table">
 												<tr class="uplan-table-th">
@@ -120,7 +107,7 @@
 														class="ui-list-field num-s text-center w120 fn-left"><em
 														class="value-small"> <#setting
 															date_format="yyyy-MM-dd HH:MM">
-															${(item.order.createTime?date)!''} </em> </span>
+															${(item.order.created?date)!''} </em> </span>
 															
 													 <span
 														style="width: 140px; height: 35px;"
@@ -129,8 +116,6 @@
 														<a class="trace" target="_blank" href='${rc.contextPath}/workflow/view/${(item.task.executionId)!''}/page/${(item.task.processInstanceId)!''}' title="点击查看流程图">${(item.task.name)!'' }</a>
 														</em>
 														</span>
-															
-															
 															 <span
 														style="width: 90px; height: 35px;"
 														class="ui-list-field num-s text-center w120 fn-left">

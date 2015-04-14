@@ -11,15 +11,19 @@ import org.activiti.engine.task.Task;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
+import antlr.StringUtils;
+
 import com.pantuo.mybatis.domain.Orders;
+
+import freemarker.template.utility.StringUtil;
 
 public class OrderView {
 
 	Orders order;
-	//-- 临时属性 --//
-	
-	long longOrderId=0;
+	// -- 临时属性 --//
 
+	long longOrderId = 0;
+	String statsString;
 	// 流程任务
 	private Task task;
 	private String processInstanceId;
@@ -48,10 +52,11 @@ public class OrderView {
 	public int longOrderId2DbId(long longOrderId) {
 		return (int) (longOrderId - (longOrderId / split) * split - maxId);
 	}
-	
+
 	public void setOrder(Orders order) {
-		if(ObjectUtils.notEqual(order, null)&& ObjectUtils.notEqual(order.getId(), null)) {
-			longOrderId	 = getIdFromDate(order.getId(), order.getCreated());
+		if (ObjectUtils.notEqual(order, null)
+				&& ObjectUtils.notEqual(order.getId(), null)) {
+			longOrderId = getIdFromDate(order.getId(), order.getCreated());
 		}
 		this.order = order;
 	}
@@ -92,7 +97,8 @@ public class OrderView {
 		return historicProcessInstance;
 	}
 
-	public void setHistoricProcessInstance(HistoricProcessInstance historicProcessInstance) {
+	public void setHistoricProcessInstance(
+			HistoricProcessInstance historicProcessInstance) {
 		this.historicProcessInstance = historicProcessInstance;
 	}
 
@@ -110,6 +116,32 @@ public class OrderView {
 
 	public void setLongOrderId(long longOrderId) {
 		this.longOrderId = longOrderId;
+	}
+
+	public String getStatsString() {
+		if (order.getStats() == null) {
+			return org.apache.commons.lang3.StringUtils.EMPTY;
+		}
+		switch (order.getStats()) {
+		case 0:
+			return "未支付";
+		case 1:
+			return "已支付";
+		case 2:
+			return "已排期";
+		case 3:
+			return "已上播";
+		case 4:
+			return "上播完成";
+		case 5:
+			return "已取消";
+		default:
+			return "未支付";
+		}
+	}
+
+	public void setStatsString(String statsString) {
+		this.statsString = statsString;
 	}
 
 }

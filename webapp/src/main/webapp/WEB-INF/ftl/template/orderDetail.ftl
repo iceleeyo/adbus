@@ -8,7 +8,7 @@
   <LI style="width: 240px;"><SPAN>起播时间：</SPAN><SPAN class="con"><#setting date_format="yyyy-MM-dd">${(orderview.order.startTime?date)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>到期时间：</SPAN><SPAN class="con"><#setting date_format="yyyy-MM-dd">${(orderview.order.endTime?date)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>媒体类型：</SPAN><SPAN class="con">${prod.type!''}</SPAN></LI>
-  <LI style="width: 200px;"><SPAN>订单状态：</SPAN><SPAN class="con">${(orderview.order.type)!''}</SPAN></LI>
+  <LI style="width: 200px;"><SPAN>订单状态：</SPAN><SPAN class="con">${orderview.statsString!''}</SPAN></LI>
 </UL>
 </DIV>
 </DIV>

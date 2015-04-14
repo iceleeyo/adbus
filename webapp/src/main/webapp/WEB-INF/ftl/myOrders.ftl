@@ -50,7 +50,7 @@
 								<input class="ui-input" type="text" name="code" id="code"
 									data-is="isAmount isEnough" autocomplete="off"
 									placeholder="套餐号" value="${code!''}" /> <input type="button"
-									class="block-btn" value="查询" onclick="sub_code();">
+									class="block-btn" value="查询" onclick="#">
 								&nbsp;&nbsp;&nbsp; 
 							</div>
 						</div>
@@ -59,38 +59,7 @@
 							class="ui-form" method="post" action="saveContract"
 							enctype="multipart/form-data">
 							<div class="mt20">
-								<div class="u-tab">
-									<ul class="u-tab-items s-clear">
-										<li class="u-tab-item u-tab-item-active"><a
-											class="u-item-a" href="#holding">展示中 <em class="baget">0</em>
-										</a></li>
-										<li class="u-tab-item"><a class="u-item-a"
-											href="#booking">预订中 <em class="baget">0</em>
-										</a></li>
-										<li class="u-tab-item"><a class="u-item-a"
-											href="#exiting">已结束 <em class="baget">0</em>
-										</a></li>
-
-									</ul>
-								</div>
-
-
-								<!--合同列表展示-->
 								<div class="module p20" style="height: 423px;">
-									<div class="tab-content">
-										<div class="tab-plans-type">
-											<ul class="tab-plans">
-												<li class="tab-plan-item tab-plan-width"><span>全部</span>
-												</li>
-												<li class="tab-plan-item tab-plan-width"><span>已审核</span>
-												</li>
-												<li class="tab-plan-item tab-plan-width"><span>已提交</span>
-												</li>
-												<li class="tab-plan-item tab-plan-width"><span>已展示</span>
-												</li>
-
-											</ul>
-										</div>
 										<div class="uplan-table-box">
 											<table width="100%" class="uplan-table">
 												<tr class="uplan-table-th">
@@ -134,9 +103,8 @@
 														<span
 														style="width: 118px; height: 35px;"
 														class="ui-list-field text-center w80 fn-left"><em
-														class="value-small"> <a
-															href="${rc.contextPath}/contract/contractDetail?contract_id=${(item.order.id)!''}">
-																${(item.order.productId)!''} </a>
+														class="value-small"> 
+                                                       <a  target="_blank" href="${rc.contextPath}/order/proDetail?product_id=${(item.order.productId)!''}">																${(item.order.productId)!''} </a>
 													</em> </span>
 													<span
 														style="width: 129px; height: 35px;"
@@ -144,8 +112,6 @@
 														class="value-small"> <#setting
 															date_format="yyyy-MM-dd HH:mm">
 															${(item.order.startTime?date)!''} </em> </span>
-															
-													 <span
 													 <span style="width: 148px; height: 35px;"
 														class="ui-list-field text-center w80 fn-left">
 														${(item.order.suppliesId)!''} </span> 

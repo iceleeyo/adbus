@@ -41,6 +41,7 @@ import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 import com.pantuo.util.Variable;
+import com.pantuo.web.view.ContractView;
 import com.pantuo.web.view.OrderView;
 
 /**
@@ -82,6 +83,13 @@ public class OrderController {
         model.addAttribute("contracts", contracts);
 		return "creOrder";
 	}
+	 @RequestMapping(value = "/proDetail", produces = "text/html;charset=utf-8")
+	    public String proDetail(Model model, Principal principal,@RequestParam(value = "product_id") int product_id ,HttpServletRequest request)
+	    {   
+		   JpaProduct  prod=productService.findById(product_id);
+		   model.addAttribute("prod", prod);
+	        return "proDetail";
+	    }
 
 	@RequestMapping(value = "/payview", produces = "text/html;charset=utf-8")
 	public String payview(Model model, @RequestParam(value = "taskid", required = true) String taskid,

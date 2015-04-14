@@ -33,8 +33,13 @@
 		var name = ($("#name").val());
 		var startDate = $("#startDate").val();
 		var endDate = ($("#endDate").val());
+		var amounts=($("#amounts").val());
 		if(code==""){
 			jDialog.Alert("请填写合同号");
+			return;
+		}
+		if(amounts==""){
+			jDialog.Alert("请填写合同金额");
 			return;
 		}
 		if(name==""){
@@ -108,15 +113,22 @@
 												autocomplete="off" disableautocomplete="">
 											<p class="ui-term-placeholder"></p>
 
-											<input type="text" style="display: none;">
 										</div>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>金额:</label>
+                                                    <input
+												class="ui-input" type="text" name="amounts"
+												id="amounts" data-is="isAmount isEnough"
+												autocomplete="off" disableautocomplete="">
                                         </div>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>行业:</label>
+                                                     <input
+												class="ui-input" type="text" name="industry"
+												id="industry" data-is="isAmount isEnough"
+												autocomplete="off" disableautocomplete="">
                                         </div>
 
 
@@ -136,6 +148,10 @@
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>合同备注:</label>
+                                                     <input
+												class="ui-input" type="text" name="remark"
+												id="remark" data-is="isAmount isEnough"
+												autocomplete="off" disableautocomplete="">
                                         </div>
 
 

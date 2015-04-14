@@ -58,21 +58,6 @@
 						<form data-name="withdraw" name="userForm2" id="userForm2"
 							class="ui-form" method="post" action="saveContract"
 							enctype="multipart/form-data">
-							<div class="mt20">
-								<div class="u-tab">
-									<ul class="u-tab-items s-clear">
-										<li class="u-tab-item u-tab-item-active"><a
-											class="u-item-a" href="#holding">展示中 <em class="baget">0</em>
-										</a></li>
-										<li class="u-tab-item"><a class="u-item-a"
-											href="#booking">预订中 <em class="baget">0</em>
-										</a></li>
-										<li class="u-tab-item"><a class="u-item-a"
-											href="#exiting">已结束 <em class="baget">0</em>
-										</a></li>
-
-									</ul>
-								</div>
 
 
 								<!--合同列表展示-->
@@ -82,35 +67,40 @@
 											<ul class="tab-plans">
 												<li class="tab-plan-item tab-plan-width"><span>全部</span>
 												</li>
-												<li class="tab-plan-item tab-plan-width"><span>已审核</span>
+												<li class="tab-plan-item tab-plan-width"><span>签收</span>
 												</li>
-												<li class="tab-plan-item tab-plan-width"><span>已提交</span>
+												<li class="tab-plan-item tab-plan-width"><span>办理</span>
 												</li>
-												<li class="tab-plan-item tab-plan-width"><span>已展示</span>
-												</li>
-
 											</ul>
 										</div>
 										<div class="uplan-table-box">
 											<table width="100%" class="uplan-table">
 												<tr class="uplan-table-th">
-													<td style="width: 98px;">
-														<div class="th-head">下单用户</div>
+												<td style="width: 100px;">
+														<div class="th-head">订单号</div>
 													</td>
-													<td style="width: 112px;">
+													<td style="width: 80px;">
+														<div class="th-md">下单用户</div>
+													</td>
+													
+													<td style="width: 80px;">
 														<div class="th-md">套餐号</div>
 													</td>
-													<td style="width: 111px;">
+													<td style="width: 80px;">
 														<div class="th-md">素材号</div>
 													</td>
-													<td style="width: 103px;">
+													<td style="width: 120px;">
+														<div class="th-md">起播日期</div>
+													</td>
+													
+													<td style="width: 120px;">
 														<div class="th-md">创建时间</div>
 													</td>
 													<td style="width: 115px;">
 														<div class="th-md">当前环节</div>
 													</td>
 													<td style="width: 67px; ">
-														<div class="th-md">操作</div>
+														<div class="th-tail">操作</div>
 													</td>
 												</tr>
 											</table>
@@ -118,31 +108,43 @@
 											<#list list as item>
 											<li class="ui-list-item dark">
 												<div class="ui-list-item-row fn-clear">
-													<span style="width: 113px; height: 35px;"
+												    <span style="width: 113px; height: 35px;"
+														class="ui-list-field text-center w80 fn-left">
+														${(item.longOrderId)!''} </span> 
+													<span style="width: 80px; height: 35px;"
 														class="ui-list-field text-center w80 fn-left">
 														${(item.order.userId)!''} </span> 
+														
+														
 														<span
-														style="width: 118px; height: 35px;"
+														style="width: 80px; height: 35px;"
 														class="ui-list-field text-center w80 fn-left"><em
-														class="value-small"> <a
-															href="${rc.contextPath}/contract/contractDetail?contract_id=${item.id!''}">
+														class="value-small"> <a target="_blank"
+															href="${rc.contextPath}/order/proDetail?product_id=${(item.order.productId)!''}">
 																${(item.order.productId)!''} </a>
 													</em> </span>
-													 <span style="width: 148px; height: 35px;"
+													 <span style="width: 80px; height: 35px;"
 														class="ui-list-field text-center w80 fn-left">
-														${(item.order.suppliesId)!''} </span> 
+														${(item.order.suppliesId)!''} </span>
+																<span
+														style="width: 130px; height: 35px;"
+														class="ui-list-field num-s text-center w120 fn-left"><em
+														class="value-small"> <#setting
+															date_format="yyyy-MM-dd">
+															${(item.order.startTime?date)!''} </em> </span>
+													 
 														<span
-														style="width: 129px; height: 35px;"
+														style="width: 130px; height: 35px;"
 														class="ui-list-field num-s text-center w120 fn-left"><em
 														class="value-small"> <#setting
 															date_format="yyyy-MM-dd HH:mm">
 															${(item.order.created?date)!''} </em> </span>
 															
 													 <span
-														style="width: 140px; height: 35px;"
+														style="width: 120px; height: 35px;"
 														class="ui-list-field num-s text-center w120 fn-left"><em
 														class="value-small">
-														<a class="trace" href='${rc.contextPath}/workflow/view/${(item.task.executionId)!''}/page/${item.task.processInstanceId}' title="点击查看流程图">${item.task.name }</a>
+														<a class="trace" target="_blank" href='${rc.contextPath}/workflow/view/${(item.task.executionId)!''}/page/${item.task.processInstanceId}' title="点击查看流程图">${item.task.name }</a>
 														</em>
 														</span>
 															
