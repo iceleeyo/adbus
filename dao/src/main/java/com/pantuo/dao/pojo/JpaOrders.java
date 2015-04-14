@@ -12,7 +12,7 @@ import java.util.Date;
 @Table(name="orders")
 public class JpaOrders extends BaseEntity {
     public static enum PayType {
-        online, contract
+        online, contract,other
     }
     public static enum Status {
         unpaid, paid, scheduled, started, completed, cancelled
