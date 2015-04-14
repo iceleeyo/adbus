@@ -193,12 +193,14 @@ function check() {
            if(temp[i].checked)
             payType = temp[i].value;
          }
-	         alert(payType);
 	        if(payType=="contract"){
 	            contractid=$("#contractCode  option:selected").val();
-	            alert("合同号："+contractid);
+	            if(contractid==""){
+	              alert("请选择合同");
+	              return;
+	            }
 	         }else{
-	            contractid=0;
+	            contractid=-1;
 	         }
 	   
 		var orderid = $("#orderid").val();
@@ -214,6 +216,10 @@ function check() {
 			},
 			success : function(data) {
 				alert(data.left + " # " + data.right);
+				var a = document.createElement('a');
+    	        a.href='${rc.contextPath}/order/myOrders/1';
+            	document.body.appendChild(a);
+             	a.click();
 			}
 		}, "text");
 	}
@@ -232,15 +238,15 @@ function check() {
                   <div id="process" class="section4">
 		            <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单</li><li id="track_time_0" class="tx3"></li></ul></div>
             		<div class="proce ready"><ul><li class="tx1">&nbsp;</li></ul></div>
-            		<div class="node ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">支付完成</li><li id="track_time_4" class="tx3"></li></ul></div>
-            		<div class="proce ready"><ul><li class="tx1">&nbsp;</li></ul></div>
-            		<div class="node ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">物料审核</li><li id="track_time_1" class="tx3"></li></ul></div>
-            		<div class="proce ready"><ul><li class="tx1">&nbsp;</li></ul></div>
-            		<div class="node ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">正在播出</li><li id="track_time_5" class="tx3"></li></ul></div>		
-            		<div class="proce doing"><ul><li class="tx1">&nbsp;</li></ul></div>		
-            		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">订单完成</li><li id="track_time_6" class="tx3"></li></ul></div>
+            		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">支付</li><li id="track_time_4" class="tx3"></li></ul></div>
+            		<div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>
+            		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">物料审核</li><li id="track_time_1" class="tx3"></li></ul></div>
+            		<div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>
+            		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">广告播出</li><li id="track_time_5" class="tx3"></li></ul></div>		
+            		<div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>		
+            		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">播出完成</li><li id="track_time_6" class="tx3"></li></ul></div>
             	</div>
-                <#include "template/orderDetail.ftl" /><br>
+                <#include "template/orderDetail.ftl" />
                  <div class="module s-clear u-lump-sum p19">
                       <H3 class="text-xl"><A class="black" href="#">支付订单</A></H3>								
 					<div class="u-sum-right">
@@ -248,7 +254,6 @@ function check() {
 				             <input type="radio" name="payType" value="online" onchange="hideContract()" >线上支付
 				             <input type="radio" name="payType" value="others"  onchange="hideContract()">其他
 							<br>
-							 
 								 <select class="ui-input" name="contractCode" id="contractCode">
                                                 <option value="" selected="selected">请选择合同</option>
                                                  <#if contracts?exists>

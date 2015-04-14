@@ -98,7 +98,13 @@
 														<div class="th-head">下单用户</div>
 													</td>
 													<td style="width: 112px;">
+														<div class="th-md">订单号</div>
+													</td>
+													<td style="width: 112px;">
 														<div class="th-md">套餐号</div>
+													</td>
+													<td style="width: 103px;">
+														<div class="th-md">起播日期</div>
 													</td>
 													<td style="width: 111px;">
 														<div class="th-md">素材号</div>
@@ -122,6 +128,9 @@
 													<span style="width: 113px; height: 35px;"
 														class="ui-list-field text-center w80 fn-left">
 														${(item.order.userId)!''} </span> 
+														<span style="width: 113px; height: 35px;"
+														class="ui-list-field text-center w80 fn-left">
+														${(item.longOrderId)!''} </span> 
 														<span
 														style="width: 118px; height: 35px;"
 														class="ui-list-field text-center w80 fn-left"><em
@@ -129,6 +138,14 @@
 															href="${rc.contextPath}/contract/contractDetail?contract_id=${(item.order.id)!''}">
 																${(item.order.productId)!''} </a>
 													</em> </span>
+													<span
+														style="width: 129px; height: 35px;"
+														class="ui-list-field num-s text-center w120 fn-left"><em
+														class="value-small"> <#setting
+															date_format="yyyy-MM-dd HH:mm">
+															${(item.order.startTime?date)!''} </em> </span>
+															
+													 <span
 													 <span style="width: 148px; height: 35px;"
 														class="ui-list-field text-center w80 fn-left">
 														${(item.order.suppliesId)!''} </span> 
@@ -137,7 +154,7 @@
 														class="ui-list-field num-s text-center w120 fn-left"><em
 														class="value-small"> <#setting
 															date_format="yyyy-MM-dd HH:mm">
-															${(item.order.createTime?date)!''} </em> </span>
+															${(item.order.created?date)!''} </em> </span>
 															
 													 <span
 														style="width: 140px; height: 35px;"
