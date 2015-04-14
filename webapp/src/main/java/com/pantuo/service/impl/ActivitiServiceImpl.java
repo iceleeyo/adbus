@@ -238,17 +238,24 @@ public class ActivitiServiceImpl implements ActivitiService {
 			System.out.println(task2.getTaskDefinitionKey());
 		}
 	}
-      public int relateContract(int orderid,int contractid){
+      public int relateContract(int orderid,int contractid,String payType){
     	  
     	  Orders orders=ordersMapper.selectByPrimaryKey(orderid);
+    	  
     	  if(orders!=null){
-    		  orders.setContractId(contractid);
+    		  if(payType.equals("contract")){
+    			  orders.setContractId(contractid);
+        		  orders.setPayType(1);
+        	  }else{
+        		  orders.setPayType(2);
+        	  }
+    		  orders.setStats(1);
     		  return ordersMapper.updateByPrimaryKey(orders);
     	  }
 	     return 1;
   }
-	public Pair<Boolean, String> payment(int orderid, String taskid,int contractid, UserDetail u) {
-		relateContract(orderid,contractid);
+	public Pair<Boolean, String> payment(int orderid, String taskid,int contractid,String payType, UserDetail u) {
+		
 		Pair<Boolean, String> r = null;
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 		if (task != null) {
@@ -256,8 +263,13 @@ public class ActivitiServiceImpl implements ActivitiService {
 			UserDetail ul = (UserDetail) info.get(ActivitiService.OWNER);
 			if (ul != null && ObjectUtils.equals(ul.getUsername(), u.getUsername())) {
 				if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
-					taskService.claim(task.getId(), u.getUsername());
-					taskService.complete(task.getId());
+					if(relateContract(orderid,contractid,payType)>0){
+						taskService.claim(task.getId(), u.getUsername());
+						taskService.complete(task.getId());
+						return new Pair<Boolean, String>(true, "订单"+orderid+"支付成功!");
+					}else{
+						return new Pair<Boolean, String>(false, "订单"+orderid+"支付失败!");
+					}
 				}
 			} else {
 				r = new Pair<Boolean, String>(false, "任务属主不匹配!");
@@ -268,7 +280,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		if (task != null) {
 			debug(task.getProcessInstanceId());
 		}
-		return r = new Pair<Boolean, String>(false, "支付成功!");
+		return r = new Pair<Boolean, String>(true, "订单"+orderid+"支付成功!");
 
 	}
 

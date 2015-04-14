@@ -9,15 +9,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.Predicate;
-import com.pantuo.dao.ContractRepository;
-import com.pantuo.dao.ProductRepository;
 import com.pantuo.dao.SuppliesRepository;
-import com.pantuo.dao.pojo.JpaContract;
 import com.pantuo.dao.pojo.JpaSupplies;
-import com.pantuo.dao.pojo.QJpaContract;
-import com.pantuo.dao.pojo.QJpaProduct;
 import com.pantuo.dao.pojo.QJpaSupplies;
-import com.pantuo.mybatis.persistence.ContractMapper;
 import com.pantuo.mybatis.persistence.SuppliesMapper;
 import com.pantuo.service.SuppliesServiceData;
            

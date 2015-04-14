@@ -57,20 +57,17 @@
 </DIV>
 </DIV>
 									<div class="inputs">
-										<div class="ui-form-item">
-											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>套餐编号：</label>
-                                            <input type="text" readonly="readonly" name="product.Id" id="productId" value="${prod.id!''}"/>
-										</div>
+                                            <input type="hidden" readonly="readonly" name="product.Id" id="productId" value="${prod.id!''}"/>
                                         <div class="ui-form-item">
-                                            <label class="ui-label mt10">开播日期</label> <input
+                                            <label class="ui-label mt10"><span
+												class="ui-form-required">*</span>开播日期</label> <input
                                                 class="ui-input datepicker" type="text" name="startTime1"
                                                 id="startTime" data-is="isAmount isEnough"
                                                 autocomplete="off" disableautocomplete="">
                                         </div>
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>物料ID:</label>
+												class="ui-form-required">*</span>选择物料:</label>
                                             <select class="ui-input" name="supplies.id" id="suppliesId">
                                                 <option value="" selected="selected"></option>
                                                 <#list supplies as s>

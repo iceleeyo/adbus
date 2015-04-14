@@ -106,12 +106,13 @@ public class OrderController {
 
 	@RequestMapping(value = "payment")
 	@ResponseBody
-	public Pair<Boolean, String> payment(@RequestParam(value = "orderid", required = true) String orderid,@RequestParam(value = "contractid", required = true) int contractid,
-			@RequestParam(value = "taskid", required = true) String taskid,
+	public Pair<Boolean, String> payment(@RequestParam(value = "orderid") String orderid,@RequestParam(value = "contractid") int contractid,
+			@RequestParam(value = "taskid") String taskid,
+			@RequestParam(value = "payType") String payType,
             Principal principal,
             HttpServletRequest request,
 			HttpServletResponse response) {
-		return activitiService.payment(Integer.parseInt(orderid), taskid,contractid, Request.getUser(principal));
+		return activitiService.payment(Integer.parseInt(orderid), taskid,contractid,payType, Request.getUser(principal));
 	}
 
 	@RequestMapping(value = "claim")
