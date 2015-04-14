@@ -38,17 +38,16 @@ public class OrderView {
 		return order;
 	}
 
-	long maxId = 100000L, split = 1000000L;
+	long maxId = 100000L, split = maxId * 10L;
 
 	public long getIdFromDate(int id, Date date) {
 		SimpleDateFormat sd = new SimpleDateFormat("yyyyMMdd");
-		return NumberUtils.toLong(sd.format(date)) * split + +maxId + id;
+		return NumberUtils.toLong(sd.format(date)) * split + maxId + id;
 	}
 
 	public int longOrderId2DbId(long longOrderId) {
 		return (int) (longOrderId - (longOrderId / split) * split - maxId);
 	}
-	
 	
 	public void setOrder(Orders order) {
 		if(ObjectUtils.notEqual(order, null)&& ObjectUtils.notEqual(order.getId(), null)) {
