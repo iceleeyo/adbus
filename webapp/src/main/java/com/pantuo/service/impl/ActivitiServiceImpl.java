@@ -266,9 +266,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 					if(relateContract(orderid,contractid,payType)>0){
 						taskService.claim(task.getId(), u.getUsername());
 						taskService.complete(task.getId());
-						return new Pair<Boolean, String>(true, "订单"+orderid+"支付成功!");
+						return new Pair<Boolean, String>(true, "订单支付成功!");
 					}else{
-						return new Pair<Boolean, String>(false, "订单"+orderid+"支付失败!");
+						return new Pair<Boolean, String>(false, "订单支付失败!");
 					}
 				}
 			} else {
