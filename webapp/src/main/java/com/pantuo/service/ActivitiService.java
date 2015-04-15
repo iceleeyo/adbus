@@ -1,5 +1,6 @@
 package com.pantuo.service;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +42,7 @@ public interface ActivitiService {
 	public Pair<Boolean, String> payment(int orderid, String taskid,int contractid,String payType, UserDetail u);
 
 	public Page<OrderView> findTask(String userid, int page, int pageSize, Sort sort);
+	public Page<OrderView> finished(Principal principal, int page, int pageSize, Sort sort);
 
 //	public Pair<Boolean, String> handle(String orderid, String taskid, String comment, String isok, UserDetail user);
 	/**

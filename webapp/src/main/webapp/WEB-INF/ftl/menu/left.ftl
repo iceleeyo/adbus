@@ -90,7 +90,7 @@
 												</a>
 											</li>-->
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/order/finishedOrders/1">
+												<a class="side-exp-item-t" href="${rc.contextPath}/order/finished">
 												     已完成的订单
 												</a>
 											</li>

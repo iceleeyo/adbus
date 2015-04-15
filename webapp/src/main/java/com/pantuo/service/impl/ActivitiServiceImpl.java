@@ -1,5 +1,6 @@
 package com.pantuo.service.impl;
 
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,6 +48,7 @@ import com.pantuo.service.SuppliesService;
 import com.pantuo.util.BeanUtils;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
+import com.pantuo.util.Request;
 import com.pantuo.web.view.OrderView;
 
 @Service
@@ -182,6 +184,35 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return orders;
 	}
 
+	
+
+	public Page<OrderView> finished(Principal principal, int page, int pageSize, Sort sort) {
+		page = page + 1;
+		List<OrderView> orders = new ArrayList<OrderView>();
+		int c = (int) historyService.createHistoricProcessInstanceQuery().finished().includeProcessVariables()
+				.involvedUser(Request.getUserId(principal)).processDefinitionKey(MAIN_PROCESS).count();
+		NumberPageUtil pageUtil = new NumberPageUtil((int) c, page, pageSize);
+		List<HistoricProcessInstance> list = historyService.createHistoricProcessInstanceQuery().finished()
+				.involvedUser(Request.getUserId(principal)).processDefinitionKey(MAIN_PROCESS)
+				.includeProcessVariables().orderByProcessInstanceStartTime().desc().listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
+		for (HistoricProcessInstance historicProcessInstance : list) {
+			Integer orderid = (Integer) historicProcessInstance.getProcessVariables().get(ORDER_ID);
+			OrderView v = new OrderView();
+			if (orderid != null && orderid > 0) {
+				Orders or = orderService.selectOrderById(orderid);
+				if (or != null) {
+					v.setOrder(or);
+					orders.add(v);
+				}
+			}
+		}
+		Pageable p = new PageRequest(page, pageSize, sort);
+		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(
+				orders, p, pageUtil.getTotal());
+		return r;
+	}
+	
+	
 	public List<OrderView> findFinishedProcessInstaces(String userid, String usertype, NumberPageUtil page) {
 		List<OrderView> orders = new ArrayList<OrderView>();
 		List<HistoricProcessInstance> list = historyService.createHistoricProcessInstanceQuery().finished()
