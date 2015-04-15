@@ -173,8 +173,7 @@ public class OrderController {
 	@ResponseBody
 	public Pair<Boolean, String> completeTask(@PathVariable("taskId") String taskId, Principal principal, Supplies supplies,Variable variable) {
 		if(null!=supplies && null!=supplies.getSeqNumber() && !supplies.getSeqNumber().equals("")){
-			int a=suppliesService.updateSupplies(supplies);
-			System.out.println(a);
+			suppliesService.updateSupplies(supplies);
 		}
 		return activitiService.complete(taskId, variable.getVariableMap(), Request.getUser(principal));
 
@@ -238,10 +237,20 @@ public class OrderController {
 		Page<OrderView> w = orderService.getOrderList(req.getPage(), req.getLength(), req.getSort("id"), principal);
 		return new DataTablePage(w, req.getDraw());
 	}
+	@RequestMapping("ajax-finishorderlist")
+	@ResponseBody
+	public DataTablePage<OrderView> getAllfinishorder(TableRequest req, Principal principal) {
+		Page<OrderView> w = orderService.getOrderList(req.getPage(), req.getLength(), req.getSort("id"), principal);
+		return new DataTablePage(w, req.getDraw());
+	}
 
 	@RequestMapping(value = "/myTask/{pageNum}")
 	public String list() {
 		return "orderList";
+	}
+	@RequestMapping(value = "/finishedOrders/{pageNum}")
+	public String list2() {
+		return "finishOrderList";
 	}
     @RequestMapping(value = "/myTaskbak/{pageNum}", method = RequestMethod.GET)
 	public String myTask(Model model, @PathVariable int pageNum, Principal principal) {
