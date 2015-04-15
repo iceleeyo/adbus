@@ -144,7 +144,7 @@
 														style="width: 120px; height: 35px;"
 														class="ui-list-field num-s text-center w120 fn-left"><em
 														class="value-small">
-														<a class="trace" target="_blank" href='${rc.contextPath}/workflow/view/${(item.task.executionId)!''}/page/${item.task.processInstanceId}' title="点击查看流程图">${item.task.name }</a>
+														<a class="trace" target="_blank" href='${rc.contextPath}/workflow/view/${(item.executionId)!''}/page/${item.processInstanceId}' title="点击查看流程图">${item.task_name }</a>
 														</em>
 														</span>
 															
@@ -153,10 +153,10 @@
 														style="width: 90px; height: 35px;"
 														class="ui-list-field num-s text-center w120 fn-left">
 														<em class="value-small"> <#if
-															item.task.assignee?exists> 
-															<a href="${rc.contextPath}/order/handleView2?orderid=${(item.order.id)!''}&taskid=${(item.task.id)!''}">办理</a>
+															item.assignee?exists> 
+															<a href="${rc.contextPath}/order/handleView2?orderid=${(item.order.id)!''}&taskid=${(item.task_id)!''}">办理</a>
 															<#else>
-															<a href="javascript:;" onclick="claim('${(item.order.id)!''}','${(item.task.id)!''}');">签收</a>
+															<a href="javascript:;" onclick="claim('${(item.order.id)!''}','${(item.task_id)!''}');">签收</a>
 
 															</#if>
 													</em>
