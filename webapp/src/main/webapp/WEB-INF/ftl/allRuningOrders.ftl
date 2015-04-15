@@ -1,36 +1,8 @@
 <#import "template/template.ftl" as frame>
 <#global menu="进行中的订单">
-<@frame.html title="进行中的订单">
+<@frame.html title="进行中的订单" js=["jquery-dateFormat.js"]>
 <script type="text/javascript">
-	function pages(pageNum) {
-		var pattern = /^\d+$/;
-		var by = ($("#by").val());
-		var g2 = ($("#textpage").val());
-		if (g2 == undefined) {
-			g2 = 1;
-		}
-		if (!isNaN($("#textpage").val())) {
-		} else {
-			alert("请输入数字");
-			return;
-		}
-		if (parseInt($("#textpage").val()) <= 0) {
-			alert("请输入正整数");
-			return;
-		}
-		if ($("#textpage").val() > pageNum) {
-			alert("输入的页数超过最大页数");
-			return;
-		}
-		//  var adsts =$("#adsts").val();
-		window.location.href = "${rc.contextPath}/order/allRuningOrders/"+g2;
-	}
 
-	function page(num) {
-		var by = ($("#by").val());
-		window.location.href = "${rc.contextPath}/order/allRuningOrders/"+num; 
-	}
-	
 	function claim(orderid,taskid){
  	$.ajax({
 			url : "${rc.contextPath}/order/claim?orderid="+orderid+"&taskid="+taskid,
@@ -42,101 +14,112 @@
 		}, "text");
 	  
 	}
-</script>
-               <form id="base_form" action="" method="post"
-							dataType="html" enctype="multipart/form-data" class="Page-Form"	>
-					<div class="ls-10">
-						<div class="module s-clear u-lump-sum p19">
-							<div class="u-sum-right">
-								<input class="ui-input" type="text" name="code" id="code"
-									data-is="isAmount isEnough" autocomplete="off"
-									placeholder="订单号" value="${code!''}" /> <input type="button"
-									class="block-btn" value="查询" onclick="#">
-								&nbsp;&nbsp;&nbsp; 
-							</div>
-						</div>
-			  </form>
-						<form data-name="withdraw" name="userForm2" id="userForm2"
-							class="ui-form" method="post" action="saveContract"
-							enctype="multipart/form-data">
-								<!--列表展示-->
-								<div class="module p20" style="height: 423px;">
-									<div class="tab-content">
-										<div class="uplan-table-box">
-											<table width="100%" class="uplan-table">
-												<tr class="uplan-table-th">
-													<td style="width: 98px;">
-														<div class="th-head">下单用户</div>
-													</td>
-													<td style="width: 112px;">
-														<div class="th-md">套餐号</div>
-													</td>
-													<td style="width: 111px;">
-														<div class="th-md">素材号</div>
-													</td>
-													<td style="width: 103px;">
-														<div class="th-md">创建时间</div>
-													</td>
-													<td style="width: 115px;">
-														<div class="th-md">当前环节</div>
-													</td>
-													<td style="width: 67px; ">
-														<div class="th-md">当前处理人</div>
-													</td>
-												</tr>
-											</table>
+	
+	
+    var table;
+    function initTable () {
+        table = $('#table').dataTable( {
+            "dom": '<"#toolbar">lrtip',
+            "searching": false,
+            "ordering": false,
+            "serverSide": true,
+            "columnDefs": [
+                { "sClass": "align-left", "targets": [0] },
+            ],
+            "ajax": {
+                type: "GET",
+                url: "${rc.contextPath}/order/ajax-runningAjax",
+                data: function(d) {
+                    return $.extend( {}, d, {
+                        "productId" : $('#productId').val(),
+                    } );
+                },
+                "dataSrc": "content",
+            },
+            "columns": [
+            	{ "data": "order.creator", "defaultContent": ""},
+            	{ "data": "longOrderId", "defaultContent": ""},
+            	{ "data": "product.name", "defaultContent": "",
+                    "render": function(data, type, row, meta) {
+                        var filter = $('#order.productId').val();
+                        if (filter && filter != '') {
+                            var regex = new RegExp(filter, "gi");
+                            data = data.replace(regex, function(matched) {
+                                return "<span class=\"hl\">" + matched + "</span>";
+                            });
+                        }
+                    return data;
+                } },
+                { "data": "order.created", "defaultContent": "","render": function(data, type, row, meta) {
+                	var d= $.format.date(data, "yyyy-MM-dd HH:mm:ss");
+                	return d;
+                }},
+                 { "data": "task_name", "defaultContent": "","render": function(data, type, row, meta) {
+	                 	 	return  "<a target='_blank' href='${rc.contextPath}/workflow/view/"+row.executionId+"/page/"+row.processInstanceId+"'>"+data+"</a>";
+	                   
+                  	 
+                    }},
+                   { "data": "task_assignee", "defaultContent": ""
+                   
+                   },
+            ],
+            "language": {
+                "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
+            },
+            "initComplete": initComplete,
+            "drawCallback": drawCallback,
+        } );
 
-											<#list list as item>
-											<li class="ui-list-item dark">
-												<div class="ui-list-item-row fn-clear">
-													<span style="width: 113px; height: 35px;"
-														class="ui-list-field text-center w80 fn-left">
-														${(item.order.userId)!''} </span> 
-														<span
-														style="width: 118px; height: 35px;"
-														class="ui-list-field text-center w80 fn-left"><em
-														class="value-small"> <a
-															href="${rc.contextPath}/contract/contractDetail?contract_id=${(item.order.id)!''}">
-																${(item.order.productId)!''} </a>
-													</em> </span>
-													 <span style="width: 148px; height: 35px;"
-														class="ui-list-field text-center w80 fn-left">
-														${(item.order.suppliesId)!''} </span> 
-														<span
-														style="width: 129px; height: 35px;"
-														class="ui-list-field num-s text-center w120 fn-left"><em
-														class="value-small"> <#setting
-															date_format="yyyy-MM-dd HH:MM">
-															${(item.order.created?date)!''} </em> </span>
-															
-													 <span
-														style="width: 140px; height: 35px;"
-														class="ui-list-field num-s text-center w120 fn-left"><em
-														class="value-small">
-														<a class="trace" target="_blank" href='${rc.contextPath}/workflow/view/${(item.task.executionId)!''}/page/${(item.task.processInstanceId)!''}' title="点击查看流程图">${(item.task.name)!'' }</a>
-														</em>
-														</span>
-															 <span
-														style="width: 90px; height: 35px;"
-														class="ui-list-field num-s text-center w120 fn-left">
-														<em class="value-small"> ${(item.task.assignee)!''}
-													</em>
-													</span>
-											</li> 
-											</#list>
-											<!-- 分页 -->
-											<table class="pag_tbl"
-												style="width: 100%; border-width: 0px; margin-top: 10px;">
-												<tr>
-													<td style="width: 70%; text-align: right;">
-														<div id="numpage" style="float: right;">
-															${paginationHTML!''}</div>
-													</td>
-												</tr>
-											</table>
-										</div>
-									</div>
-								</div>
-							</div>
-						</form>
+    }
+
+    function initComplete() {
+        $("div#toolbar").html(
+                '<div>' +
+                        '    <span>套餐号</span>' +
+                        '    <span>' +
+                        '        <input id="productId" value="">' +
+                        '    </span>' +
+                        '</div>'
+        );
+
+        $('#contractCode').change(function() {
+            table.fnDraw();
+        });
+    }
+
+    function drawCallback() {
+        $('.table-action').click(function() {
+            $.post($(this).attr("url"), function() {
+                table.fnDraw(true);
+            })
+        });
+    }
+
+    $(document).ready(function() {
+        initTable();
+    } );
+</script>
+						 
+<#--            <div class="div" style="margin-top:25px">
+                <caption><h2>待办事项</h2></caption>
+            </div>
+            <div class="div">
+                <hr/>
+            </div>-->
+            <div class="div">
+                <table id="table" class="display" cellspacing="0" width="100%">
+                    <thead>
+                    <tr>
+                        <th>下单用户</th>
+                            <th>订单名字</th>
+                        <th>套餐号</th>
+                       <!-- <th>素材号</th>-->
+                        <th>创建时间</th>
+                        <th>当前环节</th>
+                        <th>当前处理人</th>
+                    </tr>
+                    </thead>
+
+                </table>
+            </div>
 </@frame.html>

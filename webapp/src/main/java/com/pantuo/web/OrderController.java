@@ -267,14 +267,16 @@ public class OrderController {
 	@RequestMapping(value = "/allRuningOrders/{pageNum}")
 	public String allRuningOrders(Model model,Principal principal, @PathVariable int pageNum, HttpServletRequest request,
 			HttpServletResponse response) {
-		int pagesize=8;
-		int totalnum=runtimeService.createProcessInstanceQuery().processDefinitionKey("order").list().size();
-		NumberPageUtil page=new NumberPageUtil(totalnum, pageNum, pagesize);
-		List<OrderView> list = activitiService.findRunningProcessInstaces(Request.getUserId(principal), page);
-		model.addAttribute("list", list);
-		model.addAttribute("pageNum", pageNum);
-		model.addAttribute("paginationHTML", page.showNumPageWithEmpty());
 		return "allRuningOrders";
+	}
+	
+	
+	@RequestMapping("ajax-runningAjax")
+	@ResponseBody
+	public DataTablePage<OrderView> runningAjax(TableRequest req, Principal principal) {
+		Page<OrderView> w = activitiService.running(Request.getUserId(principal), req.getPage(), req.getLength(),
+				req.getSort("id"));
+		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
 	@RequestMapping(value="/finishedOrders/{usertype}/{pageNum}")
 	public String finishedOrders(Model model,Principal principal,@PathVariable("usertype") String usertype,@PathVariable int pageNum,HttpServletRequest request, HttpServletResponse response){

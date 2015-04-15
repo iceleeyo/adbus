@@ -75,8 +75,40 @@ public class ActivitiServiceImpl implements ActivitiService {
 	@Autowired
 	private OrdersMapper ordersMapper;
 
+	public Page<OrderView> running(String userid, int page, int pageSize, Sort sort) {
+		page = page + 1;
+		List<OrderView> orders = new ArrayList<OrderView>();
+		int totalnum = runtimeService.createProcessInstanceQuery().processDefinitionKey("order").list().size();
+		NumberPageUtil pageUtil = new NumberPageUtil((int) totalnum, page, pageSize);
+
+		List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery()
+				.processDefinitionKey(MAIN_PROCESS).orderByProcessInstanceId().desc()
+				.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
+		for (ProcessInstance processInstance : processInstances) {
+			List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId())
+					.includeProcessVariables().orderByTaskCreateTime().desc().listPage(0, 1);
+			Integer orderid = (Integer) tasks.get(0).getProcessVariables().get(ORDER_ID);
+			OrderView v = new OrderView();
+			Orders order = orderService.selectOrderById(orderid);
+			if (order != null) {
+				v.setOrder(order);
+				Product product = productService.selectProById(order.getProductId());
+				v.setProduct(product);
+				v.setProcessInstanceId(processInstance.getId());
+				if (!tasks.isEmpty()) {
+					v.setTask(tasks.get(0));
+				}
+				orders.add(v);
+			}
+		}
+		Pageable p = new PageRequest(page, pageSize, sort);
+		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(
+				orders, p, pageUtil.getTotal());
+		return r;
+	}
+
 	public Page<OrderView> findTask(String userid, int page, int pageSize, Sort sort) {
-		page = page +1;
+		page = page + 1;
 		List<Task> tasks = new ArrayList<Task>();
 		List<OrderView> leaves = new ArrayList<OrderView>();
 		//先查得总条数
@@ -259,24 +291,26 @@ public class ActivitiServiceImpl implements ActivitiService {
 			System.out.println(task2.getTaskDefinitionKey());
 		}
 	}
-      public int relateContract(int orderid,int contractid,String payType){
-    	  
-    	  Orders orders=ordersMapper.selectByPrimaryKey(orderid);
-    	  
-    	  if(orders!=null){
-    		  if(payType.equals("contract")){
-    			  orders.setContractId(contractid);
-        		  orders.setPayType(1);
-        	  }else{
-        		  orders.setPayType(2);
-        	  }
-    		  orders.setStats(1);
-    		  return ordersMapper.updateByPrimaryKey(orders);
-    	  }
-	     return 1;
-  }
-	public Pair<Boolean, String> payment(int orderid, String taskid,int contractid,String payType, UserDetail u) {
-		
+
+	public int relateContract(int orderid, int contractid, String payType) {
+
+		Orders orders = ordersMapper.selectByPrimaryKey(orderid);
+
+		if (orders != null) {
+			if (payType.equals("contract")) {
+				orders.setContractId(contractid);
+				orders.setPayType(1);
+			} else {
+				orders.setPayType(2);
+			}
+			orders.setStats(1);
+			return ordersMapper.updateByPrimaryKey(orders);
+		}
+		return 1;
+	}
+
+	public Pair<Boolean, String> payment(int orderid, String taskid, int contractid, String payType, UserDetail u) {
+
 		Pair<Boolean, String> r = null;
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 		if (task != null) {
@@ -284,11 +318,11 @@ public class ActivitiServiceImpl implements ActivitiService {
 			UserDetail ul = (UserDetail) info.get(ActivitiService.OWNER);
 			if (ul != null && ObjectUtils.equals(ul.getUsername(), u.getUsername())) {
 				if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
-					if(relateContract(orderid,contractid,payType)>0){
+					if (relateContract(orderid, contractid, payType) > 0) {
 						taskService.claim(task.getId(), u.getUsername());
 						taskService.complete(task.getId());
 						return new Pair<Boolean, String>(true, "订单支付成功!");
-					}else{
+					} else {
 						return new Pair<Boolean, String>(false, "订单支付失败!");
 					}
 				}
@@ -301,7 +335,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		if (task != null) {
 			debug(task.getProcessInstanceId());
 		}
-		return r = new Pair<Boolean, String>(true, "订单"+orderid+"支付成功!");
+		return r = new Pair<Boolean, String>(true, "订单" + orderid + "支付成功!");
 
 	}
 
@@ -360,7 +394,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		Map<String, Object> variables = taskService.getVariables(taskid);
 		int orderid = (Integer) variables.get(ORDER_ID);
 		Orders order = orderService.selectOrderById(orderid);
-		Product product=productService.selectProById(order.getProductId());
+		Product product = productService.selectProById(order.getProductId());
 		v.setProduct(product);
 		v.setOrder(order);
 		v.setTask(task);
@@ -431,7 +465,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 				w.setComment((String) temp.get(key));
 				Object r = temp.get(result);
 				w.setResult(r == null ? false : (Boolean) r);
-			}else  if (StringUtils.equals("approve2", w.getTaskDefinitionKey())) {
+			} else if (StringUtils.equals("approve2", w.getTaskDefinitionKey())) {
 				String key = String.format(f, historicTaskInstance.getId(), "approve2Comments");
 				String result = String.format(f, historicTaskInstance.getId(), "approve2Result");
 				w.setComment((String) temp.get(key));
