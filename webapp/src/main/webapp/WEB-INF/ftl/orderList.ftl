@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="待办事项">
-<@frame.html title="待办事项列表">
+<@frame.html title="待办事项列表" js=["jquery-dateFormat.js"]>
 <script type="text/javascript">
 
 
@@ -51,7 +51,10 @@
                     return data;
                 } },
                 { "data": "order.suppliesId", "defaultContent": ""},
-                { "data": "order.startTime", "defaultContent": ""},
+                { "data": "order.startTime", "defaultContent": "","render": function(data, type, row, meta) {
+                	var d= $.format.date(data, "yyyy-MM-dd HH:mm:ss");
+                	return d;
+                }},
                  { "data": "task_name", "defaultContent": "","render": function(data, type, row, meta) {
 	                 	 	return  "<a target='_blank' href='${rc.contextPath}/workflow/view/"+row.executionId+"/page/"+row.processInstanceId+"'>"+data+"</a>";
 	                   
