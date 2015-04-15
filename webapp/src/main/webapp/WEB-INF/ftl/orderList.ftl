@@ -61,7 +61,6 @@
                   	 
                     }},
                    { "data": "task_name", "defaultContent": "","render": function(data, type, row, meta) {
-                   
 	                  if(row.task_assignee =='' || row.task_assignee == null){
 	                 	 	return  "<a href=\"javascript:;\" onclick=\"claim('"+row.id+"','"+( row.task_id)+"');\">签收</a>";
 	                  	}else {
