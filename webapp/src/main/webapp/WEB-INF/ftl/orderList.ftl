@@ -32,7 +32,7 @@
                 url: "${rc.contextPath}/order/ajax-orderlist",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "productId" : $('#productId').val()
+                        "productId" : $('#productId').val(),
                     } );
                 },
                 "dataSrc": "content",
@@ -52,11 +52,20 @@
                 } },
                 { "data": "order.suppliesId", "defaultContent": ""},
                 { "data": "order.startTime", "defaultContent": ""},
-                 { "data": "task_name", "defaultContent": ""},
+                 { "data": "task_name", "defaultContent": "","render": function(data, type, row, meta) {
+	                 	 	return  "<a target='_blank' href='${rc.contextPath}/workflow/view/"+row.executionId+"/page/"+row.processInstanceId+"'>"+data+"</a>";
+	                   
+                  	 
+                    }},
                    { "data": "task_name", "defaultContent": "","render": function(data, type, row, meta) {
-                  
-                        return "<a href='${rc.contextPath}/order/handleView2?orderid='${(item.order.id)!''}'&taskid='${(item.task.id)!''}'>办理</a>&nbsp;"+
-                         "'<a href=\"javascript:;\" onclick=\"claim('${(item.order.id)!''}','${(item.task.id)!''}');\">签收</a>'";
+	                  if(row.task_assignee ==''){
+	                 	 	return  "'<a href=\"javascript:;\" onclick=\"claim('"+row.id+"','"+( row.task_id)+"');\">签收</a>'";
+	                  	}else {
+	                  	   var taskId = row.task_id;
+	                       var tr= "<a href='${rc.contextPath}/order/handleView2?orderid=" +(row.id)+ "&taskid="+taskId+ "'>办理</a>&nbsp;";
+	                       return tr;
+	                    }	
+                  	 
                     }
                    
                    },
