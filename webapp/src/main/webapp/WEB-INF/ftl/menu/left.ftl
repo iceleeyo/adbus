@@ -1,25 +1,20 @@
+
 <div class="ls-2">
 							<div class="pg-side">
 								<ul class="pg-side-list">
 									<li class="pg-side-item">
-										<a class="pg-side-item-t" href="#">
+										<a class="pg-side-item-t aa-icon" href="${rc.contextPath}/order/myTask/1">
 											<i class="s-left pg-icon-a a-icon"></i>
 											待办事项
 										</a>
-										<ul class="pg-side-exp-list" style="">
-											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/order/myTask/1">
-													待办事项
-												</a>
-											</li>
-										</ul>
+										
 									</li>
 									<li class="pg-side-item">
-										<a class="pg-side-item-t">
+										<a class="pg-side-item-t bb-icon">
 											<i class="s-left pg-icon-a b-icon"></i>
 											物料管理
 										</a>
-										<ul class="pg-side-exp-list" style="">
+										<ul class="pg-side-exp-list" style="display:none;">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/supplies/supplies_test">
 													上传物料
@@ -27,14 +22,14 @@
 											</li>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/supplies/list">
-                                                    物料管理
+													物料列表
 												</a>
 											</li>
 											
 										</ul>
 									</li>
 									<li class="pg-side-item">
-										<a class="pg-side-item-t">
+										<a class="pg-side-item-t cc-icon">
 											<i class="s-left pg-icon-a c-icon"></i>
 											产品管理
 										</a>
@@ -46,13 +41,13 @@
 											</li>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/product/list">
-                                                    产品查询
+													产品列表
 												</a>
 											</li>
 										</ul>
 									</li>
 									<li class="pg-side-item">
-										<a class="pg-side-item-t">
+										<a class="pg-side-item-t dd-icon">
 											<i class="s-left pg-icon-a d-icon"></i>
 											订单管理
 										</a>
@@ -81,8 +76,8 @@
 									</li>
 									
 									<li class="pg-side-item">
-										<a class="pg-side-item-t" href="#" > 
-											<i class="s-left pg-icon-a d-icon"></i>
+										<a class="pg-side-item-t ee-icon" href="#" > 
+											<i class="s-left pg-icon-a e-icon"></i>
 											合同管理
 										</a>
 										<ul class="pg-side-exp-list">
@@ -93,15 +88,15 @@
 											</li>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t"  href="${rc.contextPath}/contract/list">
-                                                    合同管理
+													合同列表
 												</a>
 											</li>
 										</ul>
 									</li>
 									
 									<li class="pg-side-item">
-										<a class="pg-side-item-t">
-											<i class="s-left pg-icon-a e-icon"></i>
+										<a class="pg-side-item-t ff-icon">
+											<i class="s-left pg-icon-a f-icon"></i>
 											用户管理
 										</a>
 										<ul class="pg-side-exp-list">
@@ -114,8 +109,8 @@
 										</ul>
 									</li>
 									<li class="pg-side-item">
-										<a class="pg-side-item-t">
-											<i class="s-left pg-icon-a f-icon"></i>
+										<a class="pg-side-item-t gg-icon">
+											<i class="s-left pg-icon-a g-icon"></i>
 											媒体管理
 										</a>
 										<ul class="pg-side-exp-list">
@@ -137,8 +132,8 @@
 										</ul>
 									</li>
 									<li class="pg-side-item">
-										<a class="pg-side-item-t">
-											<i class="s-left pg-icon-a g-icon"></i>
+										<a class="pg-side-item-t hh-icon">
+											<i class="s-left pg-icon-a h-icon"></i>
 											报表管理
 										</a>
 										<ul class="pg-side-exp-list">
