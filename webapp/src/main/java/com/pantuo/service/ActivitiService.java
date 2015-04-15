@@ -61,7 +61,14 @@ public interface ActivitiService {
 	public String reset(String p);
 
 	public OrderView findOrderViewByTaskId(String taskid);
-
+	/**
+	 * @deprecated
+	 *
+	 * @param userId
+	 * @param page
+	 * @return
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
 	public List<OrderView> findRunningProcessInstaces(String userId,
 			NumberPageUtil page);
 

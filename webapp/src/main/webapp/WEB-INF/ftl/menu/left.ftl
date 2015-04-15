@@ -94,7 +94,7 @@
 									</li>
 									
 
-									
+									<@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">  
 
 									<li class="pg-side-item">
 										<a class="pg-side-item-t gg-icon">
@@ -155,7 +155,9 @@
 											</li>
 											
 										</ul>
-									</li>									
+									</li>	
+									
+									</@security.authorize>								
 								</ul>
 							</div>
 </div>

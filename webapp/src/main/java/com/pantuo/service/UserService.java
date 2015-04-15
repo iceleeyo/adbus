@@ -131,8 +131,12 @@ public class UserService {
         UserDetail user = users.get(0);
         //fetch and fill info from activiti user table
         User activitiUser = identityService.createUserQuery().userId(username).singleResult();
-
+        /**
+         * 查用户组
+         */
+        List<Group> listGroup = identityService.createGroupQuery().groupMember(username).list();
         user.setUser(activitiUser);
+        user.setGroups(listGroup);
 
         return user;
     }
