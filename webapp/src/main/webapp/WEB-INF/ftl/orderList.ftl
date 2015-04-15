@@ -39,7 +39,8 @@
             },
             "columns": [
             	{ "data": "order.creator", "defaultContent": ""},
-            	{ "data": "order.productId", "defaultContent": "",
+            	{ "data": "longOrderId", "defaultContent": ""},
+            	{ "data": "product.name", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         var filter = $('#order.productId').val();
                         if (filter && filter != '') {
@@ -50,7 +51,6 @@
                         }
                     return data;
                 } },
-                { "data": "order.suppliesId", "defaultContent": ""},
                 { "data": "order.startTime", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd HH:mm:ss");
                 	return d;
@@ -61,11 +61,13 @@
                   	 
                     }},
                    { "data": "task_name", "defaultContent": "","render": function(data, type, row, meta) {
+                   
+                  
 	                  if(row.task_assignee =='' || row.task_assignee == null){
-	                 	 	return  "<a href=\"javascript:;\" onclick=\"claim('"+row.id+"','"+( row.task_id)+"');\">签收</a>";
+	                 	 	return  "<a href=\"javascript:;\" onclick=\"claim('"+row.order.id+"','"+( row.task_id)+"');\">签收</a>";
 	                  	}else {
 	                  	   var taskId = row.task_id;
-	                       var tr= "<a href='${rc.contextPath}/order/handleView2?orderid=" +(row.id)+ "&taskid="+taskId+ "'>办理</a>&nbsp;";
+	                       var tr= "<a href='${rc.contextPath}/order/handleView2?orderid=" +(row.order.id)+ "&taskid="+taskId+ "'>办理</a>&nbsp;";
 	                       return tr;
 	                    }	
                   	 
@@ -121,8 +123,9 @@
                     <thead>
                     <tr>
                         <th>下单用户</th>
+                            <th>订单号</th>
                         <th>套餐号</th>
-                        <th>素材号</th>
+                       <!-- <th>素材号</th>-->
                         <th>创建时间</th>
                         <th>当前环节</th>
                         <th>操作</th>
