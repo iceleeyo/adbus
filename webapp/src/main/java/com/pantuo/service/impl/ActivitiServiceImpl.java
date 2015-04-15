@@ -93,12 +93,14 @@ public class ActivitiServiceImpl implements ActivitiService {
 			Integer orderid = (Integer) task.getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
 			Orders order = orderService.selectOrderById(orderid);
-			Product product=productService.selectProById(order.getProductId());
-			v.setProduct(product);
-			v.setOrder(order);
-			v.setTask(task);
-			v.setProcessInstanceId(processInstance.getId());
-			leaves.add(v);
+			if (order != null) {
+				Product product = productService.selectProById(order.getProductId());
+				v.setProduct(product);
+				v.setOrder(order);
+				v.setTask(task);
+				v.setProcessInstanceId(processInstance.getId());
+				leaves.add(v);
+			}
 		}
 		Pageable p = new PageRequest(page, pageSize, sort);
 		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(
