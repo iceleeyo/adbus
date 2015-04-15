@@ -1882,12 +1882,14 @@
 
 .withdraw-title {
 	line-height: 30px;
-	padding: 19px;
+	padding: 15px;
 	font-size: 24px;
 	font-weight: 400;
 	border-bottom: solid 1px #e0e0e0;
-	margin-bottom: 20px;
-	position: relative
+	margin-bottom: 15px;
+	position: relative;
+	
+	
 }
 
 .withdraw-title ul {
