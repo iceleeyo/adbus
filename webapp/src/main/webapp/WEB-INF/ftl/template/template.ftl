@@ -63,7 +63,7 @@
 	<div class="ls-10">
 		<div class="withdraw-wrap color-white-bg fn-clear">
             <#nested>
-		</div>
+		</div><br>
 	</div>
 		<!--主体结束-->
 	</div>
