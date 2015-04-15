@@ -1167,8 +1167,8 @@ a.text {
 }
 
 .p20bs {
-	padding: 19px;
-	border: 1px solid #e0e0e0;
+	padding: 10px
+	
 	
 }
 
@@ -5307,7 +5307,8 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 .ui-table {
 	width: 100%;
 	border-collapse: collapse;
-	border-spacing: 0
+	border-spacing: 0;
+	font-size:14px;
 }
 
 .ui-table caption {
