@@ -4,7 +4,7 @@
 			   	  var firsticon=$(this);
 			      $(this).next().toggle();
 				});
-			   //选中我的人人贷时
+			   //选中我的时
 			   $(".aa-icon").click(function(){
 			   	    
 			   		$(".pg-side-item-t").removeAttr("style");
