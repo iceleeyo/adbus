@@ -3,8 +3,8 @@
 							<div class="pg-side">
 								<ul class="pg-side-list">
 									<li class="pg-side-item">
-										<a class="pg-side-item-t aa-icon" href="${rc.contextPath}/order/myTask/1">
-											<i class="s-left pg-icon-a a-icon"></i>
+										<a class="pg-side-item-t aa-icon" style="color:#fff;background:#2da7e0;" href="${rc.contextPath}/order/myTask/1">
+											<i class="s-left pg-icon-a a-icon" style="background:url(${rc.contextPath}/imgs/sidebar-icons.png) no-repeat -20px 0;"></i>
 											待办事项
 										</a>
 										
@@ -28,6 +28,24 @@
 											
 										</ul>
 									</li>
+									<li class="pg-side-item">
+										<a class="pg-side-item-t ee-icon" href="#" > 
+											<i class="s-left pg-icon-a e-icon"></i>
+											合同管理
+										</a>
+										<ul class="pg-side-exp-list">
+											<li class="pg-side-exp-item">
+												<a class="side-exp-item-t" href="${rc.contextPath}/contract/contractEnter">
+													添加合同
+												</a>
+											</li>
+											<li class="pg-side-exp-item">
+												<a class="side-exp-item-t"  href="${rc.contextPath}/contract/list">
+													合同列表
+												</a>
+											</li>
+										</ul>
+									</li>									
 									<li class="pg-side-item">
 										<a class="pg-side-item-t cc-icon">
 											<i class="s-left pg-icon-a c-icon"></i>
@@ -68,46 +86,16 @@
 												</a>
 											</li>-->
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/order/finishedOrders/manager/1">
+												<a class="side-exp-item-t" href="${rc.contextPath}/order/finishedOrders/1">
 												     已完成的订单
 												</a>
 											</li>
 										</ul>
 									</li>
 									
-									<li class="pg-side-item">
-										<a class="pg-side-item-t ee-icon" href="#" > 
-											<i class="s-left pg-icon-a e-icon"></i>
-											合同管理
-										</a>
-										<ul class="pg-side-exp-list">
-											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/contract/contractEnter">
-													添加合同
-												</a>
-											</li>
-											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t"  href="${rc.contextPath}/contract/list">
-													合同列表
-												</a>
-											</li>
-										</ul>
-									</li>
+
 									
-									<li class="pg-side-item">
-										<a class="pg-side-item-t ff-icon">
-											<i class="s-left pg-icon-a f-icon"></i>
-											用户管理
-										</a>
-										<ul class="pg-side-exp-list">
-											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/user/list">
-													用户列表
-												</a>
-											</li>
-											
-										</ul>
-									</li>
+
 									<li class="pg-side-item">
 										<a class="pg-side-item-t gg-icon">
 											<i class="s-left pg-icon-a g-icon"></i>
@@ -154,6 +142,20 @@
 											</li>
 										</ul>
 									</li>
+									<li class="pg-side-item">
+										<a class="pg-side-item-t ff-icon">
+											<i class="s-left pg-icon-a f-icon"></i>
+											用户管理
+										</a>
+										<ul class="pg-side-exp-list">
+											<li class="pg-side-exp-item">
+												<a class="side-exp-item-t" href="${rc.contextPath}/user/list">
+													用户列表
+												</a>
+											</li>
+											
+										</ul>
+									</li>									
 								</ul>
 							</div>
 </div>
