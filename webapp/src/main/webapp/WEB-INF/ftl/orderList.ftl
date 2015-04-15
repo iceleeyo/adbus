@@ -58,8 +58,9 @@
                   	 
                     }},
                    { "data": "task_name", "defaultContent": "","render": function(data, type, row, meta) {
-	                  if(row.task_assignee ==''){
-	                 	 	return  "'<a href=\"javascript:;\" onclick=\"claim('"+row.id+"','"+( row.task_id)+"');\">签收</a>'";
+                   
+	                  if(row.task_assignee =='' || row.task_assignee == null){
+	                 	 	return  "<a href=\"javascript:;\" onclick=\"claim('"+row.id+"','"+( row.task_id)+"');\">签收</a>";
 	                  	}else {
 	                  	   var taskId = row.task_id;
 	                       var tr= "<a href='${rc.contextPath}/order/handleView2?orderid=" +(row.id)+ "&taskid="+taskId+ "'>办理</a>&nbsp;";
