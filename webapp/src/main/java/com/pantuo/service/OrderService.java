@@ -4,9 +4,14 @@ import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
+import org.activiti.engine.RuntimeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.ConstantImpl;
@@ -21,14 +26,15 @@ import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.OrdersExample;
-import com.pantuo.mybatis.domain.Product;
 import com.pantuo.mybatis.persistence.OrdersMapper;
+import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
+import com.pantuo.web.view.OrderView;
 
 @Service
 public class OrderService {
-
+	
 	private static Logger log = LoggerFactory.getLogger(OrderService.class);
 
 /*	public enum Stats {
@@ -79,7 +85,8 @@ public class OrderService {
 	ProductService productService;
 	@Autowired
     OrdersRepository ordersRepository;
-
+	@Autowired
+	private RuntimeService runtimeService;
 	@Autowired
 	ActivitiService activitiService;
 
@@ -161,5 +168,13 @@ public class OrderService {
 
         return ordersRepository.findAll(query);
     }
+    
+	public Page<OrderView> getOrderList(int page, int pageSize, Sort sort, Principal principal) {
+		return  activitiService.findTask(Request.getUserId(principal),page,pageSize,sort);
+	}
+    
+    
+    
+    
 	
 }

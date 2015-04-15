@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.UserDetail;
@@ -38,7 +40,7 @@ public interface ActivitiService {
 
 	public Pair<Boolean, String> payment(int orderid, String taskid,int contractid,String payType, UserDetail u);
 
-	public List<OrderView> findTask(String userid, NumberPageUtil page);
+	public Page<OrderView> findTask(String userid, int page, int pageSize, Sort sort);
 
 //	public Pair<Boolean, String> handle(String orderid, String taskid, String comment, String isok, UserDetail user);
 	/**
