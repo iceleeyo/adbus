@@ -66,7 +66,7 @@
 	}
 </script>
 
-						<div class="withdraw-wrap color-white-bg fn-clear" style="height: 820px; ">
+						
 							<form data-name="withdraw" name="userForm2" id="userForm2"
 								class="ui-form" method="post" action="saveContract"
 								enctype="multipart/form-data">
@@ -175,12 +175,11 @@
 			<div class="worm-tips" >
             <div class="tips-title"><span class="icon"></span> 温馨提示</div>
 	          <ol>
-              <li>1.请确保您输入的提现金额，以及银行帐号信息准确无误。</li>
-              <li>2.如果您填写的提现信息不正确可能会导致提现失败，由此产生的提现费用将不予返还。 </li>
-              <li>3.在双休日和法定节假日期间，用户可以申请提现，人人贷会在下一个工作日进行处理。由此造成的不便，请多多谅解！</li>
-              <li>4.平台禁止洗钱、信用卡套现、虚假交易等行为，一经发现并确认，将终止该账户的使用。</li>
+              <li>1.请输入正确的合同号及金额。</li>
+              <li>2.如果您填写的提现信息不正确可能会用户下单失败。 </li>
+              <li>3.平台禁止洗钱、信用卡套现、虚假交易等行为，一经发现并确认，将终止该账户的使用。</li>
 	          </ol>
 	        </div>
 							</form>
-						</div>
+						
 </@frame.html>

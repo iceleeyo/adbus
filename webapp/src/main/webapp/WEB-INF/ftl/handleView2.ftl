@@ -565,7 +565,7 @@ function pay() {
 							
 							<!-- 监播报告 -->
               <div id="jianboReport" style="display: none;">	
-                               <#include "template/orderDetail.ftl" /> <br>
+                               <#include "template/orderDetail.ftl" />
 					    <div class="p20bs mt10 color-white-bg border-ec">
                   <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3>								
 							

@@ -98,6 +98,9 @@
     } );
 </script>
             <div class="div">
+            <div class="withdraw-title" style="padding-top: 0px;text-align:center;">
+									时段设置列表
+									</div>
                 <table id="table" class="display compact" cellspacing="0" width="100%">
                     <thead>
                     <tr>

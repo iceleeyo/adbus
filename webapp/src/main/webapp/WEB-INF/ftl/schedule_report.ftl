@@ -100,6 +100,9 @@
                 <hr/>
             </div>-->
             <div class="div">
+            <div class="withdraw-title" style="padding-top: 0px;text-align:center;">
+									剩余时段
+									</div>
                 <table id="table" class="cell-border compact display" cellspacing="0" width="100%">
                     <thead>
                     <tr>

@@ -44,7 +44,7 @@
 								class="ui-form" method="post" action="../creOrder2"
 								enctype="multipart/form-data">
 								<div class="withdrawInputs">
-								    <DIV class="color-white-bg border-ec">
+								    <DIV class="p20bs mt10 color-white-bg border-ec">
                 <H3 class="text-xl title-box"><A class="black" href="#">套餐详情</A></H3>
                <DIV class="summary mt10 uplan-summary-div">
               <UL class="uplan-detail-ul">
@@ -60,6 +60,8 @@
 </UL>
 </DIV>
 </DIV>
+<div class="p20bs mt10 color-white-bg border-ec">
+                <H3 class="text-xl title-box"><A class="black" href="#">填写订单信息</A></H3><br>
 									<div class="inputs">
                                             <input type="hidden" readonly="readonly" name="product.Id" id="productId" value="${prod.id!''}"/>
                                         <div class="ui-form-item">
@@ -83,9 +85,10 @@
 									</div>
 									<div class="ui-form-item widthdrawBtBox">
 										<input type="button" id="subWithdraw" class="block-btn"
-											onclick="sub2();" value="下订单">
+											onclick="sub2();" value="确认提交">
 									</div>
 								</div>
+</div>							
 
 							</form>
 </@frame.html>

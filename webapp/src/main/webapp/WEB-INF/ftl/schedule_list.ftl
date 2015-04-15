@@ -104,8 +104,11 @@
         initTable();
     } );
 </script>
-            <div class="div" style="margin-top:5px">
-                <caption><h2>${day}媒体排条单</h2></caption>
+            <div class="div">
+                
+                <div class="withdraw-title" style="padding-top: 0px;text-align:center;">
+									${day}媒体排条单
+									</div>
             </div>
             <div class="div">
                 <table id="table" class="cell-border compact display" cellspacing="0"
