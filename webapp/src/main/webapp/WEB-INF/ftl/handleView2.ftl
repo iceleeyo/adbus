@@ -291,6 +291,7 @@ function pay() {
 <input type="hidden" id="orderid" value="${orderview.order.id!''}"/>
 <input type="hidden" id="taskid" value="${taskid!''}"/>
            <!-- 支付-->
+           
            <div id="payment" style="display: none;">
               <div id="process" class="section4">
 		            <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单</li><li id="track_time_0" class="tx3"></li></ul></div>
@@ -493,27 +494,27 @@ function pay() {
 							
 					<!-- 北广录入排期表 -->
           <div id="inputSchedule" style="display: none;">
-                             <#include "template/orderDetail.ftl" /><br>	
+                             <#include "template/orderDetail.ftl" />	
               <div class="p20bs mt10 color-white-bg border-ec">
               <H3 class="text-xl title-box"><A class="black" href="#">订单办理</A></H3><BR>					
               
               <TABLE class="ui-table ui-table-gray">
   								<TBODY>
 									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>北广录入排期表</H4></TD>
+    									<TD colspan=3 width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>北广录入排期表</H4></TD>
   								</TR>  	
   								<TR>
     									<TH width="20%">签收时间</TH>
-    									<TD style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+    									<TD colspan=3 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
   								</TR>  
   								<TR>
     									<TH width="20%">排期表</TH>
-    									<TD style="border-radius: 0 0 0"><a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
+    									<TD colspan=3 style="border-radius: 0 0 0"><a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
   								</TR> 
   								<TR>
     									<TH>排期意见</TH>
     									<TD colspan=3><textarea name="inputScheduleComments" id="inputScheduleComments" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD></TR>
-									<TR style="height:45px;">
+								<TR style="height:45px;">
     									<TD colspan=4 width="30%" style="text-align:center;">
     	 										<button onclick="inputSchedule();" class="block-btn">提交确认结果</button>
     									</TD>
@@ -527,27 +528,28 @@ function pay() {
 							
 							<!-- 上播报告 -->
               <div id="shangboReport" style="display: none;">
-              <#include "template/orderDetail.ftl" /><br>	
+              <#include "template/orderDetail.ftl" />
               <div class="p20bs mt10 color-white-bg border-ec">
-              <H3 class="text-xl"><A class="black" href="#">世巴提交上播报告</A></H3><BR>
+              <H3 class="text-xl title-box"><A class="black" href="#">订单办理</A></H3><BR>
               <TABLE class="ui-table ui-table-gray">
   								<TBODY>
 									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>北广录入排期表</H4></TD>
+    									<TD width="100%" colspan=3 style="border-radius: 5px 5px 0 0;"><H4>世巴提交上播报告</H4></TD>
   								</TR>  	
   								<TR>
     									<TH width="20%">签收时间</TH>
-    									<TD style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+    									<TD colspan=2 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
   								</TR>  
   								<TR>
     									<TH width="20%">排期表</TH>
-    									<TD style="border-radius: 0 0 0"><a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
+    									<TD colspan=2 style="border-radius: 0 0 0"><a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
   								</TR> 
   								<TR>
     									<TH>排期意见</TH>
-    									<TD colspan=3><textarea name="inputScheduleComments" id="inputScheduleComments" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD></TR>
+    									<TD colspan=2><textarea name="inputScheduleComments" id="inputScheduleComments" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD></TR>
 									<TR style="height:45px;">
 										  <TH>是否上播</TH>
+										  <TD style="border-radius: 0 0 0">
 										  <input name="shangboResult" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>已上播
       								<input name="shangboResult" type="radio" value="false" style="padding: 5px 15px;"/>未上播</TD>
 										  
@@ -565,26 +567,27 @@ function pay() {
               <div id="jianboReport" style="display: none;">	
                                <#include "template/orderDetail.ftl" /> <br>
 					    <div class="p20bs mt10 color-white-bg border-ec">
-                  <H3 class="text-xl"><A class="black" href="#">订单处理</A></H3>								
+                  <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3>								
 							
 							    <TABLE class="ui-table ui-table-gray">
   								<TBODY>
 									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>世巴提交监播报告</H4></TD>
+    									<TD width="100%" colspan=3 style="border-radius: 5px 5px 0 0;"><H4>世巴提交监播报告</H4></TD>
   								</TR>  	
   								<TR>
     									<TH width="20%">签收时间</TH>
-    									<TD style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+    									<TD colspan=2 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
   								</TR>  
   								<TR>
     									<TH width="20%">排期表</TH>
-    									<TD style="border-radius: 0 0 0"><a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
+    									<TD colspan=2 style="border-radius: 0 0 0"><a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
   								</TR> 
   								<TR>
     									<TH>上播意见</TH>
-    									<TD colspan=3><textarea name="inputScheduleComments" id="inputScheduleComments" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD></TR>
+    									<TD colspan=2><textarea name="inputScheduleComments" id="inputScheduleComments" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD></TR>
 									<TR style="height:45px;">
 										  <TH>上播状态</TH>
+										  <TD style="border-radius: 0 0 0">
 										  <input name="shangboResult" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>播放正常
       								<input name="shangboResult" type="radio" value="false" style="padding: 5px 15px;"/>播放异常</TD>
 										  
@@ -595,7 +598,7 @@ function pay() {
 							</TABLE>	  
 							
 	
-              </div>	          
+              </div>	        
                                <#include "template/hisDetail.ftl" />
 							</div>
 							 
