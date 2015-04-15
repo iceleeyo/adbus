@@ -229,11 +229,11 @@ public class OrderController {
 		return new DataTablePage(w, req.getDraw());
 	}
 
-	@RequestMapping(value = "/list")
+	@RequestMapping(value = "/myTask/{pageNum}")
 	public String list() {
 		return "orderList";
 	}
-    @RequestMapping(value = "/myTask/{pageNum}", method = RequestMethod.GET)
+    @RequestMapping(value = "/myTaskbak/{pageNum}", method = RequestMethod.GET)
 	public String myTask(Model model, @PathVariable int pageNum, Principal principal) {
 		NumberPageUtil page = new NumberPageUtil(pageNum);
 		page.setPagesize(30);
