@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.common.base.Suppliers;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.mybatis.domain.Contract;
@@ -44,6 +45,9 @@ import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 import com.pantuo.util.Variable;
 import com.pantuo.web.view.OrderView;
+import com.pantuo.web.view.SuppliesView;
+
+import freemarker.template.utility.StringUtil;
 
 /**
  * 
@@ -148,8 +152,10 @@ public class OrderController {
 		String activityId = executionEntity.getActivityId();
 		List<HistoricTaskView> activitis=activitiService.findHistoricUserTask(activitiService.findProcessInstanceByTaskId(taskid),activityId);
 		JpaProduct  prod=productService.findById(v.getOrder().getProductId());
-		  List<Contract> contracts = contractService.queryContractList(page, null, null, principal);
-	        model.addAttribute("contracts", contracts);
+		List<Contract> contracts = contractService.queryContractList(page, null, null, principal);
+		SuppliesView suppliesView=suppliesService.getSuppliesDetail(v.getOrder().getSuppliesId(), null);
+		model.addAttribute("suppliesView", suppliesView);
+		model.addAttribute("contracts", contracts);
 		model.addAttribute("taskid", taskid);
 		model.addAttribute("orderview", v);
 		model.addAttribute("prod", prod);
@@ -165,7 +171,11 @@ public class OrderController {
 	 */
 	@RequestMapping(value = "/{taskId}/complete", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
-	public Pair<Boolean, String> completeTask(@PathVariable("taskId") String taskId, Principal principal, Variable variable) {
+	public Pair<Boolean, String> completeTask(@PathVariable("taskId") String taskId, Principal principal, Supplies supplies,Variable variable) {
+		if(null!=supplies && null!=supplies.getSeqNumber() && !supplies.getSeqNumber().equals("")){
+			int a=suppliesService.updateSupplies(supplies);
+			System.out.println(a);
+		}
 		return activitiService.complete(taskId, variable.getVariableMap(), Request.getUser(principal));
 
 	}

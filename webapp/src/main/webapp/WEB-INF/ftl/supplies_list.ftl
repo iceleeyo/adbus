@@ -59,6 +59,7 @@
                 "dataSrc": "content",
             },
             "columns": [
+                { "data": "id", "defaultContent": ""},
             	{ "data": "name", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         var filter = $('#name').val();
@@ -88,7 +89,7 @@
                     return row.id;
                 },
                     "render": function(data, type, row, meta) {
-                        return  '<a class="table-link" href="#">编辑</a>';
+                        return  '<a class="table-link" href="${rc.contextPath}/supplies/suppliesDetail/'+data+'">详细</a>';
                     }},
             ],
             "language": {
@@ -139,6 +140,7 @@
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
+                        <th orderBy="name">物料编号</th>
                         <th orderBy="name">物料名称</th>
                         <th orderBy="suppliesType">物料类型</th>
                         <th orderBy="created">创建时间</th>

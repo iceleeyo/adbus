@@ -59,7 +59,7 @@
                     return row.id;
                 },
                     "render": function(data, type, row, meta) {
-                        return '<a class="table-link" href="${rc.contextPath}/contract/' + data +'">编辑</a>';
+                        return '<a class="table-link" href="${rc.contextPath}/contract/contractDetail/' + data +'">详细</a>';
                     }},
             ],
             "language": {

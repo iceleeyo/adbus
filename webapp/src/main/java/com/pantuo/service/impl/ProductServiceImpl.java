@@ -11,6 +11,7 @@ import com.pantuo.dao.ProductRepository;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.QJpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
+
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.identity.User;
 import org.activiti.engine.impl.persistence.entity.UserEntity;
@@ -94,5 +95,9 @@ public class ProductServiceImpl implements ProductService {
 			ex.setLimitStart(page.getLimitStart());
 			ex.setLimitEnd(page.getPagesize());
 			return productMapper.selectByExample(ex);
+		}
+
+		public Product selectProById(Integer productId) {
+			return productMapper.selectByPrimaryKey(productId);
 		}
 }

@@ -216,7 +216,7 @@
         </sequenceFlow>
         <userTask id="payment" name="支付" activiti:candidateUsers="${_owner.username}"></userTask>
         <sequenceFlow id="flow31" sourceRef="payment" targetRef="financialCheck"></sequenceFlow>
-        <userTask id="approve2" name="北广审核并填写物料ID等信息" activiti:candidateGroups="BeiguangMaterialManager">
+        <userTask id="approve2" name="北广终审" activiti:candidateGroups="BeiguangMaterialManager">
           <documentation>北广管理员审核物料信息并入库，填写物料ID等信息，程序设置审核结果的process变量：
 			1.approve2Result：true/false
 			2.approve2Comments:描述审核结果的文本</documentation>

@@ -50,6 +50,7 @@ public class ScheduleController {
     public String getOrderSchedule (
             Model model,
             @PathVariable("orderId") int orderId) {
+    	
         JpaOrders order = orderService.getJpaOrder(orderId);
         if (order != null && order.getStartTime().before(order.getEndTime())) {
             Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));

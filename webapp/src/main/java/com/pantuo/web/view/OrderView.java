@@ -14,12 +14,16 @@ import org.apache.commons.lang3.math.NumberUtils;
 import antlr.StringUtils;
 
 import com.pantuo.mybatis.domain.Orders;
+import com.pantuo.mybatis.domain.Product;
+import com.pantuo.mybatis.domain.Supplies;
 
 import freemarker.template.utility.StringUtil;
 
 public class OrderView {
 
 	Orders order;
+	Product product;
+	Supplies supplies;
 	// -- 临时属性 --//
 	int id;
 	long longOrderId = 0;
@@ -67,6 +71,22 @@ public class OrderView {
 		}
 		this.order = order;
 
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	public Supplies getSupplies() {
+		return supplies;
+	}
+
+	public void setSupplies(Supplies supplies) {
+		this.supplies = supplies;
 	}
 
 	public Task getTask() {

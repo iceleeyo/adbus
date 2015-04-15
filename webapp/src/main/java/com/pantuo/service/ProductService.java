@@ -24,4 +24,6 @@ public interface ProductService {
 
     public List<Product> queryContractList(NumberPageUtil page, String name, String code, HttpServletRequest request);
 
+	Product selectProById(Integer productId);
+
 }

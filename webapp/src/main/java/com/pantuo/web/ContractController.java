@@ -100,10 +100,10 @@ public class ContractController {
         model.addAttribute("users", users.getContent());
 		return "contractEnter";
 	}
-    @RequestMapping(value = "/contractDetail", produces = "text/html;charset=utf-8")
-    public String contractDetail(Model model, Principal principal, HttpServletRequest request)
+    @RequestMapping(value = "/contractDetail/{contract_id}", produces = "text/html;charset=utf-8")
+    public String contractDetail(Model model,@PathVariable("contract_id") int contract_id, Principal principal, HttpServletRequest request)
     {   
-    	int contract_id=Integer.parseInt(request.getParameter("contract_id"));
+//    	int contract_id=Integer.parseInt(request.getParameter("contract_id"));
     	ContractView view=contractService.getContractDetail(contract_id, principal);
     	model.addAttribute("view",view);
         return "contractDetail";

@@ -36,10 +36,14 @@ import scala.collection.mutable.StringBuilder;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Orders;
+import com.pantuo.mybatis.domain.Product;
+import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.mybatis.persistence.OrdersMapper;
 import com.pantuo.pojo.HistoricTaskView;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.OrderService;
+import com.pantuo.service.ProductService;
+import com.pantuo.service.SuppliesService;
 import com.pantuo.util.BeanUtils;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
@@ -65,6 +69,10 @@ public class ActivitiServiceImpl implements ActivitiService {
 	@Autowired
 	private OrderService orderService;
 	@Autowired
+	private ProductService productService;
+	@Autowired
+	private SuppliesService suppliesService;
+	@Autowired
 	private OrdersMapper ordersMapper;
 
 	public Page<OrderView> findTask(String userid, int page, int pageSize, Sort sort) {
@@ -85,6 +93,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 			Integer orderid = (Integer) task.getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
 			Orders order = orderService.selectOrderById(orderid);
+			Product product=productService.selectProById(order.getProductId());
+			v.setProduct(product);
 			v.setOrder(order);
 			v.setTask(task);
 			v.setProcessInstanceId(processInstance.getId());
@@ -348,6 +358,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 		Map<String, Object> variables = taskService.getVariables(taskid);
 		int orderid = (Integer) variables.get(ORDER_ID);
 		Orders order = orderService.selectOrderById(orderid);
+		Product product=productService.selectProById(order.getProductId());
+		v.setProduct(product);
 		v.setOrder(order);
 		v.setTask(task);
 		v.setProcessInstance(processInstance);

@@ -22,6 +22,10 @@
         $('#productForm').ajaxForm(function(data) {
             alert(data.error + " # " + data.name);
         }).submit();
+            var a = document.createElement('a');
+    	    a.href='${rc.contextPath}/product/list';
+    	    document.body.appendChild(a);
+    	    a.click();
 	}
 </script>
 							<form data-name="withdraw" name="productForm" id="productForm"

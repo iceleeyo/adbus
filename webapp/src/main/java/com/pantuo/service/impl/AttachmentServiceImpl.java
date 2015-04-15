@@ -109,7 +109,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 		AttachmentExample example =new AttachmentExample();
 		AttachmentExample.Criteria ca=example.createCriteria();
 		ca.andMainIdEqualTo(main_id);
-		ca.andUserIdEqualTo(Request.getUserId(principal));
+		//ca.andUserIdEqualTo(Request.getUserId(principal));
 		return attachmentMapper.selectByExample(example);
 	}
 }

@@ -77,4 +77,8 @@ public interface SuppliesService {
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
 	public SuppliesView getSuppliesDetail(int supplies_id, Principal principal);
+
+	Supplies selectSuppliesById(Integer suppliesId);
+
+	int updateSupplies(Supplies supplies);
 }

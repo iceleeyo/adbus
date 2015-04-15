@@ -55,10 +55,10 @@ public class SuppliesController {
 	public String list() {
 		return "supplies_list";
 	}
-	@RequestMapping(value = "/suppliesDetail", produces = "text/html;charset=utf-8")
-    public String suppliesDetail(Model model, Principal principal, HttpServletRequest request)
+	@RequestMapping(value = "/suppliesDetail/{supplies_id}", produces = "text/html;charset=utf-8")
+    public String suppliesDetail(Model model, @PathVariable("supplies_id") int supplies_id,Principal principal, HttpServletRequest request)
     {   
-    	int supplies_id=Integer.parseInt(request.getParameter("supplies_id"));
+//    	int supplies_id=Integer.parseInt(request.getParameter("supplies_id"));
     	SuppliesView view=suppliesService.getSuppliesDetail(supplies_id, principal);
     	model.addAttribute("view",view);
         return "suppliesDetail";

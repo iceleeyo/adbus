@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.pantuo.dao.pojo.JpaAttachment;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaSupplies;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -105,6 +106,20 @@ public class SuppliesServiceImpl implements SuppliesService {
 			v.setMainView(supplies);
 		}
 		return v;
+	}
+
+	public Supplies selectSuppliesById(Integer suppliesId) {
+		
+		return suppliesMapper.selectByPrimaryKey(suppliesId);
+	}
+
+	public int updateSupplies(Supplies supplies) {
+		 if(supplies.getSeqNumber()!=null){
+			 Supplies sup=suppliesMapper.selectByPrimaryKey(supplies.getId());
+			 sup.setSeqNumber(supplies.getSeqNumber());
+			 return suppliesMapper.updateByPrimaryKey(sup);
+		 }
+		 return 1;
 	}
 
 }

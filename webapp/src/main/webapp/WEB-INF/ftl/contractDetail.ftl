@@ -10,49 +10,29 @@ function go_back(){
 						<form data-name="withdraw" name="userForm2" id="userForm2"
 							class="ui-form" method="post" action="saveContract"
 							enctype="multipart/form-data">
-							<!--合同详情展示-->
-							
-							<div class="mt20">
-							
-								<div class="module p20" style="height: 423px;">
-								<button type="button" onclick="go_back()" class="block-btn" style="margin-bottom: 10px;">返回</button>
-									<div class="tab-content">
-										<div class="tab-content-box s-clear" id="holding"
-											style="display: block;">
-											<div class="uplan-table-box">
-												<table width="100%" class="uplan-table">
-													<tbody>
-														<tr class="uplan-table-th" style="width: 651px; ">
-															<td style="width: 221px;" align="center">
-																<div class="th-head">合同号</div>
-															</td>
-															<td align="center">
-																<div class="th-tail">附件</div>
-															</td>
-														</tr>
-													</tbody>
-												</table>
-												<li class="ui-list-item dark" >
-													<div class="ui-list-item-row fn-clear" style="width: 636px; ">
-														<span style="width: 244px; height: 35px; "
-															class="ui-list-field text-center w80 fn-left" >
-															${view.mainView.contractCode!''}
-														</span>
-													
-														<span style="width: 380px; height: 35px; " 
-															class="ui-list-field text-center w80 fn-left">
-															<#list view.files as item> ${item.name!''} 
-															</#list>
-														</span>
-													</div>
-												</li>
-												
-													
-												
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
+							  <DIV class="color-white-bg border-ec">
+                <H3 class="text-xl title-box"><A class="black" href="#">合同详情</A></H3>
+               <DIV class="summary mt10 uplan-summary-div">
+              <UL class="uplan-detail-ul">
+  <LI style="width: 240px;"><SPAN>合同编号：</SPAN><SPAN class="con">${(view.mainView.contractCode)!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>合同名称：</SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">${(view.mainView.contractName)!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>广告主：</SPAN><SPAN class="con">${(view.mainView.userId)!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>金额：</SPAN><SPAN class="con">${(view.mainView.amounts)!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>行业：</SPAN><SPAN class="con">${(view.mainView.industry)!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>开始日期：</SPAN><SPAN class="con"><#setting
+															date_format="yyyy-MM-dd"> ${(view.mainView.startDate)?date!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>终止日期：</SPAN><SPAN class="con"><#setting
+															date_format="yyyy-MM-dd"> ${(view.mainView.endDate)?date!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>附件：</SPAN><SPAN class="con"><#list view.files as item> ${item.name!''}
+															</#list></SPAN></LI>
+</UL>
+</DIV>
+</DIV>
 						</form>
 </@frame.html>
+
+
+
+
+
+

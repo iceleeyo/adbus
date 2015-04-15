@@ -34,8 +34,13 @@
 
 	function sub2() {
 		var name = ($("#name").val());
+		Sfile= ($("#Sfile").val());
 		if(name==""){
 			jDialog.Alert("请填写物料名称");
+			return;
+		}
+		if(Sfile==""){
+			jDialog.Alert("请选择物料");
 			return;
 		}
 		$('#userForm2').ajaxForm(function(data) {
@@ -64,7 +69,7 @@
 										<br>
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>素材标题</label> <input
+												class="ui-form-required">*</span>物料名称</label> <input
 												class="ui-input" type="text" name="name" id="name"
 												data-is="isAmount isEnough" autocomplete="off"
 												disableautocomplete="">
@@ -72,7 +77,7 @@
 
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>素材类型</label>
+												class="ui-form-required">*</span>物料类型</label>
 											<select class="ui-input" name="suppliesType" id="suppliesType">
 												<option value="0" selected="selected">视频</option>
 												<option value="1">图片</option>
@@ -88,7 +93,8 @@
 												autocomplete="off" disableautocomplete="" style="height: 91px; width: 367px; ">
 										</div>
 										<div class="ui-form-item" id="file">
-											<label class="ui-label mt10">附件上传</label>
+											<label class="ui-label mt10"><span
+												class="ui-form-required">*</span>附件上传</label>
 											<div id="newUpload2">
 												<div id="div_1">
 													<input type="file" name="file" id="Sfile">

@@ -2,16 +2,13 @@
 
 <@frame.html title="公交广告交易系统">
 <script type="text/javascript">
-	
 	$(function() {
 	//显示当前节点对应的表单信息
 	$('#${activityId!'' }').css("display","inline");
 });
-
 function go_back() {
 		history.go(-1);
 	}
-
 
 /**
  * 完成任务
@@ -33,7 +30,7 @@ function complete(taskId, variables) {
 		});
 	}
 	
-	var url="${rc.contextPath}/order/"+taskId+"/complete";
+var url="${rc.contextPath}/order/"+taskId+"/complete";
 	// 发送任务完成请求
     $.post(url,{
         keys: keys,
@@ -50,10 +47,23 @@ function complete(taskId, variables) {
     
 }
 
+
 //世巴初审
-function approve1(){
+function approve1(){ 
+    var approve2ResultValue="";
 	var approve1Result=$('#approve1 :radio[name=approve1Result]:checked').val();
 	var approve1Comments=$('#approve1 #approve1Comments').val();
+	var seqNumber=$('#approve1 #seqNumber').val();
+	if(approve1Comments==""){
+	   alert("请填写意见");
+	   return;
+	}
+	alert(seqNumber);
+	if(seqNumber!=""){
+	   approve2ResultValue="true";
+	}else{
+	    approve2ResultValue="false";
+	}
 	complete('${taskid!''}',[
 		{
 			key: 'approve1Result',
@@ -62,7 +72,7 @@ function approve1(){
 		},
 		{
 			key: 'approve2Result',
-			value: "false",
+			value: approve2ResultValue,
 			type: 'B'
 		},
 		{
@@ -77,7 +87,18 @@ function approve1(){
 function approve2(){
 	var approve2Result=$('#approve2 :radio[name=approve2Result]:checked').val();
 	var approve2Comments=$('#approve2 #approve2Comments').val();
-	complete('${taskid!''}',[
+	var suppliesid=$('#approve2 #suppliesid').val();
+	var seqNumber=$('#approve2 #seqNumber').val();
+	if(approve2Comments==""){
+	   alert("请填写意见");
+	   return;
+	}
+	if(seqNumber==""){
+	   alert("请填写物料编号");
+	   return;
+	}
+	
+	bgzs(suppliesid,seqNumber,'${taskid!''}',[
 		{
 			key: 'approve2Result',
 			value: approve2Result,
@@ -90,11 +111,49 @@ function approve2(){
 		}
 	]);
 }
-
+function bgzs(suppliesid,seqNumber,taskId, variables) {
+	// 转换JSON为字符串
+    var keys = "", values = "", types = "";
+	if (variables) {
+		$.each(variables, function() {
+			if (keys != "") {
+				keys += ",";
+				values += ",";
+				types += ",";
+			}
+			keys += this.key;
+			values += this.value;
+			types += this.type;
+		});
+	}
+	
+	var url="${rc.contextPath}/order/"+taskId+"/complete";
+	// 发送任务完成请求
+    $.post(url,{
+        keys: keys,
+        values: values,
+        types: types,
+        id:suppliesid,
+        seqNumber:seqNumber
+        
+    },function(data){
+    	alert(data.left==true?"执行成功!":"执行失败!");
+    	var a = document.createElement('a');
+    	a.href='${rc.contextPath}/order/myTask/1';
+    	//a.target = 'main';
+    	document.body.appendChild(a);
+    	a.click();
+    });
+    
+}
 //世巴财务审核
 function financial() {
     var paymentResult=$('#financialCheck :radio[name=rad]:checked').val();
 	var financialcomment=$('#financialcomment').val();
+	if(financialcomment==""){
+	  alert("请填写审核意见");
+	  return;
+	}
 	complete('${taskid!''}',[
 		{
 			key: 'paymentResult',
@@ -108,7 +167,6 @@ function financial() {
 		}
 	]);
 }
-
 //世巴提交排期表
 function submitSchedule() {
     var ScheduleResult=$('#submitSchedule :radio[name=ScheduleResult]:checked').val();
@@ -184,7 +242,7 @@ function check() {
 			}
 		}, "text");
 	}
-	function pay() {
+function pay() {
 	    var contractid="";
 	     var payType="";
 	     var temp=document.getElementsByName("payType");
@@ -229,13 +287,12 @@ function check() {
 	function hideContract(){
 	     $("#contractCode").hide();
 	}
-	
 </script>
-						<input type="hidden" id="orderid" value="${orderview.order.id!''}"/>
-						<input type="hidden" id="taskid" value="${taskid!''}"/>
+<input type="hidden" id="orderid" value="${orderview.order.id!''}"/>
+<input type="hidden" id="taskid" value="${taskid!''}"/>
                            <!-- 支付-->
-                            <div id="payment" style="display: none;">
-                  <div id="process" class="section4">
+           <div id="payment" style="display: none;">
+              <div id="process" class="section4">
 		            <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单</li><li id="track_time_0" class="tx3"></li></ul></div>
             		<div class="proce ready"><ul><li class="tx1">&nbsp;</li></ul></div>
             		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">支付</li><li id="track_time_4" class="tx3"></li></ul></div>
@@ -247,13 +304,41 @@ function check() {
             		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">播出完成</li><li id="track_time_6" class="tx3"></li></ul></div>
             	</div>
                 <#include "template/orderDetail.ftl" />
-                 <div class="module s-clear u-lump-sum p19">
-                      <H3 class="text-xl"><A class="black" href="#">支付订单</A></H3>								
-					<div class="u-sum-right">
-							<input type="radio" name="payType" onchange="showContract()" value="contract" checked="checked">关联合同
+              <div class="module s-clear u-lump-sum p19">
+                 <H3 class="text-xl"><A class="black" href="#">支付订单</A></H3>	
+                 <TABLE class="ui-table ui-table-gray">
+  								<TBODY>
+									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
+    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>广告主支付订单</H4></TD>
+  								</TR>  	
+									<TR style="height:45px;">
+    									<TH>支付方式</TH>
+    									<TD>
+    										<input type="radio" name="payType" onchange="showContract()" value="contract" checked="checked">关联合同
+				             		<input type="radio" name="payType" value="online" onchange="hideContract()" >线上支付
+				             	<input type="radio" name="payType" value="others"  onchange="hideContract()">其他支付</TD>
+				             	<select class="ui-input" name="contractCode" id="contractCode">
+                                                <option value="" selected="selected">请选择合同</option>
+                                                <#if contracts?exists>
+                                                <#list contracts as c>
+                                                    <option value="${c.id}">${c.contractName!''}</option>
+                                                </#list>
+                                                </#if>
+                  		</select><br>
+    									<TD colspan=2 width="30%" style="text-align:center;">
+    										<button type="button" onclick="pay()" class="block-btn" style="margin-left: 60px;">确认支付</button>
+    									</TD>
+  								</TR>
+								</TABLE>	
+                 
+                 
+                 							
+								 <!--
+								 <div class="u-sum-right">
+							       <input type="radio" name="payType" onchange="showContract()" value="contract" checked="checked">关联合同
 				             <input type="radio" name="payType" value="online" onchange="hideContract()" >线上支付
 				             <input type="radio" name="payType" value="others"  onchange="hideContract()">其他
-							<br>
+							   <br>
 								 <select class="ui-input" name="contractCode" id="contractCode">
                                                 <option value="" selected="selected">请选择合同</option>
                                                  <#if contracts?exists>
@@ -261,86 +346,179 @@ function check() {
                                                     <option value="${c.id}">${c.contractName!''}</option>
                                                 </#list>
                                                 </#if>
-                              </select><br>
-                              <br>
-                              <button type="button" onclick="pay()" class="block-btn" style="margin-left: 60px;">确认支付</button>	
-	              </div>
+                  </select><br>
+                  <br>
+                  <button type="button" onclick="pay()" class="block-btn" style="margin-left: 60px;">确认支付</button>	
+	              </div>-->
              </div>	
 			</div> 
-			  <!-- 北广审核并填写物料ID等信息 -->
-                 <div id="approve2" style="display: none;">	
+			<!-- 北广审核并填写物料ID等信息 -->
+      <div id="approve2" style="display: none;">	
                                <#include "template/orderDetail.ftl" /><br>
-                        <div class="module s-clear u-lump-sum p19">
-                                <H3 class="text-xl"><A class="black" href="#">北广终审</A></H3>								
-							<div class="u-sum-right">
-                                  <label class="mt10">审核意见</label>         
-				               <textarea name="approve2Comments" id="approve2Comments"></textarea>
-							   <input type="radio" name="approve2Result" value="true" checked="checked">素材正常
-				               <input type="radio" name="approve2Result" value="false" >素材异常
-				               <button onclick="approve2();" class="block-btn">提交</button>
-				               </div>
-                        </div>          
-                               <#include "template/hisDetail.ftl" />
+                <div class="module s-clear u-lump-sum p19">
+                <H3 class="text-xl"><A class="black" href="#">订单处理</A></H3>	
+                                
+                                
+								<TABLE class="ui-table ui-table-gray">
+  								<TBODY>
+									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
+    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>北广对物料进行终审</H4></TD>
+  								</TR>  	
+  								<TR>
+    									<TH width="20%">签收时间</TH>
+    									<TD style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+  								</TR> 
+  								<TR>
+    									<TH>物料</TH>
+    									<TD colspan=3>
+    									<#list suppliesView.files as item> 
+							       <a href="../upload_temp/${item.url!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;  
+   							     </#list></TD>
+    							</TR> 
+    							<TR>
+    									<TH>填写物料编号</TH>
+    									<input type="hidden"  id="suppliesid" value="${suppliesView.mainView.id!''}"/>
+    									<TD colspan=3><input  id="seqNumber" type="text" ></TD>
+    							</TR>
+  								<TR>
+    									<TH>审核意见</TH>
+    									<TD colspan=3><textarea name="approve2Comments" id="approve2Comments" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD></TR>
+  								
+									<TR style="height:45px;">
+    									<TH>是否通过</TH>
+    									<TD>
+    										<input name="approve2Result" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>符合要求 
+      									<input name="approve1Result" type="radio" value="false" style="padding: 5px 15px;"/>不符合要求</TD>
+    									<TD colspan=2 width="30%" style="text-align:center;">
+    	 										<button onclick="approve2();" class="block-btn">提交审核结果</button>
+    									</TD>
+  								</TR>
+								</TABLE>	                                    							
+                </div>          
+                 <#include "template/hisDetail.ftl" />
 				 </div>
 							
-			            <!-- 世巴提交排期表 -->
-                         <div id="submitSchedule" style="display: none;">	
+			   <!-- 世巴提交排期表 -->
+         <div id="submitSchedule" style="display: none;">	
                              <#include "template/orderDetail.ftl" /><br>
                              <div class="module s-clear u-lump-sum p19">
                                 <H3 class="text-xl"><A class="black" href="#"> 世巴确认排期表并提交</A></H3>								
 							   <div class="u-sum-right">
+    									<a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a><br>
                                  <input type="radio" name="ScheduleResult" value="true" checked="checked">通过
 				               <input type="radio" name="ScheduleResult" value="false" >不通过
                                  <button onclick="submitSchedule();" class="block-btn">提交</button>
 				             </div>
                         </div>	          
                                <#include "template/hisDetail.ftl" />
-							</div>
-							<!-- 世巴初审 -->
-                            <div id="approve1" style="display: none;">	
+					</div>
+					<!-- 世巴初审 -->
+          <div id="approve1" style="display: none;">	
                              <#include "template/orderDetail.ftl" /><br>
-                            <div class="module s-clear u-lump-sum p19">
-                                <H3 class="text-xl"><A class="black" href="#"> 世巴对物料进行初审</A></H3>								
-							<div class="u-sum-right">
-                                  <label class="mt10">意见</label>         
-				                <textarea name="approve1Comments" id="approve1Comments"></textarea><br>
-							   <input type="radio" name="approve1Result" value="true" checked="checked">物料正常
-				               <input type="radio" name="approve1Result" value="false" >物料异常
-                                <button onclick="approve1();" class="block-btn">提交</button>
-				             </div>
-                        </div>	          
+                <div class="module s-clear u-lump-sum p19">
+                <H3 class="text-xl"><A class="black" href="#">订单处理</A></H3>	
+                                
+								<TABLE class="ui-table ui-table-gray">
+  								<TBODY>
+  								<input type="hidden"  id="seqNumber" value="${suppliesView.mainView.seqNumber!''}"/>
+									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
+    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>世巴对物料进行初审</H4></TD>
+  								</TR>  	
+  								<TR>
+    									<TH width="20%">签收时间</TH>
+    									<TD style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+  								</TR>  
+  								<TR>
+    									<TH>物料</TH>
+    									<TD colspan=3>
+    									<#list suppliesView.files as item> 
+							       <a href="../upload_temp/${item.url!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;  
+   							     </#list></TD>
+    							</TR>
+  								<TR>
+    									<TH>审核意见</TH>
+    									<TD colspan=3><textarea name="approve1Comments" id="approve1Comments" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD>
+    						   </TR>
+  								
+									<TR style="height:45px;">
+    									<TH>是否通过</TH>
+    									<TD>
+    										<input name="approve1Result" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>符合要求 
+      									<input name="approve1Result" type="radio" value="false" style="padding: 5px 15px;"/>不符合要求</TD>
+    									<TD colspan=2 width="30%" style="text-align:center;">
+    	 										<button onclick="approve1();" class="block-btn">提交审核结果</button>
+    									</TD>
+  								</TR>
+								</TABLE>	                                
+                </div>	          
                                <#include "template/hisDetail.ftl" />
-							</div>
+					</div>
 							
-								  <!-- 世巴财务确认 -->
-							<div id="financialCheck" style="display: none;">
+					<!-- 世巴财务确认 -->
+					<div id="financialCheck" style="display: none;">
 							   <#include "template/orderDetail.ftl" /><br>
 						<div class="module s-clear u-lump-sum p19">
-                                <H3 class="text-xl"><A class="black" href="#"> 世巴财务确认</A></H3>								
-							<div class="u-sum-right">
-                                  <label class="mt10">意见</label>         
-				                 <textarea name="financialcomment" id="financialcomment"></textarea><br>
-							    <input type="radio" name="rad" value="true" checked="checked">支付正常
-				                <input type="radio" name="rad" value="false" >支付异常
-                                <button onclick="financial();" class="block-btn">提交</button>	
-				             </div>
-                        </div>	          
-                               <#include "template/hisDetail.ftl" />
-							 </div>
+              <H3 class="text-xl"><A class="black" href="#">订单处理</A></H3>	
+              
+							<TABLE class="ui-table ui-table-gray">
+  								<TBODY>
+									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
+    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>世巴财务确认</H4></TD>
+  								</TR>  	
+  								<TR>
+    									<TH width="20%">签收时间</TH>
+    									<TD style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+  								</TR>  
+  								<TR>
+    									<TH>审核意见</TH>
+    									<TD colspan=3><textarea name="financialcomment" id="financialcomment" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD></TR>
+									<TR style="height:45px;">
+    									<TH>支付状态</TH>
+    									<TD>
+    										<input name="rad" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>支付正常 
+      									<input name="rad" type="radio" value="false" style="padding: 5px 15px;"/>支付异常</TD>
+    									<TD colspan=2 width="30%" style="text-align:center;">
+    	 										<button onclick="financial();" class="block-btn">提交确认结果</button>
+    									</TD>
+  								</TR>
+							</TABLE>	               
+              							
+             </div>	          
+              <#include "template/hisDetail.ftl" />
+					</div>
 							 
 								    
 							
-							<!-- 北广录入排期表 -->
-                            <div id="inputSchedule" style="display: none;">
+					<!-- 北广录入排期表 -->
+          <div id="inputSchedule" style="display: none;">
                              <#include "template/orderDetail.ftl" /><br>	
-                             <div class="module s-clear u-lump-sum p19">
-                                <H3 class="text-xl"><A class="black" href="#">北广录入排期表</A></H3>								
-							<div class="u-sum-right">
-                                  <label class="mt10">意见</label>         
-				               <textarea name="inputScheduleComments" id="inputScheduleComments" value="已录入排期表"></textarea><br>
-                                <button onclick="inputSchedule();" class="block-btn">确定</button>
-				             </div>
-                            </div>	          
+              <div class="module s-clear u-lump-sum p19">
+              <H3 class="text-xl"><A class="black" href="#">订单办理</A></H3>					
+              
+              <TABLE class="ui-table ui-table-gray">
+  								<TBODY>
+									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
+    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>北广录入排期表</H4></TD>
+  								</TR>  	
+  								<TR>
+    									<TH width="20%">签收时间</TH>
+    									<TD style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+  								</TR>  
+  								<TR>
+    									<TH width="20%">排期表</TH>
+    									<TD style="border-radius: 0 0 0"><a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
+  								</TR> 
+  								<TR>
+    									<TH>排期意见</TH>
+    									<TD colspan=3><textarea name="inputScheduleComments" id="inputScheduleComments" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD></TR>
+									<TR style="height:45px;">
+    									<TD colspan=4 width="30%" style="text-align:center;">
+    	 										<button onclick="inputSchedule();" class="block-btn">提交确认结果</button>
+    									</TD>
+  								</TR>
+							</TABLE>	 
+              
+              </div>	          
                                <#include "template/hisDetail.ftl" />
 							</div>
 							
@@ -351,7 +529,8 @@ function check() {
                              <div class="module s-clear u-lump-sum p19">
                                 <H3 class="text-xl"><A class="black" href="#">世巴提交上播报告</A></H3>								
 							<div class="u-sum-right">
-                                  <label class="mt10">意见</label>         
+							      <a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a><br>
+                                  <label class="mt10">意见</label><br>         
 				                <textarea name="shangboComments" id="shangboComments" value="已上播"></textarea><br>
 							   <input type="radio" name="shangboResult" value="true" checked="checked">已上播
 				               <input type="radio" name="shangboResult" value="false" >未上播
