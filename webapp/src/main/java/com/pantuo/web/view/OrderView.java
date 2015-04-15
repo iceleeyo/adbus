@@ -25,7 +25,14 @@ public class OrderView {
 	long longOrderId = 0;
 	String statsString;
 	// 流程任务
-	private Task task;
+	private Task task;//task 对象转json时 jpa 延迟加载有问题
+	
+	private String task_id;
+	private String task_name;
+	private String executionId;
+	private String task_assignee;
+	
+	//
 	private String processInstanceId;
 	private Map<String, Object> variables;
 
@@ -64,9 +71,26 @@ public class OrderView {
 	public Task getTask() {
 		return task;
 	}
-
 	public void setTask(Task task) {
+		setTask(task, true);
+	}
+	/**
+	 * 
+	 * task 对象转json时 jpa 延迟加载有问题
+	 *
+	 * @param task
+	 * @param setTaskEmpty
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
+	public void setTask(Task task, boolean setTaskEmpty) {
 		this.task = task;
+		task_id = task.getId();
+		task_name = task.getName();
+		executionId = task.getExecutionId();
+		task_assignee = task.getAssignee();
+		if (setTaskEmpty) {
+			this.task = null;
+		}
 	}
 
 	public String getProcessInstanceId() {
@@ -119,7 +143,7 @@ public class OrderView {
 	}
 
 	public String getStatsString() {
-		if (order.getStats() == null) {
+		if (order==null || order.getStats() == null) {
 			return org.apache.commons.lang3.StringUtils.EMPTY;
 		}
 		switch (order.getStats()) {
@@ -142,6 +166,54 @@ public class OrderView {
 
 	public void setStatsString(String statsString) {
 		this.statsString = statsString;
+	}
+
+	public String getTask_id() {
+		return task_id;
+	}
+
+	public void setTask_id(String task_id) {
+		this.task_id = task_id;
+	}
+
+	public String getTask_name() {
+		return task_name;
+	}
+
+	public void setTask_name(String task_name) {
+		this.task_name = task_name;
+	}
+
+	public String getExecutionId() {
+		return executionId;
+	}
+
+	public void setExecutionId(String executionId) {
+		this.executionId = executionId;
+	}
+
+	public long getMaxId() {
+		return maxId;
+	}
+
+	public void setMaxId(long maxId) {
+		this.maxId = maxId;
+	}
+
+	public long getSplit() {
+		return split;
+	}
+
+	public void setSplit(long split) {
+		this.split = split;
+	}
+
+	public String getTask_assignee() {
+		return task_assignee;
+	}
+
+	public void setTask_assignee(String task_assignee) {
+		this.task_assignee = task_assignee;
 	}
 
 }

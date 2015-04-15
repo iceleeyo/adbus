@@ -30,7 +30,9 @@ import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.Supplies;
+import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.HistoricTaskView;
+import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.ContractService;
 import com.pantuo.service.OrderService;
@@ -41,7 +43,6 @@ import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 import com.pantuo.util.Variable;
-import com.pantuo.web.view.ContractView;
 import com.pantuo.web.view.OrderView;
 
 /**
@@ -211,11 +212,32 @@ public class OrderController {
     }
 */
 
+	
+	/**
+	 * 
+	 * author:impanxh
+	 *
+	 * @param req
+	 * @param principal
+	 * @return
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
+	@RequestMapping("ajax-orderlist")
+	@ResponseBody
+	public DataTablePage<OrderView> getAllContracts(TableRequest req, Principal principal) {
+		Page<OrderView> w = orderService.getOrderList(req.getPage(), req.getLength(), req.getSort("id"), principal);
+		return new DataTablePage(w, req.getDraw());
+	}
+
+	@RequestMapping(value = "/list")
+	public String list() {
+		return "orderList";
+	}
     @RequestMapping(value = "/myTask/{pageNum}", method = RequestMethod.GET)
 	public String myTask(Model model, @PathVariable int pageNum, Principal principal) {
 		NumberPageUtil page = new NumberPageUtil(pageNum);
 		page.setPagesize(30);
-		model.addAttribute("list", activitiService.findTask(Request.getUserId(principal), page));
+		//model.addAttribute("list", activitiService.findTask(Request.getUserId(principal), page));
 		model.addAttribute("pageNum", page);
 		return "mytask";
 	}
