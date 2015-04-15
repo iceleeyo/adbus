@@ -1,4 +1,4 @@
- <DIV class="color-white-bg border-ec">
+ <DIV class="p20bs mt10 color-white-bg border-ec">
                 <H3 class="text-xl title-box"><A class="black" href="#">订单详情-${(orderview.longOrderId)!''}</A></H3>
                <DIV class="summary mt10 uplan-summary-div">
               <UL class="uplan-detail-ul">

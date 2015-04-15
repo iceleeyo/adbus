@@ -1,5 +1,5 @@
-<DIV class="p20bs mt20 color-white-bg fn-clear">
-<H3 class="text-xl"><A class="black" href="#">历史办理信息</A></H3>	
+<DIV class="p20bs mt10 color-white-bg border-ec">
+<H3 class="text-xl title-box"><A class="black" href="#">历史办理信息</A></H3><br>	
 <#if activitis?exists>
 <div class="uplan-table-box">
 											
