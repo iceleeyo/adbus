@@ -21,17 +21,17 @@ public class OrderView {
 
 	Orders order;
 	// -- 临时属性 --//
-
+	int id;
 	long longOrderId = 0;
 	String statsString;
 	// 流程任务
 	private Task task;//task 对象转json时 jpa 延迟加载有问题
-	
+
 	private String task_id;
 	private String task_name;
 	private String executionId;
 	private String task_assignee;
-	
+
 	//
 	private String processInstanceId;
 	private Map<String, Object> variables;
@@ -61,19 +61,22 @@ public class OrderView {
 	}
 
 	public void setOrder(Orders order) {
-		if (ObjectUtils.notEqual(order, null)
-				&& ObjectUtils.notEqual(order.getId(), null)) {
+		if (ObjectUtils.notEqual(order, null) && ObjectUtils.notEqual(order.getId(), null)) {
 			longOrderId = getIdFromDate(order.getId(), order.getCreated());
+			this.id = order.getId();
 		}
 		this.order = order;
+
 	}
 
 	public Task getTask() {
 		return task;
 	}
+
 	public void setTask(Task task) {
 		setTask(task, true);
 	}
+
 	/**
 	 * 
 	 * task 对象转json时 jpa 延迟加载有问题
@@ -121,8 +124,7 @@ public class OrderView {
 		return historicProcessInstance;
 	}
 
-	public void setHistoricProcessInstance(
-			HistoricProcessInstance historicProcessInstance) {
+	public void setHistoricProcessInstance(HistoricProcessInstance historicProcessInstance) {
 		this.historicProcessInstance = historicProcessInstance;
 	}
 
@@ -143,7 +145,7 @@ public class OrderView {
 	}
 
 	public String getStatsString() {
-		if (order==null || order.getStats() == null) {
+		if (order == null || order.getStats() == null) {
 			return org.apache.commons.lang3.StringUtils.EMPTY;
 		}
 		switch (order.getStats()) {
@@ -214,6 +216,14 @@ public class OrderView {
 
 	public void setTask_assignee(String task_assignee) {
 		this.task_assignee = task_assignee;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 }
