@@ -51,7 +51,7 @@
                         }
                     return data;
                 } },
-                { "data": "order.startTime", "defaultContent": "","render": function(data, type, row, meta) {
+                { "data": "order.created", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd HH:mm:ss");
                 	return d;
                 }},
