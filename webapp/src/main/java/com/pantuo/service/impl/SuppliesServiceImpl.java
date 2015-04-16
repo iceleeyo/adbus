@@ -47,7 +47,7 @@ public class SuppliesServiceImpl implements SuppliesService {
 			if (dbId > 0) {
 				attachmentService.saveAttachment(request, Request.getUserId(principal), obj.getId(), JpaAttachment.Type.su_file);
 			}
-			r = new Pair<Boolean, String>(true, "success");
+			r = new Pair<Boolean, String>(true, "物料上传成功！");
 		} catch (BusinessException e) {
 			r = new Pair<Boolean, String>(false, "素材文件保存失败");
 		}
