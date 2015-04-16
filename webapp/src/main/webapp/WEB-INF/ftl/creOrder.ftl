@@ -19,8 +19,8 @@
             $('#userForm2').ajaxForm(function(data) {
                 alert(data.left + " # " + data.right);
             }).submit();
-            //var a = document.createElement('a');
-    	    //a.href='${rc.contextPath}/order/myTask/1';
+           //var a = document.createElement('a');
+    	   //a.href='${rc.contextPath}/order/myTask/1';
     	    //document.body.appendChild(a);
     	    //a.click();
         }

@@ -242,6 +242,7 @@ function check() {
 			}
 		}, "text");
 	}
+	
 function pay() {
 	    var contractid="";
 	     var payType="";
@@ -271,6 +272,32 @@ function pay() {
 				"taskid" :taskid,
 				"contractid":contractid,
 				"payType":payType
+			},
+			success : function(data) {
+				alert(data.left + " # " + data.right);
+				var a = document.createElement('a');
+    	        a.href='${rc.contextPath}/order/myOrders/1';
+            	document.body.appendChild(a);
+             	a.click();
+			}
+		}, "text");
+	}
+	
+	function modifyOrder() {
+	        var supplieid=$("#supplieid  option:selected").val();
+	            if(supplieid==""){
+	              alert("请选择物料");
+	              return;
+	            }
+		var orderid = $("#orderid").val();
+		var taskid = $("#taskid").val();
+		$.ajax({
+			url : "${rc.contextPath}/order/modifyOrder",
+			type : "POST",
+			data : {
+				"orderid" :orderid,
+				"taskid" :taskid,
+				"supplieid":supplieid
 			},
 			success : function(data) {
 				alert(data.left + " # " + data.right);
@@ -338,6 +365,45 @@ function pay() {
 								</TABLE>	<br>
              </div>	
 			</div> 
+			<!-- 广告主修改订单 -->
+          <div id="modifyOrder" style="display: none;">	
+                             <#include "template/orderDetail.ftl" />
+                <div class="p20bs mt10 color-white-bg border-ec">
+                <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3><br>	
+                                
+								<TABLE class="ui-table ui-table-gray">
+  								<TBODY>
+  								<input type="hidden"  id="seqNumber" value="${suppliesView.mainView.seqNumber!''}"/>
+									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
+    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>广告主修改订单物料</H4></TD>
+  								</TR>  	
+  								<TR>
+    									<TH>物料详情</TH>
+    									<TD colspan=3>
+    									<#list suppliesView.files as item> 
+							       <a href="../upload_temp/${item.url!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;  
+   							     </#list></TD>
+    							</TR>
+  								<TR>
+    									<TH>更改物料</TH>
+    									<TD colspan=3><select class="ui-input" name="supplieid" id="supplieid">
+                                                <option value="" selected="selected">请选择物料</option>
+                                                <#if supplieslist?exists>
+                                                <#list supplieslist as c>
+                                                    <option value="${c.id}">${c.name!''}</option>
+                                                </#list>
+                                                </#if>
+                  		               </select></TD>
+    						   </TR>
+    						   <TR>
+    						   <TD colspan=4 align="center">
+									<button onclick="modifyOrder();" class="block-btn">提交</button>
+									</TD>
+  								</TR>
+								</TABLE>	                                
+                </div>	          
+                               <#include "template/hisDetail.ftl" />
+					</div>
 			<!-- 北广审核并填写物料ID等信息 -->
       <div id="approve2" style="display: none;">	
                                <#include "template/orderDetail.ftl" />

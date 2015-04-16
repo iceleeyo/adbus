@@ -81,4 +81,6 @@ public interface SuppliesService {
 	Supplies selectSuppliesById(Integer suppliesId);
 
 	int updateSupplies(Supplies supplies);
+
+	List<Supplies> querySuppliesByUser(Principal principal);
 }

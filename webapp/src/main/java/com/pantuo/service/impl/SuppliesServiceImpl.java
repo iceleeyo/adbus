@@ -122,4 +122,13 @@ public class SuppliesServiceImpl implements SuppliesService {
 		 return 1;
 	}
 
+	public List<Supplies> querySuppliesByUser(Principal principal) {
+		SuppliesExample example=new SuppliesExample();
+		SuppliesExample.Criteria criteria=example.createCriteria();
+		 if (principal != null) {
+			 criteria.andUserIdEqualTo(Request.getUserId(principal));
+	        }
+		 return suppliesMapper.selectByExample(example);
+	}
+
 }

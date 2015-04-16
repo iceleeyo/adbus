@@ -612,4 +612,26 @@ public class ActivitiServiceImpl implements ActivitiService {
 			System.out.println("3:" + hv.getValue());
 		}
 	}
+
+
+	public Pair<Boolean, String> modifyOrder(int orderid, String taskid,
+			int supplieid, UserDetail user) {
+		Pair<Boolean, String> r = null;
+		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
+		if (task != null) {
+			Map<String, Object> info = taskService.getVariables(task.getId());
+			UserDetail ul = (UserDetail) info.get(ActivitiService.OWNER);
+					if (updateOrder(orderid, supplieid) > 0) {
+						taskService.claim(task.getId(), ul.getUsername());
+						taskService.complete(task.getId());
+						return new Pair<Boolean, String>(true, "订单修改成功!");
+					} else {
+						return new Pair<Boolean, String>(false, "订单修改失败!");
+					}
+				}
+		return r = new Pair<Boolean, String>(true, "订单修改成功!");
+	}
+	 public int  updateOrder(int orderid,int supplieid){
+		return 1;
+	}
 }

@@ -123,6 +123,16 @@ public class OrderController {
 			HttpServletResponse response) {
 		return activitiService.payment(Integer.parseInt(orderid), taskid,contractid,payType, Request.getUser(principal));
 	}
+	
+	@RequestMapping(value = "modifyOrder")
+	@ResponseBody
+	public Pair<Boolean, String> modifyOrder(@RequestParam(value = "orderid") String orderid,@RequestParam(value = "supplieid") int supplieid,
+			@RequestParam(value = "taskid") String taskid,
+			Principal principal,
+			HttpServletRequest request,
+			HttpServletResponse response) {
+		return activitiService.modifyOrder(Integer.parseInt(orderid), taskid,supplieid, Request.getUser(principal));
+	}
 
 	@RequestMapping(value = "claim")
 	@ResponseBody
@@ -147,9 +157,11 @@ public class OrderController {
 		List<HistoricTaskView> activitis=activitiService.findHistoricUserTask(activitiService.findProcessInstanceByTaskId(taskid),activityId);
 		JpaProduct  prod=productService.findById(v.getOrder().getProductId());
 		List<Contract> contracts = contractService.queryContractList(page, null, null, principal);
+		List<Supplies> supplieslist=suppliesService.querySuppliesByUser(principal);
 		SuppliesView suppliesView=suppliesService.getSuppliesDetail(v.getOrder().getSuppliesId(), null);
 		model.addAttribute("suppliesView", suppliesView);
 		model.addAttribute("contracts", contracts);
+		model.addAttribute("supplieslist", supplieslist);
 		model.addAttribute("taskid", taskid);
 		model.addAttribute("orderview", v);
 		model.addAttribute("prod", prod);

@@ -89,4 +89,7 @@ public interface ActivitiService {
 		//根据流程实例和节点ID查找历史审批记录
 		   public List<HistoricTaskView> findHistoricUserTask (  
 		            ProcessInstance processInstance, String activityId);
+
+		public Pair<Boolean, String> modifyOrder(int orderid, String taskid,
+				int supplieid, UserDetail user);
 }
