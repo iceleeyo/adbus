@@ -260,7 +260,7 @@ public class OrderController {
 		model.addAttribute("pageNum", page);
 		return "mytask";
 	}
-    @RequestMapping(value = "/myOrders/{pageNum}")
+    /*@RequestMapping(value = "/myOrders/{pageNum}")
 	public String myOrders(Model model, Principal principal,@PathVariable int pageNum, HttpServletRequest request,
 			HttpServletResponse response) {
 		int pagesize=8;
@@ -277,7 +277,7 @@ public class OrderController {
 	public String allRuningOrders(Model model,Principal principal, @PathVariable int pageNum, HttpServletRequest request,
 			HttpServletResponse response) {
 		return "allRuningOrders";
-	}
+	}*/
 	
 	
 	@RequestMapping("ajax-runningAjax")
@@ -288,6 +288,17 @@ public class OrderController {
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
 	
+	
+	@RequestMapping(value = "/allRuningOrders/{pageNum}")
+	public String allRuningOrders(Model model,Principal principal, @PathVariable int pageNum, HttpServletRequest request,
+			HttpServletResponse response) {
+		return "allRuningOrders";
+	}
+	
+	@RequestMapping(value = "/myOrders/{pageNum}")
+	public String myOrders() {
+		return "myOrders";
+	}
 	@RequestMapping("ajax-myOrders")
 	@ResponseBody
 	public DataTablePage<OrderView> myOrders(TableRequest req, Principal principal) {
