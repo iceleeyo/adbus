@@ -1,5 +1,7 @@
 package com.pantuo.dao;
 
+import com.pantuo.util.DateUtil;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -10,7 +12,7 @@ import java.util.TimeZone;
  */
 public class Test {
     public static void main(String[] args) {
-        Calendar cal = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar cal = DateUtil.newCalendar();
         cal.set(Calendar.YEAR, 2014);
         cal.set(Calendar.MONTH, Calendar.JANUARY);
         cal.set(Calendar.DATE, 1);

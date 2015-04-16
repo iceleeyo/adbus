@@ -9,6 +9,7 @@ import com.pantuo.dao.DaoBeanConfiguration;
 import com.pantuo.dao.ScheduleLogRepository;
 import com.pantuo.dao.pojo.*;
 import com.pantuo.mybatis.domain.Contract;
+import com.pantuo.util.DateUtil;
 import com.pantuo.util.Schedule;
 import org.junit.Assert;
 import org.junit.Before;
@@ -55,7 +56,7 @@ public class ScheduleServiceTest {
 
     @Test
     public void testSchedule() {
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar cal = DateUtil.newCalendar();
         cal.setTime(new Date());
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);

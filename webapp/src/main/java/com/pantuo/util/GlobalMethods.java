@@ -34,25 +34,6 @@ public class GlobalMethods {
 	private static final int MAX_FILE_SIZE = 10240;
 
 
-    public static ThreadLocal<SimpleDateFormat> sdf = new ThreadLocal<SimpleDateFormat>() {
-        @Override
-        protected SimpleDateFormat initialValue() {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-            return sdf;
-        }
-    };
-
-    public static Date trimDate(Date date) {
-            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-            cal.setTime(date);
-            cal.set(Calendar.HOUR_OF_DAY, 0);
-            cal.set(Calendar.MINUTE, 0);
-            cal.set(Calendar.SECOND, 0);
-            cal.set(Calendar.MILLISECOND, 0);
-            return cal.getTime();
-    }
-
     //	static {
 	//		initDirectory();
 	//	}
@@ -154,8 +135,8 @@ public class GlobalMethods {
 	 * @return result date (format - "yyyy/MM/dd")
 	 */
 	public static String addMonth(String date, int n) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Calendar calendar = Calendar.getInstance();
+		SimpleDateFormat sdf = DateUtil.newSimpleDateFormat("yyyy-MM-dd");
+		Calendar calendar = DateUtil.newCalendar();
 		try {
 			calendar.setTime(sdf.parse(date));
 		} catch (ParseException e) {
@@ -174,7 +155,8 @@ public class GlobalMethods {
 	 */
 	public static String addDay(String date, int n) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Calendar calendar = Calendar.getInstance();
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+		Calendar calendar = DateUtil.newCalendar();
 		try {
 			calendar.setTime(sdf.parse(date));
 		} catch (ParseException e) {
@@ -186,15 +168,15 @@ public class GlobalMethods {
 	}
 
 	public static int substractMonth(String dateStr1, String dateStr2) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = DateUtil.newSimpleDateFormat("yyyy-MM-dd");
 		int ret = 0;
 		try {
-			Calendar cal1 = Calendar.getInstance();
+			Calendar cal1 = DateUtil.newCalendar();
 			cal1.setTime(sdf.parse(dateStr1));
 			//			cal1.get(Calendar.YEAR);
 			//			cal1.get(Calendar.MONTH);
 
-			Calendar cal2 = Calendar.getInstance();
+			Calendar cal2 = DateUtil.newCalendar();
 			cal2.setTime(sdf.parse(dateStr2));
 			//			cal2.get(Calendar.YEAR);
 			//			cal2.get(Calendar.MONTH);
@@ -208,13 +190,13 @@ public class GlobalMethods {
 	}
 
 	public static long substractDate(String dateStr1, String dateStr2) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = DateUtil.newSimpleDateFormat("yyyy-MM-dd");
 		long ret = 0;
 		try {
-			Calendar cal1 = Calendar.getInstance();
+			Calendar cal1 = DateUtil.newCalendar();
 			cal1.setTime(sdf.parse(dateStr1));
 
-			Calendar cal2 = Calendar.getInstance();
+			Calendar cal2 = DateUtil.newCalendar();
 			cal2.setTime(sdf.parse(dateStr2));
 
 			ret = (cal2.getTime().getTime() - cal1.getTime().getTime()) / (24 * 60 * 60 * 1000);
@@ -225,8 +207,8 @@ public class GlobalMethods {
 	}
 
 	public static String getToday() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Calendar calendar = Calendar.getInstance();
+		SimpleDateFormat sdf = DateUtil.newSimpleDateFormat("yyyy-MM-dd");
+		Calendar calendar = DateUtil.newCalendar();
 		return sdf.format(calendar.getTime());
 	}
 
@@ -330,7 +312,7 @@ public class GlobalMethods {
 		StringBuilder sb = new StringBuilder();
 		sb.append(encryptFileName(id));
 		sb.append("_");
-		sb.append(Calendar.getInstance().getTimeInMillis());
+		sb.append(DateUtil.newCalendar().getTimeInMillis());
 		sb.append(suffix);
 		return sb.toString();
 	}

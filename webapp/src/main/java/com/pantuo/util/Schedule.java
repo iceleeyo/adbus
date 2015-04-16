@@ -67,7 +67,7 @@ public class Schedule {
 
     public static  Schedule newFromTimeslots(Date date, List<JpaTimeslot> timeslots, Iterable<JpaOrders> orders) {
         Schedule schedule = new Schedule();
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar cal = DateUtil.newCalendar();
         cal.setTime(date);
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
@@ -96,7 +96,7 @@ public class Schedule {
 
     public static Schedule newFromBoxes(Date date, List<JpaBox> boxes, Iterable<JpaOrders> orders) {
         Schedule schedule = new Schedule();
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar cal = DateUtil.newCalendar();
         cal.setTime(date);
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);

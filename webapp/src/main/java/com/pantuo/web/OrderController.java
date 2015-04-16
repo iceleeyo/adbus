@@ -11,6 +11,7 @@ import java.util.TimeZone;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pantuo.util.*;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
@@ -39,11 +40,6 @@ import com.pantuo.service.ContractService;
 import com.pantuo.service.OrderService;
 import com.pantuo.service.ProductService;
 import com.pantuo.service.SuppliesService;
-import com.pantuo.util.GlobalMethods;
-import com.pantuo.util.NumberPageUtil;
-import com.pantuo.util.Pair;
-import com.pantuo.util.Request;
-import com.pantuo.util.Variable;
 import com.pantuo.web.view.OrderView;
 import com.pantuo.web.view.SuppliesView;
 
@@ -191,10 +187,10 @@ public class OrderController {
         order.setType(prod.getType());
         String start = request.getParameter("startTime1").toString();
         if (!start.isEmpty()) {
-            Date startTime = GlobalMethods.sdf.get().parse(start);
+            Date startTime = DateUtil.longDf.get().parse(start);
             order.setStartTime(startTime);
 
-            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+            Calendar cal = DateUtil.newCalendar();
             cal.setTime(startTime);
             cal.add(prod.getDays(), Calendar.DAY_OF_MONTH);
             order.setEndTime(cal.getTime());

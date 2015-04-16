@@ -1,17 +1,15 @@
 package com.pantuo.activiti;
 
 
-
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.ScheduleLog;
+import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.OrderService;
 import com.pantuo.service.ScheduleService;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.JavaDelegate;
-
-import com.pantuo.dao.pojo.UserDetail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

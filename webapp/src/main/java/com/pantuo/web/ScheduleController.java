@@ -53,12 +53,12 @@ public class ScheduleController {
     	
         JpaOrders order = orderService.getJpaOrder(orderId);
         if (order != null && order.getStartTime().before(order.getEndTime())) {
-            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+            Calendar cal = DateUtil.newCalendar();
             cal.setTime(order.getStartTime());
 
             List<String> dates = new ArrayList<String> ();
             while (cal.getTime().before(order.getEndTime())) {
-                dates.add(GlobalMethods.sdf.get().format(cal.getTime()));
+                dates.add(DateUtil.longDf.get().format(cal.getTime()));
                 cal.add(Calendar.DATE, 1);
             }
             model.addAttribute("dates", dates);
@@ -82,7 +82,7 @@ public class ScheduleController {
                 return Collections.EMPTY_LIST;
             }
 
-            Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(null, 0, 999, null);
+            Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(null, 0, 999, null, false);
             Iterable<JpaGoods> goods = service.getGoodsForOrder(orderId);
 
             List<Report> reports = new LinkedList<Report> ();
@@ -132,7 +132,7 @@ public class ScheduleController {
 
         if (StringUtils.isNotBlank(fromStr)) {
             try {
-                from = GlobalMethods.sdf.get().parse(fromStr);
+                from = DateUtil.longDf.get().parse(fromStr);
             } catch (Exception e) {}
         }
         if (from == null) {
@@ -141,12 +141,12 @@ public class ScheduleController {
 
         Date d = from;
         List<String> dates = new ArrayList<String> ();
-        dates.add(GlobalMethods.sdf.get().format(d));
+        dates.add(DateUtil.longDf.get().format(d));
         for (int i = 0 ; i< days - 1; i++) {
             d = DateUtils.addDays(d, 1);
-            dates.add(GlobalMethods.sdf.get().format(d));
+            dates.add(DateUtil.longDf.get().format(d));
         }
-        model.addAttribute("from", GlobalMethods.sdf.get().format(from));
+        model.addAttribute("from", DateUtil.longDf.get().format(from));
         model.addAttribute("days", days);
         model.addAttribute("dates", dates);
         model.addAttribute("type", type);
@@ -171,8 +171,8 @@ public class ScheduleController {
         }
 
         try {
-            Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(name, 0, 999, null);
-            Date from = GlobalMethods.sdf.get().parse(fromStr);
+            Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(name, 0, 999, null, false);
+            Date from = DateUtil.longDf.get().parse(fromStr);
             List<Box> boxes = service.getBoxes(from, days);
 
             //total row
@@ -182,7 +182,7 @@ public class ScheduleController {
             for (int i=0; i<days; i++) {
                 UiBox t = new UiBox();
                 t.setDay(d);
-                totalBoxes.put(GlobalMethods.sdf.get().format(d), t);
+                totalBoxes.put(DateUtil.longDf.get().format(d), t);
                 d = DateUtils.addDays(d, 1);
             }
 
@@ -237,14 +237,14 @@ public class ScheduleController {
 
         if (StringUtils.isNotBlank(dayStr)) {
             try {
-                day = GlobalMethods.sdf.get().parse(dayStr);
+                day = DateUtil.longDf.get().parse(dayStr);
             } catch (Exception e) {}
         }
         if (day == null) {
             day = new Date();
         }
 
-        model.addAttribute("day", GlobalMethods.sdf.get().format(day));
+        model.addAttribute("day", DateUtil.longDf.get().format(day));
         model.addAttribute("type", type);
 
         return "schedule_list";
@@ -266,19 +266,19 @@ public class ScheduleController {
         }
 
         try {
-            Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(name, 0, 999, null);
-            Date day = GlobalMethods.sdf.get().parse(dayStr);
+            Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(name, 0, 999, null, false);
+            Date day = DateUtil.longDf.get().parse(dayStr);
             Iterable<JpaBox> boxes = service.getBoxesAndGoods(day, 1);
 
             //total row
             long totalDuration = 0;
             Map<String/*date*/, UiBox> totalBoxes = new HashMap<String, UiBox> ();
             Date d = day;
-            String dStr = GlobalMethods.sdf.get().format(d);
+            String dStr = DateUtil.longDf.get().format(d);
             for (int i=0; i<1; i++) {
                 UiBox t = new UiBox();
                 t.setDay(d);
-                totalBoxes.put(GlobalMethods.sdf.get().format(d), t);
+                totalBoxes.put(DateUtil.longDf.get().format(d), t);
                 d = DateUtils.addDays(d, 1);
             }
 
@@ -354,7 +354,7 @@ public class ScheduleController {
         }
 
         public String addBox(Box box) {
-            String key = GlobalMethods.sdf.get().format(box.getDay());
+            String key = DateUtil.longDf.get().format(box.getDay());
             if (!(box instanceof UiBox))
                 box = new UiBox(box);
             boxes.put(key, (UiBox)box);
@@ -364,7 +364,7 @@ public class ScheduleController {
         public String addBox(JpaBox box) {
             List<JpaGoods> goods = box.getGoods();
 
-            String key = GlobalMethods.sdf.get().format(box.getDay());
+            String key = DateUtil.longDf.get().format(box.getDay());
             UiBox b = boxes.get(key);
             if (b == null) {
                 b = new UiBox(box);
@@ -379,7 +379,7 @@ public class ScheduleController {
         }
 
         public String addBox(JpaBox box, JpaGoods good) {
-            String key = GlobalMethods.sdf.get().format(box.getDay());
+            String key = DateUtil.longDf.get().format(box.getDay());
             UiBox b = boxes.get(key);
             if (b != null) {
                 b.addGood(good);

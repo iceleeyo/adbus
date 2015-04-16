@@ -1,5 +1,7 @@
 package com.pantuo.dao.pojo;
 
+import com.pantuo.util.DateUtil;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ import java.util.List;
 */
 //箱子
 @Entity
-@Table(name="box", uniqueConstraints=@UniqueConstraint(columnNames={"day", "slotId"}))
+@Table(name="box", uniqueConstraints=@UniqueConstraint(columnNames={"day", "year", "month", "slotId"}))
 public class JpaBox implements Comparable<JpaBox>, Serializable {
     private static ThreadLocal<Long> PUT_WEIGHT = new ThreadLocal<Long>() {
         @Override
@@ -24,6 +26,8 @@ public class JpaBox implements Comparable<JpaBox>, Serializable {
     private int id;
 
     private Date day;
+    private int year;       //back up for report
+    private int month;      //back up for report
     private long size;
     private long remain;
     private long remainStart;
@@ -44,6 +48,9 @@ public class JpaBox implements Comparable<JpaBox>, Serializable {
     public JpaBox(Date day, int slotId, long size) {
         goods = new ArrayList<JpaGoods>();
         this.day = day;
+        int[] yearMon = DateUtil.getYearAndMonth(day);
+        this.year = yearMon[0];
+        this.month = yearMon[1];
         timeslot = new JpaTimeslot();
         timeslot.setId(slotId);
         this.size = size;

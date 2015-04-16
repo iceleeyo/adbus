@@ -1,6 +1,6 @@
 package com.pantuo.service;
 
-import com.pantuo.dao.BoxRepository;
+import com.pantuo.mybatis.persistence.ReportMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class BoxService {
+
     @Autowired
-    private BoxRepository boxRepository;
+    private ReportMapper mapper;
 }

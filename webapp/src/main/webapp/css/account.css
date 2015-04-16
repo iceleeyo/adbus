@@ -474,6 +474,10 @@
 	line-height: 30px
 }
 
+.ui-input-mini {
+    width: 100px;
+}
+
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	#pg-addcard .ui-input {
 		line-height: normal

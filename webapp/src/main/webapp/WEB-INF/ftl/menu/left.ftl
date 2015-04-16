@@ -130,10 +130,20 @@
 										</a>
 										<ul class="pg-side-exp-list">
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/schedule/report">
-													时段报表
+												<a class="side-exp-item-t" href="${rc.contextPath}/report/timeslot">
+													剩余时段报表
 												</a>
 											</li>
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/wow">
+                                                    时段两周同比
+                                                </a>
+                                            </li>
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/mom">
+                                                    时段月同比
+                                                </a>
+                                            </li>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="#">
 													销售报表

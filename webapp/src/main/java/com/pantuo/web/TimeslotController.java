@@ -27,7 +27,7 @@ public class TimeslotController {
     @ResponseBody
     public DataTablePage<JpaProduct> getAllTimeslots(TableRequest req) {
 
-        return new DataTablePage(timeslotService.getAllTimeslots(req.getFilter("name"), req.getPage(), req.getLength(), req.getSort("id")), req.getDraw());
+        return new DataTablePage(timeslotService.getAllTimeslots(req.getFilter("name"), req.getPage(), req.getLength(), req.getSort("id"), false), req.getDraw());
     }
 
     @RequestMapping(value = "/list")

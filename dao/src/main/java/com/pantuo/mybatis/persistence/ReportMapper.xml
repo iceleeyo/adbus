@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pantuo.mybatis.persistence.ReportMapper" >
+  <resultMap id="timeslotReport" type="com.pantuo.mybatis.domain.TimeslotReport" >
+    <result column="day" property="day" jdbcType="TIMESTAMP" />
+    <result column="year" property="year" jdbcType="INTEGER" />
+    <result column="month" property="month" jdbcType="INTEGER" />
+    <result column="remain" property="remain" jdbcType="BIGINT" />
+    <result column="size" property="size" jdbcType="BIGINT" />
+  </resultMap>
+
+  <select id="getRemainTimeslots" parameterType="map" resultMap="timeslotReport" >
+    <![CDATA[
+    select day, (sum(t.duration) - sum(b.size - b.remain)) as remain, sum(t.duration) as size
+    from timeslot t join box b on (t.id = b.slot_id
+    ]]>
+    <if test="peak != null and peak == true">
+      and t.peak = 1
+    </if>
+    <![CDATA[
+      and b.day >= #{from} and b.day <= #{to})
+    group by b.day
+    ]]>
+  </select>
+
+  <select id="getMonthlyRemainTimeslots" parameterType="map" resultMap="timeslotReport" >
+        <![CDATA[
+    select b.year, b.month, (sum(t.duration) - sum(b.size - b.remain)) as remain, sum(t.duration) as size
+    from timeslot t join box b on (t.id = b.slot_id
+    ]]>
+        <if test="peak != null and peak == true">
+            and t.peak = 1
+        </if>
+        <![CDATA[
+      and b.year = #{year})
+    group by b.month
+    ]]>
+  </select>
+</mapper>

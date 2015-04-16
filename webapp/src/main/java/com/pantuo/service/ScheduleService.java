@@ -12,6 +12,7 @@ import com.pantuo.dao.pojo.*;
 import com.pantuo.mybatis.domain.Box;
 import com.pantuo.mybatis.domain.BoxExample;
 import com.pantuo.mybatis.persistence.BoxMapper;
+import com.pantuo.util.DateUtil;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.Schedule;
 import org.apache.commons.lang3.time.DateUtils;
@@ -227,7 +228,7 @@ public class ScheduleService {
             ScheduleLog slog = null;
             try {
                 MDC.put("func", "Schedule");
-                MDC.put("day", GlobalMethods.sdf.get().format(now));
+                MDC.put("day", DateUtil.longDf.get().format(now));
                 MDC.put("order", orderId + "");
 
                 log.info(":::Start scheduling for day {}, order {}", now, orderId);
@@ -242,7 +243,7 @@ public class ScheduleService {
                     s = Schedule.newFromBoxes(now, boxes, order);
                 } else {
                     log.info("First order to be scheduled for day {}", now);
-                    Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(null, 0, 9999, null);
+                    Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(null, 0, 9999, null, false);
                     s = Schedule.newFromTimeslots(now, slots.getContent(), order);
                 }
 
@@ -326,7 +327,7 @@ public class ScheduleService {
      * @param from inclusive
      */
     public List<Box> getBoxes(Date from, int days) {
-        from = GlobalMethods.trimDate(from);
+        from = DateUtil.trimDate(from);
         Date to = DateUtils.addDays(from, days);
         BoxExample example = new BoxExample();
         example.createCriteria().andDayGreaterThanOrEqualTo(from).andDayLessThan(to);
@@ -342,7 +343,7 @@ public class ScheduleService {
      * @param from inclusive
      */
     public Iterable<JpaBox> getBoxesAndGoods(Date from, int days) {
-        from = GlobalMethods.trimDate(from);
+        from = DateUtil.trimDate(from);
         Date to = DateUtils.addDays(from, days);
         Predicate query = QJpaBox.jpaBox.day.before(to)
                 .and(QJpaBox.jpaBox.day.stringValue().goe(StringOperation.create(Ops.STRING_CAST, ConstantImpl.create(from))));
