@@ -45,8 +45,12 @@
 	  
 	}
 </script>
+						
 						<div class="module s-clear u-lump-sum p19">
-							<div class="u-sum-right">
+						<div class="withdraw-title" style="padding-top: 0px;text-align:center;">
+									待办事项
+									</div>
+						<div class="u-sum-right">
 								<input class="ui-input" type="text" name="code" id="code"
 									data-is="isAmount isEnough" autocomplete="off"
 									placeholder="套餐号" value="${code!''}" /> <input type="button"
