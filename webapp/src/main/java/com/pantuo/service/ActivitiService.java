@@ -84,6 +84,8 @@ public interface ActivitiService {
 		 public ProcessDefinitionEntity findProcessDefinitionEntityByTaskId(  
 		            String taskId) throws Exception;
 			public Page<OrderView> running(String userid, int page, int pageSize, Sort sort) ;
+			
+			public Page<OrderView> MyOrders(String userid, int page, int pageSize, Sort sort);
 		//根据流程实例和节点ID查找历史审批记录
 		   public List<HistoricTaskView> findHistoricUserTask (  
 		            ProcessInstance processInstance, String activityId);

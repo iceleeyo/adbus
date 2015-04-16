@@ -34,7 +34,7 @@
                                 <input type="hidden" name="id" id="id" value="<#if prod??>${(prod.id)!''}<#else>0</#if>"/>
 								<div class="withdraw-title fn-clear">${action}产品套餐</div>
 								<div class="withdrawInputs">
-									<div class="inputs">
+									<div class="inputs" style="padding-left: 20px;">
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>套餐类型：</label>

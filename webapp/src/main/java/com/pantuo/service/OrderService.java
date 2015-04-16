@@ -63,6 +63,19 @@ public class OrderService {
 		return ordersMapper.selectByPrimaryKey(id);
 
 	}
+	public Orders selectOrderByMUser(String userid,Integer id) {
+		OrdersExample example=new OrdersExample();
+		OrdersExample.Criteria c=example.createCriteria();
+		if(null!=userid&&userid!=""){
+			c.andUserIdEqualTo(userid);
+		}
+		if(null!=id&&id>0){
+			c.andIdEqualTo(id);
+		}
+		
+		return ordersMapper.selectMyOrderByExample(example);
+
+	}
 	public List<Orders> selectOrderByUser(String userid,Integer id) {
 		OrdersExample example=new OrdersExample();
 		OrdersExample.Criteria c=example.createCriteria();
@@ -76,6 +89,7 @@ public class OrderService {
 		return ordersMapper.selectByExample(example);
 
 	}
+
 
 	@Autowired
 	ContractService contractService;

@@ -366,16 +366,19 @@ function pay() {
     							</TR>
   								<TR>
     									<TH>审核意见</TH>
-    									<TD colspan=3><textarea name="approve2Comments" id="approve2Comments" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD></TR>
+    									<TD colspan=3><textarea name="approve2Comments" id="approve2Comments" style="margin: 5px 0;width:400px;height:120px; margin-top:5px;" ></textarea></TD></TR>
   								
 									<TR style="height:45px;">
     									<TH>是否通过</TH>
     									<TD>
     										<input name="approve2Result" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>符合要求 
       									<input name="approve1Result" type="radio" value="false" style="padding: 5px 15px;"/>不符合要求</TD>
-    									<TD colspan=2 width="30%" style="text-align:center;">
+    									
+  								</TR>
+  								<TR height="60">
+  									<TD colspan=4 style="text-align:center;">
     	 										<button onclick="approve2();" class="block-btn">提交审核结果</button>
-    									</TD>
+    								</TD>
   								</TR>
 								</TABLE>	                                    							
                 </div>          

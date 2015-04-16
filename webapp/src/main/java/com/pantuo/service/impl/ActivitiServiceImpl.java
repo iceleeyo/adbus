@@ -108,6 +108,37 @@ public class ActivitiServiceImpl implements ActivitiService {
 				orders, p, pageUtil.getTotal());
 		return r;
 	}
+	
+
+	public Page<OrderView> MyOrders(String userid, int page, int pageSize, Sort sort) {
+		page = page + 1;
+		List<OrderView> orders = new ArrayList<OrderView>();
+		int totalnum = runtimeService.createProcessInstanceQuery().processDefinitionKey("order").list().size();
+		NumberPageUtil pageUtil = new NumberPageUtil((int) totalnum, page, pageSize);
+
+		List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery()
+				.processDefinitionKey(MAIN_PROCESS).orderByProcessInstanceId().desc()
+				.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
+		for (ProcessInstance processInstance : processInstances) {
+			List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId())
+					.includeProcessVariables().orderByTaskCreateTime().desc().listPage(0, 1);
+			Integer orderid = (Integer) tasks.get(0).getProcessVariables().get(ORDER_ID);
+			OrderView v = new OrderView();
+			Orders order = orderService.selectOrderByMUser(userid, orderid);
+			if (order != null) {
+				v.setOrder(order);
+			}
+			//v.setProcessInstance(processInstance);
+			v.setProcessInstanceId(processInstance.getId());
+			//v.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+			v.setTask(tasks.get(0));
+			orders.add(v);
+		}
+		Pageable p = new PageRequest(page, pageSize, sort);
+		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(
+				orders, p, pageUtil.getTotal());
+		return r;
+	}
 
 	public Page<OrderView> findTask(String userid, int page, int pageSize, Sort sort) {
 		page = page + 1;

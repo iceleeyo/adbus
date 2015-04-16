@@ -287,21 +287,22 @@ public class OrderController {
 				req.getSort("id"));
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
-	@RequestMapping(value="/finished")
-	public String finishedOrders(){
-		/*NumberPageUtil page = new NumberPageUtil(pageNum);
+	
+	@RequestMapping("ajax-myOrders")
+	@ResponseBody
+	public DataTablePage<OrderView> myOrders(TableRequest req, Principal principal) {
+		Page<OrderView> w = activitiService.MyOrders(Request.getUserId(principal), req.getPage(), req.getLength(),
+				req.getSort("id"));
+		return new DataTablePage<OrderView>(w, req.getDraw());
+	}
+	
+	@RequestMapping(value="/finishedOrders/{usertype}/{pageNum}")
+	public String finishedOrders(Model model,Principal principal,@PathVariable("usertype") String usertype,@PathVariable int pageNum,HttpServletRequest request, HttpServletResponse response){
+		NumberPageUtil page = new NumberPageUtil(pageNum);
 		page.setPagesize(30);
 		List<OrderView> list = activitiService.findFinishedProcessInstaces(Request.getUserId(principal),usertype, page);
 		model.addAttribute("list", list);
-		model.addAttribute("pageNum", page);*/
+		model.addAttribute("pageNum", page);
 		return "finishedOrders";
-	}
-	
-	
-	@RequestMapping("ajax-finishedOrders")
-	@ResponseBody
-	public DataTablePage<OrderView> finishedAjax(TableRequest req, Principal principal) {
-		Page<OrderView> w = activitiService.finished(principal, req.getPage(), req.getLength(), req.getSort("id"));
-		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
 }

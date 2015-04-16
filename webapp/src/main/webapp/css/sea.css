@@ -82,7 +82,7 @@ html{color: #666; }
 			.pg-side-exp-list{padding: 0;background: #f2f2f2;display: block;}
 			.pg-side-exp-item{}
 			.side-exp-item-t{display: block;margin-left: 10px;padding-left: 30px;height: 36px;line-height: 36px;color: #909090;cursor: pointer;border-bottom: 1px solid #f2f2f2;}
-			.side-exp-item-t:hover, .side-exp-item-t.active{cursor: pointer;color: #fff;background: #7fd4f3;}
+			.side-exp-item-t:hover{cursor: pointer;color: #fff;background: #7fd4f3;}
 			.main-solid{background: #2da7e0;width: 760px;height:49px;line-height: 49px;overflow: hidden;padding-right: 20px;}
 			
 			.user-account{padding-bottom: 10px;position: relative;}
