@@ -42,6 +42,10 @@ var table;
                    { "data": "task_assignee", "defaultContent": ""
                    
                    },
+                   { "data": "order.created", "defaultContent": "","render": function(data, type, row, meta) {
+                	 var tr= "<a target='_blank' href='${rc.contextPath}/order/orderDetail?orderid=0&taskid=" +(row.task_id)+  "'>查看详情</a>";
+                	return tr;
+                }},
             ],
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
@@ -97,6 +101,7 @@ var table;
                         <th>创建时间</th>
                         <th>当前环节</th>
                         <th>当前处理人</th>
+                         <th>订单详情</th>
                     </tr>
                     </thead>
 

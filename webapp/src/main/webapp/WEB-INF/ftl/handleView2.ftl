@@ -553,8 +553,8 @@ function pay() {
 									<TR style="height:45px;">
 										  <TH>是否上播</TH>
 										  <TD style="border-radius: 0 0 0">
-										  <input name="shangboResult" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>已上播
-      								<input name="shangboResult" type="radio" value="false" style="padding: 5px 15px;"/>未上播</TD>
+										  <input name="shangboResult" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>是
+      								     <input name="shangboResult" type="radio" value="false" style="padding: 5px 15px;"/>否</TD>
 										  
     									<TD width="30%" style="text-align:center;">
     	 										<button onclick="inputSchedule();" class="block-btn">提交确认结果</button>

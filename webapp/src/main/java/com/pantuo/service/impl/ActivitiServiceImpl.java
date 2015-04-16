@@ -232,6 +232,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 			if (orderid != null && orderid > 0) {
 				Orders or = orderService.selectOrderById(orderid);
 				if (or != null) {
+					Product product = productService.selectProById(or.getProductId());
+					v.setProduct(product);
 					v.setOrder(or);
 					orders.add(v);
 				}

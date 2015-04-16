@@ -87,7 +87,7 @@
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>套餐号</span>' +
+                        '    <span>订单号</span>' +
                         '    <span>' +
                         '        <input id="productId" value="">' +
                         '    </span>' +
@@ -123,8 +123,8 @@
                     <thead>
                     <tr>
                         <th>下单用户</th>
-                            <th>订单名字</th>
-                        <th>套餐号</th>
+                            <th>订单编号</th>
+                        <th>套餐名称</th>
                        <!-- <th>素材号</th>-->
                         <th>创建时间</th>
                         <th>当前环节</th>

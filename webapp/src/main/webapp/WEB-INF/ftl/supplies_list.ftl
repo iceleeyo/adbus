@@ -81,7 +81,8 @@
                             return '文本';
                         return '';
                     } },
-                { "data": "created", "defaultContent": "","render": function(data, type, row, meta) {
+                    { "data": "userId", "defaultContent": ""},
+                   { "data": "created", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd HH:mm:ss");
                 	return d;
                 }},
@@ -89,7 +90,7 @@
                     return row.id;
                 },
                     "render": function(data, type, row, meta) {
-                        return  '<a class="table-link" href="${rc.contextPath}/supplies/suppliesDetail/'+data+'">详细</a>';
+                        return  '<a class="table-link" href="${rc.contextPath}/supplies/suppliesDetail/'+data+'">查看附件</a>';
                     }},
             ],
             "language": {
@@ -146,6 +147,7 @@
                         <th orderBy="name">物料编号</th>
                         <th orderBy="name">物料名称</th>
                         <th orderBy="suppliesType">物料类型</th>
+                        <th orderBy="created">创建人</th>
                         <th orderBy="created">创建时间</th>
                         <th>管理</th>
                     </tr>

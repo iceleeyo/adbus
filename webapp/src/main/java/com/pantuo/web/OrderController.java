@@ -142,9 +142,7 @@ public class OrderController {
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 		ExecutionEntity executionEntity = (ExecutionEntity) runtimeService.createExecutionQuery()
 				.executionId(task.getExecutionId()).processInstanceId(task.getProcessInstanceId()).singleResult();
-
 		OrderView v = activitiService.findOrderViewByTaskId(taskid);
-		
 		String activityId = executionEntity.getActivityId();
 		List<HistoricTaskView> activitis=activitiService.findHistoricUserTask(activitiService.findProcessInstanceByTaskId(taskid),activityId);
 		JpaProduct  prod=productService.findById(v.getOrder().getProductId());
@@ -159,7 +157,30 @@ public class OrderController {
 		model.addAttribute("activityId", activityId);
 		return "handleView2";
 	}
-
+	@RequestMapping(value = "/orderDetail", produces = "text/html;charset=utf-8")
+	public String orderDetail(Model model, @RequestParam(value = "orderid") int orderid,@RequestParam(value = "taskid") String taskid,Principal principal,
+			HttpServletRequest request) throws Exception {
+		if(taskid!=null&&taskid!=""){
+			OrderView v = activitiService.findOrderViewByTaskId(taskid);
+			JpaProduct  prod=productService.findById(v.getOrder().getProductId());
+			model.addAttribute("orderview", v);
+			model.addAttribute("prod", prod);
+			return "orderDetail";
+		}else{
+		  Orders order=orderService.queryOrderDetail(orderid,principal);
+		  JpaProduct  prod=null;
+		  Long longorderid=null;
+		  OrderView orderView=new OrderView();
+		  if(order!=null){
+			   prod=productService.findById(order.getProductId());
+			   longorderid= orderView.getIdFromDate(order.getId(), order.getCreated());
+		  }
+		  model.addAttribute("order", order);
+		  model.addAttribute("longorderid", longorderid);
+		  model.addAttribute("prod", prod);
+		  return "finishedOrderDetail";
+		}
+	}
 
 	/**
 	 * 根据任务Id完成任务
@@ -172,7 +193,6 @@ public class OrderController {
 			suppliesService.updateSupplies(supplies);
 		}
 		return activitiService.complete(taskId, variable.getVariableMap(), Request.getUser(principal));
-
 	}
 	@RequestMapping(value = "creOrder2", method = RequestMethod.POST)
 	@ResponseBody
@@ -233,21 +253,15 @@ public class OrderController {
 		Page<OrderView> w = orderService.getOrderList(req.getPage(), req.getLength(), req.getSort("id"), principal);
 		return new DataTablePage(w, req.getDraw());
 	}
-	@RequestMapping("ajax-finishorderlist")
-	@ResponseBody
-	public DataTablePage<OrderView> getAllfinishorder(TableRequest req, Principal principal) {
-		Page<OrderView> w = orderService.getOrderList(req.getPage(), req.getLength(), req.getSort("id"), principal);
-		return new DataTablePage(w, req.getDraw());
-	}
 
 	@RequestMapping(value = "/myTask/{pageNum}")
 	public String list() {
 		return "orderList";
 	}
-	@RequestMapping(value = "/finishedOrders/{pageNum}")
-	public String list2() {
-		return "finishOrderList";
-	}
+//	@RequestMapping(value = "/finishedOrders/{pageNum}")
+//	public String list2() {
+//		return "finishOrderList";
+//	}
     @RequestMapping(value = "/myTaskbak/{pageNum}", method = RequestMethod.GET)
 	public String myTask(Model model, @PathVariable int pageNum, Principal principal) {
 		NumberPageUtil page = new NumberPageUtil(pageNum);
@@ -303,13 +317,28 @@ public class OrderController {
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
 	
-	@RequestMapping(value="/finishedOrders/{usertype}/{pageNum}")
-	public String finishedOrders(Model model,Principal principal,@PathVariable("usertype") String usertype,@PathVariable int pageNum,HttpServletRequest request, HttpServletResponse response){
-		NumberPageUtil page = new NumberPageUtil(pageNum);
+//	@RequestMapping(value="/finishedOrders/{usertype}/{pageNum}")
+//	public String finishedOrders(Model model,Principal principal,@PathVariable("usertype") String usertype,@PathVariable int pageNum,HttpServletRequest request, HttpServletResponse response){
+//		NumberPageUtil page = new NumberPageUtil(pageNum);
+//		page.setPagesize(30);
+//		List<OrderView> list = activitiService.findFinishedProcessInstaces(Request.getUserId(principal),usertype, page);
+//		model.addAttribute("list", list);
+//		model.addAttribute("pageNum", page);
+//		return "finishedOrders";
+//	}
+	@RequestMapping(value="/finished")
+	public String finishedOrders(){
+		/*NumberPageUtil page = new NumberPageUtil(pageNum);
 		page.setPagesize(30);
 		List<OrderView> list = activitiService.findFinishedProcessInstaces(Request.getUserId(principal),usertype, page);
 		model.addAttribute("list", list);
-		model.addAttribute("pageNum", page);
+		model.addAttribute("pageNum", page);*/
 		return "finishedOrders";
+	}
+	@RequestMapping("ajax-finishedOrders")
+	@ResponseBody
+	public DataTablePage<OrderView> finishedAjax(TableRequest req, Principal principal) {
+		Page<OrderView> w = activitiService.finished(principal, req.getPage(), req.getLength(), req.getSort("id"));
+		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
 }

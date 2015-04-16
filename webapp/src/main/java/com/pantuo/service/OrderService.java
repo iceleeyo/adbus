@@ -174,6 +174,9 @@ public class OrderService {
 	public Page<OrderView> getOrderList(int page, int pageSize, Sort sort, Principal principal) {
 		return  activitiService.findTask(Request.getUserId(principal),page,pageSize,sort);
 	}
+	public Orders queryOrderDetail(int orderid, Principal principal) {
+		return ordersMapper.selectByPrimaryKey(orderid);
+	}
     
     
     

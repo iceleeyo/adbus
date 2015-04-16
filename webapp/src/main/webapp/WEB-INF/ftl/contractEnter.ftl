@@ -34,6 +34,11 @@
 		var startDate = $("#startDate").val();
 		var endDate = ($("#endDate").val());
 		var amounts=($("#amounts").val());
+		Sfile= ($("#Sfile").val());
+		if(Sfile==""){
+			jDialog.Alert("请选择合同附件");
+			return;
+		}
 		if(code==""){
 			jDialog.Alert("请填写合同号");
 			return;
@@ -160,7 +165,7 @@
 											<label class="ui-label mt10">附件上传</label>
 											<div id="newUpload2">
 												<div id="div_1">
-													<input type="file" name="file">
+													<input type="file" name="file" id="Sfile">
 												</div>
 											</div>
 											<input type="button" id="btn_add2" value="增加一行"
