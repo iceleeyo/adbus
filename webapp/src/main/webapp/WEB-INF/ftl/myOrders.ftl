@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 
-<@frame.html title="订单审核列表">
+<@frame.html title="我的订单" js=["jquery-dateFormat.js"]>
 <script type="text/javascript">
 var table;
     function initTable () {
@@ -17,7 +17,7 @@ var table;
                 url: "${rc.contextPath}/order/ajax-myOrders",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "productId" : $('#productId').val(),
+                        "longOrderId" : $('#longOrderId').val(),
                     } );
                 },
                 "dataSrc": "content",
@@ -25,17 +25,7 @@ var table;
             "columns": [
             	{ "data": "order.creator", "defaultContent": ""},
             	{ "data": "longOrderId", "defaultContent": ""},
-            	{ "data": "product.name", "defaultContent": "",
-                    "render": function(data, type, row, meta) {
-                        var filter = $('#order.productId').val();
-                        if (filter && filter != '') {
-                            var regex = new RegExp(filter, "gi");
-                            data = data.replace(regex, function(matched) {
-                                return "<span class=\"hl\">" + matched + "</span>";
-                            });
-                        }
-                    return data;
-                } },
+            	
                 { "data": "order.startTime", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd HH:mm:ss");
                 	return d;
@@ -65,9 +55,9 @@ var table;
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>套餐号</span>' +
+                        '    <span>订单名称</span>' +
                         '    <span>' +
-                        '        <input id="productId" value="">' +
+                        '        <input id="longOrderId" value="">' +
                         '    </span>' +
                         '</div>'
         );
@@ -103,9 +93,7 @@ var table;
                     <tr>
                         <th>下单用户</th>
                         <th>订单名称</th>
-                        <th>套餐号</th>
                         <th>起播时间</th>
-                        <!-- <th>素材号</th> -->
                         <th>创建时间</th>
                         <th>当前环节</th>
                         <th>当前处理人</th>

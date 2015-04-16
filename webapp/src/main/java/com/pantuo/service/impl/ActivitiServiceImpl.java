@@ -113,20 +113,20 @@ public class ActivitiServiceImpl implements ActivitiService {
 	public Page<OrderView> MyOrders(String userid, int page, int pageSize, Sort sort) {
 		page = page + 1;
 		List<OrderView> orders = new ArrayList<OrderView>();
-		int totalnum = runtimeService.createProcessInstanceQuery().processDefinitionKey("order").list().size();
+		int totalnum =(int) runtimeService.createProcessInstanceQuery().processDefinitionKey(MAIN_PROCESS).involvedUser(userid).count();
 		NumberPageUtil pageUtil = new NumberPageUtil((int) totalnum, page, pageSize);
 
 		List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery()
-				.processDefinitionKey(MAIN_PROCESS).orderByProcessInstanceId().desc()
+				.processDefinitionKey(MAIN_PROCESS).involvedUser(userid)
 				.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
 		for (ProcessInstance processInstance : processInstances) {
 			List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId())
 					.includeProcessVariables().orderByTaskCreateTime().desc().listPage(0, 1);
 			Integer orderid = (Integer) tasks.get(0).getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
-			Orders order = orderService.selectOrderByMUser(userid, orderid);
+			Orders order = orderService.selectOrderById(orderid);
 			if (order != null) {
-				v.setOrder(order);
+				v.setOrder(order);  
 			}
 			//v.setProcessInstance(processInstance);
 			v.setProcessInstanceId(processInstance.getId());
