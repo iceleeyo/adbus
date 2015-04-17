@@ -77,13 +77,22 @@
 												</a>
 											</li>
 										</@security.authorize>	
-											<@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">  
+										
+										<@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">  
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/order/allRuningOrders/1">
 												     进行中订单
 												</a>
 											</li>
-												</@security.authorize>	
+										</@security.authorize>	
+										
+										<@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+											<li class="pg-side-exp-item">
+												<a class="side-exp-item-t" href="${rc.contextPath}/order/myOrders/1">
+													我参与的订单
+												</a>
+											</li>
+										</@security.authorize>	
 											<!--<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/order/finishedOrders/user/1">
 												     已完成的订单(广告主)
