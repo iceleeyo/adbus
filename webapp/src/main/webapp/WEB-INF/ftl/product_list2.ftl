@@ -1,7 +1,13 @@
+
+  
+
 <#import "template/template.ftl" as frame>
 <#global menu="产品查询">
 <@frame.html title="产品套餐列表">
 
+
+                                        
+                                        
 <script type="text/javascript">
     var table;
     function initTable () {
@@ -27,14 +33,8 @@
             "columns": [
                 { "data": "name", "defaultContent": "",
                     "render": function(data, type, row, meta) {
-                        var filter = $('#name').val();
-                        if (filter && filter != '') {
-                            var regex = new RegExp(filter, "gi");
-                            data = data.replace(regex, function(matched) {
-                                return "<span class=\"hl\">" + matched + "</span>";
-                            });
-                        }
-                    return data;
+                        
+                    return '<a class="table-link" href="${rc.contextPath}/product/d/'+row.id+'">'+row.name+'</a>';
                 } },
                 { "data": "type", "defaultContent": "",
                     "render": function(data, type, row, meta) {
@@ -59,10 +59,13 @@
                     return row.id;
                 },
                     "render": function(data, type, row, meta) {
-                        return (row.enabled ? '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/disable">禁用</a> &nbsp;'
+                    var r = '';
+                     	r+= (row.enabled ? '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/disable">禁用</a> &nbsp;'
                                 :'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/enable">启用</a> &nbsp;')
-                        + '<a class="table-link" href="${rc.contextPath}/product/' + data +'">编辑</a>&nbsp;'
-                        + '<a class="table-link" href="${rc.contextPath}/order/buypro/'+data+'">购买</a>';
+                        + '<a class="table-link" href="${rc.contextPath}/product/' + data +'">编辑</a>&nbsp;';
+                       r += '<a class="table-link" href="${rc.contextPath}/order/buypro/'+data+'">购买</a>';
+                       return r;
+                        
                     }},
             ],
             "language": {
