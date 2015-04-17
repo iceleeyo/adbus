@@ -27,7 +27,6 @@
                 "dataSrc": "content",
             },
             "columns": [
-           		{ "data": "id", "defaultContent": ""},
             	{ "data": "contractCode", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         var filter = $('#contractCode').val();
@@ -111,13 +110,13 @@
                 <hr/>
             </div>-->
             <div class="div">
-            <div class="withdraw-title" style="padding-top: 0px;text-align:center;">
+            <div class="withdraw-title" style="padding-top: 0px;text-align:left;">
 									合同列表
 									</div>
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
-                    <tr>
-                    	<th orderBy="id">合同号</th>
+                    <tr class="tableTr">
+                    	
                         <th orderBy="contractCode">合同号</th>
                         <th orderBy="contractName">合同名称</th>
                         <th orderBy="startDate">生效时间</th>

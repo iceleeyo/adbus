@@ -20,7 +20,7 @@
     });
 	function sub2() {
         $('#productForm').ajaxForm(function(data) {
-            alert(data.error + " # " + data.name);
+            jDialog.Alert(data.error + " # " + data.name);
         }).submit();
             var a = document.createElement('a');
     	    a.href='${rc.contextPath}/product/list';
@@ -35,6 +35,18 @@
 								<div class="withdraw-title fn-clear">${action}产品套餐</div>
 								<div class="withdrawInputs">
 									<div class="inputs" style="padding-left: 20px;">
+									<div class="ui-form-item">
+												
+												
+												<label class="ui-label mt10"><span
+                                                    class="ui-form-required">*</span>产品定向:</label>
+                                                     
+												<select class="ui-input" name="userId" id="userId">
+                                                <option value="" selected="selected"></option>
+                                                	<option value="用户1">用户1</option>
+                                                	
+                                           		</select>
+												</div>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>媒体类型：</label>

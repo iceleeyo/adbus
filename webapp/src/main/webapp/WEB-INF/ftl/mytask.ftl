@@ -13,11 +13,11 @@
 		}
 		if (!isNaN($("#textpage").val())) {
 		} else {
-			alert("请输入数字");
+			jDialog.Alert("请输入数字");
 			return;
 		}
 		if (parseInt($("#textpage").val()) <= 0) {
-			alert("请输入正整数");
+			jDialog.Alert("请输入正整数");
 			return;
 		}
 		if ($("#textpage").val() > pageNum) {
@@ -38,7 +38,7 @@
 			url : "${rc.contextPath}/order/claim?orderid="+orderid+"&taskid="+taskid,
 			type : "POST",
 			success : function(data) {
-				alert(data.right);
+				jDialog.Alert(data.right);
 				location.reload([true]);
 			}
 		}, "text");

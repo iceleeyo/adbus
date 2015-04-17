@@ -41,7 +41,7 @@
 			return;
 		}
 		if(Sfile==""&& infoContext==""){
-			jDialog.Alert("请填写完整信息");
+			jDialog.Alert(请填写完整信息");
 			return;
 		}
 		$('#userForm2').ajaxForm(function(data) {
@@ -100,7 +100,7 @@
 												<div id="div_1">
 													<input type="file" name="file" id="Sfile">
 												</div>
-											</div>
+												</div>
 											<input type="button" id="btn_add2" value="增加一行"
 												style="margin-top: 10px;"><br>
 										</div>

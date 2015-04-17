@@ -4,16 +4,20 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.pantuo.service.ProductService;
+import com.pantuo.service.UserService;
 
 /**
  * @author xl
@@ -25,7 +29,8 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
-
+    @Autowired
+	private UserService userService;
     @RequestMapping("ajax-list")
     @ResponseBody
     public DataTablePage<JpaProduct> getAllProducts( TableRequest req ) {
@@ -52,17 +57,18 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/new", produces = "text/html;charset=utf-8")
-    public String newProduct(HttpServletRequest request) {
+    public String newProduct() {
+    	/*Page<UserDetail> users = userService.getValidUsers(0, 999, null);
+        model.addAttribute("users", users.getContent());*/
         return "newProduct";
     }
 
     @RequestMapping(value = "/{id}", produces = "text/html;charset=utf-8")
     public String updateProduct(@PathVariable int id,
                                 Model model, HttpServletRequest request) {
-    	   model.addAttribute("prod", productService.findById(id));
+    	model.addAttribute("prod", productService.findById(id));
         return "newProduct";
     }
-    
     @RequestMapping(value = "/d/{id}", produces = "text/html;charset=utf-8")
     public String showdetail(@PathVariable int id,
                                 Model model, HttpServletRequest request) {

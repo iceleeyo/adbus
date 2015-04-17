@@ -37,7 +37,7 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
         values: values,
         types: types
     },function(data){
-    	alert(data.left==true?"执行成功!":"执行失败!");
+    	jDialog.Alert(data.left==true?"执行成功!":"执行失败!");
     	var a = document.createElement('a');
     	a.href='${rc.contextPath}/order/myTask/1';
     	//a.target = 'main';
@@ -55,10 +55,10 @@ function approve1(){
 	var approve1Comments=$('#approve1 #approve1Comments').val();
 	var seqNumber=$('#approve1 #seqNumber').val();
 	if(approve1Comments==""){
-	   alert("请填写意见");
+	   jDialog.Alert("请填写意见");
 	   return;
 	}
-	//alert(seqNumber);
+	
 	if(seqNumber!=""){
 	   approve2ResultValue="true";
 	}else{
@@ -90,11 +90,11 @@ function approve2(){
 	var suppliesid=$('#approve2 #suppliesid').val();
 	var seqNumber=$('#approve2 #seqNumber').val();
 	if(approve2Comments==""){
-	   alert("请填写意见");
+	   jDialog.Alert("请填写意见");
 	   return;
 	}
 	if(seqNumber==""){
-	   alert("请填写物料编号");
+	   jDialog.Alert("请填写物料编号");
 	   return;
 	}
 	
@@ -137,7 +137,7 @@ function bgzs(suppliesid,seqNumber,taskId, variables) {
         seqNumber:seqNumber
         
     },function(data){
-    	alert(data.left==true?"执行成功!":"执行失败!");
+    	jDialog.Alert(data.left==true?"执行成功!":"执行失败!");
     	var a = document.createElement('a');
     	a.href='${rc.contextPath}/order/myTask/1';
     	//a.target = 'main';
@@ -151,7 +151,7 @@ function financial() {
     var paymentResult=$('#financialCheck :radio[name=rad]:checked').val();
 	var financialcomment=$('#financialcomment').val();
 	if(financialcomment==""){
-	  alert("请填写审核意见");
+	  jDialog.Alert("请填写审核意见");
 	  return;
 	}
 	complete('${taskid!''}',[
@@ -182,7 +182,7 @@ function submitSchedule() {
 //北广录入排期表
 function inputSchedule() {
     var ScheduleResult=$('#inputSchedule :radio[name=ScheduleResult]:checked').val();
-    var inputScheduleComments=$("#inputScheduleComments").val();
+	var inputScheduleComments=$("#inputScheduleComments").val();
 	complete('${taskid!''}',[
 		{
 			key: 'ScheduleResult',
@@ -200,8 +200,8 @@ function inputSchedule() {
 //上播报告
 function shangboReport() {
     var shangboResult=$('#shangboReport :radio[name=shangboResult]:checked').val();
-    var shangboComments=$("#shangboComments").val();
-    alert(shangboComments);
+	var shangboComments=$("#shangboComments").val();
+    jDialog.Alert(shangboComments);
 	complete('${taskid!''}',[
 		{
 			key: 'shangboResult',
@@ -219,7 +219,7 @@ function shangboReport() {
 //监播报告
 function jianboReport() {
     var jianboResult=$('#jianboReport :radio[name=jianboResult]:checked').val();
-    var jianboComments=$("#jianboComments").val();
+	var jianboComments=$("#jianboComments").val();
 	complete('${taskid!''}',[
 		{
 			key: 'jianboResult',
@@ -242,7 +242,7 @@ function check() {
 				"code" : c
 			},
 			success : function(data) {
-				alert(data.left + " # " + data.right);
+				jDialog.Alert(data.left + " # " + data.right);
 			}
 		}, "text");
 	}
@@ -259,7 +259,7 @@ function pay() {
 	        if(payType=="contract"){
 	            contractid=$("#contractCode  option:selected").val();
 	            if(contractid==""){
-	              alert("请选择合同");
+	              jDialog.Alert("请选择合同");
 	              return;
 	            }
 	         }else{
@@ -278,7 +278,7 @@ function pay() {
 				"payType":payType
 			},
 			success : function(data) {
-				alert(data.left + " # " + data.right);
+				jDialog.Alert(data.left + " # " + data.right);
 				var a = document.createElement('a');
     	        a.href='${rc.contextPath}/order/myOrders/1';
             	document.body.appendChild(a);
@@ -290,7 +290,7 @@ function pay() {
 	function modifyOrder() {
 	        var supplieid=$("#supplieid  option:selected").val();
 	            if(supplieid==""){
-	              alert("请选择物料");
+	              jDialog.Alert("请选择物料");
 	              return;
 	            }
 		var orderid = $("#orderid").val();
@@ -304,7 +304,7 @@ function pay() {
 				"supplieid":supplieid
 			},
 			success : function(data) {
-				alert(data.left + " # " + data.right);
+				jDialog.Alert(data.left + " # " + data.right);
 				var a = document.createElement('a');
     	        a.href='${rc.contextPath}/order/myOrders/1';
             	document.body.appendChild(a);
@@ -615,13 +615,12 @@ function pay() {
     									<TD colspan=2 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
   								</TR>  
   								<TR>
-  								
     									<TH width="20%">排期表</TH>
     									<TD colspan=2 style="border-radius: 0 0 0"><a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
   								</TR> 
   								<TR>
     									<TH>上播意见</TH>
-    									<TD colspan=2><textarea name="shangboComments"  id="shangboComments" style="margin: 5px 0;width:400px;margin-top:5px;">您的广告按照合同要求已安排上播</textarea></TD></TR>
+    									<TD colspan=2><textarea name="shangboComments" id="shangboComments" style="margin: 5px 0;width:400px;margin-top:5px;">您的广告按照合同要求已安排上播</textarea></TD></TR>
 									<TR style="height:45px;">
 										  <TH>是否上播</TH>
 										  <TD style="border-radius: 0 0 0">

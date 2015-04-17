@@ -14,10 +14,11 @@
                     empty += $(this).attr("name") + ' ';
                 }
             });
-            alert('请填写' + empty);
+            jDialog.Alert('请填写' + empty);
         } else {
             $('#userForm2').ajaxForm(function(data) {
-                alert(data.left + " # " + data.right);
+                jDialog.Alert(data.left + " # " + data.right);
+                
             }).submit();
            //var a = document.createElement('a');
     	   //a.href='${rc.contextPath}/order/myTask/1';
@@ -35,7 +36,7 @@
 				"code" : c
 			},
 			success : function(data) {
-				alert(data.left + " # " + data.right);
+				jDialog.Alert(data.left + " # " + data.right);
 			}
 		}, "text");
 	}

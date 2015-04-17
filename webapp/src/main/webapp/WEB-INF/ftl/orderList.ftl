@@ -9,7 +9,7 @@
 			url : "${rc.contextPath}/order/claim?orderid="+orderid+"&taskid="+taskid,
 			type : "POST",
 			success : function(data) {
-				alert(data.right);
+				jDialog.Alert(data.right);
 				location.reload([true]);
 			}
 		}, "text");

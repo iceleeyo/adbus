@@ -8,7 +8,7 @@
 			url : "${rc.contextPath}/order/claim?orderid="+orderid+"&taskid="+taskid,
 			type : "POST",
 			success : function(data) {
-				alert(data.right);
+				jDialog.Alert(data.right);
 				location.reload([true]);
 			}
 		}, "text");
@@ -111,6 +111,9 @@
                 <hr/>
             </div>-->
             <div class="div">
+            <div class="withdraw-title" style="padding-top: 0px; text-align:left; ">
+									待办事项列表
+			</div>
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>

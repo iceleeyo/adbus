@@ -1,14 +1,8 @@
-
-  
-
 <#import "template/template.ftl" as frame>
 <#global menu="产品查询">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="产品套餐列表">
 
-
-                                        
-                                        
 <script type="text/javascript">
     var table;
     function initTable () {
@@ -34,8 +28,7 @@
             "columns": [
                 { "data": "name", "defaultContent": "",
                     "render": function(data, type, row, meta) {
-                        
-                    return '<a class="table-link" href="${rc.contextPath}/product/d/'+row.id+'">'+row.name+'</a>';
+                        return '<a class="table-link" href="${rc.contextPath}/product/d/'+row.id+'">'+row.name+'</a>';
                 } },
                 { "data": "type", "defaultContent": "",
                     "render": function(data, type, row, meta) {
@@ -60,7 +53,7 @@
                     return row.id;
                 },
                     "render": function(data, type, row, meta) {
-                  	  var operations = '';
+                        var operations = '';
                    		 <@security.authorize ifAnyGranted="ShibaOrderManager">  
                      	operations+= (row.enabled ? '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/disable">禁用</a> &nbsp;'
                                 :'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/enable">启用</a> &nbsp;')
@@ -116,7 +109,7 @@
                 <hr/>
             </div>-->
             <div class="div">
-            <div class="withdraw-title" style="padding-top: 0px;text-align:center;">
+            <div class="withdraw-title" style="padding-top: 0px;text-align:left;">
 									产品列表
 									</div>
                 <table id="table" class="display" cellspacing="0" width="100%">
