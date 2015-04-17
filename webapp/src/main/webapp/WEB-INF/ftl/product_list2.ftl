@@ -60,7 +60,9 @@
                         operations +='<a class="table-link" href="${rc.contextPath}/product/' + data +'">编辑</a>&nbsp;';
                         </@security.authorize>
                         if(row.enabled){
-                     	  operations+= '<a class="table-link" href="${rc.contextPath}/order/buypro/'+data+'">购买</a>';
+                        	<@security.authorize ifAnyGranted="normaluser">
+                     	 	 operations+= '<a class="table-link" href="${rc.contextPath}/order/buypro/'+data+'">购买</a>';
+                     	    </@security.authorize>
                     	}
                        return operations;
                         
