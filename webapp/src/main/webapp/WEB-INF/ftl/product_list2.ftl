@@ -66,7 +66,9 @@
                                 :'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/enable">启用</a> &nbsp;')
                         operations +='<a class="table-link" href="${rc.contextPath}/product/' + data +'">编辑</a>&nbsp;';
                         </@security.authorize>
-                       operations+= '<a class="table-link" href="${rc.contextPath}/order/buypro/'+data+'">购买</a>';
+                        if(row.enabled){
+                     	  operations+= '<a class="table-link" href="${rc.contextPath}/order/buypro/'+data+'">购买</a>';
+                    	}
                        return operations;
                         
                     }},
