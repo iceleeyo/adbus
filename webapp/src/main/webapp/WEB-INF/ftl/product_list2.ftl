@@ -3,6 +3,7 @@
 
 <#import "template/template.ftl" as frame>
 <#global menu="产品查询">
+<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="产品套餐列表">
 
 
@@ -59,12 +60,14 @@
                     return row.id;
                 },
                     "render": function(data, type, row, meta) {
-                    var r = '';
-                     	r+= (row.enabled ? '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/disable">禁用</a> &nbsp;'
+                  	  var operations = '';
+                   		 <@security.authorize ifAnyGranted="ShibaOrderManager">  
+                     	operations+= (row.enabled ? '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/disable">禁用</a> &nbsp;'
                                 :'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/enable">启用</a> &nbsp;')
-                        + '<a class="table-link" href="${rc.contextPath}/product/' + data +'">编辑</a>&nbsp;';
-                       r += '<a class="table-link" href="${rc.contextPath}/order/buypro/'+data+'">购买</a>';
-                       return r;
+                        operations +='<a class="table-link" href="${rc.contextPath}/product/' + data +'">编辑</a>&nbsp;';
+                        </@security.authorize>
+                       operations+= '<a class="table-link" href="${rc.contextPath}/order/buypro/'+data+'">购买</a>';
+                       return operations;
                         
                     }},
             ],
