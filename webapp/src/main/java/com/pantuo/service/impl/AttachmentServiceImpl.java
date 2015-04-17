@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.pantuo.dao.pojo.JpaAttachment;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,14 +17,15 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import com.pantuo.dao.pojo.JpaAttachment;
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.AttachmentExample;
 import com.pantuo.mybatis.persistence.AttachmentMapper;
 import com.pantuo.service.AttachmentService;
 import com.pantuo.util.BusinessException;
 import com.pantuo.util.FileHelper;
+import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.Pair;
-import com.pantuo.util.Request;
 
 /**
  * 
@@ -54,7 +54,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 			log.info("userid:{},main_id:{},file_type:{}", user_id, main_id, file_type);
 			if (multipartResolver.isMultipart(request)) {
 				String path = request.getSession().getServletContext()
-						.getRealPath(com.pantuo.util.Constants.FILE_UPLOAD_DIR);
+						.getRealPath(com.pantuo.util.Constants.FILE_UPLOAD_DIR).replaceAll("WEB-INF", "");
 				MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
 				Iterator<String> iter = multiRequest.getFileNames();
 				while (iter.hasNext()) {
@@ -62,13 +62,14 @@ public class AttachmentServiceImpl implements AttachmentService {
 					if (file != null && !file.isEmpty()) {
 						String oriFileName = file.getOriginalFilename();
 						if (StringUtils.isNoneBlank(oriFileName)) {
-
-							Pair<String, String> p = FileHelper.getUploadFileName(path, oriFileName);
+							String storeName = GlobalMethods.md5Encrypted((System.currentTimeMillis() + oriFileName)
+									.getBytes());
+							Pair<String, String> p = FileHelper.getUploadFileName(path, storeName);
 							File localFile = new File(p.getLeft());
 							file.transferTo(localFile);
 							Attachment t = new Attachment();
 							t.setMainId(main_id);
-                            t.setType(file_type.ordinal());
+							t.setType(file_type.ordinal());
 							t.setCreated(new Date());
 							t.setUpdated(t.getCreated());
 							t.setName(oriFileName);
@@ -111,5 +112,13 @@ public class AttachmentServiceImpl implements AttachmentService {
 		ca.andMainIdEqualTo(main_id);
 		//ca.andUserIdEqualTo(Request.getUserId(principal));
 		return attachmentMapper.selectByExample(example);
+	}
+
+
+
+	public Attachment selectById(int id) {
+		
+		
+		return attachmentMapper.selectByPrimaryKey(id);
 	}
 }

@@ -54,5 +54,9 @@ public interface AttachmentService {
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
 	public List<Attachment> queryFile(Principal principal, int main_id);
+	
+	
+	
+	public Attachment selectById(int id);
 
 }
