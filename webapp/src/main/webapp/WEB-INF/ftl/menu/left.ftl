@@ -139,10 +139,20 @@
 										</a>
 										<ul class="pg-side-exp-list">
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/report/timeslot">
+												<a class="side-exp-item-t" href="${rc.contextPath}/report/day">
 													剩余时段报表
 												</a>
 											</li>
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/dayp">
+                                                    剩余时段比例
+                                                </a>
+                                            </li>
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/monthp">
+                                                    全年时段比例
+                                                </a>
+                                            </li>
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/report/wow">
                                                     时段两周同比
@@ -154,7 +164,7 @@
                                                 </a>
                                             </li>
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="#">
+												<a class="side-exp-item-t" href="${rc.contextPath}/report/dayorderp">
 													销售报表
 												</a>
 											</li>

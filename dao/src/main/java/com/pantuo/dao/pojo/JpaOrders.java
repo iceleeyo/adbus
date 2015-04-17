@@ -9,7 +9,8 @@ import java.util.Date;
  * 订单
  */
 @Entity
-@Table(name="orders")
+@Table(name="orders", indexes = @Index(name="order_index",
+        columnList="userId, stats, type, startTime, endTime"))
 public class JpaOrders extends BaseEntity {
     public static enum PayType {
         online, contract,other

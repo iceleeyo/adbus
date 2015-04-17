@@ -7,6 +7,7 @@ import com.pantuo.dao.pojo.JpaTimeslot;
 import com.pantuo.dao.pojo.QJpaTimeslot;
 import com.pantuo.pojo.highchart.DayList;
 import com.pantuo.service.TimeslotService;
+import com.pantuo.util.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,8 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class TimeslotServiceImpl implements TimeslotService {
@@ -35,6 +35,25 @@ public class TimeslotServiceImpl implements TimeslotService {
 
     public long sumPeakDuration() {
         return timeslotRepo.sumPeakDuration();
+    }
+
+    public Map<Integer, Long> getDurationByHour() {
+        Page<JpaTimeslot> page = getAllTimeslots(null, 0, 999, null, false);
+        List<JpaTimeslot> list = page.getContent();
+        Calendar cal = DateUtil.newCalendar();
+        Map<Integer, Long> result = new HashMap<Integer, Long>();
+        for (JpaTimeslot t : list) {
+            Map<Integer, Long> span = DateUtil.durationSpan(cal, t.getStartTime(), t.getDuration());
+            for (Integer hour : span.keySet()) {
+                Long d = result.get(hour);
+                if (d != null) {
+                    result.put(hour, d + span.get(hour));
+                } else {
+                    result.put(hour, span.get(hour));
+                }
+            }
+        }
+        return result;
     }
 
  //   @Override

@@ -6,9 +6,10 @@
     <result column="year" property="year" jdbcType="INTEGER" />
     <result column="month" property="month" jdbcType="INTEGER" />
     <result column="remain" property="remain" jdbcType="BIGINT" />
+    <result column="paid" property="paid" jdbcType="BIGINT" />
+    <result column="notPaid" property="notPaid" jdbcType="BIGINT" />
     <result column="size" property="size" jdbcType="BIGINT" />
   </resultMap>
-
   <select id="getRemainTimeslots" parameterType="map" resultMap="timeslotReport" >
     <![CDATA[
     select day, (sum(t.duration) - sum(b.size - b.remain)) as remain, sum(t.duration) as size
@@ -19,8 +20,9 @@
     </if>
     <![CDATA[
       and b.day >= #{from} and b.day <= #{to})
-    group by b.day
     ]]>
+    group by b.day
+
   </select>
 
   <select id="getMonthlyRemainTimeslots" parameterType="map" resultMap="timeslotReport" >
@@ -28,12 +30,31 @@
     select b.year, b.month, (sum(t.duration) - sum(b.size - b.remain)) as remain, sum(t.duration) as size
     from timeslot t join box b on (t.id = b.slot_id
     ]]>
+    <if test="peak != null and peak == true">
+            and t.peak = 1
+    </if>
+    <![CDATA[
+      and b.year = #{year})
+    ]]>
+      group by b.month
+  </select>
+
+  <select id="getOrderTimeslots" parameterType="map" resultMap="timeslotReport" >
+        <![CDATA[
+    select b.day, sum (case when o.stats = 0 then 0 else g.size end) as paid,
+      sum (case when o.stats = 0 then g.size else 0 end) as notPaid, sum(t.duration-g.size) as remain,
+      sum(t.duration) as size
+    from timeslot t join box b on (t.id = b.slot_id
+    ]]>
         <if test="peak != null and peak == true">
             and t.peak = 1
         </if>
         <![CDATA[
-      and b.year = #{year})
-    group by b.month
+      and b.day >= #{from} and b.day <= #{to})
     ]]>
+    join goods g on (b.slot_id = g.box_slot_id and b.day = g.day)
+    join orders o on (g.order_id = o.id)
+    group by b.day
   </select>
+
 </mapper>

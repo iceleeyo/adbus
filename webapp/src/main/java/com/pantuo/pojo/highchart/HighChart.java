@@ -11,17 +11,19 @@ public class HighChart<X> implements Serializable {
 	private String titleY;
 	private String subTitle;
 	private List<X> xAxis;
-    private Class<X> xType;
+    private XType xType;
 	private String linkPrefix;
 	Map<String, Series> seriesList;
-	protected Map<ScaleType, Double> minY, maxY;
-	
-	HighChart(String title, Class<X> xType) {
+	protected Map<YType, Double> minY, maxY;
+	private boolean stacked;
+    private ChartType type;
+
+	HighChart(String title, XType xType) {
 		this.title = title;
 		this.seriesList = new LinkedHashMap<String, Series>();
         this.xType = xType;
-		minY = new HashMap<ScaleType, Double> ();
-		maxY = new HashMap<ScaleType, Double> ();
+		minY = new HashMap<YType, Double> ();
+		maxY = new HashMap<YType, Double> ();
 	}
 	public String getTitle() {
 		return title;
@@ -50,24 +52,24 @@ public class HighChart<X> implements Serializable {
 	void calculateYRange() {
 		try {
 		for(Series series : seriesList.values()) {
-			Double maxy = maxY.get(series.getSeriesType().getScaleType());
+			Double maxy = maxY.get(series.getSeriesType().getyType());
 			if (maxy == null || maxy < series.getMaxY()) {
-				maxY.put(series.getSeriesType().getScaleType(), series.getMaxY());
+				maxY.put(series.getSeriesType().getyType(), series.getMaxY());
 			}
-			Double miny = minY.get(series.getSeriesType().getScaleType());
+			Double miny = minY.get(series.getSeriesType().getyType());
 			if (miny == null || miny > series.getMinY()) {
-				minY.put(series.getSeriesType().getScaleType(), series.getMinY());
+				minY.put(series.getSeriesType().getyType(), series.getMinY());
 			}
 		}
 		
-		Iterator<Entry<ScaleType, Double>> maxIter = maxY.entrySet().iterator();
+		Iterator<Entry<YType, Double>> maxIter = maxY.entrySet().iterator();
 		while (maxIter.hasNext()) {
-			Entry<ScaleType, Double> e = maxIter.next();
+			Entry<YType, Double> e = maxIter.next();
 			e.setValue(e.getValue() + Math.abs(e.getValue()*0.1));
 		}
-		Iterator<Entry<ScaleType, Double>> minIter = minY.entrySet().iterator();
+		Iterator<Entry<YType, Double>> minIter = minY.entrySet().iterator();
 		while (minIter.hasNext()) {
-			Entry<ScaleType, Double> e = minIter.next();
+			Entry<YType, Double> e = minIter.next();
 			e.setValue(e.getValue() - Math.abs(e.getValue()*0.1));
 		}
 		} catch (Exception e) {
@@ -76,20 +78,20 @@ public class HighChart<X> implements Serializable {
 	}
 	
 	public static void normalizeYRange(Collection<HighChart> charts) {
-		Map<ScaleType, Double> maxY = new HashMap<ScaleType, Double> ();
-		Map<ScaleType, Double> minY = new HashMap<ScaleType, Double> ();
+		Map<YType, Double> maxY = new HashMap<YType, Double> ();
+		Map<YType, Double> minY = new HashMap<YType, Double> ();
 		for (HighChart chart : charts) {
-			Iterator<Entry<ScaleType, Double>> maxIter = chart.maxY.entrySet().iterator();
+			Iterator<Entry<YType, Double>> maxIter = chart.maxY.entrySet().iterator();
 			while (maxIter.hasNext()) {
-				Entry<ScaleType, Double> e = maxIter.next();
+				Entry<YType, Double> e = maxIter.next();
 				Double maxy = maxY.get(e.getKey());
 				if (maxy == null || maxy < e.getValue()) {
 					maxY.put(e.getKey(), e.getValue());
 				}
 			}
-			Iterator<Entry<ScaleType, Double>> minIter = chart.minY.entrySet().iterator();
+			Iterator<Entry<YType, Double>> minIter = chart.minY.entrySet().iterator();
 			while (minIter.hasNext()) {
-				Entry<ScaleType, Double> e = minIter.next();
+				Entry<YType, Double> e = minIter.next();
 				Double miny = minY.get(e.getKey());
 				if (miny == null || miny > e.getValue()) {
 					minY.put(e.getKey(), e.getValue());
@@ -156,6 +158,22 @@ public class HighChart<X> implements Serializable {
 		this.subTitle = subTitle;
 	}
 
+    public boolean isStacked() {
+        return stacked;
+    }
+
+    public void setStacked(boolean stacked) {
+        this.stacked = stacked;
+    }
+
+    public ChartType getType() {
+        return type;
+    }
+
+    public void setType(ChartType type) {
+        this.type = type;
+    }
+
     public String getxAxisAsString() {
         StringBuffer sbuffer = new StringBuffer(",");
         for(Object item : xAxis){
@@ -171,7 +189,7 @@ public class HighChart<X> implements Serializable {
 		this.xAxis = xAxis;
 	}
     public String getxType() {
-        return xType.getSimpleName();
+        return xType.name();
     }
 	public String getLinkPrefix() {
 		return linkPrefix;
@@ -189,16 +207,16 @@ public class HighChart<X> implements Serializable {
     
     public Collection<String> getScaleTypes () {
     	List<String> types = new ArrayList<String> ();
-    	for (ScaleType type : maxY.keySet()) {
+    	for (YType type : maxY.keySet()) {
     		types.add(type.name());
     	}
     	return types;
     }
     
     public boolean containsScaleType (String scaleType) {
-    	ScaleType type = null;
+    	YType type = null;
     	try {
-    		type = ScaleType.valueOf(scaleType);
+    		type = YType.valueOf(scaleType);
     	} catch (Exception e) {}
     	if (type == null)
     		return false;
@@ -209,14 +227,14 @@ public class HighChart<X> implements Serializable {
     	return maxY.size();
     }
 
-    public List<ScaleType> getScaleTypeList() {
-        return new ArrayList<ScaleType> (maxY.keySet());
+    public List<YType> getScaleTypeList() {
+        return new ArrayList<YType> (maxY.keySet());
     }
     
     public double getMaxY(String scaleType) {
-    	ScaleType type = null;
+    	YType type = null;
     	try {
-    		type = ScaleType.valueOf(scaleType);
+    		type = YType.valueOf(scaleType);
     	} catch (Exception e) {}
     	if (type == null)
     		return 0;
@@ -225,9 +243,9 @@ public class HighChart<X> implements Serializable {
 	}
 	
 	public double getMinY(String scaleType) {
-    	ScaleType type = null;
+    	YType type = null;
     	try {
-    		type = ScaleType.valueOf(scaleType);
+    		type = YType.valueOf(scaleType);
     	} catch (Exception e) {}
     	if (type == null)
     		return 0;

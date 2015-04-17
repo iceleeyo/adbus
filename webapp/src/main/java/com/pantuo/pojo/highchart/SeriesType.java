@@ -4,30 +4,30 @@ import java.io.Serializable;
 
 public enum SeriesType implements Serializable {
 
-    TIMESLOT(1, "时段", ScaleType.TIME_COUNT),
-    PEAK_TIMESLOT(2, "高峰时段", ScaleType.TIME_COUNT),
-    TIMESLOT_PERCENT(3, "时段占比", ScaleType.PERCENT);
+    TIMESLOT(1, "时段", YType.TIME_COUNT),
+    LONG_TIMESLOT(3, "时段", YType.LONG_TIME_COUNT),
+    TIMESLOT_PERCENT(5, "时段占比", YType.PERCENT);
 	
 	final private int id;
 	final private String desc;
-	final private ScaleType scale;
+	final private YType yType;
 
 	public String getDesc() {
 		return desc;
 	}
 
-	private SeriesType(int id, String desc, ScaleType scale) {
+	private SeriesType(int id, String desc, YType yType) {
 		this.id = id;
 		this.desc = desc;
-		this.scale = scale;
+		this.yType = yType;
 	}
 	
 	public int getId() {
 		return id;
 	}
 	
-	public ScaleType getScaleType() {
-		return scale;
+	public YType getyType() {
+		return yType;
 	}
 	
 	public static SeriesType getSeriesType(int id) {

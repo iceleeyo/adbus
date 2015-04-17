@@ -104,7 +104,7 @@ public class DayList implements Iterable<Date> {
 		Set<Date> set = new TreeSet<Date>();
 		for (Date d : list) {
 			c.setTime(d);
-			c.set(Calendar.HOUR, 0);
+			c.set(Calendar.HOUR_OF_DAY, 0);
 			c.set(Calendar.MINUTE, 0);
 			c.set(Calendar.SECOND, 0);
 			c.set(Calendar.MILLISECOND, 0);

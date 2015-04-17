@@ -5,7 +5,7 @@ import java.util.List;
 public class HighChartBuilder<X> {
 	private HighChart<X> chart;
 	
-	public HighChartBuilder(String title, Class<X> xType) {
+	public HighChartBuilder(String title, XType xType) {
 		chart = new HighChart<X>(title, xType);
 	}
 	public HighChartBuilder(HighChart<X> chart) {
@@ -36,6 +36,14 @@ public class HighChartBuilder<X> {
 		chart.setLinkPrefix(linkPrefix);
 		return this;
 	}
+    public HighChartBuilder setStacked(boolean stacked) {
+        chart.setStacked(stacked);
+        return this;
+    }
+    public HighChartBuilder setType(ChartType type) {
+        chart.setType(type);
+        return this;
+    }
 	public HighChart build() {
 		chart.calculateYRange();
 		return chart;

@@ -1,4 +1,4 @@
-<#macro trendChart chartDiv title titleY toolTipText highChart menuId="" seriesTypes=[]>
+<#macro trendChart chartDiv title titleY highChart yName baseY menuId="" seriesTypes=[], yName={}>
 <script type="text/javascript">
     var chart;
 
@@ -9,10 +9,15 @@
             },
             chart: {
                 renderTo: '${chartDiv}',
-                type: 'line',
+                <#if highChart.stacked>
+                    type: "${highChart.type!'column'}",
+                <#else>
+                    type: "${highChart.type!'line'}",
+                </#if>
                 marginLeft: 80,
                 marginRight: 30 * ${highChart.scaleTypeList?size},
-                marginBottom: 60
+                marginBottom: 60,
+                xType: "${highChart.xType}",
             },
             title: {
                 text: '${title}',
@@ -24,16 +29,30 @@
             },
             xAxis:
             {
-                type: 'datetime',
-                tickInterval: 24 * 3600 * 1000,
-                labels: {
-                    rotation: -25,
-                    align: 'right',
-                    style: { font: 'normal 10px Verdana, sans-serif'},
-                    formatter: function() {
-                            return $.format.date(this.value,'MM-dd');
+                <#if highChart.xType == "DATE">
+                    type: 'datetime',
+                    //tickInterval: 24 * 3600 * 1000,
+                    labels: {
+                        rotation: -25,
+                        align: 'right',
+                        style: { font: 'normal 10px Verdana, sans-serif'},
+                        formatter: xLabelFormatter,
                     }
-                }
+                <#else>
+                    type: 'categories',
+                    categories: [
+                        <#list highChart.xAxis as x>
+                        ${x}
+                            <#if x_has_next>,</#if>
+                        </#list>
+                    ],
+                    labels: {
+                        //rotation: 12,
+                        align: 'right',
+                        style: { font: 'normal 10px Verdana, sans-serif'},
+                        formatter: xLabelFormatter,
+                    }
+                </#if>
             },
             yAxis:[
             <#list highChart.scaleTypeList as scaleType>
@@ -42,46 +61,32 @@
                             text: '${scaleType.desc}'
                         },
                         id: '${scaleType}',
+                        <#if baseY?? && baseY != "">
+                            min: ${baseY!0},
+                        </#if>
                         plotLines: [{
                             value: 0,
                             width: 1,
                             color: '#808080'
                         }],
                         labels: {
-                            formatter: function() {
-                                var label = this.value;
-                                <#if scaleType == 'TIME_COUNT'>
-                                    var d = new Date(label * 1000);
-                                    d = new Date(label * 1000 + d.getTimezoneOffset() * 60000);
-                                    label = $.format.date(d, "H:mm,ss;").replace(",","'").replace(";","\"");
-                                <#elseif scaleType == 'PERCENT'>
-                                    label = label + "%";
-                                </#if>
-                                return label +'${toolTipText}'
-                            }
+                            formatter: yLabelFormatter,
                         },
                         <#if scaleType == 'PERCENT' && highChart.scaleTypeList?size &gt; 1>
                             opposite: true,
                         </#if>
                     },
             </#list>
-        ],
-        tooltip: {
-                formatter: function() {
-                    var yStr = this.y;
-                    if (this.series.userOptions['scaleType'] == 'TIME_COUNT') {
-                        var d = new Date(this.y * 1000);
-                        d = new Date(this.y * 1000 + d.getTimezoneOffset() * 60000);
-                        yStr = $.format.date(d, "H:mm,ss;").replace(",","'").replace(";","\"");
-                    } else if (this.series.userOptions['scaleType'] == 'PERCENT') {
-                        yStr = this.y + "%";
-                    }
-                    return  $.format.date(this.x, 'yyyy-MM-dd') +'<br/>'+
-                            this.series.name +': <b>'+ yStr +'${toolTipText}</b>';
-                }
+            ],
+            tooltip:
+            {
+                formatter: tooltipFormatter,
             },
             plotOptions: {
                 series: {
+                    <#if highChart.stacked>
+                        stacking: 'percent',
+                    </#if>
                     cursor: 'pointer',
                     marker: {
                         lineWidth: 1
@@ -90,7 +95,7 @@
                         <#if menuId!="">
                             events: {
                                 click: function(e) {
-                                    selectedDate = $.format.date(e.point.x,'yyyyMMdd');
+                                    selectedDate = $.format.date(e.point.x,'yyyy-MM-dd');
                                     curSeries=this.series.name;
 
                                     $('#trend-menu ul li').hide();
@@ -113,12 +118,13 @@
             series: [
                 <#list seriesTypes as type>
                     {
-                        name: "${highChart.seriesListAsMap['${type}'].name}",
-                        data: [${highChart.seriesListAsMap['${type}'].data}],
-                        scaleType: "${highChart.seriesListAsMap['${type}'].seriesType.scaleType}",
-                        yAxis: "${highChart.seriesListAsMap['${type}'].seriesType.scaleType}",
+                        name: "${highChart.seriesListAsMap['${type}'].getName("${yName[type]}")}",
+                        data: [${highChart.seriesListAsMap['${type}'].getData("${yName[type]}")}],
+                        yType: "${highChart.seriesListAsMap['${type}'].seriesType.yType}",
+                        xType: "${highChart.xType}",
                         marker: {
-                            symbol: "<#if highChart.seriesListAsMap['${type}'].seriesType.scaleType == 'PERCENT'>circle<#else>square</#if>"
+                            enabled: ${highChart.seriesListAsMap['${type}'].pointerEnabled?c},
+                            radius: ${highChart.seriesListAsMap['${type}'].pointerRadius!'2'}
                         }
                     }
                     <#if type_has_next>,</#if>
@@ -127,10 +133,4 @@
         });
     });
 </script>
-<#--
-    <#list seriesTypes as type>
-    ${type}
-    </#list>
--->
-
 </#macro>

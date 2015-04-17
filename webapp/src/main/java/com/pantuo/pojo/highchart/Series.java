@@ -1,49 +1,46 @@
 package com.pantuo.pojo.highchart;
 
+import com.pantuo.Reportable;
+
 import java.io.Serializable;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
-public class Series<X, Y> implements Serializable {
+public class Series<X, Y extends Reportable> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-    protected String name;
+    protected Map<String, String> name;
     protected List<X> xAxis;
 	protected SeriesType seriesType;
 	protected Map<X, Y> data;
 	protected double minY, maxY;
 	protected boolean hasOutlier = false;
+    protected boolean pointerEnabled = true;
+    protected int pointerRadius = 2;
 
-    protected Series(String name, SeriesType seriesType) {
+    protected Series(SeriesType seriesType) {
         if(null == seriesType){
             throw new IllegalArgumentException("Illegal Arguments: parameter seriesType is null");
         }
-        this.name = name;
+        this.name = new HashMap<String, String>();
         this.seriesType = seriesType;
         this.data = new LinkedHashMap<X, Y>();
     }
 
-	protected Series(String name, SeriesType seriesType, List<X> xAxis) {
-        this.name = name;
+	protected Series(SeriesType seriesType, List<X> xAxis) {
+        this.name = new HashMap<String, String>();
 		this.seriesType = seriesType;
 		this.data = new LinkedHashMap<X, Y>();
 		
         this.xAxis = xAxis;
 	}
 	
-    public static <X,Y> Series newCategorySeries(String name, SeriesType seriesType, List<X> xAxis) {
-    	return new Series<X,Y>(name, seriesType, xAxis);
+    public static <X,Y extends Reportable> Series newCategorySeries(SeriesType seriesType, List<X> xAxis) {
+    	return new Series<X,Y>(seriesType, xAxis);
     }
 
     public static DatetimeSeries newDatetimeSeries(SeriesType seriesType, DayList dayList) {
-        return new DatetimeSeries ("", seriesType, dayList);
-    }
-
-    public static DatetimeSeries newDatetimeSeries(String name, SeriesType seriesType, DayList dayList) {
-    	return new DatetimeSeries (name, seriesType, dayList);
+    	return new DatetimeSeries (seriesType, dayList);
     }
     
 	public SeriesType getSeriesType() {
@@ -84,12 +81,17 @@ public class Series<X, Y> implements Serializable {
 			}
 		}
     }
+
+    public Series addName(String yKey, String name) {
+        this.name.put(yKey, name);
+        return this;
+    }
     
-	public String getName() {
-		return name;
+	public String getName(String yKey) {
+		return name.get(yKey);
 	}
 
-    public String getData() {
+    public String getData(String yKey) {
 
         if(null == xAxis || xAxis.isEmpty()){
             return "";
@@ -111,7 +113,7 @@ public class Series<X, Y> implements Serializable {
                 continue;
             }
 
-            builder.append(value.toString());
+            builder.append(value.toString(null, yKey));
         }
         return builder.toString();
     }
@@ -127,8 +129,30 @@ public class Series<X, Y> implements Serializable {
 	public double getMaxY() {
 		return maxY;
 	}
-	
-	public static void main(String []args) {
+
+    public boolean isPointerEnabled() {
+        return pointerEnabled;
+    }
+
+    public void setPointerEnabled(boolean pointerEnabled) {
+        this.pointerEnabled = pointerEnabled;
+    }
+
+    public int getPointerRadius() {
+        return pointerRadius;
+    }
+
+    public void setPointerRadius(int pointerRadius) {
+        this.pointerRadius = pointerRadius;
+    }
+
+    public Series setPointer(boolean enabled, int radius) {
+        pointerEnabled = enabled;
+        pointerRadius = radius;
+        return this;
+    }
+
+    public static void main(String []args) {
 //		Series<Object, Object> series = Series.newCustomSeries();
 //		series.put("1", 5.0);
 //		series.put("2", 1.0);

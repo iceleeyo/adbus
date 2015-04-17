@@ -21,6 +21,8 @@ public interface TimeslotService {
 
     long sumPeakDuration();
 
+    Map<Integer, Long> getDurationByHour();
+
     Page<JpaTimeslot> getAllTimeslots(String name, int page, int pageSize, Sort sort, boolean fetchDisabled);
 
     JpaTimeslot findById(int id);

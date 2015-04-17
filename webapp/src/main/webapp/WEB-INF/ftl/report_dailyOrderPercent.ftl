@@ -1,8 +1,8 @@
 <#import "template/template.ftl" as frame>
 <#import "macro/timeslotChart.ftl" as trendChart>
 
-<#global menu="时段月同比">
-<@frame.html title="剩余时段月同比趋势图"
+<#global menu="售出情况">
+<@frame.html title="售出情况"
 js=["highcharts/highcharts-3.0.2.js", "highcharts/exporting.js", "chart.js", "jquery-dateFormat.js", "jquery-ui/jquery-ui.js", "datepicker.js", "jquery.datepicker.region.cn.js"]
 css=["jquery-ui/jquery-ui.css"]>
     <style type="text/css">
@@ -19,30 +19,27 @@ css=["jquery-ui/jquery-ui.css"]>
     </style>
     <script type="text/javascript">
         $(function(){
-            $("#year, #baseY").change(function() {
-                $(location).attr('href', "mom?year=" + $("#year").val()
-                        + ($("#baseY").is(":checked")? "&baseY=0" : ""));
+            $("#day").val(<#if day??>'${day}'<#else>$.format.date(new Date(), 'yyyy-MM-dd')</#if>);
+
+            $("#day").change(function() {
+                $(location).attr('href', "dayorderp?day=" + $("#day").val());
             });
         });
     </script>
     <div class="withdraw-title fn-clear">
-        剩余时段月同比趋势图
+        售出情况
         <div class="report-toolbar">
-            <select class="ui-input ui-input-mini" name="year" id="year">
-                <#list -3 .. 3 as i>
-                    <option value="${thisYear+i}" <#if year == thisYear + i>selected="selected"</#if>>${thisYear+i}</option>
-                </#list>
-            </select>
-            <span class="ui-label-mini">
-                <input type="checkbox" name="baseY" id="baseY" <#if baseY?? && baseY == 0>checked</#if>>用0作为基线
-            </span>
+            <input
+                    class="ui-input ui-input-mini datepicker" type="text" name="day"
+                    id="day" data-is="isAmount isEnough"
+                    autocomplete="off" disableautocomplete="">
         </div>
     </div>
 
     <div class="tileContent" style="margin:8px 10px 0 8px" id="remainTimeslots"></div>
     <@trendChart.trendChart chartDiv="remainTimeslots" title=""
-    yName={"THIS_YEAR":"remain","PREV_YEAR":"remain"}
-    titleY="剩余时长" highChart=remainTimeSlots baseY="${baseY!''}"
-    seriesTypes=["THIS_YEAR", "PREV_YEAR"] />
+    yName={"TIMESLOT1":"remain","TIMESLOT2":"notPaid","TIMESLOT3":"paid"}
+    titleY="售出情况" highChart=remainTimeSlots baseY="${baseY!''}"
+    seriesTypes=["TIMESLOT1", "TIMESLOT2", "TIMESLOT3"] />
 </@frame.html>
 
