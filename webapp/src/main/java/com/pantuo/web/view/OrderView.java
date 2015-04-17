@@ -27,7 +27,7 @@ public class OrderView {
 	// -- 临时属性 --//
 	int id;
 	long longOrderId = 0;
-	String statsString;
+	String payTypeString;
 	// 流程任务
 	private Task task;//task 对象转json时 jpa 延迟加载有问题
 
@@ -164,30 +164,24 @@ public class OrderView {
 		this.longOrderId = longOrderId;
 	}
 
-	public String getStatsString() {
-		if (order == null || order.getStats() == null) {
+	public String getPayTypeString() {
+		if (order == null || order.getPayType() == null) {
 			return org.apache.commons.lang3.StringUtils.EMPTY;
 		}
-		switch (order.getStats()) {
+		switch (order.getPayType()) {
 		case 0:
-			return "未支付";
+			return "关联合同";
 		case 1:
-			return "已支付";
+			return "线上支付";
 		case 2:
-			return "已排期";
-		case 3:
-			return "已上播";
-		case 4:
-			return "上播完成";
-		case 5:
-			return "已取消";
+			return "其他";
 		default:
-			return "未支付";
+			return "";
 		}
 	}
 
-	public void setStatsString(String statsString) {
-		this.statsString = statsString;
+	public void setPayTypeString(String payTypeString) {
+		this.payTypeString = payTypeString;
 	}
 
 	public String getTask_id() {

@@ -34,13 +34,14 @@
 
 	function sub2() {
 		var name = ($("#name").val());
+		var infoContext = ($("#infoContext").val());
 		Sfile= ($("#Sfile").val());
 		if(name==""){
 			jDialog.Alert("请填写物料名称");
 			return;
 		}
-		if(Sfile==""){
-			jDialog.Alert("请选择物料");
+		if(Sfile==""&& infoContext==""){
+			jDialog.Alert("请填写完整信息");
 			return;
 		}
 		$('#userForm2').ajaxForm(function(data) {

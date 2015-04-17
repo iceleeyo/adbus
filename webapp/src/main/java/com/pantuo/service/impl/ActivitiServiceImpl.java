@@ -36,9 +36,11 @@ import scala.collection.mutable.StringBuilder;
 
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.Product;
 import com.pantuo.mybatis.domain.Supplies;
+import com.pantuo.mybatis.persistence.ContractMapper;
 import com.pantuo.mybatis.persistence.OrdersMapper;
 import com.pantuo.pojo.HistoricTaskView;
 import com.pantuo.service.ActivitiService;
@@ -76,6 +78,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 	private SuppliesService suppliesService;
 	@Autowired
 	private OrdersMapper ordersMapper;
+	@Autowired
+	private ContractMapper contractMapper;
 
 	public Page<OrderView> running(String userid, int page, int pageSize, Sort sort) {
 		page = page + 1;
@@ -359,15 +363,17 @@ public class ActivitiServiceImpl implements ActivitiService {
 	public int relateContract(int orderid, int contractid, String payType) {
 
 		Orders orders = ordersMapper.selectByPrimaryKey(orderid);
-
-		if (orders != null) {
+        Contract contract= contractMapper.selectByPrimaryKey(contractid);
+		if (orders != null&&contract!=null&&contract.getContractCode()!=null) {
 			if (payType.equals("contract")) {
 				orders.setContractId(contractid);
+				orders.setContractCode(contract.getContractCode());
+				orders.setPayType(0);
+			} else if(payType.equals("online")){
 				orders.setPayType(1);
-			} else {
+			}else{
 				orders.setPayType(2);
 			}
-			orders.setStats(1);
 			return ordersMapper.updateByPrimaryKey(orders);
 		}
 		return 1;
@@ -621,7 +627,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		if (task != null) {
 			Map<String, Object> info = taskService.getVariables(task.getId());
 			UserDetail ul = (UserDetail) info.get(ActivitiService.OWNER);
-					if (updateOrder(orderid, supplieid) > 0) {
+					if (updateSupplise(orderid, supplieid) > 0) {
 						taskService.claim(task.getId(), ul.getUsername());
 						taskService.complete(task.getId());
 						return new Pair<Boolean, String>(true, "订单修改成功!");
@@ -631,7 +637,12 @@ public class ActivitiServiceImpl implements ActivitiService {
 				}
 		return r = new Pair<Boolean, String>(true, "订单修改成功!");
 	}
-	 public int  updateOrder(int orderid,int supplieid){
+	 public int  updateSupplise(int orderid,int supplieid){
+		 Orders o=ordersMapper.selectByPrimaryKey(orderid);
+		 if(o!=null&&supplieid>0){
+			 o.setSuppliesId(supplieid); 
+			return ordersMapper.updateByPrimaryKey(o);
+		 }
 		return 1;
 	}
 }

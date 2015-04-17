@@ -37,11 +37,12 @@
 									<div class="inputs" style="padding-left: 20px;">
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
-                                                    class="ui-form-required">*</span>套餐类型：</label>
+                                                    class="ui-form-required">*</span>媒体类型：</label>
                                             <select class="ui-input" name="type" id="type">
                                                 <option value="video" <#if (!prod?? || prod.type == 'video')>selected="selected"</#if>>视频</option>
                                                 <option value="image" <#if (prod?? && prod.type == 'image')>selected="selected"</#if>>图片</option>
                                                 <option value="info" <#if (prod?? && prod.type == 'info')>selected="selected"</#if>>文本</option>
+                                                <option value="info" <#if (prod?? && prod.type == 'other')>selected="selected"</#if>>其它</option>
                                             </select>
                                         </div>
 

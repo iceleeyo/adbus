@@ -364,6 +364,7 @@ function pay() {
   								</TR>
 								</TABLE>	<br>
              </div>	
+             <#include "template/hisDetail.ftl" />
 			</div> 
 			<!-- 广告主修改订单 -->
           <div id="modifyOrder" style="display: none;">	
@@ -610,12 +611,13 @@ function pay() {
     									<TD colspan=2 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
   								</TR>  
   								<TR>
+  								
     									<TH width="20%">排期表</TH>
     									<TD colspan=2 style="border-radius: 0 0 0"><a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
   								</TR> 
   								<TR>
-    									<TH>排期意见</TH>
-    									<TD colspan=2><textarea name="inputScheduleComments" id="inputScheduleComments" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD></TR>
+    									<TH>上播意见</TH>
+    									<TD colspan=2><textarea name="inputScheduleComments" value="您的广告按照合同要求已安排上播" id="inputScheduleComments" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD></TR>
 									<TR style="height:45px;">
 										  <TH>是否上播</TH>
 										  <TD style="border-radius: 0 0 0">
@@ -652,8 +654,8 @@ function pay() {
     									<TD colspan=2 style="border-radius: 0 0 0"><a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
   								</TR> 
   								<TR>
-    									<TH>上播意见</TH>
-    									<TD colspan=2><textarea name="inputScheduleComments" id="inputScheduleComments" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD></TR>
+    									<TH>监播意见</TH>
+    									<TD colspan=2><textarea name="inputScheduleComments" id="inputScheduleComments" value="您的广告已按照合同要求正常播出中"  style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD></TR>
 									<TR style="height:45px;">
 										  <TH>上播状态</TH>
 										  <TD style="border-radius: 0 0 0">

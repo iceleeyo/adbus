@@ -173,8 +173,16 @@ public class OrderController {
 	public String orderDetail(Model model, @RequestParam(value = "orderid") int orderid,@RequestParam(value = "taskid") String taskid,Principal principal,
 			HttpServletRequest request) throws Exception {
 		if(taskid!=null&&taskid!=""){
+			Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
+			ExecutionEntity executionEntity = (ExecutionEntity) runtimeService.createExecutionQuery()
+					.executionId(task.getExecutionId()).processInstanceId(task.getProcessInstanceId()).singleResult();
+			String activityId = executionEntity.getActivityId();
+			List<HistoricTaskView> activitis=activitiService.findHistoricUserTask(activitiService.findProcessInstanceByTaskId(taskid),activityId);
 			OrderView v = activitiService.findOrderViewByTaskId(taskid);
 			JpaProduct  prod=productService.findById(v.getOrder().getProductId());
+			SuppliesView suppliesView=suppliesService.getSuppliesDetail(v.getOrder().getSuppliesId(), null);
+			model.addAttribute("suppliesView", suppliesView);
+			model.addAttribute("activitis", activitis);
 			model.addAttribute("orderview", v);
 			model.addAttribute("prod", prod);
 			return "orderDetail";

@@ -1881,7 +1881,8 @@
 .withdraw-wrap {
 	border: 1px solid #e0e0e0;
 	box-shadow: 0 0 2px 1px #efefef;
-	padding-bottom: 19px
+	padding-bottom: 19px;
+	border-top: 4px solid #00a8e8
 }
 
 .withdraw-title {

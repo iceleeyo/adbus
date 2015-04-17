@@ -26,11 +26,13 @@ function go_back(){
 																<div class="th-head">物料名称</div>
 															</td>
 															<td>
-																<div class="th-tail">附件</div>
+																<div class="th-tail">物料内容</div>
 															</td>
 														</tr>
 													</tbody>
 												</table>
+												<#if view.files?has_content>
+												<#list view.files as item>
 												<li class="ui-list-item dark" >
 													<div class="ui-list-item-row fn-clear">
 														<span style=" height: 35px; width: 231px"
@@ -40,12 +42,27 @@ function go_back(){
 													
 														<span style="height: 35px; width: 485px" 
 															class="ui-list-field text-center w80 fn-left">
-															<#list view.files as item> ${item.name!''} &nbsp; /
-   															</#list>
+															 <a href="../upload_temp/${item.url!''}">${item.name!''}</a>
 														</span>
 													</div>
 												</li>
-												
+													</#list>
+													<#else>
+													     <li class="ui-list-item dark" >
+													<div class="ui-list-item-row fn-clear">
+														<span style=" height: 35px; width: 231px"
+															class="ui-list-field text-center w80 fn-left" >
+															 ${view.mainView.name!''}
+														</span>
+													
+														<span style="height: 35px; width: 485px" 
+															class="ui-list-field text-center w80 fn-left">
+															 ${(view.mainView.infoContext)!''}
+														</span>
+													</div>
+												</li>
+													</#if>
+													
 											</div>
 										</div>
 									</div>

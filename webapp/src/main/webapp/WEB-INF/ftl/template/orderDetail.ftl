@@ -10,7 +10,12 @@
   <LI style="width: 240px;"><SPAN>起播时间：</SPAN><SPAN class="con"><#setting date_format="yyyy-MM-dd">${(orderview.order.startTime?date)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>到期时间：</SPAN><SPAN class="con"><#setting date_format="yyyy-MM-dd">${(orderview.order.endTime?date)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>媒体类型：</SPAN><SPAN class="con">${prod.type!''}</SPAN></LI>
-  <LI style="width: 200px;"><SPAN>订单状态：</SPAN><SPAN class="con">${orderview.task_name!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>订单状态：</SPAN><SPAN class="con">${orderview.task_name!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>支付方式：</SPAN><SPAN class="con">${(orderview.payTypeString)!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>合同号：</SPAN><SPAN class="con">${(orderview.order.contractCode)!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>物料：</SPAN><SPAN class="con"><#list suppliesView.files as item> 
+							       <a href="../upload_temp/${item.url!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;  
+   							     </#list>${(suppliesView.mainView.infoContext)!''}</SPAN></LI>
 </UL>
 </DIV>
 </DIV>
@@ -26,6 +31,8 @@
   <LI style="width: 240px;"><SPAN>到期时间：</SPAN><SPAN class="con"><#setting date_format="yyyy-MM-dd">${(order.endTime?date)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>媒体类型：</SPAN><SPAN class="con">${prod.type!''}</SPAN></LI>
   <LI style="width: 200px;"><SPAN>订单状态：</SPAN><SPAN class="con">已完成</SPAN></LI>
+  <LI style="width: 200px;"><SPAN>支付方式：</SPAN><SPAN class="con">合同支付</SPAN></LI>
+  <LI style="width: 200px;"><SPAN>合同号：</SPAN><SPAN class="con">asda87878</SPAN></LI>
 </UL>
 </DIV>
 </DIV>
