@@ -58,7 +58,7 @@ function approve1(){
 	   alert("请填写意见");
 	   return;
 	}
-	alert(seqNumber);
+	//alert(seqNumber);
 	if(seqNumber!=""){
 	   approve2ResultValue="true";
 	}else{
@@ -182,6 +182,7 @@ function submitSchedule() {
 //北广录入排期表
 function inputSchedule() {
     var ScheduleResult=$('#inputSchedule :radio[name=ScheduleResult]:checked').val();
+    var inputScheduleComments=$("#inputScheduleComments").val();
 	complete('${taskid!''}',[
 		{
 			key: 'ScheduleResult',
@@ -199,6 +200,8 @@ function inputSchedule() {
 //上播报告
 function shangboReport() {
     var shangboResult=$('#shangboReport :radio[name=shangboResult]:checked').val();
+    var shangboComments=$("#shangboComments").val();
+    alert(shangboComments);
 	complete('${taskid!''}',[
 		{
 			key: 'shangboResult',
@@ -216,6 +219,7 @@ function shangboReport() {
 //监播报告
 function jianboReport() {
     var jianboResult=$('#jianboReport :radio[name=jianboResult]:checked').val();
+    var jianboComments=$("#jianboComments").val();
 	complete('${taskid!''}',[
 		{
 			key: 'jianboResult',
@@ -478,7 +482,7 @@ function pay() {
     										<input name="ScheduleResult" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>符合要求 
       									<input name="ScheduleResult" type="radio" value="false" style="padding: 5px 15px;"/>不符合要求</TD>
     									<TD width="30%" style="text-align:center;">
-    	 										<button onclick="inputSchedule();" class="block-btn">提交确认结果</button>
+    	 										<button onclick="submitSchedule();" class="block-btn">提交确认结果</button>
     									</TD>
   								</TR>
 							</TABLE>	 
@@ -617,7 +621,7 @@ function pay() {
   								</TR> 
   								<TR>
     									<TH>上播意见</TH>
-    									<TD colspan=2><textarea name="inputScheduleComments" value="您的广告按照合同要求已安排上播" id="inputScheduleComments" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD></TR>
+    									<TD colspan=2><textarea name="shangboComments"  id="shangboComments" style="margin: 5px 0;width:400px;margin-top:5px;">您的广告按照合同要求已安排上播</textarea></TD></TR>
 									<TR style="height:45px;">
 										  <TH>是否上播</TH>
 										  <TD style="border-radius: 0 0 0">
@@ -625,7 +629,7 @@ function pay() {
       								     <input name="shangboResult" type="radio" value="false" style="padding: 5px 15px;"/>否</TD>
 										  
     									<TD width="30%" style="text-align:center;">
-    	 										<button onclick="inputSchedule();" class="block-btn">提交确认结果</button>
+    	 										<button onclick="shangboReport();" class="block-btn">提交确认结果</button>
     									</TD>
   								</TR>
 							</TABLE>	                                 							
@@ -655,15 +659,15 @@ function pay() {
   								</TR> 
   								<TR>
     									<TH>监播意见</TH>
-    									<TD colspan=2><textarea name="inputScheduleComments" id="inputScheduleComments" value="您的广告已按照合同要求正常播出中"  style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD></TR>
+    									<TD colspan=2><textarea name="jianboComments" id="jianboComments"   style="margin: 5px 0;width:400px;margin-top:5px;">您的广告已按照合同要求正常播出中</textarea></TD></TR>
 									<TR style="height:45px;">
 										  <TH>上播状态</TH>
 										  <TD style="border-radius: 0 0 0">
-										  <input name="shangboResult" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>播放正常
-      								<input name="shangboResult" type="radio" value="false" style="padding: 5px 15px;"/>播放异常</TD>
+										  <input name="jianboResult" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>播放正常
+      								<input name="jianboResult" type="radio" value="false" style="padding: 5px 15px;"/>播放异常</TD>
 										  
     									<TD width="30%" style="text-align:center;">
-    	 										<button onclick="inputSchedule();" class="block-btn">提交确认结果</button>
+    	 										<button onclick="jianboReport();" class="block-btn">提交确认结果</button>
     									</TD>
   								</TR>
 							</TABLE>	  

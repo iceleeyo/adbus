@@ -43,7 +43,8 @@ public class GenerateSchedule implements JavaDelegate {
             int orderId = (Integer) execution.getVariable(ActivitiService.ORDER_ID);
             log.info("Generating schedule for order {} owned by {}", orderId, owner);
             JpaOrders order = orderService.getJpaOrder(orderId);
-            if (order == null || order.getStats() != JpaOrders.Status.paid) {
+            System.out.println(order.getStats());
+            if (order == null && order.getStats() != JpaOrders.Status.paid) {
                 execution.setVariable("scheduleResult", false);
                 execution.setVariable("scheduleComments", "order " + orderId + " not exists or not paid");
                 return;
