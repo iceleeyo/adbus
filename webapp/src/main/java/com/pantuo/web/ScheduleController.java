@@ -9,6 +9,8 @@ import com.pantuo.service.ScheduleService;
 import com.pantuo.service.TimeslotService;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.GlobalMethods;
+import com.pantuo.util.OrderIdSeq;
+
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -63,6 +65,7 @@ public class ScheduleController {
             }
             model.addAttribute("dates", dates);
             model.addAttribute("order", order);
+            model.addAttribute("orderIdSeq", OrderIdSeq.getLongOrderId(order));
         }
         return "order_schedule";
     }

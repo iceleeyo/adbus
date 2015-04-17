@@ -28,6 +28,7 @@
 											
 										</ul>
 									</li>
+									<@security.authorize ifAnyGranted="ShibaOrderManager">
 									<li class="pg-side-item">
 										<a class="pg-side-item-t ee-icon" href="#" > 
 											<i class="s-left pg-icon-a e-icon"></i>
@@ -45,7 +46,8 @@
 												</a>
 											</li>
 										</ul>
-									</li>									
+									</li>	
+									</@security.authorize>									
 									<li class="pg-side-item">
 										<a class="pg-side-item-t cc-icon">
 											<i class="s-left pg-icon-a c-icon"></i>

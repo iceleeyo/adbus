@@ -107,9 +107,9 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td>${order.id}</td>
+                        <td>${orderIdSeq}</td>
                         <td>${order.userId}</td>
-                        <td><a href="${rc.contextPath}/supplies/suppliesDetail?supplies_id=${order.supplies.id}" target="_blank">${order.supplies.name}</a></td>
+                        <td><a href="${rc.contextPath}/supplies/suppliesDetail/${order.supplies.id}" target="_blank">${order.supplies.name}</a></td>
                         <td><a href="${rc.contextPath}/product/${order.product.id}" target="_blank">${order.product.name}</a></td>
                         <td>${order.startTime}</td>
                         <td>${order.endTime}</td>

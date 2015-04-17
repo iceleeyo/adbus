@@ -194,7 +194,7 @@ public class OrderController {
 		  if(order!=null){
 			   orderView.setOrder(order);
 			   prod=productService.findById(order.getProductId());
-			   longorderid= orderView.getIdFromDate(order.getId(), order.getCreated());
+			   longorderid= OrderIdSeq.getIdFromDate(order.getId(), order.getCreated());
 		  }
 		  SuppliesView suppliesView=suppliesService.getSuppliesDetail(orderView.getOrder().getSuppliesId(), null);
 		  model.addAttribute("suppliesView", suppliesView);

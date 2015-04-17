@@ -1,7 +1,5 @@
 package com.pantuo.web.view;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
 
 import org.activiti.engine.history.HistoricProcessInstance;
@@ -9,15 +7,11 @@ import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang3.math.NumberUtils;
-
-import antlr.StringUtils;
 
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.Product;
 import com.pantuo.mybatis.domain.Supplies;
-
-import freemarker.template.utility.StringUtil;
+import com.pantuo.util.OrderIdSeq;
 
 public class OrderView {
 
@@ -53,20 +47,9 @@ public class OrderView {
 		return order;
 	}
 
-	long maxId = 100000L, split = maxId * 10L;
-
-	public long getIdFromDate(int id, Date date) {
-		SimpleDateFormat sd = new SimpleDateFormat("yyyyMMdd");
-		return NumberUtils.toLong(sd.format(date)) * split + maxId + id;
-	}
-
-	public int longOrderId2DbId(long longOrderId) {
-		return (int) (longOrderId - (longOrderId / split) * split - maxId);
-	}
-
 	public void setOrder(Orders order) {
 		if (ObjectUtils.notEqual(order, null) && ObjectUtils.notEqual(order.getId(), null)) {
-			longOrderId = getIdFromDate(order.getId(), order.getCreated());
+			longOrderId = OrderIdSeq.getIdFromDate(order.getId(), order.getCreated());
 			this.id = order.getId();
 		}
 		this.order = order;
@@ -206,22 +189,6 @@ public class OrderView {
 
 	public void setExecutionId(String executionId) {
 		this.executionId = executionId;
-	}
-
-	public long getMaxId() {
-		return maxId;
-	}
-
-	public void setMaxId(long maxId) {
-		this.maxId = maxId;
-	}
-
-	public long getSplit() {
-		return split;
-	}
-
-	public void setSplit(long split) {
-		this.split = split;
 	}
 
 	public String getTask_assignee() {
