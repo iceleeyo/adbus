@@ -59,9 +59,15 @@ public class ProductController {
     @RequestMapping(value = "/{id}", produces = "text/html;charset=utf-8")
     public String updateProduct(@PathVariable int id,
                                 Model model, HttpServletRequest request) {
-        JpaProduct prod  = productService.findById(id);
-        model.addAttribute("prod", prod);
+    	   model.addAttribute("prod", productService.findById(id));
         return "newProduct";
+    }
+    
+    @RequestMapping(value = "/d/{id}", produces = "text/html;charset=utf-8")
+    public String showdetail(@PathVariable int id,
+                                Model model, HttpServletRequest request) {
+        model.addAttribute("prod", productService.findById(id));
+        return "productView";
     }
 
     @RequestMapping(value = "/save", method = { RequestMethod.POST})
