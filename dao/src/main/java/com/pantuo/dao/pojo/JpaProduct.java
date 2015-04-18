@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Table(name="product")
 public class JpaProduct extends BaseEntity {
     public static enum Type {
-        video, image, info
+        video, image, info,other
     }
 
     @Id
