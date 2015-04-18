@@ -8,7 +8,7 @@ function go_back(){
  <div id="process" class="section4">
  
             		<#if orderview.task_name="世巴提交排期表" || orderview.task_name="北广录入排期表">
-		            <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单</li><li id="track_time_0" class="tx3"><#setting date_format="yyyy-MM-dd">${(orderview.order.created?date)!''}</li><li id="track_time_0" class="tx3"> 10:12:30</li></ul></div>
+		            <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单</li><li id="track_time_0" class="tx3"><#setting date_format="yyyy-MM-dd">${(orderview.order.created?date)!''}</li></ul></div>
             		<div class="proce ready"><ul><li class="tx1">&nbsp;</li></ul></div>
             		<div class="node ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">支付</li><li id="track_time_4" class="tx3">2015-3-14</li><li id="track_time_0" class="tx3"> 10:12:30</li></ul></div>
             		<div class="proce ready"><ul><li class="tx1">&nbsp;</li></ul></div>
@@ -38,7 +38,7 @@ function go_back(){
             		<div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>		
             		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">播出完成</li></ul></div>
             		<#elseif orderview.task_name="世巴初审"||orderview.task_name="北广终审">
-		            <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单</ul><li id="track_time_4" class="tx3">2015-3-14</li><li id="track_time_0" class="tx3"> 10:12:30</li></div>
+		            <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单<li id="track_time_0" class="tx3"><#setting date_format="yyyy-MM-dd">${(orderview.order.created?date)!''}</li><li id="track_time_0" class="tx3"> 10:12:30</li></ul></div>
             		<div class="proce ready"><ul><li class="tx1">&nbsp;</li></ul></div>
             		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">支付</li></ul></div>
             		<div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>
