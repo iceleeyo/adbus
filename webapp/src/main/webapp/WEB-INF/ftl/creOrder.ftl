@@ -17,7 +17,7 @@
             jDialog.Alert('请填写' + empty);
         } else {
             $('#userForm2').ajaxForm(function(data) {
-                jDialog.Alert(data.left + " # " + data.right);
+                jDialog.Alert(data.right);
                 
             }).submit();
            //var a = document.createElement('a');
@@ -36,7 +36,7 @@
 				"code" : c
 			},
 			success : function(data) {
-				jDialog.Alert(data.left + " # " + data.right);
+				jDialog.Alert(data.right);
 			}
 		}, "text");
 	}

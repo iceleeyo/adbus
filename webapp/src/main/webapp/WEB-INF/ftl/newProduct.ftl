@@ -20,7 +20,7 @@
     });
 	function sub2() {
         $('#productForm').ajaxForm(function(data) {
-            jDialog.Alert(data.error + " # " + data.name);
+            jDialog.Alert(data.name);
         }).submit();
             var a = document.createElement('a');
     	    a.href='${rc.contextPath}/product/list';

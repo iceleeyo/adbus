@@ -45,7 +45,7 @@
 			return;
 		}
 		$('#userForm2').ajaxForm(function(data) {
-			jDialog.Alert(data.left + " # " + data.right);
+			jDialog.Alert(data.right);
 			var uptime = window.setTimeout(function(){
 				window.location.href="${rc.contextPath}/supplies/list"
 			   	clearTimeout(uptime);

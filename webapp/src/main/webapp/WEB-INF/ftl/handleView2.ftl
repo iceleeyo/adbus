@@ -242,7 +242,7 @@ function check() {
 				"code" : c
 			},
 			success : function(data) {
-				jDialog.Alert(data.left + " # " + data.right);
+				jDialog.Alert(data.right);
 			}
 		}, "text");
 	}
