@@ -84,19 +84,17 @@ var table;
     } );
 </script>
 
-						
-<#--            <div class="div" style="margin-top:25px">
-                <caption><h2>待办事项</h2></caption>
-            </div>
+
             <div class="div">
-                <hr/>
-            </div>-->
-            <div class="div">
+            <div class="withdraw-title" style="padding-top: 0px; text-align:left; ">
+									${orderMenu}
+									</div>
+            
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
                         <th>下单用户</th>
-                        <th>订单名称</th>
+                        <th>订单编号</th>
                         <th>起播时间</th>
                         <th>创建时间</th>
                         <th>当前环节</th>

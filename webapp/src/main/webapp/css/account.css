@@ -474,10 +474,6 @@
 	line-height: 30px
 }
 
-.ui-input-mini {
-    width: 100px;
-}
-
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	#pg-addcard .ui-input {
 		line-height: normal
@@ -1887,14 +1883,12 @@
 
 .withdraw-title {
 	line-height: 30px;
-	padding: 15px;
+	padding: 19px;
 	font-size: 24px;
 	font-weight: 400;
 	border-bottom: solid 1px #e0e0e0;
-	margin-bottom: 15px;
-	position: relative;
-	
-	
+	margin-bottom: 20px;
+	position: relative
 }
 
 .withdraw-title ul {
@@ -1927,7 +1921,7 @@
 
 .withdrawInputs .ui-input {
 	width: 173px;
-	padding: 0 5px 0 5px;
+	padding: 0 20px 0 5px;
 	height: 38px;
 	line-height: 38px;
 	margin-right: 20px;
@@ -3040,7 +3034,8 @@
 
 #pg-account-plan .bank-column,#pg-account-plan .summary span {
 	height: 35px;
-	line-height: 35px
+	line-height: 35px;
+	vertical-align: top;
 }
 
 #pg-account-plan .bank-column {
@@ -3449,7 +3444,12 @@
 .ui-input {
 	padding: 2px 5px
 }
-
+.ui-textarea:{
+	border: 1px solid #c5c5c5;
+}
+.ui-textarea:hover{
+	border: 1px solid #2ea7e0;
+}
 .ui-selectdrop {
 	
 }

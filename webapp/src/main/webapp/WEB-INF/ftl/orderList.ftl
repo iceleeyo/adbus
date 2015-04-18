@@ -112,13 +112,12 @@
     } );
 </script>
 						 
-<#--            <div class="div" style="margin-top:25px">
-                <caption><h2>待办事项</h2></caption>
-            </div>
+
+          
             <div class="div">
-                <hr/>
-            </div>-->
-            <div class="div">
+              <div class="withdraw-title" style="padding-top: 0px; text-align:left; ">
+									待办事项
+									</div>
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
