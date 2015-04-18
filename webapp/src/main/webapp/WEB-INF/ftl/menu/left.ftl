@@ -1,7 +1,9 @@
 <style type="text/css">
  
-.color{
-  color:red;
+.side-exp-select {
+  cursor: pointer;
+  color: #fff;
+  background: #7fd4f3;
 }
 </style>
 <div class="ls-2">
@@ -205,23 +207,25 @@
     function active(menu) {
         $(".pg-side-item").each(function(){
             if (menu) {
+            var curr=$(this);
+            	var st=0;
                 $(this).find(".side-exp-item-t").each(function(){
-              
                     if ($(this).text().trim() == menu) {
-                     	 alert($(this).text().trim()+ "_"+menu +"__"+ ($(this).text().trim() == menu));
-                       
-                       // alert(	$(this).parent(".pg-side-item"));
-						$(this).parent().parent(".pg-side-item").find(".pg-side-exp-list").toggle();
-						 $(this).addClass("color");				           
-                    }
+						 curr.find(".pg-side-exp-list").show();
+						 $(this).addClass("side-exp-select");		
+						 st=1;		           
+                    } 
                 });
+                if(st==0){
+              	  curr.find(".pg-side-exp-list").hide();
+                }
             }
 
             var active = $(this).find(".side-exp-item-t.active");
             if (!active[0]) {
-                $(this).find(".pg-side-exp-list").hide();
+               // $(this).find(".pg-side-exp-list").hide();
             } else {
-                $(this).find(".pg-side-exp-list").show();
+              //  $(this).find(".pg-side-exp-list").show();
             }
         });
     }

@@ -1,5 +1,5 @@
 <#import "template/template.ftl" as frame>
-<#global menu="产品查询">
+<#global menu="产品列表">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="产品套餐列表">
 
