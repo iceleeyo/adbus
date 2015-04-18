@@ -4,12 +4,17 @@
   color: #fff;
   background: #7fd4f3;
 }
+
+.side-exp-p-select {
+  color:#fff;
+  background:#2da7e0;
+}
 </style>
 <div class="ls-2">
 							<div class="pg-side">
 								<ul class="pg-side-list">
 									<li class="pg-side-item">
-										<a class="pg-side-item-t aa-icon" style="color:#fff;background:#2da7e0;" href="${rc.contextPath}/order/myTask/1">
+										<a class="pg-side-item-t aa-icon" style="color:#fff;background:#ff9933;" href="${rc.contextPath}/order/myTask/1">
 											<i class="s-left pg-icon-a a-icon" style="background:url(${rc.contextPath}/imgs/sidebar-icons.png) no-repeat -20px 0;"></i>
 											待办事项
 										</a>
@@ -210,16 +215,19 @@
             if (menu) {
             var curr=$(this);
             	var st=0;
+            	
                 $(this).find(".side-exp-item-t").each(function(){
                     if ($(this).text().trim() == menu) {
 						 curr.find(".pg-side-exp-list").show();
 						 $(this).addClass("side-exp-select");		
+						 curr.addClass("side-exp-p-select");
 						 st=1;		           
                     } 
                 });
                 if(st==0){
               	  curr.find(".pg-side-exp-list").hide();
                 }
+                
             }
 
             var active = $(this).find(".side-exp-item-t.active");
