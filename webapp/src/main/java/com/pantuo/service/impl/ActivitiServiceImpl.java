@@ -366,12 +366,13 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 		Orders orders = ordersMapper.selectByPrimaryKey(orderid);
         Contract contract= contractMapper.selectByPrimaryKey(contractid);
-		if (orders != null&&contract!=null&&contract.getContractCode()!=null) {
-			if (payType.equals("contract")) {
+		if (orders != null) {
+			if (contract!=null&&contract.getContractCode()!=null&&payType.equals("contract")) {
 				orders.setContractId(contractid);
 				orders.setContractCode(contract.getContractCode());
 				orders.setPayType(0);
-			} else if(payType.equals("online")){
+			}
+			else if(payType.equals("online")){
 				orders.setPayType(1);
 			}else{
 				orders.setPayType(2);
