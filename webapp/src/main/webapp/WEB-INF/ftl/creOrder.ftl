@@ -14,17 +14,19 @@
                     empty += $(this).attr("name") + ' ';
                 }
             });
-            jDialog.Alert('请填写' + empty);
+            jDialog.Alert('请填写完整信息');
         } else {
             $('#userForm2').ajaxForm(function(data) {
                 jDialog.Alert(data.right);
                 
             }).submit();
+            this.enabled = false;
            //var a = document.createElement('a');
     	   //a.href='${rc.contextPath}/order/myTask/1';
     	    //document.body.appendChild(a);
     	    //a.click();
         }
+        
 	}
 
 	function check() {

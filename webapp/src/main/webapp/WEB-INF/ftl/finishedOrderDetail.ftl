@@ -33,16 +33,18 @@ function go_back(){
   <LI style="width: 240px;">
   <table class="con" style="width: 748px;margin-top: 10px;">
   	<tr>
-  		<td align="center">物料列表</th>
+  		<td align="center" colspan="2">物料列表</th>
   	</tr>
   	<#list suppliesView.files as item> 
   	<tr>
   	<th>
 		<a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a>
-	<#if prod.type=='image'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
+	</th>
+  	<th>
+  		<#if prod.type=='image'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
 		<a href="${rc.contextPath}/upload_temp/${item.url!''}" target="_Blank">点击查看</a></#if>
- 	</#list>${(suppliesView.mainView.infoContext)!''}
   	</th>
+  	</#list>${(suppliesView.mainView.infoContext)!''}
   	</tr>
   </table>
 	

@@ -4,6 +4,7 @@
 .processed {color: limegreen;}
 .invalid {color: red;}
 .tableTr {margin-top: 20px;}
+#table { text-align: center;}
 #table .hl {background-color: #ffff00;}
 #table th {background-color: #3bafda; color: white; font-weight: normal; text-align: center;}
 div#toolbar {float: left;margin: 5px;}

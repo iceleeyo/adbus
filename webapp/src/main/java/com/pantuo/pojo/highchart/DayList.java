@@ -158,7 +158,6 @@ public class DayList implements Iterable<Date> {
 	/**
 	 * Not backed with internal data, so changes to the iterator will not take effect to the original object 
 	 */
-	@Override
 	public Iterator<Date> iterator() {
 		DayList newList = toList();
 		return newList.list.iterator();
