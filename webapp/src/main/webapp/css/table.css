@@ -6,7 +6,7 @@
 .tableTr {margin-top: 20px;}
 #table { text-align: center;font-size: 14px;}
 #table .hl {background-color: #ffff00;}
-#table th {background-color: #3bafda; color: white; font-weight: normal; text-align: center;}
+#table th {background-color: #3bafda; color: white; font-weight: normal; text-align: center;line-height: 20px}
 div#toolbar {float: left;margin: 5px;}
 div#table_length {margin: 7px 0 0 0;float: right;}
 table.dataTable td, table.dataTable th {text-align: center;}

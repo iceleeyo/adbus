@@ -1,41 +1,36 @@
 package com.pantuo.web;
 
-import java.io.IOException;
-import java.security.Principal;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.pantuo.dao.pojo.JpaContract;
-import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.dao.IndustryRepository;
 import com.pantuo.dao.pojo.JpaSupplies;
-
+import com.pantuo.mybatis.domain.Supplies;
+import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
+import com.pantuo.service.SuppliesService;
+import com.pantuo.service.SuppliesServiceData;
+import com.pantuo.util.Pair;
+import com.pantuo.web.view.SuppliesView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.pantuo.mybatis.domain.Supplies;
-import com.pantuo.pojo.DataTablePage;
-import com.pantuo.service.SuppliesService;
-import com.pantuo.service.SuppliesServiceData;
-import com.pantuo.util.NumberPageUtil;
-import com.pantuo.util.Pair;
-import com.pantuo.web.view.ContractView;
-import com.pantuo.web.view.SuppliesView;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.security.Principal;
 
 @Controller
 @RequestMapping(produces = "application/json;charset=utf-8", value = "/supplies")
 public class SuppliesController {
 
-	@Autowired
-	@RequestMapping(value = "/supplies_test", method = RequestMethod.GET)
-	public String r() {
+    @Autowired
+    IndustryRepository industryRepo;
+
+	@RequestMapping(value = "/new", method = RequestMethod.GET)
+	public String r(Model model) {
+        model.addAttribute("industries", industryRepo.findAll());
 		return "supplies_test";
 	}
 

@@ -14,7 +14,7 @@
                <DIV class="summary mt10 uplan-summary-div">
               <UL class="uplan-detail-ul">
 
-  <LI style="width: 240px;"><SPAN>套餐名称：</SPAN><SPAN class="con">${prod.name!''}</SPAN></LI>
+  <LI style="width: 720px;"><SPAN>套餐名称：</SPAN><SPAN class="con">${prod.name!''}</SPAN></LI>
    <LI style="width: 240px;"><SPAN>时长：</SPAN><SPAN class="con">${prod.duration!''}</SPAN></LI>
    <LI style="width: 240px;"><SPAN>单日播放次数：</SPAN><SPAN class="con">${prod.playNumber!''}</SPAN></LI>
    <LI style="width: 240px;"><SPAN>首播次数：</SPAN><SPAN class="con">${prod.firstNumber!''}</SPAN></LI>

@@ -21,6 +21,10 @@ public class JpaSupplies extends BaseEntity {
 
     private String name;
     private JpaProduct.Type suppliesType;
+
+    @ManyToOne
+    @JoinColumn(name = "industryId")
+    private JpaIndustry industry;
     private String userId;
     private String filePath;
     private String infoContext;
@@ -37,9 +41,16 @@ public class JpaSupplies extends BaseEntity {
         //for serialization
     }
 
-    public JpaSupplies(String name, JpaProduct.Type suppliesType, String userId, String filePath, String infoContext, Status stats, String operFristuser, String operFristcomment, String operFinaluser, String operFinalcomment, String seqNumber, String carNumber, String responseCid) {
+    public JpaSupplies(String name, JpaProduct.Type suppliesType, int industryId,
+                       String userId, String filePath, String infoContext,
+                       Status stats, String operFristuser, String operFristcomment,
+
+                       String operFinaluser, String operFinalcomment, String seqNumber,
+                       String carNumber, String responseCid) {
         this.name = name;
         this.suppliesType = suppliesType;
+        this.industry = new JpaIndustry();
+        this.industry.setId(industryId);
         this.userId = userId;
         this.filePath = filePath;
         this.infoContext = infoContext;
@@ -163,6 +174,19 @@ public class JpaSupplies extends BaseEntity {
 
     public void setResponseCid(String responseCid) {
         this.responseCid = responseCid;
+    }
+
+    public JpaIndustry getIndustry() {
+        return industry;
+    }
+
+    public void setIndustry(JpaIndustry industry) {
+        this.industry = industry;
+    }
+
+    public void setIndustryId(int industryId) {
+        this.industry = new JpaIndustry();
+        this.industry.setId(industryId);
     }
 
     @Override

@@ -77,6 +77,8 @@ html{color: #666; }
 			.pg-side-item .pg-side-item-t:hover .f-icon{background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat -20px -100px;}
 			.g-icon{background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat 0 -120px;}
 			.pg-side-item .pg-side-item-t:hover .g-icon{background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat -20px -120px;}
+            .h-icon{background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat 0 -40px;}
+            .pg-side-item .pg-side-item-t:hover .h-icon{background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat -20px -40px;}
 
 			.pg-icon-a{width:20px;height: 20px;margin-top: 15px;margin-right: 8px;}
 			.pg-side-exp-list{padding: 0;background: #f2f2f2;display: block;}

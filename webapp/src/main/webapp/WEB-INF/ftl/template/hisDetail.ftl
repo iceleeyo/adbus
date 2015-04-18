@@ -4,6 +4,7 @@
 <div class="uplan-table-box">
 											
 	<#list activitis as act>
+        <#if act.assignee??>
 		<TABLE class="ui-table ui-table-gray">
   		<TBODY>
   			<TR class="dark">
@@ -23,6 +24,7 @@
    			</TR>    	
  			</TBODY>
 		</TABLE><br>
+        </#if>
 </#list>
 </#if>
 </div>

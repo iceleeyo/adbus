@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pantuo.Reportable;
+import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -29,6 +30,7 @@ public class TimeslotReport implements Serializable, Reportable {
     private Long size;
     private Long paid;
     private Long notPaid;
+    private Integer industryId;
 
     public TimeslotReport() {}
 
@@ -36,6 +38,11 @@ public class TimeslotReport implements Serializable, Reportable {
         setDay(day);
         this.remain = remain;
         this.size = size;
+    }
+
+    public TimeslotReport(int industryId, Date day, long paid, long notPaid, long size) {
+        this(day, paid, notPaid, size);
+        this.industryId = industryId;
     }
 
     public TimeslotReport(Date day, long paid, long notPaid, long size) {
@@ -79,7 +86,7 @@ public class TimeslotReport implements Serializable, Reportable {
         return remain;
     }
 
-    public void setRemain(long remain) {
+    public void setRemain(Long remain) {
         this.remain = remain;
     }
 
@@ -87,7 +94,7 @@ public class TimeslotReport implements Serializable, Reportable {
         return size;
     }
 
-    public void setSize(long size) {
+    public void setSize(Long size) {
         this.size = size;
     }
 
@@ -95,7 +102,7 @@ public class TimeslotReport implements Serializable, Reportable {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 
@@ -103,7 +110,7 @@ public class TimeslotReport implements Serializable, Reportable {
         return month;
     }
 
-    public void setMonth(int month) {
+    public void setMonth(Integer month) {
         this.month = month;
     }
 
@@ -137,6 +144,20 @@ public class TimeslotReport implements Serializable, Reportable {
 
     public void setNotPaid(Long notPaid) {
         this.notPaid = notPaid;
+    }
+
+    public Integer getIndustryId() {
+        return industryId;
+    }
+
+    public void setIndustryId(Integer industryId) {
+        this.industryId = industryId;
+    }
+
+    public TimeslotReport clone() {
+        TimeslotReport r = new TimeslotReport();
+        BeanUtils.copyProperties(this, r);
+        return r;
     }
 
     @Override

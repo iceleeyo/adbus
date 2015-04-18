@@ -10,7 +10,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pantuo.dao.IndustryRepository;
 import com.pantuo.dao.pojo.JpaContract;
+import com.pantuo.dao.pojo.JpaIndustry;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Contract;
@@ -53,6 +55,8 @@ public class ContractController {
 	private UserService userService;
 	@Autowired
 	private ContractServiceData contractServiceDate;
+    @Autowired
+    private IndustryRepository industryRepo;
 	
 
 	@RequestMapping(value = "contractCodeCheck", method = RequestMethod.POST)
@@ -98,6 +102,8 @@ public class ContractController {
 	public String contractEnter(Model model, HttpServletRequest request) {
         Page<UserDetail> users = userService.getValidUsers(0, 999, null);
         model.addAttribute("users", users.getContent());
+        List<JpaIndustry> industries = industryRepo.findAll();
+        model.addAttribute("industries", industries);
 		return "contractEnter";
 	}
     @RequestMapping(value = "/contractDetail/{contract_id}", produces = "text/html;charset=utf-8")

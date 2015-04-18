@@ -16,6 +16,7 @@ import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.task.Task;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -172,7 +173,7 @@ public class OrderController {
 	@RequestMapping(value = "/orderDetail", produces = "text/html;charset=utf-8")
 	public String orderDetail(Model model, @RequestParam(value = "orderid") int orderid,@RequestParam(value = "taskid") String taskid,Principal principal,
 			HttpServletRequest request) throws Exception {
-		if(taskid!=null&&taskid!=""){
+		if(StringUtils.isNotBlank(taskid)){
 			Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 			ExecutionEntity executionEntity = (ExecutionEntity) runtimeService.createExecutionQuery()
 					.executionId(task.getExecutionId()).processInstanceId(task.getProcessInstanceId()).singleResult();
@@ -237,7 +238,7 @@ public class OrderController {
 
             Calendar cal = DateUtil.newCalendar();
             cal.setTime(startTime);
-            cal.add(prod.getDays(), Calendar.DAY_OF_MONTH);
+            cal.add(Calendar.DAY_OF_MONTH, prod.getDays());
             order.setEndTime(cal.getTime());
         } else {
             return new Pair<Boolean, String> (false, "请指定订单开播时间");

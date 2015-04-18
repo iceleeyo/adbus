@@ -24,7 +24,7 @@ audio,canvas,video {
 	*zoom: 1
 }
 
-body,button,input,select,textarea {
+body,button,input,select,textarea,table {
 	font: 14px/1.5 '微软雅黑', YaHei, tahoma, arial, "Hiragino Sans GB",
 		\5b8b\4f53
 }
@@ -5428,7 +5428,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 }
 
 .ui-table-gray tbody th,.ui-table-gray tbody td {
-	padding: 0 32px;
+	padding: 0 16px;
 	line-height: 34px;
 	border: 2px solid #fff;
 	border-top: 0;

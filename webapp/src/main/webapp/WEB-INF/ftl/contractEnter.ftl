@@ -134,21 +134,11 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>行业:</label>
                                                      
-												<select id="industry" name="industry" data-is="isAmount isEnough"
+												<select id="industry" name="industry.id" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" style="width:173px; height: 38px;">
-													<option value="快速消费品类">快速消费品类</option>
-													<option value="零售服务类">零售服务类</option>
-													<option value="金融服务类">金融服务类</option>
-													<option value="娱乐休闲类">娱乐休闲类</option>
-													<option value="教育出国类">教育出国类</option>
-													<option value="家居装饰类">家居装饰类</option>
-													<option value="网络游戏类">网络游戏类</option>
-													<option value="网络服务类">网络服务类</option>
-													<option value="医疗服务类">医疗服务类</option>
-													<option value="IT产品类">IT产品类</option>
-													<option value="运营商类">运营商类</option>
-													<option value="房地产类">房地产类</option>
-													<option value="交通类">交通类</option>
+                                                    <#list industries as industry>
+                                                        <option value="${industry.id}">${industry.name}</option>
+                                                    </#list>
 												</select>
 												
                                         </div>
@@ -168,7 +158,7 @@
 										</div>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
-                                                    class="ui-form-required">*</span>合同备注:</label>
+                                                    class="ui-form-required"></span>合同备注:</label>
                                                      <input
 												class="ui-input" type="text" name="remark"
 												id="remark" data-is="isAmount isEnough"

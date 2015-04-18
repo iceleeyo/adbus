@@ -1,5 +1,7 @@
 package com.pantuo.service;
 
+import com.pantuo.dao.IndustryRepository;
+import com.pantuo.dao.pojo.JpaIndustry;
 import com.pantuo.dao.pojo.JpaTimeslot;
 import com.pantuo.dao.pojo.UserDetail;
 import org.activiti.engine.identity.Group;
@@ -35,7 +37,11 @@ public class DataInitializationService {
     @Autowired
     TimeslotService timeslotService;
 
+    @Autowired
+    IndustryRepository industryRepo;
+
     public void intialize() throws Exception {
+        initializeIndustries();
         initializeGroups();
         initializeUsers();
         initializeTimeslots();
@@ -134,5 +140,34 @@ public class DataInitializationService {
             timeslotService.saveProducts(timeslots);
         }
         log.info("Inserted {} timeslot entries into table", timeslots.size());
+    }
+
+
+    //初始化行业表
+    private void initializeIndustries() throws Exception {
+        long count = industryRepo.count();
+        if (count > 0) {
+            log.info("There are already {} industries in table, skip initialization step", count);
+            return;
+        }
+
+        InputStream is = DataInitializationService.class.getClassLoader().
+                getResourceAsStream("industry.csv");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+        String line = null;
+        List<JpaIndustry> list = new ArrayList<JpaIndustry>();
+
+        while ((line = reader.readLine()) != null) {
+            try {
+                String[] str = line.split(",");
+                JpaIndustry industry = new JpaIndustry(str[0], str[1]);
+                list.add(industry);
+            } catch (Exception e) {
+                log.warn("Fail to parse industry for {}, e={}", line, e.getMessage());
+            }
+        }
+        industryRepo.save(list);
+
+        log.info("Inserted {} industry entries into table", list.size());
     }
 }

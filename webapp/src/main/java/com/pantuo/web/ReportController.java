@@ -1,5 +1,7 @@
 package com.pantuo.web;
 
+import com.pantuo.dao.IndustryRepository;
+import com.pantuo.dao.pojo.JpaIndustry;
 import com.pantuo.mybatis.domain.TimeslotReport;
 import com.pantuo.pojo.highchart.*;
 import com.pantuo.service.*;
@@ -28,6 +30,9 @@ public class ReportController {
 
     @Autowired
     private ReportService service;
+
+    @Autowired
+    private IndustryService industryService;
 
     @RequestMapping("day")
          public String remainTimeslots(Model model,
@@ -420,4 +425,98 @@ public class ReportController {
         return "report_dailyOrderPercent";
     }
 
+
+
+    @RequestMapping("dayindustryp")
+    public String orderIndustryPercent(Model model,
+                               @RequestParam(value="day", required = false) String dayStr,
+                               @RequestParam(value="baseY", required = false) Long baseY,
+                               @RequestParam(value="industry", required = false, defaultValue = "0,1") String industryIdStr,
+                               @RequestParam(value="span", required = false, defaultValue = "90") int span) {
+        Date to = null;
+        if (StringUtils.isBlank(dayStr)) {
+            to = new Date();
+        } else {
+            try {
+                to = DateUtil.longDf.get().parse(dayStr);
+            } catch (Exception e) {
+                to = new Date();
+            }
+        }
+        dayStr = DateUtil.longDf.get().format(to);
+
+        List<Integer> industryIds = new ArrayList<Integer> ();
+        try {
+            if (industryIdStr != null) {
+                for (String id : industryIdStr.split(",")) {
+                    industryIds.add(Integer.valueOf(id));
+                }
+            }
+        } catch (Exception e) {
+            log.warn("Can not parse industry ids {}", industryIdStr, e);
+            industryIds.add(0);
+            industryIds.add(1);
+        }
+
+        //load industries
+        List<JpaIndustry> industries = industryService.getIndustries(industryIds);
+
+        HighChartBuilder<Date> b = new HighChartBuilder<Date>("行业售出情况趋势图", XType.DATE);
+
+        DayList days = DayList.range(to, -span);
+
+        DatetimeSeries s = null;
+        Map<Integer, List<TimeslotReport>> slots =  service.getOrderTimeslotsByIndustries(days.getEarlyestDay(), days.getLastDay(), industryIds, null);
+        Iterator<Map.Entry<Integer,List<TimeslotReport>>> iter = slots.entrySet().iterator();
+
+        List<String> seriesNames = new ArrayList<String> ();
+        Map<String, String> yNames = new HashMap<String, String> ();
+
+        while (iter.hasNext()) {
+            Map.Entry<Integer, List<TimeslotReport>> e = iter.next();
+
+            s = Series.newDatetimeSeries(SeriesType.TIMESLOT, days);
+            s.setPointer(false, 1).addName("remain", "剩余时长").addName("paid", "已售出时长").addName("notPaid", "预售时长");
+            for (TimeslotReport data : e.getValue()) {
+                s.put(data.getDay(), data);
+            }
+
+            if (e.getKey() == -1) {
+                b.addSeries("OTHER_PAID", s);
+                b.addSeries("OTHER_NOTPAID", s);
+                seriesNames.add(0, "OTHER_PAID");
+                seriesNames.add(0, "OTHER_NOTPAID");
+                yNames.put("OTHER_PAID", "paid");
+                yNames.put("OTHER_NOTPAID", "notPaid");
+                s.setPointer(false, 1).addName("remain", "剩余时长").addName("paid", "其他行业已售").addName("notPaid", "其他行业预售");           } else {
+                for (JpaIndustry industry : industries) {
+                    if (industry.getId() == e.getKey()) {
+                        b.addSeries(industry.getId() + "_PAID", s);
+                        b.addSeries(industry.getId() + "_NOTPAID", s);
+                        seriesNames.add(industry.getId() + "_PAID");
+                        seriesNames.add(industry.getId() + "_NOTPAID");
+                        yNames.put(industry.getId() + "_PAID", "paid");
+                        yNames.put(industry.getId() + "_NOTPAID", "notPaid");
+                        s.setPointer(false, 1).addName("remain", "剩余时长")
+                                .addName("paid", industry.getName() + "已售").addName("notPaid", industry.getName() +"预售");
+                    }
+                }
+            }
+        }
+
+        if (s != null) {
+            b.addSeries("REMAIN", s);
+            seriesNames.add(0, "REMAIN");
+            yNames.put("REMAIN", "remain");
+        } 
+        b.setStacked(true);
+        b.setType(ChartType.area);
+
+        model.addAttribute("remainTimeSlots", b.build());
+        model.addAttribute("day", dayStr);
+        model.addAttribute("seriesNames", seriesNames);
+        model.addAttribute("yNames", yNames);
+        model.addAttribute("baseY", baseY);
+        return "report_dailyIndustryPercent";
+    }
 }

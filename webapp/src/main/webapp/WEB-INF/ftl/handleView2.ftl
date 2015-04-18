@@ -344,7 +344,7 @@ function pay() {
     									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>广告主支付订单</H4></TD>
   								</TR>  	
 									<TR style="height:45px;">
-    									<TH width="10%">支付</TH>
+    									<TH width="0%">支付</TH>
     									<TD>
     										<input type="radio" name="payType" onchange="showContract()" value="contract" checked="checked">关联合同
 				             		<input type="radio" name="payType" value="online" onchange="hideContract()" >线上支付
@@ -362,7 +362,7 @@ function pay() {
                   		</select>
                   		</div>
                   		</TD>
-    									<TD width="20%" style="text-align:center;">
+    									<TD width="25%" style="text-align:center;">
     										<button type="button" onclick="pay()" class="block-btn" >确认支付</button>
     									</TD>
   								</TR>

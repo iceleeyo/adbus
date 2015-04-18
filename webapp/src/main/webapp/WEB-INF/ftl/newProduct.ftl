@@ -35,18 +35,6 @@
 								<div class="withdraw-title fn-clear">${action}产品套餐</div>
 								<div class="withdrawInputs">
 									<div class="inputs" style="padding-left: 20px;">
-									<div class="ui-form-item">
-												
-												
-												<label class="ui-label mt10"><span
-                                                    class="ui-form-required">*</span>产品定向:</label>
-                                                     
-												<select class="ui-input" >
-                                                <option value="" selected="selected"></option>
-                                                	<option value="用户1">用户1</option>
-                                                	
-                                           		</select>
-												</div>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>媒体类型：</label>
@@ -75,7 +63,7 @@
 
 										</div>
 
-										<div class="ui-form-item toggle">
+										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>单日播放次数:</label>
 												<input
@@ -123,6 +111,15 @@
                                                     class="ui-input" type="number" value="<#if prod??>${prod.price!''}<#else>0</#if>" name="price"
                                                     id="price" data-is="isAmount isEnough"
                                                     autocomplete="off" disableautocomplete="">
+                                        </div>
+                                        <div class="ui-form-item">
+                                            <label class="ui-label mt10"><span
+                                                    class="ui-form-required"></span>产品定向:</label>
+                                            <select class="ui-input" >
+                                                <option value="" selected="selected"></option>
+                                                <option value="adusera">广告主A</option>
+                                                <option value="aduserb">广告主B</option>
+                                            </select>
                                         </div>
 									</div>
 									<div class="ui-form-item widthdrawBtBox">

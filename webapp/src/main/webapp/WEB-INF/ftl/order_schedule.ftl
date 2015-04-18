@@ -91,7 +91,7 @@
     } );
 </script>
             <div class="div" style="margin-top:5px">
-                <caption><h2>订单详情</h2></caption>
+                <caption><h2>订单排期详情</h2></caption>
             </div>
             <div class="div">
                 <table id="metatable" class="display" cellspacing="0" width="100%">
@@ -117,7 +117,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="div">
+            <div class="div" style="overflow-x: scroll">
                 <table id="table" class="cell-border compact display" cellspacing="0" width="100%">
                     <thead>
                     <tr>

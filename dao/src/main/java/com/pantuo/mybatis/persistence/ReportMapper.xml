@@ -9,6 +9,7 @@
     <result column="paid" property="paid" jdbcType="BIGINT" />
     <result column="notPaid" property="notPaid" jdbcType="BIGINT" />
     <result column="size" property="size" jdbcType="BIGINT" />
+    <result column="industryId" property="industryId" jdbcType="INTEGER" />
   </resultMap>
   <select id="getRemainTimeslots" parameterType="map" resultMap="timeslotReport" >
     <![CDATA[
@@ -57,4 +58,29 @@
     group by b.day
   </select>
 
+    <select id="getOrderTimeslotsByIndustries" parameterType="map" resultMap="timeslotReport" >
+    select day, industryId, sum(paid) as paid, sum(notPaid) as notPaid from
+    (
+        select g.day,
+        (case
+        <foreach close="" collection="industries" item="industryId" open="" separator="">
+            when s.industry_id = #{industryId} then #{industryId}
+        </foreach>
+        else -1
+        end) as industryId,
+        case when o.stats = 0 then 0 else g.size end as paid,
+        case when o.stats = 0 then g.size else 0 end as notPaid
+        from  goods g
+        join orders o on (g.order_id = o.id
+        <![CDATA[
+          and g.day >= #{from} and g.day <= #{to})
+        ]]>
+        <if test="peak != null and peak == true">
+        join box b on (b.day = g.day and b.slot_id = g.box_slot_id)
+        join timeslot t on (b.slot_id = t.id and t.peak = 1)
+        </if>
+        join supplies s on o.supplies_id = s.id
+    ) tmp
+    group by day,industryId
+    </select>
 </mapper>

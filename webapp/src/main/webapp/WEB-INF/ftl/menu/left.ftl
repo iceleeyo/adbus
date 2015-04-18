@@ -5,8 +5,8 @@
   background: #7fd4f3;
 }
 
-.side-exp-p-select {
-  color:#fff;
+.side-exp-p-select .pg-side-item-t {
+  color:#fff!important;
   background:#2da7e0;
 }
 </style>
@@ -27,7 +27,7 @@
 										</a>
 										<ul class="pg-side-exp-list" style="display:none;">
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/supplies/supplies_test">
+												<a class="side-exp-item-t" href="${rc.contextPath}/supplies/new">
 													上传物料
 												</a>
 											</li>
@@ -180,9 +180,14 @@
                                             </li>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/report/dayorderp">
-													销售报表
+                                                    销售报表
 												</a>
 											</li>
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/dayindustryp">
+                                                    行业细分
+                                                </a>
+                                            </li>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="#">
 													广告主报表

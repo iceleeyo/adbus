@@ -1,4 +1,4 @@
-<#macro trendChart chartDiv title titleY highChart yName baseY menuId="" seriesTypes=[], yName={}>
+<#macro trendChart chartDiv title titleY highChart yName baseY menuId="" seriesTypes=[] yName={}>
 <script type="text/javascript">
     var chart;
 
@@ -125,7 +125,11 @@
                         marker: {
                             enabled: ${highChart.seriesListAsMap['${type}'].pointerEnabled?c},
                             radius: ${highChart.seriesListAsMap['${type}'].pointerRadius!'2'}
-                        }
+                        },
+//                        dataLabels: {
+//                            enabled: true,
+//                            rotation: 90,
+//                        }
                     }
                     <#if type_has_next>,</#if>
                 </#list>

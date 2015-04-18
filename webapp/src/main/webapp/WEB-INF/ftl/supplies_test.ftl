@@ -44,6 +44,10 @@
 			jDialog.Alert("请填写完整信息");
 			return;
 		}
+        if (!$("#industryId").val()) {
+            jDialog.Alert("请选择行业");
+            return;
+        }
 		$('#userForm2').ajaxForm(function(data) {
 			jDialog.Alert(data.right);
 			var uptime = window.setTimeout(function(){
@@ -86,7 +90,18 @@
 												<option value="2">文本</option>
 											</select>
 										</div>
+                                        <div class="ui-form-item">
+                                            <label class="ui-label mt10"><span
+                                                    class="ui-form-required">*</span>行业:</label>
 
+                                            <select id="industryId" name="industryId" data-is="isAmount isEnough"
+                                                    autocomplete="off" disableautocomplete="" style="width:173px; height: 38px;">
+                                                <#list industries as industry>
+                                                    <option value="${industry.id}">${industry.name}</option>
+                                                </#list>
+                                            </select>
+
+                                        </div>
 										<div class="ui-form-item" id="text" style="display:none;">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>文本信息</label> <input

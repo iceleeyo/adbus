@@ -127,14 +127,19 @@ public class ReportService {
         if (report.size() < 12) {
             long duration = (peak == null || !peak)? timeslotService.sumDuration() : timeslotService.sumPeakDuration();
 
-            HashSet<Integer> monthFetched = new HashSet<Integer> ();
+            HashMap<Integer, TimeslotReport> monthFetched = new HashMap<Integer, TimeslotReport> ();
             for (TimeslotReport r : report) {
-                monthFetched.add(r.getMonth());
+                monthFetched.put(r.getMonth(), r);
             }
 
             for (int i = 1; i <=12; i++) {
-                if (!monthFetched.contains(i)) {
-                    long monthDuration = DateUtil.getDaysInMonth(year, i) * duration;
+                long monthDuration = DateUtil.getDaysInMonth(year, i) * duration;
+                if (monthFetched.containsKey(i)) {
+                    TimeslotReport r = monthFetched.get(i);
+                    long ordered = r.getSize() - r.getRemain();
+                    r.setSize(monthDuration);
+                    r.setRemain(monthDuration - ordered);
+                } else {
                     report.add(new TimeslotReport(year, i, monthDuration, monthDuration));
                 }
             }
@@ -166,4 +171,37 @@ public class ReportService {
         return report;
     }
 
+    public Map<Integer/*industry id, -1 means others*/, List<TimeslotReport>>
+            getOrderTimeslotsByIndustries(Date from, Date to, List<Integer> distinctIndustries, Boolean peak) {
+        Map<Integer, List<TimeslotReport>> map = new HashMap<Integer, List<TimeslotReport>> ();
+
+        List<TimeslotReport> base = getRemainTimeslots(from, to, peak);
+        List<TimeslotReport> report = mapper.getOrderTimeslotsByIndustries(from, to, distinctIndustries, peak);
+        Map<String /*day + industryId*/, TimeslotReport> industryMap = new HashMap<String, TimeslotReport>();
+        for (TimeslotReport r : report) {
+            industryMap.put(r.getDay() + "/" + r.getIndustryId(), r);
+        }
+
+        distinctIndustries.add(-1);
+        for (int industryId : distinctIndustries) {
+            List<TimeslotReport> base2 = new ArrayList<TimeslotReport>(base.size());
+            for (TimeslotReport r : base) {
+                TimeslotReport r2 = r.clone();
+                r2.setIndustryId(industryId);
+
+                TimeslotReport r3 = industryMap.get(r.getDay() + "/" + industryId);
+                if (r3 != null) {
+                    r2.setPaid(r3.getPaid());
+                    r2.setNotPaid(r3.getNotPaid());
+                } else {
+                    r2.setPaid(0L);
+                    r2.setNotPaid(0L);
+                }
+                base2.add(r2);
+            }
+            map.put(industryId, base2);
+        }
+
+        return map;
+    }
 }

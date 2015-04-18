@@ -30,14 +30,19 @@ public class JpaContract extends BaseEntity {
     private String remark;
     private String creator;
     private String amounts;
-    private String industry;
-    
+
+    @ManyToOne
+    @JoinColumn(name = "industryId")
+    private JpaIndustry industry;
 
     public JpaContract() {
         //for serialization
     }
 
-    public JpaContract(String amounts,String industry,String contractCode, String contractName, String userId, Date startDate, Date endDate, Status stats, boolean isUpload, String remark, String creator) {
+    public JpaContract(String amounts,int industryId,String contractCode,
+                       String contractName, String userId, Date startDate,
+                       Date endDate, Status stats, boolean isUpload, String remark,
+                       String creator) {
         super();
         this.contractCode = contractCode;
         this.contractName = contractName;
@@ -49,7 +54,8 @@ public class JpaContract extends BaseEntity {
         this.remark = remark;
         this.creator = creator;
         this.amounts=amounts;
-        this.industry=industry;
+        this.industry=new JpaIndustry();
+        this.industry.setId(industryId);
     }
 
     public int getId() {
@@ -69,13 +75,18 @@ public class JpaContract extends BaseEntity {
 		this.amounts = amounts;
 	}
 
-	public String getIndustry() {
+	public JpaIndustry getIndustry() {
 		return industry;
 	}
 
-	public void setIndustry(String industry) {
+	public void setIndustry(JpaIndustry industry) {
 		this.industry = industry;
 	}
+
+    public void setIndustryId(int industryId) {
+        this.industry = new JpaIndustry();
+        this.industry.setId(industryId);
+    }
 
 	public String getContractCode() {
         return contractCode;

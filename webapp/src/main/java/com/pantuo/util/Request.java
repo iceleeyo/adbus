@@ -34,4 +34,8 @@ public class Request {
 	public static String getUserId(Principal principal) {
         return principal == null ? "" : principal.getName();
 	}
+
+    public static boolean hasAuth (Principal principal, String group) {
+        return ((ActivitiUserDetails)((Authentication)principal).getPrincipal()).hasAuthority(group);
+    }
 }

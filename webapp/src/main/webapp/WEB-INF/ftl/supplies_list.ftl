@@ -46,7 +46,7 @@
             "serverSide": true,
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                { "orderable": false, "targets": [3] },
+                { "orderable": false, "targets": [6] },
             ],
             "ajax": {
                 type: "GET",
@@ -80,9 +80,10 @@
                         if (data == 'info')
                             return '文本';
                         return '';
-                    } },
-                    { "data": "userId", "defaultContent": ""},
-                   { "data": "created", "defaultContent": "","render": function(data, type, row, meta) {
+                } },
+                { "data": "industry.name", "defaultContent": ""},
+                { "data": "userId", "defaultContent": ""},
+                { "data": "created", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd HH:mm:ss");
                 	return d;
                 }},
@@ -144,9 +145,10 @@
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th orderBy="name">物料编号</th>
+                        <th orderBy="name">编号</th>
                         <th orderBy="name">物料名称</th>
-                        <th orderBy="suppliesType">物料类型</th>
+                        <th orderBy="suppliesType">类型</th>
+                        <th orderBy="industry.id">行业</th>
                         <th orderBy="created">创建人</th>
                         <th orderBy="created">创建时间</th>
                         <th>管理</th>

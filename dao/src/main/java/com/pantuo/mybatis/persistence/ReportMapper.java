@@ -18,4 +18,6 @@ public interface ReportMapper {
     List<TimeslotReport> getOrderTimeslots( @Param("from") Date from, @Param("to") Date to,
                                              @Param("peak") Boolean peak);
 
+    List<TimeslotReport> getOrderTimeslotsByIndustries( @Param("from") Date from, @Param("to") Date to,
+                                            @Param("industries") List<Integer> industries, @Param("peak") Boolean peak);
 }

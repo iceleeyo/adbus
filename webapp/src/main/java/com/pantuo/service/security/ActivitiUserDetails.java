@@ -33,6 +33,23 @@ public class ActivitiUserDetails implements UserDetails {
         public String getAuthority() {
             return auth;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            ActivityAuthority that = (ActivityAuthority) o;
+
+            if (auth != null ? !auth.equals(that.auth) : that.auth != null) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            return auth != null ? auth.hashCode() : 0;
+        }
     }
 
     public ActivitiUserDetails(UserDetail user) {
@@ -48,6 +65,10 @@ public class ActivitiUserDetails implements UserDetails {
      
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return auths;
+    }
+
+    public boolean hasAuthority (String groupName) {
+        return auths.contains(new ActivityAuthority(groupName));
     }
 
     public UserDetail getUserDetail() {

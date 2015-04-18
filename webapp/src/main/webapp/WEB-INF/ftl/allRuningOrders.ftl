@@ -112,13 +112,13 @@
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th>下单用户</th>
+                        <th>用户</th>
                             <th>订单名称</th>
-                        <th>套餐号</th>
+                        <th>套餐名称</th>
                        <!-- <th>素材号</th>-->
                         <th>创建时间</th>
                         <th>当前环节</th>
-                        <th>当前处理人</th>
+                        <th>处理人</th>
                          <th>操作</th>
                     </tr>
                     </thead>

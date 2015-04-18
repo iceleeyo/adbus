@@ -21,8 +21,8 @@ function go_back(){
                 <H3 class="text-xl title-box"><A class="black" href="#">订单详情-${longorderid!''}</A></H3>
                <DIV class="summary mt10 uplan-summary-div">
               <UL class="uplan-detail-ul">
+                  <LI style="width: 720px;"><SPAN>套餐名称：</SPAN><SPAN class="con">${prod.name!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>下单用户：</SPAN><SPAN class="con">${(order.creator)!''}</SPAN></LI>
-  <LI style="width: 240px;"><SPAN>套餐名称：</SPAN><SPAN class="con">${prod.name!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>价格：</SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">${prod.price!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>起播时间：</SPAN><SPAN class="con"><#setting date_format="yyyy-MM-dd">${(order.startTime?date)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>到期时间：</SPAN><SPAN class="con"><#setting date_format="yyyy-MM-dd">${(order.endTime?date)!''}</SPAN></LI>
@@ -30,26 +30,10 @@ function go_back(){
   <LI style="width: 240px;"><SPAN>订单状态：</SPAN><SPAN class="con">已完成</SPAN></LI>
   <LI style="width: 240px;"><SPAN>支付方式：</SPAN><SPAN class="con">${(orderview.payTypeString)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>合同号：</SPAN><SPAN class="con">${(orderview.order.contractCode)!''}</SPAN></LI>
-  <LI style="width: 240px;">
-  <table class="con" style="width: 748px;margin-top: 10px;">
-  	<tr>
-  		<td align="center" colspan="2">物料列表</th>
-  	</tr>
-  	<#list suppliesView.files as item> 
-  	<tr>
-  	<th>
-		<a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a>
-	</th>
-  	<th>
-  		<#if prod.type=='image'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
-		<a href="${rc.contextPath}/upload_temp/${item.url!''}" target="_Blank">点击查看</a></#if>
-  	</th>
-  	</#list>${(suppliesView.mainView.infoContext)!''}
-  	</tr>
-  </table>
-	
-   </LI><p>
-  <LI style="width: 240px;"><SPAN><a target="_blank" href="${rc.contextPath}/schedule/${order.id!''}">查看排期表</a></SPAN><SPAN class="con"></SPAN></LI>
+  <LI style="width: 720px;"><SPAN>物料列表：</SPAN><SPAN class="con"><#list suppliesView.files as item>
+      <a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;
+    </#list>${(suppliesView.mainView.infoContext)!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN><a target="_blank" href="${rc.contextPath}/schedule/${order.id!''}" >查看排期表</a></SPAN><SPAN class="con"></SPAN></LI>
 </UL>
 </DIV>
 </DIV>

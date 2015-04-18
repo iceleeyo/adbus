@@ -2,6 +2,7 @@ package com.pantuo.service.impl;
 
 import java.security.Principal;
 
+import com.mysema.query.types.expr.BooleanExpression;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,13 +36,18 @@ public class SuppliesDataServiceImpl implements SuppliesServiceData {
 		sort = (sort == null ? new Sort("id") : sort);
 		Pageable p = new PageRequest(page, pageSize, sort);
 		if (name == null || StringUtils.isEmpty(name)) {
-			Predicate query = QJpaSupplies.jpaSupplies.userId.eq(Request.getUserId(principal));
-
-			return suppliesRepo.findAll(query,p);
+            if (Request.hasAuth(principal, "suppliesManager")) {
+                return suppliesRepo.findAll(p);
+            } else {
+                Predicate query = QJpaSupplies.jpaSupplies.userId.eq(Request.getUserId(principal));
+                return suppliesRepo.findAll(query,p);
+            }
 		} else {
-			Predicate query = QJpaSupplies.jpaSupplies.name.like("%" + name + "%").and(
-					QJpaSupplies.jpaSupplies.userId.eq(Request.getUserId(principal)));
-
+			BooleanExpression query = QJpaSupplies.jpaSupplies.name.like("%" + name + "%");
+            if (!Request.hasAuth(principal, "suppliesManager")) {
+                query = query.and(
+                        QJpaSupplies.jpaSupplies.userId.eq(Request.getUserId(principal)));
+            }
 			return suppliesRepo.findAll(query, p);
 		}
 	}

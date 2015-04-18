@@ -22,7 +22,7 @@ css=["jquery-ui/jquery-ui.css"]>
             $("#day").val(<#if day??>'${day}'<#else>$.format.date(new Date(), 'yyyy-MM-dd')</#if>);
 
             $("#day, #baseY").change(function() {
-                $(location).attr('href', "timeslot?day=" + $("#day").val()
+                $(location).attr('href', "day?day=" + $("#day").val()
                         + ($("#baseY").is(":checked")? "&baseY=0" : ""));
             });
         });
