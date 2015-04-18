@@ -38,6 +38,8 @@
 			   	  	parent.children().css('background','url(../imgs/sidebar-icons.png?v=1548a) no-repeat -20px -100px');
 			   	  else if(parent.hasClass("gg-icon"))
 			   	  	parent.children().css('background','url(../imgs/sidebar-icons.png?v=1548a) no-repeat -20px -120px');
+			   	  else if(parent.hasClass("hh-icon"))
+			   	  	parent.children().css('background','url(../imgs/sidebar-icons.png?v=1548a) no-repeat -20px -120px');
 			   });
 			   //鼠标移入移出事件
 			   $(".pg-nav-hover").mouseover(function(){
