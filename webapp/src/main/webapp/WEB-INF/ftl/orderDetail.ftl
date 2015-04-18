@@ -95,12 +95,14 @@ function go_back(){
   <LI style="width: 240px;">
   <table class="con" style="width: 748px; ">
   	<tr>
-  		<th>物料列表</th>
+  		<td>物料列表</th>
   	</tr>
   	<#list suppliesView.files as item> 
   	<tr>
   	<th>
-		<a href="../upload_temp/${item.url!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;  
+		<a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a>
+		<#if prod.type==1>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
+		<a href="${rc.contextPath}/upload_temp/${item.url!''}" target="_Blank">点击查看</a></#if>
  	</#list>${(suppliesView.mainView.infoContext)!''}
   	</th>
   	</tr>
