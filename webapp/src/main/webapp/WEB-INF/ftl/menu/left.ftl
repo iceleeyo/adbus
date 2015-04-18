@@ -1,4 +1,9 @@
-
+<style type="text/css">
+ 
+.color{
+  color:red;
+}
+</style>
 <div class="ls-2">
 							<div class="pg-side">
 								<ul class="pg-side-list">
@@ -201,8 +206,13 @@
         $(".pg-side-item").each(function(){
             if (menu) {
                 $(this).find(".side-exp-item-t").each(function(){
+              
                     if ($(this).text().trim() == menu) {
-                        $(this).addClass("active");
+                     	 alert($(this).text().trim()+ "_"+menu +"__"+ ($(this).text().trim() == menu));
+                       
+                       // alert(	$(this).parent(".pg-side-item"));
+						$(this).parent().parent(".pg-side-item").find(".pg-side-exp-list").toggle();
+						 $(this).addClass("color");				           
                     }
                 });
             }
@@ -218,10 +228,10 @@
 
     $(document).ready(function(){
         var menu = '<#if menu??>${menu}<#else></#if>';
-
         $(".pg-side-item-t").click(function(){
             $(this).parent(".pg-side-item").find(".pg-side-exp-list").toggle();
         });
+        
         active(menu);
     });
 </script>
