@@ -23,10 +23,10 @@ function go_back(){
 															date_format="yyyy-MM-dd"> ${(view.mainView.startDate)?date!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>终止日期：</SPAN><SPAN class="con"><#setting
 															date_format="yyyy-MM-dd"> ${(view.mainView.endDate)?date!''}</SPAN></LI>
-  <LI style="width: 240px;"><SPAN>附件：</SPAN><SPAN class="con">
+  <LI style="width: 720px;"><SPAN>附件：</SPAN><SPAN class="con">
 															<#list view.files as item> 
 															<a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;  
-   							     </#list>${(suppliesView.mainView.infoContext)!''}</#list></SPAN></LI>
+   							     </#list></SPAN></LI>
 </UL>
 </DIV>
 </DIV>
