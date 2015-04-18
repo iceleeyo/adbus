@@ -3,6 +3,11 @@
 <@frame.html title="下订单" js=["jquery-ui/jquery-ui.js", "datepicker.js", "jquery.datepicker.region.cn.js"] css=["jquery-ui/jquery-ui.css"]>
 
 <script type="text/javascript">
+
+$(document).ready(function(){ 
+    //$("#subWithdraw").attr('disabled',false); //移除disabled属性
+}); 
+
 	function sub2() {
         var emptyInput = $("#userForm2 input, #userform2 select").filter(function() { return $(this).val() == ""; });
         if( emptyInput[0]) {
@@ -20,13 +25,12 @@
                 jDialog.Alert(data.right);
                 
             }).submit();
-            this.enabled = false;
+            document.getElementById('subWithdraw').setAttribute('disabled','true');
            //var a = document.createElement('a');
     	   //a.href='${rc.contextPath}/order/myTask/1';
     	    //document.body.appendChild(a);
     	    //a.click();
         }
-        
 	}
 
 	function check() {
@@ -88,7 +92,7 @@
 									</div>
 									<div class="ui-form-item widthdrawBtBox">
 										<input type="button" id="subWithdraw" class="block-btn"
-											onclick="sub2();" value="确认提交">
+											onclick="sub2();" value="确认提交" >
 									</div>
 								</div>
 </div>							
