@@ -7,6 +7,8 @@ import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class FileHelper {
 
 	static AtomicLong p = new AtomicLong(System.currentTimeMillis());
@@ -79,7 +81,21 @@ public class FileHelper {
 			}
 		}
 	}
-
+	/**
+	 * 获取文件扩展名
+	 * @param file
+	 * @return
+	 */
+	public static String getFileExtension(String fileName, boolean haveSlide) {
+		String r = StringUtils.EMPTY;
+		if (StringUtils.isNoneBlank(fileName)) {
+			if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
+				r = fileName.substring(fileName.lastIndexOf(".") + (haveSlide ? 0 : 1));
+			}
+		}
+		return r;
+	}
+ 
 	public static void scanDirectory(HashSet<String> existFiles, File sPath, String filter) {
 		File[] files = sPath.listFiles();
 		for (int i = 0; i < files.length; i++) {

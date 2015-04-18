@@ -62,9 +62,11 @@ public class AttachmentServiceImpl implements AttachmentService {
 					if (file != null && !file.isEmpty()) {
 						String oriFileName = file.getOriginalFilename();
 						if (StringUtils.isNoneBlank(oriFileName)) {
+
 							String storeName = GlobalMethods.md5Encrypted((System.currentTimeMillis() + oriFileName)
 									.getBytes());
-							Pair<String, String> p = FileHelper.getUploadFileName(path, storeName);
+							Pair<String, String> p = FileHelper.getUploadFileName(path,
+									storeName += FileHelper.getFileExtension(oriFileName,true));
 							File localFile = new File(p.getLeft());
 							file.transferTo(localFile);
 							Attachment t = new Attachment();
