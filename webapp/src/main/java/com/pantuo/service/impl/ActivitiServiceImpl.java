@@ -561,6 +561,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 				w.setComment((String) temp.get(key));
 				Object r = temp.get(result);
 				w.setResult(r == null ? false : (Boolean) r);
+			} else if (StringUtils.equals("financialCheck", w.getTaskDefinitionKey())) {
+				String key = String.format(f, historicTaskInstance.getId(), "financialcomment");
+				w.setComment((String) temp.get(key));
 			}
 			view.add(w);
 		}
