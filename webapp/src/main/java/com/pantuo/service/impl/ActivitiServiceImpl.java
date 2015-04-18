@@ -61,6 +61,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 	@Autowired
 	private RuntimeService runtimeService;
+	
+	
 
 	@Autowired
 	private TaskService taskService;
@@ -447,6 +449,23 @@ public class ActivitiServiceImpl implements ActivitiService {
 					if (order == null) {
 						sb.append(orderid + ",");
 						runtimeService.deleteProcessInstance(processInstance.getId(), "");
+					}
+				}
+
+				/**
+				 *  清理完成的订单里找不到订单 数据异常的工作流
+				 */
+
+				List<HistoricProcessInstance> list = historyService.createHistoricProcessInstanceQuery().finished()
+						.processDefinitionKey(MAIN_PROCESS).includeProcessVariables().orderByProcessInstanceStartTime()
+						.desc().list();
+				for (HistoricProcessInstance historicProcessInstance : list) {
+					Integer hisId = (Integer) historicProcessInstance.getProcessVariables().get(ORDER_ID);
+					if (hisId != null && hisId > 0) {
+						Orders or = orderService.selectOrderById(hisId);
+						if (or == null) {
+							historyService.deleteHistoricProcessInstance(historicProcessInstance.getId());
+						}
 					}
 				}
 			}
