@@ -110,7 +110,7 @@
                         <td>${orderIdSeq}</td>
                         <td>${order.userId}</td>
                         <td><a href="${rc.contextPath}/supplies/suppliesDetail/${order.supplies.id}" target="_blank">${order.supplies.name}</a></td>
-                        <td><a href="${rc.contextPath}/product/${order.product.id}" target="_blank">${order.product.name}</a></td>
+                        <td><a href="${rc.contextPath}/product/d/${order.product.id}" target="_blank">${order.product.name}</a></td>
                         <td>${order.startTime}</td>
                         <td>${order.endTime}</td>
                     </tr>
