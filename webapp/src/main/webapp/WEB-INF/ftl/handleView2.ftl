@@ -386,8 +386,11 @@ function pay() {
     									<TH>物料详情</TH>
     									<TD colspan=3>
     									<#list suppliesView.files as item> 
-							       <a href="../upload_temp/${item.url!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;  
-   							     </#list></TD>
+		<a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a>
+	   <#if prod.type=='image'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
+		<a href="${rc.contextPath}/upload_temp/${item.url!''}" target="_Blank">点击查看</a>
+		</#if>
+ 	</#list>${(suppliesView.mainView.infoContext)!''}</TD>
     							</TR>
   								<TR>
     									<TH>更改物料</TH>
@@ -427,8 +430,11 @@ function pay() {
     									<TH>物料</TH>
     									<TD colspan=3>
     									<#list suppliesView.files as item> 
-							       <a href="../upload_temp/${item.url!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;  
-   							     </#list></TD>
+		<a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a>
+	   <#if prod.type=='image'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
+		<a href="${rc.contextPath}/upload_temp/${item.url!''}" target="_Blank">点击查看</a>
+		</#if>
+ 	</#list>${(suppliesView.mainView.infoContext)!''}</TD>
     							</TR> 
     							<TR>
     									<TH>填写物料编号</TH>
@@ -509,8 +515,11 @@ function pay() {
     									<TH>物料详情</TH>
     									<TD colspan=3>
     									<#list suppliesView.files as item> 
-							       <a href="../upload_temp/${item.url!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;  
-   							     </#list></TD>
+		<a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a>
+	   <#if prod.type=='image'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
+		<a href="${rc.contextPath}/upload_temp/${item.url!''}" target="_Blank">点击查看</a>
+		</#if>
+ 	</#list>${(suppliesView.mainView.infoContext)!''}</TD>
     							</TR>
   								<TR>
     									<TH>审核意见</TH>
