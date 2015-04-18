@@ -66,7 +66,7 @@ public class SuppliesController {
 	
 	@RequestMapping("ajax-list")
 	@ResponseBody
-	public DataTablePage<JpaSupplies> getAllContracts(TableRequest req) {
-		return new DataTablePage(suppliesDataService.getAllSupplies(req.getFilter("name"), req.getPage(), req.getLength(), req.getSort("id")), req.getDraw());
+	public DataTablePage<JpaSupplies> getAllContracts(TableRequest req,Principal principal) {
+		return new DataTablePage(suppliesDataService.getAllSupplies(  principal,req.getFilter("name"), req.getPage(), req.getLength(), req.getSort("id")), req.getDraw());
 	}
 }
