@@ -564,6 +564,15 @@ public class ActivitiServiceImpl implements ActivitiService {
 			} else if (StringUtils.equals("financialCheck", w.getTaskDefinitionKey())) {
 				String key = String.format(f, historicTaskInstance.getId(), "financialcomment");
 				w.setComment((String) temp.get(key));
+			} else if (StringUtils.equals("inputSchedule", w.getTaskDefinitionKey())) {
+				String key = String.format(f, historicTaskInstance.getId(), "inputScheduleComments");
+				w.setComment((String) temp.get(key));
+			} else if (StringUtils.equals("shangboReport", w.getTaskDefinitionKey())) {
+				String key = String.format(f, historicTaskInstance.getId(), "shangboComments");
+				w.setComment((String) temp.get(key));
+			} else if (StringUtils.equals("jianboReport", w.getTaskDefinitionKey())) {
+				String key = String.format(f, historicTaskInstance.getId(), "jianboComments");
+				w.setComment((String) temp.get(key));
 			}
 			view.add(w);
 		}
