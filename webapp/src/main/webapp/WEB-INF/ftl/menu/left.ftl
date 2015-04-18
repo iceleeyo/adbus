@@ -1,5 +1,4 @@
 <style type="text/css">
- 
 .side-exp-select {
   cursor: pointer;
   color: #fff;
@@ -61,11 +60,13 @@
 											产品管理
 										</a>
 										<ul class="pg-side-exp-list">
+										<@security.authorize ifAnyGranted="ShibaOrderManager">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/product/new">
 													产品定义
 												</a>
 											</li>
+										</@security.authorize>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/product/list">
 													产品列表
