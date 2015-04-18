@@ -41,7 +41,7 @@
 												<label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>产品定向:</label>
                                                      
-												<select class="ui-input" name="userId" id="userId">
+												<select class="ui-input" >
                                                 <option value="" selected="selected"></option>
                                                 	<option value="用户1">用户1</option>
                                                 	
