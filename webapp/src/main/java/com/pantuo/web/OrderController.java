@@ -330,7 +330,13 @@ public class OrderController {
 	}
 	
 	@RequestMapping(value = "/myOrders/{pageNum}")
-	public String myOrders() {
+	public String myOrders(Model model) {
+		model.addAttribute("orderMenu", "我的订单");
+		return "myOrders";
+	}
+	@RequestMapping(value = "/join/{pageNum}")
+	public String joinOrder(Model model) {
+		model.addAttribute("orderMenu", "我参与的订单");
 		return "myOrders";
 	}
 	@RequestMapping("ajax-myOrders")
