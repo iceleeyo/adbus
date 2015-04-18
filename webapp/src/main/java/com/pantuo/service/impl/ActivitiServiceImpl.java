@@ -224,7 +224,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 	public Page<OrderView> finished(Principal principal, int page, int pageSize, Sort sort) {
 		page = page + 1;
 		List<OrderView> orders = new ArrayList<OrderView>();
-		int c = (int) historyService.createHistoricProcessInstanceQuery().finished().includeProcessVariables()
+		int c = (int) historyService.createHistoricProcessInstanceQuery().finished()
 				.involvedUser(Request.getUserId(principal)).processDefinitionKey(MAIN_PROCESS).count();
 		NumberPageUtil pageUtil = new NumberPageUtil((int) c, page, pageSize);
 		List<HistoricProcessInstance> list = historyService.createHistoricProcessInstanceQuery().finished()
