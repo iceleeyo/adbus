@@ -41,8 +41,8 @@
 
   <select id="getOrderTimeslots" parameterType="map" resultMap="timeslotReport" >
         <![CDATA[
-    select b.day, sum (case when o.stats = 0 then 0 else g.size end) as paid,
-      sum (case when o.stats = 0 then g.size else 0 end) as notPaid, sum(t.duration-g.size) as remain,
+    select b.day, sum(case when o.stats = 0 then 0 else g.size end) as paid,
+      sum(case when o.stats = 0 then g.size else 0 end) as notPaid, sum(t.duration-g.size) as remain,
       sum(t.duration) as size
     from timeslot t join box b on (t.id = b.slot_id
     ]]>
