@@ -93,7 +93,7 @@ function go_back(){
   <LI style="width: 240px;"><SPAN>支付方式：</SPAN><SPAN class="con">${(orderview.payTypeString)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>合同号：</SPAN><SPAN class="con">${(orderview.order.contractCode)!''}</SPAN></LI>
   <LI style="width: 240px;">
-  <table class="con" >
+  <table class="con" style="width: 748px; ">
   	<tr>
   		<th>物料列表</th>
   	</tr>
