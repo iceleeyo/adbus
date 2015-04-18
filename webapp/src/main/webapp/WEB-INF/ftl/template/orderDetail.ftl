@@ -22,7 +22,7 @@
   	<tr>
   	<th>
 		<a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a>
-	<#if prod.type==1>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
+	<#if prod.type=='image'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
 		<a href="${rc.contextPath}/upload_temp/${item.url!''}" target="_Blank">点击查看</a></#if>
  	</#list>${(suppliesView.mainView.infoContext)!''}
   	</th>
