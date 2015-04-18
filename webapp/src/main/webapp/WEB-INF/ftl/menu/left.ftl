@@ -98,7 +98,7 @@
 										
 										<@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/order/myOrders/1">
+												<a class="side-exp-item-t" href="${rc.contextPath}/order/join/1">
 													我参与的订单
 												</a>
 											</li>
