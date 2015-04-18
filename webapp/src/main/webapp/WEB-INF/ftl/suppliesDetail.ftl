@@ -43,6 +43,8 @@ function go_back(){
 														<span style="height: 35px; width: 485px" 
 															class="ui-list-field text-center w80 fn-left">
 															 <a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">${item.name!''}</a>
+															 
+															 <a href="${rc.contextPath}/upload_temp/${item.url!''}" target="_Blank">点击查看</a>
 															 <image src="${rc.contextPath}/upload_temp/${item.url!''}" />
 														</span>
 													</div>
