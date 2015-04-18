@@ -17,7 +17,8 @@ public class DateConverter implements Converter {
 
 	private static final String DATETIME_PATTERN_NO_SECOND = "yyyy-MM-dd HH:mm";
 
-	private static final String DATE_PATTERN = "yyyy-MM-dd";
+	public static final String DATE_PATTERN = "yyyy-MM-dd";
+	public static final String TIME_PATTERN = "HH:mm:ss";
 
 	private static final String MONTH_PATTERN = "yyyy-MM";
 
@@ -91,5 +92,8 @@ public class DateConverter implements Converter {
 		}
 		return result;
 	}
-
+	public static String doConvertToString(Object value,String DATE_PATTERN) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_PATTERN);
+		return  simpleDateFormat.format(value);
+	}
 }

@@ -7,6 +7,21 @@ function go_back(){
 </script>
  <div id="process" class="section4">
  
+ 	 <#if sections.submitOrder ??> 
+    	<#assign _order=sections.submitOrder> 
+     </#if> 
+      <#if sections.payment ??> 
+    	<#assign _payment=sections.payment> 
+     </#if>
+      <#if sections.approve1 ??> 
+    	<#assign _approve1=sections.approve1> 
+     </#if> 
+      <#if sections.shangboReport ??> 
+    	<#assign _shangboReport=sections.shangboReport> 
+     </#if>  
+      <#if sections.shangboReport ??> 
+    	<#assign _shangboReport=sections.shangboReport> 
+     </#if>  
             		<#if orderview.task_name="世巴提交排期表" || orderview.task_name="北广录入排期表">
 		            <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单</li><li id="track_time_0" class="tx3"><#setting date_format="yyyy-MM-dd">${(orderview.order.created?date)!''}</li></ul></div>
             		<div class="proce ready"><ul><li class="tx1">&nbsp;</li></ul></div>

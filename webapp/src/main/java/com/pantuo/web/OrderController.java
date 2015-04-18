@@ -183,6 +183,7 @@ public class OrderController {
 			SuppliesView suppliesView=suppliesService.getSuppliesDetail(v.getOrder().getSuppliesId(), null);
 			model.addAttribute("suppliesView", suppliesView);
 			model.addAttribute("activitis", activitis);
+			model.addAttribute("sections", orderService.getTaskSection(activitis));
 			model.addAttribute("orderview", v);
 			model.addAttribute("prod", prod);
 			return "orderDetail";
