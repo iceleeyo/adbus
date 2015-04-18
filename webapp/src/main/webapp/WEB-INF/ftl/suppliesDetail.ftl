@@ -40,10 +40,11 @@ function go_back(){
 															 ${view.mainView.name!''}
 														</span>
 													
-														<span style="height: 35px; width: 485px" 
-															class="ui-list-field text-center w80 fn-left">
+														<span style="height: 35px; width: 485px;text-align: right;" 
+															class="ui-list-field text-center w80 fn-left" >
 															 <a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">${item.name!''}</a>
 															<#if view.mainView.suppliesType == 1>
+															&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
 															 <a href="${rc.contextPath}/upload_temp/${item.url!''}" target="_Blank">点击查看</a></#if>
 														</span>
 													</div>
