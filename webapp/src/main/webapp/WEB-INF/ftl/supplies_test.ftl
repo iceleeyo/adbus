@@ -40,8 +40,8 @@
 			jDialog.Alert("请填写物料名称");
 			return;
 		}
-		if(Sfile==""&& infoContext==""){
-			jDialog.Alert(请填写完整信息");
+		if(Sfile== "" && infoContext=="" ){
+			jDialog.Alert("请填写完整信息");
 			return;
 		}
 		$('#userForm2').ajaxForm(function(data) {
@@ -52,6 +52,7 @@
 						},2000)
 		}).submit();
 	}
+	
 </script>
 							<form id="userForm2" name="userForm2" action="put"
 								enctype="multipart/form-data" method="post"">
