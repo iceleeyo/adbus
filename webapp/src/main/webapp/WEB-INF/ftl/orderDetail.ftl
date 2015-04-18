@@ -92,25 +92,9 @@ function go_back(){
   <LI style="width: 240px;"><SPAN>订单状态：</SPAN><SPAN class="con">${orderview.task_name!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>支付方式：</SPAN><SPAN class="con">${(orderview.payTypeString)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>合同号：</SPAN><SPAN class="con">${(orderview.order.contractCode)!''}</SPAN></LI>
-  <LI style="width: 240px;">
-  <table class="con" style="width: 748px;margin-top: 10px;">
-  	<tr>
-  		<td align="center" colspan="2">物料列表</th>
-  	</tr>
-  	<#list suppliesView.files as item> 
-  	<tr>
-  	<th>
-		<a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a>
-	</th>
-  	<th>
-  		<#if prod.type=='image'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
-		<a href="${rc.contextPath}/upload_temp/${item.url!''}" target="_Blank">点击查看</a></#if>
-  	</th>
-  	</#list>${(suppliesView.mainView.infoContext)!''}
-  	</tr>
-  </table>
-	
-   </LI>
+  <LI style="width: 720px;"><SPAN>物料：</SPAN><SPAN class="con"><#list suppliesView.files as item> 
+							       <a href="../upload_temp/${item.url!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;  
+   							     </#list>${(suppliesView.mainView.infoContext)!''}</SPAN></LI>
 </UL>
 </DIV>
 </DIV>
