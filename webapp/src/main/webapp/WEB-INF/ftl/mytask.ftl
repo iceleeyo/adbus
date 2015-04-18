@@ -39,7 +39,12 @@
 			type : "POST",
 			success : function(data) {
 				jDialog.Alert(data.right);
+				var uptime = window.setTimeout(function(){
 				location.reload([true]);
+			   	clearTimeout(uptime);
+						},2000)
+				
+				
 			}
 		}, "text");
 	  
