@@ -65,13 +65,14 @@ public class ScheduleServiceTest {
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
+        cal.add(Calendar.DATE, 30);
         Date now = cal.getTime();
-        cal.add(Calendar.DATE, 60);
 
         Random random = new Random(0);
         List<Date> starts = new ArrayList<Date> ();
-        for (int i=0; i<20; i++) {
-            cal.add(Calendar.DATE, random.nextInt(60));
+        for (int i=0; i<90; i++) {
+            cal.setTime(now);
+            cal.add(Calendar.DATE, random.nextInt(120));
             starts.add(cal.getTime());
         }
 
@@ -82,20 +83,25 @@ public class ScheduleServiceTest {
         contractService.saveContract(contract, "tliu", new MockHttpServletRequest());
 
         JpaProduct[] products = new JpaProduct[] {
-                new JpaProduct(JpaProduct.Type.video, "30S", 30, 4, 1, 1, 0.25, 7, 12000, false),
-                new JpaProduct(JpaProduct.Type.video, "30S2", 30, 9, 1, 2, 0.2, 7, 12000, false),
-                new JpaProduct(JpaProduct.Type.video, "60S", 60, 9, 1, 2, 0.2, 14, 12000, false),
-            new JpaProduct(JpaProduct.Type.video, "120S", 120, 8, 2, 4, 0.25, 7, 36000, false),
-                new JpaProduct(JpaProduct.Type.video, "80S", 80, 12, 2, 1, 0.3, 14, 36000, false),
+                new JpaProduct(JpaProduct.Type.video, "30S", 30, 4, 1, 1, 0.25, 30, 12000, false),
+                new JpaProduct(JpaProduct.Type.video, "30S2", 30, 9, 1, 2, 0.2, 30, 12000, false),
+                new JpaProduct(JpaProduct.Type.video, "60S", 60, 9, 1, 2, 0.2, 60, 12000, false),
+            new JpaProduct(JpaProduct.Type.video, "120S", 120, 8, 2, 4, 0.25, 30, 36000, false),
+                new JpaProduct(JpaProduct.Type.video, "80S", 80, 12, 2, 1, 0.3, 60, 36000, false),
                 new JpaProduct(JpaProduct.Type.video, "60S2", 60, 16, 2, 1, 0.3, 30, 36000, false),
-            new JpaProduct(JpaProduct.Type.video, "80S", 80, 10, 3, 2, 0.3, 7, 36000, false)};
+            new JpaProduct(JpaProduct.Type.video, "80S", 80, 10, 3, 2, 0.3, 60, 36000, false)};
         for (JpaProduct prod : products) {
             productService.saveProduct(prod);
         }
 
-        JpaSupplies supply = new JpaSupplies("name", JpaProduct.Type.video, 1, "admin", "", "", JpaSupplies.Status.secondApproved,
-                "", "", "", "", "", "", "");
-        suppliesRepo.save(supply);
+        JpaSupplies[] supply = new JpaSupplies[] {
+                new JpaSupplies("name", JpaProduct.Type.video, 1, "admin", "", "", JpaSupplies.Status.secondApproved,
+                        "", "", "", "", "", "", ""),
+                new JpaSupplies("name2", JpaProduct.Type.video, 3, "admin", "", "", JpaSupplies.Status.secondApproved,
+                        "", "", "", "", "", "", "")
+        };
+        suppliesRepo.save(supply[0]);
+        suppliesRepo.save(supply[1]);
 
         List<JpaOrders> orders = new ArrayList<JpaOrders> ();
 
@@ -103,13 +109,13 @@ public class ScheduleServiceTest {
             if (random.nextInt(10) < 3)
                 continue;
             JpaProduct prod = products[random.nextInt(products.length -1 )];
-            Date start = starts.get(random.nextInt(20));
+            Date start = starts.get(random.nextInt(60));
             cal.add(Calendar.DATE, prod.getDays());
             Date end = cal.getTime();
             JpaOrders order = new JpaOrders("tliu", 1, prod.getId(), contract.getId(),
                     contract.getContractCode(), start, end, JpaProduct.Type.video,
-                    JpaOrders.PayType.contract, JpaOrders.Status.paid, "manager");
-            order.setSuppliesId(supply.getId());
+                    JpaOrders.PayType.contract, random.nextInt(10) < 3 ? JpaOrders.Status.unpaid : JpaOrders.Status.paid, "manager");
+            order.setSuppliesId(supply[random.nextInt(1)].getId());
             orderService.saveOrderJpa(order, new UserDetail("tliu", "123456", "Tony", "Liu", "tliutest@gmail.com"));
             orders.add(order);
         }

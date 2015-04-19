@@ -12,7 +12,7 @@
                 <#if highChart.stacked>
                     type: "${highChart.type!'column'}",
                 <#else>
-                    type: "${highChart.type!'line'}",
+                    type: "${highChart.type!'spline'}",
                 </#if>
                 marginLeft: 80,
                 marginRight: 30 * ${highChart.scaleTypeList?size},
