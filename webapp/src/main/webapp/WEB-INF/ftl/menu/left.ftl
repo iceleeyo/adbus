@@ -159,8 +159,18 @@
 												</a>
 											</li>
                                             <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/hour">
+                                                    三天时段报表
+                                                </a>
+                                            </li>
+                                            <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/report/dayp">
                                                     剩余时段比例
+                                                </a>
+                                            </li>
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/hourp">
+                                                    单日时段比例
                                                 </a>
                                             </li>
                                             <li class="pg-side-exp-item">

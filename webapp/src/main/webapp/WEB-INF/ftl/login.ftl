@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta content="text/html; charset=utf-8" http-equiv="content-type">
+        <link rel="shortcut icon" href="${rc.contextPath}/images/favicon.ico">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>公交广告交易系统登录</title>
         <script type="text/javascript" language="javascript" src="js/jquery.js"></script>
@@ -30,7 +31,7 @@
 							<a class="phmain-logo" href="#"></a>
 						</div>
 						<div class="phmain-slogan-b pg-left ml20">
-							<a class="phmain-slogan" href="#"></a>
+							<a class="phmain-slogan" href="${rc.contextPath}"></a>
 						</div>
 						<div class="login-nav-right pg-right">
 							<span>登录</span>

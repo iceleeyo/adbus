@@ -74,12 +74,12 @@
 							<a class="phmain-logo" href="#"></a>
 						</div>
 						<div class="phmain-slogan-b pg-left ml20">
-							<a class="phmain-slogan" href="#"></a>
+							<a class="phmain-slogan" href="${rc.contextPath}"></a>
 						</div>
 						<div class="phmain-nav-b pg-right">
 							<ul class="pg-nav">
 								<li class="pg-nav-item s-left">
-									<a class="pg-nav-item-t" href="#">首页</a>
+									<a class="pg-nav-item-t" href="${rc.contextPath}">首页</a>
 								</li>
 								<li class="pg-nav-item s-left">
 									<a class="pg-nav-item-t pg-nav-hover" href="#">

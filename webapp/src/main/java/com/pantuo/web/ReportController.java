@@ -321,7 +321,7 @@ public class ReportController {
                 theDay = cal.getTime();
             }
             s = Series.newCategorySeries(SeriesType.TIMESLOT, xAxis);
-            s.addName("remain", "剩余总时长").addName("ordered", "售出总时长（" + DateUtil.longDf2.get().format(theDay) + "）");
+            s.addName("remain", DateUtil.longDf2.get().format(theDay) + "剩余时长").addName("ordered", "售出总时长（" + DateUtil.longDf2.get().format(theDay) + "）");
             slots = service.getHourlyTimeslots(theDay, null);
             for (TimeslotReport data : slots) {
                 s.put(data.getHour(), data);

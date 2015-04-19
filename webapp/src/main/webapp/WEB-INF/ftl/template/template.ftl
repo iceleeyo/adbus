@@ -5,6 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="shortcut icon" href="${rc.contextPath}/images/favicon.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${title!''}</title>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.js"></script>
@@ -44,7 +45,7 @@
 		<div class="container-12">
 		<ul class="breadcrumb ml10 m11 s-clear">
 		<li class="s-left fsize-16 bread-homep">
-		<a class="gray-text" href="/">首页</a>
+		<a class="gray-text" href="${rc.contextPath}">首页</a>
 		</li>
 		<li class="s-left breadcrumb-right"></li>
 		<li class="s-left bread-child">

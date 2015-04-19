@@ -1,8 +1,8 @@
 <#import "template/template.ftl" as frame>
 <#import "macro/timeslotChart.ftl" as trendChart>
 
-<#global menu="当天时段对比">
-<@frame.html title="当天时段对比"
+<#global menu="单日时段比例">
+<@frame.html title="单日时段比例"
 js=["highcharts/highcharts-3.0.2.js", "highcharts/exporting.js", "chart.js", "jquery-dateFormat.js", "jquery-ui/jquery-ui.js", "datepicker.js", "jquery.datepicker.region.cn.js"]
 css=["jquery-ui/jquery-ui.css"]>
     <style type="text/css">
@@ -27,7 +27,7 @@ css=["jquery-ui/jquery-ui.css"]>
         });
     </script>
     <div class="withdraw-title fn-clear">
-        当天时段对比
+        单日时段比例
         <div class="report-toolbar">
             <input
                     class="ui-input ui-input-mini datepicker" type="text" name="day"

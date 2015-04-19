@@ -1,8 +1,8 @@
 <#import "template/template.ftl" as frame>
 <#import "macro/timeslotChart.ftl" as trendChart>
 
-<#global menu="三天剩余时段趋势图">
-<@frame.html title="三天剩余时段趋势图"
+<#global menu="三天时段报表">
+<@frame.html title="三天时段报表"
 js=["highcharts/highcharts-3.0.2.js", "highcharts/exporting.js", "chart.js", "jquery-dateFormat.js", "jquery-ui/jquery-ui.js", "datepicker.js", "jquery.datepicker.region.cn.js"]
 css=["jquery-ui/jquery-ui.css"]>
     <style type="text/css">
@@ -28,7 +28,7 @@ css=["jquery-ui/jquery-ui.css"]>
         });
     </script>
     <div class="withdraw-title fn-clear">
-        三天剩余时段趋势图
+        三天时段报表
         <div class="report-toolbar">
             <input
                     class="ui-input ui-input-mini datepicker" type="text" name="day"
