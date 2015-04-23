@@ -15,7 +15,7 @@ public class JpaIndustry extends BaseEntity {
     private int id;
 
     private String name;
-    private String desc;
+    private String description;
     private boolean enabled = true;
 
     public JpaIndustry() {
@@ -25,7 +25,7 @@ public class JpaIndustry extends BaseEntity {
     public JpaIndustry(String name, String desc) {
         super();
         this.name = name;
-        this.desc = desc;
+        this.description = desc;
     }
 
     public int getId() {
@@ -44,15 +44,17 @@ public class JpaIndustry extends BaseEntity {
         this.name = name;
     }
 
-    public String getDesc() {
-        return desc;
-    }
+   
 
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
+    public String getDescription() {
+		return description;
+	}
 
-    public boolean isEnabled() {
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public boolean isEnabled() {
         return enabled;
     }
 
