@@ -3,6 +3,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="shortcut icon" href="${rc.contextPath}/images/favicon.ico">
         <title>流程图跟踪</title>
         <link rel="stylesheet" href="${rc.contextPath}/style/blueprint/screen.css" type="text/css" media="screen, projection">
 		<link rel="stylesheet" href="${rc.contextPath}/style/blueprint/print.css" type="text/css" media="print"> 

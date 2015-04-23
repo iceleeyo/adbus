@@ -85,7 +85,7 @@
 											订单管理
 										</a>
 										<ul class="pg-side-exp-list">
-										<@security.authorize ifAnyGranted="normaluser">
+										<@security.authorize ifAnyGranted="normaluser,advertiser">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/order/myOrders/1">
 													我的订单

@@ -226,6 +226,7 @@ public class OrderController {
 			throws IllegalStateException, IOException, ParseException {
 
         order.setCreator(Request.getUserId(principal));
+        order.setStats(JpaOrders.Status.unpaid);
         JpaProduct prod = productService.findById(order.getProductId());
         if (prod == null) {
             return new Pair<Boolean, String> (false, "找不到对应的套餐");

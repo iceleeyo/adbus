@@ -36,7 +36,7 @@ public class SuppliesDataServiceImpl implements SuppliesServiceData {
 		sort = (sort == null ? new Sort("id") : sort);
 		Pageable p = new PageRequest(page, pageSize, sort);
 		if (name == null || StringUtils.isEmpty(name)) {
-            if (Request.hasAuth(principal, "suppliesManager")) {
+            if (Request.hasAuth(principal, "ShibaSuppliesManager")) {
                 return suppliesRepo.findAll(p);
             } else {
                 Predicate query = QJpaSupplies.jpaSupplies.userId.eq(Request.getUserId(principal));
@@ -44,7 +44,7 @@ public class SuppliesDataServiceImpl implements SuppliesServiceData {
             }
 		} else {
 			BooleanExpression query = QJpaSupplies.jpaSupplies.name.like("%" + name + "%");
-            if (!Request.hasAuth(principal, "suppliesManager")) {
+            if (!Request.hasAuth(principal, "ShibaSuppliesManager")) {
                 query = query.and(
                         QJpaSupplies.jpaSupplies.userId.eq(Request.getUserId(principal)));
             }

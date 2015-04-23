@@ -1,7 +1,8 @@
-admin,123456,超级管理员,,admin@pantuo.com,advertiser:ShibaOrderManager:ShibaFinancialManager:BeiguangMaterialManager:BeiguangScheduleManager
-order,123456,世巴订单管理员,,order@pantuo.com,ShibaOrderManager
+admin,123456,超级管理员,,admin@pantuo.com,advertiser:ShibaOrderManager:ShibaFinancialManager:BeiguangMaterialManager:BeiguangScheduleManager:ShibaSuppliesManager
+order,123456,世巴订单管理员,,order@pantuo.com,ShibaOrderManager:ShibaSuppliesManager
 financial,123456,世巴财务管理员,,financial@pantuo.com,ShibaFinancialManager
-material,123456,北广物料管理员,,material@pantuo.com,BeiguangMaterialManager
+material,123456,北广物料管理员,,material@pantuo.com,BeiguangMaterialManager:ShibaSuppliesManager
 schedule,123456,北广排期管理员,,schedule@pantuo.com,BeiguangScheduleManager
 adusera,123456,广告主A,,adv@pantuo.com,advertiser
 aduserb,123456,广告主B,,adv@pantuo.com,advertiser
+aduserc,123456,广告主C,,adv@pantuo.com,advertiser

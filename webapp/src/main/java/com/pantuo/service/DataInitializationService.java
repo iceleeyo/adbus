@@ -82,7 +82,6 @@ public class DataInitializationService {
         long count = userService.count();
         if (count > 0) {
             log.info("There are already {} users in table, skip initialization step", count);
-            return;
         }
 
         InputStream is = DataInitializationService.class.getClassLoader().getResourceAsStream("users.csv");
@@ -96,8 +95,10 @@ public class DataInitializationService {
                 String[] groups = user[5].split(":");
                 UserDetail ud = new UserDetail(user[0], user[1], user[2], user[3], user[4]);
                 ud.setStringGroups(Arrays.asList(groups));
-                log.info("user: {}, group: {}", ud.getUsername(), user[5]);
-                userService.createUser(ud);
+                if (userService.getByUsername(ud.getUsername()) == null) {
+                    log.info("Creating user: {}, group: {}", ud.getUsername(), user[5]);
+                    userService.createUser(ud);
+                }
                 users.add(ud);
             } catch (Exception e) {
                 log.warn("Fail to parse user for {}, e={}", line, e.getMessage());

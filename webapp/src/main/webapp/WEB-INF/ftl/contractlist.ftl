@@ -13,7 +13,7 @@
             "serverSide": true,
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                { "orderable": false, "targets": [4] },
+                { "orderable": false, "targets": [5] },
             ],
             "ajax": {
                 type: "GET",
@@ -27,6 +27,7 @@
                 "dataSrc": "content",
             },
             "columns": [
+                { "data": "userId"},
             	{ "data": "contractCode", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         var filter = $('#contractCode').val();
@@ -116,7 +117,7 @@
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr class="tableTr">
-                    	
+                        <th orderBy="userId">广告主</th>
                         <th orderBy="contractCode">合同号</th>
                         <th orderBy="contractName">合同名称</th>
                         <th orderBy="startDate">生效时间</th>
