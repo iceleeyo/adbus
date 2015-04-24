@@ -43,12 +43,12 @@
                         if (data.length > 1) {
                             var g = '<select class="ui-input" name="groups">';
                             $.each(data, function(i) {
-                                g += '<option value="' + data[i].id + '" >' + data[i].id + '</option>';
+                                g += '<option value="' + data[i].name + '" >' + data[i].name + '</option>';
                             });
                             g += '</select>'
                             return g;
                         } else {
-                            return data.length ? data[0].id : "";
+                            return data.length ? data[0].name : "";
                         }
                     } },
                 { "data": "enabled", "defaultContent": "", "render": function(data) {
