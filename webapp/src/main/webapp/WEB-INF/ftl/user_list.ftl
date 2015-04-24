@@ -36,7 +36,9 @@
                                 return "<span class=\"hl\">" + matched + "</span>";
                             });
                         }
-                    return data;
+                        
+                        
+                    return '<a href="${rc.contextPath}/user/u/' + data + '" >'+data+'</a> &nbsp;';
                 } },
                 { "data": "groups", "defaultContent": "",
                     "render": function(data, type, row, meta) {
@@ -99,6 +101,8 @@
             })
         });
     }
+    
+     
 
     $(document).ready(function() {
         initTable();
