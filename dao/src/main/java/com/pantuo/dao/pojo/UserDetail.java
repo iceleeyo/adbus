@@ -27,6 +27,17 @@ public class UserDetail extends BaseEntity {
     public List<Group> groups = new ArrayList<Group>();
     public String username;
     public boolean enabled = true;
+    
+    //工作流表 有user_info表 发现key-vale 但是没有提供一次获取所有info信息
+    
+    //用户昵称，登录名，真实姓名，密码，邮箱  这里信息放在 ACT_ID_USER
+    //电话，权限（勾选），所属公司，所属部门。
+    
+    
+    public String phone;
+    
+    public String company;
+    public String department;
 
     public UserDetail(String username, String password, String firstName, String lastName, String email) {
         this.username = username;
@@ -88,4 +99,30 @@ public class UserDetail extends BaseEntity {
     public String toString() {
         return "UserDetail [username=" + username + ", password=******, enabled=" + enabled + "]";
     }
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getCompany() {
+		return company;
+	}
+
+	public void setCompany(String company) {
+		this.company = company;
+	}
+
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+    
+    
 }
