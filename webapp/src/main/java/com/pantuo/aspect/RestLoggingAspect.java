@@ -28,7 +28,7 @@ public class RestLoggingAspect {
         mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
     }
 
-    @AfterReturning(pointcut="execution(* com.pantuo.web.AdbusController.*(..))", returning="result")
+    @AfterReturning(pointcut="execution(* com.pantuo.web.UserManagerController.*(..))", returning="result")
     public void afterReturning(JoinPoint joinPoint , Object result)  {
 
         try {
