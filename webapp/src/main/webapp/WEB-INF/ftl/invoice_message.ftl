@@ -29,7 +29,16 @@
 
 
 	function sub(){
-		var title = ($("#title").val());
+	     var Type="";
+	     var temp=document.getElementsByName("type");
+	      for(var i=0;i<temp.length;i++)
+         {
+           if(temp[i].checked)
+            Type = temp[i].value;
+         }
+	   if(Type=="special")
+	   {
+	    var title = ($("#title").val());
 		var taxrenum = ($("#taxrenum").val());
 		var bankname = $("#bankname").val();
 		if(title==""){
@@ -44,6 +53,13 @@
 			jDialog.Alert("请填写基本户开户银行");
 			return;
 		}
+	   }else{
+	       var title = ($("#title").val());
+	       if(title==""){
+			jDialog.Alert("请填写发票抬头");
+			return;
+		}
+	   }
 		$('#userForm2').ajaxForm(function(data) {
 			jDialog.Alert(data.right);
 			var uptime = window.setTimeout(function(){
@@ -52,6 +68,13 @@
 						},2000)
 		}).submit();
 
+	}
+	
+	function showother(){
+	     $("#other").show();
+	}
+	function hideother(){
+	     $("#other").hide();
 	}
 </script>
 
@@ -77,9 +100,10 @@
 												class="ui-form-required">*
 											</span>发票类型:
 											</label> 
-											<input type="radio" name="type" checked="checked" value="normal">&nbsp;普通发票&nbsp;&nbsp;
-											<input type="radio" name="type" value="special">&nbsp;普通发票
+											<input type="radio" name="type" checked="checked" onchange="showother()" value="special">&nbsp;增值税专用发票
+											<input type="radio" name="type"  onchange="hideother()" value="normal">&nbsp;普通发票&nbsp;&nbsp;
 										</div>
+										
                                         <div class="ui-form-item">
 											<label class="ui-label mt10">
 											<span
