@@ -78,7 +78,7 @@
                                                   name="${(_csrf.parameterName)!''}" value="${(_csrf.token)!''}" />
 									   		<div class="login-item p-center">
 									   			<span>没有账号？</span>
-									   			<a href="#">免费注册</a>
+									   			<a href="${rc.contextPath}/register">免费注册</a>
 									   		</div>
 									   </fieldset>	
 									</form>

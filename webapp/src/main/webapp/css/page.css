@@ -197,3 +197,32 @@ width: 100px;
 	
 }
 
+.iwifi-ad-content {_width: 100%;background: #fff;padding: 13px 0;}
+.iwifi-ad-content .iwifi-ad-body {background-color:#fff;min-height: 600px;height: auto !important;margin: 0 auto;overflow:hidden;}
+.iwifi-ad-width {width: 100%;}
+.iwifi-ad-body textarea {border:1px;background:rgba(203, 231, 206, 1);font:12px/18px "Microsoft YaHei","ARIAL";color:#333;resize:none;width:100%;float:right;padding:10px 0 0 0;}
+.iwifi-ad-content .iwifi-ad-agreement {margin-top:5px}
+.iwifi-ad-content .iwifi-ad {width:100%;}
+.iwifi-ad-content .iwifi-btn {margin-top:15px;width:100%;}
+.btn-disabled {background-color: #ededed;border: 0 none;color: #999;cursor: default;font-family: "Microsoft Yahei",Arial,Helvetica,sans-serif,Verdana,"Trebuchet MS";
+    font-size: 14px;
+    height: 37px;
+    line-height: 37px;
+    margin: 0;
+    padding: 0 30px;}
+
+.joinsysbutton {
+    background-color: #1fa58b;
+    border: 0 none;
+    color: #fff;
+    cursor: pointer;
+    font-family: "Microsoft Yahei",Arial,Helvetica,sans-serif,Verdana,"Trebuchet MS";
+    font-size: 14px;
+    height: 37px;
+    line-height: 37px;
+    margin: 0;
+    padding: 0 30px;
+}
+.joinsysbutton:hover {
+    background-color: #17bd9b;
+}
