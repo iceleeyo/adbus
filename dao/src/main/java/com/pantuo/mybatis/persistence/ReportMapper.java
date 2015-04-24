@@ -1,6 +1,5 @@
 package com.pantuo.mybatis.persistence;
 
-import com.pantuo.mybatis.domain.Box;
 import com.pantuo.mybatis.domain.TimeslotReport;
 import org.apache.ibatis.annotations.Param;
 

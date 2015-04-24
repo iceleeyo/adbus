@@ -16,7 +16,8 @@ public class JpaAttachment extends BaseEntity {
         ht_fj,      //合同附件
         u_pic,      //用户图片
         u_fj,       //用户附件
-        su_file     //素材文件
+        su_file,     //素材文件
+        fp_file     //发票文件
     }
 
     @Id
