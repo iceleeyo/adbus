@@ -29,8 +29,8 @@ import com.pantuo.service.UserService;
 
 @Controller
 @RequestMapping(value="user", produces = "application/json;charset=utf-8")
-public class AdbusController {
-    private static Logger log = LoggerFactory.getLogger(AdbusController.class);
+public class UserManagerController {
+    private static Logger log = LoggerFactory.getLogger(UserManagerController.class);
 
     @Autowired
     private UserService userService;
@@ -73,21 +73,18 @@ public class AdbusController {
 	}
     
     @RequestMapping(value = "/invoice", produces = "text/html;charset=utf-8")
-    @ResponseBody
     public String invoice(HttpServletRequest request)
     {
         return "invoice_message";
     }
     
     @RequestMapping(value = "/qualification", produces = "text/html;charset=utf-8")
-    @ResponseBody
     public String qualification(HttpServletRequest request)
     {
         return "qualification_Enter";
     }
     
     @RequestMapping(value = "/enter", produces = "text/html;charset=utf-8")
-    @ResponseBody
     public String enter(HttpServletRequest request)
     {
         return "userEnter";
