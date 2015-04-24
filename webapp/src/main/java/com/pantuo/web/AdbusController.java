@@ -1,7 +1,10 @@
 package com.pantuo.web;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.pojo.TableRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,4 +71,25 @@ public class AdbusController {
     public static void main(String[] args) {
 		System.out.println(1);
 	}
+    
+    @RequestMapping(value = "/invoice", produces = "text/html;charset=utf-8")
+    @ResponseBody
+    public String invoice(HttpServletRequest request)
+    {
+        return "invoice_message";
+    }
+    
+    @RequestMapping(value = "/qualification", produces = "text/html;charset=utf-8")
+    @ResponseBody
+    public String qualification(HttpServletRequest request)
+    {
+        return "qualification_Enter";
+    }
+    
+    @RequestMapping(value = "/enter", produces = "text/html;charset=utf-8")
+    @ResponseBody
+    public String enter(HttpServletRequest request)
+    {
+        return "userEnter";
+    }
 }

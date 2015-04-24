@@ -36,6 +36,11 @@ public class LoginController {
     {
         return "login";
     }
+    @RequestMapping(value = "/register", produces = "text/html;charset=utf-8")
+    public String register(HttpServletRequest request)
+    {
+        return "register";
+    }
     @RequestMapping(value="/loginin",method={RequestMethod.POST,RequestMethod.GET})
 	public String loginin(@RequestParam("username")String username,@RequestParam("password")String password,HttpServletRequest request, HttpServletResponse response,RedirectAttributes redirectAttributes){
 		String forword="";
