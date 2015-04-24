@@ -68,8 +68,18 @@
             </ul>
             -->
 								</div>
-								<div class="withdrawInputs">
+								<div class="withdrawInputs" style="margin-left: 10px;">
 									<div class="inputs">
+									
+									<div class="ui-form-item">
+											<label class="ui-label mt10">
+											<span
+												class="ui-form-required">*
+											</span>发票类型:
+											</label> 
+											<input type="radio" name="type" checked="checked" value="normal">&nbsp;普通发票&nbsp;&nbsp;
+											<input type="radio" name="type" value="special">&nbsp;普通发票
+										</div>
                                         <div class="ui-form-item">
 											<label class="ui-label mt10">
 											<span
@@ -81,18 +91,7 @@
 												data-is="isAmount isEnough" autocomplete="off"
 												disableautocomplete="">
 										</div>
-										<div class="ui-form-item">
-											<label class="ui-label mt10">
-											<span
-												class="ui-form-required">*
-											</span>发票类型:
-											</label> 
-												<select class="ui-input" name="type" id="type">
-                                                <option value="normal" >普通发票</option>
-                                                <option value="special" >增值税专用发票</option>
-                                                <option value="other" >其他</option>
-                                            </select>
-										</div>
+										<div id="other">
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>税务登记证号:</label> <input
@@ -171,6 +170,7 @@
 										<input type="button" id="subWithdraw" class="block-btn"
 											onclick="sub();" value="上传创建">
 									</div>
+								</div>
 								</div>
 			<div class="worm-tips" >
             <div class="tips-title"><span class="icon"></span> 温馨提示</div>
