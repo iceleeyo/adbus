@@ -1,17 +1,5 @@
 package com.pantuo.service;
 
-import com.pantuo.dao.IndustryRepository;
-import com.pantuo.dao.pojo.JpaIndustry;
-import com.pantuo.dao.pojo.JpaTimeslot;
-import com.pantuo.dao.pojo.UserDetail;
-import org.activiti.engine.identity.Group;
-import org.activiti.engine.impl.persistence.entity.GroupEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import scala.actors.threadpool.Arrays;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -19,8 +7,24 @@ import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
+
+import org.activiti.engine.identity.Group;
+import org.activiti.engine.impl.persistence.entity.GroupEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import scala.actors.threadpool.Arrays;
+
+import com.pantuo.dao.IndustryRepository;
+import com.pantuo.dao.pojo.JpaIndustry;
+import com.pantuo.dao.pojo.JpaTimeslot;
+import com.pantuo.dao.pojo.UserDetail;
 
 /**
  * 初始化数据
@@ -30,7 +34,10 @@ import java.util.TimeZone;
 @Service
 public class DataInitializationService {
     private static Logger log = LoggerFactory.getLogger(DataInitializationService.class);
-
+    
+    
+	public static  Map<String, String> _GROUPS = new LinkedHashMap<String, String>();
+	
     @Autowired
     UserService userService;
 
@@ -42,10 +49,30 @@ public class DataInitializationService {
 
     public void intialize() throws Exception {
         initializeIndustries();
+        initializeGroups4AddUser();
         initializeGroups();
         initializeUsers();
         initializeTimeslots();
     }
+    
+    
+    //初始化group表
+    private void initializeGroups4AddUser() throws Exception {
+        InputStream is = DataInitializationService.class.getClassLoader().getResourceAsStream("groups.csv");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+        String line = null;
+        while ((line = reader.readLine()) != null) {
+            try { 
+                String[] group = line.split(",");
+                _GROUPS.put(group[0].trim(), group[1].trim());
+            } catch (Exception e) {
+                log.warn("Fail to parse group for {}, e={}", line, e.getMessage());
+            }
+        }
+        _GROUPS.remove("advertiser");
+    }
+    
+    
 
     //初始化group表
     private void initializeGroups() throws Exception {
@@ -53,6 +80,8 @@ public class DataInitializationService {
         if (count > 0) {
             log.info("There are already {} groups in table, skip initialization step", count);
             return;
+        }else {
+        	List<Group> groups = userService.getAllGroup();
         }
 
         InputStream is = DataInitializationService.class.getClassLoader().getResourceAsStream("groups.csv");
@@ -68,6 +97,7 @@ public class DataInitializationService {
                 g.setName(group[1]);
                 g.setType(group[2]);
                 userService.saveGroup(g);
+                _GROUPS.put(group[0].trim(), group[1].trim());
                 groups.add(g);
             } catch (Exception e) {
                 log.warn("Fail to parse group for {}, e={}", line, e.getMessage());

@@ -15,14 +15,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pantuo.dao.pojo.BaseEntity;
+import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.pojo.DataTablePage;
+import com.pantuo.pojo.TableRequest;
+import com.pantuo.service.DataInitializationService;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.service.UserService;
 import com.pantuo.util.Pair;
@@ -43,8 +46,9 @@ public class UserManagerController {
     @Autowired
     private UserService userService;
     @Autowired
+    private DataInitializationService dataService;
+    @Autowired
 	SuppliesService suppliesService;
-
     @RequestMapping(value = "/list", method = { RequestMethod.GET})
     public String userlist() {
         return "user_list";
@@ -99,8 +103,17 @@ public class UserManagerController {
         return "qualification_Enter";
     }
     @RequestMapping(value = "/enter", produces = "text/html;charset=utf-8")
-    public String enter(HttpServletRequest request)
+    public String enter(Model model,HttpServletRequest request)
     {
+    	model.addAttribute("groupsList", DataInitializationService._GROUPS);;
         return "userEnter";
+    }
+    
+    
+    @RequestMapping(value = "/save", method = { RequestMethod.POST})
+    @ResponseBody
+	public UserDetail createProduct(UserDetail detail, HttpServletRequest request) {
+    	userService.createUserFromPage(detail);
+        return detail;
     }
 }

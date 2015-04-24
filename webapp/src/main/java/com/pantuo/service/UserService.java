@@ -4,7 +4,9 @@ import com.mysema.query.types.Predicate;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.expr.BooleanOperation;
 import com.pantuo.dao.UserDetailRepository;
+import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.QUserDetail;
+
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.ManagementService;
 import org.activiti.engine.identity.Group;
@@ -18,10 +20,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+
 //import com.pantuo.dao.pojo.QUser;
 import com.pantuo.dao.pojo.UserDetail;
 
 import javax.transaction.Transactional;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -70,6 +74,9 @@ public class UserService {
 
     public Page<UserDetail> getValidUsers(int page, int pageSize, Sort order) {
         return getUsers(null, true, page, pageSize, order);
+    }
+    public List<Group> getAllGroup(){
+    	return  identityService.createGroupQuery().list();
     }
 
     private Page<UserDetail> getUsers(String name, Boolean isEnabled, int page, int pageSize, Sort order) {
@@ -189,7 +196,6 @@ public class UserService {
             identityService.saveUser(user.getUser());
             if (user.getGroups() != null) {
                 for (Group g : user.getGroups()) {
-//                    saveGroup(g);
                     identityService.createMembership(user.getUser().getId(), g.getId());
                 }
             }
@@ -197,6 +203,29 @@ public class UserService {
         }
         return false;
     }
+    
+    
+
+    @Transactional
+	public boolean createUserFromPage(UserDetail user) {
+		user.buildMySelf();
+		UserDetail dbUser = findDetailByUsername(user.getUsername());
+		if (dbUser != null) {
+			user.setErrorInfo(BaseEntity.ERROR, "登录名已经存在!");
+		} else if (user.getUser() != null) {
+			userRepo.save(user);
+			identityService.saveUser(user.getUser());
+			if (user.getGroups() != null) {
+				for (Group g : user.getGroups()) {
+					identityService.createMembership(user.getUser().getId(), g.getId());
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+    
+    
 
     @Transactional
     public boolean deleteUser(String username) {
