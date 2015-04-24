@@ -5,7 +5,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.pantuo.dao.pojo.JpaInvoice;
 import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
@@ -83,4 +85,7 @@ public interface SuppliesService {
 	int updateSupplies(Supplies supplies);
 
 	List<Supplies> querySuppliesByUser(Principal principal);
+
+	Pair<Boolean, String> addInvoice(JpaInvoice obj, Principal principal,
+			HttpServletRequest request);
 }
