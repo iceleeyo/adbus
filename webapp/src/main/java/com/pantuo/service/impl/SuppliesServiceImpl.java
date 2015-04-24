@@ -6,7 +6,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.pantuo.dao.InvoiceRepository;
+import com.pantuo.dao.ProductRepository;
 import com.pantuo.dao.pojo.JpaAttachment;
+import com.pantuo.dao.pojo.JpaInvoice;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaSupplies;
 
@@ -15,8 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pantuo.mybatis.domain.Attachment;
+import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.mybatis.domain.SuppliesExample;
+import com.pantuo.mybatis.persistence.InvoiceMapper;
 import com.pantuo.mybatis.persistence.SuppliesMapper;
 import com.pantuo.service.AttachmentService;
 import com.pantuo.service.SuppliesService;
@@ -32,7 +37,11 @@ public class SuppliesServiceImpl implements SuppliesService {
 	@Autowired
 	SuppliesMapper suppliesMapper;
 	@Autowired
+	InvoiceMapper invoiceMapper;
+	@Autowired
 	AttachmentService attachmentService;
+	@Autowired
+	InvoiceRepository InvoiceRepo;
 
 	public Pair<Boolean, String> addSupplies(Supplies obj, Principal principal, HttpServletRequest request) {
 		Pair<Boolean, String> r = null;
@@ -50,6 +59,20 @@ public class SuppliesServiceImpl implements SuppliesService {
 			r = new Pair<Boolean, String>(true, "物料上传成功！");
 		} catch (BusinessException e) {
 			r = new Pair<Boolean, String>(false, "素材文件保存失败");
+		}
+		return r;
+	}
+	public Pair<Boolean, String> addInvoice(JpaInvoice obj, Principal principal,
+			HttpServletRequest request){
+		Pair<Boolean, String> r = null;
+		try {
+			obj.setCreated(new Date());
+			obj.setUpdated(obj.getCreated());
+		     InvoiceRepo.save(obj);
+		    attachmentService.saveAttachment(request, Request.getUserId(principal), obj.getId(), JpaAttachment.Type.fp_file);
+			r = new Pair<Boolean, String>(true, "创建发票成功！");
+		} catch (BusinessException e) {
+			r = new Pair<Boolean, String>(false, "创建发票失败");
 		}
 		return r;
 	}

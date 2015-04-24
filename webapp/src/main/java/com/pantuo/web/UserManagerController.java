@@ -1,8 +1,14 @@
 package com.pantuo.web;
 
+import java.io.IOException;
+import java.security.Principal;
+
 import javax.servlet.http.HttpServletRequest;
 
+import com.pantuo.dao.pojo.JpaInvoice;
 import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.mybatis.domain.Invoice;
+import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.pojo.TableRequest;
 
 import org.slf4j.Logger;
@@ -17,7 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.pojo.DataTablePage;
+import com.pantuo.service.SuppliesService;
 import com.pantuo.service.UserService;
+import com.pantuo.util.Pair;
 
 /**
  * <font size=5><b>公交广告交易系统接口</b></font>
@@ -34,6 +42,8 @@ public class UserManagerController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+	SuppliesService suppliesService;
 
     @RequestMapping(value = "/list", method = { RequestMethod.GET})
     public String userlist() {
@@ -77,13 +87,17 @@ public class UserManagerController {
     {
         return "invoice_message";
     }
-    
+    @RequestMapping(value = "saveInvoice", method = RequestMethod.POST)
+	@ResponseBody
+	public Pair<Boolean, String> saveInvoice(JpaInvoice obj, Principal principal, HttpServletRequest request)
+			throws IllegalStateException, IOException {
+		return suppliesService.addInvoice(obj, principal, request);
+	}
     @RequestMapping(value = "/qualification", produces = "text/html;charset=utf-8")
     public String qualification(HttpServletRequest request)
     {
         return "qualification_Enter";
     }
-    
     @RequestMapping(value = "/enter", produces = "text/html;charset=utf-8")
     public String enter(HttpServletRequest request)
     {

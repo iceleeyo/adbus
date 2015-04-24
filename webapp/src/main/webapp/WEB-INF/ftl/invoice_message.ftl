@@ -29,38 +29,19 @@
 
 
 	function sub(){
-		var code = ($("#code").val());
-		var name = ($("#name").val());
-		var startDate = $("#startDate").val();
-		var endDate = ($("#endDate").val());
-		var amounts=($("#amounts").val());
-		Sfile= ($("#Sfile").val());
-		if(Sfile==""){
-			jDialog.Alert("请选择合同附件");
+		var title = ($("#title").val());
+		var taxrenum = ($("#taxrenum").val());
+		var bankname = $("#bankname").val();
+		if(title==""){
+			jDialog.Alert("请填写发票抬头");
 			return;
 		}
-		if(code==""){
-			jDialog.Alert("请填写合同号");
+		if(taxrenum==""){
+			jDialog.Alert("请填写税务登记证");
 			return;
 		}
-		if(amounts==""){
-			jDialog.Alert("请填写合同金额");
-			return;
-		}
-		if(name==""){
-			jDialog.Alert("请填写合同名称");
-			return;
-		}
-		if(startDate.length<1){
-			jDialog.Alert("请填写合同生效时间");
-			return;
-		}
-		if(endDate.length<1){
-			jDialog.Alert("请填写合同失效时间");
-			return;
-		}
-		if(endDate<startDate){
-			jDialog.Alert("失效时间不能小于生效时间");
+		if(bankname==""){
+			jDialog.Alert("请填写基本户开户银行");
 			return;
 		}
 		$('#userForm2').ajaxForm(function(data) {
@@ -76,7 +57,7 @@
 
 						
 							<form data-name="withdraw" name="userForm2" id="userForm2"
-								class="ui-form" method="post" action="saveContract"
+								class="ui-form" method="post" action="saveInvoice"
 								enctype="multipart/form-data">
 								<div class="withdraw-title fn-clear">
 									发票信息录入
@@ -90,26 +71,13 @@
 								<div class="withdrawInputs">
 									<div class="inputs">
                                         <div class="ui-form-item">
-                                            <label class="ui-label mt10">
-											<span
-                                                    class="ui-form-required">*
-											</span>开具类型:
-                                            </label>
-                                            <select class="ui-input" name="userId" id="userId">
-                                                <option value="" selected="selected"></option>
-                                                <#list users as u>
-                                                    <option value="${u.username}">${u.username}</option>
-                                                </#list>
-                                            </select>
-                                        </div>
-                                        <div class="ui-form-item">
 											<label class="ui-label mt10">
 											<span
 												class="ui-form-required">*
 											</span>发票抬头:
 											</label> 
 												<input class="ui-input"
-												type="text" name="contractCode" id="code"
+												type="text" name="title" id="title"
 												data-is="isAmount isEnough" autocomplete="off"
 												disableautocomplete="">
 										</div>
@@ -119,26 +87,27 @@
 												class="ui-form-required">*
 											</span>发票类型:
 											</label> 
-												<input class="ui-input"
-												type="text" name="contractCode" id="code"
-												data-is="isAmount isEnough" autocomplete="off"
-												disableautocomplete="">
+												<select class="ui-input" name="type" id="type">
+                                                <option value="normal" >普通发票</option>
+                                                <option value="special" >增值税专用发票</option>
+                                                <option value="other" >其他</option>
+                                            </select>
 										</div>
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>税务登记证号:</label> <input
-												class="ui-input" type="text" name="contractName"
-												id="name" data-is="isAmount isEnough"
+												class="ui-input" type="text" name="taxrenum"
+												id="taxrenum" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
 											<p class="ui-term-placeholder"></p>
 
 										</div>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
-                                                    class="ui-form-required">*</span>基本户开银行名称:</label>
+                                                    class="ui-form-required">*</span>基本户开户银行名称:</label>
                                                     <input
-												class="ui-input" type="text" name="amounts"
-												id="amounts" data-is="isAmount isEnough"
+												class="ui-input" type="text" name="bankname"
+												id="bankname" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
                                         
@@ -146,8 +115,8 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>基本户开户账号:</label>
                                                     <input
-												class="ui-input" type="text" name="amounts"
-												id="amounts" data-is="isAmount isEnough"
+												class="ui-input" type="text" name="accountnum"
+												id="accountnum" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
                                         
@@ -155,8 +124,8 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>注册场所地址:</label>
                                                     <input
-												class="ui-input" type="text" name="amounts"
-												id="amounts" data-is="isAmount isEnough"
+												class="ui-input" type="text" name="regisaddr"
+												id="regisaddr" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
                                         
@@ -164,8 +133,8 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>注册固定电话:</label>
                                                     <input
-												class="ui-input" type="text" name="amounts"
-												id="amounts" data-is="isAmount isEnough"
+												class="ui-input" type="text" name="fixphone"
+												id="fixphone" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
                                         
@@ -183,7 +152,7 @@
                                                     class="ui-form-required">*</span>税务登记复印件:</label>
                                                     <div id="newUpload2">
 												<div id="div_1">
-													<input type="file" name="file" id="Sfile">
+													<input type="file" name="file" id="Sfile2">
 												</div>
 											</div>
                                         </div>
@@ -192,7 +161,7 @@
                                                     class="ui-form-required">*</span>一般纳税人资格认证复印件:</label>
                                                     <div id="newUpload2">
 												<div id="div_1">
-													<input type="file" name="file" id="Sfile">
+													<input type="file" name="file" id="Sfile3">
 												</div>
 											</div>
                                         </div>
