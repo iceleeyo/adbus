@@ -105,8 +105,8 @@ public class UserManagerController {
     @RequestMapping(value = "/enter", produces = "text/html;charset=utf-8")
     public String enter(Model model,HttpServletRequest request)
     {
-    	model.addAttribute("groupsList", DataInitializationService._GROUPS);;
-        return "userEnter";
+    	model.addAttribute("groupsList", DataInitializationService._GROUPS);
+        return "u/userEnter";
     }
     
     
@@ -115,5 +115,10 @@ public class UserManagerController {
 	public UserDetail createProduct(UserDetail detail, HttpServletRequest request) {
     	userService.createUserFromPage(detail);
         return detail;
+    }
+    @RequestMapping(value = "/u/{userId}", method = { RequestMethod.GET})
+	public String uDetail(Model model, @PathVariable("userId") String userId,HttpServletRequest request) {
+    	model.addAttribute("userDetail", userService.getByUsername(userId));
+        return "u/userDetail";
     }
 }
