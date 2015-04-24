@@ -29,42 +29,15 @@
 
 
 	function sub(){
-		var code = ($("#code").val());
-		var name = ($("#name").val());
-		var startDate = $("#startDate").val();
-		var endDate = ($("#endDate").val());
-		var amounts=($("#amounts").val());
-		Sfile= ($("#Sfile").val());
-		if(Sfile==""){
-			jDialog.Alert("请选择合同附件");
-			return;
-		}
-		if(code==""){
-			jDialog.Alert("请填写合同号");
-			return;
-		}
-		if(amounts==""){
-			jDialog.Alert("请填写合同金额");
-			return;
-		}
-		if(name==""){
-			jDialog.Alert("请填写合同名称");
-			return;
-		}
-		if(startDate.length<1){
-			jDialog.Alert("请填写合同生效时间");
-			return;
-		}
-		if(endDate.length<1){
-			jDialog.Alert("请填写合同失效时间");
-			return;
-		}
-		if(endDate<startDate){
-			jDialog.Alert("失效时间不能小于生效时间");
-			return;
-		}
+		 
 		$('#userForm2').ajaxForm(function(data) {
-			jDialog.Alert(data.right);
+		
+				if(data.error ==1){
+					jDialog.Alert("成功");
+				}else {
+					jDialog.Alert(data.errorMessage);
+				}
+			
 			var uptime = window.setTimeout(function(){
 				window.location.href="${rc.contextPath}/contract/list"
 			   	clearTimeout(uptime);
@@ -76,7 +49,7 @@
 
 						
 							<form data-name="withdraw" name="userForm2" id="userForm2"
-								class="ui-form" method="post" action="saveContract"
+								class="ui-form" method="post" action="save"
 								enctype="multipart/form-data">
 								<div class="withdraw-title fn-clear">
 									用户添加信息录入
@@ -89,32 +62,11 @@
 								</div>
 								<div class="withdrawInputs">
 									<div class="inputs">
-                                        <div class="ui-form-item">
-                                            <label class="ui-label mt10">
-											<span
-                                                    class="ui-form-required">*
-											</span>用户名:
-                                            </label>
-                                            <input class="ui-input"
-												type="text" name="contractCode" id="code"
-												data-is="isAmount isEnough" autocomplete="off"
-												disableautocomplete="">
-                                        </div>
-										<div class="ui-form-item">
-											<label class="ui-label mt10">
-											<span
-												class="ui-form-required">*
-											</span>用户昵称:
-											</label> 
-												<input class="ui-input"
-												type="text" name="contractCode" id="code"
-												data-is="isAmount isEnough" autocomplete="off"
-												disableautocomplete="">
-										</div>
+                                         
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>登录名:</label> <input
-												class="ui-input" type="text" name="contractName"
+												class="ui-input" type="text" name="username"
 												id="name" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
 											
@@ -124,7 +76,7 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>真实姓名:</label>
                                                     <input
-												class="ui-input" type="text" name="amounts"
+												class="ui-input" type="text" name="firstName"
 												id="amounts" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
@@ -133,7 +85,7 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>密码:</label>
                                                     <input
-												class="ui-input" type="text" name="amounts"
+												class="ui-input" type="text" name="password"
 												id="amounts" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
@@ -142,7 +94,7 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>请确认密码:</label>
                                                     <input
-												class="ui-input" type="text" name="amounts"
+												class="ui-input" type="text" name="password2"
 												id="amounts" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
@@ -151,7 +103,7 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>邮箱地址:</label>
                                                     <input
-												class="ui-input" type="text" name="amounts"
+												class="ui-input" type="text" name="email"
 												id="amounts" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
@@ -160,7 +112,7 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>联系电话:</label>
                                                     <input
-												class="ui-input" type="text" name="amounts"
+												class="ui-input" type="text" name="phone"
 												id="amounts" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
@@ -168,18 +120,18 @@
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>权限:</label>
-                                                    <input type="checkbox" name="jurisdiction" value="1"/>1
-                                                    <input
-												class="ui-input" type="text" name="amounts"
-												id="amounts" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="">
+                                                   <#if groupsList?exists>
+              											  <#list groupsList?keys as vkey> 
+                                                   			 <input type="checkbox" value="${vkey}" name="roles"/>${groupsList[vkey]}
+                                                  			</#list>
+           										 </#if> 
                                         </div>
                                         
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>所属公司:</label>
                                                     <input
-												class="ui-input" type="text" name="amounts"
+												class="ui-input" type="text" name="company"
 												id="amounts" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
@@ -188,7 +140,7 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>所属部门:</label>
                                                     <input
-												class="ui-input" type="text" name="amounts"
+												class="ui-input" type="text" name="department"
 												id="amounts" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
