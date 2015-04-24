@@ -34,10 +34,30 @@ public class UserDetail extends BaseEntity {
     //电话，权限（勾选），所属公司，所属部门。
     
     
-    public String phone;
+	public String phone;
+	public String company;
+	public String department;
+	
+	//以下是页面表单值 
+	@Transient
+	public String password;
+	@Transient
+	public String firstName;
+	@Transient
+	public String lastName;
+	@Transient
+	public String email;
+	@Transient
+	public List<String> roles;
     
-    public String company;
-    public String department;
+	public void buildMySelf() {
+        user = new UserEntity(username);
+        user.setPassword(password);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setEmail(email);
+        setStringGroups(roles);
+	}
 
     public UserDetail(String username, String password, String firstName, String lastName, String email) {
         this.username = username;
@@ -123,6 +143,47 @@ public class UserDetail extends BaseEntity {
 	public void setDepartment(String department) {
 		this.department = department;
 	}
-    
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public List<String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
+	}
+
+	 
     
 }
