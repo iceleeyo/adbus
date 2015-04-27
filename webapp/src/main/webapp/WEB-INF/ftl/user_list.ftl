@@ -67,7 +67,7 @@
                     "render": function(data, type, row, meta) {
                         return (row.enabled ? '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/user/' + data + '/disable">禁用</a> &nbsp;'
                                 :'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/user/' + data + '/enable">启用</a> &nbsp;')
-                        + '<a class="table-link" href="#">编辑</a>';
+                        + '<a href="${rc.contextPath}/user/u_edit/' + data + '" >编辑</a> &nbsp;';
                     }},
             ],
             "language": {

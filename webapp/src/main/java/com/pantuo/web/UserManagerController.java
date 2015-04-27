@@ -2,14 +2,10 @@ package com.pantuo.web;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
-
-import com.pantuo.dao.pojo.JpaInvoice;
-import com.pantuo.dao.pojo.UserDetail;
-import com.pantuo.mybatis.domain.Invoice;
-import com.pantuo.mybatis.domain.Supplies;
-import com.pantuo.pojo.TableRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pantuo.dao.pojo.BaseEntity;
+import com.pantuo.dao.pojo.JpaInvoice;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
@@ -123,9 +120,25 @@ public class UserManagerController {
     	userService.createUserFromPage(detail);
         return detail;
     }
+    
+    @RequestMapping(value = "/u_edit/update", method = { RequestMethod.POST})
+    @ResponseBody
+	public UserDetail updateUser(UserDetail detail, HttpServletRequest request) {
+    	userService.updateUserFromPage(detail);
+        return detail;
+    }
     @RequestMapping(value = "/u/{userId}", method = { RequestMethod.GET})
 	public String uDetail(Model model, @PathVariable("userId") String userId,HttpServletRequest request) {
     	model.addAttribute("userDetail", userService.getByUsername(userId));
         return "u/userDetail";
     }
+    
+    @RequestMapping(value = "/u_edit/{userId}", method = { RequestMethod.GET})
+	public String userEdit(Model model, @PathVariable("userId") String userId, HttpServletRequest request) {
+		UserDetail UserDetail = userService.getByUsername(userId);
+		model.addAttribute("userDetail", UserDetail);
+		model.addAttribute("uGroup", userService.getUserGroupList(UserDetail));
+		model.addAttribute("groupsList", DataInitializationService._GROUPS);
+		return "u/userEdit";
+	}
 }

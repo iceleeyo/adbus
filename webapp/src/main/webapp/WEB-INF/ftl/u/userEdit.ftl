@@ -49,7 +49,7 @@
 
 						
 							<form data-name="withdraw" name="userForm2" id="userForm2"
-								class="ui-form" method="post" action="save"
+								class="ui-form" method="post" action="update"
 								enctype="multipart/form-data">
 								<div class="withdraw-title fn-clear">
 									用户添加信息录入
@@ -104,12 +104,12 @@
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>所属组:</label>
-                                                   <#if userDetail.groups?exists>
-              											  <#list userDetail.groups  as item> 
-                                                   				${item.name!''}
+                                                  <#if groupsList?exists>
+              											  <#list groupsList?keys as vkey> 
+                                                   			 <input type="checkbox" value="${vkey}" name="roles" <#if uGroup?seq_contains(vkey)>checked </#if>
+                                                   			 />${groupsList[vkey]}
                                                   			</#list>
            										 </#if> 
-           										 
                                         </div>
                                         
                                         <div class="ui-form-item">
@@ -130,6 +130,9 @@
 												autocomplete="off" disableautocomplete="" value="${userDetail.department!''}">
                                         </div>
                                         </div>
+                                        <div class="ui-form-item widthdrawBtBox">
+										<input type="button" id="subWithdraw" class="block-btn"
+											onclick="sub();" value="确认修改">
 									 
 								</div>
 			<div class="worm-tips" >

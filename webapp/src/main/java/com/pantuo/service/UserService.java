@@ -16,9 +16,11 @@ import org.activiti.engine.impl.persistence.entity.UserEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+
 
 
 //import com.pantuo.dao.pojo.QUser;
@@ -147,6 +149,16 @@ public class UserService {
 
         return user;
     }
+    
+	public List<String> getUserGroupList(UserDetail u) {
+		List<String> list = new ArrayList<String>();
+		if (u != null) {
+			for (Group group : u.getGroups()) {
+				list.add(group.getId());
+			}
+		}
+		return list;
+	}
 
 /*	public void test() {
 		JpaSysConfig g = sysConfigMapper.selectByPrimaryKey(1);
@@ -203,7 +215,35 @@ public class UserService {
         }
         return false;
     }
-    
+    @Transactional
+	public boolean updateUserFromPage(UserDetail user) {
+		user.buildMySelf();
+		UserDetail dbUser = getByUsername(user.getUsername());
+		if (dbUser == null) {
+			user.setErrorInfo(BaseEntity.ERROR, "用户不存在");
+		}
+		if (user.getGroups() != null || user.getGroups().isEmpty()) {
+			user.setErrorInfo(BaseEntity.ERROR, "用户需要设置相应的归属组");
+		} else if (user.getUser() != null) {
+			BeanUtils.copyProperties(user, dbUser);
+			userRepo.save(dbUser);
+			org.activiti.engine.identity.User activitiUser = identityService.createUserQuery()
+					.userId(dbUser.getUsername()).singleResult();
+			activitiUser.setEmail(user.getEmail());
+			activitiUser.setFirstName(user.getFirstName());
+			activitiUser.setLastName(user.getLastName());
+			identityService.saveUser(activitiUser);
+			for (Group g : user.getGroups()) {
+				identityService.deleteMembership(dbUser.getUsername(), g.getId());
+			}
+			for (Group g : user.getGroups()) {
+				identityService.createMembership(dbUser.getUsername(), g.getId());
+			}
+			return true;
+		}
+		return false;
+	}
+       
     
 
     @Transactional
