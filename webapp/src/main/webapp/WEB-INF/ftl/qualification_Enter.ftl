@@ -29,38 +29,10 @@
 
 
 	function sub(){
-		var code = ($("#code").val());
-		var name = ($("#name").val());
-		var startDate = $("#startDate").val();
-		var endDate = ($("#endDate").val());
-		var amounts=($("#amounts").val());
+		
 		Sfile= ($("#Sfile").val());
 		if(Sfile==""){
-			jDialog.Alert("请选择合同附件");
-			return;
-		}
-		if(code==""){
-			jDialog.Alert("请填写合同号");
-			return;
-		}
-		if(amounts==""){
-			jDialog.Alert("请填写合同金额");
-			return;
-		}
-		if(name==""){
-			jDialog.Alert("请填写合同名称");
-			return;
-		}
-		if(startDate.length<1){
-			jDialog.Alert("请填写合同生效时间");
-			return;
-		}
-		if(endDate.length<1){
-			jDialog.Alert("请填写合同失效时间");
-			return;
-		}
-		if(endDate<startDate){
-			jDialog.Alert("失效时间不能小于生效时间");
+			jDialog.Alert("请上传资质信息");
 			return;
 		}
 		$('#userForm2').ajaxForm(function(data) {
@@ -89,98 +61,20 @@
 								</div>
 								<div class="withdrawInputs">
 									<div class="inputs">
-                                        <div class="ui-form-item">
-                                            <label class="ui-label mt10">
-											<span
-                                                    class="ui-form-required">*
-											</span>广告主:
-                                            </label>
-                                            <select class="ui-input" name="userId" id="userId">
-                                                <option value="" selected="selected"></option>
-                                                <#list users as u>
-                                                    <option value="${u.username}">${u.username}</option>
-                                                </#list>
-                                            </select>
-                                        </div>
-										<div class="ui-form-item">
-											<label class="ui-label mt10">
-											<span
-												class="ui-form-required">*
-											</span>合同号:
-											</label> 
-												<input class="ui-input"
-												type="text" name="contractCode" id="code"
-												data-is="isAmount isEnough" autocomplete="off"
-												disableautocomplete="">
-										</div>
-										<div class="ui-form-item">
-											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>合同名称:</label> <input
-												class="ui-input" type="text" name="contractName"
-												id="name" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="">
-											<p class="ui-term-placeholder"></p>
-
-										</div>
-                                        <div class="ui-form-item">
-                                            <label class="ui-label mt10"><span
-                                                    class="ui-form-required">*</span>金额:</label>
-                                                    <input
-												class="ui-input" type="text" name="amounts"
-												id="amounts" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="">
-                                        </div>
-                                        <div class="ui-form-item">
-                                            <label class="ui-label mt10"><span
-                                                    class="ui-form-required">*</span>行业:</label>
-                                                     
-												<select id="industry" name="industry.id" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="" style="width:173px; height: 38px;">
-                                                    <#list industries as industry>
-                                                        <option value="${industry.id}">${industry.name}</option>
-                                                    </#list>
-												</select>
-												
-                                        </div>
-
-										<div class="ui-form-item">
-											<label class="ui-label mt10">开始日期:</label> <input
-												class="ui-input datepicker" type="text" name="startDate1"
-												id="startDate" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="">
-										</div>
-
-										<div class="ui-form-item">
-											<label class="ui-label mt10">终止日期:</label> <input
-												class="ui-input datepicker" type="text" name="endDate1"
-												id="endDate" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="">
-										</div>
-                                        <div class="ui-form-item">
-                                            <label class="ui-label mt10"><span
-                                                    class="ui-form-required"></span>合同备注:</label>
-                                                     <input
-												class="ui-input" type="text" name="remark"
-												id="remark" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="">
-                                        </div>
-
-
-
-                                        <div class="ui-form-item">
-											<label class="ui-label mt10">附件上传</label>
+                                          <div class="ui-form-item">
+											<label class="ui-label mt10">资质信息上传</label>
 											<div id="newUpload2">
 												<div id="div_1">
 													<input type="file" name="file" id="Sfile">
 												</div>
 											</div>
-											<input type="button" id="btn_add2" value="增加一行"
+											<input type="button" id="btn_add2" value="增加附件"
 												style="margin-top: 10px;" ><br>
 										</div>
 									</div>
 									<div class="ui-form-item widthdrawBtBox">
 										<input type="button" id="subWithdraw" class="block-btn"
-											onclick="sub();" value="创建合同">
+											onclick="sub();" value="提交资质信息">
 									</div>
 								</div>
 			<div class="worm-tips" >
