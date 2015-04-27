@@ -221,8 +221,7 @@ public class UserService {
 		UserDetail dbUser = getByUsername(user.getUsername());
 		if (dbUser == null) {
 			user.setErrorInfo(BaseEntity.ERROR, "用户不存在");
-		}
-		if (user.getGroups() != null || user.getGroups().isEmpty()) {
+		} else if (user.getGroups() == null || user.getGroups().isEmpty()) {
 			user.setErrorInfo(BaseEntity.ERROR, "用户需要设置相应的归属组");
 		} else if (user.getUser() != null) {
 			BeanUtils.copyProperties(user, dbUser);
