@@ -234,7 +234,7 @@ public class UserService {
 			activitiUser.setFirstName(user.getFirstName());
 			activitiUser.setLastName(user.getLastName());
 			identityService.saveUser(activitiUser);
-			for (Group g : user.getGroups()) {
+			for (Group g : dbUser.getGroups()) {
 				identityService.deleteMembership(dbUser.getUsername(), g.getId());
 			}
 			for (Group g : user.getGroups()) {
