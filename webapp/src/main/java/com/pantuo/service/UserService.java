@@ -224,7 +224,9 @@ public class UserService {
 		} else if (user.getGroups() == null || user.getGroups().isEmpty()) {
 			user.setErrorInfo(BaseEntity.ERROR, "用户需要设置相应的归属组");
 		} else if (user.getUser() != null) {
+			int dbId = dbUser.getId();
 			BeanUtils.copyProperties(user, dbUser);
+			dbUser.setId(dbId);
 			userRepo.save(dbUser);
 			org.activiti.engine.identity.User activitiUser = identityService.createUserQuery()
 					.userId(dbUser.getUsername()).singleResult();
