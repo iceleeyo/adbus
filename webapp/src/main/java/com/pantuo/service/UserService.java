@@ -225,21 +225,25 @@ public class UserService {
 			user.setErrorInfo(BaseEntity.ERROR, "用户需要设置相应的归属组");
 		} else if (user.getUser() != null) {
 			int dbId = dbUser.getId();
+			List<Group> existGroup = dbUser.getGroups();
 			BeanUtils.copyProperties(user, dbUser);
 			dbUser.setId(dbId);
-			userRepo.save(dbUser);
+			userRepo.save(dbUser);//先更新user_detail 信息
 			org.activiti.engine.identity.User activitiUser = identityService.createUserQuery()
 					.userId(dbUser.getUsername()).singleResult();
 			activitiUser.setEmail(user.getEmail());
 			activitiUser.setFirstName(user.getFirstName());
 			activitiUser.setLastName(user.getLastName());
-			identityService.saveUser(activitiUser);
-			for (Group g : dbUser.getGroups()) {
+			identityService.saveUser(activitiUser);//更新工作流中的user表
+			//先删除原工作流中的用户权限 只增加不能减
+			for (Group g : existGroup) {
 				identityService.deleteMembership(dbUser.getUsername(), g.getId());
 			}
+			//再重建用户的权限 
 			for (Group g : user.getGroups()) {
 				identityService.createMembership(dbUser.getUsername(), g.getId());
 			}
+			
 			return true;
 		}
 		return false;
