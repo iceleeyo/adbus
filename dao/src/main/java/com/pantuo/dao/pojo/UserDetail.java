@@ -19,7 +19,7 @@ import java.util.List;
 public class UserDetail extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private int id;
 
     @Transient
     public User user;
@@ -183,6 +183,15 @@ public class UserDetail extends BaseEntity {
 	public void setRoles(List<String> roles) {
 		this.roles = roles;
 	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 
 	 
     
