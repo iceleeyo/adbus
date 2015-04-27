@@ -6,12 +6,17 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.mysema.query.types.Predicate;
 import com.pantuo.dao.InvoiceRepository;
 import com.pantuo.dao.ProductRepository;
+import com.pantuo.dao.UserDetailRepository;
 import com.pantuo.dao.pojo.JpaAttachment;
 import com.pantuo.dao.pojo.JpaInvoice;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaSupplies;
+import com.pantuo.dao.pojo.QJpaProduct;
+import com.pantuo.dao.pojo.QUserDetail;
+import com.pantuo.dao.pojo.UserDetail;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +47,9 @@ public class SuppliesServiceImpl implements SuppliesService {
 	AttachmentService attachmentService;
 	@Autowired
 	InvoiceRepository InvoiceRepo;
-
+	@Autowired
+	UserDetailRepository userDetailRepo;
+	
 	public Pair<Boolean, String> addSupplies(Supplies obj, Principal principal, HttpServletRequest request) {
 		Pair<Boolean, String> r = null;
 		if (StringUtils.isBlank(obj.getName())) {
@@ -73,6 +80,19 @@ public class SuppliesServiceImpl implements SuppliesService {
 			r = new Pair<Boolean, String>(true, "创建发票成功！");
 		} catch (BusinessException e) {
 			r = new Pair<Boolean, String>(false, "创建发票失败");
+		}
+		return r;
+	}
+	public Pair<Boolean, String> savequlifi( Principal principal,
+			HttpServletRequest request){
+		Pair<Boolean, String> r = null;
+		try {
+			Predicate query = QUserDetail.userDetail.username.eq(Request.getUserId(principal));
+           UserDetail userDetail=  userDetailRepo.findOne(query);
+			attachmentService.saveAttachment(request, Request.getUserId(principal), userDetail.getId(), JpaAttachment.Type.u_fj);
+			r = new Pair<Boolean, String>(true, "上传成功！");
+		} catch (BusinessException e) {
+			r = new Pair<Boolean, String>(false, "上传失败");
 		}
 		return r;
 	}

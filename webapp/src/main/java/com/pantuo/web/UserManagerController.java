@@ -97,10 +97,17 @@ public class UserManagerController {
 			throws IllegalStateException, IOException {
 		return suppliesService.addInvoice(obj, principal, request);
 	}
+    
     @RequestMapping(value = "/qualification", produces = "text/html;charset=utf-8")
     public String qualification(HttpServletRequest request)
     {
         return "qualification_Enter";
+    }
+    @RequestMapping(value = "savequalifi", method = RequestMethod.POST)
+    @ResponseBody
+    public Pair<Boolean, String> savequalifi( Principal principal, HttpServletRequest request)
+    		throws IllegalStateException, IOException {
+    	return suppliesService.savequlifi(principal, request);
     }
     @RequestMapping(value = "/enter", produces = "text/html;charset=utf-8")
     public String enter(Model model,HttpServletRequest request)

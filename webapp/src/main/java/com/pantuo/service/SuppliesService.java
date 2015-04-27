@@ -88,4 +88,7 @@ public interface SuppliesService {
 
 	Pair<Boolean, String> addInvoice(JpaInvoice obj, Principal principal,
 			HttpServletRequest request);
+
+	Pair<Boolean, String> savequlifi(Principal principal,
+			HttpServletRequest request);
 }
