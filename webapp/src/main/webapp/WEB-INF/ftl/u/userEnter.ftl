@@ -29,7 +29,61 @@
 
 
 	function sub(){
-		 
+		int num=0;
+		var username = $("#username").val();
+		var firstName = ($("#firstName").val());
+		var password = ($("#password").val());
+		var password2 = ($("#password2").val());
+		var email=($("#email").val());
+		var phone= ($("#phone").val());
+		var roles=document.getElementsByName("roles");
+		var roles = new Array();
+		var company= ($("#company").val());
+		var department= ($("#department").val());
+		if(username==""){
+			jDialog.Alert("请填写登录名");
+			return;
+		}
+		if(firstName==""){
+			jDialog.Alert("请填写真实姓名");
+			return;
+		}
+		if(password==""){
+			jDialog.Alert("密码不能为空");
+			return;
+		}
+		if(!password.equals(password2)){
+			jDialog.Alert("两次输入密码需一致");
+			return;
+		}
+		if(email==""){
+			jDialog.Alert("请填写邮箱");
+			return;
+		}
+		if(phone==""){
+			jDialog.Alert("请填写联系电话");
+			return;
+		}
+		for(int i=0;i<roles.length;i++)
+ 		{
+ 			if(roles[i].checked)
+  			num++;
+  			else
+  			num=num;
+  		}
+ 		if(num<=0){
+  			jDialog.Alert("请选择至少一个分组");
+  			return;
+  		}
+		
+		if(company==""){
+			jDialog.Alert("请填写所属公司");
+			return;
+		}
+		if(department==""){
+			jDialog.Alert("请填写所属部门");
+			return;
+		}
 		$('#userForm2').ajaxForm(function(data) {
 		
 				if(data.error ==1){
@@ -67,7 +121,7 @@
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>登录名:</label> <input
 												class="ui-input" type="text" name="username"
-												id="name" data-is="isAmount isEnough"
+												id="username" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
 											
 
@@ -77,7 +131,7 @@
                                                     class="ui-form-required">*</span>真实姓名:</label>
                                                     <input
 												class="ui-input" type="text" name="firstName"
-												id="amounts" data-is="isAmount isEnough"
+												id="firstName" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
                                         
@@ -86,7 +140,7 @@
                                                     class="ui-form-required">*</span>密码:</label>
                                                     <input
 												class="ui-input" type="text" name="password"
-												id="amounts" data-is="isAmount isEnough"
+												id="password" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
                                         
@@ -95,7 +149,7 @@
                                                     class="ui-form-required">*</span>请确认密码:</label>
                                                     <input
 												class="ui-input" type="text" name="password2"
-												id="amounts" data-is="isAmount isEnough"
+												id="password2" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
                                         
@@ -104,7 +158,7 @@
                                                     class="ui-form-required">*</span>邮箱地址:</label>
                                                     <input
 												class="ui-input" type="text" name="email"
-												id="amounts" data-is="isAmount isEnough"
+												id="email" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
                                         
@@ -113,7 +167,7 @@
                                                     class="ui-form-required">*</span>联系电话:</label>
                                                     <input
 												class="ui-input" type="text" name="phone"
-												id="amounts" data-is="isAmount isEnough"
+												id="phone" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
                                         
@@ -122,7 +176,7 @@
                                                     class="ui-form-required">*</span>所属组:</label>
                                                    <#if groupsList?exists>
               											  <#list groupsList?keys as vkey> 
-                                                   			 <input type="checkbox" value="${vkey}" name="roles"/>${groupsList[vkey]}
+                                                   			 <input type="checkbox" value="${vkey}" name="roles" id="roles"/>${groupsList[vkey]}
                                                   			</#list>
            										 </#if> 
                                         </div>
@@ -132,7 +186,7 @@
                                                     class="ui-form-required">*</span>所属公司:</label>
                                                     <input
 												class="ui-input" type="text" name="company"
-												id="amounts" data-is="isAmount isEnough"
+												id="company" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
                                         
@@ -141,7 +195,7 @@
                                                     class="ui-form-required">*</span>所属部门:</label>
                                                     <input
 												class="ui-input" type="text" name="department"
-												id="amounts" data-is="isAmount isEnough"
+												id="department" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
                                         </div>
