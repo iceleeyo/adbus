@@ -48,8 +48,8 @@ function go_back(){
 								<div class="withdrawInputs">
 									<div class="inputs">
                                         <div class="ui-form-item">
-											<label class="ui-label mt10">登录名:</label> <input
-												class="ui-input" type="text" name="username"
+											<label class="ui-label mt10">登录名:</label> <input  readonly="readonly"
+												class="ui-input" type="text" name="username" 
 												id="name" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" value="${userDetail.username!''}">
 											
@@ -58,7 +58,7 @@ function go_back(){
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10">真实姓名:</label>
                                                     <input readonly="readonly"
-												class="ui-input" type="text" name="firstName"
+												class="ui-input" type="text" name="firstName" 
 												id="amounts" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" value="${userDetail.user.firstName!''}">
                                         </div>
