@@ -67,7 +67,7 @@
 		for(var i=0;i<roles.length;i++)
  		{
  			if(roles[i].checked)
-  			num++;
+  			num++; 
   			else
   			num=num;
   		}
@@ -91,11 +91,10 @@
 					jDialog.Alert(data.errorMessage);
 				}
 			var uptime = window.setTimeout(function(){
-				window.location.href="${rc.contextPath}/contract/list"
+				window.location.href="${rc.contextPath}/contract/list",
 			   	clearTimeout(uptime);
 						},2000)
 		}).submit();
-
 	}
 </script>
 

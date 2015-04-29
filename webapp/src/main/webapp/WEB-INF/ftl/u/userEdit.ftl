@@ -30,7 +30,7 @@ css=["jquery-ui/jquery-ui.css"]>
 
 
 	function sub(){
-		int num=0;
+		var num=0;
 		var username = $("#username").val();
 		var firstName = ($("#firstName").val());
 		var password = ($("#password").val());
@@ -65,7 +65,7 @@ css=["jquery-ui/jquery-ui.css"]>
 			jDialog.Alert("请填写联系电话");
 			return;
 		}
-		for(int i=0;i<roles.length;i++)
+		for(var i=0;i<roles.length;i++)
  		{
  			if(roles[i].checked)
   			num++;
