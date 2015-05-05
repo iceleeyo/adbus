@@ -218,7 +218,7 @@
 											</li>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/user/enter">
-													角色添加
+													用户添加
 												</a>
 											</li>
 											<li class="pg-side-exp-item">

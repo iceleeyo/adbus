@@ -10,7 +10,7 @@
 							<div class="s-left ml10">
 								<a class="pg-nav-item" href="#">
 									<i class="icon icon-app"></i>
-									移动客户端
+									
 								</a>
 							</div>
 							<div class="s-right s-clear">
