@@ -99,9 +99,11 @@
 											<span
 												class="ui-form-required">*
 											</span>发票类型:
-											</label> 
+											</label>
+											<div class="mt20"> 
 											<input type="radio" name="type" checked="checked" onchange="showother()" value="special">&nbsp;增值税专用发票
 											<input type="radio" name="type"  onchange="hideother()" value="normal">&nbsp;普通发票&nbsp;&nbsp;
+											</div>
 										</div>
 										
                                         <div class="ui-form-item">

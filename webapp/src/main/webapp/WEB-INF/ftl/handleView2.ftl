@@ -336,7 +336,7 @@ function pay() {
             		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">播出完成</li><li id="track_time_6" class="tx3"></li></ul></div>
             	</div>
                 <#include "template/orderDetail.ftl" />
-              <div class="p20bs color-white-bg border-ec">
+              <div class="p20bs mt10 color-white-bg border-ec">
                  <H3 class="text-xl title-box"><A class="black" href="#">支付订单</A></H3><BR>	
                  <TABLE class="ui-table ui-table-gray">
   								<TBODY>
