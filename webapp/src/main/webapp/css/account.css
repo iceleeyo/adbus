@@ -1911,7 +1911,7 @@
 }
 
 .withdrawInputs .ui-form-item {
-	padding: 0 5px 20px 142px
+	padding: 0 5px 20px 200px
 }
 
 .withdrawInputs .ui-label {
@@ -2817,7 +2817,8 @@
 }
 
 .border-ec {
-	border: 1px solid #e0e0e0
+	border: 1px solid #e0e0e0;
+	border-top: 4px solid #00a8e8;
 }
 
 .uplan-detail-ul {
