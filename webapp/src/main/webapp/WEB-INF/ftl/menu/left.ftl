@@ -223,12 +223,12 @@
 											</li>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/user/invoice">
-													发票信息录入
+													发票信息
 												</a>
 											</li>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/user/qualification">
-													资质信息录入
+													资质信息
 												</a>
 											</li>
 										</ul>
