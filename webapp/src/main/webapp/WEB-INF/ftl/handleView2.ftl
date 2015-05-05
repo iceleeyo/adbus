@@ -1,4 +1,4 @@
-<#import "template/template.ftl" as frame>
+<#import "template/template2.ftl" as frame>
 
 <@frame.html title="公交广告交易系统">
 <script type="text/javascript">
