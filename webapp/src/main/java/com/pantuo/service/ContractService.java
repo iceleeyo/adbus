@@ -54,7 +54,7 @@ public class ContractService {
 			con.setIsUpload(false);
 			con.setCreated(new Date());
 			con.setStats(JpaContract.Status.not_started.ordinal());
-			System.out.println(JpaContract.Status.not_started.ordinal());
+//			System.out.println(JpaContract.Status.not_started.ordinal());
 //			con.setStats(JpaContract.Status.not_started.ordinal());
 			int dbId = contractMapper.insert(con);
 			if (dbId > 0) {
