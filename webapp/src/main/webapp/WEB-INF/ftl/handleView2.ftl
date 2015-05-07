@@ -449,7 +449,7 @@ function pay() {
     									<TH>是否通过</TH>
     									<TD>
     										<input name="approve2Result" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>符合要求 
-      									<input name="approve1Result" type="radio" value="false" style="padding: 5px 15px;"/>不符合要求</TD>
+      									  <input name="approve2Result" type="radio" value="false" style="padding: 5px 15px;"/>不符合要求</TD>
     									
   								</TR>
   								<TR height="60">
