@@ -426,6 +426,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 				}
 				variables.putAll(taskVarMap);
 			}
+			variables.put("lastModifUser", u.getUsername());
 			taskService.complete(taskId, variables);
 		} catch (Exception e) {
 			//e.printStackTrace();
