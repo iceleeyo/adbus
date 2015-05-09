@@ -64,6 +64,7 @@
 								</a> -->
 								<a class="pg-nav-item s-left" href="#">帮助</a>
 								<a class="pg-nav-item s-left" href="#">论坛</a>
+								<a class="pg-nav-item s-left" href="${rc.contextPath}/message/all">消息</a>
 							</div>
 						</div>
 					</div>
