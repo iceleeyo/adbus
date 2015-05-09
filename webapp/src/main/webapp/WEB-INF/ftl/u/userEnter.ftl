@@ -37,7 +37,7 @@
 		var email=($("#email").val());
 		var phone= ($("#phone").val());
 		var roles=document.getElementsByName("roles");
-		var roles = new Array();
+		//var roles = new Array();
 		var company= ($("#company").val());
 		var department= ($("#department").val());
 		if(username==""){
@@ -52,7 +52,7 @@
 			jDialog.Alert("密码不能为空");
 			return;
 		}
-		if(!password.equals(password2)){
+		if(! (password == password2 )){
 			jDialog.Alert("两次输入密码需一致");
 			return;
 		}
