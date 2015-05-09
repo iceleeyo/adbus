@@ -64,12 +64,12 @@ public class MessageServiceImpl implements MessageService {
 				ids.add(jpaMessage.getOrderid());
 			}
 			List<JpaOrders> orderList = orderRepository.findAll(ids);
-			Map<Integer, Date> map = new HashMap<Integer, Date>();
+			Map<Integer, JpaOrders> map = new HashMap<Integer, JpaOrders>();
 			for (JpaOrders jpaOrders : orderList) {
-				map.put(jpaOrders.getId(), jpaOrders.getCreated());
+				map.put(jpaOrders.getId(), jpaOrders);
 			}
 			for (JpaMessage jpaMessage : list.getContent()) {
-				MessageView w = new MessageView(jpaMessage, jpaMessage.getId(), map.get(jpaMessage.getOrderid()));
+				MessageView w = new MessageView(jpaMessage, jpaMessage.getOrderid(), map.get(jpaMessage.getOrderid()));
 				r.add(w);
 			}
 		}

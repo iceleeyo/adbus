@@ -37,6 +37,7 @@ function go_back(){
 </UL>
 </DIV>
 </DIV>
+<#include "template/hisDetail.ftl" />
 </@frame.html>
 
 

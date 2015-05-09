@@ -56,7 +56,7 @@
                 	return d;
                 }},
                   { "data": "order.created", "defaultContent": "","render": function(data, type, row, meta) {
-                	 var tr= "<a target='_blank' href='${rc.contextPath}/order/orderDetail?taskid=&orderid=" +(row.id)+  "'>查看详情</a>";
+                	 var tr= "<a target='_blank' href='${rc.contextPath}/order/orderDetail?taskid=&orderid=" +(row.id)+ "&pid="+(row.processInstanceId) +  "'>查看详情</a>";
                 	return tr;
                 }},
                 

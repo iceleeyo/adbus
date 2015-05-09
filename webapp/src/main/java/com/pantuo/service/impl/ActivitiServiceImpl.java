@@ -233,6 +233,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 				.involvedUser(Request.getUserId(principal)).processDefinitionKey(MAIN_PROCESS)
 				.includeProcessVariables().orderByProcessInstanceStartTime().desc().listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
 		for (HistoricProcessInstance historicProcessInstance : list) {
+			//---------------------
 			Integer orderid = (Integer) historicProcessInstance.getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
 			if (orderid != null && orderid > 0) {
@@ -242,6 +243,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 					v.setProduct(product);
 					v.setOrder(or);
 					orders.add(v);
+					v.setProcessInstanceId(historicProcessInstance.getId());
 				}
 			}
 		}
@@ -531,7 +533,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 	}
 
 	// 根据流程实例和节点ID查找历史审批记录
-	public List<HistoricTaskView> findHistoricUserTask(ProcessInstance processInstance, String activityId) {
+	public List<HistoricTaskView> findHistoricUserTask(String pid, String activityId) {
 
 		// 查询当前流程实例审批结束的历史节点
 		// List<HistoricActivityInstance> historicActivityInstances =
@@ -541,7 +543,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		// .orderByHistoricActivityInstanceEndTime().desc().list();
 		// return historicActivityInstances;
 		List<HistoricTaskInstance> taskInstances = historyService.createHistoricTaskInstanceQuery()
-				.processInstanceId(processInstance.getId()).includeProcessVariables().orderByTaskId().desc().list();
+				.processInstanceId(pid).includeProcessVariables().orderByTaskId().desc().list();
 		List<HistoricTaskView> view = new ArrayList<HistoricTaskView>();
 
 		for (HistoricTaskInstance historicTaskInstance : taskInstances) {

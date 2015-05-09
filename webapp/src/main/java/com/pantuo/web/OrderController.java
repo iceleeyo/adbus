@@ -12,9 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.pantuo.util.*;
+
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
+import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,25 +75,27 @@ public class OrderController {
 	private TaskService taskService;
 
 	@RequestMapping(value = "/buypro/{product_id}", produces = "text/html;charset=utf-8")
-	public String buypro(Model model,@PathVariable("product_id") int product_id, Principal principal, HttpServletRequest request) {
-    	JpaProduct  prod=productService.findById(product_id);
+	public String buypro(Model model, @PathVariable("product_id") int product_id, Principal principal,
+			HttpServletRequest request) {
+		JpaProduct prod = productService.findById(product_id);
 		//Page<JpaProduct> products = productService.getValidProducts(0 , 9999, null);
-        //model.addAttribute("products", products.getContent());
-        NumberPageUtil page = new NumberPageUtil(9999, 1, 9999);
-        List<Supplies> supplies = suppliesService.queryMyList(page, null, prod.getType(), principal);
-        model.addAttribute("supplies", supplies);
-        model.addAttribute("prod", prod);
-        List<Contract> contracts = contractService.queryContractList(page, null, null, principal);
-        model.addAttribute("contracts", contracts);
+		//model.addAttribute("products", products.getContent());
+		NumberPageUtil page = new NumberPageUtil(9999, 1, 9999);
+		List<Supplies> supplies = suppliesService.queryMyList(page, null, prod.getType(), principal);
+		model.addAttribute("supplies", supplies);
+		model.addAttribute("prod", prod);
+		List<Contract> contracts = contractService.queryContractList(page, null, null, principal);
+		model.addAttribute("contracts", contracts);
 		return "creOrder";
 	}
-	 @RequestMapping(value = "/proDetail", produces = "text/html;charset=utf-8")
-	    public String proDetail(Model model, Principal principal,@RequestParam(value = "product_id") int product_id ,HttpServletRequest request)
-	    {   
-		   JpaProduct  prod=productService.findById(product_id);
-		   model.addAttribute("prod", prod);
-	        return "proDetail";
-	    }
+
+	@RequestMapping(value = "/proDetail", produces = "text/html;charset=utf-8")
+	public String proDetail(Model model, Principal principal, @RequestParam(value = "product_id") int product_id,
+			HttpServletRequest request) {
+		JpaProduct prod = productService.findById(product_id);
+		model.addAttribute("prod", prod);
+		return "proDetail";
+	}
 
 	@RequestMapping(value = "/payview", produces = "text/html;charset=utf-8")
 	public String payview(Model model, @RequestParam(value = "taskid", required = true) String taskid,
@@ -116,50 +120,46 @@ public class OrderController {
 
 	@RequestMapping(value = "payment")
 	@ResponseBody
-	public Pair<Boolean, String> payment(@RequestParam(value = "orderid") String orderid,@RequestParam(value = "contractid") int contractid,
-			@RequestParam(value = "taskid") String taskid,
-			@RequestParam(value = "payType") String payType,
-            Principal principal,
-            HttpServletRequest request,
+	public Pair<Boolean, String> payment(@RequestParam(value = "orderid") String orderid,
+			@RequestParam(value = "contractid") int contractid, @RequestParam(value = "taskid") String taskid,
+			@RequestParam(value = "payType") String payType, Principal principal, HttpServletRequest request,
 			HttpServletResponse response) {
-		return activitiService.payment(Integer.parseInt(orderid), taskid,contractid,payType, Request.getUser(principal));
+		return activitiService.payment(Integer.parseInt(orderid), taskid, contractid, payType,
+				Request.getUser(principal));
 	}
-	
+
 	@RequestMapping(value = "modifyOrder")
 	@ResponseBody
-	public Pair<Boolean, String> modifyOrder(@RequestParam(value = "orderid") String orderid,@RequestParam(value = "supplieid") int supplieid,
-			@RequestParam(value = "taskid") String taskid,
-			Principal principal,
-			HttpServletRequest request,
-			HttpServletResponse response) {
-		return activitiService.modifyOrder(Integer.parseInt(orderid), taskid,supplieid, Request.getUser(principal));
+	public Pair<Boolean, String> modifyOrder(@RequestParam(value = "orderid") String orderid,
+			@RequestParam(value = "supplieid") int supplieid, @RequestParam(value = "taskid") String taskid,
+			Principal principal, HttpServletRequest request, HttpServletResponse response) {
+		return activitiService.modifyOrder(Integer.parseInt(orderid), taskid, supplieid, Request.getUser(principal));
 	}
 
 	@RequestMapping(value = "claim")
 	@ResponseBody
 	public Pair<Boolean, String> claimTask(@RequestParam(value = "orderid", required = true) String orderid,
-			@RequestParam(value = "taskid", required = true) String taskid,
-            Principal principal,
-            HttpServletRequest request,
-			HttpServletResponse response) {
+			@RequestParam(value = "taskid", required = true) String taskid, Principal principal,
+			HttpServletRequest request, HttpServletResponse response) {
 		taskService.claim(taskid, Request.getUserId(principal));
 		return new Pair<Boolean, String>(true, "任务签收成功!");
 	}
 
 	@RequestMapping(value = "/handleView2", produces = "text/html;charset=utf-8")
-	public String HandleView2(Model model, @RequestParam(value = "taskid", required = true) String taskid,Principal principal,
-			HttpServletRequest request) throws Exception {
+	public String HandleView2(Model model, @RequestParam(value = "taskid", required = true) String taskid,
+			Principal principal, HttpServletRequest request) throws Exception {
 		NumberPageUtil page = new NumberPageUtil(9999, 1, 9999);
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 		ExecutionEntity executionEntity = (ExecutionEntity) runtimeService.createExecutionQuery()
 				.executionId(task.getExecutionId()).processInstanceId(task.getProcessInstanceId()).singleResult();
 		OrderView v = activitiService.findOrderViewByTaskId(taskid);
 		String activityId = executionEntity.getActivityId();
-		List<HistoricTaskView> activitis=activitiService.findHistoricUserTask(activitiService.findProcessInstanceByTaskId(taskid),activityId);
-		JpaProduct  prod=productService.findById(v.getOrder().getProductId());
+		ProcessInstance pe = activitiService.findProcessInstanceByTaskId(taskid);
+		List<HistoricTaskView> activitis = activitiService.findHistoricUserTask(pe.getProcessInstanceId(), activityId);
+		JpaProduct prod = productService.findById(v.getOrder().getProductId());
 		List<Contract> contracts = contractService.queryContractList(page, null, null, principal);
-		List<Supplies> supplieslist=suppliesService.querySuppliesByUser(principal);
-		SuppliesView suppliesView=suppliesService.getSuppliesDetail(v.getOrder().getSuppliesId(), null);
+		List<Supplies> supplieslist = suppliesService.querySuppliesByUser(principal);
+		SuppliesView suppliesView = suppliesService.getSuppliesDetail(v.getOrder().getSuppliesId(), null);
 		model.addAttribute("suppliesView", suppliesView);
 		model.addAttribute("contracts", contracts);
 		model.addAttribute("supplieslist", supplieslist);
@@ -170,41 +170,47 @@ public class OrderController {
 		model.addAttribute("activityId", activityId);
 		return "handleView2";
 	}
+
 	@RequestMapping(value = "/orderDetail", produces = "text/html;charset=utf-8")
-	public String orderDetail(Model model, @RequestParam(value = "orderid") int orderid,@RequestParam(value = "taskid") String taskid,Principal principal,
-			HttpServletRequest request) throws Exception {
-		if(StringUtils.isNotBlank(taskid)){
+	public String orderDetail(Model model, @RequestParam(value = "orderid") int orderid,
+			@RequestParam(value = "taskid") String taskid, @RequestParam(value = "pid", required = false) String pid,
+			Principal principal, HttpServletRequest request) throws Exception {
+		if (StringUtils.isNotBlank(taskid)) {
 			Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 			ExecutionEntity executionEntity = (ExecutionEntity) runtimeService.createExecutionQuery()
 					.executionId(task.getExecutionId()).processInstanceId(task.getProcessInstanceId()).singleResult();
 			String activityId = executionEntity.getActivityId();
-			List<HistoricTaskView> activitis=activitiService.findHistoricUserTask(activitiService.findProcessInstanceByTaskId(taskid),activityId);
+			ProcessInstance pe = activitiService.findProcessInstanceByTaskId(taskid);
+			List<HistoricTaskView> activitis = activitiService.findHistoricUserTask(pe.getProcessInstanceId(),
+					activityId);
 			OrderView v = activitiService.findOrderViewByTaskId(taskid);
-			JpaProduct  prod=productService.findById(v.getOrder().getProductId());
-			SuppliesView suppliesView=suppliesService.getSuppliesDetail(v.getOrder().getSuppliesId(), null);
+			JpaProduct prod = productService.findById(v.getOrder().getProductId());
+			SuppliesView suppliesView = suppliesService.getSuppliesDetail(v.getOrder().getSuppliesId(), null);
 			model.addAttribute("suppliesView", suppliesView);
 			model.addAttribute("activitis", activitis);
 			model.addAttribute("sections", orderService.getTaskSection(activitis));
 			model.addAttribute("orderview", v);
 			model.addAttribute("prod", prod);
 			return "orderDetail";
-		}else{
-		  Orders order=orderService.queryOrderDetail(orderid,principal);
-		  JpaProduct  prod=null;
-		  Long longorderid=null;
-		  OrderView orderView=new OrderView();
-		  if(order!=null){
-			   orderView.setOrder(order);
-			   prod=productService.findById(order.getProductId());
-			   longorderid= OrderIdSeq.getIdFromDate(order.getId(), order.getCreated());
-		  }
-		  SuppliesView suppliesView=suppliesService.getSuppliesDetail(orderView.getOrder().getSuppliesId(), null);
-		  model.addAttribute("suppliesView", suppliesView);
-		  model.addAttribute("order", order);
-		  model.addAttribute("longorderid", longorderid);
-		  model.addAttribute("orderview", orderView);
-		  model.addAttribute("prod", prod);
-		  return "finishedOrderDetail";
+		} else {
+			Orders order = orderService.queryOrderDetail(orderid, principal);
+			JpaProduct prod = null;
+			Long longorderid = null;
+			OrderView orderView = new OrderView();
+			if (order != null) {
+				orderView.setOrder(order);
+				prod = productService.findById(order.getProductId());
+				longorderid = OrderIdSeq.getIdFromDate(order.getId(), order.getCreated());
+			}
+			List<HistoricTaskView> activitis = activitiService.findHistoricUserTask(pid, null);
+			SuppliesView suppliesView = suppliesService.getSuppliesDetail(orderView.getOrder().getSuppliesId(), null);
+			model.addAttribute("activitis", activitis);
+			model.addAttribute("suppliesView", suppliesView);
+			model.addAttribute("order", order);
+			model.addAttribute("longorderid", longorderid);
+			model.addAttribute("orderview", orderView);
+			model.addAttribute("prod", prod);
+			return "finishedOrderDetail";
 		}
 	}
 
@@ -214,57 +220,59 @@ public class OrderController {
 	 */
 	@RequestMapping(value = "/{taskId}/complete", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
-	public Pair<Boolean, String> completeTask(@PathVariable("taskId") String taskId, Principal principal, Supplies supplies,Variable variable) {
-		if(null!=supplies && null!=supplies.getSeqNumber() && !supplies.getSeqNumber().equals("")){
+	public Pair<Boolean, String> completeTask(@PathVariable("taskId") String taskId, Principal principal,
+			Supplies supplies, Variable variable) {
+		if (null != supplies && null != supplies.getSeqNumber() && !supplies.getSeqNumber().equals("")) {
 			suppliesService.updateSupplies(supplies);
 		}
 		return activitiService.complete(taskId, variable.getVariableMap(), Request.getUser(principal));
 	}
+
 	@RequestMapping(value = "creOrder2", method = RequestMethod.POST)
 	@ResponseBody
 	public Pair<Boolean, String> saveOrderJpa(JpaOrders order, Principal principal, HttpServletRequest request)
 			throws IllegalStateException, IOException, ParseException {
 
-        order.setCreator(Request.getUserId(principal));
-        order.setStats(JpaOrders.Status.unpaid);
-        JpaProduct prod = productService.findById(order.getProductId());
-        if (prod == null) {
-            return new Pair<Boolean, String> (false, "找不到对应的套餐");
-        }
-        order.setType(prod.getType());
-        String start = request.getParameter("startTime1").toString();
-        if (!start.isEmpty()) {
-            Date startTime = DateUtil.longDf.get().parse(start);
-            order.setStartTime(startTime);
+		order.setCreator(Request.getUserId(principal));
+		order.setStats(JpaOrders.Status.unpaid);
+		JpaProduct prod = productService.findById(order.getProductId());
+		if (prod == null) {
+			return new Pair<Boolean, String>(false, "找不到对应的套餐");
+		}
+		order.setType(prod.getType());
+		String start = request.getParameter("startTime1").toString();
+		if (!start.isEmpty()) {
+			Date startTime = DateUtil.longDf.get().parse(start);
+			order.setStartTime(startTime);
 
-            Calendar cal = DateUtil.newCalendar();
-            cal.setTime(startTime);
-            cal.add(Calendar.DAY_OF_MONTH, prod.getDays());
-            order.setEndTime(cal.getTime());
-        } else {
-            return new Pair<Boolean, String> (false, "请指定订单开播时间");
-        }
+			Calendar cal = DateUtil.newCalendar();
+			cal.setTime(startTime);
+			cal.add(Calendar.DAY_OF_MONTH, prod.getDays());
+			order.setEndTime(cal.getTime());
+		} else {
+			return new Pair<Boolean, String>(false, "请指定订单开播时间");
+		}
 		return orderService.saveOrderJpa(order, Request.getUser(principal));
 	}
+
 	@RequestMapping(value = "creOrder", method = RequestMethod.POST)
 	@ResponseBody
-	public Pair<Boolean, String> saveOrder(Orders order, Principal principal)
-			throws IllegalStateException, IOException, ParseException {
+	public Pair<Boolean, String> saveOrder(Orders order, Principal principal) throws IllegalStateException,
+			IOException, ParseException {
 
 		return orderService.saveOrder(order, principal);
 	}
 
-/*
-    @RequestMapping(value = "schedule")
-    @ResponseBody
-    public Iterable<JpaOrders> schedule(String day)
-            throws IllegalStateException, IOException, ParseException {
-        Date date = sdf.get().parse(day);
-        return orderService.getOrdersForSchedule(date, JpaProduct.Type.video);
-    }
-*/
+	/*
+	    @RequestMapping(value = "schedule")
+	    @ResponseBody
+	    public Iterable<JpaOrders> schedule(String day)
+	            throws IllegalStateException, IOException, ParseException {
+	        Date date = sdf.get().parse(day);
+	        return orderService.getOrdersForSchedule(date, JpaProduct.Type.video);
+	    }
+	*/
 
-	
 	/**
 	 * 
 	 * author:impanxh
@@ -285,11 +293,12 @@ public class OrderController {
 	public String list() {
 		return "orderList";
 	}
-//	@RequestMapping(value = "/finishedOrders/{pageNum}")
-//	public String list2() {
-//		return "finishOrderList";
-//	}
-    @RequestMapping(value = "/myTaskbak/{pageNum}", method = RequestMethod.GET)
+
+	//	@RequestMapping(value = "/finishedOrders/{pageNum}")
+	//	public String list2() {
+	//		return "finishOrderList";
+	//	}
+	@RequestMapping(value = "/myTaskbak/{pageNum}", method = RequestMethod.GET)
 	public String myTask(Model model, @PathVariable int pageNum, Principal principal) {
 		NumberPageUtil page = new NumberPageUtil(pageNum);
 		page.setPagesize(30);
@@ -297,7 +306,8 @@ public class OrderController {
 		model.addAttribute("pageNum", page);
 		return "mytask";
 	}
-    /*@RequestMapping(value = "/myOrders/{pageNum}")
+
+	/*@RequestMapping(value = "/myOrders/{pageNum}")
 	public String myOrders(Model model, Principal principal,@PathVariable int pageNum, HttpServletRequest request,
 			HttpServletResponse response) {
 		int pagesize=8;
@@ -315,8 +325,7 @@ public class OrderController {
 			HttpServletResponse response) {
 		return "allRuningOrders";
 	}*/
-	
-	
+
 	@RequestMapping("ajax-runningAjax")
 	@ResponseBody
 	public DataTablePage<OrderView> runningAjax(TableRequest req, Principal principal) {
@@ -324,24 +333,25 @@ public class OrderController {
 				req.getSort("id"));
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
-	
-	
+
 	@RequestMapping(value = "/allRuningOrders/{pageNum}")
-	public String allRuningOrders(Model model,Principal principal, @PathVariable int pageNum, HttpServletRequest request,
-			HttpServletResponse response) {
+	public String allRuningOrders(Model model, Principal principal, @PathVariable int pageNum,
+			HttpServletRequest request, HttpServletResponse response) {
 		return "allRuningOrders";
 	}
-	
+
 	@RequestMapping(value = "/myOrders/{pageNum}")
 	public String myOrders(Model model) {
 		model.addAttribute("orderMenu", "我的订单");
 		return "myOrders";
 	}
+
 	@RequestMapping(value = "/join/{pageNum}")
 	public String joinOrder(Model model) {
 		model.addAttribute("orderMenu", "我参与的订单");
 		return "myOrders";
 	}
+
 	@RequestMapping("ajax-myOrders")
 	@ResponseBody
 	public DataTablePage<OrderView> myOrders(TableRequest req, Principal principal) {
@@ -349,18 +359,18 @@ public class OrderController {
 				req.getSort("id"));
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
-	
-//	@RequestMapping(value="/finishedOrders/{usertype}/{pageNum}")
-//	public String finishedOrders(Model model,Principal principal,@PathVariable("usertype") String usertype,@PathVariable int pageNum,HttpServletRequest request, HttpServletResponse response){
-//		NumberPageUtil page = new NumberPageUtil(pageNum);
-//		page.setPagesize(30);
-//		List<OrderView> list = activitiService.findFinishedProcessInstaces(Request.getUserId(principal),usertype, page);
-//		model.addAttribute("list", list);
-//		model.addAttribute("pageNum", page);
-//		return "finishedOrders";
-//	}
-	@RequestMapping(value="/finished")
-	public String finishedOrders(){
+
+	//	@RequestMapping(value="/finishedOrders/{usertype}/{pageNum}")
+	//	public String finishedOrders(Model model,Principal principal,@PathVariable("usertype") String usertype,@PathVariable int pageNum,HttpServletRequest request, HttpServletResponse response){
+	//		NumberPageUtil page = new NumberPageUtil(pageNum);
+	//		page.setPagesize(30);
+	//		List<OrderView> list = activitiService.findFinishedProcessInstaces(Request.getUserId(principal),usertype, page);
+	//		model.addAttribute("list", list);
+	//		model.addAttribute("pageNum", page);
+	//		return "finishedOrders";
+	//	}
+	@RequestMapping(value = "/finished")
+	public String finishedOrders() {
 		/*NumberPageUtil page = new NumberPageUtil(pageNum);
 		page.setPagesize(30);
 		List<OrderView> list = activitiService.findFinishedProcessInstaces(Request.getUserId(principal),usertype, page);
@@ -368,6 +378,7 @@ public class OrderController {
 		model.addAttribute("pageNum", page);*/
 		return "finishedOrders";
 	}
+
 	@RequestMapping("ajax-finishedOrders")
 	@ResponseBody
 	public DataTablePage<OrderView> finishedAjax(TableRequest req, Principal principal) {
