@@ -17,7 +17,14 @@ import java.util.List;
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"username"}))
 public class UserDetail extends BaseEntity {
-    @Id
+    /**
+	 * Comment here.
+	 *
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
+	private static final long serialVersionUID = -7630171436107510776L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
