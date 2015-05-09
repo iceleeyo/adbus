@@ -1,13 +1,13 @@
 package com.pantuo.dao;
 
-import com.pantuo.dao.pojo.JpaOrders;
-import com.pantuo.dao.pojo.JpaProduct;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
+
+import com.pantuo.dao.pojo.JpaMessage;
 
 /**
  * @author panxh
  */
 
-public interface MessageRepository extends JpaRepository<JpaOrders, Integer>, QueryDslPredicateExecutor<JpaOrders> {
+public interface MessageRepository extends JpaRepository<JpaMessage, Integer>, QueryDslPredicateExecutor<JpaMessage> {
 }
