@@ -4,15 +4,8 @@
 <script type="text/javascript">
 
 
-	function claim(orderid,taskid){
- 	$.ajax({
-			url : "${rc.contextPath}/order/claim?orderid="+orderid+"&taskid="+taskid,
-			type : "POST",
-			success : function(data) {
-				jDialog.Alert(data.right);
-				location.reload([true]);
-			}
-		}, "text");
+	function claim(orderid){
+		window.location.href= "${rc.contextPath}/order/orderDetail/"+orderid;
 	  
 	}
 	
@@ -38,7 +31,10 @@
                 "dataSrc": "content",
             },
             "columns": [
-            	{ "data": "longOrderId", "defaultContent": ""},
+            	{ "data": "longOrderId", "defaultContent": "","render": function(data, type, row, meta) {
+	                 	 	return  "<a href=\"javascript:;\" onclick=\"claim('"+ (row.mainView.orderid)+"');\">"+(row.longOrderId)+"</a>";
+                    }
+                },
                 { "data": "mainView.created", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd HH:mm:ss");
                 	return d;

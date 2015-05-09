@@ -171,10 +171,17 @@ public class OrderController {
 		return "handleView2";
 	}
 
-	@RequestMapping(value = "/orderDetail", produces = "text/html;charset=utf-8")
-	public String orderDetail(Model model, @RequestParam(value = "orderid") int orderid,
-			@RequestParam(value = "taskid") String taskid, @RequestParam(value = "pid", required = false) String pid,
-			Principal principal, HttpServletRequest request) throws Exception {
+	@RequestMapping(value = "/orderDetail/{orderid}", produces = "text/html;charset=utf-8")
+	public String orderDetail(Model model, @PathVariable("orderid") int orderid,
+			@RequestParam(value = "taskid", required = false) String taskid,
+			@RequestParam(value = "pid", required = false) String pid, Principal principal, HttpServletRequest request)
+			throws Exception {
+		return activitiService.showOrderDetail(model, orderid, taskid, pid, principal);
+	}
+
+	@Deprecated
+	private String showOrderDetail(Model model, int orderid, String taskid, String pid, Principal principal)
+			throws Exception {
 		if (StringUtils.isNotBlank(taskid)) {
 			Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 			ExecutionEntity executionEntity = (ExecutionEntity) runtimeService.createExecutionQuery()
