@@ -13,9 +13,9 @@ public class DateConverter implements Converter {
 
 	private static final Logger logger = Logger.getLogger(DateConverter.class);
 
-	private static final String DATETIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+	public static final String DATETIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
-	private static final String DATETIME_PATTERN_NO_SECOND = "yyyy-MM-dd HH:mm";
+	public static final String DATETIME_PATTERN_NO_SECOND = "yyyy-MM-dd HH:mm";
 
 	public static final String DATE_PATTERN = "yyyy-MM-dd";
 	public static final String TIME_PATTERN = "HH:mm:ss";

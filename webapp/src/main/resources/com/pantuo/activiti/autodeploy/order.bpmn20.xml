@@ -51,92 +51,43 @@
       <userTask id="inputSchedule" name="北广录入排期表" activiti:candidateGroups="BeiguangScheduleManager"></userTask>
       <sequenceFlow id="flow39" sourceRef="submitSchedule" targetRef="inputSchedule"></sequenceFlow>
       <sequenceFlow id="flow40" sourceRef="inputSchedule" targetRef="effectiveEmail"></sequenceFlow>
-      <serviceTask id="effectiveEmail" name="发送订单生效邮件" activiti:type="mail">
-        <extensionElements>
-          <activiti:field name="from">
-            <activiti:expression>${_theEmail}</activiti:expression>
-          </activiti:field>
-          <activiti:field name="to">
-            <activiti:expression>${_owner.user.email}</activiti:expression>
-          </activiti:field>
-          <activiti:field name="charset">
-            <activiti:string><![CDATA[utf-8]]></activiti:string>
-          </activiti:field>
-          <activiti:field name="subject">
-            <activiti:expression>您的广告投放订单已经生效</activiti:expression>
-          </activiti:field>
-          <activiti:field name="html">
-            <activiti:expression>&lt;html&gt;
-&lt;body&gt;
-	${_owner.user.firstName}${_owner.user.lastName} 先生/小姐，&lt;br/&gt;&lt;br/&gt;
-
-	您提交的订单已于${_now}&lt;b&gt;进入排期&lt;/b&gt;。&lt;br/&gt;&lt;br/&gt;
-
-	此致，&lt;br/&gt;
-	${_theCompany}
-&lt;/body&gt;
-&lt;/html&gt;</activiti:expression>
-          </activiti:field>
-        </extensionElements>
-      </serviceTask>
+      
+      
+       <serviceTask id="effectiveEmail" name="发送订单生效邮件" activiti:delegateExpression="${messageBox}">
+			<extensionElements>
+				<activiti:field name="actionType" stringValue="effective" />
+				<activiti:field name="sendMail" stringValue="YES" />
+				<activiti:field name="sendSiteMsg" stringValue="YES" />
+				<activiti:field name="sendPhoneMsg" stringValue="NO" />
+			</extensionElements>
+		</serviceTask>
+		
+      
       <sequenceFlow id="flow41" sourceRef="shangboReport" targetRef="shangboEmail"></sequenceFlow>
-      <serviceTask id="shangboEmail" name="发送上播报告到广告主" activiti:type="mail">
-        <extensionElements>
-          <activiti:field name="from">
-            <activiti:expression>${_theEmail}</activiti:expression>
-          </activiti:field>
-          <activiti:field name="to">
-            <activiti:expression>${_owner.user.email}</activiti:expression>
-          </activiti:field>
-          <activiti:field name="charset">
-            <activiti:string><![CDATA[utf-8]]></activiti:string>
-          </activiti:field>
-          <activiti:field name="subject">
-            <activiti:expression>您的广告订单已经上播</activiti:expression>
-          </activiti:field>
-          <activiti:field name="html">
-            <activiti:expression>&lt;html&gt;
-&lt;body&gt;
-	${_owner.user.firstName}${_owner.user.lastName} 先生/小姐，&lt;br/&gt;&lt;br/&gt;
-
-	您提交的广告已于${_now}&lt;b&gt;上线播出&lt;/b&gt;。&lt;br/&gt;&lt;br/&gt;
-
-	此致，&lt;br/&gt;
-	${_theCompany}
-&lt;/body&gt;
-&lt;/html&gt;</activiti:expression>
-          </activiti:field>
-        </extensionElements>
-      </serviceTask>
+      
+      
+            
+       <serviceTask id="shangboEmail" name="发送上播报告到广告主" activiti:delegateExpression="${messageBox}">
+			<extensionElements>
+				<activiti:field name="actionType" stringValue="shangbo" />
+				<activiti:field name="sendMail" stringValue="YES" />
+				<activiti:field name="sendSiteMsg" stringValue="YES" />
+				<activiti:field name="sendPhoneMsg" stringValue="NO" />
+			</extensionElements>
+		</serviceTask>
+       
       <sequenceFlow id="flow42" sourceRef="jianboReport" targetRef="jianboEmail"></sequenceFlow>
-      <serviceTask id="jianboEmail" name="发送监播报告到广告主" activiti:type="mail">
-        <extensionElements>
-          <activiti:field name="from">
-            <activiti:expression>${_theEmail}</activiti:expression>
-          </activiti:field>
-          <activiti:field name="to">
-            <activiti:expression>${_owner.user.email}</activiti:expression>
-          </activiti:field>
-          <activiti:field name="charset">
-            <activiti:string><![CDATA[utf-8]]></activiti:string>
-          </activiti:field>
-          <activiti:field name="subject">
-            <activiti:expression>您的广告已经播出完成</activiti:expression>
-          </activiti:field>
-          <activiti:field name="html">
-            <activiti:expression>&lt;html&gt;
-&lt;body&gt;
-	${_owner.user.firstName}${_owner.user.lastName} 先生/小姐，&lt;br/&gt;&lt;br/&gt;
-
-	您提交的广告已于${_now}&lt;b&gt;播出完成&lt;/b&gt;。&lt;br/&gt;&lt;br/&gt;
-
-	此致，&lt;br/&gt;
-	${_theCompany}
-&lt;/body&gt;
-&lt;/html&gt;</activiti:expression>
-          </activiti:field>
-        </extensionElements>
-      </serviceTask>
+      
+       <serviceTask id="jianboEmail" name="发送监播报告到广告主" activiti:delegateExpression="${messageBox}">
+			<extensionElements>
+				<activiti:field name="actionType" stringValue="jianbo" />
+				<activiti:field name="sendMail" stringValue="YES" />
+				<activiti:field name="sendSiteMsg" stringValue="YES" />
+				<activiti:field name="sendPhoneMsg" stringValue="NO" />
+			</extensionElements>
+		</serviceTask>
+		
+		 
       <subProcess id="approvePaymentSubprocess" name="审核支付流程">
         <exclusiveGateway id="paymentGateway" name="支付情况检查"></exclusiveGateway>
         <sequenceFlow id="flow32" name="支付OK" sourceRef="paymentGateway" targetRef="readyGateway">
@@ -158,36 +109,20 @@
         <sequenceFlow id="flow37" name="订单/支付/物料OK" sourceRef="readyGateway" targetRef="generateSchedule">
           <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approve1Result == true && approve2Result == true && paymentResult == true}]]></conditionExpression>
         </sequenceFlow>
-        <serviceTask id="denyEmail" name="发送审核不通过的邮件给广告主" activiti:type="mail">
-          <extensionElements>
-            <activiti:field name="from">
-              <activiti:expression>${_theEmail}</activiti:expression>
-            </activiti:field>
-            <activiti:field name="to">
-              <activiti:expression>${_owner.user.email}</activiti:expression>
-            </activiti:field>
-            <activiti:field name="charset">
-              <activiti:string><![CDATA[utf-8]]></activiti:string>
-            </activiti:field>
-            <activiti:field name="subject">
-              <activiti:expression>您的订单需要修改</activiti:expression>
-            </activiti:field>
-            <activiti:field name="html">
-              <activiti:expression>&lt;html&gt;
-&lt;body&gt;
-	${_owner.user.firstName}${_owner.user.lastName} 先生/小姐，&lt;br/&gt;&lt;br/&gt;
-
-	您提交的订单&lt;b&gt;需要修改&lt;/b&gt;以下内容：&lt;br/&gt;
-	${approve1Comments}&lt;br/&gt;&lt;br/&gt;
-	此致，&lt;br/&gt;
-	${_theCompany}
-&lt;/body&gt;
-&lt;/html&gt;</activiti:expression>
-            </activiti:field>
-          </extensionElements>
-        </serviceTask>
+        
+        
+        
+          <serviceTask id="denyEmail" name="发送审核不通过的通知给广告主" activiti:delegateExpression="${messageBox}">
+			<extensionElements>
+				<activiti:field name="actionType" stringValue="deny" />
+				<activiti:field name="sendMail" stringValue="YES" />
+				<activiti:field name="sendSiteMsg" stringValue="YES" />
+				<activiti:field name="sendPhoneMsg" stringValue="NO" />
+			</extensionElements>
+		</serviceTask>
+        
         <sequenceFlow id="flow43" sourceRef="denyEmail" targetRef="modifyOrder"></sequenceFlow>
-        <userTask id="modifyOrder" name="广告主修改订单" activiti:candidateUsers="${_owner.username}" activiti:candidateGroups="ShibaOrderManager" >
+        <userTask id="modifyOrder" name="广告主修改订单" activiti:candidateUsers="${_owner.username}" activiti:candidateGroups="ShibaOrderManager">
           <documentation>广告主修改订单信息</documentation>
         </userTask>
         <sequenceFlow id="flow57" sourceRef="modifyOrder" targetRef="approve1"></sequenceFlow>
@@ -222,66 +157,28 @@
 			2.approve2Comments:描述审核结果的文本</documentation>
         </userTask>
         <sequenceFlow id="flow12" sourceRef="approve2" targetRef="approve2Gateway"></sequenceFlow>
-        <serviceTask id="approveEmail" name="发送审核通过邮件给广告主" activiti:type="mail">
-          <extensionElements>
-            <activiti:field name="from">
-              <activiti:expression>${_theEmail}</activiti:expression>
-            </activiti:field>
-            <activiti:field name="to">
-              <activiti:expression>${_owner.user.email}</activiti:expression>
-            </activiti:field>
-            <activiti:field name="charset">
-              <activiti:string><![CDATA[utf-8]]></activiti:string>
-            </activiti:field>
-            <activiti:field name="subject">
-              <activiti:expression>您的订单已通过审核</activiti:expression>
-            </activiti:field>
-            <activiti:field name="html">
-              <activiti:expression>&lt;html&gt;
-&lt;body&gt;
-	${_owner.user.firstName}${_owner.user.lastName} 先生/小姐，&lt;br/&gt;&lt;br/&gt;
-
-	您提交的订单已于${_now}&lt;b&gt;通过审核&lt;/b&gt;。&lt;br/&gt;&lt;br/&gt;
-
-	此致，&lt;br/&gt;
-	${_theCompany}
-&lt;/body&gt;
-&lt;/html&gt;</activiti:expression>
-            </activiti:field>
-          </extensionElements>
-        </serviceTask>
-        <sequenceFlow id="flow16" sourceRef="approveEmail" targetRef="readyGateway"></sequenceFlow>
-        <serviceTask id="paymentFailureEmail" name="发送支付失败邮件" activiti:type="mail">
-          <extensionElements>
-            <activiti:field name="from">
-              <activiti:expression>${_theEmail}</activiti:expression>
-            </activiti:field>
-            <activiti:field name="to">
-              <activiti:expression>${_owner.user.email}</activiti:expression>
-            </activiti:field>
-            <activiti:field name="charset">
-              <activiti:string><![CDATA[utf-8]]></activiti:string>
-            </activiti:field>
-            <activiti:field name="subject">
-              <activiti:expression>您的订单支付失败</activiti:expression>
-            </activiti:field>
-            <activiti:field name="html">
-              <activiti:expression>&lt;html&gt;
-&lt;body&gt;
-	${_owner.user.firstName}${_owner.user.lastName} 先生/小姐，&lt;br/&gt;&lt;br/&gt;
-
-	您提交的订单支付失败，请重新支付&lt;/b&gt;。&lt;br/&gt;&lt;br/&gt;
-
-	此致，&lt;br/&gt;
-	${_theCompany}
-&lt;/body&gt;
-&lt;/html&gt;</activiti:expression>
-            </activiti:field>
-          </extensionElements>
-        </serviceTask>
         
-
-        <sequenceFlow id="flow56" sourceRef="paymentFailureEmail" targetRef="payment"></sequenceFlow>
+        <serviceTask id="approveEmail" name="发送审核通过通知" activiti:delegateExpression="${messageBox}">
+			<extensionElements>
+				<activiti:field name="actionType" stringValue="pass" />
+				<activiti:field name="sendMail" stringValue="YES" />
+				<activiti:field name="sendSiteMsg" stringValue="YES" />
+				<activiti:field name="sendPhoneMsg" stringValue="NO" />
+			</extensionElements>
+		</serviceTask>
+		
+	
+        <sequenceFlow id="flow16" sourceRef="approveEmail" targetRef="readyGateway"></sequenceFlow>
+        
+		<serviceTask id="paymentFailureEmail" name="发送支付失败通知" activiti:delegateExpression="${messageBox}">
+			<extensionElements>
+				<activiti:field name="actionType" stringValue="payFail" />
+				<activiti:field name="sendMail" stringValue="YES" />
+				<activiti:field name="sendSiteMsg" stringValue="YES" />
+				<activiti:field name="sendPhoneMsg" stringValue="NO" />
+			</extensionElements>
+		</serviceTask>
+       
         <serviceTask id="generateSchedule" name="生成排期表" activiti:delegateExpression="${generateSchedule}"></serviceTask>
         <sequenceFlow id="flow47" name="排期表OK" sourceRef="generateSchedule" targetRef="scheduleGateway"></sequenceFlow>
         <exclusiveGateway id="scheduleGateway" name="排期表情况检查"></exclusiveGateway>
@@ -297,10 +194,9 @@
         <sequenceFlow id="flow61" name="无法生成排期表" sourceRef="scheduleGateway" targetRef="scheduleErrorEvent">
           <conditionExpression xsi:type="tFormalExpression"><![CDATA[${scheduleResult == false}]]></conditionExpression>
         </sequenceFlow>
+     
+        <sequenceFlow id="flow64" sourceRef="paymentFailureEmail" targetRef="payment"></sequenceFlow>
       </subProcess>
-      
-      
-      
       <sequenceFlow id="flow38" sourceRef="approvePaymentSubprocess" targetRef="submitSchedule"></sequenceFlow>
       <boundaryEvent id="boundaryerror2" name="Error" attachedToRef="approvePaymentSubprocess">
         <errorEventDefinition errorRef="scheduleError"></errorEventDefinition>
@@ -434,6 +330,9 @@
       <bpmndi:BPMNShape bpmnElement="scheduleErrorEvent" id="BPMNShape_scheduleErrorEvent">
         <omgdc:Bounds height="35.0" width="35.0" x="1240.0" y="245.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="paymentFailureMsg" id="BPMNShape_paymentFailureMsg">
+        <omgdc:Bounds height="55.0" width="105.0" x="543.0" y="560.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="boundaryerror2" id="BPMNShape_boundaryerror2">
         <omgdc:Bounds height="30.0" width="30.0" x="1038.0" y="630.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
@@ -506,7 +405,7 @@
         <omgdi:waypoint x="992.0" y="502.0"></omgdi:waypoint>
         <omgdi:waypoint x="993.0" y="455.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="39.0" x="1276.0" y="588.0"></omgdc:Bounds>
+          <omgdc:Bounds height="12.0" width="38.0" x="1276.0" y="588.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow45" id="BPMNEdge_flow45">
@@ -514,7 +413,7 @@
         <omgdi:waypoint x="877.0" y="578.0"></omgdi:waypoint>
         <omgdi:waypoint x="788.0" y="578.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="60.0" x="1168.0" y="680.0"></omgdc:Bounds>
+          <omgdc:Bounds height="11.0" width="55.0" x="1168.0" y="680.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow13" id="BPMNEdge_flow13">
@@ -522,14 +421,14 @@
         <omgdi:waypoint x="593.0" y="435.0"></omgdi:waypoint>
         <omgdi:waypoint x="593.0" y="381.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="36.0" x="1048.0" y="515.0"></omgdc:Bounds>
+          <omgdc:Bounds height="11.0" width="33.0" x="1048.0" y="515.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow15" id="BPMNEdge_flow15">
         <omgdi:waypoint x="799.0" y="436.0"></omgdi:waypoint>
         <omgdi:waypoint x="843.0" y="435.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="24.0" x="1177.0" y="524.0"></omgdc:Bounds>
+          <omgdc:Bounds height="11.0" width="22.0" x="1177.0" y="524.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow44" id="BPMNEdge_flow44">
@@ -540,7 +439,7 @@
         <omgdi:waypoint x="1013.0" y="435.0"></omgdi:waypoint>
         <omgdi:waypoint x="1103.0" y="435.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="93.0" x="1378.0" y="514.0"></omgdc:Bounds>
+          <omgdc:Bounds height="12.0" width="88.0" x="1378.0" y="514.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow43" id="BPMNEdge_flow43">
@@ -556,14 +455,14 @@
         <omgdi:waypoint x="779.0" y="175.0"></omgdi:waypoint>
         <omgdi:waypoint x="780.0" y="321.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="84.0" width="24.0" x="1146.0" y="307.0"></omgdc:Bounds>
+          <omgdc:Bounds height="72.0" width="24.0" x="1146.0" y="307.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow10" id="BPMNEdge_flow10">
         <omgdi:waypoint x="692.0" y="175.0"></omgdi:waypoint>
         <omgdi:waypoint x="645.0" y="175.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="42.0" width="36.0" x="995.0" y="232.0"></omgdc:Bounds>
+          <omgdc:Bounds height="33.0" width="36.0" x="995.0" y="232.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow49" id="BPMNEdge_flow49">
@@ -572,7 +471,7 @@
         <omgdi:waypoint x="992.0" y="129.0"></omgdi:waypoint>
         <omgdi:waypoint x="993.0" y="415.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="42.0" width="100.0" x="1204.0" y="217.0"></omgdc:Bounds>
+          <omgdc:Bounds height="36.0" width="100.0" x="1204.0" y="217.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
@@ -585,7 +484,7 @@
         <omgdi:waypoint x="482.0" y="351.0"></omgdi:waypoint>
         <omgdi:waypoint x="543.0" y="351.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="84.0" x="820.0" y="420.0"></omgdc:Bounds>
+          <omgdc:Bounds height="11.0" width="77.0" x="820.0" y="420.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow30" id="BPMNEdge_flow30">
@@ -593,7 +492,7 @@
         <omgdi:waypoint x="482.0" y="502.0"></omgdi:waypoint>
         <omgdi:waypoint x="543.0" y="502.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="36.0" x="860.0" y="603.0"></omgdc:Bounds>
+          <omgdc:Bounds height="11.0" width="33.0" x="860.0" y="603.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow31" id="BPMNEdge_flow31">
@@ -608,16 +507,11 @@
         <omgdi:waypoint x="948.0" y="435.0"></omgdi:waypoint>
         <omgdi:waypoint x="973.0" y="435.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow56" id="BPMNEdge_flow56">
-        <omgdi:waypoint x="683.0" y="578.0"></omgdi:waypoint>
-        <omgdi:waypoint x="595.0" y="578.0"></omgdi:waypoint>
-        <omgdi:waypoint x="595.0" y="530.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow47" id="BPMNEdge_flow47">
         <omgdi:waypoint x="1155.0" y="408.0"></omgdi:waypoint>
         <omgdi:waypoint x="1155.0" y="371.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="51.0" x="1500.0" y="410.0"></omgdc:Bounds>
+          <omgdc:Bounds height="12.0" width="49.0" x="1500.0" y="410.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow59" id="BPMNEdge_flow59">
@@ -633,8 +527,16 @@
         <omgdi:waypoint x="1155.0" y="262.0"></omgdi:waypoint>
         <omgdi:waypoint x="1240.0" y="262.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="100.0" x="1493.0" y="334.0"></omgdc:Bounds>
+          <omgdc:Bounds height="11.0" width="77.0" x="1493.0" y="334.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow64" id="BPMNEdge_flow64">
+        <omgdi:waypoint x="683.0" y="578.0"></omgdi:waypoint>
+        <omgdi:waypoint x="648.0" y="587.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow66" id="BPMNEdge_flow66">
+        <omgdi:waypoint x="595.0" y="560.0"></omgdi:waypoint>
+        <omgdi:waypoint x="595.0" y="530.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow38" id="BPMNEdge_flow38">
         <omgdi:waypoint x="834.0" y="641.0"></omgdi:waypoint>
@@ -657,7 +559,7 @@
         <omgdi:waypoint x="1053.0" y="660.0"></omgdi:waypoint>
         <omgdi:waypoint x="1052.0" y="690.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="100.0" x="1063.0" y="660.0"></omgdc:Bounds>
+          <omgdc:Bounds height="11.0" width="44.0" x="1063.0" y="660.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>

@@ -428,6 +428,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			}
 			taskService.complete(taskId, variables);
 		} catch (Exception e) {
+			//e.printStackTrace();
 			r = new Pair<Boolean, String>(false, StringUtils.EMPTY);
 		}
 		return r;
