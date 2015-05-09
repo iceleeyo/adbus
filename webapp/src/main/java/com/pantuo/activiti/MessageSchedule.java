@@ -53,7 +53,7 @@ public class MessageSchedule extends MailActivityBehavior {
 	public Expression sendPhoneMsg;
 
 	public enum ActionType {
-		payFail, pass, deny,jianbo,shangbo,effective;
+		payFail, pass, deny, jianbo, shangbo, effective;
 	}
 
 	//@Override
@@ -84,22 +84,7 @@ public class MessageSchedule extends MailActivityBehavior {
 			super.to = new FixedValue(owner.getUser().getEmail());
 			super.charset = new FixedValue("utf-8");
 			Map<String, String> context = new HashMap<String, String>();
-			if (ActionType.payFail.name().equals(mtype)) {
-				super.subject = new FixedValue("您的订单支付失败");
-			} else if (ActionType.pass.name().equals(mtype)) {
-				super.subject = new FixedValue("您的订单已通过审核");
-			} else if (ActionType.deny.name().equals(mtype)) {
-				super.subject = new FixedValue("您的订单需要修改");
-			}else if (ActionType.jianbo.name().equals(mtype)) {
-				super.subject = new FixedValue("您的广告已经播出完成");
-			}else if (ActionType.shangbo.name().equals(mtype)) {
-				super.subject = new FixedValue("您的广告订单已经上播");
-			}else if (ActionType.effective.name().equals(mtype)) {
-				super.subject = new FixedValue("您的广告投放订单已经生效");
-			} 
-
-
-		
+			setMailTitle(mtype);
 			context.put("firstName", owner.getUser().getFirstName());
 			context.put("lastName", owner.getUser().getLastName());
 			context.put("_now", DateConverter.doConvertToString(System.currentTimeMillis(),
@@ -114,6 +99,22 @@ public class MessageSchedule extends MailActivityBehavior {
 			}
 		}
 
+	}
+
+	private void setMailTitle(String mtype) {
+		if (ActionType.payFail.name().equals(mtype)) {
+			super.subject = new FixedValue("您的订单支付失败");
+		} else if (ActionType.pass.name().equals(mtype)) {
+			super.subject = new FixedValue("您的订单已通过审核");
+		} else if (ActionType.deny.name().equals(mtype)) {
+			super.subject = new FixedValue("您的订单需要修改");
+		} else if (ActionType.jianbo.name().equals(mtype)) {
+			super.subject = new FixedValue("您的广告已经播出完成");
+		} else if (ActionType.shangbo.name().equals(mtype)) {
+			super.subject = new FixedValue("您的广告订单已经上播");
+		} else if (ActionType.effective.name().equals(mtype)) {
+			super.subject = new FixedValue("您的广告投放订单已经生效");
+		}
 	}
 
 	/**
