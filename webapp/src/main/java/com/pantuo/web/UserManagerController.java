@@ -120,6 +120,12 @@ public class UserManagerController {
     	userService.createUserFromPage(detail);
         return detail;
     }
+    @RequestMapping(value = "/register", method = { RequestMethod.POST})
+    @ResponseBody
+	public UserDetail register(UserDetail detail, HttpServletRequest request) {
+    	userService.createUserFromPage(detail);
+        return detail;
+    }
     
     @RequestMapping(value = "/u_edit/update", method = { RequestMethod.POST})
     @ResponseBody
