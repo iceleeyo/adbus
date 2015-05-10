@@ -1,6 +1,7 @@
 <#import "template/template.ftl" as frame>
 <#global menu="排条单">
-<@frame.html title="排条单" js=["js/jquery-dataTables-fnFakeRowspan.js"]>
+<@frame.html title="排条单" js=["js/jquery-dateFormat.js", "js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"]
+css=["js/jquery-ui/jquery-ui.css"]>
 
 <style type="text/css">
     #table.dataTable thead th:first-child, #table.dataTable thead td:first-child,
@@ -11,6 +12,28 @@
     #table td .per-occupied {position:absolute;background-color: #ffad20;left:0;top:0;height:4px;}
     #table td .per-free {position:absolute;background-color: #4acd48;right:0;top:0;height:4px;}
 </style>
+<style type="text/css">
+    .ui-datepicker-calendar.only-month {
+        display: none;
+    }
+    .report-toolbar {
+        float: right;
+    }
+
+    .report-toolbar .ui-label-mini {
+        font-size: 12px;line-height: 35px;
+    }
+</style>
+<script type="text/javascript">
+    $(function(){
+            $("#day").val(<#if day??>'${day}'<#else>$.format.date(new Date(), 'yyyy-MM-dd')</#if>);
+
+        $("#day").change(function() {
+            $(location).attr('href', "list?day=" + $("#day").val());
+        });
+    });
+
+</script>
 <script type="text/javascript">
     var table;
     function initTable () {
@@ -106,9 +129,15 @@
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
 
-            <div class="withdraw-title" style="padding-top: 0px;text-align:center;">
-                                ${day}媒体排条单
-                                </div>
+            <div class="withdraw-title">
+                                媒体排条单[${day}]
+                <div class="report-toolbar">
+                    <input
+                            class="ui-input ui-input-mini datepicker" type="text" name="day"
+                            id="day" data-is="isAmount isEnough"
+                            autocomplete="off" disableautocomplete="">
+                </div>
+            </div>
             <div class="div">
                 <table id="table" class="cell-border compact display" cellspacing="0"
                        style="width: 100%; border-left-style: solid; border-left-width: 1px; border-left-color: rgb(221, 221, 221);">

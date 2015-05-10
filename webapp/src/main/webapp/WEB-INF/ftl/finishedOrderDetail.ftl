@@ -1,13 +1,14 @@
 <#import "template/template.ftl" as frame>
 <#import "macro/materialPreview.ftl" as preview>
 
-<@frame.html title="订单详细">
+<@frame.html title="订单详细" js=["js/highslide/highslide-full.js", "js/video-js/video.js", "js/video-js/lang/zh-CN.js"]
+css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
+    <#include "template/preview.ftl" />
 <script type="text/javascript">
 function go_back(){
 	history.go(-1);
 }
 </script>
-<div class="withdraw-wrap color-white-bg fn-clear">
 <div id="process" class="section4">
  
 		            <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单</li><li id="track_time_0" class="tx3"></li></ul></div>
@@ -20,7 +21,7 @@ function go_back(){
             		<div class="proce ready"><ul><li class="tx1">&nbsp;</li></ul></div>		
             		<div class="node ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">播出完成</li><li id="track_time_6" class="tx3"></li></ul></div>
            </div>
-							  <DIV class="color-white-bg border-ec">
+							  <#--<DIV class="color-white-bg border-ec">
                 <H3 class="text-xl title-box"><A class="black" href="#">订单详情-${longorderid!''}</A></H3>
                <DIV class="summary mt10 uplan-summary-div">
               <UL class="uplan-detail-ul">
@@ -43,9 +44,9 @@ function go_back(){
   <LI style="width: 240px;"><SPAN><a target="_blank" href="${rc.contextPath}/schedule/${order.id!''}" >查看排期表</a></SPAN><SPAN class="con"></SPAN></LI>
 </UL>
 </DIV>
-</DIV>
+</DIV>-->
+<#include "template/orderDetail.ftl" />
 <#include "template/hisDetail.ftl" />
-</div>
 </@frame.html>
 
 

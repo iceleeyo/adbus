@@ -1878,7 +1878,7 @@
 	border: 1px solid #e0e0e0;
 	box-shadow: 0 0 2px 1px #efefef;
 	padding: 20px;
-	border-top: 4px solid #00a8e8
+	border-top: 1px solid #00a8e8
 }
 
 .withdraw-title {
@@ -2813,12 +2813,11 @@
 .title-box {
 	border-bottom: 1px solid #e0e0e0;
 	height: 45px;
-	padding: 10px 0 0 20px
 }
 
 .border-ec {
 	border: 1px solid #e0e0e0;
-	border-top: 4px solid #00a8e8;
+	border-top: 1px solid #00a8e8;
 }
 
 .uplan-detail-ul {

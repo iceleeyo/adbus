@@ -1,31 +1,52 @@
 <DIV class="p20bs mt10 color-white-bg border-ec">
 <H3 class="text-xl title-box"><A class="black" href="#">历史办理信息</A></H3><br>	
 <#if activitis?exists>
+    <script type="text/javascript">
+        var table;
+        function initHisTable () {
+            table = $('#his_table').dataTable( {
+                "dom": 't',
+                "searching": false,
+                "ordering": false,
+                "serverSide": false,
+                "language": {
+                    "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
+                }
+            } );
+        }
+
+        $(document).ready(function() {
+            initHisTable();
+        } );
+    </script>
+    <style type="text/css">
+        #his_table {font-size: 12px;}
+    </style>
 <div class="uplan-table-box">
-											
-	<#list activitis as act>
+    <table id="his_table" class="display" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th width="15%">操作类型</th>
+            <th width="12%">人员</th>
+            <th width="17%">签收时间</th>
+            <th width="17%">办理时间</th>
+            <th>操作意见</th>
+        </tr>
+        </thead>
+        <tbody>
+    <#list activitis as act>
         <#if act.assignee??>
-		<TABLE class="ui-table ui-table-gray">
-  		<TBODY>
-  			<TR class="dark">
-    			<TH width="20%">操作类型</TH>
-    				<TD width="30%" style="border-radius: 0 0 0">${act.name}</TD>
-    				<TH width="20%" style="border-radius: 0 0 0">操作人</TH>
-    				<TD width="30%">${act.assignee!''}</TD>
-   			</TR>
-  			<TR>
-    			<TH>操作意见</TH>
-    			<TD colspan=3>${act.comment!''}</TD></TR>
-  			<TR >
-    			<TH width="20%">签收时间</TH>
-    			<TD style="border-radius: 0 0 0"><#setting date_format="yyyy-MM-dd HH:MM">${(act.startTime?date)!''}</TD>
-    			<TH width="20%" style="border-radius: 0 0 0">操作时间</TH>
-    			<TD ><#setting date_format="yyyy-MM-dd HH:MM">${(act.endTime?date)!''}</TD>
-   			</TR>    	
- 			</TBODY>
-		</TABLE><br>
+        <tr>
+            <td>${act.name}</td>
+            <td>${act.assignee!''}</td>
+            <td><#setting date_format="yyyy-MM-dd HH:MM">${(act.startTime?date)!''}</td>
+            <td><#setting date_format="yyyy-MM-dd HH:MM">${(act.endTime?date)!''}</td>
+            <td>${act.comment!''}</td>
+        </tr>
         </#if>
-</#list>
+    </#list>
+        </tbody>
+    </table>
 </#if>
 </div>
 </div>

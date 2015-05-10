@@ -11,6 +11,7 @@
     .invalid {color: red;}
     .hl {background-color: #ffff00;}
 </style>
+
 <script type="text/javascript">
     var table;
     function initTable () {
@@ -98,7 +99,7 @@
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title" style="padding-top: 0px;text-align:center;">
+            <div class="withdraw-title">
 									时段设置列表
 									</div>
                 <table id="table" class="display compact" cellspacing="0" width="100%">
