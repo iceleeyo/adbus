@@ -5,6 +5,7 @@ import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -12,6 +13,7 @@ import com.pantuo.dao.pojo.JpaMessage;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.MessageService;
+import com.pantuo.util.Request;
 import com.pantuo.web.view.MessageView;
 
 /**
@@ -35,6 +37,13 @@ public class MessageController {
 	@RequestMapping(value = "/all")
 	public String list() {
 		return "message/all";
+	}
+
+	@RequestMapping(value = "/unread")
+	@ResponseBody
+	public long unread(Model model, Principal principal) {
+		long c = messageService.getUnReadCount(Request.getUserId(principal));
+		return c;
 	}
 
 }

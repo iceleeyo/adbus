@@ -64,7 +64,7 @@
 								</a> -->
 								<a class="pg-nav-item s-left" href="#">帮助</a>
 								<a class="pg-nav-item s-left" href="#">论坛</a>
-								<a class="pg-nav-item s-left" href="${rc.contextPath}/message/all">消息</a>
+								<a class="pg-nav-item s-left" href="${rc.contextPath}/message/all"><span id="ucd" style="color:red"></span>消息</a>
 							</div>
 						</div>
 					</div>
@@ -131,4 +131,21 @@
 					</div>
 				</div>
 			</div>
+			
+			
+			
+<script type="text/javascript">		
+			$(document).ready(
+					function() {
+					   $.ajax({
+							url : "${rc.contextPath}/message/unread",
+							type : "GET",
+							success : function(data) {
+								$("#ucd").html(data);
+							}
+						}, "text");
+					}
+		);
+</script>
+			
 	
