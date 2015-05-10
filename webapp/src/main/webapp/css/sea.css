@@ -80,7 +80,7 @@ html{color: #666; }
             .h-icon{background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat 0 -120px;}
             .pg-side-item .pg-side-item-t:hover .h-icon{background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat -20px -120px;}
 
-			.pg-icon-a{width:20px;height: 20px;margin-top: 15px;margin-right: 8px;}
+			.pg-icon-a{width:20px;height: 20px;margin-top: 10px;margin-right: 8px;}
 			.pg-side-exp-list{padding: 0;background: #f2f2f2;display: block;}
 			.pg-side-exp-item{}
 			.side-exp-item-t{display: block;margin-left: 10px;padding-left: 30px;height: 36px;line-height: 36px;color: #909090;cursor: pointer;border-bottom: 1px solid #f2f2f2;}

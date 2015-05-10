@@ -34,6 +34,16 @@
     <#list css as entry>
         <link rel="stylesheet" type="text/css" href="${rc.contextPath}/${entry}">
     </#list>
+    <style type="text/css">
+        .online-support {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 80px;
+            height: 32px;
+        }
+    </style>
 </head>
 <body>
 <div class="page-container">
@@ -75,7 +85,9 @@
 	</div>				
 </div>
 </div>
-
-</body>	
+<div class="online-support">
+    <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=3070339185&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=3:3070339185:3" alt="点击这里咨询" title="点击这里咨询"/></a>
+</div>
+</body>
 </html>
 </#macro>
