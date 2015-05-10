@@ -184,7 +184,10 @@
 							url : "${rc.contextPath}/message/unread",
 							type : "GET",
 							success : function(data) {
-								$("#ucd").html(data);
+								var dc =Number(data);
+								if(dc>0){
+									$("#ucd").html(data);
+								}	
 							}
 						}, "text");
 					}
