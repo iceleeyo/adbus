@@ -41,7 +41,7 @@ css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
     <#list view.files as item>
                                                         <tr>
                                                             <td style="width: 240px;">
-                                                                <@preview.materialPreview view=view />
+                                                                <@preview.materialPreview view=view items=[item]/>
                                                             </td>
                                                             <td>
                                                                 ${view.mainView.name!''}
@@ -59,7 +59,7 @@ css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
 <#else>
                                                         <tr>
                                                             <td style="height: 35px;">
-                                                                <@preview.materialPreview view=view />
+                                                                <@preview.materialPreview view=view/>
                                                             </td>
                                                             <td>
                                                                 ${view.mainView.name!''}

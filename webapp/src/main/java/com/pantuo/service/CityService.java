@@ -15,7 +15,7 @@ import java.util.Map;
  * @author tliu
  */
 @Service
-public class CityService implements InitializingBean {
+public class CityService {
 
     @Autowired
     private CityRepository cityRepo;
@@ -36,8 +36,7 @@ public class CityService implements InitializingBean {
         return list;
     }
 
-   // @Override
-    public void afterPropertiesSet() throws Exception {
+    public void init() throws Exception {
         list = cityRepo.findAll();
         for (JpaCity city : list) {
             nameMap.put(city.getName(), city);

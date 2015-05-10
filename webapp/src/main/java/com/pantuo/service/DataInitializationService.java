@@ -220,28 +220,32 @@ public class DataInitializationService {
 
     //初始化城市
     private void initializeCities() throws Exception {
-        long count = cityRepo.count();
-        if (count > 0) {
-            log.info("There are already {} cities in table, skip initialization step", count);
-            return;
-        }
-
-        InputStream is = DataInitializationService.class.getClassLoader().
-                getResourceAsStream("city.csv");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
-        String line = null;
-        List<JpaCity> list = new ArrayList<JpaCity>();
-
-        while ((line = reader.readLine()) != null) {
-            try {
-                JpaCity city = new JpaCity(line);
-                list.add(city);
-            } catch (Exception e) {
-                log.warn("Fail to parse industry for {}, e={}", line, e.getMessage());
+        try {
+            long count = cityRepo.count();
+            if (count > 0) {
+                log.info("There are already {} cities in table, skip initialization step", count);
+                return;
             }
-        }
-        cityRepo.save(list);
 
-        log.info("Inserted {} industry entries into table", list.size());
+            InputStream is = DataInitializationService.class.getClassLoader().
+                    getResourceAsStream("city.csv");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+            String line = null;
+            List<JpaCity> list = new ArrayList<JpaCity>();
+
+            while ((line = reader.readLine()) != null) {
+                try {
+                    JpaCity city = new JpaCity(line);
+                    list.add(city);
+                } catch (Exception e) {
+                    log.warn("Fail to parse industry for {}, e={}", line, e.getMessage());
+                }
+            }
+            cityRepo.save(list);
+
+            log.info("Inserted {} industry entries into table", list.size());
+        } finally {
+            cityService.init();
+        }
     }
 }
