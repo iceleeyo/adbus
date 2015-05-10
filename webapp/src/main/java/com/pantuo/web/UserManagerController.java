@@ -113,6 +113,14 @@ public class UserManagerController {
         return "u/userEnter";
     }
     
+    
+    @RequestMapping(value = "/save", method = { RequestMethod.POST})
+    @ResponseBody
+	public UserDetail createProduct(UserDetail detail, HttpServletRequest request) {
+    	userService.createUserFromPage(detail);
+        return detail;
+    }
+    
     @RequestMapping(value = "/u_edit/update", method = { RequestMethod.POST})
     @ResponseBody
 	public UserDetail updateUser(UserDetail detail, HttpServletRequest request) {
