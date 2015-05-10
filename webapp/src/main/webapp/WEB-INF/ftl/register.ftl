@@ -67,7 +67,9 @@
 			return;
 		}
 		$('#userForm2').ajaxForm(function(data) {
-			jDialog.Alert(data.right);
+			if(data.user!=null){
+				jDialog.Alert("注册成功,现在将进入系统!");
+			}		
 			var uptime = window.setTimeout(function(){
 				window.location.href="${rc.contextPath}/order/myTask/1";
 			   	clearTimeout(uptime);
