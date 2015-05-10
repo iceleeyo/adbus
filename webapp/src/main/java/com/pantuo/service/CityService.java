@@ -36,7 +36,7 @@ public class CityService implements InitializingBean {
         return list;
     }
 
-    @Override
+   // @Override
     public void afterPropertiesSet() throws Exception {
         list = cityRepo.findAll();
         for (JpaCity city : list) {
