@@ -57,11 +57,11 @@ html{color: #666; }
 			.breadcrumb{padding: 0;}
 			.bread-homep{line-height: 21px;}
 			.bread-homep a:hover{color: #2ea7e0;text-decoration: none;}
-			.breadcrumb-right{background: url(../imgs/angle-right.png) no-repeat;width: 9px;height: 14px;margin: 5px 12px 2px;}
+			.breadcrumb-right{background: url(../imgs/angle-right.png) no-repeat;width: 9px;height: 14px;margin: 4px 12px 2px;}
 			.bread-child a{cursor: default;color: #666;}
 
-			.pg-side-item-t{display: block;padding-left: 10px;height: 50px;line-height: 50px;cursor: pointer;color: #545454;}
-			.pg-side-item-t1{display: block;padding-left: 10px;height: 50px;line-height: 50px;cursor: pointer;color: #fff;}
+			.pg-side-item-t{display: block;padding-left: 10px;height: 40px;line-height: 40px;cursor: pointer;color: #545454;}
+			.pg-side-item-t1{display: block;padding-left: 10px;height: 40px;line-height: 40px;cursor: pointer;color: #fff;}
 			.pg-side-item .pg-side-item-t:hover{cursor: pointer;color: #fff;background: #7fd4f3;}
 			.a-icon{background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat 0 0;}
 			.pg-side-item .pg-side-item-t:hover .a-icon{background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat -20px 0;}
@@ -107,6 +107,7 @@ html{color: #666; }
 
 			.ml20{margin-left: 20px;}
 			.m11{margin: 11px;}
+            .m5{margin: 5px;}
 			.mt20{margin-top: 20px;}
 			.mt5{margin-top: 5px;}
 			.mt10{margin-top: 10px;}

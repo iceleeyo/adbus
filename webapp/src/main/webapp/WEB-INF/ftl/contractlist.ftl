@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="合同列表">
-<@frame.html title="合同管理" js=["jquery-dateFormat.js"]>
+<@frame.html title="合同管理" js=["js/jquery-dateFormat.js"]>
 
 
 <script type="text/javascript">

@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="物料列表">
-<@frame.html title="物料列表" js=["jquery-dateFormat.js"]>
+<@frame.html title="物料列表" js=["js/jquery-dateFormat.js"]>
     <!-- <script>
         function pages(pageNum) {
             var by = ($("#by").val());

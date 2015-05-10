@@ -1,7 +1,7 @@
 <#import "../template/template.ftl" as frame> <#global menu="用户详情编辑">
-<@frame.html title="用户详情编辑" js=["jquery-ui/jquery-ui.js",
-"datepicker.js", "jquery.datepicker.region.cn.js"]
-css=["jquery-ui/jquery-ui.css"]>
+<@frame.html title="用户详情编辑" js=["js/jquery-ui/jquery-ui.js",
+"js/datepicker.js", "js/jquery.datepicker.region.cn.js"]
+css=["js/jquery-ui/jquery-ui.css"]>
 
 <script type="text/javascript">
 	i = 2;

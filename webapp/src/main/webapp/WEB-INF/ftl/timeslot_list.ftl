@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="媒体时段">
-<@frame.html title="媒体时段列表" js=["jquery-dateFormat.min.js"]>
+<@frame.html title="媒体时段列表" js=["js/jquery-dateFormat.min.js"]>
 
 <style type="text/css">
     .center {margin: auto;}

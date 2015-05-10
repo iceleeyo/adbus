@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="排条单">
-<@frame.html title="排条单" js=["jquery-dataTables-fnFakeRowspan.js"]>
+<@frame.html title="排条单" js=["js/jquery-dataTables-fnFakeRowspan.js"]>
 
 <style type="text/css">
     #table.dataTable thead th:first-child, #table.dataTable thead td:first-child,

@@ -3,8 +3,8 @@
 
 <#global menu="剩余时段报表">
 <@frame.html title="剩余时段趋势图"
-js=["highcharts/highcharts-3.0.2.js", "highcharts/exporting.js", "chart.js", "jquery-dateFormat.js", "jquery-ui/jquery-ui.js", "datepicker.js", "jquery.datepicker.region.cn.js"]
-css=["jquery-ui/jquery-ui.css"]>
+js=["js/highcharts/highcharts-3.0.2.js", "js/highcharts/exporting.js", "js/chart.js", "js/jquery-dateFormat.js", "js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"]
+css=["js/jquery-ui/jquery-ui.css"]>
 <style type="text/css">
     .ui-datepicker-calendar.only-month {
         display: none;

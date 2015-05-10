@@ -1,6 +1,6 @@
-<#import "template/template2.ftl" as frame>
+<#import "template/template.ftl" as frame>
 <#global menu="购买产品">
-<@frame.html title="下订单" js=["jquery-ui/jquery-ui.js", "datepicker.js", "jquery.datepicker.region.cn.js"] css=["jquery-ui/jquery-ui.css"]>
+<@frame.html title="下订单" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"] css=["jquery-ui/jquery-ui.css"]>
 
 <script type="text/javascript">
 
@@ -47,7 +47,6 @@ $(document).ready(function(){
 		}, "text");
 	}
 </script>
-<div class="withdraw-wrap color-white-bg fn-clear">
 							<form data-name="withdraw" name="userForm2" id="userForm2"
 								class="ui-form" method="post" action="../creOrder2"
 								enctype="multipart/form-data">
@@ -63,7 +62,11 @@ $(document).ready(function(){
   <LI style="width: 240px;"><SPAN>首播次数：</SPAN><SPAN class="con">${prod.firstNumber!''}</SPAN><SPAN>次</SPAN></LI>
   <LI style="width: 240px;"><SPAN>末播次数：</SPAN><SPAN class="con">${prod.lastNumber!''}</SPAN><SPAN>次</SPAN></LI>
   <LI style="width: 240px;"><SPAN>高峰时段占比：</SPAN><SPAN class="con">${prod.hotRatio!''}</SPAN></LI>
-  <LI style="width: 240px;"><SPAN>媒体类型：</SPAN><SPAN class="con">${prod.type!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>媒体类型：</SPAN><SPAN class="con">
+    <#if (!prod?? || prod.type == 'video')>视频</#if>
+      <#if (!prod?? || prod.type == 'image')>图片</#if>
+      <#if (!prod?? || prod.type == 'info')>文本</#if>
+  </SPAN></LI>
   <LI style="width: 200px;"><SPAN>套餐播放天数：</SPAN><SPAN class="con">${prod.days!''}天</SPAN></LI>
 </UL>
 </DIV>
@@ -99,5 +102,4 @@ $(document).ready(function(){
 </div>							
 
 							</form>
-</div>
 </@frame.html>

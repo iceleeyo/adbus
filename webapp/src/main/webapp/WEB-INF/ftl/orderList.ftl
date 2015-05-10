@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="待办事项">
-<@frame.html title="待办事项列表" js=["jquery-dateFormat.js"]>
+<@frame.html title="待办事项列表" js=["js/jquery-dateFormat.js"]>
 <script type="text/javascript">
 
 

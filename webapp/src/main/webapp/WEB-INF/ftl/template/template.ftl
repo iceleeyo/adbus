@@ -21,7 +21,7 @@
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/index.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/common.js"></script>
     <#list js as entry>
-        <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/${entry}"></script>
+        <script type="text/javascript" language="javascript" src="${rc.contextPath}/${entry}"></script>
     </#list>
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/sea.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/one.css">
@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/table.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/city.css">
     <#list css as entry>
-        <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/${entry}">
+        <link rel="stylesheet" type="text/css" href="${rc.contextPath}/${entry}">
     </#list>
 </head>
 <body>
@@ -42,10 +42,11 @@
 <!--下部DIV-->
 <div class="page-container">
 	<div class="pg-container-main">
+        <div class="container-12 mt10 s-clear">
         <#if nav>
 		<!--顶部导航开始-->
 		<div class="container-12">
-		<ul class="breadcrumb ml10 m11 s-clear">
+		<ul class="breadcrumb m11 s-clear">
 		<li class="s-left fsize-16 bread-homep">
 		<a class="gray-text" href="${rc.contextPath}">首页</a>
 		</li>
@@ -57,7 +58,7 @@
 		</div>
 		<!--顶部导航结束-->
         </#if>
-	<div class="container-12 mt10 s-clear">
+
         <#if left>
 		<!--菜单开始-->
 		<#include "../menu/left.ftl" />

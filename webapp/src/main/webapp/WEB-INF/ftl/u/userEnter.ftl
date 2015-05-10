@@ -1,6 +1,6 @@
 <#import "../template/template.ftl" as frame> <#global menu="用户添加">
-<@frame.html title="用户添加" js=["jquery-ui/jquery-ui.js", "datepicker.js",
-"jquery.datepicker.region.cn.js"] css=["jquery-ui/jquery-ui.css"]>
+<@frame.html title="用户添加" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js",
+"js/jquery.datepicker.region.cn.js"] css=["js/jquery-ui/jquery-ui.css"]>
 
 <script type="text/javascript">
 	i = 2;
@@ -161,9 +161,11 @@
 
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>所属组:</label>
-				<#if groupsList?exists> <#list groupsList?keys as vkey> <input
-					type="checkbox" value="${vkey}" name="roles" id="roles" />${groupsList[vkey]}
-				</#list> </#if>
+                <div>
+                    <#if groupsList?exists> <#list groupsList?keys as vkey> <input
+                            type="checkbox" value="${vkey}" name="roles" id="roles" />${groupsList[vkey]}
+                    </#list> </#if>
+                </div>
 			</div>
 
 			<div class="ui-form-item">

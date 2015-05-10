@@ -22,7 +22,11 @@ function go_back(){
   <LI style="width: 240px;"><SPAN>首播次数：</SPAN><SPAN class="con">${prod.firstNumber!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>末播次数：</SPAN><SPAN class="con">${prod.lastNumber!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>高峰时段占比：</SPAN><SPAN class="con">${prod.hotRatio!''}</SPAN></LI>
-  <LI style="width: 240px;"><SPAN>媒体类型：</SPAN><SPAN class="con">${prod.type!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>媒体类型：</SPAN><SPAN class="con">
+        <#if (!prod?? || prod.type == 'video')>视频</#if>
+      <#if (!prod?? || prod.type == 'image')>图片</#if>
+      <#if (!prod?? || prod.type == 'info')>文本</#if>
+  </SPAN></LI>
   <LI style="width: 200px;"><SPAN>套餐播放天数：</SPAN><SPAN class="con">${prod.days!''}</SPAN></LI>
 </UL>
 </DIV>

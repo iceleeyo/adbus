@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="进行中订单">
-<@frame.html title="进行中的订单" js=["jquery-dateFormat.js"]>
+<@frame.html title="进行中的订单" js=["js/jquery-dateFormat.js"]>
 <script type="text/javascript">
 
 	function claim(orderid,taskid){

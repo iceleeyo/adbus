@@ -1,6 +1,10 @@
-<#import "template/template2.ftl" as frame>
+<#import "template/template.ftl" as frame>
+<#import "macro/materialPreview.ftl" as preview>
 
-<@frame.html title="公交广告交易系统">
+<@frame.html title="订单办理" js=["js/highslide/highslide-full.js", "js/video-js/video.js", "js/video-js/lang/zh-CN.js"]
+css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
+    <#include "template/preview.ftl" />
+
 <script type="text/javascript">
 	$(function() {
 	//显示当前节点对应的表单信息
@@ -384,12 +388,8 @@ function pay() {
   								<TR>
     									<TH>物料详情</TH>
     									<TD colspan=3>
-    									<#list suppliesView.files as item> 
-		<a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a>
-	   <#if prod.type=='image'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
-		<a href="${rc.contextPath}/upload_temp/${item.url!''}" target="_Blank">点击查看</a>
-		</#if>
- 	</#list>${(suppliesView.mainView.infoContext)!''}</TD>
+                                            <@preview.materialPreview view=suppliesView/>
+                                        </TD>
     							</TR>
   								<TR>
     									<TH>更改物料</TH>
@@ -428,12 +428,8 @@ function pay() {
   								<TR>
     									<TH>物料</TH>
     									<TD colspan=3>
-    									<#list suppliesView.files as item> 
-		<a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a>
-	   <#if prod.type=='image'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
-		<a href="${rc.contextPath}/upload_temp/${item.url!''}" target="_Blank">点击查看</a>
-		</#if>
- 	</#list>${(suppliesView.mainView.infoContext)!''}</TD>
+                                            <@preview.materialPreview view=suppliesView/>
+                                        </TD>
     							</TR> 
     							<TR>
     									<TH>填写物料编号</TH>
@@ -513,12 +509,8 @@ function pay() {
   								<TR>
     									<TH>物料详情</TH>
     									<TD colspan=3>
-    									<#list suppliesView.files as item> 
-		<a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a>
-	   <#if prod.type=='image'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
-		<a href="${rc.contextPath}/upload_temp/${item.url!''}" target="_Blank">点击查看</a>
-		</#if>
- 	</#list>${(suppliesView.mainView.infoContext)!''}</TD>
+                                            <@preview.materialPreview view=suppliesView/>
+                                        </TD>
     							</TR>
   								<TR>
     									<TH>审核意见</TH>

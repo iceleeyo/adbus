@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="${orderMenu}">
-<@frame.html title="我参与的订单" js=["jquery-dateFormat.js"]>
+<@frame.html title="我参与的订单" js=["js/jquery-dateFormat.js"]>
 <script type="text/javascript">
 var table;
     function initTable () {

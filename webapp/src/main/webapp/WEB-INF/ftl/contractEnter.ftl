@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="添加合同">
-<@frame.html title="合同录入" js=["jquery-ui/jquery-ui.js", "datepicker.js", "jquery.datepicker.region.cn.js"] css=["jquery-ui/jquery-ui.css"]>
+<@frame.html title="合同录入" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"] css=["js/jquery-ui/jquery-ui.css"]>
 
 <script type="text/javascript">
 	i = 2;

@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
-<#global menu="发票信息录入">
-<@frame.html title="发票信息录入" js=["jquery-ui/jquery-ui.js", "datepicker.js", "jquery.datepicker.region.cn.js"] css=["jquery-ui/jquery-ui.css"]>
+<#global menu="发票录入">
+<@frame.html title="发票信息录入" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"] css=["js/jquery-ui/jquery-ui.css"]>
 
 <script type="text/javascript">
 	i = 2;
