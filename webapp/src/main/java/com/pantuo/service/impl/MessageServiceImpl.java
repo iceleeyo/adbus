@@ -72,7 +72,9 @@ public class MessageServiceImpl implements MessageService {
 				MessageView w = new MessageView(jpaMessage, jpaMessage.getOrderid(), map.get(jpaMessage.getOrderid()));
 				r.add(w);
 			}
+			messageRepository.updateMsgMainStatus(Request.getUserId(principal), JpaMessage.Main_type.read);
 		}
+
 		return new org.springframework.data.domain.PageImpl<MessageView>(r, p, list.getTotalElements());
 	}
 
