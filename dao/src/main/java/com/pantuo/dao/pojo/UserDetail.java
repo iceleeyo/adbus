@@ -22,7 +22,7 @@ public class UserDetail extends BaseEntity {
 	 *
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
-	private static final long serialVersionUID = -7630171436107510776L;
+	private static final long serialVersionUID = -1842498354096493867L;
 
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
