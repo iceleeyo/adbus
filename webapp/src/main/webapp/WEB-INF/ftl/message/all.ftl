@@ -1,6 +1,6 @@
 <#import "../template/template.ftl" as frame>
-<#global menu="待办事项">
-<@frame.html title="待办事项列表" js=["jquery-dateFormat.js"]>
+<#global menu="系统消息">
+<@frame.html title="系统消息" js=["jquery-dateFormat.js"]>
 <script type="text/javascript">
 
 
@@ -101,7 +101,7 @@
           
             <div class="div">
               <div class="withdraw-title" style="padding-top: 0px; text-align:left; ">
-									待办事项
+									系统消息
 									</div>
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
