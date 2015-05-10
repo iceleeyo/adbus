@@ -98,16 +98,17 @@
 										</div>
 									</div>
 								</div>
-                                <@security.authorize access="isAuthenticated()">
-								<a href="javascript:;" class="pg-nav-item s-left" onclick="logout();">[退出]</a>
-                                </@security.authorize>
+                               
 								<!--<a class="pg-nav-item s-left" href="#">
 									<i class="icon-msg fsize-12">1</i>
 									消息
 								</a> -->
-								<a class="pg-nav-item s-left" href="#">帮助</a>
-								<a class="pg-nav-item s-left" href="#">论坛</a>
-								<a class="pg-nav-item s-left" href="${rc.contextPath}/message/all"><span id="ucd" style="color:#ff9966"></span>消息</a>
+								<!--<a class="pg-nav-item s-left" href="#">帮助</a>
+								<a class="pg-nav-item s-left" href="#">论坛</a>-->
+								<a class="pg-nav-item s-left" href="${rc.contextPath}/message/all">消息<span id="msgNumber" style="color:#ff9966"></span></a>
+								 <@security.authorize access="isAuthenticated()">
+								<a href="javascript:;" class="pg-nav-item s-left" onclick="logout();">[退出]</a>
+                                </@security.authorize>
 							</div>
 						</div>
 					</div>
@@ -184,9 +185,9 @@
 							url : "${rc.contextPath}/message/unread",
 							type : "GET",
 							success : function(data) {
-								var dc =Number(data);
-								if(dc>0){
-									$("#ucd").html(data);
+								var msgNumber = Number(data);
+								if(msgNumber > 0){
+									$("#msgNumber").html("["+data+"]");
 								}	
 							}
 						}, "text");
