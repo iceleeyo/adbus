@@ -77,8 +77,8 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	public long getUnReadCount(String uname) {
-		com.mysema.query.types.Predicate predicate = QJpaMessage.jpaMessage.main_type.eq(JpaMessage.Main_type.unread);
+		com.mysema.query.types.Predicate predicate = QJpaMessage.jpaMessage.main_type.eq(JpaMessage.Main_type.unread)
+				.and(QJpaMessage.jpaMessage.recID.eq(uname));
 		return messageRepository.count(predicate);
 	}
-
 }
