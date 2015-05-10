@@ -5,6 +5,7 @@ function go_back(){
 	history.go(-1);
 }
 </script>
+<div class="withdraw-wrap color-white-bg fn-clear">
 <div id="process" class="section4">
  
 		            <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单</li><li id="track_time_0" class="tx3"></li></ul></div>
@@ -38,6 +39,7 @@ function go_back(){
 </DIV>
 </DIV>
 <#include "template/hisDetail.ftl" />
+</div>
 </@frame.html>
 
 

@@ -48,7 +48,7 @@
 	  
 	}
 </script>
-						
+<div class="withdraw-wrap color-white-bg fn-clear">
 						<div class="module s-clear u-lump-sum p19">
 						<div class="withdraw-title" style="padding-top: 0px;text-align:center;">
 									待办事项
@@ -184,4 +184,5 @@
 								</div>
 							</div>
 						</form>
+</div>
 </@frame.html>

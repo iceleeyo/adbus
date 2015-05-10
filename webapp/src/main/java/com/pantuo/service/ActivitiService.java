@@ -20,14 +20,15 @@ import com.pantuo.web.view.OrderView;
 
 public interface ActivitiService {
 
-	//工作流中的一些变量名
-	public static final String MAIN_PROCESS = "order";
-	public static final String ORDER_ID = "_orderId";
-	public static final String OWNER = "_owner";
-	public static final String THE_EMAIL = "_theEmail";
-	public static final String THE_COMPANY = "_theCompany";
-	public static final String TIMEOUT = "_timeout";
-	public static final String NOW = "_now";
+	 //工作流中的一些变量名
+    public static final String MAIN_PROCESS = "order";
+    public static final String ORDER_ID = "_orderId";
+    public static final String CITY = "_city";
+    public static final String OWNER = "_owner";
+    public static final String THE_EMAIL = "_theEmail";
+    public static final String THE_COMPANY = "_theCompany";
+    public static final String TIMEOUT = "_timeout";
+    public static final String NOW = "_now";
 
 	/**
 	 * 
@@ -37,15 +38,14 @@ public interface ActivitiService {
 	 * @param order
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
-	public void startProcess(UserDetail u, Orders order);
+	public void startProcess(int city, UserDetail u, Orders order);
 
-	public void startProcess2(UserDetail u, JpaOrders order);
+	public void startProcess2(int city, UserDetail u, JpaOrders order);
 
 	public Pair<Boolean, String> payment(int orderid, String taskid, int contractid, String payType, UserDetail u);
 
-	public Page<OrderView> findTask(String userid, int page, int pageSize, Sort sort);
-
-	public Page<OrderView> finished(Principal principal, int page, int pageSize, Sort sort);
+	public Page<OrderView> findTask(int city, String userid, int page, int pageSize, Sort sort);
+	public Page<OrderView> finished(int city, Principal principal, int page, int pageSize, Sort sort);
 
 	//	public Pair<Boolean, String> handle(String orderid, String taskid, String comment, String isok, UserDetail user);
 	/**
@@ -63,7 +63,7 @@ public interface ActivitiService {
 	/*
 	 * 扫描工作流 去掉订单不存在的工作流
 	 */
-	public String reset(String p);
+	public String reset(int city, String p);
 
 	public OrderView findOrderViewByTaskId(String taskid);
 
@@ -75,26 +75,28 @@ public interface ActivitiService {
 	 * @return
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
-	public List<OrderView> findRunningProcessInstaces(String userId, NumberPageUtil page);
+	public List<OrderView> findRunningProcessInstaces(int city, String userId,
+			NumberPageUtil page);
 
-	public List<OrderView> findFinishedProcessInstaces(String userId, String usertype, NumberPageUtil page);
+	public List<OrderView> findFinishedProcessInstaces(int city, String userId,
+			String usertype, NumberPageUtil page);
 
 	//根据taskId查找流程实例
-	public ProcessInstance findProcessInstanceByTaskId(String taskId) throws Exception;
-
-	public List<OrderView> findMyOrders(String userId, NumberPageUtil page);
+		 public ProcessInstance findProcessInstanceByTaskId(String taskId) throws Exception;
+	public List<OrderView> findMyOrders(int city, String userId, NumberPageUtil page);
 
 	//根据taskId查找流程定义
-	public ProcessDefinitionEntity findProcessDefinitionEntityByTaskId(String taskId) throws Exception;
+		 public ProcessDefinitionEntity findProcessDefinitionEntityByTaskId(  
+		            String taskId) throws Exception;
+			public Page<OrderView> running(int city, String userid, int page, int pageSize, Sort sort) ;
+			
+			public Page<OrderView> MyOrders(int city, String userid, int page, int pageSize, Sort sort);
 
-	public Page<OrderView> running(String userid, int page, int pageSize, Sort sort);
-
-	public Page<OrderView> MyOrders(String userid, int page, int pageSize, Sort sort);
-
-	//根据流程实例和节点ID查找历史审批记录
-	public List<HistoricTaskView> findHistoricUserTask(String processInstanceId, String activityId);
+		//根据流程实例和节点ID查找历史审批记录
+		   public List<HistoricTaskView> findHistoricUserTask (
+                   int city, String processInstanceId, String activityId);
 
 	public Pair<Boolean, String> modifyOrder(int orderid, String taskid, int supplieid, UserDetail user);
 
-	public String showOrderDetail(Model model, int orderid, String taskid, String pid, Principal principal);
+	public String showOrderDetail(int city, Model model, int orderid, String taskid, String pid, Principal principal);
 }

@@ -28,11 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.pantuo.service.ContractService;
 import com.pantuo.util.NumberPageUtil;
@@ -74,14 +70,15 @@ public class ContractController {
 
 	@RequestMapping(value = "saveContract", method = RequestMethod.POST)
 	@ResponseBody
-	public Pair<Boolean, String> saveContract(Contract contract, Principal principal, HttpServletRequest request) throws IllegalStateException, IOException, ParseException {
+	public Pair<Boolean, String> saveContract(@CookieValue(value="city", defaultValue = "-1") int city,
+                                              Contract contract, Principal principal, HttpServletRequest request) throws IllegalStateException, IOException, ParseException {
 		String start = request.getParameter("startDate1").toString();
 		String end = request.getParameter("endDate1").toString();
 		if (start.length() > 1 && end.length() > 1) {
 			contract.setStartDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(start));
 			contract.setEndDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(end));
 		}
-		return contractService.saveContract(contract, Request.getUserId(principal), request);
+		return contractService.saveContract(city, contract, Request.getUserId(principal), request);
 	}
 
 	@RequestMapping(value = "/list")
@@ -92,9 +89,9 @@ public class ContractController {
 	
 	@RequestMapping("ajax-list")
 	@ResponseBody
-	public DataTablePage<JpaContract> getAllContracts(TableRequest req) {
+	public DataTablePage<JpaContract> getAllContracts(TableRequest req, @CookieValue(value="city", defaultValue = "-1") int city) {
 		return new DataTablePage(
-                contractServiceDate.getAllContracts(req.getFilter("contractName"), req.getFilter("contractCode"),
+                contractServiceDate.getAllContracts(city, req.getFilter("contractName"), req.getFilter("contractCode"),
                         req.getPage(), req.getLength(), req.getSort("id")), req.getDraw());
 	}
 

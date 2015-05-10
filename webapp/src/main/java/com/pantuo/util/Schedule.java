@@ -17,12 +17,13 @@ public class Schedule {
     private List<JpaGoods> normalNotBoxed;
     private List<JpaGoods> hotNotBoxed;
 
-    private static JpaBox fromTimeslot(Date day, JpaTimeslot slot) {
-        return new JpaBox(day, slot.getId(), slot.getDuration());
+    private static JpaBox fromTimeslot(int city, Date day, JpaTimeslot slot) {
+        return new JpaBox(city, day, slot.getId(), slot.getDuration());
     }
 
     private static void fromOrder(Date day, JpaOrders order, HashSet<JpaGoods> hot, HashSet<JpaGoods> normal) {
         JpaProduct prod = order.getProduct();
+        int city = order.getCity();
         int playNumber = prod.getPlayNumber();
 
         assert(playNumber > 0);
@@ -42,30 +43,30 @@ public class Schedule {
 
         int seed = 31 * 0x9572f8ad + day.hashCode();
         for (int i=0; i<normalFirst; i++) {
-            normal.add(new JpaGoods(order.getId(), order.getProduct().getDuration(), true, false, seed++));
+            normal.add(new JpaGoods(city, order.getId(), order.getProduct().getDuration(), true, false, seed++));
         }
         for (int i=0; i<normalLast; i++) {
-            normal.add(new JpaGoods(order.getId(), order.getProduct().getDuration(), false, true, seed++));
+            normal.add(new JpaGoods(city, order.getId(), order.getProduct().getDuration(), false, true, seed++));
         }
         for (int i=0; i<normalMiddle; i++) {
-            normal.add(new JpaGoods(order.getId(), order.getProduct().getDuration(), false, false, seed++));
+            normal.add(new JpaGoods(city, order.getId(), order.getProduct().getDuration(), false, false, seed++));
         }
         for (int i=0; i<hotFirst; i++) {
-            hot.add(new JpaGoods(order.getId(), order.getProduct().getDuration(), true, false, seed++));
+            hot.add(new JpaGoods(city, order.getId(), order.getProduct().getDuration(), true, false, seed++));
         }
         for (int i=0; i<hotLast; i++) {
-            hot.add(new JpaGoods(order.getId(), order.getProduct().getDuration(), false, true, seed++));
+            hot.add(new JpaGoods(city, order.getId(), order.getProduct().getDuration(), false, true, seed++));
         }
         for (int i=0; i<hotMiddle; i++) {
-            hot.add(new JpaGoods(order.getId(), order.getProduct().getDuration(), false, false, seed++));
+            hot.add(new JpaGoods(city, order.getId(), order.getProduct().getDuration(), false, false, seed++));
         }
     }
 
-    public static Schedule newFromTimeslots(Date date, List<JpaTimeslot> timeslots, JpaOrders order) {
-        return newFromTimeslots(date, timeslots, Arrays.asList(new JpaOrders[] {order}));
+    public static Schedule newFromTimeslots(int city, Date date, List<JpaTimeslot> timeslots, JpaOrders order) {
+        return newFromTimeslots(city, date, timeslots, Arrays.asList(new JpaOrders[] {order}));
     }
 
-    public static  Schedule newFromTimeslots(Date date, List<JpaTimeslot> timeslots, Iterable<JpaOrders> orders) {
+    public static  Schedule newFromTimeslots(int city, Date date, List<JpaTimeslot> timeslots, Iterable<JpaOrders> orders) {
         Schedule schedule = new Schedule();
         Calendar cal = DateUtil.newCalendar();
         cal.setTime(date);
@@ -79,9 +80,9 @@ public class Schedule {
         schedule.normalBoxing = new Boxing();
         for (JpaTimeslot slot : timeslots) {
             if (slot.isPeak()) {
-                schedule.hotBoxing.addBox(fromTimeslot(schedule.day, slot));
+                schedule.hotBoxing.addBox(fromTimeslot(city, schedule.day, slot));
             } else {
-                schedule.normalBoxing.addBox(fromTimeslot(schedule.day, slot));
+                schedule.normalBoxing.addBox(fromTimeslot(city, schedule.day, slot));
             }
         }
         for (JpaOrders order : orders) {

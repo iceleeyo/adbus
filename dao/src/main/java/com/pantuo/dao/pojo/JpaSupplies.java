@@ -9,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="supplies")
-public class JpaSupplies extends BaseEntity {
+public class JpaSupplies extends CityEntity {
     public static enum Status {
         unloaded, firstApproved, secondApproved, disapproved
     }
@@ -41,12 +41,13 @@ public class JpaSupplies extends BaseEntity {
         //for serialization
     }
 
-    public JpaSupplies(String name, JpaProduct.Type suppliesType, int industryId,
+    public JpaSupplies(int city, String name, JpaProduct.Type suppliesType, int industryId,
                        String userId, String filePath, String infoContext,
                        Status stats, String operFristuser, String operFristcomment,
 
                        String operFinaluser, String operFinalcomment, String seqNumber,
                        String carNumber, String responseCid) {
+        super(city);
         this.name = name;
         this.suppliesType = suppliesType;
         this.industry = new JpaIndustry();

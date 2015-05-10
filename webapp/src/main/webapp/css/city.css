@@ -1,0 +1,56 @@
+.city-dropdown{width:100%;height:30px;line-height:30px;}
+.city-dropdown li{float:left;height:30px;padding:0 2px}
+.city-dropdown li.dorpdown{z-index:13}
+.city-dropdown li.dorpdown:hover{padding:0 1px}
+.city-dropdown li.dorpdown:hover .dt{background:#fff;border:solid #ddd;border-width:0 1px}
+.city-dropdown li.hover .dt{background:#fff;border:solid #ddd;border-width:0 1px}
+.city-dropdown .dt{float:left;padding:0 8px}
+.city-dropdown .dd{line-height:24px}
+.city-dropdown .dorpdown-layer{top:30px;background:#fff;border:1px solid #ddd;*left:1px;z-index:999;}
+.city-dropdown .ci-right{top:11px;right:8px;height:7px;overflow:hidden;font:400 15px/15px consolas;color:#ccc;transition:transform .1s ease-in 0s;-webkit-transition:-webkit-transform .1s ease-in 0s}
+.city-dropdown .ci-right s{position:relative;top:-7px;text-decoration:none}
+.city-dropdown li:hover .ci-right{transform:rotate(180deg);-webkit-transform:rotate(180deg)}
+.city-dropdown .dd-spacer{position:absolute;top:-7px;height:10px;background:#fff;overflow:hidden}
+.city-dropdown #ttbar-mycity{padding-left:0}
+.city-dropdown #ttbar-mycity .dt{padding:0 25px 0 10px}
+.city-dropdown #ttbar-mycity:hover .dt{padding:0 24px 0 9px}
+.city-dropdown #ttbar-mycity .dd{width:45px;padding:2px 8px}
+.city-dropdown #ttbar-mycity .dorpdown-layer{*left:0}
+.city-dropdown #ttbar-mycity .item{float:left;width:60px;padding:2px 0}
+.city-dropdown #ttbar-mycity .item a{float:left;padding:0 8px}
+.city-dropdown #ttbar-mycity .item a:hover{background:#F4F4F4}
+.city-dropdown #ttbar-mycity .item a.selected{background:#3bafda;color:#fff}
+.city-dropdown #ttbar-mycity .dd-spacer{left:0;width:61px;_width:95px}
+.city-dropdown #ttbar-apps .dt{padding-left:25px;padding-right:25px}
+.city-dropdown #ttbar-apps .dd{width:250px}
+.city-dropdown #ttbar-apps .dd a{display:block;position:absolute;width:56px;height:44px;overflow:hidden;text-indent:-500px}
+.city-dropdown #ttbar-apps .dd-spacer{left:0;width:98px}
+.city-dropdown #ttbar-atte .dt,.city-dropdown #ttbar-serv .dt{width:49px;padding-right:25px}
+.city-dropdown #ttbar-atte .dd,.city-dropdown #ttbar-serv .dd{width:82px;padding-bottom:8px}
+.city-dropdown #ttbar-atte .item,.city-dropdown #ttbar-serv .item{padding-left:15px}
+.city-dropdown #ttbar-atte .dd-spacer,.city-dropdown #ttbar-serv .dd-spacer{left:0;width:82px}
+.city-dropdown #ttbar-navs .dt{width:49px;padding-right:25px}
+.city-dropdown #ttbar-navs .dd{right:0;width:988px;padding:20px 0 16px;*left:auto;_right:-1px}
+.city-dropdown #ttbar-navs dl{float:left;width:201px;padding-left:20px;border-left:1px solid #ddd}
+.city-dropdown #ttbar-navs dl.fore1{border-left:none;width:301px}
+.city-dropdown #ttbar-navs dt{font-size:14px;font-weight:700;margin-bottom:6px}
+.city-dropdown #ttbar-navs .item{float:left;width:100px}
+.city-dropdown #ttbar-navs .dd-spacer{right:0;width:82px}
+.city-dropdown .hover .dorpdown-layer{-webkit-transition:all 600ms cubic-bezier(0.23,1,.32,1)}.root61 .city-dropdown #ttbar-navs .dd{width:1208px}.root61 .city-dropdown #ttbar-navs .fore2{display:block}.root61 .city-dropdown #ttbar-navs dl{width:259px}.root61 .city-dropdown #ttbar-navs dl.fore1{width:347px}.root61 .city-dropdown #ttbar-navs .item{width:86px}
+.cw-icon {
+    position: relative;
+    cursor: default;
+    zoom: 1;
+}
+.cw-icon .i, .cw-icon i {
+    display: block;
+    position: absolute;
+    overflow: hidden;
+}
+.dorpdown:hover .dorpdown-layer, .hover .dorpdown-layer {
+    display: block;
+}
+.dorpdown-layer {
+    display: none;
+    position: absolute;
+}

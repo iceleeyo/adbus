@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,9 +26,11 @@ public class TimeslotController {
 
     @RequestMapping("ajax-list")
     @ResponseBody
-    public DataTablePage<JpaProduct> getAllTimeslots(TableRequest req) {
+    public DataTablePage<JpaProduct> getAllTimeslots(TableRequest req,
+                                                     @CookieValue(value="city", defaultValue = "-1") int city) {
 
-        return new DataTablePage(timeslotService.getAllTimeslots(req.getFilter("name"), req.getPage(), req.getLength(), req.getSort("id"), false), req.getDraw());
+        return new DataTablePage(timeslotService.getAllTimeslots(city, req.getFilter("name"),
+                req.getPage(), req.getLength(), req.getSort("id"), false), req.getDraw());
     }
 
     @RequestMapping(value = "/list")

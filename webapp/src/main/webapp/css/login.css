@@ -3,8 +3,8 @@
 .login-content{width: 940px;margin:0 10px;padding:40px 0;}
 .login-left{width: 613px;height: 390px;overflow: hidden;}
 .login-right{width: 327px;}
-.login-nav-right{height: 72px;}
-.login-nav-right span{display: block;line-height: 40px;height: 40px;font-size: 25px;border-left: 1px solid #CCC;padding-left: 20px;margin-top: 17px;color: #aaa;}
+.login-nav-right{height: 48px;}
+.login-nav-right span{display: block;line-height: 40px;height: 40px;font-size: 25px;border-left: 1px solid #CCC;padding-left: 20px;margin-top: 4px;color: #aaa;}
 .login-box{}
 .login-info{width: 325px;height:390px;background: #fff;}
 .login-form{padding:0 20px;}

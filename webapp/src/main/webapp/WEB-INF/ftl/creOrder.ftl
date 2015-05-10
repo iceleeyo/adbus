@@ -47,6 +47,7 @@ $(document).ready(function(){
 		}, "text");
 	}
 </script>
+<div class="withdraw-wrap color-white-bg fn-clear">
 							<form data-name="withdraw" name="userForm2" id="userForm2"
 								class="ui-form" method="post" action="../creOrder2"
 								enctype="multipart/form-data">
@@ -98,4 +99,5 @@ $(document).ready(function(){
 </div>							
 
 							</form>
+</div>
 </@frame.html>

@@ -10,8 +10,8 @@ import java.util.Date;
  */
 @Entity
 @Table(name="orders", indexes = @Index(name="order_index",
-        columnList="userId, stats, type, startTime, endTime"))
-public class JpaOrders extends BaseEntity {
+        columnList="city, userId, stats, type, startTime, endTime"))
+public class JpaOrders extends CityEntity {
     public static enum PayType {
         online, contract,other
     }
@@ -44,10 +44,11 @@ public class JpaOrders extends BaseEntity {
         //for serialization
     }
 
-    public JpaOrders(String userId, int suppliesId, int productId, int contractId,
+    public JpaOrders(int city, String userId, int suppliesId, int productId, int contractId,
                      String contractCode, Date startTime, Date endTime, JpaProduct.Type type,
                      PayType payType,
                      Status stats, String creator) {
+        super(city);
         this.userId = userId;
         this.supplies = new JpaSupplies();
         this.supplies.setId(suppliesId);

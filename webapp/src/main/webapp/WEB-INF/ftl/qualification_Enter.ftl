@@ -45,7 +45,7 @@
 
 	}
 </script>
-
+<div class="withdraw-wrap color-white-bg fn-clear">
 						
 							<form data-name="withdraw" name="userForm2" id="userForm2"
 								class="ui-form" method="post" action="savequalifi"
@@ -86,5 +86,5 @@
 	          </ol>
 	        </div>
 							</form>
-						
+</div>
 </@frame.html>

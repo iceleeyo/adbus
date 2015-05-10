@@ -2,12 +2,11 @@ package com.pantuo;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import com.pantuo.service.DataInitializationService;
+import com.pantuo.web.ControllerInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -22,13 +21,9 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistration;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-import org.springframework.web.servlet.resource.VersionResourceResolver;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
@@ -44,6 +39,9 @@ import freemarker.core.Configurable;
 @EnableAspectJAutoProxy
 @EnableWebMvc
 public class WebAppConfiguration extends WebMvcConfigurerAdapter {
+    @Autowired
+    private ControllerInterceptor controllerInterceptor;
+
 	@Bean
 	public HandlerExceptionResolver webExceptionResolver() {
 		return new RestExceptionResolver();
@@ -67,8 +65,10 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 	public RequestMappingHandlerMapping requestMappingHandlerMapping() {
 		RequestMappingHandlerMapping mapping = new RequestMappingHandlerMapping();
 
-		HandlerInterceptor[] interceptors = new HandlerInterceptor[1];
-		interceptors[0] = new RestLoggingInterceptor();
+        List<HandlerInterceptor> list = new ArrayList<HandlerInterceptor>();
+        list.add(new RestLoggingInterceptor());
+        list.add(controllerInterceptor);
+		HandlerInterceptor[] interceptors = list.toArray(new HandlerInterceptor[0]);
 
 		mapping.setInterceptors(interceptors);
 		return mapping;

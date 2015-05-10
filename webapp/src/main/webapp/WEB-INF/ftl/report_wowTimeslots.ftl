@@ -27,6 +27,7 @@ css=["jquery-ui/jquery-ui.css"]>
             });
         });
     </script>
+<div class="withdraw-wrap color-white-bg fn-clear">
     <div class="withdraw-title fn-clear">
         剩余时段周同比趋势图
         <div class="report-toolbar">
@@ -44,5 +45,6 @@ css=["jquery-ui/jquery-ui.css"]>
     yName={"THIS_WEEK":"remain","PREV_WEEK":"remain"}
     titleY="剩余时长" highChart=remainTimeSlots baseY="${baseY!''}"
     seriesTypes=["THIS_WEEK", "PREV_WEEK"] />
+</div>
 </@frame.html>
 

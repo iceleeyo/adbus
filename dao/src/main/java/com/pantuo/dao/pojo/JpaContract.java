@@ -10,7 +10,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name="contract")
-public class JpaContract extends BaseEntity {
+public class JpaContract extends CityEntity {
     public static enum Status {
         not_started, starting, ended
     }
@@ -39,11 +39,11 @@ public class JpaContract extends BaseEntity {
         //for serialization
     }
 
-    public JpaContract(String amounts,int industryId,String contractCode,
+    public JpaContract(int city, String amounts,int industryId,String contractCode,
                        String contractName, String userId, Date startDate,
                        Date endDate, Status stats, boolean isUpload, String remark,
                        String creator) {
-        super();
+        super(city);
         this.contractCode = contractCode;
         this.contractName = contractName;
         this.userId = userId;

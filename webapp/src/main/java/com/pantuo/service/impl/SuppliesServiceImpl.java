@@ -50,7 +50,8 @@ public class SuppliesServiceImpl implements SuppliesService {
 	@Autowired
 	UserDetailRepository userDetailRepo;
 	
-	public Pair<Boolean, String> addSupplies(Supplies obj, Principal principal, HttpServletRequest request) {
+	public Pair<Boolean, String> addSupplies(int city, Supplies obj, Principal principal, HttpServletRequest request) {
+        obj.setCity(city);
 		Pair<Boolean, String> r = null;
 		if (StringUtils.isBlank(obj.getName())) {
 			return r = new Pair<Boolean, String>(false, "素材说明不能为空!");
@@ -113,22 +114,23 @@ public class SuppliesServiceImpl implements SuppliesService {
 		}
 	}
 
-	public List<Supplies> queryMyList(NumberPageUtil page, String name, JpaProduct.Type type, Principal principal) {
-		SuppliesExample ex = getExample(name, type, principal);
+	public List<Supplies> queryMyList(int city, NumberPageUtil page, String name, JpaProduct.Type type, Principal principal) {
+		SuppliesExample ex = getExample(city, name, type, principal);
 		ex.setOrderByClause("created desc");
 		ex.setLimitStart(page.getLimitStart());
 		ex.setLimitEnd(page.getPagesize());
 		return suppliesMapper.selectByExample(ex);
 	}
 
-	public int countMyList(String name, JpaProduct.Type type, Principal principal) {
+	public int countMyList(int city, String name, JpaProduct.Type type, Principal principal) {
 
-		return suppliesMapper.countByExample(getExample(name, type, principal));
+		return suppliesMapper.countByExample(getExample(city, name, type, principal));
 	}
 
-	public SuppliesExample getExample(String name, JpaProduct.Type type, Principal principal) {
+	public SuppliesExample getExample(int city, String name, JpaProduct.Type type, Principal principal) {
 		SuppliesExample example = new SuppliesExample();
 		SuppliesExample.Criteria ca = example.createCriteria();
+        ca.andCityEqualTo(city);
 		if (StringUtils.isNoneBlank(name)) {
 			ca.andNameLike("%" + name + "%");
 		}
@@ -156,7 +158,12 @@ public class SuppliesServiceImpl implements SuppliesService {
 		return suppliesMapper.selectByPrimaryKey(suppliesId);
 	}
 
-	public int updateSupplies(Supplies supplies) {
+	public int updateSupplies(int city, Supplies supplies) {
+        if (supplies.getCity() == null) {
+            supplies.setCity(city);
+        } else if (city != supplies.getCity()) {
+            return 0;
+        }
 		 if(supplies.getSeqNumber()!=null){
 			 Supplies sup=suppliesMapper.selectByPrimaryKey(supplies.getId());
 			 sup.setSeqNumber(supplies.getSeqNumber());
@@ -165,9 +172,10 @@ public class SuppliesServiceImpl implements SuppliesService {
 		 return 1;
 	}
 
-	public List<Supplies> querySuppliesByUser(Principal principal) {
+	public List<Supplies> querySuppliesByUser(int city, Principal principal) {
 		SuppliesExample example=new SuppliesExample();
 		SuppliesExample.Criteria criteria=example.createCriteria();
+        criteria.andCityEqualTo(city);
 		 if (principal != null) {
 			 criteria.andUserIdEqualTo(Request.getUserId(principal));
 	        }

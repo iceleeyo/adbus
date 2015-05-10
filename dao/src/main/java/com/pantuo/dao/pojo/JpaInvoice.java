@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="invoice")
-public class JpaInvoice extends BaseEntity{
+public class JpaInvoice extends CityEntity{
 	 public static enum Type {
 		 normal, special,other
 	 }
@@ -28,10 +28,10 @@ public class JpaInvoice extends BaseEntity{
 		
 	}
 	
-	public JpaInvoice(int id, String title, Type type, String taxrenum,
+	public JpaInvoice(int city, int id, String title, Type type, String taxrenum,
 			String bankname, String accountnum, String regisaddr,
 			String fixphone) {
-		super();
+		super(city);
 		this.id = id;
 		this.title = title;
 		this.type = type;

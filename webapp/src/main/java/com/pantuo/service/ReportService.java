@@ -34,15 +34,15 @@ public class ReportService {
     @Autowired
     private TimeslotService timeslotService;
 
-    public List<TimeslotReport> getRemainTimeslots(Date from, Date to, Boolean peak) {
-        List<TimeslotReport> report = mapper.getRemainTimeslots(from, to, peak);
+    public List<TimeslotReport> getRemainTimeslots(int city, Date from, Date to, Boolean peak) {
+        List<TimeslotReport> report = mapper.getRemainTimeslots(city, from, to, peak);
 
         //check if there are missing days
         DayList days = DayList.range(from, to);
         List<Date> dayList = days.toDayList();
 
         if (report.size() < dayList.size()) {
-            long duration = (peak == null || !peak)? timeslotService.sumDuration() : timeslotService.sumPeakDuration();
+            long duration = (peak == null || !peak)? timeslotService.sumDuration(city) : timeslotService.sumPeakDuration(city);
 
             HashSet<Date> daysFetched = new HashSet<Date> ();
             for (TimeslotReport r : report) {
@@ -58,8 +58,9 @@ public class ReportService {
         return report;
     }
 
-    private Map<Integer, TimeslotReport> getGoods(Date day,  Boolean paid) {
+    private Map<Integer, TimeslotReport> getGoods(int city, Date day,  Boolean paid) {
         BooleanExpression query = QJpaGoods.jpaGoods.box.day.eq(day);
+        query = query.and(QJpaGoods.jpaGoods.box.city.eq(city));
         if (paid != null) {
             query = query.and(QJpaGoods.jpaGoods.order.stats.goe(JpaOrders.Status.paid));
         }
@@ -85,11 +86,11 @@ public class ReportService {
         return reportMap;
     }
 
-    public List<TimeslotReport> getHourlyTimeslots(Date day, Boolean paid) {
-        Map<Integer, TimeslotReport> reportMap = getGoods(day, paid);
+    public List<TimeslotReport> getHourlyTimeslots(int city, Date day, Boolean paid) {
+        Map<Integer, TimeslotReport> reportMap = getGoods(city, day, paid);
 
         //check if there are missing hours
-        Map<Integer, Long> durationMap = timeslotService.getDurationByHour();
+        Map<Integer, Long> durationMap = timeslotService.getDurationByHour(city);
         HashSet<Integer> hoursFetched = new HashSet<Integer> ();
         Iterator<TimeslotReport> iter = reportMap.values().iterator();
         while (iter.hasNext()) {
@@ -120,12 +121,12 @@ public class ReportService {
     return result;
     }
 
-    public List<TimeslotReport> getMonthlyRemainTimeslots(int year, Boolean peak) {
-        List<TimeslotReport> report = mapper.getMonthlyRemainTimeslots(year, peak);
+    public List<TimeslotReport> getMonthlyRemainTimeslots(int city, int year, Boolean peak) {
+        List<TimeslotReport> report = mapper.getMonthlyRemainTimeslots(city, year, peak);
 
         //check if there are missing months
         if (report.size() < 12) {
-            long duration = (peak == null || !peak)? timeslotService.sumDuration() : timeslotService.sumPeakDuration();
+            long duration = (peak == null || !peak)? timeslotService.sumDuration(city) : timeslotService.sumPeakDuration(city);
 
             HashMap<Integer, TimeslotReport> monthFetched = new HashMap<Integer, TimeslotReport> ();
             for (TimeslotReport r : report) {
@@ -147,15 +148,15 @@ public class ReportService {
         return report;
     }
 
-    public List<TimeslotReport> getOrderTimeslots(Date from, Date to, Boolean peak) {
-        List<TimeslotReport> report = mapper.getOrderTimeslots(from, to, peak);
+    public List<TimeslotReport> getOrderTimeslots(int city, Date from, Date to, Boolean peak) {
+        List<TimeslotReport> report = mapper.getOrderTimeslots(city, from, to, peak);
 
         //check if there are missing days
         DayList days = DayList.range(from, to);
         List<Date> dayList = days.toDayList();
 
         if (report.size() < dayList.size()) {
-            long duration = (peak == null || !peak)? timeslotService.sumDuration() : timeslotService.sumPeakDuration();
+            long duration = (peak == null || !peak)? timeslotService.sumDuration(city) : timeslotService.sumPeakDuration(city);
 
             HashSet<Date> daysFetched = new HashSet<Date> ();
             for (TimeslotReport r : report) {
@@ -172,11 +173,11 @@ public class ReportService {
     }
 
     public Map<Integer/*industry id, -1 means others*/, List<TimeslotReport>>
-            getOrderTimeslotsByIndustries(Date from, Date to, List<Integer> distinctIndustries, Boolean peak) {
+            getOrderTimeslotsByIndustries(int city, Date from, Date to, List<Integer> distinctIndustries, Boolean peak) {
         Map<Integer, List<TimeslotReport>> map = new HashMap<Integer, List<TimeslotReport>> ();
 
-        List<TimeslotReport> base = getRemainTimeslots(from, to, peak);
-        List<TimeslotReport> report = mapper.getOrderTimeslotsByIndustries(from, to, distinctIndustries, peak);
+        List<TimeslotReport> base = getRemainTimeslots(city, from, to, peak);
+        List<TimeslotReport> report = mapper.getOrderTimeslotsByIndustries(city, from, to, distinctIndustries, peak);
         Map<String /*day + industryId*/, TimeslotReport> industryMap = new HashMap<String, TimeslotReport>();
         for (TimeslotReport r : report) {
             industryMap.put(r.getDay() + "/" + r.getIndustryId(), r);

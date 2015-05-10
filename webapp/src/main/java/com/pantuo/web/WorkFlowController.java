@@ -19,10 +19,7 @@ import org.activiti.image.impl.DefaultProcessDiagramGenerator;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pantuo.service.ActivitiService;
@@ -47,8 +44,8 @@ public class WorkFlowController {
 
 	@RequestMapping(value = "resetActiviti")
 	@ResponseBody
-	public String saveOrder(String p) {
-		return activitiService.reset(p);
+	public String reset(String p, @CookieValue(value="city", defaultValue = "-1") int city) {
+		return activitiService.reset(city, p);
 	}
 
 	/**

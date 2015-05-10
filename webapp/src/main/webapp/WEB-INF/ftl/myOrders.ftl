@@ -84,8 +84,7 @@ var table;
     } );
 </script>
 
-
-            <div class="div">
+<div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title" style="padding-top: 0px; text-align:left; ">
 									${orderMenu}
 									</div>
@@ -104,5 +103,5 @@ var table;
                     </thead>
 
                 </table>
-            </div>
+</div>
 </@frame.html>

@@ -322,7 +322,6 @@ function pay() {
 <input type="hidden" id="orderid" value="${orderview.order.id!''}"/>
 <input type="hidden" id="taskid" value="${taskid!''}"/>
            <!-- 支付-->
-           
            <div id="payment" style="display: none;">
               <div id="process" class="section4">
 		            <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单</li><li id="track_time_0" class="tx3"><#setting date_format="yyyy-MM-dd">${(orderview.order.created?date)!''}</li><li id="track_time_0" class="tx3"> 10:12:30</li></ul></div>
@@ -684,5 +683,5 @@ function pay() {
               </div>	        
                                <#include "template/hisDetail.ftl" />
 							</div>
-							 
+
 </@frame.html>

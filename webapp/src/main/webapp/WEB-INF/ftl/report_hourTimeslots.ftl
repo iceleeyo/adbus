@@ -27,6 +27,7 @@ css=["jquery-ui/jquery-ui.css"]>
             });
         });
     </script>
+<div class="withdraw-wrap color-white-bg fn-clear">
     <div class="withdraw-title fn-clear">
         三天时段报表
         <div class="report-toolbar">
@@ -45,5 +46,6 @@ css=["jquery-ui/jquery-ui.css"]>
     yName={"TIMESLOT0":"remain","TIMESLOT1":"remain","TIMESLOT2":"remain"}
     titleY="剩余时长" highChart=remainTimeSlots baseY="${baseY!''}"
     seriesTypes=["TIMESLOT0", "TIMESLOT1", "TIMESLOT2"] />
+</div>
 </@frame.html>
 

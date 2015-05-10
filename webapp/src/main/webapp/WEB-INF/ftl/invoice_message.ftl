@@ -78,7 +78,7 @@
 	}
 </script>
 
-						
+<div class="withdraw-wrap color-white-bg fn-clear">
 							<form data-name="withdraw" name="userForm2" id="userForm2"
 								class="ui-form" method="post" action="saveInvoice"
 								enctype="multipart/form-data">
@@ -100,7 +100,7 @@
 												class="ui-form-required">*
 											</span>发票类型:
 											</label>
-											<div class="mt20"> 
+											<div class="mt20">
 											<input type="radio" name="type" checked="checked" onchange="showother()" value="special">&nbsp;增值税专用发票
 											<input type="radio" name="type"  onchange="hideother()" value="normal">&nbsp;普通发票&nbsp;&nbsp;
 											</div>
@@ -207,5 +207,6 @@
 	          </ol>
 	        </div>
 							</form>
+</div>
 						
 </@frame.html>

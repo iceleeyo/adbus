@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import com.pantuo.dao.CityRepository;
+import com.pantuo.dao.pojo.JpaCity;
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.impl.persistence.entity.GroupEntity;
 import org.slf4j.Logger;
@@ -47,7 +49,14 @@ public class DataInitializationService {
     @Autowired
     IndustryRepository industryRepo;
 
+    @Autowired
+    CityRepository cityRepo;
+
+    @Autowired
+    CityService cityService;
+
     public void intialize() throws Exception {
+        initializeCities();
         initializeIndustries();
         initializeGroups4AddUser();
         initializeGroups();
@@ -156,19 +165,25 @@ public class DataInitializationService {
         while ((line = reader.readLine()) != null) {
             try {
                 String[] time = line.split(",");
-                Date start = sdf.parse(time[0]);
-                String name = time[1];
-                long duration = sdf.parse(time[2]).getTime()/1000;
-                boolean isPeak = "1".equals(time[3]);
-                log.info("timeslot: {}, start: {}, duration {}, peak {}", name, start, duration, isPeak);
-                timeslots.add(new JpaTimeslot(name, start, duration, isPeak));
+                String cityName = time[0];
+                JpaCity city = cityService.fromName(cityName);
+                if (city != null) {
+                    Date start = sdf.parse(time[1]);
+                    String name = time[2];
+                    long duration = sdf.parse(time[3]).getTime()/1000;
+                    boolean isPeak = "1".equals(time[4]);
+                    log.info("timeslot: {}, start: {}, duration {}, peak {}", name, start, duration, isPeak);
+                    timeslots.add(new JpaTimeslot(city.getId(), name, start, duration, isPeak));
+                } else {
+                    log.warn("No city record found for name {}",cityName);
+                }
             } catch (Exception e) {
                 log.warn("Fail to parse timeslot for {}, e={}", line, e.getMessage());
             }
         }
 
         if (!timeslots.isEmpty()) {
-            timeslotService.saveProducts(timeslots);
+            timeslotService.saveTimeslots(timeslots);
         }
         log.info("Inserted {} timeslot entries into table", timeslots.size());
     }
@@ -198,6 +213,34 @@ public class DataInitializationService {
             }
         }
         industryRepo.save(list);
+
+        log.info("Inserted {} industry entries into table", list.size());
+    }
+
+
+    //初始化城市
+    private void initializeCities() throws Exception {
+        long count = cityRepo.count();
+        if (count > 0) {
+            log.info("There are already {} cities in table, skip initialization step", count);
+            return;
+        }
+
+        InputStream is = DataInitializationService.class.getClassLoader().
+                getResourceAsStream("city.csv");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+        String line = null;
+        List<JpaCity> list = new ArrayList<JpaCity>();
+
+        while ((line = reader.readLine()) != null) {
+            try {
+                JpaCity city = new JpaCity(line);
+                list.add(city);
+            } catch (Exception e) {
+                log.warn("Fail to parse industry for {}, e={}", line, e.getMessage());
+            }
+        }
+        cityRepo.save(list);
 
         log.info("Inserted {} industry entries into table", list.size());
     }

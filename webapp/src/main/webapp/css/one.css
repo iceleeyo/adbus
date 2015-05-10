@@ -2495,6 +2495,14 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	vertical-align: middle
 }
 
+.ui-form-item input[type=file] {
+    padding-top:10px;
+}
+
+.ui-form-item div {
+    line-height: 40px;
+}
+
 .ui-form-item textarea {
 	border: 1px solid #c5c5c5;
 	background: url(/static/img/input_inner.png?v=e170d) repeat-x

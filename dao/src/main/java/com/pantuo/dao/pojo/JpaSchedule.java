@@ -10,7 +10,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name="schedule")
-public class JpaSchedule extends BaseEntity {
+public class JpaSchedule extends CityEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -26,7 +26,8 @@ public class JpaSchedule extends BaseEntity {
         //for serialization
     }
 
-    public JpaSchedule(int userId, int orderId, Date date, int timeslotId, Date playTime, long duration) {
+    public JpaSchedule(int city, int userId, int orderId, Date date, int timeslotId, Date playTime, long duration) {
+        super(city);
         this.userId = userId;
         this.orderId = orderId;
         this.date = date;

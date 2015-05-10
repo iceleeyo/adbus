@@ -25,19 +25,17 @@ public class ContractServiceImpl implements ContractServiceData {
 	
 	@Autowired
     ContractRepository contractRepo;
-	public Page<JpaContract> getAllContracts(String name, String code,int page, int pageSize, Sort sort) {
+	public Page<JpaContract> getAllContracts(int city, String name, String code,int page, int pageSize, Sort sort) {
 		if (page < 0)
             page = 0;
         if (pageSize < 1)
             pageSize = 1;
         sort = (sort == null? new Sort("id") : sort);
         Pageable p = new PageRequest(page, pageSize, sort);
-        if (StringUtils.isBlank(name) && StringUtils.isBlank(code)) {
-            return  contractRepo.findAll(p);
-        } else {
-            BooleanExpression query = null;
+        BooleanExpression query = QJpaContract.jpaContract.city.eq(city);
+        if (!(StringUtils.isBlank(name) && StringUtils.isBlank(code))) {
             if (StringUtils.isNotBlank(name)) {
-                query = QJpaContract.jpaContract.contractName.like("%" + name + "%");
+                query = query.and(QJpaContract.jpaContract.contractName.like("%" + name + "%"));
             }
             if (StringUtils.isNoneBlank(code)) {
                 BooleanExpression q = QJpaContract.jpaContract.contractCode.like("%" + code + "%");
@@ -46,19 +44,19 @@ public class ContractServiceImpl implements ContractServiceData {
                 else
                     query = query.and(q);
             }
-            return contractRepo.findAll(query, p);
         }
-	}
+        return contractRepo.findAll(query, p);
+    }
 
-	public Page<JpaContract> getValidContracts(int page, int pageSize, Sort sort) {
+	public Page<JpaContract> getValidContracts(int city, int page, int pageSize, Sort sort) {
 		if (page < 0)
             page = 0;
         if (pageSize < 1)
             pageSize = 1;
         sort = (sort == null? new Sort(Sort.Direction.DESC, "id") : sort);
         Pageable p = new PageRequest(page, pageSize, sort);
-  //      Predicate query = QJpaContract.jpaContract.enabled.isTrue();
-        return contractRepo.findAll( p);  
+        Predicate query = QJpaContract.jpaContract.city.eq(city);
+        return contractRepo.findAll(query, p);
 	}
 	
     

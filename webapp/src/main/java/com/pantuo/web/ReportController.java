@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -35,10 +36,11 @@ public class ReportController {
     private IndustryService industryService;
 
     @RequestMapping("day")
-         public String remainTimeslots(Model model,
+     public String remainTimeslots(Model model,
                                        @RequestParam(value="day", required = false) String dayStr,
                                        @RequestParam(value="baseY", required = false) Long baseY,
-                                       @RequestParam(value="span", required = false, defaultValue = "30") int span) {
+                                       @RequestParam(value="span", required = false, defaultValue = "30") int span,
+                                       @CookieValue(value="city", defaultValue = "-1") int city) {
         Date to = null;
         if (StringUtils.isBlank(dayStr)) {
             to = new Date();
@@ -60,7 +62,7 @@ public class ReportController {
 
         s = Series.newDatetimeSeries(SeriesType.TIMESLOT, days);
         s.addName("remain", "剩余总时长").addName("ordered", "售出总时长");
-        slots = service.getRemainTimeslots(days.getEarlyestDay(), days.getLastDay(), null);
+        slots = service.getRemainTimeslots(city, days.getEarlyestDay(), days.getLastDay(), null);
         for (TimeslotReport data : slots) {
             s.put(data.getDay(), data);
         }
@@ -69,7 +71,7 @@ public class ReportController {
         //peak time
         s = Series.newDatetimeSeries(SeriesType.TIMESLOT, days);
         s.addName("remain", "高峰剩余时长").addName("ordered", "高峰售出时长");
-        slots = service.getRemainTimeslots(days.getEarlyestDay(), days.getLastDay(), true);
+        slots = service.getRemainTimeslots(city, days.getEarlyestDay(), days.getLastDay(), true);
         for (TimeslotReport data : slots) {
             s.put(data.getDay(), data);
         }
@@ -85,7 +87,8 @@ public class ReportController {
     public String remainTimeslotsPercent(Model model,
                                   @RequestParam(value="day", required = false) String dayStr,
                                   @RequestParam(value="baseY", required = false) Long baseY,
-                                  @RequestParam(value="span", required = false, defaultValue = "30") int span) {
+                                  @RequestParam(value="span", required = false, defaultValue = "30") int span,
+                                  @CookieValue(value="city", defaultValue = "-1") int city) {
         Date to = null;
         if (StringUtils.isBlank(dayStr)) {
             to = new Date();
@@ -106,7 +109,7 @@ public class ReportController {
         List<TimeslotReport> slots = null;
 
         s = Series.newDatetimeSeries(SeriesType.TIMESLOT, days);
-        slots = service.getRemainTimeslots(days.getEarlyestDay(), days.getLastDay(), false);
+        slots = service.getRemainTimeslots(city, days.getEarlyestDay(), days.getLastDay(), false);
         s.addName("remain", "平峰剩余时长").addName("ordered", "平峰售出时长");
         for (TimeslotReport data : slots) {
             s.put(data.getDay(), data);
@@ -117,7 +120,7 @@ public class ReportController {
         //peak time
         s = Series.newDatetimeSeries(SeriesType.TIMESLOT, days);
         s.addName("remain", "高峰剩余时长").addName("ordered", "高峰售出时长");
-        slots = service.getRemainTimeslots(days.getEarlyestDay(), days.getLastDay(), true);
+        slots = service.getRemainTimeslots(city, days.getEarlyestDay(), days.getLastDay(), true);
         for (TimeslotReport data : slots) {
             s.put(data.getDay(), data);
         }
@@ -137,7 +140,8 @@ public class ReportController {
     public String remainTimeslotsWeekOnWeek(Model model,
                                   @RequestParam(value="day", required = false) String dayStr,
                                   @RequestParam(value="span", required = false, defaultValue = "14") int span,
-                                  @RequestParam(value="baseY", required = false) Long baseY) {
+                                  @RequestParam(value="baseY", required = false) Long baseY,
+                                  @CookieValue(value="city", defaultValue = "-1") int city) {
         Date to = null;
         if (StringUtils.isBlank(dayStr)) {
             to = new Date();
@@ -167,7 +171,7 @@ public class ReportController {
         HighChartBuilder<Integer> b = new HighChartBuilder<Integer>("剩余时段同比趋势图", XType.WEEK);
         Series<Integer, TimeslotReport> s = (Series<Integer, TimeslotReport>)Series.newCategorySeries(SeriesType.TIMESLOT, xAxis);
         s.addName("remain", "剩余时长（最近）");
-        List<TimeslotReport> slots = service.getRemainTimeslots(thisWeek.getEarlyestDay(), thisWeek.getLastDay(), null);
+        List<TimeslotReport> slots = service.getRemainTimeslots(city, thisWeek.getEarlyestDay(), thisWeek.getLastDay(), null);
         for (TimeslotReport data : slots) {
             if (thisWeekIndex.containsKey(data.getDay())) {
                 s.put(thisWeekIndex.get(data.getDay()), data);
@@ -178,7 +182,7 @@ public class ReportController {
         //fetch prev week data
         s = (Series<Integer, TimeslotReport>)Series.newCategorySeries(SeriesType.TIMESLOT, xAxis);
         s.addName("remain", "剩余时长（历史）");
-        slots = service.getRemainTimeslots(prevWeek.getEarlyestDay(), prevWeek.getLastDay(), null);
+        slots = service.getRemainTimeslots(city, prevWeek.getEarlyestDay(), prevWeek.getLastDay(), null);
         for (TimeslotReport data : slots) {
             if (prevWeekIndex.containsKey(data.getDay())) {
                 s.put(prevWeekIndex.get(data.getDay()), data);
@@ -199,7 +203,8 @@ public class ReportController {
     //月同比
     public String remainTimeslotsMonthOnMonth(Model model,
                                             @RequestParam(value="year", required = false) Integer year,
-                                            @RequestParam(value="baseY", required = false) Long baseY) {
+                                            @RequestParam(value="baseY", required = false) Long baseY,
+                                            @CookieValue(value="city", defaultValue = "-1") int city) {
 
         int thisYear = DateUtil.getYearAndMonthAndHour(new Date())[0];
         int yearOne = year == null ? thisYear : year;
@@ -214,7 +219,7 @@ public class ReportController {
         HighChartBuilder<Integer> b = new HighChartBuilder<Integer>("剩余时段同比趋势图", XType.MONTH);
         Series<Integer, TimeslotReport> s = (Series<Integer, TimeslotReport>)Series.newCategorySeries(SeriesType.LONG_TIMESLOT, xAxis);
         s.addName("remain", "剩余时长（" + yearOne + "年）");
-        List<TimeslotReport> slots = service.getMonthlyRemainTimeslots(yearOne, null);
+        List<TimeslotReport> slots = service.getMonthlyRemainTimeslots(city, yearOne, null);
         for (TimeslotReport data : slots) {
             s.put(data.getMonth(), data);
         }
@@ -223,7 +228,7 @@ public class ReportController {
         //fetch prev year's data
         s = (Series<Integer, TimeslotReport>)Series.newCategorySeries(SeriesType.LONG_TIMESLOT, xAxis);
         s.addName("remain", "剩余时长（" + yearTwo + "年）");
-        slots = service.getMonthlyRemainTimeslots(yearTwo, null);
+        slots = service.getMonthlyRemainTimeslots(city, yearTwo, null);
         for (TimeslotReport data : slots) {
             s.put(data.getMonth(), data);
         }
@@ -242,7 +247,8 @@ public class ReportController {
     //月对比
     public String remainTimeslotsMonthPercent(Model model,
                                               @RequestParam(value="year", required = false) Integer year,
-                                              @RequestParam(value="baseY", required = false) Long baseY) {
+                                              @RequestParam(value="baseY", required = false) Long baseY,
+                                              @CookieValue(value="city", defaultValue = "-1") int city) {
 
         int thisYear = DateUtil.getYearAndMonthAndHour(new Date())[0];
         int yearOne = year == null ? thisYear : year;
@@ -257,7 +263,7 @@ public class ReportController {
         Series<Integer, TimeslotReport> s;
         s = (Series<Integer, TimeslotReport>)Series.newCategorySeries(SeriesType.LONG_TIMESLOT, xAxis);
         s.addName("remain", "平峰剩余时长").addName("ordered", "平峰售出时长");
-        List<TimeslotReport> slots = service.getMonthlyRemainTimeslots(yearOne, false);
+        List<TimeslotReport> slots = service.getMonthlyRemainTimeslots(city, yearOne, false);
         for (TimeslotReport data : slots) {
             s.put(data.getMonth(), data);
         }
@@ -267,7 +273,7 @@ public class ReportController {
         //fetch peak data
         s = (Series<Integer, TimeslotReport>)Series.newCategorySeries(SeriesType.LONG_TIMESLOT, xAxis);
         s.addName("remain", "高峰剩余时长").addName("ordered", "高峰售出时长");
-        slots = service.getMonthlyRemainTimeslots(yearOne, true);
+        slots = service.getMonthlyRemainTimeslots(city, yearOne, true);
         for (TimeslotReport data : slots) {
             s.put(data.getMonth(), data);
         }
@@ -287,7 +293,8 @@ public class ReportController {
     @RequestMapping("hour")
     public String remainHourlyTimeslots(Model model,
                                   @RequestParam(value="day", required = false) String dayStr,
-                                  @RequestParam(value="baseY", required = false) Long baseY) {
+                                  @RequestParam(value="baseY", required = false) Long baseY,
+                                  @CookieValue(value="city", defaultValue = "-1") int city) {
         Date to = null;
         if (StringUtils.isBlank(dayStr)) {
             to = DateUtil.trimDate(new Date());
@@ -322,7 +329,7 @@ public class ReportController {
             }
             s = Series.newCategorySeries(SeriesType.TIMESLOT, xAxis);
             s.addName("remain", DateUtil.longDf2.get().format(theDay) + "剩余时长").addName("ordered", "售出总时长（" + DateUtil.longDf2.get().format(theDay) + "）");
-            slots = service.getHourlyTimeslots(theDay, null);
+            slots = service.getHourlyTimeslots(city, theDay, null);
             for (TimeslotReport data : slots) {
                 s.put(data.getHour(), data);
             }
@@ -341,7 +348,8 @@ public class ReportController {
     @RequestMapping("hourp")
     public String remainHourlyTimeslotsPercent(Model model,
                                         @RequestParam(value="day", required = false) String dayStr,
-                                        @RequestParam(value="baseY", required = false) Long baseY) {
+                                        @RequestParam(value="baseY", required = false) Long baseY,
+                                        @CookieValue(value="city", defaultValue = "-1") int city) {
         Date to = null;
         if (StringUtils.isBlank(dayStr)) {
             to = DateUtil.trimDate(new Date());
@@ -366,7 +374,7 @@ public class ReportController {
         theDay = to;
         s = Series.newCategorySeries(SeriesType.TIMESLOT, xAxis);
         s.addName("remain", "剩余总时长").addName("ordered", "售出总时长（" + DateUtil.longDf2.get().format(theDay) + "）");
-        slots = service.getHourlyTimeslots(theDay, null);
+        slots = service.getHourlyTimeslots(city, theDay, null);
         for (TimeslotReport data : slots) {
             s.put(data.getHour(), data);
         }
@@ -386,7 +394,8 @@ public class ReportController {
     public String orderPercent(Model model,
                                          @RequestParam(value="day", required = false) String dayStr,
                                          @RequestParam(value="baseY", required = false) Long baseY,
-                                         @RequestParam(value="span", required = false, defaultValue = "90") int span) {
+                                         @RequestParam(value="span", required = false, defaultValue = "90") int span,
+                                         @CookieValue(value="city", defaultValue = "-1") int city) {
         Date to = null;
         if (StringUtils.isBlank(dayStr)) {
             to = new Date();
@@ -407,7 +416,7 @@ public class ReportController {
         List<TimeslotReport> slots = null;
 
         s = Series.newDatetimeSeries(SeriesType.TIMESLOT, days);
-        slots = service.getOrderTimeslots(days.getEarlyestDay(), days.getLastDay(), null);
+        slots = service.getOrderTimeslots(city, days.getEarlyestDay(), days.getLastDay(), null);
         s.setPointer(false, 1).addName("remain", "剩余时长").addName("paid", "已售出时长").addName("notPaid", "预售时长");
         for (TimeslotReport data : slots) {
             s.put(data.getDay(), data);
@@ -432,7 +441,8 @@ public class ReportController {
                                @RequestParam(value="day", required = false) String dayStr,
                                @RequestParam(value="baseY", required = false) Long baseY,
                                @RequestParam(value="industry", required = false, defaultValue = "0,1") String industryIdStr,
-                               @RequestParam(value="span", required = false, defaultValue = "90") int span) {
+                               @RequestParam(value="span", required = false, defaultValue = "90") int span,
+                               @CookieValue(value="city", defaultValue = "-1") int city) {
         Date to = null;
         if (StringUtils.isBlank(dayStr)) {
             to = new Date();
@@ -466,7 +476,7 @@ public class ReportController {
         DayList days = DayList.range(to, -span);
 
         DatetimeSeries s = null;
-        Map<Integer, List<TimeslotReport>> slots =  service.getOrderTimeslotsByIndustries(days.getEarlyestDay(), days.getLastDay(), industryIds, null);
+        Map<Integer, List<TimeslotReport>> slots =  service.getOrderTimeslotsByIndustries(city, days.getEarlyestDay(), days.getLastDay(), industryIds, null);
         Iterator<Map.Entry<Integer,List<TimeslotReport>>> iter = slots.entrySet().iterator();
 
         List<String> seriesNames = new ArrayList<String> ();

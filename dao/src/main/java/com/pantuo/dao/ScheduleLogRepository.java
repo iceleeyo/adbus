@@ -12,9 +12,9 @@ import java.util.List;
  */
 
 public interface ScheduleLogRepository extends JpaRepository<ScheduleLog, Integer>, QueryDslPredicateExecutor<ScheduleLog> {
-    ScheduleLog findByDayAndOrderId(Date day, int orderId);
+    ScheduleLog findByCityAndDayAndOrderId(int city, Date day, int orderId);
 
-    ScheduleLog findByDayAndStatus(Date day, ScheduleLog.Status status);
+    ScheduleLog findByCityAndDayAndStatus(int city, Date day, ScheduleLog.Status status);
 
-    List<ScheduleLog> findByOrderId(int orderId);
+    List<ScheduleLog> findByCityAndOrderId(int city, int orderId);
 }

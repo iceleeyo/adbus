@@ -28,7 +28,7 @@ css=["jquery-ui/jquery-ui.css"]>
         });
 
     </script>
-
+<div class="withdraw-wrap color-white-bg fn-clear">
     <div class="withdraw-title fn-clear">
         剩余时段趋势图
         <div class="report-toolbar">
@@ -46,5 +46,6 @@ css=["jquery-ui/jquery-ui.css"]>
     yName={"TIMESLOT":"remain","TIMESLOT_PEAK":"remain"}
     titleY="剩余时长" highChart=remainTimeSlots baseY="${baseY!''}"
     seriesTypes=["TIMESLOT", "TIMESLOT_PEAK"] />
+</div>
 </@frame.html>
 

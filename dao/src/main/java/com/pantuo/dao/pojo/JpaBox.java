@@ -13,10 +13,10 @@ import java.util.List;
 */
 //箱子
 @Entity
-@Table(name="box", uniqueConstraints=@UniqueConstraint(columnNames={"day", "slotId"}),
-    indexes = @Index(name="box_index", columnList="day, year, month, hour, slotId")
+@Table(name="box", uniqueConstraints=@UniqueConstraint(columnNames={"city", "day", "slotId"}),
+    indexes = @Index(name="box_index", columnList="city, day, year, month, hour, slotId")
 )
-public class JpaBox implements Comparable<JpaBox>, Serializable {
+public class JpaBox extends CityEntity implements Comparable<JpaBox>, Serializable {
     private static ThreadLocal<Long> PUT_WEIGHT = new ThreadLocal<Long>() {
         @Override
         protected Long initialValue() {
@@ -48,7 +48,8 @@ public class JpaBox implements Comparable<JpaBox>, Serializable {
 
     public JpaBox() {}
 
-    public JpaBox(Date day, int slotId, long size) {
+    public JpaBox(int city, Date day, int slotId, long size) {
+        super(city);
         goods = new ArrayList<JpaGoods>();
         this.day = day;
         int[] yearMon = DateUtil.getYearAndMonthAndHour(day);

@@ -49,21 +49,25 @@ public class UserDetail extends BaseEntity {
 	@Transient
 	public String password;
 	@Transient
-	public String firstName;
+	public String firstName = "";
 	@Transient
-	public String lastName;
+	public String lastName = "";
 	@Transient
 	public String email;
 	@Transient
 	public List<String> roles;
-    
+
+    @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+    private List<JpaCity> cities;
+
 	public void buildMySelf() {
         user = new UserEntity(username);
         user.setPassword(password);
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setEmail(email);
-        setStringGroups(roles);
+        if (roles != null)
+            setStringGroups(roles);
 	}
 
     public UserDetail(String username, String password, String firstName, String lastName, String email) {
@@ -120,6 +124,14 @@ public class UserDetail extends BaseEntity {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<JpaCity> getCities() {
+        return cities;
+    }
+
+    public void setCities(List<JpaCity> cities) {
+        this.cities = cities;
     }
 
     @Override

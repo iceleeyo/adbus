@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="用户注册">
-<@frame.html title="用户注册" js=["jquery-ui/jquery-ui.js", "datepicker.js", "jquery.datepicker.region.cn.js"] css=["jquery-ui/jquery-ui.css"]>
+<@frame.html title="用户注册" left=false nav=false js=["jquery-ui/jquery-ui.js", "datepicker.js", "jquery.datepicker.region.cn.js"] css=["jquery-ui/jquery-ui.css"]>
 
 <script type="text/javascript">
 	i = 2;
@@ -8,6 +8,14 @@
 	$(document)
 			.ready(
 					function() {
+
+                        $("#agreement").change(function() {
+                            if ($(this).is(":checked")) {
+                                $("#register").removeClass("ui-button-disabled");
+                            } else {
+                                $("#register").addClass("ui-button-disabled");
+                            }
+                        });
 
 						$("#btn_add2")
 								.click(
@@ -29,55 +37,53 @@
 
 
 	function sub(){
-		var code = ($("#code").val());
-		var name = ($("#name").val());
-		var startDate = $("#startDate").val();
-		var endDate = ($("#endDate").val());
-		var amounts=($("#amounts").val());
-		Sfile= ($("#Sfile").val());
-		if(Sfile==""){
-			jDialog.Alert("请选择合同附件");
-			return;
-		}
-		if(code==""){
-			jDialog.Alert("请填写合同号");
-			return;
-		}
-		if(amounts==""){
-			jDialog.Alert("请填写合同金额");
+        if (!$("#agreement").is(":checked")) {
+            jDialog.Alert("请同意免责条款");
+            return;
+        }
+		var username = ($("#username").val());
+		var name = ($("#firstName").val());
+		var password = $("#password").val();
+		var phone = ($("#phone").val());
+		var email=($("#email").val());
+		if(username==""){
+			jDialog.Alert("请填写用户名");
 			return;
 		}
 		if(name==""){
-			jDialog.Alert("请填写合同名称");
+			jDialog.Alert("请填写用户昵称");
 			return;
 		}
-		if(startDate.length<1){
-			jDialog.Alert("请填写合同生效时间");
+		if(password==""){
+			jDialog.Alert("请填写用户密码");
 			return;
 		}
-		if(endDate.length<1){
-			jDialog.Alert("请填写合同失效时间");
+		if(phone == ""){
+			jDialog.Alert("请填写电话");
 			return;
 		}
-		if(endDate<startDate){
-			jDialog.Alert("失效时间不能小于生效时间");
+		if(email == ""){
+			jDialog.Alert("请填写邮件地址");
 			return;
 		}
 		$('#userForm2').ajaxForm(function(data) {
 			jDialog.Alert(data.right);
 			var uptime = window.setTimeout(function(){
-				window.location.href="${rc.contextPath}/contract/list"
+				window.location.href="${rc.contextPath}/order/myTask/1";
 			   	clearTimeout(uptime);
-						},2000)
+            },2000);
 		}).submit();
 
 	}
 </script>
-<div class = "iwifi-ad-content">
- 		<div class = "iwifi-ad-body iwifi-ad-width" >
-						
+<style type="text/css">
+    .ls-10 {clear: both; float: none; margin: auto;}
+    .ad-agreement textarea {width: 100%; font-size: 12px;}
+</style>
+<div class="withdraw-wrap color-white-bg fn-clear">
+
 							<form data-name="withdraw" name="userForm2" id="userForm2"
-								class="ui-form" method="post" action="saveContract"
+								class="ui-form" method="post" action="doRegister"
 								enctype="multipart/form-data">
 								<div class="withdraw-title fn-clear">
 									用户注册
@@ -97,9 +103,9 @@
 											</span>用户名[登录帐号]:
                                             </label>
                                             <input class="ui-input"
-												type="text" name="contractCode" id="code"
+												type="text" name="username" id="username"
 												data-is="isAmount isEnough" autocomplete="off"
-												disableautocomplete="" placeholder="请输入用户名。允许6-12位以内中英文、数字、下划线">
+												disableautocomplete="" placeholder="6-12位英文、数字、下划线">
                                         </div>
                                         <div class="ui-form-item">
 											<label class="ui-label mt10">
@@ -108,9 +114,9 @@
 											</span>用户昵称:
 											</label> 
 												<input class="ui-input"
-												type="text" name="contractCode" id="code"
+												type="text" name="firstName" id="firstName"
 												data-is="isAmount isEnough" autocomplete="off"
-												disableautocomplete="" placeholder="请输入用户昵称。允许1-12位以内中英文、数字、下划线">
+												disableautocomplete="" placeholder="1-12位中英文、数字、下划线">
 										</div>
 										<div class="ui-form-item">
 											<label class="ui-label mt10">
@@ -119,15 +125,14 @@
 											</span>密码:
 											</label> 
 												<input class="ui-input"
-												type="text" name="contractCode" id="code"
+												type="password" name="password" id="password"
 												data-is="isAmount isEnough" autocomplete="off"
 												disableautocomplete="" placeholder="请输入6-20位密码">
 										</div>
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>请确认密码:</label> <input
-												class="ui-input" type="text" name="contractName"
-												id="name" data-is="isAmount isEnough"
+												class="ui-input" type="password" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="请再输入一次密码">
 											<p class="ui-term-placeholder"></p>
 
@@ -136,8 +141,8 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>联系电话:</label>
                                                     <input
-												class="ui-input" type="text" name="amounts"
-												id="amounts" data-is="isAmount isEnough"
+												class="ui-input" type="text" name="phone"
+												id="phone" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="请输入联系电话">
                                         </div>
                                         
@@ -145,28 +150,27 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>邮箱地址:</label>
                                                     <input
-												class="ui-input" type="text" name="amounts"
-												id="amounts" data-is="isAmount isEnough"
+												class="ui-input" type="text" name="email"
+												id="email" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="请输入邮箱地址">
                                         </div>
                                         
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10">公司名称:</label>
                                                     <input
-												class="ui-input" type="text" name="amounts"
-												id="amounts" data-is="isAmount isEnough"
+												class="ui-input" type="text" name="company"
+												id="company" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="请输入所属公司名称">
                                         </div>
                                         
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10">其他备注:</label>
                                                     <input
-												class="ui-input" type="text" name="amounts"
-												id="amounts" data-is="isAmount isEnough"
+												class="ui-input" type="text" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="其他备注信息">
                                         </div>
                                         </div>
-<div class = "iwifi-ad-agreement">
+<div class = "ad-agreement">
 	<TEXTAREA id="agreementstr" name="agreementstr" type="text"  rows="16">
 1.特别提示
 1.1 广告拟合竞价系统中心（以下称“系统中心”）同意按照本协议的规定提供竞价等相关服务（以下称“本服务”）。为获得本服务，服务使用人（以下称“用户”）应当同意本协议的全部条款并按照页面上的提示完成全部的注册程序。
@@ -180,12 +184,12 @@
 3.1 用户在申请使用本服务时，必须向系统中心提供本人真实、正确、最新及完整的个人资料。如果因注册信息不真实而引起的问题及其后果，系统中心不承担任何责任。
 3.2 用户的帐号和密码由用户负责保管。每个用户都要对其帐户中的所有活动和事件负全责。如果用户未保管好自己的帐号和密码而对用户、系统中心或第三方造成的损害，用户将负全部责任。
 3.3 用户在使用本服务过程中，必须遵循以下原则：
-遵守中国有关的法律和法规； 
+遵守中国有关的法律和法规；
 不得为任何非法目的而使用本服务系统；
 遵守所有与本服务有关的网络协议、规定和程序；
-不得利用本服务系统进行任何可能对互联网的正常运转造成不利影响的行为； 
-不得利用本服务系统传输任何骚扰性的、中伤他人的、辱骂性的、恐吓性的、庸俗淫秽的或其他任何非法的信息资料； 
-不得利用本服务系统进行任何不利于系统中心的行为； 
+不得利用本服务系统进行任何可能对互联网的正常运转造成不利影响的行为；
+不得利用本服务系统传输任何骚扰性的、中伤他人的、辱骂性的、恐吓性的、庸俗淫秽的或其他任何非法的信息资料；
+不得利用本服务系统进行任何不利于系统中心的行为；
 3.4 如用户在使用本服务时违反任何上述规定，系统中心或及其授权的人有权要求用户改正或直接采取一切必要的措施，以减轻用户不当行为造成的影响。
 
 4.隐私保护
@@ -209,7 +213,7 @@
 用户同意保障和维护系统中心及其他用户的利益，如因用户违反有关法律、法规或本协议项下的任何条款而给系统中心或任何其他第三人造成损失，用户同意承担由此造成的损害赔偿责任。
 
 8.法律管辖
-8.1 本协议的执行和解释及争议的解决均应适用中国法律。 
+8.1 本协议的执行和解释及争议的解决均应适用中国法律。
 8.2 如双方就本协议内容或其执行发生任何争议，双方应尽量友好协商解决；协商不成时，任何一方均应向系统中心所有者所在地的人民法院提起诉讼。
 
 9.通知和送达
@@ -219,24 +223,22 @@
 10.1 本协议构成双方对本协议之约定事项及其他有关事宜的完整协议，除本协议规定的之外，未赋予本协议各方其他权利。
 10.2 如本协议中的任何条款无论因何种原因完全或部分无效或不具有执行力，本协议的其余条款仍应有效并且有约束力。
 10.3 本协议所有条款的最终解释权属于系统中心。
-		
-	</TEXTAREA>		
+
+	</TEXTAREA>
 	</div>
 	<div class="iwifi-ad">&nbsp;</div>
 	<div class="iwifi-ad">
-		<input id="Agreement" type="checkbox" checked="" name=""> 同意《免责条款》
+		<input id="agreement" type="checkbox"  name=""> 同意《免责条款》
 	</div>
+    <div class="ui-form-item widthdrawBtBox">
 	<div class="iwifi-btn">
-		<button id="cAddbtn" class="btn-disabled" type="button">创建用户</button>
-		<button type="button" class="joinsysbutton" onclick="javascript:history.go(-1);">返回</button>
+        <input type="button" id="register" class="block-btn ui-button-disabled"
+               onclick="sub();" value="创建用户">
+        <input type="button" id="cancel" class="block-btn"
+               onclick="javascript:history.go(-1);" value="返回">
 	</div>
-	<div class="ui-form-item widthdrawBtBox">
-		<input type="button" id="subWithdraw" class="block-btn"
-		onclick="sub();" value="创建用户">
 	</div>
 </div>
 	</form>
 </div>
-</div>
-						
 </@frame.html>

@@ -111,10 +111,9 @@
         initTable();
     } );
 </script>
-						 
 
-          
-            <div class="div">
+
+<div class="withdraw-wrap color-white-bg fn-clear">
               <div class="withdraw-title" style="padding-top: 0px; text-align:left; ">
 									待办事项
 									</div>
@@ -132,5 +131,5 @@
                     </thead>
 
                 </table>
-            </div>
+</div>
 </@frame.html>

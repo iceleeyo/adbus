@@ -9,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="product")
-public class JpaProduct extends BaseEntity {
+public class JpaProduct extends CityEntity {
     public static enum Type {
         video, image, info,other
     }
@@ -34,10 +34,10 @@ public class JpaProduct extends BaseEntity {
         //for serialization
     }
 
-    public JpaProduct(Type type, String name, long duration,
+    public JpaProduct(int city, Type type, String name, long duration,
                       int playNumber, int firstNumber, int lastNumber, double hotRatio,
                       int days, double price, boolean padding) {
-		super();
+		super(city);
 		this.type = type;
 		this.name = name;
 		this.duration = duration;

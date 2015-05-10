@@ -12,10 +12,7 @@ import com.pantuo.web.view.SuppliesView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -41,9 +38,11 @@ public class SuppliesController {
 
 	@RequestMapping(value = "put", method = RequestMethod.POST)
 	@ResponseBody
-	public Pair<Boolean, String> put(Supplies obj, Principal principal, HttpServletRequest request)
+	public Pair<Boolean, String> put(Supplies obj, Principal principal,
+                                     @CookieValue(value="city", defaultValue = "-1") int city,
+                                     HttpServletRequest request)
 			throws IllegalStateException, IOException {
-		return suppliesService.addSupplies(obj, principal, request);
+		return suppliesService.addSupplies(city, obj, principal, request);
 	}
 
 	@RequestMapping(value = "/list")
@@ -61,7 +60,10 @@ public class SuppliesController {
 	
 	@RequestMapping("ajax-list")
 	@ResponseBody
-	public DataTablePage<JpaSupplies> getAllContracts(TableRequest req,Principal principal) {
-		return new DataTablePage(suppliesDataService.getAllSupplies(  principal,req.getFilter("name"), req.getPage(), req.getLength(), req.getSort("id")), req.getDraw());
+	public DataTablePage<JpaSupplies> getAllContracts(TableRequest req,
+                                                      Principal principal,
+                                                      @CookieValue(value="city", defaultValue = "-1") int city) {
+		return new DataTablePage(suppliesDataService.getAllSupplies(city, principal,req.getFilter("name"),
+                req.getPage(), req.getLength(), req.getSort("id")), req.getDraw());
 	}
 }

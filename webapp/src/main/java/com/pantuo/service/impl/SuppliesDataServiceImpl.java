@@ -27,7 +27,7 @@ public class SuppliesDataServiceImpl implements SuppliesServiceData {
 	@Autowired
 	SuppliesRepository suppliesRepo;
 
-	public Page<JpaSupplies> getAllSupplies(Principal principal,String name, int page, int pageSize, Sort sort) {
+	public Page<JpaSupplies> getAllSupplies(int city, Principal principal,String name, int page, int pageSize, Sort sort) {
 		
 		if (page < 0)
 			page = 0;
@@ -35,15 +35,16 @@ public class SuppliesDataServiceImpl implements SuppliesServiceData {
 			pageSize = 1;
 		sort = (sort == null ? new Sort("id") : sort);
 		Pageable p = new PageRequest(page, pageSize, sort);
+        BooleanExpression query = QJpaSupplies.jpaSupplies.city.eq(city);
 		if (name == null || StringUtils.isEmpty(name)) {
             if (Request.hasAuth(principal, "ShibaSuppliesManager")) {
-                return suppliesRepo.findAll(p);
+                return suppliesRepo.findAll(query, p);
             } else {
-                Predicate query = QJpaSupplies.jpaSupplies.userId.eq(Request.getUserId(principal));
+                query = query.and(QJpaSupplies.jpaSupplies.userId.eq(Request.getUserId(principal)));
                 return suppliesRepo.findAll(query,p);
             }
 		} else {
-			BooleanExpression query = QJpaSupplies.jpaSupplies.name.like("%" + name + "%");
+			query = query.and(QJpaSupplies.jpaSupplies.name.like("%" + name + "%"));
             if (!Request.hasAuth(principal, "ShibaSuppliesManager")) {
                 query = query.and(
                         QJpaSupplies.jpaSupplies.userId.eq(Request.getUserId(principal)));
@@ -52,15 +53,15 @@ public class SuppliesDataServiceImpl implements SuppliesServiceData {
 		}
 	}
 
-	public Page<JpaSupplies> getValidSupplies(int page, int pageSize, Sort sort) {
+	public Page<JpaSupplies> getValidSupplies(int city, int page, int pageSize, Sort sort) {
 		if (page < 0)
 			page = 0;
 		if (pageSize < 1)
 			pageSize = 1;
 		sort = (sort == null ? new Sort(Sort.Direction.DESC, "id") : sort);
 		Pageable p = new PageRequest(page, pageSize, sort);
-		/*Predicate query = QJpaSupplies.jpaSupplies.enabled.isTrue();*/
-		return suppliesRepo.findAll(p);
+		Predicate query = QJpaSupplies.jpaSupplies.city.eq(city);
+		return suppliesRepo.findAll(query, p);
 	}
 
 }

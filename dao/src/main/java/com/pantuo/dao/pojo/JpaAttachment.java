@@ -35,7 +35,6 @@ public class JpaAttachment extends BaseEntity {
     }
 
     public JpaAttachment(Type type, String url, String name, int mainId, String userId) {
-        super();
         this.type = type;
         this.url = url;
         this.name = name;

@@ -6,9 +6,9 @@ import com.pantuo.dao.pojo.JpaOrders;
 
 
 public interface OrderServiceData {
-	Page<JpaOrders> getAllOrders(String productId, int page, int pageSize);
+	Page<JpaOrders> getAllOrders(int city, String productId, int page, int pageSize);
 
-    Page<JpaOrders> getValidOrders(int page, int pageSize);
+    Page<JpaOrders> getValidOrders(int city, int page, int pageSize);
 
 	
 }

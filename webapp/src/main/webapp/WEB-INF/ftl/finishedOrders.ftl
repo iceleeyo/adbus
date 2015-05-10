@@ -97,15 +97,14 @@
         initTable();
     } );
 </script>
-						 
+<div class="withdraw-wrap color-white-bg fn-clear">
 <#--            <div class="div" style="margin-top:25px">
                 <caption><h2>待办事项</h2></caption>
             </div>
             <div class="div">
                 <hr/>
             </div>-->
-            <div class="div">
-            
+
             <div class="withdraw-title" style="padding-top: 0px; text-align:left; ">
 									已完成的订单
 									</div>
@@ -123,5 +122,5 @@
                     </thead>
 
                 </table>
-            </div>
+</div>
 </@frame.html>

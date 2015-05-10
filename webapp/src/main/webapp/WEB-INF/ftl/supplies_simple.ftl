@@ -95,7 +95,7 @@
         initTable();
     } );
 </script>
-
+<div class="withdraw-wrap color-white-bg fn-clear">
 <#--            <div class="div" style="margin-top:25px">
                 <caption><h2>物料表</h2></caption>
             </div>
@@ -103,7 +103,6 @@
                 <hr/>
             </div>
 -->
-            <div class="div">
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
@@ -114,5 +113,5 @@
                     </thead>
 
                 </table>
-            </div>
+</div>
 </@frame.html>

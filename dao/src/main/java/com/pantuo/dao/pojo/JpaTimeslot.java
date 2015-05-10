@@ -12,7 +12,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name="timeslot")
-public class JpaTimeslot extends BaseEntity {
+public class JpaTimeslot extends CityEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -27,7 +27,8 @@ public class JpaTimeslot extends BaseEntity {
         //for serialization
     }
 
-    public JpaTimeslot(String name, Date startTime, long duration, boolean peak) {
+    public JpaTimeslot(int city, String name, Date startTime, long duration, boolean peak) {
+        super(city);
         this.name = name;
         this.startTime = startTime;
         this.duration = duration;

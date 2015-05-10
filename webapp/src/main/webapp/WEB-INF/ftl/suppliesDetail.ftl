@@ -6,6 +6,7 @@ function go_back(){
 	history.go(-1);
 }
 </script>
+<div class="withdraw-wrap color-white-bg fn-clear">
 						<form data-name="withdraw" name="userForm2" id="userForm2"
 							class="ui-form" method="post" action="saveContract"
 							enctype="multipart/form-data">
@@ -72,4 +73,5 @@ function go_back(){
 								</div>
 							</div>
 						</form>
+</div>
 </@frame.html>

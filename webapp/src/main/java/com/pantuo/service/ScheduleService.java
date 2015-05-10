@@ -106,7 +106,7 @@ public class ScheduleService {
     public ScheduleLog schedule(JpaOrders order) {
         if (order == null || order.getId() == 0) {
             log.error("Order {} does not exists or not persisted");
-            return new ScheduleLog(new Date(), 0, ScheduleLog.Status.failed, "Order " + order + " does not exists or not persisted");
+            return new ScheduleLog(order.getCity(), new Date(), 0, ScheduleLog.Status.failed, "Order " + order + " does not exists or not persisted");
         }
         return schedule(order, order.getStartTime(), order.getProduct().getDays());
     }
@@ -186,6 +186,7 @@ public class ScheduleService {
 */
 
     private ScheduleLog schedule(JpaOrders order, Date start, int days) {
+        int city = order.getCity();
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         cal.setTime(new Date());
         cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -195,25 +196,25 @@ public class ScheduleService {
 
         if (order == null || order.getId() == 0) {
             log.error("Order {} does not exists or not persisted");
-            return new ScheduleLog(cal.getTime(), 0, ScheduleLog.Status.failed, "Order " + order + " does not exists or not persisted");
+            return new ScheduleLog(city, cal.getTime(), 0, ScheduleLog.Status.failed, "Order " + order + " does not exists or not persisted");
         }
         cal.setTime(start);
         int orderId = order.getId();
 
         if (days == 0) {
             log.info("Order {} has 0 days", orderId);
-            return new ScheduleLog(cal.getTime(), orderId, ScheduleLog.Status.scheduled, "Order " + orderId + " has 0 days");
+            return new ScheduleLog(city, cal.getTime(), orderId, ScheduleLog.Status.scheduled, "Order " + orderId + " has 0 days");
         }
 
-        List<ScheduleLog> slogs = scheduleLogRepository.findByOrderId(orderId);
+        List<ScheduleLog> slogs = scheduleLogRepository.findByCityAndOrderId(city, orderId);
         if (!slogs.isEmpty()) {
             for (ScheduleLog slog : slogs) {
                 if (slog.getStatus() == ScheduleLog.Status.scheduled) {
                     log.info("Scheduling for day {} and order {} has already completed", slog.getDay(), orderId);
-                    return new ScheduleLog(slog.getDay(), orderId, ScheduleLog.Status.duplicate, "duplicate with day " + slog.getDay());
+                    return new ScheduleLog(city, slog.getDay(), orderId, ScheduleLog.Status.duplicate, "duplicate with day " + slog.getDay());
                 } else if (slog.getStatus() == ScheduleLog.Status.scheduling) {
                     log.info("Other thread is now scheduling for day {} and order {}, please wait", slog.getDay(), orderId);
-                    return new ScheduleLog(slog.getDay(), orderId, ScheduleLog.Status.racing, "racing with day " + slog.getDay());
+                    return new ScheduleLog(city, slog.getDay(), orderId, ScheduleLog.Status.racing, "racing with day " + slog.getDay());
                 }
             }
         }
@@ -232,19 +233,19 @@ public class ScheduleService {
                 MDC.put("order", orderId + "");
 
                 log.info(":::Start scheduling for day {}, order {}", now, orderId);
-                slog = new ScheduleLog(now, orderId);
+                slog = new ScheduleLog(city, now, orderId);
                 scheduleLogRepository.save(slog);
                 slogs.add(slog);
 
                 Schedule s = null;
-                List<JpaBox> boxes = boxRepo.findByDay(now);
+                List<JpaBox> boxes = boxRepo.findByCityAndDay(city, now);
                 if (!boxes.isEmpty()) {
                     log.info("There is already scheduled orders for day {}", now);
                     s = Schedule.newFromBoxes(now, boxes, order);
                 } else {
                     log.info("First order to be scheduled for day {}", now);
-                    Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(null, 0, 9999, null, false);
-                    s = Schedule.newFromTimeslots(now, slots.getContent(), order);
+                    Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(city, null, 0, 9999, null, false);
+                    s = Schedule.newFromTimeslots(city, now, slots.getContent(), order);
                 }
 
                 boolean scheduled = s.schedule();

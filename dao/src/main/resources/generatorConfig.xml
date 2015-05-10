@@ -66,5 +66,8 @@
          <table schema="" tableName="message" delimitIdentifiers="${generator.delimitIdentifiers}">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
+        <table schema="" tableName="city" delimitIdentifiers="${generator.delimitIdentifiers}">
+            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
+        </table>
     </context>
 </generatorConfiguration>

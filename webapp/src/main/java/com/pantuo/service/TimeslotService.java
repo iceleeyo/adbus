@@ -17,17 +17,17 @@ public interface TimeslotService {
 
     long count();
 
-    long sumDuration();
+    long sumDuration(int city);
 
-    long sumPeakDuration();
+    long sumPeakDuration(int city);
 
-    Map<Integer, Long> getDurationByHour();
+    Map<Integer, Long> getDurationByHour(int city);
 
-    Page<JpaTimeslot> getAllTimeslots(String name, int page, int pageSize, Sort sort, boolean fetchDisabled);
+    Page<JpaTimeslot> getAllTimeslots(int city, String name, int page, int pageSize, Sort sort, boolean fetchDisabled);
 
     JpaTimeslot findById(int id);
 
-    void saveProduct(JpaTimeslot timeslot);
+    void saveTimeslot(JpaTimeslot timeslot);
 
-    void saveProducts(Iterable<JpaTimeslot> timeslots);
+    void saveTimeslots(Iterable<JpaTimeslot> timeslots);
 }

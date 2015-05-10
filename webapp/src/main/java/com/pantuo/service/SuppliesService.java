@@ -34,7 +34,7 @@ public interface SuppliesService {
 	 * @return
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
-    Pair<Boolean, String> addSupplies(Supplies obj, Principal principal, HttpServletRequest request);
+    Pair<Boolean, String> addSupplies(int city, Supplies obj, Principal principal, HttpServletRequest request);
 
 	/**
 	 * 
@@ -46,7 +46,7 @@ public interface SuppliesService {
 	 * @return
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
-    List<Supplies> queryMyList(NumberPageUtil page, String name, JpaProduct.Type type, Principal principal);
+    List<Supplies> queryMyList(int city, NumberPageUtil page, String name, JpaProduct.Type type, Principal principal);
 	/**
 	 * 
 	 * 取素材列表时总记录数统计
@@ -57,7 +57,7 @@ public interface SuppliesService {
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
 
-    int countMyList(String name, JpaProduct.Type type, Principal principal);
+    int countMyList(int city, String name, JpaProduct.Type type, Principal principal);
 
 	/**
 	 *
@@ -82,9 +82,9 @@ public interface SuppliesService {
 
 	Supplies selectSuppliesById(Integer suppliesId);
 
-	int updateSupplies(Supplies supplies);
+	int updateSupplies(int city, Supplies supplies);
 
-	List<Supplies> querySuppliesByUser(Principal principal);
+	List<Supplies> querySuppliesByUser(int city, Principal principal);
 
 	Pair<Boolean, String> addInvoice(JpaInvoice obj, Principal principal,
 			HttpServletRequest request);

@@ -33,14 +33,15 @@ public class ProductController {
 	private UserService userService;
     @RequestMapping("ajax-list")
     @ResponseBody
-    public DataTablePage<JpaProduct> getAllProducts( TableRequest req ) {
-        return new DataTablePage(productService.getAllProducts(req.getFilter("name"), req.getPage(), req.getLength(), req.getSort("id")), req.getDraw());
+    public DataTablePage<JpaProduct> getAllProducts( TableRequest req, @CookieValue(value="city", defaultValue = "-1") int city ) {
+        return new DataTablePage(productService.getAllProducts(city, req.getFilter("name"), req.getPage(), req.getLength(), req.getSort("id")), req.getDraw());
     }
 
     @RequestMapping(value = "/{productId}/{enable}", method = { RequestMethod.POST})
     @ResponseBody
     public JpaProduct enableProduct(@PathVariable("productId") int productId,
-                                 @PathVariable("enable") String enable) {
+                                 @PathVariable("enable") String enable,
+                                 @CookieValue(value="city", defaultValue = "-1") int city) {
         boolean en = "enable".equals(enable);
         JpaProduct product = productService.findById(productId);
         if (product == null) {
@@ -51,7 +52,7 @@ public class ProductController {
 
         if (product.isEnabled() != en) {
             product.setEnabled(en);
-            productService.saveProduct(product);
+            productService.saveProduct(city, product);
         }
         return product;
     }
@@ -80,6 +81,7 @@ public class ProductController {
     @ResponseBody
     public JpaProduct createProduct(
             JpaProduct prod,
+            @CookieValue(value="city", defaultValue = "-1") int city,
 /*            @RequestParam(value = "id", required = false) Integer id,
             @RequestParam(value = "type", required = true) JpaProduct.Type type,
             @RequestParam(value = "name", required = true) String name,
@@ -98,7 +100,7 @@ public class ProductController {
             log.info("Creating new product {}", prod.getName());
         }
         try {
-            productService.saveProduct(prod);
+            productService.saveProduct(city, prod);
         } catch (Exception e) {
             prod.setErrorInfo(BaseEntity.ERROR, e.getMessage());
         }

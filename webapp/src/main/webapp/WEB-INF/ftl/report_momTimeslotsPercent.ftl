@@ -24,6 +24,7 @@ css=["jquery-ui/jquery-ui.css"]>
             });
         });
     </script>
+<div class="withdraw-wrap color-white-bg fn-clear">
     <div class="withdraw-title fn-clear">
         全年时段比例
         <div class="report-toolbar">
@@ -40,5 +41,6 @@ css=["jquery-ui/jquery-ui.css"]>
     yName={"MONTH1":"remain","MONTH2":"ordered", "MONTH_PEAK1":"remain", "MONTH_PEAK2":"ordered"}
     titleY="剩余时长" highChart=remainTimeSlots baseY="${baseY!''}"
     seriesTypes=["MONTH1", "MONTH2","MONTH_PEAK1", "MONTH_PEAK2"] />
+</div>
 </@frame.html>
 

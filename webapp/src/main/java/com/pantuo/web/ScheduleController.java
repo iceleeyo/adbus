@@ -76,7 +76,8 @@ public class ScheduleController {
     @RequestMapping("order-ajax-list")
     @ResponseBody
     public List<Report> getScheduleListForOrder(
-            @RequestParam(value = "orderId", required = true) int orderId) {
+            @RequestParam(value = "orderId", required = true) int orderId,
+            @CookieValue(value="city", defaultValue = "-1") int city) {
 
         try {
             JpaOrders order = orderService.getJpaOrder(orderId);
@@ -85,7 +86,7 @@ public class ScheduleController {
                 return Collections.EMPTY_LIST;
             }
 
-            Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(null, 0, 999, null, false);
+            Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(city, null, 0, 999, null, false);
             Iterable<JpaGoods> goods = service.getGoodsForOrder(orderId);
 
             List<Report> reports = new LinkedList<Report> ();
@@ -162,7 +163,8 @@ public class ScheduleController {
      */
     @RequestMapping("box-ajax-list")
     @ResponseBody
-    public List<Report> getScheduleReportList (TableRequest req) {
+    public List<Report> getScheduleReportList (TableRequest req,
+                                               @CookieValue(value="city", defaultValue = "-1") int city) {
         String name = req.getFilter("name");
         String fromStr = req.getFilter("from");
         int days = req.getFilterInt("days", 7);
@@ -174,7 +176,7 @@ public class ScheduleController {
         }
 
         try {
-            Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(name, 0, 999, null, false);
+            Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(city, name, 0, 999, null, false);
             Date from = DateUtil.longDf.get().parse(fromStr);
             List<Box> boxes = service.getBoxes(from, days);
 
@@ -216,7 +218,7 @@ public class ScheduleController {
             }
 
             //add total row
-            Report totalReport = new Report(new JpaTimeslot("汇总", null, totalDuration, false));
+            Report totalReport = new Report(new JpaTimeslot(city, "汇总", null, totalDuration, false));
             totalReport.setBoxes(totalBoxes);
             reports.add(totalReport);
 
@@ -258,7 +260,8 @@ public class ScheduleController {
      */
     @RequestMapping("box-detail-ajax-list")
     @ResponseBody
-    public List<Report> getScheduleDetailList (TableRequest req) {
+    public List<Report> getScheduleDetailList (TableRequest req,
+                                               @CookieValue(value="city", defaultValue = "-1") int city) {
         String name = req.getFilter("name");
         String dayStr = req.getFilter("day");
         JpaProduct.Type type = req.getFilter("type", JpaProduct.Type.class, JpaProduct.Type.video);
@@ -269,7 +272,7 @@ public class ScheduleController {
         }
 
         try {
-            Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(name, 0, 999, null, false);
+            Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(city, name, 0, 999, null, false);
             Date day = DateUtil.longDf.get().parse(dayStr);
             Iterable<JpaBox> boxes = service.getBoxesAndGoods(day, 1);
 

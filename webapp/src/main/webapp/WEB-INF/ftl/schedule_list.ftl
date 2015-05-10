@@ -104,12 +104,11 @@
         initTable();
     } );
 </script>
-            <div class="div">
-                
-                <div class="withdraw-title" style="padding-top: 0px;text-align:center;">
-									${day}媒体排条单
-									</div>
-            </div>
+<div class="withdraw-wrap color-white-bg fn-clear">
+
+            <div class="withdraw-title" style="padding-top: 0px;text-align:center;">
+                                ${day}媒体排条单
+                                </div>
             <div class="div">
                 <table id="table" class="cell-border compact display" cellspacing="0"
                        style="width: 100%; border-left-style: solid; border-left-width: 1px; border-left-color: rgb(221, 221, 221);">
@@ -126,4 +125,5 @@
                 </table>
                 </tbody>
             </div>
+</div>
 </@frame.html>

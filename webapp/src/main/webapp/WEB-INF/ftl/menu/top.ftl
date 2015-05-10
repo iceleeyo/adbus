@@ -1,12 +1,55 @@
 <script type="text/javascript">
-			function logout(){
-			   window.location.href = "${rc.contextPath}/logout";
-			   }
-	</script>
+    function logout(){
+       window.location.href = "${rc.contextPath}/logout";
+    }
+
+    $(function() {
+        $("#city_dropdown a:not(.selected)").click(function(){
+            $.ajax({
+                url : "${rc.contextPath}/city/select/" + $(this).attr("data-id"),
+                type : "POST",
+                data: {},
+                success : function(data) {
+                    jDialog.Alert("正在切换到城市："+data.name);
+                    var uptime = window.setTimeout(function(){
+                        window.location.reload();
+                        clearTimeout(uptime);
+                    },1000);
+                }
+            }, "text");
+        });
+    });
+</script>
 <div class="pg-header">
 				<div class="pg-header-top">
 					<div class="container-12 s-clear">
-						<div class="grid-12">
+						<div class="grid-12 city-dropdown">
+                            <ul class="fl">
+                                <li class="dorpdown" id="ttbar-mycity">
+                                    <div class="dt cw-icon ui-areamini-text-wrap" style="">
+                                        <i class="ci-right"><s>◇</s></i>
+                                        <#if city??>
+                                            <span class="ui-areamini-text" data-id="${city.id}" title="${city.name}">${city.name}</span>
+                                        <#else>
+                                            <span class="ui-areamini-text" data-id="${cities[0].id}" title="${cities[0].name}">${cities[0].name}</span>
+                                        </#if>
+                                    </div>
+                                    <div class="dd dorpdown-layer">
+                                        <div class="dd-spacer"></div>
+                                        <div class="ui-areamini-content-wrap" style="left: auto;">
+                                            <div class="ui-areamini-content">
+                                                <div class="ui-areamini-content-list" id="city_dropdown">
+                                                    <#list cities as c>
+                                                        <div class="item">
+                                                            <a data-id="${c.id}" href="javascript:void(0)" <#if city?? && city.id == c.id>class="selected"</#if>>${c.name}</a>
+                                                        </div>
+                                                    </#list>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
 							<div class="s-left ml10">
 								<a class="pg-nav-item" href="#">
 									<i class="icon icon-app"></i>

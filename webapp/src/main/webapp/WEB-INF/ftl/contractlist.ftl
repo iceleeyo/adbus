@@ -103,14 +103,13 @@
         initTable();
     } );
 </script>
-
+<div class="withdraw-wrap color-white-bg fn-clear">
 <#--            <div class="div" style="margin-top:25px">
                 <caption><h2>合同列表</h2></caption>
             </div>
             <div class="div">
                 <hr/>
             </div>-->
-            <div class="div">
             <div class="withdraw-title" style="padding-top: 0px;text-align:left;">
 									合同列表
 									</div>
@@ -127,7 +126,7 @@
                     </thead>
 
                 </table>
-            </div>
+</div>
 </@frame.html>
 
 

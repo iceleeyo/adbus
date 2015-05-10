@@ -90,7 +90,8 @@
         initTable();
     } );
 </script>
-            <div class="div" style="margin-top:5px">
+<div class="withdraw-wrap color-white-bg fn-clear">
+            <div class="withdraw-title" style="margin-top:5px">
                 <caption><h2>订单排期详情</h2></caption>
             </div>
             <div class="div">
@@ -131,4 +132,5 @@
 
                 </table>
             </div>
+</div>
 </@frame.html>

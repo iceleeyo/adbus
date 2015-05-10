@@ -4,14 +4,12 @@ import com.pantuo.ActivitiConfiguration;
 import com.pantuo.InitializationConfiguration;
 import com.pantuo.TestCacheConfiguration;
 import com.pantuo.TestServiceConfiguration;
-import com.pantuo.dao.BoxRepository;
-import com.pantuo.dao.DaoBeanConfiguration;
-import com.pantuo.dao.ScheduleLogRepository;
-import com.pantuo.dao.SuppliesRepository;
+import com.pantuo.dao.*;
 import com.pantuo.dao.pojo.*;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.Schedule;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,8 +51,19 @@ public class ScheduleServiceTest {
     @Autowired
     private ScheduleService scheduleService;
 
+    @Autowired
+    private CityRepository cityRepo;
+    private JpaCity city = null;
+
     @Before
     public void before() {
+        city = new JpaCity("testCity");
+        cityRepo.save(city);
+    }
+
+    @After
+    public void after() {
+        cityRepo.deleteAll();
     }
 
     @Test
@@ -80,24 +89,24 @@ public class ScheduleServiceTest {
         contract.setContractCode("contract001");
         contract.setContractName("contract001");
         contract.setStats(JpaContract.Status.starting.ordinal());
-        contractService.saveContract(contract, "tliu", new MockHttpServletRequest());
+        contractService.saveContract(city.getId(), contract, "tliu", new MockHttpServletRequest());
 
         JpaProduct[] products = new JpaProduct[] {
-                new JpaProduct(JpaProduct.Type.video, "30S", 30, 4, 1, 1, 0.25, 30, 12000, false),
-                new JpaProduct(JpaProduct.Type.video, "30S2", 30, 9, 1, 2, 0.2, 30, 12000, false),
-                new JpaProduct(JpaProduct.Type.video, "60S", 60, 9, 1, 2, 0.2, 60, 12000, false),
-            new JpaProduct(JpaProduct.Type.video, "120S", 120, 8, 2, 4, 0.25, 30, 36000, false),
-                new JpaProduct(JpaProduct.Type.video, "80S", 80, 12, 2, 1, 0.3, 60, 36000, false),
-                new JpaProduct(JpaProduct.Type.video, "60S2", 60, 16, 2, 1, 0.3, 30, 36000, false),
-            new JpaProduct(JpaProduct.Type.video, "80S", 80, 10, 3, 2, 0.3, 60, 36000, false)};
+                new JpaProduct(city.getId(), JpaProduct.Type.video, "30S", 30, 4, 1, 1, 0.25, 30, 12000, false),
+                new JpaProduct(city.getId(), JpaProduct.Type.video, "30S2", 30, 9, 1, 2, 0.2, 30, 12000, false),
+                new JpaProduct(city.getId(), JpaProduct.Type.video, "60S", 60, 9, 1, 2, 0.2, 60, 12000, false),
+            new JpaProduct(city.getId(), JpaProduct.Type.video, "120S", 120, 8, 2, 4, 0.25, 30, 36000, false),
+                new JpaProduct(city.getId(), JpaProduct.Type.video, "80S", 80, 12, 2, 1, 0.3, 60, 36000, false),
+                new JpaProduct(city.getId(), JpaProduct.Type.video, "60S2", 60, 16, 2, 1, 0.3, 30, 36000, false),
+            new JpaProduct(city.getId(), JpaProduct.Type.video, "80S", 80, 10, 3, 2, 0.3, 60, 36000, false)};
         for (JpaProduct prod : products) {
-            productService.saveProduct(prod);
+            productService.saveProduct(city.getId(), prod);
         }
 
         JpaSupplies[] supply = new JpaSupplies[] {
-                new JpaSupplies("name", JpaProduct.Type.video, 1, "admin", "", "", JpaSupplies.Status.secondApproved,
+                new JpaSupplies(city.getId(), "name", JpaProduct.Type.video, 1, "admin", "", "", JpaSupplies.Status.secondApproved,
                         "", "", "", "", "", "", ""),
-                new JpaSupplies("name2", JpaProduct.Type.video, 3, "admin", "", "", JpaSupplies.Status.secondApproved,
+                new JpaSupplies(city.getId(), "name2", JpaProduct.Type.video, 3, "admin", "", "", JpaSupplies.Status.secondApproved,
                         "", "", "", "", "", "", "")
         };
         suppliesRepo.save(supply[0]);
@@ -112,15 +121,15 @@ public class ScheduleServiceTest {
             Date start = starts.get(random.nextInt(60));
             cal.add(Calendar.DATE, prod.getDays());
             Date end = cal.getTime();
-            JpaOrders order = new JpaOrders("tliu", 1, prod.getId(), contract.getId(),
+            JpaOrders order = new JpaOrders(city.getId(), "tliu", 1, prod.getId(), contract.getId(),
                     contract.getContractCode(), start, end, JpaProduct.Type.video,
                     JpaOrders.PayType.contract, random.nextInt(10) < 3 ? JpaOrders.Status.unpaid : JpaOrders.Status.paid, "manager");
             order.setSuppliesId(supply[random.nextInt(1)].getId());
-            orderService.saveOrderJpa(order, new UserDetail("tliu", "123456", "Tony", "Liu", "tliutest@gmail.com"));
+            orderService.saveOrderJpa(city.getId(), order, new UserDetail("tliu", "123456", "Tony", "Liu", "tliutest@gmail.com"));
             orders.add(order);
         }
 
-        Iterable<JpaOrders> ordersForSchedule = orderService.getOrdersForSchedule(now, JpaProduct.Type.video);
+        Iterable<JpaOrders> ordersForSchedule = orderService.getOrdersForSchedule(city.getId(), now, JpaProduct.Type.video);
 
         for (JpaOrders o : ordersForSchedule) {
             ScheduleLog slog = scheduleService.schedule(o);

@@ -8,15 +8,19 @@ import java.util.List;
 
 public interface ReportMapper {
 
-    List<TimeslotReport> getRemainTimeslots( @Param("from") Date from, @Param("to") Date to,
+    List<TimeslotReport> getRemainTimeslots( @Param("city") int city,
+                                             @Param("from") Date from, @Param("to") Date to,
                                              @Param("peak") Boolean peak);
 
-    List<TimeslotReport> getMonthlyRemainTimeslots( @Param("year") int year,
+    List<TimeslotReport> getMonthlyRemainTimeslots( @Param("city") int city,
+                                                    @Param("year") int year,
                                                     @Param("peak") Boolean peak);
 
-    List<TimeslotReport> getOrderTimeslots( @Param("from") Date from, @Param("to") Date to,
+    List<TimeslotReport> getOrderTimeslots( @Param("city") int city,
+                                            @Param("from") Date from, @Param("to") Date to,
                                              @Param("peak") Boolean peak);
 
-    List<TimeslotReport> getOrderTimeslotsByIndustries( @Param("from") Date from, @Param("to") Date to,
+    List<TimeslotReport> getOrderTimeslotsByIndustries( @Param("city") int city,
+                                                        @Param("from") Date from, @Param("to") Date to,
                                             @Param("industries") List<Integer> industries, @Param("peak") Boolean peak);
 }

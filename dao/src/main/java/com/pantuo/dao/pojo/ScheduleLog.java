@@ -9,8 +9,8 @@ import java.util.Date;
  * 排期日志
  */
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"day", "orderId"}))
-public class ScheduleLog extends BaseEntity {
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"city", "day", "orderId"}))
+public class ScheduleLog extends CityEntity {
     public static enum Status {
         scheduling,
         scheduled,
@@ -26,12 +26,14 @@ public class ScheduleLog extends BaseEntity {
     private int orderId;
     private String description;
 
-    public ScheduleLog(Date day, int orderId) {
+    public ScheduleLog(int city, Date day, int orderId) {
+        super(city);
         this.day = day;
         this.orderId = orderId;
     }
 
-    public ScheduleLog(Date day, int orderId, Status status, String description) {
+    public ScheduleLog(int city, Date day, int orderId, Status status, String description) {
+        super(city);
         this.day = day;
         this.orderId = orderId;
         this.status = status;

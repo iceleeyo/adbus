@@ -10,7 +10,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name="supplies_history")
-public class JpaSuppliesHistory extends BaseEntity {
+public class JpaSuppliesHistory extends CityEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,7 +25,8 @@ public class JpaSuppliesHistory extends BaseEntity {
         //for serialization
     }
 
-    public JpaSuppliesHistory(int suppliesId, String stats, String operUser, String operComment) {
+    public JpaSuppliesHistory(int city, int suppliesId, String stats, String operUser, String operComment) {
+        super(city);
         this.suppliesId = suppliesId;
         this.stats = stats;
         this.operUser = operUser;

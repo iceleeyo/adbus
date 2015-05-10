@@ -32,7 +32,8 @@ function go_back(){
 }
 </script>
 
-						
+<div class="withdraw-wrap color-white-bg fn-clear">
+
 							<form data-name="withdraw" name="userForm2" id="userForm2"
 								class="ui-form" method="post" action="save"
 								enctype="multipart/form-data">
@@ -121,5 +122,5 @@ function go_back(){
 	        
 							</form>
 							
-						
+</div>
 </@frame.html>

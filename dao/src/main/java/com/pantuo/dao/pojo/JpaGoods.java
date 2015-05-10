@@ -8,8 +8,8 @@ import java.io.Serializable;
 */
 //货物
 @Entity
-@Table(name="goods", uniqueConstraints=@UniqueConstraint(columnNames={"orderId", "day", "seed"}))
-public class JpaGoods implements Comparable<JpaGoods>, Serializable {
+@Table(name="goods", uniqueConstraints=@UniqueConstraint(columnNames={"city", "orderId", "day", "seed"}))
+public class JpaGoods extends CityEntity implements Comparable<JpaGoods>, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -32,7 +32,8 @@ public class JpaGoods implements Comparable<JpaGoods>, Serializable {
 
     public JpaGoods() {}
 
-    public JpaGoods(int orderId, long size, boolean first, boolean last, int seed) {
+    public JpaGoods(int city, int orderId, long size, boolean first, boolean last, int seed) {
+        super(city);
         order = new JpaOrders();
         order.setId(orderId);
         this.size = size;

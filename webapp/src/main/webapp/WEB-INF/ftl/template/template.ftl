@@ -1,4 +1,4 @@
-<#macro html title="" css=[] js=[]>
+<#macro html title="" left=true nav=true css=[] js=[]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -30,6 +30,7 @@
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/js/jquery-ui/jquery-ui.min.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/table.css">
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/city.css">
     <#list css as entry>
         <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/${entry}">
     </#list>
@@ -41,6 +42,7 @@
 <!--下部DIV-->
 <div class="page-container">
 	<div class="pg-container-main">
+        <#if nav>
 		<!--顶部导航开始-->
 		<div class="container-12">
 		<ul class="breadcrumb ml10 m11 s-clear">
@@ -54,17 +56,18 @@
 		</ul>
 		</div>
 		<!--顶部导航结束-->
+        </#if>
 	<div class="container-12 mt10 s-clear">
+        <#if left>
 		<!--菜单开始-->
 		<#include "../menu/left.ftl" />
-		
+        </#if>
 		<!--菜单结束-->
 		
 		<!--主体开始-->
 	<div class="ls-10">
-		<div class="withdraw-wrap color-white-bg fn-clear">
             <#nested>
-		</div><br>
+	<br>
 	</div>
 		<!--主体结束-->
 	</div>

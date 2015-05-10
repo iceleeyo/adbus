@@ -5,6 +5,7 @@ function go_back(){
 	history.go(-1);
 }
 </script>
+<div class="withdraw-wrap color-white-bg fn-clear">
  <div id="process" class="section4">
  
  	 <#if sections.submitOrder ??> 
@@ -114,6 +115,7 @@ function go_back(){
 </DIV>
 </DIV>
 <#include "template/hisDetail.ftl" />
+</div>
 </@frame.html>
 
 

@@ -28,6 +28,7 @@
     	    a.click();
 	}
 </script>
+<div class="withdraw-wrap color-white-bg fn-clear">
 							<form data-name="withdraw" name="productForm" id="productForm"
 								class="ui-form" method="post" action="save"
 								enctype="multipart/form-data">
@@ -129,4 +130,5 @@
 								</div>
 
 							</form>
+</div>
 </@frame.html>

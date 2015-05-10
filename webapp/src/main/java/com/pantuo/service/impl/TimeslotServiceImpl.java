@@ -29,16 +29,16 @@ public class TimeslotServiceImpl implements TimeslotService {
         return timeslotRepo.count();
     }
 
-    public long sumDuration() {
-        return timeslotRepo.sumDuration();
+    public long sumDuration(int city) {
+        return timeslotRepo.sumDuration(city);
     }
 
-    public long sumPeakDuration() {
-        return timeslotRepo.sumPeakDuration();
+    public long sumPeakDuration(int city) {
+        return timeslotRepo.sumPeakDuration(city);
     }
 
-    public Map<Integer, Long> getDurationByHour() {
-        Page<JpaTimeslot> page = getAllTimeslots(null, 0, 999, null, false);
+    public Map<Integer, Long> getDurationByHour(int city) {
+        Page<JpaTimeslot> page = getAllTimeslots(city, null, 0, 999, null, false);
         List<JpaTimeslot> list = page.getContent();
         Calendar cal = DateUtil.newCalendar();
         Map<Integer, Long> result = new HashMap<Integer, Long>();
@@ -57,7 +57,7 @@ public class TimeslotServiceImpl implements TimeslotService {
     }
 
  //   @Override
-    public Page<JpaTimeslot> getAllTimeslots(String name, int page, int pageSize, Sort sort, boolean fetchDisabled) {
+    public Page<JpaTimeslot> getAllTimeslots(int city, String name, int page, int pageSize, Sort sort, boolean fetchDisabled) {
         if (page < 0)
             page = 0;
         if (pageSize < 1)
@@ -65,9 +65,9 @@ public class TimeslotServiceImpl implements TimeslotService {
         if (sort == null)
             sort = new Sort("id");
         Pageable p = new PageRequest(page, pageSize, sort);
-        BooleanExpression query = null;
+        BooleanExpression query = QJpaTimeslot.jpaTimeslot.city.eq(city);
         if (StringUtils.isNotBlank(name)) {
-            query = QJpaTimeslot.jpaTimeslot.name.like("%" + name + "%");
+            query = query.and(QJpaTimeslot.jpaTimeslot.name.like("%" + name + "%"));
         }
         if (!fetchDisabled) {
             BooleanExpression q = QJpaTimeslot.jpaTimeslot.enabled.isTrue();
@@ -85,12 +85,12 @@ public class TimeslotServiceImpl implements TimeslotService {
     }
 
    // @Override
-    public void saveProduct(JpaTimeslot timeslot) {
+    public void saveTimeslot(JpaTimeslot timeslot) {
         timeslotRepo.save(timeslot);
     }
 
  //   @Override
-    public void saveProducts(Iterable<JpaTimeslot> timeslots) {
+    public void saveTimeslots(Iterable<JpaTimeslot> timeslots) {
         timeslotRepo.save(timeslots);
     }
 }

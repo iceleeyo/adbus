@@ -58,6 +58,7 @@
 	}
 	
 </script>
+<div class="withdraw-wrap color-white-bg fn-clear">
 							<form id="userForm2" name="userForm2" action="put"
 								enctype="multipart/form-data" method="post"">
 								<div class="withdraw-title fn-clear">
@@ -127,4 +128,5 @@
 									</div>
 								</div>
 							</form>
+</div>
 </@frame.html>

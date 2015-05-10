@@ -3,10 +3,9 @@
 
 <#global menu="产品定义">
 <@frame.html title="套餐详情">
+<div class="withdraw-wrap color-white-bg fn-clear">
 
 
-
-	  <DIV class="color-white-bg border-ec">
                 <H3 class="text-xl title-box"><A class="black" href="#">套餐详情</A></H3>
                <DIV class="summary mt10 uplan-summary-div">
               <UL class="uplan-detail-ul">

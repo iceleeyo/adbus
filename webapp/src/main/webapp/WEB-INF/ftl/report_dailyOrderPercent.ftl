@@ -26,6 +26,7 @@ css=["jquery-ui/jquery-ui.css"]>
             });
         });
     </script>
+<div class="withdraw-wrap color-white-bg fn-clear">
     <div class="withdraw-title fn-clear">
         售出情况
         <div class="report-toolbar">
@@ -41,5 +42,6 @@ css=["jquery-ui/jquery-ui.css"]>
     yName={"TIMESLOT1":"remain","TIMESLOT2":"notPaid","TIMESLOT3":"paid"}
     titleY="售出情况" highChart=remainTimeSlots baseY="${baseY!''}"
     seriesTypes=["TIMESLOT1", "TIMESLOT2", "TIMESLOT3"] />
+</div>
 </@frame.html>
 

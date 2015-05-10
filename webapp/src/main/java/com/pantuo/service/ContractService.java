@@ -48,7 +48,8 @@ public class ContractService {
 	@Autowired
 	AttachmentService attachmentService;
 
-	public Pair<Boolean, String> saveContract(Contract con, String username, HttpServletRequest request) {
+	public Pair<Boolean, String> saveContract(int city, Contract con, String username, HttpServletRequest request) {
+        con.setCity(city);
 		Pair<Boolean, String> r = null;
 		try {
 			con.setIsUpload(false);
@@ -94,7 +95,12 @@ public class ContractService {
 		return contractMapper.deleteByPrimaryKey(id);
 	}
 
-	public int updateContract(Contract con) {
+	public int updateContract(int city, Contract con) {
+        if (con.getCity() == null) {
+            con.setCity(city);
+        } else if (city != con.getCity()) {
+            return 0;
+        }
 		ContractExample example = new ContractExample();
 		ContractExample.Criteria criteria = example.createCriteria();
 		criteria.andIdEqualTo(con.getId());
@@ -102,13 +108,14 @@ public class ContractService {
 		return contractMapper.updateByExample(con, example);
 	}
 
-	public int countMyList(String name, String code, Principal principal) {
-		return contractMapper.countByExample(getExample(name, code, principal));
+	public int countMyList(int city, String name, String code, Principal principal) {
+		return contractMapper.countByExample(getExample(city, name, code, principal));
 	}
 
-	public ContractExample getExample(String name, String code, Principal principal) {
+	public ContractExample getExample(int city, String name, String code, Principal principal) {
 		ContractExample example = new ContractExample();
 		ContractExample.Criteria ca = example.createCriteria();
+        ca.andCityEqualTo(city);
 		if (StringUtils.isNoneBlank(name)) {
 			ca.andContractNameLike("%" + name + "%");
 		}
@@ -121,8 +128,8 @@ public class ContractService {
 		return example;
 	}
 
-	public List<Contract> queryContractList(NumberPageUtil page, String name, String code, Principal principal) {
-		ContractExample ex = getExample(name, code, principal);
+	public List<Contract> queryContractList(int city, NumberPageUtil page, String name, String code, Principal principal) {
+		ContractExample ex = getExample(city, name, code, principal);
 		ex.setOrderByClause("created desc");
 		ex.setLimitStart(page.getLimitStart());
 		ex.setLimitEnd(page.getPagesize());

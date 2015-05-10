@@ -26,6 +26,7 @@ css=["jquery-ui/jquery-ui.css"]>
             });
         });
     </script>
+<div class="withdraw-wrap color-white-bg fn-clear">
     <div class="withdraw-title fn-clear">
         售出情况行业细分
         <div class="report-toolbar">
@@ -41,5 +42,6 @@ css=["jquery-ui/jquery-ui.css"]>
     yName=yNames
     titleY="售出情况行业细分" highChart=remainTimeSlots baseY="${baseY!''}"
     seriesTypes=seriesNames />
+</div>
 </@frame.html>
 

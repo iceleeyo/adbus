@@ -97,7 +97,7 @@
         initTable();
     } );
 </script>
-            <div class="div">
+<div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title" style="padding-top: 0px;text-align:center;">
 									时段设置列表
 									</div>
@@ -112,5 +112,5 @@
                     </thead>
 
                 </table>
-            </div>
+</div>
 </@frame.html>

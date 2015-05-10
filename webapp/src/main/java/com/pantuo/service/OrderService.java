@@ -67,9 +67,10 @@ public class OrderService {
 
 	}
 
-	public List<Orders> selectOrderByUser(String userid, Integer id) {
+	public List<Orders> selectOrderByUser(int city, String userid, Integer id) {
 		OrdersExample example = new OrdersExample();
 		OrdersExample.Criteria c = example.createCriteria();
+        c.andCityEqualTo(city);
 		if (null != userid && userid != "") {
 			c.andUserIdEqualTo(userid);
 		}
@@ -96,7 +97,8 @@ public class OrderService {
 
 	//	 public int countMyList(String name,String code, HttpServletRequest request) ;
 	//	 public List<JpaContract> queryContractList(NumberPageUtil page, String name, String code, HttpServletRequest request);
-	public Pair<Boolean, String> saveOrder(Orders order, Principal principal) {
+	public Pair<Boolean, String> saveOrder(int city, Orders order, Principal principal) {
+        order.setCity(city);
 		Pair<Boolean, String> r = null;
 		try {
 			order.setCreated(new Date());
@@ -116,7 +118,7 @@ public class OrderService {
 			int dbId = ordersMapper.insert(order);
 			if (dbId > 0) {
 
-				activitiService.startProcess(Request.getUser(principal), order);
+				activitiService.startProcess(city, Request.getUser(principal), order);
 				r = new Pair<Boolean, String>(true, "下订单成功！");
 			}
 		} catch (Exception e) {
@@ -126,7 +128,8 @@ public class OrderService {
 		return r;
 	}
 
-	public Pair<Boolean, String> saveOrderJpa(JpaOrders order, UserDetail user) {
+	public Pair<Boolean, String> saveOrderJpa(int city, JpaOrders order, UserDetail user) {
+        order.setCity(city);
 		Pair<Boolean, String> r = null;
 		try {
 			order.setCreated(new Date());
@@ -148,7 +151,7 @@ public class OrderService {
 			//int dbId = orderMapper.insert(order);
 			if (order.getId() > 0) {
 
-				activitiService.startProcess2(user, order);
+				activitiService.startProcess2(city, user, order);
 				r = new Pair<Boolean, String>(true, "下订单成功！");
 			}
 		} catch (Exception e) {
@@ -162,17 +165,18 @@ public class OrderService {
 		return ordersRepository.findOne(orderId);
 	}
 
-	public Iterable<JpaOrders> getOrdersForSchedule(Date day, JpaProduct.Type type) {
-		Predicate query = QJpaOrders.jpaOrders.startTime.stringValue()
-				.loe(StringOperation.create(Ops.STRING_CAST, ConstantImpl.create(day)))
+	public Iterable<JpaOrders> getOrdersForSchedule(int city, Date day, JpaProduct.Type type) {
+		Predicate query = QJpaOrders.jpaOrders.city.eq(city)
+                .and(QJpaOrders.jpaOrders.startTime.stringValue()
+				.loe(StringOperation.create(Ops.STRING_CAST, ConstantImpl.create(day))))
 				.and(QJpaOrders.jpaOrders.endTime.after(day)).and(QJpaOrders.jpaOrders.type.eq(type))
 				.and(QJpaOrders.jpaOrders.stats.eq(JpaOrders.Status.paid));
 
 		return ordersRepository.findAll(query);
 	}
 
-	public Page<OrderView> getOrderList(int page, int pageSize, Sort sort, Principal principal) {
-		return activitiService.findTask(Request.getUserId(principal), page, pageSize, sort);
+	public Page<OrderView> getOrderList(int city, int page, int pageSize, Sort sort, Principal principal) {
+		return activitiService.findTask(city, Request.getUserId(principal), page, pageSize, sort);
 	}
 
 	public Orders queryOrderDetail(int orderid, Principal principal) {
