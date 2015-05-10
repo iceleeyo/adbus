@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import com.pantuo.web.ControllerInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -21,7 +20,10 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
@@ -30,18 +32,18 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.pantuo.web.ControllerInterceptor;
 
 import freemarker.core.Configurable;
 
 @Configuration
 @ImportResource("classpath:/properties.xml")
 @ComponentScan(basePackages = { "com.pantuo.web", "com.pantuo.service", "com.pantuo.aspect" })
-@EnableAspectJAutoProxy
+//@EnableAspectJAutoProxy
 @EnableWebMvc
 public class WebAppConfiguration extends WebMvcConfigurerAdapter {
     @Autowired
     private ControllerInterceptor controllerInterceptor;
-
 	@Bean
 	public HandlerExceptionResolver webExceptionResolver() {
 		return new RestExceptionResolver();

@@ -3,6 +3,8 @@ package com.pantuo.service;
 import java.security.Principal;
 
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.pantuo.mybatis.domain.Message;
@@ -38,6 +40,7 @@ public interface MessageService {
 	 * @return
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
+	//@PreAuthorize("hasRole('ShibaOrderManager')")
 	Page<MessageView> getValidMessage(int page, int pageSize,  Principal principal );
 	/**
 	 * 
