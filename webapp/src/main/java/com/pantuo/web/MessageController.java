@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.pantuo.dao.pojo.JpaMessage;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.MessageService;
@@ -18,6 +17,8 @@ import com.pantuo.web.view.MessageView;
 
 /**
  * 
+ * message Controller
+
  *
  */
 @Controller
@@ -31,14 +32,22 @@ public class MessageController {
 	@ResponseBody
 	public DataTablePage<MessageView> getAllContracts(TableRequest req, Principal principal) {
 		Page<MessageView> w = messageService.getValidMessage(req.getPage(), req.getLength(), principal);
-		return new DataTablePage(w, req.getDraw());
+		return new DataTablePage<MessageView>(w, req.getDraw());
 	}
 
 	@RequestMapping(value = "/all")
 	public String list() {
 		return "message/all";
 	}
-
+	/**
+	 * 
+	 * 显示未读条数
+	 *
+	 * @param model
+	 * @param principal
+	 * @return
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
 	@RequestMapping(value = "/unread")
 	@ResponseBody
 	public long unread(Model model, Principal principal) {
