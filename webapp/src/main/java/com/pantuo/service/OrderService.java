@@ -137,9 +137,9 @@ public class OrderService {
 			order.setUserId(user.getUsername());
 			ordersRepository.save(order);
 			if (order.getId() > 0) {
-				if(order.getSuppliesId()>2){
+				//if(order.getSuppliesId()>2){
 				activitiService.startProcess2(city, user, order);
-				}
+				//}
 				r = new Pair<Boolean, String>(true, "下订单成功！");
 			}
 		} catch (Exception e) {

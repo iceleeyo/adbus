@@ -345,6 +345,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		initParams.put(ActivitiService.OWNER, u);
 		initParams.put(ActivitiService.ORDER_ID, order.getId());
         initParams.put(ActivitiService.CITY, city);
+        initParams.put(ActivitiService.SUPPLIEID, order.getSupplies().getId());
 		initParams.put(ActivitiService.NOW, new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
 		ProcessInstance process = runtimeService.startProcessInstanceByKey(MAIN_PROCESS, initParams);
 
@@ -775,7 +776,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 				prod = productService.findById(order.getProductId());
 				longorderid = OrderIdSeq.getIdFromDate(order.getId(), order.getCreated());
 				suppliesView = suppliesService.getSuppliesDetail(orderView.getOrder().getSuppliesId(), null);
-
+				  prod = productService.findById(order.getProductId());
 			}
 			if (StringUtils.isNoneBlank(pid)) {
 				activitis = findHistoricUserTask(city, pid, null);

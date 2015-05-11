@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
-import com.pantuo.dao.CityRepository;
-import com.pantuo.dao.pojo.JpaCity;
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.impl.persistence.entity.GroupEntity;
 import org.slf4j.Logger;
@@ -23,8 +21,13 @@ import org.springframework.stereotype.Service;
 
 import scala.actors.threadpool.Arrays;
 
+import com.pantuo.dao.CityRepository;
 import com.pantuo.dao.IndustryRepository;
+import com.pantuo.dao.SuppliesRepository;
+import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaIndustry;
+import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.dao.pojo.JpaSupplies;
 import com.pantuo.dao.pojo.JpaTimeslot;
 import com.pantuo.dao.pojo.UserDetail;
 
@@ -52,6 +55,11 @@ public class DataInitializationService {
     @Autowired
     CityRepository cityRepo;
 
+    
+    @Autowired
+    SuppliesRepository suppliesRepository;
+    
+    
     @Autowired
     CityService cityService;
 
@@ -62,6 +70,8 @@ public class DataInitializationService {
         initializeGroups();
         initializeUsers();
         initializeTimeslots();
+        //初始增加一条记录
+        initializeSupplies();
     }
     
     
@@ -218,6 +228,23 @@ public class DataInitializationService {
     }
 
 
+
+	//初始化素材
+	private void initializeSupplies() throws Exception {
+		try {
+			JpaSupplies supplies = new JpaSupplies();
+			supplies.setCity(1);
+			supplies.setName("supplies_syste_use");
+			supplies.setSuppliesType(JpaProduct.Type.video);
+			supplies.setIndustryId(1);
+		//	suppliesRepository.save(supplies);
+		} catch (Exception e) {
+		} finally {
+
+		}
+	}
+    
+    
     //初始化城市
     private void initializeCities() throws Exception {
         try {
