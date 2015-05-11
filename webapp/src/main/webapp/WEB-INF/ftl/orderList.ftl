@@ -52,7 +52,7 @@
                     return data;
                 } },
                 { "data": "order.created", "defaultContent": "","render": function(data, type, row, meta) {
-                	var d= $.format.date(data, "yyyy-MM-dd HH:mm:ss");
+                	var d= $.format.date(data, "yyyy-MM-dd HH:mm");
                 	return d;
                 }},
                  { "data": "task_name", "defaultContent": "","render": function(data, type, row, meta) {
