@@ -9,7 +9,7 @@ $(document).ready(function(){
 }); 
 
 	function sub2() {
-        var emptyInput = $("#userForm2 input, #userform2 select").filter(function() { return $(this).val() == ""; });
+        var emptyInput = $("#userForm2 input").filter(function() { return $(this).val() == ""; });
         if( emptyInput[0]) {
             var empty = '';
             emptyInput.each(function() {
@@ -26,11 +26,12 @@ $(document).ready(function(){
                 
             }).submit();
             document.getElementById('subWithdraw').setAttribute('disabled','true');
-           //var a = document.createElement('a');
-    	   //a.href='${rc.contextPath}/order/myTask/1';
-    	    //document.body.appendChild(a);
-    	    //a.click();
+    	    window.location.href="${rc.contextPath}/order/myTask/1";
         }
+           // var a = document.createElement('a');
+    	   // a.href='${rc.contextPath}/order/myTask/1';
+    	   // document.body.appendChild(a);
+    	   // a.click();
 	}
 
 	function check() {
@@ -83,10 +84,9 @@ $(document).ready(function(){
                                                 autocomplete="off" disableautocomplete="">
                                         </div>
 										<div class="ui-form-item">
-											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>选择物料:</label>
+											<label class="ui-label mt10">选择物料:</label>
                                             <select class="ui-input" name="supplies.id" id="suppliesId">
-                                                <option value="" selected="selected"></option>
+                                                <option value="1" selected="selected"></option>
                                                 <#list supplies as s>
                                                     <option value="${s.id}">${s.name}</option>
                                                 </#list>
@@ -95,8 +95,8 @@ $(document).ready(function(){
 										</div>
 									</div>
 									<div class="ui-form-item widthdrawBtBox">
-										<input type="button" id="subWithdraw" class="block-btn"
-											onclick="sub2();" value="确认提交" >
+										<input type="submit" id="subWithdraw" class="block-btn"
+											 value="确认提交" >
 									</div>
 								</div>
 </div>							
