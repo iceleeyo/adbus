@@ -278,7 +278,7 @@ function pay() {
 				"payType":payType
 			},
 			success : function(data) {
-				jDialog.Alert(data.left + " # " + data.right);
+				jDialog.Alert(data.right);
 				var a = document.createElement('a');
     	        a.href='${rc.contextPath}/order/myOrders/1';
             	document.body.appendChild(a);
@@ -304,7 +304,7 @@ function pay() {
 				"supplieid":supplieid
 			},
 			success : function(data) {
-				jDialog.Alert(data.left + " # " + data.right);
+				jDialog.Alert(  data.right);
 				var a = document.createElement('a');
     	        a.href='${rc.contextPath}/order/myOrders/1';
             	document.body.appendChild(a);
