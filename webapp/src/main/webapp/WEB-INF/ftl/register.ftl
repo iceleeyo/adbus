@@ -120,7 +120,7 @@
                                                     class="ui-form-required">*
 											</span>用户名[登录帐号]:
                                             </label>
-                                            <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[6],maxSize[12]]"
+                                            <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[6],maxSize[12],ajax[ajaxUserCall]]"
 												type="text" name="username" id="username"
 												data-is="isAmount isEnough" autocomplete="off"
 												disableautocomplete="" placeholder="6-12位英文、数字、下划线">

@@ -72,7 +72,8 @@
 }
 
 .greenPopup .formErrorContent {
-	background: #33be40;
+	background: #ffffaa;
+    color: #33be40;
 }
 
 .blackPopup .formErrorContent {

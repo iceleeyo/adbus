@@ -195,7 +195,7 @@
                 },
                 // --- CUSTOM RULES -- Those are specific to the demos, they can be removed or changed to your likings
                 "ajaxUserCall": {
-                    "url": "user/ajaxValidateUser",
+                    "url": "validate/ajaxValidateUser",
                     // you may want to pass extra data on the ajax call
                     "extraDataDynamic": ['#username'],
                     "alertText": "* 此名称已被其他人使用",
