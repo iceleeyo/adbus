@@ -6,7 +6,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $("#userForm2").validationEngine({
-            validationEventTriggers:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
+            validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
             inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
             success :  false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
             promptPosition: "centerRight",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
@@ -29,7 +29,7 @@
 										function() {
 											$("#newUpload2")
 													.append(
-															'<div id="div_'+j+'"><input  name="file_'+j+'" type="file"  style="margin-top:10px;"/><input type="button" value="删除" style="margin-top:10px;" onclick="del_2('
+															'<div id="div_'+j+'"><input  name="file_'+j+'" type="file"  style="margin-top:10px;" class="validate[required]"/><input type="button" value="删除" style="margin-top:10px;" onclick="del_2('
 																	+ j
 																	+ ')"/></div>');
 											j = j + 1;
@@ -44,6 +44,8 @@
 
 
 	function sub(){
+        if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
+            return;
 		var code = ($("#code").val());
 		var name = ($("#name").val());
 		var startDate = $("#startDate").val();
@@ -99,7 +101,7 @@
                                                     class="ui-form-required">*
 											</span>广告主:
                                             </label>
-                                            <select class="ui-input" name="userId" id="userId">
+                                            <select class="ui-input validate[required]" name="userId" id="userId" placeholder="选择广告主">
                                                 <option value="" selected="selected"></option>
                                                 <#list users as u>
                                                     <option value="${u.username}">${u.username}</option>
@@ -112,7 +114,7 @@
 												class="ui-form-required">*
 											</span>合同号:
 											</label> 
-												<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[1],maxSize[120]]"
+												<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
 												type="text" name="contractCode" id="code" 
 												data-is="isAmount isEnough" autocomplete="off"
 												disableautocomplete="" placeholder="支持中英文、数字、下划线">
@@ -120,7 +122,7 @@
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>合同名称:</label>
-												<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[1],maxSize[120]]" 
+												<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
 												type="text" name="contractName"
 												id="name" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
@@ -131,7 +133,7 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>金额:</label>
                                                     <input
-												class="ui-input validate[required,custom[number]]"
+												class="ui-input validate[required,number,min[1]]"
 												type="text" name="amounts"
 												id="amounts" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="请输入合同金额"/>
@@ -150,7 +152,8 @@
                                         </div>
 
 										<div class="ui-form-item">
-											<label class="ui-label mt10">开始日期:</label> <input
+											<label class="ui-label mt10"><span
+                                                    class="ui-form-required">*</span>开始日期:</label> <input
 												class="ui-input datepicker validate[required,custom[date],past[#endDate]]" 
 												type="text" name="startDate1"
 												id="startDate" data-is="isAmount isEnough"
@@ -158,7 +161,8 @@
 										</div>
 
 										<div class="ui-form-item">
-											<label class="ui-label mt10">终止日期:</label> <input
+											<label class="ui-label mt10"><span
+                                                    class="ui-form-required">*</span>终止日期:</label> <input
 												class="ui-input datepicker validate[required,custom[date],future[#startDate]"
 												type="text" name="endDate1"
 												id="endDate" data-is="isAmount isEnough"
@@ -179,7 +183,7 @@
 											<label class="ui-label mt10">附件上传</label>
 											<div id="newUpload2">
 												<div id="div_1">
-													<input type="file" name="file" id="Sfile">
+													<input type="file" name="file" id="Sfile" class="validate[required]">
 												</div>
 											</div>
 											<input type="button" id="btn_add2" value="增加一行"

@@ -1,6 +1,19 @@
 <#import "template/template.ftl" as frame>
 <#global menu="发票录入">
 <@frame.html title="发票信息录入" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"] css=["js/jquery-ui/jquery-ui.css"]>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#userForm2").validationEngine({
+            validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
+            inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
+            success :  false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
+            promptPosition: "centerRight",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
+            maxErrorsPerField: 1,
+            //failure : function() { alert("验证失败，请检查。");  }//验证失败时调用的函数
+            //success : function() { callSuccessFunction() },//验证通过时调用的函数
+        });
+    });
+</script>
 
 <script type="text/javascript">
 	i = 2;
@@ -29,6 +42,8 @@
 
 
 	function sub(){
+        if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
+            return;
 	     var Type="";
 	     var temp=document.getElementsByName("type");
 	      for(var i=0;i<temp.length;i++)
@@ -112,7 +127,7 @@
 												class="ui-form-required">*
 											</span>发票抬头:
 											</label> 
-												<input class="ui-input"
+												<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
 												type="text" name="title" id="title"
 												data-is="isAmount isEnough" autocomplete="off"
 												disableautocomplete="">
@@ -121,7 +136,8 @@
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>税务登记证号:</label> <input
-												class="ui-input" type="text" name="taxrenum"
+												class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
+                                                type="text" name="taxrenum"
 												id="taxrenum" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
 											<p class="ui-term-placeholder"></p>
@@ -131,7 +147,8 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>基本户开户银行名称:</label>
                                                     <input
-												class="ui-input" type="text" name="bankname"
+												class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
+                                                type="text" name="bankname"
 												id="bankname" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
@@ -140,7 +157,8 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>基本户开户账号:</label>
                                                     <input
-												class="ui-input" type="text" name="accountnum"
+												class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
+                                                type="text" name="accountnum"
 												id="accountnum" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
@@ -149,7 +167,8 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>注册场所地址:</label>
                                                     <input
-												class="ui-input" type="text" name="regisaddr"
+												class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
+                                                type="text" name="regisaddr"
 												id="regisaddr" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
@@ -158,7 +177,8 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>注册固定电话:</label>
                                                     <input
-												class="ui-input" type="text" name="fixphone"
+												class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
+                                                type="text" name="fixphone"
 												id="fixphone" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
@@ -168,7 +188,7 @@
                                                     class="ui-form-required">*</span>营业执照复印件:</label>
                                                     <div id="newUpload2">
 												<div id="div_1">
-													<input type="file" name="file" id="Sfile">
+													<input type="file" name="file" id="Sfile" class="validate[required]">
 												</div>
 											</div>
                                         </div>
@@ -177,7 +197,7 @@
                                                     class="ui-form-required">*</span>税务登记复印件:</label>
                                                     <div id="newUpload2">
 												<div id="div_1">
-													<input type="file" name="file" id="Sfile2">
+													<input type="file" name="file" id="Sfile2" class="validate[required]">
 												</div>
 											</div>
                                         </div>
@@ -186,7 +206,7 @@
                                                     class="ui-form-required">*</span>一般纳税人资格认证复印件:</label>
                                                     <div id="newUpload2">
 												<div id="div_1">
-													<input type="file" name="file" id="Sfile3">
+													<input type="file" name="file" id="Sfile3" class="validate[required]">
 												</div>
 											</div>
                                         </div>

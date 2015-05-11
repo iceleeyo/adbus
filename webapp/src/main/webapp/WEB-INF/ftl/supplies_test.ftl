@@ -6,7 +6,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $("#userForm2").validationEngine({
-            validationEventTriggers:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
+            validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
             inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
             success :  false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
             promptPosition: "centerRight",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
@@ -23,7 +23,7 @@
 	$(document).ready(function() {
         $("#btn_add2").click(function() {
             $("#newUpload2").append(
-                    '<div id="div_'+j+'"><input  name="file_'+j+'" type="file"  style="margin-top:10px;" />' +
+                    '<div id="div_'+j+'"><input  name="file_'+j+'" type="file"  style="margin-top:10px;"  class="validate[required]" />' +
                     '<input type="button"  style="margin-top:10px;" value="删除"  onclick="del_2('+ j + ')"/></div>');
             j = j + 1;
         });
@@ -48,6 +48,8 @@
 
 
 	function sub2() {
+        if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
+            return;
 		var name = ($("#name").val());
 		var infoContext = ($("#infoContext").val());
 		Sfile= ($("#Sfile").val());
@@ -127,7 +129,7 @@
 												class="ui-form-required">*</span>附件上传</label>
 											<div id="newUpload2">
 												<div id="div_1">
-													<input type="file" name="file" id="Sfile">
+													<input type="file" name="file" id="Sfile" class="validate[required]">
 												</div>
 												</div>
 											<input type="button" id="btn_add2" value="增加一行"
