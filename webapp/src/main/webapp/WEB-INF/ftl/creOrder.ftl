@@ -33,6 +33,23 @@ $(document).ready(function(){
     	   // document.body.appendChild(a);
     	   // a.click();
 	}
+	function sub() {
+        var startTime = $("#startTime").val();
+        var d = new Date(startTime.replace(/-/g,"/")); 
+        date = new Date();
+        var str  = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
+        var d2 = new Date(str.replace(/-/g,"/")); 
+        if(startTime=""){
+         jDialog.Alert('请填写开播日期');
+         return;
+         }
+           var days=Math.floor((d-d2)/(24*3600*1000));
+        if(days<3) {
+            jDialog.Alert('开播日期请选择3天以后');
+            return;
+         } 
+          $('#userForm2').submit();
+	}
 
 	function check() {
 		var c = $("#contractCode").val();
@@ -95,7 +112,7 @@ $(document).ready(function(){
 										</div>
 									</div>
 									<div class="ui-form-item widthdrawBtBox">
-										<input type="submit" id="subWithdraw" class="block-btn"
+										<input type="button" onclick="sub()" class="block-btn"
 											 value="确认提交" >
 									</div>
 								</div>
