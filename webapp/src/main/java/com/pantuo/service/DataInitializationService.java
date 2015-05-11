@@ -232,15 +232,10 @@ public class DataInitializationService {
 	//初始化素材
 	private void initializeSupplies() throws Exception {
 		try {
-			JpaSupplies supplies = new JpaSupplies();
-			supplies.setCity(1);
-			supplies.setName("supplies_syste_use");
-			supplies.setSuppliesType(JpaProduct.Type.video);
-			supplies.setIndustryId(1);
-		//	suppliesRepository.save(supplies);
+			suppliesRepository.insertDefaultSupplies();
 		} catch (Exception e) {
+			log.warn("Fail to insertDefaultSupplies id{}, e={}", 1, e.getMessage());
 		} finally {
-
 		}
 	}
     
