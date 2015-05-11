@@ -10,6 +10,8 @@
   <title>${title!''}</title>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.form.js"></script>
+    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/validation/jquery.validationEngine.js"></script>
+    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/validation/jquery.validationEngine-zh_CN.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.dataTables.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery-dataTables-fnNameOrdering.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery-dataTables-fnNoColumnsParams.js"></script>
@@ -29,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/page.css" media="screen"/>
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/js/jquery-ui/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/js/validation/validationEngine.jquery.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/table.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/city.css">
     <#list css as entry>

@@ -11,7 +11,6 @@ function go_back(){
 						<form data-name="withdraw" name="userForm2" id="userForm2"
 							class="ui-form" method="post" action="saveContract"
 							enctype="multipart/form-data">
-							  <DIV class="color-white-bg border-ec">
                 <H3 class="text-xl title-box"><A class="black" href="#">合同详情</A></H3>
                <DIV class="summary mt10 uplan-summary-div">
               <UL class="uplan-detail-ul">
@@ -29,7 +28,6 @@ function go_back(){
 															<a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;  
    							     </#list></SPAN></LI>
 </UL>
-</DIV>
 </DIV>
 						</form>
 </div>

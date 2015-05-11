@@ -57,19 +57,19 @@
 								</a>
 							</div>
 							<div class="s-right s-clear">
-								<span class="pg-nav-item s-left">您好，</span>
-								<a class="pg-nav-item-p pg-nav-item-n s-left" href="#">
+								<span class="pg-nav-item s-left" style="padding:0;">您好，</span>
 									<span>
+                                        <a class="pg-nav-item s-left" href="javascript:void(0)">
                                         <@security.authorize access="isAuthenticated()">
                                             <@security.authentication property="principal.user.firstName" />
                                             <@security.authentication property="principal.user.lastName" />
                                         </@security.authorize>
                                         <@security.authorize access="! isAuthenticated()">
-                                            请登录
+                                            <a class="pg-nav-item s-left" href="${rc.contextPath}/login">请登录</a>
                                         </@security.authorize>
+                                        </a>
                                     </span>
 									<span class="arrow-down"></span>
-								</a>
 								<div class="pg-nav-dropdown" style="display: none;">
 									<div class="pg-dropdown-box">
 										<div class="dropdown-account s-clear">

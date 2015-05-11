@@ -1,4 +1,4 @@
-.city-dropdown{width:100%;height:30px;line-height:30px;}
+.city-dropdown{height:30px;line-height:30px;}
 .city-dropdown li{float:left;height:30px;padding:0 2px}
 .city-dropdown li.dorpdown{z-index:13}
 .city-dropdown li.dorpdown:hover{padding:0 1px}

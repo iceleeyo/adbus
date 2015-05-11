@@ -4,7 +4,7 @@
 <script type="text/javascript">
 	$(function() {
 	//显示当前节点对应的表单信息
-	$('#${activityId!'' }').css("display","inline");
+	$('.${activityId!'' }').css("display","inline");
 });
 function go_back() {
 		history.go(-1);
@@ -321,20 +321,23 @@ function pay() {
 </script>
 <input type="hidden" id="orderid" value="${orderview.order.id!''}"/>
 <input type="hidden" id="taskid" value="${taskid!''}"/>
+<div class="payment" style="display: none;">
+<div id="process" class="section4">
+    <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单</li><li id="track_time_0" class="tx3"><#setting date_format="yyyy-MM-dd">${(orderview.order.created?date)!''}</li><li id="track_time_0" class="tx3"> 10:12:30</li></ul></div>
+    <div class="proce ready"><ul><li class="tx1">&nbsp;</li></ul></div>
+    <div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">支付</li><li id="track_time_4" class="tx3"></li></ul></div>
+    <div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>
+    <div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">物料审核</li><li id="track_time_1" class="tx3"></li></ul></div>
+    <div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>
+    <div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">广告播出</li><li id="track_time_5" class="tx3"></li></ul></div>
+    <div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>
+    <div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">播出完成</li><li id="track_time_6" class="tx3"></li></ul></div>
+</div>
+</div>
+    <#include "template/orderDetail.ftl" />
+
            <!-- 支付-->
-           <div id="payment" style="display: none;">
-              <div id="process" class="section4">
-		            <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单</li><li id="track_time_0" class="tx3"><#setting date_format="yyyy-MM-dd">${(orderview.order.created?date)!''}</li><li id="track_time_0" class="tx3"> 10:12:30</li></ul></div>
-            		<div class="proce ready"><ul><li class="tx1">&nbsp;</li></ul></div>
-            		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">支付</li><li id="track_time_4" class="tx3"></li></ul></div>
-            		<div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>
-            		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">物料审核</li><li id="track_time_1" class="tx3"></li></ul></div>
-            		<div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>
-            		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">广告播出</li><li id="track_time_5" class="tx3"></li></ul></div>		
-            		<div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>		
-            		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">播出完成</li><li id="track_time_6" class="tx3"></li></ul></div>
-            	</div>
-                <#include "template/orderDetail.ftl" />
+           <div id="payment" class="payment relateSup" style="display: none;">
               <div class="p20bs mt10 color-white-bg border-ec">
                  <H3 class="text-xl title-box"><A class="black" href="#">支付订单</A></H3><BR>	
                  <TABLE class="ui-table ui-table-gray" >
@@ -367,22 +370,9 @@ function pay() {
   								</TR>
 								</TABLE>	<br>
              </div>	
-             <#include "template/hisDetail.ftl" />
-			</div> 
+			</div>
 			 <!-- 支付和绑定素材-->
-           <div id="relateSup" style="display: none;">
-              <div id="process" class="section4">
-		            <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单</li><li id="track_time_0" class="tx3"><#setting date_format="yyyy-MM-dd">${(orderview.order.created?date)!''}</li><li id="track_time_0" class="tx3"> 10:12:30</li></ul></div>
-            		<div class="proce ready"><ul><li class="tx1">&nbsp;</li></ul></div>
-            		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">支付与绑定物料</li><li id="track_time_4" class="tx3"></li></ul></div>
-            		<div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>
-            		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">物料审核</li><li id="track_time_1" class="tx3"></li></ul></div>
-            		<div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>
-            		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">广告播出</li><li id="track_time_5" class="tx3"></li></ul></div>		
-            		<div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>		
-            		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">播出完成</li><li id="track_time_6" class="tx3"></li></ul></div>
-            	</div>
-                <#include "template/orderDetail.ftl" />
+           <div id="relateSup" class="relateSup" style="display: none;">
               <div class="p20bs mt10 color-white-bg border-ec">
                  <H3 class="text-xl title-box">
                     <input type="radio" name="sel" onchange="showtb1()"  checked="checked">支付订单
@@ -441,8 +431,7 @@ function pay() {
              </div>	
 			</div> 
 			<!-- 广告主修改订单 -->
-          <div id="modifyOrder" style="display: none;">	
-                             <#include "template/orderDetail.ftl" />
+          <div id="modifyOrder" class="modifyOrder" style="display: none;">
                 <div class="p20bs mt10 color-white-bg border-ec">
                 <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3><br>	
                                 
@@ -480,11 +469,9 @@ function pay() {
   								</TR>
 								</TABLE>	                                
                 </div>	          
-                               <#include "template/hisDetail.ftl" />
 					</div>
 			<!-- 北广审核并填写物料ID等信息 -->
-      <div id="approve2" style="display: none;">	
-                               <#include "template/orderDetail.ftl" />
+      <div id="approve2" class="approve2" style="display: none;">
                 <div class="p20bs mt10 color-white-bg border-ec">
                 <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3><br>
 								<TABLE class="ui-table ui-table-gray">
@@ -529,12 +516,10 @@ function pay() {
   								</TR>
 								</TABLE>	                                    							
                 </div>          
-                 <#include "template/hisDetail.ftl" />
 				 </div>
 							
 			   <!-- 世巴提交排期表 -->
-         <div id="submitSchedule" style="display: none;">	
-                             <#include "template/orderDetail.ftl" />
+         <div id="submitSchedule" class="submitSchedule" style="display: none;">
                 <div class="p20bs mt10 color-white-bg border-ec">
                 <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3><BR>
                 <TABLE class="ui-table ui-table-gray">
@@ -563,11 +548,9 @@ function pay() {
   								</TR>
 							</TABLE>	 
 							</div>	          
-                    <#include "template/hisDetail.ftl" />
 					</div>
 					<!-- 世巴初审 -->
-          <div id="approve1" style="display: none;">	
-                             <#include "template/orderDetail.ftl" />
+          <div id="approve1" class="approve1" style="display: none;">
                 <div class="p20bs mt10 color-white-bg border-ec">
                 <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3><br>	
                                 
@@ -607,12 +590,10 @@ function pay() {
   								</TR>
 								</TABLE>	                                
                 </div>	          
-                               <#include "template/hisDetail.ftl" />
 					</div>
 							
 					<!-- 世巴财务确认 -->
-					<div id="financialCheck" style="display: none;">
-							   <#include "template/orderDetail.ftl" />
+					<div id="financialCheck" class="financialCheck" style="display: none;">
 						<div class="p20bs mt10 color-white-bg border-ec">
               <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3><br>	
               
@@ -640,14 +621,12 @@ function pay() {
 							</TABLE>	               
               							
              </div>	          
-              <#include "template/hisDetail.ftl" />
 					</div>
 							 
 								    
 							
 					<!-- 北广录入排期表 -->
-          <div id="inputSchedule" style="display: none;">
-                             <#include "template/orderDetail.ftl" />	
+          <div id="inputSchedule" class="inputSchedule" style="display: none;">
               <div class="p20bs mt10 color-white-bg border-ec">
               <H3 class="text-xl title-box"><A class="black" href="#">订单办理</A></H3><BR>					
               
@@ -675,13 +654,11 @@ function pay() {
 							</TABLE>	 
               
               </div>	          
-                               <#include "template/hisDetail.ftl" />
 							</div>
 							
 							
 							<!-- 上播报告 -->
-              <div id="shangboReport" style="display: none;">
-              <#include "template/orderDetail.ftl" />
+              <div id="shangboReport" class="shangboReport" style="display: none;">
               <div class="p20bs mt10 color-white-bg border-ec">
               <H3 class="text-xl title-box"><A class="black" href="#">订单办理</A></H3><BR>
               <TABLE class="ui-table ui-table-gray">
@@ -713,12 +690,10 @@ function pay() {
 							</TABLE>	                                 							
 							
               </div>	          
-                               <#include "template/hisDetail.ftl" />
 							</div>
 							
 							<!-- 监播报告 -->
-              <div id="jianboReport" style="display: none;">	
-                               <#include "template/orderDetail.ftl" />
+              <div id="jianboReport" class="jianboReport" style="display: none;">
 					    <div class="p20bs mt10 color-white-bg border-ec">
                   <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3>								
 							
@@ -752,7 +727,7 @@ function pay() {
 							
 	
               </div>	        
-                               <#include "template/hisDetail.ftl" />
 							</div>
+    <#include "template/hisDetail.ftl" />
 
 </@frame.html>

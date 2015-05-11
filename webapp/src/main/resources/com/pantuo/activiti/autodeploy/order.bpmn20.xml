@@ -47,8 +47,8 @@
       <userTask id="jianboReport" name="监播报告" activiti:candidateGroups="ShibaOrderManager"></userTask>
       <sequenceFlow id="flow34" sourceRef="shangboEmail" targetRef="jianboReport"></sequenceFlow>
       <sequenceFlow id="flow35" sourceRef="jianboEmail" targetRef="theEnd"></sequenceFlow>
-      <userTask id="submitSchedule" name="世巴提交排期表" activiti:candidateGroups="ShibaOrderManager"></userTask>
-      <userTask id="inputSchedule" name="北广录入排期表" activiti:candidateGroups="BeiguangScheduleManager"></userTask>
+      <userTask id="submitSchedule" name="提交排期表" activiti:candidateGroups="ShibaOrderManager"></userTask>
+      <userTask id="inputSchedule" name="录入排期表" activiti:candidateGroups="BeiguangScheduleManager"></userTask>
       <sequenceFlow id="flow39" sourceRef="submitSchedule" targetRef="inputSchedule"></sequenceFlow>
       <sequenceFlow id="flow40" sourceRef="inputSchedule" targetRef="effectiveEmail"></sequenceFlow>
       
@@ -96,14 +96,14 @@
         <sequenceFlow id="flow45" name="支付未完成" sourceRef="paymentGateway" targetRef="paymentFailureEmail">
           <conditionExpression xsi:type="tFormalExpression"><![CDATA[${paymentResult == false}]]></conditionExpression>
         </sequenceFlow>
-        <exclusiveGateway id="approve2Gateway" name="北广终审情况"></exclusiveGateway>
+        <exclusiveGateway id="approve2Gateway" name="终审情况"></exclusiveGateway>
         <sequenceFlow id="flow13" name="不通过" sourceRef="approve2Gateway" targetRef="approve1">
           <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approve2Result == false}]]></conditionExpression>
         </sequenceFlow>
         <sequenceFlow id="flow15" name="通过" sourceRef="approve2Gateway" targetRef="approveEmail">
           <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approve2Result == true}]]></conditionExpression>
         </sequenceFlow>
-        <userTask id="financialCheck" name="世巴财务确认" activiti:candidateGroups="ShibaFinancialManager"></userTask>
+        <userTask id="financialCheck" name="财务确认" activiti:candidateGroups="ShibaFinancialManager"></userTask>
         <sequenceFlow id="flow44" sourceRef="financialCheck" targetRef="paymentGateway"></sequenceFlow>
         <inclusiveGateway id="readyGateway" name="订单支付及物料情况确认"></inclusiveGateway>
         <sequenceFlow id="flow37" name="订单/支付/物料OK" sourceRef="readyGateway" targetRef="generateSchedule">
@@ -126,7 +126,7 @@
           <documentation>广告主修改订单信息</documentation>
         </userTask>
         <sequenceFlow id="flow57" sourceRef="modifyOrder" targetRef="approve1"></sequenceFlow>
-        <exclusiveGateway id="approve1Gateway" name="世巴初审情况"></exclusiveGateway>
+        <exclusiveGateway id="approve1Gateway" name="初审情况"></exclusiveGateway>
         <sequenceFlow id="flow9" name="订单OK，物料未审核" sourceRef="approve1Gateway" targetRef="approve2">
           <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approve1Result == true && approve2Result == false}]]></conditionExpression>
         </sequenceFlow>
@@ -136,14 +136,14 @@
         <sequenceFlow id="flow49" name="订单OK，物料已审核" sourceRef="approve1Gateway" targetRef="readyGateway">
           <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approve1Result == true && approve2Result == true}]]></conditionExpression>
         </sequenceFlow>
-        <userTask id="approve1" name="世巴初审" activiti:candidateGroups="ShibaOrderManager">
-          <documentation>世巴管理员初审物料信息，程序必须设置审核结果的process变量：
+        <userTask id="approve1" name="初审" activiti:candidateGroups="ShibaOrderManager">
+          <documentation>管理员初审物料信息，程序必须设置审核结果的process变量：
 			1. approve1Result:true/false
 			2. approve1Comments:描述审核结果的文本</documentation>
         </userTask>
         <sequenceFlow id="flow8" sourceRef="approve1" targetRef="approve1Gateway"></sequenceFlow>
         <inclusiveGateway id="orderSubmittedGateway" name="订单物料审核以及支付"></inclusiveGateway>
-        <sequenceFlow id="flow28" name="世巴初审未通过" sourceRef="orderSubmittedGateway" targetRef="approve1">
+        <sequenceFlow id="flow28" name="初审未通过" sourceRef="orderSubmittedGateway" targetRef="approve1">
           <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approve1Result == false}]]></conditionExpression>
         </sequenceFlow>
         <sequenceFlow id="flow30" name="未支付" sourceRef="orderSubmittedGateway" targetRef="payment">
@@ -151,8 +151,8 @@
         </sequenceFlow>
         <userTask id="payment" name="支付" activiti:candidateUsers="${_owner.username}"></userTask>
         <sequenceFlow id="flow31" sourceRef="payment" targetRef="financialCheck"></sequenceFlow>
-        <userTask id="approve2" name="北广终审" activiti:candidateGroups="BeiguangMaterialManager">
-          <documentation>北广管理员审核物料信息并入库，填写物料ID等信息，程序设置审核结果的process变量：
+        <userTask id="approve2" name="终审" activiti:candidateGroups="BeiguangMaterialManager">
+          <documentation>管理员审核物料信息并入库，填写物料ID等信息，程序设置审核结果的process变量：
 			1.approve2Result：true/false
 			2.approve2Comments:描述审核结果的文本</documentation>
         </userTask>

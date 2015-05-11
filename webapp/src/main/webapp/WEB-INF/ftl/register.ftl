@@ -3,6 +3,20 @@
 <@frame.html title="用户注册" left=false nav=false js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"] css=["js/jquery-ui/jquery-ui.css"]>
 
 <script type="text/javascript">
+    $(document).ready(function() {
+        $("#userForm2").validationEngine({
+            validationEventTriggers:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
+            inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
+            success :  false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
+            promptPosition: "centerRight",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
+            maxErrorsPerField: 1,
+            //failure : function() { alert("验证失败，请检查。");  }//验证失败时调用的函数
+            //success : function() { callSuccessFunction() },//验证通过时调用的函数
+        });
+    });
+</script>
+
+<script type="text/javascript">
 	i = 2;
 	j = 2;
 	$(document)
@@ -37,6 +51,8 @@
 
 
 	function sub(){
+        if (!$("#userForm2").validationEngine('validate'))
+            return;
         if (!$("#agreement").is(":checked")) {
             jDialog.Alert("请同意免责条款");
             return;
@@ -104,7 +120,7 @@
                                                     class="ui-form-required">*
 											</span>用户名[登录帐号]:
                                             </label>
-                                            <input class="ui-input"
+                                            <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[6],maxSize[12]]"
 												type="text" name="username" id="username"
 												data-is="isAmount isEnough" autocomplete="off"
 												disableautocomplete="" placeholder="6-12位英文、数字、下划线">
@@ -115,10 +131,10 @@
 												class="ui-form-required">*
 											</span>用户昵称:
 											</label> 
-												<input class="ui-input"
+												<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[6],maxSize[12]]"
 												type="text" name="firstName" id="firstName"
 												data-is="isAmount isEnough" autocomplete="off"
-												disableautocomplete="" placeholder="1-12位中英文、数字、下划线">
+												disableautocomplete="" placeholder="6-12位中英文、数字、下划线">
 										</div>
 										<div class="ui-form-item">
 											<label class="ui-label mt10">
@@ -126,7 +142,7 @@
 												class="ui-form-required">*
 											</span>密码:
 											</label> 
-												<input class="ui-input"
+												<input class="ui-input validate[required,minSize[6],maxSize[20]]"
 												type="password" name="password" id="password"
 												data-is="isAmount isEnough" autocomplete="off"
 												disableautocomplete="" placeholder="请输入6-20位密码">
@@ -134,7 +150,7 @@
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>请确认密码:</label> <input
-												class="ui-input" type="password" data-is="isAmount isEnough"
+												class="ui-input validate[required,equals[password]]" type="password" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="请再输入一次密码">
 											<p class="ui-term-placeholder"></p>
 
@@ -143,7 +159,7 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>联系电话:</label>
                                                     <input
-												class="ui-input" type="text" name="phone"
+												class="ui-input validate[required,custom[phone]]" type="text" name="phone"
 												id="phone" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="请输入联系电话">
                                         </div>
@@ -152,7 +168,7 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>邮箱地址:</label>
                                                     <input
-												class="ui-input" type="text" name="email"
+												class="ui-input validate[required,custom[email]]" type="text" name="email"
 												id="email" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="请输入邮箱地址">
                                         </div>
@@ -165,12 +181,12 @@
 												autocomplete="off" disableautocomplete="" placeholder="请输入所属公司名称">
                                         </div>
                                         
-                                        <div class="ui-form-item">
+<#--                                        <div class="ui-form-item">
                                             <label class="ui-label mt10">其他备注:</label>
                                                     <input
 												class="ui-input" type="text" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="其他备注信息">
-                                        </div>
+                                        </div>-->
                                         </div>
 <div class = "ad-agreement">
 	<TEXTAREA id="agreementstr" name="agreementstr" type="text"  rows="16">

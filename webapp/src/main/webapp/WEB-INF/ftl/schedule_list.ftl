@@ -138,21 +138,19 @@ css=["js/jquery-ui/jquery-ui.css"]>
                             autocomplete="off" disableautocomplete="">
                 </div>
             </div>
-            <div class="div">
-                <table id="table" class="cell-border compact display" cellspacing="0"
-                       style="width: 100%; border-left-style: solid; border-left-width: 1px; border-left-color: rgb(221, 221, 221);">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>时段名</th>
-                        <th>时段</th>
-                        <th>包长</th>
-                        <th>广告名称</th>
-                        <th>时长</th>
-                    </tr>
-                    </thead>
-                </table>
-                </tbody>
-            </div>
+            <table id="table" class="cell-border compact display" cellspacing="0"
+                   style="width: 100%; border-left-style: solid; border-left-width: 1px; border-left-color: rgb(221, 221, 221);">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>时段名</th>
+                    <th>时段</th>
+                    <th>包长</th>
+                    <th>广告名称</th>
+                    <th>时长</th>
+                </tr>
+                </thead>
+            </table>
+            </tbody>
 </div>
 </@frame.html>

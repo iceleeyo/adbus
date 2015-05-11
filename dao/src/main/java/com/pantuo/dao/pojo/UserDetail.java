@@ -212,6 +212,6 @@ public class UserDetail extends BaseEntity {
 	}
 
 
-	 
-    
+
+
 }

@@ -51,6 +51,12 @@ public class UserManagerController {
         return "user_list";
     }
 
+    @RequestMapping(value = "/ajaxValidateUser", method = { RequestMethod.GET})
+    @ResponseBody
+    public boolean ajaxValidateUser() {
+        return true;
+    }
+
     /**
      * <b>Ajax：获取所有用户</b>
      *

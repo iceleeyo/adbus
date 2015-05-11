@@ -1,7 +1,7 @@
 .p-center{text-align: center;}
 .login-container{position: relative;margin-left: auto;margin-right: auto;}
 .login-content{width: 940px;margin:0 10px;padding:40px 0;}
-.login-left{width: 613px;height: 390px;overflow: hidden;}
+.login-left{width: 610px;height: 390px;overflow: hidden;}
 .login-right{width: 327px;}
 .login-nav-right{height: 48px;}
 .login-nav-right span{display: block;line-height: 40px;height: 40px;font-size: 25px;border-left: 1px solid #CCC;padding-left: 20px;margin-top: 4px;color: #aaa;}
@@ -11,7 +11,7 @@
 .login-form fieldset{border:0;padding:0;}
 .login-tip{color: red;height:40px;line-height: 40px;display: block;}
 .login-item{margin-bottom: 20px;position:relative;}
-.login-input{line-height: 23px;color:#595959;width:100%;border-radius: 2px;border:1px solid #c5c5c5;box-shadow: 0 0 2px 1px #efefef;outline:none;}
+.login-input{height:45px;line-height: 23px;color:#595959;width:100%;border-radius: 2px;border:1px solid #c5c5c5;box-shadow: 0 0 2px 1px #efefef;outline:none;}
 .login-input:hover{border:1px solid #2ea7e0;}
 .input-p{padding: 10px 5px 10px 50px;font-size: 14px;}
 .gray-input{background: url(images/input-box.png) 0 0 no-repeat}

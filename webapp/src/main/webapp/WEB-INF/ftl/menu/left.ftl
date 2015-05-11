@@ -20,7 +20,8 @@
 										</a>
 										
 									</li>
-									<li class="pg-side-item">
+                                    <@security.authorize ifAnyGranted="advertiser,ShibaOrderManager,BeiguangMaterialManager,ShibaSuppliesManager">
+                                    <li class="pg-side-item">
 										<a class="pg-side-item-t bb-icon">
 											<i class="s-left pg-icon-a b-icon"></i>
 											物料管理
@@ -39,7 +40,8 @@
 											
 										</ul>
 									</li>
-									<@security.authorize ifAnyGranted="ShibaOrderManager">
+                                    </@security.authorize>
+									<@security.authorize ifAnyGranted="advertiser,ShibaOrderManager,ShibaFinancialManager">
 									<li class="pg-side-item">
 										<a class="pg-side-item-t ee-icon" href="#" > 
 											<i class="s-left pg-icon-a e-icon"></i>
@@ -58,7 +60,7 @@
 											</li>
 										</ul>
 									</li>	
-									</@security.authorize>									
+									</@security.authorize>
 									<li class="pg-side-item">
 										<a class="pg-side-item-t cc-icon">
 											<i class="s-left pg-icon-a c-icon"></i>
@@ -85,7 +87,7 @@
 											订单管理
 										</a>
 										<ul class="pg-side-exp-list">
-										<@security.authorize ifAnyGranted="normaluser,advertiser">
+										<@security.authorize ifAnyGranted="advertiser">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/order/myOrders/1">
 													我的订单
@@ -122,7 +124,7 @@
 									</li>
 									
 
-									<@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">  
+									<@security.authorize ifAnyGranted="ShibaOrderManager,BeiguangScheduleManager">
 
 									<li class="pg-side-item">
 										<a class="pg-side-item-t gg-icon">
@@ -147,6 +149,8 @@
 											</li>
 										</ul>
 									</li>
+                                    </@security.authorize>
+                                    <@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager">
 									<li class="pg-side-item">
 										<a class="pg-side-item-t hh-icon">
 											<i class="s-left pg-icon-a h-icon"></i>
@@ -205,12 +209,15 @@
 											</li>
 										</ul>
 									</li>
+                                    </@security.authorize>
+                                    <@security.authorize ifAnyGranted="advertiser,UserManager">
 									<li class="pg-side-item">
 										<a class="pg-side-item-t ff-icon">
 											<i class="s-left pg-icon-a f-icon"></i>
 											用户管理
 										</a>
 										<ul class="pg-side-exp-list">
+                                            <@security.authorize ifAnyGranted="UserManager">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/user/list">
 													用户列表
@@ -221,6 +228,7 @@
 													用户添加
 												</a>
 											</li>
+                                            </@security.authorize>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/user/invoice">
 													发票录入
