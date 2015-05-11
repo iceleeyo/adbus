@@ -31,7 +31,7 @@
                                         <#if city??>
                                             <span class="ui-areamini-text" data-id="${city.id}" title="${city.name}">${city.name}</span>
                                         <#else>
-                                            <span class="ui-areamini-text" data-id="${cities[0].id}" title="${cities[0].name}">${cities[0].name}</span>
+                                            <span class="ui-areamini-text" data-id="${cities[0].id!''}" title="${cities[0].name!''}">${cities[0].name!''}</span>
                                         </#if>
                                     </div>
                                     <div class="dd dorpdown-layer">
@@ -41,7 +41,7 @@
                                                 <div class="ui-areamini-content-list" id="city_dropdown">
                                                     <#list cities as c>
                                                         <div class="item">
-                                                            <a data-id="${c.id}" href="javascript:void(0)" <#if city?? && city.id == c.id>class="selected"</#if>>${c.name}</a>
+                                                            <a data-id="${c.id}" href="javascript:void(0)" <#if city?? && city.id == c.id>class="selected"</#if>>${c.name!''}</a>
                                                         </div>
                                                     </#list>
                                                 </div>
