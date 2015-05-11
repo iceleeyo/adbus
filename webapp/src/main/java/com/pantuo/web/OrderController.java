@@ -71,27 +71,27 @@ public class OrderController {
 	private TaskService taskService;
 
 	@RequestMapping(value = "/buypro/{product_id}", produces = "text/html;charset=utf-8")
-	public String buypro(Model model,@PathVariable("product_id") int product_id,
-                         Principal principal, @CookieValue(value="city", defaultValue = "-1") int city, HttpServletRequest request) {
-    	JpaProduct  prod=productService.findById(product_id);
+	public String buypro(Model model, @PathVariable("product_id") int product_id, Principal principal,
+			@CookieValue(value = "city", defaultValue = "-1") int city, HttpServletRequest request) {
+		JpaProduct prod = productService.findById(product_id);
 		//Page<JpaProduct> products = productService.getValidProducts(0 , 9999, null);
-        //model.addAttribute("products", products.getContent());
-        NumberPageUtil page = new NumberPageUtil(9999, 1, 9999);
-        List<Supplies> supplies = suppliesService.queryMyList(city, page, null, prod.getType(), principal);
-        model.addAttribute("supplies", supplies);
-        model.addAttribute("prod", prod);
-        List<Contract> contracts = contractService.queryContractList(city, page, null, null, principal);
-        model.addAttribute("contracts", contracts);
+		//model.addAttribute("products", products.getContent());
+		NumberPageUtil page = new NumberPageUtil(9999, 1, 9999);
+		List<Supplies> supplies = suppliesService.queryMyList(city, page, null, prod.getType(), principal);
+		model.addAttribute("supplies", supplies);
+		model.addAttribute("prod", prod);
+		List<Contract> contracts = contractService.queryContractList(city, page, null, null, principal);
+		model.addAttribute("contracts", contracts);
 		return "creOrder";
 	}
 
-	 @RequestMapping(value = "/proDetail", produces = "text/html;charset=utf-8")
+	@RequestMapping(value = "/proDetail", produces = "text/html;charset=utf-8")
 	public String proDetail(Model model, Principal principal, @RequestParam(value = "product_id") int product_id,
 			HttpServletRequest request) {
 		JpaProduct prod = productService.findById(product_id);
-		   model.addAttribute("prod", prod);
-	        return "proDetail";
-	    }
+		model.addAttribute("prod", prod);
+		return "proDetail";
+	}
 
 	@RequestMapping(value = "/payview", produces = "text/html;charset=utf-8")
 	public String payview(Model model, @RequestParam(value = "taskid", required = true) String taskid,
@@ -104,10 +104,8 @@ public class OrderController {
 	@RequestMapping(value = "/list/{pageNum}")
 	public String contralist(Model model,
 			@RequestParam(value = "name", required = false, defaultValue = "") String name,
-			@RequestParam(value = "code", required = false, defaultValue = "") String code,
-            @PathVariable int pageNum,
-            @CookieValue(value="city", defaultValue = "-1") int city,
-			HttpServletRequest request) {
+			@RequestParam(value = "code", required = false, defaultValue = "") String code, @PathVariable int pageNum,
+			@CookieValue(value = "city", defaultValue = "-1") int city, HttpServletRequest request) {
 		int psize = 9;
 		NumberPageUtil page = new NumberPageUtil(productService.countMyList(city, name, code, request), pageNum, psize);
 		model.addAttribute("list", productService.queryContractList(city, page, name, code, request));
@@ -126,8 +124,6 @@ public class OrderController {
 				Request.getUser(principal));
 	}
 
-
-
 	@RequestMapping(value = "claim")
 	@ResponseBody
 	public Pair<Boolean, String> claimTask(@RequestParam(value = "orderid", required = true) String orderid,
@@ -138,11 +134,9 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/handleView2", produces = "text/html;charset=utf-8")
-	public String HandleView2(Model model,
-                              @RequestParam(value = "taskid", required = true) String taskid,
-                              Principal principal,
-                              @CookieValue(value="city", defaultValue = "-1") int city,
-			                  HttpServletRequest request) throws Exception {
+	public String HandleView2(Model model, @RequestParam(value = "taskid", required = true) String taskid,
+			Principal principal, @CookieValue(value = "city", defaultValue = "-1") int city, HttpServletRequest request)
+			throws Exception {
 		NumberPageUtil page = new NumberPageUtil(9999, 1, 9999);
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 		ExecutionEntity executionEntity = (ExecutionEntity) runtimeService.createExecutionQuery()
@@ -150,11 +144,12 @@ public class OrderController {
 		OrderView v = activitiService.findOrderViewByTaskId(taskid);
 		String activityId = executionEntity.getActivityId();
 		ProcessInstance pe = activitiService.findProcessInstanceByTaskId(taskid);
-		List<HistoricTaskView> activitis = activitiService.findHistoricUserTask(city, pe.getProcessInstanceId(), activityId);
+		List<HistoricTaskView> activitis = activitiService.findHistoricUserTask(city, pe.getProcessInstanceId(),
+				activityId);
 		JpaProduct prod = productService.findById(v.getOrder().getProductId());
 		List<Contract> contracts = contractService.queryContractList(city, page, null, null, principal);
-		List<Supplies> supplieslist=suppliesService.querySuppliesByUser(city, principal);
-		SuppliesView suppliesView=suppliesService.getSuppliesDetail(v.getOrder().getSuppliesId(), null);
+		List<Supplies> supplieslist = suppliesService.querySuppliesByUser(city, principal);
+		SuppliesView suppliesView = suppliesService.getSuppliesDetail(v.getOrder().getSuppliesId(), null);
 		model.addAttribute("suppliesView", suppliesView);
 		model.addAttribute("contracts", contracts);
 		model.addAttribute("supplieslist", supplieslist);
@@ -162,65 +157,68 @@ public class OrderController {
 		model.addAttribute("orderview", v);
 		model.addAttribute("prod", prod);
 		model.addAttribute("activitis", activitis);
+		if (StringUtils.equals(ActivitiService.R_BIND_STATIC, activityId)) {
+			activityId = ActivitiService.R_MODIFY_ORDER;
+		}
 		model.addAttribute("activityId", activityId);
 		return "handleView2";
 	}
-	
+
 	@RequestMapping(value = "modifyOrder")
 	@ResponseBody
-	public Pair<Boolean, String> modifyOrder(@RequestParam(value = "orderid") String orderid,@CookieValue(value="city", defaultValue = "-1") int city,
+	public Pair<Boolean, String> modifyOrder(@RequestParam(value = "orderid") String orderid,
+			@CookieValue(value = "city", defaultValue = "-1") int city,
 			@RequestParam(value = "supplieid") int supplieid, @RequestParam(value = "taskid") String taskid,
 			Principal principal, HttpServletRequest request, HttpServletResponse response) {
-		return activitiService.modifyOrder(city,Integer.parseInt(orderid), taskid, supplieid, Request.getUser(principal));
+		return activitiService.modifyOrder(city, Integer.parseInt(orderid), taskid, supplieid,
+				Request.getUser(principal));
 	}
-	
+
 	@RequestMapping(value = "creOrder2", method = RequestMethod.POST, produces = "text/html;charset=utf-8")
-	public String saveOrderJpa(Model model,JpaOrders order, Principal principal,
-                                              @CookieValue(value="city", defaultValue = "-1") int city,
-                                              HttpServletRequest request)
+	public String saveOrderJpa(Model model, JpaOrders order, Principal principal,
+			@CookieValue(value = "city", defaultValue = "-1") int city, HttpServletRequest request)
 			throws IllegalStateException, IOException, ParseException {
 		NumberPageUtil page = new NumberPageUtil(9999, 1, 9999);
-        order.setCreator(Request.getUserId(principal));
-        order.setStats(JpaOrders.Status.unpaid);
-        JpaProduct prod = productService.findById(order.getProductId());
-//        if (prod == null) {
-//			return new Pair<Boolean, String>(false, "找不到对应的套餐");
-//        }
-        order.setType(prod.getType());
-        String start = request.getParameter("startTime1").toString();
-        if (!start.isEmpty()) {
-            Date startTime = DateUtil.longDf.get().parse(start);
-            order.setStartTime(startTime);
+		order.setCreator(Request.getUserId(principal));
+		order.setStats(JpaOrders.Status.unpaid);
+		JpaProduct prod = productService.findById(order.getProductId());
+		//        if (prod == null) {
+		//			return new Pair<Boolean, String>(false, "找不到对应的套餐");
+		//        }
+		order.setType(prod.getType());
+		String start = request.getParameter("startTime1").toString();
+		if (!start.isEmpty()) {
+			Date startTime = DateUtil.longDf.get().parse(start);
+			order.setStartTime(startTime);
 
-            Calendar cal = DateUtil.newCalendar();
-            cal.setTime(startTime);
-            cal.add(Calendar.DAY_OF_MONTH, prod.getDays());
-            order.setEndTime(cal.getTime());
-        } else {
-//			return new Pair<Boolean, String>(false, "请指定订单开播时间");
-        }
-         OrderView v = new OrderView();
-		 orderService.saveOrderJpa(city, order, Request.getUser(principal));
-		 List<Supplies> supplieslist=suppliesService.querySuppliesByUser(city, principal);
-		 List<Contract> contracts = contractService.queryContractList(city, page, null, null, principal);
-		 SuppliesView suppliesView=suppliesService.getSuppliesDetail(order.getSuppliesId(), null);
-		 Orders orders = orderService.selectOrderById(order.getId());
-		 v.setOrder(orders);
-		 model.addAttribute("supplieslist", supplieslist);
-		 model.addAttribute("order", order);
-		 model.addAttribute("prod", prod);
-		 model.addAttribute("orderview", v);
-		 model.addAttribute("contracts", contracts);
-		 model.addAttribute("suppliesView", suppliesView);
-		 return "relateSup";
+			Calendar cal = DateUtil.newCalendar();
+			cal.setTime(startTime);
+			cal.add(Calendar.DAY_OF_MONTH, prod.getDays());
+			order.setEndTime(cal.getTime());
+		} else {
+			//			return new Pair<Boolean, String>(false, "请指定订单开播时间");
+		}
+		OrderView v = new OrderView();
+		orderService.saveOrderJpa(city, order, Request.getUser(principal));
+		List<Supplies> supplieslist = suppliesService.querySuppliesByUser(city, principal);
+		List<Contract> contracts = contractService.queryContractList(city, page, null, null, principal);
+		SuppliesView suppliesView = suppliesService.getSuppliesDetail(order.getSuppliesId(), null);
+		Orders orders = orderService.selectOrderById(order.getId());
+		v.setOrder(orders);
+		model.addAttribute("supplieslist", supplieslist);
+		model.addAttribute("order", order);
+		model.addAttribute("prod", prod);
+		model.addAttribute("orderview", v);
+		model.addAttribute("contracts", contracts);
+		model.addAttribute("suppliesView", suppliesView);
+		return "relateSup";
 	}
+
 	@RequestMapping(value = "/orderDetail/{orderid}", produces = "text/html;charset=utf-8")
 	public String orderDetail(Model model, @PathVariable("orderid") int orderid,
 			@RequestParam(value = "taskid", required = false) String taskid,
-			@RequestParam(value = "pid", required = false) String pid, Principal principal, 
-			@CookieValue(value="city", defaultValue = "-1") int city,
-			HttpServletRequest request)
-			throws Exception {
+			@RequestParam(value = "pid", required = false) String pid, Principal principal,
+			@CookieValue(value = "city", defaultValue = "-1") int city, HttpServletRequest request) throws Exception {
 		return activitiService.showOrderDetail(city, model, orderid, taskid, pid, principal);
 	}
 
@@ -250,19 +248,19 @@ public class OrderController {
 			Long longorderid = null;
 			OrderView orderView = new OrderView();
 			if (order != null) {
-			   orderView.setOrder(order);
+				orderView.setOrder(order);
 				prod = productService.findById(order.getProductId());
 				longorderid = OrderIdSeq.getIdFromDate(order.getId(), order.getCreated());
-		  }
+			}
 			List<HistoricTaskView> activitis = activitiService.findHistoricUserTask(city, pid, null);
 			SuppliesView suppliesView = suppliesService.getSuppliesDetail(orderView.getOrder().getSuppliesId(), null);
 			model.addAttribute("activitis", activitis);
-		  model.addAttribute("suppliesView", suppliesView);
-		  model.addAttribute("order", order);
-		  model.addAttribute("longorderid", longorderid);
-		  model.addAttribute("orderview", orderView);
-		  model.addAttribute("prod", prod);
-		  return "finishedOrderDetail";
+			model.addAttribute("suppliesView", suppliesView);
+			model.addAttribute("order", order);
+			model.addAttribute("longorderid", longorderid);
+			model.addAttribute("orderview", orderView);
+			model.addAttribute("prod", prod);
+			return "finishedOrderDetail";
 		}
 	}
 
@@ -272,28 +270,22 @@ public class OrderController {
 	 */
 	@RequestMapping(value = "/{taskId}/complete", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
-	public Pair<Boolean, String> completeTask(@PathVariable("taskId") String taskId,
-                                              Principal principal,
-                                              Supplies supplies,
-                                              Variable variable,
-                                              @CookieValue(value="city", defaultValue = "-1") int city) {
-		if(null!=supplies && null!=supplies.getSeqNumber() && !supplies.getSeqNumber().equals("")){
+	public Pair<Boolean, String> completeTask(@PathVariable("taskId") String taskId, Principal principal,
+			Supplies supplies, Variable variable, @CookieValue(value = "city", defaultValue = "-1") int city) {
+		if (null != supplies && null != supplies.getSeqNumber() && !supplies.getSeqNumber().equals("")) {
 			suppliesService.updateSupplies(city, supplies);
 		}
 		return activitiService.complete(taskId, variable.getVariableMap(), Request.getUser(principal));
 	}
 
-
-
 	@RequestMapping(value = "creOrder", method = RequestMethod.POST)
 	@ResponseBody
 	public Pair<Boolean, String> saveOrder(Orders order, Principal principal,
-                                           @CookieValue(value="city", defaultValue = "-1") int city)
-			throws IllegalStateException, IOException, ParseException {
+			@CookieValue(value = "city", defaultValue = "-1") int city) throws IllegalStateException, IOException,
+			ParseException {
 
 		return orderService.saveOrder(city, order, principal);
 	}
-
 
 	/**
 	 * 
@@ -307,8 +299,9 @@ public class OrderController {
 	@RequestMapping("ajax-orderlist")
 	@ResponseBody
 	public DataTablePage<OrderView> getAllContracts(TableRequest req, Principal principal,
-                                                    @CookieValue(value="city", defaultValue = "-1") int city) {
-		Page<OrderView> w = orderService.getOrderList(city, req.getPage(), req.getLength(), req.getSort("id"), principal);
+			@CookieValue(value = "city", defaultValue = "-1") int city) {
+		Page<OrderView> w = orderService.getOrderList(city, req.getPage(), req.getLength(), req.getSort("id"),
+				principal);
 		return new DataTablePage(w, req.getDraw());
 	}
 
@@ -317,7 +310,7 @@ public class OrderController {
 		return "orderList";
 	}
 
-    @RequestMapping(value = "/myTaskbak/{pageNum}", method = RequestMethod.GET)
+	@RequestMapping(value = "/myTaskbak/{pageNum}", method = RequestMethod.GET)
 	public String myTask(Model model, @PathVariable int pageNum, Principal principal) {
 		NumberPageUtil page = new NumberPageUtil(pageNum);
 		page.setPagesize(30);
@@ -326,7 +319,7 @@ public class OrderController {
 		return "mytask";
 	}
 
-    /*@RequestMapping(value = "/myOrders/{pageNum}")
+	/*@RequestMapping(value = "/myOrders/{pageNum}")
 	public String myOrders(Model model, Principal principal,@PathVariable int pageNum, HttpServletRequest request,
 			HttpServletResponse response) {
 		int pagesize=8;
@@ -348,7 +341,7 @@ public class OrderController {
 	@RequestMapping("ajax-runningAjax")
 	@ResponseBody
 	public DataTablePage<OrderView> runningAjax(TableRequest req, Principal principal,
-                                                @CookieValue(value="city", defaultValue = "-1") int city) {
+			@CookieValue(value = "city", defaultValue = "-1") int city) {
 		Page<OrderView> w = activitiService.running(city, Request.getUserId(principal), req.getPage(), req.getLength(),
 				req.getSort("id"));
 		return new DataTablePage<OrderView>(w, req.getDraw());
@@ -375,9 +368,9 @@ public class OrderController {
 	@RequestMapping("ajax-myOrders")
 	@ResponseBody
 	public DataTablePage<OrderView> myOrders(TableRequest req, Principal principal,
-                                             @CookieValue(value="city", defaultValue = "-1") int city) {
-		Page<OrderView> w = activitiService.MyOrders(city, Request.getUserId(principal), req.getPage(), req.getLength(),
-				req.getSort("id"));
+			@CookieValue(value = "city", defaultValue = "-1") int city) {
+		Page<OrderView> w = activitiService.MyOrders(city, Request.getUserId(principal), req.getPage(),
+				req.getLength(), req.getSort("id"));
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
 
@@ -403,8 +396,9 @@ public class OrderController {
 	@RequestMapping("ajax-finishedOrders")
 	@ResponseBody
 	public DataTablePage<OrderView> finishedAjax(TableRequest req, Principal principal,
-                                                 @CookieValue(value="city", defaultValue = "-1") int city) {
-		Page<OrderView> w = activitiService.finished(city, principal, req.getPage(), req.getLength(), req.getSort("id"));
+			@CookieValue(value = "city", defaultValue = "-1") int city) {
+		Page<OrderView> w = activitiService
+				.finished(city, principal, req.getPage(), req.getLength(), req.getSort("id"));
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
 }

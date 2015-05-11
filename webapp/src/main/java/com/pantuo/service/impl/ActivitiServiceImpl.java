@@ -93,16 +93,16 @@ public class ActivitiServiceImpl implements ActivitiService {
 		page = page + 1;
 		List<OrderView> orders = new ArrayList<OrderView>();
 		int totalnum = runtimeService.createProcessInstanceQuery().processDefinitionKey(MAIN_PROCESS)
-                .variableValueEquals(ActivitiService.CITY, city).list().size();
+				.variableValueEquals(ActivitiService.CITY, city).list().size();
 		NumberPageUtil pageUtil = new NumberPageUtil((int) totalnum, page, pageSize);
 
 		List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery()
-				.processDefinitionKey(MAIN_PROCESS)
-                .variableValueEquals(ActivitiService.CITY, city).orderByProcessInstanceId().desc()
-				.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
+				.processDefinitionKey(MAIN_PROCESS).variableValueEquals(ActivitiService.CITY, city)
+				.orderByProcessInstanceId().desc().listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
 		for (ProcessInstance processInstance : processInstances) {
 			List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId())
-                    .processVariableValueEquals(ActivitiService.CITY, city).includeProcessVariables().orderByTaskCreateTime().desc().listPage(0, 1);
+					.processVariableValueEquals(ActivitiService.CITY, city).includeProcessVariables()
+					.orderByTaskCreateTime().desc().listPage(0, 1);
 			Integer orderid = (Integer) tasks.get(0).getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
 			Orders order = orderService.selectOrderById(orderid);
@@ -126,18 +126,18 @@ public class ActivitiServiceImpl implements ActivitiService {
 	public Page<OrderView> MyOrders(int city, String userid, int page, int pageSize, Sort sort) {
 		page = page + 1;
 		List<OrderView> orders = new ArrayList<OrderView>();
-		int totalnum =(int) runtimeService.createProcessInstanceQuery()
-                .processDefinitionKey(MAIN_PROCESS)
-                .variableValueEquals(ActivitiService.CITY, city).involvedUser(userid).count();
+		int totalnum = (int) runtimeService.createProcessInstanceQuery().processDefinitionKey(MAIN_PROCESS)
+				.variableValueEquals(ActivitiService.CITY, city).involvedUser(userid).count();
 		NumberPageUtil pageUtil = new NumberPageUtil((int) totalnum, page, pageSize);
 
 		List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery()
-				.processDefinitionKey(MAIN_PROCESS)
-                .variableValueEquals(ActivitiService.CITY, city).involvedUser(userid)
+				.processDefinitionKey(MAIN_PROCESS).variableValueEquals(ActivitiService.CITY, city)
+				.involvedUser(userid).orderByProcessInstanceId().desc()
 				.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
 		for (ProcessInstance processInstance : processInstances) {
 			List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId())
-                    .processVariableValueEquals(ActivitiService.CITY, city).includeProcessVariables().orderByTaskCreateTime().desc().listPage(0, 1);
+					.processVariableValueEquals(ActivitiService.CITY, city).includeProcessVariables()
+					.orderByTaskCreateTime().desc().listPage(0, 1);
 			Integer orderid = (Integer) tasks.get(0).getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
 			Orders order = orderService.selectOrderById(orderid);
@@ -162,11 +162,11 @@ public class ActivitiServiceImpl implements ActivitiService {
 		List<OrderView> leaves = new ArrayList<OrderView>();
 		//先查得总条数
 		long c = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS).taskCandidateOrAssigned(userid)
-                .processVariableValueEquals(ActivitiService.CITY, city).count();
+				.processVariableValueEquals(ActivitiService.CITY, city).count();
 		NumberPageUtil pageUtil = new NumberPageUtil((int) c, page, pageSize);
 		tasks = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS).taskCandidateOrAssigned(userid)
-                .processVariableValueEquals(ActivitiService.CITY, city).includeProcessVariables().orderByTaskPriority().desc().orderByTaskCreateTime().desc()
-				.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
+				.processVariableValueEquals(ActivitiService.CITY, city).includeProcessVariables().orderByTaskPriority()
+				.desc().orderByTaskCreateTime().desc().listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
 		for (Task task : tasks) {
 			String processInstanceId = task.getProcessInstanceId();
 			ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
@@ -196,7 +196,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 				.listPage(page.getLimitStart(), page.getPagesize());
 		for (ProcessInstance processInstance : processInstances) {
 			List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId())
-                    .processVariableValueEquals(ActivitiService.CITY, city).includeProcessVariables().orderByTaskCreateTime().desc().listPage(0, 1);
+					.processVariableValueEquals(ActivitiService.CITY, city).includeProcessVariables()
+					.orderByTaskCreateTime().desc().listPage(0, 1);
 			Integer orderid = (Integer) tasks.get(0).getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
 			List<Orders> order = orderService.selectOrderByUser(city, userid, orderid);
@@ -215,11 +216,12 @@ public class ActivitiServiceImpl implements ActivitiService {
 	public List<OrderView> findRunningProcessInstaces(int city, String userid, NumberPageUtil page) {
 		List<OrderView> orders = new ArrayList<OrderView>();
 		List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery()
-                .variableValueEquals(ActivitiService.CITY, city)
-				.processDefinitionKey(MAIN_PROCESS).listPage(page.getLimitStart(), page.getPagesize());
+				.variableValueEquals(ActivitiService.CITY, city).processDefinitionKey(MAIN_PROCESS)
+				.listPage(page.getLimitStart(), page.getPagesize());
 		for (ProcessInstance processInstance : processInstances) {
 			List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId())
-                    .processVariableValueEquals(ActivitiService.CITY, city).includeProcessVariables().orderByTaskCreateTime().desc().listPage(0, 1);
+					.processVariableValueEquals(ActivitiService.CITY, city).includeProcessVariables()
+					.orderByTaskCreateTime().desc().listPage(0, 1);
 			Integer orderid = (Integer) tasks.get(0).getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
 			v.setOrder(orderService.selectOrderById(orderid));
@@ -235,14 +237,13 @@ public class ActivitiServiceImpl implements ActivitiService {
 	public Page<OrderView> finished(int city, Principal principal, int page, int pageSize, Sort sort) {
 		page = page + 1;
 		List<OrderView> orders = new ArrayList<OrderView>();
-		int c = (int) historyService.createHistoricProcessInstanceQuery().variableValueEquals(ActivitiService.CITY, city)
-                .finished()
-				.involvedUser(Request.getUserId(principal)).processDefinitionKey(MAIN_PROCESS).count();
+		int c = (int) historyService.createHistoricProcessInstanceQuery()
+				.variableValueEquals(ActivitiService.CITY, city).finished().involvedUser(Request.getUserId(principal))
+				.processDefinitionKey(MAIN_PROCESS).count();
 		NumberPageUtil pageUtil = new NumberPageUtil((int) c, page, pageSize);
 		List<HistoricProcessInstance> list = historyService.createHistoricProcessInstanceQuery()
-                .variableValueEquals(ActivitiService.CITY, city).finished()
-				.involvedUser(Request.getUserId(principal)).processDefinitionKey(MAIN_PROCESS)
-				.includeProcessVariables().orderByProcessInstanceStartTime().desc()
+				.variableValueEquals(ActivitiService.CITY, city).finished().involvedUser(Request.getUserId(principal))
+				.processDefinitionKey(MAIN_PROCESS).includeProcessVariables().orderByProcessInstanceStartTime().desc()
 				.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
 		for (HistoricProcessInstance historicProcessInstance : list) {
 			//---------------------
@@ -268,9 +269,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 	public List<OrderView> findFinishedProcessInstaces(int city, String userid, String usertype, NumberPageUtil page) {
 		List<OrderView> orders = new ArrayList<OrderView>();
 		List<HistoricProcessInstance> list = historyService.createHistoricProcessInstanceQuery()
-                .variableValueEquals(ActivitiService.CITY, city).finished()
-				.processDefinitionKey(MAIN_PROCESS).includeProcessVariables().orderByProcessInstanceStartTime().desc()
-				.list();
+				.variableValueEquals(ActivitiService.CITY, city).finished().processDefinitionKey(MAIN_PROCESS)
+				.includeProcessVariables().orderByProcessInstanceStartTime().desc().list();
 		for (HistoricProcessInstance historicProcessInstance : list) {
 			// String businessKey = historicProcessInstance.getBusinessKey();
 			Integer orderid = (Integer) historicProcessInstance.getProcessVariables().get(ORDER_ID);
@@ -308,13 +308,12 @@ public class ActivitiServiceImpl implements ActivitiService {
 		Map<String, Object> initParams = new HashMap<String, Object>();
 		initParams.put(ActivitiService.OWNER, u);
 		initParams.put(ActivitiService.ORDER_ID, order.getId());
-        initParams.put(ActivitiService.CITY, city);
+		initParams.put(ActivitiService.CITY, city);
 		initParams.put(ActivitiService.NOW, new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
 		ProcessInstance process = runtimeService.startProcessInstanceByKey(MAIN_PROCESS, initParams);
 
 		List<Task> tasks = taskService.createTaskQuery().processInstanceId(process.getId())
-                .processVariableValueEquals(ActivitiService.CITY, city).orderByTaskCreateTime()
-				.desc().listPage(0, 1);
+				.processVariableValueEquals(ActivitiService.CITY, city).orderByTaskCreateTime().desc().listPage(0, 1);
 		if (!tasks.isEmpty()) {
 			Task task = tasks.get(0);
 			Map<String, Object> info = taskService.getVariables(task.getId());
@@ -324,9 +323,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 			}
 		}
 		tasks = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS)
-                .processVariableValueEquals(ActivitiService.CITY, city)
-                .taskCandidateOrAssigned(u.getUsername()).includeProcessVariables().orderByTaskPriority().desc()
-				.orderByTaskCreateTime().desc().list();
+				.processVariableValueEquals(ActivitiService.CITY, city).taskCandidateOrAssigned(u.getUsername())
+				.includeProcessVariables().orderByTaskPriority().desc().orderByTaskCreateTime().desc().list();
 		if (!tasks.isEmpty()) {
 			Task task = tasks.get(0);
 			Map<String, Object> info = taskService.getVariables(task.getId());
@@ -344,36 +342,60 @@ public class ActivitiServiceImpl implements ActivitiService {
 		Map<String, Object> initParams = new HashMap<String, Object>();
 		initParams.put(ActivitiService.OWNER, u);
 		initParams.put(ActivitiService.ORDER_ID, order.getId());
-        initParams.put(ActivitiService.CITY, city);
-        initParams.put(ActivitiService.SUPPLIEID, order.getSupplies().getId());
+		initParams.put(ActivitiService.CITY, city);
+		initParams.put(ActivitiService.SUPPLIEID, order.getSupplies().getId());
 		initParams.put(ActivitiService.NOW, new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
 		ProcessInstance process = runtimeService.startProcessInstanceByKey(MAIN_PROCESS, initParams);
 
-		List<Task> tasks = taskService.createTaskQuery().processInstanceId(process.getId())
-                .processVariableValueEquals(ActivitiService.CITY, city).orderByTaskCreateTime()
+		List<Task> tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime()
 				.desc().listPage(0, 1);
 		if (!tasks.isEmpty()) {
 			Task task = tasks.get(0);
-			Map<String, Object> info = taskService.getVariables(task.getId());
-			if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
+			if (StringUtils.equals("submitOrder", task.getTaskDefinitionKey())) {
 				taskService.claim(task.getId(), u.getUsername());
 				taskService.complete(task.getId());
 			}
 		}
-		tasks = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS)
-                .processVariableValueEquals(ActivitiService.CITY, city)
-                .taskCandidateOrAssigned(u.getUsername()).includeProcessVariables().orderByTaskPriority().desc()
-				.orderByTaskCreateTime().desc().list();
+		tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime().desc()
+				.listPage(0, 2);
+
 		if (!tasks.isEmpty()) {
+
+			for (Task task : tasks) {
+				//Task task = tasks.get(0);
+				Map<String, Object> info = taskService.getVariables(task.getId());
+				if (StringUtils.equals("bindstatic", task.getTaskDefinitionKey())) {
+					if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
+						//默认签收 绑定素材
+						taskService.claim(task.getId(), u.getUsername());
+						if (order.getSupplies().getId() > 1) {
+							//如果是下单的时候 就绑定了素材 完成这一步
+							taskService.complete(task.getId());
+						}
+					}
+				}
+			}
+
+			/*Task task = tasks.get(0);
+			Map<String, Object> info = taskService.getVariables(task.getId());
+			if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
+				taskService.claim(task.getId(), u.getUsername());
+				taskService.complete(task.getId());
+			}*/
+		}/*
+			tasks = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS)
+				.processVariableValueEquals(ActivitiService.CITY, city).taskCandidateOrAssigned(u.getUsername())
+				.includeProcessVariables().orderByTaskPriority().desc().orderByTaskCreateTime().desc().list();
+			if (!tasks.isEmpty()) {
 			Task task = tasks.get(0);
 			Map<String, Object> info = taskService.getVariables(task.getId());
 			if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
 				taskService.claim(task.getId(), u.getUsername());
-				if(order.getPayType()!=null){
+				if (order.getPayType() != null) {
 					taskService.complete(task.getId());
 				}
 			}
-		}
+			}*/
 		debug(process.getId());
 	}
 
@@ -386,7 +408,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 	}
 
-	public int relateContract(int orderid, int contractid, String payType) {
+	public int relateContract(int orderid, int contractid, String payType, String userId, String taskName) {
 
 		Orders orders = ordersMapper.selectByPrimaryKey(orderid);
 		Contract contract = contractMapper.selectByPrimaryKey(contractid);
@@ -400,7 +422,12 @@ public class ActivitiServiceImpl implements ActivitiService {
 			} else {
 				orders.setPayType(2);
 			}
-			return ordersMapper.updateByPrimaryKey(orders);
+			if (StringUtils.isNoneBlank(taskName)) {
+				finishTaskByTaskName(orderid, taskName, userId);
+			}
+			int dbId = ordersMapper.updateByPrimaryKey(orders);
+			return dbId;
+
 		}
 		return 1;
 	}
@@ -414,7 +441,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			UserDetail ul = (UserDetail) info.get(ActivitiService.OWNER);
 			if (ul != null && ObjectUtils.equals(ul.getUsername(), u.getUsername())) {
 				if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
-					if (relateContract(orderid, contractid, payType) > 0) {
+					if (relateContract(orderid, contractid, payType, u.getUsername(), StringUtils.EMPTY) > 0) {
 						taskService.claim(task.getId(), u.getUsername());
 						taskService.complete(task.getId());
 						return new Pair<Boolean, String>(true, "订单支付成功!");
@@ -426,7 +453,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 				r = new Pair<Boolean, String>(false, "任务属主不匹配!");
 			}
 		} else {
-			if (relateContract(orderid, contractid, payType) > 0) {
+			if (relateContract(orderid, contractid, payType, u.getUsername(), "payment") > 0) {
 				return new Pair<Boolean, String>(true, "订单支付成功!");
 			} else {
 				return new Pair<Boolean, String>(false, "订单支付失败!");
@@ -436,6 +463,28 @@ public class ActivitiServiceImpl implements ActivitiService {
 			debug(task.getProcessInstanceId());
 		}
 		return r = new Pair<Boolean, String>(true, "订单支付成功!");
+
+	}
+
+	// 根据OrderId 及taskName 完成task
+	public void finishTaskByTaskName(int orderid, String taskName, String userId) {
+		List<ProcessInstance> list = runtimeService.createProcessInstanceQuery().involvedUser(userId)
+				.variableValueEquals(ORDER_ID, orderid).orderByProcessInstanceId().desc().listPage(0, 1);
+		for (ProcessInstance processInstance : list) {
+			List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId())
+					.orderByTaskCreateTime().desc().listPage(0, 3);
+			if (!tasks.isEmpty()) {
+				for (Task task : tasks) {
+					Map<String, Object> info = taskService.getVariables(task.getId());
+					if (StringUtils.equals(taskName, task.getTaskDefinitionKey())) {
+						if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), orderid)) {
+							taskService.claim(task.getId(), userId);
+							taskService.complete(task.getId());
+						}
+					}
+				}
+			}
+		}
 
 	}
 
@@ -465,8 +514,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 	public String reset(int city, String p) {
 		StringBuilder sb = new StringBuilder();
 		List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery()
-				.processDefinitionKey(MAIN_PROCESS)
-                .variableValueEquals(ActivitiService.CITY, city).includeProcessVariables().list();
+				.processDefinitionKey(MAIN_PROCESS).variableValueEquals(ActivitiService.CITY, city)
+				.includeProcessVariables().list();
 		for (ProcessInstance processInstance : processInstances) {
 
 			if (StringUtils.contains(p, "deleteAll")) {
@@ -488,9 +537,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 				 */
 
 				List<HistoricProcessInstance> list = historyService.createHistoricProcessInstanceQuery()
-                        .variableValueEquals(ActivitiService.CITY, city).finished()
-						.processDefinitionKey(MAIN_PROCESS).includeProcessVariables().orderByProcessInstanceStartTime()
-						.desc().list();
+						.variableValueEquals(ActivitiService.CITY, city).finished().processDefinitionKey(MAIN_PROCESS)
+						.includeProcessVariables().orderByProcessInstanceStartTime().desc().list();
 				for (HistoricProcessInstance historicProcessInstance : list) {
 					Integer hisId = (Integer) historicProcessInstance.getProcessVariables().get(ORDER_ID);
 					if (hisId != null && hisId > 0) {
@@ -594,8 +642,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 		// .orderByHistoricActivityInstanceEndTime().desc().list();
 		// return historicActivityInstances;
 		List<HistoricTaskInstance> taskInstances = historyService.createHistoricTaskInstanceQuery()
-				.processInstanceId(pid)
-                .processVariableValueEquals(ActivitiService.CITY, city).includeProcessVariables().orderByTaskId().desc().list();
+				.processInstanceId(pid).processVariableValueEquals(ActivitiService.CITY, city)
+				.includeProcessVariables().orderByTaskId().desc().list();
 		List<HistoricTaskView> view = new ArrayList<HistoricTaskView>();
 
 		for (HistoricTaskInstance historicTaskInstance : taskInstances) {
@@ -707,7 +755,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 	}
 
-	public Pair<Boolean, String> modifyOrder(int city,int orderid, String taskid, int supplieid, UserDetail user) {
+	public Pair<Boolean, String> modifyOrder(int city, int orderid, String taskid, int supplieid, UserDetail user) {
 		Pair<Boolean, String> r = null;
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 		if (task != null) {
@@ -720,12 +768,12 @@ public class ActivitiServiceImpl implements ActivitiService {
 			} else {
 				return new Pair<Boolean, String>(false, "订单修改失败!");
 			}
-		}else{
-			if (updateSupplise(orderid, supplieid) > 0){
-				JpaOrders order=orderService.getJpaOrder(orderid);
-				startProcess2(city, user,  order);
+		} else {
+			if (updateSupplise(orderid, supplieid) > 0) {
+				JpaOrders order = orderService.getJpaOrder(orderid);
+				startProcess2(city, user, order);
 				return new Pair<Boolean, String>(true, "绑定物料成功!");
-			}else{
+			} else {
 				return new Pair<Boolean, String>(true, "绑定物料失败!");
 			}
 		}
@@ -776,7 +824,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 				prod = productService.findById(order.getProductId());
 				longorderid = OrderIdSeq.getIdFromDate(order.getId(), order.getCreated());
 				suppliesView = suppliesService.getSuppliesDetail(orderView.getOrder().getSuppliesId(), null);
-				  prod = productService.findById(order.getProductId());
+				prod = productService.findById(order.getProductId());
 			}
 			if (StringUtils.isNoneBlank(pid)) {
 				activitis = findHistoricUserTask(city, pid, null);

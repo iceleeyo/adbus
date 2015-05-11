@@ -136,7 +136,7 @@ public class OrderService {
 			order.setUpdated(new Date());
 			order.setUserId(user.getUsername());
 			ordersRepository.save(order);
-			if (order.getId() > 0) {
+			if (order.getId() > -1) {
 				//if(order.getSuppliesId()>2){
 				activitiService.startProcess2(city, user, order);
 				//}

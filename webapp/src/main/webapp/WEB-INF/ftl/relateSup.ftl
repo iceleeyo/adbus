@@ -51,7 +51,7 @@ function showtb1(){
 			success : function(data) {
 				jDialog.Alert(data.right);
 				var a = document.createElement('a');
-    	        a.href='${rc.contextPath}/order/orderDetail/'+orderid;
+    	        a.href='${rc.contextPath}/order/myTask/1';
             	document.body.appendChild(a);
              	a.click();
 			}
