@@ -368,6 +368,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 			Map<String, Object> info = taskService.getVariables(task.getId());
 			if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
 				taskService.claim(task.getId(), u.getUsername());
+				if(order.getPayType()!=null){
+					taskService.complete(task.getId());
+				}
 			}
 		}
 		debug(process.getId());
@@ -422,12 +425,16 @@ public class ActivitiServiceImpl implements ActivitiService {
 				r = new Pair<Boolean, String>(false, "任务属主不匹配!");
 			}
 		} else {
-			r = new Pair<Boolean, String>(false, "任务已完成!");
+			if (relateContract(orderid, contractid, payType) > 0) {
+				return new Pair<Boolean, String>(true, "订单支付成功!");
+			} else {
+				return new Pair<Boolean, String>(false, "订单支付失败!");
+			}
 		}
 		if (task != null) {
 			debug(task.getProcessInstanceId());
 		}
-		return r = new Pair<Boolean, String>(true, "订单" + orderid + "支付成功!");
+		return r = new Pair<Boolean, String>(true, "订单支付成功!");
 
 	}
 
@@ -699,7 +706,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 	}
 
-	public Pair<Boolean, String> modifyOrder(int orderid, String taskid, int supplieid, UserDetail user) {
+	public Pair<Boolean, String> modifyOrder(int city,int orderid, String taskid, int supplieid, UserDetail user) {
 		Pair<Boolean, String> r = null;
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 		if (task != null) {
@@ -712,8 +719,15 @@ public class ActivitiServiceImpl implements ActivitiService {
 			} else {
 				return new Pair<Boolean, String>(false, "订单修改失败!");
 			}
+		}else{
+			if (updateSupplise(orderid, supplieid) > 0){
+				JpaOrders order=orderService.getJpaOrder(orderid);
+				startProcess2(city, user,  order);
+				return new Pair<Boolean, String>(true, "绑定物料成功!");
+			}else{
+				return new Pair<Boolean, String>(true, "绑定物料失败!");
+			}
 		}
-		return r = new Pair<Boolean, String>(true, "订单修改成功!");
 	}
 
 	public int updateSupplise(int orderid, int supplieid) {

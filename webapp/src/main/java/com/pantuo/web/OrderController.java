@@ -126,13 +126,7 @@ public class OrderController {
 				Request.getUser(principal));
 	}
 
-	@RequestMapping(value = "modifyOrder")
-	@ResponseBody
-	public Pair<Boolean, String> modifyOrder(@RequestParam(value = "orderid") String orderid,
-			@RequestParam(value = "supplieid") int supplieid, @RequestParam(value = "taskid") String taskid,
-			Principal principal, HttpServletRequest request, HttpServletResponse response) {
-		return activitiService.modifyOrder(Integer.parseInt(orderid), taskid, supplieid, Request.getUser(principal));
-	}
+
 
 	@RequestMapping(value = "claim")
 	@ResponseBody
@@ -171,7 +165,55 @@ public class OrderController {
 		model.addAttribute("activityId", activityId);
 		return "handleView2";
 	}
+	
+	@RequestMapping(value = "modifyOrder")
+	@ResponseBody
+	public Pair<Boolean, String> modifyOrder(@RequestParam(value = "orderid") String orderid,@CookieValue(value="city", defaultValue = "-1") int city,
+			@RequestParam(value = "supplieid") int supplieid, @RequestParam(value = "taskid") String taskid,
+			Principal principal, HttpServletRequest request, HttpServletResponse response) {
+		return activitiService.modifyOrder(city,Integer.parseInt(orderid), taskid, supplieid, Request.getUser(principal));
+	}
+	
+	@RequestMapping(value = "creOrder2", method = RequestMethod.POST, produces = "text/html;charset=utf-8")
+	public String saveOrderJpa(Model model,JpaOrders order, Principal principal,
+                                              @CookieValue(value="city", defaultValue = "-1") int city,
+                                              HttpServletRequest request)
+			throws IllegalStateException, IOException, ParseException {
+		NumberPageUtil page = new NumberPageUtil(9999, 1, 9999);
+        order.setCreator(Request.getUserId(principal));
+        order.setStats(JpaOrders.Status.unpaid);
+        JpaProduct prod = productService.findById(order.getProductId());
+//        if (prod == null) {
+//			return new Pair<Boolean, String>(false, "找不到对应的套餐");
+//        }
+        order.setType(prod.getType());
+        String start = request.getParameter("startTime1").toString();
+        if (!start.isEmpty()) {
+            Date startTime = DateUtil.longDf.get().parse(start);
+            order.setStartTime(startTime);
 
+            Calendar cal = DateUtil.newCalendar();
+            cal.setTime(startTime);
+            cal.add(Calendar.DAY_OF_MONTH, prod.getDays());
+            order.setEndTime(cal.getTime());
+        } else {
+//			return new Pair<Boolean, String>(false, "请指定订单开播时间");
+        }
+         OrderView v = new OrderView();
+		 orderService.saveOrderJpa(city, order, Request.getUser(principal));
+		 List<Supplies> supplieslist=suppliesService.querySuppliesByUser(city, principal);
+		 List<Contract> contracts = contractService.queryContractList(city, page, null, null, principal);
+		 SuppliesView suppliesView=suppliesService.getSuppliesDetail(order.getSuppliesId(), null);
+		 Orders orders = orderService.selectOrderById(order.getId());
+		 v.setOrder(orders);
+		 model.addAttribute("supplieslist", supplieslist);
+		 model.addAttribute("order", order);
+		 model.addAttribute("prod", prod);
+		 model.addAttribute("orderview", v);
+		 model.addAttribute("contracts", contracts);
+		 model.addAttribute("suppliesView", suppliesView);
+		 return "relateSup";
+	}
 	@RequestMapping(value = "/orderDetail/{orderid}", produces = "text/html;charset=utf-8")
 	public String orderDetail(Model model, @PathVariable("orderid") int orderid,
 			@RequestParam(value = "taskid", required = false) String taskid,
@@ -241,34 +283,7 @@ public class OrderController {
 		return activitiService.complete(taskId, variable.getVariableMap(), Request.getUser(principal));
 	}
 
-	@RequestMapping(value = "creOrder2", method = RequestMethod.POST)
-	@ResponseBody
-	public Pair<Boolean, String> saveOrderJpa(JpaOrders order, Principal principal,
-                                              @CookieValue(value="city", defaultValue = "-1") int city,
-                                              HttpServletRequest request)
-			throws IllegalStateException, IOException, ParseException {
 
-        order.setCreator(Request.getUserId(principal));
-        order.setStats(JpaOrders.Status.unpaid);
-        JpaProduct prod = productService.findById(order.getProductId());
-        if (prod == null) {
-			return new Pair<Boolean, String>(false, "找不到对应的套餐");
-        }
-        order.setType(prod.getType());
-        String start = request.getParameter("startTime1").toString();
-        if (!start.isEmpty()) {
-            Date startTime = DateUtil.longDf.get().parse(start);
-            order.setStartTime(startTime);
-
-            Calendar cal = DateUtil.newCalendar();
-            cal.setTime(startTime);
-            cal.add(Calendar.DAY_OF_MONTH, prod.getDays());
-            order.setEndTime(cal.getTime());
-        } else {
-			return new Pair<Boolean, String>(false, "请指定订单开播时间");
-        }
-		return orderService.saveOrderJpa(city, order, Request.getUser(principal));
-	}
 
 	@RequestMapping(value = "creOrder", method = RequestMethod.POST)
 	@ResponseBody
@@ -279,15 +294,6 @@ public class OrderController {
 		return orderService.saveOrder(city, order, principal);
 	}
 
-	/*
-    @RequestMapping(value = "schedule")
-    @ResponseBody
-    public Iterable<JpaOrders> schedule(String day)
-            throws IllegalStateException, IOException, ParseException {
-        Date date = sdf.get().parse(day);
-        return orderService.getOrdersForSchedule(date, JpaProduct.Type.video);
-    }
-	*/
 
 	/**
 	 * 
@@ -311,10 +317,6 @@ public class OrderController {
 		return "orderList";
 	}
 
-	//	@RequestMapping(value = "/finishedOrders/{pageNum}")
-	//	public String list2() {
-	//		return "finishOrderList";
-	//	}
     @RequestMapping(value = "/myTaskbak/{pageNum}", method = RequestMethod.GET)
 	public String myTask(Model model, @PathVariable int pageNum, Principal principal) {
 		NumberPageUtil page = new NumberPageUtil(pageNum);

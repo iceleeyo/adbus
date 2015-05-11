@@ -128,37 +128,24 @@ public class OrderService {
 		return r;
 	}
 
-	public Pair<Boolean, String> saveOrderJpa(int city, JpaOrders order, UserDetail user) {
+	public void saveOrderJpa(int city, JpaOrders order, UserDetail user) {
         order.setCity(city);
 		Pair<Boolean, String> r = null;
 		try {
 			order.setCreated(new Date());
 			order.setUpdated(new Date());
-			//	
 			order.setUserId(user.getUsername());
-			//			if (order.getPayType() == JpaOrders.PayType.contract) {
-			//				
-			//				Contract c = contractService.queryContractByCode(order.getContractCode());
-			//				if (c == null) {
-			//					return new Pair<Boolean, String>(false, "系统查不到相应的合同号！");
-			//				} else {
-			//					order.setContractId(c.getId());
-			//					order.setStats(JpaOrders.Status.paid);
-			//				}
-			//			}
 			ordersRepository.save(order);
-			// System.out.println(order.getId());
-			//int dbId = orderMapper.insert(order);
 			if (order.getId() > 0) {
-
+				if(order.getSuppliesId()>2){
 				activitiService.startProcess2(city, user, order);
+				}
 				r = new Pair<Boolean, String>(true, "下订单成功！");
 			}
 		} catch (Exception e) {
 			log.error("order ", e);
 			r = new Pair<Boolean, String>(false, "下订单失败！");
 		}
-		return r;
 	}
 
 	public JpaOrders getJpaOrder(int orderId) {

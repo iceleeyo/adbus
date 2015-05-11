@@ -96,7 +96,7 @@ public interface ActivitiService {
 		   public List<HistoricTaskView> findHistoricUserTask (
                    int city, String processInstanceId, String activityId);
 
-	public Pair<Boolean, String> modifyOrder(int orderid, String taskid, int supplieid, UserDetail user);
+	public Pair<Boolean, String> modifyOrder(int city,int orderid, String taskid, int supplieid, UserDetail user);
 
 	public String showOrderDetail(int city, Model model, int orderid, String taskid, String pid, Principal principal);
 }
