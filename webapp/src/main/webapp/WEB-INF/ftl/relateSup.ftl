@@ -49,9 +49,9 @@ function showtb1(){
 				"payType":payType
 			},
 			success : function(data) {
-				jDialog.Alert(data.left + " # " + data.right);
+				jDialog.Alert(data.right);
 				var a = document.createElement('a');
-    	        a.href='${rc.contextPath}/order/myOrders/1';
+    	        a.href='${rc.contextPath}/order/orderDetail/'+orderid;
             	document.body.appendChild(a);
              	a.click();
 			}
@@ -102,7 +102,7 @@ function showtb1(){
             		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">播出完成</li><li id="track_time_6" class="tx3"></li></ul></div>
             	</div>
 							  <DIV class="color-white-bg border-ec">
-                <H3 class="text-xl title-box"><A class="black" href="#">订单详情-${longorderid!''}</A></H3>
+                <H3 class="text-xl title-box"><A class="black" href="#">订单详情-${orderview.longOrderId!''}</A></H3>
                <DIV class="summary mt10 uplan-summary-div">
               <UL class="uplan-detail-ul">
                   <LI style="width: 720px;"><SPAN>套餐名称：</SPAN><SPAN class="con">${prod.name!''}</SPAN></LI>
@@ -125,7 +125,12 @@ function showtb1(){
               <div class="p20bs mt10 color-white-bg border-ec">
                  <H3 class="text-xl title-box">
                     <input type="button"  onclick="showtb1()" class="block-btn" value="支付订单">
-				    <input type="button"  onclick="showtb2()" class="block-btn" value="绑定素材">
+                    <#if order?exists>
+                       <#if order.supplies.id = 1 >
+                        	<input type="button"  onclick="showtb2()" class="block-btn" value="绑定素材">
+                          </#if>
+                    </#if>
+				 
                  </H3><BR>	
                  <TABLE class="ui-table ui-table-gray" id="tb1">
   								<TBODY>
