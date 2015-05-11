@@ -1,10 +1,6 @@
-<#import "template/template.ftl" as frame>
-<#import "macro/materialPreview.ftl" as preview>
+<#import "template/template2.ftl" as frame>
 
-<@frame.html title="订单办理" js=["js/highslide/highslide-full.js", "js/video-js/video.js", "js/video-js/lang/zh-CN.js"]
-css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
-    <#include "template/preview.ftl" />
-
+<@frame.html title="公交广告交易系统">
 <script type="text/javascript">
 	$(function() {
 	//显示当前节点对应的表单信息
@@ -325,339 +321,438 @@ function pay() {
 </script>
 <input type="hidden" id="orderid" value="${orderview.order.id!''}"/>
 <input type="hidden" id="taskid" value="${taskid!''}"/>
-    <div id="payment" style="display: none;">
-        <div id="process" class="section4">
-            <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单</li><li id="track_time_0" class="tx3"><#setting date_format="yyyy-MM-dd">${(orderview.order.created?date)!''}</li><li id="track_time_0" class="tx3"> 10:12:30</li></ul></div>
-            <div class="proce ready"><ul><li class="tx1">&nbsp;</li></ul></div>
-            <div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">支付</li><li id="track_time_4" class="tx3"></li></ul></div>
-            <div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>
-            <div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">物料审核</li><li id="track_time_1" class="tx3"></li></ul></div>
-            <div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>
-            <div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">广告播出</li><li id="track_time_5" class="tx3"></li></ul></div>
-            <div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>
-            <div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">播出完成</li><li id="track_time_6" class="tx3"></li></ul></div>
-        </div>
-    </div>
-    <#include "template/orderDetail.ftl" />
-    <!-- 支付-->
-    <div id="payment" style="display: none;">
-
-      <div class="p20bs mt10 color-white-bg border-ec">
-         <H3 class="text-xl title-box"><A class="black" href="#">支付订单</A></H3><BR>
-         <TABLE class="ui-table ui-table-gray">
-                        <TBODY>
-                            <TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-                                <TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>广告主支付订单</H4></TD>
-                        </TR>
-                            <TR style="height:45px;">
-                                <TH width="0%">支付</TH>
-                                <TD>
-                                    <input type="radio" name="payType" onchange="showContract()" value="contract" checked="checked">关联合同
-                            <input type="radio" name="payType" value="online" onchange="hideContract()" >线上支付
-                        <input type="radio" name="payType" value="others"  onchange="hideContract()">其他支付</TD>
-
-                        <TD>
-                        <div id="contractCode">
-                        <select class="ui-input" name="contractCode" id="contractCode">
-                                        <option value="" selected="selected">请选择合同</option>
-                                        <#if contracts?exists>
-                                        <#list contracts as c>
-                                            <option value="${c.id}">${c.contractName!''}</option>
-                                        </#list>
-                                        </#if>
-                </select>
-                </div>
-                </TD>
-                                <TD width="25%" style="text-align:center;">
-                                    <button type="button" onclick="pay()" class="block-btn" >确认支付</button>
-                                </TD>
-                        </TR>
-                        </TABLE>	<br>
-     </div>
-    </div>
-    <!-- 广告主修改订单 -->
-    <div id="modifyOrder" style="display: none;">
-        <div class="p20bs mt10 color-white-bg border-ec">
-        <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3><br>
-
-                        <TABLE class="ui-table ui-table-gray">
-                        <TBODY>
-                        <input type="hidden"  id="seqNumber" value="${suppliesView.mainView.seqNumber!''}"/>
-                            <TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-                                <TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>广告主修改订单物料</H4></TD>
-                        </TR>
-                        <TR>
-                                <TH>物料详情</TH>
-                                <TD colspan=3>
-                                    <@preview.materialPreview view=suppliesView/>
-                                </TD>
-                        </TR>
-                        <TR>
-                                <TH>更改物料</TH>
-                                <TD colspan=3><select class="ui-input" name="supplieid" id="supplieid">
-                                        <option value="" selected="selected">请选择物料</option>
-                                        <#if supplieslist?exists>
-                                        <#list supplieslist as c>
-                                            <option value="${c.id}">${c.name!''}</option>
-                                        </#list>
-                                        </#if>
-                               </select></TD>
-                       </TR>
-                       <TR>
-                       <TD colspan=4 align="center">
-                            <button onclick="modifyOrder();" class="block-btn">提交</button>
-                            </TD>
-                        </TR>
-                        </TABLE>
-        </div>
-    </div>
-    <!-- 北广审核并填写物料ID等信息 -->
-    <div id="approve2" style="display: none;">
-        <div class="p20bs mt10 color-white-bg border-ec">
-        <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3><br>
-                        <TABLE class="ui-table ui-table-gray">
-                        <TBODY>
-                            <TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-                                <TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>北广对物料进行终审</H4></TD>
-                        </TR>
-                        <TR>
-                                <TH width="20%">签收时间</TH>
-                                <TD colspan=3 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
-                        </TR>
-                        <TR>
-                                <TH>物料</TH>
-                                <TD colspan=3>
-                                    <@preview.materialPreview view=suppliesView/>
-                                </TD>
-                        </TR>
-                        <TR>
-                                <TH>填写物料编号</TH>
-                                <input type="hidden"  id="suppliesid" value="${suppliesView.mainView.id!''}"/>
-                                <TD colspan=3><input  id="seqNumber" type="text" ></TD>
-                        </TR>
-                        <TR>
-                                <TH>审核意见</TH>
-                                <TD colspan=3><textarea name="approve2Comments" id="approve2Comments" style="margin: 5px 0;width:400px;height:120px; margin-top:5px;" ></textarea></TD></TR>
-
-                            <TR style="height:45px;">
-                                <TH>是否通过</TH>
-                                <TD>
-                                    <input name="approve2Result" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>符合要求
-                                  <input name="approve2Result" type="radio" value="false" style="padding: 5px 15px;"/>不符合要求</TD>
-
-                        </TR>
-                        <TR height="60">
-                            <TD colspan=4 style="text-align:center;">
-                                        <button onclick="approve2();" class="block-btn">提交审核结果</button>
-                            </TD>
-                        </TR>
-                        </TABLE>
-        </div>
-    </div>
-
-    <!-- 世巴提交排期表 -->
-    <div id="submitSchedule" style="display: none;">
-        <div class="p20bs mt10 color-white-bg border-ec">
-        <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3><BR>
-        <TABLE class="ui-table ui-table-gray">
-                        <TBODY>
-                            <TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-                                <TD colspan=3 width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>世巴确认排期表并提交</H4></TD>
-                        </TR>
-                        <TR>
-                                <TH width="20%">签收时间</TH>
-                                <TD colspan=2 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
-                        </TR>
-                        <TR>
-                                <TH width="20%">排期表</TH>
-                                <TD colspan=2 style="border-radius: 0 0 0"><a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
-                        </TR>
-
-
-                            <TR style="height:45px;">
-                                <TH>是否通过</TH>
-                                <TD>
-                                    <input name="ScheduleResult" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>符合要求
-                                <input name="ScheduleResult" type="radio" value="false" style="padding: 5px 15px;"/>不符合要求</TD>
-                                <TD width="30%" style="text-align:center;">
-                                        <button onclick="submitSchedule();" class="block-btn">提交确认结果</button>
-                                </TD>
-                        </TR>
-                    </TABLE>
-                    </div>
-    </div>
-    <!-- 世巴初审 -->
-    <div id="approve1" style="display: none;">
-        <div class="p20bs mt10 color-white-bg border-ec">
-        <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3><br>
-
-                        <TABLE class="ui-table ui-table-gray">
-                        <TBODY>
-                        <input type="hidden"  id="seqNumber" value="${suppliesView.mainView.seqNumber!''}"/>
-                            <TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-                                <TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>世巴对物料进行初审</H4></TD>
-                        </TR>
-                        <TR>
-                                <TH width="20%">签收时间</TH>
-                                <TD colspan=3 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
-                        </TR>
-                        <TR>
-                                <TH>物料详情</TH>
-                                <TD colspan=3>
-                                    <@preview.materialPreview view=suppliesView/>
-                                </TD>
-                        </TR>
-                        <TR>
-                                <TH>审核意见</TH>
-                                <TD colspan=3><textarea name="approve1Comments" id="approve1Comments" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD>
-                       </TR>
-
-                            <TR style="height:45px;">
-                                <TH>是否通过</TH>
-                                <TD>
-                                    <input name="approve1Result" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>符合要求
-                                <input name="approve1Result" type="radio" value="false" style="padding: 5px 15px;"/>不符合要求</TD>
-                                <TD colspan=2 width="30%" style="text-align:center;">
-                                        <button onclick="approve1();" class="block-btn">提交审核结果</button>
-                                </TD>
-                        </TR>
-                        </TABLE>
-        </div>
-    </div>
-
-    <!-- 世巴财务确认 -->
-    <div id="financialCheck" style="display: none;">
-        <div class="p20bs mt10 color-white-bg border-ec">
-        <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3><br>
-
-                    <TABLE class="ui-table ui-table-gray">
-                        <TBODY>
-                            <TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-                                <TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>世巴财务确认</H4></TD>
-                        </TR>
-                        <TR>
-                                <TH width="20%">签收时间</TH>
-                                <TD colspan=3 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
-                        </TR>
-                        <TR>
-                                <TH>审核意见</TH>
-                                <TD colspan=3><textarea name="financialcomment" id="financialcomment" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD></TR>
-                            <TR style="height:45px;">
-                                <TH>支付状态</TH>
-                                <TD>
-                                    <input name="rad" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>支付正常
-                                <input name="rad" type="radio" value="false" style="padding: 5px 15px;"/>支付异常</TD>
-                                <TD colspan=2 width="30%" style="text-align:center;">
-                                        <button onclick="financial();" class="block-btn">提交确认结果</button>
-                                </TD>
-                        </TR>
-                    </TABLE>
-
-     </div>
-    </div>
-
-    <!-- 北广录入排期表 -->
-    <div id="inputSchedule" style="display: none;">
-      <div class="p20bs mt10 color-white-bg border-ec">
-      <H3 class="text-xl title-box"><A class="black" href="#">订单办理</A></H3><BR>
-
-      <TABLE class="ui-table ui-table-gray">
-                        <TBODY>
-                            <TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-                                <TD colspan=3 width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>北广录入排期表</H4></TD>
-                        </TR>
-                        <TR>
-                                <TH width="20%">签收时间</TH>
-                                <TD colspan=3 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
-                        </TR>
-                        <TR>
-                                <TH width="20%">排期表</TH>
-                                <TD colspan=3 style="border-radius: 0 0 0"><a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
-                        </TR>
-                        <TR>
-                                <TH>排期意见</TH>
-                                <TD colspan=3><textarea name="inputScheduleComments" id="inputScheduleComments" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD></TR>
-                        <TR style="height:45px;">
-                                <TD colspan=4 width="30%" style="text-align:center;">
-                                        <button onclick="inputSchedule();" class="block-btn">提交确认结果</button>
-                                </TD>
-                        </TR>
-                    </TABLE>
-
-      </div>
-    </div>
-
-    <!-- 上播报告 -->
-    <div id="shangboReport" style="display: none;">
-      <div class="p20bs mt10 color-white-bg border-ec">
-      <H3 class="text-xl title-box"><A class="black" href="#">订单办理</A></H3><BR>
-      <TABLE class="ui-table ui-table-gray">
-                        <TBODY>
-                            <TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-                                <TD width="100%" colspan=3 style="border-radius: 5px 5px 0 0;"><H4>世巴提交上播报告</H4></TD>
-                        </TR>
-                        <TR>
-                                <TH width="20%">签收时间</TH>
-                                <TD colspan=2 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
-                        </TR>
-                        <TR>
-                                <TH width="20%">排期表</TH>
-                                <TD colspan=2 style="border-radius: 0 0 0"><a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
-                        </TR>
-                        <TR>
-                                <TH>上播意见</TH>
-                                <TD colspan=2><textarea name="shangboComments" id="shangboComments" style="margin: 5px 0;width:400px;margin-top:5px;">您的广告按照合同要求已安排上播</textarea></TD></TR>
-                            <TR style="height:45px;">
-                                  <TH>是否上播</TH>
-                                  <TD style="border-radius: 0 0 0">
-                                  <input name="shangboResult" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>是
-                                 <input name="shangboResult" type="radio" value="false" style="padding: 5px 15px;"/>否</TD>
-
-                                <TD width="30%" style="text-align:center;">
-                                        <button onclick="shangboReport();" class="block-btn">提交确认结果</button>
-                                </TD>
-                        </TR>
-                    </TABLE>
-
-      </div>
-    </div>
-
-    <!-- 监播报告 -->
-    <div id="jianboReport" style="display: none;">
-        <div class="p20bs mt10 color-white-bg border-ec">
-          <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3>
-
-                        <TABLE class="ui-table ui-table-gray">
-                        <TBODY>
-                            <TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-                                <TD width="100%" colspan=3 style="border-radius: 5px 5px 0 0;"><H4>世巴提交监播报告</H4></TD>
-                        </TR>
-                        <TR>
-                                <TH width="20%">签收时间</TH>
-                                <TD colspan=2 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
-                        </TR>
-                        <TR>
-                                <TH width="20%">排期表</TH>
-                                <TD colspan=2 style="border-radius: 0 0 0"><a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
-                        </TR>
-                        <TR>
-                                <TH>监播意见</TH>
-                                <TD colspan=2><textarea name="jianboComments" id="jianboComments"   style="margin: 5px 0;width:400px;margin-top:5px;">您的广告已按照合同要求正常播出中</textarea></TD></TR>
-                            <TR style="height:45px;">
-                                  <TH>上播状态</TH>
-                                  <TD style="border-radius: 0 0 0">
-                                  <input name="jianboResult" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>播放正常
-                            <input name="jianboResult" type="radio" value="false" style="padding: 5px 15px;"/>播放异常</TD>
-
-                                <TD width="30%" style="text-align:center;">
-                                        <button onclick="jianboReport();" class="block-btn">提交确认结果</button>
-                                </TD>
-                        </TR>
-                    </TABLE>
+           <!-- 支付-->
+           <div id="payment" style="display: none;">
+              <div id="process" class="section4">
+		            <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单</li><li id="track_time_0" class="tx3"><#setting date_format="yyyy-MM-dd">${(orderview.order.created?date)!''}</li><li id="track_time_0" class="tx3"> 10:12:30</li></ul></div>
+            		<div class="proce ready"><ul><li class="tx1">&nbsp;</li></ul></div>
+            		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">支付</li><li id="track_time_4" class="tx3"></li></ul></div>
+            		<div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>
+            		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">物料审核</li><li id="track_time_1" class="tx3"></li></ul></div>
+            		<div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>
+            		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">广告播出</li><li id="track_time_5" class="tx3"></li></ul></div>		
+            		<div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>		
+            		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">播出完成</li><li id="track_time_6" class="tx3"></li></ul></div>
+            	</div>
+                <#include "template/orderDetail.ftl" />
+              <div class="p20bs mt10 color-white-bg border-ec">
+                 <H3 class="text-xl title-box"><A class="black" href="#">支付订单</A></H3><BR>	
+                 <TABLE class="ui-table ui-table-gray" >
+  								<TBODY>
+									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
+    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>广告主支付订单</H4></TD>
+  								</TR>  	
+									<TR style="height:45px;">
+    									<TH width="0%">支付</TH>
+    									<TD>
+    										<input type="radio" name="payType" onchange="showContract()" value="contract" checked="checked">关联合同
+				             		<input type="radio" name="payType" value="online" onchange="hideContract()" >线上支付
+				             	<input type="radio" name="payType" value="others"  onchange="hideContract()">其他支付</TD>
+				             	
+				             	<TD>
+				             	<div id="contractCode">
+				             	<select class="ui-input" name="contractCode" id="contractCode">
+                                                <option value="" selected="selected">请选择合同</option>
+                                                <#if contracts?exists>
+                                                <#list contracts as c>
+                                                    <option value="${c.id}">${c.contractName!''}</option>
+                                                </#list>
+                                                </#if>
+                  		</select>
+                  		</div>
+                  		</TD>
+    									<TD width="25%" style="text-align:center;">
+    										<button type="button" onclick="pay()" class="block-btn" >确认支付</button>
+    									</TD>
+  								</TR>
+								</TABLE>	<br>
+             </div>	
+             <#include "template/hisDetail.ftl" />
+			</div> 
+			 <!-- 支付和绑定素材-->
+           <div id="relateSup" style="display: none;">
+              <div id="process" class="section4">
+		            <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单</li><li id="track_time_0" class="tx3"><#setting date_format="yyyy-MM-dd">${(orderview.order.created?date)!''}</li><li id="track_time_0" class="tx3"> 10:12:30</li></ul></div>
+            		<div class="proce ready"><ul><li class="tx1">&nbsp;</li></ul></div>
+            		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">支付与绑定物料</li><li id="track_time_4" class="tx3"></li></ul></div>
+            		<div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>
+            		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">物料审核</li><li id="track_time_1" class="tx3"></li></ul></div>
+            		<div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>
+            		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">广告播出</li><li id="track_time_5" class="tx3"></li></ul></div>		
+            		<div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>		
+            		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">播出完成</li><li id="track_time_6" class="tx3"></li></ul></div>
+            	</div>
+                <#include "template/orderDetail.ftl" />
+              <div class="p20bs mt10 color-white-bg border-ec">
+                 <H3 class="text-xl title-box">
+                    <input type="radio" name="sel" onchange="showtb1()"  checked="checked">支付订单
+				    <input type="radio" name="sel"  onchange="showtb2()" >绑定素材
+                 </H3><BR>	
+                 <TABLE class="ui-table ui-table-gray" id="tb1">
+  								<TBODY>
+									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
+    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>广告主支付订单</H4></TD>
+  								</TR>  	
+									<TR style="height:45px;">
+    									<TH width="0%">支付</TH>
+    									<TD>
+    										<input type="radio" name="payType" onchange="showContract()" value="contract" checked="checked">关联合同
+				             		<input type="radio" name="payType" value="online" onchange="hideContract()" >线上支付
+				             	<input type="radio" name="payType" value="others"  onchange="hideContract()">其他支付</TD>
+				             	
+				             	<TD>
+				             	<div id="contractCode">
+				             	<select class="ui-input" name="contractCode" id="contractCode">
+                                                <option value="" selected="selected">请选择合同</option>
+                                                <#if contracts?exists>
+                                                <#list contracts as c>
+                                                    <option value="${c.id}">${c.contractName!''}</option>
+                                                </#list>
+                                                </#if>
+                  		</select>
+                  		</div>
+                  		</TD>
+    									<TD width="25%" style="text-align:center;">
+    										<button type="button" onclick="pay()" class="block-btn" >确认支付</button>
+    									</TD>
+  								</TR>
+								</TABLE>	<br>
+						<TABLE class="ui-table ui-table-gray" id="tb2">
+  								<TBODY>
+									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
+    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>广告主支付订单</H4></TD>
+  								</TR>  	
+									<TR style="height:45px;">
+    									<TH width="0%">绑定素材</TH>
+				             	 <div id="contractCode">
+				             	  <select class="ui-input" name="supplies.id" id="suppliesId">
+                                                <option value="1" selected="selected"></option>
+                                                <#list supplieslist as s>
+                                                    <option value="${s.id}">${s.name}</option>
+                                                </#list>
+                                   </select>
+                  		</div>
+                  		</TD>
+    									<TD width="25%" style="text-align:center;">
+    										<button type="button" onclick="relate()" class="block-btn" >确认</button>
+    									</TD>
+  								</TR>
+								</TABLE>	<br>
+             </div>	
+			</div> 
+			<!-- 广告主修改订单 -->
+          <div id="modifyOrder" style="display: none;">	
+                             <#include "template/orderDetail.ftl" />
+                <div class="p20bs mt10 color-white-bg border-ec">
+                <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3><br>	
+                                
+								<TABLE class="ui-table ui-table-gray">
+  								<TBODY>
+  								<input type="hidden"  id="seqNumber" value="${suppliesView.mainView.seqNumber!''}"/>
+									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
+    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>广告主修改订单物料</H4></TD>
+  								</TR>  	
+  								<TR>
+    									<TH>物料详情</TH>
+    									<TD colspan=3>
+    									<#list suppliesView.files as item> 
+		<a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a>
+	   <#if prod.type=='image'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
+		<a href="${rc.contextPath}/upload_temp/${item.url!''}" target="_Blank">点击查看</a>
+		</#if>
+ 	</#list>${(suppliesView.mainView.infoContext)!''}</TD>
+    							</TR>
+  								<TR>
+    									<TH>更改物料</TH>
+    									<TD colspan=3><select class="ui-input" name="supplieid" id="supplieid">
+                                                <option value="" selected="selected">请选择物料</option>
+                                                <#if supplieslist?exists>
+                                                <#list supplieslist as c>
+                                                    <option value="${c.id}">${c.name!''}</option>
+                                                </#list>
+                                                </#if>
+                  		               </select></TD>
+    						   </TR>
+    						   <TR>
+    						   <TD colspan=4 align="center">
+									<button onclick="modifyOrder();" class="block-btn">提交</button>
+									</TD>
+  								</TR>
+								</TABLE>	                                
+                </div>	          
+                               <#include "template/hisDetail.ftl" />
+					</div>
+			<!-- 北广审核并填写物料ID等信息 -->
+      <div id="approve2" style="display: none;">	
+                               <#include "template/orderDetail.ftl" />
+                <div class="p20bs mt10 color-white-bg border-ec">
+                <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3><br>
+								<TABLE class="ui-table ui-table-gray">
+  								<TBODY>
+									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
+    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>北广对物料进行终审</H4></TD>
+  								</TR>  	
+  								<TR>
+    									<TH width="20%">签收时间</TH>
+    									<TD colspan=3 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+  								</TR> 
+  								<TR>
+    									<TH>物料</TH>
+    									<TD colspan=3>
+    									<#list suppliesView.files as item> 
+		<a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a>
+	   <#if prod.type=='image'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
+		<a href="${rc.contextPath}/upload_temp/${item.url!''}" target="_Blank">点击查看</a>
+		</#if>
+ 	</#list>${(suppliesView.mainView.infoContext)!''}</TD>
+    							</TR> 
+    							<TR>
+    									<TH>填写物料编号</TH>
+    									<input type="hidden"  id="suppliesid" value="${suppliesView.mainView.id!''}"/>
+    									<TD colspan=3><input  id="seqNumber" type="text" ></TD>
+    							</TR>
+  								<TR>
+    									<TH>审核意见</TH>
+    									<TD colspan=3><textarea name="approve2Comments" id="approve2Comments" style="margin: 5px 0;width:400px;height:120px; margin-top:5px;" ></textarea></TD></TR>
+  								
+									<TR style="height:45px;">
+    									<TH>是否通过</TH>
+    									<TD>
+    										<input name="approve2Result" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>符合要求 
+      									  <input name="approve2Result" type="radio" value="false" style="padding: 5px 15px;"/>不符合要求</TD>
+    									
+  								</TR>
+  								<TR height="60">
+  									<TD colspan=4 style="text-align:center;">
+    	 										<button onclick="approve2();" class="block-btn">提交审核结果</button>
+    								</TD>
+  								</TR>
+								</TABLE>	                                    							
+                </div>          
+                 <#include "template/hisDetail.ftl" />
+				 </div>
+							
+			   <!-- 世巴提交排期表 -->
+         <div id="submitSchedule" style="display: none;">	
+                             <#include "template/orderDetail.ftl" />
+                <div class="p20bs mt10 color-white-bg border-ec">
+                <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3><BR>
+                <TABLE class="ui-table ui-table-gray">
+  								<TBODY>
+									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
+    									<TD colspan=3 width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>世巴确认排期表并提交</H4></TD>
+  								</TR>  	
+  								<TR>
+    									<TH width="20%">签收时间</TH>
+    									<TD colspan=2 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+  								</TR>  
+  								<TR>
+    									<TH width="20%">排期表</TH>
+    									<TD colspan=2 style="border-radius: 0 0 0"><a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
+  								</TR> 
 
 
-      </div>
-    </div>
+									<TR style="height:45px;">
+										<TH>是否通过</TH>
+    									<TD>
+    										<input name="ScheduleResult" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>符合要求 
+      									<input name="ScheduleResult" type="radio" value="false" style="padding: 5px 15px;"/>不符合要求</TD>
+    									<TD width="30%" style="text-align:center;">
+    	 										<button onclick="submitSchedule();" class="block-btn">提交确认结果</button>
+    									</TD>
+  								</TR>
+							</TABLE>	 
+							</div>	          
+                    <#include "template/hisDetail.ftl" />
+					</div>
+					<!-- 世巴初审 -->
+          <div id="approve1" style="display: none;">	
+                             <#include "template/orderDetail.ftl" />
+                <div class="p20bs mt10 color-white-bg border-ec">
+                <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3><br>	
+                                
+								<TABLE class="ui-table ui-table-gray">
+  								<TBODY>
+  								<input type="hidden"  id="seqNumber" value="${suppliesView.mainView.seqNumber!''}"/>
+									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
+    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>世巴对物料进行初审</H4></TD>
+  								</TR>  	
+  								<TR>
+    									<TH width="20%">签收时间</TH>
+    									<TD colspan=3 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+  								</TR>  
+  								<TR>
+    									<TH>物料详情</TH>
+    									<TD colspan=3>
+    									<#list suppliesView.files as item> 
+		<a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a>
+	   <#if prod.type=='image'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
+		<a href="${rc.contextPath}/upload_temp/${item.url!''}" target="_Blank">点击查看</a>
+		</#if>
+ 	</#list>${(suppliesView.mainView.infoContext)!''}</TD>
+    							</TR>
+  								<TR>
+    									<TH>审核意见</TH>
+    									<TD colspan=3><textarea name="approve1Comments" id="approve1Comments" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD>
+    						   </TR>
+  								
+									<TR style="height:45px;">
+    									<TH>是否通过</TH>
+    									<TD>
+    										<input name="approve1Result" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>符合要求 
+      									<input name="approve1Result" type="radio" value="false" style="padding: 5px 15px;"/>不符合要求</TD>
+    									<TD colspan=2 width="30%" style="text-align:center;">
+    	 										<button onclick="approve1();" class="block-btn">提交审核结果</button>
+    									</TD>
+  								</TR>
+								</TABLE>	                                
+                </div>	          
+                               <#include "template/hisDetail.ftl" />
+					</div>
+							
+					<!-- 世巴财务确认 -->
+					<div id="financialCheck" style="display: none;">
+							   <#include "template/orderDetail.ftl" />
+						<div class="p20bs mt10 color-white-bg border-ec">
+              <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3><br>	
+              
+							<TABLE class="ui-table ui-table-gray">
+  								<TBODY>
+									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
+    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>世巴财务确认</H4></TD>
+  								</TR>  	
+  								<TR>
+    									<TH width="20%">签收时间</TH>
+    									<TD colspan=3 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+  								</TR>  
+  								<TR>
+    									<TH>审核意见</TH>
+    									<TD colspan=3><textarea name="financialcomment" id="financialcomment" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD></TR>
+									<TR style="height:45px;">
+    									<TH>支付状态</TH>
+    									<TD>
+    										<input name="rad" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>支付正常 
+      									<input name="rad" type="radio" value="false" style="padding: 5px 15px;"/>支付异常</TD>
+    									<TD colspan=2 width="30%" style="text-align:center;">
+    	 										<button onclick="financial();" class="block-btn">提交确认结果</button>
+    									</TD>
+  								</TR>
+							</TABLE>	               
+              							
+             </div>	          
+              <#include "template/hisDetail.ftl" />
+					</div>
+							 
+								    
+							
+					<!-- 北广录入排期表 -->
+          <div id="inputSchedule" style="display: none;">
+                             <#include "template/orderDetail.ftl" />	
+              <div class="p20bs mt10 color-white-bg border-ec">
+              <H3 class="text-xl title-box"><A class="black" href="#">订单办理</A></H3><BR>					
+              
+              <TABLE class="ui-table ui-table-gray">
+  								<TBODY>
+									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
+    									<TD colspan=3 width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>北广录入排期表</H4></TD>
+  								</TR>  	
+  								<TR>
+    									<TH width="20%">签收时间</TH>
+    									<TD colspan=3 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+  								</TR>  
+  								<TR>
+    									<TH width="20%">排期表</TH>
+    									<TD colspan=3 style="border-radius: 0 0 0"><a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
+  								</TR> 
+  								<TR>
+    									<TH>排期意见</TH>
+    									<TD colspan=3><textarea name="inputScheduleComments" id="inputScheduleComments" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD></TR>
+								<TR style="height:45px;">
+    									<TD colspan=4 width="30%" style="text-align:center;">
+    	 										<button onclick="inputSchedule();" class="block-btn">提交确认结果</button>
+    									</TD>
+  								</TR>
+							</TABLE>	 
+              
+              </div>	          
+                               <#include "template/hisDetail.ftl" />
+							</div>
+							
+							
+							<!-- 上播报告 -->
+              <div id="shangboReport" style="display: none;">
+              <#include "template/orderDetail.ftl" />
+              <div class="p20bs mt10 color-white-bg border-ec">
+              <H3 class="text-xl title-box"><A class="black" href="#">订单办理</A></H3><BR>
+              <TABLE class="ui-table ui-table-gray">
+  								<TBODY>
+									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
+    									<TD width="100%" colspan=3 style="border-radius: 5px 5px 0 0;"><H4>世巴提交上播报告</H4></TD>
+  								</TR>  	
+  								<TR>
+    									<TH width="20%">签收时间</TH>
+    									<TD colspan=2 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+  								</TR>  
+  								<TR>
+    									<TH width="20%">排期表</TH>
+    									<TD colspan=2 style="border-radius: 0 0 0"><a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
+  								</TR> 
+  								<TR>
+    									<TH>上播意见</TH>
+    									<TD colspan=2><textarea name="shangboComments" id="shangboComments" style="margin: 5px 0;width:400px;margin-top:5px;">您的广告按照合同要求已安排上播</textarea></TD></TR>
+									<TR style="height:45px;">
+										  <TH>是否上播</TH>
+										  <TD style="border-radius: 0 0 0">
+										  <input name="shangboResult" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>是
+      								     <input name="shangboResult" type="radio" value="false" style="padding: 5px 15px;"/>否</TD>
+										  
+    									<TD width="30%" style="text-align:center;">
+    	 										<button onclick="shangboReport();" class="block-btn">提交确认结果</button>
+    									</TD>
+  								</TR>
+							</TABLE>	                                 							
+							
+              </div>	          
+                               <#include "template/hisDetail.ftl" />
+							</div>
+							
+							<!-- 监播报告 -->
+              <div id="jianboReport" style="display: none;">	
+                               <#include "template/orderDetail.ftl" />
+					    <div class="p20bs mt10 color-white-bg border-ec">
+                  <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3>								
+							
+							    <TABLE class="ui-table ui-table-gray">
+  								<TBODY>
+									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
+    									<TD width="100%" colspan=3 style="border-radius: 5px 5px 0 0;"><H4>世巴提交监播报告</H4></TD>
+  								</TR>  	
+  								<TR>
+    									<TH width="20%">签收时间</TH>
+    									<TD colspan=2 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+  								</TR>  
+  								<TR>
+    									<TH width="20%">排期表</TH>
+    									<TD colspan=2 style="border-radius: 0 0 0"><a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
+  								</TR> 
+  								<TR>
+    									<TH>监播意见</TH>
+    									<TD colspan=2><textarea name="jianboComments" id="jianboComments"   style="margin: 5px 0;width:400px;margin-top:5px;">您的广告已按照合同要求正常播出中</textarea></TD></TR>
+									<TR style="height:45px;">
+										  <TH>上播状态</TH>
+										  <TD style="border-radius: 0 0 0">
+										  <input name="jianboResult" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>播放正常
+      								<input name="jianboResult" type="radio" value="false" style="padding: 5px 15px;"/>播放异常</TD>
+										  
+    									<TD width="30%" style="text-align:center;">
+    	 										<button onclick="jianboReport();" class="block-btn">提交确认结果</button>
+    									</TD>
+  								</TR>
+							</TABLE>	  
+							
+	
+              </div>	        
+                               <#include "template/hisDetail.ftl" />
+							</div>
 
-    <#include "template/hisDetail.ftl" />
 </@frame.html>
