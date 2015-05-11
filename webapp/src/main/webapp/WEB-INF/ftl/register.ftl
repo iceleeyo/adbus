@@ -57,31 +57,7 @@
             jDialog.Alert("请同意免责条款");
             return;
         }
-		var username = ($("#username").val());
-		var name = ($("#firstName").val());
-		var password = $("#password").val();
-		var phone = ($("#phone").val());
-		var email=($("#email").val());
-		if(username==""){
-			jDialog.Alert("请填写用户名");
-			return;
-		}
-		if(name==""){
-			jDialog.Alert("请填写用户昵称");
-			return;
-		}
-		if(password==""){
-			jDialog.Alert("请填写用户密码");
-			return;
-		}
-		if(phone == ""){
-			jDialog.Alert("请填写电话");
-			return;
-		}
-		if(email == ""){
-			jDialog.Alert("请填写邮件地址");
-			return;
-		}
+
 		$('#userForm2').ajaxForm(function(data) {
 			if(data.user!=null){
 				jDialog.Alert("注册成功,现在将进入系统!");
@@ -120,7 +96,7 @@
                                                     class="ui-form-required">*
 											</span>用户名[登录帐号]:
                                             </label>
-                                            <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[6],maxSize[12],ajax[ajaxUserCall]]"
+                                            <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[6],maxSize[12]]"
 												type="text" name="username" id="username"
 												data-is="isAmount isEnough" autocomplete="off"
 												disableautocomplete="" placeholder="6-12位英文、数字、下划线">

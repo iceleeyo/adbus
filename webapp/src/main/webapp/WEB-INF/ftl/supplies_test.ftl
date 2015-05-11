@@ -2,6 +2,21 @@
 <#global menu="上传物料">
 <@frame.html title="物料上传">
 
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#userForm2").validationEngine({
+            validationEventTriggers:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
+            inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
+            success :  false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
+            promptPosition: "centerRight",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
+            maxErrorsPerField: 1,
+            //failure : function() { alert("验证失败，请检查。");  }//验证失败时调用的函数
+            //success : function() { callSuccessFunction() },//验证通过时调用的函数
+        });
+    });
+</script>
+
 <script type="text/javascript">
 	i = 2;
 	j = 2;
@@ -36,10 +51,6 @@
 		var name = ($("#name").val());
 		var infoContext = ($("#infoContext").val());
 		Sfile= ($("#Sfile").val());
-		if(name==""){
-			jDialog.Alert("请填写物料名称");
-			return;
-		}
 		if(Sfile== "" && infoContext=="" ){
 			jDialog.Alert("请填写完整信息");
 			return;
@@ -76,10 +87,11 @@
 										<br>
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>物料名称</label> <input
-												class="ui-input" type="text" name="name" id="name"
+												class="ui-form-required">*</span>物料名称</label> 
+												<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[1],maxSize[120]]" 
+												type="text" name="name" id="name"
 												data-is="isAmount isEnough" autocomplete="off"
-												disableautocomplete="">
+												disableautocomplete="" placeholder="支持中英文、数字、下划线">
 										</div>
 
 										<div class="ui-form-item">

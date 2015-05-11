@@ -2,6 +2,21 @@
 <#global menu="添加合同">
 <@frame.html title="合同录入" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"] css=["js/jquery-ui/jquery-ui.css"]>
 
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#userForm2").validationEngine({
+            validationEventTriggers:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
+            inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
+            success :  false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
+            promptPosition: "centerRight",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
+            maxErrorsPerField: 1,
+            //failure : function() { alert("验证失败，请检查。");  }//验证失败时调用的函数
+            //success : function() { callSuccessFunction() },//验证通过时调用的函数
+        });
+    });
+</script>
+
 <script type="text/javascript">
 	i = 2;
 	j = 2;
@@ -39,18 +54,7 @@
 			jDialog.Alert("请选择合同附件");
 			return;
 		}
-		if(code==""){
-			jDialog.Alert("请填写合同号");
-			return;
-		}
-		if(amounts==""){
-			jDialog.Alert("请填写合同金额");
-			return;
-		}
-		if(name==""){
-			jDialog.Alert("请填写合同名称");
-			return;
-		}
+
 		if(startDate.length<1){
 			jDialog.Alert("请填写合同生效时间");
 			return;
@@ -108,27 +112,29 @@
 												class="ui-form-required">*
 											</span>合同号:
 											</label> 
-												<input class="ui-input"
-												type="text" name="contractCode" id="code"
+												<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[1],maxSize[120]]"
+												type="text" name="contractCode" id="code" 
 												data-is="isAmount isEnough" autocomplete="off"
-												disableautocomplete="">
+												disableautocomplete="" placeholder="支持中英文、数字、下划线">
 										</div>
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>合同名称:</label> <input
-												class="ui-input" type="text" name="contractName"
+												class="ui-form-required">*</span>合同名称:</label>
+												<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[1],maxSize[120]]" 
+												type="text" name="contractName"
 												id="name" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
-											<p class="ui-term-placeholder"></p>
+											<p class="ui-term-placeholder" placeholder="支持中英文、数字、下划线"></p>
 
 										</div>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>金额:</label>
                                                     <input
-												class="ui-input" type="text" name="amounts"
+												class="ui-input validate[required,custom[number]]"
+												type="text" name="amounts"
 												id="amounts" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="">
+												autocomplete="off" disableautocomplete="" placeholder="请输入合同金额>
                                         </div>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
@@ -145,14 +151,16 @@
 
 										<div class="ui-form-item">
 											<label class="ui-label mt10">开始日期:</label> <input
-												class="ui-input datepicker" type="text" name="startDate1"
+												class="ui-input datepicker validate[required,custom[date],past[#endDate]]" 
+												type="text" name="startDate1"
 												id="startDate" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
 										</div>
 
 										<div class="ui-form-item">
 											<label class="ui-label mt10">终止日期:</label> <input
-												class="ui-input datepicker" type="text" name="endDate1"
+												class="ui-input datepicker validate[required,custom[date],future[#startDate]"
+												type="text" name="endDate1"
 												id="endDate" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
 										</div>
@@ -162,7 +170,7 @@
                                                      <input
 												class="ui-input" type="text" name="remark"
 												id="remark" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="">
+												autocomplete="off" disableautocomplete="" placeholder="合同备注信息">
                                         </div>
 
 
