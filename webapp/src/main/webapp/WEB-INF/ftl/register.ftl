@@ -5,10 +5,11 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $("#userForm2").validationEngine({
-            validationEventTriggers:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
+            validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
             inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
             success :  false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
             promptPosition: "centerRight",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
+            showOneMessage: true,
             maxErrorsPerField: 1,
             //failure : function() { alert("验证失败，请检查。");  }//验证失败时调用的函数
             //success : function() { callSuccessFunction() },//验证通过时调用的函数
@@ -51,22 +52,22 @@
 
 
 	function sub(){
-        if (!$("#userForm2").validationEngine('validate'))
+        if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
             return;
         if (!$("#agreement").is(":checked")) {
             jDialog.Alert("请同意免责条款");
             return;
         }
-
-		$('#userForm2').ajaxForm(function(data) {
-			if(data.user!=null){
-				jDialog.Alert("注册成功,现在将进入系统!");
-			}		
-			var uptime = window.setTimeout(function(){
-				window.location.href="${rc.contextPath}/order/myTask/1";
-			   	clearTimeout(uptime);
+        $('#userForm2').ajaxForm(function(data) {
+            if(data.user!=null){
+                jDialog.Alert("注册成功,现在将进入系统!");
+            }
+            var uptime = window.setTimeout(function(){
+                window.location.href="${rc.contextPath}/order/myTask/1";
+                clearTimeout(uptime);
             },2000);
-		}).submit();
+        }).submit();
+//		$('#userForm2').submit();
 
 	}
 </script>
@@ -96,7 +97,7 @@
                                                     class="ui-form-required">*
 											</span>用户名[登录帐号]:
                                             </label>
-                                            <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[6],maxSize[12]]"
+                                            <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[6],maxSize[12],ajax[ajaxUserCall]]"
 												type="text" name="username" id="username"
 												data-is="isAmount isEnough" autocomplete="off"
 												disableautocomplete="" placeholder="6-12位英文、数字、下划线">
@@ -227,7 +228,7 @@
     <div class="ui-form-item widthdrawBtBox">
 	<div class="iwifi-btn">
         <input type="button" id="register" class="block-btn ui-button-disabled"
-               onclick="sub();" value="创建用户">
+               onclick="sub();" value="注册用户">
         <input type="button" id="cancel" class="block-btn"
                onclick="javascript:history.go(-1);" value="返回">
 	</div>

@@ -55,12 +55,8 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 				"/css/**", "/images/**", "/imgs/**", "/doc/**","/upload_temp/**");
 		registration.addResourceLocations("/", "/js/", "/style/", "/css/", "/images/", "/imgs/", "/doc/","/upload_temp/");
 
-
-		
-		
-		ResourceHandlerRegistration rdup = registry.addResourceHandler("/*.html", "**/js/**", "**/style/**",
-				"**/css/**", "**/images/**", "**/imgs/**", "/doc/**","**/upload_temp/**");
-		rdup.addResourceLocations("/", "/js/", "/style/", "/css/", "/images/", "/imgs/", "/doc/","/upload_temp/");
+		ResourceHandlerRegistration rdup = registry.addResourceHandler("/homepage/**");
+		rdup.addResourceLocations("/homepage/");
 	}
 
 	@Bean

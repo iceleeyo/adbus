@@ -46,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
             pageSize = 1;
         sort = (sort == null ? new Sort("id") : sort);
         Pageable p = new PageRequest(page, pageSize, sort);
-        BooleanExpression query = QJpaProduct.jpaProduct.city.eq(city);
+        BooleanExpression query = city >= 0 ? QJpaProduct.jpaProduct.city.eq(city) : QJpaProduct.jpaProduct.city.goe(0);
         if (name != null && !StringUtils.isEmpty(name)) {
             query = query.and(QJpaProduct.jpaProduct.name.like("%" + name + "%"));
         }
@@ -54,14 +54,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
   //  @Override
-    public Page<JpaProduct> getValidProducts(int city, int page, int pageSize, Sort sort) {
+    public Page<JpaProduct> getValidProducts(int city, JpaProduct.Type type,  int page, int pageSize, Sort sort) {
         if (page < 0)
             page = 0;
         if (pageSize < 1)
             pageSize = 1;
         sort = (sort == null ? new Sort(Sort.Direction.DESC, "id") : sort);
         Pageable p = new PageRequest(page, pageSize, sort);
-        BooleanExpression query = QJpaProduct.jpaProduct.city.eq(city);
+        BooleanExpression query = city >= 0 ? QJpaProduct.jpaProduct.city.eq(city) : QJpaProduct.jpaProduct.city.goe(0);
+        if (type != null) {
+            query = query.and(QJpaProduct.jpaProduct.type.eq(type));
+        }
         query = query.and(QJpaProduct.jpaProduct.enabled.isTrue());
         return productRepo.findAll(query, p);
     }

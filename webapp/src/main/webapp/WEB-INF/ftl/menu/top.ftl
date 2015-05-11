@@ -25,6 +25,7 @@
 					<div class="container-12 s-clear">
 						<div class="grid-12 city-dropdown">
                             <ul class="fl">
+<@security.authorize access="isAuthenticated()">
                                 <li class="dorpdown" id="ttbar-mycity">
                                     <div class="dt cw-icon ui-areamini-text-wrap" style="">
                                         <i class="ci-right"><s>◇</s></i>
@@ -49,6 +50,7 @@
                                         </div>
                                     </div>
                                 </li>
+</@security.authorize>
                             </ul>
 							<div class="s-left ml10">
 								<a class="pg-nav-item" href="#">
@@ -59,17 +61,17 @@
 							<div class="s-right s-clear">
 								<span class="pg-nav-item s-left" style="padding:0;">您好，</span>
 									<span>
-                                        <a class="pg-nav-item s-left" href="javascript:void(0)">
                                         <@security.authorize access="isAuthenticated()">
+                                        <a class="pg-nav-item s-left" href="javascript:void(0)">
                                             <@security.authentication property="principal.user.firstName" />
                                             <@security.authentication property="principal.user.lastName" />
+                                        </a>
                                         </@security.authorize>
                                         <@security.authorize access="! isAuthenticated()">
                                             <a class="pg-nav-item s-left" href="${rc.contextPath}/login">请登录</a>
                                         </@security.authorize>
-                                        </a>
                                     </span>
-									<span class="arrow-down"></span>
+									<#--<span class="arrow-down"></span>-->
 								<div class="pg-nav-dropdown" style="display: none;">
 									<div class="pg-dropdown-box">
 										<div class="dropdown-account s-clear">
@@ -127,9 +129,9 @@
 									<a class="pg-nav-item-t" href="${rc.contextPath}">首页</a>
 								</li>
 								<li class="pg-nav-item s-left">
-									<a class="pg-nav-item-t pg-nav-hover" href="#">
-										<span>要投广告</span>
-										<span class="shdown"></span>
+									<a class="pg-nav-item-t pg-nav-hover" href="${rc.contextPath}/intro-video.html">
+										<span>移动电视</span>
+										<#--<span class="shdown"></span>-->
 									</a>
 									<ul class="pg-dropdown" style="display: none;">
 										<li class="pg-dropdown-angle">
@@ -148,12 +150,12 @@
 								</li>
 								
 								<li class="pg-nav-item s-left">
-									<a class="pg-nav-item-t" href="#">新手指引</a>
+									<a class="pg-nav-item-t" href="${rc.contextPath}/intro-txt.html">其他媒体</a>
 								</li>
 								<li class="pg-nav-item s-left">
-									<a class="pg-nav-item-t pg-nav-hover-us" href="#">
-										<span>关于我们</span>
-										<span class="shdown"></span>
+									<a class="pg-nav-item-t pg-nav-hover-us" href="${rc.contextPath}/intro-price.html">
+										<span>产品促销</span>
+										<#--<span class="shdown"></span>-->
 									</a>
 									<ul class="pg-dropdown pg-dropdown-us" style="display: none;">
 										<li class="pg-dropdown-angle">
@@ -170,6 +172,12 @@
 										</li>
 									</ul>
 								</li>
+                                <li class="pg-nav-item s-left">
+                                    <a class="pg-nav-item-t" href="${rc.contextPath}/intro-ywzn.html">业务指南</a>
+                                </li>
+                                <li class="pg-nav-item s-left">
+                                    <a class="pg-nav-item-t" href="${rc.contextPath}/about-me.html">关于我们</a>
+                                </li>
 							</ul>
 						</div>
 					</div>

@@ -1,0 +1,153 @@
+.pg-uplan-banner {
+	/*background: url("/static/img/uplan/banner-bg.jpg?v=9e269");*/
+}
+.bg-banner {
+	/*background: url("/static/img/uplan/banner.png?v=294ca") no-repeat center; margin: 10px auto 0px; width: 960px; height: 243px;*/
+}
+.pg-uplan-product-item {
+	background: rgb(255, 255, 255); border-radius: 3px; border: 1px solid rgb(236, 236, 236); border-image: none; width: 23%; box-shadow: 0px 1px 1px #ebebeb;
+}
+.pg-uplan-product-item dl {
+	border-radius: 3px 3px 0px 0px;
+}
+.pg-uplan-product-item dt {
+	padding: 0px 20px; height: 60px; line-height: 60px;
+}
+.pg-uplan-product-item dd {
+	padding: 0px 20px; height: 50px; line-height: 50px;
+}
+.pg-uplan-product-item dt {
+	color: rgb(100, 122, 55); font-size: 24px;
+}
+.pg-uplan-product-item dt.ub {
+	color: rgb(122, 73, 55);
+}
+.pg-uplan-product-item dt.uc {
+	color: rgb(122, 117, 55);
+}
+.pg-uplan-product-item dt span {
+	font-size: 40px;
+}
+.pg-uplan-product-item dd {
+	color: rgb(55, 47, 44); line-height: 30px;
+}
+.pg-uplan-product-item dd em {
+	top: 5px; font-size: 25px; position: relative;  vertical-align: super;
+}
+.pg-uplan-product-item p {
+	height: 64px; text-align: center; line-height: 64px; font-size: 24px; background: rgb(245, 245, 245);
+}
+.pg-uplan-product-item p a{
+	color: rgb(96,96,96);
+}
+.pg-uplan-performace {
+	background: url("/static/img/uplan/performace-bg.png?v=55bfb") no-repeat bottom; height: 345px;
+}
+.pg-uplan-performace .ui-box-title {
+	border-color: rgb(134, 213, 215);
+}
+.pg-uplan-performace h3 {
+	color: rgb(49, 123, 124);
+}
+.pg-uplan-performace dl {
+	width: 240px; text-align: center;
+}
+.pg-uplan-performace dl dt {
+	margin: 5px 0px 0px; color: rgb(255, 255, 255);
+}
+.pg-uplan-performace dl dd {
+	color: rgb(32, 87, 88);
+}
+.pg-uplan-performace dl dd em {
+	font-size: 32px;
+}
+.pg-uplan-flow h3 {
+	color: rgb(163, 130, 29);
+}
+.pg-uplan-flow .ui-box-title {
+	border-color: rgb(255, 220, 113);
+}
+.pg-uplan-qa h3 {
+	color: rgb(125, 150, 163);
+}
+.pg-uplan-qa .ui-box-title {
+	border-color: rgb(215, 242, 255);
+}
+.pg-uplan-qa-content ul li {
+	line-height: 32px;
+}
+.icon-uplan {
+	background: url("../imgs/performace.png?v=396e5") no-repeat; margin: 0px auto; width: 118px; height: 118px; display: block;
+}
+.icon-uplan-money {
+	background-position: 0px 0px;
+}
+.icon-uplan-user {
+	background-position: -143px 0px;
+}
+.icon-uplan-invest {
+	background-position: -287px 0px;
+}
+.icon-uplan-earn {
+	background-position: -431px 0px;
+}
+.bg-color-green {
+	background: rgb(172, 197, 70);
+}
+.bg-color-green dd {
+	border-top-color: rgb(205, 220, 144); border-top-width: 1px; border-top-style: solid;
+}
+.bg-color-orange {
+	background: rgb(244, 122, 45);
+}
+.bg-color-orange dd {
+	border-top-color: rgb(248, 175, 129); border-top-width: 1px; border-top-style: solid;
+}
+.bg-color-white {
+	background: #fff;
+}
+.bg-color-white dd, dt {
+	border-bottom: 1px solid rgb(236, 236, 236);
+}
+.bg-color-yellow {
+	background: rgb(255, 205, 51);
+}
+.bg-color-yellow dd {
+	border-top-color: rgb(255, 225, 133); border-top-width: 1px; border-top-style: solid;
+}
+.bg-color-steal {
+	background: rgb(82, 195, 197);
+}
+.bg-color-blue {
+	background: rgb(198, 236, 255);
+}
+.J_click_p:hover {
+	cursor: pointer;
+}
+.text-color-green {
+	color: rgb(172, 197, 70);
+}
+.text-color-green a {
+	color: rgb(172, 197, 70);
+}
+.text-color-orange {
+	color: rgb(244, 122, 45);
+}
+.text-color-orange a {
+	color: rgb(244, 122, 45);
+}
+.text-color-yellow {
+	color: rgb(255, 205, 51);
+}
+.text-color-yellow a {
+	color: rgb(255, 205, 51);
+}
+.ui-progressbar-green {
+	display: inline-block; background-image: url("/static/img/progressbar_mid_green.png?v=1a083");
+}
+.ui-progressbar-orange {
+	display: inline-block; background-image: url("/static/img/progressbar_mid_orange.png?v=fffd0");
+}
+.ui-progressbar-yellow {
+	display: inline-block; background-image: url("/static/img/progressbar_mid_yellow.png?v=0b78b");
+}

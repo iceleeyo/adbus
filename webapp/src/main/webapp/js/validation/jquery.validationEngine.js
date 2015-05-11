@@ -310,7 +310,7 @@
 			}
 			return r;
 		},
-		/**
+        /**
 		* Return true if the ajax field validations passed so far
 		* @param {Object} options
 		* @return true, is all ajax validation passed so far (remember ajax is async)
@@ -2006,8 +2006,8 @@
 	        var form = button.closest('form, .validationEngineContainer');
 	        form.data("jqv_submitButton", button.attr("id"));
 	    }
-		  };
-
+    };
+    methods.validateBeforeSubmit=methods._onSubmitEvent;
 	 /**
 	 * Plugin entry point.
 	 * You may pass an action as a parameter or a list of options.

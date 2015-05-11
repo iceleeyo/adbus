@@ -14,7 +14,7 @@ import org.springframework.data.domain.Sort;
 public interface ProductService {
     Page<JpaProduct> getAllProducts(int city, String name, int page, int pageSize, Sort sort);
 
-    Page<JpaProduct> getValidProducts(int city, int page, int pageSize, Sort sort);
+    Page<JpaProduct> getValidProducts(int city, JpaProduct.Type type, int page, int pageSize, Sort sort);
 
     JpaProduct findById(int productId);
 

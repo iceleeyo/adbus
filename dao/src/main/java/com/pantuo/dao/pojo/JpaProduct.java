@@ -11,7 +11,16 @@ import javax.persistence.*;
 @Table(name="product")
 public class JpaProduct extends CityEntity {
     public static enum Type {
-        video, image, info,other
+        video("视频"), image("图片"), info("文本"), other("其他");
+
+        private final String name;
+        private Type(String name) {
+            this.name = name;
+        }
+
+        public String getTypeName() {
+            return name;
+        }
     }
 
     @Id

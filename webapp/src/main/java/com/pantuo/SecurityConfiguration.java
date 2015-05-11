@@ -86,8 +86,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http.authorizeRequests()
-				.antMatchers("/", "/index.html", "/login", "/logout", "/css/**", "/images/**", "/imgs/**", "/js/**",
-						"/style/**").permitAll().antMatchers("/register", "/doRegister", "/validate/**").permitAll().antMatchers("/**")
+				.antMatchers("/", "/*.html", "/login", "/logout", "/homepage/**", "/css/**", "/images/**", "/imgs/**", "/js/**",
+						"/style/**").permitAll().antMatchers("/register", "/doRegister", "/validate/**", "/prod/**").permitAll().antMatchers("/**")
 				.authenticated().anyRequest()
 				.permitAll()
 				//.antMatchers("/user/enter").access("hasRole('ShibaOrderManager')")

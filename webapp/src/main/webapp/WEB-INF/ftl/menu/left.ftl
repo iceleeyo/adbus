@@ -202,11 +202,11 @@
                                                     行业细分
                                                 </a>
                                             </li>
-											<li class="pg-side-exp-item">
+<#--											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="#">
 													广告主报表
 												</a>
-											</li>
+											</li>-->
 										</ul>
 									</li>
                                     </@security.authorize>

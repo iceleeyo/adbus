@@ -1,0 +1,156 @@
+.pg-guide-content {
+	color: rgb(99, 99, 99);
+}
+.pg-guide-title h3 {
+	margin-bottom: 20px;
+}
+.pg-guide-title ul {
+	border-bottom-color: rgb(197, 197, 197); border-bottom-width: 4px; border-bottom-style: solid;
+}
+.pg-guide-title ul li {
+	background: 0px 0px; padding: 0px 20px 10px; top: 4px; color: rgb(0, 153, 221); font-size: 18px; float: left; position: relative;
+}
+.pg-guide-title ul li.active {
+	border-bottom-color: rgb(46, 167, 224); border-bottom-width: 4px; border-bottom-style: solid;
+}
+.pg-guide-title ul li.active:hover {
+	border-bottom-color: rgb(46, 167, 224); border-bottom-width: 4px; border-bottom-style: solid;
+}
+.pg-guide-title ul li.active a {
+	color: rgb(46, 167, 224);
+}
+.pg-guide-title ul li.active a:hover {
+	color: rgb(46, 167, 224);
+}
+.pg-guide-item {
+	background: rgb(255, 255, 255); padding: 20px 0px; line-height: 30px;
+}
+.dark.pg-guide-item {
+	background: rgb(244, 246, 249);
+}
+.pg-guide-item h4 {
+	background: url("/static/img/guide/guide-titlebg.png") no-repeat left 0px; left: -16px; height: 70px; color: rgb(255, 255, 255); position: relative; z-index: 2;
+}
+.pg-guide-item h4 span {
+	padding: 0px 44px 0px 16px; line-height: 50px; display: inline-block; min-width: 145px;
+}
+.pg-guide-item .h4bg-bule span {
+	background: rgb(27, 184, 226);
+}
+.pg-guide-item .h4bg-green {
+	background-position: left -97px;
+}
+.pg-guide-item .h4bg-green span {
+	background: rgb(170, 188, 100);
+}
+.pg-guide-item .h4bg-yellow {
+	background-position: left -186px;
+}
+.pg-guide-item .h4bg-yellow span {
+	background: rgb(255, 196, 0);
+}
+.pg-guide-item .h4bg-cyanblue {
+	background-position: left -281px;
+}
+.pg-guide-item .h4bg-cyanblue span {
+	background: rgb(76, 164, 153);
+}
+.pg-guide-item .h4bg-orange {
+	background-position: left -369px;
+}
+.pg-guide-item .h4bg-orange span {
+	background: rgb(251, 90, 0);
+}
+.pg-guide-item dl {
+	margin-bottom: 10px;
+}
+.pg-guide-item dl dt {
+	font-size: 24px; margin-bottom: 10px;
+}
+.pg-guide-sercurity .pg-guide-item dl dt {
+	font-size: 22px;
+}
+.pg-guide-item dl dd {
+	color: gray; line-height: 24px; margin-bottom: 20px;
+}
+.pg-guide-item dl dd p {
+	line-height: 24px;
+}
+.pg-guide-item dl.mb30 {
+	margin-bottom: 30px;
+}
+.pg-guide-item dl.mb20 {
+	margin-bottom: 20px;
+}
+.guide-first-word {
+	height: 60px; line-height: 60px; font-size: 48px; font-weight: 700; margin-right: 6px; float: left;
+}
+.guide-item-link {
+	margin: 22px 0px 0px;
+}
+.pg-guide-item .performance {
+	position: relative;
+}
+.pg-guide-item .performance-item {
+	left: 170px; color: rgb(0, 168, 232); position: absolute;
+}
+.pg-guide-item .borrow.performance-item {
+	left: 135px;
+}
+.pg-guide-item .performance-item-trade {
+	top: 90px;
+}
+.pg-guide-item .performance-item-interest {
+	top: 240px;
+}
+.pg-guide-item .performance-item-count {
+	top: 270px;
+}
+.pg-guide-item .img-container {
+	height: 350px; position: relative;
+}
+.pg-guide-item .img-container img {
+	position: absolute;
+}
+.pg-guide-item .img-container .icon-plan {
+	left: 160px; top: 10px;
+}
+.pg-guide-item .img-container .icon-loan {
+	left: 290px; top: 125px;
+}
+.pg-guide-item .img-container .icon-transfer {
+	left: 120px; top: 175px;
+}
+.pg-guide-item .img-container .icon-work {
+	left: 180px; top: 30px;
+}
+.pg-guide-item .img-container .icon-biz {
+	left: 45px; top: 155px;
+}
+.pg-guide-item .img-container .icon-ecomm {
+	left: 220px; top: 210px;
+}
+.pg-guide-security h1 {
+	color: rgb(6, 151, 218); padding-top: 20px; font-size: 30px;
+}
+.pg-guide-security h2 {
+	color: rgb(6, 151, 218); padding-bottom: 10px; font-size: 24px;
+}
+.pg-guide-security h3 {
+	color: rgb(71, 71, 71); font-size: 18px;
+}
+.pg-guide-security .ph20 {
+	padding-bottom: 30px;
+}
+.pg-guide-security p.last {
+	margin-bottom: 5px;
+}
+.pg-guide-security .section {
+	margin: 30px 0px;
+}
+.pg-guide-security .first.section {
+	margin-top: 10px;
+}
+.pg-guide-security .last.section {
+	margin-bottom: 10px;
+}
