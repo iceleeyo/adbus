@@ -58,9 +58,9 @@ public class MessageController {
 	//@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	public long unread(Model model, Principal principal) {
 		
-		Authentication authentication = SecurityContextHolder.getContext()
-                .getAuthentication();
-		System.out.println("Hello " + authentication);
+		//Authentication authentication = SecurityContextHolder.getContext()
+         //       .getAuthentication();
+		//System.out.println("Hello " + authentication);
 		long c = messageService.getUnReadCount(Request.getUserId(principal));
 		return c;
 	}
