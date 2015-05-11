@@ -99,6 +99,8 @@ $(document).ready(function(){
                                                 class="ui-input datepicker" type="text" name="startTime1"
                                                 id="startTime" data-is="isAmount isEnough"
                                                 autocomplete="off" disableautocomplete="">
+                                                
+                                               	 
                                         </div>
 										<div class="ui-form-item">
 											<label class="ui-label mt10">选择物料:</label>
@@ -108,7 +110,12 @@ $(document).ready(function(){
                                                     <option value="${s.id}">${s.name}</option>
                                                 </#list>
                                             </select>
+                                            
+                                            	<font size="2" color="#CDCDCD" >
+                                            	*  可以在此选择物料，也可以稍后上传。
+                                            	</font>
 											<p class="ui-term-placeholder"></p>
+											
 										</div>
 									</div>
 									<div class="ui-form-item widthdrawBtBox">

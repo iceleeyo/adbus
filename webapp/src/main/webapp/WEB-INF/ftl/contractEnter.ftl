@@ -134,7 +134,7 @@
 												class="ui-input validate[required,custom[number]]"
 												type="text" name="amounts"
 												id="amounts" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="" placeholder="请输入合同金额>
+												autocomplete="off" disableautocomplete="" placeholder="请输入合同金额"/>
                                         </div>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
