@@ -35,21 +35,19 @@
 .show-item{
 }
 .show-item a{
-	height: 65px;
-	line-height: 65px;
+
 	padding: 0 15px 0 15px;
 	font-size: 18px;
     font-weight: 500;
-	display: inline-block;
-	color: rgb(85, 85, 85);
+
 }
 .show-item a.selected {
     background-color:rgb(27, 184, 226);
     color: rgb(255, 255, 255);
 }
 .show-item a:hover{
-    background-color: rgb(187, 223, 226);
-	color: rgb(235, 235, 235);
+   
+	color: #1BB8E2;
 }
 .broadcast{
 	background: #fff;
