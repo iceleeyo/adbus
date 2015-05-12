@@ -34,7 +34,6 @@ public class FileUploadProgressListener implements ProgressListener {
 		pri.totalSize = pContentLength;
 		pri.show = pBytesRead + "/" + pContentLength + " byte";
 		pri.rate = Math.round(new Float(pBytesRead) / new Float(pContentLength) * 100);
-		System.out.println(pri.show);
 	}
 
 }

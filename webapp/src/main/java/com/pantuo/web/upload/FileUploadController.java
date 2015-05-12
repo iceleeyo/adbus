@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 /**
  * 
  * <b><code>FileUploadController</code></b>
@@ -29,7 +30,7 @@ public class FileUploadController {
 	 */
 	@RequestMapping(value = "/upload/process", method = RequestMethod.GET)
 	@ResponseBody
-	public Object process(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ProcessInfo jecprocess(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return (ProcessInfo) request.getSession().getAttribute("proInfo");
 	}
 }
