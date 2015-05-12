@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="上传物料">
-<@frame.html title="物料上传">
+<@frame.html title="物料上传" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/jquery-ui-1.8.16.custom.min.js","js/progressbar.js"] css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css"]>
 
 
 <script type="text/javascript">
@@ -68,11 +68,13 @@
 			   	clearTimeout(uptime);
 						},2000)
 		}).submit();
+		 var uploadProcess={upath:'${rc.contextPath}/upload/process'};
+		  $('#progress1').anim_progressbar(uploadProcess);
 	}
 	
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-							<form id="userForm2" name="userForm2" action="put"
+							<form id="userForm2" name="userForm2" action="put?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1"
 								enctype="multipart/form-data" method="post"">
 								<div class="withdraw-title fn-clear">
 									上传物料
@@ -139,6 +141,13 @@
 											<input type="button" id="subWithdraw" class="block-btn"
 												onclick="sub2();" value="物料上传">
 										</div>
+										
+										<br>
+												 <div id="progress1">
+										            <div class="percent"></div>
+										            <div class="pbar"></div>
+										            <div class="elapsed"></div>
+										        </div>
 									</div>
 								</div>
 							</form>

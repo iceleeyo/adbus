@@ -44,7 +44,7 @@ public class SuppliesController {
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
 	public String r(Model model) {
 		model.addAttribute("industries", industryRepo.findAll());
-		return "supplies_test";
+		return "supplies_add";
 	}
 
 	@Autowired

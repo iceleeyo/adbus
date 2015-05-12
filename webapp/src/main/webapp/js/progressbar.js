@@ -51,7 +51,7 @@ $(document).ready(function(){
                            $(vPb).children('.percent').html('<b>'+(iPerc)+'%</b>');
                         // display current positions and progress
                         // $(vPb).children('.percent').html('<b>'+iPerc.toFixed(1)+'%</b>');
-                        $(vPb).children('.elapsed').html(showString+'</b>');
+                        $(vPb).children('.elapsed').html(showString+'-pxh_v1_version</b>');
                         $(vPb).children('.pbar').children('.ui-progressbar-value').css('width', (iPerc)+'%');
 
                         // in case of Finish
