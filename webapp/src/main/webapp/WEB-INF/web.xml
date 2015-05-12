@@ -26,7 +26,7 @@
     <!-- DOS filter, check http://www.eclipse.org/jetty/documentation/current/dos-filter.html -->
     <filter>
         <filter-name>DoSFilter</filter-name>
-        <filter-class>org.eclipse.jetty.servlets.DoSFilter</filter-class>
+        <filter-class>com.pantuo.aspect.SiteDosFilter</filter-class>
         <async-supported>true</async-supported>
         <init-param>
             <param-name>maxRequestsPerSec</param-name>
