@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="添加合同">
-<@frame.html title="合同录入" js=["js/jquery-ui/jquery-ui.js","js/jquery-ui-1.8.16.custom.min.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/progressbar.js"] css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css"]>
+<@frame.html title="合同录入" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/jquery-ui-1.8.16.custom.min.js","js/progressbar.js"] css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css"]>
 
 
 
@@ -94,13 +94,14 @@
 										        </div>
 																						  
 											  <br>
-											  <!-- 	 <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/bootstrap.css">-->
+											  <!-- 	 <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/bootstrap.css">
 												   <label class="control-label">上传进度:</label>  
 								                    <div class="controls">  
 								                        <div  class="progress progress-success progress-striped" style="width:50%">  
 								                            <div  id = 'proBar' class="bar" style="width: 20%"></div>  
 								                        </div>  
 								                    </div>  
+								               -->
 									</div>
 								</div>
 							</form>
