@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -33,6 +32,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.pantuo.web.ControllerInterceptor;
+import com.pantuo.web.upload.CustomMultipartResolver;
 
 import freemarker.core.Configurable;
 
@@ -158,8 +158,10 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 	 */
 	@Bean
 	public CommonsMultipartResolver multipartResolver() {
-		CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+		CommonsMultipartResolver resolver = new CustomMultipartResolver();
 		resolver.setDefaultEncoding("utf-8");
+		resolver.setResolveLazily(true);
+		//	resolver.setMaxUploadSize(20971520);
 		return resolver;
 	}
 }
