@@ -1,4 +1,4 @@
-<#import "template/template.ftl" as frame>
+<#import "template/template2.ftl" as frame>
 <#global menu="购买产品">
 <@frame.html title="下订单" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"] css=["jquery-ui/jquery-ui.css"]>
 
@@ -90,7 +90,7 @@ $(document).ready(function(){
 </DIV>
 </DIV>
 <div class="p20bs mt10 color-white-bg border-ec">
-                <H3 class="text-xl title-box"><A class="black" href="#">填写订单信息</A></H3><br>
+                <H3 class=".withdraw-title text-xl title-box"><A class="black" href="#">填写订单信息</A></H3><br>
 									<div class="inputs">
                                             <input type="hidden" readonly="readonly" name="product.Id" id="productId" value="${prod.id!''}"/>
                                         <div class="ui-form-item">
