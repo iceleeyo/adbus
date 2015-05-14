@@ -44,7 +44,7 @@
 									<@security.authorize ifAnyGranted="advertiser,ShibaOrderManager,ShibaFinancialManager">
 									<li class="pg-side-item">
 										<a class="pg-side-item-t ee-icon" href="#" > 
-											<i class="s-left pg-icon-a f-icon"></i>
+											<i class="s-left pg-icon-a g-icon"></i>
 											合同管理
 										</a>
 										<ul class="pg-side-exp-list">
@@ -153,7 +153,7 @@
                                     <@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager">
 									<li class="pg-side-item">
 										<a class="pg-side-item-t hh-icon">
-											<i class="s-left pg-icon-a e-icon"></i>
+											<i class="s-left pg-icon-a f-icon"></i>
 											报表管理
 										</a>
 										<ul class="pg-side-exp-list">
