@@ -141,7 +141,6 @@
 											<input type="button" id="subWithdraw" class="block-btn"
 												onclick="sub2();" value="物料上传">
 										</div>
-										
 										<br>
 												 <div id="progress1">
 										            <div class="percent"></div>
@@ -150,6 +149,16 @@
 										        </div>
 									</div>
 								</div>
+		<div class="worm-tips">
+		<div class="tips-title">
+			<span class="icon"></span> 温馨提示
+		</div>
+		<ol>
+			<li>1.请提供符合产品要求的物料类型。</li>
+			<li>2.如果物料的文件比较大，可能需要一定的时间，请耐心等待。</li>
+			<li>3.请勿上传违反国家广告法及相关法律法规的物料文件。</li>
+		</ol>
+	</div>
 							</form>
 </div>
 </@frame.html>
