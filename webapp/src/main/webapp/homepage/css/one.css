@@ -5691,8 +5691,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	z-index: 99999;
 	-moz-box-shadow: 0 1px 4px rgba(0, 0, 0, .2);
 	-webkit-border-shadow: 0 1px 4px rgba(0, 0, 0, .2);
-	box-shadow: 0 1px 4px rgba(0, 0, 0, .2)
-}
+	}
 
 .ui-header-top {
 	background: #555;
