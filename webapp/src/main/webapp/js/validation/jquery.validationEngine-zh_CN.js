@@ -69,10 +69,10 @@
 */
                 "required": { // Add your regex rules here, you can take telephone as an example
                     "regex": "none",
-                    "alertText": "* 此处不可空白",
+                    "alertText": "* 请填写相应信息",
                     "alertTextCheckboxMultiple": "* 请选择一个项目",
                     "alertTextCheckboxe": "* 您必须钩选此栏",
-                    "alertTextDateRange": "* 日期范围不可空白"
+                    "alertTextDateRange": "* 请选择日期范围"
                 },
                 "requiredInFunction": { 
                     "func": function(field, rules, i, options){
@@ -193,6 +193,7 @@
                     "regex": /^[0-9a-zA-Z\u4e00-\u9fa5_]+$/i,
                     "alertText": "* 只接受中英文字母、数字和下划线"
                 },
+                
                 // --- CUSTOM RULES -- Those are specific to the demos, they can be removed or changed to your likings
                 "ajaxUserCall": {
                     "url": "validate/ajaxValidateUser",
