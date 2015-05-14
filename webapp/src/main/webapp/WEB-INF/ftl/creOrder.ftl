@@ -1,4 +1,4 @@
-<#import "template/template2.ftl" as frame>
+<#import "template/template.ftl" as frame>
 <#global menu="购买产品">
 <@frame.html title="下订单" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"] css=["jquery-ui/jquery-ui.css"]>
 
