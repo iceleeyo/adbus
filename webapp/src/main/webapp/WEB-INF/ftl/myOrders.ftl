@@ -59,7 +59,7 @@ var table;
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>订单名称</span>' +
+                        '    <span>订单编号</span>' +
                         '    <span>' +
                         '        <input id="longOrderId" value="">' +
                         '    </span>' +

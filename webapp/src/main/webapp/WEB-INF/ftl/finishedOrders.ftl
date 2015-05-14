@@ -73,7 +73,7 @@
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>订单号</span>' +
+                        '    <span>订单编号</span>' +
                         '    <span>' +
                         '        <input id="productId" value="">' +
                         '    </span>' +
