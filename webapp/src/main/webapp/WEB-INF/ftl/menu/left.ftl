@@ -106,7 +106,7 @@
 										<@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/order/join/1">
-													我参与的订单
+													我参与订单
 												</a>
 											</li>
 										</@security.authorize>	
@@ -117,7 +117,7 @@
 											</li>-->
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/order/finished">
-												     已完成的订单
+												     已完成订单
 												</a>
 											</li>
 										</ul>
