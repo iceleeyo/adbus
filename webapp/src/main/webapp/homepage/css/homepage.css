@@ -44,8 +44,8 @@
 	color: rgb(85, 85, 85);
 }
 .show-item a.selected {
-    background-color:rgb(27, 184, 226);
-    color: rgb(255, 255, 255);
+    
+    color: #0088E2;
 }
 .show-item a:hover{
     background-color: rgb(255, 255, 255);
