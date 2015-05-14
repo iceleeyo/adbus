@@ -46,7 +46,7 @@
                             </fieldset>
                         </form>
                         <div class="login-bottom p-center s-clear">
-                            <label class="s-left pl20">您还可以使用合作账号登录</label>
+                            <label class="s-left pl20"></label>
 
                         </div>
                     </div>
