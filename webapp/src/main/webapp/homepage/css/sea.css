@@ -30,7 +30,7 @@ html{color: #666; }
 			.pg-right{float:right;display: inline;}
 			.pg-header-main{background-color: white;}
 			.phmain-logo-b{width: 140px;height:72px;}
-			.phmain-logo{display: block;height: 72px;width: 140px;background: url(../imgs/logo.png?v=f3810) no-repeat 0 center;}
+			.phmain-logo{display: block;height: 72px;width: 140px;background: url(../imgs/logo.png) no-repeat 0 center;}
 			.phmain-slogan-b{width: 193px;height: 72px;}
 			.phmain-slogan{display: block;height: 72px;width: 193px;background: url(../imgs/slogan.png?v=f3810) no-repeat 0 center;}
 			.pg-nav{padding: 0;}
