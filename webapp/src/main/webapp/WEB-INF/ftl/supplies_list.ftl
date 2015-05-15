@@ -91,7 +91,7 @@
                     return row.id;
                 },
                     "render": function(data, type, row, meta) {
-                        return  '<a class="table-link" href="${rc.contextPath}/supplies/suppliesDetail/'+data+'">查看附件</a>';
+                        return  '<a class="table-link" href="${rc.contextPath}/supplies/suppliesDetail/'+data+'">查看物料</a>';
                     }},
             ],
             "language": {
