@@ -33,6 +33,10 @@ import javax.sql.DataSource;
 @ImportResource("classpath:/properties.xml")
 @ComponentScan(basePackages = { "com.pantuo.activiti" })
 public class ActivitiConfiguration {
+	
+	
+	public static final String ADVERTISER  = "advertiser";
+	public static final String ORDER  = "ShibaSuppliesManager";
     @Autowired
     private DataSource dataSource;
 
