@@ -10,7 +10,11 @@
 			type : "POST",
 			success : function(data) {
 				jDialog.Alert(data.right);
+				var uptime = window.setTimeout(function(){
 				location.reload([true]);
+			   	clearTimeout(uptime);
+						},2000)
+				
 			}
 		}, "text");
 	  
@@ -22,10 +26,11 @@
         table = $('#table').dataTable( {
             "dom": '<"#toolbar">lrtip',
             "searching": false,
-            "ordering": false,
+            "ordering": true,
             "serverSide": true,
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
+                { "orderable": false, "targets": [4] },
             ],
             "ajax": {
                 type: "GET",
@@ -67,13 +72,13 @@
             "initComplete": initComplete,
             "drawCallback": drawCallback,
         } );
-
+		table.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
 
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>订单编号</span>' +
+                        '    <span>订单号</span>' +
                         '    <span>' +
                         '        <input id="productId" value="">' +
                         '    </span>' +

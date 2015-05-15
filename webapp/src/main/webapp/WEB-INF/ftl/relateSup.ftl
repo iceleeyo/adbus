@@ -50,10 +50,14 @@ function showtb1(){
 			},
 			success : function(data) {
 				jDialog.Alert(data.right);
+				var uptime = window.setTimeout(function(){
 				var a = document.createElement('a');
     	        a.href='${rc.contextPath}/order/myTask/1';
             	document.body.appendChild(a);
              	a.click();
+			   	clearTimeout(uptime);
+						},2000)
+				
 			}
 		}, "text");
 	}
@@ -75,10 +79,14 @@ function showtb1(){
 			},
 			success : function(data) {
 				jDialog.Alert(data.left + " # " + data.right);
+				var uptime = window.setTimeout(function(){
 				var a = document.createElement('a');
     	        a.href='${rc.contextPath}/order/myOrders/1';
             	document.body.appendChild(a);
              	a.click();
+			   	clearTimeout(uptime);
+						},2000)
+				
 			}
 		}, "text");
 	}
@@ -89,7 +97,7 @@ function showtb1(){
 	     $("#contractCode").hide();
 	}
 </script>
-<div class="color-white-bg fn-clear">
+<div class="withdraw-wrap color-white-bg fn-clear">
   <div id="process" class="section4">
 		            <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单</li><li id="track_time_0" class="tx3"><#setting date_format="yyyy-MM-dd">${(orderview.order.created?date)!''}</li><li id="track_time_0" class="tx3"> 10:12:30</li></ul></div>
             		<div class="proce ready"><ul><li class="tx1">&nbsp;</li></ul></div>
@@ -101,7 +109,7 @@ function showtb1(){
             		<div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>		
             		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">播出完成</li><li id="track_time_6" class="tx3"></li></ul></div>
             	</div>
-				<DIV class="p20bs color-white-bg border-ec">
+							  <DIV class="color-white-bg border-ec">
                 <H3 class="text-xl title-box"><A class="black" href="#">订单详情-${orderview.longOrderId!''}</A></H3>
                <DIV class="summary mt10 uplan-summary-div">
               <UL class="uplan-detail-ul">

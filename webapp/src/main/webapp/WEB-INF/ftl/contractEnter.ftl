@@ -66,7 +66,7 @@
 			return;
 		}
 		if(endDate<startDate){
-			jDialog.Alert("失效时间不能小于生效时间");
+			jDialog.Alert("终止时间不能小于开始时间");
 			return;
 		}
 		$('#userForm2').ajaxForm(function(data) {
@@ -117,7 +117,7 @@
 												<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
 												type="text" name="contractCode" id="code" 
 												data-is="isAmount isEnough" autocomplete="off"
-												disableautocomplete="" placeholder="支持中英文、数字、下划线">
+												disableautocomplete="" placeholder="中英文、数字、下划线">
 										</div>
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
@@ -126,14 +126,14 @@
 												type="text" name="contractName"
 												id="name" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
-											<p class="ui-term-placeholder" placeholder="支持中英文、数字、下划线"></p>
+											<p class="ui-term-placeholder" placeholder="中英文、数字、下划线"></p>
 
 										</div>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>金额:</label>
                                                     <input
-												class="ui-input validate[required,number,min[1]]"
+												class="ui-input validate[required,custom[number],min[1]]"
 												type="text" name="amounts"
 												id="amounts" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="请输入合同金额"/>
@@ -143,7 +143,7 @@
                                                     class="ui-form-required">*</span>行业:</label>
                                                      
 												<select id="industry" name="industry.id" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="" style="width:220px; height: 38px;">
+												autocomplete="off" disableautocomplete="" style="width:173px; height: 38px;">
                                                     <#list industries as industry>
                                                         <option value="${industry.id}">${industry.name}</option>
                                                     </#list>
@@ -154,7 +154,7 @@
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>开始日期:</label> <input
-												class="ui-input datepicker validate[required,custom[date],past[#endDate]]" 
+												class="ui-input datepicker validate[required,custom[date],past[endDate]]" 
 												type="text" name="startDate1"
 												id="startDate" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
@@ -163,7 +163,7 @@
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>终止日期:</label> <input
-												class="ui-input datepicker validate[required,custom[date],future[#startDate]"
+												class="ui-input datepicker validate[required,custom[date],future[startDate]"
 												type="text" name="endDate1"
 												id="endDate" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">

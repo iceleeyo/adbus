@@ -2,6 +2,22 @@
 <#global menu="购买产品">
 <@frame.html title="下订单" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"] css=["jquery-ui/jquery-ui.css"]>
 
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#userForm2").validationEngine({
+            validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
+            inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
+            success :  false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
+            promptPosition: "centerRight",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
+            maxErrorsPerField: 1,
+            //failure : function() { alert("验证失败，请检查。");  }//验证失败时调用的函数
+            //success : function() { callSuccessFunction() },//验证通过时调用的函数
+        });
+    });
+</script>
+
 <script type="text/javascript">
 
 $(document).ready(function(){ 
@@ -96,7 +112,8 @@ $(document).ready(function(){
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
 												class="ui-form-required">*</span>开播日期</label> <input
-                                                class="ui-input datepicker" type="text" name="startTime1"
+                                                class="ui-input datepicker validate[required,custom[date]" 
+                                                type="text" name="startTime1"
                                                 id="startTime" data-is="isAmount isEnough"
                                                 autocomplete="off" disableautocomplete="">
                                                 
@@ -104,7 +121,8 @@ $(document).ready(function(){
                                         </div>
 										<div class="ui-form-item">
 											<label class="ui-label mt10">选择物料:</label>
-                                            <select class="ui-input" name="supplies.id" id="suppliesId">
+                                            <select class="ui-input" 
+                                            name="supplies.id" id="suppliesId">
                                                 <option value="1" selected="selected"></option>
                                                 <#list supplies as s>
                                                     <option value="${s.id}">${s.name}</option>

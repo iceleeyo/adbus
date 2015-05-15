@@ -7,10 +7,11 @@ var table;
         table = $('#table').dataTable( {
             "dom": '<"#toolbar">lrtip',
             "searching": false,
-            "ordering": false,
+            "ordering": true,
             "serverSide": true,
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
+                { "orderable": false, "targets": [6] },
             ],
             "ajax": {
                 type: "GET",
@@ -53,7 +54,7 @@ var table;
             "initComplete": initComplete,
             "drawCallback": drawCallback,
         } );
-
+		table.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
 
     function initComplete() {

@@ -1,6 +1,5 @@
-<#import "template/template.ftl" as frame>
-
-<@frame.html title="公交广告交易系统">
+<#import "template/template2.ftl" as frame>
+<@frame.html title="订单办理">
 <script type="text/javascript">
 	$(function() {
 	//显示当前节点对应的表单信息
@@ -8,7 +7,7 @@
 });
 function go_back() {
 		history.go(-1);
-	}
+}
 
 /**
  * 完成任务
@@ -38,11 +37,15 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
         types: types
     },function(data){
     	jDialog.Alert(data.left==true?"执行成功!":"执行失败!");
-    	var a = document.createElement('a');
-    	a.href='${rc.contextPath}/order/myTask/1';
-    	//a.target = 'main';
-    	document.body.appendChild(a);
-    	a.click();
+    	var uptime = window.setTimeout(function(){
+			var a = document.createElement('a');
+    		a.href='${rc.contextPath}/order/myTask/1';
+    		//a.target = 'main';
+    		document.body.appendChild(a);
+    		a.click();
+			clearTimeout(uptime);
+		},2000)
+    	
     });
     
 }
@@ -138,11 +141,15 @@ function bgzs(suppliesid,seqNumber,taskId, variables) {
         
     },function(data){
     	jDialog.Alert(data.left==true?"执行成功!":"执行失败!");
-    	var a = document.createElement('a');
-    	a.href='${rc.contextPath}/order/myTask/1';
-    	//a.target = 'main';
-    	document.body.appendChild(a);
-    	a.click();
+    	var uptime = window.setTimeout(function(){
+			var a = document.createElement('a');
+    		a.href='${rc.contextPath}/order/myTask/1';
+    		//a.target = 'main';
+    		document.body.appendChild(a);
+    		a.click();
+			   	clearTimeout(uptime);
+						},2000)
+    	
     });
     
 }
@@ -279,10 +286,14 @@ function pay() {
 			},
 			success : function(data) {
 				jDialog.Alert(data.right);
+				var uptime = window.setTimeout(function(){
 				var a = document.createElement('a');
     	        a.href='${rc.contextPath}/order/myOrders/1';
             	document.body.appendChild(a);
              	a.click();
+			   	clearTimeout(uptime);
+						},2000)
+				
 			}
 		}, "text");
 	}
@@ -305,10 +316,14 @@ function pay() {
 			},
 			success : function(data) {
 				jDialog.Alert(  data.right);
+				var uptime = window.setTimeout(function(){
 				var a = document.createElement('a');
     	        a.href='${rc.contextPath}/order/myOrders/1';
             	document.body.appendChild(a);
              	a.click();
+			   	clearTimeout(uptime);
+						},2000)
+				
 			}
 		}, "text");
 	}
