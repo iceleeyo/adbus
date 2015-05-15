@@ -51,9 +51,8 @@ public class ContractController {
 	private UserService userService;
 	@Autowired
 	private ContractServiceData contractServiceDate;
-    @Autowired
-    private IndustryRepository industryRepo;
-	
+	@Autowired
+	private IndustryRepository industryRepo;
 
 	@RequestMapping(value = "contractCodeCheck", method = RequestMethod.POST)
 	@ResponseBody
@@ -70,8 +69,9 @@ public class ContractController {
 
 	@RequestMapping(value = "saveContract", method = RequestMethod.POST)
 	@ResponseBody
-	public Pair<Boolean, String> saveContract(@CookieValue(value="city", defaultValue = "-1") int city,
-                                              Contract contract, Principal principal, HttpServletRequest request) throws IllegalStateException, IOException, ParseException {
+	public Pair<Boolean, String> saveContract(@CookieValue(value = "city", defaultValue = "-1") int city,
+			Contract contract, Principal principal, HttpServletRequest request) throws IllegalStateException,
+			IOException, ParseException {
 		String start = request.getParameter("startDate1").toString();
 		String end = request.getParameter("endDate1").toString();
 		if (start.length() > 1 && end.length() > 1) {
@@ -83,35 +83,35 @@ public class ContractController {
 
 	@RequestMapping(value = "/list")
 	public String contralist() {
-		
+
 		return "contractlist";
 	}
-	
+
 	@RequestMapping("ajax-list")
 	@ResponseBody
-	public DataTablePage<JpaContract> getAllContracts(TableRequest req, @CookieValue(value="city", defaultValue = "-1") int city) {
-		return new DataTablePage(
-                contractServiceDate.getAllContracts(city, req.getFilter("contractName"), req.getFilter("contractCode"),
-                        req.getPage(), req.getLength(), req.getSort("id")), req.getDraw());
+	public DataTablePage<JpaContract> getAllContracts(TableRequest req,
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal) {
+		return new DataTablePage(contractServiceDate.getAllContracts(city, req, principal), req.getDraw());
 	}
 
 	@RequestMapping(value = "/contractEnter", produces = "text/html;charset=utf-8")
 	public String contractEnter(Model model, HttpServletRequest request) {
-        Page<UserDetail> users = userService.getValidUsers(0, 999, null);
-        model.addAttribute("users", users.getContent());
-        List<JpaIndustry> industries = industryRepo.findAll();
-        model.addAttribute("industries", industries);
+		Page<UserDetail> users = userService.getValidUsers(0, 999, null);
+		model.addAttribute("users", users.getContent());
+		List<JpaIndustry> industries = industryRepo.findAll();
+		model.addAttribute("industries", industries);
 		return "contractEnter";
 	}
-    @RequestMapping(value = "/contractDetail/{contract_id}", produces = "text/html;charset=utf-8")
-    public String contractDetail(Model model,@PathVariable("contract_id") int contract_id, Principal principal, HttpServletRequest request)
-    {   
-//    	int contract_id=Integer.parseInt(request.getParameter("contract_id"));
-    	ContractView view=contractService.getContractDetail(contract_id, principal);
-    	model.addAttribute("view",view);
-        return "contractDetail";
-    }
-    public String paginationHTML;
 
-    
+	@RequestMapping(value = "/contractDetail/{contract_id}", produces = "text/html;charset=utf-8")
+	public String contractDetail(Model model, @PathVariable("contract_id") int contract_id, Principal principal,
+			HttpServletRequest request) {
+		//    	int contract_id=Integer.parseInt(request.getParameter("contract_id"));
+		ContractView view = contractService.getContractDetail(contract_id, principal);
+		model.addAttribute("view", view);
+		return "contractDetail";
+	}
+
+	public String paginationHTML;
+
 }

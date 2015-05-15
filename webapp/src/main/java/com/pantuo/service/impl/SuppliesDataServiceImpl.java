@@ -3,6 +3,7 @@ package com.pantuo.service.impl;
 import java.security.Principal;
 
 import com.mysema.query.types.expr.BooleanExpression;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.Predicate;
+import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.SuppliesRepository;
 import com.pantuo.dao.pojo.JpaSupplies;
 import com.pantuo.dao.pojo.QJpaSupplies;
@@ -37,7 +39,7 @@ public class SuppliesDataServiceImpl implements SuppliesServiceData {
 		Pageable p = new PageRequest(page, pageSize, sort);
         BooleanExpression query = QJpaSupplies.jpaSupplies.city.eq(city);
 		if (name == null || StringUtils.isEmpty(name)) {
-            if (Request.hasAuth(principal, "ShibaSuppliesManager")) {
+            if (Request.hasAuth(principal, ActivitiConfiguration.ORDER)) {
                 return suppliesRepo.findAll(query, p);
             } else {
                 query = query.and(QJpaSupplies.jpaSupplies.userId.eq(Request.getUserId(principal)));
@@ -45,7 +47,7 @@ public class SuppliesDataServiceImpl implements SuppliesServiceData {
             }
 		} else {
 			query = query.and(QJpaSupplies.jpaSupplies.name.like("%" + name + "%"));
-            if (!Request.hasAuth(principal, "ShibaSuppliesManager")) {
+            if (!Request.hasAuth(principal, ActivitiConfiguration.ORDER)) {
                 query = query.and(
                         QJpaSupplies.jpaSupplies.userId.eq(Request.getUserId(principal)));
             }
