@@ -60,7 +60,7 @@
                     return row.id;
                 },
                     "render": function(data, type, row, meta) {
-                        return '<a target="_blank" class="table-link" href="${rc.contextPath}/contract/contractDetail/' + data +'">详细</a>';
+                        return '<a target="_blank" class="table-link" href="${rc.contextPath}/contract/contractDetail/' + data +'">查看合同</a>';
                     }},
             ],
             "language": {
