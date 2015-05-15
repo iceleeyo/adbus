@@ -141,7 +141,7 @@
 											<input type="button" id="subWithdraw" class="block-btn"
 												onclick="sub2();" value="物料上传">
 										</div>
-										<br>
+									
 												 <div id="progress1">
 										            <div class="percent"></div>
 										            <div class="pbar"></div>
