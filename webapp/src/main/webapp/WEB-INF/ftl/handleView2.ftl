@@ -605,20 +605,31 @@ function pay() {
 		</#if>
  	</#list>${(suppliesView.mainView.infoContext)!''}</TD>
     							</TR>
+  								
+  								
+								<TR style="height:45px;">
+    									<TH>物料审核</TH>
+    									<TD colspan=3>
+    										<input name="approve1Result" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>符合要求 
+      									<input name="approve1Result" type="radio" value="false" style="padding: 5px 15px;"/>不符合要求</TD>
+    									
+  								</TR>
+								<TR style="height:45px;">
+    									<TH>资质审核</TH>
+    									<TD colspan=3>
+    										<input name="approve1Result" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>符合要求 
+      									<input name="approve1Result" type="radio" value="false" style="padding: 5px 15px;"/>不符合要求</TD>
+    									
+  								</TR>
   								<TR>
     									<TH>审核意见</TH>
     									<TD colspan=3><textarea name="approve1Comments" id="approve1Comments" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD>
-    						   </TR>
-  								
-									<TR style="height:45px;">
-    									<TH>是否通过</TH>
-    									<TD>
-    										<input name="approve1Result" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>符合要求 
-      									<input name="approve1Result" type="radio" value="false" style="padding: 5px 15px;"/>不符合要求</TD>
-    									<TD colspan=2 width="30%" style="text-align:center;">
-    	 										<button onclick="approve1();" class="block-btn">提交审核结果</button>
+    						    </TR>
+    						    <TR style="height:45px;">
+    									
+    									<TD colspan=4 style="text-align:center;"><button onclick="approve1();" class="block-btn">提交审核结果</button>
     									</TD>
-  								</TR>
+    						    </TR>
 								</TABLE>	                                
                 </div>	          
 					</div>
