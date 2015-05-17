@@ -16,6 +16,7 @@ public class ProcessInfo {
 	public String show = "";
 	public int itemNum = 0;
 	public int rate = 0;
+	public String sessionId ; 
 
 	public long getTotalSize() {
 		return totalSize;
@@ -55,6 +56,19 @@ public class ProcessInfo {
 
 	public void setRate(int rate) {
 		this.rate = rate;
+	}
+
+	public String getSessionId() {
+		return sessionId;
+	}
+
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+
+	@Override
+	public String toString() {
+		return "ProcessInfo [show=" + show + ", sessionId=" + sessionId + "]";
 	}
 
 }

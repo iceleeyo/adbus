@@ -3,7 +3,9 @@ package com.pantuo.web.upload;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.ProgressListener;
-import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * 
  * <b><code>FileUploadProgressListener</code></b>
@@ -14,13 +16,20 @@ import org.springframework.stereotype.Component;
  * @author impanxh@gmail.com
  * @since pantuotech 1.0-SNAPSHOT
  */
-@Component
 public class FileUploadProgressListener implements ProgressListener {
+
+	public FileUploadProgressListener(HttpSession session) {
+		setSession(session);
+	}
+
 	private HttpSession session;
+	private static Logger log = LoggerFactory.getLogger(FileUploadProgressListener.class);
 
 	public void setSession(HttpSession session) {
+		//log.info("upload sessionId: " + session.getId());
 		this.session = session;
 		ProcessInfo status = new ProcessInfo();
+		status.setSessionId(session.getId());
 		session.setAttribute("proInfo", status);
 	}
 
