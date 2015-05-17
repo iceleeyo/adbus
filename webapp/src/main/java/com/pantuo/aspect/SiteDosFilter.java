@@ -38,6 +38,7 @@ public class SiteDosFilter extends org.eclipse.jetty.servlets.DoSFilter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException,
 			ServletException {
+		System.out.println(  ((HttpServletRequest)request).getRequestURI());
 		if (StringUtils.equals(request.getParameter(TOKEN), TOKEN_VALUE)) {
 			try {
 				filterChain.doFilter(request, response);

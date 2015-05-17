@@ -5,10 +5,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.pantuo.service.security.ActivitiUserDetailsService;
+
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.identity.Group;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.service.UserService;
+
 import scala.actors.threadpool.Arrays;
 
 import java.util.ArrayList;
@@ -59,6 +62,8 @@ public class LoginController {
     @RequestMapping(value = "/doRegister", method = { RequestMethod.POST})
     @ResponseBody
     public UserDetail createUser(UserDetail detail, HttpServletRequest request) {
+    	com.pantuo.util.BeanUtils.filterXss(detail);
+    	
         detail.setStringGroups(Arrays.asList(new String[]{"advertiser"}));
         boolean success = userService.createUserFromPage(detail);
         if (success) {
