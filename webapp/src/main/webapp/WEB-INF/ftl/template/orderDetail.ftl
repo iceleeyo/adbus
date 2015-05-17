@@ -35,6 +35,14 @@
         </#if>
     </#if></SPAN></LI>
   <LI style="width: 240px;"><SPAN>支付方式：</SPAN><SPAN class="con">${(orderview.payTypeString)!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>是否开发票：</SPAN><SPAN class="con">
+  <#if orderview.order.isInvoice==1 >
+        <a target="_blank" href="${rc.contextPath}/order/invoiceDetail/${orderview.order.userId!''}" > 是</a>
+   <#else>
+      否    
+  </#if>
+  
+  </SPAN></LI>
   <LI style="width: 240px;"><SPAN>合同号：</SPAN><SPAN class="con">${(orderview.order.contractCode)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>物料编号：</SPAN><SPAN class="con">${(suppliesView.mainView.seqNumber)!''}</SPAN></LI>
   <LI style="width: 720px;"><SPAN>物料：</SPAN><SPAN class="con">
