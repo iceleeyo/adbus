@@ -131,7 +131,7 @@
 										</div>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
-                                                    class="ui-form-required">*</span>金额:</label>
+                                                    class="ui-form-required">*</span>合同金额:</label>
                                                     <input
 												class="ui-input validate[required,custom[number],min[1]]"
 												type="text" name="amounts"
@@ -140,7 +140,7 @@
                                         </div>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
-                                                    class="ui-form-required">*</span>行业:</label>
+                                                    class="ui-form-required">*</span>所属行业:</label>
                                                      
 												<select id="industry" name="industry.id" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" style="width:173px; height: 38px;">
