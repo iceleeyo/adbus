@@ -124,7 +124,7 @@
 										</div>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
-                                                    class="ui-form-required">*</span>行业:</label>
+                                                    class="ui-form-required">*</span>所属行业:</label>
 
                                             <select id="industryId" name="industryId" data-is="isAmount isEnough"
                                                     autocomplete="off" disableautocomplete="" style="width:220px; height: 38px;">
