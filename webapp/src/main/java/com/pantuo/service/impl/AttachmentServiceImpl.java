@@ -72,7 +72,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 							file.transferTo(localFile);
 							Attachment t = new Attachment();
 							t.setMainId(main_id);
-							if(fn.indexOf("qua")==-1){
+							if(fn.indexOf("qua")!=-1){
 								t.setType(JpaAttachment.Type.u_fj.ordinal());
 							}else{
 								t.setType(file_type.ordinal());
@@ -117,7 +117,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 		AttachmentExample example =new AttachmentExample();
 		AttachmentExample.Criteria ca=example.createCriteria();
 		ca.andMainIdEqualTo(main_id);
-		ca.andTypeEqualTo(3);
+		ca.andTypeEqualTo(4);
 		//ca.andUserIdEqualTo(Request.getUserId(principal));
 		return attachmentMapper.selectByExample(example);
 	}
@@ -125,7 +125,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 		AttachmentExample example =new AttachmentExample();
 		AttachmentExample.Criteria ca=example.createCriteria();
 		ca.andMainIdEqualTo(main_id);
-		ca.andTypeEqualTo(4);
+		ca.andTypeEqualTo(3);
 		return attachmentMapper.selectByExample(example);
 	}
 
