@@ -165,7 +165,7 @@
 										</div>
 										<div class="ui-form-item widthdrawBtBox">
 											<input type="button" id="subWithdraw" class="block-btn"
-												onclick="sub2();" value="上传">
+												onclick="sub2();" value="开始上传">
 										</div>
 									
 												 <div id="progress1">
