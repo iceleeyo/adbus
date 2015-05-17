@@ -15,10 +15,11 @@ css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
 							class="ui-form" method="post" action="saveContract"
 							enctype="multipart/form-data">
 							<!--合同详情展示-->
+							<H3 class="text-xl title-box"><A class="black" href="#">物料及资质</A>
+						</H3>
 							
 							<div class="mt20">
 							
-								<button type="button" onclick="go_back()" class="block-btn" style="margin-bottom: 10px;">返回</button>
 									<div class="tab-content">
 										<div class="tab-content-box s-clear" id="holding"
 											style="display: block;">
@@ -80,6 +81,11 @@ css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
 										</div>
 									</div>
 							</div>
-						</form>
+						</form> 
+						<br>
+						<div class="ui-form-item widthdrawBtBox" style="padding: 0 5px 20px 730px;">
+						<button type="button" onclick="go_back()" class="block-btn" style="margin-bottom: 10px;">返回</button>
+						</div>
+								
 </div>
 </@frame.html>
