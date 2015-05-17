@@ -4,8 +4,11 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.FatalBeanException;
+
+import com.pantuo.aspect.XSSRequestWrapper;
 
 /**
  * 
@@ -38,6 +41,37 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
 								writeMethod.setAccessible(true);
 							}
 							writeMethod.invoke(target, value);
+						}
+					} catch (Throwable ex) {
+						throw new FatalBeanException("Could not copy properties from source to target", ex);
+					}
+				}
+			}
+		}
+	}
+
+	public static void filterXss(Object source) throws BeansException {
+		Class<?> actualEditable = source.getClass();
+		PropertyDescriptor[] targetPds = getPropertyDescriptors(actualEditable);
+		for (PropertyDescriptor targetPd : targetPds) {
+			if (targetPd.getWriteMethod() != null) {
+				PropertyDescriptor sourcePd = getPropertyDescriptor(source.getClass(), targetPd.getName());
+				if (sourcePd != null && sourcePd.getReadMethod() != null) {
+					try {
+						Method readMethod = sourcePd.getReadMethod();
+						if (!Modifier.isPublic(readMethod.getDeclaringClass().getModifiers())) {
+							readMethod.setAccessible(true);
+						}
+						Object value = readMethod.invoke(source);
+						if (value != null
+								&& readMethod.getReturnType() != null
+								&& ObjectUtils.equals(java.lang.String.class.getName(), readMethod.getReturnType()
+										.getName())) {
+							Method writeMethod = targetPd.getWriteMethod();
+							if (!Modifier.isPublic(writeMethod.getDeclaringClass().getModifiers())) {
+								writeMethod.setAccessible(true);
+							}
+							writeMethod.invoke(source, XSSRequestWrapper.stripXSS((String) value));
 						}
 					} catch (Throwable ex) {
 						throw new FatalBeanException("Could not copy properties from source to target", ex);
