@@ -110,9 +110,7 @@
                                         </div>
 										<div class="ui-form-item">
 											<label class="ui-label mt10">
-											<span
-												class="ui-form-required">*
-											</span>合同号:
+											<span class="ui-form-required">*</span>合同编号:
 											</label> 
 												<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
 												type="text" name="contractCode" id="code" 
