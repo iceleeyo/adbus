@@ -36,13 +36,11 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
 
 	@Override
 	public String getHeader(String name) {
-		String value = super.getHeader(name);
-		return value;
+		return  super.getHeader(name);
 		//return stripXSS(value);
 	}
 
 	public static String   stripXSS(String value) {
-		System.out.println(value);
 		if (value != null) {
 			// NOTE: It's highly recommended to use the ESAPI library and uncomment the following line to
 			// avoid encoded attacks.
