@@ -130,6 +130,8 @@ public class AttachmentServiceImpl implements AttachmentService {
 		AttachmentExample example =new AttachmentExample();
 		AttachmentExample.Criteria ca=example.createCriteria();
 		ca.andMainIdEqualTo(main_id);
+		ca.andTypeEqualTo(5);
+		example.setOrderByClause("created desc");
 		return attachmentMapper.selectByExample(example);
 	}
 	public List<Attachment> queryQua(Principal principal, int main_id) {

@@ -8,18 +8,20 @@ function go_back(){
 	history.go(-1);
 }
 </script>
+                
     <DIV class="p20bs color-white-bg border-ec">
                 <H3 class="text-xl title-box"><A class="black" href="#">发票详情</A></H3>
                <DIV class="summary mt10 uplan-summary-div">
               <UL class="uplan-detail-ul">
               <LI style="width: 240px;"><SPAN>发票类型：</SPAN><SPAN class="con">
-      <#if (!(invoiceView.mainView.type)?? || invoiceView.mainView.type == 1)>
+      <#if ((invoiceView.mainView.type)?has_content && invoiceView.mainView.type == 1)>
                专用发票
       <#else>
               普通发票
       </#if>
   </SPAN></LI>
   <LI style="width: 240px;"><SPAN>发票抬头：</SPAN><SPAN class="con">${(invoiceView.mainView.title)!''}</SPAN></LI>
+  <#if ((invoiceView.mainView.type)?has_content && invoiceView.mainView.type == 1)>
   <LI style="width: 240px;"><SPAN>税务登记证号：</SPAN><SPAN class="con">${(invoiceView.mainView.taxrenum)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>基本户开户银行名称：</SPAN><SPAN class="con" >${(invoiceView.mainView.bankname)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>基本户开户账号：</SPAN><SPAN class="con">${(invoiceView.mainView.accountnum)!''}</SPAN></LI>
@@ -33,9 +35,12 @@ function go_back(){
      </#list>
      </#if>
     </SPAN></LI>
-
+</#if>
 </UL>
 </DIV>
+   
+         
+      
 </DIV>
 </@frame.html>
 

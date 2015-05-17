@@ -55,8 +55,14 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 function approve1(){ 
     var approve2ResultValue="";
 	var approve1Result=$('#approve1 :radio[name=approve1Result]:checked').val();
+	var quaResult=$('#approve1 :radio[name=quaResult]:checked').val();
 	var approve1Comments=$('#approve1 #approve1Comments').val();
 	var seqNumber=$('#approve1 #seqNumber').val();
+	if(quaResult=="true" && approve1Result=="true"){
+	   approve1Result="true";
+	}else{
+	   approve1Result="false";
+	}
 	if(approve1Comments==""){
 	   jDialog.Alert("请填写意见");
 	   return;
@@ -67,6 +73,8 @@ function approve1(){
 	}else{
 	    approve2ResultValue="false";
 	}
+	
+	
 	complete('${taskid!''}',[
 		{
 			key: 'approve1Result',
@@ -607,29 +615,27 @@ function pay() {
     							</TR>
   								
   								
-								<TR style="height:45px;">
+									<TR style="height:45px;">
     									<TH>物料审核</TH>
     									<TD colspan=3>
     										<input name="approve1Result" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>符合要求 
       									<input name="approve1Result" type="radio" value="false" style="padding: 5px 15px;"/>不符合要求</TD>
-    									
   								</TR>
-								<TR style="height:45px;">
+									<TR style="height:45px;">
     									<TH>资质审核</TH>
     									<TD colspan=3>
-    										<input name="approve1Result" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>符合要求 
-      									<input name="approve1Result" type="radio" value="false" style="padding: 5px 15px;"/>不符合要求</TD>
-    									
+    										<input name="quaResult" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>符合要求 
+      									<input name="quaResult" type="radio" value="false" style="padding: 5px 15px;"/>不符合要求</TD>
   								</TR>
   								<TR>
     									<TH>审核意见</TH>
     									<TD colspan=3><textarea name="approve1Comments" id="approve1Comments" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD>
-    						    </TR>
-    						    <TR style="height:45px;">
-    									
-    									<TD colspan=4 style="text-align:center;"><button onclick="approve1();" class="block-btn">提交审核结果</button>
+    						   </TR>
+									<TR style="height:45px;">
+    									<TD colspan=4  style="text-align:center;">
+    	 										<button onclick="approve1();" class="block-btn">提交审核结果</button>
     									</TD>
-    						    </TR>
+  								</TR>
 								</TABLE>	                                
                 </div>	          
 					</div>

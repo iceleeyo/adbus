@@ -14,7 +14,6 @@ css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
 						<form data-name="withdraw" name="userForm2" id="userForm2"
 							class="ui-form" method="post" action="saveContract"
 							enctype="multipart/form-data">
-							<!--合同详情展示-->
 							<H3 class="text-xl title-box"><A class="black" href="#">物料及资质</A>
 						</H3>
 							
@@ -30,8 +29,11 @@ css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
                                                             <td style="width: 240px; text-align: center; vertical-align: middle">
                                                                 <div class="th-head">查看</div>
                                                             </td>
-                                                            <td style="width: 300px; text-align: center; vertical-align: middle">
+                                                            <td style="width: 200px; text-align: center; vertical-align: middle">
 																<div class="th-md">物料名称</div>
+															</td>
+                                                            <td style="width: 100px; text-align: center; vertical-align: middle">
+																<div class="th-md">类型</div>
 															</td>
 															<td style="text-align: center; vertical-align: middle">
 																<div class="th-tail">物料内容</div>
@@ -42,14 +44,30 @@ css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
     <#list view.files as item>
                                                         <tr>
                                                             <td style="width: 240px;">
+                                                            <#if item.type?? && item.type==4>
                                                                 <@preview.materialPreview view=view items=[item]/>
+                                                               <#else>
+                                                            --
+                                                               </#if>
                                                             </td>
                                                             <td>
                                                                 ${view.mainView.name!''}
 
                                                             </td>
                                                             <td>
+                                                            <#if item.type?? && item.type==4>
+                                                            物料
+                                                               <#else>
+                                                                   用户资质
+                                                               </#if>
+
+                                                            </td>
+                                                            <td>
+                                                            <#if item.type?? && item.type==4>
                                                                 ${item.name!''}
+                                                               <#else>
+                                                                   <a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">${item.name!''}</a>
+                                                               </#if>
 
                                                             </td>
                                                         </tr>

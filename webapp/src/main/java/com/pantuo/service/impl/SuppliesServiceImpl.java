@@ -152,7 +152,7 @@ public class SuppliesServiceImpl implements SuppliesService {
 		Supplies supplies = suppliesMapper.selectByPrimaryKey(supplies_id);
 		if (supplies != null) {
 			v = new SuppliesView();
-			List<Attachment> files = attachmentService.querysupFile(principal, supplies_id);
+			List<Attachment> files = attachmentService.queryAllFile(principal, supplies_id);
 			v.setFiles(files);
 			v.setMainView(supplies);
 		}
