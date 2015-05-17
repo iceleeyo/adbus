@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.pantuo.dao.pojo.JpaAttachment;
 import com.pantuo.mybatis.domain.Attachment;
@@ -26,6 +25,7 @@ import com.pantuo.util.BusinessException;
 import com.pantuo.util.FileHelper;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.Pair;
+import com.pantuo.web.upload.CustomMultipartResolver;
 
 /**
  * 
@@ -49,7 +49,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 			throws BusinessException {
 
 		try {
-			CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession()
+			CustomMultipartResolver multipartResolver = new CustomMultipartResolver(request.getSession()
 					.getServletContext());
 			log.info("userid:{},main_id:{},file_type:{}", user_id, main_id, file_type);
 			if (multipartResolver.isMultipart(request)) {
