@@ -57,6 +57,7 @@ public class ContractService {
 			con.setStats(JpaContract.Status.not_started.ordinal());
 //			System.out.println(JpaContract.Status.not_started.ordinal());
 //			con.setStats(JpaContract.Status.not_started.ordinal());
+			com.pantuo.util.BeanUtils.filterXss(con);
 			int dbId = contractMapper.insert(con);
 			if (dbId > 0) {
 				attachmentService.saveAttachment(request, username, con.getId(), JpaAttachment.Type.ht_pic);

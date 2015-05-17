@@ -258,6 +258,7 @@ public class UserService {
 		if (dbUser != null) {
 			user.setErrorInfo(BaseEntity.ERROR, "登录名已经存在!");
 		} else if (user.getUser() != null) {
+			com.pantuo.util.BeanUtils.filterXss(user);
 			userRepo.save(user);
 			identityService.saveUser(user.getUser());
 			if (user.getGroups() != null) {

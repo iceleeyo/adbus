@@ -31,6 +31,7 @@ import com.pantuo.mybatis.persistence.InvoiceMapper;
 import com.pantuo.mybatis.persistence.SuppliesMapper;
 import com.pantuo.service.AttachmentService;
 import com.pantuo.service.SuppliesService;
+import com.pantuo.util.BeanUtils;
 import com.pantuo.util.BusinessException;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
@@ -62,6 +63,7 @@ public class SuppliesServiceImpl implements SuppliesService {
 			obj.setUserId(Request.getUserId(principal));
 			obj.setCreated(new Date());
 			obj.setUpdated(obj.getCreated());
+			com.pantuo.util.BeanUtils.filterXss(obj);
 			int dbId = suppliesMapper.insert(obj);
 			if (dbId > 0) {
 				attachmentService.saveAttachment(request, Request.getUserId(principal), obj.getId(), JpaAttachment.Type.su_file);
@@ -79,6 +81,7 @@ public class SuppliesServiceImpl implements SuppliesService {
 			obj.setCreated(new Date());
 			obj.setUpdated(obj.getCreated());
 			obj.setUserId(Request.getUserId(principal));
+			BeanUtils.filterXss(obj);
 		     InvoiceRepo.save(obj);
 		    attachmentService.saveAttachment(request, Request.getUserId(principal), obj.getId(), JpaAttachment.Type.fp_file);
 			r = new Pair<Boolean, String>(true, "创建发票成功！");

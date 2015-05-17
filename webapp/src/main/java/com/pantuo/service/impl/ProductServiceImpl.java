@@ -77,6 +77,7 @@ public class ProductServiceImpl implements ProductService {
   //  @Override
     public void saveProduct(int city, JpaProduct product) {
         product.setCity(city);
+        com.pantuo.util.BeanUtils.filterXss(product);
         productRepo.save(product);
     }
 

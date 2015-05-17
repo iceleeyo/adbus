@@ -101,6 +101,7 @@ public class OrderService {
         order.setCity(city);
 		Pair<Boolean, String> r = null;
 		try {
+			com.pantuo.util.BeanUtils.filterXss(order);
 			order.setCreated(new Date());
 			order.setUpdated(new Date());
 			//	
