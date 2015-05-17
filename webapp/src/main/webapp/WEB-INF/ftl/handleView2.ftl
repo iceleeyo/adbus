@@ -499,7 +499,7 @@ function pay() {
     									<TD colspan=3 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
   								</TR> 
   								<TR>
-    									<TH>物料</TH>
+    									<TH>物料信息</TH>
     									<TD colspan=3>
     									<#list suppliesView.files as item> 
 		<a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a>
@@ -509,13 +509,13 @@ function pay() {
  	</#list>${(suppliesView.mainView.infoContext)!''}</TD>
     							</TR> 
     							<TR>
-    									<TH>填写物料编号</TH>
+    									<TH>物料编号</TH>
     									<input type="hidden"  id="suppliesid" value="${suppliesView.mainView.id!''}"/>
     									<TD colspan=3><input  id="seqNumber" type="text" ></TD>
     							</TR>
   								<TR>
     									<TH>审核意见</TH>
-    									<TD colspan=3><textarea name="approve2Comments" id="approve2Comments" style="margin: 5px 0;width:400px;height:120px; margin-top:5px;" ></textarea></TD></TR>
+    									<TD colspan=3><textarea name="approve2Comments" id="approve2Comments" style="margin: 5px 0;width:400px;margin-top:5px;" ></textarea></TD></TR>
   								
 									<TR style="height:45px;">
     									<TH>是否通过</TH>
