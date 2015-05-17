@@ -152,18 +152,18 @@ function showtb1(){
                  </H3><BR>	
                  <TABLE class="ui-table ui-table-gray" id="tb1">
   								<TBODY>
-									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>广告主支付订单</H4></TD>
+								<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
+    								<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>广告主支付订单</H4></TD>
   								</TR>  	
-							<TR style="height:45px;">
-    									<TH width="0%">支付</TH>
-    							<TD>
-    										<input type="radio" name="payType" onchange="showContract()" value="contract" checked="checked">关联合同
+							    <TR style="height:45px;">
+    								<TH style="padding:0,10px;">支付方式</TH>
+    							<TD style="padding:0,10px;">
+    								<input type="radio" name="payType" onchange="showContract()" value="contract" checked="checked">关联合同
 				             		<input type="radio" name="payType" value="online" onchange="hideContract()" >线上支付
 				             	<input type="radio" name="payType" value="others"  onchange="hideContract()">其他支付
 				             	</TD>
 				             	
-				             	<TD>
+				             	<TD style="padding:0,10px;">
 				             	<div id="contractCode">
 				             	 <select class="ui-input" name="contractCode" id="contractCode">
                                                 <option value="" selected="selected">请选择合同</option>
@@ -178,13 +178,13 @@ function showtb1(){
     									
   					</TR>
   					           <TR style="height:45px;">
-    									<TH width="0%">是否开具发票</TH>
+    									<TH >是否开具发票</TH>
     									<TD colspan=3>
     									    <input type="checkbox"  id="check1"/>开具发票
     									</TD>
 				             	    </TR>
   								<TR>
-    						        <TD width="25%" colspan="4" style="text-align:center;">
+    						        <TD colspan="4" style="text-align:center;">
     										<button type="button" onclick="pay()" class="block-btn" >确认支付</button>
     									</TD>
   								</TR>	
@@ -192,7 +192,7 @@ function showtb1(){
 						<TABLE class="ui-table ui-table-gray" id="tb2">
   								<TBODY>
 									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>绑定物料</H4></TD>
+    									<TD colspan=4 style="border-radius: 5px 5px 0 0;"><H4>绑定物料</H4></TD>
   								</TR>  	
 									<TR style="height:45px;">
     									<TH width="0%">绑定素材</TH>
@@ -205,9 +205,9 @@ function showtb1(){
                                                 </#if>
                   		               </select></TD>
 				             	    </TR>
-				             	  <TR>
+				             	  <TR style="height:45px;">
     						        <TD colspan=4 align="center">
-									<button type="button" onclick="relatSup()" class="block-btn" >确认</button>
+									<button type="button" onclick="relatSup()" class="block-btn" >确认</button><br>
 									</TD>
   								</TR>
 								</TABLE>	<br>
