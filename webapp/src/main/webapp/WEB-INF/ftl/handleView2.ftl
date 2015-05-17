@@ -1,4 +1,4 @@
-<#import "template/template2.ftl" as frame>
+<#import "template/template.ftl" as frame>
 <@frame.html title="订单办理">
 <script type="text/javascript">
 	$(function() {
