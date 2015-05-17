@@ -56,12 +56,17 @@
 	    var title = ($("#title").val());
 		var taxrenum = ($("#taxrenum").val());
 		var bankname = $("#bankname").val();
+		var mailaddr = $("#mailaddr").val();
 		if(title==""){
 			jDialog.Alert("请填写发票抬头");
 			return;
 		}
 		if(taxrenum==""){
 			jDialog.Alert("请填写税务登记证");
+			return;
+		}
+		if(mailaddr==""){
+			jDialog.Alert("请填写发票邮寄地址");
 			return;
 		}
 		if(bankname==""){
@@ -78,7 +83,7 @@
 		$('#userForm2').ajaxForm(function(data) {
 			jDialog.Alert(data.right);
 			var uptime = window.setTimeout(function(){
-				window.location.href="${rc.contextPath}/contract/list"
+				window.location.reload();
 			   	clearTimeout(uptime);
 						},2000)
 		}).submit();
@@ -182,6 +187,15 @@
 												id="fixphone" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
+                                        <div class="ui-form-item">
+                                            <label class="ui-label mt10"><span
+                                                    class="ui-form-required">*</span>邮寄地址:</label>
+                                                    <input
+												class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
+                                                type="text" name="mailaddr"
+												id="mailaddr" data-is="isAmount isEnough"
+												autocomplete="off" disableautocomplete="">
+                                        </div>
                                         
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
@@ -197,7 +211,7 @@
                                                     class="ui-form-required">*</span>税务登记复印件:</label>
                                                     <div id="newUpload2">
 												<div id="div_1">
-													<input type="file" name="file" id="Sfile2" class="validate[required]">
+													<input type="file" name="file1" id="Sfile2" class="validate[required]">
 												</div>
 											</div>
                                         </div>
@@ -206,7 +220,7 @@
                                                     class="ui-form-required">*</span>一般纳税人资格认证复印件:</label>
                                                     <div id="newUpload2">
 												<div id="div_1">
-													<input type="file" name="file" id="Sfile3" class="validate[required]">
+													<input type="file" name="file2" id="Sfile3" class="validate[required]">
 												</div>
 											</div>
                                         </div>

@@ -258,6 +258,12 @@ function pay() {
 	    var contractid="";
 	     var payType="";
 	     var temp=document.getElementsByName("payType");
+	      var isinvoice=0;
+	       if($("input[type='checkbox']").is(':checked')==true){
+	       isinvoice=1;
+	       }else{
+	       isinvoice=0;
+	       }
 	      for(var i=0;i<temp.length;i++)
          {
            if(temp[i].checked)
@@ -282,7 +288,9 @@ function pay() {
 				"orderid" :orderid,
 				"taskid" :taskid,
 				"contractid":contractid,
-				"payType":payType
+				"payType":payType,
+				"isinvoice":isinvoice
+				
 			},
 			success : function(data) {
 				jDialog.Alert(data.right);
@@ -379,7 +387,15 @@ function pay() {
                   		</select>
                   		</div>
                   		</TD>
-    									<TD width="25%" style="text-align:center;">
+                  		</TR>
+                  		<TR style="height:45px;">
+    									<TH width="0%">是否开具发票</TH>
+    									<TD colspan=3>
+    									    <input type="checkbox"  id="check1"/>开具发票
+    									</TD>
+				             	    </TR>
+				             	    <TR style="height:45px;">
+    									<TD width="25%" style="text-align:center;" colspan="3">
     										<button type="button" onclick="pay()" class="block-btn" >确认支付</button>
     									</TD>
   								</TR>

@@ -22,6 +22,12 @@ function showtb1(){
 	    var contractid="";
 	     var payType="";
 	     var temp=document.getElementsByName("payType");
+	       var isinvoice=0;
+	       if($("input[type='checkbox']").is(':checked')==true){
+	       isinvoice=1;
+	       }else{
+	       isinvoice=0;
+	       }
 	      for(var i=0;i<temp.length;i++)
          {
            if(temp[i].checked)
@@ -46,7 +52,8 @@ function showtb1(){
 				"orderid" :orderid,
 				"taskid" :taskid,
 				"contractid":contractid,
-				"payType":payType
+				"payType":payType,
+				"isinvoice":isinvoice
 			},
 			success : function(data) {
 				jDialog.Alert(data.right);
@@ -148,29 +155,39 @@ function showtb1(){
 									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
     									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>广告主支付订单</H4></TD>
   								</TR>  	
-									<TR style="height:45px;">
+							<TR style="height:45px;">
     									<TH width="0%">支付</TH>
-    									<TD>
+    							<TD>
     										<input type="radio" name="payType" onchange="showContract()" value="contract" checked="checked">关联合同
 				             		<input type="radio" name="payType" value="online" onchange="hideContract()" >线上支付
-				             	<input type="radio" name="payType" value="others"  onchange="hideContract()">其他支付</TD>
+				             	<input type="radio" name="payType" value="others"  onchange="hideContract()">其他支付
+				             	</TD>
 				             	
 				             	<TD>
 				             	<div id="contractCode">
-				             	<select class="ui-input" name="contractCode" id="contractCode">
+				             	 <select class="ui-input" name="contractCode" id="contractCode">
                                                 <option value="" selected="selected">请选择合同</option>
                                                 <#if contracts?exists>
                                                 <#list contracts as c>
                                                     <option value="${c.id}">${c.contractName!''}</option>
                                                 </#list>
-                                                </#if>
-                  		</select>
-                  		</div>
-                  		</TD>
-    									<TD width="25%" style="text-align:center;">
+                                                 </#if>
+                  		        </select>
+                  		      </div>
+                  		     </TD>
+    									
+  					</TR>
+  					           <TR style="height:45px;">
+    									<TH width="0%">是否开具发票</TH>
+    									<TD colspan=3>
+    									    <input type="checkbox"  id="check1"/>开具发票
+    									</TD>
+				             	    </TR>
+  								<TR>
+    						        <TD width="25%" colspan="4" style="text-align:center;">
     										<button type="button" onclick="pay()" class="block-btn" >确认支付</button>
     									</TD>
-  								</TR>
+  								</TR>	
 								</TABLE>	<br>
 						<TABLE class="ui-table ui-table-gray" id="tb2">
   								<TBODY>
