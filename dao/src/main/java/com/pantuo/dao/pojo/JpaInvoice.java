@@ -24,14 +24,16 @@ public class JpaInvoice extends CityEntity{
 	private String accountnum;
 	private String regisaddr;
 	private String fixphone;
+	private String mailaddr;
+	 private String userId;
 	public JpaInvoice(){
 		
 	}
 	
-	public JpaInvoice(int city, int id, String title, Type type, String taxrenum,
+	public JpaInvoice(int id, String title, Type type, String taxrenum,
 			String bankname, String accountnum, String regisaddr,
-			String fixphone) {
-		super(city);
+			String fixphone, String mailaddr, String userId) {
+		super();
 		this.id = id;
 		this.title = title;
 		this.type = type;
@@ -40,6 +42,24 @@ public class JpaInvoice extends CityEntity{
 		this.accountnum = accountnum;
 		this.regisaddr = regisaddr;
 		this.fixphone = fixphone;
+		this.mailaddr = mailaddr;
+		this.userId = userId;
+	}
+
+	public String getMailaddr() {
+		return mailaddr;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public void setMailaddr(String mailaddr) {
+		this.mailaddr = mailaddr;
 	}
 
 	public int getId() {

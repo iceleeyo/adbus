@@ -1,6 +1,9 @@
 package com.pantuo.dao.pojo;
 
 import javax.persistence.*;
+
+import com.pantuo.dao.pojo.JpaProduct.Type;
+
 import java.util.Date;
 
 /**
@@ -39,32 +42,34 @@ public class JpaOrders extends CityEntity {
     private PayType payType;
     private Status stats;
     private String creator;
+    private int isInvoice;
 
     public JpaOrders() {
         //for serialization
     }
 
-    public JpaOrders(int city, String userId, int suppliesId, int productId, int contractId,
-                     String contractCode, Date startTime, Date endTime, JpaProduct.Type type,
-                     PayType payType,
-                     Status stats, String creator) {
-        super(city);
-        this.userId = userId;
-        this.supplies = new JpaSupplies();
-        this.supplies.setId(suppliesId);
-        this.product = new JpaProduct();
-        this.product.setId(productId);
-        this.type = type;
-        this.contractId = contractId;
-        this.contractCode = contractCode;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.payType = payType;
-        this.stats = stats;
-        this.creator = creator;
-    }
 
-    public int getId() {
+    public JpaOrders(int id, String userId, JpaSupplies supplies,
+			JpaProduct product, int contractId, String contractCode,
+			Date startTime, Date endTime, Type type, PayType payType,
+			Status stats, String creator, int isInvoice) {
+		super();
+		this.id = id;
+		this.userId = userId;
+		this.supplies = supplies;
+		this.product = product;
+		this.contractId = contractId;
+		this.contractCode = contractCode;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.type = type;
+		this.payType = payType;
+		this.stats = stats;
+		this.creator = creator;
+		this.isInvoice = isInvoice;
+	}
+
+	public int getId() {
         return id;
     }
 
@@ -72,7 +77,15 @@ public class JpaOrders extends CityEntity {
         this.id = id;
     }
 
-    public String getUserId() {
+    public int getIsInvoice() {
+		return isInvoice;
+	}
+
+	public void setIsInvoice(int isInvoice) {
+		this.isInvoice = isInvoice;
+	}
+
+	public String getUserId() {
         return userId;
     }
 
