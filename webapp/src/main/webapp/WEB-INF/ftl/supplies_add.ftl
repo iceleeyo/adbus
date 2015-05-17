@@ -27,6 +27,12 @@
                     '<input type="button"  style="margin-top:10px;" value="删除"  onclick="del_2('+ j + ')"/></div>');
             j = j + 1;
         });
+        $("#btn_add3").click(function() {
+            $("#newUpload3").append(
+                    '<div id="div_'+i+'"><input  name="qua_'+i+'" type="file"  style="margin-top:10px;"  class="validate[required]" />' +
+                    '<input type="button"  style="margin-top:10px;" value="删除"  onclick="del_3('+ i + ')"/></div>');
+            i = i + 1;
+        });
 
         $("#suppliesType").change(function(){
             var suppliesType = $(this).val();
@@ -45,6 +51,10 @@
 		document.getElementById("newUpload2").removeChild(
 				document.getElementById("div_" + o));
 	}
+	function del_3(o) {
+		document.getElementById("newUpload3").removeChild(
+				document.getElementById("div_" + o));
+	}
 
 
 	function sub2() {
@@ -53,8 +63,13 @@
 		var name = ($("#name").val());
 		var infoContext = ($("#infoContext").val());
 		Sfile= ($("#Sfile").val());
+		Sfile1= ($("#Sfile1").val());
 		if(Sfile== "" && infoContext=="" ){
 			jDialog.Alert("请填写完整信息");
+			return;
+		}
+		if(Sfile1== ""){
+			jDialog.Alert("请选择资质");
 			return;
 		}
         if (!$("#industryId").val()) {
@@ -128,7 +143,7 @@
 										</div>
 										<div class="ui-form-item" id="file">
 											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>附件上传</label>
+												class="ui-form-required">*</span>物料上传</label>
 											<div id="newUpload2">
 												<div id="div_1">
 													<input type="file" name="file" id="Sfile" class="validate[required]">
@@ -137,9 +152,20 @@
 											<input type="button" id="btn_add2" value="增加一行"
 												style="margin-top: 10px;"><br>
 										</div>
+										<div class="ui-form-item">
+											<label class="ui-label mt10"><span
+												class="ui-form-required">*</span>资质上传</label>
+											<div id="newUpload3">
+												<div id="div_1">
+													<input type="file" name="qua" id="Sfile1" class="validate[required]">
+												</div>
+											</div>
+											<input type="button" id="btn_add3" value="增加一行"
+												style="margin-top: 10px;" ><br>
+										</div>
 										<div class="ui-form-item widthdrawBtBox">
 											<input type="button" id="subWithdraw" class="block-btn"
-												onclick="sub2();" value="物料上传">
+												onclick="sub2();" value="上传">
 										</div>
 									
 												 <div id="progress1">

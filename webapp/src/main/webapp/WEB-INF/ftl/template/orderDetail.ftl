@@ -36,9 +36,17 @@
     </#if></SPAN></LI>
   <LI style="width: 240px;"><SPAN>支付方式：</SPAN><SPAN class="con">${(orderview.payTypeString)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>合同号：</SPAN><SPAN class="con">${(orderview.order.contractCode)!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>物料编号：</SPAN><SPAN class="con">${(suppliesView.mainView.seqNumber)!''}</SPAN></LI>
   <LI style="width: 720px;"><SPAN>物料：</SPAN><SPAN class="con">
   <@preview.materialPreview view=suppliesView/>
   </SPAN></LI>
+  <LI style="width: 720px;"><SPAN>用户资质：</SPAN><SPAN class="con">
+  <#if quafiles.files?has_content>
+     <#list quafiles.files as item>
+      <a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;
+     </#list>
+     </#if>
+    </SPAN></LI>
   <#if (orderview.order.stats >= 2) >
       <LI style="width: 240px;"><SPAN><a target="_blank" href="${rc.contextPath}/schedule/${order.id!''}" >查看排期表</a></SPAN><SPAN class="con"></SPAN></LI>
   </#if>

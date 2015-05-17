@@ -125,6 +125,9 @@ function showtb1(){
   <LI style="width: 720px;"><SPAN>物料列表：</SPAN><SPAN class="con"><#list suppliesView.files as item>
       <a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;
     </#list>${(suppliesView.mainView.infoContext)!''}</SPAN></LI>
+   <LI style="width: 720px;"><SPAN>用户资质：</SPAN><SPAN class="con"><#list quafiles.files as item>
+      <a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;
+    </#list></SPAN></LI>
 </UL>
 </DIV>
 </DIV>

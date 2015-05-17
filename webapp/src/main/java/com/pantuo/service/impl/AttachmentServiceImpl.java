@@ -61,6 +61,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 					MultipartFile file = multiRequest.getFile(iter.next());
 					if (file != null && !file.isEmpty()) {
 						String oriFileName = file.getOriginalFilename();
+						String fn=file.getName();
 						if (StringUtils.isNoneBlank(oriFileName)) {
 
 							String storeName = GlobalMethods.md5Encrypted((System.currentTimeMillis() + oriFileName)
@@ -71,7 +72,11 @@ public class AttachmentServiceImpl implements AttachmentService {
 							file.transferTo(localFile);
 							Attachment t = new Attachment();
 							t.setMainId(main_id);
-							t.setType(file_type.ordinal());
+							if(fn.indexOf("qua")==-1){
+								t.setType(JpaAttachment.Type.u_fj.ordinal());
+							}else{
+								t.setType(file_type.ordinal());
+							}
 							t.setCreated(new Date());
 							t.setUpdated(t.getCreated());
 							t.setName(oriFileName);
@@ -112,11 +117,17 @@ public class AttachmentServiceImpl implements AttachmentService {
 		AttachmentExample example =new AttachmentExample();
 		AttachmentExample.Criteria ca=example.createCriteria();
 		ca.andMainIdEqualTo(main_id);
+		ca.andTypeEqualTo(3);
 		//ca.andUserIdEqualTo(Request.getUserId(principal));
 		return attachmentMapper.selectByExample(example);
 	}
-
-
+	public List<Attachment> queryQua(Principal principal, int main_id) {
+		AttachmentExample example =new AttachmentExample();
+		AttachmentExample.Criteria ca=example.createCriteria();
+		ca.andMainIdEqualTo(main_id);
+		ca.andTypeEqualTo(4);
+		return attachmentMapper.selectByExample(example);
+	}
 
 	public Attachment selectById(int id) {
 		

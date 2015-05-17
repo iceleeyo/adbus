@@ -802,7 +802,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 				OrderView v = findOrderViewByTaskId(taskid);
 				JpaProduct prod = productService.findById(v.getOrder().getProductId());
 				SuppliesView suppliesView = suppliesService.getSuppliesDetail(v.getOrder().getSuppliesId(), null);
+				SuppliesView quafiles = suppliesService.getQua(v.getOrder().getSuppliesId(), null);
 				model.addAttribute("suppliesView", suppliesView);
+				model.addAttribute("quafiles", quafiles);
 				model.addAttribute("activitis", activitis);
 				model.addAttribute("sections", orderService.getTaskSection(activitis));
 				model.addAttribute("orderview", v);
@@ -818,12 +820,14 @@ public class ActivitiServiceImpl implements ActivitiService {
 			List<HistoricTaskView> activitis = null;
 			OrderView orderView = new OrderView();
 			SuppliesView suppliesView = null;
+			SuppliesView quafiles=null;
 
 			if (order != null) {
 				orderView.setOrder(order);
 				prod = productService.findById(order.getProductId());
 				longorderid = OrderIdSeq.getIdFromDate(order.getId(), order.getCreated());
 				suppliesView = suppliesService.getSuppliesDetail(orderView.getOrder().getSuppliesId(), null);
+				 quafiles = suppliesService.getQua(orderView.getOrder().getSuppliesId(), null);
 				prod = productService.findById(order.getProductId());
 			}
 			if (StringUtils.isNoneBlank(pid)) {
@@ -837,6 +841,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 			model.addAttribute("activitis", activitis);
 			model.addAttribute("suppliesView", suppliesView);
+			model.addAttribute("quafiles", quafiles);
 			model.addAttribute("order", order);
 			model.addAttribute("longorderid", longorderid);
 			model.addAttribute("orderview", orderView);

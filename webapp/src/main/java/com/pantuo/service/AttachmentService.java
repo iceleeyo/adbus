@@ -58,5 +58,6 @@ public interface AttachmentService {
 	
 	
 	public Attachment selectById(int id);
+	public List<Attachment> queryQua(Principal principal, int main_id);
 
 }

@@ -150,7 +150,9 @@ public class OrderController {
 		List<Contract> contracts = contractService.queryContractList(city, page, null, null, principal);
 		List<Supplies> supplieslist = suppliesService.querySuppliesByUser(city, principal);
 		SuppliesView suppliesView = suppliesService.getSuppliesDetail(v.getOrder().getSuppliesId(), null);
+		SuppliesView quafiles = suppliesService.getQua(v.getOrder().getSuppliesId(), null);
 		model.addAttribute("suppliesView", suppliesView);
+		model.addAttribute("quafiles", quafiles);
 		model.addAttribute("contracts", contracts);
 		model.addAttribute("supplieslist", supplieslist);
 		model.addAttribute("taskid", taskid);
@@ -203,6 +205,7 @@ public class OrderController {
 		List<Supplies> supplieslist = suppliesService.querySuppliesByUser(city, principal);
 		List<Contract> contracts = contractService.queryContractList(city, page, null, null, principal);
 		SuppliesView suppliesView = suppliesService.getSuppliesDetail(order.getSuppliesId(), null);
+		SuppliesView quafiles = suppliesService.getQua(v.getOrder().getSuppliesId(), null);
 		Orders orders = orderService.selectOrderById(order.getId());
 		v.setOrder(orders);
 		model.addAttribute("supplieslist", supplieslist);
@@ -211,6 +214,7 @@ public class OrderController {
 		model.addAttribute("orderview", v);
 		model.addAttribute("contracts", contracts);
 		model.addAttribute("suppliesView", suppliesView);
+		model.addAttribute("quafiles", quafiles);
 		return "relateSup";
 	}
 
@@ -236,7 +240,9 @@ public class OrderController {
 			OrderView v = activitiService.findOrderViewByTaskId(taskid);
 			JpaProduct prod = productService.findById(v.getOrder().getProductId());
 			SuppliesView suppliesView = suppliesService.getSuppliesDetail(v.getOrder().getSuppliesId(), null);
+			SuppliesView quafiles = suppliesService.getQua(v.getOrder().getSuppliesId(), null);
 			model.addAttribute("suppliesView", suppliesView);
+			model.addAttribute("quafiles", quafiles);
 			model.addAttribute("activitis", activitis);
 			model.addAttribute("sections", orderService.getTaskSection(activitis));
 			model.addAttribute("orderview", v);
@@ -254,8 +260,10 @@ public class OrderController {
 			}
 			List<HistoricTaskView> activitis = activitiService.findHistoricUserTask(city, pid, null);
 			SuppliesView suppliesView = suppliesService.getSuppliesDetail(orderView.getOrder().getSuppliesId(), null);
+			SuppliesView quafiles = suppliesService.getQua(orderView.getOrder().getSuppliesId(), null);
 			model.addAttribute("activitis", activitis);
 			model.addAttribute("suppliesView", suppliesView);
+			model.addAttribute("quafiles", quafiles);
 			model.addAttribute("order", order);
 			model.addAttribute("longorderid", longorderid);
 			model.addAttribute("orderview", orderView);

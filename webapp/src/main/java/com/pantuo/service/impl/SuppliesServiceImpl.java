@@ -152,6 +152,17 @@ public class SuppliesServiceImpl implements SuppliesService {
 		}
 		return v;
 	}
+	public SuppliesView getQua(int supplies_id, Principal principal) {
+		SuppliesView v = null;
+		Supplies supplies = suppliesMapper.selectByPrimaryKey(supplies_id);
+		if (supplies != null) {
+			v = new SuppliesView();
+			List<Attachment> files = attachmentService.queryQua(principal, supplies_id);
+			v.setFiles(files);
+			v.setMainView(supplies);
+		}
+		return v;
+	}
 
 	public Supplies selectSuppliesById(Integer suppliesId) {
 		
