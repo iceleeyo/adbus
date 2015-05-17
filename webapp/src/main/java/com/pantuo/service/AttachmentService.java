@@ -53,11 +53,14 @@ public interface AttachmentService {
 	 * @return
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
-	public List<Attachment> queryFile(Principal principal, int main_id);
+	//public List<Attachment> queryFile(Principal principal, int main_id);
 	
 	
 	
 	public Attachment selectById(int id);
 	public List<Attachment> queryQua(Principal principal, int main_id);
+	public List<Attachment> queryinvoiceF(Principal principal, int id);
+	public List<Attachment> queryAllFile(Principal principal, int main_id);
+	public List<Attachment> querysupFile(Principal principal, int main_id);
 
 }

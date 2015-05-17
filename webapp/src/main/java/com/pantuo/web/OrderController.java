@@ -39,6 +39,7 @@ import com.pantuo.service.ContractService;
 import com.pantuo.service.OrderService;
 import com.pantuo.service.ProductService;
 import com.pantuo.service.SuppliesService;
+import com.pantuo.web.view.InvoiceView;
 import com.pantuo.web.view.OrderView;
 import com.pantuo.web.view.SuppliesView;
 
@@ -92,6 +93,13 @@ public class OrderController {
 		model.addAttribute("prod", prod);
 		return "proDetail";
 	}
+	@RequestMapping(value = "/invoiceDetail/{userid}", produces = "text/html;charset=utf-8")
+	public String invoiceDetail(Model model, Principal principal,  @PathVariable String userid,
+			HttpServletRequest request) {
+		InvoiceView invoiceView=suppliesService.getInvoiceDetail(userid, principal);
+		model.addAttribute("invoiceView", invoiceView);
+		return "invoiceDetail";
+	}
 
 	@RequestMapping(value = "/payview", produces = "text/html;charset=utf-8")
 	public String payview(Model model, @RequestParam(value = "taskid", required = true) String taskid,
@@ -118,9 +126,9 @@ public class OrderController {
 	@ResponseBody
 	public Pair<Boolean, String> payment(@RequestParam(value = "orderid") String orderid,
 			@RequestParam(value = "contractid") int contractid, @RequestParam(value = "taskid") String taskid,
-			@RequestParam(value = "payType") String payType, Principal principal, HttpServletRequest request,
+			@RequestParam(value = "payType") String payType,@RequestParam(value = "isinvoice") int isinvoice, Principal principal, HttpServletRequest request,
 			HttpServletResponse response) {
-		return activitiService.payment(Integer.parseInt(orderid), taskid, contractid, payType,
+		return activitiService.payment(Integer.parseInt(orderid), taskid, contractid, payType,isinvoice,
 				Request.getUser(principal));
 	}
 
@@ -205,7 +213,7 @@ public class OrderController {
 		List<Supplies> supplieslist = suppliesService.querySuppliesByUser(city, principal);
 		List<Contract> contracts = contractService.queryContractList(city, page, null, null, principal);
 		SuppliesView suppliesView = suppliesService.getSuppliesDetail(order.getSuppliesId(), null);
-		SuppliesView quafiles = suppliesService.getQua(v.getOrder().getSuppliesId(), null);
+		SuppliesView quafiles = suppliesService.getQua(order.getSuppliesId(), null);
 		Orders orders = orderService.selectOrderById(order.getId());
 		v.setOrder(orders);
 		model.addAttribute("supplieslist", supplieslist);

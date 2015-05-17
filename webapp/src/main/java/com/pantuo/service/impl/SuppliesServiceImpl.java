@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.Invoice;
+import com.pantuo.mybatis.domain.InvoiceExample;
 import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.mybatis.domain.SuppliesExample;
 import com.pantuo.mybatis.persistence.InvoiceMapper;
@@ -34,6 +35,7 @@ import com.pantuo.util.BusinessException;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
+import com.pantuo.web.view.InvoiceView;
 import com.pantuo.web.view.SuppliesView;
 
 @Service
@@ -76,6 +78,7 @@ public class SuppliesServiceImpl implements SuppliesService {
 		try {
 			obj.setCreated(new Date());
 			obj.setUpdated(obj.getCreated());
+			obj.setUserId(Request.getUserId(principal));
 		     InvoiceRepo.save(obj);
 		    attachmentService.saveAttachment(request, Request.getUserId(principal), obj.getId(), JpaAttachment.Type.fp_file);
 			r = new Pair<Boolean, String>(true, "创建发票成功！");
@@ -101,7 +104,7 @@ public class SuppliesServiceImpl implements SuppliesService {
 	public Pair<Boolean, String> removeSupplies(int supplies_id, Principal principal, HttpServletRequest request) {
 		Supplies t = suppliesMapper.selectByPrimaryKey(supplies_id);
 		if (t != null && StringUtils.equals(Request.getUserId(principal), t.getUserId())) {
-			List<Attachment> atts = attachmentService.queryFile(principal, supplies_id);
+			List<Attachment> atts = attachmentService.querysupFile(principal, supplies_id);
 			if (!atts.isEmpty()) {
 				for (Attachment attachment : atts) {
 					attachmentService.removeAttachment(request, Request.getUserId(principal), attachment.getId());
@@ -146,9 +149,27 @@ public class SuppliesServiceImpl implements SuppliesService {
 		Supplies supplies = suppliesMapper.selectByPrimaryKey(supplies_id);
 		if (supplies != null) {
 			v = new SuppliesView();
-			List<Attachment> files = attachmentService.queryFile(principal, supplies_id);
+			List<Attachment> files = attachmentService.querysupFile(principal, supplies_id);
 			v.setFiles(files);
 			v.setMainView(supplies);
+		}
+		return v;
+	}
+	public InvoiceView getInvoiceDetail(String userid, Principal principal) {
+		InvoiceView v = null;
+		InvoiceExample example=new InvoiceExample();
+		InvoiceExample.Criteria c=example.createCriteria();
+		c.andUserIdEqualTo(userid);
+		List<Invoice>  ins=invoiceMapper.selectByExample(example);
+		Invoice in=null;
+		if(ins.size()>0){
+			in=ins.get(0);
+		}
+		if (in != null) {
+			v = new InvoiceView();
+			List<Attachment> files = attachmentService.queryinvoiceF(principal, in.getId());
+			v.setFiles(files);
+			v.setMainView(in);
 		}
 		return v;
 	}

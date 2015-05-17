@@ -42,6 +42,7 @@ import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Contract;
+import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.Product;
 import com.pantuo.mybatis.domain.Supplies;
@@ -408,11 +409,12 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 	}
 
-	public int relateContract(int orderid, int contractid, String payType, String userId, String taskName) {
+	public int relateContract(int orderid, int contractid, String payType,int isinvoice, String userId, String taskName) {
 
 		Orders orders = ordersMapper.selectByPrimaryKey(orderid);
 		Contract contract = contractMapper.selectByPrimaryKey(contractid);
 		if (orders != null) {
+			orders.setIsInvoice(isinvoice);
 			if (contract != null && contract.getContractCode() != null && payType.equals("contract")) {
 				orders.setContractId(contractid);
 				orders.setContractCode(contract.getContractCode());
@@ -432,7 +434,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return 1;
 	}
 
-	public Pair<Boolean, String> payment(int orderid, String taskid, int contractid, String payType, UserDetail u) {
+	public Pair<Boolean, String> payment(int orderid, String taskid, int contractid, String payType,int isinvoice, UserDetail u) {
 
 		Pair<Boolean, String> r = null;
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
@@ -441,7 +443,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			UserDetail ul = (UserDetail) info.get(ActivitiService.OWNER);
 			if (ul != null && ObjectUtils.equals(ul.getUsername(), u.getUsername())) {
 				if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
-					if (relateContract(orderid, contractid, payType, u.getUsername(), StringUtils.EMPTY) > 0) {
+					if (relateContract(orderid, contractid, payType, isinvoice,u.getUsername(), StringUtils.EMPTY) > 0) {
 						taskService.claim(task.getId(), u.getUsername());
 						taskService.complete(task.getId());
 						return new Pair<Boolean, String>(true, "订单支付成功!");
@@ -453,7 +455,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 				r = new Pair<Boolean, String>(false, "任务属主不匹配!");
 			}
 		} else {
-			if (relateContract(orderid, contractid, payType, u.getUsername(), "payment") > 0) {
+			if (relateContract(orderid, contractid, payType,isinvoice, u.getUsername(), "payment") > 0) {
 				return new Pair<Boolean, String>(true, "订单支付成功!");
 			} else {
 				return new Pair<Boolean, String>(false, "订单支付失败!");

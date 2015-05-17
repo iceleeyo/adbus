@@ -11,6 +11,7 @@ import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
+import com.pantuo.web.view.InvoiceView;
 import com.pantuo.web.view.SuppliesView;
 
 import org.springframework.data.domain.*;
@@ -93,4 +94,5 @@ public interface SuppliesService {
 			HttpServletRequest request);
 
 	public SuppliesView getQua(int supplies_id, Principal principal);
+	public InvoiceView getInvoiceDetail(String userid, Principal principal);
 }

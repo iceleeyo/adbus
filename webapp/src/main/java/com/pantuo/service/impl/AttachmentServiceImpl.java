@@ -113,12 +113,23 @@ public class AttachmentServiceImpl implements AttachmentService {
 		}
 	}
 
-	public List<Attachment> queryFile(Principal principal, int main_id) {
+	public List<Attachment> queryAllFile(Principal principal, int main_id) {
+		AttachmentExample example =new AttachmentExample();
+		AttachmentExample.Criteria ca=example.createCriteria();
+		ca.andMainIdEqualTo(main_id);
+		return attachmentMapper.selectByExample(example);
+	}
+	public List<Attachment> querysupFile(Principal principal, int main_id) {
 		AttachmentExample example =new AttachmentExample();
 		AttachmentExample.Criteria ca=example.createCriteria();
 		ca.andMainIdEqualTo(main_id);
 		ca.andTypeEqualTo(4);
-		//ca.andUserIdEqualTo(Request.getUserId(principal));
+		return attachmentMapper.selectByExample(example);
+	}
+	public List<Attachment> queryinvoiceF(Principal principal, int main_id) {
+		AttachmentExample example =new AttachmentExample();
+		AttachmentExample.Criteria ca=example.createCriteria();
+		ca.andMainIdEqualTo(main_id);
 		return attachmentMapper.selectByExample(example);
 	}
 	public List<Attachment> queryQua(Principal principal, int main_id) {

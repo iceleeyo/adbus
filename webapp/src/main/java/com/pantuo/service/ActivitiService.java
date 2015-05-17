@@ -47,7 +47,7 @@ public interface ActivitiService {
 
 	public void startProcess2(int city, UserDetail u, JpaOrders order);
 
-	public Pair<Boolean, String> payment(int orderid, String taskid, int contractid, String payType, UserDetail u);
+	public Pair<Boolean, String> payment(int orderid, String taskid, int contractid, String payType,int isinvoice,UserDetail u);
 
 	public Page<OrderView> findTask(int city, String userid, int page, int pageSize, Sort sort);
 	public Page<OrderView> finished(int city, Principal principal, int page, int pageSize, Sort sort);

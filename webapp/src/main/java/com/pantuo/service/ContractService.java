@@ -141,7 +141,7 @@ public class ContractService {
 		Contract con = contractMapper.selectByPrimaryKey(contract_id);
 		if (con != null) {
 			v = new ContractView();
-			List<Attachment> files = attachmentService.queryFile(principal, contract_id);
+			List<Attachment> files = attachmentService.queryAllFile(principal, contract_id);
 			v.setFiles(files);
 			v.setMainView(con);
 		}
