@@ -6812,3 +6812,18 @@ a.ui-side-sub-item-link:hover {
   width: 780px;
 }
 
+.footer{
+	width: 100%;
+  padding: 10px 0;
+  background: #555;
+  position: relative;
+  top:40px;
+}
+
+.foot-copyright{
+  margin-bottom: 10px;
+  font-size: 14px;
+  position: relative;
+  text-align: center;
+  line-height: 15px;
+}
