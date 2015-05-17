@@ -5438,13 +5438,13 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 }
 
 .ui-table-gray tbody th,.ui-table-gray tbody td {
-	padding: 0 16px;
+	padding: 0 40px;
 	line-height: 34px;
 	border: 2px solid #fff;
 	border-top: 0;
 	border-bottom: 0;
 	color: #222;
-	text-align: center;
+	
 }
 
 .ui-table-gray tr {
