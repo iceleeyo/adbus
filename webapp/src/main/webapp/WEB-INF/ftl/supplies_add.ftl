@@ -92,7 +92,7 @@
 							<form id="userForm2" name="userForm2" action="put?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1"
 								enctype="multipart/form-data" method="post"">
 								<div class="withdraw-title fn-clear">
-									上传物料
+									上传物料及相关资质
 									<!--
             <ul class="fn-clear">
               <li class="first"><a class="addBank fn-right" href="/account/userBank!toAdd.action">xxxx</a></li>
