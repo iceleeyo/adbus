@@ -85,10 +85,10 @@
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>单日播放次数:</label>
 												<input
-												class="ui-input validate[required,integer,min[1],max[30]"
-                                                type="text" value="<#if prod??>${prod.playNumber!''}<#else>1</#if>" name="playNumber"
+												class="ui-input validate[required,integer,min[1],max[100]"
+                                                type="text" value="<#if prod??>${prod.playNumber!''}<#else></#if>" name="playNumber"
 												id="playNumber" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="" placeholder="1-30次">
+												autocomplete="off" disableautocomplete="" placeholder="1-100次">
 										</div>
 
                                         <div class="ui-form-item toggle">
@@ -96,7 +96,7 @@
                                                     class="ui-form-required">*</span>首播次数:</label>
                                             <input
                                                     class="ui-input validate[required,integer,min[0],max[30]"
-                                                    type="number" value="<#if prod??>${prod.firstNumber!''}<#else>0</#if>" name="firstNumber"
+                                                    type="number" value="<#if prod??>${prod.firstNumber!''}<#else></#if>" name="firstNumber"
                                                     id="firstNumber" data-is="isAmount isEnough"
                                                     autocomplete="off" disableautocomplete="" placeholder="0-30次">
                                         </div>
@@ -105,7 +105,7 @@
                                                     class="ui-form-required">*</span>末播次数:</label>
                                             <input
                                                     class="ui-input validate[required,integer,min[0],max[30]"
-                                                    type="number" value="<#if prod??>${prod.lastNumber!''}<#else>0</#if>" name="lastNumber"
+                                                    type="number" value="<#if prod??>${prod.lastNumber!''}<#else></#if>" name="lastNumber"
                                                     id="lastNumber" data-is="isAmount isEnough"
                                                     autocomplete="off" disableautocomplete="" placeholder="0-30次">
                                         </div>
@@ -114,22 +114,22 @@
                                                     class="ui-form-required">*</span>高峰时段占比:</label>
                                             <input
                                                     class="ui-input validate[required,number,min[0],max[1]"
-                                                    type="number" value="<#if prod??>${prod.hotRatio!''}<#else>0</#if>" name="hotRatio"
+                                                    type="number" value="<#if prod??>${prod.hotRatio!''}<#else>0.1</#if>" name="hotRatio"
                                                     id="hotRatio" data-is="isAmount isEnough"
-                                                    autocomplete="off" disableautocomplete="" placeholder="0-1之间的小数">
+                                                    autocomplete="off" disableautocomplete="" placeholder="0-1之间的小数，例如：0.2表示高峰占比20%。">
                                         </div>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>套餐播放天数:</label>
                                             <input
                                                     class="ui-input validate[required,integer,min[1],max[360]"
-                                                    type="number" value="<#if prod??>${prod.days!''}<#else>0</#if>" name="days"
+                                                    type="number" value="<#if prod??>${prod.days!''}<#else>7</#if>" name="days"
                                                     id="days" data-is="isAmount isEnough"
                                                     autocomplete="off" disableautocomplete="" placeholder="最少1天">
                                         </div>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
-                                                    class="ui-form-required">*</span>套餐价格:</label>
+                                                    class="ui-form-required">*</span>套餐价格(元):</label>
                                             <input
                                                     class="ui-input validate[required,number,min[1]"
                                                     type="number" value="<#if prod??>${prod.price!''}<#else>0</#if>" name="price"
