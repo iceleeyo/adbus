@@ -14,6 +14,7 @@ import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.pojo.HistoricTaskView;
+import com.pantuo.pojo.TableRequest;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.OrderView;
@@ -26,6 +27,7 @@ public interface ActivitiService {
     public static final String CITY = "_city";
     public static final String SUPPLIEID = "_supplieId";
     public static final String OWNER = "_owner";
+    public static final String CREAT_USERID = "_creatUserId";
     public static final String THE_EMAIL = "_theEmail";
     public static final String THE_COMPANY = "_theCompany";
     public static final String TIMEOUT = "_timeout";
@@ -49,7 +51,7 @@ public interface ActivitiService {
 
 	public Pair<Boolean, String> payment(int orderid, String taskid, int contractid, String payType,int isinvoice,UserDetail u);
 
-	public Page<OrderView> findTask(int city, String userid, int page, int pageSize, Sort sort);
+	public Page<OrderView> findTask(int city, String userid, TableRequest req);
 	public Page<OrderView> finished(int city, Principal principal, int page, int pageSize, Sort sort);
 
 	//	public Pair<Boolean, String> handle(String orderid, String taskid, String comment, String isok, UserDetail user);

@@ -1,5 +1,6 @@
 package com.pantuo.web.view;
 
+import java.util.Date;
 import java.util.Map;
 
 import org.activiti.engine.history.HistoricProcessInstance;
@@ -29,6 +30,7 @@ public class OrderView {
 	private String task_name;
 	private String executionId;
 	private String task_assignee;
+	private Date task_createTime;
 
 	//
 	private String processInstanceId;
@@ -205,6 +207,14 @@ public class OrderView {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public Date getTask_createTime() {
+		return task_createTime;
+	}
+
+	public void setTask_createTime(Date task_createTime) {
+		this.task_createTime = task_createTime;
 	}
 
 }

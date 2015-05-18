@@ -19,6 +19,7 @@ import com.pantuo.dao.pojo.JpaOrders;
  */
 public class OrderIdSeq {
 
+	public static long beginId = 20150101100000L;
 	static long maxId = 100000L, split = maxId * 10L;
 	
 	public static long getLongOrderId(JpaOrders order) {
@@ -32,6 +33,13 @@ public class OrderIdSeq {
 	}
 
 	public int longOrderId2DbId(long longOrderId) {
+		return (int) (longOrderId - (longOrderId / split) * split - maxId);
+	}
+
+	public static int checkAndGetRealyOrderId(long longOrderId) {
+		if (longOrderId < beginId) {
+			return -1;
+		}
 		return (int) (longOrderId - (longOrderId / split) * split - maxId);
 	}
 

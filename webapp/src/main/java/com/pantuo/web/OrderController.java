@@ -316,8 +316,7 @@ public class OrderController {
 	@ResponseBody
 	public DataTablePage<OrderView> getAllContracts(TableRequest req, Principal principal,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
-		Page<OrderView> w = orderService.getOrderList(city, req.getPage(), req.getLength(), req.getSort("id"),
-				principal);
+		Page<OrderView> w = orderService.getOrderList(city, req, principal);
 		return new DataTablePage(w, req.getDraw());
 	}
 
