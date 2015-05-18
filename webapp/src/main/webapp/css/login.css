@@ -14,13 +14,13 @@
 .login-input{height:45px;line-height: 23px;color:#595959;width:100%;border-radius: 2px;border:1px solid #c5c5c5;box-shadow: 0 0 2px 1px #efefef;outline:none;}
 .login-input:hover{border:1px solid #2ea7e0;}
 .input-p{padding: 10px 5px 10px 50px;font-size: 14px;}
-.gray-input{background: url(images/input-box.png) 0 0 no-repeat}
-.icon-position-user{background: url(images/icon-input.png) 0 -142px no-repeat;}
-.icon-position-pwd{background: url(images/icon-input.png) 0 -426px no-repeat;}
+.gray-input{background: url(/images/input-box.png) 0 0 no-repeat}
+.icon-position-user{background: url(/images/icon-input.png) 0 -142px no-repeat;}
+.icon-position-pwd{background: url(/images/icon-input.png) 0 -426px no-repeat;}
 .login-name-icon{position: absolute;top: 10px;left: 10px;width: 25px;height: 21px; }
 .login-btn{height: 40px;line-height: 40px;background: #2ea7e0;border: 0;border-radius: 2px;color: #fff;text-align: center;cursor: pointer;display: inline-block;}
 .login-btn-size{width: 165px;font-size: 18px;}
-.icon-select{height: 20px;width:26px;background: url(images/icon-select.png) 0 -33px no-repeat;display: inline-block;padding-bottom: 3px;}
+.icon-select{height: 20px;width:26px;background: url(/images/icon-select.png) 0 -33px no-repeat;display: inline-block;padding-bottom: 3px;}
 /* .icon-yes{background-position: } */
 .icon-no{background-position: 0 0;}
 .login-bottom{border-top: 1px solid #e2e2e2;height: 48px;line-height: 48px;color: #afafaf;margin:0 20px;position: relative; }
