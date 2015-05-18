@@ -1,7 +1,5 @@
 <#import "template/template.ftl" as frame>
 <#global menu="密码找回">
-<%@page import="java.util.Date"%>
-<%@include file="/inc/common_head.inc"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -14,36 +12,47 @@
 <script type="text/javascript" src="../js/common.js"></script>
 
 <link type="text/css" href="../css/page.css" rel="stylesheet" media="screen" />
-<script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="../js/jquery.form.js"></script>
 <script type="text/javascript" src="../js/jquery.ulmenu.js"></script>
 <script type="text/javascript" src="../js/platform.js"></script>
 <script type="text/javascript" src="../js/banBackSpace.js"></script>
-<title>密码找回</title>
 
 
 <script type="text/javascript">
 
 
-function findPwd(){
+function changePwd(){
+	var password1=$("#password1").val();
+	var password2=$("#password2").val();
 	var userId=$("#userId").val();
 	
-	if(userId==""){
-		jDialog.Alert("请填写用户名");
+    if(userId.trim()==""){
+       jDialog.Alert("请输入用户名");
+    }
+	
+	if(password1==""){
+		jDialog.Alert("请填写新密码");
+		return;
+	}
+	if(password1.length>15){
+		jDialog.Alert("密码过长!");
+		return;
+	}
+	
+	if(password2 !=password1){
+		jDialog.Alert("两次密码输入不一样");
 		return;
 	}
 	
 	$.ajax({
-		url : "${rc.contextPath}/user/send_pwd_link",
+		url : "${rc.contextPath}/user/change_pwd",
 		type : "POST",
-		data : {"userId":userId},
+		data : {"userId":userId,"psw":password1},
 		success : function(data) {
 				jDialog.Alert( data.right );
-				//alert(data.right);
-				//window.parent.location.href = "logout.action";
+				//window.location.reload();
 		}
 	}, "text");
-
 	
 }
 
@@ -51,7 +60,7 @@ function findPwd(){
 
 </head>
 <body>
-	<div class="Page-Title"> <span>找回密码</span> </div>
+	<div class="Page-Title"> <span>修改密码</span> </div>
 <center>
 
 <form id="infoForm" name="infoForm" action="" method="post" dataType="html" class="Form-Table">
@@ -60,12 +69,21 @@ function findPwd(){
 	<font color="red"><s:property value="msg"/></font>
 		<tr>
 			<th scope="row"><span style="color:red;">*</span>用户名[登录帐号]：</th>
-			<td><input type="text" name="userInfo.id" id="userId" value="" class="Input-Text" placeholder="请输入您的用户名" /></td>
+			<td>
+			<input type="text"  id="userId" value="${userId!''} " readonly="readonly"  /></td>
+		</tr>
+		<tr>
+			<th scope="row"><span style="color:red;">*</span>新密码：</th>
+			<td><input type="password"  id="password1" value="" class="Input-Text" placeholder="" /></td>
+		</tr>
+		<tr>
+			<th scope="row"><span style="color:red;">*</span>确认新密码：</th>
+			<td><input type="password"  id="password2" value="" class="Input-Text" placeholder="" /></td>
 		</tr>
 		
 	</table>
 	<div class="Form-Buttons">
-		<button type="button"  onclick="findPwd()">确认找回密码</button>
+		<button type="button"  onclick="changePwd()">修改密码</button>
 	</div>
 </form> 
 </center>

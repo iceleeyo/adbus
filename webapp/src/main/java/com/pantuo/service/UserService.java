@@ -1,16 +1,17 @@
 package com.pantuo.service;
 
-import com.mysema.query.types.Predicate;
-import com.mysema.query.types.expr.BooleanExpression;
-import com.mysema.query.types.expr.BooleanOperation;
-import com.pantuo.dao.UserDetailRepository;
-import com.pantuo.dao.pojo.BaseEntity;
-import com.pantuo.dao.pojo.QUserDetail;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.ManagementService;
 import org.activiti.engine.identity.Group;
-import org.activiti.engine.identity.GroupQuery;
 import org.activiti.engine.identity.User;
 import org.activiti.engine.impl.persistence.entity.UserEntity;
 import org.apache.commons.lang3.StringUtils;
@@ -18,20 +19,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-
-
-//import com.pantuo.dao.pojo.QUser;
+import com.mysema.query.types.expr.BooleanExpression;
+import com.pantuo.dao.UserDetailRepository;
+import com.pantuo.dao.pojo.BaseEntity;
+import com.pantuo.dao.pojo.QUserDetail;
 import com.pantuo.dao.pojo.UserDetail;
-
-import javax.transaction.Transactional;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.pantuo.util.Constants;
+import com.pantuo.util.FileHelper;
+import com.pantuo.util.FreeMarker;
+import com.pantuo.util.Mail;
+import com.pantuo.util.Pair;
 
 /**
  * @author tliu
@@ -149,7 +152,60 @@ public class UserService {
 
         return user;
     }
+    public Pair<Boolean, String> addUserMailReset(UserDetail u,HttpServletRequest request) {
+//		String md5 = GlobalMethods.md5Encrypted(System.currentTimeMillis().getBytes());
+		String md5 ="";
+		if (StringUtils.isBlank(u.getUser().getEmail())) {
+			return new Pair<Boolean, String>(false, "用户未填写邮箱信息,无法通过邮件找回请联系管理员");
+		}
+
+		Mail mail = new Mail();
+		mail.setTo(u.getUser().getEmail());
+		mail.setFrom("ad_system@163.com");// 你的邮箱  
+		mail.setHost("smtp.163.com");
+		mail.setUsername("ad_system@163.com");// 用户  
+		mail.setPassword("pantuo");// 密码  
+		mail.setSubject("[北巴]找回您的账户密码");
+		mail.setContent(getMailTemplete(u.getLastName(),
+				String.format(StringUtils.trim("http://127.0.0.1:8080/webapp/user/reset_pwd?userId=%s&uuid=%s"), u.getUsername(), md5),request));
+		Pair<Boolean, String> resultPair = null;
+		String email =u.getUser().getEmail(); 
+		String regex = "(\\w{3})(\\w+)(\\w{3})(@\\w+)";
+		String mailto = email.replaceAll(regex, "$1..$3$4");
+		if (mail.sendMail()) {
+			resultPair = new Pair<Boolean, String>(true, "您的申请已提交成功，请查看您的" + mailto + "邮箱。");
+		} else {
+			resultPair = new Pair<Boolean, String>(false, "往" + mailto + "发邮件操作失败，轻稍后重新尝试！");
+		}
+		return resultPair;
+	}
     
+    public String getMailTemplete(String userId, String resetPwd,HttpServletRequest request) {
+		StringWriter swriter = new StringWriter();
+		try {
+//			String xmlTemplete = FileHelper.getAbosluteDirectory("/WEB-INF/ftl/mail_templete");
+			String xmlTemplete=request.getSession().getServletContext().getRealPath("/WEB-INF/ftl/mail_templete");
+			FreeMarker hf = new FreeMarker();
+			hf.init(xmlTemplete);
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("userName", userId);
+			map.put("resetUrl", resetPwd);
+			hf.process(map, "mail_templete.ftl", swriter);
+		} catch (Exception e) {
+			log.error(e.toString());
+		}
+		return swriter.toString();
+	}
+    public Pair<Boolean, String> updatePwd(String userId, String psw) throws Exception {
+    		 User activitiUser = identityService.createUserQuery().userId(userId).singleResult();
+    		 if(activitiUser==null){
+    	    		return new Pair<Boolean, String>(false,"用户不存在");
+    	    	}else{
+    	    		activitiUser.setPassword(psw);
+    	    		identityService.saveUser(activitiUser);
+    	    		return new Pair<Boolean, String>(true,"修改密码成功");
+    	    	}
+	}
 	public List<String> getUserGroupList(UserDetail u) {
 		List<String> list = new ArrayList<String>();
 		if (u != null) {

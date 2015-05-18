@@ -3,19 +3,21 @@ package com.pantuo.web;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.JpaInvoice;
+import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
@@ -84,6 +86,40 @@ public class UserManagerController {
     public String invoice(HttpServletRequest request)
     {
         return "invoice_message";
+    }
+    @RequestMapping(value = "/find_pwd", produces = "text/html;charset=utf-8")
+    public String find_pwd(HttpServletRequest request)
+    {
+    	return "find_pwd";
+    }
+    @RequestMapping(value = "/reset_pwd", produces = "text/html;charset=utf-8")
+    public String reset_pwd(Model model,HttpServletRequest request, @RequestParam(value = "userId") String userId)
+    {
+    	if(StringUtils.isNoneBlank(userId)){
+    		model.addAttribute("userId", userId);
+    	}
+    	return "reset_pwd";
+    }
+    @RequestMapping(value = "/change_pwd")
+    @ResponseBody
+	public Pair<Boolean, String> change_pwd(Model model, Principal principal, @RequestParam(value = "userId") String userId,@RequestParam(value = "psw") String psw,
+			HttpServletRequest request) throws Exception {
+			return userService.updatePwd(userId, psw);
+	}
+    
+    @RequestMapping(value = "/send_pwd_link")
+    @ResponseBody
+    public Pair<Boolean, String>  send_pwd_link(HttpServletRequest request)
+    {   
+    	String userId=request.getParameter("userId");
+       if(StringUtils.isNoneBlank(userId)){
+    	UserDetail user = userService.getByUsername(userId);
+    	if (user == null) {
+    		return new Pair<Boolean, String>(true, "不存在的用户名");
+    	}
+    	return userService.addUserMailReset(user,request);
+       }
+       return new Pair<Boolean, String>(false, "操作失败");
     }
     @RequestMapping(value = "saveInvoice", method = RequestMethod.POST)
 	@ResponseBody

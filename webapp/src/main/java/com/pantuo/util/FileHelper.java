@@ -7,6 +7,8 @@ import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.concurrent.atomic.AtomicLong;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 
 public class FileHelper {
@@ -48,7 +50,16 @@ public class FileHelper {
 	public static String getFileAlias(String args) {
 		return args.contains(".") ? (args.substring(args.lastIndexOf("."))) : "";
 	}
+	public static String getAbosluteDirectory(String saveRelativePath) {
+		if (saveRelativePath == null) {
+			return null;
+		}
+        HttpServletRequest request=null;
 
+		String ret = request.getServletContext().getRealPath(saveRelativePath);
+//		String ret = ActionContext.getServletContext().getRealPath(saveRelativePath);
+		return ret + File.separator;
+	}
 	public static File buildDir(String buildPath) {
 		File parsentPath = new File(buildPath);
 		if (!parsentPath.exists()) {
