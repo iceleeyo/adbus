@@ -24,7 +24,7 @@ html{color: #666; }
 			.s-right{float: right;display: inline;}
 			.s-clear:after{clear:both;display:block;visibility:hidden;height:0;content:" ";font-size:0}
 			.s-clear{zoom:1}
-			.icon{display: inline-block;width: 18px;height: 18px;background: url(../imgs/icon-content.png?v=b87b8) no-repeat;vertical-align: middle;}
+			.icon{display: inline-block;width: 18px;height: 18px;background: url(/imgs/icon-content.png?v=b87b8) no-repeat;vertical-align: middle;}
 			.icon-app {width: 10px;height: 16px;margin-top: -3px;background-position: -37px -46px;}
 			.pg-left{float:left;display: inline;}
 			.pg-right{float:right;display: inline;}
