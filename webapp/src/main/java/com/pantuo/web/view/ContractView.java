@@ -10,6 +10,7 @@ public class ContractView {
 
 	 public Contract mainView;
 	 public List<Attachment> files;
+	 public String industryname;
 
 	 public Contract getMainView() {
 		return mainView;
@@ -22,6 +23,12 @@ public class ContractView {
 	}
 	public void setFiles(List<Attachment> files) {
 		this.files = files;
+	}
+	public String getIndustryname() {
+		return industryname;
+	}
+	public void setIndustryname(String industryname) {
+		this.industryname = industryname;
 	}
 	 
 	 

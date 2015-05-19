@@ -24,7 +24,9 @@ import org.springframework.stereotype.Service;
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.ContractExample;
+import com.pantuo.mybatis.domain.Industry;
 import com.pantuo.mybatis.persistence.ContractMapper;
+import com.pantuo.mybatis.persistence.IndustryMapper;
 import com.pantuo.util.BusinessException;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
@@ -43,6 +45,8 @@ public class ContractService {
 	private IdentityService identityService;
 	@Autowired
 	ContractMapper contractMapper;
+	@Autowired
+	IndustryMapper industryMapper;
 	@Autowired
 	private ManagementService managementService;
 	@Autowired
@@ -142,6 +146,12 @@ public class ContractService {
 		Contract con = contractMapper.selectByPrimaryKey(contract_id);
 		if (con != null) {
 			v = new ContractView();
+			if(con.getIndustryId()!=null){
+				Industry industry=industryMapper.selectByPrimaryKey(con.getIndustryId());
+				if(industry!=null&&industry.getName()!=null){
+					v.setIndustryname(industry.getName());
+				}
+				}
 			List<Attachment> files = attachmentService.queryAllFile(principal, contract_id);
 			v.setFiles(files);
 			v.setMainView(con);

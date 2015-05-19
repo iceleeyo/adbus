@@ -18,7 +18,7 @@ function go_back(){
   <LI style="width: 240px;"><SPAN>合同名称：</SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">${(view.mainView.contractName)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>广告主：</SPAN><SPAN class="con">${(view.mainView.userId)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>金额（人民币：元）：</SPAN><SPAN class="con">${(view.mainView.amounts)!''}</SPAN></LI>
-  <LI style="width: 480px;"><SPAN>所在行业：</SPAN><SPAN class="con">${(view.mainView.industry)!''}</SPAN></LI>
+  <LI style="width: 480px;"><SPAN>所在行业：</SPAN><SPAN class="con">${(view.industryname)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>开始日期：</SPAN><SPAN class="con"><#setting
 															date_format="yyyy-MM-dd"> ${(view.mainView.startDate)?date!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>终止日期：</SPAN><SPAN class="con"><#setting

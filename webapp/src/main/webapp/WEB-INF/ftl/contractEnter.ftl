@@ -140,7 +140,7 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>所属行业:</label>
                                                      
-												<select id="industry" name="industry.id" data-is="isAmount isEnough"
+												<select id="industry" name="industryId" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" style="width:173px; height: 38px;">
                                                     <#list industries as industry>
                                                         <option value="${industry.id}">${industry.name}</option>
