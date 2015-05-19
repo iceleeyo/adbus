@@ -33,6 +33,7 @@ import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.util.Constants;
 import com.pantuo.util.FileHelper;
 import com.pantuo.util.FreeMarker;
+import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.Mail;
 import com.pantuo.util.Pair;
 
@@ -153,8 +154,7 @@ public class UserService {
         return user;
     }
     public Pair<Boolean, String> addUserMailReset(UserDetail u,HttpServletRequest request) {
-//		String md5 = GlobalMethods.md5Encrypted(System.currentTimeMillis().getBytes());
-		String md5 ="";
+		String md5 = GlobalMethods.md5Encrypted(u.getUser().getId().getBytes());
 		if (StringUtils.isBlank(u.getUser().getEmail())) {
 			return new Pair<Boolean, String>(false, "用户未填写邮箱信息,无法通过邮件找回请联系管理员");
 		}
@@ -165,8 +165,8 @@ public class UserService {
 		mail.setHost("smtp.163.com");
 		mail.setUsername("ad_system@163.com");// 用户  
 		mail.setPassword("pantuo");// 密码  
-		mail.setSubject("[北巴]找回您的账户密码");
-		mail.setContent(getMailTemplete(u.getLastName(),
+		mail.setSubject("[北巴广告交易系统]找回您的账户密码");
+		mail.setContent(getMailTemplete(u.getUser().getLastName(),
 				String.format(StringUtils.trim("http://127.0.0.1:8080/webapp/user/reset_pwd?userId=%s&uuid=%s"), u.getUsername(), md5),request));
 		Pair<Boolean, String> resultPair = null;
 		String email =u.getUser().getEmail(); 

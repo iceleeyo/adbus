@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.JpaInvoice;
 import com.pantuo.dao.pojo.JpaProduct;
@@ -24,6 +25,7 @@ import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.DataInitializationService;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.service.UserService;
+import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.Pair;
 
 /**
@@ -93,12 +95,17 @@ public class UserManagerController {
     	return "find_pwd";
     }
     @RequestMapping(value = "/reset_pwd", produces = "text/html;charset=utf-8")
-    public String reset_pwd(Model model,HttpServletRequest request, @RequestParam(value = "userId") String userId)
+    public String reset_pwd(Model model,HttpServletRequest request, @RequestParam(value = "userId") String userId,@RequestParam(value = "uuid") String uuid)
     {
     	if(StringUtils.isNoneBlank(userId)){
     		model.addAttribute("userId", userId);
     	}
-    	return "reset_pwd";
+    	if(StringUtils.isNoneBlank(uuid)&&StringUtils.equals(uuid, GlobalMethods.md5Encrypted(userId .getBytes()))){
+    		return "reset_pwd";
+    	}else{
+    		model.addAttribute("msg", "链接接无效");
+    		return "error";
+    	}
     }
     @RequestMapping(value = "/change_pwd")
     @ResponseBody
