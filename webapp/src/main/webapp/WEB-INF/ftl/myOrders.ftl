@@ -9,16 +9,18 @@ var table;
             "searching": false,
             "ordering": true,
             "serverSide": true,
+              "aaSorting": [[3, "desc"]],
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                { "orderable": false, "targets": [6] },
+                { "orderable": false, "targets": [0,1,2,4,5] },
             ],
             "ajax": {
                 type: "GET",
                 url: "${rc.contextPath}/order/ajax-myOrders",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "longOrderId" : $('#longOrderId').val(),
+                        "filter[longOrderId]" : $('#longOrderId').val(),
+                        "filter[taskKey]" : $('#taskKey').val()
                     } );
                 },
                 "dataSrc": "content",
@@ -36,7 +38,8 @@ var table;
                 	return d;
                 }},
                  { "data": "task_name", "defaultContent": "","render": function(data, type, row, meta) {
-	                 	 	return  "<a target='_blank' href='${rc.contextPath}/workflow/view/"+row.executionId+"/page/"+row.processInstanceId+"'>"+data+"</a>";
+		                 	var tew=  "<a target='_blank' href='${rc.contextPath}/workflow/view/"+row.executionId+"/page/"+row.processInstanceId+"'>"+data+"</a>";
+	                 	 	return tew;
 	                   
                   	 
                     }},
@@ -64,10 +67,17 @@ var table;
                         '    <span>' +
                         '        <input id="longOrderId" value="">' +
                         '    </span>' +
-                        '</div>'
+                         '<select class="ui-input ui-input-mini" name="taskKey" id="taskKey">' +
+                    '<option value="defaultAll" selected="selected">所有事项</option>' +
+                  	'<option value="payment">待支付</option>' +
+                  	'<option value="auth">已支付待审核</option>' +
+                    '<option value="report">已排期待上播</option>' +
+                    '<option value="over">已上播</option>' +
+         			'</select>' +
+                    '</div>'
         );
 
-        $('#contractCode').change(function() {
+        $('#longOrderId, #taskKey').change(function() {
             table.fnDraw();
         });
     }
@@ -96,8 +106,8 @@ var table;
                         <th>下单用户</th>
                         <th>订单编号</th>
                         <th>起播时间</th>
-                        <th>创建时间</th>
-                        <th>当前环节</th>
+                        <th orderBy="created">创建时间</th>
+                        <th>待办事项</th>
                         <th>当前处理人</th>
                          <th>订单详情</th>
                     </tr>

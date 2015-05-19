@@ -25,6 +25,8 @@ public class OrderView {
 	String payTypeString;
 	// 流程任务
 	private Task task;//task 对象转json时 jpa 延迟加载有问题
+	
+	private int haveTasks;//当前订单 当前需要处理的 待办事项个数
 
 	private String task_id;
 	private String task_name;
@@ -215,6 +217,14 @@ public class OrderView {
 
 	public void setTask_createTime(Date task_createTime) {
 		this.task_createTime = task_createTime;
+	}
+
+	public int getHaveTasks() {
+		return haveTasks;
+	}
+
+	public void setHaveTasks(int haveTasks) {
+		this.haveTasks = haveTasks;
 	}
 
 }

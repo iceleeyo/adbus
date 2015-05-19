@@ -21,26 +21,35 @@ import com.pantuo.web.view.OrderView;
 
 public interface ActivitiService {
 
-	 //工作流中的一些变量名
-    public static final String MAIN_PROCESS = "order";
-    public static final String ORDER_ID = "_orderId";
-    public static final String CITY = "_city";
-    public static final String SUPPLIEID = "_supplieId";
-    public static final String OWNER = "_owner";
-    public static final String CREAT_USERID = "_creatUserId";
-    public static final String THE_EMAIL = "_theEmail";
-    public static final String THE_COMPANY = "_theCompany";
-    public static final String TIMEOUT = "_timeout";
-    public static final String NOW = "_now";
-    
-    
-    public static String R_BIND_STATIC = "bindstatic" ;
-    public static String R_MODIFY_ORDER = "modifyOrder" ;
-    public static String R_DEFAULTALL = "defaultAll";
-    
-    public static enum TaskQueryType {
+	//工作流中的一些变量名
+	public static final String MAIN_PROCESS = "order";
+	public static final String ORDER_ID = "_orderId";
+	public static final String CITY = "_city";
+	public static final String SUPPLIEID = "_supplieId";
+	public static final String OWNER = "_owner";
+	public static final String CREAT_USERID = "_creatUserId";
+	public static final String THE_EMAIL = "_theEmail";
+	public static final String THE_COMPANY = "_theCompany";
+	public static final String TIMEOUT = "_timeout";
+	public static final String NOW = "_now";
+
+	public static String R_BIND_STATIC = "bindstatic";
+	public static String R_MODIFY_ORDER = "modifyOrder";
+	public static String R_SCHEDULERESULT = "scheduleResult";
+	public static String R_SHANGBORESULT = "shangboResult";
+
+	public static String R_DEFAULTALL = "defaultAll";
+	public static String R_USERPAYED = "_userPayed";
+
+	public static enum TaskQueryType {
 		task, process,
 	}
+
+	public static enum OrderStatus {
+		payment, auth, report, over
+	}
+
+	public static String paymentString = "待支付", authString = "已支付待审核", reportString = "已排期待上播", overString = "已上播";
 
 	/**
 	 * 
@@ -54,9 +63,11 @@ public interface ActivitiService {
 
 	public void startProcess2(int city, UserDetail u, JpaOrders order);
 
-	public Pair<Boolean, String> payment(int orderid, String taskid, int contractid, String payType,int isinvoice,UserDetail u);
+	public Pair<Boolean, String> payment(int orderid, String taskid, int contractid, String payType, int isinvoice,
+			UserDetail u);
 
 	public Page<OrderView> findTask(int city, String userid, TableRequest req, TaskQueryType tqType);
+
 	public Page<OrderView> finished(int city, Principal principal, int page, int pageSize, Sort sort);
 
 	//	public Pair<Boolean, String> handle(String orderid, String taskid, String comment, String isok, UserDetail user);
@@ -87,28 +98,26 @@ public interface ActivitiService {
 	 * @return
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
-	public List<OrderView> findRunningProcessInstaces(int city, String userId,
-			NumberPageUtil page);
+	public List<OrderView> findRunningProcessInstaces(int city, String userId, NumberPageUtil page);
 
-	public List<OrderView> findFinishedProcessInstaces(int city, String userId,
-			String usertype, NumberPageUtil page);
+	public List<OrderView> findFinishedProcessInstaces(int city, String userId, String usertype, NumberPageUtil page);
 
 	//根据taskId查找流程实例
-		 public ProcessInstance findProcessInstanceByTaskId(String taskId) throws Exception;
+	public ProcessInstance findProcessInstanceByTaskId(String taskId) throws Exception;
+
 	public List<OrderView> findMyOrders(int city, String userId, NumberPageUtil page);
 
 	//根据taskId查找流程定义
-		 public ProcessDefinitionEntity findProcessDefinitionEntityByTaskId(  
-		            String taskId) throws Exception;
-			public Page<OrderView> running(int city, String userid, int page, int pageSize, Sort sort) ;
-			
-			public Page<OrderView> MyOrders(int city, String userid, TableRequest req);
+	public ProcessDefinitionEntity findProcessDefinitionEntityByTaskId(String taskId) throws Exception;
 
-		//根据流程实例和节点ID查找历史审批记录
-		   public List<HistoricTaskView> findHistoricUserTask (
-                   int city, String processInstanceId, String activityId);
+	public Page<OrderView> running(int city, String userid, int page, int pageSize, Sort sort);
 
-	public Pair<Boolean, String> modifyOrder(int city,int orderid, String taskid, int supplieid, UserDetail user);
+	public Page<OrderView> MyOrders(int city, String userid, TableRequest req);
+
+	//根据流程实例和节点ID查找历史审批记录
+	public List<HistoricTaskView> findHistoricUserTask(int city, String processInstanceId, String activityId);
+
+	public Pair<Boolean, String> modifyOrder(int city, int orderid, String taskid, int supplieid, UserDetail user);
 
 	public String showOrderDetail(int city, Model model, int orderid, String taskid, String pid, Principal principal);
 }

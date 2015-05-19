@@ -1,6 +1,7 @@
 <#import "template/template.ftl" as frame>
 <#global menu="待办事项">
 <@frame.html title="待办事项列表" js=["js/jquery-dateFormat.js"]>
+<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <script type="text/javascript">
 
 
@@ -22,17 +23,23 @@
         table = $('#table').dataTable( {
             "dom": '<"#toolbar">lrtip',
             "searching": false,
-            "ordering": false,
+            "ordering": true,
             "serverSide": true,
+            "aaSorting": [[3, "desc"]],
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
+                 { "orderable": false, "targets": [0,1,2,5] },
             ],
             "ajax": {
                 type: "GET",
                 url: "${rc.contextPath}/order/ajax-orderlist",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "productId" : $('#productId').val(),
+                        "filter[longOrderId]"  : $('#longOrderId').val()
+                        <@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+                        ,"filter[userId]" : $('#userId').val()
+                         </@security.authorize>
+                          ,"filter[taskKey]" : $('#taskKey').val()
                     } );
                 },
                 "dataSrc": "content",
@@ -51,7 +58,7 @@
                         }
                     return data;
                 } },
-                { "data": "order.created", "defaultContent": "","render": function(data, type, row, meta) {
+                { "data": "task_createTime", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd HH:mm");
                 	return d;
                 }},
@@ -81,23 +88,50 @@
             "initComplete": initComplete,
             "drawCallback": drawCallback,
         } );
-
+  		table.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
-
+	<@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
                         '    <span>订单号</span>' +
                         '    <span>' +
-                        '        <input id="productId" value="">' +
+                        '        <input id="longOrderId" value="">' +
+                        '    </span>' +
+                          '    <span>广告主</span>' +
+                        '    <span>' +
+                        '        <input id="userId" value="">' +
                         '    </span>' +
                         '</div>'
         );
 
-        $('#contractCode').change(function() {
+        $('#longOrderId, #userId').change(function() {
             table.fnDraw();
         });
     }
+    </@security.authorize>
+    
+    <@security.authorize ifAnyGranted="advertiser">
+    function initComplete() {
+        $("div#toolbar").html(
+                '<div>' +
+                        '    <span>订单号</span>' +
+                        '    <span>' +
+                        '        <input id="longOrderId" value="">' +
+                        '    </span>' +
+                    '<select class="ui-input ui-input-mini" name="taskKey" id="taskKey">' +
+                    '<option value="defaultAll" selected="selected">所有事项</option>' +
+                  	'<option value="payment">支付</option>' +
+                  	'<option value="bindstatic">绑定素材</option>' +
+         			'</select>' +
+                    '</div>'
+        );
+
+        $('#longOrderId, #taskKey').change(function() {
+            table.fnDraw();
+        });
+    }
+    </@security.authorize>
 
     function drawCallback() {
         $('.table-action').click(function() {
@@ -115,7 +149,7 @@
 
 <div class="withdraw-wrap color-white-bg fn-clear">
               <div class="withdraw-title" style="padding-top: 0px; text-align:left; ">
-									待办事项
+									待办事项 
 									</div>
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
@@ -124,8 +158,8 @@
                             <th>订单编号</th>
                         <th>套餐名称</th>
                        <!-- <th>素材号</th>-->
-                        <th>创建时间</th>
-                        <th>当前环节</th>
+                        <th orderBy="created">创建时间</th>
+                        <th orderBy="taskKey">待办事项</th>
                         <th>操作</th>
                     </tr>
                     </thead>
