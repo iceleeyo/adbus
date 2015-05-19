@@ -133,15 +133,21 @@ public class ActivitiServiceImpl implements ActivitiService {
 		String longId = req.getFilter("longOrderId"), taskKey = req.getFilter("taskKey");
 		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
 		List<OrderView> orders = new ArrayList<OrderView>();
-		if (StringUtils.isNoneBlank(taskKey) && !StringUtils.startsWith(taskKey, ActivitiService.R_DEFAULTALL)) {
-			return findTask(city, userid, req, TaskQueryType.process);
-		}
 
 		ProcessInstanceQuery countQuery = runtimeService.createProcessInstanceQuery()
 				.processDefinitionKey(MAIN_PROCESS).variableValueEquals(ActivitiService.CITY, city)
 				.involvedUser(userid);
 		int totalnum = (int) countQuery.count();
 		NumberPageUtil pageUtil = new NumberPageUtil((int) totalnum, page, pageSize);
+
+		ProcessInstanceQuery debugQuery = runtimeService.createProcessInstanceQuery()
+				.processDefinitionKey(MAIN_PROCESS).includeProcessVariables()
+				.variableValueEquals(ActivitiService.CITY, city).involvedUser(userid);
+
+		List<ProcessInstance> psff = debugQuery.list();
+		for (ProcessInstance processInstance : psff) {
+			System.out.println(processInstance.getProcessVariables());
+		}
 
 		ProcessInstanceQuery listQuery = runtimeService.createProcessInstanceQuery().processDefinitionKey(MAIN_PROCESS)
 				.variableValueEquals(ActivitiService.CITY, city).involvedUser(userid);
@@ -150,6 +156,32 @@ public class ActivitiServiceImpl implements ActivitiService {
 		if (longOrderId > 0) {
 			countQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
 			listQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
+		}
+		if (StringUtils.isNoneBlank(taskKey) && !StringUtils.startsWith(taskKey, ActivitiService.R_DEFAULTALL)) {
+			if (StringUtils.equals(ActivitiService.OrderStatus.payment.name(), taskKey)) {
+				//未支付
+				countQuery.variableValueEquals(ActivitiService.R_USERPAYED, false);
+				listQuery.variableValueEquals(ActivitiService.R_USERPAYED, false);
+			} else if (StringUtils.equals(ActivitiService.OrderStatus.auth.name(), taskKey)) {
+				//已支付待审核
+				countQuery.variableValueEquals(ActivitiService.R_USERPAYED, true).variableValueEquals(
+						ActivitiService.R_SCHEDULERESULT, false);
+				listQuery.variableValueEquals(ActivitiService.R_USERPAYED, true).variableValueEquals(
+						ActivitiService.R_SCHEDULERESULT, false);
+			} else if (StringUtils.equals(ActivitiService.OrderStatus.report.name(), taskKey)) {
+				//已排期待上播
+				countQuery.variableValueEquals(ActivitiService.R_SCHEDULERESULT, true).variableValueEquals(
+						ActivitiService.R_SHANGBORESULT, false);
+				listQuery.variableValueEquals(ActivitiService.R_SCHEDULERESULT, true).variableValueEquals(
+						ActivitiService.R_SHANGBORESULT, false);
+			} else if (StringUtils.equals(ActivitiService.OrderStatus.over.name(), taskKey)) {
+				//已上播
+				countQuery.variableValueEquals(ActivitiService.R_SCHEDULERESULT, true).variableValueEquals(
+						ActivitiService.R_SHANGBORESULT, true);
+				listQuery.variableValueEquals(ActivitiService.R_SCHEDULERESULT, true).variableValueEquals(
+						ActivitiService.R_SHANGBORESULT, true);
+			}
+			//	return findTask(city, userid, req, TaskQueryType.process);
 		}
 
 		//List<ProcessInstance> processInstances = listQuery.orderByProcessInstanceId().desc()
@@ -169,9 +201,11 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		List<ProcessInstance> processInstances = listQuery.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
 		for (ProcessInstance processInstance : processInstances) {
+
 			List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId())
 					.processVariableValueEquals(ActivitiService.CITY, city).includeProcessVariables()
-					.orderByTaskCreateTime().desc().listPage(0, 1);
+					.orderByTaskCreateTime().desc().list();
+
 			Integer orderid = (Integer) tasks.get(0).getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
 			Orders order = orderService.selectOrderById(orderid);
@@ -181,7 +215,13 @@ public class ActivitiServiceImpl implements ActivitiService {
 			//v.setProcessInstance(processInstance);
 			v.setProcessInstanceId(processInstance.getId());
 			//v.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
-			v.setTask(tasks.get(0));
+			Task top1Task = tasks.get(0);
+			v.setTask(top1Task);
+			v.setHaveTasks(tasks.size());
+
+			//if (StringUtils.isNoneBlank(taskKey) && !StringUtils.startsWith(taskKey, ActivitiService.R_DEFAULTALL)) {
+				v.setTask_name(getOrderState(top1Task.getProcessVariables()));
+			//}
 			boolean r = true;
 			if (longOrderId > 0) {
 				r = longOrderId == OrderIdSeq.getIdFromDate(orderid, order == null ? new Date() : order.getCreated());
@@ -194,6 +234,28 @@ public class ActivitiServiceImpl implements ActivitiService {
 		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(
 				orders, p, pageUtil.getTotal());
 		return r;
+	}
+
+	public String getOrderState(Map<String, Object> vars) {
+		String r = ActivitiService.paymentString;
+
+		if (ObjectUtils.equals(vars.get(ActivitiService.R_USERPAYED), false)) {
+			r = ActivitiService.paymentString;
+		}
+		if (ObjectUtils.equals(vars.get(ActivitiService.R_USERPAYED), true)
+				&& ObjectUtils.equals(vars.get(ActivitiService.R_SCHEDULERESULT), false)) {
+			r = ActivitiService.authString;
+		}
+		if (ObjectUtils.equals(vars.get(ActivitiService.R_SCHEDULERESULT), true)
+				&& ObjectUtils.equals(vars.get(ActivitiService.R_SHANGBORESULT), false)) {
+			r = ActivitiService.reportString;
+		}
+		if (ObjectUtils.equals(vars.get(ActivitiService.R_SCHEDULERESULT), true)
+				&& ObjectUtils.equals(vars.get(ActivitiService.R_SHANGBORESULT), true)) {
+			r = ActivitiService.overString;
+		}
+		return r;
+
 	}
 
 	public Page<OrderView> findTask(int city, String userid, TableRequest req, TaskQueryType tqType) {
@@ -234,6 +296,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		if (StringUtils.isNoneBlank(taskKey) && !StringUtils.startsWith(taskKey, ActivitiService.R_DEFAULTALL)) {
 			countQuery.taskDefinitionKey(taskKey);
 			queryList.taskDefinitionKey(taskKey);
+			//queryList.taskVariableValueEquals("paymentResult", true);
 		}
 
 		long c = countQuery.count();
@@ -545,7 +608,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 				if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
 					if (relateContract(orderid, contractid, payType, isinvoice, u.getUsername(), StringUtils.EMPTY) > 0) {
 						taskService.claim(task.getId(), u.getUsername());
-						taskService.complete(task.getId());
+						Map<String, Object> variables = new HashMap<String, Object>();
+						variables.put(ActivitiService.R_USERPAYED, true);
+						taskService.complete(task.getId(), variables);
 						return new Pair<Boolean, String>(true, "订单支付成功!");
 					} else {
 						return new Pair<Boolean, String>(false, "订单支付失败!");
@@ -581,7 +646,10 @@ public class ActivitiServiceImpl implements ActivitiService {
 					if (StringUtils.equals(taskName, task.getTaskDefinitionKey())) {
 						if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), orderid)) {
 							taskService.claim(task.getId(), userId);
-							taskService.complete(task.getId());
+
+							Map<String, Object> variables = new HashMap<String, Object>();
+							variables.put(ActivitiService.R_USERPAYED, true);
+							taskService.complete(task.getId(), variables);
 						}
 					}
 				}
