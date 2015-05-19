@@ -151,8 +151,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		ProcessInstanceQuery countQuery = runtimeService.createProcessInstanceQuery()
 				.processDefinitionKey(MAIN_PROCESS).variableValueEquals(ActivitiService.CITY, city);
 
-		int totalnum = (int) countQuery.count();
-		NumberPageUtil pageUtil = new NumberPageUtil((int) totalnum, page, pageSize);
+	
 		ProcessInstanceQuery listQuery = runtimeService.createProcessInstanceQuery().processDefinitionKey(MAIN_PROCESS)
 				.variableValueEquals(ActivitiService.CITY, city);
 		
@@ -198,6 +197,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 		} else {
 			listQuery.asc();
 		}
+		int totalnum = (int) countQuery.count();
+		NumberPageUtil pageUtil = new NumberPageUtil((int) totalnum, page, pageSize);
 		List<ProcessInstance> processInstances = listQuery.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
 		for (ProcessInstance processInstance : processInstances) {
 
@@ -449,7 +450,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 		HistoricProcessInstanceQuery countQuery = historyService.createHistoricProcessInstanceQuery()
 				.processDefinitionKey(MAIN_PROCESS).variableValueEquals(ActivitiService.CITY, city).finished();
-		int c = (int) countQuery.involvedUser(Request.getUserId(principal)).count();
+		
 
 		HistoricProcessInstanceQuery listQuery = historyService.createHistoricProcessInstanceQuery()
 				.processDefinitionKey(MAIN_PROCESS).variableValueEquals(ActivitiService.CITY, city)
@@ -464,7 +465,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			countQuery.variableValueLike(ActivitiService.CREAT_USERID, "%"+userIdQuery+"%");
 			listQuery.variableValueLike(ActivitiService.CREAT_USERID, "%"+userIdQuery+"%");
 		}
-
+		int c = (int) countQuery.involvedUser(Request.getUserId(principal)).count();
 		NumberPageUtil pageUtil = new NumberPageUtil((int) c, page, pageSize);
 		//Request.hasAuth(principal, ActivitiConfiguration.ADVERTISER)
 		List<HistoricProcessInstance> list = listQuery.involvedUser(Request.getUserId(principal))
@@ -884,7 +885,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		// return historicActivityInstances;
 		List<HistoricTaskInstance> taskInstances = historyService.createHistoricTaskInstanceQuery()
 				.processInstanceId(pid).processVariableValueEquals(ActivitiService.CITY, city)
-				.includeProcessVariables().orderByTaskId().desc().list();//orderByTaskId
+				.includeProcessVariables().orderByTaskCreateTime().desc().orderByTaskId().desc().list();//orderByTaskId
 		List<HistoricTaskView> view = new ArrayList<HistoricTaskView>();
 
 		for (HistoricTaskInstance historicTaskInstance : taskInstances) {
