@@ -884,7 +884,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		// return historicActivityInstances;
 		List<HistoricTaskInstance> taskInstances = historyService.createHistoricTaskInstanceQuery()
 				.processInstanceId(pid).processVariableValueEquals(ActivitiService.CITY, city)
-				.includeProcessVariables().orderByTaskCreateTime().desc().list();
+				.includeProcessVariables().orderByTaskId().desc().list();
 		List<HistoricTaskView> view = new ArrayList<HistoricTaskView>();
 
 		for (HistoricTaskInstance historicTaskInstance : taskInstances) {
