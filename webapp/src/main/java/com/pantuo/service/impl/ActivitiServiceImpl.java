@@ -180,8 +180,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		/*按用户查询 */
 		if (StringUtils.isNoneBlank(userIdQuery)) {
-			countQuery.variableValueEquals(ActivitiService.CREAT_USERID, userIdQuery);
-			listQuery.variableValueEquals(ActivitiService.CREAT_USERID, userIdQuery);
+			countQuery.variableValueLike(ActivitiService.CREAT_USERID, "%"+userIdQuery+"%");
+			listQuery.variableValueLike(ActivitiService.CREAT_USERID, "%"+userIdQuery+"%");
 		}
 		setVarFilter(taskKey, countQuery, listQuery);
 
@@ -330,8 +330,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 					OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
 		}
 		if (StringUtils.isNoneBlank(userIdQuery)) {
-			countQuery.processVariableValueEquals(ActivitiService.CREAT_USERID, userIdQuery);
-			queryList.processVariableValueEquals(ActivitiService.CREAT_USERID, userIdQuery);
+			countQuery.processVariableValueLike(ActivitiService.CREAT_USERID, "%"+userIdQuery+"%");
+			queryList.processVariableValueLike(ActivitiService.CREAT_USERID, "%"+userIdQuery+"%");
 		}
 		if (StringUtils.isNoneBlank(taskKey) && !StringUtils.startsWith(taskKey, ActivitiService.R_DEFAULTALL)) {
 			countQuery.taskDefinitionKey(taskKey);
@@ -461,8 +461,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		/*按用户查询 */
 		if (StringUtils.isNoneBlank(userIdQuery)) {
-			countQuery.variableValueEquals(ActivitiService.CREAT_USERID, userIdQuery);
-			listQuery.variableValueEquals(ActivitiService.CREAT_USERID, userIdQuery);
+			countQuery.variableValueLike(ActivitiService.CREAT_USERID, "%"+userIdQuery+"%");
+			listQuery.variableValueLike(ActivitiService.CREAT_USERID, "%"+userIdQuery+"%");
 		}
 
 		NumberPageUtil pageUtil = new NumberPageUtil((int) c, page, pageSize);
