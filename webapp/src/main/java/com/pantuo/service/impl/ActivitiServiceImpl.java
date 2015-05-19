@@ -91,8 +91,19 @@ public class ActivitiServiceImpl implements ActivitiService {
 	@Autowired
 	private ContractMapper contractMapper;
 
-	public Page<OrderView> running(int city, String userid, int page, int pageSize, Sort sort) {
+	/**
+	 * @deprecated
+	 * @see com.pantuo.service.ActivitiService#running(int, java.lang.String, com.pantuo.pojo.TableRequest)
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
+	public Page<OrderView> running(int city, String userid, TableRequest req) {
+		int page = req.getPage(), pageSize = req.getLength();
+		Sort sort = req.getSort("created");
 		page = page + 1;
+		String longId = req.getFilter("longOrderId"), taskKey = req.getFilter("taskKey");
+		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
+
+		//-----begin
 		List<OrderView> orders = new ArrayList<OrderView>();
 		int totalnum = runtimeService.createProcessInstanceQuery().processDefinitionKey(MAIN_PROCESS)
 				.variableValueEquals(ActivitiService.CITY, city).list().size();
@@ -125,7 +136,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return r;
 	}
 
-	public Page<OrderView> MyOrders(int city, String userid, TableRequest req) {
+	public Page<OrderView> queryOrders(int city, String userid, TableRequest req, TaskQueryType tqType) {
 
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("created");
@@ -135,33 +146,36 @@ public class ActivitiServiceImpl implements ActivitiService {
 		List<OrderView> orders = new ArrayList<OrderView>();
 
 		ProcessInstanceQuery countQuery = runtimeService.createProcessInstanceQuery()
-				.processDefinitionKey(MAIN_PROCESS).variableValueEquals(ActivitiService.CITY, city)
-				.involvedUser(userid);
+				.processDefinitionKey(MAIN_PROCESS).variableValueEquals(ActivitiService.CITY, city);
+
 		int totalnum = (int) countQuery.count();
 		NumberPageUtil pageUtil = new NumberPageUtil((int) totalnum, page, pageSize);
+		ProcessInstanceQuery listQuery = runtimeService.createProcessInstanceQuery().processDefinitionKey(MAIN_PROCESS)
+				.variableValueEquals(ActivitiService.CITY, city);
 
 		ProcessInstanceQuery debugQuery = runtimeService.createProcessInstanceQuery()
 				.processDefinitionKey(MAIN_PROCESS).includeProcessVariables()
-				.variableValueEquals(ActivitiService.CITY, city).involvedUser(userid);
+				.variableValueEquals(ActivitiService.CITY, city);
+		/* 运行中的订单和 我的订单区分*/
+		if (tqType == TaskQueryType.my) {
+			countQuery.involvedUser(userid);
+			listQuery.involvedUser(userid);
+		}
 
 		List<ProcessInstance> psff = debugQuery.list();
 		for (ProcessInstance processInstance : psff) {
 			System.out.println(processInstance.getProcessVariables());
 		}
 
-		ProcessInstanceQuery listQuery = runtimeService.createProcessInstanceQuery().processDefinitionKey(MAIN_PROCESS)
-				.variableValueEquals(ActivitiService.CITY, city).involvedUser(userid);
 		//runtimeService.createNativeProcessInstanceQuery().sql("SELECT * FROM " + managementService.getTableName(ProcessInstance.class)).list().size());
-
+		/*按订单号查询 */
 		if (longOrderId > 0) {
 			countQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
 			listQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
 		}
 		setVarFilter(taskKey, countQuery, listQuery);
 
-		//List<ProcessInstance> processInstances = listQuery.orderByProcessInstanceId().desc()
-		//		.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
-
+		/*排序 */
 		Sort.Order sor = sort.getOrderFor("created");
 		if (sor != null) {
 
@@ -187,13 +201,15 @@ public class ActivitiServiceImpl implements ActivitiService {
 			if (order != null) {
 				v.setOrder(order);
 			}
-			//v.setProcessInstance(processInstance);
+			if (tqType == TaskQueryType.all_running) {
+				Product product = productService.selectProById(order.getProductId());
+				v.setProduct(product);
+			}
 			v.setProcessInstanceId(processInstance.getId());
 			//v.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
 			Task top1Task = tasks.get(0);
 			v.setTask(top1Task);
 			v.setHaveTasks(tasks.size());
-
 			//if (StringUtils.isNoneBlank(taskKey) && !StringUtils.startsWith(taskKey, ActivitiService.R_DEFAULTALL)) {
 			v.setTask_name(getOrderState(top1Task.getProcessVariables()));
 			//}

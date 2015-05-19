@@ -35,6 +35,7 @@ import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.HistoricTaskView;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
+import com.pantuo.service.ActivitiService.TaskQueryType;
 import com.pantuo.service.ContractService;
 import com.pantuo.service.OrderService;
 import com.pantuo.service.ProductService;
@@ -358,8 +359,8 @@ public class OrderController {
 	@ResponseBody
 	public DataTablePage<OrderView> runningAjax(TableRequest req, Principal principal,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
-		Page<OrderView> w = activitiService.running(city, Request.getUserId(principal), req.getPage(), req.getLength(),
-				req.getSort("id"));
+		//Page<OrderView> w = activitiService.running(city, Request.getUserId(principal), req);
+		Page<OrderView> w = activitiService.queryOrders(city, Request.getUserId(principal), req,TaskQueryType.all_running);
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
 
@@ -385,7 +386,7 @@ public class OrderController {
 	@ResponseBody
 	public DataTablePage<OrderView> myOrders(TableRequest req, Principal principal,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
-		Page<OrderView> w = activitiService.MyOrders(city, Request.getUserId(principal), req);
+		Page<OrderView> w = activitiService.queryOrders(city, Request.getUserId(principal), req,TaskQueryType.my);
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
 

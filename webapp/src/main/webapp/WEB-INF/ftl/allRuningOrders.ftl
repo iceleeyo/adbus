@@ -21,17 +21,20 @@
         table = $('#table').dataTable( {
             "dom": '<"#toolbar">lrtip',
             "searching": false,
-            "ordering": false,
+            "ordering": true,
             "serverSide": true,
+            "aaSorting": [[3, "desc"]],
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
+                { "orderable": false, "targets": [0,1,2,4,5,6] },
             ],
             "ajax": {
                 type: "GET",
                 url: "${rc.contextPath}/order/ajax-runningAjax",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "productId" : $('#productId').val(),
+                        "filter[longOrderId]" : $('#longOrderId').val(),
+                        "filter[taskKey]" : $('#taskKey').val()
                     } );
                 },
                 "dataSrc": "content",
@@ -73,20 +76,28 @@
             "initComplete": initComplete,
             "drawCallback": drawCallback,
         } );
+        table.fnNameOrdering("orderBy").fnNoColumnsParams();
 
     }
 
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>套餐号</span>' +
+                        '    <span>订单号</span>' +
                         '    <span>' +
-                        '        <input id="productId" value="">' +
+                        '        <input id="longOrderId" value="">' +
                         '    </span>' +
+                             '<select class="ui-input ui-input-mini" name="taskKey" id="taskKey">' +
+                    '<option value="defaultAll" selected="selected">所有事项</option>' +
+                  	'<option value="payment">待支付</option>' +
+                  	'<option value="auth">已支付待审核</option>' +
+                    '<option value="report">已排期待上播</option>' +
+                    '<option value="over">已上播</option>' +
+         			'</select>' +
                         '</div>'
         );
 
-        $('#contractCode').change(function() {
+        $('#longOrderId, #taskKey').change(function() {
             table.fnDraw();
         });
     }
@@ -112,10 +123,10 @@
                     <thead>
                     <tr>
                         <th>用户</th>
-                            <th>订单名称</th>
+                        <th>订单名称</th>
                         <th>套餐名称</th>
                        <!-- <th>素材号</th>-->
-                        <th>创建时间</th>
+                        <th orderBy="created">创建时间</th>
                         <th>当前环节</th>
                         <th>处理人</th>
                          <th>操作</th>

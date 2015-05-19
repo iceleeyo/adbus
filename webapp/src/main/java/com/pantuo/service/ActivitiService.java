@@ -42,7 +42,7 @@ public interface ActivitiService {
 	public static String R_USERPAYED = "_userPayed";
 
 	public static enum TaskQueryType {
-		task, process,
+		task, process, all_running /*查所有订单*/,my/*查我的订单*/
 	}
 
 	public static enum OrderStatus {
@@ -109,10 +109,19 @@ public interface ActivitiService {
 
 	//根据taskId查找流程定义
 	public ProcessDefinitionEntity findProcessDefinitionEntityByTaskId(String taskId) throws Exception;
+	/**
+	 * @deprecated 
+	 * Comment here.
+	 *
+	 * @param city
+	 * @param userid
+	 * @param req
+	 * @return
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
+	public Page<OrderView> running(int city, String userid, TableRequest req);
 
-	public Page<OrderView> running(int city, String userid, int page, int pageSize, Sort sort);
-
-	public Page<OrderView> MyOrders(int city, String userid, TableRequest req);
+	public Page<OrderView> queryOrders(int city, String userid, TableRequest req,TaskQueryType tqType);
 
 	//根据流程实例和节点ID查找历史审批记录
 	public List<HistoricTaskView> findHistoricUserTask(int city, String processInstanceId, String activityId);
