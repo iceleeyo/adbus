@@ -152,7 +152,7 @@ public class ContractService {
 					v.setIndustryname(industry.getName());
 				}
 				}
-			List<Attachment> files = attachmentService.queryAllFile(principal, contract_id);
+			List<Attachment> files = attachmentService.queryContracF(principal, contract_id);
 			v.setFiles(files);
 			v.setMainView(con);
 		}

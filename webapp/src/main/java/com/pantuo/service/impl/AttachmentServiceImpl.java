@@ -126,6 +126,13 @@ public class AttachmentServiceImpl implements AttachmentService {
 		ca.andTypeEqualTo(4);
 		return attachmentMapper.selectByExample(example);
 	}
+	public List<Attachment> queryContracF(Principal principal, int main_id) {
+		AttachmentExample example =new AttachmentExample();
+		AttachmentExample.Criteria ca=example.createCriteria();
+		ca.andMainIdEqualTo(main_id);
+		ca.andTypeEqualTo(0);
+		return attachmentMapper.selectByExample(example);
+	}
 	public List<Attachment> queryinvoiceF(Principal principal, int main_id) {
 		AttachmentExample example =new AttachmentExample();
 		AttachmentExample.Criteria ca=example.createCriteria();
