@@ -133,6 +133,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 		String longId = req.getFilter("longOrderId"), taskKey = req.getFilter("taskKey");
 		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
 		List<OrderView> orders = new ArrayList<OrderView>();
+		if (StringUtils.isNoneBlank(taskKey) && !StringUtils.startsWith(taskKey, ActivitiService.R_DEFAULTALL)) {
+			return findTask(city, userid, req, TaskQueryType.process);
+		}
 
 		ProcessInstanceQuery countQuery = runtimeService.createProcessInstanceQuery()
 				.processDefinitionKey(MAIN_PROCESS).variableValueEquals(ActivitiService.CITY, city)
@@ -143,7 +146,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		ProcessInstanceQuery listQuery = runtimeService.createProcessInstanceQuery().processDefinitionKey(MAIN_PROCESS)
 				.variableValueEquals(ActivitiService.CITY, city).involvedUser(userid);
 		//runtimeService.createNativeProcessInstanceQuery().sql("SELECT * FROM " + managementService.getTableName(ProcessInstance.class)).list().size());
-		
+
 		if (longOrderId > 0) {
 			countQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
 			listQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
@@ -193,7 +196,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return r;
 	}
 
-	public Page<OrderView> findTask(int city, String userid, TableRequest req) {
+	public Page<OrderView> findTask(int city, String userid, TableRequest req, TaskQueryType tqType) {
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("created");
 
@@ -203,13 +206,21 @@ public class ActivitiServiceImpl implements ActivitiService {
 		page = page + 1;
 		List<Task> tasks = new ArrayList<Task>();
 		List<OrderView> leaves = new ArrayList<OrderView>();
-		TaskQuery countQuery = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS)
-				.taskCandidateOrAssigned(userid).processVariableValueEquals(ActivitiService.CITY, city);
+		TaskQuery countQuery = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS);
+		TaskQuery queryList = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS);
+		/**
+		 * 根据查询方式 查我的待办事项或是 我提交的task
+		 */
+		if (tqType == TaskQueryType.task) {
+			countQuery.taskCandidateOrAssigned(userid);
+			queryList.taskCandidateOrAssigned(userid);
+		} else {
+			countQuery.processVariableValueEquals(ActivitiService.CREAT_USERID, userid);
+			queryList.processVariableValueEquals(ActivitiService.CREAT_USERID, userid);
+		}
 
-		TaskQuery queryList = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS)
-				.taskCandidateOrAssigned(userid).processVariableValueEquals(ActivitiService.CITY, city)
-				.includeProcessVariables();
-
+		countQuery.processVariableValueEquals(ActivitiService.CITY, city);
+		queryList.processVariableValueEquals(ActivitiService.CITY, city).includeProcessVariables();
 		if (longOrderId > 0) {
 			countQuery.processVariableValueEquals(ActivitiService.ORDER_ID,
 					OrderIdSeq.checkAndGetRealyOrderId(longOrderId));

@@ -30,6 +30,7 @@ import com.pantuo.mybatis.domain.OrdersExample;
 import com.pantuo.mybatis.persistence.OrdersMapper;
 import com.pantuo.pojo.HistoricTaskView;
 import com.pantuo.pojo.TableRequest;
+import com.pantuo.service.ActivitiService.TaskQueryType;
 import com.pantuo.util.DateConverter;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
@@ -165,7 +166,7 @@ public class OrderService {
 	}
 
 	public Page<OrderView> getOrderList(int city,TableRequest req,Principal principal) {
-		return activitiService.findTask(city, Request.getUserId(principal),req);
+		return activitiService.findTask(city, Request.getUserId(principal),req,TaskQueryType.task);
 	}
 
 	public Orders queryOrderDetail(int orderid, Principal principal) {

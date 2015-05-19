@@ -37,6 +37,10 @@ public interface ActivitiService {
     public static String R_BIND_STATIC = "bindstatic" ;
     public static String R_MODIFY_ORDER = "modifyOrder" ;
     public static String R_DEFAULTALL = "defaultAll";
+    
+    public static enum TaskQueryType {
+		task, process,
+	}
 
 	/**
 	 * 
@@ -52,7 +56,7 @@ public interface ActivitiService {
 
 	public Pair<Boolean, String> payment(int orderid, String taskid, int contractid, String payType,int isinvoice,UserDetail u);
 
-	public Page<OrderView> findTask(int city, String userid, TableRequest req);
+	public Page<OrderView> findTask(int city, String userid, TableRequest req, TaskQueryType tqType);
 	public Page<OrderView> finished(int city, Principal principal, int page, int pageSize, Sort sort);
 
 	//	public Pair<Boolean, String> handle(String orderid, String taskid, String comment, String isok, UserDetail user);
