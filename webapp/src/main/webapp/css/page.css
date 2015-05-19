@@ -28,6 +28,15 @@
 .List-Table table td.form {background-color:#fff;text-align:left;padding:0 20px;}
 .List-Table table td.form input {line-height:34px;width:250px;height:34px;padding:0 10px;border:1px solid #ccc;}
 
+
+/* Page Title */
+.Page-Title {height:38px;padding:0 5px;margin-bottom:20px;border-bottom:1px solid #eee;}
+.Page-Title span {font-size:18px;font-weight:bold;color:#3BB3DA;line-height:26px;}
+form.Form-Table .Form-Buttons {text-align:center;margin-top:30px;}
+form.Form-Table table td input.Input-Text {font-size:14px;line-height:21px;font-family:'Microsoft Yahei',Arial,Helvetica,sans-serif,Verdana,'Trebuchet MS';width:500px;height:21px;padding:0;margin:0;border:0;margin-left: 10px;}
+.Form-Buttons button {background-color:#3BB3DA;color:#fff;font-size:14px;font-family:'Microsoft Yahei',Arial,Helvetica,sans-serif,Verdana,'Trebuchet MS';line-height:37px;height:37px;padding:0 30px;margin:0;border:0;cursor:pointer;}
+.Form-Buttons button:hover {background-color:#3BB3DA;}
+
 /* jDialog */
 #jDialog {background-color:#fff;padding:40px;border:1px solid #3BB3DA;position:absolute;}
 #jDialog .jDialog_Title {font-size:16px;font-weight:bold;color:#3BB3DA;line-height:19px;}

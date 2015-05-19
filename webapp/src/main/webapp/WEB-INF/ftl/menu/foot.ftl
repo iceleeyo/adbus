@@ -1,4 +1,4 @@
-<div class="pg-foot">
+<div class="pg-foot" style="position: absolute;bottom: 0;left: 0;">
 	<div class="container-12 plr10">
 		<div class="">
 			<div class="foot-copyright">

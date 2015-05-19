@@ -22,6 +22,10 @@
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/platform.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/index.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/common.js"></script>
+    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/banBackSpace.js"></script>
+    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.validate.js"></script>
+    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.ulmenu.js"></script>
+    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.fancybox-1.3.4.pack.js"></script>
     <#list js as entry>
         <script type="text/javascript" language="javascript" src="${rc.contextPath}/${entry}"></script>
     </#list>

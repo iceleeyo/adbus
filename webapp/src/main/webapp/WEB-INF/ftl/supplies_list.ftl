@@ -109,11 +109,16 @@
                         '    <span>物料名称</span>' +
                         '    <span>' +
                         '        <input id="name" value="">' +
+                        '    </span>' + 
+                 		'    <span>行业名称</span>' +
+                        '    <span>' +
+                        '        <input id="description" value="">' +
                         '    </span>' +
-                        '</div>'
+                        '</div>'     
+                        
         );
 
-        $('#name').change(function() {
+        $('#name','description').change(function() {
             table.fnDraw();
         });
     }

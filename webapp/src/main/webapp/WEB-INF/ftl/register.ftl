@@ -136,7 +136,7 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>联系电话:</label>
                                                     <input
-												class="ui-input validate[required,custom[phone]]" type="text" name="phone"
+												class="ui-input validate[required,custom[mobilephone]]" type="text" name="phone"
 												id="phone" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="请输入联系电话">
                                         </div>
