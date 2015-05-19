@@ -36,6 +36,7 @@ public interface ActivitiService {
     
     public static String R_BIND_STATIC = "bindstatic" ;
     public static String R_MODIFY_ORDER = "modifyOrder" ;
+    public static String R_DEFAULTALL = "defaultAll";
 
 	/**
 	 * 
@@ -97,7 +98,7 @@ public interface ActivitiService {
 		            String taskId) throws Exception;
 			public Page<OrderView> running(int city, String userid, int page, int pageSize, Sort sort) ;
 			
-			public Page<OrderView> MyOrders(int city, String userid, int page, int pageSize, Sort sort);
+			public Page<OrderView> MyOrders(int city, String userid, TableRequest req);
 
 		//根据流程实例和节点ID查找历史审批记录
 		   public List<HistoricTaskView> findHistoricUserTask (

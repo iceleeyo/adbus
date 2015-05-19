@@ -93,10 +93,11 @@ public class OrderController {
 		model.addAttribute("prod", prod);
 		return "proDetail";
 	}
+
 	@RequestMapping(value = "/invoiceDetail/{userid}", produces = "text/html;charset=utf-8")
-	public String invoiceDetail(Model model, Principal principal,  @PathVariable String userid,
+	public String invoiceDetail(Model model, Principal principal, @PathVariable String userid,
 			HttpServletRequest request) {
-		InvoiceView invoiceView=suppliesService.getInvoiceDetail(userid, principal);
+		InvoiceView invoiceView = suppliesService.getInvoiceDetail(userid, principal);
 		model.addAttribute("invoiceView", invoiceView);
 		return "invoiceDetail";
 	}
@@ -126,9 +127,9 @@ public class OrderController {
 	@ResponseBody
 	public Pair<Boolean, String> payment(@RequestParam(value = "orderid") String orderid,
 			@RequestParam(value = "contractid") int contractid, @RequestParam(value = "taskid") String taskid,
-			@RequestParam(value = "payType") String payType,@RequestParam(value = "isinvoice") int isinvoice, Principal principal, HttpServletRequest request,
-			HttpServletResponse response) {
-		return activitiService.payment(Integer.parseInt(orderid), taskid, contractid, payType,isinvoice,
+			@RequestParam(value = "payType") String payType, @RequestParam(value = "isinvoice") int isinvoice,
+			Principal principal, HttpServletRequest request, HttpServletResponse response) {
+		return activitiService.payment(Integer.parseInt(orderid), taskid, contractid, payType, isinvoice,
 				Request.getUser(principal));
 	}
 
@@ -384,8 +385,7 @@ public class OrderController {
 	@ResponseBody
 	public DataTablePage<OrderView> myOrders(TableRequest req, Principal principal,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
-		Page<OrderView> w = activitiService.MyOrders(city, Request.getUserId(principal), req.getPage(),
-				req.getLength(), req.getSort("id"));
+		Page<OrderView> w = activitiService.MyOrders(city, Request.getUserId(principal), req);
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
 

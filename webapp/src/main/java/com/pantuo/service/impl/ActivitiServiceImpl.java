@@ -23,6 +23,7 @@ import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
 import org.apache.commons.lang.ObjectUtils;
@@ -44,10 +45,8 @@ import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Contract;
-import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.Product;
-import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.mybatis.persistence.ContractMapper;
 import com.pantuo.mybatis.persistence.OrdersMapper;
 import com.pantuo.pojo.HistoricTaskView;
@@ -61,7 +60,6 @@ import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.OrderIdSeq;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
-import com.pantuo.web.ScheduleController;
 import com.pantuo.web.view.OrderView;
 import com.pantuo.web.view.SuppliesView;
 
@@ -127,17 +125,46 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return r;
 	}
 
-	public Page<OrderView> MyOrders(int city, String userid, int page, int pageSize, Sort sort) {
+	public Page<OrderView> MyOrders(int city, String userid, TableRequest req) {
+
+		int page = req.getPage(), pageSize = req.getLength();
+		Sort sort = req.getSort("created");
 		page = page + 1;
+		String longId = req.getFilter("longOrderId"), taskKey = req.getFilter("taskKey");
+		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
 		List<OrderView> orders = new ArrayList<OrderView>();
-		int totalnum = (int) runtimeService.createProcessInstanceQuery().processDefinitionKey(MAIN_PROCESS)
-				.variableValueEquals(ActivitiService.CITY, city).involvedUser(userid).count();
+
+		ProcessInstanceQuery countQuery = runtimeService.createProcessInstanceQuery()
+				.processDefinitionKey(MAIN_PROCESS).variableValueEquals(ActivitiService.CITY, city)
+				.involvedUser(userid);
+		int totalnum = (int) countQuery.count();
 		NumberPageUtil pageUtil = new NumberPageUtil((int) totalnum, page, pageSize);
 
-		List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery()
-				.processDefinitionKey(MAIN_PROCESS).variableValueEquals(ActivitiService.CITY, city)
-				.involvedUser(userid).orderByProcessInstanceId().desc()
-				.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
+		ProcessInstanceQuery listQuery = runtimeService.createProcessInstanceQuery().processDefinitionKey(MAIN_PROCESS)
+				.variableValueEquals(ActivitiService.CITY, city).involvedUser(userid);
+		//runtimeService.createNativeProcessInstanceQuery().sql("SELECT * FROM " + managementService.getTableName(ProcessInstance.class)).list().size());
+		
+		if (longOrderId > 0) {
+			countQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
+			listQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
+		}
+
+		//List<ProcessInstance> processInstances = listQuery.orderByProcessInstanceId().desc()
+		//		.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
+
+		Sort.Order sor = sort.getOrderFor("created");
+		if (sor != null) {
+
+			listQuery.orderByProcessInstanceId();
+		} else if ((sor = sort.getOrderFor("taskKey")) != null) {
+			listQuery.orderByProcessInstanceId();//listQuery();
+		}
+		if (sor != null && sor.getDirection() == Sort.Direction.DESC) {
+			listQuery.desc();
+		} else {
+			listQuery.asc();
+		}
+		List<ProcessInstance> processInstances = listQuery.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
 		for (ProcessInstance processInstance : processInstances) {
 			List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId())
 					.processVariableValueEquals(ActivitiService.CITY, city).includeProcessVariables()
@@ -152,7 +179,13 @@ public class ActivitiServiceImpl implements ActivitiService {
 			v.setProcessInstanceId(processInstance.getId());
 			//v.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
 			v.setTask(tasks.get(0));
-			orders.add(v);
+			boolean r = true;
+			if (longOrderId > 0) {
+				r = longOrderId == OrderIdSeq.getIdFromDate(orderid, order == null ? new Date() : order.getCreated());
+			}
+			if (r) {
+				orders.add(v);
+			}
 		}
 		Pageable p = new PageRequest(page, pageSize, sort);
 		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(
@@ -164,7 +197,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("created");
 
-		String longId = req.getFilter("longOrderId"), userIdQuery = req.getFilter("userId");
+		String longId = req.getFilter("longOrderId"), userIdQuery = req.getFilter("userId"), taskKey = req
+				.getFilter("taskKey");
 		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
 		page = page + 1;
 		List<Task> tasks = new ArrayList<Task>();
@@ -186,25 +220,19 @@ public class ActivitiServiceImpl implements ActivitiService {
 			countQuery.processVariableValueEquals(ActivitiService.CREAT_USERID, userIdQuery);
 			queryList.processVariableValueEquals(ActivitiService.CREAT_USERID, userIdQuery);
 		}
+		if (StringUtils.isNoneBlank(taskKey) && !StringUtils.startsWith(taskKey, ActivitiService.R_DEFAULTALL)) {
+			countQuery.taskDefinitionKey(taskKey);
+			queryList.taskDefinitionKey(taskKey);
+		}
+
 		long c = countQuery.count();
 		NumberPageUtil pageUtil = new NumberPageUtil((int) c, page, pageSize);
 
-		Sort.Order sor = sort.getOrderFor("created");
-		if (sor != null) {
-			queryList.orderByTaskCreateTime();
-		} else if ((sor = sort.getOrderFor("created")) != null) {
-			queryList.orderByTaskCreateTime();
-		} else if ((sor = sort.getOrderFor("taskKey")) != null) {
-			queryList.orderByTaskDefinitionKey();
-		}
-		if (sor != null && sor.getDirection() == Sort.Direction.DESC) {
-			queryList.desc();
-		} else {
-			queryList.asc();
-		}
+		taskOrderBy(sort, queryList);
 		tasks = queryList.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
 		//	tasks = query.orderByTaskPriority()
 		//		.desc().ororderByTaskCreateTime().desc().listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
+
 		for (Task task : tasks) {
 			String processInstanceId = task.getProcessInstanceId();
 			ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
@@ -217,15 +245,36 @@ public class ActivitiServiceImpl implements ActivitiService {
 				v.setProduct(product);
 				v.setOrder(order);
 				v.setTask(task);
+				log.info(this.getClass().getName() + " debug=> " + task.getTaskDefinitionKey());
 				v.setProcessInstanceId(processInstance.getId());
 				v.setTask_createTime(task.getCreateTime());
-				leaves.add(v);
+				boolean r = true;
+				if (longOrderId > 0) {
+					r = longOrderId == OrderIdSeq.getIdFromDate(order.getId(), order.getCreated());
+				}
+				if (r) {
+					leaves.add(v);
+				}
 			}
 		}
 		Pageable p = new PageRequest(page, pageSize, sort);
 		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(
 				leaves, p, pageUtil.getTotal());
 		return r;
+	}
+
+	private void taskOrderBy(Sort sort, TaskQuery queryList) {
+		Sort.Order sor = sort.getOrderFor("created");
+		if (sor != null) {
+			queryList.orderByTaskCreateTime();
+		} else if ((sor = sort.getOrderFor("taskKey")) != null) {
+			queryList.orderByTaskDefinitionKey();
+		}
+		if (sor != null && sor.getDirection() == Sort.Direction.DESC) {
+			queryList.desc();
+		} else {
+			queryList.asc();
+		}
 	}
 
 	public List<OrderView> findMyOrders(int city, String userid, NumberPageUtil page) {
