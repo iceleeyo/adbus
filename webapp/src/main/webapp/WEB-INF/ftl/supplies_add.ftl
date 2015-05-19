@@ -76,6 +76,39 @@
             jDialog.Alert("请选择行业");
             return;
         }
+        if (Sfile.lastIndexOf(".") != -1 && suppliesType == "0") {
+			var fileType = (Sfile.substring(Sfile.lastIndexOf(".") + 1,
+					Sfile.length)).toLowerCase();
+			var suppotFile = new Array();
+			suppotFile[0] = "avi";
+			suppotFile[1] = "mp4";
+			suppotFile[2] = "rmvb";
+			for (var i = 0; i < suppotFile.length; i++) {
+				if (suppotFile[i] == fileType) {
+					return true;
+				} else {
+					jDialog.Alert("文件类型只支持AVI，MP4，RMVB");
+					return;
+				}
+			}
+		}
+
+		if (Sfile.lastIndexOf(".") != -1 && suppliesType == "1") {
+			var fileType = (Sfile.substring(Sfile.lastIndexOf(".") + 1,
+					Sfile.length)).toLowerCase();
+			var suppotFile = new Array();
+			suppotFile[0] = "gif";
+			suppotFile[1] = "bmp";
+			suppotFile[2] = "jpg";
+			for (var i = 0; i < suppotFile.length; i++) {
+				if (suppotFile[i] == fileType) {
+					return true;
+				} else {
+					jDialog.Alert("文件类型只支持JIF，BMP，JPG");
+					return;
+				}
+			}
+		}
 		$('#userForm2').ajaxForm(function(data) {
 			jDialog.Alert(data.right);
 			var uptime = window.setTimeout(function(){

@@ -152,7 +152,7 @@
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>开始日期:</label> <input
-												class="ui-input datepicker validate[required,custom[date],past[endDate]]" 
+												class="ui-input datepicker validate[required,custom[date],past[#endDate]]" 
 												type="text" name="startDate1"
 												id="startDate" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
@@ -161,7 +161,7 @@
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>终止日期:</label> <input
-												class="ui-input datepicker validate[required,custom[date],future[startDate]"
+												class="ui-input datepicker validate[required,custom[date],future[#startDate]"
 												type="text" name="endDate1"
 												id="endDate" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
