@@ -10,8 +10,13 @@
 			url : "${rc.contextPath}/order/claim?orderid="+orderid+"&taskid="+taskid,
 			type : "POST",
 			success : function(data) {
-				jDialog.Alert(data.right);
-				location.reload([true]);
+				//jDialog.Alert(data.right);
+				 jDialog.Alert(data.right,function(){
+		        var uptime = window.setTimeout(function(){
+				$(location).attr('href', "${rc.contextPath}/order/handleView2?orderid=" +(orderid)+ "&taskid="+taskid);
+		         clearTimeout(uptime);
+		       },1000);});
+				//location.reload([true]);
 			}
 		}, "text");
 	  
