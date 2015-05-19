@@ -103,7 +103,7 @@ public class UserManagerController {
     	if(StringUtils.isNoneBlank(uuid)&&StringUtils.equals(uuid, GlobalMethods.md5Encrypted(userId .getBytes()))){
     		return "reset_pwd";
     	}else{
-    		model.addAttribute("msg", "链接接无效");
+    		model.addAttribute("msg", "链接无效");
     		return "error";
     	}
     }
