@@ -1,6 +1,7 @@
 <#import "template/template.ftl" as frame>
 <#global menu="${orderMenu}">
 <@frame.html title="我参与的订单" js=["js/jquery-dateFormat.js"]>
+<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <script type="text/javascript">
 var table;
     function initTable () {
@@ -19,8 +20,11 @@ var table;
                 url: "${rc.contextPath}/order/ajax-myOrders",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "filter[longOrderId]" : $('#longOrderId').val(),
-                        "filter[taskKey]" : $('#taskKey').val()
+                        "filter[longOrderId]" : $('#longOrderId').val()
+                         <@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+                        ,"filter[userId]" : $('#userId').val()
+                         </@security.authorize>
+                        ,"filter[taskKey]" : $('#taskKey').val()
                     } );
                 },
                 "dataSrc": "content",
@@ -59,7 +63,35 @@ var table;
         } );
 		table.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
-
+    
+    	<@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+	    	function initComplete() {
+	        $("div#toolbar").html(
+	                '<div>' +
+	                        '    <span>订单编号</span>' +
+	                        '    <span>' +
+	                        '        <input id="longOrderId" value="">' +
+	                        '    </span>' +
+	                             '    <span>广告主</span>' +
+                        '    <span>' +
+                        '        <input id="userId" value="">' +
+                        '    </span>' +
+	                         '<select class="ui-input ui-input-mini" name="taskKey" id="taskKey">' +
+	                    '<option value="defaultAll" selected="selected">所有事项</option>' +
+	                  	'<option value="payment">待支付</option>' +
+	                  	'<option value="auth">已支付待审核</option>' +
+	                    '<option value="report">已排期待上播</option>' +
+	                    '<option value="over">已上播</option>' +
+	         			'</select>' +
+	                    '</div>'
+	        );
+	
+	        $('#longOrderId,#userId, #taskKey').change(function() {
+	            table.fnDraw();
+	        });
+	    }
+   </@security.authorize>
+ <@security.authorize ifAnyGranted="advertiser">
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
@@ -81,6 +113,7 @@ var table;
             table.fnDraw();
         });
     }
+      </@security.authorize>
 
     function drawCallback() {
         $('.table-action').click(function() {

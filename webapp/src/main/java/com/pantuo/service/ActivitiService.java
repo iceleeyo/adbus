@@ -68,7 +68,7 @@ public interface ActivitiService {
 
 	public Page<OrderView> findTask(int city, String userid, TableRequest req, TaskQueryType tqType);
 
-	public Page<OrderView> finished(int city, Principal principal, int page, int pageSize, Sort sort);
+	public Page<OrderView> finished(int city, Principal principal, TableRequest req);
 
 	//	public Pair<Boolean, String> handle(String orderid, String taskid, String comment, String isok, UserDetail user);
 	/**

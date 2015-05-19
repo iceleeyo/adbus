@@ -268,6 +268,7 @@ public class OrderController {
 				prod = productService.findById(order.getProductId());
 				longorderid = OrderIdSeq.getIdFromDate(order.getId(), order.getCreated());
 			}
+			orderView.setTask_name("已完成");
 			List<HistoricTaskView> activitis = activitiService.findHistoricUserTask(city, pid, null);
 			SuppliesView suppliesView = suppliesService.getSuppliesDetail(orderView.getOrder().getSuppliesId(), null);
 			SuppliesView quafiles = suppliesService.getQua(orderView.getOrder().getSuppliesId(), null);
@@ -414,7 +415,7 @@ public class OrderController {
 	public DataTablePage<OrderView> finishedAjax(TableRequest req, Principal principal,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
 		Page<OrderView> w = activitiService
-				.finished(city, principal, req.getPage(), req.getLength(), req.getSort("id"));
+				.finished(city, principal,req);
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
 }

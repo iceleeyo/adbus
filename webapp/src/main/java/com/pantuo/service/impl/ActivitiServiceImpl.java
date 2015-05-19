@@ -15,6 +15,7 @@ import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.history.HistoricDetail;
 import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricProcessInstanceQuery;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.impl.RepositoryServiceImpl;
@@ -41,6 +42,7 @@ import org.springframework.ui.Model;
 
 import scala.collection.mutable.StringBuilder;
 
+import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
@@ -141,7 +143,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("created");
 		page = page + 1;
-		String longId = req.getFilter("longOrderId"), taskKey = req.getFilter("taskKey");
+		String longId = req.getFilter("longOrderId"), userIdQuery = req.getFilter("userId"), taskKey = req
+				.getFilter("taskKey");
 		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
 		List<OrderView> orders = new ArrayList<OrderView>();
 
@@ -172,6 +175,11 @@ public class ActivitiServiceImpl implements ActivitiService {
 		if (longOrderId > 0) {
 			countQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
 			listQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
+		}
+		/*按用户查询 */
+		if (StringUtils.isNoneBlank(userIdQuery)) {
+			countQuery.variableValueEquals(ActivitiService.CREAT_USERID, userIdQuery);
+			listQuery.variableValueEquals(ActivitiService.CREAT_USERID, userIdQuery);
 		}
 		setVarFilter(taskKey, countQuery, listQuery);
 
@@ -426,17 +434,39 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return orders;
 	}
 
-	public Page<OrderView> finished(int city, Principal principal, int page, int pageSize, Sort sort) {
+	public Page<OrderView> finished(int city, Principal principal, TableRequest req) {
+		int page = req.getPage(), pageSize = req.getLength();
+		Sort sort = req.getSort("created");
+
+		String longId = req.getFilter("longOrderId"), userIdQuery = req.getFilter("userId"), taskKey = req
+				.getFilter("taskKey");
+		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
+
 		page = page + 1;
 		List<OrderView> orders = new ArrayList<OrderView>();
-		int c = (int) historyService.createHistoricProcessInstanceQuery()
-				.variableValueEquals(ActivitiService.CITY, city).finished().involvedUser(Request.getUserId(principal))
-				.processDefinitionKey(MAIN_PROCESS).count();
+
+		HistoricProcessInstanceQuery countQuery = historyService.createHistoricProcessInstanceQuery()
+				.processDefinitionKey(MAIN_PROCESS).variableValueEquals(ActivitiService.CITY, city).finished();
+		int c = (int) countQuery.involvedUser(Request.getUserId(principal)).count();
+
+		HistoricProcessInstanceQuery listQuery = historyService.createHistoricProcessInstanceQuery()
+				.processDefinitionKey(MAIN_PROCESS).variableValueEquals(ActivitiService.CITY, city)
+				.includeProcessVariables().finished();
+
+		if (longOrderId > 0) {
+			countQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
+			listQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
+		}
+		/*按用户查询 */
+		if (StringUtils.isNoneBlank(userIdQuery)) {
+			countQuery.variableValueEquals(ActivitiService.CREAT_USERID, userIdQuery);
+			listQuery.variableValueEquals(ActivitiService.CREAT_USERID, userIdQuery);
+		}
+
 		NumberPageUtil pageUtil = new NumberPageUtil((int) c, page, pageSize);
-		List<HistoricProcessInstance> list = historyService.createHistoricProcessInstanceQuery()
-				.variableValueEquals(ActivitiService.CITY, city).finished().involvedUser(Request.getUserId(principal))
-				.processDefinitionKey(MAIN_PROCESS).includeProcessVariables().orderByProcessInstanceStartTime().desc()
-				.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
+		//Request.hasAuth(principal, ActivitiConfiguration.ADVERTISER)
+		List<HistoricProcessInstance> list = listQuery.involvedUser(Request.getUserId(principal))
+				.orderByProcessInstanceStartTime().desc().listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
 		for (HistoricProcessInstance historicProcessInstance : list) {
 			//---------------------
 			Integer orderid = (Integer) historicProcessInstance.getProcessVariables().get(ORDER_ID);
@@ -447,7 +477,15 @@ public class ActivitiServiceImpl implements ActivitiService {
 					Product product = productService.selectProById(or.getProductId());
 					v.setProduct(product);
 					v.setOrder(or);
-					orders.add(v);
+					//orders.add(v);
+					boolean r = true;
+					if (longOrderId > 0) {
+						r = longOrderId == OrderIdSeq.getIdFromDate(or.getId(), or.getCreated());
+					}
+					if (r) {
+						orders.add(v);
+					}
+
 					v.setProcessInstanceId(historicProcessInstance.getId());
 				}
 			}
@@ -757,7 +795,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 		String processInstanceId = task.getProcessInstanceId();
 		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
-				.processInstanceId(processInstanceId).singleResult();
+				.processInstanceId(processInstanceId).includeProcessVariables().singleResult();
 		OrderView v = new OrderView();
 
 		Map<String, Object> variables = taskService.getVariables(taskid);
@@ -772,6 +810,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		v.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
 		// Map<String, Object> variables = task.getProcessVariables();
 		v.setVariables(variables);
+		v.setTask_name(getOrderState(processInstance.getProcessVariables()));
 		return v;
 	}
 

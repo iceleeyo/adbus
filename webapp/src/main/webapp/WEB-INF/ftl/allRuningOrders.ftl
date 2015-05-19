@@ -33,8 +33,9 @@
                 url: "${rc.contextPath}/order/ajax-runningAjax",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "filter[longOrderId]" : $('#longOrderId').val(),
-                        "filter[taskKey]" : $('#taskKey').val()
+                        "filter[longOrderId]" : $('#longOrderId').val()
+                        ,"filter[userId]" : $('#userId').val()
+                        ,"filter[taskKey]" : $('#taskKey').val()
                     } );
                 },
                 "dataSrc": "content",
@@ -87,6 +88,10 @@
                         '    <span>' +
                         '        <input id="longOrderId" value="">' +
                         '    </span>' +
+                                    '    <span>广告主</span>' +
+                        '    <span>' +
+                        '        <input id="userId" value="">' +
+                        '    </span>' +
                              '<select class="ui-input ui-input-mini" name="taskKey" id="taskKey">' +
                     '<option value="defaultAll" selected="selected">所有事项</option>' +
                   	'<option value="payment">待支付</option>' +
@@ -97,7 +102,7 @@
                         '</div>'
         );
 
-        $('#longOrderId, #taskKey').change(function() {
+        $('#longOrderId,#userId, #taskKey').change(function() {
             table.fnDraw();
         });
     }

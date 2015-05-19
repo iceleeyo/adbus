@@ -1,7 +1,7 @@
 <#import "template/template.ftl" as frame>
 <#global menu="已完成的订单">
 <@frame.html title="已完成的订单" js=["js/jquery-dateFormat.js"]>
-
+<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <script type="text/javascript">
 
 	function claim(orderid,taskid){
@@ -28,16 +28,20 @@
             "searching": false,
             "ordering": true,
             "serverSide": true,
+             "aaSorting": [[3, "desc"]],
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                { "orderable": false, "targets": [4] },
+                { "orderable": false, "targets": [0,1,2,4] },
             ],
             "ajax": {
                 type: "GET",
                 url: "${rc.contextPath}/order/ajax-finishedOrders",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "productId" : $('#productId').val(),
+                        "filter[longOrderId]"  : $('#longOrderId').val()
+                          <@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+                        ,"filter[userId]" : $('#userId').val()
+                         </@security.authorize>
                     } );
                 },
                 "dataSrc": "content",
@@ -74,21 +78,45 @@
         } );
 		table.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
-
+    
+    
+    <@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
                         '    <span>订单号</span>' +
                         '    <span>' +
-                        '        <input id="productId" value="">' +
+                        '        <input id="longOrderId" value="">' +
+                        '    </span>' + 
+                         '    <span>广告主</span>' +
+                        '    <span>' +
+                        '        <input id="userId" value="">' +
                         '    </span>' +
                         '</div>'
         );
 
-        $('#contractCode').change(function() {
+        $('#longOrderId,#userId').change(function() {
             table.fnDraw();
         });
     }
+ </@security.authorize>
+ 
+<@security.authorize ifAnyGranted="advertiser">
+    function initComplete() {
+        $("div#toolbar").html(
+                '<div>' +
+                        '    <span>订单号</span>' +
+                        '    <span>' +
+                        '        <input id="longOrderId" value="">' +
+                        '    </span>' +
+                        '</div>'
+        );
+
+        $('#longOrderId').change(function() {
+            table.fnDraw();
+        });
+    }
+ </@security.authorize>
 
     function drawCallback() {
         $('.table-action').click(function() {
