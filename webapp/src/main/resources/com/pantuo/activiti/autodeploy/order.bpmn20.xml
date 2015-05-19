@@ -25,10 +25,16 @@
             if (!execution.hasVariable("_timeout")) {
 			    execution.setVariable("_timeout", 'P7D');
 		    }
+		     execution.setVariable("_userPayed", false);
+		     
 		    execution.setVariable("approve1Result", false);
 		    execution.setVariable("approve2Result", false);
 		    execution.setVariable("paymentResult", false);
 		    execution.setVariable("scheduleResult", false);
+		    
+		    execution.setVariable("shangboResult", false);
+		    execution.setVariable("jianboResult", false);
+		   
 		</script>
     </scriptTask>
     <endEvent id="endevent1" name="End"></endEvent>
@@ -36,8 +42,8 @@
     <sequenceFlow id="flow51" sourceRef="errortask" targetRef="endevent1"></sequenceFlow>
     <subProcess id="mainSubprocess" name="主要业务流程">
       <startEvent id="theStart"></startEvent>
-      <userTask id="submitOrder" name="广告主填写订单" activiti:candidateUsers="${_owner.username}" activiti:candidateGroups="ShibaOrderManager">
-        <documentation>广告主填写并上传物料单，包括物料基本信息</documentation>
+      <userTask id="submitOrder" name="填写订单" activiti:candidateUsers="${_owner.username}" activiti:candidateGroups="ShibaOrderManager">
+        <documentation>填写并上传物料单，包括物料基本信息</documentation>
       </userTask>
       <sequenceFlow id="flow1" sourceRef="theStart" targetRef="submitOrder"></sequenceFlow>
       <sequenceFlow id="flow27" sourceRef="submitOrder" targetRef="approvePaymentSubprocess"></sequenceFlow>
@@ -139,8 +145,8 @@
           </extensionElements>
         </serviceTask>
         <sequenceFlow id="flow43" sourceRef="denyEmail" targetRef="modifyOrder"></sequenceFlow>
-        <userTask id="modifyOrder" name="广告主修改订单" activiti:candidateUsers="${_owner.username}" activiti:candidateGroups="ShibaOrderManager">
-          <documentation>广告主修改订单信息</documentation>
+        <userTask id="modifyOrder" name="修改订单" activiti:candidateUsers="${_owner.username}" >  <!-- activiti:candidateGroups="ShibaOrderManager" -->
+          <documentation>修改订单信息</documentation>
         </userTask>
         <sequenceFlow id="flow57" sourceRef="modifyOrder" targetRef="approve1"></sequenceFlow>
         <exclusiveGateway id="approve1Gateway" name="初审情况"></exclusiveGateway>
