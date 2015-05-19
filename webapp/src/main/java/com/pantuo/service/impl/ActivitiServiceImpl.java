@@ -157,32 +157,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			countQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
 			listQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
 		}
-		if (StringUtils.isNoneBlank(taskKey) && !StringUtils.startsWith(taskKey, ActivitiService.R_DEFAULTALL)) {
-			if (StringUtils.equals(ActivitiService.OrderStatus.payment.name(), taskKey)) {
-				//未支付
-				countQuery.variableValueEquals(ActivitiService.R_USERPAYED, false);
-				listQuery.variableValueEquals(ActivitiService.R_USERPAYED, false);
-			} else if (StringUtils.equals(ActivitiService.OrderStatus.auth.name(), taskKey)) {
-				//已支付待审核
-				countQuery.variableValueEquals(ActivitiService.R_USERPAYED, true).variableValueEquals(
-						ActivitiService.R_SCHEDULERESULT, false);
-				listQuery.variableValueEquals(ActivitiService.R_USERPAYED, true).variableValueEquals(
-						ActivitiService.R_SCHEDULERESULT, false);
-			} else if (StringUtils.equals(ActivitiService.OrderStatus.report.name(), taskKey)) {
-				//已排期待上播
-				countQuery.variableValueEquals(ActivitiService.R_SCHEDULERESULT, true).variableValueEquals(
-						ActivitiService.R_SHANGBORESULT, false);
-				listQuery.variableValueEquals(ActivitiService.R_SCHEDULERESULT, true).variableValueEquals(
-						ActivitiService.R_SHANGBORESULT, false);
-			} else if (StringUtils.equals(ActivitiService.OrderStatus.over.name(), taskKey)) {
-				//已上播
-				countQuery.variableValueEquals(ActivitiService.R_SCHEDULERESULT, true).variableValueEquals(
-						ActivitiService.R_SHANGBORESULT, true);
-				listQuery.variableValueEquals(ActivitiService.R_SCHEDULERESULT, true).variableValueEquals(
-						ActivitiService.R_SHANGBORESULT, true);
-			}
-			//	return findTask(city, userid, req, TaskQueryType.process);
-		}
+		setVarFilter(taskKey, countQuery, listQuery);
 
 		//List<ProcessInstance> processInstances = listQuery.orderByProcessInstanceId().desc()
 		//		.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
@@ -236,6 +211,42 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return r;
 	}
 
+	private void setVarFilter(String taskKey, ProcessInstanceQuery countQuery, ProcessInstanceQuery listQuery) {
+		if (StringUtils.isNoneBlank(taskKey) && !StringUtils.startsWith(taskKey, ActivitiService.R_DEFAULTALL)) {
+			if (StringUtils.equals(ActivitiService.OrderStatus.payment.name(), taskKey)) {
+				//未支付
+				countQuery.variableValueEquals(ActivitiService.R_USERPAYED, false);
+				listQuery.variableValueEquals(ActivitiService.R_USERPAYED, false);
+			} else if (StringUtils.equals(ActivitiService.OrderStatus.auth.name(), taskKey)) {
+				//已支付待审核
+				countQuery.variableValueEquals(ActivitiService.R_USERPAYED, true).variableValueEquals(
+						ActivitiService.R_SCHEDULERESULT, false);
+				listQuery.variableValueEquals(ActivitiService.R_USERPAYED, true).variableValueEquals(
+						ActivitiService.R_SCHEDULERESULT, false);
+			} else if (StringUtils.equals(ActivitiService.OrderStatus.report.name(), taskKey)) {
+				//已排期待上播
+				countQuery.variableValueEquals(ActivitiService.R_SCHEDULERESULT, true).variableValueEquals(
+						ActivitiService.R_SHANGBORESULT, false);
+				listQuery.variableValueEquals(ActivitiService.R_SCHEDULERESULT, true).variableValueEquals(
+						ActivitiService.R_SHANGBORESULT, false);
+			} else if (StringUtils.equals(ActivitiService.OrderStatus.over.name(), taskKey)) {
+				//已上播
+				countQuery.variableValueEquals(ActivitiService.R_SCHEDULERESULT, true).variableValueEquals(
+						ActivitiService.R_SHANGBORESULT, true);
+				listQuery.variableValueEquals(ActivitiService.R_SCHEDULERESULT, true).variableValueEquals(
+						ActivitiService.R_SHANGBORESULT, true);
+			}
+			//	return findTask(city, userid, req, TaskQueryType.process);
+		}
+	}
+	/**
+	 * 
+	 * 根据工作流中的 值 来显示订单状态
+	 *
+	 * @param vars
+	 * @return
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
 	public String getOrderState(Map<String, Object> vars) {
 		String r = ActivitiService.paymentString;
 
