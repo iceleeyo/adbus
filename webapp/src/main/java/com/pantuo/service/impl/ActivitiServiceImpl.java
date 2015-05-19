@@ -195,8 +195,10 @@ public class ActivitiServiceImpl implements ActivitiService {
 			v.setHaveTasks(tasks.size());
 
 			//if (StringUtils.isNoneBlank(taskKey) && !StringUtils.startsWith(taskKey, ActivitiService.R_DEFAULTALL)) {
-				v.setTask_name(getOrderState(top1Task.getProcessVariables()));
+			v.setTask_name(getOrderState(top1Task.getProcessVariables()));
 			//}
+
+			//如果按订单号查询,避免20000000001 也能查询到订单号1的订单
 			boolean r = true;
 			if (longOrderId > 0) {
 				r = longOrderId == OrderIdSeq.getIdFromDate(orderid, order == null ? new Date() : order.getCreated());
@@ -239,6 +241,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			//	return findTask(city, userid, req, TaskQueryType.process);
 		}
 	}
+
 	/**
 	 * 
 	 * 根据工作流中的 值 来显示订单状态
