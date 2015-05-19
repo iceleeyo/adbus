@@ -107,6 +107,15 @@ public class UserManagerController {
     		return "error";
     	}
     }
+    @RequestMapping(value = "/queryUserByname")
+    @ResponseBody
+    public List<UserDetail> queryUserByname(Model model,HttpServletRequest request, @RequestParam(value = "name") String name)
+    {
+    	    List<UserDetail> users=userService.queryUserByname(name);
+    		model.addAttribute("users", users);
+    		return users;
+    }
+    
     @RequestMapping(value = "/change_pwd")
     @ResponseBody
 	public Pair<Boolean, String> change_pwd(Model model, Principal principal, @RequestParam(value = "userId") String userId,@RequestParam(value = "psw") String psw,

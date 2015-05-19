@@ -135,7 +135,15 @@ public class UserService {
 
         return result;
 	}
-
+    public List<UserDetail> queryUserByname(String name) {
+   	    QUserDetail q = QUserDetail.userDetail;
+        BooleanExpression query = null;
+        if (!StringUtils.isEmpty(name)) {
+            query = q.username.like("%" + name + "%");
+        }
+        List<UserDetail> users = (List<UserDetail>) userRepo.findAll(query);
+   	     return users;
+   }
     public UserDetail getByUsername(String username) {
         List<UserDetail> users = userRepo.findByUsername(username);
         if (users.isEmpty())
@@ -153,6 +161,7 @@ public class UserService {
 
         return user;
     }
+   
     public Pair<Boolean, String> addUserMailReset(UserDetail u,HttpServletRequest request) {
 		String md5 = GlobalMethods.md5Encrypted(u.getUser().getId().getBytes());
 		if (StringUtils.isBlank(u.getUser().getEmail())) {
