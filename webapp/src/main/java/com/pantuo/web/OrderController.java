@@ -236,53 +236,7 @@ public class OrderController {
 		return activitiService.showOrderDetail(city, model, orderid, taskid, pid, principal);
 	}
 
-	@Deprecated
-	private String showOrderDetail(int city, Model model, int orderid, String taskid, String pid, Principal principal)
-			throws Exception {
-		if (StringUtils.isNotBlank(taskid)) {
-			Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
-			ExecutionEntity executionEntity = (ExecutionEntity) runtimeService.createExecutionQuery()
-					.executionId(task.getExecutionId()).processInstanceId(task.getProcessInstanceId()).singleResult();
-			String activityId = executionEntity.getActivityId();
-			ProcessInstance pe = activitiService.findProcessInstanceByTaskId(taskid);
-			List<HistoricTaskView> activitis = activitiService.findHistoricUserTask(city, pe.getProcessInstanceId(),
-					activityId);
-			OrderView v = activitiService.findOrderViewByTaskId(taskid);
-			JpaProduct prod = productService.findById(v.getOrder().getProductId());
-			SuppliesView suppliesView = suppliesService.getSuppliesDetail(v.getOrder().getSuppliesId(), null);
-			SuppliesView quafiles = suppliesService.getQua(v.getOrder().getSuppliesId(), null);
-			model.addAttribute("suppliesView", suppliesView);
-			model.addAttribute("quafiles", quafiles);
-			model.addAttribute("activitis", activitis);
-			model.addAttribute("sections", orderService.getTaskSection(activitis));
-			model.addAttribute("orderview", v);
-			model.addAttribute("prod", prod);
-			return "orderDetail";
-		} else {
-			Orders order = orderService.queryOrderDetail(orderid, principal);
-			JpaProduct prod = null;
-			Long longorderid = null;
-			OrderView orderView = new OrderView();
-			if (order != null) {
-				orderView.setOrder(order);
-				prod = productService.findById(order.getProductId());
-				longorderid = OrderIdSeq.getIdFromDate(order.getId(), order.getCreated());
-			}
-			orderView.setTask_name("已完成");
-			List<HistoricTaskView> activitis = activitiService.findHistoricUserTask(city, pid, null);
-			SuppliesView suppliesView = suppliesService.getSuppliesDetail(orderView.getOrder().getSuppliesId(), null);
-			SuppliesView quafiles = suppliesService.getQua(orderView.getOrder().getSuppliesId(), null);
-			model.addAttribute("activitis", activitis);
-			model.addAttribute("suppliesView", suppliesView);
-			model.addAttribute("quafiles", quafiles);
-			model.addAttribute("order", order);
-			model.addAttribute("longorderid", longorderid);
-			model.addAttribute("orderview", orderView);
-			model.addAttribute("prod", prod);
-			return "finishedOrderDetail";
-		}
-	}
-
+	 
 	/**
 	 * 根据任务Id完成任务
 	 * @return

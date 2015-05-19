@@ -155,20 +155,22 @@ public class ActivitiServiceImpl implements ActivitiService {
 		NumberPageUtil pageUtil = new NumberPageUtil((int) totalnum, page, pageSize);
 		ProcessInstanceQuery listQuery = runtimeService.createProcessInstanceQuery().processDefinitionKey(MAIN_PROCESS)
 				.variableValueEquals(ActivitiService.CITY, city);
-
+		
+		/*
 		ProcessInstanceQuery debugQuery = runtimeService.createProcessInstanceQuery()
 				.processDefinitionKey(MAIN_PROCESS).includeProcessVariables()
 				.variableValueEquals(ActivitiService.CITY, city);
+		List<ProcessInstance> psff = debugQuery.list();
+		for (ProcessInstance processInstance : psff) {
+			System.out.println(processInstance.getProcessVariables());
+		}*/
+		
 		/* 运行中的订单和 我的订单区分*/
 		if (tqType == TaskQueryType.my) {
 			countQuery.involvedUser(userid);
 			listQuery.involvedUser(userid);
 		}
-
-		List<ProcessInstance> psff = debugQuery.list();
-		for (ProcessInstance processInstance : psff) {
-			System.out.println(processInstance.getProcessVariables());
-		}
+		
 
 		//runtimeService.createNativeProcessInstanceQuery().sql("SELECT * FROM " + managementService.getTableName(ProcessInstance.class)).list().size());
 		/*按订单号查询 */
@@ -1077,7 +1079,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 					activitis = findHistoricUserTask(city, processInstanceId, null);
 				}
 			}
-
+			orderView.setTask_name("已完成");
 			model.addAttribute("activitis", activitis);
 			model.addAttribute("suppliesView", suppliesView);
 			model.addAttribute("quafiles", quafiles);
