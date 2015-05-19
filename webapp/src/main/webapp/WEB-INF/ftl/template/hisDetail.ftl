@@ -39,8 +39,8 @@
         <tr>
             <td>${act.name}</td>
             <td>${act.assignee!''}</td>
-            <td> ${(act.startTime?string("yyyy-MM-dd HH:mm"))!''}</td>
-            <td> ${(act.endTime?string("yyyy-MM-dd HH:mm"))!''}</td>
+            <td> ${(act.claimTime?string("yyyy-MM-dd HH:mm:ss"))!''}</td>
+            <td> ${(act.endTime?string("yyyy-MM-dd HH:mm:ss"))!''}</td>
             <td>${act.comment!''}</td>
         </tr>
         </#if>
