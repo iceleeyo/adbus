@@ -151,10 +151,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 		ProcessInstanceQuery countQuery = runtimeService.createProcessInstanceQuery()
 				.processDefinitionKey(MAIN_PROCESS).variableValueEquals(ActivitiService.CITY, city);
 
-	
 		ProcessInstanceQuery listQuery = runtimeService.createProcessInstanceQuery().processDefinitionKey(MAIN_PROCESS)
 				.variableValueEquals(ActivitiService.CITY, city);
-		
+
 		/*
 		ProcessInstanceQuery debugQuery = runtimeService.createProcessInstanceQuery()
 				.processDefinitionKey(MAIN_PROCESS).includeProcessVariables()
@@ -163,13 +162,12 @@ public class ActivitiServiceImpl implements ActivitiService {
 		for (ProcessInstance processInstance : psff) {
 			System.out.println(processInstance.getProcessVariables());
 		}*/
-		
+
 		/* 运行中的订单和 我的订单区分*/
 		if (tqType == TaskQueryType.my) {
 			countQuery.involvedUser(userid);
 			listQuery.involvedUser(userid);
 		}
-		
 
 		//runtimeService.createNativeProcessInstanceQuery().sql("SELECT * FROM " + managementService.getTableName(ProcessInstance.class)).list().size());
 		/*按订单号查询 */
@@ -179,8 +177,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		/*按用户查询 */
 		if (StringUtils.isNoneBlank(userIdQuery)) {
-			countQuery.variableValueLike(ActivitiService.CREAT_USERID, "%"+userIdQuery+"%");
-			listQuery.variableValueLike(ActivitiService.CREAT_USERID, "%"+userIdQuery+"%");
+			countQuery.variableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
+			listQuery.variableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
 		}
 		setVarFilter(taskKey, countQuery, listQuery);
 
@@ -331,8 +329,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 					OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
 		}
 		if (StringUtils.isNoneBlank(userIdQuery)) {
-			countQuery.processVariableValueLike(ActivitiService.CREAT_USERID, "%"+userIdQuery+"%");
-			queryList.processVariableValueLike(ActivitiService.CREAT_USERID, "%"+userIdQuery+"%");
+			countQuery.processVariableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
+			queryList.processVariableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
 		}
 		if (StringUtils.isNoneBlank(taskKey) && !StringUtils.startsWith(taskKey, ActivitiService.R_DEFAULTALL)) {
 			countQuery.taskDefinitionKey(taskKey);
@@ -450,7 +448,6 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 		HistoricProcessInstanceQuery countQuery = historyService.createHistoricProcessInstanceQuery()
 				.processDefinitionKey(MAIN_PROCESS).variableValueEquals(ActivitiService.CITY, city).finished();
-		
 
 		HistoricProcessInstanceQuery listQuery = historyService.createHistoricProcessInstanceQuery()
 				.processDefinitionKey(MAIN_PROCESS).variableValueEquals(ActivitiService.CITY, city)
@@ -462,8 +459,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		/*按用户查询 */
 		if (StringUtils.isNoneBlank(userIdQuery)) {
-			countQuery.variableValueLike(ActivitiService.CREAT_USERID, "%"+userIdQuery+"%");
-			listQuery.variableValueLike(ActivitiService.CREAT_USERID, "%"+userIdQuery+"%");
+			countQuery.variableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
+			listQuery.variableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
 		}
 		int c = (int) countQuery.involvedUser(Request.getUserId(principal)).count();
 		NumberPageUtil pageUtil = new NumberPageUtil((int) c, page, pageSize);
@@ -818,27 +815,41 @@ public class ActivitiServiceImpl implements ActivitiService {
 	}
 
 	// 根据OrderId查找流程实例
-	public String findPidByOrderid(int orderid, String userId) {
+	public ProcessView findPidByOrderid(int orderid, String userId) {
 		// 找到流程实例
 		List<ProcessInstance> list = runtimeService.createProcessInstanceQuery().involvedUser(userId)
-				.variableValueEquals(ORDER_ID, orderid).orderByProcessInstanceId().desc().listPage(0, 1);
+				.includeProcessVariables().variableValueEquals(ORDER_ID, orderid).orderByProcessInstanceId().desc()
+				.listPage(0, 1);
 		ProcessInstance processInstance = null;
+		String pid = null;
+		Map<String, Object> var = null;
 		if (list != null && !list.isEmpty()) {
 			processInstance = list.get(0);
 		}
-		String pid = null;
 		if (processInstance == null) {
 			HistoricProcessInstance hpie = historyService.createHistoricProcessInstanceQuery().finished()
 					.involvedUser(userId).processDefinitionKey(MAIN_PROCESS).includeProcessVariables()
 					.variableValueEquals(ORDER_ID, orderid).singleResult();
 			if (hpie != null) {
 				pid = hpie.getId();
+				var = hpie.getProcessVariables();
 			}
-
 		} else {
 			pid = processInstance.getProcessInstanceId();
+			var = processInstance.getProcessVariables();
 		}
-		return pid;
+		return new ProcessView(pid, var);
+	}
+
+	class ProcessView {
+		String pid = null;
+		Map<String, Object> var = null;
+
+		public ProcessView(String pid, Map<String, Object> var) {
+			this.pid = pid;
+			this.var = var;
+		}
+
 	}
 
 	// 根据taskId查找流程实例
@@ -1072,15 +1083,18 @@ public class ActivitiServiceImpl implements ActivitiService {
 				quafiles = suppliesService.getQua(orderView.getOrder().getSuppliesId(), null);
 				prod = productService.findById(order.getProductId());
 			}
+			orderView.setTask_name(StringUtils.EMPTY);
 			if (StringUtils.isNoneBlank(pid)) {
 				activitis = findHistoricUserTask(city, pid, null);
+				orderView.setTask_name("已完成");
 			} else if (order != null) {
-				String processInstanceId = findPidByOrderid(order.getId(), Request.getUserId(principal));
-				if (processInstanceId != null) {
-					activitis = findHistoricUserTask(city, processInstanceId, null);
+				ProcessView pw = findPidByOrderid(order.getId(), Request.getUserId(principal));
+				if (pw.pid != null) {
+					activitis = findHistoricUserTask(city, pw.pid, null);
+					orderView.setTask_name(getOrderState(pw.var));
 				}
 			}
-			orderView.setTask_name("已完成");
+
 			model.addAttribute("activitis", activitis);
 			model.addAttribute("suppliesView", suppliesView);
 			model.addAttribute("quafiles", quafiles);
