@@ -61,6 +61,9 @@ public class ContractServiceImpl implements ContractServiceData {
 
 		if (Request.hasAuth(principal, ActivitiConfiguration.ADVERTISER)) {
 			query = query.and(QJpaContract.jpaContract.userId.eq(Request.getUserId(principal)));
+			query = query.or(QJpaContract.jpaContract.creator.eq(Request.getUserId(principal)));
+		}else{
+			query = query.and(QJpaContract.jpaContract.creator.eq(Request.getUserId(principal)));
 		}
 		return contractRepo.findAll(query, p);
 	}

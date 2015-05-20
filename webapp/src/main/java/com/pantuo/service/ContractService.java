@@ -59,6 +59,7 @@ public class ContractService {
 			con.setIsUpload(false);
 			con.setCreated(new Date());
 			con.setStats(JpaContract.Status.not_started.ordinal());
+			con.setCreator(username);
 //			System.out.println(JpaContract.Status.not_started.ordinal());
 //			con.setStats(JpaContract.Status.not_started.ordinal());
 			com.pantuo.util.BeanUtils.filterXss(con);
