@@ -29,7 +29,7 @@ css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
                                                             <td style="width: 126px; text-align: center; vertical-align: middle">
                                                                 <div class="th-head">查看</div>
                                                             </td>
-                                                            <td style="width: 150px; text-align: center; vertical-align: middle">
+                                                            <td style="width: 130px; text-align: center; vertical-align: middle">
 																<div class="th-md">物料名称</div>
 															</td>
                                                             <td style="width: 80px; text-align: center; vertical-align: middle">
@@ -38,7 +38,7 @@ css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
 															<td style="width: 196px; text-align: center; vertical-align: middle">
 																<div class="th-md">物料内容</div>
 															</td>
-															<td style="text-align: center; vertical-align: middle">
+															<td text-align: center; vertical-align: middle">
 																<div class="th-tail">操作</div>
 															</td>
 														</tr>
