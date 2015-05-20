@@ -62,6 +62,7 @@
             return;
 		var name = ($("#name").val());
 		var infoContext = ($("#infoContext").val());
+		var suppliesType = ($("#suppliesType").val());
 		Sfile= ($("#Sfile").val());
 		Sfile1= ($("#Sfile1").val());
 		if(Sfile== "" && infoContext=="" ){
@@ -105,6 +106,22 @@
 					return true;
 				} else {
 					jDialog.Alert("文件类型只支持JIF，BMP，JPG");
+					return;
+				}
+			}
+		}
+		if (Sfile1.lastIndexOf(".") != -1 ) {
+			var fileType = (Sfile1.substring(Sfile1.lastIndexOf(".") + 1,
+					Sfile1.length)).toLowerCase();
+			var suppotFile = new Array();
+			suppotFile[0] = "gif";
+			suppotFile[1] = "bmp";
+			suppotFile[2] = "jpg";
+			for (var i = 0; i < suppotFile.length; i++) {
+				if (suppotFile[i] == fileType) {
+					return true;
+				} else {
+					jDialog.Alert("资质类型只支持JIF，BMP，JPG");
 					return;
 				}
 			}
@@ -186,11 +203,10 @@
 												style="margin-top: 10px;"><br>
 										</div>
 										<div class="ui-form-item">
-											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>资质上传</label>
+											<label class="ui-label mt10">资质上传</label>
 											<div id="newUpload3">
 												<div id="div_1">
-													<input type="file" name="qua" id="Sfile1" class="validate[required]">
+													<input type="file" name="qua" id="Sfile1">
 												</div>
 											</div>
 											<input type="button" id="btn_add3" value="增加一行"
