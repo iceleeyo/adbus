@@ -117,7 +117,7 @@
 				if (suppotFile[i] == fileType) {
 					return true;
 				} else {
-					jDialog.Alert("资质类型只支持JIF，BMP，JPG");
+					jDialog.Alert("资质类型只支持JIF，PNG，JPG");
 					return;
 				}
 			}
