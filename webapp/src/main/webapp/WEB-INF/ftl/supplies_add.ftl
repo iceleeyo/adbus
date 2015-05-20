@@ -69,10 +69,6 @@
 			jDialog.Alert("请填写完整信息");
 			return;
 		}
-		if(Sfile1== ""){
-			jDialog.Alert("请选择资质");
-			return;
-		}
         if (!$("#industryId").val()) {
             jDialog.Alert("请选择行业");
             return;
@@ -99,13 +95,13 @@
 					Sfile.length)).toLowerCase();
 			var suppotFile = new Array();
 			suppotFile[0] = "gif";
-			suppotFile[1] = "bmp";
+			suppotFile[1] = "png";
 			suppotFile[2] = "jpg";
 			for (var i = 0; i < suppotFile.length; i++) {
 				if (suppotFile[i] == fileType) {
 					return true;
 				} else {
-					jDialog.Alert("文件类型只支持JIF，BMP，JPG");
+					jDialog.Alert("文件类型只支持JIF，PNG，JPG");
 					return;
 				}
 			}
@@ -229,7 +225,7 @@
 			<span class="icon"></span> 温馨提示
 		</div>
 		<ol>
-			<li>1.请提供符合产品要求的物料类型。</li>
+			<li>1.请提供符合产品要求的物料类型，视频类型格式支持AVI，MP4，RMVB；图片类型格式支持JIF，PNG，JPG；<br>资质类型格式支持JIF，PNG，JPG。</li>
 			<li>2.在必须要的时候，请上传物料说明和广告资质。</li>
 			<li>3.如果物料的文件比较大，可能需要一定的时间，请耐心等待。</li>
 			<li>4.请勿上传违反国家广告法及相关法律法规的物料文件。</li>
