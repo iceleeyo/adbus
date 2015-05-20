@@ -101,7 +101,7 @@
 				if (suppotFile[i] == fileType) {
 					return true;
 				} else {
-					jDialog.Alert("文件类型只支持JIF，PNG，JPG");
+					jDialog.Alert("文件类型只支持GIF，PNG，JPG");
 					return;
 				}
 			}
@@ -117,7 +117,7 @@
 				if (suppotFile[i] == fileType) {
 					return true;
 				} else {
-					jDialog.Alert("资质类型只支持JIF，PNG，JPG");
+					jDialog.Alert("资质类型只支持GIF，PNG，JPG");
 					return;
 				}
 			}
@@ -226,7 +226,7 @@
 		</div>
 		<ol>
 			<li>1.请提供符合产品要求的物料类型，视频类型格式支持AVI，MP4，RMVB。</li>
-			<li>2.图片类型格式支持JIF，PNG，JPG；资质类型格式支持JIF，PNG，JPG。</li>
+			<li>2.图片类型格式支持GIF，PNG，JPG；资质类型格式支持GIF，PNG，JPG。</li>
 			<li>3.在必须要的时候，请上传物料说明和广告资质。</li>
 			<li>4.如果物料的文件比较大，可能需要一定的时间，请耐心等待。文件大小尽量控制在200M以内。</li>
 			<li>5.请勿上传违反国家广告法及相关法律法规的物料文件。</li>
