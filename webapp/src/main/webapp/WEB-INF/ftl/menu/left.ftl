@@ -48,11 +48,13 @@
 											合同管理
 										</a>
 										<ul class="pg-side-exp-list">
+										<@security.authorize ifAnyGranted="ShibaOrderManager">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/contract/contractEnter">
 													添加合同
 												</a>
 											</li>
+											</@security.authorize>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t"  href="${rc.contextPath}/contract/list">
 													合同列表
