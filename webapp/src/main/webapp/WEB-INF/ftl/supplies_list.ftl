@@ -112,7 +112,7 @@
                         '    </span>' + 
                  		'    <span>行业名称</span>' +
                         '    <span>' +
-                        '        <input id="description" value="">' +
+                        '        <input id="industryname" value="">' +
                         '    </span>' +
                         '</div>'     
                         
