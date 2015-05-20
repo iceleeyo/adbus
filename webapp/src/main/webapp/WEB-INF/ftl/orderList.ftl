@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="待办事项">
-<@frame.html title="待办事项列表" js=["js/jquery-dateFormat.js"]>
+<@frame.html title="待办事项列表" css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"] js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <script type="text/javascript">
 
@@ -42,7 +42,7 @@
                     return $.extend( {}, d, {
                         "filter[longOrderId]"  : $('#longOrderId').val()
                         <@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
-                        ,"filter[userId]" : $('#userId').val()
+                        ,"filter[userId]" : $('#autocomplete').val()
                          </@security.authorize>
                           ,"filter[taskKey]" : $('#taskKey').val()
                     } );
@@ -105,14 +105,26 @@
                         '    </span>' +
                           '    <span>广告主</span>' +
                         '    <span>' +
-                        '        <input id="userId" value="">' +
+                        '        <input id="autocomplete" value="">' +
                         '    </span>' +
                         '</div>'
         );
 
-        $('#longOrderId, #userId').change(function() {
+        $('#longOrderId, #autocomplete').change(function() {
             table.fnDraw();
         });
+        //author:pxh 2015-05-20 22:36
+        $( "#autocomplete" ).autocomplete({
+  			source: "${rc.contextPath}/user/autoComplete",
+  			change: function( event, ui ) { 
+  				/*if(ui.item!=null){alert(ui.item.value);}*/
+  				table.fnDraw();
+  			 },
+  			 select: function(event,ui) {
+  			 $('#autocomplete').val(ui.item.value);
+  				table.fnDraw();
+  			 }
+		});
     }
     </@security.authorize>
     
@@ -145,7 +157,7 @@
             })
         });
     }
-
+ 		
     $(document).ready(function() {
         initTable();
     } );

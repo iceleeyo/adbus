@@ -1,0 +1,35 @@
+.ui-autocomplete{height:250px; overflow-y: scroll; overflow-x: hidden;}
+ .ui-widget-content {
+    background: #FFFFFF !important;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: auto !important;
+    font-family: Verdana,Arial,sans-serif;
+    font-size: 10px;
+}
+
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus {
+    /*border: 1px solid #FFF !important;
+    background: #FFF !important;
+    font-weight: normal !important;
+    color: #FFF;*/
+    border: 0px solid #FFF !important;
+    background: #ff9966 !important;
+    color: white;
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.42857;
+    white-space: nowrap;
+}
+
+.ui-menu-item {
+    padding: 3px 20px !important;
+}
