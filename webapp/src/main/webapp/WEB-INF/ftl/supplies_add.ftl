@@ -121,11 +121,13 @@
 			suppotFile[2] = "jpg";
 			for (var i = 0; i < suppotFile.length; i++) {
 				if (suppotFile[i] == fileType) {
-					return true;
-				} else {
-					jDialog.Alert("资质类型只支持GIF，PNG，JPG");
-					return;
-				}
+					flag=true;
+				} 
+			}
+			if(flag == false)
+			{
+				jDialog.Alert("文件类型只支持GIF，PNG，JPG");
+				return;
 			}
 		}
 		$('#userForm2').ajaxForm(function(data) {

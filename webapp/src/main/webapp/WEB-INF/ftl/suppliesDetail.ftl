@@ -26,19 +26,19 @@ css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
 												<table width="100%" class="uplan-table">
 													<tbody>
 														<tr class="uplan-table-th">
-                                                            <td text-align: center; vertical-align: middle">
-                                                                <div cxlass="th-head">查看</div>
+                                                            <td style="width: 15%;text-align: center; vertical-align: middle">
+                                                                <div class="th-head">预览</div>
                                                             </td>
-                                                            <td text-align: center; vertical-align: middle">
+                                                            <td style="text-align: center; vertical-align: middle">
 																<div class="th-md">物料名称</div>
 															</td>
-                                                            <td text-align: center; vertical-align: middle">
+                                                            <td style="text-align: center; vertical-align: middle">
 																<div class="th-md">类型</div>
 															</td>
-															<td  text-align: center; vertical-align: middle">
+															<td  style="width: 15%;text-align: center; vertical-align: middle">
 																<div class="th-md">物料内容</div>
 															</td>
-															<td text-align: center; vertical-align: middle">
+															<td style="text-align: center; vertical-align: middle">
 																<div class="th-tail">操作</div>
 															</td>
 														</tr>
@@ -78,7 +78,7 @@ css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
                                                              </td>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="3"><li class="ui-list-item"></li></td>
+                                                            <td colspan="5"><li class="ui-list-item"></li></td>
                                                         </tr>
     </#list>
 <#else>
@@ -94,9 +94,7 @@ css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
 
                                                             </td>
                                                         </tr>
-                                                        <tr>
-                                                            <td colspan="3"><li class="ui-list-item"></li></td>
-                                                        </tr>
+                                                        
                                                             </#if>
 													</tbody>
 												</table>
