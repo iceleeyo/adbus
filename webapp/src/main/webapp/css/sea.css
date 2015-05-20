@@ -236,7 +236,7 @@ display: block;}
 .section3{width:533px;}
 .section4{width:706px;}
 .section5{width:880px;}
-#process .node,#process .proce{float:left;position:relative;height:13px;background-image:url(images/bg_state.jpg);background-repeat:no-repeat;}
+#process .node,#process .proce{float:left;position:relative;height:13px;background-image:url(../images/bg_state.jpg);background-repeat:no-repeat;}
 #process .node{width:13px;}
 #process .proce{width:150px;border:solid #fff;border-width:0 5px;}
 #process .tx1{height:36px;margin-bottom:16px;}
