@@ -26,24 +26,27 @@ css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
 												<table width="100%" class="uplan-table">
 													<tbody>
 														<tr class="uplan-table-th">
-                                                            <td style="width: 240px; text-align: center; vertical-align: middle">
+                                                            <td style="width: 126px; text-align: center; vertical-align: middle">
                                                                 <div class="th-head">查看</div>
                                                             </td>
-                                                            <td style="width: 200px; text-align: center; vertical-align: middle">
+                                                            <td style="width: 150px; text-align: center; vertical-align: middle">
 																<div class="th-md">物料名称</div>
 															</td>
-                                                            <td style="width: 100px; text-align: center; vertical-align: middle">
+                                                            <td style="width: 80px; text-align: center; vertical-align: middle">
 																<div class="th-md">类型</div>
 															</td>
+															<td style="width: 196px; text-align: center; vertical-align: middle">
+																<div class="th-md">物料内容</div>
+															</td>
 															<td style="text-align: center; vertical-align: middle">
-																<div class="th-tail">物料内容</div>
+																<div class="th-tail">操作</div>
 															</td>
 														</tr>
 
 <#if view.files?has_content>
     <#list view.files as item>
                                                         <tr>
-                                                            <td style="width: 240px;">
+                                                            <td>
                                                             <#if item.type?? && item.type==4>
                                                                 <@preview.materialPreview view=view items=[item]/>
                                                                <#else>
@@ -66,9 +69,16 @@ css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
                                                             <#if item.type?? && item.type==4>
                                                                 ${item.name!''}
                                                                <#else>
-                                                                   <a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">${item.name!''}</a>
+                                                                  ${item.name!''}
                                                                </#if>
 
+                                                            </td>
+                                                            <td>
+                                                            	<#if item.type?? && item.type==4>
+                                                                ${item.name!''}
+                                                               <#else>
+                                                                   <a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">下载</a>
+                                                               </#if>
                                                             </td>
                                                         </tr>
                                                         <tr>
