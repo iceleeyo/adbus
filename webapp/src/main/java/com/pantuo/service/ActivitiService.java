@@ -40,6 +40,11 @@ public interface ActivitiService {
 
 	public static String R_DEFAULTALL = "defaultAll";
 	public static String R_USERPAYED = "_userPayed";
+	
+	
+	public static enum SystemRoles {
+		advertiser;
+	}
 
 	public static enum TaskQueryType {
 		task, process, all_running /*查所有订单*/,my/*查我的订单*/
