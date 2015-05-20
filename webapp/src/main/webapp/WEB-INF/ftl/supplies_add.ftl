@@ -80,13 +80,16 @@
 			suppotFile[0] = "avi";
 			suppotFile[1] = "mp4";
 			suppotFile[2] = "rmvb";
+			var flag=false;
 			for (var i = 0; i < suppotFile.length; i++) {
 				if (suppotFile[i] == fileType) {
-					return true;
-				} else {
-					jDialog.Alert("文件类型只支持AVI，MP4，RMVB");
-					return;
-				}
+					flag=true;
+				} 
+			}
+			if(flag == false)
+			{
+				jDialog.Alert("文件类型只支持AVI，MP4，RMVB");
+				return;
 			}
 		}
 
@@ -97,13 +100,16 @@
 			suppotFile[0] = "gif";
 			suppotFile[1] = "png";
 			suppotFile[2] = "jpg";
+			var flag=false;
 			for (var i = 0; i < suppotFile.length; i++) {
 				if (suppotFile[i] == fileType) {
-					return true;
-				} else {
-					jDialog.Alert("文件类型只支持GIF，PNG，JPG");
-					return;
-				}
+					flag=true;
+				} 
+			}
+			if(flag == false)
+			{
+				jDialog.Alert("文件类型只支持GIF，PNG，JPG");
+				return;
 			}
 		}
 		if (Sfile1.lastIndexOf(".") != -1 ) {
