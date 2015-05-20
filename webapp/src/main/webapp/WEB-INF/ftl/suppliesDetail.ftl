@@ -47,11 +47,7 @@ css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
     <#list view.files as item>
                                                         <tr>
                                                             <td>
-                                                            <#if item.type?? && item.type==4>
                                                                 <@preview.materialPreview view=view items=[item]/>
-                                                               <#else>
-                                                            --
-                                                               </#if>
                                                             </td>
                                                             <td>
                                                                 ${view.mainView.name!''}
@@ -59,9 +55,9 @@ css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
                                                             </td>
                                                             <td>
                                                             <#if item.type?? && item.type==4>
-                                                            物料
+                                                            物料文件
                                                                <#else>
-                                                                   用户资质
+                                                                   资质文件
                                                                </#if>
 
                                                             </td>
