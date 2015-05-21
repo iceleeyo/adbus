@@ -119,7 +119,7 @@
                     <tr>
                         <th orderBy="name">套餐名称</th>
                         <th orderBy="type">类型</th>
-                        <th orderBy="price">价格</th>
+                        <th orderBy="price">价格(元)</th>
                         <th orderBy="enabled">状态</th>
                         <th>管理</th>
                     </tr>
