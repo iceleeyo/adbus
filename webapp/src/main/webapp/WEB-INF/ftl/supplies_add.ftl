@@ -74,28 +74,23 @@
             return;
         }
         if (Sfile.lastIndexOf(".") != -1 && suppliesType == "0") {
-			var fileType = (Sfile.substring(Sfile.lastIndexOf(".") + 1,
-					Sfile.length)).toLowerCase();
+			var fileType = (Sfile.substring(Sfile.lastIndexOf(".") + 1,Sfile.length)).toLowerCase();
 			var suppotFile = new Array();
 			suppotFile[0] = "avi";
 			suppotFile[1] = "mp4";
 			suppotFile[2] = "rmvb";
-			var flag=false;
 			for (var i = 0; i < suppotFile.length; i++) {
 				if (suppotFile[i] == fileType) {
-					flag=true;
-				} 
-			}
-			if(flag == false)
-			{
-				jDialog.Alert("文件类型只支持AVI，MP4，RMVB");
-				return;
+					return true;
+				} else {
+					jDialog.Alert("文件类型只支持AVI，MP4，RMVB");
+					return;
+				}
 			}
 		}
 
 		if (Sfile.lastIndexOf(".") != -1 && suppliesType == "1") {
-			var fileType = (Sfile.substring(Sfile.lastIndexOf(".") + 1,
-					Sfile.length)).toLowerCase();
+			var fileType = (Sfile.substring(Sfile.lastIndexOf(".") + 1,Sfile.length)).toLowerCase();
 			var suppotFile = new Array();
 			suppotFile[0] = "gif";
 			suppotFile[1] = "png";
@@ -104,13 +99,14 @@
 			for (var i = 0; i < suppotFile.length; i++) {
 				if (suppotFile[i] == fileType) {
 					flag=true;
-				} 
+				}
 			}
 			if(flag == false)
 			{
-				jDialog.Alert("文件类型只支持GIF，PNG，JPG");
+				jDialog.Alert("文件类型只支持AVI，MP4，RMVB");
 				return;
 			}
+			
 		}
 		if (Sfile1.lastIndexOf(".") != -1 ) {
 			var fileType = (Sfile1.substring(Sfile1.lastIndexOf(".") + 1,
@@ -119,14 +115,15 @@
 			suppotFile[0] = "gif";
 			suppotFile[1] = "bmp";
 			suppotFile[2] = "jpg";
+			var flag=false;
 			for (var i = 0; i < suppotFile.length; i++) {
 				if (suppotFile[i] == fileType) {
 					flag=true;
-				} 
+				}
 			}
 			if(flag == false)
 			{
-				jDialog.Alert("文件类型只支持GIF，PNG，JPG");
+				jDialog.Alert("资质类型只支持GIF，BMP，JPG");
 				return;
 			}
 		}
@@ -233,12 +230,11 @@
 			<span class="icon"></span> 温馨提示
 		</div>
 		<ol>
-			<li>1.请提供符合产品要求的物料类型，视频类型格式支持AVI，MP4，RMVB。</li>
-			<li>2.图片类型格式支持GIF，PNG，JPG；资质类型格式支持GIF，PNG，JPG。</li>
-			<li>3.在必须要的时候，请上传物料说明和广告资质。</li>
-			<li>4.如果物料的文件比较大，可能需要一定的时间，请耐心等待。文件大小尽量控制在200M以内。</li>
-			<li>5.请勿上传违反国家广告法及相关法律法规的物料文件。</li>
-			<li>6.物料的其他技术性要求（待补充）。</li>
+			<li>1.请提供符合产品要求的物料类型，视频类型格式支持AVI，MP4，RMVB；图片类型格式支持JIF，PNG，JPG；<br>资质类型格式支持JIF，PNG，JPG。</li>
+			<li>2.在必须要的时候，请上传物料说明和广告资质。</li>
+			<li>3.如果物料的文件比较大，可能需要一定的时间，请耐心等待。</li>
+			<li>4.请勿上传违反国家广告法及相关法律法规的物料文件。</li>
+			<li>5.物料的其他技术性要求（待补充）。</li>
 		</ol>
 	</div>
 							</form>

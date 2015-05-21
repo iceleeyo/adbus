@@ -1,7 +1,8 @@
 <#import "template/template.ftl" as frame>
 
 <@frame.html title="合同详细">
-
+<#import "macro/materialPreview.ftl" as preview>
+<#include "template/preview.ftl" />
 <script type="text/javascript">
 function go_back(){
 	history.go(-1);
@@ -24,7 +25,9 @@ function go_back(){
   <LI style="width: 240px;"><SPAN>终止日期：</SPAN><SPAN class="con"><#setting
 															date_format="yyyy-MM-dd"> ${(view.mainView.endDate)?date!''}</SPAN></LI>
   <LI style="width: 720px;"><SPAN>附件【合同扫描件及其他附件】：</SPAN><SPAN class="con">
+  	
 															<#list view.files as item> 
+															<@preview.materialPreview view=view items=[item]/>
 															<a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;  
    							     </#list></SPAN></LI>
 </UL>

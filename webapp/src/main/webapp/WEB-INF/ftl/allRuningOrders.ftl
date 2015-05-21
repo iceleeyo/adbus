@@ -1,6 +1,7 @@
 <#import "template/template.ftl" as frame>
 <#global menu="进行中订单">
-<@frame.html title="进行中订单" js=["js/jquery-dateFormat.js"]>
+<@frame.html title="进行中的订单" css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"] js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
+<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <script type="text/javascript">
 
 	function claim(orderid,taskid){
@@ -34,7 +35,9 @@
                 data: function(d) {
                     return $.extend( {}, d, {
                         "filter[longOrderId]" : $('#longOrderId').val()
-                        ,"filter[userId]" : $('#userId').val()
+                        <@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+                        ,"filter[userId]" : $('#autocomplete').val()
+                         </@security.authorize>
                         ,"filter[taskKey]" : $('#taskKey').val()
                     } );
                 },
@@ -90,7 +93,7 @@
                         '    </span>' +
                                     '    <span>广告主</span>' +
                         '    <span>' +
-                        '        <input id="userId" value="">' +
+                        '        <input id="autocomplete" value="" >' +
                         '    </span>' +
                              '<select class="ui-input ui-input-mini" name="taskKey" id="taskKey">' +
                     '<option value="defaultAll" selected="selected">所有事项</option>' +
@@ -101,10 +104,23 @@
          			'</select>' +
                         '</div>'
         );
-
-        $('#longOrderId,#userId, #taskKey').change(function() {
+        
+       
+        $('#longOrderId, #autocomplete').change(function() {
             table.fnDraw();
         });
+        //author:pxh 2015-05-20 22:36
+        $( "#autocomplete" ).autocomplete({
+  			source: "${rc.contextPath}/user/autoComplete",
+  			change: function( event, ui ) { 
+  				/*if(ui.item!=null){alert(ui.item.value);}*/
+  				table.fnDraw();
+  			 },
+  			 select: function(event,ui) {
+  			 $('#autocomplete').val(ui.item.value);
+  				table.fnDraw();
+  			 }
+		}); 
     }
 
     function drawCallback() {
