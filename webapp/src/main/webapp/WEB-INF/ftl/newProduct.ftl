@@ -5,7 +5,8 @@
 <#assign action="增加">
 <#if prod??><#assign action="修改"></#if>
 
-<@frame.html title="${action}产品套餐">
+<@frame.html title="${action}产品套餐" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/jquery-ui/jquery-ui.auto.complete.js"] css=["js/jquery-ui/jquery-ui.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
+<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <script type="text/javascript">
     $(document).ready(function() {
         $("#productForm").validationEngine({
@@ -42,6 +43,22 @@
     	    document.body.appendChild(a);
     	    a.click();
 	}
+		
+ $(document).ready(function() {
+   
+		        //author:pxh 2015-05-20 22:36
+		        $( "#userId" ).autocomplete({
+		  			source: "${rc.contextPath}/user/autoComplete",
+		  			change: function( event, ui ) { 
+		  				/*if(ui.item!=null){alert(ui.item.value);}*/
+		  				table.fnDraw();
+		  			 },
+		  			 select: function(event,ui) {
+		  			 $('#userId').val(ui.item.value);
+		  				table.fnDraw();
+		  			 }
+				});
+	    });
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
 							<form data-name="withdraw" name="productForm" id="productForm"
@@ -139,11 +156,10 @@
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required"></span>产品定向:</label>
-                                            <select class="ui-input" >
-                                                <option value="" selected="selected"></option>
-                                                <option value="adusera">广告主A</option>
-                                                <option value="aduserb">广告主B</option>
-                                            </select>
+                                            <span>
+                         						<input id="userId" value=""
+                         						 class="ui-input validate[required]" placeholder="请选择广告主" >
+                       						</span>
                                         </div>
 									</div>
 									<div class="ui-form-item widthdrawBtBox">
