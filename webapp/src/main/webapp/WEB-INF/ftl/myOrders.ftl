@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="${orderMenu}">
-<@frame.html title="我参与的订单" js=["js/jquery-dateFormat.js"]>
+<@frame.html title="我参与订单" js=["js/jquery-dateFormat.js"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <script type="text/javascript">
 var table;
