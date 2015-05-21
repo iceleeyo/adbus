@@ -333,7 +333,7 @@ public class OrderController {
 
 	@RequestMapping(value = "/join/{pageNum}")
 	public String joinOrder(Model model) {
-		model.addAttribute("orderMenu", "我参与的订单");
+		model.addAttribute("orderMenu", "我参与订单");
 		return "myOrders";
 	}
 
