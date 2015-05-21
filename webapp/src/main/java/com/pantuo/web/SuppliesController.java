@@ -61,7 +61,7 @@ public class SuppliesController {
 	@ResponseBody
 	public void u2_save(HttpServletRequest request) throws IllegalStateException, IOException, ParseException {
 		try {
-			System.out.println(request.getParameter("dos_authorize_token") );
+			System.out.println(request.getParameter("dos_authorize_token"));
 			//request.("Connection", "close");
 			CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession()
 					.getServletContext());
@@ -81,10 +81,9 @@ public class SuppliesController {
 									storeName += FileHelper.getFileExtension(oriFileName, true));
 							File localFile = new File(p.getLeft());
 
-							
-							  // 不必处理IO流关闭的问题，因为FileUtils.copyInputStreamToFile()方法内部会自动把用到的IO流关掉  
-		                    FileUtils.copyInputStreamToFile(file.getInputStream(),localFile); 
-							
+							// 不必处理IO流关闭的问题，因为FileUtils.copyInputStreamToFile()方法内部会自动把用到的IO流关掉  
+							FileUtils.copyInputStreamToFile(file.getInputStream(), localFile);
+
 							/*long t=0;
 							InputStream is = file.getInputStream();
 							byte[] bs = new byte[1024];
@@ -116,7 +115,8 @@ public class SuppliesController {
 	}
 
 	@RequestMapping(value = "/list")
-	public String list() {
+	public String list(Model model) {
+		model.addAttribute("industries", industryRepo.findAll());
 		return "supplies_list";
 	}
 
@@ -133,7 +133,6 @@ public class SuppliesController {
 	@ResponseBody
 	public DataTablePage<JpaSupplies> getAllContracts(TableRequest req, Principal principal,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
-		return new DataTablePage(suppliesDataService.getAllSupplies(city, principal, req.getFilter("name"),
-				req.getPage(), req.getLength(), req.getSort("id")), req.getDraw());
+		return new DataTablePage(suppliesDataService.getAllSupplies(city, principal, req), req.getDraw());
 	}
 }

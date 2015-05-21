@@ -36,7 +36,7 @@ css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
 																<div class="th-md">类型</div>
 															</td>
 															<td  style="width: 15%;text-align: center; vertical-align: middle">
-																<div class="th-md">物料内容</div>
+																<div class="th-md">文件名称</div>
 															</td>
 															<td style="text-align: center; vertical-align: middle">
 																<div class="th-tail">操作</div>

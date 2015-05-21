@@ -5,6 +5,7 @@ import java.security.Principal;
 import com.mysema.query.types.expr.BooleanExpression;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +19,7 @@ import com.pantuo.dao.SuppliesRepository;
 import com.pantuo.dao.pojo.JpaSupplies;
 import com.pantuo.dao.pojo.QJpaSupplies;
 import com.pantuo.mybatis.persistence.SuppliesMapper;
+import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.SuppliesServiceData;
 import com.pantuo.util.Request;
 
@@ -29,28 +31,33 @@ public class SuppliesDataServiceImpl implements SuppliesServiceData {
 	@Autowired
 	SuppliesRepository suppliesRepo;
 
-	public Page<JpaSupplies> getAllSupplies(int city, Principal principal,String name, int page, int pageSize, Sort sort) {
-		
+	public Page<JpaSupplies> getAllSupplies(int city, Principal principal, TableRequest req) {
+		String name = req.getFilter("name");
+		int industryId = NumberUtils.toInt(req.getFilter("industry", String.valueOf(0)));
+		int page = req.getPage(), pageSize = req.getLength();
+		Sort sort = req.getSort("id");
 		if (page < 0)
 			page = 0;
 		if (pageSize < 1)
 			pageSize = 1;
 		sort = (sort == null ? new Sort("id") : sort);
 		Pageable p = new PageRequest(page, pageSize, sort);
-        BooleanExpression query = QJpaSupplies.jpaSupplies.city.eq(city);
+		BooleanExpression query = QJpaSupplies.jpaSupplies.city.eq(city);
+		if (industryId > 0) {
+			query = query.and(QJpaSupplies.jpaSupplies.industry.id.eq(industryId));
+		}
 		if (name == null || StringUtils.isEmpty(name)) {
-            if (Request.hasAuth(principal, ActivitiConfiguration.ORDER)) {
-                return suppliesRepo.findAll(query, p);
-            } else {
-                query = query.and(QJpaSupplies.jpaSupplies.userId.eq(Request.getUserId(principal)));
-                return suppliesRepo.findAll(query,p);
-            }
+			if (Request.hasAuth(principal, ActivitiConfiguration.ORDER)) {
+				return suppliesRepo.findAll(query, p);
+			} else {
+				query = query.and(QJpaSupplies.jpaSupplies.userId.eq(Request.getUserId(principal)));
+				return suppliesRepo.findAll(query, p);
+			}
 		} else {
 			query = query.and(QJpaSupplies.jpaSupplies.name.like("%" + name + "%"));
-            if (!Request.hasAuth(principal, ActivitiConfiguration.ORDER)) {
-                query = query.and(
-                        QJpaSupplies.jpaSupplies.userId.eq(Request.getUserId(principal)));
-            }
+			if (!Request.hasAuth(principal, ActivitiConfiguration.ORDER)) {
+				query = query.and(QJpaSupplies.jpaSupplies.userId.eq(Request.getUserId(principal)));
+			}
 			return suppliesRepo.findAll(query, p);
 		}
 	}
