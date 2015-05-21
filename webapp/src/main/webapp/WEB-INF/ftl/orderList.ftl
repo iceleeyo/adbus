@@ -113,7 +113,7 @@
         $('#longOrderId, #autocomplete').change(function() {
             table.fnDraw();
         });
-        //author:pxh 2015-05-20 22:36
+        //author:impanxh 2015-05-20 22:36 自动补全功能
         $( "#autocomplete" ).autocomplete({
   			source: "${rc.contextPath}/user/autoComplete",
   			change: function( event, ui ) { 

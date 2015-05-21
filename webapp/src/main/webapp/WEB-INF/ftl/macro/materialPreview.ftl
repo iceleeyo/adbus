@@ -14,22 +14,33 @@ ${(view.mainView.infoContext)!''}
              class="m11" width="240"/>
     </a>
     <#elseif view.mainView.suppliesType == 0>
-    <div class="m11">
-        <video id="material-video" class="video-js vjs-default-skin" controls
-               preload="auto" width="240"
-               data-setup='{
-                                        "controlBar": {
-                                            "muteToggle": false
-                                         },
-                                        "bigPlayButton" : true,
-                                        "preload" : "none"
-                                    }'>
-            <source src="${rc.contextPath}/downloadFile/${theItem.userId!''}/${theItem.id!''}" type='video/mp4'>
-            <p class="vjs-no-js">
-                请升级浏览器以<a href="http://videojs.com/html5-video-support/" target="_blank">支持此播放器</a>
-            </p>
-        </video>
-    </div>
+    <#if theItem.type == 3><!--资质判断 -->
+	     <a href="${rc.contextPath}/downloadFile/${theItem.userId!''}/${theItem.id!''}"
+	       onclick="return hs.expand(this)">
+	        <img src="${rc.contextPath}/downloadFile/${theItem.userId!''}/${theItem.id!''}"
+	             class="m11" width="240"/>
+	    </a>
+     </#if>
+      <#if theItem.type != 3>
+	    <div class="m11">
+	        <video id="material-video" class="video-js vjs-default-skin" controls
+	               preload="auto" width="240"
+	               data-setup='{
+	                                        "controlBar": {
+	                                            "muteToggle": false
+	                                         },
+	                                        "bigPlayButton" : true,
+	                                        "preload" : "none"
+	                                    }'>
+	            <source src="${rc.contextPath}/downloadFile/${theItem.userId!''}/${theItem.id!''}" type='video/mp4'>
+	            <p class="vjs-no-js">
+	                请升级浏览器以<a href="http://videojs.com/html5-video-support/" target="_blank">支持此播放器</a>
+	            </p>
+	        </video>
+	    </div>
+      </#if>
+    
+    
     <#else>
     <img src="${rc.contextPath}/imgs/noimg.jpg"
          class="m11" width="140"/>
