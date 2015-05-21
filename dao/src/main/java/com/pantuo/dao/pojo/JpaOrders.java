@@ -1,6 +1,7 @@
 package com.pantuo.dao.pojo;
 
 import javax.persistence.*;
+import java.util.*;
 
 import com.pantuo.dao.pojo.JpaProduct.Type;
 
@@ -44,6 +45,9 @@ public class JpaOrders extends CityEntity {
     private String creator;
     private int isInvoice;
 
+    @OneToMany(cascade = { CascadeType.ALL }, mappedBy="order", fetch = FetchType.EAGER, orphanRemoval = true)
+    private Set<JpaOrderBuses> orderBuses;
+
     public JpaOrders() {
         //for serialization
     }
@@ -55,21 +59,21 @@ public class JpaOrders extends CityEntity {
 			Status stats, String creator, int isInvoice) {
 		super();
 		this.id = id;
-		this.userId = userId;
+        this.userId = userId;
 		this.supplies = supplies;
 		this.product = product;
-		this.contractId = contractId;
-		this.contractCode = contractCode;
-		this.startTime = startTime;
-		this.endTime = endTime;
+        this.contractId = contractId;
+        this.contractCode = contractCode;
+        this.startTime = startTime;
+        this.endTime = endTime;
 		this.type = type;
-		this.payType = payType;
-		this.stats = stats;
-		this.creator = creator;
+        this.payType = payType;
+        this.stats = stats;
+        this.creator = creator;
 		this.isInvoice = isInvoice;
-	}
+    }
 
-	public int getId() {
+    public int getId() {
         return id;
     }
 
@@ -85,7 +89,7 @@ public class JpaOrders extends CityEntity {
 		this.isInvoice = isInvoice;
 	}
 
-	public String getUserId() {
+    public String getUserId() {
         return userId;
     }
 
@@ -94,10 +98,12 @@ public class JpaOrders extends CityEntity {
     }
 
     public int getSuppliesId() {
-        return supplies.getId();
+        return supplies == null ? 0 : supplies.getId();
     }
 
     public void setSuppliesId(int suppliesId) {
+        if (supplies == null)
+            supplies = new JpaSupplies();
         this.supplies.setId(suppliesId);
     }
 
@@ -110,10 +116,13 @@ public class JpaOrders extends CityEntity {
     }
 
     public int getProductId() {
-        return product.getId();
+        return product == null ? 0 : product.getId();
     }
 
     public void setProductId(int productId) {
+        if (product == null) {
+            product = new JpaProduct();
+        }
         this.product.setId(productId);
     }
 
@@ -187,6 +196,42 @@ public class JpaOrders extends CityEntity {
 
     public void setCreator(String creator) {
         this.creator = creator;
+    }
+
+    public Set<JpaOrderBuses> getOrderBuses() {
+        return orderBuses;
+    }
+
+    public void setOrderBuses(Set<JpaOrderBuses> orderBuses) {
+        this.orderBuses = orderBuses;
+    }
+
+    public List<JpaOrderBuses> getOrderBusesList() {
+        List<JpaOrderBuses> buses = null;
+        if (orderBuses != null)
+            buses = new ArrayList<JpaOrderBuses>(orderBuses);
+        else
+            buses = new ArrayList<JpaOrderBuses>();
+
+        Collections.sort(buses, new Comparator<JpaOrderBuses>() {
+            @Override
+            public int compare(JpaOrderBuses o1, JpaOrderBuses o2) {
+                return o1.getId() - o2.getId();
+            }
+        });
+        return buses;
+    }
+
+    public int getSelectableBusesNumber() {
+        if (product == null)
+            return 0;
+        int ordered = 0;
+        if (orderBuses != null) {
+            for (JpaOrderBuses o : orderBuses) {
+                ordered += o.getBusNumber();
+            }
+        }
+        return product.getBusNumber() - ordered;
     }
 
     @Override

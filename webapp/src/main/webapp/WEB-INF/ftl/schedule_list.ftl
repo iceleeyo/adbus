@@ -83,7 +83,12 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 { "data": "", "defaultContent": "",
                     "render" : function(data, type, row, meta) {
                         var box = row.boxes['${day}'];
-                        return box && box.goods && box.goods.length ? box.goods[0].order.supplies.name : '';
+                        return box && box.goods && box.goods.length ?
+                                '<a href="${rc.contextPath}/supplies/suppliesDetail/'
+                                        + box.goods[0].order.supplies.id + '" target="_blank">'
+                                        + box.goods[0].order.supplies.seqNumber + '&nbsp;'
+                                        +box.goods[0].order.supplies.name + '</a>'
+                                : '';
                 }},
                 { "data": "", "defaultContent": "",
                     "render" : function(data, type, row, meta) {

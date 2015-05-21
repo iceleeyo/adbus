@@ -168,10 +168,14 @@
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>物料类型</label>
 											<select class="ui-input" name="suppliesType" id="suppliesType">
+                                                <#if city.mediaType == 'body'>
+                                                    <option value="3" selected="selected">车身</option>
+                                                <#else>
 												<option value="0" selected="selected">视频</option>
-												<option value="1">图片</option>
-												<option value="2">文本</option>
-											</select>
+                                                <option value="1">图片</option>
+                                                <option value="2">文本</option>
+                                                </#if>
+                                            </select>
 										</div>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span

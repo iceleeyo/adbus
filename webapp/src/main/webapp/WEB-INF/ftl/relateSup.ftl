@@ -1,5 +1,6 @@
 <#import "template/template.ftl" as frame>
-<@frame.html title="未绑定物料订单">
+<#import "template/pickBuses.ftl" as pickBuses>
+<@frame.html title="未绑定物料订单" js=["js/jquery-ui/jquery-ui.min.js"]>
 <script type="text/javascript">
 
 $(function() {
@@ -125,7 +126,7 @@ function showtb1(){
   <LI style="width: 240px;"><SPAN>价格：</SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">${prod.price!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>起播时间：</SPAN><SPAN class="con"><#setting date_format="yyyy-MM-dd">${(order.startTime?date)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>到期时间：</SPAN><SPAN class="con"><#setting date_format="yyyy-MM-dd">${(order.endTime?date)!''}</SPAN></LI>
-  <LI style="width: 240px;"><SPAN>媒体类型：</SPAN><SPAN class="con">${prod.type!''}</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>媒体类型：</SPAN><SPAN class="con">${prod.type.typeName!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>订单状态：</SPAN><SPAN class="con">已完成</SPAN></LI>
   <LI style="width: 240px;"><SPAN>支付方式：</SPAN><SPAN class="con">${(orderview.payTypeString)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>合同号：</SPAN><SPAN class="con">${(orderview.order.contractCode)!''}</SPAN></LI>
@@ -139,7 +140,9 @@ function showtb1(){
 </DIV>
 </DIV>
 <div id="relateSup" >
-            
+<#if city.mediaType == 'body'>
+<@pickBuses.pickBuses order=order product=prod city=city lineLevel=prod.lineLevel categories=categories/>
+</#if>
               <div class="p20bs mt10 color-white-bg border-ec">
                  <H3 class="text-xl title-box">
                     <input type="button"  onclick="showtb1()" class="block-btn" value="支付订单">
@@ -152,29 +155,29 @@ function showtb1(){
                  </H3><BR>	
                  <TABLE class="ui-table ui-table-gray" id="tb1">
   								<TBODY>
-								<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-    								<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>广告主支付订单</H4></TD>
+									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
+    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>广告主支付订单</H4></TD>
   								</TR>  	
-							    <TR style="height:45px;">
+									<TR style="height:45px;">
     								<TH style="padding:0,10px;">支付方式</TH>
     							<TD style="padding:0,10px;">
-    								<input type="radio" name="payType" onchange="showContract()" value="contract" checked="checked">关联合同
+    										<input type="radio" name="payType" onchange="showContract()" value="contract" checked="checked">关联合同
 				             		<input type="radio" name="payType" value="online" onchange="hideContract()" >线上支付
 				             	<input type="radio" name="payType" value="others"  onchange="hideContract()">其他支付
 				             	</TD>
 				             	
 				             	<TD style="padding:0,10px;">
 				             	<div id="contractCode">
-				             	 <select class="ui-input" name="contractCode" id="contractCode">
+				             	<select class="ui-input" name="contractCode" id="contractCode">
                                                 <option value="" selected="selected">请选择合同</option>
                                                 <#if contracts?exists>
                                                 <#list contracts as c>
                                                     <option value="${c.id}">${c.contractName!''}</option>
                                                 </#list>
-                                                 </#if>
-                  		        </select>
-                  		      </div>
-                  		     </TD>
+                                                </#if>
+                  		</select>
+                  		</div>
+                  		</TD>
     									
   					</TR>
   					           <TR style="height:45px;">
@@ -187,7 +190,7 @@ function showtb1(){
     						        <TD colspan="4" style="text-align:center;">
     										<button type="button" onclick="pay()" class="block-btn" >确认支付</button>
     									</TD>
-  								</TR>	
+  								</TR>
 								</TABLE>	<br>
 						<TABLE class="ui-table ui-table-gray" id="tb2">
   								<TBODY>

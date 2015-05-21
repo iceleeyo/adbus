@@ -49,8 +49,11 @@ public class LoginController {
     private ActivitiUserDetailsService authUserService;
     
     @RequestMapping(value = "/login", produces = "text/html;charset=utf-8")
-    public String login(HttpServletRequest request)
+    public String login(HttpServletRequest request, Authentication auth)
     {
+        if (auth != null && auth.isAuthenticated()) {
+            return "redirect:/order/myTask/1";
+        }
         return "login";
     }
     @RequestMapping(value = "/register", produces = "text/html;charset=utf-8", method = RequestMethod.GET)

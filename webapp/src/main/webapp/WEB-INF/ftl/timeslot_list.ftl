@@ -1,5 +1,5 @@
 <#import "template/template.ftl" as frame>
-<#global menu="媒体时段">
+<#global menu="时段设置">
 <@frame.html title="媒体时段列表" js=["js/jquery-dateFormat.min.js"]>
 
 <style type="text/css">

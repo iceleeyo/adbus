@@ -3,14 +3,14 @@ package com.pantuo.web;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pantuo.dao.pojo.*;
+import com.pantuo.mybatis.domain.*;
+import com.pantuo.service.*;
 import com.pantuo.util.*;
 
 import org.activiti.engine.RuntimeService;
@@ -26,11 +26,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.google.common.base.Suppliers;
-import com.pantuo.dao.pojo.JpaOrders;
-import com.pantuo.dao.pojo.JpaProduct;
-import com.pantuo.mybatis.domain.Contract;
-import com.pantuo.mybatis.domain.Orders;
-import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.HistoricTaskView;
 import com.pantuo.pojo.TableRequest;
@@ -68,22 +63,28 @@ public class OrderController {
 	private RuntimeService runtimeService;
 	@Autowired
 	ActivitiService activitiService;
+    @Autowired
+    BusService busService;
 
 	@Autowired
 	private TaskService taskService;
 
 	@RequestMapping(value = "/buypro/{product_id}", produces = "text/html;charset=utf-8")
-	public String buypro(Model model, @PathVariable("product_id") int product_id, Principal principal,
-			@CookieValue(value = "city", defaultValue = "-1") int city, HttpServletRequest request) {
+	public String buypro(Model model, @PathVariable("product_id") int product_id,
+                         Principal principal,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId,
+            @ModelAttribute("city") JpaCity city,
+            HttpServletRequest request) {
 		JpaProduct prod = productService.findById(product_id);
 		//Page<JpaProduct> products = productService.getValidProducts(0 , 9999, null);
 		//model.addAttribute("products", products.getContent());
 		NumberPageUtil page = new NumberPageUtil(9999, 1, 9999);
-		List<Supplies> supplies = suppliesService.queryMyList(city, page, null, prod.getType(), principal);
+		List<Supplies> supplies = suppliesService.queryMyList(cityId, page, null, prod.getType(), principal);
 		model.addAttribute("supplies", supplies);
 		model.addAttribute("prod", prod);
-		List<Contract> contracts = contractService.queryContractList(city, page, null, null, principal);
+		List<Contract> contracts = contractService.queryContractList(cityId, page, null, null, principal);
 		model.addAttribute("contracts", contracts);
+
 		return "creOrder";
 	}
 
@@ -144,8 +145,12 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/handleView2", produces = "text/html;charset=utf-8")
-	public String HandleView2(Model model, @RequestParam(value = "taskid", required = true) String taskid,
-			Principal principal, @CookieValue(value = "city", defaultValue = "-1") int city, HttpServletRequest request)
+	public String HandleView2(Model model,
+            @RequestParam(value = "taskid", required = true) String taskid,
+			Principal principal,
+            @CookieValue(value = "city", defaultValue = "-1") int cityId,
+            @ModelAttribute("city") JpaCity city,
+            HttpServletRequest request)
 			throws Exception {
 		NumberPageUtil page = new NumberPageUtil(9999, 1, 9999);
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
@@ -154,11 +159,11 @@ public class OrderController {
 		OrderView v = activitiService.findOrderViewByTaskId(taskid);
 		String activityId = executionEntity.getActivityId();
 		ProcessInstance pe = activitiService.findProcessInstanceByTaskId(taskid);
-		List<HistoricTaskView> activitis = activitiService.findHistoricUserTask(city, pe.getProcessInstanceId(),
+		List<HistoricTaskView> activitis = activitiService.findHistoricUserTask(cityId, pe.getProcessInstanceId(),
 				activityId);
 		JpaProduct prod = productService.findById(v.getOrder().getProductId());
-		List<Contract> contracts = contractService.queryContractList(city, page, null, null, principal);
-		List<Supplies> supplieslist = suppliesService.querySuppliesByUser(city, principal);
+		List<Contract> contracts = contractService.queryContractList(cityId, page, null, null, principal);
+		List<Supplies> supplieslist = suppliesService.querySuppliesByUser(cityId, principal);
 		SuppliesView suppliesView = suppliesService.getSuppliesDetail(v.getOrder().getSuppliesId(), null);
 		SuppliesView quafiles = suppliesService.getQua(v.getOrder().getSuppliesId(), null);
 		model.addAttribute("suppliesView", suppliesView);
@@ -173,6 +178,14 @@ public class OrderController {
 			activityId = ActivitiService.R_MODIFY_ORDER;
 		}
 		model.addAttribute("activityId", activityId);
+
+        //选车
+        if (city != null && city.getMediaType() == JpaCity.MediaType.body) {
+            model.addAttribute("lines", busService.getAllBuslines(cityId, prod.getLineLevel(), null, 0, 9999, null).getContent());
+            model.addAttribute("models", busService.getAllBusModels(cityId, null, null, 0, 9999, null).getContent());
+            model.addAttribute("companies", busService.getAllBusinessCompanies(cityId, null, null, 0, 9999, null).getContent());
+            model.addAttribute("categories", JpaBus.Category.values());
+        }
 		return "handleView2";
 	}
 
@@ -188,7 +201,9 @@ public class OrderController {
 
 	@RequestMapping(value = "creOrder2", method = RequestMethod.POST, produces = "text/html;charset=utf-8")
 	public String saveOrderJpa(Model model, JpaOrders order, Principal principal,
-			@CookieValue(value = "city", defaultValue = "-1") int city, HttpServletRequest request)
+           @CookieValue(value = "city", defaultValue = "-1") int cityId,
+           @ModelAttribute("city") JpaCity city,
+            HttpServletRequest request)
 			throws IllegalStateException, IOException, ParseException {
 		NumberPageUtil page = new NumberPageUtil(9999, 1, 9999);
 		order.setCreator(Request.getUserId(principal));
@@ -211,12 +226,12 @@ public class OrderController {
 			//			return new Pair<Boolean, String>(false, "请指定订单开播时间");
 		}
 		OrderView v = new OrderView();
-		orderService.saveOrderJpa(city, order, Request.getUser(principal));
-		List<Supplies> supplieslist = suppliesService.querySuppliesByUser(city, principal);
-		List<Contract> contracts = contractService.queryContractList(city, page, null, null, principal);
+		orderService.saveOrderJpa(cityId, order, Request.getUser(principal));
+		List<Supplies> supplieslist = suppliesService.querySuppliesByUser(cityId, principal);
+		List<Contract> contracts = contractService.queryContractList(cityId, page, null, null, principal);
 		SuppliesView suppliesView = suppliesService.getSuppliesDetail(order.getSuppliesId(), null);
 		SuppliesView quafiles = suppliesService.getQua(order.getSuppliesId(), null);
-		Orders orders = orderService.selectOrderById(order.getId());
+		JpaOrders orders = orderService.selectJpaOrdersById(order.getId());
 		v.setOrder(orders);
 		model.addAttribute("supplieslist", supplieslist);
 		model.addAttribute("order", order);
@@ -225,6 +240,15 @@ public class OrderController {
 		model.addAttribute("contracts", contracts);
 		model.addAttribute("suppliesView", suppliesView);
 		model.addAttribute("quafiles", quafiles);
+
+
+        //选车
+        if (city != null && city.getMediaType() == JpaCity.MediaType.body) {
+            model.addAttribute("lines", busService.getAllBuslines(cityId, prod.getLineLevel(), null, 0, 9999, null).getContent());
+            model.addAttribute("models", busService.getAllBusModels(cityId, null, null, 0, 9999, null).getContent());
+            model.addAttribute("companies", busService.getAllBusinessCompanies(cityId, null, null, 0, 9999, null).getContent());
+            model.addAttribute("categories", JpaBus.Category.values());
+        }
 		return "relateSup";
 	}
 
@@ -372,4 +396,72 @@ public class OrderController {
 				.finished(city, principal,req);
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
+
+    @RequestMapping(value = "ajax-order-buses", method = RequestMethod.POST)
+    @ResponseBody
+    public JpaOrders orderBuses(@CookieValue(value = "city", defaultValue = "-1") int city,
+                                            JpaOrderBuses orderBuses) {
+        if (orderBuses.getBusNumber() <= 0) {
+            JpaOrders result =  new JpaOrders();
+            result.setErrorInfo(BaseEntity.ERROR, "请填写正确的巴士数量");
+            return result;
+        }
+
+        JpaOrders order = orderService.getJpaOrder(orderBuses.getOrder().getId());
+        if (order == null) {
+            JpaOrders result =  new JpaOrders();
+            result.setErrorInfo(BaseEntity.ERROR, "无效订单");
+            return result;
+        }
+        //validate
+        order.getOrderBuses().add(orderBuses);
+        if (order.getSelectableBusesNumber() < 0) {
+            order.setErrorInfo(BaseEntity.ERROR, "选择巴士数量超过套餐总数");
+        }
+
+        orderService.saveOrderBuses(orderBuses);
+        order.setErrorInfo(BaseEntity.OK, "选车成功");
+        return order;
+    }
+
+    @RequestMapping(value = "ajax-orderedbuses", method = RequestMethod.GET)
+    @ResponseBody
+    public DataTablePage<JpaOrderBuses> getOrderedBuses(@CookieValue(value = "city", defaultValue = "-1") int city,
+                                            @RequestParam("orderId") int orderId) {
+        JpaOrders order = orderService.getJpaOrder(orderId);
+        if (order == null) {
+            return new DataTablePage(Collections.EMPTY_LIST);
+        }
+        return new DataTablePage(order.getOrderBusesList());
+    }
+
+    @RequestMapping(value = "ajax-remove-order-buses", method = RequestMethod.POST)
+    @ResponseBody
+    public JpaOrders removeOrderedBuses(@CookieValue(value = "city", defaultValue = "-1") int city,
+                                                        @RequestParam("orderId") int orderId,
+                                                        @RequestParam("id") int id) {
+        JpaOrders order = orderService.getJpaOrder(orderId);
+        if (order == null) {
+            JpaOrders result =  new JpaOrders();
+            result.setErrorInfo(BaseEntity.ERROR, "没找到对应的订单");
+            return result;
+        }
+        Set<JpaOrderBuses> orderBuses = order.getOrderBuses();
+        JpaOrderBuses found = null;
+        for (JpaOrderBuses b : orderBuses) {
+            if (b.getId() == id) {
+                found = b;
+                break;
+            }
+        }
+        if (found == null) {
+            JpaOrders result =  new JpaOrders();
+            result.setErrorInfo(BaseEntity.ERROR, "没找到对应的条目");
+            return result;
+        }
+
+        order.getOrderBuses().remove(found);
+        orderService.updateWithBuses(order);
+        return order;
+    }
 }

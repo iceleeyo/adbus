@@ -1,6 +1,7 @@
 package com.pantuo.dao.pojo;
 
 import javax.persistence.*;
+import java.util.*;
 
 /**
  * @author tliu
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Table(name="product")
 public class JpaProduct extends CityEntity {
     public static enum Type {
-        video("视频"), image("图片"), info("文本"), other("其他");
+        video("视频"), image("图片"), info("文本"), body("车身"), other("其他");
 
         private final String name;
         private Type(String name) {
@@ -21,6 +22,12 @@ public class JpaProduct extends CityEntity {
         public String getTypeName() {
             return name;
         }
+    }
+
+    public static Map<JpaCity.MediaType, List<Type>> productTypesForMedia = new HashMap<JpaCity.MediaType, List<Type>>();
+    static {
+        productTypesForMedia.put(JpaCity.MediaType.screen, Arrays.asList(Type.video, Type.image, Type.info));
+        productTypesForMedia.put(JpaCity.MediaType.body, Arrays.asList(Type.body));
     }
 
     @Id
@@ -34,10 +41,15 @@ public class JpaProduct extends CityEntity {
     private int firstNumber;	//首播次数
     private int lastNumber;		//末播次数
     private double hotRatio;	//高峰占比
+    private JpaBusline.Level lineLevel; //车身广告线路级别
+    private int busNumber;      //车身广告公交车数量
     private int days;			//播放天数
-    private double price;		//套餐价格
+    private double price;		//套餐价格，车身广告的媒体费
+    private double produceCost; //车身广告的制作费用
     private boolean padding;	//是否用作垫片
     private boolean enabled = true;
+    private boolean exclusive = false;  //是否专用套餐，专用套餐定向对某一个用户有效
+    private String exclusiveUser;   //定向用户
 
     public JpaProduct() {
         //for serialization
@@ -58,6 +70,21 @@ public class JpaProduct extends CityEntity {
 		this.price = price;
 		this.padding = padding;
 	}
+    //车身
+    public static JpaProduct newForBody(int city, String name,
+                      JpaBusline.Level lineLevel, int busNumber,
+                      int days, double price, double produceCost) {
+        JpaProduct p = new JpaProduct();
+        p.setCity(city);
+        p.setName(name);
+        p.setLineLevel(lineLevel);
+        p.setBusNumber(busNumber);
+        p.setDays(days);
+        p.setPrice(price);
+        p.setProduceCost(produceCost);
+        return p;
+    }
+
 	public int getId() {
 		return id;
 	}
@@ -123,12 +150,54 @@ public class JpaProduct extends CityEntity {
 		this.duration = duration;
 	}
 
+    public JpaBusline.Level getLineLevel() {
+        return lineLevel;
+    }
+
+    public void setLineLevel(JpaBusline.Level lineLevel) {
+        this.lineLevel = lineLevel;
+    }
+
+    public int getBusNumber() {
+        return busNumber;
+    }
+
+    public void setBusNumber(int busNumber) {
+        this.busNumber = busNumber;
+    }
+
+    public double getProduceCost() {
+        return produceCost;
+    }
+
+    public void setProduceCost(double produceCost) {
+        this.produceCost = produceCost;
+    }
+
     public boolean isEnabled() {
         return enabled;
     }
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public boolean isExclusive() {
+        return exclusive;
+    }
+
+    public String getExclusiveUser() {
+        return exclusiveUser;
+    }
+
+    public void setExclusiveUser(String user) {
+        if (user != null && !"".equals(user)) {
+            this.exclusive = true;
+            this.exclusiveUser = user;
+        } else {
+            this.exclusive = false;
+            this.exclusiveUser = null;
+        }
     }
 
     @Override

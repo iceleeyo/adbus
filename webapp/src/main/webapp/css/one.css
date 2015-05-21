@@ -2500,7 +2500,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 }
 
 .ui-form-item div {
-    line-height: 40px;
+    padding-top:10px;
 }
 .ui-form-item .formError div {
     line-height: 20px;

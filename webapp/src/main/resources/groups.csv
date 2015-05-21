@@ -1,7 +1,12 @@
+#角色名,角色说明,类型
 advertiser,广告主,user
 ShibaOrderManager,订单管理,manager
 ShibaFinancialManager,财务管理,manager
 BeiguangMaterialManager,物料终审,manager
 BeiguangScheduleManager,排期管理,manager
 ShibaSuppliesManager,物料初审,suppliesManager
+BodyOrderManager,订单管理,manager
+BodyFinancialManager,财务管理,manager
+BodyScheduleManager,排期管理,manager
+BodySuppliesManager,物料初审,suppliesManager
 UserManager,用户管理,manager

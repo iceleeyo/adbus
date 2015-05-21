@@ -18,7 +18,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 @MapperScan("com.pantuo.mybatis.persistence")
 public class MybatisDaoConfiguration {
 
-	  private @Value("${jdbc.database}") String database;
+/*	  private @Value("${jdbc.database}") String database;
 	    private @Value("${jdbc.driverClassName}") String driverClassName;
 	    private @Value("${jdbc.url}") String url;
 	    private @Value("${jdbc.username}") String username;
@@ -33,17 +33,17 @@ public class MybatisDaoConfiguration {
 	        ds.setPassword(password);
 	        System.out.println("#####init-myibatis");
 	        return ds;
-	    }
+	    }*/
 
 	@Bean
-	public DataSourceTransactionManager transactionManager() {
-		return new DataSourceTransactionManager(dataSource());
+	public DataSourceTransactionManager transactionManager(DataSource dataSource) {
+		return new DataSourceTransactionManager(dataSource);
 	}
 
 	@Bean
-	public SqlSessionFactoryBean sqlSessionFactory() throws Exception {
+	public SqlSessionFactoryBean sqlSessionFactory(DataSource dataSource) throws Exception {
 		SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
-		sessionFactory.setDataSource(dataSource());
+		sessionFactory.setDataSource(dataSource);
 		sessionFactory.setTypeAliasesPackage("com.pantuo.mybatis.domain");
 		return sessionFactory;
 	}

@@ -1,5 +1,5 @@
 <#import "template/template.ftl" as frame>
-<#import "macro/materialPreview.ftl" as preview>
+<#import "template/orderDetail.ftl" as orderDetail/>
 
 <@frame.html title="订单详细" js=["js/highslide/highslide-full.js", "js/video-js/video.js", "js/video-js/lang/zh-CN.js"]
 css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
@@ -45,7 +45,7 @@ function go_back(){
 </UL>
 </DIV>
 </DIV>-->
-<#include "template/orderDetail.ftl" />
+<@orderDetail.orderDetail orderview=orderview quafiles=quafiles suppliesView=suppliesView/>
 <#include "template/hisDetail.ftl" />
 </@frame.html>
 

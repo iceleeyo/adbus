@@ -7,7 +7,7 @@ ${(view.mainView.infoContext)!''}
 <#else>
 <#if (items?? && items?size>0)>
 <#list items as theItem>
-    <#if view.mainView.suppliesType == 1>
+    <#if view.mainView.suppliesType == 1 || view.mainView.suppliesType == 3>
     <a href="${rc.contextPath}/downloadFile/${theItem.userId!''}/${theItem.id!''}"
        onclick="return hs.expand(this)">
         <img src="${rc.contextPath}/downloadFile/${theItem.userId!''}/${theItem.id!''}"
@@ -48,7 +48,7 @@ ${(view.mainView.infoContext)!''}
 </#list>
 <#else>
     <#list view.files as theItem>
-        <#if view.mainView.suppliesType == 1>
+        <#if view.mainView.suppliesType == 1 || view.mainView.suppliesType == 3>
         <a href="${rc.contextPath}/downloadFile/${theItem.userId!''}/${theItem.id!''}"
            onclick="return hs.expand(this)">
             <img src="${rc.contextPath}/downloadFile/${theItem.userId!''}/${theItem.id!''}"

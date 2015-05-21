@@ -58,7 +58,7 @@ public class Boxing {
         List<JpaGoods> notBoxed = new ArrayList<JpaGoods> ();
         Collections.sort(goodsList);
         for (JpaGoods g : goodsList) {
-            shuffleAndSortBoxes();
+            shuffleAndSortBoxes(g);
             for (JpaBox b : boxList) {
                 if (b.put(g)) {
                     log.debug("Put good {} into box {} @ postion {}, box remain {}", g.getOrderId(), b.getSlotId(), g.getInboxPosition(), b.getRemain());
@@ -75,9 +75,10 @@ public class Boxing {
         return notBoxed;
     }
 
-    private void shuffleAndSortBoxes() {
+    private void shuffleAndSortBoxes(JpaGoods forThisGoods) {
         this.boxes = new HashSet<JpaBox> ();
         for (JpaBox box : boxList) {
+            box.setTmpAbsoluteWight(-box.numberOfGoodsForOrder(forThisGoods.getOrderId()));
             box.increaseSeed(31*13);
             boxes.add(box);
         }

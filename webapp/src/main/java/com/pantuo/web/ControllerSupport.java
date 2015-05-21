@@ -24,11 +24,16 @@ public class ControllerSupport {
 
     @ModelAttribute("cities")
     public List<JpaCity> cities() {
-        return cityService.list();
+        return cityService.list(true);
     }
 
     @ModelAttribute("city")
     public JpaCity city(@CookieValue(value="city", defaultValue = "-1") int city) {
         return cityService.fromId(city);
+    }
+
+    @ModelAttribute("medias")
+    public List<JpaCity> medias(@CookieValue(value="city", defaultValue = "-1") int city) {
+        return cityService.listMedias(city);
     }
 }

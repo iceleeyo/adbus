@@ -1,0 +1,36 @@
+package com.pantuo.service;
+
+import com.pantuo.dao.pojo.*;
+import com.pantuo.mybatis.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+
+import java.util.List;
+import java.util.Map;
+
+public interface BusService {
+
+    long count();
+
+    long countFree(int city, JpaBusline.Level level, JpaBus.Category category, Integer lineId, Integer busModelId, Integer companyId);
+
+    Page<JpaBus> getAllBuses(int city, String plateNumber, int page, int pageSize, Sort sort, boolean fetchDisabled);
+
+    JpaBus findById(int id);
+
+    void saveBus(JpaBus bus);
+
+    void saveBuses(Iterable<JpaBus> buses);
+
+    Page<JpaBusline> getAllBuslines(int city, JpaBusline.Level level, String name, int page, int pageSize, Sort sort);
+
+    Page<JpaBusModel> getAllBusModels(int city, String name, String manufacturer, int page, int pageSize, Sort sort);
+
+    Page<JpaBusinessCompany> getAllBusinessCompanies(int city, String name, String contact, int page, int pageSize, Sort sort);
+
+    Iterable<CountableBusLine> getBuslines(int city, JpaBusline.Level level, JpaBus.Category category, Integer lineId, Integer busModelId, Integer companyId);
+
+    Iterable<CountableBusModel> getBusModels(int city, JpaBusline.Level level, JpaBus.Category category, Integer lineId, Integer busModelId, Integer companyId);
+
+    Iterable<CountableBusinessCompany> getBusinessCompanies(int city, JpaBusline.Level level, JpaBus.Category category, Integer lineId, Integer busModelId, Integer companyId);
+}

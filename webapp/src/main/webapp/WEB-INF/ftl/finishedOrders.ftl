@@ -1,5 +1,5 @@
 <#import "template/template.ftl" as frame>
-<#global menu="已完成的订单">
+<#global menu="已完成订单">
 <@frame.html title="已完成的订单" css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"] js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 

@@ -127,7 +127,7 @@
 									
 
 									<@security.authorize ifAnyGranted="ShibaOrderManager,BeiguangScheduleManager">
-
+                                    <#if city.mediaType == 'screen'>
 									<li class="pg-side-item">
 										<a class="pg-side-item-t gg-icon">
 											<i class="s-left pg-icon-a g-icon"></i>
@@ -152,8 +152,41 @@
 											</li>
 										</ul>
 									</li>
+                                    </#if>
+                                    <#if city.mediaType == 'body'>
+                                    <li class="pg-side-item">
+                                        <a class="pg-side-item-t gg-icon">
+                                            <i class="s-left pg-icon-a g-icon"></i>
+                                            车身广告
+                                        </a>
+                                        <ul class="pg-side-exp-list">
+
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/list">
+                                                    巴士列表
+                                                </a>
+                                            </li>
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/lines">
+                                                    线路列表
+                                                </a>
+                                            </li>
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/models">
+                                                    车型列表
+                                                </a>
+                                            </li>
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/companies">
+                                                    运营公司
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    </#if>
                                     </@security.authorize>
                                     <@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager">
+                                    <#if city.mediaType == 'screen'>
 									<li class="pg-side-item">
 										<a class="pg-side-item-t hh-icon">
 											<i class="s-left pg-icon-a c-icon"></i>
@@ -212,6 +245,7 @@
 											</li>-->
 										</ul>
 									</li>
+                                    </#if>
                                     </@security.authorize>
                                     <@security.authorize ifAnyGranted="advertiser,UserManager">
 									<li class="pg-side-item">
@@ -263,7 +297,8 @@
             var curr=$(this);
             	var st=0;
             	
-                $(this).find(".side-exp-item-t").each(function(){
+                var list = $(this).find(".side-exp-item-t");
+                list.each(function(){
                     if ($(this).text().trim() == menu) {
 						 curr.find(".pg-side-exp-list").show();
 						 $(this).addClass("side-exp-select");		
@@ -271,6 +306,15 @@
 						 st=1;		           
                     } 
                 });
+
+                //try to find from top level
+                if (st == 0 && list.length == 0) {
+                    var top = $(this).find(".pg-side-item-t");
+                    if (top.text().trim() == menu) {
+                        curr.addClass("side-exp-p-select");
+                        st = 1;
+                    }
+                }
                 if(st==0){
               	  curr.find(".pg-side-exp-list").hide();
                 }
@@ -287,6 +331,20 @@
     }
 
     $(document).ready(function(){
+        //move single sub-menu to top
+        $(".pg-side-item").each(function(){
+            var list = $(this).find(".pg-side-exp-list .side-exp-item-t");
+            if (list.length == 1) {
+                var top = $(this).find(".pg-side-item-t");
+                if (top) {
+                    top.attr("href", $(list[0]).attr("href"));
+                    top.find(".pg-icon-a")[0].nextSibling.data=$(list[0]).text();
+                    $(this).find(".pg-side-exp-list").remove();
+                }
+            }
+        });
+
+        //open selected menu
         var menu = '<#if menu??>${menu}<#else></#if>';
         $(".pg-side-item-t").click(function(){
             $(this).parent(".pg-side-item").find(".pg-side-exp-list").toggle();

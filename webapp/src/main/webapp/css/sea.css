@@ -219,7 +219,7 @@ table {
 	padding: 0 20px 0 20px;
 	color: #fff
 }
-/* .pg-nav-item-n:hover {background-color: #fff;color: #666} */
+			/* .pg-nav-item-n:hover {background-color: #fff;color: #666} */
 .pg-nav-item-p {
 	position: relative;
 	padding: 0 10px 0 0px;
@@ -241,7 +241,7 @@ table {
 	overflow: hidden;
 	margin-left: 2px;
 }
-
+			
 .shdown {
 	position: absolute;
 	top: 22px;
@@ -1058,8 +1058,8 @@ table {
 
 .pg-dropdown-angle span {
 	background: url(../imgs/angle-up.png) no-repeat;
-	width: 14px;
-	height: 14px;
+width: 14px;
+height: 14px;
 	display: block;
 }
 

@@ -2,12 +2,12 @@ package com.pantuo.web;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.pantuo.dao.pojo.BaseEntity;
-import com.pantuo.dao.pojo.JpaProduct;
-import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.ActivitiConfiguration;
+import com.pantuo.dao.pojo.*;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 
+import com.pantuo.util.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import com.pantuo.service.ProductService;
 import com.pantuo.service.UserService;
+
+import java.security.Principal;
 
 /**
  * @author xl
@@ -33,8 +35,21 @@ public class ProductController {
 	private UserService userService;
     @RequestMapping("ajax-list")
     @ResponseBody
-    public DataTablePage<JpaProduct> getAllProducts( TableRequest req, @CookieValue(value="city", defaultValue = "-1") int city ) {
-        return new DataTablePage(productService.getAllProducts(city, req.getFilter("name"), req.getPage(), req.getLength(), req.getSort("id")), req.getDraw());
+    public DataTablePage<JpaProduct> getAllProducts( TableRequest req,
+                                                     @CookieValue(value="city", defaultValue = "-1") int city,
+                                                     Principal principal ) {
+        Page<JpaProduct> page = null;
+        if (Request.hasAuth(principal, ActivitiConfiguration.ORDER)) {
+            page = productService.getAllProducts(city, req.getFilter("name"),
+                    true, null,
+                    req.getPage(), req.getLength(), req.getSort("id"));
+        } else {
+            page = productService.getAllProducts(city, req.getFilter("name"),
+                    true, Request.getUserId(principal),
+                    req.getPage(), req.getLength(), req.getSort("id"));
+        }
+
+        return new DataTablePage(page, req.getDraw());
     }
 
     @RequestMapping(value = "/{productId}/{enable}", method = { RequestMethod.POST})
@@ -58,16 +73,33 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/new", produces = "text/html;charset=utf-8")
-    public String newProduct() {
-    	/*Page<UserDetail> users = userService.getValidUsers(0, 999, null);
-        model.addAttribute("users", users.getContent());*/
+    public String newProduct(Model model, @ModelAttribute("city") JpaCity city) {
+    	Page<UserDetail> users = userService.getValidUsers(0, 999, null);
+        model.addAttribute("users", users.getContent());
+        if (city != null) {
+            model.addAttribute("types", JpaProduct.productTypesForMedia.get(city.getMediaType()));
+            if (city.getMediaType() == JpaCity.MediaType.body) {
+                model.addAttribute("lineLevels", JpaBusline.Level.values());
+            }
+        }
+//        model.addAttribute("types", JpaProduct.Type.values());
         return "newProduct";
     }
 
     @RequestMapping(value = "/{id}", produces = "text/html;charset=utf-8")
     public String updateProduct(@PathVariable int id,
+                                @ModelAttribute("city") JpaCity city,
                                 Model model, HttpServletRequest request) {
+        Page<UserDetail> users = userService.getValidUsers(0, 999, null);
+        model.addAttribute("users", users.getContent());
     	model.addAttribute("prod", productService.findById(id));
+        if (city != null) {
+            model.addAttribute("types", JpaProduct.productTypesForMedia.get(city.getMediaType()));
+            if (city.getMediaType() == JpaCity.MediaType.body) {
+                model.addAttribute("lineLevels", JpaBusline.Level.values());
+            }
+        }
+//        model.addAttribute("types", JpaProduct.Type.values());
         return "newProduct";
     }
     @RequestMapping(value = "/d/{id}", produces = "text/html;charset=utf-8")

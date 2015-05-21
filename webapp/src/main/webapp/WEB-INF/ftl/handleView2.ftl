@@ -1,5 +1,10 @@
 <#import "template/template.ftl" as frame>
-<@frame.html title="订单办理">
+<#import "template/orderDetail.ftl" as orderDetail/>
+<#import "template/pickBuses.ftl" as pickBuses>
+<@frame.html title="订单办理" js=["js/highslide/highslide-full.js", "js/video-js/video.js",
+"js/video-js/lang/zh-CN.js", "js/jquery-ui/jquery-ui.min.js"]
+css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
+    <#include "template/preview.ftl" />
 <script type="text/javascript">
 	$(function() {
 	//显示当前节点对应的表单信息
@@ -365,10 +370,14 @@ function pay() {
     <div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">播出完成</li><li id="track_time_6" class="tx3"></li></ul></div>
 </div>
 </div>
-    <#include "template/orderDetail.ftl" />
+    <@orderDetail.orderDetail orderview=orderview quafiles=quafiles suppliesView=suppliesView/>
 
+<#if activityId == "payment" || activityId == "relateSup">
            <!-- 支付-->
            <div id="payment" class="payment relateSup" style="display: none;">
+    <#if city.mediaType == 'body'>
+           <@pickBuses.pickBuses order=orderview.order product=orderview.product city=city lineLevel=prod.lineLevel categories=categories/>
+    </#if>
               <div class="p20bs mt10 color-white-bg border-ec">
                  <H3 class="text-xl title-box"><A class="black" href="#">支付订单</A></H3><BR>	
                  <TABLE class="ui-table ui-table-gray" >
@@ -410,8 +419,13 @@ function pay() {
 								</TABLE>	<br>
              </div>	
 			</div>
+</#if>
+<#if activityId == "relateSup">
 			 <!-- 支付和绑定素材-->
            <div id="relateSup" class="relateSup" style="display: none;">
+<#if city.mediaType == 'body'>
+       <@pickBuses.pickBuses order=orderview.order product=orderview.product city=city lineLevel=prod.lineLevel categories=categories/>
+</#if>
               <div class="p20bs mt10 color-white-bg border-ec">
                  <H3 class="text-xl title-box">
                     <input type="radio" name="sel" onchange="showtb1()"  checked="checked">支付订单
@@ -468,10 +482,13 @@ function pay() {
   								</TR>
 								</TABLE>	<br>
              </div>	
-			</div> 
+			</div>
+</#if>
+<#if activityId == "modifyOrder">
 			<!-- 广告主修改订单 -->
           <div id="modifyOrder" class="modifyOrder" style="display: none;">
-                <div class="p20bs mt10 color-white-bg border-ec">
+
+              <div class="p20bs mt10 color-white-bg border-ec">
                 <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3><br>	
                                 
 								<TABLE class="ui-table ui-table-gray">
@@ -509,6 +526,8 @@ function pay() {
 								</TABLE>	                                
                 </div>	          
 					</div>
+</#if>
+<#if activityId == "approve2">
 			<!-- 北广审核并填写物料ID等信息 -->
       <div id="approve2" class="approve2" style="display: none;">
                 <div class="p20bs mt10 color-white-bg border-ec">
@@ -556,8 +575,9 @@ function pay() {
 								</TABLE>	                                    							
                 </div>          
 				 </div>
-							
-			   <!-- 世巴提交排期表 -->
+</#if>
+<#if activityId == "submitSchedule">
+            <!-- 世巴提交排期表 -->
          <div id="submitSchedule" class="submitSchedule" style="display: none;">
                 <div class="p20bs mt10 color-white-bg border-ec">
                 <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3><BR>
@@ -588,6 +608,8 @@ function pay() {
 							</TABLE>	 
 							</div>	          
 					</div>
+</#if>
+<#if activityId == "approve1">
 					<!-- 世巴初审 -->
           <div id="approve1" class="approve1" style="display: none;">
                 <div class="p20bs mt10 color-white-bg border-ec">
@@ -639,7 +661,8 @@ function pay() {
 								</TABLE>	                                
                 </div>	          
 					</div>
-							
+</#if>
+<#if activityId == "financialCheck">
 					<!-- 世巴财务确认 -->
 					<div id="financialCheck" class="financialCheck" style="display: none;">
 						<div class="p20bs mt10 color-white-bg border-ec">
@@ -670,9 +693,9 @@ function pay() {
               							
              </div>	          
 					</div>
-							 
-								    
-							
+</#if>
+
+<#if activityId == "inputSchedule">
 					<!-- 北广录入排期表 -->
           <div id="inputSchedule" class="inputSchedule" style="display: none;">
               <div class="p20bs mt10 color-white-bg border-ec">
@@ -703,8 +726,8 @@ function pay() {
               
               </div>	          
 							</div>
-							
-							
+</#if>
+<#if activityId == "shangboReport">
 							<!-- 上播报告 -->
               <div id="shangboReport" class="shangboReport" style="display: none;">
               <div class="p20bs mt10 color-white-bg border-ec">
@@ -739,7 +762,8 @@ function pay() {
 							
               </div>	          
 							</div>
-							
+</#if>
+<#if activityId == "jianboReport">
 							<!-- 监播报告 -->
               <div id="jianboReport" class="jianboReport" style="display: none;">
 					    <div class="p20bs mt10 color-white-bg border-ec">
@@ -776,6 +800,7 @@ function pay() {
 	
               </div>	        
 							</div>
+</#if>
     <#include "template/hisDetail.ftl" />
 
 </@frame.html>

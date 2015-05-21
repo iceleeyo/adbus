@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author tliu
  */
 @Controller
-@RequestMapping(value = "/prod")
+@RequestMapping(value = "/f/prod")
 public class FrontProductController {
     private static Logger log = LoggerFactory.getLogger(FrontProductController.class);
 
@@ -32,7 +32,7 @@ public class FrontProductController {
 
     @RequestMapping(value = "/list/{type}")
     public String prolist(@PathVariable("type") JpaProduct.Type type, Model model) {
-        Page<JpaProduct> list = productService.getValidProducts(-1, type, 0, 999, new Sort("id"));
+        Page<JpaProduct> list = productService.getValidProducts(-1, type, false, null, 0, 999, new Sort("id"));
         model.addAttribute("type", type.ordinal());
         model.addAttribute("typeStr", type.getTypeName());
         model.addAttribute("list", list.getContent());

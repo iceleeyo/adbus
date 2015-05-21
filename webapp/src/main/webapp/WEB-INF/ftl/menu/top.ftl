@@ -5,12 +5,14 @@
 
     $(function() {
         $("#city_dropdown a:not(.selected)").click(function(){
+            var cityName = $(this).parents("#ttbar-mycity")[0]?$(this).attr("data-id") : $("#ttbar-mycity a.selected").attr("data-id");
+            var media = $(this).parents("#ttbar-media")[0]?$(this).attr("data-id") : $("#ttbar-media a.selected").attr("data-id");
             $.ajax({
-                url : "${rc.contextPath}/city/select/" + $(this).attr("data-id"),
+                url : "${rc.contextPath}/f/city/select?c=" + cityName + "&m="+media,
                 type : "POST",
                 data: {},
                 success : function(data) {
-                    jDialog.Alert("正在切换到城市："+data.name);
+                    jDialog.Alert("正在切换到："+ data.name + " " + data.mediaTypeName);
                     var uptime = window.setTimeout(function(){
                         window.location.reload();
                         clearTimeout(uptime);
@@ -25,14 +27,14 @@
 					<div class="container-12 s-clear">
 						<div class="grid-12 city-dropdown">
                             <ul class="fl">
-<@security.authorize access="isAuthenticated()">
+<#--<@security.authorize access="isAuthenticated()">-->
                                 <li class="dorpdown" id="ttbar-mycity">
                                     <div class="dt cw-icon ui-areamini-text-wrap" style="">
                                         <i class="ci-right"><s>◇</s></i>
                                         <#if city??>
-                                            <span class="ui-areamini-text" data-id="${city.id}" title="${city.name}">${city.name}</span>
+                                            <span class="ui-areamini-text" data-id="${city.name}" title="${city.name}">${city.name}</span>
                                         <#else>
-                                            <span class="ui-areamini-text" data-id="${cities[0].id!''}" title="${cities[0].name!''}">${cities[0].name!''}</span>
+                                            <span class="ui-areamini-text" data-id="${cities[0].name!''}" title="${cities[0].name!''}">${cities[0].name!''}</span>
                                         </#if>
                                     </div>
                                     <div class="dd dorpdown-layer">
@@ -42,7 +44,7 @@
                                                 <div class="ui-areamini-content-list" id="city_dropdown">
                                                     <#list cities as c>
                                                         <div class="item">
-                                                            <a data-id="${c.id}" href="javascript:void(0)" <#if city?? && city.id == c.id>class="selected"</#if>>${c.name!''}</a>
+                                                            <a data-id="${c.name}" href="javascript:void(0)" <#if city?? && city.name == c.name>class="selected"</#if>>${c.name!''}</a>
                                                         </div>
                                                     </#list>
                                                 </div>
@@ -50,7 +52,31 @@
                                         </div>
                                     </div>
                                 </li>
-</@security.authorize>
+                                <li class="dorpdown" id="ttbar-media">
+                                    <div class="dt cw-icon ui-areamini-text-wrap" style="">
+                                        <i class="ci-right"><s>◇</s></i>
+                                    <#if city??>
+                                        <span class="ui-areamini-text" data-id="${city.mediaType}" title="${city.mediaType.typeName}">${city.mediaType.typeName}</span>
+                                    <#else>
+                                        <span class="ui-areamini-text" data-id="${cities[0].mediaType!''}" title="${cities[0].mediaType.typeName!''}">${cities[0].mediaType.typeName!''}</span>
+                                    </#if>
+                                    </div>
+                                    <div class="dd dorpdown-layer">
+                                        <div class="dd-spacer"></div>
+                                        <div class="ui-areamini-content-wrap" style="left: auto;">
+                                            <div class="ui-areamini-content">
+                                                <div class="ui-areamini-content-list" id="city_dropdown">
+                                                <#list medias as m>
+                                                    <div class="item">
+                                                        <a data-id="${m.mediaType}" href="javascript:void(0)" <#if city?? && city.id == m.id> cityid="${city.id}" mid="${m.id}" class="selected"</#if>>${m.mediaType.typeName!''}</a>
+                                                    </div>
+                                                </#list>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+<#--</@security.authorize>-->
                             </ul>
 							<div class="s-left ml10">
 								<a class="pg-nav-item" href="#">
@@ -150,7 +176,7 @@
 								</li>
 								
 								<li class="pg-nav-item s-left">
-									<a class="pg-nav-item-t" href="${rc.contextPath}/intro-txt.html">其他媒体</a>
+									<a class="pg-nav-item-t" href="${rc.contextPath}/intro-txt.html">车身媒体</a>
 								</li>
 								<li class="pg-nav-item s-left">
 									<a class="pg-nav-item-t pg-nav-hover-us" href="${rc.contextPath}/intro-price.html">

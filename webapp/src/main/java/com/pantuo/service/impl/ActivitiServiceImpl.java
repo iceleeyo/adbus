@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.pantuo.dao.pojo.JpaCity;
+import com.pantuo.mybatis.domain.*;
+import com.pantuo.service.*;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
@@ -93,6 +96,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 	@Autowired
 	private ContractMapper contractMapper;
 
+    @Autowired
+    private CityService cityService;
+
 	/**
 	 * @deprecated
 	 * @see com.pantuo.service.ActivitiService#running(int, java.lang.String, com.pantuo.pojo.TableRequest)
@@ -120,10 +126,10 @@ public class ActivitiServiceImpl implements ActivitiService {
 					.orderByTaskCreateTime().desc().listPage(0, 1);
 			Integer orderid = (Integer) tasks.get(0).getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
-			Orders order = orderService.selectOrderById(orderid);
+			JpaOrders order = orderService.selectJpaOrdersById(orderid);
 			if (order != null) {
 				v.setOrder(order);
-				Product product = productService.selectProById(order.getProductId());
+				JpaProduct product = productService.findById(order.getProductId());
 				v.setProduct(product);
 				v.setProcessInstanceId(processInstance.getId());
 				if (!tasks.isEmpty()) {
@@ -206,12 +212,12 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 			Integer orderid = (Integer) tasks.get(0).getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
-			Orders order = orderService.selectOrderById(orderid);
+			JpaOrders order = orderService.selectJpaOrdersById(orderid);
 			if (order != null) {
 				v.setOrder(order);
 			}
 			if (tqType == TaskQueryType.all_running) {
-				Product product = productService.selectProById(order.getProductId());
+				JpaProduct product = productService.findById(order.getProductId());
 				v.setProduct(product);
 			}
 			v.setProcessInstanceId(processInstance.getId());
@@ -229,8 +235,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 				r = longOrderId == OrderIdSeq.getIdFromDate(orderid, order == null ? new Date() : order.getCreated());
 			}
 			if (r) {
-				orders.add(v);
-			}
+			orders.add(v);
+		}
 		}
 		Pageable p = new PageRequest(page, pageSize, sort);
 		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(
@@ -352,9 +358,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 					.processInstanceId(processInstanceId).singleResult();
 			Integer orderid = (Integer) task.getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
-			Orders order = orderService.selectOrderById(orderid);
+			JpaOrders order = orderService.selectJpaOrdersById(orderid);
 			if (order != null) {
-				Product product = productService.selectProById(order.getProductId());
+                JpaProduct product = productService.findById(order.getProductId());
 				v.setProduct(product);
 				v.setOrder(order);
 				v.setTask(task);
@@ -366,9 +372,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 					r = longOrderId == OrderIdSeq.getIdFromDate(order.getId(), order.getCreated());
 				}
 				if (r) {
-					leaves.add(v);
-				}
+				leaves.add(v);
 			}
+		}
 		}
 		Pageable p = new PageRequest(page, pageSize, sort);
 		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(
@@ -401,9 +407,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 					.orderByTaskCreateTime().desc().listPage(0, 1);
 			Integer orderid = (Integer) tasks.get(0).getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
-			List<Orders> order = orderService.selectOrderByUser(city, userid, orderid);
-			if (order.size() > 0) {
-				v.setOrder(order.get(0));
+            Iterable<JpaOrders> order = orderService.selectOrderByUser(city, userid, orderid);
+			if (order.iterator().hasNext()) {
+				v.setOrder(order.iterator().next());
 			}
 			//v.setProcessInstance(processInstance);
 			v.setProcessInstanceId(processInstance.getId());
@@ -425,7 +431,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 					.orderByTaskCreateTime().desc().listPage(0, 1);
 			Integer orderid = (Integer) tasks.get(0).getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
-			v.setOrder(orderService.selectOrderById(orderid));
+			v.setOrder(orderService.selectJpaOrdersById(orderid));
 			v.setProcessInstance(processInstance);
 			v.setProcessInstanceId(processInstance.getId());
 			v.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
@@ -472,9 +478,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 			Integer orderid = (Integer) historicProcessInstance.getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
 			if (orderid != null && orderid > 0) {
-				Orders or = orderService.selectOrderById(orderid);
+				JpaOrders or = orderService.selectJpaOrdersById(orderid);
 				if (or != null) {
-					Product product = productService.selectProById(or.getProductId());
+                    JpaProduct product = productService.findById(or.getProductId());
 					v.setProduct(product);
 					v.setOrder(or);
 					//orders.add(v);
@@ -483,7 +489,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 						r = longOrderId == OrderIdSeq.getIdFromDate(or.getId(), or.getCreated());
 					}
 					if (r) {
-						orders.add(v);
+					orders.add(v);
 					}
 
 					v.setProcessInstanceId(historicProcessInstance.getId());
@@ -506,13 +512,13 @@ public class ActivitiServiceImpl implements ActivitiService {
 			Integer orderid = (Integer) historicProcessInstance.getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
 			if (null != usertype && usertype.equals("user")) {
-				List<Orders> order = orderService.selectOrderByUser(city, userid, orderid);
-				if (order.size() > 0) {
-					v.setOrder(order.get(0));
+				Iterable<JpaOrders> order = orderService.selectOrderByUser(city, userid, orderid);
+				if (order.iterator().hasNext()) {
+					v.setOrder(order.iterator().next());
 				}
 			} else {
 				if (orderid != null && orderid > 0) {
-					v.setOrder(orderService.selectOrderById(orderid));
+					v.setOrder(orderService.selectJpaOrdersById(orderid));
 				}
 			}
 			v.setHistoricProcessInstance(historicProcessInstance);
@@ -566,16 +572,23 @@ public class ActivitiServiceImpl implements ActivitiService {
 		debug(process.getId());
 	}
 
-	public void startProcess2(int city, UserDetail u, JpaOrders order) {
+	public void startProcess2(int cityId, UserDetail u, JpaOrders order) {
 		// Deployment deployment = repositoryService.createDeployment()
 		// .addClasspathResource("classpath*:/com/pantuo/activiti/autodeploy/order.bpmn20.xml").deploy();
 		Map<String, Object> initParams = new HashMap<String, Object>();
 		initParams.put(ActivitiService.OWNER, u);
 		initParams.put(ActivitiService.CREAT_USERID, u.getUsername());
 		initParams.put(ActivitiService.ORDER_ID, order.getId());
-		initParams.put(ActivitiService.CITY, city);
+		initParams.put(ActivitiService.CITY, cityId);
 		initParams.put(ActivitiService.SUPPLIEID, order.getSupplies().getId());
 		initParams.put(ActivitiService.NOW, new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
+
+        JpaCity city = cityService.fromId(cityId);
+        if (city != null && city.getMediaType() == JpaCity.MediaType.body) {
+            //车身广告不需要终审
+            initParams.put("approve2Result", true);
+        }
+
 		ProcessInstance process = runtimeService.startProcessInstanceByKey(MAIN_PROCESS, initParams);
 
 		List<Task> tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime()
@@ -800,8 +813,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 		Map<String, Object> variables = taskService.getVariables(taskid);
 		int orderid = (Integer) variables.get(ORDER_ID);
-		Orders order = orderService.selectOrderById(orderid);
-		Product product = productService.selectProById(order.getProductId());
+        JpaOrders order = orderService.selectJpaOrdersById(orderid);
+//        List<OrderBuses> orderBuses = orderService.getOrderBuses(orderid);
+		JpaProduct product = productService.findById(order.getProductId());
 		v.setProduct(product);
 		v.setOrder(order);
 		v.setTask(task);
@@ -1067,7 +1081,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			}
 			return "orderDetail";
 		} else {
-			Orders order = orderService.queryOrderDetail(orderid, principal);
+			JpaOrders order = orderService.queryOrderDetail(orderid, principal);
 			JpaProduct prod = null;
 			Long longorderid = null;
 			List<HistoricTaskView> activitis = null;

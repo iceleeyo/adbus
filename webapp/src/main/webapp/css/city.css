@@ -1,7 +1,7 @@
 .city-dropdown{height:30px;line-height:30px;}
 .city-dropdown li{float:left;height:30px;padding:0 2px}
 .city-dropdown li.dorpdown{z-index:13}
-.city-dropdown li.dorpdown:hover{padding:0 1px}
+.city-dropdown li.dorpdown:hover{padding:0 2px}
 .city-dropdown li.dorpdown:hover .dt{background:#fff;border:solid #ddd;border-width:0 1px}
 .city-dropdown li.hover .dt{background:#fff;border:solid #ddd;border-width:0 1px}
 .city-dropdown .dt{float:left;padding:0 8px}
@@ -12,15 +12,27 @@
 .city-dropdown li:hover .ci-right{transform:rotate(180deg);-webkit-transform:rotate(180deg)}
 .city-dropdown .dd-spacer{position:absolute;top:-7px;height:10px;background:#fff;overflow:hidden}
 .city-dropdown #ttbar-mycity{padding-left:0}
-.city-dropdown #ttbar-mycity .dt{padding:0 25px 0 10px}
-.city-dropdown #ttbar-mycity:hover .dt{padding:0 24px 0 9px}
-.city-dropdown #ttbar-mycity .dd{width:45px;padding:2px 8px}
+.city-dropdown #ttbar-mycity .dt{padding:0 25px 0 15px; width:42px;}
+.city-dropdown #ttbar-mycity:hover .dt{padding:0 24px 0 14px}
+.city-dropdown #ttbar-mycity .dd{width:64px;padding:2px 8px}
 .city-dropdown #ttbar-mycity .dorpdown-layer{*left:0}
 .city-dropdown #ttbar-mycity .item{float:left;width:60px;padding:2px 0}
 .city-dropdown #ttbar-mycity .item a{float:left;padding:0 8px}
 .city-dropdown #ttbar-mycity .item a:hover{background:#F4F4F4}
 .city-dropdown #ttbar-mycity .item a.selected{background:#3bafda;color:#fff}
-.city-dropdown #ttbar-mycity .dd-spacer{left:0;width:61px;_width:95px}
+.city-dropdown #ttbar-mycity .dd-spacer{left:0;width:80px;_width:80px}
+
+.city-dropdown #ttbar-media {padding-left:0}
+.city-dropdown #ttbar-media .dt{padding:0 25px 0 10px; width:58px;}
+.city-dropdown #ttbar-media:hover .dt{padding:0 24px 0 14px}
+.city-dropdown #ttbar-media .dd{width:80px;padding:2px 8px}
+.city-dropdown #ttbar-media .dorpdown-layer{*left:0}
+.city-dropdown #ttbar-media .item{float:left;width:76px;padding:2px 0}
+.city-dropdown #ttbar-media .item a{float:left;padding:0 8px}
+.city-dropdown #ttbar-media .item a:hover{background:#F4F4F4}
+.city-dropdown #ttbar-media .item a.selected{background:#3bafda;color:#fff}
+.city-dropdown #ttbar-media .dd-spacer{left:0;width:96px;_width:96px}
+
 .city-dropdown #ttbar-apps .dt{padding-left:25px;padding-right:25px}
 .city-dropdown #ttbar-apps .dd{width:250px}
 .city-dropdown #ttbar-apps .dd a{display:block;position:absolute;width:56px;height:44px;overflow:hidden;text-indent:-500px}

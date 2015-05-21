@@ -39,7 +39,8 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductRepository productRepo;
 
-    public Page<JpaProduct> getAllProducts(int city, String name, int page, int pageSize, Sort sort) {
+    public Page<JpaProduct> getAllProducts(int city, String name,  boolean includeExclusive, String exclusiveUser,
+                                           int page, int pageSize, Sort sort) {
         if (page < 0)
             page = 0;
         if (pageSize < 1)
@@ -47,6 +48,11 @@ public class ProductServiceImpl implements ProductService {
         sort = (sort == null ? new Sort("id") : sort);
         Pageable p = new PageRequest(page, pageSize, sort);
         BooleanExpression query = city >= 0 ? QJpaProduct.jpaProduct.city.eq(city) : QJpaProduct.jpaProduct.city.goe(0);
+        if (!includeExclusive) {
+            query = query.and(QJpaProduct.jpaProduct.exclusive.eq(false));
+        } else if (exclusiveUser != null) {
+            query = query.and(QJpaProduct.jpaProduct.exclusive.eq(false).or(QJpaProduct.jpaProduct.exclusiveUser.eq(exclusiveUser)));
+        }
         if (name != null && !StringUtils.isEmpty(name)) {
             query = query.and(QJpaProduct.jpaProduct.name.like("%" + name + "%"));
         }
@@ -54,7 +60,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
   //  @Override
-    public Page<JpaProduct> getValidProducts(int city, JpaProduct.Type type,  int page, int pageSize, Sort sort) {
+    public Page<JpaProduct> getValidProducts(int city, JpaProduct.Type type,  boolean includeExclusive, String exclusiveUser,
+                                             int page, int pageSize, Sort sort) {
         if (page < 0)
             page = 0;
         if (pageSize < 1)
@@ -62,6 +69,11 @@ public class ProductServiceImpl implements ProductService {
         sort = (sort == null ? new Sort(Sort.Direction.DESC, "id") : sort);
         Pageable p = new PageRequest(page, pageSize, sort);
         BooleanExpression query = city >= 0 ? QJpaProduct.jpaProduct.city.eq(city) : QJpaProduct.jpaProduct.city.goe(0);
+        if (!includeExclusive) {
+            query = query.and(QJpaProduct.jpaProduct.exclusive.eq(false));
+        } else if (exclusiveUser != null) {
+            query = query.and(QJpaProduct.jpaProduct.exclusive.eq(false).or(QJpaProduct.jpaProduct.exclusiveUser.eq(exclusiveUser)));
+        }
         if (type != null) {
             query = query.and(QJpaProduct.jpaProduct.type.eq(type));
         }

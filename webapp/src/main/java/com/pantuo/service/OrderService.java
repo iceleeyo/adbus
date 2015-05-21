@@ -2,12 +2,15 @@ package com.pantuo.service;
 
 import java.security.Principal;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.mysema.query.types.expr.BooleanExpression;
+import com.pantuo.dao.OrderBusesRepository;
+import com.pantuo.dao.pojo.*;
+import com.pantuo.mybatis.domain.*;
+import com.pantuo.mybatis.persistence.OrderBusesMapper;
 import org.activiti.engine.RuntimeService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +23,6 @@ import com.mysema.query.types.Ops;
 import com.mysema.query.types.Predicate;
 import com.mysema.query.types.expr.StringOperation;
 import com.pantuo.dao.OrdersRepository;
-import com.pantuo.dao.pojo.JpaOrders;
-import com.pantuo.dao.pojo.JpaProduct;
-import com.pantuo.dao.pojo.QJpaOrders;
-import com.pantuo.dao.pojo.UserDetail;
-import com.pantuo.mybatis.domain.Contract;
-import com.pantuo.mybatis.domain.Orders;
-import com.pantuo.mybatis.domain.OrdersExample;
 import com.pantuo.mybatis.persistence.OrdersMapper;
 import com.pantuo.pojo.HistoricTaskView;
 import com.pantuo.pojo.TableRequest;
@@ -69,8 +65,8 @@ public class OrderService {
 
 	}
 
-	public List<Orders> selectOrderByUser(int city, String userid, Integer id) {
-		OrdersExample example = new OrdersExample();
+	public Iterable<JpaOrders> selectOrderByUser(int city, String userid, Integer id) {
+/*		OrdersExample example = new OrdersExample();
 		OrdersExample.Criteria c = example.createCriteria();
         c.andCityEqualTo(city);
 		if (null != userid && userid != "") {
@@ -80,8 +76,13 @@ public class OrderService {
 			c.andIdEqualTo(id);
 		}
 
-		return ordersMapper.selectByExample(example);
-
+		return ordersMapper.selectByExample(example);*/
+        BooleanExpression q = QJpaOrders.jpaOrders.city.eq(city);
+        if (StringUtils.isNotBlank(userid))
+            q = q.and(QJpaOrders.jpaOrders.userId.eq(userid));
+        if (null != id && id > 0)
+            q = q.and(QJpaOrders.jpaOrders.id.eq(id));
+        return ordersRepository.findAll(q);
 	}
 
 	@Autowired
@@ -96,6 +97,10 @@ public class OrderService {
 	private RuntimeService runtimeService;
 	@Autowired
 	ActivitiService activitiService;
+    @Autowired
+    private OrderBusesRepository orderBusesRepo;
+    @Autowired
+    private OrderBusesMapper orderBusesMapper;
 
 	//	 public int countMyList(String name,String code, HttpServletRequest request) ;
 	//	 public List<JpaContract> queryContractList(NumberPageUtil page, String name, String code, HttpServletRequest request);
@@ -169,8 +174,9 @@ public class OrderService {
 		return activitiService.findTask(city, Request.getUserId(principal),req,TaskQueryType.task);
 	}
 
-	public Orders queryOrderDetail(int orderid, Principal principal) {
-		return ordersMapper.selectByPrimaryKey(orderid);
+	public JpaOrders queryOrderDetail(int orderid, Principal principal) {
+//		return ordersMapper.selectByPrimaryKey(orderid);
+        return selectJpaOrdersById(orderid);
 	}
 
 	public Map<String, SectionView> getTaskSection(List<HistoricTaskView> views) {
@@ -189,4 +195,21 @@ public class OrderService {
 
 	}
 
+    public JpaOrders selectJpaOrdersById(int orderId) {
+        return ordersRepository.findOne(orderId);
+    }
+
+    public void saveOrderBuses(JpaOrderBuses orderBuses) {
+        orderBusesRepo.save(orderBuses);
+    }
+
+    public void updateWithBuses(JpaOrders order) {
+        ordersRepository.save(order);
+    }
+
+/*    public List<OrderBuses> getOrderBuses(int orderId) {
+        OrderBusesExample e = new OrderBusesExample();
+        e.createCriteria().andOrderIdEqualTo(orderId);
+        return orderBusesMapper.selectByExample(e);
+    }*/
 }

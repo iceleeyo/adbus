@@ -1,4 +1,5 @@
 <#import "template/template.ftl" as frame>
+<#import "template/orderDetail.ftl" as orderDetail/>
 <@frame.html title="订单详细" js=["js/highslide/highslide-full.js", "js/video-js/video.js", "js/video-js/lang/zh-CN.js"]
 css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
     <#include "template/preview.ftl" />
@@ -97,7 +98,7 @@ function go_back(){
             		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">播出完成</li></ul></div>
             		</#if>
             	</div>
-    <#include "template/orderDetail.ftl" />
+    <@orderDetail.orderDetail orderview=orderview quafiles=quafiles suppliesView=suppliesView/>
     <#include "template/hisDetail.ftl" />
 </@frame.html>
 

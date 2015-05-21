@@ -1,4 +1,5 @@
 <#import "template/template.ftl" as frame>
+<#import "template/proDetail.ftl" as proDetail>
 <#global menu="购买产品">
 <@frame.html title="下订单" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"] css=["jquery-ui/jquery-ui.css"]>
 
@@ -81,30 +82,13 @@ $(document).ready(function(){
 		}, "text");
 	}
 </script>
+
 							<form data-name="withdraw" name="userForm2" id="userForm2"
 								class="ui-form" method="post" action="../creOrder2"
 								enctype="multipart/form-data">
-								<div class="withdrawInputs">
-								    <DIV class="p20bs color-white-bg border-ec">
-                <H3 class="text-xl title-box"><A class="black" href="#">套餐详情-<span style="color: rgb(245, 135, 8);">[${prod.name!''}]</span></A></H3>
-               <DIV class="summary mt10 uplan-summary-div">
-              <UL class="uplan-detail-ul">
-  <LI style="width: 720px;"><SPAN>套餐描述：</SPAN><SPAN class="con">${prod.name!''}</SPAN></LI>
-  <LI style="width: 240px;"><SPAN>套餐价格：</SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">${prod.price!''}.00</SPAN><SPAN>元</SPAN></LI>
-  <LI style="width: 240px;"><SPAN>每次播放时长：</SPAN><SPAN class="con">${prod.duration!''}秒</SPAN></LI>
-  <LI style="width: 240px;"><SPAN>单日播放次数：</SPAN><SPAN class="con">${prod.playNumber!''}</SPAN><SPAN>次</SPAN></LI>
-  <LI style="width: 240px;"><SPAN>首播次数：</SPAN><SPAN class="con">${prod.firstNumber!''}</SPAN><SPAN>次</SPAN></LI>
-  <LI style="width: 240px;"><SPAN>末播次数：</SPAN><SPAN class="con">${prod.lastNumber!''}</SPAN><SPAN>次</SPAN></LI>
-  <LI style="width: 240px;"><SPAN>高峰时段占比：</SPAN><SPAN class="con">${prod.hotRatio!''}</SPAN></LI>
-  <LI style="width: 240px;"><SPAN>媒体类型：</SPAN><SPAN class="con">
-    <#if (!prod?? || prod.type == 'video')>视频</#if>
-      <#if (!prod?? || prod.type == 'image')>图片</#if>
-      <#if (!prod?? || prod.type == 'info')>文本</#if>
-  </SPAN></LI>
-  <LI style="width: 200px;"><SPAN>套餐播放天数：</SPAN><SPAN class="con">${prod.days!''}天</SPAN></LI>
-</UL>
-</DIV>
-</DIV>
+                                <@proDetail.proDetail prod=prod buyLink=false/>
+
+
 <div class="p20bs mt10 color-white-bg border-ec">
                 <H3 class=".withdraw-title text-xl title-box"><A class="black" href="#">填写订单信息</A></H3><br>
 									<div class="inputs">
@@ -141,7 +125,6 @@ $(document).ready(function(){
 											 value="确认提交" >
 									</div>
 								</div>
-</div>							
 
 							</form>
 </@frame.html>

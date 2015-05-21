@@ -57,7 +57,7 @@ public class ScheduleServiceTest {
 
     @Before
     public void before() {
-        city = new JpaCity("testCity");
+        city = new JpaCity("testCity", JpaCity.MediaType.screen);
         cityRepo.save(city);
     }
 
@@ -121,9 +121,9 @@ public class ScheduleServiceTest {
             Date start = starts.get(random.nextInt(60));
             cal.add(Calendar.DATE, prod.getDays());
             Date end = cal.getTime();
-            JpaOrders order = new JpaOrders(city.getId(), "tliu", 1, prod.getId(), contract.getId(),
+            JpaOrders order = new JpaOrders(city.getId(), "tliu", null, prod, contract.getId(),
                     contract.getContractCode(), start, end, JpaProduct.Type.video,
-                    JpaOrders.PayType.contract, random.nextInt(10) < 3 ? JpaOrders.Status.unpaid : JpaOrders.Status.paid, "manager");
+                    JpaOrders.PayType.contract, random.nextInt(10) < 3 ? JpaOrders.Status.unpaid : JpaOrders.Status.paid, "manager", 0);
             order.setSuppliesId(supply[random.nextInt(1)].getId());
             orderService.saveOrderJpa(city.getId(), order, new UserDetail("tliu", "123456", "Tony", "Liu", "tliutest@gmail.com"));
             orders.add(order);

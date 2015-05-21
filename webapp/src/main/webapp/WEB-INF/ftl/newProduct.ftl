@@ -23,14 +23,13 @@
 </script>
 <script type="text/javascript">
     $(function(){
-        $("#type").change(function(){
-            var type = $(this).val();
-            if (type == 'video') {
-                $(".toggle").show();
-            } else {
-                $(".toggle").hide();
-            }
-        });
+        function toggleFields(){
+            var type = $("#type").val();
+            $(".toggle").hide();
+            $("."+type+"Toggle").show();
+        }
+        $("#type").change(toggleFields);
+        toggleFields();
     });
 	function sub2() {
         if (!$("#productForm").validationEngine('validateBeforeSubmit'))
@@ -72,10 +71,9 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>媒体类型：</label>
                                             <select class="ui-input" name="type" id="type">
-                                                <option value="video" <#if (!prod?? || prod.type == 'video')>selected="selected"</#if>>视频</option>
-                                                <option value="image" <#if (prod?? && prod.type == 'image')>selected="selected"</#if>>图片</option>
-                                                <option value="info" <#if (prod?? && prod.type == 'info')>selected="selected"</#if>>文本</option>
-                                                <option value="other" <#if (prod?? && prod.type == 'other')>selected="selected"</#if>>其它</option>
+                                                <#list types as type>
+                                                    <option value="${type.name()}" <#if (prod?? && prod.type == type.name())>selected="selected"</#if>>${type.typeName}</option>
+                                                </#list>
                                             </select>
                                         </div>
 
@@ -87,7 +85,7 @@
 												id="name" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="2-20个字符">
 										</div>
-										<div class="ui-form-item">
+										<div class="ui-form-item toggle videoToggle imageToggle infoToggle">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>时长（秒）:</label> <input
 												class="ui-input validate[required,integer,min[15],max[180]]"
@@ -98,7 +96,7 @@
 
 										</div>
 
-										<div class="ui-form-item">
+										<div class="ui-form-item toggle videoToggle imageToggle infoToggle">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>单日播放次数:</label>
 												<input
@@ -108,7 +106,7 @@
 												autocomplete="off" disableautocomplete="" placeholder="1-100次">
 										</div>
 
-                                        <div class="ui-form-item toggle">
+                                        <div class="ui-form-item toggle videoToggle">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>首播次数:</label>
                                             <input
@@ -117,7 +115,7 @@
                                                     id="firstNumber" data-is="isAmount isEnough"
                                                     autocomplete="off" disableautocomplete="" placeholder="0-30次">
                                         </div>
-                                        <div class="ui-form-item toggle">
+                                        <div class="ui-form-item toggle videoToggle">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>末播次数:</label>
                                             <input
@@ -126,7 +124,7 @@
                                                     id="lastNumber" data-is="isAmount isEnough"
                                                     autocomplete="off" disableautocomplete="" placeholder="0-30次">
                                         </div>
-                                        <div class="ui-form-item toggle">
+                                        <div class="ui-form-item toggle videoToggle">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>高峰时段占比:</label>
                                             <input
@@ -135,9 +133,32 @@
                                                     id="hotRatio" data-is="isAmount isEnough"
                                                     autocomplete="off" disableautocomplete="" placeholder="0-1之间的小数，例如：0.2表示高峰占比20%。">
                                         </div>
+                                        <div class="ui-form-item toggle bodyToggle">
+                                            <label class="ui-label mt10"><span
+                                                    class="ui-form-required">*</span>线路级别：</label>
+                                            <select class="ui-input" name="lineLevel" id="lineLevel">
+                                                <#if lineLevels??>
+                                                <#list lineLevels as level>
+                                                    <option value="${level.name()}" <#if (prod?? && prod.lineLevel == level.name())>selected="selected"</#if>>${level.nameStr}</option>
+                                                </#list>
+                                                </#if>
+                                            </select>
+                                        </div>
+                                        <div class="ui-form-item toggle bodyToggle">
+                                            <label class="ui-label mt10"><span
+                                                    class="ui-form-required">*</span>巴士数量:</label>
+                                            <input
+                                                    class="ui-input validate[required,number,min[1]"
+                                                    type="number" value="<#if prod??>${prod.busNumber!''}<#else>0</#if>" name="busNumber"
+                                                    id="busNumber" data-is="isAmount isEnough"
+                                                    autocomplete="off" disableautocomplete="">
+                                        </div>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
-                                                    class="ui-form-required">*</span>套餐播放天数:</label>
+                                                    class="ui-form-required">*</span>
+                                                <span class="toggle videoToggle imageToggle infoToggle">套餐播放天数:</span>
+                                                <span class="toggle bodyToggle">广告展示天数:</span>
+                                                </label>
                                             <input
                                                     class="ui-input validate[required,integer,min[1],max[360]"
                                                     onkeyup="value=value.replace(/[^\d.]/g,'')" value="<#if prod??>${prod.days!''}<#else>7</#if>" name="days"
@@ -146,11 +167,23 @@
                                         </div>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
-                                                    class="ui-form-required">*</span>套餐价格(元):</label>
+                                                    class="ui-form-required">*</span>
+                                                <span class="toggle videoToggle imageToggle infoToggle">套餐价格（元）:</span>
+                                                <span class="toggle bodyToggle">套餐价格（元）:</span>
+                                            </label>
                                             <input
                                                     class="ui-input validate[required,number,min[1]"
                                                     onkeyup="value=value.replace(/[^\d.]/g,'')" value="<#if prod??>${prod.price!''}<#else>0</#if>" name="price"
                                                     id="price" data-is="isAmount isEnough"
+                                                    autocomplete="off" disableautocomplete="">
+                                        </div>
+                                        <div class="ui-form-item toggle bodyToggle">
+                                            <label class="ui-label mt10"><span
+                                                    class="ui-form-required">*</span>制作费:</label>
+                                            <input
+                                                    class="ui-input validate[required,number,min[1]"
+                                                    type="number" value="<#if prod??>${prod.produceCost!''}<#else>0</#if>" name="produceCost"
+                                                    id="produceCost" data-is="isAmount isEnough"
                                                     autocomplete="off" disableautocomplete="">
                                         </div>
                                         <div class="ui-form-item">

@@ -8,6 +8,7 @@ import org.activiti.engine.impl.persistence.entity.UserEntity;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author tliu
@@ -58,7 +59,7 @@ public class UserDetail extends BaseEntity {
 	public List<String> roles;
 
     @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
-    private List<JpaCity> cities;
+    private Set<JpaCity> cities;
 
 	public void buildMySelf() {
         user = new UserEntity(username);
@@ -126,11 +127,11 @@ public class UserDetail extends BaseEntity {
         this.user = user;
     }
 
-    public List<JpaCity> getCities() {
+    public Set<JpaCity> getCities() {
         return cities;
     }
 
-    public void setCities(List<JpaCity> cities) {
+    public void setCities(Set<JpaCity> cities) {
         this.cities = cities;
     }
 

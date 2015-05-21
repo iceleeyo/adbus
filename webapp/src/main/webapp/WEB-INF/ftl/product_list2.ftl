@@ -13,7 +13,7 @@
             "serverSide": true,
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                { "orderable": false, "targets": [4] },
+                { "orderable": false, "targets": [5] },
             ],
             "ajax": {
                 type: "GET",
@@ -36,11 +36,19 @@
                             return '视频';
                         if (data == 'image')
                             return '图片';
+                        if (data == 'body')
+                            return '车身';
                         if (data == 'info')
                             return 'Info';
                         return '';
                     } },
                 { "data": "price", "defaultContent": "" },
+                { "data": "exclusiveUser", "defaultContent": "", "render": function(data, type, row) {
+                    if (data)
+                        return '<span class="invalid">' + data + '</span>';
+                    else
+                        return '';
+                } },
                 { "data": "enabled", "defaultContent": "", "render": function(data) {
                     switch(data) {
                         case true:
@@ -120,6 +128,7 @@
                         <th orderBy="name">套餐名称</th>
                         <th orderBy="type">类型</th>
                         <th orderBy="price">价格(元)</th>
+                        <th orderBy="exclusive">定向</th>
                         <th orderBy="enabled">状态</th>
                         <th>管理</th>
                     </tr>

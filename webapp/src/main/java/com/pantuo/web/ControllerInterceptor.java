@@ -41,7 +41,7 @@ public class ControllerInterceptor extends HandlerInterceptorAdapter {
         }
 
         if (cityCookie == null) {
-            JpaCity city = cityService.list().isEmpty() ? null : cityService.list().get(0);
+            JpaCity city = cityService.list(true).isEmpty() ? null : cityService.list(true).get(0);
             cityCookie = new Cookie("city", city == null ? "-1" : city.getId() + "");
             cityCookie.setPath(request.getContextPath());
             cityCookie.setMaxAge(604800);   //1 week

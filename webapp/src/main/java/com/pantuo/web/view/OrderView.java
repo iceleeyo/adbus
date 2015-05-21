@@ -1,8 +1,15 @@
 package com.pantuo.web.view;
 
+import java.util.List;
 import java.util.Date;
 import java.util.Map;
+import java.util.Set;
 
+import com.pantuo.dao.pojo.JpaOrderBuses;
+import com.pantuo.dao.pojo.JpaOrders;
+import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.dao.pojo.JpaSupplies;
+import com.pantuo.mybatis.domain.OrderBuses;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -16,9 +23,10 @@ import com.pantuo.util.OrderIdSeq;
 
 public class OrderView {
 
-	Orders order;
-	Product product;
-	Supplies supplies;
+    JpaOrders order;
+    Set<JpaOrderBuses> orderBuses;
+    JpaProduct product;
+	JpaSupplies supplies;
 	// -- 临时属性 --//
 	int id;
 	long longOrderId = 0;
@@ -47,32 +55,41 @@ public class OrderView {
 	// 流程定义
 	private ProcessDefinition processDefinition;
 
-	public Orders getOrder() {
+	public JpaOrders getOrder() {
 		return order;
 	}
 
-	public void setOrder(Orders order) {
+	public void setOrder(JpaOrders order) {
 		if (ObjectUtils.notEqual(order, null) && ObjectUtils.notEqual(order.getId(), null)) {
 			longOrderId = OrderIdSeq.getIdFromDate(order.getId(), order.getCreated());
 			this.id = order.getId();
 		}
 		this.order = order;
+        this.orderBuses = order.getOrderBuses();
 
 	}
 
-	public Product getProduct() {
+    public Set<JpaOrderBuses> getOrderBuses() {
+        return orderBuses;
+    }
+
+    public void setOrderBuses(Set<JpaOrderBuses> orderBuses) {
+        this.orderBuses = orderBuses;
+    }
+
+    public JpaProduct getProduct() {
 		return product;
 	}
 
-	public void setProduct(Product product) {
+	public void setProduct(JpaProduct product) {
 		this.product = product;
 	}
 
-	public Supplies getSupplies() {
+	public JpaSupplies getSupplies() {
 		return supplies;
 	}
 
-	public void setSupplies(Supplies supplies) {
+	public void setSupplies(JpaSupplies supplies) {
 		this.supplies = supplies;
 	}
 
@@ -156,11 +173,11 @@ public class OrderView {
 			return org.apache.commons.lang3.StringUtils.EMPTY;
 		}
 		switch (order.getPayType()) {
-		case 0:
+		case contract:
 			return "关联合同";
-		case 1:
+		case online:
 			return "线上支付";
-		case 2:
+		case other:
 			return "其他";
 		default:
 			return "";

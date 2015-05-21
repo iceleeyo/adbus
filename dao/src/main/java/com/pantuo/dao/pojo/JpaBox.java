@@ -41,6 +41,8 @@ public class JpaBox extends CityEntity implements Comparable<JpaBox>, Serializab
     @OneToMany(cascade = { CascadeType.ALL }, mappedBy="box", fetch = FetchType.EAGER)
     private List<JpaGoods> goods;
 
+    private int tmpAbsoluteWight;       //绝对权重，越大越靠前
+
     @Transient
     private long putWeight;    //刚刚堆放货物，权重降低
     @Transient
@@ -115,6 +117,22 @@ public class JpaBox extends CityEntity implements Comparable<JpaBox>, Serializab
         this.timeslot = timeslot;
     }
 
+    public void setTmpAbsoluteWight(int weight) {
+        this.tmpAbsoluteWight = weight;
+    }
+
+    public int numberOfGoodsForOrder(int orderId) {
+        int count = 0;
+        if (goods == null)
+            return count;
+        for (JpaGoods g : goods) {
+            if (g.getOrderId() == orderId) {
+                count ++;
+            }
+        }
+        return count;
+    }
+
     public void increaseSeed(int seed) {
         this.seed += seed;
     }
@@ -124,6 +142,9 @@ public class JpaBox extends CityEntity implements Comparable<JpaBox>, Serializab
     public int compareTo(JpaBox o) {
         if (o == null)
             return 1;
+        if (o.tmpAbsoluteWight != tmpAbsoluteWight) {
+            return o.tmpAbsoluteWight - tmpAbsoluteWight;
+        }
         //刚刚放入的权重降低
 //        long s = remain - o.remain;
         double s = remain * (1 + 10.0/(PUT_WEIGHT.get() - putWeight))

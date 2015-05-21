@@ -1,4 +1,5 @@
 <#import "template/template.ftl" as frame>
+<#import "template/orderDetail.ftl" as orderDetail/>
 <#global menu="排期表">
 <@frame.html title="排期表">
 
@@ -41,6 +42,9 @@
                 "dataSrc": function(json) {return json;},
             },
             "columns": [
+                {
+                    "data" : "slot.name", "defaultContent": ""
+                },
                 {
                     "data" : "slot.startTimeStr", "defaultContent": ""
                 },
@@ -90,8 +94,11 @@
         initTable();
     } );
 </script>
-<div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title" style="margin-top:5px">
+    <@orderDetail.orderDetail orderview=orderview quafiles="" suppliesLink=false viewScheduleLink=false/>
+
+<div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear">
+    <H3 class="text-xl title-box"><A class="black" href="#">排期表</A></H3>
+<#--            <div class="withdraw-title" style="margin-top:5px">
                 <caption><h2>订单排期详情</h2></caption>
             </div>
             <div class="div">
@@ -117,11 +124,12 @@
                     </tr>
                     </tbody>
                 </table>
-            </div>
+            </div>-->
             <div class="div" style="overflow-x: scroll">
                 <table id="table" class="cell-border compact display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
+                        <th>时段名</th>
                         <th>时段</th>
                         <th>时长</th>
                         <#list dates as d>

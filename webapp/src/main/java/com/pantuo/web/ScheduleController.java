@@ -11,6 +11,7 @@ import com.pantuo.util.DateUtil;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.OrderIdSeq;
 
+import com.pantuo.web.view.OrderView;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -64,7 +65,11 @@ public class ScheduleController {
                 cal.add(Calendar.DATE, 1);
             }
             model.addAttribute("dates", dates);
-            model.addAttribute("order", order);
+            OrderView orderView = new OrderView();
+            orderView.setProduct(order.getProduct());
+            orderView.setOrder(order);
+
+            model.addAttribute("orderview", orderView);
             model.addAttribute("orderIdSeq", OrderIdSeq.getLongOrderId(order));
         }
         return "order_schedule";
@@ -261,7 +266,11 @@ public class ScheduleController {
     @RequestMapping("box-detail-ajax-list")
     @ResponseBody
     public List<Report> getScheduleDetailList (TableRequest req,
-                                               @CookieValue(value="city", defaultValue = "-1") int city) {
+                                               @CookieValue(value="city", defaultValue = "-1") int cityId,
+                                               @ModelAttribute("city") JpaCity city) {
+        if (city == null || city.getMediaType() != JpaCity.MediaType.screen)
+            return Collections.emptyList();
+
         String name = req.getFilter("name");
         String dayStr = req.getFilter("day");
         JpaProduct.Type type = req.getFilter("type", JpaProduct.Type.class, JpaProduct.Type.video);
@@ -272,7 +281,7 @@ public class ScheduleController {
         }
 
         try {
-            Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(city, name, 0, 999, null, false);
+            Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(cityId, name, 0, 999, null, false);
             Date day = DateUtil.longDf.get().parse(dayStr);
             Iterable<JpaBox> boxes = service.getBoxesAndGoods(day, 1);
 
