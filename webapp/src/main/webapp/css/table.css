@@ -1,14 +1,63 @@
-.center {margin: auto;}
-.frame {width: 1000px;}
-.div {text-align:center; margin:20px;}
-.processed {color: limegreen;}
-.invalid {color: red;}
-.tableTr {margin-top: 20px;}
-#table,#his_table { text-align: left;font-size: 14px;}
-#table .hl,#his_table .hl {background-color: #ffff00;}
-#table th,#his_table th {background-color: #3bafda; color: white; font-weight: normal; text-align: left;line-height: 20px}
-div#toolbar {float: left;margin: 5px;}
-div#table_length {margin: 7px 0 5px 0;float: right;}
-table.dataTable td, table.dataTable th {text-align: left;}
-.align-left {text-align: left!important;}
-.align-right {text-align: right!important;}
+.center {
+	margin: auto;
+}
+
+.frame {
+	width: 1000px;
+}
+
+.div {
+	text-align: center;
+	margin: 20px;
+}
+
+.processed {
+	color: limegreen;
+}
+
+.invalid {
+	color: red;
+}
+
+.tableTr {
+	margin-top: 20px;
+}
+
+#table,#his_table {
+	text-align: left;
+	font-size: 14px;
+}
+
+#table .hl,#his_table .hl {
+	background-color: #ffff00;
+}
+
+#table th,#his_table th {
+	background-color: #3bafda;
+	color: white;
+	font-weight: normal;
+	text-align: left;
+	line-height: 20px
+}
+
+div#toolbar {
+	float: left;
+	margin: 5px;
+}
+
+div#table_length {
+	margin: 7px 0 5px 0;
+	float: right;
+}
+
+table.dataTable td,table.dataTable th {
+	text-align: left;
+}
+
+.align-left {
+	text-align: left !important;
+}
+
+.align-right {
+	text-align: right !important;
+}
