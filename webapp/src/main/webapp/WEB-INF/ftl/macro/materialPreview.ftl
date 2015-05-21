@@ -1,6 +1,6 @@
 <#macro materialPreview view items=[]>
 <#if (view.mainView.suppliesType)?? && view.mainView.suppliesType == 2>
-<a href="#" onclick="return hs.htmlExpand(this)">${(view.mainView.infoContext)!''}</a>
+<a href="#" onclick="return hs.htmlExpand(this)">${substring( view.mainView.infoContext , 0 , 20)}</a>
 <div class="highslide-maincontent" style="display:none;font-size: 24px;">
 ${(view.mainView.infoContext)!''}
 </div>

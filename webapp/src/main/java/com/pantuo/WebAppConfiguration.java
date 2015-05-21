@@ -3,7 +3,9 @@ package com.pantuo;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +33,12 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.pantuo.util.SubstringEx;
 import com.pantuo.web.ControllerInterceptor;
 import com.pantuo.web.upload.CustomMultipartResolver;
 
 import freemarker.core.Configurable;
+import freemarker.template.TemplateMethodModelEx;
 
 @Configuration
 @ImportResource("classpath:/properties.xml")
@@ -42,8 +46,9 @@ import freemarker.core.Configurable;
 //@EnableAspectJAutoProxy
 @EnableWebMvc
 public class WebAppConfiguration extends WebMvcConfigurerAdapter {
-    @Autowired
-    private ControllerInterceptor controllerInterceptor;
+	@Autowired
+	private ControllerInterceptor controllerInterceptor;
+
 	@Bean
 	public HandlerExceptionResolver webExceptionResolver() {
 		return new RestExceptionResolver();
@@ -52,8 +57,9 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		ResourceHandlerRegistration registration = registry.addResourceHandler("/*.html", "/js/**", "/style/**",
-				"/css/**", "/images/**", "/imgs/**", "/doc/**","/upload_temp/**");
-		registration.addResourceLocations("/", "/js/", "/style/", "/css/", "/images/", "/imgs/", "/doc/","/upload_temp/");
+				"/css/**", "/images/**", "/imgs/**", "/doc/**", "/upload_temp/**");
+		registration.addResourceLocations("/", "/js/", "/style/", "/css/", "/images/", "/imgs/", "/doc/",
+				"/upload_temp/");
 
 		ResourceHandlerRegistration rdup = registry.addResourceHandler("/homepage/**");
 		rdup.addResourceLocations("/homepage/");
@@ -63,9 +69,9 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 	public RequestMappingHandlerMapping requestMappingHandlerMapping() {
 		RequestMappingHandlerMapping mapping = new RequestMappingHandlerMapping();
 
-        List<HandlerInterceptor> list = new ArrayList<HandlerInterceptor>();
-        list.add(new RestLoggingInterceptor());
-        list.add(controllerInterceptor);
+		List<HandlerInterceptor> list = new ArrayList<HandlerInterceptor>();
+		list.add(new RestLoggingInterceptor());
+		list.add(controllerInterceptor);
 		HandlerInterceptor[] interceptors = list.toArray(new HandlerInterceptor[0]);
 
 		mapping.setInterceptors(interceptors);
@@ -123,10 +129,17 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 		config.setFreemarkerSettings(setting);
 		config.setDefaultEncoding("UTF-8");
 
+		Map<String, Object> variables = new HashMap<String, Object>();
+		variables.put("substring", getSubStrMethod());
+		config.setFreemarkerVariables(variables);
+
 		//        Map<String, Object> myBuiltInMethods = new HashMap<String, Object>();
 		//        myBuiltInMethods.put("MyNumberftl", new Numberftl());
 		//        config.setFreemarkerVariables(myBuiltInMethods);
 		return config;
+	}
+	TemplateMethodModelEx getSubStrMethod() {
+		return new SubstringEx();
 	}
 
 	@Bean
