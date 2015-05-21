@@ -161,7 +161,7 @@ public class UserService {
 	public List<AutoCompleteView> autoCompleteByName(String name) {
 		//发现工作流中有按用户=查找的 没有模糊查找
 		//identityService.createUserQuery().memberOfGroup(SystemRoles.advertiser.name()).
-		name = StringUtils.isNoneBlank(name) ? "%" + name + "%" : null;
+		name = StringUtils.isNoneBlank(name) ? "%" + name.trim() + "%" : null;
 		List<String> us = userAutoCompleteMapper.getUserIdLike(name, SystemRoles.advertiser.name());
 		//List<UserDetail> list = queryUserByname(name);
 		List<AutoCompleteView> r = new ArrayList<AutoCompleteView>();
