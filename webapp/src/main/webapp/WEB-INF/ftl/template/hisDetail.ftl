@@ -41,7 +41,7 @@
             <td>${act.assignee!''}</td>
             <td> ${(act.claimTime?string("yyyy-MM-dd HH:mm"))!''}</td>
             <td> ${(act.endTime?string("yyyy-MM-dd HH:mm"))!''}</td>
-            <td>${act.comment!''}</td>
+            <td style="text-align:left;">${act.comment!''}</td>
         </tr>
         </#if>
     </#list>
