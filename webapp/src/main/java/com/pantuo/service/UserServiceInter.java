@@ -65,4 +65,15 @@ public interface UserServiceInter {
 
 	public abstract boolean saveGroup(Group group);
 
+	/**
+	 * 
+	 * 判断用户是否属于某个组
+	 *
+	 * @param uname
+	 * @param group
+	 * @return
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
+	public abstract boolean isUserHaveGroup(String uname, String group);
+
 }

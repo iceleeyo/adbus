@@ -27,6 +27,7 @@ import com.pantuo.mybatis.domain.ContractExample;
 import com.pantuo.mybatis.domain.Industry;
 import com.pantuo.mybatis.persistence.ContractMapper;
 import com.pantuo.mybatis.persistence.IndustryMapper;
+import com.pantuo.service.ActivitiService.SystemRoles;
 import com.pantuo.util.BusinessException;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
@@ -51,17 +52,23 @@ public class ContractService {
 	private ManagementService managementService;
 	@Autowired
 	AttachmentService attachmentService;
+	@Autowired
+	UserServiceInter userService;
 
 	public Pair<Boolean, String> saveContract(int city, Contract con, String username, HttpServletRequest request) {
-        con.setCity(city);
+		con.setCity(city);
 		Pair<Boolean, String> r = null;
 		try {
 			con.setIsUpload(false);
 			con.setCreated(new Date());
 			con.setStats(JpaContract.Status.not_started.ordinal());
+			if (!userService.isUserHaveGroup(con.getUserId(), SystemRoles.advertiser.name())) {
+				return new Pair<Boolean, String>(true, con.getUserId() + " 不是广告主,创建合同失败！");
+
+			}
 			con.setCreator(username);
-//			System.out.println(JpaContract.Status.not_started.ordinal());
-//			con.setStats(JpaContract.Status.not_started.ordinal());
+			//			System.out.println(JpaContract.Status.not_started.ordinal());
+			//			con.setStats(JpaContract.Status.not_started.ordinal());
 			com.pantuo.util.BeanUtils.filterXss(con);
 			int dbId = contractMapper.insert(con);
 			if (dbId > 0) {

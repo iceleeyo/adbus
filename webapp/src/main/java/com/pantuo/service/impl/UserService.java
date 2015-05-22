@@ -475,4 +475,18 @@ public class UserService implements UserServiceInter {
 		}
 		return false;
 	}
+
+	public boolean isUserHaveGroup(String username, String group) {
+		List<Group> listGroup = identityService.createGroupQuery().groupMember(username).list();
+		boolean r = false;
+		if (!listGroup.isEmpty()) {
+			for (Group g : listGroup) {
+				if (StringUtils.equals(group, g.getId())) {
+					r = true;
+					break;
+				}
+			}
+		}
+		return r;
+	}
 }

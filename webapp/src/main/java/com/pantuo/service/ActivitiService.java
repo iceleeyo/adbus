@@ -43,7 +43,7 @@ public interface ActivitiService {
 	
 	
 	public static enum SystemRoles {
-		advertiser;
+		advertiser,ShibaOrderManager;
 	}
 
 	public static enum TaskQueryType {

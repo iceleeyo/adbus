@@ -161,7 +161,7 @@
                         <th orderBy="name">物料名称</th>
                         <th orderBy="suppliesType">类型</th>
                         <th orderBy="industry.id">行业</th>
-                        <th orderBy="created">创建人</th>
+                        <th orderBy="created">属主</th>
                         <th orderBy="created">创建时间</th>
                         <th>管理</th>
                     </tr>

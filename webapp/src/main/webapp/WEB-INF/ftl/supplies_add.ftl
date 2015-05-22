@@ -34,18 +34,7 @@
             i = i + 1;
         });
 
-        //author:pxh 2015-05-20 22:36
-		        $( "#userId" ).autocomplete({
-		  			source: "${rc.contextPath}/user/autoComplete",
-		  			change: function( event, ui ) { 
-		  				/*if(ui.item!=null){alert(ui.item.value);}*/
-		  				//table.fnDraw();
-		  			 },
-		  			 select: function(event,ui) {
-		  			 $('#userId').val(ui.item.value);
-		  				//table.fnDraw();
-		  			 }
-				});
+    <@security.authorize ifAnyGranted="ShibaOrderManager">    
     //author:pxh 2015-05-20 22:36
 	$( "#userId" ).autocomplete({
 		source: "${rc.contextPath}/user/autoComplete",
@@ -58,6 +47,7 @@
 		  	//table.fnDraw();
 		}
 	});
+	 </@security.authorize>
         
     });
 
@@ -175,17 +165,19 @@
 									<div class="inputs">
 
 										<br>
-										<div class="ui-form-item">
-                                            <label class="ui-label mt10">
-											<span
-                                                    class="ui-form-required">*
-											</span>广告主:
-                                            </label>
-                                            <span>
-                         						<input id="userId" name="userId"
-                         						 class="ui-input validate[required]" placeholder="请选择广告主" >
-                       						</span>
-                                        </div>
+										 <@security.authorize ifAnyGranted="ShibaOrderManager">   
+											<div class="ui-form-item">
+	                                            <label class="ui-label mt10">
+												<span
+	                                                    class="ui-form-required">
+												</span>广告主:
+	                                            </label>
+	                                            <span>
+	                         						<input id="userId" name="userId"
+	                         						 class="ui-input " placeholder="请选择广告主" >
+	                       						</span>
+	                                        </div>
+                                         </@security.authorize>
 										
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
