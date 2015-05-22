@@ -40,7 +40,7 @@
 			success : function(data) {
 				jDialog.Alert(data.right);
 				var uptime = window.setTimeout(function(){
-				location.reload([true]);
+				location.replace("${rc.contextPath}/order/list/") 
 			   	clearTimeout(uptime);
 						},2000)
 			}
