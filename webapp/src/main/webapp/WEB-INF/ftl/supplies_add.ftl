@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="上传物料">
-<@frame.html title="物料上传" js=["js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/jquery-ui-1.8.16.custom.min.js","js/progressbar.js"] css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
+<@frame.html title="物料上传" js=["js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/progressbar.js"] css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 
 <script type="text/javascript">
@@ -34,17 +34,31 @@
             i = i + 1;
         });
 
-        $("#suppliesType").change(function(){
-            var suppliesType = $(this).val();
-            if(suppliesType=="0" || suppliesType=="1"){
-                $("#text").hide();
-                $("#file").show();
-            }
-            if(suppliesType=="2"){
-                $("#text").show();
-                $("#file").hide();
-            }
-        });
+        //author:pxh 2015-05-20 22:36
+		        $( "#userId" ).autocomplete({
+		  			source: "${rc.contextPath}/user/autoComplete",
+		  			change: function( event, ui ) { 
+		  				/*if(ui.item!=null){alert(ui.item.value);}*/
+		  				//table.fnDraw();
+		  			 },
+		  			 select: function(event,ui) {
+		  			 $('#userId').val(ui.item.value);
+		  				//table.fnDraw();
+		  			 }
+				});
+    //author:pxh 2015-05-20 22:36
+	$( "#userId" ).autocomplete({
+		source: "${rc.contextPath}/user/autoComplete",
+		change: function( event, ui ) { 
+		/*if(ui.item!=null){alert(ui.item.value);}*/
+		//table.fnDraw();
+		},
+		select: function(event,ui) {
+			$('#userId').val(ui.item.value);
+		  	//table.fnDraw();
+		}
+	});
+        
     });
 
 	function del_2(o) {
@@ -79,6 +93,7 @@
 			suppotFile[0] = "avi";
 			suppotFile[1] = "mp4";
 			suppotFile[2] = "rmvb";
+			var flag=false;
 			for (var i = 0; i < suppotFile.length; i++) {
 				if (suppotFile[i] == fileType) {
 					flag=true;
@@ -143,22 +158,7 @@
 
 	
 </script>
-<script type="text/javascript">
-$(document).ready(function() {
-	//author:pxh 2015-05-20 22:36
-	$( "#userId" ).autocomplete({
-		source: "${rc.contextPath}/user/autoComplete",
-		change: function( event, ui ) { 
-		/*if(ui.item!=null){alert(ui.item.value);}*/
-		//table.fnDraw();
-		},
-		select: function(event,ui) {
-			$('#userId').val(ui.item.value);
-		  	//table.fnDraw();
-		}
-	});
-});
-</script>
+
 <div class="withdraw-wrap color-white-bg fn-clear">
 							<form id="userForm2" name="userForm2" action="put?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1"
 								enctype="multipart/form-data" method="post"">
