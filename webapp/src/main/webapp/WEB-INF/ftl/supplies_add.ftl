@@ -81,12 +81,14 @@
 			suppotFile[2] = "rmvb";
 			for (var i = 0; i < suppotFile.length; i++) {
 				if (suppotFile[i] == fileType) {
-					return true;
-				} else {
-					jDialog.Alert("文件类型只支持AVI，MP4，RMVB");
-					return;
+					flag=true;
 				}
 			}
+				if(flag == false)
+				{
+				jDialog.Alert("文件类型只支持GIF,PNG,JPG");
+				return;
+				}
 		}
 
 		if (Sfile.lastIndexOf(".") != -1 && suppliesType == "1") {
@@ -103,7 +105,7 @@
 			}
 			if(flag == false)
 			{
-				jDialog.Alert("文件类型只支持AVI，MP4，RMVB");
+				jDialog.Alert("文件类型只支持GIF,PNG,JPG");
 				return;
 			}
 			
@@ -123,7 +125,7 @@
 			}
 			if(flag == false)
 			{
-				jDialog.Alert("资质类型只支持GIF，BMP，JPG");
+				jDialog.Alert("资质类型只支持GIF,BMP,JPG");
 				return;
 			}
 		}
