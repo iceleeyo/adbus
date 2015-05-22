@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import com.pantuo.dao.pojo.JpaMessage;
+import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Message;
 import com.pantuo.mybatis.domain.Orders;
@@ -69,7 +70,7 @@ public class MessageSchedule extends MailActivityBehavior {
 		UserDetail owner = (UserDetail) execution.getVariable(ActivitiService.OWNER);
 		int orderId = (Integer) execution.getVariable(ActivitiService.ORDER_ID);
 		String mtype = (String) actionType.getValue(execution);
-		Orders order = orderService.queryOrderDetail(orderId, null);
+		JpaOrders order = orderService.queryOrderDetail(orderId, null);
 		Long longorderid = OrderIdSeq.getIdFromDate(order.getId(), order.getCreated());
 		/**
 		 * 发送站内消息
