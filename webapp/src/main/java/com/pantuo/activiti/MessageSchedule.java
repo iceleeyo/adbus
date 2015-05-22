@@ -18,9 +18,12 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import com.pantuo.dao.pojo.JpaMessage;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Message;
+import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.MessageService;
+import com.pantuo.service.OrderService;
 import com.pantuo.util.DateConverter;
+import com.pantuo.util.OrderIdSeq;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -50,7 +53,8 @@ public class MessageSchedule extends MailActivityBehavior {
 	FreeMarkerConfigurer freeMarker;
 	@Autowired
 	MessageService messageService;
-
+	@Autowired
+	private OrderService orderService;
 	public Expression actionType;
 	public Expression sendMail;
 	public Expression sendSiteMsg;
@@ -65,7 +69,8 @@ public class MessageSchedule extends MailActivityBehavior {
 		UserDetail owner = (UserDetail) execution.getVariable(ActivitiService.OWNER);
 		int orderId = (Integer) execution.getVariable(ActivitiService.ORDER_ID);
 		String mtype = (String) actionType.getValue(execution);
-
+		Orders order = orderService.queryOrderDetail(orderId, null);
+		Long longorderid = OrderIdSeq.getIdFromDate(order.getId(), order.getCreated());
 		/**
 		 * 发送站内消息
 		 */
@@ -104,6 +109,8 @@ public class MessageSchedule extends MailActivityBehavior {
 			context.put("_now", DateConverter.doConvertToString(System.currentTimeMillis(),
 					DateConverter.DATETIME_PATTERN_NO_SECOND));
 			context.put("_theCompany", (String) execution.getVariable("_theCompany"));
+			context.put("_orderid", String.valueOf(longorderid));
+			context.put("_detailUrl", "http://127.0.0.1:8080/webapp/order/orderDetail/"+orderId);
 			context.put("approve1Comments", (String) execution.getVariable("approve1Comments"));
 
 			String mailContext = getMailContext(context, mtype);
