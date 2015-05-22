@@ -1,7 +1,7 @@
 <#import "template/template.ftl" as frame>
 <#global menu="上传物料">
-<@frame.html title="物料上传" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/jquery-ui-1.8.16.custom.min.js","js/progressbar.js"] css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css"]>
-
+<@frame.html title="物料上传" js=["js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/jquery-ui-1.8.16.custom.min.js","js/progressbar.js"] css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
+<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -139,7 +139,24 @@
 		 var uploadProcess={upath:'${rc.contextPath}/upload/process'};
 		  $('#progress1').anim_progressbar(uploadProcess);
 	}
+
 	
+</script>
+<script type="text/javascript">
+$(document).ready(function() {
+	//author:pxh 2015-05-20 22:36
+	$( "#userId" ).autocomplete({
+		source: "${rc.contextPath}/user/autoComplete",
+		change: function( event, ui ) { 
+		/*if(ui.item!=null){alert(ui.item.value);}*/
+		//table.fnDraw();
+		},
+		select: function(event,ui) {
+			$('#userId').val(ui.item.value);
+		  	//table.fnDraw();
+		}
+	});
+});
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
 							<form id="userForm2" name="userForm2" action="put?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1"
@@ -157,6 +174,18 @@
 									<div class="inputs">
 
 										<br>
+										<div class="ui-form-item">
+                                            <label class="ui-label mt10">
+											<span
+                                                    class="ui-form-required">*
+											</span>广告主:
+                                            </label>
+                                            <span>
+                         						<input id="userId" name="userId"
+                         						 class="ui-input validate[required]" placeholder="请选择广告主" >
+                       						</span>
+                                        </div>
+										
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>物料名称</label> 

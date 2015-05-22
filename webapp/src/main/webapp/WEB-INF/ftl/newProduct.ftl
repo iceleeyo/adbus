@@ -191,7 +191,7 @@
                                                     class="ui-form-required"></span>产品定向:</label>
                                             <span>
                          						<input id="userId" value=""
-                         						 class="ui-input validate[required]" placeholder="请选择广告主" >
+                         						 class="ui-input" placeholder="请选择广告主" >
                        						</span>
                                         </div>
 									</div>
