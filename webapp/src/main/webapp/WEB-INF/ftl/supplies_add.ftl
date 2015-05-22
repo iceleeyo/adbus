@@ -33,7 +33,18 @@
                     '<input type="button"  style="margin-top:10px;" value="删除"  onclick="del_3('+ i + ')"/></div>');
             i = i + 1;
         });
-
+	$("#suppliesType").change(function(){
+            var suppliesType = $(this).val();
+            if(suppliesType=="0" || suppliesType=="1"){
+                $("#text").hide();
+                $("#file").show();
+            }
+            if(suppliesType=="2"){
+                $("#text").show();
+                $("#file").hide();
+            }
+     });
+        
     <@security.authorize ifAnyGranted="ShibaOrderManager">    
     //author:pxh 2015-05-20 22:36
 	$( "#userId" ).autocomplete({
@@ -134,7 +145,7 @@
 				return;
 			}
 		}
-		document.getElementById('subWithdraw').setAttribute('disabled',true);
+		
 		$('#userForm2').ajaxForm(function(data) {
 			jDialog.Alert(data.right);
 			var uptime = window.setTimeout(function(){
@@ -142,6 +153,7 @@
 			   	clearTimeout(uptime);
 						},2000)
 		}).submit();
+		document.getElementById('subWithdraw').setAttribute('disabled',true);
 		 var uploadProcess={upath:'${rc.contextPath}/upload/process'};
 		  $('#progress1').anim_progressbar(uploadProcess);
 	}
