@@ -34,9 +34,11 @@
 	function sub2() {
         if (!$("#productForm").validationEngine('validateBeforeSubmit'))
             return;
+        
         $('#productForm').ajaxForm(function(data) {
             jDialog.Alert(data.name);
         }).submit();
+        document.getElementById('submit').setAttribute('disabled',true);
             var a = document.createElement('a');
     	    a.href='${rc.contextPath}/product/list';
     	    document.body.appendChild(a);
