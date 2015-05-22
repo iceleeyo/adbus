@@ -38,8 +38,9 @@ $(document).ready(function(){
             });
             jDialog.Alert('请填写完整信息');
         }
-        document.getElementById('subWithdraw').setAttribute('disabled',true);
-         else {
+      
+         else { 
+         document.getElementById('subWithdraw').setAttribute('disabled',true); 
             $('#userForm2').ajaxForm(function(data) {
                 jDialog.Alert(data.right);
                document.getElementById('subWithdraw').setAttribute('disabled',true); 
@@ -47,6 +48,7 @@ $(document).ready(function(){
             document.getElementById('subWithdraw').setAttribute('disabled','true');
     	    window.location.href="${rc.contextPath}/order/myTask/1";
         }
+         
            // var a = document.createElement('a');
     	   // a.href='${rc.contextPath}/order/myTask/1';
     	   // document.body.appendChild(a);
@@ -68,6 +70,7 @@ $(document).ready(function(){
             return;
          } 
           $('#userForm2').submit();
+          document.getElementById('subWithdraw').setAttribute('disabled','true');
 	}
 
 	function check() {

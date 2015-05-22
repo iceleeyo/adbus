@@ -661,9 +661,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 			if (contract != null && contract.getContractCode() != null && payType.equals("contract")) {
 				orders.setContractId(contractid);
 				orders.setContractCode(contract.getContractCode());
-				orders.setPayType(0);
-			} else if (payType.equals("online")) {
 				orders.setPayType(1);
+			} else if (payType.equals("online")) {
+				orders.setPayType(0);
 			} else {
 				orders.setPayType(2);
 			}
