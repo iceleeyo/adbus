@@ -31,7 +31,7 @@ public class DataInitializationService {
 	public static  Map<String, String> _GROUPS = new LinkedHashMap<String, String>();
 	
     @Autowired
-    UserService userService;
+    UserServiceInter userService;
 
     @Autowired
     TimeslotService timeslotService;

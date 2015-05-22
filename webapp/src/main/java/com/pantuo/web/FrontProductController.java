@@ -5,7 +5,8 @@ import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ProductService;
-import com.pantuo.service.UserService;
+import com.pantuo.service.UserServiceInter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class FrontProductController {
     @Autowired
     private ProductService productService;
     @Autowired
-	private UserService userService;
+	private UserServiceInter userService;
 
     @RequestMapping(value = "/list/{type}")
     public String prolist(@PathVariable("type") JpaProduct.Type type, Model model) {

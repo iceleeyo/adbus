@@ -24,7 +24,7 @@ import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.DataInitializationService;
 import com.pantuo.service.SuppliesService;
-import com.pantuo.service.UserService;
+import com.pantuo.service.UserServiceInter;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.AutoCompleteView;
@@ -43,7 +43,7 @@ public class UserManagerController {
 	private static Logger log = LoggerFactory.getLogger(UserManagerController.class);
 
 	@Autowired
-	private UserService userService;
+	private UserServiceInter userService;
 	@Autowired
 	private DataInitializationService dataService;
 	@Autowired

@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.pantuo.dao.pojo.UserDetail;
-import com.pantuo.service.UserService;
+import com.pantuo.service.UserServiceInter;
 
 import scala.actors.threadpool.Arrays;
 
@@ -41,7 +41,7 @@ public class LoginController {
     private static Logger log = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
-    private UserService userService;
+    private UserServiceInter userService;
     @Autowired
     private IdentityService identityService;
 

@@ -1,7 +1,8 @@
 package com.pantuo.web;
 
 import com.pantuo.dao.pojo.UserDetail;
-import com.pantuo.service.UserService;
+import com.pantuo.service.UserServiceInter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ValidationController {
 
     @Autowired
-    private UserService userService;
+    private UserServiceInter userService;
 
     @RequestMapping(value = "/ajaxValidateUser", method = { RequestMethod.GET})
     @ResponseBody

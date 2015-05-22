@@ -19,7 +19,7 @@ import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ContractServiceData;
-import com.pantuo.service.UserService;
+import com.pantuo.service.UserServiceInter;
 import com.pantuo.util.Request;
 
 import org.slf4j.Logger;
@@ -48,7 +48,7 @@ public class ContractController {
 	@Autowired
 	private ContractService contractService;
 	@Autowired
-	private UserService userService;
+	private UserServiceInter userService;
 	@Autowired
 	private ContractServiceData contractServiceDate;
 	@Autowired

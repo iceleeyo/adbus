@@ -6,8 +6,8 @@ import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.pojo.*;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
-
 import com.pantuo.util.Request;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.pantuo.service.ProductService;
-import com.pantuo.service.UserService;
+import com.pantuo.service.UserServiceInter;
 
 import java.security.Principal;
 
@@ -32,7 +32,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
     @Autowired
-	private UserService userService;
+	private UserServiceInter userService;
     @RequestMapping("ajax-list")
     @ResponseBody
     public DataTablePage<JpaProduct> getAllProducts( TableRequest req,

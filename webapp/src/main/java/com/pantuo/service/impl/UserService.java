@@ -1,4 +1,4 @@
-package com.pantuo.service;
+package com.pantuo.service.impl;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -31,6 +31,7 @@ import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.QUserDetail;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
+import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.ActivitiService.SystemRoles;
 import com.pantuo.util.FreeMarker;
 import com.pantuo.util.GlobalMethods;
@@ -42,7 +43,7 @@ import com.pantuo.web.view.AutoCompleteView;
  * @author tliu
  */
 @Service
-public class UserService {
+public class UserService implements UserServiceInter {
 	private static Logger log = LoggerFactory.getLogger(UserService.class);
 	@Autowired
 	private UserDetailRepository userRepo;
@@ -69,22 +70,42 @@ public class UserService {
 	@Autowired
 	UserAutoCompleteMapper userAutoCompleteMapper;
 
+	/**
+	 * @see com.pantuo.service.UserServiceInter#count()
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
 	public long count() {
 		return userRepo.count();
 	}
 
+	/**
+	 * @see com.pantuo.service.UserServiceInter#countGroups()
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
 	public long countGroups() {
 		return identityService.createGroupQuery().count();
 	}
 
+	/**
+	 * @see com.pantuo.service.UserServiceInter#getAllUsers(java.lang.String, int, int, org.springframework.data.domain.Sort)
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
 	public Page<UserDetail> getAllUsers(String name, int page, int pageSize, Sort order) {
 		return getUsers(name, null, page, pageSize, order);
 	}
 
+	/**
+	 * @see com.pantuo.service.UserServiceInter#getValidUsers(int, int, org.springframework.data.domain.Sort)
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
 	public Page<UserDetail> getValidUsers(int page, int pageSize, Sort order) {
 		return getUsers(null, true, page, pageSize, order);
 	}
 
+	/**
+	 * @see com.pantuo.service.UserServiceInter#getAllGroup()
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
 	public List<Group> getAllGroup() {
 		return identityService.createGroupQuery().list();
 	}
@@ -140,6 +161,10 @@ public class UserService {
 		return result;
 	}
 
+	/**
+	 * @see com.pantuo.service.UserServiceInter#queryUserByname(java.lang.String)
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
 	public List<UserDetail> queryUserByname(String name) {
 		QUserDetail q = QUserDetail.userDetail;
 		BooleanExpression query = null;
@@ -151,11 +176,7 @@ public class UserService {
 	}
 
 	/**
-	 * 
-	 * 广告主 自动补全
-	 *
-	 * @param name
-	 * @return
+	 * @see com.pantuo.service.UserServiceInter#autoCompleteByName(java.lang.String)
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
 	public List<AutoCompleteView> autoCompleteByName(String name) {
@@ -173,6 +194,10 @@ public class UserService {
 		return r;
 	}
 
+	/**
+	 * @see com.pantuo.service.UserServiceInter#getByUsername(java.lang.String)
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
 	public UserDetail getByUsername(String username) {
 		List<UserDetail> users = userRepo.findByUsername(username);
 		if (users.isEmpty())
@@ -191,6 +216,10 @@ public class UserService {
 		return user;
 	}
 
+	/**
+	 * @see com.pantuo.service.UserServiceInter#addUserMailReset(com.pantuo.dao.pojo.UserDetail, javax.servlet.http.HttpServletRequest)
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
 	public Pair<Boolean, String> addUserMailReset(UserDetail u, HttpServletRequest request) {
 		String md5 = GlobalMethods.md5Encrypted(u.getUser().getId().getBytes());
 		if (StringUtils.isBlank(u.getUser().getEmail())) {
@@ -220,6 +249,10 @@ public class UserService {
 		return resultPair;
 	}
 
+	/**
+	 * @see com.pantuo.service.UserServiceInter#getMailTemplete(java.lang.String, java.lang.String, javax.servlet.http.HttpServletRequest)
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
 	public String getMailTemplete(String userId, String resetPwd, HttpServletRequest request) {
 		StringWriter swriter = new StringWriter();
 		try {
@@ -237,6 +270,10 @@ public class UserService {
 		return swriter.toString();
 	}
 
+	/**
+	 * @see com.pantuo.service.UserServiceInter#updatePwd(java.lang.String, java.lang.String)
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
 	public Pair<Boolean, String> updatePwd(String userId, String psw) throws Exception {
 		User activitiUser = identityService.createUserQuery().userId(userId).singleResult();
 		if (activitiUser == null) {
@@ -248,6 +285,10 @@ public class UserService {
 		}
 	}
 
+	/**
+	 * @see com.pantuo.service.UserServiceInter#getUserGroupList(com.pantuo.dao.pojo.UserDetail)
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
 	public List<String> getUserGroupList(UserDetail u) {
 		List<String> list = new ArrayList<String>();
 		if (u != null) {
@@ -267,6 +308,10 @@ public class UserService {
 			//  System.out.println(u);
 		}*/
 
+	/**
+	 * @see com.pantuo.service.UserServiceInter#findByUsername(java.lang.String)
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
 	public UserDetail findByUsername(String username) {
 		List<UserDetail> users = userRepo.findByUsername(username);
 		if (users.isEmpty()) {
@@ -285,6 +330,10 @@ public class UserService {
 		return user;
 	}
 
+	/**
+	 * @see com.pantuo.service.UserServiceInter#findDetailByUsername(java.lang.String)
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
 	public UserDetail findDetailByUsername(String username) {
 		List<UserDetail> users = userRepo.findByUsername(username);
 		if (users.isEmpty()) {
@@ -295,10 +344,18 @@ public class UserService {
 		return user;
 	}
 
+	/**
+	 * @see com.pantuo.service.UserServiceInter#saveDetail(com.pantuo.dao.pojo.UserDetail)
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
 	public void saveDetail(UserDetail user) {
 		userRepo.save(user);
 	}
 
+	/**
+	 * @see com.pantuo.service.UserServiceInter#createUser(com.pantuo.dao.pojo.UserDetail)
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
 	@Transactional
 	public boolean createUser(UserDetail user) {
 		if (user.getUser() != null) {
@@ -314,6 +371,10 @@ public class UserService {
 		return false;
 	}
 
+	/**
+	 * @see com.pantuo.service.UserServiceInter#updateUserFromPage(com.pantuo.dao.pojo.UserDetail)
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
 	@Transactional
 	public boolean updateUserFromPage(UserDetail user) {
 		user.buildMySelf();
@@ -348,6 +409,10 @@ public class UserService {
 		return false;
 	}
 
+	/**
+	 * @see com.pantuo.service.UserServiceInter#createUserFromPage(com.pantuo.dao.pojo.UserDetail)
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
 	@Transactional
 	public boolean createUserFromPage(UserDetail user) {
 		user.buildMySelf();
@@ -368,6 +433,10 @@ public class UserService {
 		return false;
 	}
 
+	/**
+	 * @see com.pantuo.service.UserServiceInter#deleteUser(java.lang.String)
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
 	@Transactional
 	public boolean deleteUser(String username) {
 		List<UserDetail> users = userRepo.findByUsername(username);
@@ -382,6 +451,10 @@ public class UserService {
 		return true;
 	}
 
+	/**
+	 * @see com.pantuo.service.UserServiceInter#deleteGroups(java.util.List)
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
 	@Transactional
 	public boolean deleteGroups(List<String> groups) {
 		for (String g : groups) {
@@ -390,6 +463,10 @@ public class UserService {
 		return true;
 	}
 
+	/**
+	 * @see com.pantuo.service.UserServiceInter#saveGroup(org.activiti.engine.identity.Group)
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
 	@Transactional
 	public boolean saveGroup(Group group) {
 		if (group != null) {

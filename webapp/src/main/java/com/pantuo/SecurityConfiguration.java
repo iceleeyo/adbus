@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 
-import com.pantuo.service.UserService;
+import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.security.ActivitiUserDetailsService;
 
 /**
@@ -39,7 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	    private UserRoleRepository userRoleRepo;
 	*/
 	@Autowired
-	private UserService userService;
+	private UserServiceInter userService;
 
 	@Autowired
 	private ActivitiUserDetailsService userDetailsService;

@@ -19,7 +19,6 @@ import com.pantuo.dao.pojo.JpaMessage;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Message;
-import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.MessageService;
 import com.pantuo.service.OrderService;

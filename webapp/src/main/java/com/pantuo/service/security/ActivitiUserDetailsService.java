@@ -1,7 +1,8 @@
 package com.pantuo.service.security;
 
 import com.pantuo.dao.pojo.UserDetail;
-import com.pantuo.service.UserService;
+import com.pantuo.service.UserServiceInter;
+
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.identity.Group;
@@ -20,7 +21,7 @@ import java.util.List;
 @Service
 public class ActivitiUserDetailsService implements UserDetailsService {
     @Autowired
-    private UserService userService;
+    private UserServiceInter userService;
 
    
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
