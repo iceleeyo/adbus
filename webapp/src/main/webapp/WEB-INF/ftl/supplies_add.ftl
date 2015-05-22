@@ -86,7 +86,7 @@
 			}
 				if(flag == false)
 				{
-				jDialog.Alert("文件类型只支持GIF,PNG,JPG");
+				jDialog.Alert("文件类型只支持AVI,MP4,RMVB");
 				return;
 				}
 		}
