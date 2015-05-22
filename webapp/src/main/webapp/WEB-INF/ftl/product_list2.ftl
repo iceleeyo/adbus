@@ -11,6 +11,7 @@
             "searching": false,
             "ordering": true,
             "serverSide": true,
+            
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
                 { "orderable": false, "targets": [5] },
@@ -42,7 +43,7 @@
                             return 'Info';
                         return '';
                     } },
-                { "data": "price", "defaultContent": "" },
+                { "data": "price", "defaultContent": "", "render": $.fn.dataTable.render.number( ',', '.', 2, ' ')  },
                 { "data": "exclusiveUser", "defaultContent": "", "render": function(data, type, row) {
                     if (data)
                         return '<span class="invalid">' + data + '</span>';
