@@ -80,6 +80,7 @@
 			return;
 		}
 	   }
+	   document.getElementById('subWithdraw').setAttribute('disabled',true); 
 		$('#userForm2').ajaxForm(function(data) {
 			jDialog.Alert(data.right);
 			var uptime = window.setTimeout(function(){

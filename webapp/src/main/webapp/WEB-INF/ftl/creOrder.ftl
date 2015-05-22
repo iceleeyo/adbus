@@ -37,10 +37,12 @@ $(document).ready(function(){
                 }
             });
             jDialog.Alert('请填写完整信息');
-        } else {
+        }
+        document.getElementById('subWithdraw').setAttribute('disabled',true);
+         else {
             $('#userForm2').ajaxForm(function(data) {
                 jDialog.Alert(data.right);
-                
+               document.getElementById('subWithdraw').setAttribute('disabled',true); 
             }).submit();
             document.getElementById('subWithdraw').setAttribute('disabled','true');
     	    window.location.href="${rc.contextPath}/order/myTask/1";
@@ -122,7 +124,7 @@ $(document).ready(function(){
 									</div>
 									<div class="ui-form-item widthdrawBtBox">
 										<input type="button" onclick="sub()" class="block-btn"
-											 value="确认提交" >
+										id="subWithdraw" value="确认提交" >
 									</div>
 								</div>
 

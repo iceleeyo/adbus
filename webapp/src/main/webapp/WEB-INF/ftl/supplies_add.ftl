@@ -128,7 +128,7 @@
 				jDialog.Alert("资质类型只支持GIF,BMP,JPG");
 				return;
 			}
-		}
+		document.getElementById('subWithdraw').setAttribute('disabled',true);
 		$('#userForm2').ajaxForm(function(data) {
 			jDialog.Alert(data.right);
 			var uptime = window.setTimeout(function(){

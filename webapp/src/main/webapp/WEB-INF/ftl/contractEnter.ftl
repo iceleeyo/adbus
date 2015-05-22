@@ -69,6 +69,7 @@
 			jDialog.Alert("终止时间不能小于开始时间");
 			return;
 		}
+		document.getElementById('subWithdraw').setAttribute('disabled',true);
 		$('#userForm2').ajaxForm(function(data) {
 			jDialog.Alert(data.right);
 			var uptime = window.setTimeout(function(){
@@ -76,7 +77,6 @@
 			   	clearTimeout(uptime);
 						},2000)
 		}).submit();
-	document.getElementById('subWithdraw').setAttribute('disabled',true);
 	}
 	
  $(document).ready(function() {
@@ -121,7 +121,7 @@
 											</span>广告主:
                                             </label>
                                             <span>
-                         						<input id="userId" value=""
+                         						<input id="userId" name="userId"
                          						 class="ui-input validate[required]" placeholder="请选择广告主" >
                        						</span>
                                         </div>
@@ -149,7 +149,7 @@
                                                     class="ui-form-required">*</span>合同金额:</label>
                                                     <input
 												class="ui-input validate[required,custom[number],min[1]]"
-												type="text" name="amounts"
+												onkeyup="value=value.replace(/[^\d.]/g,'')" type="text" name="amounts"
 												id="amounts" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="请输入合同金额"/>
                                         </div>
