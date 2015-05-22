@@ -76,7 +76,7 @@
 			   	clearTimeout(uptime);
 						},2000)
 		}).submit();
-
+	document.getElementById('subWithdraw').setAttribute('disabled',true);
 	}
 	
  $(document).ready(function() {
@@ -86,11 +86,11 @@
 		  			source: "${rc.contextPath}/user/autoComplete",
 		  			change: function( event, ui ) { 
 		  				/*if(ui.item!=null){alert(ui.item.value);}*/
-		  				table.fnDraw();
+		  				//table.fnDraw();
 		  			 },
 		  			 select: function(event,ui) {
 		  			 $('#userId').val(ui.item.value);
-		  				table.fnDraw();
+		  				//table.fnDraw();
 		  			 }
 				});
 	    });
