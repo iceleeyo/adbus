@@ -106,7 +106,7 @@
         );
         
        
-        $('#longOrderId, #autocomplete').change(function() {
+        $('#longOrderId, #autocomplete, #taskKey ').change(function() {
             table.fnDraw();
         });
         //author:pxh 2015-05-20 22:36
