@@ -46,25 +46,14 @@
 	function sub(){
         if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
             return;
+        
 		var code = ($("#code").val());
 		var name = ($("#name").val());
 		var startDate = $("#startDate").val();
 		var endDate = ($("#endDate").val());
 		var amounts=($("#amounts").val());
 		Sfile= ($("#Sfile").val());
-		if(Sfile==""){
-			jDialog.Alert("请选择合同附件");
-			return;
-		}
-
-		if(startDate.length<1){
-			jDialog.Alert("请填写合同生效时间");
-			return;
-		}
-		if(endDate.length<1){
-			jDialog.Alert("请填写合同失效时间");
-			return;
-		}
+		
 		if(endDate<startDate){
 			jDialog.Alert("终止时间不能小于开始时间");
 			return;
