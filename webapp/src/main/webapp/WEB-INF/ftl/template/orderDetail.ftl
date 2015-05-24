@@ -47,10 +47,7 @@
 				  <#if suppliesLink>
 				  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
   				  <LI style="width: 240px;"><SPAN>物料编号：</SPAN><SPAN class="con">${(suppliesView.mainView.seqNumber)!''}</SPAN></LI>
-  				  <LI style="width: 240px;"><SPAN>物料详情：</SPAN><a href="#">查看</a></LI>
-
-
-
+  				  <LI style="width: 240px;"><SPAN>物料详情：</SPAN><SPAN class="con"><a href="${rc.contextPath}/supplies/suppliesDetail/${(suppliesView.mainView.id)!''}">查看物料与用户资质</a></SPAN></LI>
   <!-- <LI style="width: 720px;"><SPAN>物料：</SPAN>
   <SPAN class="con">
   <@preview.materialPreview view=suppliesView/>
