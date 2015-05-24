@@ -46,7 +46,11 @@
   				  <LI style="width: 240px;"><SPAN>合同号：</SPAN><SPAN class="con">${(orderview.order.contractCode)!''}</SPAN></LI>
 				  <#if suppliesLink>
 				  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
-  				  <LI style="width: 240px;"><SPAN>物料编号：</SPAN><SPAN class="con">${(suppliesView.mainView.seqNumber)!''}</SPAN><a href="#">查看</a></LI>
+  				  <LI style="width: 240px;"><SPAN>物料编号：</SPAN><SPAN class="con">${(suppliesView.mainView.seqNumber)!''}</SPAN></LI>
+  				  <LI style="width: 240px;"><SPAN>物料详情：</SPAN><a href="#">查看</a></LI>
+
+
+
   <!-- <LI style="width: 720px;"><SPAN>物料：</SPAN>
   <SPAN class="con">
   <@preview.materialPreview view=suppliesView/>
