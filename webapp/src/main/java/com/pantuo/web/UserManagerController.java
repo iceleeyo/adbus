@@ -2,9 +2,7 @@ package com.pantuo.web;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,13 +10,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.JpaInvoice;
-import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
@@ -159,7 +161,13 @@ public class UserManagerController {
 		return suppliesService.savequlifi(principal, request,description);
 	}
 
-	@RequestMapping(value = "/enter", produces = "text/html;charset=utf-8")
+/*	@PreAuthorize("hasRole('advertiser') " + "or hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
+			+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
+			+ "or hasRole('ShibaSuppliesManager')or hasRole('UserManager') ")*/
+	
+	
+	@PreAuthorize(" !hasRole('advertiser')  ")
+	@RequestMapping(value = "/enter")
 	public String enter(Model model, HttpServletRequest request) {
 		model.addAttribute("groupsList", DataInitializationService._GROUPS);
 		return "u/userEnter";

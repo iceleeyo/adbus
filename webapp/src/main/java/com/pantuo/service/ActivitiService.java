@@ -40,6 +40,7 @@ public interface ActivitiService {
 
 	public static String R_DEFAULTALL = "defaultAll";
 	public static String R_USERPAYED = "_userPayed";
+	public static String U_ADVERTISER = "advertiser";
 	
 	
 	public static enum SystemRoles {
