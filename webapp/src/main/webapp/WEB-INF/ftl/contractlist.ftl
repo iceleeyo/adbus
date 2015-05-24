@@ -76,13 +76,9 @@
         $("div#toolbar").html(
                 '<div>' +
                         '    <span>合同号</span>' +
-                        '    <span>' +
                         '        <input id="contractCode" value="">' +
-                        '    </span>' +
                         '    <span>合同名称</span>' +
-                        '    <span>' +
                         '        <input id="contractName" value="">' +
-                        '    </span>' +
                         '</div>'
         );
 

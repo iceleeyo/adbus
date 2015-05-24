@@ -327,6 +327,7 @@
             } else {
               //  $(this).find(".pg-side-exp-list").show();
             }
+            
         });
     }
 

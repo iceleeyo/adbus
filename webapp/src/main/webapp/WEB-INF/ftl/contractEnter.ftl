@@ -29,7 +29,7 @@
 										function() {
 											$("#newUpload2")
 													.append(
-															'<div id="div_'+j+'"><input  name="file_'+j+'" type="file"  style="margin-top:10px;" class="validate[required]"/><input type="button" value="删除" style="margin-top:10px;" onclick="del_2('
+															'<div id="div_'+j+'"><input  name="file_'+j+'" type="file"  style="margin-top:10px;" class="validate[required]"/><input class="btn-sm btn-wrong" type="button" value="删除" style="margin-top:10px;" onclick="del_2('
 																	+ j
 																	+ ')"/></div>');
 											j = j + 1;
@@ -184,14 +184,13 @@
 
 
                                         <div class="ui-form-item">
-											<label class="ui-label mt10"><span
-                                                    class="ui-form-required">*</span>附件上传</label>
+											<label class="ui-label mt10">附件上传</label>
 											<div id="newUpload2">
 												<div id="div_1">
 													<input type="file" name="file" id="Sfile" class="validate[required]">
 												</div>
 											</div>
-											<input type="button" id="btn_add2" value="增加一行"
+											<input class="btn-sm btn-success" type="button" id="btn_add2" value="增加一行"
 												style="margin-top: 10px;" ><br>
 										</div>
 									</div>

@@ -41,7 +41,7 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
         values: values,
         types: types
     },function(data){
-    	jDialog.Alert(data.left==true?"执行成功!":data.right);
+    	jDialog.Alert(data.left==true?"执行成功!":"执行失败!");
     	var uptime = window.setTimeout(function(){
 			var a = document.createElement('a');
     		a.href='${rc.contextPath}/order/myTask/1';
@@ -153,7 +153,7 @@ function bgzs(suppliesid,seqNumber,taskId, variables) {
         seqNumber:seqNumber
         
     },function(data){
-    	jDialog.Alert(data.left==true?"执行成功!":data.right);
+    	jDialog.Alert(data.left==true?"执行成功!":"执行失败!");
     	var uptime = window.setTimeout(function(){
 			var a = document.createElement('a');
     		a.href='${rc.contextPath}/order/myTask/1';
@@ -382,11 +382,11 @@ function pay() {
                  <H3 class="text-xl title-box"><A class="black" href="#">支付订单</A></H3><BR>	
                  <TABLE class="ui-table ui-table-gray" >
   								<TBODY>
-									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
+									<!-- <TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
     									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>广告主支付订单</H4></TD>
-  								</TR>  	
+  								</TR>  --> 	
 									<TR style="height:45px;">
-    									<TH width="0%">支付</TH>
+    									<TD>支付方式</TD>
     									<TD>
     										<input type="radio" name="payType" onchange="showContract()" value="contract" checked="checked">关联合同
 				             		<input type="radio" name="payType" value="online" onchange="hideContract()" >线上支付
@@ -406,17 +406,22 @@ function pay() {
                   		</TD>
                   		</TR>
                   		<TR style="height:45px;">
-    									<TH width="0%">是否开具发票</TH>
-    									<TD colspan=3>
+    									<TD>开具发票</TD>
+    									<TD>
     									    <input type="checkbox"  id="check1"/>开具发票
     									</TD>
+    									<td></td>
 				             	    </TR>
-				             	    <TR style="height:45px;">
-    									<TD width="25%" style="text-align:center;" colspan="3">
+				             	    <!-- <TR style="height:45px;">
+    									<TD style="text-align:center;" colspan="3">
     										<button type="button" onclick="pay()" class="block-btn" >确认支付</button>
     									</TD>
-  								</TR>
-								</TABLE>	<br>
+  								</TR> -->
+								</TABLE>
+								<div style="margin: 10px 0 0; text-align:center;">
+									<button type="button" onclick="pay()" class="block-btn" >确认支付</button>
+								</div>
+    							
              </div>	
 			</div>
 </#if>
@@ -466,7 +471,7 @@ function pay() {
     									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>广告主支付订单</H4></TD>
   								</TR>  	
 									<TR style="height:45px;">
-    									<TH width="0%">绑定素材</TH>
+    									<TH width="0%"><div >绑定素材</div>></TH>
 				             	 <div id="contractCode">
 				             	  <select class="ui-input" name="supplies.id" id="suppliesId">
                                                 <option value="1" selected="selected"></option>
@@ -477,10 +482,13 @@ function pay() {
                   		</div>
                   		</TD>
     									<TD width="25%" style="text-align:center;">
-    										<button type="button" onclick="relate()" class="block-btn" >确认</button>
+    										
     									</TD>
   								</TR>
-								</TABLE>	<br>
+								</TABLE>	
+								<div style="margin: 10px 0 0; text-align:center;">
+									<button type="button" onclick="relate()" class="block-btn" >确认</button>
+								</div>
              </div>	
 			</div>
 </#if>
@@ -489,14 +497,11 @@ function pay() {
           <div id="modifyOrder" class="modifyOrder" style="display: none;">
 
               <div class="p20bs mt10 color-white-bg border-ec">
-                <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3><br>	
+                <H3 class="text-xl title-box"><A class="black" href="#">订单处理-广告主修改订单物料</A></H3><br>	
                                 
 								<TABLE class="ui-table ui-table-gray">
   								<TBODY>
   								<input type="hidden"  id="seqNumber" value="${suppliesView.mainView.seqNumber!''}"/>
-									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>广告主修改订单物料</H4></TD>
-  								</TR>  	
   								<TR>
     									<TH>物料详情</TH>
     									<TD colspan=3>
@@ -518,12 +523,10 @@ function pay() {
                                                 </#if>
                   		               </select></TD>
     						   </TR>
-    						   <TR>
-    						   <TD colspan=4 align="center">
+								</TABLE>	                 
+								<div style="margin: 10px 0 0; text-align:center;">
 									<button onclick="modifyOrder();" class="block-btn">提交</button>
-									</TD>
-  								</TR>
-								</TABLE>	                                
+								</div>               
                 </div>	          
 					</div>
 </#if>
@@ -531,20 +534,15 @@ function pay() {
 			<!-- 北广审核并填写物料ID等信息 -->
       <div id="approve2" class="approve2" style="display: none;">
                 <div class="p20bs mt10 color-white-bg border-ec">
-                <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3><br>
+                <H3 class="text-xl title-box"><A class="black" href="#">订单处理-北广对物料进行终审</A></H3><br>
 								<TABLE class="ui-table ui-table-gray">
   								<TBODY>
-									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>北广对物料进行终审</H4></TD>
-  								</TR>  	
   								<TR>
-    									<TH width="20%">签收时间</TH>
-    									<TD colspan=3 style="border-radius: 0 0 0"><#setting
-															date_format="yyyy-MM-dd HH:mm:ss">
-															${claimTime!''}</TD>
+    									<TD width="20%">签收时间</TD>
+    									<TD colspan=3 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
   								</TR> 
   								<TR>
-    									<TH>物料信息</TH>
+    									<TD>物料信息</TD>
     									<TD colspan=3>
     									<#list suppliesView.files as item> 
 		<a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a>
@@ -554,27 +552,25 @@ function pay() {
  	</#list>${(suppliesView.mainView.infoContext)!''}</TD>
     							</TR> 
     							<TR>
-    									<TH>物料编号</TH>
+    									<TD>物料编号</TD>
     									<input type="hidden"  id="suppliesid" value="${suppliesView.mainView.id!''}"/>
     									<TD colspan=3><input  id="seqNumber" type="text" ></TD>
     							</TR>
   								<TR>
-    									<TH>审核意见</TH>
+    									<TD>审核意见</TD>
     									<TD colspan=3><textarea name="approve2Comments" id="approve2Comments" style="margin: 5px 0;width:400px;margin-top:5px;" ></textarea></TD></TR>
   								
 									<TR style="height:45px;">
-    									<TH>是否通过</TH>
+    									<TD>是否通过</TD>
     									<TD>
     										<input name="approve2Result" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>符合要求 
       									  <input name="approve2Result" type="radio" value="false" style="padding: 5px 15px;"/>不符合要求</TD>
     									
   								</TR>
-  								<TR height="60">
-  									<TD colspan=4 style="text-align:center;">
-    	 										<button onclick="approve2();" class="block-btn">提交审核结果</button>
-    								</TD>
-  								</TR>
-								</TABLE>	                                    							
+								</TABLE>	  
+								<div style="margin: 10px 0 0; text-align:center;">
+									<button onclick="approve2();" class="block-btn">提交审核结果</button>
+								</div>                                   							
                 </div>          
 				 </div>
 </#if>
@@ -582,17 +578,12 @@ function pay() {
             <!-- 世巴提交排期表 -->
          <div id="submitSchedule" class="submitSchedule" style="display: none;">
                 <div class="p20bs mt10 color-white-bg border-ec">
-                <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3><BR>
+                <H3 class="text-xl title-box"><A class="black" href="#">订单处理-世巴确认排期表并提交</A></H3><BR>
                 <TABLE class="ui-table ui-table-gray">
   								<TBODY>
-									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-    									<TD colspan=3 width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>世巴确认排期表并提交</H4></TD>
-  								</TR>  	
   								<TR>
     									<TH width="20%">签收时间</TH>
-    									<TD colspan=2 style="border-radius: 0 0 0"><#setting
-															date_format="yyyy-MM-dd HH:mm:ss">
-															${claimTime!''}</TD>
+    									<TD colspan=2 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
   								</TR>  
   								<TR>
     									<TH width="20%">排期表</TH>
@@ -605,11 +596,12 @@ function pay() {
     									<TD>
     										<input name="ScheduleResult" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>符合要求 
       									<input name="ScheduleResult" type="radio" value="false" style="padding: 5px 15px;"/>不符合要求</TD>
-    									<TD width="30%" style="text-align:center;">
-    	 										<button onclick="submitSchedule();" class="block-btn">提交确认结果</button>
-    									</TD>
+    									
   								</TR>
-							</TABLE>	 
+							</TABLE>	
+							<div style="margin: 10px 0 0; text-align:center;">
+									<button onclick="submitSchedule();" class="block-btn">提交确认结果</button>
+								</div> 
 							</div>	          
 					</div>
 </#if>
@@ -617,19 +609,14 @@ function pay() {
 					<!-- 世巴初审 -->
           <div id="approve1" class="approve1" style="display: none;">
                 <div class="p20bs mt10 color-white-bg border-ec">
-                <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3><br>	
+                <H3 class="text-xl title-box"><A class="black" href="#">订单处理-世巴对物料进行初审</A></H3><br>	
                                 
 								<TABLE class="ui-table ui-table-gray">
   								<TBODY>
   								<input type="hidden"  id="seqNumber" value="${suppliesView.mainView.seqNumber!''}"/>
-									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>世巴对物料进行初审</H4></TD>
-  								</TR>  	
   								<TR>
     									<TH width="20%">签收时间</TH>
-    									<TD colspan=3 style="border-radius: 0 0 0"><#setting
-															date_format="yyyy-MM-dd HH:mm:ss">
-															${claimTime!''}</TD>
+    									<TD colspan=3 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
   								</TR>  
   								<TR>
     									<TH>物料详情</TH>
@@ -659,12 +646,10 @@ function pay() {
     									<TH>审核意见</TH>
     									<TD colspan=3><textarea name="approve1Comments" id="approve1Comments" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD>
     						   </TR>
-									<TR style="height:45px;">
-    									<TD colspan=4  style="text-align:center;">
-    	 										<button onclick="approve1();" class="block-btn">提交审核结果</button>
-    									</TD>
-  								</TR>
-								</TABLE>	                                
+								</TABLE>	
+								<div style="margin: 10px 0 0; text-align:center;">
+									<button onclick="approve1();" class="block-btn">提交审核结果</button>
+								</div>                                 
                 </div>	          
 					</div>
 </#if>
@@ -672,33 +657,28 @@ function pay() {
 					<!-- 世巴财务确认 -->
 					<div id="financialCheck" class="financialCheck" style="display: none;">
 						<div class="p20bs mt10 color-white-bg border-ec">
-              <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3><br>	
+              <H3 class="text-xl title-box"><A class="black" href="#">订单处理-世巴财务确认</A></H3><br>	
               
 							<TABLE class="ui-table ui-table-gray">
   								<TBODY>
-									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>世巴财务确认</H4></TD>
-  								</TR>  	
-  								<TR>
-    									<TH width="20%">签收时间</TH>
-    									<TD colspan=3 style="border-radius: 0 0 0"><#setting
-															date_format="yyyy-MM-dd HH:mm:ss">
-															${claimTime!''}</TD>
+								<TR>
+    									<TD width="20%">签收时间</TD>
+    									<TD colspan=3 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
   								</TR>  
   								<TR>
-    									<TH>审核意见</TH>
+    									<TD>审核意见</TD>
     									<TD colspan=3><textarea name="financialcomment" id="financialcomment" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD></TR>
 									<TR style="height:45px;">
-    									<TH>支付状态</TH>
+    									<TD>支付状态</TD>
     									<TD>
     										<input name="rad" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>支付正常 
       									<input name="rad" type="radio" value="false" style="padding: 5px 15px;"/>支付异常</TD>
-    									<TD colspan=2 width="30%" style="text-align:center;">
-    	 										<button onclick="financial();" class="block-btn">提交确认结果</button>
-    									</TD>
+    									
   								</TR>
 							</TABLE>	               
-              							
+              				<div style="text-align:center; margin-top:10px;">
+    	 										<button onclick="financial();" class="block-btn">提交确认结果</button>
+    									</div>			
              </div>	          
 					</div>
 </#if>
@@ -707,18 +687,13 @@ function pay() {
 					<!-- 北广录入排期表 -->
           <div id="inputSchedule" class="inputSchedule" style="display: none;">
               <div class="p20bs mt10 color-white-bg border-ec">
-              <H3 class="text-xl title-box"><A class="black" href="#">订单办理</A></H3><BR>					
+              <H3 class="text-xl title-box"><A class="black" href="#">订单办理-北广录入排期表</A></H3><BR>					
               
               <TABLE class="ui-table ui-table-gray">
-  								<TBODY>
-									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-    									<TD colspan=3 width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>北广录入排期表</H4></TD>
-  								</TR>  	
+  								<TBODY> 	
   								<TR>
     									<TH width="20%">签收时间</TH>
-    									<TD colspan=3 style="border-radius: 0 0 0"><#setting
-															date_format="yyyy-MM-dd HH:mm:ss">
-															${claimTime!''}</TD>
+    									<TD colspan=3 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
   								</TR>  
   								<TR>
     									<TH width="20%">排期表</TH>
@@ -732,7 +707,10 @@ function pay() {
     	 										<button onclick="inputSchedule();" class="block-btn">提交确认结果</button>
     									</TD>
   								</TR>
-							</TABLE>	 
+							</TABLE>	
+							<div style="text-align:center; margin-top:10px;">
+   	 										<button onclick="financial();" class="block-btn">提交确认结果</button>
+   									</div>	 
               
               </div>	          
 							</div>
@@ -741,17 +719,12 @@ function pay() {
 							<!-- 上播报告 -->
               <div id="shangboReport" class="shangboReport" style="display: none;">
               <div class="p20bs mt10 color-white-bg border-ec">
-              <H3 class="text-xl title-box"><A class="black" href="#">订单办理</A></H3><BR>
+              <H3 class="text-xl title-box"><A class="black" href="#">订单办理-世巴提交上播报告</A></H3><BR>
               <TABLE class="ui-table ui-table-gray">
   								<TBODY>
-									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-    									<TD width="100%" colspan=3 style="border-radius: 5px 5px 0 0;"><H4>世巴提交上播报告</H4></TD>
-  								</TR>  	
   								<TR>
     									<TH width="20%">签收时间</TH>
-    									<TD colspan=2 style="border-radius: 0 0 0"><#setting
-															date_format="yyyy-MM-dd HH:mm:ss">
-															${claimTime!''}</TD>
+    									<TD colspan=2 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
   								</TR>  
   								<TR>
     									<TH width="20%">排期表</TH>
@@ -767,10 +740,13 @@ function pay() {
       								     <input name="shangboResult" type="radio" value="false" style="padding: 5px 15px;"/>否</TD>
 										  
     									<TD width="30%" style="text-align:center;">
-    	 										<button onclick="shangboReport();" class="block-btn">提交确认结果</button>
+    	 										
     									</TD>
   								</TR>
-							</TABLE>	                                 							
+							</TABLE>	                                 		
+							<div style="margin: 10px 0 0; text-align:center;">
+									<button onclick="shangboReport();" class="block-btn">提交确认结果</button>
+								</div>					
 							
               </div>	          
 							</div>
@@ -779,18 +755,13 @@ function pay() {
 							<!-- 监播报告 -->
               <div id="jianboReport" class="jianboReport" style="display: none;">
 					    <div class="p20bs mt10 color-white-bg border-ec">
-                  <H3 class="text-xl title-box"><A class="black" href="#">订单处理</A></H3>								
+                  <H3 class="text-xl title-box"><A class="black" href="#">订单处理-世巴提交监播报告</A></H3>								
 							
 							    <TABLE class="ui-table ui-table-gray">
-  								<TBODY>
-									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-    									<TD width="100%" colspan=3 style="border-radius: 5px 5px 0 0;"><H4>世巴提交监播报告</H4></TD>
-  								</TR>  	
+  								<TBODY>	
   								<TR>
     									<TH width="20%">签收时间</TH>
-    									<TD colspan=2 style="border-radius: 0 0 0"><#setting
-															date_format="yyyy-MM-dd HH:mm:ss">
-															${claimTime!''}</TD>
+    									<TD colspan=2 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
   								</TR>  
   								<TR>
     									<TH width="20%">排期表</TH>
@@ -806,10 +777,13 @@ function pay() {
       								<input name="jianboResult" type="radio" value="false" style="padding: 5px 15px;"/>播放异常</TD>
 										  
     									<TD width="30%" style="text-align:center;">
-    	 										<button onclick="jianboReport();" class="block-btn">提交确认结果</button>
+    	 										
     									</TD>
   								</TR>
 							</TABLE>	  
+							<div style="margin: 10px 0 0; text-align:center;">
+									<button onclick="jianboReport();" class="block-btn">提交确认结果</button>
+								</div>		
 							
 	
               </div>	        

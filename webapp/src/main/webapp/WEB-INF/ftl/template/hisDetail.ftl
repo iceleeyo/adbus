@@ -26,6 +26,7 @@
     <table id="his_table" class="display" cellspacing="0" width="100%">
         <thead>
         <tr>
+        	<th width="5%"></th>
             <th width="15%">操作类型</th>
             <th width="12%">人员</th>
             <th width="17%">签收时间</th>
@@ -37,6 +38,7 @@
     <#list activitis as act>
         <#if act.assignee??>
         <tr>
+        	<td class="status status-first">&nbsp;</td>
             <td>${act.name}</td>
             <td>${act.assignee!''}</td>
             <td> ${(act.claimTime?string("yyyy-MM-dd HH:mm"))!''}</td>

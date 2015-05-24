@@ -796,7 +796,7 @@ h6,.h6 {
 }
 
 .text-xl {
-	font-size: 22px
+	font-size: 20px
 }
 
 .text-l {
@@ -806,7 +806,9 @@ h6,.h6 {
 .text-big {
 	font-size: 16px
 }
-
+.text-middle {
+	font-size: 14px
+}
 .text {
 	font-size: 14px
 }
@@ -2500,7 +2502,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 }
 
 .ui-form-item div {
-    padding-top:10px;
+	display:block;
 }
 .ui-form-item .formError div {
     line-height: 20px;
@@ -5445,6 +5447,9 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	border-bottom: 0;
 	color: #222;
 	
+}
+.ui-table-gray tbody td p{
+	color: #fff;
 }
 
 .ui-table-gray tr {

@@ -24,13 +24,13 @@
         $("#btn_add2").click(function() {
             $("#newUpload2").append(
                     '<div id="div_'+j+'"><input  name="file_'+j+'" type="file"  style="margin-top:10px;"  class="validate[required]" />' +
-                    '<input type="button"  style="margin-top:10px;" value="删除"  onclick="del_2('+ j + ')"/></div>');
+                    '<input class="btn-sm btn-wrong" type="button"  style="margin-top:10px;" value="删除"  onclick="del_2('+ j + ')"/></div>');
             j = j + 1;
         });
         $("#btn_add3").click(function() {
             $("#newUpload3").append(
                     '<div id="div_'+i+'"><input  name="qua_'+i+'" type="file"  style="margin-top:10px;"  class="validate[required]" />' +
-                    '<input type="button"  style="margin-top:10px;" value="删除"  onclick="del_3('+ i + ')"/></div>');
+                    '<input class="btn-sm btn-wrong" type="button"  style="margin-top:10px;" value="删除"  onclick="del_3('+ i + ')"/></div>');
             i = i + 1;
         });
 	$("#suppliesType").change(function(){
@@ -217,8 +217,8 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>所属行业:</label>
 
-                                            <select id="industryId" name="industryId" data-is="isAmount isEnough"
-                                                    autocomplete="off" disableautocomplete="" style="width:220px; height: 38px;">
+                                            <select id="industryId" class="ui-input" name="industryId" data-is="isAmount isEnough"
+                                                    autocomplete="off" disableautocomplete="" >
                                                 <#list industries as industry>
                                                     <option value="${industry.id}">${industry.name}</option>
                                                 </#list>
@@ -236,11 +236,11 @@
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>物料上传</label>
 											<div id="newUpload2">
-												<div id="div_1">
+												<div class="filebox" id="div_1">
 													<input type="file" name="file" id="Sfile" class="validate[required]">
 												</div>
 												</div>
-											<input type="button" id="btn_add2" value="增加一行"
+											<input class="btn-sm btn-success" type="button" id="btn_add2" value="增加一行"
 												style="margin-top: 10px;"><br>
 										</div>
 										<div class="ui-form-item">
@@ -250,7 +250,7 @@
 													<input type="file" name="qua" id="Sfile1">
 												</div>
 											</div>
-											<input type="button" id="btn_add3" value="增加一行"
+											<input class="btn-sm btn-success" type="button" id="btn_add3" value="增加一行"
 												style="margin-top: 10px;" ><br>
 										</div>
 										<div class="ui-form-item widthdrawBtBox">

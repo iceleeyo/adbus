@@ -26,7 +26,7 @@
 										function() {
 											$("#newUpload2")
 													.append(
-															'<div id="div_'+j+'"><input  name="file_'+j+'" type="file"  style="margin-top:10px;" class="validate[required]"/><input type="button" value="删除" style="margin-top:10px;" onclick="del_2('
+															'<div id="div_'+j+'"><input  name="file_'+j+'" type="file"  style="margin-top:10px;" class="validate[required]"/><input class="btn-sm btn-wrong" type="button" value="删除" style="margin-top:10px;" onclick="del_2('
 																	+ j
 																	+ ')"/></div>');
 											j = j + 1;
@@ -73,23 +73,16 @@
             </ul>
             -->
 								</div>
-								<br>
-								<div class="ui-form-item" id="text" >
-											<label class="ui-label mt10">资质信息描述</label> <input
-												class="ui-input" type="text" name="description"
-												 data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="" style="height: 91px; width: 367px; ">
-										</div>
+								<div class="withdrawInputs">
 									<div class="inputs">
                                           <div class="ui-form-item">
-											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>资质信息上传</label>
+											<label class="ui-label mt10">资质信息上传</label>
 											<div id="newUpload2">
 												<div id="div_1">
-													<input type="file" name="file" id="Sfile" class="validate[required]">
+													<input type="file" name="file" id="Sfile" class="">
 												</div>
 											</div>
-											<input type="button" id="btn_add2" value="增加附件"
+											<input  class="btn-sm btn-success" type="button" id="btn_add2" value="增加附件"
 												style="margin-top: 10px;" ><br>
 										</div>
 									</div>
