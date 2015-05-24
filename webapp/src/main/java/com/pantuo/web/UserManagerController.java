@@ -172,7 +172,7 @@ public class UserManagerController {
 		model.addAttribute("groupsList", DataInitializationService._GROUPS);
 		return "u/userEnter";
 	}
-
+	@PreAuthorize(" !hasRole('advertiser')  ")
 	@RequestMapping(value = "/save", method = { RequestMethod.POST })
 	@ResponseBody
 	public UserDetail createProduct(UserDetail detail, HttpServletRequest request) {
@@ -186,20 +186,20 @@ public class UserManagerController {
 		userService.createUserFromPage(detail);
 		return detail;
 	}
-
+	@PreAuthorize(" !hasRole('advertiser')  ")
 	@RequestMapping(value = "/u_edit/update", method = { RequestMethod.POST })
 	@ResponseBody
 	public UserDetail updateUser(UserDetail detail, HttpServletRequest request) {
 		userService.updateUserFromPage(detail);
 		return detail;
 	}
-
+	@PreAuthorize(" !hasRole('advertiser')  ")
 	@RequestMapping(value = "/u/{userId}", method = { RequestMethod.GET })
 	public String uDetail(Model model, @PathVariable("userId") String userId, HttpServletRequest request) {
 		model.addAttribute("userDetail", userService.getByUsername(userId));
 		return "u/userDetail";
 	}
-
+	@PreAuthorize(" !hasRole('advertiser')  ")
 	@RequestMapping(value = "/u_edit/{userId}", method = { RequestMethod.GET })
 	public String userEdit(Model model, @PathVariable("userId") String userId, HttpServletRequest request) {
 		UserDetail UserDetail = userService.getByUsername(userId);

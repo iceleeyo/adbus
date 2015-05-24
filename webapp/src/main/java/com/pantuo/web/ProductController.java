@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -71,7 +72,8 @@ public class ProductController {
         }
         return product;
     }
-
+    
+    @PreAuthorize(" hasRole('ShibaOrderManager') ")
     @RequestMapping(value = "/new", produces = "text/html;charset=utf-8")
     public String newProduct(Model model, @ModelAttribute("city") JpaCity city) {
     	Page<UserDetail> users = userService.getValidUsers(0, 999, null);
@@ -85,7 +87,8 @@ public class ProductController {
 //        model.addAttribute("types", JpaProduct.Type.values());
         return "newProduct";
     }
-
+    
+    @PreAuthorize(" hasRole('ShibaOrderManager')  ")
     @RequestMapping(value = "/{id}", produces = "text/html;charset=utf-8")
     public String updateProduct(@PathVariable int id,
                                 @ModelAttribute("city") JpaCity city,
@@ -109,6 +112,7 @@ public class ProductController {
         return "productView";
     }
 
+    @PreAuthorize(" hasRole('ShibaOrderManager')  ")
     @RequestMapping(value = "/save", method = { RequestMethod.POST})
     @ResponseBody
     public JpaProduct createProduct(

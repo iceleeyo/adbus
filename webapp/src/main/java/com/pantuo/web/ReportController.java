@@ -6,11 +6,13 @@ import com.pantuo.mybatis.domain.TimeslotReport;
 import com.pantuo.pojo.highchart.*;
 import com.pantuo.service.*;
 import com.pantuo.util.DateUtil;
+
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -34,7 +36,8 @@ public class ReportController {
 
     @Autowired
     private IndustryService industryService;
-
+    
+    @PreAuthorize(" !hasRole('advertiser')  ")
     @RequestMapping("day")
      public String remainTimeslots(Model model,
                                        @RequestParam(value="day", required = false) String dayStr,
@@ -83,6 +86,7 @@ public class ReportController {
         return "report_remainTimeslots";
     }
 
+    @PreAuthorize(" !hasRole('advertiser')  ")
     @RequestMapping("dayp")
     public String remainTimeslotsPercent(Model model,
                                   @RequestParam(value="day", required = false) String dayStr,
@@ -135,6 +139,7 @@ public class ReportController {
         return "report_remainTimeslotsPercent";
     }
 
+    @PreAuthorize(" !hasRole('advertiser')  ")
     @RequestMapping("wow")
     //周同比
     public String remainTimeslotsWeekOnWeek(Model model,
@@ -199,6 +204,7 @@ public class ReportController {
         return "report_wowTimeslots";
     }
 
+    @PreAuthorize(" !hasRole('advertiser')  ")
     @RequestMapping("mom")
     //月同比
     public String remainTimeslotsMonthOnMonth(Model model,
@@ -243,6 +249,7 @@ public class ReportController {
         return "report_momTimeslots";
     }
 
+    @PreAuthorize(" !hasRole('advertiser')  ")
     @RequestMapping("monthp")
     //月对比
     public String remainTimeslotsMonthPercent(Model model,
@@ -290,6 +297,7 @@ public class ReportController {
         return "report_momTimeslotsPercent";
     }
 
+    @PreAuthorize(" !hasRole('advertiser')  ")
     @RequestMapping("hour")
     public String remainHourlyTimeslots(Model model,
                                   @RequestParam(value="day", required = false) String dayStr,
@@ -345,6 +353,7 @@ public class ReportController {
     }
 
 
+    @PreAuthorize(" !hasRole('advertiser')  ")
     @RequestMapping("hourp")
     public String remainHourlyTimeslotsPercent(Model model,
                                         @RequestParam(value="day", required = false) String dayStr,
@@ -390,6 +399,7 @@ public class ReportController {
         return "report_hourTimeslotsPercent";
     }
 
+    @PreAuthorize(" !hasRole('advertiser')  ")
     @RequestMapping("dayorderp")
     public String orderPercent(Model model,
                                          @RequestParam(value="day", required = false) String dayStr,
@@ -435,7 +445,7 @@ public class ReportController {
     }
 
 
-
+    @PreAuthorize(" !hasRole('advertiser')  ")
     @RequestMapping("dayindustryp")
     public String orderIndustryPercent(Model model,
                                @RequestParam(value="day", required = false) String dayStr,
