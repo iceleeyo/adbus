@@ -592,7 +592,7 @@ function pay() {
 
 
 									<TR style="height:45px;">
-										<TH>是否通过</TH>
+										<TH width="20%">是否通过</TH>
     									<TD>
     										<input name="ScheduleResult" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>符合要求 
       									<input name="ScheduleResult" type="radio" value="false" style="padding: 5px 15px;"/>不符合要求</TD>
@@ -693,20 +693,17 @@ function pay() {
   								<TBODY> 	
   								<TR>
     									<TH width="20%">签收时间</TH>
-    									<TD colspan=3 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+    									<TD style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
   								</TR>  
   								<TR>
     									<TH width="20%">排期表</TH>
-    									<TD colspan=3 style="border-radius: 0 0 0"><a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
+    									<TD style="border-radius: 0 0 0"><a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
   								</TR> 
   								<TR>
     									<TH>排期意见</TH>
-    									<TD colspan=3><textarea name="inputScheduleComments" id="inputScheduleComments" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD></TR>
-								<TR style="height:45px;">
-    									<TD colspan=4 width="30%" style="text-align:center;">
-    	 										<button onclick="inputSchedule();" class="block-btn">提交确认结果</button>
-    									</TD>
-  								</TR>
+    									<TD><textarea name="inputScheduleComments" id="inputScheduleComments" style="margin: 5px 0;width:400px;margin-top:5px;"></textarea></TD>
+    							</TR>
+
 							</TABLE>	
 							<div style="text-align:center; margin-top:10px;">
    	 										<button onclick="financial();" class="block-btn">提交确认结果</button>
@@ -761,24 +758,22 @@ function pay() {
   								<TBODY>	
   								<TR>
     									<TH width="20%">签收时间</TH>
-    									<TD colspan=2 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+    									<TD  style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
   								</TR>  
   								<TR>
     									<TH width="20%">排期表</TH>
-    									<TD colspan=2 style="border-radius: 0 0 0"><a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
+    									<TD  style="border-radius: 0 0 0"><a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
   								</TR> 
   								<TR>
     									<TH>监播意见</TH>
-    									<TD colspan=2><textarea name="jianboComments" id="jianboComments"   style="margin: 5px 0;width:400px;margin-top:5px;">您的广告已按照合同要求正常播出中</textarea></TD></TR>
+    									<TD ><textarea name="jianboComments" id="jianboComments"   style="margin: 5px 0;width:400px;margin-top:5px;">您的广告已按照合同要求正常播出中</textarea></TD></TR>
 									<TR style="height:45px;">
 										  <TH>上播状态</TH>
 										  <TD style="border-radius: 0 0 0">
 										  <input name="jianboResult" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>播放正常
       								<input name="jianboResult" type="radio" value="false" style="padding: 5px 15px;"/>播放异常</TD>
 										  
-    									<TD width="30%" style="text-align:center;">
-    	 										
-    									</TD>
+    									
   								</TR>
 							</TABLE>	  
 							<div style="margin: 10px 0 0; text-align:center;">
