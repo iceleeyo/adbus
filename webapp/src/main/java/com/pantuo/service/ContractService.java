@@ -72,7 +72,7 @@ public class ContractService {
 			com.pantuo.util.BeanUtils.filterXss(con);
 			int dbId = contractMapper.insert(con);
 			if (dbId > 0) {
-				attachmentService.saveAttachment(request, username, con.getId(), JpaAttachment.Type.ht_pic);
+				attachmentService.saveAttachment(request, username, con.getId(), JpaAttachment.Type.ht_pic,null);
 				r = new Pair<Boolean, String>(true, "合同创建成功！");
 			}
 		} catch (BusinessException e) {

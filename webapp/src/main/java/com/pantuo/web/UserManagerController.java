@@ -154,9 +154,9 @@ public class UserManagerController {
 
 	@RequestMapping(value = "savequalifi", method = RequestMethod.POST)
 	@ResponseBody
-	public Pair<Boolean, String> savequalifi(Principal principal, HttpServletRequest request)
+	public Pair<Boolean, String> savequalifi(Principal principal, @RequestParam(value = "description") String description, HttpServletRequest request)
 			throws IllegalStateException, IOException {
-		return suppliesService.savequlifi(principal, request);
+		return suppliesService.savequlifi(principal, request,description);
 	}
 
 	@RequestMapping(value = "/enter", produces = "text/html;charset=utf-8")

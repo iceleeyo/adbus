@@ -31,7 +31,7 @@ public interface AttachmentService {
 	 * @param file_type
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
-	public void saveAttachment(HttpServletRequest request, String user_id, int main_id, JpaAttachment.Type file_type)
+	public void saveAttachment(HttpServletRequest request, String user_id, int main_id, JpaAttachment.Type file_type,String description)
 			throws BusinessException;
 	/**
 	 * 

@@ -45,7 +45,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 	AttachmentMapper attachmentMapper;
 	private static Logger log = LoggerFactory.getLogger(SuppliesServiceImpl.class);
 
-	public void saveAttachment(HttpServletRequest request, String user_id, int main_id, JpaAttachment.Type file_type)
+	public void saveAttachment(HttpServletRequest request, String user_id, int main_id, JpaAttachment.Type file_type,String description)
 			throws BusinessException {
 
 		try {
@@ -71,6 +71,9 @@ public class AttachmentServiceImpl implements AttachmentService {
 							File localFile = new File(p.getLeft());
 							file.transferTo(localFile);
 							Attachment t = new Attachment();
+							if(StringUtils.isNotBlank(description)){
+								t.setDescription(description);
+							}
 							t.setMainId(main_id);
 							if(fn.indexOf("qua")!=-1){
 								t.setType(JpaAttachment.Type.u_fj.ordinal());

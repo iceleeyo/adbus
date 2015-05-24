@@ -86,7 +86,7 @@ public class SuppliesServiceImpl implements SuppliesService {
 			int dbId = suppliesMapper.insert(obj);
 			if (dbId > 0) {
 				attachmentService.saveAttachment(request, Request.getUserId(principal), obj.getId(),
-						JpaAttachment.Type.su_file);
+						JpaAttachment.Type.su_file,null);
 			}
 			r = new Pair<Boolean, String>(true, "物料上传成功！");
 		} catch (BusinessException e) {
@@ -104,7 +104,7 @@ public class SuppliesServiceImpl implements SuppliesService {
 			BeanUtils.filterXss(obj);
 			InvoiceRepo.save(obj);
 			attachmentService.saveAttachment(request, Request.getUserId(principal), obj.getId(),
-					JpaAttachment.Type.fp_file);
+					JpaAttachment.Type.fp_file,null);
 			r = new Pair<Boolean, String>(true, "创建发票成功！");
 		} catch (BusinessException e) {
 			r = new Pair<Boolean, String>(false, "创建发票失败");
@@ -112,13 +112,13 @@ public class SuppliesServiceImpl implements SuppliesService {
 		return r;
 	}
 
-	public Pair<Boolean, String> savequlifi(Principal principal, HttpServletRequest request) {
+	public Pair<Boolean, String> savequlifi(Principal principal, HttpServletRequest request,String description) {
 		Pair<Boolean, String> r = null;
 		try {
 			Predicate query = QUserDetail.userDetail.username.eq(Request.getUserId(principal));
 			UserDetail userDetail = userDetailRepo.findOne(query);
 			attachmentService.saveAttachment(request, Request.getUserId(principal), userDetail.getId(),
-					JpaAttachment.Type.u_fj);
+					JpaAttachment.Type.u_fj,description);
 			r = new Pair<Boolean, String>(true, "上传成功！");
 		} catch (BusinessException e) {
 			r = new Pair<Boolean, String>(false, "上传失败");

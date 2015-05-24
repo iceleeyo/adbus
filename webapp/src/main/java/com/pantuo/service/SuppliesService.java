@@ -91,7 +91,7 @@ public interface SuppliesService {
 			HttpServletRequest request);
 
 	Pair<Boolean, String> savequlifi(Principal principal,
-			HttpServletRequest request);
+			HttpServletRequest request,String description);
 
 	public SuppliesView getQua(int supplies_id, Principal principal);
 	public InvoiceView getInvoiceDetail(String userid, Principal principal);

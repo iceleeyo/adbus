@@ -3,6 +3,7 @@ package com.pantuo.web;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,8 +14,10 @@ import com.pantuo.mybatis.domain.*;
 import com.pantuo.service.*;
 import com.pantuo.util.*;
 
+import org.activiti.engine.HistoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -65,6 +68,8 @@ public class OrderController {
 	ActivitiService activitiService;
     @Autowired
     BusService busService;
+    @Autowired
+    HistoryService historyService;
 
 	@Autowired
 	private TaskService taskService;
@@ -154,6 +159,12 @@ public class OrderController {
 			throws Exception {
 		NumberPageUtil page = new NumberPageUtil(9999, 1, 9999);
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
+		HistoricTaskInstance currTask = historyService
+                .createHistoricTaskInstanceQuery().taskId(taskid)
+                .singleResult();
+		Date claimT=currTask.getClaimTime();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String claimTime=sdf.format(claimT);
 		ExecutionEntity executionEntity = (ExecutionEntity) runtimeService.createExecutionQuery()
 				.executionId(task.getExecutionId()).processInstanceId(task.getProcessInstanceId()).singleResult();
 		OrderView v = activitiService.findOrderViewByTaskId(taskid);
@@ -173,6 +184,7 @@ public class OrderController {
 		model.addAttribute("taskid", taskid);
 		model.addAttribute("orderview", v);
 		model.addAttribute("prod", prod);
+		model.addAttribute("claimTime", claimTime);
 		model.addAttribute("activitis", activitis);
 		if (StringUtils.equals(ActivitiService.R_BIND_STATIC, activityId)) {
 			activityId = ActivitiService.R_MODIFY_ORDER;

@@ -539,7 +539,9 @@ function pay() {
   								</TR>  	
   								<TR>
     									<TH width="20%">签收时间</TH>
-    									<TD colspan=3 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+    									<TD colspan=3 style="border-radius: 0 0 0"><#setting
+															date_format="yyyy-MM-dd HH:mm:ss">
+															${claimTime!''}</TD>
   								</TR> 
   								<TR>
     									<TH>物料信息</TH>
@@ -588,7 +590,9 @@ function pay() {
   								</TR>  	
   								<TR>
     									<TH width="20%">签收时间</TH>
-    									<TD colspan=2 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+    									<TD colspan=2 style="border-radius: 0 0 0"><#setting
+															date_format="yyyy-MM-dd HH:mm:ss">
+															${claimTime!''}</TD>
   								</TR>  
   								<TR>
     									<TH width="20%">排期表</TH>
@@ -623,7 +627,9 @@ function pay() {
   								</TR>  	
   								<TR>
     									<TH width="20%">签收时间</TH>
-    									<TD colspan=3 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+    									<TD colspan=3 style="border-radius: 0 0 0"><#setting
+															date_format="yyyy-MM-dd HH:mm:ss">
+															${claimTime!''}</TD>
   								</TR>  
   								<TR>
     									<TH>物料详情</TH>
@@ -675,7 +681,9 @@ function pay() {
   								</TR>  	
   								<TR>
     									<TH width="20%">签收时间</TH>
-    									<TD colspan=3 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+    									<TD colspan=3 style="border-radius: 0 0 0"><#setting
+															date_format="yyyy-MM-dd HH:mm:ss">
+															${claimTime!''}</TD>
   								</TR>  
   								<TR>
     									<TH>审核意见</TH>
@@ -708,7 +716,9 @@ function pay() {
   								</TR>  	
   								<TR>
     									<TH width="20%">签收时间</TH>
-    									<TD colspan=3 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+    									<TD colspan=3 style="border-radius: 0 0 0"><#setting
+															date_format="yyyy-MM-dd HH:mm:ss">
+															${claimTime!''}</TD>
   								</TR>  
   								<TR>
     									<TH width="20%">排期表</TH>
@@ -739,7 +749,9 @@ function pay() {
   								</TR>  	
   								<TR>
     									<TH width="20%">签收时间</TH>
-    									<TD colspan=2 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+    									<TD colspan=2 style="border-radius: 0 0 0"><#setting
+															date_format="yyyy-MM-dd HH:mm:ss">
+															${claimTime!''}</TD>
   								</TR>  
   								<TR>
     									<TH width="20%">排期表</TH>
@@ -776,7 +788,9 @@ function pay() {
   								</TR>  	
   								<TR>
     									<TH width="20%">签收时间</TH>
-    									<TD colspan=2 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+    									<TD colspan=2 style="border-radius: 0 0 0"><#setting
+															date_format="yyyy-MM-dd HH:mm:ss">
+															${claimTime!''}</TD>
   								</TR>  
   								<TR>
     									<TH width="20%">排期表</TH>

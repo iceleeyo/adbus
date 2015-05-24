@@ -184,7 +184,8 @@
 
 
                                         <div class="ui-form-item">
-											<label class="ui-label mt10">附件上传</label>
+											<label class="ui-label mt10"><span
+                                                    class="ui-form-required">*</span>附件上传</label>
 											<div id="newUpload2">
 												<div id="div_1">
 													<input type="file" name="file" id="Sfile" class="validate[required]">
