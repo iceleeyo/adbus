@@ -753,8 +753,14 @@ public class ActivitiServiceImpl implements ActivitiService {
 				}
 				variables.putAll(taskVarMap);
 			}
-			variables.put("lastModifUser", u.getUsername());
-			taskService.complete(taskId, variables);
+			Task task=findTaskById(taskId);
+			if(StringUtils.equals(task.getAssignee(),  u.getUsername())){
+				variables.put("lastModifUser", u.getUsername());
+				taskService.complete(taskId, variables);
+			}else{
+				r = new Pair<Boolean, String>(false, "非法操作！");
+				log.warn(u.getUsername()+":"+task.toString());
+			}
 		} catch (Exception e) {
 			//e.printStackTrace();
 			r = new Pair<Boolean, String>(false, StringUtils.EMPTY);

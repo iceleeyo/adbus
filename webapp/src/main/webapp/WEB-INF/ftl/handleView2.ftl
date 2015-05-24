@@ -41,7 +41,7 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
         values: values,
         types: types
     },function(data){
-    	jDialog.Alert(data.left==true?"执行成功!":"执行失败!");
+    	jDialog.Alert(data.left==true?"执行成功!":data.right);
     	var uptime = window.setTimeout(function(){
 			var a = document.createElement('a');
     		a.href='${rc.contextPath}/order/myTask/1';
@@ -153,7 +153,7 @@ function bgzs(suppliesid,seqNumber,taskId, variables) {
         seqNumber:seqNumber
         
     },function(data){
-    	jDialog.Alert(data.left==true?"执行成功!":"执行失败!");
+    	jDialog.Alert(data.left==true?"执行成功!":data.right);
     	var uptime = window.setTimeout(function(){
 			var a = document.createElement('a');
     		a.href='${rc.contextPath}/order/myTask/1';
