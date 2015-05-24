@@ -129,8 +129,7 @@
 												<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
 												type="text" name="contractName"
 												id="name" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="">
-											<p class="ui-term-placeholder" placeholder="中英文、数字、下划线"></p>
+												autocomplete="off" disableautocomplete="" placeholder="中英文、数字、下划线"></p>
 
 										</div>
                                         <div class="ui-form-item">
