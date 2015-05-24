@@ -752,7 +752,7 @@ function pay() {
 							<!-- 监播报告 -->
               <div id="jianboReport" class="jianboReport" style="display: none;">
 					    <div class="p20bs mt10 color-white-bg border-ec">
-                  <H3 class="text-xl title-box"><A class="black" href="#">订单处理-世巴提交监播报告</A></H3>								
+                  <H3 class="text-xl title-box"><A class="black" href="#">订单处理-世巴提交监播报告</A></H3><BR>								
 							
 							    <TABLE class="ui-table ui-table-gray">
   								<TBODY>	
