@@ -29,9 +29,8 @@
         	<th width="5%"></th>
             <th width="15%">操作类型</th>
             <th width="12%">人员</th>
-            <th width="14%">签收时间</th>
-            <th width="14%">办理时间</th>
-            <th width="10%">办理结果</th>
+            <th width="17%">签收时间</th>
+            <th width="17%">办理时间</th>
             <th>操作意见</th>
         </tr>
         </thead>
@@ -39,13 +38,17 @@
     <#list activitis as act>
         <#if act.assignee??>
         <tr>
+        	<#if (act_index)=0>
         	<td class="status status-first">&nbsp;</td>
+        	<#elseif !act_has_next>
+        	<td class="status status-check">&nbsp;</td>
+        	<#else>
+        	<td class="status status">&nbsp;</td>
+        	</#if>
             <td>${act.name}</td>
             <td>${act.assignee!''}</td>
             <td> ${(act.claimTime?string("yyyy-MM-dd HH:mm"))!''}</td>
             <td> ${(act.endTime?string("yyyy-MM-dd HH:mm"))!''}</td>
-            <td>${act.result!''} 
-              </td>
             <td style="text-align:left;">${act.comment!''}</td>
         </tr>
         </#if>
