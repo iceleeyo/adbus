@@ -39,10 +39,10 @@
             jDialog.Alert(data.name);
         }).submit();
         document.getElementById('submit').setAttribute('disabled',true);
-           // var a = document.createElement('a');
-    	   // a.href='${rc.contextPath}/product/list';
-    	   // document.body.appendChild(a);
-    	   // a.click();
+            var a = document.createElement('a');
+    	   a.href='${rc.contextPath}/product/list';
+    	  document.body.appendChild(a);
+    	   a.click();
 	}
 		
  $(document).ready(function() {

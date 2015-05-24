@@ -127,15 +127,28 @@ function showtb1(){
   <LI style="width: 240px;"><SPAN>起播时间：</SPAN><SPAN class="con"><#setting date_format="yyyy-MM-dd">${(order.startTime?date)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>到期时间：</SPAN><SPAN class="con"><#setting date_format="yyyy-MM-dd">${(order.endTime?date)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>媒体类型：</SPAN><SPAN class="con">${prod.type.typeName!''}</SPAN></LI>
-  <LI style="width: 240px;"><SPAN>订单状态：</SPAN><SPAN class="con">已完成</SPAN></LI>
-  <LI style="width: 240px;"><SPAN>支付方式：</SPAN><SPAN class="con">${(orderview.payTypeString)!''}</SPAN></LI>
-  <LI style="width: 240px;"><SPAN>合同号：</SPAN><SPAN class="con">${(orderview.order.contractCode)!''}</SPAN></LI>
-  <LI style="width: 720px;"><SPAN>物料列表：</SPAN><SPAN class="con"><#list suppliesView.files as item>
-      <a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;
-    </#list>${(suppliesView.mainView.infoContext)!''}</SPAN></LI>
-   <LI style="width: 720px;"><SPAN>用户资质：</SPAN><SPAN class="con"><#list quafiles.files as item>
-      <a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;
-    </#list></SPAN></LI>
+  <#if orderview.payTypeString?has_content>
+ 				  <LI style="width: 240px;"><SPAN>支付方式：</SPAN><SPAN class="con">${(orderview.payTypeString)!''}</SPAN></LI>
+ 				  <#if orderview.payTypeString?has_content && orderview.payTypeString=="合同">
+  				  <LI style="width: 240px;"><SPAN>合同号：</SPAN><SPAN class="con">${(orderview.order.contractCode)!''}</SPAN></LI>
+  				   <#elseif orderview.payTypeString?has_content && orderview.payTypeString=="线上支付">
+  				   <LI style="width: 240px;"><SPAN>流水号：</SPAN><SPAN class="con">123912800234</SPAN></LI>
+  				   </#if>
+  				   </#if>
+  				    <LI style="width: 240px;"><SPAN>是否开发票：</SPAN><SPAN class="con">
+ 				  <#if orderview.order.isInvoice==1 >
+                  <a target="_blank" href="${rc.contextPath}/order/invoiceDetail/${orderview.order.userId!''}" > 是</a>
+				   <#else>
+				      否    
+				  </#if></SPAN></LI>
+				  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
+				    <#if suppliesView.mainView.seqNumber?has_content >
+  				  <LI style="width: 240px;"><SPAN>物料编号：</SPAN><SPAN class="con">${(suppliesView.mainView.seqNumber)!''}</SPAN></LI>
+  				   </#if>
+  				   <#if quafiles.files?has_content>
+  				  <LI style="width: 240px;"><SPAN>物料详情：</SPAN><SPAN class="con"><a href="${rc.contextPath}/supplies/suppliesDetail/${(suppliesView.mainView.id)!''}">查看物料与用户资质</a></SPAN></LI>
+  				  </#if>
+
 </UL>
 </DIV>
 </DIV>
