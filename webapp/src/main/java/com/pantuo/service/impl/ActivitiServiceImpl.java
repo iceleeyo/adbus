@@ -930,17 +930,16 @@ public class ActivitiServiceImpl implements ActivitiService {
 				String key = String.format(f, historicTaskInstance.getId(), "approve1Comments");
 				String result = String.format(f, historicTaskInstance.getId(), "approve1Result");
 				w.setComment((String) temp.get(key));
-				Object r = temp.get(result);
-				w.setResult(r);
+				w.setResult(temp.get(result));
 			} else if (StringUtils.equals("approve2", w.getTaskDefinitionKey())) {
 				String key = String.format(f, historicTaskInstance.getId(), "approve2Comments");
 				String result = String.format(f, historicTaskInstance.getId(), "approve2Result");
 				w.setComment((String) temp.get(key));
-				Object r = temp.get(result);
-				w.setResult(r);
+				w.setResult( temp.get(result));
 			} else if (StringUtils.equals("financialCheck", w.getTaskDefinitionKey())) {
 				String key = String.format(f, historicTaskInstance.getId(), "financialcomment");
 				w.setComment((String) temp.get(key));
+				w.setResult(temp.get(String.format(f, historicTaskInstance.getId(), "paymentResult")));
 			} else if (StringUtils.equals("inputSchedule", w.getTaskDefinitionKey())) {
 				String key = String.format(f, historicTaskInstance.getId(), "inputScheduleComments");
 				w.setComment((String) temp.get(key));

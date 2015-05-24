@@ -33,9 +33,7 @@ public class HistoricTaskView extends HistoricTaskInstanceEntity {
 	}
 
 	public void setResult(Object result) {
-		if (result != null) {
-			this.result = ((boolean) result) ? "同意" : "拒绝";
-		}
+		this.result = result != null ? (((boolean) result) ? "同意" : "拒绝") : "--";
 	}
 
 }
