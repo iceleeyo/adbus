@@ -11,13 +11,13 @@
 	border-radius: 3px 3px 0px 0px;
 }
 .pg-uplan-product-item dt {
-	padding: 0px 20px; height: 60px; line-height: 60px;
+	padding: 0px 20px; height: 40px; line-height: 40px;
 }
 .pg-uplan-product-item dd {
-	padding: 0px 20px; height: 50px; line-height: 50px;
+	padding: 0px 20px; height: 35px; line-height: 50px;
 }
 .pg-uplan-product-item dt {
-	color: rgb(100, 122, 55); font-size: 24px;
+	color: rgb(100, 122, 55); font-size: 20px;
 }
 .pg-uplan-product-item dt.ub {
 	color: rgb(122, 73, 55);
@@ -26,16 +26,16 @@
 	color: rgb(122, 117, 55);
 }
 .pg-uplan-product-item dt span {
-	font-size: 40px;
+	font-size: 28px;
 }
 .pg-uplan-product-item dd {
-	color: rgb(55, 47, 44); line-height: 30px;
+	color: rgb(55, 47, 44); line-height: 25px;
 }
 .pg-uplan-product-item dd em {
-	top: 5px; font-size: 25px; position: relative;  vertical-align: super;
+	top: 5px; font-size: 20px; position: relative;  vertical-align: super;
 }
 .pg-uplan-product-item p {
-	height: 64px; text-align: center; line-height: 64px; font-size: 24px; background: rgb(245, 245, 245);
+	height: 40px; text-align: center; line-height: 40px; font-size: 20px; background: rgb(245, 245, 245);
 }
 .pg-uplan-product-item p a{
 	color: rgb(96,96,96);
