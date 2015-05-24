@@ -37,14 +37,14 @@
   				  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
   				  
  				  <LI style="width: 240px;"><SPAN>支付方式：</SPAN><SPAN class="con">${(orderview.payTypeString)!''}</SPAN></LI>
-  				  <LI style="width: 240px;"><SPAN>是否开发票：</SPAN><SPAN class="con">
+  				  <LI style="width: 240px;"><SPAN>合同号：</SPAN><SPAN class="con">${(orderview.order.contractCode)!''}</SPAN></LI>
+				  <LI style="width: 240px;"><SPAN>是否开发票：</SPAN><SPAN class="con">
  				  <#if orderview.order.isInvoice==1 >
                   <a target="_blank" href="${rc.contextPath}/order/invoiceDetail/${orderview.order.userId!''}" > 是</a>
 				   <#else>
 				      否    
 				  </#if></SPAN></LI>
-  				  <LI style="width: 240px;"><SPAN>合同号：</SPAN><SPAN class="con">${(orderview.order.contractCode)!''}</SPAN></LI>
-				  <#if suppliesLink>
+  				  <#if suppliesLink>
 				  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
   				  <LI style="width: 240px;"><SPAN>物料编号：</SPAN><SPAN class="con">${(suppliesView.mainView.seqNumber)!''}</SPAN></LI>
   				  <LI style="width: 240px;"><SPAN>物料详情：</SPAN><SPAN class="con"><a href="${rc.contextPath}/supplies/suppliesDetail/${(suppliesView.mainView.id)!''}">查看物料与用户资质</a></SPAN></LI>
@@ -63,6 +63,7 @@
 <#if viewScheduleLink>
       <LI style="width: 240px;"><SPAN>排期状态：<a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}" >查看排期表</a></SPAN><SPAN class="con"></SPAN></LI>
 </#if>
+ <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
 </UL>
 </DIV>
 </DIV>
