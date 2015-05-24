@@ -1,5 +1,5 @@
 <#import "../macro/materialPreview.ftl" as preview>
-<#macro orderDetail orderview quafiles suppliesView="" title="订单详情" suppliesLink=true viewScheduleLink=true>
+<#macro orderDetail orderview quafiles suppliesView="" title="订单详情" suppliesLink=true viewScheduleLink=false>
 <#assign prod=orderview.order.product>
 <DIV class="p20bs color-white-bg border-ec">
                 <H3 class="text-xl title-box"><A class="black" href="#">${title}-${(orderview.longOrderId)!''}</A></H3>
@@ -35,15 +35,16 @@
 -->
     </#if></SPAN></LI>
   				  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
-  				  
- 				  <LI style="width: 200px;"><SPAN>支付方式：</SPAN><SPAN class="con">${(orderview.payTypeString)!''}</SPAN></LI>
+  				  <#if orderview.payTypeString?has_content>
+ 				  <LI style="width: 240px;"><SPAN>支付方式：</SPAN><SPAN class="con">${(orderview.payTypeString)!''}</SPAN></LI>
  				  <#if orderview.payTypeString?has_content && orderview.payTypeString=="合同">
-  				  <LI style="width: 200px;"><SPAN>合同号：</SPAN><SPAN class="con">${(orderview.order.contractCode)!''}</SPAN></LI>
+  				  <LI style="width: 240px;"><SPAN>合同号：</SPAN><SPAN class="con">${(orderview.order.contractCode)!''}</SPAN></LI>
   				   <#elseif orderview.payTypeString?has_content && orderview.payTypeString=="线上支付">
-  				   <LI style="width: 200px;"><SPAN>流水号：</SPAN><SPAN class="con">123912800234</SPAN></LI>
+  				   <LI style="width: 240px;"><SPAN>流水号：</SPAN><SPAN class="con">123912800234</SPAN></LI>
+  				   </#if>
   				   </#if>
   				   
-				  <LI style="width: 200px;"><SPAN>是否开发票：</SPAN><SPAN class="con">
+				  <LI style="width: 240px;"><SPAN>是否开发票：</SPAN><SPAN class="con">
  				  <#if orderview.order.isInvoice==1 >
                   <a target="_blank" href="${rc.contextPath}/order/invoiceDetail/${orderview.order.userId!''}" > 是</a>
 				   <#else>
@@ -51,9 +52,13 @@
 				  </#if></SPAN></LI>
   				  <#if suppliesLink>
 				  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
+				    <#if suppliesView.mainView.seqNumber?has_content >
   				  <LI style="width: 200px;"><SPAN>物料编号：</SPAN><SPAN class="con">${(suppliesView.mainView.seqNumber)!''}</SPAN></LI>
+  				   </#if>
+  				   <#if quafiles.files?has_content>
   				  <LI style="width: 200px;"><SPAN>物料详情：</SPAN><SPAN class="con"><a href="${rc.contextPath}/supplies/suppliesDetail/${(suppliesView.mainView.id)!''}">查看物料与资质</a></SPAN></LI>
-  
+  				  </#if>
+ 
 </#if>
 <#if viewScheduleLink>
       <LI style="width: 200px;"><SPAN>排期状态：<a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}" >查看排期表</a></SPAN><SPAN class="con"></SPAN></LI>
