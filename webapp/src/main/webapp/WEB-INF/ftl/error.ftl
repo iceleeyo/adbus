@@ -7,15 +7,24 @@
 <script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="../js/jquery.validate.js"></script>
 <script type="text/javascript" src="../js/jquery.form.js"></script>
-
+ <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.fancybox-1.3.4.pack.js"></script>
+ <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/platform.js"></script>
+   <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/sea.css">
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/one.css">
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/account.css">
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/page.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/js/jquery-ui/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/js/validation/validationEngine.jquery.css">
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/table.css">
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/city.css">
 <script type="text/javascript">
 $(document).ready(function(){
-	alert("${msg!''}");
+		jDialog.Alert("${msg!''}");
 });
 </script>
 <html>
  <head>
   
  </head>
- <body>${msg!''}</body>
 </html>
