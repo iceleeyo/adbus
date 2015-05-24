@@ -4,13 +4,9 @@ import java.util.Map;
 
 import org.activiti.engine.impl.persistence.entity.HistoricTaskInstanceEntity;
 
-public class HistoricTaskView extends HistoricTaskInstanceEntity{
+public class HistoricTaskView extends HistoricTaskInstanceEntity {
 
-	 
-	 
-	 
-	 
-	public Map<String,Object> vars;
+	public Map<String, Object> vars;
 
 	public Map<String, Object> getVars() {
 		return vars;
@@ -19,26 +15,27 @@ public class HistoricTaskView extends HistoricTaskInstanceEntity{
 	public void setVars(Map<String, Object> vars) {
 		this.vars = vars;
 	}
-	
-	
+
 	public String comment;
-	public boolean result;
+
+	public String result;
 
 	public String getComment() {
 		return comment;
-	}
-
-	public boolean isResult() {
-		return result;
-	}
-
-	public void setResult(boolean result) {
-		this.result = result;
 	}
 
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
 
-	 
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(Object result) {
+		if (result != null) {
+			this.result = ((boolean) result) ? "同意" : "拒绝";
+		}
+	}
+
 }

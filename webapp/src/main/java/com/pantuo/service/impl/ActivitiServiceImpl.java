@@ -931,13 +931,13 @@ public class ActivitiServiceImpl implements ActivitiService {
 				String result = String.format(f, historicTaskInstance.getId(), "approve1Result");
 				w.setComment((String) temp.get(key));
 				Object r = temp.get(result);
-				w.setResult(r == null ? false : (Boolean) r);
+				w.setResult(r);
 			} else if (StringUtils.equals("approve2", w.getTaskDefinitionKey())) {
 				String key = String.format(f, historicTaskInstance.getId(), "approve2Comments");
 				String result = String.format(f, historicTaskInstance.getId(), "approve2Result");
 				w.setComment((String) temp.get(key));
 				Object r = temp.get(result);
-				w.setResult(r == null ? false : (Boolean) r);
+				w.setResult(r);
 			} else if (StringUtils.equals("financialCheck", w.getTaskDefinitionKey())) {
 				String key = String.format(f, historicTaskInstance.getId(), "financialcomment");
 				w.setComment((String) temp.get(key));
