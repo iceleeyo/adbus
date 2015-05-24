@@ -10,8 +10,8 @@ import com.pantuo.service.TimeslotService;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.OrderIdSeq;
-
 import com.pantuo.web.view.OrderView;
+
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -162,7 +163,7 @@ public class ScheduleController {
 
         return "schedule_report";
     }
-
+    @PreAuthorize(" !hasRole('advertiser')  ")
     /**
      * 剩余时段表
      */
@@ -234,7 +235,7 @@ public class ScheduleController {
         }
     }
 
-
+    @PreAuthorize(" !hasRole('advertiser')  ")
     /**
      * 排条单表单
      * @return
@@ -259,7 +260,7 @@ public class ScheduleController {
 
         return "schedule_list";
     }
-
+    @PreAuthorize(" !hasRole('advertiser')  ")
     /**
      * 排条单
      */

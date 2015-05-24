@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -67,6 +68,7 @@ public class ContractController {
 		return "crecontract";
 	}
 
+	@PreAuthorize(" hasRole('ShibaOrderManager')  ")
 	@RequestMapping(value = "saveContract", method = RequestMethod.POST)
 	@ResponseBody
 	public Pair<Boolean, String> saveContract(@CookieValue(value = "city", defaultValue = "-1") int city,
@@ -94,6 +96,16 @@ public class ContractController {
 		return new DataTablePage(contractServiceDate.getAllContracts(city, req, principal), req.getDraw());
 	}
 
+	/**
+	 * 
+	 * 只允许订单管理员增加合同
+	 *
+	 * @param model
+	 * @param request
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	@PreAuthorize(" hasRole('ShibaOrderManager')  ")
 	@RequestMapping(value = "/contractEnter", produces = "text/html;charset=utf-8")
 	public String contractEnter(Model model, HttpServletRequest request) {
 		Page<UserDetail> users = userService.getValidUsers(0, 999, null);
