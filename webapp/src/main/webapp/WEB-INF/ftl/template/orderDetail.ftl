@@ -53,17 +53,7 @@
 				  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
   				  <LI style="width: 200px;"><SPAN>物料编号：</SPAN><SPAN class="con">${(suppliesView.mainView.seqNumber)!''}</SPAN></LI>
   				  <LI style="width: 200px;"><SPAN>物料详情：</SPAN><SPAN class="con"><a href="${rc.contextPath}/supplies/suppliesDetail/${(suppliesView.mainView.id)!''}">查看物料与资质</a></SPAN></LI>
-  <!-- <LI style="width: 720px;"><SPAN>物料：</SPAN>
-  <SPAN class="con">
-  <@preview.materialPreview view=suppliesView/>
-  </SPAN></LI> -->
-  <!-- <LI style="width: 720px;"><SPAN>用户资质：</SPAN><SPAN class="con">
-  <#if quafiles.files?has_content>
-     <#list quafiles.files as item>
-      <a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;
-     </#list>
-     </#if>
-    </SPAN></LI> -->
+  
 </#if>
 <#if viewScheduleLink>
       <LI style="width: 200px;"><SPAN>排期状态：<a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}" >查看排期表</a></SPAN><SPAN class="con"></SPAN></LI>
