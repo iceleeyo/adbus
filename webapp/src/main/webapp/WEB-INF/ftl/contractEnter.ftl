@@ -147,7 +147,7 @@
                                                     class="ui-form-required">*</span>所属行业:</label>
                                                      
 												<select id="industry" name="industryId" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="" style="width:173px; height: 38px;">
+												autocomplete="off" disableautocomplete="" style="width:220px; height: 38px;">
                                                     <#list industries as industry>
                                                         <option value="${industry.id}">${industry.name}</option>
                                                     </#list>
