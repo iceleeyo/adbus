@@ -94,7 +94,7 @@
         initTable();
     } );
 </script>
-    <@orderDetail.orderDetail orderview=orderview quafiles="" suppliesLink=false viewScheduleLink=false/>
+<@orderDetail.orderDetail orderview=orderview quafiles="" suppliesLink=false viewScheduleLink=false/>
 
 <div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear">
     <H3 class="text-xl title-box"><A class="black" href="#">排期表</A></H3>
