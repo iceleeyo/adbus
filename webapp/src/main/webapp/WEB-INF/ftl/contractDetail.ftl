@@ -36,7 +36,7 @@ function go_back(){
 <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>   							    
 </UL>
 </DIV>
-						</form>
+</form>
 </div>
 </@frame.html>
 
