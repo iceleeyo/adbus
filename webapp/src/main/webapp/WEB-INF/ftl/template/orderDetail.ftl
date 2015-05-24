@@ -37,7 +37,12 @@
   				  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
   				  
  				  <LI style="width: 240px;"><SPAN>支付方式：</SPAN><SPAN class="con">${(orderview.payTypeString)!''}</SPAN></LI>
+ 				  <#if orderview.payTypeString?has_content && orderview.payTypeString=="合同">
   				  <LI style="width: 240px;"><SPAN>合同号：</SPAN><SPAN class="con">${(orderview.order.contractCode)!''}</SPAN></LI>
+  				   <#elseif orderview.payTypeString?has_content && orderview.payTypeString=="线上支付">
+  				   <LI style="width: 240px;"><SPAN>流水号：</SPAN><SPAN class="con">123912800234</SPAN></LI>
+  				   </#if>
+  				   
 				  <LI style="width: 240px;"><SPAN>是否开发票：</SPAN><SPAN class="con">
  				  <#if orderview.order.isInvoice==1 >
                   <a target="_blank" href="${rc.contextPath}/order/invoiceDetail/${orderview.order.userId!''}" > 是</a>
