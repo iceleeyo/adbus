@@ -39,7 +39,7 @@
             jDialog.Alert(data.name);
         }).submit();
         document.getElementById('submit').setAttribute('disabled',true);
-            var a = document.createElement('a');
+           var a = document.createElement('a');
     	   a.href='${rc.contextPath}/product/list';
     	  document.body.appendChild(a);
     	   a.click();
@@ -48,14 +48,14 @@
  $(document).ready(function() {
    
 		        //author:pxh 2015-05-20 22:36
-		        $( "#userId" ).autocomplete({
+		        $( "#username" ).autocomplete({
 		  			source: "${rc.contextPath}/user/autoComplete",
 		  			change: function( event, ui ) { 
 		  				/*if(ui.item!=null){alert(ui.item.value);}*/
 		  				table.fnDraw();
 		  			 },
 		  			 select: function(event,ui) {
-		  			 $('#userId').val(ui.item.value);
+		  			 $('#username').val(ui.item.value);
 		  				table.fnDraw();
 		  			 }
 				});
@@ -192,8 +192,8 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required"></span>产品定向:</label>
                                             <span>
-                         						<input id="userId" value=""
-                         						 class="ui-input" placeholder="请选择广告主" >
+                         						<input id="username" value=""
+                         						 class="ui-input validate[ajax[ajaxUserNone]]" placeholder="请选择广告主" >
                        						</span>
                                         </div>
 									</div>
