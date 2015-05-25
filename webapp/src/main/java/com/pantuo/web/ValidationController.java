@@ -37,4 +37,19 @@ public class ValidationController {
             return new Object[] {fieldId, false, "用户名已被使用，请更换用户名。"};
         }
     }
+    @RequestMapping(value = "/ajaxValidateUserNone", method = { RequestMethod.GET})
+    @ResponseBody
+    public Object[] ajaxValidateUserNone(@RequestParam("username") String username,
+                                    @RequestParam("fieldId") String fieldId,
+                                    @RequestParam("fieldValue") String fieldValue) {
+        if (username == null || !username.equals(fieldValue)) {
+            return new Object[] {fieldId, false, "请输入正确的用户名。"};
+        }
+        UserDetail u = userService.findByUsername(username);
+        if (u == null) {
+            return new Object[] {fieldId, false, "用户名不存在,请重新选择。"};
+        } else {
+            return new Object[] {fieldId, true, "用户选择成功。"};
+        }
+    }
 }

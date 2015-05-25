@@ -200,6 +200,14 @@
                 },
                 
                 // --- CUSTOM RULES -- Those are specific to the demos, they can be removed or changed to your likings
+                "ajaxUserNone": {
+                    "url": "../validate/ajaxValidateUserNone",
+                    // you may want to pass extra data on the ajax call
+                    "extraDataDynamic": ['#username'],
+                    "alertText": "* 用户不存在,请重新选择",
+                    "alertTextLoad": "* 正在确认名称是否有其他人使用，请稍等。"
+                },
+                
                 "ajaxUserCall": {
                     "url": "validate/ajaxValidateUser",
                     // you may want to pass extra data on the ajax call

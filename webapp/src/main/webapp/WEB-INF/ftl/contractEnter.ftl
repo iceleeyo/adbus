@@ -71,14 +71,14 @@
  $(document).ready(function() {
    
 		        //author:pxh 2015-05-20 22:36
-		        $( "#userId" ).autocomplete({
+		        $( "#username" ).autocomplete({
 		  			source: "${rc.contextPath}/user/autoComplete",
 		  			change: function( event, ui ) { 
 		  				/*if(ui.item!=null){alert(ui.item.value);}*/
 		  				//table.fnDraw();
 		  			 },
 		  			 select: function(event,ui) {
-		  			 $('#userId').val(ui.item.value);
+		  			 $('#username').val(ui.item.value);
 		  				//table.fnDraw();
 		  			 }
 				});
@@ -110,8 +110,8 @@
 											</span>广告主:
                                             </label>
                                             <span>
-                         						<input id="userId" name="userId"
-                         						 class="ui-input validate[required]" placeholder="请选择广告主" >
+                         						<input id="username" name="userId"
+                         						 class="ui-input validate[required,custom[noSpecialLetterChinese],ajax[ajaxUserNone]]" placeholder="请选择广告主" >
                        						</span>
                                         </div>
 										<div class="ui-form-item">
@@ -129,7 +129,8 @@
 												<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
 												type="text" name="contractName"
 												id="name" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="" placeholder="中英文、数字、下划线"></p>
+												autocomplete="off" disableautocomplete="">
+											<p class="ui-term-placeholder" placeholder="中英文、数字、下划线"></p>
 
 										</div>
                                         <div class="ui-form-item">
@@ -146,7 +147,7 @@
                                                     class="ui-form-required">*</span>所属行业:</label>
                                                      
 												<select id="industry" name="industryId" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="" style="width:220px; height: 38px;">
+												autocomplete="off" disableautocomplete="" style="width:173px; height: 38px;">
                                                     <#list industries as industry>
                                                         <option value="${industry.id}">${industry.name}</option>
                                                     </#list>
