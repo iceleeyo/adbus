@@ -20,7 +20,7 @@ public class RestExceptionResolver implements HandlerExceptionResolver {
 
 	private ObjectMapper mapper;
 
-	public RestExceptionResolver() {
+	public RestExceptionResolver() {//1
 		mapper = new ObjectMapper();
 		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 	}
