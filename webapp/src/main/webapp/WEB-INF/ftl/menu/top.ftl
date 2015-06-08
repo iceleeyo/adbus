@@ -152,7 +152,7 @@
 						<div class="phmain-nav-b pg-right">
 							<ul class="pg-nav">
 								<li class="pg-nav-item s-left">
-									<a class="pg-nav-item-t" href="${rc.contextPath}">首页</a>
+									<a class="pg-nav-item-t" href="${rc.contextPath}/index.html">首页</a>
 								</li>
 								<li class="pg-nav-item s-left">
 									<a class="pg-nav-item-t pg-nav-hover" href="${rc.contextPath}/intro-video.html">
