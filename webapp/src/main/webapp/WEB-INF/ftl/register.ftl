@@ -229,9 +229,7 @@
 	<div class="iwifi-btn">
         <input type="button" id="register" class="block-btn ui-button-disabled"
                onclick="sub();" value="注册用户">
-        <input type="button" id="cancel" class="block-btn"
-               onclick="javascript:history.go(-1);" value="返回">
-	</div>
+        </div>
 	</div>
 </div>
 	</form>
