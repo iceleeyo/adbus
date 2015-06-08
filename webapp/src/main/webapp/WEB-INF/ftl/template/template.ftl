@@ -65,7 +65,7 @@
 		<div class="container-12">
 		<ul class="breadcrumb m11 s-clear">
 		<li class="s-left fsize-16 bread-homep">
-		<a class="gray-text" href="${rc.contextPath}">首页</a>
+		<a class="gray-text" href="${rc.contextPath}/index.html">首页</a>
 		</li>
 		<li class="s-left breadcrumb-right"></li>
 		<li class="s-left bread-child">
