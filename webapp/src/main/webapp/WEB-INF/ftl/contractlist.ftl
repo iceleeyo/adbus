@@ -50,6 +50,7 @@
                         }
                         return data;
                 }},
+                { "data": "amounts"},
                 { "data": "startDate", "defaultContent": "", "render": function(data) {
                     return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
                 }},
@@ -115,6 +116,7 @@
                         <th orderBy="userId">广告主</th>
                         <th orderBy="contractCode">合同号</th>
                         <th orderBy="contractName">合同名称</th>
+                        <th orderBy="amounts">金额</th>
                         <th orderBy="startDate">生效时间</th>
                         <th orderBy="endDate">失效时间</th>
                         <th>管理</th>
