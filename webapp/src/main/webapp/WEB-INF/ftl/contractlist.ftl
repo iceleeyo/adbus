@@ -1,5 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="合同列表">
+<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="合同管理" js=["js/jquery-dateFormat.js"]>
 
 
@@ -61,7 +62,11 @@
                     return row.id;
                 },
                     "render": function(data, type, row, meta) {
-                        return '<a target="_blank" class="table-link" href="${rc.contextPath}/contract/contractDetail/' + data +'">查看合同</a>';
+                    var operations='<a target="_blank" class="table-link" href="${rc.contextPath}/contract/contractDetail/' + data +'">查看合同</a>&nbsp;';
+                     <@security.authorize ifAnyGranted="ShibaOrderManager">  
+                        operations +='<a class="table-link" href="javascript:delContract('+data+');" >删除</a>  &nbsp;';
+                        </@security.authorize>
+                         return operations;
                     }},
             ],
             "language": {
@@ -72,7 +77,27 @@
         } );
         table.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
-
+function delContract(conid){
+	var bln=window.confirm("确定删除该合同吗？");
+    if(bln){
+	 $.ajax({
+			url:"${rc.contextPath}/contract/delContract/"+conid,
+			type:"POST",
+			async:false,
+			dataType:"json",
+			data:{},
+			success:function(data){
+				if (data.left == true) {
+					jDialog.Alert(data.right);
+				   //window.location.href="${rc.contextPath}/contract/list";
+				} else {
+					jDialog.Alert(data.right);
+				}
+			}
+      });  
+   }
+	   
+	}
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +

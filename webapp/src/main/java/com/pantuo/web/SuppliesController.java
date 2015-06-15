@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -134,5 +135,12 @@ public class SuppliesController {
 	public DataTablePage<JpaSupplies> getAllContracts(TableRequest req, Principal principal,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
 		return new DataTablePage(suppliesDataService.getAllSupplies(city, principal, req), req.getDraw());
+	}
+	@RequestMapping(value = "/delSupp/{Suppid}")
+	@ResponseBody
+	public Pair<Boolean, String> delSupp(Model model,
+			@PathVariable("Suppid") int Suppid, Principal principal,
+				HttpServletRequest request) {
+		return suppliesService.delSupp(Suppid,principal);
 	}
 }

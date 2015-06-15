@@ -123,7 +123,14 @@ public class ContractController {
 		model.addAttribute("view", view);
 		return "contractDetail";
 	}
-
+	@PreAuthorize(" hasRole('ShibaOrderManager')  ")
+	@RequestMapping(value = "/delContract/{contract_id}")
+	@ResponseBody
+	public Pair<Boolean, String> delContract(Model model,
+			@PathVariable("contract_id") int contract_id, Principal principal,
+				HttpServletRequest request) {
+		return contractService.delContract(contract_id);
+	}
 	public String paginationHTML;
 
 }

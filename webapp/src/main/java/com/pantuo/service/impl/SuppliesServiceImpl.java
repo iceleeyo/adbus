@@ -24,11 +24,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pantuo.mybatis.domain.Attachment;
+import com.pantuo.mybatis.domain.AttachmentExample;
 import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.mybatis.domain.InvoiceExample;
+import com.pantuo.mybatis.domain.Orders;
+import com.pantuo.mybatis.domain.OrdersExample;
 import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.mybatis.domain.SuppliesExample;
+import com.pantuo.mybatis.persistence.AttachmentMapper;
 import com.pantuo.mybatis.persistence.InvoiceMapper;
+import com.pantuo.mybatis.persistence.OrdersMapper;
 import com.pantuo.mybatis.persistence.SuppliesMapper;
 import com.pantuo.service.AttachmentService;
 import com.pantuo.service.SuppliesService;
@@ -49,6 +54,10 @@ public class SuppliesServiceImpl implements SuppliesService {
 	SuppliesMapper suppliesMapper;
 	@Autowired
 	InvoiceMapper invoiceMapper;
+	@Autowired
+	AttachmentMapper attachmentMapper;
+	@Autowired
+	OrdersMapper ordersMapper;
 	@Autowired
 	AttachmentService attachmentService;
 	@Autowired
@@ -181,7 +190,36 @@ public class SuppliesServiceImpl implements SuppliesService {
 		}
 		return v;
 	}
-
+	public Pair<Boolean, String> delSupp(int Suppid,Principal principal) {
+	    OrdersExample example=new OrdersExample();
+	    OrdersExample.Criteria criteria=example.createCriteria();
+	    criteria.andSuppliesIdEqualTo(Suppid);
+	    criteria.andUserIdEqualTo(Request.getUserId(principal));
+	     List<Orders> orders= ordersMapper.selectByExample(example);
+	     if(orders.size()>0){
+	    	 return	new Pair<Boolean, String>(true, "该物料已有订单关联，不能删除！"); 
+	     }
+		int a=suppliesMapper.deleteByPrimaryKey(Suppid);
+		if(a>0){
+			AttachmentExample example2=new AttachmentExample();
+			AttachmentExample.Criteria criteria2=example2.createCriteria();
+			AttachmentExample.Criteria criteria3=example2.createCriteria();
+		    criteria2.andMainIdEqualTo(Suppid);
+		    criteria2.andTypeEqualTo(4);
+		    criteria2.andUserIdEqualTo(Request.getUserId(principal));
+		    criteria3.andTypeEqualTo(3);
+		    criteria3.andUserIdEqualTo(Request.getUserId(principal));
+		    example2.or(criteria3);
+		    List<Attachment> attas=attachmentMapper.selectByExample(example2);
+		    for (Attachment attachment : attas) {
+		    	if(attachment!=null){
+		    		attachmentMapper.deleteByPrimaryKey(attachment.getId());
+		    	}
+			}
+	    	return	new Pair<Boolean, String>(true, "删除物料成功！");
+		}
+		return	new Pair<Boolean, String>(true, "删除物料失败！");
+}
 	public InvoiceView getInvoiceDetail(String userid, Principal principal) {
 		InvoiceView v = null;
 		InvoiceExample example = new InvoiceExample();

@@ -60,7 +60,7 @@
   				  </#if>
  
 </#if>
-<#if viewScheduleLink>
+<#if orderview.task_name?exists && orderview.task_name='已排期待上播' || orderview.task_name='已上播' ||orderview.task_name='已排期待上播' || orderview.task_name='已完成'>
       <LI style="width: 200px;"><SPAN>排期状态：<a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}" >查看排期表</a></SPAN><SPAN class="con"></SPAN></LI>
 </#if>
  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>

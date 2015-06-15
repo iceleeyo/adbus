@@ -93,7 +93,9 @@
                     return row.id;
                 },
                     "render": function(data, type, row, meta) {
-                        return  '<a class="table-link" href="${rc.contextPath}/supplies/suppliesDetail/'+data+'">查看物料</a>';
+                        var operations=  '<a class="table-link" href="${rc.contextPath}/supplies/suppliesDetail/'+data+'">查看物料</a>&nbsp;&nbsp;';
+                        operations +='<a class="table-link" href="javascript:delSupp('+data+');" >删除</a>  ';
+                        return operations;
                     }},
             ],
             "language": {
@@ -104,11 +106,28 @@
         } );
         table.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
-
-    function initComplete() {
-    
+function delSupp(Suppid){
+	var bln=window.confirm("确定删除该物料吗？");
+    if(bln){
+	 $.ajax({
+			url:"${rc.contextPath}/supplies/delSupp/"+Suppid,
+			type:"POST",
+			async:false,
+			dataType:"json",
+			data:{},
+			success:function(data){
+				if (data.left == true) {
+					jDialog.Alert(data.right);
+				   //window.location.href="${rc.contextPath}/supplies/list";
+				} else {
+					jDialog.Alert(data.right);
+				}
+			}
+      });  
+   }
 	   
-	    
+	}
+    function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
                         '    <span>物料名称</span>' +

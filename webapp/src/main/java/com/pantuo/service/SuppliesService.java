@@ -36,7 +36,7 @@ public interface SuppliesService {
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
     Pair<Boolean, String> addSupplies(int city, Supplies obj, Principal principal, HttpServletRequest request);
-
+    public Pair<Boolean, String> delSupp(int Suppid,Principal principal);
 	/**
 	 * 
 	 * 取素材列表

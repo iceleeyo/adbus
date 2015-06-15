@@ -22,11 +22,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.pantuo.mybatis.domain.Attachment;
+import com.pantuo.mybatis.domain.AttachmentExample;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.ContractExample;
 import com.pantuo.mybatis.domain.Industry;
+import com.pantuo.mybatis.domain.Orders;
+import com.pantuo.mybatis.domain.OrdersExample;
+import com.pantuo.mybatis.persistence.AttachmentMapper;
 import com.pantuo.mybatis.persistence.ContractMapper;
 import com.pantuo.mybatis.persistence.IndustryMapper;
+import com.pantuo.mybatis.persistence.OrdersMapper;
 import com.pantuo.service.ActivitiService.SystemRoles;
 import com.pantuo.util.BusinessException;
 import com.pantuo.util.NumberPageUtil;
@@ -46,6 +51,10 @@ public class ContractService {
 	private IdentityService identityService;
 	@Autowired
 	ContractMapper contractMapper;
+	@Autowired
+	OrdersMapper ordersMapper;
+	@Autowired
+	AttachmentMapper attachmentMapper;
 	@Autowired
 	IndustryMapper industryMapper;
 	@Autowired
@@ -72,7 +81,7 @@ public class ContractService {
 			com.pantuo.util.BeanUtils.filterXss(con);
 			int dbId = contractMapper.insert(con);
 			if (dbId > 0) {
-				attachmentService.saveAttachment(request, username, con.getId(), JpaAttachment.Type.ht_pic,null);
+				attachmentService.saveAttachment(request, username, con.getId(), JpaAttachment.Type.ht_fj,null);
 				r = new Pair<Boolean, String>(true, "合同创建成功！");
 			}
 		} catch (BusinessException e) {
@@ -102,6 +111,30 @@ public class ContractService {
 		Contract t = queryContractByCode(contract_code);
 		return ObjectUtils.equals(t, null) ? new Pair<Boolean, String>(false, "系统查不到相应的合同号！")
 				: new Pair<Boolean, String>(true, StringUtils.EMPTY);
+	}
+	public Pair<Boolean, String> delContract(int contract_id) {
+		    OrdersExample example=new OrdersExample();
+		    OrdersExample.Criteria criteria=example.createCriteria();
+		    criteria.andContractIdEqualTo(contract_id);
+		     List<Orders> orders= ordersMapper.selectByExample(example);
+		     if(orders.size()>0){
+		    	 return	new Pair<Boolean, String>(true, "该合同已绑定订单，不能删除！"); 
+		     }
+			int a=contractMapper.deleteByPrimaryKey(contract_id);
+			if(a>0){
+				AttachmentExample example2=new AttachmentExample();
+				AttachmentExample.Criteria criteria2=example2.createCriteria();
+			    criteria2.andMainIdEqualTo(contract_id);
+			    criteria2.andTypeEqualTo(1);
+			    List<Attachment> attas=attachmentMapper.selectByExample(example2);
+			    for (Attachment attachment : attas) {
+			    	if(attachment!=null){
+			    		attachmentMapper.deleteByPrimaryKey(attachment.getId());
+			    	}
+				}
+		    	return	new Pair<Boolean, String>(true, "删除合同成功！");
+			}
+			return	new Pair<Boolean, String>(true, "删除合同失败！");
 	}
 
 	public int deleteContract(Integer id) {

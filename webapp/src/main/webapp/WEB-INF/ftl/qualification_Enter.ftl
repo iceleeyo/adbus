@@ -73,6 +73,13 @@
             </ul>
             -->
 								</div>
+								<br>
+								<div class="ui-form-item" id="text" >
+											<label class="ui-label mt10">资质信息描述</label> <input
+												class="ui-input" type="text" name="description"
+												 data-is="isAmount isEnough"
+												autocomplete="off" disableautocomplete="" style="height: 91px; width: 367px; ">
+										</div>
 								<div class="withdrawInputs">
 									<div class="inputs">
                                           <div class="ui-form-item">
