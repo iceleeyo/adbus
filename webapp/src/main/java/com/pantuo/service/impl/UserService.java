@@ -1,6 +1,7 @@
 package com.pantuo.service.impl;
 
 import java.io.StringWriter;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,14 +31,21 @@ import com.pantuo.dao.UserDetailRepository;
 import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.QUserDetail;
 import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.mybatis.domain.Attachment;
+import com.pantuo.mybatis.domain.Invoice;
+import com.pantuo.mybatis.domain.InvoiceExample;
+import com.pantuo.mybatis.persistence.InvoiceMapper;
 import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
+import com.pantuo.service.AttachmentService;
 import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.ActivitiService.SystemRoles;
 import com.pantuo.util.FreeMarker;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.Mail;
 import com.pantuo.util.Pair;
+import com.pantuo.util.Request;
 import com.pantuo.web.view.AutoCompleteView;
+import com.pantuo.web.view.InvoiceView;
 
 /**
  * @author tliu
@@ -64,11 +72,15 @@ public class UserService implements UserServiceInter {
 
 	@Autowired
 	private IdentityService identityService;
+	@Autowired
+	private AttachmentService attachmentService;
 
 	@Autowired
 	private ManagementService managementService;
 	@Autowired
 	UserAutoCompleteMapper userAutoCompleteMapper;
+	@Autowired
+	InvoiceMapper invoiceMapper;
 
 	/**
 	 * @see com.pantuo.service.UserServiceInter#count()
@@ -193,7 +205,20 @@ public class UserService implements UserServiceInter {
 		}
 		return r;
 	}
-
+	public  InvoiceView findInvoiceByUser(Principal principal){
+		InvoiceView v = new InvoiceView();
+		InvoiceExample example=new InvoiceExample();
+		InvoiceExample.Criteria criteria=example.createCriteria();
+		criteria.andUserIdEqualTo(Request.getUserId(principal));
+		List<Invoice> invoices=invoiceMapper.selectByExample(example);
+		if(invoices.size()>0){
+			v.setMainView(invoices.get(0));
+			List<Attachment> files = attachmentService.queryinvoiceF(principal, invoices.get(0).getId());
+			v.setFiles(files);
+			return v;
+		}
+		return null;
+	}
 	/**
 	 * @see com.pantuo.service.UserServiceInter#getByUsername(java.lang.String)
 	 * @since pantuotech 1.0-SNAPSHOT

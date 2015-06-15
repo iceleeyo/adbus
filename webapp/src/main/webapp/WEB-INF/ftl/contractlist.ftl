@@ -89,7 +89,10 @@ function delContract(conid){
 			success:function(data){
 				if (data.left == true) {
 					jDialog.Alert(data.right);
-				   //window.location.href="${rc.contextPath}/contract/list";
+				   var uptime = window.setTimeout(function(){
+				window.location.href="${rc.contextPath}/contract/list"
+			   	clearTimeout(uptime);
+						},2000)
 				} else {
 					jDialog.Alert(data.right);
 				}

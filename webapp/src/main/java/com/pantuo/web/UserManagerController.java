@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.JpaInvoice;
 import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.DataInitializationService;
@@ -30,6 +31,7 @@ import com.pantuo.service.UserServiceInter;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.AutoCompleteView;
+import com.pantuo.web.view.InvoiceView;
 
 /**
  * <font size=5><b>公交广告交易系统接口</b></font>
@@ -90,10 +92,17 @@ public class UserManagerController {
 	}
 
 	@RequestMapping(value = "/invoice", produces = "text/html;charset=utf-8")
-	public String invoice(HttpServletRequest request) {
+	public String invoice(Model model,Principal principal,HttpServletRequest request) {
+		InvoiceView invoiceView=userService.findInvoiceByUser(principal);
+		model.addAttribute("invoiceView", invoiceView);
 		return "invoice_message";
 	}
-
+	@RequestMapping(value = "saveInvoice", method = RequestMethod.POST)
+	@ResponseBody
+	public Pair<Boolean, String> saveInvoice(JpaInvoice obj, Principal principal, HttpServletRequest request)
+			throws IllegalStateException, IOException {
+		return suppliesService.addInvoice(obj, principal, request);
+	}
 	@RequestMapping(value = "/find_pwd", produces = "text/html;charset=utf-8")
 	public String find_pwd(HttpServletRequest request) {
 		return "find_pwd";
@@ -142,12 +151,6 @@ public class UserManagerController {
 		return new Pair<Boolean, String>(false, "操作失败");
 	}
 
-	@RequestMapping(value = "saveInvoice", method = RequestMethod.POST)
-	@ResponseBody
-	public Pair<Boolean, String> saveInvoice(JpaInvoice obj, Principal principal, HttpServletRequest request)
-			throws IllegalStateException, IOException {
-		return suppliesService.addInvoice(obj, principal, request);
-	}
 
 	@RequestMapping(value = "/qualification", produces = "text/html;charset=utf-8")
 	public String qualification(HttpServletRequest request) {

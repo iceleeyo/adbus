@@ -33,6 +33,8 @@ public interface AttachmentService {
 	 */
 	public void saveAttachment(HttpServletRequest request, String user_id, int main_id, JpaAttachment.Type file_type,String description)
 			throws BusinessException;
+	public void  upInvoiceAttachments(HttpServletRequest request, String user_id, int main_id, JpaAttachment.Type file_type,String description)
+			throws BusinessException;
 	/**
 	 * 
 	 * 根据文件id删除文件

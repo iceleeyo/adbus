@@ -25,6 +25,7 @@ import com.pantuo.util.BusinessException;
 import com.pantuo.util.FileHelper;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.Pair;
+import com.pantuo.util.Request;
 import com.pantuo.web.upload.CustomMultipartResolver;
 
 /**
@@ -75,9 +76,16 @@ public class AttachmentServiceImpl implements AttachmentService {
 								t.setDescription(description);
 							}
 							t.setMainId(main_id);
-							if(fn.indexOf("qua")!=-1){
-								t.setType(JpaAttachment.Type.u_fj.ordinal());
-							}else{
+							if(StringUtils.equals(fn, "licensefile")){
+								t.setType(JpaAttachment.Type.license.ordinal());
+							}
+							else if(StringUtils.equals(fn, "taxfile")){
+								t.setType(JpaAttachment.Type.tax.ordinal());
+							}
+							else if(StringUtils.equals(fn, "taxpayerfile")){
+								t.setType(JpaAttachment.Type.taxpayer.ordinal());
+							}
+							else{
 								t.setType(file_type.ordinal());
 							}
 							t.setCreated(new Date());
@@ -96,6 +104,67 @@ public class AttachmentServiceImpl implements AttachmentService {
 			throw new BusinessException("saveAttachment-error", e);
 		}
 
+	}
+	public void upInvoiceAttachments(HttpServletRequest request, String user_id, int main_id, JpaAttachment.Type file_type,String description)
+			throws BusinessException {
+		
+		try {
+			CustomMultipartResolver multipartResolver = new CustomMultipartResolver(request.getSession()
+					.getServletContext());
+			if (multipartResolver.isMultipart(request)) {
+				String path = request.getSession().getServletContext()
+						.getRealPath(com.pantuo.util.Constants.FILE_UPLOAD_DIR).replaceAll("WEB-INF", "");
+				MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+				Iterator<String> iter = multiRequest.getFileNames();
+				while (iter.hasNext()) {
+					MultipartFile file = multiRequest.getFile(iter.next());
+					if (file != null && !file.isEmpty()) {
+						String oriFileName = file.getOriginalFilename();
+						String fn=file.getName();
+						if (StringUtils.isNoneBlank(oriFileName)) {
+							
+							String storeName = GlobalMethods.md5Encrypted((System.currentTimeMillis() + oriFileName)
+									.getBytes());
+							Pair<String, String> p = FileHelper.getUploadFileName(path,
+									storeName += FileHelper.getFileExtension(oriFileName,true));
+							File localFile = new File(p.getLeft());
+							file.transferTo(localFile);
+							AttachmentExample example=new AttachmentExample();
+							AttachmentExample.Criteria criteria=example.createCriteria();
+							criteria.andMainIdEqualTo(main_id);
+							criteria.andUserIdEqualTo(user_id);
+							List<Attachment> attachments=attachmentMapper.selectByExample(example);
+							for (Attachment t : attachments) {
+								if(StringUtils.equals(fn, "licensefile")&& t.getType()==JpaAttachment.Type.license.ordinal()){
+									t.setUpdated(new Date());
+									t.setName(oriFileName);
+									t.setUrl(p.getRight());
+									attachmentMapper.updateByPrimaryKey(t);
+								}
+							  if(StringUtils.equals(fn, "taxfile") && t.getType()==JpaAttachment.Type.tax.ordinal()){
+									t.setUpdated(new Date());
+									t.setName(oriFileName);
+									t.setUrl(p.getRight());
+									attachmentMapper.updateByPrimaryKey(t);
+								}
+							  if(StringUtils.equals(fn, "taxpayerfile") && t.getType()==JpaAttachment.Type.taxpayer.ordinal()){
+									t.setUpdated(new Date());
+									t.setName(oriFileName);
+									t.setUrl(p.getRight());
+									attachmentMapper.updateByPrimaryKey(t);
+								}
+								
+							}
+						}
+					}
+				}
+			}
+			
+		} catch (Exception e) {
+			log.error("saveAttachment", e);
+			throw new BusinessException("saveAttachment-error", e);
+		}
+		
 	}
 
 	 
@@ -139,9 +208,19 @@ public class AttachmentServiceImpl implements AttachmentService {
 	public List<Attachment> queryinvoiceF(Principal principal, int main_id) {
 		AttachmentExample example =new AttachmentExample();
 		AttachmentExample.Criteria ca=example.createCriteria();
+		AttachmentExample.Criteria ca2=example.createCriteria();
+		AttachmentExample.Criteria ca3=example.createCriteria();
 		ca.andMainIdEqualTo(main_id);
-		ca.andTypeEqualTo(5);
-		example.setOrderByClause("created desc");
+		ca2.andMainIdEqualTo(main_id);
+		ca3.andMainIdEqualTo(main_id);
+		ca.andUserIdEqualTo(Request.getUserId(principal));
+		ca2.andUserIdEqualTo(Request.getUserId(principal));
+		ca3.andUserIdEqualTo(Request.getUserId(principal));
+		ca.andTypeEqualTo(6);
+		ca2.andTypeEqualTo(7);
+		ca3.andTypeEqualTo(8);
+		example.or(ca2);
+		example.or(ca3);
 		return attachmentMapper.selectByExample(example);
 	}
 	public List<Attachment> queryQua(Principal principal, int main_id) {

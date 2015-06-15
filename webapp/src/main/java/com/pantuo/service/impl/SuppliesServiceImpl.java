@@ -107,6 +107,26 @@ public class SuppliesServiceImpl implements SuppliesService {
 	public Pair<Boolean, String> addInvoice(JpaInvoice obj, Principal principal, HttpServletRequest request) {
 		Pair<Boolean, String> r = null;
 		try {
+			InvoiceExample example =new InvoiceExample();
+			InvoiceExample.Criteria c=example.createCriteria();
+			c.andUserIdEqualTo( Request.getUserId(principal));
+			List<Invoice> invoices=invoiceMapper.selectByExample(example);
+			if(invoices.size()>0 && obj.getId()>0){
+				JpaInvoice jpaInvoice=InvoiceRepo.findOne(obj.getId());
+				jpaInvoice.setUpdated(new Date());
+				jpaInvoice.setAccountnum(obj.getAccountnum());
+				jpaInvoice.setBankname(obj.getBankname());
+				jpaInvoice.setFixphone(obj.getFixphone());
+				jpaInvoice.setMailaddr(obj.getMailaddr());
+				jpaInvoice.setRegisaddr(obj.getRegisaddr());
+				jpaInvoice.setTaxrenum(obj.getTaxrenum());
+				jpaInvoice.setTitle(obj.getTitle());
+				jpaInvoice.setType(obj.getType());
+				BeanUtils.filterXss(jpaInvoice);
+				InvoiceRepo.save(jpaInvoice);
+				attachmentService.upInvoiceAttachments(request, Request.getUserId(principal), jpaInvoice.getId(),
+						JpaAttachment.Type.fp_file,null);
+			}else{
 			obj.setCreated(new Date());
 			obj.setUpdated(obj.getCreated());
 			obj.setUserId(Request.getUserId(principal));
@@ -114,9 +134,11 @@ public class SuppliesServiceImpl implements SuppliesService {
 			InvoiceRepo.save(obj);
 			attachmentService.saveAttachment(request, Request.getUserId(principal), obj.getId(),
 					JpaAttachment.Type.fp_file,null);
-			r = new Pair<Boolean, String>(true, "创建发票成功！");
+			
+			}
+			r = new Pair<Boolean, String>(true, "发票保存成功！");
 		} catch (BusinessException e) {
-			r = new Pair<Boolean, String>(false, "创建发票失败");
+			r = new Pair<Boolean, String>(false, "发票保存失败");
 		}
 		return r;
 	}

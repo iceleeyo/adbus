@@ -118,7 +118,10 @@ function delSupp(Suppid){
 			success:function(data){
 				if (data.left == true) {
 					jDialog.Alert(data.right);
-				   //window.location.href="${rc.contextPath}/supplies/list";
+				   var uptime = window.setTimeout(function(){
+				window.location.href="${rc.contextPath}/supplies/list";
+			   	clearTimeout(uptime);
+						},2000)
 				} else {
 					jDialog.Alert(data.right);
 				}

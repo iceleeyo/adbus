@@ -103,6 +103,9 @@
 							<form data-name="withdraw" name="userForm2" id="userForm2"
 								class="ui-form" method="post" action="saveInvoice"
 								enctype="multipart/form-data">
+								<#if invoiceView?? && invoiceView.mainView??>
+								  <input type="hidden" name="id" value="${(invoiceView.mainView.id)!''}"/>
+								</#if>
 								<div class="withdraw-title fn-clear">
 									发票信息录入
 									<!--
@@ -134,7 +137,7 @@
 											</span>发票抬头:
 											</label> 
 												<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
-												type="text" name="title" id="title"
+												type="text" name="title" id="title" value="${(invoiceView.mainView.title)!''}"
 												data-is="isAmount isEnough" autocomplete="off"
 												disableautocomplete="">
 										</div>
@@ -143,7 +146,7 @@
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>税务登记证号:</label> <input
 												class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
-                                                type="text" name="taxrenum"
+                                                type="text" name="taxrenum" value="${(invoiceView.mainView.taxrenum)!''}"
 												id="taxrenum" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
 											<p class="ui-term-placeholder"></p>
@@ -154,7 +157,7 @@
                                                     class="ui-form-required">*</span>基本户开户银行名称:</label>
                                                     <input
 												class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
-                                                type="text" name="bankname"
+                                                type="text" name="bankname" value="${(invoiceView.mainView.bankname)!''}"
 												id="bankname" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
@@ -164,7 +167,7 @@
                                                     class="ui-form-required">*</span>基本户开户账号:</label>
                                                     <input
 												class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
-                                                type="text" name="accountnum"
+                                                type="text" name="accountnum" value="${(invoiceView.mainView.accountnum)!''}"
 												id="accountnum" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
@@ -174,7 +177,7 @@
                                                     class="ui-form-required">*</span>注册场所地址:</label>
                                                     <input
 												class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
-                                                type="text" name="regisaddr"
+                                                type="text" name="regisaddr" value="${(invoiceView.mainView.regisaddr)!''}"
 												id="regisaddr" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
@@ -184,7 +187,7 @@
                                                     class="ui-form-required">*</span>注册固定电话:</label>
                                                     <input
 												class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
-                                                type="text" name="fixphone"
+                                                type="text" name="fixphone" value="${(invoiceView.mainView.fixphone)!''}"
 												id="fixphone" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
@@ -193,43 +196,88 @@
                                                     class="ui-form-required">*</span>邮寄地址:</label>
                                                     <input
 												class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
-                                                type="text" name="mailaddr"
+                                                type="text" name="mailaddr" value="${(invoiceView.mainView.mailaddr)!''}"
 												id="mailaddr" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
                                         
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
-                                                    class="ui-form-required">*</span>营业执照复印件:</label>
+                                                    class="ui-form-required">*</span>营业执照复印件:
+                                                    <#if invoiceView?exists >
+                                                      <#list invoiceView.files as item>
+                                                      <#if item?has_content && item.type==6>
+                                                          <a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;  
+                                                      </#if>
+                                                     </#list>
+                                                    </label><br>
                                                     <div id="newUpload2">
 												<div id="div_1">
-													<input type="file" name="file" id="Sfile" class="validate[required]">
+													<input type="file" name="licensefile" id="Sfile" >
 												</div>
 											</div>
+                                                      <#else>
+                                                      <div id="newUpload2">
+												<div id="div_1">
+													<input type="file" name="licensefile" id="Sfile" class="validate[required]">
+												</div>
+											</div>
+                                                      </#if>
+                                                    
                                         </div>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
-                                                    class="ui-form-required">*</span>税务登记复印件:</label>
+                                                    class="ui-form-required">*</span>税务登记复印件:
+                                                     <#if invoiceView?? >
+                                                       <#list invoiceView.files as item>
+                                                      <#if item?has_content && item.type==7>
+                                                          <a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;  
+                                                      </#if>
+                                                     </#list>
+                                                    </label><br>
                                                     <div id="newUpload2">
 												<div id="div_1">
-													<input type="file" name="file1" id="Sfile2" class="validate[required]">
+													<input type="file" name="taxfile" id="Sfile2" >
 												</div>
 											</div>
+                                                    <#else>
+                                                      <div id="newUpload2">
+												<div id="div_1">
+													<input type="file" name="taxfile" id="Sfile2" class="validate[required]">
+												</div>
+											</div>
+                                                     </#if>
+                                                    
                                         </div>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
-                                                    class="ui-form-required">*</span>一般纳税人资格认证复印件:</label>
-                                                    <div id="newUpload2">
+                                                    class="ui-form-required">*</span>一般纳税人资格认证复印件:
+                                                     <#if invoiceView??>
+                                                    <#list invoiceView.files as item>
+                                                      <#if item?has_content && item.type==8>
+                                                          <a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;  
+                                                      </#if>
+                                                     </#list>
+                                                     </label>
+                                                     <div id="newUpload2">
 												<div id="div_1">
-													<input type="file" name="file2" id="Sfile3" class="validate[required]">
+													<input type="file" name="taxpayerfile" id="Sfile3" >
 												</div>
 											</div>
+                                                     <#else>
+                                                         <div id="newUpload2">
+												<div id="div_1">
+													<input type="file" name="taxpayerfile" id="Sfile3" class="validate[required]">
+												</div>
+											</div>
+                                                     </#if>
+                                                
                                         </div>
                                         
                                         </div>
 									<div class="ui-form-item widthdrawBtBox">
 										<input type="button" id="subWithdraw" class="block-btn"
-											onclick="sub();" value="上传创建">
+											onclick="sub();" value="提交">
 									</div>
 								</div>
 								</div>

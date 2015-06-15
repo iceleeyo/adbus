@@ -1,5 +1,6 @@
 package com.pantuo.service;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,8 +11,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
 import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.AutoCompleteView;
+import com.pantuo.web.view.InvoiceView;
 
 public interface UserServiceInter {
 
@@ -75,5 +78,7 @@ public interface UserServiceInter {
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
 	public abstract boolean isUserHaveGroup(String uname, String group);
+
+	public  InvoiceView findInvoiceByUser(Principal principal);
 
 }
