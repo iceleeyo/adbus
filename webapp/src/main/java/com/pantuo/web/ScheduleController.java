@@ -163,7 +163,10 @@ public class ScheduleController {
 
         return "schedule_report";
     }
-    @PreAuthorize(" !hasRole('advertiser')  ")
+    /*@PreAuthorize(" !hasRole('advertiser')  ")*/
+	@PreAuthorize(" hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
+			+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
+			+ "or hasRole('ShibaSuppliesManager')  ")
     /**
      * 剩余时段表
      */
@@ -235,7 +238,10 @@ public class ScheduleController {
         }
     }
 
-    @PreAuthorize(" !hasRole('advertiser')  ")
+   /* @PreAuthorize(" !hasRole('advertiser')  ")*/
+	@PreAuthorize(" hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
+			+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
+			+ "or hasRole('ShibaSuppliesManager')  ")
     /**
      * 排条单表单
      * @return
@@ -260,7 +266,9 @@ public class ScheduleController {
 
         return "schedule_list";
     }
-    @PreAuthorize(" !hasRole('advertiser')  ")
+	@PreAuthorize(" hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
+			+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
+			+ "or hasRole('ShibaSuppliesManager')  ")
     /**
      * 排条单
      */

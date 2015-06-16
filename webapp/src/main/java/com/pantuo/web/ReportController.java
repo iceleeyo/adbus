@@ -37,7 +37,9 @@ public class ReportController {
     @Autowired
     private IndustryService industryService;
     
-    @PreAuthorize(" !hasRole('advertiser')  ")
+	@PreAuthorize(" hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
+			+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
+			+ "or hasRole('ShibaSuppliesManager')  ")
     @RequestMapping("day")
      public String remainTimeslots(Model model,
                                        @RequestParam(value="day", required = false) String dayStr,
@@ -86,7 +88,9 @@ public class ReportController {
         return "report_remainTimeslots";
     }
 
-    @PreAuthorize(" !hasRole('advertiser')  ")
+		@PreAuthorize(" hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
+				+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
+				+ "or hasRole('ShibaSuppliesManager')  ")
     @RequestMapping("dayp")
     public String remainTimeslotsPercent(Model model,
                                   @RequestParam(value="day", required = false) String dayStr,
@@ -139,7 +143,9 @@ public class ReportController {
         return "report_remainTimeslotsPercent";
     }
 
-    @PreAuthorize(" !hasRole('advertiser')  ")
+		@PreAuthorize(" hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
+				+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
+				+ "or hasRole('ShibaSuppliesManager')  ")
     @RequestMapping("wow")
     //周同比
     public String remainTimeslotsWeekOnWeek(Model model,
@@ -204,8 +210,11 @@ public class ReportController {
         return "report_wowTimeslots";
     }
 
-    @PreAuthorize(" !hasRole('advertiser')  ")
-    @RequestMapping("mom")
+
+	@PreAuthorize(" hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
+				+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
+				+ "or hasRole('ShibaSuppliesManager')  ")
+	@RequestMapping("mom")
     //月同比
     public String remainTimeslotsMonthOnMonth(Model model,
                                             @RequestParam(value="year", required = false) Integer year,
@@ -249,8 +258,12 @@ public class ReportController {
         return "report_momTimeslots";
     }
 
-    @PreAuthorize(" !hasRole('advertiser')  ")
-    @RequestMapping("monthp")
+
+    /*@PreAuthorize(" !hasRole('advertiser')  ")*/
+   	@PreAuthorize(" hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
+   			+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
+   			+ "or hasRole('ShibaSuppliesManager')  ")
+   	@RequestMapping("monthp")
     //月对比
     public String remainTimeslotsMonthPercent(Model model,
                                               @RequestParam(value="year", required = false) Integer year,
@@ -297,8 +310,13 @@ public class ReportController {
         return "report_momTimeslotsPercent";
     }
 
-    @PreAuthorize(" !hasRole('advertiser')  ")
-    @RequestMapping("hour")
+
+   	
+    /*@PreAuthorize(" !hasRole('advertiser')  ")*/
+   	@PreAuthorize(" hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
+   			+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
+   			+ "or hasRole('ShibaSuppliesManager')  ")
+   	@RequestMapping("hour")
     public String remainHourlyTimeslots(Model model,
                                   @RequestParam(value="day", required = false) String dayStr,
                                   @RequestParam(value="baseY", required = false) Long baseY,
@@ -353,8 +371,11 @@ public class ReportController {
     }
 
 
-    @PreAuthorize(" !hasRole('advertiser')  ")
-    @RequestMapping("hourp")
+   	@PreAuthorize(" hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
+   			+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
+   			+ "or hasRole('ShibaSuppliesManager')  ")
+   	
+   	@RequestMapping("hourp")
     public String remainHourlyTimeslotsPercent(Model model,
                                         @RequestParam(value="day", required = false) String dayStr,
                                         @RequestParam(value="baseY", required = false) Long baseY,
@@ -399,8 +420,12 @@ public class ReportController {
         return "report_hourTimeslotsPercent";
     }
 
-    @PreAuthorize(" !hasRole('advertiser')  ")
-    @RequestMapping("dayorderp")
+
+    /*@PreAuthorize(" !hasRole('advertiser')  ")*/
+   	@PreAuthorize(" hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
+   			+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
+   			+ "or hasRole('ShibaSuppliesManager')  ")
+   	@RequestMapping("dayorderp")
     public String orderPercent(Model model,
                                          @RequestParam(value="day", required = false) String dayStr,
                                          @RequestParam(value="baseY", required = false) Long baseY,
@@ -445,7 +470,10 @@ public class ReportController {
     }
 
 
-    @PreAuthorize(" !hasRole('advertiser')  ")
+    /*@PreAuthorize(" !hasRole('advertiser')  ")*/
+   	@PreAuthorize(" hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
+   			+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
+   			+ "or hasRole('ShibaSuppliesManager')  ")
     @RequestMapping("dayindustryp")
     public String orderIndustryPercent(Model model,
                                @RequestParam(value="day", required = false) String dayStr,
