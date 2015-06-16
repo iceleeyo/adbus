@@ -251,7 +251,7 @@
 									<li class="pg-side-item">
 										<a class="pg-side-item-t ff-icon">
 											<i class="s-left pg-icon-a e-icon"></i>
-											用户管理
+											用户信息管理
 										</a>
 										<ul class="pg-side-exp-list">
                                             <@security.authorize ifAnyGranted="UserManager">
@@ -267,6 +267,9 @@
 											</li>
                                             </@security.authorize>
 											<li class="pg-side-exp-item">
+												<a class="side-exp-item-t" href="${rc.contextPath}/user/invoiceList">
+													发票列表
+												</a>
 												<a class="side-exp-item-t" href="${rc.contextPath}/user/invoice">
 													发票录入
 												</a>

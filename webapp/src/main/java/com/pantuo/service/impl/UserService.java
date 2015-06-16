@@ -26,14 +26,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import scala.collection.generic.BitOperations.Int;
+
 import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.dao.UserDetailRepository;
 import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.QUserDetail;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Attachment;
+import com.pantuo.mybatis.domain.AttachmentExample;
 import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.mybatis.domain.InvoiceExample;
+import com.pantuo.mybatis.domain.Orders;
+import com.pantuo.mybatis.domain.OrdersExample;
+import com.pantuo.mybatis.persistence.AttachmentMapper;
 import com.pantuo.mybatis.persistence.InvoiceMapper;
 import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
 import com.pantuo.service.AttachmentService;
@@ -56,19 +62,6 @@ public class UserService implements UserServiceInter {
 	@Autowired
 	private UserDetailRepository userRepo;
 
-	/*	@Autowired
-		private SysConfigMapper sysConfigMapper;
-
-		@Autowired
-		private UserRoleRepository roleRepo;
-
-		public UserDetailRepository getUserRepo() {
-			return userRepo;
-		}
-
-		public UserRoleRepository getRoleRepo() {
-			return roleRepo;
-		}*/
 
 	@Autowired
 	private IdentityService identityService;
@@ -81,6 +74,8 @@ public class UserService implements UserServiceInter {
 	UserAutoCompleteMapper userAutoCompleteMapper;
 	@Autowired
 	InvoiceMapper invoiceMapper;
+	@Autowired
+	AttachmentMapper attachmentMapper;
 
 	/**
 	 * @see com.pantuo.service.UserServiceInter#count()
@@ -205,11 +200,12 @@ public class UserService implements UserServiceInter {
 		}
 		return r;
 	}
-	public  InvoiceView findInvoiceByUser(Principal principal){
+	public  InvoiceView findInvoiceByUser(int invoice_id,Principal principal){
 		InvoiceView v = new InvoiceView();
 		InvoiceExample example=new InvoiceExample();
 		InvoiceExample.Criteria criteria=example.createCriteria();
 		criteria.andUserIdEqualTo(Request.getUserId(principal));
+		criteria.andIdEqualTo(invoice_id);
 		List<Invoice> invoices=invoiceMapper.selectByExample(example);
 		if(invoices.size()>0){
 			v.setMainView(invoices.get(0));
@@ -513,5 +509,36 @@ public class UserService implements UserServiceInter {
 			}
 		}
 		return r;
+	}
+
+	@Override
+	public Pair<Boolean, String> delInvoice(int invoice_id, Principal principal) {
+		  InvoiceExample example=new InvoiceExample();
+		  InvoiceExample.Criteria c=example.createCriteria();
+		  c.andIdEqualTo(invoice_id);
+		  c.andUserIdEqualTo(Request.getUserId(principal));
+			int a=invoiceMapper.deleteByExample(example);
+			if(a>0){
+				AttachmentExample example2=new AttachmentExample();
+				AttachmentExample.Criteria criteria2=example2.createCriteria();
+				AttachmentExample.Criteria criteria3=example2.createCriteria();
+				AttachmentExample.Criteria criteria4=example2.createCriteria();
+			    criteria2.andMainIdEqualTo(invoice_id);
+			    criteria2.andTypeEqualTo(6);
+			    criteria3.andMainIdEqualTo(invoice_id);
+			    criteria3.andTypeEqualTo(6);
+			    criteria4.andMainIdEqualTo(invoice_id);
+			    criteria4.andTypeEqualTo(6);
+			    example2.or(criteria3);
+			    example2.or(criteria4);
+			    List<Attachment> attas=attachmentMapper.selectByExample(example2);
+			    for (Attachment attachment : attas) {
+			    	if(attachment!=null){
+			    		attachmentMapper.deleteByPrimaryKey(attachment.getId());
+			    	}
+				}
+		    	return	new Pair<Boolean, String>(true, "删除发票成功！");
+			}
+			return	new Pair<Boolean, String>(true, "删除发票失败！");
 	}
 }

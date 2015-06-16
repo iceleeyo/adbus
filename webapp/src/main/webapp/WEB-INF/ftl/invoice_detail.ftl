@@ -107,7 +107,7 @@
 								  <input type="hidden" name="id" value="${(invoiceView.mainView.id)!''}"/>
 								</#if>
 								<div class="withdraw-title fn-clear">
-									发票信息管理
+									发票信息录入
 									<!--
             <ul class="fn-clear">
               <li class="first"><a class="addBank fn-right" href="/account/userBank!toAdd.action">xxxx</a></li>

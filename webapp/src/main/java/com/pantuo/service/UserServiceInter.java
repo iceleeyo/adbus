@@ -10,6 +10,8 @@ import org.activiti.engine.identity.Group;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
+import scala.collection.generic.BitOperations.Int;
+
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.util.Pair;
@@ -79,6 +81,8 @@ public interface UserServiceInter {
 	 */
 	public abstract boolean isUserHaveGroup(String uname, String group);
 
-	public  InvoiceView findInvoiceByUser(Principal principal);
+	public  InvoiceView findInvoiceByUser(int invoice_id,Principal principal);
+
+	public  Pair<Boolean, String> delInvoice(int invoice_id, Principal principal);
 
 }

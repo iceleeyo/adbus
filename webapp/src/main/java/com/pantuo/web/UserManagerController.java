@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,12 +21,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pantuo.dao.pojo.BaseEntity;
+import com.pantuo.dao.pojo.JpaContract;
 import com.pantuo.dao.pojo.JpaInvoice;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.DataInitializationService;
+import com.pantuo.service.InvoiceServiceData;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.service.UserServiceInter;
 import com.pantuo.util.GlobalMethods;
@@ -51,6 +54,8 @@ public class UserManagerController {
 	@Autowired
 	private DataInitializationService dataService;
 	@Autowired
+	private InvoiceServiceData invoiceServiceData;
+	@Autowired
 	SuppliesService suppliesService;
 
 	@RequestMapping(value = "/list", method = { RequestMethod.GET })
@@ -68,7 +73,17 @@ public class UserManagerController {
 		return new DataTablePage(userService.getAllUsers(req.getFilter("name"), req.getPage(), req.getLength(),
 				req.getSort("id")), req.getDraw());
 	}
+	@RequestMapping(value = "/invoiceList")
+	public String invoicelist() {
 
+		return "invoiceList";
+	}
+	@RequestMapping("ajax-invoiceList")
+	@ResponseBody
+	public DataTablePage<JpaInvoice> getAllInvoice(TableRequest req,
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal) {
+		return new DataTablePage(invoiceServiceData.getAllInvoice(city, req, principal), req.getDraw());
+	}
 	@RequestMapping(value = "/{username}/{enable}", method = { RequestMethod.POST })
 	@ResponseBody
 	public UserDetail enableUser(@PathVariable("username") String username, @PathVariable("enable") String enable) {
@@ -93,9 +108,22 @@ public class UserManagerController {
 
 	@RequestMapping(value = "/invoice", produces = "text/html;charset=utf-8")
 	public String invoice(Model model,Principal principal,HttpServletRequest request) {
-		InvoiceView invoiceView=userService.findInvoiceByUser(principal);
+		//InvoiceView invoiceView=userService.findInvoiceByUser(principal);
+		//model.addAttribute("invoiceView", invoiceView);
+		return "invoice_message";
+	}
+	@RequestMapping(value = "/invoice_edit/{invoice_id}", produces = "text/html;charset=utf-8")
+	public String invoice_edit(Model model,@PathVariable("invoice_id") int invoice_id,Principal principal,HttpServletRequest request) {
+		InvoiceView invoiceView=userService.findInvoiceByUser(invoice_id,principal);
 		model.addAttribute("invoiceView", invoiceView);
 		return "invoice_message";
+	}
+	@RequestMapping(value = "/delInvoice/{invoice_id}")
+	@ResponseBody
+	public Pair<Boolean, String> delInvoice(Model model,
+			@PathVariable("invoice_id") int invoice_id, Principal principal,
+				HttpServletRequest request) {
+		return userService.delInvoice(invoice_id,principal);
 	}
 	@RequestMapping(value = "saveInvoice", method = RequestMethod.POST)
 	@ResponseBody
