@@ -1,11 +1,10 @@
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-
-<html>
+<#import "template/template.ftl" as frame>
+<#global menu="找回密码">
+<@frame.html title="找回密码" left=false nav=false js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"] css=["js/jquery-ui/jquery-ui.css"]>
 <head>
 <style type="text/css">
 body{
-	background-color:#fff;color:#64686d;font-family:'Microsoft Yahei',Arial,Helvetica,sans-serif,Verdana,'Trebuchet MS';font-size:13px;padding:20px;overflow:auto;
+	background-color:#fff;color:#64686d;font-family:'Microsoft Yahei',Arial,Helvetica,sans-serif,Verdana,'Trebuchet MS';font-size:13px;overflow:auto;
 }
 
 table{
@@ -17,22 +16,11 @@ table td{
 	border: solid thin #EEEEEE;
 	height:38px;
 }
+html{
+overflow-x:hidden;
+overflow-y:hidden;
+ }//隐藏整个的滚动条
 </style>
-
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<!-- 解决360兼容性问题 让360兼容IE8即可 -->
-<meta http-equiv="X-UA-Compatible" content="IE=8" />
-<script type="text/javascript" src="${rc.contextPath}/js/jquery-1.7.2.min.js"></script>
-<script type="text/javascript" src="${rc.contextPath}/js/jquery.validate.js"></script>
-<script type="text/javascript" src="${rc.contextPath}/js/jquery.form.js"></script>
-<script type="text/javascript" src="${rc.contextPath}/js/common.js"></script>
-
-<link type="text/css" href="${rc.contextPath}/css/page.css" rel="stylesheet" media="screen" />
-<script type="text/javascript" src="${rc.contextPath}/js/jquery-1.8.3.min.js"></script>
-<script type="text/javascript" src="${rc.contextPath}/js/jquery.form.js"></script>
-<script type="text/javascript" src="${rc.contextPath}/js/jquery.ulmenu.js"></script>
-<script type="text/javascript" src="${rc.contextPath}/js/platform.js"></script>
-<script type="text/javascript" src="${rc.contextPath}/js/banBackSpace.js"></script>
 <title>密码找回</title>
 
 
@@ -49,7 +37,7 @@ function findPwd(){
 	}
 	
 	$.ajax({
-		url : "${rc.contextPath}/user/send_pwd_link",
+		url : "/webapp/user/send_pwd_link",
 		type : "POST",
 		data : {"userId":userId},
 		success : function(data) {
@@ -66,25 +54,28 @@ function findPwd(){
 
 </head>
 <body>
-	<div class="Page-Title"> <span>找回密码</span> </div>
+<div class="pg-container-main">
+    <div class="container-12 mt10 s-clear">  
+        <div class="withdraw-wrap color-white-bg fn-clear">
+	       <div class="Page-Title"> <span>找回密码</span> </div>
 <center>
-
-<form id="infoForm" name="infoForm" action="" method="post" dataType="html" class="Form-Table">
+<form id="infoForm" name="infoForm" action="" method="post" datatype="html" class="Form-Table">
 	
-	<table id="addtabel" width="100%" >
-	<font color="red"><s:property value="msg"/></font>
-		<tr>
+	<font color="red"><s:property value="msg"></s:property></font><table id="addtabel" width="100%">
+	
+		<tbody><tr>
 			<td scope="row" width="50%" align="center"><span style="color:red;">*</span>用户名[登录帐号]：</td>
-			<td><input type="text" id="userId" value="" class="Input-Text" placeholder="     请输入您的用户名" /></td>
+			<td><input type="text" id="userId" value="" class="Input-Text" placeholder="     请输入您的用户名"></td>
 		</tr>
 		
-	</table>
+	</tbody></table>
 	<div class="Form-Buttons">
-		<button type="button"  onclick="findPwd()">确认找回密码</button>
+		<button type="button" onclick="findPwd()">确认找回密码</button>
 	</div>
-</form> 
-</center>
-
-
+  </form>
+  </center>
+            </div>
+      </div>
+</div>
 </body>
-</html>
+</@frame.html>
