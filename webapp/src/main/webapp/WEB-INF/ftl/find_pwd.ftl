@@ -4,7 +4,7 @@
 <head>
 <style type="text/css">
 body{
-	background-color:#fff;color:#64686d;font-family:'Microsoft Yahei',Arial,Helvetica,sans-serif,Verdana,'Trebuchet MS';font-size:13px;overflow:auto;
+	background-color:#fff;color:#64686d;font-family:'Microsoft Yahei',Arial,Helvetica,sans-serif,Verdana,'Trebuchet MS';font-size:13px;
 }
 
 table{
@@ -16,10 +16,6 @@ table td{
 	border: solid thin #EEEEEE;
 	height:38px;
 }
-html{
-overflow-x:hidden;
-overflow-y:hidden;
- }//隐藏整个的滚动条
 </style>
 <title>密码找回</title>
 
