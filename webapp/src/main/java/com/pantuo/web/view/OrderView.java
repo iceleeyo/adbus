@@ -41,6 +41,9 @@ public class OrderView {
 	private String executionId;
 	private String task_assignee;
 	private Date task_createTime;
+	
+	
+	  boolean canClosed = false;
 
 	//
 	private String processInstanceId;
@@ -242,6 +245,14 @@ public class OrderView {
 
 	public void setHaveTasks(int haveTasks) {
 		this.haveTasks = haveTasks;
+	}
+
+	public boolean isCanClosed() {
+		return canClosed;
+	}
+
+	public void setCanClosed(boolean canClosed) {
+		this.canClosed = canClosed;
 	}
 
 }

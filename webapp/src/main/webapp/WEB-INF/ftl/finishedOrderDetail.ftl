@@ -35,7 +35,7 @@ function go_back(){
       <#if (!prod?? || prod.type == 'image')>图片</#if>
       <#if (!prod?? || prod.type == 'info')>文本</#if>
   </SPAN></LI>
-  <LI style="width: 240px;"><SPAN>订单状态：</SPAN><SPAN class="con">已完成</SPAN></LI>
+  <LI style="width: 240px;"><SPAN>订单状态：</SPAN><SPAN class="con">${orderview.task_name!''} </SPAN></LI>
   <LI style="width: 240px;"><SPAN>支付方式：</SPAN><SPAN class="con">${(orderview.payTypeString)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>合同号：</SPAN><SPAN class="con">${(orderview.order.contractCode)!''}</SPAN></LI>
   <LI style="width: 720px;"><SPAN>物料列表：</SPAN><SPAN class="con">

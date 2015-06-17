@@ -21,6 +21,7 @@ import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.apache.commons.lang.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -147,6 +148,13 @@ public class OrderController {
 			HttpServletRequest request, HttpServletResponse response) {
 		taskService.claim(taskid, Request.getUserId(principal));
 		return new Pair<Boolean, String>(true, "任务签收成功!");
+	}
+	
+	@RequestMapping(value = "/closeOrder/{taskid}")
+	@ResponseBody
+	public Pair<Boolean, String> closeOrder(@RequestParam(value = "orderid", required = true) String orderid,
+			@PathVariable String taskid, Principal principal, HttpServletRequest request, HttpServletResponse response) {
+		return	activitiService.closeOrder(org.apache.commons.lang.math.NumberUtils.toInt(orderid), taskid, principal);
 	}
 
 	@RequestMapping(value = "/handleView2", produces = "text/html;charset=utf-8")

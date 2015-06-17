@@ -25,6 +25,7 @@ public interface ActivitiService {
 	public static final String MAIN_PROCESS = "order";
 	public static final String ORDER_ID = "_orderId";
 	public static final String CITY = "_city";
+	public static final String CLOSED = "_isClosed";
 	public static final String SUPPLIEID = "_supplieId";
 	public static final String OWNER = "_owner";
 	public static final String CREAT_USERID = "_creatUserId";
@@ -135,4 +136,16 @@ public interface ActivitiService {
 	public Pair<Boolean, String> modifyOrder(int city, int orderid, String taskid, int supplieid, UserDetail user);
 
 	public String showOrderDetail(int city, Model model, int orderid, String taskid, String pid, Principal principal);
+	
+	/**
+	 * 
+	 * 
+	 * 关闭订单 已支付的订单不能关闭 操作员限定为广告主和世巴管理员
+	 * @param orderid
+	 * @param taskid
+	 * @param principal
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	public Pair<Boolean, String> closeOrder(int orderid, String taskid, Principal principal);
 }

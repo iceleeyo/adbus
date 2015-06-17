@@ -1,5 +1,6 @@
 package com.pantuo.service.impl;
 
+
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.Map;
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.mybatis.domain.*;
 import com.pantuo.service.*;
+
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
@@ -30,6 +32,7 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -61,12 +64,15 @@ import com.pantuo.service.OrderService;
 import com.pantuo.service.ProductService;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.util.BeanUtils;
+import com.pantuo.util.Constants;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.OrderIdSeq;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 import com.pantuo.web.view.OrderView;
 import com.pantuo.web.view.SuppliesView;
+
+
 
 @Service
 public class ActivitiServiceImpl implements ActivitiService {
@@ -303,6 +309,60 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 	}
 
+	public Pair<Boolean, String> closeOrder(int orderid, String taskid, Principal principal) {
+
+		TaskQuery countQuery = taskService.createTaskQuery().includeProcessVariables()
+				.processDefinitionKey(MAIN_PROCESS);
+
+		Task task = countQuery.taskId(taskid).singleResult();
+		if (task == null) {
+			return new Pair<Boolean, String>(false, Constants.TASK_NOT_EXIT);
+		} else {
+			Map<String, Object> var = task.getProcessVariables();
+
+			Integer dbOrderId = (Integer) var.get(ActivitiService.ORDER_ID);
+			//2:判断订单是否存在
+			if (dbOrderId == null) {
+				return new Pair<Boolean, String>(false, Constants.ORDER_NOT_EXIT);
+			}
+			JpaOrders order = orderService.selectJpaOrdersById(dbOrderId);
+			long longOrderId = 0;
+			if (order != null) {
+				longOrderId = OrderIdSeq.getIdFromDate(order.getId(), order.getCreated());
+			} else {
+				return new Pair<Boolean, String>(false, Constants.ORDER_NOT_EXIT);
+			}
+			boolean canClose = false;//世巴管理员可以关闭订单
+			if (Request.hasAuth(principal, ActivitiConfiguration.ORDER)) {
+				canClose = true;
+			} else {
+				if (!StringUtils.equals(Request.getUserId(principal), (String) var.get(ActivitiService.CREAT_USERID))) {
+					return new Pair<Boolean, String>(false, Constants.CREATEID_WRONG);
+				}
+				canClose = true;
+			}
+			if (canClose) {
+				if (var.get(ActivitiService.R_USERPAYED) == null
+						|| !BooleanUtils.toBoolean((Boolean) var.get(ActivitiService.R_USERPAYED))) {
+
+					try {
+						ProcessInstance processInstance = findProcessInstanceByTaskId(taskid);
+						runtimeService
+								.setVariable(processInstance.getProcessInstanceId(), ActivitiService.CLOSED, true);
+						runtimeService.deleteProcessInstance(processInstance.getProcessInstanceId(), "closeOrder");
+					} catch (Exception e) {
+					}
+
+				} else {
+
+					return new Pair<Boolean, String>(false, String.format(Constants.NOT_SUPPORT, longOrderId));
+				}
+			}
+
+			return new Pair<Boolean, String>(false, String.format(Constants.CLOSEORDER_SUCCESS, longOrderId));
+		}
+
+	}
 	public Page<OrderView> findTask(int city, String userid, TableRequest req, TaskQueryType tqType) {
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("created");
@@ -356,7 +416,10 @@ public class ActivitiServiceImpl implements ActivitiService {
 			String processInstanceId = task.getProcessInstanceId();
 			ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
 					.processInstanceId(processInstanceId).singleResult();
-			Integer orderid = (Integer) task.getProcessVariables().get(ORDER_ID);
+			Map<String, Object> var = task.getProcessVariables();
+			Integer orderid = (Integer) var.get(ORDER_ID);
+			
+			
 			OrderView v = new OrderView();
 			JpaOrders order = orderService.selectJpaOrdersById(orderid);
 			if (order != null) {
@@ -370,6 +433,11 @@ public class ActivitiServiceImpl implements ActivitiService {
 				boolean r = true;
 				if (longOrderId > 0) {
 					r = longOrderId == OrderIdSeq.getIdFromDate(order.getId(), order.getCreated());
+				}
+				
+				if (var.get(ActivitiService.R_USERPAYED) == null
+						|| !BooleanUtils.toBoolean((Boolean) var.get(ActivitiService.R_USERPAYED))) {
+					v.setCanClosed(true);
 				}
 				if (r) {
 				leaves.add(v);
@@ -468,11 +536,26 @@ public class ActivitiServiceImpl implements ActivitiService {
 			countQuery.variableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
 			listQuery.variableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
 		}
-		int c = (int) countQuery.involvedUser(Request.getUserId(principal)).count();
+		int c = 0;
+		if (Request.hasAuth(principal, ActivitiConfiguration.ADVERTISER)
+				&& !Request.hasAuth(principal, ActivitiConfiguration.ORDER)) {
+			c = (int) countQuery.involvedUser(Request.getUserId(principal)).count();
+		} else {
+			c = (int) countQuery.count();
+		}
 		NumberPageUtil pageUtil = new NumberPageUtil((int) c, page, pageSize);
 		//Request.hasAuth(principal, ActivitiConfiguration.ADVERTISER)
-		List<HistoricProcessInstance> list = listQuery.involvedUser(Request.getUserId(principal))
-				.orderByProcessInstanceStartTime().desc().listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
+		List<HistoricProcessInstance> list = null;
+		if (Request.hasAuth(principal, ActivitiConfiguration.ADVERTISER)
+				&& !Request.hasAuth(principal, ActivitiConfiguration.ORDER)) {
+			list = listQuery.involvedUser(Request.getUserId(principal)).orderByProcessInstanceStartTime().desc()
+					.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
+		} else {
+			list = listQuery.orderByProcessInstanceStartTime().desc()
+					.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
+		}
+		
+		
 		for (HistoricProcessInstance historicProcessInstance : list) {
 			//---------------------
 			Integer orderid = (Integer) historicProcessInstance.getProcessVariables().get(ORDER_ID);
@@ -480,7 +563,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			if (orderid != null && orderid > 0) {
 				JpaOrders or = orderService.selectJpaOrdersById(orderid);
 				if (or != null) {
-                    JpaProduct product = productService.findById(or.getProductId());
+					JpaProduct product = productService.findById(or.getProductId());
 					v.setProduct(product);
 					v.setOrder(or);
 					//orders.add(v);
@@ -489,7 +572,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 						r = longOrderId == OrderIdSeq.getIdFromDate(or.getId(), or.getCreated());
 					}
 					if (r) {
-					orders.add(v);
+						orders.add(v);
 					}
 
 					v.setProcessInstanceId(historicProcessInstance.getId());
@@ -545,6 +628,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		initParams.put(ActivitiService.OWNER, u);
 		initParams.put(ActivitiService.ORDER_ID, order.getId());
 		initParams.put(ActivitiService.CITY, city);
+		initParams.put(ActivitiService.CLOSED, false);
 		initParams.put(ActivitiService.NOW, new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
 		ProcessInstance process = runtimeService.startProcessInstanceByKey(MAIN_PROCESS, initParams);
 
@@ -1061,7 +1145,6 @@ public class ActivitiServiceImpl implements ActivitiService {
 	}
 
 	public String showOrderDetail(int city, Model model, int orderid, String taskid, String pid, Principal principal) {
-
 		if (StringUtils.isNotBlank(taskid)) {
 			try {
 				Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
@@ -1105,7 +1188,18 @@ public class ActivitiServiceImpl implements ActivitiService {
 			orderView.setTask_name(StringUtils.EMPTY);
 			if (StringUtils.isNoneBlank(pid)) {
 				activitis = findHistoricUserTask(city, pid, null);
-				orderView.setTask_name("已完成");
+				HistoricProcessInstance  processInstance = historyService.createHistoricProcessInstanceQuery().processInstanceId(pid)
+						.includeProcessVariables().singleResult();
+				orderView.setTask_name(Constants.FINAL_STATE);
+				if (processInstance != null) {
+					Map<String, Object> variables = processInstance.getProcessVariables();
+					if (BooleanUtils.toBoolean((Boolean) variables.get(ActivitiService.CLOSED))) {
+						orderView.setTask_name(Constants.CLOSED_STATE);
+					} else {
+						orderView.setTask_name(Constants.FINAL_STATE);
+					}
+				}
+
 			} else if (order != null) {
 				ProcessView pw = findPidByOrderid(order.getId(), Request.getUserId(principal));
 				if (pw.pid != null) {

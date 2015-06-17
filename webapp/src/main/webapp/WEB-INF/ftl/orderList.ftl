@@ -1,9 +1,24 @@
 <#import "template/template.ftl" as frame>
 <#global menu="待办事项">
-<@frame.html title="待办事项列表" css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"] js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
+<@frame.html title="待办事项列表" css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css","css/layer.css"] js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <script type="text/javascript">
 
+	function closeOrder(orderid,taskid){
+		$.ajax({
+			url : "${rc.contextPath}/order/closeOrder/"+taskid+"?orderid="+orderid,
+			type : "POST",
+			success : function(data) {
+				//jDialog.Alert(data.right);
+				 jDialog.Alert(data.right,function(){
+		        var uptime = window.setTimeout(function(){
+				$(location).attr('href', "${rc.contextPath}/order/myTask/1");
+		         clearTimeout(uptime);
+		       },2000);});
+				//location.reload([true]);
+			}
+		}, "text");
+	}
 
 	function claim(orderid,taskid){
  	$.ajax({
@@ -74,15 +89,17 @@
                     }},
                    { "data": "task_name", "defaultContent": "","render": function(data, type, row, meta) {
                    
-                  
+                  		var tr="";
 	                  if(row.task_assignee =='' || row.task_assignee == null){
-	                 	 	return  "<a href=\"javascript:;\" onclick=\"claim('"+row.order.id+"','"+( row.task_id)+"');\">签收</a>";
+	                 	 	tr=  "<a href=\"javascript:;\" onclick=\"claim('"+row.order.id+"','"+( row.task_id)+"');\">签收</a>&nbsp;";
 	                  	}else {
-	                  	   var taskId = row.task_id;
-	                       var tr= "<a href='${rc.contextPath}/order/handleView2?orderid=" +(row.order.id)+ "&taskid="+taskId+ "'>办理</a>&nbsp;";
-	                       return tr;
+	                  	  	 var taskId = row.task_id;
+	                         tr= "<a href='${rc.contextPath}/order/handleView2?orderid=" +(row.order.id)+ "&taskid="+taskId+ "'>办理</a>&nbsp;";
 	                    }	
-                  	 
+	                    if(row.canClosed==true){
+		                    	tr+="<a href=\"javascript:;\" tip=\"未支付的订单可以关闭哦!\"  class=\"btn disabled layer-tips\" onclick=\"closeOrder('"+row.order.id+"','"+( row.task_id)+"');\">关闭</a>&nbsp;";
+		                }
+                  	  return tr;
                     }
                    
                    },
@@ -94,6 +111,8 @@
             "drawCallback": drawCallback,
         } );
   		table.fnNameOrdering("orderBy").fnNoColumnsParams();
+  		
+  		 
     }
 	<@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
     function initComplete() {
@@ -125,6 +144,7 @@
   				table.fnDraw();
   			 }
 		});
+		bindLayerMouseOver();
     }
     </@security.authorize>
     
@@ -147,6 +167,7 @@
         $('#longOrderId, #taskKey').change(function() {
             table.fnDraw();
         });
+        bindLayerMouseOver();
     }
     </@security.authorize>
 
@@ -160,6 +181,7 @@
  		
     $(document).ready(function() {
         initTable();
+       // setInterval("bindLayerMouseOver()",1500);
     } );
 </script>
 
