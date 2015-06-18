@@ -104,7 +104,7 @@ public class SuppliesServiceImpl implements SuppliesService {
 		return r;
 	}
 
-	public Pair<Boolean, String> addInvoice(JpaInvoice obj, Principal principal, HttpServletRequest request) {
+	public Pair<Boolean, String> addInvoice(int city,JpaInvoice obj, Principal principal, HttpServletRequest request) {
 		Pair<Boolean, String> r = null;
 		try {
 			InvoiceExample example =new InvoiceExample();
@@ -127,6 +127,7 @@ public class SuppliesServiceImpl implements SuppliesService {
 				attachmentService.upInvoiceAttachments(request, Request.getUserId(principal), jpaInvoice.getId(),
 						JpaAttachment.Type.fp_file,null);
 			}else{
+			obj.setCity(city);
 			obj.setCreated(new Date());
 			obj.setUpdated(obj.getCreated());
 			obj.setUserId(Request.getUserId(principal));
