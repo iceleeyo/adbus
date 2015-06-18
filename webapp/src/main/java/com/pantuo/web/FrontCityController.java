@@ -38,13 +38,13 @@ public class FrontCityController {
         }
         if (c == null) {
             Cookie cookie = new Cookie("city", null);
-            cookie.setPath(request.getContextPath());
+            cookie.setPath("/");
             cookie.setMaxAge(0);
             response.addCookie(cookie);
             return new JpaCity();
         }
         Cookie cookie = new Cookie("city", c.getId() + "");
-        cookie.setPath(request.getContextPath());
+        cookie.setPath("/");
         cookie.setMaxAge(604800);   //1 week
         response.addCookie(cookie);
 
