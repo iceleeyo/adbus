@@ -42,6 +42,7 @@ public class JpaOrders extends CityEntity {
     private JpaProduct.Type type;
     private PayType payType;
     private Status stats;
+    private Long ordRemark;
     private String creator;
     private int isInvoice;
 
@@ -56,7 +57,7 @@ public class JpaOrders extends CityEntity {
     public JpaOrders(int id, String userId, JpaSupplies supplies,
 			JpaProduct product, int contractId, String contractCode,
 			Date startTime, Date endTime, Type type, PayType payType,
-			Status stats, String creator, int isInvoice) {
+			Status stats, String creator, int isInvoice, Long ordRemark) {
 		super();
 		this.id = id;
         this.userId = userId;
@@ -71,6 +72,7 @@ public class JpaOrders extends CityEntity {
         this.stats = stats;
         this.creator = creator;
 		this.isInvoice = isInvoice;
+		this.ordRemark=ordRemark;
     }
 
     public int getId() {
@@ -233,8 +235,18 @@ public class JpaOrders extends CityEntity {
         }
         return product.getBusNumber() - ordered;
     }
+    
+    public Long getOrdRemark() {
+		return ordRemark;
+	}
 
-    @Override
+
+	public void setOrdRemark(Long ordRemark) {
+		this.ordRemark = ordRemark;
+	}
+
+
+	@Override
     public String toString() {
         return "JpaOrders{" +
                 "userId='" + userId + '\'' +
@@ -248,6 +260,7 @@ public class JpaOrders extends CityEntity {
                 ", payType=" + payType +
                 ", stats=" + stats +
                 ", creator='" + creator + '\'' +
+                ", ordRemark="+ordRemark+'\''+
                 '}';
     }
 }

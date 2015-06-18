@@ -30,7 +30,7 @@ public class JpaContract extends CityEntity {
     private String remark;
     private String creator;
     private String amounts;
-
+    private String contractType;
     @ManyToOne
     @JoinColumn(name = "industryId")
     private JpaIndustry industry;
@@ -42,7 +42,7 @@ public class JpaContract extends CityEntity {
     public JpaContract(int city, String amounts,int industryId,String contractCode,
                        String contractName, String userId, Date startDate,
                        Date endDate, Status stats, boolean isUpload, String remark,
-                       String creator) {
+                       String creator, String contractType) {
         super(city);
         this.contractCode = contractCode;
         this.contractName = contractName;
@@ -56,6 +56,7 @@ public class JpaContract extends CityEntity {
         this.amounts=amounts;
         this.industry=new JpaIndustry();
         this.industry.setId(industryId);
+        this.contractType= contractType;
     }
 
     public int getId() {
@@ -159,8 +160,18 @@ public class JpaContract extends CityEntity {
     public void setCreator(String creator) {
         this.creator = creator;
     }
+    
+    
 
-    @Override
+    public String getContractType() {
+		return contractType;
+	}
+
+	public void setContractType(String contractType) {
+		this.contractType = contractType;
+	}
+
+	@Override
     public String toString() {
         return "JpaContract{" +
                 "creator='" + creator + '\'' +
@@ -172,6 +183,7 @@ public class JpaContract extends CityEntity {
                 ", userId=" + userId +
                 ", contractName='" + contractName + '\'' +
                 ", contractCode='" + contractCode + '\'' +
+                ", contractType='" + contractType + '\'' +
                 '}';
     }
 }
