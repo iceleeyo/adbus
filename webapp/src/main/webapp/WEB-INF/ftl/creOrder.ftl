@@ -121,6 +121,14 @@ $(document).ready(function(){
 											<p class="ui-term-placeholder"></p>
 											
 										</div>
+										
+										<div class="ui-form-item" id="orderRemark">
+											<label class="ui-label mt10">备注信息:</label>
+                                            <textarea rows="4" cols="40" style="resize: none;" name="ordRemark"></textarea>
+											<p class="ui-term-placeholder"></p>
+											
+										</div>
+										
 									</div>
 									<div class="ui-form-item widthdrawBtBox">
 										<input type="button" onclick="sub()" class="block-btn"

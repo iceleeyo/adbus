@@ -1,8 +1,5 @@
-<#import "template/template.ftl" as frame>
-<#global menu="合同列表">
-<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
+<#import "template/template.ftl" as frame> <#global menu="合同列表">
 <@frame.html title="合同管理" js=["js/jquery-dateFormat.js"]>
-
 
 <script type="text/javascript">
     var table;
@@ -29,6 +26,30 @@
             },
             "columns": [
                 { "data": "userId"},
+                { "data": "amounts", "defaultContent": "",
+                    "render": function(data, type, row, meta) {
+                        var filter = $('#amounts').val();
+                        if (filter && filter != '') {
+                            var regex = new RegExp(filter, "gi");
+                            data = data.replace(regex, function(matched) {
+                                return "<span class=\"hl\">" + matched + "</span>";
+                            });
+                        }
+                    return data;
+                } },
+                
+                { "data": "contractType", "defaultContent": "",
+                    "render": function(data, type, row, meta) {
+                        var filter = $('#contractType').val();
+                        if (filter && filter != '') {
+                            var regex = new RegExp(filter, "gi");
+                            data = data.replace(regex, function(matched) {
+                                return "<span class=\"hl\">" + matched + "</span>";
+                            });
+                        }
+                    return data;
+                } },
+                
             	{ "data": "contractCode", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         var filter = $('#contractCode').val();
@@ -51,7 +72,6 @@
                         }
                         return data;
                 }},
-                { "data": "amounts"},
                 { "data": "startDate", "defaultContent": "", "render": function(data) {
                     return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
                 }},
@@ -62,11 +82,7 @@
                     return row.id;
                 },
                     "render": function(data, type, row, meta) {
-                    var operations='<a target="_blank" class="table-link" href="${rc.contextPath}/contract/contractDetail/' + data +'">查看合同</a>&nbsp;';
-                     <@security.authorize ifAnyGranted="ShibaOrderManager">  
-                        operations +='<a class="table-link" href="javascript:delContract('+data+');" >删除</a>  &nbsp;';
-                        </@security.authorize>
-                         return operations;
+                        return '<a target="_blank" class="table-link" href="${rc.contextPath}/contract/contractDetail/' + data +'">查看合同</a>|<span><a href="#" id="test">编辑</a></span>';
                     }},
             ],
             "language": {
@@ -128,30 +144,46 @@ function delContract(conid){
         initTable();
     } );
 </script>
+<!--实现层移动-->
+<script type="text/javascript">
+$('#test').on('click', function(){
+alert("dddd");
+    layer.open({
+        type: 1,
+        area: ['600px', '360px'],
+        shadeClose: true, //点击遮罩关闭
+        content: '\<\div style="padding:20px;">自定义内容\<\/div>'
+    });
+});
+</script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-<#--            <div class="div" style="margin-top:25px">
-                <caption><h2>合同列表</h2></caption>
-            </div>
-            <div class="div">
-                <hr/>
-            </div>-->
-            <div class="withdraw-title" style="padding-top: 0px;text-align:left;">
-									合同列表
-									</div>
-                <table id="table" class="display" cellspacing="0" width="100%">
-                    <thead>
-                    <tr class="tableTr">
-                        <th orderBy="userId">广告主</th>
-                        <th orderBy="contractCode">合同号</th>
-                        <th orderBy="contractName">合同名称</th>
-                        <th orderBy="amounts">金额</th>
-                        <th orderBy="startDate">生效时间</th>
-                        <th orderBy="endDate">失效时间</th>
-                        <th>管理</th>
-                    </tr>
-                    </thead>
+	<#--
+	<div class="div" style="margin-top: 25px">
+		<caption>
+			<h2>合同列表</h2>
+		</caption>
+	</div>
+	<div class="div">
+		<hr />
+	</div>
+	-->
+	<div class="withdraw-title" style="padding-top: 0px; text-align: left;">
+		合同列表</div>
+	<table id="table" class="display" cellspacing="0" width="100%">
+		<thead>
+			<tr class="tableTr">
+				<th orderBy="userId">广告主</th>
+				<th orderBy="amounts">合同金额</th>
+				<th orderBy="contractType">合同类型</th>
+				<th orderBy="contractCode">合同号</th>
+				<th orderBy="contractName">合同名称</th>
+				<th orderBy="startDate">生效时间</th>
+				<th orderBy="endDate">失效时间</th>
+				<th>管理</th>
+			</tr>
+		</thead>
 
-                </table>
+	</table>
 </div>
 </@frame.html>
 

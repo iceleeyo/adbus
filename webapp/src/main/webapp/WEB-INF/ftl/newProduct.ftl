@@ -61,6 +61,11 @@
 				});
 	    });
 </script>
+<script type="text/javascript">
+        function bu(txtObj) {
+            txtObj.value = Number(txtObj.value).toFixed(2);
+        }
+    </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
 							<form data-name="withdraw" name="productForm" id="productForm"
 								class="ui-form" method="post" action="save"
@@ -175,7 +180,7 @@
                                             </label>
                                             <input
                                                     class="ui-input validate[required,number,min[1]"
-                                                    onkeyup="value=value.replace(/[^\d.]/g,'')" value="<#if prod??>${prod.price!''}<#else>0</#if>" name="price"
+                                                    onblur="bu(this)" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/[^\d.]/g,'')}" value="<#if prod??>${prod.price!''}<#else>0</#if>" name="price"
                                                     id="price" data-is="isAmount isEnough"
                                                     autocomplete="off" disableautocomplete="">
                                         </div>

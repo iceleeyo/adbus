@@ -26,7 +26,7 @@
 			   	  parent.css({'background-color': '#2da7e0', 'color': '#fff'});
 			   	  $('.pg-icon-a').removeAttr("style");
 			   	  //点击子选项时，只有该子选项的父选项改变状态
-			   	  if(parent.hasClass("bb-icon"))
+			   	  if($(this).hasClass("bb-icon"))
 			   	  	parent.children().css('background','url(../imgs/sidebar-icons.png?v=1548a) no-repeat -20px -20px');
 			   	  else if(parent.hasClass("cc-icon"))
 			   	  	parent.children().css('background','url(../imgs/sidebar-icons.png?v=1548a) no-repeat -20px -40px');

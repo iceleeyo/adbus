@@ -52,6 +52,7 @@
 		var startDate = $("#startDate").val();
 		var endDate = ($("#endDate").val());
 		var amounts=($("#amounts").val());
+		var contractType=($("#contractType").val());
 		Sfile= ($("#Sfile").val());
 		
 		if(endDate<startDate){
@@ -85,7 +86,11 @@
 	    });
 
 </script>
-
+<script type="text/javascript">
+        function bu(txtObj) {
+            txtObj.value = Number(txtObj.value).toFixed(2);
+        }
+</script>
 
  
 <div class="withdraw-wrap color-white-bg fn-clear">
@@ -103,6 +108,7 @@
 								</div>
 								<div class="withdrawInputs">
 									<div class="inputs">
+										
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10">
 											<span
@@ -138,10 +144,24 @@
                                                     class="ui-form-required">*</span>合同金额:</label>
                                                     <input
 												class="ui-input validate[required,custom[number],min[1]]"
-												onkeyup="value=value.replace(/[^\d.]/g,'')" type="text" name="amounts"
+												onblur="bu(this)" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/[^\d.]/g,'')}" type="text" name="amounts"
 												id="amounts" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="请输入合同金额"/>
                                         </div>
+                                        <div class="ui-form-item">
+                                            <label class="ui-label mt10">
+											<span
+                                                    class="ui-form-required">*
+											</span>合同类型:
+                                            </label>
+                                            <select data-is="isAmount isEnough" id="contractType" name="contractType"
+												autocomplete="off" disableautocomplete="" style="width:173px; height: 38px;">
+                                            	<option selected="selected" value="字幕">字幕</option>
+                                            	<option value="图片">图片</option>
+                                            	<option value="宣传片">宣传片</option>
+                                            </select>
+                                        </div>
+										
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>所属行业:</label>
