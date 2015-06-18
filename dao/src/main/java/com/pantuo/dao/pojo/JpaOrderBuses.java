@@ -125,6 +125,24 @@ public class JpaOrderBuses extends CityEntity {
         this.busNumber = busNumber;
     }
 
+    @JsonIgnore
+    public int getPriority() {
+        int p = 0;
+        if (model != null) {
+            p += 1000;
+            if (model.isDoubleDecker()) {
+                p += 500;
+            }
+        }
+        if (line != null)
+            p += 100;
+        if (company != null)
+            p += 10;
+        if (category != null)
+            p += 1;
+        return p;
+    }
+
     @Override
     public String toString() {
         return "JpaOrderBuses{" +

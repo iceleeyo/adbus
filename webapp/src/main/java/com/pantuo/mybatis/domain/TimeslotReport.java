@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pantuo.Reportable;
+import com.pantuo.dao.pojo.JpaProduct;
 import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
@@ -30,7 +31,10 @@ public class TimeslotReport implements Serializable, Reportable {
     private Long size;
     private Long paid;
     private Long notPaid;
+    private JpaProduct.Type productType;
+    private Double income;      //进款
     private Integer industryId;
+    private String level;
 
     public TimeslotReport() {}
 
@@ -96,6 +100,27 @@ public class TimeslotReport implements Serializable, Reportable {
 
     public void setSize(Long size) {
         this.size = size;
+        if (size != null && paid != null && notPaid != null) {
+            remain = size - paid - notPaid;
+        }
+    }
+
+    public JpaProduct.Type getProductType() {
+        return productType;
+    }
+
+    public void setProductType(Integer productType) {
+        if (productType != null) {
+            this.productType = JpaProduct.Type.values()[productType];
+        }
+    }
+
+    public Double getIncome() {
+        return income;
+    }
+
+    public void setIncome(Double income) {
+        this.income = income;
     }
 
     public Integer getYear() {
@@ -152,6 +177,14 @@ public class TimeslotReport implements Serializable, Reportable {
 
     public void setIndustryId(Integer industryId) {
         this.industryId = industryId;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     public TimeslotReport clone() {

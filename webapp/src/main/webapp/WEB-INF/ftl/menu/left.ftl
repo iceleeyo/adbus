@@ -246,6 +246,26 @@
 										</ul>
 									</li>
                                     </#if>
+                                    <#if city.mediaType == 'body'>
+                                    <li class="pg-side-item">
+                                        <a class="pg-side-item-t gg-icon">
+                                            <i class="s-left pg-icon-a g-icon"></i>
+                                            报表管理
+                                        </a>
+                                        <ul class="pg-side-exp-list">
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/body/monthp">
+                                                    年售出情况
+                                                </a>
+                                            </li>
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/body/daylinep">
+                                                    线路细分
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    </#if>
                                     </@security.authorize>
                                     <@security.authorize ifAnyGranted="advertiser,UserManager">
 									<li class="pg-side-item">

@@ -15,6 +15,8 @@ var yLabelFormatter = function() {
         label = $.format.date(d, "H:mm,ss;").replace(",","'").replace(";","\"");
     } else if (id == 'LONG_TIME_COUNT') {
         label = (label /3600).toFixed(1);
+    } else if (id == 'BUS_COUNT') {
+        label = label + "辆";
     }
     return label + (toolTipText || '');
 }
@@ -32,6 +34,8 @@ var tooltipFormatter = function() {
         yStr = (this.y /3600).toFixed(1) + '小时';
     } else if (yType == 'PERCENT') {
         yStr = this.y + "%";
+    } else if (yType == 'BUS_COUNT') {
+        yStr = this.y + "辆";
     }
 
     var xStr = this.x;

@@ -9,6 +9,7 @@ import java.util.*;
 
 import com.pantuo.dao.*;
 import com.pantuo.dao.pojo.*;
+import com.pantuo.util.DateUtil;
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.impl.persistence.entity.GroupEntity;
 import org.slf4j.Logger;
@@ -55,9 +56,13 @@ public class DataInitializationService {
     SuppliesRepository suppliesRepository;
 
     @Autowired
+    CalendarRepository calendarRepo;
+
+    @Autowired
     CityService cityService;
 
     public void intialize() throws Exception {
+        initializeCalendar();
         initializeCities();
         initializeIndustries();
         initializeGroups4AddUser();
@@ -68,8 +73,50 @@ public class DataInitializationService {
         //初始增加一条记录
         initializeSupplies();
     }
-    
-    
+
+    private void initializeCalendar() throws Exception {
+        long count = calendarRepo.count();
+        if (count > 0) {
+            log.info("There are already {} days in calendar table, skip initialization step", count);
+            return;
+        }
+
+        List<JpaCalendar> cals = new ArrayList<JpaCalendar>(200);
+        Date to;
+        Date curr;
+
+        Calendar cal = DateUtil.newCalendar();
+        cal.add(Calendar.YEAR, 5);
+        cal.set(Calendar.MONTH, 0);
+        cal.set(Calendar.DATE, 1);
+        to = cal.getTime();
+
+        cal.add(Calendar.YEAR, -10);
+
+        int i = 0;
+        int total = 0;
+        while (!(curr = cal.getTime()).after(to)) {
+            cals.add(new JpaCalendar(curr));
+            cal.add(Calendar.DATE, 1);
+            i ++;
+
+            if (i == 200) {
+                total += 200;
+                calendarRepo.save(cals);
+                i = 0;
+                cals.clear();
+            }
+        }
+
+        if (!cals.isEmpty()) {
+            calendarRepo.save(cals);
+            total += cals.size();
+        }
+
+        log.info("Inserted {} days into calendar table", total);
+    }
+
+
     //初始化group表
     private void initializeGroups4AddUser() throws Exception {
         InputStream is = DataInitializationService.class.getClassLoader().getResourceAsStream("groups.csv");

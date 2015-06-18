@@ -6,6 +6,7 @@ import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.ScheduleLog;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.service.ActivitiService;
+import com.pantuo.service.BusScheduleService;
 import com.pantuo.service.OrderService;
 import com.pantuo.service.ScheduleService;
 import org.activiti.engine.delegate.DelegateExecution;
@@ -25,7 +26,11 @@ public class GenerateSchedule implements JavaDelegate {
     @Autowired
     private OrderService orderService;
 
-	//@Override
+    @Autowired
+    private BusScheduleService busScheduleService;
+
+
+    //@Override
 	public void execute(DelegateExecution execution) throws Exception {
 		// varOutFromMainprocess<->varInSubprocess
         Boolean b = (Boolean) execution.getVariable("_isTest");
@@ -57,6 +62,9 @@ public class GenerateSchedule implements JavaDelegate {
                     execution.setVariable("scheduleResult", false);
                     execution.setVariable("scheduleComments", log.getDescription());
                 }
+            } else if (order.getType() == JpaProduct.Type.body) {
+                boolean result = busScheduleService.schedule(order);
+                execution.setVariable("scheduleResult", result);
             } else {
                 //其他类型暂时不需要排期
                 execution.setVariable("scheduleResult", true);

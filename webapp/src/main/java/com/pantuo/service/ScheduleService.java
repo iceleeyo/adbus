@@ -13,7 +13,6 @@ import com.pantuo.mybatis.domain.Box;
 import com.pantuo.mybatis.domain.BoxExample;
 import com.pantuo.mybatis.persistence.BoxMapper;
 import com.pantuo.util.DateUtil;
-import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.Schedule;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;

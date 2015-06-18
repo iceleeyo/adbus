@@ -1,7 +1,11 @@
 <#import "template/template.ftl" as frame>
 <#import "template/orderDetail.ftl" as orderDetail/>
-<#global menu="排期表">
-<@frame.html title="排期表">
+<#if mediaType == 'screen'>
+    <#global menu="排期表">
+<#elseif mediaType == 'body'>
+    <#global menu="上刊巴士列表">
+</#if>
+<@frame.html title=menu>
 
 <style type="text/css">
     .center {margin: auto;}
@@ -16,6 +20,7 @@
     #table td .per-middle {position:absolute;background-color: #ffad20;border-left: 1px solid white;border-right: 1px solid white;top:0;height:100%;z-index:1}
     #table td .per-first-or-last {position:absolute;background-color: #4acd48;border-left: 1px solid white;border-right: 1px solid white;top:0;height:100%;z-index:1}
 </style>
+<#if mediaType == 'screen'>
 <script type="text/javascript">
     var table;
     function initTable () {
@@ -94,46 +99,75 @@
         initTable();
     } );
 </script>
+<#elseif mediaType == 'body'>
+<script type="text/javascript">
+    var table;
+    function initTable () {
+        table = $('#table').dataTable( {
+            "dom": '<"#toolbar">lrtip',
+            "searching": false,
+            "ordering": true,
+            "serverSide": true,
+            "columnDefs": [
+                { "orderable": false, "targets": [7] },
+            ],
+            "iDisplayLength" : 10,
+            "aLengthMenu": [[10, 20, 100], [10, 20, 100]],
+            "ajax": {
+                type: "GET",
+                url: "${rc.contextPath}/schedule/order-body-ajax-list",
+                data: function(d) {
+                    return $.extend( {}, d, {
+                        "orderId" : "${orderId}"
+                    } );
+                },
+                "dataSrc": "content",
+            },
+            "columns": [
+                { "data": "bus.plateNumber"},
+                { "data": "bus.serialNumber"},
+                { "data": "bus.line.name"},
+                { "data": "bus.line.levelStr"},
+                { "data": "bus.model.name"},
+                { "data": "bus.categoryStr"},
+                { "data": "bus.company.name"},
+                { "data": "bus.description"},
+            ],
+            "language": {
+                "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
+            },
+            "initComplete": initComplete,
+            "drawCallback": drawCallback,
+        } );
+        table.fnNameOrdering("orderBy").fnNoColumnsParams();
+    }
+
+    function initComplete() {
+    }
+
+    function drawCallback() {
+    }
+
+    $(document).ready(function() {
+        initTable();
+    } );
+</script>
+</#if>
+
 <@orderDetail.orderDetail orderview=orderview quafiles="" suppliesLink=false viewScheduleLink=false/>
 
+<#if mediaType == 'screen'>
 <div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear">
     <H3 class="text-xl title-box"><A class="black" href="#">排期表</A></H3>
-<#--            <div class="withdraw-title" style="margin-top:5px">
-                <caption><h2>订单排期详情</h2></caption>
-            </div>
-            <div class="div">
-                <table id="metatable" class="display" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th>订单号</th>
-                        <th>用户</th>
-                        <th>广告素材</th>
-                        <th>套餐</th>
-                        <th>开始时间</th>
-                        <th>结束时间</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>${orderIdSeq}</td>
-                        <td>${order.userId}</td>
-                        <td><a href="${rc.contextPath}/supplies/suppliesDetail/${order.supplies.id}" target="_blank">${order.supplies.name}</a></td>
-                        <td><a href="${rc.contextPath}/product/d/${order.product.id}" target="_blank">${order.product.name}</a></td>
-                        <td>${order.startTime}</td>
-                        <td>${order.endTime}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>-->
             <div class="div" style="overflow-x: scroll">
                 <table id="table" class="cell-border compact display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th>时段名</th>
+                        <th style="min-width:60px;">时段名</th>
                         <th>时段</th>
                         <th>时长</th>
                         <#list dates as d>
-                            <th>${d?substring(5)}</th>
+                            <th style="min-width:60px;">${d?substring(5)}</th>
                         </#list>
                     </tr>
                     </thead>
@@ -141,4 +175,24 @@
                 </table>
             </div>
 </div>
+<#elseif mediaType == 'body'>
+<div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear">
+    <H3 class="text-xl title-box"><A class="black" href="#">上刊巴士列表</A></H3>
+    <table id="table" class="display compact" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th orderBy="bus.plateNumber">车牌号</th>
+            <th orderBy="bus.serialNumber">车辆自编号</th>
+            <th orderBy="bus.line.name">线路</th>
+            <th orderBy="bus.line.level">线路级别</th>
+            <th orderBy="bus.model.name">车型</th>
+            <th orderBy="bus.category">类别</th>
+            <th orderBy="bus.company">营销中心</th>
+            <th>车辆描述</th>
+        </tr>
+        </thead>
+
+    </table>
+</div>
+</#if>
 </@frame.html>

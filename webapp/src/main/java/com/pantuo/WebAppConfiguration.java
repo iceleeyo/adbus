@@ -49,7 +49,12 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 	@Autowired
 	private ControllerInterceptor controllerInterceptor;
 
-	@Bean
+    @Override
+    public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
+        exceptionResolvers.add(webExceptionResolver());
+    }
+
+//    @Bean
 	public HandlerExceptionResolver webExceptionResolver() {
 		return new RestExceptionResolver();
 	}

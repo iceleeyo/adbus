@@ -15,8 +15,8 @@ import java.util.concurrent.Executors;
  *
  * @author tliu
  */
-@Configuration
-@EnableScheduling
+//@Configuration
+//@EnableScheduling
 //@ComponentScan(basePackages = {"com.pantuo.simulate"})
 public class SchedulerConfiguration implements SchedulingConfigurer {
     //@Override

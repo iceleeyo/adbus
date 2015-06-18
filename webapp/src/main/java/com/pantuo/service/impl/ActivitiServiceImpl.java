@@ -865,15 +865,21 @@ public class ActivitiServiceImpl implements ActivitiService {
 				}
 				variables.putAll(taskVarMap);
 			}
-			Task task=findTaskById(taskId);
+			Task task=findTaskById(taskId, true);
 			if(StringUtils.equals(task.getAssignee(),  u.getUsername())){
 				variables.put("lastModifUser", u.getUsername());
 				taskService.complete(taskId, variables);
+                JpaOrders.Status status = fetchStatusAfterTaskComplete(task);
+                Integer orderId = (Integer)task.getProcessVariables().get(ORDER_ID);
+                if (status != null && orderId != null) {
+                    orderService.updateStatus(orderId, status);
+                }
 			}else{
 				r = new Pair<Boolean, String>(false, "非法操作！");
-				log.warn(u.getUsername()+":"+task.toString());
+				log.warn(u.getUsername() + ":" + task.toString());
 			}
 		} catch (Exception e) {
+            log.error("Fail to complete task {}", taskId, e);
 			//e.printStackTrace();
 			r = new Pair<Boolean, String>(false, StringUtils.EMPTY);
 		}
@@ -946,6 +952,42 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return v;
 	}
 
+    public JpaOrders.Status getOrderStatus(int orderId) {
+        ProcessInstance instance = runtimeService.createProcessInstanceQuery().includeProcessVariables().variableValueEquals(ORDER_ID, orderId).singleResult();
+        if (instance != null) {
+            Map<String, Object> vars = instance.getProcessVariables();
+            Boolean approve1 = (Boolean) vars.get("approve1Result");
+            Boolean approve2 = (Boolean) vars.get("approve2Result");
+            Boolean payment = (Boolean) vars.get("paymentResult");
+            Boolean schedule = (Boolean) vars.get("scheduleResult");
+            Boolean shangbo = (Boolean) vars.get("shangboResult");
+            Boolean jianbo = (Boolean) vars.get("jianboResult");
+            if ((jianbo != null && jianbo)
+                    || (shangbo != null && shangbo)) {
+                return JpaOrders.Status.started;
+            } else if (schedule != null && schedule) {
+                return JpaOrders.Status.scheduled;
+            } else if (payment != null && payment) {
+                return JpaOrders.Status.paid;
+            } else {
+                return JpaOrders.Status.unpaid;
+            }
+        } else {
+            HistoricTaskInstance history = historyService.createHistoricTaskInstanceQuery().includeProcessVariables().processVariableValueEquals(ORDER_ID, orderId).singleResult();
+            if (history != null) {
+                Map<String, Object> vars = history.getProcessVariables();
+                Boolean jianbo = (Boolean) vars.get("jianboResult");
+                if (jianbo != null && jianbo) {
+                    return JpaOrders.Status.completed;
+                } else {
+                    return JpaOrders.Status.cancelled;
+                }
+            } else {
+                return null;
+            }
+        }
+    }
+
 	// 根据OrderId查找流程实例
 	public ProcessView findPidByOrderid(int orderid, String userId) {
 		// 找到流程实例
@@ -1008,7 +1050,19 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return processDefinition;
 	}
 
-	public TaskEntity findTaskById(String taskId) throws Exception {
+    public TaskEntity findTaskById(String taskId, boolean withVariables) throws Exception {
+        TaskQuery query = taskService.createTaskQuery();
+        if (withVariables)
+            query.includeProcessVariables();
+        TaskEntity task = (TaskEntity) query.taskId(taskId).singleResult();
+        if (task == null) {
+            throw new Exception("任务实例未找到!");
+        }
+        return task;
+    }
+
+
+    public TaskEntity findTaskById(String taskId) throws Exception {
 		TaskEntity task = (TaskEntity) taskService.createTaskQuery().taskId(taskId).singleResult();
 		if (task == null) {
 			throw new Exception("任务实例未找到!");
@@ -1246,4 +1300,19 @@ public class ActivitiServiceImpl implements ActivitiService {
 			return "finishedOrderDetail";
 		}
 	}
+
+    @Override
+    public JpaOrders.Status fetchStatusAfterTaskComplete(Task task) {
+        String key = task.getTaskDefinitionKey();
+//        Map<String, Object> info = taskService.getVariables(task.getId());
+        if ("financialCheck".equals(key))
+            return JpaOrders.Status.paid;
+        else if ("inputSchedule".equals(key))
+            return JpaOrders.Status.scheduled;
+        else if ("shangboReport".equals(key))
+            return JpaOrders.Status.started;
+        else if ("jianboReport".equals(key))
+            return JpaOrders.Status.completed;
+        return null;
+    }
 }

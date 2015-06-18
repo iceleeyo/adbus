@@ -536,7 +536,8 @@ public class ReportController {
                 seriesNames.add(0, "OTHER_NOTPAID");
                 yNames.put("OTHER_PAID", "paid");
                 yNames.put("OTHER_NOTPAID", "notPaid");
-                s.setPointer(false, 1).addName("remain", "剩余时长").addName("paid", "其他行业已售").addName("notPaid", "其他行业预售");           } else {
+                s.setPointer(false, 1).addName("remain", "剩余时长").addName("paid", "其他行业已售").addName("notPaid", "其他行业预售");
+            } else {
                 for (JpaIndustry industry : industries) {
                     if (industry.getId() == e.getKey()) {
                         b.addSeries(industry.getId() + "_PAID", s);

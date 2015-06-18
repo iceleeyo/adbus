@@ -1,5 +1,6 @@
 package com.pantuo.pojo;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Sort;
 
 import java.util.Iterator;
@@ -89,7 +90,13 @@ public class TableRequest {
     }
 
     public String getFilter(String key, String defaultValue) {
-        return (filter == null || !filter.containsKey(key)) ? defaultValue : filter.get(key);
+        if (filter == null || !filter.containsKey(key))
+            return defaultValue;
+        String val = filter.get(key);
+        if (StringUtils.isBlank(val)) {
+            return defaultValue;
+        }
+        return val;
     }
 
     public int getFilterInt(String key, int defaultValue) {
@@ -117,5 +124,16 @@ public class TableRequest {
         } catch (Exception e) {
             return defaultValue;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "TableRequest{" +
+                "filter=" + filter +
+                ", draw=" + draw +
+                ", order=" + order +
+                ", length=" + length +
+                ", start=" + start +
+                '}';
     }
 }

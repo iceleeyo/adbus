@@ -123,7 +123,7 @@ public class ScheduleServiceTest {
             Date end = cal.getTime();
             JpaOrders order = new JpaOrders(city.getId(), "tliu", null, prod, contract.getId(),
                     contract.getContractCode(), start, end, JpaProduct.Type.video,
-                    JpaOrders.PayType.contract, random.nextInt(10) < 3 ? JpaOrders.Status.unpaid : JpaOrders.Status.paid, "manager", 0);
+                    JpaOrders.PayType.contract, random.nextInt(10) < 3 ? JpaOrders.Status.unpaid : JpaOrders.Status.paid, "manager", 0, null);
             order.setSuppliesId(supply[random.nextInt(1)].getId());
             orderService.saveOrderJpa(city.getId(), order, new UserDetail("tliu", "123456", "Tony", "Liu", "tliutest@gmail.com"));
             orders.add(order);

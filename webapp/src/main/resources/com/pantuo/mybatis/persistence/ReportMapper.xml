@@ -10,6 +10,7 @@
     <result column="notPaid" property="notPaid" jdbcType="BIGINT" />
     <result column="size" property="size" jdbcType="BIGINT" />
     <result column="industryId" property="industryId" jdbcType="INTEGER" />
+    <result column="level" property="level" jdbcType="VARCHAR" />
   </resultMap>
   <select id="getRemainTimeslots" parameterType="map" resultMap="timeslotReport" >
     <![CDATA[
@@ -86,5 +87,84 @@
         join supplies s on (o.supplies_id = s.id and o.city = s.city)
     ) tmp
     group by day,industryId
+    </select>
+
+    <select id="getOrderBuses" parameterType="map" resultMap="timeslotReport" >
+    <![CDATA[
+        select day,
+            count(distinct paid) as paid,
+            count(distinct notPaid) as notPaid
+        from (
+            select c.day,
+              case when o.stats = 0 then null else b.id end as paid,
+              case when o.stats = 0 then b.id else null end as notPaid
+            from bus b
+            inner join bus_schedule s on b.id = s.bus_id and b.city = s.city
+            inner join calendar c on c.day >= s.start_day and c.day <= s.end_day
+            inner join orders o on s.order_id = o.id and s.city = o.city
+            where b.city=#{city} and c.day >= #{from} and c.day <= #{to}
+        ) tmp
+        group by day
+    ]]>
+    </select>
+
+    <select id="getMonthlyOrderBuses" parameterType="map" resultMap="timeslotReport" >
+    <![CDATA[
+        select year, month,
+            count(distinct paid) as paid,
+            count(distinct notPaid) as notPaid
+        from (
+            select c.year, (c.month + 1) as month,
+              case when o.stats = 0 then null else b.id end as paid,
+              case when o.stats = 0 then b.id else null end as notPaid
+            from bus b
+            inner join bus_schedule s on b.id = s.bus_id and b.city = s.city
+            inner join calendar c on c.day >= s.start_day and c.day <= s.end_day
+            inner join orders o on s.order_id = o.id and s.city = o.city
+            where b.city=#{city} and c.year = #{year}
+        ) tmp
+        group by year, month
+    ]]>
+    </select>
+
+    <select id="getOrderBusesByLineLevels" parameterType="map" resultMap="timeslotReport" >
+        select day,
+            level,
+            count(distinct paid) as paid,
+            count(distinct notPaid) as notPaid
+        from (
+            select c.day,
+              case when o.stats = 0 then null else b.id end as paid,
+              case when o.stats = 0 then b.id else null end as notPaid,
+            (case
+            <foreach close="" collection="levels" item="level" open="" separator="">
+                when l.level = #{level} then #{level}
+            </foreach>
+    <![CDATA[
+            else -1
+            end) as level
+            from bus b
+            inner join bus_schedule s on b.id = s.bus_id and b.city = s.city
+            inner join calendar c on c.day >= s.start_day and c.day <= s.end_day
+            inner join orders o on s.order_id = o.id and s.city = o.city
+            inner join bus_line l on b.city = l.city and l.id=b.line_id
+            where b.city=#{city} and c.day >= #{from} and c.day <= #{to}
+        ) tmp
+        group by day, level
+    ]]>
+    </select>
+
+    <select id="getDailyIncomeReport" parameterType="map" resultMap="timeslotReport">
+        SELECT c.day, c.year, c.month, p.type, sum(p.price) as income FROM ORDERS o
+        inner join product p on o.product_id = p.id and o.city=p.city
+        inner join city ct on o.city = ct.id
+        inner join calendar c on c.day = o.financial_check_day
+        where o.city=#{city}
+       <![CDATA[
+        and o.stats >= 1 and o.stats != 5
+        and c.media_type = #{mediaType}
+        and o.financial_check_time >= #{from} and o.financial_check_time <= #{to}
+        ]]>
+        group by  c.day, c.year, c.month, p.type
     </select>
 </mapper>

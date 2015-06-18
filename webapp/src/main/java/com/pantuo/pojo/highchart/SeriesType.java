@@ -6,7 +6,9 @@ public enum SeriesType implements Serializable {
 
     TIMESLOT(1, "时段", YType.TIME_COUNT),
     LONG_TIMESLOT(3, "时段", YType.LONG_TIME_COUNT),
-    TIMESLOT_PERCENT(5, "时段占比", YType.PERCENT);
+    TIMESLOT_PERCENT(5, "时段占比", YType.PERCENT),
+    BUSCOUNT_PERCENT(7, "巴士占比", YType.BUS_COUNT),
+    ;
 	
 	final private int id;
 	final private String desc;

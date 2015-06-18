@@ -29,6 +29,13 @@ public class DateUtil {
         return cal.getTime();
     }
 
+    public static Date dateAdd(Date date, int days) {
+        Calendar cal = DateUtil.newCalendar();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, days);
+        return cal.getTime();
+    }
+
     public static int[] getYearAndMonthAndHour(Date d) {
         if (d == null)
             return new int[] {-1, -1, -1};

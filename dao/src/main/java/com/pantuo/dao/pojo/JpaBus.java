@@ -14,6 +14,7 @@ import java.util.Set;
         indexes = @Index(name="bus_index",
                 columnList="city, plateNumber, serialNumber, lineId, category, modelId, companyId"))
 public class JpaBus extends CityEntity{
+
     public static enum Category {
         baoche ("包车"),
         banche ("班车"),
@@ -68,14 +69,19 @@ public class JpaBus extends CityEntity{
     private String branch;              //所属分公司
     private boolean enabled = true;      //是否启用
 
-    @OneToMany(mappedBy="bus", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
-    private Set<JpaBusSchedule> schedules;
+//    @OneToMany(mappedBy="bus", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+//    private Set<JpaBusSchedule> schedules;
 
 	public JpaBus(){
 
 	}
 
-	public JpaBus(int city, JpaBusline line, Category category,
+    public JpaBus(int city, int busId) {
+        super(city);
+        this.id = busId;
+    }
+
+    public JpaBus(int city, JpaBusline line, Category category,
                   String serialNumber, String oldSerialNumber,
                   String plateNumber, JpaBusModel model, JpaBusinessCompany company,
                   String office, String branch,
@@ -206,13 +212,13 @@ public class JpaBus extends CityEntity{
         this.enabled = enabled;
     }
 
-    public Set<JpaBusSchedule> getSchedules() {
-        return schedules;
-    }
-
-    public void setSchedules(Set<JpaBusSchedule> schedules) {
-        this.schedules = schedules;
-    }
+//    public Set<JpaBusSchedule> getSchedules() {
+//        return schedules;
+//    }
+//
+//    public void setSchedules(Set<JpaBusSchedule> schedules) {
+//        this.schedules = schedules;
+//    }
 
     @Override
     public boolean equals(Object o) {

@@ -421,18 +421,29 @@ public class OrderController {
     @ResponseBody
     public JpaOrders orderBuses(@CookieValue(value = "city", defaultValue = "-1") int city,
                                             JpaOrderBuses orderBuses) {
+        int orderId = orderBuses.getOrder().getId();
+        JpaOrders order = orderService.getJpaOrder(orderId);
+
+        if (order == null) {
+            JpaOrders result =  new JpaOrders();
+            result.setErrorInfo(BaseEntity.ERROR, "无效订单");
+            return result;
+        }
+
+        //check order status
+        JpaOrders.Status status = activitiService.getOrderStatus(orderId);
+        if (status == null || status.ordinal() >= JpaOrders.Status.scheduled.ordinal()) {
+            JpaOrders result =  new JpaOrders();
+            result.setErrorInfo(BaseEntity.ERROR, "订单" + status.getNameStr() + ", 无法更改公交线路");
+            return result;
+        }
+
         if (orderBuses.getBusNumber() <= 0) {
             JpaOrders result =  new JpaOrders();
             result.setErrorInfo(BaseEntity.ERROR, "请填写正确的巴士数量");
             return result;
         }
 
-        JpaOrders order = orderService.getJpaOrder(orderBuses.getOrder().getId());
-        if (order == null) {
-            JpaOrders result =  new JpaOrders();
-            result.setErrorInfo(BaseEntity.ERROR, "无效订单");
-            return result;
-        }
         //validate
         order.getOrderBuses().add(orderBuses);
         if (order.getSelectableBusesNumber() < 0) {
@@ -466,6 +477,15 @@ public class OrderController {
             result.setErrorInfo(BaseEntity.ERROR, "没找到对应的订单");
             return result;
         }
+
+        //check order status
+        JpaOrders.Status status = activitiService.getOrderStatus(orderId);
+        if (status == null || status.ordinal() >= JpaOrders.Status.scheduled.ordinal()) {
+            JpaOrders result =  new JpaOrders();
+            result.setErrorInfo(BaseEntity.ERROR, "订单" + status.getNameStr() + ", 无法更改公交线路");
+            return result;
+        }
+
         Set<JpaOrderBuses> orderBuses = order.getOrderBuses();
         JpaOrderBuses found = null;
         for (JpaOrderBuses b : orderBuses) {

@@ -66,3 +66,7 @@ table.dataTable td,table.dataTable th {
 .align-right {
 	text-align: right !important;
 }
+
+div.DTTT_container {
+    margin: 14px 0;
+}

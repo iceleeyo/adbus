@@ -20,7 +20,21 @@ public class JpaOrders extends CityEntity {
         online, contract,other
     }
     public static enum Status {
-        unpaid, paid, scheduled, started, completed, cancelled
+        unpaid ("未支付"),
+        paid ("已支付"),
+        scheduled ("已排期"),
+        started ("已上播"),
+        completed ("已完成"),
+        cancelled ("已取消");
+
+        private final String nameStr;
+        private Status(String nameStr) {
+            this.nameStr = nameStr;
+        }
+
+        public String getNameStr () {
+            return nameStr;
+        }
     }
 
 
@@ -45,6 +59,11 @@ public class JpaOrders extends CityEntity {
     private Long ordRemark;
     private String creator;
     private int isInvoice;
+    private Date scheduleDay;
+    private Date shangboDay;
+    private Date jianboDay;
+    private Date financialCheckDay;
+    private Date cancelDay;
 
     @OneToMany(cascade = { CascadeType.ALL }, mappedBy="order", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<JpaOrderBuses> orderBuses;
@@ -53,13 +72,16 @@ public class JpaOrders extends CityEntity {
         //for serialization
     }
 
+    public JpaOrders(int city, int orderId) {
+        super(city);
+        this.id = orderId;
+    }
 
-    public JpaOrders(int id, String userId, JpaSupplies supplies,
+    public JpaOrders(int city, String userId, JpaSupplies supplies,
 			JpaProduct product, int contractId, String contractCode,
 			Date startTime, Date endTime, Type type, PayType payType,
 			Status stats, String creator, int isInvoice, Long ordRemark) {
-		super();
-		this.id = id;
+		super(city);
         this.userId = userId;
 		this.supplies = supplies;
 		this.product = product;
@@ -223,6 +245,23 @@ public class JpaOrders extends CityEntity {
         });
         return buses;
     }
+    public List<JpaOrderBuses> getOrderBusesListByPriority() {
+        List<JpaOrderBuses> buses = null;
+        if (orderBuses != null)
+            buses = new ArrayList<JpaOrderBuses>(orderBuses);
+        else
+            buses = new ArrayList<JpaOrderBuses>();
+
+        Collections.sort(buses, new Comparator<JpaOrderBuses>() {
+            @Override
+            public int compare(JpaOrderBuses o1, JpaOrderBuses o2) {
+                return o2.getPriority() - o1.getPriority();
+            }
+        });
+        return buses;
+    }
+
+
 
     public int getSelectableBusesNumber() {
         if (product == null)
@@ -240,6 +279,45 @@ public class JpaOrders extends CityEntity {
 		return ordRemark;
 	}
 
+    public Date getScheduleDay() {
+        return scheduleDay;
+    }
+
+    public void setScheduleDay(Date scheduleDay) {
+        this.scheduleDay = scheduleDay;
+    }
+
+    public Date getShangboDay() {
+        return shangboDay;
+    }
+
+    public void setShangboDay(Date shangboDay) {
+        this.shangboDay = shangboDay;
+    }
+
+    public Date getJianboDay() {
+        return jianboDay;
+    }
+
+    public void setJianboDay(Date jianboDay) {
+        this.jianboDay = jianboDay;
+    }
+
+    public Date getFinancialCheckDay() {
+        return financialCheckDay;
+    }
+
+    public void setFinancialCheckDay(Date financialCheckDay) {
+        this.financialCheckDay = financialCheckDay;
+    }
+
+    public Date getCancelDay() {
+        return cancelDay;
+    }
+
+    public void setCancelDay(Date cancelDay) {
+        this.cancelDay = cancelDay;
+    }
 
 	public void setOrdRemark(Long ordRemark) {
 		this.ordRemark = ordRemark;

@@ -1,7 +1,8 @@
 <#import "template/template.ftl" as frame>
 <#global menu="排条单">
-<@frame.html title="排条单" js=["js/jquery-dateFormat.js", "js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"]
-css=["js/jquery-ui/jquery-ui.css"]>
+<@frame.html title="排条单" js=["js/jquery-dateFormat.js", "js/jquery-ui/jquery-ui.js", "js/datepicker.js",
+"js/jquery.datepicker.region.cn.js", "js/jquery-dataTables-fnFakeRowspan.js"<#--, "js/tabletools/js/dataTables.tableTools.js"-->]
+css=["js/jquery-ui/jquery-ui.css"<#--, "js/tabletools/css/dataTables.tableTools.min.css"-->]>
 
 <style type="text/css">
     #table.dataTable thead th:first-child, #table.dataTable thead td:first-child,
@@ -39,6 +40,22 @@ css=["js/jquery-ui/jquery-ui.css"]>
     function initTable () {
         table = $('#table').dataTable( {
             "dom": '<"#toolbar">rt',
+/*            "tableTools": {
+                "aButtons": [   {
+                                "sExtends":     "xls",
+                                "sButtonText": "导出Excel"
+                                },
+                                {
+                                    "sExtends":     "pdf",
+                                    "sButtonText": "导出PDF"
+                                },
+                                {
+                                    "sExtends":     "print",
+                                    "sButtonText": "打印预览"
+                                }],
+                "mColumns": [0, 1, 1, 1, 1, 1],
+                "sSwfPath": "${rc.contextPath}/js/tabletools/swf/copy_csv_xls_pdf_2.swf"
+            },*/
             "searching": false,
             "ordering": false,
             "serverSide": true,
@@ -100,7 +117,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
             },
             "initComplete": initComplete,
-            "drawCallback": drawCallback,
+            "drawCallback": drawCallback
         });
         table.fnFakeRowspan(1, [1, 2, 3]).fnNameOrdering("orderBy").fnNoColumnsParams();
     }
@@ -112,8 +129,14 @@ css=["js/jquery-ui/jquery-ui.css"]>
                         '    <span>' +
                         '        <input id="name" value="">' +
                         '    </span>' +
+                        '    <span><a href="javascript:void()" id="export_xls" class="btn-sm btn-success">导出Excel</a>' +
+                        '    </span>' +
                         '</div>'
         );
+
+        $("#export_xls").click(function(){
+            location.href='${rc.contextPath}/schedule/list.xls?filter[day]=${day}';
+        });
 
         $('#name').change(function() {
             table.fnDraw();

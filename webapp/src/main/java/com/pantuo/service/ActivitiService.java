@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.ui.Model;
@@ -100,6 +101,8 @@ public interface ActivitiService {
 
 	public OrderView findOrderViewByTaskId(String taskid);
 
+    public JpaOrders.Status getOrderStatus(int orderId);
+
 	/**
 	 * @deprecated
 	 *
@@ -139,6 +142,8 @@ public interface ActivitiService {
 	public Pair<Boolean, String> modifyOrder(int city, int orderid, String taskid, int supplieid, UserDetail user);
 
 	public String showOrderDetail(int city, Model model, int orderid, String taskid, String pid, Principal principal);
+
+    public JpaOrders.Status fetchStatusAfterTaskComplete(Task task);
 	
 	/**
 	 * 

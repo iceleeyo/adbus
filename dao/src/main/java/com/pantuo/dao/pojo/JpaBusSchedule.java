@@ -1,5 +1,6 @@
 package com.pantuo.dao.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pantuo.util.DateUtil;
 
 import javax.persistence.*;
@@ -13,7 +14,8 @@ import java.util.Map;
  */
 
 @Entity
-@Table(name="bus_schedule")
+@Table(name="bus_schedule",
+        uniqueConstraints = {@UniqueConstraint(name="bus_schedule_uniq", columnNames = {"busId", "orderId", "startDay", "endDay"})})
 public class JpaBusSchedule extends CityEntity{
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,29 +25,34 @@ public class JpaBusSchedule extends CityEntity{
     @JoinColumn(name = "busId")
     private JpaBus bus;
 
-    private Date publishFrom;      //刊期开始, inclusive
-    private Date publishTo;        //刊期结束, exclusive
+    @ManyToOne
+    @JoinColumn(name = "orderId")
+    @JsonIgnore
+    private JpaOrders order;
+
+    private Date startDay;
+
+    private Date endDay;
 
 	public JpaBusSchedule(){
 
 	}
 
-	public JpaBusSchedule(JpaBus bus, Date publishFrom, Date publishTo) {
+	public JpaBusSchedule(JpaBus bus, JpaOrders order) {
 		super(bus.getCity());
         this.bus = bus;
-        this.publishFrom = DateUtil.trimDate(publishFrom);
-        this.publishTo = DateUtil.trimDate(publishTo);
+        this.order = order;
+        this.startDay = DateUtil.trimDate(order.getStartTime());
+        this.endDay = DateUtil.dateAdd(this.startDay, order.getProduct().getDays());
 	}
 
 
-    public JpaBusSchedule(JpaBus bus, Date publishFrom, int days) {
-        super(bus.getCity());
-        this.bus = bus;
-        this.publishFrom = DateUtil.trimDate(publishFrom);
-        Calendar c = DateUtil.newCalendar();
-        c.setTime(this.publishFrom);
-        c.add(Calendar.DATE, days);
-        this.publishTo = c.getTime();
+    public JpaBusSchedule(int city, int busId, int orderId, Date startDay, Date endDay) {
+        super(city);
+        this.bus = new JpaBus(city, busId);
+        this.order = new JpaOrders(city, orderId);
+        this.startDay = DateUtil.trimDate(startDay);
+        this.endDay = DateUtil.trimDate(endDay);
     }
 
     public int getId() {
@@ -64,19 +71,27 @@ public class JpaBusSchedule extends CityEntity{
         this.bus = bus;
     }
 
-    public Date getPublishFrom() {
-        return publishFrom;
+    public JpaOrders getOrder() {
+        return order;
     }
 
-    public void setPublishFrom(Date publishFrom) {
-        this.publishFrom = publishFrom;
+    public void setOrder(JpaOrders order) {
+        this.order = order;
     }
 
-    public Date getPublishTo() {
-        return publishTo;
+    public Date getStartDay() {
+        return startDay;
     }
 
-    public void setPublishTo(Date publishTo) {
-        this.publishTo = publishTo;
+    public void setStartDay(Date startDay) {
+        this.startDay = startDay;
+    }
+
+    public Date getEndDay() {
+        return endDay;
+    }
+
+    public void setEndDay(Date endDay) {
+        this.endDay = endDay;
     }
 }

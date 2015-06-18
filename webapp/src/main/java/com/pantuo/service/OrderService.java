@@ -9,6 +9,7 @@ import com.pantuo.dao.OrderBusesRepository;
 import com.pantuo.dao.pojo.*;
 import com.pantuo.mybatis.domain.*;
 import com.pantuo.mybatis.persistence.OrderBusesMapper;
+import com.pantuo.util.DateUtil;
 import org.activiti.engine.RuntimeService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -197,6 +198,28 @@ public class OrderService {
 
     public JpaOrders selectJpaOrdersById(int orderId) {
         return ordersRepository.findOne(orderId);
+    }
+
+    public boolean updateStatus(int orderId, JpaOrders.Status status) {
+        JpaOrders o = selectJpaOrdersById(orderId);
+        if (o != null) {
+            o.setStats(status);
+            Date now = DateUtil.trimDate(new Date());
+            if (status == JpaOrders.Status.paid) {
+                o.setFinancialCheckDay(now);
+            } else if (status == JpaOrders.Status.scheduled) {
+                o.setScheduleDay(now);
+            } else if (status == JpaOrders.Status.started) {
+                o.setShangboDay(now);
+            } else if (status == JpaOrders.Status.completed) {
+                o.setShangboDay(now);
+            } else if (status == JpaOrders.Status.cancelled) {
+                o.setCancelDay(now);
+            }
+            ordersRepository.save(o);
+            return true;
+        }
+        return false;
     }
 
     public void saveOrderBuses(JpaOrderBuses orderBuses) {

@@ -265,6 +265,7 @@
             <div class="ui-form-item">
                 <label class="ui-label mt10">线路级别：</label>
                 <div>${lineLevel.nameStr}</div>
+                <input type="hidden" name="level" id="level" value="${lineLevel}"/>
             </div>
             <div class="ui-form-item">
                 <label class="ui-label mt10">共可选（辆）:</label>

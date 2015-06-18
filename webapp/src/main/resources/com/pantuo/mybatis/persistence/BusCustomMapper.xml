@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.pantuo.mybatis.persistence.BusCustomMapper" >
+    <resultMap id="bus" type="com.pantuo.mybatis.domain.Bus">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="created" jdbcType="TIMESTAMP" property="created" />
+        <result column="updated" jdbcType="TIMESTAMP" property="updated" />
+        <result column="city" jdbcType="INTEGER" property="city" />
+        <result column="ad_status" jdbcType="VARCHAR" property="adStatus" />
+        <result column="branch" jdbcType="VARCHAR" property="branch" />
+        <result column="category" jdbcType="INTEGER" property="category" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="enabled" jdbcType="BOOLEAN" property="enabled" />
+        <result column="office" jdbcType="VARCHAR" property="office" />
+        <result column="old_serial_number" jdbcType="VARCHAR" property="oldSerialNumber" />
+        <result column="plate_number" jdbcType="VARCHAR" property="plateNumber" />
+        <result column="serial_number" jdbcType="VARCHAR" property="serialNumber" />
+        <result column="company_id" jdbcType="INTEGER" property="companyId" />
+        <result column="line_id" jdbcType="INTEGER" property="lineId" />
+        <result column="model_id" jdbcType="INTEGER" property="modelId" />
+    </resultMap>
     <resultMap id="busline" type="com.pantuo.mybatis.domain.CountableBusLine" >
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="created" property="created" jdbcType="TIMESTAMP" />
@@ -119,4 +137,35 @@
         group by m.id
         ) tmp inner join bus_model m2 on (tmp.id = m2.id)
     </select>
+
+    <select id="getRemainBuses" parameterType="map" resultType="java.lang.Integer" >
+        <![CDATA[
+      select b.id from bus b inner join bus_line l on b.city = l.city and b.line_id=l.id
+          left join bus_schedule s on b.city = s.city and b.id=s.bus_id and ((s.start_day>=#{startDay} and s.start_day<=#{endDay}) or (s.end_day>=#{startDay} and s.end_day<=#{endDay}))
+        where b.city=#{city} and l.level=#{level} and s.id is null
+        order by RAND() limit #{limit}
+        ]]>
+    </select>
+
+    <select id="getRemainBuses2" parameterType="map" resultType="java.lang.Integer" >
+        <![CDATA[
+      select b.id from bus b inner join bus_line l on b.city = l.city and b.line_id=l.id
+          left join bus_schedule s on b.city = s.city and b.id=s.bus_id and ((s.start_day>=#{startDay} and s.start_day<=#{endDay}) or (s.end_day>=#{startDay} and s.end_day<=#{endDay}))
+        where b.city=#{city} and l.level=#{level} and s.id is null
+      ]]>
+        <if test="category != null">
+            and b.category = #{category}
+        </if>
+        <if test="lineId != null">
+            and b.line_id = #{lineId}
+        </if>
+        <if test="modelId != null">
+            and b.model_id = #{modelId}
+        </if>
+        <if test="companyId != null">
+            and b.company_id = #{companyId}
+        </if>
+        order by RAND() limit #{limit}
+    </select>
+
 </mapper>

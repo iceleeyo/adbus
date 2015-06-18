@@ -3,17 +3,20 @@ package com.pantuo.web;
 import com.pantuo.dao.pojo.*;
 import com.pantuo.mybatis.domain.Box;
 import com.pantuo.pojo.DataTablePage;
+import com.pantuo.pojo.FlatScheduleListItem;
 import com.pantuo.pojo.TableRequest;
-import com.pantuo.service.OrderService;
-import com.pantuo.service.ScheduleService;
-import com.pantuo.service.TimeslotService;
+import com.pantuo.service.*;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.OrderIdSeq;
 import com.pantuo.web.view.OrderView;
 
+import net.sf.jxls.transformer.XLSTransformer;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -24,7 +27,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.Serializable;
+import javax.servlet.http.HttpServletResponse;
+import javax.swing.table.TableModel;
+import java.io.*;
 import java.text.ParseException;
 import java.util.*;
 
@@ -47,6 +52,12 @@ public class ScheduleController {
     @Autowired
     private TimeslotService timeslotService;
 
+    @Autowired
+    private CityService cityService;
+
+    @Autowired
+    private BusScheduleService busScheduleService;
+
     /**
      * 排期表表单
      */
@@ -56,6 +67,7 @@ public class ScheduleController {
             @PathVariable("orderId") int orderId) {
     	
         JpaOrders order = orderService.getJpaOrder(orderId);
+
         if (order != null && order.getStartTime().before(order.getEndTime())) {
             Calendar cal = DateUtil.newCalendar();
             cal.setTime(order.getStartTime());
@@ -72,6 +84,9 @@ public class ScheduleController {
 
             model.addAttribute("orderview", orderView);
             model.addAttribute("orderIdSeq", OrderIdSeq.getLongOrderId(order));
+
+            JpaCity city = cityService.fromId(order.getCity());
+            model.addAttribute("mediaType", city.getMediaType());
         }
         return "order_schedule";
     }
@@ -83,7 +98,7 @@ public class ScheduleController {
     @ResponseBody
     public List<Report> getScheduleListForOrder(
             @RequestParam(value = "orderId", required = true) int orderId,
-            @CookieValue(value="city", defaultValue = "-1") int city) {
+            @CookieValue(value="city", defaultValue = "-1") int cityId) {
 
         try {
             JpaOrders order = orderService.getJpaOrder(orderId);
@@ -92,10 +107,14 @@ public class ScheduleController {
                 return Collections.EMPTY_LIST;
             }
 
-            Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(city, null, 0, 999, null, false);
-            Iterable<JpaGoods> goods = service.getGoodsForOrder(orderId);
+            JpaCity city = cityService.fromId(order.getCity());
+            if (city.getId() != cityId || city.getMediaType() != JpaCity.MediaType.screen)
+                return Collections.EMPTY_LIST;
 
             List<Report> reports = new LinkedList<Report> ();
+            Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(cityId, null, 0, 999, null, false);
+            Iterable<JpaGoods> goods = service.getGoodsForOrder(orderId);
+
             Map<Integer, Report> reportMap = new HashMap<Integer, Report> ();
             for (JpaTimeslot slot : slots) {
                 Report r = new Report(slot);
@@ -121,11 +140,40 @@ public class ScheduleController {
                 if (r.getBoxes().isEmpty())
                     iter.remove();
             }
-
             return reports;
         } catch (Exception e) {
             log.error("Fail to get schedule for order {}", orderId, e);
             return Collections.EMPTY_LIST;
+        }
+    }
+
+    /**
+     * 排期表
+     */
+    @RequestMapping("order-body-ajax-list")
+    @ResponseBody
+    public DataTablePage<JpaBusSchedule> getBodyScheduleListForOrder(
+            @RequestParam(value = "orderId", required = true) int orderId,
+            @CookieValue(value="city", defaultValue = "-1") int cityId,
+            TableRequest req) {
+
+        try {
+            JpaOrders order = orderService.getJpaOrder(orderId);
+            if (order.getType() != JpaProduct.Type.body) {
+                return new DataTablePage(Collections.EMPTY_LIST);
+            }
+
+            JpaCity city = cityService.fromId(order.getCity());
+            if (city.getId() != cityId || city.getMediaType() != JpaCity.MediaType.body)
+                return new DataTablePage(Collections.EMPTY_LIST);
+
+            Page<JpaBusSchedule> busSchedules = busScheduleService.getByOrder(cityId, orderId,
+                    req.getPage(), req.getLength(), req.getSort("id"));
+
+            return new DataTablePage<>(busSchedules, req.getDraw());
+        } catch (Exception e) {
+            log.error("Fail to get schedule for order {}", orderId, e);
+            return new DataTablePage(Collections.EMPTY_LIST);
         }
     }
 
@@ -344,6 +392,42 @@ public class ScheduleController {
         }
     }
 
+    /**
+     * 排条单
+     */
+    @RequestMapping("list.xls")
+    public void exportScheduleDetailList (TableRequest req,
+                                               @CookieValue(value="city", defaultValue = "-1") int cityId,
+                                              @ModelAttribute("city") JpaCity city,
+                                              HttpServletResponse resp) {
+        String templateFileName = "/jxls/schedule_list.xls";
+        List scheduleList = new ArrayList();
+        List<Report> list = getScheduleDetailList(req, cityId, city);
+        for (Report r : list) {
+            scheduleList.add(new FlatScheduleListItem(r));
+        }
+
+        Map beans = new HashMap();
+        beans.put("report", scheduleList);
+        XLSTransformer transformer = new XLSTransformer();
+        String dayStr = req.getFilter("day");
+        try {
+            resp.setHeader("Content-Type", "application/x-xls");
+            resp.setHeader("Content-Type", "application/x-xls");
+            resp.setHeader("Content-Disposition", "attachment; filename=\"schedule-[" + dayStr + "].xls\"");
+            InputStream is = new BufferedInputStream(ScheduleController.class.getResourceAsStream(templateFileName));
+            org.apache.poi.ss.usermodel.Workbook workbook = transformer.transformXLS(is, beans);
+            OutputStream os = new BufferedOutputStream(resp.getOutputStream());
+            workbook.write(os);
+            is.close();
+            os.flush();
+            os.close();
+        } catch (Exception e) {
+            log.error("Fail to export excel for city {}, req {}", cityId, req);
+            throw new RuntimeException("Fail to export excel", e);
+        }
+    }
+
     private List<Report> flatDetailForGoods(String day, List<Report> reports) {
         List<Report> list = new LinkedList<Report> ();
         for (Report r : reports) {
@@ -367,6 +451,7 @@ public class ScheduleController {
         }
         return list;
     }
+
 
     public static class Report implements Serializable {
         private Map<String/*date*/, UiBox> boxes;

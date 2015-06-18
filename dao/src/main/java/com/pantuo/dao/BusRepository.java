@@ -12,4 +12,5 @@ import org.springframework.data.repository.query.Param;
  */
 
 public interface BusRepository extends JpaRepository<JpaBus, Integer>, QueryDslPredicateExecutor<JpaBus> {
+    long countByCityAndEnabled(int city, boolean enabled);
 }
