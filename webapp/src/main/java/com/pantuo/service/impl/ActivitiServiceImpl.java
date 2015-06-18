@@ -508,6 +508,24 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		return orders;
 	}
+	
+	
+
+	private void hisotrySort(Sort sort, HistoricProcessInstanceQuery query) {
+		Sort.Order sor = sort.getOrderFor("startTime");
+		if (sor != null) {
+			query.orderByProcessInstanceStartTime();
+		} else if ((sor = sort.getOrderFor("endTime")) != null) {
+			query.orderByProcessInstanceEndTime();
+		}
+		if (sor != null && sor.getDirection() == Sort.Direction.DESC) {
+			query.desc();
+		} else {
+			query.asc();
+		}
+	}
+	
+	
 
 	public Page<OrderView> finished(int city, Principal principal, TableRequest req) {
 		int page = req.getPage(), pageSize = req.getLength();
@@ -555,15 +573,14 @@ public class ActivitiServiceImpl implements ActivitiService {
 		List<HistoricProcessInstance> list = null;
 		if (Request.hasAuth(principal, ActivitiConfiguration.ADVERTISER)
 				&& !Request.hasAuth(principal, ActivitiConfiguration.ORDER)) {
-			list = listQuery.involvedUser(Request.getUserId(principal)).orderByProcessInstanceStartTime().desc()
-					.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
-		} else {
-			list = listQuery.orderByProcessInstanceStartTime().desc()
-					.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
+			listQuery.involvedUser(Request.getUserId(principal));
 		}
+		hisotrySort(sort, listQuery);
+		list = listQuery.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
 		
 		
 		for (HistoricProcessInstance historicProcessInstance : list) {
+			
 			//---------------------
 			Integer orderid = (Integer) historicProcessInstance.getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
@@ -585,6 +602,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 					boolean b = bn == null ? false : bn;
 					v.setFinishedState(b ? Constants.CLOSED_STATE : Constants.FINAL_STATE);
 					v.setProcessInstanceId(historicProcessInstance.getId());
+					v.setStartTime(historicProcessInstance.getStartTime());
+					v.setEndTime(historicProcessInstance.getEndTime());
 				}
 			}
 		}

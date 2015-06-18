@@ -45,8 +45,13 @@ public class OrderView {
 	private Date task_createTime;
 	
 	
+	
+	//--------- 订单历史信息
 	boolean canClosed = false;
-	private String finishedState = StringUtils.EMPTY; 
+	private String finishedState = StringUtils.EMPTY;
+	public Date startTime;
+	public Date endTime;
+	
 
 	//
 	private String processInstanceId;
@@ -264,6 +269,22 @@ public class OrderView {
 
 	public void setFinishedState(String finishedState) {
 		this.finishedState = finishedState;
+	}
+
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
 	}
 
 }

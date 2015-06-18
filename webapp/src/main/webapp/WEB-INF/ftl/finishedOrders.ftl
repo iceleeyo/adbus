@@ -32,7 +32,7 @@
              "aaSorting": [[3, "desc"]],
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                { "orderable": false, "targets": [0,1,2,4,5] },
+                { "orderable": false, "targets": [0,1,2,5,6] },
             ],
             "ajax": {
                 type: "GET",
@@ -62,7 +62,11 @@
                         }
                     return data;
                 } },
-                { "data": "order.created", "defaultContent": "","render": function(data, type, row, meta) {
+                { "data": "startTime", "defaultContent": "","render": function(data, type, row, meta) {
+                	var d= $.format.date(data, "yyyy-MM-dd HH:mm:ss");
+                	return d;
+                }},
+                { "data": "endTime", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd HH:mm:ss");
                 	return d;
                 }},
@@ -172,7 +176,8 @@
                             <th>订单编号</th>
                         <th>套餐名称</th>
                        <!-- <th>素材号</th>-->
-                        <th>创建时间</th>
+                        <th orderBy="startTime">创建时间</th>
+                           <th orderBy="endTime">结束建时间</th>
                          <th>订单详情</th>
                            <th>最终状态</th>
                        
