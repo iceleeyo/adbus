@@ -533,10 +533,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		
 		if (StringUtils.isNoneBlank(stateKey) && !StringUtils.startsWith(stateKey, ActivitiService.R_DEFAULTALL)) {
-			countQuery.variableValueEquals(ActivitiService.CLOSED,
-					StringUtils.startsWith(stateKey, ActivitiService.R_CLOSED) ? true : false);
-			listQuery.variableValueEquals(ActivitiService.CLOSED,
-					StringUtils.startsWith(stateKey, ActivitiService.R_CLOSED) ? true : false);
+			boolean isClosed=StringUtils.startsWith(stateKey, ActivitiService.R_CLOSED) ? true : false;
+			countQuery.variableValueEquals(ActivitiService.CLOSED,isClosed);
+			listQuery.variableValueEquals(ActivitiService.CLOSED,isClosed);
 		}
 		
 		/*按用户查询 */
