@@ -37,6 +37,10 @@ public interface ReportMapper {
                                                    @Param("to") Date to,
                                                    @Param("levels") List<Integer> levels);
 
-    List<TimeslotReport> getDailyIncomeReport(@Param("city") int city, @Param("mediaType") String mediaType,
+    List<TimeslotReport> getDailyIncomeReport(@Param("city") int city, @Param("mediaType") int mediaType,
                                          @Param("from") Date from, @Param("to") Date to);
+
+
+    List<TimeslotReport> getMonthlyIncomeReport(@Param("city") int city, @Param("mediaType") int mediaType,
+                                              @Param("year") int year);
 }

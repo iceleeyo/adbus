@@ -12,7 +12,7 @@ public class FlatScheduleListItem {
         private String slot;
         private int slotSize;
         private String materialName = "";
-        private String materialSize = "";
+        private Integer materialSize;
 
         public void setSlotDesc(String slotDesc) {
             this.slotDesc = slotDesc;
@@ -30,7 +30,7 @@ public class FlatScheduleListItem {
             this.materialName = materialName;
         }
 
-        public void setMaterialSize(String materialSize) {
+        public void setMaterialSize(Integer materialSize) {
             this.materialSize = materialSize;
         }
 
@@ -50,7 +50,7 @@ public class FlatScheduleListItem {
             return materialName;
         }
 
-        public String getMaterialSize() {
+        public Integer getMaterialSize() {
             return materialSize;
         }
 
@@ -77,6 +77,6 @@ public class FlatScheduleListItem {
             Long size = null;
             if (good != null && good.getOrder() != null && good.getOrder().getProduct() != null)
                 size = good.getOrder().getProduct().getDuration();
-            materialSize = size == null ? "" : size + "";
+            materialSize = size == null ? null : size.intValue();
         }
     }

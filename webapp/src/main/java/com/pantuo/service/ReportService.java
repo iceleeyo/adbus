@@ -1,16 +1,9 @@
 package com.pantuo.service;
 
-import com.mysema.query.types.Predicate;
 import com.mysema.query.types.expr.BooleanExpression;
-import com.pantuo.dao.BoxRepository;
 import com.pantuo.dao.GoodsRepository;
-import com.pantuo.dao.pojo.JpaGoods;
-import com.pantuo.dao.pojo.JpaOrders;
-import com.pantuo.dao.pojo.QJpaBox;
-import com.pantuo.dao.pojo.QJpaGoods;
-import com.pantuo.mybatis.domain.BoxExample;
+import com.pantuo.dao.pojo.*;
 import com.pantuo.mybatis.domain.TimeslotReport;
-import com.pantuo.mybatis.persistence.BoxMapper;
 import com.pantuo.mybatis.persistence.ReportMapper;
 import com.pantuo.pojo.highchart.DayList;
 import com.pantuo.util.DateUtil;
@@ -204,5 +197,104 @@ public class ReportService {
         }
 
         return map;
+    }
+
+    public Map<JpaProduct.Type, List<TimeslotReport>> getSalesDailyTimeslots(int city, JpaCity.MediaType mediaType, Date from, Date to) {
+        List<TimeslotReport> report = mapper.getDailyIncomeReport(city, mediaType.ordinal(), from, to);
+
+        Map<JpaProduct.Type, List<TimeslotReport>> map = new HashMap<JpaProduct.Type, List<TimeslotReport>> ();
+        for (TimeslotReport r : report) {
+            List<TimeslotReport> list = map.get(r.getProductType());
+            if (list == null) {
+                list = new ArrayList<TimeslotReport> ();
+                map.put(r.getProductType(), list);
+            }
+            list.add(r);
+        }
+
+        Iterator<Map.Entry<JpaProduct.Type,List<TimeslotReport>>> iter = map.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry<JpaProduct.Type, List<TimeslotReport>> e = iter.next();
+            fillSalesDailyReportList(e.getKey(), e.getValue(), DayList.range(from, to));
+        }
+
+        for (JpaProduct.Type type : JpaProduct.Type.values()) {
+            if (!map.containsKey(type)) {
+                ArrayList<TimeslotReport> list = new ArrayList<TimeslotReport> ();
+                map.put(type, list);
+                fillSalesDailyReportList(type, list, DayList.range(from, to));
+            }
+        }
+
+        return map;
+    }
+
+    private void fillSalesDailyReportList(JpaProduct.Type type, List<TimeslotReport> report, DayList days) {
+        //check if there are missing days
+        List<Date> dayList = days.toDayList();
+
+        if (report.size() < dayList.size()) {
+            HashSet<Date> daysFetched = new HashSet<Date> ();
+            for (TimeslotReport r : report) {
+                daysFetched.add(r.getDay());
+            }
+
+            for (Date d : dayList) {
+                int[] ym = DateUtil.getYearAndMonthAndHour(d);
+                if (!daysFetched.contains(d)) {
+                    report.add(TimeslotReport.newSalesReport(d, ym[0], ym[1], type, 0));
+                }
+            }
+        }
+
+    }
+
+    public Map<JpaProduct.Type, List<TimeslotReport>> getSalesMonthlyTimeslots(
+            int city, JpaCity.MediaType mediaType, int year) {
+        List<TimeslotReport> report = mapper.getMonthlyIncomeReport(city, mediaType.ordinal(), year);
+
+        Map<JpaProduct.Type, List<TimeslotReport>> map = new HashMap<JpaProduct.Type, List<TimeslotReport>> ();
+        for (TimeslotReport r : report) {
+            List<TimeslotReport> list = map.get(r.getProductType());
+            if (list == null) {
+                list = new ArrayList<TimeslotReport> ();
+                map.put(r.getProductType(), list);
+            }
+            list.add(r);
+        }
+
+        Iterator<Map.Entry<JpaProduct.Type,List<TimeslotReport>>> iter = map.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry<JpaProduct.Type, List<TimeslotReport>> e = iter.next();
+            fillSalesMonthlyReportList(e.getKey(), e.getValue(), year);
+        }
+
+        for (JpaProduct.Type type : JpaProduct.Type.values()) {
+            if (!map.containsKey(type)) {
+                ArrayList<TimeslotReport> list = new ArrayList<TimeslotReport> ();
+                map.put(type, list);
+                fillSalesMonthlyReportList(type, list, year);
+            }
+        }
+
+        return map;
+    }
+
+    private void fillSalesMonthlyReportList(JpaProduct.Type type, List<TimeslotReport> report, int year) {
+        //check if there are missing days
+
+        if (report.size() < 12) {
+            HashSet<Integer> monthFetched = new HashSet<Integer> ();
+            for (TimeslotReport r : report) {
+                monthFetched.add(r.getMonth());
+            }
+
+            for (int m=1; m<=12; m++) {
+                if (!monthFetched.contains(m)) {
+                    report.add(TimeslotReport.newSalesReport(null, year, m, type, 0));
+                }
+            }
+        }
+
     }
 }

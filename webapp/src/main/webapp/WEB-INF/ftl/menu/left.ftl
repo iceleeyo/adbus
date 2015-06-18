@@ -193,6 +193,18 @@
 											报表管理
 										</a>
 										<ul class="pg-side-exp-list">
+                                        <@security.authorize ifAnyGranted="ShibaFinancialManager">
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/daysalesp">
+                                                    财务收入日报
+                                                </a>
+                                            </li>
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/monthsalesp">
+                                                    财务收入月报
+                                                </a>
+                                            </li>
+                                        </@security.authorize>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/report/day">
 													剩余时段报表

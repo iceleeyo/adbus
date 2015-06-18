@@ -36,6 +36,18 @@ public class TimeslotReport implements Serializable, Reportable {
     private Integer industryId;
     private String level;
 
+    public static TimeslotReport newSalesReport(Date day, Integer year, Integer month,
+                                         JpaProduct.Type type, double income) {
+        TimeslotReport report = new TimeslotReport();
+        report.setDay(day);
+        report.setYear(year);
+        report.setMonth(month);
+        report.productType = type;
+        report.setIncome(income);
+        return report;
+    }
+
+
     public TimeslotReport() {}
 
     public TimeslotReport(Date day, long remain, long size) {

@@ -155,16 +155,30 @@
     </select>
 
     <select id="getDailyIncomeReport" parameterType="map" resultMap="timeslotReport">
-        SELECT c.day, c.year, c.month, p.type, sum(p.price) as income FROM ORDERS o
+        SELECT c.day, c.year, c.month, p.type as productType, sum(p.price) as income FROM ORDERS o
         inner join product p on o.product_id = p.id and o.city=p.city
         inner join city ct on o.city = ct.id
         inner join calendar c on c.day = o.financial_check_day
         where o.city=#{city}
        <![CDATA[
         and o.stats >= 1 and o.stats != 5
-        and c.media_type = #{mediaType}
-        and o.financial_check_time >= #{from} and o.financial_check_time <= #{to}
+        and ct.media_type = #{mediaType}
+        and o.financial_check_day >= #{from} and o.financial_check_day <= #{to}
         ]]>
         group by  c.day, c.year, c.month, p.type
+    </select>
+
+    <select id="getMonthlyIncomeReport" parameterType="map" resultMap="timeslotReport">
+        SELECT c.year, (c.month+1) as month, p.type as productType, sum(p.price) as income FROM ORDERS o
+        inner join product p on o.product_id = p.id and o.city=p.city
+        inner join city ct on o.city = ct.id
+        inner join calendar c on c.day = o.financial_check_day
+        where o.city=#{city}
+       <![CDATA[
+        and o.stats >= 1 and o.stats != 5
+        and ct.media_type = #{mediaType}
+        and c.year = #{year}
+        ]]>
+        group by c.year, c.month, p.type
     </select>
 </mapper>

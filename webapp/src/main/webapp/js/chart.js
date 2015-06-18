@@ -17,6 +17,12 @@ var yLabelFormatter = function() {
         label = (label /3600).toFixed(1);
     } else if (id == 'BUS_COUNT') {
         label = label + "辆";
+    } else if (id == 'INCOME') {
+        if (label > 100) {
+            label = (label/ 10000).toFixed(2) + "万元";
+        } else {
+            label = label + "元";
+        }
     }
     return label + (toolTipText || '');
 }
@@ -36,6 +42,12 @@ var tooltipFormatter = function() {
         yStr = this.y + "%";
     } else if (yType == 'BUS_COUNT') {
         yStr = this.y + "辆";
+    } else if (yType == 'INCOME') {
+        if (this.y > 100) {
+            yStr = (this.y / 10000).toFixed(2) + "万元";
+        } else {
+         yStr = this.y + "元";
+        }
     }
 
     var xStr = this.x;

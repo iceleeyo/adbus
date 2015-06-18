@@ -1,7 +1,8 @@
 package com.pantuo.web;
 
-import com.pantuo.dao.IndustryRepository;
+import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaIndustry;
+import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.mybatis.domain.TimeslotReport;
 import com.pantuo.pojo.highchart.*;
 import com.pantuo.service.*;
@@ -16,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -568,4 +570,112 @@ public class ReportController {
         model.addAttribute("baseY", baseY);
         return "report_dailyIndustryPercent";
     }
+
+    @PreAuthorize(" hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
+            + "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
+            + "or hasRole('ShibaSuppliesManager')  ")
+    @RequestMapping("daysalesp")
+    public String salesPercent(Model model,
+                               @RequestParam(value="day", required = false) String dayStr,
+                               @RequestParam(value="baseY", required = false) Long baseY,
+                               @RequestParam(value="span", required = false, defaultValue = "90") int span,
+                               @ModelAttribute("city") JpaCity city) {
+        Date to = null;
+        if (StringUtils.isBlank(dayStr)) {
+            to = new Date();
+        } else {
+            try {
+                to = DateUtil.longDf.get().parse(dayStr);
+            } catch (Exception e) {
+                to = new Date();
+            }
+        }
+        dayStr = DateUtil.longDf.get().format(to);
+
+        HighChartBuilder<Date> b = new HighChartBuilder<Date>("财务收入情况趋势图", XType.DATE);
+
+        DayList days = DayList.range(to, span);
+
+        DatetimeSeries s;
+        Map<JpaProduct.Type, List<TimeslotReport>> slots = null;
+        slots = service.getSalesDailyTimeslots(city.getId(), city.getMediaType(), days.getEarlyestDay(), days.getLastDay());
+
+        List<String> seriesNames = new ArrayList<String> ();
+        Map<String, String> yNames = new HashMap<String, String> ();
+        for (JpaProduct.Type type : JpaProduct.Type.values()) {
+            if (!slots.containsKey(type))
+                continue;
+
+            s = Series.newDatetimeSeries(SeriesType.SALES_INCOME, days);
+            s.setPointer(false, 1).addName("income", type.getTypeName() + "财务收入");
+            for (TimeslotReport data : slots.get(type)) {
+                s.put(data.getDay(), data);
+            }
+
+            String name = "TIMESLOT_" + type.name();
+            b.addSeries(name, s);
+            seriesNames.add(name);
+            yNames.put(name, "income");
+        }
+
+        b.setStacked(true);
+        b.setType(ChartType.area);
+
+        model.addAttribute("remainTimeSlots", b.build());
+        model.addAttribute("day", dayStr);
+        model.addAttribute("baseY", baseY);
+        model.addAttribute("seriesNames", seriesNames);
+        model.addAttribute("yNames", yNames);
+        return "report_dailySalesPercent";
+    }
+    /*@PreAuthorize(" !hasRole('advertiser')  ")*/
+    @PreAuthorize(" hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
+            + "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
+            + "or hasRole('ShibaSuppliesManager')  ")
+    @RequestMapping("monthsalesp")
+    //月对比
+    public String salesMonthPercent(Model model,
+                                              @RequestParam(value="year", required = false) Integer year,
+                                              @RequestParam(value="baseY", required = false) Long baseY,
+                                              @ModelAttribute("city") JpaCity city) {
+
+        int thisYear = DateUtil.getYearAndMonthAndHour(new Date())[0];
+        int yearOne = year == null ? thisYear : year;
+
+        List<Integer> xAxis = new ArrayList<Integer> ();
+        for (int i = 1; i <= 12; i++) {
+            xAxis.add(i);
+        }
+
+        Map<JpaProduct.Type, List<TimeslotReport>> slots = service.getSalesMonthlyTimeslots(city.getId(), city.getMediaType(), yearOne);
+
+        HighChartBuilder<Integer> b = new HighChartBuilder<Integer>("财务收入全年对比", XType.MONTH);
+
+        List<String> seriesNames = new ArrayList<String> ();
+        Map<String, String> yNames = new HashMap<String, String> ();
+        for (JpaProduct.Type type : JpaProduct.Type.values()) {
+            Series<Integer, TimeslotReport> s;
+            s = (Series<Integer, TimeslotReport>)Series.newCategorySeries(SeriesType.SALES_INCOME, xAxis);
+            s.addName("income", type.getTypeName() + "财务收入");
+            for (TimeslotReport data : slots.get(type)) {
+                s.put(data.getMonth(), data);
+            }
+            String name = "MONTH_" + type.name();
+            b.addSeries(name, s);
+            seriesNames.add(name);
+            yNames.put(name, "income");
+        }
+
+        b.setxAxis(xAxis);
+        b.setStacked(true);
+
+        model.addAttribute("remainTimeSlots", b.build());
+        model.addAttribute("year", yearOne);
+        model.addAttribute("thisYear", thisYear);
+        model.addAttribute("baseY", baseY);
+        model.addAttribute("seriesNames", seriesNames);
+        model.addAttribute("yNames", yNames);
+        return "report_momSalesPercent";
+    }
+
 }
