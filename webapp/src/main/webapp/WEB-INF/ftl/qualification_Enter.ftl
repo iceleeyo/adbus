@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="资质录入">
-<@frame.html title="资质信息录入" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"] css=["js/jquery-ui/jquery-ui.css"]>
+<@frame.html title="资质信息录入" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer/layer.js"] css=["js/jquery-ui/jquery-ui.css"]>
 <script type="text/javascript">
     $(document).ready(function() {
         $("#userForm2").validationEngine({
@@ -96,6 +96,9 @@
 									<div class="ui-form-item widthdrawBtBox">
 										<input type="button" id="subWithdraw" class="block-btn"
 											onclick="sub();" value="提交资质信息">
+											
+											<input type="button" id="subWithdraw22" class="block-btn"
+											onclick="" value="提交资质信息222">
 									</div>
 								</div>
 			<div class="worm-tips" >
@@ -108,4 +111,21 @@
 	        </div>
 							</form>
 </div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+       //弹出一个iframe层
+$('#subWithdraw22').on('click', function(){
+	    layer.open({
+	    type: 1,
+	    skin: 'layui-layer-rim', //加上边框
+	    area: ['420px', '540px'], //宽高
+	    content: '<br><div class=\"ui-form-item\" id=\"text\" ><label class=\"ui-label mt10\">资质信息描述</label> <input class=\"ui-input\" type=\"text\" name=\"description\"  data-is=\"isAmount isEnough\"autocomplete=\"off\" disableautocomplete=\"\" style=\"height: 91px; width: 167px;\"></div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>444<br>'
+												
+										
+	});
+});
+    } );
+  </script>  
+    
 </@frame.html>
