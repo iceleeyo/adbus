@@ -43,6 +43,9 @@ public interface ActivitiService {
 	public static String R_USERPAYED = "_userPayed";
 	public static String U_ADVERTISER = "advertiser";
 	
+	public static String R_FINISHED = "finished";
+	public static String R_CLOSED = "closed";
+	
 	
 	public static enum SystemRoles {
 		advertiser,ShibaOrderManager;

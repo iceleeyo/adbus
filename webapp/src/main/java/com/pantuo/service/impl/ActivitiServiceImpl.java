@@ -514,7 +514,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		Sort sort = req.getSort("created");
 
 		String longId = req.getFilter("longOrderId"), userIdQuery = req.getFilter("userId"), taskKey = req
-				.getFilter("taskKey");
+				.getFilter("taskKey"), stateKey = req.getFilter("stateKey");
 		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
 
 		page = page + 1;
@@ -531,6 +531,14 @@ public class ActivitiServiceImpl implements ActivitiService {
 			countQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
 			listQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
 		}
+		
+		if (StringUtils.isNoneBlank(stateKey) && !StringUtils.startsWith(stateKey, ActivitiService.R_DEFAULTALL)) {
+			countQuery.variableValueEquals(ActivitiService.CLOSED,
+					StringUtils.startsWith(stateKey, ActivitiService.R_CLOSED) ? true : false);
+			listQuery.variableValueEquals(ActivitiService.CLOSED,
+					StringUtils.startsWith(stateKey, ActivitiService.R_CLOSED) ? true : false);
+		}
+		
 		/*按用户查询 */
 		if (StringUtils.isNoneBlank(userIdQuery)) {
 			countQuery.variableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
@@ -574,7 +582,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 					if (r) {
 						orders.add(v);
 					}
-
+					Boolean bn = (Boolean) historicProcessInstance.getProcessVariables().get(ActivitiService.CLOSED);
+					boolean b = bn == null ? false : bn;
+					v.setFinishedState(b ? Constants.CLOSED_STATE : Constants.FINAL_STATE);
 					v.setProcessInstanceId(historicProcessInstance.getId());
 				}
 			}

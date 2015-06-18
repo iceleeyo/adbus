@@ -32,7 +32,7 @@
              "aaSorting": [[3, "desc"]],
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                { "orderable": false, "targets": [0,1,2,4] },
+                { "orderable": false, "targets": [0,1,2,4,5] },
             ],
             "ajax": {
                 type: "GET",
@@ -40,6 +40,7 @@
                 data: function(d) {
                     return $.extend( {}, d, {
                         "filter[longOrderId]"  : $('#longOrderId').val()
+                        ,"filter[stateKey]" : $('#stateKey').val()
                           <@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
                         ,"filter[userId]" : $('#autocomplete').val()
                          </@security.authorize>
@@ -68,7 +69,7 @@
                   { "data": "order.created", "defaultContent": "","render": function(data, type, row, meta) {
                 	 var tr= "<a target='_blank' href='${rc.contextPath}/order/orderDetail/" +(row.id)+ "?pid="+(row.processInstanceId) +  "'>查看详情</a>";
                 	return tr;
-                }},
+                }},{ "data": "finishedState", "defaultContent": "" },
                 
             ],
             "language": {
@@ -93,10 +94,15 @@
                         '    <span>' +
                         '        <input id="autocomplete" value="">' +
                         '    </span>' +
+                        '<select class="ui-input ui-input-mini" name="stateKey" id="stateKey">' +
+	                    '<option value="defaultAll" selected="selected">所有状态</option>' +
+    	              	'<option value="finished">已完成</option>' +
+        	          	'<option value="closed">已关闭</option>' +
+         				'</select>' +
                         '</div>'
         );
 
-        $('#longOrderId,#autocomplete').change(function() {
+        $('#longOrderId,#autocomplete,#stateKey').change(function() {
             table.fnDraw();
         });
         //author:pxh 2015-05-20 22:36
@@ -122,10 +128,15 @@
                         '    <span>' +
                         '        <input id="longOrderId" value="">' +
                         '    </span>' +
+                        '<select class="ui-input ui-input-mini" name="stateKey" id="stateKey">' +
+	                    '<option value="defaultAll" selected="selected">所有状态</option>' +
+    	              	'<option value="finished">已完成</option>' +
+        	          	'<option value="closed">已关闭</option>' +
+         				'</select>' +
                         '</div>'
         );
 
-        $('#longOrderId').change(function() {
+        $('#longOrderId,#stateKey').change(function() {
             table.fnDraw();
         });
     }
@@ -163,6 +174,7 @@
                        <!-- <th>素材号</th>-->
                         <th>创建时间</th>
                          <th>订单详情</th>
+                           <th>最终状态</th>
                        
                     </tr>
                     </thead>

@@ -10,11 +10,13 @@ import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaSupplies;
 import com.pantuo.mybatis.domain.OrderBuses;
+
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.Product;
@@ -43,7 +45,8 @@ public class OrderView {
 	private Date task_createTime;
 	
 	
-	  boolean canClosed = false;
+	boolean canClosed = false;
+	private String finishedState = StringUtils.EMPTY; 
 
 	//
 	private String processInstanceId;
@@ -253,6 +256,14 @@ public class OrderView {
 
 	public void setCanClosed(boolean canClosed) {
 		this.canClosed = canClosed;
+	}
+
+	public String getFinishedState() {
+		return finishedState;
+	}
+
+	public void setFinishedState(String finishedState) {
+		this.finishedState = finishedState;
 	}
 
 }
