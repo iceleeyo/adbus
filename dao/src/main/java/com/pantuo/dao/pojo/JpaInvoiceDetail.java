@@ -43,6 +43,8 @@ public class JpaInvoiceDetail extends CityEntity{
 		this.contents = contents;
 		this.receway = receway;
 	}
+	public JpaInvoiceDetail() {
+	}
 	public int getId() {
 		return id;
 	}

@@ -1,6 +1,7 @@
 package com.pantuo.dao.pojo;
 
 import javax.persistence.*;
+
 import java.util.*;
 
 import com.pantuo.dao.pojo.JpaProduct.Type;
@@ -49,6 +50,9 @@ public class JpaOrders extends CityEntity {
     @ManyToOne
     @JoinColumn(name = "productId")
     private JpaProduct product;
+    @ManyToOne
+    @JoinColumn(name = "invoiceId")
+    private JpaInvoiceDetail invoiceDetail;
     private int contractId;
     private String contractCode;
     private Date startTime;
@@ -77,27 +81,36 @@ public class JpaOrders extends CityEntity {
         this.id = orderId;
     }
 
-    public JpaOrders(int city, String userId, JpaSupplies supplies,
-			JpaProduct product, int contractId, String contractCode,
-			Date startTime, Date endTime, Type type, PayType payType,
-			Status stats, String creator, int isInvoice, Long ordRemark) {
-		super(city);
-        this.userId = userId;
+
+    public JpaOrders(int id, String userId, JpaSupplies supplies, JpaProduct product, JpaInvoiceDetail invoiceDetail,
+			int contractId, String contractCode, Date startTime, Date endTime, Type type, PayType payType,
+			Status stats, Long ordRemark, String creator, int isInvoice, Date scheduleDay, Date shangboDay,
+			Date jianboDay, Date financialCheckDay, Date cancelDay, Set<JpaOrderBuses> orderBuses) {
+		super();
+		this.id = id;
+		this.userId = userId;
 		this.supplies = supplies;
 		this.product = product;
-        this.contractId = contractId;
-        this.contractCode = contractCode;
-        this.startTime = startTime;
-        this.endTime = endTime;
+		this.invoiceDetail = invoiceDetail;
+		this.contractId = contractId;
+		this.contractCode = contractCode;
+		this.startTime = startTime;
+		this.endTime = endTime;
 		this.type = type;
-        this.payType = payType;
-        this.stats = stats;
-        this.creator = creator;
+		this.payType = payType;
+		this.stats = stats;
+		this.ordRemark = ordRemark;
+		this.creator = creator;
 		this.isInvoice = isInvoice;
-		this.ordRemark=ordRemark;
-    }
+		this.scheduleDay = scheduleDay;
+		this.shangboDay = shangboDay;
+		this.jianboDay = jianboDay;
+		this.financialCheckDay = financialCheckDay;
+		this.cancelDay = cancelDay;
+		this.orderBuses = orderBuses;
+	}
 
-    public int getId() {
+	public int getId() {
         return id;
     }
 
@@ -149,6 +162,16 @@ public class JpaOrders extends CityEntity {
         }
         this.product.setId(productId);
     }
+    public int getInvoiceDetailId() {
+    	return invoiceDetail == null ? 0 : invoiceDetail.getId();
+    }
+    
+    public void setinvoiceDetailId(int invoiceDetailid) {
+    	if (invoiceDetail == null) {
+    		invoiceDetail = new JpaInvoiceDetail();
+    	}
+    	this.invoiceDetail.setId(invoiceDetailid);
+    }
 
     public JpaProduct getProduct() {
         return product;
@@ -158,7 +181,15 @@ public class JpaOrders extends CityEntity {
         this.product = product;
     }
 
-    public int getContractId() {
+    public JpaInvoiceDetail getInvoiceDetail() {
+		return invoiceDetail;
+	}
+
+	public void setInvoiceDetail(JpaInvoiceDetail invoiceDetail) {
+		this.invoiceDetail = invoiceDetail;
+	}
+
+	public int getContractId() {
         return contractId;
     }
 
