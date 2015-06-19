@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="invoiceDetail")
+@Table(name="invoice_detail")
 public class JpaInvoiceDetail extends CityEntity{
 	 public static enum Type {
 		 normal, special,other
