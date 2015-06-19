@@ -31,8 +31,6 @@
         <script type="text/javascript" language="javascript" src="${rc.contextPath}/${entry}"></script>
     </#list>
     
-    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/layer.css">
 
 
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/sea.css">
