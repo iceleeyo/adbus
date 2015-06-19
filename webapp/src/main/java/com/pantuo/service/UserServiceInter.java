@@ -85,4 +85,6 @@ public interface UserServiceInter {
 
 	public  Pair<Boolean, String> delInvoice(int invoice_id, Principal principal);
 
+	public  List<Invoice> queryInvoiceByUser(int cityId, Principal principal);
+
 }
