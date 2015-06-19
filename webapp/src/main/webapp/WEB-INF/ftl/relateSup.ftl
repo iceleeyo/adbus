@@ -104,7 +104,22 @@ function showtb1(){
 	function hideContract(){
 	     $("#contractCode").hide();
 	}
+	
+$(document).ready(function(){
+		$('input').on('ifChecked', function(event){
+			var p =($(this).val());
+			if(p== 'contract'){
+			showContract();
+			}else {
+			hideContract();
+			}
+		});
+ 
+});
 </script>
+  
+ 
+
 <div class="color-white-bg fn-clear">
   <div id="process" class="section4">
 		            <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单</li><li id="track_time_0" class="tx3"><#setting date_format="yyyy-MM-dd">${(orderview.order.created?date)!''}</li><li id="track_time_0" class="tx3"> 10:12:30</li></ul></div>
@@ -174,9 +189,9 @@ function showtb1(){
 									<TR style="height:45px;">
     								<TH style="padding:0,10px;">支付方式</TH>
     							<TD style="padding:0,10px;">
-    										<input type="radio" name="payType" onchange="showContract()" value="contract" checked="checked">关联合同
-				             		<input type="radio" name="payType" value="online" onchange="hideContract()" >线上支付
-				             	<input type="radio" name="payType" value="others"  onchange="hideContract()">其他支付
+    										<input type="radio" name="payType" onclick="showContract()" value="contract" checked="checked">&nbsp关联合同
+				             		<input type="radio" name="payType" value="online" onclick="hideContract()" >&nbsp线上支付
+				             	<input type="radio" name="payType" value="others"  onclick="hideContract()">&nbsp其他支付
 				             	</TD>
 				             	
 				             	<TD style="padding:0,10px;">
@@ -196,7 +211,7 @@ function showtb1(){
   					           <TR style="height:45px;">
     									<TH >是否开具发票</TH>
     									<TD colspan=3>
-    									    <input type="checkbox"  id="check1"/>开具发票
+    									    <input type="checkbox"  id="check1"/> &nbsp开具发票
     									</TD>
 				             	    </TR>
   								<TR>
@@ -232,6 +247,15 @@ function showtb1(){
 			<input type="hidden" id="orderid" value="${orderview.order.id!''}"/>
 <input type="hidden" id="taskid" value="${taskid!''}"/>
 </div>
+<script>
+$(document).ready(function(){
+  $('input').iCheck({
+    checkboxClass: 'icheckbox_square-green',
+    radioClass: 'iradio_square-green',
+    increaseArea: '20%' // optional
+  });
+});
+</script>
 </@frame.html>
 
 
