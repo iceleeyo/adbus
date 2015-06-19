@@ -125,6 +125,14 @@ public class UserManagerController {
 				HttpServletRequest request) {
 		return userService.delInvoice(invoice_id,principal);
 	}
+	@RequestMapping(value = "/invoice_detail/{invoice_id}")
+	@ResponseBody
+	public InvoiceView invoice_detail(Model model,
+			@PathVariable("invoice_id") int invoice_id, Principal principal,
+			HttpServletRequest request) {
+		   InvoiceView invoiceView=userService.findInvoiceByUser(invoice_id,principal);
+		   return invoiceView;
+	}
 	@RequestMapping(value = "saveInvoice", method = RequestMethod.POST)
 	@ResponseBody
 	public Pair<Boolean, String> saveInvoice(@CookieValue(value = "city", defaultValue = "-1") int city,JpaInvoice obj, Principal principal, HttpServletRequest request)
