@@ -511,7 +511,7 @@ public class UserService implements UserServiceInter {
 		return r;
 	}
 
-	@Override
+
 	public Pair<Boolean, String> delInvoice(int invoice_id, Principal principal) {
 		  InvoiceExample example=new InvoiceExample();
 		  InvoiceExample.Criteria c=example.createCriteria();
@@ -540,14 +540,5 @@ public class UserService implements UserServiceInter {
 		    	return	new Pair<Boolean, String>(true, "删除发票成功！");
 			}
 			return	new Pair<Boolean, String>(true, "删除发票失败！");
-	}
-
-	@Override
-	public List<Invoice> queryInvoiceByUser(int cityId, Principal principal) {
-		InvoiceExample example=new InvoiceExample();
-		InvoiceExample.Criteria criteria=example.createCriteria();
-		criteria.andCityEqualTo(cityId);
-		criteria.andUserIdEqualTo(Request.getUserId(principal));
-    	return invoiceMapper.selectByExample(example);
 	}
 }
