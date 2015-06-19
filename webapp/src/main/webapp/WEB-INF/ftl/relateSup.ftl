@@ -108,10 +108,12 @@ function showtb1(){
 $(document).ready(function(){
 		$('input').on('ifChecked', function(event){
 			var p =($(this).val());
+			if($(this).attr("name")=='payType'){
 			if(p== 'contract'){
 			showContract();
 			}else {
 			hideContract();
+			}
 			}
 		});
  
