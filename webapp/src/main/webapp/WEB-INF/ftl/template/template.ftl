@@ -30,7 +30,9 @@
     <#list js as entry>
         <script type="text/javascript" language="javascript" src="${rc.contextPath}/${entry}"></script>
     </#list>
-    
+    <!--增加lay最新版本-->
+	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer/layer.js"></script>
+	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer.onload.js"></script>
 
 
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/sea.css">
