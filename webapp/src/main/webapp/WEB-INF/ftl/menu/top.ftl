@@ -133,7 +133,7 @@
 								</a> -->
 								<!--<a class="pg-nav-item s-left" href="#">帮助</a>
 								<a class="pg-nav-item s-left" href="#">论坛</a>-->
-								<a class="pg-nav-item s-left" href="${rc.contextPath}/message/all">消息<span id="msgNumber" style="color:#ff9966"></span></a>
+								<a class="pg-nav-item s-left" href="${rc.contextPath}/message/all">消息<span id="msgNumber" class="layer-tips" style="color:#ff9966"></span></a>
 								 <@security.authorize access="isAuthenticated()">
 								<a href="javascript:;" class="pg-nav-item s-left" onclick="logout();">[退出]</a>
                                 </@security.authorize>
@@ -225,6 +225,8 @@
 								var msgNumber = Number(data);
 								if(msgNumber > 0){
 									$("#msgNumber").html("["+data+"]");
+									$("#msgNumber").attr("tip","您有["+data+"]个未读消息!"); 
+									  bindLayerMouseOver();
 								}	
 							}
 						}, "text");
