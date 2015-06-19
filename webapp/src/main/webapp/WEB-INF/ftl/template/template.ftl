@@ -10,13 +10,17 @@
   <title>${title!''}</title>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.form.js"></script>
+    
+    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.min.js"></script>
+    
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/validation/jquery.validationEngine.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/validation/jquery.validationEngine-zh_CN.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.dataTables.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery-dataTables-fnNameOrdering.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery-dataTables-fnNoColumnsParams.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer/layer.js"></script>
-
+       <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/icheck.js"></script>
+  
     <#--<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery-ui/jquery-ui.min.js"></script>-->
 <#--    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.ui.dialog.js"></script>-->
     <#--<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.datepicker.region.cn.js"></script>-->
@@ -36,6 +40,7 @@
 
 
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/sea.css">
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/icheck-green.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/one.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/account.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/page.css" media="screen"/>
