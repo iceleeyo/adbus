@@ -39,6 +39,7 @@ import com.pantuo.service.ContractService;
 import com.pantuo.service.OrderService;
 import com.pantuo.service.ProductService;
 import com.pantuo.service.SuppliesService;
+import com.pantuo.service.UserServiceInter;
 import com.pantuo.web.view.InvoiceView;
 import com.pantuo.web.view.OrderView;
 import com.pantuo.web.view.SuppliesView;
@@ -71,7 +72,8 @@ public class OrderController {
     BusService busService;
     @Autowired
     HistoryService historyService;
-
+    @Autowired
+	private UserServiceInter userService;
 	@Autowired
 	private TaskService taskService;
 
@@ -248,12 +250,14 @@ public class OrderController {
 		OrderView v = new OrderView();
 		orderService.saveOrderJpa(cityId, order, Request.getUser(principal));
 		List<Supplies> supplieslist = suppliesService.querySuppliesByUser(cityId, principal);
+		List<Invoice> InvoiceList = userService.queryInvoiceByUser(cityId, principal);
 		List<Contract> contracts = contractService.queryContractList(cityId, page, null, null, principal);
 		SuppliesView suppliesView = suppliesService.getSuppliesDetail(order.getSuppliesId(), null);
 		SuppliesView quafiles = suppliesService.getQua(order.getSuppliesId(), null);
 		JpaOrders orders = orderService.selectJpaOrdersById(order.getId());
 		v.setOrder(orders);
 		model.addAttribute("supplieslist", supplieslist);
+		model.addAttribute("InvoiceList", InvoiceList);
 		model.addAttribute("order", order);
 		model.addAttribute("prod", prod);
 		model.addAttribute("orderview", v);
