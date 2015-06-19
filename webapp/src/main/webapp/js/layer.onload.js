@@ -1,5 +1,8 @@
 ﻿
-
+/****************************************
+ @Name：layer v1.9.3 
+ @Author：潘兴华
+ */
 function bindLayerMouseOver(){
 	  $(".layer-tips").bind("mouseover",function(){
 	        var config={
