@@ -84,7 +84,7 @@
 		$('#userForm2').ajaxForm(function(data) {
 			jDialog.Alert(data.right);
 			var uptime = window.setTimeout(function(){
-				window.location.reload();
+				window.location.href="${rc.contextPath}/user/invoiceList";
 			   	clearTimeout(uptime);
 						},2000)
 		}).submit();
