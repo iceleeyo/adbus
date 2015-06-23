@@ -111,6 +111,13 @@ public class ProductController {
         model.addAttribute("prod", productService.findById(id));
         return "productView";
     }
+    
+    @RequestMapping(value = "/ajaxdetail/{id}")
+    @ResponseBody
+    public JpaProduct ajaxdetail(@PathVariable int id,
+                                Model model, HttpServletRequest request) {
+       return  productService.findById(id);
+    }
 
     @PreAuthorize(" hasRole('ShibaOrderManager')  ")
     @RequestMapping(value = "/save", method = { RequestMethod.POST})
