@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,6 +26,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.pantuo.dao.IndustryRepository;
 import com.pantuo.dao.pojo.JpaSupplies;
+import com.pantuo.mybatis.domain.Industry;
 import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
@@ -47,7 +49,13 @@ public class SuppliesController {
 		model.addAttribute("industries", industryRepo.findAll());
 		return "supplies_add";
 	}
-
+	@RequestMapping(value = "getIndustry")
+	@ResponseBody
+	public List<Industry> getIndustry(Supplies obj, Principal principal,
+			@CookieValue(value = "city", defaultValue = "-1") int city, HttpServletRequest request)
+			throws IllegalStateException, IOException {
+		return suppliesService.getIndustry();
+	}
 	@Autowired
 	SuppliesService suppliesService;
 	@Autowired

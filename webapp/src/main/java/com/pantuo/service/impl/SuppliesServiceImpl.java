@@ -25,6 +25,8 @@ import org.springframework.stereotype.Service;
 
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.AttachmentExample;
+import com.pantuo.mybatis.domain.Industry;
+import com.pantuo.mybatis.domain.IndustryExample;
 import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.mybatis.domain.InvoiceDetail;
 import com.pantuo.mybatis.domain.InvoiceDetailExample;
@@ -34,6 +36,7 @@ import com.pantuo.mybatis.domain.OrdersExample;
 import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.mybatis.domain.SuppliesExample;
 import com.pantuo.mybatis.persistence.AttachmentMapper;
+import com.pantuo.mybatis.persistence.IndustryMapper;
 import com.pantuo.mybatis.persistence.InvoiceDetailMapper;
 import com.pantuo.mybatis.persistence.InvoiceMapper;
 import com.pantuo.mybatis.persistence.OrdersMapper;
@@ -63,6 +66,8 @@ public class SuppliesServiceImpl implements SuppliesService {
 	OrdersMapper ordersMapper;
 	@Autowired
 	InvoiceDetailMapper invoiceDetailMapper;
+	@Autowired
+	IndustryMapper industryMapper;
 	@Autowired
 	AttachmentService attachmentService;
 	@Autowired
@@ -302,6 +307,13 @@ public class SuppliesServiceImpl implements SuppliesService {
 			criteria.andUserIdEqualTo(Request.getUserId(principal));
 		}
 		return suppliesMapper.selectByExample(example);
+	}
+
+	@Override
+	public List<Industry> getIndustry() {
+		IndustryExample example=new IndustryExample();
+		IndustryExample.Criteria criteria=example.createCriteria();
+		return industryMapper.selectByExample(example);
 	}
 
 }

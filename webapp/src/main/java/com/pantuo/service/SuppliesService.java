@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.pantuo.dao.pojo.JpaInvoice;
 import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.mybatis.domain.Industry;
 import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.util.NumberPageUtil;
@@ -95,4 +96,5 @@ public interface SuppliesService {
 
 	public SuppliesView getQua(int supplies_id, Principal principal);
 	public InvoiceView getInvoiceDetail(int orderid, Principal principal);
+	public List<Industry> getIndustry();
 }
