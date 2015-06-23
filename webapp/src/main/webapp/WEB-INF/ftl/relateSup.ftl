@@ -20,6 +20,8 @@ function showtb1(){
 	     $("#tb2").show();
 	}
 	function pay() {
+	 var invoiceId=document.getElementByName("id");
+	 alert(invoiceId);
 	    var contractid="";
 	     var payType="";
 	     var temp=document.getElementsByName("payType");
@@ -108,7 +110,7 @@ function showtb1(){
 	function sub(){
         if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
             return;
-	   
+	   	var checked=document.getElementById("invoiceShow").checked;
 	    var title = ($("#title").val());
 		var taxrenum = ($("#taxrenum").val());
 		var bankname = $("#bankname").val();
@@ -135,13 +137,16 @@ function showtb1(){
 		}
 	   document.getElementById('subWithdraw').setAttribute('disabled',true); 
 		$('#userForm2').ajaxForm(function(data) {
-			layer.close();
+		$("#cc").trigger("click");
+		window.location.reload();
 		}).submit();
 
 	}
-	
-function qEdit(id,obj){
-	obj.style.backgroundColor ="#CAE7C9";
+function qCheck(obj){
+	var v = $(obj).val();
+	alert(v);
+}
+function qEdit(id){
 	$.ajax({
 			url : "${rc.contextPath}/user/invoice_detail/"+id,
 			type : "POST",
@@ -153,7 +158,7 @@ function qEdit(id,obj){
 	    		skin: 'layui-layer-rim', //加上边框
 	    		area: ['420px', '540px'], //宽高
 	    		content: '<form data-name="withdraw" name="userForm2" id="userForm2" class="ui-form" method="post" action="${rc.contextPath}/user/saveInvoice" enctype="multipart/form-data"> <input type="hidden" name="id" value="'+data.mainView.id+'"/>'
-						 +'<br/>'
+						 +'<br/><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/>'
 	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="ui-form-required">* </span>发票抬头: </label>  <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
 	    				 +'type="text" name="title" id="title" value="'+data.mainView.title+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>税务登记证号:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
@@ -277,7 +282,10 @@ function qEdit(id,obj){
 				               			<table>
 				               			<#list InvoiceList as ilist>
 				               				<tr>
-				               				<td onclick="qEdit(${ilist.id},this)" >${ilist.title}</td>
+				               				<td>
+				               				<input type="radio" value="${ilist.id}" onclick="qCheck(this)" name="invoiceTit">
+				               				<label onclick="qEdit(${ilist.id})">${ilist.title}</label>
+				               				</td>
 				               				</tr>
 				               			</#list>
 				               				<tr>
