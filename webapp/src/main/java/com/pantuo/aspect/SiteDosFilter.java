@@ -9,6 +9,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +41,7 @@ public class SiteDosFilter extends org.eclipse.jetty.servlets.DoSFilter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException,
 			ServletException {
 		if (StringUtils.isNoneBlank(request.getParameter("_debug_nginx"))) {
-			DEBUG_NGINX_PATH = true;
+			DEBUG_NGINX_PATH = BooleanUtils.toBoolean(request.getParameter("_debug_nginx"));
 		}
 
 		if (DEBUG_NGINX_PATH) {
