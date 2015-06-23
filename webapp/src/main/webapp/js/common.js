@@ -188,3 +188,34 @@ function isEmail(str) {
 	 var re = /^[0-9a-z][_.0-9a-z-]{0,31}@([0-9a-z][0-9a-z-]{0,30}[0-9a-z]\.){1,4}[a-z]{2,4}$/; 
 	 return re.test(str);
 }
+
+function getTypeString(typeEn){
+	var t= "视频";
+	if(typeEn=='video')
+		t=("视频");
+	if(typeEn=='image')
+		t=("图片");
+	if(typeEn=='info')
+		t=("文本");
+	if(typeEn=='body')
+		t=("车身");
+	if(typeEn=='other')
+		t=("其他");
+	return t;
+}
+
+function formatCurrency(num) {  
+    num = num.toString().replace(/\$|\,/g,'');  
+    if(isNaN(num))  
+    num = "0";  
+    sign = (num == (num = Math.abs(num)));  
+    num = Math.floor(num*100+0.50000000001);  
+    cents = num%100;  
+    num = Math.floor(num/100).toString();  
+    if(cents<10)  
+    cents = "0" + cents;  
+    for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)  
+    num = num.substring(0,num.length-(4*i+3))+','+  
+    num.substring(num.length-(4*i+3));  
+    return (((sign)?'':'-') + num + '.' + cents);  
+}  
