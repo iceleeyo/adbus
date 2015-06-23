@@ -183,12 +183,43 @@ function qEdit(id){
 			data : {
 			},
 			success : function(data) {
+			var type="";
+			if(data.mainView.type==0){
+			  type="普通发票";
+			 }else{
+			    type="专用发票";
+			 }
+			var yingye="";
+			var yuserid=""
+			var yid=""
+			var shuiwu="";
+			var sid=""
+			var nashui="";
+			var nid=""
+		
+			$.each(data.files, function(i, item) {
+			  if(item.type==6){
+			   yingye=item.name;
+			   yuserid=item.userId;
+			   yid=item.id;
+			  }
+			  if(item.type==7){
+			   shuiwu=item.name;
+			   sid=item.id;
+			  }
+			  if(item.type==8){
+			   nashui=item.name;
+			   nid=item.id;
+			  }
+			});
 				layer.open({
 	    		type: 1,
+	    		title: "发票信息",
 	    		skin: 'layui-layer-rim', //加上边框
 	    		area: ['600px', '640px'], //宽高
 	    		content: '<form data-name="withdraw" name="userForm2" id="userForm2" class="ui-form" method="post" action="${rc.contextPath}/user/saveInvoice" enctype="multipart/form-data"> <input type="hidden" name="id" value="'+data.mainView.id+'"/>'
 						 +'<br/><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/>'
+						 +'<div class="ui-form-item"> <label class="ui-label mt10">发票类型:</label>  '+type+'</div>'
 	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="ui-form-required">* </span>发票抬头: </label>  <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
 	    				 +'type="text" name="title" id="title" value="'+data.mainView.title+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>税务登记证号:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
@@ -203,6 +234,9 @@ function qEdit(id){
                          +'type="text" name="fixphone" value="'+data.mainView.fixphone+'" id="fixphone" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 						 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>邮寄地址:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
                          +'type="text" name="mailaddr" value="'+data.mainView.mailaddr+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10">营业执照复印件:</label> <a href="${rc.contextPath}/downloadFile/'+yuserid+'/'+yid+'"> '+yingye+'</a> </div>'
+						 +'<div class="ui-form-item"> <label class="ui-label mt10">税务登记复印件:</label><a href="${rc.contextPath}/downloadFile/'+yuserid+'/'+sid+'"> '+shuiwu+' </a></div>'
+						 +'<div class="ui-form-item"> <label class="ui-label mt10">纳税人资格认证复印件:</label> <a href="${rc.contextPath}/downloadFile/'+yuserid+'/'+nid+'">'+nashui+' </a></div>'
 						 +'<div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraw" class="block-btn" onclick="sub();" value="确认"> </div></form>'
 		});
 			}
