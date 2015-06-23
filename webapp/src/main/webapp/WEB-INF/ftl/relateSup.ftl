@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#import "template/pickBuses.ftl" as pickBuses>
-<@frame.html title="未绑定物料订单" js=["js/jquery-ui/jquery-ui.min.js","js/layer-v1.9.3/layer/layer.js","js/layer-v1.9.3/layer-site.js"]>
+<@frame.html title="未绑定物料订单" js=["js/jquery-ui/jquery-ui.min.js","js/layer-v1.9.3/layer/layer.js"]>
 <script type="text/javascript">
 
 $(function() {
@@ -20,7 +20,6 @@ function showtb1(){
 	     $("#tb2").show();
 	}
 	function pay() {
-	 
 	    var contractid="";
 	     var payType="";
 	     var temp=document.getElementsByName("payType");
@@ -44,8 +43,8 @@ function showtb1(){
 	         }else{
 	            contractid=-1;
 	         }
-	  var contents=$("#contents  option:selected").val();
-	  var receway=$("#receway  option:selected").val();
+	   	var contents=$("#contents  option:selected").val();
+	  	var receway=$("#receway  option:selected").val();
 	            if(contents==""){
 	              jDialog.Alert("请选择发票开具内容");
 	              return;
@@ -65,9 +64,8 @@ function showtb1(){
 				"taskid" :taskid,
 				"contractid":contractid,
 				"payType":payType,
-				"isinvoice":isinvoice,
 				"invoiceid":invoiceid,
-				"contents":contents,
+				"isinvoice":isinvoice
 				"receway":receway
 			},
 			success : function(data) {
@@ -154,6 +152,13 @@ function showtb1(){
 		}).submit();
 
 	}
+	//Radio反选
+var isChecked = false;
+function qCheck(obj){
+	isChecked = isChecked ? false : true;
+    obj.checked = isChecked;
+}
+
 function qEdit(id){
 	$.ajax({
 			url : "${rc.contextPath}/user/invoice_detail/"+id,
@@ -188,6 +193,24 @@ function qEdit(id){
 	
 }
 
+function supEnter(){
+	$.ajax({
+			url : "${rc.contextPath}/user/invoice_detail/"+id,
+			type : "POST",
+			data : {
+			},
+			success : function(data) {
+				layer.open({
+	    		type: 1,
+	    		skin: 'layui-layer-rim', //加上边框
+	    		area: ['420px', '540px'], //宽高
+	    		content: ''
+		});
+			}
+		}, "text");
+	
+}
+
 </script>
 <div class="color-white-bg fn-clear">
   <div id="process" class="section4">
@@ -205,7 +228,7 @@ function qEdit(id){
                 <H3 class="text-xl title-box"><A class="black" href="#">订单详情-${orderview.longOrderId!''}</A></H3>
                <DIV class="summary mt10 uplan-summary-div">
               <UL class="uplan-detail-ul">
-                  <LI style="width: 720px;"><SPAN>套餐名称：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer(${prod.id});"  >${prod.name!''}</a></SPAN></LI>
+                  <LI style="width: 720px;"><SPAN>套餐名称：</SPAN><SPAN class="con">${prod.name!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>下单用户：</SPAN><SPAN class="con">${(order.creator)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>价格：</SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">${prod.price!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>起播时间：</SPAN><SPAN class="con"><#setting date_format="yyyy-MM-dd">${(order.startTime?date)!''}</SPAN></LI>
@@ -246,7 +269,7 @@ function qEdit(id){
                     <#if order?exists>
                        <#if order.supplies.id = 1 >
                         	<input type="button"  onclick="showtb2()" class="block-btn" value="绑定素材">
-                          </#if>
+                       </#if>
                     </#if>
 				 
                  </H3><BR>	
@@ -291,23 +314,26 @@ function qEdit(id){
 				               			<#list InvoiceList as ilist>
 				               				<tr>
 				               				<td>
-				               				<input type="radio" value="${ilist.id}"  name="invoiceTit">
-				               				<label onclick="qEdit(${ilist.id})">${ilist.title}</label>
+				               					<input type="radio" value="${ilist.id}" onclick="qCheck(this)" name="invoiceTit">
+				               					<label onclick="qEdit(${ilist.id})">${ilist.title}</label>
+				               				</td>
+				               				<td>
+				               					<label><font color="#FF9966">邮寄地址：${ilist.mailaddr}</font></label>
 				               				</td>
 				               				</tr>
 				               			</#list>
 				               				<tr>
 				               				
-				               				<td>
-				               					<select id="contents">
+				               				<td colspan="2">
+				               					<select style="margin: 20px;">
 				               						<option value="">请选择发票开具内容</option>
 				               						<option value="广告发布费">广告发布费</option>
 				               						<option value="广告制作费">广告制作费</option>
 				               						<option value="其他">其他</option>
 				               					</select>
 				               					
-				               					<select id="receway">
-				               						<option value="">请选择发票领取方式</option>
+				               					<select>
+				               						<option>请选择发票领取方式</option>
 				               						<option value="自取">自取</option>
 				               						<option value="邮寄">邮寄</option>
 				               					</select>
@@ -330,14 +356,17 @@ function qEdit(id){
   								</TR>  	
 									<TR style="height:45px;">
     									<TH width="0%">绑定素材</TH>
-    									<TD colspan=3><select class="ui-input" name="supplieid" id="supplieid">
+    									<TD colspan=3><select class="ui-input" name="supplieid" id="supplieid" style="margin: 20px;">
                                                 <option value="" selected="selected">请选择物料</option>
                                                 <#if supplieslist?exists>
                                                 <#list supplieslist as c>
                                                     <option value="${c.id}">${c.name!''}</option>
                                                 </#list>
+                                                
                                                 </#if>
-                  		               </select></TD>
+                                       </select>
+                  		               <a href="javascript:;" onclick="supEnter()">上传物料</a>
+                  		               </TD>
 				             	    </TR>
 				             	  <TR style="height:45px;">
     						        <TD colspan=4 align="center">
