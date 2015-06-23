@@ -6,7 +6,7 @@
  */
 function showProductlayer(id){
 	$.ajax({
-			url : "/product/ajaxdetail/"+id,
+			url : "../product/ajaxdetail/"+id,
 			type : "POST",
 			data : {
 			},
@@ -42,9 +42,9 @@ function showProductlayer(id){
 		}, "text");
 	
 }
-function invoicedetail(){
+function invoicedetail(orderid){
 	$.ajax({
-			url : "${rc.contextPath}/order/invoiceDetail/"+${orderview.order.id!''},
+			url : "../order/invoiceDetail/"+orderid,
 			type : "POST",
 			data : {
 			},
@@ -74,6 +74,7 @@ function invoicedetail(){
 			});
 				layer.open({
 	    		type: 1,
+	    		title: "发票信息",
 	    		skin: 'layui-layer-rim', //加上边框
 	    		area: ['450px', '640px'], //宽高
 	    		content: '<form data-name="withdraw" name="userForm2" id="userForm2" class="ui-form" method="post" action="${rc.contextPath}/user/saveInvoice" enctype="multipart/form-data"> <input type="hidden" name="id" value="'+data.detailView.id+'"/>'
@@ -99,5 +100,4 @@ function invoicedetail(){
 		});
 			}
 		}, "text");
-	
 }
