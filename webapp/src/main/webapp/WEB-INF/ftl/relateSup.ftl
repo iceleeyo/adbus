@@ -1,6 +1,19 @@
 <#import "template/template.ftl" as frame>
 <#import "template/pickBuses.ftl" as pickBuses>
-<@frame.html title="未绑定物料订单" js=["js/jquery-ui/jquery-ui.min.js","js/layer-v1.9.3/layer/layer.js","js/layer-v1.9.3/layer-site.js"]>
+<@frame.html title="未绑定物料订单" js=["js/jquery-ui/jquery-ui.min.js","js/layer-v1.9.3/layer/layer.js"]>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#userForm2").validationEngine({
+            validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
+            inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
+            success :  false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
+            promptPosition: "centerRight",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
+            maxErrorsPerField: 1,
+            //failure : function() { alert("验证失败，请检查。");  }//验证失败时调用的函数
+            //success : function() { callSuccessFunction() },//验证通过时调用的函数
+        });
+    });
+</script>
 <script type="text/javascript">
 
 $(function() {
@@ -20,7 +33,7 @@ function showtb1(){
 	     $("#tb2").show();
 	}
 	function pay() {
-	 
+
 	    var contractid="";
 	     var payType="";
 	     var temp=document.getElementsByName("payType");
@@ -44,8 +57,8 @@ function showtb1(){
 	         }else{
 	            contractid=-1;
 	         }
-	  var contents=$("#contents  option:selected").val();
-	  var receway=$("#receway  option:selected").val();
+	    var contents=$("#contents  option:selected").val();
+	  	var receway=$("#receway  option:selected").val();
 	            if(contents==""){
 	              jDialog.Alert("请选择发票开具内容");
 	              return;
@@ -154,12 +167,13 @@ function showtb1(){
 		}).submit();
 
 	}
-		//Radio反选
+	//Radio反选
 var isChecked = false;
 function qCheck(obj){
 	isChecked = isChecked ? false : true;
     obj.checked = isChecked;
 }
+
 function qEdit(id){
 	$.ajax({
 			url : "${rc.contextPath}/user/invoice_detail/"+id,
@@ -170,7 +184,7 @@ function qEdit(id){
 				layer.open({
 	    		type: 1,
 	    		skin: 'layui-layer-rim', //加上边框
-	    		area: ['420px', '540px'], //宽高
+	    		area: ['600px', '640px'], //宽高
 	    		content: '<form data-name="withdraw" name="userForm2" id="userForm2" class="ui-form" method="post" action="${rc.contextPath}/user/saveInvoice" enctype="multipart/form-data"> <input type="hidden" name="id" value="'+data.mainView.id+'"/>'
 						 +'<br/><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/>'
 	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="ui-form-required">* </span>发票抬头: </label>  <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
@@ -194,6 +208,24 @@ function qEdit(id){
 	
 }
 
+function supEnter(){
+	$.ajax({
+			url : "${rc.contextPath}/user/invoice_detail/"+id,
+			type : "POST",
+			data : {
+			},
+			success : function(data) {
+				layer.open({
+	    		type: 1,
+	    		skin: 'layui-layer-rim', //加上边框
+	    		area: ['420px', '540px'], //宽高
+	    		content: ''
+		});
+			}
+		}, "text");
+	
+}
+
 </script>
 <div class="color-white-bg fn-clear">
   <div id="process" class="section4">
@@ -211,7 +243,7 @@ function qEdit(id){
                 <H3 class="text-xl title-box"><A class="black" href="#">订单详情-${orderview.longOrderId!''}</A></H3>
                <DIV class="summary mt10 uplan-summary-div">
               <UL class="uplan-detail-ul">
-                  <LI style="width: 720px;"><SPAN>套餐名称：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer(${prod.id});"  >${prod.name!''}</a></SPAN></LI>
+                  <LI style="width: 720px;"><SPAN>套餐名称：</SPAN><SPAN class="con">${prod.name!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>下单用户：</SPAN><SPAN class="con">${(order.creator)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>价格：</SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">${prod.price!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>起播时间：</SPAN><SPAN class="con"><#setting date_format="yyyy-MM-dd">${(order.startTime?date)!''}</SPAN></LI>
@@ -252,7 +284,7 @@ function qEdit(id){
                     <#if order?exists>
                        <#if order.supplies.id = 1 >
                         	<input type="button"  onclick="showtb2()" class="block-btn" value="绑定素材">
-                          </#if>
+                       </#if>
                     </#if>
 				 
                  </H3><BR>	
@@ -297,8 +329,8 @@ function qEdit(id){
 				               			<#list InvoiceList as ilist>
 				               				<tr>
 				               				<td>
-				               				<input type="radio" value="${ilist.id}"  name="invoiceTit">
-				               				<label onclick="qEdit(${ilist.id})">${ilist.title}</label>
+				               					<input type="radio" value="${ilist.id}" onclick="qCheck(this)" name="invoiceTit">
+				               					<label onclick="qEdit(${ilist.id})">${ilist.title}</label>
 				               				</td>
 				               				<td>
 				               					<label><font color="#FF9966">邮寄地址：${ilist.mailaddr}</font></label>
@@ -307,9 +339,9 @@ function qEdit(id){
 				               			</#list>
 				               				<tr>
 				               				
-				               				<td>
-				               					<select id="contents">
-				               						<option value="">请选择发票开具内容</option>
+				               				<td colspan="2">
+				               					<select style="margin: 20px;" id="contents">
+				               						<option>请选择发票开具内容</option>
 				               						<option value="广告发布费">广告发布费</option>
 				               						<option value="广告制作费">广告制作费</option>
 				               						<option value="其他">其他</option>
@@ -339,14 +371,17 @@ function qEdit(id){
   								</TR>  	
 									<TR style="height:45px;">
     									<TH width="0%">绑定素材</TH>
-    									<TD colspan=3><select class="ui-input" name="supplieid" id="supplieid">
+    									<TD colspan=3><select class="ui-input" name="supplieid" id="supplieid" style="margin: 20px;">
                                                 <option value="" selected="selected">请选择物料</option>
                                                 <#if supplieslist?exists>
                                                 <#list supplieslist as c>
                                                     <option value="${c.id}">${c.name!''}</option>
                                                 </#list>
+                                                
                                                 </#if>
-                  		               </select></TD>
+                                       </select>
+                  		               <a href="javascript:;" onclick="supEnter()">上传物料</a>
+                  		               </TD>
 				             	    </TR>
 				             	  <TR style="height:45px;">
     						        <TD colspan=4 align="center">
