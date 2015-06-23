@@ -123,7 +123,7 @@ function showtb1(){
 				"supplieid":supplieid
 			},
 			success : function(data) {
-				jDialog.Alert(data.left + " # " + data.right);
+				jDialog.Alert(data.right);
 				var uptime = window.setTimeout(function(){
 				var a = document.createElement('a');
     	        a.href='${rc.contextPath}/order/myOrders/1';
