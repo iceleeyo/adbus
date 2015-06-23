@@ -108,7 +108,7 @@
 												class="ui-form-required">*</span>单日播放次数:</label>
 												<input
 												class="ui-input validate[required,integer,min[1],max[100]"
-                                                onkeyup="value=value.replace(/[^\d.]/g,'')" type="text" value="<#if prod??>${prod.playNumber!''}<#else>0</#if>" name="playNumber"
+                                                onkeyup="value=value.replace(/[^\d.]/g,'')" type="text" value="<#if prod??>${prod.playNumber!''}<#else></#if>" name="playNumber"
 												id="playNumber" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="1-100次">
 										</div>
@@ -118,7 +118,7 @@
                                                     class="ui-form-required">*</span>首播次数:</label>
                                             <input
                                                     class="ui-input validate[required,integer,min[0],max[30]"
-                                                    onkeyup="value=value.replace(/[^\d.]/g,'')" value="<#if prod??>${prod.firstNumber!''}<#else>0</#if>" name="firstNumber"
+                                                    onkeyup="value=value.replace(/[^\d.]/g,'')" value="<#if prod??>${prod.firstNumber!''}<#else></#if>" name="firstNumber"
                                                     id="firstNumber" data-is="isAmount isEnough"
                                                     autocomplete="off" disableautocomplete="" placeholder="0-30次">
                                         </div>
@@ -127,7 +127,7 @@
                                                     class="ui-form-required">*</span>末播次数:</label>
                                             <input
                                                     class="ui-input validate[required,integer,min[0],max[30]"
-                                                    onkeyup="value=value.replace(/[^\d.]/g,'')" value="<#if prod??>${prod.lastNumber!''}<#else>0</#if>" name="lastNumber"
+                                                    onkeyup="value=value.replace(/[^\d.]/g,'')" value="<#if prod??>${prod.lastNumber!''}<#else></#if>" name="lastNumber"
                                                     id="lastNumber" data-is="isAmount isEnough"
                                                     autocomplete="off" disableautocomplete="" placeholder="0-30次">
                                         </div>
@@ -180,7 +180,7 @@
                                             </label>
                                             <input
                                                     class="ui-input validate[required,number,min[1]"
-                                                    onblur="bu(this)" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/[^\d.]/g,'')}" value="<#if prod??>${prod.price!''}<#else>0</#if>" name="price"
+                                                    onblur="bu(this)" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/\D+\./g,'')}" value="<#if prod??>${prod.price!''}<#else>0</#if>" name="price"
                                                     id="price" data-is="isAmount isEnough"
                                                     autocomplete="off" disableautocomplete="">
                                         </div>

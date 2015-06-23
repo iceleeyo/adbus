@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#import "template/pickBuses.ftl" as pickBuses>
-<@frame.html title="未绑定物料订单" js=["js/jquery-ui/jquery-ui.min.js"]>
+<@frame.html title="未绑定物料订单" js=["js/jquery-ui/jquery-ui.min.js","js/layer-v1.9.3/layer/layer.js"]>
 <script type="text/javascript">
 
 $(function() {
@@ -105,23 +105,77 @@ function showtb1(){
 	     $("#contractCode").hide();
 	}
 	
-$(document).ready(function(){
-		$('input').on('ifChecked', function(event){
-			var p =($(this).val());
-			if($(this).attr("name")=='payType'){
-			if(p== 'contract'){
-			showContract();
-			}else {
-			hideContract();
-			}
-			}
-		});
- 
-});
-</script>
-  
- 
+	function sub(){
+        if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
+            return;
+	   
+	    var title = ($("#title").val());
+		var taxrenum = ($("#taxrenum").val());
+		var bankname = $("#bankname").val();
+		var mailaddr = $("#mailaddr").val();
+		if(title==""){
+			jDialog.Alert("请填写发票抬头");
+			return;
+		}
+		if(taxrenum==""){
+			jDialog.Alert("请填写税务登记证");
+			return;
+		}
+		if(mailaddr==""){
+			jDialog.Alert("请填写发票邮寄地址");
+			return;
+		}
+		if(bankname==""){
+			jDialog.Alert("请填写基本户开户银行");
+			return;
+		}
+	   	if(title==""){
+			jDialog.Alert("请填写发票抬头");
+			return;
+		}
+	   document.getElementById('subWithdraw').setAttribute('disabled',true); 
+		$('#userForm2').ajaxForm(function(data) {
+			layer.close();
+		}).submit();
 
+	}
+	
+function qEdit(id,obj){
+	obj.style.backgroundColor ="#CAE7C9";
+	$.ajax({
+			url : "${rc.contextPath}/user/invoice_detail/"+id,
+			type : "POST",
+			data : {
+			},
+			success : function(data) {
+				layer.open({
+	    		type: 1,
+	    		skin: 'layui-layer-rim', //加上边框
+	    		area: ['420px', '540px'], //宽高
+	    		content: '<form data-name="withdraw" name="userForm2" id="userForm2" class="ui-form" method="post" action="${rc.contextPath}/user/saveInvoice" enctype="multipart/form-data"> <input type="hidden" name="id" value="'+data.mainView.id+'"/>'
+						 +'<br/>'
+	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="ui-form-required">* </span>发票抬头: </label>  <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+	    				 +'type="text" name="title" id="title" value="'+data.mainView.title+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>税务登记证号:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+                         +'type="text" name="taxrenum" value="'+data.mainView.taxrenum+'" id="taxrenum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
+						 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>基本户开户银行名称:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+                         +'type="text" name="bankname" value="'+data.mainView.bankname+'" id="bankname" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>基本户开户账号:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+                         +'type="text" name="accountnum" value="'+data.mainView.accountnum+'" id="accountnum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>注册场所地址:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+                         +'type="text" name="regisaddr" value="'+data.mainView.regisaddr+'" id="regisaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>注册固定电话:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+                         +'type="text" name="fixphone" value="'+data.mainView.fixphone+'" id="fixphone" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+						 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>邮寄地址:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+                         +'type="text" name="mailaddr" value="'+data.mainView.mailaddr+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+						 +'<div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraw" class="block-btn" onclick="sub();" value="确认"> </div></form>'
+		});
+			}
+		}, "text");
+	
+}
+
+</script>
 <div class="color-white-bg fn-clear">
   <div id="process" class="section4">
 		            <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单</li><li id="track_time_0" class="tx3"><#setting date_format="yyyy-MM-dd">${(orderview.order.created?date)!''}</li><li id="track_time_0" class="tx3"> 10:12:30</li></ul></div>
@@ -191,9 +245,9 @@ $(document).ready(function(){
 									<TR style="height:45px;">
     								<TH style="padding:0,10px;">支付方式</TH>
     							<TD style="padding:0,10px;">
-    										<input type="radio" name="payType" onclick="showContract()" value="contract" checked="checked">&nbsp关联合同
-				             		<input type="radio" name="payType" value="online" onclick="hideContract()" >&nbsp线上支付
-				             	<input type="radio" name="payType" value="others"  onclick="hideContract()">&nbsp其他支付
+    										<input type="radio" name="payType" onchange="showContract()" value="contract" checked="checked">关联合同
+				             		<input type="radio" name="payType" value="online" onchange="hideContract()" >线上支付
+				             	<input type="radio" name="payType" value="others"  onchange="hideContract()">其他支付
 				             	</TD>
 				             	
 				             	<TD style="padding:0,10px;">
@@ -213,14 +267,45 @@ $(document).ready(function(){
   					           <TR style="height:45px;">
     									<TH >是否开具发票</TH>
     									<TD colspan=3>
-    									    <input type="checkbox"  id="check1"/> &nbsp开具发票
+    									    <input type="checkbox" id="invoiceShow"/>开具发票
     									</TD>
-				             	    </TR>
-  								<TR>
+				               </TR>
+				            
+				              <TR style="display:none;" id="invoiceTab">
+				              <TH>个人发票列表</TH>
+				              <TD colspan="3">
+				               			<table>
+				               			<#list InvoiceList as ilist>
+				               				<tr>
+				               				<td onclick="qEdit(${ilist.id},this)" >${ilist.title}</td>
+				               				</tr>
+				               			</#list>
+				               				<tr>
+				               				
+				               				<td>
+				               					<select>
+				               						<option>请选择发票开具内容</option>
+				               						<option value="广告发布费">广告发布费</option>
+				               						<option value="广告制作费">广告制作费</option>
+				               						<option value="其他">其他</option>
+				               					</select>
+				               					
+				               					<select>
+				               						<option>请选择发票领取方式</option>
+				               						<option value="自取">自取</option>
+				               						<option value="邮寄">邮寄</option>
+				               					</select>
+				               				</td>
+				               				</tr>
+				               			</table>
+				               	</TD>
+				               	</TR>
+				               	</TBODY>
+				               	<TR>
     						        <TD colspan="4" style="text-align:center;">
-    										<button type="button" onclick="pay()" class="block-btn" >确认支付</button>
-    									</TD>
-  								</TR>
+    									<button type="button" onclick="pay()" class="block-btn" >确认支付</button>
+    								</TD>
+    							</TR>
 								</TABLE>	<br>
 						<TABLE class="ui-table ui-table-gray" id="tb2">
   								<TBODY>
@@ -249,15 +334,24 @@ $(document).ready(function(){
 			<input type="hidden" id="orderid" value="${orderview.order.id!''}"/>
 <input type="hidden" id="taskid" value="${taskid!''}"/>
 </div>
-<script>
-$(document).ready(function(){
-  $('input').iCheck({
-    checkboxClass: 'icheckbox_square-green',
-    radioClass: 'iradio_square-green',
-    increaseArea: '20%' // optional
-  });
+
+<script type="text/javascript">
+
+  $(document).ready(function() {
+       
+$('#invoiceShow').on('click', function(){
+var checked=document.getElementById("invoiceShow").checked;
+	if(checked){
+		document.getElementById("invoiceTab").style.display="";
+	}else{
+		document.getElementById("invoiceTab").style.display="none";
+	} 
 });
-</script>
+
+
+
+    } );
+  </script> 
 </@frame.html>
 
 
