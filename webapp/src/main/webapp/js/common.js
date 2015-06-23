@@ -188,7 +188,11 @@ function isEmail(str) {
 	 var re = /^[0-9a-z][_.0-9a-z-]{0,31}@([0-9a-z][0-9a-z-]{0,30}[0-9a-z]\.){1,4}[a-z]{2,4}$/; 
 	 return re.test(str);
 }
-
+/**
+ * type 转显示内容
+ * @param typeEn
+ * @returns {String}
+ */
 function getTypeString(typeEn){
 	var t= "视频";
 	if(typeEn=='video')
@@ -203,7 +207,11 @@ function getTypeString(typeEn){
 		t=("其他");
 	return t;
 }
-
+/**
+ * 金额格式化
+ * @param num
+ * @returns {String}
+ */
 function formatCurrency(num) {  
     num = num.toString().replace(/\$|\,/g,'');  
     if(isNaN(num))  
