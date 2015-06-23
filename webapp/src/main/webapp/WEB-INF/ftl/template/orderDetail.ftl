@@ -1,3 +1,4 @@
+<@frame.html title="订单详情" js=["js/jquery-ui/jquery-ui.min.js","js/layer-v1.9.3/layer/layer.js"]>
 <#import "../macro/materialPreview.ftl" as preview>
 <#macro orderDetail orderview quafiles suppliesView="" title="订单详情" suppliesLink=true viewScheduleLink=true>
 <#assign prod=orderview.order.product>
@@ -46,7 +47,7 @@
   				   
 				  <LI style="width: 200px;"><SPAN>是否开发票：</SPAN><SPAN class="con">
  				  <#if orderview.order.isInvoice==1 >
-                  <a target="_blank" href="${rc.contextPath}/order/invoiceDetail/${orderview.order.userId!''}" > 是</a>
+                  <a onclick="invoicedetail();" href="javascript:void(0)"> 是</a>
 				   <#else>
 				      否    
 				  </#if></SPAN></LI>
@@ -74,3 +75,4 @@
 </DIV>
 </DIV>
 </#macro>
+</@frame.html>

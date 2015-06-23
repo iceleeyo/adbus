@@ -20,8 +20,7 @@ function showtb1(){
 	     $("#tb2").show();
 	}
 	function pay() {
-	 var invoiceId=document.getElementByName("id");
-	 alert(invoiceId);
+	 
 	    var contractid="";
 	     var payType="";
 	     var temp=document.getElementsByName("payType");
@@ -45,9 +44,19 @@ function showtb1(){
 	         }else{
 	            contractid=-1;
 	         }
-	   
+	  var contents=$("#contents  option:selected").val();
+	  var receway=$("#receway  option:selected").val();
+	            if(contents==""){
+	              jDialog.Alert("请选择发票开具内容");
+	              return;
+	            }
+	            if(receway==""){
+	              jDialog.Alert("请选择发票领取方式");
+	              return;
+	            }
 		var orderid = $("#orderid").val();
 		var taskid = $("#taskid").val();
+		var invoiceid=$('#invoiceTab :radio[name=invoiceTit]:checked').val();
 		$.ajax({
 			url : "${rc.contextPath}/order/payment",
 			type : "POST",
@@ -56,7 +65,10 @@ function showtb1(){
 				"taskid" :taskid,
 				"contractid":contractid,
 				"payType":payType,
-				"isinvoice":isinvoice
+				"isinvoice":isinvoice,
+				"invoiceid":invoiceid,
+				"contents":contents,
+				"receway":receway
 			},
 			success : function(data) {
 				jDialog.Alert(data.right);
@@ -142,10 +154,6 @@ function showtb1(){
 		}).submit();
 
 	}
-function qCheck(obj){
-	var v = $(obj).val();
-	alert(v);
-}
 function qEdit(id){
 	$.ajax({
 			url : "${rc.contextPath}/user/invoice_detail/"+id,
@@ -283,7 +291,7 @@ function qEdit(id){
 				               			<#list InvoiceList as ilist>
 				               				<tr>
 				               				<td>
-				               				<input type="radio" value="${ilist.id}" onclick="qCheck(this)" name="invoiceTit">
+				               				<input type="radio" value="${ilist.id}"  name="invoiceTit">
 				               				<label onclick="qEdit(${ilist.id})">${ilist.title}</label>
 				               				</td>
 				               				</tr>
@@ -291,15 +299,15 @@ function qEdit(id){
 				               				<tr>
 				               				
 				               				<td>
-				               					<select>
-				               						<option>请选择发票开具内容</option>
+				               					<select id="contents">
+				               						<option value="">请选择发票开具内容</option>
 				               						<option value="广告发布费">广告发布费</option>
 				               						<option value="广告制作费">广告制作费</option>
 				               						<option value="其他">其他</option>
 				               					</select>
 				               					
-				               					<select>
-				               						<option>请选择发票领取方式</option>
+				               					<select id="receway">
+				               						<option value="">请选择发票领取方式</option>
 				               						<option value="自取">自取</option>
 				               						<option value="邮寄">邮寄</option>
 				               					</select>

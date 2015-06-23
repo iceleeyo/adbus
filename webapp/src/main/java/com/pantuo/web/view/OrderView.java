@@ -1,26 +1,18 @@
 package com.pantuo.web.view;
 
-import java.util.List;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
-
-import com.pantuo.dao.pojo.JpaOrderBuses;
-import com.pantuo.dao.pojo.JpaOrders;
-import com.pantuo.dao.pojo.JpaProduct;
-import com.pantuo.dao.pojo.JpaSupplies;
-import com.pantuo.mybatis.domain.OrderBuses;
-
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-
-import com.pantuo.mybatis.domain.Orders;
-import com.pantuo.mybatis.domain.Product;
-import com.pantuo.mybatis.domain.Supplies;
+import com.pantuo.dao.pojo.JpaOrderBuses;
+import com.pantuo.dao.pojo.JpaOrders;
+import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.dao.pojo.JpaSupplies;
 import com.pantuo.util.OrderIdSeq;
 
 public class OrderView {

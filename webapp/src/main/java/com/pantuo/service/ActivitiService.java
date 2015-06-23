@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.ui.Model;
 
+import scala.collection.generic.BitOperations.Int;
+
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Orders;
@@ -74,8 +76,8 @@ public interface ActivitiService {
 
 	public void startProcess2(int city, UserDetail u, JpaOrders order);
 
-	public Pair<Boolean, String> payment(int orderid, String taskid, int contractid, String payType, int isinvoice,
-			UserDetail u);
+	public Pair<Boolean, String> payment(int orderid, String taskid, int contractid, String payType, int isinvoice,int invoiceid,
+			String contents,String receway,UserDetail u);
 
 	public Page<OrderView> findTask(int city, String userid, TableRequest req, TaskQueryType tqType);
 

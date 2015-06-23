@@ -50,42 +50,6 @@
 	function sub(){
         if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
             return;
-	     var Type="";
-	     var temp=document.getElementsByName("type");
-	      for(var i=0;i<temp.length;i++)
-         {
-           if(temp[i].checked)
-            Type = temp[i].value;
-         }
-	   if(Type=="special")
-	   {
-	    var title = ($("#title").val());
-		var taxrenum = ($("#taxrenum").val());
-		var bankname = $("#bankname").val();
-		var mailaddr = $("#mailaddr").val();
-		if(title==""){
-			jDialog.Alert("请填写发票抬头");
-			return;
-		}
-		if(taxrenum==""){
-			jDialog.Alert("请填写税务登记证");
-			return;
-		}
-		if(mailaddr==""){
-			jDialog.Alert("请填写发票邮寄地址");
-			return;
-		}
-		if(bankname==""){
-			jDialog.Alert("请填写基本户开户银行");
-			return;
-		}
-	   }else{
-	       var title = ($("#title").val());
-	       if(title==""){
-			jDialog.Alert("请填写发票抬头");
-			return;
-		}
-	   }
 	   document.getElementById('subWithdraw').setAttribute('disabled',true); 
 		$('#userForm2').ajaxForm(function(data) {
 			jDialog.Alert(data.right);

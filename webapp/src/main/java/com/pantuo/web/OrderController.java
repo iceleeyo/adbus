@@ -104,14 +104,19 @@ public class OrderController {
 		return "proDetail";
 	}
 
-	@RequestMapping(value = "/invoiceDetail/{userid}", produces = "text/html;charset=utf-8")
-	public String invoiceDetail(Model model, Principal principal, @PathVariable String userid,
-			HttpServletRequest request) {
-		InvoiceView invoiceView = suppliesService.getInvoiceDetail(userid, principal);
-		model.addAttribute("invoiceView", invoiceView);
-		return "invoiceDetail";
+//	@RequestMapping(value = "/invoiceDetail/{orderid}", produces = "text/html;charset=utf-8")
+//	public String invoiceDetail(Model model, Principal principal, @PathVariable int orderid,
+//			HttpServletRequest request) {
+//		InvoiceView invoiceView = suppliesService.getInvoiceDetail(orderid, principal);
+//		model.addAttribute("invoiceView", invoiceView);
+//		return "invoiceDetail";
+//	}
+	@RequestMapping(value = "/invoiceDetail/{orderid}")
+	@ResponseBody
+	public InvoiceView invoice_detail(Model model,@PathVariable int orderid, Principal principal,HttpServletRequest request) {
+		    InvoiceView invoiceView = suppliesService.getInvoiceDetail(orderid, principal);
+		   return invoiceView;
 	}
-
 	@RequestMapping(value = "/payview", produces = "text/html;charset=utf-8")
 	public String payview(Model model, @RequestParam(value = "taskid", required = true) String taskid,
 			@RequestParam(value = "orderid", required = true) String orderid, HttpServletRequest request) {
@@ -137,9 +142,10 @@ public class OrderController {
 	@ResponseBody
 	public Pair<Boolean, String> payment(@RequestParam(value = "orderid") String orderid,
 			@RequestParam(value = "contractid") int contractid, @RequestParam(value = "taskid") String taskid,
-			@RequestParam(value = "payType") String payType, @RequestParam(value = "isinvoice") int isinvoice,
+			@RequestParam(value = "payType") String payType, @RequestParam(value = "isinvoice") int isinvoice, @RequestParam(value = "invoiceid") int invoiceid,
+			@RequestParam(value = "contents") String contents,@RequestParam(value = "receway") String receway,
 			Principal principal, HttpServletRequest request, HttpServletResponse response) {
-		return activitiService.payment(Integer.parseInt(orderid), taskid, contractid, payType, isinvoice,
+		return activitiService.payment(Integer.parseInt(orderid), taskid, contractid, payType, isinvoice,invoiceid,contents,receway,
 				Request.getUser(principal));
 	}
 
@@ -215,9 +221,9 @@ public class OrderController {
 	@ResponseBody
 	public Pair<Boolean, String> modifyOrder(@RequestParam(value = "orderid") String orderid,
 			@CookieValue(value = "city", defaultValue = "-1") int city,
-			@RequestParam(value = "supplieid") int supplieid, @RequestParam(value = "taskid") String taskid,
+			@RequestParam(value = "supplieid") int supplieid,@RequestParam(value = "invoiceid") int invoiceid,@RequestParam(value = "contents") String contents,@RequestParam(value = "receway") String receway, @RequestParam(value = "taskid") String taskid,
 			Principal principal, HttpServletRequest request, HttpServletResponse response) {
-		return activitiService.modifyOrder(city, Integer.parseInt(orderid), taskid, supplieid,
+		    return activitiService.modifyOrder(city, Integer.parseInt(orderid), taskid, supplieid,
 				Request.getUser(principal));
 	}
 

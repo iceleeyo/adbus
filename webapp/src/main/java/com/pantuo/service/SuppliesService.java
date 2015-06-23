@@ -94,5 +94,5 @@ public interface SuppliesService {
 			HttpServletRequest request,String description);
 
 	public SuppliesView getQua(int supplies_id, Principal principal);
-	public InvoiceView getInvoiceDetail(String userid, Principal principal);
+	public InvoiceView getInvoiceDetail(int orderid, Principal principal);
 }

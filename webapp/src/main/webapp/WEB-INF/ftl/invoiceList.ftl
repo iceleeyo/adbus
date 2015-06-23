@@ -36,8 +36,13 @@
                             return '普通发票';
                         return '其他';
                     } },
-                { "data": "taxrenum"},
-                { "data": "bankname"},
+                { "data": "taxrenum", "defaultContent": "--", "render": function(data) {
+                  
+                    return data == null || data=='' ? "----" :data;
+                }},
+                { "data": "bankname", "defaultContent": "--", "render": function(data) {
+                    return data == null || data=='' ? "----" :data;
+                }},
                 { "data": "updated", "defaultContent": "", "render": function(data) {
                     return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
                 }},

@@ -198,7 +198,7 @@
                                                     class="ui-form-required"></span>产品定向:</label>
                                             <span>
                          						<input id="username" value=""
-                         						 class="ui-input validate[ajax[ajaxUserNone]]" placeholder="请选择广告主" >
+                         						 placeholder="请选择广告主" >
                        						</span>
                                         </div>
 									</div>

@@ -26,12 +26,15 @@ import org.springframework.stereotype.Service;
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.AttachmentExample;
 import com.pantuo.mybatis.domain.Invoice;
+import com.pantuo.mybatis.domain.InvoiceDetail;
+import com.pantuo.mybatis.domain.InvoiceDetailExample;
 import com.pantuo.mybatis.domain.InvoiceExample;
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.OrdersExample;
 import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.mybatis.domain.SuppliesExample;
 import com.pantuo.mybatis.persistence.AttachmentMapper;
+import com.pantuo.mybatis.persistence.InvoiceDetailMapper;
 import com.pantuo.mybatis.persistence.InvoiceMapper;
 import com.pantuo.mybatis.persistence.OrdersMapper;
 import com.pantuo.mybatis.persistence.SuppliesMapper;
@@ -58,6 +61,8 @@ public class SuppliesServiceImpl implements SuppliesService {
 	AttachmentMapper attachmentMapper;
 	@Autowired
 	OrdersMapper ordersMapper;
+	@Autowired
+	InvoiceDetailMapper invoiceDetailMapper;
 	@Autowired
 	AttachmentService attachmentService;
 	@Autowired
@@ -242,21 +247,18 @@ public class SuppliesServiceImpl implements SuppliesService {
 		}
 		return	new Pair<Boolean, String>(true, "删除物料失败！");
 }
-	public InvoiceView getInvoiceDetail(String userid, Principal principal) {
+	public InvoiceView getInvoiceDetail(int orderid, Principal principal) {
+		Orders orders=ordersMapper.selectByPrimaryKey(orderid);
 		InvoiceView v = null;
-		InvoiceExample example = new InvoiceExample();
-		InvoiceExample.Criteria c = example.createCriteria();
-		c.andUserIdEqualTo(userid);
-		List<Invoice> ins = invoiceMapper.selectByExample(example);
-		Invoice in = null;
-		if (ins.size() > 0) {
-			in = ins.get(0);
+		InvoiceDetail invoiceDetail=null;
+         if(orders!=null && orders.getInvoiceId()!=null){
+        	 invoiceDetail=invoiceDetailMapper.selectByPrimaryKey(orders.getInvoiceId());
 		}
-		if (in != null) {
+		if (invoiceDetail!= null) {
 			v = new InvoiceView();
-			List<Attachment> files = attachmentService.queryinvoiceF(principal, in.getId());
+			List<Attachment> files = attachmentService.queryinvoiceF(principal, invoiceDetail.getMainid());
 			v.setFiles(files);
-			v.setMainView(in);
+			v.setDetailView(invoiceDetail);
 		}
 		return v;
 	}

@@ -46,6 +46,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import scala.collection.generic.BitOperations.Int;
 import scala.collection.mutable.StringBuilder;
 
 import com.pantuo.ActivitiConfiguration;
@@ -56,6 +57,8 @@ import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.Product;
 import com.pantuo.mybatis.persistence.ContractMapper;
+import com.pantuo.mybatis.persistence.InvoiceDetailMapper;
+import com.pantuo.mybatis.persistence.InvoiceMapper;
 import com.pantuo.mybatis.persistence.OrdersMapper;
 import com.pantuo.pojo.HistoricTaskView;
 import com.pantuo.pojo.TableRequest;
@@ -101,6 +104,10 @@ public class ActivitiServiceImpl implements ActivitiService {
 	private OrdersMapper ordersMapper;
 	@Autowired
 	private ContractMapper contractMapper;
+	@Autowired
+	private InvoiceMapper invoiceMapper;
+	@Autowired
+	private InvoiceDetailMapper invoiceDetailMapper;
 
     @Autowired
     private CityService cityService;
@@ -764,12 +771,13 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 	}
 
-	public int relateContract(int orderid, int contractid, String payType, int isinvoice, String userId, String taskName) {
+	public int relateContract(int orderid, int contractid, String payType, int isinvoice,int invoiceid, String userId, String taskName) {
 
 		Orders orders = ordersMapper.selectByPrimaryKey(orderid);
 		Contract contract = contractMapper.selectByPrimaryKey(contractid);
 		if (orders != null) {
 			orders.setIsInvoice(isinvoice);
+			orders.setInvoiceId(invoiceid);
 			if (contract != null && contract.getContractCode() != null && payType.equals("contract")) {
 				orders.setContractId(contractid);
 				orders.setContractCode(contract.getContractCode());
@@ -789,9 +797,17 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return 1;
 	}
 
-	public Pair<Boolean, String> payment(int orderid, String taskid, int contractid, String payType, int isinvoice,
+	public Pair<Boolean, String> payment(int orderid, String taskid, int contractid, String payType, int isinvoice,int invoiceid,String contents,String receway,
 			UserDetail u) {
-
+		InvoiceDetail invoiceDetail=new InvoiceDetail();
+		Invoice invoice=invoiceMapper.selectByPrimaryKey(invoiceid);
+		if(invoice!=null){
+			BeanUtils.copyProperties(invoice, invoiceDetail);
+			invoiceDetail.setReceway(receway);
+			invoiceDetail.setContents(contents);
+			invoiceDetail.setMainid(invoiceid);
+			invoiceDetailMapper.insert(invoiceDetail);
+		}
 		Pair<Boolean, String> r = null;
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 		if (task != null) {
@@ -799,7 +815,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			UserDetail ul = (UserDetail) info.get(ActivitiService.OWNER);
 			if (ul != null && ObjectUtils.equals(ul.getUsername(), u.getUsername())) {
 				if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
-					if (relateContract(orderid, contractid, payType, isinvoice, u.getUsername(), StringUtils.EMPTY) > 0) {
+					if (invoiceDetail!=null && relateContract(orderid, contractid, payType, isinvoice,invoiceDetail.getId(), u.getUsername(), StringUtils.EMPTY) > 0) {
 						taskService.claim(task.getId(), u.getUsername());
 						Map<String, Object> variables = new HashMap<String, Object>();
 						variables.put(ActivitiService.R_USERPAYED, true);
@@ -813,7 +829,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 				r = new Pair<Boolean, String>(false, "任务属主不匹配!");
 			}
 		} else {
-			if (relateContract(orderid, contractid, payType, isinvoice, u.getUsername(), "payment") > 0) {
+			if (invoiceDetail!=null && relateContract(orderid, contractid, payType, isinvoice,invoiceDetail.getId(), u.getUsername(), "payment") > 0) {
 				return new Pair<Boolean, String>(true, "订单支付成功!");
 			} else {
 				return new Pair<Boolean, String>(false, "订单支付失败!");
