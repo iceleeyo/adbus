@@ -8,7 +8,7 @@
                 <H3 class="text-xl title-box"><A class="black" href="#">${title}-${(orderview.longOrderId)!''}</A></H3>
                <DIV class="summary uplan-summary-div">
               <UL class="uplan-detail-ul">
-                  <LI style="width: 400px;"><SPAN>套餐名称：</SPAN><SPAN class="con"><a  onclick="showProductlayer(${prod.id});"  >${prod.name!''}</a></SPAN></LI>
+                  <LI style="width: 400px;"><SPAN>套餐名称：</SPAN><SPAN class="con"><a  onclick="showProductlayer('${rc.contextPath}/product/ajaxdetail/',${prod.id});"  >${prod.name!''}</a></SPAN></LI>
   				  <LI style="width: 200px;"><SPAN>价格：</SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">${prod.price!''}</SPAN></LI>
   				  <LI style="width: 200px;"><SPAN>媒体类型：</SPAN><SPAN class="con">${prod.type.typeName!''}</SPAN></LI>
   				  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
@@ -49,7 +49,7 @@
   				   
 				  <LI style="width: 200px;"><SPAN>是否开发票：</SPAN><SPAN class="con">
  				  <#if orderview.order.isInvoice==1 >
-                  <a class="layer-tips" tip="点击可查看发票详细内容!" onclick="invoicedetail(${orderview.order.id!''});" href="javascript:void(0)"> 是</a>
+                  <a class="layer-tips" tip="点击可查看发票详细内容!" onclick="invoicedetail('${rc.contextPath}/order/invoiceDetail/',${orderview.order.id!''});" href="javascript:void(0)"> 是</a>
 				   <#else>
 				      否    
 				  </#if></SPAN></LI>
