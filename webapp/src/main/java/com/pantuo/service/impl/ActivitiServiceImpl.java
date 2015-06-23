@@ -771,13 +771,15 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 	}
 
-	public int relateContract(int orderid, int contractid, String payType, int isinvoice,int invoiceid, String userId, String taskName) {
+	public int relateContract(int orderid, int contractid, String payType, int isinvoice,InvoiceDetail invoiceDetail, String userId, String taskName) {
 
 		Orders orders = ordersMapper.selectByPrimaryKey(orderid);
 		Contract contract = contractMapper.selectByPrimaryKey(contractid);
 		if (orders != null) {
 			orders.setIsInvoice(isinvoice);
-			orders.setInvoiceId(invoiceid);
+			if(null!=invoiceDetail.getId()){
+				orders.setInvoiceId(invoiceDetail.getId());
+			}
 			if (contract != null && contract.getContractCode() != null && payType.equals("contract")) {
 				orders.setContractId(contractid);
 				orders.setContractCode(contract.getContractCode());
@@ -815,7 +817,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			UserDetail ul = (UserDetail) info.get(ActivitiService.OWNER);
 			if (ul != null && ObjectUtils.equals(ul.getUsername(), u.getUsername())) {
 				if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
-					if (invoiceDetail!=null && relateContract(orderid, contractid, payType, isinvoice,invoiceDetail.getId(), u.getUsername(), StringUtils.EMPTY) > 0) {
+					if ( relateContract(orderid, contractid, payType, isinvoice,invoiceDetail, u.getUsername(), StringUtils.EMPTY) > 0) {
 						taskService.claim(task.getId(), u.getUsername());
 						Map<String, Object> variables = new HashMap<String, Object>();
 						variables.put(ActivitiService.R_USERPAYED, true);
@@ -829,7 +831,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 				r = new Pair<Boolean, String>(false, "任务属主不匹配!");
 			}
 		} else {
-			if (invoiceDetail!=null && relateContract(orderid, contractid, payType, isinvoice,invoiceDetail.getId(), u.getUsername(), "payment") > 0) {
+			if ( relateContract(orderid, contractid, payType, isinvoice,invoiceDetail, u.getUsername(), "payment") > 0) {
 				return new Pair<Boolean, String>(true, "订单支付成功!");
 			} else {
 				return new Pair<Boolean, String>(false, "订单支付失败!");

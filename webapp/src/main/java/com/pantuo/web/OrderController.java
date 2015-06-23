@@ -221,7 +221,7 @@ public class OrderController {
 	@ResponseBody
 	public Pair<Boolean, String> modifyOrder(@RequestParam(value = "orderid") String orderid,
 			@CookieValue(value = "city", defaultValue = "-1") int city,
-			@RequestParam(value = "supplieid") int supplieid,@RequestParam(value = "invoiceid") int invoiceid,@RequestParam(value = "contents") String contents,@RequestParam(value = "receway") String receway, @RequestParam(value = "taskid") String taskid,
+			@RequestParam(value = "supplieid") int supplieid, @RequestParam(value = "taskid") String taskid,
 			Principal principal, HttpServletRequest request, HttpServletResponse response) {
 		    return activitiService.modifyOrder(city, Integer.parseInt(orderid), taskid, supplieid,
 				Request.getUser(principal));
