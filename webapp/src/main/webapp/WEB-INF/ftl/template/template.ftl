@@ -11,7 +11,7 @@
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.form.js"></script>
     
-    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.min.js"></script>
+  <!--  <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.min.js"></script>-->
     
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/validation/jquery.validationEngine.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/validation/jquery.validationEngine-zh_CN.js"></script>
