@@ -35,10 +35,18 @@ public class SiteDosFilter extends org.eclipse.jetty.servlets.DoSFilter {
 
 	public static final String TOKEN = "dos_authorize_token";
 	public static final String TOKEN_VALUE = "b157f4ea25e968b0e3d646ef10ff6624";
+	public static boolean DEBUG_NGINX_PATH = false;
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException,
 			ServletException {
-		System.out.println(  ((HttpServletRequest)request).getRequestURI());
+		if (StringUtils.isNoneBlank(request.getParameter("_debug_nginx"))) {
+			DEBUG_NGINX_PATH = true;
+		}
+
+		if (DEBUG_NGINX_PATH) {
+			System.out.println(((HttpServletRequest) request).getRequestURI());
+		}
+
 		if (StringUtils.equals(request.getParameter(TOKEN), TOKEN_VALUE)) {
 			try {
 				filterChain.doFilter(request, response);
