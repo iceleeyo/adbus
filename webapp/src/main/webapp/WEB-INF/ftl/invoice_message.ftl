@@ -5,7 +5,7 @@
     $(document).ready(function() {
     <#if invoiceView??>
          if(${invoiceView.mainView.type}==0){
-       $("#other").hide();
+       $("#other").css('display','none');
     }
     </#if>
   
@@ -62,16 +62,16 @@
 	}
 	
 	function showother(){
-	     $("#other").show();
+	     $("#other").css('display','block'); 
 	}
 	function hideother(){
-	     $("#other").hide();
+	     $("#other").css('display','none'); 
 	}
 </script>
 
 <div class="withdraw-wrap color-white-bg fn-clear">
 							<form data-name="withdraw" name="userForm2" id="userForm2"
-								class="ui-form" method="post" action="saveInvoice"
+								class="ui-form" method="post" action="${rc.contextPath}/user/saveInvoice"
 								enctype="multipart/form-data">
 								<#if invoiceView?? && invoiceView.mainView??>
 								  <input type="hidden" name="id" value="${(invoiceView.mainView.id)!''}"/>
@@ -120,7 +120,7 @@
 												data-is="isAmount isEnough" autocomplete="off"
 												disableautocomplete="">
 										</div>
-										<div id="other">
+										<div id="other" style="display:block">
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>税务登记证号:</label> <input
