@@ -4,9 +4,9 @@
  * author:impanxh
  * @param id
  */
-function showProductlayer(id){
+function showProductlayer(tourl,id){
 	$.ajax({
-			url : "../product/ajaxdetail/"+id,
+			url : tourl  + id,
 			type : "POST",
 			data : {
 			},
@@ -42,9 +42,9 @@ function showProductlayer(id){
 		}, "text");
 	
 }
-function invoicedetail(orderid){
+function invoicedetail(tourl,orderid){
 	$.ajax({
-			url : "../order/invoiceDetail/"+orderid,
+			url : tourl +"/order/invoiceDetail/"+orderid,
 			type : "POST",
 			data : {
 			},
@@ -100,9 +100,9 @@ function invoicedetail(orderid){
                          +'type="text" name="fixphone" value="'+data.detailView.fixphone+'" id="fixphone" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 						 +'<div class="ui-form-item"> <label class="ui-label mt10">邮寄地址:</label> <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
                          +'type="text" name="mailaddr" value="'+data.detailView.mailaddr+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-						 +'<div class="ui-form-item"> <label class="ui-label mt10">营业执照复印件:</label> <a href="../downloadFile/'+yuserid+'/'+yid+'"> '+yingye+'</a> </div>'
-						 +'<div class="ui-form-item"> <label class="ui-label mt10">税务登记复印件:</label><a href="../downloadFile/'+yuserid+'/'+sid+'"> '+shuiwu+' </a></div>'
-						 +'<div class="ui-form-item"> <label class="ui-label mt10">纳税人资格认证复印件:</label> <a href="../downloadFile/'+yuserid+'/'+nid+'">'+nashui+' </a></div>'
+						 +'<div class="ui-form-item"> <label class="ui-label mt10">营业执照复印件:</label> <a href="'+tourl+'/downloadFile/'+yuserid+'/'+yid+'"> '+yingye+'</a> </div>'
+						 +'<div class="ui-form-item"> <label class="ui-label mt10">税务登记复印件:</label><a href="'+tourl+'/downloadFile/'+yuserid+'/'+sid+'"> '+shuiwu+' </a></div>'
+						 +'<div class="ui-form-item"> <label class="ui-label mt10">纳税人资格认证复印件:</label> <a href="'+tourl+'/downloadFile/'+yuserid+'/'+nid+'">'+nashui+' </a></div>'
 						 +'<div class="ui-form-item widthdrawBtBox">  </div></form>'
 		});
 			}
