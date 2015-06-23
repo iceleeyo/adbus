@@ -15,6 +15,7 @@ public class JpaInvoiceDetail extends CityEntity{
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+	private int mainid;
 	private String title;	
 	private Type type;	
 	private String taxrenum;
@@ -27,10 +28,12 @@ public class JpaInvoiceDetail extends CityEntity{
 	private String contents;
 	 private String receway;
 	 
-	public JpaInvoiceDetail(int id, String title, Type type, String taxrenum, String bankname, String accountnum,
-			String regisaddr, String fixphone, String mailaddr, String userId, String contents, String receway) {
+	public JpaInvoiceDetail(int id, int mainid, String title, Type type, String taxrenum, String bankname,
+			String accountnum, String regisaddr, String fixphone, String mailaddr, String userId, String contents,
+			String receway) {
 		super();
 		this.id = id;
+		this.mainid = mainid;
 		this.title = title;
 		this.type = type;
 		this.taxrenum = taxrenum;
@@ -50,6 +53,13 @@ public class JpaInvoiceDetail extends CityEntity{
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public int getMainid() {
+		return mainid;
+	}
+	public void setMainid(int mainid) {
+		this.mainid = mainid;
 	}
 	public String getTitle() {
 		return title;
@@ -119,10 +129,10 @@ public class JpaInvoiceDetail extends CityEntity{
 	}
 	@Override
 	public String toString() {
-		return "JpaInvoiceDetail [id=" + id + ", title=" + title + ", type=" + type + ", taxrenum=" + taxrenum
-				+ ", bankname=" + bankname + ", accountnum=" + accountnum + ", regisaddr=" + regisaddr + ", fixphone="
-				+ fixphone + ", mailaddr=" + mailaddr + ", userId=" + userId + ", contents=" + contents + ", receway="
-				+ receway + "]";
+		return "JpaInvoiceDetail [id=" + id + ", mainid=" + mainid + ", title=" + title + ", type=" + type
+				+ ", taxrenum=" + taxrenum + ", bankname=" + bankname + ", accountnum=" + accountnum + ", regisaddr="
+				+ regisaddr + ", fixphone=" + fixphone + ", mailaddr=" + mailaddr + ", userId=" + userId
+				+ ", contents=" + contents + ", receway=" + receway + "]";
 	}
 	 
 }
