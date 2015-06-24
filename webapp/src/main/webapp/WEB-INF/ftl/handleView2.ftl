@@ -2,8 +2,8 @@
 <#import "template/orderDetail.ftl" as orderDetail/>
 <#import "template/pickBuses.ftl" as pickBuses>
 <@frame.html title="订单办理" js=["js/highslide/highslide-full.js", "js/video-js/video.js",
-"js/video-js/lang/zh-CN.js", "js/jquery-ui/jquery-ui.min.js"]
-css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
+"js/video-js/lang/zh-CN.js", "js/jquery-ui/jquery-ui.min.js","js/layer-v1.9.3/layer/layer.js","js/progressbar.js"]
+css=["js/highslide/highslide.css", "js/video-js/video-js.css","js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/uploadprogess.css"]>
     <#include "template/preview.ftl" />
 <script type="text/javascript">
 	$(function() {
@@ -118,6 +118,95 @@ function qEdit(id){
 			}
 		}, "text");
 	
+}
+function sub2() {
+        if (!$("#userForm1").validationEngine('validateBeforeSubmit'))
+            return;
+		var name = ($("#name").val());
+		var infoContext = ($("#infoContext").val());
+		var suppliesType = ($("#suppliesType").val());
+		Sfile= ($("#Sfile").val());
+		Sfile1= ($("#Sfile1").val());
+		if(Sfile== "" && infoContext=="" ){
+			jDialog.Alert("请填写完整信息");
+			return;
+		}
+        if (!$("#industryId").val()) {
+            jDialog.Alert("请选择行业");
+            return;
+        }
+        if (Sfile.lastIndexOf(".") != -1 && suppliesType == "0") {
+			var fileType = (Sfile.substring(Sfile.lastIndexOf(".") + 1,Sfile.length)).toLowerCase();
+			var suppotFile = new Array();
+			suppotFile[0] = "avi";
+			suppotFile[1] = "mp4";
+			suppotFile[2] = "rmvb";
+			var flag=false;
+			for (var i = 0; i < suppotFile.length; i++) {
+				if (suppotFile[i] == fileType) {
+					flag=true;
+				}
+			}
+				if(flag == false)
+				{
+				jDialog.Alert("文件类型只支持AVI,MP4,RMVB");
+				return;
+				}
+		}
+
+		if (Sfile.lastIndexOf(".") != -1 && suppliesType == "1") {
+			var fileType = (Sfile.substring(Sfile.lastIndexOf(".") + 1,Sfile.length)).toLowerCase();
+			var suppotFile = new Array();
+			suppotFile[0] = "gif";
+			suppotFile[1] = "png";
+			suppotFile[2] = "jpg";
+			var flag=false;
+			for (var i = 0; i < suppotFile.length; i++) {
+				if (suppotFile[i] == fileType) {
+					flag=true;
+				}
+			}
+			if(flag == false)
+			{
+				jDialog.Alert("文件类型只支持GIF,PNG,JPG");
+				return;
+			}
+			
+		}
+		if (Sfile1.lastIndexOf(".") != -1 ) {
+			var fileType = (Sfile1.substring(Sfile1.lastIndexOf(".") + 1,
+					Sfile1.length)).toLowerCase();
+			var suppotFile = new Array();
+			suppotFile[0] = "gif";
+			suppotFile[1] = "bmp";
+			suppotFile[2] = "jpg";
+			var flag=false;
+			for (var i = 0; i < suppotFile.length; i++) {
+				if (suppotFile[i] == fileType) {
+					flag=true;
+				}
+			}
+			if(flag == false)
+			{
+				jDialog.Alert("资质类型只支持GIF,BMP,JPG");
+				return;
+			}
+		}
+		
+		$('#userForm1').ajaxForm(function(data) {
+			jDialog.Alert(data.right);
+			var uptime = window.setTimeout(function(){
+			$("#supplieid").append(
+				$("<option value="+data.left.id+" selected='selected'>" + data.left.name + "</option>")
+			);
+			$("#cc").trigger("click");
+			clearTimeout(uptime);
+			},2000)
+		}).submit();
+		document.getElementById('subWithdraw').setAttribute('disabled',true);
+		 var uploadProcess={upath:'${rc.contextPath}/upload/process'};
+		 $('#progress1').anim_progressbar(uploadProcess);
+		 
 }
 function go_back() {
 		history.go(-1);
@@ -711,7 +800,10 @@ function pay() {
                                                     <option value="${c.id}">${c.name!''}</option>
                                                 </#list>
                                                 </#if>
-                  		               </select></TD>
+                  		               </select>
+                  		               &nbsp;&nbsp;&nbsp;
+                                            	<a  href="javascript:;" onclick="supEnter('${rc.contextPath}',${city.mediaType})">上传物料</a>
+                  		               </TD>
     						   </TR>
 								</TABLE>	                 
 								<div style="margin: 10px 0 0; text-align:center;">
