@@ -273,7 +273,7 @@ function showContract(){
 			jDialog.Alert(data.right);
 			var uptime = window.setTimeout(function(){
 			$("#supplieid").append(
-				$("<option value="+data.left.id+" checked='checked'>" + data.left.name + "</option>")
+				$("<option value="+data.left.id+" selected='selected'>" + data.left.name + "</option>")
 			);
 			$("#cc").trigger("click");
 			clearTimeout(uptime);
