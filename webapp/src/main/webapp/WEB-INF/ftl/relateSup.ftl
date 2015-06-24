@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#import "template/pickBuses.ftl" as pickBuses>
-<@frame.html title="未绑定物料订单" js=["js/jquery-ui/jquery-ui.min.js","js/layer-v1.9.3/layer/layer.js"]>
+<@frame.html title="未绑定物料订单" js=["js/jquery-ui/jquery-ui.min.js","js/layer-v1.9.3/layer/layer.js","js/progressbar.js","js/jquery-ui/jquery-ui.js"] css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css"]>
 <script type="text/javascript">
     $(document).ready(function() {
         
@@ -166,7 +166,7 @@ function pay() {
 			jDialog.Alert("请填写发票抬头");
 			return;
 		}
-	   document.getElementById('subWithdraw').setAttribute('disabled',true); 
+	   document.getElementById('subWithdraw1').setAttribute('disabled',true); 
 		$('#userForm2').ajaxForm(function(data) {
 		$("#cc").trigger("click");
 		window.location.reload();
@@ -184,7 +184,8 @@ function pay() {
 	}
 	
 		function sub2() {
-        if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
+		alert("aaaaaa");
+        if (!$("#userForm1").validationEngine('validateBeforeSubmit'))
             return;
 		var name = ($("#name").val());
 		var infoContext = ($("#infoContext").val());
@@ -262,7 +263,7 @@ function pay() {
 		}).submit();
 		document.getElementById('subWithdraw').setAttribute('disabled',true);
 		 var uploadProcess={upath:'${rc.contextPath}/upload/process'};
-		  $('#progress1').anim_progressbar(uploadProcess);
+		 $('#progress1').anim_progressbar(uploadProcess);
 }
 	//Radio反选
 var isChecked = false;
@@ -298,7 +299,7 @@ function qEdit(id){
                          +'type="text" name="fixphone" value="'+data.mainView.fixphone+'" id="fixphone" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 						 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>邮寄地址:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
                          +'type="text" name="mailaddr" value="'+data.mainView.mailaddr+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-						 +'<div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraw" class="block-btn" onclick="sub();" value="确认"> </div></form>'
+						 +'<div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraw1" class="block-btn" onclick="sub();" value="确认"> </div></form>'
 		});
 		$("#userForm2").validationEngine({
 	            validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
@@ -326,8 +327,9 @@ function supEnter(city){
 	    		type: 1,
 	    		skin: 'layui-layer-rim', //加上边框
 	    		area: ['600px', '500px'], //宽高
-	    		content: '<form id="userForm1" name="userForm1" action="put?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1" enctype="multipart/form-data" method="post"">'
-						 +'<br/><br/><div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>物料名称</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[1],maxSize[120]]"'
+	    		content: '<form id="userForm1" name="userForm1" action="${rc.contextPath}/supplies/put?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1" enctype="multipart/form-data" method="post"">'
+						 +'<br/><br/><div class="withdrawInputs"><div class="inputs">'
+						 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>物料名称</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[1],maxSize[120]]"'
 						 +'type="text" name="name" id="name" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="支持中英文、数字、下划线">'
 						 +'</div>'
 						 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>物料类型</label> <select class="ui-input" name="suppliesType" id="suppliesType">'
@@ -453,7 +455,7 @@ function supEnter(city){
 <@pickBuses.pickBuses order=order product=prod city=city lineLevel=prod.lineLevel categories=categories/>
 </#if>
               <div class="p20bs mt10 color-white-bg border-ec">
-                 <H3 class="text-xl title-box">
+                 <H3 class="text-xl title-box" style="text-align: left;">
                     <input type="button"  onclick="showtb1()" class="block-btn" value="支付订单">
                     <#if order?exists>
                        <#if order.supplies.id = 1 >
