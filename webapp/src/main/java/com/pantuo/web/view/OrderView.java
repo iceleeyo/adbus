@@ -180,8 +180,12 @@ public class OrderView {
 			return "关联合同";
 		case online:
 			return "线上支付";
-		case other:
-			return "其他";
+		case check:
+			return "支票支付";
+		case remit:
+			return "汇款";
+		case cash:
+			return "现金交易";
 		default:
 			return "";
 		}

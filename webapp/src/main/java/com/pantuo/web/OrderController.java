@@ -193,6 +193,7 @@ public class OrderController {
 		List<Supplies> supplieslist = suppliesService.querySuppliesByUser(cityId, principal);
 		SuppliesView suppliesView = suppliesService.getSuppliesDetail(v.getOrder().getSuppliesId(), null);
 		SuppliesView quafiles = suppliesService.getQua(v.getOrder().getSuppliesId(), null);
+		List<Invoice> InvoiceList = userService.queryInvoiceByUser(cityId, principal);
 		model.addAttribute("suppliesView", suppliesView);
 		model.addAttribute("quafiles", quafiles);
 		model.addAttribute("contracts", contracts);
@@ -201,6 +202,7 @@ public class OrderController {
 		model.addAttribute("orderview", v);
 		model.addAttribute("prod", prod);
 		model.addAttribute("claimTime", claimTime);
+		model.addAttribute("InvoiceList", InvoiceList);
 		model.addAttribute("activitis", activitis);
 		if (StringUtils.equals(ActivitiService.R_BIND_STATIC, activityId)) {
 			activityId = ActivitiService.R_MODIFY_ORDER;

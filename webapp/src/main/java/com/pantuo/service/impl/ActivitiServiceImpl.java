@@ -786,8 +786,12 @@ public class ActivitiServiceImpl implements ActivitiService {
 				orders.setPayType(1);
 			} else if (payType.equals("online")) {
 				orders.setPayType(0);
-			} else {
+			} else if (payType.equals("check")) {
 				orders.setPayType(2);
+			} else if (payType.equals("cash")) {
+				orders.setPayType(4);
+			} else {
+				orders.setPayType(3);
 			}
 			if (StringUtils.isNoneBlank(taskName)) {
 				finishTaskByTaskName(orderid, taskName, userId);
