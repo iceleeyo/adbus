@@ -33,7 +33,8 @@ function sub2() {
 		Sfile= ($("#Sfile").val());
 		Sfile1= ($("#Sfile1").val());
 		if(Sfile== "" && infoContext=="" ){
-			jDialog.Alert("请填写完整信息");
+			//jDialog.Alert("请填写完整信息");
+			layer.msg('请填写完整信息', {icon: 5});
 			return;
 		}
         if (!$("#industryId").val()) {
@@ -54,7 +55,8 @@ function sub2() {
 			}
 				if(flag == false)
 				{
-				jDialog.Alert("文件类型只支持AVI,MP4,RMVB");
+					layer.msg('文件类型只支持AVI,MP4,RMVB', {icon: 5});
+				//jDialog.Alert("文件类型只支持AVI,MP4,RMVB");
 				return;
 				}
 		}
@@ -73,7 +75,8 @@ function sub2() {
 			}
 			if(flag == false)
 			{
-				jDialog.Alert("文件类型只支持GIF,PNG,JPG");
+			layer.msg('文件类型只支持GIF,PNG,JPG', {icon: 5});
+				//jDialog.Alert("文件类型只支持GIF,PNG,JPG");
 				return;
 			}
 			
@@ -93,22 +96,27 @@ function sub2() {
 			}
 			if(flag == false)
 			{
-				jDialog.Alert("资质类型只支持GIF,BMP,JPG");
+			layer.msg('文件类型只支持GIF,BMP,JPG', {icon: 5});
+				//jDialog.Alert("资质类型只支持GIF,BMP,JPG");
 				return;
 			}
 		}
 		
 		$('#userForm1').ajaxForm(function(data) {
-			jDialog.Alert(data.right);
+		//	jDialog.Alert(data.right);
+		 $("#uploadbutton").attr("disabled",true);
+         $("#uploadbutton").css("background-color","#85A2AD");
+         layer.msg('上传成功!');
 			var uptime = window.setTimeout(function(){
 			$("#suppliesId").append(
 				$("<option value="+data.left.id+" selected='selected'>" + data.left.name + "</option>")
 			);
 			$("#cc").trigger("click");
 			clearTimeout(uptime);
-			},2000)
+			},3000)
 		}).submit();
 		document.getElementById('subWithdraw').setAttribute('disabled',true);
+		
 		 var uploadProcess={upath:'${rc.contextPath}/upload/process'};
 		 $('#progress1').anim_progressbar(uploadProcess);
 		 
