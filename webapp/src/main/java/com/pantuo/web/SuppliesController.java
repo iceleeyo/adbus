@@ -122,6 +122,13 @@ public class SuppliesController {
 			throws IllegalStateException, IOException {
 		return suppliesService.addSupplies(city, obj, principal, request);
 	}
+	@RequestMapping(value = "getMysupplies")
+	@ResponseBody
+	public List<Supplies> getMysupplies(Principal principal,
+			@CookieValue(value = "city", defaultValue = "-1") int city, HttpServletRequest request)
+					throws IllegalStateException, IOException {
+		return suppliesService.querySuppliesByUser(city, principal);
+	}
 
 	@RequestMapping(value = "/list")
 	public String list(Model model) {
