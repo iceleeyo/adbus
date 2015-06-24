@@ -3,41 +3,9 @@
 <@frame.html title="未绑定物料订单" js=["js/jquery-ui/jquery-ui.min.js","js/layer-v1.9.3/layer/layer.js"]>
 <script type="text/javascript">
     $(document).ready(function() {
-        $("#userForm2").validationEngine({
-            validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
-            inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
-            success :  false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
-            promptPosition: "centerRight",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
-            maxErrorsPerField: 1,
-            //failure : function() { alert("验证失败，请检查。");  }//验证失败时调用的函数
-            //success : function() { callSuccessFunction() },//验证通过时调用的函数
-        });
+        
    	   
-    i = 2;
-	j = 2;
-   	        $("#btn_add2").click(function() {
-            $("#newUpload2").append(
-                    '<div id="div_'+j+'"><input  name="file_'+j+'" type="file"  style="margin-top:10px;"  class="validate[required]" />' +
-                    '<input class="btn-sm btn-wrong" type="button"  style="margin-top:10px;" value="删除"  onclick="del_2('+ j + ')"/></div>');
-            j = j + 1;
-        });
-        $("#btn_add3").click(function() {
-            $("#newUpload3").append(
-                    '<div id="div_'+i+'"><input  name="qua_'+i+'" type="file"  style="margin-top:10px;"  class="validate[required]" />' +
-                    '<input class="btn-sm btn-wrong" type="button"  style="margin-top:10px;" value="删除"  onclick="del_3('+ i + ')"/></div>');
-            i = i + 1;
-        });
-		$("#suppliesType").change(function(){
-            var suppliesType = $(this).val();
-            if(suppliesType=="0" || suppliesType=="1"){
-                $("#text").hide();
-                $("#file").show();
-            }
-            if(suppliesType=="2"){
-                $("#text").show();
-                $("#file").hide();
-            }
-		});
+
      });
 </script>
 
@@ -315,7 +283,7 @@ function qEdit(id){
 	    		skin: 'layui-layer-rim', //加上边框
 	    		area: ['580px', '500px'], //宽高
 	    		content: '<form data-name="withdraw" name="userForm2" id="userForm2" class="ui-form" method="post" action="${rc.contextPath}/user/saveInvoice" enctype="multipart/form-data"> <input type="hidden" name="id" value="'+data.mainView.id+'"/>'
-						 +'<br/><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/>'
+						 +'<br/><br/><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/>'
 	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="ui-form-required">* </span>发票抬头: </label>  <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
 	    				 +'type="text" name="title" id="title" value="'+data.mainView.title+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>税务登记证号:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
@@ -332,9 +300,19 @@ function qEdit(id){
                          +'type="text" name="mailaddr" value="'+data.mainView.mailaddr+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 						 +'<div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraw" class="block-btn" onclick="sub();" value="确认"> </div></form>'
 		});
+		$("#userForm2").validationEngine({
+	            validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
+	            inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
+	            success :  false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
+	            promptPosition: "topLeft",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
+	            maxErrorsPerField: 1,
+	            focusFirstField: true,
+	            //failure : function() { alert("验证失败，请检查。");  }//验证失败时调用的函数
+	            //success : function() { callSuccessFunction() },//验证通过时调用的函数
+	        	});
 			}
 		}, "text");
-	
+		
 }
 
 function supEnter(city){
@@ -348,9 +326,10 @@ function supEnter(city){
 	    		type: 1,
 	    		skin: 'layui-layer-rim', //加上边框
 	    		area: ['600px', '500px'], //宽高
-	    		content: '<br><br><form id="userForm1" name="userForm1" action="put?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1" enctype="multipart/form-data" method="post"">'
-						 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>物料名称</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[1],maxSize[120]]"'
-						 +'type="text" name="name" id="name" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="支持中英文、数字、下划线"> </div>'
+	    		content: '<form id="userForm1" name="userForm1" action="put?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1" enctype="multipart/form-data" method="post"">'
+						 +'<br/><br/><div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>物料名称</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[1],maxSize[120]]"'
+						 +'type="text" name="name" id="name" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="支持中英文、数字、下划线">'
+						 +'</div>'
 						 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>物料类型</label> <select class="ui-input" name="suppliesType" id="suppliesType">'
 						 +'</select> </div>'
 						 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>所属行业:</label> <select id="industryId" class="ui-input" name="industryId" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" >'
@@ -381,8 +360,44 @@ function supEnter(city){
 							"<option value='2'>文本</option>"
 					);
 			};
+			$("#userForm1").validationEngine({
+	            validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
+	            inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
+	            success :  false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
+	            promptPosition: "topLeft",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
+	            maxErrorsPerField: 1,
+	            //failure : function() { alert("验证失败，请检查。");  }//验证失败时调用的函数
+	            //success : function() { callSuccessFunction() },//验证通过时调用的函数
+	        	});
+	       	    i = 2;
+				j = 2;
+   	        $("#btn_add2").click(function() {
+            $("#newUpload2").append(
+                    '<div id="div_'+j+'"><input  name="file_'+j+'" type="file"  style="margin-top:10px;"  class="validate[required]" />' +
+                    '<input class="btn-sm btn-wrong" type="button"  style="margin-top:10px;" value="删除"  onclick="del_2('+ j + ')"/></div>');
+            j = j + 1;
+        });
+        $("#btn_add3").click(function() {
+            $("#newUpload3").append(
+                    '<div id="div_'+i+'"><input  name="qua_'+i+'" type="file"  style="margin-top:10px;"  class="validate[required]" />' +
+                    '<input class="btn-sm btn-wrong" type="button"  style="margin-top:10px;" value="删除"  onclick="del_3('+ i + ')"/></div>');
+            i = i + 1;
+        });
+		$("#suppliesType").change(function(){
+            var suppliesType = $(this).val();
+            if(suppliesType=="0" || suppliesType=="1"){
+                $("#text").hide();
+                $("#file").show();
+            }
+            if(suppliesType=="2"){
+                $("#text").show();
+                $("#file").hide();
+            }
+		});
 			}
+				
 		}, "text");
+		
 	
 }
 </script>
