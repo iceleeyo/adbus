@@ -282,7 +282,7 @@ function qEdit(id){
 				layer.open({
 	    		type: 1,
 	    		skin: 'layui-layer-rim', //加上边框
-	    		area: ['580px', '500px'], //宽高
+	    		area: ['420px', '500px'], //宽高
 	    		content: '<form data-name="withdraw" name="userForm2" id="userForm2" class="ui-form" method="post" action="${rc.contextPath}/user/saveInvoice" enctype="multipart/form-data"> <input type="hidden" name="id" value="'+data.mainView.id+'"/>'
 						 +'<br/><br/><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/>'
 	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="ui-form-required">* </span>发票抬头: </label>  <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
@@ -326,7 +326,7 @@ function supEnter(city){
 				layer.open({
 	    		type: 1,
 	    		skin: 'layui-layer-rim', //加上边框
-	    		area: ['600px', '500px'], //宽高
+	    		area: ['420px', '500px'], //宽高
 	    		content: '<form id="userForm1" name="userForm1" action="${rc.contextPath}/supplies/put?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1" enctype="multipart/form-data" method="post"">'
 						 +'<br/><br/><div class="withdrawInputs"><div class="inputs">'
 						 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>物料名称</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[1],maxSize[120]]"'
