@@ -1,6 +1,7 @@
 <#import "template/template.ftl" as frame>
 <#import "template/pickBuses.ftl" as pickBuses>
 <@frame.html title="未绑定物料订单" js=["js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer/layer.js","js/progressbar.js"] css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/uploadprogess.css"]>
+
 <script type="text/javascript">
     $(document).ready(function() {
          $("#otherpay").hide(); 
@@ -269,12 +270,37 @@ function showContract(){
 		}
 		
 		$('#userForm1').ajaxForm(function(data) {
+			jDialog.Alert(data.right);
+			var uptime = window.setTimeout(function(){
+			$("#supplieid").append(
+				$("<option value="+data.left.id+" checked='checked'>" + data.left.name + "</option>")
+			);
 			$("#cc").trigger("click");
+			clearTimeout(uptime);
+			},2000)
 		}).submit();
 		document.getElementById('subWithdraw').setAttribute('disabled',true);
 		 var uploadProcess={upath:'${rc.contextPath}/upload/process'};
 		 $('#progress1').anim_progressbar(uploadProcess);
+		 
 }
+
+/* function getSup(){
+	$.ajax({
+		url:"${rc.contextPath}/supplies/getMysupplies",
+		type:"GET",
+		data:{
+		},
+		success:function(data){
+			$.each(data, function(i, item) {
+					$("#supplieid").append(
+							$("<option value="+item.id+" checked=''>" + item.name
+									+ "</option>"));
+			
+		}
+	)};
+	});
+} */
 	//Radio反选
 var isChecked = false;
 function qCheck(obj){
@@ -372,7 +398,7 @@ function supEnter(city){
 	    		skin: 'layui-layer-rim', //加上边框
 	    		area: ['500px', '520px'], //宽高
 	    		content: '<form id="userForm1" name="userForm1" action="${rc.contextPath}/supplies/put?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1" enctype="multipart/form-data" method="post"">'
-						 +'<br/><br/><div class="withdrawInputs"><div class="inputs">'
+						 +'<br/><br/><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/><div class="withdrawInputs"><div class="inputs">'
 						 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>物料名称</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[1],maxSize[120]]"'
 						 +'type="text" name="name" id="name" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="支持中英文、数字、下划线">'
 						 +'</div>'
@@ -565,8 +591,8 @@ function supEnter(city){
 				               				</td>
 				               				</tr>
 				               			</#list>
+				               			<#if (InvoiceList?size>0)>
 				               				<tr>
-				               				
 				               				<td colspan="2">
 				               					<select style="margin: 20px;" id="contents">
 				               						<option value="">请选择发票开具内容</option>
@@ -582,6 +608,7 @@ function supEnter(city){
 				               					</select>
 				               				</td>
 				               				</tr>
+				               			</#if>
 				               			</table>
 				               	</TD>
 				               	</TR>
