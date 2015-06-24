@@ -77,18 +77,18 @@ public class SuppliesServiceImpl implements SuppliesService {
 	@Autowired
 	UserServiceInter userService;
 
-	public Pair<Boolean, String> addSupplies(int city, Supplies obj, Principal principal, HttpServletRequest request) {
+	public Pair<Object, String> addSupplies(int city, Supplies obj, Principal principal, HttpServletRequest request) {
 		obj.setCity(city);
-		Pair<Boolean, String> r = null;
+		Pair<Object, String> r = null;
 		if (StringUtils.isBlank(obj.getName())) {
-			return r = new Pair<Boolean, String>(false, "素材说明不能为空!");
+			return r = new Pair<Object, String>(null, "素材说明不能为空!");
 		}
 
 		try {
 			if (Request.hasAuth(principal, SystemRoles.ShibaOrderManager.name())) {
 				if (StringUtils.isNoneBlank(obj.getUserId())) {
 					if (!userService.isUserHaveGroup(obj.getUserId(), SystemRoles.advertiser.name())) {
-						return new Pair<Boolean, String>(true, obj.getUserId() + " 不是广告主,素材保存失败！");
+						return new Pair<Object, String>(true, obj.getUserId() + " 不是广告主,素材保存失败！");
 					}
 
 					obj.setUserId(obj.getUserId());
@@ -107,9 +107,9 @@ public class SuppliesServiceImpl implements SuppliesService {
 				attachmentService.saveAttachment(request, Request.getUserId(principal), obj.getId(),
 						JpaAttachment.Type.su_file,null);
 			}
-			r = new Pair<Boolean, String>(true, "物料上传成功！");
+			r = new Pair<Object, String>(obj, "物料上传成功！");
 		} catch (BusinessException e) {
-			r = new Pair<Boolean, String>(false, "素材文件保存失败");
+			r = new Pair<Object, String>(false, "素材文件保存失败");
 		}
 		return r;
 	}
