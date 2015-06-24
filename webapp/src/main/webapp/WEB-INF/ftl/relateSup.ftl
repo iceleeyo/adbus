@@ -3,9 +3,7 @@
 <@frame.html title="未绑定物料订单" js=["js/jquery-ui/jquery-ui.min.js","js/layer-v1.9.3/layer/layer.js","js/progressbar.js","js/jquery-ui/jquery-ui.js"] css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css"]>
 <script type="text/javascript">
     $(document).ready(function() {
-       $("#otherpay").hide(); 
-   	   
-
+         $("#otherpay").hide(); 
      });
 </script>
 
@@ -28,8 +26,9 @@ function showtb1(){
 	     $("#tb1").hide();
 	     $("#tb2").show();
 	}
-function pay() {
+function pay() { 
 	    var contractid=-1;
+
 	     var payType="";
 	     var invoiceid=0;
 	     var contents="";
@@ -196,7 +195,6 @@ function showContract(){
 	}
 	
 		function sub2() {
-		alert("aaaaaa");
         if (!$("#userForm1").validationEngine('validateBeforeSubmit'))
             return;
 		var name = ($("#name").val());
@@ -364,7 +362,7 @@ function qEdit(id){
 
 function supEnter(city){
 		$.ajax({
-			url : "${rc.contextPath}/supplies/getIndustry/",
+			url : "${rc.contextPath}/supplies/getIndustry",
 			type : "GET",
 			data : {
 			},
@@ -372,7 +370,7 @@ function supEnter(city){
 				layer.open({
 	    		type: 1,
 	    		skin: 'layui-layer-rim', //加上边框
-	    		area: ['420px', '500px'], //宽高
+	    		area: ['500px', '520px'], //宽高
 	    		content: '<form id="userForm1" name="userForm1" action="${rc.contextPath}/supplies/put?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1" enctype="multipart/form-data" method="post"">'
 						 +'<br/><br/><div class="withdrawInputs"><div class="inputs">'
 						 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>物料名称</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[1],maxSize[120]]"'
@@ -383,7 +381,7 @@ function supEnter(city){
 						 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>所属行业:</label> <select id="industryId" class="ui-input" name="industryId" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" >'
 						 +'</select> </div>'
 						 +'<div class="ui-form-item" id="text" style="display:none;"> <label class="ui-label mt10"><span class="ui-form-required">*</span>文本信息</label>'
-						 +'<input class="ui-input" type="text" name="infoContext" id="infoContext" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" style="height: 91px; width: 367px; "> </div>'
+						 +'<input class="ui-input" type="text" name="infoContext" id="infoContext" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" style="height: 91px; width: 300px; "> </div>'
 						 +'<div class="ui-form-item" id="file"> <label class="ui-label mt10"><span class="ui-form-required">*</span>物料上传</label> <div id="newUpload2"> <div class="filebox" id="div_1"> <input type="file" name="file" id="Sfile" class="validate[required]"> </div> </div>'
 						 +'<input class="btn-sm btn-success" type="button" id="btn_add2" value="增加一行" style="margin-top: 10px;"><br> </div>'
 						 +'<div class="ui-form-item"> <label class="ui-label mt10">资质上传</label> <div id="newUpload3"> <div id="div_1"> <input type="file" name="qua" id="Sfile1"> </div> </div>'
