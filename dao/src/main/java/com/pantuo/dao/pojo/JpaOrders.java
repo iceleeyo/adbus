@@ -60,7 +60,7 @@ public class JpaOrders extends CityEntity {
     private JpaProduct.Type type;
     private PayType payType;
     private Status stats;
-    private Long ordRemark;
+    private String ordRemark;
     private String creator;
     private int isInvoice;
     private Date scheduleDay;
@@ -76,15 +76,9 @@ public class JpaOrders extends CityEntity {
         //for serialization
     }
 
-    public JpaOrders(int city, int orderId) {
-        super(city);
-        this.id = orderId;
-    }
-
-
     public JpaOrders(int id, String userId, JpaSupplies supplies, JpaProduct product, JpaInvoiceDetail invoiceDetail,
 			int contractId, String contractCode, Date startTime, Date endTime, Type type, PayType payType,
-			Status stats, Long ordRemark, String creator, int isInvoice, Date scheduleDay, Date shangboDay,
+			Status stats, String ordRemark, String creator, int isInvoice, Date scheduleDay, Date shangboDay,
 			Date jianboDay, Date financialCheckDay, Date cancelDay, Set<JpaOrderBuses> orderBuses) {
 		super();
 		this.id = id;
@@ -109,6 +103,13 @@ public class JpaOrders extends CityEntity {
 		this.cancelDay = cancelDay;
 		this.orderBuses = orderBuses;
 	}
+
+	public JpaOrders(int city, int orderId) {
+        super(city);
+        this.id = orderId;
+    }
+
+
 
 	public int getId() {
         return id;
@@ -306,9 +307,6 @@ public class JpaOrders extends CityEntity {
         return product.getBusNumber() - ordered;
     }
     
-    public Long getOrdRemark() {
-		return ordRemark;
-	}
 
     public Date getScheduleDay() {
         return scheduleDay;
@@ -350,10 +348,15 @@ public class JpaOrders extends CityEntity {
         this.cancelDay = cancelDay;
     }
 
-	public void setOrdRemark(Long ordRemark) {
-		this.ordRemark = ordRemark;
+
+
+	public String getOrdRemark() {
+		return ordRemark;
 	}
 
+	public void setOrdRemark(String ordRemark) {
+		this.ordRemark = ordRemark;
+	}
 
 	@Override
     public String toString() {
