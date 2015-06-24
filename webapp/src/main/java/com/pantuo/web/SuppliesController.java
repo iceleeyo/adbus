@@ -117,7 +117,7 @@ public class SuppliesController {
 
 	@RequestMapping(value = "put", method = RequestMethod.POST)
 	@ResponseBody
-	public Pair<Boolean, String> put(Supplies obj, Principal principal,
+	public Pair<Object, String> put(Supplies obj, Principal principal,
 			@CookieValue(value = "city", defaultValue = "-1") int city, HttpServletRequest request)
 			throws IllegalStateException, IOException {
 		return suppliesService.addSupplies(city, obj, principal, request);
