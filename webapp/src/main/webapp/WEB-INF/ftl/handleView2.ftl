@@ -411,7 +411,6 @@ function pay() {
 	         }else{
 	            contractid=-1;
 	         }
-	    alert(payType);
 		var orderid = $("#orderid").val();
 		var taskid = $("#taskid").val();
 		if(isinvoice==1){

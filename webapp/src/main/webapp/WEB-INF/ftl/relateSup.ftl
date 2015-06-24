@@ -3,7 +3,7 @@
 <@frame.html title="未绑定物料订单" js=["js/jquery-ui/jquery-ui.min.js","js/layer-v1.9.3/layer/layer.js","js/progressbar.js","js/jquery-ui/jquery-ui.js"] css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css"]>
 <script type="text/javascript">
     $(document).ready(function() {
-        
+       $("#otherpay").hide(); 
    	   
 
      });
@@ -29,8 +29,7 @@ function showtb1(){
 	     $("#tb2").show();
 	}
 function pay() {
-	 
-	    var contractid="";
+	    var contractid=-1;
 	     var payType="";
 	     var invoiceid=0;
 	     var contents="";
@@ -53,10 +52,17 @@ function pay() {
 	              jDialog.Alert("请选择合同");
 	              return;
 	            }
+	         }else if(payType=="others"){
+	             var otp=$("#otherpay  option:selected").val();
+	              if(otp==""){
+	              jDialog.Alert("请选择支付方式");
+	              return;
+	               }else{
+	               payType=$("#otherpay option:selected").val();
+	                }
 	         }else{
 	            contractid=-1;
 	         }
-	    
 		var orderid = $("#orderid").val();
 		var taskid = $("#taskid").val();
 		if(isinvoice==1){
@@ -93,7 +99,7 @@ function pay() {
 				jDialog.Alert(data.right);
 				var uptime = window.setTimeout(function(){
 				var a = document.createElement('a');
-    	        a.href='${rc.contextPath}/order/myTask/1';
+    	        a.href='${rc.contextPath}/order/myOrders/1';
             	document.body.appendChild(a);
              	a.click();
 			   	clearTimeout(uptime);
@@ -131,11 +137,17 @@ function pay() {
 			}
 		}, "text");
 	}
-	function showContract(){
+function showContract(){
 	     $("#contractCode").show();
+	     $("#otherpay").hide();
 	}
 	function hideContract(){
 	     $("#contractCode").hide();
+	    $("#otherpay").show();
+	}
+	function hideboth(){
+	     $("#contractCode").hide();
+	    $("#otherpay").hide();
 	}
 	
 	function sub(){
@@ -279,12 +291,42 @@ function qEdit(id){
 			data : {
 			},
 			success : function(data) {
+			var type="";
+			if(data.mainView.type==0){
+			  type="普通发票";
+			 }else{
+			    type="专用发票";
+			 }
+			var yingye="";
+			var yuserid=""
+			var yid=""
+			var shuiwu="";
+			var sid=""
+			var nashui="";
+			var nid=""
+			$.each(data.files, function(i, item) {
+			  if(item.type==6){
+			   yingye=item.name;
+			   yuserid=item.userId;
+			   yid=item.id;
+			  }
+			  if(item.type==7){
+			   shuiwu=item.name;
+			   sid=item.id;
+			  }
+			  if(item.type==8){
+			   nashui=item.name;
+			   nid=item.id;
+			  }
+			});
 				layer.open({
 	    		type: 1,
+	    		title: "发票信息",
 	    		skin: 'layui-layer-rim', //加上边框
-	    		area: ['420px', '500px'], //宽高
+	    		area: ['500px', '700px'], //宽高
 	    		content: '<form data-name="withdraw" name="userForm2" id="userForm2" class="ui-form" method="post" action="${rc.contextPath}/user/saveInvoice" enctype="multipart/form-data"> <input type="hidden" name="id" value="'+data.mainView.id+'"/>'
 						 +'<br/><br/><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/>'
+						 +'<div class="ui-form-item"> <label class="ui-label mt10">发票类型:</label>  '+type+'</div>'
 	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="ui-form-required">* </span>发票抬头: </label>  <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
 	    				 +'type="text" name="title" id="title" value="'+data.mainView.title+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>税务登记证号:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
@@ -299,7 +341,11 @@ function qEdit(id){
                          +'type="text" name="fixphone" value="'+data.mainView.fixphone+'" id="fixphone" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 						 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>邮寄地址:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
                          +'type="text" name="mailaddr" value="'+data.mainView.mailaddr+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10">营业执照复印件:</label> <a href="${rc.contextPath}/downloadFile/'+yuserid+'/'+yid+'"> '+yingye+'</a> </div>'
+						 +'<div class="ui-form-item"> <label class="ui-label mt10">税务登记复印件:</label><a href="${rc.contextPath}/downloadFile/'+yuserid+'/'+sid+'"> '+shuiwu+' </a></div>'
+						 +'<div class="ui-form-item"> <label class="ui-label mt10">纳税人资格认证复印件:</label> <a href="${rc.contextPath}/downloadFile/'+yuserid+'/'+nid+'">'+nashui+' </a></div>'
 						 +'<div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraw1" class="block-btn" onclick="sub();" value="确认"> </div></form>'
+
 		});
 		$("#userForm2").validationEngine({
 	            validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
@@ -473,8 +519,8 @@ function supEnter(city){
     								<TH style="padding:0,10px;">支付方式</TH>
     							<TD style="padding:0,10px;">
     										<input type="radio" name="payType" onchange="showContract()" value="contract" checked="checked">关联合同
-				             		<input type="radio" name="payType" value="online" onchange="hideContract()" >线上支付
-				             	<input type="radio" name="payType" value="others"  onchange="hideContract()">其他支付
+				             		<input type="radio" name="payType" value="online" onchange="hideboth()" >线上支付
+				             	<input type="radio" name="payType" value="others"  onchange="hideContract()">其他支付</TD>
 				             	</TD>
 				             	
 				             	<TD style="padding:0,10px;">
@@ -488,6 +534,14 @@ function supEnter(city){
                                                 </#if>
                   		</select>
                   		</div>
+                  		<div id="otherpay" >
+				             	<select class="ui-input" name="otherpay" id="otherpay">
+                                                <option value="" selected="selected">请选择支付方式</option>
+                                                <option value="check" >支票</option>
+                                                <option value="remit" >汇款</option>
+                                                <option value="cash" >现金</option>
+                  		       </select>
+                  		      </div>
                   		</TD>
     									
   					</TR>
@@ -517,7 +571,7 @@ function supEnter(city){
 				               				
 				               				<td colspan="2">
 				               					<select style="margin: 20px;" id="contents">
-				               						<option>请选择发票开具内容</option>
+				               						<option value="">请选择发票开具内容</option>
 				               						<option value="广告发布费">广告发布费</option>
 				               						<option value="广告制作费">广告制作费</option>
 				               						<option value="其他">其他</option>
