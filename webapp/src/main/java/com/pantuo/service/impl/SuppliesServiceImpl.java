@@ -88,7 +88,7 @@ public class SuppliesServiceImpl implements SuppliesService {
 			if (Request.hasAuth(principal, SystemRoles.ShibaOrderManager.name())) {
 				if (StringUtils.isNoneBlank(obj.getUserId())) {
 					if (!userService.isUserHaveGroup(obj.getUserId(), SystemRoles.advertiser.name())) {
-						return new Pair<Object, String>(true, obj.getUserId() + " 不是广告主,素材保存失败！");
+						return new Pair<Object, String>(null, obj.getUserId() + " 不是广告主,素材保存失败！");
 					}
 
 					obj.setUserId(obj.getUserId());
@@ -109,7 +109,7 @@ public class SuppliesServiceImpl implements SuppliesService {
 			}
 			r = new Pair<Object, String>(obj, "物料上传成功！");
 		} catch (BusinessException e) {
-			r = new Pair<Object, String>(false, "素材文件保存失败");
+			r = new Pair<Object, String>(null, "素材文件保存失败");
 		}
 		return r;
 	}
