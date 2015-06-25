@@ -69,6 +69,10 @@ function pay() {
 		        contents=$("#contents  option:selected").val();
 	            receway=$("#receway  option:selected").val();
 	            invoiceid=$('#invoiceTab :radio[name=invoiceTit]:checked').val();
+	            if(typeof (invoiceid) == "undefined"){
+	              jDialog.Alert("请选择发票");
+	              return;
+	            }
 	            if(contents==""){
 	              jDialog.Alert("请选择发票开具内容");
 	              return;
@@ -77,10 +81,7 @@ function pay() {
 	              jDialog.Alert("请选择发票领取方式");
 	              return;
 	            }
-	            if(typeof (invoiceid) == "undefined"){
-	              jDialog.Alert("请选择发票");
-	              return;
-	            }
+	            
 	  }
 		$.ajax({
 			url : "${rc.contextPath}/order/payment",
@@ -150,41 +151,6 @@ function showContract(){
 	    $("#otherpay").hide();
 	}
 	
-	function sub(){
-        if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
-            return;
-	   	var checked=document.getElementById("invoiceShow").checked;
-	    var title = ($("#title").val());
-		var taxrenum = ($("#taxrenum").val());
-		var bankname = $("#bankname").val();
-		var mailaddr = $("#mailaddr").val();
-		if(title==""){
-			jDialog.Alert("请填写发票抬头");
-			return;
-		}
-		if(taxrenum==""){
-			jDialog.Alert("请填写税务登记证");
-			return;
-		}
-		if(mailaddr==""){
-			jDialog.Alert("请填写发票邮寄地址");
-			return;
-		}
-		if(bankname==""){
-			jDialog.Alert("请填写基本户开户银行");
-			return;
-		}
-	   	if(title==""){
-			jDialog.Alert("请填写发票抬头");
-			return;
-		}
-	   document.getElementById('subWithdraw1').setAttribute('disabled',true); 
-		$('#userForm2').ajaxForm(function(data) {
-		$("#cc").trigger("click");
-		window.location.reload();
-		}).submit();
-
-	}
 	
 	function del_2(o) {
 		document.getElementById("newUpload2").removeChild(
@@ -194,113 +160,7 @@ function showContract(){
 		document.getElementById("newUpload3").removeChild(
 				document.getElementById("div_" + o));
 	}
-	
-		function subSup() {
-        if (!$("#userForm1").validationEngine('validateBeforeSubmit'))
-            return;
-		var name = ($("#name").val());
-		var infoContext = ($("#infoContext").val());
-		var suppliesType = ($("#suppliesType").val());
-		Sfile= ($("#Sfile").val());
-		Sfile1= ($("#Sfile1").val());
-		if(Sfile== "" && infoContext=="" ){
-			jDialog.Alert("请填写完整信息");
-			return;
-		}
-        if (!$("#industryId").val()) {
-            jDialog.Alert("请选择行业");
-            return;
-        }
-        if (Sfile.lastIndexOf(".") != -1 && suppliesType == "0") {
-			var fileType = (Sfile.substring(Sfile.lastIndexOf(".") + 1,Sfile.length)).toLowerCase();
-			var suppotFile = new Array();
-			suppotFile[0] = "avi";
-			suppotFile[1] = "mp4";
-			suppotFile[2] = "rmvb";
-			var flag=false;
-			for (var i = 0; i < suppotFile.length; i++) {
-				if (suppotFile[i] == fileType) {
-					flag=true;
-				}
-			}
-				if(flag == false)
-				{
-				jDialog.Alert("文件类型只支持AVI,MP4,RMVB");
-				return;
-				}
-		}
 
-		if (Sfile.lastIndexOf(".") != -1 && suppliesType == "1") {
-			var fileType = (Sfile.substring(Sfile.lastIndexOf(".") + 1,Sfile.length)).toLowerCase();
-			var suppotFile = new Array();
-			suppotFile[0] = "gif";
-			suppotFile[1] = "png";
-			suppotFile[2] = "jpg";
-			var flag=false;
-			for (var i = 0; i < suppotFile.length; i++) {
-				if (suppotFile[i] == fileType) {
-					flag=true;
-				}
-			}
-			if(flag == false)
-			{
-				jDialog.Alert("文件类型只支持GIF,PNG,JPG");
-				return;
-			}
-			
-		}
-		if (Sfile1.lastIndexOf(".") != -1 ) {
-			var fileType = (Sfile1.substring(Sfile1.lastIndexOf(".") + 1,
-					Sfile1.length)).toLowerCase();
-			var suppotFile = new Array();
-			suppotFile[0] = "gif";
-			suppotFile[1] = "bmp";
-			suppotFile[2] = "jpg";
-			var flag=false;
-			for (var i = 0; i < suppotFile.length; i++) {
-				if (suppotFile[i] == fileType) {
-					flag=true;
-				}
-			}
-			if(flag == false)
-			{
-				jDialog.Alert("资质类型只支持GIF,BMP,JPG");
-				return;
-			}
-		}
-		
-		$('#userForm1').ajaxForm(function(data) {
-			jDialog.Alert(data.right);
-			var uptime = window.setTimeout(function(){
-			$("#supplieid").append(
-				$("<option value="+data.left.id+" selected='selected'>" + data.left.name + "</option>")
-			);
-			$("#cc").trigger("click");
-			clearTimeout(uptime);
-			},2000)
-		}).submit();
-		document.getElementById('subWithdraw').setAttribute('disabled',true);
-		 var uploadProcess={upath:'${rc.contextPath}/upload/process'};
-		 $('#progress1').anim_progressbar(uploadProcess);
-		 
-}
-
-/* function getSup(){
-	$.ajax({
-		url:"${rc.contextPath}/supplies/getMysupplies",
-		type:"GET",
-		data:{
-		},
-		success:function(data){
-			$.each(data, function(i, item) {
-					$("#supplieid").append(
-							$("<option value="+item.id+" checked=''>" + item.name
-									+ "</option>"));
-			
-		}
-	)};
-	});
-} */
 	//Radio反选
 var isChecked = false;
 function qCheck(obj){
@@ -308,83 +168,6 @@ function qCheck(obj){
     obj.checked = isChecked;
 }
 
-function qEdit(id){
-	$.ajax({
-			url : "${rc.contextPath}/user/invoice_detail/"+id,
-			type : "POST",
-			data : {
-			},
-			success : function(data) {
-			var type="";
-			if(data.mainView.type==0){
-			  type="普通发票";
-			 }else{
-			    type="专用发票";
-			 }
-			var yingye="";
-			var yuserid=""
-			var yid=""
-			var shuiwu="";
-			var sid=""
-			var nashui="";
-			var nid=""
-			$.each(data.files, function(i, item) {
-			  if(item.type==6){
-			   yingye=item.name;
-			   yuserid=item.userId;
-			   yid=item.id;
-			  }
-			  if(item.type==7){
-			   shuiwu=item.name;
-			   sid=item.id;
-			  }
-			  if(item.type==8){
-			   nashui=item.name;
-			   nid=item.id;
-			  }
-			});
-				layer.open({
-	    		type: 1,
-	    		title: "发票信息",
-	    		skin: 'layui-layer-rim', //加上边框
-	    		area: ['500px', '600px'], //宽高
-	    		content: '<form data-name="withdraw" name="userForm2" id="userForm2" class="ui-form" method="post" action="${rc.contextPath}/user/saveInvoice" enctype="multipart/form-data"> <input type="hidden" name="id" value="'+data.mainView.id+'"/>'
-						 +'<br/><br/><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/>'
-						 +'<div class="ui-form-item"> <label class="ui-label mt10">发票类型:</label>  '+type+'</div>'
-	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="ui-form-required">* </span>发票抬头: </label>  <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
-	    				 +'type="text" name="title" id="title" value="'+data.mainView.title+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>税务登记证号:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
-                         +'type="text" name="taxrenum" value="'+data.mainView.taxrenum+'" id="taxrenum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
-						 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>基本户开户银行名称:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
-                         +'type="text" name="bankname" value="'+data.mainView.bankname+'" id="bankname" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>基本户开户账号:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
-                         +'type="text" name="accountnum" value="'+data.mainView.accountnum+'" id="accountnum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>注册场所地址:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
-                         +'type="text" name="regisaddr" value="'+data.mainView.regisaddr+'" id="regisaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>注册固定电话:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
-                         +'type="text" name="fixphone" value="'+data.mainView.fixphone+'" id="fixphone" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-						 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>邮寄地址:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
-                         +'type="text" name="mailaddr" value="'+data.mainView.mailaddr+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10">营业执照复印件:</label> <a href="${rc.contextPath}/downloadFile/'+yuserid+'/'+yid+'"> '+yingye+'</a> </div>'
-						 +'<div class="ui-form-item"> <label class="ui-label mt10">税务登记复印件:</label><a href="${rc.contextPath}/downloadFile/'+yuserid+'/'+sid+'"> '+shuiwu+' </a></div>'
-						 +'<div class="ui-form-item"> <label class="ui-label mt10">纳税人资格认证复印件:</label> <a href="${rc.contextPath}/downloadFile/'+yuserid+'/'+nid+'">'+nashui+' </a></div>'
-						 +'<div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraw1" class="block-btn" onclick="sub();" value="确认"> </div></form>'
-
-		});
-		$("#userForm2").validationEngine({
-	            validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
-	            inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
-	            success :  false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
-	            promptPosition: "topLeft",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
-	            maxErrorsPerField: 1,
-	            focusFirstField: true,
-	            //failure : function() { alert("验证失败，请检查。");  }//验证失败时调用的函数
-	            //success : function() { callSuccessFunction() },//验证通过时调用的函数
-	        	});
-			}
-		}, "text");
-		
-}
 
 </script>
 <div class="color-white-bg fn-clear">
@@ -498,7 +281,7 @@ function qEdit(id){
 				               				<tr>
 				               				<td>
 				               					<input type="radio" value="${ilist.id}" onclick="qCheck(this)" name="invoiceTit">
-				               					<label onclick="qEdit(${ilist.id})">${ilist.title}</label>
+				               					<label onclick="qEdit('${rc.contextPath}',${ilist.id})">${ilist.title}</label>
 				               				</td>
 				               				<td>
 				               					<label><font color="#FF9966">邮寄地址：${ilist.mailaddr}</font></label>

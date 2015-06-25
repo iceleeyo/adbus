@@ -24,103 +24,7 @@
 $(document).ready(function(){ 
     //$("#subWithdraw").attr('disabled',false); //移除disabled属性
 }); 
-function sub2() {
-        if (!$("#userForm1").validationEngine('validateBeforeSubmit'))
-            return;
-		var name = ($("#name").val());
-		var infoContext = ($("#infoContext").val());
-		var suppliesType = ($("#suppliesType").val());
-		Sfile= ($("#Sfile").val());
-		Sfile1= ($("#Sfile1").val());
-		if(Sfile== "" && infoContext=="" ){
-			//jDialog.Alert("请填写完整信息");
-			layer.msg('请填写完整信息', {icon: 5});
-			return;
-		}
-        if (!$("#industryId").val()) {
-            jDialog.Alert("请选择行业");
-            return;
-        }
-        if (Sfile.lastIndexOf(".") != -1 && suppliesType == "0") {
-			var fileType = (Sfile.substring(Sfile.lastIndexOf(".") + 1,Sfile.length)).toLowerCase();
-			var suppotFile = new Array();
-			suppotFile[0] = "avi";
-			suppotFile[1] = "mp4";
-			suppotFile[2] = "rmvb";
-			var flag=false;
-			for (var i = 0; i < suppotFile.length; i++) {
-				if (suppotFile[i] == fileType) {
-					flag=true;
-				}
-			}
-				if(flag == false)
-				{
-					layer.msg('文件类型只支持AVI,MP4,RMVB', {icon: 5});
-				//jDialog.Alert("文件类型只支持AVI,MP4,RMVB");
-				return;
-				}
-		}
 
-		if (Sfile.lastIndexOf(".") != -1 && suppliesType == "1") {
-			var fileType = (Sfile.substring(Sfile.lastIndexOf(".") + 1,Sfile.length)).toLowerCase();
-			var suppotFile = new Array();
-			suppotFile[0] = "gif";
-			suppotFile[1] = "png";
-			suppotFile[2] = "jpg";
-			var flag=false;
-			for (var i = 0; i < suppotFile.length; i++) {
-				if (suppotFile[i] == fileType) {
-					flag=true;
-				}
-			}
-			if(flag == false)
-			{
-			layer.msg('文件类型只支持GIF,PNG,JPG', {icon: 5});
-				//jDialog.Alert("文件类型只支持GIF,PNG,JPG");
-				return;
-			}
-			
-		}
-		if (Sfile1.lastIndexOf(".") != -1 ) {
-			var fileType = (Sfile1.substring(Sfile1.lastIndexOf(".") + 1,
-					Sfile1.length)).toLowerCase();
-			var suppotFile = new Array();
-			suppotFile[0] = "gif";
-			suppotFile[1] = "bmp";
-			suppotFile[2] = "jpg";
-			var flag=false;
-			for (var i = 0; i < suppotFile.length; i++) {
-				if (suppotFile[i] == fileType) {
-					flag=true;
-				}
-			}
-			if(flag == false)
-			{
-			layer.msg('文件类型只支持GIF,BMP,JPG', {icon: 5});
-				//jDialog.Alert("资质类型只支持GIF,BMP,JPG");
-				return;
-			}
-		}
-		
-		$('#userForm1').ajaxForm(function(data) {
-		//	jDialog.Alert(data.right);
-		 $("#uploadbutton").attr("disabled",true);
-         $("#uploadbutton").css("background-color","#85A2AD");
-         layer.msg('上传成功!');
-			var uptime = window.setTimeout(function(){
-			$("#suppliesId").append(
-				$("<option value="+data.left.id+" selected='selected'>" + data.left.name + "</option>")
-			);
-			$("#cc").trigger("click");
-			clearTimeout(uptime);
-			},3000)
-		}).submit();
-		document.getElementById('subWithdraw').setAttribute('disabled',true);
-		
-		 var uploadProcess={upath:'${rc.contextPath}/upload/process'};
-		 $('#progress1').anim_progressbar(uploadProcess);
-		 
-}
 	function sub() {
         var startTime = $("#startTime").val();
         var d = new Date(startTime.replace(/-/g,"/")); 
@@ -182,7 +86,7 @@ function sub2() {
 										<div class="ui-form-item">
 											<label class="ui-label mt10">选择物料:</label>
                                             <select class="ui-input" 
-                                            name="supplies.id" id="suppliesId">
+                                            name="supplies.id" id="supplieid">
                                                 <option value="1" selected="selected"></option>
                                                 <#list supplies as s>
                                                     <option value="${s.id}">${s.name}</option>

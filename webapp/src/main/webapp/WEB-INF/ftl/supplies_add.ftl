@@ -30,7 +30,7 @@
         });
         $("#btn_add3").click(function() {
             $("#newUpload3").append(
-                    '<div id="div_'+i+'"><input  name="qua_'+i+'" type="file"  style="margin-top:10px;"  class="validate[required]" />' +
+                    '<div id="quadiv_'+i+'"><input  name="qua_'+i+'" type="file"  style="margin-top:10px;"  class="validate[required]" />' +
                     '<input class="btn-sm btn-wrong" type="button"  style="margin-top:10px;" value="删除"  onclick="del_3('+ i + ')"/></div>');
             i = i + 1;
         });
@@ -69,7 +69,7 @@
 	}
 	function del_3(o) {
 		document.getElementById("newUpload3").removeChild(
-				document.getElementById("div_" + o));
+				document.getElementById("quadiv_" + o));
 	}
 
 
@@ -248,7 +248,7 @@
 										<div class="ui-form-item">
 											<label class="ui-label mt10">资质上传</label>
 											<div id="newUpload3">
-												<div id="div_1">
+												<div id="quadiv_1">
 													<input type="file" name="qua" id="Sfile1">
 												</div>
 											</div>

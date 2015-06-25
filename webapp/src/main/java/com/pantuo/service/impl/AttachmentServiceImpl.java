@@ -78,6 +78,8 @@ public class AttachmentServiceImpl implements AttachmentService {
 							t.setMainId(main_id);
 							if(StringUtils.equals(fn, "licensefile")){
 								t.setType(JpaAttachment.Type.license.ordinal());
+							}else if(fn.indexOf("qua")!=-1){
+								t.setType(JpaAttachment.Type.u_fj.ordinal());
 							}
 							else if(StringUtils.equals(fn, "taxfile")){
 								t.setType(JpaAttachment.Type.tax.ordinal());
