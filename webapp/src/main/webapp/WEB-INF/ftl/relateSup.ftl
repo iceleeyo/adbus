@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#import "template/pickBuses.ftl" as pickBuses>
-<@frame.html title="未绑定物料订单" js=["js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer/layer.js","js/progressbar.js"] css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/uploadprogess.css"]>
+<@frame.html title="未绑定物料订单" js=["js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer/layer.js","js/progressbar.js"] css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/uploadprogess.css","css/liselect/pkg-generator.css$ver=1431443489.css"]>
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -304,6 +304,30 @@ function qCheck(obj){
 				              <TR style="display:none;" id="invoiceTab">
 				              <TH>个人发票列表</TH>
 				              <TD colspan="3">
+				              
+				              
+								              <div class="cart_address_wrap" id="cartAddress">
+				        <ul class="cart_address_list clearfix" style="height:160px;" id="cartAddressList">
+				                            <li data-aid="t29488998">
+				                    <a href="javascript:;" class="cart_address_card addressCard" style="text-decoration:none;" data-aid="29488998">
+				                                                    <!-- 默认地址 -->
+				                            <!-- 默认地址 end -->
+				                        <p class="cart_address_zipinfo" data-postcode="310053" data-province="浙江省" data-city="杭州市" data-area="江干区">
+				                            浙江省杭州市江干区 310053                        </p>
+				                        
+				                        <i class="cart_address_edit" style="display: none;" id="t29488998">编辑</i>
+				                    </a>
+				                </li>
+				                            <li data-aid="t29488982">
+				                    <a href="javascript:;" class="cart_address_card addressCard selected" style="text-decoration:none;" data-aid="29488982">
+				                        <p class="cart_address_zipinfo" data-postcode="310056" data-province="浙江省" data-city="杭州市" data-area="江干区">
+				                            浙江省杭州市江干区 310056                        </p>
+				                        <span class="cart_address_edit" style="display: none;" id="t29488982">编辑</span>
+				                    </a>
+				                </li>
+				  </ul>
+				</div>
+								              
 				               			<table>
 				               			<#list InvoiceList as ilist>
 				               				<tr>
@@ -341,6 +365,7 @@ function qCheck(obj){
 				               				</tr>
 				               			</#if>
 				               			</table>
+				               			
 				               	</TD>
 				               	</TR>
 				               	</TBODY>
@@ -391,6 +416,25 @@ $(document).ready(function(){
   });
 });
 </script>
+<script type="text/javascript">
+
+
+
+
+  $(document).ready(function() {
+       $('.cart_address_wrap ul li').click(function(){
+	$('.cart_address_wrap ul li').each(function(){
+		 $(this).find("a").removeClass("selected");
+		var tid= $(this).attr("data-aid");
+		 $("#"+tid)[0].style.display = "none"; 
+	});
+    $(this).find("a").addClass("selected");
+    $("#"+($(this).attr("data-aid")))[0].style.display = "block"; 
+
+});
+
+    } );
+  </script> 
 </@frame.html>
 
 
