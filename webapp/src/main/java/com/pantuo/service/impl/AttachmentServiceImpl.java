@@ -215,9 +215,6 @@ public class AttachmentServiceImpl implements AttachmentService {
 		ca.andMainIdEqualTo(main_id);
 		ca2.andMainIdEqualTo(main_id);
 		ca3.andMainIdEqualTo(main_id);
-		ca.andUserIdEqualTo(Request.getUserId(principal));
-		ca2.andUserIdEqualTo(Request.getUserId(principal));
-		ca3.andUserIdEqualTo(Request.getUserId(principal));
 		ca.andTypeEqualTo(6);
 		ca2.andTypeEqualTo(7);
 		ca3.andTypeEqualTo(8);
