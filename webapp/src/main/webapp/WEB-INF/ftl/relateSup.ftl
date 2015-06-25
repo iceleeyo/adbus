@@ -391,23 +391,6 @@ $(document).ready(function(){
   });
 });
 </script>
-<script type="text/javascript">
-
-  $(document).ready(function() {
-       
-$('#invoiceShow').on('click', function(){
-var checked=document.getElementById("invoiceShow").checked;
-	if(checked){
-		document.getElementById("invoiceTab").style.display="";
-	}else{
-		document.getElementById("invoiceTab").style.display="none";
-	} 
-});
-
-
-
-    } );
-  </script> 
 </@frame.html>
 
 
