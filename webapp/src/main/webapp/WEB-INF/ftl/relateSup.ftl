@@ -150,7 +150,32 @@ function showContract(){
 	     $("#contractCode").hide();
 	    $("#otherpay").hide();
 	}
-	
+	$(document).ready(function(){
+		$('input').on('ifChecked', function(event){
+			var p =($(this).val());
+			if($(this).attr("name")=='payType'){
+				if(p=='contract'){
+					showContract();
+				}else if(p == 'online'){
+					hideboth();
+				}else {
+				 hideContract();
+				}
+			}
+		});
+			//add by impanxh 判断开发发票
+			$('input').on('ifChanged', function(event){
+			if($(this).attr("id")=='invoiceShow' && $(this).attr("type") == 'checkbox'){
+				var checked=document.getElementById("invoiceShow").checked;
+				if(checked){
+					document.getElementById("invoiceTab").style.display="";
+				}else{
+					document.getElementById("invoiceTab").style.display="none";
+				} 
+			}
+		});
+ 
+	});
 	
 	function del_2(o) {
 		document.getElementById("newUpload2").removeChild(
@@ -167,6 +192,9 @@ function qCheck(obj){
 	isChecked = isChecked ? false : true;
     obj.checked = isChecked;
 }
+
+
+
 
 
 </script>
@@ -353,6 +381,16 @@ function qCheck(obj){
 <input type="hidden" id="taskid" value="${taskid!''}"/>
 </div>
 
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $('input').iCheck({
+    checkboxClass: 'icheckbox_square-green',
+    radioClass: 'iradio_square-green',
+    increaseArea: '20%' // optional
+  });
+});
+</script>
 <script type="text/javascript">
 
   $(document).ready(function() {
