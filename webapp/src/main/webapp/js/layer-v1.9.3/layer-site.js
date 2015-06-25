@@ -375,7 +375,7 @@ function subSup() {
 		clearTimeout(uptime);
 		},3000)
 	}).submit();
-	 var uploadProcess={upath:'${rc.contextPath}/upload/process'};
+	 var uploadProcess={upath:'/upload/process'};
 	 $('#progress1').anim_progressbar(uploadProcess);
 	 
 }
