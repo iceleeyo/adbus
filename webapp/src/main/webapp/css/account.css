@@ -1923,6 +1923,15 @@
 	margin-left: -220px
 }
 
+.withdrawInputs .ui-labels {
+	width: 170px;
+	margin-left: -230px
+}
+
+.withdrawInputs .ui-labeli {
+	width: 200px;
+	margin-left: -230px
+}
 .withdrawInputs .ui-input {
 	width: 220px;
 	padding: 0 20px 0 5px;

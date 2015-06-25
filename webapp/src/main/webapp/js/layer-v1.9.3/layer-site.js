@@ -119,22 +119,22 @@ function supEnter(tourl,city){
     		type: 1,
     		title: "物料录入",
     		skin: 'layui-layer-rim', //加上边框
-    		area: ['500px', '520px'], //宽高
+    		area: ['480px', '520px'], //宽高
     		content: '<form id="userForm1" name="userForm1" action="'+tourl+'/supplies/put?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1" enctype="multipart/form-data" method="post"">'
 					 +'<br/><br/><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/><div class="withdrawInputs"><div class="inputs">'
-					 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>物料名称</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[1],maxSize[120]]"'
+					 +'<div class="ui-form-item"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>物料名称</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[1],maxSize[120]]"'
 					 +'type="text" name="name" id="name" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="支持中英文、数字、下划线">'
 					 +'</div>'
-					 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>物料类型</label> <select class="ui-input" name="suppliesType" id="suppliesType">'
+					 +'<div class="ui-form-item"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>物料类型</label> <select class="ui-input" name="suppliesType" id="suppliesType">'
 					 +'</select> </div>'
-					 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>所属行业:</label> <select id="industryId" class="ui-input" name="industryId" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" >'
+					 +'<div class="ui-form-item"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>所属行业:</label> <select id="industryId" class="ui-input" name="industryId" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" >'
 					 +'</select> </div>'
 					 +'<div class="ui-form-item" id="text" style="display:none;"> <label class="ui-label mt10"><span class="ui-form-required">*</span>文本信息</label>'
 					 +'<input class="ui-input" type="text" name="infoContext" id="infoContext" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" style="height: 91px; width: 300px; "> </div>'
-					 +'<div class="ui-form-item" id="file"> <label class="ui-label mt10"><span class="ui-form-required">*</span>物料上传</label> <div id="newUpload2"> <div class="filebox" id="div_1"> <input type="file" name="file" id="Sfile" class="validate[required]"> </div> </div>'
+					 +'<div class="ui-form-item" id="file"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>物料上传</label> <div id="newUpload2"> <div class="filebox" id="div_1"> <input type="file" name="file" id="Sfile" class="validate[required]"> </div> </div>'
 					 +'<input class="btn-sm btn-success" type="button" id="btn_add2" value="增加一行" style="margin-top: 10px;"><br> </div>'
-					 +'<div class="ui-form-item"> <label class="ui-label mt10">资质上传</label> <div id="newUpload3"> <div id="div_1"> <input type="file" name="qua" id="Sfile1"> </div> </div>'
-					 +'<input class="btn-sm btn-success" type="button" id="btn_add3" value="增加一行" style="margin-top: 10px;" ><br> </div> <div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraw" class="block-btn" onclick="sub2();" value="开始上传"> </div>'
+					 +'<div class="ui-form-item"> <label class="ui-labels mt10">资质上传</label> <div id="newUpload3"> <div id="div_1"> <input type="file" name="qua" id="Sfile1"> </div> </div>'
+					 +'<input class="btn-sm btn-success" type="button" id="btn_add3" value="增加一行" style="margin-top: 10px;" ><br> </div> <div class="ui-form-item widthdrawBtBox"> <input type="button" id="uploadbutton" class="block-btn" onclick="subSup();" value="开始上传"> </div>'
 					 +'<div id="progress1"> <div class="percent"></div> <div class="pbar"></div> <div class="elapsed"></div> </div> </div> </div></form>'
 
 		});
@@ -193,5 +193,71 @@ function supEnter(tourl,city){
 			
 	}, "text");
 	
+
+}
+
+function subIvc(){
+    if (!$("#userForm3").validationEngine('validateBeforeSubmit'))
+        return;
+   document.getElementById('subWithdrawi').setAttribute('disabled',true); 
+   layer.msg('上传成功!');
+	$('#userForm3').ajaxForm(function(data) {
+		jDialog.Alert(data.right);
+		var uptime = window.setTimeout(function(){
+			window.location.reload();
+		   	clearTimeout(uptime);
+					},2000)
+	}).submit();
+
+}
+function showother(){
+	$("#other").css('display','block'); 
+}
+function hideother(){
+	$("#other").css('display','none'); 
+}
+function IvcEnter(tourl){
+			layer.open({
+    		type: 1,
+    		title: "发票信息录入",
+    		skin: 'layui-layer-rim', //加上边框
+    		area: ['550px', '640px'], //宽高
+    		content: '<form data-name="withdraw" name="userForm3" id="userForm3" class="ui-form" method="post" action="'+tourl+'/user/saveInvoice" enctype="multipart/form-data">'
+    				 +'<div class="withdrawInputs" style="margin-left: 10px;"> <div class="inputs"> <div class="ui-form-item"> <label class="ui-labeli mt10"> <span class="ui-form-required">* </span>发票类型: </label>'
+    				 +'<div class="mt10 radiobox" style="display:inline-block"> <input type="radio" name="type" checked="checked" onchange="showother()" value="special">&nbsp;增值税专用发票'
+    				 +'<input type="radio" name="type"  onchange="hideother()" value="normal">&nbsp;普通发票&nbsp;&nbsp; </div> </div>'
+    				 +'<div class="ui-form-item"> <label class="ui-labeli mt10"> <span class="ui-form-required">* </span>发票抬头: </label>'
+    				 +'<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]" type="text" name="title" id="title" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""></div>'
+					 +'<div id="other" style="display:block"> <div class="ui-form-item"> <label class="ui-labeli mt10"><span class="ui-form-required">*</span>税务登记证号:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+					 +'type="text" name="taxrenum" id="taxrenum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
+					 +'<div class="ui-form-item"> <label class="ui-labeli mt10"><span class="ui-form-required">*</span>基本户开户银行名称:</label>'
+					 +'<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]" type="text" name="bankname" id="bankname" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+					 +'<div class="ui-form-item"> <label class="ui-labeli mt10"><span class="ui-form-required">*</span>基本户开户账号:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]" type="text" name="accountnum"'
+					 +'id="accountnum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+					 +'<div class="ui-form-item"> <label class="ui-labeli mt10"><span class="ui-form-required">*</span>注册场所地址:</label>'
+					 +'<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]" type="text" name="regisaddr" id="regisaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+					 +'<div class="ui-form-item"> <label class="ui-labeli mt10"><span class="ui-form-required">*</span>注册固定电话:</label>'
+					 +'<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]" type="text" name="fixphone" id="fixphone" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+					 +'<div class="ui-form-item"> <label class="ui-labeli mt10"><span class="ui-form-required">*</span>邮寄地址:</label>'
+					 +'<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]" type="text" name="mailaddr" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+					 +'<div class="ui-form-item"> <label class="ui-labeli mt10"><span class="ui-form-required">*</span>营业执照复印件: </label><br>'
+					 +'<div id="newUpload2"> <div id="div_1"> <input type="file" name="licensefile" id="Sfile" class="validate[required]"> </div> </div> </div>'
+					 +'<div class="ui-form-item"> <label class="ui-labeli mt10"><span class="ui-form-required">*</span>税务登记复印件: </label><div id="newUpload2"> <div class="filebox" id="div_1">'
+					 +'<input type="file" name="taxfile" id="Sfile2" class="validate[required]"> </div> </div> </div>'
+					 +'<div class="ui-form-item"> <label class="ui-labeli mt10"><span class="ui-form-required">*</span>一般纳税人资格认证复印件: </label><div id="newUpload2"> <div id="div_1">'
+					 +'<input type="file" name="taxpayerfile" id="Sfile3" class="validate[required]"> </div> </div> </div> </div>'
+					 +'<div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdrawi" class="block-btn" onclick="subIvc();" value="提交">'
+					 +'</div> </div> </div> </form>'
+				});
+			
+			$("#userForm3").validationEngine({
+            validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
+            inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
+            success :  false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
+            promptPosition: "topLeft",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
+            maxErrorsPerField: 1,
+            //failure : function() { alert("验证失败，请检查。");  }//验证失败时调用的函数
+            //success : function() { callSuccessFunction() },//验证通过时调用的函数
+        });
 
 }

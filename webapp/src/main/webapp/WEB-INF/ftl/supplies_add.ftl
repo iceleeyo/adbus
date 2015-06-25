@@ -1,5 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="上传物料">
+<#import "template/pickBuses.ftl" as pickBuses>
 <@frame.html title="物料上传" js=["js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/progressbar.js"] css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 
@@ -227,7 +228,8 @@
                                         </div>
 										<div class="ui-form-item" id="text" style="display:none;">
 											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>文本信息</label> <input
+												class="ui-form-required">*</span>文本信息</label> 
+												<input
 												class="ui-input" type="text" name="infoContext"
 												id="infoContext" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" style="height: 91px; width: 367px; ">

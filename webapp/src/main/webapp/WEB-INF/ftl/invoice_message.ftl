@@ -183,13 +183,14 @@
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>营业执照复印件:
+                                            </label>
                                                     <#if invoiceView?exists >
                                                       <#list invoiceView.files as item>
                                                       <#if item?has_content && item.type==6>
                                                           <a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;  
                                                       </#if>
                                                      </#list>
-                                                    </label><br>
+                                                    <br>
                                                     <div id="newUpload2">
 												<div id="div_1">
 													<input type="file" name="licensefile" id="Sfile" >
@@ -207,13 +208,14 @@
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>税务登记复印件:
+                                            </label>       
                                                      <#if invoiceView?? >
                                                        <#list invoiceView.files as item>
                                                       <#if item?has_content && item.type==7>
                                                           <a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;  
                                                       </#if>
                                                      </#list>
-                                                    </label><br>
+                                                    <br>
                                                     <div id="newUpload2">
 												<div id="div_1">
 													<input type="file" name="taxfile" id="Sfile2" >
@@ -231,13 +233,14 @@
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>一般纳税人资格认证复印件:
+                                            </label>
                                                      <#if invoiceView??>
                                                     <#list invoiceView.files as item>
                                                       <#if item?has_content && item.type==8>
                                                           <a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;  
                                                       </#if>
                                                      </#list>
-                                                     </label>
+                                                     
                                                      <div id="newUpload2">
 												<div id="div_1">
 													<input type="file" name="taxpayerfile" id="Sfile3" >

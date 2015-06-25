@@ -38,7 +38,7 @@ form.Form-Table table td input.Input-Text {font-size:14px;line-height:21px;font-
 .Form-Buttons button:hover {background-color:#3BB3DA;}
 
 /* jDialog */
-#jDialog {background-color:#fff;padding:40px;border:1px solid #3BB3DA;position:absolute;}
+#jDialog {background-color:#fff;padding:40px;border:1px solid #3BB3DA;position:absolute;z-index: 9999;}
 #jDialog .jDialog_Title {font-size:16px;font-weight:bold;color:#3BB3DA;line-height:19px;}
 #jDialog_Content {margin-top:10px;overflow:hidden;}
 #jDialog_Content .Page-Loading {height:32px;}

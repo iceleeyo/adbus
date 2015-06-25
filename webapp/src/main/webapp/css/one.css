@@ -2650,6 +2650,23 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	font-size: 14px
 }
 
+.ui-labels {
+	float: left;
+	width: 170px;
+	margin-left: -180px;
+	padding-top: 0;
+	text-align: right;
+	font-size: 14px
+}
+
+.ui-labeli {
+	float: left;
+	width: 170px;
+	margin-left: -180px;
+	padding-top: 0;
+	text-align: right;
+	font-size: 14px
+}
 .ui-form-required {
 	color: red;
 	font-family: SimSun;
