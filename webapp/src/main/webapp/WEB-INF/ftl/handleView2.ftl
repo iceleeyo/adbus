@@ -19,7 +19,6 @@ function qCheck(obj){
     obj.checked = isChecked;
 }
 
-f
 function go_back() {
 		history.go(-1);
 }
@@ -639,7 +638,9 @@ function pay() {
   								<TBODY>
   								<TR>
     									<TD width="20%">签收时间</TD>
-    									<TD colspan=3 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+    									<TD colspan=3 style="border-radius: 0 0 0"><#setting
+															date_format="yyyy-MM-dd HH:mm:ss">
+															${claimTime!''}</TD>
   								</TR> 
   								<TR>
     									<TD>物料信息</TD>
@@ -683,7 +684,9 @@ function pay() {
   								<TBODY>
   								<TR>
     									<TH width="20%">签收时间</TH>
-    									<TD colspan=2 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+    									<TD colspan=2 style="border-radius: 0 0 0"><#setting
+															date_format="yyyy-MM-dd HH:mm:ss">
+															${claimTime!''}</TD>
   								</TR>  
   								<TR>
     									<TH width="20%">排期表</TH>
@@ -716,7 +719,9 @@ function pay() {
   								<input type="hidden"  id="seqNumber" value="${suppliesView.mainView.seqNumber!''}"/>
   								<TR>
     									<TH width="20%">签收时间</TH>
-    									<TD colspan=3 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+    									<TD colspan=3 style="border-radius: 0 0 0"><#setting
+															date_format="yyyy-MM-dd HH:mm:ss">
+															${claimTime!''}</TD>
   								</TR>  
   								<TR>
     									<TH>物料详情</TH>
@@ -763,7 +768,9 @@ function pay() {
   								<TBODY>
 								<TR>
     									<TD width="20%">签收时间</TD>
-    									<TD colspan=3 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+    									<TD colspan=3 style="border-radius: 0 0 0"><#setting
+															date_format="yyyy-MM-dd HH:mm:ss">
+															${claimTime!''}</TD>
   								</TR>  
   								<TR>
     									<TD>审核意见</TD>
@@ -793,7 +800,9 @@ function pay() {
   								<TBODY> 	
   								<TR>
     									<TH width="20%">签收时间</TH>
-    									<TD style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+    									<TD style="border-radius: 0 0 0"><#setting
+															date_format="yyyy-MM-dd HH:mm:ss">
+															${claimTime!''}</TD>
   								</TR>  
   								<TR>
     									<TH width="20%">排期表</TH>
@@ -821,7 +830,9 @@ function pay() {
   								<TBODY>
   								<TR>
     									<TH width="20%">签收时间</TH>
-    									<TD colspan=2 style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+    									<TD colspan=2 style="border-radius: 0 0 0"><#setting
+															date_format="yyyy-MM-dd HH:mm:ss">
+															${claimTime!''}</TD>
   								</TR>  
   								<TR>
     									<TH width="20%">排期表</TH>
@@ -858,7 +869,9 @@ function pay() {
   								<TBODY>	
   								<TR>
     									<TH width="20%">签收时间</TH>
-    									<TD  style="border-radius: 0 0 0">2015-1-30 10:30:30</TD>
+    									<TD  style="border-radius: 0 0 0"><#setting
+															date_format="yyyy-MM-dd HH:mm:ss">
+															${claimTime!''}</TD>
   								</TR>  
   								<TR>
     									<TH width="20%">排期表</TH>
@@ -899,16 +912,34 @@ $(document).ready(function(){
 </script>
 
 <script type="text/javascript">
-$(document).ready(function(){
-$('#check1').on('click', function(){
-var checked=document.getElementById("check1").checked;
-	if(checked){
-		document.getElementById("invoiceTab").style.display="";
-	}else{
-		document.getElementById("invoiceTab").style.display="none";
-	} 
-});
 
-});
+
+
+$(document).ready(function(){
+		$('input').on('ifChecked', function(event){
+			var p =($(this).val());
+			if($(this).attr("name")=='payType'){
+				if(p=='contract'){
+					showContract();
+				}else if(p == 'online'){
+					hideboth();
+				}else {
+				 hideContract();
+				}
+			}
+		});
+			//add by impanxh 判断开发发票
+			$('input').on('ifChanged', function(event){
+			if($(this).attr("id")=='check1' && $(this).attr("type") == 'checkbox'){
+				var checked=document.getElementById("check1").checked;
+				if(checked){
+					document.getElementById("invoiceTab").style.display="";
+				}else{
+					document.getElementById("invoiceTab").style.display="none";
+				} 
+			}
+		});
+ 
+	});
 </script>
 </@frame.html>
