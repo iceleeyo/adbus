@@ -29,7 +29,6 @@ function showtb1(){
 	}
 function pay() { 
 	    var contractid=-1;
-
 	     var payType="";
 	     var invoiceid=0;
 	     var contents="";
@@ -69,7 +68,9 @@ function pay() {
 		        contents=$("#contents  option:selected").val();
 	            receway=$("#receway  option:selected").val();
 	            invoiceid=$('#invoiceTab :radio[name=invoiceTit]:checked').val();
-	            if(typeof (invoiceid) == "undefined"){
+	            invoiceid=  $("#hiddenINvoiceId").val();//$(this).find("span").attr("data-aid");
+	             
+	            if(  (invoiceid) == "0"){
 	              jDialog.Alert("请选择发票");
 	              return;
 	            }
@@ -265,8 +266,8 @@ function qCheck(obj){
     									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>广告主支付订单</H4></TD>
   								</TR>  	
 									<TR style="height:45px;">
-    								<TH style="padding:0,10px;">支付方式</TH>
-    							<TD style="padding:0,10px;">
+    								<Td style="padding:0,10px;" width="350">支付方式</Td>
+    							<TD style="padding:0,10px;" width="550">
     										<input type="radio" name="payType" onchange="showContract()" value="contract" checked="checked">关联合同
 				             		<input type="radio" name="payType" value="online" onchange="hideboth()" >线上支付
 				             	<input type="radio" name="payType" value="others"  onchange="hideContract()">其他支付</TD>
@@ -295,51 +296,32 @@ function qCheck(obj){
     									
   					</TR>
   					           <TR style="height:45px;">
-    									<TH >是否开具发票</TH>
+    									<td >是否开发票</td>
     									<TD colspan=3>
-    									    <input type="checkbox" id="invoiceShow"/>开具发票
+    									    <input type="checkbox" id="invoiceShow"/>开具发票 <#assign  invoicelength=(InvoiceList?size/4+1)?int> 
+						    
     									</TD>
 				               </TR>
 				            
 				              <TR style="display:none;" id="invoiceTab">
-				              <TH>个人发票列表</TH>
+				              <td>发票列表</td>
 				              <TD colspan="3">
-				              
-				              
-								              <div class="cart_address_wrap" id="cartAddress">
-				        <ul class="cart_address_list clearfix" style="height:160px;" id="cartAddressList">
-				                            <li data-aid="t29488998">
-				                    <a href="javascript:;" class="cart_address_card addressCard" style="text-decoration:none;" data-aid="29488998">
-				                                                    <!-- 默认地址 -->
-				                            <!-- 默认地址 end -->
+						   <div class="cart_address_wrap" id="cartAddress" style="width:540px;">
+						  
+				                <ul class="cart_address_list clearfix" style="height:<#if (invoicelength<1)>80px<#else>${invoicelength*100-20}px</#if>;width:550px;" id="cartAddressList">
+				                  <#list InvoiceList as ilist>
+				                  <li data-aid="${ilist.id}">
+				                    <span href="javascript:;"  class="cart_address_card addressCard" style="text-decoration:none;" data-aid="${ilist.id}">
 				                        <p class="cart_address_zipinfo" data-postcode="310053" data-province="浙江省" data-city="杭州市" data-area="江干区">
-				                            浙江省杭州市江干区 310053                        </p>
-				                        
-				                        <i class="cart_address_edit" style="display: none;" id="t29488998">编辑</i>
-				                    </a>
+				                      ${substring(ilist.title,0,11)}</p>
+				                        <i class="cart_address_edit" style="display: none;"onclick="qEdit('${rc.contextPath}',${ilist.id})" id="${ilist.id}">编辑</i>
+				                    </span>
 				                </li>
-				                            <li data-aid="t29488982">
-				                    <a href="javascript:;" class="cart_address_card addressCard selected" style="text-decoration:none;" data-aid="29488982">
-				                        <p class="cart_address_zipinfo" data-postcode="310056" data-province="浙江省" data-city="杭州市" data-area="江干区">
-				                            浙江省杭州市江干区 310056                        </p>
-				                        <span class="cart_address_edit" style="display: none;" id="t29488982">编辑</span>
-				                    </a>
-				                </li>
-				  </ul>
-				</div>
-								              
+				                </#list>
+				                <input type="hidden" id="hiddenINvoiceId" value="0"/>
+				              </ul>
+				             </div>
 				               			<table>
-				               			<#list InvoiceList as ilist>
-				               				<tr>
-				               				<td>
-				               					<input type="radio" value="${ilist.id}" onclick="qCheck(this)" name="invoiceTit">
-				               					<label onclick="qEdit('${rc.contextPath}',${ilist.id})">${ilist.title}</label>
-				               				</td>
-				               				<td>
-				               					<label><font color="#FF9966">邮寄地址：${ilist.mailaddr}</font></label>
-				               				</td>
-				               				</tr>
-				               			</#list>
 				               			<#if (InvoiceList?size>0)>
 				               				<tr>
 				               				<td colspan="2">
@@ -424,11 +406,13 @@ $(document).ready(function(){
   $(document).ready(function() {
        $('.cart_address_wrap ul li').click(function(){
 	$('.cart_address_wrap ul li').each(function(){
-		 $(this).find("a").removeClass("selected");
+		 $(this).find("span").removeClass("selected");
 		var tid= $(this).attr("data-aid");
 		 $("#"+tid)[0].style.display = "none"; 
 	});
-    $(this).find("a").addClass("selected");
+	var exact_id= $(this).attr("data-aid");
+    $(this).find("span").addClass("selected");
+    $("#hiddenINvoiceId").val(exact_id);
     $("#"+($(this).attr("data-aid")))[0].style.display = "block"; 
 
 });
