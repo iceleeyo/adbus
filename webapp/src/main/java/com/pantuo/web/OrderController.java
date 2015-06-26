@@ -77,7 +77,7 @@ public class OrderController {
 	@Autowired
 	private TaskService taskService;
 
-	@RequestMapping(value = "/buypro/{product_id}", produces = "text/html;charset=utf-8")
+	@RequestMapping(value = "/iwant/{product_id}", produces = "text/html;charset=utf-8")
 	public String buypro(Model model, @PathVariable("product_id") int product_id,
                          Principal principal,
 			@CookieValue(value = "city", defaultValue = "-1") int cityId,
