@@ -3,7 +3,7 @@
 <#import "template/pickBuses.ftl" as pickBuses>
 <@frame.html title="订单办理" js=["js/highslide/highslide-full.js", "js/video-js/video.js",
 "js/video-js/lang/zh-CN.js", "js/jquery-ui/jquery-ui.min.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer/layer.js","js/progressbar.js"]
-css=["js/highslide/highslide.css", "js/video-js/video-js.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css"]>
+css=["js/highslide/highslide.css", "js/video-js/video-js.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","css/liselect/pkg-generator.css$ver=1431443489.css"]>
     <#include "template/preview.ftl" />
 <script type="text/javascript">
 	$(function() {
@@ -316,8 +316,8 @@ function pay() {
 		if(isinvoice==1){
 		        contents=$("#contents  option:selected").val();
 	            receway=$("#receway  option:selected").val();
-	            invoiceid=$('#invoiceTab :radio[name=invoiceTit]:checked').val();
-	            if(typeof (invoiceid) == "undefined"){
+	           invoiceid=  $("#hiddenINvoiceId").val();
+	            if(  (invoiceid) == "0"){
 	              jDialog.Alert("请选择发票");
 	              return;
 	            }
@@ -431,7 +431,7 @@ function pay() {
     									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>广告主支付订单</H4></TD>
   								</TR>  --> 	
 									<TR style="height:45px;">
-    									<TD>支付方式</TD>
+    									<TD >支付方式</TD>
     									<TD>
     										<input type="radio" name="payType" onchange="showContract()" value="contract" checked="checked">关联合同
 				             		<input type="radio" name="payType" value="online" onchange="hideboth()" >线上支付
@@ -460,31 +460,35 @@ function pay() {
                   		</TR>
                   		<TR style="height:45px;">
     									<TD>开具发票</TD>
-    									<TD>
-    									    <input type="checkbox"  id="check1"/>开具发票
+    									<TD >
+    									    <input type="checkbox"  id="check1"/>开具发票<#assign  invoicelength=(InvoiceList?size/4+1)?int> 
     									</TD>
     									<td></td>
 				             	    </TR>
 				             	    <TR style="display:none;" id="invoiceTab">
-				                  <TH>个人发票列表</TH>
-				                   <TD colspan="2">
+				                  <TH>发票列表</TH>
+				                   <TD colspan=3>
+				                   <div class="cart_address_wrap" id="cartAddress" style="width:540px;">
+						  
+				                <ul class="cart_address_list clearfix" style="height:<#if (invoicelength<1)>80px<#else>${invoicelength*100-20}px</#if>;width:550px;" id="cartAddressList">
+				                  <#list InvoiceList as ilist>
+				                  <li data-aid="${ilist.id}">
+				                    <span href="javascript:;"  class="cart_address_card addressCard" style="text-decoration:none;" data-aid="${ilist.id}">
+				                        <p class="cart_address_zipinfo" data-postcode="310053" data-province="浙江省" data-city="杭州市" data-area="江干区">
+				                      ${substring(ilist.title,0,11)}</p>
+				                        <i class="cart_address_edit" style="display: none;"onclick="qEdit('${rc.contextPath}',${ilist.id})" id="${ilist.id}">编辑</i>
+				                    </span>
+				                </li>
+				                </#list>
+				                <input type="hidden" id="hiddenINvoiceId" value="0"/>
+				              </ul>
+				             </div>
 				               			<table>
-				               			<#list InvoiceList as ilist>
-				               				<tr>
-				               				<td>
-				               					<input type="radio" value="${ilist.id}" onclick="qCheck(this)" name="invoiceTit">
-				               					<label onclick="qEdit('${rc.contextPath}',${ilist.id})">${ilist.title}</label>
-				               				</td>
-				               				<td>
-				               					<label><font color="#FF9966">邮寄地址：${ilist.mailaddr}</font></label>
-				               				</td>
-				               				</tr>
-				               			</#list>
 				               			<#if (InvoiceList?size>0)>
 				               				<tr>
 				               				 <td colspan="2">
 				               					<select style="margin: 20px;" id="contents">
-				               						<option>请选择发票开具内容</option>
+				               						<option value="">请选择发票开具内容</option>
 				               						<option value="广告发布费">广告发布费</option>
 				               						<option value="广告制作费">广告制作费</option>
 				               						<option value="其他">其他</option>
@@ -916,6 +920,19 @@ $(document).ready(function(){
 
 
 $(document).ready(function(){
+ $('.cart_address_wrap ul li').click(function(){
+	$('.cart_address_wrap ul li').each(function(){
+		 $(this).find("span").removeClass("selected");
+		var tid= $(this).attr("data-aid");
+		 $("#"+tid)[0].style.display = "none"; 
+	});
+	var exact_id= $(this).attr("data-aid");
+    $(this).find("span").addClass("selected");
+    $("#hiddenINvoiceId").val(exact_id);
+    $("#"+($(this).attr("data-aid")))[0].style.display = "block"; 
+
+});
+
 		$('input').on('ifChecked', function(event){
 			var p =($(this).val());
 			if($(this).attr("name")=='payType'){
