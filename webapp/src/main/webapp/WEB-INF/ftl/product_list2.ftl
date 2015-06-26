@@ -1,7 +1,7 @@
 <#import "template/template.ftl" as frame>
 <#global menu="产品列表">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="产品套餐列表">
+<@frame.html title="产品套餐列表" js=["js/jquery-ui/jquery-ui.js","js/layer-v1.9.3/layer/layer.js","js/layer.onload.js"] >
 
 <script type="text/javascript">
     var table;
@@ -29,7 +29,9 @@
             "columns": [
                 { "data": "name", "defaultContent": "",
                     "render": function(data, type, row, meta) {
-                        return '<a class="table-link" href="${rc.contextPath}/product/d/'+row.id+'">'+row.name+'</a>';
+                    
+                    return '<a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer(\'${rc.contextPath}/product/ajaxdetail/\','+row.id+');"  >'+row.name+'</a>';
+                    //    return '<a class="table-link" href="${rc.contextPath}/product/d/'+row.id+'">'+row.name+'</a>';
                 } },
                 { "data": "type", "defaultContent": "",
                     "render": function(data, type, row, meta) {
@@ -86,6 +88,7 @@
             "drawCallback": drawCallback,
         } );
         table.fnNameOrdering("orderBy").fnNoColumnsParams();
+       
     }
 
     function initComplete() {
