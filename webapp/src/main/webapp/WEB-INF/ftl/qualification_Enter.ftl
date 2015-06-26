@@ -96,9 +96,6 @@
 									<div class="ui-form-item widthdrawBtBox">
 										<input type="button" id="subWithdraw" class="block-btn"
 											onclick="sub();" value="提交资质信息">
-											
-											<input type="button" id="subWithdraw22" class="block-btn"
-											onclick="" value="提交资质信息222">
 									</div>
 								</div>
 			<div class="worm-tips" >

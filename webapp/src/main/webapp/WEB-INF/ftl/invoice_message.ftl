@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="发票录入">
-<@frame.html title="发票信息录入" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"] css=["js/jquery-ui/jquery-ui.css"]>
+<@frame.html title="发票信息录入" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer-site.js"] css=["js/jquery-ui/jquery-ui.css"]>
 <style type="text/css">.ui-form-item div{display: inline-block;}</style>
 <script type="text/javascript">
     $(document).ready(function() {
@@ -277,24 +277,10 @@
 	        </div>
 							</form>
 </div>
-		<script type="text/javascript">
+<script type="text/javascript">
 $(document).ready(function(){
- 	 $('input').iCheck({
-	    checkboxClass: 'icheckbox_square-green',
-	    radioClass: 'iradio_square-green',
-	    increaseArea: '20%' // optional
-	  }); 
-		$('input').on('ifChecked', function(event){
-			var p =($(this).val());
-			if($(this).attr("name")=='type'){
-				if(p=='normal'){
-				hideother();
-				}else {
-				 showother();
-				}
-				
-			}
-			});
+ 	  initiCheck();
+	  initInvoiceRadioIcheck();
 });
 </script>					
 </@frame.html>
