@@ -494,7 +494,7 @@ function showRemark(contentString){
 }
 
 /**
- * 初始化icheck
+ * 初始化icheck by impanxh
  * 
  */
 function initiCheck(){
@@ -505,7 +505,7 @@ $('input').iCheck({
   });
 }
 /**
- * 发票类型选择radio
+ * 发票类型选择radio by impanxh
  * 
  */
 function initInvoiceRadioIcheck(){
@@ -520,3 +520,13 @@ function initInvoiceRadioIcheck(){
 			}
 		});
 }
+
+
+
+
+
+
+
+
+
+
