@@ -380,6 +380,16 @@ public class OrderController {
 			HttpServletRequest request, HttpServletResponse response) {
 		return "allRuningOrders";
 	}
+	
+	@RequestMapping(value = "/product/{productid}/{pageNum}")
+	public String productOrders(Model model, Principal principal, @PathVariable int productid, @PathVariable int pageNum,
+			HttpServletRequest request, HttpServletResponse response) {
+		JpaProduct prod = productService.findById(productid);;
+		model.addAttribute("productId", productid);
+		model.addAttribute("prod", prod);
+		return "productOrders";
+	}
+
 
 	@RequestMapping(value = "/myOrders/{pageNum}")
 	public String myOrders(Model model) {
@@ -419,6 +429,15 @@ public class OrderController {
 		model.addAttribute("pageNum", page);*/
 		return "finishedOrders";
 	}
+	@RequestMapping(value = "/over/{productid}")
+	public String product_finish(Model model, Principal principal, @PathVariable int productid,  
+			HttpServletRequest request, HttpServletResponse response) {
+		JpaProduct prod = productService.findById(productid);;
+		model.addAttribute("productId", productid);
+		model.addAttribute("prod", prod);
+		return "productFinishedOrders";
+	}
+	
 
 	@RequestMapping("ajax-finishedOrders")
 	@ResponseBody

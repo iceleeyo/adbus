@@ -163,7 +163,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 		Sort sort = req.getSort("created");
 		page = page + 1;
 		String longId = req.getFilter("longOrderId"), userIdQuery = req.getFilter("userId"), taskKey = req
-				.getFilter("taskKey");
+				.getFilter("taskKey"), productId = req
+						.getFilter("productId");
 		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
 		List<OrderView> orders = new ArrayList<OrderView>();
 
@@ -199,6 +200,11 @@ public class ActivitiServiceImpl implements ActivitiService {
 			countQuery.variableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
 			listQuery.variableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
 		}
+		/*按商品查询 */
+		if (StringUtils.isNoneBlank(productId)) {
+			countQuery.variableValueEquals(ActivitiService.PRODUCT,NumberUtils.toInt(productId) );
+			listQuery.variableValueEquals(ActivitiService.PRODUCT, NumberUtils.toInt(productId) );
+		}
 		setVarFilter(taskKey, countQuery, listQuery);
 
 		/*排序 */
@@ -229,7 +235,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			if (order != null) {
 				v.setOrder(order);
 			}
-			if (tqType == TaskQueryType.all_running) {
+			if (tqType == TaskQueryType.all_running && order!=null) {
 				JpaProduct product = productService.findById(order.getProductId());
 				v.setProduct(product);
 			}
@@ -539,7 +545,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		Sort sort = req.getSort("created");
 
 		String longId = req.getFilter("longOrderId"), userIdQuery = req.getFilter("userId"), taskKey = req
-				.getFilter("taskKey"), stateKey = req.getFilter("stateKey");
+				.getFilter("taskKey"), stateKey = req.getFilter("stateKey"),productId = req.getFilter("productId");
 		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
 
 		page = page + 1;
@@ -561,6 +567,11 @@ public class ActivitiServiceImpl implements ActivitiService {
 			boolean isClosed = StringUtils.startsWith(stateKey, ActivitiService.R_CLOSED) ? true : false;
 			countQuery.variableValueEquals(ActivitiService.CLOSED, isClosed);
 			listQuery.variableValueEquals(ActivitiService.CLOSED, isClosed);
+		}
+		/*按商品查询 */
+		if (StringUtils.isNoneBlank(productId)) {
+			countQuery.variableValueEquals(ActivitiService.PRODUCT,NumberUtils.toInt(productId) );
+			listQuery.variableValueEquals(ActivitiService.PRODUCT, NumberUtils.toInt(productId) );
 		}
 		
 		/*按用户查询 */
@@ -699,6 +710,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		initParams.put(ActivitiService.CREAT_USERID, u.getUsername());
 		initParams.put(ActivitiService.ORDER_ID, order.getId());
 		initParams.put(ActivitiService.CITY, cityId);
+		initParams.put(ActivitiService.PRODUCT, order.getProductId());
 		initParams.put(ActivitiService.SUPPLIEID, order.getSupplies().getId());
 		initParams.put(ActivitiService.NOW, new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
 

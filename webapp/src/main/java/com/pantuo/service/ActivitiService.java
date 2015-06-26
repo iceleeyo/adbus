@@ -28,6 +28,7 @@ public interface ActivitiService {
 	public static final String MAIN_PROCESS = "order";
 	public static final String ORDER_ID = "_orderId";
 	public static final String CITY = "_city";
+	public static final String PRODUCT = "_product";
 	public static final String CLOSED = "_isClosed";
 	public static final String SUPPLIEID = "_supplieId";
 	public static final String OWNER = "_owner";
