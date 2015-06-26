@@ -8,7 +8,7 @@
             </LI>
     <#if buyLink>
             <LI style="width: 240px;height:45px">
-                <a class="block-btn" href="${rc.contextPath}/order/buypro/${prod.id}">购买</a>
+                <a class="block-btn" href="${rc.contextPath}/order/iwant/${prod.id}">购买</a>
             </LI>
     </#if>
             <LI style="width: 240px;">

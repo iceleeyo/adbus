@@ -82,7 +82,7 @@ $(function() {
             </a>
             <p class="J_click_p" data="218">
 							<span id="J_count_time_b" data2="0" data1="328261">
-								<a href="${rc.contextPath}/order/buypro/${prod.id}">马上预定</a>
+								<a href="${rc.contextPath}/order/iwant/${prod.id}">马上预定</a>
 							</span>
                 <a class="text" href="${rc.contextPath}/product/d/${prod.id}">（查看详情）</a>
             </p>
