@@ -244,7 +244,7 @@ function IvcEnter(tourl){
     		title: "发票信息录入",
     		skin: 'layui-layer-rim', //加上边框
     		area: ['560px', '700px'], //宽高
-    		content: '<form data-name="withdraw" name="userForm3" id="userForm3" class="ui-form" method="post" action="'+tourl+'/user/saveInvoice" enctype="multipart/form-data">'
+    		content: '<style type="text/css">.ui-form-item div{display:inline-block}</style><form data-name="withdraw" name="userForm3" id="userForm3" class="ui-form" method="post" action="'+tourl+'/user/saveInvoice" enctype="multipart/form-data">'
     				 +'<div class="withdrawInputs" style="margin-left: 10px;"> <div class="inputs"> <div class="ui-form-item"> <label class="ui-labeli mt10"> <span class="ui-form-required">* </span>发票类型: </label>'
     				 +'<div class="mt10 radiobox" style="display:inline-block"> <input type="radio" name="type" checked="checked" onchange="showother()" value="special">&nbsp;增值税专用发票'
     				 +'<input type="radio" name="type"  onchange="hideother()" value="normal">&nbsp;普通发票&nbsp;&nbsp; </div> </div>'
