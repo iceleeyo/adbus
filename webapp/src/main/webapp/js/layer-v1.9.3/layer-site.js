@@ -280,6 +280,7 @@ function IvcEnter(tourl){
             //failure : function() { alert("验证失败，请检查。");  }//验证失败时调用的函数
             //success : function() { callSuccessFunction() },//验证通过时调用的函数
         });
+		initiCheck();
 
 }
 
@@ -489,4 +490,11 @@ function showRemark(contentString){
 						 +'</textarea>'
                          +'</div>'
 		});
+}
+function initiCheck(){
+$('input').iCheck({
+    checkboxClass: 'icheckbox_square-green',
+    radioClass: 'iradio_square-green',
+    increaseArea: '20%' // optional
+  });
 }
