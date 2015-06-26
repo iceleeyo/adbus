@@ -906,6 +906,34 @@ function pay() {
     
     
 <script type="text/javascript">
+
+
+$(document).ready(function(){
+		$('input').on('ifChecked', function(event){
+			var p =($(this).val());
+			if($(this).attr("name")=='payType'){
+				if(p=='contract'){
+					showContract();
+				}else if(p == 'online'){
+					hideboth();
+				}else {
+				 hideContract();
+				}
+			}
+		});
+			//add by impanxh 判断开发发票
+			$('input').on('ifChanged', function(event){
+			if($(this).attr("id")=='check1' && $(this).attr("type") == 'checkbox'){
+				var checked=document.getElementById("check1").checked;
+				if(checked){
+					document.getElementById("invoiceTab").style.display="";
+				}else{
+					document.getElementById("invoiceTab").style.display="none";
+				} 
+			}
+		});
+ 
+	});
 $(document).ready(function(){
   $('input').iCheck({
     checkboxClass: 'icheckbox_square-green',
