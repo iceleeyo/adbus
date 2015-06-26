@@ -281,6 +281,7 @@ function IvcEnter(tourl){
             //success : function() { callSuccessFunction() },//验证通过时调用的函数
         });
 			initiCheck();
+			initInvoiceRadioIcheck();
 
 }
 
@@ -491,10 +492,31 @@ function showRemark(contentString){
                          +'</div>'
 		});
 }
+
+/**
+ * 初始化icheck
+ * 
+ */
 function initiCheck(){
 $('input').iCheck({
     checkboxClass: 'icheckbox_square-green',
     radioClass: 'iradio_square-green',
     increaseArea: '20%' // optional
   });
+}
+/**
+ * 发票类型选择radio
+ * 
+ */
+function initInvoiceRadioIcheck(){
+	$('input').on('ifChecked', function(event){
+		var p =($(this).val());
+			if($(this).attr("name")=='type'){
+				if(p=='normal'){
+				hideother();
+				}else {
+				 showother();
+				}
+			}
+		});
 }
