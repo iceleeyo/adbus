@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#import "template/pickBuses.ftl" as pickBuses>
-<@frame.html title="未绑定物料订单" js=["js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer/layer.js","js/progressbar.js"] css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/uploadprogess.css","css/liselect/pkg-generator.css$ver=1431443489.css"]>
+<@frame.html title="未绑定物料订单" js=["js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer/layer.js","js/progressbar.js","js/layer.onload.js"] css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/uploadprogess.css","css/liselect/pkg-generator.css$ver=1431443489.css"]>
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -215,7 +215,7 @@ function qCheck(obj){
                 <H3 class="text-xl title-box"><A class="black" href="#">订单详情-${orderview.longOrderId!''}</A></H3>
                <DIV class="summary mt10 uplan-summary-div">
               <UL class="uplan-detail-ul">
-                  <LI style="width: 720px;"><SPAN>套餐名称：</SPAN><SPAN class="con">${prod.name!''}</SPAN></LI>
+                  <LI style="width: 720px;"><SPAN>套餐名称：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer('${rc.contextPath}/product/ajaxdetail/',${prod.id});"  >${prod.name!''}</a></SPAN></LI>
   <LI style="width: 240px;"><SPAN>下单用户：</SPAN><SPAN class="con">${(order.creator)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>价格：</SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">${prod.price!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>起播时间：</SPAN><SPAN class="con"><#setting date_format="yyyy-MM-dd">${(order.startTime?date)!''}</SPAN></LI>
@@ -242,6 +242,7 @@ function qCheck(obj){
   				   <#if quafiles.files?has_content>
   				  <LI style="width: 240px;"><SPAN>物料详情：</SPAN><SPAN class="con"><a href="${rc.contextPath}/supplies/suppliesDetail/${(suppliesView.mainView.id)!''}">查看物料与用户资质</a></SPAN></LI>
   				  </#if>
+  				   <LI style="width: 720px;"><SPAN>备注信息：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查详细内容!" onclick="showRemark('${orderview.order.ordRemark!''}');"  >${substring(orderview.order.ordRemark,0,38)}</a></SPAN></LI>
 
 </UL>
 </DIV>
@@ -298,7 +299,9 @@ function qCheck(obj){
   					           <TR style="height:45px;">
     									<td >是否开发票</td>
     									<TD colspan=3>
-    									    <input type="checkbox" id="invoiceShow"/>开具发票 <#assign  invoicelength=(InvoiceList?size/4+1)?int> 
+    									    <input type="checkbox" id="invoiceShow"/>开具发票 
+    									    <a href="javascript:;" onclick="IvcEnter('${rc.contextPath}')">录入发票</a>
+    									    <#assign  invoicelength=( (InvoiceList?size/4)?ceiling )> 
 						    
     									</TD>
 				               </TR>
@@ -310,9 +313,9 @@ function qCheck(obj){
 						  
 				                <ul class="cart_address_list clearfix" style="height:<#if (invoicelength<1)>80px<#else>${invoicelength*100-20}px</#if>;width:550px;" id="cartAddressList">
 				                  <#list InvoiceList as ilist>
-				                  <li data-aid="${ilist.id}">
+				                  <li data-aid="${ilist.id}" tip="${ (ilist.type==1)?string('专用发票','普通发票')}:${ilist.title}" class="layer-tips">
 				                    <span href="javascript:;"  class="cart_address_card addressCard" style="text-decoration:none;" data-aid="${ilist.id}">
-				                        <p class="cart_address_zipinfo" data-postcode="310053" data-province="浙江省" data-city="杭州市" data-area="江干区">
+				                        <p class="cart_address_zipinfo" >
 				                      ${substring(ilist.title,0,11)}</p>
 				                        <i class="cart_address_edit" style="display: none;"onclick="qEdit('${rc.contextPath}',${ilist.id})" id="${ilist.id}">编辑</i>
 				                    </span>
@@ -339,12 +342,13 @@ function qCheck(obj){
 				               					</select>
 				               				</td>
 				               				</tr>
-				               				<#else>
+				               				<!--
 				               				<tr>
 				               					<td>
 				               						<a href="javascript:;" onclick="IvcEnter('${rc.contextPath}')">录入发票</a>
 				               					</td>
 				               				</tr>
+				               				-->
 				               			</#if>
 				               			</table>
 				               			

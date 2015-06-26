@@ -473,3 +473,20 @@ function subInvoice(){
 	}).submit();
 
 }
+
+
+
+function showRemark(contentString){
+		layer.open({
+	    		type: 1,
+	    		title: "用户备注信息",
+	    		skin: 'layui-layer-rim', 
+	    		area: ['420px', '540px'], 
+	    		content: ''
+						 +'<br/><div>'
+						 +'<textarea  type="textarea" style="margin-left:25px;height: 391px; width: 367px;">'
+						 + contentString
+						 +'</textarea>'
+                         +'</div>'
+		});
+}

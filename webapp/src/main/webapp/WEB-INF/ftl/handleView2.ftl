@@ -461,7 +461,9 @@ function pay() {
                   		<TR style="height:45px;">
     									<TD>开具发票</TD>
     									<TD >
-    									    <input type="checkbox"  id="check1"/>开具发票<#assign  invoicelength=(InvoiceList?size/4+1)?int> 
+    									    <input type="checkbox"  id="check1"/>开具发票
+ 											<#assign  invoicelength=( (InvoiceList?size/4)?ceiling )> 
+     									     <a href="javascript:;" onclick="IvcEnter('${rc.contextPath}')">录入发票</a>
     									</TD>
     									<td></td>
 				             	    </TR>
@@ -472,9 +474,9 @@ function pay() {
 						  
 				                <ul class="cart_address_list clearfix" style="height:<#if (invoicelength<1)>80px<#else>${invoicelength*100-20}px</#if>;width:550px;" id="cartAddressList">
 				                  <#list InvoiceList as ilist>
-				                  <li data-aid="${ilist.id}">
+				                  <li data-aid="${ilist.id}" tip="${ (ilist.type==1)?string('专用发票','普通发票')}:${ilist.title}" class="layer-tips">
 				                    <span href="javascript:;"  class="cart_address_card addressCard" style="text-decoration:none;" data-aid="${ilist.id}">
-				                        <p class="cart_address_zipinfo" data-postcode="310053" data-province="浙江省" data-city="杭州市" data-area="江干区">
+				                        <p class="cart_address_zipinfo" >
 				                      ${substring(ilist.title,0,11)}</p>
 				                        <i class="cart_address_edit" style="display: none;"onclick="qEdit('${rc.contextPath}',${ilist.id})" id="${ilist.id}">编辑</i>
 				                    </span>

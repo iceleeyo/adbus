@@ -72,6 +72,7 @@
           </#if>
 </a></SPAN><SPAN class="con"></SPAN></LI>
 </#if>
+  <LI style="width: 720px;"><SPAN>备注信息：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查详细内容!" onclick="showRemark('${orderview.order.ordRemark!''}');"  >${substring(orderview.order.ordRemark,0,38)}</a></SPAN></LI>
  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
 </UL>
 </DIV>
