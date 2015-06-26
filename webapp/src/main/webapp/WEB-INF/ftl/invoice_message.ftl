@@ -1,6 +1,7 @@
 <#import "template/template.ftl" as frame>
 <#global menu="发票录入">
 <@frame.html title="发票信息录入" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"] css=["js/jquery-ui/jquery-ui.css"]>
+<style type="text/css">.ui-form-item div{display: inline-block;}</style>
 <script type="text/javascript">
     $(document).ready(function() {
     <#if invoiceView??>
@@ -67,6 +68,8 @@
 	function hideother(){
 	     $("#other").css('display','none'); 
 	}
+	
+	
 </script>
 
 <div class="withdraw-wrap color-white-bg fn-clear">
@@ -103,7 +106,7 @@
 											 <#else>
 											 <div class="mt10 radiobox" style="display:inline-block">
 											<input type="radio" name="type" checked="checked" onchange="showother()" value="special">&nbsp;增值税专用发票
-											<input type="radio" name="type"  onchange="hideother()" value="normal">&nbsp;普通发票&nbsp;&nbsp;
+											<input type="radio" name="type" onchange="hideother()" value="normal">&nbsp;普通发票&nbsp;&nbsp;
 											</div>
 											 </#if>
 											
@@ -274,5 +277,24 @@
 	        </div>
 							</form>
 </div>
-						
+		<script type="text/javascript">
+$(document).ready(function(){
+ 	 $('input').iCheck({
+	    checkboxClass: 'icheckbox_square-green',
+	    radioClass: 'iradio_square-green',
+	    increaseArea: '20%' // optional
+	  }); 
+		$('input').on('ifChecked', function(event){
+			var p =($(this).val());
+			if($(this).attr("name")=='type'){
+				if(p=='normal'){
+				hideother();
+				}else {
+				 showother();
+				}
+				
+			}
+			});
+});
+</script>					
 </@frame.html>
