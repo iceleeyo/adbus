@@ -79,7 +79,7 @@ $(document).ready(function(){
                                                 class="ui-input datepicker validate[required,custom[date] layer-tips" 
                                                 type="text" name="startTime1"
                                                 id="startTime" data-is="isAmount isEnough"
-                                                autocomplete="off" disableautocomplete="" tip="可选择3天后的日期!">
+                                                autocomplete="off" disableautocomplete="" tip="可选择3天后日期!">
                                                 
                                                	 
                                         </div>
