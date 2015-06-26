@@ -76,10 +76,10 @@ $(document).ready(function(){
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
 												class="ui-form-required">*</span>开播日期</label> <input
-                                                class="ui-input datepicker validate[required,custom[date]" 
+                                                class="ui-input datepicker validate[required,custom[date] layer-tips" 
                                                 type="text" name="startTime1"
                                                 id="startTime" data-is="isAmount isEnough"
-                                                autocomplete="off" disableautocomplete="">
+                                                autocomplete="off" disableautocomplete="" tip="可选择3天后的日期!">
                                                 
                                                	 
                                         </div>
@@ -112,4 +112,14 @@ $(document).ready(function(){
 								</div>
 
 							</form>
+							
+							<script type="text/javascript">
+								//限定不能选今天之前的日期
+								jQuery(function($){ 
+						    	 $.datepicker.regional['zh-CN'] = { 
+						         minDate: new Date( (new Date()/1000+86400*3)*1000 ),
+						        isRTL: false}; 
+						        $.datepicker.setDefaults($.datepicker.regional['zh-CN']); 
+						  		  });
+							</script>
 </@frame.html>
