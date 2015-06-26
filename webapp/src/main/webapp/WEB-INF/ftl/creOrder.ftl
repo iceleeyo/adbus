@@ -64,7 +64,7 @@ $(document).ready(function(){
 </script>
 
 							<form data-name="withdraw" name="userForm2" id="userForm2"
-								class="ui-form" method="post" action="../creOrder2"
+								class="ui-form" method="post" action="../confirm"
 								enctype="multipart/form-data">
                                 <@proDetail.proDetail prod=prod buyLink=false/>
 

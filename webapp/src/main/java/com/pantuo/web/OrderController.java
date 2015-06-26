@@ -229,7 +229,7 @@ public class OrderController {
 				Request.getUser(principal));
 	}
 
-	@RequestMapping(value = "creOrder2", method = RequestMethod.POST, produces = "text/html;charset=utf-8")
+	@RequestMapping(value = "confirm", method = RequestMethod.POST, produces = "text/html;charset=utf-8")
 	public String saveOrderJpa(Model model, JpaOrders order, Principal principal,
            @CookieValue(value = "city", defaultValue = "-1") int cityId,
            @ModelAttribute("city") JpaCity city,
