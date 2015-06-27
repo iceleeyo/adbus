@@ -299,7 +299,7 @@ function qCheck(obj){
   					           <TR style="height:45px;">
     									<td >是否开发票</td>
     									<TD colspan=3>
-    									    <input type="checkbox" id="invoiceShow"/>开具发票 &nbsp;&nbsp;&nbsp;
+    									    <input type="checkbox" id="invoiceShow"/><span style="margin-left:5px;">开具发票</span> &nbsp;&nbsp;&nbsp;
     									    <a href="javascript:;" onclick="IvcEnter('${rc.contextPath}')">录入发票</a>
     									    <#assign  invoicelength=( (InvoiceList?size/4)?ceiling )> 
 						    
