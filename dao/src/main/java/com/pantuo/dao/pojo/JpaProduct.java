@@ -1,6 +1,9 @@
 package com.pantuo.dao.pojo;
 
 import javax.persistence.*;
+
+import com.pantuo.dao.pojo.JpaBusline.Level;
+
 import java.util.*;
 
 /**
@@ -50,15 +53,17 @@ public class JpaProduct extends CityEntity {
     private boolean enabled = true;
     private boolean exclusive = false;  //是否专用套餐，专用套餐定向对某一个用户有效
     private String exclusiveUser;   //定向用户
+    private String remarks;
 
     public JpaProduct() {
         //for serialization
     }
 
-    public JpaProduct(int city, Type type, String name, long duration,
-                      int playNumber, int firstNumber, int lastNumber, double hotRatio,
-                      int days, double price, boolean padding) {
-		super(city);
+    public JpaProduct(int id, Type type, String name, long duration, int playNumber, int firstNumber, int lastNumber,
+			double hotRatio, Level lineLevel, int busNumber, int days, double price, double produceCost,
+			boolean padding, boolean enabled, boolean exclusive, String exclusiveUser, String remarks) {
+		super();
+		this.id = id;
 		this.type = type;
 		this.name = name;
 		this.duration = duration;
@@ -66,11 +71,19 @@ public class JpaProduct extends CityEntity {
 		this.firstNumber = firstNumber;
 		this.lastNumber = lastNumber;
 		this.hotRatio = hotRatio;
+		this.lineLevel = lineLevel;
+		this.busNumber = busNumber;
 		this.days = days;
 		this.price = price;
+		this.produceCost = produceCost;
 		this.padding = padding;
+		this.enabled = enabled;
+		this.exclusive = exclusive;
+		this.exclusiveUser = exclusiveUser;
+		this.remarks = remarks;
 	}
-    //车身
+
+	//车身
     public static JpaProduct newForBody(int city, String name,
                       JpaBusline.Level lineLevel, int busNumber,
                       int days, double price, double produceCost) {
@@ -116,6 +129,15 @@ public class JpaProduct extends CityEntity {
 	public double getHotRatio() {
 		return hotRatio;
 	}
+	
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+
 	public void setHotRatio(double hotRatio) {
 		this.hotRatio = hotRatio;
 	}
@@ -200,20 +222,13 @@ public class JpaProduct extends CityEntity {
         }
     }
 
-    @Override
-    public String toString() {
-        return "JpaProduct{" +
-                "type=" + type +
-                ", name='" + name + '\'' +
-                ", duration=" + duration +
-                ", playNumber=" + playNumber +
-                ", firstNumber=" + firstNumber +
-                ", lastNumber=" + lastNumber +
-                ", hotRatio=" + hotRatio +
-                ", days=" + days +
-                ", price=" + price +
-                ", padding=" + padding +
-                ", enabled=" + enabled +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "JpaProduct [id=" + id + ", type=" + type + ", name=" + name + ", duration=" + duration
+				+ ", playNumber=" + playNumber + ", firstNumber=" + firstNumber + ", lastNumber=" + lastNumber
+				+ ", hotRatio=" + hotRatio + ", lineLevel=" + lineLevel + ", busNumber=" + busNumber + ", days=" + days
+				+ ", price=" + price + ", produceCost=" + produceCost + ", padding=" + padding + ", enabled=" + enabled
+				+ ", exclusive=" + exclusive + ", exclusiveUser=" + exclusiveUser + ", remarks=" + remarks + "]";
+	}
+
 }
