@@ -480,6 +480,11 @@ function subInvoice(){
 
 function setPriceHelp(tourl,orderid){
 	var p= ($("#price").val());
+	if(p<=0 || p==""){
+		layer.msg('订单金额必须大于0', {icon: 5});
+		//jDialog.Alert("资质类型只支持GIF,BMP,JPG");
+		return;
+	}
 	$.ajax({
 		url : tourl ,
 		type : "POST",
