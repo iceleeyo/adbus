@@ -155,8 +155,9 @@ public class OrderController {
 	@RequestMapping(value = "/closeOrder/{taskid}")
 	@ResponseBody
 	public Pair<Boolean, String> closeOrder(@RequestParam(value = "orderid", required = true) String orderid,
+			@RequestParam(value = "closeRemark", required = false) String closeRemark,
 			@PathVariable String taskid, Principal principal, HttpServletRequest request, HttpServletResponse response) {
-		return	activitiService.closeOrder(org.apache.commons.lang.math.NumberUtils.toInt(orderid), taskid, principal);
+		return	activitiService.closeOrder(org.apache.commons.lang.math.NumberUtils.toInt(orderid),closeRemark, taskid, principal);
 	}
 
 	@RequestMapping(value = "/handleView2", produces = "text/html;charset=utf-8")

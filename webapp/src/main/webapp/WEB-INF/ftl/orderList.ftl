@@ -1,18 +1,18 @@
 <#import "template/template.ftl" as frame>
 <#global menu="待办事项">
-<@frame.html title="待办事项列表" css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css","css/layer.css"] js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
+<@frame.html title="待办事项列表" css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css","css/layer.css"] js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer-site.js"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <script type="text/javascript">
 
-	function closeOrder(orderid,taskid){
+	function closeOrder22(mainPath,orderid,taskid){
 		$.ajax({
-			url : "${rc.contextPath}/order/closeOrder/"+taskid+"?orderid="+orderid,
+			url : mainPath+"/order/closeOrder/"+taskid+"?orderid="+orderid,
 			type : "POST",
 			success : function(data) {
 				//jDialog.Alert(data.right);
 				 jDialog.Alert(data.right,function(){
 		        var uptime = window.setTimeout(function(){
-				$(location).attr('href', "${rc.contextPath}/order/myTask/1");
+				$(location).attr('href', mainPath+"/order/myTask/1");
 		         clearTimeout(uptime);
 		       },2000);});
 				//location.reload([true]);
@@ -97,7 +97,7 @@
 	                         tr= "<a href='${rc.contextPath}/order/handleView2?orderid=" +(row.order.id)+ "&taskid="+taskId+ "'>办理</a>&nbsp;";
 	                    }	
 	                    if(row.canClosed==true){
-		                    	tr+="<a href=\"javascript:;\" tip=\"未支付的订单可以关闭哦!\"  class=\"btn disabled layer-tips\" onclick=\"closeOrder('"+row.order.id+"','"+( row.task_id)+"');\">关闭</a>&nbsp;";
+		                    	tr+="<a href=\"javascript:;\" tip=\"未支付的订单可以关闭哦!\"  class=\"btn disabled layer-tips\" onclick=\"showCloseRemark('${rc.contextPath}','"+row.order.id+"','"+( row.task_id)+"');\">关闭</a>&nbsp;";
 		                }
                   	  return tr;
                     }

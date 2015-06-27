@@ -40,6 +40,8 @@ public class OrderView {
 	
 	//--------- 订单历史信息
 	boolean canClosed = false;
+	//订单是否关闭,目前只在历史订单里显示订单关闭原因时使用
+	boolean closed = false;
 	private String finishedState = StringUtils.EMPTY;
 	public Date startTime;
 	public Date endTime;
@@ -283,4 +285,13 @@ public class OrderView {
 		this.endTime = endTime;
 	}
 
+	public boolean isClosed() {
+		return closed;
+	}
+
+	public void setClosed(boolean closed) {
+		this.closed = closed;
+	}
+
+	 
 }

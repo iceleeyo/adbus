@@ -547,6 +547,46 @@ function showRemark(contentString){
                          +'</div>'
 		});
 }
+/**
+ * 关闭订单
+ * @param mainPath
+ * @param orderid
+ * @param taskid
+ */
+function closeOrder(mainPath,orderid,taskid){
+	var closeRemark=$("#closeRemark").val();
+	$.ajax({
+		url : mainPath+"/order/closeOrder/"+taskid+"?orderid="+orderid,
+		type : "POST",
+		data : {
+			orderid:orderid,
+			closeRemark:closeRemark
+		},
+		success : function(data) {
+			layer.msg(data.right);
+			var uptime = window.setTimeout(function(){
+				$("#cc").trigger("click");
+				$(location).attr('href', mainPath+"/order/myTask/1");
+				clearTimeout(uptime);
+				},2500)
+		}
+	}, "text");
+}
+function showCloseRemark(mainPath,orderid,taskid){
+	layer.open({
+    		type: 1,
+    		title: "请录入订单关闭原因",
+    		skin: 'layui-layer-rim', 
+    		area: ['420px', '540px'], 
+    		content: ''
+					 +'<br/><div>'
+					 +'<textarea id="closeRemark" type="textarea" style="margin-left:25px;height: 391px; width: 367px;">'
+					 + ''
+					 +'</textarea><br>'
+					 +' <div class="ui-form-item widthdrawBtBox" style="margin-left:-20px;margin-top:20px;"> <input type="button" id="uploadbutton" class="block-btn" onclick="closeOrder(\''+mainPath+'\',\''+orderid+'\','+taskid+');" value="提交"> </div>'
+                     +'</div>'
+	});
+}
 
 /**
  * 初始化icheck by impanxh

@@ -322,7 +322,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 	}
 
-	public Pair<Boolean, String> closeOrder(int orderid, String taskid, Principal principal) {
+	public Pair<Boolean, String> closeOrder(int orderid, String closeRemark, String taskid, Principal principal) {
 
 		TaskQuery countQuery = taskService.createTaskQuery().includeProcessVariables()
 				.processDefinitionKey(MAIN_PROCESS);
@@ -363,6 +363,17 @@ public class ActivitiServiceImpl implements ActivitiService {
 						runtimeService
 								.setVariable(processInstance.getProcessInstanceId(), ActivitiService.CLOSED, true);
 						runtimeService.deleteProcessInstance(processInstance.getProcessInstanceId(), "closeOrder");
+						/**
+						 * 保存关闭原因
+						 */
+						if (StringUtils.isNotBlank(closeRemark)) {
+							Orders dbOrder = ordersMapper.selectByPrimaryKey(dbOrderId);
+							if (dbOrder != null) {
+								dbOrder.setCloseRemark(closeRemark);
+								ordersMapper.updateByPrimaryKey(dbOrder);
+							}
+						}
+
 					} catch (Exception e) {
 					}
 
@@ -1310,6 +1321,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 				if (processInstance != null) {
 					Map<String, Object> variables = processInstance.getProcessVariables();
 					if (BooleanUtils.toBoolean((Boolean) variables.get(ActivitiService.CLOSED))) {
+						orderView.setClosed(true);
 						orderView.setTask_name(Constants.CLOSED_STATE);
 					} else {
 						orderView.setTask_name(Constants.FINAL_STATE);
