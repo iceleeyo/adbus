@@ -29,8 +29,8 @@ $(document).ready(function(){
        
          $('#userForm2').submit();
 	}
-          function isagree(username,proname){
-           var startTime = $("#startTime").val();
+ function isagree(username,proname){
+        var startTime = $("#startTime").val();
         var d = new Date(startTime.replace(/-/g,"/")); 
         date = new Date();
         var str  = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
@@ -53,11 +53,15 @@ $(document).ready(function(){
     		type: 1,
     		title: "电子合同",
     		skin: 'layui-layer-rim', 
-    		area: ['420px', '340px'], 
-    		content: 
-			    username+'同意购买'+proname
-			   +'<div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraworder" class="block-btn" onclick="creorder();" value="同意"> </div>'
-			
+    		area: ['650px', '600px'], 
+    		content:''
+			   +'<div class = "ad-agreement"> <TEXTAREA id="agreementstr" name="agreementstr" type="text" cols="85" rows="22" style="margin-left:20px;">'
+			   +username+'统一购买'+proname
+			   +'\n1.特别提示'
+			   +'\n1.1 广告拟合竞价系统中心（以下称“系统中心”）同意按照本协议的规定提供竞价等相关服务（以下称“本服务”）。为获得本服务，服务使用人（以下称“用户”）应当同意本协议的全部条款并按照页面上的提示完成全部的注册程序。'
+			   +'\n1.2 一旦注册并使用系统中心提供的本服务，即视为用户已了解并完全同意本条款各项内容，包括系统中心对本协议随时所做的任何修改。'
+			   +'</TEXTAREA> </div>'
+			   +'<div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraworder" class="block-btn" onclick="creorder();" value="确认" style="margin:10px 0px -10px 110px;"> </div>'
 			});
 
 }
