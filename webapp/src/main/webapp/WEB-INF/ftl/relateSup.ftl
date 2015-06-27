@@ -322,7 +322,7 @@ function qCheck(obj){
 				                </li>
 				                </#list>
 				                <#else>
-				                    暂无发票，请录入发票
+				                                                         暂无发票，请录入发票
 				                </#if>
 				                <input type="hidden" id="hiddenINvoiceId" value="0"/>
 				              </ul>
