@@ -105,13 +105,6 @@ public class OrderController {
 		return "proDetail";
 	}
 
-//	@RequestMapping(value = "/invoiceDetail/{orderid}", produces = "text/html;charset=utf-8")
-//	public String invoiceDetail(Model model, Principal principal, @PathVariable int orderid,
-//			HttpServletRequest request) {
-//		InvoiceView invoiceView = suppliesService.getInvoiceDetail(orderid, principal);
-//		model.addAttribute("invoiceView", invoiceView);
-//		return "invoiceDetail";
-//	}
 	@RequestMapping(value = "/invoiceDetail/{orderid}")
 	@ResponseBody
 	public InvoiceView invoice_detail(Model model,@PathVariable int orderid, Principal principal,HttpServletRequest request) {

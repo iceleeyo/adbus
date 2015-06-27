@@ -144,7 +144,7 @@ function supEnter(tourl,city){
 					 +'<input class="ui-input" type="text" name="infoContext" id="infoContext" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" style="height: 91px; width: 300px; "> </div>'
 					 +'<div class="ui-form-item" id="file"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>物料上传</label> <div id="newUpload2"> <div class="filebox" id="div_1"> <input type="file" name="file" id="Sfile" class="validate[required]"> </div> </div>'
 					 +'<input class="btn-sm btn-success" type="button" id="btn_add2" value="增加一行" style="margin-top: 10px;"><br> </div>'
-					 +'<div class="ui-form-item"> <label class="ui-labels mt10">资质上传</label> <div id="newUpload3"> <div id="quadiv_1"> <input type="file" name="qua" id="Sfile1"> </div> </div>'
+					 +'<div class="ui-form-item"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>资质上传</label> <div id="newUpload3"> <div id="quadiv_1"> <input type="file" name="qua" id="Sfile1" class="validate[required]"> </div> </div>'
 					 +'<input class="btn-sm btn-success" type="button" id="btn_add3" value="增加一行" style="margin-top: 10px;" ><br> </div> <div class="ui-form-item widthdrawBtBox"> <input type="button" id="uploadbutton" class="block-btn" onclick="subSup();" value="开始上传"> </div>'
 					 +'<div id="progress1"> <div class="percent"></div> <div class="pbar"></div> <div class="elapsed"></div> </div> </div> </div></form>'
 
@@ -536,7 +536,7 @@ function bu(txtObj) {
 function showRemark(contentString){
 		layer.open({
 	    		type: 1,
-	    		title: "用户备注信息",
+	    		title: "备注详情",
 	    		skin: 'layui-layer-rim', 
 	    		area: ['420px', '540px'], 
 	    		content: ''

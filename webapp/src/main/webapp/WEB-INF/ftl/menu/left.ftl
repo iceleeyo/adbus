@@ -306,11 +306,11 @@
 													发票录入
 												</a>
 											</li>
-											<li class="pg-side-exp-item">
+											<!--<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/user/qualification">
                                                     资质录入
 												</a>
-											</li>
+											</li>-->
 										</ul>
 									</li>	
 									

@@ -519,24 +519,24 @@ public class UserService implements UserServiceInter {
 		  c.andUserIdEqualTo(Request.getUserId(principal));
 			int a=invoiceMapper.deleteByExample(example);
 			if(a>0){
-				AttachmentExample example2=new AttachmentExample();
-				AttachmentExample.Criteria criteria2=example2.createCriteria();
-				AttachmentExample.Criteria criteria3=example2.createCriteria();
-				AttachmentExample.Criteria criteria4=example2.createCriteria();
-			    criteria2.andMainIdEqualTo(invoice_id);
-			    criteria2.andTypeEqualTo(6);
-			    criteria3.andMainIdEqualTo(invoice_id);
-			    criteria3.andTypeEqualTo(6);
-			    criteria4.andMainIdEqualTo(invoice_id);
-			    criteria4.andTypeEqualTo(6);
-			    example2.or(criteria3);
-			    example2.or(criteria4);
-			    List<Attachment> attas=attachmentMapper.selectByExample(example2);
-			    for (Attachment attachment : attas) {
-			    	if(attachment!=null){
-			    		attachmentMapper.deleteByPrimaryKey(attachment.getId());
-			    	}
-				}
+//				AttachmentExample example2=new AttachmentExample();
+//				AttachmentExample.Criteria criteria2=example2.createCriteria();
+//				AttachmentExample.Criteria criteria3=example2.createCriteria();
+//				AttachmentExample.Criteria criteria4=example2.createCriteria();
+//			    criteria2.andMainIdEqualTo(invoice_id);
+//			    criteria2.andTypeEqualTo(6);
+//			    criteria3.andMainIdEqualTo(invoice_id);
+//			    criteria3.andTypeEqualTo(7);
+//			    criteria4.andMainIdEqualTo(invoice_id);
+//			    criteria4.andTypeEqualTo(8);
+//			    example2.or(criteria3);
+//			    example2.or(criteria4);
+//			    List<Attachment> attas=attachmentMapper.selectByExample(example2);
+//			    for (Attachment attachment : attas) {
+//			    	if(attachment!=null){
+//			    		attachmentMapper.deleteByPrimaryKey(attachment.getId());
+//			    	}
+//				}
 		    	return	new Pair<Boolean, String>(true, "删除发票成功！");
 			}
 			return	new Pair<Boolean, String>(true, "删除发票失败！");

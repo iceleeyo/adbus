@@ -246,10 +246,11 @@
 												style="margin-top: 10px;"><br>
 										</div>
 										<div class="ui-form-item">
-											<label class="ui-label mt10">资质上传</label>
+											<label class="ui-label mt10"><span
+												class="ui-form-required">*</span>资质上传</label>
 											<div id="newUpload3">
 												<div id="quadiv_1">
-													<input type="file" name="qua" id="Sfile1">
+													<input type="file" name="qua" id="Sfile1" class="validate[required]">
 												</div>
 											</div>
 											<input class="btn-sm btn-success" type="button" id="btn_add3" value="增加一行"

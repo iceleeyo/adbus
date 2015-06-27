@@ -195,11 +195,6 @@
                                                       </#if>
                                                      </#list>
                                                     <br>
-                                                    <div id="newUpload2">
-												<div id="div_1">
-													<input type="file" name="licensefile" id="Sfile" >
-												</div>
-											</div>
                                                       <#else>
                                                       <div id="newUpload2">
 												<div id="div_1">
@@ -220,13 +215,8 @@
                                                       </#if>
                                                      </#list>
                                                     <br>
-                                                    <div id="newUpload2">
-												<div id="div_1">
-													<input type="file" name="taxfile" id="Sfile2" >
-												</div>
-											</div>
                                                     <#else>
-                                                      <div id="newUpload2">
+                                            <div id="newUpload2">
 												<div id="div_1">
 													<input type="file" name="taxfile" id="Sfile2" class="validate[required]">
 												</div>
@@ -244,12 +234,6 @@
                                                           <a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;  
                                                       </#if>
                                                      </#list>
-                                                     
-                                                     <div id="newUpload2">
-												<div id="div_1">
-													<input type="file" name="taxpayerfile" id="Sfile3" >
-												</div>
-											</div>
                                                      <#else>
                                                          <div id="newUpload2">
 												<div id="div_1">

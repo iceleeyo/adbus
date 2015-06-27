@@ -4,7 +4,7 @@
     <DIV class="summary mt10 uplan-summary-div">
         <UL class="uplan-detail-ul">
             <LI style="width: <#if buyLink>480px;<#else>720px;</#if>">
-                <SPAN>套餐描述：</SPAN><SPAN class="con">${prod.name!''}</SPAN>
+                <SPAN>套餐名称：</SPAN><SPAN class="con">${prod.name!''}</SPAN>
             </LI>
     <#if buyLink>
             <LI style="width: 240px;height:45px">
@@ -58,6 +58,9 @@
             <LI style="width: 200px;">
                 <SPAN><#if prod.type == 'video' || prod.type == 'image' || prod.type == 'info'>套餐播放天数：<#else>广告展示天数：</#if></SPAN>
                 <SPAN class="con">${prod.days!''}天</SPAN>
+            </LI>
+            <LI style="width: <#if buyLink>480px;<#else>720px;</#if>">
+                <SPAN>套餐描述：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查详细内容!" onclick="showRemark('${prod.remarks!''}');"  >${substring(prod.remarks,0,38)}</a></SPAN>
             </LI>
              <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
 

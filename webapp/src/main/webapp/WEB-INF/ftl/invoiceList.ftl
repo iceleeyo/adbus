@@ -40,7 +40,7 @@
                   
                     return data == null || data=='' ? "----" :data;
                 }},
-                { "data": "bankname", "defaultContent": "--", "render": function(data) {
+                { "data": "mailaddr", "defaultContent": "", "render": function(data) {
                     return data == null || data=='' ? "----" :data;
                 }},
                 { "data": "updated", "defaultContent": "", "render": function(data) {
