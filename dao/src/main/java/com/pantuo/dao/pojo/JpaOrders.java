@@ -68,6 +68,8 @@ public class JpaOrders extends CityEntity {
     private Date jianboDay;
     private Date financialCheckDay;
     private Date cancelDay;
+    
+    private double price = 0;		//订单价格 管理员可以根据套餐价格调整订单的价格 比如打折 促销
 
     @OneToMany(cascade = { CascadeType.ALL }, mappedBy="order", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<JpaOrderBuses> orderBuses;
@@ -375,4 +377,13 @@ public class JpaOrders extends CityEntity {
                 ", ordRemark="+ordRemark+'\''+
                 '}';
     }
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	
 }
