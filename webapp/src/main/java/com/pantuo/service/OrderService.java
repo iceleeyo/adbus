@@ -65,6 +65,26 @@ public class OrderService {
 		return ordersMapper.selectByPrimaryKey(id);
 
 	}
+	/**
+	 * 
+	 * 修改单价
+	 *
+	 * @param id
+	 * @param price
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	public Pair<Boolean, String> updateOrderPrice(Integer id, double price) {
+		Orders orders = selectOrderById(id);
+		Pair<Boolean, String> r = null;
+		if (orders != null) {
+			orders.setPrice(price);
+			ordersMapper.updateByPrimaryKey(orders);
+			r = new Pair<Boolean, String>(true, "修改成功！");
+		} else {
+			r = new Pair<Boolean, String>(true, "订单未找到！");
+		}
+		return r;
+	}
 
 	public Iterable<JpaOrders> selectOrderByUser(int city, String userid, Integer id) {
 /*		OrdersExample example = new OrdersExample();

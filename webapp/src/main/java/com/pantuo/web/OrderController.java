@@ -25,6 +25,7 @@ import org.apache.commons.lang.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -242,6 +243,10 @@ public class OrderController {
 		//        if (prod == null) {
 		//			return new Pair<Boolean, String>(false, "找不到对应的套餐");
 		//        }
+		//初始指定订单价格 impanxh
+		if (prod != null) {
+			order.setPrice(prod.getPrice());
+		}
 		order.setType(prod.getType());
 		String start = request.getParameter("startTime1").toString();
 		if (!start.isEmpty()) {
@@ -496,6 +501,14 @@ public class OrderController {
         }
         return new DataTablePage(order.getOrderBusesList());
     }
+    
+    @PreAuthorize(" hasRole('ShibaOrderManager')")
+	@RequestMapping(value = "/setOrderPrice", method = RequestMethod.POST)
+	@ResponseBody
+	public Pair<Boolean, String> setOrderPrice(@RequestParam("orderId") int orderId, @RequestParam("price") double price) {
+		return orderService.updateOrderPrice(orderId, price);
+	}
+
 
     @RequestMapping(value = "ajax-remove-order-buses", method = RequestMethod.POST)
     @ResponseBody
