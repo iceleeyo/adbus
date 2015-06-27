@@ -25,8 +25,12 @@ $(document).ready(function(){
     //$("#subWithdraw").attr('disabled',false); //移除disabled属性
 }); 
 
-	function sub() {
-        var startTime = $("#startTime").val();
+	function creorder() {
+       
+         $('#userForm2').submit();
+	}
+          function isagree(username,proname){
+           var startTime = $("#startTime").val();
         var d = new Date(startTime.replace(/-/g,"/")); 
         date = new Date();
         var str  = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
@@ -43,11 +47,20 @@ $(document).ready(function(){
          //author :impanxh 阻止2次点击 ,当所有表单都验证通过时才提交 抄自注册页面
          if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
             return;
-         $("#subWithdraw").attr("disabled",true);
-         $("#subWithdraw").css("background-color","#85A2AD");
-         $('#userForm2').submit();
-	}
+         $("#subWithdraworder").attr("disabled",true);
+         $("#subWithdraworder").css("background-color","#85A2AD");
+			layer.open({
+    		type: 1,
+    		title: "电子合同",
+    		skin: 'layui-layer-rim', 
+    		area: ['420px', '340px'], 
+    		content: 
+			    username+'同意购买'+proname
+			   +'<div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraworder" class="block-btn" onclick="creorder();" value="同意"> </div>'
+			
+			});
 
+}
 	function check() {
 		var c = $("#contractCode").val();
 		$.ajax({
@@ -106,7 +119,7 @@ $(document).ready(function(){
 										
 									</div>
 									<div class="ui-form-item widthdrawBtBox">
-										<input type="button" onclick="sub()" class="block-btn"
+										<input type="button" onclick="isagree('${username!''}','${prod.name!''}')" class="block-btn"
 										id="subWithdraw" value="确认提交" >
 									</div>
 								</div>

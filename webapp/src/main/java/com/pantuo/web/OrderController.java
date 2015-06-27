@@ -15,9 +15,11 @@ import com.pantuo.service.*;
 import com.pantuo.util.*;
 
 import org.activiti.engine.HistoryService;
+import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricTaskInstance;
+import org.activiti.engine.identity.User;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -58,7 +60,8 @@ public class OrderController {
 
 	@Autowired
 	private ContractService contractService;
-
+	@Autowired
+	private IdentityService identityService;
 	@Autowired
 	private ProductService productService;
 	@Autowired
@@ -84,6 +87,11 @@ public class OrderController {
 			@CookieValue(value = "city", defaultValue = "-1") int cityId,
             @ModelAttribute("city") JpaCity city,
             HttpServletRequest request) {
+		String username="";
+		User activitiUser = identityService.createUserQuery().userId(Request.getUserId(principal)).singleResult();
+		if (activitiUser != null) {
+			username=activitiUser.getFirstName();
+		}
 		JpaProduct prod = productService.findById(product_id);
 		//Page<JpaProduct> products = productService.getValidProducts(0 , 9999, null);
 		//model.addAttribute("products", products.getContent());
@@ -93,6 +101,7 @@ public class OrderController {
 		model.addAttribute("prod", prod);
 		List<Contract> contracts = contractService.queryContractList(cityId, page, null, null, principal);
 		model.addAttribute("contracts", contracts);
+		model.addAttribute("username", username);
 
 		return "creOrder";
 	}
