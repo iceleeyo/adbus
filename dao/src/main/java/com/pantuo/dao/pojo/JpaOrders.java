@@ -61,6 +61,7 @@ public class JpaOrders extends CityEntity {
     private PayType payType;
     private Status stats;
     private String ordRemark;
+    private String closeRemark;
     private String creator;
     private int isInvoice;
     private Date scheduleDay;
@@ -384,6 +385,14 @@ public class JpaOrders extends CityEntity {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public String getCloseRemark() {
+		return closeRemark;
+	}
+
+	public void setCloseRemark(String closeRemark) {
+		this.closeRemark = closeRemark;
 	}
 	
 }
