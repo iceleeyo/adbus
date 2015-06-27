@@ -14,7 +14,7 @@
   				  <LI style="width: 200px;"><SPAN>价格：</SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">
   				  	<@security.authorize ifNotGranted="ShibaOrderManager">${orderview.order.price!''} </@security.authorize>
   				  	<@security.authorize ifAnyGranted="ShibaOrderManager">
-  				  	<a class="layer-tips" tip="点击修改订单价格!" onclick="showProductlayer('${rc.contextPath}/product/ajaxdetail/',${orderview.order.id});"  >
+  				  	<a class="layer-tips" tip="点击修改订单价格!" onclick="setOrderPrice('${rc.contextPath}/order/setOrderPrice',${orderview.order.id});"  >
   				  	${orderview.order.price!''}</a>
   				    </@security.authorize>
   				  </SPAN></LI>

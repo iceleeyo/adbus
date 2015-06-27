@@ -477,6 +477,44 @@ function subInvoice(){
 }
 
 
+function setPriceHelp(tourl,orderid){
+	var p= ($("#price").val());
+	$.ajax({
+		url : tourl ,
+		type : "POST",
+		data : {
+			orderId:orderid,
+			price:p
+		},
+		success : function(data) {
+			  layer.msg(data.right);
+				var uptime = window.setTimeout(function(){
+					$("#cc").trigger("click");
+					clearTimeout(uptime);
+					},2500)
+		}
+		}, "text");
+	
+	
+}
+function setOrderPrice(tourl,orderid){
+			var postPath =  tourl;
+			layer.open({
+    		type: 1,
+    		title: "订单价格设置信息",
+    		skin: 'layui-layer-rim', 
+    		area: ['420px', '340px'], 
+    		content: 
+			 '<br/><br/><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/><div class="withdrawInputs"><div class="inputs">'
+			 +'<div class="ui-form-item"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>订单价格</label>' 
+			 +'<input class="ui-input validate[required,number,min[1]"'
+			 +' type="text" name="price" id="price" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="支持中英文、数字、下划线">'
+			 +'</div>'
+			  +' <div class="ui-form-item widthdrawBtBox"> <input type="button" id="uploadbutton" class="block-btn" onclick="setPriceHelp(\''+postPath+'\','+orderid+');" value="修改订单价格"> </div>'
+			 +' </div> </div>' 
+			
+			});
+}
 
 function showRemark(contentString){
 		layer.open({
