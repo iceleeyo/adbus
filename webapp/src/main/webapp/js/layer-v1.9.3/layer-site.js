@@ -18,7 +18,7 @@ function showProductlayer(tourl,id){
 	    		area: ['420px', '540px'], 
 	    		content: ' <input type="hidden" name="id" value="'+data.id+'"/>'
 						 +'<br/>'
-	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="ui-form-required">* </span>套餐描述: </label>  <input readonly="readonly" class="ui-input "'
+	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="ui-form-required">* </span>套餐名称: </label>  <input readonly="readonly" class="ui-input "'
 	    				 +'type="text" name="title" id="title" value="'+data.name+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>套餐价格:</label><input readonly="readonly" class="ui-input "'
                          +'type="text" name="taxrenum" value="'+formatCurrency(data.price)+'" id="taxrenum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
@@ -37,6 +37,7 @@ function showProductlayer(tourl,id){
                          +'type="text" name="mailaddr" value="'+data.hotRatio+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
                          +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>套餐播放天数:</label> <input readonly="readonly"  class="ui-input "'
                          +'type="text" name="mailaddr" value="'+data.days+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10">套餐描述:</label><textarea rows="4" cols="30" style="resize: none;" >'+data.remarks+'</textarea>  </div>'
 		});
 			}
 		}, "text");

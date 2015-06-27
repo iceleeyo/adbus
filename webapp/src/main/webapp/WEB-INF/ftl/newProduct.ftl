@@ -201,6 +201,10 @@
                          						 placeholder="请选择广告主" >
                        						</span>
                                         </div>
+                                         <div class="ui-form-item">
+											<label class="ui-label mt10">套餐描述：</label> 
+											<textarea rows="4" cols="40" style="resize: none;" name="remarks"></textarea>
+										</div>
 									</div>
 									<div class="ui-form-item widthdrawBtBox">
 										<input type="button" id="submit" class="block-btn"

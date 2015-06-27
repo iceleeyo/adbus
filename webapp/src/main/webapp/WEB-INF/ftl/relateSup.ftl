@@ -299,7 +299,7 @@ function qCheck(obj){
   					           <TR style="height:45px;">
     									<td >是否开发票</td>
     									<TD colspan=3>
-    									    <input type="checkbox" id="invoiceShow"/>开具发票 
+    									    <input type="checkbox" id="invoiceShow"/>开具发票 &nbsp;&nbsp;&nbsp;
     									    <a href="javascript:;" onclick="IvcEnter('${rc.contextPath}')">录入发票</a>
     									    <#assign  invoicelength=( (InvoiceList?size/4)?ceiling )> 
 						    
@@ -310,8 +310,8 @@ function qCheck(obj){
 				              <td>发票列表</td>
 				              <TD colspan="3">
 						   <div class="cart_address_wrap" id="cartAddress" style="width:540px;">
-						  
-				                <ul class="cart_address_list clearfix" style="height:<#if (invoicelength<1)>80px<#else>${invoicelength*100-20}px</#if>;width:550px;" id="cartAddressList">
+						     <#if (InvoiceList?size>0)>
+				                <ul class="cart_address_list clearfix" style="height:<#if (invoicelength<1)>10px<#else>${invoicelength*100-20}px</#if>;width:550px;" id="cartAddressList">
 				                  <#list InvoiceList as ilist>
 				                  <li data-aid="${ilist.id}" tip="${ (ilist.type==1)?string('专用发票','普通发票')}:${ilist.title}" class="layer-tips">
 				                    <span href="javascript:;"  class="cart_address_card addressCard" style="text-decoration:none;" data-aid="${ilist.id}">
@@ -321,8 +321,12 @@ function qCheck(obj){
 				                    </span>
 				                </li>
 				                </#list>
+				                <#else>
+				                    暂无发票，请录入发票
+				                </#if>
 				                <input type="hidden" id="hiddenINvoiceId" value="0"/>
 				              </ul>
+				              
 				             </div>
 				               			<table>
 				               			<#if (InvoiceList?size>0)>
@@ -417,7 +421,7 @@ $(document).ready(function(){
 	var exact_id= $(this).attr("data-aid");
     $(this).find("span").addClass("selected");
     $("#hiddenINvoiceId").val(exact_id);
-    $("#"+($(this).attr("data-aid")))[0].style.display = "block"; 
+    $("#"+exact_id)[0].style.display = "block"; 
 
 });
 
