@@ -1,6 +1,8 @@
 <#import "../macro/materialPreview.ftl" as preview>
 <#macro orderDetail orderview quafiles suppliesView="" title="订单详情" suppliesLink=true viewScheduleLink=true>
+<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <#assign prod=orderview.order.product>
+
 <script type="text/javascript">
 
 </script>
@@ -9,7 +11,13 @@
                <DIV class="summary uplan-summary-div">
               <UL class="uplan-detail-ul">
                   <LI style="width: 400px;"><SPAN>套餐名称：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer('${rc.contextPath}/product/ajaxdetail/',${prod.id});"  >${prod.name!''}</a></SPAN></LI>
-  				  <LI style="width: 200px;"><SPAN>价格：</SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">${orderview.order.price!''}</SPAN></LI>
+  				  <LI style="width: 200px;"><SPAN>价格：</SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">
+  				  	<@security.authorize ifNotGranted="ShibaOrderManager">${orderview.order.price!''} </@security.authorize>
+  				  	<@security.authorize ifAnyGranted="ShibaOrderManager">
+  				  	<a class="layer-tips" tip="点击修改订单价格!" onclick="showProductlayer('${rc.contextPath}/product/ajaxdetail/',${orderview.order.id});"  >
+  				  	${orderview.order.price!''}</a>
+  				    </@security.authorize>
+  				  </SPAN></LI>
   				  <LI style="width: 200px;"><SPAN>媒体类型：</SPAN><SPAN class="con">${prod.type.typeName!''}</SPAN></LI>
   				  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
   				  <LI style="width: 200px;"><SPAN>下单用户：</SPAN><SPAN class="con">${(orderview.order.creator)!''}</SPAN></LI>
