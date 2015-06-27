@@ -120,6 +120,11 @@ public class OrderController {
 		    InvoiceView invoiceView = suppliesService.getInvoiceDetail(orderid, principal);
 		   return invoiceView;
 	}
+	@RequestMapping(value = "/eleContract/{orderid}")
+	@ResponseBody
+	public Pair<String, String> eleContract(Model model,@PathVariable int orderid, Principal principal,HttpServletRequest request) {
+		return  orderService.geteleContract(orderid);
+	}
 	@RequestMapping(value = "/payview", produces = "text/html;charset=utf-8")
 	public String payview(Model model, @RequestParam(value = "taskid", required = true) String taskid,
 			@RequestParam(value = "orderid", required = true) String orderid, HttpServletRequest request) {

@@ -242,6 +242,7 @@ function qCheck(obj){
   				   <#if quafiles.files?has_content>
   				  <LI style="width: 240px;"><SPAN>物料详情：</SPAN><SPAN class="con"><a href="${rc.contextPath}/supplies/suppliesDetail/${(suppliesView.mainView.id)!''}">查看物料与用户资质</a></SPAN></LI>
   				  </#if>
+  				   <LI style="width: 720px;"><SPAN>电子合同：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查看电子合同!" onclick="eleContract('${rc.contextPath}',${orderview.order.id!''});"  >查看</a></SPAN></LI>
   				   <LI style="width: 720px;"><SPAN>备注信息：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查详细内容!" onclick="showRemark('${orderview.order.ordRemark!''}');"  >${substring(orderview.order.ordRemark,0,38)}</a></SPAN></LI>
 
 </UL>

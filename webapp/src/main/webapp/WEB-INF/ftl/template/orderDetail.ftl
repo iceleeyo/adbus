@@ -61,6 +61,7 @@
 				   <#else>
 				      否    
 				  </#if></SPAN></LI>
+				  <LI style="width: 720px;"><SPAN>电子合同：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查看电子合同!" onclick="eleContract('${rc.contextPath}',${orderview.order.id!''});"  >查看</a></SPAN></LI>
   				  <#if suppliesLink>
 				  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
 				    <#if suppliesView.mainView.seqNumber?has_content >

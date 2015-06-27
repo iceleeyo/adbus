@@ -9,8 +9,12 @@ import com.pantuo.dao.OrderBusesRepository;
 import com.pantuo.dao.pojo.*;
 import com.pantuo.mybatis.domain.*;
 import com.pantuo.mybatis.persistence.OrderBusesMapper;
+import com.pantuo.mybatis.persistence.ProductMapper;
 import com.pantuo.util.DateUtil;
+
+import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
+import org.activiti.engine.identity.User;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -111,6 +115,8 @@ public class OrderService {
 	@Autowired
 	OrdersMapper ordersMapper;
 	@Autowired
+	private IdentityService identityService;
+	@Autowired
 	ProductService productService;
 	@Autowired
 	OrdersRepository ordersRepository;
@@ -122,6 +128,8 @@ public class OrderService {
     private OrderBusesRepository orderBusesRepo;
     @Autowired
     private OrderBusesMapper orderBusesMapper;
+    @Autowired
+    private ProductMapper productMapper;
 
 	//	 public int countMyList(String name,String code, HttpServletRequest request) ;
 	//	 public List<JpaContract> queryContractList(NumberPageUtil page, String name, String code, HttpServletRequest request);
@@ -249,6 +257,21 @@ public class OrderService {
     public void updateWithBuses(JpaOrders order) {
         ordersRepository.save(order);
     }
+	public Pair<String, String> geteleContract(int orderid) {
+		Orders orders=ordersMapper.selectByPrimaryKey(orderid);
+		String username="",proname="";
+		if(orders!=null){
+			User activitiUser = identityService.createUserQuery().userId(orders.getUserId()).singleResult();
+			Product product =productMapper.selectByPrimaryKey(orders.getProductId());
+			if(activitiUser!=null){
+			username=activitiUser.getFirstName();	
+			}
+			if(product!=null){
+				proname=product.getName();
+			}
+		}
+		return new Pair<String, String>(username,proname);
+	}
 
 /*    public List<OrderBuses> getOrderBuses(int orderId) {
         OrderBusesExample e = new OrderBusesExample();

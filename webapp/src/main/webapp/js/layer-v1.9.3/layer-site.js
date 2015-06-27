@@ -117,6 +117,24 @@ function invoicedetail(tourl,orderid){
 			}
 		}, "text");
 }
+//查看电子合同
+function eleContract(tourl,orderid){
+	$.ajax({
+		url : tourl +"/order/eleContract/"+orderid,
+		type : "POST",
+		data : {
+		},
+		success : function(data) {
+			layer.open({
+				type: 1,
+				title: "电子合同详情",
+				skin: 'layui-layer-rim', //加上边框
+				area: ['450px', '640px'], //宽高
+				content: data.left+'同意购买'+data.right+'套餐'
+			});
+		}
+	}, "text");
+}
 
 //弹出上传物料窗口
 function supEnter(tourl,city){
