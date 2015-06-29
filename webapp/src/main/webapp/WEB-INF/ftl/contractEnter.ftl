@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="添加合同">
-<@frame.html title="合同录入" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/jquery-ui/jquery-ui.auto.complete.js","js/progressbar.js"] css=["js/jquery-ui/jquery-ui.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
+<@frame.html title="合同录入" js=["js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/progressbar.js"] css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 
 <script type="text/javascript">
@@ -68,6 +68,8 @@
 			   	clearTimeout(uptime);
 						},2000)
 		}).submit();
+		document.getElementById('subWithdraw').setAttribute('disabled',true);
+		 $("#subWithdraw").css("background-color","#85A2AD");
 		var uploadProcess={upath:'${rc.contextPath}/upload/process'};
 		$('#progress1').anim_progressbar(uploadProcess);
 	}
@@ -207,7 +209,8 @@
 
 
                                         <div class="ui-form-item">
-											<label class="ui-label mt10">附件上传</label>
+											<label class="ui-label mt10"><span
+                                                    class="ui-form-required">*</span>附件上传</label>
 											<div id="newUpload2">
 												<div id="div_1">
 													<input type="file" name="file" id="Sfile" class="validate[required]">
