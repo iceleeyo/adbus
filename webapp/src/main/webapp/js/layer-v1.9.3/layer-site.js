@@ -145,8 +145,6 @@ function eleContract(tourl,orderid){
 
 //弹出上传物料窗口
 function supEnter(tourl,city,type){
-	
-	alert(type);
 	$.ajax({
 		url : tourl+"/supplies/getIndustry",
 		type : "GET",
