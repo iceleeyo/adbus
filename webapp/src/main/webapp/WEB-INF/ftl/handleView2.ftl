@@ -628,7 +628,7 @@ function pay() {
                                                 </#if>
                   		               </select>
                   		                &nbsp;&nbsp;&nbsp;
-                                            	<a  href="javascript:;" onclick="supEnter('${rc.contextPath}',${city.mediaType})">上传物料</a>
+                                            	<a  href="javascript:;" onclick="supEnter('${rc.contextPath}',${city.mediaType},'${orderview.product.type.typeName!''}')">上传物料</a>
                   		               </TD>
     						   </TR>
 								</TABLE>	                 

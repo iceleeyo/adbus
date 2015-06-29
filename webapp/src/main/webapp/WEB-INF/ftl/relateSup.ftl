@@ -382,7 +382,7 @@ function qCheck(obj){
                                                 
                                                 </#if>
                                        </select>
-                  		               <a href="javascript:;" onclick="supEnter('${rc.contextPath}',${city.mediaType})">上传物料</a>
+                  		               <a href="javascript:;" onclick="supEnter('${rc.contextPath}',${city.mediaType},'${prod.type.typeName!''}')">上传物料</a>
                   		               </TD>
 				             	    </TR>
 				             	  <TR style="height:45px;">

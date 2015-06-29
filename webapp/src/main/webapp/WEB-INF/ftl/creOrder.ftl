@@ -29,6 +29,18 @@ $(document).ready(function(){
        
          $('#userForm2').submit();
 	}
+	
+function stop() {   
+  if ((event.keyCode==8) ) //屏蔽退格删除键  
+  {   
+    if (window.event.srcElement.tagName.toUpperCase()!="INPUT" && window.event.srcElement.tagName.toUpperCase()!="TEXTAREA" && window.event.srcElement.tagName.toUpperCase()!="TEXT")  
+    {  
+      event.keyCode=0;   
+      event.returnValue=false;  
+    }   
+  }   
+} 
+	
  function isagree(username,proname){
         var startTime = $("#startTime").val();
         var d = new Date(startTime.replace(/-/g,"/")); 
@@ -55,8 +67,8 @@ $(document).ready(function(){
     		skin: 'layui-layer-rim', 
     		area: ['650px', '600px'], 
     		content:''
-			   +'<div class = "ad-agreement"> <TEXTAREA id="agreementstr" name="agreementstr" type="text" cols="85" rows="22" style="margin-left:20px;">'
-			   +username+'统一购买'+proname
+			   +'<div class = "ad-agreement"> <br/><TEXTAREA id="agreementstr" readonly="true" onkeydown="stop()" name="agreementstr" type="text" cols="85" rows="22" style="margin-left:20px;">'
+			   +username+'同意购买'+proname
 			   +'\n1.特别提示'
 			   +'\n1.1 广告拟合竞价系统中心（以下称“系统中心”）同意按照本协议的规定提供竞价等相关服务（以下称“本服务”）。为获得本服务，服务使用人（以下称“用户”）应当同意本协议的全部条款并按照页面上的提示完成全部的注册程序。'
 			   +'\n1.2 一旦注册并使用系统中心提供的本服务，即视为用户已了解并完全同意本条款各项内容，包括系统中心对本协议随时所做的任何修改。'
@@ -109,7 +121,7 @@ $(document).ready(function(){
                                                     <option value="${s.id}">${s.name}</option>
                                                 </#list>
                                             </select>&nbsp;&nbsp;&nbsp;&nbsp;
-                                            	<a  href="javascript:;" onclick="supEnter('${rc.contextPath}',${city.mediaType})">上传物料</a>
+                                            	<a  href="javascript:;" onclick="supEnter('${rc.contextPath}',${city.mediaType},'${prod.type.typeName!''}')">上传物料</a>
 											<p class="ui-term-placeholder"></p>
 											
 										</div>

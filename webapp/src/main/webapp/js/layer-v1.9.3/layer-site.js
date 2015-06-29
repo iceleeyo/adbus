@@ -144,7 +144,9 @@ function eleContract(tourl,orderid){
 }
 
 //弹出上传物料窗口
-function supEnter(tourl,city){
+function supEnter(tourl,city,type){
+	
+	alert(type);
 	$.ajax({
 		url : tourl+"/supplies/getIndustry",
 		type : "GET",
@@ -180,16 +182,22 @@ function supEnter(tourl,city){
 						$("<option value="+item.id+">" + item.name
 								+ "</option>"));
 		});
-		if(city=="body"){
+		if(city=="body" && type=="车身"){
 				$("#suppliesType").append(
 						"<option value='3'>车身</option>"
 				);
-		}else{
+		}else if(type=="视频"){
 			$("#suppliesType").append(
-						"<option value='0'>视频</option>"+
-						"<option value='1'>图片</option>"+
-						"<option value='2'>文本</option>"
+						"<option value='0'>视频</option>"
 				);
+		}else if(type=="图片"){
+			$("#suppliesType").append(
+			"<option value='1'>图片</option>"
+			);
+		}else if(type=="文本"){
+			$("#suppliesType").append(
+			"<option value='2'>文本</option>"
+			);
 		};
 		$("#userForm1").validationEngine({
             validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
