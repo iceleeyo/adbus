@@ -60,7 +60,7 @@
                 <SPAN class="con">${prod.days!''}天</SPAN>
             </LI>
             <LI style="width: <#if buyLink>480px;<#else>720px;</#if>">
-                <SPAN>套餐描述：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查详细内容!" onclick="showRemark('${prod.remarks!''}');"  >${substring(prod.remarks,0,38)}</a></SPAN>
+                <SPAN>套餐描述：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查详细内容!" onclick="showRemark('${prod.remarks!''}');"  >${substring(prod.remarks!'',0,38)}</a></SPAN>
             </LI>
              <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
 
