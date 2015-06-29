@@ -15,7 +15,7 @@
   				  	<@security.authorize ifNotGranted="ShibaOrderManager">${orderview.order.price!''} </@security.authorize>
   				  	<@security.authorize ifAnyGranted="ShibaOrderManager">
   				  	<a class="layer-tips" tip="点击修改订单价格!" onclick="setOrderPrice('${rc.contextPath}/order/setOrderPrice',${orderview.order.id});"  >
-  				  	${orderview.order.price!''}</a>
+  				  <span id="prodPrice">	${orderview.order.price!''}</span></a>
   				    </@security.authorize>
   				  </SPAN></LI>
   				  <LI style="width: 200px;"><SPAN>媒体类型：</SPAN><SPAN class="con">${prod.type.typeName!''}</SPAN></LI>
