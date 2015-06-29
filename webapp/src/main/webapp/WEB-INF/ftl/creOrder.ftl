@@ -26,7 +26,8 @@ $(document).ready(function(){
 }); 
 
 	function creorder() {
-       
+       	 $("#subWithdraworder").attr("disabled",true);
+         $("#subWithdraworder").css("background-color","#85A2AD");
          $('#userForm2').submit();
 	}
 	
@@ -56,11 +57,11 @@ function stop() {
             jDialog.Alert('开播日期请选择3天以后');
             return;
          } 
+        
          //author :impanxh 阻止2次点击 ,当所有表单都验证通过时才提交 抄自注册页面
          if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
             return;
-         $("#subWithdraworder").attr("disabled",true);
-         $("#subWithdraworder").css("background-color","#85A2AD");
+         
 			layer.open({
     		type: 1,
     		title: "电子合同",
@@ -75,6 +76,7 @@ function stop() {
 			   +'</TEXTAREA> </div>'
 			   +'<div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraworder" class="block-btn" onclick="creorder();" value="确认" style="margin:10px 0px -10px 110px;"> </div>'
 			});
+		 
 
 }
 	function check() {
