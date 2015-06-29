@@ -100,7 +100,7 @@
  
 <div class="withdraw-wrap color-white-bg fn-clear">
 							<form data-name="withdraw" name="userForm2" id="userForm2"
-								class="ui-form" method="post" action="saveContract"
+								class="ui-form" method="post" action="saveContract?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1"
 								enctype="multipart/form-data">
 								<div class="withdraw-title fn-clear">
 									合同详情录入
