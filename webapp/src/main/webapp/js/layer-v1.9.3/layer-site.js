@@ -527,6 +527,7 @@ function setPriceHelp(tourl,orderid){
 			  layer.msg(data.right);
 				var uptime = window.setTimeout(function(){
 					$("#cc").trigger("click");
+					$("#prodPrice").html(p);
 					clearTimeout(uptime);
 					},2500)
 		}
