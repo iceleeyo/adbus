@@ -73,9 +73,10 @@
                     return row.id;
                 },
                     "render": function(data, type, row, meta) {
-                    var operations='<a target="_blank" class="table-link" href="${rc.contextPath}/contract/contractDetail/' + data +'">查看合同</a>&nbsp|<span id="test"><a href="#">编辑</a></span>';
+                    var operations='<a target="_blank" class="table-link" href="${rc.contextPath}/contract/contractDetail/' + data +'">详情</a>';
                      <@security.authorize ifAnyGranted="ShibaOrderManager">  
-                        operations +='|<a class="table-link" href="javascript:delContract('+data+');" >删除</a>  &nbsp;';
+                        operations +='||<a class="table-link" href="${rc.contextPath}/contract/contract_edit/' + data +'" >编辑</a>';
+                        operations +='||<a class="table-link" href="javascript:delContract('+data+');" >删除</a>  &nbsp;';
                         </@security.authorize>
                          return operations;
                     }},

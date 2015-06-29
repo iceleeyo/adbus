@@ -26,6 +26,8 @@ import com.pantuo.mybatis.domain.AttachmentExample;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.ContractExample;
 import com.pantuo.mybatis.domain.Industry;
+import com.pantuo.mybatis.domain.Invoice;
+import com.pantuo.mybatis.domain.InvoiceExample;
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.OrdersExample;
 import com.pantuo.mybatis.persistence.AttachmentMapper;
@@ -38,6 +40,7 @@ import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 import com.pantuo.web.view.ContractView;
+import com.pantuo.web.view.InvoiceView;
 import com.pantuo.web.view.SuppliesView;
 
 /**
@@ -65,9 +68,33 @@ public class ContractService {
 	UserServiceInter userService;
 
 	public Pair<Boolean, String> saveContract(int city, Contract con, String username, HttpServletRequest request) {
-		con.setCity(city);
 		Pair<Boolean, String> r = null;
 		try {
+			if(StringUtils.isNotBlank(con.getUserId())){
+				if (!userService.isUserHaveGroup(con.getUserId(), SystemRoles.advertiser.name())) {
+					return new Pair<Boolean, String>(false, con.getUserId() + " 不是广告主,保存失败！");
+				}
+			}
+			if(null!=con.getId() && con.getId()>0){
+				Contract contract=contractMapper.selectByPrimaryKey(con.getId());
+				contract.setUpdated(new Date());
+				contract.setContractCode(con.getContractCode());
+				contract.setAmounts(con.getAmounts());
+				contract.setContractName(con.getContractName());
+				contract.setContractType(con.getContractType());
+				contract.setStartDate(con.getStartDate());
+				contract.setEndDate(con.getEndDate());
+				contract.setIndustryId(con.getIndustryId());
+				contract.setRemark(con.getRemark());
+				contract.setUserId(con.getUserId());
+				int a=contractMapper.updateByPrimaryKey(contract);
+				if(a>0){
+					return new Pair<Boolean, String>(true, "合同修改成功");
+				}else{
+					return new Pair<Boolean, String>(false, "合同修改失败");
+				}
+			}
+			con.setCity(city);
 			con.setIsUpload(false);
 			con.setCreated(new Date());
 			con.setStats(JpaContract.Status.not_started.ordinal());
@@ -198,6 +225,21 @@ public class ContractService {
 			v.setMainView(con);
 		}
 		return v;
+	}
+
+	public ContractView findContractById(int contract_id, Principal principal) {
+		ContractView v = new ContractView();
+		ContractExample example=new ContractExample();
+		ContractExample.Criteria criteria=example.createCriteria();
+		criteria.andIdEqualTo(contract_id);
+		List<Contract> invoices=contractMapper.selectByExample(example);
+		if(invoices.size()>0){
+			v.setMainView(invoices.get(0));
+			List<Attachment> files = attachmentService.queryContracF(principal, invoices.get(0).getId());
+			v.setFiles(files);
+			return v;
+		}
+		return null;
 	}
 	
 

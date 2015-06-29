@@ -204,7 +204,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 		AttachmentExample example =new AttachmentExample();
 		AttachmentExample.Criteria ca=example.createCriteria();
 		ca.andMainIdEqualTo(main_id);
-		ca.andTypeEqualTo(0);
+		ca.andTypeEqualTo(1);
 		return attachmentMapper.selectByExample(example);
 	}
 	public List<Attachment> queryinvoiceF(Principal principal, int main_id) {

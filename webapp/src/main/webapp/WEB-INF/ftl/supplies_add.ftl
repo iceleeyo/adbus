@@ -146,18 +146,40 @@
 				return;
 			}
 		}
-		
+		var bb=false;
+		var userid=$("#userId").val();
+		if(typeof(userid)=="undefined"){
+		   bb=true;
+		}else{
+		$.ajax({
+			url:"${rc.contextPath}/user/isAdvertiser/"+userid,
+			type:"POST",
+			async:false,
+			dataType:"json",
+			data:{},
+			success:function(data){
+				if (data.left == true) {
+				   bb=true;
+				} else {
+					bb=false;
+					jDialog.Alert(data.right);
+				}
+			}
+      }); 
+      }
+      if(bb==true) {
 		$('#userForm2').ajaxForm(function(data) {
 			jDialog.Alert(data.right);
-			var uptime = window.setTimeout(function(){
+			   var uptime = window.setTimeout(function(){
 				window.location.href="${rc.contextPath}/supplies/list"
 			   	clearTimeout(uptime);
 						},2000)
 		}).submit();
 		document.getElementById('subWithdraw').setAttribute('disabled',true);
-		 $("#subWithdraw").css("background-color","#85A2AD");
-		 var uploadProcess={upath:'${rc.contextPath}/upload/process'};
+		  $("#subWithdraw").css("background-color","#85A2AD");
+		    var uploadProcess={upath:'${rc.contextPath}/upload/process'};
 		  $('#progress1').anim_progressbar(uploadProcess);
+		  }
 	}
 
 	
@@ -192,7 +214,6 @@
 	                       						</span>
 	                                        </div>
                                          </@security.authorize>
-										
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>物料名称</label> 

@@ -5,6 +5,19 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
+    var industryId=${(contractView.mainView.industryId)!''};
+    var contractType='${(contractView.mainView.contractType)!''}';
+    $("#industry option").each(function(){
+     if($(this).val() == industryId){
+     $(this).attr("selected", "selected");  
+      }
+    });
+    $("#contractType option").each(function(){
+      if($(this).val()==contractType){
+      
+     $(this).attr("selected", "selected");  
+      }
+    });
         $("#userForm2").validationEngine({
             validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
             inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
@@ -46,7 +59,6 @@
 	function sub(){
         if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
             return;
-        
 		var code = ($("#code").val());
 		var name = ($("#name").val());
 		var startDate = $("#startDate").val();
@@ -59,21 +71,42 @@
 			jDialog.Alert("终止时间不能小于开始时间");
 			return;
 		}
-		document.getElementById('subWithdraw').setAttribute('disabled',true);
-		 $("#subWithdraw").css("background-color","#85A2AD");
+		var bb=false;
+		var userid=$("#username").val();
+		if(typeof(userid)=="undefined"){
+		   bb=true;
+		}else{
+		$.ajax({
+			url:"${rc.contextPath}/user/isAdvertiser/"+userid,
+			type:"POST",
+			async:false,
+			dataType:"json",
+			data:{},
+			success:function(data){
+				if (data.left == true) {
+				   bb=true;
+				} else {
+					bb=false;
+					jDialog.Alert(data.right);
+				}
+			}
+      }); 
+      }
+		 if(bb==true) {
 		$('#userForm2').ajaxForm(function(data) {
 			jDialog.Alert(data.right);
 			var uptime = window.setTimeout(function(){
 				window.location.href="${rc.contextPath}/contract/list"
 			   	clearTimeout(uptime);
 						},2000)
+							
 		}).submit();
 		document.getElementById('subWithdraw').setAttribute('disabled',true);
 		 $("#subWithdraw").css("background-color","#85A2AD");
 		var uploadProcess={upath:'${rc.contextPath}/upload/process'};
 		$('#progress1').anim_progressbar(uploadProcess);
 	}
-	
+	}
  $(document).ready(function() {
    
 		        //author:pxh 2015-05-20 22:36
@@ -100,16 +133,13 @@
  
 <div class="withdraw-wrap color-white-bg fn-clear">
 							<form data-name="withdraw" name="userForm2" id="userForm2"
-								class="ui-form" method="post" action="saveContract?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1"
+								class="ui-form" method="post" action="${rc.contextPath}/contract/saveContract?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1"
 								enctype="multipart/form-data">
+								<#if contractView?? && contractView.mainView??>
+								  <input type="hidden" name="id" value="${(contractView.mainView.id)!''}"/>
+								</#if>
 								<div class="withdraw-title fn-clear">
 									合同详情录入
-									<!--
-            <ul class="fn-clear">
-              <li class="first"><a class="addBank fn-right" href="/account/userBank!toAdd.action">xxxx</a></li>
-              <li><a class="mgmtBank fn-right" id="mgmtBank" href="/account/info!bank.action">xxxx</a></li>
-            </ul>
-            -->
 								</div>
 								<div class="withdrawInputs">
 									<div class="inputs">
@@ -121,8 +151,8 @@
 											</span>广告主:
                                             </label>
                                             <span>
-                         						<input id="username" name="userId"
-                         						 class="ui-input validate[required,custom[noSpecialLetterChinese],ajax[ajaxUserNone]]" placeholder="请选择广告主" >
+                         						<input id="username" name="userId" value="${(contractView.mainView.userId)!''}"
+                         						 class="ui-input validate[required,custom[noSpecialLetterChinese]]" placeholder="请选择广告主" />
                        						</span>
                                         </div>
 										<div class="ui-form-item">
@@ -130,7 +160,7 @@
 											<span class="ui-form-required">*</span>合同编号:
 											</label> 
 												<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
-												type="text" name="contractCode" id="code" 
+												type="text" name="contractCode" id="code"  value="${(contractView.mainView.contractCode)!''}"
 												data-is="isAmount isEnough" autocomplete="off"
 												disableautocomplete="" placeholder="中英文、数字、下划线">
 										</div>
@@ -138,7 +168,7 @@
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>合同名称:</label>
 												<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
-												type="text" name="contractName"
+												type="text" name="contractName" value="${(contractView.mainView.contractName)!''}"
 												id="name" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
 											<p class="ui-term-placeholder" placeholder="中英文、数字、下划线"></p>
@@ -150,7 +180,7 @@
                                                     <input
 												class="ui-input validate[required,custom[number],min[1]]"
 												onblur="bu(this)" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/[^\d.]/g,'')}" type="text" name="amounts"
-												id="amounts" data-is="isAmount isEnough"
+												id="amounts" data-is="isAmount isEnough" value="${(contractView.mainView.amounts)!''}"
 												autocomplete="off" disableautocomplete="" placeholder="请输入合同金额"/>
                                         </div>
                                         <div class="ui-form-item">
@@ -161,7 +191,7 @@
                                             </label>
                                             <select data-is="isAmount isEnough" id="contractType" name="contractType"
 												autocomplete="off" disableautocomplete="" style="width:173px; height: 38px;">
-                                            	<option selected="selected" value="字幕">字幕</option>
+                                            	<option value="字幕">字幕</option>
                                             	<option value="图片">图片</option>
                                             	<option value="宣传片">宣传片</option>
                                             </select>
@@ -182,9 +212,10 @@
 
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
-                                                    class="ui-form-required">*</span>开始日期:</label> <input
+                                                    class="ui-form-required">*</span>开始日期:
+															</label> <input
 												class="ui-input datepicker validate[required,custom[date],past[#endDate]]" 
-												type="text" name="startDate1"
+												type="text" name="startDate1" value="${(contractView.mainView.startDate?string("yyyy-MM-dd"))!''}"
 												id="startDate" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
 										</div>
@@ -194,14 +225,14 @@
                                                     class="ui-form-required">*</span>终止日期:</label> <input
 												class="ui-input datepicker validate[required,custom[date],future[#startDate]"
 												type="text" name="endDate1"
-												id="endDate" data-is="isAmount isEnough"
+												id="endDate" data-is="isAmount isEnough"  value="${(contractView.mainView.endDate?string("yyyy-MM-dd"))!''}"
 												autocomplete="off" disableautocomplete="">
 										</div>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required"></span>合同备注:</label>
                                                      <input
-												class="ui-input" type="text" name="remark"
+												class="ui-input" type="text" name="remark" value="${(contractView.mainView.remark)!''}"
 												id="remark" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="合同备注信息">
                                         </div>
@@ -209,8 +240,15 @@
 
 
                                         <div class="ui-form-item">
-											<label class="ui-label mt10"><span
-                                                    class="ui-form-required">*</span>附件上传</label>
+                                                  <#if contractView??>
+                                                  <label class="ui-label mt10">合同附件：</label><br>
+                                                    <#list contractView.files as item>
+                                                      <#if item?has_content >
+                                                          <a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a> &nbsp;&nbsp; <br>
+                                                      </#if>
+                                                     </#list>
+                                                     <#else>
+                                                        <label class="ui-label mt10">附件上传</label>
 											<div id="newUpload2">
 												<div id="div_1">
 													<input type="file" name="file" id="Sfile" class="validate[required]">
@@ -218,11 +256,12 @@
 											</div>
 											<input class="btn-sm btn-success" type="button" id="btn_add2" value="增加一行"
 												style="margin-top: 10px;" ><br>
+                                                     </#if>
 										</div>
 									</div>
 									<div class="ui-form-item widthdrawBtBox">
 										<input type="button" id="subWithdraw" class="block-btn"
-											onclick="sub();" value="创建合同">
+											onclick="sub();" value="保存合同">
 									</div>
 									
 									 <div id="progress1">

@@ -31,6 +31,7 @@ import com.pantuo.service.DataInitializationService;
 import com.pantuo.service.InvoiceServiceData;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.service.UserServiceInter;
+import com.pantuo.service.ActivitiService.SystemRoles;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.AutoCompleteView;
@@ -174,6 +175,16 @@ public class UserManagerController {
 			@RequestParam(value = "userId") String userId, @RequestParam(value = "psw") String psw,
 			HttpServletRequest request) throws Exception {
 		return userService.updatePwd(userId, psw);
+	}
+	@RequestMapping(value = "/isAdvertiser/{userid}")
+	@ResponseBody
+	public Pair<Boolean, String> isAdvertiser(Model model, Principal principal,
+			@PathVariable(value = "userid") String userid,
+			HttpServletRequest request) throws Exception {
+		if (!userService.isUserHaveGroup(userid, SystemRoles.advertiser.name())) {
+			return new Pair<Boolean, String>(false, userid + " 不是广告主,保存失败！");
+		}
+		return new Pair<Boolean, String>(true, userid + " 是广告主！");
 	}
 
 	@RequestMapping(value = "/send_pwd_link")

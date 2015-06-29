@@ -35,6 +35,7 @@ import com.pantuo.service.ContractService;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.ContractView;
+import com.pantuo.web.view.InvoiceView;
 
 /**
  * 
@@ -82,7 +83,16 @@ public class ContractController {
 		}
 		return contractService.saveContract(city, contract, Request.getUserId(principal), request);
 	}
-
+	@RequestMapping(value = "/contract_edit/{contract_id}", produces = "text/html;charset=utf-8")
+	public String contract_edit(Model model,@PathVariable("contract_id") int contract_id,Principal principal,HttpServletRequest request) {
+		ContractView  contractView=contractService.findContractById(contract_id,principal);
+		Page<UserDetail> users = userService.getValidUsers(0, 999, null);
+		List<JpaIndustry> industries = industryRepo.findAll();
+		model.addAttribute("users", users.getContent());
+		model.addAttribute("industries", industries);
+		model.addAttribute("contractView", contractView);
+		return "contractEnter";
+	}
 	@RequestMapping(value = "/list")
 	public String contralist() {
 
