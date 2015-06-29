@@ -155,6 +155,7 @@
 						},2000)
 		}).submit();
 		document.getElementById('subWithdraw').setAttribute('disabled',true);
+		 $("#subWithdraw").css("background-color","#85A2AD");
 		 var uploadProcess={upath:'${rc.contextPath}/upload/process'};
 		  $('#progress1').anim_progressbar(uploadProcess);
 	}

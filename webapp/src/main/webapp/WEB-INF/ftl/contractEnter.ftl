@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="添加合同">
-<@frame.html title="合同录入" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/jquery-ui/jquery-ui.auto.complete.js"] css=["js/jquery-ui/jquery-ui.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
+<@frame.html title="合同录入" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/jquery-ui/jquery-ui.auto.complete.js","js/progressbar.js"] css=["js/jquery-ui/jquery-ui.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 
 <script type="text/javascript">
@@ -60,6 +60,7 @@
 			return;
 		}
 		document.getElementById('subWithdraw').setAttribute('disabled',true);
+		 $("#subWithdraw").css("background-color","#85A2AD");
 		$('#userForm2').ajaxForm(function(data) {
 			jDialog.Alert(data.right);
 			var uptime = window.setTimeout(function(){
@@ -67,6 +68,8 @@
 			   	clearTimeout(uptime);
 						},2000)
 		}).submit();
+		var uploadProcess={upath:'${rc.contextPath}/upload/process'};
+		$('#progress1').anim_progressbar(uploadProcess);
 	}
 	
  $(document).ready(function() {
@@ -218,6 +221,12 @@
 										<input type="button" id="subWithdraw" class="block-btn"
 											onclick="sub();" value="创建合同">
 									</div>
+									
+									 <div id="progress1">
+										            <div class="percent"></div>
+										            <div class="pbar"></div>
+										            <div class="elapsed"></div>
+										        </div>
 								</div>
 			<div class="worm-tips" >
             <div class="tips-title"><span class="icon"></span> 温馨提示</div>
