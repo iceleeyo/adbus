@@ -501,6 +501,7 @@ function subInvoice(){
     if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
         return;
    document.getElementById('subWithdrawInvoice').setAttribute('disabled',true); 
+   $("#subWithdrawInvoice").css("background-color","#85A2AD");
 	$('#userForm2').ajaxForm(function(data) {
 	$("#cc").trigger("click");
 	window.location.reload();
@@ -516,6 +517,8 @@ function setPriceHelp(tourl,orderid){
 		//jDialog.Alert("资质类型只支持GIF,BMP,JPG");
 		return;
 	}
+	document.getElementById('uploadbutton').setAttribute('disabled',true); 
+	$("#uploadbutton").css("background-color","#85A2AD");
 	$.ajax({
 		url : tourl ,
 		type : "POST",
@@ -591,7 +594,10 @@ function showRemark(contentString){
  * @param taskid
  */
 function closeOrder(mainPath,orderid,taskid){
+	
 	var closeRemark=$("#closeRemark").val();
+	$("#uploadbutton").attr("disabled",true);
+    $("#uploadbutton").css("background-color","#85A2AD");
 	$.ajax({
 		url : mainPath+"/order/closeOrder/"+taskid+"?orderid="+orderid,
 		type : "POST",

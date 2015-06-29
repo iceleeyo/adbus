@@ -118,6 +118,8 @@ function pay() {
 	            }
 		var orderid = $("#orderid").val();
 		var taskid = $("#taskid").val();
+		document.getElementById('subWithdraw').setAttribute('disabled',true);
+		 $("#subWithdraw").css("background-color","#85A2AD");
 		$.ajax({
 			url : "${rc.contextPath}/order/modifyOrder",
 			type : "POST",
@@ -137,6 +139,7 @@ function pay() {
 						},2000)
 				
 			}
+			
 		}, "text");
 	}
 function showContract(){
@@ -387,7 +390,7 @@ function qCheck(obj){
 				             	    </TR>
 				             	  <TR style="height:45px;">
     						        <TD colspan=4 align="center">
-									<button type="button" onclick="relatSup()" class="block-btn" >确认</button><br>
+									<button type="button" id="subWithdraw" onclick="relatSup()" class="block-btn" >确认</button><br>
 									</TD>
   								</TR>
 								</TABLE>	<br>
