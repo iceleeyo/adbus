@@ -38,4 +38,17 @@ public class Request {
     public static boolean hasAuth (Principal principal, String group) {
         return ((ActivitiUserDetails)((Authentication)principal).getPrincipal()).hasAuthority(group);
     }
+    
+    /**
+     * 
+     * 判断只有一个角色,如删除物料时,广告主可以删除自己的物料, 超级管理员包括广告主权限又可以删除所有人的物料
+     *
+     * @param principal
+     * @param group
+     * @return
+     * @since pantuo 1.0-SNAPSHOT
+     */
+    public static boolean hasOnlyAuth (Principal principal, String... group) {
+        return ((ActivitiUserDetails)((Authentication)principal).getPrincipal()).hasOnlyAuthority(group);
+    }
 }

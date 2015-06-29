@@ -226,7 +226,9 @@ public class SuppliesServiceImpl implements SuppliesService {
 	    OrdersExample example=new OrdersExample();
 	    OrdersExample.Criteria criteria=example.createCriteria();
 	    criteria.andSuppliesIdEqualTo(Suppid);
-	    criteria.andUserIdEqualTo(Request.getUserId(principal));
+	    if (Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)) {
+	    	criteria.andUserIdEqualTo(Request.getUserId(principal));
+	    }
 	     List<Orders> orders= ordersMapper.selectByExample(example);
 	     if(orders.size()>0){
 	    	 return	new Pair<Boolean, String>(true, "该物料已有订单关联，不能删除！"); 

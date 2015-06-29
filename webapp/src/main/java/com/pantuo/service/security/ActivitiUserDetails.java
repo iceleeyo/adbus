@@ -1,10 +1,13 @@
 package com.pantuo.service.security;
 
 import com.pantuo.dao.pojo.UserDetail;
+
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.identity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import scala.actors.threadpool.Arrays;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -70,6 +73,21 @@ public class ActivitiUserDetails implements UserDetails {
     public boolean hasAuthority (String groupName) {
         return auths.contains(new ActivityAuthority(groupName));
     }
+    /**
+     * 
+     * 判断是否只有参数传递的这几个权限
+     *
+     * @param groupName
+     * @return
+     * @since pantuo 1.0-SNAPSHOT
+     */
+	public boolean hasOnlyAuthority(String... groupName) {
+		boolean result = false;
+		if (groupName.length > 0) {
+			result = auths.containsAll(Arrays.asList(groupName)) && auths.size() == groupName.length;
+		}
+		return result;
+	}
 
     public UserDetail getUserDetail() {
         return user;

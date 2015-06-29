@@ -157,7 +157,10 @@ public class UserManagerController {
 			return "error";
 		}
 	}
-	@PreAuthorize(" !hasRole('advertiser')  ")
+	/*@PreAuthorize(" !hasRole('advertiser')  ")*/
+		@PreAuthorize( " hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
+	+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
+	+ "or hasRole('ShibaSuppliesManager')or hasRole('UserManager') ")
 	@RequestMapping(value = "/autoComplete")
 	@ResponseBody
 	public List<AutoCompleteView> queryUserByname(Model model, HttpServletRequest request,
