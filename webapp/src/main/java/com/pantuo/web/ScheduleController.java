@@ -10,8 +10,10 @@ import com.pantuo.util.DateUtil;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.OrderIdSeq;
 import com.pantuo.web.view.OrderView;
+import com.pantuo.web.view.SuppliesView;
 
 import net.sf.jxls.transformer.XLSTransformer;
+
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Row;
@@ -29,6 +31,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.table.TableModel;
+
 import java.io.*;
 import java.text.ParseException;
 import java.util.*;
@@ -57,7 +60,8 @@ public class ScheduleController {
 
     @Autowired
     private BusScheduleService busScheduleService;
-
+    @Autowired
+	private SuppliesService suppliesService;
     /**
      * 排期表表单
      */
@@ -87,6 +91,8 @@ public class ScheduleController {
 
             JpaCity city = cityService.fromId(order.getCity());
             model.addAttribute("mediaType", city.getMediaType());
+            SuppliesView suppliesView = suppliesService.getSuppliesDetail(order.getSuppliesId(), null);
+            model.addAttribute("suppliesView", suppliesView);
         }
         return "order_schedule";
     }
