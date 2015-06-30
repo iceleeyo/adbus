@@ -29,7 +29,14 @@ public interface ProductService {
 
 	Product selectProById(Integer productId);
 	
-	
+	/**
+	 * 
+	 * 产品列表转换成vo
+	 *
+	 * @param list
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	Page<ProductView> getProductView( Page<JpaProduct> list);  
 
 }

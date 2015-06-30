@@ -1,6 +1,5 @@
 package com.pantuo.simulate;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,11 +14,20 @@ import org.springframework.stereotype.Component;
 import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.util.ProductOrderCount;
-
+/**
+ * 
+ * <b><code>ProductProcessCount</code></b>
+ * <p>
+ * 产品 相应的订单(分运行中的订单和结束的订单个数)个数统计
+ * </p>
+ * <b>Creation Time:</b> 2015年6月30日 下午7:06:08
+ * @author impanxh@gmail.com
+ * @since pantuo 1.0-SNAPSHOT
+ */
 @Component
 public class ProductProcessCount implements Runnable {
 
-	public static Map<Integer, ProductOrderCount> map = new HashMap<Integer, ProductOrderCount>();
+	public static Map<Integer, ProductOrderCount> map = new java.util.concurrent.ConcurrentHashMap<Integer, ProductOrderCount>();
 	@Autowired
 	UserAutoCompleteMapper userAutoCompleteMapper;
 	@Autowired
@@ -28,17 +36,17 @@ public class ProductProcessCount implements Runnable {
 	private HistoryService historyService;
 
 	//@Scheduled(fixedRate = 5000)
-	@Scheduled(cron = "0/5 * * * * ?")
+	@Scheduled(cron = "0/50 * * * * ?")
 	public void work() {
 		List<Integer> proidList = userAutoCompleteMapper.selectAllProId();
 		for (Integer proid : proidList) {
-			ProcessInstanceQuery countQuery = runtimeService.createProcessInstanceQuery().processDefinitionKey("order");
-			HistoricProcessInstanceQuery countQuery2 = historyService.createHistoricProcessInstanceQuery()
+			ProcessInstanceQuery runningQuery = runtimeService.createProcessInstanceQuery().processDefinitionKey("order");
+			HistoricProcessInstanceQuery overQuery = historyService.createHistoricProcessInstanceQuery()
 					.processDefinitionKey("order").finished();
-			countQuery.variableValueEquals(ActivitiService.PRODUCT, proid.intValue());
-			countQuery2.variableValueEquals(ActivitiService.PRODUCT, proid.intValue());
-			int runningCount = (int) countQuery.count();
-			int finishedCount = (int) countQuery2.count();
+			runningQuery.variableValueEquals(ActivitiService.PRODUCT, proid.intValue());
+			overQuery.variableValueEquals(ActivitiService.PRODUCT, proid.intValue());
+			int runningCount = (int) runningQuery.count();
+			int finishedCount = (int) overQuery.count();
 			ProductOrderCount ordersCount = new ProductOrderCount();
 			ordersCount.setProduct_id(proid);
 			ordersCount.setRunningCount(runningCount);

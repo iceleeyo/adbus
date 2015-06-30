@@ -1,5 +1,15 @@
 package com.pantuo.util;
-
+/**
+ * 
+ * 
+ * <b><code>ProductOrderCount</code></b>
+ * <p>
+ * 产品相应的订单个数统计
+ * </p>
+ * <b>Creation Time:</b> 2015年6月30日 下午7:05:41
+ * @author impanxh@gmail.com
+ * @since pantuo 1.0-SNAPSHOT
+ */
 public class ProductOrderCount {
 	private int product_id;
 	private int runningCount;
