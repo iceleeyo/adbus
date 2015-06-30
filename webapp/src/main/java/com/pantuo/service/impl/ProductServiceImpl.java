@@ -128,7 +128,7 @@ public class ProductServiceImpl implements ProductService {
 				ProductOrderCount c = ProductProcessCount.map.get(jpaProduct.getId());
 				if (c != null) {
 					w.setRunningCount(c.getRunningCount());
-					c.setFinishedCount(c.getFinishedCount());
+					w.setFinishedCount(c.getFinishedCount());
 				}
 			}
 		}
