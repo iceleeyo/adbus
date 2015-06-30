@@ -1,6 +1,6 @@
 package com.pantuo.util;
 
-public class OrdersCount {
+public class ProductOrderCount {
 	private int product_id;
 	private int runningCount;
 	private int finishedCount;
