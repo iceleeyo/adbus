@@ -66,7 +66,7 @@
                    return '<a class="table-link" href="${rc.contextPath}/order/product/' + (row.id) +'/1">'+data+'</a> &nbsp;'; 
                 } },
                  { "data": "finishedCount", "defaultContent": "", "render": function(data, type, row, meta) {
-                    return '<a class="table-link" href="${rc.contextPath}/order/over/' +  (row.id) +'/1">'+data+'</a> &nbsp;'; 
+                    return '<a class="table-link" href="${rc.contextPath}/order/over/' +  (row.id) +'">'+data+'</a> &nbsp;'; 
                 } },
                 
                 
