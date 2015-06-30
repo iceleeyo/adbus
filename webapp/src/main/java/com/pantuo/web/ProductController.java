@@ -7,6 +7,7 @@ import com.pantuo.dao.pojo.*;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.util.Request;
+import com.pantuo.web.view.ProductView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +37,7 @@ public class ProductController {
 	private UserServiceInter userService;
     @RequestMapping("ajax-list")
     @ResponseBody
-    public DataTablePage<JpaProduct> getAllProducts( TableRequest req,
+    public DataTablePage<ProductView> getAllProducts( TableRequest req,
                                                      @CookieValue(value="city", defaultValue = "-1") int city,
                                                      Principal principal ) {
         Page<JpaProduct> page = null;
@@ -49,8 +50,7 @@ public class ProductController {
                     true, Request.getUserId(principal),
                     req.getPage(), req.getLength(), req.getSort("id"));
         }
-
-        return new DataTablePage(page, req.getDraw());
+        return new DataTablePage(productService.getProductView(page), req.getDraw());
     }
 
     @RequestMapping(value = "/{productId}/{enable}", method = { RequestMethod.POST})

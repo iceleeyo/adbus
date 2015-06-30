@@ -12,15 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.pantuo.mybatis.persistence.ProductMapper;
 import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
 import com.pantuo.service.ActivitiService;
-import com.pantuo.util.OrdersCount;
+import com.pantuo.util.ProductOrderCount;
 
 @Component
 public class ProductProcessCount implements Runnable {
 
-	public static Map<Integer, OrdersCount> map = new HashMap<Integer, OrdersCount>();
+	public static Map<Integer, ProductOrderCount> map = new HashMap<Integer, ProductOrderCount>();
 	@Autowired
 	UserAutoCompleteMapper userAutoCompleteMapper;
 	@Autowired
@@ -31,22 +30,21 @@ public class ProductProcessCount implements Runnable {
 	//@Scheduled(fixedRate = 5000)
 	@Scheduled(cron = "0/5 * * * * ?")
 	public void work() {
-		ProcessInstanceQuery countQuery = runtimeService.createProcessInstanceQuery().processDefinitionKey("order");
-		HistoricProcessInstanceQuery countQuery2 = historyService.createHistoricProcessInstanceQuery()
-				.processDefinitionKey("order").finished();
 		List<Integer> proidList = userAutoCompleteMapper.selectAllProId();
 		for (Integer proid : proidList) {
-			countQuery.variableValueEquals(ActivitiService.PRODUCT, proid);
-			countQuery2.variableValueEquals(ActivitiService.PRODUCT, proid);
+			ProcessInstanceQuery countQuery = runtimeService.createProcessInstanceQuery().processDefinitionKey("order");
+			HistoricProcessInstanceQuery countQuery2 = historyService.createHistoricProcessInstanceQuery()
+					.processDefinitionKey("order").finished();
+			countQuery.variableValueEquals(ActivitiService.PRODUCT, proid.intValue());
+			countQuery2.variableValueEquals(ActivitiService.PRODUCT, proid.intValue());
 			int runningCount = (int) countQuery.count();
 			int finishedCount = (int) countQuery2.count();
-			OrdersCount ordersCount = new OrdersCount();
+			ProductOrderCount ordersCount = new ProductOrderCount();
 			ordersCount.setProduct_id(proid);
 			ordersCount.setRunningCount(runningCount);
 			ordersCount.setFinishedCount(finishedCount);
 			map.put(proid, ordersCount);
 		}
-		System.out.println(map.toString());
 	}
 
 	@Override

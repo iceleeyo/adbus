@@ -60,6 +60,16 @@
                             return '<span class="invalid">禁用</span>';
                     }
                 } },
+                
+                
+                 { "data": "runningCount", "defaultContent": "", "render": function(data, type, row, meta) {
+                   return '<a class="table-link" href="${rc.contextPath}/order/product/' + (row.id) +'/1">'+data+'</a> &nbsp;'; 
+                } },
+                 { "data": "finishedCount", "defaultContent": "", "render": function(data, type, row, meta) {
+                    return '<a class="table-link" href="${rc.contextPath}/order/over/' +  (row.id) +'/1">'+data+'</a> &nbsp;'; 
+                } },
+                
+                
                 { "data": function( row, type, set, meta) {
                     return row.id;
                 },
@@ -69,8 +79,8 @@
                      	operations+= (row.enabled ? '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/disable">禁用</a> &nbsp;'
                                 :'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/enable">启用</a> &nbsp;')
                         operations +='<a class="table-link" href="${rc.contextPath}/product/' + data +'">编辑</a> &nbsp;';
-                         operations +='<a class="table-link" href="${rc.contextPath}/order/product/' + data +'/1">进行中订单</a> &nbsp;'; 
-                         operations +='<a class="table-link" href="${rc.contextPath}/order/over/' + data +'">已完成订单</a> &nbsp;';
+                         //operations +='<a class="table-link" href="${rc.contextPath}/order/product/' + data +'/1">进行中订单</a> &nbsp;'; 
+                         //operations +='<a class="table-link" href="${rc.contextPath}/order/over/' + data +'">已完成订单</a> &nbsp;';
                         </@security.authorize>
                         if(row.enabled){
                         	<@security.authorize ifAnyGranted="normaluser,advertiser">
@@ -136,6 +146,8 @@
                         <th orderBy="price">价格(元)</th>
                         <th orderBy="exclusive">定向</th>
                         <th orderBy="enabled">状态</th>
+                        <th >进行中订单</th>
+                        <th  >结束订单</th>
                         <th>管理</th>
                     </tr>
                     </thead>

@@ -4,12 +4,13 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.mybatis.domain.Product;
 import com.pantuo.util.NumberPageUtil;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
+import com.pantuo.web.view.ProductView;
 
 public interface ProductService {
     Page<JpaProduct> getAllProducts(int city, String name,  boolean includeExclusive, String exclusiveUser,
@@ -27,5 +28,8 @@ public interface ProductService {
     public List<Product> queryContractList(int city, NumberPageUtil page, String name, String code, HttpServletRequest request);
 
 	Product selectProById(Integer productId);
+	
+	
+	Page<ProductView> getProductView( Page<JpaProduct> list);  
 
 }

@@ -1,22 +1,12 @@
 package com.pantuo.service.impl;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.mysema.query.types.Predicate;
-import com.mysema.query.types.expr.BooleanExpression;
-import com.pantuo.dao.ProductRepository;
-import com.pantuo.dao.pojo.JpaProduct;
-import com.pantuo.dao.pojo.QJpaProduct;
-import com.pantuo.dao.pojo.UserDetail;
-
-import org.activiti.engine.identity.Group;
-import org.activiti.engine.identity.User;
-import org.activiti.engine.impl.persistence.entity.UserEntity;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,12 +14,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.pantuo.mybatis.domain.ContractExample;
+import com.mysema.query.types.expr.BooleanExpression;
+import com.pantuo.dao.ProductRepository;
+import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.dao.pojo.QJpaProduct;
 import com.pantuo.mybatis.domain.Product;
 import com.pantuo.mybatis.domain.ProductExample;
 import com.pantuo.mybatis.persistence.ProductMapper;
 import com.pantuo.service.ProductService;
+import com.pantuo.simulate.ProductProcessCount;
 import com.pantuo.util.NumberPageUtil;
+import com.pantuo.util.ProductOrderCount;
+import com.pantuo.web.view.ProductView;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -119,4 +115,26 @@ public class ProductServiceImpl implements ProductService {
     public Product selectProById(Integer productId) {
         return productMapper.selectByPrimaryKey(productId);
     }
+
+	@Override
+	public Page<ProductView> getProductView(Page<JpaProduct> list) {
+
+		List<ProductView> plist = new ArrayList<ProductView>();
+		if (list != null) {
+			for (JpaProduct jpaProduct : list) {
+				ProductView w = new ProductView();
+				BeanUtils.copyProperties(jpaProduct, w);
+				plist.add(w);
+				ProductOrderCount c = ProductProcessCount.map.get(jpaProduct.getId());
+				if (c != null) {
+					w.setRunningCount(c.getRunningCount());
+					c.setFinishedCount(c.getFinishedCount());
+				}
+			}
+		}
+		Pageable p = new PageRequest(list.getNumber(), list.getSize(), list.getSort());
+		org.springframework.data.domain.PageImpl<ProductView> r = new org.springframework.data.domain.PageImpl<ProductView>(
+				plist, p, list.getTotalElements());
+		return r;
+	}
 }
