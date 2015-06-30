@@ -204,9 +204,7 @@
                                 <li class="pg-nav-item s-left">
                                     <a class="pg-nav-item-t" href="${rc.contextPath}/about-me.html">关于我们</a>
                                 </li>
-                                <li class="pg-nav-item s-left">
-                                    <a class="pg-nav-item-t" href="${rc.contextPath}/about-me.html">联系我们</a>
-                                </li>
+
 							</ul>
 						</div>
 					</div>
