@@ -61,14 +61,14 @@
                     }
                 } },
                 
-                
+                <@security.authorize ifAnyGranted="ShibaOrderManager">   
                  { "data": "runningCount", "defaultContent": "", "render": function(data, type, row, meta) {
                    return '<a class="table-link" href="${rc.contextPath}/order/product/' + (row.id) +'/1">'+data+'</a> &nbsp;'; 
                 } },
                  { "data": "finishedCount", "defaultContent": "", "render": function(data, type, row, meta) {
                     return '<a class="table-link" href="${rc.contextPath}/order/over/' +  (row.id) +'">'+data+'</a> &nbsp;'; 
                 } },
-                
+                  </@security.authorize>
                 
                 { "data": function( row, type, set, meta) {
                     return row.id;
@@ -146,8 +146,10 @@
                         <th orderBy="price">价格(元)</th>
                         <th orderBy="exclusive">定向</th>
                         <th orderBy="enabled">状态</th>
+                        	 <@security.authorize ifAnyGranted="ShibaOrderManager">  
                         <th >进行中订单</th>
                         <th  >结束订单</th>
+                          </@security.authorize>
                         <th>管理</th>
                     </tr>
                     </thead>
