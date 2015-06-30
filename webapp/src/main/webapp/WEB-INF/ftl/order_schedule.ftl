@@ -154,7 +154,7 @@
 </script>
 </#if>
 
-<@orderDetail.orderDetail orderview=orderview quafiles="" suppliesLink=false viewScheduleLink=false/>
+<@orderDetail.orderDetail orderview=orderview suppliesView=suppliesView quafiles="" suppliesLink=true viewScheduleLink=false/>
 
 <#if mediaType == 'screen'>
 <div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear">

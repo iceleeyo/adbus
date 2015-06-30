@@ -67,10 +67,9 @@
 				    <#if suppliesView.mainView.seqNumber?has_content >
   				  <LI style="width: 200px;"><SPAN>物料编号：</SPAN><SPAN class="con">${(suppliesView.mainView.seqNumber)!''}</SPAN></LI>
   				   </#if>
-  				   <#if quafiles.files?has_content>
+  				   <#if quafiles??  >
   				  <LI style="width: 200px;"><SPAN>物料资质：</SPAN><SPAN class="con"><a href="${rc.contextPath}/supplies/suppliesDetail/${(suppliesView.mainView.id)!''}">查看</a></SPAN></LI>
   				  </#if>
- 
 </#if>
 <#if orderview.task_name?exists && (orderview.task_name=='已排期待上播' || orderview.task_name=='已上播' ||orderview.task_name=='已排期待上播' || orderview.task_name=='已完成')>
       <LI style="width: 200px;"><SPAN>排期状态：<a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}" >
