@@ -10,5 +10,9 @@
 		</if>
 		order by USER_ID_ limit 30
 	</select>
+	<select id="selectAllProId"  resultType="java.lang.Integer">
+		select distinct id from product 
+		order by id asc
+	</select>
 
 </mapper>
