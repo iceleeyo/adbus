@@ -268,7 +268,7 @@ function qCheck(obj){
                  <TABLE class="ui-table ui-table-gray" id="tb1">
   								<TBODY>
 									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>广告主支付订单</H4></TD>
+    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H3 class="text-xl title-box"><A class="black" href="#">订单处理-北广对物料进行终审</A></H3></TD>
   								</TR>  	
 									<TR style="height:45px;">
     								<Td style="padding:0,10px;" width="350">支付方式</Td>

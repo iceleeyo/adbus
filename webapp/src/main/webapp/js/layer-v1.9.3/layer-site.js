@@ -131,7 +131,7 @@ function eleContract(tourl,orderid){
 	    		skin: 'layui-layer-rim', 
 	    		area: ['650px', '600px'], 
 	    		content:''
-				   +'<div class = "ad-agreement"><br> <TEXTAREA id="agreementstr" name="agreementstr" readonly="true" type="text" cols="85" rows="22" style="margin-left:20px;">'
+				   +'<div class = "ad-agreement"><br> <TEXTAREA id="agreementstr" name="agreementstr" readonly="true" type="text" cols="85" rows="22" style="margin-left:20px;border:none;">'
 				   +data.left+'同意购买'+data.right
 				   +'\n1.特别提示'
 				   +'\n1.1 广告拟合竞价系统中心（以下称“系统中心”）同意按照本协议的规定提供竞价等相关服务（以下称“本服务”）。为获得本服务，服务使用人（以下称“用户”）应当同意本协议的全部条款并按照页面上的提示完成全部的注册程序。'
