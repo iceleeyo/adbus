@@ -60,8 +60,10 @@
 		  			 }
 				});
 	    });
+
 </script>
 <script type="text/javascript">
+
         function bu(txtObj) {
             txtObj.value = Number(txtObj.value).toFixed(2);
         }
@@ -176,7 +178,7 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>
                                                 <span class="toggle videoToggle imageToggle infoToggle">套餐价格（元）:</span>
-                                                <span class="toggle bodyToggle">套餐价格（元）:</span>
+                                         
                                             </label>
                                             <input
                                                     class="ui-input validate[required,number,min[1]"
@@ -184,6 +186,10 @@
                                                     id="price" data-is="isAmount isEnough"
                                                     autocomplete="off" disableautocomplete="">
                                         </div>
+                                        
+                                     
+
+                                        
                                         <div class="ui-form-item toggle bodyToggle">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>制作费:</label>
@@ -198,10 +204,44 @@
                                                     class="ui-form-required"></span>产品定向:</label>
                                             <span>
                          						<input id="username" value=""
-                         						 placeholder="请选择广告主" >
+                         						 placeholder="请选择广告主" style="margin-top: 8px;" >
                        						</span>
                                         </div>
-                                         <div class="ui-form-item">
+										
+										<div class="ui-form-item">
+											<label class="ui-label mt10"><span
+												class="ui-form-required">*</span>是否为竞价套餐：</label> 
+												<input type="radio" name="payType" onchange="showisAuction()" value="contract">是
+												<input type="radio" name="payType" value="online" onchange="hideboth()" checked="checked">否
+										</div>
+                                     
+                                        
+                                     <div id="isAuction" style="display: none;">
+                                        <div class="ui-form-item">
+                                            <label class="ui-label mt10"><span
+                                                    class="ui-form-required">*</span>
+                                                <span class="toggle videoToggle imageToggle infoToggle">竞拍底价（元）:</span>
+                                         
+                                            </label>
+                                            <input
+                                                    class="ui-input validate[required,number,min[1]"
+                                                    onblur="bu(this)" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/\D+\./g,'')}" value="<#if prod??>${prod.price!''}<#else>0</#if>" name="price"
+                                                    id="price" data-is="isAmount isEnough"
+                                                    autocomplete="off" disableautocomplete="">
+                                        </div>
+                                        
+                                        <div class="ui-form-item">
+											<label class="ui-label mt10"><span
+                                                    class="ui-form-required">*</span>竞价截止时间:
+															</label> <input
+												class="ui-input datepicker validate[required,custom[date],past[#endDate]]" 
+												type="text" name="startDate1" value="${(contractView.mainView.startDate?string("yyyy-MM-dd"))!''}"
+												id="startDate" data-is="isAmount isEnough"
+												autocomplete="off" disableautocomplete="">
+										</div>
+									</div>
+									
+									<div class="ui-form-item">
 											<label class="ui-label mt10">套餐描述：</label> 
 											<textarea rows="4" cols="40" style="resize: none;" name="remarks"></textarea>
 										</div>
@@ -214,4 +254,15 @@
 
 							</form>
 </div>
+<script type="text/javascript">
+//竞价选项	    
+function showisAuction(){
+	 $("#isAuction").show();
+}	    
+function hideboth(){
+	$("#isAuction").hide();
+}
+
+
+</script>
 </@frame.html>
