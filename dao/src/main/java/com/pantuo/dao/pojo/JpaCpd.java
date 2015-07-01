@@ -38,6 +38,7 @@ public class JpaCpd extends BaseEntity {
 	private Date biddingDate;
 	private OverType type;
 	private State state;
+	private int pv;
 
 	public JpaCpd() {
 	}
@@ -108,6 +109,14 @@ public class JpaCpd extends BaseEntity {
 
 	public void setState(State state) {
 		this.state = state;
+	}
+
+	public int getPv() {
+		return pv;
+	}
+
+	public void setPv(int pv) {
+		this.pv = pv;
 	}
 
 }
