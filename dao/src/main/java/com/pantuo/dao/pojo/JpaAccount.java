@@ -31,6 +31,12 @@ public class JpaAccount extends BaseEntity {
 	public void setTotalMoney(double totalMoney) {
 		this.totalMoney = totalMoney;
 	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
  
 
 }
