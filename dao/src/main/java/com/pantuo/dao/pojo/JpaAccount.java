@@ -24,11 +24,6 @@ public class JpaAccount extends BaseEntity {
 
 	public JpaAccount() {
 	}
-
-	public JpaAccount(String name) {
-
-	}
-
 	public double getTotalMoney() {
 		return totalMoney;
 	}
