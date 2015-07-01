@@ -28,10 +28,8 @@ public class JpaCpdLog extends BaseEntity {
 	@ManyToOne  
 	@JoinColumn(name = "cpdid")
 	private JpaCpd jpaCpd;
-	private double price; //售价
 	private double comparePrice;//当前用户竞价
 	private String userId;
-	private Date create_date;
 	private OverType type;
 
 	public JpaCpdLog() {
@@ -53,13 +51,6 @@ public class JpaCpdLog extends BaseEntity {
 		this.jpaCpd = jpaCpd;
 	}
 
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
 
 	public double getComparePrice() {
 		return comparePrice;
@@ -75,14 +66,6 @@ public class JpaCpdLog extends BaseEntity {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
-	}
-
-	public Date getCreate_date() {
-		return create_date;
-	}
-
-	public void setCreate_date(Date create_date) {
-		this.create_date = create_date;
 	}
 
 	public OverType getType() {
