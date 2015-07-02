@@ -205,12 +205,12 @@
 											<div class="ui-form-item">
 	                                            <label class="ui-label mt10">
 												<span
-	                                                    class="ui-form-required">
+	                                                    class="ui-form-required">*
 												</span>广告主:
 	                                            </label>
 	                                            <span>
 	                         						<input id="userId" name="userId"
-	                         						 class="ui-input " placeholder="请选择广告主" >
+	                         						 class="ui-input validate[required,custom[noSpecialLetterChinese]]" placeholder="请选择广告主" >
 	                       						</span>
 	                                        </div>
                                          </@security.authorize>
