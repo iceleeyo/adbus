@@ -52,6 +52,7 @@ public class ProductServiceImpl implements ProductService {
         if (name != null && !StringUtils.isEmpty(name)) {
             query = query.and(QJpaProduct.jpaProduct.name.like("%" + name + "%"));
         }
+        query = query.and(QJpaProduct.jpaProduct.iscompare.eq(0));
         return productRepo.findAll(query, p);
     }
 

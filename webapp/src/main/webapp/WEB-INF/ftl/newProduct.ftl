@@ -211,8 +211,8 @@
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>是否为竞价套餐：</label> 
-												<input type="radio" name="payType" onchange="showisAuction()" value="contract">是
-												<input type="radio" name="payType" value="online" onchange="hideboth()" checked="checked">否
+												<input type="radio" name="iscompare" value="1" onchange="showisAuction()" >是
+												<input type="radio" name="iscompare" value="0" onchange="hideboth()" checked="checked">否
 										</div>
                                      
                                         
@@ -225,8 +225,8 @@
                                             </label>
                                             <input
                                                     class="ui-input validate[required,number,min[1]"
-                                                    onblur="bu(this)" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/\D+\./g,'')}" value="<#if prod??>${prod.price!''}<#else>0</#if>" name="price"
-                                                    id="price" data-is="isAmount isEnough"
+                                                    onblur="bu(this)" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/\D+\./g,'')}" value="<#if prod??>${prod.price!''}<#else>0</#if>" name="saleprice"
+                                                    id="saleprice" data-is="isAmount isEnough"
                                                     autocomplete="off" disableautocomplete="">
                                         </div>
                                         
@@ -234,9 +234,9 @@
 											<label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>竞价截止时间:
 															</label> <input
-												class="ui-input datepicker validate[required,custom[date],past[#endDate]]" 
-												type="text" name="startDate1" value="${(contractView.mainView.startDate?string("yyyy-MM-dd"))!''}"
-												id="startDate" data-is="isAmount isEnough"
+												class="ui-input datepicker validate[required,custom[date],past[#biddingDate1]]" 
+												type="text" name="biddingDate1" 
+												id="biddingDate1" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
 										</div>
 									</div>

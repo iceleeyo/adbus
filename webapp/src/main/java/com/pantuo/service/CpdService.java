@@ -7,7 +7,7 @@ import org.springframework.data.domain.Sort;
 
 import com.pantuo.dao.pojo.JpaCpd;
 import com.pantuo.dao.pojo.JpaCpdLog;
-import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.pojo.TableRequest;
 import com.pantuo.util.Pair;
 /**
  * 
@@ -29,16 +29,6 @@ public interface CpdService {
 	 */
 	public void test();
 
-	/**
-	 * 
-	 * 根据商品类型(视频,图片,文字) city 查竞价商品
-	 *
-	 * @param productType
-	 * @return
-	 * @since pantuo 1.0-SNAPSHOT
-	 */
-	public Page<JpaCpd> queryCpd(int city, int page, int pageSize, Sort sort, JpaProduct.Type productType);
-	
 	
 	/**
 	 * 
@@ -57,7 +47,7 @@ public interface CpdService {
 	public Pair<Boolean,String> setMyPrice(int cpdid, Principal principal,double myPrice);
 
 	/**
-	 * 
+	 * 	
 	 * 获取单个竞价商品的出价列表,可以只查前20个
 	 *
 	 * @param cpdid
@@ -65,7 +55,7 @@ public interface CpdService {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	public Page<JpaCpdLog> queryCpd(  int cpdid, Sort sort);
+	public Page<JpaCpdLog> queryCpdLog(  int cpdid, Sort sort);
 	/**
 	 * 
 	 * 查单个竞价cpd信息 列表点进去显示单个竞价商品
@@ -84,4 +74,9 @@ public interface CpdService {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	public Pair<Boolean,JpaCpd> saveOrUpdateCpd(JpaCpd cpd);
+
+	public Page<JpaCpd> getCompareProducts(int city, TableRequest req, Principal principal);
+	
+	
+	public void changeMoney(Principal principal, int cpdid, double myPrice) ;
 }

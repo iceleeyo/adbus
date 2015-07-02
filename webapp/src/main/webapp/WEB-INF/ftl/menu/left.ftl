@@ -81,6 +81,11 @@
 													产品列表
 												</a>
 											</li>
+											<li class="pg-side-exp-item">
+												<a class="side-exp-item-t" href="${rc.contextPath}/product/comparelist">
+													竞价产品列表
+												</a>
+											</li>
 										</ul>
 									</li>
 									<li class="pg-side-item">

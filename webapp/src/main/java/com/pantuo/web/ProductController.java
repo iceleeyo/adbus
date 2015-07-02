@@ -6,6 +6,7 @@ import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.pojo.*;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
+import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 import com.pantuo.web.view.ProductView;
 
@@ -18,10 +19,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import com.pantuo.service.CpdService;
 import com.pantuo.service.ProductService;
 import com.pantuo.service.UserServiceInter;
 
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author xl
@@ -34,7 +38,10 @@ public class ProductController {
     @Autowired
     private ProductService productService;
     @Autowired
+    private CpdService cpdService;
+    @Autowired
 	private UserServiceInter userService;
+    
     @RequestMapping("ajax-list")
     @ResponseBody
     public DataTablePage<ProductView> getAllProducts( TableRequest req,
@@ -51,6 +58,13 @@ public class ProductController {
                     req.getPage(), req.getLength(), req.getSort("id"));
         }
         return new DataTablePage(productService.getProductView(page), req.getDraw());
+    }
+    @RequestMapping("compareProduct-list")
+    @ResponseBody
+    public DataTablePage<JpaCpd> getCompareProducts( TableRequest req,
+    		@CookieValue(value="city", defaultValue = "-1") int city,
+    		Principal principal ) {
+    	return new DataTablePage(cpdService.getCompareProducts(city, req, principal), req.getDraw());
     }
 
     @RequestMapping(value = "/{productId}/{enable}", method = { RequestMethod.POST})
@@ -72,6 +86,17 @@ public class ProductController {
         }
         return product;
     }
+    
+    @RequestMapping(value = "/comparePrice", method = { RequestMethod.GET})
+    @ResponseBody
+    public Pair<Boolean, String> comparePrice(@RequestParam(value="cpdid") int cpdid,@RequestParam(value="myprice") double myprice,
+ Principal principal) {
+		Pair<Boolean, String> rPair = cpdService.setMyPrice(cpdid, principal, myprice);
+		if (rPair.getLeft()) {
+			cpdService.changeMoney(principal, cpdid, myprice);
+		}
+		return rPair;
+	}
     
     @PreAuthorize(" hasRole('ShibaOrderManager') ")
     @RequestMapping(value = "/new", produces = "text/html;charset=utf-8")
@@ -123,20 +148,9 @@ public class ProductController {
     @RequestMapping(value = "/save", method = { RequestMethod.POST})
     @ResponseBody
     public JpaProduct createProduct(
-            JpaProduct prod,
+            JpaProduct prod,JpaCpd jpacpd,
             @CookieValue(value="city", defaultValue = "-1") int city,
-/*            @RequestParam(value = "id", required = false) Integer id,
-            @RequestParam(value = "type", required = true) JpaProduct.Type type,
-            @RequestParam(value = "name", required = true) String name,
-            @RequestParam(value = "duration", required = true) long duration,
-            @RequestParam(value = "playNumber", required = true) int playNumber,
-            @RequestParam(value = "firstNumber", required = true) int firstNumber,
-            @RequestParam(value = "lastNumber", required = true) int lastNumber,
-            @RequestParam(value = "hotRatio", required = true) double hotRatio,
-            @RequestParam(value = "days", required = true) int days,
-            @RequestParam(value = "price", required = true) double price,*/
             HttpServletRequest request) {
-//        JpaProduct prod = new JpaProduct(type, name, duration, playNumber, firstNumber, lastNumber, hotRatio, days, price, false);
         if (prod.getId() > 0) {
             log.info("Updating product {}", prod.getName());
         } else {
@@ -144,6 +158,14 @@ public class ProductController {
         }
         try {
             productService.saveProduct(city, prod);
+            if(prod.getIscompare()==1){
+            	String biddingDate1 = request.getParameter("biddingDate1").toString();
+            	if (biddingDate1.length() > 1 ) {
+            		jpacpd.setBiddingDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(biddingDate1));
+            	}
+            	jpacpd.setProduct(prod);
+            	cpdService.saveOrUpdateCpd(jpacpd);
+            }
         } catch (Exception e) {
             prod.setErrorInfo(BaseEntity.ERROR, e.getMessage());
         }
@@ -159,6 +181,10 @@ public class ProductController {
 //        model.addAttribute("pageNum", pageNum);
 //        model.addAttribute("paginationHTML", page.showNumPageWithEmpty());
         return "product_list2";
+    }
+    @RequestMapping(value = "/comparelist")
+    public String comparelist() {
+    	return "CompareProduct_list";
     }
 
 }
