@@ -269,7 +269,7 @@ function qCheck(obj){
 				 
                  </H3><BR>	
                  <div id="tb1"> 
-  				 <H3 class="text-xl title-box"><p style="text-align: left"><A class="black" href="#">订单处理-北广对物料进行终审</A></p></H3>
+  				 <H3 class="text-xl title-box"><p style="text-align: left"><A class="black" href="#">订单处理-支付订单</A></p></H3>
                  <br/>
                  <TABLE class="ui-table ui-table-gray">
   								<TBODY>
@@ -305,7 +305,7 @@ function qCheck(obj){
     									
   					</TR>
   					           <TR style="height:45px;">
-    									<td >是否开发票</td>
+    									<td >发票信息</td>
     									<TD colspan=3>
     									    <input type="checkbox" id="invoiceShow"/><span style="margin-left:5px;">开具发票</span> &nbsp;&nbsp;&nbsp;
     									    <a href="javascript:;" onclick="IvcEnter('${rc.contextPath}')">录入发票</a>
@@ -342,7 +342,7 @@ function qCheck(obj){
 				               	<#if (InvoiceList?size>0)>
 
 				               	<TR>
-				               		<td>发票开具内容</td>
+				               		<td>发票内容</td>
 				               		<td colspan="3">
 				               			<select style="margin: 20px;" id="contents">
 				               						<option value="">请选择发票开具内容</option>
@@ -354,7 +354,7 @@ function qCheck(obj){
 				               	</TR>
 				               	
 				               	<TR>
-				               		<td>发票领取方式</td>
+				               		<td>领取方式</td>
 				               		<td colspan="3">
 				               			<select  style="margin: 20px;" id="receway">
 				               						<option value="">请选择发票领取方式</option>
