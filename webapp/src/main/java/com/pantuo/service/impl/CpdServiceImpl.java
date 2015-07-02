@@ -29,6 +29,7 @@ import com.pantuo.mybatis.domain.RoleCpdExample;
 import com.pantuo.mybatis.domain.UserCpd;
 import com.pantuo.mybatis.domain.UserCpdExample;
 import com.pantuo.mybatis.persistence.AccountMapper;
+import com.pantuo.mybatis.persistence.CpdProductMapper;
 import com.pantuo.mybatis.persistence.OrdersMapper;
 import com.pantuo.mybatis.persistence.RoleCpdMapper;
 import com.pantuo.mybatis.persistence.UserCpdMapper;
@@ -50,6 +51,8 @@ public class CpdServiceImpl implements CpdService {
 	UserCpdMapper userCpdMapper;
 	@Autowired
 	CpdLogRepository cpdLogRepository;
+	@Autowired
+	CpdProductMapper cpdProductMapper;
 	OrdersMapper d;
 
 	public void test() {
@@ -105,6 +108,7 @@ public class CpdServiceImpl implements CpdService {
 			userCpd.setCreated(new Date());
 			userCpd.setType(JpaCpdLog.OverType.wait.ordinal());
 			userCpdMapper.insert(userCpd);
+			cpdProductMapper.updateCpdCompareCount(cpdid);
 		}
 		return new Pair<Boolean, String>(true,"竞价成功！");
 	}
@@ -143,6 +147,7 @@ public class CpdServiceImpl implements CpdService {
 	@Override
 	public JpaCpd queryOneCpdDetail(int cpdid) {
 		BooleanExpression query = QJpaCpd.jpaCpd.product.id.eq(cpdid);
+		cpdProductMapper.updateCpdPv(cpdid);
 		return cpdRepository.findOne(query);
 	}
 
