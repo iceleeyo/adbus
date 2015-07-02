@@ -93,7 +93,7 @@
                     return row.id;
                 },
                     "render": function(data, type, row, meta) {
-                        var operations=  '<a class="table-link" href="${rc.contextPath}/supplies/suppliesDetail/'+data+'">查看物料</a>&nbsp;&nbsp;';
+                        var operations=  '<a class="table-link" target="_Blank" href="${rc.contextPath}/supplies/suppliesDetail/'+data+'">查看物料</a>&nbsp;&nbsp;';
                         operations +='<a class="table-link" href="javascript:delSupp('+data+');" >删除</a>  ';
                         return operations;
                     }},

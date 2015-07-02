@@ -721,7 +721,7 @@ function pay() {
 					<!-- 世巴初审 -->
           <div id="approve1" class="approve1" style="display: none;">
                 <div class="p20bs mt10 color-white-bg border-ec">
-                <H3 class="text-xl title-box"><A class="black" href="#">订单处理-世巴对物料进行初审</A></H3><br>	
+                <H3 class="text-xl title-box"><p style="text-align: left"><A class="black" href="#">订单处理-世巴对物料进行初审</A></p></H3><br>	
                                 
 								<TABLE class="ui-table ui-table-gray">
   								<TBODY>

@@ -1,4 +1,4 @@
-<#import "template/template.ftl" as frame>
+<#import "template/template_blank.ftl" as frame>
 <#import "macro/materialPreview.ftl" as preview>
 
 <@frame.html title="物料详细" js=["js/highslide/highslide-full.js", "js/video-js/video.js", "js/video-js/lang/zh-CN.js"]
@@ -27,7 +27,7 @@ css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
 													<tbody>
 														<tr class="uplan-table-th">
                                                             <td style="width: 15%;text-align: center; vertical-align: middle">
-                                                                <div class="th-head">预览</div>
+                                                                <div class="th-md">预览</div>
                                                             </td>
                                                             <td style="text-align: center; vertical-align: middle">
 																<div class="th-md">物料名称</div>
@@ -39,7 +39,7 @@ css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
 																<div class="th-md">文件名称</div>
 															</td>
 															<td style="text-align: center; vertical-align: middle">
-																<div class="th-tail">操作</div>
+																<div class="th-md">操作</div>
 															</td>
 														</tr>
 
