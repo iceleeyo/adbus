@@ -36,7 +36,7 @@ public class JpaCpd extends BaseEntity {
 	private double comparePrice;//当前用户竞价
 	private String userId;
 	private Date biddingDate;
-	private OverType type;
+	private OverType ispay;
 	private State state;
 	private int pv;
 
@@ -95,12 +95,13 @@ public class JpaCpd extends BaseEntity {
 		this.biddingDate = biddingDate;
 	}
 
-	public OverType getType() {
-		return type;
+
+	public OverType getIspay() {
+		return ispay;
 	}
 
-	public void setType(OverType type) {
-		this.type = type;
+	public void setIspay(OverType ispay) {
+		this.ispay = ispay;
 	}
 
 	public State getState() {

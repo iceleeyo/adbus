@@ -54,6 +54,7 @@ public class JpaProduct extends CityEntity {
     private boolean exclusive = false;  //是否专用套餐，专用套餐定向对某一个用户有效
     private String exclusiveUser;   //定向用户
     private String remarks;
+    private int iscompare;
 
     public JpaProduct() {
         //for serialization
@@ -97,6 +98,14 @@ public class JpaProduct extends CityEntity {
         p.setProduceCost(produceCost);
         return p;
     }
+
+	public int getIscompare() {
+		return iscompare;
+	}
+
+	public void setIscompare(int iscompare) {
+		this.iscompare = iscompare;
+	}
 
 	public int getId() {
 		return id;
