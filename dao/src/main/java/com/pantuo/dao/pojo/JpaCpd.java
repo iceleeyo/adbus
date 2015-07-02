@@ -39,6 +39,7 @@ public class JpaCpd extends BaseEntity {
 	private OverType ispay;
 	private State state;
 	private int pv;
+	private int setcount;
 
 	public JpaCpd() {
 	}
@@ -118,6 +119,14 @@ public class JpaCpd extends BaseEntity {
 
 	public void setPv(int pv) {
 		this.pv = pv;
+	}
+
+	public int getSetcount() {
+		return setcount;
+	}
+
+	public void setSetcount(int setcount) {
+		this.setcount = setcount;
 	}
 
 }
