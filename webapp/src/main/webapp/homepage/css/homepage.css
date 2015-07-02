@@ -25,18 +25,18 @@
 	border-bottom: 1px solid #F4F4F4;
 }
 .header-logo{
-	height: 90%;
+	
     width: 20%;
     text-align:center;
 }
 .header-logo img {
-    height: 65px;
+    height: 55px;
 }
 .show-item{
 }
 .show-item a{
-	height: 65px;
-	line-height: 65px;
+	height: 50px;
+	line-height: 50px;
 	padding: 0 15px 0 15px;
 	font-size: 18px;
     font-weight: 500;
