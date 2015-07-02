@@ -61,6 +61,7 @@
 				   <#else>
 				      否    
 				  </#if></SPAN></LI>
+				  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
 				  <LI style="width: 720px;"><SPAN>电子合同：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查看电子合同!" onclick="eleContract('${rc.contextPath}',${orderview.order.id!''});"  >查看</a></SPAN></LI>
   				  <#if suppliesLink>
 				  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
@@ -80,12 +81,12 @@
           </#if>
 </a></SPAN><SPAN class="con"></SPAN></LI>
 </#if>
+<li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
   <LI style="width: 720px;"><SPAN> 备注信息：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查详细内容!" onclick="showRemark('${orderview.order.ordRemark!''}');"  >${substring(orderview.order.ordRemark,0,38)}</a></SPAN></LI>
   <#if orderview.closed>
   <LI style="width: 720px;"><SPAN> 关闭原因：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查关闭内容!" onclick="showRemark('${orderview.order.closeRemark!''}');"  >${substring(orderview.order.closeRemark,0,38)}</a></SPAN></LI>
   </#if>
- 
- <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
+
 </UL>
 </DIV>
 </DIV>

@@ -268,13 +268,14 @@ function qCheck(obj){
                     </#if>
 				 
                  </H3><BR>	
-                 <TABLE class="ui-table ui-table-gray" id="tb1">
+                 <div id="tb1"> 
+  				 <H3 class="text-xl title-box"><p style="text-align: left"><A class="black" href="#">订单处理-北广对物料进行终审</A></p></H3>
+                 <br/>
+                 <TABLE class="ui-table ui-table-gray">
   								<TBODY>
-									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H3 class="text-xl title-box"><p align="left"><A class="black" href="#">订单处理-北广对物料进行终审</A></p></H3></TD>
-  								</TR>  	
+									 	
 									<TR style="height:45px;">
-    								<Td style="padding:0,10px;" width="350">支付方式</Td>
+    								<Td style="padding:0,10px;" width="20%">支付方式</Td>
     							<TD style="padding:0,10px;" width="550">
     										<input type="radio" name="payType" onchange="showContract()" value="contract" checked="checked">关联合同
 				             		<input type="radio" name="payType" value="online" onchange="hideboth()" >线上支付
@@ -365,23 +366,19 @@ function qCheck(obj){
 				               	</#if>
 				               	</tbody>
 				               	</TBODY>
-				               	<TR>
-    						        <TD colspan="4" style="text-align:center;">
-    									<button type="button" onclick="pay()" class="block-btn" >确认支付</button>
-    								</TD>
-    							</TR>
-								</TABLE>	<br>
+				               	
+						</TABLE>
+						<p style="text-align: center;margin-top: 10px;">
+    						<button type="button" onclick="pay()" class="block-btn" >确认支付</button>
+    					</p>
+						</div>
+						<div id="tb2">
+						<H3 class="text-xl title-box"><p style="text-align: left"><A class="black" href="#">绑定物料</A></p></H3>
+                 		<br/>
 						<TABLE class="ui-table ui-table-gray" id="tb2">
-  								<TBODY>
-									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-    									<TD colspan=4 style="border-radius: 5px 5px 0 0;">
-    									<h3 class="text-xl title-box">
-    										<p align="left"><a class="black" href="#">绑定物料</a></p>
-    									</h3>
-    									</TD>
-  								</TR>  	
+  								<TBODY> 	
 									<TR style="height:45px;">
-    									<TH width="0%">绑定素材</TH>
+    									<TD width="20%">绑定素材</TD>
     									<TD colspan=3><select class="ui-input" name="supplieid" id="supplieid" style="margin: 20px;">
                                                 <option value="" selected="selected">请选择物料</option>
                                                 <#if supplieslist?exists>
@@ -394,12 +391,14 @@ function qCheck(obj){
                   		               <a href="javascript:;" onclick="supEnter('${rc.contextPath}',${city.mediaType},'${prod.type.typeName!''}')">上传物料</a>
                   		               </TD>
 				             	    </TR>
-				             	  <TR style="height:45px;">
-    						        <TD colspan=4 align="center">
+				             	  
+								</TABLE>
+								<p style="text-align: center;margin-top: 10px;">
 									<button type="button" id="subWithdraw" onclick="relatSup()" class="block-btn" >确认</button><br>
-									</TD>
-  								</TR>
-								</TABLE>	<br>
+								<br/>
+								</p>
+								</div>
+				<br>
              </div>	
 			</div> 
 			<input type="hidden" id="orderid" value="${orderview.order.id!''}"/>
