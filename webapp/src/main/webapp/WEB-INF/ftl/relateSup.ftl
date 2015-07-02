@@ -171,7 +171,7 @@ function showContract(){
 			$('input').on('ifChanged', function(event){
 			if($(this).attr("id")=='invoiceShow' && $(this).attr("type") == 'checkbox'){
 				var checked=document.getElementById("invoiceShow").checked;
-				if(checked){
+ 				if(checked){
 					document.getElementById("invoiceTab").style.display="";
 				}else{
 					document.getElementById("invoiceTab").style.display="none";
@@ -215,13 +215,15 @@ function qCheck(obj){
             		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">播出完成</li><li id="track_time_6" class="tx3"></li></ul></div>
             	</div>
 							  <DIV class="p20bs color-white-bg border-ec">
-                <H3 class="text-xl title-box"><A class="black" href="#">订单详情-${orderview.longOrderId!''}</A></H3>
+                <H3 class="text-xl title-box"><p align="left"><A class="black" href="#">订单详情-${orderview.longOrderId!''}</A></p></H3>
                <DIV class="summary mt10 uplan-summary-div">
               <UL class="uplan-detail-ul">
                   <LI style="width: 720px;"><SPAN>套餐名称：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer('${rc.contextPath}/product/ajaxdetail/',${prod.id});"  >${prod.name!''}</a></SPAN></LI>
+  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
   <LI style="width: 240px;"><SPAN>下单用户：</SPAN><SPAN class="con">${(order.creator)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>价格：</SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">${orderview.order.price!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>起播时间：</SPAN><SPAN class="con"><#setting date_format="yyyy-MM-dd">${(order.startTime?date)!''}</SPAN></LI>
+  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
   <LI style="width: 240px;"><SPAN>到期时间：</SPAN><SPAN class="con"><#setting date_format="yyyy-MM-dd">${(order.endTime?date)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>媒体类型：</SPAN><SPAN class="con">${prod.type.typeName!''}</SPAN></LI>
   <#if orderview.payTypeString?has_content>
@@ -246,6 +248,7 @@ function qCheck(obj){
   				  <LI style="width: 240px;"><SPAN>物料详情：</SPAN><SPAN class="con"><a href="${rc.contextPath}/supplies/suppliesDetail/${(suppliesView.mainView.id)!''}">查看物料与用户资质</a></SPAN></LI>
   				  </#if>
   				   <LI style="width: 720px;"><SPAN>电子合同：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查看电子合同!" onclick="eleContract('${rc.contextPath}',${orderview.order.id!''});"  >查看</a></SPAN></LI>
+  				   <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
   				   <LI style="width: 720px;"><SPAN>备注信息：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查详细内容!" onclick="showRemark('${orderview.order.ordRemark!''}');"  >${substring(orderview.order.ordRemark,0,38)}</a></SPAN></LI>
 
 </UL>
@@ -268,7 +271,7 @@ function qCheck(obj){
                  <TABLE class="ui-table ui-table-gray" id="tb1">
   								<TBODY>
 									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H3 class="text-xl title-box"><A class="black" href="#">订单处理-北广对物料进行终审</A></H3></TD>
+    									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H3 class="text-xl title-box"><p align="left"><A class="black" href="#">订单处理-北广对物料进行终审</A></p></H3></TD>
   								</TR>  	
 									<TR style="height:45px;">
     								<Td style="padding:0,10px;" width="350">支付方式</Td>
@@ -309,9 +312,9 @@ function qCheck(obj){
 						    
     									</TD>
 				               </TR>
-				            
-				              <TR style="display:none;" id="invoiceTab">
-				              <td>发票列表</td>
+				            <tbody id="invoiceTab" style="display:none;">
+				              <TR>
+				              <td>发票抬头</td>
 				              <TD colspan="3">
 						   <div class="cart_address_wrap" id="cartAddress" style="width:540px;">
 						     <#if (InvoiceList?size>0)>
@@ -332,36 +335,35 @@ function qCheck(obj){
 				              </ul>
 				              
 				             </div>
-				               			<table>
-				               			<#if (InvoiceList?size>0)>
-				               				<tr>
-				               				<td colspan="2">
-				               					<select style="margin: 20px;" id="contents">
+				               	</TD>
+				               	
+				               	</TR>
+				               	<#if (InvoiceList?size>0)>
+
+				               	<TR>
+				               		<td>发票开具内容</td>
+				               		<td colspan="3">
+				               			<select style="margin: 20px;" id="contents">
 				               						<option value="">请选择发票开具内容</option>
 				               						<option value="广告发布费">广告发布费</option>
 				               						<option value="广告制作费">广告制作费</option>
 				               						<option value="其他">其他</option>
-				               					</select>
-				               					
-				               					<select id="receway">
+				               			</select>
+				               		</td>
+				               	</TR>
+				               	
+				               	<TR>
+				               		<td>发票领取方式</td>
+				               		<td colspan="3">
+				               			<select  style="margin: 20px;" id="receway">
 				               						<option value="">请选择发票领取方式</option>
 				               						<option value="自取">自取</option>
 				               						<option value="邮寄">邮寄</option>
 				               					</select>
-				               				</td>
-				               				</tr>
-				               				<!--
-				               				<tr>
-				               					<td>
-				               						<a href="javascript:;" onclick="IvcEnter('${rc.contextPath}')">录入发票</a>
-				               					</td>
-				               				</tr>
-				               				-->
-				               			</#if>
-				               			</table>
-				               			
-				               	</TD>
+				               		</td>
 				               	</TR>
+				               	</#if>
+				               	</tbody>
 				               	</TBODY>
 				               	<TR>
     						        <TD colspan="4" style="text-align:center;">
@@ -372,7 +374,11 @@ function qCheck(obj){
 						<TABLE class="ui-table ui-table-gray" id="tb2">
   								<TBODY>
 									<TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
-    									<TD colspan=4 style="border-radius: 5px 5px 0 0;"><H4>绑定物料</H4></TD>
+    									<TD colspan=4 style="border-radius: 5px 5px 0 0;">
+    									<h3 class="text-xl title-box">
+    										<p align="left"><a class="black" href="#">绑定物料</a></p>
+    									</h3>
+    									</TD>
   								</TR>  	
 									<TR style="height:45px;">
     									<TH width="0%">绑定素材</TH>

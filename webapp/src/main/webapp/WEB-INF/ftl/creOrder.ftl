@@ -101,7 +101,7 @@ function stop() {
 
 
 <div class="p20bs mt10 color-white-bg border-ec">
-                <H3 class=".withdraw-title text-xl title-box"><A class="black" href="#">填写订单信息</A></H3><br>
+                <H3 class=".withdraw-title text-xl title-box"><p align="left"><A class="black" href="#">填写订单信息</A></p></H3><br>
 									<div class="inputs">
                                             <input type="hidden" readonly="readonly" name="product.Id" id="productId" value="${prod.id!''}"/>
                                         <div class="ui-form-item">
@@ -130,7 +130,7 @@ function stop() {
 										
 										<div class="ui-form-item" id="orderRemark">
 											<label class="ui-label mt10">备注信息:</label>
-                                            <textarea rows="4" cols="40" style="resize: none;" name="ordRemark"></textarea>
+                                            <textarea rows="4" cols="40" style="resize: none;border: 1px solid #c5c5c5;" name="ordRemark"></textarea>
 											<p class="ui-term-placeholder"></p>
 											
 										</div>

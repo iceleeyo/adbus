@@ -43,7 +43,7 @@
                 { "data": "contractName", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         var filter = $('#contractName').val();
-                        if (filter && filter != '') {
+                       	if (filter && filter != '') {
                             var regex = new RegExp(filter, "gi");
                             data = data.replace(regex, function(matched) {
                                 return "<span class=\"hl\">" + matched + "</span>";

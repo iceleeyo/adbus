@@ -1,6 +1,6 @@
 <#macro proDetail prod title="套餐详情" buyLink=false>
 <div class="withdraw-wrap color-white-bg fn-clear">
-    <H3 class="text-xl title-box"><A class="black" href="#">${title}-<span style="color: rgb(245, 135, 8);">[${prod.name!''}]</span></A></H3>
+    <H3 class="text-xl title-box"><p style="text-align: left"><A class="black" href="#">${title}-<span style="color: rgb(245, 135, 8);">[${prod.name!''}]</span></A></p></H3>
     <DIV class="summary mt10 uplan-summary-div">
         <UL class="uplan-detail-ul">
             <LI style="width: <#if buyLink>480px;<#else>720px;</#if>">
@@ -11,6 +11,7 @@
                 <a class="block-btn" href="${rc.contextPath}/order/iwant/${prod.id}">购买</a>
             </LI>
     </#if>
+    <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
             <LI style="width: 240px;">
                 <SPAN><#if prod.type == 'body'>媒体费：<#else>套餐价格：</#if></SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">${prod.price!''}.00</SPAN>
                 <SPAN>元</SPAN>
@@ -59,10 +60,11 @@
                 <SPAN><#if prod.type == 'video' || prod.type == 'image' || prod.type == 'info'>套餐播放天数：<#else>广告展示天数：</#if></SPAN>
                 <SPAN class="con">${prod.days!''}天</SPAN>
             </LI>
+            <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
             <LI style="width: <#if buyLink>480px;<#else>720px;</#if>">
                 <SPAN>套餐描述：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查详细内容!" onclick="showRemark('${prod.remarks!''}');"  >${substring(prod.remarks!'',0,38)}</a></SPAN>
             </LI>
-             <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
+             
 
         </UL>
     </DIV>

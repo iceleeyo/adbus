@@ -642,7 +642,7 @@ function pay() {
 			<!-- 北广审核并填写物料ID等信息 -->
       <div id="approve2" class="approve2" style="display: none;">
                 <div class="p20bs mt10 color-white-bg border-ec">
-                <H3 class="text-xl title-box"><A class="black" href="#">订单处理-北广对物料进行终审</A></H3><br>
+                <H3 class="text-xl title-box"><p align="left"><A class="black" href="#">订单处理-北广对物料进行终审</A></p></H3><br>
 								<TABLE class="ui-table ui-table-gray">
   								<TBODY>
   								<TR>

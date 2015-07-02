@@ -7,7 +7,7 @@
 
 </script>
 <DIV class="p20bs color-white-bg border-ec">
-                <H3 class="text-xl title-box"><A class="black" href="#">${title}-${(orderview.longOrderId)!''}</A></H3>
+                <H3 class="text-xl title-box"><p style="text-align: left"><A class="black" href="#">${title}-${(orderview.longOrderId)!''}</A></p></H3>
                <DIV class="summary uplan-summary-div">
               <UL class="uplan-detail-ul">
                   <LI style="width: 400px;"><SPAN>套餐名称：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer('${rc.contextPath}/product/ajaxdetail/',${prod.id});"  >${prod.name!''}</a></SPAN></LI>
