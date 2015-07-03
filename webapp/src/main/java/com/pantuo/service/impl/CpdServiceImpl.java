@@ -75,7 +75,7 @@ public class CpdServiceImpl implements CpdService {
 	
 	@Override
 	public Pair<Boolean, String> setMyPrice(int cpdid, Principal principal, double myPrice) {
-		JpaCpd jpaCpd=cpdRepository.findOne(QJpaCpd.jpaCpd.product.id.eq(cpdid));
+		JpaCpd jpaCpd=cpdRepository.findOne(QJpaCpd.jpaCpd.id.eq(cpdid));
 		if (jpaCpd == null) {
 			return new Pair<Boolean, String>(false,"产品信息丢失");
 		}
@@ -93,7 +93,7 @@ public class CpdServiceImpl implements CpdService {
 
 		RoleCpdExample example2 = new RoleCpdExample();
 		RoleCpdExample.Criteria criteria2 = example2.createCriteria();
-		criteria2.andProductIdEqualTo(cpdid);
+		criteria2.andIdEqualTo(cpdid);
 		criteria2.andComparePriceLessThan(myPrice);
 		RoleCpd  roleCpd=new RoleCpd();
 		roleCpd.setUserId(Request.getUserId(principal));
@@ -147,7 +147,7 @@ public class CpdServiceImpl implements CpdService {
 
 	@Override
 	public JpaCpd queryOneCpdDetail(int cpdid) {
-		BooleanExpression query = QJpaCpd.jpaCpd.product.id.eq(cpdid);
+		BooleanExpression query = QJpaCpd.jpaCpd.id.eq(cpdid);
 		cpdProductMapper.updateCpdPv(cpdid);
 		return cpdRepository.findOne(query);
 	}
