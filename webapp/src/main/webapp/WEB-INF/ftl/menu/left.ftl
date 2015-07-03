@@ -86,11 +86,13 @@
 													竞价产品列表
 												</a>
 											</li>
+											<@security.authorize ifAnyGranted="advertiser">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/product/toMyCompare">
 													我的获拍
 												</a>
 											</li>
+											</@security.authorize>	
 										</ul>
 									</li>
 									<li class="pg-side-item">

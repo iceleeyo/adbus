@@ -47,6 +47,7 @@
                 { "data": "created", "defaultContent": "", "render": function(data) {
                     return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
                 } },
+                { "data": "saleprice", "defaultContent": "", "render": $.fn.dataTable.render.number( ',', '.', 2, ' ')  },
                 { "data": "comparePrice", "defaultContent": "", "render": $.fn.dataTable.render.number( ',', '.', 2, ' ')  },
                 { "data": function( row, type, set, meta) {
                     return row.id;
@@ -108,6 +109,7 @@
                         <th >套餐名称</th>
                         <th >类型</th>
                         <th >交易时间</th>
+                         <th >竞价底价</th>
                         <th >交易价格</th>
                         <th>操作</th>
                     </tr>

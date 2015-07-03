@@ -14,7 +14,7 @@
             
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                { "orderable": false, "targets": [5] },
+                { "orderable": false, "targets": [0,1,4,5] },
             ],
             "ajax": {
                 type: "GET",
@@ -23,7 +23,9 @@
                     return $.extend( {}, d, {
                         "filter[protype]" : $('#protype').val(),
                         "filter[prostate]" : $('#prostate').val(),
+                        <@security.authorize ifAnyGranted="ShibaOrderManager">
                         "filter[ischangeorder]" : $('#ischangeorder').val()
+                        </@security.authorize>
                         
                     } );
                 },
@@ -48,21 +50,21 @@
                     } },
                 { "data": "saleprice", "defaultContent": "", "render": $.fn.dataTable.render.number( ',', '.', 2, ' ')  },
                 { "data": "comparePrice", "defaultContent": "", "render": $.fn.dataTable.render.number( ',', '.', 2, ' ')  },
-                { "data": "userId", "defaultContent": "", "render": function(data) {
-                    return data == null ? "暂无人竞拍" : data;
-                } },
+                 { "data": "pv", "defaultContent": "" },
+                { "data": "setcount", "defaultContent": "" },
                 { "data": "biddingDate", "defaultContent": "", "render": function(data) {
                     return data == null ? "" : $.format.date(data, "yyyy-MM-dd HH:mm:ss");
                 } },
-               <#-- { "data": function( row, type, set, meta) {
+                   <@security.authorize ifAnyGranted="advertiser">
+                { "data": function( row, type, set, meta) {
                     return row.id;
                 },
                     "render": function(data, type, row, meta) {
                         var operations = '';
                       operations+= '<a class="table-link" href="${rc.contextPath}/product/to_comparePage/'+data+'">竞价</a>';
                        return operations;
-                        
-                    }},-->
+                    }},
+                     	</@security.authorize>
             ],
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
@@ -77,42 +79,51 @@
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>产品类型</span>' +
-                     '<select class="ui-input ui-input-mini" name="protype" id="protype">' +
-                    '<option value="" selected="selected">所有类型</option>' +
+                     '<select class="ui-input ui-input-mini" name="protype" id="protype" style="width:140px">' +
+                    '<option value="" selected="selected">产品类型</option>' +
                   	'<option value="video">视屏广告</option>' +
                   	'<option value="image">图片广告</option>' +
                     '<option value="info">字幕广告</option>' +
          			'</select>' +
-                         '    <span>状态</span>' +
-                    '<select class="ui-input ui-input-mini" name="prostate" id="prostate">' +
-                    '<option value="" selected="selected">所有事项</option>' +
-                  	'<option value="wait">未竞价</option>' +
+                         '    <span></span>' +
+                    '<select class="ui-input ui-input-mini" name="prostate" id="prostate" > ' +
+                    '<option value="" selected="selected">竞价状态</option>' +
+                      <@security.authorize ifAnyGranted="ShibaOrderManager">
+                  		'<option value="wait">未竞价</option>' +
+                  		</@security.authorize>
                   	'<option value="ing">竞价中</option>' +
                     '<option value="over">竞价结束</option>' +
          			'</select>' +
          			 '    <span id="c"></span>' +
                         '</div>'
         );
-
+        
+        <@security.authorize ifAnyGranted="advertiser">
+        $('#protype,#prostate,#ischangeorder').change(function() {
+            table.fnDraw();
+        });
+        
+        </@security.authorize>
+		<@security.authorize ifAnyGranted="ShibaOrderManager">
         $('#protype,#prostate,#ischangeorder').change(function() {
            if($('#prostate').val()=='over'){
               $("#c").html(
-                
-                    '<select class="ui-input ui-input-mini" name="ischangeorder" id="ischangeorder">' +
+                    '<select class="ui-input ui-input-mini" name="ischangeorder" id="ischangeorder" >' +
                     '<option value="" selected="selected">所有</option>' +
                   	'<option value="Y">已转订单</option>' +
                   	'<option value="N">未转订单</option>' +
          			'</select>' 
-                 
-        ); $('#protype,#prostate,#ischangeorder').change(function() {
-         table.fnDraw();
-       });
+     			   );
+	         $('#protype,#prostate,#ischangeorder').change(function() {
+	         table.fnDraw();
+	      	 });
            }else{
             $("#c").html('');
            }
             table.fnDraw();
         });
+        
+        </@security.authorize>
     }
 
     function drawCallback() {
@@ -136,10 +147,14 @@
                     <tr>
                         <th >套餐名称</th>
                         <th >类型</th>
-                        <th >底价(元)</th>
-                        <th >当前价(元)</th>
-                        <th >当前领先人</th>
-                        <th >截止时间</th>
+                        <th orderBy="saleprice">底价(元)</th>
+                        <th orderBy="comparePrice">当前价(元)</th>
+                           <th >围观次数</th>
+                        <th >竞价次数</th>
+                        <th orderBy="biddingDate">截止时间</th>
+                        <@security.authorize ifAnyGranted="advertiser">
+                           <th >竞价</th>
+                           	</@security.authorize>
                     </tr>
                     </thead>
 
