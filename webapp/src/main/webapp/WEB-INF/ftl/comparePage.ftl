@@ -45,7 +45,7 @@ $.ajax({
 											围观数2342人次<br>
 											<input type="text" id="myprice"/>
 											<input type="button" onclick="compare()" value="出价"/>
-											<input type="hidden" id="productid" value="${(jpaCpd.product.id)!''}"/>	
+											<input type="hidden" id="productid" value="${(jpaCpd.id)!''}"/>	
 										</div>
 									</div>
 								</div>

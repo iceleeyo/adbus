@@ -84,7 +84,11 @@ public class ActivitiUserDetails implements UserDetails {
 	public boolean hasOnlyAuthority(String... groupName) {
 		boolean result = false;
 		if (groupName.length > 0) {
-			result = auths.containsAll(Arrays.asList(groupName)) && auths.size() == groupName.length;
+			List<ActivityAuthority> exist = new ArrayList<ActivityAuthority>(groupName.length);
+			for (String waitAdd : groupName) {
+				exist.add(new ActivityAuthority(waitAdd));
+			}
+			result = auths.containsAll(exist) && auths.size() == groupName.length;
 		}
 		return result;
 	}

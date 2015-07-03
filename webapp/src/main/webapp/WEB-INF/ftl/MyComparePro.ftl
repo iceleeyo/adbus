@@ -11,10 +11,10 @@
             "searching": false,
             "ordering": true,
             "serverSide": true,
-            
+              "aaSorting": [[2, "desc"]],
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                { "orderable": false, "targets": [0] },
+                { "orderable": false, "targets": [0,1,5,6] },
             ],
             "ajax": {
                 type: "GET",
@@ -60,7 +60,7 @@
                         if(row.checkOrder=='N'){
                           operations+= '<a class="table-link" href="${rc.contextPath}/order/iwant/'+row.product.id+'?cpdid='+data+'">转订单</a>';
                         }else{
-                        operations+= '<a class="table-link" href="${rc.contextPath}/order/iwant/'+row.product.id+'?cpdid='+data+'">查看订单详情</a>';
+                        operations+= '<a class="table-link" href="${rc.contextPath}/order/orderDetail/'+row.orderid+'?auto=y">查看订单详情</a>';
                         }
                        return operations;
                         
@@ -115,9 +115,9 @@
                     <tr>
                         <th >套餐名称</th>
                         <th >类型</th>
-                        <th >交易时间</th>
-                         <th >竞价底价</th>
-                        <th >交易价格</th>
+                        <th orderBy="id">交易时间</th>
+                         <th orderBy="saleprice">竞价底价</th>
+                        <th orderBy="comparePrice">交易价格</th>
                         <th >是否转订单</th>
                         <th>操作</th>
                     </tr>

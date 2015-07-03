@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.mysema.query.types.expr.BooleanExpression;
+import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.OrderBusesRepository;
 import com.pantuo.dao.pojo.*;
 import com.pantuo.mybatis.domain.*;
@@ -34,6 +35,7 @@ import com.pantuo.mybatis.persistence.OrdersMapper;
 import com.pantuo.pojo.HistoricTaskView;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService.TaskQueryType;
+import com.pantuo.util.Constants;
 import com.pantuo.util.DateConverter;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
@@ -184,6 +186,7 @@ public class OrderService {
 					if (cpd != null) {
 						if (StringUtils.equals(cpd.getUserId(), user.getUsername())) {
 							cpd.setCheckOrder(JpaCpd.CheckOrder.Y.ordinal());
+							cpd.setOrderid(order.getId());
 							roleCpdMapper.updateByPrimaryKeySelective(cpd);
 							order.setProductId(cpd.getProductId());
 						} else {
@@ -206,7 +209,7 @@ public class OrderService {
 				if (isRightRole) {
 					activitiService.startProcess2(city, user, order);
 				} else {
-					throw new AccessDeniedException("可能是非法操作!");
+					throw new AccessDeniedException(Constants.BUSSINESS_ERROR);
 				}
 
 			}
@@ -255,12 +258,21 @@ public class OrderService {
 	}
 
 	public Page<OrderView> getOrderList(int city,TableRequest req,Principal principal) {
-		return activitiService.findTask(city, Request.getUserId(principal),req,TaskQueryType.task);
+		return activitiService.findTask(city, principal,req,TaskQueryType.task);
 	}
 
 	public JpaOrders queryOrderDetail(int orderid, Principal principal) {
-//		return ordersMapper.selectByPrimaryKey(orderid);
-        return selectJpaOrdersById(orderid);
+		//		return ordersMapper.selectByPrimaryKey(orderid);
+		JpaOrders r = selectJpaOrdersById(orderid);
+		//判断单纯是广告主身份的
+		if (r != null && principal!=null && Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)) {
+			if (!(StringUtils.isNoneBlank(r.getUserId()) && StringUtils.equals(r.getUserId(),
+					Request.getUserId(principal)))) {
+				throw new AccessDeniedException(Constants.BUSSINESS_ERROR);
+			}
+		}
+		return r;
+
 	}
 
 	public Map<String, SectionView> getTaskSection(List<HistoricTaskView> views) {
@@ -283,8 +295,8 @@ public class OrderService {
         return ordersRepository.findOne(orderId);
     }
 
-    public boolean updateStatus(int orderId, JpaOrders.Status status) {
-        JpaOrders o = selectJpaOrdersById(orderId);
+    public boolean updateStatus(int orderId,Principal principal, JpaOrders.Status status) {
+        JpaOrders o = queryOrderDetail(orderId,principal);
         if (o != null) {
             o.setStats(status);
             Date now = DateUtil.trimDate(new Date());

@@ -23,6 +23,7 @@ import org.activiti.engine.identity.User;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -195,7 +196,7 @@ public class OrderController {
 		String claimTime=sdf.format(claimT);
 		ExecutionEntity executionEntity = (ExecutionEntity) runtimeService.createExecutionQuery()
 				.executionId(task.getExecutionId()).processInstanceId(task.getProcessInstanceId()).singleResult();
-		OrderView v = activitiService.findOrderViewByTaskId(taskid);
+		OrderView v = activitiService.findOrderViewByTaskId(taskid, principal);
 		String activityId = executionEntity.getActivityId();
 		ProcessInstance pe = activitiService.findProcessInstanceByTaskId(taskid);
 		List<HistoricTaskView> activitis = activitiService.findHistoricUserTask(cityId, pe.getProcessInstanceId(),
@@ -276,7 +277,7 @@ public class OrderController {
 		List<Contract> contracts = contractService.queryContractList(cityId, page, null, null, principal);
 		SuppliesView suppliesView = suppliesService.getSuppliesDetail(order.getSuppliesId(), null);
 		SuppliesView quafiles = suppliesService.getQua(order.getSuppliesId(), null);
-		JpaOrders orders = orderService.selectJpaOrdersById(order.getId());
+		JpaOrders orders = orderService.queryOrderDetail(order.getId(),principal);
 		v.setOrder(orders);
 		model.addAttribute("supplieslist", supplieslist);
 		model.addAttribute("InvoiceList", InvoiceList);
@@ -301,9 +302,10 @@ public class OrderController {
 	@RequestMapping(value = "/orderDetail/{orderid}", produces = "text/html;charset=utf-8")
 	public String orderDetail(Model model, @PathVariable("orderid") int orderid,
 			@RequestParam(value = "taskid", required = false) String taskid,
+			@RequestParam(value = "auto", required = false) String auto,
 			@RequestParam(value = "pid", required = false) String pid, Principal principal,
 			@CookieValue(value = "city", defaultValue = "-1") int city, HttpServletRequest request) throws Exception {
-		return activitiService.showOrderDetail(city, model, orderid, taskid, pid, principal);
+		return activitiService.showOrderDetail(city, model, orderid, taskid, pid, principal,BooleanUtils.toBoolean(auto));
 	}
 
 	 
@@ -318,7 +320,7 @@ public class OrderController {
 		if (null != supplies && null != supplies.getSeqNumber() && !supplies.getSeqNumber().equals("")) {
 			suppliesService.updateSupplies(city, supplies);
 		}
-		return activitiService.complete(taskId, variable.getVariableMap(), Request.getUser(principal));
+		return activitiService.complete(taskId, variable.getVariableMap(), principal);
 	}
 
 	@RequestMapping(value = "creOrder", method = RequestMethod.POST)
@@ -385,7 +387,7 @@ public class OrderController {
 	public DataTablePage<OrderView> runningAjax(TableRequest req, Principal principal,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
 		//Page<OrderView> w = activitiService.running(city, Request.getUserId(principal), req);
-		Page<OrderView> w = activitiService.queryOrders(city, Request.getUserId(principal), req,TaskQueryType.all_running);
+		Page<OrderView> w = activitiService.queryOrders(city, principal, req,TaskQueryType.all_running);
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
 
@@ -421,7 +423,7 @@ public class OrderController {
 	@ResponseBody
 	public DataTablePage<OrderView> myOrders(TableRequest req, Principal principal,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
-		Page<OrderView> w = activitiService.queryOrders(city, Request.getUserId(principal), req,TaskQueryType.my);
+		Page<OrderView> w = activitiService.queryOrders(city, (principal), req,TaskQueryType.my);
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
 

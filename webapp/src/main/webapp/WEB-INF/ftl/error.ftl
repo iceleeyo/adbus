@@ -4,9 +4,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- 解决360兼容性问题 让360兼容IE8即可 -->
 <meta http-equiv="X-UA-Compatible" content="IE=8" />
-<script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
-<script type="text/javascript" src="../js/jquery.validate.js"></script>
-<script type="text/javascript" src="../js/jquery.form.js"></script>
+<script type="text/javascript" src="${rc.contextPath}/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="${rc.contextPath}/js/jquery.validate.js"></script>
+<script type="text/javascript" src="${rc.contextPath}/js/jquery.form.js"></script>
  <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.fancybox-1.3.4.pack.js"></script>
  <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/platform.js"></script>
    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/sea.css">
@@ -20,7 +20,13 @@
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/city.css">
 <script type="text/javascript">
 $(document).ready(function(){
-		jDialog.Alert("${msg!''}");
+		jDialog.Alert("<font color='red'>${msg!''}</font>          5秒后转到待办事项!",function(){
+		        var uptime = window.setTimeout(function(){
+				$(location).attr('href', "${rc.contextPath}/order/myTask/1");
+		         clearTimeout(uptime);
+		       },5000);
+	    }); 
+		
 });
 </script>
 <html>

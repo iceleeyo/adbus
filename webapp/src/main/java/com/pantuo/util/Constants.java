@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class Constants {
+	
+	public static final String BUSSINESS_ERROR = "意外情况:可能是订单属主不对!";
 
 	public static final String TASK_NOT_EXIT = "要处理的任务不存在!";
 	public static final String ORDER_NOT_EXIT = "要处理的订单不存在!";

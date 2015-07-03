@@ -80,7 +80,7 @@ public interface ActivitiService {
 	public Pair<Boolean, String> payment(int orderid, String taskid, int contractid, String payType, int isinvoice,int invoiceid,
 			String contents,String receway,UserDetail u);
 
-	public Page<OrderView> findTask(int city, String userid, TableRequest req, TaskQueryType tqType);
+	public Page<OrderView> findTask(int city, Principal principal, TableRequest req, TaskQueryType tqType);
 
 	public Page<OrderView> finished(int city, Principal principal, TableRequest req);
 
@@ -95,14 +95,14 @@ public interface ActivitiService {
 	 * @return
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
-	public Pair<Boolean, String> complete(String taskId, Map<String, Object> variables, UserDetail u);
+	public Pair<Boolean, String> complete(String taskId, Map<String, Object> variables, Principal principal);
 
 	/*
 	 * 扫描工作流 去掉订单不存在的工作流
 	 */
 	public String reset(int city, String p);
 
-	public OrderView findOrderViewByTaskId(String taskid);
+	public OrderView findOrderViewByTaskId(String taskid,Principal principal);
 
     public JpaOrders.Status getOrderStatus(int orderId);
 
@@ -114,9 +114,9 @@ public interface ActivitiService {
 	 * @return
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
-	public List<OrderView> findRunningProcessInstaces(int city, String userId, NumberPageUtil page);
+	public List<OrderView> findRunningProcessInstaces(int city,Principal principal, NumberPageUtil page);
 
-	public List<OrderView> findFinishedProcessInstaces(int city, String userId, String usertype, NumberPageUtil page);
+	public List<OrderView> findFinishedProcessInstaces(int city, Principal principal, String usertype, NumberPageUtil page);
 
 	//根据taskId查找流程实例
 	public ProcessInstance findProcessInstanceByTaskId(String taskId) throws Exception;
@@ -135,16 +135,16 @@ public interface ActivitiService {
 	 * @return
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
-	public Page<OrderView> running(int city, String userid, TableRequest req);
+	public Page<OrderView> running(int city, Principal principal, TableRequest req);
 
-	public Page<OrderView> queryOrders(int city, String userid, TableRequest req,TaskQueryType tqType);
+	public Page<OrderView> queryOrders(int city, Principal principal, TableRequest req,TaskQueryType tqType);
 
 	//根据流程实例和节点ID查找历史审批记录
 	public List<HistoricTaskView> findHistoricUserTask(int city, String processInstanceId, String activityId);
 
 	public Pair<Boolean, String> modifyOrder(int city, int orderid, String taskid, int supplieid, UserDetail user);
 
-	public String showOrderDetail(int city, Model model, int orderid, String taskid, String pid, Principal principal);
+	public String showOrderDetail(int city, Model model, int orderid, String taskid, String pid, Principal principal, boolean isAutoGoto);
 
     public JpaOrders.Status fetchStatusAfterTaskComplete(Task task);
 	
