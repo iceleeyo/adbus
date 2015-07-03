@@ -49,12 +49,19 @@
                 } },
                 { "data": "saleprice", "defaultContent": "", "render": $.fn.dataTable.render.number( ',', '.', 2, ' ')  },
                 { "data": "comparePrice", "defaultContent": "", "render": $.fn.dataTable.render.number( ',', '.', 2, ' ')  },
+                 { "data": "checkOrder", "defaultContent": "", "render": function(data) {
+                    return data == 'Y' ? "已转订单" : "未转订单";
+                } },
                 { "data": function( row, type, set, meta) {
                     return row.id;
                 },
                     "render": function(data, type, row, meta) {
                         var operations = '';
-                      operations+= '<a class="table-link" href="${rc.contextPath}/order/iwant/'+row.product.id+'?cpdid='+data+'">转订单</a>';
+                        if(row.checkOrder=='N'){
+                          operations+= '<a class="table-link" href="${rc.contextPath}/order/iwant/'+row.product.id+'?cpdid='+data+'">转订单</a>';
+                        }else{
+                        operations+= '<a class="table-link" href="${rc.contextPath}/order/iwant/'+row.product.id+'?cpdid='+data+'">查看订单详情</a>';
+                        }
                        return operations;
                         
                     }},
@@ -111,6 +118,7 @@
                         <th >交易时间</th>
                          <th >竞价底价</th>
                         <th >交易价格</th>
+                        <th >是否转订单</th>
                         <th>操作</th>
                     </tr>
                     </thead>
