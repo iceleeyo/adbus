@@ -1,4 +1,4 @@
-<#import "template/template.ftl" as frame>
+<#import "template/template_blank.ftl" as frame>
 
 <@frame.html title="合同详细">
 <#import "macro/materialPreview.ftl" as preview>

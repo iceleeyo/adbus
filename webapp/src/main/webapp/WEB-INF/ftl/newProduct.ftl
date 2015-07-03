@@ -211,8 +211,8 @@
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>是否为竞价套餐：</label> 
-												<input type="radio" name="iscompare" value="1" onchange="showisAuction()" >是
-												<input type="radio" name="iscompare" value="0" onchange="hideboth()" checked="checked">否
+												<div style="margin-top: 10px;float: left;"><input type="radio" name="iscompare" value="1" onchange="showisAuction()">是</div>
+												<div style="margin-top: 10px;margin-left:5px;float: left;"><input type="radio" name="iscompare" value="0" onchange="hideboth()" checked="checked">否</div>
 										</div>
                                      
                                         
