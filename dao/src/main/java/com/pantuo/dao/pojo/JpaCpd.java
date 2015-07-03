@@ -25,6 +25,10 @@ public class JpaCpd extends BaseEntity {
 	public static enum State {
 		online, offline;
 	}
+	//检查是否下过订单
+	public static enum CheckOrder {
+		Y, N;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,6 +42,7 @@ public class JpaCpd extends BaseEntity {
 	private Date biddingDate;
 	private OverType ispay;
 	private State state;
+	private CheckOrder checkOrder;
 	private int pv;
 	private int setcount;
 
@@ -127,6 +132,14 @@ public class JpaCpd extends BaseEntity {
 
 	public void setSetcount(int setcount) {
 		this.setcount = setcount;
+	}
+
+	public CheckOrder getCheckOrder() {
+		return checkOrder;
+	}
+
+	public void setCheckOrder(CheckOrder checkOrder) {
+		this.checkOrder = checkOrder;
 	}
 
 }
