@@ -1,7 +1,7 @@
 <#import "template/template.ftl" as frame>
-<#global menu="竞价产品列表">
+<#global menu="我的获拍">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="竞价产品列表" js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js","js/layer.onload.js"] >
+<@frame.html title="我的获拍" js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js","js/layer.onload.js"] >
 
 <script type="text/javascript">
     var table;
@@ -14,17 +14,14 @@
             
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                { "orderable": false, "targets": [5] },
+                { "orderable": false, "targets": [0] },
             ],
             "ajax": {
                 type: "GET",
-                url: "${rc.contextPath}/product/compareProduct-list",
+                url: "${rc.contextPath}/product/myComparePro",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "filter[protype]" : $('#protype').val(),
-                        "filter[prostate]" : $('#prostate').val(),
-                        "filter[ischangeorder]" : $('#ischangeorder').val()
-                        
+                        "filter[type]" : $('#protype').val()
                     } );
                 },
                 "dataSrc": "content",
@@ -46,23 +43,20 @@
                             return 'Info';
                         return '';
                     } },
-                { "data": "saleprice", "defaultContent": "", "render": $.fn.dataTable.render.number( ',', '.', 2, ' ')  },
+                
+                { "data": "created", "defaultContent": "", "render": function(data) {
+                    return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
+                } },
                 { "data": "comparePrice", "defaultContent": "", "render": $.fn.dataTable.render.number( ',', '.', 2, ' ')  },
-                { "data": "userId", "defaultContent": "", "render": function(data) {
-                    return data == null ? "暂无人竞拍" : data;
-                } },
-                { "data": "biddingDate", "defaultContent": "", "render": function(data) {
-                    return data == null ? "" : $.format.date(data, "yyyy-MM-dd HH:mm:ss");
-                } },
-               <#-- { "data": function( row, type, set, meta) {
+                { "data": function( row, type, set, meta) {
                     return row.id;
                 },
                     "render": function(data, type, row, meta) {
                         var operations = '';
-                      operations+= '<a class="table-link" href="${rc.contextPath}/product/to_comparePage/'+data+'">竞价</a>';
+                      operations+= '<a class="table-link" href="${rc.contextPath}/order/iwant/'+row.product.id+'?cpdid='+data+'">转订单</a>';
                        return operations;
                         
-                    }},-->
+                    }},
             ],
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
@@ -78,39 +72,16 @@
         $("div#toolbar").html(
                 '<div>' +
                         '    <span>产品类型</span>' +
-                     '<select class="ui-input ui-input-mini" name="protype" id="protype">' +
+                         '<select class="ui-input ui-input-mini" name="protype" id="protype">' +
                     '<option value="" selected="selected">所有类型</option>' +
                   	'<option value="video">视屏广告</option>' +
                   	'<option value="image">图片广告</option>' +
                     '<option value="info">字幕广告</option>' +
          			'</select>' +
-                         '    <span>状态</span>' +
-                    '<select class="ui-input ui-input-mini" name="prostate" id="prostate">' +
-                    '<option value="" selected="selected">所有事项</option>' +
-                  	'<option value="wait">未竞价</option>' +
-                  	'<option value="ing">竞价中</option>' +
-                    '<option value="over">竞价结束</option>' +
-         			'</select>' +
-         			 '    <span id="c"></span>' +
                         '</div>'
         );
 
-        $('#protype,#prostate,#ischangeorder').change(function() {
-           if($('#prostate').val()=='over'){
-              $("#c").html(
-                
-                    '<select class="ui-input ui-input-mini" name="ischangeorder" id="ischangeorder">' +
-                    '<option value="" selected="selected">所有</option>' +
-                  	'<option value="Y">已转订单</option>' +
-                  	'<option value="N">未转订单</option>' +
-         			'</select>' 
-                 
-        ); $('#protype,#prostate,#ischangeorder').change(function() {
-         table.fnDraw();
-       });
-           }else{
-            $("#c").html('');
-           }
+        $('#protype').change(function() {
             table.fnDraw();
         });
     }
@@ -136,10 +107,9 @@
                     <tr>
                         <th >套餐名称</th>
                         <th >类型</th>
-                        <th >底价(元)</th>
-                        <th >当前价(元)</th>
-                        <th >当前领先人</th>
-                        <th >截止时间</th>
+                        <th >交易时间</th>
+                        <th >交易价格</th>
+                        <th>操作</th>
                     </tr>
                     </thead>
 

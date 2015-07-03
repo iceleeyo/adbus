@@ -26,9 +26,21 @@ $(document).ready(function(){
 }); 
 
 	function creorder() {
-       	 $("#subWithdraworder").attr("disabled",true);
-         $("#subWithdraworder").css("background-color","#85A2AD");
-         $('#userForm2').submit();
+        $.ajax({
+			url : "${rc.contextPath}/product/isMyCompare/"+${cpdid!''},
+			type : "POST",
+			data : {
+			},
+			success : function(data) {
+				if (data.left == true) {
+				  $("#subWithdraworder").attr("disabled",true);
+                  $("#subWithdraworder").css("background-color","#85A2AD");
+                   $('#userForm2').submit();
+				}else{
+				   jDialog.Alert(data.right);
+				}
+			}
+		}, "text");
 	}
 	
 function stop() {   
@@ -61,7 +73,7 @@ function stop() {
          //author :impanxh 阻止2次点击 ,当所有表单都验证通过时才提交 抄自注册页面
          if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
             return;
-         
+        
 			layer.open({
     		type: 1,
     		title: "电子合同",
@@ -77,7 +89,6 @@ function stop() {
 			   +'<div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraworder" class="block-btn" onclick="creorder();" value="确认" style="margin:10px 0px -10px 110px;"> </div>'
 			});
 		 
-
 }
 	function check() {
 		var c = $("#contractCode").val();
@@ -95,7 +106,7 @@ function stop() {
 </script>
 
 							<form data-name="withdraw" name="userForm2" id="userForm2"
-								class="ui-form" method="post" action="../confirm"
+								class="ui-form" method="post" action="${rc.contextPath}/order/confirm"
 								enctype="multipart/form-data">
                                 <@proDetail.proDetail prod=prod buyLink=false/>
 
@@ -103,7 +114,8 @@ function stop() {
 <div class="p20bs mt10 color-white-bg border-ec">
                 <H3 class=".withdraw-title text-xl title-box"><p align="left"><A class="black" href="#">填写订单信息</A></p></H3><br>
 									<div class="inputs">
-                                            <input type="hidden" readonly="readonly" name="product.Id" id="productId" value="${prod.id!''}"/>
+                                            <input type="hidden" readonly="readonly" name="product.id" id="productId" value="${prod.id!''}"/>
+                                            <input type="hidden" readonly="readonly"  name="cpdid" id="cpdid" value="${cpdid!''}"/>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
 												class="ui-form-required">*</span>开播日期</label> <input

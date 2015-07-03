@@ -10,6 +10,7 @@ import com.pantuo.dao.pojo.*;
 import com.pantuo.mybatis.domain.*;
 import com.pantuo.mybatis.persistence.OrderBusesMapper;
 import com.pantuo.mybatis.persistence.ProductMapper;
+import com.pantuo.mybatis.persistence.RoleCpdMapper;
 import com.pantuo.util.DateUtil;
 
 import org.activiti.engine.IdentityService;
@@ -40,7 +41,8 @@ import com.pantuo.web.view.SectionView;
 
 @Service
 public class OrderService {
-
+	@Autowired
+	private RoleCpdMapper roleCpdMapper;
 	private static Logger log = LoggerFactory.getLogger(OrderService.class);
 
 	/*	public enum Stats {
@@ -165,7 +167,7 @@ public class OrderService {
 		return r;
 	}
 
-	public void saveOrderJpa(int city, JpaOrders order, UserDetail user) {
+	public void saveOrderJpa(int city, JpaOrders order, UserDetail user,int cpdid) {
         order.setCity(city);
 		Pair<Boolean, String> r = null;
 		try {
@@ -178,6 +180,10 @@ public class OrderService {
 				activitiService.startProcess2(city, user, order);
 				//}
 				r = new Pair<Boolean, String>(true, "下订单成功！");
+				RoleCpd cpd=roleCpdMapper.selectByPrimaryKey(cpdid);
+				cpd.setCheckOrder(JpaCpd.CheckOrder.Y.ordinal());
+				roleCpdMapper.updateByPrimaryKeySelective(cpd);
+				
 			}
 		} catch (Exception e) {
 			log.error("order ", e);

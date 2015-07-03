@@ -34,6 +34,7 @@ import com.pantuo.mybatis.persistence.OrdersMapper;
 import com.pantuo.mybatis.persistence.RoleCpdMapper;
 import com.pantuo.mybatis.persistence.UserCpdMapper;
 import com.pantuo.pojo.TableRequest;
+import com.pantuo.service.ActivitiService;
 import com.pantuo.service.CpdService;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
@@ -155,6 +156,8 @@ public class CpdServiceImpl implements CpdService {
 	public Pair<Boolean, JpaCpd> saveOrUpdateCpd(JpaCpd cpd) {
 		cpd.setState(JpaCpd.State.online);
 		cpd.setIspay(JpaCpd.OverType.wait);
+		cpd.setCheckOrder(JpaCpd.CheckOrder.N);
+		cpd.setComparePrice(cpd.getSaleprice());
 		 cpdRepository.save(cpd);
 		 return new  Pair<Boolean, JpaCpd>(true,cpd);
 			
@@ -171,11 +174,71 @@ public class CpdServiceImpl implements CpdService {
 		sort = (sort == null ? new Sort("id") : sort);
 		Pageable p = new PageRequest(page, pageSize, sort);
         BooleanExpression query = city >= 0 ? QJpaCpd.jpaCpd.product.city.eq(city) : QJpaCpd.jpaCpd.product.city.goe(0);
-        String type = req.getFilter("type");
+        String type = req.getFilter("protype"),state=req.getFilter("prostate"),ischangeorder=req.getFilter("ischangeorder");
         if(StringUtils.isNotBlank(type)){
         	JpaProduct.Type f=JpaProduct.Type.valueOf(JpaProduct.Type.class, type);
         	query = query.and(QJpaCpd.jpaCpd.product.type.eq(f));
         }
+        if(StringUtils.isNotBlank(state) ){
+        	if(StringUtils.equals(state, "wait")){
+        		query = query.and(QJpaCpd.jpaCpd.userId.isNull());
+        	}
+        	else if(StringUtils.equals(state, "ing")){
+        		query = query.and(QJpaCpd.jpaCpd.biddingDate.after(new Date()));
+        		query = query.and(QJpaCpd.jpaCpd.userId.isNotNull());
+        	}else{
+        		query = query.and(QJpaCpd.jpaCpd.biddingDate.before(new Date()));
+        		 
+        	}
+        }
+        if(StringUtils.isNotBlank(ischangeorder) ){
+			   JpaCpd.CheckOrder c=JpaCpd.CheckOrder.valueOf(JpaCpd.CheckOrder.class, ischangeorder);
+	        	query = query.and(QJpaCpd.jpaCpd.checkOrder.eq(c));
+	        }
         return cpdRepository.findAll(query, p);
+	}
+	@Override
+	public Page<JpaCpd> getMyCompareProducts(int city, TableRequest req, Principal principal) {
+		int page = req.getPage(), pageSize = req.getLength();
+		Sort sort = req.getSort("id");
+		if (page < 0)
+			page = 0;
+		if (pageSize < 1)
+			pageSize = 1;
+		sort = (sort == null ? new Sort("id") : sort);
+		Pageable p = new PageRequest(page, pageSize, sort);
+		BooleanExpression query = city >= 0 ? QJpaCpd.jpaCpd.product.city.eq(city) : QJpaCpd.jpaCpd.product.city.goe(0);
+		query = query.and(QJpaCpd.jpaCpd.biddingDate.before(new Date()));
+		query = query.and(QJpaCpd.jpaCpd.userId.eq(Request.getUserId(principal)));
+		String type = req.getFilter("type");
+		if(StringUtils.isNotBlank(type) && !StringUtils.startsWith(type, ActivitiService.R_DEFAULTALL)){
+			JpaProduct.Type f=JpaProduct.Type.valueOf(JpaProduct.Type.class, type);
+			query = query.and(QJpaCpd.jpaCpd.product.type.eq(f));
+		}
+		return cpdRepository.findAll(query, p);
+	}
+
+
+	@Override
+	public List<UserCpd> queryLogByCpdId(int cpdid) {
+		UserCpdExample example=new UserCpdExample();
+		UserCpdExample.Criteria criteria=example.createCriteria();
+		criteria.andCpdidEqualTo(cpdid);
+		example.setOrderByClause(" id desc ");
+		example.setLimitStart(0);
+		example.setLimitEnd(19);
+		return userCpdMapper.selectByExample(example);
+	}
+
+
+	@Override
+	public Pair<Boolean, String> isMycompare(int cpdid, Principal principal) {
+		RoleCpd cpd=roleCpdMapper.selectByPrimaryKey(cpdid);
+		if(cpd!=null){
+			if(!StringUtils.equals(cpd.getUserId(), Request.getUserId(principal))){
+				return new  Pair<Boolean, String>(false,"这不属于你竞拍的产品");
+			}
+		}
+		return new  Pair<Boolean, String>(true,"这属于你竞拍的产品");
 	}
 }

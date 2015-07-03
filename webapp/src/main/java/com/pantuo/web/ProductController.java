@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.pojo.*;
+import com.pantuo.mybatis.domain.UserCpd;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.util.Pair;
@@ -26,6 +27,7 @@ import com.pantuo.service.UserServiceInter;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author xl
@@ -66,6 +68,13 @@ public class ProductController {
     		Principal principal ) {
     	return new DataTablePage(cpdService.getCompareProducts(city, req, principal), req.getDraw());
     }
+    @RequestMapping("myComparePro")
+    @ResponseBody
+    public DataTablePage<JpaCpd> myComparePro( TableRequest req,
+    		@CookieValue(value="city", defaultValue = "-1") int city,
+    		Principal principal ) {
+    	return new DataTablePage(cpdService.getMyCompareProducts(city, req, principal), req.getDraw());
+    }
 
     @RequestMapping(value = "/{productId}/{enable}", method = { RequestMethod.POST})
     @ResponseBody
@@ -87,17 +96,24 @@ public class ProductController {
         return product;
     }
     
-    @RequestMapping(value = "/comparePrice", method = { RequestMethod.GET})
+    @RequestMapping(value = "/comparePrice", method = { RequestMethod.POST})
     @ResponseBody
     public Pair<Boolean, String> comparePrice(@RequestParam(value="cpdid") int cpdid,@RequestParam(value="myprice") double myprice,
- Principal principal) {
+     Principal principal) {
 		Pair<Boolean, String> rPair = cpdService.setMyPrice(cpdid, principal, myprice);
 		if (rPair.getLeft()) {
 			cpdService.changeMoney(principal, cpdid, myprice);
 		}
 		return rPair;
 	}
-    
+    @RequestMapping(value = "/to_comparePage/{cpdid}", produces = "text/html;charset=utf-8")
+    public String to_comparePage(Model model, @ModelAttribute("city") JpaCity city,@PathVariable("cpdid") int cpdid) {
+    	JpaCpd jpaCpd = cpdService.queryOneCpdDetail(cpdid);
+    	List<UserCpd> userCpdList=cpdService.queryLogByCpdId(cpdid);
+    	model.addAttribute("jpaCpd", jpaCpd);
+    	model.addAttribute("userCpdList", userCpdList);
+    	return "comparePage";
+    }
     @PreAuthorize(" hasRole('ShibaOrderManager') ")
     @RequestMapping(value = "/new", produces = "text/html;charset=utf-8")
     public String newProduct(Model model, @ModelAttribute("city") JpaCity city) {
@@ -109,9 +125,9 @@ public class ProductController {
                 model.addAttribute("lineLevels", JpaBusline.Level.values());
             }
         }
-//        model.addAttribute("types", JpaProduct.Type.values());
         return "newProduct";
     }
+   
     
     @PreAuthorize(" hasRole('ShibaOrderManager')  ")
     @RequestMapping(value = "/{id}", produces = "text/html;charset=utf-8")
@@ -142,6 +158,12 @@ public class ProductController {
     public JpaProduct ajaxdetail(@PathVariable int id,
                                 Model model, HttpServletRequest request) {
        return  productService.findById(id);
+    }
+    @RequestMapping(value = "isMyCompare/{cpdid}")
+    @ResponseBody
+    public Pair<Boolean, String> isMyCompare(@PathVariable int cpdid,
+    		Model model, Principal principal,HttpServletRequest request) {
+    	return  cpdService.isMycompare(cpdid,principal);
     }
 
     @PreAuthorize(" hasRole('ShibaOrderManager')  ")
@@ -185,6 +207,10 @@ public class ProductController {
     @RequestMapping(value = "/comparelist")
     public String comparelist() {
     	return "CompareProduct_list";
+    }
+    @RequestMapping(value = "/toMyCompare")
+    public String toMyCompare() {
+    	return "MyComparePro";
     }
 
 }

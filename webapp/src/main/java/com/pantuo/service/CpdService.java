@@ -1,12 +1,14 @@
 package com.pantuo.service;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
 import com.pantuo.dao.pojo.JpaCpd;
 import com.pantuo.dao.pojo.JpaCpdLog;
+import com.pantuo.mybatis.domain.UserCpd;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.util.Pair;
 /**
@@ -79,4 +81,13 @@ public interface CpdService {
 	
 	
 	public void changeMoney(Principal principal, int cpdid, double myPrice) ;
+
+
+	public List<UserCpd> queryLogByCpdId(int cpdid);
+
+
+	public Page<JpaCpd> getMyCompareProducts(int city, TableRequest req, Principal principal);
+
+
+	public Pair<Boolean, String> isMycompare(int cpdid, Principal principal);
 }

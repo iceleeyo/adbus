@@ -80,10 +80,12 @@ public class OrderController {
 	private UserServiceInter userService;
 	@Autowired
 	private TaskService taskService;
+	@Autowired
+	private CpdService cpdService;
 
 	@RequestMapping(value = "/iwant/{product_id}", produces = "text/html;charset=utf-8")
 	public String buypro(Model model, @PathVariable("product_id") int product_id,
-                         Principal principal,
+                         Principal principal,@RequestParam(value="cpdid") int cpdid,
 			@CookieValue(value = "city", defaultValue = "-1") int cityId,
             @ModelAttribute("city") JpaCity city,
             HttpServletRequest request) {
@@ -102,6 +104,7 @@ public class OrderController {
 		List<Contract> contracts = contractService.queryContractList(cityId, page, null, null, principal);
 		model.addAttribute("contracts", contracts);
 		model.addAttribute("username", username);
+		model.addAttribute("cpdid", cpdid);
 
 		return "creOrder";
 	}
@@ -241,17 +244,16 @@ public class OrderController {
 	@RequestMapping(value = "confirm", method = RequestMethod.POST, produces = "text/html;charset=utf-8")
 	public String saveOrderJpa(Model model, JpaOrders order, Principal principal,
            @CookieValue(value = "city", defaultValue = "-1") int cityId,
+           @RequestParam(value="cpdid") int cpdid,
            @ModelAttribute("city") JpaCity city,
             HttpServletRequest request)
 			throws IllegalStateException, IOException, ParseException {
+		//Pair<Boolean, String> r=cpdService.isMycompare(cpdid, principal);
 		NumberPageUtil page = new NumberPageUtil(9999, 1, 9999);
 		order.setCreator(Request.getUserId(principal));
 		order.setStats(JpaOrders.Status.unpaid);
 		JpaProduct prod = productService.findById(order.getProductId());
-		//        if (prod == null) {
-		//			return new Pair<Boolean, String>(false, "找不到对应的套餐");
-		//        }
-		//初始指定订单价格 impanxh
+		
 		if (prod != null) {
 			order.setPrice(prod.getPrice());
 		}
@@ -260,7 +262,6 @@ public class OrderController {
 		if (!start.isEmpty()) {
 			Date startTime = DateUtil.longDf.get().parse(start);
 			order.setStartTime(startTime);
-
 			Calendar cal = DateUtil.newCalendar();
 			cal.setTime(startTime);
 			cal.add(Calendar.DAY_OF_MONTH, prod.getDays());
@@ -269,7 +270,7 @@ public class OrderController {
 			//			return new Pair<Boolean, String>(false, "请指定订单开播时间");
 		}
 		OrderView v = new OrderView();
-		orderService.saveOrderJpa(cityId, order, Request.getUser(principal));
+		orderService.saveOrderJpa(cityId, order, Request.getUser(principal),cpdid);
 		List<Supplies> supplieslist = suppliesService.querySuppliesByUser(cityId, principal);
 		List<Invoice> InvoiceList = userService.queryInvoiceByUser(cityId, principal);
 		List<Contract> contracts = contractService.queryContractList(cityId, page, null, null, principal);

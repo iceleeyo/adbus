@@ -1,6 +1,5 @@
 package com.pantuo.service.impl;
 
-
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -60,6 +59,7 @@ import com.pantuo.mybatis.persistence.ContractMapper;
 import com.pantuo.mybatis.persistence.InvoiceDetailMapper;
 import com.pantuo.mybatis.persistence.InvoiceMapper;
 import com.pantuo.mybatis.persistence.OrdersMapper;
+import com.pantuo.mybatis.persistence.ProductMapper;
 import com.pantuo.pojo.HistoricTaskView;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
@@ -74,8 +74,6 @@ import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 import com.pantuo.web.view.OrderView;
 import com.pantuo.web.view.SuppliesView;
-
-
 
 @Service
 public class ActivitiServiceImpl implements ActivitiService {
@@ -107,10 +105,12 @@ public class ActivitiServiceImpl implements ActivitiService {
 	@Autowired
 	private InvoiceMapper invoiceMapper;
 	@Autowired
+	private ProductMapper productMapper;
+	@Autowired
 	private InvoiceDetailMapper invoiceDetailMapper;
 
-    @Autowired
-    private CityService cityService;
+	@Autowired
+	private CityService cityService;
 
 	/**
 	 * @deprecated
@@ -163,8 +163,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		Sort sort = req.getSort("created");
 		page = page + 1;
 		String longId = req.getFilter("longOrderId"), userIdQuery = req.getFilter("userId"), taskKey = req
-				.getFilter("taskKey"), productId = req
-						.getFilter("productId");
+				.getFilter("taskKey"), productId = req.getFilter("productId");
 		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
 		List<OrderView> orders = new ArrayList<OrderView>();
 
@@ -202,8 +201,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		/*按商品查询 */
 		if (StringUtils.isNoneBlank(productId)) {
-			countQuery.variableValueEquals(ActivitiService.PRODUCT,NumberUtils.toInt(productId) );
-			listQuery.variableValueEquals(ActivitiService.PRODUCT, NumberUtils.toInt(productId) );
+			countQuery.variableValueEquals(ActivitiService.PRODUCT, NumberUtils.toInt(productId));
+			listQuery.variableValueEquals(ActivitiService.PRODUCT, NumberUtils.toInt(productId));
 		}
 		setVarFilter(taskKey, countQuery, listQuery);
 
@@ -235,7 +234,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			if (order != null) {
 				v.setOrder(order);
 			}
-			if (tqType == TaskQueryType.all_running && order!=null) {
+			if (tqType == TaskQueryType.all_running && order != null) {
 				JpaProduct product = productService.findById(order.getProductId());
 				v.setProduct(product);
 			}
@@ -254,8 +253,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 				r = longOrderId == OrderIdSeq.getIdFromDate(orderid, order == null ? new Date() : order.getCreated());
 			}
 			if (r) {
-			orders.add(v);
-		}
+				orders.add(v);
+			}
 		}
 		Pageable p = new PageRequest(page, pageSize, sort);
 		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(
@@ -387,6 +386,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 
 	}
+
 	public Page<OrderView> findTask(int city, String userid, TableRequest req, TaskQueryType tqType) {
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("created");
@@ -442,12 +442,11 @@ public class ActivitiServiceImpl implements ActivitiService {
 					.processInstanceId(processInstanceId).singleResult();
 			Map<String, Object> var = task.getProcessVariables();
 			Integer orderid = (Integer) var.get(ORDER_ID);
-			
-			
+
 			OrderView v = new OrderView();
 			JpaOrders order = orderService.selectJpaOrdersById(orderid);
 			if (order != null) {
-                JpaProduct product = productService.findById(order.getProductId());
+				JpaProduct product = productService.findById(order.getProductId());
 				v.setProduct(product);
 				v.setOrder(order);
 				v.setTask(task);
@@ -458,15 +457,15 @@ public class ActivitiServiceImpl implements ActivitiService {
 				if (longOrderId > 0) {
 					r = longOrderId == OrderIdSeq.getIdFromDate(order.getId(), order.getCreated());
 				}
-				
+
 				if (var.get(ActivitiService.R_USERPAYED) == null
 						|| !BooleanUtils.toBoolean((Boolean) var.get(ActivitiService.R_USERPAYED))) {
 					v.setCanClosed(true);
 				}
 				if (r) {
-				leaves.add(v);
+					leaves.add(v);
+				}
 			}
-		}
 		}
 		Pageable p = new PageRequest(page, pageSize, sort);
 		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(
@@ -499,7 +498,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 					.orderByTaskCreateTime().desc().listPage(0, 1);
 			Integer orderid = (Integer) tasks.get(0).getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
-            Iterable<JpaOrders> order = orderService.selectOrderByUser(city, userid, orderid);
+			Iterable<JpaOrders> order = orderService.selectOrderByUser(city, userid, orderid);
 			if (order.iterator().hasNext()) {
 				v.setOrder(order.iterator().next());
 			}
@@ -532,8 +531,6 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		return orders;
 	}
-	
-	
 
 	private void hisotrySort(Sort sort, HistoricProcessInstanceQuery query) {
 		Sort.Order sor = sort.getOrderFor("startTime");
@@ -548,15 +545,13 @@ public class ActivitiServiceImpl implements ActivitiService {
 			query.asc();
 		}
 	}
-	
-	
 
 	public Page<OrderView> finished(int city, Principal principal, TableRequest req) {
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("created");
 
 		String longId = req.getFilter("longOrderId"), userIdQuery = req.getFilter("userId"), taskKey = req
-				.getFilter("taskKey"), stateKey = req.getFilter("stateKey"),productId = req.getFilter("productId");
+				.getFilter("taskKey"), stateKey = req.getFilter("stateKey"), productId = req.getFilter("productId");
 		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
 
 		page = page + 1;
@@ -573,7 +568,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			countQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
 			listQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
 		}
-		
+
 		if (StringUtils.isNoneBlank(stateKey) && !StringUtils.startsWith(stateKey, ActivitiService.R_DEFAULTALL)) {
 			boolean isClosed = StringUtils.startsWith(stateKey, ActivitiService.R_CLOSED) ? true : false;
 			countQuery.variableValueEquals(ActivitiService.CLOSED, isClosed);
@@ -581,10 +576,10 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		/*按商品查询 */
 		if (StringUtils.isNoneBlank(productId)) {
-			countQuery.variableValueEquals(ActivitiService.PRODUCT,NumberUtils.toInt(productId) );
-			listQuery.variableValueEquals(ActivitiService.PRODUCT, NumberUtils.toInt(productId) );
+			countQuery.variableValueEquals(ActivitiService.PRODUCT, NumberUtils.toInt(productId));
+			listQuery.variableValueEquals(ActivitiService.PRODUCT, NumberUtils.toInt(productId));
 		}
-		
+
 		/*按用户查询 */
 		if (StringUtils.isNoneBlank(userIdQuery)) {
 			countQuery.variableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
@@ -606,10 +601,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		hisotrySort(sort, listQuery);
 		list = listQuery.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
-		
-		
+
 		for (HistoricProcessInstance historicProcessInstance : list) {
-			
+
 			//---------------------
 			Integer orderid = (Integer) historicProcessInstance.getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
@@ -730,7 +724,10 @@ public class ActivitiServiceImpl implements ActivitiService {
             //车身广告不需要终审
             initParams.put("approve2Result", true);
         }
-
+       Product product= productMapper.selectByPrimaryKey(order.getProductId());
+      if(product!=null && product.getIscompare()==1){
+    	  initParams.put(ActivitiService.R_USERPAYED, true);
+       }
 		ProcessInstance process = runtimeService.startProcessInstanceByKey(MAIN_PROCESS, initParams);
 
 		List<Task> tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime()
@@ -756,6 +753,16 @@ public class ActivitiServiceImpl implements ActivitiService {
 						taskService.claim(task.getId(), u.getUsername());
 						if (order.getSupplies().getId() > 1) {
 							//如果是下单的时候 就绑定了素材 完成这一步
+							taskService.complete(task.getId());
+						}
+					}
+				}
+				if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
+					if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
+						//默认签收 
+						taskService.claim(task.getId(), u.getUsername());
+						if (product!=null && product.getIscompare()==1) {
+							//如果是竞价产品，自动完成支付环节
 							taskService.complete(task.getId());
 						}
 					}
@@ -794,13 +801,14 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 	}
 
-	public int relateContract(int orderid, int contractid, String payType, int isinvoice,InvoiceDetail invoiceDetail, String userId, String taskName) {
+	public int relateContract(int orderid, int contractid, String payType, int isinvoice, InvoiceDetail invoiceDetail,
+			String userId, String taskName) {
 
 		Orders orders = ordersMapper.selectByPrimaryKey(orderid);
 		Contract contract = contractMapper.selectByPrimaryKey(contractid);
 		if (orders != null) {
 			orders.setIsInvoice(isinvoice);
-			if(null!=invoiceDetail.getId()){
+			if (null != invoiceDetail.getId()) {
 				orders.setInvoiceId(invoiceDetail.getId());
 			}
 			if (contract != null && contract.getContractCode() != null && payType.equals("contract")) {
@@ -826,11 +834,11 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return 1;
 	}
 
-	public Pair<Boolean, String> payment(int orderid, String taskid, int contractid, String payType, int isinvoice,int invoiceid,String contents,String receway,
-			UserDetail u) {
-		InvoiceDetail invoiceDetail=new InvoiceDetail();
-		Invoice invoice=invoiceMapper.selectByPrimaryKey(invoiceid);
-		if(invoice!=null){
+	public Pair<Boolean, String> payment(int orderid, String taskid, int contractid, String payType, int isinvoice,
+			int invoiceid, String contents, String receway, UserDetail u) {
+		InvoiceDetail invoiceDetail = new InvoiceDetail();
+		Invoice invoice = invoiceMapper.selectByPrimaryKey(invoiceid);
+		if (invoice != null) {
 			BeanUtils.copyProperties(invoice, invoiceDetail);
 			invoiceDetail.setReceway(receway);
 			invoiceDetail.setContents(contents);
@@ -844,7 +852,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 			UserDetail ul = (UserDetail) info.get(ActivitiService.OWNER);
 			if (ul != null && ObjectUtils.equals(ul.getUsername(), u.getUsername())) {
 				if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
-					if ( relateContract(orderid, contractid, payType, isinvoice,invoiceDetail, u.getUsername(), StringUtils.EMPTY) > 0) {
+					if (relateContract(orderid, contractid, payType, isinvoice, invoiceDetail, u.getUsername(),
+							StringUtils.EMPTY) > 0) {
 						taskService.claim(task.getId(), u.getUsername());
 						Map<String, Object> variables = new HashMap<String, Object>();
 						variables.put(ActivitiService.R_USERPAYED, true);
@@ -858,7 +867,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 				r = new Pair<Boolean, String>(false, "任务属主不匹配!");
 			}
 		} else {
-			if ( relateContract(orderid, contractid, payType, isinvoice,invoiceDetail, u.getUsername(), "payment") > 0) {
+			if (relateContract(orderid, contractid, payType, isinvoice, invoiceDetail, u.getUsername(), "payment") > 0) {
 				return new Pair<Boolean, String>(true, "订单支付成功!");
 			} else {
 				return new Pair<Boolean, String>(false, "订单支付失败!");
@@ -910,21 +919,21 @@ public class ActivitiServiceImpl implements ActivitiService {
 				}
 				variables.putAll(taskVarMap);
 			}
-			Task task=findTaskById(taskId, true);
-			if(StringUtils.equals(task.getAssignee(),  u.getUsername())){
+			Task task = findTaskById(taskId, true);
+			if (StringUtils.equals(task.getAssignee(), u.getUsername())) {
 				variables.put("lastModifUser", u.getUsername());
 				taskService.complete(taskId, variables);
-                JpaOrders.Status status = fetchStatusAfterTaskComplete(task);
-                Integer orderId = (Integer)task.getProcessVariables().get(ORDER_ID);
-                if (status != null && orderId != null) {
-                    orderService.updateStatus(orderId, status);
-                }
-			}else{
+				JpaOrders.Status status = fetchStatusAfterTaskComplete(task);
+				Integer orderId = (Integer) task.getProcessVariables().get(ORDER_ID);
+				if (status != null && orderId != null) {
+					orderService.updateStatus(orderId, status);
+				}
+			} else {
 				r = new Pair<Boolean, String>(false, "非法操作！");
 				log.warn(u.getUsername() + ":" + task.toString());
 			}
 		} catch (Exception e) {
-            log.error("Fail to complete task {}", taskId, e);
+			log.error("Fail to complete task {}", taskId, e);
 			//e.printStackTrace();
 			r = new Pair<Boolean, String>(false, StringUtils.EMPTY);
 		}
@@ -982,8 +991,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 		Map<String, Object> variables = taskService.getVariables(taskid);
 		int orderid = (Integer) variables.get(ORDER_ID);
-        JpaOrders order = orderService.selectJpaOrdersById(orderid);
-//        List<OrderBuses> orderBuses = orderService.getOrderBuses(orderid);
+		JpaOrders order = orderService.selectJpaOrdersById(orderid);
+		//        List<OrderBuses> orderBuses = orderService.getOrderBuses(orderid);
 		JpaProduct product = productService.findById(order.getProductId());
 		v.setProduct(product);
 		v.setOrder(order);
@@ -997,41 +1006,42 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return v;
 	}
 
-    public JpaOrders.Status getOrderStatus(int orderId) {
-        ProcessInstance instance = runtimeService.createProcessInstanceQuery().includeProcessVariables().variableValueEquals(ORDER_ID, orderId).singleResult();
-        if (instance != null) {
-            Map<String, Object> vars = instance.getProcessVariables();
-            Boolean approve1 = (Boolean) vars.get("approve1Result");
-            Boolean approve2 = (Boolean) vars.get("approve2Result");
-            Boolean payment = (Boolean) vars.get("paymentResult");
-            Boolean schedule = (Boolean) vars.get("scheduleResult");
-            Boolean shangbo = (Boolean) vars.get("shangboResult");
-            Boolean jianbo = (Boolean) vars.get("jianboResult");
-            if ((jianbo != null && jianbo)
-                    || (shangbo != null && shangbo)) {
-                return JpaOrders.Status.started;
-            } else if (schedule != null && schedule) {
-                return JpaOrders.Status.scheduled;
-            } else if (payment != null && payment) {
-                return JpaOrders.Status.paid;
-            } else {
-                return JpaOrders.Status.unpaid;
-            }
-        } else {
-            HistoricTaskInstance history = historyService.createHistoricTaskInstanceQuery().includeProcessVariables().processVariableValueEquals(ORDER_ID, orderId).singleResult();
-            if (history != null) {
-                Map<String, Object> vars = history.getProcessVariables();
-                Boolean jianbo = (Boolean) vars.get("jianboResult");
-                if (jianbo != null && jianbo) {
-                    return JpaOrders.Status.completed;
-                } else {
-                    return JpaOrders.Status.cancelled;
-                }
-            } else {
-                return null;
-            }
-        }
-    }
+	public JpaOrders.Status getOrderStatus(int orderId) {
+		ProcessInstance instance = runtimeService.createProcessInstanceQuery().includeProcessVariables()
+				.variableValueEquals(ORDER_ID, orderId).singleResult();
+		if (instance != null) {
+			Map<String, Object> vars = instance.getProcessVariables();
+			Boolean approve1 = (Boolean) vars.get("approve1Result");
+			Boolean approve2 = (Boolean) vars.get("approve2Result");
+			Boolean payment = (Boolean) vars.get("paymentResult");
+			Boolean schedule = (Boolean) vars.get("scheduleResult");
+			Boolean shangbo = (Boolean) vars.get("shangboResult");
+			Boolean jianbo = (Boolean) vars.get("jianboResult");
+			if ((jianbo != null && jianbo) || (shangbo != null && shangbo)) {
+				return JpaOrders.Status.started;
+			} else if (schedule != null && schedule) {
+				return JpaOrders.Status.scheduled;
+			} else if (payment != null && payment) {
+				return JpaOrders.Status.paid;
+			} else {
+				return JpaOrders.Status.unpaid;
+			}
+		} else {
+			HistoricTaskInstance history = historyService.createHistoricTaskInstanceQuery().includeProcessVariables()
+					.processVariableValueEquals(ORDER_ID, orderId).singleResult();
+			if (history != null) {
+				Map<String, Object> vars = history.getProcessVariables();
+				Boolean jianbo = (Boolean) vars.get("jianboResult");
+				if (jianbo != null && jianbo) {
+					return JpaOrders.Status.completed;
+				} else {
+					return JpaOrders.Status.cancelled;
+				}
+			} else {
+				return null;
+			}
+		}
+	}
 
 	// 根据OrderId查找流程实例
 	public ProcessView findPidByOrderid(int orderid, String userId) {
@@ -1095,19 +1105,18 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return processDefinition;
 	}
 
-    public TaskEntity findTaskById(String taskId, boolean withVariables) throws Exception {
-        TaskQuery query = taskService.createTaskQuery();
-        if (withVariables)
-            query.includeProcessVariables();
-        TaskEntity task = (TaskEntity) query.taskId(taskId).singleResult();
-        if (task == null) {
-            throw new Exception("任务实例未找到!");
-        }
-        return task;
-    }
+	public TaskEntity findTaskById(String taskId, boolean withVariables) throws Exception {
+		TaskQuery query = taskService.createTaskQuery();
+		if (withVariables)
+			query.includeProcessVariables();
+		TaskEntity task = (TaskEntity) query.taskId(taskId).singleResult();
+		if (task == null) {
+			throw new Exception("任务实例未找到!");
+		}
+		return task;
+	}
 
-
-    public TaskEntity findTaskById(String taskId) throws Exception {
+	public TaskEntity findTaskById(String taskId) throws Exception {
 		TaskEntity task = (TaskEntity) taskService.createTaskQuery().taskId(taskId).singleResult();
 		if (task == null) {
 			throw new Exception("任务实例未找到!");
@@ -1146,7 +1155,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 				String key = String.format(f, historicTaskInstance.getId(), "approve2Comments");
 				String result = String.format(f, historicTaskInstance.getId(), "approve2Result");
 				w.setComment((String) temp.get(key));
-				w.setResult( temp.get(result));
+				w.setResult(temp.get(result));
 			} else if (StringUtils.equals("financialCheck", w.getTaskDefinitionKey())) {
 				String key = String.format(f, historicTaskInstance.getId(), "financialcomment");
 				w.setComment((String) temp.get(key));
@@ -1315,8 +1324,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 			orderView.setTask_name(StringUtils.EMPTY);
 			if (StringUtils.isNoneBlank(pid)) {
 				activitis = findHistoricUserTask(city, pid, null);
-				HistoricProcessInstance  processInstance = historyService.createHistoricProcessInstanceQuery().processInstanceId(pid)
-						.includeProcessVariables().singleResult();
+				HistoricProcessInstance processInstance = historyService.createHistoricProcessInstanceQuery()
+						.processInstanceId(pid).includeProcessVariables().singleResult();
 				orderView.setTask_name(Constants.FINAL_STATE);
 				if (processInstance != null) {
 					Map<String, Object> variables = processInstance.getProcessVariables();
@@ -1347,18 +1356,18 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 	}
 
-    @Override
-    public JpaOrders.Status fetchStatusAfterTaskComplete(Task task) {
-        String key = task.getTaskDefinitionKey();
-//        Map<String, Object> info = taskService.getVariables(task.getId());
-        if ("financialCheck".equals(key))
-            return JpaOrders.Status.paid;
-        else if ("inputSchedule".equals(key))
-            return JpaOrders.Status.scheduled;
-        else if ("shangboReport".equals(key))
-            return JpaOrders.Status.started;
-        else if ("jianboReport".equals(key))
-            return JpaOrders.Status.completed;
-        return null;
-    }
+	@Override
+	public JpaOrders.Status fetchStatusAfterTaskComplete(Task task) {
+		String key = task.getTaskDefinitionKey();
+		//        Map<String, Object> info = taskService.getVariables(task.getId());
+		if ("financialCheck".equals(key))
+			return JpaOrders.Status.paid;
+		else if ("inputSchedule".equals(key))
+			return JpaOrders.Status.scheduled;
+		else if ("shangboReport".equals(key))
+			return JpaOrders.Status.started;
+		else if ("jianboReport".equals(key))
+			return JpaOrders.Status.completed;
+		return null;
+	}
 }
