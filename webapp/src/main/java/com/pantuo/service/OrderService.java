@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.ConstantImpl;
@@ -167,27 +168,75 @@ public class OrderService {
 		return r;
 	}
 
-	public void saveOrderJpa(int city, JpaOrders order, UserDetail user,int cpdid) {
-        order.setCity(city);
+	public void saveOrderJpa(int city, JpaOrders order, UserDetail user, int cpdid, JpaProduct prod) {
+		order.setCity(city);
 		Pair<Boolean, String> r = null;
 		try {
 			order.setCreated(new Date());
 			order.setUpdated(new Date());
 			order.setUserId(user.getUsername());
 			ordersRepository.save(order);
+
 			if (order.getId() > -1) {
+				boolean isRightRole = true;
+				if (cpdid > 0) {//如果是竞价商品 判断用户对不对
+					RoleCpd cpd = roleCpdMapper.selectByPrimaryKey(cpdid);
+					if (cpd != null) {
+						if (StringUtils.equals(cpd.getUserId(), user.getUsername())) {
+							cpd.setCheckOrder(JpaCpd.CheckOrder.Y.ordinal());
+							roleCpdMapper.updateByPrimaryKeySelective(cpd);
+							order.setProductId(cpd.getProductId());
+						} else {
+							isRightRole = false;
+							log.warn("{},cpdid:{},非法操作", user.getUsername(), cpdid);
+						}
+					} else {
+						isRightRole = false;
+					}
+				} else {//如果不带cpdid参数 需要验证一次是否是竞价商品 如果是 肯定是伪造的请求
+					if (prod == null) {
+						isRightRole = false;
+					} else if (prod.getIscompare() == 1) {
+						isRightRole = false;
+					}
+				}
+
+				//
+
+				if (isRightRole) {
+					activitiService.startProcess2(city, user, order);
+				}else {
+					throw new AccessDeniedException("可能是非法操作!");
+				}
+
+			}
+
+			/*if (order.getId() > -1) {
 				//if(order.getSuppliesId()>2){
 				activitiService.startProcess2(city, user, order);
 				//}
 				r = new Pair<Boolean, String>(true, "下订单成功！");
-				RoleCpd cpd=roleCpdMapper.selectByPrimaryKey(cpdid);
-				cpd.setCheckOrder(JpaCpd.CheckOrder.Y.ordinal());
-				roleCpdMapper.updateByPrimaryKeySelective(cpd);
-				
-			}
+				if (cpdid > 0) {
+					RoleCpd cpd = roleCpdMapper.selectByPrimaryKey(cpdid);
+					if (cpd != null) {
+						if (StringUtils.equals(cpd.getUserId(), user.getUsername())) {
+							cpd.setCheckOrder(JpaCpd.CheckOrder.Y.ordinal());
+							roleCpdMapper.updateByPrimaryKeySelective(cpd);
+						} else {
+							log.warn("{},cpdid:{},非法操作",user.getUsername(),cpdid);
+						}
+					} else {
+
+					}
+				}
+
+			}*/
 		} catch (Exception e) {
 			log.error("order ", e);
 			r = new Pair<Boolean, String>(false, "下订单失败！");
+			if(e instanceof AccessDeniedException){
+				throw e;
+			}
 		}
 	}
 

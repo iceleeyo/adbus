@@ -85,7 +85,7 @@ public class OrderController {
 
 	@RequestMapping(value = "/iwant/{product_id}", produces = "text/html;charset=utf-8")
 	public String buypro(Model model, @PathVariable("product_id") int product_id,
-                         Principal principal,@RequestParam(value="cpdid") int cpdid,
+                         Principal principal,@RequestParam(value="cpdid",required = false ,defaultValue = "0") int cpdid,
 			@CookieValue(value = "city", defaultValue = "-1") int cityId,
             @ModelAttribute("city") JpaCity city,
             HttpServletRequest request) {
@@ -244,7 +244,7 @@ public class OrderController {
 	@RequestMapping(value = "confirm", method = RequestMethod.POST, produces = "text/html;charset=utf-8")
 	public String saveOrderJpa(Model model, JpaOrders order, Principal principal,
            @CookieValue(value = "city", defaultValue = "-1") int cityId,
-           @RequestParam(value="cpdid") int cpdid,
+           @RequestParam(value="cpdid" ) int cpdid,
            @ModelAttribute("city") JpaCity city,
             HttpServletRequest request)
 			throws IllegalStateException, IOException, ParseException {
@@ -270,7 +270,7 @@ public class OrderController {
 			//			return new Pair<Boolean, String>(false, "请指定订单开播时间");
 		}
 		OrderView v = new OrderView();
-		orderService.saveOrderJpa(cityId, order, Request.getUser(principal),cpdid);
+		orderService.saveOrderJpa(cityId, order, Request.getUser(principal),cpdid,prod);
 		List<Supplies> supplieslist = suppliesService.querySuppliesByUser(cityId, principal);
 		List<Invoice> InvoiceList = userService.queryInvoiceByUser(cityId, principal);
 		List<Contract> contracts = contractService.queryContractList(cityId, page, null, null, principal);
