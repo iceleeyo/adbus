@@ -205,7 +205,7 @@ public class OrderService {
 
 				if (isRightRole) {
 					activitiService.startProcess2(city, user, order);
-				}else {
+				} else {
 					throw new AccessDeniedException("可能是非法操作!");
 				}
 
@@ -234,7 +234,7 @@ public class OrderService {
 		} catch (Exception e) {
 			log.error("order ", e);
 			r = new Pair<Boolean, String>(false, "下订单失败！");
-			if(e instanceof AccessDeniedException){
+			if (e instanceof AccessDeniedException) {
 				throw e;
 			}
 		}
