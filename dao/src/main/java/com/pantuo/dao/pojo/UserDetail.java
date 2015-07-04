@@ -24,7 +24,10 @@ public class UserDetail extends BaseEntity {
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
 	private static final long serialVersionUID = -1842498354096493867L;
-
+	public static enum UStats {
+		/*初始状态,认证通过,竞价违规*/
+		init, authentication,auctionException;
+	}
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -45,6 +48,7 @@ public class UserDetail extends BaseEntity {
 	public String phone;
 	public String company;
 	public String department;
+	public UStats ustats;
 	
 	//以下是页面表单值 
 	@Transient
@@ -212,7 +216,13 @@ public class UserDetail extends BaseEntity {
 		this.id = id;
 	}
 
+	public UStats getUstats() {
+		return ustats;
+	}
 
+	public void setUstats(UStats ustats) {
+		this.ustats = ustats;
+	}
 
 
 }
