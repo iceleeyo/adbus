@@ -15,12 +15,13 @@ public class JpaAttachment extends BaseEntity {
         ht_pic,     //   合同图片 0
         ht_fj,      //   合同附件 1
         u_pic,      //   用户图片  2
-        u_fj,       //   用户资质附件  3
+        u_fj,       //   素材资质附件  3
         su_file,     //  素材附件  4
         fp_file,     //   发票附件  5
          license,     //   发票(营业执照)  6
          tax ,       //   发票(税务登记复印件)7
-         taxpayer     //   发票(一般纳税人资格认证复印件)  8
+         taxpayer,     //   发票(一般纳税人资格认证复印件)  8
+         user_qualifi     //  用户个人资质  9
     }
 
     @Id
