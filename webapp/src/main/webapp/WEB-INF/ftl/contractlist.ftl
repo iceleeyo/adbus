@@ -164,7 +164,9 @@ alert("dddd");
 									</div> -->
 			<div class="withdraw-title">
 					<span>合同列表</span>
-					<a class="block-btn" href="http://www.baidu.com">添加合同</a>
+					<@security.authorize ifAnyGranted="ShibaOrderManager">
+					<a class="block-btn" href="${rc.contextPath}/contract/contractEnter">添加合同</a>
+					</@security.authorize>
 				</div>
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
