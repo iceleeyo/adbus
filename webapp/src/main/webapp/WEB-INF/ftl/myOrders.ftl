@@ -159,9 +159,9 @@ var table;
 					<a id="tab3" href="${rc.contextPath}/order/finished">已完成的订单</a>
 				<@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 				<#if orderMenu=="我参与订单">
-					<a id="tab4" class="active" href="${rc.contextPath}/order/join/1">我参与订单</a>
+					<a id="tab4" class="active" href="${rc.contextPath}/order/join/1">我参与的订单</a>
 				<#else>
-					<a id="tab4" href="${rc.contextPath}/order/join/1">我参与订单</a>
+					<a id="tab4" href="${rc.contextPath}/order/join/1">我参与的订单</a>
 				</#if>
 				</@security.authorize>
 				</div>
