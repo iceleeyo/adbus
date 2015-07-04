@@ -61,7 +61,7 @@ public class UserManagerController {
 	SuppliesService suppliesService;
 	@Autowired
 	AttachmentService attachmentService;
-
+	@PreAuthorize(" hasRole('UserManager')  ")
 	@RequestMapping(value = "/list", method = { RequestMethod.GET })
 	public String userlist() {
 		return "user_list";
@@ -71,6 +71,7 @@ public class UserManagerController {
 	 * <b>Ajax：获取所有用户</b>
 	 *
 	 */
+	@PreAuthorize(" hasRole('UserManager')  ")
 	@RequestMapping(value = "/ajax-list", method = { RequestMethod.GET })
 	@ResponseBody
 	public DataTablePage<UserDetail> getUsers(TableRequest req) {
@@ -217,7 +218,7 @@ public class UserManagerController {
 	@RequestMapping(value = "/qualification", produces = "text/html;charset=utf-8")
 	public String qualification(Model model,Principal principal,HttpServletRequest request) {
 		Attachment attachment=attachmentService.findUserQulifi(Request.getUserId(principal));
-		model.addAttribute("userDetail", userService.getByUsername(Request.getUserId(principal)));
+		model.addAttribute("userDetail", userService.getByUsernameSafe(Request.getUserId(principal)));
 		model.addAttribute("attachment", attachment);
 		return "qualification_Enter";
 	}
@@ -264,14 +265,23 @@ public class UserManagerController {
 	@RequestMapping(value = "/u/{userId}", method = { RequestMethod.GET })
 	public String uDetail(Model model, @PathVariable("userId") String userId, HttpServletRequest request) {
 		Attachment attachment=attachmentService.findUserQulifi(userId);
-		model.addAttribute("userDetail", userService.getByUsername(userId));
+		model.addAttribute("userDetail", userService.getByUsernameSafe(userId));
 		model.addAttribute("attachment", attachment);
 		return "u/userDetail";
 	}
+	@PreAuthorize(" !hasRole('advertiser')  ")
+	@ResponseBody
+	@RequestMapping(value = "/u_ajax/{userId}", method = { RequestMethod.GET })
+	public UserDetail showUDetail(Model model, @PathVariable("userId") String userId, HttpServletRequest request) {
+		UserDetail u =  userService.getByUsernameSafe(userId);
+		return u;
+	}
+	
+	
 	@PreAuthorize(" hasRole('UserManager')  ")
 	@RequestMapping(value = "/u_edit/{userId}", method = { RequestMethod.GET })
 	public String userEdit(Model model, @PathVariable("userId") String userId, HttpServletRequest request) {
-		UserDetail UserDetail = userService.getByUsername(userId);
+		UserDetail UserDetail = userService.getByUsernameSafe(userId);
 		model.addAttribute("userDetail", UserDetail);
 		model.addAttribute("uGroup", userService.getUserGroupList(UserDetail));
 		model.addAttribute("groupsList", DataInitializationService._GROUPS);

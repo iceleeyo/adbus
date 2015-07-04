@@ -67,6 +67,19 @@ public interface CpdService {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	public JpaCpd queryOneCpdDetail(int cpdid);
+	
+	
+	
+	
+	/**
+	 * 
+	 * 根据商品id查单个竞价cpd信息  
+	 *
+	 * @param cpdid
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	public JpaCpd queryOneCpdByPid(int productId);
 	/**
 	 * 
 	 * 更新或保存 竞价信息

@@ -207,6 +207,8 @@ public class OrderController {
 		SuppliesView suppliesView = suppliesService.getSuppliesDetail(v.getOrder().getSuppliesId(), null);
 		SuppliesView quafiles = suppliesService.getQua(v.getOrder().getSuppliesId(), null);
 		List<Invoice> InvoiceList = userService.queryInvoiceByUser(cityId, principal);
+		
+		model.addAttribute("cpdDetail", cpdService.queryOneCpdByPid(v.getOrder().getProductId()));
 		model.addAttribute("suppliesView", suppliesView);
 		model.addAttribute("quafiles", quafiles);
 		model.addAttribute("contracts", contracts);

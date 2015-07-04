@@ -242,6 +242,13 @@ public class UserService implements UserServiceInter {
 		return user;
 	}
 
+	public UserDetail getByUsernameSafe(String username) {
+		UserDetail u = getByUsername(username);
+		if (u != null && u.getUser() != null) {
+			u.getUser().setPassword(StringUtils.EMPTY);
+		}
+		return u;
+	}
 	/**
 	 * @see com.pantuo.service.UserServiceInter#addUserMailReset(com.pantuo.dao.pojo.UserDetail, javax.servlet.http.HttpServletRequest)
 	 * @since pantuotech 1.0-SNAPSHOT

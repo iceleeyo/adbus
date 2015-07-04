@@ -43,6 +43,8 @@ public interface UserServiceInter {
 	public abstract List<AutoCompleteView> autoCompleteByName(String name);
 
 	public abstract UserDetail getByUsername(String username);
+	
+	public abstract UserDetail getByUsernameSafe(String username);
 
 	public abstract Pair<Boolean, String> addUserMailReset(UserDetail u, HttpServletRequest request);
 

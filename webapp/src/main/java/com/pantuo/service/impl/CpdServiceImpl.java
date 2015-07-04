@@ -61,7 +61,11 @@ public class CpdServiceImpl implements CpdService {
 	
 	@Autowired
 	private UserServiceInter userService;
-
+	public JpaCpd queryOneCpdByPid(int productId){
+		BooleanExpression query = QJpaCpd.jpaCpd.product.id.eq(productId);
+		return cpdRepository.findOne(query);
+		
+	}
 	public void test() {
 		
 		Pageable p = new PageRequest(0, 20, new Sort("id"));

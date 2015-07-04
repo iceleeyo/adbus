@@ -62,6 +62,7 @@ import com.pantuo.pojo.HistoricTaskView;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.CityService;
+import com.pantuo.service.CpdService;
 import com.pantuo.service.OrderService;
 import com.pantuo.service.ProductService;
 import com.pantuo.service.SuppliesService;
@@ -111,6 +112,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 	@Autowired
 	private CityService cityService;
+	
+	@Autowired
+	private CpdService cpdService;
 
 	/**
 	 * @deprecated
@@ -1278,6 +1282,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 				JpaProduct prod = productService.findById(v.getOrder().getProductId());
 				SuppliesView suppliesView = suppliesService.getSuppliesDetail(v.getOrder().getSuppliesId(), null);
 				SuppliesView quafiles = suppliesService.getQua(v.getOrder().getSuppliesId(), null);
+				model.addAttribute("cpdDetail", cpdService.queryOneCpdByPid(v.getOrder().getProductId()));
 				model.addAttribute("suppliesView", suppliesView);
 				model.addAttribute("quafiles", quafiles);
 				model.addAttribute("activitis", activitis);
