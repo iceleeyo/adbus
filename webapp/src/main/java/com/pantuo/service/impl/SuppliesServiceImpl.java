@@ -161,10 +161,11 @@ public class SuppliesServiceImpl implements SuppliesService {
 			if(userDetail!=null){
 				attachmentService.saveAttachment(request, Request.getUserId(principal), userDetail.getId(),
 						JpaAttachment.Type.user_qualifi,description);
+				userDetail.setUstats(UserDetail.UStats.init);
+				userDetailRepo.save(userDetail);
 			}
-			r = new Pair<Boolean, String>(true, "上传成功！");
 		} catch (BusinessException e) {
-			r = new Pair<Boolean, String>(false, "上传失败");
+			r = new Pair<Boolean, String>(false, "上传资质失败");
 		}
 		return r;
 	}

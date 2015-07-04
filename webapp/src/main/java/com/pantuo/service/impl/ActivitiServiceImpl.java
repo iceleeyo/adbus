@@ -712,8 +712,6 @@ public class ActivitiServiceImpl implements ActivitiService {
 	}
 
 	public void startProcess2(int cityId, UserDetail u, JpaOrders order) {
-		// Deployment deployment = repositoryService.createDeployment()
-		// .addClasspathResource("classpath*:/com/pantuo/activiti/autodeploy/order.bpmn20.xml").deploy();
 		Map<String, Object> initParams = new HashMap<String, Object>();
 		initParams.put(ActivitiService.OWNER, u);
 		initParams.put(ActivitiService.CREAT_USERID, u.getUsername());
@@ -722,7 +720,6 @@ public class ActivitiServiceImpl implements ActivitiService {
 		initParams.put(ActivitiService.PRODUCT, order.getProductId());
 		initParams.put(ActivitiService.SUPPLIEID, order.getSupplies().getId());
 		initParams.put(ActivitiService.NOW, new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
-
         JpaCity city = cityService.fromId(cityId);
         if (city != null && city.getMediaType() == JpaCity.MediaType.body) {
             //车身广告不需要终审
@@ -733,7 +730,6 @@ public class ActivitiServiceImpl implements ActivitiService {
     	  initParams.put(ActivitiService.R_USERPAYED, true);
        }
 		ProcessInstance process = runtimeService.startProcessInstanceByKey(MAIN_PROCESS, initParams);
-
 		List<Task> tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime()
 				.desc().listPage(0, 1);
 		if (!tasks.isEmpty()) {
@@ -745,9 +741,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime().desc()
 				.listPage(0, 2);
-
 		if (!tasks.isEmpty()) {
-
 			for (Task task : tasks) {
 				//Task task = tasks.get(0);
 				Map<String, Object> info = taskService.getVariables(task.getId());
@@ -761,42 +755,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 						}
 					}
 				}
-				if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
-					if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
-						//默认签收 
-						taskService.claim(task.getId(), u.getUsername());
-						if (product!=null && product.getIscompare()==1) {
-							//如果是竞价产品，自动完成支付环节
-							Map<String, Object> variables = new HashMap<String, Object>();
-							variables.put(ActivitiService.R_USERPAYED, true);
-							taskService.complete(task.getId(), variables);
-							
-							//taskService.complete(task.getId());
-						}
-					}
-				}
 			}
-
-			/*Task task = tasks.get(0);
-			Map<String, Object> info = taskService.getVariables(task.getId());
-			if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
-				taskService.claim(task.getId(), u.getUsername());
-				taskService.complete(task.getId());
-			}*/
-		}/*
-			tasks = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS)
-				.processVariableValueEquals(ActivitiService.CITY, city).taskCandidateOrAssigned(u.getUsername())
-				.includeProcessVariables().orderByTaskPriority().desc().orderByTaskCreateTime().desc().list();
-			if (!tasks.isEmpty()) {
-			Task task = tasks.get(0);
-			Map<String, Object> info = taskService.getVariables(task.getId());
-			if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
-				taskService.claim(task.getId(), u.getUsername());
-				if (order.getPayType() != null) {
-					taskService.complete(task.getId());
-				}
-			}
-			}*/
+		}
 		debug(process.getId());
 	}
 
