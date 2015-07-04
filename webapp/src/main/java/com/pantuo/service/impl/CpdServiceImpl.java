@@ -22,6 +22,8 @@ import com.pantuo.dao.pojo.JpaCpd;
 import com.pantuo.dao.pojo.JpaCpdLog;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.QJpaCpd;
+import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.dao.pojo.UserDetail.UStats;
 import com.pantuo.mybatis.domain.Account;
 import com.pantuo.mybatis.domain.AccountExample;
 import com.pantuo.mybatis.domain.RoleCpd;
@@ -36,6 +38,7 @@ import com.pantuo.mybatis.persistence.UserCpdMapper;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.CpdService;
+import com.pantuo.service.UserServiceInter;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 
@@ -55,6 +58,9 @@ public class CpdServiceImpl implements CpdService {
 	@Autowired
 	CpdProductMapper cpdProductMapper;
 	OrdersMapper d;
+	
+	@Autowired
+	private UserServiceInter userService;
 
 	public void test() {
 		
@@ -75,34 +81,43 @@ public class CpdServiceImpl implements CpdService {
 	
 	@Override
 	public Pair<Boolean, String> setMyPrice(int cpdid, Principal principal, double myPrice) {
-		JpaCpd jpaCpd=cpdRepository.findOne(QJpaCpd.jpaCpd.id.eq(cpdid));
+		JpaCpd jpaCpd = cpdRepository.findOne(QJpaCpd.jpaCpd.id.eq(cpdid));
 		if (jpaCpd == null) {
-			return new Pair<Boolean, String>(false,"产品信息丢失");
+			return new Pair<Boolean, String>(false, "产品信息丢失");
 		}
 		if (jpaCpd.getBiddingDate() != null && jpaCpd.getBiddingDate().getTime() < System.currentTimeMillis()) {
-			return new Pair<Boolean, String>(false,"竞价结束");
+			return new Pair<Boolean, String>(false, "竞价结束");
 		}
-		AccountExample example=new AccountExample();
-		AccountExample.Criteria criteria=example.createCriteria();
+		AccountExample example = new AccountExample();
+		AccountExample.Criteria criteria = example.createCriteria();
 		criteria.andUserIdEqualTo(Request.getUserId(principal));
-		List<Account> accounts=accountMapper.selectByExample(example);
+
+		UserDetail user = userService.findDetailByUsername(Request.getUserId(principal));
+		if (user == null) {
+			return new Pair<Boolean, String>(false, "竞价用户信息丢失!");
+		}
+		if (!(user.getUstats() != null && user.getUstats().ordinal() == UStats.authentication.ordinal())) {
+			return new Pair<Boolean, String>(false, "资质认证过的用户才能参与竞价,您可以到个人信息里上传资质图片!");
+		}
+
+		/*List<Account> accounts=accountMapper.selectByExample(example);
 		Account account = accounts.size()>0?accounts.get(0):null;
 		if (account == null || account.getTotalMoney() == null || account.getTotalMoney() < myPrice) {
 			return new Pair<Boolean, String>(false,"余额不足");
-		}
+		}*/
 
 		RoleCpdExample example2 = new RoleCpdExample();
 		RoleCpdExample.Criteria criteria2 = example2.createCriteria();
 		criteria2.andIdEqualTo(cpdid);
 		criteria2.andComparePriceLessThan(myPrice);
-		RoleCpd  roleCpd=new RoleCpd();
+		RoleCpd roleCpd = new RoleCpd();
 		roleCpd.setUserId(Request.getUserId(principal));
 		roleCpd.setComparePrice(myPrice);
 		int result = roleCpdMapper.updateByExampleSelective(roleCpd, example2);
 		if (result == 0) {
-			return new Pair<Boolean, String>(false,"竞价失败");
+			return new Pair<Boolean, String>(false, "竞价失败");
 		} else {
-			UserCpd userCpd=new UserCpd();
+			UserCpd userCpd = new UserCpd();
 			userCpd.setCpdid(cpdid);
 			userCpd.setComparePrice(myPrice);
 			userCpd.setUserId(Request.getUserId(principal));
@@ -111,7 +126,7 @@ public class CpdServiceImpl implements CpdService {
 			userCpdMapper.insert(userCpd);
 			cpdProductMapper.updateCpdCompareCount(cpdid);
 		}
-		return new Pair<Boolean, String>(true,"竞价成功！");
+		return new Pair<Boolean, String>(true, "竞价成功！");
 	}
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
 	public void changeMoney(Principal principal, int cpdid, double myPrice) {

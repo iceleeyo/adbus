@@ -96,13 +96,13 @@ public class ProductController {
         return product;
     }
     
-    @RequestMapping(value = "/comparePrice", method = { RequestMethod.POST})
-    @ResponseBody
-    public Pair<Boolean, String> comparePrice(@RequestParam(value="cpdid") int cpdid,@RequestParam(value="myprice") double myprice,
-     Principal principal) {
+	@RequestMapping(value = "/comparePrice", method = { RequestMethod.POST })
+	@ResponseBody
+	public Pair<Boolean, String> comparePrice(@RequestParam(value = "cpdid") int cpdid,
+			@RequestParam(value = "myprice") double myprice, Principal principal) {
 		Pair<Boolean, String> rPair = cpdService.setMyPrice(cpdid, principal, myprice);
 		if (rPair.getLeft()) {
-			cpdService.changeMoney(principal, cpdid, myprice);
+			//pdService.changeMoney(principal, cpdid, myprice);
 		}
 		return rPair;
 	}
