@@ -16,7 +16,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.mysema.query.types.Predicate;
+import com.pantuo.dao.UserDetailRepository;
 import com.pantuo.dao.pojo.JpaAttachment;
+import com.pantuo.dao.pojo.QUserDetail;
+import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.AttachmentExample;
 import com.pantuo.mybatis.persistence.AttachmentMapper;
@@ -44,6 +48,8 @@ public class AttachmentServiceImpl implements AttachmentService {
 
 	@Autowired
 	AttachmentMapper attachmentMapper;
+	@Autowired
+	UserDetailRepository userDetailRepo;
 	private static Logger log = LoggerFactory.getLogger(SuppliesServiceImpl.class);
 
 	public void saveAttachment(HttpServletRequest request, String user_id, int main_id, JpaAttachment.Type file_type,String description)
@@ -71,6 +77,20 @@ public class AttachmentServiceImpl implements AttachmentService {
 									storeName += FileHelper.getFileExtension(oriFileName,true));
 							File localFile = new File(p.getLeft());
 							file.transferTo(localFile);
+						    AttachmentExample example=new AttachmentExample();
+							AttachmentExample.Criteria criteria=example.createCriteria();
+							criteria.andMainIdEqualTo(main_id);
+							criteria.andUserIdEqualTo(user_id);
+							criteria.andTypeEqualTo(9);
+							List<Attachment> attachments=attachmentMapper.selectByExample(example);
+							if(attachments.size()>0){
+								        Attachment t=attachments.get(0);
+										t.setUpdated(new Date());
+										t.setName(oriFileName);
+										t.setUrl(p.getRight());
+										attachmentMapper.updateByPrimaryKey(t);
+									
+							}else{
 							Attachment t = new Attachment();
 							if(StringUtils.isNotBlank(description)){
 								t.setDescription(description);
@@ -97,6 +117,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 							t.setUserId(user_id);
 							attachmentMapper.insert(t);
 						}
+						}
 					}
 				}
 			}
@@ -106,6 +127,23 @@ public class AttachmentServiceImpl implements AttachmentService {
 			throw new BusinessException("saveAttachment-error", e);
 		}
 
+	}
+	@Override
+	public Attachment findUserQulifi(String user_id) {
+		Predicate query = QUserDetail.userDetail.username.eq(user_id);
+		UserDetail userDetail = userDetailRepo.findOne(query);
+		AttachmentExample example=new AttachmentExample();
+		AttachmentExample.Criteria criteria=example.createCriteria();
+		criteria.andUserIdEqualTo(user_id);
+		criteria.andTypeEqualTo(9);
+		if(userDetail!=null){
+			criteria.andMainIdEqualTo(userDetail.getId());
+		}
+		List<Attachment> list=attachmentMapper.selectByExample(example);
+	       if(list.size()>0){	
+				return list.get(0);
+			}
+		return null;
 	}
 	public void upInvoiceAttachments(HttpServletRequest request, String user_id, int main_id, JpaAttachment.Type file_type,String description)
 			throws BusinessException {
@@ -235,4 +273,5 @@ public class AttachmentServiceImpl implements AttachmentService {
 		
 		return attachmentMapper.selectByPrimaryKey(id);
 	}
+
 }

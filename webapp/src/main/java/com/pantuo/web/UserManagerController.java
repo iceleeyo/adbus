@@ -21,19 +21,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pantuo.dao.pojo.BaseEntity;
-import com.pantuo.dao.pojo.JpaContract;
 import com.pantuo.dao.pojo.JpaInvoice;
 import com.pantuo.dao.pojo.UserDetail;
-import com.pantuo.mybatis.domain.Invoice;
+import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
+import com.pantuo.service.ActivitiService.SystemRoles;
+import com.pantuo.service.AttachmentService;
 import com.pantuo.service.DataInitializationService;
 import com.pantuo.service.InvoiceServiceData;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.service.UserServiceInter;
-import com.pantuo.service.ActivitiService.SystemRoles;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.Pair;
+import com.pantuo.util.Request;
 import com.pantuo.web.view.AutoCompleteView;
 import com.pantuo.web.view.InvoiceView;
 
@@ -58,6 +59,8 @@ public class UserManagerController {
 	private InvoiceServiceData invoiceServiceData;
 	@Autowired
 	SuppliesService suppliesService;
+	@Autowired
+	AttachmentService attachmentService;
 
 	@RequestMapping(value = "/list", method = { RequestMethod.GET })
 	public String userlist() {
@@ -203,16 +206,14 @@ public class UserManagerController {
 
 
 	@RequestMapping(value = "/qualification", produces = "text/html;charset=utf-8")
-	public String qualification(HttpServletRequest request) {
+	public String qualification(Model model,Principal principal,HttpServletRequest request) {
+		Attachment attachment=attachmentService.findUserQulifi(Request.getUserId(principal));
+		model.addAttribute("userDetail", userService.getByUsername(Request.getUserId(principal)));
+		model.addAttribute("attachment", attachment);
 		return "qualification_Enter";
 	}
 
-	@RequestMapping(value = "savequalifi", method = RequestMethod.POST)
-	@ResponseBody
-	public Pair<Boolean, String> savequalifi(Principal principal, @RequestParam(value = "description") String description, HttpServletRequest request)
-			throws IllegalStateException, IOException {
-		return suppliesService.savequlifi(principal, request,description);
-	}
+	
 
 /*	@PreAuthorize("hasRole('advertiser') " + "or hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
 			+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
@@ -239,17 +240,23 @@ public class UserManagerController {
 		userService.createUserFromPage(detail);
 		return detail;
 	}
-	@PreAuthorize(" hasRole('UserManager')  ")
 	@RequestMapping(value = "/u_edit/update", method = { RequestMethod.POST })
 	@ResponseBody
-	public UserDetail updateUser(UserDetail detail, HttpServletRequest request) {
-		userService.updateUserFromPage(detail);
-		return detail;
+	public Pair<Boolean, String> updateUser(UserDetail detail, Principal principal,HttpServletRequest request) {
+		return userService.updateUserFromPage(detail,principal, request);
+	}
+	@RequestMapping(value = "savequalifi", method = RequestMethod.POST)
+	@ResponseBody
+	public Pair<Boolean, String> savequalifi(Principal principal, @RequestParam(value = "description") String description, HttpServletRequest request)
+			throws IllegalStateException, IOException {
+		return suppliesService.savequlifi(principal, request,description);
 	}
 	@PreAuthorize(" hasRole('UserManager')  ")
 	@RequestMapping(value = "/u/{userId}", method = { RequestMethod.GET })
 	public String uDetail(Model model, @PathVariable("userId") String userId, HttpServletRequest request) {
+		Attachment attachment=attachmentService.findUserQulifi(userId);
 		model.addAttribute("userDetail", userService.getByUsername(userId));
+		model.addAttribute("attachment", attachment);
 		return "u/userDetail";
 	}
 	@PreAuthorize(" hasRole('UserManager')  ")

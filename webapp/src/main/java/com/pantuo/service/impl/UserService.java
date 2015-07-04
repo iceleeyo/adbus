@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 import scala.collection.generic.BitOperations.Int;
 
 import com.mysema.query.types.expr.BooleanExpression;
+import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.UserDetailRepository;
 import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.QUserDetail;
@@ -44,6 +45,7 @@ import com.pantuo.mybatis.persistence.AttachmentMapper;
 import com.pantuo.mybatis.persistence.InvoiceMapper;
 import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
 import com.pantuo.service.AttachmentService;
+import com.pantuo.service.SuppliesService;
 import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.ActivitiService.SystemRoles;
 import com.pantuo.util.FreeMarker;
@@ -68,6 +70,8 @@ public class UserService implements UserServiceInter {
 	private IdentityService identityService;
 	@Autowired
 	private AttachmentService attachmentService;
+	@Autowired
+	private SuppliesService suppliesService;
 
 	@Autowired
 	private ManagementService managementService;
@@ -398,14 +402,21 @@ public class UserService implements UserServiceInter {
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
 	@Transactional
-	public boolean updateUserFromPage(UserDetail user) {
+	public  Pair<Boolean, String> updateUserFromPage(UserDetail user,Principal principal,
+			HttpServletRequest request) {
 		user.buildMySelf();
 		UserDetail dbUser = getByUsername(user.getUsername());
-		if (dbUser == null) {
-			user.setErrorInfo(BaseEntity.ERROR, "用户不存在");
-		} else if (user.getGroups() == null || user.getGroups().isEmpty()) {
-			user.setErrorInfo(BaseEntity.ERROR, "用户需要设置相应的归属组");
-		} else if (user.getUser() != null) {
+		if(!Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)){
+			if (user.getGroups() == null || user.getGroups().isEmpty()) {
+				return new  Pair<Boolean, String>(false,"保存失败");
+			}
+		}
+		else if (dbUser == null) {
+			return new  Pair<Boolean, String>(false,"用户不存在");
+		} else if(!StringUtils.equals(user.getUsername(), Request.getUserId(principal))){
+			return new  Pair<Boolean, String>(false,"操作非法");
+		}
+		  else if (user.getUser() != null) {
 			int dbId = dbUser.getId();
 			List<Group> existGroup = dbUser.getGroups();
 			BeanUtils.copyProperties(user, dbUser);
@@ -418,6 +429,7 @@ public class UserService implements UserServiceInter {
 			activitiUser.setLastName(user.getLastName());
 			identityService.saveUser(activitiUser);//更新工作流中的user表
 			//先删除原工作流中的用户权限 只增加不能减
+			if(!Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)){
 			for (Group g : existGroup) {
 				identityService.deleteMembership(dbUser.getUsername(), g.getId());
 			}
@@ -425,10 +437,11 @@ public class UserService implements UserServiceInter {
 			for (Group g : user.getGroups()) {
 				identityService.createMembership(dbUser.getUsername(), g.getId());
 			}
-
-			return true;
+			}
+			    suppliesService.savequlifi(principal, request, null);
+				return new  Pair<Boolean, String>(true,"保存成功");
 		}
-		return false;
+		return new  Pair<Boolean, String>(false,"保存失败");
 	}
 
 	/**

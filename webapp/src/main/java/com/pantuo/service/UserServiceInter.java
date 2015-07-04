@@ -60,7 +60,6 @@ public interface UserServiceInter {
 
 	public abstract boolean createUser(UserDetail user);
 
-	public abstract boolean updateUserFromPage(UserDetail user);
 
 	public abstract boolean createUserFromPage(UserDetail user);
 
@@ -86,5 +85,8 @@ public interface UserServiceInter {
 	public  Pair<Boolean, String> delInvoice(int invoice_id, Principal principal);
 
 	public  List<Invoice> queryInvoiceByUser(int cityId, Principal principal);
+
+	public  Pair<Boolean, String> updateUserFromPage(UserDetail detail, Principal principal,
+			HttpServletRequest request);
 
 }

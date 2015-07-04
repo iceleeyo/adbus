@@ -15,89 +15,132 @@
     });
 </script>
 <script type="text/javascript">
-	i = 2;
-	j = 2;
-	$(document)
-			.ready(
-					function() {
+	$(document).ready(function() {
 
-						$("#btn_add2")
-								.click(
-										function() {
-											$("#newUpload2")
-													.append(
-															'<div id="div_'+j+'"><input  name="file_'+j+'" type="file"  style="margin-top:10px;" class="validate[required]"/><input class="btn-sm btn-wrong" type="button" value="删除" style="margin-top:10px;" onclick="del_2('
-																	+ j
-																	+ ')"/></div>');
-											j = j + 1;
-										});
 
 					});
 
-	function del_2(o) {
-		document.getElementById("newUpload2").removeChild(
-				document.getElementById("div_" + o));
-	}
-
-
 	function sub(){
-        if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
-            return;
-		Sfile= ($("#Sfile").val());
-		if(Sfile==""){
-			jDialog.Alert("请上传资质信息");
+		var username = $("#username").val();
+		var firstName = ($("#firstName").val());
+		var email=($("#email").val());
+		var phone= ($("#phone").val());
+		var company= ($("#company").val());
+		var department= ($("#department").val());
+		if(username==""){
+			jDialog.Alert("请填写登录名");
 			return;
 		}
-		document.getElementById('subWithdraw').setAttribute('disabled',true); 
+		if(firstName==""){
+			jDialog.Alert("请填写真实姓名");
+			return;
+		}
+		if(email==""){
+			jDialog.Alert("请填写邮箱");
+			return;
+		}
+		if(phone==''){
+			jDialog.Alert("请填写联系电话");
+			return;
+		}
+		if(company==""){
+			jDialog.Alert("请填写所属公司");
+			return;
+		}
+		if(department==""){
+			jDialog.Alert("请填写所属部门");
+			return;
+		} 
 		$('#userForm2').ajaxForm(function(data) {
-			jDialog.Alert(data.right);
+				if(data.left==true){
+					jDialog.Alert("保存成功");
+				}else {
+					jDialog.Alert(data.right);
+				}
 			var uptime = window.setTimeout(function(){
-				window.location.href="${rc.contextPath}/contract/list"
+				window.location.reload();
 			   	clearTimeout(uptime);
 						},2000)
 		}).submit();
-
 	}
 </script>
-<div class="withdraw-wrap color-white-bg fn-clear">
 						
 							<form data-name="withdraw" name="userForm2" id="userForm2"
-								class="ui-form" method="post" action="savequalifi"
+								class="ui-form" method="post" action="u_edit/update"
 								enctype="multipart/form-data">
 								<div class="withdraw-title fn-clear">
-									资质信息录入
-									<!--
-            <ul class="fn-clear">
-              <li class="first"><a class="addBank fn-right" href="/account/userBank!toAdd.action">xxxx</a></li>
-              <li><a class="mgmtBank fn-right" id="mgmtBank" href="/account/info!bank.action">xxxx</a></li>
-            </ul>
-            -->
+									用户信息
 								</div>
-								<br>
-								<div class="ui-form-item" id="text" >
-											<label class="ui-label mt10">资质信息描述</label> <input
-												class="ui-input" type="text" name="description"
-												 data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="" style="height: 91px; width: 367px; ">
-										</div>
-								<div class="withdrawInputs">
-									<div class="inputs">
-                                          <div class="ui-form-item">
-											<label class="ui-label mt10">资质信息上传</label>
-											<div id="newUpload2">
+	<div class="withdrawInputs">
+		<div class="inputs">
+			<div class="ui-form-item">
+				<label class="ui-label mt10">登录名:</label> <input readonly="readonly"
+					class="ui-input" type="text" name="username" id="username"
+					data-is="isAmount isEnough" autocomplete="off"
+					disableautocomplete="" value="${userDetail.username!''}">
+			</div>
+			<p class="ui-term-placeholder"></p>
+			<div class="ui-form-item">
+				<label class="ui-label mt10"><span class="ui-form-required">*</span>真实姓名:</label>
+				<input class="ui-input" type="text" name="firstName" id="firstName"
+					data-is="isAmount isEnough" autocomplete="off"
+					disableautocomplete="" value="${userDetail.user.firstName!''}">
+			</div>
+			<div class="ui-form-item">
+				<label class="ui-label mt10"><span class="ui-form-required">*</span>邮箱地址:</label>
+				<input class="ui-input" type="text" name="email" id="email"
+					data-is="isAmount isEnough" autocomplete="off"
+					disableautocomplete="" value="${userDetail.user.email!''}">
+			</div>
+			<div class="ui-form-item">
+				<label class="ui-label mt10"><span class="ui-form-required">*</span>联系电话:</label>
+				<input class="ui-input" type="text" name="phone" id="phone"
+					data-is="isAmount isEnough" autocomplete="off"
+					disableautocomplete="" value="${userDetail.phone!''}">
+			</div>
+			<div class="ui-form-item">
+				<label class="ui-label mt10"><span class="ui-form-required">*</span>所属公司:</label>
+				<input class="ui-input" type="text" name="company" id="company"
+					data-is="isAmount isEnough" autocomplete="off"
+					disableautocomplete="" value="${userDetail.company!''}">
+			</div>
+
+			<div class="ui-form-item">
+				<label class="ui-label mt10"><span class="ui-form-required">*</span>所属部门:</label>
+				<input class="ui-input" type="text" name="department" id="department"
+					data-is="isAmount isEnough" autocomplete="off"
+					disableautocomplete="" value="${userDetail.department!''}">
+			</div>
+			<div class="ui-form-item">
+			    <label class="ui-label mt10">用户资质</label>
+			    <#if attachment??>
+			         <a href="${rc.contextPath}/downloadFile/${attachment.userId!''}/${attachment.id!''}"
+		          onclick="return hs.expand(this)">
+		        <img src="${rc.contextPath}/downloadFile/${attachment.userId!''}/${attachment.id!''}"
+		             class="m11" width="240"/>
+		    </a><br>
+		    <label class="ui-label mt10">修改资质</label>
+		    <div id="newUpload2">
 												<div id="div_1">
-													<input type="file" name="file" id="Sfile" class="">
+													<input type="file" name="user_pic" id="Sfile" class="">
 												</div>
 											</div>
-											<input  class="btn-sm btn-success" type="button" id="btn_add2" value="增加附件"
-												style="margin-top: 10px;" ><br>
-										</div>
-									</div>
-									<div class="ui-form-item widthdrawBtBox">
-										<input type="button" id="subWithdraw" class="block-btn"
-											onclick="sub();" value="提交资质信息">
-									</div>
-								</div>
+			    <#else>
+			    <div id="newUpload2">
+												<div id="div_1">
+													<input type="file" name="user_pic" id="Sfile" class="">
+												</div>
+											</div>
+			    </#if>
+									  
+	    	</div>
+	    	<div class="ui-form-item widthdrawBtBox">
+			<input type="button" id="subWithdraw" class="block-btn"
+				onclick="sub();" value="保存">
+		</div>
+		</div>
+		</div>
+		
 			<div class="worm-tips" >
             <div class="tips-title"><span class="icon"></span> 温馨提示</div>
 	          <ol>
@@ -109,20 +152,5 @@
 							</form>
 </div>
 
-<script type="text/javascript">
-  $(document).ready(function() {
-       //弹出一个iframe层
-$('#subWithdraw22').on('click', function(){
-	    layer.open({
-	    type: 1,
-	    skin: 'layui-layer-rim', //加上边框
-	    area: ['420px', '540px'], //宽高
-	    content: '<br><div class=\"ui-form-item\" id=\"text\" ><label class=\"ui-label mt10\">资质信息描述</label> <input class=\"ui-input\" type=\"text\" name=\"description\"  data-is=\"isAmount isEnough\"autocomplete=\"off\" disableautocomplete=\"\" style=\"height: 91px; width: 167px;\"></div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>444<br>'
-												
-										
-	});
-});
-    } );
-  </script>  
     
 </@frame.html>

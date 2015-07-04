@@ -158,8 +158,10 @@ public class SuppliesServiceImpl implements SuppliesService {
 		try {
 			Predicate query = QUserDetail.userDetail.username.eq(Request.getUserId(principal));
 			UserDetail userDetail = userDetailRepo.findOne(query);
-			attachmentService.saveAttachment(request, Request.getUserId(principal), userDetail.getId(),
-					JpaAttachment.Type.u_fj,description);
+			if(userDetail!=null){
+				attachmentService.saveAttachment(request, Request.getUserId(principal), userDetail.getId(),
+						JpaAttachment.Type.user_qualifi,description);
+			}
 			r = new Pair<Boolean, String>(true, "上传成功！");
 		} catch (BusinessException e) {
 			r = new Pair<Boolean, String>(false, "上传失败");
