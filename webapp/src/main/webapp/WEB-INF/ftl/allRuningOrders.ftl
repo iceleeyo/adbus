@@ -141,10 +141,16 @@
 									所有订单
 			</div> -->
 			<div class="tabs">
+					<@security.authorize ifAnyGranted="advertiser">
 					<a id="tab1" href="${rc.contextPath}/order/myOrders/1">我的订单</a>
+					</@security.authorize>	
+					<@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 					<a id="tab2" class="active" href="${rc.contextPath}/order/allRuningOrders/1">进行中的订单</a>
+					</@security.authorize>	
 					<a id="tab3" href="${rc.contextPath}/order/finished">已完成的订单</a>
+					<@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 					<a id="tab4" href="${rc.contextPath}/order/join/1">我参与的订单</a>
+					</@security.authorize>
 				</div>
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
