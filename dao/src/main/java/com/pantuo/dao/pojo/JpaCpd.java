@@ -45,6 +45,7 @@ public class JpaCpd extends BaseEntity {
 	private CheckOrder checkOrder;
 	private int pv;
 	private int setcount;
+	private int orderid;
 
 	public JpaCpd() {
 	}
@@ -140,6 +141,14 @@ public class JpaCpd extends BaseEntity {
 
 	public void setCheckOrder(CheckOrder checkOrder) {
 		this.checkOrder = checkOrder;
+	}
+
+	public int getOrderid() {
+		return orderid;
+	}
+
+	public void setOrderid(int orderid) {
+		this.orderid = orderid;
 	}
 
 }
