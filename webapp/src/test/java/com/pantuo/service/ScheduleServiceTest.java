@@ -66,7 +66,8 @@ public class ScheduleServiceTest {
         cityRepo.deleteAll();
     }
 
-    @Test
+/*    @Test
+
     public void testSchedule() {
         Calendar cal = DateUtil.newCalendar();
         cal.setTime(new Date());
@@ -137,5 +138,6 @@ public class ScheduleServiceTest {
             //Assert.assertTrue(slog.getStatus() == ScheduleLog.Status.scheduled);
         }
     }
+*/
 
 }
