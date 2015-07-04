@@ -137,9 +137,14 @@
 </script>
 
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title" style="padding-top: 0px; text-align:left; ">
+            <!-- <div class="withdraw-title" style="padding-top: 0px; text-align:left; ">
 									所有订单
-			</div>
+			</div> -->
+			<div class="tabs">
+					<a id="tab1" href="${rc.contextPath}/order/myOrders/1">我的订单</a>
+					<a id="tab2" class="active" >进行中的订单</a>
+					<a id="tab3" href="${rc.contextPath}/order/finished">已完成的订单</a>
+				</div>
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>

@@ -22,11 +22,15 @@ function go_back(){
 function showtb1(){
 	     $("#tb1").show();
 	     $("#tb2").hide();
+	     
 	}
 	function showtb2(){
 	     $("#tb1").hide();
 	     $("#tb2").show();
 	}
+	
+	
+	
 function pay() { 
 	    var contractid=-1;
 	     var payType="";
@@ -260,22 +264,22 @@ function qCheck(obj){
 </#if>
               <div class="p20bs mt10 color-white-bg border-ec">
                  <H3 class="text-xl title-box" style="text-align: left;">
-                    <input type="button"  onclick="showtb1()" class="block-btn" value="支付订单">
+                    <input type="button"  onclick="showtb1()" class="tab block-btn" value="支付订单">
                     <#if order?exists>
                        <#if order.supplies.id = 1 >
-                        	<input type="button"  onclick="showtb2()" class="block-btn" value="绑定素材">
+                        	<input type="button"  onclick="showtb2()" class="tab block-btn btn-gray " value="绑定素材">
                        </#if>
                     </#if>
 				 
                  </H3><BR>	
                  <div id="tb1"> 
-  				 <H3 class="text-xl title-box"><p style="text-align: left"><A class="black" href="#">订单处理-支付订单</A></p></H3>
-                 <br/>
+  				 <!-- <H3 class="text-xl title-box"><p style="text-align: left"><A class="black" href="#">订单处理-支付订单</A></p></H3>
+                 <br/> -->
                  <TABLE class="ui-table ui-table-gray">
   								<TBODY>
 									 	
 									<TR style="height:45px;">
-    								<Td style="padding:0,10px;" width="20%">支付方式</Td>
+    								<Td style="padding:0,10px;text-align:right" width="20%">支付方式</Td>
     							<TD style="padding:0,10px;" width="550">
     										<input type="radio" name="payType" onchange="showContract()" value="contract" checked="checked">关联合同
 				             		<input type="radio" name="payType" value="online" onchange="hideboth()" >线上支付
@@ -305,7 +309,7 @@ function qCheck(obj){
     									
   					</TR>
   					           <TR style="height:45px;">
-    									<td >发票信息</td>
+    									<td style="text-align:right">发票信息</td>
     									<TD colspan=3>
     									    <input type="checkbox" id="invoiceShow"/><span style="margin-left:5px;">开具发票</span> &nbsp;&nbsp;&nbsp;
     									    <a href="javascript:;" onclick="IvcEnter('${rc.contextPath}')">录入发票</a>
@@ -315,18 +319,31 @@ function qCheck(obj){
 				               </TR>
 				            <tbody id="invoiceTab" style="display:none;">
 				              <TR>
-				              <td>发票抬头</td>
+				              <td style="text-align:right">发票抬头</td><div class="item"><i></i></div>
 				              <TD colspan="3">
 						   <div class="cart_address_wrap" id="cartAddress" style="width:540px;">
 						     <#if (InvoiceList?size>0)>
-				                <ul class="cart_address_list clearfix" style="height:<#if (invoicelength<1)>10px<#else>${invoicelength*100-20}px</#if>;width:550px;" id="cartAddressList">
+				                <ul class="cart_address_list clearfix" style="width:550px;" id="cartAddressList">
 				                  <#list InvoiceList as ilist>
-				                  <li data-aid="${ilist.id}" tip="${ (ilist.type==1)?string('专用发票','普通发票')}:${ilist.title}" class="layer-tips">
+				                  <!-- <li class="item" data-aid="${ilist.id}" tip="${ (ilist.type==1)?string('专用发票','普通发票')}:${ilist.title}" class="layer-tips">
 				                    <span href="javascript:;"  class="cart_address_card addressCard" style="text-decoration:none;" data-aid="${ilist.id}">
 				                        <p class="cart_address_zipinfo" >
 				                      ${substring(ilist.title,0,11)}</p>
 				                        <i class="cart_address_edit" style="display: none;"onclick="qEdit('${rc.contextPath}',${ilist.id})" id="${ilist.id}">编辑</i>
 				                    </span>
+				                </li> -->
+				                
+				                <li data-aid="${ilist.id}" tip="${ (ilist.type==1)?string('专用发票','普通发票')}:${ilist.title}" class="layer-tips">
+				                    
+				                    <div class="item"><i></i>
+				                    <span href="javascript:;"  class="" style="text-decoration:none;" data-aid="${ilist.id}">
+				                        <span class="" >
+				                      ${substring(ilist.title,0,11)}
+				                      <br>
+				                      <b class="cart_address_edit" style="display: block;position:inherit;"onclick="qEdit('${rc.contextPath}',${ilist.id})" id="${ilist.id}">编辑</b>
+				                      </span>
+				                        
+				                    </span></div>
 				                </li>
 				                </#list>
 				                <#else>
@@ -342,25 +359,30 @@ function qCheck(obj){
 				               	<#if (InvoiceList?size>0)>
 
 				               	<TR>
-				               		<td>发票内容</td>
+				               		<td style="text-align:right">发票内容</td>
 				               		<td colspan="3">
-				               			<select style="margin: 20px;" id="contents">
+				               			<!-- <select style="margin: 20px;" id="contents">
 				               						<option value="">请选择发票开具内容</option>
 				               						<option value="广告发布费">广告发布费</option>
 				               						<option value="广告制作费">广告制作费</option>
 				               						<option value="其他">其他</option>
-				               			</select>
+				               			</select> -->
+				               			<div class="item"><i></i><a class="select-type">广告发布费</a></div>
+				               			<div class="item"><i></i><a class="select-type">广告制作费</a></div>
+				               			<div class="item"><i></i><a class="select-type">其他</a></div>
 				               		</td>
 				               	</TR>
 				               	
 				               	<TR>
-				               		<td>领取方式</td>
+				               		<td style="text-align:right">领取方式</td>
 				               		<td colspan="3">
-				               			<select  style="margin: 20px;" id="receway">
+				               			<!-- <select  style="margin: 20px;" id="receway">
 				               						<option value="">请选择发票领取方式</option>
 				               						<option value="自取">自取</option>
 				               						<option value="邮寄">邮寄</option>
-				               					</select>
+				               					</select> -->
+				               		    <div class="item"><i></i><a class="select-type">自取</a></div>
+				               			<div class="item"><i></i><a class="select-type">邮寄</a></div>
 				               		</td>
 				               	</TR>
 				               	</#if>
@@ -373,7 +395,7 @@ function qCheck(obj){
     					</p>
 						</div>
 						<div id="tb2">
-						<H3 class="text-xl title-box"><p style="text-align: left"><A class="black" href="#">绑定物料</A></p></H3>
+						<!-- <H3 class="text-xl title-box"><p style="text-align: left"><A class="black" href="#">绑定物料</A></p></H3> -->
                  		<br/>
 						<TABLE class="ui-table ui-table-gray" id="tb2">
   								<TBODY> 	
@@ -411,8 +433,20 @@ $(document).ready(function(){
   $('input').iCheck({
     checkboxClass: 'icheckbox_square-green',
     radioClass: 'iradio_square-green',
-    increaseArea: '20%' // optional
+    increaseArea: '10%' // optional
   });
+  
+  $('.item').click(function(){
+    $(this).parent().children().removeClass('selected');
+  	$(this).addClass('selected');
+  	$(this).children().show();
+  	
+  });
+  
+  $('.tab.block-btn').click(function(){
+		$(this).parent().children().addClass('btn-gray');
+		$(this).removeClass('btn-gray');
+	});
 });
 </script>
 <script type="text/javascript">
@@ -430,7 +464,7 @@ $(document).ready(function(){
 	var exact_id= $(this).attr("data-aid");
     $(this).find("span").addClass("selected");
     $("#hiddenINvoiceId").val(exact_id);
-    $("#"+exact_id)[0].style.display = "block"; 
+    $("#"+exact_id)[0].style.display = "inline-block"; 
 
 });
 

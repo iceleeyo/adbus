@@ -53,7 +53,7 @@
 }
 .broadcast{
 	background: #fff;
-	height: 260px;
+	height: 300px;
 	overflow: hidden;
 }
 .broadcast .items{
@@ -94,7 +94,7 @@
 	border-bottom: 1px solid #000;
 }
 .broadcast .vediobox{
-	width:720px;
+	width:820px;
 	margin-right: 10px;
 }
 .broadcast .addition{
@@ -176,7 +176,7 @@
 	position: relative;
 }
 .qqbox{
-	width: 150px;
+	width: 130px;
 	background: rgb(255, 255, 255);
 	border: 2px solid rgb(0, 118, 187);
 	position: fixed;
@@ -220,7 +220,7 @@
 }
 .qq-default{
 	background: url(../imgs/icon_qq.png) no-repeat;
-	width: 80px;
+	width: 70px;
 	height: 25px;
 	display: inline-block;
 

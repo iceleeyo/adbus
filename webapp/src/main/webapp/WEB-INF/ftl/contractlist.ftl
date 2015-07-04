@@ -159,9 +159,13 @@ alert("dddd");
             <div class="div">
                 <hr/>
             </div>-->
-            <div class="withdraw-title" style="padding-top: 0px;text-align:left;">
+            <!-- <div class="withdraw-title" style="padding-top: 0px;text-align:left;">
 									合同列表
-									</div>
+									</div> -->
+			<div class="withdraw-title">
+					<span>合同列表</span>
+					<a class="block-btn" href="http://www.baidu.com">添加合同</a>
+				</div>
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr class="tableTr">

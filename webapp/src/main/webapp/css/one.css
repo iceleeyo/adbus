@@ -911,7 +911,8 @@ h6,.h6 {
 
 a {
 	color: #2ea7e0;
-	text-decoration: none
+	text-decoration: none;
+	cursor: pointer;
 }
 
 a.black {

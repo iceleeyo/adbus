@@ -141,11 +141,17 @@ var table;
 </script>
 
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title" style="padding-top: 0px; text-align:left; ">
-									${orderMenu}
-									</div>
-            
-                <table id="table" class="display" cellspacing="0" width="100%">
+            <!-- <div class="withdraw-title" style="padding-top: 0px; text-align:left; ">
+									
+									</div> -->
+                
+                <div class="tabs">
+					<a id="tab1" class="active">${orderMenu}</a>
+					<a id="tab2" href="${rc.contextPath}/order/allRuningOrders/1">进行中的订单</a>
+					<a id="tab3" href="${rc.contextPath}/order/finished">已完成的订单</a>
+				</div>
+				
+				<table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
                         <th>下单用户</th>
@@ -159,5 +165,26 @@ var table;
                     </thead>
 
                 </table>
+                
 </div>
 </@frame.html>
+<!-- 针对tab的js -->
+<script type="text/javascript">
+	$('.tabs a').click(function(){
+		$(this).parent().children().removeClass();
+		$(this).addClass('active');
+	});
+	
+	$('#tab1').click(function(){
+		$('.tab-content').children().hide();
+		$('.tab1').show();
+	});
+	$('#tab2').click(function(){
+	$('.tab-content').children().hide();
+		$('.tab2').show();
+	});
+	$('#tab3').click(function(){
+		$('.tab-content').children().hide();
+		$('.tab3').show();
+	});
+</script>

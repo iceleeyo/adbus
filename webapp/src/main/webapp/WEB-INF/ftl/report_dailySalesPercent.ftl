@@ -27,6 +27,29 @@ css=["js/jquery-ui/jquery-ui.css"]>
         });
     </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
+	<div class="tabs">
+		<a id="tab1" class="active">财务收入日报</a>
+		<a id="tab2">财务收入月报</a>
+		<a id="tab3">财务收入年报</a>
+	</div>
+	<div class="tabs sift">
+		<span>时间</span>
+		<input
+                    class="ui-input ui-input-mini datepicker" type="text" name="day"
+                    id="day" data-is="isAmount isEnough"
+                    autocomplete="off" disableautocomplete="">
+	</div>
+	<div class="tab-content">
+		<div class="tab1">
+			<span>daily</span>
+		</div>
+		<div class="tab2" style="display:none;">
+			<span>monthly</span>
+		</div>
+		<div class="tab3" style="display:none;">
+			<span>year</span>
+		</div>
+	</div>
     <div class="withdraw-title fn-clear">
         财务收入日报
         <div class="report-toolbar">
@@ -44,4 +67,24 @@ css=["js/jquery-ui/jquery-ui.css"]>
     titleY="财务收入" highChart=remainTimeSlots baseY="${baseY!''}"/>
 </div>
 </@frame.html>
+
+<script type="text/javascript">
+	$('.tabs a').click(function(){
+		$(this).parent().children().removeClass();
+		$(this).addClass('active');
+	});
+	
+	$('#tab1').click(function(){
+		$('.tab-content').children().hide();
+		$('.tab1').show();
+	});
+	$('#tab2').click(function(){
+	$('.tab-content').children().hide();
+		$('.tab2').show();
+	});
+	$('#tab3').click(function(){
+		$('.tab-content').children().hide();
+		$('.tab3').show();
+	});
+</script>
 

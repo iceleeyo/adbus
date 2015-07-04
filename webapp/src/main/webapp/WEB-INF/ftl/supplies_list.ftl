@@ -173,9 +173,10 @@ function delSupp(Suppid){
             <div class="div">
                 <hr/>
             </div>-->
-                <div class="withdraw-title" style="padding-top: 0px; text-align:left; ">
-									物料列表
-									</div>
+                <div class="withdraw-title">
+					<span>物料列表</span>
+					<a class="block-btn" href="http://www.baidu.com">添加物料</a>
+				</div>
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>

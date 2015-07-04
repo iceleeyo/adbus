@@ -424,14 +424,14 @@ function pay() {
            <@pickBuses.pickBuses order=orderview.order product=orderview.product city=city lineLevel=prod.lineLevel categories=categories/>
     </#if>
               <div class="p20bs mt10 color-white-bg border-ec">
-                 <H3 class="text-xl title-box"><A class="black" href="#">支付订单</A></H3><BR>	
+                 <H3 class="text-xl title-box"><p style="text-align: left"><A class="black" href="#">支付订单</A></p></H3><BR>	
                  <TABLE class="ui-table ui-table-gray" >
   								<TBODY>
 									<!-- <TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
     									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>广告主支付订单</H4></TD>
   								</TR>  --> 	
 									<TR style="height:45px;">
-    									<TD >支付方式</TD>
+    									<TD width="22%">支付方式</TD>
     									<TD>
     										<input type="radio" name="payType" onchange="showContract()" value="contract" checked="checked">关联合同
 				             		<input type="radio" name="payType" value="online" onchange="hideboth()" >线上支付
@@ -468,7 +468,7 @@ function pay() {
     									<td></td>
 				             	    </TR>
 				             	    <TR style="display:none;" id="invoiceTab">
-				                  <TH>发票列表</TH>
+				                  <TH >发票列表</TH>
 				                   <TD colspan=3>
 				                   <div class="cart_address_wrap" id="cartAddress" style="width:540px;">
 						  <#if (InvoiceList?size>0)>
