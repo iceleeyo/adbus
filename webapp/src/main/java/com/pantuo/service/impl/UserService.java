@@ -33,6 +33,7 @@ import com.pantuo.dao.UserDetailRepository;
 import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.QUserDetail;
 import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.dao.pojo.UserDetail.UStats;
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.AttachmentExample;
 import com.pantuo.mybatis.domain.Invoice;
@@ -442,6 +443,7 @@ public class UserService implements UserServiceInter {
 			user.setErrorInfo(BaseEntity.ERROR, "登录名已经存在!");
 		} else if (user.getUser() != null) {
 			com.pantuo.util.BeanUtils.filterXss(user);
+			user.setUstats(UStats.init);
 			userRepo.save(user);
 			identityService.saveUser(user.getUser());
 			if (user.getGroups() != null) {
