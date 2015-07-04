@@ -9,7 +9,9 @@ import java.util.*;
 
 import com.pantuo.dao.*;
 import com.pantuo.dao.pojo.*;
+import com.pantuo.dao.pojo.UserDetail.UStats;
 import com.pantuo.util.DateUtil;
+
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.impl.persistence.entity.GroupEntity;
 import org.slf4j.Logger;
@@ -192,6 +194,7 @@ public class DataInitializationService {
                 String[] groups = user[5].split(":");
                 UserDetail ud = new UserDetail(user[0], user[1], user[2], user[3], user[4]);
                 ud.setStringGroups(Arrays.asList(groups));
+                ud.setUstats(UStats.init);
                 if (userService.getByUsername(ud.getUsername()) == null) {
                     log.info("Creating user: {}, group: {}", ud.getUsername(), user[5]);
                     userService.createUser(ud);
