@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="用户列表">
-<@frame.html title="用户列表">
+<@frame.html title="用户列表" js=["js/layer-v1.9.3/layer/layer.js","js/layer.onload.js"] css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/uploadprogess.css","css/liselect/pkg-generator.css$ver=1431443489.css"]>
 
 <script type="text/javascript">
     var table;
@@ -61,13 +61,24 @@
                             return '<span class="invalid">禁用</span>';
                     }
                 } },
+                 { "data": "ustats", "defaultContent": "", "render": function(data) {
+                    if (data == 'init')
+                            return '<span class="processed layer-tips" tip="已认证的用户可以参与竞价!">未认证</span>'; 
+                        if (data == 'authentication')
+                    return '<span class="invalid">已认证</span>';
+                     
+                } },
+                
                 { "data": function( row, type, set, meta) {
                     return row.username;
                 },
                     "render": function(data, type, row, meta) {
                         return (row.enabled ? '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/user/' + data + '/disable">禁用</a> &nbsp;'
                                 :'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/user/' + data + '/enable">启用</a> &nbsp;')
-                        + '<a href="${rc.contextPath}/user/u_edit/' + data + '" >编辑</a> &nbsp;';
+                        + '<a href="${rc.contextPath}/user/u_edit/' + data + '" >编辑</a> &nbsp;'
+                        +(row.ustats=='init' ? '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/user/ustats/' + data + '/authentication">认证通过</a> &nbsp;'
+                                :'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/user/ustats/' + data + '/init">撤销认证</a> &nbsp;')
+                        ;
                     }},
             ],
             "language": {
@@ -92,6 +103,7 @@
         $('#name').change(function() {
             table.fnDraw();
         });
+        bindLayerMouseOver();
     }
 
     function drawCallback() {
@@ -106,6 +118,7 @@
 
     $(document).ready(function() {
         initTable();
+         bindLayerMouseOver();
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
@@ -118,7 +131,9 @@
                     <tr>
                         <th orderBy="username">用户名</th>
                         <th>所属组</th>
+                        
                         <th orderBy="enabled">状态</th>
+                        <th >认证状态</th>
                         <th>管理</th>
                     </tr>
                     </thead>
