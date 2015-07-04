@@ -12,6 +12,7 @@
               <UL class="uplan-detail-ul">
                   <li style="width: 800px;"><SPAN>套餐名称：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer('${rc.contextPath}/product/ajaxdetail/',${prod.id});"  >${prod.name!''}</a></SPAN></li>
   				  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
+  				    <#if !(cpdDetail?exists)>
   				  <li style="width: 200px;"><SPAN>套餐价格：</SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">
   				  	<@security.authorize ifNotGranted="ShibaOrderManager">${orderview.order.price!''} </@security.authorize>
   				  	<@security.authorize ifAnyGranted="ShibaOrderManager">
@@ -19,7 +20,15 @@
   				  <span id="prodPrice">	${orderview.order.price!''}</span></a>
   				    </@security.authorize>
   				  </SPAN></li>
-  				  <li style="width: 200px;"><SPAN>下单用户：</SPAN><SPAN class="con">${(orderview.order.creator)!''}</SPAN></li>
+  				   </#if> 
+  				  <#if cpdDetail?exists>
+  				    <li style="width: 200px;"><SPAN>套餐底价：</SPAN>${cpdDetail.saleprice!''}</li>
+  				    <li style="width: 200px;"><SPAN><b>成交价</b>：</SPAN><font color='#ff9966'>${cpdDetail.comparePrice!''}</font></li>
+  				  </#if>  
+  				    
+  				  <li style="width: 200px;"><SPAN>下单用户：</SPAN><SPAN class="con">
+  				  <a class="layer-tips" tip="点击查看下单用户信息!" onclick="showOrderUserlayer('${rc.contextPath}/user/u_ajax/', '${(orderview.order.creator)!''}');"  >
+  				  ${(orderview.order.creator)!''}</a></SPAN></li>
   				  <li style="width: 200px;"><SPAN>媒体类型：</SPAN><SPAN class="con">${prod.type.typeName!''}</SPAN></li>
   				  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
   				  <li style="width: 200px;"><SPAN>起播时间：</SPAN><SPAN class="con"><#setting date_format="yyyy-MM-dd">${(orderview.order.startTime?date)!''}</SPAN></li>
