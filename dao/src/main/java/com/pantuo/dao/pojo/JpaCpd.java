@@ -39,6 +39,7 @@ public class JpaCpd extends BaseEntity {
 	private double saleprice; //售价
 	private double comparePrice;//当前用户竞价
 	private String userId;
+	private Date startDate;
 	private Date biddingDate;
 	private OverType ispay;
 	private State state;
@@ -48,6 +49,24 @@ public class JpaCpd extends BaseEntity {
 	private int orderid;
 
 	public JpaCpd() {
+	}
+
+	public JpaCpd(int id, JpaProduct product, double saleprice, double comparePrice, String userId, Date startDate,
+			Date biddingDate, OverType ispay, State state, CheckOrder checkOrder, int pv, int setcount, int orderid) {
+		super();
+		this.id = id;
+		this.product = product;
+		this.saleprice = saleprice;
+		this.comparePrice = comparePrice;
+		this.userId = userId;
+		this.startDate = startDate;
+		this.biddingDate = biddingDate;
+		this.ispay = ispay;
+		this.state = state;
+		this.checkOrder = checkOrder;
+		this.pv = pv;
+		this.setcount = setcount;
+		this.orderid = orderid;
 	}
 
 	public JpaCpd(String name) {
@@ -84,6 +103,14 @@ public class JpaCpd extends BaseEntity {
 
 	public void setComparePrice(double comparePrice) {
 		this.comparePrice = comparePrice;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
 	}
 
 	public String getUserId() {
@@ -149,6 +176,14 @@ public class JpaCpd extends BaseEntity {
 
 	public void setOrderid(int orderid) {
 		this.orderid = orderid;
+	}
+
+	@Override
+	public String toString() {
+		return "JpaCpd [id=" + id + ", product=" + product + ", saleprice=" + saleprice + ", comparePrice="
+				+ comparePrice + ", userId=" + userId + ", startDate=" + startDate + ", biddingDate=" + biddingDate
+				+ ", ispay=" + ispay + ", state=" + state + ", checkOrder=" + checkOrder + ", pv=" + pv + ", setcount="
+				+ setcount + ", orderid=" + orderid + "]";
 	}
 
 }
