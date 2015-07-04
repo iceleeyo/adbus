@@ -204,13 +204,13 @@ public class ProductController {
 //        model.addAttribute("paginationHTML", page.showNumPageWithEmpty());
         return "product_list2";
     }
-    @RequestMapping(value = "/comparelist")
+    @RequestMapping(value = "/auction")
     public String comparelist() {
-    	return "CompareProduct_list";
+    	return "compareProduct_list";
     }
-    @RequestMapping(value = "/toMyCompare")
+    @RequestMapping(value = "/myAuctionList")
     public String toMyCompare() {
-    	return "MyComparePro";
+    	return "myCompare";
     }
 
 }
