@@ -30,7 +30,7 @@
   				  <a class="layer-tips" tip="点击查看下单用户信息!" onclick="showOrderUserlayer('${rc.contextPath}/user/u_ajax/', '${(orderview.order.creator)!''}');"  >
   				  ${(orderview.order.creator)!''}</a></SPAN></li>
   				  </@security.authorize>
-  				  	<@security.authorize ifAnyGranted="advertiser">
+  				  	<@security.authorize ifAnyGranted="advertiser" ifNotGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
   				   <li style="width: 200px;"><SPAN>下单用户：</SPAN><SPAN class="con">${(orderview.order.creator)!''}</SPAN></li>
   				  </@security.authorize>
   				  
