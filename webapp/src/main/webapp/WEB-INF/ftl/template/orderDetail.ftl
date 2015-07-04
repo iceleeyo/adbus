@@ -99,7 +99,14 @@
 </a></SPAN><SPAN class="con"></SPAN></li>
 </#if>
 <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
-  <li style="width: 720px;"><SPAN> 备注信息：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查详细内容!" onclick="showRemark('${orderview.order.ordRemark!''}');"  >${substring(orderview.order.ordRemark,0,38)}</a></SPAN></li>
+
+	 <#if (orderview.order.ordRemark!'')?length lt 38>
+	 <li style="width: 720px;"><SPAN> 备注信息：</SPAN><SPAN class="con">${orderview.order.ordRemark!''}</SPAN></li> 
+	 <#else>
+		<li style="width: 720px;"><SPAN>备注信息：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查详细内容!" onclick="showRemark('${orderview.order.ordRemark!''}');"  >${substring(orderview.order.ordRemark,0,38)}</a></SPAN></li> 
+	 </#if>
+	 
+  
   <#if orderview.closed>
   <li style="width: 720px;"><SPAN> 关闭原因：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查关闭内容!" onclick="showRemark('${orderview.order.closeRemark!''}');"  >${substring(orderview.order.closeRemark,0,38)}</a></SPAN></li>
   </#if>

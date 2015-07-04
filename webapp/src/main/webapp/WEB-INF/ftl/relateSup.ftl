@@ -253,8 +253,12 @@ function qCheck(obj){
   				  </#if>
   				   <LI style="width: 720px;"><SPAN>电子合同：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查看电子合同!" onclick="eleContract('${rc.contextPath}',${orderview.order.id!''});"  >查看</a></SPAN></LI>
   				   <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
+  				   
+  				    <#if (orderview.order.ordRemark!'')?length lt 38>
+						 <li style="width: 720px;"><SPAN> 备注信息：</SPAN><SPAN class="con">${orderview.order.ordRemark!''}</SPAN></li> 
+						 <#else>
   				   <LI style="width: 720px;"><SPAN>备注信息：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查详细内容!" onclick="showRemark('${orderview.order.ordRemark!''}');"  >${substring(orderview.order.ordRemark,0,38)}</a></SPAN></LI>
-
+ 					</#if>
 </UL>
 </DIV>
 </DIV>
