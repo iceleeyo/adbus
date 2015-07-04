@@ -134,10 +134,10 @@
 			    </#if>
 									  
 	    	</div>
-	    	<div class="ui-form-item">
+	    	<div class="ui-form-item" tip="上传资质图片,审核通过可以参与商品竞价!"> 
 				<label class="ui-label mt10">认证状态:</label>
 				<#if userDetail.ustats=="init">
-				未认证
+					未认证
 				    <#else>
 				    已认证
 				</#if>
@@ -152,7 +152,7 @@
 			<div class="worm-tips" >
             <div class="tips-title"><span class="icon"></span> 温馨提示</div>
 	          <ol>
-              <li>1.请选择合法的用户资质进行上传。</li>
+              <li>1.请选择合法的用户资质进行上传、审核通过(已认证)后可参与竞价商品的竞拍</li>
               <li>2.如果您填写的信息不正确可能会导致下单失败。 </li>
               <li>3.平台禁止洗钱、信用卡套现、虚假交易等行为，一经发现并确认，将终止该账户的使用。</li>
 	          </ol>
