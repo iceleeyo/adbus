@@ -146,9 +146,19 @@ var table;
 									</div> -->
                 
                 <div class="tabs">
-					<a id="tab1" class="active">${orderMenu}</a>
+                
+                <#if orderMenu=="我的订单">
+					<a id="tab1" href="${rc.contextPath}/order/myOrders/1" class="active">${orderMenu}</a>
+				<#else>
+					<a id="tab1" href="${rc.contextPath}/order/myOrders/1">${orderMenu}</a>
+				</#if>
 					<a id="tab2" href="${rc.contextPath}/order/allRuningOrders/1">进行中的订单</a>
 					<a id="tab3" href="${rc.contextPath}/order/finished">已完成的订单</a>
+				<#if orderMenu=="我参与订单">
+					<a id="tab4" class="active" href="${rc.contextPath}/order/join/1">我参与订单</a>
+				<#else>
+					<a id="tab4" href="${rc.contextPath}/order/join/1">我参与订单</a>
+				</#if>
 				</div>
 				
 				<table id="table" class="display" cellspacing="0" width="100%">
@@ -169,22 +179,3 @@ var table;
 </div>
 </@frame.html>
 <!-- 针对tab的js -->
-<script type="text/javascript">
-	$('.tabs a').click(function(){
-		$(this).parent().children().removeClass();
-		$(this).addClass('active');
-	});
-	
-	$('#tab1').click(function(){
-		$('.tab-content').children().hide();
-		$('.tab1').show();
-	});
-	$('#tab2').click(function(){
-	$('.tab-content').children().hide();
-		$('.tab2').show();
-	});
-	$('#tab3').click(function(){
-		$('.tab-content').children().hide();
-		$('.tab3').show();
-	});
-</script>

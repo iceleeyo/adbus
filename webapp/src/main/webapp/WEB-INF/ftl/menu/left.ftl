@@ -27,11 +27,7 @@
 											物料管理
 										</a>
 										<ul class="pg-side-exp-list" style="display:none;">
-											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/supplies/new">
-													上传物料
-												</a>
-											</li>
+											
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/supplies/list">
 													物料列表
@@ -208,60 +204,22 @@
                                         <@security.authorize ifAnyGranted="ShibaFinancialManager">
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/report/daysalesp">
-                                                    财务收入日报
+                                                    财务收入报表
                                                 </a>
                                             </li>
-                                            <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/monthsalesp">
-                                                    财务收入月报
-                                                </a>
-                                            </li>
+
                                         </@security.authorize>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/report/day">
-													剩余时段报表
+				时段报表
 												</a>
 											</li>
-                                            <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/hour">
-                                                    三天时段报表
-                                                </a>
-                                            </li>
-                                            <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/dayp">
-                                                    剩余时段比例
-                                                </a>
-                                            </li>
-                                            <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/hourp">
-                                                    单日时段比例
-                                                </a>
-                                            </li>
-                                            <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/monthp">
-                                                    全年时段比例
-                                                </a>
-                                            </li>
-                                            <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/wow">
-                                                    时段两周同比
-                                                </a>
-                                            </li>
-                                            <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/mom">
-                                                    时段月同比
-                                                </a>
-                                            </li>
+
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/report/dayorderp">
                                                     销售报表
 												</a>
 											</li>
-                                            <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/dayindustryp">
-                                                    行业细分
-                                                </a>
-                                            </li>
 <#--											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="#">
 													广告主报表
@@ -318,7 +276,12 @@
 													发票录入
 												</a>
 											</li>
-										    <li class="pg-side-exp-item">
+											<!--<li class="pg-side-exp-item">
+												<a class="side-exp-item-t" href="${rc.contextPath}/user/qualification">
+                                                    资质录入
+												</a>
+											</li>-->
+											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/user/qualification">
                                                                                                                                               个人信息
 												</a>

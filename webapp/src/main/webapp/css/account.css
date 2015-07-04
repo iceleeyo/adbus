@@ -1930,11 +1930,14 @@
 .withdraw-title {
 	line-height: 20px;
 	padding-bottom: 15px;
-	font-size: 20px;
+	font-size: 17px;
 	font-weight: 400;
 	border-bottom: solid 1px #e0e0e0;
 	margin-bottom: 0px;
 	position: relative
+}
+.fn-clear{
+	margin:15px; 
 }
 
 .withdraw-title a{

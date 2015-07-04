@@ -142,8 +142,9 @@
 			</div> -->
 			<div class="tabs">
 					<a id="tab1" href="${rc.contextPath}/order/myOrders/1">我的订单</a>
-					<a id="tab2" class="active" >进行中的订单</a>
+					<a id="tab2" class="active" href="${rc.contextPath}/order/allRuningOrders/1">进行中的订单</a>
 					<a id="tab3" href="${rc.contextPath}/order/finished">已完成的订单</a>
+					<a id="tab4" href="${rc.contextPath}/order/join/1">我参与的订单</a>
 				</div>
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>

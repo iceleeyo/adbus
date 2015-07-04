@@ -1,7 +1,7 @@
 <#import "template/template.ftl" as frame>
 <#import "macro/timeslotChart.ftl" as trendChart>
 
-<#global menu="财务收入日报">
+<#global menu="财务收入报表">
 <@frame.html title="财务收入日报"
 js=["js/highcharts/highcharts-3.0.2.js", "js/highcharts/exporting.js", "js/chart.js", "js/jquery-dateFormat.js", "js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"]
 css=["js/jquery-ui/jquery-ui.css"]>
@@ -28,47 +28,33 @@ css=["js/jquery-ui/jquery-ui.css"]>
     </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
 	<div class="tabs">
-		<a id="tab1" class="active">财务收入日报</a>
-		<a id="tab2">财务收入月报</a>
-		<a id="tab3">财务收入年报</a>
+		<a id="tab1" class="active" href="${rc.contextPath}/report/daysalesp">财务收入日报</a>
+		<a id="tab2" href="${rc.contextPath}/report/monthsalesp">财务收入月报</a>
 	</div>
-	<div class="tabs sift">
+	<div style="margin-top: 20px;">
 		<span>时间</span>
 		<input
                     class="ui-input ui-input-mini datepicker" type="text" name="day"
                     id="day" data-is="isAmount isEnough"
                     autocomplete="off" disableautocomplete="">
 	</div>
-	<div class="tab-content">
-		<div class="tab1">
-			<span>daily</span>
-		</div>
-		<div class="tab2" style="display:none;">
-			<span>monthly</span>
-		</div>
-		<div class="tab3" style="display:none;">
-			<span>year</span>
-		</div>
-	</div>
-    <div class="withdraw-title fn-clear">
-        财务收入日报
-        <div class="report-toolbar">
-            <input
-                    class="ui-input ui-input-mini datepicker" type="text" name="day"
-                    id="day" data-is="isAmount isEnough"
-                    autocomplete="off" disableautocomplete="">
-        </div>
-    </div>
 
+
+
+<div class="withdraw-title fn-clear">
+      财务收入日报
+</div> 
     <div class="tileContent" style="margin:8px 10px 0 8px" id="remainTimeslots"></div>
+    
     <@trendChart.trendChart chartDiv="remainTimeslots" title=""
     yName=yNames
     seriesTypes=seriesNames
     titleY="财务收入" highChart=remainTimeSlots baseY="${baseY!''}"/>
 </div>
+
 </@frame.html>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	$('.tabs a').click(function(){
 		$(this).parent().children().removeClass();
 		$(this).addClass('active');
@@ -86,5 +72,5 @@ css=["js/jquery-ui/jquery-ui.css"]>
 		$('.tab-content').children().hide();
 		$('.tab3').show();
 	});
-</script>
+</script> -->
 

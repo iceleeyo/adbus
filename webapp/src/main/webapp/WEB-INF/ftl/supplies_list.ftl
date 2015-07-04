@@ -175,7 +175,7 @@ function delSupp(Suppid){
             </div>-->
                 <div class="withdraw-title">
 					<span>物料列表</span>
-					<a class="block-btn" href="http://www.baidu.com">添加物料</a>
+					<a class="block-btn" href="${rc.contextPath}/supplies/new">添加物料</a>
 				</div>
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>

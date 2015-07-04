@@ -27,16 +27,20 @@ css=["js/jquery-ui/jquery-ui.css"]>
         });
     </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-    <div class="withdraw-title fn-clear">
-        售出情况
-        <div class="report-toolbar">
+<div class="tabs">
+		<a id="tab1" class="active" href="${rc.contextPath}/report/dayorderp">销售报表</a>
+		<a id="tab2" href="${rc.contextPath}/report/dayindustryp">行业细分</a>
+</div>
+ <div style="margin-top: 20px;">
+	<span>时间</span>
             <input
                     class="ui-input ui-input-mini datepicker" type="text" name="day"
                     id="day" data-is="isAmount isEnough"
                     autocomplete="off" disableautocomplete="">
-        </div>
-    </div>
-
+</div>
+<div class="withdraw-title fn-clear">
+        售出情况
+</div>
     <div class="tileContent" style="margin:8px 10px 0 8px" id="remainTimeslots"></div>
     <@trendChart.trendChart chartDiv="remainTimeslots" title=""
     yName={"TIMESLOT1":"remain","TIMESLOT2":"notPaid","TIMESLOT3":"paid"}
