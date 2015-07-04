@@ -104,7 +104,7 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 
 			converters.add(converter);
 		}
-
+		//http://stackoverflow.com/questions/12505141/only-using-jsonignore-during-serialization-but-not-deserialization
 		/** xml converter */
 		{
 			Jaxb2RootElementHttpMessageConverter converter = new Jaxb2RootElementHttpMessageConverter();
