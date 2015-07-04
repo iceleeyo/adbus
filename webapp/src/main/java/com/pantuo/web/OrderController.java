@@ -392,7 +392,9 @@ public class OrderController {
 		Page<OrderView> w = activitiService.queryOrders(city, principal, req,TaskQueryType.all_running);
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
-
+	@PreAuthorize( " hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
+			+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
+			+ "or hasRole('ShibaSuppliesManager')or hasRole('UserManager') ")
 	@RequestMapping(value = "/allRuningOrders/{pageNum}")
 	public String allRuningOrders(Model model, Principal principal, @PathVariable int pageNum,
 			HttpServletRequest request, HttpServletResponse response) {
@@ -414,7 +416,9 @@ public class OrderController {
 		model.addAttribute("orderMenu", "我的订单");
 		return "myOrders";
 	}
-
+	@PreAuthorize( " hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
+			+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
+			+ "or hasRole('ShibaSuppliesManager')or hasRole('UserManager') ")
 	@RequestMapping(value = "/join/{pageNum}")
 	public String joinOrder(Model model) {
 		model.addAttribute("orderMenu", "我参与订单");
@@ -438,6 +442,9 @@ public class OrderController {
 	//		model.addAttribute("pageNum", page);
 	//		return "finishedOrders";
 	//	}
+	@PreAuthorize( " hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
+			+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
+			+ "or hasRole('ShibaSuppliesManager')or hasRole('UserManager') ")
 	@RequestMapping(value = "/finished")
 	public String finishedOrders() {
 		/*NumberPageUtil page = new NumberPageUtil(pageNum);
