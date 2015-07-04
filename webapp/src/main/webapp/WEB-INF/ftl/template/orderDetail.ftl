@@ -25,10 +25,16 @@
   				    <li style="width: 200px;"><SPAN>套餐底价：</SPAN>${cpdDetail.saleprice!''}</li>
   				    <li style="width: 200px;"><SPAN><b>成交价</b>：</SPAN><font color='#ff9966'>${cpdDetail.comparePrice!''}</font></li>
   				  </#if>  
-  				    
+  				   <@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager"> 
   				  <li style="width: 200px;"><SPAN>下单用户：</SPAN><SPAN class="con">
   				  <a class="layer-tips" tip="点击查看下单用户信息!" onclick="showOrderUserlayer('${rc.contextPath}/user/u_ajax/', '${(orderview.order.creator)!''}');"  >
   				  ${(orderview.order.creator)!''}</a></SPAN></li>
+  				  </@security.authorize>
+  				  	<@security.authorize ifAnyGranted="advertiser">
+  				   <li style="width: 200px;"><SPAN>下单用户：</SPAN><SPAN class="con">${(orderview.order.creator)!''}</SPAN></li>
+  				  </@security.authorize>
+  				  
+  				  
   				  <li style="width: 200px;"><SPAN>媒体类型：</SPAN><SPAN class="con">${prod.type.typeName!''}</SPAN></li>
   				  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
   				  <li style="width: 200px;"><SPAN>起播时间：</SPAN><SPAN class="con"><#setting date_format="yyyy-MM-dd">${(orderview.order.startTime?date)!''}</SPAN></li>
