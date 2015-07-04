@@ -269,7 +269,9 @@ public class UserManagerController {
 		model.addAttribute("attachment", attachment);
 		return "u/userDetail";
 	}
-	@PreAuthorize(" !hasRole('advertiser')  ")
+	@PreAuthorize( " hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
+			+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
+			+ "or hasRole('ShibaSuppliesManager')or hasRole('UserManager') ")
 	@ResponseBody
 	@RequestMapping(value = "/u_ajax/{userId}", method = { RequestMethod.GET })
 	public UserDetail showUDetail(Model model, @PathVariable("userId") String userId, HttpServletRequest request) {
