@@ -442,9 +442,6 @@ public class OrderController {
 	//		model.addAttribute("pageNum", page);
 	//		return "finishedOrders";
 	//	}
-	@PreAuthorize( " hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
-			+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
-			+ "or hasRole('ShibaSuppliesManager')or hasRole('UserManager') ")
 	@RequestMapping(value = "/finished")
 	public String finishedOrders() {
 		/*NumberPageUtil page = new NumberPageUtil(pageNum);
