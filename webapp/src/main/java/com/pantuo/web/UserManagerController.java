@@ -105,9 +105,18 @@ public class UserManagerController {
 		}
 		return user;
 	}
-
-	public static void main(String[] args) {
-		System.out.println(1);
+	@RequestMapping(value = "/ustats/{username}/{ustats}", method = { RequestMethod.POST })
+	@ResponseBody
+	public UserDetail ustatsUpdate(@PathVariable("username") String username, @PathVariable("ustats") String ustats) {
+		UserDetail user = userService.findDetailByUsername(username);
+		if (user == null) {
+			UserDetail u = new UserDetail();
+			u.setErrorInfo(BaseEntity.ERROR, "找不到用户名为" + username + "的用户，或者数据冲突");
+			return u;
+		}
+		user.setUstats(UserDetail.UStats.valueOf(ustats));
+		userService.saveDetail(user);
+		return user;
 	}
 
 	@RequestMapping(value = "/invoice", produces = "text/html;charset=utf-8")
