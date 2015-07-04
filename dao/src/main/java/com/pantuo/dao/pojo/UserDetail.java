@@ -1,18 +1,30 @@
 package com.pantuo.dao.pojo;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
+
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.identity.User;
 import org.activiti.engine.impl.persistence.entity.GroupEntity;
 import org.activiti.engine.impl.persistence.entity.UserEntity;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 /**
  * @author tliu
- *
  * 用户
  */
 @Entity
@@ -27,6 +39,7 @@ public class UserDetail extends BaseEntity {
 	public static enum UStats {
 		/*初始状态,认证通过,竞价违规*/
 		init, authentication,auctionException;
+		
 	}
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -167,11 +180,11 @@ public class UserDetail extends BaseEntity {
 	public void setDepartment(String department) {
 		this.department = department;
 	}
-
+	//@JsonIgnore 
 	public String getPassword() {
 		return password;
 	}
-
+	@JsonProperty
 	public void setPassword(String password) {
 		this.password = password;
 	}
