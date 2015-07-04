@@ -38,7 +38,7 @@
                         }
                         
                         
-                    return '<a href="${rc.contextPath}/user/u/' + data + '" >'+data+'</a> &nbsp;';
+                    return '<a href="${rc.contextPath}/user/u/' + row.username + '" >'+data+'</a> &nbsp;';
                 } },
                 { "data": "groups", "defaultContent": "",
                     "render": function(data, type, row, meta) {
