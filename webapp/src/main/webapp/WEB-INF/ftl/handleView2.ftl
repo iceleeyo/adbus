@@ -688,7 +688,7 @@ function pay() {
             <!-- 世巴提交排期表 -->
          <div id="submitSchedule" class="submitSchedule" style="display: none;">
                 <div class="p20bs mt10 color-white-bg border-ec">
-                <H3 class="text-xl title-box"><A class="black" href="#">订单处理-世巴确认排期表并提交</A></H3><BR>
+                <H3 class="text-xl title-box"><A class="black" href="#">订单处理-确认排期表并提交</A></H3><BR>
                 <TABLE class="ui-table ui-table-gray">
   								<TBODY>
   								<TR>
@@ -721,7 +721,7 @@ function pay() {
 					<!-- 世巴初审 -->
           <div id="approve1" class="approve1" style="display: none;">
                 <div class="p20bs mt10 color-white-bg border-ec">
-                <H3 class="text-xl title-box"><p style="text-align: left"><A class="black" href="#">订单处理-世巴对物料进行初审</A></p></H3><br>	
+                <H3 class="text-xl title-box"><p style="text-align: left"><A class="black" href="#">订单处理-对物料进行初审</A></p></H3><br>	
                                 
 								<TABLE class="ui-table ui-table-gray">
   								<TBODY>
@@ -771,7 +771,7 @@ function pay() {
 					<!-- 世巴财务确认 -->
 					<div id="financialCheck" class="financialCheck" style="display: none;">
 						<div class="p20bs mt10 color-white-bg border-ec">
-              <H3 class="text-xl title-box"><A class="black" href="#">订单处理-世巴财务确认</A></H3><br>	
+              <H3 class="text-xl title-box"><A class="black" href="#">订单处理-财务确认</A></H3><br>
               
 							<TABLE class="ui-table ui-table-gray">
   								<TBODY>
@@ -834,7 +834,7 @@ function pay() {
 							<!-- 上播报告 -->
               <div id="shangboReport" class="shangboReport" style="display: none;">
               <div class="p20bs mt10 color-white-bg border-ec">
-              <H3 class="text-xl title-box"><A class="black" href="#">订单办理-世巴提交上播报告</A></H3><BR>
+              <H3 class="text-xl title-box"><A class="black" href="#">订单办理-提交上播报告</A></H3><BR>
               <TABLE class="ui-table ui-table-gray">
   								<TBODY>
   								<TR>
@@ -872,7 +872,7 @@ function pay() {
 							<!-- 监播报告 -->
               <div id="jianboReport" class="jianboReport" style="display: none;">
 					    <div class="p20bs mt10 color-white-bg border-ec">
-                  <H3 class="text-xl title-box"><A class="black" href="#">订单处理-世巴提交监播报告</A></H3><BR>								
+                  <H3 class="text-xl title-box"><A class="black" href="#">订单处理-提交监播报告</A></H3><BR>
 							
 							    <TABLE class="ui-table ui-table-gray">
   								<TBODY>	

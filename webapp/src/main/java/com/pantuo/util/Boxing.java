@@ -60,8 +60,9 @@ public class Boxing {
         for (JpaGoods g : goodsList) {
             shuffleAndSortBoxes(g);
             for (JpaBox b : boxList) {
-                if (b.put(g)) {
-                    log.debug("Put good {} into box {} @ postion {}, box remain {}", g.getOrderId(), b.getSlotId(), g.getInboxPosition(), b.getRemain());
+                if (b.put(g) >= 0) {
+                    log.debug("Put good {} into box {} @ postion {}, box remain {}",
+                            g.getOrderId(), b.getSlotId(), g.getInboxPosition(), b.getRemains());
                     break;
                 }
             }

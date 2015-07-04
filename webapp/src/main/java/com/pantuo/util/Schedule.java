@@ -17,8 +17,8 @@ public class Schedule {
     private List<JpaGoods> normalNotBoxed;
     private List<JpaGoods> hotNotBoxed;
 
-    private static JpaBox fromTimeslot(int city, Date day, JpaTimeslot slot) {
-        return new JpaBox(city, day, slot.getId(), slot.getDuration());
+    public static JpaBox boxFromTimeslot(int city, Date day, JpaTimeslot slot) {
+        return new JpaBox(city, day, slot);
     }
 
     private static void fromOrder(Date day, JpaOrders order, HashSet<JpaGoods> hot, HashSet<JpaGoods> normal) {
@@ -66,6 +66,10 @@ public class Schedule {
         return newFromTimeslots(city, date, timeslots, Arrays.asList(new JpaOrders[] {order}));
     }
 
+    public static Schedule newFromBoxes(Date date, List<? extends JpaBox> boxes, JpaOrders order) {
+        return newFromBoxes(date, boxes, Arrays.asList(new JpaOrders[] {order}));
+    }
+
     public static  Schedule newFromTimeslots(int city, Date date, List<JpaTimeslot> timeslots, Iterable<JpaOrders> orders) {
         Schedule schedule = new Schedule();
         Calendar cal = DateUtil.newCalendar();
@@ -80,9 +84,9 @@ public class Schedule {
         schedule.normalBoxing = new Boxing();
         for (JpaTimeslot slot : timeslots) {
             if (slot.isPeak()) {
-                schedule.hotBoxing.addBox(fromTimeslot(city, schedule.day, slot));
+                schedule.hotBoxing.addBox(boxFromTimeslot(city, schedule.day, slot));
             } else {
-                schedule.normalBoxing.addBox(fromTimeslot(city, schedule.day, slot));
+                schedule.normalBoxing.addBox(boxFromTimeslot(city, schedule.day, slot));
             }
         }
         for (JpaOrders order : orders) {
@@ -91,11 +95,7 @@ public class Schedule {
         return schedule;
     }
 
-    public static Schedule newFromBoxes(Date date, List<JpaBox> boxes, JpaOrders order) {
-        return newFromBoxes(date, boxes, Arrays.asList(new JpaOrders[] {order}));
-    }
-
-    public static Schedule newFromBoxes(Date date, List<JpaBox> boxes, Iterable<JpaOrders> orders) {
+    public static Schedule newFromBoxes(Date date, List<? extends JpaBox> boxes, Iterable<JpaOrders> orders) {
         Schedule schedule = new Schedule();
         Calendar cal = DateUtil.newCalendar();
         cal.setTime(date);

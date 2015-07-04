@@ -146,6 +146,11 @@ public class JpaGoods extends CityEntity implements Comparable<JpaGoods>, Serial
         this.inboxPosition = inboxPosition;
     }
 
+    public JpaGoods clone() {
+        JpaGoods g = new JpaGoods(city, order.getId(), size, first, last, seed);
+        return g;
+    }
+
     @Override
     public String toString() {
         return "JpaGoods{" +

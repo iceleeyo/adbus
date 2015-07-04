@@ -1,5 +1,6 @@
 package com.pantuo.dao.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pantuo.util.DateUtil;
 
 import javax.persistence.*;
@@ -33,7 +34,23 @@ public class JpaBox extends CityEntity implements Comparable<JpaBox>, Serializab
     private int hour;      //back up for report
     private long size;
     private long remain;
-    private long remainStart;
+    @JsonIgnore
+    private String remainString;
+
+    @Transient
+    private BoxRemain remains;
+
+/*    public String getRemainString () {
+        remainString = remains == null ? null : remains.toString();
+        remain = remains.remainSize();
+        size = remains.getDuration();
+        return remainString;
+    }
+    public void setRemainString(String str) {
+        remainString = str;
+        remains = BoxRemain.fromJson(str);
+    }*/
+
     @ManyToOne
     @JoinColumn(name = "slotId")
     private JpaTimeslot timeslot;
@@ -50,7 +67,7 @@ public class JpaBox extends CityEntity implements Comparable<JpaBox>, Serializab
 
     public JpaBox() {}
 
-    public JpaBox(int city, Date day, int slotId, long size) {
+    public JpaBox(int city, Date day, JpaTimeslot slot) {
         super(city);
         goods = new ArrayList<JpaGoods>();
         this.day = day;
@@ -58,11 +75,12 @@ public class JpaBox extends CityEntity implements Comparable<JpaBox>, Serializab
         this.year = yearMon[0];
         this.month = yearMon[1];
         this.hour = yearMon[2];
-        timeslot = new JpaTimeslot();
-        timeslot.setId(slotId);
-        this.size = size;
-        this.remain = size;
-        this.remainStart = 0;
+        timeslot = slot;
+//        this.size = slot.getDuration();
+//        this.remain = size;
+//        this.remainStart = 0;
+        remains = new BoxRemain(slot.getDuration(), 0, slot.getDuration());
+        updateRemainToDb();
     }
 
     public Date getDay() {
@@ -82,12 +100,12 @@ public class JpaBox extends CityEntity implements Comparable<JpaBox>, Serializab
     }
 
     public long getRemain() {
-        return remain;
+        return getRemains().remainSize();
     }
 
-    public long getRemainStart() {
-        return remainStart;
-    }
+//    public long getRemainStart() {
+//        return remainStart;
+//    }
 
     public List<JpaGoods> getGoods() {
         return goods;
@@ -105,13 +123,13 @@ public class JpaBox extends CityEntity implements Comparable<JpaBox>, Serializab
         this.size = size;
     }
 
-    public void setRemain(long remain) {
-        this.remain = remain;
-    }
+//    public void setRemain(long remain) {
+//        this.remain = remain;
+//    }
 
-    public void setRemainStart(long remainStart) {
-        this.remainStart = remainStart;
-    }
+//    public void setRemainStart(long remainStart) {
+//        this.remainStart = remainStart;
+//    }
 
     public void setTimeslot(JpaTimeslot timeslot) {
         this.timeslot = timeslot;
@@ -119,6 +137,36 @@ public class JpaBox extends CityEntity implements Comparable<JpaBox>, Serializab
 
     public void setTmpAbsoluteWight(int weight) {
         this.tmpAbsoluteWight = weight;
+    }
+
+    public void loadRemainFromDb() {
+        if (remainString != null) {
+            //use side effect
+            remains = BoxRemain.fromJson(remainString);
+        } else {
+            remains = new BoxRemain(size, 0, size);
+        }
+
+    }
+
+    public void updateRemainToDb() {
+        if (remains != null) {
+            remainString = remains.toString();
+            remain = remains.remainSize();
+            size = remains.getDuration();
+        }
+    }
+
+    public BoxRemain getRemains() {
+        if (remains == null) {
+            loadRemainFromDb();
+        }
+        return remains;
+    }
+
+    public void setRemains(BoxRemain remains) {
+        this.remains = remains;
+        updateRemainToDb();
     }
 
     public int numberOfGoodsForOrder(int orderId) {
@@ -147,12 +195,12 @@ public class JpaBox extends CityEntity implements Comparable<JpaBox>, Serializab
         }
         //刚刚放入的权重降低
 //        long s = remain - o.remain;
-        double s = remain * (1 + 10.0/(PUT_WEIGHT.get() - putWeight))
-                - o.remain * (1 + 10.0/((PUT_WEIGHT.get() - o.putWeight)));
+        double s = getRemains().getMax().getSize() * (1 + 10.0/(PUT_WEIGHT.get() - putWeight))
+                - o.getRemains().getMax().getSize() * (1 + 10.0/((PUT_WEIGHT.get() - o.putWeight)));
         return (int) s;
     }
 
-    private long position(JpaGoods good) {
+/*    private long position(JpaGoods good) {
         if (remain < good.getSize())
             return -1;
         if (good.isFirst()) {
@@ -166,10 +214,10 @@ public class JpaBox extends CityEntity implements Comparable<JpaBox>, Serializab
             return size - good.getSize();
         }
         return remainStart;
-    }
+    }*/
 
-    public boolean put(JpaGoods good) {
-        long pos = position(good);
+    public long put(JpaGoods good) {
+/*        long pos = position(good);
         if (pos < 0)
             return false;
         good.put(this, pos);
@@ -177,14 +225,38 @@ public class JpaBox extends CityEntity implements Comparable<JpaBox>, Serializab
         remain -= good.getSize();
         if (pos == remainStart) {
             remainStart += good.getSize();
+        }*/
+        long putPos = -1;
+        if (good.isFirst()) {
+            putPos = getRemains().putHead(good.getSize(), true);
+        } else if (good.isLast()) {
+            putPos = getRemains().putTail(good.getSize(), true);
+        } else {
+            putPos = getRemains().putLeft(good.getSize(), true);
         }
-        putWeight = PUT_WEIGHT.get();
-        PUT_WEIGHT.set(putWeight + 1);
-        return true;
+        if (putPos >= 0) {
+            good.put(this, putPos);
+            goods.add(good);
+            putWeight = PUT_WEIGHT.get();
+            PUT_WEIGHT.set(putWeight + 1);
+            updateRemainToDb();
+        }
+        return putPos;
+    }
+
+    public void put(JpaGoods good, long putPos) {
+        if (putPos >= 0) {
+            good.put(this, putPos);
+            goods.add(good);
+            putWeight = PUT_WEIGHT.get();
+            PUT_WEIGHT.set(putWeight + 1);
+            updateRemainToDb();
+        }
     }
 
     private double remainPercentage () {
-        return (remain * 10000/size)/100.0;
+//        return (remain * 10000/size)/100.0;
+        return getRemains().remainPercentage();
     }
 
     @Override
@@ -214,9 +286,10 @@ public class JpaBox extends CityEntity implements Comparable<JpaBox>, Serializab
         return "JpaBox{" +
                 "slotId=" + getSlotId() +
                 ", day=" + day +
-                ", size=" + size +
-                ", remain=" + remain +
-                ", remainStart=" + remainStart +
+                ", remains=" + getRemains() +
+//                ", size=" + size +
+//                ", remain=" + remain +
+//                ", remainStart=" + remainStart +
                 ", remain%=" + remainPercentage() + '%' +
                 '}';
     }

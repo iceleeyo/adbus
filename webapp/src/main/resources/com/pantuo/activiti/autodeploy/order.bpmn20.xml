@@ -14,7 +14,7 @@
     </startEvent>
     <sequenceFlow id="flow20" sourceRef="initializeTask" targetRef="mainSubprocess"></sequenceFlow>
     <userTask id="errortask" name="管理员介入" activiti:candidateGroups="ShibaOrderManager"></userTask>
-    <userTask id="timeoutTask" name="通知管理员超时的业务" activiti:candidateGroups="ShibaOrderManager"></userTask>
+    <userTask id="timeoutTask" name="订单超时" activiti:candidateGroups="ShibaOrderManager"></userTask>
     <sequenceFlow id="flow26" sourceRef="startevent1" targetRef="initializeTask"></sequenceFlow>
     <scriptTask id="initializeTask" name="初始化" scriptFormat="JavaScript" activiti:autoStoreVariables="false">
       <script>

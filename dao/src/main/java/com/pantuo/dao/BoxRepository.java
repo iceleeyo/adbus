@@ -15,4 +15,5 @@ import java.util.Map;
 
 public interface BoxRepository extends JpaRepository<JpaBox, Integer>, QueryDslPredicateExecutor<JpaBox> {
     List<JpaBox> findByCityAndDay(int city, Date day);
+    List<JpaBox> findByCityAndDayGreaterThanEqualAndDayLessThan(int city, Date from, Date to);
 }

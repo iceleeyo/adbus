@@ -12,6 +12,7 @@ import com.pantuo.dao.pojo.*;
 import com.pantuo.mybatis.domain.Box;
 import com.pantuo.mybatis.domain.BoxExample;
 import com.pantuo.mybatis.persistence.BoxMapper;
+import com.pantuo.pojo.SlotBoxBar;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.Schedule;
 import org.apache.commons.lang3.time.DateUtils;
@@ -184,14 +185,20 @@ public class ScheduleService {
     }
 */
 
+    //根据每天每个时段的box列表，构建基于slot的行级box
+    private List<SlotBoxBar> buildSlotBoxBar(Map<Integer/*slotId*/, List<JpaBox>> boxSlotMap) {
+        List<SlotBoxBar> boxes = new ArrayList<SlotBoxBar>();
+        Iterator<Map.Entry<Integer,List<JpaBox>>> iter = boxSlotMap.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry<Integer, List<JpaBox>> e = iter.next();
+            boxes.add(new SlotBoxBar(e.getValue()));
+        }
+        return boxes;
+    }
+
     private ScheduleLog schedule(JpaOrders order, Date start, int days) {
         int city = order.getCity();
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        cal.setTime(new Date());
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
+        Calendar cal = DateUtil.newCalendar();
 
         if (order == null || order.getId() == 0) {
             log.error("Order {} does not exists or not persisted");
@@ -205,9 +212,9 @@ public class ScheduleService {
             return new ScheduleLog(city, cal.getTime(), orderId, ScheduleLog.Status.scheduled, "Order " + orderId + " has 0 days");
         }
 
-        List<ScheduleLog> slogs = scheduleLogRepository.findByCityAndOrderId(city, orderId);
-        if (!slogs.isEmpty()) {
-            for (ScheduleLog slog : slogs) {
+        List<ScheduleLog> slogList = scheduleLogRepository.findByCityAndOrderId(city, orderId);
+        if (!slogList.isEmpty()) {
+            for (ScheduleLog slog : slogList) {
                 if (slog.getStatus() == ScheduleLog.Status.scheduled) {
                     log.info("Scheduling for day {} and order {} has already completed", slog.getDay(), orderId);
                     return new ScheduleLog(city, slog.getDay(), orderId, ScheduleLog.Status.duplicate, "duplicate with day " + slog.getDay());
@@ -217,76 +224,178 @@ public class ScheduleService {
                 }
             }
         }
-
-        slogs = new ArrayList<ScheduleLog> ();
-        List<JpaBox> scheduleResult = new LinkedList<JpaBox> ();
-        int success = 0;
-        for (int i = 0; i< days; i++) {
+        Map<Date, ScheduleLog> slogMap = new HashMap<Date, ScheduleLog>();
+        for (int i=0; i<days; i++) {
+            ScheduleLog log = new ScheduleLog(city, cal.getTime(), orderId);
+            scheduleLogRepository.save(log);
+            slogList.add(log);
+            slogMap.put(log.getDay(), log);
             cal.add(Calendar.DATE, 1);
-            Date now = cal.getTime();
+        }
 
-            ScheduleLog slog = null;
+        Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(city, null, 0, 9999, null, false);
+        List<JpaBox> scheduleResult = new LinkedList<JpaBox> ();
+        List<JpaBox> boxList = null;
+        int success = 0;
+
+        boolean r1Scheduled = false;
+        boolean r1Error = false;
+        //round 1, overall
+        {
+            cal.setTime(start);
+            cal.add(Calendar.DATE, days);
+            Date end = cal.getTime();
+
             try {
-                MDC.put("func", "Schedule");
-                MDC.put("day", DateUtil.longDf.get().format(now));
+                MDC.put("func", "Schedule[R1]");
+                MDC.put("from", DateUtil.longDf.get().format(start));
+                MDC.put("to", DateUtil.longDf.get().format(end));
                 MDC.put("order", orderId + "");
 
-                log.info(":::Start scheduling for day {}, order {}", now, orderId);
-                slog = new ScheduleLog(city, now, orderId);
-                scheduleLogRepository.save(slog);
-                slogs.add(slog);
+                log.info(":::[R1]Start scheduling from {} to {}, order {}", start, end, orderId);
 
                 Schedule s = null;
-                List<JpaBox> boxes = boxRepo.findByCityAndDay(city, now);
-                if (!boxes.isEmpty()) {
-                    log.info("There is already scheduled orders for day {}", now);
-                    s = Schedule.newFromBoxes(now, boxes, order);
-                } else {
-                    log.info("First order to be scheduled for day {}", now);
-                    Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(city, null, 0, 9999, null, false);
-                    s = Schedule.newFromTimeslots(city, now, slots.getContent(), order);
+                boxList = boxRepo.findByCityAndDayGreaterThanEqualAndDayLessThan(city, start, end);
+                Map<Date, List<JpaBox>> boxDayMap = new HashMap<Date, List<JpaBox>> ();
+                Map<Integer/*slotId*/, List<JpaBox>> boxSlotMap = new HashMap<Integer, List<JpaBox>> ();
+                for (JpaBox b : boxList) {
+                    List<JpaBox> l = boxDayMap.get(b.getDay());
+                    if (l == null) {
+                        l = new ArrayList<JpaBox>();
+                        boxDayMap.put(b.getDay(), l);
+                    }
+                    l.add(b);
+                }
+                log.info(":::[R1]Found {} db scheduled boxes from {} to {}, order {}", boxList.size(), start, end, orderId);
+
+                log.info(":::[R1]Filling up from timeslots in case db scheduled boxes is empty");
+                cal.setTime(start);
+                for (int i=0; i<days; i++) {
+                    Date day = cal.getTime();
+                    if (!boxDayMap.containsKey(day)) {
+                        log.info("[R1]First order to be scheduled on day {}", day);
+                        List<JpaBox> boxesForDay = new ArrayList<>(slots.getContent().size());
+                        for (JpaTimeslot slot : slots) {
+                            boxesForDay.add(Schedule.boxFromTimeslot(city, day, slot));
+                        }
+                        boxDayMap.put(day, boxesForDay);
+                        boxList.addAll(boxesForDay);
+                    }
+                    cal.add(Calendar.DATE, 1);
                 }
 
-                boolean scheduled = s.schedule();
+                log.info(":::[R1]Total {} boxes loaded from {} to {}, order {}", boxList.size(), start, end, orderId);
+                for (JpaBox b : boxList) {
+                    List<JpaBox> l = boxSlotMap.get(b.getSlotId());
+                    if (l == null) {
+                        l = new ArrayList<JpaBox>();
+                        boxSlotMap.put(b.getSlotId(), l);
+                    }
+                    l.add(b);
+                }
+
+                log.info(":::[R1]Compositing slot-box-bar...");
+                List<? extends JpaBox> boxes = buildSlotBoxBar(boxSlotMap);
+
+                if (!boxList.isEmpty()) {
+                    log.info("[R1]There is already scheduled orders between {} and {}", start, end);
+                    s = Schedule.newFromBoxes(start, boxes, order);
+                }
+
+                r1Scheduled = s.schedule();
                 log.info(s.toString());
 
-                if (scheduled) {
-                    scheduleResult.addAll(s.getOrderedHotBoxList());
-                    scheduleResult.addAll(s.getOrderedNormalBoxList());
-                    slog.setStatus(ScheduleLog.Status.scheduled);
-                    slog.setDescription("success at " + new Date());
-                    success ++;
+                if (r1Scheduled) {
+                    success = days;
+                    scheduleResult.addAll(boxList);
+//                    scheduleResult.addAll(s.getOrderedNormalBoxList());
+                    for (ScheduleLog slog : slogList) {
+                        slog.setStatus(ScheduleLog.Status.scheduled);
+                        slog.setDescription("[R1]Success at " + new Date());
+                    }
                 } else {
-                    log.error("Can not arrange the schedule, {} entries can not be boxed", s.getHotNotBoxed().size());
-                    slog.setStatus(ScheduleLog.Status.failed);
-                    slog.setDescription(s.getHotNotBoxed().size() + " entries can not be boxed");
-                    break;
+                    log.error("[R1]Can not arrange the schedule, {} entries can not be boxed, will go to [R2]", s.getHotNotBoxed().size());
+//                    slog.setStatus(ScheduleLog.Status.failed);
+//                    slog.setDescription("[R1]" + s.getHotNotBoxed().size() + " entries can not be boxed");
+//                    break;
                 }
             } catch (Exception e) {
-                log.error("Fail to schedule for day {} and order {}", now, orderId, e);
-                if (slog != null) {
+                r1Error = true;
+                log.error("[R1]Fail to schedule from {} to {}, order {}", start, end, orderId, e);
+                for (ScheduleLog slog : slogList) {
                     slog.setStatus(ScheduleLog.Status.failed);
                     slog.setDescription(e.getMessage());
                 }
-                break;
             } finally {
                 MDC.clear();
             }
         }
+
+        if (!r1Scheduled && !r1Error) {
+        //round 2: individual day
+            for (int i = 0; i< days; i++) {
+                Date now = cal.getTime();
+
+                ScheduleLog slog = null;
+                try {
+                    MDC.put("func", "Schedule[R2]");
+                    MDC.put("day", DateUtil.longDf.get().format(now));
+                    MDC.put("order", orderId + "");
+
+                    log.info(":::[R2]Start scheduling for day {}, order {}", now, orderId);
+
+                    Schedule s = null;
+                    List<JpaBox> boxes = boxRepo.findByCityAndDay(city, now);
+                    if (!boxes.isEmpty()) {
+                        log.info("[R2]There is already scheduled orders for day {}", now);
+                        s = Schedule.newFromBoxes(now, boxes, order);
+                    } else {
+                        log.info("[R2]First order to be scheduled for day {}", now);
+                        s = Schedule.newFromTimeslots(city, now, slots.getContent(), order);
+                    }
+
+                    boolean scheduled = s.schedule();
+                    log.info(s.toString());
+
+                    if (scheduled) {
+                        scheduleResult.addAll(boxList);
+//                        scheduleResult.addAll(s.getOrderedNormalBoxList());
+                        slog.setStatus(ScheduleLog.Status.scheduled);
+                        slog.setDescription("[R2]success at " + new Date());
+                        success ++;
+                    } else {
+                        log.error("[R2]Can not arrange the schedule, {} entries can not be boxed", s.getHotNotBoxed().size());
+                        slog.setStatus(ScheduleLog.Status.failed);
+                        slog.setDescription("[R2]" + s.getHotNotBoxed().size() + " entries can not be boxed");
+                        break;
+                    }
+                } catch (Exception e) {
+                    log.error("[R2]Fail to schedule for day {} and order {}", now, orderId, e);
+                    if (slog != null) {
+                        slog.setStatus(ScheduleLog.Status.failed);
+                        slog.setDescription(e.getMessage());
+                    }
+                    break;
+                } finally {
+                    MDC.clear();
+                }
+                cal.add(Calendar.DATE, 1);
+            }
+        }
         if (success == days && !scheduleResult.isEmpty()) {
-            log.info("Schedule succeeded for all {} days for order {}", success, orderId);
+            log.info("[Save]Schedule succeeded for all {} days for order {}", success, orderId);
             try {
                 boxRepo.save(scheduleResult);
             } catch (Exception e) {
-                log.error("Fail to save schedule result", e);
-                for (ScheduleLog log : slogs) {
+                log.error("[Save]Fail to save schedule result", e);
+                for (ScheduleLog log : slogList) {
                     log.setStatus(ScheduleLog.Status.failed);
-                    log.setDescription("Fail to save schedule result, e=" + e.getMessage());
+                    log.setDescription("[Save]Fail to save schedule result, e=" + e.getMessage());
                 }
             }
         }
 
-        Iterator<ScheduleLog> iter = slogs.iterator();
+        Iterator<ScheduleLog> iter = slogList.iterator();
         ScheduleLog removed = null;
         while (iter.hasNext()) {
             ScheduleLog slog = iter.next();
@@ -295,21 +404,21 @@ public class ScheduleService {
                 iter.remove();
             }
         }
-        if (!slogs.isEmpty()) {
+        if (!slogList.isEmpty()) {
             //fail all if last one (any one) has failes
-            ScheduleLog last = slogs.get(slogs.size() - 1);
+            ScheduleLog last = slogList.get(slogList.size() - 1);
             if (last.getStatus() != ScheduleLog.Status.scheduled) {
-                for (ScheduleLog log : slogs) {
+                for (ScheduleLog log : slogList) {
                     if (log.getStatus() == ScheduleLog.Status.scheduled) {
                         log.setStatus(ScheduleLog.Status.failed);
-                        log.setDescription("["+last.getDay()+" failed]" + last.getDescription());
+                        log.setDescription("[Save]["+last.getDay()+" failed]" + last.getDescription());
                     }
                 }
             }
             try {
-                scheduleLogRepository.save(slogs);
+                scheduleLogRepository.save(slogList);
             } catch (Exception e) {
-                log.error("Fail to save schedule logs", e);
+                log.error("[Save]Fail to save schedule logs", e);
             }
 
             return last;

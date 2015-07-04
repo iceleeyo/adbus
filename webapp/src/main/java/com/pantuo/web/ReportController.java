@@ -667,7 +667,7 @@ public class ReportController {
         }
 
         b.setxAxis(xAxis);
-        b.setStacked(true);
+        b.setStacked(false);
 
         model.addAttribute("remainTimeSlots", b.build());
         model.addAttribute("year", yearOne);
