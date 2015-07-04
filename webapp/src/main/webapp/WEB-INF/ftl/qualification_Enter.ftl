@@ -134,6 +134,14 @@
 			    </#if>
 									  
 	    	</div>
+	    	<div class="ui-form-item">
+				<label class="ui-label mt10">认证状态:</label>
+				<#if userDetail.ustats=="init">
+				未认证
+				    <#else>
+				    已认证
+				</#if>
+			</div>
 	    	<div class="ui-form-item widthdrawBtBox">
 			<input type="button" id="subWithdraw" class="block-btn"
 				onclick="sub();" value="保存">
