@@ -1936,6 +1936,10 @@
 	margin-bottom: 0px;
 	position: relative
 }
+.withdraw-wrap.color-white-bg.fn-clear{
+	margin-left:0px; 
+}
+
 .fn-clear{
 	margin-left:10px; 
 }
