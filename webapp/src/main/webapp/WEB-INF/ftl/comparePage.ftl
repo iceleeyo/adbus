@@ -27,8 +27,11 @@ $.ajax({
 			"myprice":myprice
 			},
 			success:function(data){
-			  alert(data.right);
-			  window.location.reload();
+			     layer.msg(data.right);
+			var uptime = window.setTimeout(function(){
+			window.location.reload();
+		   	clearTimeout(uptime);
+					},2000)
 			}
       }); 
 }
