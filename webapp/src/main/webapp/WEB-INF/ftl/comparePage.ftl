@@ -61,7 +61,7 @@ $.ajax({
 											</div>
 										</div>
 										<div class="product-time">
-											<span class="residue">剩余时间：</span>
+											<span class="residue" id="residue">剩余时间：</span>
 											<div class="timer" id="auction1Timer">
 												<!--<input type="text" id="time_h">时<input type="text" id="time_m">分<input type="text" id="time_s">秒-->
 											</div>
@@ -79,12 +79,32 @@ $.ajax({
 										<div class="product-btn">
 										<#if (jpaCpd.startDate < .now  && jpaCpd.biddingDate > .now  ) > 
 											<a class="btn-bid" href="javascript:void(0)" onclick="compare()" >我要出价</a>
-										</#if>
-										<#if (jpaCpd.startDate > .now   ) > 
+											 <script type="text/javascript">
+										      		$(function(){ 
+										      			$("#residue").html("剩余时间");
+														var dateTo="${jpaCpd.biddingDate?string("yyyy-MM-dd HH:mm:ss")}";
+														countDate("auction1Timer",dateTo);
+													});
+										      </script>
+										<#elseif (jpaCpd.startDate > .now   ) > 
 											<a class="btn-bid" style="background: #f5f5f5;color:#333" href="javascript:void(0)">等待开始</a>
-										</#if>
-										<#if (jpaCpd.biddingDate < .now   ) > 
+											 <script type="text/javascript">
+										      		$(function(){ 
+										      			$("#residue").html("距离开拍");
+														var dateTo="${jpaCpd.startDate?string("yyyy-MM-dd HH:mm:ss")}";
+														countDate("auction1Timer",dateTo);
+													});
+										      </script>
+										<#elseif (jpaCpd.biddingDate < .now   ) > 
 											<a class="btn-bid" style="background: #f5f5f5;color:#333" href="javascript:void(0)">竞价结束</a> 
+											
+											 <script type="text/javascript">
+										      		$(function(){ 
+										      			$("#residue").html("结束时间");
+														var dateTo="${jpaCpd.biddingDate?string("yyyy-MM-dd HH:mm:ss")}";
+													   $("#auction1Timer").html(dateTo);
+													});
+										      </script>
 										</#if>
 											<input type="hidden" id="productid" value="${(jpaCpd.id)!''}"/>	
 										</div>
@@ -189,7 +209,6 @@ $.ajax({
 					var value = $('#addPrice').val()+1;
 				});
 				var dateTo="${jpaCpd.biddingDate?string("yyyy-MM-dd HH:mm:ss")}";
-				countDate("auction1Timer",dateTo);
 			});
       </script>
 </@frame.html>
