@@ -13,8 +13,14 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 function compare(){
 var productid=$("#productid").val();
 var myprice=$("#myprice").val();
+
+var lc=$("#lc").val();
+if(lc=="0"){
+ 	layer.msg("请先登录");
+   return;
+}
 if(myprice==""){
-   alert("请出价");
+   layer.msg("请出价");
    return;
 }
 $.ajax({
@@ -115,6 +121,13 @@ $.ajax({
 										      </script>
 										</#if>
 											<input type="hidden" id="productid" value="${(jpaCpd.id)!''}"/>	
+											
+										<@security.authorize access="isAuthenticated()">
+                                        <input type="hidden" id="lc" value="1"/>	
+                                        </@security.authorize>
+                                        <@security.authorize access="! isAuthenticated()">
+                                         <input type="hidden" id="lc" value="0"/>	
+                                        </@security.authorize>
 										</div>
 									</div>
 								</div>

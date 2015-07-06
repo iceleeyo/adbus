@@ -32,3 +32,8 @@ function countDate (element_id,dateTo){
 	var default_templete='%d天  <input type="text" id="time_h" value="%h">时<input type="text" id="time_m" value="%i">分<input type="text" id="time_s" value="%s">秒 ';
 	return countdown(element_id,dateTo,default_templete);
 }
+
+function countDateSimple (element_id,dateTo){
+	var default_templete='%d 天%h 时%i 分%s 秒 ';
+	return countdown(element_id,dateTo,default_templete);
+}

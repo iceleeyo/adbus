@@ -9,6 +9,9 @@
   <link rel="stylesheet" type="text/css" href="homepage/css/homepage.css">
   <link rel="stylesheet" type="text/css" href="homepage/css/index.css">
   <link rel="stylesheet" type="text/css" href="homepage/css/one.css">
+    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery-1.8.3.min.js"></script>
+   <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.jcountdown.js"></script>
+   <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.jcountdown.site.js"></script>
   <title>首页</title>
 </head>
 <body>
@@ -167,7 +170,7 @@
 			  <div class="fn-clear pg-uplan-product-list text-middle mt15 mb10">
 			    <#list auctionList as prod>
 				  <div class="fn-left pg-uplan-product-item mr15">
-						<a href="product/d/${prod.id}">
+						<a href="product/c/${prod.id}">
 							<dl class="bg-color-white">
 							  <dt class="ub"><span>${prod.product.name}</span>套餐</dt>
 							  <dd>
@@ -180,7 +183,30 @@
 		            </dd>
 		  					<dd>
 		  						<span class="mr20">底价</span>                 
-		  						<span><em>${prod.saleprice}</em>元</span>               
+		  						<span><em>${prod.saleprice}</em>元</span>  
+		  					 </dd>
+		          			  <dd>	
+		          			  
+		          			  <#if (prod.startDate < .now  && prod.biddingDate > .now  ) > 
+		  						<span class="mr20">截止</span>    
+		  						<span id="c_${prod_index}"><em></em></span>  
+		  						<script type="text/javascript">
+			  						var dateTo="${prod.biddingDate?string("yyyy-MM-dd HH:mm:ss")}";
+									 countDateSimple("c_${prod_index}",dateTo);
+								 </script>
+								<#elseif (prod.startDate > .now   ) > 
+								<span class="mr20">距开拍</span>    
+		  						<span id="c_${prod_index}"><em></em></span>  
+		  						<script type="text/javascript">
+			  						var dateTo="${prod.startDate?string("yyyy-MM-dd HH:mm:ss")}";
+									 countDateSimple("c_${prod_index}",dateTo);
+								 </script>
+								<#elseif (prod.biddingDate < .now   ) > 
+								<span class="mr20"><s>已结束</s></span>    
+		  						<span id="c_${prod_index}"><s>${prod.startDate?string("yyyy-MM-dd HH:mm")}</s></span>  
+								</#if>
+								
+								
 		  					</dd>
 		  				</dl>
 						</a>
@@ -189,17 +215,15 @@
 								<a href="product/c/${prod.id}">
 								<#if (prod.startDate < .now  && prod.biddingDate > .now  ) > 
 									我要出价
-								</#if>
-								<#if (prod.startDate > .now   ) > 
+								<#elseif (prod.startDate > .now   ) > 
 									等待开始
-								</#if>
-								<#if (prod.biddingDate < .now   ) > 
+								<#elseif (prod.biddingDate < .now   ) > 
 									竞价结束
 								</#if>
 								
 								</a>
 							</span>
-							<a class="text" href="product/d/${prod.id}">（查看详情）</a>
+							<a class="text" href="product/c/${prod.id}">（查看详情）</a>
 						</p>
 					</div> 
 				 </#list>	          
