@@ -55,7 +55,7 @@
 					<img src="homepage/imgs/logo1.png">
 				</div>
 				<div class="show-item s-right">
-                    <a href="index.html" class="selected">首页</a>
+                    <a href="/" class="selected">首页</a>
 					<a href="intro-video.html">移动电视</a>
 					<a href="intro-txt.html">车身媒体</a>
 					<a href="intro-price.html">产品促销</a>
