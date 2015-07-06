@@ -119,14 +119,26 @@ public class ProductController {
 		}
 		return rPair;
 	}
-    @RequestMapping(value = "/to_comparePage/{cpdid}", produces = "text/html;charset=utf-8")
-    public String to_comparePage(Model model, @ModelAttribute("city") JpaCity city,@PathVariable("cpdid") int cpdid) {
-    	JpaCpd jpaCpd = cpdService.queryOneCpdDetail(cpdid);
-    	List<UserCpd> userCpdList=cpdService.queryLogByCpdId(cpdid);
-    	model.addAttribute("jpaCpd", jpaCpd);
-    	model.addAttribute("userCpdList", userCpdList);
-    	return "comparePage";
-    }
+	
+	
+	@RequestMapping(value = "/c/{cpdid}", produces = "text/html;charset=utf-8")
+	public String goCpd(Model model, @PathVariable("cpdid") int cpdid) {
+		toComparePage(model, cpdid);
+		return "comparePage";
+	}
+
+	@RequestMapping(value = "/to_comparePage/{cpdid}", produces = "text/html;charset=utf-8")
+	public String to_comparePage(Model model, @ModelAttribute("city") JpaCity city, @PathVariable("cpdid") int cpdid) {
+		toComparePage(model, cpdid);
+		return "comparePage";
+	}
+
+	private void toComparePage(Model model, int cpdid) {
+		JpaCpd jpaCpd = cpdService.queryOneCpdDetail(cpdid);
+		List<UserCpd> userCpdList = cpdService.queryLogByCpdId(cpdid);
+		model.addAttribute("jpaCpd", jpaCpd);
+		model.addAttribute("userCpdList", userCpdList);
+	}
     @PreAuthorize(" hasRole('ShibaOrderManager') ")
     @RequestMapping(value = "/new", produces = "text/html;charset=utf-8")
     public String newProduct(Model model, @ModelAttribute("city") JpaCity city) {

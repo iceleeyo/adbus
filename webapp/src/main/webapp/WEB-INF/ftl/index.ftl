@@ -186,7 +186,7 @@
 						</a>
 						<p class="J_click_p" data="218">
 							<span id="J_count_time_b" data2="0" data1="328261">
-								<a href="product/to_comparePage/${prod.id}">我要出价</a>
+								<a href="product/c/${prod.id}">我要出价</a>
 							</span>
 							<a class="text" href="product/d/${prod.id}">（查看详情）</a>
 						</p>
