@@ -1,5 +1,10 @@
 package com.pantuo.web;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.pojo.DataTablePage;
@@ -24,20 +29,29 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping(value = "/f/prod")
 public class FrontProductController {
-    private static Logger log = LoggerFactory.getLogger(FrontProductController.class);
+	private static Logger log = LoggerFactory.getLogger(FrontProductController.class);
 
-    @Autowired
-    private ProductService productService;
-    @Autowired
+	@Autowired
+	private ProductService productService;
+	@Autowired
 	private UserServiceInter userService;
 
-    @RequestMapping(value = "/list/{type}")
-    public String prolist(@PathVariable("type") JpaProduct.Type type, Model model) {
-        Page<JpaProduct> list = productService.getValidProducts(-1, type, false, null, 0, 999, new Sort("id"));
-        model.addAttribute("type", type.ordinal());
-        model.addAttribute("typeStr", type.getTypeName());
-        model.addAttribute("list", list.getContent());
-        return "front_product_list";
-    }
+	@RequestMapping(value = "/list/{type}")
+	public String prolist(@PathVariable("type") JpaProduct.Type type, Model model) {
+
+		TableRequest req = new TableRequest();
+		req.setStart(0);
+		req.setLength(4);
+		List<Map<String, String>> sort = new ArrayList<Map<String, String>>(1);
+		Map<String, String> default_sort = new HashMap<String, String>(1);
+		default_sort.put("id", "desc");
+		sort.add(default_sort);
+
+		Page<JpaProduct> list = productService.getValidProducts(-1, type, false, null, req);
+		model.addAttribute("type", type.ordinal());
+		model.addAttribute("typeStr", type.getTypeName());
+		model.addAttribute("list", list.getContent());
+		return "front_product_list";
+	}
 
 }

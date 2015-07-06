@@ -49,19 +49,15 @@ public class ProductController {
     @ResponseBody
     public DataTablePage<ProductView> getAllProducts( TableRequest req,
                                                      @CookieValue(value="city", defaultValue = "-1") int city,
-                                                     Principal principal ) {
-        Page<JpaProduct> page = null;
-        if (Request.hasAuth(principal, ActivitiConfiguration.ORDER)) {
-            page = productService.getAllProducts(city, req.getFilter("name"),
-                    true, null,
-                    req.getPage(), req.getLength(), req.getSort("id"));
-        } else {
-            page = productService.getAllProducts(city, req.getFilter("name"),
-                    true, Request.getUserId(principal),
-                    req.getPage(), req.getLength(), req.getSort("id"));
-        }
-        return new DataTablePage(productService.getProductView(page), req.getDraw());
-    }
+ Principal principal) {
+		Page<JpaProduct> page = null;
+		if (Request.hasAuth(principal, ActivitiConfiguration.ORDER)) {
+			page = productService.getAllProducts(city, true, null, req);
+		} else {
+			page = productService.getAllProducts(city, true, Request.getUserId(principal), req);
+		}
+		return new DataTablePage(productService.getProductView(page), req.getDraw());
+	}
     @RequestMapping("compareProduct-list")
     @ResponseBody
     public DataTablePage<JpaCpd> getCompareProducts( TableRequest req,

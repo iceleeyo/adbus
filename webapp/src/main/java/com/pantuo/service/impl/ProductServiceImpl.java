@@ -22,6 +22,7 @@ import com.pantuo.dao.pojo.JpaProduct.FrontShow;
 import com.pantuo.mybatis.domain.Product;
 import com.pantuo.mybatis.domain.ProductExample;
 import com.pantuo.mybatis.persistence.ProductMapper;
+import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ProductService;
 import com.pantuo.simulate.ProductProcessCount;
 import com.pantuo.util.NumberPageUtil;
@@ -36,30 +37,36 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductRepository productRepo;
 
-    public Page<JpaProduct> getAllProducts(int city, String name,  boolean includeExclusive, String exclusiveUser,
-                                           int page, int pageSize, Sort sort) {
-        if (page < 0)
-            page = 0;
-        if (pageSize < 1)
-            pageSize = 1;
-        sort = (sort == null ? new Sort("id") : sort);
-        Pageable p = new PageRequest(page, pageSize, sort);
-        BooleanExpression query = city >= 0 ? QJpaProduct.jpaProduct.city.eq(city) : QJpaProduct.jpaProduct.city.goe(0);
-        if (!includeExclusive) {
-            query = query.and(QJpaProduct.jpaProduct.exclusive.eq(false));
-        } else if (exclusiveUser != null) {
-            query = query.and(QJpaProduct.jpaProduct.exclusive.eq(false).or(QJpaProduct.jpaProduct.exclusiveUser.eq(exclusiveUser)));
-        }
-        if (name != null && !StringUtils.isEmpty(name)) {
-            query = query.and(QJpaProduct.jpaProduct.name.like("%" + name + "%"));
-        }
-        query = query.and(QJpaProduct.jpaProduct.iscompare.eq(0));
-        return productRepo.findAll(query, p);
-    }
+	public Page<JpaProduct> getAllProducts(int city, boolean includeExclusive, String exclusiveUser, TableRequest req) {
+		String name = req.getFilter("name");
+		int page = req.getPage(), pageSize = req.getLength();
+		Sort sort = req.getSort("id");
+
+		if (page < 0)
+			page = 0;
+		if (pageSize < 1)
+			pageSize = 1;
+		sort = (sort == null ? new Sort("id") : sort);
+		Pageable p = new PageRequest(page, pageSize, sort);
+		BooleanExpression query = city >= 0 ? QJpaProduct.jpaProduct.city.eq(city) : QJpaProduct.jpaProduct.city.goe(0);
+		if (!includeExclusive) {
+			query = query.and(QJpaProduct.jpaProduct.exclusive.eq(false));
+		} else if (exclusiveUser != null) {
+			query = query.and(QJpaProduct.jpaProduct.exclusive.eq(false).or(
+					QJpaProduct.jpaProduct.exclusiveUser.eq(exclusiveUser)));
+		}
+		if (name != null && !StringUtils.isEmpty(name)) {
+			query = query.and(QJpaProduct.jpaProduct.name.like("%" + name + "%"));
+		}
+		query = query.and(QJpaProduct.jpaProduct.iscompare.eq(0));
+		return productRepo.findAll(query, p);
+	}
 
   //  @Override
     public Page<JpaProduct> getValidProducts(int city, JpaProduct.Type type,  boolean includeExclusive, String exclusiveUser,
-                                             int page, int pageSize, Sort sort,FrontShow... fs) {
+    		TableRequest req,FrontShow... fs) {
+    	int page = req.getPage(), pageSize = req.getLength();
+		Sort sort = req.getSort("id");
         if (page < 0)
             page = 0;
         if (pageSize < 1)
@@ -75,7 +82,7 @@ public class ProductServiceImpl implements ProductService {
         if (type != null) {
             query = query.and(QJpaProduct.jpaProduct.type.eq(type));
         }
-		if (fs != null) {
+		if (fs != null && fs.length > 0) {
 			query = query.and(QJpaProduct.jpaProduct.frontShow.eq(fs[0]));
 		}
 		 query = query.and(QJpaProduct.jpaProduct.iscompare.eq(0));

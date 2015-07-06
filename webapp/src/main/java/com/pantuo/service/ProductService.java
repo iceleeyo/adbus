@@ -10,15 +10,16 @@ import org.springframework.data.domain.Sort;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProduct.FrontShow;
 import com.pantuo.mybatis.domain.Product;
+import com.pantuo.pojo.TableRequest;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.web.view.ProductView;
 
 public interface ProductService {
-    Page<JpaProduct> getAllProducts(int city, String name,  boolean includeExclusive, String exclusiveUser,
-                                    int page, int pageSize, Sort sort);
+    Page<JpaProduct> getAllProducts(int city,  boolean includeExclusive, String exclusiveUser,
+    		TableRequest req);
 
     Page<JpaProduct> getValidProducts(int city, JpaProduct.Type type,  boolean includeExclusive, String exclusiveUser,
-                                      int page, int pageSize, Sort sort,FrontShow... fs);
+    		TableRequest req ,FrontShow... fs);
 
     JpaProduct findById(int productId);
 
