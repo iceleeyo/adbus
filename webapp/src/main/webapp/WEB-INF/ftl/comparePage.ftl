@@ -28,6 +28,7 @@ $.ajax({
 			},
 			success:function(data){
 			  alert(data.right);
+			  window.location.reload();
 			}
       }); 
 }
@@ -186,9 +187,15 @@ $.ajax({
 												<div class="line"></div>
 												<i>￥${item.comparePrice!''}</i>
 											</span>
+											<#if item_index==0 >
 											<span class="wd3">
 												<i>领先</i>
 											</span>
+											<#else>
+										    <span class="wd3 out">
+												<i>出局</i>
+											</span>
+											</#if>
 										</dd>
 									</#list>
 									</dl>
