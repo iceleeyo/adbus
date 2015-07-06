@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -183,9 +184,10 @@ public class CpdServiceImpl implements CpdService {
 	}
 
 	public List<JpaCpd> getIndexCpdList(int getProductCount) {
-		Pageable p = new PageRequest(0, getProductCount, new Sort("id"));
-		BooleanExpression query = QJpaCpd.jpaCpd.biddingDate.after(new Date());
-		Page<JpaCpd> r = cpdRepository.findAll(query, p);
+		Pageable p = new PageRequest(0, getProductCount, new Sort(org.springframework.data.domain.Sort.Direction.DESC,
+				"biddingDate"));
+		//BooleanExpression query = QJpaCpd.jpaCpd.biddingDate.after(new Date());
+		Page<JpaCpd> r = cpdRepository.findAll(p);
 		return r.getContent();
 	}
 	@Override
