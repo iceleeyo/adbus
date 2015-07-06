@@ -76,7 +76,15 @@ $.ajax({
 											</div>
 										</div>
 										<div class="product-btn">
+										<#if (jpaCpd.startDate < .now  && jpaCpd.biddingDate > .now  ) > 
 											<a class="btn-bid" href="javascript:void(0)" onclick="compare()" >我要出价</a>
+										</#if>
+										<#if (jpaCpd.startDate > .now   ) > 
+											<a class="btn-bid" style="background: #f5f5f5;color:#333" href="javascript:void(0)">等待开始</a>
+										</#if>
+										<#if (jpaCpd.biddingDate < .now   ) > 
+											<a class="btn-bid" style="background: #f5f5f5;color:#333" href="javascript:void(0)">竞价结束</a> 
+										</#if>
 											<input type="hidden" id="productid" value="${(jpaCpd.id)!''}"/>	
 										</div>
 									</div>
