@@ -5,7 +5,7 @@
 <#assign action="增加">
 <#if prod??><#assign action="修改"></#if>
 
-<@frame.html title="${action}产品套餐" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/jquery-ui/jquery-ui.auto.complete.js"] css=["js/jquery-ui/jquery-ui.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
+<@frame.html title="${action}产品套餐" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js","js/jquery-ui-1.8.17.custom.min.js","js/jquery-ui-timepicker-addon.js","js/jquery-ui-timepicker-zh-CN.js", "js/jquery.datepicker.region.cn.js","js/jquery-ui/jquery-ui.auto.complete.js"] css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-ui-timepicker-addon.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <script type="text/javascript">
     $(document).ready(function() {
@@ -23,6 +23,16 @@
 </script>
 <script type="text/javascript">
     $(function(){
+ $(".ui_timepicker").datetimepicker({
+            //showOn: "button",
+            //buttonImage: "./css/images/icon_calendar.gif",
+            //buttonImageOnly: true,
+            showSecond: true,
+            timeFormat: 'hh:mm:ss',
+            stepHour: 1,
+            stepMinute: 1,
+            stepSecond: 1
+        })
         function toggleFields(){
             var type = $("#type").val();
             $(".toggle").hide();
@@ -34,13 +44,21 @@
 	function sub2() {
         if (!$("#productForm").validationEngine('validateBeforeSubmit'))
             return;
-        
+        var iscompare=$('input:radio[name="iscompare"]:checked').val();
+        var startDate1=$("#startDate1").val();
+        var biddingDate1=$("#biddingDate1").val();
+        if(iscompare==1){
+        if(biddingDate1<startDate1){
+			jDialog.Alert("截止时间不能小于开拍时间");
+			return;
+		  }
+        }
         $('#productForm').ajaxForm(function(data) {
             jDialog.Alert(data.name);
         }).submit();
         document.getElementById('submit').setAttribute('disabled',true);
            var a = document.createElement('a');
-    	   a.href='${rc.contextPath}/product/list';
+    	   a.href='${rc.contextPath}/product/auction';
     	  document.body.appendChild(a);
     	   a.click();
 	}
@@ -232,9 +250,18 @@
                                         
                                         <div class="ui-form-item">
 											<label class="ui-label mt10"><span
-                                                    class="ui-form-required">*</span>竞价截止时间:
+                                                    class="ui-form-required">*</span>开拍时间:
 															</label> <input
-												class="ui-input datepicker validate[required,custom[date],past[#biddingDate1]]" 
+												class="ui-input ui_timepicker validate[required,past[#startDate1]]" 
+												type="text" name="startDate1" 
+												id="startDate1" data-is="isAmount isEnough"
+												autocomplete="off" disableautocomplete="">
+										</div>
+                                        <div class="ui-form-item">
+											<label class="ui-label mt10"><span
+                                                    class="ui-form-required">*</span>截止时间:
+															</label> <input
+												class="ui-input ui_timepicker validate[required,past[#biddingDate1]]" 
 												type="text" name="biddingDate1" 
 												id="biddingDate1" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">

@@ -8,7 +8,7 @@
   <link rel="shortcut icon" href="${rc.contextPath}/images/favicon.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${title!''}</title>
-    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.js"></script>
+    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.form.js"></script>
     
   <!--  <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.min.js"></script>-->

@@ -70,7 +70,7 @@ body{
 .product-time .residue{
 	display: inline-block;
 	height: 20px;
-	background: url(../imgs/icon_time.png) left center no-repeat;
+	background: url(../../imgs/icon_time.png) left center no-repeat;
 	line-height: 20px;
 	padding: 0 5px 0 25px;
 }
@@ -151,7 +151,7 @@ body{
 	overflow: hidden;
 	vertical-align: middle;
 	margin: -4px 10px 0 0;
-	background: url(../imgs/icon_bid.png);
+	background: url(../../imgs/icon_bid.png);
 }
 .product-info .product-detail .product-btn .add-bid{
 	display: inline-block;
@@ -195,7 +195,7 @@ body{
   display: inline-block;
   width: 60px;
   height: 60px;
-  background: url(../imgs/icon_flow.png);
+  background: url(../../imgs/icon_flow.png);
 }
 .bidPath .flow .lc-flow ul .item01 .mark {
   background-position: 0 0;

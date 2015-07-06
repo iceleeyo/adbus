@@ -12,6 +12,10 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 function compare(){
 var productid=$("#productid").val();
 var myprice=$("#myprice").val();
+if(myprice==""){
+   alert("请出价");
+   return;
+}
 $.ajax({
 			url:"${rc.contextPath}/product/comparePrice",
 			type:"POST",
@@ -22,7 +26,7 @@ $.ajax({
 			"myprice":myprice
 			},
 			success:function(data){
-			  jDialog.Alert(data.right);
+			  alert(data.right);
 			}
       }); 
 }
@@ -72,7 +76,7 @@ $.ajax({
 											</div>
 										</div>
 										<div class="product-btn">
-											<a class="btn-bid" onclick="compare()" ><em></em>我要出价</a>
+											<a class="btn-bid" href="javascript:void(0)" onclick="compare()" >我要出价</a>
 											<input type="hidden" id="productid" value="${(jpaCpd.id)!''}"/>	
 										</div>
 									</div>

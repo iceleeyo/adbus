@@ -9,6 +9,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${title!''}</title>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.js"></script>
+        <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/platform.js"></script>
+    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/index.js"></script>
+    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/common.js"></script>
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/city.css">
     <#list css as entry>
         <link rel="stylesheet" type="text/css" href="${rc.contextPath}/${entry}">

@@ -208,8 +208,10 @@ public class ProductController {
             productService.saveProduct(city, prod);
             if(prod.getIscompare()==1){
             	String biddingDate1 = request.getParameter("biddingDate1").toString();
-            	if (biddingDate1.length() > 1 ) {
-            		jpacpd.setBiddingDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(biddingDate1));
+            	String startDate1 = request.getParameter("startDate1").toString();
+            	if (biddingDate1.length() > 1 && startDate1.length()>1 ) {
+            		jpacpd.setStartDate((Date) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parseObject(startDate1));
+            		jpacpd.setBiddingDate((Date) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parseObject(biddingDate1));
             	}
             	jpacpd.setProduct(prod);
             	cpdService.saveOrUpdateCpd(jpacpd);
