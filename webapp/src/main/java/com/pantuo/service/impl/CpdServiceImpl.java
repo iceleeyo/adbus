@@ -182,6 +182,12 @@ public class CpdServiceImpl implements CpdService {
 			
 	}
 
+	public List<JpaCpd> getIndexCpdList(int getProductCount) {
+		Pageable p = new PageRequest(0, getProductCount, new Sort("id"));
+		BooleanExpression query = QJpaCpd.jpaCpd.biddingDate.after(new Date());
+		Page<JpaCpd> r = cpdRepository.findAll(query, p);
+		return r.getContent();
+	}
 	@Override
 	public Page<JpaCpd> getCompareProducts(int city, TableRequest req, Principal principal) {
 		int page = req.getPage(), pageSize = req.getLength();

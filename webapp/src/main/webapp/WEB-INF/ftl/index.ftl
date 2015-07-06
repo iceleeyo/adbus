@@ -156,6 +156,46 @@
 		<div class="adds"><img src="homepage/imgs/321.jpg" alt="" width="960" height="100"></div>
 		<div class="container">
 			
+			
+			
+			<div class="module1">
+			  <div class="title s-clear">
+			  	<span>
+			  		竞价广告
+			  	</span>
+			  	<a href="f/prod/list/video" class="s-right">更多》</a>
+			  </div>
+			  <div class="fn-clear pg-uplan-product-list text-middle mt15 mb10">
+			    <#list auctionList as prod>
+				  <div class="fn-left pg-uplan-product-item mr15">
+						<a href="product/d/7">
+							<dl class="bg-color-white">
+							  <dt class="ub"><span>${prod.product.name}</span>套餐</dt>
+							  <dd>
+							  	<span class="mr20">曝光次数</span>                 
+							  	<span><em>${prod.product.playNumber}</em>/天</span>
+		            </dd>
+		            <dd>
+		            	<span class="mr20">展示期限</span>                 
+		            	<span><em>${prod.product.days}</em>天</span>
+		            </dd>
+		  					<dd>
+		  						<span class="mr20">底价</span>                 
+		  						<span><em>${prod.saleprice}</em>元</span>               
+		  					</dd>
+		  				</dl>
+						</a>
+						<p class="J_click_p" data="218">
+							<span id="J_count_time_b" data2="0" data1="328261">
+								<a href="order/buypro/7">我要出价</a>
+							</span>
+							<a class="text" href="product/d/7">（查看详情）</a>
+						</p>
+					</div> 
+				 </#list>	          
+				</div>
+			</div>
+			
 			<div class="module1">
 			  <div class="title s-clear">
 			  	<span>

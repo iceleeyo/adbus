@@ -103,4 +103,9 @@ public interface CpdService {
 
 
 	public Pair<Boolean, String> isMycompare(int cpdid, Principal principal);
+	
+	
+	
+	
+	public List<JpaCpd> getIndexCpdList(int getProductCount);
 }
