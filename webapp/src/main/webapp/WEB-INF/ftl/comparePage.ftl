@@ -67,9 +67,11 @@ $.ajax({
 											</div>
 										</div>
 										<div class="product-form">
-											<a class="reduce" href="#">-</a>
-											<input class="text product-text" type="text" id="myprice" value="" />
-											<a class="plus" href="#">+</a>
+											<span id="cspan">
+												<a class="reduce" href="#">-</a>
+												<input class="text product-text" type="text" id="myprice" value="" />
+												<a class="plus" href="#">+</a>
+											</span>
 											<div class="range">
 												<span>最低加价：<em>￥1.00</em></span>
 												<span>最高加价：<em>￥5000.00</em></span>
@@ -86,21 +88,23 @@ $.ajax({
 														countDate("auction1Timer",dateTo);
 													});
 										      </script>
-										<#elseif (jpaCpd.startDate > .now   ) > 
+										<#elseif (jpaCpd.startDate > .now) > 
 											<a class="btn-bid" style="background: #f5f5f5;color:#333" href="javascript:void(0)">等待开始</a>
 											 <script type="text/javascript">
 										      		$(function(){ 
 										      			$("#residue").html("距离开拍");
+										      			$("#cspan").css("display","none");
 														var dateTo="${jpaCpd.startDate?string("yyyy-MM-dd HH:mm:ss")}";
 														countDate("auction1Timer",dateTo);
 													});
 										      </script>
-										<#elseif (jpaCpd.biddingDate < .now   ) > 
+										<#elseif (jpaCpd.biddingDate < .now) > 
 											<a class="btn-bid" style="background: #f5f5f5;color:#333" href="javascript:void(0)">竞价结束</a> 
 											
 											 <script type="text/javascript">
 										      		$(function(){ 
 										      			$("#residue").html("结束时间");
+										      		$("#cspan").css("display","none");
 														var dateTo="${jpaCpd.biddingDate?string("yyyy-MM-dd HH:mm:ss")}";
 													   $("#auction1Timer").html(dateTo);
 													});
