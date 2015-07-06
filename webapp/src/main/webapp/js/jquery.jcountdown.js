@@ -218,8 +218,13 @@ $.fn.countdown = function( method /*, options*/ ) {
 			}
 
 			if ( !hideMins ) {
-				template = template.replace('%i', minsLeft);
-				template = template.replace('%ti', (minsLeft == 1 && settings.minSingularText) ? settings.minSingularText : settings.minText);
+				if(daysLeft==0 && hrsLeft ==0 && minsLeft==0){
+					template = template.replace(settings.minSingularText,"");
+					template = template.replace(settings.minText,"");
+				}else {
+					template = template.replace('%i', minsLeft);
+					template = template.replace('%ti', (minsLeft == 1 && settings.minSingularText) ? settings.minSingularText : settings.minText);
+				}
 			}
 
 			template = template.replace('%s', secLeft);
