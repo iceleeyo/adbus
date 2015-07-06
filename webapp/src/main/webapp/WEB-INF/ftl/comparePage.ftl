@@ -130,7 +130,7 @@ $.ajax({
 								</div>
 							</div>
 							<div class="product-contain">
-								advfdhyvboeivnhfpeoiv 
+								<@proDetail.proDetail prod=prod buyLink=false/>
 							</div>
 						</div>
 						<div class="ls-3" style="float:right;position:absolute;left:790px;top:0px;">

@@ -130,12 +130,15 @@ public class ProductController {
 	@RequestMapping(value = "/to_comparePage/{cpdid}", produces = "text/html;charset=utf-8")
 	public String to_comparePage(Model model, @ModelAttribute("city") JpaCity city, @PathVariable("cpdid") int cpdid) {
 		toComparePage(model, cpdid);
+		
 		return "comparePage";
 	}
 
 	private void toComparePage(Model model, int cpdid) {
 		JpaCpd jpaCpd = cpdService.queryOneCpdDetail(cpdid);
 		List<UserCpd> userCpdList = cpdService.queryLogByCpdId(cpdid);
+		JpaProduct prod = jpaCpd.getProduct();
+		model.addAttribute("prod", prod);
 		model.addAttribute("jpaCpd", jpaCpd);
 		model.addAttribute("userCpdList", userCpdList);
 	}
