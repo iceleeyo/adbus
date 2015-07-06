@@ -2,7 +2,19 @@
 * https://github.com/tomgrohl/jCountdown/
 * Copyright (c) 2015 Tom Ellis; Licensed MIT */
 (function($) {
-
+/**
+ * #
+ * ##
+ * ###
+ * ####
+ * ######
+ * ####### 倒计时增加为前缀为0判断如果 动态去掉0天0小时
+ * ######
+ * #####
+ * ####
+ * ##
+ * #
+ */
 $.fn.countdown = function( method /*, options*/ ) {
 
 	var msPerHr = 3600000,
