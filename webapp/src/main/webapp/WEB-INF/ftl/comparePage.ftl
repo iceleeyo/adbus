@@ -298,7 +298,6 @@ $.ajax({
 				$('.plus').click(function(){
 					var value = $('#addPrice').val()+1;
 				});
-				var dateTo="${jpaCpd.biddingDate?string("yyyy-MM-dd HH:mm:ss")}";
 			});
       </script>
 </@frame.html>
