@@ -3909,7 +3909,7 @@
 }
 
 .ui-table .item.selected  i{
-	background: url(images/icon_checkcase.png);
+	background: url(../images/icon_checkcase.png);
 	position:absolute;
 	bottom: 0;
   	right: 0;

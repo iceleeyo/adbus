@@ -10,7 +10,7 @@ css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
         history.go(-1);
     }
 </script>
-<div class="withdraw-wrap color-white-bg fn-clear">
+<div class="withdraw-wrap color-white-bg fn-clear" style="position:absolute;left:250px;">
 						<form data-name="withdraw" name="userForm2" id="userForm2"
 							class="ui-form" method="post" action="saveContract"
 							enctype="multipart/form-data">

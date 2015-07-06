@@ -426,12 +426,11 @@ function pay() {
               <div class="p20bs mt10 color-white-bg border-ec">
                  <H3 class="text-xl title-box"><p style="text-align: left"><A class="black" href="#">支付订单</A></p></H3><BR>	
                  <TABLE class="ui-table ui-table-gray" >
-  								<TBODY>
 									<!-- <TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
     									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>广告主支付订单</H4></TD>
   								</TR>  --> 	
 									<TR style="height:45px;">
-    									<TD width="22%">支付方式</TD>
+    									<TD width="20%" style="text-align:right">支付方式</TD>
     									<TD>
     										<input type="radio" name="payType" onchange="showContract()" value="contract" checked="checked">关联合同
 				             		<input type="radio" name="payType" value="online" onchange="hideboth()" >线上支付
@@ -459,62 +458,91 @@ function pay() {
                   		</TD>
                   		</TR>
                   		<TR style="height:45px;">
-    									<TD>开具发票</TD>
-    									<TD >
+    									<TD style="text-align:right">发票信息</TD>
+    									<TD colspan=3>
     									    <input type="checkbox"  id="check1"/>开具发票
  											<#assign  invoicelength=( (InvoiceList?size/4)?ceiling )> 
      									     <a href="javascript:;" onclick="IvcEnter('${rc.contextPath}')">录入发票</a>
     									</TD>
-    									<td></td>
-				             	    </TR>
-				             	    <TR style="display:none;" id="invoiceTab">
-				                  <TH >发票列表</TH>
+				         </TR>
+				            <tbody id="invoiceTab" style="display:none;">
+				             	    <TR>
+				                  <td style="text-align:right">发票抬头</td>
 				                   <TD colspan=3>
 				                   <div class="cart_address_wrap" id="cartAddress" style="width:540px;">
 						  <#if (InvoiceList?size>0)>
 				                <ul class="cart_address_list clearfix" style="height:<#if (invoicelength<1)>10px<#else>${invoicelength*100-20}px</#if>;width:550px;" id="cartAddressList">
 				                  <#list InvoiceList as ilist>
-				                  <li data-aid="${ilist.id}" tip="${ (ilist.type==1)?string('专用发票','普通发票')}:${ilist.title}" class="layer-tips">
+				                  <!-- <li data-aid="${ilist.id}" tip="${ (ilist.type==1)?string('专用发票','普通发票')}:${ilist.title}" class="layer-tips">
 				                    <span href="javascript:;"  class="cart_address_card addressCard" style="text-decoration:none;" data-aid="${ilist.id}">
 				                        <p class="cart_address_zipinfo" >
 				                      ${substring(ilist.title,0,11)}</p>
 				                        <i class="cart_address_edit" style="display: none;"onclick="qEdit('${rc.contextPath}',${ilist.id})" id="${ilist.id}">编辑</i>
 				                    </span>
-				                </li>
+				                </li> -->
+				          <li data-aid="${ilist.id}" tip="${ (ilist.type==1)?string('专用发票','普通发票')}:${ilist.title}" class="layer-tips">
+				                    
+				                     
+				                    <span href="javascript:;"  class="" style="text-decoration:none;" data-aid="${ilist.id}">
+				                    <div class="item"><i></i>
+				                        <span class="" >
+				                      ${substring(ilist.title,0,11)}
+				                      <br>
+				                      <b class="cart_address_edit" style="display: none;position:inherit;"onclick="qEdit('${rc.contextPath}',${ilist.id})" id="${ilist.id}">编辑</b>
+				                      </span>
+				                    </div>    
+				                    </span>
+				                    
+				           </li>
 				                </#list>
-				                	                <#else>
-				                    暂无发票，请录入发票
+				         			<#else>
+				                   	 暂无发票，请录入发票
 				                </#if>
 				                <input type="hidden" id="hiddenINvoiceId" value="0"/>
 				              </ul>
 				             </div>
-				               			<table>
-				               			<#if (InvoiceList?size>0)>
-				               				<tr>
-				               				 <td colspan="2">
-				               					<select style="margin: 20px;" id="contents">
+				     </TD>
+				     </TR>		
+				     
+				     <#if (InvoiceList?size>0)>
+
+				               	<TR>
+				               		<td style="text-align:right">发票内容</td>
+				               		<td colspan="3">
+				               			<!-- <select style="margin: 20px;" id="contents">
 				               						<option value="">请选择发票开具内容</option>
 				               						<option value="广告发布费">广告发布费</option>
 				               						<option value="广告制作费">广告制作费</option>
 				               						<option value="其他">其他</option>
-				               					</select>
-				               					
-				               					<select id="receway">
+				               			</select> -->
+				               			<div id="conten">
+				               			<div class="item"><i></i><a content="广告发布费" class="select-type">广告发布费</a></div>
+				               			<div class="item"><i></i><a content="广告制作费" class="select-type">广告制作费</a></div>
+				               			<div class="item"><i></i><a content="其他" class="select-type">其他</a></div>
+				               			</div>
+				               			<input type="hidden" id="contents" value=""/>
+				               		</td>
+				               	</TR>
+				               	
+				               	<TR>
+				               		<td style="text-align:right">领取方式</td>
+				               		<td colspan="3">
+				               			<!-- <select  style="margin: 20px;" id="receway">
 				               						<option value="">请选择发票领取方式</option>
 				               						<option value="自取">自取</option>
 				               						<option value="邮寄">邮寄</option>
-				               					</select>
-				               				</td>
-				               				</tr>
-				               				<#else>
-				               				<a href="javascript:;" onclick="IvcEnter('${rc.contextPath}')">录入发票</a>
-				               				
-				               			</#if>
-				               			</table>
-				               	</TD>
+				               					</select> -->
+				               					<div id="rece">
+				               		    <div class="item"><i></i><a recew="自取" class="select-type">自取</a></div>
+				               			<div class="item"><i></i><a recew="邮寄" class="select-type">邮寄</a></div>
+				               			<input type="hidden" id="receway" value=""/>
+				               			</div>
+				               		</td>
 				               	</TR>
+				               	</#if>
+				            <!-- tbody结束 -->   	
+				            </tbody>
 								</TABLE>
-								
 								<div style="margin: 10px 0 0; text-align:center;">
 									<button type="button" onclick="pay()" class="block-btn" >确认支付</button>
 								</div>
@@ -943,8 +971,20 @@ $(document).ready(function(){
   $('input').iCheck({
     checkboxClass: 'icheckbox_square-green',
     radioClass: 'iradio_square-green',
-    increaseArea: '20%' // optional
+    increaseArea: '10%' // optional
   });
+  
+  $('.item').click(function(){
+    $(this).parent().children().removeClass('selected');
+  	$(this).addClass('selected');
+  	$(this).children().show();
+  	
+  });
+  
+  $('.tab.block-btn').click(function(){
+		$(this).parent().children().addClass('btn-gray');
+		$(this).removeClass('btn-gray');
+	});
 });
 </script>
 
@@ -953,16 +993,40 @@ $(document).ready(function(){
 
 
 $(document).ready(function(){
- $('.cart_address_wrap ul li').click(function(){
+   $('#conten .item').click(function(){
+    $(this).parent().children().removeClass('selected');
+  	$(this).addClass('selected');
+  	$(this).children().show();
+  	$('#conten .item').each(function(){
+		 if($(this).hasClass("selected")){
+		   $("#contents").val($(this).find("a").attr("content"));
+		 }
+		
+	});
+  });
+   $('#rece .item').click(function(){
+    $(this).parent().children().removeClass('selected');
+  	$(this).addClass('selected');
+  	$(this).children().show();
+  	$('#rece .item').each(function(){
+		 if($(this).hasClass("selected")){
+		   $("#receway").val($(this).find("a").attr("recew"));
+		 }
+		
+	});
+  });
+  
+       $('.cart_address_wrap ul li').click(function(){
 	$('.cart_address_wrap ul li').each(function(){
-		 $(this).find("span").removeClass("selected");
+		 $(this).find("div").removeClass("selected");
 		var tid= $(this).attr("data-aid");
 		 $("#"+tid)[0].style.display = "none"; 
+		
 	});
 	var exact_id= $(this).attr("data-aid");
-    $(this).find("span").addClass("selected");
+    $(this).find("div").addClass("selected");
     $("#hiddenINvoiceId").val(exact_id);
-    $("#"+($(this).attr("data-aid")))[0].style.display = "block"; 
+    $("#"+exact_id)[0].style.display = "inline-block"; 
 
 });
 

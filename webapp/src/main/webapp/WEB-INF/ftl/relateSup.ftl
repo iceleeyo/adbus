@@ -69,8 +69,8 @@ function pay() {
 		var orderid = $("#orderid").val();
 		var taskid = $("#taskid").val();
 		if(isinvoice==1){
-		        contents=$("#contents  option:selected").val();
-	            receway=$("#receway  option:selected").val();
+		        contents=$("#contents").val();
+	            receway=$("#receway").val();
 	            invoiceid=$('#invoiceTab :radio[name=invoiceTit]:checked').val();
 	            invoiceid=  $("#hiddenINvoiceId").val();//$(this).find("span").attr("data-aid");
 	             
@@ -336,19 +336,22 @@ function qCheck(obj){
 				                        <i class="cart_address_edit" style="display: none;"onclick="qEdit('${rc.contextPath}',${ilist.id})" id="${ilist.id}">编辑</i>
 				                    </span>
 				                </li> -->
-				                
+				               
 				                <li data-aid="${ilist.id}" tip="${ (ilist.type==1)?string('专用发票','普通发票')}:${ilist.title}" class="layer-tips">
 				                    
-				                    <div class="item"><i></i>
+				                     
 				                    <span href="javascript:;"  class="" style="text-decoration:none;" data-aid="${ilist.id}">
+				                    <div class="item"><i></i>
 				                        <span class="" >
 				                      ${substring(ilist.title,0,11)}
 				                      <br>
-				                      <b class="cart_address_edit" style="display: block;position:inherit;"onclick="qEdit('${rc.contextPath}',${ilist.id})" id="${ilist.id}">编辑</b>
+				                      <b class="cart_address_edit" style="display: none;position:inherit;"onclick="qEdit('${rc.contextPath}',${ilist.id})" id="${ilist.id}">编辑</b>
 				                      </span>
-				                        
-				                    </span></div>
+				                    </div>    
+				                    </span>
+				                    
 				                </li>
+				                
 				                </#list>
 				                <#else>
 				                                                         暂无发票，请录入发票
@@ -371,9 +374,12 @@ function qCheck(obj){
 				               						<option value="广告制作费">广告制作费</option>
 				               						<option value="其他">其他</option>
 				               			</select> -->
-				               			<div class="item"><i></i><a class="select-type">广告发布费</a></div>
-				               			<div class="item"><i></i><a class="select-type">广告制作费</a></div>
-				               			<div class="item"><i></i><a class="select-type">其他</a></div>
+				               			<div id="conten">
+				               			<div class="item"><i></i><a content="广告发布费" class="select-type">广告发布费</a></div>
+				               			<div class="item"><i></i><a content="广告制作费" class="select-type">广告制作费</a></div>
+				               			<div class="item"><i></i><a content="其他" class="select-type">其他</a></div>
+				               			</div>
+				               			<input type="hidden" id="contents" value=""/>
 				               		</td>
 				               	</TR>
 				               	
@@ -385,8 +391,11 @@ function qCheck(obj){
 				               						<option value="自取">自取</option>
 				               						<option value="邮寄">邮寄</option>
 				               					</select> -->
-				               		    <div class="item"><i></i><a class="select-type">自取</a></div>
-				               			<div class="item"><i></i><a class="select-type">邮寄</a></div>
+				               					<div id="rece">
+				               		    <div class="item"><i></i><a recew="自取" class="select-type">自取</a></div>
+				               			<div class="item"><i></i><a recew="邮寄" class="select-type">邮寄</a></div>
+				               			<input type="hidden" id="receway" value=""/>
+				               			</div>
 				               		</td>
 				               	</TR>
 				               	</#if>
@@ -459,14 +468,37 @@ $(document).ready(function(){
 
 
   $(document).ready(function() {
+   $('#conten .item').click(function(){
+    $(this).parent().children().removeClass('selected');
+  	$(this).addClass('selected');
+  	$(this).children().show();
+  	$('#conten .item').each(function(){
+		 if($(this).hasClass("selected")){
+		   $("#contents").val($(this).find("a").attr("content"));
+		 }
+		
+	});
+  });
+   $('#rece .item').click(function(){
+    $(this).parent().children().removeClass('selected');
+  	$(this).addClass('selected');
+  	$(this).children().show();
+  	$('#rece .item').each(function(){
+		 if($(this).hasClass("selected")){
+		   $("#receway").val($(this).find("a").attr("recew"));
+		 }
+		
+	});
+  });
        $('.cart_address_wrap ul li').click(function(){
 	$('.cart_address_wrap ul li').each(function(){
-		 $(this).find("span").removeClass("selected");
+		 $(this).find("div").removeClass("selected");
 		var tid= $(this).attr("data-aid");
 		 $("#"+tid)[0].style.display = "none"; 
+		
 	});
 	var exact_id= $(this).attr("data-aid");
-    $(this).find("span").addClass("selected");
+    $(this).find("div").addClass("selected");
     $("#hiddenINvoiceId").val(exact_id);
     $("#"+exact_id)[0].style.display = "inline-block"; 
 
