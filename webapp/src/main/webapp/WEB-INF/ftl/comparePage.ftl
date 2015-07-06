@@ -1,7 +1,7 @@
 <#import "template/template_blank.ftl" as frame >
 <#import "template/proDetail.ftl" as proDetail>
 <#global menu="产品竞价">
-<@frame.html title="产品竞价" js=["js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/progressbar.js"] 
+<@frame.html title="产品竞价" js=["js/jquery.jcountdown.js","js/jquery.jcountdown.site.js","js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/progressbar.js"] 
 css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/compare/auction.css","css/sea.css","css/autocomplete.css"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 
@@ -63,7 +63,7 @@ $.ajax({
 										<div class="product-time">
 											<span class="residue">剩余时间：</span>
 											<div class="timer" id="auction1Timer">
-												<input type="text" id="time_h">时<input type="text" id="time_m">分<input type="text" id="time_s">秒
+												<!--<input type="text" id="time_h">时<input type="text" id="time_m">分<input type="text" id="time_s">秒-->
 											</div>
 										</div>
 										<div class="product-form">
@@ -182,49 +182,14 @@ $.ajax({
 
       <script type="text/javascript">
       		$(function(){ 
-				show_time();
 				$('.reduce').click(function(){
 					var value = $('#addPrice').val()-1;
 				});
 				$('.plus').click(function(){
 					var value = $('#addPrice').val()+1;
 				});
+				var dateTo="${jpaCpd.biddingDate?string("yyyy-MM-dd HH:mm:ss")}";
+				countDate("auction1Timer",dateTo);
 			});
-			function show_time(){ 
-				var time_start = new Date().getTime(); //设定当前时间
-				var time_end =  new Date("2015/10/01 00:00:00").getTime(); //设定目标时间
-				// 计算时间差 
-				var time_distance = time_end - time_start; 
-				// 天
-				var int_day = Math.floor(time_distance/86400000) 
-				time_distance -= int_day * 86400000; 
-				// 时
-				var int_hour = Math.floor(time_distance/3600000) 
-				time_distance -= int_hour * 3600000; 
-				// 分
-				var int_minute = Math.floor(time_distance/60000) 
-				time_distance -= int_minute * 60000; 
-				// 秒 
-				var int_second = Math.floor(time_distance/1000) 
-				// 时分秒为单数时、前面加零 
-				if(int_day < 10){ 
-					int_day = "0" + int_day; 
-				} 
-				if(int_hour < 10){ 
-					int_hour = "0" + int_hour; 
-				} 
-				if(int_minute < 10){ 
-					int_minute = "0" + int_minute; 
-				} 
-				if(int_second < 10){
-					int_second = "0" + int_second; 
-				} 
-				// 显示时间 
-				$("#time_h").val(int_hour); 
-				$("#time_m").val(int_minute); 
-				$("#time_s").val(int_second); 
-				// 设置定时器
-				setTimeout("show_time()",1000); 
-			}
       </script>
 </@frame.html>
