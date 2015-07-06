@@ -21,9 +21,9 @@
 							<i class="icon icon-app"></i>
 							当前城市：北京
 						</a> -->
-                        当前城市2
+                      <!--  当前城市2-->
 						<a class="select-city" href="#">
-							<span>北京2</span>
+							<span> <!--北京2--></span>
 						</a>
 						<ul class="select-dropdown" style="display:none;">
 							<li class="pg-dropdown-li">
@@ -167,7 +167,7 @@
 			  <div class="fn-clear pg-uplan-product-list text-middle mt15 mb10">
 			    <#list auctionList as prod>
 				  <div class="fn-left pg-uplan-product-item mr15">
-						<a href="product/d/7">
+						<a href="product/d/${prod.id}">
 							<dl class="bg-color-white">
 							  <dt class="ub"><span>${prod.product.name}</span>套餐</dt>
 							  <dd>
@@ -186,15 +186,17 @@
 						</a>
 						<p class="J_click_p" data="218">
 							<span id="J_count_time_b" data2="0" data1="328261">
-								<a href="order/buypro/7">我要出价</a>
+								<a href="product/to_comparePage/${prod.id}">我要出价</a>
 							</span>
-							<a class="text" href="product/d/7">（查看详情）</a>
+							<a class="text" href="product/d/${prod.id}">（查看详情）</a>
 						</p>
 					</div> 
 				 </#list>	          
 				</div>
 			</div>
 			</#if>
+			
+			<#if (videoList?size>0) >
 			<div class="module1">
 			  <div class="title s-clear">
 			  	<span>
@@ -203,106 +205,38 @@
 			  	<a href="f/prod/list/video" class="s-right">更多》</a>
 			  </div>
 			  <div class="fn-clear pg-uplan-product-list text-middle mt15 mb10">
+			    <#list videoList as prod>
 				  <div class="fn-left pg-uplan-product-item mr15">
-						<a href="product/d/7">
+						<a href="product/d/${prod.id}">
 							<dl class="bg-color-white">
-							  <dt class="ub"><span>A</span>套餐</dt>
+							  <dt class="ub"><span>${prod.name}</span>套餐</dt>
 							  <dd>
 							  	<span class="mr20">曝光次数</span>                 
-							  	<span><em>12</em>/天</span>
+							  	<span><em>${prod.playNumber}</em>/天</span>
 		            </dd>
 		            <dd>
 		            	<span class="mr20">展示期限</span>                 
-		            	<span><em>2</em>周</span>
+		            	<span><em>${prod.days}</em>周</span>
 		            </dd>
 		  					<dd>
 		  						<span class="mr20">金额</span>                 
-		  						<span><em>240,000</em>元</span>               
+		  						<span><em>${prod.price}</em>元</span>               
 		  					</dd>
 		  				</dl>
 						</a>
 						<p class="J_click_p" data="218">
 							<span id="J_count_time_b" data2="0" data1="328261">
-								<a href="order/buypro/7">马上预定</a>
+								<a href="order/iwant/${prod.id}">马上预定</a>
 							</span>
-							<a class="text" href="product/d/7">（查看详情）</a>
+							<a class="text" href="product/d/${prod.id}">（查看详情）</a>
 						</p>
 					</div>           
-					<div class="fn-left pg-uplan-product-item mr15">
-						<a href="product/d/7">
-							<dl class="bg-color-white">
-							  <dt class="ub"><span>B</span>套餐</dt>
-							  <dd>
-							  	<span class="mr20">曝光次数</span>                 
-							  	<span><em>12</em>/天</span>
-		            </dd>
-		            <dd>
-		            	<span class="mr20">展示期限</span>                 
-		            	<span><em>2</em>周</span>
-		            </dd>
-		  					<dd>
-		  						<span class="mr20">金额</span>                 
-		  						<span><em>240,000</em>元</span>               
-		  					</dd>
-		  				</dl>
-						</a>
-						<p class="J_click_p" data="218">
-							<span id="J_count_time_b" data2="0" data1="328261">
-								<a href="order/buypro/7">马上预定</a>
-							</span>
-							<a class="text" href="product/d/7">（查看详情）</a>
-						</p>
-					</div>   <div class="fn-left pg-uplan-product-item mr15">
-						<a href="product/d/7">
-							<dl class="bg-color-white">
-							  <dt class="ub"><span>C</span>套餐</dt>
-							  <dd>
-							  	<span class="mr20">曝光次数</span>                 
-							  	<span><em>12</em>/天</span>
-		            </dd>
-		            <dd>
-		            	<span class="mr20">展示期限</span>                 
-		            	<span><em>2</em>周</span>
-		            </dd>
-		  					<dd>
-		  						<span class="mr20">金额</span>                 
-		  						<span><em>240,000</em>元</span>               
-		  					</dd>
-		  				</dl>
-						</a>
-						<p class="J_click_p" data="218">
-							<span id="J_count_time_b" data2="0" data1="328261">
-								<a href="order/buypro/7">马上预定</a>
-							</span>
-							<a class="text" href="product/d/7">（查看详情）</a>
-						</p>
-					</div>   <div class="fn-left pg-uplan-product-item mr15">
-						<a href="product/d/7">
-							<dl class="bg-color-white">
-							  <dt class="ub"><span>D</span>套餐</dt>
-							  <dd>
-							  	<span class="mr20">曝光次数</span>                 
-							  	<span><em>12</em>/天</span>
-		            </dd>
-		            <dd>
-		            	<span class="mr20">展示期限</span>                 
-		            	<span><em>2</em>周</span>
-		            </dd>
-		  					<dd>
-		  						<span class="mr20">金额</span>                 
-		  						<span><em>240,000</em>元</span>               
-		  					</dd>
-		  				</dl>
-						</a>
-						<p class="J_click_p" data="218">
-							<span id="J_count_time_b" data2="0" data1="328261">
-								<a href="order/buypro/7">马上预定</a>
-							</span>
-							<a class="text" href="product/d/7">（查看详情）</a>
-						</p>
-					</div>        
+					 </#list>	      
 				</div>
 			</div>
+			</#if>
+			
+			<#if (imageList?size>0) >
 			<div class="module2">
 			  <div class="title s-clear">
 			  	<span>
@@ -311,106 +245,38 @@
 			  	<a href="f/prod/list/image" class="s-right">更多》</a>
 			  </div>
 			  <div class="fn-clear pg-uplan-product-list text-big mt15 mb10">
+			    <#list imageList as prod>
 				  <div class="fn-left pg-uplan-product-item mr15">
-						<a href="product/d/7">
+						<a href="product/d/${prod.id}">
 							<dl class="bg-color-white">
-							  <dt class="ub"><span>A</span>套餐</dt>
+							  <dt class="ub"><span>${prod.name}</span>套餐</dt>
 							  <dd>
 							  	<span class="mr20">曝光次数</span>                 
-							  	<span><em>12</em>/天</span>
+							  	<span><em>${prod.playNumber}</em>/天</span>
 		            </dd>
 		            <dd>
 		            	<span class="mr20">展示期限</span>                 
-		            	<span><em>2</em>周</span>
+		            	<span><em>${prod.days}</em>周</span>
 		            </dd>
 		  					<dd>
 		  						<span class="mr20">金额</span>                 
-		  						<span><em>240,000</em>元</span>               
+		  						<span><em>${prod.price}</em>元</span>               
 		  					</dd>
 		  				</dl>
 						</a>
 						<p class="J_click_p" data="218">
 							<span id="J_count_time_b" data2="0" data1="328261">
-								<a href="order/buypro/7">马上预定</a>
+								<a href="order/iwant/${prod.id}">马上预定</a>
 							</span>
-							<a class="text" href="product/d/7">（查看详情）</a>
+							<a class="text" href="product/d/${prod.id}">（查看详情）</a>
 						</p>
 					</div>           
-					<div class="fn-left pg-uplan-product-item mr15">
-						<a href="product/d/7">
-							<dl class="bg-color-white">
-							  <dt class="ub"><span>B</span>套餐</dt>
-							  <dd>
-							  	<span class="mr20">曝光次数</span>                 
-							  	<span><em>12</em>/天</span>
-		            </dd>
-		            <dd>
-		            	<span class="mr20">展示期限</span>                 
-		            	<span><em>2</em>周</span>
-		            </dd>
-		  					<dd>
-		  						<span class="mr20">金额</span>                 
-		  						<span><em>240,000</em>元</span>               
-		  					</dd>
-		  				</dl>
-						</a>
-						<p class="J_click_p" data="218">
-							<span id="J_count_time_b" data2="0" data1="328261">
-								<a href="order/buypro/7">马上预定</a>
-							</span>
-							<a class="text" href="product/d/7">（查看详情）</a>
-						</p>
-					</div>   <div class="fn-left pg-uplan-product-item mr15">
-						<a href="product/d/7">
-							<dl class="bg-color-white">
-							  <dt class="ub"><span>C</span>套餐</dt>
-							  <dd>
-							  	<span class="mr20">曝光次数</span>                 
-							  	<span><em>12</em>/天</span>
-		            </dd>
-		            <dd>
-		            	<span class="mr20">展示期限</span>                 
-		            	<span><em>2</em>周</span>
-		            </dd>
-		  					<dd>
-		  						<span class="mr20">金额</span>                 
-		  						<span><em>240,000</em>元</span>               
-		  					</dd>
-		  				</dl>
-						</a>
-						<p class="J_click_p" data="218">
-							<span id="J_count_time_b" data2="0" data1="328261">
-								<a href="order/buypro/7">马上预定</a>
-							</span>
-							<a class="text" href="product/d/7">（查看详情）</a>
-						</p>
-					</div>   <div class="fn-left pg-uplan-product-item mr15">
-						<a href="product/d/7">
-							<dl class="bg-color-white">
-							  <dt class="ub"><span>D</span>套餐</dt>
-							  <dd>
-							  	<span class="mr20">曝光次数</span>                 
-							  	<span><em>12</em>/天</span>
-		            </dd>
-		            <dd>
-		            	<span class="mr20">展示期限</span>                 
-		            	<span><em>2</em>周</span>
-		            </dd>
-		  					<dd>
-		  						<span class="mr20">金额</span>                 
-		  						<span><em>240,000</em>元</span>               
-		  					</dd>
-		  				</dl>
-						</a>
-						<p class="J_click_p" data="218">
-							<span id="J_count_time_b" data2="0" data1="328261">
-								<a href="order/buypro/7">马上预定</a>
-							</span>
-							<a class="text" href="product/d/7">（查看详情）</a>
-						</p>
-					</div>        
+				 </#list>	 	     
 				</div>
 			</div>
+			</#if>
+			
+			<#if (noteList?size>0) >
 			<div class="module3">
 			  <div class="title s-clear">
 			  	<span>
@@ -419,107 +285,36 @@
 			  	<a href="f/prod/list/info" class="s-right">更多》</a>
 			  </div>
 			  <div class="fn-clear pg-uplan-product-list text-big mt15 mb10">
+			   <#list noteList as prod>
 				  <div class="fn-left pg-uplan-product-item mr15">
-						<a href="product/d/7">
+						<a href="product/d/${prod.id}">
 							<dl class="bg-color-white">
-							  <dt class="ub"><span>A</span>套餐</dt>
+							  <dt class="ub"><span>${prod.name}</span>套餐</dt>
 							  <dd>
 							  	<span class="mr20">曝光次数</span>                 
-							  	<span><em>12</em>/天</span>
+							  	<span><em>${prod.playNumber}</em>/天</span>
 		            </dd>
 		            <dd>
 		            	<span class="mr20">展示期限</span>                 
-		            	<span><em>2</em>周</span>
+		            	<span><em>${prod.days}</em>周</span>
 		            </dd>
 		  					<dd>
 		  						<span class="mr20">金额</span>                 
-		  						<span><em>240,000</em>元</span>               
+		  						<span><em>${prod.price}</em>元</span>               
 		  					</dd>
 		  				</dl>
 						</a>
 						<p class="J_click_p" data="218">
 							<span id="J_count_time_b" data2="0" data1="328261">
-								<a href="order/buypro/7">马上预定</a>
+								<a href="order/iwant/${prod.id}">马上预定</a>
 							</span>
-							<a class="text" href="product/d/7">（查看详情）</a>
+							<a class="text" href="product/d/${prod.id}">（查看详情）</a>
 						</p>
 					</div>           
-					<div class="fn-left pg-uplan-product-item mr15">
-						<a href="product/d/7">
-							<dl class="bg-color-white">
-							  <dt class="ub"><span>B</span>套餐</dt>
-							  <dd>
-							  	<span class="mr20">曝光次数</span>                 
-							  	<span><em>12</em>/天</span>
-		            </dd>
-		            <dd>
-		            	<span class="mr20">展示期限</span>                 
-		            	<span><em>2</em>周</span>
-		            </dd>
-		  					<dd>
-		  						<span class="mr20">金额</span>                 
-		  						<span><em>240,000</em>元</span>               
-		  					</dd>
-		  				</dl>
-						</a>
-						<p class="J_click_p" data="218">
-							<span id="J_count_time_b" data2="0" data1="328261">
-								<a href="order/buypro/7">马上预定</a>
-							</span>
-							<a class="text" href="product/d/7">（查看详情）</a>
-						</p>
-					</div>   <div class="fn-left pg-uplan-product-item mr15">
-						<a href="product/d/7">
-							<dl class="bg-color-white">
-							  <dt class="ub"><span>C</span>套餐</dt>
-							  <dd>
-							  	<span class="mr20">曝光次数</span>                 
-							  	<span><em>12</em>/天</span>
-		            </dd>
-		            <dd>
-		            	<span class="mr20">展示期限</span>                 
-		            	<span><em>2</em>周</span>
-		            </dd>
-		  					<dd>
-		  						<span class="mr20">金额</span>                 
-		  						<span><em>240,000</em>元</span>               
-		  					</dd>
-		  				</dl>
-						</a>
-						<p class="J_click_p" data="218">
-							<span id="J_count_time_b" data2="0" data1="328261">
-								<a href="order/buypro/7">马上预定</a>
-							</span>
-							<a class="text" href="product/d/7">（查看详情）</a>
-						</p>
-					</div>   <div class="fn-left pg-uplan-product-item mr15">
-						<a href="product/d/7">
-							<dl class="bg-color-white">
-							  <dt class="ub"><span>D</span>套餐</dt>
-							  <dd>
-							  	<span class="mr20">曝光次数</span>                 
-							  	<span><em>12</em>/天</span>
-		            </dd>
-		            <dd>
-		            	<span class="mr20">展示期限</span>                 
-		            	<span><em>2</em>周</span>
-		            </dd>
-		  					<dd>
-		  						<span class="mr20">金额</span>                 
-		  						<span><em>240,000</em>元</span>               
-		  					</dd>
-		  				</dl>
-						</a>
-						<p class="J_click_p" data="218">
-							<span id="J_count_time_b" data2="0" data1="328261">
-								<a href="order/buypro/7">马上预定</a>
-							</span>
-							<a class="text" href="product/d/7">（查看详情）</a>
-						</p>
-					</div>        
+					 </#list>      
 				</div>
 			</div>
-
+			</#if>
 		</div>
 		<div class="qqbox">
 			<dl>

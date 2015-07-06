@@ -18,6 +18,7 @@ import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.dao.ProductRepository;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.QJpaProduct;
+import com.pantuo.dao.pojo.JpaProduct.FrontShow;
 import com.pantuo.mybatis.domain.Product;
 import com.pantuo.mybatis.domain.ProductExample;
 import com.pantuo.mybatis.persistence.ProductMapper;
@@ -58,7 +59,7 @@ public class ProductServiceImpl implements ProductService {
 
   //  @Override
     public Page<JpaProduct> getValidProducts(int city, JpaProduct.Type type,  boolean includeExclusive, String exclusiveUser,
-                                             int page, int pageSize, Sort sort) {
+                                             int page, int pageSize, Sort sort,FrontShow... fs) {
         if (page < 0)
             page = 0;
         if (pageSize < 1)
@@ -74,6 +75,10 @@ public class ProductServiceImpl implements ProductService {
         if (type != null) {
             query = query.and(QJpaProduct.jpaProduct.type.eq(type));
         }
+		if (fs != null) {
+			query = query.and(QJpaProduct.jpaProduct.frontShow.eq(fs[0]));
+		}
+		 query = query.and(QJpaProduct.jpaProduct.iscompare.eq(0));
         query = query.and(QJpaProduct.jpaProduct.enabled.isTrue());
         return productRepo.findAll(query, p);
     }
