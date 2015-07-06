@@ -26,6 +26,9 @@ public class JpaProduct extends CityEntity {
             return name;
         }
     }
+    public static enum FrontShow{
+    	N,Y;
+    }
 
     public static Map<JpaCity.MediaType, List<Type>> productTypesForMedia = new HashMap<JpaCity.MediaType, List<Type>>();
     static {
@@ -55,6 +58,7 @@ public class JpaProduct extends CityEntity {
     private String exclusiveUser;   //定向用户
     private String remarks;
     private int iscompare;
+    private FrontShow frontShow;
 
     public JpaProduct() {
         //for serialization
@@ -238,6 +242,14 @@ public class JpaProduct extends CityEntity {
 				+ ", hotRatio=" + hotRatio + ", lineLevel=" + lineLevel + ", busNumber=" + busNumber + ", days=" + days
 				+ ", price=" + price + ", produceCost=" + produceCost + ", padding=" + padding + ", enabled=" + enabled
 				+ ", exclusive=" + exclusive + ", exclusiveUser=" + exclusiveUser + ", remarks=" + remarks + "]";
+	}
+
+	public FrontShow getFrontShow() {
+		return frontShow;
+	}
+
+	public void setFrontShow(FrontShow frontShow) {
+		this.frontShow = frontShow;
 	}
 
 }

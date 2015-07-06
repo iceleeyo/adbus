@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.pojo.*;
+import com.pantuo.dao.pojo.JpaProduct.FrontShow;
 import com.pantuo.mybatis.domain.UserCpd;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
@@ -96,6 +97,22 @@ public class ProductController {
         return product;
     }
     
+    @RequestMapping(value = "/frontshow/{productId}/{enable}", method = { RequestMethod.POST})
+    @ResponseBody
+    public JpaProduct frontshow(@PathVariable("productId") int productId,
+                                 @PathVariable("enable") String enable,
+                                 @CookieValue(value="city", defaultValue = "-1") int city) {
+        JpaProduct product = productService.findById(productId);
+        if (product == null) {
+            JpaProduct p = new JpaProduct();
+            p.setErrorInfo(BaseEntity.ERROR, "找不到ID为" + productId + "的套餐");
+            return p;
+        }
+            product.setFrontShow(FrontShow.valueOf(enable));
+            productService.saveProduct(city, product);
+        return product;
+    }
+    
 	@RequestMapping(value = "/comparePrice", method = { RequestMethod.POST })
 	@ResponseBody
 	public Pair<Boolean, String> comparePrice(@RequestParam(value = "cpdid") int cpdid,
@@ -179,6 +196,7 @@ public class ProductController {
             log.info("Creating new product {}", prod.getName());
         }
         try {
+        	prod.setFrontShow(FrontShow.N);
             productService.saveProduct(city, prod);
             if(prod.getIscompare()==1){
             	String biddingDate1 = request.getParameter("biddingDate1").toString();
