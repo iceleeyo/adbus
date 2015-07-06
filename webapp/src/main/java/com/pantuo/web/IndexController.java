@@ -13,6 +13,7 @@ public class IndexController {
     @RequestMapping(value = "/", produces = "text/html;charset=utf-8")
     public String index()
     {
-        return "redirect:/index.html";
+    	return "index";
+    	//return "redirect:/index.html";
     }
 }
