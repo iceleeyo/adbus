@@ -1,0 +1,343 @@
+body{
+	height: auto;
+	background: #fff;
+}
+.container-12{
+	width: 1060px;
+}
+.ls-9{
+	width: 770px;
+	float: left;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+.ls-3{
+	width: 250px;
+	float: left;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+.product-info{
+	min-height: 300px;
+	height: auto;
+}
+.product-info > .preview img{
+	border: 1px solid #ccc;
+}
+.product-detail {
+	width: 450px;
+	margin-left: 20px;
+	color: #333;
+}
+.product-title{
+	height: 70px;
+	padding-bottom: 30px;
+	border-bottom: 2px solid #ccc;
+	color: #333;
+}
+.product-info > .preview .product-detail h3{
+	font-weight: 500;
+	height: 60px;
+	line-height: 30px;
+	overflow: hidden;
+}
+.product-detail .product-intro{
+	padding: 15px 0 10px 0;
+}
+.product-detail .product-intro .price{
+	width: auto;
+}
+.product-intro .price .line{
+	border:0;
+	border-left: 1px solid #f0f0f0;
+	margin: 0 15px;
+	height: 17px;
+}
+.product-intro .price .t-red{
+	color: #f74140;
+}
+.product-intro .price span,
+.product-intro .price del {
+	color: #999;
+}
+.product-intro .price span em{
+	font-size:10px;
+}
+.product-info .product-detail .product-time{
+	margin-bottom: 15px;
+	color: #999;
+}
+.product-time .residue{
+	display: inline-block;
+	height: 20px;
+	background: url(../imgs/icon_time.png) left center no-repeat;
+	line-height: 20px;
+	padding: 0 5px 0 25px;
+}
+.product-time .timer{
+	display: inline-block;
+	height: 20px;
+	line-height: 20px;
+	color: #333;
+	font-size: 16px;
+}
+.product-time .timer input[type='text']{
+	width:15px;
+	height:35px;
+	border:none;
+}
+.product-info .product-detail .product-form{
+	padding-bottom: 15px;
+	border-bottom: 1px solid #f0f0f0;
+}
+.product-info .product-detail .product-form .reduce,
+.product-info .product-detail .product-form .plus{
+	float: left;
+	width: 17px;
+	height: 17px;
+	text-align: center;
+	line-height: 17px;
+	background-color: #fff;
+	border: 1px solid #DADADA;
+	position: relative;
+	top: 8px;
+	text-decoration: none;
+	z-index: 1;
+	color: #333;
+}
+.product-info .product-detail .product-form .text{
+	width: 153px;
+	height: 26px;
+	padding: 4px;
+	border: 1px solid #ccc;
+	float: left;
+	margin: 0 4px;
+	vertical-align: middle;
+	text-align: center;
+}
+.product-info .product-detail .product-form .range{
+	height: 36px;
+	line-height: 36px;
+	font-size: 12px;
+}
+.product-info .product-detail .product-form .range span{
+	margin-left: 5px;
+	color: #999;
+}
+.product-info .product-detail .product-form .range span em{
+	color:#333;
+}
+.product-info .product-detail .product-btn{
+	margin-top: 10px;
+}
+.product-info .product-detail .product-btn .btn-bid{
+	display: inline-block;
+	width: 170px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	background: #e74649;
+	border-radius: 2px;
+	font-family: '\5fae\8f6f\96c5\9ed1';
+	font-size: 18px;
+	color: #fff;
+	text-decoration: none;
+	margin-right: 10px;
+}
+.product-info .product-detail .product-btn .btn-bid em{
+	display: inline-block;
+	width: 17px;
+	height: 18px;
+	overflow: hidden;
+	vertical-align: middle;
+	margin: -4px 10px 0 0;
+	background: url(../imgs/icon_bid.png);
+}
+.product-info .product-detail .product-btn .add-bid{
+	display: inline-block;
+	width: 170px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	border-radius: 2px;
+	background: #f5f5f5;
+	border: 1px solid #ddd;
+	font-family: '\5fae\8f6f\96c5\9ed1';
+	font-size: 18px;
+	color: #333;
+	text-decoration: none;
+	margin-right: 10px;
+}
+.bidPath{
+	margin: 20px 0;
+	padding: 20px 0;
+	border-top: 2px solid #f0f0f0;
+	border-bottom: 2px solid #f0f0f0;
+}
+.bidPath .lc{
+  display: inline-block;
+  height: 80px;
+  line-height: 30px;
+  font: 20px/30px '\5fae\8f6f\96c5\9ed1';
+  font-weight: 500;
+  color: #b48447;
+  overflow: hidden;
+}
+.bidPath .flow{
+	display: inline-block;
+}
+.bidPath .flow .lc-flow ul li {
+  float: left;
+  position: relative;
+  padding-left: 15px;
+}
+.bidPath .flow .lc-flow ul li .mark{
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  background: url(../imgs/icon_flow.png);
+}
+.bidPath .flow .lc-flow ul .item01 .mark {
+  background-position: 0 0;
+}
+.bidPath .flow .lc-flow ul .item02 .mark {
+  background-position: -241px 0;
+}
+.bidPath .flow .lc-flow ul .item03 .mark {
+  background-position: -321px 0;
+}
+.bidPath .flow .lc-flow ul .item04 .mark {
+  background-position: -80px 0;
+}
+.bidPath .flow .lc-flow ul .item05 .mark {
+  background-position: -161px 0;
+}
+.bidPath .flow .lc-flow ul li .status {
+	display: none;
+  position: absolute;
+  top: -5px;
+  left: 90px;
+  width: 145px;
+  height: 58px;
+  background: url(http://misc.360buyimg.com/user/auction/widget/flow/i/hover-icon.gif) left top no-repeat;
+  color: #333;
+  padding: 40px 0 0;
+  text-align: left;
+  padding-left: 10px;
+}
+.bidPath .flow .lc-flow ul li .num {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  font-size: 12px;
+}
+.bidPath .flow .lc-flow ul li .name {
+  display: block;
+  font-family: '\5fae\8f6f\96c5\9ed1';
+  font-size: 14px;
+}
+.product-ins{
+
+}
+.product-ins .ins-title{
+	border-bottom: 2px solid #393939;
+}
+.product-ins .ins-title span{
+	color: #fff;
+	height: 42px;
+	line-height: 42px;
+	background: #393939;
+	text-align: center;
+	padding: 0 27px;
+	display: inline-block;
+	font-size: 18px;
+}
+.product-contain{
+	border: 1px solid #f0f0f0;
+	border-top: none;
+}
+.record-sidebar{
+	border: 1px solid #ccc;
+	padding: 10px 15px 10px 15px;
+}
+.record-sidebar .record-title{
+	font-size: 16px;
+	color: #333;
+	text-align: left;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #f0f0f0;
+}
+.record-sidebar .record-detail dl{
+	font-size: 12px;
+	color: #666;
+}
+.record-sidebar .record-detail dl dt{
+	height: 34px;
+	line-height: 34px;
+	border-bottom: 1px dotted #f0f0f0;
+}
+.record-sidebar .record-detail dl span{
+	display: inline-block;
+	text-align: center;
+}
+.record-sidebar .record-detail dl dd{
+	padding: 20px 0 20px 0;
+	margin: 0;
+	border-bottom: 1px solid #f0f0f0;
+}
+.record-sidebar .record-detail dl dd span{
+	display: inline-block;
+	text-align: center;
+}
+.record-sidebar .record-detail dl{
+	margin: 0;
+}
+.record-sidebar .record-detail .wd1,
+.record-sidebar .record-detail .wd2{
+	float: left;
+}
+.record-sidebar .record-detail dl .wd1{
+	width: 80px;
+}
+.record-sidebar .record-detail dl .wd2{
+	width: 80px;
+	margin: 0 10px 0 10px;
+}
+.record-sidebar .record-detail dd .wd2{
+	color: #f94340;
+}
+.record-sidebar .record-detail dl .wd3{
+	width: 30px;
+}
+.record-sidebar .record-detail dl i{
+	font-style: normal;
+}
+.record-sidebar .record-detail dl .line{
+	height: 0;
+	border-top: 1px solid #f0f0f0;
+}
+.record-sidebar .record-detail dd .wd3 i{
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  color: #fff;
+  font-style: normal;
+  font-weight: 700;
+  background: #56AAF2;
+  border-radius: 30px;
+  vertical-align: middle;
+  -webkit-transition: all .5s;
+  -moz-transition: all .5s;
+  transition: all .5s;
+}
+.record-sidebar .record-detail dl dd .out i{
+	background-color: #999;
+}
+.record-sidebar .record-detail .more{
+	padding: 20px 0 10px 0;
+	text-align: center;
+}
+.record-sidebar .record-detail .more a{
+	cursor: pointer;
+}
