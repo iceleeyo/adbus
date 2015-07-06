@@ -8,7 +8,12 @@ function go_back(){
 	history.go(-1);
 }
 </script>
-<div class="withdraw-wrap color-white-bg fn-clear" style="position:absolute;left:250px;">
+<style type="text/css">
+.ls-10{
+	position:absolute;left:250px;"
+}
+</style>
+<div class="withdraw-wrap color-white-bg fn-clear">
 						<form data-name="withdraw" name="userForm2" id="userForm2"
 							class="ui-form" method="post" action="saveContract"
 							enctype="multipart/form-data">
