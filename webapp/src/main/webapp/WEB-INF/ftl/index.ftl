@@ -186,7 +186,18 @@
 						</a>
 						<p class="J_click_p" data="218">
 							<span id="J_count_time_b" data2="0" data1="328261">
-								<a href="product/c/${prod.id}">我要出价</a>
+								<a href="product/c/${prod.id}">
+								<#if (prod.startDate < .now  && prod.biddingDate > .now  ) > 
+									我要出价
+								</#if>
+								<#if (prod.startDate > .now   ) > 
+									等待开始
+								</#if>
+								<#if (prod.biddingDate < .now   ) > 
+									竞价结束
+								</#if>
+								
+								</a>
 							</span>
 							<a class="text" href="product/d/${prod.id}">（查看详情）</a>
 						</p>
