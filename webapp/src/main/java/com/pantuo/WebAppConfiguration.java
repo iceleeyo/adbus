@@ -33,6 +33,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.pantuo.util.FreemarkerExceptionHandler;
 import com.pantuo.util.SubstringEx;
 import com.pantuo.web.ControllerInterceptor;
 import com.pantuo.web.upload.CustomMultipartResolver;
@@ -131,6 +132,8 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 		Properties setting = new Properties();
 		setting.setProperty(Configurable.DATETIME_FORMAT_KEY, "yyyy-MM-dd");
 		setting.setProperty(Configurable.NUMBER_FORMAT_KEY, "0.##");
+		//setting.setProperty(Configurable.TEMPLATE_EXCEPTION_HANDLER_KEY, "RETHROW");
+		setting.setProperty(Configurable.TEMPLATE_EXCEPTION_HANDLER_KEY, FreemarkerExceptionHandler.class.getName());
 		config.setFreemarkerSettings(setting);
 		config.setDefaultEncoding("UTF-8");
 
