@@ -701,6 +701,22 @@ function showOrderUserlayer(tourl,uid){
 	
 }
 
+function LoginMini(tourl){
+	layer.open({
+		type: 1,
+		title: "系统登录",
+		skin: 'layui-layer-rim', 
+		area: ['420px', '540px'], 
+		content: ''
+				 +'<br/><div>'
+				 +'<textarea  type="textarea" style="margin-left:25px;height: 391px; width: 367px;">'
+				 + contentString
+				 +'</textarea>'
+                 +'</div>'
+	});
+	
+}
+
 
 
 

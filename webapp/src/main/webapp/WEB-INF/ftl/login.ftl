@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="用户登录">
-<@frame.html title="用户登录" left=false nav=false js=["js/querystring-0.9.0.js"] css=["css/login.css"]>
+<@frame.html title="用户登录" left=false nav=false js=["js/querystring-0.9.0.js","js/layer-v1.9.3/layer/layer.js"] css=["css/login.css"]>
 
 <div class="pg-container">
     <div class="pg-container-main">

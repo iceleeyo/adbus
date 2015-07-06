@@ -1,7 +1,7 @@
-<#import "template/comp.ftl" as frame >
+<#import "template/template_blank.ftl" as frame >
 <#global menu="产品竞价">
 <@frame.html title="产品竞价" js=["js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/progressbar.js"] 
-css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/compare/auction.css","css/compare/sea.css","css/autocomplete.css"]>
+css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/compare/auction.css","css/sea.css","css/autocomplete.css"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 
 <script type="text/javascript">
@@ -133,7 +133,7 @@ $.ajax({
 								advfdhyvboeivnhfpeoiv 
 							</div>
 						</div>
-						<div class="ls-3">
+						<div class="ls-3" style="float:right;position:absolute;left:790px;top:0px;">
 							<div class="record-sidebar">
 								<div class="record-title">
 									<label>出价记录（共<label>${jpaCpd.setcount}</label>次出价）</label>
