@@ -6,8 +6,6 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 
 <script type="text/javascript">
-    $(document).ready(function() {
-    });
     
     
 function compare(){
@@ -42,6 +40,12 @@ $.ajax({
       }); 
 }
 	
+</script>
+
+<script type="text/javascript">
+        function bu(txtObj) {
+            txtObj.value = Number(txtObj.value).toFixed(2);
+        }
 </script>
 
 <div class="pg-container">
@@ -79,7 +83,9 @@ $.ajax({
 										<div class="product-form">
 											<span id="cspan">
 												<a class="reduce" >-</a>
-												<input class="text product-text" type="text" id="myprice" value="" />
+												<input class="text product-text" 
+												onblur="bu(this)" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/[^\d.]/g,'')}"
+												 type="text" id="myprice" value="" />
 												<a class="plus" >+</a>
 											</span>
 											<div class="range">
@@ -306,8 +312,9 @@ $(function(){
 			val=1;
 			document.getElementById("myprice").value = val;
 		}else{
-			val=val+1;
-			document.getElementById("myprice").value = val;
+			value=parseInt(value);
+			value=value+1;
+			document.getElementById("myprice").value = value;
 		}
 		
 	});
