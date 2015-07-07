@@ -262,7 +262,7 @@ $.ajax({
 										<dd>
 											<span class="wd1">${item.created?string("yyyy-MM-dd HH:mm:ss")}</span>
 											<span class="wd2">
-												<i>${item.userId!''}</i>
+												<i>${hidname(item.userId!'')}</i>
 												<div class="line"></div>
 												<i>￥${item.comparePrice!''}</i>
 											</span>
