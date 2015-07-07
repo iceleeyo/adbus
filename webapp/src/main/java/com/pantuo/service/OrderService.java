@@ -33,6 +33,7 @@ import com.pantuo.dao.pojo.QJpaOrders;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.Orders;
+import com.pantuo.mybatis.domain.OrdersExample;
 import com.pantuo.mybatis.domain.Product;
 import com.pantuo.mybatis.domain.RoleCpd;
 import com.pantuo.mybatis.persistence.OrderBusesMapper;
@@ -347,10 +348,14 @@ public class OrderService {
 		}
 		return new Pair<String, String>(username,proname);
 	}
+	public List<Orders> queryLogByProId(int id) {
+		OrdersExample example=new OrdersExample();
+		OrdersExample.Criteria criteria=example.createCriteria();
+		criteria.andProductIdEqualTo(id);
+		example.setOrderByClause("id desc");
+		example.setLimitStart(0);
+		example.setLimitEnd(20);
+		return ordersMapper.selectByExample(example);
+	}
 
-/*    public List<OrderBuses> getOrderBuses(int orderId) {
-        OrderBusesExample e = new OrderBusesExample();
-        e.createCriteria().andOrderIdEqualTo(orderId);
-        return orderBusesMapper.selectByExample(e);
-    }*/
 }

@@ -100,8 +100,10 @@ public class OrderController {
 		//model.addAttribute("products", products.getContent());
 		NumberPageUtil page = new NumberPageUtil(9999, 1, 9999);
 		List<Supplies> supplies = suppliesService.queryMyList(cityId, page, null, prod.getType(), principal);
+		List<Orders> logsList=orderService.queryLogByProId(prod.getId());
 		model.addAttribute("supplies", supplies);
 		model.addAttribute("prod", prod);
+		model.addAttribute("logsList", logsList);
 		List<Contract> contracts = contractService.queryContractList(cityId, page, null, null, principal);
 		model.addAttribute("contracts", contracts);
 		model.addAttribute("username", username);

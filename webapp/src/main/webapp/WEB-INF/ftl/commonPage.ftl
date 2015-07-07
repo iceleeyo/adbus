@@ -97,8 +97,8 @@ function bu(txtObj) {
 										</div>
 										<div class="product-btn" style="margin-top: 30px;">
 										<a class="btn-bid" href="javascript:void(0)" onclick="compare('${username!''}','${prod.name!''}')" >我要购买</a>
-											<input type="hidden" id="productid" value="${(jpaCpd.id)!''}"/>	
-											
+											 <input type="hidden" readonly="readonly" name="product.id" id="productId" value="${prod.id!''}"/>
+											 <input type="hidden" readonly="readonly" name="supplies.id" id="productId" value="1"/>
 										<@security.authorize access="isAuthenticated()">
                                         <input type="hidden" id="lc" value="1"/>	
                                         </@security.authorize>
@@ -185,7 +185,7 @@ function bu(txtObj) {
 						<div class="ls-3" style="float:right;position:absolute;left:790px;top:0px;">
 							<div class="record-sidebar">
 								<div class="record-title">
-									<label>购买记录（共<label>${jpaCpd.setcount}</label>次购买）</label>
+									<label>购买记录（共<label>${logsList?size}</label>次购买）</label>
 								</div>
 								<div class="record-detail">
 									<dl>
@@ -194,29 +194,18 @@ function bu(txtObj) {
 											<span class="wd2">详情</span>
 											<span class="wd3">状态</span>
 										</dt>
-										<#list userCpdList as item>
+										<#list logsList as item>
 										<dd>
 											<span class="wd1">${item.created?string("yyyy-MM-dd HH:mm:ss")}</span>
 											<span class="wd2">
 												<i>${hidname(item.userId!'')}</i>
 												<div class="line"></div>
 												<i>
-												<#if item.comparePrice?index_of(".")==-1>
-													￥${item.comparePrice!''}.00
-														<#else>
-														￥${item.comparePrice!''}
-												</#if>
 												</i>
 											</span>
-											<#if item_index==0 >
 											<span class="wd3">
-												<i>领先</i>
+												<i>成交</i>
 											</span>
-											<#else>
-										    <span class="wd3 out">
-												<i>出局</i>
-											</span>
-											</#if>
 										</dd>
 									</#list>
 									</dl>
