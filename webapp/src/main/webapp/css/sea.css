@@ -309,6 +309,12 @@ table {
 	margin-right: 10px;
 }
 
+.ls-sift {
+	float: left;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
 .breadcrumb {
 	padding: 0;
 }

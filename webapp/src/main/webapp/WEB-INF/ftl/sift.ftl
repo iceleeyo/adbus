@@ -1,4 +1,4 @@
-<#import "template/template.ftl" as frame>
+<#import "template/template_sift.ftl" as frame>
 <#global menu="">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="商品sift" left=false nav=false js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"] css=["css/sift.css","js/jquery-ui/jquery-ui.css"]>
@@ -70,10 +70,8 @@
 				</div>
 				
 				
-				 <div class="withdraw-wrap color-white-bg fn-clear">
-            	<div class="withdraw-title" style="padding-top: 0px;text-align:left;">
-									产品列表
-									</div>
+				 <div class="withdraw-wrap color-white-bg fn-clear" >
+            	 
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
