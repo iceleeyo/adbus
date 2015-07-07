@@ -27,13 +27,12 @@
 								<span>产品名称</span>
 								<div class="sift-search">
 									<input class="" id="name" type="text" placeholder="搜索产品">
-									<a class="btn-search" href="#"></a>
 								</div>
 							</div>
 							<div class="sift-item s-clear">
 								<span>是否竞价：</span>
 								<div class="sift-list" qt="p">
-									<a class="item active" href="#" sort="-1" qc="1">所有</a>
+									<a class="item active" href="#" sort="-1" qc="all">所有</a>
 									<a class="item" href="#"  qc="2" >竞价商品<i>×</i></a>
 									<a class="item" href="#"  qc="3" >一口价<i>×</i></a>
 								</div>
@@ -41,16 +40,16 @@
 							<div class="sift-item s-clear">
 								<span>产品类型：</span>
 								<div class="sift-list" qt="t">
-									<a class="item active" href="#" sort="-1" qc="1">所有</a>
-									<a class="item" href="#" qc="2">视频<i>×</i></a>
-									<a class="item" href="#" qc="3">图片<i>×</i></a>
-									<a class="item" href="#" qc="4">文字<i>×</i></a>
+									<a class="item active" href="#" sort="-1" qc="all">所有</a>
+									<a class="item" href="#" qc="video">视频<i>×</i></a>
+									<a class="item" href="#" qc="image">图片<i>×</i></a>
+									<a class="item" href="#" qc="info">文字<i>×</i></a>
 								</div>
 							</div>
 							<div class="sift-item s-clear">
 								<span>日爆光次数：</span>
 								<div class="sift-list" qt="s">
-									<a class="item active" href="#" sort="-1" qc="1">所有</a>
+									<a class="item active" href="#" sort="-1" qc="all">所有</a>
 									<a class="item" href="#" qc="2">0-7（不含）<i>×</i></a>
 									<a class="item" href="#" qc="3">7-11（含）<i>×</i></a>
 									<a class="item" href="#" qc="4">11以上<i>×</i></a>
@@ -59,11 +58,11 @@
 							<div class="sift-item s-clear">
 								<span>展示期限：</span>
 								<div class="sift-list" qt="d">
-									<a class="item active" href="#" sort="-1" qc="1">所有</a>
+									<a class="item active" href="#" sort="-1" qc="all">所有</a>
 									<a class="item" href="#" qc="2" >1（天）<i>×</i></a>
-									<a class="item" href="#" qc="3">2-5（含）<i>×</i></a>
+									<a class="item" href="#" qc="3">2-6（含）<i>×</i></a>
 									<a class="item" href="#" qc="4">7（天）<i>×</i></a>
-									<a class="item" href="#" qc="5">7<i>×</i></a>
+									<a class="item" href="#" qc="5">7天以上<i>×</i></a>
 								</div>
 							</div>
 						</div>
@@ -81,7 +80,9 @@
                         <th orderBy="name">套餐名称</th>
                         <th orderBy="type">类型</th>
                         <th orderBy="price">价格(元)</th>
+                         <@security.authorize ifAnyGranted="ShibaOrderManager">  
                         <th orderBy="exclusive">定向</th>
+                         </@security.authorize>
                         <th orderBy="enabled">状态</th>
                        
                        <@security.authorize ifAnyGranted="ShibaOrderManager">  
@@ -117,7 +118,7 @@
 
       <script type="text/javascript">
       </script>
-        <input type="hidden" id="sh" value="0"/>
+        <input type="hidden" id="sh" value=""/>
         
     <script type="text/javascript">
     var table;
@@ -130,14 +131,15 @@
             
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                { "orderable": false, "targets": [5] },
+                { "orderable": false, "targets": [4] },
             ],
             "ajax": {
                 type: "GET",
-                url: "${rc.contextPath}/product/ajax-list",
+                url: "${rc.contextPath}/product/ajax-searchPro",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "filter[name]" : $('#name').val()
+                        "filter[name]" : $('#name').val(),
+                         "filter[sh]" : $('#sh').val(),
                     } );
                 },
                 "dataSrc": "content",
@@ -162,12 +164,15 @@
                         return '';
                     } },
                 { "data": "price", "defaultContent": "", "render": $.fn.dataTable.render.number( ',', '.', 2, ' ')  },
+                 <@security.authorize ifAnyGranted="ShibaOrderManager"> 
                 { "data": "exclusiveUser", "defaultContent": "", "render": function(data, type, row) {
                     if (data)
                         return '<span class="invalid">' + data + '</span>';
                     else
                         return '';
-                } },
+                } }, 
+                 </@security.authorize>
+                 
                 { "data": "enabled", "defaultContent": "", "render": function(data) {
                     switch(data) {
                         case true:
@@ -230,8 +235,7 @@
         );
 
         $('#name, #sh').change(function() {
-        	alert(1);
-            table.fnDraw();
+        	  table.fnDraw();
         });
     }
 
@@ -275,14 +279,14 @@
       		//add by impanxh
       		var sendContext='';
 			$('.sift-list .active').each(function(){
-				sendContext+=($(this).parent().attr("qt")+""+$(this).attr("qc"));			
+				sendContext+=($(this).parent().attr("qt")+"_"+$(this).attr("qc"))+",";			
 			});
 			//alert(sendContext);
 			$("#sh").val(sendContext);
 			
 			//重新画
 			 table.fnDraw();
-			alert($("#sh").val());
+			//alert($("#sh").val());
 			
 
       	});

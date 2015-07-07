@@ -58,6 +58,14 @@ public class ProductController {
 		}
 		return new DataTablePage(productService.getProductView(page), req.getDraw());
 	}
+    @RequestMapping("ajax-searchPro")
+    @ResponseBody
+    public DataTablePage<ProductView> searchPro( TableRequest req,
+    		@CookieValue(value="city", defaultValue = "-1") int city,
+    		Principal principal) {
+    	   Page<JpaProduct> page = productService.searchProducts(city, principal, req);
+    	return new DataTablePage(productService.getProductView(page), req.getDraw());
+    }
     @RequestMapping("compareProduct-list")
     @ResponseBody
     public DataTablePage<JpaCpd> getCompareProducts( TableRequest req,

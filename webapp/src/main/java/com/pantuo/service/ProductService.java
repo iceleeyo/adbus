@@ -1,5 +1,6 @@
 package com.pantuo.service;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,8 @@ import com.pantuo.web.view.ProductView;
 
 public interface ProductService {
     Page<JpaProduct> getAllProducts(int city,  boolean includeExclusive, String exclusiveUser,
+    		TableRequest req);
+    Page<JpaProduct> searchProducts(int city, Principal principal,
     		TableRequest req);
 
     Page<JpaProduct> getValidProducts(int city, JpaProduct.Type type,  boolean includeExclusive, String exclusiveUser,
