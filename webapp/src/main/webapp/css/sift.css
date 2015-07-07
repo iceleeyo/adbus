@@ -1,0 +1,75 @@
+.container-12{
+	width: 1060px;
+}
+.sift-box{
+	border: 1px solid #a8a8a8;
+	font-size: 14px;
+	color: #333;
+	background-color: #fff;
+}
+.sift-box .sift-item{
+	padding: 10px;
+	border-bottom: 1px solid #e3e3e3;
+	line-height: 30px;
+}
+.sift-box .sift-item:last-child {
+  border: none;
+}
+.sift-box .sift-item span{
+	float: left;
+	display: inline-block;
+	line-height: 28px;
+	padding-left: 15px;
+	width: 100px;
+}
+.sift-box .sift-item .sift-search{
+	float: left;
+}
+.sift-box .sift-item .sift-search input{
+	width: 363px;
+	box-shadow: none;
+	display: inline;
+	float: left;
+	margin: 0;
+	padding: 0 10px;
+	line-height: 37px;
+	height: 37px;
+	font-size: 14px;
+	font-weight: normal;
+	border: 1px solid #ccc;
+}
+.sift-box .sift-item .sift-search .btn-search{
+	display: block;
+	width: 50px;
+	height: 37px;
+	float: left;
+	border: 1px solid #ccc;
+	border-left: none;
+	background: url("../imgs/icon_search.png") no-repeat center #00bb89;
+}
+.sift-box .sift-item .sift-list{
+	float: left;
+  	margin-left: 0;
+}
+.sift-box .sift-item .sift-list .item{
+	color: #333;
+	padding: 0 6px;
+	display: inline-block;
+	margin-right: 10px;
+}
+.sift-box .sift-item .sift-list .item.active {
+	background: #00bb89;
+	color: #fff;
+	line-height: 20px;
+	position: relative;
+	display: inline-block;
+	padding-bottom: 1px;
+}
+ .sift-list i{
+  font-style: normal;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  color: #666;
+  cursor: pointer;
+}

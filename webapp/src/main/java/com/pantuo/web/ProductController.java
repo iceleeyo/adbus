@@ -243,5 +243,10 @@ public class ProductController {
     public String toMyCompare() {
     	return "myCompare";
     }
+    
+    @RequestMapping(value = "/sift")
+    public String sift() {
+    	return "sift";
+    }
 
 }
