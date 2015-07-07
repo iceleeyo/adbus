@@ -34,6 +34,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.pantuo.util.FreemarkerExceptionHandler;
+import com.pantuo.util.HiddleUserNameEx;
 import com.pantuo.util.SubstringEx;
 import com.pantuo.web.ControllerInterceptor;
 import com.pantuo.web.upload.CustomMultipartResolver;
@@ -139,6 +140,7 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 
 		Map<String, Object> variables = new HashMap<String, Object>();
 		variables.put("substring", getSubStrMethod());
+		variables.put("hidname", getvHiddleUserNameEx());
 		config.setFreemarkerVariables(variables);
 
 		//        Map<String, Object> myBuiltInMethods = new HashMap<String, Object>();
@@ -148,6 +150,9 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 	}
 	TemplateMethodModelEx getSubStrMethod() {
 		return new SubstringEx();
+	}
+	TemplateMethodModelEx getvHiddleUserNameEx() {
+		return new HiddleUserNameEx();
 	}
 
 	@Bean
