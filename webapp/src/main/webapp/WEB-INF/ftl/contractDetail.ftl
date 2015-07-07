@@ -10,7 +10,7 @@ function go_back(){
 </script>
 <style type="text/css">
 .ls-10{
-	position:absolute;left:250px;"
+	position:absolute;left:260px;"
 }
 </style>
 <div class="withdraw-wrap color-white-bg fn-clear">

@@ -64,7 +64,7 @@ $.ajax({
 												<em class="line"></em>
 												<span>原价：</span>
 												<del>¥${(jpaCpd.product.price)!''}</del>
-												<div class="s-right">
+												<div class="s-right" style="margin-top: 13;">
 													<span>围观数：</span>
 													<em>${jpaCpd.pv} 次</em>
 												</div>
@@ -78,9 +78,9 @@ $.ajax({
 										</div>
 										<div class="product-form">
 											<span id="cspan">
-												<a class="reduce" href="#">-</a>
+												<a class="reduce" >-</a>
 												<input class="text product-text" type="text" id="myprice" value="" />
-												<a class="plus" href="#">+</a>
+												<a class="plus" >+</a>
 											</span>
 											<div class="range">
 												<span>最低加价：<em>￥1.00</em></span>
@@ -180,13 +180,13 @@ $.ajax({
 								</div>
 							</div>
 							<div class="product-contain">
-								<div class=" color-white-bg fn-clear">
+								<div class=" color-white-bg fn-clear" style="margin-left: 0px;">
     <DIV class="summary mt10 uplan-summary-div">
         <UL class="uplan-detail-ul">
             <LI style="width: 720px;">
                 <SPAN>套餐名称：</SPAN><SPAN class="con">${prod.name!''}</SPAN>
             </LI>
-    <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
+    <li style="width: 720; border-bottom: 1px solid #F7F7F7"></li>
             <LI style="width: 240px;">
                 <SPAN><#if prod.type == 'body'>媒体费：<#else>套餐原价：</#if></SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">${prod.price!''}.00</SPAN>
                 <SPAN>元</SPAN>
@@ -213,7 +213,7 @@ $.ajax({
             <LI style="width: 240px;">
                 <SPAN>时长（秒）：</SPAN><SPAN class="con">${prod.duration!''}</SPAN>
             </LI>
-            <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
+            <li style="width: 720; border-bottom: 1px solid #F7F7F7"></li>
             <LI style="width: 240px;">
                 <SPAN>单日播放次数：</SPAN>
                 <SPAN class="con">${prod.playNumber!''}</SPAN>
@@ -226,7 +226,7 @@ $.ajax({
             <LI style="width: 240px;">
                 <SPAN>末播次数：</SPAN><SPAN class="con">${prod.lastNumber!''}</SPAN>
             </LI>
-             <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
+             <li style="width: 720; border-bottom: 1px solid #F7F7F7"></li>
             <LI style="width: 240px;">
                 <SPAN>高峰时段占比：</SPAN><SPAN class="con">${prod.hotRatio!''}</SPAN>
             </LI>
@@ -235,7 +235,7 @@ $.ajax({
                 <SPAN><#if prod.type == 'video' || prod.type == 'image' || prod.type == 'info'>套餐播放天数：<#else>广告展示天数：</#if></SPAN>
                 <SPAN class="con">${prod.days!''}天</SPAN>
             </LI>
-            <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
+            <li style="width: 720; border-bottom: 1px solid #F7F7F7"></li>
             <LI style="width:720px;">
                 <SPAN>套餐描述：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查详细内容!" onclick="showRemark('${prod.remarks!''}');"  >${substring(prod.remarks!'',0,38)}</a></SPAN>
             </LI>
@@ -290,14 +290,27 @@ $.ajax({
 		
 		</div>
 
-      <script type="text/javascript">
-      		$(function(){ 
-				$('.reduce').click(function(){
-					var value = $('#addPrice').val()-1;
-				});
-				$('.plus').click(function(){
-					var value = $('#addPrice').val()+1;
-				});
-			});
+<script type="text/javascript">
+$(function(){ 
+	$('.reduce').click(function(){
+		var value = $('#myprice').val()-1;
+		document.getElementById("myprice").value = value;
+		if(value<1){
+			document.getElementById("myprice").value = 0;
+		}
+	});
+	$('.plus').click(function(){
+		var value = $('#myprice').val();
+		
+		if(value=="" || value==0){
+			val=1;
+			document.getElementById("myprice").value = val;
+		}else{
+			val=val+1;
+			document.getElementById("myprice").value = val;
+		}
+		
+	});
+});
       </script>
 </@frame.html>
