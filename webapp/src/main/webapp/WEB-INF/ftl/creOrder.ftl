@@ -26,21 +26,9 @@ $(document).ready(function(){
 }); 
 
 	function creorder() {
-        $.ajax({
-			url : "${rc.contextPath}/product/isMyCompare/"+${cpdid!''},
-			type : "POST",
-			data : {
-			},
-			success : function(data) {
-				if (data.left == true) {
-				  $("#subWithdraworder").attr("disabled",true);
-                  $("#subWithdraworder").css("background-color","#85A2AD");
                    $('#userForm2').submit();
-				}else{
-				   jDialog.Alert(data.right);
-				}
-			}
-		}, "text");
+                  $("#subWithdraworder").attr("disabled",true);
+                  $("#subWithdraworder").css("background-color","#85A2AD");
 	}
 	
 function stop() {   
