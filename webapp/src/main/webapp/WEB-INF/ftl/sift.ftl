@@ -209,7 +209,7 @@
                         	if(row.iscompare==1){
                      	 		 operations+= '<a class="table-link" href="${rc.contextPath}/product/c/'+data+'?pid='+data+'">竞价</a>';
                      	 	}else {
-                     	 		 operations+= '<a class="table-link" href="${rc.contextPath}/product/d/'+data+'">购买</a>';
+                     	 		 operations+= '<a class="table-link" href="${rc.contextPath}/order/iwant/'+data+'">购买</a>';
                      	 	}
                     	}
                        return operations;
