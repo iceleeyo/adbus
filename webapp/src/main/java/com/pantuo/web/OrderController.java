@@ -107,7 +107,7 @@ public class OrderController {
 		model.addAttribute("username", username);
 		model.addAttribute("cpdid", cpdid);
 
-		return "creOrder";
+		return "commonPage";
 	}
 
 	@RequestMapping(value = "/proDetail", produces = "text/html;charset=utf-8")
@@ -247,7 +247,7 @@ public class OrderController {
 	@RequestMapping(value = "confirm", method = RequestMethod.POST, produces = "text/html;charset=utf-8")
 	public String saveOrderJpa(Model model, JpaOrders order, Principal principal,
            @CookieValue(value = "city", defaultValue = "-1") int cityId,
-           @RequestParam(value="cpdid" ) int cpdid,
+           @RequestParam(value="cpdid",required = false ,defaultValue = "0") int cpdid,
            @ModelAttribute("city") JpaCity city,
             HttpServletRequest request)
 			throws IllegalStateException, IOException, ParseException {
