@@ -2,12 +2,9 @@ package com.pantuo.util;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-
 import freemarker.template.SimpleScalar;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModelException;
-import freemarker.template.TemplateNumberModel;
 import freemarker.template.TemplateScalarModel;
 
 /**
@@ -31,8 +28,9 @@ public class HiddleUserNameEx implements TemplateMethodModelEx {
 			String mess = "Error: Expecting numerical argument here";
 			throw new TemplateModelException(mess);
 		}
-		
-		s=s.length()>4?"****"+s.substring(s.length()-4, s.length()):"****"+s.substring(s.length()-1, s.length());
+
+		s = s.length() > 4 ? "****" + s.substring(s.length() - 4, s.length()) : "****"
+				+ s.substring(s.length() - 1, s.length());
 		return new SimpleScalar(s);
 	}
 
