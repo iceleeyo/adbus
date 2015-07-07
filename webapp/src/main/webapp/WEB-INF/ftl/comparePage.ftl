@@ -64,10 +64,23 @@ $.ajax({
 										<div class="product-intro">
 											<div class="price s-clear">
 												<span>当前价：</span>
-												<span class="fsize-24 t-red"><em>¥</em>${jpaCpd.comparePrice!''}</span>
+												<span class="fsize-24 t-red"><em>¥</em>
+												<#if jpaCpd.comparePrice?index_of(".")==-1>
+												${jpaCpd.comparePrice!''}.00
+												<#else>
+												${jpaCpd.comparePrice!''}
+												</#if>
+												
+												</span>
 												<em class="line"></em>
 												<span>原价：</span>
-												<del>¥${(jpaCpd.product.price)!''}</del>
+												<del>
+												<#if jpaCpd.product.price?index_of(".")==-1>
+												¥${(jpaCpd.product.price)!''}.00
+												<#else>
+												¥${(jpaCpd.product.price)!''}
+												</#if>
+												</del>
 												<div class="s-right" style="margin-top: 13;">
 													<span>围观数：</span>
 													<em>${jpaCpd.pv} 次</em>
@@ -270,7 +283,13 @@ $.ajax({
 											<span class="wd2">
 												<i>${hidname(item.userId!'')}</i>
 												<div class="line"></div>
-												<i>￥${item.comparePrice!''}</i>
+												<i>
+												<#if item.comparePrice?index_of(".")==-1>
+													￥${item.comparePrice!''}.00
+														<#else>
+														￥${item.comparePrice!''}
+												</#if>
+												</i>
 											</span>
 											<#if item_index==0 >
 											<span class="wd3">
