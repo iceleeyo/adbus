@@ -93,9 +93,10 @@ public class ProductServiceImpl implements ProductService {
 				for (String type : vIntegers) {
 					right.add(JpaProduct.Type.valueOf(type));
 				}
-				query = QJpaProduct.jpaProduct.type.in(right);
-			} 
-			else if (StringUtils.equals(entry.getKey(), "p") && vIntegers.size() > 0) {
+				//query = QJpaProduct.jpaProduct.type.in(right);
+				query = query == null ? QJpaProduct.jpaProduct.type.in(right) : query.and(QJpaProduct.jpaProduct.type
+						.in(right));
+			} else if (StringUtils.equals(entry.getKey(), "p") && vIntegers.size() > 0) {
 				BooleanExpression subQuery = null;
 				for (String playNumber : vIntegers) {
 					if (StringUtils.equals("2", playNumber)) {
@@ -113,8 +114,8 @@ public class ProductServiceImpl implements ProductService {
 						}
 					}
 				}
-					query = query == null? subQuery: query.and(subQuery);
-			}else if (StringUtils.equals(entry.getKey(), "s") && vIntegers.size() > 0) {
+				query = query == null ? subQuery : query.and(subQuery);
+			} else if (StringUtils.equals(entry.getKey(), "s") && vIntegers.size() > 0) {
 				BooleanExpression subQuery = null;
 				for (String playNumber : vIntegers) {
 					if (StringUtils.equals("2", playNumber)) {
@@ -139,8 +140,8 @@ public class ProductServiceImpl implements ProductService {
 						}
 					}
 				}
-					query = query == null? subQuery: query.and(subQuery);
-			}else if (StringUtils.equals(entry.getKey(), "d") && vIntegers.size() > 0) {
+				query = query == null ? subQuery : query.and(subQuery);
+			} else if (StringUtils.equals(entry.getKey(), "d") && vIntegers.size() > 0) {
 				BooleanExpression subQuery = null;
 				for (String playNumber : vIntegers) {
 					if (StringUtils.equals("2", playNumber)) {
@@ -172,7 +173,7 @@ public class ProductServiceImpl implements ProductService {
 						}
 					}
 				}
-					query = query == null? subQuery: query.and(subQuery);
+				query = query == null ? subQuery : query.and(subQuery);
 			}
 
 		}
