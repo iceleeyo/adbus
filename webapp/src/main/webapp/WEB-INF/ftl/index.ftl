@@ -242,7 +242,7 @@
 			  <div class="fn-clear pg-uplan-product-list text-middle mt15 mb10">
 			    <#list videoList as prod>
 				  <div class="fn-left pg-uplan-product-item mr15">
-						<a href="product/d/${prod.id}">
+						<a target="_blank" href="order/iwant/${prod.id}"><!--product/d/-->
 							<dl class="bg-color-white">
 							  <dt class="ub"><span>${prod.name}</span>套餐</dt>
 							  <dd>
@@ -261,9 +261,9 @@
 						</a>
 						<p class="J_click_p" data="218">
 							<span id="J_count_time_b" data2="0" data1="328261">
-								<a href="order/iwant/${prod.id}">马上预定</a>
+								<a target="_blank" href="order/iwant/${prod.id}">马上预定</a>
 							</span>
-							<a class="text" href="product/d/${prod.id}">（查看详情）</a>
+							<a class="text" target="_blank" href="order/iwant/${prod.id}">（查看详情）</a>
 						</p>
 					</div>           
 					 </#list>	      
@@ -282,7 +282,7 @@
 			  <div class="fn-clear pg-uplan-product-list text-big mt15 mb10">
 			    <#list imageList as prod>
 				  <div class="fn-left pg-uplan-product-item mr15">
-						<a href="product/d/${prod.id}">
+						<a target="_blank" href="order/iwant/${prod.id}">
 							<dl class="bg-color-white">
 							  <dt class="ub"><span>${prod.name}</span>套餐</dt>
 							  <dd>
@@ -301,9 +301,9 @@
 						</a>
 						<p class="J_click_p" data="218">
 							<span id="J_count_time_b" data2="0" data1="328261">
-								<a href="order/iwant/${prod.id}">马上预定</a>
+								<a target="_blank" href="order/iwant/${prod.id}">马上预定</a>
 							</span>
-							<a class="text" href="product/d/${prod.id}">（查看详情）</a>
+							<a class="text" target="_blank" href="order/iwant/${prod.id}">（查看详情）</a>
 						</p>
 					</div>           
 				 </#list>	 	     
@@ -322,7 +322,7 @@
 			  <div class="fn-clear pg-uplan-product-list text-big mt15 mb10">
 			   <#list noteList as prod>
 				  <div class="fn-left pg-uplan-product-item mr15">
-						<a href="product/d/${prod.id}">
+						<a target="_blank" href="order/iwant/${prod.id}">
 							<dl class="bg-color-white">
 							  <dt class="ub"><span>${prod.name}</span>套餐</dt>
 							  <dd>
@@ -341,9 +341,9 @@
 						</a>
 						<p class="J_click_p" data="218">
 							<span id="J_count_time_b" data2="0" data1="328261">
-								<a href="order/iwant/${prod.id}">马上预定</a>
+								<a target="_blank" href="order/iwant/${prod.id}">马上预定</a>
 							</span>
-							<a class="text" href="product/d/${prod.id}">（查看详情）</a>
+							<a class="text" target="_blank" href="order/iwant/${prod.id}">（查看详情）</a>
 						</p>
 					</div>           
 					 </#list>      

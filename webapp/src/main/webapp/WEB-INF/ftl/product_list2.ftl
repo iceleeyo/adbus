@@ -92,7 +92,7 @@
                         </@security.authorize>
                         if(row.enabled){
                         	<@security.authorize ifAnyGranted="normaluser,advertiser">
-                     	 	 operations+= '<a class="table-link" href="${rc.contextPath}/order/iwant/'+data+'">购买</a>';
+                     	 	 operations+= '<a class="table-link" target="_blank" href="${rc.contextPath}/order/iwant/'+data+'">购买</a>';
                      	    </@security.authorize>
                     	}
                        return operations;
