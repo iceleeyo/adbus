@@ -88,7 +88,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 						"/js/**", "/style/**")
 				.permitAll()
 				.antMatchers("/register", "/user/**", "/doRegister", "/validate/**", "/f/**", "/product/d/**",
-						"/product/c/**", "/product/sift**", "/product/sift_data","/product/ajaxdetail/**").permitAll().antMatchers("/**")
+						"/product/c/**", "/product/sift**", "/product/sift_data","/product/ajaxdetail/**","/order/iwant/**").permitAll().antMatchers("/**")
 				.authenticated().anyRequest()
 				.permitAll()
 				//.antMatchers("/user/enter").access("hasRole('ShibaOrderManager')")
