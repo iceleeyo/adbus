@@ -58,7 +58,7 @@ public class ProductController {
 		}
 		return new DataTablePage(productService.getProductView(page), req.getDraw());
 	}
-    @RequestMapping("ajax-searchPro")
+    @RequestMapping("sift_data")
     @ResponseBody
     public DataTablePage<ProductView> searchPro( TableRequest req,
     		@CookieValue(value="city", defaultValue = "-1") int city,
@@ -130,20 +130,20 @@ public class ProductController {
 	
 	
 	@RequestMapping(value = "/c/{cpdid}", produces = "text/html;charset=utf-8")
-	public String goCpd(Model model, @PathVariable("cpdid") int cpdid) {
-		toComparePage(model, cpdid);
+	public String goCpd(Model model, @PathVariable("cpdid") int cpdid,@RequestParam(value = "pid",required=false ,defaultValue="0") int pid) {
+		toComparePage(model, cpdid, pid);
 		return "comparePage";
 	}
 
 	@RequestMapping(value = "/to_comparePage/{cpdid}", produces = "text/html;charset=utf-8")
 	public String to_comparePage(Model model, @ModelAttribute("city") JpaCity city, @PathVariable("cpdid") int cpdid) {
-		toComparePage(model, cpdid);
-		
+		toComparePage(model, cpdid, 0);
 		return "comparePage";
 	}
 
-	private void toComparePage(Model model, int cpdid) {
-		JpaCpd jpaCpd = cpdService.queryOneCpdDetail(cpdid);
+	private void toComparePage(Model model, int cpdid, int productId) {
+		//如果有Pid根据商品id查cpd 信息
+		JpaCpd jpaCpd = productId > 0 ? cpdService.queryOneCpdByPid(productId) : cpdService.queryOneCpdDetail(cpdid);
 		List<UserCpd> userCpdList = cpdService.queryLogByCpdId(cpdid);
 		JpaProduct prod = jpaCpd.getProduct();
 		model.addAttribute("prod", prod);

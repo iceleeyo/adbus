@@ -195,10 +195,10 @@ public class ProductServiceImpl implements ProductService {
 		sort = (sort == null ? new Sort("id") : sort);
 		Pageable p = new PageRequest(page, pageSize, sort);
 		BooleanExpression query = city >= 0 ? QJpaProduct.jpaProduct.city.eq(city) : QJpaProduct.jpaProduct.city.goe(0);
-		if (Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)) {
+		if (principal == null || Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)) {
 			query = query.and(QJpaProduct.jpaProduct.exclusive.eq(false));
 		}
-		if(commonEx!=null){
+		if (commonEx != null) {
 			query = query.and(commonEx);
 		}
 		if (name != null && !StringUtils.isEmpty(name)) {

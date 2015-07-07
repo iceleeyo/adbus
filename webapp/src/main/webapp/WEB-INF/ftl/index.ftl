@@ -165,7 +165,7 @@
 			  	<span>
 			  		竞价广告
 			  	</span>
-			  	<a href="f/prod/list/video" class="s-right">更多》</a>
+			  	<a href="${rc.contextPath}/product/sift" class="s-right">更多》</a>
 			  </div>
 			  <div class="fn-clear pg-uplan-product-list text-middle mt15 mb10">
 			    <#list auctionList as prod>
@@ -237,7 +237,7 @@
 			  	<span>
 			  		视频广告
 			  	</span>
-			  	<a href="f/prod/list/video" class="s-right">更多》</a>
+			  	<a href="${rc.contextPath}/product/sift" class="s-right">更多》</a>
 			  </div>
 			  <div class="fn-clear pg-uplan-product-list text-middle mt15 mb10">
 			    <#list videoList as prod>
@@ -277,7 +277,7 @@
 			  	<span>
 			  		图片广告
 			  	</span>
-			  	<a href="f/prod/list/image" class="s-right">更多》</a>
+			  	<a href="${rc.contextPath}/product/sift" class="s-right">更多》</a><!-- f/prod/list/image -->
 			  </div>
 			  <div class="fn-clear pg-uplan-product-list text-big mt15 mb10">
 			    <#list imageList as prod>
@@ -317,7 +317,7 @@
 			  	<span>
 			  		文字信息
 			  	</span>
-			  	<a href="f/prod/list/info" class="s-right">更多》</a>
+			  	<a href="${rc.contextPath}/product/sift" class="s-right">更多》</a><!-- -->
 			  </div>
 			  <div class="fn-clear pg-uplan-product-list text-big mt15 mb10">
 			   <#list noteList as prod>

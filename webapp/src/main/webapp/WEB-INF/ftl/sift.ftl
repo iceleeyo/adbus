@@ -17,7 +17,7 @@
 							</li>
 							<li class="s-left breadcrumb-right"></li>
 							<li class="s-left bread-child">
-								<a class="gray-text" href="#">我的人人贷</a>
+								<a class="gray-text" href="#">商品搜索</a>
 							</li>
 						</ul>
 					</div>
@@ -77,6 +77,7 @@
                     <tr>
                         <th orderBy="name">套餐名称</th>
                         <th orderBy="type">类型</th>
+                        <th orderBy="type">产品类型</th>
                         <th orderBy="price">价格(元)</th>
                          <@security.authorize ifAnyGranted="ShibaOrderManager">  
                         <th orderBy="exclusive">定向</th>
@@ -98,20 +99,6 @@
 			
 			</div>
 
-			<div class="pg-foot">
-				<div class="container-12 plr10">
-					<div class="">
-						<div class="foot-copyright">
-							<span class="foot-cr-link gray-text">© 2015 人人贷 All rights reserved</span>
-							<span class="foot-cr-link gray-text has-border">人人贷商务顾问(北京)有限公司</span>
-							<span class="foot-cr-link gray-text has-border">
-								<a class="gray-text" href="">京ICP证 100953号</a>
-							<span class="foot-cr-link gray-text has-border">京公网安备11010502020657</span>
-							<span class="foot-cr-link gray-text has-border">京ICP备12025643号-1</span>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 
       <script type="text/javascript">
@@ -133,7 +120,7 @@
             ],
             "ajax": {
                 type: "GET",
-                url: "${rc.contextPath}/product/ajax-searchPro",
+                url: "${rc.contextPath}/product/sift_data",
                 data: function(d) {
                     return $.extend( {}, d, {
                         "filter[name]" : $('#name').val(),
@@ -161,6 +148,15 @@
                             return 'Info';
                         return '';
                     } },
+                    
+                       { "data": "iscompare", "defaultContent": "",
+                    "render": function(data, type, row, meta) {
+                        if (data == '1')
+                            return '竞价商品';
+                        if (data == '0')
+                            return '一口价';
+                        return '';
+                    } },
                 { "data": "price", "defaultContent": "", "render": $.fn.dataTable.render.number( ',', '.', 2, ' ')  },
                  <@security.authorize ifAnyGranted="ShibaOrderManager"> 
                 { "data": "exclusiveUser", "defaultContent": "", "render": function(data, type, row) {
@@ -174,9 +170,9 @@
                 { "data": "enabled", "defaultContent": "", "render": function(data) {
                     switch(data) {
                         case true:
-                            return '<span class="processed">正常</span>';
+                            return '<span class="processed">销售中</span>';
                         default :
-                            return '<span class="invalid">禁用</span>';
+                            return '<span class="invalid">已下架</span>';
                     }
                 } },
                 
@@ -209,10 +205,12 @@
                          //operations +='<a class="table-link" href="${rc.contextPath}/order/product/' + data +'/1">进行中订单</a> &nbsp;'; 
                          //operations +='<a class="table-link" href="${rc.contextPath}/order/over/' + data +'">已完成订单</a> &nbsp;';
                         </@security.authorize>
-                        if(row.enabled){
-                        	<@security.authorize ifAnyGranted="normaluser,advertiser">
-                     	 	 operations+= '<a class="table-link" href="${rc.contextPath}/order/iwant/'+data+'">购买</a>';
-                     	    </@security.authorize>
+                        if(row.enabled==true){
+                        	if(row.iscompare==1){
+                     	 		 operations+= '<a class="table-link" href="${rc.contextPath}/product/c/'+data+'?pid='+data+'">竞价</a>';
+                     	 	}else {
+                     	 		 operations+= '<a class="table-link" href="${rc.contextPath}/product/d/'+data+'">购买</a>';
+                     	 	}
                     	}
                        return operations;
                         
