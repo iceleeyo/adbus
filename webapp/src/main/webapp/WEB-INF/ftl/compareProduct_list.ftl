@@ -145,16 +145,16 @@
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th >套餐名称</th>
-                        <th >类型</th>
+                        <th>套餐名称</th>
+                        <th>类型</th>
                         <th orderBy="saleprice">底价(元)</th>
                         <th orderBy="comparePrice">当前价(元)</th>
-                           <th >围观次数</th>
-                        <th >竞价次数</th>
+                        <th>围观</th>
+                        <th>竞价</th>
                         <th orderBy="biddingDate">截止时间</th>
                         <@security.authorize ifAnyGranted="advertiser">
-                           <th >竞价</th>
-                           	</@security.authorize>
+                        <th >竞价</th>
+                        </@security.authorize>
                     </tr>
                     </thead>
 
