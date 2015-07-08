@@ -253,7 +253,7 @@ public class CpdServiceImpl implements CpdService {
 		criteria.andCpdidEqualTo(cpdid);
 		example.setOrderByClause(" id desc ");
 		example.setLimitStart(0);
-		example.setLimitEnd(19);
+		example.setLimitEnd(14);
 		return userCpdMapper.selectByExample(example);
 	}
 
