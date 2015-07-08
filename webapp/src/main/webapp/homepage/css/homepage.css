@@ -30,15 +30,15 @@
     text-align:center;
 }
 .header-logo img {
-    height: 55px;
+    height: 48px;
 }
 .show-item{
 }
 .show-item a{
-	height: 50px;
-	line-height: 50px;
+	height: 48px;
+	line-height: 48px;
 	padding: 0 15px 0 15px;
-	font-size: 18px;
+	font-size: 16px;
     font-weight: 500;
 	display: inline-block;
 	color: rgb(85, 85, 85);
