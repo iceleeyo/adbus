@@ -314,7 +314,8 @@ function pay() {
 		var orderid = $("#orderid").val();
 		var taskid = $("#taskid").val();
 		if(isinvoice==1){
-		        contents=$("#contents  option:selected").val();
+		        //contents=$("#contents  option:selected").val();
+		        contents=$("#contents").val();
 	            receway=$("#receway  option:selected").val();
 	           invoiceid=  $("#hiddenINvoiceId").val();
 	            if(  (invoiceid) == "0"){
