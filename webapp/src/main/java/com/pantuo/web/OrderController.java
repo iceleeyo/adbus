@@ -101,6 +101,8 @@ public class OrderController {
 		NumberPageUtil page = new NumberPageUtil(9999, 1, 9999);
 		List<Supplies> supplies = suppliesService.queryMyList(cityId, page, null, prod.getType(), principal);
 		List<Orders> logsList=orderService.queryLogByProId(prod.getId());
+		int logCount=orderService.queryLogCountByProId(prod.getId());
+		model.addAttribute("logCount", logCount);
 		model.addAttribute("supplies", supplies);
 		model.addAttribute("prod", prod);
 		model.addAttribute("logsList", logsList);
