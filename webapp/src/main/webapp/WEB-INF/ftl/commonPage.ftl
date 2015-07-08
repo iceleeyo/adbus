@@ -97,7 +97,8 @@ function bu(txtObj) {
 											<div class="price s-clear">
 												<span>套餐价格：</span>
 												<span class="fsize-24 t-red"><em>¥</em>
-											#{prod.price!'' ;m2M2}
+												#{prod.price!'' ;m2M2}
+
 												</span>
 											</div>
 										</div>
@@ -105,6 +106,7 @@ function bu(txtObj) {
 												<span>播放次数：<em>${prod.playNumber!''}次</em></span>
 												<span>产品周期：<em>${prod.days!''}天</em></span>
 												<span>媒体类型： <em>${prod.type.typeName!''}</em></span>
+												<span>时长（秒）： <em>${prod.duration!''}</em></span>
 											</div>
 											<div class="" style="margin: 10px 5px;">
                                             <label class="range" style="color: #999;">开播日期:</label> <input

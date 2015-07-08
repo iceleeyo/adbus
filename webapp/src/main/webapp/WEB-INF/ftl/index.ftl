@@ -207,7 +207,7 @@
 									 countDateSimple("c_${prod_index}",dateTo);
 								 </script>
 								<#elseif (prod.startDate > .now   ) > 
-								<span class="mr20">距开拍</span>    
+								<span class="mr10">距开拍</span>    
 		  						<span id="c_${prod_index}"><em></em></span>  
 		  						<script type="text/javascript">
 			  						var dateTo="${prod.startDate?string("yyyy-MM-dd HH:mm:ss")}";
