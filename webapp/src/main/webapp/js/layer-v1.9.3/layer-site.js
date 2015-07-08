@@ -37,7 +37,7 @@ function showProductlayer(tourl,id){
                          +'type="text" name="mailaddr" value="'+data.hotRatio+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
                          +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>套餐播放天数:</label> <input readonly="readonly"  class="ui-input "'
                          +'type="text" name="mailaddr" value="'+data.days+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10">套餐描述:</label><textarea rows="4" cols="30" style="resize: none;" >'+data.remarks+'</textarea>  </div>'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10" style="width: 145px;">套餐描述:</label><textarea rows="4" cols="30" style="resize: none;margin-left: -20px;" >'+data.remarks+'</textarea>  </div>'
 		});
 			}
 		}, "text");
@@ -299,9 +299,11 @@ function subIvc(){
 		   	clearTimeout(uptime);
 					},2000)
 	}).submit();
+	var type=$('input:radio[name="type"]:checked').val();
+	if(type=="special"){
 	 var uploadProcess={upath:'${rc.contextPath}/upload/process'};
 	 $('#progress1').anim_progressbar(uploadProcess);
-
+	}
 }
 function showother(){
 	$("#other").css('display','block'); 
@@ -742,21 +744,7 @@ function showOrderUserlayer(tourl,uid){
 	
 }
 
-function LoginMini(tourl){
-	layer.open({
-		type: 1,
-		title: "系统登录",
-		skin: 'layui-layer-rim', 
-		area: ['420px', '540px'], 
-		content: ''
-				 +'<br/><div>'
-				 +'<textarea  type="textarea" style="margin-left:25px;height: 391px; width: 367px;">'
-				 + contentString
-				 +'</textarea>'
-                 +'</div>'
-	});
-	
-}
+
 
 
 
