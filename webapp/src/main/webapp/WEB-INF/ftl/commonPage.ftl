@@ -97,11 +97,7 @@ function bu(txtObj) {
 											<div class="price s-clear">
 												<span>套餐价格：</span>
 												<span class="fsize-24 t-red"><em>¥</em>
-												<#if prod.price?index_of(".")==-1>
-												${prod.price!''}.00
-												<#else>
-												${prod.price!''}
-												</#if>
+											#{prod.price!'' ;m2M2}
 												</span>
 											</div>
 										</div>
@@ -210,7 +206,7 @@ function bu(txtObj) {
 						<div class="ls-3" style="float:right;position:absolute;left:790px;top:0px;">
 							<div class="record-sidebar">
 								<div class="record-title">
-									<label>购买记录（共<label>${logsList?size}</label>次购买）</label>
+									<label>购买记录（共<label>${logCount!''}</label>次购买）</label>
 								</div>
 								<div class="record-detail">
 									<dl>
@@ -226,6 +222,7 @@ function bu(txtObj) {
 												<i>${hidname(item.userId!'')}</i>
 												<div class="line"></div>
 												<i>
+												￥#{item.price!'' ;m2M2}
 												</i>
 											</span>
 											<span class="wd3">
