@@ -184,7 +184,7 @@
 				  <div class="fn-left pg-uplan-product-item mr15">
 						<a href="product/c/${prod.id}">
 							<dl class="bg-color-white">
-							  <dt class="ub"><span>${prod.product.name}</span>套餐</dt>
+							  <dt class="ub"><span>${substring(prod.product.name,0,13)}</span></dt>
 							  <dd>
 							  	<span class="mr20">曝光次数</span>                 
 							  	<span><em>${prod.product.playNumber}</em>/天</span>
@@ -256,7 +256,7 @@
 				  <div class="fn-left pg-uplan-product-item mr15">
 						<a target="_blank" href="order/iwant/${prod.id}"><!--product/d/-->
 							<dl class="bg-color-white">
-							  <dt class="ub"><span>${prod.name}</span>套餐</dt>
+							  <dt class="ub"><span>${substring(prod.name,0,13)}</span></dt>
 							  <dd>
 							  	<span class="mr20">曝光次数</span>                 
 							  	<span><em>${prod.playNumber}</em>/天</span>
@@ -296,7 +296,7 @@
 				  <div class="fn-left pg-uplan-product-item mr15">
 						<a target="_blank" href="order/iwant/${prod.id}">
 							<dl class="bg-color-white">
-							  <dt class="ub"><span>${prod.name}</span>套餐</dt>
+							  <dt class="ub"><span>${substring(prod.name,0,13)}</span></dt>
 							  <dd>
 							  	<span class="mr20">曝光次数</span>                 
 							  	<span><em>${prod.playNumber}</em>/天</span>
@@ -336,7 +336,7 @@
 				  <div class="fn-left pg-uplan-product-item mr15">
 						<a target="_blank" href="order/iwant/${prod.id}">
 							<dl class="bg-color-white">
-							  <dt class="ub"><span>${prod.name}</span>套餐</dt>
+							  <dt class="ub"><span>${substring(prod.name,0,13)}</span></dt>
 							  <dd>
 							  	<span class="mr20">曝光次数</span>                 
 							  	<span><em>${prod.playNumber}</em>/天</span>
