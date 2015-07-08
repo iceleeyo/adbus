@@ -67,7 +67,7 @@ function bu(txtObj) {
 					<div class="container-12 mt10 s-clear">
 						<div class="ls-9">
 <form data-name="withdraw" name="userForm2" id="userForm2"
- class="ui-form" method="post" action="${rc.contextPath}/order/confirm"
+ class="ui-form" method="post" action="${rc.contextPath}/order/confirm?cpdid=${cpdid}"
  enctype="multipart/form-data">
 							<div class="product-info s-clear">
 								<div class="preview s-left">
