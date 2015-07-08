@@ -17,7 +17,7 @@
 </head>
 <body>
 	<div class="header">
-		<div class="header-nav">
+		<div class="pg-header-top">
 			<div class="container-12 s-clear">
 				<div class="grid-12">
 					<div class="s-left ml10" style="position:relative">
@@ -41,10 +41,10 @@
 							</li>
 						</ul>
 					</div>
-					<div class="s-right s-clear">
+					<div class="s-right s-clear" >
                                   <@security.authorize access="isAuthenticated()">
 									<span class="pg-nav-item s-left" style="padding:0;">您好，</span>
-									                                        <a class="pg-nav-item s-left" href="javascript:void(0)">
+									                                        <a class="pg-nav-item s-left" href="${rc.contextPath}/order/myTask/1">
 									                                            <@security.authentication property="principal.user.firstName" />
 									                                            <@security.authentication property="principal.user.lastName" />
 									                                        </a>
