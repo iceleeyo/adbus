@@ -70,8 +70,8 @@
   				  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
   				  <#if orderview.payTypeString?has_content>
  				  <li style="width: 200px;"><SPAN>支付方式：</SPAN><SPAN class="con">${(orderview.payTypeString)!''}</SPAN></li>
- 				  <#if orderview.payTypeString?has_content && orderview.payTypeString=="合同">
-  				  <li style="width: 200px;"><SPAN>合同号：</SPAN><SPAN class="con">${(orderview.order.contractCode)!''}</SPAN></li>
+ 				  <#if orderview.payTypeString?has_content && orderview.payTypeString=="关联合同">
+  				  <li style="width: 200px;"><SPAN>合同号：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查看发票详细内容!" onclick="contractdetail('${rc.contextPath}',${(orderview.order.contractId)!''});" href="javascript:void(0)">${(orderview.order.contractCode)!''}</a></SPAN></li>
   				   <#elseif orderview.payTypeString?has_content && orderview.payTypeString=="线上支付">
   				   <li style="width: 200px;"><SPAN>流水号：</SPAN><SPAN class="con">123912800234</SPAN></li>
   				   </#if>

@@ -2,7 +2,7 @@
 <#import "template/orderDetail.ftl" as orderDetail/>
 <#import "template/pickBuses.ftl" as pickBuses>
 <@frame.html title="订单办理" js=["js/highslide/highslide-full.js", "js/video-js/video.js",
-"js/video-js/lang/zh-CN.js", "js/jquery-ui/jquery-ui.min.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer/layer.js","js/progressbar.js"]
+"js/video-js/lang/zh-CN.js", "js/jquery-ui/jquery-ui.min.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer/layer.js","js/progressbar.js","js/jquery-dateFormat.js"]
 css=["js/highslide/highslide.css", "js/video-js/video-js.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","css/liselect/pkg-generator.css$ver=1431443489.css"]>
     <#include "template/preview.ftl" />
 <script type="text/javascript">
