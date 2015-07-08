@@ -315,8 +315,9 @@ function pay() {
 		var taskid = $("#taskid").val();
 		if(isinvoice==1){
 		        //contents=$("#contents  option:selected").val();
-		        contents=$("#contents").val();
-	            receway=$("#receway  option:selected").val();
+	            //receway=$("#receway  option:selected").val();
+	              receway=$("#receway").val();
+	              contents=$("#contents").val();
 	           invoiceid=  $("#hiddenINvoiceId").val();
 	            if(  (invoiceid) == "0"){
 	              jDialog.Alert("请选择发票");
