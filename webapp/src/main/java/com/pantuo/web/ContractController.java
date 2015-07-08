@@ -133,6 +133,12 @@ public class ContractController {
 		model.addAttribute("view", view);
 		return "contractDetail";
 	}
+	@RequestMapping(value = "/ajax-contractDetail/{contract_id}")
+	@ResponseBody
+	public ContractView ajaxcontractDetail(Model model, @PathVariable("contract_id") int contract_id, Principal principal,
+			HttpServletRequest request) {
+		return  contractService.getContractDetail(contract_id, principal);
+	}
 	@PreAuthorize(" hasRole('ShibaOrderManager')  ")
 	@RequestMapping(value = "/delContract/{contract_id}")
 	@ResponseBody
