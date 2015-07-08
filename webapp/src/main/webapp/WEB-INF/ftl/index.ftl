@@ -4,6 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="shortcut icon" href="./images/favicon.ico">
+<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="homepage/css/sea.css">
   <link rel="stylesheet" type="text/css" href="homepage/css/homepage.css">
@@ -41,13 +42,23 @@
 						</ul>
 					</div>
 					<div class="s-right s-clear">
+                                  <@security.authorize access="isAuthenticated()">
+<span class="pg-nav-item s-left" style="padding:0;">您好，</span>
+                                        <a class="pg-nav-item s-left" href="javascript:void(0)">
+                                            <@security.authentication property="principal.user.firstName" />
+                                            <@security.authentication property="principal.user.lastName" />
+                                        </a>
+<a href="javascript:;" class="pg-nav-item s-left" onclick="logout();">[退出]</a>
+                                        </@security.authorize>
+<@security.authorize access="! isAuthenticated()">
 						<a class="header-nav-item s-left" href="login">
 							<span>登录</span>
 						</a>
 						<a class="header-nav-item s-left" href="register">
 							<span>注册</span>
 						</a>
-						
+						   
+                         </@security.authorize>
 					</div>
 				</div>
 			</div>
@@ -449,6 +460,10 @@
 		        data04[fn]();
 		    });
 		});
+  function logout(){
+       window.location.href = "${rc.contextPath}/logout";
+    }
+
 	</script>
 </body>
 </html>
