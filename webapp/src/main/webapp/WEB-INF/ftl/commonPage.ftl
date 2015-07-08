@@ -8,7 +8,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 <script type="text/javascript">
     
     
-function compare(username,proname){
+function compare(pathurl,username,proname){
 var productid=$("#productid").val();
 var lc=$("#lc").val();
 var startTime = $("#startTime").val();
@@ -17,6 +17,19 @@ date = new Date();
 var str  = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
 var d2 = new Date(str.replace(/-/g,"/")); 
 if(lc=="0"){
+layer.open({
+    		type: 1,
+    		title: "您尚未登录",
+    		skin: 'layui-layer-rim', 
+    		area: ['350px', '350px'], 
+    		content:''
+    		    + '<form id="loginForm" name="loginForm" class="login-form" action="'+pathurl+'/login" method="POST">'
+			   +'<div class="login-item"><input class="login-input input-p gray-input" type="text" placeholder="请输入用户名" id="username" name="username"><span class="login-name-icon icon-position-user"></span> </div>'
+                                +'<div class="login-item"><input class="login-input input-p gray-input" type="password" placeholder="请输入密码" id="password" name="password"> <span class="login-name-icon icon-position-user"></span> </div>'
+                                +'<div class="login-item s-clear"> <a class="s-right" href="'+pathurl+'/user/find_pwd">忘记密码</a></div>'
+                                +'<div class="login-item p-center"><input type="submit" name="submit" value="立即登录" class="login-btn login-btn-size func-submit"/> </div>'
+                                +'<div class="login-item p-center"><span>没有账号？</span>  <a href="'+pathurl+'/register">免费注册</a></div></form>'
+			});
 	layer.msg("请先登录");
    return;
 }
@@ -96,7 +109,7 @@ function bu(txtObj) {
                                         </div>
 										</div>
 										<div class="product-btn" style="margin-top: 30px;">
-										<a class="btn-bid" href="javascript:void(0)" onclick="compare('${username!''}','${prod.name!''}')" >我要购买</a>
+										<a class="btn-bid" href="javascript:void(0)" onclick="compare('${rc.contextPath}','${username!''}','${prod.name!''}')" >我要购买</a>
 											 <input type="hidden" readonly="readonly" name="product.id" id="productId" value="${prod.id!''}"/>
 											 <input type="hidden" readonly="readonly" name="supplies.id" id="productId" value="1"/>
 										<@security.authorize access="isAuthenticated()">
