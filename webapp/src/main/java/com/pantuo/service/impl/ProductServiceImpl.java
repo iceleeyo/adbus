@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -93,25 +94,17 @@ public class ProductServiceImpl implements ProductService {
 				for (String type : vIntegers) {
 					right.add(JpaProduct.Type.valueOf(type));
 				}
-				//query = QJpaProduct.jpaProduct.type.in(right);
 				query = query == null ? QJpaProduct.jpaProduct.type.in(right) : query.and(QJpaProduct.jpaProduct.type
 						.in(right));
 			} else if (StringUtils.equals(entry.getKey(), "p") && vIntegers.size() > 0) {
 				BooleanExpression subQuery = null;
 				for (String playNumber : vIntegers) {
 					if (StringUtils.equals("2", playNumber)) {
-						if (subQuery == null) {
-							subQuery = QJpaProduct.jpaProduct.iscompare.eq(1);
-						} else {
-							subQuery = subQuery.or(QJpaProduct.jpaProduct.iscompare.eq(1));
-						}
-					}
-					if (StringUtils.equals("3", playNumber)) {
-						if (subQuery == null) {
-							subQuery = QJpaProduct.jpaProduct.iscompare.eq(0);
-						} else {
-							subQuery = subQuery.or(QJpaProduct.jpaProduct.iscompare.eq(0));
-						}
+						subQuery = subQuery == null ? QJpaProduct.jpaProduct.iscompare.eq(1) : subQuery
+								.or(QJpaProduct.jpaProduct.iscompare.eq(1));
+					} else if (StringUtils.equals("3", playNumber)) {
+						subQuery = subQuery == null ? QJpaProduct.jpaProduct.iscompare.eq(0) : subQuery
+								.or(QJpaProduct.jpaProduct.iscompare.eq(0));
 					}
 				}
 				query = query == null ? subQuery : query.and(subQuery);
@@ -119,58 +112,34 @@ public class ProductServiceImpl implements ProductService {
 				BooleanExpression subQuery = null;
 				for (String playNumber : vIntegers) {
 					if (StringUtils.equals("2", playNumber)) {
-						if (subQuery == null) {
-							subQuery = QJpaProduct.jpaProduct.playNumber.between(0, 6);
-						} else {
-							subQuery = subQuery.or(QJpaProduct.jpaProduct.playNumber.between(0, 6));
-						}
-					}
-					if (StringUtils.equals("3", playNumber)) {
-						if (subQuery == null) {
-							subQuery = QJpaProduct.jpaProduct.playNumber.between(7, 11);
-						} else {
-							subQuery = subQuery.or(QJpaProduct.jpaProduct.playNumber.between(7, 11));
-						}
-					}
-					if (StringUtils.equals("4", playNumber)) {
-						if (subQuery == null) {
-							subQuery = QJpaProduct.jpaProduct.playNumber.gt(11);
-						} else {
-							subQuery = subQuery.or(QJpaProduct.jpaProduct.playNumber.gt(11));
-						}
+						subQuery = subQuery == null ? QJpaProduct.jpaProduct.playNumber.between(0, 6) : subQuery
+								.or(QJpaProduct.jpaProduct.playNumber.between(0, 6));
+					} else if (StringUtils.equals("3", playNumber)) {
+						subQuery = subQuery == null ? QJpaProduct.jpaProduct.playNumber.between(7, 11) : subQuery
+								.or(QJpaProduct.jpaProduct.playNumber.between(7, 11));
+					} else if (StringUtils.equals("4", playNumber)) {
+						subQuery = subQuery == null ? QJpaProduct.jpaProduct.playNumber.gt(11) : subQuery
+								.or(QJpaProduct.jpaProduct.playNumber.gt(11));
 					}
 				}
 				query = query == null ? subQuery : query.and(subQuery);
 			} else if (StringUtils.equals(entry.getKey(), "d") && vIntegers.size() > 0) {
 				BooleanExpression subQuery = null;
 				for (String playNumber : vIntegers) {
+
 					if (StringUtils.equals("2", playNumber)) {
-						if (subQuery == null) {
-							subQuery = QJpaProduct.jpaProduct.days.eq(1);
-						} else {
-							subQuery = subQuery.or(QJpaProduct.jpaProduct.days.eq(1));
-						}
-					}
-					if (StringUtils.equals("3", playNumber)) {
-						if (subQuery == null) {
-							subQuery = QJpaProduct.jpaProduct.days.between(2, 6);
-						} else {
-							subQuery = subQuery.or(QJpaProduct.jpaProduct.days.between(2, 6));
-						}
-					}
-					if (StringUtils.equals("4", playNumber)) {
-						if (subQuery == null) {
-							subQuery = QJpaProduct.jpaProduct.days.eq(7);
-						} else {
-							subQuery = subQuery.or(QJpaProduct.jpaProduct.days.eq(7));
-						}
-					}
-					if (StringUtils.equals("5", playNumber)) {
-						if (subQuery == null) {
-							subQuery = QJpaProduct.jpaProduct.days.gt(7);
-						} else {
-							subQuery = subQuery.or(QJpaProduct.jpaProduct.days.gt(7));
-						}
+						subQuery = subQuery == null ? QJpaProduct.jpaProduct.days.eq(1) : subQuery
+								.or(QJpaProduct.jpaProduct.days.eq(1));
+					} else if (StringUtils.equals("3", playNumber)) {
+						subQuery = subQuery == null ? QJpaProduct.jpaProduct.days.between(2, 6) : subQuery
+								.or(QJpaProduct.jpaProduct.days.between(2, 6));
+					} else if (StringUtils.equals("4", playNumber)) {
+						subQuery = subQuery == null ? QJpaProduct.jpaProduct.days.eq(7) : subQuery
+								.or(QJpaProduct.jpaProduct.days.eq(7));
+
+					} else if (StringUtils.equals("5", playNumber)) {
+						subQuery = subQuery == null ? QJpaProduct.jpaProduct.days.gt(7) : subQuery
+								.or(QJpaProduct.jpaProduct.days.gt(7));
 					}
 				}
 				query = query == null ? subQuery : query.and(subQuery);
