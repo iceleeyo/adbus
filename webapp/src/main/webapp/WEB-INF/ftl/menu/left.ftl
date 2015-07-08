@@ -13,6 +13,7 @@
 <div class="ls-2">
 							<div class="pg-side">
 								<ul class="pg-side-list">
+								<@security.authorize ifAnyGranted="advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 									<li class="pg-side-item">
 										<a class="pg-side-item-t aa-icon" style="color:#fff;background:#ff9966;" href="${rc.contextPath}/order/myTask/1">
 											<i class="s-left pg-icon-a a-icon" style="background:url(${rc.contextPath}/imgs/sidebar-icons.png) no-repeat -20px 0;"></i>
@@ -20,6 +21,7 @@
 										</a>
 										
 									</li>
+								 </@security.authorize>	
                                     <@security.authorize ifAnyGranted="advertiser,ShibaOrderManager,BeiguangMaterialManager,ShibaSuppliesManager">
                                     <li class="pg-side-item">
 										<a class="pg-side-item-t bb-icon">
@@ -92,6 +94,7 @@
 											</@security.authorize>	
 										</ul>
 									</li>
+									<@security.authorize ifAnyGranted="advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 									<li class="pg-side-item">
 										<a class="pg-side-item-t dd-icon">
 											<i class="s-left pg-icon-a d-icon"></i>
@@ -126,13 +129,16 @@
 												     已完成的订单(广告主)
 												</a>
 											</li>-->
+											
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/order/finished">
 												     已完成订单
 												</a>
 											</li>
+										
 										</ul>
 									</li>
+									 </@security.authorize>	
 									
 
 									<@security.authorize ifAnyGranted="ShibaOrderManager,BeiguangScheduleManager">
@@ -271,6 +277,8 @@
 											</li>
 											 -->
                                             </@security.authorize>
+                                            
+                                           <@security.authorize ifAnyGranted="advertiser">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/user/invoiceList">
 													发票列表
@@ -280,6 +288,7 @@
 												</a>
 												 -->
 											</li>
+											 </@security.authorize>
 											<!--<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/user/qualification">
                                                     资质录入
@@ -294,13 +303,15 @@
 									</li>	
 									
 									</@security.authorize>
+									
+									<@security.authorize ifAnyGranted="advertiser">
                                     <li class="pg-side-item">
                                         <a class="pg-side-item-t aa-icon" href="http://wpa.qq.com/msgrd?v=3&uin=3070339185&site=qq&menu=yes" target="_blank">
                                             <i class="s-left pg-icon-a a-icon" style="background:url(${rc.contextPath}/imgs/cs.png) no-repeat;"></i>
                                             在线客服
                                         </a>
-
                                     </li>
+                                     </@security.authorize>
 								</ul>
 							</div>
 </div>
