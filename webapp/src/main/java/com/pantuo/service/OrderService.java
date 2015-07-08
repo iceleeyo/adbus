@@ -354,7 +354,7 @@ public class OrderService {
 		criteria.andProductIdEqualTo(id);
 		example.setOrderByClause("id desc");
 		example.setLimitStart(0);
-		example.setLimitEnd(15);
+		example.setLimitEnd(10);
 		return ordersMapper.selectByExample(example);
 	}
 	public int queryLogCountByProId(int id) {
