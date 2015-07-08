@@ -115,7 +115,7 @@ function delInvoice(conid){
 <div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title" style="padding-top: 0px;text-align:left;">
 									发票列表
-									<a class="block-btn" href="http://www.baidu.com">添加发票</a>
+									<a class="block-btn" href="${rc.contextPath}/user/invoice">添加发票</a>
 									</div>
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
