@@ -137,12 +137,12 @@ function bu(txtObj) {
             </LI>
     <li style="width: 720; border-bottom: 1px solid #F7F7F7"></li>
             <LI style="width: 240px;">
-                <SPAN><#if prod.type == 'body'>媒体费：<#else>套餐原价：</#if></SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">${prod.price!''}.00</SPAN>
+                <SPAN><#if prod.type == 'body'>媒体费：<#else>套餐原价：</#if></SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">#{prod.price!'' ;m2M2}</SPAN>
                 <SPAN>元</SPAN>
             </LI>
             <#if prod.type == 'body'>
                 <LI style="width: 240px;">
-                    <SPAN>制作费：</SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">${prod.produceCost!''}.00</SPAN>
+                    <SPAN>制作费：</SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">#{prod.produceCost!'' ;m2M2}</SPAN>
                     <SPAN>元</SPAN>
                 </LI>
             </#if>

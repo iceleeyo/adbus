@@ -14,10 +14,10 @@
   				  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
   				    <#if !(cpdDetail?exists)>
   				  <li style="width: 200px;"><SPAN>套餐价格：</SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">
-  				  	<@security.authorize ifNotGranted="ShibaOrderManager">${orderview.order.price!''} </@security.authorize>
+  				  	<@security.authorize ifNotGranted="ShibaOrderManager"> #{(orderview.order.price)!'';m2M2}</@security.authorize>
   				  	<@security.authorize ifAnyGranted="ShibaOrderManager">
   				  	<a class="layer-tips" tip="点击修改订单价格!" onclick="setOrderPrice('${rc.contextPath}/order/setOrderPrice',${orderview.order.id});"  >
-  				  <span id="prodPrice">	${orderview.order.price!''}</span></a>
+  				  <span id="prodPrice">#{(orderview.order.price)!'';m2M2}</span></a>
   				    </@security.authorize>
   				  </SPAN></li>
   				   </#if> 

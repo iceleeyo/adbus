@@ -65,21 +65,12 @@ $.ajax({
 											<div class="price s-clear">
 												<span>当前价：</span>
 												<span class="fsize-24 t-red"><em>¥</em>
-												<#if jpaCpd.comparePrice?index_of(".")==-1>
-												${jpaCpd.comparePrice!''}.00
-												<#else>
-												${jpaCpd.comparePrice!''}
-												</#if>
-												
+												#{jpaCpd.comparePrice!'' ;m2M2}
 												</span>
 												<em class="line"></em>
 												<span>原价：</span>
 												<del>
-												<#if jpaCpd.product.price?index_of(".")==-1>
-												¥${(jpaCpd.product.price)!''}.00
-												<#else>
-												¥${(jpaCpd.product.price)!''}
-												</#if>
+												#{(jpaCpd.product.price)!'' ;m2M2}
 												</del>
 												<div class="s-right" style="margin-top: 13;">
 													<span>围观数：</span>
@@ -101,11 +92,6 @@ $.ajax({
 												 type="text" id="myprice" value="" />
 												<a class="plus" >+</a>
 											</span>
-											<div class="range">
-												<span>最低加价：<em>￥1.00</em></span>
-												<span>最高加价：<em>￥5000.00</em></span>
-						
-											</div>
 										</div>
 										<div class="product-btn">
 										<#if (jpaCpd.startDate < .now  && jpaCpd.biddingDate > .now  ) > 
