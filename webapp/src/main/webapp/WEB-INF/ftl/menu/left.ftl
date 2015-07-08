@@ -44,13 +44,14 @@
 											合同管理
 										</a>
 										<ul class="pg-side-exp-list">
-										<@security.authorize ifAnyGranted="ShibaOrderManager">
+									<!-- 	<@security.authorize ifAnyGranted="ShibaOrderManager">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/contract/contractEnter">
 													添加合同
 												</a>
 											</li>
 											</@security.authorize>
+									 -->
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t"  href="${rc.contextPath}/contract/list">
 													合同列表
@@ -253,7 +254,7 @@
 									<li class="pg-side-item">
 										<a class="pg-side-item-t ff-icon">
 											<i class="s-left pg-icon-a e-icon"></i>
-											用户信息管理
+											用户信息
 										</a>
 										<ul class="pg-side-exp-list">
                                             <@security.authorize ifAnyGranted="UserManager">
@@ -262,19 +263,22 @@
 													用户列表
 												</a>
 											</li>
+											<!-- 
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/user/enter">
 													用户添加
 												</a>
 											</li>
+											 -->
                                             </@security.authorize>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/user/invoiceList">
 													发票列表
 												</a>
-												<a class="side-exp-item-t" href="${rc.contextPath}/user/invoice">
+												<!-- <a class="side-exp-item-t" href="${rc.contextPath}/user/invoice">
 													发票录入
 												</a>
+												 -->
 											</li>
 											<!--<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/user/qualification">

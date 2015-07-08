@@ -144,8 +144,10 @@
                 <hr/>
             </div>-->
             <div class="withdraw-title" style="padding-top: 0px;text-align:left;">
-									产品列表
-									</div>
+									<span>产品列表</span>
+			<a class="block-btn" href="${rc.contextPath}/product/new">新增产品</a>
+			</div>
+		
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
