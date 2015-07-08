@@ -1,7 +1,7 @@
 <#import "template/template_blank.ftl" as frame >
 <#import "template/proDetail.ftl" as proDetail>
-<#global menu="普通产品">
-<@frame.html title="普通产品" js=["js/jquery.jcountdown.js","js/jquery.jcountdown.site.js","js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/progressbar.js"] 
+<#global menu="定价产品">
+<@frame.html title="定价产品" js=["js/jquery.jcountdown.js","js/jquery.jcountdown.site.js","js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/progressbar.js"] 
 css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/compare/auction.css","css/sea.css","css/autocomplete.css"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 
@@ -105,12 +105,12 @@ function bu(txtObj) {
 												</span>
 											</div>
 										</div>
-											<div class="range" style="margin-top: 30px;">
+											<div class="range">
 												<span>播放次数：<em>${prod.playNumber!''}次</em></span>
 												<span>产品周期：<em>${prod.days!''}天</em></span>
-						
+												<span>媒体类型： <em>${prod.type.typeName!''}</em></span>
 											</div>
-											<div class="" style="margin: 20px 5px;">
+											<div class="" style="margin: 10px 5px;">
                                             <label class="range" style="color: #999;">开播日期:</label> <input
                                                 class="ui-input datepicker validate[required,custom[date] layer-tips" 
                                                 type="text" name="startTime1"
@@ -120,7 +120,7 @@ function bu(txtObj) {
                                                	 
                                         </div>
 										</div>
-										<div class="product-btn" style="margin-top: 30px;">
+										<div class="product-btn" style="float: right;">
 										<a class="btn-bid" href="javascript:void(0)" onclick="compare('${rc.contextPath}','${username!''}','${prod.name!''}')" >我要购买</a>
 											 <input type="hidden" readonly="readonly" name="product.id" id="productId" value="${prod.id!''}"/>
 											 <input type="hidden" readonly="readonly" name="supplies.id" id="productId" value="1"/>
