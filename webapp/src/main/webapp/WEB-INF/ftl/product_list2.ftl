@@ -159,8 +159,8 @@
                        
                        <@security.authorize ifAnyGranted="ShibaOrderManager">  
                         <th>首页</th>
-                        <th >进行中订单</th>
-                        <th  >结束订单</th>
+                        <th>进行中</th>
+                        <th>已结束</th>
                         </@security.authorize>
                         <th>管理</th>
                     </tr>
