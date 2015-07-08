@@ -47,7 +47,7 @@ function showProductlayer(tourl,id){
 function contractdetail(tourl,contractid){
 	$.ajax({
 			url : tourl +"/contract/ajax-contractDetail/"+contractid,
-			type : "GET",
+			type : "POST",
 			data : {
 			},
 			success : function(data) {
