@@ -8,7 +8,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 <script type="text/javascript">
     
     
-function compare(){
+function compare(pathurl){
 	var productid=$("#productid").val();
 	var myprice=$("#myprice").val();
 	
@@ -114,7 +114,7 @@ $.ajax({
 										</div>
 										<div class="product-btn">
 										<#if (jpaCpd.startDate < .now  && jpaCpd.biddingDate > .now  ) > 
-											<a class="btn-bid" href="javascript:void(0)" onclick="compare()" >我要出价</a>
+											<a class="btn-bid" href="javascript:void(0)" onclick="compare('${rc.contextPath}')" >我要出价</a>
 											 <script type="text/javascript">
 										      		$(function(){ 
 										      			$("#residue").html("剩余时间");
