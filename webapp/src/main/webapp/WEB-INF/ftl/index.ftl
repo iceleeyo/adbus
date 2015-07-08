@@ -43,14 +43,15 @@
 					</div>
 					<div class="s-right s-clear">
                                   <@security.authorize access="isAuthenticated()">
-<span class="pg-nav-item s-left" style="padding:0;">您好，</span>
-                                        <a class="pg-nav-item s-left" href="javascript:void(0)">
-                                            <@security.authentication property="principal.user.firstName" />
-                                            <@security.authentication property="principal.user.lastName" />
-                                        </a>
-<a href="javascript:;" class="pg-nav-item s-left" onclick="logout();">[退出]</a>
-                                        </@security.authorize>
-<@security.authorize access="! isAuthenticated()">
+									<span class="pg-nav-item s-left" style="padding:0;">您好，</span>
+									                                        <a class="pg-nav-item s-left" href="javascript:void(0)">
+									                                            <@security.authentication property="principal.user.firstName" />
+									                                            <@security.authentication property="principal.user.lastName" />
+									                                        </a>
+							<a class="pg-nav-item s-left"  style="margin-left:6px;margin-right:6px;" href="${rc.contextPath}/message/all">消息<span id="msgNumber" class="layer-tips" style="color:#ff9966"></span></a>
+							 <a href="javascript:;" class="pg-nav-item s-left" onclick="logout();">[退出]</a>
+									                                        </@security.authorize>
+									<@security.authorize access="! isAuthenticated()">
 						<a class="header-nav-item s-left" href="login">
 							<span>登录</span>
 						</a>
