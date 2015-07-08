@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#import "template/orderDetail.ftl" as orderDetail/>
-<@frame.html title="订单详细" js=["js/highslide/highslide-full.js", "js/video-js/video.js", "js/video-js/lang/zh-CN.js","js/layer-v1.9.3/layer-site.js"]
+<@frame.html title="订单详细" js=["js/highslide/highslide-full.js", "js/video-js/video.js", "js/video-js/lang/zh-CN.js","js/layer-v1.9.3/layer-site.js","js/jquery-dateFormat.js"]
 css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
     <#include "template/preview.ftl" />
 
