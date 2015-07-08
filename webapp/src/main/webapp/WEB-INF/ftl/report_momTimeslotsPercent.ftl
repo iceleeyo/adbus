@@ -43,7 +43,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 </#list>
             </select>
 </div>
-<div class="withdraw-title fn-clear">
+<div class="withdraw-title fn-clears">
       全年时段比例
 </div>
     <div class="tileContent" style="margin:8px 10px 0 8px" id="remainTimeslots"></div>

@@ -37,7 +37,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
         </#list>
       </select>
 </div>
-<div class="withdraw-title fn-clear">
+<div class="withdraw-title fn-clears">
       财务收入月报
 </div> 
 

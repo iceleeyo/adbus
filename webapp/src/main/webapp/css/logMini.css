@@ -1,0 +1,37 @@
+.p-center{text-align: center;}
+.login-container{position: relative;margin-left: auto;margin-right: auto;}
+.login-content{width: 940px;margin:0 10px;padding:40px 0;}
+.login-left{width: 610px;height: 390px;overflow: hidden;}
+.login-right{width: 327px;}
+.login-nav-right{height: 48px;}
+.login-nav-right span{display: block;line-height: 40px;height: 40px;font-size: 25px;border-left: 1px solid #CCC;padding-left: 20px;margin-top: 4px;color: #aaa;}
+.login-box{}
+.login-info{width: 465px;height:280px;background: #fff;margin: 10px;}
+.login-form{padding: 10px 20px 0 20px;}
+.login-form fieldset{border:0;padding:0;}
+.login-tip{color: red;height:40px;line-height: 40px;display: block;}
+.login-item{margin-bottom: 20px;position:relative;}
+.login-input{height:45px;line-height: 23px;color:#595959;width:100%;border-radius: 2px;border:1px solid #c5c5c5;box-shadow: 0 0 2px 1px #efefef;outline:none;}
+.login-input:hover{border:1px solid #2ea7e0;}
+.input-p{padding: 10px 5px 10px 50px;font-size: 14px;}
+.gray-input{background: url(/images/input-box.png) 0 0 no-repeat}
+.icon-position-user{background: url(/images/icon-input.png) 0 -142px no-repeat;}
+.icon-position-pwd{background: url(/images/icon-input.png) 0 -426px no-repeat;}
+.login-name-icon{position: absolute;top: 10px;left: 10px;width: 25px;height: 21px; }
+.login-btn{height: 40px;line-height: 40px;background: #2ea7e0;border: 0;border-radius: 2px;color: #fff;text-align: center;cursor: pointer;display: inline-block;}
+.login-btn-size{width: 165px;font-size: 18px;}
+.icon-select{height: 20px;width:26px;background: url(/images/icon-select.png) 0 -33px no-repeat;display: inline-block;padding-bottom: 3px;}
+/* .icon-yes{background-position: } */
+.icon-no{background-position: 0 0;}
+.login-bottom{border-top: 1px solid #e2e2e2;height: 48px;line-height: 48px;color: #afafaf;margin:0 20px;position: relative; }
+.icon-social{height: 20px;width:26px;background-image: url(images/icon-social.png);background-repeat: no-repeat;position: absolute;text-indent: -9999px;}
+.icon-qq{top:15px;right:40px;background-position: 0 0}
+.icon-qq:hover{background-position: 0 100%}
+.icon-weibo{top:15px;right: -2px;background-position: 100% 0}
+.icon-weibo:hover{background-position: 100% 100%}
+
+.login-foot{position: relative;bottom: 0;width: 100%;padding: 10px 0;background: #555;}
+.foot-copyright{height: 20px;line-height: 20px;font-size: 14px;position: relative;text-align: center;}
+.foot-cr-link{font-size: 12px;padding-left: 10px;padding-right: 10px;}
+.has-border{border-left: 1px solid gray}
+.foot-cr-link a:hover{color:#2ea7e0;}

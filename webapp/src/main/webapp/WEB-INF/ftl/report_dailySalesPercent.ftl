@@ -41,7 +41,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 
 
 
-<div class="withdraw-title fn-clear">
+<div class="withdraw-title fn-clears">
       财务收入日报
 </div> 
     <div class="tileContent" style="margin:8px 10px 0 8px" id="remainTimeslots"></div>

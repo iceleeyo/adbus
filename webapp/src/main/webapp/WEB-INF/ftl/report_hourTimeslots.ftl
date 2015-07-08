@@ -48,7 +48,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 <input type="checkbox" name="baseY" id="baseY" <#if baseY?? && baseY == 0>checked</#if>>用0作为基线
             </span>
         </div>
-<div class="withdraw-title fn-clear">
+<div class="withdraw-title fn-clears">
       三天时段报表
 </div>  
 

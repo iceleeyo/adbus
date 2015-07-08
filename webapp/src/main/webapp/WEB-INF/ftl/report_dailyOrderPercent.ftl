@@ -38,7 +38,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                     id="day" data-is="isAmount isEnough"
                     autocomplete="off" disableautocomplete="">
 </div>
-<div class="withdraw-title fn-clear">
+<div class="withdraw-title fn-clears">
         售出情况
 </div>
     <div class="tileContent" style="margin:8px 10px 0 8px" id="remainTimeslots"></div>

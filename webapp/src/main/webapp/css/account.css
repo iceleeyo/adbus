@@ -1910,6 +1910,11 @@
 	background: #e6e7ec;
 }
 
+.withdraw-wrap .taba a:hover{
+	background: #2DA7E0;
+}
+
+
 .withdraw-wrap .tabs.sift{
 	height: 50px;
 	line-height: 50px;
@@ -1942,6 +1947,12 @@
 
 .fn-clear{
 	margin-left:10px; 
+}
+
+.fn-clears{
+	margin-left:10px; 
+	margin-top: 10px;
+	text-align: center;
 }
 
 .withdraw-title a{

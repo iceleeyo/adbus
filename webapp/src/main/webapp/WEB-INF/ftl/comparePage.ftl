@@ -9,14 +9,28 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
     
     
 function compare(){
-var productid=$("#productid").val();
-var myprice=$("#myprice").val();
-
-var lc=$("#lc").val();
+	var productid=$("#productid").val();
+	var myprice=$("#myprice").val();
+	
+	var lc=$("#lc").val();
 if(lc=="0"){
- 	layer.msg("请先登录");
-   return;
+	layer.open({
+    		type: 1,
+    		title: "您尚未登录",
+    		skin: 'layui-layer-rim', 
+    		area: ['490px', '350px'], 
+    		content:''
+                 +'<div class="login-info module"><form id="loginForm" name="loginForm" class="login-form" action="'+pathurl+'/login" method="POST"><fieldset>'
+			   	 +'<div class="login-item"><input class="login-input input-p gray-input" type="text" placeholder="请输入用户名" id="username" name="username"><span class="login-name-icon icon-position-user"></span> </div>'
+                 +'<div class="login-item"><input class="login-input input-p gray-input" type="password" placeholder="请输入密码" id="password" name="password"> <span class="login-name-icon icon-position-user"></span> </div>'
+                 +'<div class="login-item s-clear"> <a class="s-right" href="'+pathurl+'/user/find_pwd">忘记密码</a></div>'
+                 +'<div class="login-item p-center"><input type="submit" name="submit" value="立即登录" class="login-btn login-btn-size func-submit"/> </div>'
+                 +'<div class="login-item p-center"><span>没有账号？</span>  <a href="'+pathurl+'/register">免费注册</a></div></fieldset></form></div>'
+	});
+		layer.msg("请先登录");
+   		return;
 }
+
 if(myprice==""){
    layer.msg("请出价");
    return;
@@ -92,6 +106,11 @@ $.ajax({
 												 type="text" id="myprice" value="" />
 												<a class="plus" >+</a>
 											</span>
+											<div class="range">
+												<span>最低加价：<em>￥1.00</em></span>
+												<span>最高加价：<em>￥5000.00</em></span>
+						
+											</div>
 										</div>
 										<div class="product-btn">
 										<#if (jpaCpd.startDate < .now  && jpaCpd.biddingDate > .now  ) > 

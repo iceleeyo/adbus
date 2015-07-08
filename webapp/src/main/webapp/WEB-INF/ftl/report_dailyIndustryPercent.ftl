@@ -38,7 +38,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                     id="day" data-is="isAmount isEnough"
                     autocomplete="off" disableautocomplete="">
 </div>
-    <div class="withdraw-title fn-clear">
+    <div class="withdraw-title fn-clears">
         售出情况行业细分
     </div>
 

@@ -136,6 +136,7 @@
         initTable();
     } );
 </script>
+
 <div class="withdraw-wrap color-white-bg fn-clear">
 <#--            <div class="div" style="margin-top:25px">
                 <caption><h2>产品套餐列表</h2></caption>
@@ -143,12 +144,15 @@
             <div class="div">
                 <hr/>
             </div>-->
-            <div class="withdraw-title" style="padding-top: 0px;text-align:left;">
-									<span>产品列表</span>
-		 <@security.authorize ifAnyGranted="ShibaOrderManager"> 
-			<a class="block-btn" href="${rc.contextPath}/product/new">新增产品</a>
-		 </@security.authorize>
-			</div>
+            <div class="tabs">
+            <a id="tab1" href="${rc.contextPath}/product/list" class="active">定价产品</a>
+            <a id="tab2" href="${rc.contextPath}/product/auction">竞价产品</a>
+            <div class="taba">
+            <@security.authorize ifAnyGranted="ShibaOrderManager">
+           	<a class="block-btn" href="${rc.contextPath}/product/new" style="width: 90px;float:right;color: #fff">新增产品</a>
+            </@security.authorize>
+            </div>
+            </div>
 		
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>

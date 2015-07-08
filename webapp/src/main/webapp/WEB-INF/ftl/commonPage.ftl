@@ -15,20 +15,20 @@ var startTime = $("#startTime").val();
 var d = new Date(startTime.replace(/-/g,"/")); 
 date = new Date();
 var str  = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
-var d2 = new Date(str.replace(/-/g,"/")); 
+var d2 = new Date(str.replace(/-/g,"/")); 	
 if(lc=="0"){
 layer.open({
     		type: 1,
     		title: "您尚未登录",
     		skin: 'layui-layer-rim', 
-    		area: ['350px', '350px'], 
+    		area: ['490px', '350px'], 
     		content:''
-    		    + '<form id="loginForm" name="loginForm" class="login-form" action="'+pathurl+'/login" method="POST">'
-			   +'<div class="login-item"><input class="login-input input-p gray-input" type="text" placeholder="请输入用户名" id="username" name="username"><span class="login-name-icon icon-position-user"></span> </div>'
-                                +'<div class="login-item"><input class="login-input input-p gray-input" type="password" placeholder="请输入密码" id="password" name="password"> <span class="login-name-icon icon-position-user"></span> </div>'
-                                +'<div class="login-item s-clear"> <a class="s-right" href="'+pathurl+'/user/find_pwd">忘记密码</a></div>'
-                                +'<div class="login-item p-center"><input type="submit" name="submit" value="立即登录" class="login-btn login-btn-size func-submit"/> </div>'
-                                +'<div class="login-item p-center"><span>没有账号？</span>  <a href="'+pathurl+'/register">免费注册</a></div></form>'
+                 +'<div class="login-info module"><form id="loginForm" name="loginForm" class="login-form" action="'+pathurl+'/login" method="POST"><fieldset>'
+			   	 +'<div class="login-item"><input class="login-input input-p gray-input" type="text" placeholder="请输入用户名" id="username" name="username"><span class="login-name-icon icon-position-user"></span> </div>'
+                 +'<div class="login-item"><input class="login-input input-p gray-input" type="password" placeholder="请输入密码" id="password" name="password"> <span class="login-name-icon icon-position-user"></span> </div>'
+                 +'<div class="login-item s-clear"> <a class="s-right" href="'+pathurl+'/user/find_pwd">忘记密码</a></div>'
+                 +'<div class="login-item p-center"><input type="submit" name="submit" value="立即登录" class="login-btn login-btn-size func-submit"/> </div>'
+                 +'<div class="login-item p-center"><span>没有账号？</span>  <a href="'+pathurl+'/register">免费注册</a></div></fieldset></form></div>'
 			});
 	layer.msg("请先登录");
    return;
@@ -91,9 +91,21 @@ function bu(txtObj) {
 										<h3>${(prod.name)!''}</h3>
 									</div>
 									<div>
+									
 										<div class="product-form">
-											
-											<div class="range" style="margin-top: 20px;">
+										<div class="product-intro" style="margin-left: 5px;">
+											<div class="price s-clear">
+												<span>套餐价格：</span>
+												<span class="fsize-24 t-red"><em>¥</em>
+												<#if prod.price?index_of(".")==-1>
+												${prod.price!''}.00
+												<#else>
+												${prod.price!''}
+												</#if>
+												</span>
+											</div>
+										</div>
+											<div class="range" style="margin-top: 30px;">
 												<span>播放次数：<em>${prod.playNumber!''}次</em></span>
 												<span>产品周期：<em>${prod.days!''}天</em></span>
 						
@@ -123,7 +135,7 @@ function bu(txtObj) {
 								</div>
 							</div>
 </form>
-							<div class="product-ins" style="margin-top: 50px;">
+							<div class="product-ins" style="margin-top: 20px;">
 								<div class="ins-title">
 									<span>商品介绍</span>
 								</div>
@@ -137,7 +149,7 @@ function bu(txtObj) {
             </LI>
     <li style="width: 720; border-bottom: 1px solid #F7F7F7"></li>
             <LI style="width: 240px;">
-                <SPAN><#if prod.type == 'body'>媒体费：<#else>套餐原价：</#if></SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">#{prod.price!'' ;m2M2}</SPAN>
+                <SPAN><#if prod.type == 'body'>媒体费：<#else>套餐价格：</#if></SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">#{prod.price!'' ;m2M2}</SPAN>
                 <SPAN>元</SPAN>
             </LI>
             <#if prod.type == 'body'>

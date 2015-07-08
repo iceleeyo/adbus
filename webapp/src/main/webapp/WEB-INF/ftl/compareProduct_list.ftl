@@ -139,9 +139,15 @@
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title" style="padding-top: 0px;text-align:left;">
-									竞价产品列表
-									</div>
+                        <div class="tabs">
+            <a id="tab1" href="${rc.contextPath}/product/list">定价产品</a>
+            <a id="tab2" href="${rc.contextPath}/product/auction" class="active">竞价产品</a>
+            <div class="taba">
+            <@security.authorize ifAnyGranted="ShibaOrderManager">
+           	<a class="block-btn" href="${rc.contextPath}/product/new" style="width: 90px;float:right;color: #fff">新增产品</a>
+            </@security.authorize>
+            </div>
+            </div>
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>

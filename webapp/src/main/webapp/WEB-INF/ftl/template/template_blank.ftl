@@ -50,6 +50,7 @@
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/js/validation/validationEngine.jquery.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/table.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/city.css">
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/logMini.css">
     <#list css as entry>
         <link rel="stylesheet" type="text/css" href="${rc.contextPath}/${entry}">
     </#list>
