@@ -37,10 +37,10 @@
 <span class="s1">广告/节目发布合同</span>
 </p>
 <p class="p2">
-<span class="s2">甲方：</span><span class="s3">【广告主公司名称】</span>
+<span class="s2">甲方：</span><span class="s3">${userDetail.company!''}</span>
 </p>
 <p class="p2">
-<span class="s2">住所：</span><span class="s3">【广告主地址】</span>
+<span class="s2">住所：</span><span class="s3"></span>
 </p>
 <p class="p2">
 <span class="s2">法定代表人 ： </span>
@@ -74,7 +74,7 @@
 <span class="s5">二、​&nbsp;</span><span class="s1">发布内容、</span><span class="s5">付款金额</span><span class="s1">（单位：人民币）</span><span class="s5">、</span><span class="s1">付款方式</span>
 </p>
 <p class="p2">
-<span class="s2">1.</span><span class="s3">【套餐编号：套餐名称】 </span><span class="s2">                                                                              </span>
+<span class="s2">1.套餐名称:</span><a href="${rc.contextPath}/product/d/${(product.id)!''}" target="_blank"><span class="s3">${(product.name)!''}</span></a> <span class="s2">                                                                              </span>
 </p>
 <p class="p2">
 <span>2.  开具发票：</span><span class="s2">乙方在收到甲方支付的金额后为甲方开具有效发票。</span>

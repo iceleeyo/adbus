@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,18 +22,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import scala.Int;
+
+import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.JpaInvoice;
+import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Attachment;
+import com.pantuo.mybatis.domain.Orders;
+import com.pantuo.mybatis.domain.Product;
+import com.pantuo.mybatis.persistence.ProductMapper;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService.SystemRoles;
 import com.pantuo.service.AttachmentService;
 import com.pantuo.service.DataInitializationService;
 import com.pantuo.service.InvoiceServiceData;
+import com.pantuo.service.OrderService;
+import com.pantuo.service.ProductService;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.service.UserServiceInter;
+import com.pantuo.util.Constants;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
@@ -60,6 +71,10 @@ public class UserManagerController {
 	private InvoiceServiceData invoiceServiceData;
 	@Autowired
 	SuppliesService suppliesService;
+	@Autowired
+	OrderService orderService;
+	@Autowired
+	ProductService productService;
 	@Autowired
 	AttachmentService attachmentService;
 	@PreAuthorize(" hasRole('UserManager')  ")
@@ -160,9 +175,31 @@ public class UserManagerController {
 	}
 	
 	@RequestMapping(value = "/contract_templete", produces = "text/html;charset=utf-8")
-	public String contract_templete(HttpServletRequest request,HttpServletResponse response) {
+	public String contract_templete(Model model,Principal principal,
+			@RequestParam(value="orderid" ,required=false, defaultValue ="0") int orderid,
+			@RequestParam(value="productid" ,required=false, defaultValue ="0") int productid,
+			HttpServletRequest request,HttpServletResponse response) {
 		response.setHeader("X-Frame-Options", "SAMEORIGIN");
-		
+		if(orderid>0){
+			Orders orders=orderService.selectOrderById(orderid);
+			if(orders!=null){
+				if (Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)) {
+					if(!StringUtils.equals(Request.getUserId(principal), orders.getUserId())){
+						throw new AccessDeniedException("非法操作！");
+					}
+				}
+				Product product=productService.selectProById(orders.getProductId());
+				UserDetail userDetail = userService.findByUsername(orders.getUserId());
+				model.addAttribute("product", product);
+				model.addAttribute("userDetail", userDetail);
+			}
+			
+		}else{
+			Product product=productService.selectProById(productid);
+			UserDetail userDetail = userService.findByUsername(Request.getUserId(principal));
+			model.addAttribute("product", product);
+			model.addAttribute("userDetail", userDetail);
+		}
 		return "contract_templete";
 	}
 

@@ -4,11 +4,11 @@
 <@frame.html title="定价产品" js=["js/jquery.jcountdown.js","js/jquery.jcountdown.site.js","js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/progressbar.js"] 
 css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/compare/auction.css","css/sea.css","css/autocomplete.css"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
+
 <script type="text/javascript">
     
     
-function compare(pathurl,username,proname){
-var productid=$("#productid").val();
+function compare(pathurl,proid){
 var startTime = $("#startTime").val();
 var d = new Date(startTime.replace(/-/g,"/")); 
 date = new Date();
@@ -37,7 +37,8 @@ islogin(pathurl);
     		skin: 'layui-layer-rim', 
     		area: ['650px', '630px'], 
     		content:''
-			   +'<iframe  style="width:99%;height:90%" src="${rc.contextPath}/user/contract_templete"/><div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraworder" class="block-btn" onclick="creorder();" value="确认" style="margin:10px 0px -10px 110px;"> </div>'
+			   +' '
+			   +'<iframe  style="width:99%;height:90%" src="${rc.contextPath}/user/contract_templete?productid='+proid+'"/><div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraworder" class="block-btn" onclick="creorder();" value="确认" style="margin:10px 0px -10px 110px;"> </div>'
 			});
 		}
 }
@@ -98,7 +99,7 @@ function bu(txtObj) {
                                         </div>
 										</div>
 										<div class="product-btn" style="float: right;">
-										<a class="btn-bid" href="javascript:void(0)" onclick="compare('${rc.contextPath}','${username!''}','${prod.name!''}')" >我要购买</a>
+										<a class="btn-bid" href="javascript:void(0)" onclick="compare('${rc.contextPath}',${prod.id!''})" >我要购买</a>
 											 <input type="hidden" readonly="readonly" name="product.id" id="productId" value="${prod.id!''}"/>
 											 <input type="hidden" readonly="readonly" name="supplies.id" id="productId" value="1"/>
 										<@security.authorize access="isAuthenticated()">

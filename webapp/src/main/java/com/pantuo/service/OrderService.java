@@ -43,6 +43,7 @@ import com.pantuo.mybatis.persistence.RoleCpdMapper;
 import com.pantuo.pojo.HistoricTaskView;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService.TaskQueryType;
+import com.pantuo.service.impl.UserService;
 import com.pantuo.util.Constants;
 import com.pantuo.util.DateConverter;
 import com.pantuo.util.DateUtil;
@@ -138,6 +139,8 @@ public class OrderService {
 	private RuntimeService runtimeService;
 	@Autowired
 	ActivitiService activitiService;
+	@Autowired
+	UserService userService;
     @Autowired
     private OrderBusesRepository orderBusesRepo;
     @Autowired
@@ -333,20 +336,18 @@ public class OrderService {
     public void updateWithBuses(JpaOrders order) {
         ordersRepository.save(order);
     }
-	public Pair<String, String> geteleContract(int orderid) {
+	public Pair<Object, String> geteleContract(int orderid) {
 		Orders orders=ordersMapper.selectByPrimaryKey(orderid);
-		String username="",proname="";
+		String proname="";
 		if(orders!=null){
-			User activitiUser = identityService.createUserQuery().userId(orders.getUserId()).singleResult();
+			UserDetail userDetail = userService.findByUsername(orders.getUserId());
 			Product product =productMapper.selectByPrimaryKey(orders.getProductId());
-			if(activitiUser!=null){
-			username=activitiUser.getFirstName();	
-			}
 			if(product!=null){
 				proname=product.getName();
 			}
+			return new Pair<Object, String>(userDetail,proname);
 		}
-		return new Pair<String, String>(username,proname);
+		return new Pair<Object, String>(null,proname);
 	}
 	public List<Orders> queryLogByProId(int id) {
 		OrdersExample example=new OrdersExample();
