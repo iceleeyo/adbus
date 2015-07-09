@@ -5,6 +5,7 @@ import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -157,6 +158,16 @@ public class UserManagerController {
 	public String find_pwd(HttpServletRequest request) {
 		return "find_pwd";
 	}
+	
+	@RequestMapping(value = "/contract_templete", produces = "text/html;charset=utf-8")
+	public String contract_templete(HttpServletRequest request,HttpServletResponse response) {
+		response.setHeader("X-Frame-Options", "SAMEORIGIN");
+		
+		return "contract_templete";
+	}
+
+	
+	
 
 	@RequestMapping(value = "/reset_pwd", produces = "text/html;charset=utf-8")
 	public String reset_pwd(Model model, HttpServletRequest request, @RequestParam(value = "userId") String userId,
