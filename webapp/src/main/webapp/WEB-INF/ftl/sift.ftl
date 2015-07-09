@@ -1,7 +1,7 @@
 <#import "template/template_sift.ftl" as frame>
 <#global menu="">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="商品sift" left=false nav=false js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"] css=["css/sift.css","js/jquery-ui/jquery-ui.css"]>
+<@frame.html title="商品sift" left=false nav=false js=["js/sift.js","js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"] css=["css/sift.css","js/jquery-ui/jquery-ui.css"]>
 <head> 
 
 </head>
@@ -225,6 +225,7 @@
             "drawCallback": drawCallback,
         } );
         table.fnNameOrdering("orderBy").fnNoColumnsParams();
+        return table;
        
     }
 
@@ -247,52 +248,10 @@
 
     $(document).ready(function() {
         initTable();
+        initSwift(table)
     } );
     
-    
-    $('.item i').hide();
-      	var isClick = false;
-      	$('.sift-list .item').click(function(){
-
-      		if(isClick){
-      			 
-      			$(this).removeClass('active');
-      			isClick = false;
-      			if(($(this).parent().has('.active')).length==0){
-      			   $(this).parent().children().first().addClass("active");
-      			}
-      		}else{
-
-      			$(this).addClass('active');
-	      		$(this).children().show();
-	      		$(this).parent().children().first().removeClass("active");
-
-	      		//add by impanxh
-      			if($(this).attr("sort")==-1){
-      				var list=$(this).parent().children();
-      				$(this).parent().children().removeClass("active");
- 					$(this).parent().children().first().addClass("active");
-      			 }
-      		}
-      		//add by impanxh
-      		var sendContext='';
-			$('.sift-list .active').each(function(){
-				sendContext+=($(this).parent().attr("qt")+"_"+$(this).attr("qc"))+",";			
-			});
-			//alert(sendContext);
-			$("#sh").val(sendContext);
-			
-			//重新画
-			 table.fnDraw();
-			//alert($("#sh").val());
-			
-
-      	});
-      	$('i').click(function(){
-      		$(this).hide();
-      		isClick = true;
-      		
-      	});
+   
 </script>    
         
         
