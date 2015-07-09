@@ -88,7 +88,7 @@
 								<span class="pg-nav-item s-left" style="padding:0;">您好，</span>
 									<span>
                                         <@security.authorize access="isAuthenticated()">
-                                        <a class="pg-nav-item s-left" href="javascript:void(0)">
+                                        <a class="pg-nav-item s-left" href="${rc.contextPath}/order/myTask/1">
                                             <@security.authentication property="principal.user.firstName" />
                                             <@security.authentication property="principal.user.lastName" />
                                         </a>
