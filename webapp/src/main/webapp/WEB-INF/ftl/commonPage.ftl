@@ -17,21 +17,7 @@ date = new Date();
 var str  = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
 var d2 = new Date(str.replace(/-/g,"/")); 	
 if(lc=="0"){
-layer.open({
-    		type: 1,
-    		title: "您尚未登录",
-    		skin: 'layui-layer-rim', 
-    		area: ['490px', '350px'], 
-    		content:''
-                 +'<div class="login-info module"><form id="loginForm" name="loginForm" class="login-form" action="'+pathurl+'/login" method="POST"><fieldset>'
-			   	 +'<div class="login-item"><input class="login-input input-p gray-input" type="text" placeholder="请输入用户名" id="username" name="username"><span class="login-name-icon icon-position-user"></span> </div>'
-                 +'<div class="login-item"><input class="login-input input-p gray-input" type="password" placeholder="请输入密码" id="password" name="password"> <span class="login-name-icon icon-position-user"></span> </div>'
-                 +'<div class="login-item s-clear"> <a class="s-right" href="'+pathurl+'/user/find_pwd">忘记密码</a></div>'
-                 +'<div class="login-item p-center"><input type="submit" name="submit" value="立即登录" class="login-btn login-btn-size func-submit"/> </div>'
-                 +'<div class="login-item p-center"><span>没有账号？</span>  <a href="'+pathurl+'/register">免费注册</a></div></fieldset></form></div>'
-			});
-	layer.msg("请先登录");
-   return;
+islogin(pathurl);
 }
         if(startTime=""){
          jDialog.Alert('请填写开播日期');
@@ -91,7 +77,6 @@ function bu(txtObj) {
 										<h3>${(prod.name)!''}</h3>
 									</div>
 									<div>
-									
 										<div class="product-form">
 										<div class="product-intro" style="margin-left: 5px;">
 											<div class="price s-clear">

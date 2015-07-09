@@ -744,6 +744,51 @@ function showOrderUserlayer(tourl,uid){
 	
 }
 
+//浮窗登录
+
+
+function islogin(pathurl){
+	
+	layer.open({
+		type: 1,
+		title: "您尚未登录",
+		skin: 'layui-layer-rim', 
+		area: ['490px', '350px'], 
+		content:''
+             +'<div class="login-info module"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/><form id="loginForm" name="loginForm" class="login-form"><fieldset>'
+		   	 +'<div class="login-item"><input class="login-input input-p gray-input" type="text" placeholder="请输入用户名" id="username" name="username"><span class="login-name-icon icon-position-user"></span> </div>'
+             +'<div class="login-item"><input class="login-input input-p gray-input" type="password" placeholder="请输入密码" id="password" name="password"> <span class="login-name-icon icon-position-user"></span> </div>'
+             +'<div class="login-item s-clear"> <a class="s-right" href="'+pathurl+'/user/find_pwd">忘记密码</a></div>'
+             +'<div class="login-item p-center"><input type="button" onclick="loglayer(\''+pathurl+'\')" name="submit" value="立即登录" class="login-btn login-btn-size func-submit"/> </div>'
+             +'<div class="login-item p-center"><span>没有账号？</span>  <a href="'+pathurl+'/register">免费注册</a></div></fieldset></form></div>'
+		});
+layer.msg("请先登录");
+	return;
+	
+}
+function loglayer(pathurl){
+	var username=$("#username").val();
+	var password=$("#password").val();
+	$.ajax({
+		url : pathurl+"/loginForLayer",
+		type : "POST",
+		data : {
+			username:username,
+			password:password
+		},
+		success : function(data) {
+			if((data.left)==true){
+				layer.msg("登陆成功");
+				var uptime = window.setTimeout(function(){
+					$("#cc").trigger("click");
+			  		window.location.reload();
+				},2000)
+			}else{
+				layer.msg(data.right);
+			}
+		}
+		}, "text");
+}
 
 
 
