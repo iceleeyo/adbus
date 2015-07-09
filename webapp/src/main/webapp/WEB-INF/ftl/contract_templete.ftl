@@ -3,8 +3,11 @@
 <META http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-Frame-Options" content="SAMEORIGIN"> 
 <style type="text/css">.b1{white-space-collapsing:preserve;}
-.b2{margin: 1.0in 1.25in 1.0in 1.25in;}
-.s1{font-weight:bold;color:black;}
+*{
+	font-size: 14px;
+}
+.b2{margin: 20px 30px 0px 30px;}
+.s1{font-weight:bold;color:black;font-size: 16px;}
 .s2{color:black;}
 .s3{color:red;}
 .s4{display: inline-block; text-indent: 0; min-width: 0.3402778in;}
@@ -61,14 +64,14 @@
 <p class="p3">
 <span class="s2">鉴于乙方拥有北广传媒移动电视媒体平台公交频道的使用权、经营权，根据《中华人民共和国广告法》、《中华人民共和国合同法》及有关规定，甲乙双方本着友好合作、共同发展的意愿，就甲方委托乙方制作、发布广告</span><span>/节目</span><span class="s2">事宜，达成如下合同：</span>
 </p>
-<p class="p4">
-<span class="s4">1、​&nbsp;</span><span class="s1">执行媒体</span>
+<p class="p5">
+<span class="s5">一、​&nbsp;</span><span class="s1">执行媒体</span>
 </p>
 <p class="p3">
 <span class="s2">执行媒体为乙方&ldquo;北广传媒移动电视公交频道&rdquo;。</span>
 </p>
-<p class="p4">
-<span class="s4">1、​&nbsp;</span><span class="s1">发布内容、</span><span class="s5">付款金额</span><span class="s1">（单位：人民币）</span><span class="s5">、</span><span class="s1">付款方式</span>
+<p class="p5">
+<span class="s5">二、​&nbsp;</span><span class="s1">发布内容、</span><span class="s5">付款金额</span><span class="s1">（单位：人民币）</span><span class="s5">、</span><span class="s1">付款方式</span>
 </p>
 <p class="p2">
 <span class="s2">1.</span><span class="s3">【套餐编号：套餐名称】 </span><span class="s2">                                                                              </span>

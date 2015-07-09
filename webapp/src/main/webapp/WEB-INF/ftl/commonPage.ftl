@@ -4,7 +4,6 @@
 <@frame.html title="定价产品" js=["js/jquery.jcountdown.js","js/jquery.jcountdown.site.js","js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/progressbar.js"] 
 css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/compare/auction.css","css/sea.css","css/autocomplete.css"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-
 <script type="text/javascript">
     
     
@@ -36,10 +35,9 @@ islogin(pathurl);
     		type: 1,
     		title: "电子合同",
     		skin: 'layui-layer-rim', 
-    		area: ['650px', '600px'], 
+    		area: ['650px', '630px'], 
     		content:''
-			   +' '
-			   +'<iframe  style="width:100%;height:95%" src="${rc.contextPath}/user/contract_templete"/><div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraworder" class="block-btn" onclick="creorder();" value="确认" style="margin:10px 0px -10px 110px;"> </div>'
+			   +'<iframe  style="width:99%;height:90%" src="${rc.contextPath}/user/contract_templete"/><div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraworder" class="block-btn" onclick="creorder();" value="确认" style="margin:10px 0px -10px 110px;"> </div>'
 			});
 		}
 }
