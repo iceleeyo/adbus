@@ -90,5 +90,16 @@ public interface UserServiceInter {
 
 	public  Pair<Boolean, String> updateUserFromPage(UserDetail detail, Principal principal,
 			HttpServletRequest request);
+	 /**
+	  * 
+	  * ajax 登录 
+	  *
+	  * @param request
+	  * @param name
+	  * @param pwd
+	  * @return
+	  * @since pantuo 1.0-SNAPSHOT
+	  */
+	public Pair<Boolean,String> loginForLayer(HttpServletRequest request,String name,String pwd);
 
 }

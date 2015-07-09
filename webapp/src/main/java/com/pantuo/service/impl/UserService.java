@@ -24,9 +24,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
-import scala.collection.generic.BitOperations.Int;
 
 import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.ActivitiConfiguration;
@@ -36,18 +38,17 @@ import com.pantuo.dao.pojo.QUserDetail;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.dao.pojo.UserDetail.UStats;
 import com.pantuo.mybatis.domain.Attachment;
-import com.pantuo.mybatis.domain.AttachmentExample;
 import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.mybatis.domain.InvoiceExample;
-import com.pantuo.mybatis.domain.Orders;
-import com.pantuo.mybatis.domain.OrdersExample;
 import com.pantuo.mybatis.persistence.AttachmentMapper;
 import com.pantuo.mybatis.persistence.InvoiceMapper;
 import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
+import com.pantuo.service.ActivitiService.SystemRoles;
 import com.pantuo.service.AttachmentService;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.service.UserServiceInter;
-import com.pantuo.service.ActivitiService.SystemRoles;
+import com.pantuo.service.security.ActivitiUserDetails;
+import com.pantuo.service.security.ActivitiUserDetailsService;
 import com.pantuo.util.FreeMarker;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.Mail;
@@ -81,6 +82,10 @@ public class UserService implements UserServiceInter {
 	InvoiceMapper invoiceMapper;
 	@Autowired
 	AttachmentMapper attachmentMapper;
+	
+	
+	 @Autowired
+	 private ActivitiUserDetailsService authUserService;
 
 	/**
 	 * @see com.pantuo.service.UserServiceInter#count()
@@ -572,5 +577,31 @@ public class UserService implements UserServiceInter {
 		criteria.andCityEqualTo(cityId);
 		criteria.andUserIdEqualTo(Request.getUserId(principal));
     	return invoiceMapper.selectByExample(example);
+	}
+	@Override
+	public Pair<Boolean, String> loginForLayer(HttpServletRequest request, String name, String pwd) {
+		Pair<Boolean, String> p = new Pair<>(false, request.getHeader("referer"));
+		if (StringUtils.isBlank(name)) {
+			p.setRight("请填写登录名!");
+		} else if (StringUtils.isBlank(pwd)) {
+			p.setRight("请输入密码!");
+		} else {
+
+			UserDetail udetail = getByUsername(name);
+			if (udetail == null || udetail.getUser() == null) {
+				p.setRight(name + " 用户不存在!");
+			} else {
+				if (!StringUtils.equals(udetail.getUser().getPassword(), pwd)) {
+					p.setRight("密码不对,请重新登录!");
+				} else {
+					p.setLeft(true);
+					UserDetails newUser = new ActivitiUserDetails(udetail);
+					Authentication auth = new UsernamePasswordAuthenticationToken(newUser, newUser.getPassword(),
+							newUser.getAuthorities());
+					SecurityContextHolder.getContext().setAuthentication(auth);
+				}
+			}
+		}
+		return p;
 	}
 }

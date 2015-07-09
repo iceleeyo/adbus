@@ -4,13 +4,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.pantuo.service.security.ActivitiUserDetailsService;
-
 import org.activiti.engine.IdentityService;
-import org.activiti.engine.identity.Group;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,13 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.pantuo.dao.pojo.UserDetail;
-import com.pantuo.service.UserServiceInter;
-
 import scala.actors.threadpool.Arrays;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.service.UserServiceInter;
+import com.pantuo.service.security.ActivitiUserDetailsService;
+import com.pantuo.util.Pair;
 
 /**
  * Index controller
@@ -47,6 +42,14 @@ public class LoginController {
 
     @Autowired
     private ActivitiUserDetailsService authUserService;
+    
+    
+	@RequestMapping(value = "/loginForLayer")
+	@ResponseBody
+	public Pair<Boolean, String> loginForLayer(@RequestParam("username") String username,
+			@RequestParam("password") String password, HttpServletRequest request, Authentication auth) {
+		return userService.loginForLayer(request, username, password);
+	}
     
     @RequestMapping(value = "/login", produces = "text/html;charset=utf-8")
     public String login(HttpServletRequest request, Authentication auth)
