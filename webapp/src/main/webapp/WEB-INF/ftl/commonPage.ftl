@@ -10,12 +10,12 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
     
 function compare(pathurl,username,proname){
 var productid=$("#productid").val();
-var lc=$("#lc").val();
 var startTime = $("#startTime").val();
 var d = new Date(startTime.replace(/-/g,"/")); 
 date = new Date();
 var str  = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
 var d2 = new Date(str.replace(/-/g,"/")); 	
+var lc=$("#lc").val();
 if(lc=="0"){
 islogin(pathurl);
 }
@@ -31,8 +31,8 @@ islogin(pathurl);
 //author :impanxh 阻止2次点击 ,当所有表单都验证通过时才提交 抄自注册页面
          if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
             return;
-        
-			layer.open({
+        if(lc=="1"){
+        	layer.open({
     		type: 1,
     		title: "电子合同",
     		skin: 'layui-layer-rim', 
@@ -46,6 +46,7 @@ islogin(pathurl);
 			   +'</TEXTAREA> </div>'
 			   +'<div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraworder" class="block-btn" onclick="creorder();" value="确认" style="margin:10px 0px -10px 110px;"> </div>'
 			});
+		}
 }
 
 	function creorder() {
