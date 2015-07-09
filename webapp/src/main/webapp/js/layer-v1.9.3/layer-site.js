@@ -782,7 +782,7 @@ function loglayer(pathurl){
 				var uptime = window.setTimeout(function(){
 					$("#cc").trigger("click");
 			  		window.location.reload();
-				},2000)
+				},1000)
 			}else{
 				layer.msg(data.right);
 			}
