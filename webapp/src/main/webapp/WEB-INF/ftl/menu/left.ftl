@@ -211,7 +211,7 @@
                                         <@security.authorize ifAnyGranted="ShibaFinancialManager">
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/report/daysalesp">
-                                                    财务收入报表
+                                                    财务收入
                                                 </a>
                                             </li>
 
