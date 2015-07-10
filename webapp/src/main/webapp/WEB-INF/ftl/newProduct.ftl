@@ -5,7 +5,7 @@
 <#assign action="增加">
 <#if prod??><#assign action="修改"></#if>
 
-<@frame.html title="${action}产品套餐" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js","js/jquery-ui-timepicker-addon.js","js/jquery-ui-timepicker-zh-CN.js", "js/jquery.datepicker.region.cn.js","js/jquery-ui/jquery-ui.auto.complete.js"] css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-ui-timepicker-addon.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
+<@frame.html title="${action}产品套餐" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js","js/jquery-ui-1.8.17.custom.min.js","js/jquery-ui-timepicker-addon.js","js/jquery-ui-timepicker-zh-CN.js", "js/jquery.datepicker.region.cn.js","js/jquery-ui/jquery-ui.auto.complete.js"] css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-ui-timepicker-addon.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <script type="text/javascript">
     $(document).ready(function() {
