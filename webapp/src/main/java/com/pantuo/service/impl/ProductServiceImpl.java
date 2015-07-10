@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.ProductRepository;
+import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProduct.FrontShow;
 import com.pantuo.dao.pojo.QJpaProduct;
@@ -143,7 +144,16 @@ public class ProductServiceImpl implements ProductService {
 					}
 				}
 				query = query == null ? subQuery : query.and(subQuery);
+			}else if (StringUtils.equals(entry.getKey(), "lev") && vIntegers.size() > 0) {
+				BooleanExpression subQuery = null;
+				List<JpaBusline.Level> right = new ArrayList<JpaBusline.Level>();
+				for (String type : vIntegers) {
+					right.add(JpaBusline.Level.valueOf(type));
+				}
+				subQuery=subQuery == null?QJpaProduct.jpaProduct.lineLevel.in(right):subQuery.and(QJpaProduct.jpaProduct.lineLevel.in(right));
+				query = query == null ? subQuery : query.and(subQuery);
 			}
+
 
 		}
 

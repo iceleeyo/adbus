@@ -216,7 +216,7 @@ function supEnter(tourl,city,type){
 						$("<option value="+item.id+">" + item.name
 								+ "</option>"));
 		});
-		if(city=="body" && type=="车身"){
+		if(type=="车身"){
 				$("#suppliesType").append(
 						"<option value='3'>车身</option>"
 				);

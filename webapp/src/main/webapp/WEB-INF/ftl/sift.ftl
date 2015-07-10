@@ -37,6 +37,19 @@
 									<a class="item" href="#"  qc="3" >一口价<i>×</i></a>
 								</div>
 							</div>
+							<#if city.mediaType=="body">
+							<div class="sift-item s-clear">
+								<span>线路级别：</span>
+								<div class="sift-list" qt="lev">
+									<a class="item active" href="#" sort="-1" qc="all">所有</a>
+									<a class="item" href="#"  qc="S" >特级<i>×</i></a>
+									<a class="item" href="#"  qc="APP" >A++<i>×</i></a>
+									<a class="item" href="#"  qc="AP" >A+<i>×</i></a>
+									<a class="item" href="#"  qc="A" >A<i>×</i></a>
+									<a class="item" href="#"  qc="LATLONG" >经纬线<i>×</i></a>
+								</div>
+							</div>
+							<#else>
 							<div class="sift-item s-clear">
 								<span>产品类型：</span>
 								<div class="sift-list" qt="t">
@@ -55,6 +68,7 @@
 									<a class="item" href="#" qc="4">11以上<i>×</i></a>
 								</div>
 							</div>
+							</#if>
 							<div class="sift-item s-clear">
 								<span>展示期限：</span>
 								<div class="sift-list" qt="d">
