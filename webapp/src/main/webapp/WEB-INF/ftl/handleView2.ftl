@@ -742,7 +742,6 @@ function pay() {
 										<TH width="20%">是否通过</TH>
     									<TD>
     										<input name="ScheduleResult" type="radio" value="true" checked="checked" style="padding: 5px 15px;"/>符合要求 
-      									<input name="ScheduleResult" type="radio" value="false" style="padding: 5px 15px;"/>不符合要求</TD>
     									
   								</TR>
 							</TABLE>	

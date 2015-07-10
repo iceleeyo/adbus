@@ -134,7 +134,7 @@
 												class="ui-form-required">*</span>单日播放次数:</label>
 												<input
 												class="ui-input validate[required,integer,min[1],max[100]"
-                                                onkeyup="value=value.replace(/[^\d.]/g,'')" type="text" value="<#if prod??>${prod.playNumber!''}<#else></#if>" name="playNumber"
+                                                onkeyup="value=value.replace(/[^\d.]/g,'')" type="text" value="<#if prod??>${prod.playNumber!''}<#else>0</#if>" name="playNumber"
 												id="playNumber" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="1-100次">
 										</div>
