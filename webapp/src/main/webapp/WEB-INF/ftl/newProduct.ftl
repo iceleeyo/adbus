@@ -66,15 +66,15 @@
  $(document).ready(function() {
    
 		        //author:pxh 2015-05-20 22:36
-		        $( "#username" ).autocomplete({
+		        $( "#exclusiveUser" ).autocomplete({
 		  			source: "${rc.contextPath}/user/autoComplete",
 		  			change: function( event, ui ) { 
 		  				/*if(ui.item!=null){alert(ui.item.value);}*/
 		  				table.fnDraw();
 		  			 },
 		  			 select: function(event,ui) {
-		  			 $('#username').val(ui.item.value);
-		  				table.fnDraw();
+		  			 $('#exclusiveUser').val(ui.item.value);
+		  				//table.fnDraw();
 		  			 }
 				});
 	    });
@@ -221,7 +221,7 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required"></span>产品定向:</label>
                                             <span>
-                         						<input id="username" value=""
+                         						<input id="exclusiveUser" value=""
                          						 placeholder="请选择广告主" style="margin-top: 8px;" >
                        						</span>
                                         </div>

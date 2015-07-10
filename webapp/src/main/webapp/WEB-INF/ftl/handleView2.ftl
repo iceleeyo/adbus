@@ -1,7 +1,7 @@
 <#import "template/template.ftl" as frame>
 <#import "template/orderDetail.ftl" as orderDetail/>
 <#import "template/pickBuses.ftl" as pickBuses>
-<@frame.html title="订单办理" js=["js/highslide/highslide-full.js", "js/video-js/video.js",
+<@frame.html title="订单办理" js=["js/nano.js","js/highslide/highslide-full.js", "js/video-js/video.js",
 "js/video-js/lang/zh-CN.js", "js/jquery-ui/jquery-ui.min.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer/layer.js","js/progressbar.js","js/jquery-dateFormat.js"]
 css=["js/highslide/highslide.css", "js/video-js/video-js.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","css/liselect/pkg-generator.css$ver=1431443489.css"]>
     <#include "template/preview.ftl" />
@@ -416,6 +416,11 @@ function pay() {
     <div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>
     <div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">播出完成</li><li id="track_time_6" class="tx3"></li></ul></div>
 </div>
+</div>
+
+
+<div id ="ccc"> <div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>高峰时段占比:</label>
+<input id ="d" marker="formatCurrency({price})" vt="{nihao}" readonly="readonly"  class="ui-input" type="text" name="mailaddr" value="" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>
 </div>
     <@orderDetail.orderDetail orderview=orderview quafiles=quafiles suppliesView=suppliesView/>
 
