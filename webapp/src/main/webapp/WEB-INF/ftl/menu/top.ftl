@@ -12,7 +12,7 @@
                 type : "POST",
                 data: {},
                 success : function(data) {
-                    layer.msg("正在切换到："+ data.name + " " + data.mediaTypeName);
+                    jDialog.Alert("正在切换到："+ data.name + " " + data.mediaTypeName);
                     var uptime = window.setTimeout(function(){
                         window.location.reload();
                         clearTimeout(uptime);
@@ -89,8 +89,9 @@
 									<span>
                                         <@security.authorize access="isAuthenticated()">
                                         <a class="pg-nav-item s-left" href="${rc.contextPath}/order/myTask/1">
-                                            <@security.authentication property="principal.user.firstName" />
-                                            <@security.authentication property="principal.user.lastName" />
+                                        	我的账户:
+                                            (<@security.authentication property="principal.user.firstName" />
+                                            <@security.authentication property="principal.user.lastName" />)
                                         </a>
                                         </@security.authorize>
                                         <@security.authorize access="! isAuthenticated()">

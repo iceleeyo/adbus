@@ -11,6 +11,7 @@ function showProductlayer(tourl,id){
 			data : {
 			},
 			success : function(data) {
+				
 				layer.open({
 	    		type: 1,
 	    		title: "套餐信息",
@@ -18,27 +19,53 @@ function showProductlayer(tourl,id){
 	    		area: ['450px', '650px'], 
 	    		content: ' <input type="hidden" name="id" value="'+data.id+'"/>'
 						 +'<br/>'
-	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="ui-form-required">* </span>套餐名称: </label>  <input readonly="readonly" class="ui-input "'
+	    				 +'<div class="ui-form-item"> <label class="ui-label mt10">套餐名称: </label>  <input readonly="readonly" class="ui-input "'
 	    				 +'type="text" name="title" id="title" value="'+data.name+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>套餐价格:</label><input readonly="readonly" class="ui-input "'
+	    				 +'<div class="ui-form-item"> <label class="ui-label mt10">套餐价格:</label><input readonly="readonly" class="ui-input "'
                          +'type="text" name="taxrenum" value="'+formatCurrency(data.price)+'" id="taxrenum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
-						 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>媒体类型:</label> <input readonly="readonly" class="ui-input "'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10">媒体类型:</label> <input readonly="readonly" class="ui-input "'
                          +'type="text" name="bankname" value="'+getTypeString(data.type)+'" id="bankname" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>时长（秒）:</label> <input readonly="readonly"  class="ui-input "'
+                         +'<div id="bodyPro"><div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">线路级别：</label>'
+                         +'<input readonly="readonly"  class="ui-input" type="text" name="regisaddr" value="" id="lineLevel" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+                         +'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">巴士数量:</label>'
+                         +'<input class="ui-input" readonly="readonly" value="'+data.busNumber+'" id="busNumber" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">广告展示天数:</span> </label>'
+                         +'<input class="ui-input" readonly="readonly" value="'+data.days+'" id="days" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+                         +'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">制作费:</label>'
+			             +'<input class="ui-input" readonly="readonly" value="'+data.produceCost+'" name="produceCost" id="produceCost" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
+			             +'</div></div>'
+                         +'<div id="cityPro" style="display:block"><div class="ui-form-item"> <label class="ui-label mt10">时长（秒）:</label> <input readonly="readonly"  class="ui-input "'
                          +'type="text" name="accountnum" value="'+data.duration+'" id="accountnum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>单日播放次数:</label> <input readonly="readonly"  class="ui-input"'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10">单日播放次数:</label> <input readonly="readonly"  class="ui-input"'
                          +'type="text" name="regisaddr" value="'+data.playNumber+'" id="regisaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>首播次数:</label> <input readonly="readonly"  class="ui-input"'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10">首播次数:</label> <input readonly="readonly"  class="ui-input"'
                          +'type="text" name="fixphone" value="'+data.firstNumber+'" id="fixphone" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         
-						 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>末播次数:</label> <input readonly="readonly"  class="ui-input"'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10">末播次数:</label> <input readonly="readonly"  class="ui-input"'
                          +'type="text" name="mailaddr" value="'+data.lastNumber+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>高峰时段占比:</label> <input readonly="readonly"  class="ui-input"'
-                         +'type="text" name="mailaddr" value="'+data.hotRatio+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>套餐播放天数:</label> <input readonly="readonly"  class="ui-input "'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10">高峰时段占比:</label> <input readonly="readonly"  class="ui-input"'
+                         +'type="text" name="mailaddr" value="'+data.hotRatio+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div></div>'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10">套餐播放天数:</label> <input readonly="readonly"  class="ui-input "'
                          +'type="text" name="mailaddr" value="'+data.days+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10" style="width: 145px;">套餐描述:</label><textarea rows="4" cols="30" style="resize: none;margin-left: -20px;" >'+data.remarks+'</textarea>  </div>'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10" style="width: 145px;">套餐描述:</label><textarea rows="4" cols="30" readonly="readonly" style="resize: none;margin-left: -20px;" >'+data.remarks+'</textarea>  </div>'
 		});
+				if(data.lineLevel=="S"){
+					$("#lineLevel").val("特级");
+				}else if(data.lineLevel=="APP"){
+					$("#lineLevel").val("A++");
+				}else if(data.lineLevel=="AP"){
+					$("#lineLevel").val("A+");
+				}else if(data.lineLevel=="A"){
+					$("#lineLevel").val("A");
+				}else if(data.lineLevel=="LATLONG"){
+					$("#lineLevel").val("经纬线");
+				}
+		
+	
+				if(data.type=="body"){
+					$("#cityPro").hide(); 
+				}else if(data.type=="city"){
+					$("#bodyPro").hide(); 
+				}
 			}
 		}, "text");
 	
