@@ -13,7 +13,7 @@
     <groupId>com.pantuo</groupId>   
     <artifactId>webapp</artifactId>
     <packaging>war</packaging>
-    <name>AdBus webapp project</name> 
+    <name>AdBus webapp project</name>  
 
     <build>
          <finalName>adbus</finalName>
@@ -90,6 +90,7 @@
 					<target>${jdk.version}</target>
 				</configuration>
 			</plugin>
+          <!-- 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -117,6 +118,7 @@
                     <nodeprecatedlist>true</nodeprecatedlist>
                 </configuration>
             </plugin>
+             -->
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
@@ -136,6 +138,10 @@
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
+                 <configuration>
+                    <path>/</path>
+                    <uriEncoding>UTF-8</uriEncoding>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -427,5 +433,16 @@
             <version>1.4.186</version>
             <!--scope>test</scope-->
         </dependency>
+        
+        
+        <dependency>
+	<groupId>org.apache.poi</groupId>
+	<artifactId>poi-scratchpad</artifactId>
+	<version>3.9</version>
+</dependency>
+        
+        
+        
+        
     </dependencies>
 </project>
