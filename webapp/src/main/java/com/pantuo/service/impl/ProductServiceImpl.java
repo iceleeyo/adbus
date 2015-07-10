@@ -166,7 +166,8 @@ public class ProductServiceImpl implements ProductService {
 		Pageable p = new PageRequest(page, pageSize, sort);
 		BooleanExpression query = city >= 0 ? QJpaProduct.jpaProduct.city.eq(city) : QJpaProduct.jpaProduct.city.goe(0);
 		if (principal == null || Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)) {
-			query = query.and(QJpaProduct.jpaProduct.exclusive.eq(false));
+			query = query.and(QJpaProduct.jpaProduct.exclusive.eq(false).or(
+					QJpaProduct.jpaProduct.exclusiveUser.eq(Request.getUserId(principal))));
 		}
 		if (commonEx != null) {
 			query = query.and(commonEx);
