@@ -419,9 +419,6 @@ function pay() {
 </div>
 
 
-<div id ="ccc"> <div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>高峰时段占比:</label>
-<input id ="d" marker="formatCurrency({price})" vt="{nihao}" readonly="readonly"  class="ui-input" type="text" name="mailaddr" value="" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>
-</div>
     <@orderDetail.orderDetail orderview=orderview quafiles=quafiles suppliesView=suppliesView/>
 
 <#if activityId == "payment" || activityId == "relateSup">
