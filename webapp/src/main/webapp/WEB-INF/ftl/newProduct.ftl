@@ -202,7 +202,7 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>
                                                 <span class="toggle videoToggle imageToggle infoToggle">套餐价格（元）:</span>
-                                         
+                                            <span class="toggle bodyToggle">套餐价格（元）:</span>
                                             </label>
                                             <input
                                                     class="ui-input validate[required,number,min[1]"
