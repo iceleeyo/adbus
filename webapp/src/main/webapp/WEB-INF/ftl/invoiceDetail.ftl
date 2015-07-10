@@ -14,11 +14,13 @@ function go_back(){
                <DIV class="summary mt10 uplan-summary-div">
               <UL class="uplan-detail-ul">
               <LI style="width: 240px;"><SPAN>发票类型：</SPAN><SPAN class="con">
+              <div id="up" style="padding-top: 10px;">
       <#if ((invoiceView.mainView.type)?has_content && invoiceView.mainView.type == 1)>
                专用发票
       <#else>
               普通发票
       </#if>
+      		 </div>
   </SPAN></LI>
   <LI style="width: 240px;"><SPAN>发票抬头：</SPAN><SPAN class="con">${(invoiceView.mainView.title)!''}</SPAN></LI>
   <#if ((invoiceView.mainView.type)?has_content && invoiceView.mainView.type == 1)>

@@ -83,10 +83,18 @@ function bu(txtObj) {
 											</div>
 										</div>
 											<div class="range">
+											<#if (prod.type)!="body">
 												<span>播放次数：<em>${prod.playNumber!''}次</em></span>
+											</#if>
 												<span>产品周期：<em>${prod.days!''}天</em></span>
 												<span>媒体类型： <em>${prod.type.typeName!''}</em></span>
+											<#if (prod.type)=="body">
+												<span>线路级别： <em><#if prod.lineLevel??>${prod.lineLevel.nameStr!''}</#if></em></span>
+												<span>巴士数量： <em>${prod.busNumber!''}</em></span>
+											</#if>	
+											<#if (prod.type)!="body">
 												<span>时长（秒）： <em>${prod.duration!''}</em></span>
+											</#if>
 											</div>
 											<div class="" style="margin: 10px 5px;">
                                             <label class="range" style="color: #999;">开播日期:</label> <input

@@ -136,11 +136,13 @@
 	    	</div>
 	    	<div class="ui-form-item" tip="上传资质图片,审核通过可以参与商品竞价!"> 
 				<label class="ui-label mt10">认证状态:</label>
+				<div id="up" style="padding-top: 10px;">
 				<#if userDetail.ustats=="init">
 					未认证
 				    <#else>
 				    已认证
 				</#if>
+				</div>
 			</div>
 	    	<div class="ui-form-item widthdrawBtBox">
 			<input type="button" id="subWithdraw" class="block-btn"

@@ -103,11 +103,18 @@
 												class="ui-form-required">*
 											</span>发票类型:
 											</label>
+											
 											 <#if invoiceView?? && invoiceView.mainView?? &&invoiceView.mainView.type??>
 											       <#if invoiceView.mainView.type=0>
-											           普通发票
+											          <input class="ui-input" readonly="readonly" style="border:none;"
+												type="text" value="普通发票"
+												data-is="isAmount isEnough" autocomplete="off"
+												disableautocomplete="">
 											            <#else>
-											              专用发票
+											              <input class="ui-input" readonly="readonly" style="border:none;"
+												type="text" value="专用发票"
+												data-is="isAmount isEnough" autocomplete="off"
+												disableautocomplete="">
 											         </#if>
 											 <#else>
 											 <div class="mt10 radiobox" style="display:inline-block">
