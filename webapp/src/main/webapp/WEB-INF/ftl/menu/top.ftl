@@ -12,7 +12,7 @@
                 type : "POST",
                 data: {},
                 success : function(data) {
-                    jDialog.Alert("正在切换到："+ data.name + " " + data.mediaTypeName);
+                    layer.msg("正在切换到："+ data.name + " " + data.mediaTypeName);
                     var uptime = window.setTimeout(function(){
                         window.location.reload();
                         clearTimeout(uptime);

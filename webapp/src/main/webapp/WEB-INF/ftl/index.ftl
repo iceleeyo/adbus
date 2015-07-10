@@ -17,7 +17,6 @@
    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.jcountdown.site.js"></script>
    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer/layer.js"></script>
    	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer/layer.js"></script>
-   <!-- <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/platform.js"></script> -->
 	<title>首页</title>
 <script type="text/javascript">
     function logout(){
@@ -43,11 +42,13 @@
         });
     });
 </script>
+ 
+
 </head>
 
 <body>
 	<div class="header">
-		<div class="pg-header-top">
+		<div class="pg-header-top"> 
 					<div class="container-12 s-clear">
 						<div class="grid-12 city-dropdown">
                             <ul class="fl">
@@ -166,6 +167,7 @@
 						</div>
 					</div>
 				</div>
+ 
 		<div class="pg-header-main">
 					<div class="container-12 s-clear">
 						<div class="phmain-logo-b pg-left">
@@ -397,6 +399,50 @@
 				</div>
 			</div>
 			</#if>
+			
+			<#if (bodyList?size>0) >
+			<div class="module1">
+			  <div class="title s-clear">
+			  	<span>
+			  		车身广告
+			  	</span>
+			  	<a href="${rc.contextPath}/product/sift" class="s-right">更多》</a>
+			  </div>
+			  <div class="fn-clear pg-uplan-product-list text-middle mt15 mb10">
+			    <#list bodyList as prod>
+				  <div class="fn-left pg-uplan-product-item mr15">
+						<a target="_blank" href="order/iwant/${prod.id}"><!--product/d/-->
+							<dl class="bg-color-white">
+							  <dt class="ub"><span>${substring(prod.name,0,13)}</span></dt>
+							  <dd>
+							  	<span class="mr20">巴士数量</span>                 
+							  	<span><em>${prod.busNumber}</em>辆</span>
+		            </dd>
+		            <dd>
+		            	<span class="mr20">展示期限</span>                 
+		            	<span><em>${prod.days}</em>周</span>
+		            </dd>
+		  					<dd>
+		  						<span class="mr20">金额￥</span>                 
+		  						<span><em>#{prod.price!'' ;m2M2}</em></span>               
+		  					</dd>
+		  				</dl>
+						</a>
+						<p class="J_click_p" data="218">
+							<span id="J_count_time_b" data2="0" data1="328261">
+								<a target="_blank" href="order/iwant/${prod.id}">马上预定</a>
+							</span>
+							<a class="text" target="_blank" href="order/iwant/${prod.id}">（查看详情）</a>
+						</p>
+					</div>           
+					 </#list>	      
+				</div>
+			</div>
+			</#if>
+			
+			
+			
+			
 			
 			<#if (videoList?size>0) >
 			<div class="module1">
