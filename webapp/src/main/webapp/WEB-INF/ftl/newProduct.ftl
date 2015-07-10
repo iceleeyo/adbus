@@ -57,10 +57,16 @@
             jDialog.Alert(data.name);
         }).submit();
         document.getElementById('submit').setAttribute('disabled',true);
-           var a = document.createElement('a');
-    	   a.href='${rc.contextPath}/product/auction';
-    	  document.body.appendChild(a);
-    	   a.click();
+        
+        if(iscompare==1){
+	   		 var a = document.createElement('a');
+	    	 a.href='${rc.contextPath}/product/list';
+    	}else {
+    		 var a = document.createElement('a');
+	    	 a.href='${rc.contextPath}/product/auction';
+    	}
+    	 document.body.appendChild(a);
+	   	 a.click(); 
 	}
 		
  $(document).ready(function() {
@@ -221,7 +227,7 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required"></span>产品定向:</label>
                                             <span>
-                         						<input id="exclusiveUser" value=""
+                         						<input id="exclusiveUser" name="exclusiveUser" value=""
                          						 placeholder="请选择广告主" style="margin-top: 8px;" >
                        						</span>
                                         </div>
