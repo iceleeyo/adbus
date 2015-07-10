@@ -58,7 +58,7 @@
         }).submit();
         document.getElementById('submit').setAttribute('disabled',true);
         
-        if(iscompare==1){
+        if(iscompare==0){
 	   		 var a = document.createElement('a');
 	    	 a.href='${rc.contextPath}/product/list';
     	}else {
