@@ -216,6 +216,7 @@ public class ProductServiceImpl implements ProductService {
 	public void saveProduct(int city, JpaProduct product) {
 		product.setCity(city);
 		com.pantuo.util.BeanUtils.filterXss(product);
+		product.setExclusiveUser(product.getExclusiveUser());
 		productRepo.save(product);
 	}
 
