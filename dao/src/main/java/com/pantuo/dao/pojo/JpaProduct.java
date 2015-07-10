@@ -2,6 +2,8 @@ package com.pantuo.dao.pojo;
 
 import javax.persistence.*;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.pantuo.dao.pojo.JpaBusline.Level;
 
 import java.util.*;
@@ -226,7 +228,7 @@ public class JpaProduct extends CityEntity {
     }
 
     public void setExclusiveUser(String user) {
-        if (user != null && !"".equals(user)) {
+        if (StringUtils.isNoneBlank(user)) {
             this.exclusive = true;
             this.exclusiveUser = user;
         } else {
