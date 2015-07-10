@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.pantuo.dao.pojo.JpaProduct;
@@ -33,7 +34,7 @@ public class IndexController {
 	private ProductService productService;
 
 	@RequestMapping(value = "/", produces = "text/html;charset=utf-8")
-	public String index(Model model) {
+	public String index(Model model, @CookieValue(value = "city", defaultValue = "-1") int city) {
 
 		TableRequest req = new TableRequest();
 		req.setStart(0);
@@ -43,16 +44,20 @@ public class IndexController {
 		default_sort.put("id", "desc");
 		sort.add(default_sort);
 
-		Page<JpaProduct> videoList = productService.getValidProducts(NumberUtils.INTEGER_MINUS_ONE,
-				JpaProduct.Type.video, false, null, req, FrontShow.Y);
-		Page<JpaProduct> imageList = productService.getValidProducts(NumberUtils.INTEGER_MINUS_ONE,
-				JpaProduct.Type.image, false, null, req, FrontShow.Y);
-		Page<JpaProduct> noteList = productService.getValidProducts(NumberUtils.INTEGER_MINUS_ONE,
-				JpaProduct.Type.info, false, null, req, FrontShow.Y);
-		model.addAttribute("auctionList", cpdService.getIndexCpdList(4));
+		Page<JpaProduct> videoList = productService.getValidProducts(city, JpaProduct.Type.video, false, null, req,
+				FrontShow.Y);
+		Page<JpaProduct> imageList = productService.getValidProducts(city, JpaProduct.Type.image, false, null, req,
+				FrontShow.Y);
+		Page<JpaProduct> noteList = productService.getValidProducts(city, JpaProduct.Type.info, false, null, req,
+				FrontShow.Y);
+		
+		Page<JpaProduct> bodyList = productService.getValidProducts(city, JpaProduct.Type.body, false, null, req,
+				FrontShow.Y);
+		model.addAttribute("auctionList", cpdService.getIndexCpdList(city, 4));
 		model.addAttribute("videoList", videoList.getContent());
 		model.addAttribute("imageList", imageList.getContent());
 		model.addAttribute("noteList", noteList.getContent());
+		model.addAttribute("bodyList", bodyList.getContent());
 		return "index";
 		//return "redirect:/index.html";
 	}

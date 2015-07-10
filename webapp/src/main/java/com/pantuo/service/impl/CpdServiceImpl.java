@@ -183,11 +183,12 @@ public class CpdServiceImpl implements CpdService {
 			
 	}
 
-	public List<JpaCpd> getIndexCpdList(int getProductCount) {
+	public List<JpaCpd> getIndexCpdList(int city,int getProductCount) {
 		Pageable p = new PageRequest(0, getProductCount, new Sort(org.springframework.data.domain.Sort.Direction.DESC,
 				"biddingDate"));
 		//BooleanExpression query = QJpaCpd.jpaCpd.biddingDate.after(new Date());
-		Page<JpaCpd> r = cpdRepository.findAll(p);
+		BooleanExpression query = city >= 0 ? QJpaCpd.jpaCpd.product.city.eq(city) : QJpaCpd.jpaCpd.product.city.goe(0);
+		Page<JpaCpd> r = cpdRepository.findAll(query,p);
 		return r.getContent();
 	}
 	@Override

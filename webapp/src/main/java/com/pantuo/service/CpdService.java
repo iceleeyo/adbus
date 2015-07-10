@@ -107,5 +107,5 @@ public interface CpdService {
 	
 	
 	
-	public List<JpaCpd> getIndexCpdList(int getProductCount);
+	public List<JpaCpd> getIndexCpdList(int city,int getProductCount);
 }
