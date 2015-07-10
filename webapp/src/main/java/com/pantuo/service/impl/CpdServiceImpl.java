@@ -19,10 +19,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.dao.CpdLogRepository;
 import com.pantuo.dao.CpdRepository;
+import com.pantuo.dao.ProductRepository;
 import com.pantuo.dao.pojo.JpaCpd;
 import com.pantuo.dao.pojo.JpaCpdLog;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.QJpaCpd;
+import com.pantuo.dao.pojo.QJpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.dao.pojo.UserDetail.UStats;
 import com.pantuo.mybatis.domain.Account;
@@ -60,6 +62,10 @@ public class CpdServiceImpl implements CpdService {
 	CpdProductMapper cpdProductMapper;
 	OrdersMapper d;
 	
+	
+	@Autowired
+	ProductRepository productRepository;
+	
 	@Autowired
 	private UserServiceInter userService;
 	public JpaCpd queryOneCpdByPid(int productId){
@@ -68,6 +74,18 @@ public class CpdServiceImpl implements CpdService {
 		
 	}
 	public void test() {
+		//测试onetoOne关联
+		Pageable p2 = new PageRequest(0, 20, new Sort("id"));
+		BooleanExpression query2 = QJpaProduct.jpaProduct.id.gt(0);
+		Page<JpaProduct> plist = productRepository.findAll(query2, p2);
+		System.out.println(plist.getContent().size());
+		p2 = new PageRequest(0, 20, new Sort("id"));
+		query2 = QJpaProduct.jpaProduct.jpaCpd.pv.gt(0);
+		plist = productRepository.findAll(query2, p2);
+		System.out.println(plist.getContent().size());
+		
+		
+		
 		
 		Pageable p = new PageRequest(0, 20, new Sort("id"));
 		BooleanExpression query = QJpaCpd.jpaCpd.id.eq(1);
