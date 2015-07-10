@@ -59,11 +59,10 @@ function showProductlayer(tourl,id){
 				}else if(data.lineLevel=="LATLONG"){
 					$("#lineLevel").val("经纬线");
 				}
-		
 	
 				if(data.type=="body"){
 					$("#cityPro").hide(); 
-				}else if(data.type=="city"){
+				}else{
 					$("#bodyPro").hide(); 
 				}
 			}
