@@ -75,14 +75,14 @@ public class CpdServiceImpl implements CpdService {
 	}
 	public void test() {
 		//测试onetoOne关联
-		Pageable p2 = new PageRequest(0, 20, new Sort("id"));
+		/*Pageable p2 = new PageRequest(0, 20, new Sort("id"));
 		BooleanExpression query2 = QJpaProduct.jpaProduct.id.gt(0);
 		Page<JpaProduct> plist = productRepository.findAll(query2, p2);
 		System.out.println(plist.getContent().size());
 		p2 = new PageRequest(0, 20, new Sort("id"));
 		query2 = QJpaProduct.jpaProduct.jpaCpd.pv.gt(0);
 		plist = productRepository.findAll(query2, p2);
-		System.out.println(plist.getContent().size());
+		System.out.println(plist.getContent().size());*/
 		
 		
 		
