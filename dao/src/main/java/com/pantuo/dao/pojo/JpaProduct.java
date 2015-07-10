@@ -61,6 +61,9 @@ public class JpaProduct extends CityEntity {
     private String remarks;
     private int iscompare;
     private FrontShow frontShow;
+    //add by impanxh 首页根据 发现json responseBody到前端时json死循环
+   // @OneToOne(cascade = { CascadeType.ALL },mappedBy="product", fetch = FetchType.EAGER, orphanRemoval = true)
+   // private JpaCpd jpaCpd;
 
     public JpaProduct() {
         //for serialization
@@ -253,5 +256,13 @@ public class JpaProduct extends CityEntity {
 	public void setFrontShow(FrontShow frontShow) {
 		this.frontShow = frontShow;
 	}
+
+	/*public JpaCpd getJpaCpd() {
+		return jpaCpd;
+	}
+
+	public void setJpaCpd(JpaCpd jpaCpd) {
+		this.jpaCpd = jpaCpd;
+	}*/
 
 }
