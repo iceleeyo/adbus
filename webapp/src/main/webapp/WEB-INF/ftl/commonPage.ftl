@@ -113,6 +113,48 @@ function bu(txtObj) {
 								</div>
 							</div>
 </form>
+<div class="bidPath">
+								<div class="lc">
+									<span>购&nbsp;&nbsp;&nbsp;买</span><br>
+									<span>流&nbsp;&nbsp;&nbsp;程</span>
+								</div>
+								<div class="flow" style="overflow: hidden; width: 700px;">
+									<div class="lc-flow" style="width: 800px;">
+										<ul>
+											<li class="item01 ui-accordion-item" style="width: 120px; overflow: hidden;">
+												<div class="status">用户账号当前京豆大于0</div>
+												<span class="num">01/</span>
+												<span class="mark"></span>
+												<span class="name">下订单</span>
+											</li>
+											<li class="item02 ui-accordion-item" style="width: 120px; overflow: hidden;">
+												<div class="status">保证竞拍结束时出价最高，获得竞拍商品</div>
+												<span class="num">02/</span>
+												<span class="mark"></span>
+												<span class="name">支付及绑定物料</span>
+											</li>
+											<li class="item03 ui-accordion-item" style="width: 120px; overflow: hidden;">
+												<div class="status">填写订单信息，提交订单</div>
+												<span class="num">03/</span>
+												<span class="mark"></span>
+												<span class="name">审核物料及资质</span>
+											</li>
+											<li class="item04 ui-accordion-item" style="width: 120px; overflow: hidden;">
+												<div class="status">支付已提交的订单</div>
+												<span class="num">04/</span>
+												<span class="mark"></span>
+												<span class="name">广告排期</span>
+											</li>
+											<li class="item05 ui-accordion-item" style="width: 120px; overflow: hidden;">
+												<div class="status">支付成功后等待收货，竞拍完成</div>
+												<span class="num">05/</span>
+												<span class="mark"></span>
+												<span class="name">广告播出</span>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
 							<div class="product-ins" style="margin-top: 20px;">
 								<div class="ins-title">
 									<span>商品介绍</span>
