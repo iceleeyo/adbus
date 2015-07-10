@@ -43,9 +43,9 @@ function showProductlayer(tourl,id){
                          +'<div class="ui-form-item"> <label class="ui-label mt10">末播次数:</label> <input readonly="readonly"  class="ui-input"'
                          +'type="text" name="mailaddr" value="'+data.lastNumber+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
                          +'<div class="ui-form-item"> <label class="ui-label mt10">高峰时段占比:</label> <input readonly="readonly"  class="ui-input"'
-                         +'type="text" name="mailaddr" value="'+data.hotRatio+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div></div>'
+                         +'type="text" name="mailaddr" value="'+data.hotRatio+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
                          +'<div class="ui-form-item"> <label class="ui-label mt10">套餐播放天数:</label> <input readonly="readonly"  class="ui-input "'
-                         +'type="text" name="mailaddr" value="'+data.days+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+                         +'type="text" name="mailaddr" value="'+data.days+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div></div>'
                          +'<div class="ui-form-item"> <label class="ui-label mt10" style="width: 145px;">套餐描述:</label><textarea rows="4" cols="30" readonly="readonly" style="resize: none;margin-left: -20px;" >'+data.remarks+'</textarea>  </div>'
 		});
 				if(data.lineLevel=="S"){
@@ -521,7 +521,7 @@ function qEdit(tourl,id){
 	    		area: ['500px', '600px'], //宽高
 	    		content: '<form data-name="withdraw" name="userForm2" id="userForm2" class="ui-form" method="post" action="'+tourl+'/user/saveInvoice" enctype="multipart/form-data"> <input type="hidden" name="id" value="'+data.mainView.id+'"/>'
 						 +'<br/><br/><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/>'
-						 +'<div class="ui-form-item"> <label class="ui-label mt10">发票类型:</label>  '+type+'</div>'
+						 +'<div class="ui-form-item"> <label class="ui-label mt10">发票类型:</label><div id="up" style="padding-top: 10px;">  '+type+'</div></div>'
 	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="ui-form-required">* </span>发票抬头: </label>  <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
 	    				 +'type="text" name="title" id="title" value="'+data.mainView.title+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>邮寄地址:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
