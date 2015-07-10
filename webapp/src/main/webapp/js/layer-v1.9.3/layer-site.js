@@ -173,7 +173,7 @@ function eleContract(tourl,orderid){
 	    		area: ['650px', '600px'], 
 	    		content:''
 	    			 +' '
-	  			   +'<iframe  style="width:99%;height:95%" src="'+tourl+'/user/contract_templete?orderid='+orderid+'"/><div class="ui-form-item widthdrawBtBox"> </div>'
+	  			   	 +'<iframe  style="width:99%;height:95%" src="'+tourl+'/user/contract_templete?orderid='+orderid+'"/><div class="ui-form-item widthdrawBtBox"> </div>'
 	  			});
 		}
 	}, "text");
@@ -757,7 +757,7 @@ function islogin(pathurl){
              +'<div class="login-item p-center"><input type="button" onclick="loglayer(\''+pathurl+'\')" name="submit" value="立即登录" class="login-btn login-btn-size func-submit"/> </div>'
              +'<div class="login-item p-center"><span>没有账号？</span>  <a href="'+pathurl+'/register">免费注册</a></div></fieldset></form></div>'
 		});
-layer.msg("请先登录");
+	layer.msg("请先登录");
 	return;
 	
 }
