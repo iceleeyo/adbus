@@ -105,7 +105,7 @@ function contractdetail(tourl,contractid){
 		});
 				
 				$.each(data.files, function(i, item) {
-					$("#contractfile").append("<a href='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"'>"+item.name+"</a><br> ");
+					$("#contractfile").append("<div><a href='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"'>"+item.name+"</a></div><br> ");
 					});
 			}
 		}, "text");
