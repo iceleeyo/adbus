@@ -343,7 +343,7 @@
 						<a href="product/c/${prod.id}">
 							<dl class="bg-color-white">
 							  <dt class="ub"><span>${substring(prod.product.name,0,13)}</span></dt>
-							  <#if prod.product.type=="city">
+							  <#if prod.product.type=="screen">
 							  <dd>
 							  	<span class="mr20">曝光次数</span>                 
 							  	<span><em>${prod.product.playNumber}</em>/天</span>
