@@ -124,7 +124,7 @@
 <div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title">
 									用户列表
-									<a class="block-btn" href="http://www.baidu.com">添加用户</a>
+									<a class="block-btn" href="${rc.contextPath}/user/enter">添加用户</a>
 									</div>
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
