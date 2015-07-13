@@ -351,7 +351,7 @@
 							  <#elseif prod.product.type=="body">
 							  <dd>
 							  	<span class="mr20">巴士数量</span>                 
-							  	<span><em>${prod.busNumber}</em>辆</span>
+							  	<span><em>${prod.product.busNumber}</em>辆</span>
 							  </dd>
 					          </#if>
 		            <dd>
