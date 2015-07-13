@@ -75,8 +75,8 @@
                     "render": function(data, type, row, meta) {
                     var operations='<a target="_blank" class="table-link" onclick="contractdetail(\'${rc.contextPath}\','+data+');" href="javascript:void(0)">详情</a>';
                      <@security.authorize ifAnyGranted="ShibaOrderManager">  
-                        operations +='||<a class="table-link" href="${rc.contextPath}/contract/contract_edit/' + data +'" >编辑</a>';
-                        operations +='||<a class="table-link" href="javascript:delContract('+data+');" >删除</a>  &nbsp;';
+                        operations +='&nbsp;&nbsp;<a class="table-link" href="${rc.contextPath}/contract/contract_edit/' + data +'" >编辑</a>';
+                        operations +='&nbsp;&nbsp;<a class="table-link" href="javascript:delContract('+data+');" >删除</a>  &nbsp;';
                         </@security.authorize>
                          return operations;
                     }},
