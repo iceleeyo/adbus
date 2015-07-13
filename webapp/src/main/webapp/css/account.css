@@ -2936,7 +2936,7 @@
 .title-box {
 	padding-bottom:10px;
 	border-bottom: 1px solid #e0e0e0;
-	height: 35px;
+	text-align:left;
 }
 
 .border-ec {
