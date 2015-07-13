@@ -1,6 +1,7 @@
 package com.pantuo.pojo;
 
 import com.pantuo.dao.pojo.JpaGoods;
+import com.pantuo.util.DateUtil;
 import com.pantuo.web.ScheduleController;
 import org.apache.commons.lang3.StringUtils;
 
@@ -52,6 +53,14 @@ public class FlatScheduleListItem {
 
         public Integer getMaterialSize() {
             return materialSize;
+        }
+
+        public String getMaterialSizeStr() {
+            return materialSize == null ? "" : materialSize + "";
+        }
+
+        public String getSlotSizeStr() {
+            return DateUtil.toShortStr(slotSize);
         }
 
         public FlatScheduleListItem(ScheduleController.Report r) {

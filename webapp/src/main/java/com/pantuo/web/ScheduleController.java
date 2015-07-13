@@ -7,6 +7,7 @@ import com.pantuo.pojo.FlatScheduleListItem;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.*;
 import com.pantuo.util.DateUtil;
+import com.pantuo.util.ExcelUtil;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.OrderIdSeq;
 import com.pantuo.web.view.OrderView;
@@ -16,9 +17,11 @@ import net.sf.jxls.transformer.XLSTransformer;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -406,6 +409,7 @@ public class ScheduleController {
                                                @CookieValue(value="city", defaultValue = "-1") int cityId,
                                               @ModelAttribute("city") JpaCity city,
                                               HttpServletResponse resp) {
+        String dayStr = req.getFilter("day");
         String templateFileName = "/jxls/schedule_list.xls";
         List scheduleList = new ArrayList();
         List<Report> list = getScheduleDetailList(req, cityId, city);
@@ -415,14 +419,16 @@ public class ScheduleController {
 
         Map beans = new HashMap();
         beans.put("report", scheduleList);
+        beans.put("title", "[" + dayStr + "] 媒体排条单");
         XLSTransformer transformer = new XLSTransformer();
-        String dayStr = req.getFilter("day");
         try {
-            resp.setHeader("Content-Type", "application/x-xls");
             resp.setHeader("Content-Type", "application/x-xls");
             resp.setHeader("Content-Disposition", "attachment; filename=\"schedule-[" + dayStr + "].xls\"");
             InputStream is = new BufferedInputStream(ScheduleController.class.getResourceAsStream(templateFileName));
             org.apache.poi.ss.usermodel.Workbook workbook = transformer.transformXLS(is, beans);
+
+            ExcelUtil.dynamicMergeCells((HSSFSheet)workbook.getSheetAt(0), 0, 0, 1, 2);
+
             OutputStream os = new BufferedOutputStream(resp.getOutputStream());
             workbook.write(os);
             is.close();
