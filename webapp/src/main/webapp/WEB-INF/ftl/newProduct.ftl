@@ -245,7 +245,7 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>
                                                 <span class="toggle videoToggle imageToggle infoToggle">竞拍底价（元）:</span>
-                                         
+                                         		<span class="toggle bodyToggle">竞拍底价（元）:</span>
                                             </label>
                                             <input
                                                     class="ui-input validate[required,number,min[1]"

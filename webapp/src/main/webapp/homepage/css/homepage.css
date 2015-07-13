@@ -166,11 +166,12 @@
 	color: rgb(255, 205, 51);
 }
 .footer{
-	width: 100%;
+  width: 100%;
   padding: 10px 0;
   background: #555;
   position: relative;
-  top:40px;
+  left:0px; 
+  bottom:0px; 
 }
 .maincontent{
 	position: relative;

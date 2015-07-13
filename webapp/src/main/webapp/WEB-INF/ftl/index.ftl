@@ -342,10 +342,19 @@
 						<a href="product/c/${prod.id}">
 							<dl class="bg-color-white">
 							  <dt class="ub"><span>${substring(prod.product.name,0,13)}</span></dt>
+							  <#if prod.product.type=="city">
 							  <dd>
 							  	<span class="mr20">曝光次数</span>                 
 							  	<span><em>${prod.product.playNumber}</em>/天</span>
-		            </dd>
+							  </dd>
+							  <#elseif prod.product.type=="body">
+							  <dd>
+							  	<span class="mr20">巴士数量</span>                 
+							  	<span><em>${prod.product.busNumber}</em>辆</span>
+							  </dd>
+					          </#if>
+		            
+					
 		            <dd>
 		            	<span class="mr20">展示期限</span>                 
 		            	<span><em>${prod.product.days}</em>天</span>
@@ -395,7 +404,8 @@
 							<a class="text" href="product/c/${prod.id}">（查看详情）</a>
 						</p>
 					</div> 
-				 </#list>	          
+				 </#list>	
+				           
 				</div>
 			</div>
 			</#if>
