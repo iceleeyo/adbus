@@ -65,7 +65,7 @@
                                         <a class="selected ui-areamini-text" data-id="${city.mediaType}" title="${city.mediaType.typeName}">车身广告</span>
                                         </#if>
                                     <#else>
-                                      <#if medetype=="screen">
+                                      <#if medetype?? && medetype=="screen">
                                         <a class="selected ui-areamini-text" data-id="${city.mediaType}" title="${city.mediaType.typeName}">屏幕广告</a>
                                         <#else>
                                         <a class="selected ui-areamini-text" data-id="${city.mediaType}" title="${city.mediaType.typeName}">车身广告</a>
