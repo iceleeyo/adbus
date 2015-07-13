@@ -2955,6 +2955,27 @@
 	width: 250px
 }
 
+.s-left.ff-icon{
+	height: 14px;
+    width: 14px;
+    margin: 15px 5px 0 0;
+    background-size: 80%;
+    background-position: left;
+    background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat 0 -60px;
+    display: inline-block;
+}
+
+.s-left.f-iconli{
+	width: 99%;
+	border-bottom: 1px solid #F7F7F7;
+	height: 30px;
+}
+
+.s-left.tt{
+	color: #8B8686;font-size: 5px;
+}
+
+
 .uplan-detail-ul .con {
 	margin-left: 15px;
 	color: #000
