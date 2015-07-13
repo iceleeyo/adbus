@@ -677,8 +677,9 @@
 	</script>
 
 </body>
+ <@security.authorize access="isAuthenticated()">
 <script type="text/javascript">		
-			$(document).ready(
+		$(document).ready(
 					function() {
 					   $.ajax({
 							url : "${rc.contextPath}/message/unread",
@@ -695,4 +696,5 @@
 					}
 		);
 </script>
+ </@security.authorize>
 </html>

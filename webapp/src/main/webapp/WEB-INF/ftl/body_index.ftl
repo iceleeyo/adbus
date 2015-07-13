@@ -677,6 +677,7 @@
 	</script>
 
 </body>
+<@security.authorize access="isAuthenticated()">
 <script type="text/javascript">		
 			$(document).ready(
 					function() {
@@ -695,4 +696,5 @@
 					}
 		);
 </script>
+</@security.authorize>
 </html>
