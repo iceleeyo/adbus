@@ -475,11 +475,11 @@ table.dataTable td {
 }
 .status{
 	width: 30px;
-	background: url("../images/ico_status.gif") -50px center no-repeat #fbfbfb;
+	background: url("../images/ico_status.gif") -50px center no-repeat ;
 }
 .status.status-first{
-	background: url("../images/ico_status.gif") 0px center no-repeat #fbfbfb;
+	background: url("../images/ico_status.gif") 0px center no-repeat;
 }
 .status.status-check {
-	background: url("../images/ico_status.gif") -150px center no-repeat #fbfbfb;
+	background: url("../images/ico_status.gif") -150px center no-repeat;
 

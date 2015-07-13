@@ -5,6 +5,7 @@
 
 <script type="text/javascript">
     var table;
+
     function initTable () {
         table = $('#table').dataTable( {
             "dom": '<"#toolbar">lrtip',
@@ -126,9 +127,12 @@
 
     function drawCallback() {
         $('.table-action').click(function() {
-            $.post($(this).attr("url"), function() {
+        var r = confirm("确定执行该操作吗")
+        if(r==true){
+       		$.post($(this).attr("url"), function() {
                 table.fnDraw(true);
-            })
+        	});
+        }
         });
     }
 
