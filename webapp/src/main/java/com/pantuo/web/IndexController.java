@@ -39,7 +39,7 @@ public class IndexController {
 	public String body(Model model, HttpServletRequest request, HttpServletResponse response,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
 		//bcity(response,city,"2");
-		city= city==-1?2: (city%2==1 ?2:city);
+		city= city==-1?2: (city%2==1 ?city+1:city);
 		bcity2(response,String.valueOf(city) );
 		return commonData(model, request, city, "body_index", "body");
 	}
@@ -62,7 +62,7 @@ public class IndexController {
 	public String index(Model model, HttpServletRequest request,HttpServletResponse response,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
 		//bcity(response, city,"1");
-		city= city==-1?1: (city%2==0 ?1:city);
+		city= city==-1?1: (city%2==0 ?city-1:city);
 		bcity2(response,String.valueOf(city) );
 		return commonData(model, request, city, "index", "screen");
 	}
