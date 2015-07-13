@@ -95,7 +95,7 @@
                     <tr>
                         <th orderBy="name">套餐名称</th>
                         <th orderBy="type">类型</th>
-                        <th orderBy="type">产品类型</th>
+                        <th orderBy="type">类型</th>
                         <th orderBy="price">价格(元)</th>
                          <@security.authorize ifAnyGranted="ShibaOrderManager">  
                         <th orderBy="exclusive">定向</th>
@@ -104,8 +104,8 @@
                        
                        <@security.authorize ifAnyGranted="ShibaOrderManager">  
                         <th>首页</th>
-                        <th >进行中订单</th>
-                        <th  >结束订单</th>
+                        <th>进行中</th>
+                        <th>已结束</th>
                         </@security.authorize>
                         <th>管理</th>
                     </tr>
