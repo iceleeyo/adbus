@@ -80,9 +80,9 @@
                                     <div class="dt cw-icon ui-areamini-text-wrap" style="">
                                         <i class="ci-right"><s>◇</s></i>
                                     <#if city??>
-                                        <a href="javascript:void(0)" class="selected ui-areamini-text" data-id="${city.mediaType}" title="${city.mediaType.typeName}">屏幕广告</a>
+                                        <a class="selected ui-areamini-text" data-id="${city.mediaType}" title="${city.mediaType.typeName}">车身广告</a>
                                     <#else>
-                                        <a href="javascript:void(0)" class="selected ui-areamini-text" data-id="${cities[0].mediaType!''}" title="${cities[0].mediaType.typeName!''}">屏幕广告</a>
+                                        <a class="selected ui-areamini-text" data-id="${cities[0].mediaType!''}" title="${cities[0].mediaType.typeName!''}">车身广告</a>
                                     </#if>
                                     </div>
                                   <#--  <div class="dd dorpdown-layer">
@@ -91,17 +91,17 @@
                                             <div class="ui-areamini-content">
                                                 <div class="ui-areamini-content-list" id="city_dropdown">
                                                 <#list medias as m>
-                                                  <#if m.mediaType=="screen">
+                                                  <#if m.mediaType=="body">
                                                     <div class="item">
-                                                        <a data-id="${m.mediaType}" href="javascript:void(0)" <#if city?? && city.id == m.id> cityid="${city.id}" mid="${m.id}" class="selected"</#if>>屏幕广告1</a>
+                                                        <a data-id="${m.mediaType}" href="javascript:void(0)" <#if city?? && city.id == m.id> cityid="${city.id}" mid="${m.id}" class="selected"</#if>>车身广告</a>
                                                     </div>
                                                     </#if>
                                                 </#list>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>-->
-                                </li>
+                                    </div>
+                                </li>-->
 <#--</@security.authorize>-->
                             </ul>
 							<div class="s-left ml10">
@@ -121,7 +121,7 @@
                                         </a>
                                         </@security.authorize>
                                         <@security.authorize access="! isAuthenticated()">
-                                            <a class="pg-nav-item s-left" href="${rc.contextPath}/login">请登录</a>
+                                            <a class="pg-nav-item s-left" href="${rc.contextPath}/login?medetype=body">请登录</a>
                                         </@security.authorize>
                                     </span>
 									<#--<span class="arrow-down"></span>-->
@@ -180,7 +180,7 @@
 						<div class="phmain-nav-b pg-right">
 							<ul class="pg-nav">
 								<li class="pg-nav-item s-left">
-									<a class="pg-nav-item-t" href="${rc.contextPath}/">首页</a>
+									<a class="pg-nav-item-t" href="${rc.contextPath}/body">首页</a>
 								</li>
 								<li class="pg-nav-item s-left">
 									<a class="pg-nav-item-t pg-nav-hover" href="${rc.contextPath}/intro-video.html">

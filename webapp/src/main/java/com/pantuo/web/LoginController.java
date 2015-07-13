@@ -49,15 +49,27 @@ public class LoginController {
 	public Pair<Boolean, String> loginForLayer(@RequestParam("username") String username,
 			@RequestParam("password") String password, HttpServletRequest request, Authentication auth) {
 		return userService.loginForLayer(request, username, password);
-	}
+	} 
     
     @RequestMapping(value = "/login", produces = "text/html;charset=utf-8")
     public String login(HttpServletRequest request, Authentication auth)
     {
+    	Object asObject=  request.getSession().getAttribute("medetype");
+    	System.out.println(asObject!=null ?asObject.toString():"11");
         if (auth != null && auth.isAuthenticated()) {
             return "redirect:/order/myTask/1";
         }
         return "login";
+    }
+    @RequestMapping(value = "/logout", produces = "text/html;charset=utf-8")
+    public String logout(HttpServletRequest request)
+    {
+        try {
+            request.logout();
+        } catch (ServletException e) {
+            log.error("Failed to logout.", e);
+        }
+        return "redirect:/login";
     }
     @RequestMapping(value = "/register", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
     public String register(HttpServletRequest request)
@@ -104,18 +116,7 @@ public class LoginController {
 		return  "redirect:"+forword;
 	}
 	
-    @RequestMapping(value = "/logout", produces = "text/html;charset=utf-8")
-    public String logout(HttpServletRequest request)
-    {
-        try {
-        	
-            request.logout();
-        } catch (ServletException e) {
-            log.error("Failed to logout.", e);
-        }
-
-        return "redirect:/login";
-    }
+   
     public static void main(String[] args) {
 		System.out.println(1);
 	}

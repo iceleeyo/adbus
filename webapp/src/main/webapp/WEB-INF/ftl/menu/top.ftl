@@ -55,13 +55,24 @@
                                 <li class="dorpdown" id="ttbar-media">
                                     <div class="dt cw-icon ui-areamini-text-wrap" style="">
                                         <i class="ci-right"><s>◇</s></i>
+                                        
+                                        
                                     <#if city??>
-                                        <span class="ui-areamini-text" data-id="${city.mediaType}" title="${city.mediaType.typeName}">${city.mediaType.typeName}</span>
+                                    
+                                       <#if medetype?? && medetype=="screen">
+                                        <a class="selected ui-areamini-text" data-id="${city.mediaType}" title="${city.mediaType.typeName}">屏幕广告</a>
+                                        <#else>
+                                        <a class="selected ui-areamini-text" data-id="${city.mediaType}" title="${city.mediaType.typeName}">车身广告</span>
+                                        </#if>
                                     <#else>
-                                        <span class="ui-areamini-text" data-id="${cities[0].mediaType!''}" title="${cities[0].mediaType.typeName!''}">${cities[0].mediaType.typeName!''}</span>
+                                      <#if medetype=="screen">
+                                        <a class="selected ui-areamini-text" data-id="${city.mediaType}" title="${city.mediaType.typeName}">屏幕广告</a>
+                                        <#else>
+                                        <a class="selected ui-areamini-text" data-id="${city.mediaType}" title="${city.mediaType.typeName}">车身广告</a>
+                                        </#if>
                                     </#if>
                                     </div>
-                                    <div class="dd dorpdown-layer">
+                                   <#--<div class="dd dorpdown-layer">
                                         <div class="dd-spacer"></div>
                                         <div class="ui-areamini-content-wrap" style="left: auto;">
                                             <div class="ui-areamini-content">
@@ -74,7 +85,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>--> 
                                 </li>
 <#--</@security.authorize>-->
                             </ul>
@@ -89,9 +100,9 @@
 									<span>
                                         <@security.authorize access="isAuthenticated()">
                                         <a class="pg-nav-item s-left" href="${rc.contextPath}/order/myTask/1">
-                                        	我的账户:
-                                            [<@security.authentication property="principal.user.firstName" />
-                                            <@security.authentication property="principal.user.lastName" />]
+                                        我的账户:
+                                            <@security.authentication property="principal.user.firstName" />
+                                            <@security.authentication property="principal.user.lastName" />
                                         </a>
                                         </@security.authorize>
                                         <@security.authorize access="! isAuthenticated()">
@@ -153,7 +164,19 @@
 						<div class="phmain-nav-b pg-right">
 							<ul class="pg-nav">
 								<li class="pg-nav-item s-left">
-									<a class="pg-nav-item-t" href="${rc.contextPath}/">首页</a>
+									 <#if city??>
+                                    <#if  medetype?? && medetype=="screen">
+                                       <a class="pg-nav-item-t" href="${rc.contextPath}/">首页</a>
+                                        <#else>
+                                       <a class="pg-nav-item-t" href="${rc.contextPath}/body">首页</a>
+                                        </#if>
+                                    <#else>
+                                      <#if medetype?? && medetype=="screen">
+                                       <a class="pg-nav-item-t" href="${rc.contextPath}/">首页</a>
+                                        <#else>
+                                        <a class="pg-nav-item-t" href="${rc.contextPath}/body">首页</a>
+                                        </#if>
+                                    </#if>
 								</li>
 								<li class="pg-nav-item s-left">
 									<a class="pg-nav-item-t pg-nav-hover" href="${rc.contextPath}/intro-video.html">

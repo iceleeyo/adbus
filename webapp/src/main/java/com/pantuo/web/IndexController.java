@@ -5,10 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.math.NumberUtils;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -33,9 +35,40 @@ public class IndexController {
 	@Autowired
 	private ProductService productService;
 
-	@RequestMapping(value = "/", produces = "text/html;charset=utf-8")
-	public String index(Model model, @CookieValue(value = "city", defaultValue = "-1") int city) {
+	@RequestMapping(value = "/body", produces = "text/html;charset=utf-8")
+	public String body(Model model, HttpServletRequest request, HttpServletResponse response,
+			@CookieValue(value = "city", defaultValue = "-1") int city) {
+		//bcity(response,city,"2");
+		city= city==-1?2: (city%2==1 ?2:city);
+		bcity2(response,String.valueOf(city) );
+		return commonData(model, request, city, "body_index", "body");
+	}
+	private void bcity2(HttpServletResponse response, String city) {
+		Cookie cookie = new Cookie("city", city);
+			cookie.setPath("/");
+			cookie.setMaxAge(604800); //1 week
+			response.addCookie(cookie);
+	}
+	private void bcity(HttpServletResponse response, int city,String num) {
+		if(city<0){
+			Cookie cookie = new Cookie("city", num);
+			cookie.setPath("/");
+			cookie.setMaxAge(604800); //1 week
+			response.addCookie(cookie);
+		}
+	}
 
+	@RequestMapping(value = "/", produces = "text/html;charset=utf-8")
+	public String index(Model model, HttpServletRequest request,HttpServletResponse response,
+			@CookieValue(value = "city", defaultValue = "-1") int city) {
+		//bcity(response, city,"1");
+		city= city==-1?1: (city%2==0 ?1:city);
+		bcity2(response,String.valueOf(city) );
+		return commonData(model, request, city, "index", "screen");
+	}
+
+	private String commonData(Model model, HttpServletRequest request, int city, String pageName, String medetype) {
+		
 		TableRequest req = new TableRequest();
 		req.setStart(0);
 		req.setLength(4);
@@ -50,7 +83,7 @@ public class IndexController {
 				FrontShow.Y);
 		Page<JpaProduct> noteList = productService.getValidProducts(city, JpaProduct.Type.info, false, null, req,
 				FrontShow.Y);
-		
+
 		Page<JpaProduct> bodyList = productService.getValidProducts(city, JpaProduct.Type.body, false, null, req,
 				FrontShow.Y);
 		model.addAttribute("auctionList", cpdService.getIndexCpdList(city, 4));
@@ -58,7 +91,8 @@ public class IndexController {
 		model.addAttribute("imageList", imageList.getContent());
 		model.addAttribute("noteList", noteList.getContent());
 		model.addAttribute("bodyList", bodyList.getContent());
-		return "index";
+		request.getSession().setAttribute("medetype", medetype);
+		return pageName;
 		//return "redirect:/index.html";
 	}
 }

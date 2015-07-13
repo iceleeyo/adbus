@@ -1,16 +1,20 @@
 package com.pantuo;
 
-import javax.sql.DataSource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.security.ActivitiUserDetailsService;
@@ -87,13 +91,30 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/", "/*.html", "/login", "/logout", "/homepage/**", "/css/**", "/images/**", "/imgs/**",
 						"/js/**", "/style/**")
 				.permitAll()
-				.antMatchers("/loginForLayer","/register", "/user/**", "/doRegister", "/validate/**", "/f/**", "/product/d/**",
-						"/product/c/**", "/product/sift**", "/product/sift_data","/product/ajaxdetail/**","/order/iwant/**").permitAll().antMatchers("/**")
-				.authenticated().anyRequest()
+				.antMatchers("/loginForLayer", "/body", "/register", "/user/**", "/doRegister", "/validate/**",
+						"/f/**", "/product/d/**", "/product/c/**", "/product/sift**", "/product/sift_data",
+						"/product/ajaxdetail/**", "/order/iwant/**").permitAll().antMatchers("/**").authenticated()
+				.anyRequest()
 				.permitAll()
 				//.antMatchers("/user/enter").access("hasRole('ShibaOrderManager')")
 				.and().formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/order/myTask/1")
 				.usernameParameter("username").passwordParameter("password").and().logout()
-				.logoutSuccessUrl("/login?logout").invalidateHttpSession(true).and().csrf().disable();
+				.addLogoutHandler(new LogoutHandler() {
+					@Override
+					public void logout(HttpServletRequest request, HttpServletResponse response,
+							Authentication authentication) {
+						SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
+						SecurityContextHolder.clearContext();
+						HttpSession session = request.getSession(false);
+						String tString=(String)session.getAttribute("medetype");
+						System.err.println(tString);
+						if (session != null) {
+							session.invalidate();
+						}
+						request.getSession().setAttribute("medetype", tString);
+					}
+				})
+
+				.logoutSuccessUrl("/login?logout").invalidateHttpSession(false).and().csrf().disable();
 	}
 }
