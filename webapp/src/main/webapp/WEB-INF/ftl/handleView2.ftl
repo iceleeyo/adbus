@@ -404,7 +404,7 @@ function pay() {
 </script>
 <input type="hidden" id="orderid" value="${orderview.order.id!''}"/>
 <input type="hidden" id="taskid" value="${taskid!''}"/>
-<div class="payment" style="display: none;">
+<div class="payment" >
 <div id="process" class="section4">
     <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单</li><li id="track_time_0" class="tx3"><#setting date_format="yyyy-MM-dd">${(orderview.order.created?date)!''}</li><li id="track_time_0" class="tx3">  <#setting date_format="HH:mm:ss">${(orderview.order.created?date)!''}</li></ul></div>
     <div class="proce ready"><ul><li class="tx1">&nbsp;</li></ul></div>

@@ -206,9 +206,9 @@ function qCheck(obj){
 
 
 </script>
-<div class="color-white-bg fn-clear">
+<div class="payment" >
   <div id="process" class="section4">
-		            <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单</li><li id="track_time_0" class="tx3"><#setting date_format="yyyy-MM-dd">${(orderview.order.created?date)!''}</li><li id="track_time_0" class="tx3"> <#setting date_format="HH:mm:ss">${(orderview.order.created?date)!''}</li></ul></div>
+		            <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单</li><li id="track_time_0" class="tx3"><#setting date_format="yyyy-MM-dd">${(orderview.order.created?date)!''}</li><li id="track_time_0" class="tx3"> 10:12:30</li></ul></div>
             		<div class="proce ready"><ul><li class="tx1">&nbsp;</li></ul></div>
             		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">支付与绑定物料</li><li id="track_time_4" class="tx3"></li></ul></div>
             		<div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>
@@ -218,6 +218,9 @@ function qCheck(obj){
             		<div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>		
             		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">播出完成</li><li id="track_time_6" class="tx3"></li></ul></div>
             	</div>
+</div>
+<div class="color-white-bg fn-clear">
+
 							  <DIV class="p20bs color-white-bg border-ec">
                 <H3 class="text-xl title-box"><p align="left"><A class="black" href="#">订单详情-${orderview.longOrderId!''}</A></p></H3>
                <DIV class="summary mt10 uplan-summary-div">
@@ -424,7 +427,7 @@ function qCheck(obj){
                                                 
                                                 </#if>
                                        </select>
-                  		               <a href="javascript:;" onclick="supEnter('${rc.contextPath}',${city.mediaType},'${prod.type.typeName!''}')">上传物料-${city.mediaType},${prod.type.typeName!''}</a>
+                  		               <a href="javascript:;" onclick="supEnter('${rc.contextPath}',${city.mediaType},'${prod.type.typeName!''}')">上传物料</a>
                   		               </TD>
 				             	    </TR>
 				             	  
