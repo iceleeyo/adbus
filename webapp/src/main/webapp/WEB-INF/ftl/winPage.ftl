@@ -1,45 +1,55 @@
 <#import "template/template_blank.ftl" as frame >
 <#import "template/proDetail.ftl" as proDetail>
-<#global menu="产品竞价">
-<@frame.html title="产品竞价" js=["js/jquery.jcountdown.js","js/jquery.jcountdown.site.js","js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/progressbar.js"] 
+<#global menu="我的获拍">
+<@frame.html title="我的获拍" js=["js/jquery.jcountdown.js","js/jquery.jcountdown.site.js","js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/progressbar.js"] 
 css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/compare/auction.css","css/sea.css","css/autocomplete.css"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 
 <script type="text/javascript">
     
+
+
     
-function compare(pathurl){
-	var productid=$("#productid").val();
-	var myprice=$("#myprice").val();
-	
-	var lc=$("#lc").val();
+function compare(pathurl,proid){
+var startTime = $("#startTime").val();
+var d = new Date(startTime.replace(/-/g,"/")); 
+date = new Date();
+var str  = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
+var d2 = new Date(str.replace(/-/g,"/")); 	
+var lc=$("#lc").val();
 if(lc=="0"){
 islogin(pathurl);
 }
+        if(startTime=""){
+         jDialog.Alert('请填写开播日期');
+         return;
+         }
+           var days=Math.floor((d-d2)/(24*3600*1000));
+        if(days<3) {
+            jDialog.Alert('开播日期请选择3天以后');
+            return;
+         } 
+//author :impanxh 阻止2次点击 ,当所有表单都验证通过时才提交 抄自注册页面
+         if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
+            return;
+        if(lc=="1"){
+        	layer.open({
+    		type: 1,
+    		title: "电子合同",
+    		skin: 'layui-layer-rim', 
+    		area: ['650px', '630px'], 
+    		content:''
+			   +' '
+			   +'<iframe  style="width:99%;height:90%" src="${rc.contextPath}/user/contract_templete?productid='+proid+'"/><div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraworder" class="block-btn" onclick="creorder();" value="确认" style="margin:10px 0px -10px 110px;"> </div>'
+			});
+		}
+}
 
-if(myprice==""){
-   layer.msg("请出价");
-   return;
+function creorder() {
+	$("#subWithdraworder").attr("disabled",true);
+	$("#subWithdraworder").css("background-color","#85A2AD");
+	$('#userForm2').submit();
 }
-$.ajax({
-			url:"${rc.contextPath}/product/comparePrice",
-			type:"POST",
-			async:false,
-			dataType:"json",
-			data:{
-			"cpdid":productid,
-			"myprice":myprice
-			},
-			success:function(data){
-			     layer.msg(data.right);
-			var uptime = window.setTimeout(function(){
-			window.location.reload();
-		   	clearTimeout(uptime);
-					},2000)
-			}
-      }); 
-}
-	
 </script>
 
 <script type="text/javascript">
@@ -52,6 +62,9 @@ $.ajax({
 				<div class="pg-container-main">
 					<div class="container-12 mt10 s-clear">
 						<div class="ls-9">
+<form data-name="withdraw" name="userForm2" id="userForm2"
+ class="ui-form" method="post" action="${rc.contextPath}/order/confirm?cpdid=${cpdid}"
+ enctype="multipart/form-data">						
 							<div class="product-info s-clear">
 								<div class="preview s-left">
 									<img src="${rc.contextPath}/imgs/auction.jpg" width="298" height="298">
@@ -60,8 +73,8 @@ $.ajax({
 									<div class="product-title">
 										<h3>${(jpaCpd.product.name)!''}</h3>
 									</div>
-									<div>
-										<div class="product-intro">
+									<div class="product-form">
+										<div class="product-intro" style="margin-left: 5px;">
 											<div class="price s-clear">
 												<span>当前价：</span>
 												<span class="fsize-24 t-red"><em>¥</em>
@@ -77,8 +90,23 @@ $.ajax({
 													<em>${jpaCpd.pv} 次</em>
 												</div>
 											</div>
+											
+											<div class="range" style="line-height: 50px;">
+											<#if (prod.type)!="body">
+												<span>播放次数：<em>${prod.playNumber!''}次</em></span>
+											</#if>
+												<span>产品周期：<em>${prod.days!''}天</em></span>
+												<span>媒体类型： <em>${prod.type.typeName!''}</em></span>
+											<#if (prod.type)=="body">
+												<span>线路级别： <em><#if prod.lineLevel??>${prod.lineLevel.nameStr!''}</#if></em></span>
+												<span>巴士数量： <em>${prod.busNumber!''}</em></span>
+											</#if>	
+											<#if (prod.type)!="body">
+												<span>时长（秒）： <em>${prod.duration!''}</em></span>
+											</#if>
+											</div>
 										</div>
-										<div class="" style="margin: 10px 5px;">
+										<div class="" style="margin: 5px 5px;">
                                             <label class="range" style="color: #999;">开播日期:</label> <input
                                                 class="ui-input datepicker validate[required,custom[date] layer-tips" 
                                                 type="text" name="startTime1"
@@ -144,7 +172,7 @@ $.ajax({
 										 -->
 									</div>
 								</div>
-							</div>
+</form>							
 							<div class="bidPath">
 								<div class="lc">
 									<span>竞&nbsp;&nbsp;&nbsp;拍</span><br>
@@ -298,12 +326,10 @@ $.ajax({
 									</div>
 								</div>
 							</div>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		
-		</div>
 
 <script type="text/javascript">
 $(function(){ 
