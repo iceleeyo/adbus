@@ -89,12 +89,12 @@
                                 </li>
 <#--</@security.authorize>-->
                             </ul>
-							<div class="s-left ml10">
+							<!-- 手机图标<div class="s-left ml10">
 								<a class="pg-nav-item" href="#" style="padding-top: 8px;">
 									<i class="icon icon-app"></i>
 									
 								</a>
-							</div>
+							</div> -->
 							<div class="s-right s-clear">
 								<span class="pg-nav-item s-left" style="padding:0;">您好，</span>
 									<span>

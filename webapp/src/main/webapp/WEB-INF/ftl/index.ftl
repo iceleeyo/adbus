@@ -104,12 +104,12 @@
                                 </li>
 <#--</@security.authorize>-->
                             </ul>
-							<div class="s-left ml10">
+							<!-- 手机图标<div class="s-left ml10">
 								<a class="pg-nav-item" href="#" style="padding-top: 8px;">
 									<i class="icon icon-app"></i>
 									
 								</a>
-							</div>
+							</div> -->
 							<div class="s-right s-clear">
 								<span class="pg-nav-item s-left" style="padding:0;">您好，</span>
 									<span>
@@ -360,7 +360,7 @@
 		            </dd>
 		  					<dd>
 		  						<span class="mr20">底价</span>                 
-		  						<span><em>#{prod.saleprice!'' ;m2M2}</em>￥</span>  
+		  						<span>￥<em>#{prod.saleprice!'' ;m2M2}</em></span>  
 		  					 </dd>
 		          			  <dd>	
 		          			  
@@ -432,7 +432,7 @@
 		            </dd>
 		  					<dd>
 		  						<span class="mr20">金额</span>                 
-		  						<span><em>#{prod.price!'' ;m2M2}</em>￥</span>               
+		  						<span>￥<em>#{prod.price!'' ;m2M2}</em></span>               
 		  					</dd>
 		  				</dl>
 						</a>
@@ -476,7 +476,7 @@
 		            </dd>
 		  					<dd>
 		  						<span class="mr20">金额</span>                 
-		  						<span><em>#{prod.price!'' ;m2M2}</em>￥</span>               
+		  						<span>￥<em>#{prod.price!'' ;m2M2}</em></span>               
 		  					</dd>
 		  				</dl>
 						</a>
@@ -516,7 +516,7 @@
 		            </dd>
 		  					<dd>
 		  						<span class="mr20">金额</span>                 
-		  						<span><em>#{prod.price!'' ;m2M2}</em>￥</span>               
+		  						<span>￥<em>#{prod.price!'' ;m2M2}</em></span>               
 		  					</dd>
 		  				</dl>
 						</a>
@@ -556,7 +556,7 @@
 		            </dd>
 		  					<dd>
 		  						<span class="mr20">金额</span>                 
-		  						<span><em>#{prod.price!'' ;m2M2}</em>￥</span>               
+		  						<span>￥<em>#{prod.price!'' ;m2M2}</em></span>               
 		  					</dd>
 		  				</dl>
 						</a>
