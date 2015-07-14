@@ -68,7 +68,7 @@
                                                 <div class="ui-areamini-content-list" id="city_dropdown">
                                                     <#list cities as c>
                                                         <div class="item">
-                                                            <a data-id="${c.name}" href="javascript:void(0)" <#if city?? && city.name == c.name>class="selected"</#if>>${c.name!''}</a>
+                                                            <a  data-id="${c.name}" href="javascript:void(0)" <#if city?? && city.name == c.name>class="selected"</#if>>${c.name!''}</a>
                                                         </div>
                                                     </#list>
                                                 </div>
@@ -80,9 +80,9 @@
                                     <div class="dt cw-icon ui-areamini-text-wrap" style="">
                                         <i class="ci-right"><s>◇</s></i>
                                     <#if city??>
-                                        <a class="selected ui-areamini-text" data-id="${city.mediaType}" title="${city.mediaType.typeName}">车身广告</a>
+                                        <a class="selected ui-areamini-text"  data-id="${city.mediaType}" title="${city.mediaType.typeName}">车身广告</a>
                                     <#else>
-                                        <a class="selected ui-areamini-text" data-id="${cities[0].mediaType!''}" title="${cities[0].mediaType.typeName!''}">车身广告</a>
+                                        <a class="selected ui-areamini-text"  data-id="${cities[0].mediaType!''}" title="${cities[0].mediaType.typeName!''}">车身广告</a>
                                     </#if>
                                     </div>
                                   <#--  <div class="dd dorpdown-layer">
@@ -106,7 +106,6 @@
                             </ul>
 							<div class="s-left ml10">
 								<a class="pg-nav-item" href="#" style="padding-top: 8px;">
-									<i class="icon icon-app"></i>
 									
 								</a>
 							</div>
@@ -546,16 +545,16 @@
 			</dl>
 		</div>
 	</div>
-	<div class="footer" style="background:rgba(81, 211, 137, 0.88);margin-top:250px">
+	<div class="footer" style="background:rgba(20, 118, 40, 0.88);margin-top:250px">
 		<div class="container-12 plr10">
 			<div class="foot-copyright">
-				<span class="foot-cr-link gray-text">© 2015 XXX All rights reserved</span>
-				<span class="foot-cr-link gray-text has-border">北京世巴传媒有限公司</span>
-				<span class="foot-cr-link gray-text has-border">
-					<a class="gray-text" href="">京ICP证 100953号</a>
+				<span class="foot-cr-link" style="color:white">© 2015 XXX All rights reserved</span>
+				<span class="foot-cr-link" style="color:white">北京世巴传媒有限公司</span>
+				<span class="foot-cr-link" style="color:white">
+					<a  style="color:white" href="">京ICP证 100953号</a>
 				</span>
-				<span class="foot-cr-link gray-text has-border">京公网安备11010502020657</span>
-				<span class="foot-cr-link gray-text has-border">京ICP备12025643号-1</span>
+				<span class="foot-cr-link gray-text has-border" style="color:white">京公网安备11010502020657</span>
+				<span class="foot-cr-link gray-text has-border" style="color:white">京ICP备12025643号-1</span>
 			</div>
 		</div>
 	</div>

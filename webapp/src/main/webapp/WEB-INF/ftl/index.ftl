@@ -106,7 +106,6 @@
                             </ul>
 							<div class="s-left ml10">
 								<a class="pg-nav-item" href="#" style="padding-top: 8px;">
-									<i class="icon icon-app"></i>
 									
 								</a>
 							</div>
