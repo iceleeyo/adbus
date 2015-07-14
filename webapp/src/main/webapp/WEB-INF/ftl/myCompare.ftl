@@ -65,7 +65,7 @@
                        return operations;
                         
                     }},
-            ],
+            ], 
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
             },

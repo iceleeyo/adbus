@@ -272,8 +272,6 @@ function bu(txtObj) {
 					</div>
 				</div>
 			</div>
-		
-		</div>
 							<script type="text/javascript">
 								//限定不能选今天之前的日期
 								jQuery(function($){ 

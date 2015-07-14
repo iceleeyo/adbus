@@ -124,6 +124,21 @@ h3{
 	line-height: 36px;
 	font-size: 12px;
 }
+
+
+.product-intro .range{
+  height: 36px;
+  line-height: 55px;
+  font-size: 12px;
+  margin-left: -5px;
+}
+
+.product-intro .range span{
+	margin-left: 5px;
+	margin-right:10px;
+	color: #999;
+}
+
 .product-info .product-detail .product-form .range span{
 	margin-left: 5px;
 	margin-right:10px;
