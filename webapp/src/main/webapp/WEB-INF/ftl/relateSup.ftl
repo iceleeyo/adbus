@@ -208,7 +208,7 @@ function qCheck(obj){
 </script>
 <div class="color-white-bg fn-clear">
   <div id="process" class="section4">
-		            <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单</li><li id="track_time_0" class="tx3"><#setting date_format="yyyy-MM-dd">${(orderview.order.created?date)!''}</li><li id="track_time_0" class="tx3"> 10:12:30</li></ul></div>
+		            <div class="node fore ready"><ul><li class="tx1">&nbsp;</li><li class="tx2">提交订单</li><li id="track_time_0" class="tx3"><#setting date_format="yyyy-MM-dd">${(orderview.order.created?date)!''}</li><li id="track_time_0" class="tx3"> <#setting date_format="HH:mm:ss">${(orderview.order.created?date)!''}</li></ul></div>
             		<div class="proce ready"><ul><li class="tx1">&nbsp;</li></ul></div>
             		<div class="node wait"><ul><li class="tx1">&nbsp;</li><li class="tx2">支付与绑定物料</li><li id="track_time_4" class="tx3"></li></ul></div>
             		<div class="proce wait"><ul><li class="tx1">&nbsp;</li></ul></div>
