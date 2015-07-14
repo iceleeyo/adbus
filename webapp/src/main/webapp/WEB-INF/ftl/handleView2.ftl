@@ -647,7 +647,7 @@ function pay() {
 	   <#if prod.type=='image'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
 		<a href="${rc.contextPath}/upload_temp/${item.url!''}" target="_Blank">点击查看</a>
 		</#if>
- 	</#list>${(suppliesView.mainView.infoContext)!''}</TD>
+ 	  </#list>${(suppliesView.mainView.infoContext)!''}</TD>
     							</TR>
   								<TR>
     									<TH>更改物料</TH>
