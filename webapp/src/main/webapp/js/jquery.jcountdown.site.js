@@ -1,8 +1,12 @@
-
 /**
- *  author:pxh
- * @param element_id 元素id
- * @param templete 格式化样式 
+ * 
+ * 倒计时api
+ * 
+ * 
+ * @param element_id 页面元素id
+ * @param dateTo 到期时间 
+ * @param template 日期格式化格式 
+ * @param event 额外的事件如onchange, onComplete
  */
 function countdown(element_id,dateTo,template,event){
 	var params={
