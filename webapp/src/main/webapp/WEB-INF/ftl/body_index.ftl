@@ -331,14 +331,14 @@
 		  						<span id="c_${prod_index}"><em></em></span>  
 		  						<script type="text/javascript">
 			  						var dateTo="${prod.biddingDate?string("yyyy-MM-dd HH:mm:ss")}";
-									 countDateSimple("c_${prod_index}",dateTo);
+									 countDownReload("c_${prod_index}",dateTo);
 								 </script>
 								<#elseif (prod.startDate > .now   ) > 
 								<span class="mr10">距开拍</span>    
 		  						<span id="c_${prod_index}"><em></em></span>  
 		  						<script type="text/javascript">
 			  						var dateTo="${prod.startDate?string("yyyy-MM-dd HH:mm:ss")}";
-									 countDateSimple("c_${prod_index}",dateTo);
+									 countDownReload("c_${prod_index}",dateTo);
 								 </script>
 								<#elseif (prod.biddingDate < .now   ) > 
 								<span class="mr20"><s>已结束</s></span>    
