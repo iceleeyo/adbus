@@ -121,7 +121,7 @@
                                         </a>
                                         </@security.authorize>
                                         <@security.authorize access="! isAuthenticated()">
-                                            <a class="pg-nav-item s-left" href="${rc.contextPath}/login?medetype=body">请登录</a>
+                                            <a class="pg-nav-item s-left" href="${rc.contextPath}/login">请登录</a>
                                         </@security.authorize>
                                     </span>
 									<#--<span class="arrow-down"></span>-->

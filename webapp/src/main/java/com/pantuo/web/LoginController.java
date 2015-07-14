@@ -55,7 +55,9 @@ public class LoginController {
     public String login(HttpServletRequest request, Authentication auth)
     {
     	Object asObject=  request.getSession().getAttribute("medetype");
-    	System.out.println(asObject!=null ?asObject.toString():"11");
+    	if(asObject==null){
+    		request.getSession().setAttribute("medetype","screen");
+    	}
         if (auth != null && auth.isAuthenticated()) {
             return "redirect:/order/myTask/1";
         }
