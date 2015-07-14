@@ -360,7 +360,7 @@
 		            </dd>
 		  					<dd>
 		  						<span class="mr20">底价</span>                 
-		  						<span>￥<em>#{prod.saleprice!'' ;m2M2}</em></span>  
+		  						<span style="color: red;">￥<em>#{prod.saleprice!'' ;m2M2}</em></span>  
 		  					 </dd>
 		          			  <dd>	
 		          			  
@@ -432,7 +432,7 @@
 		            </dd>
 		  					<dd>
 		  						<span class="mr20">金额</span>                 
-		  						<span>￥<em>#{prod.price!'' ;m2M2}</em></span>               
+		  						<span style="color: red;">￥<em>#{prod.price!'' ;m2M2}</em></span>               
 		  					</dd>
 		  				</dl>
 						</a>
@@ -476,7 +476,7 @@
 		            </dd>
 		  					<dd>
 		  						<span class="mr20">金额</span>                 
-		  						<span>￥<em>#{prod.price!'' ;m2M2}</em></span>               
+		  						<span style="color: red;">￥<em>#{prod.price!'' ;m2M2}</em></span>               
 		  					</dd>
 		  				</dl>
 						</a>
@@ -516,7 +516,7 @@
 		            </dd>
 		  					<dd>
 		  						<span class="mr20">金额</span>                 
-		  						<span>￥<em>#{prod.price!'' ;m2M2}</em></span>               
+		  						<span style="color: red;">￥<em>#{prod.price!'' ;m2M2}</em></span>               
 		  					</dd>
 		  				</dl>
 						</a>
@@ -556,7 +556,7 @@
 		            </dd>
 		  					<dd>
 		  						<span class="mr20">金额</span>                 
-		  						<span>￥<em>#{prod.price!'' ;m2M2}</em></span>               
+		  						<span style="color: red;">￥<em>#{prod.price!'' ;m2M2}</em></span>               
 		  					</dd>
 		  				</dl>
 						</a>
