@@ -106,6 +106,7 @@
                             </ul>
 							<div class="s-left ml10">
 								<a class="pg-nav-item" href="#" style="padding-top: 8px;">
+									<i class="icon icon-app"></i>
 									
 								</a>
 							</div>
@@ -358,8 +359,8 @@
 		            	<span><em>${prod.product.days}</em>天</span>
 		            </dd>
 		  					<dd>
-		  						<span class="mr20">底价￥</span>                 
-		  						<span><em>#{prod.saleprice!'' ;m2M2}</em></span>  
+		  						<span class="mr20">底价</span>                 
+		  						<span><em>#{prod.saleprice!'' ;m2M2}</em>￥</span>  
 		  					 </dd>
 		          			  <dd>	
 		          			  
@@ -430,8 +431,8 @@
 		            	<span><em>${prod.days}</em>天</span>
 		            </dd>
 		  					<dd>
-		  						<span class="mr20">金额￥</span>                 
-		  						<span><em>#{prod.price!'' ;m2M2}</em></span>               
+		  						<span class="mr20">金额</span>                 
+		  						<span><em>#{prod.price!'' ;m2M2}</em>￥</span>               
 		  					</dd>
 		  				</dl>
 						</a>
@@ -474,8 +475,8 @@
 		            	<span><em>${prod.days}</em>周</span>
 		            </dd>
 		  					<dd>
-		  						<span class="mr20">金额￥</span>                 
-		  						<span><em>#{prod.price!'' ;m2M2}</em></span>               
+		  						<span class="mr20">金额</span>                 
+		  						<span><em>#{prod.price!'' ;m2M2}</em>￥</span>               
 		  					</dd>
 		  				</dl>
 						</a>
@@ -514,8 +515,8 @@
 		            	<span><em>${prod.days}</em>周</span>
 		            </dd>
 		  					<dd>
-		  						<span class="mr20">金额￥</span>                 
-		  						<span><em>#{prod.price!'' ;m2M2}</em></span>               
+		  						<span class="mr20">金额</span>                 
+		  						<span><em>#{prod.price!'' ;m2M2}</em>￥</span>               
 		  					</dd>
 		  				</dl>
 						</a>
@@ -554,8 +555,8 @@
 		            	<span><em>${prod.days}</em>周</span>
 		            </dd>
 		  					<dd>
-		  						<span class="mr20">金额￥</span>                 
-		  						<span><em>#{prod.price!'' ;m2M2}</em></span>               
+		  						<span class="mr20">金额</span>                 
+		  						<span><em>#{prod.price!'' ;m2M2}</em>￥</span>               
 		  					</dd>
 		  				</dl>
 						</a>
