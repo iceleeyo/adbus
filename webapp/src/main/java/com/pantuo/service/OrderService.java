@@ -200,7 +200,6 @@ public class OrderService {
 							cpd.setCheckOrder(JpaCpd.CheckOrder.Y.ordinal());
 							cpd.setOrderid(order.getId());
 							roleCpdMapper.updateByPrimaryKeySelective(cpd);
-							order.setProductId(cpd.getProductId());
 						} else {
 							isRightRole = false;
 							log.warn("{},cpdid:{},非法操作", user.getUsername(), cpdid);

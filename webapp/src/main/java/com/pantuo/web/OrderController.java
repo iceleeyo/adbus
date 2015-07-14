@@ -271,7 +271,7 @@ public class OrderController {
 		order.setStats(JpaOrders.Status.unpaid);
 		JpaProduct prod = productService.findById(order.getProductId());
 		
-		if (prod != null) {
+		if (prod != null && cityId<1) {
 			order.setPrice(prod.getPrice());
 		}
 		order.setType(prod.getType());
