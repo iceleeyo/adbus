@@ -330,7 +330,15 @@ function creorder() {
 						</div>
 					</div>
 				</div>
-
+							<script type="text/javascript">
+								//限定不能选今天之前的日期
+								jQuery(function($){ 
+						    	 $.datepicker.regional['zh-CN'] = { 
+						         minDate: new Date( (new Date()/1000+86400*3)*1000 ),
+						        isRTL: false}; 
+						        $.datepicker.setDefaults($.datepicker.regional['zh-CN']); 
+						  		  });
+							</script>
 <script type="text/javascript">
 $(function(){ 
 	$('.reduce').click(function(){
