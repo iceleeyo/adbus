@@ -58,7 +58,7 @@
                     "render": function(data, type, row, meta) {
                         var operations = '';
                         if(row.checkOrder=='N'){
-                          operations+= '<a class="table-link" href="${rc.contextPath}/product/win/'+row.product.id+'?cpdid='+data+'">转订单</a>';
+                          operations+= '<a class="table-link" href="${rc.contextPath}/product/win/'+data+'?pid='+row.product.id+'">转订单</a>';
                         }else{
                         operations+= '<a class="table-link" href="${rc.contextPath}/order/orderDetail/'+row.orderid+'?auto=y">查看订单详情</a>';
                         }
