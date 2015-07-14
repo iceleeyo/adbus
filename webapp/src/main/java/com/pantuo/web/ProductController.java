@@ -134,6 +134,11 @@ public class ProductController {
 		toComparePage(model, cpdid, pid);
 		return "comparePage";
 	}
+	@RequestMapping(value = "/win/{cpdid}", produces = "text/html;charset=utf-8")
+	public String win(Model model, @PathVariable("cpdid") int cpdid,@RequestParam(value = "pid",required=false ,defaultValue="0") int pid) {
+		toComparePage(model, cpdid, pid);
+		return "winPage";
+	}
 
 	@RequestMapping(value = "/to_comparePage/{cpdid}", produces = "text/html;charset=utf-8")
 	public String to_comparePage(Model model, @ModelAttribute("city") JpaCity city, @PathVariable("cpdid") int cpdid) {
