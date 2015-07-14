@@ -29,6 +29,7 @@ import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -68,6 +69,8 @@ import com.pantuo.service.ProductService;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.util.BeanUtils;
 import com.pantuo.util.Constants;
+import com.pantuo.util.DateUtil;
+import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.OrderException;
 import com.pantuo.util.OrderIdSeq;
@@ -955,6 +958,26 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return sb.toString();
 	}
 
+	
+	public OrderView findOrderViewByOrder(int orderid, Principal principal) {
+		ProcessInstance instance = runtimeService.createProcessInstanceQuery().includeProcessVariables()
+				.variableValueEquals(ORDER_ID, orderid).singleResult();
+		OrderView v = new OrderView();
+		JpaOrders order = orderService.queryOrderDetail(orderid, principal);
+		if (order != null) {
+			JpaProduct product = productService.findById(order.getProductId());
+			v.setProduct(product);
+			v.setOrder(order);
+		}
+		if (instance != null) {
+			v.setProcessInstance(instance);
+			v.setProcessInstanceId(instance.getId());
+			v.setProcessDefinition(getProcessDefinition(instance.getProcessDefinitionId()));
+			v.setVariables(instance.getProcessVariables());
+			v.setTask_name(getOrderState(instance.getProcessVariables()));
+		}
+		return v;
+	}
 	public OrderView findOrderViewByTaskId(String taskid, Principal principal) {
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 		String processInstanceId = task.getProcessInstanceId();
@@ -1253,6 +1276,15 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return 1;
 	}
 
+	Map<String, Date> getOperationTime(List<HistoricTaskView> list) {
+		Map<String, Date> map = new HashMap<String, Date>();
+		for (HistoricTaskView historicTaskView : list) {
+			map.put(historicTaskView.getTaskDefinitionKey(), historicTaskView.getEndTime());
+		}
+		return map;
+	}
+	 
+	
 	public String showOrderDetail(int city, Model model, int orderid, String taskid, String pid, Principal principal, boolean isAutoGoto) {
 
 		/**
@@ -1278,6 +1310,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 				String activityId = executionEntity.getActivityId();
 				ProcessInstance pe = findProcessInstanceByTaskId(taskid);
 				List<HistoricTaskView> activitis = findHistoricUserTask(city, pe.getProcessInstanceId(), activityId);
+				 
 				OrderView v = findOrderViewByTaskId(taskid, principal);
 				JpaProduct prod = productService.findById(v.getOrder().getProductId());
 				SuppliesView suppliesView = suppliesService.getSuppliesDetail(v.getOrder().getSuppliesId(), null);
@@ -1286,6 +1319,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 				model.addAttribute("suppliesView", suppliesView);
 				model.addAttribute("quafiles", quafiles);
 				model.addAttribute("activitis", activitis);
+				model.addAttribute("operTimeTree", getOperationTime(activitis));
 				model.addAttribute("sections", orderService.getTaskSection(activitis));
 				model.addAttribute("orderview", v);
 				model.addAttribute("prod", prod);

@@ -103,6 +103,8 @@ public interface ActivitiService {
 	public String reset(int city, String p);
 
 	public OrderView findOrderViewByTaskId(String taskid,Principal principal);
+	
+	public OrderView findOrderViewByOrder(int orderId,Principal principal);
 
     public JpaOrders.Status getOrderStatus(int orderId);
 

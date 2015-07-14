@@ -74,7 +74,7 @@ public class ScheduleController {
     @RequestMapping("{orderId}")
     public String getOrderSchedule (
             Model model,
-            @PathVariable("orderId") int orderId) {
+            @PathVariable("orderId") int orderId,Principal principal) {
     	
         JpaOrders order = orderService.getJpaOrder(orderId);
 
@@ -88,7 +88,7 @@ public class ScheduleController {
                 cal.add(Calendar.DATE, 1);
             }
             model.addAttribute("dates", dates);
-            OrderView orderView = new OrderView();
+            OrderView orderView = activitiService.findOrderViewByOrder(orderId, principal); //new OrderView();
             orderView.setProduct(order.getProduct());
             orderView.setOrder(order);
             JpaCity city = cityService.fromId(order.getCity());
