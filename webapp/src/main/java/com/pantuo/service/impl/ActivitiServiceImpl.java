@@ -748,6 +748,11 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime().desc()
 				.listPage(0, 2);
+		autoCompleteBindStatic(u, order, tasks, false );
+		debug(process.getId());
+	}
+
+	private void autoCompleteBindStatic(UserDetail u, JpaOrders order, List<Task> tasks,boolean alwaysSet) {
 		if (!tasks.isEmpty()) {
 			for (Task task : tasks) {
 				//Task task = tasks.get(0);
@@ -756,7 +761,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 					if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
 						//默认签收 绑定素材
 						taskService.claim(task.getId(), u.getUsername());
-						if (order.getSupplies().getId() > 1) {
+						if ( alwaysSet || order.getSupplies().getId() > 1) {
 							//如果是下单的时候 就绑定了素材 完成这一步
 							taskService.complete(task.getId());
 						}
@@ -764,7 +769,6 @@ public class ActivitiServiceImpl implements ActivitiService {
 				}
 			}
 		}
-		debug(process.getId());
 	}
 
 	private void debug(String processid) {
@@ -1259,7 +1263,13 @@ public class ActivitiServiceImpl implements ActivitiService {
 		} else {
 			if (updateSupplise(orderid, supplieid) > 0) {
 				JpaOrders order = orderService.getJpaOrder(orderid);
-				startProcess2(city, user, order);
+
+				List<Task> tasks = taskService.createTaskQuery()
+						.processVariableValueEquals(ActivitiService.ORDER_ID, order.getId()).orderByTaskCreateTime()
+						.desc().listPage(0, 4);
+				autoCompleteBindStatic(user, order, tasks, true);
+
+			//	startProcess2(city, user, order);
 				return new Pair<Boolean, String>(true, "绑定物料成功!");
 			} else {
 				return new Pair<Boolean, String>(true, "绑定物料失败!");

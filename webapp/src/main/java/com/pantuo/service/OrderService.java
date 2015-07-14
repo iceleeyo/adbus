@@ -147,6 +147,9 @@ public class OrderService {
     private OrderBusesMapper orderBusesMapper;
     @Autowired
     private ProductMapper productMapper;
+    
+    @Autowired
+    CpdService cpdService;
 
 	//	 public int countMyList(String name,String code, HttpServletRequest request) ;
 	//	 public List<JpaContract> queryContractList(NumberPageUtil page, String name, String code, HttpServletRequest request);
@@ -184,8 +187,17 @@ public class OrderService {
 
 	public void saveOrderJpa(int city, JpaOrders order, UserDetail user, int cpdid, JpaProduct prod) {
 		order.setCity(city);
-		Pair<Boolean, String> r = null;
 		try {
+			//设置订单的价格
+			if (prod.getIscompare() == 1) {
+				JpaCpd cpd = cpdService.queryOneCpdByPid(prod.getId());
+				if (cpd == null) {
+					throw new AccessDeniedException("竞价信息丢失!");
+				} else {
+					order.setPrice(cpd.getComparePrice());
+				}
+			}
+
 			order.setCreated(new Date());
 			order.setUpdated(new Date());
 			order.setUserId(user.getUsername());
@@ -247,7 +259,7 @@ public class OrderService {
 			}*/
 		} catch (Exception e) {
 			log.error("order ", e);
-			r = new Pair<Boolean, String>(false, "下订单失败！");
+			//r = new Pair<Boolean, String>(false, "下订单失败！");
 			if (e instanceof AccessDeniedException) {
 				throw e;
 			}
