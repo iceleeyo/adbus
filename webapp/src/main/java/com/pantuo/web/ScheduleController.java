@@ -36,6 +36,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.swing.table.TableModel;
 
 import java.io.*;
+import java.security.Principal;
 import java.text.ParseException;
 import java.util.*;
 
@@ -60,6 +61,8 @@ public class ScheduleController {
 
     @Autowired
     private CityService cityService;
+    @Autowired
+    private ActivitiService activitiService;
 
     @Autowired
     private BusScheduleService busScheduleService;
@@ -88,16 +91,39 @@ public class ScheduleController {
             OrderView orderView = new OrderView();
             orderView.setProduct(order.getProduct());
             orderView.setOrder(order);
-
+            JpaCity city = cityService.fromId(order.getCity());
+            SuppliesView suppliesView = suppliesService.getSuppliesDetail(order.getSuppliesId(), null);
             model.addAttribute("orderview", orderView);
             model.addAttribute("orderIdSeq", OrderIdSeq.getLongOrderId(order));
-
-            JpaCity city = cityService.fromId(order.getCity());
             model.addAttribute("mediaType", city.getMediaType());
-            SuppliesView suppliesView = suppliesService.getSuppliesDetail(order.getSuppliesId(), null);
             model.addAttribute("suppliesView", suppliesView);
+            model.addAttribute("ischedule", "Y");
         }
         return "order_schedule";
+    }
+    @RequestMapping("querySchedule/{taskId}")
+    public String querySchedule (Model model,@PathVariable("taskId") String taskId,Principal principal) {
+    	OrderView orderView=activitiService.findOrderViewByTaskId(taskId, principal);
+    	JpaOrders order = orderView.getOrder();
+    	if (order != null && order.getStartTime().before(order.getEndTime())) {
+    		Calendar cal = DateUtil.newCalendar();
+    		cal.setTime(order.getStartTime());
+    		List<String> dates = new ArrayList<String> ();
+    		while (cal.getTime().before(order.getEndTime())) {
+    			dates.add(DateUtil.longDf.get().format(cal.getTime()));
+    			cal.add(Calendar.DATE, 1);
+    		}
+    		JpaCity city = cityService.fromId(order.getCity());
+    		SuppliesView suppliesView = suppliesService.getSuppliesDetail(order.getSuppliesId(), null);
+    		model.addAttribute("dates", dates);
+    		model.addAttribute("orderview", orderView);
+    		model.addAttribute("orderIdSeq", OrderIdSeq.getLongOrderId(order));
+    		model.addAttribute("mediaType", city.getMediaType());
+    		model.addAttribute("suppliesView", suppliesView);
+    		 model.addAttribute("ischedule", "Y");
+    		 model.addAttribute("orderId", orderView.getOrder().getId());
+    	}
+    	return "order_schedule";
     }
 
     /**

@@ -41,7 +41,7 @@
                 url: "${rc.contextPath}/schedule/order-ajax-list",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "orderId" : "${orderId}"
+                        "orderId" : "${orderId!''}"
                     } );
                 },
                 "dataSrc": function(json) {return json;},
@@ -118,7 +118,7 @@
                 url: "${rc.contextPath}/schedule/order-body-ajax-list",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "orderId" : "${orderId}"
+                        "orderId" : "${orderId!''}"
                     } );
                 },
                 "dataSrc": "content",

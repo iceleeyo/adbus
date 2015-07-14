@@ -961,19 +961,19 @@ public class ActivitiServiceImpl implements ActivitiService {
 		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
 				.processInstanceId(processInstanceId).includeProcessVariables().singleResult();
 		OrderView v = new OrderView();
-
 		Map<String, Object> variables = taskService.getVariables(taskid);
 		int orderid = (Integer) variables.get(ORDER_ID);
 		JpaOrders order = orderService.queryOrderDetail(orderid,principal);
-		//        List<OrderBuses> orderBuses = orderService.getOrderBuses(orderid);
-		JpaProduct product = productService.findById(order.getProductId());
-		v.setProduct(product);
-		v.setOrder(order);
+		if(order!=null){
+			JpaProduct product = productService.findById(order.getProductId());
+			v.setProduct(product);
+			v.setOrder(order);
+		}
 		v.setTask(task);
+		v.setTask_id(taskid);
 		v.setProcessInstance(processInstance);
 		v.setProcessInstanceId(processInstance.getId());
 		v.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
-		// Map<String, Object> variables = task.getProcessVariables();
 		v.setVariables(variables);
 		v.setTask_name(getOrderState(processInstance.getProcessVariables()));
 		return v;
