@@ -234,7 +234,6 @@ function inputSchedule() {
 function shangboReport() {
     var shangboResult=$('#shangboReport :radio[name=shangboResult]:checked').val();
 	var shangboComments=$("#shangboComments").val();
-    jDialog.Alert(shangboComments);
 	complete('${taskid!''}',[
 		{
 			key: 'shangboResult',
