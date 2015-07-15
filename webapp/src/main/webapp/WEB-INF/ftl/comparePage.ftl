@@ -54,7 +54,7 @@ $.ajax({
 						<div class="ls-9">
 							<div class="product-info s-clear">
 								<div class="preview s-left">
-									<img src="${rc.contextPath}/imgs/auction.jpg" width="298" height="298">
+									<img src="${rc.contextPath}/imgs/19.jpg" width="298" height="298">
 								</div>
 								<div class="product-detail s-left">
 									<div class="product-title">
