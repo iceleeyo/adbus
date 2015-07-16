@@ -368,14 +368,14 @@
 		  						<span class="mr20">截止</span>    
 		  						<span id="c_${prod_index}"><em></em></span>  
 		  						<script type="text/javascript">
-			  						var dateTo="${prod.biddingDate?string("yyyy-MM-dd HH:mm:ss")}";
+			  						var dateTo=new Date("${prod.biddingDate?string("yyyy-MM-dd HH:mm:ss")}".replace(/-/g, "/"));
 									 countDownReload("c_${prod_index}",dateTo);
 								 </script>
 								<#elseif (prod.startDate > .now   ) > 
 								<span class="mr10">距开拍</span>    
 		  						<span id="c_${prod_index}"><em></em></span>  
 		  						<script type="text/javascript">
-			  						var dateTo="${prod.startDate?string("yyyy-MM-dd HH:mm:ss")}";
+			  						var dateTo=new Date("${prod.startDate?string("yyyy-MM-dd HH:mm:ss")}".replace(/-/g, "/"));
 									 countDownReload("c_${prod_index}",dateTo);
 								 </script>
 								<#elseif (prod.biddingDate < .now   ) > 

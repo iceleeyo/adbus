@@ -108,7 +108,7 @@ $.ajax({
 											 <script type="text/javascript">
 										      		$(function(){ 
 										      			$("#residue").html("剩余时间");
-														var dateTo="${jpaCpd.biddingDate?string("yyyy-MM-dd HH:mm:ss")}";
+														var dateTo=new Date("${prod.biddingDate?string("yyyy-MM-dd HH:mm:ss")}".replace(/-/g, "/"));
 														countDate("auction1Timer",dateTo);
 													});
 										      </script>
@@ -118,7 +118,7 @@ $.ajax({
 										      		$(function(){ 
 										      			$("#residue").html("距离开拍");
 										      			$("#cspan").css("display","none");
-														var dateTo="${jpaCpd.startDate?string("yyyy-MM-dd HH:mm:ss")}";
+										      			var dateTo=new Date("${prod.startDate?string("yyyy-MM-dd HH:mm:ss")}".replace(/-/g, "/"));
 														countDate("auction1Timer",dateTo);
 													});
 										      </script>
