@@ -224,27 +224,34 @@ public class AttachmentServiceImpl implements AttachmentService {
 			return new Pair<Boolean, String>(false, "该素材不存在或是素材属主不对!");
 		}
 	}
-
+  
 	public List<Attachment> queryAllFile(Principal principal, int main_id) {
 		AttachmentExample example =new AttachmentExample();
 		AttachmentExample.Criteria ca=example.createCriteria();
 		ca.andMainIdEqualTo(main_id);
 		return attachmentMapper.selectByExample(example);
 	}
+	//查询素材附件以及绑定的资质
 	public List<Attachment> querysupFile(Principal principal, int main_id) {
 		AttachmentExample example =new AttachmentExample();
 		AttachmentExample.Criteria ca=example.createCriteria();
+		AttachmentExample.Criteria ca2=example.createCriteria();
 		ca.andMainIdEqualTo(main_id);
-		ca.andTypeEqualTo(4);
+		ca.andTypeEqualTo(JpaAttachment.Type.su_file.ordinal());
+		ca2.andMainIdEqualTo(main_id);
+		ca.andTypeEqualTo(JpaAttachment.Type.u_fj.ordinal());
+		example.or(ca2);
 		return attachmentMapper.selectByExample(example);
 	}
+	//查询合同附件
 	public List<Attachment> queryContracF(Principal principal, int main_id) {
 		AttachmentExample example =new AttachmentExample();
 		AttachmentExample.Criteria ca=example.createCriteria();
 		ca.andMainIdEqualTo(main_id);
-		ca.andTypeEqualTo(1);
+		ca.andTypeEqualTo(JpaAttachment.Type.ht_fj.ordinal());
 		return attachmentMapper.selectByExample(example);
 	}
+	//查询发票附件
 	public List<Attachment> queryinvoiceF(Principal principal, int main_id) {
 		AttachmentExample example =new AttachmentExample();
 		AttachmentExample.Criteria ca=example.createCriteria();
@@ -253,18 +260,19 @@ public class AttachmentServiceImpl implements AttachmentService {
 		ca.andMainIdEqualTo(main_id);
 		ca2.andMainIdEqualTo(main_id);
 		ca3.andMainIdEqualTo(main_id);
-		ca.andTypeEqualTo(6);
-		ca2.andTypeEqualTo(7);
-		ca3.andTypeEqualTo(8);
+		ca.andTypeEqualTo(JpaAttachment.Type.license.ordinal());
+		ca2.andTypeEqualTo(JpaAttachment.Type.tax.ordinal());
+		ca3.andTypeEqualTo(JpaAttachment.Type.taxpayer.ordinal());
 		example.or(ca2);
 		example.or(ca3);
 		return attachmentMapper.selectByExample(example);
 	}
+	//查询资质附件
 	public List<Attachment> queryQua(Principal principal, int main_id) {
 		AttachmentExample example =new AttachmentExample();
 		AttachmentExample.Criteria ca=example.createCriteria();
 		ca.andMainIdEqualTo(main_id);
-		ca.andTypeEqualTo(3);
+		ca.andTypeEqualTo(JpaAttachment.Type.u_fj.ordinal());
 		return attachmentMapper.selectByExample(example);
 	}
 

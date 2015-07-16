@@ -708,13 +708,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 					value="${suppliesView.mainView.seqNumber!''}" />
 				<TR>
 					<TH>物料详情</TH>
-					<TD colspan=3><#list suppliesView.files as item> <a
-						href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">
-							${item.name!''}</a> <#if
-						prod.type=='image'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp; <a
-						href="${rc.contextPath}/upload_temp/${item.url!''}"
-						target="_Blank">点击查看</a> </#if>
-						</#list>${(suppliesView.mainView.infoContext)!''}
+					<TD colspan=3><a href="${rc.contextPath}/supplies/suppliesDetail/${(suppliesView.mainView.id)!''}">查看</a>
 					</TD>
 				</TR>
 				<TR>
@@ -753,13 +747,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 				</TR>
 				<TR>
 					<TD>物料信息</TD>
-					<TD colspan=3><#list suppliesView.files as item> <a
-						href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">
-							${item.name!''}</a> <#if
-						prod.type=='image'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp; <a
-						href="${rc.contextPath}/upload_temp/${item.url!''}"
-						target="_Blank">点击查看</a> </#if>
-						</#list>${(suppliesView.mainView.infoContext)!''}
+					<TD colspan=3><a href="${rc.contextPath}/supplies/suppliesDetail/${(suppliesView.mainView.id)!''}">查看</a>
 					</TD>
 				</TR>
 				<TR>
@@ -844,13 +832,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 				</TR>
 				<TR>
 					<TH>物料详情</TH>
-					<TD colspan=3><#list suppliesView.files as item> <a
-						href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">
-							${item.name!''}</a> <#if
-						prod.type=='image'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp; <a
-						href="${rc.contextPath}/upload_temp/${item.url!''}"
-						target="_Blank">点击查看</a> </#if>
-						</#list>${(suppliesView.mainView.infoContext)!''}
+					<TD colspan=3><a href="${rc.contextPath}/supplies/suppliesDetail/${(suppliesView.mainView.id)!''}">查看</a>
 					</TD>
 				</TR>
 
