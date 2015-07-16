@@ -328,7 +328,7 @@
 		</div>
 		<div class="adds"><img src="homepage/imgs/321.jpg" alt="" width="960" height="100"></div>
 		<div class="container">
-			
+		<!--	${product_view._typeName}------------  -->
 			<#if (auctionList?size>0) >
 			<div class="module1">
 			  <div class="title s-clear">
