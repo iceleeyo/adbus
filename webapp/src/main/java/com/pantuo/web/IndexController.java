@@ -16,9 +16,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProduct.FrontShow;
 import com.pantuo.pojo.TableRequest;
+import com.pantuo.service.CityService;
 import com.pantuo.service.CpdService;
 import com.pantuo.service.ProductService;
 
@@ -29,46 +31,34 @@ import com.pantuo.service.ProductService;
  */
 @Controller
 public class IndexController {
-
+	@Autowired
+	private CityService cityService;
 	@Autowired
 	CpdService cpdService;
 	@Autowired
 	private ProductService productService;
 
+	public int makeCookieValueRight(int city) {
+		JpaCity r = cityService.fromId(city);
+		return r == null ? ControllerSupport.defaultCookieValue : r.getId();
+	}
+
 	@RequestMapping(value = "/body", produces = "text/html;charset=utf-8")
 	public String body(Model model, HttpServletRequest request, HttpServletResponse response,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
-		//bcity(response,city,"2");
-		city= city==-1?2: (city%2==1 ?city+1:city);
-		bcity2(response,String.valueOf(city) );
+		city = makeCookieValueRight(city == -1 ? 2 : (city % 2 == 1 ? city + 1 : city));
 		return commonData(model, request, city, "body_index", "body");
-	}
-	private void bcity2(HttpServletResponse response, String city) {
-		Cookie cookie = new Cookie("city", city);
-			cookie.setPath("/");
-			cookie.setMaxAge(604800); //1 week
-			response.addCookie(cookie);
-	}
-	private void bcity(HttpServletResponse response, int city,String num) {
-		if(city<0){
-			Cookie cookie = new Cookie("city", num);
-			cookie.setPath("/");
-			cookie.setMaxAge(604800); //1 week
-			response.addCookie(cookie);
-		}
 	}
 
 	@RequestMapping(value = "/", produces = "text/html;charset=utf-8")
-	public String index(Model model, HttpServletRequest request,HttpServletResponse response,
+	public String index(Model model, HttpServletRequest request, HttpServletResponse response,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
-		//bcity(response, city,"1");
-		city= city==-1?1: (city%2==0 ?city-1:city);
-		bcity2(response,String.valueOf(city) );
+		city = makeCookieValueRight(city == -1 ? 1 : (city % 2 == 0 ? city - 1 : city));
 		return commonData(model, request, city, "index", "screen");
 	}
 
 	private String commonData(Model model, HttpServletRequest request, int city, String pageName, String medetype) {
-		
+
 		TableRequest req = new TableRequest();
 		req.setStart(0);
 		req.setLength(4);

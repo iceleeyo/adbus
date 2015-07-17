@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 @ControllerAdvice
 public class ControllerSupport {
 	private static Logger logger = LoggerFactory.getLogger(ControllerSupport.class);
-
+	public static int defaultCookieValue = 1;
 	@Autowired
 	private CityService cityService;
 
@@ -37,9 +37,9 @@ public class ControllerSupport {
 		JpaCity r = cityService.fromId(city);
 		if (r == null) {
 			logger.info("cookie_value_error:{}", city);
-			int defaultValue = 1;
-			r = cityService.fromId(defaultValue);
-			bcity(response, defaultValue);
+
+			r = cityService.fromId(defaultCookieValue);
+			bcity(response, defaultCookieValue);
 		}
 		return r;
 	}
@@ -51,7 +51,7 @@ public class ControllerSupport {
 			cookie.setMaxAge(604800); //1 week
 			response.addCookie(cookie);
 		} catch (Exception e) {
-			logger.error("ControllerSupport ",e);
+			logger.error("ControllerSupport ", e);
 		}
 	}
 
