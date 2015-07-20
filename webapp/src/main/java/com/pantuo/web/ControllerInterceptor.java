@@ -45,9 +45,9 @@ public class ControllerInterceptor extends HandlerInterceptorAdapter {
 				cityCookie = null;
 			}
 		}
-		if(cityCookie!=null){
+		/*if(cityCookie!=null){
 			log.info("cookie city,{}",cityCookie.getValue());
-		}
+		}*/
 		if (cityCookie == null) {
 			JpaCity city = cityService.list(true).isEmpty() ? null : cityService.list(true).get(0);
 			cityCookie = new Cookie("city", city == null ? "-1" : city.getId() + "");
