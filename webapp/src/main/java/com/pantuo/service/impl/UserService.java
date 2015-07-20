@@ -418,19 +418,43 @@ public class UserService implements UserServiceInter {
 			HttpServletRequest request) {
 		user.buildMySelf();
 		UserDetail dbUser = getByUsername(user.getUsername());
-		if(!Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)){
-			if (user.getGroups() == null || user.getGroups().isEmpty()) {
-				return new  Pair<Boolean, String>(false,"保存失败");
-			}
-		}
-		else if (dbUser == null) {
+		if (dbUser == null) {
 			return new  Pair<Boolean, String>(false,"用户不存在");
-		} else if(!StringUtils.equals(user.getUsername(), Request.getUserId(principal))){
-			return new  Pair<Boolean, String>(false,"操作非法");
 		}
+		if(!Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)){
+		      if (user.getGroups() == null || user.getGroups().isEmpty()) {
+				return new  Pair<Boolean, String>(false,"请至少选择一个分组");
+			  } else if (user.getUser() != null) {
+				int dbId = dbUser.getId();
+				List<Group> existGroup = dbUser.getGroups();
+				BeanUtils.copyProperties(user, dbUser);
+				dbUser.setId(dbId);
+				userRepo.save(dbUser);//先更新user_detail 信息
+				org.activiti.engine.identity.User activitiUser = identityService.createUserQuery()
+						.userId(dbUser.getUsername()).singleResult();
+				activitiUser.setEmail(user.getEmail());
+				activitiUser.setFirstName(user.getFirstName());
+				activitiUser.setLastName(user.getLastName());
+				identityService.saveUser(activitiUser);//更新工作流中的user表
+				//先删除原工作流中的用户权限 只增加不能减
+				for (Group g : existGroup) {
+					identityService.deleteMembership(dbUser.getUsername(), g.getId());
+				}
+				//再重建用户的权限 
+				for (Group g : user.getGroups()) {
+					identityService.createMembership(dbUser.getUsername(), g.getId());
+				}
+
+				 return new  Pair<Boolean, String>(true,"保存成功");
+			}
+			return new  Pair<Boolean, String>(false,"保存失败");
+		}
+		else{
+		  if(!StringUtils.equals(user.getUsername(), Request.getUserId(principal))){
+			return new  Pair<Boolean, String>(false,"操作非法");
+		  }
 		  else if (user.getUser() != null) {
 			int dbId = dbUser.getId();
-			List<Group> existGroup = dbUser.getGroups();
 			BeanUtils.copyProperties(user, dbUser);
 			dbUser.setId(dbId);
 			userRepo.save(dbUser);//先更新user_detail 信息
@@ -440,20 +464,11 @@ public class UserService implements UserServiceInter {
 			activitiUser.setFirstName(user.getFirstName());
 			activitiUser.setLastName(user.getLastName());
 			identityService.saveUser(activitiUser);//更新工作流中的user表
-			//先删除原工作流中的用户权限 只增加不能减
-			if(!Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)){
-			for (Group g : existGroup) {
-				identityService.deleteMembership(dbUser.getUsername(), g.getId());
-			}
-			//再重建用户的权限 
-			for (Group g : user.getGroups()) {
-				identityService.createMembership(dbUser.getUsername(), g.getId());
-			}
-			}
-			    suppliesService.savequlifi(principal, request, null);
-				return new  Pair<Boolean, String>(true,"保存成功");
+			suppliesService.savequlifi(principal, request, null);
+		    return new  Pair<Boolean, String>(true,"保存成功");
 		}
 		return new  Pair<Boolean, String>(false,"保存失败");
+		}
 	}
 
 	/**

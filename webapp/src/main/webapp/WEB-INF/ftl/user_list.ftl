@@ -61,7 +61,7 @@
                             return '<span class="invalid">禁用</span>';
                     }
                 } },
-                 { "data": "ustats", "defaultContent": "", "render": function(data) {
+                 { "data": "ustats", "defaultContent": "未认证", "render": function(data) {
                     if (data == 'init')
                             return '<span class="processed layer-tips" tip="已认证的用户可以参与竞价!">未认证</span>'; 
                         if (data == 'authentication')
