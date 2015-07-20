@@ -4,19 +4,18 @@
 <@frame.html title="物料详细" js=["js/highslide/highslide-full.js", "js/video-js/video.js", "js/video-js/lang/zh-CN.js"]
 css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
     <#include "template/preview.ftl" />
-
+<meta http-equiv="X-Frame-Options" content="SAMEORIGIN"> 
 <script type="text/javascript">
     function go_back(){
         history.go(-1);
     }
 </script>
 
-<div class="withdraw-wrap color-white-bg fn-clear_blank" style="position:absolute;">
+<div class="withdraw-wrap color-white-bg fn-clear_blank" style="width: 100%;">
 						<form data-name="withdraw" name="userForm2" id="userForm2"
 							class="ui-form" method="post" action="saveContract"
 							enctype="multipart/form-data">
-							<H3 class="text-xl title-box"><A class="black" href="#">物料及资质</A>
-						</H3>
+							
 							
 							<div class="mt20">
 							
@@ -102,9 +101,6 @@ css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
 							</div>
 						</form> 
 						<br>
-						<div class="ui-form-item widthdrawBtBox" style="padding: 0 5px 20px 730px;">
-						<button type="button" onclick="go_back()" class="block-btn" style="margin-bottom: 10px;">返回</button>
-						</div>
 								
 </div>
 </@frame.html>

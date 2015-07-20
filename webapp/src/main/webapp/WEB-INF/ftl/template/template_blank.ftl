@@ -67,57 +67,25 @@
 </head>
 <body>
 <div class="page-container">
-<!--上部DIV-->
-	<#include "../menu/top.ftl" />
-<!--下部DIV-->
-<div class="page-container">
 	<div class="pg-container-main">
         <div class="container-12 mt10 s-clear">
         <#if nav>
-		<!--顶部导航开始-->
-		<div class="container-12">
-		<ul class="breadcrumb m11 s-clear">
-		<li class="s-left fsize-16 bread-homep">
-		<#if medetype?? && medetype=="screen">
-		<a class="gray-text" href="${rc.contextPath}/">首页</a>
-		<#else>
-		<a class="gray-text" href="${rc.contextPath}/body">首页</a>
-		</#if>
-		</li>
-		<li class="s-left breadcrumb-right"></li>
-		<li class="s-left bread-child">
-		<a class="gray-text" href="#">${title!''}</a>
-		</li>
-		</ul>
-		</div>
-		<!--顶部导航结束-->
+	
         </#if>
 
 		<!--菜单结束-->
 		
 		<!--主体开始-->
-	<div class="ls-10">
+	<div class="ls-101">
             <#nested>
 	<br>
 	</div>
 		<!--主体结束-->
 	</div>
-	</div>				
-</div>
-</div>
-<div class="online-support">
-    <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=3070339185&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=3:3070339185:3" alt="点击这里咨询" title="点击这里咨询"/></a>
+	</div>	
 </div>
 
-	<div class="footer">
-		<div class="container-12 plr10">
-			<div class="foot-copyright">
-				<span class="foot-cr-link gray-text">© 2015 XXX All rights reserved</span>
-				<span class="foot-cr-link gray-text has-border">北京世巴传媒有限公司</span>
-				
-			</div>
-		</div>
-	</div>
+
 </body>
 </html>
 </#macro>

@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -138,7 +139,8 @@ public class SuppliesController {
 
 	@RequestMapping(value = "/suppliesDetail/{supplies_id}", produces = "text/html;charset=utf-8")
 	public String suppliesDetail(Model model, @PathVariable("supplies_id") int supplies_id, Principal principal,
-			HttpServletRequest request) {
+			HttpServletRequest request,HttpServletResponse response) {
+		response.setHeader("X-Frame-Options", "SAMEORIGIN");
 		//    	int supplies_id=Integer.parseInt(request.getParameter("supplies_id"));
 		SuppliesView view = suppliesService.getSuppliesDetail(supplies_id, principal);
 		model.addAttribute("view", view);

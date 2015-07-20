@@ -93,7 +93,7 @@
                     return row.id;
                 },
                     "render": function(data, type, row, meta) {
-                        var operations=  '<a class="table-link" target="_Blank" href="${rc.contextPath}/supplies/suppliesDetail/'+data+'">查看物料</a>&nbsp;&nbsp;';
+                        var operations=  '<a class="table-link" href="javascript:void(0)" onclick="supDetail('+data+')">查看物料</a>&nbsp;&nbsp;';
                         operations +='<a class="table-link" href="javascript:delSupp('+data+');" >删除</a>  ';
                         return operations;
                     }},
@@ -106,6 +106,20 @@
         } );
         table.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
+    
+function supDetail(data){
+	layer.open({
+    		type: 1,
+    		title: "物料及资质",
+    		skin: 'layui-layer-rim', 
+    		area: ['1000px', '529px'], 
+    		content:''
+			   +' '
+			   +'<iframe  style="width:99%;height:99%" src="${rc.contextPath}/supplies/suppliesDetail/'+data+'"/>'
+			});
+}
+
+    
 function delSupp(Suppid){
 	var bln=window.confirm("确定删除该物料吗？");
     if(bln){

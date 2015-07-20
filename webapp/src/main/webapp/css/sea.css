@@ -309,6 +309,12 @@ table {
 	margin-right: 10px;
 }
 
+.ls-101 {
+	width: 90%;
+	margin-left:30px;
+	position: absolute;
+}
+
 .ls-sift {
 	float: left;
 	margin-left: 10px;

@@ -4,7 +4,18 @@
 <#assign prod=orderview.order.product>
 
 <script type="text/javascript">
+function supDetail(data){
 
+	layer.open({
+    		type: 1,
+    		title: "物料及资质",
+    		skin: 'layui-layer-rim', 
+    		area: ['1000px', '529px'], 
+    		content:''
+			   +' '
+			   +'<iframe  style="width:99%;height:99%" src="${rc.contextPath}/supplies/suppliesDetail/'+data+'"/>'
+			});
+}
 </script>
 <DIV class="p20bs color-white-bg border-ec">
                 <H3 class="text-xl title-box"><p style="text-align: left"><A class="black" href="#">${title}-${(orderview.longOrderId)!''}</A></p></H3>
@@ -81,7 +92,7 @@
 				  <li class="s-left f-iconli"><span class="s-left tt"><i class="s-left ff-icon"></i>物料及资质</span></li>
   				  
 				  <#if suppliesLink>
-  				  <li style="width: 200px;"><SPAN>物料资质：</SPAN><SPAN class="con"><a href="${rc.contextPath}/supplies/suppliesDetail/${(suppliesView.mainView.id)!''}">查看</a></SPAN></li>
+  				  <li style="width: 200px;"><SPAN>物料资质：</SPAN><SPAN class="con"><a href="javascript:void(0)" onclick="supDetail(${(suppliesView.mainView.id)!''})">查看</a></SPAN></li>
 				  
 				  <li style="width: 200px;"><SPAN>物料编号：</SPAN><SPAN class="con">
 				  <#if suppliesView.mainView.seqNumber?has_content >
