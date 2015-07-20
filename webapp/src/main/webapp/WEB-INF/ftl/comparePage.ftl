@@ -1,4 +1,4 @@
-<#import "template/template_blank.ftl" as frame >
+<#import "template/template_buy.ftl" as frame >
 <#import "template/proDetail.ftl" as proDetail>
 <#global menu="产品竞价">
 <@frame.html title="产品竞价" js=["js/jquery.jcountdown.js","js/jquery.jcountdown.site.js","js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/progressbar.js"] 
