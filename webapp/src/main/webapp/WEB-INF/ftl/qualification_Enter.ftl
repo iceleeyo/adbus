@@ -1,5 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="资质录入">
+<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="资质信息录入" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer/layer.js"] css=["js/jquery-ui/jquery-ui.css"]>
 <script type="text/javascript">
     $(document).ready(function() {
@@ -111,6 +112,7 @@
 					data-is="isAmount isEnough" autocomplete="off"
 					disableautocomplete="" value="${userDetail.department!''}">
 			</div>
+			<@security.authorize ifAnyGranted="advertiser">
 			<div class="ui-form-item">
 			    <label class="ui-label mt10">用户资质</label>
 			    <#if attachment??>
@@ -144,6 +146,7 @@
 				</#if>
 				</div>
 			</div>
+			 </@security.authorize>
 	    	<div class="ui-form-item widthdrawBtBox">
 			<input type="button" id="subWithdraw" class="block-btn"
 				onclick="sub();" value="保存">

@@ -123,7 +123,7 @@ function go_back(){
 					data-is="isAmount isEnough" autocomplete="off"
 					disableautocomplete="" value="${userDetail.phone!''}">
 			</div>
-
+           <input type="hidden" name="ustats" value="${userDetail.ustats!''}">
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>所属组:</label>
 				<#if groupsList?exists> <#list groupsList?keys as vkey> <input

@@ -421,7 +421,8 @@ public class UserService implements UserServiceInter {
 		if (dbUser == null) {
 			return new  Pair<Boolean, String>(false,"用户不存在");
 		}
-		if(!Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)){
+		if(!Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER) &&
+				!StringUtils.equals(user.getUsername(), Request.getUserId(principal))){
 		      if (user.getGroups() == null || user.getGroups().isEmpty()) {
 				return new  Pair<Boolean, String>(false,"请至少选择一个分组");
 			  } else if (user.getUser() != null) {

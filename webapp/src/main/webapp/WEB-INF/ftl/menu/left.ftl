@@ -256,7 +256,7 @@
                                     </li>
                                     </#if>
                                     </@security.authorize>
-                                    <@security.authorize ifAnyGranted="advertiser,UserManager">
+                                    <@security.authorize ifAnyGranted="advertiser,UserManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 									<li class="pg-side-item">
 										<a class="pg-side-item-t ff-icon">
 											<i class="s-left pg-icon-a e-icon"></i>
