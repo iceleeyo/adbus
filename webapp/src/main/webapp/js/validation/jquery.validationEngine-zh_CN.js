@@ -209,7 +209,7 @@
                 },
                 
                 "ajaxUserCall": {
-                    "url": "validate/ajaxValidateUser",
+                    "url": "/validate/ajaxValidateUser",
                     // you may want to pass extra data on the ajax call
                     "extraDataDynamic": ['#username'],
                     "alertText": "* 此名称已被其他人使用",

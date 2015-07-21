@@ -151,7 +151,7 @@
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>密码:</label>
 				<input class="ui-input validate[required,minSize[6],maxSize[20]]"
-					type="text" name="password" id="password"
+					type="password" name="password" id="password"
 					data-is="isAmount isEnough" autocomplete="off"
 					disableautocomplete="" placeholder="请输入6-20位密码">
 			</div>
