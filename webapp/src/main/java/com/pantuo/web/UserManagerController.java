@@ -143,6 +143,7 @@ public class UserManagerController {
 		//model.addAttribute("invoiceView", invoiceView);
 		return "invoice_message";
 	}
+	
 	@RequestMapping(value = "/invoice_edit/{invoice_id}", produces = "text/html;charset=utf-8")
 	public String invoice_edit(Model model,@PathVariable("invoice_id") int invoice_id,Principal principal,HttpServletRequest request) {
 		InvoiceView invoiceView=userService.findInvoiceByUser(invoice_id,principal);
@@ -203,10 +204,20 @@ public class UserManagerController {
 		}
 		return "contract_templete";
 	}
-
-	
-	
-
+	@RequestMapping(value = "/activate", produces = "text/html;charset=utf-8")
+	public String activate(Model model,Principal principal,HttpServletRequest request,@RequestParam(value = "userId") String userId,
+			@RequestParam(value = "uuid") String uuid) {
+		if (StringUtils.isNoneBlank(uuid) && StringUtils.equals(uuid, userService.getUserUniqCode(userId))) {
+			UserDetail user = userService.findDetailByUsername(userId);
+			user.setIsActivate(1);
+			userService.saveDetail(user);
+			model.addAttribute("msg", "账号激活成功");
+			return "activateSuccess";
+		} else {
+			model.addAttribute("msg", "链接无效");
+			return "error";
+		}
+	}
 	@RequestMapping(value = "/reset_pwd", produces = "text/html;charset=utf-8")
 	public String reset_pwd(Model model, HttpServletRequest request, @RequestParam(value = "userId") String userId,
 			@RequestParam(value = "uuid") String uuid) {
@@ -300,14 +311,14 @@ public class UserManagerController {
 	@RequestMapping(value = "/save", method = { RequestMethod.POST })
 	@ResponseBody
 	public UserDetail createProduct(UserDetail detail, HttpServletRequest request) {
-		userService.createUserFromPage(detail);
+		userService.createUserFromPage(detail,request);
 		return detail;
 	}
 
 	@RequestMapping(value = "/register", method = { RequestMethod.POST })
 	@ResponseBody
 	public UserDetail register(UserDetail detail, HttpServletRequest request) {
-		userService.createUserFromPage(detail);
+		userService.createUserFromPage(detail,request);
 		return detail;
 	}
 	@RequestMapping(value = "/u_edit/update", method = { RequestMethod.POST })

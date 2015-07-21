@@ -60,12 +60,12 @@
         }
         $('#userForm2').ajaxForm(function(data) {
             if(data.user!=null){
-                jDialog.Alert("注册成功,现在将进入系统!");
+                jDialog.Alert("注册成功,请注意查收邮件进行激活!");
             }
-            var uptime = window.setTimeout(function(){
-                window.location.href="${rc.contextPath}/order/myTask/1";
-                clearTimeout(uptime);
-            },2000);
+           // var uptime = window.setTimeout(function(){
+             //   window.location.href="${rc.contextPath}/order/myTask/1";
+               // clearTimeout(uptime);
+            //},2000);
         }).submit();
 //		$('#userForm2').submit();
 

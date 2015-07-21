@@ -26,5 +26,8 @@ public interface MailService {
 	 * @param request
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	public void sendCanCompareMail(UserDetail u, HttpServletRequest request);	
+	public void sendCanCompareMail(UserDetail u, HttpServletRequest request);
+
+
+	public void sendActivateMail(UserDetail user, HttpServletRequest request);	
 }

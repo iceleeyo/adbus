@@ -61,7 +61,7 @@ public interface UserServiceInter {
 	public abstract boolean createUser(UserDetail user);
 
 
-	public abstract boolean createUserFromPage(UserDetail user);
+	public abstract boolean createUserFromPage(UserDetail user,HttpServletRequest request);
 
 	public abstract boolean deleteUser(String username);
 

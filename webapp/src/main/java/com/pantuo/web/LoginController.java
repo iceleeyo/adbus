@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,7 +53,7 @@ public class LoginController {
 	} 
     
     @RequestMapping(value = "/login", produces = "text/html;charset=utf-8")
-    public String login(HttpServletRequest request, Authentication auth)
+    public String login(Model model,HttpServletRequest request, Authentication auth)
     {
     	Object asObject=  request.getSession().getAttribute("medetype");
     	if(asObject==null){
@@ -60,8 +61,10 @@ public class LoginController {
     	}
         if (auth != null && auth.isAuthenticated()) {
             return "redirect:/order/myTask/1";
-        }
+        }else{
+        	model.addAttribute("msg", "用户名或密码错误");
         return "login";
+        }
     }
     @RequestMapping(value = "/logout", produces = "text/html;charset=utf-8")
     public String logout(HttpServletRequest request)
@@ -85,13 +88,13 @@ public class LoginController {
     	com.pantuo.util.BeanUtils.filterXss(detail);
     	
         detail.setStringGroups(Arrays.asList(new String[]{"advertiser"}));
-        boolean success = userService.createUserFromPage(detail);
-        if (success) {
-            //login user
-            UserDetails newUser = authUserService.loadUserByUsername(detail.getUsername());
-            Authentication auth = new UsernamePasswordAuthenticationToken(newUser, newUser.getPassword(), newUser.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(auth);
-        }
+        boolean success = userService.createUserFromPage(detail,request);
+//        if (success) {
+//            //login user
+//            UserDetails newUser = authUserService.loadUserByUsername(detail.getUsername());
+//            Authentication auth = new UsernamePasswordAuthenticationToken(newUser, newUser.getPassword(), newUser.getAuthorities());
+//            SecurityContextHolder.getContext().setAuthentication(auth);
+//        }
         return detail;
     }
 

@@ -45,6 +45,24 @@ public class MailServiceImpl implements MailService {
 			}
 		}
 	}
+	public void sendActivateMail(UserDetail u, HttpServletRequest request) {
+		String serverIP = Request.getServerIp();
+		if (u != null) {//
+			String userName = u.getUsername();
+			String md5=userService.getUserUniqCode(userName);
+			UserDetail userDetail = userService.findByUsername(userName);
+			if (userDetail != null && userDetail.getUser() != null
+					&& StringUtils.isNoneBlank(userDetail.getUser().getEmail())) {
+				Mail mail = getMailService(userDetail);
+				mail.setSubject("[北巴广告交易系统]账号激活通知");
+				mail.setContent(getActiviteTemplete(userDetail.getUser().getFirstName(),
+						String.format(StringUtils.trim("http://" + serverIP + "/user/activate?userId=%s&uuid=%s"),
+								u.getUsername(), md5), request));
+				boolean r = mail.sendMail();
+				log.info("sennd mail to notify user {} can compre, success: N|Y {}", userName, r);
+			}
+		}
+	}
 
 	public Pair<Boolean, String> addUserMailReset(UserDetail u, HttpServletRequest request) {
 		String md5 = GlobalMethods.md5Encrypted(u.getUser().getId().getBytes());
@@ -92,6 +110,21 @@ public class MailServiceImpl implements MailService {
 			map.put("resetUrl", context);
 			map.put("passed", BooleanUtils.toStringYesNo(passed));
 			hf.process(map, "compare_templete.ftl", swriter);
+		} catch (Exception e) {
+			log.error(e.toString());
+		}
+		return swriter.toString();
+	}
+	private String getActiviteTemplete(String userId,String context, HttpServletRequest request) {
+		StringWriter swriter = new StringWriter();
+		try {
+			String xmlTemplete = request.getSession().getServletContext().getRealPath("/WEB-INF/ftl/mail_templete");
+			FreeMarker hf = new FreeMarker();
+			hf.init(xmlTemplete);
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("userName", userId);
+			map.put("activatetUrl", context);
+			hf.process(map, "activate_templete.ftl", swriter);
 		} catch (Exception e) {
 			log.error(e.toString());
 		}

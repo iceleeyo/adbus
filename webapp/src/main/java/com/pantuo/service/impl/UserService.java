@@ -45,6 +45,7 @@ import com.pantuo.mybatis.persistence.InvoiceMapper;
 import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
 import com.pantuo.service.ActivitiService.SystemRoles;
 import com.pantuo.service.AttachmentService;
+import com.pantuo.service.MailService;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.security.ActivitiUserDetails;
@@ -65,6 +66,8 @@ public class UserService implements UserServiceInter {
 
 	@Autowired
 	private IdentityService identityService;
+	@Autowired
+	private MailService mailService;
 	@Autowired
 	private AttachmentService attachmentService;
 	@Autowired
@@ -418,7 +421,7 @@ public class UserService implements UserServiceInter {
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
 	@Transactional
-	public boolean createUserFromPage(UserDetail user) {
+	public boolean createUserFromPage(UserDetail user,HttpServletRequest request) {
 		user.buildMySelf();
 		UserDetail dbUser = findDetailByUsername(user.getUsername());
 		if (dbUser != null) {
@@ -429,6 +432,7 @@ public class UserService implements UserServiceInter {
 			user.setIsActivate(0);
 			userRepo.save(user);
 			identityService.saveUser(user.getUser());
+			mailService.sendActivateMail(user, request);
 			if (user.getGroups() != null) {
 				for (Group g : user.getGroups()) {
 					identityService.createMembership(user.getUser().getId(), g.getId());
