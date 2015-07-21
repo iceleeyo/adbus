@@ -46,9 +46,7 @@ public interface UserServiceInter {
 	
 	public abstract UserDetail getByUsernameSafe(String username);
 
-	public abstract Pair<Boolean, String> addUserMailReset(UserDetail u, HttpServletRequest request);
 
-	public abstract String getMailTemplete(String userId, String resetPwd, HttpServletRequest request);
 
 	public abstract Pair<Boolean, String> updatePwd(String userId, String psw) throws Exception;
 

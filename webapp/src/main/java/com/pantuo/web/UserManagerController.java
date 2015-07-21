@@ -22,28 +22,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import scala.Int;
-
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.JpaInvoice;
-import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.Product;
-import com.pantuo.mybatis.persistence.ProductMapper;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService.SystemRoles;
 import com.pantuo.service.AttachmentService;
 import com.pantuo.service.DataInitializationService;
 import com.pantuo.service.InvoiceServiceData;
+import com.pantuo.service.MailService;
 import com.pantuo.service.OrderService;
 import com.pantuo.service.ProductService;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.service.UserServiceInter;
-import com.pantuo.util.Constants;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
@@ -65,6 +61,10 @@ public class UserManagerController {
 
 	@Autowired
 	private UserServiceInter userService;
+	
+	
+	@Autowired
+	private MailService mailService;
 	@Autowired
 	private DataInitializationService dataService;
 	@Autowired
@@ -124,7 +124,7 @@ public class UserManagerController {
 	}
 	@RequestMapping(value = "/ustats/{username}/{ustats}", method = { RequestMethod.POST })
 	@ResponseBody
-	public UserDetail ustatsUpdate(@PathVariable("username") String username, @PathVariable("ustats") String ustats) {
+	public UserDetail ustatsUpdate(@PathVariable("username") String username, @PathVariable("ustats") String ustats,HttpServletRequest request) {
 		UserDetail user = userService.findDetailByUsername(username);
 		if (user == null) {
 			UserDetail u = new UserDetail();
@@ -133,6 +133,7 @@ public class UserManagerController {
 		}
 		user.setUstats(UserDetail.UStats.valueOf(ustats));
 		userService.saveDetail(user);
+		mailService.sendCanCompareMail(user, request);
 		return user;
 	}
 
@@ -257,7 +258,7 @@ public class UserManagerController {
 			if (user == null) {
 				return new Pair<Boolean, String>(true, "不存在的用户名");
 			}
-			return userService.addUserMailReset(user, request);
+			return mailService.addUserMailReset(user, request);
 		}
 		return new Pair<Boolean, String>(false, "操作失败");
 	}

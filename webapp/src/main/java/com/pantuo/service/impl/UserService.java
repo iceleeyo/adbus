@@ -254,59 +254,8 @@ public class UserService implements UserServiceInter {
 		}
 		return u;
 	}
-	/**
-	 * @see com.pantuo.service.UserServiceInter#addUserMailReset(com.pantuo.dao.pojo.UserDetail, javax.servlet.http.HttpServletRequest)
-	 * @since pantuotech 1.0-SNAPSHOT
-	 */
-	public Pair<Boolean, String> addUserMailReset(UserDetail u, HttpServletRequest request) {
-		String md5 = GlobalMethods.md5Encrypted(u.getUser().getId().getBytes());
-		if (StringUtils.isBlank(u.getUser().getEmail())) {
-			return new Pair<Boolean, String>(false, "用户未填写邮箱信息,无法通过邮件找回请联系管理员");
-		}
-		String serverIP = Request.getServerIp();;//可能会存在问题
-		Mail mail = new Mail();
-		mail.setTo(u.getUser().getEmail());
-		mail.setFrom("ad_system@163.com");// 你的邮箱  
-		mail.setHost("smtp.163.com");
-		mail.setUsername("ad_system@163.com");// 用户  
-		mail.setPassword("pantuo");// 密码  
-		mail.setSubject("[北巴广告交易系统]找回您的账户密码");
-		mail.setContent(getMailTemplete(
-				u.getUser().getLastName(),
-				String.format(StringUtils.trim("http://" + serverIP + "/user/reset_pwd?userId=%s&uuid=%s"),
-						u.getUsername(), md5), request));
-		Pair<Boolean, String> resultPair = null;
-		String email = u.getUser().getEmail();
-		String regex = "(\\w{3})(\\w+)(\\w{3})(@\\w+)";
-		String mailto = email.replaceAll(regex, "$1..$3$4");
-		if (mail.sendMail()) {
-			resultPair = new Pair<Boolean, String>(true, "您的申请已提交成功，请查看您的" + mailto + "邮箱。");
-		} else {
-			resultPair = new Pair<Boolean, String>(false, "往" + mailto + "发邮件操作失败，轻稍后重新尝试！");
-		}
-		return resultPair;
-	}
 
-	/**
-	 * @see com.pantuo.service.UserServiceInter#getMailTemplete(java.lang.String, java.lang.String, javax.servlet.http.HttpServletRequest)
-	 * @since pantuotech 1.0-SNAPSHOT
-	 */
-	public String getMailTemplete(String userId, String resetPwd, HttpServletRequest request) {
-		StringWriter swriter = new StringWriter();
-		try {
-			//			String xmlTemplete = FileHelper.getAbosluteDirectory("/WEB-INF/ftl/mail_templete");
-			String xmlTemplete = request.getSession().getServletContext().getRealPath("/WEB-INF/ftl/mail_templete");
-			FreeMarker hf = new FreeMarker();
-			hf.init(xmlTemplete);
-			Map<String, String> map = new HashMap<String, String>();
-			map.put("userName", userId);
-			map.put("resetUrl", resetPwd);
-			hf.process(map, "mail_templete.ftl", swriter);
-		} catch (Exception e) {
-			log.error(e.toString());
-		}
-		return swriter.toString();
-	}
+
 
 	/**
 	 * @see com.pantuo.service.UserServiceInter#updatePwd(java.lang.String, java.lang.String)
