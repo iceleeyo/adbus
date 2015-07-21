@@ -1,40 +1,32 @@
 package com.pantuo.service.security;
 
-import com.pantuo.dao.pojo.UserDetail;
-import com.pantuo.service.UserServiceInter;
-
-import org.activiti.engine.ActivitiException;
-import org.activiti.engine.IdentityService;
-import org.activiti.engine.identity.Group;
-import org.activiti.engine.identity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.service.UserServiceInter;
 
 /**
  * Created by tliu on 3/22/15.
+ * modify by impanxh on 7/21/15.
  */
 @Service
 public class ActivitiUserDetailsService implements UserDetailsService {
-    @Autowired
-    private UserServiceInter userService;
+	@Autowired
+	private UserServiceInter userService;
 
-   
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        try {
-            UserDetail user = userService.getByUsername(username);
-            if (user == null)
-                throw new UsernameNotFoundException("no user found for username " + username);
-
-            if (user.getUser() == null)
-                throw new UsernameNotFoundException("fail to find Activiti user for username " + username);
-            return new ActivitiUserDetails(user);
-        } catch (Exception ae) {
-            throw new UsernameNotFoundException("Fail to find user for username " + username + ", e=" + ae);
-        }
-    }
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		UserDetail user = userService.getByUsername(username);
+		if (user == null)
+			throw new UsernameNotFoundException("用户名不存在!");
+		if (user.getIsActivate() == 0) {
+			throw new UsernameNotFoundException("帐户未激活,请先进行邮件激活!");
+		}
+		if (user.getUser() == null)
+			throw new UsernameNotFoundException("fail to find Activiti user for username " + username);
+		return new ActivitiUserDetails(user);
+	}
 }

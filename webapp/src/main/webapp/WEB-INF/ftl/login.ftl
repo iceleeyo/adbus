@@ -15,7 +15,12 @@
                     <div class="login-info module">
                         <form id='loginForm' name='loginForm' class="login-form" action="login" method='POST'>
                             <fieldset><br>
-                            ${(message)!''}
+                             <#if (SPRING_SECURITY_LAST_EXCEPTION.message)?? && (SPRING_SECURITY_LAST_EXCEPTION.message)?index_of("Bad")!=-1>
+                             	密码错误!
+   								<#else>
+   								${(SPRING_SECURITY_LAST_EXCEPTION.message)!''}
+							</#if>
+                             
                                 <div class="login-tips mb10" style="display : none;">
                                     <span class="login-tip">密码不能为空</span>
 

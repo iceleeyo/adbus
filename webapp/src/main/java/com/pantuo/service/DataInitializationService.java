@@ -197,6 +197,7 @@ public class DataInitializationService {
                 ud.setUstats(UStats.init);
                 if (userService.getByUsername(ud.getUsername()) == null) {
                     log.info("Creating user: {}, group: {}", ud.getUsername(), user[5]);
+                    ud.setIsActivate(1);
                     userService.createUser(ud);
                 }
                 users.add(ud);
