@@ -434,7 +434,7 @@
 		            </dd>
 		            <dd>
 		            	<span class="mr20">展示期限</span>                 
-		            	<span><em>${prod.days}</em>周</span>
+		            	<span><em>${prod.days}</em>天</span>
 		            </dd>
 		  					<dd>
 		  						<span class="mr20">金额￥</span>                 
@@ -474,7 +474,7 @@
 		            </dd>
 		            <dd>
 		            	<span class="mr20">展示期限</span>                 
-		            	<span><em>${prod.days}</em>周</span>
+		            	<span><em>${prod.days}</em>天</span>
 		            </dd>
 		  					<dd>
 		  						<span class="mr20">金额￥</span>                 
@@ -514,7 +514,7 @@
 		            </dd>
 		            <dd>
 		            	<span class="mr20">展示期限</span>                 
-		            	<span><em>${prod.days}</em>周</span>
+		            	<span><em>${prod.days}</em>天</span>
 		            </dd>
 		  					<dd>
 		  						<span class="mr20">金额￥</span>                 
