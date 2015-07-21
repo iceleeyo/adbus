@@ -14,7 +14,9 @@
  */
 
 package org.springframework.security.authentication.dao;
-
+/**
+ * 在采用security登录时 能让异常扔到显示
+ */
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
