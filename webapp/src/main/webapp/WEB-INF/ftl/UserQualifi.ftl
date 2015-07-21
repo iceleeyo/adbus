@@ -1,5 +1,5 @@
 <#import "template/template.ftl" as frame>
-<#global menu="用户资质">
+<#global menu="资质管理">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="资质信息录入" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer/layer.js"] css=["js/jquery-ui/jquery-ui.css"]>
 <script type="text/javascript">
@@ -31,7 +31,7 @@
 	<div class="withdrawInputs">
 		<div class="inputs">
 			<div class="ui-form-item">
-			    <label class="ui-label mt10">用户资质</label>
+			    <label class="ui-label mt10">用户资质[图片]</label>
 			    <#if attachment??>
 			         <a href="${rc.contextPath}/downloadFile/${attachment.userId!''}/${attachment.id!''}"
 		          onclick="return hs.expand(this)">
@@ -77,7 +77,7 @@
 			<div class="worm-tips" >
             <div class="tips-title"><span class="icon"></span> 温馨提示</div>
 	          <ol>
-              <li>1.请选择合法的用户资质进行上传、审核通过(已认证)后可参与竞价商品的竞拍</li>
+              <li>1.请选择合法的用户资质[图片]进行上传、审核通过(已认证)后可参与竞价商品的竞拍</li>
               <li>2.如果您填写的信息不正确可能会导致下单失败。 </li>
               <li>3.平台禁止洗钱、信用卡套现、虚假交易等行为，一经发现并确认，将终止该账户的使用。</li>
 	          </ol>
