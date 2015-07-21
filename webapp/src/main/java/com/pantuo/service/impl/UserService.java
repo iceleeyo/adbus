@@ -421,7 +421,7 @@ public class UserService implements UserServiceInter {
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
 	@Transactional
-	public boolean createUserFromPage(UserDetail user,HttpServletRequest request) {
+	public boolean createUserFromPage(UserDetail user,HttpServletRequest request,Principal principal) {
 		user.buildMySelf();
 		UserDetail dbUser = findDetailByUsername(user.getUsername());
 		if (dbUser != null) {
@@ -429,10 +429,16 @@ public class UserService implements UserServiceInter {
 		} else if (user.getUser() != null) {
 			com.pantuo.util.BeanUtils.filterXss(user);
 			user.setUstats(UStats.init);
-			user.setIsActivate(0);
-			userRepo.save(user);
-			identityService.saveUser(user.getUser());
-			mailService.sendActivateMail(user, request);
+			if(principal!=null && Request.hasAuth(principal,"UserManager")){
+				user.setIsActivate(1);
+				userRepo.save(user);
+				identityService.saveUser(user.getUser());
+			}else{
+				user.setIsActivate(0);
+				userRepo.save(user);
+				identityService.saveUser(user.getUser());
+				mailService.sendActivateMail(user, request);
+			}
 			if (user.getGroups() != null) {
 				for (Group g : user.getGroups()) {
 					identityService.createMembership(user.getUser().getId(), g.getId());

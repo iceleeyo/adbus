@@ -310,15 +310,15 @@ public class UserManagerController {
 	@PreAuthorize(" hasRole('UserManager')  ")
 	@RequestMapping(value = "/save", method = { RequestMethod.POST })
 	@ResponseBody
-	public UserDetail createProduct(UserDetail detail, HttpServletRequest request) {
-		userService.createUserFromPage(detail,request);
+	public UserDetail createProduct(UserDetail detail, HttpServletRequest request,Principal principal) {
+		userService.createUserFromPage(detail,request,principal);
 		return detail;
 	}
 
 	@RequestMapping(value = "/register", method = { RequestMethod.POST })
 	@ResponseBody
-	public UserDetail register(UserDetail detail, HttpServletRequest request) {
-		userService.createUserFromPage(detail,request);
+	public UserDetail register(UserDetail detail, HttpServletRequest request,Principal principal) {
+		userService.createUserFromPage(detail,request,principal);
 		return detail;
 	}
 	@RequestMapping(value = "/u_edit/update", method = { RequestMethod.POST })

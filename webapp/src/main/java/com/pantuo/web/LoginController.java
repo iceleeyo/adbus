@@ -1,5 +1,7 @@
 package com.pantuo.web;
 
+import java.security.Principal;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -84,11 +86,11 @@ public class LoginController {
 
     @RequestMapping(value = "/doRegister", method = { RequestMethod.POST})
     @ResponseBody
-    public UserDetail createUser(UserDetail detail, HttpServletRequest request) {
+    public UserDetail createUser(UserDetail detail, HttpServletRequest request,Principal principal) {
     	com.pantuo.util.BeanUtils.filterXss(detail);
     	
         detail.setStringGroups(Arrays.asList(new String[]{"advertiser"}));
-        boolean success = userService.createUserFromPage(detail,request);
+        boolean success = userService.createUserFromPage(detail,request,principal);
 //        if (success) {
 //            //login user
 //            UserDetails newUser = authUserService.loadUserByUsername(detail.getUsername());
