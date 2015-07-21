@@ -33,7 +33,7 @@ function findPwd(){
 	}
 	
 	$.ajax({
-		url : "/webapp/user/send_pwd_link",
+		url : "/user/send_pwd_link",
 		type : "POST",
 		data : {"userId":userId},
 		success : function(data) {
