@@ -263,7 +263,7 @@ public class UserService implements UserServiceInter {
 		if (StringUtils.isBlank(u.getUser().getEmail())) {
 			return new Pair<Boolean, String>(false, "用户未填写邮箱信息,无法通过邮件找回请联系管理员");
 		}
-		String serverIP = request.getLocalAddr();//可能会存在问题
+		String serverIP = Request.getServerIp();;//可能会存在问题
 		Mail mail = new Mail();
 		mail.setTo(u.getUser().getEmail());
 		mail.setFrom("ad_system@163.com");// 你的邮箱  
