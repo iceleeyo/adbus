@@ -41,7 +41,9 @@ public class Request {
 				}
 			}
 		} catch (SocketException e) {
-			log.error("get serverip error{}", e);
+			log.error("get serverip SocketException{}", e);
+		}catch (Exception e) {
+			log.error("get serverip Exception{}", e);
 		}
 
 		return SERVER_IP;
