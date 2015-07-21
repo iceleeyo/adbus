@@ -1,6 +1,5 @@
 package com.pantuo.service.impl;
 
-import java.io.StringWriter;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +14,7 @@ import org.activiti.engine.ManagementService;
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.identity.User;
 import org.activiti.engine.impl.persistence.entity.UserEntity;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,9 +49,6 @@ import com.pantuo.service.SuppliesService;
 import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.security.ActivitiUserDetails;
 import com.pantuo.service.security.ActivitiUserDetailsService;
-import com.pantuo.util.FreeMarker;
-import com.pantuo.util.GlobalMethods;
-import com.pantuo.util.Mail;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 import com.pantuo.web.view.AutoCompleteView;
@@ -65,7 +62,6 @@ public class UserService implements UserServiceInter {
 	private static Logger log = LoggerFactory.getLogger(UserService.class);
 	@Autowired
 	private UserDetailRepository userRepo;
-
 
 	@Autowired
 	private IdentityService identityService;
@@ -82,10 +78,9 @@ public class UserService implements UserServiceInter {
 	InvoiceMapper invoiceMapper;
 	@Autowired
 	AttachmentMapper attachmentMapper;
-	
-	
-	 @Autowired
-	 private ActivitiUserDetailsService authUserService;
+
+	@Autowired
+	private ActivitiUserDetailsService authUserService;
 
 	/**
 	 * @see com.pantuo.service.UserServiceInter#count()
@@ -210,14 +205,15 @@ public class UserService implements UserServiceInter {
 		}
 		return r;
 	}
-	public  InvoiceView findInvoiceByUser(int invoice_id,Principal principal){
+
+	public InvoiceView findInvoiceByUser(int invoice_id, Principal principal) {
 		InvoiceView v = new InvoiceView();
-		InvoiceExample example=new InvoiceExample();
-		InvoiceExample.Criteria criteria=example.createCriteria();
+		InvoiceExample example = new InvoiceExample();
+		InvoiceExample.Criteria criteria = example.createCriteria();
 		criteria.andUserIdEqualTo(Request.getUserId(principal));
 		criteria.andIdEqualTo(invoice_id);
-		List<Invoice> invoices=invoiceMapper.selectByExample(example);
-		if(invoices.size()>0){
+		List<Invoice> invoices = invoiceMapper.selectByExample(example);
+		if (invoices.size() > 0) {
 			v.setMainView(invoices.get(0));
 			List<Attachment> files = attachmentService.queryinvoiceF(principal, invoices.get(0).getId());
 			v.setFiles(files);
@@ -225,6 +221,7 @@ public class UserService implements UserServiceInter {
 		}
 		return null;
 	}
+
 	/**
 	 * @see com.pantuo.service.UserServiceInter#getByUsername(java.lang.String)
 	 * @since pantuotech 1.0-SNAPSHOT
@@ -254,8 +251,6 @@ public class UserService implements UserServiceInter {
 		}
 		return u;
 	}
-
-
 
 	/**
 	 * @see com.pantuo.service.UserServiceInter#updatePwd(java.lang.String, java.lang.String)
@@ -363,18 +358,17 @@ public class UserService implements UserServiceInter {
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
 	@Transactional
-	public  Pair<Boolean, String> updateUserFromPage(UserDetail user,Principal principal,
-			HttpServletRequest request) {
+	public Pair<Boolean, String> updateUserFromPage(UserDetail user, Principal principal, HttpServletRequest request) {
 		user.buildMySelf();
 		UserDetail dbUser = getByUsername(user.getUsername());
 		if (dbUser == null) {
-			return new  Pair<Boolean, String>(false,"用户不存在");
+			return new Pair<Boolean, String>(false, "用户不存在");
 		}
-		if(!Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER) &&
-				!StringUtils.equals(user.getUsername(), Request.getUserId(principal))){
-		      if (user.getGroups() == null || user.getGroups().isEmpty()) {
-				return new  Pair<Boolean, String>(false,"请至少选择一个分组");
-			  } else if (user.getUser() != null) {
+		if (!Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)
+				&& !StringUtils.equals(user.getUsername(), Request.getUserId(principal))) {
+			if (user.getGroups() == null || user.getGroups().isEmpty()) {
+				return new Pair<Boolean, String>(false, "请至少选择一个分组");
+			} else if (user.getUser() != null) {
 				int dbId = dbUser.getId();
 				List<Group> existGroup = dbUser.getGroups();
 				BeanUtils.copyProperties(user, dbUser);
@@ -395,29 +389,27 @@ public class UserService implements UserServiceInter {
 					identityService.createMembership(dbUser.getUsername(), g.getId());
 				}
 
-				 return new  Pair<Boolean, String>(true,"保存成功");
+				return new Pair<Boolean, String>(true, "保存成功");
 			}
-			return new  Pair<Boolean, String>(false,"保存失败");
-		}
-		else{
-		  if(!StringUtils.equals(user.getUsername(), Request.getUserId(principal))){
-			return new  Pair<Boolean, String>(false,"操作非法");
-		  }
-		  else if (user.getUser() != null) {
-			int dbId = dbUser.getId();
-			BeanUtils.copyProperties(user, dbUser);
-			dbUser.setId(dbId);
-			userRepo.save(dbUser);//先更新user_detail 信息
-			org.activiti.engine.identity.User activitiUser = identityService.createUserQuery()
-					.userId(dbUser.getUsername()).singleResult();
-			activitiUser.setEmail(user.getEmail());
-			activitiUser.setFirstName(user.getFirstName());
-			activitiUser.setLastName(user.getLastName());
-			identityService.saveUser(activitiUser);//更新工作流中的user表
-			suppliesService.savequlifi(principal, request, null);
-		    return new  Pair<Boolean, String>(true,"保存成功");
-		}
-		return new  Pair<Boolean, String>(false,"保存失败");
+			return new Pair<Boolean, String>(false, "保存失败");
+		} else {
+			if (!StringUtils.equals(user.getUsername(), Request.getUserId(principal))) {
+				return new Pair<Boolean, String>(false, "操作非法");
+			} else if (user.getUser() != null) {
+				int dbId = dbUser.getId();
+				BeanUtils.copyProperties(user, dbUser);
+				dbUser.setId(dbId);
+				userRepo.save(dbUser);//先更新user_detail 信息
+				org.activiti.engine.identity.User activitiUser = identityService.createUserQuery()
+						.userId(dbUser.getUsername()).singleResult();
+				activitiUser.setEmail(user.getEmail());
+				activitiUser.setFirstName(user.getFirstName());
+				activitiUser.setLastName(user.getLastName());
+				identityService.saveUser(activitiUser);//更新工作流中的user表
+				suppliesService.savequlifi(principal, request, null);
+				return new Pair<Boolean, String>(true, "保存成功");
+			}
+			return new Pair<Boolean, String>(false, "保存失败");
 		}
 	}
 
@@ -506,44 +498,44 @@ public class UserService implements UserServiceInter {
 
 	@Override
 	public Pair<Boolean, String> delInvoice(int invoice_id, Principal principal) {
-		  InvoiceExample example=new InvoiceExample();
-		  InvoiceExample.Criteria c=example.createCriteria();
-		  c.andIdEqualTo(invoice_id);
-		  c.andUserIdEqualTo(Request.getUserId(principal));
-			int a=invoiceMapper.deleteByExample(example);
-			if(a>0){
-//				AttachmentExample example2=new AttachmentExample();
-//				AttachmentExample.Criteria criteria2=example2.createCriteria();
-//				AttachmentExample.Criteria criteria3=example2.createCriteria();
-//				AttachmentExample.Criteria criteria4=example2.createCriteria();
-//			    criteria2.andMainIdEqualTo(invoice_id);
-//			    criteria2.andTypeEqualTo(6);
-//			    criteria3.andMainIdEqualTo(invoice_id);
-//			    criteria3.andTypeEqualTo(7);
-//			    criteria4.andMainIdEqualTo(invoice_id);
-//			    criteria4.andTypeEqualTo(8);
-//			    example2.or(criteria3);
-//			    example2.or(criteria4);
-//			    List<Attachment> attas=attachmentMapper.selectByExample(example2);
-//			    for (Attachment attachment : attas) {
-//			    	if(attachment!=null){
-//			    		attachmentMapper.deleteByPrimaryKey(attachment.getId());
-//			    	}
-//				}
-		    	return	new Pair<Boolean, String>(true, "删除发票成功！");
-			}
-			return	new Pair<Boolean, String>(true, "删除发票失败！");
+		InvoiceExample example = new InvoiceExample();
+		InvoiceExample.Criteria c = example.createCriteria();
+		c.andIdEqualTo(invoice_id);
+		c.andUserIdEqualTo(Request.getUserId(principal));
+		int a = invoiceMapper.deleteByExample(example);
+		if (a > 0) {
+			//				AttachmentExample example2=new AttachmentExample();
+			//				AttachmentExample.Criteria criteria2=example2.createCriteria();
+			//				AttachmentExample.Criteria criteria3=example2.createCriteria();
+			//				AttachmentExample.Criteria criteria4=example2.createCriteria();
+			//			    criteria2.andMainIdEqualTo(invoice_id);
+			//			    criteria2.andTypeEqualTo(6);
+			//			    criteria3.andMainIdEqualTo(invoice_id);
+			//			    criteria3.andTypeEqualTo(7);
+			//			    criteria4.andMainIdEqualTo(invoice_id);
+			//			    criteria4.andTypeEqualTo(8);
+			//			    example2.or(criteria3);
+			//			    example2.or(criteria4);
+			//			    List<Attachment> attas=attachmentMapper.selectByExample(example2);
+			//			    for (Attachment attachment : attas) {
+			//			    	if(attachment!=null){
+			//			    		attachmentMapper.deleteByPrimaryKey(attachment.getId());
+			//			    	}
+			//				}
+			return new Pair<Boolean, String>(true, "删除发票成功！");
+		}
+		return new Pair<Boolean, String>(true, "删除发票失败！");
 	}
 
-	
 	@Override
 	public List<Invoice> queryInvoiceByUser(int cityId, Principal principal) {
-		InvoiceExample example=new InvoiceExample();
-		InvoiceExample.Criteria criteria=example.createCriteria();
+		InvoiceExample example = new InvoiceExample();
+		InvoiceExample.Criteria criteria = example.createCriteria();
 		criteria.andCityEqualTo(cityId);
 		criteria.andUserIdEqualTo(Request.getUserId(principal));
-    	return invoiceMapper.selectByExample(example);
+		return invoiceMapper.selectByExample(example);
 	}
+
 	@Override
 	public Pair<Boolean, String> loginForLayer(HttpServletRequest request, String name, String pwd) {
 		Pair<Boolean, String> p = new Pair<>(false, request.getHeader("referer"));
@@ -569,5 +561,20 @@ public class UserService implements UserServiceInter {
 			}
 		}
 		return p;
+	}
+	/**
+	 * 
+	 * 取的用户唯一加密md5 中间混淆部分值
+	 *
+	 * @param uname
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	public String getUserUniqCode(String uname) {
+		String r = StringUtils.EMPTY;
+		if (StringUtils.isNoneBlank(uname + "/md5/" + uname.hashCode())) {
+			r = DigestUtils.md5Hex(uname);
+		}
+		return r;
 	}
 }
