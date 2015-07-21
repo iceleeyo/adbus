@@ -82,7 +82,7 @@
                     "alertText2": " 日期范围"
                 },
                 "chinese":{
-                    "regex":"/^[\u4e00-\u9fa5]+$/",
+                    "regex":"^[\u4e00-\u9fa5\\w]+$",
                     "alertText":"* 请输入中文."
                 },
                     
