@@ -20,9 +20,9 @@
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/city.css">
 <script type="text/javascript">
 $(document).ready(function(){
-		jDialog.Alert("<font color='red'>${msg!''}</font>          5秒后转到待办事项!",function(){
+		jDialog.Alert("<font color='red'>${msg!''}</font>          5秒后转到首页!",function(){
 		        var uptime = window.setTimeout(function(){
-				$(location).attr('href', "${rc.contextPath}/order/myTask/1");
+				$(location).attr('href', "${rc.contextPath}/");
 		         clearTimeout(uptime);
 		       },5000);
 	    }); 
