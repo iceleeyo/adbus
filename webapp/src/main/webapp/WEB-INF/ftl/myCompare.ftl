@@ -82,9 +82,9 @@
                         '    <span>产品类型</span>' +
                          '<select class="ui-input ui-input-mini" name="protype" id="protype">' +
                     '<option value="" selected="selected">所有类型</option>' +
-                  	'<option value="video">视屏广告</option>' +
-                  	'<option value="image">图片广告</option>' +
-                    '<option value="info">字幕广告</option>' +
+                  	'<option value="video">视频广告</option>' +
+                  	'<option value="image">INFO图片广告</option>' +
+                    '<option value="info">INFO字幕广告</option>' +
          			'</select>' +
                         '</div>'
         );
