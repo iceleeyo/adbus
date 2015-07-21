@@ -1,5 +1,5 @@
 <#import "template/template.ftl" as frame>
-<#global menu="资质录入">
+<#global menu="个人信息">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="资质信息录入" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer/layer.js"] css=["js/jquery-ui/jquery-ui.css"]>
 <script type="text/javascript">
