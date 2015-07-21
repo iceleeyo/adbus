@@ -18,6 +18,13 @@ public interface MailService {
 	public Pair<Boolean, String> addUserMailReset(UserDetail u, HttpServletRequest request);
 	
 	
-	
+	/**
+	 * 
+	 * 资质审核邮件通知
+	 *
+	 * @param u
+	 * @param request
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	public void sendCanCompareMail(UserDetail u, HttpServletRequest request);	
 }
