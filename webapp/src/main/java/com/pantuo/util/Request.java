@@ -27,7 +27,7 @@ public class Request {
 	public static String getServerIp() {
 		String SERVER_IP = "adbus.com";
 		try {
-			Enumeration netInterfaces = NetworkInterface.getNetworkInterfaces();
+			Enumeration<NetworkInterface> netInterfaces = NetworkInterface.getNetworkInterfaces();
 			InetAddress ip = null;
 			while (netInterfaces.hasMoreElements()) {
 				NetworkInterface ni = (NetworkInterface) netInterfaces.nextElement();
