@@ -106,7 +106,7 @@
 											<label class="ui-label mt10">
 											<span
 												class="ui-form-required">*
-											</span>用户昵称:
+											</span>用户真实姓名:
 											</label> 
 												<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[6],maxSize[12]]"
 												type="text" name="firstName" id="firstName"
@@ -156,6 +156,13 @@
 												class="ui-input" type="text" name="company"
 												id="company" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="请输入所属公司名称">
+                                        </div>
+                                        <div class="ui-form-item">
+                                            <label class="ui-label mt10">公司地址:</label>
+                                                    <input
+												class="ui-input" type="text" name="companyAddr"
+												id="companyAddr" data-is="isAmount isEnough"
+												autocomplete="off" disableautocomplete="" placeholder="请输入所属公司地址">
                                         </div>
                                         
 <#--                                        <div class="ui-form-item">

@@ -485,6 +485,7 @@ public class UserService implements UserServiceInter {
 		} else if (user.getUser() != null) {
 			com.pantuo.util.BeanUtils.filterXss(user);
 			user.setUstats(UStats.init);
+			user.setIsActivate(0);
 			userRepo.save(user);
 			identityService.saveUser(user.getUser());
 			if (user.getGroups() != null) {

@@ -69,46 +69,72 @@ function showProductlayer(tourl,id){
 		}, "text");
 	
 }
-//查看合同详情
-function contractdetail(tourl,contractid){
+//查看资质
+function UserQualifi(tourl,username){
 	$.ajax({
-			url : tourl +"/contract/ajax-contractDetail/"+contractid,
+			url : tourl +"/user/qua/"+username,
 			type : "POST",
 			data : {
 			},
 			success : function(data) {
+				var id=data.id;
 				layer.open({
 	    		type: 1,
-	    		title: "合同详情",
+	    		title: "用户资质",
 	    		skin: 'layui-layer-rim', //加上边框
-	    		area: ['450px', '600px'], //宽高
-	    		content: '<form data-name="withdraw"  enctype="multipart/form-data"> '
+	    		area: ['650px', '650px'], //宽高
+	    		content: ' '
 						 +'<br/>'
-						 +'<div class="ui-form-item"> <label class="ui-label mt10"> 合同编号: </label>  <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
-						 +'type="text" name="title" id="title" value="'+data.mainView.contractCode+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"> 合同名称: </label>  <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
-	    				 +'type="text" name="title" id="title" value="'+data.mainView.contractName+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"> 合同类型: </label>  <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
-	    				 +'type="text" name="title" id="title" value="'+data.mainView.contractType+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-	    				 +'<div class="ui-form-item"> <label class="ui-label mt10">广告主:</label> <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
-                         +'type="text" name="mailaddr" value="'+data.mainView.userId+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-	    				 +'<div class="ui-form-item"> <label class="ui-label mt10">金额（￥）:</label> <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
-                         +'type="text" name="taxrenum" value="'+data.mainView.amounts+'" id="taxrenum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
-						 +'<div class="ui-form-item"> <label class="ui-label mt10">所在行业:</label> <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
-                         +'type="text" name="bankname" value="'+data.industryname+'" id="bankname" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10">开始日期:</label> <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
-                         +'type="text" name="accountnum" value="'+ $.format.date(data.mainView.startDate, "yyyy-MM-dd")+'" id="accountnum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10">终止日期:</label> <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
-                         +'type="text" name="regisaddr" value="'+$.format.date(data.mainView.endDate, "yyyy-MM-dd")+'" id="regisaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-						 +'<div class="ui-form-item" id="contractfile"> <label class="ui-label mt10">附件:</label>  </div>'
-						 +'<div class="ui-form-item widthdrawBtBox">  </div></form>'
+						 +'<div  id="qualifi"> </div>'
 		});
-				
-				$.each(data.files, function(i, item) {
-					$("#contractfile").append("<div><a href='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"'>"+item.name+"</a></div><br> ");
-					});
+				if(typeof(id)=="undefined"){
+					$("#qualifi").append("用户尚未上传资质");
+				}else{
+					$("#qualifi").append("<div> <img src='"+tourl+"/downloadFile/"+data.userId+"/"+id+"' /></div>");
+				}
 			}
 		}, "text");
+}
+//查看合同详情
+function contractdetail(tourl,contractid){
+	$.ajax({
+		url : tourl +"/contract/ajax-contractDetail/"+contractid,
+		type : "POST",
+		data : {
+		},
+		success : function(data) {
+			layer.open({
+				type: 1,
+				title: "合同详情",
+				skin: 'layui-layer-rim', //加上边框
+				area: ['450px', '600px'], //宽高
+				content: '<form data-name="withdraw"  enctype="multipart/form-data"> '
+					+'<br/>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10"> 合同编号: </label>  <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+					+'type="text" name="title" id="title" value="'+data.mainView.contractCode+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10"> 合同名称: </label>  <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+					+'type="text" name="title" id="title" value="'+data.mainView.contractName+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10"> 合同类型: </label>  <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+					+'type="text" name="title" id="title" value="'+data.mainView.contractType+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10">广告主:</label> <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+					+'type="text" name="mailaddr" value="'+data.mainView.userId+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10">金额（￥）:</label> <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+					+'type="text" name="taxrenum" value="'+data.mainView.amounts+'" id="taxrenum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10">所在行业:</label> <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+					+'type="text" name="bankname" value="'+data.industryname+'" id="bankname" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10">开始日期:</label> <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+					+'type="text" name="accountnum" value="'+ $.format.date(data.mainView.startDate, "yyyy-MM-dd")+'" id="accountnum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10">终止日期:</label> <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+					+'type="text" name="regisaddr" value="'+$.format.date(data.mainView.endDate, "yyyy-MM-dd")+'" id="regisaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+					+'<div class="ui-form-item" id="contractfile"> <label class="ui-label mt10">附件:</label>  </div>'
+					+'<div class="ui-form-item widthdrawBtBox">  </div></form>'
+			});
+			
+			$.each(data.files, function(i, item) {
+				$("#contractfile").append("<div><a href='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"'>"+item.name+"</a></div><br> ");
+			});
+		}
+	}, "text");
 }
 //查看发票详情
 function invoicedetail(tourl,orderid){

@@ -28,6 +28,7 @@
 		var phone= ($("#phone").val());
 		var company= ($("#company").val());
 		var department= ($("#department").val());
+		var companyAddr= ($("#companyAddr").val());
 		if(username==""){
 			jDialog.Alert("请填写登录名");
 			return;
@@ -46,6 +47,10 @@
 		}
 		if(company==""){
 			jDialog.Alert("请填写所属公司");
+			return;
+		}
+		if(companyAddr==""){
+			jDialog.Alert("请填写公司地址");
 			return;
 		}
 		if(department==""){
@@ -100,53 +105,24 @@
 					disableautocomplete="" value="${userDetail.phone!''}">
 			</div>
 			<div class="ui-form-item">
-				<label class="ui-label mt10"><span class="ui-form-required">*</span>所属公司:</label>
+				<label class="ui-label mt10"><span class="ui-form-required">*</span>所属公司名称:</label>
 				<input class="ui-input" type="text" name="company" id="company"
 					data-is="isAmount isEnough" autocomplete="off"
 					disableautocomplete="" value="${userDetail.company!''}">
 			</div>
 
 			<div class="ui-form-item">
+				<label class="ui-label mt10"><span class="ui-form-required">*</span>公司地址:</label>
+				<input class="ui-input" type="text" name="companyAddr" id="companyAddr"
+					data-is="isAmount isEnough" autocomplete="off"
+					disableautocomplete="" value="${userDetail.companyAddr!''}">
+			</div>
+			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>所属部门:</label>
 				<input class="ui-input" type="text" name="department" id="department"
 					data-is="isAmount isEnough" autocomplete="off"
 					disableautocomplete="" value="${userDetail.department!''}">
 			</div>
-			<@security.authorize ifAnyGranted="advertiser">
-			<div class="ui-form-item">
-			    <label class="ui-label mt10">用户资质</label>
-			    <#if attachment??>
-			         <a href="${rc.contextPath}/downloadFile/${attachment.userId!''}/${attachment.id!''}"
-		          onclick="return hs.expand(this)">
-		        <img src="${rc.contextPath}/downloadFile/${attachment.userId!''}/${attachment.id!''}"
-		             class="m11" width="240"/>
-		    </a><br>
-		    <label class="ui-label mt10">修改资质</label>
-		    <div id="newUpload2">
-												<div id="div_1">
-													<input type="file" name="user_pic" id="Sfile" class="">
-												</div>
-											</div>
-			    <#else>
-			    <div id="newUpload2">
-												<div id="div_1">
-													<input type="file" name="user_pic" id="Sfile" class="">
-												</div>
-											</div>
-			    </#if>
-									  
-	    	</div>
-	    	<div class="ui-form-item" tip="上传资质图片,审核通过可以参与商品竞价!"> 
-				<label class="ui-label mt10">认证状态:</label>
-				<div id="up" style="padding-top: 10px;">
-				<#if userDetail.ustats=="init">
-					未认证
-				    <#else>
-				    已认证
-				</#if>
-				</div>
-			</div>
-			 </@security.authorize>
 	    	<div class="ui-form-item widthdrawBtBox">
 			<input type="button" id="subWithdraw" class="block-btn"
 				onclick="sub();" value="保存">

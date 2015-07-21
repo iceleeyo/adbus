@@ -269,13 +269,6 @@
 													用户列表
 												</a>
 											</li>
-											<!-- 
-											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/user/enter">
-													用户添加
-												</a>
-											</li>
-											 -->
                                             </@security.authorize>
                                             
                                            <@security.authorize ifAnyGranted="advertiser">
@@ -283,17 +276,12 @@
 												<a class="side-exp-item-t" href="${rc.contextPath}/user/invoiceList">
 													发票列表
 												</a>
-												<!-- <a class="side-exp-item-t" href="${rc.contextPath}/user/invoice">
-													发票录入
+												 <a class="side-exp-item-t" href="${rc.contextPath}/user/UserQulifi">
+													资质管理
 												</a>
-												 -->
+												
 											</li>
 											 </@security.authorize>
-											<!--<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/user/qualification">
-                                                    资质录入
-												</a>
-											</li>-->
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/user/qualification">
                                                                                                                                               个人信息

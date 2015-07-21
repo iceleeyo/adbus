@@ -270,7 +270,18 @@ public class UserManagerController {
 		model.addAttribute("attachment", attachment);
 		return "qualification_Enter";
 	}
-
+	@RequestMapping(value = "/UserQulifi", produces = "text/html;charset=utf-8")
+	public String UserQulifi(Model model,Principal principal,HttpServletRequest request) {
+		Attachment attachment=attachmentService.findUserQulifi(Request.getUserId(principal));
+		model.addAttribute("userDetail", userService.getByUsernameSafe(Request.getUserId(principal)));
+		model.addAttribute("attachment", attachment);
+		return "UserQualifi";
+	}
+	@RequestMapping(value = "/updateQualifi", method = { RequestMethod.POST })
+	@ResponseBody
+	public Pair<Boolean, String> updateQualifi(Principal principal,HttpServletRequest request) {
+		return suppliesService.savequlifi(principal, request, null);
+	}
 	
 
 /*	@PreAuthorize("hasRole('advertiser') " + "or hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
@@ -303,6 +314,7 @@ public class UserManagerController {
 	public Pair<Boolean, String> updateUser(UserDetail detail, Principal principal,HttpServletRequest request) {
 		return userService.updateUserFromPage(detail,principal, request);
 	}
+	
 	@RequestMapping(value = "savequalifi", method = RequestMethod.POST)
 	@ResponseBody
 	public Pair<Boolean, String> savequalifi(Principal principal, @RequestParam(value = "description") String description, HttpServletRequest request)
@@ -325,6 +337,12 @@ public class UserManagerController {
 	public UserDetail showUDetail(Model model, @PathVariable("userId") String userId, HttpServletRequest request) {
 		UserDetail u =  userService.getByUsernameSafe(userId);
 		return u;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/qua/{userId}")
+	public Attachment qua(Model model, @PathVariable("userId") String userId, HttpServletRequest request) {
+		Attachment attachment=attachmentService.findUserQulifi(userId);
+		return attachment;
 	}
 	
 	
