@@ -82,8 +82,8 @@
                     "alertText2": " 日期范围"
                 },
                 "chinese":{
-                    "regex":"^[\u4e00-\u9fa5\\w]+$",
-                    "alertText":"* 请输入中文."
+                    "regex":"^[\u4e00-\u9fa5a-zA-Z]+$",
+                    "alertText":"* 请输入中文或字母."
                 },
                     
                 "dateTimeRange": {
