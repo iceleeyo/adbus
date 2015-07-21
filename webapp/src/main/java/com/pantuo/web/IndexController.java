@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaProduct;
@@ -48,6 +49,26 @@ public class IndexController {
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
 		city = makeCookieValueRight(city == -1 ? 2 : (city % 2 == 1 ? city + 1 : city));
 		return commonData(model, request, city, "body_index", "body");
+	}
+	@RequestMapping(value = "/intro-video")
+	public String video() {
+		return "intro/intro-video";
+	}
+	@RequestMapping(value = "/intro-txt")
+	public String txt() {
+		return "intro/intro-txt";
+	}
+	@RequestMapping(value = "/intro-price")
+	public String price() {
+		return "intro/intro-price";
+	}
+	@RequestMapping(value = "/intro-ywzn")
+	public String ywzn() {
+		return "intro/intro-ywzn";
+	}
+	@RequestMapping(value = "/about-me")
+	public String aboutme() {
+		return "intro/about-me";
 	}
 
 	@RequestMapping(value = "/", produces = "text/html;charset=utf-8")
