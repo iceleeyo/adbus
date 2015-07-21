@@ -263,7 +263,7 @@ public class UserService implements UserServiceInter {
 		if (StringUtils.isBlank(u.getUser().getEmail())) {
 			return new Pair<Boolean, String>(false, "用户未填写邮箱信息,无法通过邮件找回请联系管理员");
 		}
-
+		String serverIP = request.getLocalAddr();//可能会存在问题
 		Mail mail = new Mail();
 		mail.setTo(u.getUser().getEmail());
 		mail.setFrom("ad_system@163.com");// 你的邮箱  
@@ -273,7 +273,7 @@ public class UserService implements UserServiceInter {
 		mail.setSubject("[北巴广告交易系统]找回您的账户密码");
 		mail.setContent(getMailTemplete(
 				u.getUser().getLastName(),
-				String.format(StringUtils.trim("http://127.0.0.1:8080/webapp/user/reset_pwd?userId=%s&uuid=%s"),
+				String.format(StringUtils.trim("http://" + serverIP + "/user/reset_pwd?userId=%s&uuid=%s"),
 						u.getUsername(), md5), request));
 		Pair<Boolean, String> resultPair = null;
 		String email = u.getUser().getEmail();
