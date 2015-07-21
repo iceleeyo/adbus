@@ -99,5 +99,7 @@ public interface UserServiceInter {
 	  * @since pantuo 1.0-SNAPSHOT
 	  */
 	public Pair<Boolean,String> loginForLayer(HttpServletRequest request,String name,String pwd);
+	
+	public String getUserUniqCode(String uname);
 
 }
