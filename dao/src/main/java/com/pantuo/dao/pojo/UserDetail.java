@@ -37,8 +37,8 @@ public class UserDetail extends BaseEntity {
 	 */
 	private static final long serialVersionUID = -1842498354096493867L;
 	public static enum UStats {
-		/*初始状态,认证通过,竞价违规*/
-		init, authentication,auctionException;
+		/*初始状态,认证通过,认证不通过,待认证，竞价违规*/
+		init, authentication,unauthentication,upload,auctionException;
 		
 	}
 	@Id
@@ -60,8 +60,10 @@ public class UserDetail extends BaseEntity {
     
 	public String phone;
 	public String company;
+	public String companyAddr;
 	public String department;
 	public UStats ustats;
+	public int isActivate;
 	
 	//以下是页面表单值 
 	@Transient
@@ -120,7 +122,16 @@ public class UserDetail extends BaseEntity {
         this.groups = groups;
     }
 
-    public String getUsername() {
+
+	public int getIsActivate() {
+		return isActivate;
+	}
+
+	public void setIsActivate(int isActivate) {
+		this.isActivate = isActivate;
+	}
+
+	public String getUsername() {
         return username;
     }
 
@@ -171,6 +182,14 @@ public class UserDetail extends BaseEntity {
 
 	public void setCompany(String company) {
 		this.company = company;
+	}
+
+	public String getCompanyAddr() {
+		return companyAddr;
+	}
+
+	public void setCompanyAddr(String companyAddr) {
+		this.companyAddr = companyAddr;
 	}
 
 	public String getDepartment() {
