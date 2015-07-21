@@ -108,10 +108,10 @@
 												class="ui-form-required">*
 											</span>用户真实姓名:
 											</label> 
-												<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[6],maxSize[12]]"
+												<input class="ui-input  validate[required,custom[chinese],minSize[2],maxSize[12],ajax[ajaxUserCall]]" 
 												type="text" name="firstName" id="firstName"
 												data-is="isAmount isEnough" autocomplete="off"
-												disableautocomplete="" placeholder="6-12位中英文、数字、下划线">
+												disableautocomplete="" placeholder="2-12位中英文">
 										</div>
 										<div class="ui-form-item">
 											<label class="ui-label mt10">
