@@ -106,7 +106,7 @@
 					jDialog.Alert(data.errorMessage);
 				}
 			var uptime = window.setTimeout(function(){
-				window.location.href="${rc.contextPath}/contract/list",
+				window.location.href="${rc.contextPath}/user/list",
 			   	clearTimeout(uptime);
 						},2000)
 		}).submit();
