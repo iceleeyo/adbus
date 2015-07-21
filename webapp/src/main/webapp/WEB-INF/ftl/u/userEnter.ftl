@@ -142,7 +142,7 @@
 			<p class="ui-term-placeholder"></p>
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>真实姓名:</label>
-				<input class="ui-input  validate[required,custom[noSpecialLetter],minSize[2],maxSize[12],ajax[ajaxUserCall]]" 
+				<input class="ui-input  validate[required,custom[chinese],minSize[2],maxSize[12],ajax[ajaxUserCall]]" 
 				type="text" name="firstName" id="firstName"
 					data-is="isAmount isEnough" autocomplete="off"
 					disableautocomplete="" placeholder="不支持特殊字符">
