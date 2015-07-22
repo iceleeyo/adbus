@@ -36,10 +36,13 @@ import com.pantuo.service.AttachmentService;
 import com.pantuo.service.DataInitializationService;
 import com.pantuo.service.InvoiceServiceData;
 import com.pantuo.service.MailService;
+import com.pantuo.service.MailTask;
+import com.pantuo.service.MailTask.Type;
 import com.pantuo.service.OrderService;
 import com.pantuo.service.ProductService;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.service.UserServiceInter;
+import com.pantuo.simulate.MailJob;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
@@ -64,7 +67,9 @@ public class UserManagerController {
 	
 	
 	@Autowired
-	private MailService mailService;
+	private MailJob mailJob;
+	@Autowired
+	MailService mailService;
 	@Autowired
 	private DataInitializationService dataService;
 	@Autowired
@@ -133,7 +138,7 @@ public class UserManagerController {
 		}
 		user.setUstats(UserDetail.UStats.valueOf(ustats));
 		userService.saveDetail(user);
-		mailService.sendCanCompareMail(user);
+		mailJob.putMailTask(new MailTask(user, Type.sendCanCompareMail)); 
 		return user;
 	}
 
@@ -269,7 +274,7 @@ public class UserManagerController {
 			if (user == null) {
 				return new Pair<Boolean, String>(true, "不存在的用户名");
 			}
-			return mailService.addUserMailReset(user);
+			return mailService.sendRestPwdMail(user);
 		}
 		return new Pair<Boolean, String>(false, "操作失败");
 	}

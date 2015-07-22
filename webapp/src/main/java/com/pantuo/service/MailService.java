@@ -1,7 +1,5 @@
 package com.pantuo.service;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.util.Pair;
 
@@ -15,7 +13,7 @@ public interface MailService {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	public Pair<Boolean, String> addUserMailReset(UserDetail user);
+	public Pair<Boolean, String> sendRestPwdMail(UserDetail user);
 
 	/**
 	 * 
@@ -29,5 +27,5 @@ public interface MailService {
 
 	public void sendActivateMail(UserDetail user);
 
-	public void sendCompleteMail(String userName, int orderId);
+	public void sendCompleteMail(String userName, Integer orderId);
 }

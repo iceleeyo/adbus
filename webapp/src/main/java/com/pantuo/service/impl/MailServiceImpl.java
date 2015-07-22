@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.TaskService;
@@ -34,6 +33,7 @@ import com.pantuo.util.Mail;
 import com.pantuo.util.OrderIdSeq;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
+import com.pantuo.util.SendMailException;
 
 @Service
 public class MailServiceImpl implements MailService {
@@ -62,6 +62,9 @@ public class MailServiceImpl implements MailService {
 						"http://" + Request.getServerIp()));
 				boolean r = mail.sendMail();
 				log.info("sennd mail to notify user {} can compre, success: N|Y {}", userName, r);
+				if (!r) {
+					throw new SendMailException("send mail fail");
+				}
 			}
 		}
 	}
@@ -86,7 +89,7 @@ public class MailServiceImpl implements MailService {
 		}
 	}
 
-	public Pair<Boolean, String> addUserMailReset(UserDetail u) {
+	public Pair<Boolean, String> sendRestPwdMail(UserDetail u) {
 		String md5 = GlobalMethods.md5Encrypted(u.getUser().getId().getBytes());
 		if (StringUtils.isBlank(u.getUser().getEmail())) {
 			return new Pair<Boolean, String>(false, "用户未填写邮箱信息,无法通过邮件找回请联系管理员");
@@ -200,7 +203,7 @@ public class MailServiceImpl implements MailService {
 	}
 
 	@Override
-	public void sendCompleteMail(String userName, int orderId) {
+	public void sendCompleteMail(String userName, Integer orderId) {
 		List<Task> tasks = taskService.createTaskQuery().processVariableValueEquals(ActivitiService.ORDER_ID, orderId)
 				.orderByTaskCreateTime().desc().list();
 		for (Task task : tasks) {
@@ -218,6 +221,9 @@ public class MailServiceImpl implements MailService {
 									"http://" + Request.getServerIp() + "/order/myTask/1"));
 							boolean r = mail.sendMail();
 							log.info("sennd mail to notify user {} can compre, success: N|Y {}", user2.getEmail(), r);
+							if (!r) {
+								throw new SendMailException("send mail fail:" + user2.getEmail());
+							}
 						}
 					}
 				}
