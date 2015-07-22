@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.service.MailService;
 import com.pantuo.service.MailTask;
-import com.pantuo.service.OrderService;
-import com.pantuo.service.impl.UserService;
 
 /**
  * 
@@ -32,8 +30,7 @@ import com.pantuo.service.impl.UserService;
 @Service
 public class MailJob {
 
-	@Autowired
-	private OrderService orderService;
+ 
 
 	@Autowired
 	private MailService mailService;
