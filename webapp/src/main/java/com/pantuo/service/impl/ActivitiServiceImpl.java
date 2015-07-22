@@ -725,7 +725,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			}
 		}
 
-		debug(process.getId());
+		//debug(process.getId());
 	}
 
 	public void startProcess2(int cityId, UserDetail u, JpaOrders order) {
@@ -767,7 +767,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime().desc()
 				.listPage(0, 2);
 		autoCompleteBindStatic(u, order, tasks, false );
-		debug(process.getId());
+		//debug(process.getId());
 	}
 
 	private void autoCompleteBindStatic(UserDetail u, JpaOrders order, List<Task> tasks,boolean alwaysSet) {
@@ -876,7 +876,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			}
 		}
 		if (task != null) {
-			debug(task.getProcessInstanceId());
+			//debug(task.getProcessInstanceId());
 		}
 		return r = new Pair<Object, String>(orders, "订单支付成功!");
 
