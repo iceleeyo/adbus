@@ -29,7 +29,6 @@ import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -64,13 +63,12 @@ import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.CityService;
 import com.pantuo.service.CpdService;
+import com.pantuo.service.MailService;
 import com.pantuo.service.OrderService;
 import com.pantuo.service.ProductService;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.util.BeanUtils;
 import com.pantuo.util.Constants;
-import com.pantuo.util.DateUtil;
-import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.OrderException;
 import com.pantuo.util.OrderIdSeq;
@@ -118,6 +116,11 @@ public class ActivitiServiceImpl implements ActivitiService {
 	
 	@Autowired
 	private CpdService cpdService;
+	
+	
+
+	@Autowired
+	private MailService mailService;
 
 	/**
 	 * @deprecated
@@ -702,6 +705,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
 				taskService.claim(task.getId(), u.getUsername());
 				taskService.complete(task.getId());
+				mailService.sendCompleteMail(u.getUsername(), order.getId());
 			}
 		}
 		tasks = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS)
@@ -772,6 +776,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 						if ( alwaysSet || order.getSupplies().getId() > 1) {
 							//如果是下单的时候 就绑定了素材 完成这一步
 							taskService.complete(task.getId());
+							mailService.sendCompleteMail(u.getUsername(), order.getId());
 						}
 					}
 				}
@@ -846,7 +851,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 						Map<String, Object> variables = new HashMap<String, Object>();
 						variables.put(ActivitiService.R_USERPAYED, true);
 						taskService.complete(task.getId(), variables);
-						if(orders!=null){
+						mailService.sendCompleteMail(u.getUsername(), orderid);
+						if (orders != null) {
 							return new Pair<Object, String>(orders, "订单支付成功!");
 						}
 					} else {
@@ -887,6 +893,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 							Map<String, Object> variables = new HashMap<String, Object>();
 							variables.put(ActivitiService.R_USERPAYED, true);
 							taskService.complete(task.getId(), variables);
+							mailService.sendCompleteMail(userId, orderid);
 						}
 					}
 				}
@@ -919,6 +926,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 				if (status != null && orderId != null) {
 					orderService.updateStatus(orderId,principal, status);
 				}
+				mailService.sendCompleteMail(u.getUsername(), orderId);
 			} else {
 				r = new Pair<Boolean, String>(false, "非法操作！");
 				log.warn(u.getUsername() + ":" + task.toString());
@@ -1268,6 +1276,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			if (updateSupplise(orderid, supplieid) > 0) {
 				taskService.claim(task.getId(), ul.getUsername());
 				taskService.complete(task.getId());
+				mailService.sendCompleteMail(user.getUsername(), orderid);
 				return new Pair<Object, String>(orders, "订单修改成功!");
 			} else {
 				return new Pair<Object, String>(null, "订单修改失败!");

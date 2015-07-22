@@ -133,7 +133,7 @@ public class UserManagerController {
 		}
 		user.setUstats(UserDetail.UStats.valueOf(ustats));
 		userService.saveDetail(user);
-		mailService.sendCanCompareMail(user, request);
+		mailService.sendCanCompareMail(user);
 		return user;
 	}
 
@@ -269,7 +269,7 @@ public class UserManagerController {
 			if (user == null) {
 				return new Pair<Boolean, String>(true, "不存在的用户名");
 			}
-			return mailService.addUserMailReset(user, request);
+			return mailService.addUserMailReset(user);
 		}
 		return new Pair<Boolean, String>(false, "操作失败");
 	}

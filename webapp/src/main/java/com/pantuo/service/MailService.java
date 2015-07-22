@@ -15,9 +15,8 @@ public interface MailService {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	public Pair<Boolean, String> addUserMailReset(UserDetail u, HttpServletRequest request);
-	
-	
+	public Pair<Boolean, String> addUserMailReset(UserDetail user);
+
 	/**
 	 * 
 	 * 资质审核邮件通知
@@ -26,8 +25,9 @@ public interface MailService {
 	 * @param request
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	public void sendCanCompareMail(UserDetail u, HttpServletRequest request);
+	public void sendCanCompareMail(UserDetail user);
 
+	public void sendActivateMail(UserDetail user);
 
-	public void sendActivateMail(UserDetail user, HttpServletRequest request);	
+	public void sendCompleteMail(String userName, int orderId);
 }

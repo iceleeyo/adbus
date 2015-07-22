@@ -437,7 +437,7 @@ public class UserService implements UserServiceInter {
 				user.setIsActivate(0);
 				userRepo.save(user);
 				identityService.saveUser(user.getUser());
-				mailService.sendActivateMail(user, request);
+				mailService.sendActivateMail(user);
 			}
 			if (user.getGroups() != null) {
 				for (Group g : user.getGroups()) {

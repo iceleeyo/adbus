@@ -8,6 +8,7 @@ import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.security.core.Authentication;
@@ -17,6 +18,9 @@ import com.pantuo.service.security.ActivitiUserDetails;
 
 public class Request {
 	private static Log log = LogFactory.getLog(Request.class);
+
+	public static final String HOST_IP = "adbus.com";
+
 	/**
 	 * 
 	 * 取的服务器端ip 
@@ -25,7 +29,7 @@ public class Request {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	public static String getServerIp() {
-		String SERVER_IP = "adbus.com";
+		String SERVER_IP = HOST_IP;
 		try {
 			Enumeration<NetworkInterface> netInterfaces = NetworkInterface.getNetworkInterfaces();
 			InetAddress ip = null;
@@ -42,11 +46,10 @@ public class Request {
 			}
 		} catch (SocketException e) {
 			log.error("get serverip SocketException{}", e);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			log.error("get serverip Exception{}", e);
 		}
-
-		return SERVER_IP;
+		return StringUtils.contains(SERVER_IP, "0:0:0:0:0") ? HOST_IP : SERVER_IP;//fe80:0:0:0:0:0:0:1%1
 	}
 
 	public static String getIpAddr(HttpServletRequest request) {

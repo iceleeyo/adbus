@@ -2,23 +2,36 @@ package com.pantuo.service.impl;
 
 import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.activiti.engine.IdentityService;
+import org.activiti.engine.TaskService;
+import org.activiti.engine.identity.User;
+import org.activiti.engine.task.IdentityLink;
+import org.activiti.engine.task.Task;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.WebApplicationContext;
 
+import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.service.ActivitiService;
 import com.pantuo.service.MailService;
+import com.pantuo.service.OrderService;
 import com.pantuo.service.UserServiceInter;
 import com.pantuo.util.FreeMarker;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.Mail;
+import com.pantuo.util.OrderIdSeq;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 
@@ -28,55 +41,64 @@ public class MailServiceImpl implements MailService {
 	@Autowired
 	private UserServiceInter userService;
 
-	public void sendCanCompareMail(UserDetail u, HttpServletRequest request) {
+	@Autowired
+	private TaskService taskService;
+	@Autowired
+	private IdentityService identityService;
+	@Autowired
+	private OrderService orderService;
+
+	public void sendCanCompareMail(UserDetail u) {
 
 		if (u != null) {//
 			String userName = u.getUsername();
 			UserDetail userDetail = userService.findByUsername(userName);
 			if (userDetail != null && userDetail.getUser() != null
 					&& StringUtils.isNoneBlank(userDetail.getUser().getEmail())) {
-				Mail mail = getMailService(userDetail);
+				Mail mail = getMailService(userDetail.getUser().getEmail());
 				mail.setSubject("[北巴广告交易系统]资质审核通过通知");
 				mail.setContent(getCompareTemplete(userDetail.getUser().getLastName(),
 						u.getUstats().ordinal() == UserDetail.UStats.authentication.ordinal(),
-						"http://" + Request.getServerIp(), request));
-				boolean r = mail.sendMail();
-				log.info("sennd mail to notify user {} can compre, success: N|Y {}", userName, r);
-			}
-		}
-	}
-	public void sendActivateMail(UserDetail u, HttpServletRequest request) {
-		String serverIP = Request.getServerIp();
-		if (u != null) {//
-			String userName = u.getUsername();
-			String md5=userService.getUserUniqCode(userName);
-			UserDetail userDetail = userService.findByUsername(userName);
-			if (userDetail != null && userDetail.getUser() != null
-					&& StringUtils.isNoneBlank(userDetail.getUser().getEmail())) {
-				Mail mail = getMailService(userDetail);
-				mail.setSubject("[北巴广告交易系统]账号激活通知");
-				mail.setContent(getActiviteTemplete(userDetail.getUser().getFirstName(),
-						String.format(StringUtils.trim("http://" + serverIP + "/user/activate?userId=%s&uuid=%s"),
-								u.getUsername(), md5), request));
+						"http://" + Request.getServerIp()));
 				boolean r = mail.sendMail();
 				log.info("sennd mail to notify user {} can compre, success: N|Y {}", userName, r);
 			}
 		}
 	}
 
-	public Pair<Boolean, String> addUserMailReset(UserDetail u, HttpServletRequest request) {
+	public void sendActivateMail(UserDetail u) {
+		String serverIP = Request.getServerIp();
+		if (u != null) {//
+			String userName = u.getUsername();
+			String md5 = userService.getUserUniqCode(userName);
+			UserDetail userDetail = userService.findByUsername(userName);
+			if (userDetail != null && userDetail.getUser() != null
+					&& StringUtils.isNoneBlank(userDetail.getUser().getEmail())) {
+				Mail mail = getMailService(userDetail.getUser().getEmail());
+				mail.setSubject("[北巴广告交易系统]账号激活通知");
+				mail.setContent(getActiviteTemplete(
+						userDetail.getUser().getFirstName(),
+						String.format(StringUtils.trim("http://" + serverIP + "/user/activate?userId=%s&uuid=%s"),
+								u.getUsername(), md5)));
+				boolean r = mail.sendMail();
+				log.info("sennd mail to notify user {} can compre, success: N|Y {}", userName, r);
+			}
+		}
+	}
+
+	public Pair<Boolean, String> addUserMailReset(UserDetail u) {
 		String md5 = GlobalMethods.md5Encrypted(u.getUser().getId().getBytes());
 		if (StringUtils.isBlank(u.getUser().getEmail())) {
 			return new Pair<Boolean, String>(false, "用户未填写邮箱信息,无法通过邮件找回请联系管理员");
 		}
 		String serverIP = Request.getServerIp();
 		;//可能会存在问题
-		Mail mail = getMailService(u);
+		Mail mail = getMailService(u.getUser().getEmail());
 		mail.setSubject("[北巴广告交易系统]找回您的账户密码");
 		mail.setContent(getMailTemplete(
 				u.getUser().getLastName(),
 				String.format(StringUtils.trim("http://" + serverIP + "/user/reset_pwd?userId=%s&uuid=%s"),
-						u.getUsername(), md5), request));
+						u.getUsername(), md5)));
 		Pair<Boolean, String> resultPair = null;
 		String email = u.getUser().getEmail();
 		String regex = "(\\w{3})(\\w+)(\\w{3})(@\\w+)";
@@ -89,9 +111,9 @@ public class MailServiceImpl implements MailService {
 		return resultPair;
 	}
 
-	private Mail getMailService(UserDetail u) {
+	private Mail getMailService(String toMail) {
 		Mail mail = new Mail();
-		mail.setTo(u.getUser().getEmail());
+		mail.setTo(toMail);
 		mail.setFrom("ad_system@163.com");// 你的邮箱  
 		mail.setHost("smtp.163.com");
 		mail.setUsername("ad_system@163.com");// 用户  
@@ -99,10 +121,11 @@ public class MailServiceImpl implements MailService {
 		return mail;
 	}
 
-	private String getCompareTemplete(String userId, boolean passed, String context, HttpServletRequest request) {
+	private String getCompareTemplete(String userId, boolean passed, String context) {
 		StringWriter swriter = new StringWriter();
 		try {
-			String xmlTemplete = request.getSession().getServletContext().getRealPath("/WEB-INF/ftl/mail_templete");
+			//String xmlTemplete = request.getSession().getServletContext().getRealPath("/WEB-INF/ftl/mail_templete");
+			String xmlTemplete = getTempletePath("/WEB-INF/ftl/mail_templete");
 			FreeMarker hf = new FreeMarker();
 			hf.init(xmlTemplete);
 			Map<String, String> map = new HashMap<String, String>();
@@ -115,10 +138,18 @@ public class MailServiceImpl implements MailService {
 		}
 		return swriter.toString();
 	}
-	private String getActiviteTemplete(String userId,String context, HttpServletRequest request) {
+
+	public String getTempletePath(String templetePath) {
+		WebApplicationContext webApplicationContext = ContextLoader.getCurrentWebApplicationContext();
+		ServletContext servletContext = webApplicationContext.getServletContext();
+		return servletContext.getRealPath(templetePath);
+	}
+
+	private String getActiviteTemplete(String userId, String context) {
 		StringWriter swriter = new StringWriter();
 		try {
-			String xmlTemplete = request.getSession().getServletContext().getRealPath("/WEB-INF/ftl/mail_templete");
+			//String xmlTemplete = request.getSession().getServletContext().getRealPath("/WEB-INF/ftl/mail_templete");
+			String xmlTemplete = getTempletePath("/WEB-INF/ftl/mail_templete");
 			FreeMarker hf = new FreeMarker();
 			hf.init(xmlTemplete);
 			Map<String, String> map = new HashMap<String, String>();
@@ -131,11 +162,12 @@ public class MailServiceImpl implements MailService {
 		return swriter.toString();
 	}
 
-	private String getMailTemplete(String userId, String resetPwd, HttpServletRequest request) {
+	private String getMailTemplete(String userId, String resetPwd) {
 		StringWriter swriter = new StringWriter();
 		try {
 			//			String xmlTemplete = FileHelper.getAbosluteDirectory("/WEB-INF/ftl/mail_templete");
-			String xmlTemplete = request.getSession().getServletContext().getRealPath("/WEB-INF/ftl/mail_templete");
+			//String xmlTemplete = request.getSession().getServletContext().getRealPath("/WEB-INF/ftl/mail_templete");
+			String xmlTemplete = getTempletePath("/WEB-INF/ftl/mail_templete");
 			FreeMarker hf = new FreeMarker();
 			hf.init(xmlTemplete);
 			Map<String, String> map = new HashMap<String, String>();
@@ -146,5 +178,51 @@ public class MailServiceImpl implements MailService {
 			log.error(e.toString());
 		}
 		return swriter.toString();
+	}
+
+	private String getCompleteTemplete(String userId, int orderId, String resetPwd) {
+		StringWriter swriter = new StringWriter();
+		try {
+			//String xmlTemplete = request.getSession().getServletContext().getRealPath("/WEB-INF/ftl/mail_templete");
+			String xmlTemplete = getTempletePath("/WEB-INF/ftl/mail_templete");
+			FreeMarker hf = new FreeMarker();
+			hf.init(xmlTemplete);
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("userName", userId);
+			JpaOrders order = orderService.getJpaOrder(orderId);
+			map.put("orderId", String.valueOf(OrderIdSeq.getLongOrderId(order)));
+			map.put("resetUrl", resetPwd);
+			hf.process(map, "task_templete.ftl", swriter);
+		} catch (Exception e) {
+			log.error(e.toString());
+		}
+		return swriter.toString();
+	}
+
+	@Override
+	public void sendCompleteMail(String userName, int orderId) {
+		List<Task> tasks = taskService.createTaskQuery().processVariableValueEquals(ActivitiService.ORDER_ID, orderId)
+				.orderByTaskCreateTime().desc().list();
+		for (Task task : tasks) {
+			List<IdentityLink> rs = taskService.getIdentityLinksForTask(task.getId());
+			for (IdentityLink identityLink : rs) {
+				//如果不是自己 发邮件
+				if (!StringUtils.equals(userName, identityLink.getUserId())) {
+					if (StringUtils.isNoneBlank(identityLink.getGroupId())) {
+						List<User> activitiUser = identityService.createUserQuery()
+								.memberOfGroup(identityLink.getGroupId()).list();
+						for (User user2 : activitiUser) {
+							Mail mail = getMailService(user2.getEmail());
+							mail.setSubject("[北巴广告交易系统]待办事项通知");
+							mail.setContent(getCompleteTemplete(user2.getFirstName(), orderId,
+									"http://" + Request.getServerIp() + "/order/myTask/1"));
+							boolean r = mail.sendMail();
+							log.info("sennd mail to notify user {} can compre, success: N|Y {}", user2.getEmail(), r);
+						}
+					}
+				}
+			}
+		}
+
 	}
 }
