@@ -39,11 +39,11 @@
                         if (data == 'video')
                             return '视频';
                         if (data == 'image')
-                            return '图片';
+                            return 'INFO图片';
                         if (data == 'body')
                             return '车身';
                         if (data == 'info')
-                            return 'Info';
+                            return 'INFO字幕';
                         return '';
                     } },
                 { "data": "price", "defaultContent": "", "render": $.fn.dataTable.render.number( ',', '.', 2, ' ')  },

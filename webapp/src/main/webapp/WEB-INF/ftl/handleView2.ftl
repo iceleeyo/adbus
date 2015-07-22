@@ -352,10 +352,17 @@ function pay() {
 			success : function(data) {
 				jDialog.Alert(data.right);
 				var uptime = window.setTimeout(function(){
+				if(data.left.suppliesId=='1'){
+				  var a = document.createElement('a');
+    	        a.href='${rc.contextPath}/order/myTask/1';
+            	document.body.appendChild(a);
+             	a.click();
+				}else{
 				var a = document.createElement('a');
     	        a.href='${rc.contextPath}/order/myOrders/1';
             	document.body.appendChild(a);
              	a.click();
+             	}
 			   	clearTimeout(uptime);
 						},2000)
 				
@@ -382,10 +389,17 @@ function pay() {
 			success : function(data) {
 				jDialog.Alert(  data.right);
 				var uptime = window.setTimeout(function(){
+				if(typeof(data.left.payType)=="undefined"){
+				  var a = document.createElement('a');
+    	        a.href='${rc.contextPath}/order/myTask/1';
+            	document.body.appendChild(a);
+             	a.click();
+				}else{
 				var a = document.createElement('a');
     	        a.href='${rc.contextPath}/order/myOrders/1';
             	document.body.appendChild(a);
              	a.click();
+             	}
 			   	clearTimeout(uptime);
 						},2000)
 				

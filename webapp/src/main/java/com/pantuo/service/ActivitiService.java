@@ -77,7 +77,7 @@ public interface ActivitiService {
 
 	public void startProcess2(int city, UserDetail u, JpaOrders order);
 
-	public Pair<Boolean, String> payment(int orderid, String taskid, int contractid, String payType, int isinvoice,int invoiceid,
+	public Pair<Object, String> payment(int orderid, String taskid, int contractid, String payType, int isinvoice,int invoiceid,
 			String contents,String receway,UserDetail u);
 
 	public Page<OrderView> findTask(int city, Principal principal, TableRequest req, TaskQueryType tqType);
@@ -144,7 +144,7 @@ public interface ActivitiService {
 	//根据流程实例和节点ID查找历史审批记录
 	public List<HistoricTaskView> findHistoricUserTask(int city, String processInstanceId, String activityId);
 
-	public Pair<Boolean, String> modifyOrder(int city, int orderid, String taskid, int supplieid, UserDetail user);
+	public Pair<Object, String> modifyOrder(int city, int orderid, String taskid, int supplieid, UserDetail user);
 
 	public String showOrderDetail(int city, Model model, int orderid, String taskid, String pid, Principal principal, boolean isAutoGoto);
 

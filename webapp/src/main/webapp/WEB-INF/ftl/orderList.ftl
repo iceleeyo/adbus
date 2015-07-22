@@ -78,23 +78,47 @@
                         }
                     return data;
                 } },
+                 { "data": "product.type", "defaultContent": "",
+                    "render": function(data, type, row, meta) {
+                        if (data == 'video')
+                            return '视频';
+                        if (data == 'image')
+                            return 'INFO图片';
+                        if (data == 'body')
+                            return '车身';
+                        if (data == 'info')
+                            return 'INFO字幕';
+                        return '';
+                    } },
                 { "data": "task_createTime", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd HH:mm");
                 	return d;
                 }},
+                <@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
                  { "data": "task_name", "defaultContent": "","render": function(data, type, row, meta) {
 	                 	 	return  "<a target='_blank' href='${rc.contextPath}/workflow/view/"+row.executionId+"/page/"+row.processInstanceId+"'>"+data+"</a>";
 	                   
                   	 
                     }},
+                     </@security.authorize>
                    { "data": "task_name", "defaultContent": "","render": function(data, type, row, meta) {
                    
                   		var tr="";
 	                  if(row.task_assignee =='' || row.task_assignee == null){
+	                  if(row.task_name=="支付" || row.task_name=="绑定素材"){
+	                  tr=  "<a href=\"javascript:;\" onclick=\"claim('"+row.order.id+"','"+( row.task_id)+"');\">"+row.task_name+"</a>&nbsp;";
+	                  }
+	                  else{
 	                 	 	tr=  "<a href=\"javascript:;\" onclick=\"claim('"+row.order.id+"','"+( row.task_id)+"');\">签收</a>&nbsp;";
+	                  	}
 	                  	}else {
 	                  	  	 var taskId = row.task_id;
-	                         tr= "<a href='${rc.contextPath}/order/handleView2?orderid=" +(row.order.id)+ "&taskid="+taskId+ "'>办理</a>&nbsp;";
+	                  	  	 if(row.task_name=="支付" || row.task_name=="绑定素材"){
+	                  	  	 
+	                         tr= "<a href='${rc.contextPath}/order/handleView2?orderid=" +(row.order.id)+ "&taskid="+taskId+ "'>"+row.task_name+"</a>&nbsp;";
+	                  	  	 }else{
+	                  	  	  tr= "<a href='${rc.contextPath}/order/handleView2?orderid=" +(row.order.id)+ "&taskid="+taskId+ "'>办理</a>&nbsp;";
+	                  	  	 }
 	                    }	
 	                    if(row.canClosed==true){
 		                    	tr+="<a href=\"javascript:;\" tip=\"未支付的订单可以关闭哦!\"  class=\"btn disabled layer-tips\" onclick=\"showCloseRemark('${rc.contextPath}','"+row.order.id+"','"+( row.task_id)+"');\">关闭</a>&nbsp;";
@@ -194,11 +218,13 @@
                     <thead>
                     <tr>
                         <th>下单用户</th>
-                            <th>订单编号</th>
+                            <th orderBy="longOrderId">订单编号</th>
                         <th>套餐名称</th>
-                       <!-- <th>素材号</th>-->
+                       <th>媒体类型</th>
                         <th orderBy="created">创建时间</th>
-                        <th orderBy="taskKey">待办事项</th>
+                        <@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+                        <th orderBy="taskKey">当前节点</th>
+                        </@security.authorize>
                         <th>操作</th>
                     </tr>
                     </thead>

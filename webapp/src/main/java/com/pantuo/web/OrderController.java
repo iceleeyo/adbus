@@ -166,7 +166,7 @@ public class OrderController {
 
 	@RequestMapping(value = "payment")
 	@ResponseBody
-	public Pair<Boolean, String> payment(@RequestParam(value = "orderid") String orderid,
+	public Pair<Object, String> payment(@RequestParam(value = "orderid") String orderid,
 			@RequestParam(value = "contractid") int contractid, @RequestParam(value = "taskid") String taskid,
 			@RequestParam(value = "payType") String payType, @RequestParam(value = "isinvoice") int isinvoice, @RequestParam(value = "invoiceid") int invoiceid,
 			@RequestParam(value = "contents") String contents,@RequestParam(value = "receway") String receway,
@@ -250,7 +250,7 @@ public class OrderController {
 
 	@RequestMapping(value = "modifyOrder")
 	@ResponseBody
-	public Pair<Boolean, String> modifyOrder(@RequestParam(value = "orderid") String orderid,
+	public Pair<Object, String> modifyOrder(@RequestParam(value = "orderid") String orderid,
 			@CookieValue(value = "city", defaultValue = "-1") int city,
 			@RequestParam(value = "supplieid") int supplieid, @RequestParam(value = "taskid") String taskid,
 			Principal principal, HttpServletRequest request, HttpServletResponse response) {

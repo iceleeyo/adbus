@@ -12,9 +12,10 @@
 <script type="text/javascript">
 
 $(function() {
-	$("#tb1").show();
+         $("#tb1").show();
 	     $("#tb2").hide();
 });
+
 function go_back(){
 	history.go(-1);
 	
@@ -28,8 +29,6 @@ function showtb1(){
 	     $("#tb1").hide();
 	     $("#tb2").show();
 	}
-	
-	
 	
 function pay() { 
 	    var contractid=-1;
@@ -73,7 +72,6 @@ function pay() {
 	            receway=$("#receway").val();
 	            invoiceid=$('#invoiceTab :radio[name=invoiceTit]:checked').val();
 	            invoiceid=  $("#hiddenINvoiceId").val();//$(this).find("span").attr("data-aid");
-	             
 	            if(  (invoiceid) == "0"){
 	              jDialog.Alert("请选择发票");
 	              return;
@@ -103,11 +101,17 @@ function pay() {
 			},
 			success : function(data) {
 				jDialog.Alert(data.right);
+				$("#paybutton1").attr("disabled",true);
+				$("#paybutton2").attr("disabled",true);
 				var uptime = window.setTimeout(function(){
+				if(data.left.suppliesId=='1'){
+				   $("#subsupbutton1").click();
+				}else{
 				var a = document.createElement('a');
     	        a.href='${rc.contextPath}/order/myOrders/1';
             	document.body.appendChild(a);
              	a.click();
+             	}
 			   	clearTimeout(uptime);
 						},2000)
 				
@@ -122,7 +126,6 @@ function pay() {
 	            }
 		var orderid = $("#orderid").val();
 		var taskid = $("#taskid").val();
-		document.getElementById('subWithdraw').setAttribute('disabled',true);
 		 $("#subWithdraw").css("background-color","#85A2AD");
 		$.ajax({
 			url : "${rc.contextPath}/order/modifyOrder",
@@ -134,11 +137,19 @@ function pay() {
 			},
 			success : function(data) {
 				jDialog.Alert(data.right);
+				 $("#subsupbutton1").attr("disabled",true);
+				 $("#subsupbutton2").attr("disabled",true);
+				 $("#subsupbutton1").css("background-color","#85A2AD");
+				 $("#subsupbutton2").css("background-color","#85A2AD");
 				var uptime = window.setTimeout(function(){
+				if(typeof(data.left.payType)=="undefined"){
+				   $("#paybutton1").click();
+				}else{
 				var a = document.createElement('a');
     	        a.href='${rc.contextPath}/order/myOrders/1';
             	document.body.appendChild(a);
              	a.click();
+             	}
 			   	clearTimeout(uptime);
 						},2000)
 				
@@ -272,17 +283,16 @@ function qCheck(obj){
 </#if>
               <div class="p20bs mt10 color-white-bg border-ec">
                  <H3 class="text-xl title-box" style="text-align: left;">
-                    <input type="button"  onclick="showtb1()" class="tab block-btn" value="支付订单">
+                 <#if !(order.payType?has_content)>
+                    <input type="button" id="paybutton1" onclick="showtb1()" class="tab block-btn" value="支付订单">
+                    </#if>
                     <#if order?exists>
                        <#if order.supplies.id = 1 >
-                        	<input type="button"  onclick="showtb2()" class="tab block-btn btn-gray " value="绑定素材">
+                        	<input type="button"  id="subsupbutton1" onclick="showtb2()" class="tab block-btn btn-gray " value="绑定素材">
                        </#if>
                     </#if>
-				 
                  </H3><BR>	
-                 <div id="tb1"> 
-  				 <!-- <H3 class="text-xl title-box"><p style="text-align: left"><A class="black" href="#">订单处理-支付订单</A></p></H3>
-                 <br/> -->
+             <div id="tb1"> 
                  <TABLE class="ui-table ui-table-gray">
   								<TBODY>
 									 	
@@ -322,7 +332,6 @@ function qCheck(obj){
     									    <input type="checkbox" id="invoiceShow"/><span style="margin-left:5px;">开具发票</span> &nbsp;&nbsp;&nbsp;
     									    <a href="javascript:;" onclick="IvcEnter('${rc.contextPath}')">录入发票</a>
     									    <#assign  invoicelength=( (InvoiceList?size/4)?ceiling )> 
-						    
     									</TD>
 				               </TR>
 				            <tbody id="invoiceTab" style="display:none;">
@@ -333,17 +342,7 @@ function qCheck(obj){
 						     <#if (InvoiceList?size>0)>
 				                <ul class="cart_address_list clearfix" style="width:550px;" id="cartAddressList">
 				                  <#list InvoiceList as ilist>
-				                  <!-- <li class="item" data-aid="${ilist.id}" tip="${ (ilist.type==1)?string('专用发票','普通发票')}:${ilist.title}" class="layer-tips">
-				                    <span href="javascript:;"  class="cart_address_card addressCard" style="text-decoration:none;" data-aid="${ilist.id}">
-				                        <p class="cart_address_zipinfo" >
-				                      ${substring(ilist.title,0,11)}</p>
-				                        <i class="cart_address_edit" style="display: none;"onclick="qEdit('${rc.contextPath}',${ilist.id})" id="${ilist.id}">编辑</i>
-				                    </span>
-				                </li> -->
-				               
 				                <li data-aid="${ilist.id}" tip="${ (ilist.type==1)?string('专用发票','普通发票')}:${ilist.title}" class="layer-tips">
-				                    
-				                     
 				                    <span href="javascript:;"  class="" style="text-decoration:none;" data-aid="${ilist.id}">
 				                    <div class="item"><i></i>
 				                        <span class="" >
@@ -353,9 +352,7 @@ function qCheck(obj){
 				                      </span>
 				                    </div>    
 				                    </span>
-				                    
 				                </li>
-				                
 				                </#list>
 				                <#else>
 				                                                         暂无发票，请录入发票
@@ -390,11 +387,6 @@ function qCheck(obj){
 				               	<TR>
 				               		<td style="text-align:right">领取方式</td>
 				               		<td colspan="3">
-				               			<!-- <select  style="margin: 20px;" id="receway">
-				               						<option value="">请选择发票领取方式</option>
-				               						<option value="自取">自取</option>
-				               						<option value="邮寄">邮寄</option>
-				               					</select> -->
 				               					<div id="rece">
 				               		    <div class="item"><i></i><a recew="自取" class="select-type">自取</a></div>
 				               			<div class="item"><i></i><a recew="邮寄" class="select-type">邮寄</a></div>
@@ -408,11 +400,10 @@ function qCheck(obj){
 				               	
 						</TABLE>
 						<p style="text-align: center;margin-top: 10px;">
-    						<button type="button" onclick="pay()" class="block-btn" >确认支付</button>
+    						<button type="button" id="paybutton2" onclick="pay()" class="block-btn" >确认支付</button>
     					</p>
 						</div>
-						<div id="tb2">
-						<!-- <H3 class="text-xl title-box"><p style="text-align: left"><A class="black" href="#">绑定物料</A></p></H3> -->
+				<div id="tb2">
                  		<br/>
 						<TABLE class="ui-table ui-table-gray" id="tb2">
   								<TBODY> 	
@@ -431,15 +422,15 @@ function qCheck(obj){
                   		               </TD>
 				             	    </TR>
 				             	  
-								</TABLE>
+						</TABLE>
 								<p style="text-align: center;margin-top: 10px;">
-									<button type="button" id="subWithdraw" onclick="relatSup()" class="block-btn" >确认</button><br>
+									<button type="button" id="subsupbutton2" onclick="relatSup()" class="block-btn" >确认</button><br>
 								<br/>
 								</p>
-								</div>
+				  </div>
+				  </div>
 				<br>
              </div>	
-			</div> 
 			<input type="hidden" id="orderid" value="${orderview.order.id!''}"/>
 <input type="hidden" id="taskid" value="${taskid!''}"/>
 </div>

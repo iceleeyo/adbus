@@ -746,6 +746,14 @@ public class ActivitiServiceImpl implements ActivitiService {
 				taskService.complete(task.getId());
 			}
 		}
+		 tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime()
+				.desc().listPage(0, 1);
+		if (!tasks.isEmpty()) {
+			Task task = tasks.get(0);
+			if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
+				taskService.claim(task.getId(), u.getUsername());
+			}
+		}
 		tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime().desc()
 				.listPage(0, 2);
 		autoCompleteBindStatic(u, order, tasks, false );
@@ -813,10 +821,11 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return 1;
 	}
 
-	public Pair<Boolean, String> payment(int orderid, String taskid, int contractid, String payType, int isinvoice,
+	public Pair<Object, String> payment(int orderid, String taskid, int contractid, String payType, int isinvoice,
 			int invoiceid, String contents, String receway, UserDetail u) {
 		InvoiceDetail invoiceDetail = new InvoiceDetail();
 		Invoice invoice = invoiceMapper.selectByPrimaryKey(invoiceid);
+		Orders orders = ordersMapper.selectByPrimaryKey(orderid);
 		if (invoice != null) {
 			BeanUtils.copyProperties(invoice, invoiceDetail);
 			invoiceDetail.setReceway(receway);
@@ -824,7 +833,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			invoiceDetail.setMainid(invoiceid);
 			invoiceDetailMapper.insert(invoiceDetail);
 		}
-		Pair<Boolean, String> r = null;
+		Pair<Object, String> r = null;
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 		if (task != null) {
 			Map<String, Object> info = taskService.getVariables(task.getId());
@@ -837,25 +846,27 @@ public class ActivitiServiceImpl implements ActivitiService {
 						Map<String, Object> variables = new HashMap<String, Object>();
 						variables.put(ActivitiService.R_USERPAYED, true);
 						taskService.complete(task.getId(), variables);
-						return new Pair<Boolean, String>(true, "订单支付成功!");
+						if(orders!=null){
+							return new Pair<Object, String>(orders, "订单支付成功!");
+						}
 					} else {
-						return new Pair<Boolean, String>(false, "订单支付失败!");
+						return new Pair<Object, String>(null, "订单支付失败!");
 					}
 				}
 			} else {
-				r = new Pair<Boolean, String>(false, "任务属主不匹配!");
+				r = new Pair<Object, String>(null, "任务属主不匹配!");
 			}
 		} else {
 			if (relateContract(orderid, contractid, payType, isinvoice, invoiceDetail, u.getUsername(), "payment") > 0) {
-				return new Pair<Boolean, String>(true, "订单支付成功!");
+				return new Pair<Object, String>(orders, "订单支付成功!");
 			} else {
-				return new Pair<Boolean, String>(false, "订单支付失败!");
+				return new Pair<Object, String>(null, "订单支付失败!");
 			}
 		}
 		if (task != null) {
 			debug(task.getProcessInstanceId());
 		}
-		return r = new Pair<Boolean, String>(true, "订单支付成功!");
+		return r = new Pair<Object, String>(orders, "订单支付成功!");
 
 	}
 
@@ -1247,8 +1258,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 	}
 
-	public Pair<Boolean, String> modifyOrder(int city, int orderid, String taskid, int supplieid, UserDetail user) {
-		Pair<Boolean, String> r = null;
+	public Pair<Object, String> modifyOrder(int city, int orderid, String taskid, int supplieid, UserDetail user) {
+		Pair<Object, String> r = null;
+		Orders orders = ordersMapper.selectByPrimaryKey(orderid);
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 		if (task != null) {
 			Map<String, Object> info = taskService.getVariables(task.getId());
@@ -1256,9 +1268,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 			if (updateSupplise(orderid, supplieid) > 0) {
 				taskService.claim(task.getId(), ul.getUsername());
 				taskService.complete(task.getId());
-				return new Pair<Boolean, String>(true, "订单修改成功!");
+				return new Pair<Object, String>(orders, "订单修改成功!");
 			} else {
-				return new Pair<Boolean, String>(false, "订单修改失败!");
+				return new Pair<Object, String>(null, "订单修改失败!");
 			}
 		} else {
 			if (updateSupplise(orderid, supplieid) > 0) {
@@ -1270,9 +1282,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 				autoCompleteBindStatic(user, order, tasks, true);
 
 			//	startProcess2(city, user, order);
-				return new Pair<Boolean, String>(true, "绑定物料成功!");
+				return new Pair<Object, String>(order, "绑定物料成功!");
 			} else {
-				return new Pair<Boolean, String>(true, "绑定物料失败!");
+				return new Pair<Object, String>(null, "绑定物料失败!");
 			}
 		}
 	}
