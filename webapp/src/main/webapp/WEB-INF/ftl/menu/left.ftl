@@ -85,13 +85,7 @@
 													竞价产品列表
 												</a>
 											</li>
-											<@security.authorize ifAnyGranted="advertiser">
-											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/product/myAuctionList">
-													我的获拍
-												</a>
-											</li>
-											</@security.authorize>	
+											
 										</ul>
 									</li>
 									<@security.authorize ifAnyGranted="advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
@@ -105,6 +99,11 @@
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/order/myOrders/1">
 													我的订单
+												</a>
+											</li>
+											<li class="pg-side-exp-item">
+												<a class="side-exp-item-t" href="${rc.contextPath}/product/myAuctionList">
+													我的获拍
 												</a>
 											</li>
 										</@security.authorize>	
