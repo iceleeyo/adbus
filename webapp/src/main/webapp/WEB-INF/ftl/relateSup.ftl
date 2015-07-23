@@ -291,7 +291,12 @@ function qCheck(obj){
                         	<input type="button"  id="subsupbutton1" onclick="showtb2()" class="tab block-btn btn-gray " value="绑定素材">
                        </#if>
                     </#if>
-                 </H3><BR>	
+                 </H3>	
+                 <div class="worm-tips">
+		<div class="tips-title">
+			<span class="icon"></span> [温馨提示：您可以选择先支付订单，后绑定物料；也可以选择先绑定物料，后支付订单。]
+		</div>
+		</div>
              <div id="tb1"> 
                  <TABLE class="ui-table ui-table-gray">
   								<TBODY>
@@ -397,7 +402,7 @@ function qCheck(obj){
     					</p>
 						</div>
 				<div id="tb2">
-                 		<br/>
+                 		
 						<TABLE class="ui-table ui-table-gray" id="tb2">
   								<TBODY> 	
 									<TR style="height:45px;">
