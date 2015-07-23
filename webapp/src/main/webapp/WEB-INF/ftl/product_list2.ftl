@@ -37,7 +37,7 @@
                 { "data": "type", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         if (data == 'video')
-                            return '视频';
+                            return '全屏视频';
                         if (data == 'image')
                             return 'INFO图片';
                         if (data == 'body')
