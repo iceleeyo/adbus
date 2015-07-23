@@ -170,24 +170,23 @@ table {
 
 .phmain-logo-b {
 	width: 140px;
-	height: 48px;
 }
 
 .phmain-logo {
 	display: block;
-	height: 48px;
+	height: 72px;
 	width: 140px;
-	background: url(../imgs/logo1.png?v=f3810) no-repeat 0 center;
+	background: url(../homepage/imgs/logo.png?v=f3810) no-repeat 0 center;
 }
 
 .phmain-slogan-b {
 	width: 193px;
-	height: 48px;
+	height: 72px;
 }
 
 .phmain-slogan {
 	display: block;
-	height: 48px;
+	height: 72px;
 	width: 193px;
 	background: url(../imgs/slogan.png?v=f3810) no-repeat 0 center;
 }
@@ -205,8 +204,8 @@ table {
 	color: #555;
 	font-size: 16px;
 	padding: 0 20px 0 20px;
-	line-height: 48px;
-	height: 48px;
+	line-height: 72px;
+	height: 72px;
 	position: relative;
 	display: inline-block;
 }
@@ -228,7 +227,7 @@ table {
 }
 
 .phmain-nav-b {
-	height: 48px;
+	height: 72px;
 }
 
 .shdown {

@@ -110,7 +110,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/", "/*.html", "/login", "/logout", "/homepage/**", "/css/**", "/images/**", "/imgs/**",
 						"/js/**", "/style/**")
 				.permitAll()
-				.antMatchers("/loginForLayer", "/body", "/register", "/user/**", "/doRegister", "/validate/**",
+				.antMatchers("/intro**","/about-me","/loginForLayer", "/body", "/register", "/user/**", "/doRegister", "/validate/**",
 						"/f/**", "/product/d/**", "/product/c/**", "/product/sift**", "/product/sift_data",
 						"/product/ajaxdetail/**", "/order/iwant/**").permitAll().antMatchers("/**").authenticated()
 				.anyRequest().permitAll()

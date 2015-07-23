@@ -181,55 +181,25 @@
 								<li class="pg-nav-item s-left">
 									<a class="pg-nav-item-t" href="${rc.contextPath}/body">首页</a>
 								</li>
+								
 								<li class="pg-nav-item s-left">
-									<a class="pg-nav-item-t pg-nav-hover" href="${rc.contextPath}/intro-video.html">
-										<span>移动电视</span>
-										<#--<span class="shdown"></span>-->
-									</a>
-									<ul class="pg-dropdown" style="display: none;">
-										<li class="pg-dropdown-angle">
-											<span></span>
-										</li>
-										<li class="pg-dropdown-li">
-											<a class="pg-dropdown-a" href="">&nbsp;&nbsp;视频广告</a>
-										</li>
-										<li class="pg-dropdown-li">
-											<a class="pg-dropdown-a" href="">&nbsp;&nbsp;图片广告</a>
-										</li>
-										<li class="pg-dropdown-li">
-											<a class="pg-dropdown-a" href="">&nbsp;&nbsp;文字广告</a>
-										</li>
-									</ul>
+									<a class="pg-nav-item-t" href="${rc.contextPath}/body">车身媒体</a>
 								</li>
 								
 								<li class="pg-nav-item s-left">
-									<a class="pg-nav-item-t" href="${rc.contextPath}/intro-txt.html">车身媒体</a>
+									<a class="pg-nav-item-t" href="${rc.contextPath}">移动电视</a>
 								</li>
+								
 								<li class="pg-nav-item s-left">
-									<a class="pg-nav-item-t pg-nav-hover-us" href="${rc.contextPath}/intro-price.html">
+									<a class="pg-nav-item-t pg-nav-hover-us" href="${rc.contextPath}/product/sift">
 										<span>产品促销</span>
 										<#--<span class="shdown"></span>-->
 									</a>
-									<ul class="pg-dropdown pg-dropdown-us" style="display: none;">
-										<li class="pg-dropdown-angle">
-											<span></span>
-										</li>
-										<li class="pg-dropdown-li">
-											<a class="pg-dropdown-a" href="">管理团队</a>
-										</li>
-										<li class="pg-dropdown-li">
-											<a class="pg-dropdown-a" href="">最新动态</a>
-										</li>
-										<li class="pg-dropdown-li">
-											<a class="pg-dropdown-a" href="">招贤纳士</a>
-										</li>
-									</ul>
+									
 								</li>
+                                
                                 <li class="pg-nav-item s-left">
-                                    <a class="pg-nav-item-t" href="${rc.contextPath}/intro-ywzn.html">业务指南</a>
-                                </li>
-                                <li class="pg-nav-item s-left">
-                                    <a class="pg-nav-item-t" href="${rc.contextPath}/about-me.html">关于我们</a>
+                                    <a class="pg-nav-item-t" href="${rc.contextPath}/about-me">关于我们</a>
                                 </li>
 
 							</ul>

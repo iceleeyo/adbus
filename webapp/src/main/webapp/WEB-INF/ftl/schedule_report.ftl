@@ -6,8 +6,8 @@ css=["js/jquery-ui/jquery-ui.css"]>
 <style type="text/css">
     #table {font-size: 13px;}
     #table td {position:relative;}
-    #table td .per-occupied {position:absolute;background-color: #ffad20;left:0;top:0;height:4px;}
-    #table td .per-free {position:absolute;background-color: #4acd48;right:0;top:0;height:4px;}
+    .per-occupied {position:absolute;background-color: #ffad20;left:0;top:0;height:4px;}
+    .per-free {position:absolute;background-color: #4acd48;right:0;top:0;height:4px;}
 </style>
 <style type="text/css">
     .ui-datepicker-calendar.only-month {
@@ -96,7 +96,9 @@ css=["js/jquery-ui/jquery-ui.css"]>
                         '    <span>' +
                         '        <input id="name" value="">' +
                         '    </span>' +'    <span>[备注：黄色代表占用时段，绿色代表剩余时段。]</span>' +
-                        '</div>'
+                        '</div>'+
+                        '<div style="float: left;height: 4px;">'+
+						'<span class="per-free" style="width:30px"></span></div>'
         );
 
         $('#name').change(function() {
@@ -125,13 +127,17 @@ css=["js/jquery-ui/jquery-ui.css"]>
             </div>-->
             <div class="withdraw-title">
 									剩余时段
+							
                 <div class="report-toolbar">
+                
                     <input
                             class="ui-input ui-input-mini datepicker" type="text" name="day"
                             id="day" data-is="isAmount isEnough"
                             autocomplete="off" disableautocomplete="">
                 </div>
+                
             </div>
+            
                 <table id="table" class="cell-border compact display" cellspacing="0" width="100%">
                     <thead>
                     <tr>

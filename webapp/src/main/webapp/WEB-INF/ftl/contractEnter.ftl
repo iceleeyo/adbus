@@ -1,5 +1,5 @@
 <#import "template/template.ftl" as frame>
-<#global menu="添加合同">
+<#global menu="合同管理">
 <@frame.html title="合同录入" js=["js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/progressbar.js"] css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 
@@ -178,7 +178,7 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>合同金额:</label>
                                                     <input
-												class="ui-input validate[required,custom[number],min[1]]"
+												class="ui-input validate[required,custom[number]]"
 												onblur="bu(this)" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/[^\d.]/g,'')}" type="text" name="amounts"
 												id="amounts" data-is="isAmount isEnough" value="${(contractView.mainView.amounts)!''}"
 												autocomplete="off" disableautocomplete="" placeholder="请输入合同金额"/>
@@ -232,10 +232,9 @@
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required"></span>合同备注:</label>
-                                                     <input
-												class="ui-input" type="text" name="remark" value="${(contractView.mainView.remark)!''}"
-												id="remark" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="" placeholder="合同备注信息">
+												<textarea rows="4" cols="40"  value="${(contractView.mainView.remark)!''}" 
+												id="remark" data-is="isAmount isEnough" 
+												style="resize: none;" name="remarks"></textarea>
                                         </div>
 
 

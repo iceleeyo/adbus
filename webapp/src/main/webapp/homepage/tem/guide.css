@@ -1,5 +1,8 @@
 .pg-guide-content {
 	color: rgb(99, 99, 99);
+	border: 1px solid #e0e0e0;
+  	box-shadow: 0 0 2px 1px #efefef;
+  	margin-left: 10px;
 }
 .pg-guide-title h3 {
 	margin-bottom: 20px;

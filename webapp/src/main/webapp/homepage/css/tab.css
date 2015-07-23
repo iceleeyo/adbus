@@ -117,6 +117,10 @@ body {
 	min-width: 960px
 }
 
+.pg-container-content{
+	padding-bottom: 0px; 
+}
+
 .fn-clear:after {
 	visibility: hidden;
 	display: block;
@@ -188,7 +192,17 @@ body .fn-hide {
 	width: 960px
 }
 
-.grid_1,.grid_2,.grid_3,.grid_4,.grid_5,.grid_6,.grid_7,.grid_8,.grid_9,.grid_10,.grid_11,.grid_12
+
+.containerIn_12 {
+	margin-left: auto;
+	margin-right: auto;
+	width: 960px
+}
+
+.containerIn_12 .gridIn_6 {
+  width: 460px;
+}
+.grid_1,.grid_2,.grid_3,.grid_4,.grid_5,.grid_6,.grid_7,.grid_8,.grid_9,.grid_10,.grid_11,.grid_in12
 	{
 	display: inline;
 	float: left;
@@ -196,6 +210,12 @@ body .fn-hide {
 	margin-right: 10px
 }
 
+.gridIn_1,.gridIn_2,.gridIn_3,.gridIn_4,.gridIn_5,.gridIn_6,.gridIn_7,.gridIn_8,.gridIn_9,.gridIn_10,.gridIn_11,.gridIn_in12
+	{
+	display: inline;
+	float: left;
+	margin-right: 10px
+}
 .push_1,.pull_1,.push_2,.pull_2,.push_3,.pull_3,.push_4,.pull_4,.push_5,.pull_5,.push_6,.pull_6,.push_7,.pull_7,.push_8,.pull_8,.push_9,.pull_9,.push_10,.pull_10,.push_11,.pull_11
 	{
 	position: relative
@@ -205,55 +225,65 @@ body .fn-hide {
 	margin-left: 0
 }
 
-.omega {
-	margin-right: 0
+.alphaIn {
+	margin-left: 0
 }
 
-.container_12 .grid_1 {
+.omega {
+	margin-right: 0;
+	margin-left: -2px;
+}
+
+.omegaIn{
+	margin-right: 0;
+	margin-left: -2px;
+}
+
+.container_12 .gridIn_1 {
 	width: 60px
 }
 
-.container_12 .grid_2 {
+.container_12 .gridIn_2 {
 	width: 140px
 }
 
-.container_12 .grid_3 {
+.container_12 .gridIn_3 {
 	width: 220px
 }
 
-.container_12 .grid_4 {
+.container_12 .gridIn_4 {
 	width: 300px
 }
 
-.container_12 .grid_5 {
+.container_12 .gridIn_5 {
 	width: 380px
 }
 
-.container_12 .grid_6 {
+.container_12 .gridIn_6 {
 	width: 460px
 }
 
-.container_12 .grid_7 {
+.container_12 .gridIn_7 {
 	width: 540px
 }
 
-.container_12 .grid_8 {
+.container_12 .gridIn_8 {
 	width: 620px
 }
 
-.container_12 .grid_9 {
+.container_12 .gridIn_9 {
 	width: 700px
 }
 
-.container_12 .grid_10 {
+.container_12 .gridIn_10 {
 	width: 780px
 }
 
-.container_12 .grid_11 {
+.container_12 .gridIn_11 {
 	width: 860px
 }
 
-.container_12 .grid_12 {
+.container_12 .gridIn_12 {
 	width: 940px
 }
 
@@ -476,17 +506,17 @@ html,body {
 	background: #fcfcfc
 }
 
-.pg-container {
+.pgIn-container {
 	position: relative;
 	min-height: 100%;
 	_height: 100%
 }
 
-.pg-container-content {
+.pgIn-container-content {
 	padding-bottom: 40px
 }
 
-.pg-container.narrow-footer .pg-container-content {
+.pgIn-container.narrow-footer .pgIn-container-content {
 	padding-bottom: 40px
 }
 
@@ -986,6 +1016,10 @@ a.text {
 	margin-top: 10px
 }
 
+.mt10In {
+	margin-top: 10px
+}
+
 .mt15 {
 	margin-top: 15px
 }
@@ -1155,6 +1189,10 @@ a.text {
 }
 
 .p20 {
+	padding: 20px
+}
+
+.pIn20 {
 	padding: 20px
 }
 
@@ -1346,6 +1384,10 @@ a.text {
 }
 
 .pl40 {
+	padding-left: 40px
+}
+
+.plIn40 {
 	padding-left: 40px
 }
 
@@ -5911,16 +5953,16 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	top: 0
 }
 
-.ui-header-logo-grid {
+.ui-header-logo-gridIn {
 	width: 140px;
 	height: 72px
 }
 
-.ui-header-newyear-grid {
+.ui-header-newyear-gridIn {
 	position: relative
 }
 
-.ui-header-slogan-grid {
+.ui-header-slogan-gridIn {
 	width: 193px;
 	height: 72px
 }
@@ -5932,7 +5974,7 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	background: url(/static/img/slogan.png?v=34f85) no-repeat 0 center
 }
 
-.ui-header-grid {
+.ui-header-gridIn {
 	height: 72px
 }
 
@@ -6266,15 +6308,15 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	background-position: -204px -110px
 }
 
-.pg-container.narrow-footer .ui-footer {
+.pgIn-container.narrow-footer .ui-footer {
 	padding: 0
 }
 
-.pg-container.narrow-footer .ui-footer-narrow-hide {
+.pgIn-container.narrow-footer .ui-footer-narrow-hide {
 	display: none
 }
 
-.pg-container.narrow-footer .ui-footer-copyright {
+.pgIn-container.narrow-footer .ui-footer-copyright {
 	margin-bottom: 0;
 	height: 20px;
 	line-height: 20px
@@ -6791,7 +6833,7 @@ a.ui-side-sub-item-link:hover {
 	width: 300px;
 	text-align: left
 }
-.grid_10 {
+.gridIn_10 {
   width: 780px;
 }
 

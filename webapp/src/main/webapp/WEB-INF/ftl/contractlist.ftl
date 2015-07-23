@@ -1,5 +1,5 @@
 <#import "template/template.ftl" as frame>
-<#global menu="合同列表">
+<#global menu="合同管理">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="合同管理" js=["js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js"]>
 

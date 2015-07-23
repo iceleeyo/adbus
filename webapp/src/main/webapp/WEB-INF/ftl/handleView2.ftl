@@ -418,6 +418,19 @@ function pay() {
 	     $("#contractCode").hide();
 	    $("#otherpay").hide();
 	}
+	//物料详情浮窗
+	function supDetail(data){
+
+	layer.open({
+    		type: 1,
+    		title: "物料及资质",
+    		skin: 'layui-layer-rim', 
+    		area: ['1000px', '529px'], 
+    		content:''
+			   +' '
+			   +'<iframe  style="width:99%;height:99%" src="${rc.contextPath}/supplies/suppliesDetail/'+data+'"/>'
+			});
+}
 </script>
 <input type="hidden" id="orderid" value="${orderview.order.id!''}" />
 <input type="hidden" id="taskid" value="${taskid!''}" />
@@ -708,7 +721,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 	<div class="p20bs mt10 color-white-bg border-ec">
 		<H3 class="text-xl title-box">
 			<p style="text-align: left">
-				<A class="black" href="#">订单处理-广告主修改订单物料</A>
+				<A class="black" href="">订单处理-广告主修改订单物料</A>
 			</p>
 		</H3>
 		<br>
@@ -719,7 +732,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 					value="${suppliesView.mainView.seqNumber!''}" />
 				<TR>
 					<TH>物料详情</TH>
-					<TD colspan=3><a href="${rc.contextPath}/supplies/suppliesDetail/${(suppliesView.mainView.id)!''}">查看</a>
+					<TD colspan=3><a href="javascript:void(0)" onclick="supDetail(${(suppliesView.mainView.id)!''})">查看</a>
 					</TD>
 				</TR>
 				<TR>

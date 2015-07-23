@@ -276,17 +276,21 @@ function supEnter(tourl,city,type){
 				$("#suppliesType").append(
 						"<option value='3'>车身</option>"
 				);
-		}else if(type=="视频"){
+		}else if(type=="全屏视频"){
 			$("#suppliesType").append(
-						"<option value='0'>视频</option>"
+			"<option value='0'>全屏视频</option>"
 				);
-		}else if(type=="图片"){
+		}else if(type=="INFO图片"){
 			$("#suppliesType").append(
-			"<option value='1'>图片</option>"
+			"<option value='1'>INFO图片</option>"
 			);
-		}else if(type=="文本"){
+		}else if(type=="INFO字幕"){
 			$("#suppliesType").append(
-			"<option value='2'>文本</option>"
+			"<option value='2'>INFO字幕</option>"
+			);
+		}else if(type=="团类"){
+			$("#suppliesType").append(
+			"<option value='4'>团类</option>"
 			);
 		};
 		$("#userForm1").validationEngine({
