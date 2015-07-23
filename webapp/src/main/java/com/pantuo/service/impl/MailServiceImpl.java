@@ -257,13 +257,13 @@ public class MailServiceImpl implements MailService {
 								mail.setSubject("[北巴广告交易系统]待办事项通知");
 								mail.setContent(context);
 								boolean r = mail.sendMail();
-								log.info("sendCompleteMail to{} , success: N|Y {}", user2.getEmail(), r);
+								log.info("sendCompleteMail to {} , success: N|Y {}", user2.getEmail(), r);
 								if (!r) {
 									throw new SendMailException("send mail fail:" + user2.getEmail());
 								}
 							} else if (OSinfoUtils.isLinux()) {
 								LinuxMailService.sendMail(user2.getEmail(), "[北巴广告交易系统]待办事项通知", context);
-								log.info("sendCompleteMail to{} , success: N|Y {true}", user2.getEmail());
+								log.info("sendCompleteMail to {} , success: N|Y {true}", user2.getEmail());
 							}
 						}
 					}
