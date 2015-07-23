@@ -42,7 +42,7 @@
     <sequenceFlow id="flow51" sourceRef="errortask" targetRef="endevent1"></sequenceFlow>
     <subProcess id="mainSubprocess" name="主要业务流程">
       <startEvent id="theStart"></startEvent>
-      <userTask id="submitOrder" name="填写订单" activiti:candidateUsers="${_owner.username}" activiti:candidateGroups="ShibaOrderManager">
+      <userTask id="submitOrder" name="填写订单" activiti:candidateUsers="${_owner.username}" activiti:candidateGroups="ShibaSuppliesManager">
         <documentation>填写并上传物料单，包括物料基本信息</documentation>
       </userTask>
       <sequenceFlow id="flow1" sourceRef="theStart" targetRef="submitOrder"></sequenceFlow>
@@ -53,7 +53,7 @@
       <userTask id="jianboReport" name="监播报告" activiti:candidateGroups="ShibaOrderManager"></userTask>
       <sequenceFlow id="flow34" sourceRef="shangboEmail" targetRef="jianboReport"></sequenceFlow>
       <sequenceFlow id="flow35" sourceRef="jianboEmail" targetRef="theEnd"></sequenceFlow>
-      <userTask id="submitSchedule" name="提交排期表" activiti:candidateGroups="ShibaOrderManager"></userTask>
+      <userTask id="submitSchedule" name="提交排期表" activiti:candidateGroups="ShibaSuppliesManager"></userTask>
       <userTask id="inputSchedule" name="录入排期表" activiti:candidateGroups="BeiguangScheduleManager"></userTask>
       <sequenceFlow id="flow39" sourceRef="submitSchedule" targetRef="inputSchedule"></sequenceFlow>
       <sequenceFlow id="flow40" sourceRef="inputSchedule" targetRef="effectiveEmail"></sequenceFlow>
@@ -159,7 +159,7 @@
         <sequenceFlow id="flow49" name="订单OK，物料已审核" sourceRef="approve1Gateway" targetRef="readyGateway">
           <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approve1Result == true && approve2Result == true}]]></conditionExpression>
         </sequenceFlow>
-        <userTask id="approve1" name="初审" activiti:candidateGroups="ShibaOrderManager">
+        <userTask id="approve1" name="初审" activiti:candidateGroups="ShibaSuppliesManager">
           <documentation>管理员初审物料信息，程序必须设置审核结果的process变量：
 			1. approve1Result:true/false
 			2. approve1Comments:描述审核结果的文本</documentation>

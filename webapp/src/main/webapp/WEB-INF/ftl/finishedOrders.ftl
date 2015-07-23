@@ -41,7 +41,7 @@
                     return $.extend( {}, d, {
                         "filter[longOrderId]"  : $('#longOrderId').val()
                         ,"filter[stateKey]" : $('#stateKey').val()
-                          <@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+                          <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
                         ,"filter[userId]" : $('#autocomplete').val()
                          </@security.authorize>
                     } );
@@ -86,7 +86,7 @@
     }
     
     
-    <@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+    <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
@@ -167,11 +167,11 @@
               		<@security.authorize ifAnyGranted="advertiser">
 					<a id="tab1" href="${rc.contextPath}/order/myOrders/1">我的订单</a>
 					</@security.authorize>
-					<@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+					<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 					<a id="tab2" href="${rc.contextPath}/order/allRuningOrders/1">进行中的订单</a>
 					</@security.authorize>
 					<a id="tab3" href="${rc.contextPath}/order/finished" class="active">已完成的订单</a>
-					<@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+					<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 					<a id="tab4" href="${rc.contextPath}/order/join/1">我参与的订单</a>
 					</@security.authorize>
 				</div>

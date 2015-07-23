@@ -35,7 +35,7 @@
                 data: function(d) {
                     return $.extend( {}, d, {
                         "filter[longOrderId]" : $('#longOrderId').val()
-                        <@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+                        <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
                         ,"filter[userId]" : $('#autocomplete').val()
                          </@security.authorize>
                         ,"filter[taskKey]" : $('#taskKey').val()
@@ -144,11 +144,11 @@
 					<@security.authorize ifAnyGranted="advertiser">
 					<a id="tab1" href="${rc.contextPath}/order/myOrders/1">我的订单</a>
 					</@security.authorize>	
-					<@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+					<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 					<a id="tab2" class="active" href="${rc.contextPath}/order/allRuningOrders/1">进行中的订单</a>
 					</@security.authorize>	
 					<a id="tab3" href="${rc.contextPath}/order/finished">已完成的订单</a>
-					<@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+					<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 					<a id="tab4" href="${rc.contextPath}/order/join/1">我参与的订单</a>
 					</@security.authorize>
 				</div>

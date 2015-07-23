@@ -56,7 +56,7 @@
                 data: function(d) {
                     return $.extend( {}, d, {
                         "filter[longOrderId]"  : $('#longOrderId').val()
-                        <@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+                        <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
                         ,"filter[userId]" : $('#autocomplete').val()
                          </@security.authorize>
                           ,"filter[taskKey]" : $('#taskKey').val()
@@ -94,7 +94,7 @@
                 	var d= $.format.date(data, "yyyy-MM-dd HH:mm");
                 	return d;
                 }},
-                <@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+                <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
                  { "data": "task_name", "defaultContent": "","render": function(data, type, row, meta) {
 	                 	 	return  "<a target='_blank' href='${rc.contextPath}/workflow/view/"+row.executionId+"/page/"+row.processInstanceId+"'>"+data+"</a>";
 	                   
@@ -138,7 +138,7 @@
   		
   		 
     }
-	<@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+	<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
@@ -222,7 +222,7 @@
                         <th>套餐名称</th>
                        <th>媒体类型</th>
                         <th orderBy="created">创建时间</th>
-                        <@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+                        <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
                         <th orderBy="taskKey">当前节点</th>
                         </@security.authorize>
                         <th>操作</th>

@@ -468,7 +468,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 				v.setProduct(product);
 				v.setOrder(order);
 				v.setTask(task);
-				log.info(this.getClass().getName() + " debug=> " + task.getTaskDefinitionKey());
+				//log.info(this.getClass().getName() + " debug=> " + task.getTaskDefinitionKey());
 				v.setProcessInstanceId(processInstance.getId());
 				v.setTask_createTime(task.getCreateTime());
 				boolean r = true;
