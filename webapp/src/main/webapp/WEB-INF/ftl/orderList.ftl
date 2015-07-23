@@ -45,10 +45,10 @@
             "searching": false,
             "ordering": true,
             "serverSide": true,
-            "aaSorting": [[3, "desc"]],
+            "aaSorting": [[4, "desc"]],
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                 { "orderable": false, "targets": [0,1,2,5] },
+                 { "orderable": false, "targets": [0,1,2,3,5] },
             ],
             "ajax": {
                 type: "GET",
