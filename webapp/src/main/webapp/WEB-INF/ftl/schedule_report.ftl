@@ -95,7 +95,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                         '    <span>时段名称</span>' +
                         '    <span>' +
                         '        <input id="name" value="">' +
-                        '    </span>' +
+                        '    </span>' +'    <span>[黄色代表占用，绿色代表剩余。]</span>' +
                         '</div>'
         );
 
@@ -124,7 +124,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 <hr/>
             </div>-->
             <div class="withdraw-title">
-									剩余时段[黄色代表占用，绿色代表剩余]
+									剩余时段
                 <div class="report-toolbar">
                     <input
                             class="ui-input ui-input-mini datepicker" type="text" name="day"
