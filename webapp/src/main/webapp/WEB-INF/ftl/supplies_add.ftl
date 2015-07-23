@@ -230,9 +230,9 @@
                                                 <#if city.mediaType == 'body'>
                                                     <option value="3" selected="selected">车身</option>
                                                 <#else>
-												<option value="0" selected="selected">视频</option>
-                                                <option value="1">图片</option>
-                                                <option value="2">文本</option>
+												<option value="0" selected="selected">全屏视频</option>
+                                                <option value="1">INFO图片</option>
+                                                <option value="2">INFO字幕</option>
                                                 </#if>
                                             </select>
 										</div>
