@@ -40,10 +40,8 @@
 	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
 
 
-    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/sea.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/icheck-green.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/one.css">
-    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/account.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/page.css" media="screen"/>
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/js/jquery-ui/jquery-ui.min.css">
@@ -51,6 +49,10 @@
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/table.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/city.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/logMini.css">
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/homepage/css/index.css">
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/homepage/css/seaIn.css">
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/homepage/css/tab.css">
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/homepage/tem/guide.css">
     <#list css as entry>
         <link rel="stylesheet" type="text/css" href="${rc.contextPath}/${entry}">
     </#list>
@@ -73,26 +75,12 @@
 <div class="page-container">
 	<div class="pg-container-main">
         <div class="container-12 mt10 s-clear">
-        <#if nav>
-		<!--顶部导航开始-->
-		<div class="container-12">
-		<ul class="breadcrumb m11 s-clear">
-		<li class="s-left fsize-16 bread-homep">
-		<#if medetype?? && medetype=="screen">
-		<a class="gray-text" href="${rc.contextPath}/">首页</a>
-		<#else>
-		<a class="gray-text" href="${rc.contextPath}/body">首页</a>
-		</#if>
-		</li>
-		<li class="s-left breadcrumb-right"></li>
-		<li class="s-left bread-child">
-		<a class="gray-text" href="#">${title!''}</a>
-		</li>
-		</ul>
-		</div>
-		<!--顶部导航结束-->
-        </#if>
 
+
+        <#if left>
+		<!--菜单开始-->
+		<#include "../menu/leftIn.ftl" />
+        </#if>
 		<!--菜单结束-->
 		
 		<!--主体开始-->
