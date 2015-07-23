@@ -20,10 +20,12 @@ import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Message;
 import com.pantuo.service.ActivitiService;
+import com.pantuo.service.MailService;
 import com.pantuo.service.MessageService;
 import com.pantuo.service.OrderService;
 import com.pantuo.util.DateConverter;
 import com.pantuo.util.OrderIdSeq;
+import com.pantuo.util.Request;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -53,6 +55,9 @@ public class MessageSchedule extends MailActivityBehavior {
 	FreeMarkerConfigurer freeMarker;
 	@Autowired
 	MessageService messageService;
+
+	@Autowired
+	MailService mailService;
 	@Autowired
 	private OrderService orderService;
 	public Expression actionType;
@@ -110,14 +115,15 @@ public class MessageSchedule extends MailActivityBehavior {
 					DateConverter.DATETIME_PATTERN_NO_SECOND));
 			context.put("_theCompany", (String) execution.getVariable("_theCompany"));
 			context.put("_orderid", String.valueOf(longorderid));
-			context.put("_detailUrl", "http://127.0.0.1:8080/webapp/order/orderDetail/"+orderId);
+			context.put("_detailUrl", "http://" + (Request.getServerIp()) + "/order/orderDetail/" + orderId);
 			context.put("approve1Comments", (String) execution.getVariable("approve1Comments"));
 
 			String mailContext = getMailContext(context, mtype);
 			super.html = new FixedValue(mailContext);
 			//send mail
 			if (StringUtils.isNoneBlank(mailContext)) {
-				super.execute(execution);
+				//super.execute(execution);
+				mailService.sendNormalMail((String) execution.getVariable("_theEmail"), mailTitle, mailContext);
 			}
 		}
 

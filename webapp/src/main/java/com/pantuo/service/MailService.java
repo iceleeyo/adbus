@@ -28,4 +28,6 @@ public interface MailService {
 	public void sendActivateMail(UserDetail user);
 
 	public void sendCompleteMail(String userName, Integer orderId);
+	
+	public void sendNormalMail(String tomail,String subject,String content); 
 }

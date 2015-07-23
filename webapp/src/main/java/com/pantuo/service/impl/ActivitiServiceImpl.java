@@ -926,7 +926,15 @@ public class ActivitiServiceImpl implements ActivitiService {
 			Task task = findTaskById(taskId, true);
 			if (StringUtils.equals(task.getAssignee(), u.getUsername())) {
 				variables.put("lastModifUser", u.getUsername());
+				ProcessInstance process=	findProcessInstanceByTaskId(taskId);
 				taskService.complete(taskId, variables);
+			
+				List<Task> tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime()
+							.desc().listPage(0, 10);
+				System.out.println(tasks);
+				 
+				 
+				 
 				JpaOrders.Status status = fetchStatusAfterTaskComplete(task);
 				Integer orderId = (Integer) task.getProcessVariables().get(ORDER_ID);
 				if (status != null && orderId != null) {

@@ -88,6 +88,14 @@ public class MailServiceImpl implements MailService {
 		mail.setPassword(mailServerPassword);// 密码  
 		return mail;
 	}
+	
+	public void sendNormalMail(String tomail,String subject,String content){
+		Mail mail = getMailService(tomail);
+		mail.setSubject(subject);
+		mail.setContent(content);
+		boolean r = mail.sendMail();
+		log.info("sennd notify to user {} ,success: N|Y {}", tomail, r);
+	}
 
 	public void sendCanCompareMail(UserDetail u) {
 

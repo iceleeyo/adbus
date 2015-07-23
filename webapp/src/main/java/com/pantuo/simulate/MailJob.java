@@ -61,6 +61,7 @@ public class MailJob {
 						method.invoke(mailService, new Object[] { task.getUser() });
 					}
 				} catch (Exception e) {
+					e.printStackTrace();
 					log.error("send mail:{}, trycount:{}, ex:{}", task.getMailType().name(), task.getReSendCount(), e);
 					try {
 						Thread.sleep(2000);
