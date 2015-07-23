@@ -173,8 +173,8 @@ alert("dddd");
                     <tr class="tableTr">
                         <th orderBy="userId">广告主</th>
                         <th orderBy="contractCode">合同号</th>
-                        <th orderBy="contractName">合同名称</th>
-                       	<th orderBy="contractType">合同类型</th>
+                        <th orderBy="contractName">名称</th>
+                       	<th orderBy="contractType">类型</th>
                         <th orderBy="amounts">金额</th>
                         <th orderBy="startDate">下刊日期</th>
                         <th orderBy="endDate">上刊日期</th>
