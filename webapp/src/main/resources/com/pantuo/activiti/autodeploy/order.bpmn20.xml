@@ -52,7 +52,6 @@
       <endEvent id="theEnd"></endEvent>
       <userTask id="jianboReport" name="用户确认" activiti:candidateUsers="${_owner.username}"></userTask>
       <sequenceFlow id="flow34" sourceRef="shangboEmail" targetRef="jianboReport"></sequenceFlow>
-     <!-- <sequenceFlow id="flow35" sourceRef="jianboEmail" targetRef="theEnd"></sequenceFlow> -->
       <userTask id="submitSchedule" name="提交排期表" activiti:candidateGroups="ShibaSuppliesManager"></userTask>
       <userTask id="inputSchedule" name="录入排期表" activiti:candidateGroups="BeiguangScheduleManager"></userTask>
       <sequenceFlow id="flow39" sourceRef="submitSchedule" targetRef="inputSchedule"></sequenceFlow>
@@ -91,23 +90,7 @@
         </extensionElements>
       </serviceTask>
       <sequenceFlow id="flow42" sourceRef="jianboReport" targetRef="theEnd"></sequenceFlow>
-     <!-- <serviceTask id="jianboEmail" name="发送监播报告到广告主" activiti:delegateExpression="${messageBox}">
-        <extensionElements>
-          <activiti:field name="actionType">
-            <activiti:string><![CDATA[jianbo]]></activiti:string>
-          </activiti:field>
-          <activiti:field name="sendMail">
-            <activiti:string><![CDATA[YES]]></activiti:string>
-          </activiti:field>
-          <activiti:field name="sendSiteMsg">
-            <activiti:string><![CDATA[YES]]></activiti:string>
-          </activiti:field>
-          <activiti:field name="sendPhoneMsg">
-            <activiti:string><![CDATA[NO]]></activiti:string>
-          </activiti:field>
-        </extensionElements>
-      </serviceTask>
-      -->
+ 
       <subProcess id="approvePaymentSubprocess" name="审核支付流程">
         <exclusiveGateway id="paymentGateway" name="支付情况检查"></exclusiveGateway>
         <sequenceFlow id="flow32" name="支付OK" sourceRef="paymentGateway" targetRef="readyGateway">
@@ -304,9 +287,7 @@
       <bpmndi:BPMNShape bpmnElement="shangboEmail" id="BPMNShape_shangboEmail">
         <omgdc:Bounds height="55.0" width="105.0" x="378.0" y="770.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="jianboEmail" id="BPMNShape_jianboEmail">
-        <omgdc:Bounds height="55.0" width="105.0" x="660.0" y="770.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
+     
       <bpmndi:BPMNShape bpmnElement="approvePaymentSubprocess" id="BPMNShape_approvePaymentSubprocess">
         <omgdc:Bounds height="531.0" width="913.0" x="378.0" y="110.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
@@ -412,10 +393,7 @@
         <omgdi:waypoint x="483.0" y="797.0"></omgdi:waypoint>
         <omgdi:waypoint x="520.0" y="797.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow35" id="BPMNEdge_flow35">
-        <omgdi:waypoint x="765.0" y="797.0"></omgdi:waypoint>
-        <omgdi:waypoint x="810.0" y="797.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
+      
       <bpmndi:BPMNEdge bpmnElement="flow39" id="BPMNEdge_flow39">
         <omgdi:waypoint x="483.0" y="697.0"></omgdi:waypoint>
         <omgdi:waypoint x="520.0" y="697.0"></omgdi:waypoint>
