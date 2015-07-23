@@ -213,7 +213,7 @@
 
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
-                                                    class="ui-form-required">*</span>开始日期:
+                                                    class="ui-form-required">*</span>上刊日期:
 															</label> <input
 												class="ui-input datepicker validate[required,custom[date],past[#endDate]]" 
 												type="text" name="startDate1" value="${(contractView.mainView.startDate?string("yyyy-MM-dd"))!''}"
@@ -223,7 +223,7 @@
 
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
-                                                    class="ui-form-required">*</span>终止日期:</label> <input
+                                                    class="ui-form-required">*</span>下刊日期:</label> <input
 												class="ui-input datepicker validate[required,custom[date],future[#startDate]"
 												type="text" name="endDate1"
 												id="endDate" data-is="isAmount isEnough"  value="${(contractView.mainView.endDate?string("yyyy-MM-dd"))!''}"

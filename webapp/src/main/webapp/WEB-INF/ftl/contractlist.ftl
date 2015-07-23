@@ -176,8 +176,8 @@ alert("dddd");
                         <th orderBy="contractName">合同名称</th>
                        	<th orderBy="contractType">合同类型</th>
                         <th orderBy="amounts">金额</th>
-                        <th orderBy="startDate">生效时间</th>
-                        <th orderBy="endDate">失效时间</th>
+                        <th orderBy="startDate">下刊日期</th>
+                        <th orderBy="endDate">上刊日期</th>
                         <th>管理</th>
                     </tr>
                     </thead>
