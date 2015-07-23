@@ -17,6 +17,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
@@ -36,6 +38,7 @@ import com.pantuo.util.Request;
 import com.pantuo.util.SendMailException;
 
 @Service
+@ImportResource("classpath:/properties.xml")
 public class MailServiceImpl implements MailService {
 	private static Logger log = LoggerFactory.getLogger(MailServiceImpl.class);
 	@Autowired
@@ -47,6 +50,42 @@ public class MailServiceImpl implements MailService {
 	private IdentityService identityService;
 	@Autowired
 	private OrderService orderService;
+
+	@Value("${activiti.smtp.host}")
+	private String smtpHost;
+
+	@Value("${activiti.smtp.port}")
+	private int smtpPort;
+
+	@Value("${activiti.smtp.mailServerUsername}")
+	private String mailServerUsername;
+
+	@Value("${activiti.smtp.mailServerPassword}")
+	private String mailServerPassword;
+
+	private Mail getMailService(String toMail) {
+		Mail mail = new Mail();
+		/*	mail.setTo(toMail);
+			mail.setFrom("ad_system@163.com");// 你的邮箱  
+			mail.setHost("smtp.163.com");
+			mail.setUsername("ad_system@163.com");// 用户  
+			mail.setPassword("pantuo");// 密码  
+		*/
+
+		/*	mail.setTo(toMail);
+			mail.setFrom("adbus@gscopetech.com");// 你的邮箱  
+			mail.setHost("smtp.exmail.qq.com");
+			mail.setUsername("adbus@gscopetech.com");// 用户  
+			mail.setPassword("pantuo1709");// 密码 
+		*/
+		mail.setTo(toMail);
+		mail.setFrom(mailServerUsername);// 你的邮箱  
+		mail.setHost(smtpHost);
+		mail.setPort(smtpPort);
+		mail.setUsername(mailServerUsername);// 用户  
+		mail.setPassword(mailServerPassword);// 密码  
+		return mail;
+	}
 
 	public void sendCanCompareMail(UserDetail u) {
 
@@ -112,16 +151,6 @@ public class MailServiceImpl implements MailService {
 			resultPair = new Pair<Boolean, String>(false, "往" + mailto + "发邮件操作失败，轻稍后重新尝试！");
 		}
 		return resultPair;
-	}
-
-	private Mail getMailService(String toMail) {
-		Mail mail = new Mail();
-		mail.setTo(toMail);
-		mail.setFrom("ad_system@163.com");// 你的邮箱  
-		mail.setHost("smtp.163.com");
-		mail.setUsername("ad_system@163.com");// 用户  
-		mail.setPassword("pantuo");// 密码  
-		return mail;
 	}
 
 	private String getCompareTemplete(String userId, boolean passed, String context) {
@@ -215,6 +244,10 @@ public class MailServiceImpl implements MailService {
 						List<User> activitiUser = identityService.createUserQuery()
 								.memberOfGroup(identityLink.getGroupId()).list();
 						for (User user2 : activitiUser) {
+							try {
+								Thread.sleep(300);
+							} catch (InterruptedException e) {
+							}
 							Mail mail = getMailService(user2.getEmail());
 							mail.setSubject("[北巴广告交易系统]待办事项通知");
 							mail.setContent(getCompleteTemplete(user2.getFirstName(), orderId,

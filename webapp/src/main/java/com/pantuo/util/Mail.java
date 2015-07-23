@@ -28,6 +28,7 @@ public class Mail {
 	String to = ""; // 收件人  
 	String from = ""; // 发件人  
 	String host = ""; // smtp主机  
+	int port = 25;
 	String username = ""; // 用户名  
 	String password = ""; // 密码  
 	String subject = ""; // 邮件主题  
@@ -71,6 +72,7 @@ public class Mail {
 		// 构造mail session  
 		Properties props = System.getProperties();
 		props.put("mail.smtp.host", host);
+		props.put("mail.smtp.port", port);
 		props.put("mail.smtp.auth", "true");
 		Session session = Session.getDefaultInstance(props, new Authenticator() {
 			public PasswordAuthentication getPasswordAuthentication() {
@@ -175,4 +177,13 @@ public class Mail {
 	public void setContent(String content) {
 		this.content = content;
 	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
 }
