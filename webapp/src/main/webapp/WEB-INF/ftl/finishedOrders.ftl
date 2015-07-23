@@ -183,7 +183,7 @@
                         <th>套餐名称</th>
                        <!-- <th>素材号</th>-->
                         <th orderBy="startTime">创建时间</th>
-                           <th orderBy="endTime">结束建时间</th>
+                           <th orderBy="endTime">结束时间</th>
                          <th>订单详情</th>
                            <th>最终状态</th>
                        
