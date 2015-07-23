@@ -25,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import scala.actors.threadpool.Arrays;
 
 import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.service.MailService;
 import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.security.ActivitiUserDetailsService;
 import com.pantuo.util.Pair;
@@ -42,7 +43,8 @@ public class LoginController {
     private UserServiceInter userService;
     @Autowired
     private IdentityService identityService;
-
+    @Autowired
+	private MailService mailService;
     @Autowired
     private ActivitiUserDetailsService authUserService;
     
@@ -91,12 +93,13 @@ public class LoginController {
     	
         detail.setStringGroups(Arrays.asList(new String[]{"advertiser"}));
         boolean success = userService.createUserFromPage(detail,request,principal);
-//        if (success) {
+        if (success) {
+        	mailService.sendActivateMail(detail);
 //            //login user
 //            UserDetails newUser = authUserService.loadUserByUsername(detail.getUsername());
 //            Authentication auth = new UsernamePasswordAuthenticationToken(newUser, newUser.getPassword(), newUser.getAuthorities());
 //            SecurityContextHolder.getContext().setAuthentication(auth);
-//        }
+        }
         return detail;
     }
 

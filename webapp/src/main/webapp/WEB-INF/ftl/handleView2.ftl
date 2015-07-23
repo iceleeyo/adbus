@@ -592,10 +592,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 								<i></i><a content="广告发布费" class="select-type">广告发布费</a>
 							</div>
 							<div class="item">
-								<i></i><a content="广告制作费" class="select-type">广告制作费</a>
-							</div>
-							<div class="item">
-								<i></i><a content="其他" class="select-type">其他</a>
+								<i></i><a content="制作费" class="select-type">制作费</a>
 							</div>
 						</div> <input type="hidden" id="contents" value="" />
 					</td>

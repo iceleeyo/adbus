@@ -61,7 +61,6 @@
 		}).submit();
 		var type=$('input:radio[name="type"]:checked').val();
 		if(type=="special"){
-		alert(type);
 			var uploadProcess={upath:'${rc.contextPath}/upload/process'};
 	 		$('#progress1').anim_progressbar(uploadProcess);
 		}
@@ -143,6 +142,24 @@
 												class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
                                                 type="text" name="mailaddr" value="${(invoiceView.mainView.mailaddr)!''}"
 												id="mailaddr" data-is="isAmount isEnough"
+												autocomplete="off" disableautocomplete="">
+                                        </div>
+										 <div class="ui-form-item">
+                                            <label class="ui-label mt10"><span
+                                                    class="ui-form-required">*</span>邮寄联系人:</label>
+                                                    <input
+												class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
+                                                type="text" name="contactman" value="${(invoiceView.mainView.contactman)!''}"
+												id="contactman" data-is="isAmount isEnough"
+												autocomplete="off" disableautocomplete="">
+                                        </div>
+										 <div class="ui-form-item">
+                                            <label class="ui-label mt10"><span
+                                                    class="ui-form-required">*</span>联系方式:</label>
+                                                    <input
+												class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
+                                                type="text" name="phonenum" value="${(invoiceView.mainView.phonenum)!''}"
+												id="phonenum" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
                                         </div>
 										<div id="other" style="display:block">

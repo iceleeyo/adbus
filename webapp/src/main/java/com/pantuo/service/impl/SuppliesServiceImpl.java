@@ -131,6 +131,8 @@ public class SuppliesServiceImpl implements SuppliesService {
 				jpaInvoice.setRegisaddr(obj.getRegisaddr());
 				jpaInvoice.setTaxrenum(obj.getTaxrenum());
 				jpaInvoice.setTitle(obj.getTitle());
+				jpaInvoice.setContactman(obj.getContactman());
+				jpaInvoice.setPhonenum(obj.getPhonenum());
 				BeanUtils.filterXss(jpaInvoice);
 				InvoiceRepo.save(jpaInvoice);
 				attachmentService.upInvoiceAttachments(request, Request.getUserId(principal), jpaInvoice.getId(),

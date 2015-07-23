@@ -369,16 +369,9 @@ function qCheck(obj){
 				               	<TR>
 				               		<td style="text-align:right">发票内容</td>
 				               		<td colspan="3">
-				               			<!-- <select style="margin: 20px;" id="contents">
-				               						<option value="">请选择发票开具内容</option>
-				               						<option value="广告发布费">广告发布费</option>
-				               						<option value="广告制作费">广告制作费</option>
-				               						<option value="其他">其他</option>
-				               			</select> -->
 				               			<div id="conten">
-				               			<div class="item"><i></i><a content="广告发布费" class="select-type">广告发布费</a></div>
+				               			<div class="item"><i></i><a content="发布费" class="select-type">发布费</a></div>
 				               			<div class="item"><i></i><a content="广告制作费" class="select-type">广告制作费</a></div>
-				               			<div class="item"><i></i><a content="其他" class="select-type">其他</a></div>
 				               			</div>
 				               			<input type="hidden" id="contents" value=""/>
 				               		</td>
