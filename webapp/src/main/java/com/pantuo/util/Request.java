@@ -19,7 +19,8 @@ import com.pantuo.service.security.ActivitiUserDetails;
 public class Request {
 	private static Log log = LogFactory.getLog(Request.class);
 
-	public static final String HOST_IP = "adbus.com";
+	public static final String HOST_IP = "busme.cn";
+	public static final boolean IS_ONLINE = true;
 
 	/**
 	 * 
@@ -30,25 +31,27 @@ public class Request {
 	 */
 	public static String getServerIp() {
 		String SERVER_IP = HOST_IP;
-//		try {
-//			Enumeration<NetworkInterface> netInterfaces = NetworkInterface.getNetworkInterfaces();
-//			InetAddress ip = null;
-//			while (netInterfaces.hasMoreElements()) {
-//				NetworkInterface ni = (NetworkInterface) netInterfaces.nextElement();
-//				ip = (InetAddress) ni.getInetAddresses().nextElement();
-//				SERVER_IP = ip.getHostAddress();
-//				if (!ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {
-//					SERVER_IP = ip.getHostAddress();
-//					break;
-//				} else {
-//					ip = null;
-//				}
-//			}
-//		} catch (SocketException e) {
-//			log.error("get serverip SocketException{}", e);
-//		} catch (Exception e) {
-//			log.error("get serverip Exception{}", e);
-//		}
+		if (!IS_ONLINE) {
+			try {
+				Enumeration<NetworkInterface> netInterfaces = NetworkInterface.getNetworkInterfaces();
+				InetAddress ip = null;
+				while (netInterfaces.hasMoreElements()) {
+					NetworkInterface ni = (NetworkInterface) netInterfaces.nextElement();
+					ip = (InetAddress) ni.getInetAddresses().nextElement();
+					SERVER_IP = ip.getHostAddress();
+					if (!ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {
+						SERVER_IP = ip.getHostAddress();
+						break;
+					} else {
+						ip = null;
+					}
+				}
+			} catch (SocketException e) {
+				log.error("get serverip SocketException{}", e);
+			} catch (Exception e) {
+				log.error("get serverip Exception{}", e);
+			}
+		}
 		return StringUtils.contains(SERVER_IP, "0:0:0:0:0") ? HOST_IP : SERVER_IP;//fe80:0:0:0:0:0:0:1%1
 	}
 
