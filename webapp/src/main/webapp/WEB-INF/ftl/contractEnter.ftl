@@ -191,10 +191,10 @@
                                             </label>
                                             <select data-is="isAmount isEnough" id="contractType" name="contractType"
 												autocomplete="off" disableautocomplete="" style="width:173px; height: 38px;">
-                                            	<option value="字幕">INFO字幕</option>
-                                            	<option value="图片">INFO图片</option>
-                                            	<option value="宣传片">全屏视频</option>
-                                            	<option value="团类">团类广告</option>
+                                            	<option value="INFO字幕">INFO字幕</option>
+                                            	<option value="INFO图片">INFO图片</option>
+                                            	<option value="全屏视频">全屏视频</option>
+                                            	<option value="团类广告">团类广告</option>
                                             </select>
                                         </div>
 										

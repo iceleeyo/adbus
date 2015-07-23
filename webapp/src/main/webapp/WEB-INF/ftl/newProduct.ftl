@@ -5,7 +5,7 @@
 <#assign action="增加">
 <#if prod??><#assign action="修改"></#if>
 
-<@frame.html title="${action}产品套餐" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js","js/jquery-ui-1.8.17.custom.min.js","js/jquery-ui-timepicker-addon.js","js/jquery-ui-timepicker-zh-CN.js", "js/jquery.datepicker.region.cn.js","js/jquery-ui/jquery-ui.auto.complete.js"] css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-ui-timepicker-addon.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
+<@frame.html title="${action}产品套餐" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js","js/jquery-ui.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-ui-timepicker-addon.js","js/jquery-ui-timepicker-zh-CN.js", "js/jquery.datepicker.region.cn.js"] css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-ui-timepicker-addon.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <script type="text/javascript">
     $(document).ready(function() {
@@ -118,23 +118,47 @@
 												id="name" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="2-20个字符">
 										</div>
-										<div class="ui-form-item toggle videoToggle imageToggle infoToggle">
+										<#--<div class="ui-form-item toggle teamToggle">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>时长（秒）:</label> <input
-												class="ui-input validate[required,integer,min[15],max[180]]"
+												class="ui-input validate[required,integer,min[15],max[180]]" readonly="readonly"
                                                 onkeyup="value=value.replace(/[^\d]/g,'')" value="<#if prod??>${prod.duration!''}<#else>15</#if>" name="duration"
 												id="duration" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="15-180秒">
 											<p class="ui-term-placeholder"></p>
 
 										</div>
-
-										<div class="ui-form-item toggle videoToggle imageToggle infoToggle">
+										<div class="ui-form-item toggle teamToggle">
 											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>单日播放次数:</label>
-												<input
-												class="ui-input validate[required,integer,min[1],max[100]"
-                                                onkeyup="value=value.replace(/[^\d.]/g,'')" type="text" value="<#if prod??>${prod.playNumber!''}<#else>0</#if>" name="playNumber"
+												class="ui-form-required">*</span>频次（次/天）:</label> <input
+												class="ui-input validate[required,integer,min[1],max[100]" readonly="readonly"
+                                                onkeyup="value=value.replace(/[^\d.]/g,'')" type="text" value="<#if prod??>${prod.playNumber!''}<#else>2</#if>" name="playNumber"
+												id="playNumber" data-is="isAmount isEnough"
+												autocomplete="off" disableautocomplete="" >
+											<p class="ui-term-placeholder"></p>
+										</div>
+										<div class="ui-form-item toggle teamToggle">
+											<label class="ui-label mt10"><span
+												class="ui-form-required">*</span>周期(天/期):</label>  <input
+                                                    class="ui-input validate[required,integer,min[1],max[360]" readonly="readonly"
+                                                    onkeyup="value=value.replace(/[^\d.]/g,'')" value="<#if prod??>${prod.days!''}<#else>7</#if>" name="days"
+                                                    id="days" data-is="isAmount isEnough"
+                                                    autocomplete="off" disableautocomplete="" >
+											<p class="ui-term-placeholder"></p>
+										</div>-->
+										<div class="ui-form-item toggle videoToggle imageToggle infoToggle teamToggle">
+											<label class="ui-label mt10"><span class="ui-form-required">*</span>时长（秒）:</label> <input
+												class="ui-input validate[required,integer,min[15],max[180]]"
+                                                onkeyup="value=value.replace(/[^\d]/g,'')" value="<#if prod??>${prod.duration!''}<#else>15</#if>" name="duration"
+												id="duration" data-is="isAmount isEnough"
+												autocomplete="off" disableautocomplete="" placeholder="15-180秒">
+											<p class="ui-term-placeholder"></p>
+										</div>
+
+										<div class="ui-form-item toggle videoToggle imageToggle infoToggle teamToggle">
+											<label class="ui-label mt10"><span class="ui-form-required">*</span>单日播放次数:</label>
+												<input class="ui-input validate[required,integer,min[1],max[100]"
+                                                onkeyup="value=value.replace(/[^\d.]/g,'')" type="text" value="<#if prod??>${prod.playNumber!''}<#else>2</#if>" name="playNumber"
 												id="playNumber" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="1-100次">
 										</div>
@@ -186,11 +210,12 @@
                                                     id="busNumber" data-is="isAmount isEnough"
                                                     autocomplete="off" disableautocomplete="">
                                         </div>
-                                        <div class="ui-form-item">
+                                        <div class="ui-form-item ">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>
-                                                <span class="toggle videoToggle imageToggle infoToggle">套餐播放天数:</span>
+                                                <span class="toggle videoToggle imageToggle infoToggle ">套餐播放天数:</span>
                                                 <span class="toggle bodyToggle">广告展示天数:</span>
+                                                <span class="toggle teamToggle">周期(天/期):</span>
                                                 </label>
                                             <input
                                                     class="ui-input validate[required,integer,min[1],max[360]"
@@ -201,7 +226,7 @@
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>
-                                                <span class="toggle videoToggle imageToggle infoToggle">套餐价格（元）:</span>
+                                                <span class="toggle videoToggle imageToggle infoToggle teamToggle">套餐价格（元）:</span>
                                             <span class="toggle bodyToggle">套餐价格（元）:</span>
                                             </label>
                                             <input
@@ -232,7 +257,7 @@
                        						</span>
                                         </div>
 										
-										<div class="ui-form-item">
+										<div class="ui-form-item toggle videoToggle imageToggle infoToggle bodyToggle">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>是否为竞价套餐：</label> 
 												<div style="margin-top: 10px;float: left;"><input type="radio" name="iscompare" value="1" onchange="showisAuction()">是</div>
@@ -261,7 +286,7 @@
 												class="ui-input ui_timepicker validate[required,past[#startDate1]]" 
 												type="text" name="startDate1" 
 												id="startDate1" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="">
+												>
 										</div>
                                         <div class="ui-form-item">
 											<label class="ui-label mt10"><span
@@ -270,7 +295,7 @@
 												class="ui-input ui_timepicker validate[required,past[#biddingDate1]]" 
 												type="text" name="biddingDate1" 
 												id="biddingDate1" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="">
+												>
 										</div>
 									</div>
 									

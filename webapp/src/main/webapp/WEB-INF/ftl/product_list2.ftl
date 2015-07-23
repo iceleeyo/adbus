@@ -44,6 +44,8 @@
                             return '车身';
                         if (data == 'info')
                             return 'INFO字幕';
+                        if (data == 'team')
+                            return '团类广告';
                         return '';
                     } },
                 { "data": "price", "defaultContent": "", "render": $.fn.dataTable.render.number( ',', '.', 2, ' ')  },
