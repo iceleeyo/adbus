@@ -13,7 +13,7 @@
 <div class="ls-2">
 							<div class="pg-side">
 								<ul class="pg-side-list">
-								<@security.authorize ifAnyGranted="advertiser,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+								<@security.authorize ifAnyGranted="advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 									<li class="pg-side-item">
 										<a class="pg-side-item-t aa-icon" style="color:#fff;background:#ff9966;" href="${rc.contextPath}/order/myTask/1">
 											<i class="s-left pg-icon-a a-icon" style="background:url(${rc.contextPath}/imgs/sidebar-icons.png) no-repeat -20px 0;"></i>
@@ -32,7 +32,7 @@
 											
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/supplies/list">
-													物料列表
+													物料管理
 												</a>
 											</li>
 											
@@ -56,7 +56,7 @@
 									 -->
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t"  href="${rc.contextPath}/contract/list">
-													合同列表
+													合同管理
 												</a>
 											</li>
 										</ul>
@@ -65,7 +65,7 @@
 									<li class="pg-side-item">
 										<a class="pg-side-item-t cc-icon">
 											<i class="s-left pg-icon-a f-icon"></i>
-											产品管理
+											产品中心
 										</a>
 										<ul class="pg-side-exp-list">
 										<@security.authorize ifAnyGranted="ShibaOrderManager">
@@ -94,7 +94,7 @@
 											</@security.authorize>	
 										</ul>
 									</li>
-									<@security.authorize ifAnyGranted="advertiser,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+									<@security.authorize ifAnyGranted="advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 									<li class="pg-side-item">
 										<a class="pg-side-item-t dd-icon">
 											<i class="s-left pg-icon-a d-icon"></i>
@@ -109,7 +109,7 @@
 											</li>
 										</@security.authorize>	
 										
-										<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">  
+										<@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">  
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/order/allRuningOrders/1">
 												     进行中订单
@@ -117,7 +117,7 @@
 											</li>
 										</@security.authorize>	
 										
-										<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+										<@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/order/join/1">
 													我参与订单
@@ -256,7 +256,7 @@
                                     </li>
                                     </#if>
                                     </@security.authorize>
-                                    <@security.authorize ifAnyGranted="advertiser,ShibaSuppliesManager,UserManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+                                    <@security.authorize ifAnyGranted="advertiser,UserManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 									<li class="pg-side-item">
 										<a class="pg-side-item-t ff-icon">
 											<i class="s-left pg-icon-a e-icon"></i>
