@@ -18,7 +18,7 @@
     <sequenceFlow id="flow26" sourceRef="startevent1" targetRef="initializeTask"></sequenceFlow>
     <scriptTask id="initializeTask" name="初始化" scriptFormat="JavaScript" activiti:autoStoreVariables="false">
       <script>
-			execution.setVariable("_theEmail", 'ahua3515@163.com');
+			execution.setVariable("_theEmail", 'adbus@gscopetech.com');
             if (!execution.hasVariable("_theCompany")) {
 			    execution.setVariable("_theCompany", 'Pantuo Tech co., Ltd');
 			}
@@ -50,9 +50,9 @@
       <userTask id="shangboReport" name="上播报告" activiti:candidateGroups="ShibaOrderManager"></userTask>
       <sequenceFlow id="flow33" sourceRef="effectiveEmail" targetRef="shangboReport"></sequenceFlow>
       <endEvent id="theEnd"></endEvent>
-      <userTask id="jianboReport" name="监播报告" activiti:candidateGroups="ShibaOrderManager"></userTask>
+      <userTask id="jianboReport" name="用户确认" activiti:candidateUsers="${_owner.username}"></userTask>
       <sequenceFlow id="flow34" sourceRef="shangboEmail" targetRef="jianboReport"></sequenceFlow>
-      <sequenceFlow id="flow35" sourceRef="jianboEmail" targetRef="theEnd"></sequenceFlow>
+     <!-- <sequenceFlow id="flow35" sourceRef="jianboEmail" targetRef="theEnd"></sequenceFlow> -->
       <userTask id="submitSchedule" name="提交排期表" activiti:candidateGroups="ShibaSuppliesManager"></userTask>
       <userTask id="inputSchedule" name="录入排期表" activiti:candidateGroups="BeiguangScheduleManager"></userTask>
       <sequenceFlow id="flow39" sourceRef="submitSchedule" targetRef="inputSchedule"></sequenceFlow>
@@ -90,8 +90,8 @@
           </activiti:field>
         </extensionElements>
       </serviceTask>
-      <sequenceFlow id="flow42" sourceRef="jianboReport" targetRef="jianboEmail"></sequenceFlow>
-      <serviceTask id="jianboEmail" name="发送监播报告到广告主" activiti:delegateExpression="${messageBox}">
+      <sequenceFlow id="flow42" sourceRef="jianboReport" targetRef="theEnd"></sequenceFlow>
+     <!-- <serviceTask id="jianboEmail" name="发送监播报告到广告主" activiti:delegateExpression="${messageBox}">
         <extensionElements>
           <activiti:field name="actionType">
             <activiti:string><![CDATA[jianbo]]></activiti:string>
@@ -107,6 +107,7 @@
           </activiti:field>
         </extensionElements>
       </serviceTask>
+      -->
       <subProcess id="approvePaymentSubprocess" name="审核支付流程">
         <exclusiveGateway id="paymentGateway" name="支付情况检查"></exclusiveGateway>
         <sequenceFlow id="flow32" name="支付OK" sourceRef="paymentGateway" targetRef="readyGateway">
