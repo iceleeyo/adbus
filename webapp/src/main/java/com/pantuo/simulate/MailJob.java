@@ -30,8 +30,6 @@ import com.pantuo.service.MailTask;
 @Service
 public class MailJob {
 
- 
-
 	@Autowired
 	private MailService mailService;
 
@@ -49,9 +47,9 @@ public class MailJob {
 	public class MailSendService implements Runnable {
 		public void run() {
 			while (true) {
-				MailTask task  = null;
+				MailTask task = null;
 				try {
-					  task = queue.take();
+					task = queue.take();
 					//待办事项完成参数和其他发送邮件参数不一样
 					if (task.getMailType() == MailTask.Type.sendCompleteMail) {
 						Method method = mailService.getClass().getMethod(task.getMailType().name(),
@@ -63,13 +61,20 @@ public class MailJob {
 						method.invoke(mailService, new Object[] { task.getUser() });
 					}
 				} catch (Exception e) {
-					log.error("send mail ex:{}", e);
-					putMailTask(task);
+					log.error("send mail:{}, trycount:{}, ex:{}", task.getMailType().name(), task.getReSendCount(), e);
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e1) {
+					}
+					if (!task.isReOver()) {
+						putMailTask(task);
+					}
 				}
 
 			}
 		}
 	}
+
 	@PostConstruct
 	public void init() {
 		BlockingQueue<Runnable> queue = new LinkedBlockingQueue<Runnable>();

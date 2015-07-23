@@ -40,10 +40,11 @@ public class MailTask {
 		this.mailType = type;
 	}
 
-	String userName;
-	int orderId;
-	UserDetail user;
-	Enum<Type> mailType;
+	private String userName;
+	private int orderId;
+	private UserDetail user;
+	private Enum<Type> mailType;
+	private int reSendCount = 0;
 
 	public String getUserName() {
 		return userName;
@@ -75,6 +76,24 @@ public class MailTask {
 
 	public void setMailType(Enum<Type> mailType) {
 		this.mailType = mailType;
+	}
+
+	public int getReSendCount() {
+		return reSendCount;
+	}
+
+	public void setReSendCount(int reSendCount) {
+		this.reSendCount = reSendCount;
+	}
+
+	public boolean isReOver() {
+		if (reSendCount >= 5) {
+			return true;
+		} else {
+			this.reSendCount = reSendCount + 1;
+			return false;
+		}
+
 	}
 
 }
