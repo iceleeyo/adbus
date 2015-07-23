@@ -1003,7 +1003,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 <div id="jianboReport" class="jianboReport" style="display: none;">
 	<div class="p20bs mt10 color-white-bg border-ec">
 		<H3 class="text-xl title-box">
-			<A class="black" href="#">订单处理-提交监播报告</A>
+			<A class="black" href="#">订单处理-用户确认</A>
 		</H3>
 		<BR>
 
@@ -1020,12 +1020,12 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 						href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
 				</TR>
 				<TR>
-					<TH>监播意见</TH>
+					<TH>意见</TH>
 					<TD><textarea name="jianboComments" id="jianboComments"
-							style="margin: 5px 0; width: 400px; margin-top: 5px;">您的广告已按照合同要求正常播出中</textarea></TD>
+							style="margin: 5px 0; width: 400px; margin-top: 5px;">已确认广告播放正常!</textarea></TD>
 				</TR>
 				<TR style="height: 45px;">
-					<TH>上播状态</TH>
+					<TH>确认结果</TH>
 					<TD style="border-radius: 0 0 0"><input name="jianboResult"
 						type="radio" value="true" checked="checked"
 						style="padding: 5px 15px;" />播放正常 <input name="jianboResult"

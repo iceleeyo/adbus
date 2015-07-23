@@ -105,18 +105,20 @@
                    
                   		var tr="";
 	                  if(row.task_assignee =='' || row.task_assignee == null){
-	                  if(row.task_name=="支付" || row.task_name=="绑定素材"){
-	                  tr=  "<a href=\"javascript:;\" onclick=\"claim('"+row.order.id+"','"+( row.task_id)+"');\">"+row.task_name+"</a>&nbsp;";
-	                  }
-	                  else{
-	                 	 	tr=  "<a href=\"javascript:;\" onclick=\"claim('"+row.order.id+"','"+( row.task_id)+"');\">签收</a>&nbsp;";
-	                  	}
+		                  if(row.task_name=="支付" || row.task_name=="绑定素材"){
+		                  tr=  "<a href=\"javascript:;\" onclick=\"claim('"+row.order.id+"','"+( row.task_id)+"');\">"+row.task_name+"</a>&nbsp;";
+		                  }else if(row.definitionKey =='jianboReport'){
+		                  	  	  tr=  "<a href=\"javascript:;\" onclick=\"claim('"+row.order.id+"','"+( row.task_id)+"');\">播放确认</a>&nbsp;";
+		                 	}else{
+		                 	 	tr=  "<a href=\"javascript:;\" onclick=\"claim('"+row.order.id+"','"+( row.task_id)+"');\">签收</a>&nbsp;";
+		                  	}
 	                  	}else {
 	                  	  	 var taskId = row.task_id;
 	                  	  	 if(row.task_name=="支付" || row.task_name=="绑定素材"){
-	                  	  	 
-	                         tr= "<a href='${rc.contextPath}/order/handleView2?orderid=" +(row.order.id)+ "&taskid="+taskId+ "'>"+row.task_name+"</a>&nbsp;";
-	                  	  	 }else{
+	                        	 tr= "<a href='${rc.contextPath}/order/handleView2?orderid=" +(row.order.id)+ "&taskid="+taskId+ "'>"+row.task_name+"</a>&nbsp;";
+	                  	  	 }else if(row.definitionKey =='jianboReport'){
+		                  	  	  tr= "<a href='${rc.contextPath}/order/handleView2?orderid=" +(row.order.id)+ "&taskid="+taskId+ "'>播放确认</a>&nbsp;";
+		                 	}else{
 	                  	  	  tr= "<a href='${rc.contextPath}/order/handleView2?orderid=" +(row.order.id)+ "&taskid="+taskId+ "'>办理</a>&nbsp;";
 	                  	  	 }
 	                    }	
