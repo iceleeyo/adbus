@@ -113,7 +113,8 @@ function bu(txtObj) {
 										<div class="product-btn" style="float: right;">
 										<a class="btn-bid" href="javascript:void(0)" onclick="compare('${rc.contextPath}',${prod.id!''})" >我要购买</a>
 											 <input type="hidden" readonly="readonly" name="product.id" id="productId" value="${prod.id!''}"/>
-											 <input type="hidden" readonly="readonly" name="supplies.id" id="productId" value="1"/>
+											 <input type="hidden" readonly="readonly" name="supplies.id"  value="1"/>
+											 <input type="hidden" readonly="readonly" name="token"  value="${token!''}"/>
 										<@security.authorize access="isAuthenticated()">
                                         <input type="hidden" id="lc" value="1"/>	
                                         </@security.authorize>

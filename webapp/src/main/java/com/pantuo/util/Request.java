@@ -30,25 +30,25 @@ public class Request {
 	 */
 	public static String getServerIp() {
 		String SERVER_IP = HOST_IP;
-		try {
-			Enumeration<NetworkInterface> netInterfaces = NetworkInterface.getNetworkInterfaces();
-			InetAddress ip = null;
-			while (netInterfaces.hasMoreElements()) {
-				NetworkInterface ni = (NetworkInterface) netInterfaces.nextElement();
-				ip = (InetAddress) ni.getInetAddresses().nextElement();
-				SERVER_IP = ip.getHostAddress();
-				if (!ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {
-					SERVER_IP = ip.getHostAddress();
-					break;
-				} else {
-					ip = null;
-				}
-			}
-		} catch (SocketException e) {
-			log.error("get serverip SocketException{}", e);
-		} catch (Exception e) {
-			log.error("get serverip Exception{}", e);
-		}
+//		try {
+//			Enumeration<NetworkInterface> netInterfaces = NetworkInterface.getNetworkInterfaces();
+//			InetAddress ip = null;
+//			while (netInterfaces.hasMoreElements()) {
+//				NetworkInterface ni = (NetworkInterface) netInterfaces.nextElement();
+//				ip = (InetAddress) ni.getInetAddresses().nextElement();
+//				SERVER_IP = ip.getHostAddress();
+//				if (!ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {
+//					SERVER_IP = ip.getHostAddress();
+//					break;
+//				} else {
+//					ip = null;
+//				}
+//			}
+//		} catch (SocketException e) {
+//			log.error("get serverip SocketException{}", e);
+//		} catch (Exception e) {
+//			log.error("get serverip Exception{}", e);
+//		}
 		return StringUtils.contains(SERVER_IP, "0:0:0:0:0") ? HOST_IP : SERVER_IP;//fe80:0:0:0:0:0:0:1%1
 	}
 

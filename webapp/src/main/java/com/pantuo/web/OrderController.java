@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +26,7 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -113,6 +115,7 @@ public class OrderController {
 		List<Supplies> supplies = suppliesService.queryMyList(cityId, page, null, prod.getType(), principal);
 		List<Orders> logsList=orderService.queryLogByProId(prod.getId());
 		int logCount=orderService.queryLogCountByProId(prod.getId());
+		request.getSession(false).setAttribute("token", UUID.randomUUID().toString());
 		model.addAttribute("logCount", logCount);
 		model.addAttribute("supplies", supplies);
 		model.addAttribute("prod", prod);
@@ -262,10 +265,15 @@ public class OrderController {
 	public String saveOrderJpa(Model model, JpaOrders order, Principal principal,
            @CookieValue(value = "city", defaultValue = "-1") int cityId,
            @RequestParam(value="cpdid",required = false ,defaultValue = "0") int cpdid,
+           @RequestParam(value="token",required = false) String token,
            @ModelAttribute("city") JpaCity city,
             HttpServletRequest request)
-			throws IllegalStateException, IOException, ParseException {
-		//Pair<Boolean, String> r=cpdService.isMycompare(cpdid, principal);
+			throws IllegalStateException, IOException, ParseException,Exception {
+		if(StringUtils.isNotBlank(token) && StringUtils.equals((CharSequence) request.getSession().getAttribute("token"), token)){
+			request.getSession().removeAttribute("token");
+		}else{
+			throw new Exception("不能重复下单!");
+		}
 		NumberPageUtil page = new NumberPageUtil(9999, 1, 9999);
 		order.setCreator(Request.getUserId(principal));
 		order.setStats(JpaOrders.Status.unpaid);
