@@ -108,23 +108,29 @@ public class MessageSchedule extends MailActivityBehavior {
 			String mailTitle = (getMailTitle(mtype));
 			super.subject = new FixedValue(mailTitle);
 
-			Map<String, String> context = new HashMap<String, String>();
-			context.put("firstName", owner.getUser().getFirstName());
-			context.put("lastName", owner.getUser().getLastName());
-			context.put("_now", DateConverter.doConvertToString(System.currentTimeMillis(),
-					DateConverter.DATETIME_PATTERN_NO_SECOND));
-			context.put("_theCompany", (String) execution.getVariable("_theCompany"));
-			context.put("_orderid", String.valueOf(longorderid));
-			context.put("_detailUrl", "http://" + (Request.getServerIp()) + "/order/orderDetail/" + orderId);
-			context.put("approve1Comments", (String) execution.getVariable("approve1Comments"));
-
-			String mailContext = getMailContext(context, mtype);
-			super.html = new FixedValue(mailContext);
-			//send mail
-			if (StringUtils.isNoneBlank(mailContext)) {
-				//super.execute(execution);
-				mailService.sendNormalMail((String) execution.getVariable("_theEmail"), mailTitle, mailContext);
+			try {
+				Map<String, String> context = new HashMap<String, String>();
+				context.put("firstName", owner.getUser().getFirstName());
+				context.put("lastName", owner.getUser().getLastName());
+				context.put("_now", DateConverter.doConvertToString(System.currentTimeMillis(),
+						DateConverter.DATETIME_PATTERN_NO_SECOND));
+				context.put("_theCompany", (String) execution.getVariable("_theCompany"));
+				context.put("_orderid", String.valueOf(longorderid));
+				context.put("_detailUrl", "http://" + (Request.getServerIp()) + "/order/orderDetail/" + orderId);
+				context.put("approve1Comments", (String) execution.getVariable("approve1Comments"));
+				String mailContext = getMailContext(context, mtype);
+				super.html = new FixedValue(mailContext);
+				//send mail
+				if (StringUtils.isNoneBlank(mailContext)) {
+					//super.execute(execution);
+					mailService.sendNormalMail((String)owner.getUser().getEmail(), mailTitle, mailContext);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			} finally {
+				leave(execution);
 			}
+
 		}
 
 	}

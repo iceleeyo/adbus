@@ -32,6 +32,7 @@ public class OrderView {
 
 	private String task_id;
 	private String task_name;
+	private String definitionKey;//xml定义的英文说明 
 	private String executionId;
 	private String task_assignee;
 	private Date task_createTime;
@@ -118,6 +119,7 @@ public class OrderView {
 		this.task = task;
 		task_id = task.getId();
 		task_name = task.getName();
+		definitionKey = task.getTaskDefinitionKey();
 		executionId = task.getExecutionId();
 		task_assignee = task.getAssignee();
 		if (setTaskEmpty) {
@@ -291,6 +293,14 @@ public class OrderView {
 
 	public void setClosed(boolean closed) {
 		this.closed = closed;
+	}
+
+	public String getDefinitionKey() {
+		return definitionKey;
+	}
+
+	public void setDefinitionKey(String definitionKey) {
+		this.definitionKey = definitionKey;
 	}
 
 	 
