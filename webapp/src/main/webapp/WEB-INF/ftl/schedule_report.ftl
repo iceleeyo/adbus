@@ -124,7 +124,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 <hr/>
             </div>-->
             <div class="withdraw-title">
-									剩余时段
+									剩余时段[黄色代表占用，绿色代表剩余]
                 <div class="report-toolbar">
                     <input
                             class="ui-input ui-input-mini datepicker" type="text" name="day"
