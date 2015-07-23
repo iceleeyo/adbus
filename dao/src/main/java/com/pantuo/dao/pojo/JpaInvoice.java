@@ -25,14 +25,16 @@ public class JpaInvoice extends CityEntity{
 	private String regisaddr;
 	private String fixphone;
 	private String mailaddr;
+	private String contactman;
+	private String phonenum;
 	 private String userId;
 	public JpaInvoice(){
 		
 	}
 	
-	public JpaInvoice(int id, String title, Type type, String taxrenum,
-			String bankname, String accountnum, String regisaddr,
-			String fixphone, String mailaddr, String userId) {
+
+	public JpaInvoice(int id, String title, Type type, String taxrenum, String bankname, String accountnum,
+			String regisaddr, String fixphone, String mailaddr, String contactman, String phonenum, String userId) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -43,11 +45,30 @@ public class JpaInvoice extends CityEntity{
 		this.regisaddr = regisaddr;
 		this.fixphone = fixphone;
 		this.mailaddr = mailaddr;
+		this.contactman = contactman;
+		this.phonenum = phonenum;
 		this.userId = userId;
 	}
 
+
 	public String getMailaddr() {
 		return mailaddr;
+	}
+
+	public String getContactman() {
+		return contactman;
+	}
+
+	public void setContactman(String contactman) {
+		this.contactman = contactman;
+	}
+
+	public String getPhonenum() {
+		return phonenum;
+	}
+
+	public void setPhonenum(String phonenum) {
+		this.phonenum = phonenum;
 	}
 
 	public String getUserId() {
@@ -116,11 +137,12 @@ public class JpaInvoice extends CityEntity{
 
 	@Override
 	public String toString() {
-		return "JpaInvoice [id=" + id + ", title=" + title + ", type=" + type
-				+ ", taxrenum=" + taxrenum + ", bankname=" + bankname
-				+ ", accountnum=" + accountnum + ", regisaddr=" + regisaddr
-				+ ", fixphone=" + fixphone + "]";
+		return "JpaInvoice [id=" + id + ", title=" + title + ", type=" + type + ", taxrenum=" + taxrenum
+				+ ", bankname=" + bankname + ", accountnum=" + accountnum + ", regisaddr=" + regisaddr + ", fixphone="
+				+ fixphone + ", mailaddr=" + mailaddr + ", contactman=" + contactman + ", phonenum=" + phonenum
+				+ ", userId=" + userId + "]";
 	}
+
 	
 
 }

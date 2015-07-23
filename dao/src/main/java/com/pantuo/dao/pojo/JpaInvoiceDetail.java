@@ -24,13 +24,17 @@ public class JpaInvoiceDetail extends CityEntity{
 	private String regisaddr;
 	private String fixphone;
 	private String mailaddr;
+	 private String contactman;
+	 private String phonenum;
 	 private String userId;
 	private String contents;
 	 private String receway;
-	 
+	public JpaInvoiceDetail() {
+	}
+	
 	public JpaInvoiceDetail(int id, int mainid, String title, Type type, String taxrenum, String bankname,
-			String accountnum, String regisaddr, String fixphone, String mailaddr, String userId, String contents,
-			String receway) {
+			String accountnum, String regisaddr, String fixphone, String mailaddr, String contactman, String phonenum,
+			String userId, String contents, String receway) {
 		super();
 		this.id = id;
 		this.mainid = mainid;
@@ -42,12 +46,13 @@ public class JpaInvoiceDetail extends CityEntity{
 		this.regisaddr = regisaddr;
 		this.fixphone = fixphone;
 		this.mailaddr = mailaddr;
+		this.contactman = contactman;
+		this.phonenum = phonenum;
 		this.userId = userId;
 		this.contents = contents;
 		this.receway = receway;
 	}
-	public JpaInvoiceDetail() {
-	}
+
 	public int getId() {
 		return id;
 	}
@@ -55,6 +60,18 @@ public class JpaInvoiceDetail extends CityEntity{
 		this.id = id;
 	}
 	
+	public String getContactman() {
+		return contactman;
+	}
+	public void setContactman(String contactman) {
+		this.contactman = contactman;
+	}
+	public String getPhonenum() {
+		return phonenum;
+	}
+	public void setPhonenum(String phonenum) {
+		this.phonenum = phonenum;
+	}
 	public int getMainid() {
 		return mainid;
 	}
@@ -127,12 +144,14 @@ public class JpaInvoiceDetail extends CityEntity{
 	public void setReceway(String receway) {
 		this.receway = receway;
 	}
+
 	@Override
 	public String toString() {
 		return "JpaInvoiceDetail [id=" + id + ", mainid=" + mainid + ", title=" + title + ", type=" + type
 				+ ", taxrenum=" + taxrenum + ", bankname=" + bankname + ", accountnum=" + accountnum + ", regisaddr="
-				+ regisaddr + ", fixphone=" + fixphone + ", mailaddr=" + mailaddr + ", userId=" + userId
-				+ ", contents=" + contents + ", receway=" + receway + "]";
+				+ regisaddr + ", fixphone=" + fixphone + ", mailaddr=" + mailaddr + ", contactman=" + contactman
+				+ ", phonenum=" + phonenum + ", userId=" + userId + ", contents=" + contents + ", receway=" + receway
+				+ "]";
 	}
 	 
 }
