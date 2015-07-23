@@ -39,13 +39,13 @@
                 { "data": "product.type", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         if (data == 'video')
-                            return '视频';
+                            return '全屏视频';
                         if (data == 'image')
-                            return '图片';
+                            return 'INFO图片';
                         if (data == 'body')
                             return '车身';
                         if (data == 'info')
-                            return 'Info';
+                            return 'INFO字幕';
                         return '';
                     } },
                 { "data": "saleprice", "defaultContent": "", "render": $.fn.dataTable.render.number( ',', '.', 2, ' ')  },
@@ -81,9 +81,9 @@
                 '<div>' +
                      '<select class="ui-input ui-input-mini" name="protype" id="protype" style="width:140px">' +
                     '<option value="" selected="selected">产品类型</option>' +
-                  	'<option value="video">视频广告</option>' +
-                  	'<option value="image">INFO图片广告</option>' +
-                    '<option value="info">INFO字幕广告</option>' +
+                  	'<option value="video">全屏视频</option>' +
+                  	'<option value="image">INFO图片</option>' +
+                    '<option value="info">INFO字幕</option>' +
          			'</select>' +
                          '    <span></span>' +
                     '<select class="ui-input ui-input-mini" name="prostate" id="prostate" > ' +
