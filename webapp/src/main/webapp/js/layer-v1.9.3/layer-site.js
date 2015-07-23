@@ -776,7 +776,7 @@ return exp;
  */
 function showOrderUserlayer(tourl,uid){
 	$.ajax({
-			url : tourl  + uid,
+			url : tourl  +"/user/u_ajax/"+ uid,
 			type : "GET",
 			data : {
 			},
@@ -785,19 +785,25 @@ function showOrderUserlayer(tourl,uid){
 	    		type: 1,
 	    		title: "下单用户信息",
 	    		skin: 'layui-layer-rim', 
-	    		area: ['420px', '540px'], 
+	    		area: ['650px', '750px'], 
 	    		content: 
 	    				 '<br><div class="ui-form-item"> <label class="ui-label mt10"> <span class="ui-form-required">* </span>真实姓名: </label>  <input readonly="readonly" class="ui-input "'
-	    				 +'type="text" name="title" id="title" value="'+data.user.firstName+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+	    				 +'type="text" name="title" id="title" value="'+data.left.user.firstName+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>邮箱地址:</label><input readonly="readonly" class="ui-input "'
-                         +'type="text" name="taxrenum" value="'+getEmptyIfNull(data.user.email)+'" id="taxrenum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
+                         +'type="text" name="taxrenum" value="'+getEmptyIfNull(data.left.user.email)+'" id="taxrenum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
 						 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>联系电话:</label> <input readonly="readonly" class="ui-input "'
-                         +'type="text" name="bankname" value="'+getEmptyIfNull(data.phone)+'" id="bankname" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+                         +'type="text" name="bankname" value="'+getEmptyIfNull(data.left.phone)+'" id="bankname" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
                          +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>所属公司:</label> <input readonly="readonly"  class="ui-input "'
-                         +'type="text" name="accountnum" value="'+getEmptyIfNull(data.company)+'" id="accountnum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+                         +'type="text" name="accountnum" value="'+getEmptyIfNull(data.left.company)+'" id="accountnum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
                          +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>所属部门:</label> <input readonly="readonly"  class="ui-input"'
-                         +'type="text" name="regisaddr" value="'+getEmptyIfNull(data.department)+'" id="regisaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+                         +'type="text" name="regisaddr" value="'+getEmptyIfNull(data.left.department)+'" id="regisaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+                         +'<div class="ui-form-item" id="Userqualifi"> <label class="ui-label mt10"><span class="ui-form-required">*</span>用户资质:</label><br> </div>'
 	 });
+				if(typeof(data.right)=="undefined"){
+					$("#Userqualifi").append("未上传");
+				}else{
+					$("#Userqualifi").append("<div> <img src='"+tourl+"/downloadFile/"+data.right.userId+"/"+data.right.id+"' /></div>");
+				}
 			}
 		}, "text");
 	

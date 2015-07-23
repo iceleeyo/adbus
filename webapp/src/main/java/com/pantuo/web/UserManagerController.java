@@ -351,9 +351,10 @@ public class UserManagerController {
 			+ "or hasRole('ShibaSuppliesManager')or hasRole('UserManager') ")
 	@ResponseBody
 	@RequestMapping(value = "/u_ajax/{userId}", method = { RequestMethod.GET })
-	public UserDetail showUDetail(Model model, @PathVariable("userId") String userId, HttpServletRequest request) {
+	public Pair<Object, Object> showUDetail(Model model, @PathVariable("userId") String userId, HttpServletRequest request) {
 		UserDetail u =  userService.getByUsernameSafe(userId);
-		return u;
+		Attachment attachment=attachmentService.findUserQulifi(userId);
+		return new Pair<Object, Object>(u, attachment);
 	}
 	@ResponseBody
 	@RequestMapping(value = "/qua/{userId}")
