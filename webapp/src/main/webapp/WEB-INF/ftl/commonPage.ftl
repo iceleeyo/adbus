@@ -175,7 +175,7 @@ function bu(txtObj) {
 							</div>
 							<div class="product-contain">
 								<div class=" color-white-bg fn-clear" style="margin-left: 0px;">
-    <DIV class="summary mt10 uplan-summary-div">
+    <DIV class="summary uplan-summary-div">
         <UL class="uplan-detail-ul">
             <LI style="width: 720px;">
                 <SPAN>套餐名称：</SPAN><SPAN class="con">${prod.name!''}</SPAN>
@@ -240,7 +240,7 @@ function bu(txtObj) {
 </div>
 							</div>
 						</div>
-						<div class="ls-3" style="float:right;position:absolute;left:790px;top:0px;">
+						<div class="ls-3" style="float:right;position:absolute;left:790px;top:0px;background: #fff;">
 							<div class="record-sidebar">
 								<div class="record-title">
 									<label>购买记录（共<label>${logCount!''}</label>次购买）</label>
