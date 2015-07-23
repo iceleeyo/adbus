@@ -195,7 +195,7 @@ $.ajax({
 							</div>
 							<div class="product-contain">
 								<div class=" color-white-bg fn-clear" style="margin-left: 0px;">
-    <DIV class="summary mt10 uplan-summary-div">
+    <DIV class="summary uplan-summary-div">
         <UL class="uplan-detail-ul">
             <LI style="width: 720px;">
                 <SPAN>套餐名称：</SPAN><SPAN class="con">${prod.name!''}</SPAN>
