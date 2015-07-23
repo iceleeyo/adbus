@@ -29,6 +29,7 @@ import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author xl
@@ -135,8 +136,9 @@ public class ProductController {
 		return "comparePage";
 	}
 	@RequestMapping(value = "/win/{cpdid}", produces = "text/html;charset=utf-8")
-	public String win(Model model, @PathVariable("cpdid") int cpdid,@RequestParam(value = "pid",required=false ,defaultValue="0") int pid) {
+	public String win(Model model, @PathVariable("cpdid") int cpdid,@RequestParam(value = "pid",required=false ,defaultValue="0") int pid,HttpServletRequest request) {
 		toComparePage(model, cpdid, pid);
+		request.getSession(false).setAttribute("token", UUID.randomUUID().toString());
 		return "winPage";
 	}
 

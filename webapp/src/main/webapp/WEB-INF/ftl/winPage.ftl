@@ -125,6 +125,7 @@ function creorder() {
 											 <input type="hidden" readonly="readonly" name="product.id" id="productId" value="${prod.id!''}"/>
 											 <input type="hidden" readonly="readonly" name="supplies.id" id="productId" value="1"/>
 											 <input type="hidden" readonly="readonly" name="price" value="${jpaCpd.comparePrice!''}"/>
+											 <input type="hidden" readonly="readonly" name="token"  value="${token!''}"/>
 										<@security.authorize access="isAuthenticated()">
                                         <input type="hidden" id="lc" value="1"/>	
                                         </@security.authorize>
