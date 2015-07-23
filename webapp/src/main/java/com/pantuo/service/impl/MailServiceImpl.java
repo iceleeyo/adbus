@@ -31,7 +31,9 @@ import com.pantuo.service.OrderService;
 import com.pantuo.service.UserServiceInter;
 import com.pantuo.util.FreeMarker;
 import com.pantuo.util.GlobalMethods;
+import com.pantuo.util.LinuxMailService;
 import com.pantuo.util.Mail;
+import com.pantuo.util.OSinfoUtils;
 import com.pantuo.util.OrderIdSeq;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
@@ -248,14 +250,20 @@ public class MailServiceImpl implements MailService {
 								Thread.sleep(300);
 							} catch (InterruptedException e) {
 							}
-							Mail mail = getMailService(user2.getEmail());
-							mail.setSubject("[北巴广告交易系统]待办事项通知");
-							mail.setContent(getCompleteTemplete(user2.getFirstName(), orderId,
-									"http://" + Request.getServerIp() + "/order/myTask/1"));
-							boolean r = mail.sendMail();
-							log.info("sennd mail to notify user {} can compre, success: N|Y {}", user2.getEmail(), r);
-							if (!r) {
-								throw new SendMailException("send mail fail:" + user2.getEmail());
+							String context = getCompleteTemplete(user2.getFirstName(), orderId,
+									"http://" + Request.getServerIp() + "/order/myTask/1");
+							if (OSinfoUtils.isMacOS() || OSinfoUtils.isWindows()) {
+								Mail mail = getMailService(user2.getEmail());
+								mail.setSubject("[北巴广告交易系统]待办事项通知");
+								mail.setContent(context);
+								boolean r = mail.sendMail();
+								log.info("sennd mail to notify user {} can compre, success: N|Y {}", user2.getEmail(),
+										r);
+								if (!r) {
+									throw new SendMailException("send mail fail:" + user2.getEmail());
+								}
+							} else if (OSinfoUtils.isLinux()) {
+								LinuxMailService.sendMail(user2.getEmail(), "[北巴广告交易系统]待办事项通知", context);
 							}
 						}
 					}
