@@ -148,10 +148,10 @@
 										</div>-->
 										<div class="ui-form-item toggle videoToggle imageToggle infoToggle teamToggle">
 											<label class="ui-label mt10"><span class="ui-form-required">*</span>时长（秒）:</label> <input
-												class="ui-input validate[required,integer,min[15],max[180]]"
-                                                onkeyup="value=value.replace(/[^\d]/g,'')" value="<#if prod??>${prod.duration!''}<#else>15</#if>" name="duration"
+												class="ui-input validate[required,integer,min[5],max[180]]"
+                                                onkeyup="value=value.replace(/[^\d]/g,'')" value="<#if prod??>${prod.duration!''}<#else>5</#if>" name="duration"
 												id="duration" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="" placeholder="15-180秒">
+												autocomplete="off" disableautocomplete="" placeholder="5-180秒">
 											<p class="ui-term-placeholder"></p>
 										</div>
 

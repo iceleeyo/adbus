@@ -105,7 +105,7 @@
 <#--</@security.authorize>-->
                             </ul>
 							<div class="s-left ml10">
-								<a class="pg-nav-item" href="#">
+								<a class="pg-nav-item" href="#" style="padding-top: 8px;">
 									
 								</a>
 							</div>
@@ -183,14 +183,12 @@
 								</li>
 								
 								<li class="pg-nav-item s-left">
-									<a class="pg-nav-item-t" href="${rc.contextPath}/">移动电视</a>
+									<a class="pg-nav-item-t" href="http://www.busme.cn">移动电视</a>
 								</li>
 								
 								<li class="pg-nav-item s-left">
-									<a class="pg-nav-item-t" href="${rc.contextPath}/body">车身媒体</a>
+									<a class="pg-nav-item-t" href="http://www.busme.cn/body">车身媒体</a>
 								</li>
-								
-								
 								
 								<li class="pg-nav-item s-left">
 									<a class="pg-nav-item-t pg-nav-hover-us" href="${rc.contextPath}/product/sift">

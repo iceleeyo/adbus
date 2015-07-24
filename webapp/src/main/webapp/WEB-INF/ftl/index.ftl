@@ -185,12 +185,11 @@
 								</li>
 								
 								<li class="pg-nav-item s-left">
-									<a class="pg-nav-item-t" href="${rc.contextPath}">移动电视</a>
+									<a class="pg-nav-item-t" href="http://www.busme.cn">移动电视</a>
 								</li>
 								
 								<li class="pg-nav-item s-left">
-									<a class="pg-nav-item-t" href="${rc.contextPath}/body">车身媒体</a>
-
+									<a class="pg-nav-item-t" href="http://www.busme.cn/body">车身媒体</a>
 								</li>
 								
 								
@@ -575,14 +574,10 @@
 			</dl>
 		</div>
 	</div>
-	<div class="footer">
-		<div class="container-12 plr10">
-			<div class="foot-copyright">
-				<span class="foot-cr-link gray-text">© 2015 XXX All rights reserved</span>
-				<span class="foot-cr-link gray-text has-border">北京世巴传媒有限公司</span>
-			</div>
-		</div>
-	</div>
+	
+	<#include "/menu/foot.ftl" />
+
+
 	<script type="text/javascript" src="homepage/js/jquery.js"></script>
 	<script src="homepage/js/index.js"></script>
 	<script src="homepage/js/unslider.min.js"></script>

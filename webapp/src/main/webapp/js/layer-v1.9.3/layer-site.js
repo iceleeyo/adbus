@@ -19,32 +19,32 @@ function showProductlayer(tourl,id){
 	    		area: ['450px', '650px'], 
 	    		content: ' <input type="hidden" name="id" value="'+data.id+'"/>'
 						 +'<br/>'
-	    				 +'<div class="ui-form-item"> <label class="ui-label mt10">套餐名称: </label>  <input readonly="readonly" class="ui-input "'
+	    				 +'<div class="ui-form-item"> <label class="ui-label mt10">套餐名称: </label>  <input readonly="readonly" class="ui-input-d"'
 	    				 +'type="text" name="title" id="title" value="'+data.name+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-	    				 +'<div class="ui-form-item"> <label class="ui-label mt10">套餐价格:</label><input readonly="readonly" class="ui-input "'
+	    				 +'<div class="ui-form-item"> <label class="ui-label mt10">套餐价格:</label><input readonly="readonly" class="ui-input-d"'
                          +'type="text" name="taxrenum" value="'+formatCurrency(data.price)+'" id="taxrenum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10">媒体类型:</label> <input readonly="readonly" class="ui-input "'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10">媒体类型:</label> <input readonly="readonly" class="ui-input-d"'
                          +'type="text" name="bankname" value="'+getTypeString(data.type)+'" id="bankname" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
                          +'<div id="bodyPro"><div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">线路级别：</label>'
-                         +'<input readonly="readonly"  class="ui-input" type="text" name="regisaddr" value="" id="lineLevel" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+                         +'<input readonly="readonly"  class="ui-input-d" type="text" name="regisaddr" value="" id="lineLevel" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
                          +'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">巴士数量:</label>'
-                         +'<input class="ui-input" readonly="readonly" value="'+data.busNumber+'" id="busNumber" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+                         +'<input class="ui-input-d" readonly="readonly" value="'+data.busNumber+'" id="busNumber" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
                          +'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">广告展示天数:</span> </label>'
-                         +'<input class="ui-input" readonly="readonly" value="'+data.days+'" id="days" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+                         +'<input class="ui-input-d" readonly="readonly" value="'+data.days+'" id="days" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
                          +'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">制作费:</label>'
-			             +'<input class="ui-input" readonly="readonly" value="'+data.produceCost+'" name="produceCost" id="produceCost" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
+			             +'<input class="ui-input-d" readonly="readonly" value="'+data.produceCost+'" name="produceCost" id="produceCost" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
 			             +'</div></div>'
-                         +'<div id="cityPro" style="display:block"><div class="ui-form-item"> <label class="ui-label mt10">时长（秒）:</label> <input readonly="readonly"  class="ui-input "'
+                         +'<div id="cityPro" style="display:block"><div class="ui-form-item"> <label class="ui-label mt10">时长（秒）:</label> <input readonly="readonly"  class="ui-input-d"'
                          +'type="text" name="accountnum" value="'+data.duration+'" id="accountnum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10">单日播放次数:</label> <input readonly="readonly"  class="ui-input"'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10">单日播放次数:</label> <input readonly="readonly"  class="ui-input-d"'
                          +'type="text" name="regisaddr" value="'+data.playNumber+'" id="regisaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10">首播次数:</label> <input readonly="readonly"  class="ui-input"'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10">首播次数:</label> <input readonly="readonly"  class="ui-input-d"'
                          +'type="text" name="fixphone" value="'+data.firstNumber+'" id="fixphone" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10">末播次数:</label> <input readonly="readonly"  class="ui-input"'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10">末播次数:</label> <input readonly="readonly"  class="ui-input-d"'
                          +'type="text" name="mailaddr" value="'+data.lastNumber+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10">高峰时段占比:</label> <input readonly="readonly"  class="ui-input"'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10">高峰时段占比:</label> <input readonly="readonly"  class="ui-input-d"'
                          +'type="text" name="mailaddr" value="'+data.hotRatio+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10">套餐播放天数:</label> <input readonly="readonly"  class="ui-input "'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10">套餐播放天数:</label> <input readonly="readonly"  class="ui-input-d"'
                          +'type="text" name="mailaddr" value="'+data.days+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div></div>'
                          +'<div class="ui-form-item"> <label class="ui-label mt10" style="width: 145px;">套餐描述:</label><textarea rows="4" cols="30" readonly="readonly" style="resize: none;margin-left: -20px;" >'+data.remarks+'</textarea>  </div>'
 		});
@@ -104,7 +104,7 @@ function UserQualifi(tourl,username){
 		}, "text");
 }
 //查看合同详情
-function contractdetail(tourl,contractid){
+function contractdetails(tourl,contractid){
 	$.ajax({
 		url : tourl +"/contract/ajax-contractDetail/"+contractid,
 		type : "POST",
@@ -115,35 +115,57 @@ function contractdetail(tourl,contractid){
 				type: 1,
 				title: "合同详情",
 				skin: 'layui-layer-rim', //加上边框
-				area: ['450px', '600px'], //宽高
+				area: ['650px', '450px'], //宽高
 				content: '<form data-name="withdraw"  enctype="multipart/form-data"> '
 					+'<br/>'
-					+'<div class="ui-form-item"> <label class="ui-label mt10"> 合同编号: </label>  <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+					+'<div class="ui-form-item" style="margin-left:110px;"> <label class="ui-label mt10"> 合同编号: </label>  <input readonly="readonly" class="ui-input-d"'
 					+'type="text" name="title" id="title" value="'+data.mainView.contractCode+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-					+'<div class="ui-form-item"> <label class="ui-label mt10"> 合同名称: </label>  <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+					+'<div class="ui-form-item" style="margin-left:110px;"> <label class="ui-label mt10"> 合同名称: </label>  <input readonly="readonly" class="ui-input-d"'
 					+'type="text" name="title" id="title" value="'+data.mainView.contractName+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-					+'<div class="ui-form-item"> <label class="ui-label mt10"> 合同类型: </label>  <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+					+'<div class="ui-form-item" style="margin-left:110px;"> <label class="ui-label mt10"> 合同类型: </label>  <input readonly="readonly" class="ui-input-d"'
 					+'type="text" name="title" id="title" value="'+data.mainView.contractType+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-					+'<div class="ui-form-item"> <label class="ui-label mt10">广告主:</label> <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+					+'<div class="ui-form-item" style="margin-left:110px;"> <label class="ui-label mt10">广告主:</label> <input readonly="readonly" class="ui-input-d"'
 					+'type="text" name="mailaddr" value="'+data.mainView.userId+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-					+'<div class="ui-form-item"> <label class="ui-label mt10">金额（￥）:</label> <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+					+'<div class="ui-form-item" style="margin-left:110px;"> <label class="ui-label mt10">金额（￥）:</label> <input readonly="readonly" class="ui-input-d"'
 					+'type="text" name="taxrenum" value="'+data.mainView.amounts+'" id="taxrenum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
-					+'<div class="ui-form-item"> <label class="ui-label mt10">所在行业:</label> <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+					+'<div class="ui-form-item" style="margin-left:110px;"> <label class="ui-label mt10">所在行业:</label> <input readonly="readonly" class="ui-input-d"'
 					+'type="text" name="bankname" value="'+data.industryname+'" id="bankname" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-					+'<div class="ui-form-item"> <label class="ui-label mt10">上刊日期:</label> <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+					+'<div class="ui-form-item" style="margin-left:110px;"> <label class="ui-label mt10">上刊日期:</label> <input readonly="readonly" class="ui-input-d"'
 					+'type="text" name="accountnum" value="'+ $.format.date(data.mainView.startDate, "yyyy-MM-dd")+'" id="accountnum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-					+'<div class="ui-form-item"> <label class="ui-label mt10">下刊日期:</label> <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+					+'<div class="ui-form-item" style="margin-left:110px;"> <label class="ui-label mt10">下刊日期:</label> <input readonly="readonly" class="ui-input-d"'
 					+'type="text" name="regisaddr" value="'+$.format.date(data.mainView.endDate, "yyyy-MM-dd")+'" id="regisaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-					+'<div class="ui-form-item" id="contractfile"> <label class="ui-label mt10">附件:</label>  </div>'
+					+'<div class="ui-form-item" style="margin-left:80px;" id="contractfile"> <label class="ui-label mt10">附件:</label>  </div>'
 					+'<div class="ui-form-item widthdrawBtBox">  </div></form>'
 			});
 			
 			$.each(data.files, function(i, item) {
-				$("#contractfile").append("<div><a href='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"'>"+item.name+"</a></div><br> ");
+				$("#contractfile").append("<div style='line-height: 40px;margin-left:5px;'><a class='thumbnail'>"+item.name+"<span><img src='"+tourl+'/'+item.url+"' alt='"+item.name+"'  width='300' height='200' border='0'></span></a><a style='margin-left:20px;' href='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"'>点击下载附件</a></div><br> ");
 			});
 		}
 	}, "text");
 }
+
+function contractdetail(tourl,contractid){
+	$.ajax({
+	
+		type : "POST",
+		data : {
+		},
+		success : function(data) {
+			layer.open({
+				type: 1,
+				title: "合同详情",
+				skin: 'layui-layer-rim', //加上边框
+				area: ['900px', '350px'], //宽高
+				content:''
+					   +' '
+					   +'<iframe style="width:99%;height:97%" src="'+tourl+'/contract/contractDetail/'+contractid+'"/>'
+			});
+			
+		}
+	}, "text");
+}
+
 //查看发票详情
 function invoicedetail(tourl,orderid){
 	$.ajax({
@@ -189,27 +211,27 @@ function invoicedetail(tourl,orderid){
 	    		content: '<form data-name="withdraw" name="userForm2" id="userForm2" class="ui-form" method="post" action="'+tourl+'/user/saveInvoice" enctype="multipart/form-data"> <input type="hidden" name="id" value="'+data.detailView.id+'"/>'
 						 +'<br/>'
 						 +'<div class="ui-form-item"> <label class="ui-label mt10">发票类型:</label>  '+type+'</div>'
-						 +'<div class="ui-form-item"> <label class="ui-label mt10"> 发票抬头: </label>  <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+						 +'<div class="ui-form-item"> <label class="ui-label mt10"> 发票抬头: </label>  <input readonly="readonly" class="ui-input-d"'
 						 +'type="text" name="title" id="title" value="'+data.detailView.title+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"> 发票开具内容: </label>  <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"> 发票开具内容: </label>  <input readonly="readonly" class="ui-input-d"'
 	    				 +'type="text" name="title" id="title" value="'+data.detailView.contents+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"> 领取方式: </label>  <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"> 领取方式: </label>  <input readonly="readonly" class="ui-input-d"'
 	    				 +'type="text" name="title" id="title" value="'+data.detailView.receway+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-	    				 +'<div class="ui-form-item"> <label class="ui-label mt10">邮寄地址:</label> <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+	    				 +'<div class="ui-form-item"> <label class="ui-label mt10">邮寄地址:</label> <input readonly="readonly" class="ui-input-d"'
                          +'type="text" name="mailaddr" value="'+data.detailView.mailaddr+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10">邮寄联系人:</label> <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10">邮寄联系人:</label> <input readonly="readonly" class="ui-input-d"'
                          +'type="text" name="contactman" value="'+data.detailView.contactman+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10">联系方式:</label> <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10">联系方式:</label> <input readonly="readonly" class="ui-input-d"'
                          +'type="text" name="phonenum" value="'+data.detailView.phonenum+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-	    				 +'<div id="other"><div class="ui-form-item"> <label class="ui-label mt10">税务登记证号:</label> <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+	    				 +'<div id="other"><div class="ui-form-item"> <label class="ui-label mt10">税务登记证号:</label> <input readonly="readonly" class="ui-input-d"'
                          +'type="text" name="taxrenum" value="'+data.detailView.taxrenum+'" id="taxrenum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
-						 +'<div class="ui-form-item"> <label class="ui-label mt10">基本户开户银行名称:</label> <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+						 +'<div class="ui-form-item"> <label class="ui-label mt10">基本户开户银行名称:</label> <input readonly="readonly" class="ui-input-d"'
                          +'type="text" name="bankname" value="'+data.detailView.bankname+'" id="bankname" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10">基本户开户账号:</label> <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10">基本户开户账号:</label> <input readonly="readonly" class="ui-input-d"'
                          +'type="text" name="accountnum" value="'+data.detailView.accountnum+'" id="accountnum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10">注册场所地址:</label> <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10">注册场所地址:</label> <input readonly="readonly" class="ui-input-d"'
                          +'type="text" name="regisaddr" value="'+data.detailView.regisaddr+'" id="regisaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10">注册固定电话:</label> <input readonly="readonly" class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10">注册固定电话:</label> <input readonly="readonly" class="ui-input-d"'
                          +'type="text" name="fixphone" value="'+data.detailView.fixphone+'" id="fixphone" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 						 +'<div class="ui-form-item"> <label class="ui-label mt10">营业执照复印件:</label> <a href="'+tourl+'/downloadFile/'+yuserid+'/'+yid+'"> '+yingye+'</a> </div>'
 						 +'<div class="ui-form-item"> <label class="ui-label mt10">税务登记复印件:</label><a href="'+tourl+'/downloadFile/'+yuserid+'/'+sid+'"> '+shuiwu+' </a></div>'
@@ -803,15 +825,15 @@ function showOrderUserlayer(tourl,uid){
 	    		skin: 'layui-layer-rim', 
 	    		area: ['650px', '750px'], 
 	    		content: 
-	    				 '<br><div class="ui-form-item"> <label class="ui-label mt10"> <span class="ui-form-required">* </span>真实姓名: </label>  <input readonly="readonly" class="ui-input "'
+	    				 '<br><div class="ui-form-item"> <label class="ui-label mt10"> <span class="ui-form-required">* </span>真实姓名: </label>  <input readonly="readonly" class="ui-input-d"'
 	    				 +'type="text" name="title" id="title" value="'+data.left.user.firstName+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>邮箱地址:</label><input readonly="readonly" class="ui-input "'
+	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>邮箱地址:</label><input readonly="readonly" class="ui-input-d"'
                          +'type="text" name="taxrenum" value="'+getEmptyIfNull(data.left.user.email)+'" id="taxrenum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
-						 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>联系电话:</label> <input readonly="readonly" class="ui-input "'
+						 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>联系电话:</label> <input readonly="readonly" class="ui-input-d"'
                          +'type="text" name="bankname" value="'+getEmptyIfNull(data.left.phone)+'" id="bankname" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>所属公司:</label> <input readonly="readonly"  class="ui-input "'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>所属公司:</label> <input readonly="readonly"  class="ui-input-d"'
                          +'type="text" name="accountnum" value="'+getEmptyIfNull(data.left.company)+'" id="accountnum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>所属部门:</label> <input readonly="readonly"  class="ui-input"'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>所属部门:</label> <input readonly="readonly"  class="ui-input-d"'
                          +'type="text" name="regisaddr" value="'+getEmptyIfNull(data.left.department)+'" id="regisaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
                          +'<div class="ui-form-item" id="Userqualifi"> <label class="ui-label mt10"><span class="ui-form-required">*</span>用户资质:</label><br> </div>'
 	 });

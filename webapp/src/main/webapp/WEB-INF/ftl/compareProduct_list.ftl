@@ -1,5 +1,5 @@
 <#import "template/template.ftl" as frame>
-<#global menu="竞价产品列表">
+<#global menu="产品列表">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="竞价产品列表" js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js","js/layer.onload.js"] >
 

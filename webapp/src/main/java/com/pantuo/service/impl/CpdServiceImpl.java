@@ -120,7 +120,7 @@ public class CpdServiceImpl implements CpdService {
 			return new Pair<Boolean, String>(false, "竞价用户信息丢失!");
 		}
 		if (!(user.getUstats() != null && user.getUstats().ordinal() == UStats.authentication.ordinal())) {
-			return new Pair<Boolean, String>(false, "资质认证过的用户才能参与竞价,您可以到个人信息里上传资质图片!");
+			return new Pair<Boolean, String>(false, "资质未认证");
 		}
 
 		/*List<Account> accounts=accountMapper.selectByExample(example);

@@ -109,15 +109,7 @@
     <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=3070339185&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=3:3070339185:3" alt="点击这里咨询" title="点击这里咨询"/></a>
 </div>
 
-	<div class="footer">
-		<div class="container-12 plr10">
-			<div class="foot-copyright">
-				<span class="foot-cr-link gray-text">© 2015 XXX All rights reserved</span>
-				<span class="foot-cr-link gray-text has-border">北京世巴传媒有限公司</span>
-				
-			</div>
-		</div>
-	</div>
+	<#include "../menu/foot.ftl" />
 </body>
 </html>
 </#macro>

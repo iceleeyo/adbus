@@ -127,7 +127,8 @@ public class ContractController {
 
 	@RequestMapping(value = "/contractDetail/{contract_id}", produces = "text/html;charset=utf-8")
 	public String contractDetail(Model model, @PathVariable("contract_id") int contract_id, Principal principal,
-			HttpServletRequest request) {
+			HttpServletRequest request,HttpServletResponse response) {
+		response.setHeader("X-Frame-Options", "SAMEORIGIN");
 		//    	int contract_id=Integer.parseInt(request.getParameter("contract_id"));
 		ContractView view = contractService.getContractDetail(contract_id, principal);
 		model.addAttribute("view", view);

@@ -96,9 +96,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                         '    <span>' +
                         '        <input id="name" value="">' +
                         '    </span>' +'    <span>[备注：黄色代表占用时段，绿色代表剩余时段。]</span>' +
-                        '</div>'+
-                        '<div style="float: left;height: 4px;">'+
-						'<span class="per-free" style="width:30px"></span></div>'
+                        '</div>'
         );
 
         $('#name').change(function() {

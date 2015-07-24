@@ -30,11 +30,15 @@ $.ajax({
 			"myprice":myprice
 			},
 			success:function(data){
-			     layer.msg(data.right);
+			     if(data.right=="资质未认证"){
+			     	layer.msg("抱歉，您未获得竞拍资格<br><a href='${rc.contextPath}/user/UserQulifi'>点击立即获取资格</a>");
+			     }else{
+			       layer.msg(data.right);
+			     }
 			var uptime = window.setTimeout(function(){
 			window.location.reload();
 		   	clearTimeout(uptime);
-					},2000)
+					},10000)
 			}
       }); 
 }

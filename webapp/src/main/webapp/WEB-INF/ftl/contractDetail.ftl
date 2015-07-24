@@ -8,12 +8,8 @@ function go_back(){
 	history.go(-1);
 }
 </script>
-<style type="text/css">
-.ls-10{
-	position:absolute;left:260px;"
-}
-</style>
-<div class="withdraw-wrap color-white-bg fn-clear">
+
+<div class="withdrawS-wrap color-white-bg fn-clear" style="width: 780px;margin-left: 0px;">
 						<form data-name="withdraw" name="userForm2" id="userForm2"
 							class="ui-form" method="post" action="saveContract"
 							enctype="multipart/form-data">
@@ -24,24 +20,25 @@ function go_back(){
   <LI style="width: 240px;"><SPAN>合同名称：</SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">${(view.mainView.contractName)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>合同类型：</SPAN><SPAN class="con">${(view.mainView.contractType)!''}</SPAN></LI>
   
-  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
+  <li style="width: 750; border-bottom: 1px solid #F7F7F7"></li>
   <LI style="width: 240px;"><SPAN>广告主：</SPAN><SPAN class="con">${(view.mainView.userId)!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>金额（人民币：元）：</SPAN><SPAN class="con">${(view.mainView.amounts)!''}</SPAN></LI>
   
   <LI style="width: 240px;"><SPAN>所在行业：</SPAN><SPAN class="con">${(view.industryname)!''}</SPAN></LI>
-  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
+  <li style="width: 750; border-bottom: 1px solid #F7F7F7"></li>
   <LI style="width: 240px;"><SPAN>开始日期：</SPAN><SPAN class="con"><#setting
 															date_format="yyyy-MM-dd"> ${(view.mainView.startDate)?date!''}</SPAN></LI>
   <LI style="width: 240px;"><SPAN>终止日期：</SPAN><SPAN class="con"><#setting
 															date_format="yyyy-MM-dd"> ${(view.mainView.endDate)?date!''}</SPAN></LI>
-  <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
+  <li style="width: 750; border-bottom: 1px solid #F7F7F7"></li>
   <LI style="width: 720px;"><SPAN>附件【合同扫描件及其他附件】：</SPAN><SPAN class="con">
   	
 															<#list view.files as item> 
 															<@preview.materialPreview view=view items=[item]/>
-															<a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">  ${item.name!''}</a> &nbsp;&nbsp; &nbsp;  
-   							     </#list></SPAN></LI>
-<li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>   							    
+															<a class="thumbnail">${item.name!''}<span><img src="${rc.contextPath}/${item.url!''}" alt="${item.name!''}"  width="300" height="200" border="0"></span></a>
+															<a style="margin-left: 20px;" href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">点击下载附件</a> &nbsp;&nbsp; &nbsp;  
+															
+   							     </#list></SPAN></LI>  							    
 </UL>
 </DIV>
 </form>

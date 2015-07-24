@@ -113,9 +113,9 @@ ins,a {
 	text-decoration: none
 }
 
-body {
+/* body {
 	min-width: 960px
-}
+} */
 
 .fn-clear:after {
 	visibility: hidden;
