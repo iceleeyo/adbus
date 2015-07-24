@@ -11,7 +11,7 @@ css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
     }
 </script>
 
-<div class="withdraw-wrap color-white-bg fn-clear_blank" style="width: 100%;">
+<div class="withdrawS-wrap color-white-bg fn-clear_blank" style="width: 100%;">
 						<form data-name="withdraw" name="userForm2" id="userForm2"
 							class="ui-form" method="post" action="saveContract"
 							enctype="multipart/form-data">
