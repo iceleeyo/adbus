@@ -204,6 +204,7 @@ h3{
   font-weight: 500;
   color: #b48447;
   overflow: hidden;
+  padding-right:15px;
 }
 .bidPath .flow{
 	display: inline-block;
