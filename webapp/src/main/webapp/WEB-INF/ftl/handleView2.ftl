@@ -558,31 +558,23 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 						<div class="cart_address_wrap" id="cartAddress"
 							style="width: 540px;">
 							<#if (InvoiceList?size>0)>
-							<ul class="cart_address_list clearfix"
-								style="height:<#if (invoicelength<1)>10px<#else>${invoicelength*100-20}px</#if>;width:550px;"
-								id="cartAddressList">
-								<#list InvoiceList as ilist>
-								<!-- <li data-aid="${ilist.id}" tip="${ (ilist.type==1)?string('专用发票','普通发票')}:${ilist.title}" class="layer-tips">
-				                    <span href="javascript:;"  class="cart_address_card addressCard" style="text-decoration:none;" data-aid="${ilist.id}">
-				                        <p class="cart_address_zipinfo" >
-				                      ${substring(ilist.title,0,11)}</p>
-				                        <i class="cart_address_edit" style="display: none;"onclick="qEdit('${rc.contextPath}',${ilist.id})" id="${ilist.id}">编辑</i>
+				                <ul class="cart_address_list clearfix" style="width:550px;" id="cartAddressList">
+				                  <#list InvoiceList as ilist>
+				                <li data-aid="${ilist.id}" tip="${ (ilist.type==1)?string('专用发票','普通发票')}:${ilist.title}" class="layer-tips">
+				                    <span href="javascript:;"  class="" style="text-decoration:none;" data-aid="${ilist.id}">
+				                    <div class="item"><i></i>
+				                        <span class="" >
+				                      ${substring(ilist.title,0,11)}
+				                      <br>
+				                      <b class="cart_address_edit" style="display: none;position:inherit;"onclick="qEdit('${rc.contextPath}',${ilist.id})" id="${ilist.id}">编辑</b>
+				                      </span>
+				                    </div>    
 				                    </span>
-				                </li> -->
-								<li data-aid="${ilist.id}"
-									tip="${ (ilist.type==1)?string('专用发票','普通发票')}:${ilist.title}"
-									class="layer-tips"><span href="javascript:;" class=""
-									style="text-decoration: none;" data-aid="${ilist.id}">
-										<div class="item">
-											<i></i> <span class="">
-												${substring(ilist.title,0,11)} <br> <b
-												class="cart_address_edit"
-												style="display: none; position: inherit;"
-												onclick="qEdit('${rc.contextPath}',${ilist.id})"
-												id="${ilist.id}">编辑</b>
-											</span>
-										</div>
-								</span></li> </#list> <#else> 暂无发票，请录入发票 </#if>
+				                </li>
+				                </#list>
+				                <#else>
+				                                                         暂无发票，请录入发票
+				                </#if>
 								<input type="hidden" id="hiddenINvoiceId" value="0" />
 							</ul>
 						</div>
