@@ -375,7 +375,7 @@ function qCheck(obj){
 				               		<td style="text-align:right">发票内容</td>
 				               		<td colspan="3">
 				               			<div id="conten">
-				               			<div class="item"><i></i><a content="发布费" class="select-type">发布费</a></div>
+				               			<div class="item"><i></i><a content="广告发布费" class="select-type">广告发布费</a></div>
 				               			<div class="item"><i></i><a content="制作费" class="select-type">制作费</a></div>
 				               			</div>
 				               			<input type="hidden" id="contents" value=""/>
