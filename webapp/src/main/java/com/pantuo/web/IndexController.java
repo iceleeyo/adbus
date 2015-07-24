@@ -39,42 +39,30 @@ public class IndexController {
 	@Autowired
 	private ProductService productService;
 
-	public int makeCookieValueRight(int city) {
+	public int makeCookieValueRight(int city, HttpServletResponse response) {
 		JpaCity r = cityService.fromId(city);
-		return r == null ? ControllerSupport.defaultCookieValue : r.getId();
+		int w = r == null ? ControllerSupport.defaultCookieValue : r.getId();
+		try {
+			Cookie cookie = new Cookie("city", String.valueOf(w));
+			cookie.setPath("/");
+			cookie.setMaxAge(604800);
+			response.addCookie(cookie);
+		} catch (Exception e) {
+		}
+		return w;
 	}
 
 	@RequestMapping(value = "/body", produces = "text/html;charset=utf-8")
 	public String body(Model model, HttpServletRequest request, HttpServletResponse response,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
-		city = makeCookieValueRight(city == -1 ? 2 : (city % 2 == 1 ? city + 1 : city));
+		city = makeCookieValueRight(city == -1 ? 2 : (city % 2 == 1 ? city + 1 : city), response);
 		return commonData(model, request, city, "body_index", "body");
-	}
-	@RequestMapping(value = "/intro-video")
-	public String video() {
-		return "intro/intro-video";
-	}
-	@RequestMapping(value = "/intro-txt")
-	public String txt() {
-		return "intro/intro-txt";
-	}
-	@RequestMapping(value = "/intro-price")
-	public String price() {
-		return "intro/intro-price";
-	}
-	@RequestMapping(value = "/intro-ywzn")
-	public String ywzn() {
-		return "intro/intro-ywzn";
-	}
-	@RequestMapping(value = "/about-me")
-	public String aboutme() {
-		return "intro/about-me";
 	}
 
 	@RequestMapping(value = "/", produces = "text/html;charset=utf-8")
 	public String index(Model model, HttpServletRequest request, HttpServletResponse response,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
-		city = makeCookieValueRight(city == -1 ? 1 : (city % 2 == 0 ? city - 1 : city));
+		city = makeCookieValueRight(city == -1 ? 1 : (city % 2 == 0 ? city - 1 : city), response);
 		return commonData(model, request, city, "index", "screen");
 	}
 
@@ -105,5 +93,30 @@ public class IndexController {
 		request.getSession().setAttribute("medetype", medetype);
 		return pageName;
 		//return "redirect:/index.html";
+	}
+
+	@RequestMapping(value = "/intro-video")
+	public String video() {
+		return "intro/intro-video";
+	}
+
+	@RequestMapping(value = "/intro-txt")
+	public String txt() {
+		return "intro/intro-txt";
+	}
+
+	@RequestMapping(value = "/intro-price")
+	public String price() {
+		return "intro/intro-price";
+	}
+
+	@RequestMapping(value = "/intro-ywzn")
+	public String ywzn() {
+		return "intro/intro-ywzn";
+	}
+
+	@RequestMapping(value = "/about-me")
+	public String aboutme() {
+		return "intro/about-me";
 	}
 }
