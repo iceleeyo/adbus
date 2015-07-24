@@ -202,6 +202,11 @@
                     "alertText": "* 只接受中英文字母、数字和下划线"
                 },
                 
+                "noSpecialContratNum":{
+                    "regex": /^[0-9a-zA-Z\u4e00-\u9fa5\-\_\()（）]+$/i,
+                    "alertText": "* 只接受中英文字母、数字、下划线和成对小括号"
+                },
+                
                 // --- CUSTOM RULES -- Those are specific to the demos, they can be removed or changed to your likings
                 "ajaxUserNone": {
                     "url": "../validate/ajaxValidateUserNone",
