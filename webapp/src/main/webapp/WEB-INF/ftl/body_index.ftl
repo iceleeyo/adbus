@@ -183,7 +183,7 @@
 								</li>
 								
 								<li class="pg-nav-item s-left">
-									<a class="pg-nav-item-t" href="${rc.contextPath}">移动电视</a>
+									<a class="pg-nav-item-t" href="${rc.contextPath}/">移动电视</a>
 								</li>
 								
 								<li class="pg-nav-item s-left">
