@@ -372,10 +372,8 @@ public class UserService implements UserServiceInter {
 			if (user.getGroups() == null || user.getGroups().isEmpty()) {
 				return new Pair<Boolean, String>(false, "请至少选择一个分组");
 			} else if (user.getUser() != null) {
-				int dbId = dbUser.getId();
 				List<Group> existGroup = dbUser.getGroups();
-				BeanUtils.copyProperties(user, dbUser);
-				dbUser.setId(dbId);
+				com.pantuo.util.BeanUtils.copyPropertiesFilterZero(user, dbUser);
 				userRepo.save(dbUser);//先更新user_detail 信息
 				org.activiti.engine.identity.User activitiUser = identityService.createUserQuery()
 						.userId(dbUser.getUsername()).singleResult();
@@ -399,9 +397,7 @@ public class UserService implements UserServiceInter {
 			if (!StringUtils.equals(user.getUsername(), Request.getUserId(principal))) {
 				return new Pair<Boolean, String>(false, "操作非法");
 			} else if (user.getUser() != null) {
-				int dbId = dbUser.getId();
-				BeanUtils.copyProperties(user, dbUser);
-				dbUser.setId(dbId);
+				com.pantuo.util.BeanUtils.copyPropertiesFilterZero(user, dbUser);
 				userRepo.save(dbUser);//先更新user_detail 信息
 				org.activiti.engine.identity.User activitiUser = identityService.createUserQuery()
 						.userId(dbUser.getUsername()).singleResult();
@@ -409,7 +405,7 @@ public class UserService implements UserServiceInter {
 				activitiUser.setFirstName(user.getFirstName());
 				activitiUser.setLastName(user.getLastName());
 				identityService.saveUser(activitiUser);//更新工作流中的user表
-				suppliesService.savequlifi(principal, request, null);
+				//suppliesService.savequlifi(principal, request, null);
 				return new Pair<Boolean, String>(true, "保存成功");
 			}
 			return new Pair<Boolean, String>(false, "保存失败");

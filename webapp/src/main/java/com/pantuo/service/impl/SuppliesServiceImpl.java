@@ -134,7 +134,7 @@ public class SuppliesServiceImpl implements SuppliesService {
 				jpaInvoice.setPhonenum(obj.getPhonenum());
 				BeanUtils.filterXss(jpaInvoice);
 				InvoiceRepo.save(jpaInvoice);
-				attachmentService.upInvoiceAttachments(request, Request.getUserId(principal), jpaInvoice.getId(),
+				attachmentService.updateAttachments(request, Request.getUserId(principal), jpaInvoice.getId(),
 						JpaAttachment.Type.fp_file,null);
 				return new Pair<Object, String>(jpaInvoice, "发票保存成功！");
 			}else{
@@ -159,11 +159,14 @@ public class SuppliesServiceImpl implements SuppliesService {
 			Predicate query = QUserDetail.userDetail.username.eq(Request.getUserId(principal));
 			UserDetail userDetail = userDetailRepo.findOne(query);
 			if(userDetail!=null){
-				attachmentService.saveAttachment(request, Request.getUserId(principal), userDetail.getId(),
-						JpaAttachment.Type.user_qualifi,description);
-				userDetail.setUstats(UserDetail.UStats.upload);
+				if(attachmentService.findUserQulifi(Request.getUserId(principal)).size()>0){
+					attachmentService.updateAttachments(request, Request.getUserId(principal), userDetail.getId(),JpaAttachment.Type.fp_file,null);
+					userDetail.setUstats(UserDetail.UStats.upload);
+				}else{
+				    attachmentService.saveAttachment(request, Request.getUserId(principal), userDetail.getId(),JpaAttachment.Type.user_qualifi,description);
+				}
 				userDetailRepo.save(userDetail);
-				r = new Pair<Boolean, String>(true, "保存成功");
+				 r = new Pair<Boolean, String>(true, "保存成功");
 			}
 		} catch (BusinessException e) {
 			r = new Pair<Boolean, String>(false, "保存失败");

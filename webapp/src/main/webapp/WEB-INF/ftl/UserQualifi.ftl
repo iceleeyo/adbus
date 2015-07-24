@@ -4,7 +4,13 @@
 <@frame.html title="资质信息录入" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer/layer.js"] css=["js/jquery-ui/jquery-ui.css"]>
 <script type="text/javascript">
 	$(document).ready(function() {
-
+ $("#userForm2").validationEngine({
+            validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
+            inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
+            success :  false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
+            promptPosition: "centerRight",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
+            maxErrorsPerField: 1,
+        });
 					});
 
 	function sub(){
@@ -20,6 +26,9 @@
 						},2000)
 		}).submit();
 	}
+	function showform(){
+	    $("#updateform").css("display","inline");
+	}
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">					
 							<form data-name="withdraw" name="userForm2" id="userForm2"
@@ -30,29 +39,49 @@
 								</div>
 	<div class="withdrawInputs">
 		<div class="inputs">
-			<div class="ui-form-item">
-			    <label class="ui-label mt10">用户资质[图片]</label>
-			    <#if attachment??>
-			         <a href="${rc.contextPath}/downloadFile/${attachment.userId!''}/${attachment.id!''}"
-		          onclick="return hs.expand(this)">
-		        <img src="${rc.contextPath}/downloadFile/${attachment.userId!''}/${attachment.id!''}"
-		             class="m11" width="240"/>
-		    </a><br>
-		    <label class="ui-label mt10">修改资质</label>
-		    <div id="newUpload2">
+		                         <div class="ui-form-item">
+                                            <label class="ui-label mt10"><span
+                                                    class="ui-form-required">*</span>营业执照副本复印件:
+                                            </label>       
+                                                     <#if attachments?has_content >
+                                                       <#list attachments as item>
+                                                         <#if item?has_content && item.type==10>
+                                                          <a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}"  onclick="return hs.expand(this)">
+		                                              <img src="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}"  class="m11" width="240"/></a><br>
+                                                        </#if>
+                                                     </#list>
+                                                    <br>
+                                                    <#else>
+                                            <div id="newUpload2">
 												<div id="div_1">
-													<input type="file" name="user_pic" id="Sfile" class="">
+													<input type="file" name="user_license" id="Sfile2" class="validate[required]">
 												</div>
 											</div>
-			    <#else>
-			    <div id="newUpload2">
+                                                     </#if>
+                                                    
+                                        </div>
+		                         <div class="ui-form-item">
+                                            <label class="ui-label mt10"><span
+                                                    class="ui-form-required">*</span>税务登记证副本复印件:
+                                            </label>       
+                                                     <#if attachments?has_content >
+                                                       <#list attachments as item>
+                                                      <#if item?has_content && item.type==11>
+                                                          <a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}"  onclick="return hs.expand(this)">
+		                                            <img src="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}"  class="m11" width="240"/></a><br>
+                                                      </#if>
+                                                     </#list>
+                                                    <br>
+                                                    <#else>
+                                            <div id="newUpload2">
 												<div id="div_1">
-													<input type="file" name="user_pic" id="Sfile" class="">
+													<input type="file" name="user_tax" id="Sfile2" class="validate[required]">
 												</div>
 											</div>
-			    </#if>
-									  
-	    	</div>
+                                                     </#if>
+                                                    
+                                        </div>
+		
 	    	<div class="ui-form-item" tip="上传资质图片,审核通过可以参与商品竞价!"> 
 				<label class="ui-label mt10">认证状态:</label>
 				<div id="up" style="padding-top: 10px;">
@@ -68,12 +97,43 @@
 				</div>
 			</div>
 	    	<div class="ui-form-item widthdrawBtBox">
+	    	<#if !(attachments?has_content) >
 			<input type="button" id="subWithdraw" class="block-btn"
 				onclick="sub();" value="保存">
+				<#else>
+				 <input type="button"  class="block-btn"
+				onclick="showform();" value="修改">
+				</#if>
+				
+		  </div>
+		  <div id="updateform" style="display:none">
+		                              <div class="ui-form-item">
+                                            <label class="ui-label mt10"><span
+                                                    class="ui-form-required">*</span>营业执照副本复印件:
+                                            </label>       
+                                            <div id="newUpload2">
+												<div id="div_1">
+													<input type="file" name="user_license" id="Sfile2" class="validate[required]">
+												</div>
+											</div>
+                                        </div>
+		                              <div class="ui-form-item">
+                                            <label class="ui-label mt10"><span
+                                                    class="ui-form-required">*</span>税务登记副本复印件:
+                                            </label>       
+                                            <div id="newUpload2">
+												<div id="div_1">
+													<input type="file" name="user_tax" id="Sfile2" class="validate[required]">
+												</div>
+											</div>
+                                        </div>
+                                        
+               <div class="ui-form-item widthdrawBtBox">
+			     <input type="button" id="subWithdraw" class="block-btn" onclick="sub();" value="保存">
+		      </div>
+		  </div>
 		</div>
 		</div>
-		</div>
-		
 			<div class="worm-tips" >
             <div class="tips-title"><span class="icon"></span> 温馨提示</div>
 	          <ol>

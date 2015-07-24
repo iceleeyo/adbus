@@ -33,7 +33,7 @@ public interface AttachmentService {
 	 */
 	public void saveAttachment(HttpServletRequest request, String user_id, int main_id, JpaAttachment.Type file_type,String description)
 			throws BusinessException;
-	public void  upInvoiceAttachments(HttpServletRequest request, String user_id, int main_id, JpaAttachment.Type file_type,String description)
+	public void  updateAttachments(HttpServletRequest request, String user_id, int main_id, JpaAttachment.Type file_type,String description)
 			throws BusinessException;
 	/**
 	 * 
@@ -65,6 +65,6 @@ public interface AttachmentService {
 	public List<Attachment> queryAllFile(Principal principal, int main_id);
 	public List<Attachment> querysupFile(Principal principal, int main_id);
 	public List<Attachment> queryContracF(Principal principal, int main_id);
-	public Attachment findUserQulifi(String user_id);
+	public List<Attachment> findUserQulifi(String user_id);
 
 }

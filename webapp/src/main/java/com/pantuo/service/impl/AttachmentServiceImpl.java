@@ -107,6 +107,12 @@ public class AttachmentServiceImpl implements AttachmentService {
 							else if(StringUtils.equals(fn, "taxpayerfile")){
 								t.setType(JpaAttachment.Type.taxpayer.ordinal());
 							}
+							else if(StringUtils.equals(fn, "user_license")){
+								t.setType(JpaAttachment.Type.user_license.ordinal());
+							}
+							else if(StringUtils.equals(fn, "user_tax")){
+								t.setType(JpaAttachment.Type.user_tax.ordinal());
+							}
 							else{
 								t.setType(file_type.ordinal());
 							}
@@ -128,24 +134,43 @@ public class AttachmentServiceImpl implements AttachmentService {
 		}
 
 	}
+	//查询发票附件
+		public List<Attachment> queryinvoiceF(Principal principal, int main_id) {
+			AttachmentExample example =new AttachmentExample();
+			AttachmentExample.Criteria ca=example.createCriteria();
+			AttachmentExample.Criteria ca2=example.createCriteria();
+			AttachmentExample.Criteria ca3=example.createCriteria();
+			ca.andMainIdEqualTo(main_id);
+			ca2.andMainIdEqualTo(main_id);
+			ca3.andMainIdEqualTo(main_id);
+			ca.andTypeEqualTo(JpaAttachment.Type.license.ordinal());
+			ca2.andTypeEqualTo(JpaAttachment.Type.tax.ordinal());
+			ca3.andTypeEqualTo(JpaAttachment.Type.taxpayer.ordinal());
+			example.or(ca2);
+			example.or(ca3);
+			return attachmentMapper.selectByExample(example);
+		}
+		
+	//查询用户资质
 	@Override
-	public Attachment findUserQulifi(String user_id) {
+	public List<Attachment> findUserQulifi(String user_id) {
 		Predicate query = QUserDetail.userDetail.username.eq(user_id);
 		UserDetail userDetail = userDetailRepo.findOne(query);
 		AttachmentExample example=new AttachmentExample();
 		AttachmentExample.Criteria criteria=example.createCriteria();
+		AttachmentExample.Criteria criteria2=example.createCriteria();
 		criteria.andUserIdEqualTo(user_id);
-		criteria.andTypeEqualTo(9);
+		criteria2.andUserIdEqualTo(user_id);
+		criteria.andTypeEqualTo(JpaAttachment.Type.user_license.ordinal());
+		criteria2.andTypeEqualTo(JpaAttachment.Type.user_tax.ordinal());
+		example.or(criteria2);
 		if(userDetail!=null){
 			criteria.andMainIdEqualTo(userDetail.getId());
+			criteria2.andMainIdEqualTo(userDetail.getId());
 		}
-		List<Attachment> list=attachmentMapper.selectByExample(example);
-	       if(list.size()>0){	
-				return list.get(0);
-			}
-		return null;
+		return attachmentMapper.selectByExample(example);
 	}
-	public void upInvoiceAttachments(HttpServletRequest request, String user_id, int main_id, JpaAttachment.Type file_type,String description)
+	public void updateAttachments(HttpServletRequest request, String user_id, int main_id, JpaAttachment.Type file_type,String description)
 			throws BusinessException {
 		
 		try {
@@ -193,6 +218,18 @@ public class AttachmentServiceImpl implements AttachmentService {
 									t.setUrl(p.getRight());
 									attachmentMapper.updateByPrimaryKey(t);
 								}
+							  if(StringUtils.equals(fn, "user_license") && t.getType()==JpaAttachment.Type.user_license.ordinal()){
+								  t.setUpdated(new Date());
+								  t.setName(oriFileName);
+								  t.setUrl(p.getRight());
+								  attachmentMapper.updateByPrimaryKey(t);
+							  }
+							  if(StringUtils.equals(fn, "user_tax") && t.getType()==JpaAttachment.Type.user_tax.ordinal()){
+								  t.setUpdated(new Date());
+								  t.setName(oriFileName);
+								  t.setUrl(p.getRight());
+								  attachmentMapper.updateByPrimaryKey(t);
+							  }
 								
 							}
 						}
@@ -251,22 +288,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 		ca.andTypeEqualTo(JpaAttachment.Type.ht_fj.ordinal());
 		return attachmentMapper.selectByExample(example);
 	}
-	//查询发票附件
-	public List<Attachment> queryinvoiceF(Principal principal, int main_id) {
-		AttachmentExample example =new AttachmentExample();
-		AttachmentExample.Criteria ca=example.createCriteria();
-		AttachmentExample.Criteria ca2=example.createCriteria();
-		AttachmentExample.Criteria ca3=example.createCriteria();
-		ca.andMainIdEqualTo(main_id);
-		ca2.andMainIdEqualTo(main_id);
-		ca3.andMainIdEqualTo(main_id);
-		ca.andTypeEqualTo(JpaAttachment.Type.license.ordinal());
-		ca2.andTypeEqualTo(JpaAttachment.Type.tax.ordinal());
-		ca3.andTypeEqualTo(JpaAttachment.Type.taxpayer.ordinal());
-		example.or(ca2);
-		example.or(ca3);
-		return attachmentMapper.selectByExample(example);
-	}
+	
 	//查询资质附件
 	public List<Attachment> queryQua(Principal principal, int main_id) {
 		AttachmentExample example =new AttachmentExample();

@@ -279,19 +279,17 @@ public class UserManagerController {
 		return new Pair<Boolean, String>(false, "操作失败");
 	}
 
-
+    
 	@RequestMapping(value = "/qualification", produces = "text/html;charset=utf-8")
 	public String qualification(Model model,Principal principal,HttpServletRequest request) {
-		Attachment attachment=attachmentService.findUserQulifi(Request.getUserId(principal));
 		model.addAttribute("userDetail", userService.getByUsernameSafe(Request.getUserId(principal)));
-		model.addAttribute("attachment", attachment);
 		return "qualification_Enter";
 	}
 	@RequestMapping(value = "/UserQulifi", produces = "text/html;charset=utf-8")
 	public String UserQulifi(Model model,Principal principal,HttpServletRequest request) {
-		Attachment attachment=attachmentService.findUserQulifi(Request.getUserId(principal));
+		List<Attachment> attachments=attachmentService.findUserQulifi(Request.getUserId(principal));
 		model.addAttribute("userDetail", userService.getByUsernameSafe(Request.getUserId(principal)));
-		model.addAttribute("attachment", attachment);
+		model.addAttribute("attachments", attachments);
 		return "UserQualifi";
 	}
 	@RequestMapping(value = "/updateQualifi", method = { RequestMethod.POST })
@@ -341,7 +339,7 @@ public class UserManagerController {
 	@PreAuthorize(" hasRole('UserManager')  ")
 	@RequestMapping(value = "/u/{userId}", method = { RequestMethod.GET })
 	public String uDetail(Model model, @PathVariable("userId") String userId, HttpServletRequest request) {
-		Attachment attachment=attachmentService.findUserQulifi(userId);
+		List<Attachment> attachment=attachmentService.findUserQulifi(userId);
 		model.addAttribute("userDetail", userService.getByUsernameSafe(userId));
 		model.addAttribute("attachment", attachment);
 		return "u/userDetail";
@@ -353,13 +351,13 @@ public class UserManagerController {
 	@RequestMapping(value = "/u_ajax/{userId}", method = { RequestMethod.GET })
 	public Pair<Object, Object> showUDetail(Model model, @PathVariable("userId") String userId, HttpServletRequest request) {
 		UserDetail u =  userService.getByUsernameSafe(userId);
-		Attachment attachment=attachmentService.findUserQulifi(userId);
+		List<Attachment> attachment=attachmentService.findUserQulifi(userId);
 		return new Pair<Object, Object>(u, attachment);
 	}
 	@ResponseBody
 	@RequestMapping(value = "/qua/{userId}")
-	public Attachment qua(Model model, @PathVariable("userId") String userId, HttpServletRequest request) {
-		Attachment attachment=attachmentService.findUserQulifi(userId);
+	public List<Attachment> qua(Model model, @PathVariable("userId") String userId, HttpServletRequest request) {
+		List<Attachment> attachment=attachmentService.findUserQulifi(userId);
 		return attachment;
 	}
 	

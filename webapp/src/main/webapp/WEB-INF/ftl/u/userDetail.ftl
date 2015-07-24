@@ -109,16 +109,6 @@ function go_back(){
                                         </div>
                                         
                                         <div class="ui-form-item">
-			    <label class="ui-label mt10">用户资质</label>
-			    <#if attachment??>
-			         <a href="${rc.contextPath}/downloadFile/${attachment.userId!''}/${attachment.id!''}"
-		               onclick="return hs.expand(this)">
-		          <img src="${rc.contextPath}/downloadFile/${attachment.userId!''}/${attachment.id!''}"
-		             class="m11" width="240"/>
-		           </a><br>
-		           <#else>
-		                                            用户尚未上传资质
-			    </#if>
 									  
 	    	</div>
                                         

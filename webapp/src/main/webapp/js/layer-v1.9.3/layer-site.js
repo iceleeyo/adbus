@@ -77,7 +77,6 @@ function UserQualifi(tourl,username){
 			data : {
 			},
 			success : function(data) {
-				var id=data.id;
 				layer.open({
 	    		type: 1,
 	    		title: "用户资质",
@@ -87,10 +86,19 @@ function UserQualifi(tourl,username){
 						 +'<br/>'
 						 +'<div  id="qualifi"> </div>'
 		});
-				if(typeof(id)=="undefined"){
+				if(typeof(data)=="undefined"){
 					$("#qualifi").append("用户尚未上传资质");
 				}else{
-					$("#qualifi").append("<div> <img src='"+tourl+"/downloadFile/"+data.userId+"/"+id+"' /></div>");
+					$.each(data, function(i, item) {
+						  if(item.type==10){
+							  $("#qualifi").append("营业执照：<div> <img src='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"' /></div>");
+						  }
+						  if(item.type==11){
+							  $("#qualifi").append("税务登记证：<div> <img src='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"' /></div>");
+						  }
+						});
+					
+					
 				}
 			}
 		}, "text");
@@ -808,9 +816,16 @@ function showOrderUserlayer(tourl,uid){
                          +'<div class="ui-form-item" id="Userqualifi"> <label class="ui-label mt10"><span class="ui-form-required">*</span>用户资质:</label><br> </div>'
 	 });
 				if(typeof(data.right)=="undefined"){
-					$("#Userqualifi").append("未上传");
+					$("#Userqualifi").append("用户尚未上传资质");
 				}else{
-					$("#Userqualifi").append("<div> <img src='"+tourl+"/downloadFile/"+data.right.userId+"/"+data.right.id+"' /></div>");
+					$.each(data.right, function(i, item) {
+						  if(item.type==10){
+							  $("#Userqualifi").append("营业执照：<div> <img src='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"' /></div>");
+						  }
+						  if(item.type==11){
+							  $("#Userqualifi").append("税务登记证：<div> <img src='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"' /></div>");
+						  }
+						});
 				}
 			}
 		}, "text");
