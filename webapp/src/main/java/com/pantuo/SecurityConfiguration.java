@@ -110,10 +110,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/", "/*.html", "/login", "/logout", "/homepage/**", "/css/**", "/images/**", "/imgs/**",
 						"/js/**", "/style/**")
 				.permitAll()
-				.antMatchers("/intro**","/about-me","/loginForLayer", "/body", "/register", "/user/**", "/doRegister", "/validate/**",
-						"/f/**", "/product/d/**", "/product/c/**", "/product/sift**", "/product/sift_data",
-						"/product/ajaxdetail/**", "/order/iwant/**").permitAll().antMatchers("/**").authenticated()
-				.anyRequest().permitAll()
+				.antMatchers("/intro**", "/about-me", "/loginForLayer", "/body", "/register", "/user/**",
+						"/doRegister", "/validate/**", "/f/**", "/product/d/**", "/product/c/**", "/product/sift**",
+						"/product/sift_data", "/product/ajaxdetail/**", "/order/iwant/**").permitAll()
+				.antMatchers("/**").authenticated().anyRequest().permitAll()
 				//.antMatchers("/user/enter").access("hasRole('ShibaOrderManager')")
 				.and().formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/order/myTask/1")
 				//.failureHandler((new SecurityCustomException()))
@@ -122,15 +122,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 					@Override
 					public void logout(HttpServletRequest request, HttpServletResponse response,
 							Authentication authentication) {
-						SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
+						Authentication r = SecurityContextHolder.getContext().getAuthentication();
+						if (r != null) {
+							r.setAuthenticated(false);
+						}
 						SecurityContextHolder.clearContext();
 						HttpSession session = request.getSession(false);
-						String tString = (String) session.getAttribute("medetype");
-						System.err.println(tString);
 						if (session != null) {
-							session.invalidate();
+							String tString = (String) session.getAttribute("medetype");
+							System.err.println(tString);
+							if (session != null) {
+								session.invalidate();
+							}
+							request.getSession().setAttribute("medetype", tString);
 						}
-						request.getSession().setAttribute("medetype", tString);
 					}
 				})
 
