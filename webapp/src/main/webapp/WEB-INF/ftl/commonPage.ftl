@@ -6,7 +6,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 
 <script type="text/javascript">
-    
+
     
 function compare(pathurl,proid){
 var startTime = $("#startTime").val();

@@ -169,34 +169,34 @@ $.ajax({
 									<span>竞&nbsp;&nbsp;拍</span><br>
 									<span>流&nbsp;&nbsp;程</span>
 								</div>
-								<div class="flow" style="overflow: hidden; width: 700px;">
-									<div class="lc-flow" style="width: 800px;">
+								<div class="flow" style="overflow: hidden; width: 650px;">
+									<div class="lc-flow" style="width: 650px;">
 										<ul>
-											<li class="item01 ui-accordion-item" style="width: 120px; overflow: hidden;">
+											<li class="item01 ui-accordion-item" style="width: 100px; overflow: hidden;">
 												<div class="status">用户账号当前京豆大于0</div>
 												<span class="num">01/</span>
 												<span class="mark"></span>
 												<span class="name">获取资格</span>
 											</li>
-											<li class="item02 ui-accordion-item" style="width: 120px; overflow: hidden;">
+											<li class="item02 ui-accordion-item" style="width: 100px; overflow: hidden;">
 												<div class="status">保证竞拍结束时出价最高，获得竞拍商品</div>
 												<span class="num">02/</span>
 												<span class="mark"></span>
 												<span class="name">拍得商品</span>
 											</li>
-											<li class="item03 ui-accordion-item" style="width: 120px; overflow: hidden;">
+											<li class="item03 ui-accordion-item" style="width: 100px; overflow: hidden;">
 												<div class="status">填写订单信息，提交订单</div>
 												<span class="num">03/</span>
 												<span class="mark"></span>
 												<span class="name">确认转订单</span>
 											</li>
-											<li class="item04 ui-accordion-item" style="width: 120px; overflow: hidden;">
+											<li class="item04 ui-accordion-item" style="width: 100px; overflow: hidden;">
 												<div class="status">支付已提交的订单</div>
 												<span class="num">04/</span>
 												<span class="mark"></span>
 												<span class="name">支付订单</span>
 											</li>
-											<li class="item05 ui-accordion-item" style="width: 120px; overflow: hidden;">
+											<li class="item05 ui-accordion-item" style="width: 100px; overflow: hidden;">
 												<div class="status">支付成功后等待收货，竞拍完成</div>
 												<span class="num">05/</span>
 												<span class="mark"></span>
