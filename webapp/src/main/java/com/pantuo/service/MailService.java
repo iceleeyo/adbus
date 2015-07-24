@@ -1,5 +1,7 @@
 package com.pantuo.service;
 
+import org.activiti.engine.impl.task.TaskDefinition;
+
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.util.Pair;
 
@@ -27,7 +29,7 @@ public interface MailService {
 
 	public void sendActivateMail(UserDetail user);
 
-	public void sendCompleteMail(String userName, Integer orderId);
-	
-	public void sendNormalMail(String tomail,String subject,String content); 
+	public void sendCompleteMail(MailTask task);
+
+	public void sendNormalMail(String tomail, String subject, String content);
 }

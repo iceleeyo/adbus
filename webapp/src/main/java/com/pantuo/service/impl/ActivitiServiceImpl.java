@@ -19,9 +19,15 @@ import org.activiti.engine.history.HistoricProcessInstanceQuery;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.impl.RepositoryServiceImpl;
+import org.activiti.engine.impl.bpmn.behavior.UserTaskActivityBehavior;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
+import org.activiti.engine.impl.pvm.PvmActivity;
+import org.activiti.engine.impl.pvm.PvmTransition;
+import org.activiti.engine.impl.pvm.delegate.ActivityBehavior;
+import org.activiti.engine.impl.pvm.process.ActivityImpl;
+import org.activiti.engine.impl.task.TaskDefinition;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.runtime.ProcessInstanceQuery;
@@ -116,15 +122,13 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 	@Autowired
 	private CityService cityService;
-	
+
 	@Autowired
 	private CpdService cpdService;
-	
-	
 
 	@Autowired
 	private MailService mailService;
-	
+
 	@Autowired
 	private MailJob mailJob;
 
@@ -155,7 +159,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 					.orderByTaskCreateTime().desc().listPage(0, 1);
 			Integer orderid = (Integer) tasks.get(0).getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
-			JpaOrders order = orderService.queryOrderDetail(orderid,principal);
+			JpaOrders order = orderService.queryOrderDetail(orderid, principal);
 			if (order != null) {
 				v.setOrder(order);
 				JpaProduct product = productService.findById(order.getProductId());
@@ -247,7 +251,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 			Integer orderid = (Integer) tasks.get(0).getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
-			JpaOrders order = orderService.queryOrderDetail(orderid,principal);
+			JpaOrders order = orderService.queryOrderDetail(orderid, principal);
 			if (order != null) {
 				v.setOrder(order);
 			}
@@ -354,7 +358,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			if (dbOrderId == null) {
 				return new Pair<Boolean, String>(false, Constants.ORDER_NOT_EXIT);
 			}
-			JpaOrders order = orderService.queryOrderDetail(dbOrderId,principal);
+			JpaOrders order = orderService.queryOrderDetail(dbOrderId, principal);
 			long longOrderId = 0;
 			if (order != null) {
 				longOrderId = OrderIdSeq.getIdFromDate(order.getId(), order.getCreated());
@@ -405,7 +409,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 	}
 
 	public Page<OrderView> findTask(int city, Principal principal, TableRequest req, TaskQueryType tqType) {
-		String userid=Request.getUserId(principal);
+		String userid = Request.getUserId(principal);
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("created");
 
@@ -462,7 +466,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			Integer orderid = (Integer) var.get(ORDER_ID);
 
 			OrderView v = new OrderView();
-			JpaOrders order = orderService.queryOrderDetail(orderid,principal);
+			JpaOrders order = orderService.queryOrderDetail(orderid, principal);
 			if (order != null) {
 				JpaProduct product = productService.findById(order.getProductId());
 				v.setProduct(product);
@@ -529,7 +533,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return orders;
 	}
 
-	public List<OrderView> findRunningProcessInstaces(int city,Principal principal, NumberPageUtil page) {
+	public List<OrderView> findRunningProcessInstaces(int city, Principal principal, NumberPageUtil page) {
 		List<OrderView> orders = new ArrayList<OrderView>();
 		List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery()
 				.variableValueEquals(ActivitiService.CITY, city).processDefinitionKey(MAIN_PROCESS)
@@ -540,7 +544,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 					.orderByTaskCreateTime().desc().listPage(0, 1);
 			Integer orderid = (Integer) tasks.get(0).getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
-			v.setOrder(orderService.queryOrderDetail(orderid,principal));
+			v.setOrder(orderService.queryOrderDetail(orderid, principal));
 			v.setProcessInstance(processInstance);
 			v.setProcessInstanceId(processInstance.getId());
 			v.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
@@ -626,7 +630,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			Integer orderid = (Integer) historicProcessInstance.getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
 			if (orderid != null && orderid > 0) {
-				JpaOrders or = orderService.queryOrderDetail(orderid,principal);
+				JpaOrders or = orderService.queryOrderDetail(orderid, principal);
 				if (or != null) {
 					JpaProduct product = productService.findById(or.getProductId());
 					v.setProduct(product);
@@ -710,8 +714,12 @@ public class ActivitiServiceImpl implements ActivitiService {
 			Map<String, Object> info = taskService.getVariables(task.getId());
 			if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
 				taskService.claim(task.getId(), u.getUsername());
+				//TaskDefinition nextTaskDefinition = getNextTaskByTaskOrder(task.getId());
+				
+				MailTask mailTask=	new MailTask(u.getUsername(), order.getId(), null, task.getTaskDefinitionKey(),
+						Type.sendCompleteMail);
 				taskService.complete(task.getId());
-				mailJob.putMailTask(new MailTask(u.getUsername(), order.getId(), Type.sendCompleteMail));
+				mailJob.putMailTask(mailTask);
 			}
 		}
 		tasks = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS)
@@ -737,15 +745,15 @@ public class ActivitiServiceImpl implements ActivitiService {
 		initParams.put(ActivitiService.PRODUCT, order.getProductId());
 		initParams.put(ActivitiService.SUPPLIEID, order.getSupplies().getId());
 		initParams.put(ActivitiService.NOW, new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
-        JpaCity city = cityService.fromId(cityId);
-        if (city != null && city.getMediaType() == JpaCity.MediaType.body) {
-            //车身广告不需要终审
-            initParams.put("approve2Result", true);
-        }
-       Product product= productMapper.selectByPrimaryKey(order.getProductId());
-      if(product!=null && product.getIscompare()==1){
-    	  initParams.put(ActivitiService.R_USERPAYED, true);
-       }
+		JpaCity city = cityService.fromId(cityId);
+		if (city != null && city.getMediaType() == JpaCity.MediaType.body) {
+			//车身广告不需要终审
+			initParams.put("approve2Result", true);
+		}
+		Product product = productMapper.selectByPrimaryKey(order.getProductId());
+		if (product != null && product.getIscompare() == 1) {
+			initParams.put(ActivitiService.R_USERPAYED, true);
+		}
 		ProcessInstance process = runtimeService.startProcessInstanceByKey(MAIN_PROCESS, initParams);
 		List<Task> tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime()
 				.desc().listPage(0, 1);
@@ -756,8 +764,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 				taskService.complete(task.getId());
 			}
 		}
-		 tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime()
-				.desc().listPage(0, 1);
+		tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime().desc()
+				.listPage(0, 1);
 		if (!tasks.isEmpty()) {
 			Task task = tasks.get(0);
 			if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
@@ -766,11 +774,11 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime().desc()
 				.listPage(0, 2);
-		autoCompleteBindStatic(u, order, tasks, false );
+		autoCompleteBindStatic(u, order, tasks, false);
 		//debug(process.getId());
 	}
 
-	private void autoCompleteBindStatic(UserDetail u, JpaOrders order, List<Task> tasks,boolean alwaysSet) {
+	private void autoCompleteBindStatic(UserDetail u, JpaOrders order, List<Task> tasks, boolean alwaysSet) {
 		if (!tasks.isEmpty()) {
 			for (Task task : tasks) {
 				//Task task = tasks.get(0);
@@ -779,10 +787,13 @@ public class ActivitiServiceImpl implements ActivitiService {
 					if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
 						//默认签收 绑定素材
 						taskService.claim(task.getId(), u.getUsername());
-						if ( alwaysSet || order.getSupplies().getId() > 1) {
+						if (alwaysSet || order.getSupplies().getId() > 1) {
 							//如果是下单的时候 就绑定了素材 完成这一步
+							//TaskDefinition nextTaskDefinition = getNextTaskByTaskOrder(task.getId());
+							MailTask mailTask=	new MailTask(u.getUsername(), order.getId(), null, task
+									.getTaskDefinitionKey(), Type.sendCompleteMail);
 							taskService.complete(task.getId());
-							mailJob.putMailTask(new MailTask(u.getUsername(), order.getId(), Type.sendCompleteMail));
+							mailJob.putMailTask(mailTask);
 						}
 					}
 				}
@@ -856,8 +867,12 @@ public class ActivitiServiceImpl implements ActivitiService {
 						taskService.claim(task.getId(), u.getUsername());
 						Map<String, Object> variables = new HashMap<String, Object>();
 						variables.put(ActivitiService.R_USERPAYED, true);
+						
+						MailTask mailTask=	new MailTask(u.getUsername(), orderid, null, task.getTaskDefinitionKey(),
+								Type.sendCompleteMail);
 						taskService.complete(task.getId(), variables);
-						mailJob.putMailTask(new MailTask(u.getUsername(), orderid, Type.sendCompleteMail));
+
+						mailJob.putMailTask(mailTask);
 						if (orders != null) {
 							return new Pair<Object, String>(orders, "订单支付成功!");
 						}
@@ -898,8 +913,13 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 							Map<String, Object> variables = new HashMap<String, Object>();
 							variables.put(ActivitiService.R_USERPAYED, true);
+							//TaskDefinition nextTask = getNextTaskByTaskOrder(task.getId());
+							MailTask mailTask = new MailTask(userId, orderid, null, task.getTaskDefinitionKey(),
+									Type.sendCompleteMail);
+
 							taskService.complete(task.getId(), variables);
-							mailJob.putMailTask(new MailTask(userId, orderid, Type.sendCompleteMail));
+
+							mailJob.putMailTask(mailTask);
 						}
 					}
 				}
@@ -926,21 +946,25 @@ public class ActivitiServiceImpl implements ActivitiService {
 			Task task = findTaskById(taskId, true);
 			if (StringUtils.equals(task.getAssignee(), u.getUsername())) {
 				variables.put("lastModifUser", u.getUsername());
-				ProcessInstance process=	findProcessInstanceByTaskId(taskId);
-				taskService.complete(taskId, variables);
-			
-				List<Task> tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime()
-							.desc().listPage(0, 10);
-				System.out.println(tasks);
-				 
-				 
-				 
+				ProcessInstance process = findProcessInstanceByTaskId(taskId);
+				//TaskDefinition nextTask = getNextTaskByTaskOrder(taskId);
 				JpaOrders.Status status = fetchStatusAfterTaskComplete(task);
 				Integer orderId = (Integer) task.getProcessVariables().get(ORDER_ID);
 				if (status != null && orderId != null) {
-					orderService.updateStatus(orderId,principal, status);
+					orderService.updateStatus(orderId, principal, status);
 				}
-				mailJob.putMailTask(new MailTask(u.getUsername(), orderId, Type.sendCompleteMail));
+				MailTask mailTask = new MailTask(u.getUsername(), orderId, null, task.getTaskDefinitionKey(),
+						Type.sendCompleteMail);
+				
+				taskService.complete(taskId, variables);
+
+				/*				List<Task> tasks = taskService.createTaskQuery().processInstanceId(process.getId())
+										.orderByTaskCreateTime().desc().listPage(0, 10);
+								System.out.println(tasks);
+				*/
+				
+
+				mailJob.putMailTask(mailTask);
 			} else {
 				r = new Pair<Boolean, String>(false, "非法操作！");
 				log.warn(u.getUsername() + ":" + task.toString());
@@ -995,7 +1019,6 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return sb.toString();
 	}
 
-	
 	public OrderView findOrderViewByOrder(int orderid, Principal principal) {
 		ProcessInstance instance = runtimeService.createProcessInstanceQuery().includeProcessVariables()
 				.variableValueEquals(ORDER_ID, orderid).singleResult();
@@ -1015,6 +1038,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		return v;
 	}
+
 	public OrderView findOrderViewByTaskId(String taskid, Principal principal) {
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 		String processInstanceId = task.getProcessInstanceId();
@@ -1023,8 +1047,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 		OrderView v = new OrderView();
 		Map<String, Object> variables = taskService.getVariables(taskid);
 		int orderid = (Integer) variables.get(ORDER_ID);
-		JpaOrders order = orderService.queryOrderDetail(orderid,principal);
-		if(order!=null){
+		JpaOrders order = orderService.queryOrderDetail(orderid, principal);
+		if (order != null) {
 			JpaProduct product = productService.findById(order.getProductId());
 			v.setProduct(product);
 			v.setOrder(order);
@@ -1289,8 +1313,11 @@ public class ActivitiServiceImpl implements ActivitiService {
 			UserDetail ul = (UserDetail) info.get(ActivitiService.OWNER);
 			if (updateSupplise(orderid, supplieid) > 0) {
 				taskService.claim(task.getId(), ul.getUsername());
+				//TaskDefinition nextTaskDefinition = getNextTaskByTaskOrder(task.getId());
+				MailTask mailTask=	new MailTask(user.getUsername(), orderid, null, task.getTaskDefinitionKey(),
+						Type.sendCompleteMail);
 				taskService.complete(task.getId());
-				mailJob.putMailTask(new MailTask(user.getUsername(), orderid, Type.sendCompleteMail));
+				mailJob.putMailTask(mailTask);
 				return new Pair<Object, String>(orders, "订单修改成功!");
 			} else {
 				return new Pair<Object, String>(null, "订单修改失败!");
@@ -1304,7 +1331,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 						.desc().listPage(0, 4);
 				autoCompleteBindStatic(user, order, tasks, true);
 
-			//	startProcess2(city, user, order);
+				//	startProcess2(city, user, order);
 				return new Pair<Object, String>(order, "绑定物料成功!");
 			} else {
 				return new Pair<Object, String>(null, "绑定物料失败!");
@@ -1328,9 +1355,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		return map;
 	}
-	 
-	
-	public String showOrderDetail(int city, Model model, int orderid, String taskid, String pid, Principal principal, boolean isAutoGoto) {
+
+	public String showOrderDetail(int city, Model model, int orderid, String taskid, String pid, Principal principal,
+			boolean isAutoGoto) {
 
 		/**
 		 *  自动判断是否是结束的任务
@@ -1344,8 +1371,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 				taskid = tasks.get(0).getId();
 			}
 		}
-		
-		
+
 		if (StringUtils.isNotBlank(taskid)) {
 			try {
 				Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
@@ -1355,7 +1381,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 				String activityId = executionEntity.getActivityId();
 				ProcessInstance pe = findProcessInstanceByTaskId(taskid);
 				List<HistoricTaskView> activitis = findHistoricUserTask(city, pe.getProcessInstanceId(), activityId);
-				 
+
 				OrderView v = findOrderViewByTaskId(taskid, principal);
 				JpaProduct prod = productService.findById(v.getOrder().getProductId());
 				SuppliesView suppliesView = suppliesService.getSuppliesDetail(v.getOrder().getSuppliesId(), null);
@@ -1439,5 +1465,130 @@ public class ActivitiServiceImpl implements ActivitiService {
 		else if ("jianboReport".equals(key))
 			return JpaOrders.Status.completed;
 		return null;
+	}
+
+	public TaskDefinition getNextTaskByTaskOrder(String taskId) {
+		if (StringUtils.isBlank(taskId))
+			return null;
+		long t = System.currentTimeMillis();
+		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+		if (task == null)
+			return null;
+		ProcessDefinitionEntity def = (ProcessDefinitionEntity) ((RepositoryServiceImpl) repositoryService)
+				.getDeployedProcessDefinition(task.getProcessDefinitionId());
+		List<ActivityImpl> activitiList = def.getActivities(); //rs是指RepositoryService的实例 根据任务获取当前流程执行ID，执行实例以及当前流程节点的ID：
+		String excId = task.getExecutionId();
+		ExecutionEntity execution = (ExecutionEntity) runtimeService.createExecutionQuery().executionId(excId)
+				.singleResult();
+		String activitiId = execution.getActivityId();
+		//然后循环activitiList 并判断出当前流程所处节点，然后得到当前节点实例，根据节点实例获取所有从当前节点出发的路径，然后根据路径获得下一个节点实例：
+		TaskDefinition taskDefinition = mapActivity(activitiId, activitiList);
+		log.info("getNextTaskByTaskOrder time: {} ms", System.currentTimeMillis() - t);
+		if (taskDefinition != null) {
+			log.info("getNextTaskByTaskOrder:{},{},{}", taskDefinition.getNameExpression(), taskDefinition.getKey());
+		} else {
+			log.info("getNextTaskByTaskOrder:is null");
+		}
+		return taskDefinition;
+	}
+
+	/**
+	 * 
+	 * 查下一个节点 发现不靠谱 太多状态控制，比如初审后
+	 * 
+	 * 参考文章 
+	 * http://blog.sina.com.cn/s/blog_551421220100wzl9.html
+	 * http://nichtse.github.io/activiti/2014/08/08/activiti-next-userTask-groupId.html
+	 * @param activitiId
+	 * @param activitiList
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	public TaskDefinition mapActivity(String activitiId, List<ActivityImpl> activitiList) {
+		TaskDefinition r = null;
+		for (ActivityImpl activityImpl : activitiList) {
+			String id = activityImpl.getId();
+			if (activitiId.equals(id)) {
+				r = reduceActivityImpl(activitiId, activityImpl);
+				//System.out.println(r.toString());
+			}
+			if (r != null) {
+				break;
+			} else {
+				r = mapActivity(activitiId, activityImpl.getActivities());
+			}
+		}
+		return r;
+	}
+
+	private TaskDefinition reduceActivityImpl(String activitiId, ActivityImpl activityImpl) {
+		TaskDefinition r = null;
+		System.out.println("当前任务：" + activityImpl.getProperty("name")); //输出某个节点的某种属性
+		if (!activitiId.equals(activityImpl.getId()) && "userTask".equals(activityImpl.getProperty("type"))) {
+			return ((UserTaskActivityBehavior) activityImpl.getActivityBehavior()).getTaskDefinition();
+		}
+		List<PvmTransition> outTransitions = activityImpl.getOutgoingTransitions();//获取从某个节点出来的所有线路
+		for (PvmTransition tr : outTransitions) {
+			PvmActivity ac = tr.getDestination(); //获取线路的终点节点
+			//if ("userTask".equals(ac.getProperty("type"))) {
+			System.out.println("下一步任务任务：" + ac.getProperty("name") + " _ " + ac.getProperty("type"));
+			if ("exclusiveGateway".equals(ac.getProperty("type"))) {
+				List<PvmTransition> outTransitionsTemp = null;
+				outTransitionsTemp = ac.getOutgoingTransitions();
+				if (outTransitionsTemp.size() == 1) {//如果下一步节点又是集体结点
+					PvmActivity sub = ((PvmTransition) outTransitionsTemp.get(0)).getDestination();
+					r = getUserTask(sub);
+				} else if (outTransitionsTemp.size() > 1) {
+					for (PvmTransition tr1 : outTransitionsTemp) {
+						PvmActivity sub = tr1.getDestination();
+						String runActId = ((ActivityImpl) sub).getId();
+						if (activitiId.equals(runActId)) {
+							r = getUserTask(sub);
+						} else {
+							r = reduceActivityImpl(activitiId, ((ActivityImpl) sub));
+						}
+						if (r != null)
+							return r;
+					}
+				}
+			} else if ("subProcess".equals(ac.getProperty("type"))) {//如果是子任务
+				List<ActivityImpl> activitiList = ((ActivityImpl) ac).getActivities();
+				for (ActivityImpl subList : activitiList) {
+					r = reduceActivityImpl(activitiId, subList);
+					if (r != null) {
+						break;
+					}
+				}
+			} else if ("serviceTask".equals(ac.getProperty("type"))) {//如果是serviceTask查看他完成后的下一步是不是人工任务
+				List<PvmTransition> outTransitionsTemp = ac.getOutgoingTransitions();
+				if (outTransitionsTemp.size() == 1) {
+					PvmActivity sub = ((PvmTransition) outTransitionsTemp.get(0)).getDestination();
+					ActivityImpl imp = (ActivityImpl) sub;
+					if (!"userTask".equals(imp.getProperty("type"))) {
+						r = reduceActivityImpl(activitiId, imp);
+					} else {
+						r = getUserTask(sub);
+					}
+				}
+			} else if ("endEvent".equals(ac.getProperty("type"))) {
+				//如果是工作流结尾直接结束 
+				return null;
+			} else if ("userTask".equals(activityImpl.getProperty("type"))) {//如果是用户要完成的人工任务
+				r = getUserTask(ac);
+			}
+			if (r != null) {
+				break;
+			}
+		}
+		return r;
+	}
+
+	public TaskDefinition getUserTask(PvmActivity pvmActivity) {
+		TaskDefinition r = null;
+		ActivityBehavior ar = ((ActivityImpl) pvmActivity).getActivityBehavior();
+		if (ar instanceof UserTaskActivityBehavior) {
+			r = ((UserTaskActivityBehavior) ar).getTaskDefinition();
+		}
+		return r;
 	}
 }

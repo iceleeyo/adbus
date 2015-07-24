@@ -1,5 +1,9 @@
 package com.pantuo.service;
 
+import java.util.Date;
+
+import org.activiti.engine.impl.task.TaskDefinition;
+
 import com.pantuo.dao.pojo.UserDetail;
 
 public class MailTask {
@@ -29,10 +33,13 @@ public class MailTask {
 		}
 	}
 
-	public MailTask(String userName, int orderId, Enum<Type> type) {
+	public MailTask(String userName, int orderId, TaskDefinition nextTaskDefinition, String taskDefinitionKey,
+			Enum<Type> type) {
 		this.userName = userName;
 		this.orderId = orderId;
 		this.mailType = type;
+		this.nextTaskDefinition = nextTaskDefinition;
+		finishDate = new Date(System.currentTimeMillis() - 1500);
 	}
 
 	public MailTask(UserDetail user, Enum<Type> type) {
@@ -45,6 +52,9 @@ public class MailTask {
 	private UserDetail user;
 	private Enum<Type> mailType;
 	private int reSendCount = 0;
+	private TaskDefinition nextTaskDefinition;
+	private String taskDefinitionKey;//当前操作的任务描述
+	private Date finishDate;
 
 	public String getUserName() {
 		return userName;
@@ -94,6 +104,30 @@ public class MailTask {
 			return false;
 		}
 
+	}
+
+	public TaskDefinition getNextTaskDefinition() {
+		return nextTaskDefinition;
+	}
+
+	public void setNextTaskDefinition(TaskDefinition nextTaskDefinition) {
+		this.nextTaskDefinition = nextTaskDefinition;
+	}
+
+	public String getTaskDefinitionKey() {
+		return taskDefinitionKey;
+	}
+
+	public void setTaskDefinitionKey(String taskDefinitionKey) {
+		this.taskDefinitionKey = taskDefinitionKey;
+	}
+
+	public Date getFinishDate() {
+		return finishDate;
+	}
+
+	public void setFinishDate(Date finishDate) {
+		this.finishDate = finishDate;
 	}
 
 }

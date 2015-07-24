@@ -4,12 +4,15 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.delegate.Expression;
 import org.activiti.engine.identity.User;
+import org.activiti.engine.impl.task.TaskDefinition;
 import org.activiti.engine.task.IdentityLink;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang.BooleanUtils;
@@ -27,6 +30,7 @@ import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.MailService;
+import com.pantuo.service.MailTask;
 import com.pantuo.service.OrderService;
 import com.pantuo.service.UserServiceInter;
 import com.pantuo.util.FreeMarker;
@@ -90,11 +94,13 @@ public class MailServiceImpl implements MailService {
 	}
 
 	public void sendNormalMail(String tomail, String subject, String content) {
-		Mail mail = getMailService(tomail);
-		mail.setSubject(subject);
-		mail.setContent(content);
-		boolean r = mail.sendMail();
-		log.info("sennd notify to user {} ,success: N|Y {}", tomail, r);
+		if (StringUtils.isNoneBlank(tomail)) {
+			Mail mail = getMailService(tomail);
+			mail.setSubject(subject);
+			mail.setContent(content);
+			boolean r = mail.sendMail();
+			log.info("sennd notify to user {} ,success: N|Y {}", tomail, r);
+		}
 	}
 
 	public void sendCanCompareMail(UserDetail u) {
@@ -222,7 +228,7 @@ public class MailServiceImpl implements MailService {
 		return swriter.toString();
 	}
 
-	private String getCompleteTemplete(String userId, int orderId, String resetPwd) {
+	private String getCompleteTemplete(String userId, int orderId, String resetPwd, Task task) {
 		StringWriter swriter = new StringWriter();
 		try {
 			//String xmlTemplete = request.getSession().getServletContext().getRealPath("/WEB-INF/ftl/mail_templete");
@@ -234,6 +240,7 @@ public class MailServiceImpl implements MailService {
 			JpaOrders order = orderService.getJpaOrder(orderId);
 			map.put("orderId", String.valueOf(OrderIdSeq.getLongOrderId(order)));
 			map.put("resetUrl", resetPwd);
+			map.put("taskName", task.getName());
 			hf.process(map, "task_templete.ftl", swriter);
 		} catch (Exception e) {
 			log.error(e.toString());
@@ -242,49 +249,95 @@ public class MailServiceImpl implements MailService {
 	}
 
 	@Override
-	public void sendCompleteMail(String userName, Integer orderId) {
-		List<Task> tasks = taskService.createTaskQuery().processVariableValueEquals(ActivitiService.ORDER_ID, orderId)
-				.orderByTaskCreateTime().desc().list();
-		for (Task task : tasks) {
-			List<IdentityLink> rs = taskService.getIdentityLinksForTask(task.getId());
-			for (IdentityLink identityLink : rs) {
-				//如果不是自己 发邮件
-				if (!StringUtils.equals(userName, identityLink.getUserId())) {
-					if (StringUtils.isNoneBlank(identityLink.getGroupId())) {
-						List<User> activitiUser = identityService.createUserQuery()
-								.memberOfGroup(identityLink.getGroupId()).list();
-						for (User user2 : activitiUser) {
-							UserDetail u = userService.findDetailByUsername(user2.getId());
-							if (u == null) {
-								continue;
-							}
-							if (!u.isEnabled()) {
-								continue;
-							}
-							try {
-								Thread.sleep(300);
-							} catch (InterruptedException e) {
-							}
-							String context = getCompleteTemplete(user2.getFirstName(), orderId,
-									"http://" + Request.getServerIp() + "/order/myTask/1");
-							if (OSinfoUtils.isMacOS() || OSinfoUtils.isWindows()) {
-								Mail mail = getMailService(user2.getEmail());
-								mail.setSubject("[北巴广告交易系统]待办事项通知");
-								mail.setContent(context);
-								boolean r = mail.sendMail();
-								log.info("sendCompleteMail to {} , success: N|Y {}", user2.getEmail(), r);
-								if (!r) {
-									throw new SendMailException("send mail fail:" + user2.getEmail());
-								}
-							} else if (OSinfoUtils.isLinux()) {
-								LinuxMailService.sendMail(user2.getEmail(), "[北巴广告交易系统]待办事项通知", context);
-								log.info("sendCompleteMail to {} , success: N|Y {true}", user2.getEmail());
-							}
+	public void sendCompleteMail(MailTask mailTask) {
+		String userName = mailTask.getUserName();
+		Integer orderId = mailTask.getOrderId();
+
+		/*if (nextTaskDefinition != null) {
+			//send mail to group
+			Set<org.activiti.engine.delegate.Expression> set = nextTaskDefinition.getCandidateGroupIdExpressions();
+			for (Expression expression : set) {
+				String groupid = expression.getExpressionText();
+				sendMailToGroup(orderId, groupid);
+			}
+			//send mail to order creatr
+			set = nextTaskDefinition.getCandidateUserIdExpressions();
+			for (Expression expression : set) {
+				String groupid = expression.getExpressionText();
+				if (StringUtils.contains(groupid, "_owner")) {
+					JpaOrders order = orderService.getJpaOrder(orderId);
+					if (order != null) {
+						log.info("send Mail to creater:{} ", order.getUserId());
+						UserDetail u = userService.findByUsername(order.getUserId());
+						if (u != null) {
+							sendMailtoUser(orderId, u.getUser());
 						}
 					}
 				}
 			}
 		}
+		*/
+		List<Task> tasks = taskService.createTaskQuery().processVariableValueEquals(ActivitiService.ORDER_ID, orderId)
+				.orderByTaskCreateTime().desc().list();
+		/**
+		 * 这里做个时间的判断 ,完成一个结点时，待办事项创建时间 大于这次办理时间的才进行邮件通知,避免重复通知到以前需要处理的 待办事项
+		 */
+		for (Task task : tasks) {
+			//<1437744724376 1437744721139
+			if (mailTask.getFinishDate().before(task.getCreateTime())) {
+				List<IdentityLink> rs = taskService.getIdentityLinksForTask(task.getId());
+				for (IdentityLink identityLink : rs) {
+					//如果不是自己 发邮件
+					if (!StringUtils.equals(userName, identityLink.getUserId())) {
+						if (StringUtils.isNoneBlank(identityLink.getGroupId())) {
+							sendMailToGroup(orderId, identityLink, task);
+						}
+					}
+				}
+			} else {
+				// todo 
+				log.info("f_{},c_{}_{}", mailTask.getFinishDate().getTime(), task.getCreateTime().getTime(),
+						task.getName());
+			}
+		}
+	}
 
+	private void sendMailToGroup(Integer orderId, IdentityLink identityLink, Task task) {
+		List<User> activitiUser = identityService.createUserQuery().memberOfGroup(identityLink.getGroupId()).list();
+		for (User user : activitiUser) {
+			UserDetail u = userService.findDetailByUsername(user.getId());
+			if (u == null) {
+				continue;
+			}
+			if (!u.isEnabled()) {
+				continue;
+			}
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+			}
+			sendMailtoUser(orderId, user, identityLink, task);
+		}
+	}
+
+	private void sendMailtoUser(Integer orderId, User user2, IdentityLink identityLink, Task task) {
+		if (StringUtils.isBlank(user2.getEmail())) {
+			return;
+		}
+		String context = getCompleteTemplete(user2.getFirstName(), orderId, "http://" + Request.getServerIp()
+				+ "/order/myTask/1", task);
+		if (OSinfoUtils.isMacOS() || OSinfoUtils.isMacOSX() || OSinfoUtils.isWindows()) {
+			Mail mail = getMailService(user2.getEmail());
+			mail.setSubject("[北巴广告交易系统]待办事项通知");
+			mail.setContent(context);
+			boolean r = mail.sendMail();
+			log.info("sendCompleteMail to {} , success: N|Y {}", user2.getEmail(), r);
+			if (!r) {
+				throw new SendMailException("send mail fail:" + user2.getEmail());
+			}
+		} else if (OSinfoUtils.isLinux()) {
+			LinuxMailService.sendMail(user2.getEmail(), "[北巴广告交易系统]待办事项通知", context);
+			log.info("sendCompleteMail to {} , success: N|Y {true}", user2.getEmail());
+		}
 	}
 }

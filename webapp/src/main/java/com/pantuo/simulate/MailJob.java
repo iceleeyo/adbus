@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 
+import org.activiti.engine.impl.task.TaskDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +54,9 @@ public class MailJob {
 					//待办事项完成参数和其他发送邮件参数不一样
 					if (task.getMailType() == MailTask.Type.sendCompleteMail) {
 						Method method = mailService.getClass().getMethod(task.getMailType().name(),
-								new Class[] { String.class, Integer.class });
-						method.invoke(mailService, new Object[] { task.getUserName(), task.getOrderId() });
+								new Class[] { MailTask.class });
+						method.invoke(mailService,
+								new Object[] { task});
 					} else {
 						Method method = mailService.getClass().getMethod(task.getMailType().name(),
 								new Class[] { UserDetail.class });
