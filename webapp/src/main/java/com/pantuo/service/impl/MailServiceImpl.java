@@ -88,8 +88,8 @@ public class MailServiceImpl implements MailService {
 		mail.setPassword(mailServerPassword);// 密码  
 		return mail;
 	}
-	
-	public void sendNormalMail(String tomail,String subject,String content){
+
+	public void sendNormalMail(String tomail, String subject, String content) {
 		Mail mail = getMailService(tomail);
 		mail.setSubject(subject);
 		mail.setContent(content);
@@ -254,6 +254,13 @@ public class MailServiceImpl implements MailService {
 						List<User> activitiUser = identityService.createUserQuery()
 								.memberOfGroup(identityLink.getGroupId()).list();
 						for (User user2 : activitiUser) {
+							UserDetail u = userService.findDetailByUsername(user2.getId());
+							if (u == null) {
+								continue;
+							}
+							if (!u.isEnabled()) {
+								continue;
+							}
 							try {
 								Thread.sleep(300);
 							} catch (InterruptedException e) {
