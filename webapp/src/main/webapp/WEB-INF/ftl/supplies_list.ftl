@@ -205,5 +205,11 @@ function delSupp(Suppid){
                     </thead>
 
                 </table>
+                
+                <div class="worm-tips">
+		<div class="tips-title">
+			<span class="icon"></span>温馨提示：未绑定订单的物料才能够删除。
+		</div>
+		</div>
 </div>
 </@frame.html>
