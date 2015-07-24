@@ -102,7 +102,7 @@ $.ajax({
 						
 											</div>
 										</div>
-										<div class="product-btn">
+										<div class="product-btn" style="float: right;">
 										<#if (jpaCpd.startDate < .now  && jpaCpd.biddingDate > .now  ) > 
 											<a class="btn-bid" href="javascript:void(0)" onclick="compare('${rc.contextPath}')" >我要出价</a>
 											 <script type="text/javascript">
@@ -260,7 +260,7 @@ $.ajax({
 </div>
 							</div>
 						</div>
-						<div class="ls-3" style="float:right;position:absolute;left:790px;top:0px;background: #fff;">
+						<div class="ls-3" style="float:right;position:absolute;left:810px;top:0px;background: #fff;">
 							<div class="record-sidebar">
 								<div class="record-title">
 									<label>出价记录（共<label>${jpaCpd.setcount}</label>次出价）</label>

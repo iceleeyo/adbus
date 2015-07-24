@@ -240,7 +240,7 @@ function bu(txtObj) {
 </div>
 							</div>
 						</div>
-						<div class="ls-3" style="float:right;position:absolute;left:790px;top:0px;background: #fff;">
+						<div class="ls-3" style="float:right;position:absolute;left:810px;top:0px;background: #fff;">
 							<div class="record-sidebar">
 								<div class="record-title">
 									<label>购买记录（共<label>${logCount!''}</label>次购买）</label>
