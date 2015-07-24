@@ -267,11 +267,11 @@
 
 				<div class="banner" id="b04">
 				    <ul>
-				        <li><img src="homepage/imgs/sss.jpg" alt="" width="820" height="300" ></li>
-				        <li><img src="homepage/imgs/ddd.jpg" alt="" width="820" height="300" ></li>
-				        <li><img src="homepage/imgs/bbb.png" alt="" width="820" height="300" ></li>
-				        <li><img src="homepage/imgs/ddd.png" alt="" width="820" height="300" ></li>
-				        <li><img src="homepage/imgs/03.jpg" alt="" width="820" height="300" ></li>
+				        <li><img src="homepage/imgs/sss.jpg" alt="" width="640" height="300" ></li>
+				        <li><img src="homepage/imgs/ddd.jpg" alt="" width="640" height="300" ></li>
+				        <li><img src="homepage/imgs/bbb.png" alt="" width="640" height="300" ></li>
+				        <li><img src="homepage/imgs/ddd.png" alt="" width="640" height="300" ></li>
+				        <li><img src="homepage/imgs/03.jpg" alt="" width="640" height="300" ></li>
 				    </ul>
 				    <a href="javascript:void(0);" class="unslider-arrow04 prev"><img class="arrow" id="al" src="homepage/imgs/arrowl.png" alt="prev" width="20" height="35"></a>
 				    <a href="javascript:void(0);" class="unslider-arrow04 next"><img class="arrow" id="ar" src="homepage/imgs/arrowr.png" alt="next" width="20" height="37"></a>
@@ -280,20 +280,20 @@
 			</div>
 			<div class="addition items s-left">
 				<div class="b2">
-					<div class="b3_1" style="height:170px;padding:0px">
-						<div id="player" style="border:none;width:170px;padding:0px;">
+					<div class="b3_1">
+						<div id="player" style="border:none;width:410px;padding:0px;">
 							<p>你需安装<a href="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0">Adobe Flash Player 9.0</a>查看以下视频</p>
 							<script type="text/javascript" src="http://www.bjmtv.com/templates/new/js/swfobject.js"></script>
 							<script type="text/javascript">
-								var s2 = new SWFObject('http://www.bjmtv.com/templates/new/swf/flvplayer.swf','mpl','222','160','9');
+								var s2 = new SWFObject('http://www.bjmtv.com/templates/new/swf/flvplayer.swf','mpl','410','300','9');
 								s2.addParam('allowscriptaccess','always');
 								s2.addParam('allowfullscreen','true');
 								s2.addParam('menu','false');
 								//是否自动播放
 								s2.addParam('play','true');
 								s2.addParam('wmode','opaque');
-								s2.addVariable('width','216');
-								s2.addVariable('height','165');
+								s2.addVariable('width','410');
+								s2.addVariable('height','300');
 								s2.addVariable("backcolor","0x000000");
 								s2.addVariable("frontcolor","0xCCCCCC");
 								s2.addVariable("lightcolor","0x99CC33");
@@ -316,7 +316,6 @@
 				</div>
 			</div>
 		</div>
-		<div class="adds"><img src="homepage/imgs/321.jpg" alt="" width="960" height="100"></div>
 		<div class="container">
 		<!--	{product_view._typeName}------------  -->
 			<#if (auctionList?size>0) >
@@ -562,6 +561,9 @@
 			</div>
 			</#if>
 		</div>
+		
+		<div class="adds"><img src="homepage/imgs/321.jpg" alt="" width="960" height="100"></div>
+		
 		<div class="qqbox">
 			<dl>
 				<dt>客服中心</dt>
