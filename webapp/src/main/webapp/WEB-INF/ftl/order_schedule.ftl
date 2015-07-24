@@ -159,7 +159,8 @@
 <#if mediaType == 'screen'>
 <div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear">
     <H3 class="text-xl title-box"><A class="black" href="#">排期表</A></H3>
-            <div class="div" style="overflow-x: scroll">
+            <div class="div" style="overflow-x:auto;">
+                      
                 <table id="table" class="cell-border compact display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
@@ -173,7 +174,19 @@
                     </thead>
 
                 </table>
+                
+               
             </div>
+            
+            <div class="worm-tips">
+		<div class="tips-title">
+			<span class="icon"></span>排期说明：
+			<ol>
+			<li>1.一个方格代表某一天的一个广告时段。</li>
+			<li>2.彩条代表该广告的播出位置，绿色代表首播或者末播，橘色代表中间播。</li>
+		</ol>
+		</div>
+		</div>
 </div>
 <#elseif mediaType == 'body'>
 <div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear">
