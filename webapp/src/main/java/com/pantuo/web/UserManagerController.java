@@ -172,7 +172,7 @@ public class UserManagerController {
 	}
 	@RequestMapping(value = "saveInvoice", method = RequestMethod.POST)
 	@ResponseBody
-	public Pair<Boolean, String> saveInvoice(@CookieValue(value = "city", defaultValue = "-1") int city,JpaInvoice obj, Principal principal, HttpServletRequest request)
+	public Pair<Object, String> saveInvoice(@CookieValue(value = "city", defaultValue = "-1") int city,JpaInvoice obj, Principal principal, HttpServletRequest request)
 			throws IllegalStateException, IOException {
 		return suppliesService.addInvoice(city,obj, principal, request);
 	}

@@ -114,8 +114,7 @@ public class SuppliesServiceImpl implements SuppliesService {
 		return r;
 	}
 
-	public Pair<Boolean, String> addInvoice(int city,JpaInvoice obj, Principal principal, HttpServletRequest request) {
-		Pair<Boolean, String> r = null;
+	public Pair<Object, String> addInvoice(int city,JpaInvoice obj, Principal principal, HttpServletRequest request) {
 		try {
 			InvoiceExample example =new InvoiceExample();
 			InvoiceExample.Criteria c=example.createCriteria();
@@ -137,6 +136,7 @@ public class SuppliesServiceImpl implements SuppliesService {
 				InvoiceRepo.save(jpaInvoice);
 				attachmentService.upInvoiceAttachments(request, Request.getUserId(principal), jpaInvoice.getId(),
 						JpaAttachment.Type.fp_file,null);
+				return new Pair<Object, String>(jpaInvoice, "发票保存成功！");
 			}else{
 			obj.setCity(city);
 			obj.setCreated(new Date());
@@ -146,13 +146,11 @@ public class SuppliesServiceImpl implements SuppliesService {
 			InvoiceRepo.save(obj);
 			attachmentService.saveAttachment(request, Request.getUserId(principal), obj.getId(),
 					JpaAttachment.Type.fp_file,null);
-			
+			return new Pair<Object, String>(obj, "发票保存成功！");
 			}
-			r = new Pair<Boolean, String>(true, "发票保存成功！");
 		} catch (BusinessException e) {
-			r = new Pair<Boolean, String>(false, "发票保存失败");
+			return new Pair<Object, String>(null, "发票保存失败");
 		}
-		return r;
 	}
 
 	public Pair<Boolean, String> savequlifi(Principal principal, HttpServletRequest request,String description) {

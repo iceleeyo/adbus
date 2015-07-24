@@ -342,17 +342,21 @@ function del_3(o) {
 			document.getElementById("quadiv_" + o));
 }
 //提交发票
-function subIvc(){
+function subIvc(tourl){
     if (!$("#userForm3").validationEngine('validateBeforeSubmit'))
         return;
 	$('#userForm3').ajaxForm(function(data) {
 		 $("#subWithdrawi").attr("disabled",true);
 	     $("#subWithdrawi").css("background-color","#85A2AD");
 	       layer.msg(data.right);
-		var uptime = window.setTimeout(function(){
-			window.location.reload();
-		   	clearTimeout(uptime);
-					},2000)
+	       $("#cc").trigger("click");
+			if(typeof(data.left)!="undefined"){
+			$("#cartAddressList").append(" <li data-aid='"+data.left.id+"' tip='"+data.left.title+"' class='layer-tips'>"
+			+"<span href='javascript:;' style='text-decoration:none;' data-aid='"+data.left.id+"'>"
+		    +" <div class='item'><i style='display: inline;'></i><span class=''>"+data.left.title +" <br>"
+			+"  <b class='cart_address_edit' style='display: none;position:inherit;' onclick='qEdit("+tourl+","+data.left.id+")' id='"+data.left.id+"'>编辑</b>"
+			+"</span></div> </span></li>");
+			}
 	}).submit();
 	var type=$('input:radio[name="type"]:checked').val();
 	if(type=="special"){
@@ -402,7 +406,7 @@ function IvcEnter(tourl){
 					 +'<input type="file" name="taxfile" id="Sfile2" class="validate[required]"> </div> </div> </div>'
 					 +'<div class="ui-form-item"> <label class="ui-labeli mt10"><span class="ui-form-required">*</span>一般纳税人资格认证复印件: </label>'
 					 +'<input type="file" name="taxpayerfile" id="Sfile3" class="validate[required]"> </div> </div> </div></div>'
-					 +'<div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdrawi" class="block-btn" onclick="subIvc();" value="提交"></div>'
+					 +'<div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdrawi" class="block-btn" onclick="subIvc('+tourl+');" value="提交"></div>'
 					 +'<div id="progress1"> <div class="percent"></div> <div class="pbar"></div> <div class="elapsed"></div> </div> </form>'
 				});
 			$("#userForm3").validationEngine({
@@ -609,8 +613,8 @@ function subInvoice(){
    document.getElementById('subWithdrawInvoice').setAttribute('disabled',true); 
    $("#subWithdrawInvoice").css("background-color","#85A2AD");
 	$('#userForm2').ajaxForm(function(data) {
+		layer.msg(data.right);
 	$("#cc").trigger("click");
-	window.location.reload();
 	}).submit();
 
 }

@@ -88,7 +88,7 @@ public interface SuppliesService {
 
 	List<Supplies> querySuppliesByUser(int city, Principal principal);
 
-	Pair<Boolean, String> addInvoice(int city,JpaInvoice obj, Principal principal,
+	Pair<Object, String> addInvoice(int city,JpaInvoice obj, Principal principal,
 			HttpServletRequest request);
 
 	Pair<Boolean, String> savequlifi(Principal principal,

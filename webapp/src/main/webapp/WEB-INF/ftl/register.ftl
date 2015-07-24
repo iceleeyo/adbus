@@ -164,6 +164,13 @@
 												id="companyAddr" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="请输入所属公司地址">
                                         </div>
+                                        <div class="ui-form-item">
+                                            <label class="ui-label mt10">法定代表人:</label>
+                                                    <input
+												class="ui-input" type="text" name="legalman"
+												id="legalman" data-is="isAmount isEnough"
+												autocomplete="off" disableautocomplete="" placeholder="请输入法定代表人">
+                                        </div>
                                         
 <#--                                        <div class="ui-form-item">
                                             <label class="ui-label mt10">其他备注:</label>
