@@ -6,10 +6,13 @@ body{
 	width: 1150px;
 } */
 .ls-9{
-	width: 775px;
+	width: 765px;
 	float: left;
 	margin-left: 10px;
 	margin-right: 10px;
+	border: 1px solid #ccc;
+    padding: 15px;
+    background: #fff;
 }
 .ls-3{
 	width: 250px;
@@ -162,7 +165,6 @@ h3{
 	font-size: 18px;
 	color: #fff;
 	text-decoration: none;
-	margin-right: 10px;
 }
 .product-info .product-detail .product-btn .btn-bid em{
 	display: inline-block;
