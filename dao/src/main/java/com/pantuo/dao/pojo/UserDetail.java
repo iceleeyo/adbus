@@ -61,6 +61,7 @@ public class UserDetail extends BaseEntity {
 	public String phone;
 	public String company;
 	public String companyAddr;
+	public String legalman;
 	public String department;
 	public UStats ustats;
 	public int isActivate;
@@ -112,7 +113,15 @@ public class UserDetail extends BaseEntity {
         return groups;
     }
 
-    public void setStringGroups(List<String> groups) {
+    public String getLegalman() {
+		return legalman;
+	}
+
+	public void setLegalman(String legalman) {
+		this.legalman = legalman;
+	}
+
+	public void setStringGroups(List<String> groups) {
         for (String group : groups) {
             this.groups.add(new GroupEntity(group));
         }
