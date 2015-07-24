@@ -4,10 +4,9 @@
 <@frame.html title="产品竞价" js=["js/jquery.jcountdown.js","js/jquery.jcountdown.site.js","js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/progressbar.js"] 
 css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/compare/auction.css","css/sea.css","css/autocomplete.css"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-
 <script type="text/javascript">
     
-    
+  
 function compare(pathurl){
 	var productid=$("#productid").val();
 	var myprice=$("#myprice").val();
@@ -41,6 +40,25 @@ $.ajax({
 }
 	
 </script>
+
+<style type="text/css">
+.hint {
+  padding:10px 10px 30px 10px;
+}
+.product_detail_mt h3 {
+  display: inline-block;
+  padding-right: 20px;
+  font-family: '\5fae\8f6f\96c5\9ed1';
+  font-size: 16px;
+  background: #fff;
+}
+.hint .mc {
+  margin-top: 5px;
+}
+.hint .mc p {
+  margin-top: 15px;
+}
+</style>
 
 <script type="text/javascript">
         function bu(txtObj) {
@@ -97,8 +115,8 @@ $.ajax({
 												<a class="plus" >+</a>
 											</span>
 											<div class="range">
-												<span>最低加价：<em>￥1.00</em></span>
-												<span>最高加价：<em>￥5000.00</em></span>
+												<span>最低加价：<em>￥1000.00</em></span>
+												<span>最高加价：<em>不限</em></span>
 						
 											</div>
 										</div>
@@ -148,8 +166,8 @@ $.ajax({
 							</div>
 							<div class="bidPath">
 								<div class="lc">
-									<span>竞&nbsp;&nbsp;&nbsp;拍</span><br>
-									<span>流&nbsp;&nbsp;&nbsp;程</span>
+									<span>竞&nbsp;&nbsp;拍</span><br>
+									<span>流&nbsp;&nbsp;程</span>
 								</div>
 								<div class="flow" style="overflow: hidden; width: 700px;">
 									<div class="lc-flow" style="width: 800px;">
@@ -188,13 +206,29 @@ $.ajax({
 									</div>
 								</div>
 							</div>
-							<div class="product-ins">
-								<div class="ins-title">
-									<span>商品介绍</span>
-								</div>
-							</div>
-							<div class="product-contain">
-								<div class=" color-white-bg fn-clear" style="margin-left: 0px;">
+
+<div class="hint">
+		<div class="product_detail_mt">
+				<h3>温馨提示</h3>
+		</div>
+		<div class="mc">
+				<p>1.用户提交资质信息后，经系统审核通过后用户状态为“认证通过”的用户才有资格参与竞拍；</p>
+				<p>2.请您仔细阅读竞拍商品信息页面中的具体说明，对商品要求较高者请您慎重购买；</p>
+				<p>3.订单提交成功后请在24小时内进行支付（竞拍成功后请在24小时内转订单），否则系统将取消您的竞拍资格；</p>
+				<p>4.订单支付后，尽快提交物料及相关资质，如有需要及时联系客服咨询；</p>
+				<p>5.所售商品正常提供发票，详情请参见帮助中心的发票制度说明；</p>
+		</div>
+</div>							
+							
+							
+							
+<div class="product-ins">
+	<div class="ins-title">
+		<span>商品介绍</span>
+	</div>
+</div>
+<div class="product-contain">
+	<div class=" color-white-bg fn-clear" style="margin-left: 0px;">
     <DIV class="summary uplan-summary-div">
         <UL class="uplan-detail-ul">
             <LI style="width: 720px;">
@@ -259,7 +293,7 @@ $.ajax({
     </DIV>
 </div>
 							</div>
-						</div>
+		</div>
 						<div class="ls-3" style="float:right;position:absolute;left:810px;top:0px;background: #fff;">
 							<div class="record-sidebar">
 								<div class="record-title">

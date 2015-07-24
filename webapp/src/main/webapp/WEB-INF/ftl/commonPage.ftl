@@ -50,6 +50,25 @@ islogin(pathurl);
 	}
 </script>
 
+<style type="text/css">
+.hint {
+  padding:10px 10px 30px 10px;
+}
+.product_detail_mt h3 {
+  display: inline-block;
+  padding-right: 20px;
+  font-family: '\5fae\8f6f\96c5\9ed1';
+  font-size: 16px;
+  background: #fff;
+}
+.hint .mc {
+  margin-top: 5px;
+}
+.hint .mc p {
+  margin-top: 15px;
+}
+</style>
+
 <script type="text/javascript">
 function bu(txtObj) {
 	txtObj.value = Number(txtObj.value).toFixed(2);
@@ -97,7 +116,7 @@ function bu(txtObj) {
 												<span>巴士数量： <em>${prod.busNumber!''}</em></span>
 											</#if>	
 											<#if (prod.type)!="body">
-												<span>时长（秒）： <em>${prod.duration!''}</em></span>
+												<span>时长： <em>${prod.duration!''}</em></span>
 											</#if>
 											</div>
 											<div class="" style="margin: 10px 5px;">
@@ -168,7 +187,21 @@ function bu(txtObj) {
 									</div>
 								</div>
 							</div>
-							<div class="product-ins" style="margin-top: 20px;">
+
+<div class="hint">
+		<div class="product_detail_mt">
+				<h3>温馨提示</h3>
+		</div>
+		<div class="mc">
+				<p>1.请您仔细阅读竞拍商品信息页面中的具体说明，对商品要求较高者请您慎重购买；</p>
+				<p>2.订单提交成功后请在24小时内进行支付，否则系统将取消您的订单；</p>
+				<p>3.订单支付后，尽快提交物料及相关资质，如有需要及时联系客服咨询；</p>
+				<p>4.所售商品正常提供发票，详情请参见帮助中心的发票制度说明；</p>
+		</div>
+</div>									
+							
+							
+<div class="product-ins" style="margin-top: 20px;">
 								<div class="ins-title">
 									<span>商品介绍</span>
 								</div>
