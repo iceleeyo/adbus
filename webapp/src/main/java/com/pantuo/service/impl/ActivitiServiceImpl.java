@@ -31,6 +31,7 @@ import org.activiti.engine.impl.task.TaskDefinition;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.runtime.ProcessInstanceQuery;
+import org.activiti.engine.task.IdentityLink;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
 import org.apache.commons.lang.BooleanUtils;
@@ -867,14 +868,15 @@ public class ActivitiServiceImpl implements ActivitiService {
 						taskService.claim(task.getId(), u.getUsername());
 						Map<String, Object> variables = new HashMap<String, Object>();
 						variables.put(ActivitiService.R_USERPAYED, true);
-						
-						MailTask mailTask=	new MailTask(u.getUsername(), orderid, null, task.getTaskDefinitionKey(),
+
+						MailTask mailTask = new MailTask(u.getUsername(), orderid, null, task.getTaskDefinitionKey(),
 								Type.sendCompleteMail);
 						taskService.complete(task.getId(), variables);
 
 						mailJob.putMailTask(mailTask);
 						if (orders != null) {
-							return new Pair<Object, String>(orders, "订单支付成功!");
+							return new Pair<Object, String>(orders, String.format("订单支付成功%s!",
+									getNextTaskInfo(mailTask.getFinishDate(), orderid)));
 						}
 					} else {
 						return new Pair<Object, String>(null, "订单支付失败!");
@@ -885,7 +887,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 			}
 		} else {
 			if (relateContract(orderid, contractid, payType, isinvoice, invoiceDetail, u.getUsername(), "payment") > 0) {
-				return new Pair<Object, String>(orders, "订单支付成功!");
+				return new Pair<Object, String>(orders, String.format("订单支付成功%s!",
+						getNextTaskInfo(new Date(System.currentTimeMillis() - 2500), orderid)));
 			} else {
 				return new Pair<Object, String>(null, "订单支付失败!");
 			}
@@ -927,6 +930,21 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 
 	}
+	
+	public String getNextTaskInfo(Date completeDate, int orderId) {
+		String r = StringUtils.EMPTY;
+		List<Task> tasks = taskService.createTaskQuery().processVariableValueEquals(ActivitiService.ORDER_ID, orderId)
+				.orderByTaskCreateTime().desc().list();
+		for (Task task : tasks) {
+			if (completeDate.before(task.getCreateTime())) {
+				r = " 订单将进入到下一个操作环节[" + task.getName() + "]";
+			} else {
+				log.info(" complete Task and getNextInfo ,filter task:{},{},{}", completeDate.getTime(), task.getCreateTime()
+						.getTime(), task.getName());
+			}
+		}
+		return r;
+	}
 
 	public Pair<Boolean, String> complete(String taskId, Map<String, Object> variables, Principal principal) {
 		Pair<Boolean, String> r = new Pair<Boolean, String>(true, StringUtils.EMPTY);
@@ -955,16 +973,10 @@ public class ActivitiServiceImpl implements ActivitiService {
 				}
 				MailTask mailTask = new MailTask(u.getUsername(), orderId, null, task.getTaskDefinitionKey(),
 						Type.sendCompleteMail);
-				
+
 				taskService.complete(taskId, variables);
-
-				/*				List<Task> tasks = taskService.createTaskQuery().processInstanceId(process.getId())
-										.orderByTaskCreateTime().desc().listPage(0, 10);
-								System.out.println(tasks);
-				*/
-				
-
 				mailJob.putMailTask(mailTask);
+				r.setRight("操作成功 " + getNextTaskInfo(mailTask.getFinishDate(), orderId) + "!");
 			} else {
 				r = new Pair<Boolean, String>(false, "非法操作！");
 				log.warn(u.getUsername() + ":" + task.toString());
@@ -1318,7 +1330,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 						Type.sendCompleteMail);
 				taskService.complete(task.getId());
 				mailJob.putMailTask(mailTask);
-				return new Pair<Object, String>(orders, "订单修改成功!");
+				
+				return new Pair<Object, String>(orders,String.format( "订单修改成功%s!", getNextTaskInfo(mailTask.getFinishDate(), orderid)));
 			} else {
 				return new Pair<Object, String>(null, "订单修改失败!");
 			}
@@ -1330,9 +1343,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 						.processVariableValueEquals(ActivitiService.ORDER_ID, order.getId()).orderByTaskCreateTime()
 						.desc().listPage(0, 4);
 				autoCompleteBindStatic(user, order, tasks, true);
-
 				//	startProcess2(city, user, order);
-				return new Pair<Object, String>(order, "绑定物料成功!");
+				return new Pair<Object, String>(order, String.format("绑定物料成功%s!",
+						getNextTaskInfo(new Date(System.currentTimeMillis() - 2500), orderid)));
 			} else {
 				return new Pair<Object, String>(null, "绑定物料失败!");
 			}
