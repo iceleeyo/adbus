@@ -1,5 +1,5 @@
 <#import "template/template.ftl" as frame>
-<#global menu="我参与订单">
+<#global menu="${orderMenu}">
 <@frame.html title="我参与的订单" css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"] js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <script type="text/javascript">
@@ -60,6 +60,7 @@ var table;
             },
             "initComplete": initComplete,
             "drawCallback": drawCallback,
+            "fnDrawCallback": fnDrawCallback,
         } );
 		table.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
@@ -134,6 +135,13 @@ var table;
             })
         });
     }
+     //显示总条数 add by impanxh
+    function fnDrawCallback(){
+		var record_count = (this.fnSettings().fnRecordsTotal() );
+		if(record_count>0){
+	 	  $("#recordsTotal").html("["+record_count+"]");
+		  }
+    }
 
     $(document).ready(function() {
         initTable();
@@ -148,9 +156,10 @@ var table;
                 <div class="tabs">
                 <@security.authorize ifAnyGranted="advertiser">
                 <#if orderMenu=="我的订单">
-					<a id="tab1" href="${rc.contextPath}/order/myOrders/1" class="active">${orderMenu}</a>
+					<a id="tab1" href="${rc.contextPath}/order/myOrders/1" class="active">${orderMenu}<span id="recordsTotal"  ></span></a>
 				<#else>
-					<a id="tab1" href="${rc.contextPath}/order/myOrders/1">${orderMenu}</a>
+					<a id="tab1" href="${rc.contextPath}/order/myOrders/1">${orderMenu}</span></a>
+					
 				</#if>
 				</@security.authorize>
 				<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
@@ -159,11 +168,12 @@ var table;
 					<a id="tab3" href="${rc.contextPath}/order/finished">已完成的订单</a>
 				<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 				<#if orderMenu=="我参与订单">
-					<a id="tab4" class="active" href="${rc.contextPath}/order/join/1">我参与的订单</a>
+					<a id="tab4" class="active" href="${rc.contextPath}/order/join/1">我参与的订单<span id="recordsTotal"  ></span></a>
 				<#else>
-					<a id="tab4" href="${rc.contextPath}/order/join/1">我参与的订单</a>
+					<a id="tab4" href="${rc.contextPath}/order/join/1">我参与的订单<span id="recordsTotal"  ></span></a>
 				</#if>
 				</@security.authorize>
+				
 				</div>
 				
 				<table id="table" class="display" cellspacing="0" width="100%">

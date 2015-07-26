@@ -135,6 +135,7 @@
             },
             "initComplete": initComplete,
             "drawCallback": drawCallback,
+            "fnDrawCallback": fnDrawCallback,
         } );
   		table.fnNameOrdering("orderBy").fnNoColumnsParams();
   		
@@ -204,6 +205,13 @@
             })
         });
     }
+     //显示总条数 add by impanxh
+    function fnDrawCallback(){
+		var record_count = (this.fnSettings().fnRecordsTotal() );
+		if(record_count>0){
+	 	  $("#recordsTotal").html("["+record_count+"]");
+		  }
+    }
  		
     $(document).ready(function() {
         initTable();
@@ -214,7 +222,7 @@
 
 <div class="withdraw-wrap color-white-bg fn-clear">
               <div class="withdraw-title" style="padding-top: 0px; text-align:left; ">
-									待办事项 
+									待办事项 <span id="recordsTotal"  style="color:#ff9966"></span>
 									</div>
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>

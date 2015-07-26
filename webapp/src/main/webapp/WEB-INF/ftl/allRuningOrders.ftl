@@ -79,6 +79,7 @@
             },
             "initComplete": initComplete,
             "drawCallback": drawCallback,
+             "fnDrawCallback": fnDrawCallback,
         } );
         table.fnNameOrdering("orderBy").fnNoColumnsParams();
 
@@ -130,6 +131,13 @@
             })
         });
     }
+      //显示总条数 add by impanxh
+    function fnDrawCallback(){
+		var record_count = (this.fnSettings().fnRecordsTotal() );
+		if(record_count>0){
+	 	  $("#recordsTotal").html("["+record_count+"]");
+		  }
+    }
 
     $(document).ready(function() {
         initTable();
@@ -145,7 +153,7 @@
 					<a id="tab1" href="${rc.contextPath}/order/myOrders/1">我的订单</a>
 					</@security.authorize>	
 					<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
-					<a id="tab2" class="active" href="${rc.contextPath}/order/allRuningOrders/1">进行中的订单</a>
+					<a id="tab2" class="active" href="${rc.contextPath}/order/allRuningOrders/1">进行中的订单<span id="recordsTotal"  ></span></a>
 					</@security.authorize>	
 					<a id="tab3" href="${rc.contextPath}/order/finished">已完成的订单</a>
 					<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
