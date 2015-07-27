@@ -355,7 +355,7 @@ function bu(txtObj) {
 							    	 $.datepicker.regional['zh-CN'] = { 
 								         minDate: fristWorkDay,
 								         isRTL: false,
-								         //beforeShowDay:noWeekendsOrHolidays,
+								        // beforeShowDay:noWeekendsOrHolidays,
 							      	  }; 
 							        	$.datepicker.setDefaults($.datepicker.regional['zh-CN']); 
 						  		  });
