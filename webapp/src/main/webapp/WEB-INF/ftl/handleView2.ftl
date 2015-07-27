@@ -548,7 +548,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 				<TD style="text-align: right">发票信息</TD>
 				<TD colspan=3><input type="checkbox" id="check1" />开具发票
 					<#assign invoicelength=( (InvoiceList?size/4)?ceiling )> <a
-					href="javascript:;" onclick="IvcEnter('${rc.contextPath}')">录入发票</a>
+					href="javascript:;" onclick="IvcEnter('${rc.contextPath}');">录入发票</a>
 				</TD>
 			</TR>
 			<tbody id="invoiceTab" style="display: none;">
@@ -575,8 +575,8 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 				                <#else>
 				                                                         暂无发票，请录入发票
 				                </#if>
-								<input type="hidden" id="hiddenINvoiceId" value="0" />
 							</ul>
+								<input type="hidden" id="hiddenINvoiceId" value="0" />
 						</div>
 					</TD>
 				</TR>
@@ -1115,7 +1115,7 @@ $(document).ready(function(){
 	});
   });
   
-       $('.cart_address_wrap ul li').click(function(){
+       $('.cart_address_wrap ul li').live("click",function(){
 	$('.cart_address_wrap ul li').each(function(){
 		 $(this).find("div").removeClass("selected");
 		var tid= $(this).attr("data-aid");
@@ -1154,5 +1154,7 @@ $(document).ready(function(){
 		});
  
 	});
+	//提交发票
+
 </script>
 </@frame.html>

@@ -483,7 +483,7 @@ $(document).ready(function(){
 		
 	});
   });
-       $('.cart_address_wrap ul li').click(function(){
+       $('.cart_address_wrap ul li').live("click",function(){
 	$('.cart_address_wrap ul li').each(function(){
 		 $(this).find("div").removeClass("selected");
 		var tid= $(this).attr("data-aid");
