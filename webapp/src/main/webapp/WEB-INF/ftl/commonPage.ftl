@@ -333,7 +333,7 @@ function bu(txtObj) {
 								    return [(day != 5),""];
 								}
 								
-								function getFristWordDay() {
+								function getFristWordDay() { 
 									var fday = 3;//往前工作日3天
 									 var c=0;
 									 var histCount=0;
