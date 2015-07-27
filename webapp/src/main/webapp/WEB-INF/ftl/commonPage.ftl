@@ -333,12 +333,27 @@ function bu(txtObj) {
 								    return [(day != 5),""];
 								}
 								
-								
+								function getFristWordDay() {
+									var fday = 3;//往前工作日3天
+									 var c=0;
+									 var histCount=0;
+									 var r  = null;
+									while(histCount  <= (fday )){
+										r=new Date( (new Date()/1000+86400*c)*1000 );
+										var noWeekend=noWeekendsOrHolidays(r);
+										if(noWeekend[0]){
+											histCount++;
+										} 
+										c++;
+									}
+									return r;
+								}
 						  		  
 								//限定不能选今天之前的日期
 								jQuery(function($){ 
+									 var fristWorkDay=getFristWordDay();
 							    	 $.datepicker.regional['zh-CN'] = { 
-								         minDate: new Date( (new Date()/1000+86400*3)*1000 ),
+								         minDate: fristWorkDay,
 								         isRTL: false,
 								         beforeShowDay:noWeekendsOrHolidays,
 							      	  }; 
