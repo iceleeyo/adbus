@@ -311,12 +311,37 @@ function bu(txtObj) {
 				</div>
 			</div>
 							<script type="text/javascript">
+								function noWeekendsOrHolidays(date){
+								    var noWeekend = $.datepicker.noWeekends(date);
+								    return noWeekend;
+								   /* if (noWeekend[0]) {
+								        var isNotFriday = noFridays(date);
+								        if (isNotFriday[0]) {
+								            return [true, ''];
+								        }
+								        else {
+								            return isNotFriday;
+								        }
+								    }
+								    else {
+								        return noWeekend;
+								    }*/
+								}
+								
+								function noFridays(date) {
+								    var day = date.getDay();
+								    return [(day != 5),""];
+								}
+						  		  
 								//限定不能选今天之前的日期
 								jQuery(function($){ 
 						    	 $.datepicker.regional['zh-CN'] = { 
 						         minDate: new Date( (new Date()/1000+86400*3)*1000 ),
-						        isRTL: false}; 
+						         isRTL: false,
+						         beforeShowDay:noWeekendsOrHolidays
+						        }; 
 						        $.datepicker.setDefaults($.datepicker.regional['zh-CN']); 
 						  		  });
+						  		  
 							</script>
 </@frame.html>
