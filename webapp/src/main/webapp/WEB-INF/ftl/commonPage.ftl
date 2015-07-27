@@ -332,15 +332,17 @@ function bu(txtObj) {
 								    var day = date.getDay();
 								    return [(day != 5),""];
 								}
+								
+								
 						  		  
 								//限定不能选今天之前的日期
 								jQuery(function($){ 
-						    	 $.datepicker.regional['zh-CN'] = { 
-						         minDate: new Date( (new Date()/1000+86400*3)*1000 ),
-						         isRTL: false,
-						         beforeShowDay:noWeekendsOrHolidays
-						        }; 
-						        $.datepicker.setDefaults($.datepicker.regional['zh-CN']); 
+							    	 $.datepicker.regional['zh-CN'] = { 
+								         minDate: new Date( (new Date()/1000+86400*3)*1000 ),
+								         isRTL: false,
+								         beforeShowDay:noWeekendsOrHolidays,
+							      	  }; 
+							        	$.datepicker.setDefaults($.datepicker.regional['zh-CN']); 
 						  		  });
 						  		  
 							</script>
