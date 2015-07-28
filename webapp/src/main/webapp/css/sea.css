@@ -267,7 +267,7 @@ table {
 
 .pg-container {
 	margin-top: 10px;
-	padding-bottom: 250px;
+	padding-bottom: 20px;
 }
 
 .pg-side {
@@ -1152,7 +1152,6 @@ height: 14px;
 }
 
 .pg-foot {
-	position: absolute;
 	bottom: 0;
 	width: 100%;
 	padding: 10px 0;

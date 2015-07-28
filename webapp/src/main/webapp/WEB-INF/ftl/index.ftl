@@ -10,6 +10,7 @@
   <link rel="stylesheet" type="text/css" href="homepage/css/homepage.css">
   <link rel="stylesheet" type="text/css" href="homepage/css/index.css">
   <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/one.css">
+  <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/foot.css">
   <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/city.css">
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery-1.8.3.min.js"></script>
    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.jcountdown.js"></script>

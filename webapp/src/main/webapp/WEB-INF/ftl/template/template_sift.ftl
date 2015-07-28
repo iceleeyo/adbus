@@ -39,6 +39,7 @@
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/sea.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/icheck-green.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/one.css">
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/foot.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/account.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/page.css" media="screen"/>
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/jquery.dataTables.css">

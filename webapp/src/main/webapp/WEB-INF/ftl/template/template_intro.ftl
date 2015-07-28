@@ -42,6 +42,7 @@
 
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/icheck-green.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/one.css">
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/foot.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/page.css" media="screen"/>
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/js/jquery-ui/jquery-ui.min.css">
