@@ -1,0 +1,153 @@
+.container-11{
+	width: 940px;
+	margin-left: auto;
+ 	margin-right: auto;
+}
+.text-right{
+	text-align: right;
+}
+.pg-foot{
+	font-size: 14px;
+}
+.pg-foot h4, 
+.pg-foot ul{
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+}
+.foot-link{
+	padding: 10px 0;
+  	border-bottom: 1px solid gray;
+}
+.foot-link .icons{
+	margin-top: 10px;
+}
+.gray{
+	color: gray;
+}
+.pg-foot h4{
+	font-size: 16px;
+}
+.pg-foot .foot-links-item{
+	width: 840px;
+}
+.foot-link-hold{
+	display: inline-block;
+	width: 800px;
+}
+.foot-link-none{
+	display: inline-block;
+}
+.pg-foot ul li{
+	display: inline-block;
+	min-width: 75px;
+	height: 24px;
+	line-height: 24px;
+	margin-right: 10px;
+}
+.pg-foot ul li a{
+	color: gray;
+} 
+.pg-foot a:hover{
+	color: #2ea7e0;
+}
+.foot-link-img{
+	display: block;
+	margin-right: 20px;
+	height: 30px;
+	font-size: 0;
+	line-height: 0;
+	background: url(../imgs/footer-icons.png) no-repeat 0 0;
+}
+.foot-link-img.weibo{
+	width: 99px;
+  	background-position: 0 0;
+}
+.foot-link-img.weibo:hover{
+	background-position: 0 -30px;
+}
+.foot-link-img.qq-weibo{
+	width: 112px;
+    background-position: -190px 0;
+}
+.foot-link-img.qq-weibo:hover{
+	background-position: -190px -30px;
+}
+.foot-link-img.wechat{
+    width: 91px;
+    background-position: -99px 0;
+}
+.foot-link-img.wechat:hover{
+	background-position: -99px -30px;
+}
+.foot-link-img.kefu{
+ 	width: 117px;
+ 	background-position: -302px 0;
+}
+.foot-link-img.kefu:hover{
+	background-position: -302px -30px;
+}
+.foot-link-none .phone-number{
+	font-size: 20px;
+}
+.foot-copyright{
+	font-size: 12px;
+	text-align: center;
+	margin-top: 10px;
+}
+.foot-copyright .foot-cr-link.has-border{
+	border-right: 1px solid gray;
+	padding: 0 10px;
+}
+.foot-vertical{
+	text-align: center;
+	margin-top: 10px;
+}
+.foot-vertical-icon{
+	display: inline-block;
+	height: 50px;
+	margin: 0 10px;
+	background: url(../imgs/footer-icons.png) no-repeat 0 0;
+}
+.foot-vertical-icon.integrity{
+	width: 96px;
+    background-position: -249px -60px;
+}
+.foot-vertical-icon.integrity:hover{
+  	background-position: -249px -110px;	
+}
+.foot-vertical-icon.credible{
+	width: 96px;
+  	background-position: 0 -60px;
+}
+.foot-vertical-icon.credible:hover{
+  	background-position: 0 -110px;
+}
+.foot-vertical-icon.approve{
+	width: 96px;
+ 	background-position: 0 -154px;
+}
+.foot-vertical-icon.approve:hover{
+  	background-position: 0 -197px;	
+}
+.foot-vertical-icon.ittrust{
+	width: 35px;
+  	background-position: -351px -59px;
+}
+.foot-vertical-icon.ittrust:hover{
+	background-position: -351px -110px;
+}
+.foot-vertical-icon.norton{
+	width: 65px;
+  	background-position: -96px -60px;
+}
+.foot-vertical-icon.norton:hover{
+  	  background-position: -96px -110px;
+}
+.foot-vertical-icon.police{
+	width: 42px;
+  	background-position: -161px -60px;
+}
+.foot-vertical-icon.police:hover{
+ 	 background-position: -161px -110px;
+}
