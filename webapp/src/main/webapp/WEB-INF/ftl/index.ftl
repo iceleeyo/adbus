@@ -562,7 +562,7 @@
 			</#if>
 		</div>
 		
-		<div class="adds"><img src="homepage/imgs/321.jpg" alt="" width="960" height="100"></div>
+		<!-- <div class="adds"><img src="homepage/imgs/321.jpg" alt="" width="960" height="100"></div> -->
 		
 		<div class="qqbox">
 			<dl>

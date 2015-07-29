@@ -1,24 +1,5 @@
 <div class="pg-foot">
 	<div class="container-11 plr10">
-		<div class="foot-link gray s-clear">
-						<h4 class="s-left">友情链接</h4>
-						<ul class="foot-links-item s-right">
-							<li><a href="">智慧金融</a></li>
-							<li><a href="">易观智库</a></li>
-							<li><a href="">好贷网</a></li>
-							<li><a href="">银率网</a></li>
-							<li><a href="">智慧金融</a></li>
-							<li><a href="">国美在线</a></li>
-							<li><a href="">财经道</a></li>
-							<li><a href="">智慧金融</a></li>
-							<li><a href="">易观智库</a></li>
-							<li><a href="">好贷网</a></li>
-							<li><a href="">银率网</a></li>
-							<li><a href="">智慧金融</a></li>
-							<li><a href="">国美在线</a></li>
-							<li><a href="">财经道</a></li>
-						</ul>
-					</div>
 					<div class="foot-link gray s-clear">
 						<div class="foot-link-hold s-left">
 							<ul class="s-left">
