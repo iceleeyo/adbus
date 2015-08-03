@@ -44,6 +44,11 @@
                 $("#text").show();
                 $("#file").hide();
             }
+            if (suppliesType == "0") {
+                $(".videoToggle").show();
+            } else {
+                $(".videoToggle").hide();
+            }
             
             if(suppliesType=="0"){
             	$("#otherType").hide();
@@ -246,6 +251,17 @@
                                                 </#if>
                                             </select>
 										</div>
+                                        <div class="ui-form-item videoToggle">
+                                            <label class="ui-label mt10"><span
+                                                    class="ui-form-required">*</span>时长（秒）:</label> <input
+                                                class="ui-input validate[required,integer,min[5],max[180]]"
+                                                onkeyup="value=value.replace(/[^\d]/g,'')" value="<#if prod??>${prod.duration!''}<#else>0</#if>" name="duration"
+                                                id="duration" data-is="isAmount isEnough"
+                                                autocomplete="off" disableautocomplete="" placeholder="5-180秒">
+                                            <p class="ui-term-placeholder"></p>
+
+                                        </div>
+
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>所属行业:</label>

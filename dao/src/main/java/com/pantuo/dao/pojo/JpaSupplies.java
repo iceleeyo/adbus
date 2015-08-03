@@ -26,6 +26,7 @@ public class JpaSupplies extends CityEntity {
     @JoinColumn(name = "industryId")
     private JpaIndustry industry;
     private String userId;
+    private long duration;	//物料时长(S)
     private String filePath;
     private String infoContext;
     private Status stats;
@@ -42,7 +43,7 @@ public class JpaSupplies extends CityEntity {
     }
 
     public JpaSupplies(int city, String name, JpaProduct.Type suppliesType, int industryId,
-                       String userId, String filePath, String infoContext,
+                       String userId, long duration, String filePath, String infoContext,
                        Status stats, String operFristuser, String operFristcomment,
 
                        String operFinaluser, String operFinalcomment, String seqNumber,
@@ -53,6 +54,7 @@ public class JpaSupplies extends CityEntity {
         this.industry = new JpaIndustry();
         this.industry.setId(industryId);
         this.userId = userId;
+        this.duration = duration;
         this.filePath = filePath;
         this.infoContext = infoContext;
         this.stats = stats;
@@ -95,6 +97,14 @@ public class JpaSupplies extends CityEntity {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
     }
 
     public String getFilePath() {
@@ -203,6 +213,7 @@ public class JpaSupplies extends CityEntity {
                 ", stats=" + stats +
                 ", infoContext='" + infoContext + '\'' +
                 ", filePath='" + filePath + '\'' +
+                ", duration='" + duration + '\'' +
                 ", userId='" + userId + '\'' +
                 ", suppliesType=" + suppliesType +
                 ", name='" + name + '\'' +

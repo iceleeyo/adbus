@@ -2,6 +2,7 @@ package com.pantuo.web;
 
 import com.pantuo.dao.pojo.*;
 import com.pantuo.mybatis.domain.Box;
+import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.FlatScheduleListItem;
 import com.pantuo.pojo.TableRequest;
@@ -358,6 +359,7 @@ public class ScheduleController {
     @RequestMapping("box-detail-ajax-list")
     @ResponseBody
     public List<Report> getScheduleDetailList (TableRequest req,
+                                               @RequestParam(value="filler", defaultValue = "true") boolean filler,
                                                @CookieValue(value="city", defaultValue = "-1") int cityId,
                                                @ModelAttribute("city") JpaCity city) {
         if (city == null || city.getMediaType() != JpaCity.MediaType.screen)
@@ -375,6 +377,9 @@ public class ScheduleController {
         try {
             Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(cityId, name, 0, 999, null, false);
             Date day = DateUtil.longDf.get().parse(dayStr);
+            Random ran = new Random(day.getTime());
+            LinkedHashMap<Long, List<Supplies>> fillerSupplies = suppliesService.queryFillerSupplies(cityId);
+
             Iterable<JpaBox> boxes = service.getBoxesAndGoods(day, 1);
 
             //total row
@@ -404,6 +409,9 @@ public class ScheduleController {
             }
 
             for (JpaBox b : boxes) {
+                if (filler) {
+                    fillBoxWithFiller(ran, b, fillerSupplies);
+                }
                 Report r = reportMap.get(b.getSlotId());
                 if (r != null) {
                     String key = r.addBox(b);
@@ -413,6 +421,12 @@ public class ScheduleController {
                     }
                 }
 
+            }
+
+            for (Report r : reports) {
+                if (filler && r.getBoxes().isEmpty()) {
+                    fillReportWithFiller(ran, cityId, day, r, fillerSupplies);
+                }
             }
 
             //add total row
@@ -427,6 +441,61 @@ public class ScheduleController {
         }
     }
 
+    private void fillReportWithFiller(Random ran, int city, Date day, Report report, LinkedHashMap<Long, List<Supplies>> suppliesMap) {
+        JpaBox box = new JpaBox(city, day, report.getSlot());
+        fillBoxWithFiller(ran, box, suppliesMap);
+    }
+
+    private void fillBoxWithFiller(Random ran, JpaBox box, LinkedHashMap<Long, List<Supplies>> suppliesMap) {
+        List<BoxRemain.Remain> remains = box.getRemains().getRemains();
+        for (BoxRemain.Remain remain : remains) {
+            long start = remain.getStart();
+            long size = remain.getSize();
+            for (long rem=size; rem > 0;) {
+                List<Supplies> supplies = suppliesMap.get(rem);
+                if (supplies == null) {
+                    Iterator<Map.Entry<Long,List<Supplies>>> iter = suppliesMap.entrySet().iterator();
+                    while (iter.hasNext()) {
+                        Map.Entry<Long, List<Supplies>> e = iter.next();
+                        if (e.getKey() <= rem) {
+                            supplies = e.getValue();
+                            break;
+                        }
+                    }
+                }
+                if (supplies != null) {
+                    Supplies s = supplies.get(ran.nextInt(supplies.size()));
+                    JpaSupplies js = new JpaSupplies(box.getCity(), s.getName(),
+                            JpaProduct.Type.values()[s.getSuppliesType()],
+                            s.getIndustryId(),
+                            s.getUserId(), s.getDuration(), s.getFilePath(), s.getInfoContext(),
+                            /*JpaSupplies.Status.values()[s.getStats()],*/null,
+                            s.getOperFristuser(), s.getOperFristcomment(),
+                            s.getOperFinaluser(),s.getOperFinalcomment(),
+                            s.getSeqNumber(), s.getCarNumber(), s.getResponseCid());
+                    JpaProduct p = new JpaProduct(
+                            Integer.MAX_VALUE, JpaProduct.Type.video,
+                            "filler", s.getDuration(),
+                            0, 0, 0, 0,
+                            JpaBusline.Level.A,
+                            0, 0, 0, 0,
+                            true, true, false, null, null);
+                    JpaOrders o = new JpaOrders(Integer.MAX_VALUE, "", js, p, null, 0, null, null, null,
+                            JpaProduct.Type.video, JpaOrders.PayType.remit, JpaOrders.Status.completed,
+                            null, null, 0, null, null, null, null, null, null);
+                    JpaGoods g = new JpaGoods(box.getCity(), 0, s.getDuration(), false, false, 0);
+                    g.setOrder(o);
+                    box.put(g, start);
+                    start += s.getDuration();
+                    rem -= s.getDuration();
+                } else {
+                    log.warn("No suitable supplies to fillBoxWithFiller, rem={}", rem);
+                    break;
+                }
+            }
+        }
+    }
+
     /**
      * 排条单
      */
@@ -436,16 +505,42 @@ public class ScheduleController {
                                               @ModelAttribute("city") JpaCity city,
                                               HttpServletResponse resp) {
         String dayStr = req.getFilter("day");
+
+        String dayStr2 = dayStr;
+        String monthDay = dayStr;
+        int dayNumber = 0;
+        int year = 0;
+        try {
+            Date day = DateUtil.longDf.get().parse(dayStr);
+            Calendar cal = DateUtil.newCalendar();
+            cal.setTime(day);
+            year = cal.get(Calendar.YEAR);
+            Calendar cal0 = DateUtil.newCalendar();
+            cal0.set(year, Calendar.JANUARY, 1);
+            cal0.set(Calendar.HOUR, 0);
+            cal0.set(Calendar.MINUTE, 0);
+            cal0.set(Calendar.SECOND, 0);
+            cal0.set(Calendar.MILLISECOND, 0);
+            while (cal0.before(cal)) {
+                dayNumber ++;
+                cal0.add(Calendar.DATE, 1);
+            }
+
+            dayStr2 = DateUtil.longDf3.get().format(day);
+            monthDay = DateUtil.longDf4.get().format(day);
+        } catch(Exception e) {}
+
         String templateFileName = "/jxls/schedule_list.xls";
         List scheduleList = new ArrayList();
-        List<Report> list = getScheduleDetailList(req, cityId, city);
+        List<Report> list = getScheduleDetailList(req, true, cityId, city);
         for (Report r : list) {
-            scheduleList.add(new FlatScheduleListItem(r));
+            scheduleList.add(new FlatScheduleListItem(monthDay, r));
         }
 
         Map beans = new HashMap();
         beans.put("report", scheduleList);
-        beans.put("title", "[" + dayStr + "] 媒体排条单");
+        beans.put("title", dayStr2 + "全天档_二频道_标准版广告排条单");
+        beans.put("number", "编号:BJ-公交（日）-"+year+"-"+dayNumber);
         XLSTransformer transformer = new XLSTransformer();
         try {
             resp.setHeader("Content-Type", "application/x-xls");
@@ -453,7 +548,7 @@ public class ScheduleController {
             InputStream is = new BufferedInputStream(ScheduleController.class.getResourceAsStream(templateFileName));
             org.apache.poi.ss.usermodel.Workbook workbook = transformer.transformXLS(is, beans);
 
-            ExcelUtil.dynamicMergeCells((HSSFSheet)workbook.getSheetAt(0), 0, 0, 1, 2);
+            ExcelUtil.dynamicMergeCells((HSSFSheet)workbook.getSheetAt(0), 1, 0, 1, 2);
 
             OutputStream os = new BufferedOutputStream(resp.getOutputStream());
             workbook.write(os);

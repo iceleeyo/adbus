@@ -1,7 +1,9 @@
 package com.pantuo.service;
 
 import java.security.Principal;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -97,4 +99,7 @@ public interface SuppliesService {
 	public SuppliesView getQua(int supplies_id, Principal principal);
 	public InvoiceView getInvoiceDetail(int orderid, Principal principal);
 	public List<Industry> getIndustry();
+
+    //key order by duration desc
+    LinkedHashMap<Long/*duration*/, List<Supplies>> queryFillerSupplies(int city);
 }

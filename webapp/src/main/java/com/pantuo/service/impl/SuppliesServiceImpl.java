@@ -1,8 +1,7 @@
 package com.pantuo.service.impl;
 
 import java.security.Principal;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -325,4 +324,47 @@ public class SuppliesServiceImpl implements SuppliesService {
 		return industryMapper.selectByExample(example);
 	}
 
+    private Industry getFillerIndustry() {
+        IndustryExample example=new IndustryExample();
+        IndustryExample.Criteria criteria=example.createCriteria();
+        criteria.andNameEqualTo("垫片");
+        List<Industry> list = industryMapper.selectByExample(example);
+        return list.isEmpty() ? null : list.get(0);
+    }
+
+    public LinkedHashMap<Long, List<Supplies>> queryFillerSupplies(int city) {
+        Industry fillerIndustry = getFillerIndustry();
+        if (fillerIndustry == null)
+            return new LinkedHashMap();
+
+        SuppliesExample example = new SuppliesExample();
+        SuppliesExample.Criteria criteria = example.createCriteria();
+        criteria.andCityEqualTo(city);
+        criteria.andIndustryIdEqualTo(fillerIndustry.getId());
+        List<Supplies> list = suppliesMapper.selectByExample(example);
+
+        Collections.sort(list, new Comparator<Supplies>() {
+            @Override
+            public int compare(Supplies o1, Supplies o2) {
+                long d = o1.getDuration() - o2.getDuration();
+                if (d == 0) {
+                    return o1.getId() - o2.getId();
+                } else {
+                    return (int)-d;
+                }
+            }
+        });
+
+        LinkedHashMap<Long, List<Supplies>> map = new LinkedHashMap<Long, List<Supplies>>();
+        for (Supplies s : list) {
+            List<Supplies> l = map.get(s.getDuration());
+            if (l == null) {
+                l = new ArrayList<Supplies> ();
+                map.put(s.getDuration(), l);
+            }
+            l.add(s);
+        }
+
+        return map;
+    }
 }

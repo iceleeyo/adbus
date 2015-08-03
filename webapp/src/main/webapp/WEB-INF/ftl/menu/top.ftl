@@ -7,6 +7,10 @@
         $("#city_dropdown a:not(.selected)").click(function(){
             var cityName = $(this).parents("#ttbar-mycity")[0]?$(this).attr("data-id") : $("#ttbar-mycity a.selected").attr("data-id");
             var media = $(this).parents("#ttbar-media")[0]?$(this).attr("data-id") : $("#ttbar-media a.selected").attr("data-id");
+            if (!cityName)
+                cityName = '北京';
+            if (!media)
+                media = 'screen';
             $.ajax({
                 url : "${rc.contextPath}/f/city/select?c=" + cityName + "&m="+media,
                 type : "POST",

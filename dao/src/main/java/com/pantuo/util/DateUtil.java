@@ -117,6 +117,18 @@ public class DateUtil {
         }
     };
 
+    public static final ThreadLocal<SimpleDateFormat> longDf3 = new ThreadLocal<SimpleDateFormat>() {
+        @Override
+        protected SimpleDateFormat initialValue() {
+            return newSimpleDateFormat("yyyyMMdd");
+        }
+    };
+    public static final ThreadLocal<SimpleDateFormat> longDf4 = new ThreadLocal<SimpleDateFormat>() {
+        @Override
+        protected SimpleDateFormat initialValue() {
+            return newSimpleDateFormat("MMdd");
+        }
+    };
 
     public static final ThreadLocal<SimpleDateFormat> monthDf = new ThreadLocal<SimpleDateFormat>() {
         @Override
@@ -133,5 +145,19 @@ public class DateUtil {
         else
             str = shortDf3.get().format(new Date(duration * 1000));
         return str.replace("@","'").replace(";","\"");
+    }
+    public static String toShortStr2(long duration) {
+        String str = null;
+        if (duration < 3600) {
+            int m = (int) (duration / 60);
+            double s = (duration % 60) / 60.0;
+
+            str = String.valueOf(m + s);
+        } else {
+            int h = (int) (duration / 3600);
+            double m = (int) (duration % 3600) / 3600.0;
+            str = String.valueOf(h + m);
+        }
+        return str;
     }
 }
