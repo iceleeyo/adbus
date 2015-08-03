@@ -30,20 +30,18 @@ public class ExcelUtil {
         while (rowIter.hasNext()) {
             Row r = rowIter.next();
             Cell cell = r.getCell(baseColumnIndex);
-            if (cell != null) {
-                String currValue = cell.getStringCellValue();
-                if (prevValue != null && !prevValue.equals(currValue)) {
-                    if (r.getRowNum() - prevRowNum > 1) {
-                        for (int index : columnIndex) {
-                            regions.add(new Region(prevRowNum, (short)index, r.getRowNum()-1, (short)index));
-                        }
+            String currValue = cell == null ? "": cell.getStringCellValue();
+            if (prevValue != null && !prevValue.equals(currValue)) {    //base column value changed
+                if (r.getRowNum() - prevRowNum > 1) {
+                    for (int index : columnIndex) {
+                        regions.add(new Region(prevRowNum, (short)index, r.getRowNum()-1, (short)index));
                     }
-                    prevValue = currValue;
-                    prevRowNum = r.getRowNum();
-                } else if (prevValue == null) {
-                    prevValue = cell.getStringCellValue();
-                    prevRowNum = r.getRowNum();
                 }
+                prevValue = currValue;
+                prevRowNum = r.getRowNum();
+            } else if (prevValue == null) {
+                prevValue = currValue;
+                prevRowNum = r.getRowNum();
             }
         }
 
