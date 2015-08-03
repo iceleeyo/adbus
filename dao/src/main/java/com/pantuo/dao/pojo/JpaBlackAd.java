@@ -26,6 +26,15 @@ public class JpaBlackAd extends BaseEntity {
 	private long duration; //套餐时长(S)
 	private String createrUser; //创建用户
 	private long sortNumber = 0;//权重 越大越在前 
+	private Main_type main_type;
+
+	public Main_type getMain_type() {
+		return main_type;
+	}
+
+	public void setMain_type(Main_type main_type) {
+		this.main_type = main_type;
+	}
 
 	public JpaBlackAd() {
 	}
