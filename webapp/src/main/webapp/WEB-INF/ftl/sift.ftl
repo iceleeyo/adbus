@@ -26,7 +26,8 @@
 							<div class="sift-item s-clear">
 								<span>产品名称</span>
 								<div class="sift-search">
-									<input class="" id="name" type="text" placeholder="搜索产品">
+									<input class="" id="name" type="text" placeholder="搜索产品" style="height: 39px;">
+									<a class="btn-search" href="#" ></a>
 								</div>
 							</div>
 							<div class="sift-item s-clear">

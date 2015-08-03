@@ -45,12 +45,27 @@
 	line-height: 24px;
 	margin-right: 10px;
 }
+.pg-foot_body ul li a{
+	color: gray;
+} 
+.pg-foot_body a:hover{
+	color: #2ea7e0;
+}
+
+.pg-foot_body ul li{
+	display: inline-block;
+	min-width: 75px;
+	height: 24px;
+	line-height: 24px;
+	margin-right: 10px;
+}
 .pg-foot ul li a{
 	color: gray;
 } 
 .pg-foot a:hover{
 	color: #2ea7e0;
 }
+
 .foot-link-img{
 	display: block;
 	margin-right: 20px;

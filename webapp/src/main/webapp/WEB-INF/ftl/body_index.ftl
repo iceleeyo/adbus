@@ -6,6 +6,7 @@
     <link rel="shortcut icon" href="./images/favicon.ico">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/foot.css">
   <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/sea.css">
   <link rel="stylesheet" type="text/css" href="homepage/css/homepage.css">
   <link rel="stylesheet" type="text/css" href="homepage/css/index.css">
@@ -47,7 +48,7 @@
 
 <body>
 	<div class="header">
-		<div class="pg-header-top" style="background:rgba(20, 118, 40, 0.88)"> 
+		<div class="pg-header-top" style="background:#5E637E"> 
 					<div class="container-12 s-clear">
 						<div class="grid-12 city-dropdown">
                             <ul class="fl">
@@ -515,19 +516,7 @@
 			</dl>
 		</div>
 	</div>
-	<div class="footer" style="background:rgba(20, 118, 40, 0.88);margin-top:250px">
-		<div class="container-12 plr10">
-			<div class="foot-copyright">
-				<span class="foot-cr-link" style="color:white">© 2015 XXX All rights reserved</span>
-				<span class="foot-cr-link" style="color:white">北京世巴传媒有限公司</span>
-				<span class="foot-cr-link" style="color:white">
-					<a  style="color:white" href="">京ICP证 100953号</a>
-				</span>
-				<span class="foot-cr-link gray-text has-border" style="color:white">京公网安备11010502020657</span>
-				<span class="foot-cr-link gray-text has-border" style="color:white">京ICP备12025643号-1</span>
-			</div>
-		</div>
-	</div>
+	<#include "/menu/foot_body.ftl" />
 	<script type="text/javascript" src="homepage/js/jquery.js"></script>
 	<script src="homepage/js/index.js"></script>
 	<script src="homepage/js/unslider.min.js"></script>

@@ -1158,6 +1158,14 @@ height: 14px;
 	background: #555;
 }
 
+.pg-foot_body {
+	bottom: 0;
+	width: 100%;
+	padding: 10px 0;
+	background: #5E637E;
+	margin-top: 50px;
+}
+
 #process {
 	margin: 0 auto;
 	padding: 40px 0 80px;
