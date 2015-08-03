@@ -25,6 +25,10 @@
 .gray{
 	color: gray;
 }
+
+.gray_body{
+	color:#BBB3AE;
+}
 .pg-foot h4{
 	font-size: 16px;
 }
@@ -46,7 +50,7 @@
 	margin-right: 10px;
 }
 .pg-foot_body ul li a{
-	color: gray;
+	color: #BBB3AE;
 } 
 .pg-foot_body a:hover{
 	color: #2ea7e0;

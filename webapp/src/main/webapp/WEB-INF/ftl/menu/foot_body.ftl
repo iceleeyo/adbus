@@ -1,6 +1,6 @@
 <div class="pg-foot_body">
 	<div class="container-11 plr10">
-					<div class="foot-link gray s-clear">
+					<div class="foot-link gray_body s-clear">
 						<div class="foot-link-hold s-left">
 							<ul class="s-left">
 								<li><a href="">公司介绍</a></li>
