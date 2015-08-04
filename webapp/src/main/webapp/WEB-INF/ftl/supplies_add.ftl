@@ -269,7 +269,9 @@
                                             <select id="industryId" class="ui-input" name="industryId" data-is="isAmount isEnough"
                                                     autocomplete="off" disableautocomplete="" >
                                                 <#list industries as industry>
+                                                <#if industry.id!=14>
                                                     <option value="${industry.id}">${industry.name}</option>
+                                                    </#if>
                                                 </#list>
                                             </select>
 

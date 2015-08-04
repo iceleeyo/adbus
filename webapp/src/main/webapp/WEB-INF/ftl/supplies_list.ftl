@@ -1,5 +1,6 @@
 <#import "template/template.ftl" as frame>
 <#global menu="物料管理">
+<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="物料管理" js=["js/jquery-dateFormat.js"]>
     <!-- <script>
         function pages(pageNum) {
@@ -189,7 +190,10 @@ function delSupp(Suppid){
             </div>-->
                 <div class="withdraw-title">
 					<span>物料列表</span>
-					<a class="block-btn" href="${rc.contextPath}/supplies/new">添加物料</a>
+					<a class="block-btn" href="${rc.contextPath}/supplies/new" style="margin-left:10px">添加物料</a>
+					<@security.authorize ifAnyGranted="ShibaOrderManager">
+					<a class="block-btn" href="${rc.contextPath}/supplies/newBlackAd">添加底板</a>
+					</@security.authorize>
 				</div>
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>

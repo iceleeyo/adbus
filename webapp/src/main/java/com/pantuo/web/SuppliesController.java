@@ -50,6 +50,11 @@ public class SuppliesController {
 		model.addAttribute("industries", industryRepo.findAll());
 		return "supplies_add";
 	}
+	@PreAuthorize(" hasRole('ShibaOrderManager')")
+	@RequestMapping(value = "/newBlackAd", method = RequestMethod.GET)
+	public String newBlackAd(Model model) {
+		return "blackAd_add";
+	}
 	@RequestMapping(value = "getIndustry")
 	@ResponseBody
 	public List<Industry> getIndustry(Supplies obj, Principal principal,
