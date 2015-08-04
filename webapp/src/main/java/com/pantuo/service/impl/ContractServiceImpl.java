@@ -14,9 +14,12 @@ import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.Predicate;
 import com.pantuo.ActivitiConfiguration;
+import com.pantuo.dao.BlackAdRepository;
 import com.pantuo.dao.ContractRepository;
 import com.pantuo.dao.ProductRepository;
+import com.pantuo.dao.pojo.JpaBlackAd;
 import com.pantuo.dao.pojo.JpaContract;
+import com.pantuo.dao.pojo.QJpaBlackAd;
 import com.pantuo.dao.pojo.QJpaContract;
 import com.pantuo.dao.pojo.QJpaProduct;
 import com.pantuo.dao.pojo.QJpaSupplies;
@@ -32,6 +35,8 @@ public class ContractServiceImpl implements ContractServiceData {
 
 	@Autowired
 	ContractRepository contractRepo;
+	@Autowired
+	BlackAdRepository  blackAdRepository;
 
 	public Page<JpaContract> getAllContracts(int city, TableRequest req, Principal principal) {
 
@@ -77,6 +82,41 @@ public class ContractServiceImpl implements ContractServiceData {
 		Pageable p = new PageRequest(page, pageSize, sort);
 		Predicate query = QJpaContract.jpaContract.city.eq(city);
 		return contractRepo.findAll(query, p);
+	}
+
+	@Override
+	public Page<JpaBlackAd> getAllblackAd(int city, TableRequest req, Principal principal) {
+		String name = req.getFilter("adName"), code = req.getFilter("seqNumber");
+		int page = req.getPage(), pageSize = req.getLength();
+		Sort sort = req.getSort("id");
+		if (page < 0)
+			page = 0;
+		if (pageSize < 1)
+			pageSize = 1;
+		sort = (sort == null ? new Sort("id") : sort);
+		Pageable p = new PageRequest(page, pageSize, sort);
+		BooleanExpression query = QJpaBlackAd.jpaBlackAd.main_type.eq(JpaBlackAd.Main_type.online);
+		if (!(StringUtils.isBlank(name) && StringUtils.isBlank(code))) {
+			if (StringUtils.isNotBlank(name)) {
+				query = query.and(QJpaBlackAd.jpaBlackAd.adName.like("%" + name + "%"));
+			}
+			if (StringUtils.isNoneBlank(code)) {
+				query = query.and(QJpaBlackAd.jpaBlackAd.seqNumber.like("%" + code + "%"));
+			}
+		}
+		return blackAdRepository.findAll(query, p);
+	}
+
+	@Override
+	public Page<JpaBlackAd> getValidblackAd(int city, int page, int pageSize, Sort sort) {
+		if (page < 0)
+			page = 0;
+		if (pageSize < 1)
+			pageSize = 1;
+		sort = (sort == null ? new Sort(Sort.Direction.DESC, "id") : sort);
+		Pageable p = new PageRequest(page, pageSize, sort);
+		Predicate query = QJpaBlackAd.jpaBlackAd.main_type.eq(JpaBlackAd.Main_type.online);
+		return blackAdRepository.findAll(query, p);
 	}
 
 }

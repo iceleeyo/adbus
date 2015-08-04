@@ -3,6 +3,7 @@ package com.pantuo.pojo;
 import com.pantuo.dao.pojo.JpaGoods;
 import com.pantuo.util.DateUtil;
 import com.pantuo.web.ScheduleController;
+
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Iterator;
@@ -16,7 +17,30 @@ public class FlatScheduleListItem {
     private Integer materialSize;
     private String monthDay;
 
-    public void setSlotDesc(String slotDesc) {
+    public FlatScheduleListItem() {
+		super();
+	}
+
+	public FlatScheduleListItem(String slotDesc, String slot, int slotSize, String materialName, Integer materialSize,
+			String monthDay) {
+		super();
+		this.slotDesc = slotDesc;
+		this.slot = slot;
+		this.slotSize = slotSize;
+		this.materialName = materialName;
+		this.materialSize = materialSize;
+		this.monthDay = monthDay;
+	}
+
+	public String getMonthDay() {
+		return monthDay;
+	}
+
+	public void setMonthDay(String monthDay) {
+		this.monthDay = monthDay;
+	}
+
+	public void setSlotDesc(String slotDesc) {
         this.slotDesc = slotDesc;
     }
 
@@ -98,4 +122,11 @@ public class FlatScheduleListItem {
             size = good.getOrder().getProduct().getDuration();
         materialSize = size == null ? null : size.intValue();
     }
+
+	@Override
+	public String toString() {
+		return "FlatScheduleListItem [slotDesc=" + slotDesc + ", slot=" + slot + ", slotSize=" + slotSize
+				+ ", materialName=" + materialName + ", materialSize=" + materialSize + ", monthDay=" + monthDay + "]";
+	}
+    
 }

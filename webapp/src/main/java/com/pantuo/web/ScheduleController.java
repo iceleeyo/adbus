@@ -1,6 +1,7 @@
 package com.pantuo.web;
 
 import com.pantuo.dao.pojo.*;
+import com.pantuo.mybatis.domain.BlackAd;
 import com.pantuo.mybatis.domain.Box;
 import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.pojo.DataTablePage;
@@ -11,6 +12,7 @@ import com.pantuo.util.DateUtil;
 import com.pantuo.util.ExcelUtil;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.OrderIdSeq;
+import com.pantuo.util.Pair;
 import com.pantuo.web.view.OrderView;
 import com.pantuo.web.view.SuppliesView;
 
@@ -69,6 +71,9 @@ public class ScheduleController {
     private BusScheduleService busScheduleService;
     @Autowired
 	private SuppliesService suppliesService;
+    @Autowired
+    private ContractService contractService;
+    public static final List<BlackAd> ls = new ArrayList<BlackAd>();
     /**
      * 排期表表单
      */
@@ -495,6 +500,125 @@ public class ScheduleController {
             }
         }
     }
+    class Key_slot{
+		String slot;
+		int slotSize;
+		private String slotDesc;
+	 
+		public String getSlot() {
+			return slot;
+		}
+		public void setSlot(String slot) {
+			this.slot = slot;
+		}
+		public int getSlotSize() {
+			return slotSize;
+		}
+		public void setSlotSize(int slotSize) {
+			this.slotSize = slotSize;
+		}
+		public String getSlotDesc() {
+			return slotDesc;
+		}
+		public void setSlotDesc(String slotDesc) {
+			this.slotDesc = slotDesc;
+		}
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((slot == null) ? 0 : slot.hashCode());
+			return result;
+		}
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Key_slot other = (Key_slot) obj;
+			if (slot == null) {
+				if (other.slot != null)
+					return false;
+			} else if (!slot.equals(other.slot))
+				return false;
+			return true;
+		}
+		public Key_slot(String slot, int slotSize, String slotDesc) {
+			super();
+			this.slot = slot;
+			this.slotSize = slotSize;
+			this.slotDesc = slotDesc;
+		}
+	}
+    public List<FlatScheduleListItem> getTotalRecord(List list,String monthDay){
+		 List<FlatScheduleListItem> scheduleList = new ArrayList<FlatScheduleListItem>();
+		 Map<Key_slot, List<FlatScheduleListItem>> map= new LinkedHashMap<Key_slot, List<FlatScheduleListItem>>();
+		 for (Object object : list) {
+			 FlatScheduleListItem obj =(FlatScheduleListItem)object;
+			 Key_slot key=new Key_slot(obj.getSlot(),obj.getSlotSize(),obj.getSlotDesc());
+			 if(!map.containsKey(key)){
+				 map.put(key, new ArrayList<FlatScheduleListItem>());
+			 } 
+			 map.get(key).add(obj);
+		}
+		for (Map.Entry<Key_slot, List<FlatScheduleListItem>> object : map.entrySet()) {
+			List<FlatScheduleListItem> w = object.getValue();
+			while (ismore(object)) {
+				BlackAd blackAd=getFristEmelemt(ls);
+				if(null!=blackAd){
+				FlatScheduleListItem sw = new FlatScheduleListItem();
+				sw.setMaterialName(blackAd.getSeqNumber()+"-"+blackAd.getAdName());
+				sw.setMaterialSize(blackAd.getDuration().intValue());
+				sw.setSlotDesc(object.getKey().slotDesc);
+				sw.setMonthDay(monthDay);
+				sw.setSlot(object.getKey().slot);
+				sw.setSlotSize(object.getKey().slotSize);
+				w.add(sw);
+				}
+			}
+		}
+		Collection<List<FlatScheduleListItem>> mapList = map.values();
+		for (List<FlatScheduleListItem> list2 : mapList) {
+			scheduleList.addAll(list2);
+		}
+		 return scheduleList;
+	}
+	private BlackAd getFristEmelemt(List<BlackAd> sortTree) {
+		if(sortTree.isEmpty()){
+			 List<BlackAd> bList=contractService.queryAllBlackAd();
+			 if(bList.size()>0){
+				for (BlackAd blackAd : bList) {
+					ls.add(blackAd);
+				}
+			 }else{
+				 return null; 
+			 }
+		}
+		BlackAd frist = sortTree.get(0);
+	    sortTree.remove(frist);
+	    sortTree.add(sortTree.size(), frist);
+	    return frist;
+	}
+	public Boolean ismore(Map.Entry<Key_slot, List<FlatScheduleListItem>> object){
+		List<FlatScheduleListItem> w = object.getValue();
+		int c = 0;
+		for (FlatScheduleListItem b : w) {
+			if (b.getMaterialSize() != null)
+				c += b.getMaterialSize();
+		}
+		if(c==0  ){
+			w.clear();
+		}
+		if (object.getKey().slotSize >= c) {
+		   return true;
+		}
+		 else{
+			return false;
+		}
+	}
 
     /**
      * 排条单
@@ -536,7 +660,11 @@ public class ScheduleController {
         for (Report r : list) {
             scheduleList.add(new FlatScheduleListItem(monthDay, r));
         }
-
+//        for (Object r : scheduleList) {
+//        	FlatScheduleListItem w=	 (FlatScheduleListItem) (r);
+//        	System.err.println(w.toString());
+//        }
+//        scheduleList= getTotalRecord(scheduleList,monthDay);
         Map beans = new HashMap();
         beans.put("report", scheduleList);
         beans.put("title", dayStr2 + "全天档_二频道_标准版广告排条单");

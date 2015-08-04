@@ -7,7 +7,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
+import com.pantuo.dao.BlackAdRepository;
 import com.pantuo.dao.pojo.JpaAttachment;
+import com.pantuo.dao.pojo.JpaBlackAd;
 import com.pantuo.dao.pojo.JpaContract;
 import com.pantuo.dao.pojo.JpaProduct;
 
@@ -23,6 +25,8 @@ import org.springframework.stereotype.Service;
 
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.AttachmentExample;
+import com.pantuo.mybatis.domain.BlackAd;
+import com.pantuo.mybatis.domain.BlackAdExample;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.ContractExample;
 import com.pantuo.mybatis.domain.Industry;
@@ -31,6 +35,7 @@ import com.pantuo.mybatis.domain.InvoiceExample;
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.OrdersExample;
 import com.pantuo.mybatis.persistence.AttachmentMapper;
+import com.pantuo.mybatis.persistence.BlackAdMapper;
 import com.pantuo.mybatis.persistence.ContractMapper;
 import com.pantuo.mybatis.persistence.IndustryMapper;
 import com.pantuo.mybatis.persistence.OrdersMapper;
@@ -66,7 +71,10 @@ public class ContractService {
 	AttachmentService attachmentService;
 	@Autowired
 	UserServiceInter userService;
-
+	@Autowired
+	BlackAdRepository  blackAdRepository;
+	@Autowired
+	BlackAdMapper blackAdMapper;
 	public Pair<Boolean, String> saveContract(int city, Contract con, String username, HttpServletRequest request) {
 		Pair<Boolean, String> r = null;
 		try {
@@ -240,6 +248,21 @@ public class ContractService {
 			return v;
 		}
 		return null;
+	}
+
+	public Pair<Boolean, String> saveBlackAd(int city, JpaBlackAd blackAd, String userId, HttpServletRequest request) {
+		blackAd.setCreaterUser(userId);
+		blackAd.setMain_type(JpaBlackAd.Main_type.online);
+		blackAdRepository.save(blackAd);
+		return new Pair<Boolean, String>(true, "保存成功");
+	}
+
+	public List<BlackAd> queryAllBlackAd() {
+		BlackAdExample example=new BlackAdExample();
+		BlackAdExample.Criteria criteria=example.createCriteria();
+		criteria.andMainTypeEqualTo(JpaBlackAd.Main_type.online.ordinal());
+		example.setOrderByClause("sort_number desc");;
+		return blackAdMapper.selectByExample(example);
 	}
 	
 

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.pantuo.dao.IndustryRepository;
+import com.pantuo.dao.pojo.JpaBlackAd;
 import com.pantuo.dao.pojo.JpaContract;
 import com.pantuo.dao.pojo.JpaIndustry;
 import com.pantuo.dao.pojo.JpaProduct;
@@ -83,6 +84,14 @@ public class ContractController {
 		}
 		return contractService.saveContract(city, contract, Request.getUserId(principal), request);
 	}
+	@PreAuthorize(" hasRole('ShibaOrderManager')  ")
+	@RequestMapping(value = "saveblackAd", method = RequestMethod.POST)
+	@ResponseBody
+	public Pair<Boolean, String> saveblackAd(@CookieValue(value = "city", defaultValue = "-1") int city,
+			JpaBlackAd blackAd, Principal principal, HttpServletRequest request) throws IllegalStateException,
+			IOException, ParseException {
+		return contractService.saveBlackAd(city, blackAd, Request.getUserId(principal), request);
+	}
 	@RequestMapping(value = "/contract_edit/{contract_id}", produces = "text/html;charset=utf-8")
 	public String contract_edit(Model model,@PathVariable("contract_id") int contract_id,Principal principal,HttpServletRequest request) {
 		ContractView  contractView=contractService.findContractById(contract_id,principal);
@@ -98,14 +107,24 @@ public class ContractController {
 
 		return "contractlist";
 	}
+	
+	@RequestMapping(value = "/blackAdlist")
+	public String blackAdlist() {
 
+		return "blackAd_list";
+	}
 	@RequestMapping("ajax-list")
 	@ResponseBody
 	public DataTablePage<JpaContract> getAllContracts(TableRequest req,
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal) {
 		return new DataTablePage(contractServiceDate.getAllContracts(city, req, principal), req.getDraw());
 	}
-
+	@RequestMapping("blackAd-ajax-list")
+	@ResponseBody
+	public DataTablePage<JpaBlackAd> getAllblackAd(TableRequest req,
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal) {
+		return new DataTablePage(contractServiceDate.getAllblackAd(city, req, principal), req.getDraw());
+	}
 	/**
 	 * 
 	 * 只允许订单管理员增加合同
@@ -124,7 +143,11 @@ public class ContractController {
 		model.addAttribute("industries", industries);
 		return "contractEnter";
 	}
-
+	@PreAuthorize(" hasRole('ShibaOrderManager')  ")
+	@RequestMapping(value = "/blackAdEnter", produces = "text/html;charset=utf-8")
+	public String blackAdEnter(Model model, HttpServletRequest request) {
+		return "blackAdEnter";
+	}
 	@RequestMapping(value = "/contractDetail/{contract_id}", produces = "text/html;charset=utf-8")
 	public String contractDetail(Model model, @PathVariable("contract_id") int contract_id, Principal principal,
 			HttpServletRequest request,HttpServletResponse response) {

@@ -74,6 +74,11 @@
 													产品定义
 												</a>
 											</li>
+											<li class="pg-side-exp-item">
+												<a class="side-exp-item-t" href="${rc.contextPath}/contract/blackAdlist">
+													底片管理
+												</a>
+											</li>
 										</@security.authorize>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/product/list">
