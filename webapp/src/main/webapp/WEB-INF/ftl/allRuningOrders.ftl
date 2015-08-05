@@ -135,7 +135,7 @@
     function fnDrawCallback(){
 		var record_count = (this.fnSettings().fnRecordsTotal() );
 		if(record_count>0){
-	 	  $("#recordsTotal").html("["+record_count+"]");
+	 	  $("#recordsTotal").html("&nbsp;"+record_count+"&nbsp;");
 		  }
     }
 
@@ -153,7 +153,7 @@
 					<a id="tab1" href="${rc.contextPath}/order/myOrders/1">我的订单</a>
 					</@security.authorize>	
 					<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
-					<a id="tab2" class="active" href="${rc.contextPath}/order/allRuningOrders/1">进行中的订单<span id="recordsTotal"  ></span></a>
+					<a id="tab2" class="active" href="${rc.contextPath}/order/allRuningOrders/1">进行中的订单<span id="recordsTotal" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></a>
 					</@security.authorize>	
 					<a id="tab3" href="${rc.contextPath}/order/finished">已完成的订单</a>
 					<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
