@@ -73,7 +73,7 @@
                     return row.id;
                 },
                     "render": function(data, type, row, meta) {
-                    var operations='<a target="_blank" class="table-link" onclick="contractdetail(\'${rc.contextPath}\','+data+');" href="javascript:void(0)">详情</a>';
+                    var operations='<a class="table-link" onclick="contractdetail(\'${rc.contextPath}\','+data+');" href="javascript:void(0)">详情</a>';
                      <@security.authorize ifAnyGranted="ShibaOrderManager">  
                         operations +='&nbsp;&nbsp;<a class="table-link" href="${rc.contextPath}/contract/contract_edit/' + data +'" >编辑</a>';
                         operations +='&nbsp;&nbsp;<a class="table-link" href="javascript:delContract('+data+');" >删除</a>  &nbsp;';
@@ -146,7 +146,7 @@ $('#test').on('click', function(){
 alert("dddd");
     layer.open({
         type: 1,
-        area: ['600px', '360px'],
+        area: ['600px', '460px'],
         shadeClose: true, //点击遮罩关闭
         content: '\<\div style="padding:20px;">自定义内容\<\/div>'
     });
