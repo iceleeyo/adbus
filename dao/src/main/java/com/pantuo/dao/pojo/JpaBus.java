@@ -267,12 +267,13 @@ public class JpaBus extends CityEntity{
         return result;
     }
 
-    @Override
-    public String toString() {
-        return "JpaBus{" +
-                "plateNumber='" + plateNumber + '\'' +
-                ", serialNumber='" + serialNumber + '\'' +
-                ", line=" + line +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "JpaBus [id=" + id + ", line=" + line + ", serialNumber=" + serialNumber + ", oldSerialNumber="
+				+ oldSerialNumber + ", plateNumber=" + plateNumber + ", category=" + category + ", model=" + model
+				+ ", company=" + company + ", adStatus=" + adStatus + ", description=" + description + ", office="
+				+ office + ", branch=" + branch + ", startDay=" + startDay + ", endDay=" + endDay + ", enabled="
+				+ enabled + "]";
+	}
+
 }
