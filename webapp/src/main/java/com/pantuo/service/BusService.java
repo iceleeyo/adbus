@@ -2,6 +2,8 @@ package com.pantuo.service;
 
 import com.pantuo.dao.pojo.*;
 import com.pantuo.mybatis.domain.*;
+import com.pantuo.pojo.TableRequest;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
@@ -14,7 +16,7 @@ public interface BusService {
 
     long countFree(int city, JpaBusline.Level level, JpaBus.Category category, Integer lineId, Integer busModelId, Integer companyId);
 
-    Page<JpaBus> getAllBuses(int city, String plateNumber, int page, int pageSize, Sort sort, boolean fetchDisabled);
+    Page<JpaBus> getAllBuses(int city, TableRequest req, int page, int pageSize, Sort sort, boolean fetchDisabled);
 
     JpaBus findById(int id);
 

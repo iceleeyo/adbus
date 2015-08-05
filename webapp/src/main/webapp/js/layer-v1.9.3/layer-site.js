@@ -16,6 +16,44 @@ function showProductlayer(tourl,id){
 	});
 	
 }
+function showBusDetail(tourl,id){
+	$.ajax({
+		url : tourl  + id,
+		type : "POST",
+		data : {
+		},
+		success : function(data) {
+			
+			layer.open({
+				type: 1,
+				title: "车辆详细信息",
+				skin: 'layui-layer-rim', 
+				area: ['450px', '650px'], 
+				content: ' <input type="hidden" name="id" value="'+data.id+'"/>'
+				+'<br/>'
+				+'<div class="ui-form-item"> <label class="ui-label mt10">车牌号: </label>  <input readonly="readonly" class="ui-input-d"'
+				+'type="text" name="title" id="title" value="'+data.plateNumber+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+				+'<div class="ui-form-item"> <label class="ui-label mt10">车辆自编号:</label><input readonly="readonly" class="ui-input-d"'
+				+'type="text" name="taxrenum" value="'+data.serialNumber+'" id="taxrenum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
+				+'<div class="ui-form-item"> <label class="ui-label mt10">线路:</label> <input readonly="readonly" class="ui-input-d"'
+				+'type="text" name="bankname" value="'+data.line.name+'" id="bankname" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+				+'<div id="bodyPro"><div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">线路级别：</label>'
+				+'<input readonly="readonly"  class="ui-input-d" type="text" name="regisaddr" value="'+data.line.levelStr+'" id="lineLevel" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+				+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">车辆类别:</label>'
+				+'<input class="ui-input-d" readonly="readonly" value="'+data.categoryStr+'" id="busNumber" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+				+'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">营销中心:</span> </label>'
+				+'<input class="ui-input-d" readonly="readonly" value="'+data.company.name+'" id="days" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+				+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">上刊日期:</label>'
+				+'<input class="ui-input-d" readonly="readonly" value="'+$.format.date(data.startDay, "yyyy-MM-dd")+'" name="produceCost" id="produceCost" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
+				+'</div></div>'
+				+'<div id="cityPro" style="display:block"><div class="ui-form-item"> <label class="ui-label mt10">下刊日期:</label> <input readonly="readonly"  class="ui-input-d"'
+				+'type="text" name="accountnum" value="'+$.format.date(data.endDay, "yyyy-MM-dd")+'" id="accountnum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+				+'<div class="ui-form-item"> <label class="ui-label mt10" style="width: 145px;">车辆情况:</label><textarea rows="4" cols="30" readonly="readonly" style="resize: none;margin-left: -20px;" >'+data.description+'</textarea> </div> </div>'
+			});
+		}
+	}, "text");
+	
+}
 //查看垫片详细
 function showBlackAdlayer(tourl,id){
 	$.ajax({
@@ -263,6 +301,9 @@ function supEnter(tourl,city,type){
 					 +'<br/><br/><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/><div class="withdrawInputs"><div class="inputs">'
 					 +'<div class="ui-form-item"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>物料名称</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[1],maxSize[120]]"'
 					 +'type="text" name="name" id="name" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="支持中英文、数字、下划线">'
+					 +'</div>'
+					 +'<div class="ui-form-item"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>时长（秒）</label> <input class="ui-input validate[required,integer,min[5],max[180]]" onkeyup="value=value.replace(/[^\\d]/g,\'\')"'
+					 +'type="text" name="duration" id="duration" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
 					 +'</div>'
 					 +'<div class="ui-form-item"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>物料类型</label> <select class="ui-input" name="suppliesType" id="suppliesType">'
 					 +'</select> </div>'

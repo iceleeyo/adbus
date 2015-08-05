@@ -6,14 +6,18 @@ import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.BusService;
 import com.pantuo.service.TimeslotService;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author tliu
@@ -35,7 +39,7 @@ public class BusController {
         if (city == null || city.getMediaType() != JpaCity.MediaType.body)
             return new DataTablePage(Collections.emptyList());
 
-        return new DataTablePage(busService.getAllBuses(cityId, req.getFilter("plateNumber"),
+        return new DataTablePage(busService.getAllBuses(cityId, req,
                 req.getPage(), req.getLength(), req.getSort("id"), false), req.getDraw());
     }
 
@@ -57,7 +61,12 @@ public class BusController {
         return new DataTablePage(busService.getAllBuslines(cityId, level, req.getFilter("name"),
                 req.getPage(), req.getLength(), req.getSort("id")), req.getDraw());
     }
-
+    @RequestMapping(value = "/ajaxdetail/{id}")
+    @ResponseBody
+    public JpaBus ajaxdetail(@PathVariable int id,
+                                Model model, HttpServletRequest request) {
+       return  busService.findById(id);
+    }
     @RequestMapping("ajax-all-models")
     @ResponseBody
     public DataTablePage<JpaBusModel> getAllModels(TableRequest req,

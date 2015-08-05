@@ -8,7 +8,9 @@ import com.pantuo.dao.BuslineRepository;
 import com.pantuo.dao.pojo.*;
 import com.pantuo.mybatis.domain.*;
 import com.pantuo.mybatis.persistence.BusCustomMapper;
+import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.BusService;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -46,7 +48,7 @@ public class BusServiceImpl implements BusService {
     }
 
     @Override
-    public Page<JpaBus> getAllBuses(int city, String plateNumber, int page, int pageSize, Sort sort, boolean fetchDisabled) {
+    public Page<JpaBus> getAllBuses(int city, TableRequest req, int page, int pageSize, Sort sort, boolean fetchDisabled) {
         if (page < 0)
             page = 0;
         if (pageSize < 1)
@@ -55,8 +57,19 @@ public class BusServiceImpl implements BusService {
             sort = new Sort("id");
         Pageable p = new PageRequest(page, pageSize, sort);
         BooleanExpression query = QJpaBus.jpaBus.city.eq(city);
+        String plateNumber=req.getFilter("plateNumber"),linename=req.getFilter("linename"),
+        		levelStr=req.getFilter("levelStr"),category=req.getFilter("category");
         if (StringUtils.isNotBlank(plateNumber)) {
             query = query.and(QJpaBus.jpaBus.plateNumber.like("%" + plateNumber + "%"));
+        }
+        if (StringUtils.isNotBlank(linename)) {
+        	query = query.and(QJpaBus.jpaBus.line.name.eq(linename));
+        }
+        if (StringUtils.isNotBlank(category) && !StringUtils.equals(category, "defaultAll")) {
+        	query = query.and(QJpaBus.jpaBus.category.eq(JpaBus.Category.valueOf(category)));
+        }
+        if (StringUtils.isNotBlank(levelStr) && !StringUtils.equals(levelStr, "defaultAll")) {
+        	query = query.and(QJpaBus.jpaBus.line.level.eq(JpaBusline.Level.valueOf(levelStr)));
         }
         if (!fetchDisabled) {
             BooleanExpression q = QJpaBus.jpaBus.enabled.isTrue();
