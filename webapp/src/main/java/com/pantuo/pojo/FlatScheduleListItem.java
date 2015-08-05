@@ -115,7 +115,7 @@ public class FlatScheduleListItem {
             supplyName = good.getOrder().getSupplies().getName();
             supplySeqNum = good.getOrder().getSupplies().getSeqNumber();
         }
-        materialName = (supplySeqNum == null ? "" : supplySeqNum) + (supplyName == null ? "" : " " + supplyName);
+        materialName = (supplySeqNum == null ? "" : supplySeqNum) +"-"+ (supplyName == null ? "" : " " + supplyName);
 
         Long size = null;
         if (good != null && good.getOrder() != null && good.getOrder().getProduct() != null)

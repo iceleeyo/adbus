@@ -104,9 +104,9 @@ css=["js/jquery-ui/jquery-ui.css"<#--, "js/tabletools/css/dataTables.tableTools.
                                 box.goods[0].order.supplies.id?
                                 '<a href="${rc.contextPath}/supplies/suppliesDetail/'
                                         + box.goods[0].order.supplies.id + '" target="_blank">'
-                                        + box.goods[0].order.supplies.seqNumber + '&nbsp;'
+                                        + box.goods[0].order.supplies.seqNumber + '-'
                                         + box.goods[0].order.supplies.name + '</a>' :
-                                        box.goods[0].order.supplies.name)
+                                        box.goods[0].order.supplies.seqNumber + '-'+box.goods[0].order.supplies.name)
                                 : '';
                 }},
                 { "data": "", "defaultContent": "",
