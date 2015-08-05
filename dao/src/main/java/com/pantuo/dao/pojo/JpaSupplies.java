@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Table(name="supplies")
 public class JpaSupplies extends CityEntity {
     public static enum Status {
-        unloaded, firstApproved, secondApproved, disapproved
+        unloaded, firstApproved, secondApproved, disapproved,online,offline
     }
 
 
