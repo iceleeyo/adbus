@@ -8,6 +8,7 @@
 }
 .pg-foot{
 	font-size: 14px;
+	margin-top: 80px;
 }
 .pg-foot h4, 
 .pg-foot ul{
@@ -15,7 +16,7 @@
 	margin: 0;
 	padding: 0;
 }
-.foot-link{
+.foot-link{ 
 	padding: 10px 0;
   	border-bottom: 1px solid gray;
 }

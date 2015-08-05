@@ -1,6 +1,7 @@
 package com.pantuo.web;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.pojo.*;
@@ -11,6 +12,7 @@ import com.pantuo.pojo.TableRequest;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 import com.pantuo.web.view.ProductView;
+import com.pantuo.web.view.SuppliesView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -202,6 +204,17 @@ public class ProductController {
                                 Model model, HttpServletRequest request) {
        return  productService.findById(id);
     }
+    
+    @RequestMapping(value = "/prodetail/{id}", produces = "text/html;charset=utf-8")
+	public String productDetail(Model model, @PathVariable("id") int productId,
+			HttpServletRequest request,HttpServletResponse response) {
+		response.setHeader("X-Frame-Options", "SAMEORIGIN");
+		//    	int supplies_id=Integer.parseInt(request.getParameter("supplies_id"));
+		JpaProduct view =  productService.findById(productId);
+		model.addAttribute("view", view);
+		return "template/proDetail";
+	}
+    
     @RequestMapping(value = "isMyCompare/{cpdid}")
     @ResponseBody
     public Pair<Boolean, String> isMyCompare(@PathVariable int cpdid,

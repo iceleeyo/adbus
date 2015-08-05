@@ -5,68 +5,15 @@
  * @param id
  */
 function showProductlayer(tourl,id){
-	$.ajax({
-			url : tourl  + id,
-			type : "POST",
-			data : {
-			},
-			success : function(data) {
-				
-				layer.open({
-	    		type: 1,
-	    		title: "套餐信息",
-	    		skin: 'layui-layer-rim', 
-	    		area: ['450px', '650px'], 
-	    		content: ' <input type="hidden" name="id" value="'+data.id+'"/>'
-						 +'<br/>'
-	    				 +'<div class="ui-form-item"> <label class="ui-label mt10">套餐名称: </label>  <input readonly="readonly" class="ui-input-d"'
-	    				 +'type="text" name="title" id="title" value="'+data.name+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-	    				 +'<div class="ui-form-item"> <label class="ui-label mt10">套餐价格:</label><input readonly="readonly" class="ui-input-d"'
-                         +'type="text" name="taxrenum" value="'+formatCurrency(data.price)+'" id="taxrenum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10">媒体类型:</label> <input readonly="readonly" class="ui-input-d"'
-                         +'type="text" name="bankname" value="'+getTypeString(data.type)+'" id="bankname" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div id="bodyPro"><div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">线路级别：</label>'
-                         +'<input readonly="readonly"  class="ui-input-d" type="text" name="regisaddr" value="" id="lineLevel" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">巴士数量:</label>'
-                         +'<input class="ui-input-d" readonly="readonly" value="'+data.busNumber+'" id="busNumber" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">广告展示天数:</span> </label>'
-                         +'<input class="ui-input-d" readonly="readonly" value="'+data.days+'" id="days" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">制作费:</label>'
-			             +'<input class="ui-input-d" readonly="readonly" value="'+data.produceCost+'" name="produceCost" id="produceCost" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
-			             +'</div></div>'
-                         +'<div id="cityPro" style="display:block"><div class="ui-form-item"> <label class="ui-label mt10">时长（秒）:</label> <input readonly="readonly"  class="ui-input-d"'
-                         +'type="text" name="accountnum" value="'+data.duration+'" id="accountnum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10">单日播放次数:</label> <input readonly="readonly"  class="ui-input-d"'
-                         +'type="text" name="regisaddr" value="'+data.playNumber+'" id="regisaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10">首播次数:</label> <input readonly="readonly"  class="ui-input-d"'
-                         +'type="text" name="fixphone" value="'+data.firstNumber+'" id="fixphone" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10">末播次数:</label> <input readonly="readonly"  class="ui-input-d"'
-                         +'type="text" name="mailaddr" value="'+data.lastNumber+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10">高峰时段占比:</label> <input readonly="readonly"  class="ui-input-d"'
-                         +'type="text" name="mailaddr" value="'+data.hotRatio+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10">套餐播放天数:</label> <input readonly="readonly"  class="ui-input-d"'
-                         +'type="text" name="mailaddr" value="'+data.days+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div></div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10" style="width: 145px;">套餐描述:</label><textarea rows="4" cols="30" readonly="readonly" style="resize: none;margin-left: -20px;" >'+data.remarks+'</textarea>  </div>'
-		});
-				if(data.lineLevel=="S"){
-					$("#lineLevel").val("特级");
-				}else if(data.lineLevel=="APP"){
-					$("#lineLevel").val("A++");
-				}else if(data.lineLevel=="AP"){
-					$("#lineLevel").val("A+");
-				}else if(data.lineLevel=="A"){
-					$("#lineLevel").val("A");
-				}else if(data.lineLevel=="LATLONG"){
-					$("#lineLevel").val("经纬线");
-				}
-	
-				if(data.type=="body"){
-					$("#cityPro").hide(); 
-				}else{
-					$("#bodyPro").hide(); 
-				}
-			}
-		}, "text");
+	layer.open({
+		type: 1,
+		title: "套餐详细",
+		skin: 'layui-layer-rim', 
+		area: ['900px', '300px'], 
+		content:''
+			+' '
+			+'<iframe style="width:99%;height:98%" src="'+tourl+'/product/prodetail/'+id+'"/>'
+	});
 	
 }
 //查看垫片详细
@@ -775,8 +722,8 @@ function showCloseRemark(mainPath,orderid,taskid){
     		area: ['420px', '540px'], 
     		content: ''
 					 +'<br/><div>'
-					 +'<textarea id="closeRemark" type="textarea" style="margin-left:25px;height: 391px; width: 367px;">'
-					 + ''
+					 +'<textarea onclick="this.innerHTML=\'\';" id="closeRemark" type="textarea" style="margin-left:25px;height: 391px; width: 367px;">'
+					 + '请输入订单关闭原因'
 					 +'</textarea><br>'
 					 +' <div class="ui-form-item widthdrawBtBox" style="margin-left:-20px;margin-top:20px;"> <input type="button" id="uploadbutton" class="block-btn" onclick="closeOrder(\''+mainPath+'\',\''+orderid+'\','+taskid+');" value="提交"> </div>'
                      +'</div>'
@@ -835,7 +782,7 @@ function showOrderUserlayer(tourl,uid){
 	    		type: 1,
 	    		title: "下单用户信息",
 	    		skin: 'layui-layer-rim', 
-	    		area: ['650px', '750px'], 
+	    		area: ['450px', '550px'], 
 	    		content: 
 	    				 '<br><div class="ui-form-item"> <label class="ui-label mt10"> <span class="ui-form-required">* </span>真实姓名: </label>  <input readonly="readonly" class="ui-input-d"'
 	    				 +'type="text" name="title" id="title" value="'+data.left.user.firstName+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
