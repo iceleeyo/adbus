@@ -763,7 +763,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 				</TR>
 				<TR>
 					<TD>物料信息</TD>
-					<TD colspan=3><a href="${rc.contextPath}/supplies/suppliesDetail/${(suppliesView.mainView.id)!''}">查看</a>
+					<TD colspan=3><a href="javascript:void(0)" onclick="supDetail(${(suppliesView.mainView.id)!''})">查看</a>
 					</TD>
 				</TR>
 				<TR>
@@ -848,7 +848,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 				</TR>
 				<TR>
 					<TH>物料详情</TH>
-					<TD colspan=3><a href="${rc.contextPath}/supplies/suppliesDetail/${(suppliesView.mainView.id)!''}">查看</a>
+					<TD colspan=3><a href="javascript:void(0)" onclick="supDetail(${(suppliesView.mainView.id)!''})">查看</a>
 					</TD>
 				</TR>
 
