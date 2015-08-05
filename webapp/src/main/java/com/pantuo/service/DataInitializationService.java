@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -14,6 +15,7 @@ import com.pantuo.util.DateUtil;
 
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.impl.persistence.entity.GroupEntity;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -397,9 +399,15 @@ public class DataInitializationService {
                             newCompanyMap.put(city.getId() + "/" + b[13], company);
                         }
                     }
-
+                    Date startdate=new Date();
+                    Date endDate=new Date();
+                    if(StringUtils.isNotBlank(b[8])&&StringUtils.isNotBlank(b[9])){
+                    	SimpleDateFormat f = new SimpleDateFormat("MM/dd/yyy");
+                    	 startdate = (Date) f.parse(b[8].toString());
+                    	 endDate = (Date) f.parse(b[9].toString());
+                    }
                     JpaBus bus = new JpaBus(city.getId(), busline, category, b[3], b[4], b[14], model, company,
-                            b[16], b[17], b[8] + "/" + b[9] + "/" + b[7], b[15]);
+                            b[16], b[17], b[8] + "/" + b[9] + "/" + b[7], b[15],startdate,endDate);
 
                     log.info("bus: {}, category: {}, level: {}, line: {}, model: {}, company: {}",
                             bus.getPlateNumber(), category, level, busline.getName(), model.getName(), company.getName());
