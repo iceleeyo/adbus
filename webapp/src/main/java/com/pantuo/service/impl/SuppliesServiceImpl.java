@@ -341,6 +341,7 @@ public class SuppliesServiceImpl implements SuppliesService {
         SuppliesExample.Criteria criteria = example.createCriteria();
         criteria.andCityEqualTo(city);
         criteria.andIndustryIdEqualTo(fillerIndustry.getId());
+        criteria.andStatsEqualTo(JpaSupplies.Status.online.ordinal());
         List<Supplies> list = suppliesMapper.selectByExample(example);
 
         Collections.sort(list, new Comparator<Supplies>() {
