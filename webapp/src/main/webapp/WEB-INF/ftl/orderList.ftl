@@ -209,7 +209,7 @@
     function fnDrawCallback(){
 		var record_count = (this.fnSettings().fnRecordsTotal() );
 		if(record_count>0){
-	 	  $("#recordsTotal").html("["+record_count+"]");
+	 	  $("#recordsTotal").html("&nbsp;"+record_count+"&nbsp;");
 		  }
     }
  		
@@ -222,7 +222,7 @@
 
 <div class="withdraw-wrap color-white-bg fn-clear">
               <div class="withdraw-title" style="padding-top: 0px; text-align:left; ">
-									待办事项 <span id="recordsTotal"  style="color:#ff9966"></span>
+									待办事项 <span id="recordsTotal"  style="background-color:#ff9966;color: #fff;font-size: 14px;border-radius: 4px;"></span>
 									</div>
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
