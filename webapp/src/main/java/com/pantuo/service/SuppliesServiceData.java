@@ -12,6 +12,7 @@ public interface SuppliesServiceData {
 	Page<JpaSupplies> getAllSupplies(int city, Principal principal,TableRequest req);
  
     Page<JpaSupplies> getValidSupplies(int city, int page, int pageSize, Sort sort);
-
+    public JpaSupplies findById(int suppId);
+    public void saveSupplies(JpaSupplies supplies);
 	
 }

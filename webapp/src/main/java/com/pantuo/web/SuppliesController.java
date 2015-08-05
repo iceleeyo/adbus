@@ -26,7 +26,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.pantuo.dao.IndustryRepository;
+import com.pantuo.dao.pojo.BaseEntity;
+import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaSupplies;
+import com.pantuo.dao.pojo.JpaProduct.FrontShow;
 import com.pantuo.mybatis.domain.Industry;
 import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.pojo.DataTablePage;
@@ -165,4 +168,25 @@ public class SuppliesController {
 				HttpServletRequest request) {
 		return suppliesService.delSupp(Suppid,principal);
 	}
+	@RequestMapping(value = "/changeStats/{suppId}/{enable}", method = { RequestMethod.POST})
+    @ResponseBody
+    public JpaSupplies frontshow(@PathVariable("suppId") int suppId,
+    		@PathVariable("enable") String enable,
+                                 @CookieValue(value="city", defaultValue = "-1") int city) {
+		 JpaSupplies supplies=suppliesDataService.findById(suppId);
+        if (supplies == null) {
+        	JpaSupplies p = new JpaSupplies();
+            p.setErrorInfo(BaseEntity.ERROR, "找不到ID为" + supplies + "的垫片");
+            return p;
+        }
+          supplies.setStats(JpaSupplies.Status.valueOf(enable));
+            suppliesDataService.saveSupplies(supplies);
+        return supplies;
+    }
+	 @RequestMapping(value = "/blackdetail/{id}")
+	    @ResponseBody
+	    public JpaSupplies ajaxdetail(@PathVariable int id,
+	                                Model model, HttpServletRequest request) {
+	       return  suppliesDataService.findById(id);
+	    }
 }

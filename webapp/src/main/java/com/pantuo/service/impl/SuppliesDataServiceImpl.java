@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.mysema.query.types.Predicate;
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.SuppliesRepository;
+import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaSupplies;
 import com.pantuo.dao.pojo.QJpaSupplies;
 import com.pantuo.mybatis.persistence.SuppliesMapper;
@@ -71,6 +72,12 @@ public class SuppliesDataServiceImpl implements SuppliesServiceData {
 		Pageable p = new PageRequest(page, pageSize, sort);
 		Predicate query = QJpaSupplies.jpaSupplies.city.eq(city);
 		return suppliesRepo.findAll(query, p);
+	}
+	public JpaSupplies findById(int suppId) {
+		return suppliesRepo.findOne(suppId);
+	}
+	public void saveSupplies(JpaSupplies supplies) {
+		suppliesRepo.save(supplies);
 	}
 
 }

@@ -67,11 +67,13 @@
 										<input type="hidden" name="industryId" value="14">
                                         <div class="ui-form-item videoToggle">
                                             <label class="ui-label mt10"><span
-                                                    class="ui-form-required">*</span>时长（秒）:</label> <input
-                                                class="ui-input validate[required,integer,min[5],max[180]]"
-                                                onkeyup="value=value.replace(/[^\d]/g,'')" value="15" name="duration"
-                                                id="duration" data-is="isAmount isEnough"
-                                                autocomplete="off" disableautocomplete="" placeholder="5-180秒">
+                                                    class="ui-form-required">*</span>时长（秒）:</label> <select data-is="isAmount isEnough" id="duration" name="duration"
+												autocomplete="off" disableautocomplete="" style="width:173px; height: 38px;">
+                                            	<option value="5">5</option>
+                                            	<option value="10">10</option>
+                                            	<option value="15">15</option>
+                                            	<option value="30">30</option>
+                                            </select>
                                             <p class="ui-term-placeholder"></p>
                                         </div>
                                         <div class="ui-form-item widthdrawBtBox">

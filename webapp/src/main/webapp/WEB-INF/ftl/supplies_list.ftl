@@ -94,8 +94,15 @@
                     return row.id;
                 },
                     "render": function(data, type, row, meta) {
-                        var operations=  '<a class="table-link" href="javascript:void(0)" onclick="supDetail('+data+')">查看物料</a>&nbsp;&nbsp;';
+                        var operations=  row.industry.name=="垫片"?'<a class="table-link" href="javascript:void(0)" onclick="showBlackAdlayer(\'${rc.contextPath}/supplies/blackdetail/\',' + data + ');">查看详情</a>&nbsp;&nbsp;':'<a class="table-link" href="javascript:void(0)" onclick="supDetail('+data+')">查看物料</a>&nbsp;&nbsp;';
                         operations +='<a class="table-link" href="javascript:delSupp('+data+');" >删除</a>  ';
+                        if(row.industry.name=="垫片"){
+                            	if(row.stats=='online'){
+                      		operations +=	'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/supplies/changeStats/' + data + '/offline">取消上架</a> &nbsp;'
+                       	}else {
+                       		operations +=	'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/supplies/changeStats/' + data + '/online">上架</a> &nbsp;'
+                       	}
+                        }
                         return operations;
                     }},
             ],
@@ -169,10 +176,13 @@ function delSupp(Suppid){
     }
 
     function drawCallback() {
-        $('.table-action').click(function() {
-            $.post($(this).attr("url"), function() {
+     $('.table-action').click(function() {
+        var r = confirm("确定执行该操作吗")
+        if(r==true){
+       		$.post($(this).attr("url"), function() {
                 table.fnDraw(true);
-            })
+        	});
+        }
         });
     }
 

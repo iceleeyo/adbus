@@ -69,6 +69,40 @@ function showProductlayer(tourl,id){
 		}, "text");
 	
 }
+//查看垫片详细
+function showBlackAdlayer(tourl,id){
+	$.ajax({
+			url : tourl  + id,
+			type : "POST",
+			data : {
+			},
+			success : function(data) {
+				
+				layer.open({
+	    		type: 1,
+	    		title: "垫片信息",
+	    		skin: 'layui-layer-rim', 
+	    		area: ['400px', '400px'], 
+	    		content: ' <input type="hidden" name="id" value="'+data.id+'"/>'
+						 +'<br/>'
+	    				 +'<div class="ui-form-item"> <label class="ui-label mt10">广告名称: </label>  <input readonly="readonly" class="ui-input-d"'
+	    				 +'type="text" name="title" id="title" value="'+data.name+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+	    				 +'<div class="ui-form-item"> <label class="ui-label mt10">审核号: </label>  <input readonly="readonly" class="ui-input-d"'
+	    				 +'type="text" name="title" id="title" value="'+data.seqNumber+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+                         +'<div id="cityPro" style="display:block"><div class="ui-form-item"> <label class="ui-label mt10">时长（秒）:</label> <input readonly="readonly"  class="ui-input-d"'
+                         +'type="text" name="accountnum" value="'+data.duration+'" id="accountnum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10">状态: </label>  <input readonly="readonly" class="ui-input-d"'
+	    				 +'type="text" name="title" id="stats" value="" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div></div>'
+		});
+				if(data.stats=="online"){
+					$("#stats").val("已上架"); 
+				}else{
+					$("#stats").val("已下架");
+				}
+			}
+		}, "text");
+	
+}
 //查看资质
 function UserQualifi(tourl,username){
 	$.ajax({
