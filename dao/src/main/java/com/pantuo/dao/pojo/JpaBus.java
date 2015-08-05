@@ -1,6 +1,8 @@
 package com.pantuo.dao.pojo;
 
 import javax.persistence.*;
+
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -67,6 +69,12 @@ public class JpaBus extends CityEntity{
     private String description;         //车辆情况
     private String office;              //所属公司
     private String branch;              //所属分公司
+  //预计上刊时间
+    //validation:必须为当天之后的几天
+    private Date startDay;
+    //预计下刊时间
+    //validation：必须大于startDay
+    private Date endDay;
     private boolean enabled = true;      //是否启用
 
 //    @OneToMany(mappedBy="bus", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
@@ -85,7 +93,7 @@ public class JpaBus extends CityEntity{
                   String serialNumber, String oldSerialNumber,
                   String plateNumber, JpaBusModel model, JpaBusinessCompany company,
                   String office, String branch,
-                  String adStatus, String description) {
+                  String adStatus, String description,Date startDay, Date endDay) {
 		super(city);
         this.line = line;
         this.category = category;
@@ -98,9 +106,12 @@ public class JpaBus extends CityEntity{
         this.branch = branch;
         this.adStatus = adStatus;
         this.description = description;
+        this.startDay = startDay;
+		this.endDay = endDay;
 	}
 
-    public int getId() {
+
+	public int getId() {
         return id;
     }
 
@@ -108,7 +119,23 @@ public class JpaBus extends CityEntity{
         this.id = id;
     }
 
-    public Category getCategory() {
+    public Date getStartDay() {
+		return startDay;
+	}
+
+	public void setStartDay(Date startDay) {
+		this.startDay = startDay;
+	}
+
+	public Date getEndDay() {
+		return endDay;
+	}
+
+	public void setEndDay(Date endDay) {
+		this.endDay = endDay;
+	}
+
+	public Category getCategory() {
         return category;
     }
 
