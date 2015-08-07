@@ -1,8 +1,8 @@
 /*!
  
  @Name: layer's style
- @Author: 璐ゅ績
- @Blog锛�sentsin.com
+ @Author: 鐠愩倕绺�
+ @Blog閿涳拷sentsin.com
  
  */
 
@@ -390,9 +390,9 @@ html #layui_layer_skinlayercss {
 }
 
 .layui-layer-title {
-    padding: 0 80px 0 10px;
-    height: 45px;
-    line-height: 35px;
+    padding: 0 80px 0 20px;
+    height: 40px;
+    line-height: 40px;
     border-bottom: 1px solid #D5D5D5;
     font-size: 14px;
     color: #fff;
