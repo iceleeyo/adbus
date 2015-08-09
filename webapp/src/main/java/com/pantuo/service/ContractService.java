@@ -30,6 +30,7 @@ import com.pantuo.mybatis.domain.BlackAdExample;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.ContractExample;
 import com.pantuo.mybatis.domain.Industry;
+import com.pantuo.mybatis.domain.IndustryExample;
 import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.mybatis.domain.InvoiceExample;
 import com.pantuo.mybatis.domain.Orders;
@@ -78,11 +79,11 @@ public class ContractService {
 	public Pair<Boolean, String> saveContract(int city, Contract con, String username, HttpServletRequest request) {
 		Pair<Boolean, String> r = null;
 		try {
-			if(StringUtils.isNotBlank(con.getUserId())){
-				if (!userService.isUserHaveGroup(con.getUserId(), SystemRoles.advertiser.name())) {
-					return new Pair<Boolean, String>(false, con.getUserId() + " 不是广告主,保存失败！");
-				}
-			}
+//			if(StringUtils.isNotBlank(con.getUserId())){
+//				if (!userService.isUserHaveGroup(con.getUserId(), SystemRoles.advertiser.name())) {
+//					return new Pair<Boolean, String>(false, con.getUserId() + " 不是广告主,保存失败！");
+//				}
+//			}
 			if(null!=con.getId() && con.getId()>0){
 				Contract contract=contractMapper.selectByPrimaryKey(con.getId());
 				contract.setUpdated(new Date());
@@ -106,10 +107,10 @@ public class ContractService {
 			con.setIsUpload(false);
 			con.setCreated(new Date());
 			con.setStats(JpaContract.Status.not_started.ordinal());
-			if (!userService.isUserHaveGroup(con.getUserId(), SystemRoles.advertiser.name())) {
-				return new Pair<Boolean, String>(true, con.getUserId() + " 不是广告主,创建合同失败！");
-
-			}
+//			if (!userService.isUserHaveGroup(con.getUserId(), SystemRoles.advertiser.name())) {
+//				return new Pair<Boolean, String>(true, con.getUserId() + " 不是广告主,创建合同失败！");
+//
+//			}
 			con.setCreator(username);
 			//			System.out.println(JpaContract.Status.not_started.ordinal());
 			//			con.setStats(JpaContract.Status.not_started.ordinal());
@@ -264,6 +265,10 @@ public class ContractService {
 		example.setOrderByClause("sort_number desc");;
 		return blackAdMapper.selectByExample(example);
 	}
-	
 
+	public int saveIndustry(Industry industry) {
+		industry.setEnabled(true);
+		industry.setCreated(new Date());
+		return industryMapper.insert(industry);
+	}
 }

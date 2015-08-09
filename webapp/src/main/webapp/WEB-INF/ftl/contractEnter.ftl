@@ -5,6 +5,7 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
+    
     var industryId=${(contractView.mainView.industryId)!''};
     var contractType='${(contractView.mainView.contractType)!''}';
     $("#industry option").each(function(){
@@ -72,11 +73,15 @@
 			jDialog.Alert("终止时间不能小于开始时间");
 			return;
 		}
-		var bb=false;
+		/*
+		alert(3);
+		return;
+var bb=false;
 		var userid=$("#username").val();
 		if(typeof(userid)=="undefined"){
 		   bb=true;
-		}else{
+		}
+		else{
 		$.ajax({
 			url:"${rc.contextPath}/user/isAdvertiser/"+userid,
 			type:"POST",
@@ -92,8 +97,7 @@
 				}
 			}
       }); 
-      }
-		 if(bb==true) {
+      }*/
 		$('#userForm2').ajaxForm(function(data) {
 			jDialog.Alert(data.right);
 			var uptime = window.setTimeout(function(){
@@ -107,11 +111,22 @@
 		var uploadProcess={upath:'${rc.contextPath}/upload/process'};
 		$('#progress1').anim_progressbar(uploadProcess);
 	}
-	}
  $(document).ready(function() {
+  $("#otherindustry").click(function(){
+     
+  if ($("#otherindustry").is(":checked")) {
+    $("#industry").hide();
+    $("#industryname").css("display","inline");
+}else{
+   $("#industryname").css("display","none");
+   $("#industryname").val("");
+   $("#industry").show();
    
+}
+    })
+ 
 		        //author:pxh 2015-05-20 22:36
-		        $( "#username" ).autocomplete({
+		        $( "#username2" ).autocomplete({
 		  			source: "${rc.contextPath}/user/autoComplete",
 		  			change: function( event, ui ) { 
 		  				/*if(ui.item!=null){alert(ui.item.value);}*/
@@ -210,8 +225,9 @@
                                                     </#list>
 												</select>
 												
+                                                  <input type="checkbox" id="otherindustry"/>其他行业
+												<input class="ui-input validate[required]" style="display:none" type="text" name="name" id="industryname" placeholder="输入行业名称"/>
                                         </div>
-
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>上刊日期:

@@ -17,12 +17,14 @@ import com.pantuo.dao.pojo.JpaIndustry;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Contract;
+import com.pantuo.mybatis.domain.Industry;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ContractServiceData;
 import com.pantuo.service.UserServiceInter;
 import com.pantuo.util.Request;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,10 +76,15 @@ public class ContractController {
 	@RequestMapping(value = "saveContract", method = RequestMethod.POST)
 	@ResponseBody
 	public Pair<Boolean, String> saveContract(@CookieValue(value = "city", defaultValue = "-1") int city,
-			Contract contract, Principal principal, HttpServletRequest request) throws IllegalStateException,
+			Contract contract,Industry industry, Principal principal, HttpServletRequest request) throws IllegalStateException,
 			IOException, ParseException {
 		String start = request.getParameter("startDate1").toString();
 		String end = request.getParameter("endDate1").toString();
+		if(StringUtils.isNotBlank(industry.getName())){
+			if(contractService.saveIndustry(industry)>0){
+				contract.setIndustryId(industry.getId());
+			}
+		}
 		if (start.length() > 1 && end.length() > 1) {
 			contract.setStartDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(start));
 			contract.setEndDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(end));
