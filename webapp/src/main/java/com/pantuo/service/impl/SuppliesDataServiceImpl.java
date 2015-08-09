@@ -44,6 +44,7 @@ public class SuppliesDataServiceImpl implements SuppliesServiceData {
 		sort = (sort == null ? new Sort("id") : sort);
 		Pageable p = new PageRequest(page, pageSize, sort);
 		BooleanExpression query = QJpaSupplies.jpaSupplies.city.eq(city);
+		query = query.and(QJpaSupplies.jpaSupplies.id.notIn(1));
 		if (industryId > 0) {
 			query = query.and(QJpaSupplies.jpaSupplies.industry.id.eq(industryId));
 		}

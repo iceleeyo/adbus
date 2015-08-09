@@ -837,7 +837,7 @@ function showOrderUserlayer(tourl,uid){
                          +'type="text" name="regisaddr" value="'+getEmptyIfNull(data.left.department)+'" id="regisaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
                          +'<div class="ui-form-item" id="Userqualifi"> <label class="ui-label mt10"><span class="ui-form-required">*</span>用户资质:</label><br> </div>'
 	 });
-				if(typeof(data.right)=="undefined"){
+				if(typeof(data.right)=="undefined" || data.right==""){
 					$("#Userqualifi").append("用户尚未上传资质");
 				}else{
 					$.each(data.right, function(i, item) {

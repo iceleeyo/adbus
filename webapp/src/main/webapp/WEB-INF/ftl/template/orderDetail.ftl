@@ -26,7 +26,8 @@ function supDetail(data){
                   <li style="width: 800px;"><SPAN>套餐名称：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer('${rc.contextPath}',${prod.id});"  >${prod.name!''}</a></SPAN></li>
   				  <#if !(cpdDetail?exists)>
   				  <li style="width: 200px;"><SPAN>套餐价格：</SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">
-  				  <@security.authorize ifNotGranted="ShibaOrderManager"> #{(orderview.order.price)!'';m2M2}</@security.authorize>
+  				  <@security.authorize ifAnyGranted="BeiguangMaterialManager,BeiguangScheduleManager,ShibaSuppliesManager,UserManager">**</@security.authorize>
+  				  <@security.authorize ifAnyGranted="advertiser,ShibaFinancialManager"> #{(orderview.order.price)!'';m2M2}</@security.authorize>
   				  <@security.authorize ifAnyGranted="ShibaOrderManager">
   				  <a class="layer-tips" tip="点击修改订单价格!" onclick="setOrderPrice('${rc.contextPath}/order/setOrderPrice',${orderview.order.id});"  >
   				  <span id="prodPrice">#{(orderview.order.price)!'';m2M2}</span></a>
@@ -74,7 +75,14 @@ function supDetail(data){
   				  <#if orderview.payTypeString?has_content>
  				  <li style="width: 200px;"><SPAN>支付方式：</SPAN><SPAN class="con">${(orderview.payTypeString)!''}</SPAN></li>
  				  <#if orderview.payTypeString?has_content && orderview.payTypeString=="关联合同">
-  				  <li style="width: 200px;"><SPAN>合同号：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查看发票详细内容!" onclick="contractdetail('${rc.contextPath}',${(orderview.order.contractId)!''});" href="javascript:void(0)">${(orderview.order.contractCode)!''}</a></SPAN></li>
+  				  <li style="width: 200px;"><SPAN>合同号：</SPAN><SPAN class="con">
+  				   <@security.authorize ifAnyGranted="ShibaFinancialManager">
+  				  <a class="layer-tips" tip="点击可查看发票详细内容!" onclick="contractdetail('${rc.contextPath}',${(orderview.order.contractId)!''});" href="javascript:void(0)">${(orderview.order.contractCode)!''}</a>
+  				   </@security.authorize>
+  				    <@security.authorize ifNotGranted="ShibaFinancialManager">
+  				    ${(orderview.order.contractCode)!''}
+  				     </@security.authorize>
+  				  </SPAN></li>
   				  <#elseif orderview.payTypeString?has_content && orderview.payTypeString=="线上支付">
   				  <li style="width: 200px;"><SPAN>流水号：</SPAN><SPAN class="con">123912800234</SPAN></li>
   				  </#if>
