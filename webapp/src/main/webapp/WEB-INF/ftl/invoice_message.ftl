@@ -148,7 +148,7 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>邮寄联系人:</label>
                                                     <input
-												class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
+												class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[2],maxSize[12]]"
                                                 type="text" name="contactman" value="${(invoiceView.mainView.contactman)!''}"
 												id="contactman" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
