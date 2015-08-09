@@ -241,13 +241,13 @@
 												class="ui-form-required">*</span>物料类型</label>
 											<select class="ui-input" name="suppliesType" id="suppliesType">
                                                 <#if city.mediaType == 'body'>
-                                                    <option value="3" selected="selected">车身</option>
+                                                    <option value="4" selected="selected">车身</option>
                                                 <#else>
 
 												<option value="0" selected="selected">全屏视频</option>
                                                 <option value="1">INFO图片</option>
                                                 <option value="2">INFO字幕</option>
-                                                <option value="4">团类</option>
+                                                <option value="3">团类</option>
                                                 </#if>
                                             </select>
 										</div>
@@ -279,10 +279,10 @@
 										<div class="ui-form-item" id="text" style="display:none;">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>文本信息</label> 
-												<input
-												class="ui-input" type="text" name="infoContext"
-												id="infoContext" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="" style="height: 91px; width: 367px; ">
+												
+												<textarea rows="5" cols="50"
+												id="infoContext" data-is="isAmount isEnough"  
+												style="resize: none;" name="infoContext"></textarea>
 										</div>
 										<div class="ui-form-item" id="file">
 											<label class="ui-label mt10"><span

@@ -407,7 +407,7 @@ function IvcEnter(tourl){
     		type: 1,
     		title: "发票信息录入",
     		skin: 'layui-layer-rim', //加上边框
-    		area: ['560px', '700px'], //宽高
+    		area: ['560px', '600px'], //宽高
     		content: '<style type="text/css">.ui-form-item div{display:inline-block}</style><form data-name="withdraw" name="userForm3" id="userForm3" class="ui-form" method="post" action="'+tourl+'/user/saveInvoice" enctype="multipart/form-data">'
     				 +'<input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/><div class="withdrawInputs" style="margin-left: 10px;"> <div class="inputs"> <div class="ui-form-item"> <label class="ui-labeli mt10"> <span class="ui-form-required">* </span>发票类型: </label>'
     				 +'<div class="mt10 radiobox" style="display:inline-block"> <input type="radio" name="type" checked="checked" onchange="showother()" value="special">&nbsp;增值税专用发票'
@@ -734,7 +734,6 @@ function showRemark(contentString){
  * @param taskid
  */
 function closeOrder(mainPath,orderid,taskid){
-	
 	var closeRemark=$("#closeRemark").val();
 	$("#uploadbutton").attr("disabled",true);
     $("#uploadbutton").css("background-color","#85A2AD");

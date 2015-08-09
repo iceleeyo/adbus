@@ -102,8 +102,8 @@ css=["js/jquery-ui/jquery-ui.css"<#--, "js/tabletools/css/dataTables.tableTools.
                         var box = row.boxes['${day}'];
                         return box && box.goods && box.goods.length ? (
                                 box.goods[0].order.supplies.id?
-                                '<a href="${rc.contextPath}/supplies/suppliesDetail/'
-                                        + box.goods[0].order.supplies.id + '" target="_blank">'
+                                '<a  href="javascript:void(0)" onclick="supDetail('
+                                        + box.goods[0].order.supplies.id + ')" >'
                                         + box.goods[0].order.supplies.seqNumber + '-'
                                         + box.goods[0].order.supplies.name + '</a>' :
                                         box.goods[0].order.supplies.seqNumber + '-'+box.goods[0].order.supplies.name)
@@ -156,6 +156,20 @@ css=["js/jquery-ui/jquery-ui.css"<#--, "js/tabletools/css/dataTables.tableTools.
     $(document).ready(function() {
         initTable();
     } );
+    
+    
+//订单物料详情
+    function supDetail(data){
+	layer.open({
+    		type: 1,
+    		title: "物料及资质",
+    		skin: 'layui-layer-rim', 
+    		area: ['1000px', '529px'], 
+    		content:''
+			   +' '
+			   +'<iframe  style="width:99%;height:99%" src="${rc.contextPath}/supplies/suppliesDetail/'+data+'"/>'
+			});
+}
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
 

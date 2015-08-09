@@ -171,6 +171,8 @@ var bb=false;
                          						 class="ui-input validate[required,custom[noSpecialLetterChinese]]" placeholder="请选择广告主" />
                        						</span>
                                         </div>
+                                        
+                                        
 										<div class="ui-form-item">
 											<label class="ui-label mt10">
 											<span class="ui-form-required">*</span>合同编号:
@@ -228,6 +230,7 @@ var bb=false;
                                                   <input type="checkbox" id="otherindustry"/>其他行业
 												<input class="ui-input validate[required]" style="display:none" type="text" name="name" id="industryname" placeholder="输入行业名称"/>
                                         </div>
+
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>上刊日期:

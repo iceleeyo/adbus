@@ -82,6 +82,8 @@
                             return 'INFO图片';
                         if (data == 'info')
                             return 'INFO字幕';
+                        if (data == 'team')
+                            return '团类';
                         return '';
                 } },
                 { "data": "industry.name", "defaultContent": ""},

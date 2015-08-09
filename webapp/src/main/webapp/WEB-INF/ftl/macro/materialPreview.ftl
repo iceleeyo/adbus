@@ -1,10 +1,5 @@
 <#macro materialPreview view items=[]>
-<#if (view.mainView.suppliesType)?? && view.mainView.suppliesType == 2>
-<a href="#" onclick="return hs.htmlExpand(this)">${substring( view.mainView.infoContext , 0 , 20)}</a>
-<div class="highslide-maincontent" style="display:none;font-size: 24px;">
-${(view.mainView.infoContext)!''}
-</div>
-<#else>
+
 <#if (items?? && items?size>0)>
 <#list items as theItem>
 	<!-- 如果是合同 -->
@@ -13,7 +8,7 @@ ${(view.mainView.infoContext)!''}
 		       onclick="return hs.expand(this)">
 		    </a>
    <#else>	<!-- 如果是订单 -->
-	    <#if view.mainView.suppliesType == 1 || view.mainView.suppliesType == 3>
+	    <#if view.mainView.suppliesType == 1 || view.mainView.suppliesType == 2 || view.mainView.suppliesType == 3 >
 	    <a href="${rc.contextPath}/downloadFile/${theItem.userId!''}/${theItem.id!''}"
 	       onclick="return hs.expand(this)">
 	        <img src="${rc.contextPath}/downloadFile/${theItem.userId!''}/${theItem.id!''}"
@@ -83,6 +78,5 @@ ${(view.mainView.infoContext)!''}
              class="m11" width="140"/>
         </#if>
     </#list>
-</#if>
 </#if>
 </#macro>
