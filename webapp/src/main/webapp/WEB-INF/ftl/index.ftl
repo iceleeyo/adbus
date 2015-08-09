@@ -207,20 +207,6 @@
                                     <a class="pg-nav-item-t pg-nav-hover-us" href="${rc.contextPath}/about-me">
                                     	<span>关于我们</span>
                                     </a>
-                                    <ul class="pg-dropdown pg-dropdown-us" style="display: none;">
-										<li class="pg-dropdown-angle">
-											<span></span>
-										</li>
-										<li class="pg-dropdown-li">
-											<a class="pg-dropdown-a" href="">管理团队</a>
-										</li>
-										<li class="pg-dropdown-li">
-											<a class="pg-dropdown-a" href="">最新动态</a>
-										</li>
-										<li class="pg-dropdown-li">
-											<a class="pg-dropdown-a" href="">招贤纳士</a>
-										</li>
-									</ul>
                                 </li>
 
 							</ul>
