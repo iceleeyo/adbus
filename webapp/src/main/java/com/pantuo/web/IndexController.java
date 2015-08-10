@@ -42,6 +42,7 @@ public class IndexController {
 	public int makeCookieValueRight(int city, HttpServletResponse response) {
 		JpaCity r = cityService.fromId(city);
 		int w = r == null ? ControllerSupport.defaultCookieValue : r.getId();
+		w=w>6?ControllerSupport.defaultCookieValue:r.getId();
 		try {
 			Cookie cookie = new Cookie("city", String.valueOf(w));
 			cookie.setPath("/");
