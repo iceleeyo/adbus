@@ -40,7 +40,10 @@
                 "dataSrc": "content",
             },
             "columns": [
-                { "data": "name", "defaultContent": ""},
+                { "data": "name", "defaultContent": "",
+                    "render": function(data, type, row, meta) {
+                    return '<a  target="_Blank" href="${rc.contextPath}/busselect/lineReaminCheck/' + row.id + '" >'+data+'</a> &nbsp;';
+                } },
                 { "data": "levelStr", "defaultContent": ""},
                 <@security.authorize ifAnyGranted="BodyOrderManager">
                 { "data": function( row, type, set, meta) {
@@ -79,6 +82,7 @@
                         '    <span>' +
                         '        <input id="level" value="">' +
                         '    </span>' +
+                        ' <a class="block-btn" target="_Blank" style="margin-left:30px;" href="${rc.contextPath}/busselect/applyBodyCtct">申请合同</a>'+
                         '</div>'
         );
 
