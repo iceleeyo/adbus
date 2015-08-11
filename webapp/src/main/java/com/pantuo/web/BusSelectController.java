@@ -12,7 +12,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,8 +28,8 @@ import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.BusLineCheckService;
-import com.pantuo.service.ActivitiService.SystemRoles;
 import com.pantuo.util.DateUtil;
+import com.pantuo.vo.GroupVo;
 import com.pantuo.web.view.AutoCompleteView;
 import com.pantuo.web.view.LineBusCpd;
 
@@ -53,11 +52,19 @@ public class BusSelectController {
 
 	@Autowired
 	ActivitiService activitiService;
+
 	@RequestMapping(value = "/autoComplete")
 	@ResponseBody
 	public List<AutoCompleteView> autoCompleteByName(@CookieValue(value = "city", defaultValue = "-1") int city,
 			String name) {
 		return busLineCheckService.autoCompleteByName(city, name);
+	}
+
+	@RequestMapping(value = "/selectBusType")
+	@ResponseBody
+	public List<GroupVo> selectBusType(
+			@RequestParam(value = "buslinId", required = true, defaultValue = "-d") Integer buslinId) {
+		return busLineCheckService.countCarTypeByLine(buslinId, JpaBus.Category.yunyingche.ordinal());
 	}
 
 	/**
