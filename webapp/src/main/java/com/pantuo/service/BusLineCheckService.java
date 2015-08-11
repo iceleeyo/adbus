@@ -1,6 +1,9 @@
 package com.pantuo.service;
 
+import java.util.List;
+
 import com.pantuo.dao.pojo.JpaBus;
+import com.pantuo.web.view.AutoCompleteView;
 
 public interface BusLineCheckService {
 	/**
@@ -17,5 +20,15 @@ public interface BusLineCheckService {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	public int countByFreeCars(int lineId, JpaBus.Category category, String start, String end);
+
+	/**
+	 * 
+	 * 搜寻线路
+	 *
+	 * @param name
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	public List<AutoCompleteView> autoCompleteByName(int city, String name);
 
 }
