@@ -57,13 +57,13 @@ public class BusSelectController {
 	@ResponseBody
 	public List<AutoCompleteView> autoCompleteByName(@CookieValue(value = "city", defaultValue = "-1") int city,
 			String name) {
-		return busLineCheckService.autoCompleteByName(city, name,JpaBus.Category.yunyingche);
+		return busLineCheckService.autoCompleteByName(city, name, JpaBus.Category.yunyingche);
 	}
 
 	@RequestMapping(value = "/selectBusType")
 	@ResponseBody
 	public List<GroupVo> selectBusType(
-			@RequestParam(value = "buslinId", required = true, defaultValue = "-d") Integer buslinId) {
+			@RequestParam(value = "buslinId", required = true, defaultValue = "0") Integer buslinId) {
 		return busLineCheckService.countCarTypeByLine(buslinId, JpaBus.Category.yunyingche);
 	}
 
@@ -86,12 +86,12 @@ public class BusSelectController {
 
 	@RequestMapping(value = "/lineReaminCheck")
 	@ResponseBody
-	public int lineReaminCheck(
-			@RequestParam(value = "buslinId", required = true, defaultValue = "-d") Integer buslinId,
+	public int lineReaminCheck(@RequestParam(value = "buslinId", required = true, defaultValue = "0") Integer buslinId,
+			@RequestParam(value = "modelId", required = true, defaultValue = "0") Integer modelId,
 			@RequestParam(value = "start", required = true) String start,
 			@RequestParam(value = "end", required = true) String end) {
 		//187 2015-08-07 2015-08-17
-		return busLineCheckService.countByFreeCars(buslinId, JpaBus.Category.yunyingche, start, end);
+		return busLineCheckService.countByFreeCars(buslinId, modelId, JpaBus.Category.yunyingche, start, end);
 	}
 
 	/**
