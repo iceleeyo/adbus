@@ -18,6 +18,7 @@ public class JpaBusContract extends CityEntity {
 	private int contractid;
 	private Date startDate;
 	private Date endDate;
+	private String userid;
 	private boolean enable=true;
 	
 	public boolean isEnable() {
@@ -34,6 +35,13 @@ public class JpaBusContract extends CityEntity {
 	}
 	public int getBusid() {
 		return busid;
+	}
+	
+	public String getUserid() {
+		return userid;
+	}
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 	public void setBusid(int busid) {
 		this.busid = busid;

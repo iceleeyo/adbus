@@ -22,8 +22,11 @@ public class JpaBusLock extends CityEntity {
 	private int contractId;
 	private int salesNumber;//合同生效时购买的线路车辆数量
 	private int remainNuber;//实行贴车进行后的 的数量 ,贴车回执处理时减这个数量
+	private long seriaNum;//实行贴车进行后的 的数量 ,贴车回执处理时减这个数量
 	private Date startDate;
 	private Date endDate;
+	private String user_id;
+	
 	private boolean enable = true;
 
 	public boolean isEnable() {
@@ -32,6 +35,22 @@ public class JpaBusLock extends CityEntity {
 
 	public void setEnable(boolean enable) {
 		this.enable = enable;
+	}
+
+	public long getSeriaNum() {
+		return seriaNum;
+	}
+
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
+	public void setSeriaNum(long seriaNum) {
+		this.seriaNum = seriaNum;
 	}
 
 	public int getId() {
