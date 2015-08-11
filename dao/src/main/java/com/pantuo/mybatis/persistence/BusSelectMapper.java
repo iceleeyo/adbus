@@ -7,9 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.pantuo.vo.GroupVo;
 
 public interface BusSelectMapper {
-	
-	
-	
+
 	/**
 	 * 
 	 * 按线路统计车辆个数
@@ -20,10 +18,7 @@ public interface BusSelectMapper {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	List<GroupVo> countCarTypeByLine(@Param("lineId") int lineId, @Param("category") int category);
-	
-	
-	
-	
+
 	/**
 	 * 
 	 * 按线路统计车辆个数
@@ -45,7 +40,8 @@ public interface BusSelectMapper {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	int countBusCar(@Param("lineId") int lineId, @Param("category") int category, @Param("enabled") int enabled);
+	int countBusCar(@Param("lineId") int lineId, @Param("modelId") int modelId, @Param("category") int category,
+			@Param("enabled") int enabled);
 
 	/**
 	 * 
@@ -72,7 +68,7 @@ public interface BusSelectMapper {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	int countOnlineCarList(@Param("lineId") int lineId, @Param("category") int category, @Param("start") String start,
-			@Param("end") String end);
+	int countOnlineCarList(@Param("lineId") int lineId, @Param("modelId") int modelId, @Param("category") int category,
+			@Param("start") String start, @Param("end") String end);
 
 }

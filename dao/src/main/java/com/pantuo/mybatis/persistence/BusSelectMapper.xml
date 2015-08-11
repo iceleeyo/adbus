@@ -17,8 +17,10 @@
 		(select
 		count(bus.model_id) as count,bus.model_id as gn1 from bus_line
 		join bus on bus_line.id = bus.line_id
-		where enabled = 1 and category = #{category} and bus_line.id=#{lineId}
-		group by bus.model_id )t join bus_model
+		where enabled = 1 and category =
+		#{category} and bus_line.id=#{lineId}
+		group by bus.model_id )t join
+		bus_model
 		on gn1=bus_model.id
 
 	</select>
@@ -65,6 +67,9 @@
 		where
 		bus.enabled = 1 and bus.category = #{category}
 		and bus_line.id = #{lineId}
+		<if test="modelId > 0">
+			and bus.model_id = #{modelId}
+		</if>
 		and (
 		(bus_contract.start_date<= #{start}
 		and bus_contract.end_date>= #{start})
@@ -76,6 +81,8 @@
 
 
 	<select id="countBusCar" resultType="java.lang.Integer">
+	
+	 	<![CDATA[
 		select
 		count(1) from bus_line
 		join bus on bus_line.id = bus.line_id
@@ -83,6 +90,11 @@
 		category = #{category}
 		and bus_line.id =
 		#{lineId}
+		<if test="modelId > 0">
+			and model_id = #{modelId}
+		</if>
+		
+		]]>
 	</select>
 
 </mapper>
