@@ -1,7 +1,9 @@
 package com.pantuo.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,12 +19,10 @@ import com.pantuo.dao.BuslineRepository;
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.QJpaBusline;
-import com.pantuo.dao.pojo.QJpaContract;
-import com.pantuo.mybatis.domain.BusLine;
-import com.pantuo.mybatis.domain.BusLineExample;
 import com.pantuo.mybatis.persistence.BusLineMapper;
 import com.pantuo.mybatis.persistence.BusSelectMapper;
 import com.pantuo.service.BusLineCheckService;
+import com.pantuo.vo.GroupVo;
 import com.pantuo.web.view.AutoCompleteView;
 
 @Service
@@ -47,18 +47,36 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	@Override
 	public List<AutoCompleteView> autoCompleteByName(int city, String name) {
 		List<AutoCompleteView> r = new ArrayList<AutoCompleteView>();
-		BooleanExpression query =QJpaBusline.jpaBusline.city.eq(city);
+		BooleanExpression query = QJpaBusline.jpaBusline.city.eq(city);
 		if (StringUtils.isNotBlank(name)) {
 			query = query.and(QJpaBusline.jpaBusline.name.like("%" + name + "%"));
 		}
 		Pageable p = new PageRequest(1, 30, new Sort("name"));
+		List<Integer> idsList = new ArrayList<Integer>();
+
 		Page<JpaBusline> list = buslineRepository.findAll(query, p);
 		if (!list.getContent().isEmpty()) {
 			for (JpaBusline obj : list.getContent()) {
-				r.add(new AutoCompleteView(String.valueOf(obj.getId()), obj.getName() + "  " + obj.getLevelStr()));
+				idsList.add(obj.getId());
+			}
+		}
+		if (idsList.size() > 0) {
+			List<GroupVo> vos = busSelectMapper.countCarByLines(idsList, JpaBus.Category.yunyingche.ordinal());
+			Map<Integer, Integer> cache = getBusLineMap(vos);
+			for (JpaBusline obj : list.getContent()) {
+				int carNumber = cache.containsKey(obj.getId()) ? cache.get(obj.getId()) : 0;
+				r.add(new AutoCompleteView(String.valueOf(obj.getId()), obj.getName() + "  " + obj.getLevelStr() + " ["
+						+ carNumber + "]"));
 			}
 		}
 		return r;
 	}
 
+	public Map<Integer, Integer> getBusLineMap(List<GroupVo> vos) {
+		Map<Integer, Integer> r = new HashMap<Integer, Integer>();
+		for (GroupVo groupVo : vos) {
+			r.put(groupVo.getGn1(), groupVo.getCount());
+		}
+		return r;
+	}
 }
