@@ -45,7 +45,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	BuslineRepository buslineRepository;
 
 	@Override
-	public List<AutoCompleteView> autoCompleteByName(int city, String name) {
+	public List<AutoCompleteView> autoCompleteByName(int city, String name, JpaBus.Category category) {
 		List<AutoCompleteView> r = new ArrayList<AutoCompleteView>();
 		BooleanExpression query = QJpaBusline.jpaBusline.city.eq(city);
 		if (StringUtils.isNotBlank(name)) {
@@ -61,7 +61,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		}
 		if (idsList.size() > 0) {
 			//query carnumber group by line
-			List<GroupVo> vos = busSelectMapper.countCarByLines(idsList, JpaBus.Category.yunyingche.ordinal());
+			List<GroupVo> vos = busSelectMapper.countCarByLines(idsList, category.ordinal());
 			Map<Integer, Integer> cache = getBusLineMap(vos);
 			for (JpaBusline obj : list.getContent()) {
 				int carNumber = cache.containsKey(obj.getId()) ? cache.get(obj.getId()) : 0;
@@ -71,8 +71,6 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		}
 		return r;
 	}
-	
-	
 
 	public Map<Integer, Integer> getBusLineMap(List<GroupVo> vos) {
 		Map<Integer, Integer> r = new HashMap<Integer, Integer>();
@@ -82,10 +80,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		return r;
 	}
 
-
-
 	@Override
-	public List<GroupVo> countCarTypeByLine(int lineId, int category) {
-		return busSelectMapper.countCarTypeByLine(lineId, category);
+	public List<GroupVo> countCarTypeByLine(int lineId, JpaBus.Category category) {
+		return busSelectMapper.countCarTypeByLine(lineId, category.ordinal());
 	}
 }

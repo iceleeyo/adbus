@@ -32,7 +32,7 @@ public interface BusLineCheckService {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	public List<AutoCompleteView> autoCompleteByName(int city, String name);
+	public List<AutoCompleteView> autoCompleteByName(int city, String name,JpaBus.Category category);
 	/**
 	 * 
 	 * 查线路 类型
