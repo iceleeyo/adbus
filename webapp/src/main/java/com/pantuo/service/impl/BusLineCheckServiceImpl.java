@@ -53,7 +53,6 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		}
 		Pageable p = new PageRequest(1, 30, new Sort("name"));
 		List<Integer> idsList = new ArrayList<Integer>();
-
 		Page<JpaBusline> list = buslineRepository.findAll(query, p);
 		if (!list.getContent().isEmpty()) {
 			for (JpaBusline obj : list.getContent()) {
@@ -61,6 +60,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			}
 		}
 		if (idsList.size() > 0) {
+			//query carnumber group by line
 			List<GroupVo> vos = busSelectMapper.countCarByLines(idsList, JpaBus.Category.yunyingche.ordinal());
 			Map<Integer, Integer> cache = getBusLineMap(vos);
 			for (JpaBusline obj : list.getContent()) {
@@ -71,6 +71,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		}
 		return r;
 	}
+	
+	
 
 	public Map<Integer, Integer> getBusLineMap(List<GroupVo> vos) {
 		Map<Integer, Integer> r = new HashMap<Integer, Integer>();
@@ -78,5 +80,12 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			r.put(groupVo.getGn1(), groupVo.getCount());
 		}
 		return r;
+	}
+
+
+
+	@Override
+	public List<GroupVo> countCarTypeByLine(int lineId, int category) {
+		return busSelectMapper.countCarTypeByLine(lineId, category);
 	}
 }
