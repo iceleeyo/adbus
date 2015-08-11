@@ -72,7 +72,10 @@ public class MessageSchedule extends MailActivityBehavior {
 	//@Override
 	public void execute(ActivityExecution execution) {
 		UserDetail owner = (UserDetail) execution.getVariable(ActivitiService.OWNER);
-		int orderId = (Integer) execution.getVariable(ActivitiService.ORDER_ID);
+		Integer orderId = (Integer) execution.getVariable(ActivitiService.ORDER_ID);
+		if (orderId == null || owner == null) {
+			return;
+		}
 		String mtype = (String) actionType.getValue(execution);
 		JpaOrders order = orderService.queryOrderDetail(orderId, null);
 		Long longorderid = OrderIdSeq.getIdFromDate(order.getId(), order.getCreated());
@@ -123,7 +126,7 @@ public class MessageSchedule extends MailActivityBehavior {
 				//send mail
 				if (StringUtils.isNoneBlank(mailContext)) {
 					//super.execute(execution);
-					mailService.sendNormalMail((String)owner.getUser().getEmail(), mailTitle, mailContext);
+					mailService.sendNormalMail((String) owner.getUser().getEmail(), mailTitle, mailContext);
 				}
 			} catch (Exception e) {
 				// TODO: handle exception
