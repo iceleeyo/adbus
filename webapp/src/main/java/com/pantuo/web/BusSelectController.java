@@ -53,7 +53,8 @@ public class BusSelectController {
 
 	@Autowired
 	ActivitiService activitiService;
-
+	@RequestMapping(value = "/autoComplete")
+	@ResponseBody
 	public List<AutoCompleteView> autoCompleteByName(@CookieValue(value = "city", defaultValue = "-1") int city,
 			String name) {
 		return busLineCheckService.autoCompleteByName(city, name);
