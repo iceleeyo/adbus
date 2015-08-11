@@ -12,12 +12,14 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +29,9 @@ import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.BusLineCheckService;
+import com.pantuo.service.ActivitiService.SystemRoles;
 import com.pantuo.util.DateUtil;
+import com.pantuo.web.view.AutoCompleteView;
 import com.pantuo.web.view.LineBusCpd;
 
 /**
@@ -49,6 +53,11 @@ public class BusSelectController {
 
 	@Autowired
 	ActivitiService activitiService;
+
+	public List<AutoCompleteView> autoCompleteByName(@CookieValue(value = "city", defaultValue = "-1") int city,
+			String name) {
+		return busLineCheckService.autoCompleteByName(city, name);
+	}
 
 	/**
 	 * 
