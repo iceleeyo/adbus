@@ -3,6 +3,29 @@
 <mapper namespace="com.pantuo.mybatis.persistence.BusSelectMapper">
 
 
+	<resultMap id="GroupVO" type="com.pantuo.vo.GroupVo">
+		<id column="count" jdbcType="INTEGER" property="count" />
+		<result column="gn1" jdbcType="BIGINT" property="gn1" />
+		<result column="gp1" jdbcType="VARCHAR" property="gp1" />
+	</resultMap>
+
+
+
+	<select id="countCarByLines" resultMap="GroupVO">
+		select
+		count(bus.id) as count,bus_line.id as gn1 from bus_line
+		join bus on bus_line.id = bus.line_id
+		where enabled = 1 and category = #{category}
+		and bus_line.id in
+		<foreach close=")" collection="idList" item="listItem" open="("
+			separator=",">
+			#{listItem}
+		</foreach>
+		group by bus_line.id
+	</select>
+
+
+
 	<select id="getOnlineCarList" resultType="java.lang.Integer">
 		<![CDATA[
 		select distinct bus.id from bus_line join bus on bus_line.id = bus.line_id
@@ -18,8 +41,8 @@
 		)
 	]]>
 	</select>
-	
-	
+
+
 	<select id="countOnlineCarList" resultType="java.lang.Integer">
 		<![CDATA[
 		select count(distinct bus.id) from bus_line join bus on bus_line.id = bus.line_id
@@ -41,7 +64,8 @@
 		select
 		count(1) from bus_line
 		join bus on bus_line.id = bus.line_id
-		where enabled = #{enabled} and category = #{category}
+		where enabled = #{enabled} and
+		category = #{category}
 		and bus_line.id =
 		#{lineId}
 	</select>
