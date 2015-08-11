@@ -145,7 +145,7 @@
 				<input class="ui-input  validate[required,custom[chinese],minSize[2],maxSize[12],ajax[ajaxUserCall]]" 
 				type="text" name="firstName" id="firstName"
 					data-is="isAmount isEnough" autocomplete="off"
-					disableautocomplete="" placeholder="不支持特殊字符">
+					disableautocomplete="" placeholder="2-12位中英文">
 			</div>
 
 			<div class="ui-form-item">

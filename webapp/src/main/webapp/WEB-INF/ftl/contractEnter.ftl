@@ -126,7 +126,7 @@ var bb=false;
     })
  
 		        //author:pxh 2015-05-20 22:36
-		        $( "#username2" ).autocomplete({
+		        $( "#username" ).autocomplete({
 		  			source: "${rc.contextPath}/user/autoComplete",
 		  			change: function( event, ui ) { 
 		  				/*if(ui.item!=null){alert(ui.item.value);}*/

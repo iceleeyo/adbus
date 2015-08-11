@@ -59,8 +59,9 @@ public class BusSelectController {
 
 	@RequestMapping(value = "/autoComplete")
 	@ResponseBody
+	
 	public List<AutoCompleteView> autoCompleteByName(@CookieValue(value = "city", defaultValue = "-1") int city,
-			@RequestParam(value = "term") String name) {
+		@RequestParam(value = "term") String name) {
 		return busLineCheckService.autoCompleteByName(city, name, JpaBus.Category.yunyingche);
 	}
 
