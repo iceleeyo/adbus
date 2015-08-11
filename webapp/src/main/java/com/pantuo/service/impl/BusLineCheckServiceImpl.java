@@ -47,7 +47,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	@Override
 	public List<AutoCompleteView> autoCompleteByName(int city, String name) {
 		List<AutoCompleteView> r = new ArrayList<AutoCompleteView>();
-		BooleanExpression query = QJpaContract.jpaContract.city.eq(city);
+		BooleanExpression query =QJpaBusline.jpaBusline.city.eq(city);
 		if (StringUtils.isNotBlank(name)) {
 			query = query.and(QJpaBusline.jpaBusline.name.like("%" + name + "%"));
 		}
