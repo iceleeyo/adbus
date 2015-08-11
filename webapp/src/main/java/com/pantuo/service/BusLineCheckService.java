@@ -22,7 +22,7 @@ public interface BusLineCheckService {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	public int countByFreeCars(int lineId, JpaBus.Category category, String start, String end);
+	public int countByFreeCars(int lineId,Integer  modelId, JpaBus.Category category, String start, String end);
 
 	/**
 	 * 
