@@ -61,28 +61,29 @@
 
 
 	<select id="countOnlineCarList" resultType="java.lang.Integer">
-		<![CDATA[
+	<![CDATA[
 		select count(distinct bus.id) from bus_line join bus on bus_line.id = bus.line_id
 		join bus_contract on bus.id = bus_contract.busid
 		where
 		bus.enabled = 1 and bus.category = #{category}
 		and bus_line.id = #{lineId}
-		<if test="modelId > 0">
-			and bus.model_id = #{modelId}
-		</if>
 		and (
 		(bus_contract.start_date<= #{start}
 		and bus_contract.end_date>= #{start})
 		or (bus_contract.start_date<= #{end}
 		and bus_contract.end_date>= #{end})
 		)
-	]]>
+		]]>
+		<if test="modelId > 0">
+			and model_id = #{modelId}
+		</if>
+		
+		
 	</select>
 
 
 	<select id="countBusCar" resultType="java.lang.Integer">
 	
-	 	<![CDATA[
 		select
 		count(1) from bus_line
 		join bus on bus_line.id = bus.line_id
@@ -94,7 +95,6 @@
 			and model_id = #{modelId}
 		</if>
 		
-		]]>
 	</select>
 
 </mapper>
