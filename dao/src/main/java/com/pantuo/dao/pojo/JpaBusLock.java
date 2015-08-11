@@ -19,6 +19,8 @@ public class JpaBusLock extends CityEntity {
 	@ManyToOne
 	@JoinColumn(name = "lineId")
 	private JpaBusline line;
+	@JoinColumn(name = "modelId")
+	private JpaBusModel busmodel;
 	private int contractId;
 	private int salesNumber;//合同生效时购买的线路车辆数量
 	private int remainNuber;//实行贴车进行后的 的数量 ,贴车回执处理时减这个数量
