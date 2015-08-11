@@ -19,6 +19,7 @@ public class JpaBusLock extends CityEntity {
 	@ManyToOne
 	@JoinColumn(name = "lineId")
 	private JpaBusline line;
+	@ManyToOne
 	@JoinColumn(name = "modelId")
 	private JpaBusModel busmodel;
 	private int contractId;
