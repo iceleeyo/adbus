@@ -98,5 +98,16 @@
         <table schema="" tableName="account" delimitIdentifiers="${generator.delimitIdentifiers}">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
+        <table schema="" tableName="black_ad" delimitIdentifiers="${generator.delimitIdentifiers}">
+            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
+        </table>
+        
+         <table schema="" tableName="bus_lock" delimitIdentifiers="${generator.delimitIdentifiers}">
+            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
+        </table>
+        
+         <table schema="" tableName="bus_contract" delimitIdentifiers="${generator.delimitIdentifiers}">
+            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
+        </table>
     </context>
 </generatorConfiguration>
