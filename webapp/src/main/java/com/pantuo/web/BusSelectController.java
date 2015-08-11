@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pantuo.dao.pojo.JpaBus;
@@ -28,6 +29,7 @@ import com.pantuo.service.ActivitiService;
 import com.pantuo.service.BusLineCheckService;
 import com.pantuo.util.DateUtil;
 import com.pantuo.web.view.LineBusCpd;
+
 /**
  * 
  * <b><code>BusSelectController</code></b>
@@ -44,10 +46,10 @@ public class BusSelectController {
 
 	@Autowired
 	BusLineCheckService busLineCheckService;
-	
-	
+
 	@Autowired
 	ActivitiService activitiService;
+
 	/**
 	 * 
 	 * 工作流测试
@@ -60,26 +62,26 @@ public class BusSelectController {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	@RequestMapping(value = "/busFlow")
-	public String busFlow(Model model, Principal principal  ,
-			HttpServletRequest request, HttpServletResponse response) {
+	public String busFlow(Model model, Principal principal, HttpServletRequest request, HttpServletResponse response) {
 		activitiService.startTest();
 		return null;
 	}
-    
 
-	@RequestMapping(value = "/check")
+	@RequestMapping(value = "/lineReaminCheck")
 	@ResponseBody
-	public int red2(Model model, HttpServletRequest request) {
-		int y = busLineCheckService.countByFreeCars(187, JpaBus.Category.yunyingche, "2015-08-07", "2015-08-27");
-		return y;
-
+	public int lineReaminCheck(
+			@RequestParam(value = "buslinId", required = true, defaultValue = "-d") Integer buslinId,
+			@RequestParam(value = "start", required = true) String start,
+			@RequestParam(value = "end", required = true) String end) {
+		//187 2015-08-07 2015-08-17
+		return busLineCheckService.countByFreeCars(buslinId, JpaBus.Category.yunyingche, start, end);
 	}
-	
-	 /**
-     * 排期表
-     */
-    @RequestMapping("order-body-ajax-list2")
-    @ResponseBody
+
+	/**
+	* 排期表
+	*/
+	@RequestMapping("order-body-ajax-list2")
+	@ResponseBody
 	public List<LineBusCpd> getBodyScheduleListForOrder2(TableRequest req) {
 		try {
 			Sort sort = req.getSort("created");
@@ -91,11 +93,11 @@ public class BusSelectController {
 			for (int i = 1; i < 100; i++) {
 				Map<String, String> map = new HashMap<String, String>();
 				LineBusCpd c = new LineBusCpd();
-				int w= (int)(Math.random()*90) + 0;
-				for (int j = w; j < w+20; j++) {
-					map.put(format.format(DateUtil.dateAdd(date, j)), "red");	
+				int w = (int) (Math.random() * 90) + 0;
+				for (int j = w; j < w + 20; j++) {
+					map.put(format.format(DateUtil.dateAdd(date, j)), "red");
 				}
-				
+
 				c.setMap(map);
 				c.setSerialNumber(String.valueOf(i));
 				leaves.add(c);
@@ -110,6 +112,7 @@ public class BusSelectController {
 			//return new DataTablePage(Collections.EMPTY_LIST);
 		}
 	}
+
 	@RequestMapping("lineschedule/{line}")
 	public String lineschedule(Model model, @PathVariable("line") String taskId, Principal principal) {
 		List<String> list = new ArrayList<String>();
