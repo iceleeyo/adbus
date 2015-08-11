@@ -15,11 +15,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.expr.BooleanExpression;
+import com.pantuo.dao.BusLockRepository;
 import com.pantuo.dao.BuslineRepository;
 import com.pantuo.dao.pojo.JpaBus;
+import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaBusline;
+import com.pantuo.dao.pojo.QJpaBusLock;
 import com.pantuo.dao.pojo.QJpaBusline;
 import com.pantuo.mybatis.persistence.BusLineMapper;
+import com.pantuo.mybatis.persistence.BusLockMapper;
 import com.pantuo.mybatis.persistence.BusSelectMapper;
 import com.pantuo.service.BusLineCheckService;
 import com.pantuo.vo.GroupVo;
@@ -31,6 +35,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	BusSelectMapper busSelectMapper;
 	@Autowired
 	BusLineMapper buslineMapper;
+	@Autowired
+	BusLockMapper busLockMapper;
 
 	@Override
 	public int countByFreeCars(int lineId, Integer modelId, JpaBus.Category category, String start, String end) {
@@ -44,6 +50,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 
 	@Autowired
 	BuslineRepository buslineRepository;
+	@Autowired
+	BusLockRepository busLockRepository;
 
 	@Override
 	public List<AutoCompleteView> autoCompleteByName(int city, String name, JpaBus.Category category) {
@@ -66,8 +74,9 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			Map<Integer, Integer> cache = getBusLineMap(vos);
 			for (JpaBusline obj : list.getContent()) {
 				int carNumber = cache.containsKey(obj.getId()) ? cache.get(obj.getId()) : 0;
-				r.add(new AutoCompleteView(String.valueOf(obj.getId()), obj.getName() + "  " + obj.getLevelStr() + " ["
-						+ carNumber + "]"));
+				String viewString=obj.getName() + "  " + obj.getLevelStr() + " ["+ carNumber + "]";
+				r.add(new AutoCompleteView(viewString ,viewString,String.valueOf(obj.getId())));//String.valueOf(obj.getId())
+						
 			}
 		}
 		return r;
@@ -79,6 +88,13 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			r.put(groupVo.getGn1(), groupVo.getCount());
 		}
 		return r;
+	}
+
+	@Override
+	public List<JpaBusLock> getBusLockListBySeriNum(long seriaNum) {
+		BooleanExpression query = QJpaBusLock.jpaBusLock.seriaNum.eq(seriaNum);
+		List<JpaBusLock> list= (List<JpaBusLock>) busLockRepository.findAll(query);
+		return list;
 	}
 
 	@Override

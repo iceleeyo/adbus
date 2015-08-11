@@ -2,9 +2,8 @@ package com.pantuo.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.pantuo.dao.pojo.JpaBus;
+import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.vo.GroupVo;
 import com.pantuo.web.view.AutoCompleteView;
 
@@ -43,5 +42,7 @@ public interface BusLineCheckService {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	public List<GroupVo> countCarTypeByLine(int lineId, JpaBus.Category category);
+
+	public List<JpaBusLock> getBusLockListBySeriNum(long seriaNum);
 
 }

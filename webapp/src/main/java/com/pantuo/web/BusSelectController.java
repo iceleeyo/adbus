@@ -21,14 +21,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pantuo.dao.pojo.JpaBus;
+import com.pantuo.dao.pojo.JpaBusLock;
+import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.BusLineCheckService;
 import com.pantuo.util.DateUtil;
+import com.pantuo.util.Only1ServieUniqLong;
 import com.pantuo.vo.GroupVo;
 import com.pantuo.web.view.AutoCompleteView;
 import com.pantuo.web.view.LineBusCpd;
@@ -56,7 +60,7 @@ public class BusSelectController {
 	@RequestMapping(value = "/autoComplete")
 	@ResponseBody
 	public List<AutoCompleteView> autoCompleteByName(@CookieValue(value = "city", defaultValue = "-1") int city,
-			String name) {
+			@RequestParam(value = "term") String name) {
 		return busLineCheckService.autoCompleteByName(city, name, JpaBus.Category.yunyingche);
 	}
 
@@ -141,5 +145,16 @@ public class BusSelectController {
 		model.addAttribute("dates", list);
 		return "line_schedule";
 	}
+	@RequestMapping("applyBodyCtct")
+	public String applyBodyCtct(Model model, Principal principal) {
+		model.addAttribute("seriaNum", Only1ServieUniqLong.getUniqLongNumber());
+		return "applyBodyCtct";
+	}
+	 @RequestMapping(value = "ajax-buslock", method = RequestMethod.GET)
+	    @ResponseBody
+	    public DataTablePage<JpaBusLock> getBuses(Model model,@CookieValue(value = "city", defaultValue = "-1") int city,
+	                                            @RequestParam("seriaNum") long seriaNum) {
+	        return new DataTablePage(busLineCheckService.getBusLockListBySeriNum(seriaNum));
+	    }
 
 }
