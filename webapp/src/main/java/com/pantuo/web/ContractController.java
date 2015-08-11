@@ -16,6 +16,7 @@ import com.pantuo.dao.pojo.JpaContract;
 import com.pantuo.dao.pojo.JpaIndustry;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.mybatis.domain.BusContract;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.Industry;
 import com.pantuo.pojo.DataTablePage;
@@ -71,7 +72,24 @@ public class ContractController {
 	public String creContract(HttpServletRequest request) {
 		return "crecontract";
 	}
-
+	@RequestMapping(value = "/bus_contractEnter", produces = "text/html;charset=utf-8")
+	public String bus_contractEnter(Model model, @CookieValue(value = "city", defaultValue = "-1") int cityId,
+			Principal principal,HttpServletRequest request) {
+		List<Contract> contracts = contractService.querybodyContractList(cityId);
+		model.addAttribute("contracts", contracts);
+		return "bus_contractEnter";
+	}
+	@RequestMapping(value = "saveBusContract", method = RequestMethod.POST)
+	@ResponseBody
+	public Pair<Boolean, String> saveBusContract(@CookieValue(value = "city", defaultValue = "-1") int city,
+			@RequestParam(value = "contractid") int contractid,
+			@RequestParam(value = "plateNumber") String plateNumber,
+			@RequestParam(value = "startdate") String startdate,
+			@RequestParam(value = "enddate") String enddate,
+		 Principal principal, HttpServletRequest request) throws IllegalStateException,
+			IOException, ParseException {
+		return contractService.saveBusContract(city,plateNumber,contractid,startdate,enddate);
+	}
 	@PreAuthorize(" hasRole('ShibaOrderManager')  ")
 	@RequestMapping(value = "saveContract", method = RequestMethod.POST)
 	@ResponseBody

@@ -213,6 +213,7 @@ var bb=false;
                                             	<option value="INFO图片">INFO图片</option>
                                             	<option value="全屏视频">全屏视频</option>
                                             	<option value="团类广告">团类广告</option>
+                                            	<option value="车身广告">车身广告</option>
                                             </select>
                                         </div>
 										

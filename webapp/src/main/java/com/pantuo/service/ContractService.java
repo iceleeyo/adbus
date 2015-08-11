@@ -1,6 +1,8 @@
 package com.pantuo.service;
 
 import java.security.Principal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +29,10 @@ import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.AttachmentExample;
 import com.pantuo.mybatis.domain.BlackAd;
 import com.pantuo.mybatis.domain.BlackAdExample;
+import com.pantuo.mybatis.domain.Bus;
+import com.pantuo.mybatis.domain.BusContract;
+import com.pantuo.mybatis.domain.BusContractExample;
+import com.pantuo.mybatis.domain.BusExample;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.ContractExample;
 import com.pantuo.mybatis.domain.Industry;
@@ -37,6 +43,8 @@ import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.OrdersExample;
 import com.pantuo.mybatis.persistence.AttachmentMapper;
 import com.pantuo.mybatis.persistence.BlackAdMapper;
+import com.pantuo.mybatis.persistence.BusContractMapper;
+import com.pantuo.mybatis.persistence.BusMapper;
 import com.pantuo.mybatis.persistence.ContractMapper;
 import com.pantuo.mybatis.persistence.IndustryMapper;
 import com.pantuo.mybatis.persistence.OrdersMapper;
@@ -62,6 +70,10 @@ public class ContractService {
 	ContractMapper contractMapper;
 	@Autowired
 	OrdersMapper ordersMapper;
+	@Autowired
+	BusMapper busMapper;
+	@Autowired
+	BusContractMapper busContractMapper;
 	@Autowired
 	AttachmentMapper attachmentMapper;
 	@Autowired
@@ -270,5 +282,74 @@ public class ContractService {
 		industry.setEnabled(true);
 		industry.setCreated(new Date());
 		return industryMapper.insert(industry);
+	}
+
+	public List<Contract> querybodyContractList(int cityId) {
+		ContractExample example=new ContractExample();
+		ContractExample.Criteria criteria=example.createCriteria();
+		criteria.andContractTypeEqualTo("车身广告");
+		criteria.andCityEqualTo(cityId);
+		return contractMapper.selectByExample(example);
+	}
+public Bus findBusByPlateNum(String plateNumber){
+	BusExample example=new BusExample();
+	BusExample.Criteria criteria=example.createCriteria();
+	criteria.andPlateNumberEqualTo(plateNumber);
+	List<Bus> list=busMapper.selectByExample(example);
+	if(list.size()>0){
+		return list.get(0);
+	}
+	return null;
+	
+}
+	public Pair<Boolean, String> saveBusContract(int city, String plateNumber,int contractid,String startdate,String enddate) throws ParseException {
+		Date starDate=(Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(startdate);
+		Date endDate=(Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(enddate);
+		String[] pn=plateNumber.split(",");
+		for(int i=0;i<pn.length;i++){
+			if(StringUtils.isNotBlank(pn[i])){
+				Bus bus=findBusByPlateNum(pn[i]);
+				if(bus!=null){
+					if(checkEnable(bus.getId(),contractid,starDate,endDate)){
+						return new Pair<Boolean, String>(false, "车牌号为'"+bus.getPlateNumber()+"'的车上下刊时间冲突，保存失败");
+					}
+					BusContract busContract=new BusContract();
+					busContract.setEnable(true);
+					busContract.setCity(city);
+					busContract.setStartDate(starDate);
+					busContract.setEndDate(endDate);
+					busContract.setContractid(contractid);
+					busContract.setBusid(bus.getId());
+					busContractMapper.insert(busContract);
+				}else{
+					return new Pair<Boolean, String>(false, "车牌号'"+pn[i]+"'不存在");
+				}
+			}
+		}
+		return new Pair<Boolean, String>(true, "保存成功");
+	}
+
+	private boolean checkEnable(int busid, int contractid, Date starDate, Date endDate) {
+		BusContractExample example=new BusContractExample();
+		BusContractExample.Criteria criteria=example.createCriteria();
+		BusContractExample.Criteria criteria2=example.createCriteria();
+		BusContractExample.Criteria criteria3=example.createCriteria();
+		criteria.andBusidEqualTo(busid);
+		criteria.andContractidEqualTo(contractid);
+		criteria.andStartDateLessThanOrEqualTo(starDate);
+		criteria.andEndDateGreaterThanOrEqualTo(starDate);
+		criteria2.andBusidEqualTo(busid);
+		criteria2.andContractidEqualTo(contractid);
+		criteria2.andStartDateLessThanOrEqualTo(endDate);
+		criteria2.andEndDateGreaterThanOrEqualTo(endDate);
+		criteria3.andBusidEqualTo(busid);
+		criteria3.andContractidEqualTo(contractid);
+		criteria3.andStartDateGreaterThanOrEqualTo(starDate);
+		criteria3.andEndDateLessThanOrEqualTo(endDate);
+		example.or(criteria2);
+		if(busContractMapper.selectByExample(example).size()>0){
+			return true;
+		}
+		return false;
 	}
 }

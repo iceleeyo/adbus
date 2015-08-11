@@ -59,6 +59,13 @@
 													合同管理
 												</a>
 											</li>
+											<#if city.mediaType == 'body'>
+											<li class="pg-side-exp-item">
+												<a class="side-exp-item-t"  href="${rc.contextPath}/contract/bus_contractEnter">
+													车辆关联合同
+												</a>
+											</li>
+											</#if>
 										</ul>
 									</li>	
 									</@security.authorize>
