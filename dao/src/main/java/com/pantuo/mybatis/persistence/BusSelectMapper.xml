@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pantuo.mybatis.persistence.BusSelectMapper">
+
+
+	<select id="getOnlineCarList" resultType="java.lang.Integer">
+		<![CDATA[
+		select distinct bus.id from bus_line join bus on bus_line.id = bus.line_id
+		join bus_contract on bus.id = bus_contract.busid
+		where
+		bus.enabled = 1 and bus.category = #{category}
+		and bus_line.id = #{lineId}
+		and (
+		(bus_contract.start_date<= #{start}
+		and bus_contract.end_date>= #{start})
+		or (bus_contract.start_date<= #{end}
+		and bus_contract.end_date>= #{end})
+		)
+	]]>
+	</select>
+	
+	
+	<select id="countOnlineCarList" resultType="java.lang.Integer">
+		<![CDATA[
+		select count(distinct bus.id) from bus_line join bus on bus_line.id = bus.line_id
+		join bus_contract on bus.id = bus_contract.busid
+		where
+		bus.enabled = 1 and bus.category = #{category}
+		and bus_line.id = #{lineId}
+		and (
+		(bus_contract.start_date<= #{start}
+		and bus_contract.end_date>= #{start})
+		or (bus_contract.start_date<= #{end}
+		and bus_contract.end_date>= #{end})
+		)
+	]]>
+	</select>
+
+
+	<select id="countBusCar" resultType="java.lang.Integer">
+		select
+		count(1) from bus_line
+		join bus on bus_line.id = bus.line_id
+		where enabled = #{enabled} and category = #{category}
+		and bus_line.id =
+		#{lineId}
+	</select>
+
+</mapper>
