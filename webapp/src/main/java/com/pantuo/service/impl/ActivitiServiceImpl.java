@@ -737,6 +737,84 @@ public class ActivitiServiceImpl implements ActivitiService {
 		//debug(process.getId());
 	}
 
+	
+	
+	
+	public void startTest() {
+		String u = "aduserc";
+		Map<String, Object> initParams = new HashMap<String, Object>();
+		initParams.put("username", u);
+		initParams.put("st", System.currentTimeMillis());
+
+		ProcessInstance process = runtimeService.startProcessInstanceByKey("busFlowV2", initParams);
+		List<Task> tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime()
+				.desc().listPage(0, 5);
+		if (!tasks.isEmpty()) {
+			Task task = tasks.get(0);
+			taskService.claim(task.getId(), u);
+			taskService.complete(task.getId());
+		}
+		tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime().desc()
+				.listPage(0, 1);
+		if (!tasks.isEmpty()) {
+			Task task = tasks.get(0);
+			taskService.claim(task.getId(), "material");
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("canSchedule", false);
+			map.put("closed", true);
+			map.put("closedReson", "库存不足 订单关闭");
+			
+			taskService.complete(task.getId(), map);
+		}
+		tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime().desc()
+				.listPage(0, 2);
+		if (!tasks.isEmpty()) {
+			Task task = tasks.get(0);
+			taskService.claim(task.getId(), "material");
+			taskService.complete(task.getId());
+		}
+
+		tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime().desc()
+				.listPage(0, 2);
+		if (!tasks.isEmpty()) {
+			Task task = tasks.get(0);
+			taskService.claim(task.getId(), "financial");
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("paymentResult", false);
+			map.put("canelResult", true);
+			taskService.complete(task.getId(), map);
+		}
+		//小样
+
+		tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime().desc()
+				.listPage(0, 2);
+		if (!tasks.isEmpty()) {
+			Task task = tasks.get(0);
+			taskService.claim(task.getId(), "material");
+			taskService.complete(task.getId());
+		}
+
+		tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime().desc()
+				.listPage(0, 2);
+		if (!tasks.isEmpty()) {
+			Task task = tasks.get(0);
+			taskService.claim(task.getId(), "material");
+			taskService.complete(task.getId());
+		}
+
+		HistoricProcessInstanceQuery countQuery = historyService.createHistoricProcessInstanceQuery()
+				.processDefinitionKey("busFlowV2").includeProcessVariables().finished();
+		List<HistoricProcessInstance> list = countQuery.list();
+
+		for (HistoricProcessInstance historicProcessInstance : list) {
+
+			Map<String, Object> map = historicProcessInstance.getProcessVariables();
+			System.out.println(map);
+			//---------------------
+
+		}
+		//debug(process.getId());
+	}
 	public void startProcess2(int cityId, UserDetail u, JpaOrders order) {
 		Map<String, Object> initParams = new HashMap<String, Object>();
 		initParams.put(ActivitiService.OWNER, u);

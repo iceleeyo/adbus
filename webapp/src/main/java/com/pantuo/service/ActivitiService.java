@@ -76,6 +76,8 @@ public interface ActivitiService {
 	public void startProcess(int city, UserDetail u, Orders order);
 
 	public void startProcess2(int city, UserDetail u, JpaOrders order);
+	
+	public void startTest();
 
 	public Pair<Object, String> payment(int orderid, String taskid, int contractid, String payType, int isinvoice,int invoiceid,
 			String contents,String receway,UserDetail u);

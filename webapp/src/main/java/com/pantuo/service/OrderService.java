@@ -375,5 +375,8 @@ public class OrderService {
 		criteria.andProductIdEqualTo(id);
 		return ordersMapper.countByExample(example);
 	}
+	public void startTest(){
+		activitiService.startTest();
+	}
 
 }
