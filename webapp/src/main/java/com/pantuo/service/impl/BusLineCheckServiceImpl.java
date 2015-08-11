@@ -33,10 +33,11 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	BusLineMapper buslineMapper;
 
 	@Override
-	public int countByFreeCars(int lineId, JpaBus.Category category, String start, String end) {
+	public int countByFreeCars(int lineId, Integer modelId, JpaBus.Category category, String start, String end) {
 
-		int busLineCarCount = busSelectMapper.countBusCar(lineId, category.ordinal(), BooleanUtils.toInteger(true));
-		int carIds = busSelectMapper.countOnlineCarList(lineId, category.ordinal(), start, end);
+		int busLineCarCount = busSelectMapper.countBusCar(lineId, modelId, category.ordinal(),
+				BooleanUtils.toInteger(true));
+		int carIds = busSelectMapper.countOnlineCarList(lineId, modelId, category.ordinal(), start, end);
 		//总数-被占用数据
 		return busLineCarCount - carIds;
 	}
