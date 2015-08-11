@@ -14,6 +14,7 @@ public class AutoCompleteView {
 
 	public String value;
 	public String label;
+	public String dbId;
 
 	public String getValue() {
 		return value;
@@ -34,6 +35,20 @@ public class AutoCompleteView {
 	public AutoCompleteView(String value, String label) {
 		this.value = value;
 		this.label = label;
+	}
+
+	public AutoCompleteView(String value, String label, String dbId) {
+		this.value = value;
+		this.label = label;
+		this.dbId = dbId;
+	}
+
+	public String getDbId() {
+		return dbId;
+	}
+
+	public void setDbId(String dbId) {
+		this.dbId = dbId;
 	}
 
 }
