@@ -7,6 +7,23 @@ import org.apache.ibatis.annotations.Param;
 import com.pantuo.vo.GroupVo;
 
 public interface BusSelectMapper {
+	
+	
+	
+	/**
+	 * 
+	 * 按线路统计车辆个数
+	 *
+	 * @param idList
+	 * @param category
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	List<GroupVo> countCarTypeByLine(@Param("lineId") int lineId, @Param("category") int category);
+	
+	
+	
+	
 	/**
 	 * 
 	 * 按线路统计车辆个数

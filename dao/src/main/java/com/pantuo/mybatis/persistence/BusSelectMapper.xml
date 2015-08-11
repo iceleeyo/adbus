@@ -6,16 +6,31 @@
 	<resultMap id="GroupVO" type="com.pantuo.vo.GroupVo">
 		<id column="count" jdbcType="INTEGER" property="count" />
 		<result column="gn1" jdbcType="BIGINT" property="gn1" />
+		<result column="gn2" jdbcType="BIGINT" property="gn2" />
 		<result column="gp1" jdbcType="VARCHAR" property="gp1" />
+		<result column="gp2" jdbcType="VARCHAR" property="gp2" />
 	</resultMap>
 
+	<select id="countCarTypeByLine" resultMap="GroupVO">
+		select count as
+		count,gn1 ,bus_model.name as gp2,bus_model.double_decker as gn2 from
+		(select
+		count(bus.model_id) as count,bus.model_id as gn1 from bus_line
+		join bus on bus_line.id = bus.line_id
+		where enabled = 1 and category = #{category} and bus_line.id=#{lineId}
+		group by bus.model_id )t join bus_model
+		on gn1=bus_model.id
+
+	</select>
 
 
 	<select id="countCarByLines" resultMap="GroupVO">
 		select
 		count(bus.id) as count,bus_line.id as gn1 from bus_line
-		join bus on bus_line.id = bus.line_id
-		where enabled = 1 and category = #{category}
+		join bus
+		on bus_line.id = bus.line_id
+		where enabled = 1 and category =
+		#{category}
 		and bus_line.id in
 		<foreach close=")" collection="idList" item="listItem" open="("
 			separator=",">
