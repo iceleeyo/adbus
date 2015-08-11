@@ -42,6 +42,6 @@ public interface BusLineCheckService {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	public List<GroupVo> countCarTypeByLine(int lineId, int category);
+	public List<GroupVo> countCarTypeByLine(int lineId, JpaBus.Category category);
 
 }

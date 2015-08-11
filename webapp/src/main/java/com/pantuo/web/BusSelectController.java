@@ -64,7 +64,7 @@ public class BusSelectController {
 	@ResponseBody
 	public List<GroupVo> selectBusType(
 			@RequestParam(value = "buslinId", required = true, defaultValue = "-d") Integer buslinId) {
-		return busLineCheckService.countCarTypeByLine(buslinId, JpaBus.Category.yunyingche.ordinal());
+		return busLineCheckService.countCarTypeByLine(buslinId, JpaBus.Category.yunyingche);
 	}
 
 	/**
