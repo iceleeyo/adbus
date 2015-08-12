@@ -126,6 +126,7 @@ var bb=false;
     })
  
 		        //author:pxh 2015-05-20 22:36
+ 
 		        $( "#username" ).autocomplete({
 		       	 	minLength: 0,
 		        	source: "${rc.contextPath}/user/autoComplete",
@@ -136,11 +137,12 @@ var bb=false;
 		  			 select: function(event,ui) {
 		  			 $('#username').val(ui.item.value);
 		  				//table.fnDraw();
-		  			 }
-				}).focus(function () {
+		  			 },
+				}) .focus(function () {
        				 $(this).autocomplete("search");
    				 });
-				;
+					
+ 
 	    });
 
 </script>
