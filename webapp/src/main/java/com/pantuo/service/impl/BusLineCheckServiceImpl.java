@@ -70,7 +70,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		List<AutoCompleteView> r = new ArrayList<AutoCompleteView>();
 		BooleanExpression query = QJpaBusline.jpaBusline.city.eq(city);
 		if (StringUtils.isNotBlank(name)) {
-			query = query.and(QJpaBusline.jpaBusline.name.like("'%" + name + "%'"));
+			query = query.and(QJpaBusline.jpaBusline.name.like("%" + name + "%"));
 		}
 		Pageable p = new PageRequest(0, 30, new Sort("name"));
 		List<Integer> idsList = new ArrayList<Integer>();
@@ -153,6 +153,9 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		criteria.andUserIdEqualTo(userId);
 		criteria.andSeriaNumEqualTo(seriaNum);
 		List<BusLock> list=busLockMapper.selectByExample(example);
+		if(list.size()==0){
+			return new Pair<Boolean, String>(false, "请选择车辆");
+		}
 		for (BusLock busLock : list) {
 			if(busLock!=null){
 				if(a>0){
