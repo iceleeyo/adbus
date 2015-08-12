@@ -160,7 +160,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 							+ '</div>'
 							+ '<div id="four" style="display:none;"><div class="ui-form-item" id="model_Id">'
 							+ '<label class="ui-label mt10">选择车型：</label>'
-							+ '<select  class="ui-input bus-model" name="modelid" id="model_id"> <option value="0" selected="selected">所有类型</option> </select>'
+							+ '<select  class="ui-input bus-model" name="modelId" id="model_id"> <option value="0" selected="selected">所有类型</option> </select>'
 							+ '</div>'
 							+'<div class="ui-form-item"> <label class="ui-label mt10">选取数量：</label>'
 							+'<input class="ui-input validate[required,integer,min[1],max[2000]]" type="number" value="0" name="remainNuber"'
