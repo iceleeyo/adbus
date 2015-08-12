@@ -4,14 +4,17 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
-
-import com.pantuo.dao.*;
-import com.pantuo.dao.pojo.*;
-import com.pantuo.dao.pojo.UserDetail.UStats;
-import com.pantuo.util.DateUtil;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TimeZone;
 
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.impl.persistence.entity.GroupEntity;
@@ -22,6 +25,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import scala.actors.threadpool.Arrays;
+
+import com.pantuo.dao.BusModelRepository;
+import com.pantuo.dao.BusinessCompanyRepository;
+import com.pantuo.dao.BuslineRepository;
+import com.pantuo.dao.CalendarRepository;
+import com.pantuo.dao.CityRepository;
+import com.pantuo.dao.IndustryRepository;
+import com.pantuo.dao.SuppliesRepository;
+import com.pantuo.dao.pojo.JpaBus;
+import com.pantuo.dao.pojo.JpaBusModel;
+import com.pantuo.dao.pojo.JpaBusinessCompany;
+import com.pantuo.dao.pojo.JpaBusline;
+import com.pantuo.dao.pojo.JpaCalendar;
+import com.pantuo.dao.pojo.JpaCity;
+import com.pantuo.dao.pojo.JpaIndustry;
+import com.pantuo.dao.pojo.JpaTimeslot;
+import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.dao.pojo.UserDetail.UStats;
+import com.pantuo.mybatis.domain.BusModel;
+import com.pantuo.mybatis.domain.BusModelExample;
+import com.pantuo.mybatis.persistence.BusModelMapper;
+import com.pantuo.util.DateUtil;
 
 /**
  * 初始化数据
@@ -49,6 +74,8 @@ public class DataInitializationService {
     BuslineRepository buslineRepo;
     @Autowired
     BusModelRepository busModelRepo;
+    @Autowired
+    BusModelMapper busModelMapper;
 
     @Autowired
     IndustryRepository industryRepo;
@@ -334,6 +361,8 @@ public class DataInitializationService {
 
     //初始化公交车表
     private void initializeBuses() throws Exception {
+		initDefaultBusModel();
+    	
         long count = busService.count();
         if (count > 0) {
             log.info("There are already {} buses entries in table, skip initialization step", count);
@@ -445,6 +474,34 @@ public class DataInitializationService {
 
         log.info("Inserted {} buses entries into table", count);
     }
+
+	private void initDefaultBusModel() {
+		try {
+			BusModelExample example = new BusModelExample();
+			BusModelExample.Criteria ca = example.createCriteria();
+			ca.andNameEqualTo("default_model");
+			List<BusModel> r = busModelMapper.selectByExample(example);
+			BusModel model = new BusModel();
+			model.setId(0);
+			model.setCity(1);
+			model.setDoubleDecker(true);
+			model.setUpdated(new Date());
+			model.setCreated(new Date());
+			model.setName("default_model");
+
+			
+			if (r.size() == 0) {
+				busModelMapper.insert(model);
+			}
+			model.setId(0);
+			busModelMapper.updateByExample(model, example);
+
+			log.info("insert default-bus-model id=0 ");
+
+		} catch (Exception e1) {
+			log.error("id0exist", e1);
+		}
+	}
 
     private Map<String, JpaBusline> initBuslineMap() {
         Map<String, JpaBusline> lineMap = new HashMap<String, JpaBusline>();
