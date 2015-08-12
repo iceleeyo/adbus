@@ -120,18 +120,20 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 					var tip='<div  class="tips-title" id="tip" style="padding-left: 13%;">[抱歉，所选线路库存量：<font color="red">'+data+'&nbsp;</font>少于选取数量]</div>'
 					$("#worm-tips").append(tip);
 					$("#worm-tips").show();
-				return;
+					return;
+				}else {
+					bb=true;
 				}
 			}
 		});
 	if(bb==true){
 		$('#form01').ajaxForm(function(data) {
 		if(data.left){
-		     alert("添加成功");
+		     layer.msg("添加成功");
 		       orderBusesTable.dataTable()._fnAjaxUpdate();
 		       $("#cc").trigger("click");
 		     }else{
-		     alert(data.right);
+		     layer.msg(data.right);
 		     }
 		}).submit();
 		}
