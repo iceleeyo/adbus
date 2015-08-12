@@ -295,8 +295,9 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 			},
 			success : function(data) {
 				$("#four").show();
+				var v=' <option value="0" selected="selected">所有类型</option> ';
+				$("#model_id").html(v);
 				$.each(data, function(i, item) {
-				
 				var w="<option value="+item.gn1+">"
 									+ item.gp2
 									+ (item.gn2 == 0 ? "&nbsp;&nbsp; 单层"
@@ -310,9 +311,10 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 		}, "text");
 	}
 	
-	function showSubNum(){
-		
+	function cleanModel(){
+		$("#model_id")
 	}
+	
 	function selctLine() {
 
 		layer
@@ -330,7 +332,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 							+ '</div>'
 							+ '<div id="four" style="display:none;"><div class="ui-form-item" id="model_Id">'
 							+ '<label class="ui-label mt10">选择车型：</label>'
-							+ '<select onchange="showSubNum()" class="ui-input bus-model" name="model.id" id="model_id"> <option value="0" selected="selected">所有类型</option> </select>'
+							+ '<select onchange="showSubNum()" class="ui-input bus-model" name="model.id" id="model_id"></select>'
 							+ '</div>'
 							+'<div class="ui-form-item"> <label class="ui-label mt10">选取数量：</label>'
 							+'<input class="ui-input validate[required,integer,min[1],max[2000]]" type="number" value="0" name="busNumber"'
@@ -359,6 +361,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 			
 			
 		$("#line_id").autocomplete({
+			minLength: 0,
 			source : "${rc.contextPath}/busselect/autoComplete",
 			change : function(event, ui) {
 				/*if(ui.item!=null){alert(ui.item.value);}*/
@@ -370,7 +373,12 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				initProvince(ui.item.dbId);
 				$("#db_id").val(ui.item.dbId);
 			}
-		});
+			
+		}).focus(function () {
+       				 $(this).autocomplete("search");
+   				 });
+		;
+		
 		
 	}
 </script>
