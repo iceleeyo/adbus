@@ -1,5 +1,4 @@
 <#macro pickBuses order product city lineLevel categories title="选取车辆" buyLink=false>
-<@frame.html title="车身广告" js=["js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/progressbar.js"] css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 <#if city.mediaType == 'body'>
 <script type="text/javascript">
     var orderBusesTable;
@@ -223,20 +222,6 @@
         });
 
         refreshOrderedBuses();
-        
-        
-        //author:pxh 2015-05-20 22:36
-		        $( "#line.id" ).autocomplete({
-		  			source: "${rc.contextPath}/busselect/autoCompleteByName",
-		  			change: function( event, ui ) { 
-		  				/*if(ui.item!=null){alert(ui.item.value);}*/
-		  				//table.fnDraw();
-		  			 },
-		  			 select: function(event,ui) {
-		  			 $('#line.id').val(ui.item.value);
-		  				//table.fnDraw();
-		  			 }
-				});
     });
 
     function sub() {
@@ -277,7 +262,7 @@
               enctype="multipart/form-data">
             <input type="hidden" name="order.id" id="order.id" value="${order.id}"/>
         <div class="inputs">
-            <!-- <div class="ui-form-item">
+            <div class="ui-form-item">
                 <label class="ui-label mt10">线路级别：</label>
                 <div>${lineLevel.nameStr}</div>
                 <input type="hidden" name="level" id="level" value="${lineLevel}"/>
@@ -286,7 +271,6 @@
                 <label class="ui-label mt10">共可选（辆）:</label>
                 <div class="toBeOrdered">${order.selectableBusesNumber}</div>
             </div>
-            
             <div class="ui-form-item">
                 <label class="ui-label mt10">选择类别：</label>
                 <select class="ui-input bus-category"
@@ -305,13 +289,12 @@
                     <option value="" selected="selected"></option>
                 </select>
             </div>
-             -->
             <div class="ui-form-item" style="display:none">
                 <label class="ui-label mt10">选择线路：</label>
-                <input class="ui-input  bus-line validate[required,integer,min[1],max[2000]]"
-                        type="number" value="0" name="line.id"
-                        id="line.id" data-is="isAmount isEnough"
-                >
+                <select class="ui-input bus-line"
+                        name="line.id" id="line.id">
+                    <option value="" selected="selected"></option>
+                </select>
             </div>
             <div class="ui-form-item" style="display:none">
                 <label class="ui-label mt10">选择车型：</label>
