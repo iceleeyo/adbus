@@ -1,6 +1,7 @@
 package com.pantuo.web;
 
 import java.security.Principal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,12 +28,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusLock;
+import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.BusLineCheckService;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.Only1ServieUniqLong;
+import com.pantuo.util.Pair;
+import com.pantuo.util.Request;
 import com.pantuo.vo.GroupVo;
 import com.pantuo.web.view.AutoCompleteView;
 import com.pantuo.web.view.LineBusCpd;
@@ -98,6 +102,19 @@ public class BusSelectController {
 		//187 2015-08-07 2015-08-17
 		return busLineCheckService.countByFreeCars(buslinId, modelId, JpaBus.Category.yunyingche, start, end);
 	}
+	
+	@RequestMapping(value = "/saveBusLock")
+	@ResponseBody
+	public Pair<Boolean, String> saveBusLock(BusLock buslock,@CookieValue(value = "city", defaultValue = "-1") int city,
+			Principal principal,HttpServletRequest request,
+			@RequestParam(value = "seriaNum", required = true) long seriaNum,
+			@RequestParam(value = "startD", required = true) String startD,
+			@RequestParam(value = "endD", required = true) String endD) throws ParseException {
+		buslock.setCity(city);
+		buslock.setUserId(Request.getUserId(principal));
+		buslock.setSeriaNum(seriaNum);
+		return busLineCheckService.saveBusLock(buslock, startD, endD);
+	}
 
 	/**
 	* 排期表
@@ -153,9 +170,10 @@ public class BusSelectController {
 	}
 	 @RequestMapping(value = "ajax-buslock", method = RequestMethod.GET)
 	    @ResponseBody
-	    public DataTablePage<JpaBusLock> getBuses(Model model,@CookieValue(value = "city", defaultValue = "-1") int city,
+	    public List<JpaBusLock> getBuses(Model model,@CookieValue(value = "city", defaultValue = "-1") int city,
 	                                            @RequestParam("seriaNum") long seriaNum) {
-	        return new DataTablePage(busLineCheckService.getBusLockListBySeriNum(seriaNum));
+		    seriaNum=1439354446779L;
+	        return busLineCheckService.getBusLockListBySeriNum(seriaNum);
 	    }
 
 }

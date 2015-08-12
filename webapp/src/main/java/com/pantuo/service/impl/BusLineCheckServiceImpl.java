@@ -1,6 +1,9 @@
 package com.pantuo.service.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,10 +25,12 @@ import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.QJpaBusLock;
 import com.pantuo.dao.pojo.QJpaBusline;
+import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.persistence.BusLineMapper;
 import com.pantuo.mybatis.persistence.BusLockMapper;
 import com.pantuo.mybatis.persistence.BusSelectMapper;
 import com.pantuo.service.BusLineCheckService;
+import com.pantuo.util.Pair;
 import com.pantuo.vo.GroupVo;
 import com.pantuo.web.view.AutoCompleteView;
 
@@ -100,5 +105,18 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	@Override
 	public List<GroupVo> countCarTypeByLine(int lineId, JpaBus.Category category) {
 		return busSelectMapper.countCarTypeByLine(lineId, category.ordinal());
+	}
+
+	@Override
+	public Pair<Boolean, String> saveBusLock(BusLock buslock, String startD, String endD) throws ParseException {
+		buslock.setEnable(true);
+		buslock.setContractId(0);
+		buslock.setSalesNumber(buslock.getRemainNuber());
+		buslock.setStartDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(startD));
+		buslock.setEndDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(endD));
+		if(busLockMapper.insert(buslock)>0){
+			return new Pair<Boolean, String>(true, "保存成功");
+		}
+		return new Pair<Boolean, String>(false, "保存失败");
 	}
 }

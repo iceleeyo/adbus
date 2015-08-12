@@ -5,20 +5,6 @@ js=["js/jquery-ui/jquery-ui.js",
 css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 
 <script type="text/javascript">
-	$(document).ready(function() {
-		$("#otherpay").hide();
-	});
-</script>
-
-
-<script type="text/javascript">
-	function go_back() {
-		history.go(-1);
-
-	}
-</script>
-
-<script type="text/javascript">
 	var orderBusesTable;
 	function refreshOrderedBuses() {
 		orderBusesTable = $('#orderedBusesTable')
@@ -33,16 +19,14 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 								url : "${rc.contextPath}/busselect/ajax-buslock",
 								data : function(d) {
 									return $.extend({}, d, {
-										"seriaNum" : ${seriaNum}
+										"seriaNum" : '${seriaNum}'
 									});
 								},
 								"dataSrc" : "content",
 							},
 							"columns" : [
-									 { "data": "line.name", "defaultContent": ""},
-                { "data": "remainNuber", "defaultContent": "", "render" : function(data) {
-                    return '<span style="color: rgb(245, 135, 8);">' + data + '</span>';
-                }},
+			    { "data": "line.name", "defaultContent": ""},
+                { "data": "remainNuber", "defaultContent": ""}, 
                 { "data": "startDate", "defaultContent": "", "render": function(data) {
                     return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
                 }},
@@ -75,193 +59,42 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 		$('.table-action').click(function() {
 			$.post($(this).attr("url"), function(data) {
 				orderBusesTable.fnDraw(true);
-				updateTotalOrdered(data);
 			})
 		});
 	}
 	function initComplete() {
 		$("div#toolbar").attr("style", "width: 100%;")
 		$("div#toolbar")
-				.html(
-						'<div style="width:100%">'
-								+ '<span style="font-size:18px; font-weight:500">已选车辆：</span>'
-								+ '<span class="totalOrdered" style="color: rgb(245, 135, 8);"></span>/辆，剩余车辆将机动分配。'
-								+ '</div>');
+				.html('');
+						
 	}
-
-	function openPopup() {
-		$("#orderBusesPopup").dialog("open");
-	}
-
-	function openPopup() {
-		$("#orderBusesPopup").dialog("open");
-	}
-
-	$(document)
-			.ready(
-					function() {
-						$("#orderBusesPopup")
-								.dialog(
-										{
-											autoOpen : false,
-											height : 490,
-											width : 450,
-											modal : true,
-											buttons : {},
-											close : function() {
-												$(
-														".bus-line, .bus-model, .bus-company")
-														.empty();
-												$("#busNumber").val("0");
-											}
-										});
-
-						function refreshCompanies() {
-							$(".bus-line, .bus-model, .bus-company").closest(
-									"div").hide();
-							$(".bus-line, .bus-model, .bus-company").empty();
-
-							var cate = $(".bus-category").val();
-							if (cate == "")
-								return;
-							$
-									.ajax(
-											{
-												url : "${rc.contextPath}/bus/ajax-bus-companies",
-												type : "POST",
-												data : {
-													"category" : cate
-												},
-												success : function(data) {
-													//update bus company options
-													$(".bus-company").empty();
-													$(".bus-company")
-															.append(
-																	'<option value="" selected="selected"></option>');
-													for ( var i in data) {
-														$(".bus-company")
-																.append(
-																		'<option value="'+ data[i].id +'">'
-																				+ data[i].name
-																				+ ' (共 '
-																				+ data[i].busCount
-																				+ ' 辆)'
-																				+ '</option>');
-													}
-													$(".bus-company").closest(
-															"div").show();
-													$(".bus-line, .bus-model")
-															.closest("div")
-															.hide();
-													$(".bus-line, .bus-model")
-															.empty();
-												}
-											}, "text");
-						}
-						function refreshLines() {
-							$(".bus-line, .bus-model").closest("div").hide();
-							$(".bus-line, .bus-model").empty();
-
-							var cate = $(".bus-category").val();
-							var company = $(".bus-company").val();
-							if (cate == "" || company == "")
-								return;
-							$
-									.ajax(
-											{
-												url : "${rc.contextPath}/bus/ajax-bus-lines",
-												type : "POST",
-												data : {
-													"level" : level,
-													"category" : cate,
-													"companyId" : company
-												},
-												success : function(data) {
-													//update bus model options
-													$(".bus-line").empty();
-													$(".bus-line")
-															.append(
-																	'<option value="" selected="selected"></option>');
-													for ( var i in data) {
-														$(".bus-line")
-																.append(
-																		'<option value="'+ data[i].id +'">'
-																				+ data[i].name
-																				+ ' (共 '
-																				+ data[i].busCount
-																				+ ' 辆)'
-																				+ '</option>');
-													}
-													$(".bus-line, .bus-model")
-															.closest("div")
-															.show();
-													$(".bus-model").closest(
-															"div").hide();
-													$(".bus-model").empty();
-												}
-											}, "text");
-						}
-
-						function refreshModels() {
-							$(".bus-model").closest("div").hide();
-							$(".bus-model").empty();
-							var cate = $(".bus-category").val();
-							var company = $(".bus-company").val();
-							var line = $(".bus-line").val();
-							if (cate == "" || company == "" || line == "")
-								return;
-
-							$
-									.ajax(
-											{
-												url : "${rc.contextPath}/bus/ajax-bus-models",
-												type : "POST",
-												data : {
-													"level" : level,
-													"category" : cate,
-													"companyId" : company,
-													"lineId" : line
-												},
-												success : function(data) {
-													//update bus model options
-													$(".bus-model").empty();
-													$(".bus-model")
-															.append(
-																	'<option value="" selected="selected"></option>');
-													for ( var i in data) {
-														$(".bus-model")
-																.append(
-																		'<option value="'+ data[i].id +'">'
-																				+ data[i].name
-																				+ ' (共 '
-																				+ data[i].busCount
-																				+ ' 辆)'
-																				+ '</option>');
-													}
-													$(".bus-model").closest(
-															"div").show();
-												}
-											}, "text");
-						}
-
-						$(".bus-category").change(function() {
-							refreshCompanies();
-						});
-						$(".bus-company").change(function() {
-							refreshLines();
-						});
-						$(".bus-line").change(function() {
-							refreshModels();
-						});
-
-						refreshOrderedBuses();
-
-					});
 
 	function sub() {
+	var lineid=$("#db_id").val();
+	var startd=$("#startDate").val();
+	var endDate=$("#endDate").val();
+	if(lineid==0){
+	   alert("请选择线路");
+	   return;
+	}
+	if(startd==""){
+	 alert("请选上刊日期");
+	   return;
+	   }
+	if(endDate==""){
+	 alert("请选择下刊日期");
+	   return;
+	   }
+	if($("#busNumber").val()==0){
+	 alert("数量要大于0");
+	   return;
+	   }
+	var bb=false;
 	$.ajax({
 			url : "${rc.contextPath}/busselect/lineReaminCheck",
 			type : "POST",
+			async:false,
+			dataType:"json",
 			data : {
 				"buslinId" : $("#db_id").val(),
 				"start" : $("#startDate").val(),
@@ -269,22 +102,25 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				"modelId" : $("#model_Id  option:selected").val()
 			},
 			success : function(data) {
-			alert(data);
-				if($("#busNumber").val()>data)
-				alert("库存量少于选取数量");
-				return;
+				if($("#busNumber").val()>data){
+				alert("库存量为"+data+",请重新输入车辆数量");
+				  return;
+				}else{
+				  bb=true;
+				}
 			}
-		}, "text");
-	
-		$('#pickBusesForm').ajaxForm(function(data) {
-			jDialog.Alert(data.errorMessage);
-			if (data.error) {
-				updateTotalOrdered(data);
-				//refreshOrderedBuses();
-				orderBusesTable.dataTable()._fnAjaxUpdate();
-				$("#orderBusesPopup").dialog("close");
-			}
+		});
+		alert(bb);
+	if(bb==true){
+		$('#form01').ajaxForm(function(data) {
+		if(data.left){
+		     alert("添加成功");
+		       refreshOrderedBuses();
+		     }else{
+		     alert(data.right);
+		     }
 		}).submit();
+		}
 	}
 	function initProvince(id) {
 		$.ajax({
@@ -295,9 +131,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 			},
 			success : function(data) {
 				$("#four").show();
-				var v=' <option value="0" selected="selected">所有类型</option> ';
-				$("#model_id").html(v);
 				$.each(data, function(i, item) {
+				
 				var w="<option value="+item.gn1+">"
 									+ item.gp2
 									+ (item.gn2 == 0 ? "&nbsp;&nbsp; 单层"
@@ -310,44 +145,37 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 			}
 		}, "text");
 	}
-	
-	function cleanModel(){
-		$("#model_id")
-	}
-	
-	function selctLine() {
-
-		layer
-				.open({
+	function selctLine(url,seriaNum) {
+		layer.open({
 					type : 1,
 					title : "选择车辆",
 					skin : 'layui-layer-rim',
 					area : [ '400px', '480px' ],
 					content : ''
-							+ ''
+							+ '<form id="form01" action='+url+'/busselect/saveBusLock?seriaNum='+seriaNum+'>'
 							+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
 							+ '<div class="ui-form-item">'
 							+ '<label class="ui-label mt10">选择线路：</label>'
-							+ '<input class="ui-input" name="lineId" id="line_id" data-is="isAmount isEnough">'
+							+ '<input class="ui-input"  id="line_id" data-is="isAmount isEnough">'
 							+ '</div>'
 							+ '<div id="four" style="display:none;"><div class="ui-form-item" id="model_Id">'
 							+ '<label class="ui-label mt10">选择车型：</label>'
-							+ '<select onchange="showSubNum()" class="ui-input bus-model" name="model.id" id="model_id"></select>'
+							+ '<select  class="ui-input bus-model" name="modelid" id="model_id"> <option value="0" selected="selected">所有类型</option> </select>'
 							+ '</div>'
 							+'<div class="ui-form-item"> <label class="ui-label mt10">选取数量：</label>'
-							+'<input class="ui-input validate[required,integer,min[1],max[2000]]" type="number" value="0" name="busNumber"'
+							+'<input class="ui-input validate[required,integer,min[1],max[2000]]" type="number" value="0" name="remainNuber"'
 							+'id="busNumber" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
            	 				+'</div>'
 							+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">上刊日期:</label>'
-							+'<input class="ui-input datepicker validate[required,custom[date],past[#endDate]]" type="text" name="startDate" value="" id="startDate" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
+							+'<input class="ui-input datepicker validate[required,custom[date],past[#endDate]]" type="text" name="startD" value="" id="startDate" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
 							+'</div>'
 							+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">下刊日期:</label>'
-							+'<input class="ui-input datepicker validate[required,custom[date],past[#endDate]]" type="text" name="endDate" value="" id="endDate" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
+							+'<input class="ui-input datepicker validate[required,custom[date],past[#endDate]]" type="text" name="endD" value="" id="endDate" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
 							+'</div></div>'
 							+ '</div>'
 							+ '<div class="ui-form-item widthdrawBtBox" style="position: absolute; bottom: 10px;">'
 							+ '<input type="button" onclick="sub()" class="block-btn" value="确认选车" ></div>'
-							+ '<input type="hidden" value="0" id="db_id">'
+							+ '<input type="hidden" value="0" name="lineId" id="db_id"></form>'
 				});
 			var checkin = $('#startDate').datepicker()
 			.on('click', function (ev) {
@@ -361,7 +189,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 			
 			
 		$("#line_id").autocomplete({
-			minLength: 0,
+		minLength: 0,
 			source : "${rc.contextPath}/busselect/autoComplete",
 			change : function(event, ui) {
 				/*if(ui.item!=null){alert(ui.item.value);}*/
@@ -373,18 +201,15 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				initProvince(ui.item.dbId);
 				$("#db_id").val(ui.item.dbId);
 			}
-			
 		}).focus(function () {
        				 $(this).autocomplete("search");
    				 });
-		;
-		
 		
 	}
 </script>
 <script type="text/javascript">
 	$(document).ready(function() {
-
+         refreshOrderedBuses();
 	});
 </script>
 <div class="color-white-bg fn-clear">
@@ -395,7 +220,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				<A class="black" href="#">选取车辆</A>
 				 <input type="hidden" name="seriaNum" id="seriaNum" value="${seriaNum}"/>
 			</H3>
-			<span><input type="button" onclick="selctLine()"
+			<span><input type="button" onclick="selctLine('${rc.contextPath}',${seriaNum})"
 				class="block-btn" value="增加选择"
 				style="float: right; margin: 10px 20px 0px 20px;"></span> <br>
 			<div id="orderedBuses">

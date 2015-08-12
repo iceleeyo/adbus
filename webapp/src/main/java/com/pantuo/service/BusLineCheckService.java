@@ -1,9 +1,12 @@
 package com.pantuo.service;
 
+import java.text.ParseException;
 import java.util.List;
 
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusLock;
+import com.pantuo.mybatis.domain.BusLock;
+import com.pantuo.util.Pair;
 import com.pantuo.vo.GroupVo;
 import com.pantuo.web.view.AutoCompleteView;
 
@@ -44,5 +47,7 @@ public interface BusLineCheckService {
 	public List<GroupVo> countCarTypeByLine(int lineId, JpaBus.Category category);
 
 	public List<JpaBusLock> getBusLockListBySeriNum(long seriaNum);
+
+	public Pair<Boolean, String> saveBusLock(BusLock buslock, String startD, String endD)throws ParseException ;
 
 }
