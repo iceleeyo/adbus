@@ -9,7 +9,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.activiti.engine.HistoryService;
+import org.activiti.engine.RepositoryService;
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,7 +40,12 @@ import com.pantuo.mybatis.persistence.BodycontractMapper;
 import com.pantuo.mybatis.persistence.BusLineMapper;
 import com.pantuo.mybatis.persistence.BusLockMapper;
 import com.pantuo.mybatis.persistence.BusSelectMapper;
+import com.pantuo.service.ActivitiService;
 import com.pantuo.service.BusLineCheckService;
+import com.pantuo.service.MailService;
+import com.pantuo.service.MailTask;
+import com.pantuo.service.MailTask.Type;
+import com.pantuo.simulate.MailJob;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 import com.pantuo.vo.GroupVo;
@@ -49,6 +61,28 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	BusLockMapper busLockMapper;
 	@Autowired
 	BodycontractMapper bodycontractMapper;
+
+	///
+
+	@Autowired
+	private RepositoryService repositoryService;
+
+	@Autowired
+	private RuntimeService runtimeService;
+
+	@Autowired
+	private TaskService taskService;
+
+	@Autowired
+	private HistoryService historyService;
+
+	private ProcessInstance instance;
+
+	@Autowired
+	private MailService mailService;
+
+	@Autowired
+	private MailJob mailJob;
 
 	@Override
 	public int countByFreeCars(int lineId, Integer modelId, JpaBus.Category category, String start, String end) {
@@ -86,9 +120,9 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			Map<Integer, Integer> cache = getBusLineMap(vos);
 			for (JpaBusline obj : list.getContent()) {
 				int carNumber = cache.containsKey(obj.getId()) ? cache.get(obj.getId()) : 0;
-				String viewString=obj.getName() + "  " + obj.getLevelStr() + " ["+ carNumber + "]";
-				r.add(new AutoCompleteView(viewString ,viewString,String.valueOf(obj.getId())));//String.valueOf(obj.getId())
-						
+				String viewString = obj.getName() + "  " + obj.getLevelStr() + " [" + carNumber + "]";
+				r.add(new AutoCompleteView(viewString, viewString, String.valueOf(obj.getId())));//String.valueOf(obj.getId())
+
 			}
 		}
 		return r;
@@ -105,7 +139,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	@Override
 	public List<JpaBusLock> getBusLockListBySeriNum(long seriaNum) {
 		BooleanExpression query = QJpaBusLock.jpaBusLock.seriaNum.eq(seriaNum);
-		List<JpaBusLock> list= (List<JpaBusLock>) busLockRepository.findAll(query);
+		List<JpaBusLock> list = (List<JpaBusLock>) busLockRepository.findAll(query);
 		return list;
 	}
 
@@ -121,7 +155,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		buslock.setSalesNumber(buslock.getRemainNuber());
 		buslock.setStartDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(startD));
 		buslock.setEndDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(endD));
-		if(busLockMapper.insert(buslock)>0){
+		if (busLockMapper.insert(buslock) > 0) {
 			return new Pair<Boolean, String>(true, "保存成功");
 		}
 		return new Pair<Boolean, String>(false, "保存失败");
@@ -129,15 +163,15 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 
 	@Override
 	public boolean removeBusLock(Principal principal, int city, long seriaNum, int id) {
-		BusLockExample example=new BusLockExample();
-		BusLockExample.Criteria criteria=example.createCriteria();
+		BusLockExample example = new BusLockExample();
+		BusLockExample.Criteria criteria = example.createCriteria();
 		criteria.andCityEqualTo(city);
 		criteria.andUserIdEqualTo(Request.getUserId(principal));
 		criteria.andSeriaNumEqualTo(seriaNum);
 		criteria.andIdEqualTo(id);
-		List<BusLock> list=busLockMapper.selectByExample(example);
-		if(list.size()>0){
-			if(busLockMapper.deleteByPrimaryKey(id)>0){
+		List<BusLock> list = busLockMapper.selectByExample(example);
+		if (list.size() > 0) {
+			if (busLockMapper.deleteByPrimaryKey(id) > 0) {
 				return true;
 			}
 		}
@@ -147,25 +181,46 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	@Override
 	public Pair<Boolean, String> saveBodyContract(Bodycontract bodycontract, long seriaNum, String userId) {
 		bodycontract.setCreator(userId);
-		int a=bodycontractMapper.insert(bodycontract);
-		BusLockExample example=new BusLockExample();
-		BusLockExample.Criteria criteria=example.createCriteria();
+		int a = bodycontractMapper.insert(bodycontract);
+		BusLockExample example = new BusLockExample();
+		BusLockExample.Criteria criteria = example.createCriteria();
 		criteria.andUserIdEqualTo(userId);
 		criteria.andSeriaNumEqualTo(seriaNum);
-		List<BusLock> list=busLockMapper.selectByExample(example);
-		if(list.size()==0){
+		List<BusLock> list = busLockMapper.selectByExample(example);
+		if (list.size() == 0) {
 			return new Pair<Boolean, String>(false, "请选择车辆");
 		}
 		for (BusLock busLock : list) {
-			if(busLock!=null){
-				if(a>0){
+			if (busLock != null) {
+				if (a > 0) {
 					busLock.setContractId(bodycontract.getId());
 					busLockMapper.updateByPrimaryKey(busLock);
-				}else{
+				} else {
 					return new Pair<Boolean, String>(false, "申请合同失败");
 				}
 			}
 		}
+
+		Map<String, Object> initParams = new HashMap<String, Object>();
+		initParams.put("username", userId);
+		initParams.put(ActivitiService.ORDER_ID, bodycontract.getId());
+		initParams.put(ActivitiService.CITY, bodycontract.getCity());
+		initParams.put(ActivitiService.CLOSED, false);
+		initParams.put(ActivitiService.NOW, new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
+		ProcessInstance process = runtimeService.startProcessInstanceByKey("busFlowV2", initParams);
+
+		List<Task> tasks = taskService.createTaskQuery().processInstanceId(process.getId())
+				.processVariableValueEquals(ActivitiService.CITY, bodycontract.getCity()).orderByTaskCreateTime()
+				.desc().listPage(0, 1);
+		if (!tasks.isEmpty()) {
+			Task task = tasks.get(0);
+			taskService.claim(task.getId(), userId);
+			MailTask mailTask = new MailTask(userId, bodycontract.getId(), null, task.getTaskDefinitionKey(),
+					Type.sendCompleteMail);
+			taskService.complete(task.getId());
+			//	mailJob.putMailTask(mailTask);
+		}
+
 		return new Pair<Boolean, String>(true, "申请合同成功");
 	}
 }
