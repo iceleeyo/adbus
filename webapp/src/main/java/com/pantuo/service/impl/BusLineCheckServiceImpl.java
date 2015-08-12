@@ -1,5 +1,6 @@
 package com.pantuo.service.impl;
 
+import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,11 +27,13 @@ import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.QJpaBusLock;
 import com.pantuo.dao.pojo.QJpaBusline;
 import com.pantuo.mybatis.domain.BusLock;
+import com.pantuo.mybatis.domain.BusLockExample;
 import com.pantuo.mybatis.persistence.BusLineMapper;
 import com.pantuo.mybatis.persistence.BusLockMapper;
 import com.pantuo.mybatis.persistence.BusSelectMapper;
 import com.pantuo.service.BusLineCheckService;
 import com.pantuo.util.Pair;
+import com.pantuo.util.Request;
 import com.pantuo.vo.GroupVo;
 import com.pantuo.web.view.AutoCompleteView;
 
@@ -118,5 +121,22 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			return new Pair<Boolean, String>(true, "保存成功");
 		}
 		return new Pair<Boolean, String>(false, "保存失败");
+	}
+
+	@Override
+	public boolean removeBusLock(Principal principal, int city, long seriaNum, int id) {
+		BusLockExample example=new BusLockExample();
+		BusLockExample.Criteria criteria=example.createCriteria();
+		criteria.andCityEqualTo(city);
+		criteria.andUserIdEqualTo(Request.getUserId(principal));
+		criteria.andSeriaNumEqualTo(seriaNum);
+		criteria.andIdEqualTo(id);
+		List<BusLock> list=busLockMapper.selectByExample(example);
+		if(list.size()>0){
+			if(busLockMapper.deleteByPrimaryKey(id)>0){
+				return true;
+			}
+		}
+		return false;
 	}
 }

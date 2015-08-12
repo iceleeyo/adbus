@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,8 +27,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusLock;
+import com.pantuo.dao.pojo.JpaOrderBuses;
+import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
@@ -172,8 +176,14 @@ public class BusSelectController {
 	    @ResponseBody
 	    public List<JpaBusLock> getBuses(Model model,@CookieValue(value = "city", defaultValue = "-1") int city,
 	                                            @RequestParam("seriaNum") long seriaNum) {
-		    seriaNum=1439357669192L;
 	        return busLineCheckService.getBusLockListBySeriNum(seriaNum);
+	    }
+	    @RequestMapping(value = "ajax-remove-buslock", method = RequestMethod.POST)
+	    @ResponseBody
+	    public boolean removeBusLock(Principal principal,@CookieValue(value = "city", defaultValue = "-1") int city,
+	                                                        @RequestParam("seriaNum") long seriaNum,
+	                                                        @RequestParam("id") int id) {
+	    	return busLineCheckService.removeBusLock(principal,city,seriaNum,id);
 	    }
 
 }

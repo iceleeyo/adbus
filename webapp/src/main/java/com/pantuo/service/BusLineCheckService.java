@@ -1,5 +1,6 @@
 package com.pantuo.service;
 
+import java.security.Principal;
 import java.text.ParseException;
 import java.util.List;
 
@@ -49,5 +50,7 @@ public interface BusLineCheckService {
 	public List<JpaBusLock> getBusLockListBySeriNum(long seriaNum);
 
 	public Pair<Boolean, String> saveBusLock(BusLock buslock, String startD, String endD)throws ParseException ;
+
+	public boolean removeBusLock(Principal principal, int city, long seriaNum, int id);
 
 }

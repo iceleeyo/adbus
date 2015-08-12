@@ -27,6 +27,13 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 							"columns" : [
 			    { "data": "line.name", "defaultContent": ""},
                 { "data": "remainNuber", "defaultContent": ""}, 
+                { "data": "model", "defaultContent": "", "render": function(data) {
+                 if(data.doubleDecker==false){
+                  return data.name+'(单层)';
+                 }else{
+                    return data.name+'(双层)';
+                 }
+                }},
                 { "data": "startDate", "defaultContent": "", "render": function(data) {
                     return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
                 }},
@@ -39,9 +46,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 										"render" : function(data, type, row,
 												meta) {
 											var operations = '';
-
-											operations += '<a class="table-action" href="javascript:void(0);">删除</a>';
-
+											operations += '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/busselect/ajax-remove-buslock?seriaNum=${seriaNum}&id=' + data +'">删除</a>';
 											return operations;
 
 										}
@@ -58,7 +63,11 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 	function drawCallback() {
 		$('.table-action').click(function() {
 			$.post($(this).attr("url"), function(data) {
-				orderBusesTable.fnDraw(true);
+			if(data){
+				 orderBusesTable.dataTable()._fnAjaxUpdate();
+				 }else{
+				 alert("非法操作");
+				 }
 			})
 		});
 	}
@@ -110,12 +119,12 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				}
 			}
 		});
-		alert(bb);
 	if(bb==true){
 		$('#form01').ajaxForm(function(data) {
 		if(data.left){
 		     alert("添加成功");
-		       refreshOrderedBuses();
+		       orderBusesTable.dataTable()._fnAjaxUpdate();
+		       $("#cc").trigger("click");
 		     }else{
 		     alert(data.right);
 		     }
@@ -154,7 +163,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 					content : ''
 							+ '<form id="form01" action='+url+'/busselect/saveBusLock?seriaNum='+seriaNum+'>'
 							+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
-							+ '<div class="ui-form-item">'
+							+ '<div class="ui-form-item"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/>'
 							+ '<label class="ui-label mt10">选择线路：</label>'
 							+ '<input class="ui-input"  id="line_id" data-is="isAmount isEnough">'
 							+ '</div>'
@@ -230,6 +239,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 						<tr>
 					<th>线路</th>
                     <th>数量（辆）</th>
+                    <th width="180px">车型</th>
                      <th>上刊时间</th>
                     <th>下刊时间</th>
                     <th>操作</th>
