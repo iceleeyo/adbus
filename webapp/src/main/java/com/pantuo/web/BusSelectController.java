@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,13 +26,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusLock;
-import com.pantuo.dao.pojo.JpaOrderBuses;
-import com.pantuo.dao.pojo.JpaOrders;
+import com.pantuo.mybatis.domain.Bodycontract;
 import com.pantuo.mybatis.domain.BusLock;
-import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.BusLineCheckService;
@@ -118,6 +114,15 @@ public class BusSelectController {
 		buslock.setUserId(Request.getUserId(principal));
 		buslock.setSeriaNum(seriaNum);
 		return busLineCheckService.saveBusLock(buslock, startD, endD);
+	}
+	@RequestMapping(value = "/saveBodyContract")
+	@ResponseBody
+	public Pair<Boolean, String> saveBodyContract(Bodycontract bodycontract,@CookieValue(value = "city", defaultValue = "-1") int city,
+			Principal principal,HttpServletRequest request,
+			@RequestParam(value = "seriaNum", required = true) long seriaNum
+			)  {
+		bodycontract.setCity(city);
+		return busLineCheckService.saveBodyContract(bodycontract,seriaNum,Request.getUserId(principal));
 	}
 
 	/**

@@ -26,8 +26,10 @@ import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.QJpaBusLock;
 import com.pantuo.dao.pojo.QJpaBusline;
+import com.pantuo.mybatis.domain.Bodycontract;
 import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.domain.BusLockExample;
+import com.pantuo.mybatis.persistence.BodycontractMapper;
 import com.pantuo.mybatis.persistence.BusLineMapper;
 import com.pantuo.mybatis.persistence.BusLockMapper;
 import com.pantuo.mybatis.persistence.BusSelectMapper;
@@ -45,6 +47,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	BusLineMapper buslineMapper;
 	@Autowired
 	BusLockMapper busLockMapper;
+	@Autowired
+	BodycontractMapper bodycontractMapper;
 
 	@Override
 	public int countByFreeCars(int lineId, Integer modelId, JpaBus.Category category, String start, String end) {
@@ -66,7 +70,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		List<AutoCompleteView> r = new ArrayList<AutoCompleteView>();
 		BooleanExpression query = QJpaBusline.jpaBusline.city.eq(city);
 		if (StringUtils.isNotBlank(name)) {
-			query = query.and(QJpaBusline.jpaBusline.name.like("%" + name + "%"));
+			query = query.and(QJpaBusline.jpaBusline.name.like("'%" + name + "%'"));
 		}
 		Pageable p = new PageRequest(0, 30, new Sort("name"));
 		List<Integer> idsList = new ArrayList<Integer>();
@@ -138,5 +142,27 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public Pair<Boolean, String> saveBodyContract(Bodycontract bodycontract, long seriaNum, String userId) {
+		bodycontract.setCreator(userId);
+		int a=bodycontractMapper.insert(bodycontract);
+		BusLockExample example=new BusLockExample();
+		BusLockExample.Criteria criteria=example.createCriteria();
+		criteria.andUserIdEqualTo(userId);
+		criteria.andSeriaNumEqualTo(seriaNum);
+		List<BusLock> list=busLockMapper.selectByExample(example);
+		for (BusLock busLock : list) {
+			if(busLock!=null){
+				if(a>0){
+					busLock.setContractId(bodycontract.getId());
+					busLockMapper.updateByPrimaryKey(busLock);
+				}else{
+					return new Pair<Boolean, String>(false, "申请合同失败");
+				}
+			}
+		}
+		return new Pair<Boolean, String>(true, "申请合同成功");
 	}
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusLock;
+import com.pantuo.mybatis.domain.Bodycontract;
 import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.util.Pair;
 import com.pantuo.vo.GroupVo;
@@ -52,5 +53,7 @@ public interface BusLineCheckService {
 	public Pair<Boolean, String> saveBusLock(BusLock buslock, String startD, String endD)throws ParseException ;
 
 	public boolean removeBusLock(Principal principal, int city, long seriaNum, int id);
+
+	public Pair<Boolean, String> saveBodyContract(Bodycontract bodycontract, long seriaNum, String userId);
 
 }
