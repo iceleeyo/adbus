@@ -172,7 +172,7 @@ public class BusSelectController {
 	    @ResponseBody
 	    public List<JpaBusLock> getBuses(Model model,@CookieValue(value = "city", defaultValue = "-1") int city,
 	                                            @RequestParam("seriaNum") long seriaNum) {
-		    seriaNum=1439354446779L;
+		    seriaNum=1439357669192L;
 	        return busLineCheckService.getBusLockListBySeriNum(seriaNum);
 	    }
 
