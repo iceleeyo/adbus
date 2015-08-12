@@ -99,6 +99,10 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 	   return;
 	   }
 	var bb=false;
+	if(endDate<startd){
+	layer.msg("下刊时间不能小于上刊开始时间");
+		return;
+	}
 	$.ajax({
 			url : "${rc.contextPath}/busselect/lineReaminCheck",
 			type : "POST",
@@ -141,6 +145,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 			},
 			success : function(data) {
 				$("#four").show();
+				var v=' <option value="0" selected="selected">所有类型</option> ';
+				$("#model_id").html(v);
 				$.each(data, function(i, item) {
 				
 				var w="<option value="+item.gn1+">"
