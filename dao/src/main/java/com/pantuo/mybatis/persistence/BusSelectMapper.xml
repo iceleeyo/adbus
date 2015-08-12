@@ -55,6 +55,9 @@
 		and bus_contract.end_date>= #{start})
 		or (bus_contract.start_date<= #{end}
 		and bus_contract.end_date>= #{end})
+		
+		or (bus_contract.start_date>= #{start}
+		and bus_contract.end_date<= #{end})
 		)
 	]]>
 	</select>
