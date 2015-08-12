@@ -24,6 +24,6 @@ public interface SuppliesRepository extends JpaRepository<JpaSupplies, Integer>,
 
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value = "insert into supplies (id,created,updated,city,supplies_type) values(1,now(),now(),0,0)")
+	@Query(nativeQuery = true, value = "insert into supplies (id,created,updated,city,supplies_type,duration) values(1,now(),now(),0,0,0)")
 	public int insertDefaultSupplies();
 }
