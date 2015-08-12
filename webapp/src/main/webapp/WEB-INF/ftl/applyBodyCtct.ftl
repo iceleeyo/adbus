@@ -110,12 +110,13 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				"end" : $("#endDate").val(),
 				"modelId" : $("#model_Id  option:selected").val()
 			},
-			success : function(data) {
+			success : function(data) {  
 				if($("#busNumber").val()>data){
-				alert("库存量为"+data+",请重新输入车辆数量");
-				  return;
-				}else{
-				  bb=true;
+					$("#worm-tips").empty(); 
+					var tip='<div  class="tips-title" id="tip" style="padding-left: 13%;">[抱歉，所选线路库存量：<font color="red">'+data+'&nbsp;</font>少于选取数量]</div>'
+					$("#worm-tips").append(tip);
+					$("#worm-tips").show();
+				return;
 				}
 			}
 		});
@@ -154,6 +155,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 			}
 		}, "text");
 	}
+
 	function selctLine(url,seriaNum) {
 		layer.open({
 					type : 1,
@@ -185,6 +187,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 							+ '<div class="ui-form-item widthdrawBtBox" style="position: absolute; bottom: 10px;">'
 							+ '<input type="button" onclick="sub()" class="block-btn" value="确认选车" ></div>'
 							+ '<input type="hidden" value="0" name="lineId" id="db_id"></form>'
+							+'<div id="worm-tips" class="worm-tips" style="width:350px;display:none;"></div>'
 				});
 			var checkin = $('#startDate').datepicker()
 			.on('click', function (ev) {
