@@ -18,6 +18,7 @@ import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
 import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -199,6 +200,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	@Override
 	public Pair<Boolean, String> saveBodyContract(Bodycontract bodycontract, long seriaNum, String userId) {
 		bodycontract.setCreator(userId);
+		bodycontract.setCreated(new Date());
+		bodycontract.setUpdated(new Date());  
 		int a = bodycontractMapper.insert(bodycontract);
 		BusLockExample example = new BusLockExample();
 		BusLockExample.Criteria criteria = example.createCriteria();
@@ -324,13 +327,46 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			v.setTask(top1Task);
 			v.setHaveTasks(tasks.size());
 			//if (StringUtils.isNoneBlank(taskKey) && !StringUtils.startsWith(taskKey, ActivitiService.R_DEFAULTALL)) {
-			v.setTask_name("-");
+			v.setTask_name(getOrderState(top1Task.getProcessVariables(), top1Task));
 			orders.add(v);
 		}
 		Pageable p = new PageRequest(page, pageSize, sort);
 		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(
 				orders, p, pageUtil.getTotal());
 		return r;
+	}
+
+	/**
+	 * 
+	 * 根据工作流中的 值 来显示订单状态
+	 *
+	 * @param vars
+	 * @return
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
+	public String getOrderState(Map<String, Object> vars, Task top1Task) {
+		String r = ActivitiService.bodyWaitAuth;
+
+		if (ObjectUtils.equals(vars.get(ActivitiService.R_USERPAYED), false)) {
+			r = ActivitiService.paymentString;
+		}
+		if (ObjectUtils.equals(vars.get(ActivitiService.R_USERPAYED), true)
+				&& ObjectUtils.equals(vars.get(ActivitiService.R_SCHEDULERESULT), false)) {
+			r = ActivitiService.authString;
+		}
+		if (ObjectUtils.equals(vars.get(ActivitiService.R_SCHEDULERESULT), true)
+				&& ObjectUtils.equals(vars.get(ActivitiService.R_SHANGBORESULT), false)) {
+			r = ActivitiService.reportString;
+		}
+		if (ObjectUtils.equals(vars.get(ActivitiService.R_SCHEDULERESULT), true)
+				&& ObjectUtils.equals(vars.get(ActivitiService.R_SHANGBORESULT), true)) {
+			r = ActivitiService.overString;
+		}
+		if (StringUtils.equals("usertask1", top1Task.getTaskDefinitionKey())) {
+			r = ActivitiService.bodyWaitAuth;
+		}
+		return r;
+
 	}
 
 	public Page<OrderView> findTask(int city, Principal principal, TableRequest req, TaskQueryType tqType) {
