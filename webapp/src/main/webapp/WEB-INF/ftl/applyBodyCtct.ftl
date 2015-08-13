@@ -304,7 +304,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 								<label class="ui-label mt10"> <span
 									class="ui-form-required">*</span>法人代表:
 								</label> <input
-									class="ui-input validate[required,custom[noSpecialContratNum],minSize[5],maxSize[120]]"
+									class="ui-input validate[required,custom[noSpecialContratNum],minSize[2],maxSize[120]]"
 									type="text" name="legalman" id="code"
 									value=""
 									data-is="isAmount isEnough" autocomplete="off"
@@ -314,7 +314,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 								<label class="ui-label mt10"> <span
 									class="ui-form-required">*</span>公司名称:
 								</label> <input
-									class="ui-input validate[required,custom[noSpecialContratNum],minSize[5],maxSize[120]]"
+									class="ui-input validate[required,custom[noSpecialContratNum],minSize[2],maxSize[120]]"
 									type="text" name="company" id="code"
 									value=""
 									data-is="isAmount isEnough" autocomplete="off"
@@ -324,7 +324,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 								<label class="ui-label mt10"><span
 									class="ui-form-required">*</span> 地址:
 								</label> <input
-									class="ui-input validate[required,custom[noSpecialContratNum],minSize[5],maxSize[120]]"
+									class="ui-input validate[required,custom[noSpecialContratNum],minSize[2],maxSize[120]]"
 									type="text" name="companyAddr" id="code"
 									value=""
 									data-is="isAmount isEnough" autocomplete="off"
@@ -333,7 +333,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 							<div class="ui-form-item">
 								<label class="ui-label mt10"><span
 									class="ui-form-required">*</span>联系人:</label> <input
-									class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
+									class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[2],maxSize[120]]"
 									type="text" name="relateMan" value="" 
 									data-is="isAmount isEnough" autocomplete="off"
 									disableautocomplete="">

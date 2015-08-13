@@ -251,13 +251,13 @@
 			</div> -->
 			<div class="vediobox items s-left">
 
-				<div class="banner" id="b04">
+				<div class="banner" id="b04" style="width: 1060px">
 				    <ul>
-				        <li><img src="homepage/imgs/sss.jpg" alt="" width="640" height="300" ></li>
-				        <li><img src="homepage/imgs/ddd.jpg" alt="" width="640" height="300" ></li>
-				        <li><img src="homepage/imgs/bbb.png" alt="" width="640" height="300" ></li>
-				        <li><img src="homepage/imgs/ddd.png" alt="" width="640" height="300" ></li>
-				        <li><img src="homepage/imgs/03.jpg" alt="" width="640" height="300" ></li>
+				        <li><img src="homepage/imgs/sss.jpg" alt="" width="1060px" height="300" ></li>
+				        <li><img src="homepage/imgs/ddd.jpg" alt="" width="1060px" height="300" ></li>
+				        <li><img src="homepage/imgs/bbb.png" alt="" width="1060px" height="300" ></li>
+				        <li><img src="homepage/imgs/ddd.png" alt="" width="1060px" height="300" ></li>
+				        <li><img src="homepage/imgs/03.jpg" alt="" width="1060px" height="300" ></li>
 				    </ul>
 				    <a href="javascript:void(0);" class="unslider-arrow04 prev"><img class="arrow" id="al" src="homepage/imgs/arrowl.png" alt="prev" width="20" height="35"></a>
 				    <a href="javascript:void(0);" class="unslider-arrow04 next"><img class="arrow" id="ar" src="homepage/imgs/arrowr.png" alt="next" width="20" height="37"></a>
@@ -267,7 +267,7 @@
 			<div class="addition items s-left">
 				<div class="b2">
 					<div class="b3_1">
-						<div id="player" style="border:none;width:410px;padding:0px;">
+						<!-- <div id="player" style="border:none;width:410px;padding:0px;">
 							<p>你需安装<a href="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0">Adobe Flash Player 9.0</a>查看以下视频</p>
 							<script type="text/javascript" src="http://www.bjmtv.com/templates/new/js/swfobject.js"></script>
 							<script type="text/javascript">
@@ -288,7 +288,8 @@
 								s2.addVariable('autostart','true');
 								s2.write('player');
 							</script>
-						</div>	
+						</div>
+						-->	
 					</div>	
 			
 				</div>

@@ -27,8 +27,8 @@
 						</div>
 					</div>
 					<div class="foot-copyright">
-						<span class="foot-cr-link gray-text has-border">© 2015 世巴 All rights reserved</span>
-						
+						<span class="foot-cr-link gray-text has-border">北京世巴传媒有限公司@版权所有</span>
+						<span class="foot-cr-link gray-text has-border">京ICP备15027671号 </span>
 					</div>
 					<div class="foot-vertical">
 						<a  class="foot-vertical-icon integrity" href="#" title="世巴已通过认证联盟权威数据库对比，获得“互联网金融行业认证”，您可放心使用。"></a>
