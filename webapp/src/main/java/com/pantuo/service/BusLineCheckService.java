@@ -71,4 +71,6 @@ public interface BusLineCheckService {
 	
 	public JpaBodyContract selectBcById(int id);
 
+	public Page<OrderView> getBodyContractList(int city, TableRequest req, Principal principal);
+
 }

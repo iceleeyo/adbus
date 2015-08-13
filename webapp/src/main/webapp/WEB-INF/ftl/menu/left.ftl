@@ -22,6 +22,15 @@
 										
 									</li>
 								 </@security.authorize>	
+								<@security.authorize ifAnyGranted="bodysales,bodyFinancialManager,bodyContractManager,bodyScheduleManager">
+									<li class="pg-side-item">
+										<a class="pg-side-item-t aa-icon" style="color:#fff;background:#ff9966;" href="${rc.contextPath}/busselect/myTask/1">
+											<i class="s-left pg-icon-a a-icon" style="background:url(${rc.contextPath}/imgs/sidebar-icons.png) no-repeat -20px 0;"></i>
+											待办事项
+										</a>
+										
+									</li>
+								 </@security.authorize>	
                                     <@security.authorize ifAnyGranted="advertiser,ShibaOrderManager,BeiguangMaterialManager,ShibaSuppliesManager">
                                     <li class="pg-side-item">
 										<a class="pg-side-item-t bb-icon">

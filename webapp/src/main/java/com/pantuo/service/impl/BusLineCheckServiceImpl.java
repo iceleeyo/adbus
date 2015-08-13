@@ -37,7 +37,6 @@ import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaOrders;
-import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.QJpaBusLock;
 import com.pantuo.dao.pojo.QJpaBusline;
 import com.pantuo.mybatis.domain.Bodycontract;
@@ -243,6 +242,53 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		}
 
 		return new Pair<Boolean, String>(true, "申请合同成功");
+	}
+	public Page<OrderView> getBodyContractList(int city, TableRequest req, Principal principal){
+		String userid = Request.getUserId(principal);
+		int page = req.getPage(), pageSize = req.getLength();
+		Sort sort = req.getSort("created");
+
+		String  userIdQuery = req.getFilter("userId");
+		page = page + 1;
+		List<Task> tasks = new ArrayList<Task>();
+		List<OrderView> leaves = new ArrayList<OrderView>();
+		TaskQuery countQuery = taskService.createTaskQuery().processDefinitionKey("busFlowV2");
+		TaskQuery queryList = taskService.createTaskQuery().processDefinitionKey("busFlowV2");
+		
+		countQuery.taskCandidateOrAssigned(userid);
+		queryList.taskCandidateOrAssigned(userid);
+		countQuery.processVariableValueEquals(ActivitiService.CITY, city);
+		queryList.processVariableValueEquals(ActivitiService.CITY, city).includeProcessVariables();
+		if (StringUtils.isNoneBlank(userIdQuery)) {
+			countQuery.processVariableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
+			queryList.processVariableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
+		}
+
+		long c = countQuery.count();
+		NumberPageUtil pageUtil = new NumberPageUtil((int) c, page, pageSize);
+		tasks = queryList.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
+
+		for (Task task : tasks) {
+			String processInstanceId = task.getProcessInstanceId();
+			ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
+					.processInstanceId(processInstanceId).singleResult();
+			Map<String, Object> var = task.getProcessVariables();
+			Integer orderid = (Integer) var.get(ActivitiService.ORDER_ID);
+
+			OrderView v = new OrderView();
+			JpaBodyContract order = bodyContractRepository.findOne(orderid);
+			if (order != null) {
+				v.setJpaBodyContract(order);
+				v.setTask(task);
+				v.setProcessInstanceId(processInstance.getId());
+				v.setTask_createTime(task.getCreateTime());
+					leaves.add(v);
+			}
+		}
+		Pageable p = new PageRequest(page, pageSize, sort);
+		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(
+				leaves, p, pageUtil.getTotal());
+		return r;
 	}
 
 	public Page<OrderView> queryOrders(int city, Principal principal, TableRequest req, TaskQueryType tqType) {

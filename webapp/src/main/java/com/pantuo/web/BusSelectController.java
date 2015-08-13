@@ -66,6 +66,18 @@ public class BusSelectController {
 	@Autowired
 	ActivitiService activitiService;
 
+	
+	@RequestMapping(value = "/myTask/{pageNum}")
+	public String list() {
+		return "bodyTaskList";
+	}
+	@RequestMapping("ajax-orderlist")
+	@ResponseBody
+	public DataTablePage<OrderView> getAllContracts(TableRequest req, Principal principal,
+			@CookieValue(value = "city", defaultValue = "-1") int city) {
+		Page<OrderView> w = busLineCheckService.getBodyContractList(city, req, principal);
+		return new DataTablePage(w, req.getDraw());
+	}
 	@RequestMapping(value = "/myOrders/{pageNum}")
 	public String myOrders(Model model) {
 		model.addAttribute("orderMenu", "我的订单");
