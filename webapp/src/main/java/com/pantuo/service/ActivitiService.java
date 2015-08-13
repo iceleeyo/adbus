@@ -64,6 +64,8 @@ public interface ActivitiService {
 	}
 
 	public static String paymentString = "待支付", authString = "已支付待审核", reportString = "已排期待上播", overString = "已上播";
+	
+	public static String bodyWaitAuth = "待确认";
 
 	/**
 	 * 
