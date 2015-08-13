@@ -150,7 +150,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 
 	@Override
 	public Pair<Boolean, String> saveBusLock(BusLock buslock, String startD, String endD) throws ParseException {
-		buslock.setEnable(true);
+		//buslock.setEnable(true);
 		buslock.setContractId(0);
 		buslock.setSalesNumber(buslock.getRemainNuber());
 		buslock.setStartDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(startD));
