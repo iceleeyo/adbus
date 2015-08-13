@@ -71,13 +71,15 @@ public class BusSelectController {
 		model.addAttribute("orderMenu", "我的订单");
 		return "myBodyOrders";
 	}
+
 	@RequestMapping("ajax-myOrders")
 	@ResponseBody
 	public DataTablePage<OrderView> myOrders(TableRequest req, Principal principal,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
-		Page<OrderView> w = busLineCheckService.queryOrders(city, (principal), req,TaskQueryType.my);
+		Page<OrderView> w = busLineCheckService.queryOrders(city, (principal), req, TaskQueryType.my);
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
+
 	@RequestMapping(value = "/autoComplete")
 	@ResponseBody
 	public List<AutoCompleteView> autoCompleteByName(@CookieValue(value = "city", defaultValue = "-1") int city,
@@ -187,6 +189,13 @@ public class BusSelectController {
 		}
 		model.addAttribute("dates", list);
 		return "line_schedule";
+	}
+
+	@RequestMapping("detail/{uniq}")
+	public String detail( @PathVariable("uniq") Integer bodycontract_id,
+			Model model, Principal principal) {
+		model.addAttribute("bodycontract",busLineCheckService.selectBcById(bodycontract_id));
+		return "bodycontract_detail";
 	}
 
 	@RequestMapping("applyBodyCtct")

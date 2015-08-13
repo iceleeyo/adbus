@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
+import com.pantuo.dao.pojo.JpaBodyContract;
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.mybatis.domain.Bodycontract;
@@ -64,5 +65,10 @@ public interface BusLineCheckService {
 	
 	
 	public Page<OrderView> queryOrders(int city, Principal principal, TableRequest req,TaskQueryType tqType);
+	
+	
+	
+	
+	public JpaBodyContract selectBcById(int id);
 
 }

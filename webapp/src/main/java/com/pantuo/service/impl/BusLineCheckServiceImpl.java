@@ -201,7 +201,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	public Pair<Boolean, String> saveBodyContract(Bodycontract bodycontract, long seriaNum, String userId) {
 		bodycontract.setCreator(userId);
 		bodycontract.setCreated(new Date());
-		bodycontract.setUpdated(new Date());  
+		bodycontract.setUpdated(new Date());
 		int a = bodycontractMapper.insert(bodycontract);
 		BusLockExample example = new BusLockExample();
 		BusLockExample.Criteria criteria = example.createCriteria();
@@ -454,5 +454,10 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		} else {
 			queryList.asc();
 		}
+	}
+
+	@Override
+	public JpaBodyContract selectBcById(int id) {
+		return bodyContractRepository.findOne(id);
 	}
 }
