@@ -89,7 +89,7 @@
 											</li>
 										</ul>
 									</li>
-									<@security.authorize ifAnyGranted="ShibaSuppliesManager,advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+									<@security.authorize ifAnyGranted="bodysales,ShibaSuppliesManager,advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 									<li class="pg-side-item">
 										<a class="pg-side-item-t dd-icon">
 											<i class="s-left pg-icon-a d-icon"></i>
@@ -108,6 +108,14 @@
 												</a>
 											</li>
 										</@security.authorize>	
+										<@security.authorize ifAnyGranted="bodysales">
+											<li class="pg-side-exp-item">
+												<a class="side-exp-item-t" href="${rc.contextPath}/busselect/myOrders/1">
+													我的订单
+												</a>
+											</li>
+										</@security.authorize>	
+										
 										
 										<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">  
 											<li class="pg-side-exp-item">
