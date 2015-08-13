@@ -167,7 +167,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	public Pair<Boolean, String> saveBusLock(BusLock buslock, String startD, String endD) throws ParseException {
 		//buslock.setEnable(true);
 		buslock.setContractId(0);
-		buslock.setStatus(JpaBusLock.Status.ready.ordinal());
+		buslock.setStats(JpaBusLock.Status.ready.ordinal());
 		buslock.setCreated(new Date());
 		buslock.setUpdated(new Date());
 		buslock.setSalesNumber(buslock.getRemainNuber());
