@@ -195,7 +195,7 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>邮寄地址:</label>
                                                     <input
-												class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
+												class="ui-input validate[required,minSize[3],maxSize[220]]"
                                                 type="text" name="mailaddr" value="${(invoiceView.mainView.mailaddr)!''}"
 												id="mailaddr" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
