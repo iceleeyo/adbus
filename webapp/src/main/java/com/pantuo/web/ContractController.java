@@ -90,7 +90,7 @@ public class ContractController {
 			IOException, ParseException {
 		return contractService.saveBusContract(city,plateNumber,contractid,startdate,enddate);
 	}
-	@PreAuthorize(" hasRole('ShibaOrderManager')  ")
+	@PreAuthorize(" hasRole('ShibaOrderManager,bodyContractManager')  ")
 	@RequestMapping(value = "saveContract", method = RequestMethod.POST)
 	@ResponseBody
 	public Pair<Boolean, String> saveContract(@CookieValue(value = "city", defaultValue = "-1") int city,
@@ -159,7 +159,7 @@ public class ContractController {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	@PreAuthorize(" hasRole('ShibaOrderManager')  ")
+	@PreAuthorize(" hasRole('ShibaOrderManager,bodyContractManager')  ")
 	@RequestMapping(value = "/contractEnter", produces = "text/html;charset=utf-8")
 	public String contractEnter(Model model, HttpServletRequest request) {
 		Page<UserDetail> users = userService.getValidUsers(0, 999, null);

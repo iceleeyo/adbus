@@ -514,4 +514,18 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	public JpaBodyContract selectBcById(int id) {
 		return bodyContractRepository.findOne(id);
 	}
+
+	@Override
+	public Pair<Boolean, String> setLockDate(String lockDate, int id, Principal principal) throws ParseException {
+		BusLock busLock=busLockMapper.selectByPrimaryKey(id);
+		if(busLock==null){
+			return new Pair<Boolean, String>(false,"信息丢失");
+		}
+		busLock.setLockExpiredTime((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(lockDate));
+		if(busLockMapper.updateByPrimaryKey(busLock)>0){
+			return new Pair<Boolean, String>(true,"设置锁定时间成功");
+		}else{
+			return new Pair<Boolean, String>(false,"操作失败");
+		}
+	}
 }

@@ -20,13 +20,11 @@ import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -40,20 +38,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaCity;
-import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.mybatis.domain.Bodycontract;
 import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.domain.Contract;
-import com.pantuo.mybatis.domain.Invoice;
-import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.HistoricTaskView;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
+import com.pantuo.service.ActivitiService.TaskQueryType;
 import com.pantuo.service.BusLineCheckService;
 import com.pantuo.service.ContractService;
 import com.pantuo.service.UserServiceInter;
-import com.pantuo.service.ActivitiService.TaskQueryType;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Only1ServieUniqLong;
@@ -63,7 +58,6 @@ import com.pantuo.vo.GroupVo;
 import com.pantuo.web.view.AutoCompleteView;
 import com.pantuo.web.view.LineBusCpd;
 import com.pantuo.web.view.OrderView;
-import com.pantuo.web.view.SuppliesView;
 
 /**
  * 
@@ -133,7 +127,7 @@ public class BusSelectController {
 		ProcessInstance pe = activitiService.findProcessInstanceByTaskId(taskid);
 		List<HistoricTaskView> activitis = activitiService.findHistoricUserTask(cityId, pe.getProcessInstanceId(),
 				activityId);
-		List<Contract> contracts = contractService.queryContractList(cityId, page, null, null, principal);
+		List<Contract> contracts = contractService.querybodyContractList(cityId);
 		model.addAttribute("contracts", contracts);
 		model.addAttribute("taskid", taskid);
 		model.addAttribute("orderview", v);
@@ -149,6 +143,13 @@ public class BusSelectController {
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
 		Page<OrderView> w = busLineCheckService.queryOrders(city, (principal), req, TaskQueryType.my);
 		return new DataTablePage<OrderView>(w, req.getDraw());
+	}
+	@RequestMapping("setLockDate/{id}")
+	@ResponseBody
+	public Pair<Boolean, String> lockDate(Principal principal,@PathVariable("id") int id,
+			@RequestParam(value="lockDate") String lockDate
+			) throws ParseException {
+		return busLineCheckService.setLockDate(lockDate,id,principal);
 	}
 
 	@RequestMapping(value = "/autoComplete")

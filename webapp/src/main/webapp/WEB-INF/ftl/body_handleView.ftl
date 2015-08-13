@@ -12,6 +12,20 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 
 //锁定库存
 function EnableContract() {
+    var isEnough="";
+    var contractid=$("#contractCode  option:selected").val();
+    var temp=document.getElementsByName("canSchedule");
+	      for(var i=0;i<temp.length;i++)
+         {
+           if(temp[i].checked)
+            isEnough = temp[i].value;
+         }
+	        if(isEnough=="true"){
+	          if(contractid==""){
+	              jDialog.Alert("请选择合同");
+	              return;
+	            }
+	        }
 var canSchedule=$('#usertask1 :radio[name=canSchedule]:checked').val();
 	complete('${taskid!''}',[
 		{
@@ -110,6 +124,9 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
                 { "data": "endDate", "defaultContent": "", "render": function(data) {
                     return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
                 } },
+                { "data": "lockExpiredTime", "defaultContent": "", "render": function(data) {
+                    return data == null ? "未设置" : $.format.date(data, "yyyy-MM-dd");
+                } },
 				 { "data": function( row, type, set, meta) {
                     return row.id;
                 },
@@ -118,7 +135,7 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 											var operations = '';
 											operations += '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/busselect/ajax-remove-buslock?seriaNum=${bodycontract.seriaNum!''}&id=' + data +'">删除</a>&nbsp;&nbsp;';
 											operations += '<a class="table-action2" href="javascript:void(0);" url="${rc.contextPath}/busselect/checkStock?seriaNum=${bodycontract.seriaNum!''}&buslockid=' + data +'">检验库存</a>&nbsp;&nbsp;';
-											operations += '<a class="layer-tips" tip="点击设置锁定时间" href="javascript:void(0);" onclick="setLockTime()" url="">锁定时间</a>';
+											operations += '<a class="layer-tips" tip="点击设置锁定时间" href="javascript:void(0);" onclick="setLockTime(\'${rc.contextPath}\','+data+')" url="">锁定时间</a>';
 											return operations;
 
 										}
@@ -303,7 +320,32 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
    				 });
 		
 	}
+function setLockDate(tourl,id){
+	var p= ($("#LockDate").val());
+	if(p==""){
+		layer.msg('请输入日期');
+		return;
+	}
+	document.getElementById('uploadbutton').setAttribute('disabled',true); 
+	$("#uploadbutton").css("background-color","#85A2AD");
+	$.ajax({
+		url : tourl+"/busselect/setLockDate/"+id ,
+		type : "POST",
+		data : {
+			"lockDate":p
+		},
+		success : function(data) {
+			layer.msg(data.right);
+			var uptime = window.setTimeout(function(){
+			 orderBusesTable.dataTable()._fnAjaxUpdate();
+				$("#cc").trigger("click");
+				clearTimeout(uptime);
+			},2500)
+		}
+	}, "text");
 	
+	
+}
 </script>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -355,8 +397,9 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 					<th>线路</th>
                     <th>数量（辆）</th>
                     <th width="180px">车型</th>
-                     <th>上刊时间</th>
-                    <th>下刊时间</th>
+                     <th>上刊日期</th>
+                    <th>下刊日期</th>
+                    <th>锁定截止日期</th>
                      <th>操作</th>
 						</tr>
 					</thead>
@@ -383,23 +426,36 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
   <LI style="width: 240px;"><SPAN>地址：</SPAN><SPAN class="con">${(bodycontract.companyAddr)!''}</SPAN></LI>
   <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
   <li style="width: 720px;"><SPAN> 备注信息：</SPAN><SPAN class="con">${bodycontract.remark!''}</SPAN></li> 
-  <li style="width: 720px;"><SPAN> 物料审核：</SPAN><SPAN class="con"><input name="canSchedule" type="radio"
-						value="true" checked="checked" style="padding: 5px 15px;" />有库存 <input
-						name="canSchedule" type="radio" value="false"
-						style="padding: 5px 15px;" />库存不足</SPAN></li> 
   							    
 </UL>
 </DIV>
 </form>
-
-<div id="tb2">
-
-				<p style="text-align: center; margin-top: 10px;">
-					<button type="button"  id="subutton" onclick="EnableContract()"
-						class="block-btn">确定</button>
-					<br> <br />
-				</p>
-			</div>
+              
+       </div>
+<div class="p20bs mt10 color-white-bg border-ec">
+<TABLE class="ui-table ui-table-gray">
+			<TBODY>
+				<TR style="height: 45px;">
+					<TH>锁定库存</TH>
+					<TD colspan=3><input name="canSchedule" type="radio"
+						value="true" checked="checked" style="padding: 5px 15px;" />有库存 <input
+						name="canSchedule" type="radio" value="false"
+						style="padding: 5px 15px;" />库存不足</TD>
+				</TR>
+				<TR style="height: 45px;">
+				<TD width="20%" style="text-align: right">合同选择</TD>
+					<TD>	<select class="ui-input" name="contractCode" id="contractCode">
+							<option value="" selected="selected">请选择合同</option> <#if
+							contracts?exists> <#list contracts as c>
+							<option value="${c.id}">${c.contractName!''}</option> </#list>
+							</#if>
+						</select>
+				</TD>
+			</TR>
+		</TABLE>
+        <div style="text-align: center; margin-top: 10px;">
+			<button type="button"  id="subutton" onclick="EnableContract()" class="block-btn">确定</button>
+		</div>
        </div>
 	</div>
 </div>

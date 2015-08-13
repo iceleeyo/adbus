@@ -75,4 +75,6 @@ public interface BusLineCheckService {
 
 	JpaBusLock findBusLockById(int id);
 
+	public Pair<Boolean, String> setLockDate(String lockDate, int id, Principal principal)throws ParseException;
+
 }

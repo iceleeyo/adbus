@@ -164,7 +164,7 @@ alert("dddd");
 									</div> -->
 			<div class="withdraw-title">
 					<span>合同列表</span>
-					<@security.authorize ifAnyGranted="ShibaOrderManager">
+					<@security.authorize ifAnyGranted="ShibaOrderManager,bodyContractManager">
 					<a class="block-btn" href="${rc.contextPath}/contract/contractEnter">添加合同</a>
 					</@security.authorize>
 				</div>

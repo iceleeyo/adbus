@@ -654,7 +654,6 @@ function setPriceHelp(tourl,orderid){
 	var p= ($("#price").val());
 	if(p<=0 || p==""){
 		layer.msg('订单金额必须大于0', {icon: 5});
-		//jDialog.Alert("资质类型只支持GIF,BMP,JPG");
 		return;
 	}
 	document.getElementById('uploadbutton').setAttribute('disabled',true); 
@@ -678,6 +677,7 @@ function setPriceHelp(tourl,orderid){
 	
 	
 }
+
 function setOrderPrice(tourl,orderid){
 			var postPath =  tourl;
 			layer.open({
@@ -709,8 +709,7 @@ function setOrderPrice(tourl,orderid){
 
 }
 
-function setLockTime(){
-	/*var postPath =  tourl;*/
+function setLockTime(tourl,id){
 	layer.open({
 	type: 1,
 	title: "锁定时间设置",
@@ -718,14 +717,14 @@ function setLockTime(){
 	area: ['420px', '340px'], 
 	content: 
 	 '<br/><br/><form id="priceForm"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/><div class="withdrawInputs"><div class="inputs" style="margin-left:-25px;">'
-	 +'<div class="ui-form-item"> <label class="ui-labels mt10" style="width:170px;margin-left:-200px;"><span class="ui-form-required">*</span>请选择锁定时间</label>' 
-	 +'<input class="ui-input datepicker validate[required,custom[date],past[#endDate]]" type="text" name="startD" value="" id="LockTime" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
+	 +'<div class="ui-form-item"> <label class="ui-labels mt10" style="width:170px;margin-left:-200px;"><span class="ui-form-required">*</span>请选择锁定截止时间</label>' 
+	 +'<input class="ui-input datepicker validate[required,custom[date],past[#endDate]]" type="text"  value="" id="LockDate" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
 	 +'</div>'
-	  +' <div class="ui-form-item widthdrawBtBox" style="margin-left:-20px;margin-top:20px;"> <input type="button" id="uploadbutton" class="block-btn" onclick="setPriceHelp();" value="确认"> </div>'
+	  +' <div class="ui-form-item widthdrawBtBox" style="margin-left:-20px;margin-top:20px;"> <input type="button" id="uploadbutton" class="block-btn" onclick="setLockDate(\''+tourl+'\','+id+');" value="确认"> </div>'
 	 +' </div> </div></form>' 
 	
 	});
-	var checkin = $('#LockTime').datepicker()
+	var checkin = $('#LockDate').datepicker()
 	.on('click', function (ev) {
 	        $('.datepicker').css("z-index", "999999999");
 	}).data('datepicker');
@@ -737,8 +736,6 @@ function setLockTime(){
         promptPosition: "topLeft",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
         maxErrorsPerField: 1,
         focusFirstField: true,
-        //failure : function() { alert("验证失败，请检查。");  }//验证失败时调用的函数
-        //success : function() { callSuccessFunction() },//验证通过时调用的函数
     	});
 
 
