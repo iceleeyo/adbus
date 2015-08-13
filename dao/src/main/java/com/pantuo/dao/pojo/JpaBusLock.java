@@ -40,7 +40,7 @@ public class JpaBusLock extends CityEntity {
 	
 	private Date lockExpiredTime;//锁定截止日期 这个日期一过 锁定失效
 	private String user_id;
-	private Status status = Status.ready;
+	private Status stats = Status.ready;
 
 	public long getSeriaNum() {
 		return seriaNum;
@@ -122,12 +122,13 @@ public class JpaBusLock extends CityEntity {
 		this.remainNuber = remainNuber;
 	}
 
-	public Status getStatus() {
-		return status;
+	 
+	public Status getStats() {
+		return stats;
 	}
 
-	public void setStatus(Status status) {
-		this.status = status;
+	public void setStats(Status stats) {
+		this.stats = stats;
 	}
 
 	public Date getLockExpiredTime() {

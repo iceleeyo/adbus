@@ -29,7 +29,7 @@ public class JpaBodyContract extends CityEntity {
 	private String remark;
 	private String creator;
 	private String amounts;
-	Status status = Status.ready;
+	Status stats = Status.ready;
 
 	public int getId() {
 		return id;
@@ -119,12 +119,13 @@ public class JpaBodyContract extends CityEntity {
 		this.relateMan = relateMan;
 	}
 
-	public Status getStatus() {
-		return status;
+	public Status getStats() {
+		return stats;
 	}
 
-	public void setStatus(Status status) {
-		this.status = status;
+	public void setStats(Status stats) {
+		this.stats = stats;
 	}
 
+	 
 }
