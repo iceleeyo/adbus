@@ -19,6 +19,7 @@ public class JpaBodyContract extends CityEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	private int contractid;
 	private String legalman;
 	private String relateMan;
 	private String company;
@@ -42,6 +43,14 @@ public class JpaBodyContract extends CityEntity {
 
 	public long getSeriaNum() {
 		return seriaNum;
+	}
+
+	public int getContractid() {
+		return contractid;
+	}
+
+	public void setContractid(int contractid) {
+		this.contractid = contractid;
 	}
 
 	public void setSeriaNum(long seriaNum) {
