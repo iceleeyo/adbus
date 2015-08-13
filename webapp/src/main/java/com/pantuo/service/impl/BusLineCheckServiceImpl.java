@@ -29,6 +29,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.expr.BooleanExpression;
+import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.BodyContractRepository;
 import com.pantuo.dao.BusLockRepository;
 import com.pantuo.dao.BuslineRepository;
@@ -188,7 +189,9 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		BusLockExample example = new BusLockExample();
 		BusLockExample.Criteria criteria = example.createCriteria();
 		criteria.andCityEqualTo(city);
-		criteria.andUserIdEqualTo(Request.getUserId(principal));
+		if (!Request.hasAuth(principal, ActivitiConfiguration.bodyContractManager)) {
+		  criteria.andUserIdEqualTo(Request.getUserId(principal));
+		}
 		criteria.andSeriaNumEqualTo(seriaNum);
 		criteria.andIdEqualTo(id);
 		List<BusLock> list = busLockMapper.selectByExample(example);

@@ -120,8 +120,8 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 										"render" : function(data, type, row,
 												meta) {
 											var operations = '';
-											operations += '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/busselect/ajax-remove-buslock?seriaNum=${bodycontract.seriaNum!''}&id=' + data +'">删除</a>';
-											operations += '<a class="table-action2" href="javascript:void(0);" url="${rc.contextPath}/busselect/checkStock?seriaNum=${seriaNum}&buslockid=' + data +'">检验库存</a>';
+											operations += '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/busselect/ajax-remove-buslock?seriaNum=${bodycontract.seriaNum!''}&id=' + data +'">删除</a>&nbsp;&nbsp;';
+											operations += '<a class="table-action2" href="javascript:void(0);" url="${rc.contextPath}/busselect/checkStock?seriaNum=${bodycontract.seriaNum!''}&buslockid=' + data +'">检验库存</a>';
 											return operations;
 
 										}
@@ -356,7 +356,7 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
                     <th width="180px">车型</th>
                      <th>上刊时间</th>
                     <th>下刊时间</th>
-                    
+                     <th>操作</th>
 						</tr>
 					</thead>
 

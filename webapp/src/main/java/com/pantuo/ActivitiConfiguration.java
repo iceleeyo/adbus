@@ -37,6 +37,7 @@ public class ActivitiConfiguration {
 	
 	public static final String ADVERTISER  = "advertiser";
 	public static final String ORDER  = "ShibaSuppliesManager";
+	public static final String bodyContractManager  = "bodyContractManager";
     @Autowired
     private DataSource dataSource;
 
