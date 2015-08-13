@@ -28,7 +28,9 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 			    { "data": "line.name", "defaultContent": ""},
                 { "data": "remainNuber", "defaultContent": ""}, 
                 { "data": "model", "defaultContent": "", "render": function(data) {
-                 if(data.doubleDecker==false){
+                if(data.id ==0){
+                 return "所有车型"
+                }else if(data.doubleDecker==false){
                   return data.name+'(单层)';
                  }else{
                     return data.name+'(双层)';
