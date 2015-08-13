@@ -146,7 +146,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 				.logoutSuccessUrl("/login?logout").invalidateHttpSession(false).and().csrf().disable();
 	}
-
+	/**
+	 * 
+	 * <b><code>SimpleRoleAuthenticationSuccessHandler</code></b>
+	 * <p>
+	 * success handler
+	 * </p>
+	 * <b>Creation Time:</b> 2015年8月13日 下午7:50:50
+	 * @author impanxh@gmail.com
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	class SimpleRoleAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 		private final Logger logger = LoggerFactory.getLogger(SimpleRoleAuthenticationSuccessHandler.class);
 		private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
