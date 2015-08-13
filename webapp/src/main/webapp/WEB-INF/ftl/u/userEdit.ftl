@@ -127,7 +127,7 @@ function go_back(){
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>所属组:</label>
 				<#if groupsList?exists> <#list groupsList?keys as vkey> <input
-					type="checkbox" value="${vkey}" name="roles"<#if
+					type="checkbox" value="${vkey}" name="roles"><#if
 				uGroup?seq_contains(vkey)>checked </#if> />${groupsList[vkey]}
 				</#list> </#if>
 			</div>
