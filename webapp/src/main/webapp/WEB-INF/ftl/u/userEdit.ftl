@@ -119,7 +119,7 @@ function go_back(){
 
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>联系电话:</label>
-				<input class="ui-input" type="text" name="phone" id="phone"
+				<input class="ui-input validate[required,custom[phone]]" type="text" name="phone" id="phone"
 					data-is="isAmount isEnough" autocomplete="off"
 					disableautocomplete="" value="${userDetail.phone!''}">
 			</div>

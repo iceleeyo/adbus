@@ -157,7 +157,7 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>联系方式:</label>
                                                     <input
-												class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
+												class="ui-input validate[required,custom[phone]]"
                                                 type="text" name="phonenum" value="${(invoiceView.mainView.phonenum)!''}"
 												id="phonenum" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
