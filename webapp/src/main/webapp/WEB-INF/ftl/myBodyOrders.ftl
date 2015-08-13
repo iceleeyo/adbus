@@ -48,7 +48,7 @@ var table;
                    
                    },
                    { "data": "order.created", "defaultContent": "","render": function(data, type, row, meta) {
-                	 var tr= "<a target='_blank' href='${rc.contextPath}/order/orderDetail/0?taskid=" +(row.task_id)+  "'>查看详情</a>";
+                	 var tr= "<a target='_blank' href='${rc.contextPath}/busselect/detail/"+row.jpaBodyContract.id+"?taskid=" +(row.task_id)+  "'>查看详情</a>";
                 	return tr;
                 }},
             ],
