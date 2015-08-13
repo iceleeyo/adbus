@@ -73,4 +73,6 @@ public interface BusLineCheckService {
 
 	public Page<OrderView> getBodyContractList(int city, TableRequest req, Principal principal);
 
+	JpaBusLock findBusLockById(int id);
+
 }

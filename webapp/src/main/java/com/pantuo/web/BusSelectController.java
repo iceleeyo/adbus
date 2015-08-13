@@ -191,6 +191,24 @@ public class BusSelectController {
 		//187 2015-08-07 2015-08-17
 		return busLineCheckService.countByFreeCars(buslinId, modelId, JpaBus.Category.yunyingche, start, end);
 	}
+	@RequestMapping(value = "/checkStock")
+	@ResponseBody
+	public Pair<Boolean, String> checkStock(@RequestParam(value = "buslockid", required = true, defaultValue = "0") Integer buslockid,
+			@RequestParam(value = "seriaNum", required = true) long seriaNum)
+			 {
+		       JpaBusLock busLock=busLineCheckService.findBusLockById(buslockid);
+		       if(busLock!=null){
+		    	   String st=new SimpleDateFormat("yyyy-MM-dd").format(busLock.getStartDate());
+		    	   String end=new SimpleDateFormat("yyyy-MM-dd").format(busLock.getEndDate());
+		    	   int a=busLineCheckService.countByFreeCars(busLock.getLine().getId(), busLock.getModel().getId(), JpaBus.Category.yunyingche,st ,end );
+		    	   if(busLock.getRemainNuber()>a){
+		    		   return new  Pair<Boolean, String>(false,"库存不足");
+		    	   }else{
+		    		   return new  Pair<Boolean, String>(true,"库存充足");
+		    	   }
+		       }
+		       return new  Pair<Boolean, String>(false,"信息丢失");
+	}
 
 	@RequestMapping(value = "/saveBusLock")
 	@ResponseBody

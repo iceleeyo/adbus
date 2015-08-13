@@ -114,7 +114,18 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
                 { "data": "endDate", "defaultContent": "", "render": function(data) {
                     return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
                 } },
-				 ],
+				 { "data": function( row, type, set, meta) {
+                    return row.id;
+                },
+										"render" : function(data, type, row,
+												meta) {
+											var operations = '';
+											operations += '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/busselect/ajax-remove-buslock?seriaNum=${bodycontract.seriaNum!''}&id=' + data +'">删除</a>';
+											operations += '<a class="table-action2" href="javascript:void(0);" url="${rc.contextPath}/busselect/checkStock?seriaNum=${seriaNum}&buslockid=' + data +'">检验库存</a>';
+											return operations;
+
+										}
+									},],
 							"language" : {
 								"url" : "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
 							},
@@ -132,6 +143,11 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 				 }else{
 				 alert("非法操作");
 				 }
+			})
+		});
+		$('.table-action2').click(function() {
+			$.post($(this).attr("url"), function(data) {
+			alert(data.right);
 			})
 		});
 	}

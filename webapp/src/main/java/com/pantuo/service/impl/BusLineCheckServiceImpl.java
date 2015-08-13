@@ -157,6 +157,10 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		List<JpaBusLock> list = (List<JpaBusLock>) busLockRepository.findAll(query);
 		return list;
 	}
+	@Override
+	public JpaBusLock findBusLockById(int id) {
+		return busLockRepository.findOne(id);
+	}
 
 	@Override
 	public List<GroupVo> countCarTypeByLine(int lineId, JpaBus.Category category) {
@@ -201,6 +205,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		bodycontract.setCreator(userId);
 		bodycontract.setCreated(new Date());
 		bodycontract.setUpdated(new Date());
+		bodycontract.setContractid(0);
 		int a = bodycontractMapper.insert(bodycontract);
 		BusLockExample example = new BusLockExample();
 		BusLockExample.Criteria criteria = example.createCriteria();
