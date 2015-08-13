@@ -29,6 +29,7 @@ public class JpaBodyContract extends CityEntity {
 	private String remark;
 	private String creator;
 	private String amounts;
+	private long seriaNum;
 	Status stats = Status.ready;
 
 	public int getId() {
@@ -37,6 +38,14 @@ public class JpaBodyContract extends CityEntity {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public long getSeriaNum() {
+		return seriaNum;
+	}
+
+	public void setSeriaNum(long seriaNum) {
+		this.seriaNum = seriaNum;
 	}
 
 	public String getLegalman() {
