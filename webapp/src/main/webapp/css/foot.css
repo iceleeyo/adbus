@@ -119,6 +119,10 @@
 	border-right: 1px solid gray;
 	padding: 0 10px;
 }
+
+.foot-copyright .foot-cr-link.none-border{
+	padding: 0 10px;
+}
 .foot-vertical{
 	text-align: center;
 	margin-top: 10px;
