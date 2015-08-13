@@ -14,10 +14,12 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.activiti.engine.task.Task;
+import org.activiti.engine.task.TaskQuery;
 import org.apache.commons.lang.BooleanUtils;
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,11 +28,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.expr.BooleanExpression;
+import com.pantuo.dao.BodyContractRepository;
 import com.pantuo.dao.BusLockRepository;
 import com.pantuo.dao.BuslineRepository;
+import com.pantuo.dao.pojo.JpaBodyContract;
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaBusline;
+import com.pantuo.dao.pojo.JpaOrders;
+import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.QJpaBusLock;
 import com.pantuo.dao.pojo.QJpaBusline;
 import com.pantuo.mybatis.domain.Bodycontract;
@@ -40,19 +46,26 @@ import com.pantuo.mybatis.persistence.BodycontractMapper;
 import com.pantuo.mybatis.persistence.BusLineMapper;
 import com.pantuo.mybatis.persistence.BusLockMapper;
 import com.pantuo.mybatis.persistence.BusSelectMapper;
+import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
+import com.pantuo.service.ActivitiService.TaskQueryType;
 import com.pantuo.service.BusLineCheckService;
 import com.pantuo.service.MailService;
 import com.pantuo.service.MailTask;
 import com.pantuo.service.MailTask.Type;
 import com.pantuo.simulate.MailJob;
+import com.pantuo.util.NumberPageUtil;
+import com.pantuo.util.OrderIdSeq;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 import com.pantuo.vo.GroupVo;
 import com.pantuo.web.view.AutoCompleteView;
+import com.pantuo.web.view.OrderView;
 
 @Service
 public class BusLineCheckServiceImpl implements BusLineCheckService {
+
+	public static final String BODY_ACTIVITY = "busFlowV2";
 	@Autowired
 	BusSelectMapper busSelectMapper;
 	@Autowired
@@ -61,6 +74,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	BusLockMapper busLockMapper;
 	@Autowired
 	BodycontractMapper bodycontractMapper;
+	@Autowired
+	BodyContractRepository bodyContractRepository;
 
 	///
 
@@ -222,5 +237,181 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		}
 
 		return new Pair<Boolean, String>(true, "申请合同成功");
+	}
+	public Page<OrderView> queryOrders(int city, Principal principal, TableRequest req, TaskQueryType tqType) {
+		String userid = Request.getUserId(principal);
+
+		int page = req.getPage(), pageSize = req.getLength();
+		Sort sort = req.getSort("created");
+		page = page + 1;
+		String longId = req.getFilter("longOrderId"), userIdQuery = req.getFilter("userId"), taskKey = req
+				.getFilter("taskKey"), productId = req.getFilter("productId");
+		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
+		List<OrderView> orders = new ArrayList<OrderView>();
+
+		ProcessInstanceQuery countQuery = runtimeService.createProcessInstanceQuery()
+				.processDefinitionKey(BODY_ACTIVITY).variableValueEquals(ActivitiService.CITY, city);
+
+		ProcessInstanceQuery listQuery = runtimeService.createProcessInstanceQuery().processDefinitionKey(BODY_ACTIVITY)
+				.variableValueEquals(ActivitiService.CITY, city);
+
+		/*
+		ProcessInstanceQuery debugQuery = runtimeService.createProcessInstanceQuery()
+				.processDefinitionKey(MAIN_PROCESS).includeProcessVariables()
+				.variableValueEquals(ActivitiService.CITY, city);
+		List<ProcessInstance> psff = debugQuery.list();
+		for (ProcessInstance processInstance : psff) {
+			System.out.println(processInstance.getProcessVariables());
+		}*/
+
+		/* 运行中的订单和 我的订单区分*/
+		if (tqType == TaskQueryType.my) {
+			countQuery.involvedUser(userid);
+			listQuery.involvedUser(userid);
+		}
+
+		//runtimeService.createNativeProcessInstanceQuery().sql("SELECT * FROM " + managementService.getTableName(ProcessInstance.class)).list().size());
+		/*按订单号查询 */
+		if (longOrderId > 0) {
+			countQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
+			listQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
+		}
+		/*按用户查询 */
+		if (StringUtils.isNoneBlank(userIdQuery)) {
+			countQuery.variableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
+			listQuery.variableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
+		}
+		/*按商品查询 */
+		if (StringUtils.isNoneBlank(productId)) {
+			countQuery.variableValueEquals(ActivitiService.PRODUCT, NumberUtils.toInt(productId));
+			listQuery.variableValueEquals(ActivitiService.PRODUCT, NumberUtils.toInt(productId));
+		}
+		//setVarFilter(taskKey, countQuery, listQuery);
+
+		/*排序 */
+		Sort.Order sor = sort.getOrderFor("created");
+		if (sor != null) {
+
+			listQuery.orderByProcessInstanceId();
+		} else if ((sor = sort.getOrderFor("taskKey")) != null) {
+			listQuery.orderByProcessInstanceId();//listQuery();
+		}
+		if (sor != null && sor.getDirection() == Sort.Direction.DESC) {
+			listQuery.desc();
+		} else {
+			listQuery.asc();
+		}
+		int totalnum = (int) countQuery.count();
+		NumberPageUtil pageUtil = new NumberPageUtil((int) totalnum, page, pageSize);
+		List<ProcessInstance> processInstances = listQuery.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
+		for (ProcessInstance processInstance : processInstances) {
+
+			List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId())
+					.processVariableValueEquals(ActivitiService.CITY, city).includeProcessVariables()
+					.orderByTaskCreateTime().desc().list();
+
+			Integer orderid = (Integer) tasks.get(0).getProcessVariables().get(ActivitiService.ORDER_ID);
+			OrderView v = new OrderView();
+			JpaBodyContract order = bodyContractRepository.findOne(orderid);
+			 v.setJpaBodyContract(order);
+			v.setProcessInstanceId(processInstance.getId());
+			//v.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+			Task top1Task = tasks.get(0);
+			v.setTask(top1Task);
+			v.setHaveTasks(tasks.size());
+			//if (StringUtils.isNoneBlank(taskKey) && !StringUtils.startsWith(taskKey, ActivitiService.R_DEFAULTALL)) {
+			v.setTask_name("-");
+				orders.add(v);
+		}
+		Pageable p = new PageRequest(page, pageSize, sort);
+		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(
+				orders, p, pageUtil.getTotal());
+		return r;
+	}
+	public Page<OrderView> findTask(int city, Principal principal, TableRequest req,TaskQueryType tqType) {
+		String userid = Request.getUserId(principal);
+		int page = req.getPage(), pageSize = req.getLength();
+		Sort sort = req.getSort("created");
+
+		String longId = req.getFilter("longOrderId"), userIdQuery = req.getFilter("userId"), taskKey = req
+				.getFilter("taskKey");
+		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
+		page = page + 1;
+		List<Task> tasks = new ArrayList<Task>();
+		List<OrderView> leaves = new ArrayList<OrderView>();
+		TaskQuery countQuery = taskService.createTaskQuery().processDefinitionKey(BODY_ACTIVITY);
+		TaskQuery queryList = taskService.createTaskQuery().processDefinitionKey(BODY_ACTIVITY);
+		/**
+		 * 根据查询方式 查我的待办事项或是 我提交的task
+		 */
+		if (tqType == TaskQueryType.task) {
+			countQuery.taskCandidateOrAssigned(userid);
+			queryList.taskCandidateOrAssigned(userid);
+		} else {
+			countQuery.processVariableValueEquals(ActivitiService.CREAT_USERID, userid);
+			queryList.processVariableValueEquals(ActivitiService.CREAT_USERID, userid);
+		}
+
+		countQuery.processVariableValueEquals(ActivitiService.CITY, city);
+		queryList.processVariableValueEquals(ActivitiService.CITY, city).includeProcessVariables();
+		if (longOrderId > 0) {
+			countQuery.processVariableValueEquals(ActivitiService.ORDER_ID,
+					OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
+			queryList.processVariableValueEquals(ActivitiService.ORDER_ID,
+					OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
+		}
+		if (StringUtils.isNoneBlank(userIdQuery)) {
+			countQuery.processVariableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
+			queryList.processVariableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
+		}
+		if (StringUtils.isNoneBlank(taskKey) && !StringUtils.startsWith(taskKey, ActivitiService.R_DEFAULTALL)) {
+			countQuery.taskDefinitionKey(taskKey);
+			queryList.taskDefinitionKey(taskKey);
+		}
+
+		long c = countQuery.count();
+		NumberPageUtil pageUtil = new NumberPageUtil((int) c, page, pageSize);
+
+		taskOrderBy(sort, queryList);
+		tasks = queryList.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
+
+		for (Task task : tasks) {
+			String processInstanceId = task.getProcessInstanceId();
+			ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
+					.processInstanceId(processInstanceId).singleResult();
+			Map<String, Object> var = task.getProcessVariables();
+			Integer orderid = (Integer) var.get(ActivitiService.ORDER_ID);
+			OrderView v = new OrderView();
+			JpaBodyContract order = bodyContractRepository.findOne(orderid);
+			if (order != null ) {
+				v.setJpaBodyContract(order);
+				v.setTask(task);
+				v.setProcessInstanceId(processInstance.getId());
+				v.setTask_createTime(task.getCreateTime());
+				if (var.get(ActivitiService.R_USERPAYED) == null
+						|| !BooleanUtils.toBoolean((Boolean) var.get(ActivitiService.R_USERPAYED))) {
+					v.setCanClosed(true);
+				}
+					leaves.add(v);
+			}
+		}
+		Pageable p = new PageRequest(page, pageSize, sort);
+		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(
+				leaves, p, pageUtil.getTotal());
+		return r;
+	}
+
+	private void taskOrderBy(Sort sort, TaskQuery queryList) {
+		Sort.Order sor = sort.getOrderFor("created");
+		if (sor != null) {
+			queryList.orderByTaskCreateTime();
+		} else if ((sor = sort.getOrderFor("taskKey")) != null) {
+			queryList.orderByTaskDefinitionKey();
+		}
+		if (sor != null && sor.getDirection() == Sort.Direction.DESC) {
+			queryList.desc();
+		} else {
+			queryList.asc();
+		}
 	}
 }

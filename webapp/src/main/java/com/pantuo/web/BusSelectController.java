@@ -14,9 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -30,9 +32,11 @@ import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.mybatis.domain.Bodycontract;
 import com.pantuo.mybatis.domain.BusLock;
+import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.BusLineCheckService;
+import com.pantuo.service.ActivitiService.TaskQueryType;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.Only1ServieUniqLong;
 import com.pantuo.util.Pair;
@@ -40,6 +44,7 @@ import com.pantuo.util.Request;
 import com.pantuo.vo.GroupVo;
 import com.pantuo.web.view.AutoCompleteView;
 import com.pantuo.web.view.LineBusCpd;
+import com.pantuo.web.view.OrderView;
 
 /**
  * 
@@ -61,11 +66,22 @@ public class BusSelectController {
 	@Autowired
 	ActivitiService activitiService;
 
+	@RequestMapping(value = "/myOrders/{pageNum}")
+	public String myOrders(Model model) {
+		model.addAttribute("orderMenu", "我的订单");
+		return "myBodyOrders";
+	}
+	@RequestMapping("ajax-myOrders")
+	@ResponseBody
+	public DataTablePage<OrderView> myOrders(TableRequest req, Principal principal,
+			@CookieValue(value = "city", defaultValue = "-1") int city) {
+		Page<OrderView> w = busLineCheckService.queryOrders(city, (principal), req,TaskQueryType.my);
+		return new DataTablePage<OrderView>(w, req.getDraw());
+	}
 	@RequestMapping(value = "/autoComplete")
 	@ResponseBody
-	
 	public List<AutoCompleteView> autoCompleteByName(@CookieValue(value = "city", defaultValue = "-1") int city,
-		@RequestParam(value = "term") String name) {
+			@RequestParam(value = "term") String name) {
 		return busLineCheckService.autoCompleteByName(city, name, JpaBus.Category.yunyingche);
 	}
 
@@ -102,12 +118,12 @@ public class BusSelectController {
 		//187 2015-08-07 2015-08-17
 		return busLineCheckService.countByFreeCars(buslinId, modelId, JpaBus.Category.yunyingche, start, end);
 	}
-	
+
 	@RequestMapping(value = "/saveBusLock")
 	@ResponseBody
-	public Pair<Boolean, String> saveBusLock(BusLock buslock,@CookieValue(value = "city", defaultValue = "-1") int city,
-			Principal principal,HttpServletRequest request,
-			@RequestParam(value = "seriaNum", required = true) long seriaNum,
+	public Pair<Boolean, String> saveBusLock(BusLock buslock,
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
+			HttpServletRequest request, @RequestParam(value = "seriaNum", required = true) long seriaNum,
 			@RequestParam(value = "startD", required = true) String startD,
 			@RequestParam(value = "endD", required = true) String endD) throws ParseException {
 		buslock.setCity(city);
@@ -115,14 +131,14 @@ public class BusSelectController {
 		buslock.setSeriaNum(seriaNum);
 		return busLineCheckService.saveBusLock(buslock, startD, endD);
 	}
+
 	@RequestMapping(value = "/saveBodyContract")
 	@ResponseBody
-	public Pair<Boolean, String> saveBodyContract(Bodycontract bodycontract,@CookieValue(value = "city", defaultValue = "-1") int city,
-			Principal principal,HttpServletRequest request,
-			@RequestParam(value = "seriaNum", required = true) long seriaNum
-			)  {
+	public Pair<Boolean, String> saveBodyContract(Bodycontract bodycontract,
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
+			HttpServletRequest request, @RequestParam(value = "seriaNum", required = true) long seriaNum) {
 		bodycontract.setCity(city);
-		return busLineCheckService.saveBodyContract(bodycontract,seriaNum,Request.getUserId(principal));
+		return busLineCheckService.saveBodyContract(bodycontract, seriaNum, Request.getUserId(principal));
 	}
 
 	/**
@@ -172,23 +188,25 @@ public class BusSelectController {
 		model.addAttribute("dates", list);
 		return "line_schedule";
 	}
+
 	@RequestMapping("applyBodyCtct")
 	public String applyBodyCtct(Model model, Principal principal) {
 		model.addAttribute("seriaNum", Only1ServieUniqLong.getUniqLongNumber());
 		return "applyBodyCtct";
 	}
-	 @RequestMapping(value = "ajax-buslock", method = RequestMethod.GET)
-	    @ResponseBody
-	    public List<JpaBusLock> getBuses(Model model,@CookieValue(value = "city", defaultValue = "-1") int city,
-	                                            @RequestParam("seriaNum") long seriaNum) {
-	        return busLineCheckService.getBusLockListBySeriNum(seriaNum);
-	    }
-	    @RequestMapping(value = "ajax-remove-buslock", method = RequestMethod.POST)
-	    @ResponseBody
-	    public boolean removeBusLock(Principal principal,@CookieValue(value = "city", defaultValue = "-1") int city,
-	                                                        @RequestParam("seriaNum") long seriaNum,
-	                                                        @RequestParam("id") int id) {
-	    	return busLineCheckService.removeBusLock(principal,city,seriaNum,id);
-	    }
+
+	@RequestMapping(value = "ajax-buslock", method = RequestMethod.GET)
+	@ResponseBody
+	public List<JpaBusLock> getBuses(Model model, @CookieValue(value = "city", defaultValue = "-1") int city,
+			@RequestParam("seriaNum") long seriaNum) {
+		return busLineCheckService.getBusLockListBySeriNum(seriaNum);
+	}
+
+	@RequestMapping(value = "ajax-remove-buslock", method = RequestMethod.POST)
+	@ResponseBody
+	public boolean removeBusLock(Principal principal, @CookieValue(value = "city", defaultValue = "-1") int city,
+			@RequestParam("seriaNum") long seriaNum, @RequestParam("id") int id) {
+		return busLineCheckService.removeBusLock(principal, city, seriaNum, id);
+	}
 
 }

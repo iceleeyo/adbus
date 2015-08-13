@@ -4,13 +4,18 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.mybatis.domain.Bodycontract;
 import com.pantuo.mybatis.domain.BusLock;
+import com.pantuo.pojo.TableRequest;
+import com.pantuo.service.ActivitiService.TaskQueryType;
 import com.pantuo.util.Pair;
 import com.pantuo.vo.GroupVo;
 import com.pantuo.web.view.AutoCompleteView;
+import com.pantuo.web.view.OrderView;
 
 public interface BusLineCheckService {
 	/**
@@ -55,5 +60,9 @@ public interface BusLineCheckService {
 	public boolean removeBusLock(Principal principal, int city, long seriaNum, int id);
 
 	public Pair<Boolean, String> saveBodyContract(Bodycontract bodycontract, long seriaNum, String userId);
+	
+	
+	
+	public Page<OrderView> queryOrders(int city, Principal principal, TableRequest req,TaskQueryType tqType);
 
 }

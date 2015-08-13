@@ -3,12 +3,15 @@ package com.pantuo.web.view;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
+
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+
+import com.pantuo.dao.pojo.JpaBodyContract;
 import com.pantuo.dao.pojo.JpaOrderBuses;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
@@ -37,6 +40,12 @@ public class OrderView {
 	private String task_assignee;
 	private Date task_createTime;
 	
+	//=====================================
+	private JpaBodyContract jpaBodyContract;
+	
+	
+	
+	
 	
 	
 	//--------- 订单历史信息
@@ -46,8 +55,6 @@ public class OrderView {
 	private String finishedState = StringUtils.EMPTY;
 	public Date startTime;
 	public Date endTime;
-	
-
 	//
 	private String processInstanceId;
 	private Map<String, Object> variables;
@@ -301,6 +308,14 @@ public class OrderView {
 
 	public void setDefinitionKey(String definitionKey) {
 		this.definitionKey = definitionKey;
+	}
+
+	public JpaBodyContract getJpaBodyContract() {
+		return jpaBodyContract;
+	}
+
+	public void setJpaBodyContract(JpaBodyContract jpaBodyContract) {
+		this.jpaBodyContract = jpaBodyContract;
 	}
 
 	 
