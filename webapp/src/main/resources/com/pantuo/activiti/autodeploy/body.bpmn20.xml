@@ -78,7 +78,7 @@
         <endEvent id="endevent3" name="End"></endEvent>
         <startEvent id="startevent2" name="Start"></startEvent>
         <sequenceFlow id="flow71" sourceRef="startevent2" targetRef="usertask1"></sequenceFlow>
-        <userTask id="usertask2" name="确认合同回执"></userTask>
+        <userTask id="usertask2" name="确认合同回执" activiti:candidateGroups="bodyContractManager"></userTask>
         <sequenceFlow id="flow74" sourceRef="usertask2" targetRef="financialCheck"></sequenceFlow>
         <serviceTask id="servicetask2" name="生成施工单" activiti:delegateExpression="${gusWorkListSchedule}"></serviceTask>
         <sequenceFlow id="flow81" sourceRef="approve2" targetRef="servicetask2"></sequenceFlow>

@@ -51,6 +51,8 @@ import org.springframework.ui.Model;
 import scala.collection.mutable.StringBuilder;
 
 import com.pantuo.ActivitiConfiguration;
+import com.pantuo.dao.BodyContractRepository;
+import com.pantuo.dao.pojo.JpaBodyContract;
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
@@ -120,7 +122,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 	private ProductMapper productMapper;
 	@Autowired
 	private InvoiceDetailMapper invoiceDetailMapper;
-
+	@Autowired
+	BodyContractRepository bodyContractRepository;
 	@Autowired
 	private CityService cityService;
 
@@ -1145,6 +1148,27 @@ public class ActivitiServiceImpl implements ActivitiService {
 			JpaProduct product = productService.findById(order.getProductId());
 			v.setProduct(product);
 			v.setOrder(order);
+		}
+		v.setTask(task);
+		v.setTask_id(taskid);
+		v.setProcessInstance(processInstance);
+		v.setProcessInstanceId(processInstance.getId());
+		v.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+		v.setVariables(variables);
+		v.setTask_name(getOrderState(processInstance.getProcessVariables()));
+		return v;
+	}
+	public OrderView findBodyContractByTaskId(String taskid, Principal principal) {
+		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
+		String processInstanceId = task.getProcessInstanceId();
+		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
+				.processInstanceId(processInstanceId).includeProcessVariables().singleResult();
+		OrderView v = new OrderView();
+		Map<String, Object> variables = taskService.getVariables(taskid);
+		int orderid = (Integer) variables.get(ORDER_ID);
+		JpaBodyContract order = bodyContractRepository.findOne(orderid);
+		if (order != null) {
+			v.setJpaBodyContract(order);
 		}
 		v.setTask(task);
 		v.setTask_id(taskid);

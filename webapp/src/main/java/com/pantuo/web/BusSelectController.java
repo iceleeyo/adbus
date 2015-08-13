@@ -13,6 +13,14 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.activiti.engine.HistoryService;
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricTaskInstance;
+import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +30,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,14 +39,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusLock;
+import com.pantuo.dao.pojo.JpaCity;
+import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.mybatis.domain.Bodycontract;
 import com.pantuo.mybatis.domain.BusLock;
+import com.pantuo.mybatis.domain.Contract;
+import com.pantuo.mybatis.domain.Invoice;
+import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.pojo.DataTablePage;
+import com.pantuo.pojo.HistoricTaskView;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.BusLineCheckService;
+import com.pantuo.service.ContractService;
+import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.ActivitiService.TaskQueryType;
 import com.pantuo.util.DateUtil;
+import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Only1ServieUniqLong;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
@@ -45,6 +63,7 @@ import com.pantuo.vo.GroupVo;
 import com.pantuo.web.view.AutoCompleteView;
 import com.pantuo.web.view.LineBusCpd;
 import com.pantuo.web.view.OrderView;
+import com.pantuo.web.view.SuppliesView;
 
 /**
  * 
@@ -65,8 +84,16 @@ public class BusSelectController {
 
 	@Autowired
 	ActivitiService activitiService;
-
-	
+	 @Autowired
+	    HistoryService historyService;
+	    @Autowired
+		private UserServiceInter userService;
+		@Autowired
+		private TaskService taskService;
+		@Autowired
+		private RuntimeService runtimeService;
+		@Autowired
+		private ContractService contractService;
 	@RequestMapping(value = "/myTask/{pageNum}")
 	public String list() {
 		return "bodyTaskList";
@@ -83,7 +110,39 @@ public class BusSelectController {
 		model.addAttribute("orderMenu", "我的订单");
 		return "myBodyOrders";
 	}
-
+	@RequestMapping(value = "/body_handleView", produces = "text/html;charset=utf-8")
+	public String HandleView2(Model model,
+            @RequestParam(value = "taskid", required = true) String taskid,
+			Principal principal,
+            @CookieValue(value = "city", defaultValue = "-1") int cityId,
+            @ModelAttribute("city") JpaCity city,
+            HttpServletRequest request)
+			throws Exception {
+		NumberPageUtil page = new NumberPageUtil(9999, 1, 9999);
+		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
+		HistoricTaskInstance currTask = historyService
+                .createHistoricTaskInstanceQuery().taskId(taskid)
+                .singleResult();
+		Date claimT=currTask.getClaimTime();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String claimTime=sdf.format(claimT);
+		ExecutionEntity executionEntity = (ExecutionEntity) runtimeService.createExecutionQuery()
+				.executionId(task.getExecutionId()).processInstanceId(task.getProcessInstanceId()).singleResult();
+		OrderView v = activitiService.findBodyContractByTaskId(taskid, principal);
+		String activityId = executionEntity.getActivityId();
+		ProcessInstance pe = activitiService.findProcessInstanceByTaskId(taskid);
+		List<HistoricTaskView> activitis = activitiService.findHistoricUserTask(cityId, pe.getProcessInstanceId(),
+				activityId);
+		List<Contract> contracts = contractService.queryContractList(cityId, page, null, null, principal);
+		model.addAttribute("contracts", contracts);
+		model.addAttribute("taskid", taskid);
+		model.addAttribute("orderview", v);
+		model.addAttribute("bodycontract",busLineCheckService.selectBcById(v.getJpaBodyContract().getId()));
+		model.addAttribute("claimTime", claimTime);
+		model.addAttribute("activitis", activitis);
+		model.addAttribute("activityId", activityId);
+		return "body_handleView";
+	}
 	@RequestMapping("ajax-myOrders")
 	@ResponseBody
 	public DataTablePage<OrderView> myOrders(TableRequest req, Principal principal,
