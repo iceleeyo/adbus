@@ -719,8 +719,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 			if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
 				taskService.claim(task.getId(), u.getUsername());
 				//TaskDefinition nextTaskDefinition = getNextTaskByTaskOrder(task.getId());
-				
-				MailTask mailTask=	new MailTask(u.getUsername(), order.getId(), null, task.getTaskDefinitionKey(),
+
+				MailTask mailTask = new MailTask(u.getUsername(), order.getId(), null, task.getTaskDefinitionKey(),
 						Type.sendCompleteMail);
 				taskService.complete(task.getId());
 				mailJob.putMailTask(mailTask);
@@ -740,9 +740,6 @@ public class ActivitiServiceImpl implements ActivitiService {
 		//debug(process.getId());
 	}
 
-	
-	
-	
 	public void startTest() {
 		String u = "bodysales";
 		Map<String, Object> initParams = new HashMap<String, Object>();
@@ -757,11 +754,10 @@ public class ActivitiServiceImpl implements ActivitiService {
 			taskService.claim(task.getId(), u);
 			taskService.complete(task.getId());
 		}
-		
+
 		TaskQuery tb = taskService.createTaskQuery().processDefinitionKey("busFlowV2");
-		
-		tasks = tb.taskCandidateOrAssigned("contract").orderByTaskCreateTime().desc()
-				.listPage(0, 3);
+
+		tasks = tb.taskCandidateOrAssigned("contract").orderByTaskCreateTime().desc().listPage(0, 3);
 		if (!tasks.isEmpty()) {
 			Task task = tasks.get(0);
 			taskService.claim(task.getId(), "contract");
@@ -769,7 +765,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			map.put("canSchedule", false);
 			map.put("closed", true);
 			map.put("closedReson", "库存不足 订单关闭");
-			
+
 			taskService.complete(task.getId(), map);
 		}
 		tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime().desc()
@@ -821,6 +817,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		//debug(process.getId());
 	}
+
 	public void startProcess2(int cityId, UserDetail u, JpaOrders order) {
 		Map<String, Object> initParams = new HashMap<String, Object>();
 		initParams.put(ActivitiService.OWNER, u);
@@ -875,8 +872,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 						if (alwaysSet || order.getSupplies().getId() > 1) {
 							//如果是下单的时候 就绑定了素材 完成这一步
 							//TaskDefinition nextTaskDefinition = getNextTaskByTaskOrder(task.getId());
-							MailTask mailTask=	new MailTask(u.getUsername(), order.getId(), null, task
-									.getTaskDefinitionKey(), Type.sendCompleteMail);
+							MailTask mailTask = new MailTask(u.getUsername(), order.getId(), null,
+									task.getTaskDefinitionKey(), Type.sendCompleteMail);
 							taskService.complete(task.getId());
 							mailJob.putMailTask(mailTask);
 						}
@@ -1014,7 +1011,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 
 	}
-	
+
 	public String getNextTaskInfo(Date completeDate, int orderId) {
 		String r = StringUtils.EMPTY;
 		List<Task> tasks = taskService.createTaskQuery().processVariableValueEquals(ActivitiService.ORDER_ID, orderId)
@@ -1023,8 +1020,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 			if (completeDate.before(task.getCreateTime())) {
 				r = " 订单将进入到下一个操作环节[" + task.getName() + "]";
 			} else {
-				log.info(" complete Task and getNextInfo ,filter task:{},{},{}", completeDate.getTime(), task.getCreateTime()
-						.getTime(), task.getName());
+				log.info(" complete Task and getNextInfo ,filter task:{},{},{}", completeDate.getTime(), task
+						.getCreateTime().getTime(), task.getName());
 			}
 		}
 		return r;
@@ -1071,6 +1068,49 @@ public class ActivitiServiceImpl implements ActivitiService {
 			r = new Pair<Boolean, String>(false, StringUtils.EMPTY);
 		}
 		return r;
+	}
+
+	public String resetBusWorkFlow(int city, String p) {
+		StringBuilder sb = new StringBuilder();
+		List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery()
+				.processDefinitionKey("busFlowV2").variableValueEquals(ActivitiService.CITY, city)
+				.includeProcessVariables().list();
+		for (ProcessInstance processInstance : processInstances) {
+
+			if (StringUtils.contains(p, "deleteAll")) {
+				runtimeService.deleteProcessInstance(processInstance.getId(), "");
+
+			} else {
+				Map<String, Object> info = processInstance.getProcessVariables();
+
+				Integer orderid = (Integer) info.get(ORDER_ID);
+				if (orderid != null) {
+					JpaBodyContract order = bodyContractRepository.findOne(orderid);
+					if (order == null) {
+						sb.append(orderid + ",");
+						runtimeService.deleteProcessInstance(processInstance.getId(), "");
+					}
+				}
+
+				/**
+				 *  清理完成的订单里找不到订单 数据异常的工作流
+				 */
+
+				List<HistoricProcessInstance> list = historyService.createHistoricProcessInstanceQuery()
+						.variableValueEquals(ActivitiService.CITY, city).finished().processDefinitionKey(MAIN_PROCESS)
+						.includeProcessVariables().orderByProcessInstanceStartTime().desc().list();
+				for (HistoricProcessInstance historicProcessInstance : list) {
+					Integer hisId = (Integer) historicProcessInstance.getProcessVariables().get(ORDER_ID);
+					if (hisId != null && hisId > 0) {
+						JpaBodyContract or = bodyContractRepository.findOne(orderid);
+						if (or == null) {
+							historyService.deleteHistoricProcessInstance(historicProcessInstance.getId());
+						}
+					}
+				}
+			}
+		}
+		return sb.toString();
 	}
 
 	public String reset(int city, String p) {
@@ -1158,6 +1198,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		v.setTask_name(getOrderState(processInstance.getProcessVariables()));
 		return v;
 	}
+
 	public OrderView findBodyContractByTaskId(String taskid, Principal principal) {
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 		String processInstanceId = task.getProcessInstanceId();
@@ -1431,12 +1472,13 @@ public class ActivitiServiceImpl implements ActivitiService {
 			if (updateSupplise(orderid, supplieid) > 0) {
 				taskService.claim(task.getId(), ul.getUsername());
 				//TaskDefinition nextTaskDefinition = getNextTaskByTaskOrder(task.getId());
-				MailTask mailTask=	new MailTask(user.getUsername(), orderid, null, task.getTaskDefinitionKey(),
+				MailTask mailTask = new MailTask(user.getUsername(), orderid, null, task.getTaskDefinitionKey(),
 						Type.sendCompleteMail);
 				taskService.complete(task.getId());
 				mailJob.putMailTask(mailTask);
-				
-				return new Pair<Object, String>(orders,String.format( "订单修改成功%s!", getNextTaskInfo(mailTask.getFinishDate(), orderid)));
+
+				return new Pair<Object, String>(orders, String.format("订单修改成功%s!",
+						getNextTaskInfo(mailTask.getFinishDate(), orderid)));
 			} else {
 				return new Pair<Object, String>(null, "订单修改失败!");
 			}
