@@ -741,7 +741,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 	
 	
 	public void startTest() {
-		String u = "aduserc";
+		String u = "bodysales";
 		Map<String, Object> initParams = new HashMap<String, Object>();
 		initParams.put("username", u);
 		initParams.put("st", System.currentTimeMillis());
@@ -754,11 +754,14 @@ public class ActivitiServiceImpl implements ActivitiService {
 			taskService.claim(task.getId(), u);
 			taskService.complete(task.getId());
 		}
-		tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime().desc()
-				.listPage(0, 1);
+		
+		TaskQuery tb = taskService.createTaskQuery().processDefinitionKey("busFlowV2");
+		
+		tasks = tb.taskCandidateOrAssigned("contract").orderByTaskCreateTime().desc()
+				.listPage(0, 3);
 		if (!tasks.isEmpty()) {
 			Task task = tasks.get(0);
-			taskService.claim(task.getId(), "material");
+			taskService.claim(task.getId(), "contract");
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("canSchedule", false);
 			map.put("closed", true);
