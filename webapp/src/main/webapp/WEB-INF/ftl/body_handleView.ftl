@@ -1,13 +1,9 @@
-<#import "template/template.ftl" as frame> 
- <@frame.html title="订单办理"
-js=["js/nano.js","js/highslide/highslide-full.js",
-"js/video-js/video.js", "js/video-js/lang/zh-CN.js",
-"js/jquery-ui/jquery-ui.min.js",
+<#import "template/template.ftl" as frame> <@frame.html title=""
+js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
 "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
-"js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer/layer.js","js/progressbar.js","js/jquery-dateFormat.js"]
-css=["js/highslide/highslide.css",
-"js/video-js/video-js.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","css/liselect/pkg-generator.css$ver=1431443489.css"]>
-<#include "template/preview.ftl" />
+"js/jquery.datepicker.region.cn.js","js/progressbar.js"]
+css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
+
 <script type="text/javascript">
 	$(function() {
 	//显示当前节点对应的表单信息
@@ -121,7 +117,8 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 												meta) {
 											var operations = '';
 											operations += '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/busselect/ajax-remove-buslock?seriaNum=${bodycontract.seriaNum!''}&id=' + data +'">删除</a>&nbsp;&nbsp;';
-											operations += '<a class="table-action2" href="javascript:void(0);" url="${rc.contextPath}/busselect/checkStock?seriaNum=${bodycontract.seriaNum!''}&buslockid=' + data +'">检验库存</a>';
+											operations += '<a class="table-action2" href="javascript:void(0);" url="${rc.contextPath}/busselect/checkStock?seriaNum=${bodycontract.seriaNum!''}&buslockid=' + data +'">检验库存</a>&nbsp;&nbsp;';
+											operations += '<a class="layer-tips" tip="点击设置锁定时间" href="javascript:void(0);" onclick="setLockTime()" url="">锁定时间</a>';
 											return operations;
 
 										}
@@ -147,7 +144,7 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 		});
 		$('.table-action2').click(function() {
 			$.post($(this).attr("url"), function(data) {
-			alert(data.right);
+			layer.msg(data.right);
 			})
 		});
 	}
@@ -306,6 +303,7 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
    				 });
 		
 	}
+	
 </script>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -345,6 +343,9 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 				<A class="black" href="#">选取车辆</A>
 				 <input type="hidden" name="seriaNum" id="seriaNum" value="${bodycontract.seriaNum!''}"/>
 			</H3>
+			<span><input type="button" onclick="selctLine('${rc.contextPath}',${bodycontract.seriaNum})"
+				class="block-btn" value="增加选择"
+				style="float: right; margin: 10px 20px 0px 20px;"></span>
 			<br>
 			<div id="orderedBuses">
 				<table id="orderedBusesTable" class="display compact"
@@ -382,17 +383,15 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
   <LI style="width: 240px;"><SPAN>地址：</SPAN><SPAN class="con">${(bodycontract.companyAddr)!''}</SPAN></LI>
   <li style="width: 800; border-bottom: 1px solid #F7F7F7"></li>
   <li style="width: 720px;"><SPAN> 备注信息：</SPAN><SPAN class="con">${bodycontract.remark!''}</SPAN></li> 
+  <li style="width: 720px;"><SPAN> 物料审核：</SPAN><SPAN class="con"><input name="canSchedule" type="radio"
+						value="true" checked="checked" style="padding: 5px 15px;" />有库存 <input
+						name="canSchedule" type="radio" value="false"
+						style="padding: 5px 15px;" />库存不足</SPAN></li> 
   							    
 </UL>
 </DIV>
 </form>
-<TR style="height: 45px;">
-					<TH>物料审核</TH>
-					<TD colspan=3><input name="canSchedule" type="radio"
-						value="true" checked="checked" style="padding: 5px 15px;" />有库存 <input
-						name="canSchedule" type="radio" value="false"
-						style="padding: 5px 15px;" />库存不足</TD>
-				</TR>
+
 <div id="tb2">
 
 				<p style="text-align: center; margin-top: 10px;">

@@ -709,6 +709,41 @@ function setOrderPrice(tourl,orderid){
 
 }
 
+function setLockTime(){
+	/*var postPath =  tourl;*/
+	layer.open({
+	type: 1,
+	title: "锁定时间设置",
+	skin: 'layui-layer-rim', 
+	area: ['420px', '340px'], 
+	content: 
+	 '<br/><br/><form id="priceForm"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/><div class="withdrawInputs"><div class="inputs" style="margin-left:-25px;">'
+	 +'<div class="ui-form-item"> <label class="ui-labels mt10" style="width:170px;margin-left:-200px;"><span class="ui-form-required">*</span>请选择锁定时间</label>' 
+	 +'<input class="ui-input datepicker validate[required,custom[date],past[#endDate]]" type="text" name="startD" value="" id="LockTime" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
+	 +'</div>'
+	  +' <div class="ui-form-item widthdrawBtBox" style="margin-left:-20px;margin-top:20px;"> <input type="button" id="uploadbutton" class="block-btn" onclick="setPriceHelp();" value="确认"> </div>'
+	 +' </div> </div></form>' 
+	
+	});
+	var checkin = $('#LockTime').datepicker()
+	.on('click', function (ev) {
+	        $('.datepicker').css("z-index", "999999999");
+	}).data('datepicker');
+	
+	$("#priceForm").validationEngine({
+        validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
+        inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
+        success :  false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
+        promptPosition: "topLeft",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
+        maxErrorsPerField: 1,
+        focusFirstField: true,
+        //failure : function() { alert("验证失败，请检查。");  }//验证失败时调用的函数
+        //success : function() { callSuccessFunction() },//验证通过时调用的函数
+    	});
+
+
+}
+
 function bu(txtObj) {
     txtObj.value = Number(txtObj.value).toFixed(2);
 }
