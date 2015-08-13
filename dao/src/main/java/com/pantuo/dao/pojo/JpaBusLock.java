@@ -13,42 +13,38 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "bus_lock")
 public class JpaBusLock extends CityEntity {
+
+	public static enum Status {
+		ready, invalid, enable, close,
+		/*初始化,无库存,生效,关闭状态*/
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	@ManyToOne
 	@JoinColumn(name = "lineId")
 	private JpaBusline line;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "model_id")
 	private JpaBusModel model;
-	
-	
+
 	//private int modelid;
 	private int contractId;
 	private int salesNumber;//合同生效时购买的线路车辆数量
 	private int remainNuber;//实行贴车进行后的 的数量 ,贴车回执处理时减这个数量
-	private long seriaNum;//实行贴车进行后的 的数量 ,贴车回执处理时减这个数量
+	private long seriaNum;//合同唯一号
 	private Date startDate;
 	private Date endDate;
-	private String user_id;
 	
-	private boolean enable = true;
-
-	public boolean isEnable() {
-		return enable;
-	}
-
-	public void setEnable(boolean enable) {
-		this.enable = enable;
-	}
+	private Date lockExpiredTime;//锁定截止日期 这个日期一过 锁定失效
+	private String user_id;
+	private Status status = Status.ready;
 
 	public long getSeriaNum() {
 		return seriaNum;
 	}
-
- 
 
 	public JpaBusModel getModel() {
 		return model;
@@ -124,6 +120,22 @@ public class JpaBusLock extends CityEntity {
 
 	public void setRemainNuber(int remainNuber) {
 		this.remainNuber = remainNuber;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public Date getLockExpiredTime() {
+		return lockExpiredTime;
+	}
+
+	public void setLockExpiredTime(Date lockExpiredTime) {
+		this.lockExpiredTime = lockExpiredTime;
 	}
 
 }
