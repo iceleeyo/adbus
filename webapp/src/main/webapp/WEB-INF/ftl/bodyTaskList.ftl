@@ -28,7 +28,7 @@
 				//jDialog.Alert(data.right);
 				 jDialog.Alert(data.right,function(){
 		        var uptime = window.setTimeout(function(){
-				$(location).attr('href', "${rc.contextPath}/order/handleView2?orderid=" +(orderid)+ "&taskid="+taskid);
+				$(location).attr('href', "${rc.contextPath}/busselect/body_handleView?orderid=" +(orderid)+ "&taskid="+taskid);
 		         clearTimeout(uptime);
 		       },1000);});
 				//location.reload([true]);
@@ -48,7 +48,7 @@
             "aaSorting": [[4, "desc"]],
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                 { "orderable": false, "targets": [0,1,2,3,5] },
+                 { "orderable": false, "targets": [0,1,2,3] },
             ],
             "ajax": {
                 type: "GET",
@@ -81,12 +81,12 @@
                    
                   		var tr="";
 	                  if(row.task_assignee =='' || row.task_assignee == null){
-		                 	 	tr=  "<a href=\"javascript:;\" onclick=\"claim('"+row.order.id+"','"+( row.task_id)+"');\">签收</a>&nbsp;";
+		                 	 	tr=  "<a href=\"javascript:;\" onclick=\"claim('"+row.jpaBodyContract.id+"','"+( row.task_id)+"');\">签收</a>&nbsp;";
 	                  	}else {
-	                  	  	  tr= "<a href='${rc.contextPath}/order/handleView2?orderid=" +(row.order.id)+ "&taskid="+taskId+ "'>办理</a>&nbsp;";
+	                  	  	  tr= "<a href='${rc.contextPath}/busselect/body_handleView?orderid=" +(row.jpaBodyContract.id)+ "&taskid="+row.task_id+ "'>办理</a>&nbsp;";
 	                    }	
 	                    if(row.canClosed==true){
-		                    	tr+="<a href=\"javascript:;\" tip=\"未支付的订单可以关闭哦!\"  class=\"btn disabled layer-tips\" onclick=\"showCloseRemark('${rc.contextPath}','"+row.order.id+"','"+( row.task_id)+"');\">关闭</a>&nbsp;";
+		                    	tr+="<a href=\"javascript:;\" tip=\"未支付的订单可以关闭哦!\"  class=\"btn disabled layer-tips\" onclick=\"showCloseRemark('${rc.contextPath}','"+row.jpaBodyContract.id+"','"+( row.task_id)+"');\">关闭</a>&nbsp;";
 		                }
                   	  return tr;
                     }
