@@ -1,17 +1,17 @@
 package com.pantuo;
 
 import java.io.IOException;
+import java.util.Collection;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,13 +19,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 import com.pantuo.service.UserServiceInter;
@@ -113,9 +112,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/intro**", "/about-me", "/loginForLayer", "/body", "/register", "/user/**",
 						"/doRegister", "/validate/**", "/f/**", "/product/d/**", "/product/c/**", "/product/sift**",
 						"/product/sift_data", "/product/ajaxdetail/**", "/order/iwant/**").permitAll()
-				.antMatchers("/**").authenticated().anyRequest().permitAll()
+				.antMatchers("/**")
+				.authenticated()
+				.anyRequest()
+				.permitAll()
 				//.antMatchers("/user/enter").access("hasRole('ShibaOrderManager')")
+
+				//http://www.baeldung.com/spring_redirect_after_login
 				.and().formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/order/myTask/1")
+				.successHandler(new SimpleRoleAuthenticationSuccessHandler())
 				//.failureHandler((new SecurityCustomException()))
 				.usernameParameter("username").passwordParameter("password").and().logout()
 				.addLogoutHandler(new LogoutHandler() {
@@ -142,4 +147,67 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.logoutSuccessUrl("/login?logout").invalidateHttpSession(false).and().csrf().disable();
 	}
 
+	class SimpleRoleAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+		private final Logger logger = LoggerFactory.getLogger(SimpleRoleAuthenticationSuccessHandler.class);
+		private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
+		public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+				Authentication authentication) throws IOException {
+			handle(request, response, authentication);
+			clearAuthenticationAttributes(request);
+		}
+
+		protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+				throws IOException {
+			String targetUrl = determineTargetUrl(authentication);
+
+			if (response.isCommitted()) {
+				logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
+				return;
+			}
+
+			redirectStrategy.sendRedirect(request, response, targetUrl);
+		}
+
+		protected String determineTargetUrl(Authentication authentication) {
+			boolean isBody = false;
+			boolean isBodysales = false;
+			Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+			for (GrantedAuthority grantedAuthority : authorities) {
+				
+				//如果是车身销售员 到我的订单 没有待办事项
+				if (StringUtils.startsWith(grantedAuthority.getAuthority(), "bodysales")) {
+					isBodysales = true;
+					break;
+				} else if (StringUtils.startsWith(grantedAuthority.getAuthority(), "body")) {
+					isBody = true;
+					break;
+				}
+			}
+			if (isBodysales) {
+				return "/busselect/myOrders/1";
+			} else if (isBody) {
+				return "/busselect/myTask/1";
+			} else {
+				return "/order/myTask/1";
+				//throw new IllegalStateException();
+			}
+		}
+
+		protected void clearAuthenticationAttributes(HttpServletRequest request) {
+			HttpSession session = request.getSession(false);
+			if (session == null) {
+				return;
+			}
+			session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+		}
+
+		public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
+			this.redirectStrategy = redirectStrategy;
+		}
+
+		protected RedirectStrategy getRedirectStrategy() {
+			return redirectStrategy;
+		}
+	}
 }
