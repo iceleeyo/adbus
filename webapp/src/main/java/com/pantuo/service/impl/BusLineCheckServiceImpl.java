@@ -167,6 +167,9 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	public Pair<Boolean, String> saveBusLock(BusLock buslock, String startD, String endD) throws ParseException {
 		//buslock.setEnable(true);
 		buslock.setContractId(0);
+		buslock.setStatus(JpaBusLock.Status.ready.ordinal());
+		buslock.setCreated(new Date());
+		buslock.setUpdated(new Date());
 		buslock.setSalesNumber(buslock.getRemainNuber());
 		buslock.setStartDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(startD));
 		buslock.setEndDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(endD));
@@ -238,6 +241,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 
 		return new Pair<Boolean, String>(true, "申请合同成功");
 	}
+
 	public Page<OrderView> queryOrders(int city, Principal principal, TableRequest req, TaskQueryType tqType) {
 		String userid = Request.getUserId(principal);
 
@@ -252,8 +256,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		ProcessInstanceQuery countQuery = runtimeService.createProcessInstanceQuery()
 				.processDefinitionKey(BODY_ACTIVITY).variableValueEquals(ActivitiService.CITY, city);
 
-		ProcessInstanceQuery listQuery = runtimeService.createProcessInstanceQuery().processDefinitionKey(BODY_ACTIVITY)
-				.variableValueEquals(ActivitiService.CITY, city);
+		ProcessInstanceQuery listQuery = runtimeService.createProcessInstanceQuery()
+				.processDefinitionKey(BODY_ACTIVITY).variableValueEquals(ActivitiService.CITY, city);
 
 		/*
 		ProcessInstanceQuery debugQuery = runtimeService.createProcessInstanceQuery()
@@ -313,7 +317,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			Integer orderid = (Integer) tasks.get(0).getProcessVariables().get(ActivitiService.ORDER_ID);
 			OrderView v = new OrderView();
 			JpaBodyContract order = bodyContractRepository.findOne(orderid);
-			 v.setJpaBodyContract(order);
+			v.setJpaBodyContract(order);
 			v.setProcessInstanceId(processInstance.getId());
 			//v.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
 			Task top1Task = tasks.get(0);
@@ -321,14 +325,15 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			v.setHaveTasks(tasks.size());
 			//if (StringUtils.isNoneBlank(taskKey) && !StringUtils.startsWith(taskKey, ActivitiService.R_DEFAULTALL)) {
 			v.setTask_name("-");
-				orders.add(v);
+			orders.add(v);
 		}
 		Pageable p = new PageRequest(page, pageSize, sort);
 		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(
 				orders, p, pageUtil.getTotal());
 		return r;
 	}
-	public Page<OrderView> findTask(int city, Principal principal, TableRequest req,TaskQueryType tqType) {
+
+	public Page<OrderView> findTask(int city, Principal principal, TableRequest req, TaskQueryType tqType) {
 		String userid = Request.getUserId(principal);
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("created");
@@ -383,7 +388,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			Integer orderid = (Integer) var.get(ActivitiService.ORDER_ID);
 			OrderView v = new OrderView();
 			JpaBodyContract order = bodyContractRepository.findOne(orderid);
-			if (order != null ) {
+			if (order != null) {
 				v.setJpaBodyContract(order);
 				v.setTask(task);
 				v.setProcessInstanceId(processInstance.getId());
@@ -392,7 +397,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 						|| !BooleanUtils.toBoolean((Boolean) var.get(ActivitiService.R_USERPAYED))) {
 					v.setCanClosed(true);
 				}
-					leaves.add(v);
+				leaves.add(v);
 			}
 		}
 		Pageable p = new PageRequest(page, pageSize, sort);
