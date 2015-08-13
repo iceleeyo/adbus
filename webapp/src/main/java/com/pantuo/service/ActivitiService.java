@@ -105,6 +105,8 @@ public interface ActivitiService {
 	 * 扫描工作流 去掉订单不存在的工作流
 	 */
 	public String reset(int city, String p);
+	
+	public String resetBusWorkFlow(int city, String p);
 
 	public OrderView findOrderViewByTaskId(String taskid,Principal principal);
 	

@@ -44,8 +44,8 @@ public class WorkFlowController {
 
 	@RequestMapping(value = "resetActiviti")
 	@ResponseBody
-	public String reset(String p, @CookieValue(value="city", defaultValue = "-1") int city) {
-		return activitiService.reset(city, p);
+	public String reset(String p, @CookieValue(value = "city", defaultValue = "-1") int city) {
+		return activitiService.reset(city, p) + " body:" + activitiService.resetBusWorkFlow(city, p);
 	}
 
 	/**
