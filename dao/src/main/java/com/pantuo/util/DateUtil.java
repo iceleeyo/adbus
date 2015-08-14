@@ -18,7 +18,15 @@ public class DateUtil {
         sdf.setTimeZone(UTC);
         return sdf;
     }
-
+    public static Date trimDateDefault(Date date) { 
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
+    }
     public static Date trimDate(Date date) {
         Calendar cal = DateUtil.newCalendar();
         cal.setTime(date);

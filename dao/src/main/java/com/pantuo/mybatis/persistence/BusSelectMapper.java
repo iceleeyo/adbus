@@ -4,9 +4,23 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.pantuo.mybatis.domain.BusContract;
 import com.pantuo.vo.GroupVo;
 
 public interface BusSelectMapper {
+	
+	
+	
+	List<com.pantuo.mybatis.domain.Bus> getBusList(@Param("lineId") int lineId, @Param("modelId") int modelId,@Param("category") int category);
+	
+	
+	public List<BusContract> getBusContract(@Param("lineId") int lineId, @Param("modelId") int modelId, @Param("category") int category);
+	
+	
+	
+	
+	
+	
 
 	/**
 	 * 
