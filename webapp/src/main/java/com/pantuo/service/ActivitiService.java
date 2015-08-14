@@ -169,4 +169,6 @@ public interface ActivitiService {
 	public Pair<Boolean, String> closeOrder(int orderid,String closeRemark, String taskid, Principal principal);
 
 	public OrderView findBodyContractByTaskId(String taskid, Principal principal);
+
+	public Pair<Boolean, String> LockStore(int parseInt, String taskid, int contractid, Principal principal,boolean canSchedule);
 }

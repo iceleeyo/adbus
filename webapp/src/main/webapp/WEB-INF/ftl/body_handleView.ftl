@@ -11,8 +11,10 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 });
 
 //锁定库存
-function EnableContract() {
+function LockStore() {
     var isEnough="";
+    var orderid=$("#orderid").val();
+    var taskid=$("#taskid").val();
     var contractid=$("#contractCode  option:selected").val();
     var temp=document.getElementsByName("canSchedule");
 	      for(var i=0;i<temp.length;i++)
@@ -26,14 +28,25 @@ function EnableContract() {
 	              return;
 	            }
 	        }
-var canSchedule=$('#usertask1 :radio[name=canSchedule]:checked').val();
-	complete('${taskid!''}',[
-		{
-			key: 'canSchedule',
-			value: canSchedule,
-			type: 'B'
-		}
-	]);
+    var canSchedule=$('#usertask1 :radio[name=canSchedule]:checked').val();
+	var url="${rc.contextPath}/busselect/LockStore";
+	// 发送任务完成请求
+    $.post(url,{
+        canSchedule: canSchedule,
+        contractid: contractid,
+        orderid: orderid,
+        taskid:taskid
+    },function(data){
+    	jDialog.Alert(data.left==true? data.right :"执行失败!");
+    	var uptime = window.setTimeout(function(){
+			var a = document.createElement('a');
+    		a.href='${rc.contextPath}/busselect/myTask/1';
+    		document.body.appendChild(a);
+    		a.click();
+			clearTimeout(uptime);
+		},2000)
+    	
+    });
 }
 //回执处理
 function isreceveCon() {
@@ -42,6 +55,56 @@ var ReceComments=$('#ReceComments').val();
 		{
 			key: 'ReceComments',
 			value: ReceComments,
+			type: 'S'
+		}
+	]);
+}
+//录入小样
+function uploadXY() {
+var xiaoyangComments=$('#xiaoyangComments').val();
+	complete('${taskid!''}',[
+		{
+			key: 'xiaoyangComments',
+			value: xiaoyangComments,
+			type: 'S'
+			
+		},
+		{
+			key: 'closed',
+			value: closed,
+			type: 'B'
+		}
+	]);
+}
+//施工确认
+function shigong() {
+var shigongComments=$('#shigongComments').val();
+	complete('${taskid!''}',[
+		{
+			key: 'shigongComments',
+			value: shigongComments,
+			type: 'S'
+		}
+	]);
+}
+//财务确认
+function financialCheck() {
+var paymentResult=$('#financialCheck :radio[name=paymentResult]:checked').val();
+	var financialcomment=$('#financialcomment').val();
+	if(financialcomment==""){
+	  jDialog.Alert("请填写审核意见");
+	  return;
+	}
+	complete('${taskid!''}',[
+		{
+			key: 'paymentResult',
+			value: paymentResult,
+			type: 'B'
+		},
+		
+		{
+			key: 'financialcomment',
+			value: financialcomment,
 			type: 'S'
 		}
 	]);
@@ -81,6 +144,19 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
     });
     
 }
+
+    i = 2;
+	j = 2;
+	$(document).ready(function() {
+			$("#btn_add2").click(function() {
+					$("#newUpload2").append('<div id="div_'+j+'"><input  name="file_'+j+'" type="file"  style="margin-top:10px;" class="validate[required]"/><input class="btn-sm btn-wrong" type="button" value="删除" style="margin-top:10px;" onclick="del_2('+ j+ ')"/></div>');
+											j = j + 1;
+										});
+					});
+	function del_2(o) {
+		document.getElementById("newUpload2").removeChild(
+		document.getElementById("div_" + o));
+	}
 </script>
 <input type="hidden" id="orderid" value="${bodycontract.id!''}" />
 <input type="hidden" id="taskid" value="${taskid!''}" />
@@ -454,14 +530,14 @@ function setLockDate(tourl,id){
 			</TR>
 		</TABLE>
         <div style="text-align: center; margin-top: 10px;">
-			<button type="button"  id="subutton" onclick="EnableContract()" class="block-btn">确定</button>
+			<button type="button"  id="subutton" onclick="LockStore()" class="block-btn">确定</button>
 		</div>
        </div>
 	</div>
 </div>
 </#if>
 <#if activityId == "usertask2">
-<!-- 上播报告 -->
+<!-- 合同回执确认 -->
 <div id="usertask2" class="usertask2" style="display: none;">
 	<div class="p20bs mt10 color-white-bg border-ec">
 		<H3 class="text-xl title-box">
@@ -483,6 +559,109 @@ function setLockDate(tourl,id){
 		</TABLE>
 		<div style="margin: 10px 0 0; text-align: center;">
 			<button onclick="isreceveCon();" class="block-btn">提交确认结果</button>
+		</div>
+
+	</div>
+</div>
+</#if> 
+<#if activityId == "financialCheck">
+<!--财务确认 -->
+<div id="financialCheck" class="financialCheck" style="display: none;">
+	<div class="p20bs mt10 color-white-bg border-ec">
+		<H3 class="text-xl title-box">
+			<A class="black" href="#">财务确认</A>
+		</H3>
+		<BR>
+		<TABLE class="ui-table ui-table-gray">
+			<TBODY>
+				<TR>
+					<TH width="20%">签收时间</TH>
+					<TD colspan=2 style="border-radius: 0 0 0"><#setting
+						date_format="yyyy-MM-dd HH:mm:ss"> ${claimTime!''}</TD>
+				</TR>
+				<TR style="height: 45px;">
+					<TH>支付确认</TH>
+					<TD colspan=3><input name="paymentResult" type="radio"
+						value="true" checked="checked" style="padding: 5px 15px;" />支付OK <input
+						name="paymentResult" type="radio" value="false"
+						style="padding: 5px 15px;" />逾期未支付</TD>
+				</TR>
+				<TR>
+					<TH>意见</TH>
+					<TD colspan=2><textarea name="financialcomment" id="financialcomment"
+							style="margin: 5px 0; width: 400px; margin-top: 5px;">已收到Money</textarea></TD>
+				</TR>
+		</TABLE>
+		<div style="margin: 10px 0 0; text-align: center;">
+			<button onclick="financialCheck();" class="block-btn">提交确认结果</button>
+		</div>
+
+	</div>
+</div>
+</#if> 
+<#if activityId == "approve2">
+<!--录入小样 -->
+<div id="approve2" class="approve2" style="display: none;">
+	<div class="p20bs mt10 color-white-bg border-ec">
+		<H3 class="text-xl title-box">
+			<A class="black" href="#">录入小样</A>
+		</H3>
+		<BR>
+		<TABLE class="ui-table ui-table-gray">
+			<TBODY>
+				<TR>
+					<TH width="20%">签收时间</TH>
+					<TD colspan=2 style="border-radius: 0 0 0"><#setting
+						date_format="yyyy-MM-dd HH:mm:ss"> ${claimTime!''}</TD>
+				</TR>
+				<TR style="height: 45px;">
+					<TH>上传小样</TH>
+					<TD colspan=3>
+					                      <div id="newUpload2">
+												<div id="div_1">
+													<input type="file" name="file" id="Sfile" class="validate[required]">
+												</div>
+											</div>
+											<input class="btn-sm btn-success" type="button" id="btn_add2" value="增加一行"
+												style="margin-top: 10px;" ><br>
+					</TD>
+				</TR>
+				<TR>
+					<TH>意见</TH>
+					<TD colspan=2><textarea name="xiaoyangComments" id="xiaoyangComments"
+							style="margin: 5px 0; width: 400px; margin-top: 5px;">小样已上传</textarea></TD>
+				</TR>
+		</TABLE>
+		<div style="margin: 10px 0 0; text-align: center;">
+			<button onclick="uploadXY();" class="block-btn">上传小样</button>
+		</div>
+
+	</div>
+</div>
+</#if> 
+<#if activityId == "usertask4">
+<!--施工确认 -->
+<div id="usertask4" class="usertask4" style="display: none;">
+	<div class="p20bs mt10 color-white-bg border-ec">
+		<H3 class="text-xl title-box">
+			<A class="black" href="#">施工确认</A>
+		</H3>
+		<BR>
+		<TABLE class="ui-table ui-table-gray">
+			<TBODY>
+				<TR>
+					<TH width="20%">签收时间</TH>
+					<TD colspan=2 style="border-radius: 0 0 0"><#setting
+						date_format="yyyy-MM-dd HH:mm:ss"> ${claimTime!''}</TD>
+				</TR>
+				<TR>
+					<TH>意见</TH>
+					<TD colspan=2><textarea name="shigongComments" id="shigongComments"
+							style="margin: 5px 0; width: 400px; margin-top: 5px;">已按施工单要求施工完毕</textarea></TD>
+				</TR>
+		</TABLE>
+		<div style="margin: 10px 0 0; text-align: center;">
+			<button onclick="shigong();" class="block-btn">提交确认结果</button>
 		</div>
 
 	</div>

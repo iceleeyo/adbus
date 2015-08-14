@@ -53,15 +53,21 @@ import scala.collection.mutable.StringBuilder;
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.BodyContractRepository;
 import com.pantuo.dao.pojo.JpaBodyContract;
+import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.mybatis.domain.Bodycontract;
+import com.pantuo.mybatis.domain.BusLock;
+import com.pantuo.mybatis.domain.BusLockExample;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.mybatis.domain.InvoiceDetail;
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.Product;
+import com.pantuo.mybatis.persistence.BodycontractMapper;
+import com.pantuo.mybatis.persistence.BusLockMapper;
 import com.pantuo.mybatis.persistence.ContractMapper;
 import com.pantuo.mybatis.persistence.InvoiceDetailMapper;
 import com.pantuo.mybatis.persistence.InvoiceMapper;
@@ -115,6 +121,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 	@Autowired
 	private OrdersMapper ordersMapper;
 	@Autowired
+	private BodycontractMapper bodycontractMapper;
+	@Autowired
 	private ContractMapper contractMapper;
 	@Autowired
 	private InvoiceMapper invoiceMapper;
@@ -129,6 +137,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 	@Autowired
 	private CpdService cpdService;
+	@Autowired
+	private BusLockMapper busLockMapper;
 
 	@Autowired
 	private MailService mailService;
@@ -980,6 +990,37 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return r = new Pair<Object, String>(orders, "订单支付成功!");
 
 	}
+	public Pair<Boolean, String> LockStore(int orderid, String taskid, int contractid, Principal principal,boolean canSchedule) {
+		Bodycontract bodycontract=bodycontractMapper.selectByPrimaryKey(orderid);
+		if(bodycontract!=null){
+			if(canSchedule){
+				bodycontract.setStats(JpaBodyContract.Status.enable.ordinal());
+				bodycontract.setContractid(contractid);
+			}else{
+				bodycontract.setStats(JpaBodyContract.Status.close.ordinal());
+			}
+			if(bodycontractMapper.updateByPrimaryKey(bodycontract)>0){
+				BusLockExample example=new BusLockExample();
+				BusLockExample.Criteria criteria=example.createCriteria();
+				criteria.andSeriaNumEqualTo(bodycontract.getSeriaNum());
+				List<BusLock> list=busLockMapper.selectByExample(example);
+				for (BusLock busLock : list) {
+					if(busLock!=null){
+						if(canSchedule){
+							busLock.setStats(JpaBusLock.Status.enable.ordinal());
+						}else{
+							busLock.setStats(JpaBusLock.Status.close.ordinal());
+						}
+						busLockMapper.updateByPrimaryKey(busLock);
+					}
+				}
+			}
+		}
+		Map<String, Object> variables=new HashMap<String, Object>();
+		variables.put("canSchedule", canSchedule);
+		return complete(taskid, variables, principal);
+		
+	}
 
 	// 根据OrderId 及taskName 完成task
 	public void finishTaskByTaskName(int orderid, String taskName, String userId) {
@@ -1031,9 +1072,6 @@ public class ActivitiServiceImpl implements ActivitiService {
 		Pair<Boolean, String> r = new Pair<Boolean, String>(true, StringUtils.EMPTY);
 		UserDetail u = Request.getUser(principal);
 		try {
-			// Map<String, Object> variables2 =
-			// taskService.getVariables(taskId);
-			// variables.putAll(variables2);
 			if (variables != null) {
 				Map<String, Object> taskVarMap = new HashMap<String, Object>();
 				for (Map.Entry<String, Object> entry : variables.entrySet()) {
@@ -1045,8 +1083,6 @@ public class ActivitiServiceImpl implements ActivitiService {
 			Task task = findTaskById(taskId, true);
 			if (StringUtils.equals(task.getAssignee(), u.getUsername())) {
 				variables.put("lastModifUser", u.getUsername());
-				ProcessInstance process = findProcessInstanceByTaskId(taskId);
-				//TaskDefinition nextTask = getNextTaskByTaskOrder(taskId);
 				JpaOrders.Status status = fetchStatusAfterTaskComplete(task);
 				Integer orderId = (Integer) task.getProcessVariables().get(ORDER_ID);
 				if (status != null && orderId != null) {
@@ -1064,7 +1100,6 @@ public class ActivitiServiceImpl implements ActivitiService {
 			}
 		} catch (Exception e) {
 			log.error("Fail to complete task {}", taskId, e);
-			//e.printStackTrace();
 			r = new Pair<Boolean, String>(false, StringUtils.EMPTY);
 		}
 		return r;

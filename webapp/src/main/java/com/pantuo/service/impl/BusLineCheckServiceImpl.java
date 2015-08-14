@@ -208,6 +208,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		bodycontract.setCreator(userId);
 		bodycontract.setCreated(new Date());
 		bodycontract.setUpdated(new Date());
+		bodycontract.setStats(JpaBodyContract.Status.ready.ordinal());
 		bodycontract.setContractid(0);
 		int a = bodycontractMapper.insert(bodycontract);
 		BusLockExample example = new BusLockExample();
@@ -222,6 +223,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			if (busLock != null) {
 				if (a > 0) {
 					busLock.setContractId(bodycontract.getId());
+					busLock.setStats(JpaBusLock.Status.ready.ordinal());
 					busLockMapper.updateByPrimaryKey(busLock);
 				} else {
 					return new Pair<Boolean, String>(false, "申请合同失败");

@@ -307,5 +307,13 @@ public class BusSelectController {
 			@RequestParam("seriaNum") long seriaNum, @RequestParam("id") int id) {
 		return busLineCheckService.removeBusLock(principal, city, seriaNum, id);
 	}
-
+	@RequestMapping(value = "LockStore")
+	@ResponseBody
+	public Pair<Boolean, String> LockStore(@RequestParam(value = "orderid") String orderid,
+			@RequestParam(value = "contractid") int contractid,
+			@RequestParam(value = "taskid") String taskid,@RequestParam(value = "canSchedule") boolean canSchedule,
+			Principal principal, HttpServletRequest request, HttpServletResponse response) {
+		return activitiService.LockStore(Integer.parseInt(orderid), taskid, contractid, principal,canSchedule );
+				
+	}
 }

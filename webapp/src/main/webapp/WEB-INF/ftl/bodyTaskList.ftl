@@ -66,6 +66,7 @@
             "columns": [
             	{ "data": "jpaBodyContract.creator", "defaultContent": ""},
             	{ "data": "jpaBodyContract.seriaNum", "defaultContent": ""},
+            	{ "data": "jpaBodyContract.legalman", "defaultContent": ""},
                 { "data": "task_createTime", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd HH:mm");
                 	return d;
