@@ -65,7 +65,8 @@ table {
 
 .pg-header {
 	position: relative;
-	box-shadow: 0 2px 1px rgba(0, 0, 0, .2);
+	border: 1px solid #e0e0e0;
+	box-shadow: 0 0 2px 1px #efefef;
 }
 
 .pg-header-top {
