@@ -41,6 +41,7 @@ import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.QJpaBusLock;
 import com.pantuo.dao.pojo.QJpaBusline;
 import com.pantuo.mybatis.domain.Bodycontract;
+import com.pantuo.mybatis.domain.BodycontractExample;
 import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.domain.BusLockExample;
 import com.pantuo.mybatis.persistence.BodycontractMapper;
@@ -158,6 +159,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		List<JpaBusLock> list = (List<JpaBusLock>) busLockRepository.findAll(query);
 		return list;
 	}
+
 	@Override
 	public JpaBusLock findBusLockById(int id) {
 		return busLockRepository.findOne(id);
@@ -170,8 +172,15 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 
 	@Override
 	public Pair<Boolean, String> saveBusLock(BusLock buslock, String startD, String endD) throws ParseException {
-		//buslock.setEnable(true);
-		buslock.setContractId(0);
+		BodycontractExample example = new BodycontractExample();
+		BodycontractExample.Criteria criteria = example.createCriteria();
+		criteria.andSeriaNumEqualTo(buslock.getSeriaNum());
+		List<Bodycontract> list = bodycontractMapper.selectByExample(example);
+		if (list.size() > 0) {
+			buslock.setContractId(list.get(0).getId());
+		} else {
+			buslock.setContractId(0);
+		}
 		buslock.setStats(JpaBusLock.Status.ready.ordinal());
 		buslock.setCreated(new Date());
 		buslock.setUpdated(new Date());
@@ -190,7 +199,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		BusLockExample.Criteria criteria = example.createCriteria();
 		criteria.andCityEqualTo(city);
 		if (!Request.hasAuth(principal, ActivitiConfiguration.bodyContractManager)) {
-		  criteria.andUserIdEqualTo(Request.getUserId(principal));
+			criteria.andUserIdEqualTo(Request.getUserId(principal));
 		}
 		criteria.andSeriaNumEqualTo(seriaNum);
 		criteria.andIdEqualTo(id);
@@ -253,18 +262,19 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 
 		return new Pair<Boolean, String>(true, "申请合同成功");
 	}
-	public Page<OrderView> getBodyContractList(int city, TableRequest req, Principal principal){
+
+	public Page<OrderView> getBodyContractList(int city, TableRequest req, Principal principal) {
 		String userid = Request.getUserId(principal);
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("created");
 
-		String  userIdQuery = req.getFilter("userId");
+		String userIdQuery = req.getFilter("userId");
 		page = page + 1;
 		List<Task> tasks = new ArrayList<Task>();
 		List<OrderView> leaves = new ArrayList<OrderView>();
 		TaskQuery countQuery = taskService.createTaskQuery().processDefinitionKey("busFlowV2");
 		TaskQuery queryList = taskService.createTaskQuery().processDefinitionKey("busFlowV2");
-		
+
 		countQuery.taskCandidateOrAssigned(userid);
 		queryList.taskCandidateOrAssigned(userid);
 		countQuery.processVariableValueEquals(ActivitiService.CITY, city);
@@ -292,7 +302,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 				v.setTask(task);
 				v.setProcessInstanceId(processInstance.getId());
 				v.setTask_createTime(task.getCreateTime());
-					leaves.add(v);
+				leaves.add(v);
 			}
 		}
 		Pageable p = new PageRequest(page, pageSize, sort);
@@ -519,15 +529,15 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 
 	@Override
 	public Pair<Boolean, String> setLockDate(String lockDate, int id, Principal principal) throws ParseException {
-		BusLock busLock=busLockMapper.selectByPrimaryKey(id);
-		if(busLock==null){
-			return new Pair<Boolean, String>(false,"信息丢失");
+		BusLock busLock = busLockMapper.selectByPrimaryKey(id);
+		if (busLock == null) {
+			return new Pair<Boolean, String>(false, "信息丢失");
 		}
 		busLock.setLockExpiredTime((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(lockDate));
-		if(busLockMapper.updateByPrimaryKey(busLock)>0){
-			return new Pair<Boolean, String>(true,"设置锁定时间成功");
-		}else{
-			return new Pair<Boolean, String>(false,"操作失败");
+		if (busLockMapper.updateByPrimaryKey(busLock) > 0) {
+			return new Pair<Boolean, String>(true, "设置锁定时间成功");
+		} else {
+			return new Pair<Boolean, String>(false, "操作失败");
 		}
 	}
 }
