@@ -20,6 +20,7 @@ import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -239,39 +240,20 @@ public class BusSelectController {
 	*/
 	@RequestMapping("order-body-ajax-list2")
 	@ResponseBody
-	public List<LineBusCpd> getBodyScheduleListForOrder2(TableRequest req) {
-		try {
-			Sort sort = req.getSort("created");
-			Pageable p = new PageRequest(1, 3, sort);
-			List<LineBusCpd> leaves = new ArrayList<LineBusCpd>();
-
-			SimpleDateFormat format = DateUtil.longDf.get();
-			Date date = new Date();
-			for (int i = 1; i < 100; i++) {
-				Map<String, String> map = new HashMap<String, String>();
-				LineBusCpd c = new LineBusCpd();
-				int w = (int) (Math.random() * 90) + 0;
-				for (int j = w; j < w + 20; j++) {
-					map.put(format.format(DateUtil.dateAdd(date, j)), "red");
-				}
-
-				c.setMap(map);
-				c.setSerialNumber(String.valueOf(i));
-				leaves.add(c);
-			}
-
-			org.springframework.data.domain.PageImpl<LineBusCpd> r = new org.springframework.data.domain.PageImpl<LineBusCpd>(
-					leaves, p, 3);
-			return leaves;
-			//return new DataTablePage(r, req.getDraw());
-		} catch (Exception e) {
-			return Collections.EMPTY_LIST;
-			//return new DataTablePage(Collections.EMPTY_LIST);
-		}
+	public DataTablePage<LineBusCpd> getBodyScheduleListForOrder2(TableRequest req) {
+		Sort sort = req.getSort("created");
+		String lineId = req.getFilter("lineId"), modelId = req.getFilter("modelId");
+		List<LineBusCpd> leaves = busLineCheckService.getBusListChart(NumberUtils.toInt(lineId),
+				NumberUtils.toInt(modelId), JpaBus.Category.yunyingche);
+		Pageable p = new PageRequest(0, leaves.size(), sort);
+		org.springframework.data.domain.PageImpl<LineBusCpd> r = new org.springframework.data.domain.PageImpl<LineBusCpd>(
+				leaves, p, leaves.size());
+		return new DataTablePage(r, req.getDraw());
 	}
 
 	@RequestMapping("lineschedule/{line}")
-	public String lineschedule(Model model, @PathVariable("line") String taskId, Principal principal) {
+	public String lineschedule(Model model, @PathVariable("line") String line,
+			@RequestParam(value = "modelId", required = true, defaultValue = "0") int modelId, Principal principal) {
 		List<String> list = new ArrayList<String>();
 		Date date = new Date();
 		SimpleDateFormat format = DateUtil.longDf.get();
@@ -279,6 +261,8 @@ public class BusSelectController {
 			list.add(format.format(DateUtil.dateAdd(date, i)));
 		}
 		model.addAttribute("dates", list);
+		model.addAttribute("lineId", line);
+		model.addAttribute("modelId", modelId);
 		return "line_schedule";
 	}
 

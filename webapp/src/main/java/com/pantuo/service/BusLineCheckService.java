@@ -16,6 +16,7 @@ import com.pantuo.service.ActivitiService.TaskQueryType;
 import com.pantuo.util.Pair;
 import com.pantuo.vo.GroupVo;
 import com.pantuo.web.view.AutoCompleteView;
+import com.pantuo.web.view.LineBusCpd;
 import com.pantuo.web.view.OrderView;
 
 public interface BusLineCheckService {
@@ -76,5 +77,11 @@ public interface BusLineCheckService {
 	JpaBusLock findBusLockById(int id);
 
 	public Pair<Boolean, String> setLockDate(String lockDate, int id, Principal principal)throws ParseException;
+	
+	
+	
+	
+	
+	 List<LineBusCpd> getBusListChart(int lineId,Integer  modelId, JpaBus.Category category);
 
 }

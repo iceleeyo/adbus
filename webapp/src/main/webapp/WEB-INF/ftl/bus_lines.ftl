@@ -42,7 +42,7 @@
             "columns": [
                 { "data": "name", "defaultContent": "",
                     "render": function(data, type, row, meta) {
-                    return '<a  target="_Blank" href="${rc.contextPath}/busselect/lineReaminCheck/' + row.id + '" >'+data+'</a> &nbsp;';
+                    return '<a  target="_Blank" href="${rc.contextPath}/busselect/lineschedule/' + row.id + '" >'+data+'</a> &nbsp;';
                 } },
                 { "data": "levelStr", "defaultContent": ""},
                 <@security.authorize ifAnyGranted="BodyOrderManager">

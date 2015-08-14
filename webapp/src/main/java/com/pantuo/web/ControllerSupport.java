@@ -37,6 +37,10 @@ public class ControllerSupport {
 		JpaCity r = cityService.fromId(city);
 		if (r == null) {
 			logger.info("cookie_value_error:{}", city);
+			Cookie cookie = new Cookie("city", String.valueOf(city));
+			cookie.setPath("/");
+			cookie.setMaxAge(0);
+			response.addCookie(cookie);
 
 			r = cityService.fromId(defaultCookieValue);
 			bcity(response, defaultCookieValue);

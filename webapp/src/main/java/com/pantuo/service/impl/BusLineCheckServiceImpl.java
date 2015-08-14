@@ -21,6 +21,8 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,10 +39,11 @@ import com.pantuo.dao.pojo.JpaBodyContract;
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaBusline;
-import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.QJpaBusLock;
 import com.pantuo.dao.pojo.QJpaBusline;
 import com.pantuo.mybatis.domain.Bodycontract;
+import com.pantuo.mybatis.domain.Bus;
+import com.pantuo.mybatis.domain.BusContract;
 import com.pantuo.mybatis.domain.BodycontractExample;
 import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.domain.BusLockExample;
@@ -56,17 +59,19 @@ import com.pantuo.service.MailService;
 import com.pantuo.service.MailTask;
 import com.pantuo.service.MailTask.Type;
 import com.pantuo.simulate.MailJob;
+import com.pantuo.util.DateUtil;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.OrderIdSeq;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 import com.pantuo.vo.GroupVo;
 import com.pantuo.web.view.AutoCompleteView;
+import com.pantuo.web.view.LineBusCpd;
 import com.pantuo.web.view.OrderView;
 
 @Service
 public class BusLineCheckServiceImpl implements BusLineCheckService {
-
+	private static Logger log = LoggerFactory.getLogger(BusLineCheckServiceImpl.class);
 	public static final String BODY_ACTIVITY = "busFlowV2";
 	@Autowired
 	BusSelectMapper busSelectMapper;
@@ -540,4 +545,53 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			return new Pair<Boolean, String>(false, "操作失败");
 		}
 	}
+
+	public List<LineBusCpd> getBusListChart(int lineId, Integer modelId, JpaBus.Category category) {
+		List<com.pantuo.mybatis.domain.Bus> busList = busSelectMapper.getBusList(lineId, modelId, category.ordinal());
+		List<LineBusCpd> r = new ArrayList<LineBusCpd>();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		int days = 90;
+		List<BusContract> contractList = busSelectMapper.getBusContract(lineId, modelId, category.ordinal());
+		Map<Integer, List<BusContract>> mainLocation = new HashMap<Integer, List<BusContract>>();
+		List<Integer> ids = new ArrayList<Integer>();
+		for (BusContract bodycontract : contractList) {
+			if (!mainLocation.containsKey(bodycontract.getBusid())) {
+				mainLocation.put(bodycontract.getBusid(), new ArrayList<BusContract>());
+			}
+			mainLocation.get(bodycontract.getBusid()).add(bodycontract);
+			ids.add(bodycontract.getContractid());
+		}
+		Map<Integer, JpaBodyContract> contractMap = new HashMap<Integer, JpaBodyContract>();
+		if (!ids.isEmpty()) {
+			List<JpaBodyContract> c = bodyContractRepository.findAll(ids);
+			for (JpaBodyContract jpaBodyContract : c) {
+				contractMap.put(jpaBodyContract.getId(), jpaBodyContract);
+			}
+
+		}
+		for (Bus bus : busList) {
+			Map<String, JpaBodyContract> map = new HashMap<String, JpaBodyContract>();
+			LineBusCpd c = new LineBusCpd();
+			List<BusContract> haveContract = mainLocation.get(bus.getId());
+			if (haveContract != null && !haveContract.isEmpty()) {
+				for (BusContract busContract : haveContract) {
+					Date begin = DateUtil.trimDateDefault(busContract.getStartDate());
+					Date end = busContract.getEndDate();
+					Date tempDate = begin;
+					while ((tempDate.after(begin) || begin.equals(tempDate))
+							&& (tempDate.before(end) || end.equals(tempDate))) {
+						map.put(format.format(tempDate), contractMap.get(busContract.getId()));
+						tempDate = DateUtil.dateAdd(tempDate, 1);
+					}
+				}
+			}
+			c.setMap(map);
+			c.setBus(bus);
+			c.setSerialNumber(String.valueOf(bus.getSerialNumber()));
+			r.add(c);
+		}
+		return r;
+	}
+
 }

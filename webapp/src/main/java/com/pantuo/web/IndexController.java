@@ -9,6 +9,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -32,6 +34,8 @@ import com.pantuo.service.ProductService;
  */
 @Controller
 public class IndexController {
+	
+	private static Logger logger = LoggerFactory.getLogger(IndexController.class);
 	@Autowired
 	private CityService cityService;
 	@Autowired
@@ -41,6 +45,16 @@ public class IndexController {
 
 	public int makeCookieValueRight(int city, HttpServletResponse response) {
 		JpaCity r = cityService.fromId(city);
+		
+		if(r==null){
+			logger.warn("city:{} is ",city); 
+			
+			Cookie cookie = new Cookie("city", String.valueOf(city));
+			cookie.setPath("/");
+			cookie.setMaxAge(0);
+			response.addCookie(cookie);
+		}
+		
 		int w = r == null ? ControllerSupport.defaultCookieValue : r.getId();
 		w=w>6?ControllerSupport.defaultCookieValue:r.getId();
 		try {
