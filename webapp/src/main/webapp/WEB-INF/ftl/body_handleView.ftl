@@ -12,6 +12,20 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 
 //锁定库存
 function LockStore() {
+        var LockDate = $("#LockDate").val();
+        var d = new Date(LockDate.replace(/-/g,"/")); 
+        date = new Date();
+        var str  = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
+        var d2 = new Date(str.replace(/-/g,"/")); 
+        if(LockDate==""){
+         jDialog.Alert('请填写预留截止日期');
+         return;
+         }
+           var days=Math.floor((d-d2)/(24*3600*1000));
+        if(days<1) {
+            jDialog.Alert('预留截止日期必须选择今天以后的日期');
+            return;
+         } 
     var isEnough="";
     var orderid=$("#orderid").val();
     var taskid=$("#taskid").val();
@@ -35,7 +49,8 @@ function LockStore() {
         canSchedule: canSchedule,
         contractid: contractid,
         orderid: orderid,
-        taskid:taskid
+        taskid:taskid,
+        LockDate:LockDate
     },function(data){
     	jDialog.Alert(data.left==true? data.right :"执行失败!");
     	var uptime = window.setTimeout(function(){
@@ -200,9 +215,6 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
                 { "data": "endDate", "defaultContent": "", "render": function(data) {
                     return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
                 } },
-                { "data": "lockExpiredTime", "defaultContent": "", "render": function(data) {
-                    return data == null ? "未设置" : $.format.date(data, "yyyy-MM-dd");
-                } },
 				 { "data": function( row, type, set, meta) {
                     return row.id;
                 },
@@ -211,9 +223,7 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 											var operations = '';
 											operations += '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/busselect/ajax-remove-buslock?seriaNum=${bodycontract.seriaNum!''}&id=' + data +'">删除</a>&nbsp;&nbsp;';
 											operations += '<a class="table-action2" href="javascript:void(0);" url="${rc.contextPath}/busselect/checkStock?seriaNum=${bodycontract.seriaNum!''}&buslockid=' + data +'">检验库存</a>&nbsp;&nbsp;';
-											operations += '<a class="layer-tips" tip="点击设置锁定时间" href="javascript:void(0);" onclick="setLockTime(\'${rc.contextPath}\','+data+')" url="">锁定时间</a>';
 											return operations;
-
 										}
 									},],
 							"language" : {
@@ -475,7 +485,6 @@ function setLockDate(tourl,id){
                     <th width="180px">车型</th>
                      <th>上刊日期</th>
                     <th>下刊日期</th>
-                    <th>锁定截止日期</th>
                      <th>操作</th>
 						</tr>
 					</thead>
@@ -517,6 +526,15 @@ function setLockDate(tourl,id){
 						value="true" checked="checked" style="padding: 5px 15px;" />有库存 <input
 						name="canSchedule" type="radio" value="false"
 						style="padding: 5px 15px;" />库存不足</TD>
+				</TR>
+				<TR style="height: 45px;">
+					<TH>预留截止日期</TH>
+					<TD colspan=3>
+							<input	class="ui-input datepicker validate[required,custom[date],past[#endDate]]" 
+							type="text" value=""
+							id="LockDate" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">
+												
+					</TD>
 				</TR>
 				<TR style="height: 45px;">
 				<TD width="20%" style="text-align: right">合同选择</TD>

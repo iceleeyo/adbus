@@ -78,20 +78,22 @@ public class BusSelectController {
 
 	@Autowired
 	ActivitiService activitiService;
-	 @Autowired
-	    HistoryService historyService;
-	    @Autowired
-		private UserServiceInter userService;
-		@Autowired
-		private TaskService taskService;
-		@Autowired
-		private RuntimeService runtimeService;
-		@Autowired
-		private ContractService contractService;
+	@Autowired
+	HistoryService historyService;
+	@Autowired
+	private UserServiceInter userService;
+	@Autowired
+	private TaskService taskService;
+	@Autowired
+	private RuntimeService runtimeService;
+	@Autowired
+	private ContractService contractService;
+
 	@RequestMapping(value = "/myTask/{pageNum}")
 	public String list() {
 		return "bodyTaskList";
 	}
+
 	@RequestMapping("ajax-orderlist")
 	@ResponseBody
 	public DataTablePage<OrderView> getAllContracts(TableRequest req, Principal principal,
@@ -99,27 +101,23 @@ public class BusSelectController {
 		Page<OrderView> w = busLineCheckService.getBodyContractList(city, req, principal);
 		return new DataTablePage(w, req.getDraw());
 	}
+
 	@RequestMapping(value = "/myOrders/{pageNum}")
 	public String myOrders(Model model) {
 		model.addAttribute("orderMenu", "我的订单");
 		return "myBodyOrders";
 	}
+
 	@RequestMapping(value = "/body_handleView", produces = "text/html;charset=utf-8")
-	public String HandleView2(Model model,
-            @RequestParam(value = "taskid", required = true) String taskid,
-			Principal principal,
-            @CookieValue(value = "city", defaultValue = "-1") int cityId,
-            @ModelAttribute("city") JpaCity city,
-            HttpServletRequest request)
-			throws Exception {
+	public String HandleView2(Model model, @RequestParam(value = "taskid", required = true) String taskid,
+			Principal principal, @CookieValue(value = "city", defaultValue = "-1") int cityId,
+			@ModelAttribute("city") JpaCity city, HttpServletRequest request) throws Exception {
 		NumberPageUtil page = new NumberPageUtil(9999, 1, 9999);
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
-		HistoricTaskInstance currTask = historyService
-                .createHistoricTaskInstanceQuery().taskId(taskid)
-                .singleResult();
-		Date claimT=currTask.getClaimTime();
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String claimTime=sdf.format(claimT);
+		HistoricTaskInstance currTask = historyService.createHistoricTaskInstanceQuery().taskId(taskid).singleResult();
+		Date claimT = currTask.getClaimTime();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String claimTime = sdf.format(claimT);
 		ExecutionEntity executionEntity = (ExecutionEntity) runtimeService.createExecutionQuery()
 				.executionId(task.getExecutionId()).processInstanceId(task.getProcessInstanceId()).singleResult();
 		OrderView v = activitiService.findBodyContractByTaskId(taskid, principal);
@@ -131,12 +129,13 @@ public class BusSelectController {
 		model.addAttribute("contracts", contracts);
 		model.addAttribute("taskid", taskid);
 		model.addAttribute("orderview", v);
-		model.addAttribute("bodycontract",busLineCheckService.selectBcById(v.getJpaBodyContract().getId()));
+		model.addAttribute("bodycontract", busLineCheckService.selectBcById(v.getJpaBodyContract().getId()));
 		model.addAttribute("claimTime", claimTime);
 		model.addAttribute("activitis", activitis);
 		model.addAttribute("activityId", activityId);
 		return "body_handleView";
 	}
+
 	@RequestMapping("ajax-myOrders")
 	@ResponseBody
 	public DataTablePage<OrderView> myOrders(TableRequest req, Principal principal,
@@ -144,12 +143,12 @@ public class BusSelectController {
 		Page<OrderView> w = busLineCheckService.queryOrders(city, (principal), req, TaskQueryType.my);
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
+
 	@RequestMapping("setLockDate/{id}")
 	@ResponseBody
-	public Pair<Boolean, String> lockDate(Principal principal,@PathVariable("id") int id,
-			@RequestParam(value="lockDate") String lockDate
-			) throws ParseException {
-		return busLineCheckService.setLockDate(lockDate,id,principal);
+	public Pair<Boolean, String> lockDate(Principal principal, @PathVariable("id") int id,
+			@RequestParam(value = "lockDate") String lockDate) throws ParseException {
+		return busLineCheckService.setLockDate(lockDate, id, principal);
 	}
 
 	@RequestMapping(value = "/autoComplete")
@@ -192,23 +191,25 @@ public class BusSelectController {
 		//187 2015-08-07 2015-08-17
 		return busLineCheckService.countByFreeCars(buslinId, modelId, JpaBus.Category.yunyingche, start, end);
 	}
+
 	@RequestMapping(value = "/checkStock")
 	@ResponseBody
-	public Pair<Boolean, String> checkStock(@RequestParam(value = "buslockid", required = true, defaultValue = "0") Integer buslockid,
-			@RequestParam(value = "seriaNum", required = true) long seriaNum)
-			 {
-		       JpaBusLock busLock=busLineCheckService.findBusLockById(buslockid);
-		       if(busLock!=null){
-		    	   String st=new SimpleDateFormat("yyyy-MM-dd").format(busLock.getStartDate());
-		    	   String end=new SimpleDateFormat("yyyy-MM-dd").format(busLock.getEndDate());
-		    	   int a=busLineCheckService.countByFreeCars(busLock.getLine().getId(), busLock.getModel().getId(), JpaBus.Category.yunyingche,st ,end );
-		    	   if(busLock.getRemainNuber()>a){
-		    		   return new  Pair<Boolean, String>(false,"库存不足");
-		    	   }else{
-		    		   return new  Pair<Boolean, String>(true,"库存充足");
-		    	   }
-		       }
-		       return new  Pair<Boolean, String>(false,"信息丢失");
+	public Pair<Boolean, String> checkStock(
+			@RequestParam(value = "buslockid", required = true, defaultValue = "0") Integer buslockid,
+			@RequestParam(value = "seriaNum", required = true) long seriaNum) {
+		JpaBusLock busLock = busLineCheckService.findBusLockById(buslockid);
+		if (busLock != null) {
+			String st = new SimpleDateFormat("yyyy-MM-dd").format(busLock.getStartDate());
+			String end = new SimpleDateFormat("yyyy-MM-dd").format(busLock.getEndDate());
+			int a = busLineCheckService.countByFreeCars(busLock.getLine().getId(), busLock.getModel().getId(),
+					JpaBus.Category.yunyingche, st, end);
+			if (busLock.getRemainNuber() > a) {
+				return new Pair<Boolean, String>(false, "库存不足");
+			} else {
+				return new Pair<Boolean, String>(true, "库存充足");
+			}
+		}
+		return new Pair<Boolean, String>(false, "信息丢失");
 	}
 
 	@RequestMapping(value = "/saveBusLock")
@@ -282,9 +283,8 @@ public class BusSelectController {
 	}
 
 	@RequestMapping("detail/{uniq}")
-	public String detail( @PathVariable("uniq") Integer bodycontract_id,
-			Model model, Principal principal) {
-		model.addAttribute("bodycontract",busLineCheckService.selectBcById(bodycontract_id));
+	public String detail(@PathVariable("uniq") Integer bodycontract_id, Model model, Principal principal) {
+		model.addAttribute("bodycontract", busLineCheckService.selectBcById(bodycontract_id));
 		return "bodycontract_detail";
 	}
 
@@ -307,13 +307,16 @@ public class BusSelectController {
 			@RequestParam("seriaNum") long seriaNum, @RequestParam("id") int id) {
 		return busLineCheckService.removeBusLock(principal, city, seriaNum, id);
 	}
+
 	@RequestMapping(value = "LockStore")
 	@ResponseBody
 	public Pair<Boolean, String> LockStore(@RequestParam(value = "orderid") String orderid,
-			@RequestParam(value = "contractid") int contractid,
-			@RequestParam(value = "taskid") String taskid,@RequestParam(value = "canSchedule") boolean canSchedule,
-			Principal principal, HttpServletRequest request, HttpServletResponse response) {
-		return activitiService.LockStore(Integer.parseInt(orderid), taskid, contractid, principal,canSchedule );
-				
+			@RequestParam(value = "contractid") int contractid, @RequestParam(value = "LockDate") String LockDate,
+			@RequestParam(value = "taskid") String taskid, @RequestParam(value = "canSchedule") boolean canSchedule,
+			Principal principal, HttpServletRequest request, HttpServletResponse response)
+			throws NumberFormatException, ParseException {
+		return activitiService.LockStore(Integer.parseInt(orderid), taskid, contractid, principal, canSchedule,
+				LockDate);
+
 	}
 }

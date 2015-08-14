@@ -1,6 +1,7 @@
 package com.pantuo.service;
 
 import java.security.Principal;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -170,5 +171,5 @@ public interface ActivitiService {
 
 	public OrderView findBodyContractByTaskId(String taskid, Principal principal);
 
-	public Pair<Boolean, String> LockStore(int parseInt, String taskid, int contractid, Principal principal,boolean canSchedule);
+	public Pair<Boolean, String> LockStore(int parseInt, String taskid, int contractid, Principal principal,boolean canSchedule,String LockDate)throws ParseException;
 }

@@ -1,6 +1,7 @@
 package com.pantuo.service.impl;
 
 import java.security.Principal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -990,25 +991,28 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return r = new Pair<Object, String>(orders, "订单支付成功!");
 
 	}
-	public Pair<Boolean, String> LockStore(int orderid, String taskid, int contractid, Principal principal,boolean canSchedule) {
-		Bodycontract bodycontract=bodycontractMapper.selectByPrimaryKey(orderid);
-		if(bodycontract!=null){
-			if(canSchedule){
+
+	public Pair<Boolean, String> LockStore(int orderid, String taskid, int contractid, Principal principal,
+			boolean canSchedule, String LockDate) throws ParseException {
+		Bodycontract bodycontract = bodycontractMapper.selectByPrimaryKey(orderid);
+		if (bodycontract != null) {
+			if (canSchedule) {
 				bodycontract.setStats(JpaBodyContract.Status.enable.ordinal());
 				bodycontract.setContractid(contractid);
-			}else{
+			} else {
 				bodycontract.setStats(JpaBodyContract.Status.close.ordinal());
 			}
-			if(bodycontractMapper.updateByPrimaryKey(bodycontract)>0){
-				BusLockExample example=new BusLockExample();
-				BusLockExample.Criteria criteria=example.createCriteria();
+			if (bodycontractMapper.updateByPrimaryKey(bodycontract) > 0) {
+				BusLockExample example = new BusLockExample();
+				BusLockExample.Criteria criteria = example.createCriteria();
 				criteria.andSeriaNumEqualTo(bodycontract.getSeriaNum());
-				List<BusLock> list=busLockMapper.selectByExample(example);
+				List<BusLock> list = busLockMapper.selectByExample(example);
 				for (BusLock busLock : list) {
-					if(busLock!=null){
-						if(canSchedule){
+					if (busLock != null) {
+						if (canSchedule) {
+							busLock.setLockExpiredTime((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(LockDate));
 							busLock.setStats(JpaBusLock.Status.enable.ordinal());
-						}else{
+						} else {
 							busLock.setStats(JpaBusLock.Status.close.ordinal());
 						}
 						busLockMapper.updateByPrimaryKey(busLock);
@@ -1016,10 +1020,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 				}
 			}
 		}
-		Map<String, Object> variables=new HashMap<String, Object>();
+		Map<String, Object> variables = new HashMap<String, Object>();
 		variables.put("canSchedule", canSchedule);
 		return complete(taskid, variables, principal);
-		
 	}
 
 	// 根据OrderId 及taskName 完成task
