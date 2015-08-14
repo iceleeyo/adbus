@@ -5,6 +5,12 @@ js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
 css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 
 <script type="text/javascript">
+
+
+	function gotoSchedult(id){
+	  window.open("${rc.contextPath}/busselect/lineschedule/"+id);
+	  }
+	  
 	var orderBusesTable;
 	function refreshOrderedBuses() {
 		orderBusesTable = $('#orderedBusesTable')
@@ -25,7 +31,9 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 								 "dataSrc": function(json) {return json;},
 							},
 							"columns" : [
-			    { "data": "line.name", "defaultContent": ""},
+			    { "data": "line.name", "defaultContent": "", "render": function(data, type, row, meta) {
+                      return '<a   onclick=" gotoSchedult(' + row.line.id + ')" >'+data+'</a> &nbsp;';
+                }},
                 { "data": "remainNuber", "defaultContent": ""}, 
                 { "data": "model", "defaultContent": "", "render": function(data) {
                 if(data.id ==0){
