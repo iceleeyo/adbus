@@ -263,13 +263,13 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 
 	<div id="relateSup">
 		<div class="p20bs mt10 color-white-bg border-ec">
-			<H3 class=".withdraw-title text-xl title-box">
-				<A class="black" href="#">选取车辆</A>
-				 <input type="hidden" name="seriaNum" id="seriaNum" value="${seriaNum}"/>
-			</H3>
-			<span><input type="button" onclick="selctLine('${rc.contextPath}',${seriaNum})"
-				class="block-btn" value="增加选择"
-				style="float: right; margin: 10px 20px 0px 20px;"></span> <br>
+				<div class="withdraw-title">
+					<span>选取车辆</span>
+					<input type="hidden" name="seriaNum" id="seriaNum" value="${seriaNum}"/>
+				<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="selctLine('${rc.contextPath}',${seriaNum})">增加选择</a>
+					
+				</div>
+			
 			<div id="orderedBuses">
 				<table id="orderedBusesTable" class="display compact"
 					cellspacing="0" width="100%">

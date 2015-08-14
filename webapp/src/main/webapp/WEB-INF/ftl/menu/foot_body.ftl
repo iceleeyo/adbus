@@ -27,9 +27,12 @@
 						</div>
 					</div>
 					<div class="foot-copyright">
-						<span class="foot-cr-link gray-text has-border">© 2015 世巴 All rights reserved</span>
-						
+						<span class="foot-cr-link gray-text has-border">&copy;2015 All rights reserved 北京世巴传媒有限公司</span>
+						<span class="foot-cr-link gray-text has-border">京ICP备15027671号 </span>
+						<span class="foot-cr-link gray-text has-border">北京市海淀区紫竹院路32号15号平房  </span>
+						<span class="foot-cr-link gray-text none-border">联系电话：010-88518758 </span>
 					</div>
+					<!-- 
 					<div class="foot-vertical">
 						<a  class="foot-vertical-icon integrity" href="#" title="世巴已通过认证联盟权威数据库对比，获得“互联网金融行业认证”，您可放心使用。"></a>
 						<a  class="foot-vertical-icon credible" href="#" title="世巴已通过认证联盟权威数据库对比，获得“互联网金融行业认证”，您可放心使用。"></a>
@@ -38,5 +41,6 @@
 						<a  class="foot-vertical-icon norton" href="#" title="世巴已通过认证联盟权威数据库对比，获得“互联网金融行业认证”，您可放心使用。"></a>
 						<a  class="foot-vertical-icon police" href="#" title="世巴已通过认证联盟权威数据库对比，获得“互联网金融行业认证”，您可放心使用。"></a>
 					</div>
+					 -->
 				</div>
 </div>

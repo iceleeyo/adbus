@@ -467,14 +467,11 @@ function setLockDate(tourl,id){
 
 	<div id="relateSup">
 		<div class="p20bs mt10 color-white-bg border-ec">
-			<H3 class=".withdraw-title text-xl title-box">
-				<A class="black" href="#">选取车辆</A>
-				 <input type="hidden" name="seriaNum" id="seriaNum" value="${bodycontract.seriaNum!''}"/>
-			</H3>
-			<span><input type="button" onclick="selctLine('${rc.contextPath}',${bodycontract.seriaNum})"
-				class="block-btn" value="增加选择"
-				style="float: right; margin: 10px 20px 0px 20px;"></span>
-			<br>
+		<div class="withdraw-title">
+			<span>选取车辆</span>
+			<input type="hidden" name="seriaNum" id="seriaNum" value="${bodycontract.seriaNum}"/>
+			<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="selctLine('${rc.contextPath}',${bodycontract.seriaNum})">增加选择</a>
+		</div>
 			<div id="orderedBuses">
 				<table id="orderedBusesTable" class="display compact"
 					cellspacing="0" width="100%">
@@ -521,7 +518,7 @@ function setLockDate(tourl,id){
 <TABLE class="ui-table ui-table-gray">
 			<TBODY>
 				<TR style="height: 45px;">
-					<TH>锁定库存</TH>
+					<TH style="width: 22%;">锁定库存</TH>
 					<TD colspan=3><input name="canSchedule" type="radio"
 						value="true" checked="checked" style="padding: 5px 15px;" />有库存 <input
 						name="canSchedule" type="radio" value="false"
@@ -533,8 +530,9 @@ function setLockDate(tourl,id){
 							<input	class="ui-input datepicker validate[required,custom[date],past[#endDate]]" 
 							type="text" value=""
 							id="LockDate" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">
-												
+						<em style="color: #ccc;margin-left: 10px;">注：预留截止时间不允许早于当前时间</em>						
 					</TD>
+					
 				</TR>
 				<TR style="height: 45px;">
 				<TD width="20%" style="text-align: right">合同选择</TD>
