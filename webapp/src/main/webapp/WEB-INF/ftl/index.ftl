@@ -441,7 +441,7 @@
 				  <div class="fn-left pg-uplan-product-item mr15">
 						<a target="_blank" href="order/iwant/${prod.id}"><!--product/d/-->
 							<dl class="bg-color-white">
-							  <dt class="ub" style="height: 310px;">
+							  <dt class="ub" style="height: 280px;">
 							  <span>${substring(prod.name,0,13)}</span>
 				<div style="  margin: -15px 2px 0px 0px;">
 		            	<span class="mr20" style="font-size: 12px;">展示期限             
@@ -455,7 +455,9 @@
 		        </div>  
 		        
 		        
-							  <div style="background:#83D8D1; width: 98%;height: 200px;"></div>
+							  <div class="img_box" style="width: 98%;height: 170px;">
+							  	<img class="img_size" src="${rc.contextPath}/imgs/video.png" style="  width: 100%; height: 90%;">
+							  </div>
 							  </dt>
 		  				</dl>
 						</a>
@@ -486,28 +488,35 @@
 			  <div class="fn-clear pg-uplan-product-list text-big mt15 mb10">
 			    <#list imageList as prod>
 				  <div class="fn-left pg-uplan-product-item mr15">
-						<a target="_blank" href="order/iwant/${prod.id}">
+						<a target="_blank" href="order/iwant/${prod.id}"><!--product/d/-->
 							<dl class="bg-color-white">
-							  <dt class="ub"><span>${substring(prod.name,0,13)}</span></dt>
-							  <dd>
-							  	<span class="mr20">曝光次数</span>                 
-							  	<span><em>${prod.playNumber}</em>/天</span>
-		            </dd>
-		            <dd>
-		            	<span class="mr20">展示期限</span>                 
-		            	<span><em>${prod.days}</em>天</span>
-		            </dd>
-		  					<dd>
-		  						<span class="mr20">金额</span>                 
-		  						<span style="color: red;">￥<em>#{prod.price!'' ;m2M2}</em></span>               
-		  					</dd>
+							  <dt class="ub" style="height: 280px;">
+							  <span>${substring(prod.name,0,13)}</span>
+				<div style="  margin: -15px 2px 0px 0px;">
+		            	<span class="mr20" style="font-size: 12px;">展示期限             
+		            		${prod.days}天
+		            	</span>
+		        </div>  
+		        <div style="  margin: -15px 2px 0px 0px;">
+		            	<span class="mr20" style="font-size: 12px;">曝光次数                
+							  ${prod.playNumber}/天
+						</span>
+		        </div>  
+		        
+		        
+							  <div class="img_box" style="width: 98%;height: 170px;">
+							  	<img class="img_size" src="${rc.contextPath}/imgs/imgText.png" style="  width: 100%; height: 90%;">
+							  </div>
+							  </dt>
 		  				</dl>
 						</a>
 						<p class="J_click_p" data="218">
 							<span id="J_count_time_b" data2="0" data1="328261">
-								<a target="_blank" href="order/iwant/${prod.id}">马上预定</a>
+								<a target="_blank" href="order/iwant/${prod.id}">
+		  						<span class="mr20">金额</span>                 
+		  						<span style="color: red;">￥<em>#{prod.price!'' ;m2M2}</em></span>              
+		  						</a>
 							</span>
-							<a class="text" target="_blank" href="order/iwant/${prod.id}">（查看详情）</a>
 						</p>
 					</div>           
 				 </#list>	 	     
@@ -526,28 +535,35 @@
 			  <div class="fn-clear pg-uplan-product-list text-big mt15 mb10">
 			   <#list noteList as prod>
 				  <div class="fn-left pg-uplan-product-item mr15">
-						<a target="_blank" href="order/iwant/${prod.id}">
+						<a target="_blank" href="order/iwant/${prod.id}"><!--product/d/-->
 							<dl class="bg-color-white">
-							  <dt class="ub"><span>${substring(prod.name,0,13)}</span></dt>
-							  <dd>
-							  	<span class="mr20">曝光次数</span>                 
-							  	<span><em>${prod.playNumber}</em>/天</span>
-		            </dd>
-		            <dd>
-		            	<span class="mr20">展示期限</span>                 
-		            	<span><em>${prod.days}</em>天</span>
-		            </dd>
-		  					<dd>
-		  						<span class="mr20">金额</span>                 
-		  						<span style="color: red;">￥<em>#{prod.price!'' ;m2M2}</em></span>               
-		  					</dd>
+							  <dt class="ub" style="height: 280px;">
+							  <span>${substring(prod.name,0,13)}</span>
+				<div style="  margin: -15px 2px 0px 0px;">
+		            	<span class="mr20" style="font-size: 12px;">展示期限             
+		            		${prod.days}天
+		            	</span>
+		        </div>  
+		        <div style="  margin: -15px 2px 0px 0px;">
+		            	<span class="mr20" style="font-size: 12px;">曝光次数                
+							  ${prod.playNumber}/天
+						</span>
+		        </div>  
+		        
+		        
+							  <div class="img_box" style="width: 98%;height: 170px;">
+							  	<img class="img_size" src="${rc.contextPath}/imgs/imgText.png" style="  width: 100%; height: 90%;">
+							  </div>
+							  </dt>
 		  				</dl>
 						</a>
 						<p class="J_click_p" data="218">
 							<span id="J_count_time_b" data2="0" data1="328261">
-								<a target="_blank" href="order/iwant/${prod.id}">马上预定</a>
+								<a target="_blank" href="order/iwant/${prod.id}">
+		  						<span class="mr20">金额</span>                 
+		  						<span style="color: red;">￥<em>#{prod.price!'' ;m2M2}</em></span>              
+		  						</a>
 							</span>
-							<a class="text" target="_blank" href="order/iwant/${prod.id}">（查看详情）</a>
 						</p>
 					</div>           
 					 </#list>      
