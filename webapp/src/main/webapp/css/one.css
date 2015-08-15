@@ -1558,7 +1558,8 @@ a.text {
 }
 
 .w700 {
-	width: 700px
+	width: 700px;
+	margin-left: 10px;
 }
 
 .w850 {
