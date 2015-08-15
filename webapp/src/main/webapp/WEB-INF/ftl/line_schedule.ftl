@@ -113,6 +113,7 @@
     }
       //显示总条数 add by impanxh
     function fnDrawCallback(){
+    	$("#loading").hide();
     	 bindLayerMouseOver();
 		var record_count = (this.fnSettings().fnRecordsTotal() );
 		if(record_count>0){
@@ -120,15 +121,14 @@
 		  }
     }
 
-    $(document).ready(function() {
-        initTable();
-      
-    } );
+    
 </script>
 
 
 <div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear" style="margin-left: -150px;margin-right: 30px">
-    <H3 class="text-xl title-box"><A class="black" href="#">线路车辆排期表<span id="recordsTotal" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></A></H3>
+    <H3 class="text-xl title-box"><A class="black" href="#">线路车辆排期表
+    <span id="loading"><image src="${rc.contextPath}/imgs/load_.gif"/> </span>
+    <span id="recordsTotal" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></A></H3>
             <div class="div" style="overflow-x:auto;">
                       
                 <table id="table" class="cell-border compact display" cellspacing="0" width="100%">
@@ -156,5 +156,9 @@
 		</div>
 		</div>
 </div>
- 
+<script type="text/javascript">
+ $(document).ready(function() {
+        initTable();
+    } );
+    </script>
 </@frame.html>
