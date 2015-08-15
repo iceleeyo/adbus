@@ -182,7 +182,7 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 	<script type="text/javascript">
 	var orderBusesTable;
 	function refreshOrderedBuses() {
-		orderBusesTable = $('#orderedBusesTable')
+		orderBusesTable = $('#table')
 				.dataTable(
 						{
 							"dom" : '<"#toolbar">t',
@@ -473,10 +473,10 @@ function setLockDate(tourl,id){
 			<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="selctLine('${rc.contextPath}',${bodycontract.seriaNum})">增加选择</a>
 		</div>
 			<div id="orderedBuses">
-				<table id="orderedBusesTable" class="display compact"
+				<table id="table" class="display compact"
 					cellspacing="0" width="100%">
 					<thead>
-						<tr>
+						<tr class="tableTr">
 					<th>线路</th>
                     <th>数量（辆）</th>
                     <th width="180px">车型</th>

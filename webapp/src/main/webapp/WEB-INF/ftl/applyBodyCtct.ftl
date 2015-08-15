@@ -13,7 +13,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 	  
 	var orderBusesTable;
 	function refreshOrderedBuses() {
-		orderBusesTable = $('#orderedBusesTable')
+		orderBusesTable = $('#table')
 				.dataTable(
 						{
 							"dom" : '<"#toolbar">t',
@@ -279,10 +279,10 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				</div>
 			
 			<div id="orderedBuses">
-				<table id="orderedBusesTable" class="display compact"
+				<table id="table" class="display compact"
 					cellspacing="0" width="100%">
 					<thead>
-						<tr>
+						<tr class="tableTr">
 					<th>线路</th>
                     <th>数量（辆）</th>
                     <th width="180px">车型</th>

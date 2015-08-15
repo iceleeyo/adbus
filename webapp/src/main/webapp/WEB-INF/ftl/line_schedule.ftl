@@ -1,4 +1,4 @@
-<#import "template/template.ftl" as frame>
+<#import "template/template_blank.ftl" as frame>
 <#import "template/orderDetail.ftl" as orderDetail/>
     <#global menu="上刊巴士列表">
 <@frame.html title=menu>
@@ -120,14 +120,14 @@
 </script>
 
 
-<div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear">
+<div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear" style="margin-left: -150px;margin-right: 30px">
     <H3 class="text-xl title-box"><A class="black" href="#">线路车辆排期表<span id="recordsTotal" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></A></H3>
             <div class="div" style="overflow-x:auto;">
                       
                 <table id="table" class="cell-border compact display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th style="min-width:130px;">车辆自编号</th>
+                        <th style="min-width:110px;">车辆自编号</th>
                         <#list dates as d>
                             <th style="min-width:10px;">${d?substring(5)}</th>
                         </#list>
