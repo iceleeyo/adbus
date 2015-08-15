@@ -103,7 +103,11 @@ public class BusSelectController {
 		Page<OrderView> w = busLineCheckService.getBodyContractList(city, req, principal);
 		return new DataTablePage(w, req.getDraw());
 	}
-
+	@RequestMapping(value = "/join/{pageNum}")
+	public String joinOrder(Model model) {
+		model.addAttribute("orderMenu", "我参与订单");
+		return "myOrders";
+	}
 	@RequestMapping(value = "/myOrders/{pageNum}")
 	public String myOrders(Model model) {
 		model.addAttribute("orderMenu", "我的订单");
