@@ -152,7 +152,7 @@
 										<@security.authorize ifAnyGranted="bodyContractManager,bodyFinancialManager,bodyScheduleManager">  
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/busselect/body_allRuningOrders">
-												     进行中订单
+												     进行中的订单
 												</a>
 											</li>
 										</@security.authorize>	
