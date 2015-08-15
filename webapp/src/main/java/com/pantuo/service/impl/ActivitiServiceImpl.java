@@ -989,6 +989,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		if (bodycontract != null) {
 			if (canSchedule) {
 				bodycontract.setStats(JpaBodyContract.Status.enable.ordinal());
+				bodycontract.setLockExpiredTime((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(LockDate));
 				bodycontract.setContractid(contractid);
 			} else {
 				bodycontract.setStats(JpaBodyContract.Status.close.ordinal());

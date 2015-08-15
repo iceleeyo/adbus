@@ -712,12 +712,12 @@ function setOrderPrice(tourl,orderid){
 function setLockTime(tourl,id){
 	layer.open({
 	type: 1,
-	title: "锁定时间设置",
+	title: "预留截止时间设置",
 	skin: 'layui-layer-rim', 
 	area: ['420px', '340px'], 
 	content: 
 	 '<br/><br/><form id="priceForm"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/><div class="withdrawInputs"><div class="inputs" style="margin-left:-25px;">'
-	 +'<div class="ui-form-item"> <label class="ui-labels mt10" style="width:170px;margin-left:-200px;"><span class="ui-form-required">*</span>请选择锁定截止时间</label>' 
+	 +'<div class="ui-form-item"> <label class="ui-labels mt10" style="width:170px;margin-left:-200px;"><span class="ui-form-required">*</span>请选择预留截止时间</label>' 
 	 +'<input class="ui-input datepicker validate[required,custom[date],past[#endDate]]" type="text"  value="" id="LockDate" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
 	 +'</div>'
 	  +' <div class="ui-form-item widthdrawBtBox" style="margin-left:-20px;margin-top:20px;"> <input type="button" id="uploadbutton" class="block-btn" onclick="setLockDate(\''+tourl+'\','+id+');" value="确认"> </div>'
@@ -737,10 +737,33 @@ function setLockTime(tourl,id){
         maxErrorsPerField: 1,
         focusFirstField: true,
     	});
-
-
 }
-
+function setLockDate(tourl,id){
+	var p= ($("#LockDate").val());
+	if(p==""){
+		layer.msg('请输入日期');
+		return;
+	}
+	document.getElementById('uploadbutton').setAttribute('disabled',true); 
+	$("#uploadbutton").css("background-color","#85A2AD");
+	$.ajax({
+		url : tourl+"/busselect/setLockDate/"+id ,
+		type : "POST",
+		data : {
+			"lockDate":p
+		},
+		success : function(data) {
+			layer.msg(data.right);
+			var uptime = window.setTimeout(function(){
+				window.location.reload();
+				$("#cc").trigger("click");
+				clearTimeout(uptime);
+			},2500)
+		}
+	}, "text");
+	
+	
+}
 function bu(txtObj) {
     txtObj.value = Number(txtObj.value).toFixed(2);
 }

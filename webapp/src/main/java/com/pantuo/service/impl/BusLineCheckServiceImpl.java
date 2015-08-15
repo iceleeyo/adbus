@@ -531,16 +531,24 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 
 	@Override
 	public Pair<Boolean, String> setLockDate(String lockDate, int id, Principal principal) throws ParseException {
-		BusLock busLock = busLockMapper.selectByPrimaryKey(id);
-		if (busLock == null) {
+		Bodycontract bodycontract = bodycontractMapper.selectByPrimaryKey(id);
+		if (bodycontract == null) {
 			return new Pair<Boolean, String>(false, "信息丢失");
 		}
-		busLock.setLockExpiredTime((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(lockDate));
-		if (busLockMapper.updateByPrimaryKey(busLock) > 0) {
-			return new Pair<Boolean, String>(true, "设置锁定时间成功");
-		} else {
-			return new Pair<Boolean, String>(false, "操作失败");
+		bodycontract.setLockExpiredTime((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(lockDate));
+		if (bodycontractMapper.updateByPrimaryKey(bodycontract) > 0) {
+			BusLockExample example = new BusLockExample();
+			BusLockExample.Criteria criteria = example.createCriteria();
+			criteria.andSeriaNumEqualTo(bodycontract.getSeriaNum());
+			List<BusLock> list = busLockMapper.selectByExample(example);
+			for (BusLock busLock : list) {
+				if (busLock != null) {
+					busLock.setLockExpiredTime((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(lockDate));
+					busLockMapper.updateByPrimaryKey(busLock);
+				}
+			}
 		}
+		return new Pair<Boolean, String>(true, "预留截止日期设置成功");
 	}
 
 	public List<LineBusCpd> getBusListChart(int lineId, Integer modelId, JpaBus.Category category) {

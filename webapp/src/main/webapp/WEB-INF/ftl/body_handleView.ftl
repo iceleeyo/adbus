@@ -413,32 +413,7 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
    				 });
 		
 	}
-function setLockDate(tourl,id){
-	var p= ($("#LockDate").val());
-	if(p==""){
-		layer.msg('请输入日期');
-		return;
-	}
-	document.getElementById('uploadbutton').setAttribute('disabled',true); 
-	$("#uploadbutton").css("background-color","#85A2AD");
-	$.ajax({
-		url : tourl+"/busselect/setLockDate/"+id ,
-		type : "POST",
-		data : {
-			"lockDate":p
-		},
-		success : function(data) {
-			layer.msg(data.right);
-			var uptime = window.setTimeout(function(){
-			 orderBusesTable.dataTable()._fnAjaxUpdate();
-				$("#cc").trigger("click");
-				clearTimeout(uptime);
-			},2500)
-		}
-	}, "text");
-	
-	
-}
+
 </script>
 <script type="text/javascript">
 	$(document).ready(function() {
