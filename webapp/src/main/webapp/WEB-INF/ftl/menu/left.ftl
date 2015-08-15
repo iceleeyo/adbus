@@ -78,6 +78,7 @@
 										</ul>
 									</li>	
 									</@security.authorize>
+									 <#if city.mediaType == 'screen'>
 									<li class="pg-side-item">
 										<a class="pg-side-item-t cc-icon">
 											<i class="s-left pg-icon-a f-icon"></i>
@@ -98,6 +99,8 @@
 											</li>
 										</ul>
 									</li>
+									 </#if>
+									
 									<@security.authorize ifAnyGranted="ShibaSuppliesManager,advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager,bodysales,bodyContractManager,bodyFinancialManager,bodyScheduleManager">
 									<li class="pg-side-item">
 										<a class="pg-side-item-t dd-icon">
