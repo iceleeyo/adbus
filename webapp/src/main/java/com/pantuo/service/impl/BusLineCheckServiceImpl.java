@@ -339,15 +339,6 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		ProcessInstanceQuery listQuery = runtimeService.createProcessInstanceQuery()
 				.processDefinitionKey(BODY_ACTIVITY).variableValueEquals(ActivitiService.CITY, city);
 
-		/*
-		ProcessInstanceQuery debugQuery = runtimeService.createProcessInstanceQuery()
-				.processDefinitionKey(MAIN_PROCESS).includeProcessVariables()
-				.variableValueEquals(ActivitiService.CITY, city);
-		List<ProcessInstance> psff = debugQuery.list();
-		for (ProcessInstance processInstance : psff) {
-			System.out.println(processInstance.getProcessVariables());
-		}*/
-
 		/* 运行中的订单和 我的订单区分*/
 		if (tqType == TaskQueryType.my) {
 			countQuery.involvedUser(userid);

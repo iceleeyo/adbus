@@ -4,11 +4,8 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -175,7 +172,18 @@ public class BusSelectController {
 		Page<OrderView> w = busLineCheckService.queryOrders(city, (principal), req, TaskQueryType.my);
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
-
+	@RequestMapping(value = "/body_allRuningOrders")
+	public String allRuningOrders(Model model,HttpServletRequest request) {
+		model.addAttribute("orderMenu", "进行中的订单");
+		return "body_allRuningOrders";
+	}
+	@RequestMapping("ajax-body-runningAjax")
+	@ResponseBody
+	public DataTablePage<OrderView> runningAjax(TableRequest req, Principal principal,
+			@CookieValue(value = "city", defaultValue = "-1") int city) {
+		Page<OrderView> w = busLineCheckService.queryOrders(city, principal, req,TaskQueryType.all_running);
+		return new DataTablePage<OrderView>(w, req.getDraw());
+	}
 	@RequestMapping("setLockDate/{id}")
 	@ResponseBody
 	public Pair<Boolean, String> lockDate(Principal principal, @PathVariable("id") int id,
@@ -457,7 +465,6 @@ public class BusSelectController {
 				LockDate);
 	}
 	
-	
 	/**
 	 * 
 	 * 已完成订单
@@ -469,8 +476,6 @@ public class BusSelectController {
 	public String finishedOrders() {
 		return "finishedBodyOrders";
 	}
- 
-	
 	/**
 	 * 
 	 * 已完成的订单 datatable
@@ -489,5 +494,4 @@ public class BusSelectController {
 				.finished(city, principal,req);
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
-
 }

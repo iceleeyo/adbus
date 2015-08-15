@@ -387,25 +387,6 @@ public class OrderController {
 		return "mytask";
 	}
 
-	/*@RequestMapping(value = "/myOrders/{pageNum}")
-	public String myOrders(Model model, Principal principal,@PathVariable int pageNum, HttpServletRequest request,
-			HttpServletResponse response) {
-		int pagesize=8;
-		int totalnum=runtimeService.createProcessInstanceQuery().processDefinitionKey("order").involvedUser(Request.getUserId(principal)).list().size();
-		NumberPageUtil page=new NumberPageUtil(totalnum, pageNum, pagesize);
-		List<OrderView> list = activitiService.findMyOrders(Request.getUserId(principal), page);
-		
-		model.addAttribute("list", list);
-		model.addAttribute("pageNum", pageNum);
-		model.addAttribute("paginationHTML", page.showNumPageWithEmpty());
-		return "myOrders";
-	}
-	@RequestMapping(value = "/allRuningOrders/{pageNum}")
-	public String allRuningOrders(Model model,Principal principal, @PathVariable int pageNum, HttpServletRequest request,
-			HttpServletResponse response) {
-		return "allRuningOrders";
-	}*/
-
 	@RequestMapping("ajax-runningAjax")
 	@ResponseBody
 	public DataTablePage<OrderView> runningAjax(TableRequest req, Principal principal,
@@ -455,22 +436,8 @@ public class OrderController {
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
 
-	//	@RequestMapping(value="/finishedOrders/{usertype}/{pageNum}")
-	//	public String finishedOrders(Model model,Principal principal,@PathVariable("usertype") String usertype,@PathVariable int pageNum,HttpServletRequest request, HttpServletResponse response){
-	//		NumberPageUtil page = new NumberPageUtil(pageNum);
-	//		page.setPagesize(30);
-	//		List<OrderView> list = activitiService.findFinishedProcessInstaces(Request.getUserId(principal),usertype, page);
-	//		model.addAttribute("list", list);
-	//		model.addAttribute("pageNum", page);
-	//		return "finishedOrders";
-	//	}
 	@RequestMapping(value = "/finished")
 	public String finishedOrders() {
-		/*NumberPageUtil page = new NumberPageUtil(pageNum);
-		page.setPagesize(30);
-		List<OrderView> list = activitiService.findFinishedProcessInstaces(Request.getUserId(principal),usertype, page);
-		model.addAttribute("list", list);
-		model.addAttribute("pageNum", page);*/
 		return "finishedOrders";
 	}
 	@RequestMapping(value = "/over/{productid}")
@@ -482,7 +449,6 @@ public class OrderController {
 		return "productFinishedOrders";
 	}
 	
-
 	@RequestMapping("ajax-finishedOrders")
 	@ResponseBody
 	public DataTablePage<OrderView> finishedAjax(TableRequest req, Principal principal,
