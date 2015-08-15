@@ -47,13 +47,13 @@
 </head>
 
 <body>
-	<div class="header">
-		<div class="pg-header-top" style="background:#5E637E"> 
+	<div class="pg-header">
+		<div class="pg-header-top" style="background:#5E637E;"> 
 					<div class="container-12 s-clear">
 						<div class="grid-12 city-dropdown">
-                            <ul class="fl">
+                            <ul class="fl" style="margin-top: -14px">
 <#--<@security.authorize access="isAuthenticated()">-->
-                                <li class="dorpdown" id="ttbar-mycity">
+                                <li class="dorpdown" id="ttbar-mycity" style="margin-left: -40px;">
                                     <div class="dt cw-icon ui-areamini-text-wrap" style="">
                                         <i class="ci-right"><s>◇</s></i>
                                         <#if city??>
@@ -105,11 +105,6 @@
                                 </li>-->
 <#--</@security.authorize>-->
                             </ul>
-							<div class="s-left ml10">
-								<a class="pg-nav-item" href="#" style="padding-top: 8px;">
-									
-								</a>
-							</div>
 							<div class="s-right s-clear">
 								<span class="pg-nav-item s-left" style="padding:0;">您好，</span>
 									<span>
@@ -122,6 +117,7 @@
                                         </@security.authorize>
                                         <@security.authorize access="! isAuthenticated()">
                                             <a class="pg-nav-item s-left" href="${rc.contextPath}/login">请登录</a>
+                                        	<a class="pg-nav-item s-left" href="${rc.contextPath}/register">免费注册</a>
                                         </@security.authorize>
                                     </span>
 									<#--<span class="arrow-down"></span>-->
@@ -206,7 +202,7 @@
 							</ul>
 						</div>
 					</div>
-				</div>
+		</div>
 	</div>
 	<div class="container-12 maincontent">	
 		<div class="broadcast s-clear">
