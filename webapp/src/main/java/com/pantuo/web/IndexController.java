@@ -124,7 +124,7 @@ public class IndexController {
 	public String price() {
 		return "intro/intro-price";
 	}
-	@RequestMapping(value = "/web-notice")
+	@RequestMapping(value = "/intro-notice")
 	public String notice() {
 		return "intro/web-notice";
 	}

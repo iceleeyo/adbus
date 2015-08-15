@@ -57,6 +57,10 @@ public class BusController {
         JpaBusline.Level level = null;
         if (!StringUtils.isBlank(levelStr)) {
             level = JpaBusline.Level.fromNameStr(levelStr);
+            try {
+				level = JpaBusline.Level.valueOf(levelStr);
+			} catch (Exception e) {
+			}
         }
         return new DataTablePage(busService.getAllBuslines(cityId, level, req.getFilter("name"),
                 req.getPage(), req.getLength(), req.getSort("id")), req.getDraw());
