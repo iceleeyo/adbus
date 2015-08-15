@@ -10,13 +10,23 @@
 		<result column="gp1" jdbcType="VARCHAR" property="gp1" />
 		<result column="gp2" jdbcType="VARCHAR" property="gp2" />
 	</resultMap>
+	<!-- 查线路车辆类型  返回车辆对象-->
+	<select id="getBusModel"
+		resultMap="com.pantuo.mybatis.persistence.BusModelMapper.BaseResultMap">
+		select distinct bus_model.* from bus_model join
+		(select bus.model_id from bus join bus_line
+		on bus.line_id = bus_line.id where bus_line.id=#{lineId} and category =
+		#{category}) t
+		on bus_model.id = t.model_id
+	</select>
 
 
-	<select id="getBusContract" resultMap="com.pantuo.mybatis.persistence.BusContractMapper.BaseResultMap">
-	
+	<select id="getBusContract"
+		resultMap="com.pantuo.mybatis.persistence.BusContractMapper.BaseResultMap">
+
 		select bus_contract.* from bus_contract join (
 		select bus.id
-		 from bus_line
+		from bus_line
 		join bus on bus_line.id = bus.line_id
 		where enabled = 1 and
 		category = #{category}
@@ -27,18 +37,20 @@
 		</if>
 		) m on m.id=bus_contract.busid
 		where bus_contract.end_date > now()
-		
+
 	</select>
 
 
 
-	<select id="getBusList" resultMap="com.pantuo.mybatis.persistence.BusMapper.BaseResultMap">
-		 select
+	<select id="getBusList"
+		resultMap="com.pantuo.mybatis.persistence.BusMapper.BaseResultMap">
+		select
 		bus.* from bus_line
 		join bus on bus_line.id = bus.line_id
-		where enabled = 1 and category =
+		where
+		enabled = 1 and category =
 		#{category} and bus_line.id=#{lineId}
-			<if test="modelId > 0">
+		<if test="modelId > 0">
 			and model_id = #{modelId}
 		</if>
 	</select>
@@ -116,13 +128,13 @@
 		<if test="modelId > 0">
 			and model_id = #{modelId}
 		</if>
-		
-		
+
+
 	</select>
 
-
+	<!-- 按线路统计车辆个数 -->
 	<select id="countBusCar" resultType="java.lang.Integer">
-	
+
 		select
 		count(1) from bus_line
 		join bus on bus_line.id = bus.line_id
@@ -133,7 +145,7 @@
 		<if test="modelId > 0">
 			and model_id = #{modelId}
 		</if>
-		
+
 	</select>
 
 </mapper>

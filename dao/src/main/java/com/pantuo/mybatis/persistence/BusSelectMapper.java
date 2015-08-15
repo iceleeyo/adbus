@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.pantuo.mybatis.domain.BusContract;
+import com.pantuo.mybatis.domain.BusModel;
 import com.pantuo.vo.GroupVo;
 
 public interface BusSelectMapper {
@@ -16,8 +17,16 @@ public interface BusSelectMapper {
 	
 	public List<BusContract> getBusContract(@Param("lineId") int lineId, @Param("modelId") int modelId, @Param("category") int category);
 	
-	
-	
+	/**
+	 * @deprecated
+	 * 暂时没用到
+	 * 按线路 进行车辆类型统计
+	 * @param lineId
+	 * @param category
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	public List<BusModel> getBusModel(@Param("lineId") int lineId, @Param("category") int category);
 	
 	
 	
