@@ -180,6 +180,9 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 <div id="usertask1" class="usertask1" style="display: none;">
 
 	<script type="text/javascript">
+	function gotoSchedult(id,modelId){
+	  window.open("${rc.contextPath}/busselect/lineschedule/"+id+"?modelId="+modelId);
+	  }
 	var orderBusesTable;
 	function refreshOrderedBuses() {
 		orderBusesTable = $('#table')
@@ -200,7 +203,9 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 								 "dataSrc": function(json) {return json;},
 							},
 							"columns" : [
-			    { "data": "line.name", "defaultContent": ""},
+			    { "data": "line.name", "defaultContent": "","render": function(data, type, row, meta) {
+                      return '<a   onclick=" gotoSchedult(' + row.line.id +","+(row.model.id )+ ')" >'+data+'</a> &nbsp;';
+                }},
                 { "data": "remainNuber", "defaultContent": ""}, 
                 { "data": "model", "defaultContent": "", "render": function(data) {
                  if(data.doubleDecker==false){

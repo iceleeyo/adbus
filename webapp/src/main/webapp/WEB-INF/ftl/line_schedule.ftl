@@ -30,6 +30,13 @@
         });
 
         table = $('#table').dataTable( {
+		   /*  oLanguage: {
+		        sProcessing: "<img src='${rc.contextPath}/imgs/load_.gif'>"
+		    },*/
+            "oLanguage": {
+                "sSearch": "Search all columns:"
+            },
+		    processing : true,
             "dom": '<"#toolbar">rt',
             "searching": false,
             "ordering": false,
