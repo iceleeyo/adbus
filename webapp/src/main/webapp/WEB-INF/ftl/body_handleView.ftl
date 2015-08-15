@@ -208,7 +208,9 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
                 }},
                 { "data": "remainNuber", "defaultContent": ""}, 
                 { "data": "model", "defaultContent": "", "render": function(data) {
-                 if(data.doubleDecker==false){
+                if(data.id ==0){
+                 	return "所有车型"
+                }else if(data.doubleDecker==false){
                   return data.name+'(单层)';
                  }else{
                     return data.name+'(双层)';
