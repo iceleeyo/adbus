@@ -122,12 +122,7 @@
 												<a class="side-exp-item-t" href="${rc.contextPath}/busselect/myOrders/1">
 													我的订单
 												</a>
-											</li>
-												<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/busselect/finished">
-												     已完成订单
-												</a>
-											</li>
+										
 										</@security.authorize>	
 										
 										
@@ -146,6 +141,15 @@
 												</a>
 											</li>
 										</@security.authorize>	
+										 <#if city.mediaType == 'body'>
+										<@security.authorize ifAnyGranted="bodysales,bodyContractManager,bodyFinancialManager,bodyScheduleManager">
+											<li class="pg-side-exp-item">
+												<a class="side-exp-item-t" href="${rc.contextPath}/busselect/join/1">
+													我参与订单
+												</a>
+											</li>
+										</#if>
+										</@security.authorize>	
 											<!--<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/order/finishedOrders/user/1">
 												     已完成的订单(广告主)
@@ -157,6 +161,14 @@
 												     已完成订单
 												</a>
 											</li>
+											  </#if>
+												  <#if city.mediaType == 'body'>
+													</li>
+													<li class="pg-side-exp-item">
+													<a class="side-exp-item-t" href="${rc.contextPath}/busselect/finished">
+													     已完成订单
+													</a>
+												</li>
 											    </#if>
 										
 										</ul>
