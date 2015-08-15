@@ -75,7 +75,6 @@
             "drawCallback": drawCallback,
             "fnDrawCallback": fnDrawCallback,
         } );
-
     }
 
     function initComplete() {
@@ -92,9 +91,6 @@
 	        $('#taskKey').change(function() {
 	            table.fnDraw();
 	        });
-	        
-	        
-      bindLayerMouseOver();
     }
 
     function drawCallback() {
@@ -106,7 +102,7 @@
     }
       //显示总条数 add by impanxh
     function fnDrawCallback(){
-    
+    	 bindLayerMouseOver();
 		var record_count = (this.fnSettings().fnRecordsTotal() );
 		if(record_count>0){
 	 	  $("#recordsTotal").html("&nbsp;"+record_count+"&nbsp;");
