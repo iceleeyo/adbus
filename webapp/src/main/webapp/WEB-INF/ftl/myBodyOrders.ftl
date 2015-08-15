@@ -149,23 +149,23 @@ var table;
 									</div> -->
                 
                 <div class="tabs">
-                <@security.authorize ifAnyGranted="advertiser">
+                <@security.authorize ifAnyGranted="bodysales">
                 <#if orderMenu=="我的订单">
-					<a id="tab1" href="${rc.contextPath}/order/myOrders/1" class="active">${orderMenu}<span id="recordsTotal" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></a>
+					<a id="tab1" href="${rc.contextPath}/busselect/myOrders/1" class="active">${orderMenu}<span id="recordsTotal" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></a>
 				<#else>
-					<a id="tab1" href="${rc.contextPath}/order/myOrders/1">${orderMenu}</span></a>
+					<a id="tab1" href="${rc.contextPath}/busselect/myOrders/1">${orderMenu}</span></a>
 					
 				</#if>
 				</@security.authorize>
-				<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
-					<a id="tab2" href="${rc.contextPath}/order/allRuningOrders/1">进行中的订单</a>
+				<@security.authorize ifAnyGranted="bodyContractManager,bodyFinancialManager,bodyScheduleManager">
+					<a id="tab2" href="${rc.contextPath}/busselect/allRuningOrders/1">进行中的订单</a>
 				</@security.authorize>	
-					<a id="tab3" href="${rc.contextPath}/order/finished">已完成的订单</a>
-				<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+					<a id="tab3" href="${rc.contextPath}/busselect/finished">已完成的订单</a>
+				<@security.authorize ifAnyGranted="bodyContractManager,bodyFinancialManager,bodyScheduleManager">
 				<#if orderMenu=="我参与订单">
-					<a id="tab4" class="active" href="${rc.contextPath}/order/join/1">我参与的订单<span id="recordsTotal"  style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></a>
+					<a id="tab4" class="active" href="${rc.contextPath}/busselect/join/1">我参与的订单<span id="recordsTotal"  style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></a>
 				<#else>
-					<a id="tab4" href="${rc.contextPath}/order/join/1">我参与的订单<span id="recordsTotal" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;" ></span></a>
+					<a id="tab4" href="${rc.contextPath}/busselect/join/1">我参与的订单<span id="recordsTotal" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;" ></span></a>
 				</#if>
 				</@security.authorize>
 				

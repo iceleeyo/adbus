@@ -146,15 +146,15 @@
                 <caption><h2>待办事项</h2></caption>
             </div> -->
             <div class="tabs">
-              		<@security.authorize ifAnyGranted="advertiser">
-					<a id="tab1" href="${rc.contextPath}/order/myOrders/1">我的订单</a>
+              		<@security.authorize ifAnyGranted="bodysales">
+					<a id="tab1" href="${rc.contextPath}/busselect/myOrders/1">我的订单</a>
 					</@security.authorize>
-					<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
-					<a id="tab2" href="${rc.contextPath}/order/allRuningOrders/1">进行中的订单</a>
+					<@security.authorize ifAnyGranted="bodyContractManager,bodyFinancialManager,bodyScheduleManager">
+					<a id="tab2" href="${rc.contextPath}/busselect/allRuningOrders/1">进行中的订单</a>
 					</@security.authorize>
-					<a id="tab3" href="${rc.contextPath}/order/finished" class="active">已完成的订单<span id="recordsTotal" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></a>
-					<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
-					<a id="tab4" href="${rc.contextPath}/order/join/1">我参与的订单</a>
+					<a id="tab3" href="${rc.contextPath}/busselect/finished" class="active">已完成的订单<span id="recordsTotal" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></a>
+					<@security.authorize ifAnyGranted="bodyContractManager,bodyFinancialManager,bodyScheduleManager">
+					<a id="tab4" href="${rc.contextPath}/busselect/join/1">我参与的订单</a>
 					</@security.authorize>
 				</div>
                 <table id="table" class="display" cellspacing="0" width="100%">
