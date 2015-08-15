@@ -1,7 +1,9 @@
 <#import "template/template.ftl" as frame>
 <#global menu="线路列表">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="线路列表" js=["js/jquery-dateFormat.min.js"]>
+<@frame.html title="线路列表" js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js",
+"js/jquery-ui/jquery-ui.auto.complete.js"] 
+css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 
 <style type="text/css">
     .center {margin: auto;}
@@ -67,6 +69,7 @@
             },
             "initComplete": initComplete,
             "drawCallback": drawCallback,
+             "fnDrawCallback": fnDrawCallback,
         } );
         table.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
@@ -76,7 +79,7 @@
                 '<div>' +
                         '    <span>线路名</span>' +
                         '    <span>' +
-                        '        <input id="name" value="">' +
+                        '        <input id="name" id="line_id" value="">' +
                         '    </span>' +
                         '    <span>线路级别</span>' +
                         '    <span>' +
@@ -89,8 +92,23 @@
         $('#name,#level').change(function() {
             table.fnDraw();
         });
+        
+        $("#line_id").autocomplete({
+			minLength: 0,
+			source : "${rc.contextPath}/busselect/autoComplete",
+			change : function(event, ui) {
+			},
+			select : function(event, ui) {
+				$('#line_id').val(ui.item.value);
+			}
+		}).focus(function () {
+       				 $(this).autocomplete("search");
+   				 });
+   				 
+   				 
     }
-
+	function fnDrawCallback(){
+    }
     function drawCallback() {
         $('.table-action').click(function() {
             $.post($(this).attr("url"), function() {
