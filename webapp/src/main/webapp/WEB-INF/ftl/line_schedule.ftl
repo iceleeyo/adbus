@@ -34,7 +34,9 @@
 		        sProcessing: "<img src='${rc.contextPath}/imgs/load_.gif'>"
 		    },*/
             "oLanguage": {
-                "sSearch": "Search all columns:"
+                "sSearch": "Search all columns:",
+                "sLoadingRecords": "Please wait - loading...",
+                "sProcessing": "正在加载中",
             },
 		    processing : true,
             "dom": '<"#toolbar">rt',
