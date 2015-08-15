@@ -7,8 +7,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 <script type="text/javascript">
 
 
-	function gotoSchedult(id){
-	  window.open("${rc.contextPath}/busselect/lineschedule/"+id);
+	function gotoSchedult(id,modelId){
+	  window.open("${rc.contextPath}/busselect/lineschedule/"+id+"?modelId="+modelId);
 	  }
 	  
 	var orderBusesTable;
@@ -32,7 +32,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 							},
 							"columns" : [
 			    { "data": "line.name", "defaultContent": "", "render": function(data, type, row, meta) {
-                      return '<a   onclick=" gotoSchedult(' + row.line.id + ')" >'+data+'</a> &nbsp;';
+                      return '<a   onclick=" gotoSchedult(' + row.line.id +","+(row.model.id )+ ')" >'+data+'</a> &nbsp;';
                 }},
                 { "data": "remainNuber", "defaultContent": ""}, 
                 { "data": "model", "defaultContent": "", "render": function(data) {
