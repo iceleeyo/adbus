@@ -11,10 +11,12 @@
     .processed {color: limegreen;}
     .invalid {color: red;}
     .hl {background-color: #ffff00;}
-    #table {font-size: 14px;}
+    #table {font-size: 12px;}
     #table td {position:relative;}
-    #table td .per-middle {position:absolute;background-color: #ffad20;border-left: 1px solid white;border-right: 1px solid white;top:0;height:100%;z-index:1}
+    #table td .per-middle {position:absolute;background-color: #ffad20;top:0;height:100%;z-index:1}
     #table td .per-first-or-last {position:absolute;background-color: #4acd48;border-left: 1px solid white;border-right: 1px solid white;top:0;height:100%;z-index:1}
+	#table th, #his_table th{background-color: #3bafda;color: white;  font-weight: normal;  text-align: left;  line-height: 20px;  padding: 2px 2px;}
+	table.dataTable.compact tbody td { padding: 2px 2px;}
 </style>
  
 <script type="text/javascript">
@@ -60,9 +62,9 @@
                     var v = row.map['${d}'];
                     
                     if (typeof(v) == "undefined"){
-                    	result ='<span class="per-middle" style="left:0%;width:70%;background-color:green"></span>';
+                    	result ='<span class="per-middle" style="left:0%;width:80%;background-color:#88CE6D"></span>';
                     }else {
-                     	var  result = '<span class="per-middle layer-tips" tip="'+(v.company)+'" style="left:0%;width:70%;background-color:red"></span>';
+                     	var  result = '<span class="per-middle layer-tips" tip="'+(v.company)+'" style="left:0%;width:80%;background-color:red"></span>';
                     }
                         return result;
                 }},
