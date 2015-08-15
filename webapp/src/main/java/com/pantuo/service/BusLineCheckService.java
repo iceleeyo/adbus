@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Page;
 
 import com.pantuo.dao.pojo.JpaBodyContract;
@@ -11,6 +12,7 @@ import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.mybatis.domain.Bodycontract;
 import com.pantuo.mybatis.domain.BusLock;
+import com.pantuo.mybatis.domain.BusModel;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService.TaskQueryType;
 import com.pantuo.util.Pair;
@@ -46,7 +48,7 @@ public interface BusLineCheckService {
 	public List<AutoCompleteView> autoCompleteByName(int city, String name,JpaBus.Category category);
 	/**
 	 * 
-	 * 查线路 类型
+	 * 查线路 车辆类型
 	 *
 	 * @param lineId
 	 * @param category
@@ -83,5 +85,17 @@ public interface BusLineCheckService {
 	
 	
 	 List<LineBusCpd> getBusListChart(int lineId,Integer  modelId, JpaBus.Category category);
+	 
+	 /**
+	  * 
+	  * 按线路 查车辆类型
+	  *
+	  * @param lineId
+	  * @param category
+	  * @return
+	  * @since pantuo 1.0-SNAPSHOT
+	  */
+	 public List<BusModel> getBusModel( int lineId,   int category);
+		
 
 }

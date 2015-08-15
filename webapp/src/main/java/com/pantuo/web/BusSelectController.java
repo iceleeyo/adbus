@@ -252,7 +252,7 @@ public class BusSelectController {
 	}
 
 	@RequestMapping("lineschedule/{line}")
-	public String lineschedule(Model model, @PathVariable("line") String line,
+	public String lineschedule(Model model, @PathVariable("line") Integer line,
 			@RequestParam(value = "modelId", required = true, defaultValue = "0") int modelId, Principal principal) {
 		List<String> list = new ArrayList<String>();
 		Date date = new Date();
@@ -263,6 +263,9 @@ public class BusSelectController {
 		model.addAttribute("dates", list);
 		model.addAttribute("lineId", line);
 		model.addAttribute("modelId", modelId);
+		
+		model.addAttribute("modelList", busLineCheckService.countCarTypeByLine(line, JpaBus.Category.yunyingche));
+		//model.addAttribute("modelList", busLineCheckService.getBusModel(line, JpaBus.Category.yunyingche.ordinal()));
 		return "line_schedule";
 	}
 

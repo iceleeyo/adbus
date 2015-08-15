@@ -47,6 +47,7 @@ import com.pantuo.mybatis.domain.BusContract;
 import com.pantuo.mybatis.domain.BodycontractExample;
 import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.domain.BusLockExample;
+import com.pantuo.mybatis.domain.BusModel;
 import com.pantuo.mybatis.persistence.BodycontractMapper;
 import com.pantuo.mybatis.persistence.BusLineMapper;
 import com.pantuo.mybatis.persistence.BusLockMapper;
@@ -592,6 +593,11 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			r.add(c);
 		}
 		return r;
+	}
+
+	@Override
+	public List<BusModel> getBusModel(int lineId, int category) {
+		return busSelectMapper.getBusModel(lineId, category);
 	}
 
 }
