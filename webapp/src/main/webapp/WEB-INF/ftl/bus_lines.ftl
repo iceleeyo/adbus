@@ -36,7 +36,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                 data: function(d) {
                     return $.extend( {}, d, {
                         "filter[name]" : $('#name').val(),
-                        "filter[level]" : $('#level').val()
+                        "filter[level]" : $('#levelStr').val()
                     } );
                 },
                 "dataSrc": "content",

@@ -306,9 +306,9 @@
 		<div class="notice-wrapper" style="padding: 10px 0;border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;
 margin:15px 0px 15px 0px;width:100%">
       <div class="notice-head fn-clear" style="width:98%">
-        <a href="${rc.contextPath}/web-notice" target="_blank" class="notice-title h5 fn-left color-gray-text w700 fn-text-overflow" id="notice-title">北京城市旅游观光线车辆包装制作的比选公告</a>
+        <a href="${rc.contextPath}/intro-notice" target="_blank" class="notice-title h5 fn-left color-gray-text w700 fn-text-overflow" id="notice-title">北京城市旅游观光线车辆包装制作的比选公告</a>
         <span class="notice-date fn-left color-silver-text">2015-08-15</span>
-        <a class="notice-more fn-right ui-button ui-button-transparent ui-button-small darkgray" href="${rc.contextPath}/web-notice" target="_blank">更多公告</a>
+        <a class="notice-more fn-right ui-button ui-button-transparent ui-button-small darkgray" href="${rc.contextPath}/intro-notice" target="_blank">更多公告</a>
       </div>
     </div>
 		<div class="container" style="clear:both">
