@@ -62,7 +62,7 @@ var table;
 		table.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
     
-    	<@security.authorize ifAnyGranted="bodysales,bodyContractManager,bodyFinancialManager,bodyScheduleManager">
+    	<@security.authorize ifAnyGranted="bodyContractManager,bodyFinancialManager,bodyScheduleManager">
 	    	function initComplete() {
 	        $("div#toolbar").html(
 	                '<div>' +
@@ -100,7 +100,7 @@ var table;
 		}); 
 	    }
    </@security.authorize>
- <@security.authorize ifAnyGranted="advertiser">
+ <@security.authorize ifAnyGranted="bodysales">
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +

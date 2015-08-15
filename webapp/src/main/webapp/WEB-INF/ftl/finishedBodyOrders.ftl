@@ -62,7 +62,7 @@
     }
     
     
-    <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+    <@security.authorize ifAnyGranted="bodyContractManager,bodyFinancialManager,bodyScheduleManager">
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
@@ -100,7 +100,7 @@
     }
  </@security.authorize>
  
-<@security.authorize ifAnyGranted="bodysales,advertiser">
+<@security.authorize ifAnyGranted="bodysales">
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
@@ -150,7 +150,7 @@
 					<a id="tab1" href="${rc.contextPath}/busselect/myOrders/1">我的订单</a>
 					</@security.authorize>
 					<@security.authorize ifAnyGranted="bodyContractManager,bodyFinancialManager,bodyScheduleManager">
-					<a id="tab2" href="${rc.contextPath}/busselect/allRuningOrders/1">进行中的订单</a>
+					<a id="tab2" href="${rc.contextPath}/busselect/body_allRuningOrders">进行中的订单</a>
 					</@security.authorize>
 					<a id="tab3" href="${rc.contextPath}/busselect/finished" class="active">已完成的订单<span id="recordsTotal" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></a>
 					<@security.authorize ifAnyGranted="bodyContractManager,bodyFinancialManager,bodyScheduleManager">

@@ -98,7 +98,7 @@
 											</li>
 										</ul>
 									</li>
-									<@security.authorize ifAnyGranted="bodysales,bodyContractManager,bodyFinancialManager,bodyScheduleManager,ShibaSuppliesManager,advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+									<@security.authorize ifAnyGranted="ShibaSuppliesManager,advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager,bodysales,bodyContractManager,bodyFinancialManager,bodyScheduleManager">
 									<li class="pg-side-item">
 										<a class="pg-side-item-t dd-icon">
 											<i class="s-left pg-icon-a d-icon"></i>
@@ -122,7 +122,7 @@
 												<a class="side-exp-item-t" href="${rc.contextPath}/busselect/myOrders/1">
 													我的订单
 												</a>
-											</li>
+										
 										</@security.authorize>	
 										
 										
@@ -134,21 +134,6 @@
 											</li>
 										</@security.authorize>	
 										
-										<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
-											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/order/join/1">
-													我参与订单
-												</a>
-											</li>
-										</@security.authorize>	
-										<@security.authorize ifAnyGranted="advertiser,ShibaSuppliesManager,advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
-											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/order/finished">
-												     已完成订单
-												</a>
-											</li>
-										</@security.authorize>	
-										<#if city.mediaType == 'body'>
 										<@security.authorize ifAnyGranted="bodyContractManager,bodyFinancialManager,bodyScheduleManager">  
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/busselect/body_allRuningOrders">
@@ -157,22 +142,44 @@
 											</li>
 										</@security.authorize>	
 										
+										<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+											<li class="pg-side-exp-item">
+												<a class="side-exp-item-t" href="${rc.contextPath}/order/join/1">
+													我参与订单
+												</a>
+											</li>
+										</@security.authorize>	
+										 <#if city.mediaType == 'body'>
 										<@security.authorize ifAnyGranted="bodyContractManager,bodyFinancialManager,bodyScheduleManager">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/busselect/join/1">
-													我参与的订单
+													我参与订单
 												</a>
 											</li>
-										</@security.authorize>	
-										 
-										<@security.authorize ifAnyGranted="bodysales,bodyContractManager,bodyFinancialManager,bodyScheduleManager">
+											</@security.authorize>	
+										</#if>
+										
+											<!--<li class="pg-side-exp-item">
+												<a class="side-exp-item-t" href="${rc.contextPath}/order/finishedOrders/user/1">
+												     已完成的订单(广告主)
+												</a>
+											</li>-->
+											  <#if city.mediaType == 'screen'>
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/busselect/finished">
+												<a class="side-exp-item-t" href="${rc.contextPath}/order/finished">
 												     已完成订单
 												</a>
 											</li>
-										</@security.authorize>	
-										 </#if>
+											  </#if>
+												  <#if city.mediaType == 'body'>
+													</li>
+													<li class="pg-side-exp-item">
+													<a class="side-exp-item-t" href="${rc.contextPath}/busselect/finished">
+													     已完成订单
+													</a>
+												</li>
+											    </#if>
+										
 										</ul>
 									</li>
 									 </@security.authorize>	

@@ -62,7 +62,7 @@ var table;
 		table.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
     
-    	<@security.authorize ifAnyGranted="bodysales,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+    	<@security.authorize ifAnyGranted="bodyContractManager,bodyFinancialManager,bodyScheduleManager">
 	    	function initComplete() {
 	        $("div#toolbar").html(
 	                '<div>' +
@@ -100,7 +100,7 @@ var table;
 		}); 
 	    }
    </@security.authorize>
- <@security.authorize ifAnyGranted="advertiser">
+ <@security.authorize ifAnyGranted="bodysales">
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
@@ -158,7 +158,7 @@ var table;
 				</#if>
 				</@security.authorize>
 				<@security.authorize ifAnyGranted="bodyContractManager,bodyFinancialManager,bodyScheduleManager">
-					<a id="tab2" href="${rc.contextPath}/busselect/allRuningOrders/1">进行中的订单</a>
+					<a id="tab2" href="${rc.contextPath}/busselect/body_allRuningOrders">进行中的订单</a>
 				</@security.authorize>	
 					<a id="tab3" href="${rc.contextPath}/busselect/finished">已完成的订单</a>
 				<@security.authorize ifAnyGranted="bodyContractManager,bodyFinancialManager,bodyScheduleManager">
