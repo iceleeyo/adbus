@@ -49,7 +49,7 @@
 										</a>
 									</li>
 									<li class="pg-side-item">
-										<a class="pg-side-item-t dd-icon" href="${rc.contextPath}/web-notice">
+										<a class="pg-side-item-t dd-icon" href="${rc.contextPath}/intro-notice">
 											<i class="s-left pg-icon-a d-icon"></i>
 											网站公告
 										</a>
