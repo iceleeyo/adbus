@@ -79,21 +79,25 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                 '<div>' +
                         '    <span>线路名</span>' +
                         '    <span>' +
-                        '        <input id="name" id="line_id" value="">' +
-                        '    </span>' +
-                        '    <span>线路级别</span>' +
-                        '    <span>' +
-                        '        <input id="level" value="">' +
-                        '    </span>' +
+                        '        <input id="name" value="">' +
+                        '    <span>线路级别</span>&nbsp;&nbsp;' +
+                        '<select class="ui-input ui-input-mini" name="levelStr" id="levelStr">' +
+                   		'<option value="defaultAll" selected="selected">所有</option>' +
+                  		'<option value="S">特级</option>' +
+                  		'<option value="APP">A++</option>' +
+                  		'<option value="AP">A+</option>' +
+                  		'<option value="A">A</option>' +
+                  		'<option value="LATLONG">经纬线</option>' +
+         				'</select>' +
                         ' <a class="block-btn" target="_Blank" style="margin-left:30px;" href="${rc.contextPath}/busselect/applyBodyCtct">申请合同</a>'+
                         '</div>'
         );
 
-        $('#name,#level').change(function() {
+        $('#name,#levelStr').change(function() {
             table.fnDraw();
         });
         
-        $("#line_id").autocomplete({
+        $("#name").autocomplete({
 			minLength: 0,
 			source : "${rc.contextPath}/busselect/autoComplete",
 			change : function(event, ui) {
