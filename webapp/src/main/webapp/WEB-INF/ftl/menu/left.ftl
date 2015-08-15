@@ -148,8 +148,9 @@
 													我参与订单
 												</a>
 											</li>
+											</@security.authorize>	
 										</#if>
-										</@security.authorize>	
+										
 											<!--<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/order/finishedOrders/user/1">
 												     已完成的订单(广告主)
