@@ -13,6 +13,8 @@ import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricProcessInstanceQuery;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.activiti.engine.task.Task;
@@ -39,6 +41,8 @@ import com.pantuo.dao.pojo.JpaBodyContract;
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaBusline;
+import com.pantuo.dao.pojo.JpaOrders;
+import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.QJpaBusLock;
 import com.pantuo.dao.pojo.QJpaBusline;
 import com.pantuo.mybatis.domain.Bodycontract;
@@ -60,6 +64,7 @@ import com.pantuo.service.MailService;
 import com.pantuo.service.MailTask;
 import com.pantuo.service.MailTask.Type;
 import com.pantuo.simulate.MailJob;
+import com.pantuo.util.Constants;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.OrderIdSeq;
@@ -600,4 +605,91 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		return busSelectMapper.getBusModel(lineId, category);
 	}
 
+	public Page<OrderView> finished(int city, Principal principal, TableRequest req) {
+		int page = req.getPage(), pageSize = req.getLength();
+		Sort sort = req.getSort("created");
+
+		String longId = req.getFilter("longOrderId"), userIdQuery = req.getFilter("userId"), taskKey = req
+				.getFilter("taskKey"), stateKey = req.getFilter("stateKey"), productId = req.getFilter("productId");
+		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
+
+		page = page + 1;
+		List<OrderView> orders = new ArrayList<OrderView>();
+
+		HistoricProcessInstanceQuery countQuery = historyService.createHistoricProcessInstanceQuery()
+				.processDefinitionKey(BODY_ACTIVITY).variableValueEquals(ActivitiService.CITY, city).finished();
+
+		HistoricProcessInstanceQuery listQuery = historyService.createHistoricProcessInstanceQuery()
+				.processDefinitionKey(BODY_ACTIVITY).variableValueEquals(ActivitiService.CITY, city)
+				.includeProcessVariables().finished();
+
+		if (longOrderId > 0) {
+			countQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
+			listQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
+		}
+
+		if (StringUtils.isNoneBlank(stateKey) && !StringUtils.startsWith(stateKey, ActivitiService.R_DEFAULTALL)) {
+			boolean isClosed = StringUtils.startsWith(stateKey, ActivitiService.R_CLOSED) ? true : false;
+			countQuery.variableValueEquals(ActivitiService.CLOSED, isClosed);
+			listQuery.variableValueEquals(ActivitiService.CLOSED, isClosed);
+		}
+
+		/*按用户查询 */
+		if (StringUtils.isNoneBlank(userIdQuery)) {
+			countQuery.variableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
+			listQuery.variableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
+		}
+		int c = 0;
+		if (Request.hasAuth(principal, ActivitiConfiguration.ADVERTISER)
+				&& !Request.hasAuth(principal, ActivitiConfiguration.ORDER)) {
+			c = (int) countQuery.involvedUser(Request.getUserId(principal)).count();
+		} else {
+			c = (int) countQuery.count();
+		}
+		NumberPageUtil pageUtil = new NumberPageUtil((int) c, page, pageSize);
+		//Request.hasAuth(principal, ActivitiConfiguration.ADVERTISER)
+		List<HistoricProcessInstance> list = null;
+		if (Request.hasAuth(principal, ActivitiConfiguration.ADVERTISER)
+				&& !Request.hasAuth(principal, ActivitiConfiguration.ORDER)) {
+			listQuery.involvedUser(Request.getUserId(principal));
+		}
+		hisotrySort(sort, listQuery);
+		list = listQuery.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
+
+		for (HistoricProcessInstance historicProcessInstance : list) {
+			Integer orderid = (Integer) historicProcessInstance.getProcessVariables().get(ActivitiService.ORDER_ID);
+			OrderView v = new OrderView();
+			if (orderid != null && orderid > 0) {
+				JpaBodyContract or = bodyContractRepository.findOne(orderid);
+				if (or != null) {
+					v.setJpaBodyContract(or);
+					orders.add(v);
+					Boolean bn = (Boolean) historicProcessInstance.getProcessVariables().get(ActivitiService.CLOSED);
+					boolean b = bn == null ? false : bn;
+					v.setFinishedState(b ? Constants.CLOSED_STATE : Constants.FINAL_STATE);
+					v.setProcessInstanceId(historicProcessInstance.getId());
+					v.setStartTime(historicProcessInstance.getStartTime());
+					v.setEndTime(historicProcessInstance.getEndTime());
+				}
+			}
+		}
+		Pageable p = new PageRequest(page, pageSize, sort);
+		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(
+				orders, p, pageUtil.getTotal());
+		return r;
+	}
+
+	private void hisotrySort(Sort sort, HistoricProcessInstanceQuery query) {
+		Sort.Order sor = sort.getOrderFor("startTime");
+		if (sor != null) {
+			query.orderByProcessInstanceStartTime();
+		} else if ((sor = sort.getOrderFor("endTime")) != null) {
+			query.orderByProcessInstanceEndTime();
+		}
+		if (sor != null && sor.getDirection() == Sort.Direction.DESC) {
+			query.desc();
+		} else {
+			query.asc();
+		}
+	}
 }

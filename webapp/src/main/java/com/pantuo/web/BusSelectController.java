@@ -39,6 +39,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaCity;
+import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.mybatis.domain.Bodycontract;
 import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.domain.Contract;
@@ -304,6 +305,30 @@ public class BusSelectController {
 			throws NumberFormatException, ParseException {
 		return activitiService.LockStore(Integer.parseInt(orderid), taskid, contractid, principal, canSchedule,
 				LockDate);
-
 	}
+	
+	
+	/**
+	 * 
+	 * 已完成订单
+	 *
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	@RequestMapping(value = "/finished")
+	public String finishedOrders() {
+		return "finishedBodyOrders";
+	}
+ 
+	
+
+	@RequestMapping("ajax-finishedOrders")
+	@ResponseBody
+	public DataTablePage<OrderView> finishedAjax(TableRequest req, Principal principal,
+			@CookieValue(value = "city", defaultValue = "-1") int city) {
+		Page<OrderView> w = busLineCheckService
+				.finished(city, principal,req);
+		return new DataTablePage<OrderView>(w, req.getDraw());
+	}
+
 }
