@@ -582,7 +582,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 					Date tempDate = begin;
 					while ((tempDate.after(begin) || begin.equals(tempDate))
 							&& (tempDate.before(end) || end.equals(tempDate))) {
-						map.put(format.format(tempDate), contractMap.get(busContract.getId()));
+						map.put(format.format(tempDate), contractMap.get(busContract.getContractid()));
 						tempDate = DateUtil.dateAdd(tempDate, 1);
 					}
 				}
