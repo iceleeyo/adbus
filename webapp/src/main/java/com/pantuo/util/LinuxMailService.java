@@ -31,7 +31,7 @@ public class LinuxMailService {
 		runShell.append(context);
 		runShell.append("'  |mailx -r ");
 		runShell.append(OURMAIL);
-		runShell.append(" -a 'Content-Type: text/html' -s '");
+		runShell.append(" -a 'Content-Type: text/html; charset=utf-8' -s '");//Content-Type: text/html; charset=utf-8
 		runShell.append(title);
 		runShell.append("' ");
 		runShell.append(tomail);
