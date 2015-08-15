@@ -31,6 +31,7 @@ public class JpaBodyContract extends CityEntity {
 	private String creator;
 	private String amounts;
 	private long seriaNum;
+	private Date lockExpiredTime;//锁定截止日期 这个日期一过 锁定失效
 	Status stats = Status.ready;
 
 	public int getId() {
@@ -143,6 +144,14 @@ public class JpaBodyContract extends CityEntity {
 
 	public void setStats(Status stats) {
 		this.stats = stats;
+	}
+
+	public Date getLockExpiredTime() {
+		return lockExpiredTime;
+	}
+
+	public void setLockExpiredTime(Date lockExpiredTime) {
+		this.lockExpiredTime = lockExpiredTime;
 	}
 
 	 
