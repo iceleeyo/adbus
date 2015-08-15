@@ -96,6 +96,8 @@ public interface BusLineCheckService {
 	  * @since pantuo 1.0-SNAPSHOT
 	  */
 	 public List<BusModel> getBusModel( int lineId,   int category);
+	 
+	 public Page<OrderView> finished(int city, Principal principal, TableRequest req);
 		
 
 }
