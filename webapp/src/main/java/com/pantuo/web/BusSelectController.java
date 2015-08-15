@@ -95,7 +95,16 @@ public class BusSelectController {
 	public String list() {
 		return "bodyTaskList";
 	}
-
+	/**
+	 * 
+	 * 我的订单和我参与的订单 共用datatables
+	 *
+	 * @param req
+	 * @param principal
+	 * @param city
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	@RequestMapping("ajax-orderlist")
 	@ResponseBody
 	public DataTablePage<OrderView> getAllContracts(TableRequest req, Principal principal,
@@ -103,11 +112,28 @@ public class BusSelectController {
 		Page<OrderView> w = busLineCheckService.getBodyContractList(city, req, principal);
 		return new DataTablePage(w, req.getDraw());
 	}
+	
+	/**
+	 * 
+	 * 我参与的订单
+	 *
+	 * @param model
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	@RequestMapping(value = "/join/{pageNum}")
 	public String joinOrder(Model model) {
 		model.addAttribute("orderMenu", "我参与订单");
 		return "myBodyOrders";
 	}
+	/**
+	 * 
+	 * 我的订单
+	 *
+	 * @param model
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	@RequestMapping(value = "/myOrders/{pageNum}")
 	public String myOrders(Model model) {
 		model.addAttribute("orderMenu", "我的订单");
@@ -156,14 +182,29 @@ public class BusSelectController {
 			@RequestParam(value = "lockDate") String lockDate) throws ParseException {
 		return busLineCheckService.setLockDate(lockDate, id, principal);
 	}
-
+	/**
+	 * 
+	 * 线路自动补全
+	 *
+	 * @param city
+	 * @param name
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	@RequestMapping(value = "/autoComplete")
 	@ResponseBody
 	public List<AutoCompleteView> autoCompleteByName(@CookieValue(value = "city", defaultValue = "-1") int city,
 			@RequestParam(value = "term") String name) {
 		return busLineCheckService.autoCompleteByName(city, name, JpaBus.Category.yunyingche);
 	}
-
+	/**
+	 *
+	 * 线路车辆汇总统计 适用下拉选择列表
+	 *
+	 * @param buslinId
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	@RequestMapping(value = "/selectBusType")
 	@ResponseBody
 	public List<GroupVo> selectBusType(
@@ -187,7 +228,17 @@ public class BusSelectController {
 		activitiService.startTest();
 		return null;
 	}
-
+	/**
+	 * 
+	 * 按线路,车辆类型,上刊时间,下刊时间 查询库存
+	 *
+	 * @param buslinId
+	 * @param modelId
+	 * @param start
+	 * @param end
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	@RequestMapping(value = "/lineReaminCheck")
 	@ResponseBody
 	public int lineReaminCheck(@RequestParam(value = "buslinId", required = true, defaultValue = "0") Integer buslinId,
@@ -197,7 +248,15 @@ public class BusSelectController {
 		//187 2015-08-07 2015-08-17
 		return busLineCheckService.countByFreeCars(buslinId, modelId, JpaBus.Category.yunyingche, start, end);
 	}
-
+	/**
+	 * 
+	 * 合同部 检查库存
+	 *
+	 * @param buslockid
+	 * @param seriaNum
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	@RequestMapping(value = "/checkStock")
 	@ResponseBody
 	public Pair<Boolean, String> checkStock(
@@ -217,7 +276,21 @@ public class BusSelectController {
 		}
 		return new Pair<Boolean, String>(false, "信息丢失");
 	}
-
+	/**
+	 * 
+	 * 选车
+	 *
+	 * @param buslock
+	 * @param city
+	 * @param principal
+	 * @param request
+	 * @param seriaNum
+	 * @param startD
+	 * @param endD
+	 * @return
+	 * @throws ParseException
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	@RequestMapping(value = "/saveBusLock")
 	@ResponseBody
 	public Pair<Boolean, String> saveBusLock(BusLock buslock,
@@ -230,7 +303,18 @@ public class BusSelectController {
 		buslock.setSeriaNum(seriaNum);
 		return busLineCheckService.saveBusLock(buslock, startD, endD);
 	}
-
+	/**
+	 * 
+	 * 增加意向合同,下单
+	 *
+	 * @param bodycontract
+	 * @param city
+	 * @param principal
+	 * @param request
+	 * @param seriaNum
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	@RequestMapping(value = "/saveBodyContract")
 	@ResponseBody
 	public Pair<Boolean, String> saveBodyContract(Bodycontract bodycontract,
@@ -255,7 +339,17 @@ public class BusSelectController {
 				leaves, p, leaves.size());
 		return new DataTablePage(r, req.getDraw());
 	}
-
+	/**
+	 * 
+	 * 线路按车辆类型 90天内的销售排期情况
+	 *
+	 * @param model
+	 * @param line
+	 * @param modelId
+	 * @param principal
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	@RequestMapping("lineschedule/{line}")
 	public String lineschedule(Model model, @PathVariable("line") Integer line,
 			@RequestParam(value = "modelId", required = true, defaultValue = "0") int modelId, Principal principal) {
@@ -273,33 +367,85 @@ public class BusSelectController {
 		//model.addAttribute("modelList", busLineCheckService.getBusModel(line, JpaBus.Category.yunyingche.ordinal()));
 		return "line_schedule";
 	}
-
+	/**
+	 * 
+	 * 合同详情
+	 *
+	 * @param bodycontract_id
+	 * @param model
+	 * @param principal
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	@RequestMapping("detail/{uniq}")
 	public String detail(@PathVariable("uniq") Integer bodycontract_id, Model model, Principal principal) {
 		model.addAttribute("bodycontract", busLineCheckService.selectBcById(bodycontract_id));
 		return "bodycontract_detail";
 	}
-
+	/**
+	 * 
+	 * 开始下单页面
+	 *
+	 * @param model
+	 * @param principal
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	@RequestMapping("applyBodyCtct")
 	public String applyBodyCtct(Model model, Principal principal) {
 		model.addAttribute("seriaNum", Only1ServieUniqLong.getUniqLongNumber());
 		return "applyBodyCtct";
 	}
-
+	/**
+	 * 
+	 * 查合同的选车情况
+	 *
+	 * @param model
+	 * @param city
+	 * @param seriaNum
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	@RequestMapping(value = "ajax-buslock", method = RequestMethod.GET)
 	@ResponseBody
 	public List<JpaBusLock> getBuses(Model model, @CookieValue(value = "city", defaultValue = "-1") int city,
 			@RequestParam("seriaNum") long seriaNum) {
 		return busLineCheckService.getBusLockListBySeriNum(seriaNum);
 	}
-
+	/**
+	 * 
+	 * 删除选车记录
+	 *
+	 * @param principal
+	 * @param city
+	 * @param seriaNum
+	 * @param id
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	@RequestMapping(value = "ajax-remove-buslock", method = RequestMethod.POST)
 	@ResponseBody
 	public boolean removeBusLock(Principal principal, @CookieValue(value = "city", defaultValue = "-1") int city,
 			@RequestParam("seriaNum") long seriaNum, @RequestParam("id") int id) {
 		return busLineCheckService.removeBusLock(principal, city, seriaNum, id);
 	}
-
+	/**
+	 * 
+	 * 锁定时间 
+	 *
+	 * @param orderid
+	 * @param contractid
+	 * @param LockDate
+	 * @param taskid
+	 * @param canSchedule
+	 * @param principal
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws NumberFormatException
+	 * @throws ParseException
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	@RequestMapping(value = "LockStore")
 	@ResponseBody
 	public Pair<Boolean, String> LockStore(@RequestParam(value = "orderid") String orderid,
@@ -325,7 +471,16 @@ public class BusSelectController {
 	}
  
 	
-
+	/**
+	 * 
+	 * 已完成的订单 datatable
+	 *
+	 * @param req
+	 * @param principal
+	 * @param city
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	@RequestMapping("ajax-finishedOrders")
 	@ResponseBody
 	public DataTablePage<OrderView> finishedAjax(TableRequest req, Principal principal,
