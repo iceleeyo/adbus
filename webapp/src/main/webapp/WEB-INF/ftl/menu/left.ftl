@@ -123,6 +123,11 @@
 													我的订单
 												</a>
 											</li>
+												<li class="pg-side-exp-item">
+												<a class="side-exp-item-t" href="${rc.contextPath}/busselect/finished">
+												     已完成订单
+												</a>
+											</li>
 										</@security.authorize>	
 										
 										
@@ -146,12 +151,13 @@
 												     已完成的订单(广告主)
 												</a>
 											</li>-->
-											
+											  <#if city.mediaType == 'screen'>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/order/finished">
 												     已完成订单
 												</a>
 											</li>
+											    </#if>
 										
 										</ul>
 									</li>
