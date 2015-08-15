@@ -36,9 +36,13 @@
                 type: "POST",
                 url: "${rc.contextPath}/busselect/order-body-ajax-list2",
                 data: function(d) {
+              	  var _modelId=  $('#taskKey').val();
+	                  if (typeof(_modelId) == "undefined"){
+	                  _modelId = ${modelId};
+                  }
                     return $.extend( {}, d, {
-                        "filter[lineId]" : "${lineId}", "filter[modelId]" : "${modelId}"
-                        
+                        "filter[lineId]" : "${lineId}",
+                        "filter[modelId]" : _modelId,
                     } );
                 },
                     "dataSrc": "content",
@@ -75,6 +79,21 @@
     }
 
     function initComplete() {
+       $("div#toolbar").html(
+	                '<div>' +
+	                         '<select class="ui-input ui-input-mini" name="taskKey" id="taskKey">' +
+	                    '<option value="0" >所有车辆事项</option>' +
+	                     <#list modelList as model>
+	                  		'<option value="${model.gn1}"  <#if model.gn1==modelId>selected="selected"</#if>  >${model.gp2} [${model.count}]</option>' +
+	                  	     </#list>
+	         			'</select>' +
+	                    '</div>'
+	        );
+	        $('#taskKey').change(function() {
+	            table.fnDraw();
+	        });
+	        
+	        
       bindLayerMouseOver();
     }
 
