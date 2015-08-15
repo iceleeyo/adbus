@@ -1,4 +1,6 @@
-<#import "template/template.ftl" as frame> <@frame.html title="我的订单"
+<#import "template/template.ftl" as frame> 
+<#import "template/select_lines.ftl" as select_lines>
+<@frame.html title="我的订单"
 js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
 "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
 "js/jquery.datepicker.region.cn.js","js/progressbar.js"]
@@ -258,32 +260,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 <div class="color-white-bg fn-clear">
 
 	<div id="relateSup">
-		<div class="p20bs mt10 color-white-bg border-ec">
-			<H3 class=".withdraw-title text-xl title-box">
-				<A class="black" href="#">选取车辆</A>
-				 <input type="hidden" name="seriaNum" id="seriaNum" value="${bodycontract.seriaNum!''}"/>
-			</H3>
-			<br>
-			<div id="orderedBuses">
-				<table id="orderedBusesTable" class="display compact"
-					cellspacing="0" width="100%">
-					<thead>
-						<tr>
-					<th>线路</th>
-                    <th>数量（辆）</th>
-                    <th width="180px">车型</th>
-                     <th>上刊时间</th>
-                    <th>下刊时间</th>
-                    
-						</tr>
-					</thead>
-
-				</table>
-			</div>
-
-			<div id="orderBusesPopup" title="选择车辆"></div>
-		</div>
-</div>
+<@select_lines.select_lines />
 <div class="p20bs mt10 color-white-bg border-ec">
 
 						<form data-name="withdraw" name="userForm2" id="userForm2"
@@ -306,9 +283,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 </form>
 
 </div>
-	</div>
-
-
+</div>
+</div>
 </@frame.html>
 
 

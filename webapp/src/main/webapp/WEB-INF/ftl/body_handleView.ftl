@@ -1,4 +1,6 @@
-<#import "template/template.ftl" as frame> <@frame.html title=""
+<#import "template/template.ftl" as frame> 
+<#import "template/select_lines.ftl" as select_lines>
+<@frame.html title=""
 js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
 "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
 "js/jquery.datepicker.region.cn.js","js/progressbar.js"]
@@ -448,31 +450,7 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 <div class="color-white-bg fn-clear">
 
 	<div id="relateSup">
-		<div class="p20bs mt10 color-white-bg border-ec">
-		<div class="withdraw-title">
-			<span>选取车辆</span>
-			<input type="hidden" name="seriaNum" id="seriaNum" value="${bodycontract.seriaNum}"/>
-			<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="selctLine('${rc.contextPath}',${bodycontract.seriaNum})">增加选择</a>
-		</div>
-			<div id="orderedBuses">
-				<table id="table" class="display compact"
-					cellspacing="0" width="100%">
-					<thead>
-						<tr class="tableTr">
-					<th>线路</th>
-                    <th>数量（辆）</th>
-                    <th width="180px">车型</th>
-                     <th>上刊日期</th>
-                    <th>下刊日期</th>
-                     <th>操作</th>
-						</tr>
-					</thead>
-
-				</table>
-			</div>
-
-			<div id="orderBusesPopup" title="选择车辆"></div>
-		</div>
+<@select_lines.select_lines />	
 </div>
 <#include "template/body_contratDetail.ftl" />
 <div class="p20bs mt10 color-white-bg border-ec">
