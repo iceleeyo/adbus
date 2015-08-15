@@ -106,7 +106,7 @@ public class BusSelectController {
 	@RequestMapping(value = "/join/{pageNum}")
 	public String joinOrder(Model model) {
 		model.addAttribute("orderMenu", "我参与订单");
-		return "myOrders";
+		return "myBodyOrders";
 	}
 	@RequestMapping(value = "/myOrders/{pageNum}")
 	public String myOrders(Model model) {
