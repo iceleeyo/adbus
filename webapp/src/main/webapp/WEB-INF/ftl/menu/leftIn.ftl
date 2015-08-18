@@ -24,14 +24,14 @@
                                     <li class="pg-side-item">
 										<a class="pg-side-item-t bb-icon" href="${rc.contextPath}/intro-txt">
 											<i class="s-left pg-icon-a b-icon"></i>
-											车身媒体
+											字幕图片
 										</a>
 									</li>
                                     
 									<li class="pg-side-item">
 										<a class="pg-side-item-t ee-icon" href="${rc.contextPath}/intro-price"> 
 											<i class="s-left pg-icon-a g-icon"></i>
-											产品促销
+											广告刊例
 										</a>
 									</li>	
 									
