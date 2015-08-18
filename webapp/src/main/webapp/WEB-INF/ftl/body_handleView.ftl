@@ -188,6 +188,10 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 	function gotoSchedult(id,modelId){
 	  window.open("${rc.contextPath}/busselect/lineschedule/"+id+"?modelId="+modelId);
 	  }
+	function worklist(seriaNum,id){
+	  window.open("${rc.contextPath}/busselect/workList/"+seriaNum+"/"+id);
+	  }  
+	  
 	var orderBusesTable;
 	function refreshOrderedBuses() {
 		orderBusesTable = $('#table')
@@ -458,6 +462,8 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 			<span>选取车辆</span>
 			<input type="hidden" name="seriaNum" id="seriaNum" value="${bodycontract.seriaNum}"/>
 			<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="selctLine('${rc.contextPath}',${bodycontract.seriaNum})">增加选择</a>
+			
+			<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="worklist(${bodycontract.seriaNum},${bodycontract.id})">施工单</a>
 		</div>
 			<div id="orderedBuses">
 				<table id="table" class="display compact"
