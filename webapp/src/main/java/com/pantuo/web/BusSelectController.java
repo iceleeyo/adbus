@@ -93,6 +93,7 @@ public class BusSelectController {
 	public String list() {
 		return "bodyTaskList";
 	}
+
 	/**
 	 * 
 	 * 我的订单和我参与的订单 共用datatables
@@ -110,7 +111,7 @@ public class BusSelectController {
 		Page<OrderView> w = busLineCheckService.getBodyContractList(city, req, principal);
 		return new DataTablePage(w, req.getDraw());
 	}
-	
+
 	/**
 	 * 
 	 * 我参与的订单
@@ -124,6 +125,7 @@ public class BusSelectController {
 		model.addAttribute("orderMenu", "我参与订单");
 		return "myBodyOrders";
 	}
+
 	/**
 	 * 
 	 * 我的订单
@@ -173,24 +175,28 @@ public class BusSelectController {
 		Page<OrderView> w = busLineCheckService.queryOrders(city, (principal), req, TaskQueryType.my);
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
+
 	@RequestMapping(value = "/body_allRuningOrders")
-	public String allRuningOrders(Model model,HttpServletRequest request) {
+	public String allRuningOrders(Model model, HttpServletRequest request) {
 		model.addAttribute("orderMenu", "进行中的订单");
 		return "body_allRuningOrders";
 	}
+
 	@RequestMapping("ajax-body-runningAjax")
 	@ResponseBody
 	public DataTablePage<OrderView> runningAjax(TableRequest req, Principal principal,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
-		Page<OrderView> w = busLineCheckService.queryOrders(city, principal, req,TaskQueryType.all_running);
+		Page<OrderView> w = busLineCheckService.queryOrders(city, principal, req, TaskQueryType.all_running);
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
+
 	@RequestMapping("setLockDate/{id}")
 	@ResponseBody
 	public Pair<Boolean, String> lockDate(Principal principal, @PathVariable("id") int id,
 			@RequestParam(value = "lockDate") String lockDate) throws ParseException {
 		return busLineCheckService.setLockDate(lockDate, id, principal);
 	}
+
 	/**
 	 * 
 	 * 线路自动补全
@@ -206,6 +212,7 @@ public class BusSelectController {
 			@RequestParam(value = "term") String name) {
 		return busLineCheckService.autoCompleteByName(city, name, JpaBus.Category.yunyingche);
 	}
+
 	/**
 	 *
 	 * 线路车辆汇总统计 适用下拉选择列表
@@ -237,6 +244,7 @@ public class BusSelectController {
 		activitiService.startTest();
 		return null;
 	}
+
 	/**
 	 * 
 	 * 按线路,车辆类型,上刊时间,下刊时间 查询库存
@@ -257,6 +265,7 @@ public class BusSelectController {
 		//187 2015-08-07 2015-08-17
 		return busLineCheckService.countByFreeCars(buslinId, modelId, JpaBus.Category.yunyingche, start, end);
 	}
+
 	/**
 	 * 
 	 * 合同部 检查库存
@@ -285,6 +294,7 @@ public class BusSelectController {
 		}
 		return new Pair<Boolean, String>(false, "信息丢失");
 	}
+
 	/**
 	 * 
 	 * 选车
@@ -312,6 +322,7 @@ public class BusSelectController {
 		buslock.setSeriaNum(seriaNum);
 		return busLineCheckService.saveBusLock(buslock, startD, endD);
 	}
+
 	/**
 	 * 
 	 * 增加意向合同,下单
@@ -332,6 +343,49 @@ public class BusSelectController {
 		bodycontract.setCity(city);
 		return busLineCheckService.saveBodyContract(bodycontract, seriaNum, Request.getUserId(principal));
 	}
+	/**
+	 * 
+	 * 施工单页面
+	 *
+	 * @param model
+	 * @param line
+	 * @param modelId
+	 * @param principal
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	@RequestMapping("workList/{seriaNum}/{id}")
+	public String workList(Model model, @PathVariable("seriaNum") long seriaNum, @PathVariable("id") long id,
+			@RequestParam(value = "modelId", required = true, defaultValue = "0") int modelId, Principal principal) {
+		List<JpaBusLock> lockList= busLineCheckService.getBusLockListBySeriNum(seriaNum);
+		model.addAttribute("lockList", lockList);
+		if(!lockList.isEmpty()){
+			JpaBusLock 	obj =lockList.get(0);
+			model.addAttribute("lineId", obj.getLine().getId());
+			model.addAttribute("modelId", obj.getModel().getId());
+		}else {
+			model.addAttribute("lineId", 0);
+			model.addAttribute("modelId", 0);
+		}
+		model.addAttribute("id", id);
+		return "line_workList";
+	}
+	/**
+	* 施工单
+	*/
+	@RequestMapping("work_note")
+	@ResponseBody
+	public DataTablePage<LineBusCpd> work_note(TableRequest req) {
+		Sort sort = req.getSort("created");
+		String lineId = req.getFilter("lineId"), modelId = req.getFilter("modelId"), bodycontract_id = req
+				.getFilter("bodycontract_id");
+		List<LineBusCpd> leaves = busLineCheckService.queryWorkNote(NumberUtils.toInt(bodycontract_id),
+				NumberUtils.toInt(lineId), NumberUtils.toInt(modelId), JpaBus.Category.yunyingche);
+		Pageable p = new PageRequest(0, leaves.size(), sort);
+		org.springframework.data.domain.PageImpl<LineBusCpd> r = new org.springframework.data.domain.PageImpl<LineBusCpd>(
+				leaves, p, leaves.size());
+		return new DataTablePage(r, req.getDraw());
+	}
 
 	/**
 	* 排期表
@@ -348,6 +402,7 @@ public class BusSelectController {
 				leaves, p, leaves.size());
 		return new DataTablePage(r, req.getDraw());
 	}
+
 	/**
 	 * 
 	 * 线路按车辆类型 90天内的销售排期情况
@@ -371,11 +426,12 @@ public class BusSelectController {
 		model.addAttribute("dates", list);
 		model.addAttribute("lineId", line);
 		model.addAttribute("modelId", modelId);
-		
+
 		model.addAttribute("modelList", busLineCheckService.countCarTypeByLine(line, JpaBus.Category.yunyingche));
 		//model.addAttribute("modelList", busLineCheckService.getBusModel(line, JpaBus.Category.yunyingche.ordinal()));
 		return "line_schedule";
 	}
+
 	/**
 	 * 
 	 * 合同详情
@@ -402,6 +458,7 @@ public class BusSelectController {
 		model.addAttribute("bodycontract", busLineCheckService.selectBcById(bodycontract_id));
 		return "bodycontract_detail";
 	}
+
 	/**
 	 * 
 	 * 开始下单页面
@@ -416,6 +473,7 @@ public class BusSelectController {
 		model.addAttribute("seriaNum", Only1ServieUniqLong.getUniqLongNumber());
 		return "applyBodyCtct";
 	}
+
 	/**
 	 * 
 	 * 查合同的选车情况
@@ -432,6 +490,7 @@ public class BusSelectController {
 			@RequestParam("seriaNum") long seriaNum) {
 		return busLineCheckService.getBusLockListBySeriNum(seriaNum);
 	}
+
 	/**
 	 * 
 	 * 删除选车记录
@@ -449,6 +508,7 @@ public class BusSelectController {
 			@RequestParam("seriaNum") long seriaNum, @RequestParam("id") int id) {
 		return busLineCheckService.removeBusLock(principal, city, seriaNum, id);
 	}
+
 	/**
 	 * 
 	 * 锁定时间 
@@ -476,18 +536,18 @@ public class BusSelectController {
 		return activitiService.LockStore(Integer.parseInt(orderid), taskid, contractid, principal, canSchedule,
 				LockDate);
 	}
+
 	@RequestMapping(value = "financialCheck")
 	@ResponseBody
 	public Pair<Boolean, String> financialCheck(@RequestParam(value = "orderid") int orderid,
 			@RequestParam(value = "taskid") String taskid,
 			@RequestParam(value = "financialcomment") String financialcomment,
-			@RequestParam(value = "paymentResult") boolean paymentResult,
-			Principal principal, HttpServletRequest request, HttpServletResponse response)
-					throws NumberFormatException, ParseException {
-		return activitiService.financialCheck(orderid, taskid,financialcomment, paymentResult,principal);
-				
+			@RequestParam(value = "paymentResult") boolean paymentResult, Principal principal,
+			HttpServletRequest request, HttpServletResponse response) throws NumberFormatException, ParseException {
+		return activitiService.financialCheck(orderid, taskid, financialcomment, paymentResult, principal);
+
 	}
-	
+
 	/**
 	 * 
 	 * 已完成订单
@@ -499,6 +559,7 @@ public class BusSelectController {
 	public String finishedOrders() {
 		return "finishedBodyOrders";
 	}
+
 	/**
 	 * 
 	 * 已完成的订单 datatable
@@ -513,8 +574,7 @@ public class BusSelectController {
 	@ResponseBody
 	public DataTablePage<OrderView> finishedAjax(TableRequest req, Principal principal,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
-		Page<OrderView> w = busLineCheckService
-				.finished(city, principal,req);
+		Page<OrderView> w = busLineCheckService.finished(city, principal, req);
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
 }

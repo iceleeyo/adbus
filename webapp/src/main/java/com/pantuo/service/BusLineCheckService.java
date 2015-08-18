@@ -99,5 +99,9 @@ public interface BusLineCheckService {
 	 
 	 public Page<OrderView> finished(int city, Principal principal, TableRequest req);
 		
+	 /**
+	  * 查施工单
+	  */
+	 public List<LineBusCpd> queryWorkNote(int bodycontract_id,int lineId,Integer  modelId, JpaBus.Category category);
 
 }

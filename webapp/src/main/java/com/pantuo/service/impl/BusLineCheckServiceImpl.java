@@ -6,8 +6,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
@@ -39,6 +41,7 @@ import com.pantuo.dao.BusLockRepository;
 import com.pantuo.dao.BuslineRepository;
 import com.pantuo.dao.pojo.JpaBodyContract;
 import com.pantuo.dao.pojo.JpaBus;
+import com.pantuo.dao.pojo.JpaBus.Category;
 import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaOrders;
@@ -81,6 +84,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	public static final String BODY_ACTIVITY = "busFlowV2";
 	@Autowired
 	BusSelectMapper busSelectMapper;
+	
 	@Autowired
 	BusLineMapper buslineMapper;
 	@Autowired
@@ -89,6 +93,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	BodycontractMapper bodycontractMapper;
 	@Autowired
 	BodyContractRepository bodyContractRepository;
+	@Autowired
+	BuslineRepository BuslineRepository;
 
 	///
 
@@ -697,5 +703,48 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		} else {
 			query.asc();
 		}
+	}
+
+	@Override
+	public List<LineBusCpd> queryWorkNote(int bodycontract_id, int lineId, Integer modelId, Category category) {
+		//查所有车辆
+		List<com.pantuo.mybatis.domain.Bus> busList = busSelectMapper.getBusList(lineId, modelId, category.ordinal());
+		
+		JpaBusline lineVo= BuslineRepository.findOne(lineId);
+		List<LineBusCpd> r = new ArrayList<LineBusCpd>();
+		Bodycontract bc = bodycontractMapper.selectByPrimaryKey(bodycontract_id);
+		if (bc == null) {
+			throw new RuntimeException("合同丢失!");
+		}
+		//查已经上刑的车辆
+		BusLockExample example = new BusLockExample();
+		BusLockExample.Criteria c = example.createCriteria();
+		c.andContractIdEqualTo(bodycontract_id);
+		c.andLineIdEqualTo(lineId);
+		c.andModelIdEqualTo(modelId);
+		List<BusLock> lock = busLockMapper.selectByExample(example);
+		Set<Integer> idsSet = new HashSet<Integer>();
+		int s = lock.size();
+		if (s == 1) {
+			BusLock obj = lock.get(0);
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			List<Integer> ids = busSelectMapper.getOnlineCarList(lineId, category.ordinal(),
+					format.format(obj.getStartDate()), format.format(obj.getEndDate()));
+			idsSet.addAll(ids);
+		} else if (s > 1) {
+			log.warn("合同:{},发现有重复线路需求 {},{}", bodycontract_id, lineId, modelId);
+		}
+
+		for (Bus bus : busList) {
+			LineBusCpd cpd = new LineBusCpd();
+			cpd.setBus(bus);
+			cpd.setLine(lineVo);
+			cpd.setSerialNumber(String.valueOf(bus.getSerialNumber()));
+			if (!idsSet.contains(bus.getId())) {
+				r.add(cpd);
+			}
+
+		}
+		return r;
 	}
 }
