@@ -462,8 +462,10 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 			<span>选取车辆</span>
 			<input type="hidden" name="seriaNum" id="seriaNum" value="${bodycontract.seriaNum}"/>
 			<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="selctLine('${rc.contextPath}',${bodycontract.seriaNum})">增加选择</a>
-			
-			<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="worklist(${bodycontract.seriaNum},${bodycontract.id})">施工单</a>
+			<#if bodycontract.isSchedule()==true> 
+				<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="worklist(${bodycontract.seriaNum},${bodycontract.id})">施工单
+			</#if>
+			</a>
 		</div>
 			<div id="orderedBuses">
 				<table id="table" class="display compact"
@@ -526,7 +528,7 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 </#if>
 <#if activityId == "usertask2">
 <!-- 合同回执确认 -->
-<@select_lines.select_lines seriaNum=bodycontract.seriaNum  activityId =activityId/>
+<@select_lines.select_lines seriaNum=bodycontract.seriaNum bodycontract=bodycontract activityId =activityId/>
 <#include "template/body_contratDetail.ftl" />
 <div id="usertask2" class="usertask2" style="display: none;">
 	<div class="p20bs mt10 color-white-bg border-ec">

@@ -1,4 +1,5 @@
-<#macro select_lines title="选取车辆" buyLink=false activityId =activityId seriaNum=seriaNum>
+<#macro select_lines title="选取车辆" buyLink=false activityId =activityId seriaNum=seriaNum bodycontract=bodycontract>
+<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <script type="text/javascript">
 	function gotoSchedult(id,modelId){
 	  window.open("${rc.contextPath}/busselect/lineschedule/"+id+"?modelId="+modelId);
@@ -233,6 +234,9 @@
    				 });
 		
 	}
+	function worklist(seriaNum,id){
+	  window.open("${rc.contextPath}/busselect/workList/"+seriaNum+"/"+id);
+	  }  
 </script>
 
 		<div class="p20bs mt10 color-white-bg border-ec">
@@ -240,6 +244,11 @@
 					<span>选取车辆</span>
 					<input type="hidden" name="seriaNum" id="seriaNum" value="${seriaNum}"/>
 					
+					    <@security.authorize ifAnyGranted="bodyFinancialManager,bodyContractManager,bodyScheduleManager">
+					    <#if bodycontract.isSchedule()==true> 
+							<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="worklist(${bodycontract.seriaNum},${bodycontract.id})">施工单</a>
+						</#if>
+					     </@security.authorize>
 				<#--<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="selctLine('${rc.contextPath}',${seriaNum})">增加选择</a>
 					-->
 				</div>
