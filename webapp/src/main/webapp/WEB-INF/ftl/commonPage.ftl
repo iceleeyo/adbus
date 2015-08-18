@@ -87,7 +87,13 @@ function bu(txtObj) {
 									<#if (medetype)=="body">
 									<img src="${rc.contextPath}/imgs/19.jpg" width="298" height="298">
 								<#elseif (medetype)=="screen">
-									<img src="${rc.contextPath}/imgs/yingguang.jpg" width="298" height="298">
+									<#if (prod.type)=="info">
+									<img src="${rc.contextPath}/imgs/info.png" width="298" height="298">
+									<#elseif (prod.type)=="image">
+									<img src="${rc.contextPath}/imgs/img.png" width="298" height="298">
+									<#elseif (prod.type)=="video">
+									<img src="${rc.contextPath}/imgs/video.png" width="298" height="298">
+									</#if>
 								</#if>
 								</div>
 								<div class="product-detail s-left">

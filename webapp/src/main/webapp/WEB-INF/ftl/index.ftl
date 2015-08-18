@@ -513,7 +513,7 @@ margin:15px 0px 15px 0px;width:100%">
 		        
 		        
 							  <div class="img_box" style="width: 98%;height: 170px;">
-							  	<img class="img_size" src="${rc.contextPath}/imgs/imgText.png" style="  width: 100%; height: 90%;">
+							  	<img class="img_size" src="${rc.contextPath}/imgs/img.png" style="  width: 100%; height: 90%;">
 							  </div>
 							  </dt>
 		  				</dl>
@@ -560,7 +560,7 @@ margin:15px 0px 15px 0px;width:100%">
 		        
 		        
 							  <div class="img_box" style="width: 98%;height: 170px;">
-							  	<img class="img_size" src="${rc.contextPath}/imgs/imgText.png" style="  width: 100%; height: 90%;">
+							  	<img class="img_size" src="${rc.contextPath}/imgs/info.png" style="  width: 100%; height: 90%;">
 							  </div>
 							  </dt>
 		  				</dl>
