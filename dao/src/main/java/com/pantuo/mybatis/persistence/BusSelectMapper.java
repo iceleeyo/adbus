@@ -93,5 +93,22 @@ public interface BusSelectMapper {
 	 */
 	int countOnlineCarList(@Param("lineId") int lineId, @Param("modelId") int modelId, @Param("category") int category,
 			@Param("start") String start, @Param("end") String end);
+	
+	
+	
+	/**
+	 * 
+	 * 统计正在锁定中的车辆数量 
+	 *
+	 * @param lineId
+	 * @param modelId
+	 * @param category
+	 * @param start
+	 * @param end
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	int countWorkingCarList(@Param("lineId") int lineId, @Param("modelId") int modelId, @Param("stats") int stats,
+			@Param("start") String start, @Param("end") String end);
 
 }

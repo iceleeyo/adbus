@@ -108,6 +108,27 @@
 	]]>
 	</select>
 
+<select id="countWorkingCarList" resultType="java.lang.Integer">
+	<![CDATA[
+		select sum(remain_nuber) from bus_lock
+		where  bus_lock.line_id = #{lineId}
+		and lock_expired_time > now()
+		and stats = #{stats}
+		and (
+		(bus_lock.start_date<= #{start}
+		and bus_lock.end_date>= #{start})
+		or (bus_lock.start_date<= #{end}
+		and bus_lock.end_date>= #{end})
+		or (bus_lock.start_date>= #{start}
+		and bus_lock.end_date<= #{end})
+		)
+		]]>
+		<if test="modelId > 0">
+			and model_id = #{modelId}
+		</if>
+	</select>
+
+
 
 	<select id="countOnlineCarList" resultType="java.lang.Integer">
 	<![CDATA[
@@ -128,8 +149,6 @@
 		<if test="modelId > 0">
 			and model_id = #{modelId}
 		</if>
-
-
 	</select>
 
 	<!-- 按线路统计车辆个数 -->
