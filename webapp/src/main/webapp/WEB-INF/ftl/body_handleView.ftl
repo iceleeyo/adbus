@@ -78,11 +78,11 @@ var ReceComments=$('#ReceComments').val();
 }
 //录入小样
 function uploadXY() {
-var xiaoyangComments=$('#xiaoyangComments').val();
+var approve2Comments=$('#approve2Comments').val();
 	complete('${taskid!''}',[
 		{
-			key: 'xiaoyangComments',
-			value: xiaoyangComments,
+			key: 'approve2Comments',
+			value: approve2Comments,
 			type: 'S'
 			
 		},
@@ -619,7 +619,7 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 				</TR>
 				<TR>
 					<TH>意见</TH>
-					<TD colspan=2><textarea name="xiaoyangComments" id="xiaoyangComments"
+					<TD colspan=2><textarea name="approve2Comments" id="approve2Comments"
 							style="margin: 5px 0; width: 400px; margin-top: 5px;">小样已上传</textarea></TD>
 				</TR>
 		</TABLE>
@@ -661,4 +661,5 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 	</div>
 </div>
 </#if> 
+<#include "template/hisDetail.ftl" />
 </@frame.html>

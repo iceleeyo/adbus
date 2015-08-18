@@ -1437,7 +1437,14 @@ public class ActivitiServiceImpl implements ActivitiService {
 			} else if (StringUtils.equals("jianboReport", w.getTaskDefinitionKey())) {
 				String key = String.format(f, historicTaskInstance.getId(), "jianboComments");
 				w.setComment((String) temp.get(key));
+			}else if (StringUtils.equals("usertask2", w.getTaskDefinitionKey())) {
+				String key = String.format(f, historicTaskInstance.getId(), "ReceComments");
+				w.setComment((String) temp.get(key));
+			}else if (StringUtils.equals("usertask4", w.getTaskDefinitionKey())) {
+				String key = String.format(f, historicTaskInstance.getId(), "shigongComments");
+				w.setComment((String) temp.get(key));
 			}
+			
 			view.add(w);
 		}
 		//extractDebug(taskInstances);

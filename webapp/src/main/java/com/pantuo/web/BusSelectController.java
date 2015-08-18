@@ -18,6 +18,7 @@ import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -383,10 +384,21 @@ public class BusSelectController {
 	 * @param model
 	 * @param principal
 	 * @return
+	 * @throws Exception 
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	@RequestMapping("detail/{uniq}")
-	public String detail(@PathVariable("uniq") Integer bodycontract_id, Model model, Principal principal) {
+	public String detail(@PathVariable("uniq") Integer bodycontract_id, @CookieValue(value = "city", defaultValue = "-1") int cityId,Model model,@RequestParam(value = "taskid", required = false) String taskid, Principal principal) throws Exception {
+		if(StringUtils.isNotBlank(taskid)){
+			Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
+			ExecutionEntity executionEntity = (ExecutionEntity) runtimeService.createExecutionQuery()
+					.executionId(task.getExecutionId()).processInstanceId(task.getProcessInstanceId()).singleResult();
+			String activityId = executionEntity.getActivityId();
+			ProcessInstance pe = activitiService.findProcessInstanceByTaskId(taskid);
+			List<HistoricTaskView> activitis = activitiService.findHistoricUserTask(cityId, pe.getProcessInstanceId(),
+					activityId);
+			model.addAttribute("activitis", activitis);
+		}
 		model.addAttribute("bodycontract", busLineCheckService.selectBcById(bodycontract_id));
 		return "bodycontract_detail";
 	}

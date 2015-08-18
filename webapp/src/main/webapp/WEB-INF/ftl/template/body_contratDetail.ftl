@@ -3,7 +3,7 @@
 <div class="p20bs mt10 color-white-bg border-ec">
 <form data-name="withdraw" name="userForm2" id="userForm2" class="ui-form" method="post" action="saveContract"
 	enctype="multipart/form-data">
-<H3 class="text-xl title-box"><A class="black" href="#">合同详情</A></H3>
+<H3 class="text-xl title-box"><A class="black" href="#">合同详情-[流水号：${(bodycontract.seriaNum)!''}]</A></H3>
   <DIV class="summary mt10 uplan-summary-div">
   <UL class="uplan-detail-ul">
   <LI style="width: 240px;"><SPAN>法人代表：</SPAN><SPAN class="con">${(bodycontract.legalman)!''}</SPAN></LI>

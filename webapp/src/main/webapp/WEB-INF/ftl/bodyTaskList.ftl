@@ -45,7 +45,7 @@
             "searching": false,
             "ordering": true,
             "serverSide": true,
-            "aaSorting": [[4, "desc"]],
+            "aaSorting": [[1, "asc"]],
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
                  { "orderable": false, "targets": [0,1,2,3] },
@@ -187,7 +187,7 @@
                     <thead>
                     <tr>
                         <th>合同申请人</th>
-                        <th orderBy="seriaNum">流水号</th>
+                        <th orderBy="jpaBodyContract.seriaNum">流水号</th>
                         <th>法人代表</th>
                         <th orderBy="created">创建时间</th>
                         <@security.authorize ifAnyGranted="bodyFinancialManager,bodyContractManager,bodyScheduleManager">
