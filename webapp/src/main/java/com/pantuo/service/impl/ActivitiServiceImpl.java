@@ -1016,7 +1016,31 @@ public class ActivitiServiceImpl implements ActivitiService {
 		variables.put("canSchedule", canSchedule);
 		return complete(taskid, variables, principal);
 	}
-
+	public Pair<Boolean, String> financialCheck(int parseInt, String taskid, String financialcomment, boolean paymentResult, Principal principal)  {
+		Bodycontract bodycontract = bodycontractMapper.selectByPrimaryKey(parseInt);
+		   if (bodycontract != null) {
+				BusLockExample example = new BusLockExample();
+				BusLockExample.Criteria criteria = example.createCriteria();
+				criteria.andSeriaNumEqualTo(bodycontract.getSeriaNum());
+				List<BusLock> list = busLockMapper.selectByExample(example);
+				if(list.size()>0){
+					bodycontract.setLockExpiredTime(list.get(0).getEndDate());
+					bodycontractMapper.updateByPrimaryKey(bodycontract);
+				}
+				for (BusLock busLock : list) {
+					if (busLock != null) {
+						busLock.setLockExpiredTime(busLock.getEndDate());
+						busLockMapper.updateByPrimaryKey(busLock);
+					}
+				}
+			}else{
+				return new Pair<Boolean, String>(false,"信息丢失");
+			}
+		Map<String, Object> variables = new HashMap<String, Object>();
+		variables.put("paymentResult", paymentResult);
+		variables.put("financialcomment", financialcomment);
+		return complete(taskid, variables, principal);
+}
 	// 根据OrderId 及taskName 完成task
 	public void finishTaskByTaskName(int orderid, String taskName, String userId) {
 		List<ProcessInstance> list = runtimeService.createProcessInstanceQuery().involvedUser(userId)

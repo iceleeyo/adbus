@@ -106,25 +106,28 @@ var shigongComments=$('#shigongComments').val();
 }
 //财务确认
 function financialCheck() {
-var paymentResult=$('#financialCheck :radio[name=paymentResult]:checked').val();
-	var financialcomment=$('#financialcomment').val();
-	if(financialcomment==""){
-	  jDialog.Alert("请填写审核意见");
-	  return;
-	}
-	complete('${taskid!''}',[
-		{
-			key: 'paymentResult',
-			value: paymentResult,
-			type: 'B'
-		},
-		
-		{
-			key: 'financialcomment',
-			value: financialcomment,
-			type: 'S'
-		}
-	]);
+ var orderid=$("#orderid").val();
+    var taskid=$("#taskid").val();
+  var paymentResult=$('#financialCheck :radio[name=paymentResult]:checked').val();
+  var financialcomment=$('#financialcomment').val();
+  var url="${rc.contextPath}/busselect/financialCheck";
+	// 发送任务完成请求
+    $.post(url,{
+        paymentResult: paymentResult,
+        financialcomment: financialcomment,
+        orderid: orderid,
+        taskid:taskid
+    },function(data){
+    	jDialog.Alert(data.left==true? data.right :"执行失败!");
+    	var uptime = window.setTimeout(function(){
+			var a = document.createElement('a');
+    		a.href='${rc.contextPath}/busselect/myTask/1';
+    		document.body.appendChild(a);
+    		a.click();
+			clearTimeout(uptime);
+		},2000)
+    	
+    });
 }
 function complete(taskId, variables) {
 	// 转换JSON为字符串

@@ -464,6 +464,17 @@ public class BusSelectController {
 		return activitiService.LockStore(Integer.parseInt(orderid), taskid, contractid, principal, canSchedule,
 				LockDate);
 	}
+	@RequestMapping(value = "financialCheck")
+	@ResponseBody
+	public Pair<Boolean, String> financialCheck(@RequestParam(value = "orderid") int orderid,
+			@RequestParam(value = "taskid") String taskid,
+			@RequestParam(value = "financialcomment") String financialcomment,
+			@RequestParam(value = "paymentResult") boolean paymentResult,
+			Principal principal, HttpServletRequest request, HttpServletResponse response)
+					throws NumberFormatException, ParseException {
+		return activitiService.financialCheck(orderid, taskid,financialcomment, paymentResult,principal);
+				
+	}
 	
 	/**
 	 * 

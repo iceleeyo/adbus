@@ -172,4 +172,6 @@ public interface ActivitiService {
 	public OrderView findBodyContractByTaskId(String taskid, Principal principal);
 
 	public Pair<Boolean, String> LockStore(int parseInt, String taskid, int contractid, Principal principal,boolean canSchedule,String LockDate)throws ParseException;
+
+	public Pair<Boolean, String> financialCheck(int parseInt, String taskid, String financialcomment, boolean paymentResult, Principal principal);
 }
