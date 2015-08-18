@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-@Service("gusWorkListSchedule")
+@Service("canelWorkListSchedule")
 public class CanelBusWorkSchedule implements JavaDelegate {
 	private static final Logger log = LoggerFactory.getLogger(CanelBusWorkSchedule.class);
 
