@@ -10,14 +10,17 @@
 		<result column="gp1" jdbcType="VARCHAR" property="gp1" />
 		<result column="gp2" jdbcType="VARCHAR" property="gp2" />
 	</resultMap>
-	<!-- 查线路车辆类型  返回车辆对象-->
+	<!-- 查线路车辆类型 返回车辆对象 -->
 	<select id="getBusModel"
 		resultMap="com.pantuo.mybatis.persistence.BusModelMapper.BaseResultMap">
 		select distinct bus_model.* from bus_model join
-		(select bus.model_id from bus join bus_line
-		on bus.line_id = bus_line.id where bus_line.id=#{lineId} and category =
+		(select
+		bus.model_id from bus join bus_line
+		on bus.line_id = bus_line.id where
+		bus_line.id=#{lineId} and category =
 		#{category}) t
-		on bus_model.id = t.model_id
+		on bus_model.id =
+		t.model_id
 	</select>
 
 
@@ -26,7 +29,8 @@
 
 		select bus_contract.* from bus_contract join (
 		select bus.id
-		from bus_line
+		from
+		bus_line
 		join bus on bus_line.id = bus.line_id
 		where enabled = 1 and
 		category = #{category}
@@ -89,26 +93,9 @@
 
 
 
-	<select id="getOnlineCarList" resultType="java.lang.Integer">
-		<![CDATA[
-		select distinct bus.id from bus_line join bus on bus_line.id = bus.line_id
-		join bus_contract on bus.id = bus_contract.busid
-		where
-		bus.enabled = 1 and bus.category = #{category}
-		and bus_line.id = #{lineId}
-		and (
-		(bus_contract.start_date<= #{start}
-		and bus_contract.end_date>= #{start})
-		or (bus_contract.start_date<= #{end}
-		and bus_contract.end_date>= #{end})
-		
-		or (bus_contract.start_date>= #{start}
-		and bus_contract.end_date<= #{end})
-		)
-	]]>
-	</select>
 
-<select id="countWorkingCarList" resultType="java.lang.Integer">
+
+	<select id="countWorkingCarList" resultType="java.lang.Integer">
 	<![CDATA[
 		select sum(remain_nuber) from bus_lock
 		where  bus_lock.line_id = #{lineId}
@@ -129,7 +116,25 @@
 	</select>
 
 
-
+	<select id="getOnlineCarList" resultType="java.lang.Integer">
+		<![CDATA[
+		select distinct bus.id from bus_line join bus on bus_line.id = bus.line_id
+		join bus_contract on bus.id = bus_contract.busid
+		where
+		bus.enabled = 1 and bus.category = #{category}
+		and bus_line.id = #{lineId}
+		and (
+		(bus_contract.start_date<= #{start}
+		and bus_contract.end_date>= #{start})
+		or (bus_contract.start_date<= #{end}
+		and bus_contract.end_date>= #{end})
+		
+		or (bus_contract.start_date>= #{start}
+		and bus_contract.end_date<= #{end})
+		)
+	]]>
+	</select>
+	
 	<select id="countOnlineCarList" resultType="java.lang.Integer">
 	<![CDATA[
 		select count(distinct bus.id) from bus_line join bus on bus_line.id = bus.line_id
