@@ -118,8 +118,15 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		int busLineCarCount = busSelectMapper.countBusCar(lineId, modelId, category.ordinal(),
 				BooleanUtils.toInteger(true));
 		int carIds = busSelectMapper.countOnlineCarList(lineId, modelId, category.ordinal(), start, end);
+		//查被锁定的数量
+		Integer lockCarNumber = busSelectMapper.countWorkingCarList(lineId, modelId, JpaBusLock.Status.enable.ordinal(),
+				start, end);
+		if(lockCarNumber == null){
+			lockCarNumber = 0;
+		}
+		log.info("line_modelid:{}_{},total:{},sales:{},lock:{}", lineId,modelId,busLineCarCount, carIds, lockCarNumber);
 		//总数-被占用数据
-		return busLineCarCount - carIds;
+		return busLineCarCount - carIds - lockCarNumber;
 	}
 
 	@Autowired
