@@ -450,7 +450,31 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 <div class="color-white-bg fn-clear">
 
 	<div id="relateSup">
-<@select_lines.select_lines />	
+		<div class="p20bs mt10 color-white-bg border-ec">
+		<div class="withdraw-title">
+			<span>选取车辆</span>
+			<input type="hidden" name="seriaNum" id="seriaNum" value="${bodycontract.seriaNum}"/>
+			<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="selctLine('${rc.contextPath}',${bodycontract.seriaNum})">增加选择</a>
+		</div>
+			<div id="orderedBuses">
+				<table id="table" class="display compact"
+					cellspacing="0" width="100%">
+					<thead>
+						<tr class="tableTr">
+					<th>线路</th>
+                    <th>数量（辆）</th>
+                    <th width="180px">车型</th>
+                     <th>上刊日期</th>
+                    <th>下刊日期</th>
+                     <th>操作</th>
+						</tr>
+					</thead>
+
+				</table>
+			</div>
+
+			<div id="orderBusesPopup" title="选择车辆"></div>
+		</div>
 </div>
 <#include "template/body_contratDetail.ftl" />
 <div class="p20bs mt10 color-white-bg border-ec">
@@ -493,8 +517,8 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 </#if>
 <#if activityId == "usertask2">
 <!-- 合同回执确认 -->
+<@select_lines.select_lines seriaNum=bodycontract.seriaNum  activityId =activityId/>
 <#include "template/body_contratDetail.ftl" />
-
 <div id="usertask2" class="usertask2" style="display: none;">
 	<div class="p20bs mt10 color-white-bg border-ec">
 		<H3 class="text-xl title-box">
@@ -524,6 +548,7 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 
 </#if> 
 <#if activityId == "financialCheck">
+<@select_lines.select_lines seriaNum=bodycontract.seriaNum activityId =activityId/>
 <#include "template/body_contratDetail.ftl" />
 <!--财务确认 -->
 
@@ -561,6 +586,7 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 </div>
 </#if> 
 <#if activityId == "approve2">
+<@select_lines.select_lines seriaNum=bodycontract.seriaNum activityId =activityId/>
 <#include "template/body_contratDetail.ftl" />
 <!--录入小样 -->
 <div id="approve2" class="approve2" style="display: none;">
@@ -601,7 +627,10 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 	</div>
 </div>
 </#if> 
+
 <#if activityId == "usertask4">
+<@select_lines.select_lines seriaNum=bodycontract.seriaNum activityId =activityId/>
+<#include "template/body_contratDetail.ftl" />
 <!--施工确认 -->
 <div id="usertask4" class="usertask4" style="display: none;">
 	<div class="p20bs mt10 color-white-bg border-ec">

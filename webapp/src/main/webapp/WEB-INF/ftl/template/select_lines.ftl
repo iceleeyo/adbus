@@ -1,4 +1,4 @@
-<#macro select_lines title="选取车辆" buyLink=false>
+<#macro select_lines title="选取车辆" buyLink=false activityId =activityId seriaNum=seriaNum>
 <script type="text/javascript">
 	function gotoSchedult(id,modelId){
 	  window.open("${rc.contextPath}/busselect/lineschedule/"+id+"?modelId="+modelId);
@@ -55,17 +55,9 @@
                 { "data": "endDate", "defaultContent": "", "render": function(data) {
                     return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
                 } },
-                { "data": function( row, type, set, meta) {
-                    return row.id;
-                },
-										"render" : function(data, type, row,
-												meta) {
-											var operations = '';
-											operations += '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/busselect/ajax-remove-buslock?seriaNum=${seriaNum}&id=' + data +'">删除</a>';
-											return operations;
-
-										}
-									}, ],
+                { "data": "lockExpiredTime", "defaultContent": "", "render": function(data) {
+                    return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
+                } }, ],
 							"language" : {
 								"url" : "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
 							},
@@ -247,8 +239,9 @@
 				<div class="withdraw-title">
 					<span>选取车辆</span>
 					<input type="hidden" name="seriaNum" id="seriaNum" value="${seriaNum}"/>
-				<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="selctLine('${rc.contextPath}',${seriaNum})">增加选择</a>
 					
+				<#--<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="selctLine('${rc.contextPath}',${seriaNum})">增加选择</a>
+					-->
 				</div>
 			
 			<div id="orderedBuses">
@@ -261,7 +254,7 @@
                     <th width="180px">车型</th>
                      <th>上刊时间</th>
                     <th>下刊时间</th>
-                    <th>操作</th>
+                    <th>锁定预留时间</th>
 						</tr>
 					</thead>
 
