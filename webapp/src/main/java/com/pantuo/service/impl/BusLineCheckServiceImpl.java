@@ -241,6 +241,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		bodycontract.setCreator(userId);
 		bodycontract.setCreated(new Date());
 		bodycontract.setUpdated(new Date());
+		bodycontract.setIsSchedule(false);
 		bodycontract.setStats(JpaBodyContract.Status.ready.ordinal());
 		bodycontract.setContractid(0);
 		int a = bodycontractMapper.insert(bodycontract);
