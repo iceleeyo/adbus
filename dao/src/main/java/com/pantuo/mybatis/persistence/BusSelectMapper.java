@@ -108,7 +108,7 @@ public interface BusSelectMapper {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	int countWorkingCarList(@Param("lineId") int lineId, @Param("modelId") int modelId, @Param("stats") int stats,
+	Integer countWorkingCarList(@Param("lineId") int lineId, @Param("modelId") int modelId, @Param("stats") int stats,
 			@Param("start") String start, @Param("end") String end);
 
 }
