@@ -97,7 +97,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
             table.fnDraw();
         });
         
-        $("#name").autocomplete({
+        /*$("#name").autocomplete({
 			minLength: 0,
 			source : "${rc.contextPath}/busselect/autoComplete",
 			change : function(event, ui) {
@@ -107,7 +107,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 			}
 		}).focus(function () {
        				 $(this).autocomplete("search");
-   				 });
+   				 });*/
    				 
    				 
     }
