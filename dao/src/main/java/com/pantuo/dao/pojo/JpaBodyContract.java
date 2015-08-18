@@ -34,6 +34,9 @@ public class JpaBodyContract extends CityEntity {
 	private Date lockExpiredTime;//锁定截止日期 这个日期一过 锁定失效
 	Status stats = Status.ready;
 
+	private boolean isSchedule = false;
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -152,6 +155,14 @@ public class JpaBodyContract extends CityEntity {
 
 	public void setLockExpiredTime(Date lockExpiredTime) {
 		this.lockExpiredTime = lockExpiredTime;
+	}
+
+	public boolean isSchedule() {
+		return isSchedule;
+	}
+
+	public void setSchedule(boolean isSchedule) {
+		this.isSchedule = isSchedule;
 	}
 
 	 
