@@ -41,6 +41,7 @@
                       return '<a   onclick=" gotoSchedult(' + row.line.id +","+(row.model.id )+ ')" >'+data+'</a> &nbsp;';
                 }},
                 { "data": "remainNuber", "defaultContent": ""}, 
+                 { "data": "_doneCar", "defaultContent": ""}, 
                 { "data": "model", "defaultContent": "", "render": function(data) {
                 if(data.id ==0){
                  return "所有车型"
@@ -272,6 +273,7 @@
 						<tr class="tableTr">
 					<th>线路</th>
                     <th>数量（辆）</th>
+                     <th>已安装</th>
                     <th width="180px">车型</th>
                      <th>上刊时间</th>
                     <th>下刊时间</th>
