@@ -134,7 +134,7 @@
     <span id="recordsTotal" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></A></H3>
             <div class="div" style="overflow-x:auto;">
                       
-                <table id="table" class="cell-border compact display" cellspacing="0" width="100%">
+                <table id="table" class="cell-border compact display" cellspacing="0" width="60%">
                     <thead>
                     <tr>
                         <th style="min-width:110px;">车辆自编号</th>

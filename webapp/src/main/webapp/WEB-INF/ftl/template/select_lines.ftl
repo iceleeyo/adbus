@@ -235,7 +235,7 @@
 		
 	}
 	function worklist(seriaNum,id){
-	  window.open("${rc.contextPath}/busselect/workList/"+seriaNum+"/"+id);
+	  window.open("${rc.contextPath}/busselect/workList/"+id);
 	  }  
 </script>
 
