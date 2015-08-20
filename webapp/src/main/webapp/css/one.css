@@ -2835,7 +2835,8 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 
 .ui-list-item {
 	border-bottom: 1px solid #e5e4e2;
-	cursor: default
+	cursor: default;
+	list-style-type:none;
 }
 
 .ui-list-item:hover {
