@@ -33,8 +33,8 @@ var table;
             	{ "data": "jpaBodyContract.seriaNum", "defaultContent": ""},
             	{ "data": "jpaBodyContract.creator", "defaultContent": ""},
             	{ "data": "jpaBodyContract.company", "defaultContent": ""},
-            	
-              
+            	{ "data": "need_cars", "defaultContent": ""},
+            	{ "data": "done_cars", "defaultContent": ""},
                 { "data": "jpaBodyContract.created", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd HH:mm");
                 	return d;
@@ -162,6 +162,8 @@ var table;
                         <th>流水号</th>
                         <th>下单用户</th>
                         <th>签约公司</th>
+                        <th>车辆总数</th>
+                         <th>已安装</th>
                         <th orderBy="created">创建时间</th>
                         <th>待办事项</th>
                         <th>当前处理人</th>
