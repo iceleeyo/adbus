@@ -25,16 +25,22 @@
 	var table2;
 	
 	function setBusOnline(bid,busid) {
-		$.ajax({
-			url : "${rc.contextPath}/busselect/online/"+bid+"/"+busid,
-			type : "POST",
-			data : {
-			},
-			success : function(data) {
-		     layer.msg(data.right);
-		     table2.dataTable()._fnAjaxUpdate();
-			}
-		}, "text");
+		layer.confirm('请确认此车辆已安装？', {
+	    btn: ['确认','取消'], //按钮
+	    shade: false //不显示遮罩
+		}, function(){
+		   $.ajax({
+				url : "${rc.contextPath}/busselect/online/"+bid+"/"+busid,
+				type : "POST",
+				data : {
+				},
+				success : function(data) {
+			     layer.msg(data.right);
+			     table2.dataTable()._fnAjaxUpdate();
+				}
+			}, "text");
+		}, function(){
+		});
 	}
 	
 	
