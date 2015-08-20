@@ -11,7 +11,7 @@
     div#toolbar {float: left;}
     
        .div2 {text-align:center; margin:25px;}
-    div2#toolbar {float: left;}
+    div2#toolbar2 {float: left;}
     
     .processed {color: limegreen;}
     .invalid {color: red;}
@@ -42,6 +42,7 @@
 				success : function(data) {
 			     layer.msg(data.right);
 			     table2.dataTable()._fnAjaxUpdate();
+			     table.dataTable()._fnAjaxUpdate();
 				}
 			}, "text");
 		}, function(){
@@ -65,7 +66,7 @@
                 "sProcessing": "正在加载中",
             },
 		    processing : true,
-            "dom": '<"#toolbar">rt',
+            "dom": '<"#toolbar2">rt',
             "searching": false,
             "ordering": false,
             "serverSide": true,
@@ -74,7 +75,7 @@
                 url: "${rc.contextPath}/busselect/work_done",
                 data: function(d) {
               	  var _modelId=  $('#taskKey2').val();
-              	  var _lineId=   $('#taskKey2').attr("lid");
+              	  var _lineId=   $('#taskKey2').find("option:selected").attr("lid");
               	  if (typeof(_lineId) == "undefined"){
 	                  _lineId = ${lineId};
                   }
@@ -136,9 +137,9 @@
     }
 
     function initComplete2() {
-       $("div#toolbar").html(
+       $("div#toolbar2").html(
 	                '<div>' +
-	                         '<select class="ui-input ui-input-mini" name="taskKey2" id="taskKey2">' +
+	                         '<select class="ui-input ui-input-mini" style="width:250px" name="taskKey2" id="taskKey2">' +
 	                     <#list lockList as item>
 	                  		'<option value="${item.model.id}" lid="${item.line.id}" <#if item.line.id==lineId>selected="selected"</#if>  >${item.line.name}'+
 	                  		'<#if item.model.id==0> 所有车型 <#else>[${item.model.name}<#if item.model.doubleDecker>双层<#else>单层</#if>] </#if>'+
@@ -147,9 +148,7 @@
 	         			'</select>' +
 	                    '</div>'
 	        );
-	         alert(1);
 	        $('#taskKey2').change(function() {
-	       
 	            table2.fnDraw();
 	        });
     }
@@ -191,7 +190,7 @@
                 "sProcessing": "正在加载中",
             },
 		    processing : true,
-            "dom": '<"#toolbar">rt',
+            "dom": '<"#toolbar1">rt',
             "searching": false,
             "ordering": false,
             "serverSide": true,
@@ -200,8 +199,7 @@
                 url: "${rc.contextPath}/busselect/work_note",
                 data: function(d) {
               	  var _modelId=  $('#taskKey').val();
-              	  var _lineId=   $('#taskKey').attr("lid");
-              	  alert(_lineId);
+              	  var _lineId=   $('#taskKey').find("option:selected").attr("lid");
               	  if (typeof(_lineId) == "undefined"){
 	                  _lineId = ${lineId};
                   }
@@ -247,16 +245,16 @@
     }
 
     function initComplete() {
-       $("div#toolbar").html(
+       $("div#toolbar1").html(
 	                '<div>' +
-	                         '<select class="ui-input ui-input-mini" name="taskKey" id="taskKey">' +
+	                         '<select class="ui-input ui-input-mini" style="width:250px"  name="taskKey" id="taskKey">' +
 	                     <#list lockList as item>
 	                  		'<option value="${item.model.id}" lid="${item.line.id}" <#if item.line.id==lineId>selected="selected"</#if>  >${item.line.name}'+
 	                  		'<#if item.model.id==0> 所有车型 <#else>[${item.model.name}<#if item.model.doubleDecker>双层<#else>单层</#if>] </#if>'+
 	                  		'(${item.salesNumber})</option>' +
 	                  	 </#list>
 	         			'</select>' +
-	                    '</div>'
+	                    '</div><br>'
 	        );
 	        $('#taskKey').change(function() {
 	            table.fnDraw();
@@ -289,7 +287,7 @@
 <div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear" style="margin-left: -150px;margin-right: 30px">
     <H3 class="text-xl title-box"><A class="black" href="#">已安装车辆
     <span id="recordsTotal2" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></A></H3>
-             <div class="div2" style="overflow-x:auto;" >
+             <div class="div2" style="overflow-x:auto;" id = "div2">
                 <table id="table2" class="cell-border compact display" cellspacing="0" width="60%">
                     <thead>
                     <tr>
