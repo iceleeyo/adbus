@@ -49,6 +49,7 @@ import com.pantuo.service.ActivitiService.TaskQueryType;
 import com.pantuo.service.BusLineCheckService;
 import com.pantuo.service.ContractService;
 import com.pantuo.service.UserServiceInter;
+import com.pantuo.util.BusinessException;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Only1ServieUniqLong;
@@ -569,11 +570,12 @@ public class BusSelectController {
 	@ResponseBody
 	public Pair<Boolean, String> LockStore(@RequestParam(value = "orderid") String orderid,
 			@RequestParam(value = "contractid") int contractid, @RequestParam(value = "LockDate") String LockDate,
+			@RequestParam(value = "contractname") String contractname, @RequestParam(value = "contractcode") String contractcode,
 			@RequestParam(value = "taskid") String taskid, @RequestParam(value = "canSchedule") boolean canSchedule,
 			Principal principal, HttpServletRequest request, HttpServletResponse response)
 			throws NumberFormatException, ParseException {
 		return activitiService.LockStore(Integer.parseInt(orderid), taskid, contractid, principal, canSchedule,
-				LockDate);
+				LockDate,contractname,contractcode);
 	}
 
 	@RequestMapping(value = "financialCheck")
@@ -585,6 +587,31 @@ public class BusSelectController {
 			HttpServletRequest request, HttpServletResponse response) throws NumberFormatException, ParseException {
 		return activitiService.financialCheck(orderid, taskid, financialcomment, paymentResult, principal);
 
+	}
+	/**
+	 * 
+	 * Comment here.
+	 * 上传小样
+	 * @param mainid
+	 * @param taskid
+	 * @param financialcomment
+	 * @param principal
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws NumberFormatException
+	 * @throws ParseException
+	 * @throws BusinessException 
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	@RequestMapping(value = "uploadXiaoY")
+	@ResponseBody
+	public Pair<Boolean, String> uploadXiaoY(@RequestParam(value = "mainid") int mainid,
+			@RequestParam(value = "taskid") String taskid,
+			@RequestParam(value = "approve2Comments") String approve2Comments, Principal principal,
+			HttpServletRequest request) throws NumberFormatException, ParseException, BusinessException {
+		return activitiService.uploadXiaoY(mainid, taskid, approve2Comments, principal,request);
+		
 	}
 
 	/**

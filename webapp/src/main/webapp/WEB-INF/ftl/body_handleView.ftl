@@ -44,6 +44,8 @@ function LockStore() {
 	              return;
 	            }
 	        }
+	        if($("#cname").val()==""){layer.msg("请输入合同名称");return;}
+	        if($("#code").val()==""){layer.msg("请输入合同编号");return;}
     var canSchedule=$('#usertask1 :radio[name=canSchedule]:checked').val();
 	var url="${rc.contextPath}/busselect/LockStore";
 	// 发送任务完成请求
@@ -52,7 +54,9 @@ function LockStore() {
         contractid: contractid,
         orderid: orderid,
         taskid:taskid,
-        LockDate:LockDate
+        LockDate:LockDate,
+        contractname:$("#cname").val(),
+        contractcode:$("#code").val()
     },function(data){
     	jDialog.Alert(data.left==true? data.right :"执行失败!");
     	var uptime = window.setTimeout(function(){
@@ -78,20 +82,22 @@ var ReceComments=$('#ReceComments').val();
 }
 //录入小样
 function uploadXY() {
-var approve2Comments=$('#approve2Comments').val();
-	complete('${taskid!''}',[
-		{
-			key: 'approve2Comments',
-			value: approve2Comments,
-			type: 'S'
-			
-		},
-		{
-			key: 'closed',
-			value: closed,
-			type: 'B'
-		}
-	]);
+          if($("#Sfile").val()==""){
+            layer.msg("请选择小样");
+            return;
+          }
+$("#xyform").ajaxForm(function(data) {
+	 $("#xybutton").attr("disabled",true);
+     $("#xybutton").css("background-color","#85A2AD");
+     jDialog.Alert(data.left==true? data.right :"执行失败!");
+		var uptime = window.setTimeout(function(){
+		var a = document.createElement('a');
+    		a.href='${rc.contextPath}/busselect/myTask/1';
+    		document.body.appendChild(a);
+    		a.click();
+		clearTimeout(uptime);
+		},2000)
+	}).submit();
 }
 //施工确认
 function shigong() {
@@ -509,6 +515,22 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 					
 				</TR>
 				<TR style="height: 45px;">
+					<TH>合同名称</TH>
+					<TD colspan=3>
+							<input	class="ui-input validate[required]" 
+							type="text" value="" id="cname" >
+					</TD>
+					
+				</TR>
+				<TR style="height: 45px;">
+					<TH>合同编号</TH>
+					<TD colspan=3>
+					<input	class="ui-input validate[required]" 
+							type="text" value="" id="code" >
+					</TD>
+					
+				</TR>
+				<TR style="height: 45px;">
 				<TD width="20%" style="text-align: right">合同选择</TD>
 					<TD>	<select class="ui-input" name="contractCode" id="contractCode">
 							<option value="" selected="selected">请选择合同</option> <#if
@@ -607,6 +629,9 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 		</H3>
 		<BR>
 		<TABLE class="ui-table ui-table-gray">
+		<form id="xyform" action="${rc.contextPath}/busselect/uploadXiaoY" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="mainid" value="${bodycontract.id!''}" />
+        <input type="hidden" name="taskid" value="${taskid!''}" />
 			<TBODY>
 				<TR>
 					<TH width="20%">签收时间</TH>
@@ -618,7 +643,7 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 					<TD colspan=3>
 					                      <div id="newUpload2">
 												<div id="div_1">
-													<input type="file" name="file" id="Sfile" class="validate[required]">
+													<input type="file" name="xiaoY" id="Sfile" class="validate[required]">
 												</div>
 											</div>
 											<input class="btn-sm btn-success" type="button" id="btn_add2" value="增加一行"
@@ -631,8 +656,9 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 							style="margin: 5px 0; width: 400px; margin-top: 5px;">小样已上传</textarea></TD>
 				</TR>
 		</TABLE>
+		</form>
 		<div style="margin: 10px 0 0; text-align: center;">
-			<button onclick="uploadXY();" class="block-btn">上传小样</button>
+			<button id="xybutton" onclick="uploadXY();" class="block-btn">上传小样</button>
 		</div>
 
 	</div>

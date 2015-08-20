@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -19,6 +21,7 @@ import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.pojo.HistoricTaskView;
 import com.pantuo.pojo.TableRequest;
+import com.pantuo.util.BusinessException;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.OrderView;
@@ -171,7 +174,9 @@ public interface ActivitiService {
 
 	public OrderView findBodyContractByTaskId(String taskid, Principal principal);
 
-	public Pair<Boolean, String> LockStore(int parseInt, String taskid, int contractid, Principal principal,boolean canSchedule,String LockDate)throws ParseException;
+	public Pair<Boolean, String> LockStore(int parseInt, String taskid, int contractid, Principal principal,boolean canSchedule,String LockDate, String contractname, String contractcode)throws ParseException;
 
 	public Pair<Boolean, String> financialCheck(int parseInt, String taskid, String financialcomment, boolean paymentResult, Principal principal);
+
+	public Pair<Boolean, String> uploadXiaoY(int mainid, String taskid, String approve2Comments, Principal principal,HttpServletRequest request)throws BusinessException;
 }

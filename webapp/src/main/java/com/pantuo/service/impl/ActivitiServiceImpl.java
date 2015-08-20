@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
@@ -53,6 +55,7 @@ import scala.collection.mutable.StringBuilder;
 
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.BodyContractRepository;
+import com.pantuo.dao.pojo.JpaAttachment;
 import com.pantuo.dao.pojo.JpaBodyContract;
 import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaCity;
@@ -77,6 +80,7 @@ import com.pantuo.mybatis.persistence.ProductMapper;
 import com.pantuo.pojo.HistoricTaskView;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
+import com.pantuo.service.AttachmentService;
 import com.pantuo.service.CityService;
 import com.pantuo.service.CpdService;
 import com.pantuo.service.MailService;
@@ -87,6 +91,7 @@ import com.pantuo.service.ProductService;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.simulate.MailJob;
 import com.pantuo.util.BeanUtils;
+import com.pantuo.util.BusinessException;
 import com.pantuo.util.Constants;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.OrderException;
@@ -143,6 +148,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 	@Autowired
 	private MailService mailService;
+	@Autowired
+	private AttachmentService attachmentService;
 
 	@Autowired
 	private MailJob mailJob;
@@ -984,13 +991,15 @@ public class ActivitiServiceImpl implements ActivitiService {
 	}
 
 	public Pair<Boolean, String> LockStore(int orderid, String taskid, int contractid, Principal principal,
-			boolean canSchedule, String LockDate) throws ParseException {
+			boolean canSchedule, String LockDate,String contractname, String contractcode) throws ParseException {
 		Bodycontract bodycontract = bodycontractMapper.selectByPrimaryKey(orderid);
 		if (bodycontract != null) {
 			if (canSchedule) {
 				bodycontract.setStats(JpaBodyContract.Status.enable.ordinal());
 				bodycontract.setLockExpiredTime((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(LockDate));
 				bodycontract.setContractid(contractid);
+				bodycontract.setContractName(contractname);
+				bodycontract.setContractCode(contractcode);
 			} else {
 				bodycontract.setStats(JpaBodyContract.Status.close.ordinal());
 			}
@@ -1810,5 +1819,19 @@ public class ActivitiServiceImpl implements ActivitiService {
 			r = ((UserTaskActivityBehavior) ar).getTaskDefinition();
 		}
 		return r;
+	}
+
+	@Override
+	public Pair<Boolean, String> uploadXiaoY(int mainid, String taskid, String approve2Comments, Principal principal,HttpServletRequest request) throws BusinessException {
+		Bodycontract bodycontract = bodycontractMapper.selectByPrimaryKey(mainid);
+		   if (bodycontract != null) {
+			   attachmentService.saveAttachment(request, Request.getUserId(principal), bodycontract.getId(), JpaAttachment.Type.xiaoY, approve2Comments);
+			}else{
+				return new Pair<Boolean, String>(false,"信息丢失");
+			}
+		Map<String, Object> variables = new HashMap<String, Object>();
+		variables.put("closed", false);
+		variables.put("approve2Comments", approve2Comments);
+		return complete(taskid, variables, principal);
 	}
 }
