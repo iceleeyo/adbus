@@ -15,7 +15,7 @@ import org.objectweb.asm.Type;
 
 public class ProxyVoForPageOrJson {
 	public final static String extractField = "get_";
-	public final static String formatKey = extractField + "%s";
+	public final static String FORMATKEY = extractField + "%s";
 
 	/**
 	 * 写此方法的目的
