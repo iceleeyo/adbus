@@ -174,8 +174,8 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
     i = 2;
 	j = 2;
 	$(document).ready(function() {
-			$("#btn_add2").click(function() {
-					$("#newUpload2").append('<div id="div_'+j+'"><input  name="file_'+j+'" type="file"  style="margin-top:10px;" class="validate[required]"/><input class="btn-sm btn-wrong" type="button" value="删除" style="margin-top:10px;" onclick="del_2('+ j+ ')"/></div>');
+			$("#btn_add2").live("click",function() {
+					$("#newUpload2").append('<div id="div_'+j+'"><input type="file" name="file'+j+'"  style="margin-top:10px;" class="validate[required]"/><input class="btn-sm btn-wrong" type="button" value="删除" style="margin-top:10px;" onclick="del_2('+ j+ ')"/></div>');
 											j = j + 1;
 										});
 					});
@@ -623,13 +623,13 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 <#include "template/body_contratDetail.ftl" />
 <!--录入小样 -->
 <div id="approve2" class="approve2" style="display: none;">
+		<form name="xyform" id="xyform" action="${rc.contextPath}/busselect/uploadXiaoY?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1" method="post" enctype="multipart/form-data">
 	<div class="p20bs mt10 color-white-bg border-ec">
 		<H3 class="text-xl title-box">
 			<A class="black" href="#">录入小样</A>
 		</H3>
 		<BR>
 		<TABLE class="ui-table ui-table-gray">
-		<form name="xyform" id="xyform" action="${rc.contextPath}/busselect/uploadXiaoY?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="mainid" value="${bodycontract.id!''}" />
         <input type="hidden" name="taskid" value="${taskid!''}" />
 			<TBODY>
@@ -643,7 +643,7 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 					<TD colspan=3>
 					                      <div id="newUpload2">
 												<div id="div_1">
-													<input type="file" name="file222" id="Sfile" class="validate[required]">
+													<input type="file" name="file01" id="Sfile" class="validate[required]"/>
 												</div>
 											</div>
 											<input class="btn-sm btn-success" type="button" id="btn_add2" value="增加一行"
@@ -659,8 +659,8 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 		<div style="margin: 10px 0 0; text-align: center;">
 			<input type="button" id="xybutton" value="上传小样" onclick="uploadXY();" class="block-btn"/>
 		</div>
-		</form>
 	</div>
+		</form>
 </div>
 </#if> 
 
