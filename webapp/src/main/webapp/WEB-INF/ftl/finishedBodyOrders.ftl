@@ -13,10 +13,10 @@
             "searching": false,
             "ordering": true,
             "serverSide": true,
-             "aaSorting": [[3, "desc"]],
+             "aaSorting": [[5, "desc"]],
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                { "orderable": false, "targets": [0,1,2] },
+                { "orderable": false, "targets": [0,1,2,3,4] },
             ],
             "ajax": {
                 type: "GET",
@@ -38,6 +38,8 @@
                     "render": function(data, type, row, meta) {
                     return data;
                 } },
+                { "data": "need_cars", "defaultContent": ""},
+            	{ "data": "done_cars", "defaultContent": ""},
                 { "data": "startTime", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd HH:mm:ss");
                 	return d;
@@ -164,6 +166,8 @@
                     <th>流水号</th>
                         <th>下单用户</th>
                         <th>套餐名称</th>
+                           <th>车辆总数</th>
+                            <th>安装车数</th>
                        <!-- <th>素材号</th>-->
                         <th orderBy="startTime">创建时间</th>
                            <th orderBy="endTime">结束时间</th>
