@@ -43,116 +43,7 @@
 		}, function(){
 		});
 	}
-	
-	
-	
-    
-    function initTable () {
-        $('#metatable').dataTable({
-            "dom": 'rt',
-            "searching": false,
-            "ordering": false,
-            "serverSide": false,
-        });
-
-        table = $('#table').dataTable( {
-		   /*  oLanguage: {
-		        sProcessing: "<img src='${rc.contextPath}/imgs/load_.gif'>"
-		    },*/
-            "oLanguage": {
-                "sSearch": "Search all columns:",
-                "sLoadingRecords": "Please wait - loading...",
-                "sProcessing": "正在加载中",
-            },
-		    processing : true,
-            "dom": '<"#toolbar">rt',
-            "searching": false,
-            "ordering": false,
-            "serverSide": true,
-            "ajax": {
-                type: "POST",
-                url: "${rc.contextPath}/busselect/work_note",
-                data: function(d) {
-              	  var _modelId=  $('#taskKey').val();
-              	  var _lineId=   $('#taskKey').attr("lid");
-              	  if (typeof(_lineId) == "undefined"){
-	                  _lineId = ${lineId};
-                  }
-	              if (typeof(_modelId) == "undefined"){
-	                  _modelId = ${modelId};
-                  }
-                    return $.extend( {}, d, {
-                        "filter[lineId]" : _lineId,
-                        "filter[modelId]" : _modelId,
-                        "filter[bodycontract_id]" : "${id}",
-                        
-                    } );
-                },
-                    "dataSrc": "content",
-            },
-            "columns": [
-                {
-                    "data" : "serialNumber", "defaultContent": "", "render" : function(data, type, row, meta) {
-                    return data;
-                    }
-                },{
-                    "data" : "bus.plateNumber", "defaultContent": "", "render" : function(data, type, row, meta) {
-                    return data;
-                    }
-                },{
-                    "data" : "line.name", "defaultContent": "", "render" : function(data, type, row, meta) {
-                    return data;
-                    }
-                } ,{
-                    "data" : "line.name", "defaultContent": "", "render" : function(data, type, row, meta) {
-	                    var w ='<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/online/${id}/'+row.bus.id+'">完成安装</a> &nbsp;';
-	                      return '<a   onclick="setBusOnline(' +${id} +","+(row.bus.id )+ ')" >完成安装</a> &nbsp;';
-                    }
-                } 
-            ],
-            "language": {
-                "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
-            },
-            "initComplete": initComplete,
-            "drawCallback": drawCallback,
-            "fnDrawCallback": fnDrawCallback,
-        } );
-    }
-
-    function initComplete() {
-       $("div#toolbar").html(
-	                '<div>' +
-	                         '<select class="ui-input ui-input-mini" name="taskKey" id="taskKey">' +
-	                     <#list lockList as item>
-	                  		'<option value="${item.model.id}" lid="${item.line.id}" <#if item.line.id==lineId>selected="selected"</#if>  >${item.line.name}'+
-	                  		'<#if item.model.id==0> 所有车型 <#else>[${item.model.name}<#if item.model.doubleDecker>双层<#else>单层</#if>] </#if>'+
-	                  		'(${item.salesNumber})</option>' +
-	                  	 </#list>
-	         			'</select>' +
-	                    '</div>'
-	        );
-	        $('#taskKey').change(function() {
-	            table.fnDraw();
-	        });
-    }
-
-    function drawCallback() {
-        $('.table-action').click(function() {
-            $.post($(this).attr("url"), function() {
-                table.fnDraw(true);
-            })
-        });
-    }
-      //显示总条数 add by impanxh
-    function fnDrawCallback(){
-    	$("#loading").hide();
-    	 bindLayerMouseOver();
-		var record_count = (this.fnSettings().fnRecordsTotal() );
-		if(record_count>0){
-	 	  $("#recordsTotal").html("&nbsp;"+record_count+"&nbsp;");
-		  }
-    }
-    function initTable2 () {
+	 function initTable2 () {
         $('#metatable').dataTable({
             "dom": 'rt',
             "searching": false,
@@ -252,7 +143,9 @@
 	         			'</select>' +
 	                    '</div>'
 	        );
-	        $('#taskKey').change(function() {
+	         alert(1);
+	        $('#taskKey2').change(function() {
+	       
 	            table2.fnDraw();
 	        });
     }
@@ -273,6 +166,116 @@
 	 	  $("#recordsTotal2").html("&nbsp;"+record_count+"&nbsp;");
 		  }
     }
+	
+	
+    
+    function initTable () {
+        $('#metatable').dataTable({
+            "dom": 'rt',
+            "searching": false,
+            "ordering": false,
+            "serverSide": false,
+        });
+
+        table = $('#table').dataTable( {
+		   /*  oLanguage: {
+		        sProcessing: "<img src='${rc.contextPath}/imgs/load_.gif'>"
+		    },*/
+            "oLanguage": {
+                "sSearch": "Search all columns:",
+                "sLoadingRecords": "Please wait - loading...",
+                "sProcessing": "正在加载中",
+            },
+		    processing : true,
+            "dom": '<"#toolbar">rt',
+            "searching": false,
+            "ordering": false,
+            "serverSide": true,
+            "ajax": {
+                type: "POST",
+                url: "${rc.contextPath}/busselect/work_note",
+                data: function(d) {
+              	  var _modelId=  $('#taskKey').val();
+              	  var _lineId=   $('#taskKey').attr("lid");
+              	  alert(_lineId);
+              	  if (typeof(_lineId) == "undefined"){
+	                  _lineId = ${lineId};
+                  }
+	              if (typeof(_modelId) == "undefined"){
+	                  _modelId = ${modelId};
+                  }
+                    return $.extend( {}, d, {
+                        "filter[lineId]" : _lineId,
+                        "filter[modelId]" : _modelId,
+                        "filter[bodycontract_id]" : "${id}",
+                        
+                    } );
+                },
+                    "dataSrc": "content",
+            },
+            "columns": [
+                {
+                    "data" : "serialNumber", "defaultContent": "", "render" : function(data, type, row, meta) {
+                    return data;
+                    }
+                },{
+                    "data" : "bus.plateNumber", "defaultContent": "", "render" : function(data, type, row, meta) {
+                    return data;
+                    }
+                },{
+                    "data" : "line.name", "defaultContent": "", "render" : function(data, type, row, meta) {
+                    return data;
+                    }
+                } ,{
+                    "data" : "line.name", "defaultContent": "", "render" : function(data, type, row, meta) {
+	                    var w ='<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/online/${id}/'+row.bus.id+'">完成安装</a> &nbsp;';
+	                      return '<a   onclick="setBusOnline(' +${id} +","+(row.bus.id )+ ')" >完成安装</a> &nbsp;';
+                    }
+                } 
+            ],
+            "language": {
+                "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
+            },
+            "initComplete": initComplete,
+            "drawCallback": drawCallback,
+            "fnDrawCallback": fnDrawCallback,
+        } );
+    }
+
+    function initComplete() {
+       $("div#toolbar").html(
+	                '<div>' +
+	                         '<select class="ui-input ui-input-mini" name="taskKey" id="taskKey">' +
+	                     <#list lockList as item>
+	                  		'<option value="${item.model.id}" lid="${item.line.id}" <#if item.line.id==lineId>selected="selected"</#if>  >${item.line.name}'+
+	                  		'<#if item.model.id==0> 所有车型 <#else>[${item.model.name}<#if item.model.doubleDecker>双层<#else>单层</#if>] </#if>'+
+	                  		'(${item.salesNumber})</option>' +
+	                  	 </#list>
+	         			'</select>' +
+	                    '</div>'
+	        );
+	        $('#taskKey').change(function() {
+	            table.fnDraw();
+	        });
+    }
+
+    function drawCallback() {
+        $('.table-action').click(function() {
+            $.post($(this).attr("url"), function() {
+                table.fnDraw(true);
+            })
+        });
+    }
+      //显示总条数 add by impanxh
+    function fnDrawCallback(){
+    	$("#loading").hide();
+    	 bindLayerMouseOver();
+		var record_count = (this.fnSettings().fnRecordsTotal() );
+		if(record_count>0){
+	 	  $("#recordsTotal").html("&nbsp;"+record_count+"&nbsp;");
+		  }
+    }
+   
 
     
 </script>
