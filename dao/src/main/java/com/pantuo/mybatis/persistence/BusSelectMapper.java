@@ -117,5 +117,31 @@ public interface BusSelectMapper {
 	 */
 	List<BusContract> selectWorkDoneBus(@Param("bodycontract_id") int bodycontract_id, @Param("modelId") int modelId,
 			@Param("lineId") int lineId, @Param("category") int category);
+	
+	
+	
+	/**
+	 * 
+	 * 统计车辆总共需要的车辆数量 
+	 *
+	 * @param idList
+	 * @param category
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	List<GroupVo> countContractCar(@Param("idList") List<Integer> idList);
+	
+	/**
+	 * 
+	 * 统计车辆总共需要的车辆数量 
+	 *
+	 * @param idList
+	 * @param category
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	List<GroupVo> countContractDoneCar(@Param("idList") List<Integer> idList);
+	
+	
 
 }

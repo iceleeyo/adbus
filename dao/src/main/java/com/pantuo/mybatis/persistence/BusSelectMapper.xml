@@ -107,7 +107,29 @@
 		</foreach>
 		group by bus_line.id
 	</select>
-
+	
+	
+	
+	<select id="countContractCar" resultMap="GroupVO">
+		select
+		sum(sales_number) as count,contract_id as gn1 from bus_lock
+		where  contract_id in
+		<foreach close=")" collection="idList" item="listItem" open="("
+			separator=",">
+			#{listItem}
+		</foreach>
+		group by contract_id
+	</select>
+<select id="countContractDoneCar" resultMap="GroupVO">
+		select
+		count(distinct busid) as count,contractid as gn1 from bus_contract
+		where  contractid in
+		<foreach close=")" collection="idList" item="listItem" open="("
+			separator=",">
+			#{listItem}
+		</foreach>
+		group by contractid
+	</select>
 
 
 
