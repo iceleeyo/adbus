@@ -43,7 +43,8 @@ public class OrderView {
 	//=====================================
 	private JpaBodyContract jpaBodyContract;
 	
-	
+	private int need_cars;//合同需要车辆总数
+	private int done_cars;//已安装车辆总数
 	
 	
 	
@@ -316,6 +317,22 @@ public class OrderView {
 
 	public void setJpaBodyContract(JpaBodyContract jpaBodyContract) {
 		this.jpaBodyContract = jpaBodyContract;
+	}
+
+	public int getNeed_cars() {
+		return need_cars;
+	}
+
+	public void setNeed_cars(int need_cars) {
+		this.need_cars = need_cars;
+	}
+
+	public int getDone_cars() {
+		return done_cars;
+	}
+
+	public void setDone_cars(int done_cars) {
+		this.done_cars = done_cars;
 	}
 
 	 
