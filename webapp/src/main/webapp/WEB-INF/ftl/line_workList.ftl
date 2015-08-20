@@ -1,7 +1,7 @@
 <#import "template/template_blank.ftl" as frame>
 <#import "template/orderDetail.ftl" as orderDetail/>
-    <#global menu="合同线路施工单">
-<@frame.html title=menu>
+<#global menu="合同线路施工单" >
+<@frame.html title="合同线路施工单"   js=["js/jquery-dateFormat.js"]>
 
 <style type="text/css">
     .center {margin: auto;}
@@ -20,7 +20,26 @@
 </style>
  
 <script type="text/javascript">
-    var table;
+
+	var table;
+	var table2;
+	
+	function setBusOnline(bid,busid) {
+		$.ajax({
+			url : "${rc.contextPath}/busselect/online/"+bid+"/"+busid,
+			type : "POST",
+			data : {
+			},
+			success : function(data) {
+		     layer.msg(data.right);
+		     table2.dataTable()._fnAjaxUpdate();
+			}
+		}, "text");
+	}
+	
+	
+	
+    
     function initTable () {
         $('#metatable').dataTable({
             "dom": 'rt',
@@ -77,9 +96,12 @@
                     "data" : "line.name", "defaultContent": "", "render" : function(data, type, row, meta) {
                     return data;
                     }
+                } ,{
+                    "data" : "line.name", "defaultContent": "", "render" : function(data, type, row, meta) {
+	                    var w ='<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/online/${id}/'+row.bus.id+'">完成安装</a> &nbsp;';
+	                      return '<a   onclick="setBusOnline(' +${id} +","+(row.bus.id )+ ')" >完成安装</a> &nbsp;';
+                    }
                 } 
-                
- 
             ],
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
@@ -123,17 +145,155 @@
 	 	  $("#recordsTotal").html("&nbsp;"+record_count+"&nbsp;");
 		  }
     }
+    function initTable2 () {
+        $('#metatable').dataTable({
+            "dom": 'rt',
+            "searching": false,
+            "ordering": false,
+            "serverSide": false,
+        });
+
+        table2 = $('#table2').dataTable( {
+		   /*  oLanguage: {
+		        sProcessing: "<img src='${rc.contextPath}/imgs/load_.gif'>"
+		    },*/
+            "oLanguage": {
+                "sSearch": "Search all columns:",
+                "sLoadingRecords": "Please wait - loading...",
+                "sProcessing": "正在加载中",
+            },
+		    processing : true,
+            "dom": '<"#toolbar">rt',
+            "searching": false,
+            "ordering": false,
+            "serverSide": true,
+            "ajax": {
+                type: "POST",
+                url: "${rc.contextPath}/busselect/work_done",
+                data: function(d) {
+              	  var _modelId=  $('#taskKey2').val();
+              	  var _lineId=   $('#taskKey2').attr("lid");
+              	  if (typeof(_lineId) == "undefined"){
+	                  _lineId = ${lineId};
+                  }
+	              if (typeof(_modelId) == "undefined"){
+	                  _modelId = ${modelId};
+                  }
+                    return $.extend( {}, d, {
+                        "filter[lineId]" : _lineId,
+                        "filter[modelId]" : _modelId,
+                        "filter[bodycontract_id]" : "${id}",
+                        
+                    } );
+                },
+                    "dataSrc": "content",
+            },
+            "columns": [
+                {
+                    "data" : "serialNumber", "defaultContent": "", "render" : function(data, type, row, meta) {
+                    return data;
+                    }
+                },{
+                    "data" : "bus.oldSerialNumber", "defaultContent": "", "render" : function(data, type, row, meta) {
+                    return data;
+                    }
+                },{
+                    "data" : "bus.plateNumber", "defaultContent": "", "render" : function(data, type, row, meta) {
+                    return data;
+                    }
+                },{
+                    "data" : "line.name", "defaultContent": "", "render" : function(data, type, row, meta) {
+                    return data;
+                    }
+                } ,{
+                    "data" : "busContract.startDate", "defaultContent": "", "render" : function(data, type, row, meta) {
+                   var d= $.format.date(data, "yyyy-MM-dd HH:mm");
+                	return d;
+                    }
+                },{
+                    "data" : "busContract.endDate", "defaultContent": "", "render" : function(data, type, row, meta) {
+                    var d= $.format.date(data, "yyyy-MM-dd HH:mm");
+                	return d;
+                    }
+                }
+                
+ 
+            ],
+            "language": {
+                "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
+            },
+            "initComplete": initComplete2,
+            "drawCallback": drawCallback2,
+            "fnDrawCallback": fnDrawCallback2,
+        } );
+    }
+
+    function initComplete2() {
+       $("div2#toolbar").html(
+	                '<div>' +
+	                         '<select class="ui-input ui-input-mini" name="taskKey2" id="taskKey2">' +
+	                     <#list lockList as item>
+	                  		'<option value="${item.model.id}" lid="${item.line.id}" <#if item.line.id==lineId>selected="selected"</#if>  >${item.line.name}'+
+	                  		'<#if item.model.id==0> 所有车型 <#else>[${item.model.name}<#if item.model.doubleDecker>双层<#else>单层</#if>] </#if>'+
+	                  		'(${item.salesNumber})</option>' +
+	                  	 </#list>
+	         			'</select>' +
+	                    '</div>'
+	        );
+	        $('#taskKey').change(function() {
+	            table2.fnDraw();
+	        });
+    }
+
+    function drawCallback2() {
+        $('.table-action').click(function() {
+            $.post($(this).attr("url"), function() {
+                table2.fnDraw(true);
+            })
+        });
+    }
+      //显示总条数 add by impanxh
+    function fnDrawCallback2(){
+    	$("#loading").hide();
+    	 bindLayerMouseOver();
+		var record_count = (this.fnSettings().fnRecordsTotal() );
+		if(record_count>0){
+	 	  $("#recordsTotal2").html("&nbsp;"+record_count+"&nbsp;");
+		  }
+    }
 
     
 </script>
 
 
+
 <div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear" style="margin-left: -150px;margin-right: 30px">
-    <H3 class="text-xl title-box"><A class="black" href="#">合同线路施工单
+    <H3 class="text-xl title-box"><A class="black" href="#">已安装车辆
+    <span id="recordsTotal2" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></A></H3>
+             <div class="div2" style="overflow-x:auto;">
+                <table id="table2" class="cell-border compact display" cellspacing="0" width="80%">
+                    <thead>
+                    <tr>
+                        <th style="min-width:110px;">车辆自编号</th>
+                        <th style="min-width:110px;">旧自编号</th>
+                         <th style="min-width:110px;">车牌号</th>
+                          <th style="min-width:110px;">线路名称</th>
+                          <th style="min-width:110px;">上刊时间</th>
+                          <th style="min-width:110px;">下刊时间</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            
+</div>
+
+
+
+<div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear" style="margin-left: -150px;margin-right: 30px">
+    <H3 class="text-xl title-box"><A class="black" href="#">可安装车辆列表
     <span id="loading"><image src="${rc.contextPath}/imgs/load_.gif"/> </span>
     <span id="recordsTotal" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></A></H3>
             <div class="div" style="overflow-x:auto;">
-                      
                 <table id="table" class="cell-border compact display" cellspacing="0" width="60%">
                     <thead>
                     <tr>
@@ -141,14 +301,13 @@
                         
                          <th style="min-width:110px;">车牌号</th>
                           <th style="min-width:110px;">线路名称</th>
+                           <th style="min-width:110px;">安装完成</th>
                        
                     </tr>
                     </thead>
-
                 </table>
-                
-               
             </div>
+            
             
             <div class="worm-tips">
 		<div class="tips-title">
@@ -162,6 +321,7 @@
 <script type="text/javascript">
  $(document).ready(function() {
         initTable();
+        initTable2();
     } );
     </script>
 </@frame.html>
