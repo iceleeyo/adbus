@@ -9,6 +9,10 @@
     .frame {width: 1000px;}
     .div {text-align:center; margin:25px;}
     div#toolbar {float: left;}
+    
+       .div2 {text-align:center; margin:25px;}
+    div2#toolbar {float: left;}
+    
     .processed {color: limegreen;}
     .invalid {color: red;}
     .hl {background-color: #ffff00;}
@@ -132,7 +136,7 @@
     }
 
     function initComplete2() {
-       $("div2#toolbar").html(
+       $("div#toolbar").html(
 	                '<div>' +
 	                         '<select class="ui-input ui-input-mini" name="taskKey2" id="taskKey2">' +
 	                     <#list lockList as item>
@@ -285,7 +289,7 @@
 <div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear" style="margin-left: -150px;margin-right: 30px">
     <H3 class="text-xl title-box"><A class="black" href="#">已安装车辆
     <span id="recordsTotal2" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></A></H3>
-             <div class="div2" style="overflow-x:auto;">
+             <div class="div2" style="overflow-x:auto;" >
                 <table id="table2" class="cell-border compact display" cellspacing="0" width="60%">
                     <thead>
                     <tr>
@@ -310,7 +314,7 @@
     <H3 class="text-xl title-box"><A class="black" href="#">可安装车辆列表
     <span id="loading"><image src="${rc.contextPath}/imgs/load_.gif"/> </span>
     <span id="recordsTotal" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></A></H3>
-            <div class="div" style="overflow-x:auto;">
+            <div class="div" style="overflow-x:auto;" id = "div1">
                 <table id="table" class="cell-border compact display" cellspacing="0" width="60%">
                     <thead>
                     <tr>
