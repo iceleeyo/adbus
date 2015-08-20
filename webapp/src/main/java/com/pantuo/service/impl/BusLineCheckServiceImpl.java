@@ -408,6 +408,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		int totalnum = (int) countQuery.count();
 		NumberPageUtil pageUtil = new NumberPageUtil((int) totalnum, page, pageSize);
 		List<ProcessInstance> processInstances = listQuery.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
+		List<Integer> contractIds = new ArrayList<Integer>();
 		for (ProcessInstance processInstance : processInstances) {
 
 			List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId())
@@ -416,6 +417,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 
 			Integer orderid = (Integer) tasks.get(0).getProcessVariables().get(ActivitiService.ORDER_ID);
 			OrderView v = new OrderView();
+			v.setId(orderid);
+			contractIds.add(orderid);
 			JpaBodyContract order = bodyContractRepository.findOne(orderid);
 			v.setJpaBodyContract(order);
 			v.setProcessInstanceId(processInstance.getId());
@@ -424,9 +427,22 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			v.setTask(top1Task);
 			v.setHaveTasks(tasks.size());
 			//if (StringUtils.isNoneBlank(taskKey) && !StringUtils.startsWith(taskKey, ActivitiService.R_DEFAULTALL)) {
-			v.setTask_name(getOrderState(top1Task.getProcessVariables(), top1Task));
+			//v.setTask_name(getOrderState(top1Task.getProcessVariables(), top1Task));
+			v.setTask_name(top1Task.getName());
 			orders.add(v);
 		}
+
+		Map<Integer, Integer> countMap = getContractCars(contractIds);
+		Map<Integer, Integer> doneMap =  countContractDoneCar(contractIds);
+		for (OrderView view : orders) {
+			if (countMap != null && countMap.containsKey(view.getId())) {
+				view.setNeed_cars(countMap.get(view.getId()));
+			}
+			if (doneMap != null && doneMap.containsKey(view.getId())) {
+				view.setDone_cars(doneMap.get(view.getId()));
+			}
+		}
+
 		Pageable p = new PageRequest(page, pageSize, sort);
 		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(
 				orders, p, pageUtil.getTotal());
@@ -855,6 +871,45 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			r.add(cpd);
 		}
 		return r;
+	}
+	
+	
+	/**
+	 * 
+	 * 按合同查已安装车辆总数 
+	 *
+	 * @param contractId
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	public Map<Integer, Integer/*合同号,合同需求车辆总数*/> countContractDoneCar(List<Integer> contractId) {
+		Map<Integer, Integer> subMap = new HashMap<Integer, Integer>();
+		if (!contractId.isEmpty()) {
+			List<GroupVo> vos = busSelectMapper.countContractDoneCar(contractId);
+			for (GroupVo groupVo : vos) {
+				subMap.put(groupVo.getGn1(), groupVo.getCount());
+			}
+		}
+		return subMap;
+	}
+	
+	/**
+	 * 
+	 * 按合同查车辆总数 
+	 *
+	 * @param contractId
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	public Map<Integer, Integer/*合同号,合同需求车辆总数*/> getContractCars(List<Integer> contractId) {
+		Map<Integer, Integer> subMap = new HashMap<Integer, Integer>();
+		if (!contractId.isEmpty()) {
+			List<GroupVo> vos = busSelectMapper.countContractCar(contractId);
+			for (GroupVo groupVo : vos) {
+				subMap.put(groupVo.getGn1(), groupVo.getCount());
+			}
+		}
+		return subMap;
 	}
 
 }
