@@ -283,7 +283,7 @@
     <H3 class="text-xl title-box"><A class="black" href="#">已安装车辆
     <span id="recordsTotal2" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></A></H3>
              <div class="div2" style="overflow-x:auto;">
-                <table id="table2" class="cell-border compact display" cellspacing="0" width="80%">
+                <table id="table2" class="cell-border compact display" cellspacing="0" width="60%">
                     <thead>
                     <tr>
                         <th style="min-width:110px;">车辆自编号</th>
