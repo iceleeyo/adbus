@@ -213,8 +213,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 				cblibField.put(String.format(ProxyVoForPageOrJson.FORMATKEY, "doneCar"), v == null ? 0 : v);
 				JpaBusLock after = (JpaBusLock) ProxyVoForPageOrJson.andFieldAndGetJavaBean(jpaBusLock, cblibField);
 				r.add(after);
-				return r;
 			}
+			return r;
 		}
 		return list;
 	}
