@@ -432,6 +432,15 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			orders.add(v);
 		}
 
+		setCars(orders, contractIds);
+
+		Pageable p = new PageRequest(page, pageSize, sort);
+		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(
+				orders, p, pageUtil.getTotal());
+		return r;
+	}
+
+	private void setCars(List<OrderView> orders, List<Integer> contractIds) {
 		Map<Integer, Integer> countMap = getContractCars(contractIds);
 		Map<Integer, Integer> doneMap =  countContractDoneCar(contractIds);
 		for (OrderView view : orders) {
@@ -442,11 +451,6 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 				view.setDone_cars(doneMap.get(view.getId()));
 			}
 		}
-
-		Pageable p = new PageRequest(page, pageSize, sort);
-		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(
-				orders, p, pageUtil.getTotal());
-		return r;
 	}
 
 	/**
