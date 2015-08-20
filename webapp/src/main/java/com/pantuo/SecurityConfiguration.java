@@ -109,7 +109,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/", "/*.html", "/login", "/logout", "/homepage/**", "/css/**", "/images/**", "/imgs/**",
 						"/js/**", "/style/**")
 				.permitAll()
-				.antMatchers("/intro**", "/about-me", "/loginForLayer", "/body", "/register", "/user/**",
+				.antMatchers("/busselect/workList/**","/intro**", "/about-me", "/loginForLayer", "/body", "/register", "/user/**",
 						"/doRegister", "/validate/**", "/f/**", "/product/d/**", "/product/c/**", "/product/sift**",
 						"/product/sift_data", "/product/ajaxdetail/**", "/order/iwant/**").permitAll()
 				.antMatchers("/**")
@@ -117,7 +117,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.anyRequest()
 				.permitAll()
 				//.antMatchers("/user/enter").access("hasRole('ShibaOrderManager')")
-
+//192.168.1.105/busselect/workList/1439893707748/4
 				//http://www.baeldung.com/spring_redirect_after_login
 				.and().formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/order/myTask/1")
 				.successHandler(new SimpleRoleAuthenticationSuccessHandler())
