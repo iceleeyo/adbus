@@ -396,7 +396,7 @@ public class BusSelectController {
 		return new DataTablePage(r, req.getDraw());
 	}
 
-	@RequestMapping(value = "/online/{bodycontract_id}/{busId}")
+	@RequestMapping(value = "work_online/{bodycontract_id}/{busId}")
 	@ResponseBody
 	public Pair<Boolean, String> saveBodyContract(@PathVariable("bodycontract_id") int bodycontract_id,
 			@PathVariable("busId") int busId) {
