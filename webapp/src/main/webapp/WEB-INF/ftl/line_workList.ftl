@@ -143,7 +143,7 @@
 	                     <#list lockList as item>
 	                  		'<option value="${item.model.id}" lid="${item.line.id}" <#if item.line.id==lineId>selected="selected"</#if>  >${item.line.name}'+
 	                  		'<#if item.model.id==0> 所有车型 <#else>[${item.model.name}<#if item.model.doubleDecker>双层<#else>单层</#if>] </#if>'+
-	                  		'(${item.salesNumber})</option>' +
+	                  		'</option>' +
 	                  	 </#list>
 	         			'</select>' +
 	                    '</div>'
