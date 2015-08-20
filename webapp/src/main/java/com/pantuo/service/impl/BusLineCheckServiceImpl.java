@@ -703,7 +703,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		}
 		hisotrySort(sort, listQuery);
 		list = listQuery.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
-
+		List<Integer> contractIds = new ArrayList<Integer>();
 		for (HistoricProcessInstance historicProcessInstance : list) {
 			Integer orderid = (Integer) historicProcessInstance.getProcessVariables().get(ActivitiService.ORDER_ID);
 			OrderView v = new OrderView();
@@ -712,6 +712,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 				if (or != null) {
 					v.setJpaBodyContract(or);
 					orders.add(v);
+					v.setId(orderid);
+					contractIds.add(orderid);
 					Boolean bn = (Boolean) historicProcessInstance.getProcessVariables().get(ActivitiService.CLOSED);
 					boolean b = bn == null ? false : bn;
 					v.setFinishedState(b ? Constants.CLOSED_STATE : Constants.FINAL_STATE);
@@ -721,6 +723,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 				}
 			}
 		}
+		setCars(orders, contractIds);
 		Pageable p = new PageRequest(page, pageSize, sort);
 		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(
 				orders, p, pageUtil.getTotal());
