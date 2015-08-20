@@ -354,10 +354,10 @@ public class BusSelectController {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	@RequestMapping("workList/{seriaNum}/{id}")
-	public String workList(Model model, @PathVariable("seriaNum") long seriaNum, @PathVariable("id") long id,
+	@RequestMapping("workList/{contractId}")
+	public String workList(Model model,  @PathVariable("contractId") int contractId,
 			@RequestParam(value = "modelId", required = true, defaultValue = "0") int modelId, Principal principal) {
-		List<JpaBusLock> lockList= busLineCheckService.getBusLockListBySeriNum(seriaNum);
+		List<JpaBusLock> lockList= busLineCheckService.getBusLockListByBid(contractId);
 		model.addAttribute("lockList", lockList);
 		if(!lockList.isEmpty()){
 			JpaBusLock 	obj =lockList.get(0);
@@ -367,7 +367,7 @@ public class BusSelectController {
 			model.addAttribute("lineId", 0);
 			model.addAttribute("modelId", 0);
 		}
-		model.addAttribute("id", id);
+		model.addAttribute("id", contractId);
 		return "line_workList";
 	}
 	/**

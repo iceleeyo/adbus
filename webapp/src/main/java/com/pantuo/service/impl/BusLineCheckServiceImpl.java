@@ -177,6 +177,11 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		return r;
 	}
 
+	public List<JpaBusLock> getBusLockListByBid(int contractId) {
+			BooleanExpression query = QJpaBusLock.jpaBusLock.contractId.eq(contractId);
+			List<JpaBusLock> list = (List<JpaBusLock>) busLockRepository.findAll(query);
+			return list;		
+	}
 	@Override
 	public List<JpaBusLock> getBusLockListBySeriNum(long seriaNum) {
 		BooleanExpression query = QJpaBusLock.jpaBusLock.seriaNum.eq(seriaNum);

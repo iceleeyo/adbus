@@ -58,6 +58,7 @@ public interface BusLineCheckService {
 	public List<GroupVo> countCarTypeByLine(int lineId, JpaBus.Category category);
 
 	public List<JpaBusLock> getBusLockListBySeriNum(long seriaNum);
+	public List<JpaBusLock> getBusLockListByBid(int contractId) ;
 
 	public Pair<Boolean, String> saveBusLock(BusLock buslock, String startD, String endD)throws ParseException ;
 
