@@ -48,8 +48,8 @@ var table;
                    { "data": "task_assignee", "defaultContent": ""
                    
                    },
-                   { "data": "order.created", "defaultContent": "","render": function(data, type, row, meta) {
-                	 var tr= "<a target='_blank' href='${rc.contextPath}/busselect/detail/"+ (row.jpaBodyContract.id )+"?taskid=" +(row.task_id)+  "'>查看详情</a>";
+                   { "data": "jpaBodyContract.id", "defaultContent": "","render": function(data, type, row, meta) {
+                	 var tr= "<a target='_blank' href='${rc.contextPath}/busselect/detail/"+ data+"?taskid=" +(row.task_id)+  "'>查看详情</a>";
                 	return tr;
                 }},
             ],

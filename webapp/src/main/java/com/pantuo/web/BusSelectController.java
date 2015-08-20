@@ -604,7 +604,7 @@ public class BusSelectController {
 	 * @throws BusinessException 
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	@RequestMapping(value = "uploadXiaoY")
+	@RequestMapping(value = "uploadXiaoY",method = RequestMethod.POST)
 	@ResponseBody
 	public Pair<Boolean, String> uploadXiaoY(@RequestParam(value = "mainid") int mainid,
 			@RequestParam(value = "taskid") String taskid,

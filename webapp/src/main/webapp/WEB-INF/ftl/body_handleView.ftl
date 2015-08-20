@@ -44,8 +44,8 @@ function LockStore() {
 	              return;
 	            }
 	        }
-	        if($("#cname").val()==""){layer.msg("请输入合同名称");return;}
-	        if($("#code").val()==""){layer.msg("请输入合同编号");return;}
+	        if($("#cname").val().trim()==""){layer.msg("请输入合同名称");return;}
+	        if($("#code").val().trim()==""){layer.msg("请输入合同编号");return;}
     var canSchedule=$('#usertask1 :radio[name=canSchedule]:checked').val();
 	var url="${rc.contextPath}/busselect/LockStore";
 	// 发送任务完成请求
@@ -629,7 +629,7 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 		</H3>
 		<BR>
 		<TABLE class="ui-table ui-table-gray">
-		<form id="xyform" action="${rc.contextPath}/busselect/uploadXiaoY" method="post" enctype="multipart/form-data">
+		<form name="xyform" id="xyform" action="${rc.contextPath}/busselect/uploadXiaoY?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="mainid" value="${bodycontract.id!''}" />
         <input type="hidden" name="taskid" value="${taskid!''}" />
 			<TBODY>
@@ -643,7 +643,7 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 					<TD colspan=3>
 					                      <div id="newUpload2">
 												<div id="div_1">
-													<input type="file" name="xiaoY" id="Sfile" class="validate[required]">
+													<input type="file" name="file222" id="Sfile" class="validate[required]">
 												</div>
 											</div>
 											<input class="btn-sm btn-success" type="button" id="btn_add2" value="增加一行"
@@ -656,11 +656,10 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 							style="margin: 5px 0; width: 400px; margin-top: 5px;">小样已上传</textarea></TD>
 				</TR>
 		</TABLE>
-		</form>
 		<div style="margin: 10px 0 0; text-align: center;">
-			<button id="xybutton" onclick="uploadXY();" class="block-btn">上传小样</button>
+			<input type="button" id="xybutton" value="上传小样" onclick="uploadXY();" class="block-btn"/>
 		</div>
-
+		</form>
 	</div>
 </div>
 </#if> 
