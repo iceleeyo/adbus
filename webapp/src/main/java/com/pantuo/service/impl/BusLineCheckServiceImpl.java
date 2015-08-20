@@ -198,15 +198,14 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	public List<JpaBusLock> getBusLockListBySeriNum(long seriaNum) {
 		BooleanExpression query = QJpaBusLock.jpaBusLock.seriaNum.eq(seriaNum);
 		List<JpaBusLock> list = (List<JpaBusLock>) busLockRepository.findAll(query);
-		List<JpaBusLock> r = new ArrayList<JpaBusLock>();
 		Map<String, Integer> map = null;
-
 		BooleanExpression mainQuery = QJpaBodyContract.jpaBodyContract.seriaNum.eq(seriaNum);
 		JpaBodyContract body = bodyContractRepository.findOne(mainQuery);
 		if (body != null) {
 			map = countContractidCarGroupbyLineModel(body.getId(), JpaBus.Category.yunyingche);
 		}
 		if (map != null) {
+			List<JpaBusLock> r = new ArrayList<JpaBusLock>();
 			for (JpaBusLock jpaBusLock : list) {
 				final Map<String, Object> cblibField = new HashMap<String, Object>(1);
 				//往JpaBusLock里多增加一个doneCar字段
@@ -214,10 +213,10 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 				cblibField.put(String.format(ProxyVoForPageOrJson.FORMATKEY, "doneCar"), v == null ? 0 : v);
 				JpaBusLock after = (JpaBusLock) ProxyVoForPageOrJson.andFieldAndGetJavaBean(jpaBusLock, cblibField);
 				r.add(after);
+				return r;
 			}
 		}
-
-		return r;
+		return list;
 	}
 
 	@Override
