@@ -44,6 +44,7 @@ import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBus.Category;
 import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaBusline;
+import com.pantuo.dao.pojo.QJpaBodyContract;
 import com.pantuo.dao.pojo.QJpaBusLock;
 import com.pantuo.dao.pojo.QJpaBusline;
 import com.pantuo.mybatis.domain.Bodycontract;
@@ -76,6 +77,7 @@ import com.pantuo.util.OrderException;
 import com.pantuo.util.OrderIdSeq;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
+import com.pantuo.util.cglib.ProxyVoForPageOrJson;
 import com.pantuo.vo.GroupVo;
 import com.pantuo.web.view.AutoCompleteView;
 import com.pantuo.web.view.LineBusCpd;
@@ -194,9 +196,25 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 
 	@Override
 	public List<JpaBusLock> getBusLockListBySeriNum(long seriaNum) {
+
+		BooleanExpression mainQuery = QJpaBodyContract.jpaBodyContract.seriaNum.eq(seriaNum);
+
+		JpaBodyContract body = bodyContractRepository.findOne(mainQuery);
 		BooleanExpression query = QJpaBusLock.jpaBusLock.seriaNum.eq(seriaNum);
 		List<JpaBusLock> list = (List<JpaBusLock>) busLockRepository.findAll(query);
-		return list;
+		List<JpaBusLock> r = new ArrayList<JpaBusLock>();
+		Map<String, Integer> map = countContractidCarGroupbyLineModel(body.getId(), JpaBus.Category.yunyingche);
+		for (JpaBusLock jpaBusLock : list) {
+			final Map<String, Object> cblibField = new HashMap<String, Object>(1);
+			
+			//往JpaBusLock里多增加一个doneCar字段
+			Integer v = map.get(jpaBusLock.getLine().getId() + "#" + jpaBusLock.getModel().getId());
+			cblibField.put(String.format(ProxyVoForPageOrJson.FORMATKEY, "doneCar"), v == null ? 0 : v);
+			JpaBusLock after = (JpaBusLock) ProxyVoForPageOrJson.andFieldAndGetJavaBean(jpaBusLock, cblibField);
+			r.add(after);
+		}
+
+		return r;
 	}
 
 	@Override
@@ -442,7 +460,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 
 	private void setCars(List<OrderView> orders, List<Integer> contractIds) {
 		Map<Integer, Integer> countMap = getContractCars(contractIds);
-		Map<Integer, Integer> doneMap =  countContractDoneCar(contractIds);
+		Map<Integer, Integer> doneMap = countContractDoneCar(contractIds);
 		for (OrderView view : orders) {
 			if (countMap != null && countMap.containsKey(view.getId())) {
 				view.setNeed_cars(countMap.get(view.getId()));
@@ -879,8 +897,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		}
 		return r;
 	}
-	
-	
+
 	/**
 	 * 
 	 * 按合同查已安装车辆总数 
@@ -899,7 +916,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		}
 		return subMap;
 	}
-	
+
 	/**
 	 * 
 	 * 按合同查车辆总数 
@@ -915,6 +932,29 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			for (GroupVo groupVo : vos) {
 				subMap.put(groupVo.getGn1(), groupVo.getCount());
 			}
+		}
+		return subMap;
+	}
+
+	/**
+	 * 
+	 * 查单个合同 按车辆和类型分组算车辆总数 
+	 *
+	 * @param contractId
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	public Map<String, Integer/*lineId+modelid,合同需求车辆总数*/> countContractidCarGroupbyLineModel(Integer contractId,
+			Category category) {
+		Map<String, Integer> subMap = new HashMap<String, Integer>();
+		List<GroupVo> vos = busSelectMapper.countContractidCarGroupbyLineModel(contractId, category.ordinal());
+		for (GroupVo groupVo : vos) {
+			subMap.put(groupVo.getGn1() + "#" + groupVo.getGn2(), groupVo.getCount());
+			String line_total = String.valueOf(groupVo.getGn1()+"#0");
+			if (!subMap.containsKey(line_total)) {
+				subMap.put(line_total, 0);
+			}
+			subMap.put(line_total, subMap.get(line_total) + groupVo.getCount());
 		}
 		return subMap;
 	}
