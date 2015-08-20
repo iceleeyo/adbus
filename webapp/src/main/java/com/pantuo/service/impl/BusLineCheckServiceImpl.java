@@ -827,7 +827,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		BusContractExample example = new BusContractExample();
 		BusContractExample.Criteria c = example.createCriteria();
 		c.andContractidEqualTo(bodycontract_id);
-		List<BusContract> list = busContractMapper.selectByExample(example);
+		List<BusContract> list = busSelectMapper
+				.selectWorkDoneBus(bodycontract_id, modelId, lineId, category.ordinal()); //busContractMapper.selectByExample(example);
 		List<Integer> idsSet = new ArrayList<Integer>();
 		for (BusContract bt : list) {
 			idsSet.add(bt.getBusid());
