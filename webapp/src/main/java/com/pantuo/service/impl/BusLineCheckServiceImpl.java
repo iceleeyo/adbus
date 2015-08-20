@@ -196,22 +196,25 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 
 	@Override
 	public List<JpaBusLock> getBusLockListBySeriNum(long seriaNum) {
-
-		BooleanExpression mainQuery = QJpaBodyContract.jpaBodyContract.seriaNum.eq(seriaNum);
-
-		JpaBodyContract body = bodyContractRepository.findOne(mainQuery);
 		BooleanExpression query = QJpaBusLock.jpaBusLock.seriaNum.eq(seriaNum);
 		List<JpaBusLock> list = (List<JpaBusLock>) busLockRepository.findAll(query);
 		List<JpaBusLock> r = new ArrayList<JpaBusLock>();
-		Map<String, Integer> map = countContractidCarGroupbyLineModel(body.getId(), JpaBus.Category.yunyingche);
-		for (JpaBusLock jpaBusLock : list) {
-			final Map<String, Object> cblibField = new HashMap<String, Object>(1);
-			
-			//往JpaBusLock里多增加一个doneCar字段
-			Integer v = map.get(jpaBusLock.getLine().getId() + "#" + jpaBusLock.getModel().getId());
-			cblibField.put(String.format(ProxyVoForPageOrJson.FORMATKEY, "doneCar"), v == null ? 0 : v);
-			JpaBusLock after = (JpaBusLock) ProxyVoForPageOrJson.andFieldAndGetJavaBean(jpaBusLock, cblibField);
-			r.add(after);
+		Map<String, Integer> map = null;
+
+		BooleanExpression mainQuery = QJpaBodyContract.jpaBodyContract.seriaNum.eq(seriaNum);
+		JpaBodyContract body = bodyContractRepository.findOne(mainQuery);
+		if (body != null) {
+			map = countContractidCarGroupbyLineModel(body.getId(), JpaBus.Category.yunyingche);
+		}
+		if (map != null) {
+			for (JpaBusLock jpaBusLock : list) {
+				final Map<String, Object> cblibField = new HashMap<String, Object>(1);
+				//往JpaBusLock里多增加一个doneCar字段
+				Integer v = map.get(jpaBusLock.getLine().getId() + "#" + jpaBusLock.getModel().getId());
+				cblibField.put(String.format(ProxyVoForPageOrJson.FORMATKEY, "doneCar"), v == null ? 0 : v);
+				JpaBusLock after = (JpaBusLock) ProxyVoForPageOrJson.andFieldAndGetJavaBean(jpaBusLock, cblibField);
+				r.add(after);
+			}
 		}
 
 		return r;
