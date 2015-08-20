@@ -141,7 +141,17 @@ public interface BusSelectMapper {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	List<GroupVo> countContractDoneCar(@Param("idList") List<Integer> idList);
-	
+	/**
+	 * 
+	 * 按线路统计车辆个数
+	 *
+	 * @param idList
+	 * @param category
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	List<GroupVo> countContractidCarGroupbyLineModel(@Param("bodycontract_id") int bodycontract_id, 
+			@Param("category") int category);
 	
 
 }
