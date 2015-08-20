@@ -9,14 +9,13 @@ import com.pantuo.mybatis.domain.BusModel;
 import com.pantuo.vo.GroupVo;
 
 public interface BusSelectMapper {
-	
-	
-	
-	List<com.pantuo.mybatis.domain.Bus> getBusList(@Param("lineId") int lineId, @Param("modelId") int modelId,@Param("category") int category);
-	
-	
-	public List<BusContract> getBusContract(@Param("lineId") int lineId, @Param("modelId") int modelId, @Param("category") int category);
-	
+
+	List<com.pantuo.mybatis.domain.Bus> getBusList(@Param("lineId") int lineId, @Param("modelId") int modelId,
+			@Param("category") int category);
+
+	public List<BusContract> getBusContract(@Param("lineId") int lineId, @Param("modelId") int modelId,
+			@Param("category") int category);
+
 	/**
 	 * @deprecated
 	 * 暂时没用到
@@ -27,9 +26,6 @@ public interface BusSelectMapper {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	public List<BusModel> getBusModel(@Param("lineId") int lineId, @Param("category") int category);
-	
-	
-	
 
 	/**
 	 * 
@@ -93,9 +89,7 @@ public interface BusSelectMapper {
 	 */
 	int countOnlineCarList(@Param("lineId") int lineId, @Param("modelId") int modelId, @Param("category") int category,
 			@Param("start") String start, @Param("end") String end);
-	
-	
-	
+
 	/**
 	 * 
 	 * 统计正在锁定中的车辆数量 
@@ -110,5 +104,18 @@ public interface BusSelectMapper {
 	 */
 	Integer countWorkingCarList(@Param("lineId") int lineId, @Param("modelId") int modelId, @Param("stats") int stats,
 			@Param("start") String start, @Param("end") String end);
+	/**
+	 * 
+	 * 按合同 线路查已上刊的车辆列表
+	 *
+	 * @param bodycontract_id
+	 * @param modelId
+	 * @param lineId
+	 * @param category
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	List<BusContract> selectWorkDoneBus(@Param("bodycontract_id") int bodycontract_id, @Param("modelId") int modelId,
+			@Param("lineId") int lineId, @Param("category") int category);
 
 }
