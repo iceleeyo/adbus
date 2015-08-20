@@ -241,11 +241,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 			log.error("saveAttachment", e);
 			throw new BusinessException("saveAttachment-error", e);
 		}
-		
 	}
-
-	 
-	
 	public Pair<Boolean, String> removeAttachment(HttpServletRequest request, String user_id, int att_id) {
 		Attachment t = attachmentMapper.selectByPrimaryKey(att_id);
 		if (t != null && StringUtils.equals(user_id, t.getUserId())) {
@@ -286,6 +282,14 @@ public class AttachmentServiceImpl implements AttachmentService {
 		AttachmentExample.Criteria ca=example.createCriteria();
 		ca.andMainIdEqualTo(main_id);
 		ca.andTypeEqualTo(JpaAttachment.Type.ht_fj.ordinal());
+		return attachmentMapper.selectByExample(example);
+	}
+	//查询小样
+	public List<Attachment> queryXiaoY(Principal principal, int main_id) {
+		AttachmentExample example =new AttachmentExample();
+		AttachmentExample.Criteria ca=example.createCriteria();
+		ca.andMainIdEqualTo(main_id);
+		ca.andTypeEqualTo(JpaAttachment.Type.xiaoY.ordinal());
 		return attachmentMapper.selectByExample(example);
 	}
 	

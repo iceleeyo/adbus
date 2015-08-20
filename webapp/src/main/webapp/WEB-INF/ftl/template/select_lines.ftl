@@ -237,6 +237,17 @@
 	function worklist(seriaNum,id){
 	  window.open("${rc.contextPath}/busselect/workList/"+id);
 	  }  
+	  function XYDetail(data){
+	layer.open({
+    		type: 1,
+    		title: "车身小样",
+    		skin: 'layui-layer-rim', 
+    		area: ['1000px', '529px'], 
+    		content:''
+			   +' '
+			   +'<iframe  style="width:99%;height:99%" src="${rc.contextPath}/supplies/XYDetail/'+data+'"/>'
+			});
+}
 </script>
 
 		<div class="p20bs mt10 color-white-bg border-ec">
@@ -247,6 +258,7 @@
 					    <@security.authorize ifAnyGranted="bodyFinancialManager,bodyContractManager,bodyScheduleManager">
 					    <#if bodycontract.isSchedule()==true> 
 							<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="worklist(${bodycontract.seriaNum},${bodycontract.id})">施工单</a>
+							<a class="block-btn" style="margin-right:10px ;margin-top: -5px;"  href="javascript:void(0)" onclick="XYDetail(${bodycontract.id});">查看小样</a>
 						</#if>
 					     </@security.authorize>
 				<#--<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="selctLine('${rc.contextPath}',${seriaNum})">增加选择</a>

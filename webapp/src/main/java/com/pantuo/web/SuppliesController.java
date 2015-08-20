@@ -34,6 +34,7 @@ import com.pantuo.mybatis.domain.Industry;
 import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
+import com.pantuo.service.AttachmentService;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.service.SuppliesServiceData;
 import com.pantuo.util.FileHelper;
@@ -69,6 +70,8 @@ public class SuppliesController {
 	SuppliesService suppliesService;
 	@Autowired
 	SuppliesServiceData suppliesDataService;
+	@Autowired
+	AttachmentService attachmentService;
 
 	@RequestMapping(value = "/u2", produces = "text/html;charset=utf-8")
 	public String u2(Model model, HttpServletRequest request) {
@@ -153,6 +156,13 @@ public class SuppliesController {
 		SuppliesView view = suppliesService.getSuppliesDetail(supplies_id, principal);
 		model.addAttribute("view", view);
 		return "suppliesDetail";
+	}
+	@RequestMapping(value = "/XYDetail/{mainid}", produces = "text/html;charset=utf-8")
+	public String XYDetail(Model model, @PathVariable("mainid") int mainid, Principal principal,
+			HttpServletRequest request,HttpServletResponse response) {
+		response.setHeader("X-Frame-Options", "SAMEORIGIN");
+		model.addAttribute("attachments", attachmentService.queryXiaoY(principal, mainid));
+		return "template/XiaoYDetail";
 	}
 
 	@RequestMapping("ajax-list")
