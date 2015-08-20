@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import com.pantuo.dao.pojo.JpaBodyContract;
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusLock;
+import com.pantuo.dao.pojo.JpaBus.Category;
 import com.pantuo.mybatis.domain.Bodycontract;
 import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.domain.BusModel;
@@ -104,5 +105,21 @@ public interface BusLineCheckService {
 	  * 查施工单
 	  */
 	 public List<LineBusCpd> queryWorkNote(int bodycontract_id,int lineId,Integer  modelId, JpaBus.Category category);
+	 
+	 /**
+	  * 
+	  * 施工完成 
+	  *
+	  * @param bodycontract_id
+	  * @param lineId
+	  * @param modelId
+	  * @param category
+	  * @return
+	  * @since pantuo 1.0-SNAPSHOT
+	  */
+	 public List<LineBusCpd> queryWorkDone(int bodycontract_id, int lineId, Integer modelId, Category category);
+	 
+	 
+	 public void updateBusDone(int bodycontract_id, int busid) ;
 
 }

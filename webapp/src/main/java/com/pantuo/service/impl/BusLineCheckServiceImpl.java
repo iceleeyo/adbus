@@ -44,20 +44,22 @@ import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBus.Category;
 import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaBusline;
-import com.pantuo.dao.pojo.JpaOrders;
-import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.QJpaBusLock;
 import com.pantuo.dao.pojo.QJpaBusline;
 import com.pantuo.mybatis.domain.Bodycontract;
+import com.pantuo.mybatis.domain.BodycontractExample;
 import com.pantuo.mybatis.domain.Bus;
 import com.pantuo.mybatis.domain.BusContract;
-import com.pantuo.mybatis.domain.BodycontractExample;
+import com.pantuo.mybatis.domain.BusContractExample;
+import com.pantuo.mybatis.domain.BusExample;
 import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.domain.BusLockExample;
 import com.pantuo.mybatis.domain.BusModel;
 import com.pantuo.mybatis.persistence.BodycontractMapper;
+import com.pantuo.mybatis.persistence.BusContractMapper;
 import com.pantuo.mybatis.persistence.BusLineMapper;
 import com.pantuo.mybatis.persistence.BusLockMapper;
+import com.pantuo.mybatis.persistence.BusMapper;
 import com.pantuo.mybatis.persistence.BusSelectMapper;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
@@ -70,6 +72,7 @@ import com.pantuo.simulate.MailJob;
 import com.pantuo.util.Constants;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.NumberPageUtil;
+import com.pantuo.util.OrderException;
 import com.pantuo.util.OrderIdSeq;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
@@ -84,7 +87,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	public static final String BODY_ACTIVITY = "busFlowV2";
 	@Autowired
 	BusSelectMapper busSelectMapper;
-	
+
 	@Autowired
 	BusLineMapper buslineMapper;
 	@Autowired
@@ -95,6 +98,11 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	BodyContractRepository bodyContractRepository;
 	@Autowired
 	BuslineRepository BuslineRepository;
+	@Autowired
+	BusContractMapper busContractMapper;
+
+	@Autowired
+	BusMapper busMapper;
 
 	///
 
@@ -125,12 +133,13 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 				BooleanUtils.toInteger(true));
 		int carIds = busSelectMapper.countOnlineCarList(lineId, modelId, category.ordinal(), start, end);
 		//查被锁定的数量
-		Integer lockCarNumber = busSelectMapper.countWorkingCarList(lineId, modelId, JpaBusLock.Status.enable.ordinal(),
-				start, end);
-		if(lockCarNumber == null){
+		Integer lockCarNumber = busSelectMapper.countWorkingCarList(lineId, modelId,
+				JpaBusLock.Status.enable.ordinal(), start, end);
+		if (lockCarNumber == null) {
 			lockCarNumber = 0;
 		}
-		log.info("line_modelid:{}_{},total:{},sales:{},lock:{}", lineId,modelId,busLineCarCount, carIds, lockCarNumber);
+		log.info("line_modelid:{}_{},total:{},sales:{},lock:{}", lineId, modelId, busLineCarCount, carIds,
+				lockCarNumber);
 		//总数-被占用数据
 		return busLineCarCount - carIds - lockCarNumber;
 	}
@@ -178,10 +187,11 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	}
 
 	public List<JpaBusLock> getBusLockListByBid(int contractId) {
-			BooleanExpression query = QJpaBusLock.jpaBusLock.contractId.eq(contractId);
-			List<JpaBusLock> list = (List<JpaBusLock>) busLockRepository.findAll(query);
-			return list;		
+		BooleanExpression query = QJpaBusLock.jpaBusLock.contractId.eq(contractId);
+		List<JpaBusLock> list = (List<JpaBusLock>) busLockRepository.findAll(query);
+		return list;
 	}
+
 	@Override
 	public List<JpaBusLock> getBusLockListBySeriNum(long seriaNum) {
 		BooleanExpression query = QJpaBusLock.jpaBusLock.seriaNum.eq(seriaNum);
@@ -715,8 +725,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	public List<LineBusCpd> queryWorkNote(int bodycontract_id, int lineId, Integer modelId, Category category) {
 		//查所有车辆
 		List<com.pantuo.mybatis.domain.Bus> busList = busSelectMapper.getBusList(lineId, modelId, category.ordinal());
-		
-		JpaBusline lineVo= BuslineRepository.findOne(lineId);
+
+		JpaBusline lineVo = BuslineRepository.findOne(lineId);
 		List<LineBusCpd> r = new ArrayList<LineBusCpd>();
 		Bodycontract bc = bodycontractMapper.selectByPrimaryKey(bodycontract_id);
 		if (bc == null) {
@@ -753,4 +763,97 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		}
 		return r;
 	}
+
+	public void updateBusDone(int bodycontract_id, int busid) {
+		Bus bus = busMapper.selectByPrimaryKey(busid);
+		if (bus == null) {
+			throw new OrderException("车辆信息丢失!");
+		}
+		Bodycontract bc = bodycontractMapper.selectByPrimaryKey(bodycontract_id);
+		if (bc == null) {
+			throw new OrderException("合同丢失!");
+		}
+		//查已经上刑的车辆
+		BusLockExample example = new BusLockExample();
+		BusLockExample.Criteria c = example.createCriteria();
+		c.andContractIdEqualTo(bodycontract_id);
+		c.andLineIdEqualTo(bus.getLineId());
+		c.andModelIdEqualTo(bus.getModelId());
+		List<BusLock> lock = busLockMapper.selectByExample(example);
+		if (lock.isEmpty()) {
+			example = new BusLockExample();
+			c = example.createCriteria();
+			c.andContractIdEqualTo(bodycontract_id);
+			c.andLineIdEqualTo(bus.getLineId());
+			lock = busLockMapper.selectByExample(example);
+		}
+		if (lock.isEmpty()) {
+			log.warn("车辆可能换线路了!busid:{},lineId:{}", busid, bus.getLineId());
+			throw new OrderException("车辆可能换线路了!");
+		}
+		BusLock busLock = lock.get(0);
+
+		BusContractExample bcExample = new BusContractExample();
+		BusContractExample.Criteria cbc = bcExample.createCriteria();
+		cbc.andContractidEqualTo(bodycontract_id);
+		cbc.andBusidEqualTo(busid);
+		List<BusContract> list = busContractMapper.selectByExample(bcExample);
+		if (list.isEmpty()) {
+			BusContract record = new BusContract();
+			record.setCity(busLock.getCity());
+			record.setContractid(bodycontract_id);
+			record.setBusid(busid);
+			record.setEnable(true);
+			record.setStartDate(busLock.getStartDate());
+			record.setEndDate(busLock.getEndDate());
+			record.setCreated(new Date());
+			record.setUpdated(record.getCreated());
+			busContractMapper.insert(record);
+		} else {
+			log.warn("车辆重复上刊!bodycontract_id:{},busid:{},lineId:{}", bodycontract_id, busid, bus.getLineId());
+		}
+
+	}
+
+	@Override
+	public List<LineBusCpd> queryWorkDone(int bodycontract_id, int lineId, Integer modelId, Category category) {
+		JpaBusline lineVo = BuslineRepository.findOne(lineId);
+		List<LineBusCpd> r = new ArrayList<LineBusCpd>();
+		Bodycontract bc = bodycontractMapper.selectByPrimaryKey(bodycontract_id);
+		if (bc == null) {
+			throw new RuntimeException("合同丢失!");
+		}
+		//查已施工表
+		BusContractExample example = new BusContractExample();
+		BusContractExample.Criteria c = example.createCriteria();
+		c.andContractidEqualTo(bodycontract_id);
+		List<BusContract> list = busContractMapper.selectByExample(example);
+		List<Integer> idsSet = new ArrayList<Integer>();
+		for (BusContract bt : list) {
+			idsSet.add(bt.getBusid());
+		}
+		//查车辆信息
+		Map<Integer, Bus> map = new HashMap<Integer, Bus>();
+
+		if (!idsSet.isEmpty()) {
+			BusExample subEx = new BusExample();
+			BusExample.Criteria c2 = subEx.createCriteria();
+			c2.andIdIn(idsSet);
+			List<Bus> buslist = busMapper.selectByExample(subEx);
+			for (Bus bus : buslist) {
+				map.put(bus.getId(), bus);
+			}
+		}
+		for (BusContract busContract : list) {
+			LineBusCpd cpd = new LineBusCpd();
+			Bus b = map.get(busContract.getBusid());
+			cpd.setBus(map.get(busContract.getBusid()));
+			cpd.setLine(lineVo);
+			cpd.setBusContract(busContract);
+			cpd.setSerialNumber(b == null ? StringUtils.EMPTY : String.valueOf(b.getSerialNumber()));
+			r.add(cpd);
+		}
+		return r;
+	}
+
 }

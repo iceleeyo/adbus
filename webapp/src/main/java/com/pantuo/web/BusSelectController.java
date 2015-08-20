@@ -343,6 +343,7 @@ public class BusSelectController {
 		bodycontract.setCity(city);
 		return busLineCheckService.saveBodyContract(bodycontract, seriaNum, Request.getUserId(principal));
 	}
+
 	/**
 	 * 
 	 * 施工单页面
@@ -355,21 +356,57 @@ public class BusSelectController {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	@RequestMapping("workList/{contractId}")
-	public String workList(Model model,  @PathVariable("contractId") int contractId,
+	public String workList(Model model, @PathVariable("contractId") int contractId,
 			@RequestParam(value = "modelId", required = true, defaultValue = "0") int modelId, Principal principal) {
-		List<JpaBusLock> lockList= busLineCheckService.getBusLockListByBid(contractId);
+		List<JpaBusLock> lockList = busLineCheckService.getBusLockListByBid(contractId);
 		model.addAttribute("lockList", lockList);
-		if(!lockList.isEmpty()){
-			JpaBusLock 	obj =lockList.get(0);
+		if (!lockList.isEmpty()) {
+			JpaBusLock obj = lockList.get(0);
 			model.addAttribute("lineId", obj.getLine().getId());
 			model.addAttribute("modelId", obj.getModel().getId());
-		}else {
+		} else {
 			model.addAttribute("lineId", 0);
 			model.addAttribute("modelId", 0);
 		}
 		model.addAttribute("id", contractId);
 		return "line_workList";
 	}
+
+	/**
+	 * 
+	 * 已施工列表
+	 *
+	 * @param req
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	@RequestMapping("work_done")
+	@ResponseBody
+	public DataTablePage<LineBusCpd> work_done(TableRequest req) {
+		Sort sort = req.getSort("created");
+		String lineId = req.getFilter("lineId"), modelId = req.getFilter("modelId"), bodycontract_id = req
+				.getFilter("bodycontract_id");
+		List<LineBusCpd> leaves = busLineCheckService.queryWorkDone(NumberUtils.toInt(bodycontract_id),
+				NumberUtils.toInt(lineId), NumberUtils.toInt(modelId), JpaBus.Category.yunyingche);
+
+		Pageable p = new PageRequest(0, leaves.isEmpty() ? 1 : leaves.size(), sort);
+		org.springframework.data.domain.PageImpl<LineBusCpd> r = new org.springframework.data.domain.PageImpl<LineBusCpd>(
+				leaves, p, leaves.size());
+		return new DataTablePage(r, req.getDraw());
+	}
+
+	@RequestMapping(value = "/online/{bodycontract_id}/{busId}")
+	@ResponseBody
+	public Pair<Boolean, String> saveBodyContract(@PathVariable("bodycontract_id") int bodycontract_id,
+			@PathVariable("busId") int busId) {
+		try {
+			busLineCheckService.updateBusDone(bodycontract_id, busId);
+		} catch (Exception e) {
+			return new Pair<Boolean, String>(false, e.getMessage());
+		}
+		return new Pair<Boolean, String>(true, "车辆上刊成功!");
+	}
+
 	/**
 	* 施工单
 	*/
@@ -381,7 +418,7 @@ public class BusSelectController {
 				.getFilter("bodycontract_id");
 		List<LineBusCpd> leaves = busLineCheckService.queryWorkNote(NumberUtils.toInt(bodycontract_id),
 				NumberUtils.toInt(lineId), NumberUtils.toInt(modelId), JpaBus.Category.yunyingche);
-		Pageable p = new PageRequest(0, leaves.size(), sort);
+		Pageable p = new PageRequest(0, leaves.isEmpty() ? 1 : leaves.size(), sort);
 		org.springframework.data.domain.PageImpl<LineBusCpd> r = new org.springframework.data.domain.PageImpl<LineBusCpd>(
 				leaves, p, leaves.size());
 		return new DataTablePage(r, req.getDraw());
@@ -444,8 +481,10 @@ public class BusSelectController {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	@RequestMapping("detail/{uniq}")
-	public String detail(@PathVariable("uniq") Integer bodycontract_id, @CookieValue(value = "city", defaultValue = "-1") int cityId,Model model,@RequestParam(value = "taskid", required = false) String taskid, Principal principal) throws Exception {
-		if(StringUtils.isNotBlank(taskid)){
+	public String detail(@PathVariable("uniq") Integer bodycontract_id,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId, Model model,
+			@RequestParam(value = "taskid", required = false) String taskid, Principal principal) throws Exception {
+		if (StringUtils.isNotBlank(taskid)) {
 			Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 			ExecutionEntity executionEntity = (ExecutionEntity) runtimeService.createExecutionQuery()
 					.executionId(task.getExecutionId()).processInstanceId(task.getProcessInstanceId()).singleResult();
