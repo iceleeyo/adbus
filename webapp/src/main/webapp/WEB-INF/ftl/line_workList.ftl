@@ -1,5 +1,6 @@
 <#import "template/template_blank.ftl" as frame>
 <#import "template/orderDetail.ftl" as orderDetail/>
+<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <#global menu="合同线路施工单" >
 <@frame.html title="合同线路施工单"   js=["js/jquery-dateFormat.js"]>
 
@@ -30,7 +31,7 @@
 	    shade: false //不显示遮罩
 		}, function(){
 		   $.ajax({
-				url : "${rc.contextPath}/busselect/online/"+bid+"/"+busid,
+				url : "${rc.contextPath}/busselect/work_online/"+bid+"/"+busid,
 				type : "POST",
 				data : {
 				},
@@ -199,11 +200,8 @@
                     "data" : "serialNumber", "defaultContent": "", "render" : function(data, type, row, meta) {
                     return data;
                     }
-                },{
-                    "data" : "bus.oldSerialNumber", "defaultContent": "", "render" : function(data, type, row, meta) {
-                    return data;
-                    }
-                },{
+                },
+                {
                     "data" : "bus.plateNumber", "defaultContent": "", "render" : function(data, type, row, meta) {
                     return data;
                     }
@@ -211,7 +209,9 @@
                     "data" : "line.name", "defaultContent": "", "render" : function(data, type, row, meta) {
                     return data;
                     }
-                } ,{
+                } 
+                 <@security.authorize ifAnyGranted="bodyFinancialManager,bodyContractManager,bodyScheduleManager">
+                ,{
                     "data" : "busContract.startDate", "defaultContent": "", "render" : function(data, type, row, meta) {
                    var d= $.format.date(data, "yyyy-MM-dd HH:mm");
                 	return d;
@@ -221,7 +221,8 @@
                     var d= $.format.date(data, "yyyy-MM-dd HH:mm");
                 	return d;
                     }
-                },{
+                } </@security.authorize>
+                ,{
                     "data" : "busContract.created", "defaultContent": "", "render" : function(data, type, row, meta) {
                     var d= $.format.date(data, "yyyy-MM-dd HH:mm");
                 	return d;
@@ -286,11 +287,12 @@
                     <thead>
                     <tr>
                         <th style="min-width:110px;">车辆自编号</th>
-                        <th style="min-width:110px;">旧自编号</th>
                          <th style="min-width:110px;">车牌号</th>
                           <th style="min-width:110px;">线路名称</th>
+                             <@security.authorize ifAnyGranted="bodyFinancialManager,bodyContractManager,bodyScheduleManager">
                           <th style="min-width:110px;">上刊时间</th>
                           <th style="min-width:110px;">下刊时间</th>
+                            </@security.authorize>
                            <th style="min-width:110px;">施工时间</th>
                     </tr>
                     </thead>
