@@ -1,6 +1,6 @@
 <#import "template_blank.ftl" as frame>
-<@frame.html title="小样详细" js=[ "js/video-js/lang/zh-CN.js"]
-css=["css/lrtk.css", "js/video-js/video-js.css"]>
+<@frame.html title="小样详细" js=[ "js/highslide/highslide-full.js","js/video-js/lang/zh-CN.js"]
+css=["js/highslide/highslide.css","css/lrtk.css", "js/video-js/video-js.css"]>
     <#include "preview.ftl" />
 <meta http-equiv="X-Frame-Options" content="SAMEORIGIN"> 
 <script type="text/javascript">
