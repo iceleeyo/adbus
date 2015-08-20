@@ -221,6 +221,11 @@
                     var d= $.format.date(data, "yyyy-MM-dd HH:mm");
                 	return d;
                     }
+                },{
+                    "data" : "busContract.created", "defaultContent": "", "render" : function(data, type, row, meta) {
+                    var d= $.format.date(data, "yyyy-MM-dd HH:mm");
+                	return d;
+                    }
                 }
                 
  
@@ -286,6 +291,7 @@
                           <th style="min-width:110px;">线路名称</th>
                           <th style="min-width:110px;">上刊时间</th>
                           <th style="min-width:110px;">下刊时间</th>
+                           <th style="min-width:110px;">施工时间</th>
                     </tr>
                     </thead>
                 </table>
