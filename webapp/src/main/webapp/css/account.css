@@ -7,6 +7,10 @@
 	padding-left: 15px
 }
 
+.datepicker{
+	z-index: 999999999;
+}
+
 #inbox_content {
 	background: #fff
 }
