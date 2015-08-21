@@ -2,7 +2,9 @@
 <#import "template/orderDetail.ftl" as orderDetail/>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <#global menu="合同线路施工单" >
-<@frame.html title="合同线路施工单"   js=["js/jquery-dateFormat.js"]>
+<@frame.html title="合同线路施工单"   js=["js/nano.js","js/jquery-dateFormat.js","js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js","js/jquery.datepicker.region.cn.js"]
+css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]
+>
 
 <style type="text/css">
     .center {margin: auto;}
@@ -47,6 +49,29 @@
 			}, "text");
 		}, function(){
 		});
+	}
+	function to_confirm(bid,lid) {
+	var url  = "${rc.contextPath}/busselect/toconfirm_bus/"+bid+"/"+lid;
+	$.post(url,{},function(data){
+    	 var tjson= {"staTime":$.format.date(data.busContract.startDate, "yyyy-MM-dd"),"creTime":$.format.date(data.busContract.created, "yyyy-MM-dd"),"endTime":$.format.date(data.busContract.endDate, "yyyy-MM-dd")};
+		var innerHTMLString = nano2($("#ccc").html(),data,tjson);
+			layer.open({
+                type: 1,
+                title: "test layer",
+                skin: 'layui-layer-rim', 
+                area: ['450px', '650px'], 
+                content: innerHTMLString,
+            });
+            var checkin = $('#startT').datepicker()
+			.on('click', function (ev) {
+			        $('.datepicker').css("z-index", "999999999999");
+			}).data('datepicker');
+			
+			var checkin = $('#endT').datepicker()
+			.on('click', function (ev) {
+			        $('.datepicker').css("z-index", "99999999999");
+			}).data('datepicker');
+    });
 	}
 	 function initTable2 () {
         $('#metatable').dataTable({
@@ -123,13 +148,12 @@
                     var d= $.format.date(data, "yyyy-MM-dd HH:mm");
                 	return d;
                     }
-                    
-                }
-                ,{
+                },{
                     "data" : "line.name", "defaultContent": "", "render" : function(data, type, row, meta) {
-	                   return '<a   onclick="confirmDate(' +${id} +","+(row.line.id )+ ')" >确认</a> &nbsp;';
-                 }
-                }
+	                      return '<a   onclick="to_confirm(' +(row.busContract.id ) +","+(row.line.id )+ ')" >确认</a> &nbsp;';
+                    }
+                } 
+                
  
             ],
             "language": {
@@ -140,25 +164,6 @@
             "fnDrawCallback": fnDrawCallback2,
         } );
     }
-
-
-//提交施工单
-function subForm() {
-    if (!$("#userForm1").validationEngine('validateBeforeSubmit'))
-        return;
-	
-	$('#userForm1').ajaxForm(function(data) {
-	//	jDialog.Alert();
-	 $("#uploadbutton").attr("disabled",true);
-     $("#uploadbutton").css("background-color","#85A2AD");
-       layer.msg(data.right);
-		var uptime = window.setTimeout(function(){
-		$("#cc").trigger("click");
-		clearTimeout(uptime);
-		},3000)
-	}).submit();
-	 
-}
 
     function initComplete2() {
        $("div#toolbar2").html(
@@ -302,18 +307,7 @@ function subForm() {
 		  }
     }
    
-function confirmDate(bid,lid){
-alert(lid);
-	$.ajax({
-		url :  "${rc.contextPath}/busselect/toconfirm_bus/"+bid+"/"+lid,
-		type : "POST",
-		data : {
-		},
-		success : function(data) {
-		     alert(data.bus);
-		  }
-		}, "text");
-}
+
     
 </script>
 
@@ -330,11 +324,11 @@ alert(lid);
                          <th style="min-width:110px;">车牌号</th>
                           <th style="min-width:110px;">线路名称</th>
                              <@security.authorize ifAnyGranted="bodyFinancialManager,bodyContractManager,bodyScheduleManager">
-                          <th style="min-width:110px;">上刊时间</th>
-                          <th style="min-width:110px;">下刊时间</th>
+                          <th style="min-width:110px;">预上刊时间</th>
+                          <th style="min-width:110px;">预下刊时间</th>
                             </@security.authorize>
                            <th style="min-width:110px;">施工时间</th>
-                           <th style="min-width:60px;">实际时间</th>
+                           <th style="min-width:110px;">操作</th>
                     </tr>
                     </thead>
                 </table>
@@ -372,6 +366,7 @@ alert(lid);
 		</ol>
 		</div>
 		</div>
+</div>
 <div id ="ccc" style="display:none" >
 
 <form id="userForm1" name="userForm1" action="${rc.contextPath}/busselect/confirm_bus/bid/lid" enctype="multipart/form-data" method="post"">
@@ -383,42 +378,42 @@ alert(lid);
 			<label class="ui-labels mt10">
 				车辆自编号
 			</label>
-				<input class="ui-input" type="text" name="duration" id="duration" readonly="readonly"  autocomplete="off" value="{serialNumber}">
+				<input class="ui-input" type="text"  readonly="readonly"  autocomplete="off" value="{bus.serialNumber}">
 		</div>
 		
 		<div class="ui-form-item">
 			<label class="ui-labels mt10">
 				车牌号
 			</label>
-				<input class="ui-input" type="text" name="duration" id="duration" readonly="readonly"  autocomplete="off" value="{bus.plateNumber}">
+				<input class="ui-input" type="text"  readonly="readonly"  autocomplete="off" value="{bus.plateNumber}">
 		</div>
 
 		<div class="ui-form-item">
 			<label class="ui-labels mt10">
 				线路名称
 			</label>
-				<input class="ui-input" type="text" name="duration" id="duration" readonly="readonly"  autocomplete="off" value="{line.name}">
+				<input class="ui-input" type="text"  readonly="readonly"  autocomplete="off" value="{line.name}">
 		</div>
 		
 		<div class="ui-form-item">
 			<label class="ui-labels mt10">
 				预上刊时间
 			</label>
-				<input class="ui-input" type="text" name="duration" id="duration" readonly="readonly"  autocomplete="off" value="{staTime}">
+				<input class="ui-input" type="text"  readonly="readonly"  autocomplete="off" value="{staTime}">
 		</div>
 		
 		<div class="ui-form-item">
 			<label class="ui-labels mt10">
 				预下刊时间
 			</label>
-				<input class="ui-input" type="text" name="duration" id="duration" readonly="readonly"  autocomplete="off" value="{endTime}">
+				<input class="ui-input" type="text"  readonly="readonly"  autocomplete="off" value="{endTime}">
 		</div>
 		
 		<div class="ui-form-item">
 			<label class="ui-labels mt10">
 				施工时间
 			</label>
-				<input class="ui-input" type="text" name="duration" id="duration" readonly="readonly"  autocomplete="off" value="busContract.created">
+				<input class="ui-input" type="text"  readonly="readonly"  autocomplete="off" value="{creTime}">
 		</div>
 		
 		<div class="ui-form-item">
@@ -426,7 +421,7 @@ alert(lid);
 				实际上刊时间
 			</label>
 				<input class="ui-input datepicker validate[required,custom[date] layer-tips"  type="text" name="startDate"
-               	id="startDate" data-is="isAmount isEnough"
+               	id="startT" data-is="isAmount isEnough"
                 autocomplete="off" disableautocomplete="">
 		</div>
 		
@@ -435,15 +430,13 @@ alert(lid);
 				实际下刊时间
 			</label>
 				<input class="ui-input datepicker validate[required,custom[date] layer-tips"  type="text" name="endDate"
-               	id="endDate" data-is="isAmount isEnough"
+               	id="endT" data-is="isAmount isEnough"
                 autocomplete="off" disableautocomplete="">
 		</div>
 		 <div class="ui-form-item widthdrawBtBox"> <input type="button" id="uploadbutton" class="block-btn" onclick="subForm();" value="确认"> </div>
 	</div>
 </div>
 </form>
-
-</div>
 </div>
 <script type="text/javascript">
  $(document).ready(function() {
