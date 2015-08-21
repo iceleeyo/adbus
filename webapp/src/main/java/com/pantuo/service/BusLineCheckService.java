@@ -122,4 +122,8 @@ public interface BusLineCheckService {
 	 
 	 public void updateBusDone(int bodycontract_id, int busid) ;
 
+	public LineBusCpd selectLineBusCpd(int busContractId, int lineid);
+
+	public Pair<Boolean, String> confirm_bus(int busContractId, int lineid, String startdate, String endDate, Principal principal)throws ParseException;
+
 }

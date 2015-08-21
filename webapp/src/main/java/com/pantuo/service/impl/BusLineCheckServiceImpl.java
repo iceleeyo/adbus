@@ -53,6 +53,7 @@ import com.pantuo.mybatis.domain.Bus;
 import com.pantuo.mybatis.domain.BusContract;
 import com.pantuo.mybatis.domain.BusContractExample;
 import com.pantuo.mybatis.domain.BusExample;
+import com.pantuo.mybatis.domain.BusLine;
 import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.domain.BusLockExample;
 import com.pantuo.mybatis.domain.BusModel;
@@ -960,5 +961,53 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		}
 		return subMap;
 	}
+
+	@Override
+	public LineBusCpd selectLineBusCpd(int busContractId, int lineid) {
+		 LineBusCpd lineBusCpd=new LineBusCpd();
+		 BusContract busContract=busContractMapper.selectByPrimaryKey(busContractId);
+		 JpaBusline jpaBusline=buslineRepository.findOne(lineid);
+		 Bus bus=null;
+		 if(busContract!=null){
+		     bus=busMapper.selectByPrimaryKey(busContract.getBusid());
+		     lineBusCpd.setBus(bus);
+		 }
+		 lineBusCpd.setBusContract(busContract);
+		 lineBusCpd.setLine(jpaBusline);
+		 return lineBusCpd;
+	}
+
+	@Override
+	public Pair<Boolean, String> confirm_bus(int busContractId, int lineid, String startdate, String endDate, Principal principal) throws ParseException {
+		BusContract busContract=busContractMapper.selectByPrimaryKey(busContractId);
+		if(busContract!=null){
+			if(StringUtils.isBlank(busContract.getUserid())){
+				BusLockExample example=new BusLockExample();
+				BusLockExample.Criteria criteria=example.createCriteria();
+				criteria.andContractIdEqualTo(busContract.getContractid());
+				criteria.andLineIdEqualTo(lineid);
+				if(busLockMapper.selectByExample(example).size()>0){
+					BusLock busLock=busLockMapper.selectByExample(example).get(0);
+					if(busLock.getRemainNuber()-1<0){
+						return new Pair<Boolean, String>(false,"已经超出合同规定上刊车辆数，操作失败！");
+					}else{
+						busLock.setRemainNuber(busLock.getRemainNuber()-1);
+						busLockMapper.updateByPrimaryKey(busLock);
+					}
+				}
+			}
+			busContract.setUserid(Request.getUserId(principal));
+			busContract.setUpdated(new Date());
+			busContract.setStartDate((Date)new SimpleDateFormat("yyyy-MM-dd").parseObject(startdate));
+			busContract.setEndDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(endDate));
+			if(busContractMapper.updateByPrimaryKey(busContract)>0){
+				return new Pair<Boolean, String>(true,"操作成功");
+			}else{
+				return new Pair<Boolean, String>(false,"操作失败");
+			}
+		}else{
+			return new Pair<Boolean, String>(false,"信息丢失");
+		}
+	} 
 
 }

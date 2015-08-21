@@ -123,8 +123,13 @@
                     var d= $.format.date(data, "yyyy-MM-dd HH:mm");
                 	return d;
                     }
+                    
                 }
-                
+                ,{
+                    "data" : "line.name", "defaultContent": "", "render" : function(data, type, row, meta) {
+	                   return '<a   onclick="confirmDate(' +${id} +","+(row.line.id )+ ')" >确认</a> &nbsp;';
+                 }
+                }
  
             ],
             "language": {
@@ -135,6 +140,25 @@
             "fnDrawCallback": fnDrawCallback2,
         } );
     }
+
+
+//提交施工单
+function subForm() {
+    if (!$("#userForm1").validationEngine('validateBeforeSubmit'))
+        return;
+	
+	$('#userForm1').ajaxForm(function(data) {
+	//	jDialog.Alert();
+	 $("#uploadbutton").attr("disabled",true);
+     $("#uploadbutton").css("background-color","#85A2AD");
+       layer.msg(data.right);
+		var uptime = window.setTimeout(function(){
+		$("#cc").trigger("click");
+		clearTimeout(uptime);
+		},3000)
+	}).submit();
+	 
+}
 
     function initComplete2() {
        $("div#toolbar2").html(
@@ -278,7 +302,18 @@
 		  }
     }
    
-
+function confirmDate(bid,lid){
+alert(lid);
+	$.ajax({
+		url :  "${rc.contextPath}/busselect/toconfirm_bus/"+bid+"/"+lid,
+		type : "POST",
+		data : {
+		},
+		success : function(data) {
+		     alert(data.bus);
+		  }
+		}, "text");
+}
     
 </script>
 
@@ -299,6 +334,7 @@
                           <th style="min-width:110px;">下刊时间</th>
                             </@security.authorize>
                            <th style="min-width:110px;">施工时间</th>
+                           <th style="min-width:60px;">实际时间</th>
                     </tr>
                     </thead>
                 </table>
@@ -336,6 +372,78 @@
 		</ol>
 		</div>
 		</div>
+<div id ="ccc" style="display:none" >
+
+<form id="userForm1" name="userForm1" action="${rc.contextPath}/busselect/confirm_bus/bid/lid" enctype="multipart/form-data" method="post"">
+<br/><br/>
+		<input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/>
+<div class="withdrawInputs">
+	<div class="inputs">
+		<div class="ui-form-item"> 
+			<label class="ui-labels mt10">
+				车辆自编号
+			</label>
+				<input class="ui-input" type="text" name="duration" id="duration" readonly="readonly"  autocomplete="off" value="{serialNumber}">
+		</div>
+		
+		<div class="ui-form-item">
+			<label class="ui-labels mt10">
+				车牌号
+			</label>
+				<input class="ui-input" type="text" name="duration" id="duration" readonly="readonly"  autocomplete="off" value="{bus.plateNumber}">
+		</div>
+
+		<div class="ui-form-item">
+			<label class="ui-labels mt10">
+				线路名称
+			</label>
+				<input class="ui-input" type="text" name="duration" id="duration" readonly="readonly"  autocomplete="off" value="{line.name}">
+		</div>
+		
+		<div class="ui-form-item">
+			<label class="ui-labels mt10">
+				预上刊时间
+			</label>
+				<input class="ui-input" type="text" name="duration" id="duration" readonly="readonly"  autocomplete="off" value="{staTime}">
+		</div>
+		
+		<div class="ui-form-item">
+			<label class="ui-labels mt10">
+				预下刊时间
+			</label>
+				<input class="ui-input" type="text" name="duration" id="duration" readonly="readonly"  autocomplete="off" value="{endTime}">
+		</div>
+		
+		<div class="ui-form-item">
+			<label class="ui-labels mt10">
+				施工时间
+			</label>
+				<input class="ui-input" type="text" name="duration" id="duration" readonly="readonly"  autocomplete="off" value="busContract.created">
+		</div>
+		
+		<div class="ui-form-item">
+			<label class="ui-labels mt10">
+				实际上刊时间
+			</label>
+				<input class="ui-input datepicker validate[required,custom[date] layer-tips"  type="text" name="startDate"
+               	id="startDate" data-is="isAmount isEnough"
+                autocomplete="off" disableautocomplete="">
+		</div>
+		
+		<div class="ui-form-item">
+			<label class="ui-labels mt10">
+				实际下刊时间
+			</label>
+				<input class="ui-input datepicker validate[required,custom[date] layer-tips"  type="text" name="endDate"
+               	id="endDate" data-is="isAmount isEnough"
+                autocomplete="off" disableautocomplete="">
+		</div>
+		 <div class="ui-form-item widthdrawBtBox"> <input type="button" id="uploadbutton" class="block-btn" onclick="subForm();" value="确认"> </div>
+	</div>
+</div>
+</form>
+
+</div>
 </div>
 <script type="text/javascript">
  $(document).ready(function() {

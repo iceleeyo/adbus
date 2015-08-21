@@ -26,6 +26,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -406,6 +407,38 @@ public class BusSelectController {
 			return new Pair<Boolean, String>(false, e.getMessage());
 		}
 		return new Pair<Boolean, String>(true, "车辆上刊成功!");
+	}
+	
+	/**
+	 * 弹出上刊确认窗口
+	 * Comment here.
+	 * @param busContractId
+	 * @param lineid
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	@RequestMapping(value = "toconfirm_bus/{busContractId}/{lineid}")
+	@ResponseBody
+	public LineBusCpd toconfirm_bus(@PathVariable("busContractId") int busContractId,
+			@PathVariable("lineid") int lineid) {
+		return busLineCheckService.selectLineBusCpd(busContractId,lineid);
+	}
+	/**
+	 * 确认实际上下刊日期
+	 * Comment here.
+	 * @param busContractId
+	 * @param principal
+	 * @return
+	 * @throws ParseException 
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	@RequestMapping(value = "confirm_bus/{busContractId}/{lineid}")
+	@ResponseBody
+	public Pair<Boolean, String> confirm_bus(@PathVariable("busContractId") int busContractId,
+			@PathVariable("lineid") int lineid,
+			Principal principal,@RequestParam(value="startDate") String startdate,
+			@RequestParam(value="endDate") String endDate) throws ParseException {
+		return busLineCheckService.confirm_bus(busContractId,lineid,startdate,endDate,principal);
 	}
 
 	/**
