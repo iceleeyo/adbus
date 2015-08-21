@@ -1,7 +1,7 @@
 <#import "template/template.ftl" as frame>
 <#import "macro/timeslotChart.ftl" as trendChart>
 
-<#global menu="财务收入报表">
+<#global menu="财务收入">
 <@frame.html title="财务收入月报"
 js=["js/highcharts/highcharts-3.0.2.js", "js/highcharts/exporting.js", "js/chart.js", "js/jquery-dateFormat.js", "js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"]
 css=["js/jquery-ui/jquery-ui.css"]>

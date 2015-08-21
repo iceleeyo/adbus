@@ -1,6 +1,6 @@
 <#import "../template/template_intro.ftl" as frame >
-<#global menu="产品促销">
-<@frame.html title="产品促销" js=["js/jquery.jcountdown.js","js/jquery.jcountdown.site.js","js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/progressbar.js"] 
+<#global menu="广告刊例">
+<@frame.html title="广告刊例" js=["js/jquery.jcountdown.js","js/jquery.jcountdown.site.js","js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/progressbar.js"] 
 css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/compare/auction.css","css/autocomplete.css"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 

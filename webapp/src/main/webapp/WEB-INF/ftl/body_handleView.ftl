@@ -510,7 +510,7 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 							<input	class="ui-input datepicker validate[required,custom[date],past[#endDate]]" 
 							type="text" value=""
 							id="LockDate" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">
-						<em style="color: #ccc;margin-left: 10px;">注：预留截止时间不允许早于当前时间</em>						
+						<em style="color: #ccc;margin-left: 10px;">注：预留截止时间不得早于当前时间</em>						
 					</TD>
 					
 				</TR>

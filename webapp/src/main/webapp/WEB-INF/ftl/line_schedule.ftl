@@ -4,6 +4,7 @@
 <@frame.html title=menu>
 
 <style type="text/css">
+
     .center {margin: auto;}
     .frame {width: 1000px;}
     .div {text-align:center; margin:25px;}

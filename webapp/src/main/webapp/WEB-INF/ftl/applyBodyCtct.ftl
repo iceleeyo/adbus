@@ -1,4 +1,5 @@
-<#import "template/template.ftl" as frame> <@frame.html title=""
+<#import "template/template.ftl" as frame> 
+<@frame.html title=""
 js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
 "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
 "js/jquery.datepicker.region.cn.js","js/progressbar.js"]
@@ -192,7 +193,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 							+ '<select  class="ui-input bus-model" name="modelId" id="model_id"> <option value="0" selected="selected">所有类型</option> </select>'
 							+ '</div>'
 							+'<div class="ui-form-item"> <label class="ui-label mt10">选取数量：</label>'
-							+'<input class="ui-input validate[required,integer,min[1],max[2000]]" type="number" value="0" name="remainNuber"'
+							+'<input class="ui-input " type="text" value="0" name="remainNuber" onkeyup="value=value.replace(/[^\\d]/g,\'\')" '
 							+'id="busNumber" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
            	 				+'</div>'
 							+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">上刊日期:</label>'

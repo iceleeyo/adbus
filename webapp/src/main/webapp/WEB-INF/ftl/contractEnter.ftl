@@ -4,6 +4,9 @@
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 
 <script type="text/javascript">
+function go_back(){
+	history.go(-1);
+}
     $(document).ready(function() {
     
     var industryId=${(contractView.mainView.industryId)!''};
@@ -161,8 +164,8 @@ var bb=false;
 								  <input type="hidden" name="id" value="${(contractView.mainView.id)!''}"/>
 								</#if>
 								<div class="withdraw-title fn-clear">
-									合同详情录入
-								</div>
+									<span>合同详情录入</span>
+									<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="go_back()">返回</a>								</div>
 								<div class="withdrawInputs">
 									<div class="inputs">
 										

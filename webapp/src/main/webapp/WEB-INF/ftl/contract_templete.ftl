@@ -40,13 +40,16 @@
 <span class="s2">甲方：</span><span class="s3">${userDetail.company!''}</span>
 </p>
 <p class="p2">
-<span class="s2">地址：</span><span class="s3">${userDetail.companyAddr!''}</span>
+<span class="s2">住所：</span><span class="s3">${userDetail.companyAddr!''}</span>
 </p>
 <p class="p2">
 <span class="s2">法定代表人 ： </span><span class="s3">${userDetail.legalman!''}</span>
 </p>
 <p class="p2">
-<span class="s2">邮编：</span>
+<span class="s2">联系人：</span>
+</p>
+<p class="p2">
+<span class="s2">联系电话：</span>
 </p>
 <p class="p2"></p>
 <p class="p2">
@@ -56,10 +59,13 @@
 <span class="s2">住所：北京市海淀区紫竹院路32号  </span>
 </p>
 <p class="p2">
-<span class="s2">法定代表人： </span>
+<span class="s2">法定代表人：罗晓军 </span>
 </p>
 <p class="p2">
-<span class="s2">邮编：</span>
+<span class="s2">联系人：</span>
+</p>
+<p class="p2">
+<span class="s2">联系电话：</span>
 </p>
 <p class="p3">
 <span class="s2">鉴于乙方拥有北广传媒移动电视媒体平台公交频道的使用权、经营权，根据《中华人民共和国广告法》、《中华人民共和国合同法》及有关规定，甲乙双方本着友好合作、共同发展的意愿，就甲方委托乙方制作、发布广告</span><span>/节目</span><span class="s2">事宜，达成如下合同：</span>
@@ -74,7 +80,7 @@
 <span class="s5">二、​&nbsp;</span><span class="s1">发布内容、</span><span class="s5">付款金额</span><span class="s1">（单位：人民币）</span><span class="s5">、</span><span class="s1">付款方式</span>
 </p>
 <p class="p2">
-<span class="s2">1.套餐名称:</span><a href="${rc.contextPath}/order/iwant/${(product.id)!''}" target="_blank"><span class="s3">${(product.name)!''}</span></a> <span class="s2">                                                                              </span>
+<span class="s2">1.广告/节目内容名称:</span><a href="${rc.contextPath}/order/iwant/${(product.id)!''}" target="_blank"><span class="s3">${(product.name)!''}</span></a> <span class="s2">                                                                              </span>
 </p>
 <p class="p2">
 <span>2.  开具发票：</span><span class="s2">乙方在收到甲方支付的金额后为甲方开具有效发票。</span>
