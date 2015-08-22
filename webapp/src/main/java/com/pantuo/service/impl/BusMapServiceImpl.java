@@ -187,9 +187,9 @@ public class BusMapServiceImpl implements BusMapService {
 			rpage = new org.springframework.data.domain.PageImpl<JpaBusline>(r, p, page.getTotalElements());
 
 		}*/
-		log.info("putLineCarToPageView:{}", System.currentTimeMillis() - t);
+		//log.info("putLineCarToPageView:{}", System.currentTimeMillis() - t);
 		//if(log.isDebugEnabled()){
-		log.debug("putLineCarToPageView:{}", System.currentTimeMillis() - t);
+		//log.debug("putLineCarToPageView:{}", System.currentTimeMillis() - t);
 		//}
 		//return rpage != null ? rpage : page;
 
