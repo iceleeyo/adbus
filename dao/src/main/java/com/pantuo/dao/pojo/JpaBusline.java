@@ -1,6 +1,7 @@
 package com.pantuo.dao.pojo;
 
 import javax.persistence.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,7 +46,11 @@ public class JpaBusline extends CityEntity{
 
     private String name;    //线路名称
     private Level level;    //线路级别
-
+    
+    
+    
+    @Transient
+    private int _cars;//线路对应车辆总数
 	public JpaBusline(){
 
 	}
@@ -91,4 +96,14 @@ public class JpaBusline extends CityEntity{
                 ", level=" + level +
                 '}';
     }
+
+	public int get_cars() {
+		return _cars;
+	}
+
+	public void set_cars(int _cars) {
+		this._cars = _cars;
+	}
+    
+    
 }
