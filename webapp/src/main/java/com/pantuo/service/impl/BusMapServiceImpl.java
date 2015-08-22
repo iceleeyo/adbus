@@ -21,11 +21,17 @@ import org.springframework.ui.Model;
 
 import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.dao.BuslineRepository;
+import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.QJpaBusline;
+import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.BusMapService;
+import com.pantuo.simulate.LineCarsCount;
 import com.pantuo.util.HttpTookit;
 import com.pantuo.util.Pair;
+import com.pantuo.util.cglib.ProxyVoForPageOrJson;
+import com.pantuo.web.view.OrderView;
+
 /**
  * 
  * <b><code>BusMapServiceImpl</code></b>
@@ -43,6 +49,9 @@ public class BusMapServiceImpl implements BusMapService {
 	Map<String, Integer> LINE_CACHE = new HashMap<String, Integer>();
 	@Autowired
 	BuslineRepository lineRepo;
+
+	@Autowired
+	LineCarsCount lineCarsCount;
 
 	public Pair<Double, Double> getLocationFromAddress(Model model, String address) {
 		String city = StringUtils.substring(address, 0, 3);
@@ -91,11 +100,11 @@ public class BusMapServiceImpl implements BusMapService {
 		Set<String> r = new HashSet<String>();
 		try {
 			String t = null;
-			t = HttpTookit
-					.doGet("http://api.map.baidu.com/telematics/v3/local",
-							String.format("?location=%s,%s&keyWord=%s&ak=Ok6Nri8q5UjAa0anpoGv7R3o&output=json",
-									String.valueOf(pair.getLeft()), String.valueOf(pair.getRight()), "公交线路"), "UTF-8",
-							3050, 3050);
+			t = HttpTookit.doGet(
+					"http://api.map.baidu.com/telematics/v3/local",
+					String.format("?location=%s,%s&keyWord=%s&ak=Ok6Nri8q5UjAa0anpoGv7R3o&output=json",
+							String.valueOf(pair.getLeft()), String.valueOf(pair.getRight()), "公交线路"), "UTF-8", 3050,
+					3050);
 			if (StringUtils.isNotBlank(t)) {
 				ObjectMapper objectMapper = new ObjectMapper();
 				Map<String, Object> jsonMap = objectMapper.readValue(t, Map.class);
@@ -152,4 +161,37 @@ public class BusMapServiceImpl implements BusMapService {
 		return lineRepo.findAll(query, p);
 	}
 
+	public void putLineCarToPageView(TableRequest req, Page<JpaBusline> page) {
+		long t = System.currentTimeMillis();
+		org.springframework.data.domain.PageImpl<JpaBusline> rpage = null;
+		List<JpaBusline> list = page.getContent();
+		for (JpaBusline jpaBusline : list) {
+			jpaBusline.set_cars(	lineCarsCount.getCarsByLines(jpaBusline.getId()));
+		}
+		
+		/*
+		List<JpaBusline> list = page.getContent();
+		org.springframework.data.domain.PageImpl<JpaBusline> rpage = null;
+		if (list != null) {
+			List<JpaBusline> r = new ArrayList<JpaBusline>(list.size());
+
+			for (JpaBusline jpaBusline : list) {
+				final Map<String, Object> cblibField = new HashMap<String, Object>(1);
+				cblibField.put(String.format(ProxyVoForPageOrJson.FORMATKEY, "cars"),
+						lineCarsCount.getCarsByLines(jpaBusline.getId()));
+				JpaBusline after = (JpaBusline) ProxyVoForPageOrJson.andFieldAndGetJavaBean(jpaBusline, cblibField);
+			//	jpaBusline = after;
+				r.add(after);
+			}
+			Pageable p = new PageRequest(req.getPage(), req.getLength(), page.getSort());
+			rpage = new org.springframework.data.domain.PageImpl<JpaBusline>(r, p, page.getTotalElements());
+
+		}*/
+		log.info("putLineCarToPageView:{}", System.currentTimeMillis() - t);
+		//if(log.isDebugEnabled()){
+		log.debug("putLineCarToPageView:{}", System.currentTimeMillis() - t);
+		//}
+		//return rpage != null ? rpage : page;
+
+	}
 }
