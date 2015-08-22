@@ -40,7 +40,7 @@
 			and model_id = #{modelId}
 		</if>
 		) m on m.id=bus_contract.busid
-		where bus_contract.end_date > now()
+		where bus_contract.end_date > now() and bus_contract.enable=1
 
 	</select>
 
@@ -109,7 +109,7 @@
 		bus_contract
 		join bus on bus.id = bus_contract.busid
 		where
-		enabled = 1
+		enabled = 1 and bus_contract.enable=1
 		and category =#{category}
 
 		and
@@ -154,7 +154,7 @@
 		select
 		count(distinct busid) as count,contractid as gn1 from
 		bus_contract
-		where contractid in
+		where enable=1 and contractid in
 		<foreach close=")" collection="idList" item="listItem" open="("
 			separator=",">
 			#{listItem}
@@ -210,7 +210,7 @@
 		select count(distinct bus.id) from bus_line join bus on bus_line.id = bus.line_id
 		join bus_contract on bus.id = bus_contract.busid
 		where
-		bus.enabled = 1 and bus.category = #{category}
+		bus.enabled = 1 and bus_contract.enable =1 and bus.category = #{category}
 		and bus_line.id = #{lineId}
 		and (
 		(bus_contract.start_date<= #{start}
