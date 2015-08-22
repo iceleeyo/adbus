@@ -847,7 +847,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			record.setCity(busLock.getCity());
 			record.setContractid(bodycontract_id);
 			record.setBusid(busid);
-			record.setEnable(true);
+			record.setEnable(false);
 			record.setStartDate(busLock.getStartDate());
 			record.setEndDate(busLock.getEndDate());
 			record.setCreated(new Date());
@@ -1018,6 +1018,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			}
 			busContract.setUserid(Request.getUserId(principal));
 			busContract.setUpdated(new Date());
+			busContract.setEnable(true);
 			busContract.setStartDate((Date)new SimpleDateFormat("yyyy-MM-dd").parseObject(startdate));
 			busContract.setEndDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(endDate));
 			if(busContractMapper.updateByPrimaryKey(busContract)>0){
