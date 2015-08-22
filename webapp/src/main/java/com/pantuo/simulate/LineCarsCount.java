@@ -49,7 +49,7 @@ public class LineCarsCount implements Runnable {
 		for (GroupVo proid : list) {
 			map.put(proid.getGn1(), proid.getCount());
 		}
-		log.info(" LineCarsCount:{} ", list.size());
+	//	log.info(" LineCarsCount:{} ", list.size());
 	}
 
 	@Override
