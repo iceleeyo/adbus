@@ -37,5 +37,25 @@ body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
 	setTimeout(function(){
 		busSearch();
 	},1500);
+	
+	
+	
+	<#if _mapLocationKey?? && _mapLocationKey.address??>
+	setTimeout(function(){
+	var point = new BMap.Point(${_mapLocationKey.locationPair.left},${_mapLocationKey.locationPair.right});
+	var myGeo = new BMap.Geocoder();
+	myGeo.getPoint("${_mapLocationKey.address}", function(point){
+		if (point) {
+          var marker1=new BMap.Marker(point);
+			map.addOverlay(marker1);
+          	var infoWindow1 = new BMap.InfoWindow("${_mapLocationKey.address}");
+			marker1.addEventListener("click", function()		{this.openInfoWindow(infoWindow1);});
+			 
+		}else{
+			alert("您选择地址没有解析到结果!");
+		}
+	}, "${_mapLocationKey.city}");
+	},2800);
+	</#if>
 </script>
 </#if>

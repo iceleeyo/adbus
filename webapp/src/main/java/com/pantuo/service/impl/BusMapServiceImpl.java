@@ -30,6 +30,7 @@ import com.pantuo.simulate.LineCarsCount;
 import com.pantuo.util.HttpTookit;
 import com.pantuo.util.Pair;
 import com.pantuo.util.cglib.ProxyVoForPageOrJson;
+import com.pantuo.web.view.MapLocationSession;
 import com.pantuo.web.view.OrderView;
 
 /**
@@ -145,6 +146,7 @@ public class BusMapServiceImpl implements BusMapService {
 				LINE_CACHE.put(jpaBusline.getName().replace("路", "").replace("线", ""), jpaBusline.getId());
 			}
 		}
+		 model.addAttribute("_mapLocationKey",MapLocationSession.EMPTY );
 		Pageable p = new PageRequest(page, pageSize, sort);
 		BooleanExpression query = null;
 		if (lineSet.size() > 0) {
@@ -155,6 +157,9 @@ public class BusMapServiceImpl implements BusMapService {
 				}
 			}
 			query = QJpaBusline.jpaBusline.id.in(ids);
+			if(!ids.isEmpty()){
+				  model.addAttribute("_mapLocationKey",new MapLocationSession(pair, (String)model.asMap().get("city"), address));
+			}
 		} else {//如果匹配不到
 			query = QJpaBusline.jpaBusline.id.loe(0);
 		}

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaCity;
@@ -23,6 +25,7 @@ import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.BusMapService;
 import com.pantuo.service.BusService;
 import com.pantuo.util.Pair;
+import com.pantuo.web.view.MapLocationSession;
 
 /**
  * 
@@ -36,6 +39,7 @@ import com.pantuo.util.Pair;
  */
 @Controller
 @RequestMapping("/api")
+@SessionAttributes("_mapLocationKey")
 public class BusLineMapController {
 
 	private static Logger log = LoggerFactory.getLogger(BusController.class);
@@ -55,7 +59,8 @@ public class BusLineMapController {
 	private final String BEIBA_COMPANY_ADDRESS = "北京市海淀区紫竹院路32号";
 
 	@RequestMapping(value = "/lineMap")
-	public String lineMap(Model model, HttpServletResponse response, String lineName) {
+	public String lineMap(Model model, HttpServletResponse response, String lineName,
+			@ModelAttribute("_mapLocationKey") MapLocationSession user) {
 		response.setHeader("X-Frame-Options", "SAMEORIGIN");
 		model.addAttribute("lineName", lineName);
 		return "map_site";
@@ -80,7 +85,8 @@ public class BusLineMapController {
 	@RequestMapping("ajax-all-lines")
 	@ResponseBody
 	public DataTablePage<JpaBusline> getAllLines(Model model, TableRequest req,
-			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city) {
+			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city,
+			SessionStatus status) {
 		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
 			return new DataTablePage(Collections.emptyList());
 
@@ -90,9 +96,11 @@ public class BusLineMapController {
 		if (StringUtils.isNoneBlank(searchAdress)) {
 			Page<JpaBusline> w = busMapService.getAllBuslines(model, cityId, searchAdress, req.getPage(),
 					req.getLength(), req.getSort("id"));
-			  busMapService.putLineCarToPageView(req, w);
+			busMapService.putLineCarToPageView(req, w);
 			return new DataTablePage(w, req.getDraw());
 		}
+		 model.addAttribute("_mapLocationKey",MapLocationSession.EMPTY );
+		//status.setComplete();
 		JpaBusline.Level level = null;
 		if (!StringUtils.isBlank(levelStr)) {
 			level = JpaBusline.Level.fromNameStr(levelStr);
@@ -103,7 +111,8 @@ public class BusLineMapController {
 		}
 		Page<JpaBusline> w = busService.getAllBuslines(cityId, level, req.getFilter("name"), req.getPage(),
 				req.getLength(), req.getSort("id"));
-		 busMapService.putLineCarToPageView(req, w);
+		busMapService.putLineCarToPageView(req, w);
 		return new DataTablePage(w, req.getDraw());
 	}
+
 }
