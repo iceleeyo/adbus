@@ -37,6 +37,18 @@ public interface BusSelectMapper {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	List<GroupVo> countCarTypeByLine(@Param("lineId") int lineId, @Param("category") int category);
+	
+	
+	/**
+	 * 
+	 * 按线路统计车辆个数
+	 *
+	 * @param idList
+	 * @param category
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	List<GroupVo> countLineCars( @Param("category") int category);
 
 	/**
 	 * 

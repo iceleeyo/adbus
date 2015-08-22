@@ -75,7 +75,17 @@
 			and model_id = #{modelId}
 		</if>
 	</select>
-
+	
+	
+	
+	<select id="countLineCars" resultMap="GroupVO">
+	select count(1) as count,
+	line_id as gn1 from bus
+	where enabled = 1 and
+	category =#{category}
+	group
+	by bus.line_id
+	</select>
 
 
 	<select id="countCarTypeByLine" resultMap="GroupVO">
