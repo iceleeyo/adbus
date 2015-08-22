@@ -54,9 +54,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
             "ordering": true,
             "serverSide": true,
             "columnDefs": [
-    <@security.authorize ifAnyGranted="BodyOrderManager">
-                { "orderable": false, "targets": [2] },
-    </@security.authorize>
+                { "orderable": false, "targets": [2,3] },
             ],
             "iDisplayLength" : 50,
             "aLengthMenu": [[50, 100], [50, 100]],
