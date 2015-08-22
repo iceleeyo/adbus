@@ -57,10 +57,15 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 		var innerHTMLString = nano2($("#ccc").html(),data,tjson);
 			layer.open({
                 type: 1,
-                title: "test layer",
+                title: "确认实际上下刊日期",
                 skin: 'layui-layer-rim', 
-                area: ['450px', '650px'], 
-                content: innerHTMLString,
+                area: ['450px', '600px'], 
+                content: innerHTMLString+'<div class="withdrawInputs">'
+	                        +' <div class="inputs"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/><div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">实际上刊日期:</label>'
+							+'<input class="ui-input datepicker validate[required,custom[date],past[#endDate]]" type="text" name="startD" value="" id="startT" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
+							+'</div><div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">实际下刊日期:</label>'
+							+'<input class="ui-input datepicker validate[required,custom[date],past[#endDate]]" type="text" name="endD" value="" id="endT" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
+							+'</div><div class="ui-form-item widthdrawBtBox"> <input type="button" id="uploadbutton" class="block-btn" onclick="confirm('+bid+','+lid+');" value="确认"> </div></div></div>'
             });
             var checkin = $('#startT').datepicker()
 			.on('click', function (ev) {
@@ -71,6 +76,30 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 			.on('click', function (ev) {
 			        $('.datepicker').css("z-index", "99999999999");
 			}).data('datepicker');
+    });
+	}
+	function confirm(bid,lid) {
+	var starT=$("#startT").val().trim();
+	var endT=$("#endT").val().trim();
+	if(starT==""){
+	  layer.msg("请选择实际上刊日期");
+	  return;
+	}
+	if(endT==""){
+	  layer.msg("请选择实际下刊日期");
+	  return;
+	}
+	if(starT>endT){
+	  layer.msg("下刊日期不能小于上刊日期");
+	  return;
+	}
+	   var url  = "${rc.contextPath}/busselect/confirm_bus/"+bid+"/"+lid;
+	   var param={"startDate" : starT,
+				   "endDate" : endT};
+	  $.post(url,param,function(data){
+	            layer.msg(data.right);
+	            $("#cc").trigger("click");
+			     table2.dataTable()._fnAjaxUpdate();
     });
 	}
 	 function initTable2 () {
@@ -134,23 +163,31 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                  <@security.authorize ifAnyGranted="bodyFinancialManager,bodyContractManager,bodyScheduleManager">
                 ,{
                     "data" : "busContract.startDate", "defaultContent": "", "render" : function(data, type, row, meta) {
-                   var d= $.format.date(data, "yyyy-MM-dd HH:mm");
+                   var d= $.format.date(data, "yyyy-MM-dd");
                 	return d;
                     }
                 },{
                     "data" : "busContract.endDate", "defaultContent": "", "render" : function(data, type, row, meta) {
-                    var d= $.format.date(data, "yyyy-MM-dd HH:mm");
+                    var d= $.format.date(data, "yyyy-MM-dd");
                 	return d;
                     }
                 } </@security.authorize>
                 ,{
                     "data" : "busContract.created", "defaultContent": "", "render" : function(data, type, row, meta) {
-                    var d= $.format.date(data, "yyyy-MM-dd HH:mm");
+                    var d= $.format.date(data, "yyyy-MM-dd");
                 	return d;
                     }
                 },{
+                    "data" : "busContract.userid", "defaultContent": "", "render" : function(data, type, row, meta) {
+                	     return data==null?'未确认':'已确认';
+                    }
+                },{
                     "data" : "line.name", "defaultContent": "", "render" : function(data, type, row, meta) {
+                    if(row.busContract.userid==null){
 	                      return '<a   onclick="to_confirm(' +(row.busContract.id ) +","+(row.line.id )+ ')" >确认</a> &nbsp;';
+                    }else{
+                        return '<a   onclick="to_confirm(' +(row.busContract.id ) +","+(row.line.id )+ ')" >修改</a> &nbsp;';
+                    }
                     }
                 } 
                 
@@ -324,10 +361,11 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                          <th style="min-width:110px;">车牌号</th>
                           <th style="min-width:110px;">线路名称</th>
                              <@security.authorize ifAnyGranted="bodyFinancialManager,bodyContractManager,bodyScheduleManager">
-                          <th style="min-width:110px;">预上刊时间</th>
-                          <th style="min-width:110px;">预下刊时间</th>
+                          <th style="min-width:110px;">上刊时间</th>
+                          <th style="min-width:110px;">下刊时间</th>
                             </@security.authorize>
                            <th style="min-width:110px;">施工时间</th>
+                           <th style="min-width:110px;">是否确认</th>
                            <th style="min-width:110px;">操作</th>
                     </tr>
                     </thead>
@@ -368,11 +406,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 		</div>
 </div>
 <div id ="ccc" style="display:none" >
-
-<form id="userForm1" name="userForm1" action="${rc.contextPath}/busselect/confirm_bus/bid/lid" enctype="multipart/form-data" method="post"">
-<br/><br/>
-		<input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/>
-<div class="withdrawInputs">
+ <div class="withdrawInputs">
 	<div class="inputs">
 		<div class="ui-form-item"> 
 			<label class="ui-labels mt10">
@@ -380,7 +414,6 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 			</label>
 				<input class="ui-input" type="text"  readonly="readonly"  autocomplete="off" value="{bus.serialNumber}">
 		</div>
-		
 		<div class="ui-form-item">
 			<label class="ui-labels mt10">
 				车牌号
@@ -415,28 +448,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 			</label>
 				<input class="ui-input" type="text"  readonly="readonly"  autocomplete="off" value="{creTime}">
 		</div>
-		
-		<div class="ui-form-item">
-			<label class="ui-labels mt10">
-				实际上刊时间
-			</label>
-				<input class="ui-input datepicker validate[required,custom[date] layer-tips"  type="text" name="startDate"
-               	id="startT" data-is="isAmount isEnough"
-                autocomplete="off" disableautocomplete="">
-		</div>
-		
-		<div class="ui-form-item">
-			<label class="ui-labels mt10">
-				实际下刊时间
-			</label>
-				<input class="ui-input datepicker validate[required,custom[date] layer-tips"  type="text" name="endDate"
-               	id="endT" data-is="isAmount isEnough"
-                autocomplete="off" disableautocomplete="">
-		</div>
-		 <div class="ui-form-item widthdrawBtBox"> <input type="button" id="uploadbutton" class="block-btn" onclick="subForm();" value="确认"> </div>
-	</div>
-</div>
-</form>
+	 </div>
+   </div>
 </div>
 <script type="text/javascript">
  $(document).ready(function() {
