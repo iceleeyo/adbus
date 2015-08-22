@@ -192,7 +192,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                   
                 	     return row.busContract.enable==false?'未确认':'已确认';
                     }
-                },{
+                },
+                <@security.authorize ifAnyGranted="bodyScheduleManager">{
                     "data" : "line.name", "defaultContent": "", "render" : function(data, type, row, meta) {
                     if(row.busContract.enable==false){
 	                      return '<a   onclick="to_confirm(' +(row.busContract.id ) +","+(row.line.id )+ ')" >确认</a> &nbsp;';
@@ -200,7 +201,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                         return '<a   onclick="to_confirm(' +(row.busContract.id ) +","+(row.line.id )+ ')" >修改</a> &nbsp;';
                     }
                     }
-                } 
+                } </@security.authorize>
                 
  
             ],
@@ -306,12 +307,12 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                     "data" : "line.name", "defaultContent": "", "render" : function(data, type, row, meta) {
                     return data;
                     }
-                } ,{
+                } ,   <@security.authorize ifNotGranted="bodyFinancialManager,bodyContractManager">  {
                     "data" : "line.name", "defaultContent": "", "render" : function(data, type, row, meta) {
 	                    var w ='<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/online/${id}/'+row.bus.id+'">完成安装</a> &nbsp;';
 	                      return '<a   onclick="setBusOnline(' +${id} +","+(row.bus.id )+ ')" >完成安装</a> &nbsp;';
                     }
-                } 
+                }  </@security.authorize>
             ],
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
@@ -378,7 +379,9 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                             </@security.authorize>
                            <th style="min-width:110px;">施工时间</th>
                            <th style="min-width:110px;">是否确认</th>
+                              <@security.authorize ifAnyGranted="bodyScheduleManager">
                            <th style="min-width:110px;">操作</th>
+                             </@security.authorize>
                     </tr>
                     </thead>
                 </table>
@@ -400,7 +403,9 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                         
                          <th style="min-width:110px;">车牌号</th>
                           <th style="min-width:110px;">线路名称</th>
+                           <@security.authorize ifNotGranted="bodyFinancialManager,bodyContractManager">  
                            <th style="min-width:110px;">安装完成</th>
+                            </@security.authorize>
                        
                     </tr>
                     </thead>
