@@ -22,6 +22,8 @@ import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.BusMapService;
 import com.pantuo.service.BusService;
+import com.pantuo.util.Pair;
+
 /**
  * 
  * <b><code>BusLineMapController</code></b>
@@ -48,6 +50,9 @@ public class BusLineMapController {
 		return "map_lines";
 	}
 
+	Pair<Double, Double> BEIBA_COMPANY = new Pair<Double, Double>(116.31718990229, 39.939290559991);
+	private final String BEIBA_COMPANY_NAME = "北巴传媒广告分公司";
+	private final String BEIBA_COMPANY_ADDRESS = "北京市海淀区紫竹院路32号";
 	@RequestMapping(value = "/lineMap")
 	public String lineMap(Model model, HttpServletResponse response, String lineName) {
 		response.setHeader("X-Frame-Options", "SAMEORIGIN");
@@ -58,8 +63,16 @@ public class BusLineMapController {
 	@RequestMapping(value = "/simple")
 	public String map_simple(Model model, HttpServletResponse response, String address) {
 		response.setHeader("X-Frame-Options", "SAMEORIGIN");
-		model.addAttribute("locationPair", busMapService.getLocationFromAddress(model, address));
-		model.addAttribute("address", address);
+
+		Pair<Double, Double> r = busMapService.getLocationFromAddress(model, address);
+		if (r != null) {
+			model.addAttribute("locationPair", r);
+			model.addAttribute("address", address);
+		} else {
+			model.addAttribute("locationPair", BEIBA_COMPANY);
+			model.addAttribute("address", BEIBA_COMPANY_ADDRESS);
+			model.addAttribute("BEIBA_COMPANY_NAME", BEIBA_COMPANY_NAME);
+		}
 		return "map_location";
 	}
 
