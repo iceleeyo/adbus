@@ -58,8 +58,8 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                 { "orderable": false, "targets": [2] },
     </@security.authorize>
             ],
-            "iDisplayLength" : 20,
-            "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
+            "iDisplayLength" : 50,
+            "aLengthMenu": [[50, 100], [50, 100]],
             "ajax": {
                 type: "GET",
                 url: "${rc.contextPath}/api/ajax-all-lines",
@@ -142,8 +142,8 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 	 $('#address').val(w);
 	 
 	  var oSettings = table.fnSettings();
-        oSettings._iDisplayLength = 100;
-	  redrawWithNewCount(table, 100);
+        oSettings._iDisplayLength = 50;
+	  redrawWithNewCount(table, 50);
 	 //table.dataTable().fnSetDisplayLength = 100;
 	 //table.dataTable()._fnAjaxUpdate();
 	  table.fnDraw();
