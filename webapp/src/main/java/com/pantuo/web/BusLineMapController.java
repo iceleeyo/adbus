@@ -85,7 +85,6 @@ public class BusLineMapController {
 
 		String levelStr = req.getFilter("level");
 		String searchAdress = req.getFilter("address");
-		System.out.println(searchAdress);
 
 		if (StringUtils.isNoneBlank(searchAdress)) {
 			Page<JpaBusline> w = busMapService.getAllBuslines(model, cityId, searchAdress, req.getPage(),
