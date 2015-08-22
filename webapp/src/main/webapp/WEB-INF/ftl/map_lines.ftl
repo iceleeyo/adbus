@@ -77,10 +77,11 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                     "render": function(data, type, row, meta) {
                     return '<a  target="_Blank" href="${rc.contextPath}/busselect/lineschedule/' + row.id + '" >'+data+'</a> &nbsp;';
                 } },
-                { "data": "levelStr", "defaultContent": ""},
+                { "data": "levelStr", "defaultContent": ""}, { "data": "_cars", "defaultContent": ""},
                  { "data": "levelStr", "defaultContent": "","render": function(data, type, row, meta) {
                         return '<a href="javascript:;" onclick="showSite('+ "\'${rc.contextPath}/api/lineMap?lineName="+row.name+"\' " +');">线路情况</a>&nbsp;';
                     }},
+                    
                 <@security.authorize ifAnyGranted="BodyOrderManager">
                 { "data": function( row, type, set, meta) {
                     return row.id;
@@ -146,7 +147,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 	  redrawWithNewCount(table, 50);
 	 //table.dataTable().fnSetDisplayLength = 100;
 	 //table.dataTable()._fnAjaxUpdate();
-	  table.fnDraw();
+	 // table.fnDraw();
 	}
     function initComplete() {
         $("div#toolbar").html(
@@ -217,6 +218,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                     <tr>
                         <th orderBy="name">线路名</th>
                         <th orderBy="level">线路级别</th>
+                         <th orderBy="level">自营车辆</th>
                          <th>查看站点</th>
     <@security.authorize ifAnyGranted="BodyOrderManager">
                         <th>管理</th>
