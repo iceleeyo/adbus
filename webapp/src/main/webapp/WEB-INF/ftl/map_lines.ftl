@@ -173,6 +173,8 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
         );
 
         $('#name,#levelStr').change(function() {
+        	$('#address').val("");
+        	$('#location').val("");
             table.fnDraw();
         });
         
