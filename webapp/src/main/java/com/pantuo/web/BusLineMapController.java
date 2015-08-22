@@ -53,6 +53,7 @@ public class BusLineMapController {
 	Pair<Double, Double> BEIBA_COMPANY = new Pair<Double, Double>(116.31718990229, 39.939290559991);
 	private final String BEIBA_COMPANY_NAME = "北巴传媒广告分公司";
 	private final String BEIBA_COMPANY_ADDRESS = "北京市海淀区紫竹院路32号";
+
 	@RequestMapping(value = "/lineMap")
 	public String lineMap(Model model, HttpServletResponse response, String lineName) {
 		response.setHeader("X-Frame-Options", "SAMEORIGIN");
@@ -89,6 +90,7 @@ public class BusLineMapController {
 		if (StringUtils.isNoneBlank(searchAdress)) {
 			Page<JpaBusline> w = busMapService.getAllBuslines(model, cityId, searchAdress, req.getPage(),
 					req.getLength(), req.getSort("id"));
+			  busMapService.putLineCarToPageView(req, w);
 			return new DataTablePage(w, req.getDraw());
 		}
 		JpaBusline.Level level = null;
@@ -99,7 +101,9 @@ public class BusLineMapController {
 			} catch (Exception e) {
 			}
 		}
-		return new DataTablePage(busService.getAllBuslines(cityId, level, req.getFilter("name"), req.getPage(),
-				req.getLength(), req.getSort("id")), req.getDraw());
+		Page<JpaBusline> w = busService.getAllBuslines(cityId, level, req.getFilter("name"), req.getPage(),
+				req.getLength(), req.getSort("id"));
+		 busMapService.putLineCarToPageView(req, w);
+		return new DataTablePage(w, req.getDraw());
 	}
 }

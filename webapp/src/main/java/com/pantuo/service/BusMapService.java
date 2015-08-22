@@ -5,6 +5,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.ui.Model;
 
 import com.pantuo.dao.pojo.JpaBusline;
+import com.pantuo.pojo.TableRequest;
 import com.pantuo.util.Pair;
 
 public interface BusMapService { 
@@ -14,5 +15,14 @@ public interface BusMapService {
 	
 	
 	  Page<JpaBusline> getAllBuslines(Model model,int city, String address,int page, int pageSize, Sort sort);
+	  
+	  
+	  /**
+	   * 
+	   * 增加车辆自运营数量
+	   *
+	   * @since pantuo 1.0-SNAPSHOT
+	   */
+	  public void putLineCarToPageView(TableRequest req,Page<JpaBusline> page);
 	
 }

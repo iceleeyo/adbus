@@ -1,20 +1,12 @@
 package com.pantuo;
 
-import com.pantuo.service.DataInitializationService;
-import org.activiti.engine.*;
-import org.activiti.spring.ProcessEngineFactoryBean;
-import org.activiti.spring.SpringProcessEngineConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.transaction.PlatformTransactionManager;
 
-import javax.sql.DataSource;
-import java.io.IOException;
-import java.sql.SQLException;
+import com.pantuo.service.DataInitializationService;
+import com.pantuo.simulate.LineCarsCount;
 
 /**
  * Initialization configuration
@@ -27,9 +19,15 @@ import java.sql.SQLException;
 public class InitializationConfiguration {
     @Autowired
     DataInitializationService initService;
+    /**
+     * 初始化线路对应的车辆数量
+     */
+    @Autowired
+    LineCarsCount lineCarsCount;
 
     @Bean
     public boolean initialize() throws Exception {
+    	lineCarsCount.countCars();
         initService.intialize();
         return true;
     }
