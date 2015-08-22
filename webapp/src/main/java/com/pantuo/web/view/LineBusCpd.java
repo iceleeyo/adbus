@@ -6,12 +6,15 @@ import com.pantuo.dao.pojo.JpaBodyContract;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.mybatis.domain.Bus;
 import com.pantuo.mybatis.domain.BusContract;
+import com.pantuo.mybatis.domain.BusLock;
 
 public class LineBusCpd {
 
 	public String serialNumber;
 	public Bus bus;
 	JpaBusline line;
+	
+	BusLock buslock;
 	public Map<String, JpaBodyContract> map;
 	
 	//已安装车辆显示
@@ -55,6 +58,14 @@ public class LineBusCpd {
 
 	public void setBusContract(BusContract busContract) {
 		this.busContract = busContract;
+	}
+
+	public BusLock getBuslock() {
+		return buslock;
+	}
+
+	public void setBuslock(BusLock buslock) {
+		this.buslock = buslock;
 	}
 
 }

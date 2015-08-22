@@ -971,10 +971,30 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		 if(busContract!=null){
 		     bus=busMapper.selectByPrimaryKey(busContract.getBusid());
 		     lineBusCpd.setBus(bus);
+		     lineBusCpd.setBuslock(getBusLock(busContract.getContractid(), bus.getLineId(), bus.getModelId()));
 		 }
 		 lineBusCpd.setBusContract(busContract);
 		 lineBusCpd.setLine(jpaBusline);
 		 return lineBusCpd;
+	}
+	
+	public BusLock getBusLock(int contractId, int lineid, int modleId) {
+		BusLockExample example = new BusLockExample();
+		BusLockExample.Criteria criteria = example.createCriteria();
+		criteria.andContractIdEqualTo(contractId);
+		criteria.andLineIdEqualTo(lineid);
+		criteria.andModelIdEqualTo(modleId);
+		List<BusLock> list = busLockMapper.selectByExample(example);
+		if (list.isEmpty()) {
+			example = new BusLockExample();
+			criteria = example.createCriteria();
+			criteria.andContractIdEqualTo(contractId);
+			criteria.andLineIdEqualTo(lineid);
+			criteria.andModelIdEqualTo(0);
+			list = busLockMapper.selectByExample(example);
+		}
+
+		return list.isEmpty() ? null : list.get(0);
 	}
 
 	@Override

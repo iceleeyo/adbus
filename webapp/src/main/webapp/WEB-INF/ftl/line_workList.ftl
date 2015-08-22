@@ -53,7 +53,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 	function to_confirm(bid,lid) {
 	var url  = "${rc.contextPath}/busselect/toconfirm_bus/"+bid+"/"+lid;
 	$.post(url,{},function(data){
-    	 var tjson= {"staTime":$.format.date(data.busContract.startDate, "yyyy-MM-dd"),"creTime":$.format.date(data.busContract.created, "yyyy-MM-dd"),"endTime":$.format.date(data.busContract.endDate, "yyyy-MM-dd")};
+    	 var tjson= {"staTime":$.format.date(data.buslock.startDate, "yyyy-MM-dd"),"creTime":$.format.date(data.busContract.created, "yyyy-MM-dd"),"endTime":$.format.date(data.buslock.endDate, "yyyy-MM-dd")};
 		var innerHTMLString = nano2($("#ccc").html(),data,tjson);
 			layer.open({
                 type: 1,
@@ -118,6 +118,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 "sSearch": "Search all columns:",
                 "sLoadingRecords": "Please wait - loading...",
                 "sProcessing": "正在加载中",
+                "sEmptyTable": "表中无数据存在！",
             },
 		    processing : true,
             "dom": '<"#toolbar2">rt',
@@ -254,6 +255,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 "sSearch": "Search all columns:",
                 "sLoadingRecords": "Please wait - loading...",
                 "sProcessing": "正在加载中",
+                "sEmptyTable": "表中无数据存在！",
             },
 		    processing : true,
             "dom": '<"#toolbar1">rt',
