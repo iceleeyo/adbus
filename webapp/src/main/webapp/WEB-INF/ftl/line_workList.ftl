@@ -27,7 +27,9 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 </style>
  
 <script type="text/javascript">
-
+	  function gotoSchedult(id,modelId){
+	  window.open("${rc.contextPath}/busselect/lineschedule/"+id+"?modelId="+modelId);
+	  }
 	var table;
 	var table2;
 	
@@ -158,7 +160,14 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                     }
                 },{
                     "data" : "line.name", "defaultContent": "", "render" : function(data, type, row, meta) {
-                    return data;
+                    var i=0;
+                    <@security.authorize ifAnyGranted="bodyFinancialManager,bodyContractManager,bodyScheduleManager">
+	                    i++;
+	                     return '<a   onclick=" gotoSchedult(' + row.bus.lineId +","+(row.bus.modelId )+ ')" >'+data+'</a> &nbsp;';
+                    </@security.authorize>
+                    if(i==0){
+                     	return data;
+                    }
                     }
                 } 
                  <@security.authorize ifAnyGranted="bodyFinancialManager,bodyContractManager,bodyScheduleManager">
@@ -180,11 +189,12 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                     }
                 },{
                     "data" : "busContract.userid", "defaultContent": "", "render" : function(data, type, row, meta) {
-                	     return data==null?'未确认':'已确认';
+                  
+                	     return row.busContract.enable==false?'未确认':'已确认';
                     }
                 },{
                     "data" : "line.name", "defaultContent": "", "render" : function(data, type, row, meta) {
-                    if(row.busContract.userid==null){
+                    if(row.busContract.enable==false){
 	                      return '<a   onclick="to_confirm(' +(row.busContract.id ) +","+(row.line.id )+ ')" >确认</a> &nbsp;';
                     }else{
                         return '<a   onclick="to_confirm(' +(row.busContract.id ) +","+(row.line.id )+ ')" >修改</a> &nbsp;';
