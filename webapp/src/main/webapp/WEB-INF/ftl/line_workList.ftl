@@ -52,6 +52,28 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 		}, function(){
 		});
 	}
+	 function XYDetail(data){
+	layer.open({
+    		type: 1,
+    		title: "施工照片",
+    		skin: 'layui-layer-rim', 
+    		area: ['1000px', '529px'], 
+    		content:''
+			   +' '
+			   +'<iframe  style="width:99%;height:99%" src="${rc.contextPath}/supplies/XYDetail/'+data+'/workp"/>'
+			});
+}
+	//上传施工照片
+function uploadWorkP() {
+$("#wpform").ajaxForm(function(data) {
+	 $("#uploadWP").attr("disabled",true);
+     $("#uploadWP").css("background-color","#85A2AD");
+     $("#cc").trigger("click");
+      layer.msg(data.right);
+		table2.dataTable()._fnAjaxUpdate();
+	    table.dataTable()._fnAjaxUpdate();
+	}).submit();
+}
 	function to_confirm(bid,lid) {
 	var url  = "${rc.contextPath}/busselect/toconfirm_bus/"+bid+"/"+lid;
 	$.post(url,{},function(data){
@@ -195,11 +217,13 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 },
                 <@security.authorize ifAnyGranted="bodyScheduleManager">{
                     "data" : "line.name", "defaultContent": "", "render" : function(data, type, row, meta) {
-                    if(row.busContract.enable==false){
-	                      return '<a   onclick="to_confirm(' +(row.busContract.id ) +","+(row.line.id )+ ')" >确认</a> &nbsp;';
-                    }else{
-                        return '<a   onclick="to_confirm(' +(row.busContract.id ) +","+(row.line.id )+ ')" >修改</a> &nbsp;';
-                    }
+                      var op='<a  onclick="XYDetail('+row.busContract.id+');">施工照片</a> &nbsp;';
+                        if(row.busContract.enable==false){
+	                      op+= '<a   onclick="to_confirm(' +(row.busContract.id ) +","+(row.line.id )+ ')" >确认</a> &nbsp;';
+                        }else{
+                        op+= '<a   onclick="to_confirm(' +(row.busContract.id ) +","+(row.line.id )+ ')" >修改</a> &nbsp;';
+                       }
+                         return op;
                     }
                 } </@security.authorize>
                 
@@ -310,7 +334,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 } ,   <@security.authorize ifNotGranted="bodyFinancialManager,bodyContractManager">  {
                     "data" : "line.name", "defaultContent": "", "render" : function(data, type, row, meta) {
 	                    var w ='<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/online/${id}/'+row.bus.id+'">完成安装</a> &nbsp;';
-	                      return '<a   onclick="setBusOnline(' +${id} +","+(row.bus.id )+ ')" >完成安装</a> &nbsp;';
+	                      return '<a   onclick="uploadWorkPhoto(\'${rc.contextPath}\',' +${id} +","+(row.bus.id )+ ')" >安装操作</a> &nbsp;';
                     }
                 }  </@security.authorize>
             ],

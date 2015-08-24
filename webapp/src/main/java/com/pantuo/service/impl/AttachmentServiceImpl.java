@@ -285,11 +285,15 @@ public class AttachmentServiceImpl implements AttachmentService {
 		return attachmentMapper.selectByExample(example);
 	}
 	//查询小样
-	public List<Attachment> queryXiaoY(Principal principal, int main_id) {
+	public List<Attachment> queryXiaoY(Principal principal, int main_id,String type) {
 		AttachmentExample example =new AttachmentExample();
 		AttachmentExample.Criteria ca=example.createCriteria();
 		ca.andMainIdEqualTo(main_id);
-		ca.andTypeEqualTo(JpaAttachment.Type.xiaoY.ordinal());
+		if(StringUtils.equals(type, "xiaoy")){
+			ca.andTypeEqualTo(JpaAttachment.Type.xiaoY.ordinal());
+		}else if(StringUtils.equals(type, "workp")){
+			ca.andTypeEqualTo(JpaAttachment.Type.workP.ordinal());
+		}
 		return attachmentMapper.selectByExample(example);
 	}
 	

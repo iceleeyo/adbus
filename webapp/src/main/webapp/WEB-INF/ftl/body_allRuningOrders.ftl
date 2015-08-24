@@ -71,7 +71,7 @@ var table;
                          '<select class="ui-input ui-input-mini" name="taskKey" id="taskKey">' +
                     '<option value="defaultAll" selected="selected">所有事项</option>' +
                   	'<option value="be_contractEnable">待合同生效</option>' +
-                  	'<option value="payment">已支付待审核</option>' +
+                  	'<option value="payment">待支付</option>' +
                     '<option value="be_workcomple">待施工完成</option>' +
          			'</select>' +
                     '</div>'

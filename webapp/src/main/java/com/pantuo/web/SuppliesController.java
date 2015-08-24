@@ -157,11 +157,11 @@ public class SuppliesController {
 		model.addAttribute("view", view);
 		return "suppliesDetail";
 	}
-	@RequestMapping(value = "/XYDetail/{mainid}", produces = "text/html;charset=utf-8")
-	public String XYDetail(Model model, @PathVariable("mainid") int mainid, Principal principal,
+	@RequestMapping(value = "/XYDetail/{mainid}/{type}", produces = "text/html;charset=utf-8")
+	public String XYDetail(Model model, @PathVariable("mainid") int mainid, @PathVariable("type") String type, Principal principal,
 			HttpServletRequest request,HttpServletResponse response) {
 		response.setHeader("X-Frame-Options", "SAMEORIGIN");
-		model.addAttribute("attachments", attachmentService.queryXiaoY(principal, mainid));
+		model.addAttribute("attachments", attachmentService.queryXiaoY(principal, mainid,type));
 		return "template/XiaoYDetail";
 	}
 

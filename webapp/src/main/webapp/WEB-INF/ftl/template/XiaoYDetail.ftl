@@ -32,7 +32,7 @@ css=["js/highslide/highslide.css","css/lrtk.css", "js/video-js/video-js.css"]>
 																<div class="th-md">操作</div>
 															</td>
 														</tr>
-
+<#if attachments?has_content>
                                      <#list attachments as item>
                                                         <tr>
                                                             <td>
@@ -43,7 +43,11 @@ css=["js/highslide/highslide.css","css/lrtk.css", "js/video-js/video-js.css"]>
 	                                                           </a>
                                                             </td>
                                                             <td>
+                                                            <#if item.type==12>
                                                                                                                                                                                          车身小样
+                                                                <#else>
+                                                                                                                                                                                          施工照片
+                                                                </#if>                                                                                                                         
                                                             </td>
                                                             <td>
                                                                 ${item.name!''}
@@ -56,7 +60,12 @@ css=["js/highslide/highslide.css","css/lrtk.css", "js/video-js/video-js.css"]>
                                                             <td colspan="5"><li class="ui-list-item"></li></td>
                                                         </tr>
                                           </#list>
-
+                                          <#else>
+                                           <tr>
+                                                            <td colspan="5" align="center">未上传照片</td>
+                                                        </tr>
+                                        
+</#if>
 													</tbody>
 												</table>
 											</div>

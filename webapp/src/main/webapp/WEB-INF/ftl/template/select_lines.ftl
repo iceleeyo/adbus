@@ -246,7 +246,7 @@
     		area: ['1000px', '529px'], 
     		content:''
 			   +' '
-			   +'<iframe  style="width:99%;height:99%" src="${rc.contextPath}/supplies/XYDetail/'+data+'"/>'
+			   +'<iframe  style="width:99%;height:99%" src="${rc.contextPath}/supplies/XYDetail/'+data+'/xiaoy"/>'
 			});
 }
 </script>

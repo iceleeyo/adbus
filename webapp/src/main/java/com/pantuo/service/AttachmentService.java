@@ -66,5 +66,5 @@ public interface AttachmentService {
 	public List<Attachment> querysupFile(Principal principal, int main_id);
 	public List<Attachment> queryContracF(Principal principal, int main_id);
 	public List<Attachment> findUserQulifi(String user_id);
-	public List<Attachment> queryXiaoY(Principal principal, int main_id);
+	public List<Attachment> queryXiaoY(Principal principal, int main_id,String type);
 }

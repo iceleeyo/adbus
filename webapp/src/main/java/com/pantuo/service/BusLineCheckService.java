@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Page;
 
@@ -16,6 +18,7 @@ import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.domain.BusModel;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService.TaskQueryType;
+import com.pantuo.util.BusinessException;
 import com.pantuo.util.Pair;
 import com.pantuo.vo.GroupVo;
 import com.pantuo.web.view.AutoCompleteView;
@@ -120,7 +123,7 @@ public interface BusLineCheckService {
 	 public List<LineBusCpd> queryWorkDone(int bodycontract_id, int lineId, Integer modelId, Category category);
 	 
 	 
-	 public void updateBusDone(int bodycontract_id, int busid) ;
+	 public void updateBusDone(int bodycontract_id, int busid,Principal principal,HttpServletRequest request)throws BusinessException ;
 
 	public LineBusCpd selectLineBusCpd(int busContractId, int lineid);
 

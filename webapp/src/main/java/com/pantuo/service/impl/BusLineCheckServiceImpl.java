@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
@@ -42,6 +44,7 @@ import com.pantuo.dao.BuslineRepository;
 import com.pantuo.dao.pojo.JpaBodyContract;
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBus.Category;
+import com.pantuo.dao.pojo.JpaAttachment;
 import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.QJpaBodyContract;
@@ -66,11 +69,13 @@ import com.pantuo.mybatis.persistence.BusSelectMapper;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.ActivitiService.TaskQueryType;
+import com.pantuo.service.AttachmentService;
 import com.pantuo.service.BusLineCheckService;
 import com.pantuo.service.MailService;
 import com.pantuo.service.MailTask;
 import com.pantuo.service.MailTask.Type;
 import com.pantuo.simulate.MailJob;
+import com.pantuo.util.BusinessException;
 import com.pantuo.util.Constants;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.NumberPageUtil;
@@ -103,6 +108,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	BuslineRepository BuslineRepository;
 	@Autowired
 	BusContractMapper busContractMapper;
+	@Autowired
+	AttachmentService attachmentService;
 
 	@Autowired
 	BusMapper busMapper;
@@ -794,7 +801,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		return r;
 	}
 
-	public void updateBusDone(int bodycontract_id, int busid) {
+	public void updateBusDone(int bodycontract_id, int busid,Principal principal,HttpServletRequest request) throws BusinessException {
 		Bus bus = busMapper.selectByPrimaryKey(busid);
 		if (bus == null) {
 			throw new OrderException("车辆信息丢失!");
@@ -838,7 +845,10 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			record.setEndDate(busLock.getEndDate());
 			record.setCreated(new Date());
 			record.setUpdated(record.getCreated());
-			busContractMapper.insert(record);
+			int a=busContractMapper.insert(record);
+			if(a>0){
+				 attachmentService.saveAttachment(request, Request.getUserId(principal), record.getId(), JpaAttachment.Type.workP, null);
+			}
 		} else {
 			log.warn("车辆重复上刊!bodycontract_id:{},busid:{},lineId:{}", bodycontract_id, busid, bus.getLineId());
 		}

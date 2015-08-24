@@ -400,9 +400,9 @@ public class BusSelectController {
 	@RequestMapping(value = "work_online/{bodycontract_id}/{busId}")
 	@ResponseBody
 	public Pair<Boolean, String> saveBodyContract(@PathVariable("bodycontract_id") int bodycontract_id,
-			@PathVariable("busId") int busId) {
+			Principal principal,HttpServletRequest request,@PathVariable("busId") int busId) {
 		try {
-			busLineCheckService.updateBusDone(bodycontract_id, busId);
+			busLineCheckService.updateBusDone(bodycontract_id, busId,principal,request);
 		} catch (Exception e) {
 			return new Pair<Boolean, String>(false, e.getMessage());
 		}

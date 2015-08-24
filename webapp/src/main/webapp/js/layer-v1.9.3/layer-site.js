@@ -954,7 +954,29 @@ function loglayer(pathurl){
 		}, "text");
 }
 
+//上传施工照片
+function uploadWorkPhoto(tourl,bodycontractid,busid){
+			layer.open({
+    		type: 1,
+    		title: "上传施工照片",
+    		skin: 'layui-layer-rim', //加上边框
+    		area: ['480px', '400px'], //宽高
+    		content: '<form id="wpform"  action="'+tourl+'/busselect/work_online/'+bodycontractid+'/'+busid+'" enctype="multipart/form-data" method="post"">'
+					 +'<br/><br/><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/><div class="withdrawInputs"><div class="inputs">'
+					 +'<div class="ui-form-item"> <label class="ui-labels mt10">施工图片上传</label> <div id="newUpload3"> <div id="quadiv_1"> <input type="file" name="workphoto" id="Sfile1" class="validate[required]"> </div> </div>'
+					 +'<input class="btn-sm btn-success" type="button" id="btn_add3" value="增加一行" style="margin-top: 10px;" ><br> </div> <div class="ui-form-item widthdrawBtBox"> <input type="button" id="uploadWP" class="block-btn" onclick="uploadWorkP();" value="确定安装"> </div>'
+					 +'<div id="progress1"> <div class="percent"></div> <div class="pbar"></div> <div class="elapsed"></div> </div> </div> </div></form>'
 
+		});
+		i = 2;
+		j = 2;
+		$("#btn_add3").click(function() {
+		    $("#newUpload3").append(
+		            '<div id="quadiv_'+i+'"><input  name="wokp_'+i+'" type="file"  style="margin-top:10px;"  class="validate[required]" />' +
+		            '<input class="btn-sm btn-wrong" type="button"  style="margin-top:10px;" value="删除"  onclick="del_3('+ i + ')"/></div>');
+		    i = i + 1;
+		});
+}
 function subIvc(tourl){
     if (!$("#userForm3").validationEngine('validateBeforeSubmit'))
         return;
