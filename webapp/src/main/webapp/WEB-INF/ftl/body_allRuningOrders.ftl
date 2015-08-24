@@ -20,10 +20,7 @@ var table;
                 url: "${rc.contextPath}/busselect/ajax-body-runningAjax",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "filter[longOrderId]" : $('#longOrderId').val()
-                         <@security.authorize ifAnyGranted="bodyContractManager,bodyFinancialManager,bodyScheduleManager">
-                        ,"filter[userId]" : $('#autocomplete').val()
-                         </@security.authorize>
+                        "filter[companyname]" : $('#companyname').val()
                         ,"filter[taskKey]" : $('#taskKey').val()
                     } );
                 },
@@ -64,65 +61,27 @@ var table;
     }
     
     	<@security.authorize ifAnyGranted="bodyContractManager,bodyFinancialManager,bodyScheduleManager">
-	    	function initComplete() {
-	        $("div#toolbar").html(
-	                '<div>' +
-	                        '    <span>订单编号</span>' +
-	                        '    <span>' +
-	                        '        <input id="longOrderId" value="">' +
-	                        '    </span>' +
-	                             '    <span>广告主</span>' +
-                        '    <span>' +
-                        '        <input id="autocomplete" value="">' +
-                        '    </span>' +
-	                         '<select class="ui-input ui-input-mini" name="taskKey" id="taskKey">' +
-	                    '<option value="defaultAll" selected="selected">所有事项</option>' +
-	                  	'<option value="payment">待合同生效</option>' +
-	                  	'<option value="auth">已支付待审核</option>' +
-	                    '<option value="report">待施工完成</option>' +
-	         			'</select>' +
-	                    '</div>'
-	        );
-	
-	        $('#longOrderId,#autocomplete, #taskKey').change(function() {
-	            table.fnDraw();
-	        });
-	         //author:pxh 2015-05-20 22:36
-        $( "#autocomplete" ).autocomplete({
-  			source: "${rc.contextPath}/user/autoComplete",
-  			change: function( event, ui ) { 
-  				/*if(ui.item!=null){alert(ui.item.value);}*/
-  				table.fnDraw();
-  			 },
-  			 select: function(event,ui) {
-  			 $('#autocomplete').val(ui.item.value);
-  				table.fnDraw();
-  			 }
-		}); 
-	    }
-   </@security.authorize>
- <@security.authorize ifAnyGranted="bodysales">
-    function initComplete() {
+	    	 function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>订单编号</span>' +
+                        '    <span>公司名称</span>' +
                         '    <span>' +
-                        '        <input id="longOrderId" value="">' +
+                        '        <input id="companyname" value="">' +
                         '    </span>' +
                          '<select class="ui-input ui-input-mini" name="taskKey" id="taskKey">' +
                     '<option value="defaultAll" selected="selected">所有事项</option>' +
-                  	'<option value="payment">待合同生效</option>' +
-                  	'<option value="auth">已支付待审核</option>' +
-                    '<option value="report">待施工完成</option>' +
+                  	'<option value="be_contractEnable">待合同生效</option>' +
+                  	'<option value="payment">已支付待审核</option>' +
+                    '<option value="be_workcomple">待施工完成</option>' +
          			'</select>' +
                     '</div>'
         );
 
-        $('#longOrderId, #taskKey').change(function() {
+        $('#companyname, #taskKey').change(function() {
             table.fnDraw();
         });
     }
-      </@security.authorize>
+   </@security.authorize>
 
     function drawCallback() {
         $('.table-action').click(function() {

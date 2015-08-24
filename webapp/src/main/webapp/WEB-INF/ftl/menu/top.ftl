@@ -103,8 +103,12 @@
 								<span class="pg-nav-item s-left" style="padding:0;">您好，</span>
 									<span>
                                         <@security.authorize access="isAuthenticated()">
+                                        <#if medetype?? && medetype=="screen">
                                         <a class="pg-nav-item s-left" href="${rc.contextPath}/order/myTask/1">
-                                        我的账户:
+                                        <#else>
+                                           <a class="pg-nav-item s-left" href="${rc.contextPath}/busselect/myTask/1">
+                                        </#if>
+                                                                                                                                   我的账户:
                                             <@security.authentication property="principal.user.firstName" />
                                             <@security.authentication property="principal.user.lastName" />
                                         </a>

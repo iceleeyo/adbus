@@ -23,10 +23,7 @@
                 url: "${rc.contextPath}/busselect/ajax-finishedOrders",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "filter[stateKey]" : $('#stateKey').val()
-                          <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
-                        ,"filter[userId]" : $('#autocomplete').val()
-                         </@security.authorize>
+                        "filter[companyname]" : $('#companyname').val()
                     } );
                 },
                 "dataSrc": "content",
@@ -66,40 +63,19 @@
     
     
     <@security.authorize ifAnyGranted="bodyContractManager,bodyFinancialManager,bodyScheduleManager">
-    function initComplete() {
+     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>订单号</span>' +
+                        '    <span>公司名称</span>' +
                         '    <span>' +
-                        '        <input id="longOrderId" value="">' +
-                        '    </span>' + 
-                         '    <span>广告主</span>' +
-                        '    <span>' +
-                        '        <input id="autocomplete" value="">' +
+                        '        <input id="companyname" value="">' +
                         '    </span>' +
-                        '<select class="ui-input ui-input-mini" name="stateKey" id="stateKey">' +
-	                    '<option value="defaultAll" selected="selected">所有状态</option>' +
-    	              	'<option value="finished">已完成</option>' +
-        	          	'<option value="closed">已关闭</option>' +
-         				'</select>' +
-                        '</div>'
+                    '</div>'
         );
 
-        $('#longOrderId,#autocomplete,#stateKey').change(function() {
+        $('#companyname').change(function() {
             table.fnDraw();
         });
-        //author:pxh 2015-05-20 22:36
-        $( "#autocomplete" ).autocomplete({
-  			source: "${rc.contextPath}/user/autoComplete",
-  			change: function( event, ui ) { 
-  				/*if(ui.item!=null){alert(ui.item.value);}*/
-  				table.fnDraw();
-  			 },
-  			 select: function(event,ui) {
-  			 $('#autocomplete').val(ui.item.value);
-  				table.fnDraw();
-  			 }
-		});
     }
  </@security.authorize>
  

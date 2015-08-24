@@ -34,6 +34,7 @@ public interface ActivitiService {
 	public static final String CITY = "_city";
 	public static final String PRODUCT = "_product";
 	public static final String CLOSED = "_isClosed";
+	public static final String CONTRACT_ENABLE = "canSchedule";
 	public static final String SUPPLIEID = "_supplieId";
 	public static final String OWNER = "_owner";
 	public static final String CREAT_USERID = "_creatUserId";
@@ -64,7 +65,7 @@ public interface ActivitiService {
 	}
 
 	public static enum OrderStatus {
-		payment, auth, report, over
+		payment, auth, report, over,be_contractEnable/*待合同生效*/,be_workcomple/*待施工完成*/
 	}
 
 	public static String paymentString = "待支付", authString = "已支付待审核", reportString = "已排期待上播", overString = "已上播";
@@ -174,7 +175,7 @@ public interface ActivitiService {
 
 	public OrderView findBodyContractByTaskId(String taskid, Principal principal);
 
-	public Pair<Boolean, String> LockStore(int parseInt, String taskid, int contractid, Principal principal,boolean canSchedule,String LockDate, String contractname, String contractcode)throws ParseException;
+	public Pair<Boolean, String> LockStore(int parseInt, String taskid, int contractid, Principal principal,boolean canSchedule,String LockDate)throws ParseException;
 
 	public Pair<Boolean, String> financialCheck(int parseInt, String taskid, String financialcomment, boolean paymentResult, Principal principal);
 

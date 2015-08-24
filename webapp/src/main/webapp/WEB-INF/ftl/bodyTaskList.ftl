@@ -55,10 +55,7 @@
                 url: "${rc.contextPath}/busselect/ajax-orderlist",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "filter[seriaNum]"  : $('#seriaNum').val()
-                        <@security.authorize ifAnyGranted="bodyFinancialManager,bodyContractManager,bodyScheduleManager">
-                        ,"filter[userId]" : $('#autocomplete').val()
-                         </@security.authorize>
+                        "filter[companyname]" : $('#companyname').val()
                     } );
                 },
                 "dataSrc": "content",
@@ -66,7 +63,7 @@
             "columns": [
             	{ "data": "jpaBodyContract.creator", "defaultContent": ""},
             	{ "data": "jpaBodyContract.seriaNum", "defaultContent": ""},
-            	{ "data": "jpaBodyContract.legalman", "defaultContent": ""},
+            	{ "data": "jpaBodyContract.company", "defaultContent": ""},
                 { "data": "task_createTime", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd HH:mm");
                 	return d;
@@ -109,18 +106,14 @@
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>流水号</span>' +
+                          '    <span>公司名称</span>' +
                         '    <span>' +
-                        '        <input id="seriaNum" value="">' +
-                        '    </span>' +
-                          '    <span>合同申请人</span>' +
-                        '    <span>' +
-                        '        <input id="autocomplete" value="">' +
+                        '        <input id="companyname" value="">' +
                         '    </span>' +
                         '</div>'
         );
 
-        $('#seriaNum, #autocomplete').change(function() {
+        $('#companyname').change(function() {
             table.fnDraw();
         });
         //author:impanxh 2015-05-20 22:36 自动补全功能
@@ -188,7 +181,7 @@
                     <tr>
                         <th>合同申请人</th>
                         <th orderBy="jpaBodyContract.seriaNum">流水号</th>
-                        <th>法人代表</th>
+                        <th>签约公司</th>
                         <th orderBy="created">创建时间</th>
                         <@security.authorize ifAnyGranted="bodyFinancialManager,bodyContractManager,bodyScheduleManager">
                         <th orderBy="taskKey">当前节点</th>

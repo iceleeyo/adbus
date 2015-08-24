@@ -991,15 +991,18 @@ public class ActivitiServiceImpl implements ActivitiService {
 	}
 
 	public Pair<Boolean, String> LockStore(int orderid, String taskid, int contractid, Principal principal,
-			boolean canSchedule, String LockDate,String contractname, String contractcode) throws ParseException {
+			boolean canSchedule, String LockDate) throws ParseException {
 		Bodycontract bodycontract = bodycontractMapper.selectByPrimaryKey(orderid);
 		if (bodycontract != null) {
 			if (canSchedule) {
 				bodycontract.setStats(JpaBodyContract.Status.enable.ordinal());
 				bodycontract.setLockExpiredTime((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(LockDate));
 				bodycontract.setContractid(contractid);
-				bodycontract.setContractName(contractname);
-				bodycontract.setContractCode(contractcode);
+				Contract contract=contractMapper.selectByPrimaryKey(contractid);
+				if(contract!=null){
+					bodycontract.setContractName(contract.getContractName());
+					bodycontract.setContractCode(contract.getContractCode());
+				}
 			} else {
 				bodycontract.setStats(JpaBodyContract.Status.close.ordinal());
 			}

@@ -257,13 +257,13 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 		  if(data.left){
 		      document.getElementById('subutton').setAttribute('disabled',true);
 		       $("#subutton").css("background-color","#85A2AD");
-		      alert(data.right);
+		      layer.msg(data.right);
 		      var uptime = window.setTimeout(function(){
-				window.location.reload()
+				window.location.href="${rc.contextPath}/busselect/myOrders/1";
 			   	clearTimeout(uptime);
 						},2000)
 		     }else{
-		     alert(data.right);
+		     layer.msg(data.right);
 		     }
 		}).submit();
 	}

@@ -44,8 +44,6 @@ function LockStore() {
 	              return;
 	            }
 	        }
-	        if($("#cname").val().trim()==""){layer.msg("请输入合同名称");return;}
-	        if($("#code").val().trim()==""){layer.msg("请输入合同编号");return;}
     var canSchedule=$('#usertask1 :radio[name=canSchedule]:checked').val();
 	var url="${rc.contextPath}/busselect/LockStore";
 	// 发送任务完成请求
@@ -54,9 +52,7 @@ function LockStore() {
         contractid: contractid,
         orderid: orderid,
         taskid:taskid,
-        LockDate:LockDate,
-        contractname:$("#cname").val(),
-        contractcode:$("#code").val()
+        LockDate:LockDate
     },function(data){
     	jDialog.Alert(data.left==true? data.right :"执行失败!");
     	var uptime = window.setTimeout(function(){
@@ -511,22 +507,6 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 							type="text" value=""
 							id="LockDate" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">
 						<em style="color: #ccc;margin-left: 10px;">注：预留截止时间不得早于当前时间</em>						
-					</TD>
-					
-				</TR>
-				<TR style="height: 45px;">
-					<TH>合同名称</TH>
-					<TD colspan=3>
-							<input	class="ui-input validate[required]" 
-							type="text" value="" id="cname" >
-					</TD>
-					
-				</TR>
-				<TR style="height: 45px;">
-					<TH>合同编号</TH>
-					<TD colspan=3>
-					<input	class="ui-input validate[required]" 
-							type="text" value="" id="code" >
 					</TD>
 					
 				</TR>

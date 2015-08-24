@@ -305,7 +305,9 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		initParams.put("username", userId);
 		initParams.put(ActivitiService.ORDER_ID, bodycontract.getId());
 		initParams.put(ActivitiService.CITY, bodycontract.getCity());
+		initParams.put(ActivitiService.THE_COMPANY, bodycontract.getCompany());
 		initParams.put(ActivitiService.CLOSED, false);
+		initParams.put(ActivitiService.CONTRACT_ENABLE, false);
 		initParams.put(ActivitiService.NOW, new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
 		ProcessInstance process = runtimeService.startProcessInstanceByKey("busFlowV2", initParams);
 
@@ -329,7 +331,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("created");
 
-		String userIdQuery = req.getFilter("userId");
+		String companyname = req.getFilter("companyname");
 		page = page + 1;
 		List<Task> tasks = new ArrayList<Task>();
 		List<OrderView> leaves = new ArrayList<OrderView>();
@@ -340,9 +342,9 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		queryList.taskCandidateOrAssigned(userid);
 		countQuery.processVariableValueEquals(ActivitiService.CITY, city);
 		queryList.processVariableValueEquals(ActivitiService.CITY, city).includeProcessVariables();
-		if (StringUtils.isNoneBlank(userIdQuery)) {
-			countQuery.processVariableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
-			queryList.processVariableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
+		if (StringUtils.isNoneBlank(companyname)) {
+			countQuery.processVariableValueLike(ActivitiService.THE_COMPANY, "%" + companyname + "%");
+			queryList.processVariableValueLike(ActivitiService.THE_COMPANY, "%" + companyname + "%");
 		}
 
 		long c = countQuery.count();
@@ -378,11 +380,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("created");
 		page = page + 1;
-		String longId = req.getFilter("longOrderId"), userIdQuery = req.getFilter("userId"), taskKey = req
-				.getFilter("taskKey"), productId = req.getFilter("productId");
-		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
+		String companyname = req.getFilter("companyname"),  taskKey = req.getFilter("taskKey");
 		List<OrderView> orders = new ArrayList<OrderView>();
-
 		ProcessInstanceQuery countQuery = runtimeService.createProcessInstanceQuery()
 				.processDefinitionKey(BODY_ACTIVITY).variableValueEquals(ActivitiService.CITY, city);
 
@@ -396,27 +395,15 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		}
 
 		//runtimeService.createNativeProcessInstanceQuery().sql("SELECT * FROM " + managementService.getTableName(ProcessInstance.class)).list().size());
-		/*按订单号查询 */
-		if (longOrderId > 0) {
-			countQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
-			listQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
+		/*按签约公司查询 */
+		if (StringUtils.isNoneBlank(companyname)) {
+			countQuery.variableValueLike(ActivitiService.THE_COMPANY, "%" + companyname + "%");
+			listQuery.variableValueLike(ActivitiService.THE_COMPANY, "%" + companyname + "%");
 		}
-		/*按用户查询 */
-		if (StringUtils.isNoneBlank(userIdQuery)) {
-			countQuery.variableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
-			listQuery.variableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
-		}
-		/*按商品查询 */
-		if (StringUtils.isNoneBlank(productId)) {
-			countQuery.variableValueEquals(ActivitiService.PRODUCT, NumberUtils.toInt(productId));
-			listQuery.variableValueEquals(ActivitiService.PRODUCT, NumberUtils.toInt(productId));
-		}
-		//setVarFilter(taskKey, countQuery, listQuery);
-
+		setVarFilter(taskKey, countQuery, listQuery);
 		/*排序 */
 		Sort.Order sor = sort.getOrderFor("created");
 		if (sor != null) {
-
 			listQuery.orderByProcessInstanceId();
 		} else if ((sor = sort.getOrderFor("taskKey")) != null) {
 			listQuery.orderByProcessInstanceId();//listQuery();
@@ -431,11 +418,9 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		List<ProcessInstance> processInstances = listQuery.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
 		List<Integer> contractIds = new ArrayList<Integer>();
 		for (ProcessInstance processInstance : processInstances) {
-
 			List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId())
 					.processVariableValueEquals(ActivitiService.CITY, city).includeProcessVariables()
 					.orderByTaskCreateTime().desc().list();
-
 			Integer orderid = (Integer) tasks.get(0).getProcessVariables().get(ActivitiService.ORDER_ID);
 			OrderView v = new OrderView();
 			v.setId(orderid);
@@ -443,24 +428,38 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			JpaBodyContract order = bodyContractRepository.findOne(orderid);
 			v.setJpaBodyContract(order);
 			v.setProcessInstanceId(processInstance.getId());
-			//v.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
 			Task top1Task = tasks.get(0);
 			v.setTask(top1Task);
 			v.setHaveTasks(tasks.size());
-			//if (StringUtils.isNoneBlank(taskKey) && !StringUtils.startsWith(taskKey, ActivitiService.R_DEFAULTALL)) {
-			//v.setTask_name(getOrderState(top1Task.getProcessVariables(), top1Task));
 			v.setTask_name(top1Task.getName());
 			orders.add(v);
 		}
 
 		setCars(orders, contractIds);
-
 		Pageable p = new PageRequest(page, pageSize, sort);
 		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(
 				orders, p, pageUtil.getTotal());
 		return r;
 	}
-
+	private void setVarFilter(String taskKey, ProcessInstanceQuery countQuery, ProcessInstanceQuery listQuery) {
+		if (StringUtils.isNoneBlank(taskKey) && !StringUtils.startsWith(taskKey, ActivitiService.R_DEFAULTALL)) {
+			if (StringUtils.equals(ActivitiService.OrderStatus.be_contractEnable.name(), taskKey)) {
+				//待合同生效
+				countQuery.variableValueEquals(ActivitiService.CONTRACT_ENABLE, false);
+				listQuery.variableValueEquals(ActivitiService.CONTRACT_ENABLE, false);
+			} else if (StringUtils.equals(ActivitiService.OrderStatus.payment.name(), taskKey)) {
+				//已支付待审核
+				countQuery.variableValueEquals(ActivitiService.CONTRACT_ENABLE, true).variableValueEquals(
+						"paymentResult", false);
+				listQuery.variableValueEquals(ActivitiService.CONTRACT_ENABLE, true).variableValueEquals(
+						"paymentResult", false);
+			} else if (StringUtils.equals(ActivitiService.OrderStatus.be_workcomple.name(), taskKey)) {
+				//待施工完成
+				countQuery.variableValueEquals("paymentResult", true);
+				listQuery.variableValueEquals("paymentResult", true);
+			} 
+		}
+	}
 	private void setCars(List<OrderView> orders, List<Integer> contractIds) {
 		Map<Integer, Integer> countMap = getContractCars(contractIds);
 		Map<Integer, Integer> doneMap = countContractDoneCar(contractIds);
@@ -678,10 +677,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("created");
 
-		String longId = req.getFilter("longOrderId"), userIdQuery = req.getFilter("userId"), taskKey = req
-				.getFilter("taskKey"), stateKey = req.getFilter("stateKey"), productId = req.getFilter("productId");
-		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
-
+		String companyname = req.getFilter("companyname");
 		page = page + 1;
 		List<OrderView> orders = new ArrayList<OrderView>();
 
@@ -692,21 +688,11 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 				.processDefinitionKey(BODY_ACTIVITY).variableValueEquals(ActivitiService.CITY, city)
 				.includeProcessVariables().finished();
 
-		if (longOrderId > 0) {
-			countQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
-			listQuery.variableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
-		}
 
-		if (StringUtils.isNoneBlank(stateKey) && !StringUtils.startsWith(stateKey, ActivitiService.R_DEFAULTALL)) {
-			boolean isClosed = StringUtils.startsWith(stateKey, ActivitiService.R_CLOSED) ? true : false;
-			countQuery.variableValueEquals(ActivitiService.CLOSED, isClosed);
-			listQuery.variableValueEquals(ActivitiService.CLOSED, isClosed);
-		}
-
-		/*按用户查询 */
-		if (StringUtils.isNoneBlank(userIdQuery)) {
-			countQuery.variableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
-			listQuery.variableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
+		/*按签约公司查询 */
+		if (StringUtils.isNoneBlank(companyname)) {
+			countQuery.variableValueLike(ActivitiService.THE_COMPANY, "%" + companyname + "%");
+			listQuery.variableValueLike(ActivitiService.THE_COMPANY, "%" + companyname + "%");
 		}
 		int c = 0;
 		if (Request.hasAuth(principal, ActivitiConfiguration.ADVERTISER)

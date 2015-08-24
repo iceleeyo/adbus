@@ -603,12 +603,11 @@ public class BusSelectController {
 	@ResponseBody
 	public Pair<Boolean, String> LockStore(@RequestParam(value = "orderid") String orderid,
 			@RequestParam(value = "contractid") int contractid, @RequestParam(value = "LockDate") String LockDate,
-			@RequestParam(value = "contractname") String contractname, @RequestParam(value = "contractcode") String contractcode,
 			@RequestParam(value = "taskid") String taskid, @RequestParam(value = "canSchedule") boolean canSchedule,
 			Principal principal, HttpServletRequest request, HttpServletResponse response)
 			throws NumberFormatException, ParseException {
 		return activitiService.LockStore(Integer.parseInt(orderid), taskid, contractid, principal, canSchedule,
-				LockDate,contractname,contractcode);
+				LockDate);
 	}
 
 	@RequestMapping(value = "financialCheck")
