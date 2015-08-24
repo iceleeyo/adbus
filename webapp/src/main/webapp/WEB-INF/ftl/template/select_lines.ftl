@@ -40,7 +40,7 @@
 			    { "data": "line.name", "defaultContent": "", "render": function(data, type, row, meta) {
                       return '<a   onclick=" gotoSchedult(' + row.line.id +","+(row.model.id )+ ')" >'+data+'</a> &nbsp;';
                 }},
-                { "data": "remainNuber", "defaultContent": ""}, 
+                { "data": "salesNumber", "defaultContent": ""}, 
                  { "data": "_doneCar", "defaultContent": ""}, 
                 { "data": "model", "defaultContent": "", "render": function(data) {
                 if(data.id ==0){

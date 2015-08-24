@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.util.Pair;
+import com.pantuo.web.view.JpaBuslineView;
 
 public interface BusMapService { 
 	
@@ -23,6 +24,6 @@ public interface BusMapService {
 	   *
 	   * @since pantuo 1.0-SNAPSHOT
 	   */
-	  public void putLineCarToPageView(TableRequest req,Page<JpaBusline> page);
+	  public  Page<JpaBuslineView>   putLineCarToPageView(TableRequest req,Page<JpaBusline> page);
 	
 }

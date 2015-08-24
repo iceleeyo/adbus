@@ -25,6 +25,7 @@ import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.BusMapService;
 import com.pantuo.service.BusService;
 import com.pantuo.util.Pair;
+import com.pantuo.web.view.JpaBuslineView;
 import com.pantuo.web.view.MapLocationSession;
 
 /**
@@ -84,7 +85,7 @@ public class BusLineMapController {
 
 	@RequestMapping("ajax-all-lines")
 	@ResponseBody
-	public DataTablePage<JpaBusline> getAllLines(Model model, TableRequest req,
+	public DataTablePage<JpaBuslineView> getAllLines(Model model, TableRequest req,
 			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city,
 			SessionStatus status) {
 		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
@@ -96,10 +97,9 @@ public class BusLineMapController {
 		if (StringUtils.isNoneBlank(searchAdress)) {
 			Page<JpaBusline> w = busMapService.getAllBuslines(model, cityId, searchAdress, req.getPage(),
 					req.getLength(), req.getSort("id"));
-			busMapService.putLineCarToPageView(req, w);
-			return new DataTablePage(w, req.getDraw());
+			return new DataTablePage(busMapService.putLineCarToPageView(req, w), req.getDraw());
 		}
-		 model.addAttribute("_mapLocationKey",MapLocationSession.EMPTY );
+		model.addAttribute("_mapLocationKey", MapLocationSession.EMPTY);
 		//status.setComplete();
 		JpaBusline.Level level = null;
 		if (!StringUtils.isBlank(levelStr)) {
@@ -111,8 +111,7 @@ public class BusLineMapController {
 		}
 		Page<JpaBusline> w = busService.getAllBuslines(cityId, level, req.getFilter("name"), req.getPage(),
 				req.getLength(), req.getSort("id"));
-		busMapService.putLineCarToPageView(req, w);
-		return new DataTablePage(w, req.getDraw());
+		return new DataTablePage(busMapService.putLineCarToPageView(req, w), req.getDraw());
 	}
 
 }

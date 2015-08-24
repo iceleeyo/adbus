@@ -54,7 +54,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
             "ordering": true,
             "serverSide": true,
             "columnDefs": [
-                { "orderable": false, "targets": [2,3] },
+                { "orderable": false, "targets": [2,3,4,5,6,7] },
             ],
             "iDisplayLength" : 50,
             "aLengthMenu": [[50, 100], [50, 100]],
@@ -71,13 +71,17 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                 "dataSrc": "content",
             },
             "columns": [
-                { "data": "name", "defaultContent": "",
+                { "data": "line.name", "defaultContent": "",
                     "render": function(data, type, row, meta) {
-                    return '<a  target="_Blank" href="${rc.contextPath}/busselect/lineschedule/' + row.id + '" >'+data+'</a> &nbsp;';
+                    return '<a  target="_Blank" href="${rc.contextPath}/busselect/lineschedule/' + row.line.id + '" >'+data+'</a> &nbsp;';
                 } },
-                { "data": "levelStr", "defaultContent": ""}, { "data": "_cars", "defaultContent": ""},
-                 { "data": "levelStr", "defaultContent": "","render": function(data, type, row, meta) {
-                        return '<a href="javascript:;" onclick="showSite('+ "\'${rc.contextPath}/api/lineMap?lineName="+row.name+"\' " +');">线路情况</a>&nbsp;';
+                { "data": "line.levelStr", "defaultContent": ""}, { "data": "line._cars", "defaultContent": ""},
+                 { "data": "countObj.today", "defaultContent": ""},
+                  { "data": "countObj.month_1_day", "defaultContent": ""},
+                   { "data": "countObj.month_2_day", "defaultContent": ""},
+                    { "data": "countObj.month_3_day", "defaultContent": ""},
+                 { "data": "line.levelStr", "defaultContent": "","render": function(data, type, row, meta) {
+                        return '<a href="javascript:;" onclick="showSite('+ "\'${rc.contextPath}/api/lineMap?lineName="+row.line.name+"\' " +');">线路情况</a>&nbsp;';
                     }},
                     
                 <@security.authorize ifAnyGranted="BodyOrderManager">
@@ -217,6 +221,10 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                         <th orderBy="name">线路名</th>
                         <th orderBy="level">线路级别</th>
                          <th orderBy="level">自营车辆</th>
+                           <th >当天合同上刊数</th>
+                          <th >未来1月上刊数</th>
+                           <th >未来2月</th>
+                            <th >未来3月</th>
                          <th>查看站点</th>
     <@security.authorize ifAnyGranted="BodyOrderManager">
                         <th>管理</th>

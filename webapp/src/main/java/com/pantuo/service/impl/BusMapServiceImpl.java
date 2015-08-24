@@ -1,8 +1,6 @@
 package com.pantuo.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -23,17 +21,16 @@ import org.springframework.ui.Model;
 
 import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.dao.BuslineRepository;
-import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.QJpaBusline;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.BusMapService;
 import com.pantuo.simulate.LineCarsCount;
+import com.pantuo.simulate.LineOnlineCount;
 import com.pantuo.util.HttpTookit;
 import com.pantuo.util.Pair;
-import com.pantuo.util.cglib.ProxyVoForPageOrJson;
+import com.pantuo.web.view.JpaBuslineView;
 import com.pantuo.web.view.MapLocationSession;
-import com.pantuo.web.view.OrderView;
 
 /**
  * 
@@ -55,6 +52,9 @@ public class BusMapServiceImpl implements BusMapService {
 
 	@Autowired
 	LineCarsCount lineCarsCount;
+
+	@Autowired
+	LineOnlineCount lineOnlineCount;
 
 	public Pair<Double, Double> getLocationFromAddress(Model model, String address) {
 		String city = StringUtils.substring(address, 0, 3);
@@ -148,7 +148,7 @@ public class BusMapServiceImpl implements BusMapService {
 				LINE_CACHE.put(jpaBusline.getName().replace("路", "").replace("线", ""), jpaBusline.getId());
 			}
 		}
-		 model.addAttribute("_mapLocationKey",MapLocationSession.EMPTY );
+		model.addAttribute("_mapLocationKey", MapLocationSession.EMPTY);
 		Pageable p = new PageRequest(page, pageSize, sort);
 		BooleanExpression query = null;
 		if (lineSet.size() > 0) {
@@ -159,25 +159,32 @@ public class BusMapServiceImpl implements BusMapService {
 				}
 			}
 			query = QJpaBusline.jpaBusline.id.in(ids);
-			if(!ids.isEmpty()){
-				  model.addAttribute("_mapLocationKey",new MapLocationSession(pair, (String)model.asMap().get("city"), address));
+			if (!ids.isEmpty()) {
+				model.addAttribute("_mapLocationKey", new MapLocationSession(pair, (String) model.asMap().get("city"),
+						address));
 			}
 		} else {//如果匹配不到
 			query = QJpaBusline.jpaBusline.id.loe(0);
 		}
-		Page<JpaBusline> w =lineRepo.findAll(query, p);
+		Page<JpaBusline> w = lineRepo.findAll(query, p);
 		//Collections.sort(w.getContent());
 		return w;
 	}
 
-	public void putLineCarToPageView(TableRequest req, Page<JpaBusline> page) {
-		long t = System.currentTimeMillis();
-		org.springframework.data.domain.PageImpl<JpaBusline> rpage = null;
+	public Page<JpaBuslineView> putLineCarToPageView(TableRequest req, Page<JpaBusline> page) {
+		//long t = System.currentTimeMillis();
 		List<JpaBusline> list = page.getContent();
+		List<JpaBuslineView> r = new ArrayList<JpaBuslineView>(list.size());
 		for (JpaBusline jpaBusline : list) {
-			jpaBusline.set_cars(	lineCarsCount.getCarsByLines(jpaBusline.getId()));
+			jpaBusline.set_cars(lineCarsCount.getCarsByLines(jpaBusline.getId()));
+			JpaBuslineView view = new JpaBuslineView();
+			view.setCountObj(lineOnlineCount.getCarsByLines(jpaBusline.getId()));
+			view.setLine(jpaBusline);
+			r.add(view);
 		}
-		
+		Pageable p = new PageRequest(req.getPage(), req.getLength(), page.getSort());
+		return new org.springframework.data.domain.PageImpl<JpaBuslineView>(r, p, page.getTotalElements());
+
 		/*
 		List<JpaBusline> list = page.getContent();
 		org.springframework.data.domain.PageImpl<JpaBusline> rpage = null;
