@@ -40,7 +40,8 @@
 			and model_id = #{modelId}
 		</if>
 		) m on m.id=bus_contract.busid
-		where bus_contract.end_date > now() and bus_contract.enable=1
+		where bus_contract.end_date > now() and
+		bus_contract.enable=1
 
 	</select>
 
@@ -75,16 +76,16 @@
 			and model_id = #{modelId}
 		</if>
 	</select>
-	
-	
-	
+
+
+
 	<select id="countLineCars" resultMap="GroupVO">
-	select count(1) as count,
-	line_id as gn1 from bus
-	where enabled = 1 and
-	category =#{category}
-	group
-	by bus.line_id
+		select count(1) as count,
+		line_id as gn1 from bus
+		where enabled = 1 and
+		category =#{category}
+		group
+		by bus.line_id
 	</select>
 
 
@@ -109,7 +110,8 @@
 		bus_contract
 		join bus on bus.id = bus_contract.busid
 		where
-		enabled = 1 and bus_contract.enable=1
+		enabled = 1
+		and bus_contract.enable=1
 		and category =#{category}
 
 		and
@@ -242,4 +244,30 @@
 
 	</select>
 
+
+	<update id="pdateLineOnineInfo" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			update bus_line
+			<set>
+				_today=${item._today},
+				_month1day=${item.month_1_day},
+				_month2day=${item.month_2_day},
+				_month3day=${item.month_3_day}
+
+			</set>
+			where id = ${item.line_id}
+		</foreach>
+	</update>
+	<update id="batchUpdateLineCars" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			update bus_line
+			<set>
+				_cars=${item._cars},
+				_persons=${item._persion}
+			</set>
+			where id = ${item.line_id}
+		</foreach>
+	</update>
 </mapper>

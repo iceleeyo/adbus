@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.pantuo.mybatis.domain.BusContract;
 import com.pantuo.mybatis.domain.BusModel;
 import com.pantuo.vo.GroupVo;
+import com.pantuo.vo.LineBatchUpdateView;
 
 public interface BusSelectMapper {
 
@@ -37,8 +38,7 @@ public interface BusSelectMapper {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	List<GroupVo> countCarTypeByLine(@Param("lineId") int lineId, @Param("category") int category);
-	
-	
+
 	/**
 	 * 
 	 * 按线路统计车辆个数
@@ -48,7 +48,7 @@ public interface BusSelectMapper {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	List<GroupVo> countLineCars( @Param("category") int category);
+	List<GroupVo> countLineCars(@Param("category") int category);
 
 	/**
 	 * 
@@ -116,6 +116,7 @@ public interface BusSelectMapper {
 	 */
 	Integer countWorkingCarList(@Param("lineId") int lineId, @Param("modelId") int modelId, @Param("stats") int stats,
 			@Param("start") String start, @Param("end") String end);
+
 	/**
 	 * 
 	 * 按合同 线路查已上刊的车辆列表
@@ -129,9 +130,7 @@ public interface BusSelectMapper {
 	 */
 	List<BusContract> selectWorkDoneBus(@Param("bodycontract_id") int bodycontract_id, @Param("modelId") int modelId,
 			@Param("lineId") int lineId, @Param("category") int category);
-	
-	
-	
+
 	/**
 	 * 
 	 * 统计车辆总共需要的车辆数量 
@@ -142,7 +141,7 @@ public interface BusSelectMapper {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	List<GroupVo> countContractCar(@Param("idList") List<Integer> idList);
-	
+
 	/**
 	 * 
 	 * 统计车辆总共需要的车辆数量 
@@ -153,6 +152,7 @@ public interface BusSelectMapper {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	List<GroupVo> countContractDoneCar(@Param("idList") List<Integer> idList);
+
 	/**
 	 * 
 	 * 按线路统计车辆个数
@@ -162,8 +162,11 @@ public interface BusSelectMapper {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	List<GroupVo> countContractidCarGroupbyLineModel(@Param("bodycontract_id") int bodycontract_id, 
+	List<GroupVo> countContractidCarGroupbyLineModel(@Param("bodycontract_id") int bodycontract_id,
 			@Param("category") int category);
+
+	void batchUpdateLineCars(List<LineBatchUpdateView> views);
 	
+	void pdateLineOnineInfo(List<LineBatchUpdateView> views);
 
 }
