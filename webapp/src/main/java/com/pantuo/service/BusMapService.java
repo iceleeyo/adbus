@@ -19,7 +19,7 @@ public interface BusMapService {
 	  
 	  
 	  /**
-	   * 
+	   * @deprecated
 	   * 增加车辆自运营数量
 	   *
 	   * @since pantuo 1.0-SNAPSHOT

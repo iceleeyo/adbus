@@ -1,12 +1,10 @@
 package com.pantuo.simulate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
-import org.activiti.engine.HistoryService;
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.history.HistoricProcessInstanceQuery;
-import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +13,9 @@ import org.springframework.stereotype.Component;
 
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.mybatis.persistence.BusSelectMapper;
-import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
-import com.pantuo.service.ActivitiService;
 import com.pantuo.service.impl.BusLineCheckServiceImpl;
-import com.pantuo.util.ProductOrderCount;
 import com.pantuo.vo.GroupVo;
+import com.pantuo.vo.LineBatchUpdateView;
 
 /**
  * 
@@ -41,15 +37,31 @@ public class LineCarsCount implements Runnable {
 	//@Scheduled(fixedRate = 5000)
 	@Scheduled(cron = "0/50 * * * * ?")
 	public void work() {
+
 		countCars();
 	}
 
 	public void countCars() {
 		List<GroupVo> list = busSelectMapper.countLineCars(JpaBus.Category.yunyingche.ordinal());
+
+		List<LineBatchUpdateView> views = new ArrayList<LineBatchUpdateView>();
+		Random ran1 = new Random();
 		for (GroupVo proid : list) {
-			map.put(proid.getGn1(), proid.getCount());
+			//map.put(proid.getGn1(), proid.getCount());
+			LineBatchUpdateView view = new LineBatchUpdateView();
+			view.setLine_id(proid.getGn1());
+			view.set_cars(proid.getCount());
+			view.set_persion((int) (proid.getCount() * 1000 * (ran1.nextDouble() * 0.5 + 0.8f)));
+			views.add(view);
+			if (views.size() == 50) {
+				busSelectMapper.batchUpdateLineCars(views);
+				views.clear();
+			}
 		}
-	//	log.info(" LineCarsCount:{} ", list.size());
+		if (!views.isEmpty()) {
+			busSelectMapper.batchUpdateLineCars(views);
+		}
+		//	log.info(" LineCarsCount:{} ", list.size());
 	}
 
 	@Override

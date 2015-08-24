@@ -1,5 +1,6 @@
 package com.pantuo.simulate;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Component;
 import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.domain.BusLockExample;
 import com.pantuo.mybatis.persistence.BusLockMapper;
+import com.pantuo.mybatis.persistence.BusSelectMapper;
+import com.pantuo.vo.LineBatchUpdateView;
 import com.pantuo.web.view.LineDateCount;
 
 /**
@@ -34,6 +37,8 @@ public class LineOnlineCount implements Runnable {
 	public static Map<Integer, LineDateCount> map = new java.util.concurrent.ConcurrentHashMap<Integer, LineDateCount>();
 	@Autowired
 	BusLockMapper busLockMapper;
+	@Autowired
+	BusSelectMapper busSelectMapper;
 
 	//@Scheduled(fixedRate = 5000)
 	@Scheduled(cron = "0/50 * * * * ?")
@@ -76,8 +81,26 @@ public class LineOnlineCount implements Runnable {
 
 			}
 		}
-		map.clear();
-		map.putAll(_tempMap);
+		List<LineBatchUpdateView> views = new ArrayList<LineBatchUpdateView>();
+
+		for (Map.Entry<Integer, LineDateCount> entry : _tempMap.entrySet()) {
+			LineBatchUpdateView view = new LineBatchUpdateView();
+			view.setLine_id(entry.getKey());
+			view.set_today(entry.getValue().getToday().get());
+			view.setMonth_1_day(entry.getValue().getMonth_1_day().get());
+			view.setMonth_2_day(entry.getValue().getMonth_2_day().get());
+			view.setMonth_3_day(entry.getValue().getMonth_3_day().get());
+			views.add(view);
+			if (views.size() == 50) {
+				busSelectMapper.pdateLineOnineInfo(views);
+				views.clear();
+			}
+		}
+		if (!views.isEmpty()) {
+			busSelectMapper.pdateLineOnineInfo(views);
+		}
+		//map.clear();
+		//map.putAll(_tempMap);
 		//	log.info("total line:{}", map.size());
 	}
 

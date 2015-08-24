@@ -85,7 +85,7 @@ public class BusLineMapController {
 
 	@RequestMapping("ajax-all-lines")
 	@ResponseBody
-	public DataTablePage<JpaBuslineView> getAllLines(Model model, TableRequest req,
+	public DataTablePage<JpaBusline> getAllLines(Model model, TableRequest req,
 			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city,
 			SessionStatus status) {
 		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
@@ -97,7 +97,7 @@ public class BusLineMapController {
 		if (StringUtils.isNoneBlank(searchAdress)) {
 			Page<JpaBusline> w = busMapService.getAllBuslines(model, cityId, searchAdress, req.getPage(),
 					req.getLength(), req.getSort("id"));
-			return new DataTablePage(busMapService.putLineCarToPageView(req, w), req.getDraw());
+			return new DataTablePage(w, req.getDraw());
 		}
 		model.addAttribute("_mapLocationKey", MapLocationSession.EMPTY);
 		//status.setComplete();
@@ -111,7 +111,8 @@ public class BusLineMapController {
 		}
 		Page<JpaBusline> w = busService.getAllBuslines(cityId, level, req.getFilter("name"), req.getPage(),
 				req.getLength(), req.getSort("id"));
-		return new DataTablePage(busMapService.putLineCarToPageView(req, w), req.getDraw());
+		//busMapService.putLineCarToPageView(req, w)
+		return new DataTablePage(w, req.getDraw());
 	}
 
 }
