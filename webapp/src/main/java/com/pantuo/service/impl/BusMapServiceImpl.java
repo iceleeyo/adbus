@@ -1,6 +1,8 @@
 package com.pantuo.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -163,7 +165,9 @@ public class BusMapServiceImpl implements BusMapService {
 		} else {//如果匹配不到
 			query = QJpaBusline.jpaBusline.id.loe(0);
 		}
-		return lineRepo.findAll(query, p);
+		Page<JpaBusline> w =lineRepo.findAll(query, p);
+		//Collections.sort(w.getContent());
+		return w;
 	}
 
 	public void putLineCarToPageView(TableRequest req, Page<JpaBusline> page) {
