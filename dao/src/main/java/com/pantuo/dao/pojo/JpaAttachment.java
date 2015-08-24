@@ -24,7 +24,8 @@ public class JpaAttachment extends BaseEntity {
          user_qualifi,     //  用户个人资质  9
          user_license,      //用户个人资质  10(营业执照复印件副本)
          user_tax,           //用户个人资质  11(税务登记复印件副本)
-         xiaoY           //小样
+         xiaoY,           //小样12
+         workP          //施工照片13
     } 
 
     @Id
