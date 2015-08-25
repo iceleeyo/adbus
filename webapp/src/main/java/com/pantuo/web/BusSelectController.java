@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.pantuo.dao.pojo.JpaBodyContract;
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaCity;
@@ -170,6 +171,12 @@ public class BusSelectController {
 		return "body_handleView";
 	}
 
+	@RequestMapping("bodyContractDetail/{contractid}")
+	@ResponseBody
+	public JpaBodyContract JpaBodyContract(@PathVariable("contractid") int contractid,
+			@CookieValue(value = "city", defaultValue = "-1") int city) {
+		return busLineCheckService.selectBcById(contractid);
+	}
 	@RequestMapping("ajax-myOrders")
 	@ResponseBody
 	public DataTablePage<OrderView> myOrders(TableRequest req, Principal principal,
