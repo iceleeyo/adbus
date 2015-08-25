@@ -16,6 +16,7 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.URIException;
+import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
@@ -85,6 +86,7 @@ public class HttpTookit {
 			method = new GetMethod(url);
 			client.getHttpConnectionManager().getParams().setConnectionTimeout(defaultConnectionTimeout);
 			client.getHttpConnectionManager().getParams().setSoTimeout(soTimeout);
+			client.getParams().setParameter("http.protocol.cookie-policy", CookiePolicy.BROWSER_COMPATIBILITY);
 			if (null != queryString)
 				method.setQueryString(URIUtil.encodeQuery(queryString));
 			client.executeMethod(method);
