@@ -46,11 +46,16 @@ public class JpaBusline extends CityEntity{
 
     private String name;    //线路名称
     private Level level;    //线路级别
-    
-    
-    
-    @Transient
     private int _cars;//线路对应车辆总数
+    private int _persons;//人车流量
+    
+    private int _today;//当天在刊车数
+    
+    private int _month1day;//当天+30天日期的那天 在刊车数
+    
+    private int _month2day;
+    
+    private int _month3day;
 	public JpaBusline(){
 
 	}
@@ -104,6 +109,47 @@ public class JpaBusline extends CityEntity{
 	public void set_cars(int _cars) {
 		this._cars = _cars;
 	}
-    
+
+	public int get_persons() {
+		return _persons;
+	}
+
+	public void set_persons(int _persons) {
+		this._persons = _persons;
+	}
+
+	public int get_today() {
+		return _today;
+	}
+
+	public void set_today(int _today) {
+		this._today = _today;
+	}
+
+	public int get_month1day() {
+		return _month1day;
+	}
+
+	public void set_month1day(int _month1day) {
+		this._month1day = _month1day;
+	}
+
+	public int get_month2day() {
+		return _month2day;
+	}
+
+	public void set_month2day(int _month2day) {
+		this._month2day = _month2day;
+	}
+
+	public int get_month3day() {
+		return _month3day;
+	}
+
+	public void set_month3day(int _month3day) {
+		this._month3day = _month3day;
+	}
+
+ 
     
 }
