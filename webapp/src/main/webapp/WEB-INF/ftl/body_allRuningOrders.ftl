@@ -27,7 +27,6 @@ var table;
                 "dataSrc": "content",
             },
             "columns": [
-            	{ "data": "jpaBodyContract.seriaNum", "defaultContent": ""},
             	{ "data": "jpaBodyContract.creator", "defaultContent": ""},
             	{ "data": "jpaBodyContract.company", "defaultContent": ""},
             	{ "data": "need_cars", "defaultContent": ""},
@@ -118,7 +117,6 @@ var table;
 				<table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th>流水号</th>
                         <th>下单用户</th>
                         <th>签约公司</th>
                         <th>车辆总数</th>
