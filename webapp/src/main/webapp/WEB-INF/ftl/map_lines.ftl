@@ -76,6 +76,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                     return '<a  target="_Blank" href="${rc.contextPath}/busselect/lineschedule/' + row.id + '" >'+data+'</a> &nbsp;';
                 } },
                 { "data": "levelStr", "defaultContent": ""}, { "data": "_cars", "defaultContent": ""},
+                { "data": "_persons", "defaultContent": ""},
                  { "data": "_today", "defaultContent": ""},
                   { "data": "_month1day", "defaultContent": ""},
                    { "data": "_month2day", "defaultContent": ""},
@@ -221,6 +222,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                         <th orderBy="name">线路名</th>
                         <th orderBy="level">线路级别</th>
                          <th orderBy="_cars">自营车辆</th>
+                           <th orderBy="_persons">人车流量</th>
                            <th orderBy="_today">当天合同上刊数</th>
                           <th orderBy="_month1day">未来1月上刊数</th>
                            <th orderBy="_month2day">未来2月</th>
