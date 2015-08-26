@@ -63,9 +63,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                 url: "${rc.contextPath}/api/ajax-all-lines",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "filter[name]" : $('#name').val(),
-                        "filter[level]" : $('#levelStr').val(),
-                        "filter[address]" : $('#address').val(),
+                        "filter[siteLine]" : $('#siteLine').val(), 
                     } );
                 },
                 "dataSrc": "content",
@@ -78,7 +76,13 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                 { "data": "levelStr", "defaultContent": ""}, { "data": "_cars", "defaultContent": ""},
                 { "data": "_persons", "defaultContent": ""},
                  { "data": "line.levelStr", "defaultContent": "","render": function(data, type, row, meta) {
-                        return '<a href="javascript:;" onclick="showSite('+ "\'${rc.contextPath}/api/lineMap?lineName="+row.name+"\' " +');">线路情况</a>&nbsp;';
+                       
+                         var _t='';
+                     if(row._sim>0){
+                     _t="["+row._sim+"]";
+                     }
+                        return '<a href="javascript:;" onclick="showSite('+ "\'${rc.contextPath}/api/lineMap?lineName="+row.name+"\' " +');">线路情况'+_t+'</a>&nbsp;';
+                    
                     }},
                     
                 <@security.authorize ifAnyGranted="BodyOrderManager">
@@ -153,13 +157,11 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                 '<div>' +
                         '  <span>线路</span>' +
                         '    <span>' +
-                        '        <input id="name" value="" >' +
+                        '        <input id="siteLine" value="" >' +
                         '</div>'
         );
 
-        $('#name,#levelStr').change(function() {
-        	$('#address').val("");
-        	$('#location').val("");
+        $('#siteLine').change(function() {
             table.fnDraw();
         });
         
