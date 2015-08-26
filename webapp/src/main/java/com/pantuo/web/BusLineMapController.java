@@ -105,7 +105,6 @@ public class BusLineMapController {
 		String levelStr = req.getFilter("level");
 		String searchAdress = req.getFilter("address");
 		String siteLine = req.getFilter("siteLine");
-		System.out.println(siteLine);
 		
 		
 		if (StringUtils.isNoneBlank(siteLine)) {
