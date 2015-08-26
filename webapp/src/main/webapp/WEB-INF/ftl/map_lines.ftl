@@ -66,6 +66,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                         "filter[name]" : $('#name').val(),
                         "filter[level]" : $('#levelStr').val(),
                         "filter[address]" : $('#address').val(),
+                        "filter[siteLine]" : $('#siteLine').val(), 
                     } );
                 },
                 "dataSrc": "content",
@@ -82,7 +83,11 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                    { "data": "_month2day", "defaultContent": ""},
                     { "data": "_month3day", "defaultContent": ""},
                  { "data": "line.levelStr", "defaultContent": "","render": function(data, type, row, meta) {
-                        return '<a href="javascript:;" onclick="showSite('+ "\'${rc.contextPath}/api/lineMap?lineName="+row.name+"\' " +');">线路情况</a>&nbsp;';
+                     var _t='';
+                     if(row._sim>0){
+                     _t="["+row._sim+"]";
+                     }
+                        return '<a href="javascript:;" onclick="showSite('+ "\'${rc.contextPath}/api/lineMap?lineName="+row.name+"\' " +');">线路情况'+_t+'</a>&nbsp;';
                     }},
                     
                 <@security.authorize ifAnyGranted="BodyOrderManager">
@@ -152,6 +157,18 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 	 //table.dataTable()._fnAjaxUpdate();
 	 // table.fnDraw();
 	}
+	
+	function searchSite(){
+	 var w=$('#siteName').val();
+	 $('#siteLine').val(w);
+	 
+	  var oSettings = table.fnSettings();
+        oSettings._iDisplayLength = 50;
+	  redrawWithNewCount(table, 50);
+	 //table.dataTable().fnSetDisplayLength = 100;
+	 //table.dataTable()._fnAjaxUpdate();
+	 // table.fnDraw();
+	}
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
@@ -160,6 +177,9 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                         '        <input id="location" value="" style="width:300px">' +
                         '<a href="javascript:;" onclick="checkLocation('+ "\'${rc.contextPath}/api/simple\'" +');">位置确认</a>&nbsp;'+
                           '  <a href="javascript:;" onclick="searchLine();">查附近线路</a>&nbsp;'+
+                          '    <span>线路</span>    <input id="siteName" value=""> ' +
+                        '    &nbsp;&nbsp;' +
+                               '  <a href="javascript:;" onclick="searchSite();">线路相似匹配</a>&nbsp;'+
                           ' <br> <br>   <span>线路</span>' +
                         '    <span>' +
                         '        <input id="name" value="" ' +
@@ -223,8 +243,8 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                         <th orderBy="level">线路级别</th>
                          <th orderBy="_cars">自营车辆</th>
                            <th orderBy="_persons">人车流量</th>
-                           <th orderBy="_today">当天合同上刊数</th>
-                          <th orderBy="_month1day">未来1月上刊数</th>
+                           <th orderBy="_today">当天上刊数</th>
+                          <th orderBy="_month1day">未来1月</th>
                            <th orderBy="_month2day">未来2月</th>
                             <th orderBy="_month3day">未来3月</th>
                          <th>查看站点</th>
@@ -236,6 +256,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 
                 </table>
                 <input type="hidden" id = "address" value="">
+                  <input type="hidden" id = "siteLine" value="">
 </div>
 
 

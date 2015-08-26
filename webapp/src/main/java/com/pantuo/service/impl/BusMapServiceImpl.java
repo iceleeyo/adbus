@@ -1,6 +1,8 @@
 package com.pantuo.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -25,6 +27,7 @@ import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.QJpaBusline;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.BusMapService;
+import com.pantuo.service.DataInitializationService;
 import com.pantuo.simulate.LineCarsCount;
 import com.pantuo.simulate.LineOnlineCount;
 import com.pantuo.util.HttpTookit;
@@ -135,6 +138,102 @@ public class BusMapServiceImpl implements BusMapService {
 		}
 		log.info(pair + " requestUrl  time: " + (System.currentTimeMillis() - now));
 		return r;
+	}
+
+	@Override
+	public Page<JpaBusline> querySiteLineSearch(Model model, int city, String address, int page, int pageSize, Sort sort) {
+
+		Set<String> lineSet = new HashSet<String>();
+		List<Map.Entry<String, Integer>> subList = null;
+		if (DataInitializationService.lineSiteMap.containsKey(address)) {
+
+			Set<String> site = DataInitializationService.lineSiteMap.get(address);
+
+			Map<String, Integer> lineCount = new HashMap<String, Integer>();
+			Map<String, List<String>> lineCount2 = new HashMap<String, List<String>>();
+			for (String string : site) {
+				Set<String> lines = DataInitializationService.siteLineMap.get(string);
+				if (lines != null) {
+					for (String line : lines) {
+						if (!lineCount.containsKey(line)) {
+							lineCount.put(line, 0);
+						}
+						lineCount.put(line, lineCount.get(line) + 1);
+
+						if (!lineCount2.containsKey(line)) {
+							lineCount2.put(line, new ArrayList<String>());
+						}
+						lineCount2.get(line).add(string);
+					}
+				}
+			}
+
+			List<Map.Entry<String, Integer>> list_Data = new ArrayList<Map.Entry<String, Integer>>(lineCount.entrySet());
+			Collections.sort(list_Data, new Comparator<Map.Entry<String, Integer>>() {
+				public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+					if (o2.getValue() != null && o1.getValue() != null && o2.getValue().compareTo(o1.getValue()) > 0) {
+						return 1;
+					} else {
+						return -1;
+					}
+				}
+			});
+
+			if (!list_Data.isEmpty()) {
+				subList = list_Data.subList(0, list_Data.size() > 50 ? 50 : list_Data.size());
+				for (Map.Entry<String, Integer> entry : subList) {
+					lineSet.add(entry.getKey());
+				}
+			}
+		}
+
+		if (LINE_CACHE.size() == 0) {
+			List<JpaBusline> all = lineRepo.findAll();
+			for (JpaBusline jpaBusline : all) {
+				LINE_CACHE.put(jpaBusline.getName().replace("路", "").replace("线", ""), jpaBusline.getId());
+			}
+		}
+		model.addAttribute("_mapLocationKey", MapLocationSession.EMPTY);
+		Pageable p = new PageRequest(page, pageSize, sort);//new Sort("field(id, 1,111,111)")
+		BooleanExpression query = null;
+		if (lineSet.size() > 0) {
+			List<Integer> ids = new ArrayList<Integer>();
+			for (String integer : lineSet) {
+				if (LINE_CACHE.containsKey(integer)) {
+					ids.add(LINE_CACHE.get(integer));
+				}
+			}
+			if (ids.size() > 0) {
+				query = QJpaBusline.jpaBusline.id.in(ids);
+			} else {
+				query = QJpaBusline.jpaBusline.id.loe(0);
+			}
+			if (!ids.isEmpty()) {
+				model.addAttribute("_mapLocationKey", null);
+			}
+		} else {//如果匹配不到
+			query = QJpaBusline.jpaBusline.id.loe(0);
+		}
+		Page<JpaBusline> w = lineRepo.findAll(query, p);
+		//对数据库结果进行匹配
+		if (!w.getContent().isEmpty()) {
+			Map<String, JpaBusline> b = new HashMap<String, JpaBusline>();
+			for (JpaBusline jpaBusline : w.getContent()) {
+				b.put(jpaBusline.getName(), jpaBusline);
+			}
+			List<JpaBusline> r = new ArrayList<JpaBusline>();
+			for (Map.Entry<String, Integer> entry : subList) {
+				if (b.containsKey(entry.getKey())) {
+					JpaBusline jpaBusline = b.get(entry.getKey());
+					jpaBusline.set_sim(entry.getValue());
+					r.add(jpaBusline);
+				}
+			}
+			return new org.springframework.data.domain.PageImpl<JpaBusline>(r, p, r.size());
+		}
+
+		//Collections.sort(w.getContent());
+		return w;
 	}
 
 	@Override

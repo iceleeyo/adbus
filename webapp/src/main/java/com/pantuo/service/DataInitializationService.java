@@ -60,6 +60,11 @@ public class DataInitializationService {
     
 	public static  Map<String, String> _GROUPS = new LinkedHashMap<String, String>();
 	
+	
+	public static Map<String,Set<String>>  lineSiteMap = new HashMap<String,Set<String>>();
+	
+	public static Map<String,Set<String>>  siteLineMap = new HashMap<String,Set<String>>();
+	
     @Autowired
     UserServiceInter userService;
 
@@ -93,6 +98,7 @@ public class DataInitializationService {
     CityService cityService;
 
     public void intialize() throws Exception {
+    	initializeLineSite();
         initializeCalendar();
         initializeCities();
         initializeIndustries();
@@ -281,6 +287,40 @@ public class DataInitializationService {
         log.info("Inserted {} timeslot entries into table", timeslots.size());
     }
 
+    
+    
+    //线路车辆
+    private void initializeLineSite() throws Exception {
+        InputStream is = DataInitializationService.class.getClassLoader().
+                getResourceAsStream("line_site.csv");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+        String line = null;
+		while ((line = reader.readLine()) != null) {
+			if (line.length() < 20)
+				continue;
+			try {
+				String[] str = line.split(",");
+				String lineName = str[0].replace("\"", "");
+				String[] s = str[1].replace("\"", "").split("-");
+				Set<String> siteSet = new HashSet<String>(Arrays.asList(s));
+				lineSiteMap.put(lineName, siteSet);
+
+				for (String siteName : siteSet) {
+					siteName = siteName.trim().replace("\"", "");
+					if (!siteLineMap.containsKey(siteName)) {
+						siteLineMap.put(siteName, new HashSet<String>());
+					}
+					siteLineMap.get(siteName).add(lineName);
+				}
+
+			} catch (Exception e) {
+				log.warn("Fail to parse industry for {}, e={}", line, e.getMessage());
+			}
+		}
+		 log.info("init line site lines:{},site:{} ", lineSiteMap.size(),siteLineMap.size());
+    }
+    
+    
 
     //初始化行业表
     private void initializeIndustries() throws Exception {

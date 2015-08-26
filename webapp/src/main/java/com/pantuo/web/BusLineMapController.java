@@ -104,6 +104,15 @@ public class BusLineMapController {
 
 		String levelStr = req.getFilter("level");
 		String searchAdress = req.getFilter("address");
+		String siteLine = req.getFilter("siteLine");
+		System.out.println(siteLine);
+		
+		
+		if (StringUtils.isNoneBlank(siteLine)) {
+			Page<JpaBusline> w = busMapService.querySiteLineSearch(model, cityId, siteLine, req.getPage(),
+					req.getLength(), req.getSort("id"));
+			return new DataTablePage(w, req.getDraw());
+		}
 
 		if (StringUtils.isNoneBlank(searchAdress)) {
 			Page<JpaBusline> w = busMapService.getAllBuslines(model, cityId, searchAdress, req.getPage(),

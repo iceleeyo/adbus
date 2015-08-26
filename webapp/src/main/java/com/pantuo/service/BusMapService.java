@@ -16,8 +16,20 @@ public interface BusMapService {
 	
 	
 	  Page<JpaBusline> getAllBuslines(Model model,int city, String address,int page, int pageSize, Sort sort);
-	  
-	  
+	  /**
+	   * 
+	   * 根据线路站点匹配
+	   *
+	   * @param model
+	   * @param city
+	   * @param address
+	   * @param page
+	   * @param pageSize
+	   * @param sort
+	   * @return
+	   * @since pantuo 1.0-SNAPSHOT
+	   */
+	  Page<JpaBusline> querySiteLineSearch(Model model,int city, String address,int page, int pageSize, Sort sort);
 	  /**
 	   * @deprecated
 	   * 增加车辆自运营数量
