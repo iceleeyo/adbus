@@ -12,6 +12,7 @@ css=["js/jquery-ui/jquery-ui.css"<#--, "js/tabletools/css/dataTables.tableTools.
     #table td {position:relative;}
     #table td .per-occupied {position:absolute;background-color: #ffad20;left:0;top:0;height:4px;}
     #table td .per-free {position:absolute;background-color: #4acd48;right:0;top:0;height:4px;}
+    .report-toolbar {float: left !important; margin-top: 40px;}
 </style>
 <style type="text/css">
     .ui-datepicker-calendar.only-month {
@@ -126,11 +127,7 @@ css=["js/jquery-ui/jquery-ui.css"<#--, "js/tabletools/css/dataTables.tableTools.
 
     function initComplete() {
         $("div#toolbar").html(
-                '<div>' +
-                        '    <span>时段名称</span>' +
-                        '    <span>' +
-                        '        <input id="name" value="">' +
-                        '    </span>' +
+                '<div style="float:right">' +
                         '    <span><a href="javascript:void()" id="export_xls" class="btn-sm btn-success">导出Excel</a>' +
                         '    </span>' +
                         '</div>'
@@ -174,7 +171,11 @@ css=["js/jquery-ui/jquery-ui.css"<#--, "js/tabletools/css/dataTables.tableTools.
 <div class="withdraw-wrap color-white-bg fn-clear">
 
             <div class="withdraw-title">
-                                媒体排条单[${day}]
+            <div class="tabs">
+		<a id="tab1" class="active" href="${rc.contextPath}/schedule/list">视频广告排条单[${day}]</a>
+		<a id="tab2" href="${rc.contextPath}/schedule/list">图片广告排条单</a>
+		<a id="tab3" href="${rc.contextPath}/schedule/list">字幕广告排条单</a>
+		</div>
                 <div class="report-toolbar">
                     <input
                             class="ui-input ui-input-mini datepicker" type="text" name="day"
