@@ -56,6 +56,8 @@ public class JpaBusline extends CityEntity{
     private int _month2day;
     
     private int _month3day;
+    @Transient
+    private int _sim;//相近的站点数量
 	public JpaBusline(){
 
 	}
@@ -148,6 +150,14 @@ public class JpaBusline extends CityEntity{
 
 	public void set_month3day(int _month3day) {
 		this._month3day = _month3day;
+	}
+
+	public int get_sim() {
+		return _sim;
+	}
+
+	public void set_sim(int _sim) {
+		this._sim = _sim;
 	}
 
  
