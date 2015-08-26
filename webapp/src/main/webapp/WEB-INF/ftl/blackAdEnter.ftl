@@ -78,6 +78,7 @@
 												autocomplete="off" disableautocomplete="">
 											<p class="ui-term-placeholder" placeholder="中英文、数字、下划线"></p>
 										</div>
+							
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>时长:</label>
@@ -87,7 +88,6 @@
 												id="duration" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="5-180秒">
                                         </div>
-                                        
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10">
 											<span  class="ui-form-required">* </span>权重:

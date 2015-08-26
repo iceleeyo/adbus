@@ -55,6 +55,17 @@ public class BusLineMapController {
 		return "map_lines";
 	}
 
+	@RequestMapping(value = "/landmarkM_lines")
+	public String LandmarkM_lines() {
+		return "landmarkM_lines";
+	}
+	
+	@RequestMapping(value = "/trackM_lines")
+	public String trackM_lines() {
+		return "trackM_lines";
+	}
+	
+	
 	Pair<Double, Double> BEIBA_COMPANY = new Pair<Double, Double>(116.31718990229, 39.939290559991);
 	private final String BEIBA_COMPANY_NAME = "北巴传媒广告分公司";
 	private final String BEIBA_COMPANY_ADDRESS = "北京市海淀区紫竹院路32号";

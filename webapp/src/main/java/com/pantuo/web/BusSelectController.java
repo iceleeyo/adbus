@@ -172,10 +172,13 @@ public class BusSelectController {
 	}
 
 	@RequestMapping("bodyContractDetail/{contractid}")
-	@ResponseBody
-	public JpaBodyContract JpaBodyContract(@PathVariable("contractid") int contractid,
-			@CookieValue(value = "city", defaultValue = "-1") int city) {
-		return busLineCheckService.selectBcById(contractid);
+	public String JpaBodyContract(Model  model,@PathVariable("contractid") int contractid,
+			@CookieValue(value = "city", defaultValue = "-1") int city,
+			HttpServletRequest request,HttpServletResponse response) {
+		response.setHeader("X-Frame-Options", "SAMEORIGIN");
+		JpaBodyContract bodycontract=busLineCheckService.selectBcById(contractid);
+		model.addAttribute("bodycontract", bodycontract);
+		return "template/body_contratDetail";
 	}
 	@RequestMapping("ajax-myOrders")
 	@ResponseBody

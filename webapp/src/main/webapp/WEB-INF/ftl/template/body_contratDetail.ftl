@@ -1,5 +1,5 @@
-
-
+<#import "template_blank.ftl" as frame>
+<@frame.html title="合同详细">
 <div class="p20bs mt10 color-white-bg border-ec">
 <form data-name="withdraw" name="userForm2" id="userForm2" class="ui-form" method="post" action="saveContract"
 	enctype="multipart/form-data">
@@ -37,4 +37,4 @@
 </form>
               
 </div>
-
+</@frame.html>

@@ -1,7 +1,7 @@
 <#import "template/template.ftl" as frame>
-<#global menu="线路列表">
+<#global menu="地标匹配">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="线路列表" js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js",
+<@frame.html title="地标匹配" js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js",
 "js/jquery-ui/jquery-ui.auto.complete.js"] 
 css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 
@@ -54,7 +54,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
             "ordering": true,
             "serverSide": true,
             "columnDefs": [
-                { "orderable": false, "targets": [7] },
+                { "orderable": false, "targets": [3] },
             ],
             "iDisplayLength" : 50,
             "aLengthMenu": [[50, 100], [50, 100]],
@@ -77,10 +77,6 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                 } },
                 { "data": "levelStr", "defaultContent": ""}, { "data": "_cars", "defaultContent": ""},
                 { "data": "_persons", "defaultContent": ""},
-                 { "data": "_today", "defaultContent": ""},
-                  { "data": "_month1day", "defaultContent": ""},
-                   { "data": "_month2day", "defaultContent": ""},
-                    { "data": "_month3day", "defaultContent": ""},
                  { "data": "line.levelStr", "defaultContent": "","render": function(data, type, row, meta) {
                         return '<a href="javascript:;" onclick="showSite('+ "\'${rc.contextPath}/api/lineMap?lineName="+row.name+"\' " +');">线路情况</a>&nbsp;';
                     }},
@@ -172,7 +168,6 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                   		'<option value="A">A</option>' +
                   		'<option value="LATLONG">经纬线</option>' +
          				'</select>' +
-                        ' <a class="block-btn" target="_Blank" style="margin-left:30px;" href="${rc.contextPath}/busselect/applyBodyCtct">申请合同</a>'+
                         '</div>'
         );
 
@@ -214,7 +209,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 
 <div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title">
-                线路列表
+                地标匹配
 									</div>
                 <table id="table" class="display compact" cellspacing="0" width="100%">
                     <thead>
@@ -223,10 +218,6 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                         <th orderBy="level">线路级别</th>
                          <th orderBy="_cars">自营车辆</th>
                            <th orderBy="_persons">人车流量</th>
-                           <th orderBy="_today">当天合同上刊数</th>
-                          <th orderBy="_month1day">未来1月上刊数</th>
-                           <th orderBy="_month2day">未来2月</th>
-                            <th orderBy="_month3day">未来3月</th>
                          <th>查看站点</th>
     <@security.authorize ifAnyGranted="BodyOrderManager">
                         <th>管理</th>

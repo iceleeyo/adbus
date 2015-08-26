@@ -245,6 +245,34 @@
                                             </li>
                                         </ul>
                                     </li>
+                                    
+                                    <li class="pg-side-item">
+                                        <a class="pg-side-item-t ee-icon">
+                                            <i class="s-left pg-icon-a e-icon"></i>
+                                            媒体推荐
+                                        </a>
+                                        <ul class="pg-side-exp-list">
+
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/landmarkM_lines">
+                                                   地标匹配
+                                                </a>
+                                            </li>
+                                            
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/trackM_lines">
+                                                   轨迹匹配
+                                                </a>
+                                            </li>
+                                            
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/media_lines">
+                                                   相关媒体
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    
                                     </#if>
                                     </@security.authorize>
                                     <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager">

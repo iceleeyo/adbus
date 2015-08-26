@@ -93,12 +93,12 @@ $("#wpform").ajaxForm(function(data) {
             });
             var checkin = $('#startT').datepicker()
 			.on('click', function (ev) {
-			        $('.datepicker').css("z-index", "999999999999");
+			        $('.datepicker').css("z-index", "999999999");
 			}).data('datepicker');
 			
 			var checkin = $('#endT').datepicker()
 			.on('click', function (ev) {
-			        $('.datepicker').css("z-index", "99999999999");
+			        $('.datepicker').css("z-index", "999999999");
 			}).data('datepicker');
     });
 	}

@@ -1,4 +1,4 @@
-z<#import "template/template.ftl" as frame> 
+<#import "template/template.ftl" as frame> 
 <#import "template/select_lines.ftl" as select_lines>
 <@frame.html title=""
 js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
@@ -489,7 +489,7 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 			<div id="orderBusesPopup" title="选择车辆"></div>
 		</div>
 </div>
-<#include "template/body_contratDetail.ftl" />
+<#include "template/body_contratDetail.ftl" />	
 <div class="p20bs mt10 color-white-bg border-ec">
 <TABLE class="ui-table ui-table-gray">
 			<TBODY>

@@ -143,7 +143,6 @@ function delContract(conid){
 <!--实现层移动-->
 <script type="text/javascript">
 $('#test').on('click', function(){
-alert("dddd");
     layer.open({
         type: 1,
         area: ['600px', '460px'],

@@ -4,8 +4,7 @@
 <@frame.html title=menu>
 
 <style type="text/css">
-
-    .center {margin: auto;}
+	.center {margin: auto;}
     .frame {width: 1000px;}
     .div {text-align:center; margin:25px;}
     div#toolbar {float: left;}
@@ -74,7 +73,7 @@
                     if (typeof(v) == "undefined"){
                     	result ='<span class="per-middle" style="left:0%;width:80%;background-color:#88CE6D"></span>';
                     }else {
-                     	var  result = '<span class="per-middle layer-tips" tip="'+(v.company)+'" style="left:0%;width:80%;background-color:red"></span>';
+                     	var  result = '<span class="per-middle layer-tips" tip="<a style=\'color:#fff\' href=\'javascript:void(0);\' onclick=\'body_contract('+v.contractid+');\'>'+(v.company)+'</a>" style="left:0%;width:80%;background-color:red"></span>';
                     }
                         return result;
                 }},
@@ -122,7 +121,20 @@
 		  }
     }
 
-    
+  //车身合同
+    function body_contract(id){
+	  var tourl='${rc.contextPath}';
+	  layer.open({
+			type: 1,
+			title: "合同详情",
+			skin: 'layui-layer-rim', //加上边框
+			area: ['800px', '300px'], //宽高
+			content:''
+				   +' '
+				   +'<iframe style="width:99%;height:97%" src="'+tourl+'/busselect/bodyContractDetail/'+id+'"/>'
+		});	
+    }
+  
 </script>
 
 
@@ -161,5 +173,5 @@
  $(document).ready(function() {
         initTable();
     } );
-    </script>
+ </script>
 </@frame.html>
