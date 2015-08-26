@@ -6,11 +6,11 @@
     <link rel="shortcut icon" href="./images/favicon.ico">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/foot.css">
-  <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/sea.css">
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/sea.css">
   <link rel="stylesheet" type="text/css" href="homepage/css/homepage.css">
   <link rel="stylesheet" type="text/css" href="homepage/css/index.css">
-  <link rel="stylesheet" type="text/css" href="homepage/css/one.css">
+  <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/one.css">
+  <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/foot.css">
   <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/city.css">
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery-1.8.3.min.js"></script>
    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.jcountdown.js"></script>
@@ -52,7 +52,6 @@
 					<div class="container-12 s-clear">
 						<div class="grid-12 city-dropdown">
                             <ul class="fl" style="margin-top: -14px">
-<#--<@security.authorize access="isAuthenticated()">-->
                                 <li class="dorpdown" id="ttbar-mycity" style="margin-left: -40px;">
                                     <div class="dt cw-icon ui-areamini-text-wrap" style="">
                                         <i class="ci-right"><s>◇</s></i>
@@ -103,7 +102,6 @@
                                         </div>
                                     </div>
                                 </li>-->
-<#--</@security.authorize>-->
                             </ul>
 							<div class="s-right s-clear">
 								<span class="pg-nav-item s-left" style="padding:0;">您好，</span>
@@ -206,39 +204,6 @@
 	</div>
 	<div class="container-12 maincontent">	
 		<div class="broadcast s-clear">
-			<!-- <div class="product-type items s-left">
-				<div class="item">
-					<span>城市列表</span>
-					<ul class="item-dropdown" style="display:none;">
-							<li class="pg-dropdown-li">
-								<a class="pg-dropdown-a" href="">北京</a>
-							</li>
-							<li class="pg-dropdown-li">
-								<a class="pg-dropdown-a" href="">上海</a>
-							</li>
-							<li class="pg-dropdown-li">
-								<a class="pg-dropdown-a" href="">深圳</a>
-							</li>
-						</ul>
-				</div>
-				<div class="item">
-					<span><a href="intro-video.html">视频广告</a></span>
-				</div>
-				<div class="item">
-					<span><a href="intro-txt.html">Info图片</a></span>
-				</div>
-				<div class="item">
-					<span>新业务介绍</span>
-				</div>
-				<div class="item">
-					<span><a href="intro-price.html">广告刊例</a></span>
-				</div>
-				<div class="item">
-					<span>代理商</span>
-				</div>
-				
-				
-			</div> -->
 			<div class="vediobox items s-left">
 
 				<div class="banner" id="b04">
@@ -257,249 +222,57 @@
 			</div>
 		</div>
 		<div class="container">
-			
-			<#if (auctionList?size>0) >
+			<#if (buslineList?size>0) >
 			<div class="module1">
 			  <div class="title s-clear">
 			  	<span>
-			  		竞价广告
+			  		线路推荐
 			  	</span>
-			  	<a href="${rc.contextPath}/product/sift" class="s-right">更多》</a>
 			  </div>
 			  <div class="fn-clear pg-uplan-product-list text-middle mt15 mb10">
-			    <#list auctionList as prod>
+			    <#list buslineList as item>>
 				  <div class="fn-left pg-uplan-product-item mr15">
-						<a href="product/c/${prod.id}">
+						<a>
 							<dl class="bg-color-white">
-							  <dt class="ub"><span>${substring(prod.product.name,0,13)}</span></dt>
-							  <#if prod.product.type=="screen">
-							  <dd>
-							  	<span class="mr20">曝光次数</span>                 
-							  	<span><em>${prod.product.playNumber}</em>/天</span>
-							  </dd>
-							  <#elseif prod.product.type=="body">
-							  <dd>
-							  	<span class="mr20">巴士数量</span>                 
-							  	<span><em>${prod.product.busNumber}</em>辆</span>
-							  </dd>
-					          </#if>
-		            <dd>
-		            	<span class="mr20">展示期限</span>                 
-		            	<span><em>${prod.product.days}</em>天</span>
-		            </dd>
-		  					<dd>
-		  						<span class="mr20">底价￥</span>                 
-		  						<span><em>#{prod.saleprice!'' ;m2M2}</em></span>  
-		  					 </dd>
-		          			  <dd>	
-		          			  
-		          			  <#if (prod.startDate < .now  && prod.biddingDate > .now  ) > 
-		  						<span class="mr20">截止</span>    
-		  						<span id="c_${prod_index}"><em></em></span>  
-		  						<script type="text/javascript">
-			  						var dateTo=new Date("${prod.biddingDate?string("yyyy-MM-dd HH:mm:ss")}".replace(/-/g, "/"));
-									 countDownReload("c_${prod_index}",dateTo);
-								 </script>
-								<#elseif (prod.startDate > .now   ) > 
-								<span class="mr10">距开拍</span>    
-		  						<span id="c_${prod_index}"><em></em></span>  
-		  						<script type="text/javascript">
-			  						var dateTo=new Date("${prod.startDate?string("yyyy-MM-dd HH:mm:ss")}".replace(/-/g, "/"));
-									 countDownReload("c_${prod_index}",dateTo);
-								 </script>
-								<#elseif (prod.biddingDate < .now   ) > 
-								<span class="mr20"><s>已结束</s></span>    
-		  						<span id="c_${prod_index}"><s>${prod.startDate?string("yyyy-MM-dd HH:mm")}</s></span>  
-								</#if>
-								
-								
-		  					</dd>
+							  <dt class="ub" style="height: 280px;">
+				<div style="  margin: -15px 2px 0px 0px;">
+		            	<span class="mr20" style="font-size: 12px;">线路名             
+		            		${item.line.name!''}
+		            	</span>
+		        </div>  
+		        <div style="  margin: -15px 2px 0px 0px;">
+		            	<span class="mr20" style="font-size: 12px;">线路级别         
+							 ${item.line.levelStr!''}
+						</span>
+		        </div>  
+		        <div style="  margin: -15px 2px 0px 0px;">
+		            	<span class="mr20" style="font-size: 12px;">车辆数         
+							${item.line._cars!''}
+						</span>
+		        </div>  
+		        <div style="  margin: -15px 2px 0px 0px;">
+		            	<span class="mr20" style="font-size: 12px;">人车流量         
+							${item.line._persons!''}
+						</span>
+		        </div>  
+		        <div style="  margin: -15px 2px 0px 0px;">
+		            	<span class="mr20" style="font-size: 12px;">重要站点       
+							${item.impSite!''}
+						</span>
+		        </div>  
+							  <div class="img_box" style="width: 98%;height: 170px;">
+							  	<img class="img_size" src="${rc.contextPath}/imgs/video.png" style="  width: 100%; height: 90%;">
+							  </div>
+							  </dt>
 		  				</dl>
 						</a>
-						<p class="J_click_p" data="218">
-							<span id="J_count_time_b" data2="0" data1="328261">
-								<a href="product/c/${prod.id}">
-								<#if (prod.startDate < .now  && prod.biddingDate > .now  ) > 
-									我要出价
-								<#elseif (prod.startDate > .now   ) > 
-									等待开始
-								<#elseif (prod.biddingDate < .now   ) > 
-									竞价结束
-								</#if>
-								
-								</a>
-							</span>
-							<a class="text" href="product/c/${prod.id}">（查看详情）</a>
-						</p>
-					</div> 
-				 </#list>	          
-				</div>
-			</div>
-			</#if>
-			
-			<#if (bodyList?size>0) >
-			<div class="module1">
-			  <div class="title s-clear">
-			  	<span>
-			  		车身广告
-			  	</span>
-			  	<a href="${rc.contextPath}/product/sift" class="s-right">更多》</a>
-			  </div>
-			  <div class="fn-clear pg-uplan-product-list text-middle mt15 mb10">
-			    <#list bodyList as prod>
-				  <div class="fn-left pg-uplan-product-item mr15">
-						<a target="_blank" href="order/iwant/${prod.id}"><!--product/d/-->
-							<dl class="bg-color-white">
-							  <dt class="ub"><span>${substring(prod.name,0,13)}</span></dt>
-							  <dd>
-							  	<span class="mr20">巴士数量</span>                 
-							  	<span><em>${prod.busNumber}</em>辆</span>
-		            </dd>
-		            <dd>
-		            	<span class="mr20">展示期限</span>                 
-		            	<span><em>${prod.days}</em>天</span>
-		            </dd>
-		  					<dd>
-		  						<span class="mr20">金额￥</span>                 
-		  						<span><em>#{prod.price!'' ;m2M2}</em></span>               
-		  					</dd>
-		  				</dl>
-						</a>
-						<p class="J_click_p" data="218">
-							<span id="J_count_time_b" data2="0" data1="328261">
-								<a target="_blank" href="order/iwant/${prod.id}">马上预定</a>
-							</span>
-							<a class="text" target="_blank" href="order/iwant/${prod.id}">（查看详情）</a>
-						</p>
+						
 					</div>           
 					 </#list>	      
 				</div>
 			</div>
 			</#if>
-			
-			
-			
-			
-			
-			<#if (videoList?size>0) >
-			<div class="module1">
-			  <div class="title s-clear">
-			  	<span>
-			  		视频广告
-			  	</span>
-			  	<a href="${rc.contextPath}/product/sift" class="s-right">更多》</a>
-			  </div>
-			  <div class="fn-clear pg-uplan-product-list text-middle mt15 mb10">
-			    <#list videoList as prod>
-				  <div class="fn-left pg-uplan-product-item mr15">
-						<a target="_blank" href="order/iwant/${prod.id}"><!--product/d/-->
-							<dl class="bg-color-white">
-							  <dt class="ub"><span>${substring(prod.name,0,13)}</span></dt>
-							  <dd>
-							  	<span class="mr20">曝光次数</span>                 
-							  	<span><em>${prod.playNumber}</em>/天</span>
-		            </dd>
-		            <dd>
-		            	<span class="mr20">展示期限</span>                 
-		            	<span><em>${prod.days}</em>天</span>
-		            </dd>
-		  					<dd>
-		  						<span class="mr20">金额￥</span>                 
-		  						<span><em>#{prod.price!'' ;m2M2}</em></span>               
-		  					</dd>
-		  				</dl>
-						</a>
-						<p class="J_click_p" data="218">
-							<span id="J_count_time_b" data2="0" data1="328261">
-								<a target="_blank" href="order/iwant/${prod.id}">马上预定</a>
-							</span>
-							<a class="text" target="_blank" href="order/iwant/${prod.id}">（查看详情）</a>
-						</p>
-					</div>           
-					 </#list>	      
-				</div>
-			</div>
-			</#if>
-			
-			<#if (imageList?size>0) >
-			<div class="module2">
-			  <div class="title s-clear">
-			  	<span>
-			  		图片广告
-			  	</span>
-			  	<a href="${rc.contextPath}/product/sift" class="s-right">更多》</a><!-- f/prod/list/image -->
-			  </div>
-			  <div class="fn-clear pg-uplan-product-list text-big mt15 mb10">
-			    <#list imageList as prod>
-				  <div class="fn-left pg-uplan-product-item mr15">
-						<a target="_blank" href="order/iwant/${prod.id}">
-							<dl class="bg-color-white">
-							  <dt class="ub"><span>${substring(prod.name,0,13)}</span></dt>
-							  <dd>
-							  	<span class="mr20">曝光次数</span>                 
-							  	<span><em>${prod.playNumber}</em>/天</span>
-		            </dd>
-		            <dd>
-		            	<span class="mr20">展示期限</span>                 
-		            	<span><em>${prod.days}</em>天</span>
-		            </dd>
-		  					<dd>
-		  						<span class="mr20">金额￥</span>                 
-		  						<span><em>#{prod.price!'' ;m2M2}</em></span>               
-		  					</dd>
-		  				</dl>
-						</a>
-						<p class="J_click_p" data="218">
-							<span id="J_count_time_b" data2="0" data1="328261">
-								<a target="_blank" href="order/iwant/${prod.id}">马上预定</a>
-							</span>
-							<a class="text" target="_blank" href="order/iwant/${prod.id}">（查看详情）</a>
-						</p>
-					</div>           
-				 </#list>	 	     
-				</div>
-			</div>
-			</#if>
-			
-			<#if (noteList?size>0) >
-			<div class="module3">
-			  <div class="title s-clear">
-			  	<span>
-			  		文字信息
-			  	</span>
-			  	<a href="${rc.contextPath}/product/sift" class="s-right">更多》</a><!-- -->
-			  </div>
-			  <div class="fn-clear pg-uplan-product-list text-big mt15 mb10">
-			   <#list noteList as prod>
-				  <div class="fn-left pg-uplan-product-item mr15">
-						<a target="_blank" href="order/iwant/${prod.id}">
-							<dl class="bg-color-white">
-							  <dt class="ub"><span>${substring(prod.name,0,13)}</span></dt>
-							  <dd>
-							  	<span class="mr20">曝光次数</span>                 
-							  	<span><em>${prod.playNumber}</em>/天</span>
-		            </dd>
-		            <dd>
-		            	<span class="mr20">展示期限</span>                 
-		            	<span><em>${prod.days}</em>天</span>
-		            </dd>
-		  					<dd>
-		  						<span class="mr20">金额￥</span>                 
-		  						<span><em>#{prod.price!'' ;m2M2}</em></span>               
-		  					</dd>
-		  				</dl>
-						</a>
-						<p class="J_click_p" data="218">
-							<span id="J_count_time_b" data2="0" data1="328261">
-								<a target="_blank" href="order/iwant/${prod.id}">马上预定</a>
-							</span>
-							<a class="text" target="_blank" href="order/iwant/${prod.id}">（查看详情）</a>
-						</p>
-					</div>           
-					 </#list>      
-				</div>
-			</div>
-			</#if>
+		<#include "index_mapLines.ftl" />
 		</div>
 		<div class="qqbox">
 			<dl>
@@ -512,8 +285,6 @@
 			</dl>
 		</div>
 	</div>
-	<#include "/menu/foot_body.ftl" />
-	<script type="text/javascript" src="homepage/js/jquery.js"></script>
 	<script src="homepage/js/index.js"></script>
 	<script src="homepage/js/unslider.min.js"></script>
 	<script type="text/javascript">

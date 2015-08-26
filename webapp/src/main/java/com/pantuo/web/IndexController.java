@@ -23,6 +23,7 @@ import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProduct.FrontShow;
 import com.pantuo.pojo.TableRequest;
+import com.pantuo.service.BusLineCheckService;
 import com.pantuo.service.CityService;
 import com.pantuo.service.CpdService;
 import com.pantuo.service.ProductService;
@@ -42,6 +43,8 @@ public class IndexController {
 	CpdService cpdService;
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private BusLineCheckService busLineCheckService;
 
 	public int makeCookieValueRight(int city, HttpServletResponse response) {
 		JpaCity r = cityService.fromId(city);
@@ -82,7 +85,12 @@ public class IndexController {
 	}
 
 	private String commonData(Model model, HttpServletRequest request, int city, String pageName, String medetype) {
-
+        Integer[] ids={43,44,45,46};
+        Map map=new HashMap<Integer, String>();
+        map.put(43, "43");
+        map.put(44, "44");
+        map.put(45, "45");
+        map.put(46, "46");
 		TableRequest req = new TableRequest();
 		req.setStart(0);
 		req.setLength(4);
@@ -90,7 +98,7 @@ public class IndexController {
 		Map<String, String> default_sort = new HashMap<String, String>(1);
 		default_sort.put("id", "desc");
 		sort.add(default_sort);
-
+         
 		Page<JpaProduct> videoList = productService.getValidProducts(city, JpaProduct.Type.video, false, null, req,
 				FrontShow.Y);
 		Page<JpaProduct> imageList = productService.getValidProducts(city, JpaProduct.Type.image, false, null, req,
@@ -105,6 +113,7 @@ public class IndexController {
 		model.addAttribute("imageList", imageList.getContent());
 		model.addAttribute("noteList", noteList.getContent());
 		model.addAttribute("bodyList", bodyList.getContent());
+		model.addAttribute("buslineList", busLineCheckService.getlines(ids,map));
 		request.getSession().setAttribute("medetype", medetype);
 		return pageName;
 		//return "redirect:/index.html";

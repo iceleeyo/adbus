@@ -3,6 +3,7 @@ package com.pantuo.service;
 import java.security.Principal;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -128,5 +129,5 @@ public interface BusLineCheckService {
 	public LineBusCpd selectLineBusCpd(int busContractId, int lineid);
 
 	public Pair<Boolean, String> confirm_bus(int busContractId, int lineid, String startdate, String endDate, Principal principal)throws ParseException;
-
+	 public List<LineBusCpd> getlines(Integer[] ids,Map<Integer,String> map);
 }

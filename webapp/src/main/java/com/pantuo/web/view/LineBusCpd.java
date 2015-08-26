@@ -15,6 +15,7 @@ public class LineBusCpd {
 	JpaBusline line;
 	
 	BusLock buslock;
+	String impSite;
 	public Map<String, JpaBodyContract> map;
 	
 	//已安装车辆显示
@@ -50,6 +51,14 @@ public class LineBusCpd {
 
 	public void setLine(JpaBusline line) {
 		this.line = line;
+	}
+
+	public String getImpSite() {
+		return impSite;
+	}
+
+	public void setImpSite(String impSite) {
+		this.impSite = impSite;
 	}
 
 	public BusContract getBusContract() {

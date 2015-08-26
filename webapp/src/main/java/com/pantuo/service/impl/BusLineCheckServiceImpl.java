@@ -1026,5 +1026,22 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			return new Pair<Boolean, String>(false,"信息丢失");
 		}
 	} 
-
+   public List<LineBusCpd> getlines(Integer[] ids,Map<Integer,String> map){
+	   List<Integer>  idsList=new ArrayList<Integer>();
+	   for(int i=0;i<ids.length;i++){
+		   idsList.add(ids[i]);
+	   }
+	   BooleanExpression query = QJpaBusline.jpaBusline.id.in(idsList);
+	   List<JpaBusline> list = (List<JpaBusline>) buslineRepository.findAll(query);
+	   List<LineBusCpd> cpds=new ArrayList<LineBusCpd>();
+	   for (JpaBusline jpaBusline : list) {
+		   LineBusCpd cpd=new LineBusCpd();
+		   cpd.setImpSite(map.get(jpaBusline.getId()));
+		   if(jpaBusline!=null){
+			   cpd.setLine(jpaBusline);
+		   }
+		   cpds.add(cpd);
+	}
+	   return cpds;
+   }
 }
