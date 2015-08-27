@@ -49,7 +49,10 @@ public class BusLineMapController {
 
 	@Autowired
 	private BusMapService busMapService;
-
+	@RequestMapping(value = "/public_sortTable")
+	public String sortTable() {
+		return "sortTable";
+	}
 	@RequestMapping(value = "/lines")
 	public String lines() {
 		return "map_lines";
