@@ -127,7 +127,14 @@ public class BusLineMapController {
 		}
 		return r;
 	}
-
+	@RequestMapping("ajax-all-lines")
+	@ResponseBody
+	public DataTablePage<JpaBusline> lines(Model model, TableRequest req,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city,
+			SessionStatus status) {
+		DataTablePage<JpaBusline> r = getLines(model, req, cityId, city);
+		return r;
+	}
 	private DataTablePage<JpaBusline> getLines(Model model, TableRequest req, int cityId, JpaCity city) {
 		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
 			return new DataTablePage(Collections.emptyList());
