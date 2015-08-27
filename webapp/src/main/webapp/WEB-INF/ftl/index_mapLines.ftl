@@ -59,7 +59,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
             "aLengthMenu": [[50, 100], [50, 100]],
             "ajax": {
                 type: "GET",
-                url: "${rc.contextPath}/api/ajax-all-lines",
+                url: "${rc.contextPath}/api/public-lines",
                 data: function(d) {
                     return $.extend( {}, d, {
                         "filter[name]" : $('#name').val(),
@@ -76,10 +76,6 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                 } },
                 { "data": "levelStr", "defaultContent": ""}, { "data": "_cars", "defaultContent": ""},
                 { "data": "_persons", "defaultContent": ""},
-                 { "data": "_today", "defaultContent": ""},
-                  { "data": "_month1day", "defaultContent": ""},
-                   { "data": "_month2day", "defaultContent": ""},
-                    { "data": "_month3day", "defaultContent": ""},
                  { "data": "line.levelStr", "defaultContent": "","render": function(data, type, row, meta) {
                         return '<a href="javascript:;" onclick="showSite('+ "\'${rc.contextPath}/api/lineMap?lineName="+row.name+"\' " +');">线路情况</a>&nbsp;';
                     }},
@@ -171,7 +167,6 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                   		'<option value="A">A</option>' +
                   		'<option value="LATLONG">经纬线</option>' +
          				'</select>' +
-                        ' <a class="block-btn" target="_Blank" style="margin-left:30px;" href="${rc.contextPath}/busselect/applyBodyCtct">申请合同</a>'+
                         '</div>'
         );
 
@@ -222,10 +217,6 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                         <th orderBy="level">线路级别</th>
                          <th orderBy="_cars">自营车辆</th>
                            <th orderBy="_persons">人车流量</th>
-                           <th orderBy="_today">当天合同上刊数</th>
-                          <th orderBy="_month1day">未来1月上刊数</th>
-                           <th orderBy="_month2day">未来2月</th>
-                            <th orderBy="_month3day">未来3月</th>
                          <th>查看站点</th>
     <@security.authorize ifAnyGranted="BodyOrderManager">
                         <th>管理</th>

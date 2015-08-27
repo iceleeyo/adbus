@@ -1,6 +1,7 @@
 package com.pantuo.web;
 
 import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,7 +26,6 @@ import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.BusMapService;
 import com.pantuo.service.BusService;
 import com.pantuo.util.Pair;
-import com.pantuo.web.view.JpaBuslineView;
 import com.pantuo.web.view.MapLocationSession;
 
 /**
@@ -94,11 +94,25 @@ public class BusLineMapController {
 		return "map_location";
 	}
 
-	@RequestMapping("ajax-all-lines")
+	@RequestMapping("public-lines")
 	@ResponseBody
 	public DataTablePage<JpaBusline> getAllLines(Model model, TableRequest req,
 			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city,
 			SessionStatus status) {
+		DataTablePage<JpaBusline> r = getLines(model, req, cityId, city);
+		if (!r.getContent().isEmpty()) {
+			List<JpaBusline> f = r.getContent();
+			for (JpaBusline jpaBusline : f) {
+				jpaBusline.set_month1day(0);
+				jpaBusline.set_month2day(0);
+				jpaBusline.set_today(0);
+				jpaBusline.set_month3day(0);
+			}
+		}
+		return r;
+	}
+
+	private DataTablePage<JpaBusline> getLines(Model model, TableRequest req, int cityId, JpaCity city) {
 		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
 			return new DataTablePage(Collections.emptyList());
 
