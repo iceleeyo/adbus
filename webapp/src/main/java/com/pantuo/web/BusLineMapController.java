@@ -69,7 +69,13 @@ public class BusLineMapController {
 	Pair<Double, Double> BEIBA_COMPANY = new Pair<Double, Double>(116.31718990229, 39.939290559991);
 	private final String BEIBA_COMPANY_NAME = "北巴传媒广告分公司";
 	private final String BEIBA_COMPANY_ADDRESS = "北京市海淀区紫竹院路32号";
-
+	@RequestMapping(value = "/public_lineMap")
+	public String public_lineMap(Model model, HttpServletResponse response, String lineName,
+			@ModelAttribute("_mapLocationKey") MapLocationSession user) {
+		response.setHeader("X-Frame-Options", "SAMEORIGIN");
+		model.addAttribute("lineName", lineName);
+		return "map_site";
+	}
 	@RequestMapping(value = "/lineMap")
 	public String lineMap(Model model, HttpServletResponse response, String lineName,
 			@ModelAttribute("_mapLocationKey") MapLocationSession user) {
