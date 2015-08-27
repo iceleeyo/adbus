@@ -31,6 +31,7 @@ public class JpaContract extends CityEntity {
     private String creator;
     private String amounts;
     private String contractType;
+    private int parentid;
     @ManyToOne
     @JoinColumn(name = "industryId")
     private JpaIndustry industry;
@@ -67,6 +68,14 @@ public class JpaContract extends CityEntity {
 		this.id = id;
 	}
 
+
+	public int getParentid() {
+		return parentid;
+	}
+
+	public void setParentid(int parentid) {
+		this.parentid = parentid;
+	}
 
 	public String getAmounts() {
 		return amounts;
