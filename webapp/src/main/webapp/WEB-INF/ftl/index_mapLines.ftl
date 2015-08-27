@@ -41,7 +41,7 @@ var i=0;
 </script>
             <div class="title s-clear">
 			  	<span>
-			  		线路推荐
+			  		线路规划
 			  	</span>
 			  </div>
                 <table id="table" class="display compact" cellspacing="0" width="100%">
