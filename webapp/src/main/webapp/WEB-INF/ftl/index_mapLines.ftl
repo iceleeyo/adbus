@@ -65,6 +65,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                         "filter[name]" : $('#name').val(),
                         "filter[level]" : $('#levelStr').val(),
                         "filter[address]" : $('#address').val(),
+                             "filter[siteLine]" : $('#siteLine').val(), 
                     } );
                 },
                 "dataSrc": "content",
@@ -72,7 +73,15 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
             "columns": [
                 { "data": "name", "defaultContent": "",
                     "render": function(data, type, row, meta) {
+                    var i=0;
+                    <@security.authorize ifAnyGranted="bodysales,bodyFinancialManager,bodyContractManager,bodyScheduleManager">
                     return '<a  target="_Blank" href="${rc.contextPath}/busselect/lineschedule/' + row.id + '" >'+data+'</a> &nbsp;';
+                    i++;
+                    </@security.authorize>
+                    if(i==0){
+                    	return data;
+                   }
+                    
                 } },
                 { "data": "levelStr", "defaultContent": ""}, { "data": "_cars", "defaultContent": ""},
                 { "data": "_persons", "defaultContent": ""},
@@ -135,7 +144,17 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
     return t;
   }
   
-  
+  	function searchSite(){
+	 var w=$('#siteName').val();
+	 $('#siteLine').val(w);
+	 
+	  var oSettings = table.fnSettings();
+        oSettings._iDisplayLength = 50;
+	  redrawWithNewCount(table, 50);
+	 //table.dataTable().fnSetDisplayLength = 100;
+	 //table.dataTable()._fnAjaxUpdate();
+	 // table.fnDraw();
+	}
 	function searchLine(){
 	 var w=$('#location').val();
 	 $('#address').val(w);
@@ -155,6 +174,9 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                         '        <input id="location" value="" style="width:300px">' +
                         '<a href="javascript:;" onclick="checkLocation('+ "\'${rc.contextPath}/api/public_simple\'" +');">位置确认</a>&nbsp;'+
                           '  <a href="javascript:;" onclick="searchLine();">查附近线路</a>&nbsp;'+
+                           '    <span>线路</span>    <input id="siteName" value=""> ' +
+                        '    &nbsp;&nbsp;' +
+                               '  <a href="javascript:;" onclick="searchSite();">线路相似匹配</a>&nbsp;'+
                           ' <br> <br>   <span>线路</span>' +
                         '    <span>' +
                         '        <input id="name" value="" ' +
@@ -226,6 +248,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 
                 </table>
                 <input type="hidden" id = "address" value="">
+                <input type="hidden" id = "siteLine" value="">
 </div>
 
 
