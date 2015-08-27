@@ -27,7 +27,17 @@
     function logout(){
        window.location.href = "${rc.contextPath}/logout";
     }
-
+function showSite(tourl){
+	layer.open({
+		type: 1,
+		title: "线路站点",
+		skin: 'layui-layer-rim', 
+		area: ['650px', '660px'], 
+		content:''
+			+' '
+			+'<iframe style="width:99%;height:98%" src="'+tourl+'"/>'
+	});
+	}
     $(function() {
         $("#city_dropdown a:not(.selected)").click(function(){
             var cityName = $(this).parents("#ttbar-mycity")[0]?$(this).attr("data-id") : $("#ttbar-mycity a.selected").attr("data-id");
@@ -90,23 +100,6 @@
                                         <a class="selected ui-areamini-text"  data-id="${cities[0].mediaType!''}" title="${cities[0].mediaType.typeName!''}">车身广告</a>
                                     </#if>
                                     </div>
-                                  <#--  <div class="dd dorpdown-layer">
-                                        <div class="dd-spacer"></div>
-                                        <div class="ui-areamini-content-wrap" style="left: auto;">
-                                            <div class="ui-areamini-content">
-                                                <div class="ui-areamini-content-list" id="city_dropdown">
-                                                <#list medias as m>
-                                                  <#if m.mediaType=="body">
-                                                    <div class="item">
-                                                        <a data-id="${m.mediaType}" href="javascript:void(0)" <#if city?? && city.id == m.id> cityid="${city.id}" mid="${m.id}" class="selected"</#if>>车身广告</a>
-                                                    </div>
-                                                    </#if>
-                                                </#list>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>-->
                             </ul>
 							<div class="s-right s-clear">
 								<span class="pg-nav-item s-left" style="padding:0;">您好，</span>
@@ -152,13 +145,6 @@
 										</div>
 									</div>
 								</div>
-                               
-								<!--<a class="pg-nav-item s-left" href="#">
-									<i class="icon-msg fsize-12">1</i>
-									消息
-								</a> -->
-								<!--<a class="pg-nav-item s-left" href="#">帮助</a>
-								<a class="pg-nav-item s-left" href="#">论坛</a>-->
 								<a class="pg-nav-item s-left" href="${rc.contextPath}/message/all">消息<span id="msgNumber" class="layer-tips" style="color:#ff9966"></span></a>
 								 <@security.authorize access="isAuthenticated()">
 								<a href="javascript:;" class="pg-nav-item s-left" onclick="logout();">[退出]</a>
@@ -237,32 +223,28 @@
 			  <div class="fn-clear pg-uplan-product-list text-middle mt15 mb10">
 			    <#list buslineList as item>
 				  <div class="fn-left pg-uplan-product-item mr15">
-						<a>
 							<dl class="bg-color-white">
 							  <dt class="ub" style="height: 330px;">
 				<div style="  margin: -15px 2px 0px 0px;">
-		            	<span class="mr20" style="font-size: 12px;">线路名             
+		            	<span  style="font-size: 14px;">线路名:             
+		            		<a href="javascript:;" onclick="showSite('${rc.contextPath}/api/public_lineMap?lineName=${item.line.name}');">
 		            		${item.line.name!''}
+		            		</a>
 		            	</span>
 		        </div>  
 		        <div style="  margin: -15px 2px 0px 0px;">
-		            	<span class="mr20" style="font-size: 12px;">线路级别         
+		            	<span class="mr20" style="font-size: 12px;">线路级别:         
 							 ${item.line.levelStr!''}
 						</span>
 		        </div>  
 		        <div style="  margin: -15px 2px 0px 0px;">
-		            	<span class="mr20" style="font-size: 12px;">车辆数         
+		            	<span class="mr20" style="font-size: 12px;">车辆数:       
 							${item.line._cars!''}
 						</span>
 		        </div>  
 		        <div style="  margin: -15px 2px 0px 0px;">
-		            	<span class="mr20" style="font-size: 12px;">人车流量         
+		            	<span class="mr20" style="font-size: 12px;">人车流量:         
 							${item.line._persons!''}
-						</span>
-		        </div>  
-		        <div style="  margin: -15px 2px 0px 0px;">
-		            	<span class="mr20" style="font-size: 12px;">重要站点       
-							${item.impSite!''}
 						</span>
 		        </div>  
 							  <div class="img_box" style="width: 98%;height: 170px;">
@@ -270,7 +252,6 @@
 							  </div>
 							  </dt>
 		  				</dl>
-						</a>
 						
 					</div>           
 					 </#list>	      
@@ -296,7 +277,7 @@
 		$(".module1 .fn-left.pg-uplan-product-item").mouseenter(function(){
 			$(this).css("border", "1px solid rgb(64, 155, 234)");
 			$(this).children(".J_click_p").css("background-color","rgb(86, 170, 242)");
-			$(this).find("a").css("color","rgb(255, 255, 255)");
+			//$(this).find("a").css("color","rgb(255, 255, 255)");
 			console.log("success");
 		}).mouseleave(function(){
 			$(this).removeAttr("style");
