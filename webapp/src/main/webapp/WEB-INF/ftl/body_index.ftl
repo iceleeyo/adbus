@@ -234,7 +234,7 @@ function showSite(tourl){
 							<dl class="bg-color-white">
 							  <dt class="ub" style="height: 310px;">
 				<div>
-		            	<span class="mr20" style="font-size: 16px;">线路名                        
+		            	<span class="mr10" style="font-size: 16px;">线路名                        
 		            		<a href="javascript:;" onclick="showSite('${rc.contextPath}/api/public_lineMap?lineName=${item.line.name}');">
 
 		            		${item.line.name!''}
@@ -242,22 +242,22 @@ function showSite(tourl){
 		            	</span>
 		        </div>  
 		        <div style="  margin: -15px 2px 0px 0px;">
-		            	<span class="mr20" style="font-size: 12px;">线路级别:         
+		            	<span class="mr10" style="font-size: 12px;">线路级别:         
 							 ${item.line.levelStr!''}
 						</span>
 		        </div>  
 		        <div style="  margin: -15px 2px 0px 0px;">
-		            	<span class="mr20" style="font-size: 12px;">车辆数:       
+		            	<span class="mr10" style="font-size: 12px;">车辆数:       
 							${item.line._cars!''}
 						</span>
 		        </div>  
 		        <div style="  margin: -15px 2px 0px 0px;">
-		            	<span class="mr20" style="font-size: 12px;">人车流量:         
+		            	<span class="mr10" style="font-size: 12px;">人车流量:         
 							${item.line._persons!''}
 						</span>
 		        </div>  
-							  <div class="img_box" style="width: 98%;height: 170px;">
-							  	<img class="img_size" src="${rc.contextPath}${item.impSite}" style="  width: 100%; height: 90%;">
+							  <div class="img_box" style="width: 100%;height: 170px;">
+							  	<img class="img_size" src="${rc.contextPath}${item.impSite}" style="  width: 100%; height: 100%;">
 							  </div>
 							  </dt>
 		  				</dl>
@@ -282,6 +282,7 @@ function showSite(tourl){
 			</dl>
 		</div>
 	</div>
+	
 	<script src="homepage/js/index.js"></script>
 	<script src="homepage/js/unslider.min.js"></script>
 	<script type="text/javascript">
