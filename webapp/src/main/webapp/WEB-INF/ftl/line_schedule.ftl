@@ -131,7 +131,7 @@
 			area: ['800px', '300px'], //宽高
 			content:''
 				   +' '
-				   +'<iframe style="width:99%;height:97%" src="'+tourl+'/busselect/bodyContractDetail/'+id+'"/>'
+				   +'<iframe style="width:99%;height:97%" frameborder="no" src="'+tourl+'/busselect/bodyContractDetail/'+id+'"/>'
 		});	
     }
   

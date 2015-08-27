@@ -428,7 +428,7 @@ function pay() {
     		area: ['1000px', '529px'], 
     		content:''
 			   +' '
-			   +'<iframe  style="width:99%;height:99%" src="${rc.contextPath}/supplies/suppliesDetail/'+data+'"/>'
+			   +'<iframe  style="width:99%;height:99%" frameborder="no" src="${rc.contextPath}/supplies/suppliesDetail/'+data+'"/>'
 			});
 }
 </script>

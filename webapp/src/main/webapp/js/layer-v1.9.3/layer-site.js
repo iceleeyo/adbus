@@ -12,7 +12,7 @@ function showProductlayer(tourl,id){
 		area: ['900px', '300px'], 
 		content:''
 			+' '
-			+'<iframe style="width:99%;height:98%" src="'+tourl+'/product/prodetail/'+id+'"/>'
+			+'<iframe style="width:99%;height:98%" frameborder="no" src="'+tourl+'/product/prodetail/'+id+'"/>'
 	});
 	
 }
@@ -178,7 +178,7 @@ function contractdetail(tourl,contractid){
 				area: ['900px', '350px'], //宽高
 				content:''
 					   +' '
-					   +'<iframe style="width:99%;height:97%" src="'+tourl+'/contract/contractDetail/'+contractid+'"/>'
+					   +'<iframe style="width:99%;height:97%" frameborder="no" src="'+tourl+'/contract/contractDetail/'+contractid+'"/>'
 			});
 			
 		}
@@ -278,7 +278,7 @@ function eleContract(tourl,orderid){
 	    		area: ['650px', '600px'], 
 	    		content:''
 	    			 +' '
-	  			   	 +'<iframe  style="width:99%;height:95%" src="'+tourl+'/user/contract_templete?orderid='+orderid+'"/><div class="ui-form-item widthdrawBtBox"> </div>'
+	  			   	 +'<iframe  style="width:99%;height:95%" frameborder="no" src="'+tourl+'/user/contract_templete?orderid='+orderid+'"/><div class="ui-form-item widthdrawBtBox"> </div>'
 	  			});
 		}
 	}, "text");

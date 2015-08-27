@@ -60,7 +60,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
     		area: ['1000px', '529px'], 
     		content:''
 			   +' '
-			   +'<iframe  style="width:99%;height:99%" src="${rc.contextPath}/supplies/XYDetail/'+data+'/workp"/>'
+			   +'<iframe  style="width:99%;height:99%" frameborder="no" src="${rc.contextPath}/supplies/XYDetail/'+data+'/workp"/>'
 			});
 }
 	//上传施工照片

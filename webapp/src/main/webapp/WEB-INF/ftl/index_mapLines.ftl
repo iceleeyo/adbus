@@ -39,7 +39,7 @@ var i=0;
         initTable('${rc.contextPath}',i);
     } );
 </script>
-            <div class="title s-clear">
+            <div class="title s-clear" style="width: 1060px;margin-left: -30px;">
             
             
 			  	<span>

@@ -30,7 +30,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 		area: ['600px', '450px'], 
 		content:''
 			+' '
-			+'<iframe style="width:99%;height:98%" src="'+tourl+'"/>'
+			+'<iframe style="width:99%;height:98%" frameborder="no" src="'+tourl+'"/>'
 	});
 	}
 	

@@ -1,4 +1,5 @@
- 	var table;
+ 
+var table;
  	var chost;
 	function checkLocation(tourl){
 	tourl+="?address="+$('#location').val();
