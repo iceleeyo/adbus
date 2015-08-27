@@ -139,7 +139,7 @@
         $("div#toolbar").html(
                 '<div>' +
                         '    <span>' +
-                        '        <input id="location" value="" placeholder="请输入地标" style="width:300px">&nbsp;' +
+                        '        <input id="location" value="" placeholder="请输入地标,比如:北京市天池餐厅" style="width:300px">&nbsp;' +
                         '<a href="javascript:;" onclick="checkLocation('+chost+ "\'/api/public_simple\'" +');">位置确认</a>&nbsp;'+
                           '  <a href="javascript:;" onclick="searchLine();">查附近线路</a>&nbsp;<br><br>'+
                            '      <input id="siteName" placeholder="请输入线路名称" value=""> ' +
@@ -163,6 +163,7 @@
         $('#name,#levelStr').change(function() {
         	$('#address').val("");
         	$('#location').val("");
+        	$('#siteLine').val("");
             table.fnDraw();
         });
         

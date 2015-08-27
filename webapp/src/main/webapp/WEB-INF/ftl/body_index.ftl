@@ -249,7 +249,7 @@ function showSite(tourl){
 						</span>
 		        </div>  
 							  <div class="img_box" style="width: 98%;height: 170px;">
-							  	<img class="img_size" src="${rc.contextPath}/imgs/video.png" style="  width: 100%; height: 90%;">
+							  	<img class="img_size" src="${rc.contextPath}${item.impSite}" style="  width: 100%; height: 90%;">
 							  </div>
 							  </dt>
 		  				</dl>
