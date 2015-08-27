@@ -22,11 +22,6 @@ islogin(pathurl);
          jDialog.Alert('请填写开播日期');
          return;
          }
-           var days=Math.floor((d-d2)/(24*3600*1000));
-        if(days<3) {
-            jDialog.Alert('开播日期请选择3天以后');
-            return;
-         } 
 //author :impanxh 阻止2次点击 ,当所有表单都验证通过时才提交 抄自注册页面
          if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
             return;
@@ -130,7 +125,7 @@ function bu(txtObj) {
                                                 class="ui-input datepicker validate[required,custom[date] layer-tips" 
                                                 type="text" name="startTime1"
                                                 id="startTime" data-is="isAmount isEnough"
-                                                autocomplete="off" disableautocomplete="" tip="可选择3天后日期!">
+                                                autocomplete="off" disableautocomplete="" tip="选择开播日期">
                                                 
                                                	 
                                         </div>
@@ -269,10 +264,11 @@ function bu(txtObj) {
                 <SPAN class="con">${prod.days!''}天</SPAN>
             </LI>
             <li style="width: 720; border-bottom: 1px solid #F7F7F7"></li>
+            <#if prod.remarks?has_content>
             <LI style="width:720px;">
                 <SPAN>套餐描述：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查详细内容!" onclick="showRemark('${prod.remarks!''}');"  >${substring(prod.remarks!'',0,38)}</a></SPAN>
             </LI>
-             
+             </#if>
 
         </UL>
     </DIV>
@@ -316,55 +312,4 @@ function bu(txtObj) {
 					</div>
 				</div>
 			</div>
-							<script type="text/javascript">
-								function noWeekendsOrHolidays(date){
-								    var noWeekend = $.datepicker.noWeekends(date);
-								    return noWeekend;
-								   /* if (noWeekend[0]) {
-								        var isNotFriday = noFridays(date);
-								        if (isNotFriday[0]) {
-								            return [true, ''];
-								        }
-								        else {
-								            return isNotFriday;
-								        }
-								    }
-								    else {
-								        return noWeekend;
-								    }*/
-								}
-								
-								function noFridays(date) {
-								    var day = date.getDay();
-								    return [(day != 5),""];
-								}
-								
-								function getFristWordDay() { 
-									var fday = 3;//往前工作日3天
-									 var c=0;
-									 var histCount=0;
-									 var r  = null;
-									while(histCount  <= (fday )){
-										r=new Date( (new Date()/1000+86400*c)*1000 );
-										var noWeekend=noWeekendsOrHolidays(r);
-										if(noWeekend[0]){
-											histCount++;
-										} 
-										c++;
-									}
-									return r;
-								}
-						  		  
-								//限定不能选今天之前的日期
-								jQuery(function($){ 
-									 var fristWorkDay=getFristWordDay();
-							    	 $.datepicker.regional['zh-CN'] = { 
-								         minDate: fristWorkDay,
-								         isRTL: false,
-								        // beforeShowDay:noWeekendsOrHolidays,
-							      	  }; 
-							        	$.datepicker.setDefaults($.datepicker.regional['zh-CN']); 
-						  		  });
-						  		  
-							</script>
 </@frame.html>

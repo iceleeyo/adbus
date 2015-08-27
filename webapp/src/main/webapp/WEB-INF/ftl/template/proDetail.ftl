@@ -68,10 +68,11 @@
                 <SPAN class="con">${view.days!''}天</SPAN>
             </LI>
             <li style="width: 730; border-bottom: 1px solid #F7F7F7"></li>
+            <#if view.remarks?has_content>
             <LI style="width:720px;">
                 <SPAN>套餐描述：</SPAN><SPAN class="con">${substring(view.remarks!'',0,38)}</SPAN>
             </LI>
-             
+             </#if>
 
         </UL>
     </DIV>
