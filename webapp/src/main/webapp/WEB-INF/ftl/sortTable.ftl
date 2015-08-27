@@ -55,7 +55,7 @@ var i=0;
           $('#table tbody tr').each(function(){
 			_temp+=($(this).attr("id")) +",";
         });
-        alert(_temp);
+        alert("取到排序值:已按id排序" +_temp);
     };
 $("#table tbody").sortable({
     helper: fixHelperModified,
@@ -95,7 +95,7 @@ var fixHelperModified = function(e, tr) {
           $('#sort tbody tr').each(function(){
 			_temp+=($(this).attr("id")) +",";
         });
-        alert(_temp);
+        alert("取到排序值:已按id排序" +_temp);
     };
 $("#sort tbody").sortable({
     helper: fixHelperModified,
