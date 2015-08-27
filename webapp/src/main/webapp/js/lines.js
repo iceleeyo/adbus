@@ -140,14 +140,14 @@
                 '<div>' +
                         '    <span>' +
                         '        <input id="location" value="" placeholder="请输入地标,比如:北京市天池餐厅" style="width:300px">&nbsp;' +
-                        '<a href="javascript:;" onclick="checkLocation('+chost+ "\'/api/public_simple\'" +');">位置确认</a>&nbsp;'+
+                        '<a href="javascript:;" style="margin-left:10px;" onclick="checkLocation('+chost+ "\'/api/public_simple\'" +');">位置确认</a>&nbsp;'+
                           '  <a href="javascript:;" onclick="searchLine();">查附近线路</a>&nbsp;<br><br>'+
                            '      <input id="siteName" placeholder="请输入线路名称" value=""> ' +
                         '    &nbsp;&nbsp;' +
                                '  <a href="javascript:;" onclick="searchSite();">线路相似匹配</a>&nbsp;'+
                           ' <br> <br>   <span>线路</span>' +
                         '    <span>' +
-                        '        <input id="name" value="" ' +
+                        '        <input id="name" value="" style="margin-right:10px; ' +
                         '    <span>线路级别</span>&nbsp;&nbsp;' +
                         '<select class="ui-input ui-input-mini" name="levelStr" id="levelStr">' +
                    		'<option value="defaultAll" selected="selected">所有</option>' +
