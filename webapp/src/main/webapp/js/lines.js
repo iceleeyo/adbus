@@ -78,6 +78,9 @@
             "language": {
                 "url": cp+"/js/jquery.dataTables.lang.cn.json"
             },
+            "fnCreatedRow": function (nRow, aData, iDataIndex) {
+                $(nRow).attr('id', aData.id); // or whatever you choose to set as the id
+            },
             "initComplete": initComplete,
             "drawCallback": drawCallback,
              "fnDrawCallback": fnDrawCallback,
