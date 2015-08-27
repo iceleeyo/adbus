@@ -10,7 +10,7 @@ var table;
 		area: ['600px', '450px'], 
 		content:''
 			+' '
-			+'<iframe frameborder="no" style="width:99%;height:98%" src="'+tourl+'"/>'
+			+'<iframe frameborder="no" style="width:100%;height:100%" src="'+tourl+'"/>'
 	});
 	}
 	
@@ -23,7 +23,7 @@ var table;
 		area: ['650px', '660px'], 
 		content:''
 			+' '
-			+'<iframe frameborder="no" style="width:99%;height:98%" src="'+tourl+'"/>'
+			+'<iframe frameborder="no" style="width:100%;height:100%" src="'+tourl+'"/>'
 	});
 	}
    
