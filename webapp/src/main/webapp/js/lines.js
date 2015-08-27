@@ -34,7 +34,7 @@
             "ordering": true,
             "serverSide": true,
             "columnDefs": [
-                { "orderable": false, "targets": [3] },
+                { "orderable": false, "targets": [4] },
             ],
             "iDisplayLength" : 50,
             "aLengthMenu": [[50, 100], [50, 100]],
