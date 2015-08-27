@@ -153,7 +153,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                         '    <span>附近线路</span>' +
                         '    <span>' +
                         '        <input id="location" value="" style="width:300px">' +
-                        '<a href="javascript:;" onclick="checkLocation('+ "\'${rc.contextPath}/api/simple\'" +');">位置确认</a>&nbsp;'+
+                        '<a href="javascript:;" onclick="checkLocation('+ "\'${rc.contextPath}/api/public_simple\'" +');">位置确认</a>&nbsp;'+
                           '  <a href="javascript:;" onclick="searchLine();">查附近线路</a>&nbsp;'+
                           ' <br> <br>   <span>线路</span>' +
                         '    <span>' +
