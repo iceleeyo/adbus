@@ -77,9 +77,17 @@ public class BusLineMapController {
 		model.addAttribute("lineName", lineName);
 		return "map_site";
 	}
+	@RequestMapping(value = "/public_simple")
+	public String public_simple(Model model, HttpServletResponse response, String address) {
+		return getGps(model, response, address);
+	}
 
 	@RequestMapping(value = "/simple")
 	public String map_simple(Model model, HttpServletResponse response, String address) {
+		return getGps(model, response, address);
+	}
+
+	private String getGps(Model model, HttpServletResponse response, String address) {
 		response.setHeader("X-Frame-Options", "SAMEORIGIN");
 
 		Pair<Double, Double> r = busMapService.getLocationFromAddress(model, address);
