@@ -87,7 +87,9 @@ function supDetail(data){
   				  <li style="width: 200px;"><SPAN>流水号：</SPAN><SPAN class="con">123912800234</SPAN></li>
   				  </#if>
   				  </#if>
-  				  
+  				  <#if contract?? && contract.parentid!=0>
+  				     <li style="width: 200px;"><SPAN>结算方式：</SPAN><SPAN class="con">统一结算</SPAN></li>
+  				  </#if>
   				  <li style="width: 200px;"><SPAN>是否开发票：</SPAN><SPAN class="con">
  				  <#if orderview.order.isInvoice==1 >
                   <a class="layer-tips" tip="点击可查看发票详细内容!" onclick="invoicedetail('${rc.contextPath}',${orderview.order.id!''});" href="javascript:void(0)"> 是</a>

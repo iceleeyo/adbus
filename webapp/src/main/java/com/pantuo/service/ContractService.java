@@ -359,4 +359,8 @@ public Bus findBusByPlateNum(String plateNumber){
 		}
 		return false;
 	}
+
+	public Contract selectContractById(int contractId) {
+		return contractMapper.selectByPrimaryKey(contractId);
+	}
 }

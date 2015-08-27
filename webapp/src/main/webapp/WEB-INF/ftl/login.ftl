@@ -34,8 +34,6 @@
                                     <span class="login-name-icon icon-position-pwd"></span>
                                 </div>
                                 <div class="login-item s-clear">
-                                    <span class="icon-select s-left icon-yes"></span>
-                                    <label class="s-left">记住用户名</label>
                                     <a class="s-right" href="${rc.contextPath}/user/find_pwd">忘记密码</a>
                                 </div>
                                 <div class="login-item p-center">

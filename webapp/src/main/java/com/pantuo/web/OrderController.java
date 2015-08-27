@@ -234,6 +234,9 @@ public class OrderController {
 		model.addAttribute("orderview", v);
 		model.addAttribute("prod", prod);
 		model.addAttribute("claimTime", claimTime);
+		if(v!=null && v.getOrder()!=null){
+		model.addAttribute("contract", contractService.selectContractById(v.getOrder().getContractId()));
+		}
 		model.addAttribute("InvoiceList", InvoiceList);
 		model.addAttribute("activitis", activitis);
 		if (StringUtils.equals(ActivitiService.R_BIND_STATIC, activityId)) {
@@ -308,6 +311,7 @@ public class OrderController {
 		model.addAttribute("order", order);
 		model.addAttribute("prod", prod);
 		model.addAttribute("orderview", v);
+		model.addAttribute("contract", contractService.selectContractById(v.getOrder().getContractId()));
 		model.addAttribute("contracts", contracts);
 		model.addAttribute("suppliesView", suppliesView);
 		model.addAttribute("quafiles", quafiles);

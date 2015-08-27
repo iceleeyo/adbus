@@ -82,6 +82,7 @@ import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.AttachmentService;
 import com.pantuo.service.CityService;
+import com.pantuo.service.ContractService;
 import com.pantuo.service.CpdService;
 import com.pantuo.service.MailService;
 import com.pantuo.service.MailTask;
@@ -148,6 +149,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 	@Autowired
 	private MailService mailService;
+	@Autowired
+	private ContractService contractService;
 	@Autowired
 	private AttachmentService attachmentService;
 
@@ -1625,6 +1628,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 				model.addAttribute("operTimeTree", getOperationTime(activitis));
 				model.addAttribute("sections", orderService.getTaskSection(activitis));
 				model.addAttribute("orderview", v);
+				if(v!=null && v.getOrder()!=null){
+				model.addAttribute("contract", contractService.selectContractById(v.getOrder().getContractId()));
+				}
 				model.addAttribute("prod", prod);
 			} catch (Exception e) {
 				log.error(e.getMessage());
@@ -1679,6 +1685,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 			model.addAttribute("order", order);
 			model.addAttribute("longorderid", longorderid);
 			model.addAttribute("orderview", orderView);
+			if(orderView!=null && orderView.getOrder()!=null){
+			model.addAttribute("contract", contractService.selectContractById(orderView.getOrder().getContractId()));
+			}
 			model.addAttribute("prod", prod);
 			return "finishedOrderDetail";
 		}
