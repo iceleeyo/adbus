@@ -224,7 +224,7 @@ function showSite(tourl){
 			    <#list buslineList as item>
 				  <div class="fn-left pg-uplan-product-item mr15">
 							<dl class="bg-color-white">
-							  <dt class="ub" style="height: 330px;">
+							  <dt class="ub" style="height: 310px;">
 				<div>
 		            	<span class="mr20" style="font-size: 16px;">线路名                        
 		            		<a href="javascript:;" onclick="showSite('${rc.contextPath}/api/public_lineMap?lineName=${item.line.name}');">
