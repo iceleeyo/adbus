@@ -59,16 +59,16 @@ public class BusLineMapController {
 	public String LandmarkM_lines() {
 		return "landmarkM_lines";
 	}
-	
+
 	@RequestMapping(value = "/trackM_lines")
 	public String trackM_lines() {
 		return "trackM_lines";
 	}
-	
-	
+
 	Pair<Double, Double> BEIBA_COMPANY = new Pair<Double, Double>(116.31718990229, 39.939290559991);
 	private final String BEIBA_COMPANY_NAME = "北巴传媒广告分公司";
 	private final String BEIBA_COMPANY_ADDRESS = "北京市海淀区紫竹院路32号";
+
 	@RequestMapping(value = "/public_lineMap")
 	public String public_lineMap(Model model, HttpServletResponse response, String lineName,
 			@ModelAttribute("_mapLocationKey") MapLocationSession user) {
@@ -76,6 +76,7 @@ public class BusLineMapController {
 		model.addAttribute("lineName", lineName);
 		return "map_site";
 	}
+
 	@RequestMapping(value = "/lineMap")
 	public String lineMap(Model model, HttpServletResponse response, String lineName,
 			@ModelAttribute("_mapLocationKey") MapLocationSession user) {
@@ -83,6 +84,7 @@ public class BusLineMapController {
 		model.addAttribute("lineName", lineName);
 		return "map_site";
 	}
+
 	@RequestMapping(value = "/public_simple")
 	public String public_simple(Model model, HttpServletResponse response, String address) {
 		return getGps(model, response, address);
@@ -133,8 +135,7 @@ public class BusLineMapController {
 		String levelStr = req.getFilter("level");
 		String searchAdress = req.getFilter("address");
 		String siteLine = req.getFilter("siteLine");
-		
-		
+
 		if (StringUtils.isNoneBlank(siteLine)) {
 			Page<JpaBusline> w = busMapService.querySiteLineSearch(model, cityId, siteLine, req.getPage(),
 					req.getLength(), req.getSort("id"));
