@@ -60,7 +60,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
             "aLengthMenu": [[50, 100], [50, 100]],
             "ajax": {
                 type: "GET",
-                url: "${rc.contextPath}/api/ajax-all-lines",
+                url: "${rc.contextPath}/api/public-lines",
                 data: function(d) {
                     return $.extend( {}, d, {
                         "filter[siteLine]" : $('#siteLine').val(), 
