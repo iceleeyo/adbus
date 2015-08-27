@@ -225,9 +225,10 @@ function showSite(tourl){
 				  <div class="fn-left pg-uplan-product-item mr15">
 							<dl class="bg-color-white">
 							  <dt class="ub" style="height: 330px;">
-				<div style="  margin: -15px 2px 0px 0px;">
-		            	<span  style="font-size: 14px;">线路名:             
+				<div>
+		            	<span class="mr20" style="font-size: 16px;">线路名                        
 		            		<a href="javascript:;" onclick="showSite('${rc.contextPath}/api/public_lineMap?lineName=${item.line.name}');">
+
 		            		${item.line.name!''}
 		            		</a>
 		            	</span>
