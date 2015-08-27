@@ -12,8 +12,25 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
     .processed {color: limegreen;}
     .invalid {color: red;}
     .hl {background-color: #ffff00;}
+    .title {
+  		border-bottom: 1px solid rgb(86, 170, 242);
+  		width: 1010px;
+	}
+    .title span {
+  		background: rgb(86, 170, 242);
+  		color: rgb(255, 255, 255);
+  		text-align: center;
+  		width: 80px;
+  		height: 30px;
+  		line-height: 30px;
+  		display: inline-block;
+	}
+	#table_wrapper{
+	width: 1010px;
+	}
 </style>
 <script type="text/javascript">
+
 $(document).ready(function() {
 var i=0;
  <@security.authorize ifAnyGranted="bodysales,bodyFinancialManager,bodyContractManager,bodyScheduleManager">
@@ -22,10 +39,11 @@ var i=0;
         initTable('${rc.contextPath}',i);
     } );
 </script>
-<div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title">
-                线路列表
-									</div>
+            <div class="title s-clear">
+			  	<span>
+			  		线路推荐
+			  	</span>
+			  </div>
                 <table id="table" class="display compact" cellspacing="0" width="100%">
                     <thead>
                     <tr>
@@ -44,6 +62,7 @@ var i=0;
                 <input type="hidden" id = "address" value="">
                 <input type="hidden" id = "siteLine" value="">
 </div>
+
 
 
  
