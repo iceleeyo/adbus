@@ -4,6 +4,9 @@
 
 
 <script type="text/javascript">
+function go_back(){
+	history.go(-1);
+}
     $(document).ready(function() {
         $("#userForm2").validationEngine({
             validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
@@ -119,7 +122,8 @@
 	class="ui-form" method="post" action="save"
 	enctype="multipart/form-data">
 	<div class="withdraw-title fn-clear">
-		用户添加信息录入
+		<span>用户添加信息录入</span>
+		<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="go_back()">返回</a>
 		<!--
             <ul class="fn-clear">
               <li class="first"><a class="addBank fn-right" href="/account/userBank!toAdd.action">xxxx</a></li>

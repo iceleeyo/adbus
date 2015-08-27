@@ -1,8 +1,11 @@
 <#import "template/template.ftl" as frame>
 <#global menu="个人信息">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="资质信息录入" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer/layer.js"] css=["js/jquery-ui/jquery-ui.css"]>
+<@frame.html title="用户信息" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer/layer.js"] css=["js/jquery-ui/jquery-ui.css"]>
 <script type="text/javascript">
+function go_back(){
+	history.go(-1);
+}
     $(document).ready(function() {
         $("#userForm2").validationEngine({
             validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
@@ -75,7 +78,8 @@
 								class="ui-form" method="post" action="u_edit/update"
 								enctype="multipart/form-data">
 								<div class="withdraw-title fn-clear">
-									用户信息
+									<span>用户信息</span>
+									<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="go_back()">返回</a>
 								</div>
 	<div class="withdrawInputs">
 		<div class="inputs">

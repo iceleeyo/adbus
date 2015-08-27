@@ -8,6 +8,9 @@
 <@frame.html title="${action}产品套餐" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js","js/jquery-ui.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-ui-timepicker-addon.js","js/jquery-ui-timepicker-zh-CN.js", "js/jquery.datepicker.region.cn.js"] css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-ui-timepicker-addon.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <script type="text/javascript">
+function go_back(){
+	history.go(-1);
+}
     $(document).ready(function() {
         $("#productForm").validationEngine({
             validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
@@ -97,7 +100,10 @@
 								class="ui-form" method="post" action="save"
 								enctype="multipart/form-data">
                                 <input type="hidden" name="id" id="id" value="<#if prod??>${(prod.id)!''}<#else>0</#if>"/>
-								<div class="withdraw-title fn-clear">${action}产品套餐</div>
+								<div class="withdraw-title fn-clear">
+								<span>${action}产品套餐</span>
+									<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="go_back()">返回</a>
+								</div>
 								<div class="withdrawInputs">
 									<div class="inputs" style="padding-left: 20px;">
                                         <div class="ui-form-item">

@@ -4,6 +4,9 @@
 css=["js/jquery-ui/jquery-ui.css"]>
 
 <script type="text/javascript">
+function go_back(){
+	history.go(-1);
+}
 	i = 2;
 	j = 2;
 	$(document)
@@ -81,7 +84,8 @@ function go_back(){
 	class="ui-form" method="post" action="update"
 	enctype="multipart/form-data">
 	<div class="withdraw-title fn-clear">
-		用户信息编辑
+		<span>用户信息编辑</span>
+		<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="go_back()">返回</a>
 		<!--
             <ul class="fn-clear">
               <li class="first"><a class="addBank fn-right" href="/account/userBank!toAdd.action">xxxx</a></li>
@@ -127,8 +131,8 @@ function go_back(){
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>所属组:</label>
 				<#if groupsList?exists> <#list groupsList?keys as vkey> <input
-					type="checkbox" value="${vkey}" name="roles"><#if
-				uGroup?seq_contains(vkey)>checked </#if> />${groupsList[vkey]}
+					type="checkbox" value="${vkey}" name="roles" <#if
+				uGroup?seq_contains(vkey)>checked </#if> /> ${groupsList[vkey]}
 				</#list> </#if>
 			</div>
 
