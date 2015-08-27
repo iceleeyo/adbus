@@ -77,7 +77,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                 { "data": "levelStr", "defaultContent": ""}, { "data": "_cars", "defaultContent": ""},
                 { "data": "_persons", "defaultContent": ""},
                  { "data": "line.levelStr", "defaultContent": "","render": function(data, type, row, meta) {
-                        return '<a href="javascript:;" onclick="showSite('+ "\'${rc.contextPath}/api/lineMap?lineName="+row.name+"\' " +');">线路情况</a>&nbsp;';
+                        return '<a href="javascript:;" onclick="showSite('+ "\'${rc.contextPath}/api/public_lineMap?lineName="+row.name+"\' " +');">线路情况</a>&nbsp;';
                     }},
                     
                 <@security.authorize ifAnyGranted="BodyOrderManager">
