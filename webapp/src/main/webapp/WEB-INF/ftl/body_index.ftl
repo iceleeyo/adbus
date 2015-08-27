@@ -19,7 +19,10 @@
    	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer/layer.js"></script>
 	<style type="text/css">
 	.withdraw-wrap.color-white-bg.fn-clear{
-	  width: 100% !important;
+		width: 100% !important;
+	}
+	.module1{
+		padding: 10px 10px 20px 0px;
 	}
 	</style>
 	<title>首页</title>
@@ -259,7 +262,9 @@ function showSite(tourl){
 				</div>
 			</div>
 			</#if>
+			<div class="module1">
 		<#include "index_mapLines.ftl" />
+			</div>
 		</div>
 		<div class="qqbox">
 			<dl>
