@@ -90,7 +90,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                      if(row._sim>0){
                      _t="["+row._sim+"]";
                      }
-                        return '<a href="javascript:;" onclick="showSite('+ "\'${rc.contextPath}/api/lineMap?lineName="+row.name+"\' " +');">线路情况'+_t+'</a>&nbsp;';
+                        return '<a href="javascript:;" onclick="showSite('+ "\'${rc.contextPath}/api/public_lineMap?lineName="+row.name+"\' " +');">线路情况'+_t+'</a>&nbsp;';
                     
                     }},
                     
