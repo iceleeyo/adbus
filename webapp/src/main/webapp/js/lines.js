@@ -9,7 +9,7 @@
 		area: ['600px', '450px'], 
 		content:''
 			+' '
-			+'<iframe style="width:99%;height:98%" src="'+tourl+'"/>'
+			+'<iframe frameborder="no" style="width:99%;height:98%" src="'+tourl+'"/>'
 	});
 	}
 	
@@ -22,7 +22,7 @@
 		area: ['650px', '660px'], 
 		content:''
 			+' '
-			+'<iframe style="width:99%;height:98%" src="'+tourl+'"/>'
+			+'<iframe frameborder="no" style="width:99%;height:98%" src="'+tourl+'"/>'
 	});
 	}
    
