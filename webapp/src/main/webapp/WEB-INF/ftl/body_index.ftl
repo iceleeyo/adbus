@@ -17,6 +17,11 @@
    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.jcountdown.site.js"></script>
    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer/layer.js"></script>
    	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer/layer.js"></script>
+	<style type="text/css">
+	.withdraw-wrap.color-white-bg.fn-clear{
+	  width: 100% !important;
+	}
+	</style>
 	<title>首页</title>
 <script type="text/javascript">
     function logout(){
@@ -230,11 +235,11 @@
 			  	</span>
 			  </div>
 			  <div class="fn-clear pg-uplan-product-list text-middle mt15 mb10">
-			    <#list buslineList as item>>
+			    <#list buslineList as item>
 				  <div class="fn-left pg-uplan-product-item mr15">
 						<a>
 							<dl class="bg-color-white">
-							  <dt class="ub" style="height: 280px;">
+							  <dt class="ub" style="height: 330px;">
 				<div style="  margin: -15px 2px 0px 0px;">
 		            	<span class="mr20" style="font-size: 12px;">线路名             
 		            		${item.line.name!''}
