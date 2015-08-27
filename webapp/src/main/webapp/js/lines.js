@@ -141,17 +141,18 @@
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>' +
+                        '    <span>按地标匹配搜索：' +
                         '        <input id="location" value="" placeholder="请输入地标,比如:北京市天池餐厅" style="width:300px">&nbsp;' +
                         '<a href="javascript:;" style="margin-left:10px;" onclick="checkLocation('+chost+ "\'/api/public_simple\'" +');">位置确认</a>&nbsp;'+
                           '  <a href="javascript:;" onclick="searchLine();">查附近线路</a>&nbsp;<br><br>'+
-                           '      <input id="siteName" placeholder="请输入线路名称" value=""> ' +
+                           '      按站点重合搜索：<input id="siteName" placeholder="请输入线路名称" value=""> ' +
                         '    &nbsp;&nbsp;' +
-                               '  <a href="javascript:;" onclick="searchSite();">线路相似匹配</a>&nbsp;'+
-                          ' <br> <br>   <span>线路</span>' +
+                        '  <a href="javascript:;" onclick="searchSite();">线路相似匹配</a><br><br>'+
+                        '      按人车流量搜索：从：<input id="#" placeholder="请输入人车流量：从" value=""> 到：<input id="#" placeholder="请输入人车流量：到" value=""> <a href="javascript:;" onclick="">人车流量查询</a>' +
+                          ' <br> <br>   <span>线路名称：</span>' +
                         '    <span>' +
                         '        <input id="name" value="" style="margin-right:10px;" ' +
-                        '    <span>线路级别</span>&nbsp;&nbsp;' +
+                        '    <span>线路级别：</span>&nbsp;&nbsp;' +
                         '<select class="ui-input ui-input-mini" name="levelStr" id="levelStr">' +
                    		'<option value="defaultAll" selected="selected">所有</option>' +
                   		'<option value="S">特级</option>' +
