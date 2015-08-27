@@ -229,6 +229,13 @@ public class ContractService {
 		ex.setLimitEnd(page.getPagesize());
 		return contractMapper.selectByExample(ex);
 	}
+	public List<Contract> queryParentContractList(int city) {
+		ContractExample example = new ContractExample();
+		ContractExample.Criteria ca = example.createCriteria();
+        ca.andCityEqualTo(city);
+        ca.andParentidEqualTo(0);
+		return contractMapper.selectByExample(example);
+	}
 
 	public ContractView getContractDetail(int contract_id, Principal principal) {
 		ContractView v = null;

@@ -71,7 +71,12 @@ function go_back(){
 		var amounts=($("#amounts").val());
 		var contractType=($("#contractType").val());
 		Sfile= ($("#Sfile").val());
-		
+		if ($("#relaCon").is(":checked")) {
+		if($("#parentid  option:selected").val()==0){
+		   jDialog.Alert("请选择要绑定的合同");
+			return;
+		}
+		}
 		if(endDate<startDate){
 			jDialog.Alert("终止时间不能小于开始时间");
 			return;
@@ -126,7 +131,20 @@ var bb=false;
    $("#industry").show();
    
 }
-    })
+    });
+  $("#relaCon").click(function(){
+     
+  if ($("#relaCon").is(":checked")) {
+    $("#amounts").hide();
+    $("#amounts").val("0");
+    $("#parentid").css("display","inline");
+}else{
+   $("#parentid").css("display","none");
+   $("#parentid").val("0");
+   $("#amounts").show();
+   
+}
+    });
  
 		        //author:pxh 2015-05-20 22:36
  
@@ -209,6 +227,15 @@ var bb=false;
 												onblur="bu(this)" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/[^\d.]/g,'')}" type="text" name="amounts"
 												id="amounts" data-is="isAmount isEnough" value="${(contractView.mainView.amounts)!''}"
 												autocomplete="off" disableautocomplete="" placeholder="请输入合同金额"/>
+												 <input type="checkbox" id="relaCon"/>绑定大合同
+												 <select class="ui-input" name="parentid" id="parentid" style="display:none">
+                                                <option value="0" selected="selected">请选择要绑定的合同</option>
+                                                <#if contracts?exists>
+                                                <#list contracts as c>
+                                                    <option value="${c.id}">${c.contractName!''}</option>
+                                                </#list>
+                                                </#if>
+                  		             </select>
                                         </div>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10">

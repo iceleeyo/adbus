@@ -118,10 +118,13 @@ public class ContractController {
 		return contractService.saveBlackAd(city, blackAd, Request.getUserId(principal), request);
 	}
 	@RequestMapping(value = "/contract_edit/{contract_id}", produces = "text/html;charset=utf-8")
-	public String contract_edit(Model model,@PathVariable("contract_id") int contract_id,Principal principal,HttpServletRequest request) {
+	public String contract_edit(Model model,@PathVariable("contract_id") int contract_id,Principal principal,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId,HttpServletRequest request) {
 		ContractView  contractView=contractService.findContractById(contract_id,principal);
 		Page<UserDetail> users = userService.getValidUsers(0, 999, null);
 		List<JpaIndustry> industries = industryRepo.findAll();
+		List<Contract> contracts = contractService.queryParentContractList(cityId);
+		model.addAttribute("contracts", contracts);
 		model.addAttribute("users", users.getContent());
 		model.addAttribute("industries", industries);
 		model.addAttribute("contractView", contractView);
@@ -161,10 +164,12 @@ public class ContractController {
 	 */
 	@PreAuthorize(" hasRole('ShibaOrderManager')  "+ " or hasRole('bodyContractManager')")
 	@RequestMapping(value = "/contractEnter", produces = "text/html;charset=utf-8")
-	public String contractEnter(Model model, HttpServletRequest request) {
+	public String contractEnter(Model model, @CookieValue(value = "city", defaultValue = "-1") int cityId,HttpServletRequest request) {
 		Page<UserDetail> users = userService.getValidUsers(0, 999, null);
-		model.addAttribute("users", users.getContent());
+		List<Contract> contracts = contractService.queryParentContractList(cityId);
 		List<JpaIndustry> industries = industryRepo.findAll();
+		model.addAttribute("contracts", contracts);
+		model.addAttribute("users", users.getContent());
 		model.addAttribute("industries", industries);
 		return "contractEnter";
 	}
