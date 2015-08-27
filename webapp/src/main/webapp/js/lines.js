@@ -147,7 +147,7 @@
                                '  <a href="javascript:;" onclick="searchSite();">线路相似匹配</a>&nbsp;'+
                           ' <br> <br>   <span>线路</span>' +
                         '    <span>' +
-                        '        <input id="name" value="" style="margin-right:10px; ' +
+                        '        <input id="name" value="" style="margin-right:10px;" ' +
                         '    <span>线路级别</span>&nbsp;&nbsp;' +
                         '<select class="ui-input ui-input-mini" name="levelStr" id="levelStr">' +
                    		'<option value="defaultAll" selected="selected">所有</option>' +
