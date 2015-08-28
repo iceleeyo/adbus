@@ -242,14 +242,13 @@ function changeImg(tourl,osrc,img){
 			  <div class="fn-clear pg-uplan-product-list text-middle mt15 mb10">
 			    <#list buslineList as item>
 				  <div class="fn-left pg-uplan-product-item mr15">
+				  <a href="javascript:;" onclick="showSite('${rc.contextPath}/api/public_lineMap?lineName=${item.line.name}');">
 							<dl class="bg-color-white">
 							  <dt class="ub" style="height: 310px;">
 				<div>
 		            	<span class="mr10" style="font-size: 16px;">线路名                        
-		            		<a href="javascript:;" onclick="showSite('${rc.contextPath}/api/public_lineMap?lineName=${item.line.name}');">
-
-		            		${item.line.name!''}
-		            		</a>
+		            		
+		            		<font color="#2ea7e0">${item.line.name!''}</font>
 		            	</span>
 		        </div>  
 		        <div style="  margin: -15px 2px 0px 0px;">
@@ -269,12 +268,11 @@ function changeImg(tourl,osrc,img){
 		        </div>  
 
 							  <div class="img_box" style="width: 100%;height: 170px;">
-							  	<img class="img_size" src="${rc.contextPath}${item.impSite}" onmousemove="changeImg('${rc.contextPath}','${item.impSite}',this)" style="  width: 100%; height: 100%;">
-
+							  	<img class="img_size" src="${rc.contextPath}${item.impSite}" onmouseenter="changeImg('${rc.contextPath}','${item.impSite}',this)" style="  width: 100%; height: 100%;">
 							  </div>
 							  </dt>
 		  				</dl>
-						
+		  			</a>
 					</div>           
 					 </#list>	      
 				</div>
