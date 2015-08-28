@@ -43,7 +43,7 @@ function showSite(tourl){
 		area: ['650px', '660px'], 
 		content:''
 			+' '
-			+'<iframe style="width:99%;height:98%" src="'+tourl+'"/>'
+			+'<iframe frameborder="no" style="width:100%;height:100%"  src="'+tourl+'"/>'
 	});
 	}
     $(function() {
@@ -64,6 +64,17 @@ function showSite(tourl){
             }, "text");
         });
     });
+    
+function changeImg(tourl,osrc,img){
+	var img_src=img.src;
+	var osrc=tourl+osrc;
+	var nsrc=tourl+"/imgs/video.png";
+	if(img.src.indexOf(nsrc) < 0){
+		img.src=nsrc;
+	}else{
+		img.src=osrc; 
+	}
+}
 </script>
  
 
@@ -256,8 +267,10 @@ function showSite(tourl){
 							${item.line._persons!''}
 						</span>
 		        </div>  
+
 							  <div class="img_box" style="width: 100%;height: 170px;">
 							  	<img class="img_size" src="${rc.contextPath}${item.impSite}" style="  width: 100%; height: 100%;">
+
 							  </div>
 							  </dt>
 		  				</dl>
@@ -270,6 +283,7 @@ function showSite(tourl){
 			<div class="module1">
 		<#include "index_mapLines.ftl" />
 			</div>
+			
 		</div>
 		<div class="qqbox">
 			<dl>
@@ -282,7 +296,12 @@ function showSite(tourl){
 			</dl>
 		</div>
 	</div>
+<<<<<<< .mine
+
 	
+=======
+	
+>>>>>>> .r1536
 	<script src="homepage/js/index.js"></script>
 	<script src="homepage/js/unslider.min.js"></script>
 	<script type="text/javascript">
