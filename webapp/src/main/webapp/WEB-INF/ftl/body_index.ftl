@@ -269,7 +269,7 @@ function changeImg(tourl,osrc,img){
 		        </div>  
 
 							  <div class="img_box" style="width: 100%;height: 170px;">
-							  	<img class="img_size" src="${rc.contextPath}${item.impSite}" style="  width: 100%; height: 100%;">
+							  	<img class="img_size" src="${rc.contextPath}${item.impSite}" onmousemove="changeImg('${rc.contextPath}','${item.impSite}',this)" style="  width: 100%; height: 100%;">
 
 							  </div>
 							  </dt>
@@ -296,12 +296,6 @@ function changeImg(tourl,osrc,img){
 			</dl>
 		</div>
 	</div>
-<<<<<<< .mine
-
-	
-=======
-	
->>>>>>> .r1536
 	<script src="homepage/js/index.js"></script>
 	<script src="homepage/js/unslider.min.js"></script>
 	<script type="text/javascript">
