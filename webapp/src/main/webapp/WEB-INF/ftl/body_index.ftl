@@ -301,7 +301,6 @@ function changeImg(tourl,osrc,img){
 			$(this).css("border", "1px solid rgb(64, 155, 234)");
 			$(this).children(".J_click_p").css("background-color","rgb(86, 170, 242)");
 			//$(this).find("a").css("color","rgb(255, 255, 255)");
-			console.log("success");
 		}).mouseleave(function(){
 			$(this).removeAttr("style");
 			$(this).children(".J_click_p").removeAttr("style");
@@ -311,7 +310,7 @@ function changeImg(tourl,osrc,img){
 			$(this).css("border", "1px solid rgb(239, 122, 48)");
 			$(this).children(".J_click_p").css("background-color","rgb(253, 110, 19)");
 			$(this).find("a").css("color","rgb(255, 255, 255)");
-			console.log("success");
+			 
 		}).mouseleave(function(){
 			$(this).removeAttr("style");
 			$(this).children(".J_click_p").removeAttr("style");
@@ -321,7 +320,7 @@ function changeImg(tourl,osrc,img){
 			$(this).css("border", "1px solid rgb(240, 194, 50)");
 			$(this).children(".J_click_p").css("background-color","rgb(255, 205, 51)");
 			$(this).find("a").css("color","rgb(255, 255, 255)");
-			console.log("success");
+			 
 		}).mouseleave(function(){
 			$(this).removeAttr("style");
 			$(this).children(".J_click_p").removeAttr("style");
