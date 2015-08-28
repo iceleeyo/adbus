@@ -85,12 +85,12 @@ public class IndexController {
 	}
 
 	private String commonData(Model model, HttpServletRequest request, int city, String pageName, String medetype) {
-        Integer[] ids={2504,2313,1786,1804};
+        Integer[] ids={845,846,847,848};
         Map map=new HashMap<Integer, String>();
-        map.put(2504, "/imgs/_300.jpg");
-        map.put(2313, "/imgs/_44.jpg");
-        map.put(1786, "/imgs/_b12.jpg");
-        map.put(1804, "/imgs/_8.jpg");
+        map.put(845, "/imgs/_300.jpg");
+        map.put(846, "/imgs/_44.jpg");
+        map.put(847, "/imgs/_b12.jpg");
+        map.put(848, "/imgs/_8.jpg");
 		TableRequest req = new TableRequest();
 		req.setStart(0);
 		req.setLength(4);

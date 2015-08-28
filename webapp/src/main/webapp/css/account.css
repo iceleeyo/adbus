@@ -1933,6 +1933,11 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	padding: 20px;
 }
 
+.withdrawB-wrap{
+	padding: 20px;
+	border: 1px solid #efefef;
+}
+
 .withdraw-wrap .tabs{
 	height: 40px;
 	background: #f4f5f9;

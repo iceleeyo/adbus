@@ -9,7 +9,7 @@ function go_back(){
 }
 </script>
 
-<div class="withdrawS-wrap color-white-bg fn-clear" style="width: 780px;margin-left: 0px;">
+<div class="withdrawB-wrap color-white-bg fn-clear" style="width: 780px;margin-left: 0px;">
 						<form data-name="withdraw" name="userForm2" id="userForm2"
 							class="ui-form" method="post" action="saveContract"
 							enctype="multipart/form-data">
