@@ -62,7 +62,9 @@
                         }
                         return data;
                 }},
-                { "data": "amounts"},
+                { "data": "amounts","render": function(data, type, row, meta) {
+                         return row.parentid!=0?'统一结算':data;
+                    }},
                 { "data": "startDate", "defaultContent": "", "render": function(data) {
                     return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
                 }},
