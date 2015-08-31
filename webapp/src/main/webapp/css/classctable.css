@@ -1,0 +1,24 @@
+ .center {margin: auto;}
+    .frame {width: 1000px;}
+    .div {text-align:center; margin:25px;}
+    div#toolbar {float: left;}
+    .processed {color: limegreen;}
+    .invalid {color: red;}
+    .hl {background-color: #ffff00;}
+    .littlesmall {font-size:10px}
+    .title {
+  		border-bottom: 1px solid rgb(86, 170, 242);
+  		width: 1010px;
+	}
+    .title span {
+  		background: rgb(86, 170, 242);
+  		color: rgb(255, 255, 255);
+  		text-align: center;
+  		width: 80px;
+  		height: 30px;
+  		line-height: 30px;
+  		display: inline-block;
+	}
+	#table_wrapper{
+	width: 1010px;
+	}
