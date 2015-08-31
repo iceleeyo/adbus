@@ -27,16 +27,21 @@ public class SchedultManagerController {
 	@Autowired
 	SpringTaskManagerService springTaskManagerService;
 
-	private static Logger log = LoggerFactory.getLogger(BusController.class);
-
 	@RequestMapping("public_tasklist")
 	public String getScheduleList() {
 		return "spring_task";
 	}
 
+	/**
+	 * 
+	 * 增加demo
+	 *
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	@RequestMapping(value = "/public_add")
 	@ResponseBody
-	public String sortTable() {
+	public String public_add() {
 		ScheduledMethodRunnable sm;
 		try {
 			String runtime = "0/10 * * * * ?";
@@ -52,28 +57,23 @@ public class SchedultManagerController {
 		return "success";
 	}
 
+	/**
+	 * 
+	 * 获取任务列表
+	 *
+	 * @param req
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	@RequestMapping(value = "/public_tasks")
 	@ResponseBody
 	public List<CronTask> tasks(TableRequest req) {
-		List<CronTask> cronTaskList = null;
-		if (SchedulerConfiguration.getTaskRegistrar() != null) {
-			cronTaskList = SchedulerConfiguration.getTaskRegistrar().getCronTaskList();
-			for (CronTask cronTask : cronTaskList) {
-				ScheduledMethodRunnable runable = (ScheduledMethodRunnable) cronTask.getRunnable();
-				System.out.println(runable.getTarget().getClass() + "[" + runable.getMethod().getName() + "]"
-						+ cronTask.getExpression());
-			}
-		}
-		return cronTaskList;
+		return springTaskManagerService.queryCronTaskList();
 	}
 
-	@RequestMapping(value = "/public_edit")
-	@ResponseBody
-	public List<CronTask> edit() {
-		return null;
-	}/**
+	/**
 	* 
-	* 暂停 恢复
+	* 设置表达式
 	*
 	* @param methodKey
 	* @return
@@ -83,9 +83,8 @@ public class SchedultManagerController {
 	@ResponseBody
 	public Pair<Boolean, String> expression(
 			@RequestParam(value = "methodKey", required = true, defaultValue = "") String methodKey, String expression) {
-		
-		
-		return springTaskManagerService.setTaskExpression(methodKey,expression);
+
+		return springTaskManagerService.setTaskExpression(methodKey, expression);
 	}
 
 	/**

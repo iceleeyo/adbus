@@ -23,6 +23,7 @@ import org.springframework.util.ReflectionUtils;
 import com.pantuo.SchedulerConfiguration;
 import com.pantuo.simulate.ScheduleStatsInter;
 import com.pantuo.util.Pair;
+
 /**
  * 
  * <b><code>SpringTaskManagerService</code></b>
@@ -44,6 +45,28 @@ public class SpringTaskManagerService {
 	private static Logger log = LoggerFactory.getLogger(SpringTaskManagerService.class);
 	public String METHOD_SPLIT = "@";
 	public String SPRING_THREAD_NAME = "ReschedulingRunnable";
+	/**
+	 * 
+	 * 获取crontask列表
+	 *
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	public List<CronTask> queryCronTaskList() {
+		List<CronTask> cronTaskList = null;
+		if (SchedulerConfiguration.getTaskRegistrar() != null) {
+			cronTaskList = SchedulerConfiguration.getTaskRegistrar().getCronTaskList();
+			if (log.isDebugEnabled()) {
+				for (CronTask cronTask : cronTaskList) {
+					ScheduledMethodRunnable runable = (ScheduledMethodRunnable) cronTask.getRunnable();
+					log.debug("crontask:{},{},{}", runable.getTarget().getClass(), "[" + runable.getMethod().getName()
+							+ "]", cronTask.getExpression());
+
+				}
+			}
+		}
+		return cronTaskList;
+	}
 
 	/**
 	 * 
@@ -252,7 +275,12 @@ public class SpringTaskManagerService {
 		}
 		return r;
 	}
-
+	/**
+	 * @deprecated
+	 * Comment here.
+	 *
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	public void edit() {
 		try {
 			ScheduledTaskRegistrar scheduledTaskRegistrar = SchedulerConfiguration.getTaskRegistrar();
