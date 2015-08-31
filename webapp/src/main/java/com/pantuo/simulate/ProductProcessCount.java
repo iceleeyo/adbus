@@ -37,7 +37,7 @@ public class ProductProcessCount implements Runnable, ScheduleStatsInter {
 	private HistoryService historyService;
 
 	//@Scheduled(fixedRate = 5000)
-	@Scheduled(cron = "0/50 * * * * ?")
+	@Scheduled(cron = "0/55 * * * * ?")
 	public void work() {
 		if (statControl.isRunning) {
 			try {

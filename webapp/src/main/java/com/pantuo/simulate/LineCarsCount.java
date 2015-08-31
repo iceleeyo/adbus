@@ -35,7 +35,7 @@ public class LineCarsCount implements Runnable, ScheduleStatsInter {
 	BusSelectMapper busSelectMapper;
 
 	//@Scheduled(fixedRate = 5000)
-	@Scheduled(cron = "0/50 * * * * ?")
+	@Scheduled(cron = "0/45 * * * * ?")
 	public void work() {
 		if (statControl.isRunning) {
 			try {
