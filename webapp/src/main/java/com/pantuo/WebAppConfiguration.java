@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -33,6 +34,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.pantuo.spring.SpringContextHolder;
 import com.pantuo.util.FreemarkerExceptionHandler;
 import com.pantuo.util.HiddleUserNameEx;
 import com.pantuo.util.SubstringEx;
@@ -51,12 +53,12 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 	@Autowired
 	private ControllerInterceptor controllerInterceptor;
 
-    @Override
-    public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
-        exceptionResolvers.add(webExceptionResolver());
-    }
+	@Override
+	public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
+		exceptionResolvers.add(webExceptionResolver());
+	}
 
-//    @Bean
+	//    @Bean
 	public HandlerExceptionResolver webExceptionResolver() {
 		return new RestExceptionResolver();
 	}
@@ -148,9 +150,11 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 		//        config.setFreemarkerVariables(myBuiltInMethods);
 		return config;
 	}
+
 	TemplateMethodModelEx getSubStrMethod() {
 		return new SubstringEx();
 	}
+
 	TemplateMethodModelEx getvHiddleUserNameEx() {
 		return new HiddleUserNameEx();
 	}
@@ -189,5 +193,11 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 		resolver.setResolveLazily(true);
 		//	resolver.setMaxUploadSize(20971520);
 		return resolver;
+	}
+
+	@Bean
+	@Lazy
+	public SpringContextHolder getHolder() {
+		return new SpringContextHolder();
 	}
 }
