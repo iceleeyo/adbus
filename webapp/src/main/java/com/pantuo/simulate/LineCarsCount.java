@@ -28,7 +28,7 @@ import com.pantuo.vo.LineBatchUpdateView;
  * @since pantuo 1.0-SNAPSHOT
  */
 @Component
-public class LineCarsCount implements Runnable {
+public class LineCarsCount implements Runnable, ScheduleStatsInter {
 	private static Logger log = LoggerFactory.getLogger(BusLineCheckServiceImpl.class);
 	public static Map<Integer, Integer> map = new java.util.concurrent.ConcurrentHashMap<Integer, Integer>();
 	@Autowired
@@ -37,8 +37,14 @@ public class LineCarsCount implements Runnable {
 	//@Scheduled(fixedRate = 5000)
 	@Scheduled(cron = "0/50 * * * * ?")
 	public void work() {
+		if (statControl.isRunning) {
+			try {
+				countCars();
+			} finally {
+				statControl.runover();
+			}
+		}
 
-		countCars();
 	}
 
 	public void countCars() {
@@ -72,6 +78,13 @@ public class LineCarsCount implements Runnable {
 	public int getCarsByLines(Integer line_id) {
 		return map.containsKey(line_id) ? map.get(line_id) : 0;
 
+	}
+
+	public StatsMonitor statControl = new StatsMonitor(this);
+
+	@Override
+	public StatsMonitor getStatsMonitor() {
+		return statControl;
 	}
 
 }

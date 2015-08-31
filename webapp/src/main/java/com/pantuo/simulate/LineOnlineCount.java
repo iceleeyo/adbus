@@ -30,7 +30,7 @@ import com.pantuo.web.view.LineDateCount;
  * @since pantuo 1.0-SNAPSHOT
  */
 @Component
-public class LineOnlineCount implements Runnable {
+public class LineOnlineCount implements Runnable ,ScheduleStatsInter{
 	private static Logger log = LoggerFactory.getLogger(LineOnlineCount.class);
 
 	public static LineDateCount _emptyCount = new LineDateCount();
@@ -43,7 +43,14 @@ public class LineOnlineCount implements Runnable {
 	//@Scheduled(fixedRate = 5000)
 	@Scheduled(cron = "0/50 * * * * ?")
 	public void work() {
-		countCars();
+		if (statControl.isRunning) {
+			try {
+				countCars();
+			} finally {
+				statControl.runover();
+			}
+		}
+		
 	}
 
 	public void countCars() {
@@ -111,6 +118,11 @@ public class LineOnlineCount implements Runnable {
 
 	public LineDateCount getCarsByLines(Integer line_id) {
 		return map.containsKey(line_id) ? map.get(line_id) : _emptyCount;
+	}
+	public StatsMonitor statControl = new StatsMonitor(this);
+	@Override
+	public StatsMonitor getStatsMonitor() {
+		return statControl;
 	}
 
 }
