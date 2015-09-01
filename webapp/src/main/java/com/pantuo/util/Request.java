@@ -24,6 +24,9 @@ public class Request {
 
 	public static boolean isMobileRequest(HttpServletRequest request) {
 		String s1 = request.getHeader("user-agent");
+		if (StringUtils.equals(request.getParameter("from"), "mobile")) {
+			return true;
+		}
 		boolean r = false;
 		if (s1.contains("Android")) {
 			r = true;
