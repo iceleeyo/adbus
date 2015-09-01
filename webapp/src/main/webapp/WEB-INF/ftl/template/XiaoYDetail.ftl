@@ -9,7 +9,7 @@ css=["js/highslide/highslide.css","css/lrtk.css", "js/video-js/video-js.css"]>
     }
 </script>
 
-<div class="withdrawS-wrap color-white-bg fn-clear_blank" style="width: 100%;">
+<div class="withdrawB-wrap color-white-bg fn-clear_blank" style="width: 100%;">
 						<form >
 							<div class="mt20">
 									<div class="tab-content">

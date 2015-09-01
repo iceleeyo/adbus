@@ -2,7 +2,7 @@
 <@frame.html title="套餐详细">
 <#include "preview.ftl" />
 <meta http-equiv="X-Frame-Options" content="SAMEORIGIN"> 
-<div class="withdraw-wrap color-white-bg fn-clear" style="margin-right: -30px;">
+<div class="withdrawB-wrap color-white-bg fn-clear" style="margin-right: -30px;margin-top: 20px;">
     
     <DIV class="summary mt10 uplan-summary-div">
         <UL class="uplan-detail-ul">
