@@ -9,11 +9,9 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 
 <style type="text/css">
     .center {margin: auto;}
-    .frame {width: 1000px;}
-    .div {text-align:center; margin:25px;}
+    .div {text-align:center;}
     div#toolbar {float: left;}
-    
-       .div2 {text-align:center; margin:25px;}
+    .div2 {text-align:center;}
     div2#toolbar2 {float: left;}
     
     .processed {color: limegreen;}
@@ -392,7 +390,7 @@ $("#wpform").ajaxForm(function(data) {
     <H3 class="text-xl title-box"><A class="black" href="#">已安装车辆
     <span id="recordsTotal2" style="background-color:red;font-size: 14px;border-radius: 4px;"></span></A></H3>
              <div class="div2" style="overflow-x:auto;" id = "div2">
-                <table id="table2" class="cell-border compact display" cellspacing="0" width="60%">
+                <table id="table2" class="cell-border compact display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
                         <th>车辆自编号</th>
@@ -419,7 +417,7 @@ $("#wpform").ajaxForm(function(data) {
     <span id="loading"><image src="${rc.contextPath}/imgs/load_.gif"/> </span>
     <span id="recordsTotal" style="background-color:red;font-size: 14px;border-radius: 4px;"></span></A></H3>
             <div class="div" style="overflow-x:auto;" id = "div1">
-                <table id="table" class="cell-border compact display" cellspacing="0" width="60%">
+                <table id="table" class="cell-border compact display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
                         <th>车辆自编号</th>
