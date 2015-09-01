@@ -22,7 +22,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
     #table td {position:relative;}
     #table td .per-middle {position:absolute;background-color: #ffad20;top:0;height:100%;z-index:1}
     #table td .per-first-or-last {position:absolute;background-color: #4acd48;border-left: 1px solid white;border-right: 1px solid white;top:0;height:100%;z-index:1}
-	#table th, #his_table th{background-color: #3bafda;color: white;  font-weight: normal;  text-align: left;  line-height: 20px;  padding: 2px 2px;}
+	#table th, #his_table th,#table2 th{background-color: #3bafda;color: white;  font-weight: normal;  text-align: left;  line-height: 20px;  padding: 2px 2px;}
 	table.dataTable.compact tbody td { padding: 2px 2px;}
 </style>
  
@@ -387,24 +387,24 @@ $("#wpform").ajaxForm(function(data) {
 
 
 
-<div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear" style="margin-left: -150px;margin-right: 30px">
+<div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear" style="margin-left: 0px;margin-right: 120px">
     <H3 class="text-xl title-box"><A class="black" href="#">已安装车辆
     <span id="recordsTotal2" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></A></H3>
              <div class="div2" style="overflow-x:auto;" id = "div2">
-                <table id="table2" class="cell-border compact display" cellspacing="0" width="60%">
+                <table id="table2" class="cell-border compact display" cellspacing="0" width="80%">
                     <thead>
                     <tr>
-                        <th style="min-width:110px;">车辆自编号</th>
-                         <th style="min-width:110px;">车牌号</th>
-                          <th style="min-width:110px;">线路名称</th>
+                        <th style="min-width:80px;">车辆自编号</th>
+                         <th style="min-width:80px;">车牌号</th>
+                          <th style="min-width:80px;">线路名称</th>
                              <@security.authorize ifAnyGranted="bodyFinancialManager,bodyContractManager,bodyScheduleManager">
-                          <th style="min-width:110px;">上刊时间</th>
-                          <th style="min-width:110px;">下刊时间</th>
+                          <th style="min-width:80px;">上刊时间</th>
+                          <th style="min-width:80px;">下刊时间</th>
                             </@security.authorize>
-                           <th style="min-width:110px;">施工时间</th>
-                           <th style="min-width:110px;">是否确认</th>
+                           <th style="min-width:80px;">施工时间</th>
+                           <th style="min-width:80px;">是否确认</th>
                               <@security.authorize ifAnyGranted="bodyScheduleManager">
-                           <th style="min-width:110px;">操作</th>
+                           <th style="min-width:100px;">操作</th>
                              </@security.authorize>
                     </tr>
                     </thead>
@@ -415,12 +415,12 @@ $("#wpform").ajaxForm(function(data) {
 
 
 
-<div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear" style="margin-left: -150px;margin-right: 30px">
+<div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear" style="margin-left: 0px;margin-right: 120px">
     <H3 class="text-xl title-box"><A class="black" href="#">可安装车辆列表
     <span id="loading"><image src="${rc.contextPath}/imgs/load_.gif"/> </span>
     <span id="recordsTotal" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></A></H3>
             <div class="div" style="overflow-x:auto;" id = "div1">
-                <table id="table" class="cell-border compact display" cellspacing="0" width="60%">
+                <table id="table" class="cell-border compact display" cellspacing="0" width="80%">
                     <thead>
                     <tr>
                         <th style="min-width:110px;">车辆自编号</th>
