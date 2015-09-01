@@ -1,4 +1,5 @@
-<#import "template/template_blank.ftl" as frame>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<#import "template/template_mobile.ftl" as frame>
 <#import "template/orderDetail.ftl" as orderDetail/>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <#global menu="合同线路施工单" >
@@ -387,35 +388,33 @@ $("#wpform").ajaxForm(function(data) {
 
 
 
-<div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear" style="margin-left: -150px;margin-right: 30px">
+
     <H3 class="text-xl title-box"><A class="black" href="#">已安装车辆
     <span id="recordsTotal2" style="background-color:red;font-size: 14px;border-radius: 4px;"></span></A></H3>
              <div class="div2" style="overflow-x:auto;" id = "div2">
                 <table id="table2" class="cell-border compact display" cellspacing="0" width="60%">
                     <thead>
                     <tr>
-                        <th style="min-width:110px;">车辆自编号</th>
-                         <th style="min-width:110px;">车牌号</th>
-                          <th style="min-width:110px;">线路名称</th>
+                        <th>车辆自编号</th>
+                         <th>车牌号</th>
+                          <th>线路名称</th>
                              <@security.authorize ifAnyGranted="bodyFinancialManager,bodyContractManager,bodyScheduleManager">
-                          <th style="min-width:110px;">上刊时间</th>
-                          <th style="min-width:110px;">下刊时间</th>
+                          <th>上刊时间</th>
+                          <th>下刊时间</th>
                             </@security.authorize>
-                           <th style="min-width:110px;">施工时间</th>
-                           <th style="min-width:110px;">是否确认</th>
+                           <th>施工时间</th>
+                           <th>是否确认</th>
                               <@security.authorize ifAnyGranted="bodyScheduleManager">
-                           <th style="min-width:110px;">操作</th>
+                           <th>操作</th>
                              </@security.authorize>
                     </tr>
                     </thead>
                 </table>
             </div>
             
-</div>
 
 
 
-<div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear" style="margin-left: -150px;margin-right: 30px">
     <H3 class="text-xl title-box"><A class="black" href="#">可安装车辆列表
     <span id="loading"><image src="${rc.contextPath}/imgs/load_.gif"/> </span>
     <span id="recordsTotal" style="background-color:red;font-size: 14px;border-radius: 4px;"></span></A></H3>
@@ -423,12 +422,12 @@ $("#wpform").ajaxForm(function(data) {
                 <table id="table" class="cell-border compact display" cellspacing="0" width="60%">
                     <thead>
                     <tr>
-                        <th style="min-width:110px;">车辆自编号</th>
+                        <th>车辆自编号</th>
                         
-                         <th style="min-width:110px;">车牌号</th>
-                          <th style="min-width:110px;">线路名称</th>
+                         <th>车牌号</th>
+                          <th>线路名称</th>
                            <@security.authorize ifNotGranted="bodyFinancialManager,bodyContractManager">  
-                           <th style="min-width:110px;">安装完成</th>
+                           <th>安装完成</th>
                             </@security.authorize>
                        
                     </tr>
@@ -445,7 +444,6 @@ $("#wpform").ajaxForm(function(data) {
 		</ol>
 		</div>
 		</div>
-</div>
 <div id ="ccc" style="display:none" >
  <div class="withdrawInputs">
 	<div class="inputs">

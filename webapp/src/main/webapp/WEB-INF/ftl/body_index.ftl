@@ -22,7 +22,7 @@
 		/* width: 100% !important; */
 	}
 	.module1{
-		padding: 10px 10px 20px 0px;
+		padding: 10px 10px 0px 0px;
 	}
 	#table_wrapper{
 		 width: 1060px !important;
@@ -69,7 +69,22 @@ function changeImg(tourl,osrc,img){
 	var img_src=img.src;
 	var osrc=tourl+osrc;
 	var nsrc=tourl+"/imgs/car.png";
-	if(img.src.indexOf(nsrc) < 0){
+	
+	
+	if(img_src.indexOf("t12.jpg")>0){
+		img.src=osrc; 
+	}else if(img_src.indexOf("t8.jpg")>0){
+		img.src=osrc;
+	}
+	
+	if(osrc.indexOf("_b12")>0 && img.src.indexOf("t12.jpg")<0){
+		var nsrc12=tourl+"/imgs/t12.jpg";
+		img.src=nsrc12;
+	}else if(osrc.indexOf("_8")>0 && img.src.indexOf("t8.jpg")<0){
+		var nsrc8=tourl+"/imgs/t8.jpg";
+		img.src=nsrc8;
+	}
+	else if(img.src.indexOf(nsrc) < 0){
 		img.src=nsrc;
 	}else{
 		img.src=osrc; 
@@ -268,7 +283,7 @@ function changeImg(tourl,osrc,img){
 		        </div>  
 
 							  <div class="img_box" style="width: 100%;height: 170px;">
-							  	<img class="img_size" src="${rc.contextPath}${item.impSite}" onmouseenter="changeImg('${rc.contextPath}','${item.impSite}',this)" style="  width: 100%; height: 100%;">
+							  	<img class="img_size" src="${rc.contextPath}${item.impSite}" onmouseenter="changeImg('${rc.contextPath}','${item.impSite}',this)" style="width: 100%; height: 100%;">
 							  </div>
 							  </dt>
 		  				</dl>
