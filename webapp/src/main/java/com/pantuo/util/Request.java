@@ -22,6 +22,20 @@ public class Request {
 	public static final String HOST_IP = "busme.cn";
 	public static final boolean IS_ONLINE = true;
 
+	public static boolean isMobileRequest(HttpServletRequest request) {
+		String s1 = request.getHeader("user-agent");
+		boolean r = false;
+		if (s1.contains("Android")) {
+			r = true;
+		} else if (s1.contains("iPhone")) {
+			r = true;
+		} else if (s1.contains("iPad")) {
+			r = true;
+		} else {
+		}
+		return r;
+	}
+
 	/**
 	 * 
 	 * 取的服务器端ip 

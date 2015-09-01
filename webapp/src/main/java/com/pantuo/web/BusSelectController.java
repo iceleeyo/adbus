@@ -369,7 +369,8 @@ public class BusSelectController {
 	 */
 	@RequestMapping("workList/{contractId}")
 	public String workList(Model model, @PathVariable("contractId") int contractId,
-			@RequestParam(value = "modelId", required = true, defaultValue = "0") int modelId, Principal principal) {
+			@RequestParam(value = "modelId", required = true, defaultValue = "0") int modelId, Principal principal,
+			HttpServletRequest request) {
 		List<JpaBusLock> lockList = busLineCheckService.getBusLockListByBid(contractId);
 		model.addAttribute("lockList", lockList);
 		if (!lockList.isEmpty()) {
@@ -381,7 +382,12 @@ public class BusSelectController {
 			model.addAttribute("modelId", 0);
 		}
 		model.addAttribute("id", contractId);
-		return "line_workList";
+		if (Request.isMobileRequest(request)) {
+			return "line_workList_mobile";
+		} else {
+
+			return "line_workList";
+		}
 	}
 
 	/**
