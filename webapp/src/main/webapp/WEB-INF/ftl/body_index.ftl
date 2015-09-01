@@ -68,7 +68,7 @@ function showSite(tourl){
 function changeImg(tourl,osrc,img){
 	var img_src=img.src;
 	var osrc=tourl+osrc;
-	var nsrc=tourl+"/imgs/video.png";
+	var nsrc=tourl+"/imgs/car.png";
 	if(img.src.indexOf(nsrc) < 0){
 		img.src=nsrc;
 	}else{
