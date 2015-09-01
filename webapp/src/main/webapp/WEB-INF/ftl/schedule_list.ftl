@@ -74,7 +74,8 @@ css=["js/jquery-ui/jquery-ui.css"<#--, "js/tabletools/css/dataTables.tableTools.
                     return $.extend( {}, d, {
                         "filter[name]" : $('#name').val(),
                         "filter[day]" : "${day}",
-                        "filter[type]" : "${type}"
+                        "filter[type]" : "${type}",
+                          "filter[_loadBlack]" :  $('#_loadBlack').val(),
                     } );
                 },
                 "dataSrc": function(json) {return json;},
@@ -107,7 +108,7 @@ css=["js/jquery-ui/jquery-ui.css"<#--, "js/tabletools/css/dataTables.tableTools.
                                         + box.goods[0].order.supplies.id + ')" >'
                                         + box.goods[0].order.supplies.seqNumber + '-'
                                         + box.goods[0].order.supplies.name + '</a>' :
-                                        box.goods[0].order.supplies.seqNumber + '-'+box.goods[0].order.supplies.name)
+                                       box.goods[0].order.supplies.seqNumber + '-'+box.goods[0].order.supplies.name)
                                 : '';
                 }},
                 { "data": "", "defaultContent": "",
@@ -129,6 +130,7 @@ css=["js/jquery-ui/jquery-ui.css"<#--, "js/tabletools/css/dataTables.tableTools.
         $("div#toolbar").html(
                 '<div style="float:right">' +
                         '    <span><a href="javascript:void()" id="export_xls" class="btn-sm btn-success">导出Excel</a>' +
+                        '    <span><a href="javascript:void()" id="load_black" class="btn-sm btn-success">重新加载底版</a>' +
                         '    </span>' +
                         '</div>'
         );
@@ -136,8 +138,14 @@ css=["js/jquery-ui/jquery-ui.css"<#--, "js/tabletools/css/dataTables.tableTools.
         $("#export_xls").click(function(){
             location.href='${rc.contextPath}/schedule/list.xls?filter[day]=${day}';
         });
+        
+        $("#load_black").click(function(){
+        $('#_loadBlack').val("Y")
+            table.fnDraw();
+        });
 
         $('#name').change(function() {
+           $('#_loadBlack').val("N")
             table.fnDraw();
         });
     }
@@ -172,6 +180,7 @@ css=["js/jquery-ui/jquery-ui.css"<#--, "js/tabletools/css/dataTables.tableTools.
 
             <div class="withdraw-title">
             <div class="tabs">
+            <input type="hidden" id = "_loadBlack" value="N"/>
 		<a id="tab1" class="active" href="${rc.contextPath}/schedule/list">视频广告排条单[${day}]</a>
 		<a id="tab2" href="${rc.contextPath}/schedule/list">图片广告排条单</a>
 		<a id="tab3" href="${rc.contextPath}/schedule/list">字幕广告排条单</a>

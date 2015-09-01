@@ -332,40 +332,53 @@ public class SuppliesServiceImpl implements SuppliesService {
         return list.isEmpty() ? null : list.get(0);
     }
 
-    public LinkedHashMap<Long, List<Supplies>> queryFillerSupplies(int city) {
-        Industry fillerIndustry = getFillerIndustry();
-        if (fillerIndustry == null)
-            return new LinkedHashMap();
+	public LinkedHashMap<Long, List<Supplies>> queryFillerSupplies(int city) {
+		Industry fillerIndustry = getFillerIndustry();
+		if (fillerIndustry == null)
+			return new LinkedHashMap();
 
-        SuppliesExample example = new SuppliesExample();
-        SuppliesExample.Criteria criteria = example.createCriteria();
-        criteria.andCityEqualTo(city);
-        criteria.andIndustryIdEqualTo(fillerIndustry.getId());
-        criteria.andStatsEqualTo(JpaSupplies.Status.online.ordinal());
-        List<Supplies> list = suppliesMapper.selectByExample(example);
+		List<Supplies> list = queryAllBlackSupplies(city, fillerIndustry);
 
-        Collections.sort(list, new Comparator<Supplies>() {
-            @Override
-            public int compare(Supplies o1, Supplies o2) {
-                long d = o1.getDuration() - o2.getDuration();
-                if (d == 0) {
-                    return o1.getId() - o2.getId();
-                } else {
-                    return (int)-d;
-                }
-            }
-        });
+		Collections.sort(list, new Comparator<Supplies>() {
+			@Override
+			public int compare(Supplies o1, Supplies o2) {
+				long d = o1.getDuration() - o2.getDuration();
+				if (d == 0) {
+					return o1.getId() - o2.getId();
+				} else {
+					return (int) -d;
+				}
+			}
+		});
 
-        LinkedHashMap<Long, List<Supplies>> map = new LinkedHashMap<Long, List<Supplies>>();
-        for (Supplies s : list) {
-            List<Supplies> l = map.get(s.getDuration());
-            if (l == null) {
-                l = new ArrayList<Supplies> ();
-                map.put(s.getDuration(), l);
-            }
-            l.add(s);
-        }
+		LinkedHashMap<Long, List<Supplies>> map = new LinkedHashMap<Long, List<Supplies>>();
+		for (Supplies s : list) {
+			List<Supplies> l = map.get(s.getDuration());
+			if (l == null) {
+				l = new ArrayList<Supplies>();
+				map.put(s.getDuration(), l);
+			}
+			l.add(s);
+		}
 
-        return map;
-    }
+		return map;
+	}
+
+	public List<Supplies> queryAllBlackSupplies(int city) {
+		Industry fillerIndustry = getFillerIndustry();
+		if (fillerIndustry == null) {
+			return new ArrayList<Supplies>();
+		}
+		return queryAllBlackSupplies(city, fillerIndustry);
+	}
+
+	private List<Supplies> queryAllBlackSupplies(int city, Industry fillerIndustry) {
+		SuppliesExample example = new SuppliesExample();
+		SuppliesExample.Criteria criteria = example.createCriteria();
+		criteria.andCityEqualTo(city);
+		criteria.andIndustryIdEqualTo(fillerIndustry.getId());
+		criteria.andStatsEqualTo(JpaSupplies.Status.online.ordinal());
+		List<Supplies> list = suppliesMapper.selectByExample(example);
+		return list;
+	}
 }

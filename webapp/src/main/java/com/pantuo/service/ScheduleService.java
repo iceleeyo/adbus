@@ -6,6 +6,7 @@ import com.mysema.query.types.Predicate;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.expr.StringOperation;
 import com.pantuo.dao.BoxRepository;
+import com.pantuo.dao.GoodsBlackRepository;
 import com.pantuo.dao.GoodsRepository;
 import com.pantuo.dao.ScheduleLogRepository;
 import com.pantuo.dao.pojo.*;
@@ -15,6 +16,7 @@ import com.pantuo.mybatis.persistence.BoxMapper;
 import com.pantuo.pojo.SlotBoxBar;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.Schedule;
+
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -459,4 +461,20 @@ public class ScheduleService {
 
         return boxRepo.findAll(query);
     }
+    
+    
+    /**
+     * 获取1天空的档位
+     * @param from inclusive
+     */
+    public Iterable<JpaGoodsBlack> getFreeGoods(Date from, int days) {
+        from = DateUtil.trimDate(from);
+        Date to = DateUtils.addDays(from, days);
+        Predicate query = QJpaGoodsBlack.jpaGoodsBlack.day.before(to)
+                .and(QJpaGoodsBlack.jpaGoodsBlack.day.stringValue().goe(StringOperation.create(Ops.STRING_CAST, ConstantImpl.create(from))));
+        return goodsBlackRepository.findAll(query);
+    }
+    
+	@Autowired
+	private GoodsBlackRepository goodsBlackRepository;
 }

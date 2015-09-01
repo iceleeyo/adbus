@@ -102,4 +102,6 @@ public interface SuppliesService {
 
     //key order by duration desc
     LinkedHashMap<Long/*duration*/, List<Supplies>> queryFillerSupplies(int city);
+    
+    public List<Supplies> queryAllBlackSupplies(int city) ;
 }
