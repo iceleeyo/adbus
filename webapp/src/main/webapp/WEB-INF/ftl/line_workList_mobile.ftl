@@ -424,9 +424,9 @@ $("#wpform").ajaxForm(function(data) {
                         <th>自编号</th>
                         
                          <th>车牌号</th>
-                          <th>名称</th>
+                          <th>线路</th>
                            <@security.authorize ifNotGranted="bodyFinancialManager,bodyContractManager">  
-                           <th>安装完成</th>
+                           <th>安装</th>
                             </@security.authorize>
                        
                     </tr>
@@ -448,7 +448,7 @@ $("#wpform").ajaxForm(function(data) {
 	<div class="inputs">
 		<div class="ui-form-item"> 
 			<label class="ui-labels mt10">
-				车辆自编号
+				自编号
 			</label>
 				<input class="ui-input" type="text"  readonly="readonly"  autocomplete="off" value="{bus.serialNumber}">
 		</div>
@@ -461,7 +461,7 @@ $("#wpform").ajaxForm(function(data) {
 
 		<div class="ui-form-item">
 			<label class="ui-labels mt10">
-				线路名称
+				线路
 			</label>
 				<input class="ui-input" type="text"  readonly="readonly"  autocomplete="off" value="{line.name}">
 		</div>
