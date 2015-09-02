@@ -12,6 +12,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
     .processed {color: limegreen;}
     .invalid {color: red;}
     .hl {background-color: #ffff00;}
+    div.dataTables_wrapper { width: 438px; margin: 0 auto; }
 </style>
 
 <script type="text/javascript">
@@ -22,6 +23,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
             "searching": false,
             "ordering": true,
             "serverSide": true,
+             "scrollX": true,
             "columnDefs": [
                 { "orderable": false, "targets": [7, 9] },
             ],
@@ -43,6 +45,8 @@ css=["js/jquery-ui/jquery-ui.css"]>
             "columns": [
                 { "data": "plateNumber"},
                 { "data": "serialNumber"},
+                { "data": "oldSerialNumber"},
+                { "data": "model.name"},
                 { "data": "line.name"},
                 { "data": "line.levelStr"},
                 { "data": "categoryStr"},
@@ -55,6 +59,9 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 	var d= $.format.date(data, "yyyy-MM-dd");
                 	return d;
                 }},
+                 { "data": "description", "defaultContent": ""},
+                     { "data": "office", "defaultContent": ""},
+                      { "data": "branch", "defaultContent": ""},
                 { "data": "enabled", "defaultContent": "", "render": function(data) {
                     switch(data) {
                         case true:
@@ -137,13 +144,18 @@ css=["js/jquery-ui/jquery-ui.css"]>
                     <thead>
                     <tr>
                         <th orderBy="plateNumber">车牌号</th>
-                        <th orderBy="serialNumber">车辆自编号</th>
+                        <th orderBy="serialNumber">新车号</th>
+                        <th orderBy="serialNumber">旧车号</th>
+                        <th orderBy="serialNumber">车型</th>
                         <th orderBy="line.name">线路</th>
                         <th orderBy="line.level">线路级别</th>
                         <th orderBy="category">类别</th>
                         <th orderBy="company">营销中心</th>
                         <th>上刊日期</th>
                         <th>下刊日期</th>
+                        <th>车辆描述</th>
+                        <th>公司名称</th>
+                        <th>客户名称</th>
                         <th orderBy="enabled">状态</th>
                         <th>管理</th>
                     </tr>
