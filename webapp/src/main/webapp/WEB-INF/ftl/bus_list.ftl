@@ -12,7 +12,11 @@ css=["js/jquery-ui/jquery-ui.css"]>
     .processed {color: limegreen;}
     .invalid {color: red;}
     .hl {background-color: #ffff00;}
-    div.dataTables_wrapper { width: 438px; margin: 0 auto; }
+    
+ .div.dataTables_wrapper {
+        margin: 0 auto;
+    }
+    th, td { white-space: nowrap; }
 </style>
 
 <script type="text/javascript">
