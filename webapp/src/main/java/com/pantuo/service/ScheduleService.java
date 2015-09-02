@@ -464,6 +464,19 @@ public class ScheduleService {
     
     
     /**
+     * 供排序查询
+     * @param from inclusive
+     */
+	public Iterable<JpaGoodsBlack> getFreeGoodsBySoletId(Date from, int soltid, int days) {
+		from = DateUtil.trimDate(from);
+		Date to = DateUtils.addDays(from, days);
+		BooleanExpression query = QJpaGoodsBlack.jpaGoodsBlack.day.before(to).and(
+				QJpaGoodsBlack.jpaGoodsBlack.day.stringValue().goe(
+						StringOperation.create(Ops.STRING_CAST, ConstantImpl.create(from))));
+		query =	query.and(QJpaGoodsBlack.jpaGoodsBlack.slotId.eq(soltid));
+		return goodsBlackRepository.findAll(query);
+	}
+    /**
      * 获取1天空的档位
      * @param from inclusive
      */

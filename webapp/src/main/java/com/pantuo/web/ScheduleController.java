@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.security.Principal;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -21,11 +22,13 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.print.attribute.standard.NumberUp;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jxls.transformer.XLSTransformer;
 
 import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -398,6 +401,27 @@ public class ScheduleController {
 	@PreAuthorize(" hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
 			+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
 			+ "or hasRole('ShibaSuppliesManager')  ")
+	
+	@RequestMapping("ajax-sortSolt")
+	@ResponseBody
+	public Iterable<JpaGoodsBlack> sortSolt(TableRequest req,
+			@RequestParam(value = "filler", defaultValue = "true") boolean filler,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city) {
+		if (city == null || city.getMediaType() != JpaCity.MediaType.screen)
+			return Collections.emptyList();
+
+		String dayStr = req.getFilter("day");
+		String soltid = req.getFilter("soltid");
+		Date day;
+		try {
+			day = DateUtil.longDf.get().parse(dayStr);
+			return service.getFreeGoodsBySoletId(day, NumberUtils.toInt(soltid,Integer.MAX_VALUE), 1);
+		} catch (ParseException e) {
+			return Collections.EMPTY_LIST;
+		}
+	}
+	
+	
 	/**
 	 * 排条单
 	 */
