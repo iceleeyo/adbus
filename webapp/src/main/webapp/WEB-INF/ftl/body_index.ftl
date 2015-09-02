@@ -67,15 +67,8 @@ function showSite(tourl){
     
 function changeImg(tourl,osrc,img){
 	var img_src=img.src;
-	var osrc=tourl+osrc;
+	osrc=tourl+osrc;
 	var nsrc=tourl+"/imgs/car.png";
-	
-	
-	if(img_src.indexOf("t12.jpg")>0){
-		img.src=osrc; 
-	}else if(img_src.indexOf("t8.jpg")>0){
-		img.src=osrc;
-	}
 	
 	if(osrc.indexOf("_b12")>0 && img.src.indexOf("t12.jpg")<0){
 		var nsrc12=tourl+"/imgs/t12.jpg";
@@ -84,10 +77,17 @@ function changeImg(tourl,osrc,img){
 		var nsrc8=tourl+"/imgs/t8.jpg";
 		img.src=nsrc8;
 	}
-	else if(img.src.indexOf(nsrc) < 0){
+	else if(img_src.indexOf(nsrc) < 0){
+		alert(nsrc);
 		img.src=nsrc;
 	}else{
 		img.src=osrc; 
+	}
+	
+	if(img_src.indexOf("t12.jpg")>0){
+		img.src=osrc; 
+	}else if(img_src.indexOf("t8.jpg")>0){
+		img.src=osrc;
 	}
 }
 </script>
