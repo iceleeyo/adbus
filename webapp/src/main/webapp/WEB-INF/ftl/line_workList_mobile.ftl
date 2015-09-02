@@ -2,7 +2,7 @@
 <#import "template/orderDetail.ftl" as orderDetail/>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <#global menu="合同线路施工单" >
-<@frame.html title="mobie"   js=["js/nano.js","js/jquery-dateFormat.js","js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js","js/jquery.datepicker.region.cn.js"]
+<@frame.html title="线路施工单"   js=["js/nano.js","js/jquery-dateFormat.js","js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js","js/jquery.datepicker.region.cn.js"]
 css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]
 >
 
