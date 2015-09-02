@@ -178,7 +178,7 @@ public class BusSelectController {
 		response.setHeader("X-Frame-Options", "SAMEORIGIN");
 		JpaBodyContract bodycontract=busLineCheckService.selectBcById(contractid);
 		model.addAttribute("bodycontract", bodycontract);
-		return "template/body_contratDetail";
+		return "template/bodyBlank_contratDetail";
 	}
 	@RequestMapping("ajax-myOrders")
 	@ResponseBody
