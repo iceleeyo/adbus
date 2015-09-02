@@ -94,7 +94,7 @@
 	                         '<select class="ui-input ui-input-mini" name="taskKey" id="taskKey">' +
 	                    '<option value="0" >所有车辆事项</option>' +
 	                     <#list modelList as model>
-	                  		'<option value="${model.gn1}"  <#if model.gn1==modelId>selected="selected"</#if>  >${model.gp2} [${model.count}]</option>' +
+	                  		'<option value="${model.gn1}"  <#if model.gn1==modelId>selected="selected"</#if>  >${model.gp2}(<#if model.gn2==1>双层<#else>单层</#if>) [${model.count}]</option>' +
 	                  	     </#list>
 	         			'</select>' +
 	                    '</div>'
