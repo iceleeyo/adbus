@@ -19,6 +19,8 @@ public class JpaGoods extends CityEntity implements Comparable<JpaGoods>, Serial
     private JpaOrders order;
     private int seed;       //用于生成确定但是随即的hashcode
     private long size;
+    
+    private int sort_index;
     private boolean first;  //放在箱子首位
     private boolean last;   //放在箱子末尾
 
@@ -96,6 +98,7 @@ public class JpaGoods extends CityEntity implements Comparable<JpaGoods>, Serial
 
     public void setInboxPosition(long inboxPosition) {
         this.inboxPosition = inboxPosition;
+        sort_index = (int)inboxPosition;
     }
 
     public boolean isBoxed () {
@@ -161,4 +164,14 @@ public class JpaGoods extends CityEntity implements Comparable<JpaGoods>, Serial
                 (last ? ", last": "") +
                 '}';
     }
+
+	public int getSort_index() {
+		return sort_index;
+	}
+
+	public void setSort_index(int sort_index) {
+		this.sort_index = sort_index;
+	}
+    
+    
 }
