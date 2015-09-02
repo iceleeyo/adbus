@@ -78,7 +78,6 @@ function changeImg(tourl,osrc,img){
 		img.src=nsrc8;
 	}
 	else if(img_src.indexOf(nsrc) < 0){
-		alert(nsrc);
 		img.src=nsrc;
 	}else{
 		img.src=osrc; 
