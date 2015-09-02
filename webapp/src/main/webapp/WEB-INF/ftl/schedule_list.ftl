@@ -1,9 +1,14 @@
 
 <#import "template/template.ftl" as frame>
 <#global menu="排条单">
-<@frame.html title="排条单" js=["js/jquery-dateFormat.js", "js/jquery-ui/jquery-ui.js", "js/datepicker.js",
-"js/jquery.datepicker.region.cn.js", "js/jquery-dataTables-fnFakeRowspan.js"<#--, "js/tabletools/js/dataTables.tableTools.js"-->]
-css=["js/jquery-ui/jquery-ui.css"<#--, "js/tabletools/css/dataTables.tableTools.min.css"-->]>
+
+
+
+<@frame.html title="线路列表" js=["js/jquery-dateFormat.js","js/jquery-ui/jquery-ui.js", "js/datepicker.js"
+"js/jquery.datepicker.region.cn.js","js/jquery-ui/jquery-ui.auto.complete.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dataTables-fnFakeRowspan.js"] 
+css=["js/jquery-ui/jquery-ui.css"]>
+
+<!--  "js/tabletools/js/dataTables.tableTools.js"  "js/tabletools/css/dataTables.tableTools.min.css"-->
 
 <style type="text/css">
     #table.dataTable thead th:first-child, #table.dataTable thead td:first-child,
@@ -60,13 +65,17 @@ css=["js/jquery-ui/jquery-ui.css"<#--, "js/tabletools/css/dataTables.tableTools.
                 "dataSrc": function(json) {return json;},
             },
             "columns": [
-                { "data":  "suppliesId" ,"defaultContent": ""},
+                { "data":  "suppliesId" ,"defaultContent": "","render" : function(data, type, row, meta) {
+                        return row.supplieStr.seqNumber +" - "+row.supplieStr.name;
+                }},
                 {
-                    "data" : "suppliesId", "defaultContent": ""
+                    "data" : "size", "defaultContent": ""
                 },
             ],
-            "language": {
+            "language":{
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
+            },"fnCreatedRow": function (nRow, aData, iDataIndex) {
+                $(nRow).attr('id', aData.type+"_"+aData.id); // or whatever you choose to set as the id
             },
             "initComplete": initComplete2,
             "drawCallback": drawCallback2
@@ -75,6 +84,7 @@ css=["js/jquery-ui/jquery-ui.css"<#--, "js/tabletools/css/dataTables.tableTools.
 
     function initComplete2() {
     }
+   
 
     function drawCallback2() {
         $('.table-action').click(function() {
@@ -215,7 +225,8 @@ css=["js/jquery-ui/jquery-ui.css"<#--, "js/tabletools/css/dataTables.tableTools.
 
     $(document).ready(function() {
         initTable();
-        initSortTable();
+      //  initSortTable();
+       //    sortTable.fnDraw();
     } );
     
     
@@ -231,32 +242,59 @@ css=["js/jquery-ui/jquery-ui.css"<#--, "js/tabletools/css/dataTables.tableTools.
 			   +'<iframe frameborder="no" style="width:99%;height:99%" src="${rc.contextPath}/supplies/suppliesDetail/'+data+'"/>'
 			});
 }
-
+	
   function fonfirm2(bid,lid){
+    $('#hidSoleId').val(lid);
    		 var innerHTMLString = $("#ccc").html();
 			layer.open({
                 type: 1,
                 title: "广告时段排序",
                 skin: 'layui-layer-rim', 
                 area: ['650px', '600px'], 
-                content: '<br >'+innerHTMLString
+                content: '<br >'+'<div id ="ccc"  ><table id="sortTable" class="cell-border compact display" cellspacing="0" style="width: 100%; border-left-style: solid; border-left-width: 1px; border-left-color: rgb(221, 221, 221);">'
+                +'<thead>'
+                +'<tr>'
+                +' <th>广告名称</th><th>时长</th>'
+                +'</tr>'
+                +'</thead>'
+                +'</table>'
+                +'</div>'
             });
-            
-            if (typeof(sortTable) == "undefined")
-			{
-			   //   initSortTable();
-			  //     $('#hidSoleId').val(lid);
-			}
-            
-             $('#hidSoleId').val(lid);
-             sortTable.fnDraw();
+          initSortTable();
           
+          
+		               var fixHelperModified = function(e, tr) {
+		    var $originals = tr.children();
+		    var $helper = tr.clone();
+		    $helper.children().each(function(index) {
+		        $(this).width($originals.eq(index).width())
+		    });
+		    return $helper;
+		},
+		    updateIndex = function(e, ui) {
+		        $('td.sorting_1', ui.item.parent()).each(function (i) {
+		           // $(this).html(i + 1);
+		        });
+		         var _temp='';
+		          $('#sortTable tbody tr').each(function(){
+					_temp+=($(this).attr("id")) +",";
+		        });
+				    $.post("${rc.contextPath}/schedule/sortSolit",{
+				        sortString: _temp,
+				    },function(data){
+						layer.msg('排序成功');    	
+				    });		        
+		    };
+		$("#sortTable tbody").sortable({
+		    helper: fixHelperModified,
+		    stop: updateIndex
+		}).disableSelection();
+		          
 	}
  
  
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-
             <div class="withdraw-title">
             <div class="tabs">
             <input type="hidden" id = "_loadBlack" value="N"/>
@@ -289,15 +327,12 @@ css=["js/jquery-ui/jquery-ui.css"<#--, "js/tabletools/css/dataTables.tableTools.
             
 </div>
 
-<div id ="ccc" style="display:none" >
-  <table id="sortTable" class="cell-border compact display" cellspacing="0"
-                   style="width: 100%; border-left-style: solid; border-left-width: 1px; border-left-color: rgb(221, 221, 221);">
-                <thead>
-                <tr>
-                    <th>广告名称</th>
-                    <th>时长</th>
-                </tr>
-                </thead>
-            </table>
-</div>
+
+                   
+                
+                
+                   
+                
+                
+            
 </@frame.html>
