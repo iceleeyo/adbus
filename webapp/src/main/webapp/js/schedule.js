@@ -27,7 +27,7 @@ function setExpression(tourl,rowId){
 		}, "text");
 }
 	
-	function setOrderPrice(tourl,rowId){
+	function setOrderPrice2(tourl,rowId){
 				var postPath =  tourl;
 				layer.open({
 	    		type: 1,
@@ -37,8 +37,8 @@ function setExpression(tourl,rowId){
 	    		content: 
 				 '<br/><br/><form id="priceForm"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/><div class="withdrawInputs"><div class="inputs" style="margin-left:-25px;">'
 				 +'<div class="ui-form-item"> <label class="ui-labels mt10" style="width:170px;"><span class="ui-form-required">*</span>表达式</label>' 
-				 +'<input class="ui-inputLayer validate[required,custom[number],min[1]]" '
-				 +' type="text" name="price" id="price" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="0/10 * * * * ?">'
+				 +'<input '
+				 +' type="text" name="price" id="price" placeholder="0/10 * * * * ?">'
 				 +'</div>'
 				  +' <div class="ui-form-item widthdrawBtBox" style="margin-left:-20px;"> <input type="button" id="uploadbutton" class="block-btn" onclick="setExpression(\''+postPath+'\',\''+rowId+'\');" value="设置表达式"> </div>'
 				 +' </div> </div></form>' 
@@ -201,7 +201,7 @@ function setExpression(tourl,rowId){
 		   	var anSelected = fnGetSelected( table );
 	        if ( anSelected.length !== 0 ) {
 	          var _row=anSelected[0];
-	        	setOrderPrice(_root+"/schedultTask/public_expression",_row.id);
+	        	setOrderPrice2(_root+"/schedultTask/public_expression",_row.id);
 		       
 	        }else {
 	        	layer.msg("请先选择列!");

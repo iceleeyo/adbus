@@ -845,7 +845,111 @@ public class ScheduleController {
 			throw new RuntimeException("Fail to export excel", e);
 		}
 	}
+	@RequestMapping("info-list")
+	public String getinfoScheduleList(Model model, @RequestParam(value = "day", required = false) String dayStr,
+			@RequestParam(value = "type", required = false, defaultValue = "video") JpaProduct.Type type) {
+		Date day = null;
 
+		if (StringUtils.isNotBlank(dayStr)) {
+			try {
+				day = DateUtil.longDf.get().parse(dayStr);
+			} catch (Exception e) {
+			}
+		}
+		if (day == null) {
+			day = new Date();
+		}
+
+		model.addAttribute("day", DateUtil.longDf.get().format(day));
+		model.addAttribute("type", type);
+
+		return "InfoSchedule_list";
+	}
+
+	@RequestMapping("img-list")
+	public String getimgScheduleList(Model model, @RequestParam(value = "day", required = false) String dayStr,
+			@RequestParam(value = "type", required = false, defaultValue = "video") JpaProduct.Type type) {
+		Date day = null;
+
+		if (StringUtils.isNotBlank(dayStr)) {
+			try {
+				day = DateUtil.longDf.get().parse(dayStr);
+			} catch (Exception e) {
+			}
+		}
+		if (day == null) {
+			day = new Date();
+		}
+
+		model.addAttribute("day", DateUtil.longDf.get().format(day));
+		model.addAttribute("type", type);
+
+		return "ImgSchedule_list";
+	}
+
+	@RequestMapping("info-ajax-list/{mtype}")
+	@ResponseBody
+	public List<JpaInfoImgSchedule> getJpaInfoSchedule(TableRequest req, @PathVariable("mtype") String mtype,
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal) throws ParseException {
+		return timeslotService.getInfoSchedule(city, req, principal, mtype);
+	}
+/**
+	 * 图片info排条单
+	 * @throws ParseException 
+	 */
+	@RequestMapping("InfoImglist.xls/{mtype}")
+	public void exportInfoScheduleDetailList(TableRequest req, @PathVariable("mtype") String mtype,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city,
+			HttpServletResponse resp) throws ParseException {
+		String dayStr = req.getFilter("day");
+		String dayStr2 = dayStr;
+		try {
+			Date day = DateUtil.longDf.get().parse(dayStr);
+			dayStr2 = DateUtil.longDf3.get().format(day);
+		} catch (Exception e) {
+		}
+		List<JpaInfoImgSchedule> repoList = timeslotService.getInfoSchedule(cityId, req, null, mtype);
+		String templateFileName = "";
+		Map beans = new HashMap();
+		beans.put("report", repoList);
+		if (StringUtils.equals("info", mtype)) {
+			templateFileName = "/jxls/InfoSchedule_list.xls";
+			beans.put("title", dayStr2 + "_INFO字幕服务信息日编单");
+			beans.put("total", repoList.size());
+		} else {
+			templateFileName = "/jxls/ImgSchedule_list.xls";
+			beans.put("title", dayStr2 + "_INFO图片服务信息日编单");
+			beans.put("attachsize", repoList.size());
+			beans.put("supplisize", supplisize(repoList));
+
+		}
+		XLSTransformer transformer = new XLSTransformer();
+		try {
+			resp.setHeader("Content-Type", "application/x-xls");
+			resp.setHeader("Content-Disposition", "attachment; filename=\"" + mtype + "schedule-[" + dayStr + "].xls\"");
+			InputStream is = new BufferedInputStream(ScheduleController.class.getResourceAsStream(templateFileName));
+			org.apache.poi.ss.usermodel.Workbook workbook = transformer.transformXLS(is, beans);
+			if (!StringUtils.equals("info", mtype)) {
+				ExcelUtil.dynamicMergeCells((HSSFSheet) workbook.getSheetAt(0), 1, 0,1, 2,3);
+			}
+			OutputStream os = new BufferedOutputStream(resp.getOutputStream());
+			workbook.write(os);
+			is.close();
+			os.flush();
+			os.close();
+		} catch (Exception e) {
+			log.error("Fail to export excel for city {}, req {}", cityId, req);
+			throw new RuntimeException("Fail to export excel", e);
+		}
+	}
+
+	private int supplisize(List<JpaInfoImgSchedule> list) {
+		Set set = new HashSet();
+		for (JpaInfoImgSchedule jpaInfoImgSchedule : list) {
+			set.add(jpaInfoImgSchedule.getOrder().getSuppliesId());
+		}
+		return set.size();
+	}
 	private List<Report> flatDetailForGoods(String day, List<Report> reports, BlackAdGrouop blackGroup) {
 		List<Report> list = new LinkedList<Report>();
 		for (Report r : reports) {

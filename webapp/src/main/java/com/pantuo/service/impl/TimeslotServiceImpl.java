@@ -1,28 +1,45 @@
 package com.pantuo.service.impl;
 
-import com.mysema.query.types.Predicate;
-import com.mysema.query.types.expr.BooleanExpression;
-import com.pantuo.dao.TimeslotRepository;
-import com.pantuo.dao.pojo.JpaTimeslot;
-import com.pantuo.dao.pojo.QJpaTimeslot;
-import com.pantuo.pojo.highchart.DayList;
-import com.pantuo.service.TimeslotService;
-import com.pantuo.util.DateUtil;
+import java.security.Principal;
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import com.mysema.query.types.ConstantImpl;
+import com.mysema.query.types.Ops;
+import com.mysema.query.types.expr.BooleanExpression;
+import com.mysema.query.types.expr.StringOperation;
+import com.pantuo.dao.InfoImgScheduleRepository;
+import com.pantuo.dao.TimeslotRepository;
+import com.pantuo.dao.pojo.JpaBlackAd;
+import com.pantuo.dao.pojo.JpaInfoImgSchedule;
+import com.pantuo.dao.pojo.JpaTimeslot;
+import com.pantuo.dao.pojo.QJpaBlackAd;
+import com.pantuo.dao.pojo.QJpaBox;
+import com.pantuo.dao.pojo.QJpaInfoImgSchedule;
+import com.pantuo.dao.pojo.QJpaTimeslot;
+import com.pantuo.pojo.TableRequest;
+import com.pantuo.service.TimeslotService;
+import com.pantuo.util.DateUtil;
 
 @Service
 public class TimeslotServiceImpl implements TimeslotService {
     @Autowired
     TimeslotRepository timeslotRepo;
+    @Autowired
+    InfoImgScheduleRepository infoImgScheduleRepository;
 
    // @Override
     public long count() {
@@ -93,4 +110,15 @@ public class TimeslotServiceImpl implements TimeslotService {
     public void saveTimeslots(Iterable<JpaTimeslot> timeslots) {
         timeslotRepo.save(timeslots);
     }
+
+@Override
+public List<JpaInfoImgSchedule> getInfoSchedule(int city, TableRequest req, Principal principal,String mtype) throws ParseException {
+	 String dayStr = req.getFilter("day");
+	 Date day = DateUtil.longDf.get().parse(dayStr);
+	 Date from = DateUtil.trimDate(day);
+     Date to = DateUtils.addDays(from, 1);
+	BooleanExpression query = QJpaInfoImgSchedule.jpaInfoImgSchedule.date.before(to).and(QJpaInfoImgSchedule.jpaInfoImgSchedule.date.stringValue().goe(StringOperation.create(Ops.STRING_CAST, ConstantImpl.create(from))));
+	query=query.and(QJpaInfoImgSchedule.jpaInfoImgSchedule.type.eq(JpaInfoImgSchedule.Type.valueOf(mtype)));
+	return (List<JpaInfoImgSchedule>) infoImgScheduleRepository.findAll(query);
+}
 }

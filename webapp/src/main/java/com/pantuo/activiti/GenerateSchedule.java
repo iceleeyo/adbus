@@ -65,6 +65,9 @@ public class GenerateSchedule implements JavaDelegate {
             } else if (order.getType() == JpaProduct.Type.body) {
                 boolean result = busScheduleService.schedule(order);
                 execution.setVariable("scheduleResult", result);
+            } else if (order.getType() == JpaProduct.Type.info || order.getType() == JpaProduct.Type.image) {
+                boolean result = scheduleService.scheduleInfoImg(order);
+                execution.setVariable("scheduleResult", result);
             } else {
                 //其他类型暂时不需要排期
                 execution.setVariable("scheduleResult", true);

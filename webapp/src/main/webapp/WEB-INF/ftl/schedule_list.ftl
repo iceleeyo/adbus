@@ -262,8 +262,8 @@ css=["js/jquery-ui/jquery-ui.css"<#--, "js/tabletools/css/dataTables.tableTools.
             <input type="hidden" id = "_loadBlack" value="N"/>
              <input type="hidden" id = "hidSoleId" value="0"/>
 		<a id="tab1" class="active" href="${rc.contextPath}/schedule/list">视频广告排条单[${day}]</a>
-		<a id="tab2" href="${rc.contextPath}/schedule/list">图片广告排条单</a>
-		<a id="tab3" href="${rc.contextPath}/schedule/list">字幕广告排条单</a>
+		<a id="tab2" href="${rc.contextPath}/schedule/img-list">图片广告排条单</a>
+		<a id="tab3" href="${rc.contextPath}/schedule/info-list">字幕广告排条单</a>
 		</div>
                 <div class="report-toolbar">
                     <input

@@ -276,6 +276,14 @@ public class AttachmentServiceImpl implements AttachmentService {
 		example.or(ca2);
 		return attachmentMapper.selectByExample(example);
 	}
+	//查询图片素材
+	public List<Attachment> queryimg(Principal principal, int main_id) {
+		AttachmentExample example =new AttachmentExample();
+		AttachmentExample.Criteria ca=example.createCriteria();
+		ca.andMainIdEqualTo(main_id);
+		ca.andTypeEqualTo(JpaAttachment.Type.su_file.ordinal());
+		return attachmentMapper.selectByExample(example);
+	}
 	//查询合同附件
 	public List<Attachment> queryContracF(Principal principal, int main_id) {
 		AttachmentExample example =new AttachmentExample();
