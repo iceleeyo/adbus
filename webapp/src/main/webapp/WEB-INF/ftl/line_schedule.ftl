@@ -138,7 +138,7 @@
 </script>
 
 
-<div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear" style="margin-left: -150px;margin-right: 30px">
+<div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear" style="margin-left: -100px;margin-right: 30px">
     <H3 class="text-xl title-box"><A class="black" href="#">线路车辆排期表
     <span id="loading"><image src="${rc.contextPath}/imgs/load_.gif"/> </span>
     <span id="recordsTotal" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></A></H3>
