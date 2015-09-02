@@ -198,7 +198,7 @@
                     "alertText": "* 不接受特殊字符"
                 },
                 "noSpecialLetterChinese":{
-                    "regex": /^[0-9a-zA-Z\u4e00-\u9fa5_]+$/i,
+                    "regex": /^[0-9a-zA-Z\u4e00-\u9fa5_\-]+$/i,
                     "alertText": "* 只接受中英文字母、数字和下划线"
                 },
                 
