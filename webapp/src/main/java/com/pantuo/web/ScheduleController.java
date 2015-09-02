@@ -24,7 +24,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.print.attribute.standard.NumberUp;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jxls.transformer.XLSTransformer;
@@ -81,7 +80,9 @@ import com.pantuo.service.TimeslotService;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.ExcelUtil;
 import com.pantuo.util.OrderIdSeq;
+import com.pantuo.util.Pair;
 import com.pantuo.web.view.OrderView;
+import com.pantuo.web.view.SolitSortView;
 import com.pantuo.web.view.SuppliesView;
 
 /**
@@ -407,7 +408,7 @@ public class ScheduleController {
 	
 	@RequestMapping("ajax-sortSolt")
 	@ResponseBody
-	public Iterable<JpaGoodsBlack> sortSolt(TableRequest req,
+	public List<SolitSortView> sortSolt(TableRequest req,
 			@RequestParam(value = "filler", defaultValue = "true") boolean filler,
 			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city) {
 		if (city == null || city.getMediaType() != JpaCity.MediaType.screen)
@@ -418,10 +419,16 @@ public class ScheduleController {
 		Date day;
 		try {
 			day = DateUtil.longDf.get().parse(dayStr);
-			return service.getFreeGoodsBySoletId(day, NumberUtils.toInt(soltid,Integer.MAX_VALUE), 1);
+			return service.querySortView(day, NumberUtils.toInt(soltid,Integer.MAX_VALUE), 1);
 		} catch (ParseException e) {
 			return Collections.EMPTY_LIST;
 		}
+	}
+	
+	@RequestMapping("sortSolit")
+	@ResponseBody
+	public Pair<Boolean,String> sortSolit(String sortString){
+		return service.sortSolit(sortString);
 	}
 	
 	
@@ -1022,6 +1029,7 @@ public class ScheduleController {
 								0, null, null, null, null, null, null);
 						JpaGoods g = new JpaGoods(city, 0, s.getDuration(), false, false, 0);
 						g.setInboxPosition(jpaGoodsBlack.getInboxPosition());
+						g.setSort_index(jpaGoodsBlack.getSort_index());
 						g.setOrder(o);
 						list.add(g);
 					}
@@ -1165,7 +1173,8 @@ public class ScheduleController {
 			Collections.sort(list, new Comparator<JpaGoods>() {
 				//  @Override
 				public int compare(JpaGoods o1, JpaGoods o2) {
-					return (int) (o1.getInboxPosition() - o2.getInboxPosition());
+					return (int) (o1.getSort_index() - o2.getSort_index());
+					//return (int) (o1.getInboxPosition() - o2.getInboxPosition());
 				}
 			});
 			return list;

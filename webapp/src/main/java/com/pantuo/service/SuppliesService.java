@@ -104,4 +104,7 @@ public interface SuppliesService {
     LinkedHashMap<Long/*duration*/, List<Supplies>> queryFillerSupplies(int city);
     
     public List<Supplies> queryAllBlackSupplies(int city) ;
+    
+    
+    public Map<Integer,Supplies> getSuppliesByIds(List<Integer> ids);
 }

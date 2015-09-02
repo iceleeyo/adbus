@@ -381,4 +381,19 @@ public class SuppliesServiceImpl implements SuppliesService {
 		List<Supplies> list = suppliesMapper.selectByExample(example);
 		return list;
 	}
+	
+	public Map<Integer,Supplies> getSuppliesByIds(List<Integer> ids){
+		Map<Integer,Supplies> r=new HashMap<Integer, Supplies>();
+		
+		SuppliesExample example = new SuppliesExample();
+		SuppliesExample.Criteria criteria = example.createCriteria();
+		criteria.andIdIn(ids);
+		//criteria.andStatsEqualTo(JpaSupplies.Status.online.ordinal());
+		List<Supplies> list = suppliesMapper.selectByExample(example);
+		
+		for (Supplies supplies : list) {
+			r.put(supplies.getId(), supplies);
+		}
+		return r;
+	}
 }
