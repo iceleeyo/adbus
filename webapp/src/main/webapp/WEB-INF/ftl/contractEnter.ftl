@@ -4,9 +4,7 @@
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 
 <script type="text/javascript">
-function go_back(){
-	history.go(-1);
-}
+
     $(document).ready(function() {
     
     var industryId=${(contractView.mainView.industryId)!''};
@@ -36,6 +34,9 @@ function go_back(){
 </script>
 
 <script type="text/javascript">
+function go_back(){
+	history.go(-1);
+}
 	i = 2;
 	j = 2;
 	$(document)
