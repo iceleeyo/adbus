@@ -2702,7 +2702,16 @@ a.button-disable,a.button-disable:active,a.button-disable:hover {
 	padding-top: 0;
 	text-align: right;
 	font-size: 14px;
-	margin-top: -1;
+}
+
+.ui-labelB {
+	float: left;
+	width: 170px;
+	margin-left: -180px;
+	padding-top: 0;
+	text-align: right;
+	font-size: 14px;
+	margin-top: -1px;
 }
 
 .ui-labeli {

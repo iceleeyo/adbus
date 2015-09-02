@@ -20,6 +20,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 </style>
 
 <script type="text/javascript">
+	
     var table;
     function initTable () {
         table = $('#table').dataTable( {
@@ -78,7 +79,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                     return row.id;
                     },
                     "render": function(data, type, row, meta) {
-                        var operations = '<a  onclick="showBusDetail(\'${rc.contextPath}/bus/ajaxdetail/\','+data+');"  >查看详情</a>';
+                        var operations = '<a onclick="showBusDetail(\'${rc.contextPath}/bus/ajaxdetail/\','+data+');"  >查看详情</a>';
                         return operations;
                     }
                 },
@@ -144,7 +145,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
             <div class="withdraw-title">
                 巴士列表
 									</div>
-                <table id="table" class="display compact" cellspacing="0" width="100%">
+                <table id="table" class="display nowrap" cellspacing="0">
                     <thead>
                     <tr>
                         <th orderBy="plateNumber">车牌号</th>
