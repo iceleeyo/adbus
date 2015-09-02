@@ -60,11 +60,14 @@
             width: 80px;
             height: 32px;
         }
+        body{
+        	max-width: 480px;
+			width: 100%;
+        }
     </style>
 </head>
 <body>
-<div class="page-container">
-	<div class="pg-container-main">
+<div class="box">
         <#if nav>
 	
         </#if>
@@ -72,12 +75,9 @@
 		<!--菜单结束-->
 		
 		<!--主体开始-->
-	<div class="ls-101">
             <#nested>
 	<br>
-	</div>
 		<!--主体结束-->
-	</div>	
 </div>
 
 

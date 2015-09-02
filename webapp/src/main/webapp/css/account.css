@@ -2284,7 +2284,19 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	height: auto
 }
 
+.wormB-tips {
+	margin: 10px auto;
+	width: 100%;
+	height: auto
+}
+
 .worm-tips .tips-title {
+	line-height: 36px;
+	position: relative;
+	padding-left: 30px
+}
+
+.wormB-tips .tips-title {
 	line-height: 36px;
 	position: relative;
 	padding-left: 30px
@@ -2297,7 +2309,18 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	margin-left: 0
 }
 
+.wormB-tips .icon {
+	position: absolute;
+	left: 0;
+	top: 8px;
+	margin-left: 0
+}
+
 .worm-tips ol {
+	line-height: 30px
+}
+
+.wormB-tips ol {
 	line-height: 30px
 }
 
@@ -3447,6 +3470,11 @@ left: 50px; /*position where enlarged image should offset horizontally */
 .ucode-use-div .worm-tips {
 	margin: 25px 100px;
 	width: 552px
+}
+
+.ucode-use-div .wormB-tips {
+	margin: 25px 100px;
+	width: 100%
 }
 
 .ucode-use-div .ui-list-header {

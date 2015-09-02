@@ -1,4 +1,3 @@
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <#import "template/template_mobile.ftl" as frame>
 <#import "template/orderDetail.ftl" as orderDetail/>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
@@ -13,15 +12,16 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
     div#toolbar {float: left;}
     .div2 {text-align:center;}
     div2#toolbar2 {float: left;}
+    #toolbar2{  margin-bottom: 20px;}
     
     .processed {color: limegreen;}
     .invalid {color: red;}
     .hl {background-color: #ffff00;}
     #table {font-size: 12px;}
-    #table td {position:relative;}
+    #table td, #table2 td{position:relative;  line-height: 30px;}
     #table td .per-middle {position:absolute;background-color: #ffad20;top:0;height:100%;z-index:1}
-    #table td .per-first-or-last {position:absolute;background-color: #4acd48;border-left: 1px solid white;border-right: 1px solid white;top:0;height:100%;z-index:1}
-	#table th, #his_table th{background-color: #3bafda;color: white;  font-weight: normal;  text-align: left;  line-height: 20px;  padding: 2px 2px;}
+    #table td .per-first-or-last {position:absolute;background-color: #4acd48;border-left: 1px solid white;border-right: 1px solid white;top:0;height:100%;z-index:1;}
+	#table th, #table2 th,#his_table th{background-color: #3bafda;color: white;  font-weight: normal;  text-align: left;  line-height: 30px;  padding: 2px 2px;}
 	table.dataTable.compact tbody td { padding: 2px 2px;}
 </style>
  
@@ -56,7 +56,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
     		type: 1,
     		title: "施工照片",
     		skin: 'layui-layer-rim', 
-    		area: ['1000px', '529px'], 
+    		area: ['100px', '79px'], 
     		content:''
 			   +' '
 			   +'<iframe  style="width:99%;height:99%" frameborder="no" src="${rc.contextPath}/supplies/XYDetail/'+data+'/workp"/>'
@@ -389,7 +389,7 @@ $("#wpform").ajaxForm(function(data) {
 
     <H3 class="text-xl title-box"><A class="black" href="#">已安装车辆
     <span id="recordsTotal2" style="background-color:red;font-size: 14px;border-radius: 4px;"></span></A></H3>
-             <div class="div2" style="overflow-x:auto;" id = "div2">
+             <div class="div" style="overflow-x:auto;" id = "div2">
                 <table id="table2" class="cell-border compact display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
@@ -434,7 +434,7 @@ $("#wpform").ajaxForm(function(data) {
             </div>
             
             
-            <div class="worm-tips">
+            <div class="wormB-tips">
 		<div class="tips-title">
 			<span class="icon"></span>排期说明：
 			<ol>
