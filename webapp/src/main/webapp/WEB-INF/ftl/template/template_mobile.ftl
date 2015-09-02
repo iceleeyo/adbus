@@ -64,6 +64,7 @@
         	max-width: 480px;
 			width: 100%;
         }
+        
     </style>
 </head>
 <body>
