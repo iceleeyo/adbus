@@ -35,17 +35,22 @@ import com.pantuo.dao.ScheduleLogRepository;
 import com.pantuo.dao.pojo.JpaBox;
 import com.pantuo.dao.pojo.JpaGoods;
 import com.pantuo.dao.pojo.JpaGoodsBlack;
+import com.pantuo.dao.pojo.JpaInfoImgSchedule;
 import com.pantuo.dao.pojo.JpaOrders;
+import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaTimeslot;
 import com.pantuo.dao.pojo.QJpaBox;
 import com.pantuo.dao.pojo.QJpaGoods;
 import com.pantuo.dao.pojo.QJpaGoodsBlack;
 import com.pantuo.dao.pojo.ScheduleLog;
+import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.Box;
 import com.pantuo.mybatis.domain.BoxExample;
+import com.pantuo.mybatis.domain.Infoimgschedule;
 import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.mybatis.persistence.BoxMapper;
 import com.pantuo.mybatis.persistence.GoodsSortMapper;
+import com.pantuo.mybatis.persistence.InfoimgscheduleMapper;
 import com.pantuo.pojo.SlotBoxBar;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.Pair;
@@ -619,4 +624,55 @@ public class ScheduleService {
 	private SuppliesService suppliesService;
 	@Autowired
 	private GoodsBlackRepository goodsBlackRepository;
+	public boolean scheduleInfoImg(JpaOrders order) {
+		Date start=order.getStartTime();
+		int days=order.getProduct().getDays();
+	    Calendar cal = DateUtil.newCalendar();
+	    cal.setTime(start);
+		    if (order == null || order.getId() == 0) {
+	            log.error("Order {} does not exists or not persisted");
+	            return false;
+	        }
+	        if (days == 0) {
+	            log.info("Order {} has 0 days", order.getId());
+	            return false;
+	        }
+	        for (int i=0; i<days; i++) {
+	        	 Date day = cal.getTime();
+	        	 saveInfoImg(day,order);
+                 cal.add(Calendar.DATE, 1);
+	        }
+		return true;
+	}
+	
+    @Autowired
+    private AttachmentService attachmentService;
+    @Autowired
+    private InfoimgscheduleMapper infoimgscheduleMapper;
+    private void saveInfoImg(Date day, JpaOrders order) {
+		if(order.getProduct().getType()==JpaProduct.Type.info){
+			Infoimgschedule  infoimgschedule=new Infoimgschedule();
+			infoimgschedule.setCity(order.getCity());
+			infoimgschedule.setDate(day);
+			infoimgschedule.setOrderId(order.getId());
+			infoimgschedule.setType(JpaInfoImgSchedule.Type.info.ordinal());
+			infoimgscheduleMapper.insert(infoimgschedule);
+		}else{
+			List<Attachment> list=attachmentService.queryimg(null, order.getSuppliesId());
+			for (Attachment attachment : list) {
+				if(attachment!=null){
+					Infoimgschedule  infoimgschedule=new Infoimgschedule();
+					infoimgschedule.setCity(order.getCity());
+					infoimgschedule.setDate(day);
+					infoimgschedule.setProper("新");
+					infoimgschedule.setOrderId(order.getId());
+					infoimgschedule.setType(JpaInfoImgSchedule.Type.image.ordinal());
+					infoimgschedule.setAttamentId(attachment.getId());
+					infoimgscheduleMapper.insert(infoimgschedule);
+				}
+			}
+		}
+		
+	}
+
 }
