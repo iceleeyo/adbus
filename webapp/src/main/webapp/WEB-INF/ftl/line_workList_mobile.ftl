@@ -11,13 +11,14 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
     .div {text-align:center;}
     div#toolbar {float: left;}
     .div2 {text-align:center;}
+    .div5{margin: 5px;}
     div2#toolbar2 {float: left;}
     #toolbar2{  margin-bottom: 20px;}
     
     .processed {color: limegreen;}
     .invalid {color: red;}
     .hl {background-color: #ffff00;}
-    #table {font-size: 12px;}
+    #table {font-size: 14px;}
     #table td, #table2 td{position:relative;  line-height: 30px;}
     #table td .per-middle {position:absolute;background-color: #ffad20;top:0;height:100%;z-index:1}
     #table td .per-first-or-last {position:absolute;background-color: #4acd48;border-left: 1px solid white;border-right: 1px solid white;top:0;height:100%;z-index:1;}
@@ -389,19 +390,19 @@ $("#wpform").ajaxForm(function(data) {
 
     <H3 class="text-xl title-box"><A class="black" href="#">已安装车辆
     <span id="recordsTotal2" style="background-color:red;font-size: 14px;border-radius: 4px;"></span></A></H3>
-             <div class="div" style="overflow-x:auto;" id = "div2">
+             <div class="div5" style="overflow-x:auto;" id = "div2">
                 <table id="table2" class="cell-border compact display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th>车辆自编号</th>
+                        <th>自编号</th>
                          <th>车牌号</th>
-                          <th>线路名称</th>
+                          <th>线路</th>
                              <@security.authorize ifAnyGranted="bodyFinancialManager,bodyContractManager,bodyScheduleManager">
                           <th>上刊时间</th>
                           <th>下刊时间</th>
                             </@security.authorize>
                            <th>施工时间</th>
-                           <th>是否确认</th>
+                           <th>状态</th>
                               <@security.authorize ifAnyGranted="bodyScheduleManager">
                            <th>操作</th>
                              </@security.authorize>
@@ -416,14 +417,14 @@ $("#wpform").ajaxForm(function(data) {
     <H3 class="text-xl title-box"><A class="black" href="#">可安装车辆列表
     <span id="loading"><image src="${rc.contextPath}/imgs/load_.gif"/> </span>
     <span id="recordsTotal" style="background-color:red;font-size: 14px;border-radius: 4px;"></span></A></H3>
-            <div class="div" style="overflow-x:auto;" id = "div1">
+            <div class="div5" style="overflow-x:auto;" id = "div1">
                 <table id="table" class="cell-border compact display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th>车辆自编号</th>
+                        <th>自编号</th>
                         
                          <th>车牌号</th>
-                          <th>线路名称</th>
+                          <th>名称</th>
                            <@security.authorize ifNotGranted="bodyFinancialManager,bodyContractManager">  
                            <th>安装完成</th>
                             </@security.authorize>
