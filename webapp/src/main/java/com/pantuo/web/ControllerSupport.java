@@ -48,7 +48,7 @@ public class ControllerSupport {
 		return r;
 	}
 
-	private void bcity(HttpServletResponse response, int city) {
+	public static void bcity(HttpServletResponse response, int city) {
 		try {
 			Cookie cookie = new Cookie("city", String.valueOf(city));
 			cookie.setPath("/");
