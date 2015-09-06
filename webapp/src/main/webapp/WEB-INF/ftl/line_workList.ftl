@@ -7,13 +7,22 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 >
 
 <style type="text/css">
-*{font-size: 30px;}
+*{font-size: 30px !important;}
 body{
 	max-width: none;
 }		
+	#taskKey2{
+		width: 380px;
+  		margin-bottom: 30px;
+  		height: 50px;
+	}
+	#taskKey{
+		width: 380px;
+  		height: 50px;
+	}
 	#table {font-size: 18px;}
     #table td, #table2 td {position:relative;  line-height: 60px;}
-    #table th, #table2 th {position:relative;  line-height: 60px;}
+    #table th, #table2 th {position:relative;  height: 40px;}
     .center {margin: auto;}
     .frame {width: 1000px;}
     .div {text-align:center; margin:25px;}
@@ -248,7 +257,7 @@ $("#wpform").ajaxForm(function(data) {
     function initComplete2() {
        $("div#toolbar2").html(
 	                '<div>' +
-	                         '<select class="ui-input ui-input-mini" style="width:250px" name="taskKey2" id="taskKey2">' +
+	                         '<select class="ui-input ui-input-mini" name="taskKey2" id="taskKey2">' +
 	                     <#list lockList as item>
 	                  		'<option value="${item.model.id}" lid="${item.line.id}" <#if item.line.id==lineId>selected="selected"</#if>  >${item.line.name}'+
 	                  		'<#if item.model.id==0> 所有车型 <#else>[${item.model.name}<#if item.model.doubleDecker>双层<#else>单层</#if>] </#if>'+
@@ -357,7 +366,7 @@ $("#wpform").ajaxForm(function(data) {
     function initComplete() {
        $("div#toolbar1").html(
 	                '<div>' +
-	                         '<select class="ui-input ui-input-mini" style="width:250px"  name="taskKey" id="taskKey">' +
+	                         '<select class="ui-input ui-input-mini" name="taskKey" id="taskKey">' +
 	                     <#list lockList as item>
 	                  		'<option value="${item.model.id}" lid="${item.line.id}" <#if item.line.id==lineId>selected="selected"</#if>  >${item.line.name}'+
 	                  		'<#if item.model.id==0> 所有车型 <#else>[${item.model.name}<#if item.model.doubleDecker>双层<#else>单层</#if>] </#if>'+
@@ -401,15 +410,15 @@ $("#wpform").ajaxForm(function(data) {
                 <table id="table2" class="cell-border compact display" cellspacing="0">
                     <thead>
                     <tr>
-                        <th style="min-width:80px;">车辆自编号</th>
-                         <th style="min-width:80px;">车牌号</th>
-                          <th style="min-width:80px;">线路名称</th>
+                        <th >车辆自编号</th>
+                         <th >车牌号</th>
+                          <th >线路名称</th>
                              <@security.authorize ifAnyGranted="bodyFinancialManager,bodyContractManager,bodyScheduleManager">
-                          <th style="min-width:80px;">上刊时间</th>
-                          <th style="min-width:80px;">下刊时间</th>
+                          <th >上刊时间</th>
+                          <th >下刊时间</th>
                             </@security.authorize>
-                           <th style="min-width:80px;">施工时间</th>
-                           <th style="min-width:80px;">是否确认</th>
+                           <th >施工时间</th>
+                           <th >是否确认</th>
                               <@security.authorize ifAnyGranted="bodyScheduleManager">
                            <th style="min-width:100px;">操作</th>
                              </@security.authorize>
