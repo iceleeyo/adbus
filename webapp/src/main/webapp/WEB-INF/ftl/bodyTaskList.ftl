@@ -45,6 +45,7 @@
             "searching": false,
             "ordering": true,
             "serverSide": true,
+            "scrollX": true,
             "aaSorting": [[1, "asc"]],
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
