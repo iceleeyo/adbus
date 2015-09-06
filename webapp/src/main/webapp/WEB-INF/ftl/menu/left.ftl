@@ -224,7 +224,7 @@
                                         <ul class="pg-side-exp-list">
                              <@security.authorize ifAnyGranted="bodyScheduleManager">  
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/busselect/body_contracts">
+												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/busselect/public_bodyContracts">
 												    合同列表
 												</a>
 											</li>
