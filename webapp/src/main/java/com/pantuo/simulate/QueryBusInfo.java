@@ -64,6 +64,7 @@ public class QueryBusInfo implements Runnable ,ScheduleStatsInter{
 		BusContractExample.Criteria criteria=example.createCriteria();
 		criteria.andStartDateLessThan(today);
 		criteria.andEndDateGreaterThan(today);
+		criteria.andUseridIsNotNull();
 		List<BusContract> list=busContractMapper.selectByExample(example);
 		for (BusContract busContract : list) {
 			if(busContract!=null){
