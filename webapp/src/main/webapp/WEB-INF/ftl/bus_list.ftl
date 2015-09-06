@@ -70,15 +70,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                         default :
                             return '<span class="invalid">禁用</span>';
                     }
-                } },
-                { "data": function( row, type, set, meta) {
-                    return row.id;
-                    },
-                    "render": function(data, type, row, meta) {
-                        var operations = '<a onclick="showBusDetail(\'${rc.contextPath}/bus/ajaxdetail/\','+data+');"  >查看详情</a>';
-                        return operations;
-                    }
-                },
+                } }
             ],
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
@@ -159,7 +151,6 @@ css=["js/jquery-ui/jquery-ui.css"]>
                         <th>公司名称</th>
                         <th>客户名称</th>
                         <th orderBy="enabled">状态</th>
-                        <th>管理</th>
                     </tr>
                     </thead>
 
