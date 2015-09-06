@@ -22,7 +22,7 @@ body{
     .processed {color: limegreen;}
     .invalid {color: red;}
     .hl {background-color: #ffff00;}
-    #table {font-size: 20px;}
+    #table {font-size: 30px;}
     #table td, #table2 td {position:relative;  line-height: 60px;}
     #table th, #table2 th {position:relative;  height: 50px;}
     #table td .per-middle {position:absolute;background-color: #ffad20;top:0;height:100%;z-index:1}
