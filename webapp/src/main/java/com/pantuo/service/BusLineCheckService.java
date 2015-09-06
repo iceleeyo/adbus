@@ -73,7 +73,7 @@ public interface BusLineCheckService {
 	
 	
 	
-	public Page<OrderView> queryOrders(int city, Principal principal, TableRequest req,TaskQueryType tqType);
+	public Page<OrderView> queryOrders(int city, Principal principal, TableRequest req,TaskQueryType tqType,String actionType);
 	
 	
 	

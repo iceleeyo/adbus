@@ -184,7 +184,7 @@ public class BusSelectController {
 	@ResponseBody
 	public DataTablePage<OrderView> myOrders(TableRequest req, Principal principal,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
-		Page<OrderView> w = busLineCheckService.queryOrders(city, (principal), req, TaskQueryType.my);
+		Page<OrderView> w = busLineCheckService.queryOrders(city, (principal), req, TaskQueryType.my,null);
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
 
@@ -193,12 +193,25 @@ public class BusSelectController {
 		model.addAttribute("orderMenu", "进行中的订单");
 		return "body_allRuningOrders";
 	}
+	
+	@RequestMapping(value = "/body_contracts")
+	public String body_contracts(Model model, HttpServletRequest request) {
+		model.addAttribute("orderMenu", "合同列表");
+		return "body_contracts";
+	}
 
 	@RequestMapping("ajax-body-runningAjax")
 	@ResponseBody
 	public DataTablePage<OrderView> runningAjax(TableRequest req, Principal principal,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
-		Page<OrderView> w = busLineCheckService.queryOrders(city, principal, req, TaskQueryType.all_running);
+		Page<OrderView> w = busLineCheckService.queryOrders(city, principal, req, TaskQueryType.all_running,null);
+		return new DataTablePage<OrderView>(w, req.getDraw());
+	}
+	@RequestMapping("ajax-bodycontracts")
+	@ResponseBody
+	public DataTablePage<OrderView> ajaxbodycontracts(TableRequest req, Principal principal,
+			@CookieValue(value = "city", defaultValue = "-1") int city) {
+		Page<OrderView> w = busLineCheckService.queryOrders(city, principal, req, TaskQueryType.all_running,"work");
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
 

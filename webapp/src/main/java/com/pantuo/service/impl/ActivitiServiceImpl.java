@@ -1843,6 +1843,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			}
 		Map<String, Object> variables = new HashMap<String, Object>();
 		variables.put("closed", false);
+		variables.put(ActivitiService.ISUPLOADXY, true);
 		variables.put("approve2Comments", approve2Comments);
 		return complete(taskid, variables, principal);
 	}

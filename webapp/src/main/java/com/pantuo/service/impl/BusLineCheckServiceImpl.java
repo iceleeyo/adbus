@@ -315,6 +315,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		initParams.put(ActivitiService.THE_COMPANY, bodycontract.getCompany());
 		initParams.put(ActivitiService.CLOSED, false);
 		initParams.put(ActivitiService.CONTRACT_ENABLE, false);
+		initParams.put(ActivitiService.ISUPLOADXY, false);
 		initParams.put(ActivitiService.NOW, new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
 		ProcessInstance process = runtimeService.startProcessInstanceByKey("busFlowV2", initParams);
 
@@ -381,7 +382,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		return r;
 	}
 
-	public Page<OrderView> queryOrders(int city, Principal principal, TableRequest req, TaskQueryType tqType) {
+	public Page<OrderView> queryOrders(int city, Principal principal, TableRequest req, TaskQueryType tqType,String actionType) {
 		String userid = Request.getUserId(principal);
 
 		int page = req.getPage(), pageSize = req.getLength();
@@ -400,7 +401,10 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			countQuery.involvedUser(userid);
 			listQuery.involvedUser(userid);
 		}
-
+         if(StringUtils.equals(actionType, "work")){
+        	countQuery.variableValueEquals(ActivitiService.ISUPLOADXY, true);
+			listQuery.variableValueEquals(ActivitiService.ISUPLOADXY, true);
+         }
 		//runtimeService.createNativeProcessInstanceQuery().sql("SELECT * FROM " + managementService.getTableName(ProcessInstance.class)).list().size());
 		/*按签约公司查询 */
 		if (StringUtils.isNoneBlank(companyname)) {

@@ -34,6 +34,7 @@ public interface ActivitiService {
 	public static final String CITY = "_city";
 	public static final String PRODUCT = "_product";
 	public static final String CLOSED = "_isClosed";
+	public static final String ISUPLOADXY = "_isuploadxy";
 	public static final String CONTRACT_ENABLE = "canSchedule";
 	public static final String SUPPLIEID = "_supplieId";
 	public static final String OWNER = "_owner";

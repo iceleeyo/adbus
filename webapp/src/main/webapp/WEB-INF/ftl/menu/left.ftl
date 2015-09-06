@@ -222,7 +222,13 @@
                                             车身广告
                                         </a>
                                         <ul class="pg-side-exp-list">
-
+                             <@security.authorize ifAnyGranted="bodyScheduleManager">  
+											<li class="pg-side-exp-item">
+												<a class="side-exp-item-t" href="${rc.contextPath}/busselect/body_contracts">
+												    合同列表
+												</a>
+											</li>
+							</@security.authorize>	
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/bus/list">
                                                     巴士列表
