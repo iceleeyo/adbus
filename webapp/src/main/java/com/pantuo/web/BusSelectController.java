@@ -194,7 +194,7 @@ public class BusSelectController {
 		return "body_allRuningOrders";
 	}
 	
-	@RequestMapping(value = "/body_contracts")
+	@RequestMapping(value = "/public_bodyContracts")
 	public String body_contracts(Model model, HttpServletRequest request) {
 		model.addAttribute("orderMenu", "合同列表");
 		return "body_contracts";
@@ -207,7 +207,7 @@ public class BusSelectController {
 		Page<OrderView> w = busLineCheckService.queryOrders(city, principal, req, TaskQueryType.all_running,null);
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
-	@RequestMapping("ajax-bodycontracts")
+	@RequestMapping("public_ajax-bodycontracts")
 	@ResponseBody
 	public DataTablePage<OrderView> ajaxbodycontracts(TableRequest req, Principal principal,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
