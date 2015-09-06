@@ -397,11 +397,12 @@ public class BusSelectController {
 			model.addAttribute("modelId", 0);
 		}
 		model.addAttribute("id", contractId);
-		if (Request.isMobileRequest(request)) {
+		if (StringUtils.equals(request.getParameter("from"), "pc")) {
+			return "line_workList";
+		} else if (Request.isMobileRequest(request)) {
 			return "line_workList_mobile";
 		} else {
-
-			return "line_workList";
+			return "line_workList_PC";
 		}
 	}
 
