@@ -1,4 +1,4 @@
-<#import "template/template.ftl" as frame>
+<#import "template/template_mobile.ftl" as frame>
 <#global menu="${orderMenu}">
 <@frame.html title="合同列表" css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"] js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
@@ -10,14 +10,14 @@ var table;
             "searching": false,
             "ordering": true,
             "serverSide": true,
-              "aaSorting": [[3, "desc"]],
+            "aaSorting": [[3, "desc"]],
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
                 { "orderable": false, "targets": [1,2,3,4] },
             ],
             "ajax": {
                 type: "GET",
-                url: "${rc.contextPath}/busselect/ajax-bodycontracts",
+                url: "${rc.contextPath}/busselect/public_ajax-bodycontracts",
                 data: function(d) {
                     return $.extend( {}, d, {
                         "filter[companyname]" : $('#companyname').val()
@@ -45,22 +45,10 @@ var table;
 		table.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
     
-    	<@security.authorize ifAnyGranted="bodyContractManager,bodyFinancialManager,bodyScheduleManager">
-	    	 function initComplete() {
-        $("div#toolbar").html(
-                '<div>' +
-                        '    <span>公司名称</span>' +
-                        '    <span>' +
-                        '        <input id="companyname" value="">' +
-                        '    </span>' +
-                    '</div>'
-        );
-
-        $('#companyname').change(function() {
-            table.fnDraw();
-        });
+       	 function initComplete() {
+       
     }
-   </@security.authorize>
+  
 
     function drawCallback() {
         $('.table-action').click(function() {
@@ -82,7 +70,6 @@ var table;
     } );
 </script>
 
-             <div class="withdraw-wrap color-white-bg fn-clear">
 				<table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
@@ -96,6 +83,5 @@ var table;
 
                 </table>
                 
-</div>
 </@frame.html>
 <!-- 针对tab的js -->
