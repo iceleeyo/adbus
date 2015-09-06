@@ -12,7 +12,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 body{
 	max-width: none;
 }
-    .center {margin: auto;}
+	.center {margin: auto;}
     .div {text-align:center;}
     div#toolbar {float: left;}
     .div2 {text-align:center;}
@@ -22,9 +22,9 @@ body{
     .processed {color: limegreen;}
     .invalid {color: red;}
     .hl {background-color: #ffff00;}
-    #table {font-size: 18px;}
+    #table {font-size: 20px;}
     #table td, #table2 td {position:relative;  line-height: 60px;}
-    #table th, #table2 th {position:relative;  height: 40px;}
+    #table th, #table2 th {position:relative;  height: 50px;}
     #table td .per-middle {position:absolute;background-color: #ffad20;top:0;height:100%;z-index:1}
     #table td .per-first-or-last {position:absolute;background-color: #4acd48;border-left: 1px solid white;border-right: 1px solid white;top:0;height:100%;z-index:1;}
 	#table th, #table2 th,#his_table th{background-color: #3bafda;color: white;  font-weight: normal;  text-align: left;  line-height: 30px;  padding: 2px 2px;}
