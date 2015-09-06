@@ -15,9 +15,17 @@ table.dataTable {
    */
 }
 table.dataTable thead th,
-table.dataTable tfoot th {
+table.dataTable, table.sorting_asc tfoot th {
   font-weight: normal;
+  background-color: #3bafda;
+  font-weight: normal;
+  text-align: left;
+  line-height: 20px;
 }
+th.sorting_asc ,.sorting_disabled ,.sorting_desc ,.sorting{
+	color: white;
+}
+
 table.dataTable thead th,
 table.dataTable thead td {
   padding: 10px 18px;

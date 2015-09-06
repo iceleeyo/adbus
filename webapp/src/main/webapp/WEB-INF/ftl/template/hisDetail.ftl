@@ -1,5 +1,5 @@
 <#if activitis?exists>
-<DIV class="p20bs mt10 color-white-bg border-ec">
+<DIV class="p20bs mt10 color-white-bg border-ec" style="width: 870px;">
 <H3 class="text-xl title-box"><p style="text-align: left"><A class="black" href="#">历史办理信息</A></p></H3><br>	
     <script type="text/javascript">
         var table;

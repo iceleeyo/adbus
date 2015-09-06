@@ -75,8 +75,3 @@ div.DTTT_container {
         margin: 0 auto;
     }
 th, td { white-space: nowrap; }
-
-.sorting_disabled, .sorting_desc, .sorting, .sorting_asc{
-	background: #2DA7E0 !important;
-	color: #fff;
-}
