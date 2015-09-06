@@ -195,7 +195,9 @@ public class BusSelectController {
 	}
 	
 	@RequestMapping(value = "/public_bodyContracts")
-	public String body_contracts(Model model, HttpServletRequest request) {
+	public String body_contracts(Model model, HttpServletRequest request,HttpServletResponse response,
+			  @RequestParam(value = "_city", required = true,defaultValue="2") int  _city) {
+		ControllerSupport.bcity(response, _city);
 		model.addAttribute("orderMenu", "合同列表");
 		return "body_contracts";
 	}
