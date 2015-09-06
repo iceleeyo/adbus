@@ -11,8 +11,8 @@ body{
 	max-width: none;
 }		
 	#table {font-size: 18px;}
-    #table td, #table2 td {position:relative;  line-height: 40px;font-size: 18px;}
-    #table th, #table2 th {position:relative;  line-height: 40px;font-size: 18px;}
+    #table td, #table2 td {position:relative;  line-height: 40px;font-size: 24px;}
+    #table th, #table2 th {position:relative;  line-height: 40px;font-size: 24px;}
     .center {margin: auto;}
     .frame {width: 1000px;}
     .div {text-align:center; margin:25px;}
