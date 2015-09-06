@@ -155,7 +155,7 @@
     </select>
 
     <select id="getDailyIncomeReport" parameterType="map" resultMap="timeslotReport">
-        SELECT c.day, c.year, c.month, p.type as productType, sum(p.price) as income FROM ORDERS o
+        SELECT c.day, c.year, c.month, p.type as productType, sum(p.price) as income FROM orders o
         inner join product p on o.product_id = p.id and o.city=p.city
         inner join city ct on o.city = ct.id
         inner join calendar c on c.day = o.financial_check_day
@@ -169,7 +169,7 @@
     </select>
 
     <select id="getMonthlyIncomeReport" parameterType="map" resultMap="timeslotReport">
-        SELECT c.year, (c.month+1) as month, p.type as productType, sum(p.price) as income FROM ORDERS o
+        SELECT c.year, (c.month+1) as month, p.type as productType, sum(p.price) as income FROM orders o
         inner join product p on o.product_id = p.id and o.city=p.city
         inner join city ct on o.city = ct.id
         inner join calendar c on c.day = o.financial_check_day
