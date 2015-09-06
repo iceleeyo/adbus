@@ -1,4 +1,4 @@
-<#import "template/template_blank.ftl" as frame>
+<#import "template/template_mobile.ftl" as frame>
 <#import "template/orderDetail.ftl" as orderDetail/>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <#global menu="合同线路施工单" >
@@ -7,6 +7,9 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 >
 
 <style type="text/css">
+body{
+	max-width: none;
+}
     .center {margin: auto;}
     .frame {width: 1000px;}
     .div {text-align:center; margin:25px;}
@@ -387,11 +390,11 @@ $("#wpform").ajaxForm(function(data) {
 
 
 
-<div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear" style="margin-left: 0px;margin-right: 120px">
+<div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear" style="">
     <H3 class="text-xl title-box"><A class="black" href="#">已安装车辆
     <span id="recordsTotal2" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></A></H3>
              <div class="div2" style="overflow-x:auto;" id = "div2">
-                <table id="table2" class="cell-border compact display" cellspacing="0" width="80%">
+                <table id="table2" class="cell-border compact display" cellspacing="0">
                     <thead>
                     <tr>
                         <th style="min-width:80px;">车辆自编号</th>
@@ -415,12 +418,12 @@ $("#wpform").ajaxForm(function(data) {
 
 
 
-<div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear" style="margin-left: 0px;margin-right: 120px">
+<div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear" style="">
     <H3 class="text-xl title-box"><A class="black" href="#">可安装车辆列表
     <span id="loading"><image src="${rc.contextPath}/imgs/load_.gif"/> </span>
     <span id="recordsTotal" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></A></H3>
             <div class="div" style="overflow-x:auto;" id = "div1">
-                <table id="table" class="cell-border compact display" cellspacing="0" width="80%">
+                <table id="table" class="cell-border compact display" cellspacing="0">
                     <thead>
                     <tr>
                         <th style="min-width:110px;">车辆自编号</th>
