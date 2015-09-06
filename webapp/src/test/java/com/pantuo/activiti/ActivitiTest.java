@@ -6,7 +6,6 @@ import com.pantuo.ActivitiConfiguration;
 import com.pantuo.TestServiceConfiguration;
 import com.pantuo.dao.DaoBeanConfiguration;
 import com.pantuo.dao.pojo.UserDetail;
-
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
