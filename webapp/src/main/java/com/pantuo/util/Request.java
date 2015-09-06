@@ -26,6 +26,10 @@ public class Request {
 		String s1 = request.getHeader("user-agent");
 		if (StringUtils.equals(request.getParameter("from"), "mobile")) {
 			return true;
+		}else {
+			if (StringUtils.equals(request.getParameter("from"), "pc")) {
+				return false;
+			}
 		}
 		boolean r = false;
 		if (s1.contains("Android")) {
