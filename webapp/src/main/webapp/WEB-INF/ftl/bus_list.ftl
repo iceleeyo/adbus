@@ -43,26 +43,27 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 "dataSrc": "content",
             },
             "columns": [
-                { "data": "plateNumber"},
-                { "data": "serialNumber"},
-                { "data": "oldSerialNumber"},
-                { "data": "model.name"},
-                { "data": "line.name"},
-                { "data": "line.levelStr"},
-                { "data": "categoryStr"},
-                { "data": "company.name"},
-                { "data": "startDay", "defaultContent": "","render": function(data, type, row, meta) {
+                { "data": "jpaBus.plateNumber"},
+                { "data": "jpaBus.serialNumber"},
+                { "data": "jpaBus.oldSerialNumber"},
+                { "data": "jpaBus.model.name"},
+                { "data": "jpaBus.line.name"},
+                { "data": "jpaBus.line.levelStr"},
+                { "data": "jpaBus.categoryStr"},
+                { "data": "jpaBus.company.name"},
+                { "data": "busInfo.contractCode", "defaultContent": ""},
+                { "data": "busInfo.startD", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd");
                 	return d;
                 }},
-                { "data": "endDay", "defaultContent": "","render": function(data, type, row, meta) {
+                { "data": "busInfo.endD", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd");
                 	return d;
                 }},
-                 { "data": "description", "defaultContent": ""},
-                     { "data": "office", "defaultContent": ""},
-                      { "data": "branch", "defaultContent": ""},
-                { "data": "enabled", "defaultContent": "", "render": function(data) {
+                 { "data": "jpaBus.description", "defaultContent": ""},
+                     { "data": "jpaBus.office", "defaultContent": ""},
+                      { "data": "jpaBus.branch", "defaultContent": ""},
+                { "data": "jpaBus.enabled", "defaultContent": "", "render": function(data) {
                     switch(data) {
                         case true:
                             return '<span class="processed">正常</span>';
@@ -151,6 +152,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                         <th orderBy="line.level">线路级别</th>
                         <th orderBy="category">类别</th>
                         <th orderBy="company">营销中心</th>
+                        <th>合同编号</th>
                         <th>上刊日期</th>
                         <th>下刊日期</th>
                         <th>车辆描述</th>
