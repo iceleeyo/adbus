@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ImportResource;
 import com.pantuo.service.DataInitializationService;
 import com.pantuo.simulate.LineCarsCount;
 import com.pantuo.simulate.LineOnlineCount;
+import com.pantuo.simulate.QueryBusInfo;
 
 /**
  * Initialization configuration
@@ -30,11 +31,14 @@ public class InitializationConfiguration {
 	 */
 	@Autowired
 	LineOnlineCount lineOnlineCount;
+	@Autowired
+	QueryBusInfo qb;
 
 	@Bean
 	public boolean initialize() throws Exception {
 		lineCarsCount.countCars();
 		lineOnlineCount.countCars();
+		qb.countCars();
 		initService.intialize();
 		return true;
 	}

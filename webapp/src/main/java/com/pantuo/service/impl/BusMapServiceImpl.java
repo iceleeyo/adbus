@@ -271,7 +271,6 @@ public class BusMapServiceImpl implements BusMapService {
 	}
 
 	public Page<JpaBuslineView> putLineCarToPageView(TableRequest req, Page<JpaBusline> page) {
-		//long t = System.currentTimeMillis();
 		List<JpaBusline> list = page.getContent();
 		List<JpaBuslineView> r = new ArrayList<JpaBuslineView>(list.size());
 		for (JpaBusline jpaBusline : list) {
@@ -283,30 +282,5 @@ public class BusMapServiceImpl implements BusMapService {
 		}
 		Pageable p = new PageRequest(req.getPage(), req.getLength(), page.getSort());
 		return new org.springframework.data.domain.PageImpl<JpaBuslineView>(r, p, page.getTotalElements());
-
-		/*
-		List<JpaBusline> list = page.getContent();
-		org.springframework.data.domain.PageImpl<JpaBusline> rpage = null;
-		if (list != null) {
-			List<JpaBusline> r = new ArrayList<JpaBusline>(list.size());
-
-			for (JpaBusline jpaBusline : list) {
-				final Map<String, Object> cblibField = new HashMap<String, Object>(1);
-				cblibField.put(String.format(ProxyVoForPageOrJson.FORMATKEY, "cars"),
-						lineCarsCount.getCarsByLines(jpaBusline.getId()));
-				JpaBusline after = (JpaBusline) ProxyVoForPageOrJson.andFieldAndGetJavaBean(jpaBusline, cblibField);
-			//	jpaBusline = after;
-				r.add(after);
-			}
-			Pageable p = new PageRequest(req.getPage(), req.getLength(), page.getSort());
-			rpage = new org.springframework.data.domain.PageImpl<JpaBusline>(r, p, page.getTotalElements());
-
-		}*/
-		//log.info("putLineCarToPageView:{}", System.currentTimeMillis() - t);
-		//if(log.isDebugEnabled()){
-		//log.debug("putLineCarToPageView:{}", System.currentTimeMillis() - t);
-		//}
-		//return rpage != null ? rpage : page;
-
 	}
 }

@@ -397,9 +397,9 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 				.processDefinitionKey(BODY_ACTIVITY).variableValueEquals(ActivitiService.CITY, city);
 
 		/* 运行中的订单和 我的订单区分*/
-		if (tqType == TaskQueryType.my) {
-			//countQuery.involvedUser(userid);
-			//listQuery.involvedUser(userid);
+		if (StringUtils.isNotBlank(userid) && tqType == TaskQueryType.my) {
+			countQuery.involvedUser(userid);
+			listQuery.involvedUser(userid);
 		}
          if(StringUtils.equals(actionType, "work")){
         	countQuery.variableValueEquals(ActivitiService.ISUPLOADXY, true);

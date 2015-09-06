@@ -3,6 +3,7 @@ package com.pantuo.service;
 import com.pantuo.dao.pojo.*;
 import com.pantuo.mybatis.domain.*;
 import com.pantuo.pojo.TableRequest;
+import com.pantuo.web.view.BusInfoView;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -35,4 +36,5 @@ public interface BusService {
     Iterable<CountableBusModel> getBusModels(int city, JpaBusline.Level level, JpaBus.Category category, Integer lineId, Integer busModelId, Integer companyId);
 
     Iterable<CountableBusinessCompany> getBusinessCompanies(int city, JpaBusline.Level level, JpaBus.Category category, Integer lineId, Integer busModelId, Integer companyId);
+    public Page<BusInfoView> queryBusinfoView(TableRequest req, Page<JpaBus> page);
 }

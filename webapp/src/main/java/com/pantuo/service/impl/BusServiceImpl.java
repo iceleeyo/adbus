@@ -10,6 +10,10 @@ import com.pantuo.mybatis.domain.*;
 import com.pantuo.mybatis.persistence.BusCustomMapper;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.BusService;
+import com.pantuo.simulate.LineCarsCount;
+import com.pantuo.simulate.QueryBusInfo;
+import com.pantuo.web.view.BusInfoView;
+import com.pantuo.web.view.JpaBuslineView;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,7 +41,8 @@ public class BusServiceImpl implements BusService {
     BusinessCompanyRepository companyRepo;
     @Autowired
     BusCustomMapper busCustomMapper;
-
+    @Autowired
+	QueryBusInfo queryBusInfo;
     @Override
     public long count() {
         return busRepo.count();
@@ -177,4 +183,16 @@ public class BusServiceImpl implements BusService {
         return busCustomMapper.getBusinessCompanies(city, (level == null ? null : level.ordinal()),
                 (category == null ? null : category.ordinal()), lineId, busModelId, companyId);
     }
+    public Page<BusInfoView> queryBusinfoView(TableRequest req, Page<JpaBus> page) {
+		List<JpaBus> list = page.getContent();
+		List<BusInfoView> r = new ArrayList<BusInfoView>(list.size());
+		for (JpaBus jpaBus : list) {
+			BusInfoView view = new BusInfoView();
+			view.setJpaBus(jpaBus);
+			view.setBusInfo(queryBusInfo.getBusInfo(jpaBus.getId()));
+			r.add(view);
+		}
+		Pageable p = new PageRequest(req.getPage(), req.getLength(), page.getSort());
+		return new org.springframework.data.domain.PageImpl<BusInfoView>(r, p, page.getTotalElements());
+	}
 }
