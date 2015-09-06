@@ -12,6 +12,7 @@
             "searching": false,
             "ordering": true,
             "serverSide": true,
+            "scrollX": true,
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
                 { "orderable": false, "targets": [5] },

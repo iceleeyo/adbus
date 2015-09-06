@@ -2,6 +2,13 @@
 <#global menu="${orderMenu}">
 <@frame.html title="合同列表" css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"] js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
+<style type="text/css">
+#table_length , #table_info{
+	display: none;
+}
+
+</style>
+
 <script type="text/javascript">
 var table;
     function initTable () {

@@ -10,6 +10,7 @@ var table;
             "searching": false,
             "ordering": true,
             "serverSide": true,
+            "scrollX": true,
               "aaSorting": [[3, "desc"]],
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },

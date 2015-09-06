@@ -12,11 +12,6 @@ css=["js/jquery-ui/jquery-ui.css"]>
     .processed {color: limegreen;}
     .invalid {color: red;}
     .hl {background-color: #ffff00;}
-    
- .div.dataTables_wrapper {
-        margin: 0 auto;
-    }
-    th, td { white-space: nowrap; }
 </style>
 
 <script type="text/javascript">
@@ -28,7 +23,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
             "searching": false,
             "ordering": true,
             "serverSide": true,
-             "scrollX": true,
+            "scrollX": true,
             "columnDefs": [
                 { "orderable": false, "targets": [7, 9] },
             ],

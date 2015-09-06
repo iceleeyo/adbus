@@ -70,3 +70,13 @@ table.dataTable td,table.dataTable th {
 div.DTTT_container {
     margin: 14px 0;
 }
+
+ .div.dataTables_wrapper {
+        margin: 0 auto;
+    }
+th, td { white-space: nowrap; }
+
+.sorting_disabled, .sorting_desc, .sorting, .sorting_asc{
+	background: #2DA7E0 !important;
+	color: #fff;
+}
