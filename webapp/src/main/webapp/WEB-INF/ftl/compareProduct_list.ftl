@@ -34,7 +34,12 @@
             "columns": [
                 { "data": "product.name", "defaultContent": "",
                     "render": function(data, type, row, meta) {
-                    return '<a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer(\'${rc.contextPath}/product/ajaxdetail/\','+row.product.id+');"  >'+row.product.name+'</a>';
+                    	if(data.length>15){
+                            return '<a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer(\'${rc.contextPath}\','+row.product.id+');">'+data.substring(0,15)+'..</a>';
+                         }else{
+                        	return '<a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer(\'${rc.contextPath}\','+row.product.id+');">'+data.substring(0,15)+'</a>';
+                         }	
+                   
                 } },
                 { "data": "product.type", "defaultContent": "",
                     "render": function(data, type, row, meta) {

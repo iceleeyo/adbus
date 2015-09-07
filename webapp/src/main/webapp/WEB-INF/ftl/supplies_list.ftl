@@ -45,6 +45,7 @@
             "searching": false,
             "ordering": true,
             "serverSide": true,
+            "scrollX": true,
             "aaSorting": [[5, "desc"]],
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
@@ -72,7 +73,12 @@
                                 return "<span class=\"hl\">" + matched + "</span>";
                             });
                         }
-                    return data;
+
+                        if(data.length>15){
+                    		return "<span class=\"hl\">"+data.substring(0,15)+ ".. </span>";
+                    	}else{
+                    		return "<span class=\"hl\">"+data+" </span>";
+                    	}
                 } },
                 { "data": "suppliesType", "defaultContent": "",
                 "render": function(data, type, row, meta) {

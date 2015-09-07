@@ -30,10 +30,10 @@
             "columns": [
                 { "data": "name", "defaultContent": "",
                     "render": function(data, type, row, meta) {
-                    if(data.length>10){
-                       return '<a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer(\'${rc.contextPath}\','+row.id+');">'+data.substring(0,10)+'..</a>';
+                    if(data.length>15){
+                       return '<a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer(\'${rc.contextPath}\','+row.id+');">'+data.substring(0,15)+'..</a>';
                     }else{
-                    return '<a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer(\'${rc.contextPath}\','+row.id+');">'+data.substring(0,10)+'</a>';
+                    return '<a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer(\'${rc.contextPath}\','+row.id+');">'+data.substring(0,15)+'</a>';
                     }
                 } },
                 { "data": "type", "defaultContent": "",
