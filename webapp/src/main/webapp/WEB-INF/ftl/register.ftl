@@ -134,15 +134,6 @@
 										</div>
                                         <div class="ui-form-item">
                                             <label class="ui-label mt10"><span
-                                                    class="ui-form-required">*</span>联系电话:</label>
-                                                    <input
-												class="ui-input validate[required,custom[mobilephone]]" type="text" name="phone"
-												id="phone" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="" placeholder="请输入联系电话">
-                                        </div>
-                                        
-                                        <div class="ui-form-item">
-                                            <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>邮箱地址:</label>
                                                     <input
 												class="ui-input validate[required,custom[email]]" type="text" name="email"
@@ -151,23 +142,48 @@
                                         </div>
                                         
                                         <div class="ui-form-item">
-                                            <label class="ui-label mt10">公司名称:</label>
+                                            <label class="ui-label mt10"><span
+												class="ui-form-required">*
+											</span>公司名称:</label>
                                                     <input
-												class="ui-input" type="text" name="company"
+												class="ui-input validate[required]" type="text" name="company"
 												id="company" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="请输入所属公司名称">
                                         </div>
                                         <div class="ui-form-item">
-                                            <label class="ui-label mt10">公司地址:</label>
+                                            <label class="ui-label mt10"><span
+												class="ui-form-required">*
+											</span>公司地址:</label>
                                                     <input
-												class="ui-input" type="text" name="companyAddr"
+												class="ui-input validate[required]" type="text" name="companyAddr"
 												id="companyAddr" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="请输入所属公司地址">
                                         </div>
-                                        <div class="ui-form-item">
-                                            <label class="ui-label mt10">法定代表人:</label>
+                                         <div class="ui-form-item">
+											<label class="ui-label mt10">
+											<span
+												class="ui-form-required">*
+											</span>联系人:
+											</label> 
+												<input class="ui-input  validate[required,custom[chinese],minSize[2],maxSize[12]]" 
+												type="text" name="relateman" id="relateman"
+												data-is="isAmount isEnough" autocomplete="off"
+												disableautocomplete="" placeholder="2-12位中英文">
+										</div>
+										 <div class="ui-form-item">
+                                            <label class="ui-label mt10"><span
+                                                    class="ui-form-required">*</span>联系电话:</label>
                                                     <input
-												class="ui-input" type="text" name="legalman"
+												class="ui-input validate[required,custom[mobilephone]]" type="text" name="phone"
+												id="phone" data-is="isAmount isEnough"
+												autocomplete="off" disableautocomplete="" placeholder="请输入联系电话">
+                                        </div>
+                                        <div class="ui-form-item">
+                                            <label class="ui-label mt10"><span
+												class="ui-form-required">*
+											</span>法定代表人:</label>
+                                                    <input
+												class="ui-input  validate[required]" type="text" name="legalman"
 												id="legalman" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="请输入法定代表人">
                                         </div>

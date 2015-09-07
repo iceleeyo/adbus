@@ -25,41 +25,8 @@ function go_back(){
 					});
 
 	function sub(){
-		var username = $("#username").val();
-		var firstName = ($("#firstName").val());
-		var email=($("#email").val());
-		var phone= ($("#phone").val());
-		var company= ($("#company").val());
-		var department= ($("#department").val());
-		var companyAddr= ($("#companyAddr").val());
-		if(username==""){
-			jDialog.Alert("请填写登录名");
-			return;
-		}
-		if(firstName==""){
-			jDialog.Alert("请填写真实姓名");
-			return;
-		}
-		if(email==""){
-			jDialog.Alert("请填写邮箱");
-			return;
-		}
-		if(phone==''){
-			jDialog.Alert("请填写联系电话");
-			return;
-		}
-		if(company==""){
-			jDialog.Alert("请填写所属公司");
-			return;
-		}
-		if(companyAddr==""){
-			jDialog.Alert("请填写公司地址");
-			return;
-		}
-		if(department==""){
-			jDialog.Alert("请填写所属部门");
-			return;
-		} 
+	   if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
+            return;
 		$('#userForm2').ajaxForm(function(data) {
 				if(data.left==true){
 					jDialog.Alert("保存成功");
@@ -92,37 +59,49 @@ function go_back(){
 			<p class="ui-term-placeholder"></p>
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>真实姓名:</label>
-				<input class="ui-input" type="text" name="firstName" id="firstName"
+				<input class="ui-input validate[required]" type="text" name="firstName" id="firstName"
 					data-is="isAmount isEnough" autocomplete="off"
 					disableautocomplete="" value="${userDetail.user.firstName!''}">
 			</div>
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>邮箱地址:</label>
-				<input class="ui-input" type="text" name="email" id="email"
+				<input class="ui-input validate[required,custom[email]]" type="text" name="email" id="email"
 					data-is="isAmount isEnough" autocomplete="off"
 					disableautocomplete="" value="${userDetail.user.email!''}">
 			</div>
 			<div class="ui-form-item">
+				<label class="ui-label mt10"><span class="ui-form-required">*</span>联系人:</label>
+				<input class="ui-input validate[required]" type="text" name="relateman" id="relateman"
+					data-is="isAmount isEnough" autocomplete="off"
+					disableautocomplete="" value="${userDetail.relateman!''}">
+			</div>
+			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>联系电话:</label>
-				<input class="ui-input" type="text" name="phone" id="phone"
+				<input class="ui-input validate[required,custom[mobilephone]]" type="text" name="phone" id="phone"
 					data-is="isAmount isEnough" autocomplete="off"
 					disableautocomplete="" value="${userDetail.phone!''}">
 			</div>
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>所属公司名称:</label>
-				<input class="ui-input" type="text" name="company" id="company"
+				<input class="ui-input validate[required]" type="text" name="company" id="company"
 					data-is="isAmount isEnough" autocomplete="off"
 					disableautocomplete="" value="${userDetail.company!''}">
 			</div>
 
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>公司地址:</label>
-				<input class="ui-input" type="text" name="companyAddr" id="companyAddr"
+				<input class="ui-input validate[required]" type="text" name="companyAddr" id="companyAddr"
 					data-is="isAmount isEnough" autocomplete="off"
 					disableautocomplete="" value="${userDetail.companyAddr!''}">
 			</div>
 			<div class="ui-form-item">
-				<label class="ui-label mt10"><span class="ui-form-required">*</span>所属部门:</label>
+				<label class="ui-label mt10"><span class="ui-form-required">*</span>法定代表人:</label>
+				<input class="ui-input validate[required]" type="text" name="legalman" 
+					data-is="isAmount isEnough" autocomplete="off"
+					disableautocomplete="" value="${userDetail.legalman!''}">
+			</div>
+			<div class="ui-form-item">
+				<label class="ui-label mt10">所属部门:</label>
 				<input class="ui-input" type="text" name="department" id="department"
 					data-is="isAmount isEnough" autocomplete="off"
 					disableautocomplete="" value="${userDetail.department!''}">

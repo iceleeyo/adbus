@@ -46,10 +46,10 @@
 <span class="s2">法定代表人 ： </span><span class="s3">${userDetail.legalman!''}</span>
 </p>
 <p class="p2">
-<span class="s2">联系人：</span>
+<span class="s2">联系人：</span><span class="s3">${userDetail.relateman!''}</span>
 </p>
 <p class="p2">
-<span class="s2">联系电话：</span>
+<span class="s2">联系电话：</span><span class="s3">${userDetail.phone!''}</span>
 </p>
 <p class="p2"></p>
 <p class="p2">
