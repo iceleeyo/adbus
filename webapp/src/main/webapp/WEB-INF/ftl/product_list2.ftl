@@ -30,9 +30,11 @@
             "columns": [
                 { "data": "name", "defaultContent": "",
                     "render": function(data, type, row, meta) {
-                    
-                    return '<a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer(\'${rc.contextPath}\','+row.id+');">'+row.name+'</a>';
-                    //    return '<a class="table-link" href="${rc.contextPath}/product/d/'+row.id+'">'+row.name+'</a>';
+                    if(data.length>10){
+                       return '<a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer(\'${rc.contextPath}\','+row.id+');">'+data.substring(0,10)+'..</a>';
+                    }else{
+                    return '<a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer(\'${rc.contextPath}\','+row.id+');">'+data.substring(0,10)+'</a>';
+                    }
                 } },
                 { "data": "type", "defaultContent": "",
                     "render": function(data, type, row, meta) {
