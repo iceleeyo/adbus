@@ -62,6 +62,7 @@ public class UserDetail extends BaseEntity {
 	public String company;
 	public String companyAddr;
 	public String legalman;
+	public String relateman;
 	public String department;
 	public UStats ustats;
 	public int isActivate;
@@ -119,6 +120,14 @@ public class UserDetail extends BaseEntity {
 
 	public void setLegalman(String legalman) {
 		this.legalman = legalman;
+	}
+
+	public String getRelateman() {
+		return relateman;
+	}
+
+	public void setRelateman(String relateman) {
+		this.relateman = relateman;
 	}
 
 	public void setStringGroups(List<String> groups) {
