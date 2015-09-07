@@ -172,19 +172,20 @@ public class BusSelectController {
 	}
 
 	@RequestMapping("bodyContractDetail/{contractid}")
-	public String JpaBodyContract(Model  model,@PathVariable("contractid") int contractid,
-			@CookieValue(value = "city", defaultValue = "-1") int city,
-			HttpServletRequest request,HttpServletResponse response) {
+	public String JpaBodyContract(Model model, @PathVariable("contractid") int contractid,
+			@CookieValue(value = "city", defaultValue = "-1") int city, HttpServletRequest request,
+			HttpServletResponse response) {
 		response.setHeader("X-Frame-Options", "SAMEORIGIN");
-		JpaBodyContract bodycontract=busLineCheckService.selectBcById(contractid);
+		JpaBodyContract bodycontract = busLineCheckService.selectBcById(contractid);
 		model.addAttribute("bodycontract", bodycontract);
 		return "template/bodyBlank_contratDetail";
 	}
+
 	@RequestMapping("ajax-myOrders")
 	@ResponseBody
 	public DataTablePage<OrderView> myOrders(TableRequest req, Principal principal,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
-		Page<OrderView> w = busLineCheckService.queryOrders(city, (principal), req, TaskQueryType.my,null);
+		Page<OrderView> w = busLineCheckService.queryOrders(city, (principal), req, TaskQueryType.my, null);
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
 
@@ -193,27 +194,32 @@ public class BusSelectController {
 		model.addAttribute("orderMenu", "进行中的订单");
 		return "body_allRuningOrders";
 	}
-	
+
 	@RequestMapping(value = "/public_bodyContracts")
-	public String body_contracts(Model model, HttpServletRequest request,HttpServletResponse response,
-			  @RequestParam(value = "_city", required = true,defaultValue="2") int  _city) {
+	public String body_contracts(Model model, HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value = "_city", required = true, defaultValue = "2") int _city) {
 		ControllerSupport.bcity(response, _city);
 		model.addAttribute("orderMenu", "合同列表");
-		return "body_contracts";
+		if (StringUtils.equals(request.getParameter("from"), "pc")) {
+			return "body_contracts_PC";
+		} else {
+			return "body_contracts";
+		}
 	}
 
 	@RequestMapping("ajax-body-runningAjax")
 	@ResponseBody
 	public DataTablePage<OrderView> runningAjax(TableRequest req, Principal principal,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
-		Page<OrderView> w = busLineCheckService.queryOrders(city, principal, req, TaskQueryType.all_running,null);
+		Page<OrderView> w = busLineCheckService.queryOrders(city, principal, req, TaskQueryType.all_running, null);
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
+
 	@RequestMapping("public_ajax-bodycontracts")
 	@ResponseBody
 	public DataTablePage<OrderView> ajaxbodycontracts(TableRequest req, Principal principal,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
-		Page<OrderView> w = busLineCheckService.queryOrders(city, principal, req, TaskQueryType.all_running,"work");
+		Page<OrderView> w = busLineCheckService.queryOrders(city, principal, req, TaskQueryType.all_running, "work");
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
 
@@ -432,15 +438,15 @@ public class BusSelectController {
 	@RequestMapping(value = "work_online/{bodycontract_id}/{busId}")
 	@ResponseBody
 	public Pair<Boolean, String> saveBodyContract(@PathVariable("bodycontract_id") int bodycontract_id,
-			Principal principal,HttpServletRequest request,@PathVariable("busId") int busId) {
+			Principal principal, HttpServletRequest request, @PathVariable("busId") int busId) {
 		try {
-			busLineCheckService.updateBusDone(bodycontract_id, busId,principal,request);
+			busLineCheckService.updateBusDone(bodycontract_id, busId, principal, request);
 		} catch (Exception e) {
 			return new Pair<Boolean, String>(false, e.getMessage());
 		}
 		return new Pair<Boolean, String>(true, "车辆上刊成功!");
 	}
-	
+
 	/**
 	 * 弹出上刊确认窗口
 	 * Comment here.
@@ -451,10 +457,10 @@ public class BusSelectController {
 	 */
 	@RequestMapping(value = "toconfirm_bus/{busContractId}/{lineid}")
 	@ResponseBody
-	public LineBusCpd toconfirm_bus(@PathVariable("busContractId") int busContractId,
-			@PathVariable("lineid") int lineid) {
-		return busLineCheckService.selectLineBusCpd(busContractId,lineid);
+	public LineBusCpd toconfirm_bus(@PathVariable("busContractId") int busContractId, @PathVariable("lineid") int lineid) {
+		return busLineCheckService.selectLineBusCpd(busContractId, lineid);
 	}
+
 	/**
 	 * 确认实际上下刊日期
 	 * Comment here.
@@ -467,10 +473,10 @@ public class BusSelectController {
 	@RequestMapping(value = "confirm_bus/{busContractId}/{lineid}")
 	@ResponseBody
 	public Pair<Boolean, String> confirm_bus(@PathVariable("busContractId") int busContractId,
-			@PathVariable("lineid") int lineid,
-			Principal principal,@RequestParam(value="startDate") String startdate,
-			@RequestParam(value="endDate") String endDate) throws ParseException {
-		return busLineCheckService.confirm_bus(busContractId,lineid,startdate,endDate,principal);
+			@PathVariable("lineid") int lineid, Principal principal,
+			@RequestParam(value = "startDate") String startdate, @RequestParam(value = "endDate") String endDate)
+			throws ParseException {
+		return busLineCheckService.confirm_bus(busContractId, lineid, startdate, endDate, principal);
 	}
 
 	/**
@@ -652,6 +658,7 @@ public class BusSelectController {
 		return activitiService.financialCheck(orderid, taskid, financialcomment, paymentResult, principal);
 
 	}
+
 	/**
 	 * 
 	 * Comment here.
@@ -668,14 +675,14 @@ public class BusSelectController {
 	 * @throws BusinessException 
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	@RequestMapping(value = "uploadXiaoY",method = RequestMethod.POST)
+	@RequestMapping(value = "uploadXiaoY", method = RequestMethod.POST)
 	@ResponseBody
 	public Pair<Boolean, String> uploadXiaoY(@RequestParam(value = "mainid") int mainid,
 			@RequestParam(value = "taskid") String taskid,
 			@RequestParam(value = "approve2Comments") String approve2Comments, Principal principal,
 			HttpServletRequest request) throws NumberFormatException, ParseException, BusinessException {
-		return activitiService.uploadXiaoY(mainid, taskid, approve2Comments, principal,request);
-		
+		return activitiService.uploadXiaoY(mainid, taskid, approve2Comments, principal, request);
+
 	}
 
 	/**
