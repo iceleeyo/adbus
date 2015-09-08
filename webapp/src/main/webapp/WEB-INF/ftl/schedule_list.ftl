@@ -47,6 +47,15 @@ css=["js/jquery-ui/jquery-ui.css"]>
  var sortTable;
     function initSortTable () {
         sortTable = $('#sortTable').dataTable( {
+          /*  oLanguage: {
+		        sProcessing: "<img src='${rc.contextPath}/imgs/load_.gif'>"
+		    },*/
+            "oLanguage": {
+                "sSearch": "Search all columns:",
+                "sLoadingRecords": "Please wait - loading...",
+                "sProcessing": "正在加载中",
+            },
+		    processing : true,
             "dom": '<"#toolbar">rt',
             "searching": false,
             "ordering": false,
@@ -101,6 +110,15 @@ css=["js/jquery-ui/jquery-ui.css"]>
     var table;
     function initTable () {
         table = $('#table').dataTable( {
+          /*  oLanguage: {
+		        sProcessing: "<img src='${rc.contextPath}/imgs/load_.gif'>"
+		    },*/
+            "oLanguage": {
+                "sSearch": "Search all columns:",
+                "sLoadingRecords": "Please wait - loading...",
+                "sProcessing": "正在加载中",
+            },
+		    processing : true,
             "dom": '<"#toolbar">rt',
 /*            "tableTools": {
                 "aButtons": [   {
@@ -186,7 +204,8 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
             },
             "initComplete": initComplete,
-            "drawCallback": drawCallback
+            "drawCallback": drawCallback,
+             "fnDrawCallback": fnDrawCallback
         });
         table.fnFakeRowspan(1, [1, 2, 3]).fnNameOrdering("orderBy").fnNoColumnsParams();
     }
@@ -205,6 +224,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
         });
         
         $("#load_black").click(function(){
+        $("#loading").show();
         $('#_loadBlack').val("Y")
             table.fnDraw();
         });
@@ -214,7 +234,10 @@ css=["js/jquery-ui/jquery-ui.css"]>
             table.fnDraw();
         });
     }
-
+    //显示总条数 add by impanxh
+    function fnDrawCallback(){
+    	$("#loading").hide();
+    }
     function drawCallback() {
         $('.table-action').click(function() {
             $.post($(this).attr("url"), function() {
@@ -262,8 +285,14 @@ css=["js/jquery-ui/jquery-ui.css"]>
             });
           initSortTable();
           
-          
-		               var fixHelperModified = function(e, tr) {
+   			 $(".layui-layer-close1").click(function(){
+			    $("#loading").show();
+			    $('#_loadBlack').val("N")
+          		  table.fnDraw();
+			});
+			
+			      
+	  var fixHelperModified = function(e, tr) {
 		    var $originals = tr.children();
 		    var $helper = tr.clone();
 		    $helper.children().each(function(index) {
@@ -307,7 +336,8 @@ css=["js/jquery-ui/jquery-ui.css"]>
                     <input
                             class="ui-input ui-input-mini datepicker" type="text" name="day"
                             id="day" data-is="isAmount isEnough"
-                            autocomplete="off" disableautocomplete="">
+                            autocomplete="off" disableautocomplete=""> 
+                            <span id="loading"><image src="${rc.contextPath}/imgs/load_.gif"/> </span>
                 </div>
             </div>
             <table id="table" class="cell-border compact display" cellspacing="0"
