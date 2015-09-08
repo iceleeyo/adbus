@@ -311,6 +311,7 @@ public class SuppliesServiceImpl implements SuppliesService {
 		SuppliesExample example = new SuppliesExample();
 		SuppliesExample.Criteria criteria = example.createCriteria();
 		criteria.andCityEqualTo(city);
+		criteria.andIndustryIdNotEqualTo(14);
 		if (principal != null) {
 			criteria.andUserIdEqualTo(Request.getUserId(principal));
 		}
