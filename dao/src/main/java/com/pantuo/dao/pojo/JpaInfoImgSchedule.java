@@ -37,6 +37,7 @@ public class JpaInfoImgSchedule extends CityEntity {
     private JpaAttachment attachment;
     private Type type;
     private String proper;
+    private long duration;
 
     public int getId() {
         return id;
@@ -77,6 +78,14 @@ public class JpaInfoImgSchedule extends CityEntity {
 
 	public void setProper(String proper) {
 		this.proper = proper;
+	}
+
+	public long getDuration() {
+		return duration;
+	}
+
+	public void setDuration(long duration) {
+		this.duration = duration;
 	}
 
 	public JpaAttachment getAttachment() {
