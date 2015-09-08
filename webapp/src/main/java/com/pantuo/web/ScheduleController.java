@@ -603,7 +603,7 @@ public class ScheduleController {
 				goodsBlackRepository.save(saveList);
 			}
 
-			System.out.println(uiBox.getSlotId());
+			//System.out.println(uiBox.getSlotId());
 		}
 
 	}
