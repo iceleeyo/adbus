@@ -297,7 +297,7 @@ function supEnter(tourl,city,type){
     		type: 1,
     		title: "物料录入",
     		skin: 'layui-layer-rim', //加上边框
-    		area: ['480px', '520px'], //宽高
+    		area: ['500px', '540px'], //宽高
     		content: '<form id="userForm1" name="userForm1" action="'+tourl+'/supplies/put?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1" enctype="multipart/form-data" method="post"">'
 					 +'<br/><br/><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/><div class="withdrawInputs"><div class="inputs">'
 					 +'<div class="ui-form-item"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>物料名称</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[1],maxSize[120]]"'
@@ -310,8 +310,9 @@ function supEnter(tourl,city,type){
 					 +'</select> </div>'
 					 +'<div class="ui-form-item"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>所属行业:</label> <select id="industryId" class="ui-input" name="industryId" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" >'
 					 +'</select> </div>'
-					 +'<div class="ui-form-item" id="text" style="display:none;"> <label class="ui-label mt10"><span class="ui-form-required">*</span>文本信息</label>'
-					 +'<input class="ui-input" type="text" name="infoContext" id="infoContext" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" style="height: 91px; width: 300px; "> </div>'
+					 +'<div class="ui-form-item" id="text" style="display:none;"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>文本信息</label>'
+					 +'<textarea rows="4" cols="30" name="infoContext" id="infoContext" style="resize: none;" ></textarea>'
+					 +'</div>'
 					 +'<div class="ui-form-item" id="file"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>物料上传</label> <div id="newUpload2"> <div class="filebox" id="div_1"> <input type="file" name="file" id="Sfile" class="validate[required]"> </div> </div>'
 					 +'<input class="btn-sm btn-success" type="button" id="btn_add2" value="增加一行" style="margin-top: 10px;"><br> </div>'
 					 +'<div class="ui-form-item"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>资质上传</label> <div id="newUpload3"> <div id="quadiv_1"> <input type="file" name="qua" id="Sfile1" class="validate[required]"> </div> </div>'
@@ -333,18 +334,26 @@ function supEnter(tourl,city,type){
 			$("#suppliesType").append(
 			"<option value='0'>全屏视频</option>"
 				);
+			$("#text").hide();
+            $("#file").show();
 		}else if(type=="INFO图片"){
 			$("#suppliesType").append(
 			"<option value='1'>INFO图片</option>"
 			);
+			$("#text").hide();
+            $("#file").show();
 		}else if(type=="INFO字幕"){
 			$("#suppliesType").append(
 			"<option value='2'>INFO字幕</option>"
 			);
+			$("#text").show();
+            $("#file").hide();
 		}else if(type=="团类"){
 			$("#suppliesType").append(
 			"<option value='4'>团类</option>"
 			);
+			$("#text").hide();
+            $("#file").show();
 		};
 		$("#userForm1").validationEngine({
             validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
@@ -372,6 +381,7 @@ function supEnter(tourl,city,type){
     	$("#suppliesType").change(function(){
         var suppliesType = $(this).val();
         if(suppliesType=="0" || suppliesType=="1"){
+        	alert("ss");
             $("#text").hide();
             $("#file").show();
         }
