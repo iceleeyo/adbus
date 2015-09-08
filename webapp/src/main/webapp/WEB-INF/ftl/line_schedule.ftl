@@ -73,7 +73,7 @@
                     if (typeof(v) == "undefined"){
                     	result ='<span class="per-middle" style="left:0%;width:80%;background-color:#88CE6D"></span>';
                     }else {
-                     	var  result = '<span class="per-middle layer-tips" tip="<a style=\'color:#fff\' href=\'javascript:void(0);\' onclick=\'body_contract('+v.contractid+');\'>'+(v.company)+'</a>" style="left:0%;width:80%;background-color:red"></span>';
+                     	var  result = '<span class="per-middle layer-tips" tip="<a style=\'color:#fff\' href=\'javascript:void(0);\' onclick=\'body_contract('+v.id+');\'>'+(v.company)+'</a>" style="left:0%;width:80%;background-color:red"></span>';
                     }
                         return result;
                 }},
@@ -128,7 +128,7 @@
 			type: 1,
 			title: "合同详情",
 			skin: 'layui-layer-rim', //加上边框
-			area: ['800px', '300px'], //宽高
+			area: ['800px', '350px'], //宽高
 			content:''
 				   +' '
 				   +'<iframe style="width:99%;height:97%" frameborder="no" src="'+tourl+'/busselect/bodyContractDetail/'+id+'"/>'
