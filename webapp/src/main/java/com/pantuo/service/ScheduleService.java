@@ -659,6 +659,10 @@ public class ScheduleService {
 			infoimgscheduleMapper.insert(infoimgschedule);
 		}else{
 			List<Attachment> list=attachmentService.queryimg(null, order.getSuppliesId());
+			long duration=order.getProduct().getDuration();
+			long a =(long)Math.floor((float)duration/list.size() + 0.5d);
+			int i=list.size();
+			long sum=0;
 			for (Attachment attachment : list) {
 				if(attachment!=null){
 					Infoimgschedule  infoimgschedule=new Infoimgschedule();
@@ -668,7 +672,14 @@ public class ScheduleService {
 					infoimgschedule.setOrderId(order.getId());
 					infoimgschedule.setType(JpaInfoImgSchedule.Type.image.ordinal());
 					infoimgschedule.setAttamentId(attachment.getId());
+					if(i==1){
+						infoimgschedule.setDuration(duration-sum);
+					}else{
+						infoimgschedule.setDuration(a);
+					}
 					infoimgscheduleMapper.insert(infoimgschedule);
+					sum+=a;
+					i--;
 				}
 			}
 		}

@@ -79,7 +79,7 @@ css=["js/jquery-ui/jquery-ui.css"<#--, "js/tabletools/css/dataTables.tableTools.
                     "data" : "attachment.name", "defaultContent": ""
                 },
                 {
-                    "data" : "order.product.duration", "defaultContent": ""
+                    "data" : "duration", "defaultContent": ""
                 },
             ],
             "language": {
