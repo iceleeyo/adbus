@@ -2,8 +2,59 @@
 <@frame.html title="套餐详细">
 <#include "preview.ftl" />
 <meta http-equiv="X-Frame-Options" content="SAMEORIGIN"> 
+<#if product??>
 <div class="withdrawB-wrap color-white-bg fn-clear" style="margin-right: -30px;margin-top: 20px;">
-    
+    <DIV class="summary mt10 uplan-summary-div">
+        <UL class="uplan-detail-ul">
+            <LI style="width:480px;">
+                <SPAN>套餐名称：</SPAN><SPAN class="con">${product.name!''}</SPAN>
+            </LI>
+            <LI style="width: 240px;">
+               <SPAN>套餐价格：</SPAN><SPAN class="con" style="color: rgb(245, 135, 8);"> #{(product.price)!'';m2M2}</SPAN>
+                <SPAN>元</SPAN>
+            </LI>
+            <LI style="width: 240px;">
+                <SPAN>媒体类型：</SPAN><SPAN class="con">${product.type.typeName!''}</SPAN>
+            </LI>
+            <#if product.type == 'video' || product.type == 'image' || product.type == 'info'>
+            <LI style="width: 240px;">
+                <SPAN>时长（秒）：</SPAN><SPAN class="con">${product.duration!''}</SPAN>
+            </LI>
+            <LI style="width: 240px;">
+                <SPAN>单日播放次数：</SPAN>
+                <SPAN class="con">${product.playNumber!''}</SPAN>
+            </LI>
+            </#if>
+            <#if product.type == 'video'>
+            <LI style="width: 240px;">
+                <SPAN>首播次数：</SPAN><SPAN class="con">${product.firstNumber!''}</SPAN>
+            </LI>
+            <LI style="width: 240px;">
+                <SPAN>末播次数：</SPAN><SPAN class="con">${product.lastNumber!''}</SPAN>
+            </LI>
+            <LI style="width: 240px;">
+                <SPAN>高峰时段占比：</SPAN><SPAN class="con">${product.hotRatio!''}</SPAN>
+            </LI>
+            </#if>
+            <LI style="width: 240px;">
+                <SPAN><#if product.type == 'video' || product.type == 'image' || product.type == 'info'>
+                	套餐播放天数：
+                <#elseif product.type == 'team'>周期(天/期)：
+                <#else>广告展示天数：
+                </#if>
+                </SPAN>
+                <SPAN class="con">${product.days!''}天</SPAN>
+            </LI>
+            <#if product.remarks?has_content>
+            <LI style="width:480px;">
+                <SPAN>套餐描述：</SPAN><SPAN class="con">${substring(product.remarks!'',0,38)}</SPAN>
+            </LI>
+             </#if>
+        </UL>
+    </DIV>
+</div>
+<#else>
+<div class="withdrawB-wrap color-white-bg fn-clear" style="margin-right: -30px;margin-top: 20px;">
     <DIV class="summary mt10 uplan-summary-div">
         <UL class="uplan-detail-ul">
             <LI style="width:720px;">
@@ -11,7 +62,8 @@
             </LI>
     <li style="width: 730; border-bottom: 1px solid #F7F7F7"></li>
             <LI style="width: 240px;">
-                <SPAN><#if view.type == 'body'>媒体费：<#else>套餐价格：</#if></SPAN><SPAN class="con" style="color: rgb(245, 135, 8);"> #{(view.price)!'';m2M2}</SPAN>
+                <SPAN>
+                <#if view.type == 'body'>媒体费：<#else>套餐价格：</#if></SPAN><SPAN class="con" style="color: rgb(245, 135, 8);"> #{(view.price)!'';m2M2}</SPAN>
                 <SPAN>元</SPAN>
             </LI>
             <#if view.type == 'body'>
@@ -68,7 +120,7 @@
                 <SPAN class="con">${view.days!''}天</SPAN>
             </LI>
             <li style="width: 730; border-bottom: 1px solid #F7F7F7"></li>
-            <#if view.remarks??>
+            <#if view.remarks?has_content>
             <LI style="width:720px;">
                 <SPAN>套餐描述：</SPAN><SPAN class="con">${substring(view.remarks!'',0,38)}</SPAN>
             </LI>
@@ -77,4 +129,5 @@
         </UL>
     </DIV>
 </div>
+</#if>
 </@frame.html>

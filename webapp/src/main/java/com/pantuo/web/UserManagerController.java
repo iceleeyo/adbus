@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.JpaInvoice;
+import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.Orders;
@@ -195,16 +196,16 @@ public class UserManagerController {
 						throw new AccessDeniedException("非法操作！");
 					}
 				}
-				Product product=productService.selectProById(orders.getProductId());
+				JpaProduct view =  productService.findById(orders.getProductId());
 				UserDetail userDetail = userService.findByUsername(orders.getUserId());
-				model.addAttribute("product", product);
+				model.addAttribute("product", view);
 				model.addAttribute("userDetail", userDetail);
 			}
 			
 		}else{
-			Product product=productService.selectProById(productid);
 			UserDetail userDetail = userService.findByUsername(Request.getUserId(principal));
-			model.addAttribute("product", product);
+			JpaProduct view =  productService.findById(productid);
+			model.addAttribute("product", view);
 			model.addAttribute("userDetail", userDetail);
 		}
 		return "contract_templete";
