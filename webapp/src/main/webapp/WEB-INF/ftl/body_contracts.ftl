@@ -60,7 +60,7 @@ var table;
             	{ "data": "need_cars", "defaultContent": ""},
             	{ "data": "done_cars", "defaultContent": ""},
                 { "data": "jpaBodyContract.id", "defaultContent": "","render": function(data, type, row, meta) {
-                	 var tr= "<a target='_blank' href='${rc.contextPath}/busselect/workList/"+ data+"'>查看</a>";
+                	 var tr= "<a target='_blank' href='${rc.contextPath}/busselect/workList/"+ data+"?from=pc'>查看</a>";
                 	return tr;
                 }},
             ],

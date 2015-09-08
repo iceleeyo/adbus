@@ -25,7 +25,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
             "serverSide": true,
             "scrollX": true,
             "columnDefs": [
-                { "orderable": false, "targets": [7, 9] },
+                { "orderable": false, "targets": [7, 8,9,10] },
             ],
             "iDisplayLength" : 20,
             "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
