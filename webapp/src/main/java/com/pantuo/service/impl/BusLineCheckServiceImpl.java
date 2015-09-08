@@ -354,7 +354,18 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			countQuery.processVariableValueLike(ActivitiService.THE_COMPANY, "%" + companyname + "%");
 			queryList.processVariableValueLike(ActivitiService.THE_COMPANY, "%" + companyname + "%");
 		}
-
+		/*排序 */
+		Sort.Order sor = sort.getOrderFor("created");
+		if (sor != null) {
+			queryList.orderByProcessInstanceId();
+		} else if ((sor = sort.getOrderFor("taskKey")) != null) {
+			queryList.orderByTaskDefinitionKey();//listQuery();
+		}
+		if (sor != null && sor.getDirection() == Sort.Direction.DESC) {
+			queryList.desc();
+		} else {
+			queryList.asc();
+		}
 		long c = countQuery.count();
 		NumberPageUtil pageUtil = new NumberPageUtil((int) c, page, pageSize);
 		tasks = queryList.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
