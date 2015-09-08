@@ -18,18 +18,20 @@ css=["js/highslide/highslide.css","css/lrtk.css", "js/video-js/video-js.css"]>
   <#if bodycontract.contractCode??>
   <li style="width: 240px;"><SPAN> 合同编号：</SPAN><SPAN class="con">${bodycontract.contractCode!''}</SPAN></li> 
    </#if>   						    
-  <LI style="width: 240px;"><SPAN>预留截止时间：</SPAN><SPAN class="con">
-  <#if bodycontract.lockExpiredTime?? >
-       <#if activityId == "financialCheck" || activityId == "usertask2">
-          <a class="layer-tips" tip="点击设置" href="javascript:void(0);" onclick="setLockTime('${rc.contextPath}',${(bodycontract.id)!''})" >
-          <#setting date_format="yyyy-MM-dd">${(bodycontract.lockExpiredTime?date)!''}</a>
-        <#else>
-          <#setting date_format="yyyy-MM-dd">${(bodycontract.lockExpiredTime?date)!''}
-     </#if>     
-          <#else>
-                           未设置
-  </#if>        
-  </SPAN></LI>
+  <!-- 
+	  <LI style="width: 240px;"><SPAN>预留截止时间：</SPAN><SPAN class="con">
+	  <#if bodycontract.lockExpiredTime?? >
+	       <#if activityId == "financialCheck" || activityId == "usertask2">
+	          <a class="layer-tips" tip="点击设置" href="javascript:void(0);" onclick="setLockTime('${rc.contextPath}',${(bodycontract.id)!''})" >
+	          <#setting date_format="yyyy-MM-dd">${(bodycontract.lockExpiredTime?date)!''}</a>
+	        <#else>
+	          <#setting date_format="yyyy-MM-dd">${(bodycontract.lockExpiredTime?date)!''}
+	     </#if>     
+	          <#else>
+	                           未设置
+	  </#if>        
+	  </SPAN></LI>
+  -->
   <#if bodycontract.remark?has_content>
   <li style="width: 720px;"><SPAN> 备注信息：</SPAN><SPAN class="con">${bodycontract.remark!''}</SPAN></li> 
    </#if>   						    
