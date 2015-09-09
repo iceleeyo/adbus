@@ -152,7 +152,7 @@
                 { "data": "name", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                     
-                    return '<a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer(\'${rc.contextPath}/product/ajaxdetail/\','+row.id+');"  >'+row.name+'</a>';
+                    return '<a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer(\'${rc.contextPath}\','+row.id+');"  >'+row.name+'</a>';
                     //    return '<a class="table-link" href="${rc.contextPath}/product/d/'+row.id+'">'+row.name+'</a>';
                 } },
                 { "data": "type", "defaultContent": "",
