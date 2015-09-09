@@ -23,7 +23,7 @@ css=["css/lrtk.css", "js/video-js/video-js.css"]>
 										<div class="tab-content-box s-clear" id="holding"
 											style="display: block;">
 											<div class="uplan-table-box">
-<#if view.mainView.suppliesType!=2>											
+<#if view.mainView.suppliesType?? && view.mainView.suppliesType!=2>											
 												<table width="100%" class="uplan-table">
 													<tbody>
 														<tr class="uplan-table-th">
@@ -80,7 +80,7 @@ css=["css/lrtk.css", "js/video-js/video-js.css"]>
 
 													</tbody>
 												</table>
-<#elseif  view.mainView.suppliesType==2>
+<#elseif  view.mainView.suppliesType?? && view.mainView.suppliesType==2>
 <table width="100%" class="uplan-table">
 													<tbody>
 														<tr class="uplan-table-th">
@@ -141,6 +141,13 @@ css=["css/lrtk.css", "js/video-js/video-js.css"]>
 														
 													</tbody>
 </table>
+
+<#elseif  !(view.mainView.suppliesType??)>
+
+请上传素材
+
+
+
 </#if>
 											</div>
 										</div>
