@@ -13,6 +13,12 @@ css=["js/jquery-ui/jquery-ui.css"<#--, "js/tabletools/css/dataTables.tableTools.
     #table td .per-occupied {position:absolute;background-color: #ffad20;left:0;top:0;height:4px;}
     #table td .per-free {position:absolute;background-color: #4acd48;right:0;top:0;height:4px;}
     .report-toolbar {float: left !important; margin-top: 40px;}
+    div#toolbar{
+		float: left;
+		margin-left: 89%;
+		padding: 10px 0 10px 0;
+		margin-top: -40px;;
+    }
 </style>
 <style type="text/css">
     .ui-datepicker-calendar.only-month {

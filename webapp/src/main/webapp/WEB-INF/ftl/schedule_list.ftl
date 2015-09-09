@@ -31,6 +31,12 @@ css=["js/jquery-ui/jquery-ui.css"]>
     .report-toolbar .ui-label-mini {
         font-size: 12px;line-height: 35px;
     }
+    div#toolbar{
+		float: left;
+		margin-left: 77%;
+		padding: 10px 0 10px 0;
+		margin-top: -40px;;
+    }
 </style>
 <script type="text/javascript">
     $(function(){
