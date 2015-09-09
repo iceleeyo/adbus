@@ -368,6 +368,11 @@
                                                                                                                                               个人信息
 												</a>
 											</li>
+											<li class="pg-side-exp-item">
+												<a class="side-exp-item-t" href="${rc.contextPath}/user/edit_pwd">
+                                                                                                                                                   修改密码                                                                                         
+												</a>
+											</li>
 										</ul>
 									</li>	
 									

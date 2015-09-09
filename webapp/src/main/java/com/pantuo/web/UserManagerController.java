@@ -237,6 +237,12 @@ public class UserManagerController {
 			return "error";
 		}
 	}
+	
+	@RequestMapping(value="/edit_pwd",produces="text/html;charset=utf-8")
+	public String edit_pwd(Model model,Principal principal){
+		model.addAttribute("userid", Request.getUserId(principal));
+		return "edit_pwd";
+	}
 	/*@PreAuthorize(" !hasRole('advertiser')  ")*/
 		@PreAuthorize( " hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
 	+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
@@ -251,8 +257,11 @@ public class UserManagerController {
 	@RequestMapping(value = "/change_pwd")
 	@ResponseBody
 	public Pair<Boolean, String> change_pwd(Model model, Principal principal,
-			@RequestParam(value = "userId") String userId, @RequestParam(value = "psw") String psw,
+			@RequestParam(value = "userId") String userId, @RequestParam(value = "psw") String psw, @RequestParam(value = "oldpassword" ,required = false) String oldpassword,
 			HttpServletRequest request) throws Exception {
+		if(StringUtils.isNotBlank(oldpassword)){
+			return userService.editPwd(Request.getUserId(principal),oldpassword, psw);
+		}
 		return userService.updatePwd(userId, psw);
 	}
 	@RequestMapping(value = "/isAdvertiser/{userid}")

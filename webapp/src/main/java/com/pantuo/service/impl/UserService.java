@@ -582,4 +582,19 @@ public class UserService implements UserServiceInter {
 		}
 		return r;
 	}
+
+	@Override
+	public Pair<Boolean, String> editPwd(String userId, String oldpassword, String psw) {
+		User activitiUser = identityService.createUserQuery().userId(userId).singleResult();
+		if (activitiUser == null) {
+			return new Pair<Boolean, String>(false, "用户不存在");
+		} else {
+			if(!StringUtils.equals(oldpassword, activitiUser.getPassword())){
+				return new Pair<Boolean, String>(false, "原密码不正确");
+			}
+			activitiUser.setPassword(psw);
+			identityService.saveUser(activitiUser);
+			return new Pair<Boolean, String>(true, "修改密码成功");
+		}
+	}
 }

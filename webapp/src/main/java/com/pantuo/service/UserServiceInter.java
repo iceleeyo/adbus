@@ -102,4 +102,6 @@ public interface UserServiceInter {
 	
 	public String getUserUniqCode(String uname);
 
+	public abstract Pair<Boolean, String> editPwd(String userId, String oldpassword, String psw);
+
 }
