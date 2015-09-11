@@ -1,8 +1,8 @@
 <#import "template/template_blank.ftl" as frame>
 <#import "macro/materialPreview.ftl" as preview>
 
-<@frame.html title="物料详细" js=["js/artZoom/artZoom.js","js/artZoom/artZoom.min.js", "js/video-js/video.js", "js/video-js/lang/zh-CN.js"]
-css=["css/lrtk.css", "js/video-js/video-js.css"]>
+<@frame.html title="物料详细" js=["js/highslide/highslide-full.js", "js/video-js/video.js", "js/video-js/lang/zh-CN.js"]
+css=["js/highslide/highslide.css", "js/video-js/video-js.css"]>
     <#include "template/preview.ftl" />
 <meta http-equiv="X-Frame-Options" content="SAMEORIGIN"> 
 <script type="text/javascript">
