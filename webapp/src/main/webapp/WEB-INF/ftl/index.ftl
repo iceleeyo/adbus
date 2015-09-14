@@ -49,7 +49,7 @@
 <body>
 	<div class="pg-header">
 		<div class="pg-header-top"> 
-					<div class="container-12 s-clear">
+					<div class="container-index s-clear">
 						<div class="grid-12 city-dropdown">
                             <ul class="fl">
 <#--<@security.authorize access="isAuthenticated()">-->
@@ -172,7 +172,7 @@
 				</div>
  
 		<div class="pg-header-main">
-					<div class="container-12 s-clear">
+					<div class="container-index s-clear">
 						<div class="phmain-logo-b pg-left">
 							<a class="phmain-logo" href="#"></a>
 						</div>
@@ -214,7 +214,7 @@
 					</div>
 				</div>
 	</div>
-	<div class="container-12 maincontent">	
+	<div class="container-index maincontent">	
 		<div class="broadcast s-clear">
 			<!-- <div class="product-type items s-left">
 				<div class="item">

@@ -97,7 +97,7 @@ function changeImg(tourl,osrc,img){
 <body>
 	<div class="pg-header">
 		<div class="pg-header-top" style="background:#5E637E;margin-top: 14px;"> 
-					<div class="container-12 s-clear">
+					<div class="container-index s-clear">
 						<div class="grid-12 city-dropdown">
                             <ul class="fl" style="margin-top: -14px">
                                 <li class="dorpdown" id="ttbar-mycity" style="margin-left: -40px;">
@@ -188,7 +188,7 @@ function changeImg(tourl,osrc,img){
 				</div>
  
 		<div class="pg-header-main">
-					<div class="container-12 s-clear">
+					<div class="container-index s-clear">
 						<div class="phmain-logo-b pg-left">
 							<a class="phmain-logo" href="#"></a>
 						</div>
@@ -226,7 +226,7 @@ function changeImg(tourl,osrc,img){
 					</div>
 		</div>
 	</div>
-	<div class="container-12 maincontent">	
+	<div class="container-index maincontent">	
 		<div class="broadcast s-clear">
 			<div class="vediobox items s-left">
 

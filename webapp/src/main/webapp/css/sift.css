@@ -1,5 +1,10 @@
 .container-12{
-	width: 1060px;
+	width: 98%;
+}
+.ls-10{
+	float: left;
+	margin-left: 10px;
+	width: 98%;
 }
 .sift-box{
 	border: 1px solid #a8a8a8;

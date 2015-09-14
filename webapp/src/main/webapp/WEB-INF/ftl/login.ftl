@@ -1,7 +1,13 @@
 <#import "template/template.ftl" as frame>
 <#global menu="用户登录">
 <@frame.html title="用户登录" left=false nav=false js=["js/querystring-0.9.0.js","js/layer-v1.9.3/layer/layer.js"] css=["css/login.css"]>
-
+<style type="text/css">
+.ls-10{
+	width: 85%;
+ 	float: left;
+ 	margin-left: 15%;
+}
+</style>
 <div class="pg-container">
     <div class="pg-container-main">
         <div class="container-12 mt10 s-clear">

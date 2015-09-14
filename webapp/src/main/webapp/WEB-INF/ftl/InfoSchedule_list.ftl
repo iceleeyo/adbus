@@ -29,7 +29,7 @@ css=["js/jquery-ui/jquery-ui.css"<#--, "js/tabletools/css/dataTables.tableTools.
 		float: left;
 		margin-left: 89%;
 		padding: 10px 0 10px 0;
-		margin-top: -40px;;
+		margin-top: -40px;
     }
 </style>
 <script type="text/javascript">

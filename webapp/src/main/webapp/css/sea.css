@@ -79,13 +79,19 @@ table {
 }
 
 .container-12 {
-	width: 1060px;
+	width: 98%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.container-index {
+	width: 1065px;
 	margin-left: auto;
 	margin-right: auto;
 }
 
 .grid-12 {
-	width: 1040px;
+	width: 98%;
 	margin-left: 10px;
 	margin-right: 10px;
 }
@@ -296,17 +302,16 @@ table {
 }
 
 .ls-2 {
-	width: 140px;
+	width: 12%;
 	float: left;
 	margin-left: 10px;
 	margin-right: 10px;
 }
 
 .ls-10 {
-	width: 880px;
+	width: 85%;
 	float: left;
 	margin-left: 10px;
-	margin-right: 10px;
 }
 
 .ls-101 {

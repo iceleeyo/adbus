@@ -62,6 +62,11 @@ $.ajax({
 .hint .mc p {
   margin-top: 15px;
 }
+.container-12{
+	width: 1065px;
+	margin-left: auto;
+	margin-right: auto;
+}
 </style>
 
 <script type="text/javascript">

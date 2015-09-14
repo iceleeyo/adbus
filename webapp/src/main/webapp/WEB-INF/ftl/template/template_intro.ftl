@@ -66,6 +66,12 @@
             width: 80px;
             height: 32px;
         }
+        
+        .container-12{
+	width: 1150px;
+	margin-left: auto;
+	margin-right: auto;
+}
     </style>
 </head>
 <body>
