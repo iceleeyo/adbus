@@ -654,6 +654,7 @@ public class ScheduleService {
 			Infoimgschedule  infoimgschedule=new Infoimgschedule();
 			infoimgschedule.setCity(order.getCity());
 			infoimgschedule.setDate(day);
+			infoimgschedule.setDuration((long)0);
 			infoimgschedule.setOrderId(order.getId());
 			infoimgschedule.setType(JpaInfoImgSchedule.Type.info.ordinal());
 			infoimgscheduleMapper.insert(infoimgschedule);
