@@ -23,7 +23,7 @@ function supDetail(data){
               <UL class="uplan-detail-ul">
               
               	  <li class="s-left f-iconli"><span class="s-left tt"><i class="s-left ff-icon"></i>订单信息</span></li>
-                  <li style="width: 800px;"><SPAN>套餐名称：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer('${rc.contextPath}',${prod.id});"  >${prod.name!''}</a></SPAN></li>
+                  <li style="width: 1000px;"><SPAN>套餐名称：</SPAN><SPAN class="con"><a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer('${rc.contextPath}',${prod.id});"  >${prod.name!''}</a></SPAN></li>
   				  <#if !(cpdDetail?exists)>
   				  <li style="width: 200px;"><SPAN>套餐价格：</SPAN><SPAN class="con" style="color: rgb(245, 135, 8);">
   				  <@security.authorize ifAnyGranted="BeiguangMaterialManager,BeiguangScheduleManager,ShibaSuppliesManager,UserManager">**</@security.authorize>
@@ -49,7 +49,7 @@ function supDetail(data){
   				   <li style="width: 200px;"><SPAN>下单用户：</SPAN><SPAN class="con">${(orderview.order.creator)!''}</SPAN></li>
   				  </@security.authorize>
   				  
-  				  <li style="width: 200px;"><SPAN>订单状态：</SPAN>
+  				  <li style="width: 300px;"><SPAN>订单状态：</SPAN>
   				  <SPAN class="con">
   				  	<#if orderview.task_name?has_content>
         				${orderview.task_name!''}

@@ -324,7 +324,7 @@ margin:15px 0px 15px 0px;width:100%">
 			  <div class="fn-clear pg-uplan-product-list text-middle mt15 mb10">
 			    <#list auctionList as prod>
 				  <div class="fn-left pg-uplan-product-item mr15">
-						<a href="product/c/${prod.id}">
+						<a target="_blank" href="product/c/${prod.id}">
 							<dl class="bg-color-white">
 							  <dt class="ub"><span>${substring(prod.product.name,0,13)}</span></dt>
 							  <#if prod.product.type=="screen">
