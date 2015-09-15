@@ -9,14 +9,21 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 
+import com.pantuo.dao.pojo.JapDividPay;
 import com.pantuo.dao.pojo.JpaBodyContract;
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaBus.Category;
+import com.pantuo.dao.pojo.JpaOfflineContract;
+import com.pantuo.dao.pojo.JpaPublishLine;
 import com.pantuo.mybatis.domain.Bodycontract;
 import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.domain.BusModel;
+import com.pantuo.mybatis.domain.Dividpay;
+import com.pantuo.mybatis.domain.Offlinecontract;
+import com.pantuo.mybatis.domain.PublishLine;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService.TaskQueryType;
 import com.pantuo.util.BusinessException;
@@ -130,4 +137,23 @@ public interface BusLineCheckService {
 
 	public Pair<Boolean, String> confirm_bus(int busContractId, int lineid, String startdate, String endDate, Principal principal)throws ParseException;
 	 public List<LineBusCpd> getlines(Integer[] ids,Map<Integer,String> map);
+
+	public Pair<Boolean, String> saveOffContract(Offlinecontract offcontract, long seriaNum, String userId,
+			String signDate1)throws ParseException;
+
+	public List<JpaPublishLine> getpublishLineBySeriNum(long seriaNum);
+
+	public Pair<Boolean, String> savePublishLine(PublishLine publishLine, String startD, String endD) throws ParseException;
+
+	public Pair<Boolean, String> saveDivid(Dividpay dividpay, long seriaNum, String userId, String payDate1)throws ParseException;
+
+	public List<JapDividPay> getDividPay(long seriaNum);
+
+	public boolean removePublishLine(Principal principal, int city, long seriaNum, int id);
+
+	public boolean removedividPay(Principal principal, int city, long seriaNum, int id);
+
+	Page<JpaOfflineContract> queryOfflineContract(int city, TableRequest req, int page, int pageSize, Sort sort);
+
+	public Offlinecontract findOffContractById(int contract_id);
 }

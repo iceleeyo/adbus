@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -35,14 +36,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.pantuo.dao.pojo.JapDividPay;
 import com.pantuo.dao.pojo.JpaBodyContract;
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaCity;
+import com.pantuo.dao.pojo.JpaIndustry;
+import com.pantuo.dao.pojo.JpaOfflineContract;
 import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.dao.pojo.JpaPublishLine;
+import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Bodycontract;
 import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.domain.Contract;
+import com.pantuo.mybatis.domain.Dividpay;
+import com.pantuo.mybatis.domain.Offlinecontract;
+import com.pantuo.mybatis.domain.PublishLine;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.HistoricTaskView;
 import com.pantuo.pojo.TableRequest;
@@ -59,6 +68,8 @@ import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 import com.pantuo.vo.GroupVo;
 import com.pantuo.web.view.AutoCompleteView;
+import com.pantuo.web.view.BusInfoView;
+import com.pantuo.web.view.ContractView;
 import com.pantuo.web.view.LineBusCpd;
 import com.pantuo.web.view.OrderView;
 
@@ -355,6 +366,18 @@ public class BusSelectController {
 		buslock.setSeriaNum(seriaNum);
 		return busLineCheckService.saveBusLock(buslock, startD, endD);
 	}
+	@RequestMapping(value = "/savePublishLine")
+	@ResponseBody
+	public Pair<Boolean, String> savePublishLine(PublishLine publishLine,
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
+			HttpServletRequest request, @RequestParam(value = "seriaNum", required = true) long seriaNum,
+			@RequestParam(value = "startD", required = true) String startD,
+			@RequestParam(value = "endD", required = true) String endD) throws ParseException {
+		publishLine.setCity(city);
+		publishLine.setUserId(Request.getUserId(principal));
+		publishLine.setSeriaNum(seriaNum);
+		return busLineCheckService.savePublishLine(publishLine, startD, endD);
+	}
 
 	/**
 	 * 
@@ -375,6 +398,24 @@ public class BusSelectController {
 			HttpServletRequest request, @RequestParam(value = "seriaNum", required = true) long seriaNum) {
 		bodycontract.setCity(city);
 		return busLineCheckService.saveBodyContract(bodycontract, seriaNum, Request.getUserId(principal));
+	}
+	@RequestMapping(value = "/saveOffContract")
+	@ResponseBody
+	public Pair<Boolean, String> saveOffContract(Offlinecontract offcontract,
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
+			@RequestParam(value = "signDate1") String signDate1,
+			HttpServletRequest request, @RequestParam(value = "seriaNum", required = true) long seriaNum) throws ParseException {
+		offcontract.setCity(city);
+		return busLineCheckService.saveOffContract(offcontract, seriaNum, Request.getUserId(principal),signDate1);
+	}
+	@RequestMapping(value = "/saveDivid")
+	@ResponseBody
+	public Pair<Boolean, String> saveDivid(Dividpay dividpay,
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
+			@RequestParam(value = "payDate1") String payDate1,
+			HttpServletRequest request, @RequestParam(value = "seriaNum", required = true) long seriaNum) throws ParseException {
+		dividpay.setCity(city);
+		return busLineCheckService.saveDivid(dividpay, seriaNum, Request.getUserId(principal),payDate1);
 	}
 
 	/**
@@ -584,7 +625,21 @@ public class BusSelectController {
 		model.addAttribute("seriaNum", Only1ServieUniqLong.getUniqLongNumber());
 		return "applyBodyCtct";
 	}
-
+	@RequestMapping("offContract_enter")
+	public String offContract_enter(Model model, Principal principal) {
+		model.addAttribute("seriaNum", Only1ServieUniqLong.getUniqLongNumber());
+		return "offContract_enter";
+	}
+	@RequestMapping(value = "/offcontract_edit/{contract_id}", produces = "text/html;charset=utf-8")
+	public String offcontract_edit(Model model,@PathVariable("contract_id") int contract_id,Principal principal,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId,HttpServletRequest request) {
+		Offlinecontract  offlinecontract=busLineCheckService.findOffContractById(contract_id);
+		model.addAttribute("offlinecontract", offlinecontract);
+		if(offlinecontract!=null){
+			model.addAttribute("seriaNum", offlinecontract.getSeriaNum());
+		}
+		return "offContract_enter";
+	}
 	/**
 	 * 
 	 * 查合同的选车情况
@@ -600,6 +655,18 @@ public class BusSelectController {
 	public List<JpaBusLock> getBuses(Model model, @CookieValue(value = "city", defaultValue = "-1") int city,
 			@RequestParam("seriaNum") long seriaNum) {
 		return busLineCheckService.getBusLockListBySeriNum(seriaNum);
+	}
+	@RequestMapping(value = "ajax-publishLine", method = RequestMethod.GET)
+	@ResponseBody
+	public List<JpaPublishLine> publishLine(Model model, @CookieValue(value = "city", defaultValue = "-1") int city,
+			@RequestParam("seriaNum") long seriaNum) {
+		return busLineCheckService.getpublishLineBySeriNum(seriaNum);
+	}
+	@RequestMapping(value = "ajax-getDividPay", method = RequestMethod.GET)
+	@ResponseBody
+	public List<JapDividPay> getDividPay(Model model, @CookieValue(value = "city", defaultValue = "-1") int city,
+			@RequestParam("seriaNum") long seriaNum) {
+		return busLineCheckService.getDividPay(seriaNum);
 	}
 
 	/**
@@ -618,6 +685,18 @@ public class BusSelectController {
 	public boolean removeBusLock(Principal principal, @CookieValue(value = "city", defaultValue = "-1") int city,
 			@RequestParam("seriaNum") long seriaNum, @RequestParam("id") int id) {
 		return busLineCheckService.removeBusLock(principal, city, seriaNum, id);
+	}
+	@RequestMapping(value = "ajax-remove-publishLine", method = RequestMethod.POST)
+	@ResponseBody
+	public boolean removepublishLine(Principal principal, @CookieValue(value = "city", defaultValue = "-1") int city,
+			@RequestParam("seriaNum") long seriaNum, @RequestParam("id") int id) {
+		return busLineCheckService.removePublishLine(principal, city, seriaNum, id);
+	}
+	@RequestMapping(value = "ajax-remove-dividPay", method = RequestMethod.POST)
+	@ResponseBody
+	public boolean removedividPay(Principal principal, @CookieValue(value = "city", defaultValue = "-1") int city,
+			@RequestParam("seriaNum") long seriaNum, @RequestParam("id") int id) {
+		return busLineCheckService.removedividPay(principal, city, seriaNum, id);
 	}
 
 	/**
@@ -713,5 +792,17 @@ public class BusSelectController {
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
 		Page<OrderView> w = busLineCheckService.finished(city, principal, req);
 		return new DataTablePage<OrderView>(w, req.getDraw());
+	}
+	@RequestMapping(value = "/offContract_list")
+	public String offContract_list() {
+		return "offContract_list";
+	}
+	@RequestMapping("ajax-offContract_list")
+	@ResponseBody
+	public DataTablePage<JpaOfflineContract> getAllJpaOfflineContract(TableRequest req,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city) {
+		Page<JpaOfflineContract> jpabuspage=busLineCheckService.queryOfflineContract(cityId, req, req.getPage(), req.getLength(),
+				req.getSort("id"));
+		return new DataTablePage(jpabuspage, req.getDraw());
 	}
 }

@@ -29,6 +29,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -41,15 +42,25 @@ import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.BodyContractRepository;
 import com.pantuo.dao.BusLockRepository;
 import com.pantuo.dao.BuslineRepository;
+import com.pantuo.dao.DividPayRepository;
+import com.pantuo.dao.OffContactRepository;
+import com.pantuo.dao.PublishLineRepository;
+import com.pantuo.dao.pojo.JapDividPay;
 import com.pantuo.dao.pojo.JpaBodyContract;
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBus.Category;
 import com.pantuo.dao.pojo.JpaAttachment;
 import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaBusline;
+import com.pantuo.dao.pojo.JpaOfflineContract;
+import com.pantuo.dao.pojo.JpaPublishLine;
+import com.pantuo.dao.pojo.QJapDividPay;
 import com.pantuo.dao.pojo.QJpaBodyContract;
+import com.pantuo.dao.pojo.QJpaBus;
 import com.pantuo.dao.pojo.QJpaBusLock;
 import com.pantuo.dao.pojo.QJpaBusline;
+import com.pantuo.dao.pojo.QJpaOfflineContract;
+import com.pantuo.dao.pojo.QJpaPublishLine;
 import com.pantuo.mybatis.domain.Bodycontract;
 import com.pantuo.mybatis.domain.BodycontractExample;
 import com.pantuo.mybatis.domain.Bus;
@@ -60,12 +71,22 @@ import com.pantuo.mybatis.domain.BusLine;
 import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.domain.BusLockExample;
 import com.pantuo.mybatis.domain.BusModel;
+import com.pantuo.mybatis.domain.Contract;
+import com.pantuo.mybatis.domain.Dividpay;
+import com.pantuo.mybatis.domain.DividpayExample;
+import com.pantuo.mybatis.domain.Offlinecontract;
+import com.pantuo.mybatis.domain.OfflinecontractExample;
+import com.pantuo.mybatis.domain.PublishLine;
+import com.pantuo.mybatis.domain.PublishLineExample;
 import com.pantuo.mybatis.persistence.BodycontractMapper;
 import com.pantuo.mybatis.persistence.BusContractMapper;
 import com.pantuo.mybatis.persistence.BusLineMapper;
 import com.pantuo.mybatis.persistence.BusLockMapper;
 import com.pantuo.mybatis.persistence.BusMapper;
 import com.pantuo.mybatis.persistence.BusSelectMapper;
+import com.pantuo.mybatis.persistence.DividpayMapper;
+import com.pantuo.mybatis.persistence.OfflinecontractMapper;
+import com.pantuo.mybatis.persistence.PublishLineMapper;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.ActivitiService.TaskQueryType;
@@ -86,6 +107,7 @@ import com.pantuo.util.Request;
 import com.pantuo.util.cglib.ProxyVoForPageOrJson;
 import com.pantuo.vo.GroupVo;
 import com.pantuo.web.view.AutoCompleteView;
+import com.pantuo.web.view.BusInfoView;
 import com.pantuo.web.view.LineBusCpd;
 import com.pantuo.web.view.OrderView;
 
@@ -101,9 +123,17 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	@Autowired
 	BusLockMapper busLockMapper;
 	@Autowired
+	PublishLineMapper publishLineMapper;
+	@Autowired
+	DividpayMapper dividpayMapper;
+	@Autowired
 	BodycontractMapper bodycontractMapper;
 	@Autowired
+	OfflinecontractMapper offlinecontractMapper;
+	@Autowired
 	BodyContractRepository bodyContractRepository;
+	@Autowired
+	OffContactRepository offContactRepository;
 	@Autowired
 	BuslineRepository BuslineRepository;
 	@Autowired
@@ -156,6 +186,10 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 
 	@Autowired
 	BuslineRepository buslineRepository;
+	@Autowired
+	PublishLineRepository publishLineRepository;
+	@Autowired
+	DividPayRepository dividPayRepository;
 	@Autowired
 	BusLockRepository busLockRepository;
 
@@ -1059,4 +1093,153 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	}
 	   return cpds;
    }
+
+@Override
+public Pair<Boolean, String> saveOffContract(Offlinecontract offcontract, long seriaNum, String userId, String signDate1) throws ParseException {
+	Date signDate=(Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(signDate1);
+	offcontract.setDays(0);
+	offcontract.setTotalNum(0);
+	if(null!=offcontract.getId() && offcontract.getId()>0){
+		Offlinecontract contract=offlinecontractMapper.selectByPrimaryKey(offcontract.getId());
+		contract.setUpdated(new Date());
+		com.pantuo.util.BeanUtils.copyProperties(offcontract, contract);
+		int a=offlinecontractMapper.updateByPrimaryKey(contract);
+		if(a>0){
+			return new Pair<Boolean, String>(true, "合同修改成功");
+		}else{
+			return new Pair<Boolean, String>(false, "合同修改失败");
+		}
+	}
+	offcontract.setCreator(userId);
+	offcontract.setCreated(new Date());
+	offcontract.setUpdated(new Date());
+	offcontract.setIsSchedule(false);
+	offcontract.setSignDate(signDate);
+	PublishLineExample example=new PublishLineExample();
+	PublishLineExample.Criteria criteria=example.createCriteria();
+	criteria.andUserIdEqualTo(userId);
+	criteria.andSeriaNumEqualTo(seriaNum);
+	List<PublishLine> list = publishLineMapper.selectByExample(example);
+	DividpayExample example2=new DividpayExample();
+	DividpayExample.Criteria criteria2=example2.createCriteria();
+	criteria2.andSeriaNumEqualTo(seriaNum);
+	List<Dividpay> list2=dividpayMapper.selectByExample(example2);
+	if (list.size() == 0) {
+		return new Pair<Boolean, String>(false, "请发布线路");
+	}
+	if (list2.size() == 0) {
+		return new Pair<Boolean, String>(false, "请设置合同分期信息");
+	}
+	int a = offlinecontractMapper.insert(offcontract);
+	if(a>0){
+		return new Pair<Boolean, String>(true, "创建合同成功");
+	}
+	return new Pair<Boolean, String>(true, "创建合同成功");
+}
+
+@Override
+public List<JpaPublishLine> getpublishLineBySeriNum(long seriaNum) {
+	BooleanExpression query = QJpaPublishLine.jpaPublishLine.seriaNum.eq(seriaNum);
+	List<JpaPublishLine> list = (List<JpaPublishLine>) publishLineRepository.findAll(query);
+	return list;
+}
+
+@Override
+public Pair<Boolean, String> savePublishLine(PublishLine publishLine, String startD, String endD) throws ParseException {
+	OfflinecontractExample example = new OfflinecontractExample();
+	OfflinecontractExample.Criteria criteria = example.createCriteria();
+	criteria.andSeriaNumEqualTo(publishLine.getSeriaNum());
+	List<Offlinecontract> list = offlinecontractMapper.selectByExample(example);
+	if (list.size() > 0) {
+		publishLine.setContractId(list.get(0).getId());
+	} else {
+		publishLine.setContractId(0);
+	}
+	publishLine.setStats(JpaBusLock.Status.ready.ordinal());
+	publishLine.setCreated(new Date());
+	publishLine.setUpdated(new Date());
+	publishLine.setSalesNumber(publishLine.getRemainNuber());
+	Date date1=(Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(startD);
+	Date date2=(Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(endD);
+	publishLine.setStartDate(date1);
+	publishLine.setEndDate(date2);
+	publishLine.setDays((int)DateUtil.getQuot(date2, date1)+1);
+	if (publishLineMapper.insert(publishLine) > 0) {
+		return new Pair<Boolean, String>(true, "保存成功");
+	}
+	return new Pair<Boolean, String>(false, "保存失败");
+}
+
+@Override
+public Pair<Boolean, String> saveDivid(Dividpay dividpay, long seriaNum, String userId, String payDate1) throws ParseException {
+	dividpay.setPayDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(payDate1));
+	dividpay.setUpdator(userId);
+	dividpay.setSeriaNum(seriaNum);
+	dividpay.setStats(0);
+	if (dividpayMapper.insert(dividpay) > 0) {
+		return new Pair<Boolean, String>(true, "保存成功");
+	}
+	return new Pair<Boolean, String>(false, "保存失败");
+}
+
+@Override
+public List<JapDividPay> getDividPay(long seriaNum) {
+	BooleanExpression query = QJapDividPay.japDividPay.seriaNum.eq(seriaNum);
+	List<JapDividPay> list = (List<JapDividPay>) dividPayRepository.findAll(query);
+	return list;
+}
+
+@Override
+public boolean removePublishLine(Principal principal, int city, long seriaNum, int id) {
+	PublishLineExample example = new PublishLineExample();
+	PublishLineExample.Criteria criteria = example.createCriteria();
+	criteria.andCityEqualTo(city);
+	criteria.andSeriaNumEqualTo(seriaNum);
+	criteria.andIdEqualTo(id);
+	List<PublishLine> list = publishLineMapper.selectByExample(example);
+	if (list.size() > 0) {
+		if (publishLineMapper.deleteByPrimaryKey(id) > 0) {
+			return true;
+		}
+	}
+	return false;
+}
+
+@Override
+public boolean removedividPay(Principal principal, int city, long seriaNum, int id) {
+	DividpayExample example = new DividpayExample();
+	DividpayExample.Criteria criteria = example.createCriteria();
+	criteria.andCityEqualTo(city);
+	criteria.andSeriaNumEqualTo(seriaNum);
+	criteria.andIdEqualTo(id);
+	List<Dividpay> list = dividpayMapper.selectByExample(example);
+	if (list.size() > 0) {
+		if (dividpayMapper.deleteByPrimaryKey(id) > 0) {
+			return true;
+		}
+	}
+	return false;
+}
+
+@Override
+public Page<JpaOfflineContract> queryOfflineContract(int city, TableRequest req, int page, int pageSize, Sort sort) {
+    if (page < 0)
+        page = 0;
+    if (pageSize < 1)
+        pageSize = 1;
+    if (sort == null)
+        sort = new Sort("id");
+    Pageable p = new PageRequest(page, pageSize, sort);
+    BooleanExpression query = QJpaOfflineContract.jpaOfflineContract.city.eq(city);
+    String contractCode=req.getFilter("contractCode");
+    if (StringUtils.isNotBlank(contractCode)) {
+        query = query.and(QJpaOfflineContract.jpaOfflineContract.contractCode.like("%" + contractCode + "%"));
+    }
+    return query == null ? offContactRepository.findAll(p) : offContactRepository.findAll(query, p);
+}
+
+@Override
+public Offlinecontract findOffContractById(int contract_id) {
+	return offlinecontractMapper.selectByPrimaryKey(contract_id);
+}
 }

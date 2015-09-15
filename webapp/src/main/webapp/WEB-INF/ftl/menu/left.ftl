@@ -225,6 +225,18 @@
                              <@security.authorize ifAnyGranted="bodyScheduleManager">  
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/busselect/public_bodyContracts">
+												    施工单列表
+												</a>
+											</li>
+							</@security.authorize>	
+                             <@security.authorize ifAnyGranted="bodyContractManager">  
+											<li class="pg-side-exp-item">
+												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/busselect/offContract_enter">
+												    创建合同
+												</a>
+											</li>
+											<li class="pg-side-exp-item">
+												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/busselect/offContract_list">
 												    合同列表
 												</a>
 											</li>
