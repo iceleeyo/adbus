@@ -560,7 +560,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 							<#if (InvoiceList?size>0)>
 				                <ul class="cart_address_list clearfix" style="width:550px;" id="cartAddressList">
 				                  <#list InvoiceList as ilist>
-				                <li data-aid="${ilist.id}" tip="${ (ilist.type==1)?string('专用发票','普通发票')}:${ilist.title}" class="layer-tips">
+				                <li data-aid="${ilist.id}" tip="${ (ilist.type==1)?string('专用发票','普通发票')}:${ilist.title!''}" class="layer-tips">
 				                    <span href="javascript:;"  class="" style="text-decoration:none;" data-aid="${ilist.id}">
 				                    <div class="item"><i></i>
 				                        <span class="" >
