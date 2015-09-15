@@ -32,7 +32,7 @@
 		</javaClientGenerator>
 
 
-		<table schema="" tableName="product" delimitIdentifiers="${generator.delimitIdentifiers}">
+		<!-- <table schema="" tableName="product" delimitIdentifiers="${generator.delimitIdentifiers}">
 			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
 		</table>
         <table schema="" tableName="attachment" delimitIdentifiers="${generator.delimitIdentifiers}">
@@ -115,8 +115,14 @@
         
         <table schema="" tableName="goods_black" delimitIdentifiers="${generator.delimitIdentifiers}">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
+        </table> -->
+         <table schema="" tableName="publish_line" delimitIdentifiers="${generator.delimitIdentifiers}">
+            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
-         <table schema="" tableName="infoimgschedule" delimitIdentifiers="${generator.delimitIdentifiers}">
+         <table schema="" tableName="offlinecontract" delimitIdentifiers="${generator.delimitIdentifiers}">
+            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
+        </table>
+         <table schema="" tableName="dividpay" delimitIdentifiers="${generator.delimitIdentifiers}">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
         
