@@ -43,7 +43,16 @@ public class DateUtil {
         cal.add(Calendar.DATE, days);
         return cal.getTime();
     }
-
+    public static long getQuot(Date date1, Date date2){
+    	  long quot = 0;
+    	  try {
+    	   quot = date1.getTime() - date2.getTime();
+    	   quot = quot / 1000 / 60 / 60 / 24;
+    	  } catch (Exception e) {
+    	   e.printStackTrace();
+    	  }
+    	  return quot;
+    	 }
     public static int[] getYearAndMonthAndHour(Date d) {
         if (d == null)
             return new int[] {-1, -1, -1};
