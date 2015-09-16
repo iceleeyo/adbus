@@ -220,6 +220,68 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 		}
 	}
 	
+	//编辑保存
+	function editLine() {
+		var lineid=$("#db_id").val();
+		var startd=$("#startDate").val();
+		var endDate=$("#endDate").val();
+		if(lineid==0){
+		   alert("请选择线路");
+		   return;
+		}
+		if(startd==""){
+		 alert("请选上刊日期");
+		   return;
+		   }
+		if(endDate==""){
+		 alert("请选择下刊日期");
+		   return;
+		   }
+		if($("#busNumber").val()==0){
+		 alert("数量要大于0");
+		   return;
+		   }
+		var bb=false;
+		if(endDate<startd){
+		layer.msg("下刊时间不能小于上刊开始时间");
+			return;
+		}
+		$.ajax({
+				url : "${rc.contextPath}/busselect/lineReaminCheck",
+				type : "POST",
+				async:false,
+				dataType:"json",
+				data : {
+					"buslinId" : $("#db_id").val(),
+					"start" : $("#startDate").val(),
+					"end" : $("#endDate").val(),
+					"modelId" : $("#model_Id  option:selected").val()
+				},
+				success : function(data) {  
+					if($("#busNumber").val()>data){
+						$("#worm-tips").empty(); 
+						var tip='<div  class="tips-title" id="tip" style="padding-left: 13%;">[抱歉，所选线路库存量：<font color="red">'+data+'&nbsp;</font>少于选取数量]</div>'
+						$("#worm-tips").append(tip);
+						$("#worm-tips").show();
+						return;
+					}else {
+						bb=true;
+					}
+				}
+			});
+		if(bb==true){
+			$('#publishform01').ajaxForm(function(data) {
+			if(data.left){
+			     layer.msg("编辑成功");
+			       orderBusesTable.dataTable()._fnAjaxUpdate();
+			       $("#cc").trigger("click");
+			     }else{
+			     layer.msg(data.right);
+			     }
+			}).submit();
+			}
+		}
+	
 	function initProvince(id) {
 		$.ajax({
 			url : "${rc.contextPath}/busselect/selectBusType",

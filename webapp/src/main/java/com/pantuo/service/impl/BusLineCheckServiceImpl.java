@@ -1146,6 +1146,7 @@ public List<JpaPublishLine> getpublishLineBySeriNum(long seriaNum) {
 
 @Override
 public Pair<Boolean, String> savePublishLine(PublishLine publishLine, String startD, String endD) throws ParseException {
+	
 	OfflinecontractExample example = new OfflinecontractExample();
 	OfflinecontractExample.Criteria criteria = example.createCriteria();
 	criteria.andSeriaNumEqualTo(publishLine.getSeriaNum());
@@ -1164,6 +1165,14 @@ public Pair<Boolean, String> savePublishLine(PublishLine publishLine, String sta
 	publishLine.setStartDate(date1);
 	publishLine.setEndDate(date2);
 	publishLine.setDays((int)DateUtil.getQuot(date2, date1)+1);
+	if(null!=publishLine.getId() &&publishLine.getId()>0 ){
+		PublishLine publishLine2=publishLineMapper.selectByPrimaryKey(publishLine.getId());
+		com.pantuo.util.BeanUtils.copyProperties(publishLine, publishLine2);
+		if(publishLineMapper.updateByPrimaryKey(publishLine2)>0){
+			return new Pair<Boolean, String>(true, "修改成功");
+		}
+		return new Pair<Boolean, String>(false, "修改失败");
+	}
 	if (publishLineMapper.insert(publishLine) > 0) {
 		return new Pair<Boolean, String>(true, "保存成功");
 	}
