@@ -69,6 +69,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 												meta) {
 											var operations = '';
 											operations += '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/busselect/ajax-remove-publishLine?seriaNum=${seriaNum}&id=' + data +'">删除</a>';
+											operations +='&nbsp;&nbsp;<a class="table-link" onclick="editPublishLine(\'${rc.contextPath}\','+data+');" href="javascript:void(0)">修改</a>';
 											return operations;
 										}
 									},
@@ -105,6 +106,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 									{ "data": "payDate", "defaultContent": "", "render": function(data) {
                                               return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
                                          } },
+                                         { "data": "remarks", "defaultContent": ""}, 
                                          { "data": function( row, type, set, meta) {
                                                   return row.id;
                                               },
@@ -112,9 +114,11 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 												meta) {
 											var operations = '';
 											operations += '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/busselect/ajax-remove-dividPay?seriaNum=${seriaNum}&id=' + data +'">删除</a>';
+											operations +='&nbsp;&nbsp;<a class="table-link" onclick="editDividPay(\'${rc.contextPath}\','+data+');" href="javascript:void(0)">修改</a>';
 											return operations;
 										}
 									},
+										
 									 ],
 							"language" : {
 								"url" : "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
@@ -215,17 +219,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 		}).submit();
 		}
 	}
-	function sub2(){
-	$('#fenqiform').ajaxForm(function(data) {
-		if(data.left){
-		     layer.msg("添加成功");
-		         orderBusesTable2.dataTable()._fnAjaxUpdate();
-		       $("#cc").trigger("click");
-		     }else{
-		     layer.msg(data.right);
-		     }
-		}).submit();
-	}
+	
 	function initProvince(id) {
 		$.ajax({
 			url : "${rc.contextPath}/busselect/selectBusType",
@@ -252,7 +246,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 		}, "text");
 	}
 
-	function selctLine(url,seriaNum) {
+	function addPublishLine(url,seriaNum) {
 		layer.open({
 					type : 1,
 					title : "选择车辆",
@@ -334,37 +328,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
    				 });
 		
 	}
-	function addfenqi(url,seriaNum) {
-		layer.open({
-					type : 1,
-					title : "合同分期",
-					skin : 'layui-layer-rim',
-					area : [ '400px', '400px' ],
-					content : ''
-							+ '<form id="fenqiform" action='+url+'/busselect/saveDivid?seriaNum='+seriaNum+'>'
-							+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
-							+'<div class="ui-form-item"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/> <label class="ui-label mt10">期数：</label>'
-							+'<input class="ui-input " type="text" value="0" name="name"  '
-							+'id="name" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-           	 				+'</div>'
-           	 				+'<div class="ui-form-item"> <label class="ui-label mt10">金额：</label>'
-							+'<input class="ui-input " type="text" value="0" name="amounts"  '
-							+'id="amounts" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-           	 				+'</div>'
-							+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">付款日期:</label>'
-							+'<input class="ui-input datepicker validate[required,custom[date],past[#payDate1]]" type="text" name="payDate1" value="" id="payDate1" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
-							+'</div>'
-							+ '</div>'
-							+ '<div class="ui-form-item widthdrawBtBox" style="position: absolute; bottom: 10px;">'
-							+ '<input type="button" onclick="sub2()" class="block-btn" value="确认" ></div>'
-							+ '</form>'
-							+'<div id="worm-tips" class="worm-tips" style="width:350px;display:none;"></div>'
-				});
-			var checkin = $('#payDate1').datepicker()
-			.on('click', function (ev) {
-			        $('.datepicker').css("z-index", "999999999");
-			}).data('datepicker');
-	}
+	
 </script>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -414,7 +378,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				<div class="withdraw-title">
 					<span>发布线路</span>
 					<input type="hidden" name="seriaNum" id="seriaNum" value="${seriaNum}"/>
-				   <a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="selctLine('${rc.contextPath}',${seriaNum})">增加选择</a>
+				   <a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="addPublishLine('${rc.contextPath}',${seriaNum})">增加选择</a>
 				</div>
 			   <div id="orderedBuses">
 				<table id="table" class="display compact"
@@ -526,10 +490,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 							<div class="ui-form-item">
                                             <label class="ui-label mt10 "><span
                                                     class="ui-form-required">*</span>发布线路:</label>
-												<textarea rows="4" cols="40" 
-												data-is="isAmount isEnough" 
-												style="resize: none;" name="linecontent">${(offlinecontract.linecontent)!''}</textarea>
-                                        </div>
+								<textarea rows="4" cols="40"  data-is="isAmount isEnough" style="resize: none;" name="linecontent">${(offlinecontract.linecontent)!''}</textarea>
+                              </div>
 							<div class="ui-form-item">
 								<label class="ui-label mt10"> <span
 									class="ui-form-required">*</span>合同金额:
@@ -561,6 +523,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 					<th>期数</th>
 					<th>金额</th>
 					<th>付款日期</th>
+					<th>备注</th>
 					<th>操作</th>
 				</tr>
 					</thead>

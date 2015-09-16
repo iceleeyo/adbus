@@ -646,7 +646,107 @@ function qEdit(tourl,id){
 		}, "text");
 		
 }
-
+//弹出添加分期付款的窗口
+function addfenqi(url,seriaNum) {
+	layer.open({
+				type : 1,
+				title : "合同分期",
+				skin : 'layui-layer-rim',
+				area : [ '400px', '400px' ],
+				content : ''
+						+ '<form id="fenqiform" action='+url+'/busselect/saveDivid?seriaNum='+seriaNum+'>'
+						+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
+						+'<div class="ui-form-item"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/> <label class="ui-label mt10">期数：</label>'
+						+'<input class="ui-input " type="text" value="0" name="name"  '
+						+'id="name" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+       	 				+'</div>'
+       	 				+'<div class="ui-form-item"> <label class="ui-label mt10">金额：</label>'
+						+'<input class="ui-input " type="text" value="0" name="amounts"  '
+						+'id="amounts" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+       	 				+'</div>'
+						+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">付款日期:</label>'
+						+'<input class="ui-input datepicker validate[required,custom[date],past[#payDate1]]" type="text" name="payDate1" value="" id="payDate1" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
+						+'</div>'
+						+'<div class="ui-form-item"> <label class="ui-label mt10">备注：</label>'
+						+'<textarea rows="4" cols="40"  data-is="isAmount isEnough" style="resize: none;" name="remarks"></textarea>'
+       	 				+'</div>'
+						+ '</div>'
+						+ '<div class="ui-form-item widthdrawBtBox" style="position: absolute; bottom: 10px;">'
+						+ '<input type="button" onclick="subDivid()" class="block-btn" value="确认" ></div>'
+						+ '</form>'
+						+'<div id="worm-tips" class="worm-tips" style="width:350px;display:none;"></div>'
+			});
+		var checkin = $('#payDate1').datepicker()
+		.on('click', function (ev) {
+		        $('.datepicker').css("z-index", "999999999");
+		}).data('datepicker');
+}
+//弹出编辑分期付款的窗口
+function editDividPay(tourl,id){
+	$.ajax({
+		url : tourl+"/busselect/queryDividPayByid/"+id,
+		type : "POST",
+		data : {
+		},
+		success : function(data) {
+			layer.open({
+				type : 1,
+				title : "合同分期修改",
+				skin : 'layui-layer-rim',
+				area : [ '400px', '400px' ],
+				content : ''
+						+ '<form id="fenqiform2" action='+tourl+'/busselect/saveDivid?seriaNum='+data.seriaNum+'>'
+						+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
+						+'<div class="ui-form-item"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/> <label class="ui-label mt10">期数：</label>'
+						+'<input type="hidden" name="id" value="'+data.id+'"/><input class="ui-input " type="text" value="'+data.name+'" name="name"  '
+						+'id="name" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+       	 				+'</div>'
+       	 				+'<div class="ui-form-item"> <label class="ui-label mt10">金额：</label>'
+						+'<input class="ui-input " type="text" value="'+data.amounts+'" name="amounts"  '
+						+'id="amounts" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+       	 				+'</div>'
+						+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">付款日期:</label>'
+						+'<input class="ui-input datepicker validate[required,custom[date],past[#payDate1]]" type="text" name="payDate1" value="'+$.format.date(data.payDate, "yyyy-MM-dd")+'" id="payDate1" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
+						+'</div>'
+						+'<div class="ui-form-item"> <label class="ui-label mt10">备注：</label>'
+						+'<textarea rows="4" cols="40"  data-is="isAmount isEnough" style="resize: none;" name="remarks">'+data.remarks+'</textarea>'
+       	 				+'</div>'
+						+ '</div>'
+						+ '<div class="ui-form-item widthdrawBtBox" style="position: absolute; bottom: 10px;">'
+						+ '<input type="button" onclick="subDivid2()" class="block-btn" value="确认" ></div>'
+						+ '</form>'
+						+'<div id="worm-tips" class="worm-tips" style="width:350px;display:none;"></div>'
+			});
+		var checkin = $('#payDate1').datepicker()
+		.on('click', function (ev) {
+		        $('.datepicker').css("z-index", "999999999");
+		}).data('datepicker');
+		}
+	}, "text");
+	
+}
+function subDivid(){
+	$('#fenqiform').ajaxForm(function(data) {
+		if(data.left){
+		     layer.msg("添加成功");
+		         orderBusesTable2.dataTable()._fnAjaxUpdate();
+		       $("#cc").trigger("click");
+		     }else{
+		     layer.msg(data.right);
+		     }
+		}).submit();
+	}
+function subDivid2(){
+	$('#fenqiform2').ajaxForm(function(data) {
+		if(data.left){
+			layer.msg("修改成功");
+			orderBusesTable2.dataTable()._fnAjaxUpdate();
+			$("#cc").trigger("click");
+		}else{
+			layer.msg(data.right);
+		}
+	}).submit();
+}
 //提交发票
 function subInvoice(){
     if (!$("#userForm2").validationEngine('validateBeforeSubmit'))

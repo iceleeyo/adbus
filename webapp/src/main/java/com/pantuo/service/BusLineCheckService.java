@@ -156,4 +156,8 @@ public interface BusLineCheckService {
 	Page<JpaOfflineContract> queryOfflineContract(int city, TableRequest req, int page, int pageSize, Sort sort);
 
 	public Offlinecontract findOffContractById(int contract_id);
+
+	public Dividpay queryDividPayByid(int id);
+
+	public JpaPublishLine queryPublishLineByid(int id);
 }

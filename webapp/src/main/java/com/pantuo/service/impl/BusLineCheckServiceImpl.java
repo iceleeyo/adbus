@@ -1174,8 +1174,16 @@ public Pair<Boolean, String> savePublishLine(PublishLine publishLine, String sta
 public Pair<Boolean, String> saveDivid(Dividpay dividpay, long seriaNum, String userId, String payDate1) throws ParseException {
 	dividpay.setPayDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(payDate1));
 	dividpay.setUpdator(userId);
-	dividpay.setSeriaNum(seriaNum);
 	dividpay.setStats(0);
+	if(null!=dividpay.getId() && dividpay.getId()>0){
+		Dividpay dividpay2=dividpayMapper.selectByPrimaryKey(dividpay.getId());
+		com.pantuo.util.BeanUtils.copyProperties(dividpay, dividpay2);
+		if(dividpayMapper.updateByPrimaryKey(dividpay2)>0){
+			return new Pair<Boolean, String>(true, "修改成功");
+		}
+		return new Pair<Boolean, String>(false, "操作失败");
+	}
+	dividpay.setSeriaNum(seriaNum);
 	if (dividpayMapper.insert(dividpay) > 0) {
 		return new Pair<Boolean, String>(true, "保存成功");
 	}
@@ -1241,5 +1249,16 @@ public Page<JpaOfflineContract> queryOfflineContract(int city, TableRequest req,
 @Override
 public Offlinecontract findOffContractById(int contract_id) {
 	return offlinecontractMapper.selectByPrimaryKey(contract_id);
+}
+
+@Override
+public Dividpay queryDividPayByid(int id) {
+	return dividpayMapper.selectByPrimaryKey(id);
+}
+
+@Override
+public JpaPublishLine queryPublishLineByid(int id) {
+	 //BooleanExpression query=QJpaPublishLine.jpaPublishLine.id.eq(id);
+	return publishLineRepository.findOne(id);
 }
 }

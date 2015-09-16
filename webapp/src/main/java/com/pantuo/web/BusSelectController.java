@@ -70,6 +70,7 @@ import com.pantuo.vo.GroupVo;
 import com.pantuo.web.view.AutoCompleteView;
 import com.pantuo.web.view.BusInfoView;
 import com.pantuo.web.view.ContractView;
+import com.pantuo.web.view.InvoiceView;
 import com.pantuo.web.view.LineBusCpd;
 import com.pantuo.web.view.OrderView;
 
@@ -413,7 +414,7 @@ public class BusSelectController {
 	public Pair<Boolean, String> saveDivid(Dividpay dividpay,
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
 			@RequestParam(value = "payDate1") String payDate1,
-			HttpServletRequest request, @RequestParam(value = "seriaNum", required = true) long seriaNum) throws ParseException {
+			HttpServletRequest request, @RequestParam(value = "seriaNum", required = false) long seriaNum) throws ParseException {
 		dividpay.setCity(city);
 		return busLineCheckService.saveDivid(dividpay, seriaNum, Request.getUserId(principal),payDate1);
 	}
@@ -804,5 +805,21 @@ public class BusSelectController {
 		Page<JpaOfflineContract> jpabuspage=busLineCheckService.queryOfflineContract(cityId, req, req.getPage(), req.getLength(),
 				req.getSort("id"));
 		return new DataTablePage(jpabuspage, req.getDraw());
+	}
+	@RequestMapping(value = "/queryDividPayByid/{id}")
+	@ResponseBody
+	public Dividpay queryDividPayByid(Model model,
+			@PathVariable("id") int id, Principal principal,
+			HttpServletRequest request) {
+		   Dividpay dividpay=busLineCheckService.queryDividPayByid(id);
+		   return dividpay;
+	}
+	@RequestMapping(value = "/queryPublishLineByid/{id}")
+	@ResponseBody
+	public JpaPublishLine queryPublishLineByid(Model model,
+			@PathVariable("id") int id, Principal principal,
+			HttpServletRequest request) {
+		JpaPublishLine dividpay=busLineCheckService.queryPublishLineByid(id);
+		return dividpay;
 	}
 }
