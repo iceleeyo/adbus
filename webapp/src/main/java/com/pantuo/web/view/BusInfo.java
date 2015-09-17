@@ -2,9 +2,12 @@ package com.pantuo.web.view;
 
 import java.util.Date;
 
+import com.pantuo.mybatis.domain.Offlinecontract;
+
 public class BusInfo {
    public int busid;
    public String contractCode;
+   public Offlinecontract offlinecontract;
    public Date startD;
    public Date endD;
 public int getBusid() {
@@ -36,6 +39,12 @@ public BusInfo(int busid) {
 	this.busid = busid;
 }
 public BusInfo() {
+}
+public Offlinecontract getOfflinecontract() {
+	return offlinecontract;
+}
+public void setOfflinecontract(Offlinecontract offlinecontract) {
+	this.offlinecontract = offlinecontract;
 }
    
 }

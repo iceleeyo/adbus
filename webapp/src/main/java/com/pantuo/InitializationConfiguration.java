@@ -39,6 +39,7 @@ public class InitializationConfiguration {
 		lineCarsCount.countCars();
 		lineOnlineCount.countCars();
 		qb.countCars();
+		qb.countCars2();
 		initService.intialize();
 		return true;
 	}

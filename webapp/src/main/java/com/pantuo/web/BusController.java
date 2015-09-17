@@ -4,8 +4,11 @@ import com.pantuo.dao.pojo.*;
 import com.pantuo.mybatis.domain.*;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
+import com.pantuo.service.BusLineCheckService;
 import com.pantuo.service.BusService;
 import com.pantuo.service.TimeslotService;
+import com.pantuo.util.Pair;
+import com.pantuo.util.Request;
 import com.pantuo.web.view.BusInfoView;
 
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +20,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.text.ParseException;
 import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,9 +37,21 @@ public class BusController {
 	@Autowired
 	private BusService busService;
 
+	@Autowired
+	BusLineCheckService busLineCheckService;
 	@RequestMapping("ajax-list")
 	@ResponseBody
 	public DataTablePage<BusInfoView> getAllBuses(TableRequest req,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city) {
+		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
+			return new DataTablePage(Collections.emptyList());
+		Page<JpaBus> jpabuspage = busService.getAllBuses(cityId, req, req.getPage(), req.getLength(),
+				req.getSort("id"), false);
+		return new DataTablePage(busService.queryBusinfoView(req, jpabuspage), req.getDraw());
+	}
+	@RequestMapping("ajax-findBusByLineid")
+	@ResponseBody
+	public DataTablePage<BusInfoView> findBusByLineid(TableRequest req,
 			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city) {
 		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
 			return new DataTablePage(Collections.emptyList());
@@ -95,6 +112,12 @@ public class BusController {
 	public String list() {
 		return "bus_list";
 	}
+	@RequestMapping(value = "/findBusByLineid")
+	public String findBusByLineid(Model model,@RequestParam(value="publishlineid") int publishlineid) {
+		JpaPublishLine jpaPublishLine=busLineCheckService.queryPublishLineByid(publishlineid);
+		model.addAttribute("jpaPublishLine", jpaPublishLine);
+		return "busOfline_list";
+	}
 
 	@RequestMapping(value = "/lines")
 	public String lines() {
@@ -142,5 +165,15 @@ public class BusController {
 			@RequestParam(value = "modelId", required = false) Integer modelId,
 			@RequestParam(value = "companyId", required = false) Integer companyId) {
 		return busService.getBusinessCompanies(city, level, category, lineId, modelId, companyId);
+	}
+	@RequestMapping(value = "/batchOnline")
+	@ResponseBody
+	public Pair<Boolean, String> batchOnline(
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
+			@RequestParam(value = "stday", required = true) String stday,
+			@RequestParam(value = "ids", required = true) String ids,
+			@RequestParam(value = "contractid", required = true) int contractid,
+			@RequestParam(value = "days", required = true) int  days) throws ParseException {
+		return busService.batchOnline(ids,stday, days, contractid,principal,city);
 	}
 }

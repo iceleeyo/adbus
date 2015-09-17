@@ -16,10 +16,16 @@ import com.pantuo.mybatis.domain.BusContract;
 import com.pantuo.mybatis.domain.BusContractExample;
 import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.domain.BusLockExample;
+import com.pantuo.mybatis.domain.BusOnline;
+import com.pantuo.mybatis.domain.BusOnlineExample;
+import com.pantuo.mybatis.domain.Offlinecontract;
+import com.pantuo.mybatis.domain.OfflinecontractExample;
 import com.pantuo.mybatis.persistence.BodycontractMapper;
 import com.pantuo.mybatis.persistence.BusContractMapper;
 import com.pantuo.mybatis.persistence.BusLockMapper;
+import com.pantuo.mybatis.persistence.BusOnlineMapper;
 import com.pantuo.mybatis.persistence.BusSelectMapper;
+import com.pantuo.mybatis.persistence.OfflinecontractMapper;
 import com.pantuo.vo.LineBatchUpdateView;
 import com.pantuo.web.view.BusInfo;
 import com.pantuo.web.view.LineDateCount;
@@ -40,8 +46,13 @@ public class QueryBusInfo implements Runnable ,ScheduleStatsInter{
 
 	public static BusInfo emptybusInfo = new BusInfo();
 	public static Map<Integer, BusInfo> map = new java.util.concurrent.ConcurrentHashMap<Integer, BusInfo>();
+	public static Map<Integer, BusInfo> map2 = new java.util.concurrent.ConcurrentHashMap<Integer, BusInfo>();
 	@Autowired
 	BusContractMapper busContractMapper;
+	@Autowired
+	OfflinecontractMapper offlinecontractMapper;
+	@Autowired
+	BusOnlineMapper busOnlineMapper;
 	@Autowired
 	BodycontractMapper bodycontractMapper;
 
@@ -51,6 +62,7 @@ public class QueryBusInfo implements Runnable ,ScheduleStatsInter{
 		if (statControl.isRunning) {
 			try {
 				countCars();
+				countCars2();
 			} finally {
 				statControl.runover();
 			}
@@ -82,6 +94,67 @@ public class QueryBusInfo implements Runnable ,ScheduleStatsInter{
 			}
 		}
 	}
+	public void countCars2() {
+		Date today = new Date();
+		BusOnlineExample example=new BusOnlineExample();
+		List<BusOnline> list=busOnlineMapper.selectByExample(example);
+		for (BusOnline busOnline : list) {
+			if(busOnline!=null){
+				if(busOnline.getStartDate().before(today) && busOnline.getEndDate().after(today)){
+					putInMap(busOnline);
+				}else if(busOnline.getEndDate().before(today)){
+					busOnline=findBefLatestBusContract(busOnline);
+					putInMap(busOnline);
+				}else{
+					busOnline=findAfterLatestBusContract(busOnline);
+					putInMap(busOnline);
+				}
+			}
+		}
+	}
+	private BusOnline findAfterLatestBusContract(BusOnline busContract) {
+		BusOnlineExample example=new BusOnlineExample();
+		BusOnlineExample.Criteria criteria=example.createCriteria();
+		criteria.andBusidEqualTo(busContract.getBusid());
+		criteria.andEndDateLessThan(new Date());
+		example.setOrderByClause("end_date desc");
+		List<BusOnline> list=busOnlineMapper.selectByExample(example);
+		if(list.size()>0){
+			return list.get(0);
+		}
+		return null;
+	}
+
+	private BusOnline findBefLatestBusContract(BusOnline busContract) {
+		BusOnlineExample example=new BusOnlineExample();
+		BusOnlineExample.Criteria criteria=example.createCriteria();
+		criteria.andBusidEqualTo(busContract.getBusid());
+		criteria.andEndDateLessThan(new Date());
+		criteria.andStartDateGreaterThan(new Date());
+		example.setOrderByClause("start_date asc");
+		List<BusOnline> list=busOnlineMapper.selectByExample(example);
+		if(list.size()>0){
+			return list.get(0);
+		}
+		return null;
+	}
+
+	private void putInMap(BusOnline busContract) {
+		if(busContract!=null){
+		Offlinecontract bodycontract=offlinecontractMapper.selectByPrimaryKey(busContract.getContractid());
+		int busid = busContract.getBusid();
+		if (!map2.containsKey(busid)) {
+			map2.put(busid, new BusInfo(busid));
+		}
+		BusInfo busInfo=map2.get(busid);
+		busInfo.setStartD(busContract.getStartDate());
+		busInfo.setEndD(busContract.getEndDate());
+		if(bodycontract!=null){
+			busInfo.setContractCode(bodycontract.getContractCode());
+			busInfo.setOfflinecontract(bodycontract);
+		}
+		}
+	}
 
 	@Override
 	public void run() {
@@ -90,6 +163,9 @@ public class QueryBusInfo implements Runnable ,ScheduleStatsInter{
 
 	public BusInfo getBusInfo(Integer line_id) {
 		return map.containsKey(line_id) ? map.get(line_id) : emptybusInfo;
+	}
+	public BusInfo getBusInfo2(Integer busid) {
+		return map2.containsKey(busid) ? map2.get(busid) : emptybusInfo;
 	}
 	public StatsMonitor statControl = new StatsMonitor(this);
 	@Override

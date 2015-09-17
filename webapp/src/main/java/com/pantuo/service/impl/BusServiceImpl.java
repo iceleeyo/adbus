@@ -1,21 +1,14 @@
 package com.pantuo.service.impl;
 
-import com.mysema.query.types.expr.BooleanExpression;
-import com.pantuo.dao.BusModelRepository;
-import com.pantuo.dao.BusRepository;
-import com.pantuo.dao.BusinessCompanyRepository;
-import com.pantuo.dao.BuslineRepository;
-import com.pantuo.dao.pojo.*;
-import com.pantuo.mybatis.domain.*;
-import com.pantuo.mybatis.persistence.BusCustomMapper;
-import com.pantuo.pojo.TableRequest;
-import com.pantuo.service.BusService;
-import com.pantuo.simulate.LineCarsCount;
-import com.pantuo.simulate.QueryBusInfo;
-import com.pantuo.web.view.BusInfoView;
-import com.pantuo.web.view.JpaBuslineView;
+import java.security.Principal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,8 +16,31 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.mysema.query.types.expr.BooleanExpression;
+import com.pantuo.dao.BusModelRepository;
+import com.pantuo.dao.BusRepository;
+import com.pantuo.dao.BusinessCompanyRepository;
+import com.pantuo.dao.BuslineRepository;
+import com.pantuo.dao.pojo.JpaBus;
+import com.pantuo.dao.pojo.JpaBusModel;
+import com.pantuo.dao.pojo.JpaBusinessCompany;
+import com.pantuo.dao.pojo.JpaBusline;
+import com.pantuo.dao.pojo.QJpaBus;
+import com.pantuo.dao.pojo.QJpaBusModel;
+import com.pantuo.dao.pojo.QJpaBusinessCompany;
+import com.pantuo.dao.pojo.QJpaBusline;
+import com.pantuo.mybatis.domain.BusOnline;
+import com.pantuo.mybatis.domain.CountableBusLine;
+import com.pantuo.mybatis.domain.CountableBusModel;
+import com.pantuo.mybatis.domain.CountableBusinessCompany;
+import com.pantuo.mybatis.persistence.BusCustomMapper;
+import com.pantuo.mybatis.persistence.BusOnlineMapper;
+import com.pantuo.pojo.TableRequest;
+import com.pantuo.service.BusService;
+import com.pantuo.simulate.QueryBusInfo;
+import com.pantuo.util.Pair;
+import com.pantuo.util.Request;
+import com.pantuo.web.view.BusInfoView;
 
 /**
  * @author tliu
@@ -41,6 +57,8 @@ public class BusServiceImpl implements BusService {
     BusinessCompanyRepository companyRepo;
     @Autowired
     BusCustomMapper busCustomMapper;
+    @Autowired
+    BusOnlineMapper busOnlineMapper;
     @Autowired
 	QueryBusInfo queryBusInfo;
     @Override
@@ -64,9 +82,13 @@ public class BusServiceImpl implements BusService {
         Pageable p = new PageRequest(page, pageSize, sort);
         BooleanExpression query = QJpaBus.jpaBus.city.eq(city);
         String plateNumber=req.getFilter("plateNumber"),linename=req.getFilter("linename"),
-        		levelStr=req.getFilter("levelStr"),category=req.getFilter("category");
+        		levelStr=req.getFilter("levelStr"),category=req.getFilter("category"),lineid=req.getFilter("lineid");
         if (StringUtils.isNotBlank(plateNumber)) {
             query = query.and(QJpaBus.jpaBus.plateNumber.like("%" + plateNumber + "%"));
+        }
+        if (StringUtils.isNotBlank(lineid)) {
+        	 int lineId=NumberUtils.toInt(lineid);
+        	query = query.and(QJpaBus.jpaBus.line.id.eq(lineId));
         }
         if (StringUtils.isNotBlank(linename)) {
         	query = query.and(QJpaBus.jpaBus.line.name.eq(linename));
@@ -189,10 +211,37 @@ public class BusServiceImpl implements BusService {
 		for (JpaBus jpaBus : list) {
 			BusInfoView view = new BusInfoView();
 			view.setJpaBus(jpaBus);
-			view.setBusInfo(queryBusInfo.getBusInfo(jpaBus.getId()));
+			view.setBusInfo(queryBusInfo.getBusInfo2(jpaBus.getId()));
 			r.add(view);
 		}
 		Pageable p = new PageRequest(req.getPage(), req.getLength(), page.getSort());
 		return new org.springframework.data.domain.PageImpl<BusInfoView>(r, p, page.getTotalElements());
+	}
+
+	@Override
+	public Pair<Boolean, String> batchOnline(String ids, String stday, int days, int contractid, Principal principal, int city) throws ParseException {
+		Date startDate=(Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(stday);
+		Date endDate=com.pantuo.util.DateUtil.dateAdd(startDate, days);
+		String idsa[]=ids.split(",");
+		List<Integer> ids2=new ArrayList<Integer>();
+		for(int i=0;i<idsa.length;i++){
+			if(!idsa[i].trim().equals("")){
+				ids2.add(Integer.parseInt(idsa[i]));
+			}
+		}
+		for (Integer integer : ids2) {
+			BusOnline busOnline=new BusOnline();
+			busOnline.setDays(days);
+			busOnline.setStartDate(startDate);
+			busOnline.setCreated(new Date());
+			busOnline.setContractid(contractid);
+			busOnline.setEnable(true);
+			busOnline.setUserid(Request.getUserId(principal));
+			busOnline.setEndDate(endDate);
+			busOnline.setBusid(integer);
+			busOnline.setCity(city);
+			busOnlineMapper.insert(busOnline);
+		}
+		return new Pair<Boolean, String>(true,"上刊成功");
 	}
 }
