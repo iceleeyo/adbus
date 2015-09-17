@@ -274,7 +274,7 @@ $.ajax({
 
             <#if prod.type == 'video' || prod.type == 'image' || prod.type == 'info'>
             <LI style="width: 240px;">
-                <SPAN>时长（秒）：</SPAN><SPAN class="con">${prod.duration!''}</SPAN>
+                <SPAN>时长（秒）：</SPAN><SPAN class="con">${prod.duration!''}秒</SPAN>
             </LI>
             <li style="width: 720; border-bottom: 1px solid #F7F7F7"></li>
             <LI style="width: 240px;">

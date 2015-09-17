@@ -9,6 +9,19 @@ js=["js/nano.js","js/highslide/highslide-full.js",
 css=["js/highslide/highslide.css",
 "js/video-js/video-js.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","css/liselect/pkg-generator.css$ver=1431443489.css"]>
 <#include "template/preview.ftl" />
+<style type="text/css">
+.textareaBox{
+	border: 1px solid #3BAFDA;
+}
+.banknameformError .parentFormuserForm3 .formError{
+	opacity: 0.87;
+	position: absolute;
+	top: 0px;	
+	left: 340px !important;
+	margin-top: -38px;
+}
+</style>
+
 <script type="text/javascript">
 	$(function() {
 	//显示当前节点对应的表单信息
@@ -770,12 +783,12 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 					<TD>物料编号</TD>
 					<input type="hidden" id="suppliesid"
 						value="${suppliesView.mainView.id!''}" />
-					<TD colspan=3><input id="seqNumber" type="text"></TD>
+					<TD colspan=3><input id="seqNumber"  class="textareaBox" type="text"></TD>
 				</TR>
 				<TR>
 					<TD>审核意见</TD>
 					<TD colspan=3><textarea name="approve2Comments"
-							id="approve2Comments"
+							id="approve2Comments" class="textareaBox"
 							style="margin: 5px 0; width: 400px; margin-top: 5px;"></textarea></TD>
 				</TR>
 
@@ -870,7 +883,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 				<TR>
 					<TH>审核意见</TH>
 					<TD colspan=3><textarea name="approve1Comments"
-							id="approve1Comments"
+							id="approve1Comments" class="textareaBox"
 							style="margin: 5px 0; width: 400px; margin-top: 5px;"></textarea></TD>
 				</TR>
 		</TABLE>
@@ -898,7 +911,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 				<TR>
 					<TD>审核意见</TD>
 					<TD colspan=3><textarea name="financialcomment"
-							id="financialcomment"
+							id="financialcomment" class="textareaBox"
 							style="margin: 5px 0; width: 400px; margin-top: 5px;"></textarea></TD>
 				</TR>
 				<TR style="height: 45px;">
@@ -938,7 +951,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 				<TR>
 					<TH>排期意见</TH>
 					<TD><textarea name="inputScheduleComments"
-							id="inputScheduleComments"
+							id="inputScheduleComments" class="textareaBox"
 							style="margin: 5px 0; width: 400px; margin-top: 5px;"></textarea></TD>
 				</TR>
 		</TABLE>
@@ -971,7 +984,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 				<TR>
 					<TH>上播意见</TH>
 					<TD colspan=2><textarea name="shangboComments"
-							id="shangboComments"
+							id="shangboComments" class="textareaBox"
 							style="margin: 5px 0; width: 400px; margin-top: 5px;">您的广告按照合同要求已安排上播</textarea></TD>
 				</TR>
 				<TR style="height: 45px;">
@@ -1013,7 +1026,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 				</TR>
 				<TR>
 					<TH>意见</TH>
-					<TD><textarea name="jianboComments" id="jianboComments"
+					<TD><textarea name="jianboComments" id="jianboComments" class="textareaBox"
 							style="margin: 5px 0; width: 400px; margin-top: 5px;">已确认广告播放正常!</textarea></TD>
 				</TR>
 				<TR style="height: 45px;">

@@ -136,7 +136,7 @@ function go_back(){
 
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>登录名:</label>
-				<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[6],maxSize[12],ajax[ajaxUserCall]]" 
+				<input class="ui-input validate[required,custom[noSpecialLetterChinese],ajax[ajaxUserCall]]" 
 				type="text" name="username" id="username"
 					data-is="isAmount isEnough" autocomplete="off"
 					disableautocomplete="" placeholder="6-12位中英文、数字、下划线">

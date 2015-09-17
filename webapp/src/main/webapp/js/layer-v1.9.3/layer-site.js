@@ -297,10 +297,10 @@ function supEnter(tourl,city,type){
     		type: 1,
     		title: "物料录入",
     		skin: 'layui-layer-rim', //加上边框
-    		area: ['500px', '540px'], //宽高
+    		area: ['525px', '540px'], //宽高
     		content: '<form id="userForm1" name="userForm1" action="'+tourl+'/supplies/put?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1" enctype="multipart/form-data" method="post"">'
 					 +'<br/><br/><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/><div class="withdrawInputs"><div class="inputs">'
-					 +'<div class="ui-form-item"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>物料名称</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[1],maxSize[120]]"'
+					 +'<div class="ui-form-item"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>广告名称</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[1],maxSize[120]]"'
 					 +'type="text" name="name" id="name" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="支持中英文、数字、下划线">'
 					 +'</div>'
 					 +'<div class="ui-form-item"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>时长（秒）</label> <input class="ui-input validate[required,integer,min[5],max[180]]" onkeyup="value=value.replace(/[^\\d]/g,\'\')"'
@@ -315,8 +315,13 @@ function supEnter(tourl,city,type){
 					 +'</div>'
 					 +'<div class="ui-form-item" id="file"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>物料上传</label> <div id="newUpload2"> <div class="filebox" id="div_1"> <input type="file" name="file" id="Sfile" class="validate[required]"> </div> </div>'
 					 +'<input class="btn-sm btn-success" type="button" id="btn_add2" value="增加一行" style="margin-top: 10px;"><br> </div>'
-					 +'<div class="ui-form-item"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>资质上传</label> <div id="newUpload3"> <div id="quadiv_1"> <input type="file" name="qua" id="Sfile1" class="validate[required]"> </div> </div>'
-					 +'<input class="btn-sm btn-success" type="button" id="btn_add3" value="增加一行" style="margin-top: 10px;" ><br> </div> <div class="ui-form-item widthdrawBtBox"> <input type="button" id="uploadbutton" class="block-btn" onclick="subSup();" value="开始上传"> </div>'
+					 +'<div class="ui-form-item"> <label class="ui-labeli mt10"><span class="ui-form-required">*</span>营业执照复印件: </label>'
+					 +'<div id="newUpload2"> <div id="div_1"> <input type="file" name="licensefile" id="Sfile" class="validate[required]"> </div> </div> </div>'
+					 +'<div class="ui-form-item"> <label class="ui-labeli mt10"><span class="ui-form-required">*</span>税务登记复印件: </label><div id="newUpload2"> <div class="filebox" id="div_1">'
+					 +'<input type="file" name="taxfile" id="Sfile2" class="validate[required]"> </div> </div> </div>'
+					 +'<div class="ui-form-item"> <label class="ui-labeli mt10"><span class="ui-form-required">*</span>一般纳税人资格认证复印件: </label>'
+					 +'<input type="file" name="taxpayerfile" id="Sfile3" class="validate[required]"> </div>'
+					 +'<div class="ui-form-item widthdrawBtBox"> <input type="button" id="uploadbutton" class="block-btn" onclick="subSup();" value="开始上传"> </div>'
 					 +'<div id="progress1"> <div class="percent"></div> <div class="pbar"></div> <div class="elapsed"></div> </div> </div> </div></form>'
 
 		});
@@ -418,7 +423,7 @@ function IvcEnter(tourl){
     		type: 1,
     		title: "发票信息录入",
     		skin: 'layui-layer-rim', //加上边框
-    		area: ['560px', '600px'], //宽高
+    		area: ['560px', '570px'], //宽高
     		content: '<style type="text/css">.ui-form-item div{display:inline-block}</style><form data-name="withdraw" name="userForm3" id="userForm3" class="ui-form" method="post" action="'+tourl+'/user/saveInvoice" enctype="multipart/form-data">'
     				 +'<input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/><div class="withdrawInputs" style="margin-left: 10px;"> <div class="inputs"> <div class="ui-form-item"> <label class="ui-labeli mt10"> <span class="ui-form-required">* </span>发票类型: </label>'
     				 +'<div class="mt10 radiobox" style="display:inline-block"> <input type="radio" name="type" checked="checked" onchange="showother()" value="special">&nbsp;增值税专用发票'
@@ -428,7 +433,7 @@ function IvcEnter(tourl){
     				 +'<div class="ui-form-item"> <label class="ui-labeli mt10"><span class="ui-form-required">*</span>邮寄地址:</label>'
 					 +'<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]" type="text" name="mailaddr" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 					 +'<div class="ui-form-item"> <label class="ui-labeli mt10"><span class="ui-form-required">*</span>邮寄联系人:</label>'
-					 +'<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]" type="text" name="contactman" id="contactman" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+					 +'<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[2],maxSize[120]]" type="text" name="contactman" id="contactman" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 					 +'<div class="ui-form-item"> <label class="ui-labeli mt10"><span class="ui-form-required">*</span>联系方式:</label>'
 					 +'<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]" type="text" name="phonenum" id="phonenum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 					 +'<div id="other" style="display:block"> <div class="ui-form-item"> <label class="ui-labeli mt10"><span class="ui-form-required">*</span>税务登记证号:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
@@ -447,7 +452,7 @@ function IvcEnter(tourl){
 					 +'<input type="file" name="taxfile" id="Sfile2" class="validate[required]"> </div> </div> </div>'
 					 +'<div class="ui-form-item"> <label class="ui-labeli mt10"><span class="ui-form-required">*</span>一般纳税人资格认证复印件: </label>'
 					 +'<input type="file" name="taxpayerfile" id="Sfile3" class="validate[required]"> </div> </div> </div></div>'
-					 +'<div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdrawi" class="block-btn" onclick="subIvc(\''+tourl+'\');" value="提交"></div>'
+					 +'<div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdrawi" style="margin-left:50px;" class="block-btn" onclick="subIvc(\''+tourl+'\');" value="提交"></div>'
 					 +'<div id="progress1"> <div class="percent"></div> <div class="pbar"></div> <div class="elapsed"></div> </div> </form>'
 				});
 			$("#userForm3").validationEngine({

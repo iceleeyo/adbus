@@ -121,7 +121,7 @@ function bu(txtObj) {
 												<span>巴士数量： <em>${prod.busNumber!''}</em></span>
 											</#if>	
 											<#if (prod.type)!="body">
-												<span>时长： <em>${prod.duration!''}</em></span>
+												<span>时长： <em>${prod.duration!''}</em>（秒）</span>
 											</#if>
 											</div>
 											<div class="" style="margin: 10px 5px;">
