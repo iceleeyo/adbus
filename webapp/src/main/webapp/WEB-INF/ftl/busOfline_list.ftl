@@ -71,6 +71,16 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 }},
                  { "data": "jpaBus.description", "defaultContent": ""},
                  { "data": "jpaBus.branch", "defaultContent": ""},
+	              { "data": "", "defaultContent": "","render": function(data, type, row, meta) {
+	              
+	              		var tString ='';
+	              		if(row.busInfo.stats == 'now' || row.busInfo.stats == 'future'){
+	              			tString = 	 '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/bus/offlineContract/' + (row.busInfo.busOnline.id) + '">撤销</a> &nbsp;'
+	              		}
+	                	return tString;
+	                }
+                }
+                
             ],
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
@@ -196,6 +206,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                         <th>下刊日期</th>
                         <th>车辆描述</th>
                         <th>客户名称</th>
+                        <th>撤销上刊</th>
                     </tr>
                     </thead>
 

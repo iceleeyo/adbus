@@ -23,6 +23,10 @@ css=["js/jquery-ui/jquery-ui.css"]>
             "ordering": true,
             "serverSide": true,
             "scrollX": true,
+               "aaSorting": [[7, "desc"]],
+            "columnDefs": [
+                { "orderable": false, "targets": [0,1,2,3,4,5,6,8] },
+            ],
             "iDisplayLength" : 20,
             "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
             "ajax": {
@@ -52,12 +56,17 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 	return d;
                 }},
                  { "data": "userid", "defaultContent": ""},
-                 { "data": "enable", "defaultContent": "","render": function(data, type, row, meta) {
+	 				{ "data": "updated", "defaultContent": "","render": function(data, type, row, meta) {
+	                	var d= $.format.date(data, "yyyy-MM-dd");
+	                	return d;
+	                }
+	                },
+               { "data": "enable", "defaultContent": "","render": function(data, type, row, meta) {
                 	switch(data) {
                         case true:
                             return '<span class="processed">上刊正常</span>';
                         default :
-                            return '<span class="invalid">上刊异常</span>';
+                            return '<span class="invalid">上刑错误撤销</span>';
                     }
                 }},
             ],
@@ -96,6 +105,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                         <th>刊期(天)</th>
                         <th>操作日期</th>
                         <th>操作人</th>
+                        <th orderBy="updated">最后更新时间</th>
                         <th>状态</th>
                     </tr>
                     </thead>
