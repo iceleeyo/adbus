@@ -21,7 +21,7 @@ function showbusOnline_history(tourl,id){
 		type: 1,
 		title: "历史上刊记录",
 		skin: 'layui-layer-rim', 
-		area: ['900px', '600px'], 
+		area: ['1020px', '600px'],  
 		content:''
 			+' '
 			+'<iframe style="width:99%;height:98%" frameborder="no" src="'+tourl+'/bus/busOnline_history/'+id+'"/>'
