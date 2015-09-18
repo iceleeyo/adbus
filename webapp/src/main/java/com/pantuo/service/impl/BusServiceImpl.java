@@ -272,11 +272,12 @@ public class BusServiceImpl implements BusService {
 	}
 
 	@Override
-	public BusOnline offlineBusContract(int cityId, int id) {
+	public BusOnline offlineBusContract(int cityId, int id, Principal principal) {
 		BusOnline record=	busOnlineMapper.selectByPrimaryKey(id);
 		if(record!=null && cityId==record.getCity()){
 			record.setEnable(false);
 			record.setUpdated(new Date()); 
+			record.setEditor(Request.getUserId(principal));
 			busOnlineMapper.updateByPrimaryKey(record);
 			
 			queryBusInfo.updateBusContractCache(record.getBusid());

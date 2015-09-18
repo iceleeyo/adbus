@@ -48,5 +48,5 @@ public interface BusService {
 	
 	
 	
-	public BusOnline offlineBusContract(int cityId,int id );
+	public BusOnline offlineBusContract(int cityId,int id , Principal principal);
 }
