@@ -149,12 +149,14 @@ public class BusController {
 		model.addAttribute("busid", busid);
 		return "busOnline_history";
 	}
-	@RequestMapping(value = "/findBusByLineid")
-	public String findBusByLineid(Model model,@RequestParam(value="publishlineid") int publishlineid,@CookieValue(value = "city", defaultValue = "-1") int cityId) {
-		JpaPublishLine jpaPublishLine=busLineCheckService.queryPublishLineByid(publishlineid);
+
+	@RequestMapping(value = "/findBusByLineid/{publishlineid}")
+	public String findBusByLineid(Model model, @PathVariable("publishlineid") int publishlineid,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId) {
+		JpaPublishLine jpaPublishLine = busLineCheckService.queryPublishLineByid(publishlineid);
 		model.addAttribute("jpaPublishLine", jpaPublishLine);
-		model.addAttribute("companys",busService. getAllCompany(  cityId));
-		model.addAttribute("plid",publishlineid);
+		model.addAttribute("companys", busService.getAllCompany(cityId));
+		model.addAttribute("plid", publishlineid);
 		return "busOfline_list";
 	}
 	@RequestMapping(value = "/mistake_handle")
