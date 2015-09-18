@@ -36,8 +36,12 @@ import com.pantuo.mybatis.domain.BusOnline;
 import com.pantuo.mybatis.domain.CountableBusLine;
 import com.pantuo.mybatis.domain.CountableBusModel;
 import com.pantuo.mybatis.domain.CountableBusinessCompany;
+import com.pantuo.mybatis.domain.Offlinecontract;
+import com.pantuo.mybatis.domain.PublishLine;
 import com.pantuo.mybatis.persistence.BusCustomMapper;
 import com.pantuo.mybatis.persistence.BusOnlineMapper;
+import com.pantuo.mybatis.persistence.OfflinecontractMapper;
+import com.pantuo.mybatis.persistence.PublishLineMapper;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.BusService;
 import com.pantuo.simulate.QueryBusInfo;
@@ -66,6 +70,12 @@ public class BusServiceImpl implements BusService {
     BusOnlineMapper busOnlineMapper;
     @Autowired
 	QueryBusInfo queryBusInfo;
+    
+    @Autowired
+	OfflinecontractMapper offlinecontractMapper;
+    
+    @Autowired
+	PublishLineMapper publishLineMapper;
     @Override
     public long count() {
         return busRepo.count();
@@ -229,7 +239,7 @@ public class BusServiceImpl implements BusService {
 	}
 
 	@Override
-	public Pair<Boolean, String> batchOnline(String ids, String stday, int days, int contractid, Principal principal, int city) throws ParseException {
+	public Pair<Boolean, String> batchOnline(String ids, String stday, int days, int contractid, Principal principal, int city, int plid) throws ParseException {
 		Date startDate=(Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(stday);
 		Date endDate=com.pantuo.util.DateUtil.dateAdd(startDate, days);
 		String idsa[]=ids.split(",");
@@ -253,9 +263,28 @@ public class BusServiceImpl implements BusService {
 			busOnline.setCity(city);
 			busOnlineMapper.insert(busOnline);
 			queryBusInfo.updateBusContractCache(integer);
+			ascRemainNumber(plid, true);
 			
 		}
 		return new Pair<Boolean, String>(true,"上刊成功");
+	}
+	
+	public void ascRemainNumber(int id, boolean isAsc) {
+		PublishLine act = publishLineMapper.selectByPrimaryKey(id);
+		if (act != null) {
+			PublishLine record = new PublishLine();
+			record.setId(act.getId());
+			if (isAsc) {
+				record.setRemainNuber(act.getRemainNuber() + 1);
+			} else {
+				int c = act.getRemainNuber() - 1;
+				if (c < 0) {
+					c = 0;
+				}
+				record.setRemainNuber(c);
+			}
+			publishLineMapper.updateByPrimaryKeySelective(record);
+		}
 	}
 
 	@Override
@@ -277,14 +306,14 @@ public class BusServiceImpl implements BusService {
 	}
 
 	@Override
-	public BusOnline offlineBusContract(int cityId, int id, Principal principal) {
+	public BusOnline offlineBusContract(int cityId, int id,int publishLineId ,Principal principal) {
 		BusOnline record=	busOnlineMapper.selectByPrimaryKey(id);
 		if(record!=null && cityId==record.getCity()){
 			record.setEnable(false);
 			record.setUpdated(new Date()); 
 			record.setEditor(Request.getUserId(principal));
 			busOnlineMapper.updateByPrimaryKey(record);
-			
+			ascRemainNumber(publishLineId, false);
 			queryBusInfo.updateBusContractCache(record.getBusid());
 		}
 		return record;

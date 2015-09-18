@@ -1173,7 +1173,8 @@ public Pair<Boolean, String> savePublishLine(PublishLine publishLine, String sta
 	publishLine.setStats(JpaBusLock.Status.ready.ordinal());
 	publishLine.setCreated(new Date());
 	publishLine.setUpdated(new Date());
-	publishLine.setSalesNumber(publishLine.getRemainNuber());
+	//publishLine.setSalesNumber(publishLine.getSalesNumber());
+	publishLine.setRemainNuber(0);
 	Date date1=(Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(startD);
 	Date date2=(Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(endD);
 	publishLine.setStartDate(date1);

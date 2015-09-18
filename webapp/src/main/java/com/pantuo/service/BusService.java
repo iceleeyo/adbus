@@ -41,14 +41,14 @@ public interface BusService {
     Iterable<CountableBusinessCompany> getBusinessCompanies(int city, JpaBusline.Level level, JpaBus.Category category, Integer lineId, Integer busModelId, Integer companyId);
     public Page<BusInfoView> queryBusinfoView(TableRequest req, Page<JpaBus> page);
 
-	Pair<Boolean, String> batchOnline(String ids, String stday, int days, int contractid, Principal principal, int city)throws ParseException;
+	Pair<Boolean, String> batchOnline(String ids, String stday, int days, int contractid, Principal principal, int city,int plid)throws ParseException; 
 
 	Page<JpaBusOnline> getbusOnlinehistory(int cityId, TableRequest req, int page, int length, Sort sort);
 	
 	
 	
 	
-	public BusOnline offlineBusContract(int cityId,int id , Principal principal);
+	public BusOnline offlineBusContract(int cityId,int id,int publishLineId , Principal principal);
 	
 	List<JpaBusinessCompany> getAllCompany(int cityId);
 }

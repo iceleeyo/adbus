@@ -72,11 +72,11 @@ public class BusController {
 		return new DataTablePage(busService.queryBusinfoView(req, jpabuspage), req.getDraw());
 	}
 	
-	@RequestMapping("offlineContract/{id}")
+	@RequestMapping("offlineContract/{id}/{publishLineId}")
 	@ResponseBody
-	public BusOnline updateOffline(TableRequest req,@PathVariable int id,
+	public BusOnline updateOffline(TableRequest req,@PathVariable int id,@PathVariable int publishLineId,
 			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city, Principal principal) {
-		return busService.offlineBusContract(cityId, id,principal);
+		return busService.offlineBusContract(cityId, id,publishLineId,principal);
 	}
 	
 	
@@ -154,6 +154,7 @@ public class BusController {
 		JpaPublishLine jpaPublishLine=busLineCheckService.queryPublishLineByid(publishlineid);
 		model.addAttribute("jpaPublishLine", jpaPublishLine);
 		model.addAttribute("companys",busService. getAllCompany(  cityId));
+		model.addAttribute("plid",publishlineid);
 		return "busOfline_list";
 	}
 	@RequestMapping(value = "/mistake_handle")
@@ -216,7 +217,8 @@ public class BusController {
 			@RequestParam(value = "stday", required = true) String stday,
 			@RequestParam(value = "ids", required = true) String ids,
 			@RequestParam(value = "contractid", required = true) int contractid,
+			@RequestParam(value = "plid", required = true) int plid,
 			@RequestParam(value = "days", required = true) int  days) throws ParseException {
-		return busService.batchOnline(ids,stday, days, contractid,principal,city);
+		return busService.batchOnline(ids,stday, days, contractid,principal,city,plid);
 	}
 }
