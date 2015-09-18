@@ -18,15 +18,18 @@ import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.dao.BusModelRepository;
+import com.pantuo.dao.BusOnlineRepository;
 import com.pantuo.dao.BusRepository;
 import com.pantuo.dao.BusinessCompanyRepository;
 import com.pantuo.dao.BuslineRepository;
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusModel;
+import com.pantuo.dao.pojo.JpaBusOnline;
 import com.pantuo.dao.pojo.JpaBusinessCompany;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.QJpaBus;
 import com.pantuo.dao.pojo.QJpaBusModel;
+import com.pantuo.dao.pojo.QJpaBusOnline;
 import com.pantuo.dao.pojo.QJpaBusinessCompany;
 import com.pantuo.dao.pojo.QJpaBusline;
 import com.pantuo.mybatis.domain.BusOnline;
@@ -49,6 +52,8 @@ import com.pantuo.web.view.BusInfoView;
 public class BusServiceImpl implements BusService {
     @Autowired
     BusRepository busRepo;
+    @Autowired
+    BusOnlineRepository busOnlineRepository;
     @Autowired
     BuslineRepository lineRepo;
     @Autowired
@@ -243,5 +248,23 @@ public class BusServiceImpl implements BusService {
 			busOnlineMapper.insert(busOnline);
 		}
 		return new Pair<Boolean, String>(true,"上刊成功");
+	}
+
+	@Override
+	public Page<JpaBusOnline> getbusOnlinehistory(int cityId, TableRequest req, int page, int length, Sort sort) {
+		if (page < 0)
+            page = 0;
+        if (length < 1)
+        	length = 1;
+        if (sort == null)
+            sort = new Sort("id");
+        Pageable p = new PageRequest(page, length, sort);
+        BooleanExpression query = QJpaBusOnline.jpaBusOnline.city.eq(cityId);
+        String busid=req.getFilter("busid");
+        if (StringUtils.isNotBlank(busid)) {
+        	 int busId=NumberUtils.toInt(busid);
+        	query = query.and(QJpaBusOnline.jpaBusOnline.jpabus.id.eq(busId));
+        }
+        return query == null ? busOnlineRepository.findAll(p) : busOnlineRepository.findAll(query, p);
 	}
 }

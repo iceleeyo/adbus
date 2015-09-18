@@ -49,7 +49,10 @@ css=["js/jquery-ui/jquery-ui.css"]>
 											return operations;
 										}
 									},
-                { "data": "jpaBus.plateNumber", "defaultContent": ""},
+                { "data": "jpaBus.plateNumber", "defaultContent": "","render": function(data, type, row, meta) {
+                	//return '<a class="table-link" href="${rc.contextPath}/bus/busOnline_history/' + row.jpaBus.id +'" >'+data+'</a>';
+                	return '<a  onclick="showbusOnline_history(\'${rc.contextPath}\','+row.jpaBus.id+');">'+data+'</a>';
+                }},
                 { "data": "jpaBus.serialNumber", "defaultContent": ""},
                 { "data": "jpaBus.oldSerialNumber", "defaultContent": ""},
                 { "data": "jpaBus.model.name", "defaultContent": ""},

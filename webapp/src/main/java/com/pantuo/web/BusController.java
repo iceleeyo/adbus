@@ -25,6 +25,7 @@ import java.text.ParseException;
 import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author tliu
@@ -58,6 +59,16 @@ public class BusController {
 		Page<JpaBus> jpabuspage = busService.getAllBuses(cityId, req, req.getPage(), req.getLength(),
 				req.getSort("id"), false);
 		return new DataTablePage(busService.queryBusinfoView(req, jpabuspage), req.getDraw());
+	}
+	@RequestMapping("ajax-busOnline_history")
+	@ResponseBody
+	public DataTablePage<JpaBusOnline> busOnlinehistory(TableRequest req,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city) {
+		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
+			return new DataTablePage(Collections.emptyList());
+		Page<JpaBusOnline> jpabuspage = busService.getbusOnlinehistory(cityId, req, req.getPage(), req.getLength(),
+				req.getSort("id"));
+		return new DataTablePage(jpabuspage, req.getDraw());
 	}
 
 	@RequestMapping("ajax-all-lines")
@@ -111,6 +122,12 @@ public class BusController {
 	@RequestMapping(value = "/list")
 	public String list() {
 		return "bus_list";
+	}
+	@RequestMapping(value = "/busOnline_history/{busid}")
+	public String busOnline_history(Model model,@PathVariable("busid") int busid,HttpServletResponse response) {
+		response.setHeader("X-Frame-Options", "SAMEORIGIN");
+		model.addAttribute("busid", busid);
+		return "busOnline_history";
 	}
 	@RequestMapping(value = "/findBusByLineid")
 	public String findBusByLineid(Model model,@RequestParam(value="publishlineid") int publishlineid) {

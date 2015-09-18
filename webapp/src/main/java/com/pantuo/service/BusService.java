@@ -42,4 +42,6 @@ public interface BusService {
     public Page<BusInfoView> queryBusinfoView(TableRequest req, Page<JpaBus> page);
 
 	Pair<Boolean, String> batchOnline(String ids, String stday, int days, int contractid, Principal principal, int city)throws ParseException;
+
+	Page<JpaBusOnline> getbusOnlinehistory(int cityId, TableRequest req, int page, int length, Sort sort);
 }
