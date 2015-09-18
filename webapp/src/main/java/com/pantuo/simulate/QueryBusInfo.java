@@ -155,21 +155,30 @@ public class QueryBusInfo implements Runnable, ScheduleStatsInter {
 				busInfo.setStartD(busContract.getStartDate());
 				busInfo.setEndD(busContract.getEndDate());
 				busInfo.setStats(status);
+				busInfo.setBusOnline(busContract);
 			} else if (status == BusInfo.Stats.now) {
 				busInfo.setStartD(busContract.getStartDate());
 				busInfo.setEndD(busContract.getEndDate());
+				busInfo.setBusOnline(busContract);
+				busInfo.setStats(BusInfo.Stats.now);
 			} else if (status == BusInfo.Stats.future && (busInfo.getStats() == BusInfo.Stats.past)) {
 				busInfo.setStartD(busContract.getStartDate());
 				busInfo.setEndD(busContract.getEndDate());
+				busInfo.setBusOnline(busContract);
+				busInfo.setStats(BusInfo.Stats.future);
 			} else if (status == BusInfo.Stats.future && (busInfo.getStats() == BusInfo.Stats.future)) {
 				if (busContract.getStartDate().before(busInfo.getStartD())) {
 					busInfo.setStartD(busContract.getStartDate());
 					busInfo.setEndD(busContract.getEndDate());
+					busInfo.setBusOnline(busContract);
+					busInfo.setStats(BusInfo.Stats.future);
 				}
 			} else if (status == BusInfo.Stats.past && busInfo.getStats() == BusInfo.Stats.past) {
 				if (busContract.getEndDate().after(busInfo.getEndD())) {
 					busInfo.setStartD(busContract.getStartDate());
 					busInfo.setEndD(busContract.getEndDate());
+					busInfo.setBusOnline(busContract);
+					busInfo.setStats(BusInfo.Stats.past);
 				}
 			}
 			if (bodycontract != null) {
