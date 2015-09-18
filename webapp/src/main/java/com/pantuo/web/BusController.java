@@ -60,6 +60,15 @@ public class BusController {
 				req.getSort("id"), false);
 		return new DataTablePage(busService.queryBusinfoView(req, jpabuspage), req.getDraw());
 	}
+	
+	@RequestMapping("offlineContract/{id}")
+	@ResponseBody
+	public BusOnline updateOffline(TableRequest req,@PathVariable int id,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city) {
+		return busService.offlineBusContract(cityId, id);
+	}
+	
+	
 	@RequestMapping("ajax-busOnline_history")
 	@ResponseBody
 	public DataTablePage<JpaBusOnline> busOnlinehistory(TableRequest req,

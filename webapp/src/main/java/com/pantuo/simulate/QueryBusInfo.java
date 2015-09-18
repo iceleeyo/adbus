@@ -99,22 +99,45 @@ public class QueryBusInfo implements Runnable, ScheduleStatsInter {
 	public void countCars2() {
 		Date today = new Date();
 		BusOnlineExample example = new BusOnlineExample();
+		BusOnlineExample.Criteria c = example.createCriteria();
+		c.andEnableEqualTo(true);
+		
 		List<BusOnline> list = busOnlineMapper.selectByExample(example);
 		//example.setOrderByClause("start_date asc");
 		map2.clear();
 		for (BusOnline busOnline : list) {
 			if (busOnline != null) {
-				if (busOnline.getStartDate().before(today) && busOnline.getEndDate().after(today)) {
-					putInMap(busOnline, BusInfo.Stats.now);
-				} else if (busOnline.getStartDate().after(today)) {
-					busOnline = findAfterLatestBusContract(busOnline);
-					putInMap(busOnline, BusInfo.Stats.future);
-				} else {
-					busOnline = findBefLatestBusContract(busOnline);
-					putInMap(busOnline, BusInfo.Stats.past);
-				}
+				updateBusContractCache(today, busOnline);
 			}
 		}
+	}
+
+	public void updateBusContractCache(int busId) {
+		BusOnlineExample example = new BusOnlineExample();
+		BusOnlineExample.Criteria c = example.createCriteria();
+		c.andBusidEqualTo(busId);
+		c.andEnableEqualTo(true);
+		List<BusOnline> list = busOnlineMapper.selectByExample(example);
+		Date today = new Date();
+		map2.remove(busId);
+		for (BusOnline busOnline : list) {
+			if (busOnline != null) {
+				updateBusContractCache(today, busOnline);
+			}
+		}
+	}
+
+	private void updateBusContractCache(Date today, BusOnline busOnline) {
+		if (busOnline.getStartDate().before(today) && busOnline.getEndDate().after(today)) {
+			putInMap(busOnline, BusInfo.Stats.now);
+		} else if (busOnline.getStartDate().after(today)) {
+			busOnline = findAfterLatestBusContract(busOnline);
+			putInMap(busOnline, BusInfo.Stats.future);
+		} else {
+			busOnline = findBefLatestBusContract(busOnline);
+			putInMap(busOnline, BusInfo.Stats.past);
+		}
+		//return busOnline;
 	}
 
 	private BusOnline findAfterLatestBusContract(BusOnline busContract) {

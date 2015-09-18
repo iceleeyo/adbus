@@ -239,6 +239,7 @@ public class BusServiceImpl implements BusService {
 			busOnline.setDays(days);
 			busOnline.setStartDate(startDate);
 			busOnline.setCreated(new Date());
+			busOnline.setUpdated(new Date()); 
 			busOnline.setContractid(contractid);
 			busOnline.setEnable(true);
 			busOnline.setUserid(Request.getUserId(principal));
@@ -246,6 +247,8 @@ public class BusServiceImpl implements BusService {
 			busOnline.setBusid(integer);
 			busOnline.setCity(city);
 			busOnlineMapper.insert(busOnline);
+			queryBusInfo.updateBusContractCache(integer);
+			
 		}
 		return new Pair<Boolean, String>(true,"上刊成功");
 	}
@@ -266,5 +269,18 @@ public class BusServiceImpl implements BusService {
         	query = query.and(QJpaBusOnline.jpaBusOnline.jpabus.id.eq(busId));
         }
         return query == null ? busOnlineRepository.findAll(p) : busOnlineRepository.findAll(query, p);
+	}
+
+	@Override
+	public BusOnline offlineBusContract(int cityId, int id) {
+		BusOnline record=	busOnlineMapper.selectByPrimaryKey(id);
+		if(record!=null && cityId==record.getCity()){
+			record.setEnable(false);
+			record.setUpdated(new Date()); 
+			busOnlineMapper.updateByPrimaryKey(record);
+			
+			queryBusInfo.updateBusContractCache(record.getBusid());
+		}
+		return record;
 	}
 }

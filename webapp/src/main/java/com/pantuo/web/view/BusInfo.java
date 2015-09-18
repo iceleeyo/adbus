@@ -2,6 +2,7 @@ package com.pantuo.web.view;
 
 import java.util.Date;
 
+import com.pantuo.mybatis.domain.BusOnline;
 import com.pantuo.mybatis.domain.Offlinecontract;
 
 public class BusInfo {
@@ -10,6 +11,7 @@ public class BusInfo {
 	public Offlinecontract offlinecontract;
 	public Date startD;
 	public Date endD;
+	public BusOnline busOnline;
 
 	public static enum Stats {
 		empty, past, now, future;
@@ -71,6 +73,14 @@ public class BusInfo {
 
 	public void setStats(Stats stats) {
 		this.stats = stats;
+	}
+
+	public BusOnline getBusOnline() {
+		return busOnline;
+	}
+
+	public void setBusOnline(BusOnline busOnline) {
+		this.busOnline = busOnline;
 	}
 
 }
