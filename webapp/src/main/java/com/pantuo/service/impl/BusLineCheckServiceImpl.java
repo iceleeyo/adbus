@@ -330,18 +330,17 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		if (list.size() == 0) {
 			return new Pair<Boolean, String>(false, "请选择车辆");
 		}
-		for (BusLock busLock : list) {
-			if (busLock != null) {
-				if (a > 0) {
-					busLock.setContractId(bodycontract.getId());
-					busLock.setStats(JpaBusLock.Status.ready.ordinal());
-					busLockMapper.updateByPrimaryKey(busLock);
-				} else {
-					return new Pair<Boolean, String>(false, "申请合同失败");
+		if (a > 0) {
+			for (BusLock busLock : list) {
+				if (busLock != null) {
+						busLock.setContractId(bodycontract.getId());
+						busLock.setStats(JpaBusLock.Status.ready.ordinal());
+						busLockMapper.updateByPrimaryKey(busLock);
 				}
 			}
+		}else{
+			return new Pair<Boolean, String>(false, "申请合同失败");
 		}
-
 		Map<String, Object> initParams = new HashMap<String, Object>();
 		initParams.put("username", userId);
 		initParams.put(ActivitiService.ORDER_ID, bodycontract.getId());
@@ -359,8 +358,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		if (!tasks.isEmpty()) {
 			Task task = tasks.get(0);
 			taskService.claim(task.getId(), userId);
-			MailTask mailTask = new MailTask(userId, bodycontract.getId(), null, task.getTaskDefinitionKey(),
-					Type.sendCompleteMail);
+//			MailTask mailTask = new MailTask(userId, bodycontract.getId(), null, task.getTaskDefinitionKey(),
+//					Type.sendCompleteMail);
 			taskService.complete(task.getId());
 			//	mailJob.putMailTask(mailTask);
 		}
@@ -1110,11 +1109,7 @@ public Pair<Boolean, String> saveOffContract(Offlinecontract offcontract, long s
 			return new Pair<Boolean, String>(false, "合同修改失败");
 		}
 	}
-	offcontract.setCreator(userId);
-	offcontract.setCreated(new Date());
-	offcontract.setUpdated(new Date());
-	offcontract.setIsSchedule(false);
-	offcontract.setSignDate(signDate);
+	
 	PublishLineExample example=new PublishLineExample();
 	PublishLineExample.Criteria criteria=example.createCriteria();
 	criteria.andUserIdEqualTo(userId);
@@ -1124,16 +1119,30 @@ public Pair<Boolean, String> saveOffContract(Offlinecontract offcontract, long s
 	DividpayExample.Criteria criteria2=example2.createCriteria();
 	criteria2.andSeriaNumEqualTo(seriaNum);
 	List<Dividpay> list2=dividpayMapper.selectByExample(example2);
-	if (list.size() == 0) {
-		return new Pair<Boolean, String>(false, "请发布线路");
-	}
 	if (list2.size() == 0) {
 		return new Pair<Boolean, String>(false, "请设置合同分期信息");
 	}
-	int a = offlinecontractMapper.insert(offcontract);
-	if(a>0){
-		return new Pair<Boolean, String>(true, "创建合同成功");
+	if (list.size() == 0) {
+		return new Pair<Boolean, String>(false, "请发布线路");
 	}
+	offcontract.setCreator(userId);
+	offcontract.setCreated(new Date());
+	offcontract.setUpdated(new Date());
+	offcontract.setIsSchedule(false);
+	offcontract.setSignDate(signDate);
+	int b = offlinecontractMapper.insert(offcontract);
+	if (b > 0) {
+		for (PublishLine busLock : list) {
+			if (busLock != null) {
+					busLock.setContractId(offcontract.getId());
+					busLock.setStats(JpaBusLock.Status.ready.ordinal());
+					publishLineMapper.updateByPrimaryKey(busLock);
+			}
+	     }
+	}else{
+		return new Pair<Boolean, String>(false, "申请合同失败");
+	}
+	
 	return new Pair<Boolean, String>(true, "创建合同成功");
 }
 
