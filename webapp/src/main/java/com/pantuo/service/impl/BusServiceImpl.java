@@ -87,7 +87,7 @@ public class BusServiceImpl implements BusService {
         Pageable p = new PageRequest(page, pageSize, sort);
         BooleanExpression query = QJpaBus.jpaBus.city.eq(city);
         String plateNumber=req.getFilter("plateNumber"),linename=req.getFilter("linename"),
-        		levelStr=req.getFilter("levelStr"),category=req.getFilter("category"),lineid=req.getFilter("lineid");
+        		levelStr=req.getFilter("levelStr"),category=req.getFilter("category"),lineid=req.getFilter("lineid"),company=req.getFilter("company");
         if (StringUtils.isNotBlank(plateNumber)) {
             query = query.and(QJpaBus.jpaBus.plateNumber.like("%" + plateNumber + "%"));
         }
@@ -103,6 +103,11 @@ public class BusServiceImpl implements BusService {
         }
         if (StringUtils.isNotBlank(levelStr) && !StringUtils.equals(levelStr, "defaultAll")) {
         	query = query.and(QJpaBus.jpaBus.line.level.eq(JpaBusline.Level.valueOf(levelStr)));
+        }
+        if (StringUtils.isNotBlank(company) && !StringUtils.equals(company, "defaultAll")) {
+        	JpaBusinessCompany	c= new JpaBusinessCompany();
+        	c.setId(NumberUtils.toInt(company));
+        	query = query.and(QJpaBus.jpaBus.company.eq(c));
         }
         if (!fetchDisabled) {
             BooleanExpression q = QJpaBus.jpaBus.enabled.isTrue();
@@ -284,4 +289,11 @@ public class BusServiceImpl implements BusService {
 		}
 		return record;
 	}
+	
+	public List<JpaBusinessCompany> getAllCompany( int city){
+		Page<JpaBusinessCompany> page = getAllBusinessCompanies(city, null, null, 0, 50, new Sort("id"));
+		return page.getContent();
+	}
+	
+	
 }

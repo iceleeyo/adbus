@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.text.ParseException;
 import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -139,9 +140,10 @@ public class BusController {
 		return "busOnline_history";
 	}
 	@RequestMapping(value = "/findBusByLineid")
-	public String findBusByLineid(Model model,@RequestParam(value="publishlineid") int publishlineid) {
+	public String findBusByLineid(Model model,@RequestParam(value="publishlineid") int publishlineid,@CookieValue(value = "city", defaultValue = "-1") int cityId) {
 		JpaPublishLine jpaPublishLine=busLineCheckService.queryPublishLineByid(publishlineid);
 		model.addAttribute("jpaPublishLine", jpaPublishLine);
+		model.addAttribute("companys",busService. getAllCompany(  cityId));
 		return "busOfline_list";
 	}
 

@@ -49,4 +49,6 @@ public interface BusService {
 	
 	
 	public BusOnline offlineBusContract(int cityId,int id , Principal principal);
+	
+	List<JpaBusinessCompany> getAllCompany(int cityId);
 }
