@@ -327,7 +327,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 							+ '<select  class="ui-input bus-model" name="modelId" id="model_id"> <option value="0" selected="selected">所有类型</option> </select>'
 							+ '</div>'
 							+'<div class="ui-form-item"> <label class="ui-label mt10">选取数量：</label>'
-							+'<input class="ui-input " type="text" value="0" name="remainNuber" onkeyup="value=value.replace(/[^\\d]/g,\'\')" '
+							+'<input class="ui-input " type="text" value="0" name="salesNumber" onkeyup="value=value.replace(/[^\\d]/g,\'\')" '
 							+'id="busNumber" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
            	 				+'</div>'
 							+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">上刊日期:</label>'
