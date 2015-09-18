@@ -84,7 +84,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 	              
 	              		var tString ='';
 	              		if(row.busInfo.stats == 'now' || row.busInfo.stats == 'future'){
-	              			tString = 	 '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/bus/offlineContract/' + (row.busInfo.busOnline.id) + '">撤销</a> &nbsp;'
+	              			tString = 	 '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/bus/offlineContract/' + (row.busInfo.busOnline.id) +"/"+($("#plid").val())+ '">撤销</a> &nbsp;'
 	              		}
 	                	return tString;
 	                }
@@ -168,7 +168,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
         	   layer.msg("请选择需要上刊的车辆");
         	   return false;
            }
-   		var param={"ids":dIds,"days":days,"stday":stday,"contractid":contractid};
+   		var param={"ids":dIds,"days":days,"stday":stday,"contractid":contractid,"plid":$("#plid").val()};
     	var bln=window.confirm("确定上刊吗?");
         if(bln){
     	 $.ajax({
@@ -195,6 +195,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 <div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title">
                  <div class="report-toolbar">
+                 <input type="hiddel" id ="plid" value=${plid}/>
                            上刊日期：<input  class="ui-input ui-input-mini datepicker" type="text" name="stday"
                             id="stday" data-is="isAmount isEnough"
                             autocomplete="off" disableautocomplete=""> 
