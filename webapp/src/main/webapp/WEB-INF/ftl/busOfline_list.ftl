@@ -34,6 +34,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                         "filter[plateNumber]" : $('#name').val(),
                         "filter[category]" : $('#category').val(),
                         "filter[levelStr]" : $('#levelStr').val(),
+                          "filter[company]" : $('#company').val(),
                         "filter[lineid]" : ${jpaPublishLine.line.id}
                     } );
                 },
@@ -107,7 +108,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                         '        <input id="name" value="">' +
                         '    </span>&nbsp;&nbsp;' +
                         '    <span>线路级别</span>&nbsp;&nbsp;' +
-                       '<select class="ui-input ui-input-mini" name="levelStr" id="levelStr">' +
+                       '<select class="ui-input ui-input-mini" name="levelStr" id="levelStr" style="width:125px">' +
                     '<option value="defaultAll" selected="selected">所有</option>' +
                   	'<option value="S">特级</option>' +
                   	'<option value="APP">A++</option>' +
@@ -116,17 +117,24 @@ css=["js/jquery-ui/jquery-ui.css"]>
                   	'<option value="LATLONG">经纬线</option>' +
          			'</select>&nbsp;&nbsp;' +
                         '    <span>车辆类别</span>&nbsp;&nbsp;' +
-                       '<select class="ui-input ui-input-mini" name="category" id="category">' +
+                       '<select class="ui-input ui-input-mini" name="category" id="category" style="width:125px">' +
                     '<option value="defaultAll" selected="selected">所有</option>' +
                   	'<option value="baoche">包车</option>' +
                   	'<option value="banche">班车</option>' +
                   	'<option value="jidongche">机动车</option>' +
                   	'<option value="yunyingche">运营车</option>' +
-         			'</select><br>' +
-                        '</div>'
-        );
+         			'</select>' +
+         			'    <span>营销中心</span>&nbsp;&nbsp;' +
+                    '<select class="ui-input ui-input-mini" name="company" id="company">' +
+                    '<option value="defaultAll" selected="selected">所有</option>' +
+                  	    <#list companys as c>
+					'<option value="${c.id}">${c.name}</option>'+
+					    </#list>
+         			'</select>' +
+                    '<br></div>'
+        );//companys
 
-        $('#name,#category,#levelStr').change(function() {
+        $('#name,#category,#levelStr,#company').change(function() {
             table.fnDraw();
         });
     }
