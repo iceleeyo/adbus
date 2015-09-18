@@ -64,8 +64,8 @@ public class BusController {
 	@RequestMapping("offlineContract/{id}")
 	@ResponseBody
 	public BusOnline updateOffline(TableRequest req,@PathVariable int id,
-			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city) {
-		return busService.offlineBusContract(cityId, id);
+			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city, Principal principal) {
+		return busService.offlineBusContract(cityId, id,principal);
 	}
 	
 	
