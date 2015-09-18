@@ -47,7 +47,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 	return d;
                 }},
                 { "data": "endDate", "defaultContent": "","render": function(data, type, row, meta) {
-                	var d= $.format.date(data, "yyyy-MM-dd");
+            	    var d= $.format.date(data, "yyyy-MM-dd");
                 	return d;
                 }},
                  { "data": "days", "defaultContent": ""},
@@ -55,14 +55,9 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 	var d= $.format.date(data, "yyyy-MM-dd");
                 	return d;
                 }},
+                
                  { "data": "userid", "defaultContent": ""},
-	 				{ "data": "updated", "defaultContent": "","render": function(data, type, row, meta) {
-	                	var d= $.format.date(data, "yyyy-MM-dd");
-	                	return d;
-	                }
-	                },
-	                 { "data": "editor", "defaultContent": ""},
-               { "data": "enable", "defaultContent": "","render": function(data, type, row, meta) {
+                  { "data": "enable", "defaultContent": "","render": function(data, type, row, meta) {
                 	switch(data) {
                         case true:
                             return '<span class="processed">上刊正常</span>';
@@ -70,6 +65,13 @@ css=["js/jquery-ui/jquery-ui.css"]>
                             return '<span class="invalid">上刑错误撤销</span>';
                     }
                 }},
+	 				{ "data": "updated", "defaultContent": "","render": function(data, type, row, meta) {
+	                	var d= $.format.date(data, "yyyy-MM-dd");
+	                	return d;
+	                }
+	                },
+	                 { "data": "editor", "defaultContent": ""},
+              
             ],
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
@@ -106,9 +108,10 @@ css=["js/jquery-ui/jquery-ui.css"]>
                         <th>刊期(天)</th>
                         <th>操作日期</th>
                         <th>操作人</th>
+                         <th>状态</th>
                         <th orderBy="updated">最后更新时间</th>
                         <th >撤销操作人</th>
-                        <th>状态</th>
+                       
                     </tr>
                     </thead>
 
