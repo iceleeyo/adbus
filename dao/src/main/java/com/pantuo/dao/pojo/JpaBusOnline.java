@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -14,8 +16,12 @@ public class JpaBusOnline extends CityEntity {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-	private int busid;
-	private int contractid;
+	@ManyToOne
+	@JoinColumn(name = "busid")
+	private JpaBus jpabus;
+	@ManyToOne
+	@JoinColumn(name = "contractid")
+	private JpaOfflineContract offlineContract;
 	private int days;
 	private Date startDate;
 	private Date endDate;
@@ -34,24 +40,24 @@ public class JpaBusOnline extends CityEntity {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getBusid() {
-		return busid;
-	}
-	
 	public String getUserid() {
 		return userid;
 	}
 	public void setUserid(String userid) {
 		this.userid = userid;
 	}
-	public void setBusid(int busid) {
-		this.busid = busid;
+	
+	public JpaBus getJpabus() {
+		return jpabus;
 	}
-	public int getContractid() {
-		return contractid;
+	public void setJpabus(JpaBus jpabus) {
+		this.jpabus = jpabus;
 	}
-	public void setContractid(int contractid) {
-		this.contractid = contractid;
+	public JpaOfflineContract getOfflineContract() {
+		return offlineContract;
+	}
+	public void setOfflineContract(JpaOfflineContract offlineContract) {
+		this.offlineContract = offlineContract;
 	}
 	public Date getStartDate() {
 		return startDate;
@@ -64,6 +70,12 @@ public class JpaBusOnline extends CityEntity {
 	}
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+	public int getDays() {
+		return days;
+	}
+	public void setDays(int days) {
+		this.days = days;
 	}
 	
 }
