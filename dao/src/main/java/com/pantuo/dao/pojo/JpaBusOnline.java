@@ -26,6 +26,7 @@ public class JpaBusOnline extends CityEntity {
 	private Date startDate;
 	private Date endDate;
 	private String userid;
+	private String editor;
 	private boolean enable=true;
 	
 	public boolean isEnable() {
@@ -76,6 +77,12 @@ public class JpaBusOnline extends CityEntity {
 	}
 	public void setDays(int days) {
 		this.days = days;
+	}
+	public String getEditor() {
+		return editor;
+	}
+	public void setEditor(String editor) {
+		this.editor = editor;
 	}
 	
 }
