@@ -100,7 +100,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                         '        <input id="name" value="">' +
                         '    </span>&nbsp;&nbsp;' +
                         '    <span>线路级别</span>&nbsp;&nbsp;' +
-                       '<select class="ui-input ui-input-mini" name="levelStr" id="levelStr">' +
+                       '<select class="ui-input ui-input-mini" name="levelStr" id="levelStr" style="width:125px" >' +
                     '<option value="defaultAll" selected="selected">所有</option>' +
                   	'<option value="S">特级</option>' +
                   	'<option value="APP">A++</option>' +
@@ -109,7 +109,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                   	'<option value="LATLONG">经纬线</option>' +
          			'</select>&nbsp;&nbsp;' +
                         '    <span>车辆类别</span>&nbsp;&nbsp;' +
-                       '<select class="ui-input ui-input-mini" name="category" id="category">' +
+                       '<select class="ui-input ui-input-mini" name="category" id="category" style="width:125px" >' +
                     '<option value="defaultAll" selected="selected">所有</option>' +
                   	'<option value="baoche">包车</option>' +
                   	'<option value="banche">班车</option>' +
