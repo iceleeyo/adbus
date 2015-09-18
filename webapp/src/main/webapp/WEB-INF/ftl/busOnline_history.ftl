@@ -61,6 +61,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 	                	return d;
 	                }
 	                },
+	                 { "data": "editor", "defaultContent": ""},
                { "data": "enable", "defaultContent": "","render": function(data, type, row, meta) {
                 	switch(data) {
                         case true:
@@ -106,6 +107,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                         <th>操作日期</th>
                         <th>操作人</th>
                         <th orderBy="updated">最后更新时间</th>
+                        <th >撤销操作人</th>
                         <th>状态</th>
                     </tr>
                     </thead>
