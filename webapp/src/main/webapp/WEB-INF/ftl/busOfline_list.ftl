@@ -195,7 +195,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 <div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title">
                  <div class="report-toolbar">
-                 <input type="hiddel" id ="plid" value=${plid}/>
+                 <input type="hidden" id ="plid" value="${plid}"/>
                            上刊日期：<input  class="ui-input ui-input-mini datepicker" type="text" name="stday"
                             id="stday" data-is="isAmount isEnough"
                             autocomplete="off" disableautocomplete=""> 
