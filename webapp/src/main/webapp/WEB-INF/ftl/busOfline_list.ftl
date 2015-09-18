@@ -66,7 +66,15 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 	return d;
                 }},
                 { "data": "busInfo.endD", "defaultContent": "","render": function(data, type, row, meta) {
-                	var d= $.format.date(data, "yyyy-MM-dd");
+              	  var d= $.format.date(data, "yyyy-MM-dd");
+              	  if(d!=null){
+	               	  var start=new Date(d.replace("-", "/").replace("-", "/")); 
+	              		  if(start >= new Date()){
+	                		d="<font color='red'>"+d+"</font>";
+	                	}else {
+	                		d="<font color='green'>"+d+"</font>";
+	                	}
+                	}
                 	return d;
                 }},
                  { "data": "jpaBus.description", "defaultContent": ""},
