@@ -106,8 +106,8 @@ css=["js/jquery-ui/jquery-ui.css"]>
                         <th>上刊日期</th>
                         <th>下刊日期</th>
                         <th>刊期(天)</th>
-                        <th>操作日期</th>
-                        <th>操作人</th>
+                        <th>创建日期</th>
+                        <th>创建人</th>
                          <th>状态</th>
                         <th orderBy="updated">最后更新时间</th>
                         <th >撤销操作人</th>

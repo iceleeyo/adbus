@@ -54,10 +54,11 @@ public interface BusLineCheckService {
 	 * 搜寻线路
 	 *
 	 * @param name
+	 * @param tag 
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	public List<AutoCompleteView> autoCompleteByName(int city, String name,JpaBus.Category category);
+	public List<AutoCompleteView> autoCompleteByName(int city, String name,JpaBus.Category category, String tag);
 	/**
 	 * 
 	 * 查线路 车辆类型
