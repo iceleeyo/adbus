@@ -17,6 +17,84 @@ css=["js/jquery-ui/jquery-ui.css"]>
 <script type="text/javascript">
 	
     var table;
+    var orderBusesTable;
+    
+    function refreshOrderedBuses() {
+		orderBusesTable = $('#lineTable')
+				.dataTable(
+						{
+							"dom" : '<"#toolbar2">t',
+							"searching" : false,
+							"ordering" : false,
+							"serverSide" : false,
+							"ajax" : {
+								type : "GET",
+								url : "${rc.contextPath}/busselect/ajax-publishLinebyId",
+								data : function(d) {
+									return $.extend({}, d, {
+										"seriaNum" : '${seriaNum}',
+										"plid":'${plid}'
+									});
+								},
+								 "dataSrc": function(json) {return json;},
+							},
+							"columns" : [
+							{ "data": "model", "defaultContent": "", "render": function(data) {
+                           if(data.id ==0){
+                                return "所有车型"
+                            }else if(data.doubleDecker==false){
+                              return '单层';
+                            }else{
+                               return '双层';
+                                 }
+                               }},
+			    { "data": "line.name", "defaultContent": "", "render": function(data, type, row, meta) {
+                      return '<a   onclick=" gotoSchedult(' + row.line.id +","+(row.model.id )+ ')" >'+data+'</a> &nbsp;';
+                }},
+                { "data": "line.levelStr", "defaultContent": ""}, 
+                { "data": "salesNumber", "defaultContent": ""}, 
+                 { "data": "remainNuber", "defaultContent": ""},
+                { "data": "days", "defaultContent": 0}, 
+                { "data": function( row, type, set, meta) {
+                    return row.id;
+                },"render" : function(data, type, row,meta) {
+                if(null!=row.startDate && ""!=row.endDate ){
+					return  $.format.date(row.startDate, "yyyy-MM-dd");
+                }else{
+                   return '';
+                }
+										}
+									},
+									{ "data": "batch", "defaultContent": ""}, 
+									 ],
+							"language" : {
+								"url" : "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
+							},
+							"initComplete" : initComplete,
+							"drawCallback" : drawCallback,
+						});
+		orderBusesTable.fnNameOrdering("orderBy").fnNoColumnsParams();
+	}
+	
+	
+	function drawCallback() {
+		$('.table-action').click(function() {
+			$.post($(this).attr("url"), function(data) {
+			if(data){
+				 orderBusesTable.dataTable()._fnAjaxUpdate();
+				 }else{
+				 alert("操作失败");
+				 }
+			})
+		});
+	}
+	function initComplete() {
+		$("div#toolbar").attr("style", "width: 100%;")
+		$("div#toolbar").html('');
+	}
+	
+	
+	
     function initTable () {
         table = $('#table').dataTable( {
             "dom": '<"#toolbar">lrtip',
@@ -143,6 +221,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
         $('.table-action').click(function() {
             $.post($(this).attr("url"), function() {
                 table.fnDraw(true);
+                orderBusesTable.dataTable()._fnAjaxUpdate();
             })
         });
     }
@@ -186,6 +265,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 		    				if (data.left == true) {
 		    					layer.msg(data.right);
 		    					 table.dataTable()._fnAjaxUpdate();
+		    					  orderBusesTable.dataTable()._fnAjaxUpdate();
 		    				} else {
 		    					layer.msg(data.right,{icon: 5});
 		    				}
@@ -197,10 +277,36 @@ css=["js/jquery-ui/jquery-ui.css"]>
     
         }
     $(document).ready(function() {
+  	   refreshOrderedBuses();
         initTable();
+        
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
+
+
+  			 <div id="orderedBuses">
+				<table id="lineTable" class="display compact"
+					cellspacing="0" width="100%">
+					<thead>
+				<tr class="tableTr">
+					<th>发布形式</th>
+					<th>线路</th>
+					<th>级别</th>
+                    <th>数量（辆）</th>
+                    <th>已装数量</th>
+                    <th>刊期(天)</th>
+                    <th>发布时间</th>
+                    <th>批次</th>
+                   
+				</tr>
+					</thead>
+				</table>
+			 </div>
+			  </div><br><br>
+<div class="withdraw-wrap color-white-bg fn-clear">
+
+			<!--over-->
             <div class="withdraw-title">
                  <div class="report-toolbar">
                  <input type="hidden" id ="plid" value="${plid}"/>

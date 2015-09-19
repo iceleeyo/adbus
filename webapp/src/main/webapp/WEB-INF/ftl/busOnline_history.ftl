@@ -25,7 +25,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
             "scrollX": true,
                "aaSorting": [[8, "desc"]],
             "columnDefs": [
-                { "orderable": false, "targets": [0,1,2,3,4,5,6,8] },
+                { "orderable": false, "targets": [0,1,2,3,4,5,6,7] },
             ],
             "iDisplayLength" : 20,
             "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
@@ -52,7 +52,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 }},
                  { "data": "days", "defaultContent": ""},
                  { "data": "created", "defaultContent": "","render": function(data, type, row, meta) {
-                	var d= $.format.date(data, "yyyy-MM-dd");
+                	var d= $.format.date(data, "yyyy-MM-dd hh:mm");
                 	return d;
                 }},
                 
@@ -66,7 +66,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                     }
                 }},
 	 				{ "data": "updated", "defaultContent": "","render": function(data, type, row, meta) {
-	                	var d= $.format.date(data, "yyyy-MM-dd");
+	                	var d= $.format.date(data, "yyyy-MM-dd hh:mm");
 	                	return d;
 	                }
 	                },
