@@ -45,23 +45,18 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                       return '<a   onclick=" gotoSchedult(' + row.line.id +","+(row.model.id )+ ')" >'+data+'</a> &nbsp;';
                 }},
                 { "data": "line.levelStr", "defaultContent": ""}, 
+                { "data": "model.name", "defaultContent": ""}, 
                 { "data": "salesNumber", "defaultContent": ""}, 
+                { "data": "remainNuber", "defaultContent": ""}, 
                 { "data": "days", "defaultContent": 0}, 
-                { "data": function( row, type, set, meta) {
-                    return row.id;
-                },"render" : function(data, type, row,meta) {
-                if(null!=row.startDate && ""!=row.endDate ){
-					return  $.format.date(row.startDate, "yyyy-MM-dd")+'至'+$.format.date(row.endDate, "yyyy-MM-dd");
-                }else{
-                   return '';
-                }
+                { "data": "startDate","render" : function(data, type, row,meta) {
+					return  $.format.date(data, "yyyy-MM-dd");
 										}
 									},
-									{ "data": "batch", "defaultContent": ""}, 
-									{ "data": "unitPrice", "defaultContent": ""}, 
-									{ "data": "publishValue", "defaultContent": ""}, 
-									{ "data": "discountrate", "defaultContent": ""}, 
-									{ "data": "discountPrice", "defaultContent": ""}, 
+                { "data": "created","render" : function(data, type, row,meta) {
+					return  $.format.date(data, "yyyy-MM-dd");
+										}
+									},
 									{ "data": function( row, type, set, meta) {
                                                   return row.id;
                                               },
@@ -70,7 +65,11 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 											var operations = '';
 											operations += '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/busselect/ajax-remove-publishLine?seriaNum=${seriaNum}&id=' + data +'">删除</a>';
 											operations +='&nbsp;&nbsp;<a class="table-link" onclick="editPublishLine(\'${rc.contextPath}\','+data+');" href="javascript:void(0)">修改</a>';
+
+											operations +='&nbsp;&nbsp;<a class="table-link" onclick="publishAmount(\'${rc.contextPath}\','+data+');" href="javascript:void(0)">发布费详情</a>';
+											if(row.contractId>0){
 											operations +='&nbsp;&nbsp;<a class="table-link" target="_blank" href="${rc.contextPath}/bus/findBusByLineid/'+data+'">车辆上刊</a>';
+											}
 											return operations;
 										}
 									},
@@ -133,10 +132,11 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 	function drawCallback() {
 		$('.table-action').click(function() {
 			$.post($(this).attr("url"), function(data) {
-			if(data){
+			if(data.left){
+			    layer.msg(data.right);
 				 orderBusesTable.dataTable()._fnAjaxUpdate();
 				 }else{
-				 alert("操作失败");
+				  layer.msg(data.right);
 				 }
 			})
 		});
@@ -169,15 +169,15 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 	   return;
 	}
 	if(startd==""){
-	 alert("请选上刊日期");
+	 layer.msg("请选上刊日期");
 	   return;
 	   }
 	if(endDate==""){
-	 alert("请选择下刊日期");
+	 layer.msg("请选择下刊日期");
 	   return;
 	   }
 	if($("#busNumber").val()==0){
-	 alert("数量要大于0");
+	 layer.msg("数量要大于0");
 	   return;
 	   }
 	var bb=false;
@@ -441,7 +441,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				<div class="withdraw-title">
 					<span>发布线路</span>
 					<input type="hidden" name="seriaNum" id="seriaNum" value="${seriaNum}"/>
-				   <a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="addPublishLine('${rc.contextPath}',${seriaNum})">增加选择</a>
+				   <a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="addPublishLine('${rc.contextPath}',${seriaNum})">增加批次</a>
 				</div>
 			   <div id="orderedBuses">
 				<table id="table" class="display compact"
@@ -451,14 +451,12 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 					<th>发布形式</th>
 					<th>线路</th>
 					<th>级别</th>
-                    <th>数量（辆）</th>
+					<th>车型</th>
+                    <th>订购数量</th>
+                    <th>已上刊数量</th>
                     <th>刊期(天)</th>
-                    <th>发布时间</th>
-                    <th>批次</th>
-                    <th>发布费单价</th>
-                    <th>发布价值</th>
-                    <th>折扣率</th>
-                    <th>优惠后金额</th>
+                    <th>预计上刊时间</th>
+                    <th>创建时间</th>
                     <th>操作</th>
 				</tr>
 					</thead>

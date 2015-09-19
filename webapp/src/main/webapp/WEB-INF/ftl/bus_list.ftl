@@ -70,7 +70,15 @@ css=["js/jquery-ui/jquery-ui.css"]>
                         default :
                             return '<span class="invalid">禁用</span>';
                     }
-                } }
+                } },
+                 { "data": function( row, type, set, meta) {
+                    return row.id;
+                    },
+                    "render": function(data, type, row, meta) {
+                        var operations = '<a  onclick="showBusDetail(\'${rc.contextPath}/bus/ajaxdetail/\','+data+');"  >编辑</a>';
+                        return operations;
+                    }
+                },
             ],
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
@@ -124,7 +132,121 @@ css=["js/jquery-ui/jquery-ui.css"]>
             })
         });
     }
+    function initmodel(id) {
+	$.ajax({
+		url : "${rc.contextPath}/busselect/selectBusType",
+		type : "POST",
+		data : {
+			"buslinId" : id
+		},
+		success : function(data) {
+			$("#four").show();
+			var v=' <option value="0" selected="selected">所有类型</option> ';
+			$("#model_id").html(v);
+			$.each(data, function(i, item) {
+			var w="<option value="+item.gn1+">"
+								+ item.gp2
+								+ (item.gn2 == 0 ? "&nbsp;&nbsp; 单层"
+										: "&nbsp;&nbsp; 双层")
+								+ "&nbsp;&nbsp;[" + item.count + "]"
+								+ "</option>";
+				$("#model_id").append(w);
+							
+			});
+		}
+	}, "text");
+}
 
+//车辆信息修改
+function showBusDetail(tourl,id){
+	alert(2);
+	$.ajax({
+		url : tourl  + id,
+		type : "POST",
+		data : {
+		},
+		success : function(data) {
+			layer.open({
+				type: 1,
+				title: "车辆信息修改",
+				skin: 'layui-layer-rim', 
+				area: ['450px', '550px'], 
+				content: ''
+				+'<br/>'
+				+ '<form id="publishform01" action='+tourl+'/bus/saveBus>'
+				+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;"><input type="hidden" name="id" value="'+data.id+'"/>'
+				+'<div class="ui-form-item"> <label class="ui-label mt10">车牌号: </label><input class="ui-input-d"'
+				+'type="text" name="title" id="title" value="'+data.plateNumber+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+				+'<div class="ui-form-item"> <label class="ui-label mt10">车辆自编号:</label><input  class="ui-input-d"'
+				+'type="text" name="taxrenum" value="'+data.serialNumber+'" id="taxrenum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
+				+'<div class="ui-form-item"> <label class="ui-label mt10">旧自编号:</label><input  class="ui-input-d"'
+				+'type="text" name="taxrenum" value="'+data.oldSerialNumber+'" id="taxrenum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
+				+ '<div class="ui-form-item"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/>'
+				+ '<label class="ui-label mt10">选择线路：</label>'
+				+ '<input class="ui-input" value="'+data.line.name+'"  id="line_id" data-is="isAmount isEnough">'
+				+ '</div>'
+				+'<div id="bodyPro"><div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">线路级别：</label>'
+				+'<input   class="ui-input-d" type="text" name="regisaddr" value="'+data.line.levelStr+'" id="lineLevel" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+				+ '<div id="four"><div class="ui-form-item" id="model_Id">'
+				+ '<label class="ui-label mt10">选择车型：</label>'
+				+ '<select  class="ui-input bus-model" name="modelId" id="model_id"> <option value="'+data.model.id+'" selected="selected">'+data.model.name+'</option><option value="0">所有类型</option> </select>'
+				+ '</div>'
+				+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">车辆类别:</label>'
+				+'<select class="ui-input ui-input-mini" name="category" id="category">' +
+              	+'<option value="0">包车</option>' +
+              	+'<option value="1">班车</option>' +
+              	+'<option value="2">机动车</option>' +
+              	+'<option value="3">运营车</option>' +
+     			+'</select>'+
+				+'</div>'
+				+'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">营销中心:</span> </label>'
+				+ '<select  class="ui-input bus-model" name="companyId" id="companyId"> <option value="'+data.company.id+'" selected="selected">'+data.company.name+'</option> </select>'
+				+'</div>'
+				+'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">公司名称:</span> </label>'
+				+'<input class="ui-input-d"  value="'+data.office+'" id="days" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+				+'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">客户:</span> </label>'
+				+'<input class="ui-input-d"  value="'+data.branch+'" id="days" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+				+'<div class="ui-form-item"> <label class="ui-label mt10" style="width: 145px;">车辆情况:</label><textarea rows="4" cols="30" readonly="readonly" style="resize: none;margin-left: -20px;" >'+data.description+'</textarea> </div>'
+				+ '<div class="ui-form-item widthdrawBtBox" style="position: absolute; bottom: 10px;">'
+				+ '<input type="button" onclick="saveBus()" class="block-btn" value="确认" ></div></div></div>'
+				+ '<input type="hidden" value="'+data.line.id+'" name="lineId" id="db_id"></form>'
+			});
+			$("#line_id").autocomplete({
+				minLength: 0,
+					source : "${rc.contextPath}/busselect/autoComplete",
+					change : function(event, ui) {
+					},
+					select : function(event, ui) {
+						$('#line_id').val(ui.item.value);
+						initmodel(ui.item.dbId);
+						$("#db_id").val(ui.item.dbId);
+					}
+				}).focus(function () {
+		       				 $(this).autocomplete("search");
+		   				 });
+		}
+		
+	}, "text");
+	
+}
+//编辑保存
+	function saveBus() {
+		var lineid=$("#db_id").val();
+		if(lineid==0){
+		   layer.msg("请选择线路");
+		   return;
+		}
+			$('#publishform01').ajaxForm(function(data) {
+			if(data.left){
+			     layer.msg("编辑成功");
+			       table.dataTable()._fnAjaxUpdate();
+			       $("#cc").trigger("click");
+			     }else{
+			     layer.msg(data.right);
+			     }
+			}).submit();
+			}
+			
     $(document).ready(function() {
         initTable();
     } );
@@ -136,14 +258,14 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>
                     <tr>
-                        <th orderBy="plateNumber">车牌号</th>
-                        <th orderBy="serialNumber">新车号</th>
-                        <th orderBy="serialNumber">旧车号</th>
-                        <th orderBy="serialNumber">车型</th>
-                        <th orderBy="line.name">线路</th>
-                        <th orderBy="line.level">线路级别</th>
-                        <th orderBy="category">类别</th>
-                        <th orderBy="company">营销中心</th>
+                        <th >车牌号</th>
+                        <th >车辆自编号</th>
+                        <th>旧自编号</th>
+                        <th >车型</th>
+                        <th >线路</th>
+                        <th >线路级别</th>
+                        <th >类别</th>
+                        <th >营销中心</th>
                         <th>合同编号</th>
                         <th>上刊日期</th>
                         <th>下刊日期</th>
@@ -151,6 +273,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                         <th>公司名称</th>
                         <th>客户名称</th>
                         <th orderBy="enabled">状态</th>
+                        <th>管理</th>
                     </tr>
                     </thead>
 

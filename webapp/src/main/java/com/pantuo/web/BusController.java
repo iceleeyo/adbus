@@ -12,6 +12,8 @@ import com.pantuo.util.Request;
 import com.pantuo.web.view.BusInfoView;
 
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.util.Collections;
@@ -78,7 +81,11 @@ public class BusController {
 			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city, Principal principal) {
 		return busService.offlineBusContract(cityId, id,publishLineId,principal);
 	}
-	
+	@RequestMapping("saveBus")
+	@ResponseBody
+	public Pair<Boolean, String> saveBus(Bus bus,@CookieValue(value = "city", defaultValue = "-1") int cityId, Principal principal) throws JsonGenerationException, JsonMappingException, IOException {
+		return busService.saveBus(bus, cityId,principal);
+	}
 	
 	@RequestMapping("ajax-busOnline_history")
 	@ResponseBody

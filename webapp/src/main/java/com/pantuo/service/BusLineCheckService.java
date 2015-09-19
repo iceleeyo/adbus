@@ -150,7 +150,7 @@ public interface BusLineCheckService {
 
 	public List<JapDividPay> getDividPay(long seriaNum);
 
-	public boolean removePublishLine(Principal principal, int city, long seriaNum, int id);
+	public Pair<Boolean, String> removePublishLine(Principal principal, int city, long seriaNum, int id);
 
 	public boolean removedividPay(Principal principal, int city, long seriaNum, int id);
 

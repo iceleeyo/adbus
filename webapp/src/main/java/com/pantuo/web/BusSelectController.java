@@ -702,7 +702,7 @@ public class BusSelectController {
 	}
 	@RequestMapping(value = "ajax-remove-publishLine", method = RequestMethod.POST)
 	@ResponseBody
-	public boolean removepublishLine(Principal principal, @CookieValue(value = "city", defaultValue = "-1") int city,
+	public Pair<Boolean, String> removepublishLine(Principal principal, @CookieValue(value = "city", defaultValue = "-1") int city,
 			@RequestParam("seriaNum") long seriaNum, @RequestParam("id") int id) {
 		return busLineCheckService.removePublishLine(principal, city, seriaNum, id);
 	}

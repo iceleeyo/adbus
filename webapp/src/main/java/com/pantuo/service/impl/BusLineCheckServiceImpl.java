@@ -1222,19 +1222,18 @@ public List<JapDividPay> getDividPay(long seriaNum) {
 }
 
 @Override
-public boolean removePublishLine(Principal principal, int city, long seriaNum, int id) {
-	PublishLineExample example = new PublishLineExample();
-	PublishLineExample.Criteria criteria = example.createCriteria();
-	criteria.andCityEqualTo(city);
-	criteria.andSeriaNumEqualTo(seriaNum);
-	criteria.andIdEqualTo(id);
-	List<PublishLine> list = publishLineMapper.selectByExample(example);
-	if (list.size() > 0) {
-		if (publishLineMapper.deleteByPrimaryKey(id) > 0) {
-			return true;
-		}
+public Pair<Boolean, String> removePublishLine(Principal principal, int city, long seriaNum, int id) {
+	PublishLine publishLine= publishLineMapper.selectByPrimaryKey(id);
+	if(publishLine==null){
+		return new Pair<Boolean, String>(false,"信息丢失");
 	}
-	return false;
+	if(publishLine.getSalesNumber()!=publishLine.getRemainNuber()){
+		return new Pair<Boolean, String>(false,"已有车辆在刊，不能删除");
+	}
+		if (publishLineMapper.deleteByPrimaryKey(id) > 0) {
+			return new Pair<Boolean, String>(true,"删除成功");
+		}
+	return new Pair<Boolean, String>(false,"操作失败");
 }
 
 @Override

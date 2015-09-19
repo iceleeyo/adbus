@@ -1,5 +1,6 @@
 package com.pantuo.service.impl;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,6 +10,11 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.DeserializationConfig;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,19 +38,24 @@ import com.pantuo.dao.pojo.QJpaBusModel;
 import com.pantuo.dao.pojo.QJpaBusOnline;
 import com.pantuo.dao.pojo.QJpaBusinessCompany;
 import com.pantuo.dao.pojo.QJpaBusline;
+import com.pantuo.mybatis.domain.Bus;
 import com.pantuo.mybatis.domain.BusOnline;
 import com.pantuo.mybatis.domain.BusOnlineExample;
+import com.pantuo.mybatis.domain.BusUplog;
+import com.pantuo.mybatis.domain.BusUplogExample;
 import com.pantuo.mybatis.domain.CountableBusLine;
 import com.pantuo.mybatis.domain.CountableBusModel;
 import com.pantuo.mybatis.domain.CountableBusinessCompany;
 import com.pantuo.mybatis.domain.PublishLine;
 import com.pantuo.mybatis.persistence.BusCustomMapper;
+import com.pantuo.mybatis.persistence.BusMapper;
 import com.pantuo.mybatis.persistence.BusOnlineMapper;
 import com.pantuo.mybatis.persistence.OfflinecontractMapper;
 import com.pantuo.mybatis.persistence.PublishLineMapper;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.BusService;
 import com.pantuo.simulate.QueryBusInfo;
+import com.pantuo.util.BeanUtils;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 import com.pantuo.web.view.BusInfoView;
@@ -62,6 +73,8 @@ public class BusServiceImpl implements BusService {
 	BuslineRepository lineRepo;
 	@Autowired
 	BusModelRepository modelRepo;
+	@Autowired
+	BusMapper busMapper;
 	@Autowired
 	BusinessCompanyRepository companyRepo;
 	@Autowired
@@ -379,4 +392,25 @@ public class BusServiceImpl implements BusService {
 		return page.getContent();
 	}
 
+	@Override
+	public Pair<Boolean, String> saveBus(Bus bus, int cityId, Principal principal) throws JsonGenerationException, JsonMappingException, IOException {
+		Bus bus2=busMapper.selectByPrimaryKey(bus.getId());
+		BeanUtils.copyProperties(bus, bus2);
+		bus2.setUpdated(new Date());
+		int a=busMapper.updateByPrimaryKey(bus2);
+		if(a>0){
+			  ObjectMapper t = new ObjectMapper();
+				t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+				t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
+				String jsonString =t.writeValueAsString(bus2);
+				BusUplog log=new BusUplog();
+				log.setCreated(new Date());
+				log.setUpdated(new Date());
+				log.setCity(cityId);
+				log.setUpdator(Request.getUserId(principal));
+				log.setBusid(bus.getId());
+				log.setJsonString(jsonString);
+		}
+		return new Pair<Boolean, String>(true,"修改成功");
+	}
 }

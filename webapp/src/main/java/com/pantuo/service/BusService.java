@@ -6,9 +6,12 @@ import com.pantuo.pojo.TableRequest;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.BusInfoView;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.util.List;
@@ -51,4 +54,6 @@ public interface BusService {
 	public BusOnline offlineBusContract(int cityId,int id,int publishLineId , Principal principal);
 	
 	List<JpaBusinessCompany> getAllCompany(int cityId);
+
+	Pair<Boolean, String> saveBus(Bus bus, int cityId, Principal principal) throws JsonGenerationException, JsonMappingException, IOException;
 }
