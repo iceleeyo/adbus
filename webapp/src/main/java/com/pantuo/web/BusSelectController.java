@@ -663,6 +663,19 @@ public class BusSelectController {
 			@RequestParam("seriaNum") long seriaNum) {
 		return busLineCheckService.getpublishLineBySeriNum(seriaNum);
 	}
+	
+	@RequestMapping(value = "ajax-publishLinebyId", method = RequestMethod.GET)
+	@ResponseBody
+	public List<JpaPublishLine> publishLinebyId(Model model,
+			@CookieValue(value = "city", defaultValue = "-1") int city, @RequestParam("plid") int plid) {
+		JpaPublishLine v = busLineCheckService.queryPublishLineByid(plid);
+		List<JpaPublishLine> r = new ArrayList<JpaPublishLine>(1);
+		if (v != null) {
+			r.add(v);
+		}
+		return r;
+	}
+	
 	@RequestMapping(value = "ajax-getDividPay", method = RequestMethod.GET)
 	@ResponseBody
 	public List<JapDividPay> getDividPay(Model model, @CookieValue(value = "city", defaultValue = "-1") int city,

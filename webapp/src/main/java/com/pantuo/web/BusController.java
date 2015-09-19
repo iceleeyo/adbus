@@ -157,6 +157,8 @@ public class BusController {
 		model.addAttribute("jpaPublishLine", jpaPublishLine);
 		model.addAttribute("companys", busService.getAllCompany(cityId));
 		model.addAttribute("plid", publishlineid);
+		model.addAttribute("seriaNum", jpaPublishLine != null ? jpaPublishLine.getSeriaNum() : StringUtils.EMPTY);
+
 		return "busOfline_list";
 	}
 	@RequestMapping(value = "/mistake_handle")
