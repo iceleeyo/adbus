@@ -52,8 +52,12 @@ css=["js/jquery-ui/jquery-ui.css"]>
                       return '<a   onclick=" gotoSchedult(' + row.line.id +","+(row.model.id )+ ')" >'+data+'</a> &nbsp;';
                 }},
                 { "data": "line.levelStr", "defaultContent": ""}, 
+                	{ "data": "batch", "defaultContent": ""}, 
                 { "data": "salesNumber", "defaultContent": ""}, 
-                 { "data": "remainNuber", "defaultContent": ""},
+                 { "data": "remainNuber", "defaultContent": "","render": function(data, type, row, meta) {
+                	 
+                	return "<font color='red'>"+data+"</font>";
+                }},
                 { "data": "days", "defaultContent": 0}, 
                 { "data": function( row, type, set, meta) {
                     return row.id;
@@ -65,7 +69,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 }
 										}
 									},
-									{ "data": "batch", "defaultContent": ""}, 
+								
 									 ],
 							"language" : {
 								"url" : "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
@@ -293,11 +297,12 @@ css=["js/jquery-ui/jquery-ui.css"]>
 					<th>发布形式</th>
 					<th>线路</th>
 					<th>级别</th>
+					   <th>批次</th>
                     <th>数量（辆）</th>
                     <th>已装数量</th>
                     <th>刊期(天)</th>
                     <th>发布时间</th>
-                    <th>批次</th>
+                 
                    
 				</tr>
 					</thead>
