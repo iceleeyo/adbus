@@ -1,16 +1,20 @@
 package com.pantuo.service.impl;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -26,23 +30,25 @@ import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.dao.BusModelRepository;
 import com.pantuo.dao.BusOnlineRepository;
 import com.pantuo.dao.BusRepository;
+import com.pantuo.dao.BusUpdateRepository;
 import com.pantuo.dao.BusinessCompanyRepository;
 import com.pantuo.dao.BuslineRepository;
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusModel;
 import com.pantuo.dao.pojo.JpaBusOnline;
+import com.pantuo.dao.pojo.JpaBusUpLog;
 import com.pantuo.dao.pojo.JpaBusinessCompany;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.QJpaBus;
 import com.pantuo.dao.pojo.QJpaBusModel;
 import com.pantuo.dao.pojo.QJpaBusOnline;
+import com.pantuo.dao.pojo.QJpaBusUpLog;
 import com.pantuo.dao.pojo.QJpaBusinessCompany;
 import com.pantuo.dao.pojo.QJpaBusline;
 import com.pantuo.mybatis.domain.Bus;
 import com.pantuo.mybatis.domain.BusOnline;
 import com.pantuo.mybatis.domain.BusOnlineExample;
 import com.pantuo.mybatis.domain.BusUplog;
-import com.pantuo.mybatis.domain.BusUplogExample;
 import com.pantuo.mybatis.domain.CountableBusLine;
 import com.pantuo.mybatis.domain.CountableBusModel;
 import com.pantuo.mybatis.domain.CountableBusinessCompany;
@@ -50,6 +56,7 @@ import com.pantuo.mybatis.domain.PublishLine;
 import com.pantuo.mybatis.persistence.BusCustomMapper;
 import com.pantuo.mybatis.persistence.BusMapper;
 import com.pantuo.mybatis.persistence.BusOnlineMapper;
+import com.pantuo.mybatis.persistence.BusUplogMapper;
 import com.pantuo.mybatis.persistence.OfflinecontractMapper;
 import com.pantuo.mybatis.persistence.PublishLineMapper;
 import com.pantuo.pojo.TableRequest;
@@ -70,15 +77,23 @@ public class BusServiceImpl implements BusService {
 	@Autowired
 	BusOnlineRepository busOnlineRepository;
 	@Autowired
+	BusUpdateRepository busUpdateRepository;
+	@Autowired
 	BuslineRepository lineRepo;
 	@Autowired
 	BusModelRepository modelRepo;
+
+	@Autowired
+	BuslineRepository buslineRepository;
+
 	@Autowired
 	BusMapper busMapper;
 	@Autowired
 	BusinessCompanyRepository companyRepo;
 	@Autowired
 	BusCustomMapper busCustomMapper;
+	@Autowired
+	BusUplogMapper busUplogMapper;
 	@Autowired
 	BusOnlineMapper busOnlineMapper;
 	@Autowired
@@ -255,6 +270,70 @@ public class BusServiceImpl implements BusService {
 		return new org.springframework.data.domain.PageImpl<BusInfoView>(r, p, page.getTotalElements());
 	}
 
+	public Page<BusInfoView> queryBusinfoView2(TableRequest req, Page<JpaBusUpLog> page) throws JsonParseException,
+			JsonMappingException, IOException {
+		List<JpaBusUpLog> list = page.getContent();
+		List<BusInfoView> r = new ArrayList<BusInfoView>(list.size());
+		ObjectMapper t = new ObjectMapper();
+		t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
+
+		List<Integer> modelIdsIntegers = new ArrayList<Integer>();
+		List<Integer> linesIntegers = new ArrayList<Integer>();
+		List<Integer> compaynIntegers = new ArrayList<Integer>();
+
+		for (JpaBusUpLog log : list) {
+			BusInfoView view = new BusInfoView();
+			view.setBusUpLog(log);
+			Bus jpabus = t.readValue(log.getJsonString(), Bus.class);
+			view.setBus(jpabus);
+			r.add(view);
+			modelIdsIntegers.add(jpabus.getModelId());
+			linesIntegers.add(jpabus.getLineId());
+			compaynIntegers.add(jpabus.getCompanyId());
+		}
+		Map<Integer, JpaBusModel> modelMap=null;
+		Map<Integer, JpaBusline> lineMap=null;
+				Map<Integer, JpaBusinessCompany> companyMap=null;
+		if (!modelIdsIntegers.isEmpty()) {
+			List<JpaBusModel> w = modelRepo.findAll(modelIdsIntegers);
+			modelMap= getTempMap(w);
+		}
+		if (!linesIntegers.isEmpty()) {
+			List<JpaBusline> w = buslineRepository.findAll(linesIntegers);
+			lineMap= getTempMap2(w);
+		}
+
+		if (!compaynIntegers.isEmpty()) {
+			List<JpaBusinessCompany> w = companyRepo.findAll(compaynIntegers);
+			lineMap= getTempMap2(w);
+		}
+		Pageable p = new PageRequest(req.getPage(), req.getLength(), page.getSort());
+		return new org.springframework.data.domain.PageImpl<BusInfoView>(r, p, page.getTotalElements());
+	}
+
+	public Map<Integer, JpaBusModel> getTempMap(List<JpaBusModel> list) {
+		Map<Integer, JpaBusModel> wMap = new HashMap<Integer, JpaBusModel>();
+		for (JpaBusModel w : list) {
+				wMap.put(w.getId(), w);
+		}
+		return wMap;
+	}
+	public Map<Integer, JpaBusline> getTempMap2(List<JpaBusline> list) {
+		Map<Integer, JpaBusline> wMap = new HashMap<Integer, JpaBusline>();
+		for (JpaBusline w : list) {
+				wMap.put(w.getId(), w);
+		}
+		return wMap;
+	}
+	public Map<Integer, JpaBusinessCompany> getTempMap3(List<JpaBusinessCompany> list) {
+		Map<Integer, JpaBusinessCompany> wMap = new HashMap<Integer, JpaBusinessCompany>();
+		for (JpaBusinessCompany w : list) {
+				wMap.put(w.getId(), w);
+		}
+		return wMap;
+	}
+
 	public Pair<Boolean, String> checkOnlie(int contractid, int busId, int publish_line_id, Date startDate, Date endDate) {
 		Pair<Boolean, String> r = null;
 		BusOnlineExample example = new BusOnlineExample();
@@ -268,13 +347,15 @@ public class BusServiceImpl implements BusService {
 		}
 		//check date
 		BusOnlineExample dateCheckExample = new BusOnlineExample();
-		dateCheckExample.createCriteria().andBusidEqualTo(busId).andEnableEqualTo(true);;
+		dateCheckExample.createCriteria().andBusidEqualTo(busId).andEnableEqualTo(true);
+		;
 		List<BusOnline> onlineList = busOnlineMapper.selectByExample(dateCheckExample);
 		for (BusOnline busOnline : onlineList) {
 			boolean isDup = false;//上刊重复标记
 
 			//start<=date && date<=end
-			if (( busOnline.getStartDate().before(startDate)|| busOnline.getStartDate().equals(startDate) )   && startDate.before(busOnline.getEndDate()) ) {
+			if ((busOnline.getStartDate().before(startDate) || busOnline.getStartDate().equals(startDate))
+					&& startDate.before(busOnline.getEndDate())) {
 				isDup = true;
 			}
 			//start<=endDate && endDate<=end
@@ -396,24 +477,47 @@ public class BusServiceImpl implements BusService {
 	}
 
 	@Override
-	public Pair<Boolean, String> saveBus(Bus bus, int cityId, Principal principal) throws JsonGenerationException, JsonMappingException, IOException {
-		Bus bus2=busMapper.selectByPrimaryKey(bus.getId());
+	public Pair<Boolean, String> saveBus(Bus bus, int cityId, Principal principal) throws JsonGenerationException,
+			JsonMappingException, IOException {
+		Bus bus2 = busMapper.selectByPrimaryKey(bus.getId());
+		if (bus2 == null) {
+			return new Pair<Boolean, String>(false, "信息丢失");
+		}
+		ObjectMapper t = new ObjectMapper();
+		t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
+		String jsonString = t.writeValueAsString(bus2);
 		BeanUtils.copyProperties(bus, bus2);
 		bus2.setUpdated(new Date());
-		int a=busMapper.updateByPrimaryKey(bus2);
-		if(a>0){
-			  ObjectMapper t = new ObjectMapper();
-				t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-				t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
-				String jsonString =t.writeValueAsString(bus2);
-				BusUplog log=new BusUplog();
-				log.setCreated(new Date());
-				log.setUpdated(new Date());
-				log.setCity(cityId);
-				log.setUpdator(Request.getUserId(principal));
-				log.setBusid(bus.getId());
-				log.setJsonString(jsonString);
+		int a = busMapper.updateByPrimaryKey(bus2);
+		if (a > 0) {
+			BusUplog log = new BusUplog();
+			log.setCreated(new Date());
+			log.setUpdated(new Date());
+			log.setCity(cityId);
+			log.setUpdator(Request.getUserId(principal));
+			log.setBusid(bus.getId());
+			log.setJsonString(jsonString);
+			busUplogMapper.insert(log);
 		}
-		return new Pair<Boolean, String>(true,"修改成功");
+		return new Pair<Boolean, String>(true, "修改成功");
+	}
+
+	@Override
+	public Page<JpaBusUpLog> getbusUphistory(int cityId, TableRequest req, int page, int length, Sort sort) {
+		if (page < 0)
+			page = 0;
+		if (length < 1)
+			length = 1;
+		if (sort == null)
+			sort = new Sort("id");
+		Pageable p = new PageRequest(page, length, sort);
+		BooleanExpression query = QJpaBusUpLog.jpaBusUpLog.city.eq(cityId);
+		String busid = req.getFilter("busid");
+		if (StringUtils.isNotBlank(busid)) {
+			int busId = NumberUtils.toInt(busid);
+			query = query.and(QJpaBusUpLog.jpaBusUpLog.jpabus.id.eq(busId));
+		}
+		return query == null ? busUpdateRepository.findAll(p) : busUpdateRepository.findAll(query, p);
 	}
 }

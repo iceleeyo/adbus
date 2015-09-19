@@ -7,6 +7,7 @@ import com.pantuo.util.Pair;
 import com.pantuo.web.view.BusInfoView;
 
 import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -56,4 +57,8 @@ public interface BusService {
 	List<JpaBusinessCompany> getAllCompany(int cityId);
 
 	Pair<Boolean, String> saveBus(Bus bus, int cityId, Principal principal) throws JsonGenerationException, JsonMappingException, IOException;
+
+	Page<JpaBusUpLog> getbusUphistory(int cityId, TableRequest req, int page, int length, Sort sort);
+
+	public Page<BusInfoView> queryBusinfoView2(TableRequest req, Page<JpaBusUpLog> page) throws JsonParseException, JsonMappingException, IOException;
 }

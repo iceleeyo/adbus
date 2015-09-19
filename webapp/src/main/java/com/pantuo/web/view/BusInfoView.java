@@ -1,10 +1,20 @@
 package com.pantuo.web.view;
 
 import com.pantuo.dao.pojo.JpaBus;
+import com.pantuo.dao.pojo.JpaBusModel;
+import com.pantuo.dao.pojo.JpaBusUpLog;
+import com.pantuo.dao.pojo.JpaBusinessCompany;
+import com.pantuo.dao.pojo.JpaBusline;
+import com.pantuo.mybatis.domain.Bus;
 
 public class BusInfoView {
    BusInfo busInfo;
    JpaBus jpaBus;
+   Bus bus;
+   JpaBusModel model;
+   JpaBusline line;
+   JpaBusinessCompany company;
+   JpaBusUpLog busUpLog;
 public BusInfo getBusInfo() {
 	return busInfo;
 }
@@ -16,6 +26,36 @@ public JpaBus getJpaBus() {
 }
 public void setJpaBus(JpaBus jpaBus) {
 	this.jpaBus = jpaBus;
+}
+public JpaBusUpLog getBusUpLog() {
+	return busUpLog;
+}
+public void setBusUpLog(JpaBusUpLog busUpLog) {
+	this.busUpLog = busUpLog;
+}
+public Bus getBus() {
+	return bus;
+}
+public JpaBusModel getModel() {
+	return model;
+}
+public void setModel(JpaBusModel model) {
+	this.model = model;
+}
+public JpaBusline getLine() {
+	return line;
+}
+public void setLine(JpaBusline line) {
+	this.line = line;
+}
+public JpaBusinessCompany getCompany() {
+	return company;
+}
+public void setCompany(JpaBusinessCompany company) {
+	this.company = company;
+}
+public void setBus(Bus bus) {
+	this.bus = bus;
 }
    
 }

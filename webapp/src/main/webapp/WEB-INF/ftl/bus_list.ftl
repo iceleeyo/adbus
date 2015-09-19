@@ -1,8 +1,10 @@
 <#import "template/template.ftl" as frame>
 <#global menu="巴士列表">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="巴士列表" js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js", "js/datepicker.js","js/jquery.datepicker.region.cn.js"]
-css=["js/jquery-ui/jquery-ui.css"]>
+<@frame.html title="巴士列表" js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
+"js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
+"js/jquery.datepicker.region.cn.js","js/progressbar.js"]
+css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 
 <style type="text/css">
     .center {margin: auto;}
@@ -72,10 +74,11 @@ css=["js/jquery-ui/jquery-ui.css"]>
                     }
                 } },
                  { "data": function( row, type, set, meta) {
-                    return row.id;
+                    return row.jpaBus.id;
                     },
                     "render": function(data, type, row, meta) {
-                        var operations = '<a  onclick="showBusDetail(\'${rc.contextPath}/bus/ajaxdetail/\','+data+');"  >编辑</a>';
+                        var operations = '<a  onclick="showBusDetail(\'${rc.contextPath}\',\'${rc.contextPath}/bus/ajaxdetail/\','+data+');"  >编辑</a>';
+                        operations+='&nbsp;&nbsp;<a  onclick="showbusUpdate_history(\'${rc.contextPath}\','+row.jpaBus.id+');">查看变更历史</a>'
                         return operations;
                     }
                 },
@@ -158,8 +161,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 }
 
 //车辆信息修改
-function showBusDetail(tourl,id){
-	alert(2);
+function showBusDetail(pathUrl,tourl,id){
 	$.ajax({
 		url : tourl  + id,
 		type : "POST",
@@ -170,34 +172,31 @@ function showBusDetail(tourl,id){
 				type: 1,
 				title: "车辆信息修改",
 				skin: 'layui-layer-rim', 
-				area: ['450px', '550px'], 
+				area: ['450px', '750px'], 
 				content: ''
-				+'<br/>'
-				+ '<form id="publishform01" action='+tourl+'/bus/saveBus>'
+				+ '<form id="publishform01" action='+pathUrl+'/bus/saveBus>'
 				+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;"><input type="hidden" name="id" value="'+data.id+'"/>'
 				+'<div class="ui-form-item"> <label class="ui-label mt10">车牌号: </label><input class="ui-input-d"'
-				+'type="text" name="title" id="title" value="'+data.plateNumber+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+				+'type="text" name="plateNumber" id="plateNumber" value="'+data.plateNumber+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 				+'<div class="ui-form-item"> <label class="ui-label mt10">车辆自编号:</label><input  class="ui-input-d"'
-				+'type="text" name="taxrenum" value="'+data.serialNumber+'" id="taxrenum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
+				+'type="text" name="serialNumber" value="'+data.serialNumber+'"  data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
 				+'<div class="ui-form-item"> <label class="ui-label mt10">旧自编号:</label><input  class="ui-input-d"'
-				+'type="text" name="taxrenum" value="'+data.oldSerialNumber+'" id="taxrenum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
+				+'type="text" name="oldSerialNumber" value="'+data.oldSerialNumber+'" id="oldSerialNumber" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
 				+ '<div class="ui-form-item"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/>'
 				+ '<label class="ui-label mt10">选择线路：</label>'
 				+ '<input class="ui-input" value="'+data.line.name+'"  id="line_id" data-is="isAmount isEnough">'
 				+ '</div>'
-				+'<div id="bodyPro"><div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">线路级别：</label>'
-				+'<input   class="ui-input-d" type="text" name="regisaddr" value="'+data.line.levelStr+'" id="lineLevel" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 				+ '<div id="four"><div class="ui-form-item" id="model_Id">'
 				+ '<label class="ui-label mt10">选择车型：</label>'
 				+ '<select  class="ui-input bus-model" name="modelId" id="model_id"> <option value="'+data.model.id+'" selected="selected">'+data.model.name+'</option><option value="0">所有类型</option> </select>'
 				+ '</div>'
 				+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">车辆类别:</label>'
-				+'<select class="ui-input ui-input-mini" name="category" id="category">' +
-              	+'<option value="0">包车</option>' +
-              	+'<option value="1">班车</option>' +
-              	+'<option value="2">机动车</option>' +
-              	+'<option value="3">运营车</option>' +
-     			+'</select>'+
+				+'<select class="ui-input ui-input-mini" name="category" id="category">' 
+              	+'<option value="0">包车</option>' 
+              	+'<option value="1">班车</option>' 
+              	+'<option value="2">机动车</option>' 
+              	+'<option value="3">运营车</option>' 
+     			+'</select>'
 				+'</div>'
 				+'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">营销中心:</span> </label>'
 				+ '<select  class="ui-input bus-model" name="companyId" id="companyId"> <option value="'+data.company.id+'" selected="selected">'+data.company.name+'</option> </select>'
@@ -208,7 +207,7 @@ function showBusDetail(tourl,id){
 				+'<input class="ui-input-d"  value="'+data.branch+'" id="days" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 				+'<div class="ui-form-item"> <label class="ui-label mt10" style="width: 145px;">车辆情况:</label><textarea rows="4" cols="30" readonly="readonly" style="resize: none;margin-left: -20px;" >'+data.description+'</textarea> </div>'
 				+ '<div class="ui-form-item widthdrawBtBox" style="position: absolute; bottom: 10px;">'
-				+ '<input type="button" onclick="saveBus()" class="block-btn" value="确认" ></div></div></div>'
+				+ '<input type="button" onclick="saveBus()" class="block-btn" value="确认" ></div></div></div></div>'
 				+ '<input type="hidden" value="'+data.line.id+'" name="lineId" id="db_id"></form>'
 			});
 			$("#line_id").autocomplete({

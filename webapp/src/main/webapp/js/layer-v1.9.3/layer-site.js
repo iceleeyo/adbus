@@ -16,7 +16,18 @@ function showProductlayer(tourl,id){
 	});
 	
 }
-function showBusDetail(tourl,id){
+//查看车辆上刊历史
+function showbusOnline_history(tourl,id){
+	layer.open({
+		type: 1,
+		title: "历史上刊记录",
+		skin: 'layui-layer-rim', 
+		area: ['1020px', '600px'],  
+		content:''
+			+' '
+			+'<iframe style="width:99%;height:98%" frameborder="no" src="'+tourl+'/bus/busOnline_history/'+id+'"/>'
+	});
+/*function showBusDetail(tourl,id){
 	$.ajax({
 		url : tourl  + id,
 		type : "POST",
@@ -53,8 +64,23 @@ function showBusDetail(tourl,id){
 		}
 		
 	}, "text");
+>>>>>>> .r1714*/
 	
 }
+//查看车辆变更历史
+function showbusUpdate_history(tourl,id){
+	layer.open({
+		type: 1,
+		title: "车辆变更历史",
+		skin: 'layui-layer-rim', 
+		area: ['1120px', '600px'],  
+		content:''
+			+' '
+			+'<iframe style="width:99%;height:98%" frameborder="no" src="'+tourl+'/bus/busUpdate_history/'+id+'"/>'
+	});
+	
+}
+
 //查看垫片详细
 function showBlackAdlayer(tourl,id){
 	$.ajax({

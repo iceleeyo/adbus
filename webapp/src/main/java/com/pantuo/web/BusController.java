@@ -13,6 +13,7 @@ import com.pantuo.web.view.BusInfoView;
 
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,6 +98,17 @@ public class BusController {
 				req.getSort("id"));
 		return new DataTablePage(jpabuspage, req.getDraw());
 	}
+	
+	@RequestMapping("ajax-busUpdate_history")
+	@ResponseBody
+	public DataTablePage<BusInfoView> busUpdatehistory(TableRequest req,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city)throws JsonParseException, JsonMappingException, IOException {
+		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
+			return new DataTablePage(Collections.emptyList());
+		Page<JpaBusUpLog> jpabuspage = busService.getbusUphistory(cityId, req, req.getPage(), req.getLength(),
+				req.getSort("id"));
+		return new DataTablePage(busService.queryBusinfoView2(req, jpabuspage), req.getDraw());
+	}
 
 	@RequestMapping("ajax-all-lines")
 	@ResponseBody
@@ -155,6 +167,12 @@ public class BusController {
 		response.setHeader("X-Frame-Options", "SAMEORIGIN");
 		model.addAttribute("busid", busid);
 		return "busOnline_history";
+	}
+	@RequestMapping(value = "/busUpdate_history/{busid}")
+	public String busUpdate_history(Model model,@PathVariable("busid") int busid,HttpServletResponse response) {
+		response.setHeader("X-Frame-Options", "SAMEORIGIN");
+		model.addAttribute("busid", busid);
+		return "busUpdate_history";
 	}
 
 	@RequestMapping(value = "/findBusByLineid/{publishlineid}")
