@@ -40,17 +40,17 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 "dataSrc": "content",
             },
             "columns": [
-                { "data": "jpaBus.plateNumber", "defaultContent": ""},
-                { "data": "jpaBus.serialNumber", "defaultContent": ""},
-                { "data": "jpaBus.oldSerialNumber", "defaultContent": ""},
-                { "data": "jpaBus.model.name", "defaultContent": ""},
-                { "data": "jpaBus.line.name", "defaultContent": ""},
-                { "data": "jpaBus.line.levelStr", "defaultContent": ""},
-                { "data": "jpaBus.categoryStr", "defaultContent": ""},
-                { "data": "jpaBus.company.name", "defaultContent": ""},
-                { "data": "jpaBus.description", "defaultContent": ""},
-                { "data": "jpaBus.office", "defaultContent": ""},
-                { "data": "jpaBus.branch", "defaultContent": ""},
+                { "data": "bus.plateNumber", "defaultContent": ""},
+                { "data": "bus.serialNumber", "defaultContent": ""},
+                { "data": "bus.oldSerialNumber", "defaultContent": ""},
+                { "data": "model.name", "defaultContent": ""},
+                { "data": "line.name", "defaultContent": ""},
+                { "data": "line.levelStr", "defaultContent": ""},
+                { "data": "busCategory", "defaultContent": ""},
+                { "data": "company.name", "defaultContent": ""},
+                { "data": "bus.description", "defaultContent": ""},
+                { "data": "bus.office", "defaultContent": ""},
+                { "data": "bus.branch", "defaultContent": ""},
                 { "data": "busUpLog.updated", "defaultContent": "","render" : function(data, type, row,meta) {
 					return  $.format.date(data, "yyyy-MM-dd");
 										}
