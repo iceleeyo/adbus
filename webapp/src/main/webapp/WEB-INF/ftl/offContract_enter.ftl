@@ -439,7 +439,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 	<div id="relateSup">
 		<div class="p20bs mt10 color-white-bg border-ec">
 				<div class="withdraw-title">
-					<span>发布线路</span>
+					<span>（一）发布线路信息</span>
 					<input type="hidden" name="seriaNum" id="seriaNum" value="${seriaNum}"/>
 				   <a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="addPublishLine('${rc.contextPath}',${seriaNum})">增加批次</a>
 				</div>
@@ -462,9 +462,11 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 					</thead>
 				</table>
 			 </div>
+	    </div>
+		<div id="relateSup">
 		<div class="p20bs mt10 color-white-bg border-ec">
 				<div class="withdraw-title fn-clear">
-									合同详情录入
+									（二）合同基本信息
 								</div>
 				<form data-name="withdraw" name="form02" id="form02"
 					class="ui-form" method="post"
@@ -571,9 +573,13 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 									data-is="isAmount isEnough" autocomplete="off"
 									disableautocomplete="" placeholder="请输入付款方式">
 							</div>
+				</div>
+				</div>
+				</div>
+		   <div id="relateSup">							
 			<div class="p20bs mt10 color-white-bg border-ec">
 				<div class="withdraw-title">
-					<span>合同分期</span>
+					<span>（三）合同付款方式</span>
 				   <a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="addfenqi('${rc.contextPath}',${seriaNum})">添加分期</a>
 				</div>
 			   <div id="orderedBuses">
