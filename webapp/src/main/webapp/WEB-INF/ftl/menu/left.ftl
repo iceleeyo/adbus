@@ -253,7 +253,7 @@
                                             </li>
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/api/lines">
-                                                    线路列表
+                                                    媒体定购
                                                 </a>
                                             </li>
                                             <li class="pg-side-exp-item">
