@@ -169,24 +169,32 @@ css=["js/jquery-ui/jquery-ui.css"]>
         	   return false;
            }
    		var param={"ids":dIds,"days":days,"stday":stday,"contractid":contractid,"plid":$("#plid").val()};
-    	var bln=window.confirm("确定上刊吗?");
-        if(bln){
-    	 $.ajax({
-    			url:"${rc.contextPath}/bus/batchOnline",
-    			type:"POST",
-    			async:false,
-    			dataType:"json",
-    			data:param,
-    			success:function(data){
-    				if (data.left == true) {
-    					layer.msg(data.right);
-    					 table.dataTable()._fnAjaxUpdate();
-    				} else {
-    					layer.msg(data.right);
-    				}
-    			}
-       });  
-       }
+    	
+    	 
+
+		layer.confirm('确定上刊吗？', {icon: 3}, function(index){
+    		layer.close(index);
+    		
+		    if(true){
+		    	 $.ajax({
+		    			url:"${rc.contextPath}/bus/batchOnline",
+		    			type:"POST",
+		    			async:false,
+		    			dataType:"json",
+		    			data:param,
+		    			success:function(data){
+		    				if (data.left == true) {
+		    					layer.msg(data.right);
+		    					 table.dataTable()._fnAjaxUpdate();
+		    				} else {
+		    					layer.msg(data.right,{icon: 5});
+		    				}
+		    			}
+		       });  
+		       }
+		});		
+
+    
         }
     $(document).ready(function() {
         initTable();
