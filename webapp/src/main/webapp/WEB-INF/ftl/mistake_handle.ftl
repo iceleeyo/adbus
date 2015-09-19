@@ -76,7 +76,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 	              
 	              		var tString ='';
 	              		if(row.busInfo.stats == 'now' || row.busInfo.stats == 'future'){
-	              			tString = 	 '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/bus/offlineContract/' + (row.busInfo.busOnline.id) + '">撤销</a> &nbsp;'
+	              			tString = 	 '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/bus/offlineContract/' + (row.busInfo.busOnline.id) +"/0"+ '">撤销</a> &nbsp;'
 	              		}
 	                	return tString;
 	                }
