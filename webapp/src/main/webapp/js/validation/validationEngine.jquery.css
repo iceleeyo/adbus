@@ -44,6 +44,7 @@
 	width: 100%;
 	background: #F7FBFF;
 	position:relative;
+	left:140px;
 	color: #ee0101;
 	min-width: 120px;
 	font-size: 11px;
@@ -53,6 +54,7 @@
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
 	-o-border-radius: 2px;
+	
 }
 
 .formError.inline .formErrorContent {
@@ -81,6 +83,7 @@
 	width: 15px;
 	margin: -2px 0 0 13px;
 	position:relative;
+	left:140px;
 }
 body[dir='rtl'] .formError .formErrorArrow,
 body.rtl .formError .formErrorArrow {
