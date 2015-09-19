@@ -8,41 +8,60 @@ import java.util.List;
  * Page object with jquery DataTable members
  */
 public class DataTablePage<T> extends PageImpl<T> {
-    private int draw;
+	private int draw;
 
-    public DataTablePage(List content, Pageable pageable, long total) {
-        super(content, pageable, total);
-    }
+	public Object tableInfo;
 
-    public DataTablePage(List content) {
-        super(content);
-    }
+	public DataTablePage(List content, Pageable pageable, long total) {
+		super(content, pageable, total);
+	}
 
-    public DataTablePage(final Page<T> page, int draw) {
-    	
-        super(page.getContent(), new PageRequest(page.getNumber(), page.getSize(), page.getSort()), page.getTotalElements());
-        this.draw = draw;
-    }
+	public DataTablePage(List content) {
+		super(content);
+	}
 
-    public int getDraw() {
-        return draw;
-    }
+	public DataTablePage(final Page<T> page, int draw) {
 
-    public void setDraw(int draw) {
-        this.draw = draw;
-    }
+		super(page.getContent(), new PageRequest(page.getNumber(), page.getSize(), page.getSort()), page
+				.getTotalElements());
+		this.draw = draw;
+		tableInfo = new A();
+	}
 
-    public long getRecordsTotal() {
-        return this.getTotalElements();
-    }
+	class A {
+		public String getAbs() {
+			return this.getClass().getName().concat("nihao");
+		}
+	}
 
-    public void setRecordsTotal(long recordsTotal) {
-    }
+	public int getDraw() {
+		return draw;
+	}
 
-    public long getRecordsFiltered() {
-        return this.getTotalElements();
-    }
+	public void setDraw(int draw) {
+		this.draw = draw;
+	}
 
-    public void setRecordsFiltered(long recordsFiltered) {
-    }
+	public long getRecordsTotal() {
+		return this.getTotalElements();
+	}
+
+	public void setRecordsTotal(long recordsTotal) {
+	}
+
+	public long getRecordsFiltered() {
+		return this.getTotalElements();
+	}
+
+	public void setRecordsFiltered(long recordsFiltered) {
+	}
+
+	public Object getTableInfo() {
+		return tableInfo;
+	}
+
+	public void setTableInfo(Object tableInfo) {
+		this.tableInfo = tableInfo;
+	}
+
 }

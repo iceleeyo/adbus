@@ -1,15 +1,17 @@
 package com.pantuo.service.impl;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Locale.Category;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -278,9 +280,9 @@ public class BusServiceImpl implements BusService {
 		t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
 
-		List<Integer> modelIdsIntegers = new ArrayList<Integer>();
-		List<Integer> linesIntegers = new ArrayList<Integer>();
-		List<Integer> compaynIntegers = new ArrayList<Integer>();
+		Set<Integer> modelIdsIntegers = new HashSet<Integer>();
+		Set<Integer> linesIntegers = new HashSet<Integer>();
+		Set<Integer> compaynIntegers = new HashSet<Integer>();
 
 		for (JpaBusUpLog log : list) {
 			BusInfoView view = new BusInfoView();
@@ -292,27 +294,56 @@ public class BusServiceImpl implements BusService {
 			linesIntegers.add(jpabus.getLineId());
 			compaynIntegers.add(jpabus.getCompanyId());
 		}
-		Map<Integer, JpaBusModel> modelMap=null;
-		Map<Integer, JpaBusline> lineMap=null;
-				Map<Integer, JpaBusinessCompany> companyMap=null;
+
+		//List<? > cc=modelIdsIntegers;
+		Map<Integer, ?> modelMap = null;
+		Map<Integer, ?> lineMap = null;
+		Map<Integer, ?> companyMap = null;
 		if (!modelIdsIntegers.isEmpty()) {
 			List<JpaBusModel> w = modelRepo.findAll(modelIdsIntegers);
-			modelMap= getTempMap(w);
+			modelMap = list2Map(w);
 		}
 		if (!linesIntegers.isEmpty()) {
 			List<JpaBusline> w = buslineRepository.findAll(linesIntegers);
-			lineMap= getTempMap2(w);
+			lineMap = list2Map(w);
 		}
-
 		if (!compaynIntegers.isEmpty()) {
 			List<JpaBusinessCompany> w = companyRepo.findAll(compaynIntegers);
-			lineMap= getTempMap2(w);
+			companyMap = list2Map(w);
+		}
+
+		for (BusInfoView view : r) {
+			if (view.getBus() != null) {
+				view.setModel(modelMap != null && view.getBus().getModelId() != null ? (JpaBusModel) modelMap.get(view
+						.getBus().getModelId()) : null);
+				view.setLine(lineMap != null && view.getBus().getLineId() != null ? (JpaBusline) lineMap.get(view
+						.getBus().getLineId()) : null);
+				view.setCompany(companyMap != null && view.getBus().getCompanyId() != null ? (JpaBusinessCompany) companyMap
+						.get(view.getBus().getCompanyId()) : null);
+				
+				view.setBusCategory( com.pantuo.dao.pojo.JpaBus.Category.values()[view.getBus().getCategory()].getNameStr());
+			}
+
 		}
 		Pageable p = new PageRequest(req.getPage(), req.getLength(), page.getSort());
 		return new org.springframework.data.domain.PageImpl<BusInfoView>(r, p, page.getTotalElements());
 	}
 
-	public Map<Integer, JpaBusModel> getTempMap(List<JpaBusModel> list) {
+	public Map<Integer, ?> list2Map(List<?> list) {
+		Map<Integer, Object> wMap = new HashMap<Integer, Object>();
+		for (Object w : list) {
+			if (w instanceof JpaBusModel) {
+				wMap.put(((JpaBusModel) w).getId(), w);
+			} else if (w instanceof JpaBusline) {
+				wMap.put(((JpaBusline) w).getId(), w);
+			} else if (w instanceof JpaBusinessCompany) {
+				wMap.put(((JpaBusinessCompany) w).getId(), w);
+			}
+		}
+		return wMap;
+	}
+
+	/*public Map<Integer, JpaBusModel> getTempMap(List<JpaBusModel> list) {
 		Map<Integer, JpaBusModel> wMap = new HashMap<Integer, JpaBusModel>();
 		for (JpaBusModel w : list) {
 				wMap.put(w.getId(), w);
@@ -332,7 +363,7 @@ public class BusServiceImpl implements BusService {
 				wMap.put(w.getId(), w);
 		}
 		return wMap;
-	}
+	}*/
 
 	public Pair<Boolean, String> checkOnlie(int contractid, int busId, int publish_line_id, Date startDate, Date endDate) {
 		Pair<Boolean, String> r = null;
@@ -462,8 +493,8 @@ public class BusServiceImpl implements BusService {
 			record.setUpdated(new Date());
 			record.setEditor(Request.getUserId(principal));
 			busOnlineMapper.updateByPrimaryKey(record);
-			if(publishLineId==0){
-				publishLineId = record.getPublishLineId();	
+			if (publishLineId == 0) {
+				publishLineId = record.getPublishLineId();
 			}
 			ascRemainNumber(publishLineId, false);
 			queryBusInfo.updateBusContractCache(record.getBusid());
