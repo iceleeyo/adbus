@@ -261,7 +261,7 @@ public class BusServiceImpl implements BusService {
 			boolean isDup = false;//上刊重复标记
 
 			//start<=date && date<=end
-			if (busOnline.getStartDate().before(startDate) && startDate.before(busOnline.getEndDate())) {
+			if (( busOnline.getStartDate().before(startDate)|| busOnline.getStartDate().equals(startDate) )   && startDate.before(busOnline.getEndDate()) ) {
 				isDup = true;
 			}
 			//start<=endDate && endDate<=end
