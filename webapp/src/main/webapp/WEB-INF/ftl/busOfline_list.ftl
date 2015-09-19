@@ -74,14 +74,14 @@ css=["js/jquery-ui/jquery-ui.css"]>
 							"language" : {
 								"url" : "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
 							},
-							"initComplete" : initComplete,
-							"drawCallback" : drawCallback,
+							"initComplete" : initComplete2,
+							"drawCallback" : drawCallback2,
 						});
 		orderBusesTable.fnNameOrdering("orderBy").fnNoColumnsParams();
 	}
 	
 	
-	function drawCallback() {
+	function drawCallback2() {
 		$('.table-action').click(function() {
 			$.post($(this).attr("url"), function(data) {
 			if(data){
@@ -92,7 +92,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 			})
 		});
 	}
-	function initComplete() {
+	function initComplete2() {
 		$("div#toolbar").attr("style", "width: 100%;")
 		$("div#toolbar").html('');
 	}
@@ -178,6 +178,8 @@ css=["js/jquery-ui/jquery-ui.css"]>
             },
             "initComplete": initComplete,
             "drawCallback": drawCallback,
+          //  "fnDrawCallback": fnDrawCallback,
+             
         } );
         table.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
@@ -228,6 +230,14 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 orderBusesTable.dataTable()._fnAjaxUpdate();
             })
         });
+    }
+     //显示总条数 add by impanxh
+    function fnDrawCallback(){
+		var record_count = (this.fnSettings().fnRecordsTotal() );
+		
+		
+		//alert(record_count);
+		//alert($(this).attr('numberOfElements'));
     }
  function sub(){
             var stday=$("#stday").val();
@@ -345,7 +355,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                         <th>撤销上刊</th>
                     </tr>
                     </thead>
-
                 </table>
+                <div>sfsf</div>
 </div>
 </@frame.html>
