@@ -826,7 +826,7 @@ public class BusSelectController {
 			HttpServletRequest request) {
 		   Dividpay dividpay=busLineCheckService.queryDividPayByid(id);
 		   return dividpay;
-	}
+	} 
 	@RequestMapping(value = "/queryPublishLineByid/{id}")
 	@ResponseBody
 	public JpaPublishLine queryPublishLineByid(Model model,
