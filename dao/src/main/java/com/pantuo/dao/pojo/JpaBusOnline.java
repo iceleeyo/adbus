@@ -28,6 +28,7 @@ public class JpaBusOnline extends CityEntity {
 	private String userid;
 	private String editor;
 	private boolean enable=true;
+	private int publish_lineId;//JpaPublishLine.id;//此次上刊的需求及批次信息
 	
 	public boolean isEnable() {
 		return enable;
@@ -83,6 +84,12 @@ public class JpaBusOnline extends CityEntity {
 	}
 	public void setEditor(String editor) {
 		this.editor = editor;
+	}
+	public int getPublish_lineId() {
+		return publish_lineId;
+	}
+	public void setPublish_lineId(int publish_lineId) {
+		this.publish_lineId = publish_lineId;
 	}
 	
 }
