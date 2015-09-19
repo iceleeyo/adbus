@@ -246,7 +246,7 @@ public class BusServiceImpl implements BusService {
 		Pair<Boolean, String> r = null;
 		BusOnlineExample example = new BusOnlineExample();
 		example.createCriteria().andBusidEqualTo(busId).andPublishLineIdEqualTo(publish_line_id)
-				.andContractidEqualTo(contractid);
+				.andContractidEqualTo(contractid).andEnableEqualTo(true);
 		List<BusOnline> list = busOnlineMapper.selectByExample(example);
 		if (list.size() > 0) {
 			JpaBus bus = findById(busId);
@@ -255,7 +255,7 @@ public class BusServiceImpl implements BusService {
 		}
 		//check date
 		BusOnlineExample dateCheckExample = new BusOnlineExample();
-		dateCheckExample.createCriteria().andBusidEqualTo(busId);
+		dateCheckExample.createCriteria().andBusidEqualTo(busId).andEnableEqualTo(true);;
 		List<BusOnline> onlineList = busOnlineMapper.selectByExample(dateCheckExample);
 		for (BusOnline busOnline : onlineList) {
 			boolean isDup = false;//上刊重复标记
