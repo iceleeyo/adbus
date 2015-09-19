@@ -23,7 +23,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
             "ordering": true,
             "serverSide": true,
             "scrollX": true,
-               "aaSorting": [[7, "desc"]],
+               "aaSorting": [[8, "desc"]],
             "columnDefs": [
                 { "orderable": false, "targets": [0,1,2,3,4,5,6,8] },
             ],
