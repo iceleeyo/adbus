@@ -130,7 +130,7 @@
 												class="ui-form-required">*
 											</span>发票抬头:
 											</label> 
-												<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
+												<input class="ui-input validate[required,custom[noSpecialLetterChinese],maxSize[120]]"
 												type="text" name="title" id="title" value="${(invoiceView.mainView.title)!''}"
 												data-is="isAmount isEnough" autocomplete="off"
 												disableautocomplete="">
@@ -139,7 +139,7 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>邮寄地址:</label>
                                                     <input
-												class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
+												class="ui-input validate[required,custom[noSpecialLetterChinese],maxSize[120]]"
                                                 type="text" name="mailaddr" value="${(invoiceView.mainView.mailaddr)!''}"
 												id="mailaddr" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
@@ -157,7 +157,7 @@
                                             <label class="ui-label mt10"><span
                                                     class="ui-form-required">*</span>联系方式:</label>
                                                     <input
-												class="ui-input validate[required,minSize[11],maxSize[14]]"
+												class="ui-input validate[required,custom[mobilephone]]"
                                                 type="text" name="phonenum" value="${(invoiceView.mainView.phonenum)!''}"
 												id="phonenum" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">

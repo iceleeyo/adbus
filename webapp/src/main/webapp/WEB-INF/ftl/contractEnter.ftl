@@ -206,7 +206,7 @@ var bb=false;
 											<label class="ui-label mt10">
 											<span class="ui-form-required">*</span>合同编号:
 											</label> 
-												<input class="ui-input validate[required,custom[noSpecialContratNum],minSize[5],maxSize[120]]"
+												<input class="ui-input validate[required,custom[noSpecialContratNum],maxSize[120]]"
 												type="text" name="contractCode" id="code"  value="${(contractView.mainView.contractCode)!''}"
 												data-is="isAmount isEnough" autocomplete="off"
 												disableautocomplete="" placeholder="中英文、数字、下划线">
@@ -214,7 +214,7 @@ var bb=false;
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>合同名称:</label>
-												<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
+												<input class="ui-input validate[required,custom[noSpecialLetterChinese],maxSize[120]]"
 												type="text" name="contractName" value="${(contractView.mainView.contractName)!''}"
 												id="name" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="">
