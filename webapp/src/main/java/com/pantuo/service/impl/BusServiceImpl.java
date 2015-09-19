@@ -251,7 +251,7 @@ public class BusServiceImpl implements BusService {
 		if (list.size() > 0) {
 			JpaBus bus = findById(busId);
 			r = new Pair<Boolean, String>(false, bus == null ? " 数据异常#车辆未找到 编号:" + bus : "自编号为 "
-					+ bus.getSerialNumber() + " 已上刊,如需要调整请进行[车辆上刊错误处理]!");
+					+ bus.getSerialNumber() + " 已经上刊了!<br>如需要调整请进行[车辆上刊错误处理]!");
 		}
 		//check date
 		BusOnlineExample dateCheckExample = new BusOnlineExample();
