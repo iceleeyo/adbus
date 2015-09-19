@@ -144,7 +144,7 @@ public class QueryBusInfo implements Runnable, ScheduleStatsInter {
 		BusOnlineExample example = new BusOnlineExample();
 		BusOnlineExample.Criteria criteria = example.createCriteria();
 		criteria.andBusidEqualTo(busContract.getBusid());
-		criteria.andStartDateGreaterThan(new Date());
+		criteria.andStartDateGreaterThan(new Date()).andEnableEqualTo(true);
 		example.setOrderByClause("start_date asc");
 		List<BusOnline> list = busOnlineMapper.selectByExample(example);
 		if (list.size() > 0) {
@@ -157,7 +157,7 @@ public class QueryBusInfo implements Runnable, ScheduleStatsInter {
 		BusOnlineExample example = new BusOnlineExample();
 		BusOnlineExample.Criteria criteria = example.createCriteria();
 		criteria.andBusidEqualTo(busContract.getBusid());
-		criteria.andEndDateLessThan(new Date());
+		criteria.andEndDateLessThan(new Date()).andEnableEqualTo(true);
 		example.setOrderByClause("end_date asc");
 		List<BusOnline> list = busOnlineMapper.selectByExample(example);
 		if (list.size() > 0) {
