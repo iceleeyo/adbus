@@ -381,6 +381,9 @@ public class BusServiceImpl implements BusService {
 			record.setUpdated(new Date());
 			record.setEditor(Request.getUserId(principal));
 			busOnlineMapper.updateByPrimaryKey(record);
+			if(publishLineId==0){
+				publishLineId = record.getPublishLineId();	
+			}
 			ascRemainNumber(publishLineId, false);
 			queryBusInfo.updateBusContractCache(record.getBusid());
 		}
