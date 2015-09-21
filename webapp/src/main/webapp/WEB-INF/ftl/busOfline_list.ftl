@@ -19,7 +19,23 @@ css=["js/jquery-ui/jquery-ui.css"]>
 	
     var table;
     var orderBusesTable;
-    
+    function queryTotalInfo(){
+        	var param={"publish_line_id":$("#plid").val()};
+      		   $.ajax({
+		    			url:"${rc.contextPath}/bus/ajax-daysNumber",
+		    			type:"POST",
+		    			async:false,
+		    			dataType:"json",
+		    			data:param,
+		    			success:function(data){
+		    				if (data != null) {
+		    				var t="线路车辆总数: "+data.totalBus +" 当日已上刊总数:"+data.dayOnlieBus;
+		    					$("#trw").html(t);
+		    					$("#trw2").html(t);
+		    				}  
+		    			}
+		       });  
+        }
     function refreshOrderedBuses() {
 		orderBusesTable = $('#lineTable')
 				.dataTable(
@@ -299,6 +315,40 @@ css=["js/jquery-ui/jquery-ui.css"]>
             })
         });
     }
+    
+    
+  function  checkFree(){
+  
+   var stday=$("#stday").val();
+            var days=$("#days").val();
+            if(stday==""){
+            layer.msg("请选择上刊日期",{icon: 5});
+            return;
+            }
+            if(days==""){
+            layer.msg("请输入刊期",{icon: 5});
+            return;
+            }
+        	 
+   		var param={"days":days,"stday":stday,"plid":$("#plid").val()};
+		    	 $.ajax({
+		    			url:"${rc.contextPath}/bus/ajax-checkFree",
+		    			type:"POST",
+		    			async:false,
+		    			dataType:"json",
+		    			data:param,
+		    			success:function(data){
+		    				if (data.left == true) {
+		    					layer.msg("有["+data.right+"]辆车可以进行上刊", {icon: 1});
+		    				} else {
+		    					layer.msg(data.right,{icon: 5});
+		    				}
+		    			}
+		       });  
+  }
+    
+    
+    
  function sub(){
             var stday=$("#stday").val();
             var days=$("#days").val();
@@ -356,6 +406,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
   	   refreshOrderedBuses();
         initTable();
         initTable2();
+        queryTotalInfo();
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
@@ -389,6 +440,9 @@ css=["js/jquery-ui/jquery-ui.css"]>
                            &nbsp;&nbsp; 刊期(天)：<input  class="ui-input"  type="text" 
                             id="days" data-is="isAmount isEnough"  onkeyup="value=value.replace(/[^\d]/g,'')"
                             autocomplete="off" disableautocomplete=""> 
+                            
+                             &nbsp;&nbsp; <input type="button" class="button_kind" style="width: 85px;height: 30px;"
+			                    value="库存检查" onclick="checkFree()"/>
                            &nbsp;&nbsp; <input type="button" class="button_kind" style="width: 85px;height: 30px;"
 			                    value="批量上刊" onclick="sub()"/>
                 </div>
@@ -445,26 +499,5 @@ css=["js/jquery-ui/jquery-ui.css"]>
 
                 </table>
 </div>
-<script type="text/javascript">
-		function queryTotalInfo(){
-        	var param={"publish_line_id":$("#plid").val()};
-      		   $.ajax({
-		    			url:"${rc.contextPath}/bus/ajax-daysNumber",
-		    			type:"POST",
-		    			async:false,
-		    			dataType:"json",
-		    			data:param,
-		    			success:function(data){
-		    				if (data != null) {
-		    				var t="线路车辆总数: "+data.totalBus +" 当日已上刊总数:"+data.dayOnlieBus;
-		    					$("#trw").html(t);
-		    					$("#trw2").html(t);
-		    				}  
-		    			}
-		       });  
-        }
- $(document).ready(function() {
-        queryTotalInfo();
-    } );
-</script>
+
 </@frame.html>
