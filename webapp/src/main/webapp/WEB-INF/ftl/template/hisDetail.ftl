@@ -31,7 +31,8 @@
             <th width="12%">人员</th>
             <th width="17%">签收时间</th>
             <th width="17%">办理时间</th>
-            <th>操作意见</th>
+            <th width="17%">操作意见</th>
+            <th>操作备注</th>
         </tr>
         </thead>
         <tbody>
@@ -49,6 +50,7 @@
             <td>${act.assignee!''}</td>
             <td> ${(act.claimTime?string("yyyy-MM-dd HH:mm"))!''}</td>
             <td> ${(act.endTime?string("yyyy-MM-dd HH:mm"))!''}</td>
+             <td style="text-align:left;">${act.result!''}  </td>
             <td style="text-align:left;">${act.comment!''}</td>
         </tr>
         </#if>
