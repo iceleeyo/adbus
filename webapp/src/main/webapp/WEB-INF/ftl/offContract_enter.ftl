@@ -66,8 +66,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 											operations += '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/busselect/ajax-remove-publishLine?seriaNum=${seriaNum}&id=' + data +'">删除</a>';
 											operations +='&nbsp;&nbsp;<a class="table-link" onclick="editPublishLine(\'${rc.contextPath}\','+data+');" href="javascript:void(0)">修改</a>';
 											operations +='&nbsp;&nbsp;<a class="table-link" onclick="publishAmount(\'${rc.contextPath}\','+data+');" href="javascript:void(0)">发布费详情</a>';
-											if(row.offlineContract.id>0){
-											operations +='&nbsp;&nbsp;<a class="table-link" target="_blank" href="${rc.contextPath}/bus/findBusByLineid/'+data+'">车辆上刊</a>';
+											if(row.offlineContract!=null && row.offlineContract.id!=null && row.offlineContract.id>0){
+												operations +='&nbsp;&nbsp;<a class="table-link" target="_blank" href="${rc.contextPath}/bus/findBusByLineid/'+data+'">车辆上刊</a>';
 											}
 											return operations;
 										}

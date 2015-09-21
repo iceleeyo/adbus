@@ -23,6 +23,10 @@ css=["js/jquery-ui/jquery-ui.css"]>
             "searching": false,
             "ordering": true,
             "serverSide": true,
+              "aaSorting": [[12, "desc"]],
+              "columnDefs": [
+                 { "orderable": false, "targets": [0,1,2,3,4,5,6,7,8,9,10,11,13] },
+            ],
             "scrollX": true,
             "iDisplayLength" : 20,
             "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
@@ -40,16 +44,27 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 { "data": "id", "defaultContent": ""},
                 { "data": "offlineContract.contractCode", "defaultContent": ""},
                 { "data": "line.name", "defaultContent": ""},
-                { "data": "OfflineContract.adcontent", "defaultContent": ""},
-                { "data": "model.name", "defaultContent": ""},
-                { "data": "id", "defaultContent": ""},
+                { "data": "offlineContract.adcontent", "defaultContent": ""},
+                { "data": "model", "defaultContent": "" , "render": function(data) {
+               			 if(data.id ==0){
+                                return "所有车型"
+                            }else if(data.doubleDecker==false){
+                              return data.name+ ' 单层';
+                            }else{
+                               return data.name+ '双层';
+                                 }
+                                 
+                  }               
+                },
+                { "data": "lineDesc", "defaultContent": ""},
                 { "data": "salesNumber", "defaultContent": ""},
                 { "data": "remainNuber", "defaultContent": ""},
                 { "data": "id", "defaultContent": "", "render": function(data) {
                  return '0';
                 }},
                 { "data": "days", "defaultContent": ""},
-                { "data": "id", "defaultContent": ""},
+                
+                { "data": "jpaBusinessCompany.name", "defaultContent": ""},
                 { "data": "startDate", "defaultContent": "", "render": function(data) {
                     return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
                 }},
