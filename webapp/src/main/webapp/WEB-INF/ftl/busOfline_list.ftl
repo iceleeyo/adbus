@@ -9,6 +9,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
     .frame {width: 1000px;}
     .div {text-align:center; margin:25px;}
     div#toolbar {float: left;}
+    div#toolbar3 {float: left;}
     .processed {color: limegreen;}
     .invalid {color: red;}
     .hl {background-color: #ffff00;}
@@ -239,6 +240,65 @@ css=["js/jquery-ui/jquery-ui.css"]>
 		//alert(record_count);
 		//alert($(this).attr('numberOfElements'));
     }
+     var buslogtable;
+    function initTable2 () {
+        buslogtable = $('#busUpHis').dataTable( {
+            "dom": '<"#toolbar3">lrtip',
+            "searching": false,
+            "ordering": true,
+            "serverSide": true,
+            "scrollX": true,
+            "iDisplayLength" : 20,
+            "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
+            "ajax": {
+                type: "GET",
+                url: "${rc.contextPath}/bus/ajax-busUpdate_history",
+                data: function(d) {
+                    return $.extend( {}, d, {
+                        "filter[plid]" : ${plid}
+                    } );
+                },
+                "dataSrc": "content",
+            },
+            "columns": [
+                { "data": "bus.plateNumber", "defaultContent": ""},
+                { "data": "bus.serialNumber", "defaultContent": ""},
+                { "data": "bus.oldSerialNumber", "defaultContent": ""},
+                { "data": "model.name", "defaultContent": ""},
+                { "data": "line.name", "defaultContent": ""},
+                { "data": "line.levelStr", "defaultContent": ""},
+                { "data": "busCategory", "defaultContent": ""},
+                { "data": "company.name", "defaultContent": ""},
+                { "data": "bus.description", "defaultContent": ""},
+                { "data": "bus.office", "defaultContent": ""},
+                { "data": "bus.branch", "defaultContent": ""},
+                { "data": "busUpLog.updated", "defaultContent": "","render" : function(data, type, row,meta) {
+					return  $.format.date(data, "yyyy-MM-dd");
+										}
+									},
+                { "data": "busUpLog.updator", "defaultContent": ""},
+              
+            ],
+            "language": {
+                "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
+            },
+            "initComplete": initComplete3,
+            "drawCallback": drawCallback3,
+        } );
+        table.fnNameOrdering("orderBy").fnNoColumnsParams();
+    }
+
+    function initComplete3() {
+        //$("div#toolbar").html('');
+    }
+
+    function drawCallback3() {
+        $('.table-action').click(function() {
+            $.post($(this).attr("url"), function() {
+                table.fnDraw(true);
+            })
+        });
+    }
  function sub(){
             var stday=$("#stday").val();
             var days=$("#days").val();
@@ -280,6 +340,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 		    					layer.msg(data.right);
 		    					 table.dataTable()._fnAjaxUpdate();
 		    					  orderBusesTable.dataTable()._fnAjaxUpdate();
+		    					  buslogtable.dataTable()._fnAjaxUpdate();
 		    				} else {
 		    					layer.msg(data.right,{icon: 5});
 		    				}
@@ -293,12 +354,11 @@ css=["js/jquery-ui/jquery-ui.css"]>
     $(document).ready(function() {
   	   refreshOrderedBuses();
         initTable();
+        initTable2();
         
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-
-
   			 <div id="orderedBuses">
 				<table id="lineTable" class="display compact"
 					cellspacing="0" width="100%">
@@ -312,8 +372,6 @@ css=["js/jquery-ui/jquery-ui.css"]>
                     <th>已装数量</th>
                     <th>刊期(天)</th>
                     <th>发布时间</th>
-                 
-                   
 				</tr>
 					</thead>
 				</table>
@@ -357,5 +415,31 @@ css=["js/jquery-ui/jquery-ui.css"]>
                     </thead>
                 </table>
                 <div>sfsf</div>
+</div>
+<div class="withdraw-wrap color-white-bg fn-clear">
+ <div class="withdraw-title">
+             所上刊车辆历史变更信息
+                </div>
+                <table id="busUpHis" class="display nowrap" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th >车牌号</th>
+                        <th >车辆自编号</th>
+                        <th>旧自编号</th>
+                        <th >车型</th>
+                        <th >线路</th>
+                        <th >线路级别</th>
+                        <th >类别</th>
+                        <th >营销中心</th>
+                         <th>车辆描述</th>
+                        <th>公司名称</th>
+                        <th>客户名称</th>
+                        <th>最后更新时间</th>
+                        <th>操作人</th>
+                       
+                    </tr>
+                    </thead>
+
+                </table>
 </div>
 </@frame.html>

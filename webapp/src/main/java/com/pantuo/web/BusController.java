@@ -106,7 +106,17 @@ public class BusController {
 		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
 			return new DataTablePage(Collections.emptyList());
 		Page<JpaBusUpLog> jpabuspage = busService.getbusUphistory(cityId, req, req.getPage(), req.getLength(),
-				req.getSort("id"));
+				null);
+		return new DataTablePage(busService.queryBusinfoView2(req, jpabuspage), req.getDraw());
+	}
+	@RequestMapping("ajax-busUpdate_query")
+	@ResponseBody
+	public DataTablePage<BusInfoView> busUpdatequery(TableRequest req,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city)throws JsonParseException, JsonMappingException, IOException {
+		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
+			return new DataTablePage(Collections.emptyList());
+		Page<JpaBusUpLog> jpabuspage = busService.getbusUphistory(cityId, req, req.getPage(), req.getLength(),
+				null);
 		return new DataTablePage(busService.queryBusinfoView2(req, jpabuspage), req.getDraw());
 	}
 
@@ -161,6 +171,10 @@ public class BusController {
 	@RequestMapping(value = "/list")
 	public String list() {
 		return "bus_list";
+	}
+	@RequestMapping(value = "/busUpdate_query")
+	public String querybusUp() {
+		return "busUpdate_query";
 	}
 	@RequestMapping(value = "/busOnline_history/{busid}")
 	public String busOnline_history(Model model,@PathVariable("busid") int busid,HttpServletResponse response) {

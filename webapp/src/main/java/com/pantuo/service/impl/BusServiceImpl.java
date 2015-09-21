@@ -61,6 +61,7 @@ import com.pantuo.mybatis.persistence.BusOnlineMapper;
 import com.pantuo.mybatis.persistence.BusUplogMapper;
 import com.pantuo.mybatis.persistence.OfflinecontractMapper;
 import com.pantuo.mybatis.persistence.PublishLineMapper;
+import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.BusService;
 import com.pantuo.simulate.QueryBusInfo;
@@ -87,6 +88,8 @@ public class BusServiceImpl implements BusService {
 
 	@Autowired
 	BuslineRepository buslineRepository;
+	@Autowired
+	UserAutoCompleteMapper userAutoCompleteMapper;
 
 	@Autowired
 	BusMapper busMapper;
@@ -544,10 +547,25 @@ public class BusServiceImpl implements BusService {
 			sort = new Sort("id");
 		Pageable p = new PageRequest(page, length, sort);
 		BooleanExpression query = QJpaBusUpLog.jpaBusUpLog.city.eq(cityId);
-		String busid = req.getFilter("busid");
+		String busid = req.getFilter("busid"),serinum=req.getFilter("serinum"),pname=req.getFilter("pname"),plid = req.getFilter("plid");
 		if (StringUtils.isNotBlank(busid)) {
 			int busId = NumberUtils.toInt(busid);
 			query = query.and(QJpaBusUpLog.jpaBusUpLog.jpabus.id.eq(busId));
+		}
+		if (StringUtils.isNotBlank(serinum)) {
+			query = query.and(QJpaBusUpLog.jpaBusUpLog.jpabus.serialNumber.like("%" +serinum+"%" ));
+		}
+		if (StringUtils.isNotBlank(pname)) {
+			query = query.and(QJpaBusUpLog.jpaBusUpLog.jpabus.plateNumber.like("%" +pname+"%" ));
+		}
+		if(StringUtils.isNotBlank(plid)){
+			int pid = NumberUtils.toInt(plid);
+			List<Integer> busids=userAutoCompleteMapper.selectBusidsByPid(pid);
+			if(busids.size()>0){
+				query = query.and(QJpaBusUpLog.jpaBusUpLog.jpabus.id.in(busids));
+			}else{
+				query = query.and(QJpaBusUpLog.jpaBusUpLog.jpabus.id.eq(0));
+			}
 		}
 		return query == null ? busUpdateRepository.findAll(p) : busUpdateRepository.findAll(query, p);
 	}

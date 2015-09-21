@@ -252,6 +252,11 @@
                                                 </a>
                                             </li>
                                             <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/busUpdate_query">
+                                                    车辆变更查询
+                                                </a>
+                                            </li>
+                                            <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/api/lines">
                                                     媒体定购
                                                 </a>
