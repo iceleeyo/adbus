@@ -4,7 +4,6 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +26,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,13 +39,11 @@ import com.pantuo.dao.pojo.JpaBodyContract;
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaCity;
-import com.pantuo.dao.pojo.JpaIndustry;
 import com.pantuo.dao.pojo.JpaOfflineContract;
-import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaPublishLine;
-import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Bodycontract;
 import com.pantuo.mybatis.domain.BusLock;
+import com.pantuo.mybatis.domain.BusinessCompany;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.Dividpay;
 import com.pantuo.mybatis.domain.Offlinecontract;
@@ -68,9 +64,6 @@ import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 import com.pantuo.vo.GroupVo;
 import com.pantuo.web.view.AutoCompleteView;
-import com.pantuo.web.view.BusInfoView;
-import com.pantuo.web.view.ContractView;
-import com.pantuo.web.view.InvoiceView;
 import com.pantuo.web.view.LineBusCpd;
 import com.pantuo.web.view.OrderView;
 
@@ -258,6 +251,35 @@ public class BusSelectController {
 		return busLineCheckService.autoCompleteByName(city, name, JpaBus.Category.yunyingche,tag);
 	}
 
+	/**
+	 *
+	 * 线路车辆汇总统计 适用下拉选择列表
+	 *
+	 * @param buslinId
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	@RequestMapping(value = "/ajax-company")
+	@ResponseBody
+	public List<BusinessCompany> queryLineCompanyByModelid(
+			@RequestParam(value = "buslinId", required = true, defaultValue = "0") Integer buslinId,int modelid) {
+		return busLineCheckService.queryLineCompanyByModelid(buslinId,modelid);
+	}
+	/**
+	 *
+	 * 线路车辆汇总统计 适用下拉选择列表
+	 *
+	 * @param buslinId
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	@RequestMapping(value = "/ajax-des")
+	@ResponseBody
+	public List<String> queryLineDesByModelid(
+			@RequestParam(value = "buslinId", required = true, defaultValue = "0") Integer buslinId,int modelid) {
+		return busLineCheckService.queryLineDesByModelid(buslinId, modelid);
+	}
+	
 	/**
 	 *
 	 * 线路车辆汇总统计 适用下拉选择列表

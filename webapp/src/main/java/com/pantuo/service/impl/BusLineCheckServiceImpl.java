@@ -29,7 +29,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -46,17 +45,16 @@ import com.pantuo.dao.DividPayRepository;
 import com.pantuo.dao.OffContactRepository;
 import com.pantuo.dao.PublishLineRepository;
 import com.pantuo.dao.pojo.JapDividPay;
+import com.pantuo.dao.pojo.JpaAttachment;
 import com.pantuo.dao.pojo.JpaBodyContract;
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBus.Category;
-import com.pantuo.dao.pojo.JpaAttachment;
 import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaOfflineContract;
 import com.pantuo.dao.pojo.JpaPublishLine;
 import com.pantuo.dao.pojo.QJapDividPay;
 import com.pantuo.dao.pojo.QJpaBodyContract;
-import com.pantuo.dao.pojo.QJpaBus;
 import com.pantuo.dao.pojo.QJpaBusLock;
 import com.pantuo.dao.pojo.QJpaBusline;
 import com.pantuo.dao.pojo.QJpaOfflineContract;
@@ -67,11 +65,11 @@ import com.pantuo.mybatis.domain.Bus;
 import com.pantuo.mybatis.domain.BusContract;
 import com.pantuo.mybatis.domain.BusContractExample;
 import com.pantuo.mybatis.domain.BusExample;
-import com.pantuo.mybatis.domain.BusLine;
 import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.domain.BusLockExample;
 import com.pantuo.mybatis.domain.BusModel;
-import com.pantuo.mybatis.domain.Contract;
+import com.pantuo.mybatis.domain.BusinessCompany;
+import com.pantuo.mybatis.domain.BusinessCompanyExample;
 import com.pantuo.mybatis.domain.Dividpay;
 import com.pantuo.mybatis.domain.DividpayExample;
 import com.pantuo.mybatis.domain.Offlinecontract;
@@ -84,6 +82,7 @@ import com.pantuo.mybatis.persistence.BusLineMapper;
 import com.pantuo.mybatis.persistence.BusLockMapper;
 import com.pantuo.mybatis.persistence.BusMapper;
 import com.pantuo.mybatis.persistence.BusSelectMapper;
+import com.pantuo.mybatis.persistence.BusinessCompanyMapper;
 import com.pantuo.mybatis.persistence.DividpayMapper;
 import com.pantuo.mybatis.persistence.OfflinecontractMapper;
 import com.pantuo.mybatis.persistence.PublishLineMapper;
@@ -93,8 +92,6 @@ import com.pantuo.service.ActivitiService.TaskQueryType;
 import com.pantuo.service.AttachmentService;
 import com.pantuo.service.BusLineCheckService;
 import com.pantuo.service.MailService;
-import com.pantuo.service.MailTask;
-import com.pantuo.service.MailTask.Type;
 import com.pantuo.simulate.MailJob;
 import com.pantuo.util.BusinessException;
 import com.pantuo.util.Constants;
@@ -107,7 +104,6 @@ import com.pantuo.util.Request;
 import com.pantuo.util.cglib.ProxyVoForPageOrJson;
 import com.pantuo.vo.GroupVo;
 import com.pantuo.web.view.AutoCompleteView;
-import com.pantuo.web.view.BusInfoView;
 import com.pantuo.web.view.LineBusCpd;
 import com.pantuo.web.view.OrderView;
 
@@ -117,7 +113,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	public static final String BODY_ACTIVITY = "busFlowV2";
 	@Autowired
 	BusSelectMapper busSelectMapper;
-
+	@Autowired
+	BusinessCompanyMapper businessCompanyMapper;
 	@Autowired
 	BusLineMapper buslineMapper;
 	@Autowired
@@ -274,6 +271,18 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	@Override
 	public List<GroupVo> countCarTypeByLine(int lineId, JpaBus.Category category) {
 		return busSelectMapper.countCarTypeByLine(lineId, category.ordinal());
+	}
+
+	public List<String> queryLineDesByModelid(int lineId, int modelid) {
+		return busSelectMapper.queryLineDesByModelid(lineId, modelid);
+	}
+
+	public List<BusinessCompany> queryLineCompanyByModelid(int lineId, int modelid) {
+		List<Integer> ids =  busSelectMapper.queryLineCompanyByModelid(lineId, modelid);
+		if(ids==null|| ids.isEmpty())return new ArrayList<BusinessCompany>(0);
+		BusinessCompanyExample example=new BusinessCompanyExample();
+		  example.createCriteria().andIdIn(ids);
+		return businessCompanyMapper.selectByExample(example);
 	}
 
 	@Override

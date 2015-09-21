@@ -7,20 +7,20 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
 import com.pantuo.dao.pojo.JapDividPay;
 import com.pantuo.dao.pojo.JpaBodyContract;
 import com.pantuo.dao.pojo.JpaBus;
-import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaBus.Category;
+import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaOfflineContract;
 import com.pantuo.dao.pojo.JpaPublishLine;
 import com.pantuo.mybatis.domain.Bodycontract;
 import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.domain.BusModel;
+import com.pantuo.mybatis.domain.BusinessCompany;
 import com.pantuo.mybatis.domain.Dividpay;
 import com.pantuo.mybatis.domain.Offlinecontract;
 import com.pantuo.mybatis.domain.PublishLine;
@@ -69,6 +69,23 @@ public interface BusLineCheckService {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	public List<GroupVo> countCarTypeByLine(int lineId, JpaBus.Category category);
+
+	/**
+	 * 
+	 * 查线路 车辆描述
+	 *
+	 * @param lineId
+	 * @param category
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	public List<String> queryLineDesByModelid(int lineId, int modelid);
+
+	public List<BusinessCompany> queryLineCompanyByModelid(int lineId, int modelid);
+	
+	
+	
+	
 
 	public List<JpaBusLock> getBusLockListBySeriNum(long seriaNum);
 	public List<JpaBusLock> getBusLockListByBid(int contractId) ;
