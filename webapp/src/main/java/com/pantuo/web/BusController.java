@@ -1,15 +1,12 @@
 package com.pantuo.web;
 
-import com.pantuo.dao.pojo.*;
-import com.pantuo.mybatis.domain.*;
-import com.pantuo.pojo.DataTablePage;
-import com.pantuo.pojo.TableRequest;
-import com.pantuo.service.BusLineCheckService;
-import com.pantuo.service.BusService;
-import com.pantuo.service.TimeslotService;
-import com.pantuo.util.Pair;
-import com.pantuo.util.Request;
-import com.pantuo.web.view.BusInfoView;
+import java.io.IOException;
+import java.security.Principal;
+import java.text.ParseException;
+import java.util.Collections;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.JsonGenerationException;
@@ -21,16 +18,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.IOException;
-import java.security.Principal;
-import java.text.ParseException;
-import java.util.Collections;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.pantuo.dao.pojo.JpaBus;
+import com.pantuo.dao.pojo.JpaBusModel;
+import com.pantuo.dao.pojo.JpaBusOnline;
+import com.pantuo.dao.pojo.JpaBusUpLog;
+import com.pantuo.dao.pojo.JpaBusinessCompany;
+import com.pantuo.dao.pojo.JpaBusline;
+import com.pantuo.dao.pojo.JpaCity;
+import com.pantuo.dao.pojo.JpaPublishLine;
+import com.pantuo.mybatis.domain.Bus;
+import com.pantuo.mybatis.domain.BusOnline;
+import com.pantuo.mybatis.domain.CountableBusLine;
+import com.pantuo.mybatis.domain.CountableBusModel;
+import com.pantuo.mybatis.domain.CountableBusinessCompany;
+import com.pantuo.pojo.DataTablePage;
+import com.pantuo.pojo.TableRequest;
+import com.pantuo.service.BusLineCheckService;
+import com.pantuo.service.BusService;
+import com.pantuo.util.Pair;
+import com.pantuo.web.view.BusInfoView;
+import com.pantuo.web.view.ContractLineDayInfo;
 
 /**
  * @author tliu
@@ -65,6 +79,25 @@ public class BusController {
 				req.getSort("id"), false);
 		return new DataTablePage(busService.queryBusinfoView(req, jpabuspage), req.getDraw());
 	}
+	/**
+	 * 
+	 * 合同 线路当天合计
+	 *
+	 * @param req
+	 * @param cityId
+	 * @param city
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	@RequestMapping("ajax-daysNumber")
+	@ResponseBody
+	public ContractLineDayInfo daysNumber(int publish_line_id,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city) {
+		return  busService.getContractBusLineTodayInfo(publish_line_id);
+	}
+	
+	
+	
 	@RequestMapping("ajax-mistake_handle")
 	@ResponseBody
 	public DataTablePage<BusInfoView> mistake_handle(TableRequest req,

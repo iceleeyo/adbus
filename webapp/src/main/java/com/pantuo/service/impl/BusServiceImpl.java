@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale.Category;
 import java.util.Map;
 import java.util.Set;
 
@@ -48,6 +47,7 @@ import com.pantuo.dao.pojo.QJpaBusUpLog;
 import com.pantuo.dao.pojo.QJpaBusinessCompany;
 import com.pantuo.dao.pojo.QJpaBusline;
 import com.pantuo.mybatis.domain.Bus;
+import com.pantuo.mybatis.domain.BusExample;
 import com.pantuo.mybatis.domain.BusOnline;
 import com.pantuo.mybatis.domain.BusOnlineExample;
 import com.pantuo.mybatis.domain.BusUplog;
@@ -68,7 +68,9 @@ import com.pantuo.simulate.QueryBusInfo;
 import com.pantuo.util.BeanUtils;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
+import com.pantuo.web.view.BusInfo;
 import com.pantuo.web.view.BusInfoView;
+import com.pantuo.web.view.ContractLineDayInfo;
 
 /**
  * @author tliu
@@ -569,4 +571,30 @@ public class BusServiceImpl implements BusService {
 		}
 		return query == null ? busUpdateRepository.findAll(p) : busUpdateRepository.findAll(query, p);
 	}
+	
+	public ContractLineDayInfo getContractBusLineTodayInfo(int publish_line_id) {
+		ContractLineDayInfo line = new ContractLineDayInfo();
+		PublishLine act = publishLineMapper.selectByPrimaryKey(publish_line_id);
+		if (act != null) {
+			int lineId = act.getLineId();
+			BusExample example = new BusExample();
+			example.createCriteria().andLineIdEqualTo(lineId);
+			List<Bus> bus = busMapper.selectByExample(example);
+			int onlineCount = 0, totalBus = 0;
+
+			for (Bus bus2 : bus) {
+				totalBus++;
+				BusInfo busInfo = queryBusInfo.getBusInfo2(bus2.getId());
+				if (busInfo.getStats() == BusInfo.Stats.now) {
+					onlineCount++;
+				}
+
+			}
+			line.setTotalBus(totalBus);
+			line.setDayOnlieBus(onlineCount);
+		}
+		return line;
+
+	}
+	
 }

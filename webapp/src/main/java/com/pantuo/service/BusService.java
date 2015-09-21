@@ -1,10 +1,9 @@
 package com.pantuo.service;
 
-import com.pantuo.dao.pojo.*;
-import com.pantuo.mybatis.domain.*;
-import com.pantuo.pojo.TableRequest;
-import com.pantuo.util.Pair;
-import com.pantuo.web.view.BusInfoView;
+import java.io.IOException;
+import java.security.Principal;
+import java.text.ParseException;
+import java.util.List;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
@@ -12,11 +11,21 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
-import java.io.IOException;
-import java.security.Principal;
-import java.text.ParseException;
-import java.util.List;
-import java.util.Map;
+import com.pantuo.dao.pojo.JpaBus;
+import com.pantuo.dao.pojo.JpaBusModel;
+import com.pantuo.dao.pojo.JpaBusOnline;
+import com.pantuo.dao.pojo.JpaBusUpLog;
+import com.pantuo.dao.pojo.JpaBusinessCompany;
+import com.pantuo.dao.pojo.JpaBusline;
+import com.pantuo.mybatis.domain.Bus;
+import com.pantuo.mybatis.domain.BusOnline;
+import com.pantuo.mybatis.domain.CountableBusLine;
+import com.pantuo.mybatis.domain.CountableBusModel;
+import com.pantuo.mybatis.domain.CountableBusinessCompany;
+import com.pantuo.pojo.TableRequest;
+import com.pantuo.util.Pair;
+import com.pantuo.web.view.BusInfoView;
+import com.pantuo.web.view.ContractLineDayInfo;
 
 public interface BusService {
 
@@ -61,4 +70,7 @@ public interface BusService {
 	Page<JpaBusUpLog> getbusUphistory(int cityId, TableRequest req, int page, int length, Sort sort);
 
 	public Page<BusInfoView> queryBusinfoView2(TableRequest req, Page<JpaBusUpLog> page) throws JsonParseException, JsonMappingException, IOException;
+	
+	
+	ContractLineDayInfo getContractBusLineTodayInfo(int publish_line_id);
 }
