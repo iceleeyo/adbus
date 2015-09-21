@@ -352,7 +352,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
  function sub(){
             var stday=$("#stday").val();
             var days=$("#days").val();
-            var contractid=${jpaPublishLine.contractId};
+            var contractid=${jpaPublishLine.offlineContract.id};
             if(stday==""){
             layer.msg("请选择上刊日期");
             return;

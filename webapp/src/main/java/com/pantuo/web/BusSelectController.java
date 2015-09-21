@@ -811,11 +811,23 @@ public class BusSelectController {
 	public String offContract_list() {
 		return "offContract_list";
 	}
+	@RequestMapping(value = "/publishLine_list")
+	public String publishLine_list() {
+		return "publishLine_list";
+	}
 	@RequestMapping("ajax-offContract_list")
 	@ResponseBody
 	public DataTablePage<JpaOfflineContract> getAllJpaOfflineContract(TableRequest req,
 			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city) {
 		Page<JpaOfflineContract> jpabuspage=busLineCheckService.queryOfflineContract(cityId, req, req.getPage(), req.getLength(),
+				req.getSort("id"));
+		return new DataTablePage(jpabuspage, req.getDraw());
+	}
+	@RequestMapping("ajax-publishLine_list")
+	@ResponseBody
+	public DataTablePage<JpaPublishLine> getAllPublishLine(TableRequest req,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city) {
+		Page<JpaPublishLine> jpabuspage=busLineCheckService.queryAllPublish(cityId, req, req.getPage(), req.getLength(),
 				req.getSort("id"));
 		return new DataTablePage(jpabuspage, req.getDraw());
 	}

@@ -161,4 +161,6 @@ public interface BusLineCheckService {
 	public Dividpay queryDividPayByid(int id);
 
 	public JpaPublishLine queryPublishLineByid(int id);
+
+	public Page<JpaPublishLine> queryAllPublish(int cityId, TableRequest req, int page, int length, Sort sort);
 }

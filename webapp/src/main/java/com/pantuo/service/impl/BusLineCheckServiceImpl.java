@@ -135,6 +135,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	@Autowired
 	OffContactRepository offContactRepository;
 	@Autowired
+	PublishLineRepository publishLineRepository;
+	@Autowired
 	BuslineRepository BuslineRepository;
 	@Autowired
 	BusContractMapper busContractMapper;
@@ -186,8 +188,6 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 
 	@Autowired
 	BuslineRepository buslineRepository;
-	@Autowired
-	PublishLineRepository publishLineRepository;
 	@Autowired
 	DividPayRepository dividPayRepository;
 	@Autowired
@@ -1167,9 +1167,10 @@ public Pair<Boolean, String> savePublishLine(PublishLine publishLine, String sta
 	List<Offlinecontract> list = offlinecontractMapper.selectByExample(example);
 	if (list.size() > 0) {
 		publishLine.setContractId(list.get(0).getId());
-	} else {
-		publishLine.setContractId(0);
-	}
+	} 
+//	else {
+//		publishLine.setContractId(0);
+//	}
 	publishLine.setStats(JpaBusLock.Status.ready.ordinal());
 	publishLine.setCreated(new Date());
 	publishLine.setUpdated(new Date());
@@ -1283,5 +1284,22 @@ public Dividpay queryDividPayByid(int id) {
 public JpaPublishLine queryPublishLineByid(int id) {
 	 //BooleanExpression query=QJpaPublishLine.jpaPublishLine.id.eq(id);
 	return publishLineRepository.findOne(id);
+}
+
+@Override
+public Page<JpaPublishLine> queryAllPublish(int cityId, TableRequest req, int page, int length, Sort sort) {
+	if (page < 0)
+        page = 0;
+    if (length < 1)
+    	length = 1;
+    if (sort == null)
+        sort = new Sort("id");
+    Pageable p = new PageRequest(page, length, sort);
+    BooleanExpression query = QJpaPublishLine.jpaPublishLine.city.eq(cityId);
+    String contractCode=req.getFilter("contractCode");
+    if (StringUtils.isNotBlank(contractCode)) {
+        query = query.and( QJpaPublishLine.jpaPublishLine.OfflineContract.contractCode.like("%" + contractCode + "%"));
+    }
+    return query == null ? publishLineRepository.findAll(p) : publishLineRepository.findAll(query, p);
 }
 }
