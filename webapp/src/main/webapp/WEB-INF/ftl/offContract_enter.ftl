@@ -416,7 +416,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 							+'id="discountPrice" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
            	 				+'</div>'
 							+ '</div></div>'
-							+ '<div class="ui-form-item widthdrawBtBox" style="position: absolute; bottom: 10px;">'
+							+ '<div class="ui-form-item widthdrawBtBox" style="position: absolute;">'
 							+ '<input type="button" onclick="sub()" class="block-btn" value="确认" ></div>'
 							+ '<input type="hidden" value="0" name="lineId" id="db_id"></form>'
 							+'<div id="worm-tips" class="worm-tips" style="width:350px;display:none;"></div>'
