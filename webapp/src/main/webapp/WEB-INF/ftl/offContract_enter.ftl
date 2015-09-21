@@ -281,7 +281,54 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 			}).submit();
 			}
 		}
+	function changeModel(){
 	
+		var t=$("#model_id").children('option:selected').val();
+		$.ajax({
+			url : "${rc.contextPath}/busselect/ajax-des",
+			type : "POST",
+			data : {
+				"buslinId" : $("#db_id").val(),
+				"modelid":t
+			},
+			success : function(data) {
+				var v='';
+				//$("#desId").html(v);
+				$.each(data, function(i, item) {
+				var w="<option value="+item+">"
+									+ "&nbsp;&nbsp;" + item 
+									+ "</option>";
+									v+=w;
+				});
+				if(v==''){
+					$("#desId").html('<option value="暂无描述" selected="selected">暂无描述</option>');
+				}else {
+					$("#desId").html(v);
+				}
+			}
+		}, "text");
+		
+		
+		$.ajax({
+			url : "${rc.contextPath}/busselect/ajax-company",
+			type : "POST",
+			data : {
+				"buslinId" : $("#db_id").val(),
+				"modelid":t
+			},
+			success : function(data) {
+				var v='';
+				$.each(data, function(i, item) {
+				var w="<option value="+item.id+">"
+									+ "&nbsp;&nbsp;" + item.name
+									+ "</option>";
+					v+=(w);
+				});
+					$("#companyId").html(v);
+			}
+		}, "text");
+	
+	}
 	function initProvince(id) {
 		$.ajax({
 			url : "${rc.contextPath}/busselect/selectBusType",
@@ -323,8 +370,21 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 							+ '</div>'
 							+ '<div id="four" style="display:none;"><div class="ui-form-item" id="model_Id">'
 							+ '<label class="ui-label mt10">选择车型：</label>'
-							+ '<select  class="ui-input bus-model" name="modelId" id="model_id"> <option value="0" selected="selected">所有类型</option> </select>'
+							+ '<select onchange="changeModel()" class="ui-input bus-model" name="modelId" id="model_id"> <option value="0" selected="selected" >所有类型</option> </select>'
 							+ '</div>'
+							
+							+ '<div class="ui-form-item" id="model_Id2">'
+							+ '<label class="ui-label mt10">车型描述：</label>'
+							+ '<select  class="ui-input bus-model" name="lineDesc" id="desId"> <option value="0" selected="selected">所有类型</option> </select>'
+							+ '</div>'
+							
+							
+						    + ' <div class="ui-form-item" id="model_Id3">'
+							+ '<label class="ui-label mt10">营销中心：</label>'
+							+ '<select  class="ui-input bus-model" name="companyId" id="companyId"> <option value="0" selected="selected">所有类型</option> </select>'
+							+ '</div>'
+							
+							
 							+'<div class="ui-form-item"> <label class="ui-label mt10">选取数量：</label>'
 							+'<input class="ui-input " type="text" value="0" name="salesNumber" onkeyup="value=value.replace(/[^\\d]/g,\'\')" '
 							+'id="busNumber" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
@@ -384,6 +444,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				//table.fnDraw();
 				initProvince(ui.item.dbId);
 				$("#db_id").val(ui.item.dbId);
+				changeModel();
+				
 			}
 		}).focus(function () {
        				 $(this).autocomplete("search");
