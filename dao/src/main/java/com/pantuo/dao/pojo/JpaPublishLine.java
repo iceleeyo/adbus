@@ -32,6 +32,14 @@ public class JpaPublishLine extends CityEntity {
 	@ManyToOne
 	@JoinColumn(name = "contractId")
 	private JpaOfflineContract OfflineContract;
+	
+	@ManyToOne
+	@JoinColumn(name = "companyId")
+	private JpaBusinessCompany jpaBusinessCompany;
+	private String lineDesc;//车辆描述
+	
+	
+	
 	private int salesNumber;//合同生效时购买的线路车辆数量
 	private int remainNuber;//实行贴车进行后的 的数量 ,贴车回执处理时减这个数量
 	private long seriaNum;//合同唯一号
@@ -191,6 +199,22 @@ public class JpaPublishLine extends CityEntity {
 
 	public void setDiscountPrice(String discountPrice) {
 		this.discountPrice = discountPrice;
+	}
+
+	public JpaBusinessCompany getJpaBusinessCompany() {
+		return jpaBusinessCompany;
+	}
+
+	public void setJpaBusinessCompany(JpaBusinessCompany jpaBusinessCompany) {
+		this.jpaBusinessCompany = jpaBusinessCompany;
+	}
+
+	public String getLineDesc() {
+		return lineDesc;
+	}
+
+	public void setLineDesc(String lineDesc) {
+		this.lineDesc = lineDesc;
 	}
    
 }
