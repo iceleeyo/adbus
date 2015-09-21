@@ -678,7 +678,7 @@ function addfenqi(url,seriaNum) {
 				type : 1,
 				title : "合同分期",
 				skin : 'layui-layer-rim',
-				area : [ '400px', '400px' ],
+				area : [ '470px', '400px' ],
 				content : ''
 						+ '<form id="fenqiform" action='+url+'/busselect/saveDivid?seriaNum='+seriaNum+'>'
 						+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
