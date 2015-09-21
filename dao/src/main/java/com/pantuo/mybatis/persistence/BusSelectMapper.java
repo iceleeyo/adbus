@@ -38,6 +38,29 @@ public interface BusSelectMapper {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	List<GroupVo> countCarTypeByLine(@Param("lineId") int lineId, @Param("category") int category);
+	
+	/**
+	 * 
+	 * 按线路 查营销中心
+	 *
+	 * @param idList
+	 * @param category
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	List<Integer> queryLineCompanyByModelid(@Param("lineId") int lineId, @Param("modelId") int modelid);
+	
+	
+	/**
+	 * 
+	 * 按线路查车型描述
+	 *
+	 * @param idList
+	 * @param category
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	List<String> queryLineDesByModelid(@Param("lineId") int lineId, @Param("modelId") int modelid);
 
 	/**
 	 * 

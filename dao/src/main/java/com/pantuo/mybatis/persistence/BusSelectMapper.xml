@@ -228,6 +228,32 @@
 		</if>
 	</select>
 
+
+
+
+	<select id="queryLineDesByModelid" resultType="java.lang.String">
+		select
+		distinct description from bus
+		where line_id = #{lineId}
+		<if test="modelId > 0">
+			and model_id = #{modelId}
+		</if>
+
+	</select>
+	<select id="queryLineCompanyByModelid" resultType="java.lang.Integer">
+		select
+		distinct company_id from bus
+		where line_id = #{lineId}
+		<if test="modelId > 0">
+			and model_id = #{modelId}
+		</if>
+
+	</select>
+	
+	
+	
+	
+	
 	<!-- 按线路统计车辆个数 -->
 	<select id="countBusCar" resultType="java.lang.Integer">
 
