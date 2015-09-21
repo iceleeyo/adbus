@@ -162,6 +162,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 
 //车辆信息修改
 function showBusDetail(pathUrl,tourl,id){
+
 	$.ajax({
 		url : tourl  + id,
 		type : "POST",
@@ -205,11 +206,25 @@ function showBusDetail(pathUrl,tourl,id){
 				+'<input class="ui-input-d"  value="'+data.office+'" name="office" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 				+'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">客户:</span> </label>'
 				+'<input class="ui-input-d"  value="'+data.branch+'" id="branch" name="branch" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-				+'<div class="ui-form-item"> <label class="ui-label mt10" style="width: 145px;">车辆情况:</label><textarea rows="4" name="description" cols="30"  style="resize: none;margin-left: -20px;" >'+data.description+'</textarea> </div>'
+				+'<div class="ui-form-item"> <label class="ui-label mt10" style="width: 145px;">车辆情况:</label><textarea rows="4" name="description" cols="30"  style="resize: none;margin-left: -20px;" >'+data.description+'</textarea> </div></div>'
 				+ '<div class="ui-form-item widthdrawBtBox" style="position: absolute; bottom: 10px;">'
-				+ '<input type="button" onclick="saveBus()" class="block-btn" value="确认" ></div></div></div></div>'
+				+ '<input type="button" onclick="saveBus()" class="block-btn" value="确认" ></div></div>'
 				+ '<input type="hidden" value="'+data.line.id+'" name="lineId" id="db_id"></form>'
 			});
+			var companyN=data.company.name;
+					    $.ajax({
+		       url : pathUrl + "/bus/findAllCompany",
+		       type : "GET",
+		       success : function(data) {
+		      $.each(data, function(i, item) {
+		      if(companyN!=item.name){
+				$("#companyId").append(
+						$("<option value="+item.id+">" + item.name
+								+ "</option>"));
+								}
+		         });
+	    }}, "text");
+			
 			$("#line_id").autocomplete({
 				minLength: 0,
 					source : "${rc.contextPath}/busselect/autoComplete",
@@ -226,6 +241,7 @@ function showBusDetail(pathUrl,tourl,id){
 		}
 		
 	}, "text");
+	
 	
 }
 //编辑保存
