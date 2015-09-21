@@ -29,7 +29,9 @@ public class JpaPublishLine extends CityEntity {
 	@ManyToOne
 	@JoinColumn(name = "model_id")
 	private JpaBusModel model;
-	private int contractId;
+	@ManyToOne
+	@JoinColumn(name = "contractId")
+	private JpaOfflineContract OfflineContract;
 	private int salesNumber;//合同生效时购买的线路车辆数量
 	private int remainNuber;//实行贴车进行后的 的数量 ,贴车回执处理时减这个数量
 	private long seriaNum;//合同唯一号
@@ -86,12 +88,12 @@ public class JpaPublishLine extends CityEntity {
 		this.line = line;
 	}
 
-	public int getContractId() {
-		return contractId;
+	public JpaOfflineContract getOfflineContract() {
+		return OfflineContract;
 	}
 
-	public void setContractId(int contractId) {
-		this.contractId = contractId;
+	public void setOfflineContract(JpaOfflineContract offlineContract) {
+		OfflineContract = offlineContract;
 	}
 
 	public Date getStartDate() {
