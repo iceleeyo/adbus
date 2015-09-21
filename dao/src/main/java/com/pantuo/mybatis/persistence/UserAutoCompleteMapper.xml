@@ -14,5 +14,9 @@
 		select distinct id from product 
 		order by id asc
 	</select>
-
+<select id="selectBusidsByPid" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select  distinct busid
+    from bus_online
+    where publish_line_id = #{pid,jdbcType=INTEGER}
+  </select>
 </mapper>

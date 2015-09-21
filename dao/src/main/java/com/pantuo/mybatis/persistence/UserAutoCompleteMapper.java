@@ -10,4 +10,6 @@ public interface UserAutoCompleteMapper {
 
 	List<Integer> selectAllProId();
 
+	List<Integer> selectBusidsByPid(@Param("pid") int pid);
+
 }
