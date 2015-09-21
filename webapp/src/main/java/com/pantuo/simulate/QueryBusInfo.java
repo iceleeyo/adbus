@@ -174,6 +174,7 @@ public class QueryBusInfo implements Runnable, ScheduleStatsInter {
 				map2.put(busid, new BusInfo(busid));
 			}
 			BusInfo busInfo = map2.get(busid);
+			busInfo.addPlan(busContract);
 			if (busInfo.getStats() == BusInfo.Stats.empty) {
 				busInfo.setStartD(busContract.getStartDate());
 				busInfo.setEndD(busContract.getEndDate());

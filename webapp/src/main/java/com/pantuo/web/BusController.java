@@ -96,6 +96,28 @@ public class BusController {
 		return  busService.getContractBusLineTodayInfo(publish_line_id);
 	}
 	
+	/**
+	 * 
+	 * 线路可上刊检查
+	 *
+	 * @param city
+	 * @param principal
+	 * @param stday
+	 * @param plid
+	 * @param days
+	 * @return
+	 * @throws ParseException
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	@RequestMapping(value = "/ajax-checkFree")
+	@ResponseBody
+	public Pair<Boolean, String> checkFree(
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
+			@RequestParam(value = "stday", required = true) String stday,
+			@RequestParam(value = "plid", required = true) int plid,
+			@RequestParam(value = "days", required = true) int  days) throws ParseException {
+		return busService.checkFree( stday, days,city,plid);
+	}
 	
 	
 	@RequestMapping("ajax-mistake_handle")

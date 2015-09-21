@@ -325,8 +325,9 @@ public class BusServiceImpl implements BusService {
 						.getBus().getLineId()) : null);
 				view.setCompany(companyMap != null && view.getBus().getCompanyId() != null ? (JpaBusinessCompany) companyMap
 						.get(view.getBus().getCompanyId()) : null);
-				
-				view.setBusCategory( com.pantuo.dao.pojo.JpaBus.Category.values()[view.getBus().getCategory()].getNameStr());
+
+				view.setBusCategory(com.pantuo.dao.pojo.JpaBus.Category.values()[view.getBus().getCategory()]
+						.getNameStr());
 			}
 
 		}
@@ -549,29 +550,30 @@ public class BusServiceImpl implements BusService {
 			sort = new Sort("id");
 		Pageable p = new PageRequest(page, length, sort);
 		BooleanExpression query = QJpaBusUpLog.jpaBusUpLog.city.eq(cityId);
-		String busid = req.getFilter("busid"),serinum=req.getFilter("serinum"),pname=req.getFilter("pname"),plid = req.getFilter("plid");
+		String busid = req.getFilter("busid"), serinum = req.getFilter("serinum"), pname = req.getFilter("pname"), plid = req
+				.getFilter("plid");
 		if (StringUtils.isNotBlank(busid)) {
 			int busId = NumberUtils.toInt(busid);
 			query = query.and(QJpaBusUpLog.jpaBusUpLog.jpabus.id.eq(busId));
 		}
 		if (StringUtils.isNotBlank(serinum)) {
-			query = query.and(QJpaBusUpLog.jpaBusUpLog.jpabus.serialNumber.like("%" +serinum+"%" ));
+			query = query.and(QJpaBusUpLog.jpaBusUpLog.jpabus.serialNumber.like("%" + serinum + "%"));
 		}
 		if (StringUtils.isNotBlank(pname)) {
-			query = query.and(QJpaBusUpLog.jpaBusUpLog.jpabus.plateNumber.like("%" +pname+"%" ));
+			query = query.and(QJpaBusUpLog.jpaBusUpLog.jpabus.plateNumber.like("%" + pname + "%"));
 		}
-		if(StringUtils.isNotBlank(plid)){
+		if (StringUtils.isNotBlank(plid)) {
 			int pid = NumberUtils.toInt(plid);
-			List<Integer> busids=userAutoCompleteMapper.selectBusidsByPid(pid);
-			if(busids.size()>0){
+			List<Integer> busids = userAutoCompleteMapper.selectBusidsByPid(pid);
+			if (busids.size() > 0) {
 				query = query.and(QJpaBusUpLog.jpaBusUpLog.jpabus.id.in(busids));
-			}else{
+			} else {
 				query = query.and(QJpaBusUpLog.jpaBusUpLog.jpabus.id.eq(0));
 			}
 		}
 		return query == null ? busUpdateRepository.findAll(p) : busUpdateRepository.findAll(query, p);
 	}
-	
+
 	public ContractLineDayInfo getContractBusLineTodayInfo(int publish_line_id) {
 		ContractLineDayInfo line = new ContractLineDayInfo();
 		PublishLine act = publishLineMapper.selectByPrimaryKey(publish_line_id);
@@ -594,7 +596,55 @@ public class BusServiceImpl implements BusService {
 			line.setDayOnlieBus(onlineCount);
 		}
 		return line;
-
 	}
-	
+
+	@Override
+	public Pair<Boolean, String> checkFree(String stday, int days, int city, int publish_line_id) {
+		Pair<Boolean, String> r = new Pair<Boolean, String>(false, "0");
+		try {
+			Date startDate = (Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(stday);
+			Date endDate = com.pantuo.util.DateUtil.dateAdd(startDate, days);
+			int c = 0;
+			PublishLine act = publishLineMapper.selectByPrimaryKey(publish_line_id);
+			if (act != null) {
+				int lineId = act.getLineId();
+				BusExample example = new BusExample();
+				example.createCriteria().andLineIdEqualTo(lineId);
+				List<Bus> bus = busMapper.selectByExample(example);
+
+				for (Bus bus2 : bus) {
+					BusInfo busInfo = queryBusInfo.getBusInfo2(bus2.getId());
+
+					List<BusOnline> allPlan = busInfo.getAllPlan();
+					boolean isEmpty = true;
+					if (allPlan != null && !allPlan.isEmpty()) {
+						for (BusOnline busOnline : allPlan) {
+							if (busOnline.getStartDate().before(startDate) && busOnline.getEndDate().after(startDate)) {
+								isEmpty = false;
+								break;
+							}
+							if (busOnline.getStartDate().before(endDate) && busOnline.getEndDate().after(endDate)) {
+								isEmpty = false;
+								break;
+							}
+							if (startDate.before(busOnline.getStartDate()) && endDate.after(busOnline.getEndDate())) {
+								isEmpty = false;
+								break;
+							}
+						}
+					}
+					if (isEmpty) {
+						c++;
+					}
+				}
+			}
+			r.setLeft(true);
+			r.setRight(String.valueOf(c));
+		} catch (ParseException e) {
+			r.setRight("日期 参数不正确!" + e.getMessage());
+		}
+
+		return r;
+	}
+
 }

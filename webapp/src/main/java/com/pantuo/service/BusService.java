@@ -73,4 +73,7 @@ public interface BusService {
 	
 	
 	ContractLineDayInfo getContractBusLineTodayInfo(int publish_line_id);
+	
+	
+	Pair<Boolean, String> checkFree(  String stday, int days,    int city,int publish_line_id); 
 }
