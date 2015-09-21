@@ -351,11 +351,11 @@ css=["js/jquery-ui/jquery-ui.css"]>
 
     
         }
+        
     $(document).ready(function() {
   	   refreshOrderedBuses();
         initTable();
         initTable2();
-        
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
@@ -393,6 +393,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 			                    value="批量上刊" onclick="sub()"/>
                 </div>
 	     	</div>
+	     	
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>
                     <tr>
@@ -414,11 +415,13 @@ css=["js/jquery-ui/jquery-ui.css"]>
                     </tr>
                     </thead>
                 </table>
-                <div>sfsf</div>
+                <div><span id="trw2">ss</span></div>
+                
 </div>
+<br>
 <div class="withdraw-wrap color-white-bg fn-clear">
  <div class="withdraw-title">
-             所上刊车辆历史变更信息
+             已上刊车辆历史变更信息
                 </div>
                 <table id="busUpHis" class="display nowrap" cellspacing="0">
                     <thead>
@@ -442,4 +445,26 @@ css=["js/jquery-ui/jquery-ui.css"]>
 
                 </table>
 </div>
+<script type="text/javascript">
+		function queryTotalInfo(){
+        	var param={"publish_line_id":$("#plid").val()};
+      		   $.ajax({
+		    			url:"${rc.contextPath}/bus/ajax-daysNumber",
+		    			type:"POST",
+		    			async:false,
+		    			dataType:"json",
+		    			data:param,
+		    			success:function(data){
+		    				if (data != null) {
+		    				var t="线路车辆总数: "+data.totalBus +" 当日已上刊总数:"+data.dayOnlieBus;
+		    					$("#trw").html(t);
+		    					$("#trw2").html(t);
+		    				}  
+		    			}
+		       });  
+        }
+ $(document).ready(function() {
+        queryTotalInfo();
+    } );
+</script>
 </@frame.html>
