@@ -32,7 +32,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.expr.BooleanExpression;
@@ -66,10 +65,13 @@ import com.pantuo.mybatis.domain.PublishLine;
 import com.pantuo.mybatis.persistence.BusCustomMapper;
 import com.pantuo.mybatis.persistence.BusMapper;
 import com.pantuo.mybatis.persistence.BusOnlineMapper;
+import com.pantuo.mybatis.persistence.BusSelectMapper;
+import com.pantuo.mybatis.persistence.BusSubExample;
 import com.pantuo.mybatis.persistence.BusUplogMapper;
 import com.pantuo.mybatis.persistence.OfflinecontractMapper;
 import com.pantuo.mybatis.persistence.PublishLineMapper;
 import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
+import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.BusService;
 import com.pantuo.simulate.QueryBusInfo;
@@ -119,6 +121,10 @@ public class BusServiceImpl implements BusService {
 
 	@Autowired
 	PublishLineMapper publishLineMapper;
+	
+	
+	@Autowired
+	BusSelectMapper busSelectMapper;
 
 	@Override
 	public long count() {
@@ -130,6 +136,106 @@ public class BusServiceImpl implements BusService {
 			Integer busModelId, Integer companyId) {
 		return 0;
 	}
+	
+	
+	public DataTablePage<BusInfoView> getMybatisAllBuses(int city, TableRequest req, int page, int pageSize, Sort sort,
+			boolean fetchDisabled) {
+		if (page < 0)
+			page = 0;
+		if (pageSize < 1)
+			pageSize = 1;
+		if (sort == null)
+			sort = new Sort("id");
+		Pageable p = new PageRequest(page, pageSize, sort);
+
+		BooleanExpression query = QJpaBus.jpaBus.city.eq(city);
+		String plateNumber = req.getFilter("plateNumber"), linename = req.getFilter("linename"), levelStr = req
+				.getFilter("levelStr"), category = req.getFilter("category"), lineid = req.getFilter("lineid"), company = req
+				.getFilter("company"), contractid = req.getFilter("contractid");
+
+		BusSubExample example = new BusSubExample();
+		BusSubExample.Criteria2 ca = example.createCriteria2();
+		//example.setOrderByClause(" ");
+		example.setLimitStart(p.getOffset());
+		example.setLimitEnd(pageSize);
+
+		ca.and_CityEqualTo(city);
+		if (StringUtils.isNotBlank(plateNumber)) {
+			ca.andPlateNumberLike("%" + plateNumber + "%");
+		}
+		if (StringUtils.isNotBlank(lineid)) {
+			int lineId = NumberUtils.toInt(lineid);
+			ca.and_LineIdEqualTo(lineId);
+			//query = query.and(QJpaBus.jpaBus.line.id.eq(lineId));
+		}
+		if (StringUtils.isNotBlank(linename)) {
+			ca.and_LineNameEqualTo(linename);
+			//query = query.and(QJpaBus.jpaBus.line.name.eq(linename));
+		}
+		if (StringUtils.isNotBlank(category) && !StringUtils.equals(category, "defaultAll")) {
+
+			ca.andCategoryEqualTo(JpaBus.Category.valueOf(category).ordinal());
+
+			//query = query.and(QJpaBus.jpaBus.category.eq(JpaBus.Category.valueOf(category)));
+		}
+		if (StringUtils.isNotBlank(levelStr) && !StringUtils.equals(levelStr, "defaultAll")) {
+			ca.and_LineLevalEqualTo(JpaBusline.Level.valueOf(levelStr).ordinal());
+			//query = query.and(QJpaBus.jpaBus.line.level.eq(JpaBusline.Level.valueOf(levelStr)));
+		}
+		if (StringUtils.isNotBlank(company) && !StringUtils.equals(company, "defaultAll")) {
+			ca.andCompanyIdEqualTo(NumberUtils.toInt(company));
+
+			/*JpaBusinessCompany c = new JpaBusinessCompany();
+			c.setId(NumberUtils.toInt(company));
+			query = query.and(QJpaBus.jpaBus.company.eq(c));*/
+		}
+		boolean isContractQuery = false;
+		if (StringUtils.isNotBlank(contractid)) {
+			ca.and_contractidEqualTo(NumberUtils.toInt(contractid));
+			isContractQuery = true;
+		}
+		if (!fetchDisabled) {
+			ca.andEnabledEqualTo(true);
+		}
+
+		Set<Integer> modelIdsIntegers = new HashSet<Integer>();
+		Set<Integer> linesIntegers = new HashSet<Integer>();
+		Set<Integer> compaynIntegers = new HashSet<Integer>();
+
+		List<Bus> w = null;
+		Integer countTotal = null;
+
+		if (isContractQuery) {//按合同查
+			w = busSelectMapper.queryAllbusByContract(example);
+			countTotal = busSelectMapper.countAllbusByContract(example);
+		} else {
+			w = busSelectMapper.queryAllbusExample(example);
+			countTotal = busSelectMapper.countAllbusExample(example);
+		}
+		List<BusInfoView> r = new ArrayList<BusInfoView>();
+		for (Bus jpaBus : w) {
+			BusInfoView view = new BusInfoView();
+			view.setBus(jpaBus);
+			view.setBusInfo(queryBusInfo.getBusInfo2(jpaBus.getId()));
+			r.add(view);
+			modelIdsIntegers.add(jpaBus.getModelId());
+			linesIntegers.add(jpaBus.getLineId());
+			compaynIntegers.add(jpaBus.getCompanyId());
+		}
+		putBusBaseInfo(r, modelIdsIntegers, linesIntegers, compaynIntegers);
+
+		//	Pageable p = new PageRequest(req.getPage(), req.getLength(),sort);
+		Page<BusInfoView> jpabuspage = new org.springframework.data.domain.PageImpl<BusInfoView>(r, p,
+				countTotal == null ? 0 : countTotal);//page.getTotalElements()
+		return new DataTablePage(jpabuspage, req.getDraw());
+		//return query == null ? busRepo.findAll(p) : busRepo.findAll(query, p);
+
+	}
+	
+	
+	
+	
+	
 
 	@Override
 	public Page<JpaBus> getAllBuses(int city, TableRequest req, int page, int pageSize, Sort sort, boolean fetchDisabled) {
@@ -337,6 +443,13 @@ public class BusServiceImpl implements BusService {
 		}
 
 		//List<? > cc=modelIdsIntegers;
+		putBusBaseInfo(r, modelIdsIntegers, linesIntegers, compaynIntegers);
+		Pageable p = new PageRequest(req.getPage(), req.getLength(), page.getSort());
+		return new org.springframework.data.domain.PageImpl<BusInfoView>(r, p, page.getTotalElements());
+	}
+
+	private void putBusBaseInfo(List<BusInfoView> r, Set<Integer> modelIdsIntegers, Set<Integer> linesIntegers,
+			Set<Integer> compaynIntegers) {
 		Map<Integer, ?> modelMap = null;
 		Map<Integer, ?> lineMap = null;
 		Map<Integer, ?> companyMap = null;
@@ -367,8 +480,6 @@ public class BusServiceImpl implements BusService {
 			}
 
 		}
-		Pageable p = new PageRequest(req.getPage(), req.getLength(), page.getSort());
-		return new org.springframework.data.domain.PageImpl<BusInfoView>(r, p, page.getTotalElements());
 	}
 
 	public Map<Integer, ?> list2Map(List<?> list) {
@@ -691,7 +802,7 @@ public class BusServiceImpl implements BusService {
 			if (!idsa[i].trim().equals("")) {
 				BusOnline busOnline=busOnlineMapper.selectByPrimaryKey(Integer.parseInt(idsa[i]));
 				if(busOnline!=null){
-					busOnline.setRealEndDate(offday1);
+					busOnline.setRealEndDate(offday1); 
 					busOnlineMapper.updateByPrimaryKeySelective(busOnline);
 				}
 			}

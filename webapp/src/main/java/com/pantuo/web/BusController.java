@@ -132,9 +132,14 @@ public class BusController {
 			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city) {
 		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
 			return new DataTablePage(Collections.emptyList());
-		Page<JpaBus> jpabuspage = busService.getAllBuses(cityId, req, req.getPage(), req.getLength(),
+		
+		return  busService.getMybatisAllBuses(cityId, req, req.getPage(), req.getLength(),
 				req.getSort("id"), false);
-		return new DataTablePage(busService.queryBusinfoView(req, jpabuspage), req.getDraw());
+		
+		
+		/*Page<JpaBus> jpabuspage = busService.getAllBuses(cityId, req, req.getPage(), req.getLength(),
+				req.getSort("id"), false);
+		return new DataTablePage(busService.queryBusinfoView(req, jpabuspage), req.getDraw());*/
 	}
 	
  	@RequestMapping("offlineContract/{id}/{publishLineId}")
