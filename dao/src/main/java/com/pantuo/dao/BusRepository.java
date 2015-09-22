@@ -19,8 +19,8 @@ public interface BusRepository extends JpaSpecificationExecutor<JpaBus>, JpaRepo
 		QueryDslPredicateExecutor<JpaBus> {
 	long countByCityAndEnabled(int city, boolean enabled);
 
-	@Query(" select w from (select b from JpaBus b left JOIN  b.line t where   b.city=:city and b.company.id=:company"
+/*	@Query(" select w from (select b from JpaBus b left JOIN  b.line t where   b.city=:city and b.company.id=:company"
 			+ " and  t.level=:leval and b.category=:category ) u left join JpaBusOnline w on w.jpabus.id = u.id ")
 	Page<JpaBus> queryBus(@Param("city") int city, @Param("company") int company, @Param("leval")  JpaBusline.Level leval,
-			@Param("category") JpaBus.Category category, Pageable pageable);
+			@Param("category") JpaBus.Category category, Pageable pageable);*/
 }
