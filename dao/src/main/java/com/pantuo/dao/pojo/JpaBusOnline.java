@@ -24,7 +24,8 @@ public class JpaBusOnline extends CityEntity {
 	private JpaOfflineContract offlineContract;
 	private int days;
 	private Date startDate;
-	private Date endDate;
+	private Date endDate; //预计下刊时间
+	private Date real_endDate;//实际下刊时间
 	private String userid;
 	private String editor;
 	private boolean enable=true;
@@ -72,6 +73,13 @@ public class JpaBusOnline extends CityEntity {
 	}
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+	
+	public Date getReal_endDate() {
+		return real_endDate;
+	}
+	public void setReal_endDate(Date real_endDate) {
+		this.real_endDate = real_endDate;
 	}
 	public int getDays() {
 		return days;
