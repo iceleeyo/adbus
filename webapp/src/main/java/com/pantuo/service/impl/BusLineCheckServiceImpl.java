@@ -34,6 +34,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.expr.BooleanExpression;
@@ -1323,21 +1324,21 @@ public Page<JpaPublishLine> queryAllPublish(int cityId, TableRequest req, int pa
 }
 
 @Override
-public List<AutoCompleteView> ContractAutoCompleteByName(int city, String name) {
-	List<AutoCompleteView> r = new ArrayList<AutoCompleteView>();
-	BooleanExpression query = QJpaOfflineContract.jpaOfflineContract.city.eq(city);
-	if (StringUtils.isNotBlank(name)) {
-		query = query.and(QJpaOfflineContract.jpaOfflineContract.contractCode.like("%" + name + "%"));
-	}
-	Pageable p = new PageRequest(0, 30, new Sort("id"));
-	Page<JpaOfflineContract> list=(Page<JpaOfflineContract>) offContactRepository.findAll(query,p);
-	if (list.getContent().size()>0) {
-		for (JpaOfflineContract obj : list) {
+	public List<AutoCompleteView> ContractAutoCompleteByName(int city, String name) {
+		List<AutoCompleteView> r = new ArrayList<AutoCompleteView>();
+		BooleanExpression query = QJpaOfflineContract.jpaOfflineContract.city.eq(city);
+		if (StringUtils.isNotBlank(name)) {
+			query = query.and(QJpaOfflineContract.jpaOfflineContract.contractCode.like("%" + name + "%"));
+		}
+		Pageable p = new PageRequest(0, 30, new Sort(Direction.fromString("desc"), "id"));
+		Page<JpaOfflineContract> list = (Page<JpaOfflineContract>) offContactRepository.findAll(query, p);
+		if (list.getContent().size() > 0) {
+			for (JpaOfflineContract obj : list) {
 				String lable = obj.getContractCode();
 				String value = String.valueOf(obj.getId());
-				r.add(new AutoCompleteView(lable, lable,value));
+				r.add(new AutoCompleteView(lable, lable, value));
 			}
+		}
+		return r;
 	}
-	return r;
- }
 }
