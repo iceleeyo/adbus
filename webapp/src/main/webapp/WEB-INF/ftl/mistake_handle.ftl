@@ -37,22 +37,24 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                         "filter[category]" : $('#category').val(),
                         "filter[levelStr]" : $('#levelStr').val(),
                         "filter[linename]" : $('#linename').val(),
-                        "filter[company]" : $('#company').val()
+                        "filter[company]" : $('#company').val(),
+                        "filter[contractid]" : $('#cid').val()
+                        
                     } );
                 },
                 "dataSrc": "content",
             },
             "columns": [
-                { "data": "jpaBus.plateNumber", "defaultContent": "","render": function(data, type, row, meta) {
-                	return '<a  onclick="showbusOnline_history(\'${rc.contextPath}\','+row.jpaBus.id+');">'+data+'</a>';
+                { "data": "bus.plateNumber", "defaultContent": "","render": function(data, type, row, meta) {
+                	return '<a  onclick="showbusOnline_history(\'${rc.contextPath}\','+row.bus.id+');">'+data+'</a>';
                 }},
-                { "data": "jpaBus.serialNumber", "defaultContent": ""},
-                { "data": "jpaBus.oldSerialNumber", "defaultContent": ""},
-                { "data": "jpaBus.model.name", "defaultContent": ""},
-                { "data": "jpaBus.line.name", "defaultContent": ""},
-                { "data": "jpaBus.line.levelStr", "defaultContent": ""},
-                { "data": "jpaBus.categoryStr", "defaultContent": ""},
-                { "data": "jpaBus.company.name", "defaultContent": ""},
+                { "data": "bus.serialNumber", "defaultContent": ""},
+                { "data": "bus.oldSerialNumber", "defaultContent": ""},
+                { "data": "model.name", "defaultContent": ""},
+                { "data": "line.name", "defaultContent": ""},
+                { "data": "line.levelStr", "defaultContent": ""},
+                { "data": "busCategory", "defaultContent": ""},
+                { "data": "company.name", "defaultContent": ""},
                 { "data": "busInfo.contractCode", "defaultContent": ""},
                 { "data": "busInfo.startD", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd");
@@ -70,8 +72,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 	}
                 	return d;
                 }},
-                 { "data": "jpaBus.description", "defaultContent": ""},
-                 { "data": "jpaBus.branch", "defaultContent": ""},
+                 { "data": "bus.description", "defaultContent": ""},
+                 { "data": "bus.branch", "defaultContent": ""},
 	              { "data": "", "defaultContent": "","render": function(data, type, row, meta) {
 	              
 	              		var tString ='';
@@ -151,14 +153,29 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 			}
 		}).focus(function () {
        				 $(this).autocomplete("search");
-   				 });
+   	 	});
+   	 	
+   	 	 $("#contractid").autocomplete({
+		minLength: 0,
+			source : "${rc.contextPath}/busselect/contractAutoComplete?tag=a",
+			change : function(event, ui) {
+			},
+			select : function(event, ui) {
+			$('#cid').val(ui.item.dbId);
+				table.fnDraw();
+			}
+		}).focus(function () {
+       				 $(this).autocomplete("search");
+   	 	});
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title">
                 车辆上下刊处理
                               &nbsp; &nbsp; &nbsp; &nbsp; 线路：<input class="ui-input" value="" id="linename" data-is="isAmount isEnough">
+                              &nbsp; &nbsp; &nbsp; &nbsp; 合同编号：<input class="ui-input" value="" id="contractid" data-is="isAmount isEnough">
 	     	</div>
+	     	<input type="hidden" id="cid" />
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>
                     <tr>
