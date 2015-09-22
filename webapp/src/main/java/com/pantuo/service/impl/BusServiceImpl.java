@@ -14,6 +14,7 @@ import java.util.Set;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 
@@ -173,9 +174,13 @@ public class BusServiceImpl implements BusService {
 			else
 				query = query.and(q);
 		}
-		Specification<JpaBus> ew= emptyPredicate();
+	/*	Specification<JpaBus> ew= emptyPredicate();
 		Specifications ss= Specifications.where(ew);
-		return query == null ? busRepo.findAll(p) : busRepo.findAll(ss, p);
+		Page<JpaBus> r=
+				busRepo.queryBus(city, 1, JpaBusline.Level.valueOf("A"), JpaBus.Category.valueOf("yunyingche"),p);
+				//busRepo.queryBus(city, NumberUtils.toInt(company), JpaBusline.Level.valueOf(levelStr).ordinal(), JpaBus.Category.valueOf(category).ordinal());
+		System.out.println(r.getContent().size());*/
+		return query == null ? busRepo.findAll(p) : busRepo.findAll(query, p);
 
 	}
 	public static Specification<JpaBus> emptyPredicate(){
@@ -187,9 +192,12 @@ public class BusServiceImpl implements BusService {
 				//root = query.from(JpaBus.class);  
 				Path<JpaBusinessCompany> company = root.get("company");//测试公司
 				Path<JpaBus> line = root.get("line");//测试线路
+				//Path<JpaBus.Category> c = root.get("category");
 				//BooleanExpression query2 = QJpaBus.jpaBus.line.level.eq(JpaBusline.Level.valueOf("A"));
+				root.join(root.getModel().getSet("jpabus",JpaBusOnline.class) , JoinType.LEFT);
+				//.on(  cb.equal(root.get("id"), QJpaBusOnline. jpaBusOnline.jpabus.id )  );
 				return cb.and(cb.equal(line.get("level"), JpaBusline.Level.valueOf("A")),
-						cb.equal(company.get("id"), 1), cb.equal(root.get("category"), JpaBus.Category.valueOf("yunyingche")));
+						cb.equal(company.get("id"), 1), cb.equal(root.get("category"), JpaBus.Category.valueOf("yunyingche").ordinal() ));
 
 				//return root.get("").();
 			}
