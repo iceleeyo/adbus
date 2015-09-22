@@ -2,6 +2,85 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.pantuo.mybatis.persistence.BusSelectMapper">
 
+	<select id="countAllbusByContract" parameterType="com.pantuo.mybatis.domain.BusExample"
+	resultType="java.lang.Integer">
+	select
+	 count(1)
+	from bus join bus_online  on bus.id = bus_online.busid join bus_line on bus_line.id =bus.line_id
+	<if test="_parameter != null">
+		<include
+			refid="com.pantuo.mybatis.persistence.BusMapper.Example_Where_Clause" />
+	</if>
+</select>
+
+	
+	<select id="countAllbusExample" parameterType="com.pantuo.mybatis.domain.BusExample"
+	resultType="java.lang.Integer">
+	select
+	 count(1)
+	from bus join bus_line on bus_line.id =bus.line_id
+	<if test="_parameter != null">
+		<include
+			refid="com.pantuo.mybatis.persistence.BusMapper.Example_Where_Clause" />
+	</if>
+</select>
+
+	<!-- 按合同查车 -->
+	<select id="queryAllbusByContract" parameterType="com.pantuo.mybatis.domain.BusExample"
+	resultMap="com.pantuo.mybatis.persistence.BusMapper.BaseResultMap">
+	select
+	<if test="distinct">
+		distinct
+	</if>
+
+	bus.id, bus.created, bus.updated,bus. city, ad_status, branch,
+	category, description, enabled, bus.end_day,
+	office, old_serial_number, plate_number,bus. serial_number, bus.start_day,
+	company_id, line_id,
+	bus.model_id
+	from bus join bus_online  on bus.id = bus_online.busid join bus_line on bus_line.id =bus.line_id
+	<if test="_parameter != null">
+		<include
+			refid="com.pantuo.mybatis.persistence.BusMapper.Example_Where_Clause" />
+	</if>
+	<if test="orderByClause != null">
+		order by ${orderByClause}
+	</if>
+	<if test="limitEnd != -1">
+		limit ${limitStart} , ${limitEnd}
+	</if>
+</select>
+
+	<select id="queryAllbusExample" parameterType="com.pantuo.mybatis.domain.BusExample"
+	resultMap="com.pantuo.mybatis.persistence.BusMapper.BaseResultMap">
+	select
+	<if test="distinct">
+		distinct
+	</if>
+
+	bus.id, bus.created, bus.updated,bus. city, ad_status, branch,
+	category, description, enabled, bus.end_day,
+	office, old_serial_number, plate_number,bus. serial_number, bus.start_day,
+	company_id, line_id,
+	bus.model_id
+	from bus join bus_line on bus_line.id =bus.line_id
+	<if test="_parameter != null">
+		<include
+			refid="com.pantuo.mybatis.persistence.BusMapper.Example_Where_Clause" />
+	</if>
+	<if test="orderByClause != null">
+		order by ${orderByClause}
+	</if>
+	<if test="limitEnd != -1">
+		limit ${limitStart} , ${limitEnd}
+	</if>
+</select>
+	
+    
+    
+    
+    
+    
 
 	<resultMap id="GroupVO" type="com.pantuo.vo.GroupVo">
 		<id column="count" jdbcType="INTEGER" property="count" />

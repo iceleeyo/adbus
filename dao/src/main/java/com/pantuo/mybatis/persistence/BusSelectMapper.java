@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.pantuo.mybatis.domain.Bus;
 import com.pantuo.mybatis.domain.BusContract;
+import com.pantuo.mybatis.domain.BusExample;
 import com.pantuo.mybatis.domain.BusModel;
 import com.pantuo.vo.GroupVo;
 import com.pantuo.vo.LineBatchUpdateView;
@@ -191,5 +193,46 @@ public interface BusSelectMapper {
 	void batchUpdateLineCars(List<LineBatchUpdateView> views);
 	
 	void pdateLineOnineInfo(List<LineBatchUpdateView> views);
+	
+	/**
+	 * 
+	 *  按线路一些信息查车
+	 *
+	 * @param example
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	 public List<Bus> queryAllbusExample(BusExample example);
+	 /**
+		 * 
+		 *  按线路一些信息查车
+		 *
+		 * @param example
+		 * @return
+		 * @since pantuo 1.0-SNAPSHOT
+		 */
+	 public Integer countAllbusExample(BusExample example);
+	 
+	 
+	/**
+	 * 
+	 *  按线路一些信息查车
+	 *
+	 * @param example
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	public List<Bus> queryAllbusByContract(BusExample example);
+
+	/**
+	 * 
+	 *  按线路一些信息查车
+	 *
+	 * @param example
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	public Integer countAllbusByContract(BusExample example);
+
 
 }
