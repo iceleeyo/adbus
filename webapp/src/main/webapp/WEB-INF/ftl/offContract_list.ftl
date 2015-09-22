@@ -26,6 +26,10 @@ css=["js/jquery-ui/jquery-ui.css"]>
             "scrollX": true,
             "iDisplayLength" : 20,
             "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
+                          "aaSorting": [[1, "desc"]],
+              "columnDefs": [
+                 { "orderable": false, "targets": [0,2,3,4,5,6,7,8,9,10] },
+            ],
             "ajax": {
                 type: "GET",
                 url: "${rc.contextPath}/busselect/ajax-offContract_list",
