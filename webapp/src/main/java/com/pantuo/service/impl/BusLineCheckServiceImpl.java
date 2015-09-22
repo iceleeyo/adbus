@@ -1330,8 +1330,8 @@ public List<AutoCompleteView> ContractAutoCompleteByName(int city, String name) 
 		query = query.and(QJpaOfflineContract.jpaOfflineContract.contractCode.like("%" + name + "%"));
 	}
 	Pageable p = new PageRequest(0, 30, new Sort("id"));
-	List<JpaOfflineContract> list=(List<JpaOfflineContract>) offContactRepository.findAll(query,p);
-	if (list.size()>0) {
+	Page<JpaOfflineContract> list=(Page<JpaOfflineContract>) offContactRepository.findAll(query,p);
+	if (list.getContent().size()>0) {
 		for (JpaOfflineContract obj : list) {
 				String lable = obj.getContractCode();
 				String value = String.valueOf(obj.getId());
