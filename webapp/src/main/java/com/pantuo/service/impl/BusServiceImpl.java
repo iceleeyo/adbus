@@ -12,6 +12,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Root;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.codehaus.jackson.JsonGenerationException;
@@ -25,6 +30,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.expr.BooleanExpression;
@@ -157,6 +164,8 @@ public class BusServiceImpl implements BusService {
 			c.setId(NumberUtils.toInt(company));
 			query = query.and(QJpaBus.jpaBus.company.eq(c));
 		}
+
+		
 		if (!fetchDisabled) {
 			BooleanExpression q = QJpaBus.jpaBus.enabled.isTrue();
 			if (query == null)
@@ -164,9 +173,28 @@ public class BusServiceImpl implements BusService {
 			else
 				query = query.and(q);
 		}
-		return query == null ? busRepo.findAll(p) : busRepo.findAll(query, p);
+		Specification<JpaBus> ew= emptyPredicate();
+		Specifications ss= Specifications.where(ew);
+		return query == null ? busRepo.findAll(p) : busRepo.findAll(ss, p);
 
 	}
+	public static Specification<JpaBus> emptyPredicate(){
+		  return new Specification<JpaBus>(){
+		    
+			@Override
+			public javax.persistence.criteria.Predicate toPredicate(Root<JpaBus> root, CriteriaQuery<?> query,
+					CriteriaBuilder cb) {
+				//root = query.from(JpaBus.class);  
+				Path<JpaBusinessCompany> company = root.get("company");//测试公司
+				Path<JpaBus> line = root.get("line");//测试线路
+				//BooleanExpression query2 = QJpaBus.jpaBus.line.level.eq(JpaBusline.Level.valueOf("A"));
+				return cb.and(cb.equal(line.get("level"), JpaBusline.Level.valueOf("A")),
+						cb.equal(company.get("id"), 1), cb.equal(root.get("category"), JpaBus.Category.valueOf("yunyingche")));
+
+				//return root.get("").();
+			}
+		};
+		}
 
 	@Override
 	public JpaBus findById(int id) {
