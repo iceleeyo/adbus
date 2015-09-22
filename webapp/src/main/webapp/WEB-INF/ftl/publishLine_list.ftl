@@ -35,7 +35,10 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 url: "${rc.contextPath}/busselect/ajax-publishLine_list",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "filter[contractCode]" : $('#contractCode').val()
+                        "filter[contractCode]" : $('#contractCode').val(),
+                        "filter[linename]" : $('#linename').val(),
+                        "filter[model]" : $('#model').val(),
+                        "filter[company]" : $('#company').val()
                     } );
                 },
                 "dataSrc": "content",
@@ -97,10 +100,28 @@ css=["js/jquery-ui/jquery-ui.css"]>
                         '    <span>' +
                         '        <input id="contractCode" value="">' +
                         '    </span>&nbsp;&nbsp;' +
+                         '    <span>线路</span>' +
+                        '    <span>' +
+                        '        <input id="linename" value="">' +
+                        '    </span>&nbsp;&nbsp;' +
+                         '    <span>车型</span>' +
+                        '    <span>' +
+                        '        <input id="model" value="">' +
+                        '    </span>&nbsp;&nbsp;' +
+                         '    <span>营销中心</span>&nbsp;&nbsp;' +
+                       '<select class="ui-input ui-input-mini"  id="company">' +
+                    '<option value="defaultAll" selected="selected">所有</option>' +
+                  	                           '<option value="自营">自营</option>'+
+                                            	'<option value="CBS">CBS</option>'+
+                                            	'<option value="白马">白马</option>'+
+                                            	'<option value="七彩">七彩</option>'+
+                                            	'<option value="市场">市场</option>'+
+                                            	'<option value="其他">其他</option>'+
+         			'</select><br>' +
                         '</div>'
         );
 
-        $('#contractCode').change(function() {
+        $('#contractCode,#linename,#model,#company').change(function() {
             table.fnDraw();
         });
     }

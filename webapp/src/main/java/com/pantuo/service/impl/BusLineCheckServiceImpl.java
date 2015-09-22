@@ -1305,9 +1305,19 @@ public Page<JpaPublishLine> queryAllPublish(int cityId, TableRequest req, int pa
         sort = new Sort("id");
     Pageable p = new PageRequest(page, length, sort);
     BooleanExpression query = QJpaPublishLine.jpaPublishLine.city.eq(cityId);
-    String contractCode=req.getFilter("contractCode");
+    query = query.and( QJpaPublishLine.jpaPublishLine.OfflineContract.id.isNotNull());
+    String contractCode=req.getFilter("contractCode"),model=req.getFilter("model"),linename=req.getFilter("linename"),company=req.getFilter("company");
     if (StringUtils.isNotBlank(contractCode)) {
         query = query.and( QJpaPublishLine.jpaPublishLine.OfflineContract.contractCode.like("%" + contractCode + "%"));
+    }
+    if (StringUtils.isNotBlank(model)) {
+    	query = query.and( QJpaPublishLine.jpaPublishLine.model.name.like("%" + model + "%"));
+    }
+    if (StringUtils.isNotBlank(linename)) {
+    	query = query.and( QJpaPublishLine.jpaPublishLine.line.name.like("%" + linename + "%"));
+    }
+    if (StringUtils.isNotBlank(company) && !StringUtils.equals(company, "defaultAll")) {
+    	query = query.and( QJpaPublishLine.jpaPublishLine.jpaBusinessCompany.name.like("%" + company + "%"));
     }
     return query == null ? publishLineRepository.findAll(p) : publishLineRepository.findAll(query, p);
 }
