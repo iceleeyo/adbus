@@ -180,4 +180,6 @@ public interface BusLineCheckService {
 	public JpaPublishLine queryPublishLineByid(int id);
 
 	public Page<JpaPublishLine> queryAllPublish(int cityId, TableRequest req, int page, int length, Sort sort);
+
+	public List<AutoCompleteView> ContractAutoCompleteByName(int city, String name);
 }

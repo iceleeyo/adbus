@@ -683,4 +683,36 @@ public class BusServiceImpl implements BusService {
 		return r;
 	}
 
+	@Override
+	public Pair<Boolean, String> batchOffline(String ids, String offday, Principal principal, int city) throws ParseException {
+		Date offday1 = (Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(offday);
+		String idsa[] = ids.split(",");
+		for (int i = 0; i < idsa.length; i++) {
+			if (!idsa[i].trim().equals("")) {
+				BusOnline busOnline=busOnlineMapper.selectByPrimaryKey(Integer.parseInt(idsa[i]));
+				if(busOnline!=null){
+					busOnline.setRealEndDate(offday1);
+					busOnlineMapper.updateByPrimaryKeySelective(busOnline);
+				}
+			}
+		}
+		return new Pair<Boolean, String>(true, "下刊成功");
+	}
+
+	@Override
+	public Page<JpaBusOnline> getbusOnlineList(int cityId, TableRequest req, int page, int length, Sort sort) {
+		if (page < 0)
+			page = 0;
+		if (length < 1)
+			length = 1;
+		if (sort == null)
+			sort = new Sort("id");
+		Pageable p = new PageRequest(page, length, sort);
+		BooleanExpression query = QJpaBusOnline.jpaBusOnline.city.eq(cityId);
+		String contracCode = req.getFilter("contracCode");
+		if (StringUtils.isNotBlank(contracCode)) {
+			query = query.and(QJpaBusOnline.jpaBusOnline.offlineContract.contractCode.like("%"+contracCode+"%"));
+		}
+		return query == null ? busOnlineRepository.findAll(p) : busOnlineRepository.findAll(query, p);
+	}
 }

@@ -250,6 +250,12 @@ public class BusSelectController {
 			@RequestParam(value = "term") String name ,@RequestParam(value = "tag", required = false ) String tag) {
 		return busLineCheckService.autoCompleteByName(city, name, JpaBus.Category.yunyingche,tag);
 	}
+	@RequestMapping(value = "/contractAutoComplete")
+	@ResponseBody
+	public List<AutoCompleteView> contractAutoComplete(@CookieValue(value = "city", defaultValue = "-1") int city,
+			@RequestParam(value = "term") String name ) {
+		return busLineCheckService.ContractAutoCompleteByName(city, name);
+	}
 
 	/**
 	 *

@@ -17,6 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.pantuo.dao.BusRepository;
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusModel;
 import com.pantuo.dao.pojo.JpaBusOnline;
@@ -57,6 +60,8 @@ public class BusController {
 
 	@Autowired
 	private BusService busService;
+	@Autowired
+	private BusRepository busRepository;
 
 	@Autowired
 	BusLineCheckService busLineCheckService;
@@ -132,7 +137,7 @@ public class BusController {
 		return new DataTablePage(busService.queryBusinfoView(req, jpabuspage), req.getDraw());
 	}
 	
-	@RequestMapping("offlineContract/{id}/{publishLineId}")
+ 	@RequestMapping("offlineContract/{id}/{publishLineId}")
 	@ResponseBody
 	public BusOnline updateOffline(TableRequest req,@PathVariable int id,@PathVariable int publishLineId,
 			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city, Principal principal) {
@@ -151,6 +156,16 @@ public class BusController {
 		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
 			return new DataTablePage(Collections.emptyList());
 		Page<JpaBusOnline> jpabuspage = busService.getbusOnlinehistory(cityId, req, req.getPage(), req.getLength(),
+				req.getSort("id"));
+		return new DataTablePage(jpabuspage, req.getDraw());
+	}
+	@RequestMapping("ajax-bus_offShelf")
+	@ResponseBody
+	public DataTablePage<JpaBusOnline> findBusonline(TableRequest req,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city) throws ParseException {
+		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
+			return new DataTablePage(Collections.emptyList());
+		Page<JpaBusOnline> jpabuspage = busService.getbusOnlineList(cityId, req, req.getPage(), req.getLength(),
 				req.getSort("id"));
 		return new DataTablePage(jpabuspage, req.getDraw());
 	}
@@ -276,6 +291,10 @@ public class BusController {
 	public String models() {
 		return "bus_models";
 	}
+	@RequestMapping(value = "/bus_offShelf")
+	public String bus_offShelf() {
+		return "bus_offShelf";
+	}
 
 	@RequestMapping(value = "/companies")
 	public String companies() {
@@ -324,5 +343,14 @@ public class BusController {
 			@RequestParam(value = "plid", required = true) int plid,
 			@RequestParam(value = "days", required = true) int  days) throws ParseException {
 		return busService.batchOnline(ids,stday, days, contractid,principal,city,plid);
+	}
+	@RequestMapping(value = "/batchOffline")
+	@ResponseBody
+	public Pair<Boolean, String> batchOffline(
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
+			@RequestParam(value = "offday", required = true) String offday,
+			@RequestParam(value = "ids", required = true) String ids
+			) throws ParseException{
+		return busService.batchOffline(ids,offday,principal,city);
 	}
 }

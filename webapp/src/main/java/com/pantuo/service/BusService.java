@@ -10,6 +10,7 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Query;
 
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusModel;
@@ -75,5 +76,10 @@ public interface BusService {
 	ContractLineDayInfo getContractBusLineTodayInfo(int publish_line_id);
 	
 	
-	Pair<Boolean, String> checkFree(  String stday, int days,    int city,int publish_line_id); 
+	Pair<Boolean, String> checkFree(  String stday, int days,    int city,int publish_line_id);
+
+	Pair<Boolean, String> batchOffline(String ids, String offday, Principal principal, int city)  throws ParseException;
+
+	Page<JpaBusOnline> getbusOnlineList(int cityId, TableRequest req, int page, int length, Sort sort) ;
+	
 }
