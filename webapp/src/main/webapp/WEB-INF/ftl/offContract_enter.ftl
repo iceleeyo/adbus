@@ -37,13 +37,13 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                       return '<a   onclick=" gotoSchedult(' + row.line.id +","+(row.model.id )+ ')" >'+data+'</a> &nbsp;';
                 }},
                 { "data": "line.levelStr", "defaultContent": ""}, 
-                { "data": "model.name", "defaultContent": "", "render": function(data) {
-                           if(data.id ==0){
+                { "data": "model.name", "defaultContent": "", "render": function(data, type, row,meta) {
+                           if(row.model.id ==0){
                                 return "所有车型"
-                            }else if(data.doubleDecker==false){
-                              return '单层';
+                            }else if(row.model.doubleDecker==false){
+                              return row.model.name+ ' 单层';
                             }else{
-                               return '双层';
+                               return row.model.name+ ' 双层';
                                  }
                                }}, 
                 { "data": "salesNumber", "defaultContent": ""}, 
