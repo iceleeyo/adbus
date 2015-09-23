@@ -287,6 +287,12 @@ public class BusController {
 		model.addAttribute("companys",busService. getAllCompany(cityId));
 		return "mistake_handle";
 	}
+	
+	@RequestMapping(value = "/contractSearch")
+	public String contractSearch(Model model,@CookieValue(value = "city", defaultValue = "-1") int cityId) {
+		model.addAttribute("companys",busService. getAllCompany(cityId));
+		return "contractSearch";
+	}
 	@RequestMapping(value = "findAllCompany")
 	@ResponseBody
 	public List<JpaBusinessCompany> findAllCompany(Model model,@CookieValue(value = "city", defaultValue = "-1") int cityId) {
