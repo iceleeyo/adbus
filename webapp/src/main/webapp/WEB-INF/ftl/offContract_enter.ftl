@@ -32,7 +32,12 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 								 "dataSrc": function(json) {return json;},
 							},
 							"columns" : [
-							{ "data": "model", "defaultContent": "", "render": function(data) {
+							{ "data": "lineDesc", "defaultContent": ""},
+			    { "data": "line.name", "defaultContent": "", "render": function(data, type, row, meta) {
+                      return '<a   onclick=" gotoSchedult(' + row.line.id +","+(row.model.id )+ ')" >'+data+'</a> &nbsp;';
+                }},
+                { "data": "line.levelStr", "defaultContent": ""}, 
+                { "data": "model.name", "defaultContent": "", "render": function(data) {
                            if(data.id ==0){
                                 return "所有车型"
                             }else if(data.doubleDecker==false){
@@ -40,12 +45,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                             }else{
                                return '双层';
                                  }
-                               }},
-			    { "data": "line.name", "defaultContent": "", "render": function(data, type, row, meta) {
-                      return '<a   onclick=" gotoSchedult(' + row.line.id +","+(row.model.id )+ ')" >'+data+'</a> &nbsp;';
-                }},
-                { "data": "line.levelStr", "defaultContent": ""}, 
-                { "data": "model.name", "defaultContent": ""}, 
+                               }}, 
                 { "data": "salesNumber", "defaultContent": ""}, 
                 { "data": "remainNuber", "defaultContent": ""}, 
                 { "data": "days", "defaultContent": 0}, 
