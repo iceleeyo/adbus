@@ -124,19 +124,16 @@ public class BusController {
 			@RequestParam(value = "days", required = true) int  days) throws ParseException {
 		return busService.checkFree( stday, days,city,plid);
 	}
-	
-	
+
 	@RequestMapping("ajax-mistake_handle")
 	@ResponseBody
 	public DataTablePage<BusInfoView> mistake_handle(TableRequest req,
 			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city) {
 		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
 			return new DataTablePage(Collections.emptyList());
-		
-		return  busService.getMybatisAllBuses(cityId, req, req.getPage(), req.getLength(),
-				req.getSort("id"), false);
-		
-		
+
+		return busService.getMybatisAllBuses(cityId, req, req.getPage(), req.getLength(), req.getSort("id"), false);
+
 		/*Page<JpaBus> jpabuspage = busService.getAllBuses(cityId, req, req.getPage(), req.getLength(),
 				req.getSort("id"), false);
 		return new DataTablePage(busService.queryBusinfoView(req, jpabuspage), req.getDraw());*/
