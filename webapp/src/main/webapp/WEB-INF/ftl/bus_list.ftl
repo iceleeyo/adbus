@@ -286,7 +286,7 @@ function showBusDetail(pathUrl,tourl,id){
                         <th>下刊日期</th>
                         <th>车辆描述</th>
                         <th>公司名称</th>
-                        <th>客户名称</th>
+                        <th>所属分公司</th>
                         <th orderBy="enabled">状态</th>
                         <th>管理</th>
                     </tr>

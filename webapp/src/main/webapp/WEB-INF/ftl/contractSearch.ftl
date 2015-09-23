@@ -249,7 +249,7 @@ var table2;
                         <th>上刊日期</th>
                         <th>下刊日期</th>
                         <th>车辆描述</th>
-                        <th>客户名称</th>
+                        <th>所属分公司</th>
                     </tr>
                     </thead>
                 </table>

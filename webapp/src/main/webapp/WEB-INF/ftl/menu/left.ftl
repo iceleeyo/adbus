@@ -241,7 +241,7 @@
 												</a>
 											</li>
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/bus/mistake_handle">
+												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/bus/contractSearch">
 												    合同车辆查询
 												</a>
 											</li>
