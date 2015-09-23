@@ -1,8 +1,8 @@
 <#import "template/template.ftl" as frame>
 <#global menu="订单列表">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="订单列表" js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js", "js/datepicker.js","js/jquery.datepicker.region.cn.js"]
-css=["js/jquery-ui/jquery-ui.css"]>
+<@frame.html title="订单列表" js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js","js/jquery-ui/jquery-ui.auto.complete.js", "js/datepicker.js","js/jquery.datepicker.region.cn.js"]
+css=["js/jquery-ui/jquery-ui.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 
 <style type="text/css">
     .center {margin: auto;}
@@ -35,7 +35,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 url: "${rc.contextPath}/busselect/ajax-publishLine_list",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "filter[contractCode]" : $('#contractCode').val(),
+                        "filter[contractCode]" : $('#cid').val(),
                         "filter[linename]" : $('#linename').val(),
                         "filter[model]" : $('#model').val(),
                         "filter[company]" : $('#company').val()
@@ -126,6 +126,36 @@ css=["js/jquery-ui/jquery-ui.css"]>
         $('#contractCode,#linename,#model,#company').change(function() {
             table.fnDraw();
         });
+        
+           $("#linename").autocomplete({
+		minLength: 0,
+			source : "${rc.contextPath}/busselect/autoComplete?tag=a",
+			change : function(event, ui) {
+			},
+			select : function(event, ui) {
+				$('#linename').val(ui.item.value);
+				table.fnDraw();
+			}
+		}).focus(function () {
+       				 $(this).autocomplete("search");
+   	 	});
+
+		//---
+		
+		 $("#contractCode").autocomplete({
+		minLength: 0,
+			source : "${rc.contextPath}/busselect/contractAutoComplete?tag=a",
+			change : function(event, ui) {
+			},
+			select : function(event, ui) {
+			$('#cid').val(ui.item.dbId);
+				table.fnDraw();
+			}
+		}).focus(function () {
+       				 $(this).autocomplete("search");
+   	 	});
+   	 	
+   	 	//-----   	 	
     }
 
     function drawCallback() {
@@ -144,6 +174,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
             <div class="withdraw-title">
                 订单列表
 									</div>
+										<input type="hidden" id="cid" />
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>
                     <tr>
