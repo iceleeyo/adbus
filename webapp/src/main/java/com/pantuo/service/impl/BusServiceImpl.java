@@ -18,6 +18,7 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.codehaus.jackson.JsonGenerationException;
@@ -151,7 +152,7 @@ public class BusServiceImpl implements BusService {
 		BooleanExpression query = QJpaBus.jpaBus.city.eq(city);
 		String plateNumber = req.getFilter("plateNumber"), linename = req.getFilter("linename"), levelStr = req
 				.getFilter("levelStr"), category = req.getFilter("category"), lineid = req.getFilter("lineid"), company = req
-				.getFilter("company"), contractid = req.getFilter("contractid");
+				.getFilter("company"), contractid = req.getFilter("contractid"),contractTag = req.getFilter("contractTag");
 
 		BusSubExample example = new BusSubExample();
 		BusSubExample.Criteria2 ca = example.createCriteria2();
@@ -205,7 +206,7 @@ public class BusServiceImpl implements BusService {
 		List<Bus> w = null;
 		Integer countTotal = null;
 
-		if (isContractQuery) {//按合同查
+		if (isContractQuery || BooleanUtils.toBoolean(contractTag)) {//按合同查
 			w = busSelectMapper.queryAllbusByContract(example);
 			countTotal = busSelectMapper.countAllbusByContract(example);
 		} else {
