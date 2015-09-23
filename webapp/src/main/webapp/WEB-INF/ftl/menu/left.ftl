@@ -219,7 +219,7 @@
                                     <li class="pg-side-item">
                                         <a class="pg-side-item-t gg-icon">
                                             <i class="s-left pg-icon-a g-icon"></i>
-                                            车身广告
+                                            合同部
                                         </a>
                                         <ul class="pg-side-exp-list">
                              <@security.authorize ifAnyGranted="bodyScheduleManager">  
@@ -240,6 +240,20 @@
 												    合同列表
 												</a>
 											</li>
+											<li class="pg-side-exp-item">
+												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/bus/mistake_handle">
+												    合同车辆查询
+												</a>
+											</li>
+											
+										  </ul>
+                                    </li>
+                                 <li class="pg-side-item">
+                                        <a class="pg-side-item-t gg-icon">
+                                            <i class="s-left pg-icon-a g-icon"></i>
+                                            媒介部
+                                        </a>
+                                        <ul class="pg-side-exp-list">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/busselect/publishLine_list">
 												    订单列表
