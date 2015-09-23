@@ -1322,10 +1322,10 @@ public Pair<Boolean, String> saveDivid(Dividpay dividpay, long seriaNum, String 
 		String contractCode = req.getFilter("contractCode"), contractid = req.getFilter("contractid"), model = req
 				.getFilter("model"), linename = req.getFilter("linename"), company = req.getFilter("company");
 		if (StringUtils.isNotBlank(contractCode)) {
-			query = query.and(QJpaPublishLine.jpaPublishLine.OfflineContract.contractCode
-					.like("%" + contractCode + "%"));
+		//	query = query.and(QJpaPublishLine.jpaPublishLine.OfflineContract.contractCode
+		//			.like("%" + contractCode + "%"));
 		}
-		if (StringUtils.isNotBlank(contractid)) {
+		if (StringUtils.isNotBlank(contractCode)) {
 			int cid = NumberUtils.toInt(contractid);
 			query = query.and(QJpaPublishLine.jpaPublishLine.OfflineContract.id.eq(cid));
 		}
