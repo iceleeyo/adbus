@@ -33,7 +33,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 url: "${rc.contextPath}/bus/ajax-bus_offShelf",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "filter[contracCode]" : $('#contractCode').val()
+                        "filter[contracCode]" : $('#contractCode').val(),
+                        "filter[linename]" : $('#linename').val()
                     } );
                 },
                 "dataSrc": "content",
@@ -102,7 +103,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                         '</div>'
         );
 
-        $('#contractCode').change(function() {
+        $('#contractCode,#linename').change(function() {
             table.fnDraw();
         });
     }
@@ -171,8 +172,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title">
-                车辆下刊&nbsp;&nbsp;&nbsp;&nbsp;
-                      下刊日期：<input  class="ui-input ui-input-mini datepicker" type="text" name="offday"
+                车辆下刊&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 线路：<input class="ui-input" value="" id="linename" data-is="isAmount isEnough">
+                    &nbsp; &nbsp;  下刊日期：<input  class="ui-input ui-input-mini datepicker" type="text" name="offday"
                             id="offday" data-is="isAmount isEnough"
                             autocomplete="off" disableautocomplete=""> 
                                &nbsp;&nbsp; <input type="button" class="button_kind" style="width: 85px;height: 30px;"
