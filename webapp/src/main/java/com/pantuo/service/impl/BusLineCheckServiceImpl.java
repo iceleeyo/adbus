@@ -1326,7 +1326,7 @@ public Pair<Boolean, String> saveDivid(Dividpay dividpay, long seriaNum, String 
 		//			.like("%" + contractCode + "%"));
 		}
 		if (StringUtils.isNotBlank(contractCode)) {
-			int cid = NumberUtils.toInt(contractid);
+			int cid = NumberUtils.toInt(contractCode);
 			query = query.and(QJpaPublishLine.jpaPublishLine.OfflineContract.id.eq(cid));
 		}
 		if (StringUtils.isNotBlank(model)) {
