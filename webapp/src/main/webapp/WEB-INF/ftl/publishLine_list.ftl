@@ -16,9 +16,9 @@ css=["js/jquery-ui/jquery-ui.css","js/jquery-ui/jquery-ui.auto.complete.css","cs
 
 <script type="text/javascript">
 	
-    var table;
+    var orderBusesTable;
     function initTable () {
-        table = $('#table').dataTable( {
+        orderBusesTable = $('#table').dataTable( {
             "dom": '<"#toolbar">lrtip',
             "searching": false,
             "ordering": true,
@@ -35,7 +35,7 @@ css=["js/jquery-ui/jquery-ui.css","js/jquery-ui/jquery-ui.auto.complete.css","cs
                 url: "${rc.contextPath}/busselect/ajax-publishLine_list",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "filter[contractCode]" : $('#cid').val(),
+                        "filter[contractid]" : $('#cid').val(),
                         "filter[linename]" : $('#linename').val(),
                         "filter[model]" : $('#model').val(),
                         "filter[company]" : $('#company').val()
@@ -92,7 +92,7 @@ css=["js/jquery-ui/jquery-ui.css","js/jquery-ui/jquery-ui.auto.complete.css","cs
             "initComplete": initComplete,
             "drawCallback": drawCallback,
         } );
-        table.fnNameOrdering("orderBy").fnNoColumnsParams();
+        orderBusesTable.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
 
     function initComplete() {
@@ -124,7 +124,7 @@ css=["js/jquery-ui/jquery-ui.css","js/jquery-ui/jquery-ui.auto.complete.css","cs
         );
 
         $('#contractCode,#linename,#model,#company').change(function() {
-            table.fnDraw();
+            orderBusesTable.fnDraw();
         });
         
            $("#linename").autocomplete({
@@ -134,7 +134,7 @@ css=["js/jquery-ui/jquery-ui.css","js/jquery-ui/jquery-ui.auto.complete.css","cs
 			},
 			select : function(event, ui) {
 				$('#linename').val(ui.item.value);
-				table.fnDraw();
+				orderBusesTable.fnDraw();
 			}
 		}).focus(function () {
        				 $(this).autocomplete("search");
@@ -149,7 +149,8 @@ css=["js/jquery-ui/jquery-ui.css","js/jquery-ui/jquery-ui.auto.complete.css","cs
 			},
 			select : function(event, ui) {
 			$('#cid').val(ui.item.dbId);
-				table.fnDraw();
+				orderBusesTable.fnDraw();
+				$('#cid').val("");
 			}
 		}).focus(function () {
        				 $(this).autocomplete("search");
@@ -161,7 +162,7 @@ css=["js/jquery-ui/jquery-ui.css","js/jquery-ui/jquery-ui.auto.complete.css","cs
     function drawCallback() {
         $('.table-action').click(function() {
             $.post($(this).attr("url"), function() {
-                table.fnDraw(true);
+                orderBusesTable.fnDraw(true);
             })
         });
     }

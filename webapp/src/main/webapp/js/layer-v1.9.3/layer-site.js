@@ -1146,7 +1146,7 @@ function editPublishLine(tourl,id){
 			+ '<select  class="ui-input bus-model" name="modelId" id="model_id"> <option value="'+data.model.id+'" selected="selected">'+data.model.name+'</option><option value="0">所有类型</option> </select>'
 			+ '</div>'
 			+'<div class="ui-form-item"> <label class="ui-label mt10">选取数量：</label>'
-			+'<input class="ui-input " type="text" value="'+data.salesNumber+'" name="remainNuber" onkeyup="value=value.replace(/[^\\d]/g,\'\')" '
+			+'<input class="ui-input " type="text" value="'+data.salesNumber+'" name="salesNumber" onkeyup="value=value.replace(/[^\\d]/g,\'\')" '
 			+'id="busNumber" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
 				+'</div>'
 			+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">上刊日期:</label>'
@@ -1177,7 +1177,7 @@ function editPublishLine(tourl,id){
 				+'</div>'
 			+ '</div></div>'
 			+ '<div class="ui-form-item widthdrawBtBox" style="position: absolute; bottom: 10px;">'
-			+ '<input type="button" onclick="editLine()" class="block-btn" value="确认" ></div>'
+			+ '<input type="button" onclick="editLine(\''+tourl+'\')" class="block-btn" value="确认" ></div>'
 			+ '<input type="hidden" value="'+data.line.id+'" name="lineId" id="db_id"></form>'
 			+'<div id="worm-tips" class="worm-tips" style="width:350px;display:none;"></div>'
 });
@@ -1211,4 +1211,64 @@ function editPublishLine(tourl,id){
 			}
 	}, "text");
 }
-
+//编辑保存
+function editLine(purl) {
+	var lineid=$("#db_id").val();
+	var startd=$("#startDate").val();
+	var endDate=$("#endDate").val();
+	if(lineid==0){
+	   alert("请选择线路");
+	   return;
+	}
+	if(startd==""){
+	 alert("请选上刊日期");
+	   return;
+	   }
+	if(endDate==""){
+	 alert("请选择下刊日期");
+	   return;
+	   }
+	if($("#busNumber").val()==0){
+	 alert("数量要大于0");
+	   return;
+	   }
+	var bb=false;
+	if(endDate<startd){
+	layer.msg("下刊时间不能小于上刊开始时间");
+		return;
+	}
+	$.ajax({
+			url : purl+"/busselect/lineReaminCheck",
+			type : "POST",
+			async:false,
+			dataType:"json",
+			data : {
+				"buslinId" : $("#db_id").val(),
+				"start" : $("#startDate").val(),
+				"end" : $("#endDate").val(),
+				"modelId" : $("#model_Id  option:selected").val()
+			},
+			success : function(data) {  
+				if($("#busNumber").val()>data){
+					$("#worm-tips").empty(); 
+					var tip='<div  class="tips-title" id="tip" style="padding-left: 13%;">[抱歉，所选线路库存量：<font color="red">'+data+'&nbsp;</font>少于选取数量]</div>'
+					$("#worm-tips").append(tip);
+					$("#worm-tips").show();
+					return;
+				}else {
+					bb=true;
+				}
+			}
+		});
+	if(bb==true){
+		$('#publishform01').ajaxForm(function(data) {
+		if(data.left){
+		     layer.msg("编辑成功");
+		       orderBusesTable.dataTable()._fnAjaxUpdate();
+		       $("#cc").trigger("click");
+		     }else{
+		     layer.msg(data.right);
+		     }
+		}).submit();
+		}
+	}

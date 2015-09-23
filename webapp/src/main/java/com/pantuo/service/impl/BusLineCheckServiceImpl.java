@@ -1179,22 +1179,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	@Override
 	public Pair<Boolean, String> savePublishLine(PublishLine publishLine, String startD, String endD)
 			throws ParseException {
-
-		OfflinecontractExample example = new OfflinecontractExample();
-		OfflinecontractExample.Criteria criteria = example.createCriteria();
-		criteria.andSeriaNumEqualTo(publishLine.getSeriaNum());
-		List<Offlinecontract> list = offlinecontractMapper.selectByExample(example);
-		if (list.size() > 0) {
-			publishLine.setContractId(list.get(0).getId());
-		}
-		//	else {
-		//		publishLine.setContractId(0);
-		//	}
-		publishLine.setStats(JpaBusLock.Status.ready.ordinal());
-		publishLine.setCreated(new Date());
 		publishLine.setUpdated(new Date());
-		//publishLine.setSalesNumber(publishLine.getSalesNumber());
-		publishLine.setRemainNuber(0);
 		Date date1 = (Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(startD);
 		Date date2 = (Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(endD);
 		publishLine.setStartDate(date1);
@@ -1208,6 +1193,16 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			}
 			return new Pair<Boolean, String>(false, "修改失败");
 		}
+		OfflinecontractExample example = new OfflinecontractExample();
+		OfflinecontractExample.Criteria criteria = example.createCriteria();
+		criteria.andSeriaNumEqualTo(publishLine.getSeriaNum());
+		List<Offlinecontract> list = offlinecontractMapper.selectByExample(example);
+		if (list.size() > 0) {
+			publishLine.setContractId(list.get(0).getId());
+		}
+		publishLine.setStats(JpaBusLock.Status.ready.ordinal());
+		publishLine.setCreated(new Date());
+		publishLine.setRemainNuber(0);
 		if (publishLineMapper.insert(publishLine) > 0) {
 			return new Pair<Boolean, String>(true, "保存成功");
 		}
