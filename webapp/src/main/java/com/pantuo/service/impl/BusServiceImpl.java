@@ -207,6 +207,7 @@ public class BusServiceImpl implements BusService {
 		Integer countTotal = null;
 
 		if (isContractQuery || BooleanUtils.toBoolean(contractTag)) {//按合同查
+			ca.and_BusOnlineEnableEqualTo(1);//车辆正常上刊
 			w = busSelectMapper.queryAllbusByContract(example);
 			countTotal = busSelectMapper.countAllbusByContract(example);
 		} else {
