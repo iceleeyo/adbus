@@ -25,6 +25,11 @@ public class BusSubExample extends BusExample {
 	            return (Criteria) this;
 	      }
 		  
+		  public Criteria and_BusOnlineEnableEqualTo(Integer value) {
+	            addCriterion(" bus_online.enable =", value, "enable");
+	            return (Criteria) this;
+	      }
+		  
 		public Criteria and_LineLevalEqualTo(Integer value) {
 	            addCriterion(" bus_line.level =", value, "level");
 	            return (Criteria) this;
