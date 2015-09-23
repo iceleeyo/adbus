@@ -38,7 +38,10 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                         "filter[levelStr]" : $('#levelStr').val(),
                         "filter[linename]" : $('#linename').val(),
                         "filter[company]" : $('#company').val(),
-                        "filter[contractid]" : $('#cid').val()
+                        "filter[contractid]" : $('#cid').val(),
+                        "filter[contractTag]" : 'Y',
+                        
+                        
                         
                     } );
                 },
@@ -234,31 +237,8 @@ var table2;
                               &nbsp; &nbsp; &nbsp; &nbsp; 合同编号：<input class="ui-input" value="" id="contractid" data-is="isAmount isEnough">
 	     	</div>
 	     	<input type="hidden" id="cid" />
-                <table id="table" class="display nowrap" cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th >车牌号</th>
-                        <th >新车号</th>
-                        <th >旧车号</th>
-                        <th >车型</th>
-                        <th orderBy="line.name">线路</th>
-                        <th orderBy="line.level">线路级别</th>
-                        <th orderBy="category">类别</th>
-                        <th orderBy="company">营销中心</th>
-                        <th>合同编号</th>
-                        <th>上刊日期</th>
-                        <th>下刊日期</th>
-                        <th>车辆描述</th>
-                        <th>所属分公司</th>
-                    </tr>
-                    </thead>
-                </table>
-</div>
-<div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title">
-                订单列表  	
-									</div>
-                <table id="table2" class="display nowrap" cellspacing="0">
+	     	
+	     	 <table id="table2" class="display nowrap" cellspacing="0">
                     <thead>
                     <tr>
                         <th >订单编号</th>
@@ -277,5 +257,30 @@ var table2;
                     </tr>
                     </thead>
                 </table>
+               
+</div>
+<div class="withdraw-wrap color-white-bg fn-clear">
+            <div class="withdraw-title">
+                订单车辆列表  	</div>
+                 <table id="table" class="display nowrap" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th >车牌号</th>
+                        <th >新车号</th>
+                        <th >旧车号</th>
+                        <th >车型</th>
+                        <th orderBy="line.name">线路</th>
+                        <th orderBy="line.level">线路级别</th>
+                        <th orderBy="category">类别</th>
+                        <th orderBy="company">营销中心</th>
+                        <th>合同编号</th>
+                        <th>上刊日期</th>
+                        <th>下刊日期</th>
+                        <th>车辆描述</th>
+                        <th>所属分公司</th>
+                    </tr>
+                    </thead>
+                </table>
+               
 </div>
 </@frame.html>
