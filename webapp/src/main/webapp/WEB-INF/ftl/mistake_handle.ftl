@@ -93,7 +93,71 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
         } );
         table.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
-
+var table2;
+    function initTable2 () {
+        table2 = $('#table2').dataTable( {
+            "dom": '<"#toolbar2">lrtip',
+            "searching": false,
+            "ordering": true,
+            "serverSide": true,
+              "aaSorting": [[12, "desc"]],
+              "columnDefs": [
+                 { "orderable": false, "targets": [0,1,2,3,4,5,6,7,8,9,10,11] },
+            ],
+            "scrollX": true,
+            "iDisplayLength" : 20,
+            "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
+            "ajax": {
+                type: "GET",
+                url: "${rc.contextPath}/busselect/ajax-publishLine_list",
+                data: function(d) {
+                    return $.extend( {}, d, {
+                        "filter[contractid]" : $('#cid').val(),
+                        "filter[linename]" : $('#linename').val()
+                    } );
+                },
+                "dataSrc": "content",
+            },
+            "columns": [
+                { "data": "id", "defaultContent": ""},
+                { "data": "offlineContract.contractCode", "defaultContent": ""},
+                { "data": "line.name", "defaultContent": ""},
+                { "data": "offlineContract.adcontent", "defaultContent": ""},
+                { "data": "model", "defaultContent": "" , "render": function(data) {
+               			 if(data.id ==0){
+                                return "所有车型"
+                            }else if(data.doubleDecker==false){
+                              return data.name+ ' 单层';
+                            }else{
+                               return data.name+ '双层';
+                                 }
+                                 
+                  }               
+                },
+                { "data": "lineDesc", "defaultContent": ""},
+                { "data": "salesNumber", "defaultContent": ""},
+                { "data": "remainNuber", "defaultContent": ""},
+                { "data": "id", "defaultContent": "","render": function(data, type, row, meta) {
+                return (Math.round(row.remainNuber / row.salesNumber * 100)  + "%");;
+                }},
+                { "data": "days", "defaultContent": ""},
+                
+                { "data": "jpaBusinessCompany.name", "defaultContent": ""},
+                { "data": "startDate", "defaultContent": "", "render": function(data) {
+                    return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
+                }},
+                { "data": "created", "defaultContent": "", "render": function(data) {
+                    return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
+                }},
+            ],
+            "language": {
+                "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
+            },
+            "initComplete": initComplete,
+            "drawCallback": drawCallback,
+        } );
+        table2.fnNameOrdering("orderBy").fnNoColumnsParams();
+    }
     function initComplete() {
         $("div#toolbar").html(
                  '<div>' +
@@ -130,6 +194,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 
         $('#name,#category,#levelStr,#linename,#company').change(function() {
             table.fnDraw();
+             table2.fnDraw();
         });
     }
 		
@@ -142,6 +207,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
     }
     $(document).ready(function() {
         initTable();
+        initTable2();
     $("#linename").autocomplete({
 		minLength: 0,
 			source : "${rc.contextPath}/busselect/autoComplete?tag=a",
@@ -150,19 +216,21 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 			select : function(event, ui) {
 				$('#linename').val(ui.item.value);
 				table.fnDraw();
+				table2.fnDraw();
 			}
 		}).focus(function () {
        				 $(this).autocomplete("search");
    	 	});
    	 	
    	 	 $("#contractid").autocomplete({
-		minLength: 0,
+		    minLength: 0,
 			source : "${rc.contextPath}/busselect/contractAutoComplete?tag=a",
 			change : function(event, ui) {
 			},
 			select : function(event, ui) {
 			$('#cid').val(ui.item.dbId);
 				table.fnDraw();
+				table2.fnDraw();
 			}
 		}).focus(function () {
        				 $(this).autocomplete("search");
@@ -193,6 +261,30 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                         <th>车辆描述</th>
                         <th>客户名称</th>
                         <th>撤销上刊</th>
+                    </tr>
+                    </thead>
+                </table>
+</div>
+<div class="withdraw-wrap color-white-bg fn-clear">
+            <div class="withdraw-title">
+                订单列表  	
+									</div>
+                <table id="table2" class="display nowrap" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th >订单编号</th>
+                        <th >合同编号</th>
+                        <th >线路</th>
+                        <th>广告内容</th>
+                        <th>车型</th>
+                        <th>车型描述</th>
+                        <th>订购数量</th>
+                        <th>已上刊数量</th>
+                        <th>在刊率</th>
+                        <th>刊期</th>
+                        <th>营销中心</th>
+                        <th>预计上刊日期</th>
+                        <th>订单记录时间</th>
                     </tr>
                     </thead>
                 </table>

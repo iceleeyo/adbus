@@ -820,7 +820,11 @@ public class BusServiceImpl implements BusService {
 			sort = new Sort("id");
 		Pageable p = new PageRequest(page, length, sort);
 		BooleanExpression query = QJpaBusOnline.jpaBusOnline.city.eq(cityId);
-		String contracCode = req.getFilter("contracCode"),linename=req.getFilter("linename");
+		String contracCode = req.getFilter("contracCode"),linename=req.getFilter("linename"),publishLineid=req.getFilter("publishLineid");
+		if (StringUtils.isNotBlank(publishLineid)) {
+			int pid=NumberUtils.toInt(publishLineid);
+			query = query.and(QJpaBusOnline.jpaBusOnline.publish_lineId.eq(pid));
+		}
 		if (StringUtils.isNotBlank(contracCode)) {
 			query = query.and(QJpaBusOnline.jpaBusOnline.offlineContract.contractCode.like("%"+contracCode+"%"));
 		}

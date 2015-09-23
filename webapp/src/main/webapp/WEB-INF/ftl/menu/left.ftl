@@ -246,11 +246,6 @@
 												</a>
 											</li>
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/busselect/publishLine_query">
-												    订单查询
-												</a>
-											</li>
-											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/bus/mistake_handle">
 												    上下刊错误处理
 												</a>

@@ -192,7 +192,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	BusLockRepository busLockRepository;
 
 	@Override
-	public List<AutoCompleteView> autoCompleteByName(int city, String name, JpaBus.Category category,String tag) {
+	public List<AutoCompleteView> autoCompleteByName(int city, String name, JpaBus.Category category, String tag) {
 		List<AutoCompleteView> r = new ArrayList<AutoCompleteView>();
 		BooleanExpression query = QJpaBusline.jpaBusline.city.eq(city);
 		if (StringUtils.isNotBlank(name)) {
@@ -212,10 +212,10 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			Map<Integer, Integer> cache = getBusLineMap(vos);
 			for (JpaBusline obj : list.getContent()) {
 				int carNumber = cache.containsKey(obj.getId()) ? cache.get(obj.getId()) : 0;
-				if(StringUtils.isNotBlank(tag)){
-					String viewString = obj.getName() ;
+				if (StringUtils.isNotBlank(tag)) {
+					String viewString = obj.getName();
 					r.add(new AutoCompleteView(viewString, viewString));//String.valueOf(obj.getId())
-				}else{
+				} else {
 					String viewString = obj.getName() + "  " + obj.getLevelStr() + " [" + carNumber + "]";
 					r.add(new AutoCompleteView(viewString, viewString, String.valueOf(obj.getId())));//String.valueOf(obj.getId())
 				}
@@ -279,10 +279,11 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	}
 
 	public List<BusinessCompany> queryLineCompanyByModelid(int lineId, int modelid) {
-		List<Integer> ids =  busSelectMapper.queryLineCompanyByModelid(lineId, modelid);
-		if(ids==null|| ids.isEmpty())return new ArrayList<BusinessCompany>(0);
-		BusinessCompanyExample example=new BusinessCompanyExample();
-		  example.createCriteria().andIdIn(ids);
+		List<Integer> ids = busSelectMapper.queryLineCompanyByModelid(lineId, modelid);
+		if (ids == null || ids.isEmpty())
+			return new ArrayList<BusinessCompany>(0);
+		BusinessCompanyExample example = new BusinessCompanyExample();
+		example.createCriteria().andIdIn(ids);
 		return businessCompanyMapper.selectByExample(example);
 	}
 
@@ -348,12 +349,12 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		if (a > 0) {
 			for (BusLock busLock : list) {
 				if (busLock != null) {
-						busLock.setContractId(bodycontract.getId());
-						busLock.setStats(JpaBusLock.Status.ready.ordinal());
-						busLockMapper.updateByPrimaryKey(busLock);
+					busLock.setContractId(bodycontract.getId());
+					busLock.setStats(JpaBusLock.Status.ready.ordinal());
+					busLockMapper.updateByPrimaryKey(busLock);
 				}
 			}
-		}else{
+		} else {
 			return new Pair<Boolean, String>(false, "申请合同失败");
 		}
 		Map<String, Object> initParams = new HashMap<String, Object>();
@@ -373,8 +374,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		if (!tasks.isEmpty()) {
 			Task task = tasks.get(0);
 			taskService.claim(task.getId(), userId);
-//			MailTask mailTask = new MailTask(userId, bodycontract.getId(), null, task.getTaskDefinitionKey(),
-//					Type.sendCompleteMail);
+			//			MailTask mailTask = new MailTask(userId, bodycontract.getId(), null, task.getTaskDefinitionKey(),
+			//					Type.sendCompleteMail);
 			taskService.complete(task.getId());
 			//	mailJob.putMailTask(mailTask);
 		}
@@ -441,13 +442,14 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		return r;
 	}
 
-	public Page<OrderView> queryOrders(int city, Principal principal, TableRequest req, TaskQueryType tqType,String actionType) {
+	public Page<OrderView> queryOrders(int city, Principal principal, TableRequest req, TaskQueryType tqType,
+			String actionType) {
 		String userid = Request.getUserId(principal);
 
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("created");
 		page = page + 1;
-		String companyname = req.getFilter("companyname"),  taskKey = req.getFilter("taskKey");
+		String companyname = req.getFilter("companyname"), taskKey = req.getFilter("taskKey");
 		List<OrderView> orders = new ArrayList<OrderView>();
 		ProcessInstanceQuery countQuery = runtimeService.createProcessInstanceQuery()
 				.processDefinitionKey(BODY_ACTIVITY).variableValueEquals(ActivitiService.CITY, city);
@@ -460,10 +462,10 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			countQuery.involvedUser(userid);
 			listQuery.involvedUser(userid);
 		}
-         if(StringUtils.equals(actionType, "work")){
-        	countQuery.variableValueEquals(ActivitiService.ISUPLOADXY, true);
+		if (StringUtils.equals(actionType, "work")) {
+			countQuery.variableValueEquals(ActivitiService.ISUPLOADXY, true);
 			listQuery.variableValueEquals(ActivitiService.ISUPLOADXY, true);
-         }
+		}
 		//runtimeService.createNativeProcessInstanceQuery().sql("SELECT * FROM " + managementService.getTableName(ProcessInstance.class)).list().size());
 		/*按签约公司查询 */
 		if (StringUtils.isNoneBlank(companyname)) {
@@ -511,6 +513,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 				orders, p, pageUtil.getTotal());
 		return r;
 	}
+
 	private void setVarFilter(String taskKey, ProcessInstanceQuery countQuery, ProcessInstanceQuery listQuery) {
 		if (StringUtils.isNoneBlank(taskKey) && !StringUtils.startsWith(taskKey, ActivitiService.R_DEFAULTALL)) {
 			if (StringUtils.equals(ActivitiService.OrderStatus.be_contractEnable.name(), taskKey)) {
@@ -527,9 +530,10 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 				//待施工完成
 				countQuery.variableValueEquals("paymentResult", true);
 				listQuery.variableValueEquals("paymentResult", true);
-			} 
+			}
 		}
 	}
+
 	private void setCars(List<OrderView> orders, List<Integer> contractIds) {
 		Map<Integer, Integer> countMap = getContractCars(contractIds);
 		Map<Integer, Integer> doneMap = countContractDoneCar(contractIds);
@@ -758,7 +762,6 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 				.processDefinitionKey(BODY_ACTIVITY).variableValueEquals(ActivitiService.CITY, city)
 				.includeProcessVariables().finished();
 
-
 		/*按签约公司查询 */
 		if (StringUtils.isNoneBlank(companyname)) {
 			countQuery.variableValueLike(ActivitiService.THE_COMPANY, "%" + companyname + "%");
@@ -864,7 +867,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		return r;
 	}
 
-	public void updateBusDone(int bodycontract_id, int busid,Principal principal,HttpServletRequest request) throws BusinessException {
+	public void updateBusDone(int bodycontract_id, int busid, Principal principal, HttpServletRequest request)
+			throws BusinessException {
 		Bus bus = busMapper.selectByPrimaryKey(busid);
 		if (bus == null) {
 			throw new OrderException("车辆信息丢失!");
@@ -908,9 +912,10 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			record.setEndDate(busLock.getEndDate());
 			record.setCreated(new Date());
 			record.setUpdated(record.getCreated());
-			int a=busContractMapper.insert(record);
-			if(a>0){
-				 attachmentService.saveAttachment(request, Request.getUserId(principal), record.getId(), JpaAttachment.Type.workP, null);
+			int a = busContractMapper.insert(record);
+			if (a > 0) {
+				attachmentService.saveAttachment(request, Request.getUserId(principal), record.getId(),
+						JpaAttachment.Type.workP, null);
 			}
 		} else {
 			log.warn("车辆重复上刊!bodycontract_id:{},busid:{},lineId:{}", bodycontract_id, busid, bus.getLineId());
@@ -1012,7 +1017,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		List<GroupVo> vos = busSelectMapper.countContractidCarGroupbyLineModel(contractId, category.ordinal());
 		for (GroupVo groupVo : vos) {
 			subMap.put(groupVo.getGn1() + "#" + groupVo.getGn2(), groupVo.getCount());
-			String line_total = String.valueOf(groupVo.getGn1()+"#0");
+			String line_total = String.valueOf(groupVo.getGn1() + "#0");
 			if (!subMap.containsKey(line_total)) {
 				subMap.put(line_total, 0);
 			}
@@ -1023,20 +1028,20 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 
 	@Override
 	public LineBusCpd selectLineBusCpd(int busContractId, int lineid) {
-		 LineBusCpd lineBusCpd=new LineBusCpd();
-		 BusContract busContract=busContractMapper.selectByPrimaryKey(busContractId);
-		 JpaBusline jpaBusline=buslineRepository.findOne(lineid);
-		 Bus bus=null;
-		 if(busContract!=null){
-		     bus=busMapper.selectByPrimaryKey(busContract.getBusid());
-		     lineBusCpd.setBus(bus);
-		     lineBusCpd.setBuslock(getBusLock(busContract.getContractid(), bus.getLineId(), bus.getModelId()));
-		 }
-		 lineBusCpd.setBusContract(busContract);
-		 lineBusCpd.setLine(jpaBusline);
-		 return lineBusCpd;
+		LineBusCpd lineBusCpd = new LineBusCpd();
+		BusContract busContract = busContractMapper.selectByPrimaryKey(busContractId);
+		JpaBusline jpaBusline = buslineRepository.findOne(lineid);
+		Bus bus = null;
+		if (busContract != null) {
+			bus = busMapper.selectByPrimaryKey(busContract.getBusid());
+			lineBusCpd.setBus(bus);
+			lineBusCpd.setBuslock(getBusLock(busContract.getContractid(), bus.getLineId(), bus.getModelId()));
+		}
+		lineBusCpd.setBusContract(busContract);
+		lineBusCpd.setLine(jpaBusline);
+		return lineBusCpd;
 	}
-	
+
 	public BusLock getBusLock(int contractId, int lineid, int modleId) {
 		BusLockExample example = new BusLockExample();
 		BusLockExample.Criteria criteria = example.createCriteria();
@@ -1057,20 +1062,21 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	}
 
 	@Override
-	public Pair<Boolean, String> confirm_bus(int busContractId, int lineid, String startdate, String endDate, Principal principal) throws ParseException {
-		BusContract busContract=busContractMapper.selectByPrimaryKey(busContractId);
-		if(busContract!=null){
-			if(StringUtils.isBlank(busContract.getUserid())){
-				BusLockExample example=new BusLockExample();
-				BusLockExample.Criteria criteria=example.createCriteria();
+	public Pair<Boolean, String> confirm_bus(int busContractId, int lineid, String startdate, String endDate,
+			Principal principal) throws ParseException {
+		BusContract busContract = busContractMapper.selectByPrimaryKey(busContractId);
+		if (busContract != null) {
+			if (StringUtils.isBlank(busContract.getUserid())) {
+				BusLockExample example = new BusLockExample();
+				BusLockExample.Criteria criteria = example.createCriteria();
 				criteria.andContractIdEqualTo(busContract.getContractid());
 				criteria.andLineIdEqualTo(lineid);
-				if(busLockMapper.selectByExample(example).size()>0){
-					BusLock busLock=busLockMapper.selectByExample(example).get(0);
-					if(busLock.getRemainNuber()-1<0){
-						return new Pair<Boolean, String>(false,"已经超出合同规定上刊车辆数，操作失败！");
-					}else{
-						busLock.setRemainNuber(busLock.getRemainNuber()-1);
+				if (busLockMapper.selectByExample(example).size() > 0) {
+					BusLock busLock = busLockMapper.selectByExample(example).get(0);
+					if (busLock.getRemainNuber() - 1 < 0) {
+						return new Pair<Boolean, String>(false, "已经超出合同规定上刊车辆数，操作失败！");
+					} else {
+						busLock.setRemainNuber(busLock.getRemainNuber() - 1);
 						busLockMapper.updateByPrimaryKey(busLock);
 					}
 				}
@@ -1078,135 +1084,141 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			busContract.setUserid(Request.getUserId(principal));
 			busContract.setUpdated(new Date());
 			busContract.setEnable(true);
-			busContract.setStartDate((Date)new SimpleDateFormat("yyyy-MM-dd").parseObject(startdate));
+			busContract.setStartDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(startdate));
 			busContract.setEndDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(endDate));
-			if(busContractMapper.updateByPrimaryKey(busContract)>0){
-				return new Pair<Boolean, String>(true,"操作成功");
-			}else{
-				return new Pair<Boolean, String>(false,"操作失败");
+			if (busContractMapper.updateByPrimaryKey(busContract) > 0) {
+				return new Pair<Boolean, String>(true, "操作成功");
+			} else {
+				return new Pair<Boolean, String>(false, "操作失败");
 			}
-		}else{
-			return new Pair<Boolean, String>(false,"信息丢失");
+		} else {
+			return new Pair<Boolean, String>(false, "信息丢失");
 		}
-	} 
-   public List<LineBusCpd> getlines(Integer[] ids,Map<Integer,String> map){
-	   List<Integer>  idsList=new ArrayList<Integer>();
-	   for(int i=0;i<ids.length;i++){
-		   idsList.add(ids[i]);
-	   }
-	   BooleanExpression query = QJpaBusline.jpaBusline.id.in(idsList);
-	   List<JpaBusline> list = (List<JpaBusline>) buslineRepository.findAll(query);
-	   List<LineBusCpd> cpds=new ArrayList<LineBusCpd>();
-	   for (JpaBusline jpaBusline : list) {
-		   LineBusCpd cpd=new LineBusCpd();
-		   cpd.setImpSite(map.get(jpaBusline.getId()));
-		   if(jpaBusline!=null){
-			   cpd.setLine(jpaBusline);
-		   }
-		   cpds.add(cpd);
 	}
-	   return cpds;
-   }
 
-@Override
-public Pair<Boolean, String> saveOffContract(Offlinecontract offcontract, long seriaNum, String userId, String signDate1) throws ParseException {
-	Date signDate=(Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(signDate1);
-	offcontract.setDays(0);
-	offcontract.setTotalNum(0);
-	if(null!=offcontract.getId() && offcontract.getId()>0){
-		Offlinecontract contract=offlinecontractMapper.selectByPrimaryKey(offcontract.getId());
-		contract.setUpdated(new Date());
-		com.pantuo.util.BeanUtils.copyProperties(offcontract, contract);
-		int a=offlinecontractMapper.updateByPrimaryKey(contract);
-		if(a>0){
-			return new Pair<Boolean, String>(true, "合同修改成功");
-		}else{
-			return new Pair<Boolean, String>(false, "合同修改失败");
+	public List<LineBusCpd> getlines(Integer[] ids, Map<Integer, String> map) {
+		List<Integer> idsList = new ArrayList<Integer>();
+		for (int i = 0; i < ids.length; i++) {
+			idsList.add(ids[i]);
 		}
+		BooleanExpression query = QJpaBusline.jpaBusline.id.in(idsList);
+		List<JpaBusline> list = (List<JpaBusline>) buslineRepository.findAll(query);
+		List<LineBusCpd> cpds = new ArrayList<LineBusCpd>();
+		for (JpaBusline jpaBusline : list) {
+			LineBusCpd cpd = new LineBusCpd();
+			cpd.setImpSite(map.get(jpaBusline.getId()));
+			if (jpaBusline != null) {
+				cpd.setLine(jpaBusline);
+			}
+			cpds.add(cpd);
+		}
+		return cpds;
 	}
-	
-	PublishLineExample example=new PublishLineExample();
-	PublishLineExample.Criteria criteria=example.createCriteria();
-	criteria.andUserIdEqualTo(userId);
-	criteria.andSeriaNumEqualTo(seriaNum);
-	List<PublishLine> list = publishLineMapper.selectByExample(example);
-	DividpayExample example2=new DividpayExample();
-	DividpayExample.Criteria criteria2=example2.createCriteria();
-	criteria2.andSeriaNumEqualTo(seriaNum);
-	List<Dividpay> list2=dividpayMapper.selectByExample(example2);
-	if (list2.size() == 0) {
-		return new Pair<Boolean, String>(false, "请设置合同分期信息");
-	}
-	if (list.size() == 0) {
-		return new Pair<Boolean, String>(false, "请发布线路");
-	}
-	offcontract.setCreator(userId);
-	offcontract.setCreated(new Date());
-	offcontract.setUpdated(new Date());
-	offcontract.setIsSchedule(false);
-	offcontract.setSignDate(signDate);
-	int b = offlinecontractMapper.insert(offcontract);
-	if (b > 0) {
-		for (PublishLine busLock : list) {
-			if (busLock != null) {
+
+	@Override
+	public Pair<Boolean, String> saveOffContract(Offlinecontract offcontract, long seriaNum, String userId,
+			String signDate1) throws ParseException {
+		Date signDate = (Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(signDate1);
+		offcontract.setDays(0);
+		offcontract.setTotalNum(0);
+		if (null != offcontract.getId() && offcontract.getId() > 0) {
+			Offlinecontract contract = offlinecontractMapper.selectByPrimaryKey(offcontract.getId());
+			contract.setUpdated(new Date());
+			com.pantuo.util.BeanUtils.copyProperties(offcontract, contract);
+			int a = offlinecontractMapper.updateByPrimaryKey(contract);
+			if (a > 0) {
+				return new Pair<Boolean, String>(true, "合同修改成功");
+			} else {
+				return new Pair<Boolean, String>(false, "合同修改失败");
+			}
+		}
+
+		PublishLineExample example = new PublishLineExample();
+		PublishLineExample.Criteria criteria = example.createCriteria();
+		criteria.andUserIdEqualTo(userId);
+		criteria.andSeriaNumEqualTo(seriaNum);
+		List<PublishLine> list = publishLineMapper.selectByExample(example);
+		DividpayExample example2 = new DividpayExample();
+		DividpayExample.Criteria criteria2 = example2.createCriteria();
+		criteria2.andSeriaNumEqualTo(seriaNum);
+		List<Dividpay> list2 = dividpayMapper.selectByExample(example2);
+		if (list2.size() == 0) {
+			return new Pair<Boolean, String>(false, "请设置合同分期信息");
+		}
+		if (list.size() == 0) {
+			return new Pair<Boolean, String>(false, "请发布线路");
+		}
+		offcontract.setCreator(userId);
+		offcontract.setCreated(new Date());
+		offcontract.setUpdated(new Date());
+		offcontract.setIsSchedule(false);
+		offcontract.setSignDate(signDate);
+		int b = offlinecontractMapper.insert(offcontract);
+		if (b > 0) {
+			for (PublishLine busLock : list) {
+				if (busLock != null) {
 					busLock.setContractId(offcontract.getId());
 					busLock.setStats(JpaBusLock.Status.ready.ordinal());
 					publishLineMapper.updateByPrimaryKey(busLock);
+				}
 			}
-	     }
-	}else{
-		return new Pair<Boolean, String>(false, "申请合同失败");
-	}
-	
-	return new Pair<Boolean, String>(true, "创建合同成功");
-}
-
-@Override
-public List<JpaPublishLine> getpublishLineBySeriNum(long seriaNum) {
-	BooleanExpression query = QJpaPublishLine.jpaPublishLine.seriaNum.eq(seriaNum);
-	List<JpaPublishLine> list = (List<JpaPublishLine>) publishLineRepository.findAll(query);
-	return list;
-}
-
-@Override
-public Pair<Boolean, String> savePublishLine(PublishLine publishLine, String startD, String endD) throws ParseException {
-	
-	OfflinecontractExample example = new OfflinecontractExample();
-	OfflinecontractExample.Criteria criteria = example.createCriteria();
-	criteria.andSeriaNumEqualTo(publishLine.getSeriaNum());
-	List<Offlinecontract> list = offlinecontractMapper.selectByExample(example);
-	if (list.size() > 0) {
-		publishLine.setContractId(list.get(0).getId());
-	} 
-//	else {
-//		publishLine.setContractId(0);
-//	}
-	publishLine.setStats(JpaBusLock.Status.ready.ordinal());
-	publishLine.setCreated(new Date());
-	publishLine.setUpdated(new Date());
-	//publishLine.setSalesNumber(publishLine.getSalesNumber());
-	publishLine.setRemainNuber(0);
-	Date date1=(Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(startD);
-	Date date2=(Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(endD);
-	publishLine.setStartDate(date1);
-	publishLine.setEndDate(date2);
-	publishLine.setDays((int)DateUtil.getQuot(date2, date1)+1);
-	if(null!=publishLine.getId() &&publishLine.getId()>0 ){
-		PublishLine publishLine2=publishLineMapper.selectByPrimaryKey(publishLine.getId());
-		com.pantuo.util.BeanUtils.copyProperties(publishLine, publishLine2);
-		if(publishLineMapper.updateByPrimaryKey(publishLine2)>0){
-			return new Pair<Boolean, String>(true, "修改成功");
+		} else {
+			return new Pair<Boolean, String>(false, "申请合同失败");
 		}
-		return new Pair<Boolean, String>(false, "修改失败");
-	}
-	if (publishLineMapper.insert(publishLine) > 0) {
-		return new Pair<Boolean, String>(true, "保存成功");
-	}
-	return new Pair<Boolean, String>(false, "保存失败");
-}
 
-@Override
+		return new Pair<Boolean, String>(true, "创建合同成功");
+	}
+
+	@Override
+	public List<JpaPublishLine> getpublishLineBySeriNum(long seriaNum) {
+		BooleanExpression query = QJpaPublishLine.jpaPublishLine.seriaNum.eq(seriaNum);
+		List<JpaPublishLine> list = (List<JpaPublishLine>) publishLineRepository.findAll(query);
+		return list;
+	}
+
+	@Override
+	public Pair<Boolean, String> savePublishLine(PublishLine publishLine, String startD, String endD)
+			throws ParseException {
+
+		OfflinecontractExample example = new OfflinecontractExample();
+		OfflinecontractExample.Criteria criteria = example.createCriteria();
+		criteria.andSeriaNumEqualTo(publishLine.getSeriaNum());
+		List<Offlinecontract> list = offlinecontractMapper.selectByExample(example);
+		if (list.size() > 0) {
+			publishLine.setContractId(list.get(0).getId());
+		}
+		//	else {
+		//		publishLine.setContractId(0);
+		//	}
+		publishLine.setStats(JpaBusLock.Status.ready.ordinal());
+		publishLine.setCreated(new Date());
+		publishLine.setUpdated(new Date());
+		//publishLine.setSalesNumber(publishLine.getSalesNumber());
+		publishLine.setRemainNuber(0);
+		Date date1 = (Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(startD);
+		Date date2 = (Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(endD);
+		publishLine.setStartDate(date1);
+		publishLine.setEndDate(date2);
+		publishLine.setDays((int) DateUtil.getQuot(date2, date1) + 1);
+		if (null != publishLine.getId() && publishLine.getId() > 0) {
+			PublishLine publishLine2 = publishLineMapper.selectByPrimaryKey(publishLine.getId());
+			com.pantuo.util.BeanUtils.copyProperties(publishLine, publishLine2);
+			if (publishLineMapper.updateByPrimaryKey(publishLine2) > 0) {
+				return new Pair<Boolean, String>(true, "修改成功");
+			}
+			return new Pair<Boolean, String>(false, "修改失败");
+		}
+		if (publishLineMapper.insert(publishLine) > 0) {
+			return new Pair<Boolean, String>(true, "保存成功");
+		}
+		return new Pair<Boolean, String>(false, "保存失败");
+	}
+
+	@Override
 public Pair<Boolean, String> saveDivid(Dividpay dividpay, long seriaNum, String userId, String payDate1) throws ParseException {
+         if(StringUtils.isBlank(payDate1)){
+        	 return new Pair<Boolean, String>(false, "请选择付款日期");
+        }
 	dividpay.setPayDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(payDate1));
 	dividpay.setUpdator(userId);
 	dividpay.setStats(0);
@@ -1225,105 +1237,111 @@ public Pair<Boolean, String> saveDivid(Dividpay dividpay, long seriaNum, String 
 	return new Pair<Boolean, String>(false, "保存失败");
 }
 
-@Override
-public List<JapDividPay> getDividPay(long seriaNum) {
-	BooleanExpression query = QJapDividPay.japDividPay.seriaNum.eq(seriaNum);
-	List<JapDividPay> list = (List<JapDividPay>) dividPayRepository.findAll(query);
-	return list;
-}
+	@Override
+	public List<JapDividPay> getDividPay(long seriaNum) {
+		BooleanExpression query = QJapDividPay.japDividPay.seriaNum.eq(seriaNum);
+		List<JapDividPay> list = (List<JapDividPay>) dividPayRepository.findAll(query);
+		return list;
+	}
 
-@Override
-public Pair<Boolean, String> removePublishLine(Principal principal, int city, long seriaNum, int id) {
-	PublishLine publishLine= publishLineMapper.selectByPrimaryKey(id);
-	if(publishLine==null){
-		return new Pair<Boolean, String>(false,"信息丢失");
-	}
-	if(publishLine.getSalesNumber()!=publishLine.getRemainNuber()){
-		return new Pair<Boolean, String>(false,"已有车辆在刊，不能删除");
-	}
+	@Override
+	public Pair<Boolean, String> removePublishLine(Principal principal, int city, long seriaNum, int id) {
+		PublishLine publishLine = publishLineMapper.selectByPrimaryKey(id);
+		if (publishLine == null) {
+			return new Pair<Boolean, String>(false, "信息丢失");
+		}
+		if (publishLine.getSalesNumber() != publishLine.getRemainNuber()) {
+			return new Pair<Boolean, String>(false, "已有车辆在刊，不能删除");
+		}
 		if (publishLineMapper.deleteByPrimaryKey(id) > 0) {
-			return new Pair<Boolean, String>(true,"删除成功");
+			return new Pair<Boolean, String>(true, "删除成功");
 		}
-	return new Pair<Boolean, String>(false,"操作失败");
-}
-
-@Override
-public boolean removedividPay(Principal principal, int city, long seriaNum, int id) {
-	DividpayExample example = new DividpayExample();
-	DividpayExample.Criteria criteria = example.createCriteria();
-	criteria.andCityEqualTo(city);
-	criteria.andSeriaNumEqualTo(seriaNum);
-	criteria.andIdEqualTo(id);
-	List<Dividpay> list = dividpayMapper.selectByExample(example);
-	if (list.size() > 0) {
-		if (dividpayMapper.deleteByPrimaryKey(id) > 0) {
-			return true;
-		}
+		return new Pair<Boolean, String>(false, "操作失败");
 	}
-	return false;
-}
 
-@Override
-public Page<JpaOfflineContract> queryOfflineContract(int city, TableRequest req, int page, int pageSize, Sort sort) {
-    if (page < 0)
-        page = 0;
-    if (pageSize < 1)
-        pageSize = 1;
-    if (sort == null)
-        sort = new Sort("id");
-    Pageable p = new PageRequest(page, pageSize, sort);
-    BooleanExpression query = QJpaOfflineContract.jpaOfflineContract.city.eq(city);
-    String contractCode=req.getFilter("contractCode");
-    if (StringUtils.isNotBlank(contractCode)) {
-        query = query.and(QJpaOfflineContract.jpaOfflineContract.contractCode.like("%" + contractCode + "%"));
-    }
-    return query == null ? offContactRepository.findAll(p) : offContactRepository.findAll(query, p);
-}
+	@Override
+	public boolean removedividPay(Principal principal, int city, long seriaNum, int id) {
+		DividpayExample example = new DividpayExample();
+		DividpayExample.Criteria criteria = example.createCriteria();
+		criteria.andCityEqualTo(city);
+		criteria.andSeriaNumEqualTo(seriaNum);
+		criteria.andIdEqualTo(id);
+		List<Dividpay> list = dividpayMapper.selectByExample(example);
+		if (list.size() > 0) {
+			if (dividpayMapper.deleteByPrimaryKey(id) > 0) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-@Override
-public Offlinecontract findOffContractById(int contract_id) {
-	return offlinecontractMapper.selectByPrimaryKey(contract_id);
-}
+	@Override
+	public Page<JpaOfflineContract> queryOfflineContract(int city, TableRequest req, int page, int pageSize, Sort sort) {
+		if (page < 0)
+			page = 0;
+		if (pageSize < 1)
+			pageSize = 1;
+		if (sort == null)
+			sort = new Sort("id");
+		Pageable p = new PageRequest(page, pageSize, sort);
+		BooleanExpression query = QJpaOfflineContract.jpaOfflineContract.city.eq(city);
+		String contractCode = req.getFilter("contractCode");
+		if (StringUtils.isNotBlank(contractCode)) {
+			query = query.and(QJpaOfflineContract.jpaOfflineContract.contractCode.like("%" + contractCode + "%"));
+		}
+		return query == null ? offContactRepository.findAll(p) : offContactRepository.findAll(query, p);
+	}
 
-@Override
-public Dividpay queryDividPayByid(int id) {
-	return dividpayMapper.selectByPrimaryKey(id);
-}
+	@Override
+	public Offlinecontract findOffContractById(int contract_id) {
+		return offlinecontractMapper.selectByPrimaryKey(contract_id);
+	}
 
-@Override
-public JpaPublishLine queryPublishLineByid(int id) {
-	 //BooleanExpression query=QJpaPublishLine.jpaPublishLine.id.eq(id);
-	return publishLineRepository.findOne(id);
-}
+	@Override
+	public Dividpay queryDividPayByid(int id) {
+		return dividpayMapper.selectByPrimaryKey(id);
+	}
 
-@Override
-public Page<JpaPublishLine> queryAllPublish(int cityId, TableRequest req, int page, int length, Sort sort) {
-	if (page < 0)
-        page = 0;
-    if (length < 1)
-    	length = 1;
-    if (sort == null)
-        sort = new Sort("id");
-    Pageable p = new PageRequest(page, length, sort);
-    BooleanExpression query = QJpaPublishLine.jpaPublishLine.city.eq(cityId);
-    query = query.and( QJpaPublishLine.jpaPublishLine.OfflineContract.id.isNotNull());
-    String contractCode=req.getFilter("contractCode"),model=req.getFilter("model"),linename=req.getFilter("linename"),company=req.getFilter("company");
-    if (StringUtils.isNotBlank(contractCode)) {
-        query = query.and( QJpaPublishLine.jpaPublishLine.OfflineContract.contractCode.like("%" + contractCode + "%"));
-    }
-    if (StringUtils.isNotBlank(model)) {
-    	query = query.and( QJpaPublishLine.jpaPublishLine.model.name.like("%" + model + "%"));
-    }
-    if (StringUtils.isNotBlank(linename)) {
-    	query = query.and( QJpaPublishLine.jpaPublishLine.line.name.like("%" + linename + "%"));
-    }
-    if (StringUtils.isNotBlank(company) && !StringUtils.equals(company, "defaultAll")) {
-    	query = query.and( QJpaPublishLine.jpaPublishLine.jpaBusinessCompany.name.like("%" + company + "%"));
-    }
-    return query == null ? publishLineRepository.findAll(p) : publishLineRepository.findAll(query, p);
-}
+	@Override
+	public JpaPublishLine queryPublishLineByid(int id) {
+		//BooleanExpression query=QJpaPublishLine.jpaPublishLine.id.eq(id);
+		return publishLineRepository.findOne(id);
+	}
 
-@Override
+	@Override
+	public Page<JpaPublishLine> queryAllPublish(int cityId, TableRequest req, int page, int length, Sort sort) {
+		if (page < 0)
+			page = 0;
+		if (length < 1)
+			length = 1;
+		if (sort == null)
+			sort = new Sort("id");
+		Pageable p = new PageRequest(page, length, sort);
+		BooleanExpression query = QJpaPublishLine.jpaPublishLine.city.eq(cityId);
+		query = query.and(QJpaPublishLine.jpaPublishLine.OfflineContract.id.isNotNull());
+		String contractCode = req.getFilter("contractCode"), contractid = req.getFilter("contractid"), model = req
+				.getFilter("model"), linename = req.getFilter("linename"), company = req.getFilter("company");
+		if (StringUtils.isNotBlank(contractCode)) {
+			query = query.and(QJpaPublishLine.jpaPublishLine.OfflineContract.contractCode
+					.like("%" + contractCode + "%"));
+		}
+		if (StringUtils.isNotBlank(contractid)) {
+			int cid = NumberUtils.toInt(contractid);
+			query = query.and(QJpaPublishLine.jpaPublishLine.OfflineContract.id.eq(cid));
+		}
+		if (StringUtils.isNotBlank(model)) {
+			query = query.and(QJpaPublishLine.jpaPublishLine.model.name.like("%" + model + "%"));
+		}
+		if (StringUtils.isNotBlank(linename)) {
+			query = query.and(QJpaPublishLine.jpaPublishLine.line.name.like("%" + linename + "%"));
+		}
+		if (StringUtils.isNotBlank(company) && !StringUtils.equals(company, "defaultAll")) {
+			query = query.and(QJpaPublishLine.jpaPublishLine.jpaBusinessCompany.name.like("%" + company + "%"));
+		}
+		return query == null ? publishLineRepository.findAll(p) : publishLineRepository.findAll(query, p);
+	}
+
+	@Override
 	public List<AutoCompleteView> ContractAutoCompleteByName(int city, String name) {
 		List<AutoCompleteView> r = new ArrayList<AutoCompleteView>();
 		BooleanExpression query = QJpaOfflineContract.jpaOfflineContract.city.eq(city);

@@ -27,45 +27,18 @@ function showbusOnline_history(tourl,id){
 			+' '
 			+'<iframe style="width:99%;height:98%" frameborder="no" src="'+tourl+'/bus/busOnline_history/'+id+'"/>'
 	});
-/*function showBusDetail(tourl,id){
-	$.ajax({
-		url : tourl  + id,
-		type : "POST",
-		data : {
-		},
-		success : function(data) {
-			
-			layer.open({
-				type: 1,
-				title: "车辆详细信息",
-				skin: 'layui-layer-rim', 
-				area: ['450px', '550px'], 
-				content: ' <input type="hidden" name="id" value="'+data.id+'"/>'
-				+'<br/>'
-				+'<div class="ui-form-item"> <label class="ui-label mt10">车牌号: </label>  <input readonly="readonly" class="ui-input-d"'
-				+'type="text" name="title" id="title" value="'+data.plateNumber+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-				+'<div class="ui-form-item"> <label class="ui-label mt10">车辆自编号:</label><input readonly="readonly" class="ui-input-d"'
-				+'type="text" name="taxrenum" value="'+data.serialNumber+'" id="taxrenum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
-				+'<div class="ui-form-item"> <label class="ui-label mt10">线路:</label> <input readonly="readonly" class="ui-input-d"'
-				+'type="text" name="bankname" value="'+data.line.name+'" id="bankname" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-				+'<div id="bodyPro"><div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">线路级别：</label>'
-				+'<input readonly="readonly"  class="ui-input-d" type="text" name="regisaddr" value="'+data.line.levelStr+'" id="lineLevel" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-				+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">车辆类别:</label>'
-				+'<input class="ui-input-d" readonly="readonly" value="'+data.categoryStr+'" id="busNumber" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-				+'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">营销中心:</span> </label>'
-				+'<input class="ui-input-d" readonly="readonly" value="'+data.company.name+'" id="days" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-				+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">上刊日期:</label>'
-				+'<input class="ui-input-d" readonly="readonly" value="'+$.format.date(data.startDay, "yyyy-MM-dd")+'" name="produceCost" id="produceCost" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
-				+'</div></div>'
-				+'<div id="cityPro" style="display:block"><div class="ui-form-item"> <label class="ui-label mt10">下刊日期:</label> <input readonly="readonly"  class="ui-input-d"'
-				+'type="text" name="accountnum" value="'+$.format.date(data.endDay, "yyyy-MM-dd")+'" id="accountnum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-				+'<div class="ui-form-item"> <label class="ui-label mt10" style="width: 145px;">车辆情况:</label><textarea rows="4" cols="30" readonly="readonly" style="resize: none;margin-left: -20px;" >'+data.description+'</textarea> </div> </div>'
-			});
-		}
-		
-	}, "text");
->>>>>>> .r1714*/
-	
+}
+//查看车辆上刊列表
+function showbusOnline_list(tourl,id){
+	layer.open({
+		type: 1,
+		title: "所上刊车辆列表",
+		skin: 'layui-layer-rim', 
+		area: ['1020px', '600px'],  
+		content:''
+			+' '
+			+'<iframe style="width:99%;height:98%" frameborder="no" src="'+tourl+'/bus/querybusOnline/'+id+'"/>'
+	});
 }
 //查看车辆变更历史
 function showbusUpdate_history(tourl,id){
@@ -683,11 +656,11 @@ function addfenqi(url,seriaNum) {
 						+ '<form id="fenqiform" action='+url+'/busselect/saveDivid?seriaNum='+seriaNum+'>'
 						+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
 						+'<div class="ui-form-item"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/> <label class="ui-label mt10">期数：</label>'
-						+'<input class="ui-input " type="text" value="0" name="name"  '
-						+'id="name" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+						+'<input class="ui-input " type="text" value="" name="name"  '
+						+'id="namestr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
        	 				+'</div>'
        	 				+'<div class="ui-form-item"> <label class="ui-label mt10">金额：</label>'
-						+'<input class="ui-input " type="text" value="0" name="amounts"  '
+						+'<input class="ui-input " type="text" value="" name="amounts"  '
 						+'id="amounts" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
        	 				+'</div>'
 						+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">付款日期:</label>'
@@ -725,7 +698,7 @@ function editDividPay(tourl,id){
 						+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
 						+'<div class="ui-form-item"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/> <label class="ui-label mt10">期数：</label>'
 						+'<input type="hidden" name="id" value="'+data.id+'"/><input class="ui-input " type="text" value="'+data.name+'" name="name"  '
-						+'id="name" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+						+'id="namestr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
        	 				+'</div>'
        	 				+'<div class="ui-form-item"> <label class="ui-label mt10">金额：</label>'
 						+'<input class="ui-input " type="text" value="'+data.amounts+'" name="amounts"  '
@@ -752,6 +725,12 @@ function editDividPay(tourl,id){
 	
 }
 function subDivid(){
+	na=$("#namestr").val();
+	amounts=$("#amounts").val();
+	payDate1=$("#payDate1").val();
+	if(na==""){layer.msg("请填写期数");return;}
+	if(amounts==""){layer.msg("请填写付款金额");return;}
+	if(payDate1==""){layer.msg("请选择付款日期");return;}
 	$('#fenqiform').ajaxForm(function(data) {
 		if(data.left){
 		     layer.msg("添加成功");
@@ -763,6 +742,12 @@ function subDivid(){
 		}).submit();
 	}
 function subDivid2(){
+	na=$("#namestr").val();
+	amounts=$("#amounts").val();
+	payDate1=$("#payDate1").val();
+	if(na==""){layer.msg("请填写期数");return;}
+	if(amounts==""){layer.msg("请填写付款金额");return;}
+	if(payDate1==""){layer.msg("请选择付款日期");return;}
 	$('#fenqiform2').ajaxForm(function(data) {
 		if(data.left){
 			layer.msg("修改成功");

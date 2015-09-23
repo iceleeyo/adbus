@@ -258,6 +258,12 @@ public class BusController {
 		model.addAttribute("busid", busid);
 		return "busOnline_history";
 	}
+	@RequestMapping(value = "/querybusOnline/{publishLineid}")
+	public String querybusOnline(Model model,@PathVariable("publishLineid") int publishLineid,HttpServletResponse response) {
+		response.setHeader("X-Frame-Options", "SAMEORIGIN");
+		model.addAttribute("publishLineid", publishLineid);
+		return "publishLine_query";
+	}
 	@RequestMapping(value = "/busUpdate_history/{busid}")
 	public String busUpdate_history(Model model,@PathVariable("busid") int busid,HttpServletResponse response) {
 		response.setHeader("X-Frame-Options", "SAMEORIGIN");

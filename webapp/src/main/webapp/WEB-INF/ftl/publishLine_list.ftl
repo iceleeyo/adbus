@@ -61,7 +61,9 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 },
                 { "data": "lineDesc", "defaultContent": ""},
                 { "data": "salesNumber", "defaultContent": ""},
-                { "data": "remainNuber", "defaultContent": ""},
+                { "data": "remainNuber", "defaultContent": "","render": function(data, type, row, meta) {
+                	return '<a  onclick="showbusOnline_list(\'${rc.contextPath}\','+row.id+');">'+data+'</a>';
+                }},
                 { "data": "id", "defaultContent": "","render": function(data, type, row, meta) {
                 return (Math.round(row.remainNuber / row.salesNumber * 100)  + "%");;
                  //return (Math.round(row.remainNuber / row.salesNumber * 10000) / 100.00 + "%");;
