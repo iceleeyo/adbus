@@ -123,6 +123,7 @@ function go_back(){
 	enctype="multipart/form-data">
 	<div class="withdraw-title fn-clear">
 		<span>用户添加信息录入</span>
+		<input type = "hidden" name="utype" value= "${medetype}" >
 		<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="go_back()">返回</a>
 		<!--
             <ul class="fn-clear">
@@ -133,7 +134,7 @@ function go_back(){
 	</div>
 	<div class="withdrawInputs">
 		<div class="inputs">
-
+                     
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>登录名:</label>
 				<input class="ui-input validate[required,custom[noSpecialLetterChinese],ajax[ajaxUserCall]]" 
