@@ -44,7 +44,7 @@ public class UserDetail extends BaseEntity {
 	
 	
 	public static enum UType {
-		video, body
+		video, body,pub
 	}
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -87,8 +87,10 @@ public class UserDetail extends BaseEntity {
 	public String email;
 	@Transient
 	public List<String> roles;
-	
+	//用户类型是视频还是车身 也可能是开放注册用户
 	public UType utype = UType.video ;
+	
+	public String groupIdList;
 
     @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     private Set<JpaCity> cities;
@@ -299,6 +301,14 @@ public class UserDetail extends BaseEntity {
 
 	public void setFunctions(List<JpaFunction> functions) {
 		this.functions = functions;
+	}
+
+	public String getGroupIdList() {
+		return groupIdList;
+	}
+
+	public void setGroupIdList(String groupIdList) {
+		this.groupIdList = groupIdList;
 	}
 
 
