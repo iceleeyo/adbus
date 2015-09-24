@@ -57,104 +57,104 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 
 	@Override
 	public List<ActIdGroup> getAllDescionGroup() {
-		ActIdGroupExample example=new ActIdGroupExample();
+		ActIdGroupExample example = new ActIdGroupExample();
 		return actIdGroupMapper.selectByExample(example);
 	}
 
 	@Override
 	public Pair<Boolean, String> addGroup(ActIdGroup ActIdGroup) {
-		ActIdGroupExample example=new ActIdGroupExample();
-		if(ActIdGroup!=null && StringUtils.isNotBlank(ActIdGroup.getId())){
-			if(actIdGroupMapper.selectByPrimaryKey(ActIdGroup.getId())!=null){
-				return new Pair<Boolean, String>(false,"角色英文名已经存在");
+		ActIdGroupExample example = new ActIdGroupExample();
+		if (ActIdGroup != null && StringUtils.isNotBlank(ActIdGroup.getId())) {
+			if (actIdGroupMapper.selectByPrimaryKey(ActIdGroup.getId()) != null) {
+				return new Pair<Boolean, String>(false, "角色英文名已经存在");
 			}
-			if(actIdGroupMapper.insert(ActIdGroup)>0){
-				return new Pair<Boolean, String>(true,"角色创建成功");
+			if (actIdGroupMapper.insert(ActIdGroup) > 0) {
+				return new Pair<Boolean, String>(true, "角色创建成功");
 			}
 		}
-		return new Pair<Boolean, String>(false,"角色创建失败");
+		return new Pair<Boolean, String>(false, "角色创建失败");
 	}
 
 	@Override
 	public Pair<Boolean, String> deleteGroup(String groupId) {
-		if(StringUtils.isNotBlank(groupId)){
+		if (StringUtils.isNotBlank(groupId)) {
 			List<UserDetail> users = userRepo.findAll();
 			for (UserDetail userDetail : users) {
-				if(userDetail.getGroupIdList().contains(groupId)){
-					return new Pair<Boolean, String>(false,"该角色已有用户占用,删除失败");
+				if (userDetail.getGroupIdList().contains(groupId)) {
+					return new Pair<Boolean, String>(false, "该角色已有用户占用,删除失败");
 				}
 			}
-			if(actIdGroupMapper.deleteByPrimaryKey(groupId)>0){
-				return new Pair<Boolean, String>(true,"删除成功");
-			}else{
-				return new Pair<Boolean, String>(false,"操作失败");
+			if (actIdGroupMapper.deleteByPrimaryKey(groupId) > 0) {
+				return new Pair<Boolean, String>(true, "删除成功");
+			} else {
+				return new Pair<Boolean, String>(false, "操作失败");
 			}
 		}
-		return new Pair<Boolean, String>(false,"操作失败");
+		return new Pair<Boolean, String>(false, "操作失败");
 	}
 
 	@Override
-	public Pair<Boolean, String> addGroupFunction(String groupId, String functionIds,int cityid) {
-		if(StringUtils.isNotBlank(functionIds)){
-			String[] arr=functionIds.split(",");
-			List<String> list=Arrays.asList(arr);
+	public Pair<Boolean, String> addGroupFunction(String groupId, String functionIds, int cityid) {
+		if (StringUtils.isNotBlank(functionIds)) {
+			String[] arr = functionIds.split(",");
+			List<String> list = Arrays.asList(arr);
 			for (String string : list) {
-				GroupFunction groupFunction=new GroupFunction();
+				GroupFunction groupFunction = new GroupFunction();
 				groupFunction.setCity(cityid);
 				groupFunction.setGroupId(groupId);
 				groupFunction.setFunId(NumberUtils.toInt(string));
 				groupFunctionMapper.insert(groupFunction);
 			}
-			return new Pair<Boolean, String>(true,"操作成功");
+			return new Pair<Boolean, String>(true, "操作成功");
 		}
-		return new Pair<Boolean, String>(false,"操作失败");
+		return new Pair<Boolean, String>(false, "操作失败");
 	}
 
 	@Override
-	public Pair<Boolean, String> editGroupFunction(String groupId, String functionIds,int cityid) {
-		GroupFunctionExample example=new GroupFunctionExample();
+	public Pair<Boolean, String> editGroupFunction(String groupId, String functionIds, int cityid) {
+		GroupFunctionExample example = new GroupFunctionExample();
 		example.createCriteria().andGroupIdEqualTo(groupId).andCityEqualTo(cityid);
 		groupFunctionMapper.deleteByExample(example);
-		if(StringUtils.isNotBlank(functionIds)){
-			String[] arr=functionIds.split(",");
-			List<String> list=Arrays.asList(arr);
+		if (StringUtils.isNotBlank(functionIds)) {
+			String[] arr = functionIds.split(",");
+			List<String> list = Arrays.asList(arr);
 			for (String string : list) {
-				GroupFunction groupFunction=new GroupFunction();
+				GroupFunction groupFunction = new GroupFunction();
 				groupFunction.setCity(cityid);
 				groupFunction.setGroupId(groupId);
 				groupFunction.setFunId(NumberUtils.toInt(string));
 				groupFunctionMapper.insert(groupFunction);
 			}
-			return new Pair<Boolean, String>(true,"操作成功");
+			return new Pair<Boolean, String>(true, "操作成功");
 		}
-		return new Pair<Boolean, String>(false,"操作失败");
+		return new Pair<Boolean, String>(false, "操作失败");
 	}
 
 	@Override
 	public Pair<Boolean, String> setPersonGroup(String userid, String groupIds) {
 		List<UserDetail> users = userRepo.findByUsername(userid);
 		if (users.isEmpty())
-			return new Pair<Boolean, String>(false,"用户不存在");
+			return new Pair<Boolean, String>(false, "用户不存在");
 		UserDetail user = users.get(0);
 		user.setGroupIdList(groupIds);
-		if(userRepo.save(user)!=null){
-			return new Pair<Boolean, String>(true,"操作成功");
+		if (userRepo.save(user) != null) {
+			return new Pair<Boolean, String>(true, "操作成功");
 		}
-		return new Pair<Boolean, String>(false,"操作失败");
+		return new Pair<Boolean, String>(false, "操作失败");
 	}
 
 	@Override
 	public Pair<Boolean, String> editPersonGroup(String userid, String groupIds) {
-//		List<UserDetail> users = userRepo.findByUsername(userid);
-//		if (users.isEmpty())
-//			return new Pair<Boolean, String>(false,"用户不存在");
-//		UserDetail user = users.get(0);
-//		user.setGroupIdList(groupIds);
-//		if(userRepo.save(user)!=null){
-//			return new Pair<Boolean, String>(true,"操作成功");
-//		}
-//		return new Pair<Boolean, String>(false,"操作失败");
-		return setPersonGroup(userid,groupIds);
+		//		List<UserDetail> users = userRepo.findByUsername(userid);
+		//		if (users.isEmpty())
+		//			return new Pair<Boolean, String>(false,"用户不存在");
+		//		UserDetail user = users.get(0);
+		//		user.setGroupIdList(groupIds);
+		//		if(userRepo.save(user)!=null){
+		//			return new Pair<Boolean, String>(true,"操作成功");
+		//		}
+		//		return new Pair<Boolean, String>(false,"操作失败");
+		return setPersonGroup(userid, groupIds);
 	}
 
 	@Override
@@ -163,10 +163,12 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 		if (!users.isEmpty()) {
 			UserDetail user = users.get(0);
 			String groupIds = user.getGroupIdList();
-			String[] arr = groupIds.split(",");
-			List<String> gidlist = Arrays.asList(arr);
-			if (gidlist.size() > 0) {
-				return userAutoCompleteMapper.selectFunidsByPid(gidlist);
+			if (StringUtils.isNoneBlank(groupIds)) {
+				String[] arr = groupIds.split(",");
+				List<String> gidlist = Arrays.asList(arr);
+				if (gidlist.size() > 0) {
+					return userAutoCompleteMapper.selectFunidsByPid(gidlist);
+				}
 			}
 		}
 		return new ArrayList<BusFunction>(0);
