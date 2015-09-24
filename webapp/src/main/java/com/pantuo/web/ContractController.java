@@ -121,7 +121,7 @@ public class ContractController {
 	public String contract_edit(Model model,@PathVariable("contract_id") int contract_id,Principal principal,
 			@CookieValue(value = "city", defaultValue = "-1") int cityId,HttpServletRequest request) {
 		ContractView  contractView=contractService.findContractById(contract_id,principal);
-		Page<UserDetail> users = userService.getValidUsers(0, 999, null);
+		Page<UserDetail> users = userService.getValidUsers( null ,0, 999, null);
 		List<JpaIndustry> industries = industryRepo.findAll();
 		List<Contract> contracts = contractService.queryParentContractList(cityId);
 		model.addAttribute("contracts", contracts);
@@ -165,7 +165,7 @@ public class ContractController {
 	@PreAuthorize(" hasRole('ShibaOrderManager')  "+ " or hasRole('bodyContractManager')")
 	@RequestMapping(value = "/contractEnter", produces = "text/html;charset=utf-8")
 	public String contractEnter(Model model, @CookieValue(value = "city", defaultValue = "-1") int cityId,HttpServletRequest request) {
-		Page<UserDetail> users = userService.getValidUsers(0, 999, null);
+		Page<UserDetail> users = userService.getValidUsers(null , 0, 999, null);
 		List<Contract> contracts = contractService.queryParentContractList(cityId);
 		List<JpaIndustry> industries = industryRepo.findAll();
 		model.addAttribute("contracts", contracts);

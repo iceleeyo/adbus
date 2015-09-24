@@ -112,16 +112,16 @@ public class UserService implements UserServiceInter {
 	 * @see com.pantuo.service.UserServiceInter#getAllUsers(java.lang.String, int, int, org.springframework.data.domain.Sort)
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
-	public Page<UserDetail> getAllUsers(TableRequest req,String name, int page, int pageSize, Sort order) {
-		return getUsers(req,name, null, page, pageSize, order);
+	public Page<UserDetail> getAllUsers(String utype,String name, int page, int pageSize, Sort order) {
+		return getUsers(  utype,name, null, page, pageSize, order);
 	}
 
 	/**
 	 * @see com.pantuo.service.UserServiceInter#getValidUsers(int, int, org.springframework.data.domain.Sort)
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
-	public Page<UserDetail> getValidUsers(TableRequest req,int page, int pageSize, Sort order) {
-		return getUsers(req,null, true, page, pageSize, order);
+	public Page<UserDetail> getValidUsers(String utype,int page, int pageSize, Sort order) {
+		return getUsers(  utype,null, true, page, pageSize, order);
 	}
 
 	/**
@@ -132,24 +132,28 @@ public class UserService implements UserServiceInter {
 		return identityService.createGroupQuery().list();
 	}
 
-	private Page<UserDetail> getUsers(TableRequest req,String name, Boolean isEnabled, int page, int pageSize, Sort order) {
+	private Page<UserDetail> getUsers(String utype, String name, Boolean isEnabled, int page, int pageSize,
+			Sort order) {
 		if (page < 0)
 			page = 0;
 		if (pageSize < 1)
 			pageSize = 1;
 		//test();
-		
-		String	utype =  req.getFilter("utype");
+
+		String utype =utype ;// req != null ? req.getFilter("utype") : null;
 		Page<UserDetail> result = null;
 		Pageable p = new PageRequest(page, pageSize, (order == null ? new Sort("id") : order));
-		
-		
+
 		if (StringUtils.isEmpty(name) && isEnabled == null) {
 			QUserDetail q = QUserDetail.userDetail;
-			BooleanExpression query = null;
-			UserDetail.UType u = utype == null ? UserDetail.UType.pub : UserDetail.UType.valueOf(utype);
-			query = (query == null ? q.utype.eq(u) : query.and(q.utype.eq(u)));
-			result = userRepo.findAll(p);
+			if (utype != null) {
+				BooleanExpression query = null;
+				UserDetail.UType u = utype == null ? UserDetail.UType.pub : UserDetail.UType.valueOf(utype);
+				query = (query == null ? q.utype.eq(u) : query.and(q.utype.eq(u)));
+				result = userRepo.findAll(query, p);
+			} else {
+				result = userRepo.findAll(p);
+			}
 		} else {
 			QUserDetail q = QUserDetail.userDetail;
 			BooleanExpression query = null;
@@ -159,8 +163,10 @@ public class UserService implements UserServiceInter {
 			if (isEnabled != null) {
 				query = (query == null ? q.enabled.eq(isEnabled) : query.and(q.enabled.eq(isEnabled)));
 			}
-			UserDetail.UType u = utype == null ? UserDetail.UType.pub : UserDetail.UType.valueOf(utype);
-			query = (query == null ? q.utype.eq(u) : query.and(q.utype.eq(u)));
+			if (utype != null) {
+				UserDetail.UType u = utype == null ? UserDetail.UType.pub : UserDetail.UType.valueOf(utype);
+				query = (query == null ? q.utype.eq(u) : query.and(q.utype.eq(u)));
+			}
 			result = userRepo.findAll(query, p);
 		}
 

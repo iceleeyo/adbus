@@ -96,8 +96,8 @@ public class UserManagerController {
 	@PreAuthorize(" hasRole('UserManager')  ")
 	@RequestMapping(value = "/ajax-list", method = { RequestMethod.GET })
 	@ResponseBody
-	public DataTablePage<UserDetail> getUsers(TableRequest req) {
-		return new DataTablePage(userService.getAllUsers(req.getFilter("name"), req.getPage(), req.getLength(),
+	public DataTablePage<UserDetail> getUsers(TableRequest req) { 
+		return new DataTablePage(userService.getAllUsers(req.getFilter("utype"),req.getFilter("name"), req.getPage(), req.getLength(),
 				req.getSort("id")), req.getDraw());
 	}
 	@RequestMapping(value = "/invoiceList")

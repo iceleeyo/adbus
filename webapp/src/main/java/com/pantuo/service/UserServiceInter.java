@@ -14,6 +14,7 @@ import scala.collection.generic.BitOperations.Int;
 
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Invoice;
+import com.pantuo.pojo.TableRequest;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.AutoCompleteView;
 import com.pantuo.web.view.InvoiceView;
@@ -24,9 +25,9 @@ public interface UserServiceInter {
 
 	public abstract long countGroups();
 
-	public abstract Page<UserDetail> getAllUsers(String name, int page, int pageSize, Sort order);
+	public abstract Page<UserDetail> getAllUsers(String req,String name, int page, int pageSize, Sort order);
 
-	public abstract Page<UserDetail> getValidUsers(int page, int pageSize, Sort order);
+	public abstract Page<UserDetail> getValidUsers(String req,int page, int pageSize, Sort order);
 
 	public abstract List<Group> getAllGroup();
 
