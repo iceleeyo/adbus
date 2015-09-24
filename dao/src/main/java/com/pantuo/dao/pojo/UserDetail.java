@@ -44,7 +44,7 @@ public class UserDetail extends BaseEntity {
 	
 	
 	public static enum UType {
-		video, body,pub
+		screen, body,pub
 	}
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -88,7 +88,7 @@ public class UserDetail extends BaseEntity {
 	@Transient
 	public List<String> roles;
 	//用户类型是视频还是车身 也可能是开放注册用户
-	public UType utype = UType.video ;
+	public UType utype = UType.screen ;
 	
 	public String groupIdList;
 
