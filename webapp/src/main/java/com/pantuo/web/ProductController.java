@@ -162,7 +162,7 @@ public class ProductController {
     @PreAuthorize(" hasRole('ShibaOrderManager') ")
     @RequestMapping(value = "/new", produces = "text/html;charset=utf-8")
     public String newProduct(Model model, @ModelAttribute("city") JpaCity city) {
-    	Page<UserDetail> users = userService.getValidUsers(0, 999, null);
+    	Page<UserDetail> users = userService.getValidUsers(null,0, 999, null);
         model.addAttribute("users", users.getContent());
         if (city != null) {
             model.addAttribute("types", JpaProduct.productTypesForMedia.get(city.getMediaType()));
@@ -179,7 +179,7 @@ public class ProductController {
     public String updateProduct(@PathVariable int id,
                                 @ModelAttribute("city") JpaCity city,
                                 Model model, HttpServletRequest request) {
-        Page<UserDetail> users = userService.getValidUsers(0, 999, null);
+        Page<UserDetail> users = userService.getValidUsers(null,0, 999, null);
         model.addAttribute("users", users.getContent());
     	model.addAttribute("prod", productService.findById(id));
         if (city != null) {

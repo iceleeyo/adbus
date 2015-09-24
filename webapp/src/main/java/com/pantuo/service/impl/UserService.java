@@ -148,13 +148,13 @@ public class UserService implements UserServiceInter {
 			QUserDetail q = QUserDetail.userDetail;
 			if (utype != null) {
 				BooleanExpression query = null;
-				UserDetail.UType u = utype == null ? UserDetail.UType.pub : UserDetail.UType.valueOf(utype);
+				UserDetail.UType u =   UserDetail.UType.valueOf(utype);
 				query = (query == null ? q.utype.eq(u) : query.and(q.utype.eq(u)));
 				result = userRepo.findAll(query, p);
 			} else {
 				result = userRepo.findAll(p);
 			}
-		} else {
+		} else { 
 			QUserDetail q = QUserDetail.userDetail;
 			BooleanExpression query = null;
 			if (!StringUtils.isEmpty(name)) {
