@@ -60,6 +60,7 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 	public List<ActIdGroup> getAllDescionGroup(int city) {
 		ActIdGroupExample example = new ActIdGroupExample();
 		example.createCriteria().andIdLike(String.format(BODY_TAG, city).concat("%"));
+		example.setOrderByClause("id asc ");
 		return actIdGroupMapper.selectByExample(example);
 	}
 
