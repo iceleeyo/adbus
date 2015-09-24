@@ -24,10 +24,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.pojo.BaseEntity;
+import com.pantuo.dao.pojo.JpaFunction;
 import com.pantuo.dao.pojo.JpaInvoice;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Attachment;
+import com.pantuo.mybatis.domain.BusFunction;
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.Product;
 import com.pantuo.pojo.DataTablePage;
@@ -35,6 +37,7 @@ import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService.SystemRoles;
 import com.pantuo.service.AttachmentService;
 import com.pantuo.service.DataInitializationService;
+import com.pantuo.service.GoupManagerService;
 import com.pantuo.service.InvoiceServiceData;
 import com.pantuo.service.MailService;
 import com.pantuo.service.MailTask;
@@ -79,6 +82,8 @@ public class UserManagerController {
 	SuppliesService suppliesService;
 	@Autowired
 	OrderService orderService;
+	@Autowired
+	GoupManagerService goupManagerService;
 	@Autowired
 	ProductService productService;
 	@Autowired
@@ -380,5 +385,11 @@ public class UserManagerController {
 		model.addAttribute("uGroup", userService.getUserGroupList(UserDetail));
 		model.addAttribute("groupsList", DataInitializationService._GROUPS);
 		return "u/userEdit";
+	}
+	@RequestMapping(value = "/addRole")
+	public String addRole(Model model) {
+		List<JpaFunction> functions= goupManagerService.getAllFunction();
+		model.addAttribute("functions", functions);
+		return "u/addRole";
 	}
 }

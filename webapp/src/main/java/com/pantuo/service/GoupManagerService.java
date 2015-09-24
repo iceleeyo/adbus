@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.pantuo.dao.pojo.JpaFunction;
 import com.pantuo.mybatis.domain.ActIdGroup;
+import com.pantuo.mybatis.domain.BusFunction;
 import com.pantuo.util.Pair;
 
 public interface GoupManagerService {
@@ -26,7 +27,7 @@ public interface GoupManagerService {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	public List<JpaFunction> getFunction4UserId(String userId);
+	public List<BusFunction> getFunction4UserId(String userId);
 
 	/**
 	 * 
@@ -65,7 +66,7 @@ public interface GoupManagerService {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	public Pair<Boolean, String> addGroupFunction(String groupId, String functionIds);
+	public Pair<Boolean, String> addGroupFunction(String groupId, String functionIds,int cityid);
 
 	/**
 	 * 
@@ -76,7 +77,7 @@ public interface GoupManagerService {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	public Pair<Boolean, String> editGroupFunction(String groupId, String functionIds);
+	public Pair<Boolean, String> editGroupFunction(String groupId, String functionIds,int cityid);
 
 	/**
 	 * 
@@ -87,7 +88,7 @@ public interface GoupManagerService {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	public Pair<Boolean, String> setPersonGroup(String userid, List<String> groupIds);
+	public Pair<Boolean, String> setPersonGroup(String userid, String groupIds);
 
 	/**
 	 * 
@@ -98,6 +99,6 @@ public interface GoupManagerService {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	public Pair<Boolean, String> editPersonGroup(String userid, List<String> groupIds);
+	public Pair<Boolean, String> editPersonGroup(String userid, String groupIds);
 
 }

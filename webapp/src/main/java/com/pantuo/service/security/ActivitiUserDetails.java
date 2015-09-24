@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.pantuo.dao.pojo.JpaFunction;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.dao.pojo.UserDetail.UType;
+import com.pantuo.mybatis.domain.BusFunction;
 
 /**
  * Created by tliu on 3/22/15.
@@ -69,7 +70,7 @@ public class ActivitiUserDetails implements UserDetails {
 			}
 		} else if (user.utype == UType.body) {
 			if (user.getFunctions() != null) {
-				for (JpaFunction g : user.getFunctions()) {
+				for (BusFunction g : user.getFunctions()) {
 					auths.add(new ActivityAuthority(g.getFuncode()));
 				}
 			}
