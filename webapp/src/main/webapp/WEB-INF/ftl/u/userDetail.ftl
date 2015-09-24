@@ -86,7 +86,8 @@ function go_back(){
                                             <label class="ui-label mt10">所属组:</label>
                                                    <#if userDetail.groups?exists>
               											  <#list userDetail.groups  as item> 
-                                                   				${item.name!''}
+                                                   				${item.name!''}&nbsp;&nbsp;
+                                                   				 <#if item_index % 4 ==  0 && item_index!=0><br></#if>
                                                   			</#list>
            										 </#if> 
            										 

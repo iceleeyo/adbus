@@ -191,18 +191,17 @@ function go_back(){
                 <#if medetype =='screen'>
                     <#if groupsList?exists> 
 	                    <#list groupsList?keys as vkey> <input
-	                            type="checkbox" value="${vkey}" name="roles" id="roles" />${groupsList[vkey]}
+	                            type="checkbox" value="${vkey}" name="roles" id="roles" />${groupsList[vkey]} &nbsp;&nbsp;
 	                             <#if vkey_index % 4 ==  0 && vkey_index!=0>
     				 				 <br>
     							  </#if>
 	                    </#list> 
                     </#if>
                 </#if>
-                
                 <#if medetype =='body'>
                     <#if bdGroupsList?exists> 
 	                    <#list bdGroupsList as  vkey> <input
-	                            type="checkbox" value="${vkey.id}" name="roles" id="roles" />${vkey.name} 
+	                            type="checkbox" value="${vkey.id}" name="roles" id="roles" />${vkey.name} &nbsp;&nbsp;
 	                              <#if vkey_index % 4 ==  0 && vkey_index!=0>
     				 				 <br>
     							  </#if>

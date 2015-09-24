@@ -95,7 +95,7 @@ function go_back(){
 	</div>
 	<div class="withdrawInputs">
 		<div class="inputs">
-
+			<input type = "hidden" name="utype" value= "${userDetail.utype}" >
 			<div class="ui-form-item">
 				<label class="ui-label mt10">登录名:</label> <input readonly="readonly"
 					class="ui-input" type="text" name="username" id="name"
@@ -130,10 +130,21 @@ function go_back(){
            <input type="hidden" name="ustats" value="${userDetail.ustats!''}">
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>所属组:</label>
+				<#if medetype =='screen'>
 				<#if groupsList?exists> <#list groupsList?keys as vkey> <input
 					type="checkbox" value="${vkey}" name="roles" <#if
-				uGroup?seq_contains(vkey)>checked </#if> /> ${groupsList[vkey]}
+				uGroup?seq_contains(vkey)>checked </#if> /> ${groupsList[vkey]}&nbsp;&nbsp;
 				</#list> </#if>
+				<#else>
+				<#if bdGroupsList?exists> 
+				<#list bdGroupsList as  vkey> <input
+					type="checkbox" value="${vkey.id}" name="roles" <#if
+					uGroup?seq_contains(vkey.id)>checked </#if> /> ${vkey.name}   &nbsp;&nbsp;
+					 <#if vkey_index % 4 ==  0 && vkey_index!=0><br></#if>
+    							  
+				</#list>
+				 </#if>
+				</#if>
 			</div>
 
 			<div class="ui-form-item">
