@@ -41,6 +41,11 @@ public class UserDetail extends BaseEntity {
 		init, authentication,unauthentication,upload,auctionException;
 		
 	}
+	
+	
+	public static enum UType {
+		video, body
+	}
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -49,6 +54,10 @@ public class UserDetail extends BaseEntity {
     public User user;
     @Transient
     public List<Group> groups = new ArrayList<Group>();
+    
+    
+    @Transient 
+    List<JpaFunction> functions;
     public String username;
     public boolean enabled = true;
     
@@ -78,6 +87,8 @@ public class UserDetail extends BaseEntity {
 	public String email;
 	@Transient
 	public List<String> roles;
+	
+	public UType utype = UType.video ;
 
     @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     private Set<JpaCity> cities;
@@ -272,6 +283,22 @@ public class UserDetail extends BaseEntity {
 
 	public void setUstats(UStats ustats) {
 		this.ustats = ustats;
+	}
+
+	public UType getUtype() {
+		return utype;
+	}
+
+	public void setUtype(UType utype) {
+		this.utype = utype;
+	}
+
+	public List<JpaFunction> getFunctions() {
+		return functions;
+	}
+
+	public void setFunctions(List<JpaFunction> functions) {
+		this.functions = functions;
 	}
 
 
