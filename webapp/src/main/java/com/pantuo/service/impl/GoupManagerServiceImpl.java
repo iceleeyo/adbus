@@ -168,7 +168,12 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 			String groupIds = user.getGroupIdList();
 			if (StringUtils.isNoneBlank(groupIds)) {
 				String[] arr = groupIds.split(",");
-				List<String> gidlist = Arrays.asList(arr);
+
+				List<String> gidlist = new ArrayList<String>();
+				for (String string : arr) {
+					if (StringUtils.isNoneBlank(string))
+						gidlist.add(string);
+				}
 				if (gidlist.size() > 0) {
 					return userAutoCompleteMapper.selectFunidsByPid(gidlist);
 				}
