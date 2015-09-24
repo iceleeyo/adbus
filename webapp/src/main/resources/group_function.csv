@@ -1,0 +1,4 @@
+#city,name,desc,code
+2,合同录入,合同录入,contract_input
+2,合同列表,合同列表,contract_list
+2,订单及车辆查询,订单及车辆查询,contract_search
