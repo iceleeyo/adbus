@@ -19,4 +19,13 @@
     from bus_online
     where publish_line_id = #{pid,jdbcType=INTEGER}
   </select>
+<select id="selectFunidsByPid"   resultMap="com.pantuo.mybatis.persistence.BusFunctionMapper.BaseResultMap">
+    select   bus_function.id, bus_function.created, bus_function.updated, bus_function.city, funcode, fundesc,
+     bus_function.name
+    from group_function join bus_function on bus_function.id=group_function.fun_id
+    where group_id in 
+    <foreach collection="gidlist" index="index" item="item" open="(" separator="," close=")"> 
+            #{item} 
+        </foreach> 
+  </select>
 </mapper>
