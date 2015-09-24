@@ -21,9 +21,7 @@
                 url: "${rc.contextPath}/user/ajax-list",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "filter[name]" : $('#name').val(),
-                        "filter[utype]" : $('#utype').val(),
-                        
+                        "filter[name]" : $('#name').val()
                     } );
                 },
                 "dataSrc": "content",
@@ -133,7 +131,6 @@
 									用户列表
 									<a class="block-btn" href="${rc.contextPath}/user/enter">添加用户</a>
 									</div>
-									<input type = "hidden" id="utype" value= "${medetype}" >
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>

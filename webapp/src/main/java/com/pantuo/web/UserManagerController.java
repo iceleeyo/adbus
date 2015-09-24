@@ -2,6 +2,8 @@ package com.pantuo.web;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.text.ParseException;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,11 +13,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +28,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.pojo.BaseEntity;
+import com.pantuo.dao.pojo.JpaBusOnline;
+import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaFunction;
 import com.pantuo.dao.pojo.JpaInvoice;
 import com.pantuo.dao.pojo.JpaProduct;
@@ -52,6 +58,7 @@ import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 import com.pantuo.web.view.AutoCompleteView;
 import com.pantuo.web.view.InvoiceView;
+import com.pantuo.web.view.RoleView;
 
 /**
  * <font size=5><b>公交广告交易系统接口</b></font>
@@ -88,6 +95,7 @@ public class UserManagerController {
 	ProductService productService;
 	@Autowired
 	AttachmentService attachmentService;
+	
 	@PreAuthorize(" hasRole('UserManager')  ")
 	@RequestMapping(value = "/list", method = { RequestMethod.GET })
 	public String userlist() {
@@ -396,5 +404,25 @@ public class UserManagerController {
 		List<JpaFunction> functions= goupManagerService.getAllFunction();
 		model.addAttribute("functions", functions);
 		return "u/addRole";
+	}
+	@RequestMapping(value = "/role_list")
+	public String roleList(Model model) {
+		return "u/role_list";
+	}
+	@RequestMapping(value = "/saveRole")
+	@ResponseBody
+	public Pair<Boolean, String> saveRole(
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
+			@RequestParam(value = "rolename", required = false) String rolename,
+			@RequestParam(value = "funcode", required = false) String funcode,
+			@RequestParam(value = "fundesc", required = false) String fundesc,
+			@RequestParam(value = "ids", required = true) String ids
+			) throws ParseException{
+		return goupManagerService.saveRole(ids,rolename,funcode,fundesc,principal,city);
+	}
+	@RequestMapping("ajax-roleList")
+	@ResponseBody
+	public List<RoleView> roleList(	@CookieValue(value = "city", defaultValue = "-1") int cityId) {
+		return goupManagerService.findAllBodyRoles(cityId);
 	}
 }

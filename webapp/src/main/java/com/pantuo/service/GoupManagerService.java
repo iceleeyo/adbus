@@ -1,11 +1,13 @@
 package com.pantuo.service;
 
+import java.security.Principal;
 import java.util.List;
 
 import com.pantuo.dao.pojo.JpaFunction;
 import com.pantuo.mybatis.domain.ActIdGroup;
 import com.pantuo.mybatis.domain.BusFunction;
 import com.pantuo.util.Pair;
+import com.pantuo.web.view.RoleView;
 
 public interface GoupManagerService {
 
@@ -100,5 +102,12 @@ public interface GoupManagerService {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	public Pair<Boolean, String> editPersonGroup(String userid, String groupIds);
+
+
+	public Pair<Boolean, String> saveRole(String ids, String rolename, String funcode, String fundesc,
+			Principal principal, int city);
+
+
+	public List<RoleView> findAllBodyRoles(int cityId);
 
 }

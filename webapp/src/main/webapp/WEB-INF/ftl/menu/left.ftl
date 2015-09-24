@@ -397,7 +397,16 @@
 												</a>
 											</li>
                                             </@security.authorize>
-                                            
+                                            <li class="pg-side-exp-item">
+												<a class="side-exp-item-t" href="${rc.contextPath}/user/role_list">
+													角色管理
+												</a>
+											</li>
+                                            <li class="pg-side-exp-item">
+												<a class="side-exp-item-t" href="${rc.contextPath}/user/addRole">
+													添加角色
+												</a>
+											</li>
                                            <@security.authorize ifAnyGranted="advertiser">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/user/invoiceList">

@@ -1,5 +1,6 @@
 package com.pantuo.service.impl;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +22,7 @@ import com.pantuo.mybatis.domain.ActIdGroup;
 import com.pantuo.mybatis.domain.ActIdGroupExample;
 import com.pantuo.mybatis.domain.BusFunction;
 import com.pantuo.mybatis.domain.BusFunctionExample;
+import com.pantuo.mybatis.domain.BusOnline;
 import com.pantuo.mybatis.domain.GroupFunction;
 import com.pantuo.mybatis.domain.GroupFunctionExample;
 import com.pantuo.mybatis.persistence.ActIdGroupMapper;
@@ -29,6 +31,7 @@ import com.pantuo.mybatis.persistence.GroupFunctionMapper;
 import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
 import com.pantuo.service.GoupManagerService;
 import com.pantuo.util.Pair;
+import com.pantuo.web.view.RoleView;
 
 @Service
 public class GoupManagerServiceImpl implements GoupManagerService {
@@ -66,7 +69,6 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 
 	@Override
 	public Pair<Boolean, String> addGroup(ActIdGroup ActIdGroup) {
-		ActIdGroupExample example = new ActIdGroupExample();
 		if (ActIdGroup != null && StringUtils.isNotBlank(ActIdGroup.getId())) {
 			if (actIdGroupMapper.selectByPrimaryKey(ActIdGroup.getId()) != null) {
 				return new Pair<Boolean, String>(false, "角色英文名已经存在");
@@ -180,6 +182,58 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 			}
 		}
 		return new ArrayList<BusFunction>(0);
+	}
+
+	@Override
+	public Pair<Boolean, String> saveRole(String ids, String rolename, String funcode, String fundesc,
+			Principal principal, int city) {
+		if(actIdGroupMapper.selectByPrimaryKey(funcode)!=null){
+			return new Pair<Boolean, String>(false,"角色简码已经存在,添加失败");
+		}
+		ActIdGroup gActIdGroup=new ActIdGroup();
+		gActIdGroup.setId(String.format(BODY_TAG, city)+funcode);
+		gActIdGroup.setName(rolename);
+		gActIdGroup.setType(fundesc);
+		if(actIdGroupMapper.insert(gActIdGroup)>0){
+			String idsa[] = ids.split(",");
+			for (int i = 0; i < idsa.length; i++) {
+					GroupFunction groupFunction=new GroupFunction();
+					groupFunction.setFunId(NumberUtils.toInt(idsa[i]));
+					groupFunction.setCity(city);
+					groupFunction.setCreated(new Date());
+					groupFunction.setGroupId(gActIdGroup.getId());
+					groupFunctionMapper.insert(groupFunction);
+			}
+			return new Pair<Boolean, String>(true, "添加角色成功");
+		}
+		return new Pair<Boolean, String>(false, "操作失败");
+	}
+
+	@Override
+	public List<RoleView> findAllBodyRoles(int cityId) {
+		List<RoleView> views=new ArrayList<RoleView>();
+		ActIdGroupExample  example=new ActIdGroupExample();
+		example.createCriteria().andIdLike(String.format(BODY_TAG, cityId)+"%");
+		List<ActIdGroup> groups=actIdGroupMapper.selectByExample(example);
+		for (ActIdGroup actIdGroup : groups) {
+			String functions=findFunsByGroupId(actIdGroup.getId());
+			RoleView roleView=new RoleView();
+			roleView.setActIdGroup(actIdGroup);
+			roleView.setFunctions(functions);
+			views.add(roleView);
+		}
+		return views;
+	}
+
+	private String findFunsByGroupId(String id) {
+		List<String> gidlist=new ArrayList<String>();
+		gidlist.add(id);
+		List<BusFunction> list= userAutoCompleteMapper.selectFunidsByPid(gidlist);
+		String fuString="";
+		for (BusFunction busFunction : list) {
+			fuString+=busFunction.getName()+",";
+		}
+		return fuString;
 	}
 
 }
