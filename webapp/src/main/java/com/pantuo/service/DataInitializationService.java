@@ -168,6 +168,7 @@ public class DataInitializationService {
 				continue;
 			try {
 				String[] group = line.split(",");
+				if(!group[0].trim().startsWith("body"))
 				_GROUPS.put(group[0].trim(), group[1].trim());
 			} catch (Exception e) {
 				log.warn("Fail to parse group for {}, e={}", line, e.getMessage());
@@ -201,6 +202,7 @@ public class DataInitializationService {
 				g.setName(group[1]);
 				g.setType(group[2]);
 				userService.saveGroup(g);
+				if(!group[0].trim().startsWith("body"))
 				_GROUPS.put(group[0].trim(), group[1].trim());
 				groups.add(g);
 			} catch (Exception e) {
