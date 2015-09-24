@@ -25,9 +25,9 @@ public interface UserServiceInter {
 
 	public abstract long countGroups();
 
-	public abstract Page<UserDetail> getAllUsers(String req,String name, int page, int pageSize, Sort order);
+	public abstract Page<UserDetail> getAllUsers(String utype,String name, int page, int pageSize, Sort order);
 
-	public abstract Page<UserDetail> getValidUsers(String req,int page, int pageSize, Sort order);
+	public abstract Page<UserDetail> getValidUsers(String utype,int page, int pageSize, Sort order);
 
 	public abstract List<Group> getAllGroup();
 
