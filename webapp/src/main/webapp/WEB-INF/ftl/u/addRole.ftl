@@ -75,13 +75,14 @@ function go_back(){
 					data-is="isAmount isEnough" autocomplete="off"
 					disableautocomplete="" value="">
 			</div>
+			<!--
 			<div class="ui-form-item">
 				<label class="ui-label mt10">角色描述:</label>
 				<input class="ui-input " type="text"  id="fundesc"
 					data-is="isAmount isEnough" autocomplete="off"
 					disableautocomplete="" value="">
 			</div>
-
+			-->
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>权限:</label>
 				<#if functions?exists> 

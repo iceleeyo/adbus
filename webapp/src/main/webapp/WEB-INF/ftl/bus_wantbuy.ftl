@@ -1,5 +1,5 @@
 <#import "template/template.ftl" as frame>
-<#global menu="车辆列表">
+<#global menu="媒体定购">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="线路列表" js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js",
 "js/jquery-ui/jquery-ui.auto.complete.js"] 

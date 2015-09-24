@@ -188,146 +188,192 @@
 									 </@security.authorize>	
 									
 
-									<@security.authorize ifAnyGranted="bodysales,bodyContractManager,bodyScheduleManager,ShibaSuppliesManager,ShibaOrderManager,BeiguangScheduleManager">
+									
                                     <#if city.mediaType == 'screen'>
-									<li class="pg-side-item">
-										<a class="pg-side-item-t gg-icon">
-											<i class="s-left pg-icon-a g-icon"></i>
-											媒体管理
-										</a>
-										<ul class="pg-side-exp-list">
-											
-                                            <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/schedule/report">
-                                                    剩余时段
-                                                </a>
-                                            </li>
-											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/schedule/list">
-                                                    排条单
-												</a>
-											</li>
-											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/timeslot/list">
-													时段设置
-												</a>
-											</li>
-										</ul>
-									</li>
+                                    <@security.authorize ifAnyGranted="bodysales,bodyContractManager,bodyScheduleManager,ShibaSuppliesManager,ShibaOrderManager,BeiguangScheduleManager">
+										<li class="pg-side-item">
+											<a class="pg-side-item-t gg-icon">
+												<i class="s-left pg-icon-a g-icon"></i>
+												媒体管理
+											</a>
+											<ul class="pg-side-exp-list">
+												
+	                                            <li class="pg-side-exp-item">
+	                                                <a class="side-exp-item-t" href="${rc.contextPath}/schedule/report">
+	                                                    剩余时段
+	                                                </a>
+	                                            </li>
+												<li class="pg-side-exp-item">
+													<a class="side-exp-item-t" href="${rc.contextPath}/schedule/list">
+	                                                    排条单
+													</a>
+												</li>
+												<li class="pg-side-exp-item">
+													<a class="side-exp-item-t" href="${rc.contextPath}/timeslot/list">
+														时段设置
+													</a>
+												</li>
+											</ul>
+										</li>
+										 </@security.authorize>	
                                     </#if>
+                                    
+                                    
                                     <#if city.mediaType == 'body'>
+                                    
+                                     <@security.authorize ifAnyGranted="bodyContractManager,contract_input,contract_list,contract_search,contract_buy">  
                                     <li class="pg-side-item">
                                         <a class="pg-side-item-t gg-icon">
                                             <i class="s-left pg-icon-a g-icon"></i>
                                             合同部
                                         </a>
                                         <ul class="pg-side-exp-list">
-                             <@security.authorize ifAnyGranted="bodyScheduleManager">  
+                             			<@security.authorize ifAnyGranted="bodyScheduleManager">  
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/busselect/public_bodyContracts">
 												    施工单列表
 												</a>
 											</li>
-							</@security.authorize>	
-                             <@security.authorize ifAnyGranted="bodyContractManager">  
+									</@security.authorize>	
+                               				<@security.authorize ifAnyGranted="bodyContractManager,contract_input">    
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/busselect/offContract_enter">
 												    创建合同
 												</a>
 											</li>
+											  </@security.authorize>
+											  <@security.authorize ifAnyGranted="bodyContractManager,contract_list"> 
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/busselect/offContract_list">
 												    合同列表
 												</a>
 											</li>
+											</@security.authorize>
+											<@security.authorize ifAnyGranted="bodyContractManager,contract_search"> 
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/bus/contractSearch">
 												    订单及车辆查询
 												</a>
 											</li>
-											
+											</@security.authorize>
+											<@security.authorize ifAnyGranted="bodyContractManager,contract_buy">
+											 <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/wantbuy">
+                                                    媒体定购
+                                                </a>
+                                            </li>
+                                            </@security.authorize>
 										  </ul>
                                     </li>
+                                    </@security.authorize>	
+                                    
+                                 <@security.authorize ifAnyGranted="meijie_order,meijie_error,meijie_offline,meijie_bus,meijie_busChange,meijie_busModel,meijie_company">     
                                  <li class="pg-side-item">
                                         <a class="pg-side-item-t gg-icon">
                                             <i class="s-left pg-icon-a g-icon"></i>
                                             媒介部
                                         </a>
                                         <ul class="pg-side-exp-list">
+                                         <@security.authorize ifAnyGranted="meijie_order">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/busselect/publishLine_list">
 												    订单列表
 												</a>
 											</li>
+											  </@security.authorize>
+											   <@security.authorize ifAnyGranted="meijie_error">	
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/bus/mistake_handle">
 												    上下刊错误处理
 												</a>
 											</li>
+											 </@security.authorize>
+											   <@security.authorize ifAnyGranted="meijie_offline">	
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/bus/bus_offShelf">
 												    车辆下刊
 												</a>
 											</li>
-							</@security.authorize>	
+											 </@security.authorize>
+											   <@security.authorize ifAnyGranted="meijie_bus">	
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/bus/list">
                                                     巴士列表
                                                 </a>
                                             </li>
+                                             </@security.authorize>
+                                             
+                                                <@security.authorize ifAnyGranted="meijie_busline">	
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/lines">
+                                                    车辆列表
+                                                </a>
+                                            </li>
+                                             </@security.authorize>
+                                             
+											   <@security.authorize ifAnyGranted="meijie_busChange">	
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/bus/busUpdate_query">
                                                     车辆变更查询
                                                 </a>
                                             </li>
-                                            <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/lines">
-                                                    媒体定购
-                                                </a>
-                                            </li>
+                                             </@security.authorize>
+											   <@security.authorize ifAnyGranted="meijie_busModel">	
+                                          
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/bus/models">
                                                     车型列表
                                                 </a>
                                             </li>
+                                             </@security.authorize>
+											   <@security.authorize ifAnyGranted="meijie_company">	
+                                          
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/bus/companies">
                                                     运营公司
                                                 </a>
                                             </li>
+                                                </@security.authorize>
                                         </ul>
                                     </li>
-                                    
-                                    <li class="pg-side-item">
-                                        <a class="pg-side-item-t ee-icon">
-                                            <i class="s-left pg-icon-a e-icon"></i>
-                                            媒体推荐
-                                        </a>
-                                        <ul class="pg-side-exp-list">
-
-                                            <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/landmarkM_lines">
-                                                   地标匹配
-                                                </a>
-                                            </li>
-                                            
-                                            <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/trackM_lines">
-                                                   轨迹匹配
-                                                </a>
-                                            </li>
-                                            
-                                            <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/media_lines">
-                                                   相关媒体
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    
+                                     </@security.authorize>	
+                                     
+	                                     <#if city.mediaType == 'body'>
+	                                       <@security.authorize ifAnyGranted="bodyScheduleManager,bodysales,bodyContractManager,contract_input,contract_list,contract_search,contract_buy,meijie_order,meijie_error,meijie_offline,meijie_bus,meijie_busChange,meijie_busModel,meijie_company"> 
+	                                    <li class="pg-side-item">
+	                                        <a class="pg-side-item-t ee-icon">
+	                                            <i class="s-left pg-icon-a e-icon"></i>
+	                                            媒体推荐
+	                                        </a>
+	                                        <ul class="pg-side-exp-list">
+	
+	                                            <li class="pg-side-exp-item">
+	                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/landmarkM_lines">
+	                                                   地标匹配
+	                                                </a>
+	                                            </li>
+	                                            
+	                                            <li class="pg-side-exp-item">
+	                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/trackM_lines">
+	                                                   轨迹匹配
+	                                                </a>
+	                                            </li>
+	                                            
+	                                            <li class="pg-side-exp-item">
+	                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/media_lines">
+	                                                   相关媒体
+	                                                </a>
+	                                            </li>
+	                                        </ul>
+	                                    </li>
+	                                     </@security.authorize>	
+	                                     </#if>
+	                                     
                                     </#if>
-                                    </@security.authorize>
-                                    <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager">
+                                    
+                                    
+                                    
+                                    <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,contract_input,contract_list,contract_search,contract_buy">
                                     <#if city.mediaType == 'screen'>
 									<li class="pg-side-item">
 										<a class="pg-side-item-t hh-icon">
@@ -345,7 +391,7 @@
                                         </@security.authorize>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/report/day">
-				时段报表
+												时段报表
 												</a>
 											</li>
 
@@ -363,50 +409,53 @@
 									</li>
                                     </#if>
                                     <#if city.mediaType == 'body'>
+                                  <@security.authorize ifAnyGranted="bodyContractManager,report_monthp,report_daylinep">  
                                     <li class="pg-side-item">
                                         <a class="pg-side-item-t gg-icon">
                                             <i class="s-left pg-icon-a g-icon"></i>
                                             报表管理
                                         </a>
                                         <ul class="pg-side-exp-list">
+                                         <@security.authorize ifAnyGranted="bodyContractManager,report_monthp">  
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/report/body/monthp">
                                                     年售出情况
                                                 </a>
                                             </li>
+                                            </@security.authorize>
+                                             <@security.authorize ifAnyGranted="bodyContractManager,report_daylinep">
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/report/body/daylinep">
                                                     线路细分
                                                 </a>
                                             </li>
+                                            </@security.authorize>
                                         </ul>
                                     </li>
+                                     </@security.authorize>
                                     </#if>
                                     </@security.authorize>
-                                    <@security.authorize ifAnyGranted="bodysales,bodyContractManager,ShibaSuppliesManager,advertiser,UserManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+                                    <@security.authorize ifAnyGranted="sys_userList,sys_roleManager,bodysales,bodyContractManager,ShibaSuppliesManager,advertiser,UserManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 									<li class="pg-side-item">
 										<a class="pg-side-item-t ff-icon">
 											<i class="s-left pg-icon-a e-icon"></i>
 											用户信息
 										</a>
 										<ul class="pg-side-exp-list">
-                                            <@security.authorize ifAnyGranted="UserManager">
+                                            <@security.authorize ifAnyGranted="UserManager,sys_userList">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/user/list">
 													用户列表
 												</a>
 											</li>
                                             </@security.authorize>
+                                             <@security.authorize ifAnyGranted="UserManager,sys_roleManager">
                                             <li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/user/role_list">
 													角色管理
 												</a>
 											</li>
-                                            <li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/user/addRole">
-													添加角色
-												</a>
-											</li>
+											 </@security.authorize>
                                            <@security.authorize ifAnyGranted="advertiser">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/user/invoiceList">
@@ -420,12 +469,12 @@
 											 </@security.authorize>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/user/qualification">
-                                                                                                                                              个人信息
+                                                 个人信息                                                                                             
 												</a>
 											</li>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/user/edit_pwd">
-                                                                                                                                                   修改密码                                                                                         
+                                                    修改密码                                                                                                                                                                                        
 												</a>
 											</li>
 										</ul>
