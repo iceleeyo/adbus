@@ -102,7 +102,7 @@ public class DataInitializationService {
 	CityService cityService;
 
 	public void intialize() throws Exception {
-		initializeGroupFunction();
+		initializeFunctionFunction();
 		initializeLineSite();
 		initializeCalendar();
 		initializeCities();
@@ -319,7 +319,7 @@ public class DataInitializationService {
 		log.info("init line site lines:{},site:{} ", lineSiteMap.size(), siteLineMap.size());
 	}
 
-	private void initializeGroupFunction() throws Exception {
+	private void initializeFunctionFunction() throws Exception {
 		long count = functionRepository.count();
 		if (count > 0) {
 			log.info("There are already {} function in table, skip initialization step", count);
@@ -335,7 +335,7 @@ public class DataInitializationService {
 				continue;
 			try {
 				String[] str = line.split(",");
-				JpaFunction function = new JpaFunction(str[1], str[2]);
+				JpaFunction function = new JpaFunction(str[1], str[2],str[3]);
 				function.setCity(NumberUtils.toInt(str[0]));
 				list.add(function);
 			} catch (Exception e) {

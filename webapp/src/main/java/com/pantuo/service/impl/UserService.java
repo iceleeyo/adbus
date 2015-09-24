@@ -18,7 +18,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -45,6 +44,7 @@ import com.pantuo.mybatis.persistence.InvoiceMapper;
 import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
 import com.pantuo.service.ActivitiService.SystemRoles;
 import com.pantuo.service.AttachmentService;
+import com.pantuo.service.GoupManagerService;
 import com.pantuo.service.MailService;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.service.UserServiceInter;
@@ -66,6 +66,11 @@ public class UserService implements UserServiceInter {
 
 	@Autowired
 	private IdentityService identityService;
+	
+
+	@Autowired
+	private GoupManagerService goupManagerService;
+	
 	@Autowired
 	private MailService mailService;
 	@Autowired
@@ -243,6 +248,9 @@ public class UserService implements UserServiceInter {
 		List<Group> listGroup = identityService.createGroupQuery().groupMember(username).list();
 		user.setUser(activitiUser);
 		user.setGroups(listGroup);
+		
+		user.setFunctions(goupManagerService.getFunction4UserId(username));
+		
 
 		return user;
 	}
