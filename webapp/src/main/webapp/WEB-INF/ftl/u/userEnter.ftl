@@ -184,11 +184,32 @@ function go_back(){
 			</div>
 
 			<div class="ui-form-item">
-				<label class="ui-label mt10"><span class="ui-form-required">*</span>所属组:</label>
+				<label class="ui-label mt10"><span class="ui-form-required">*</span>
+				所属组:
+				</label>
                 <div>
-                    <#if groupsList?exists> <#list groupsList?keys as vkey> <input
-                            type="checkbox" value="${vkey}" name="roles" id="roles" />${groupsList[vkey]}
-                    </#list> </#if>
+                <#if medetype =='screen'>
+                    <#if groupsList?exists> 
+	                    <#list groupsList?keys as vkey> <input
+	                            type="checkbox" value="${vkey}" name="roles" id="roles" />${groupsList[vkey]}
+	                             <#if vkey_index % 4 ==  0 && vkey_index!=0>
+    				 				 <br>
+    							  </#if>
+	                    </#list> 
+                    </#if>
+                </#if>
+                
+                <#if medetype =='body'>
+                    <#if bdGroupsList?exists> 
+	                    <#list bdGroupsList as  vkey> <input
+	                            type="checkbox" value="${vkey.id}" name="roles" id="roles" />${vkey.name} 
+	                              <#if vkey_index % 4 ==  0 && vkey_index!=0>
+    				 				 <br>
+    							  </#if>
+	                    </#list> 
+                    </#if>
+                </#if>      
+                    
                 </div>
 			</div>
 
