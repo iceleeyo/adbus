@@ -55,6 +55,10 @@ public class JpaFunction extends CityEntity {
 		this.funcode = funcode;
 	}
 
+	public JpaFunction() {
+		super();
+	}
+
 	 
 
 }
