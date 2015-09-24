@@ -37,7 +37,7 @@ public interface GoupManagerService {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 
-	public List<ActIdGroup> getAllDescionGroup();
+	public List<ActIdGroup> getAllDescionGroup(int city);
 
 	/**
 	 * 

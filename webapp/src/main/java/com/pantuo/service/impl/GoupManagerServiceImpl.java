@@ -50,14 +50,16 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 	@Autowired
 	BusFunctionMapper busFunctionMapper;
 
+	public final static String BODY_TAG="bd_%d";
 	@Override
 	public List<JpaFunction> getAllFunction() {
 		return functionRepository.findAll();
 	}
 
 	@Override
-	public List<ActIdGroup> getAllDescionGroup() {
+	public List<ActIdGroup> getAllDescionGroup(int city) {
 		ActIdGroupExample example = new ActIdGroupExample();
+		example.createCriteria().andIdLike(String.format(BODY_TAG, city).concat("%"));
 		return actIdGroupMapper.selectByExample(example);
 	}
 

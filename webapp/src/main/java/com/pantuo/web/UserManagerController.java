@@ -321,8 +321,9 @@ public class UserManagerController {
 	
 	@PreAuthorize(" hasRole('UserManager')  ")
 	@RequestMapping(value = "/enter")
-	public String enter(Model model, HttpServletRequest request) {
+	public String enter(Model model, HttpServletRequest request,@CookieValue(value = "city", defaultValue = "-1")int city) {
 		model.addAttribute("groupsList", DataInitializationService._GROUPS);
+		model.addAttribute("bdGroupsList", goupManagerService.getAllDescionGroup(city));
 		return "u/userEnter";
 	}
 	@PreAuthorize(" hasRole('UserManager')  ")
@@ -379,11 +380,15 @@ public class UserManagerController {
 	
 	@PreAuthorize(" hasRole('UserManager')  ")
 	@RequestMapping(value = "/u_edit/{userId}", method = { RequestMethod.GET })
-	public String userEdit(Model model, @PathVariable("userId") String userId, HttpServletRequest request) {
+	public String userEdit(@CookieValue(value = "city", defaultValue = "-1")int city,
+			Model model, @PathVariable("userId") String userId, HttpServletRequest request) {
 		UserDetail UserDetail = userService.getByUsernameSafe(userId);
 		model.addAttribute("userDetail", UserDetail);
 		model.addAttribute("uGroup", userService.getUserGroupList(UserDetail));
 		model.addAttribute("groupsList", DataInitializationService._GROUPS);
+		//
+		model.addAttribute("bdGroupsList", goupManagerService.getAllDescionGroup(city));
+		
 		return "u/userEdit";
 	}
 	@RequestMapping(value = "/addRole")
