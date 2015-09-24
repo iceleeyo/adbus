@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.activiti.engine.identity.Group;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.eclipse.jetty.util.HttpCookieStore.Empty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +21,6 @@ import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.ActIdGroup;
 import com.pantuo.mybatis.domain.ActIdGroupExample;
 import com.pantuo.mybatis.domain.BusFunction;
-import com.pantuo.mybatis.domain.BusFunctionExample;
-import com.pantuo.mybatis.domain.BusOnline;
 import com.pantuo.mybatis.domain.GroupFunction;
 import com.pantuo.mybatis.domain.GroupFunctionExample;
 import com.pantuo.mybatis.persistence.ActIdGroupMapper;
@@ -53,7 +51,8 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 	@Autowired
 	BusFunctionMapper busFunctionMapper;
 
-	public final static String BODY_TAG="bd_%d";
+	public final static String BODY_TAG = "bd_%d";
+
 	@Override
 	public List<JpaFunction> getAllFunction() {
 		return functionRepository.findAll();
@@ -163,22 +162,14 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 	}
 
 	@Override
-	public List<BusFunction> getFunction4UserId(String userId) {
-		List<UserDetail> users = userRepo.findByUsername(userId);
-		if (!users.isEmpty()) {
-			UserDetail user = users.get(0);
-			String groupIds = user.getGroupIdList();
-			if (StringUtils.isNoneBlank(groupIds)) {
-				String[] arr = groupIds.split(",");
-
-				List<String> gidlist = new ArrayList<String>();
-				for (String string : arr) {
-					if (StringUtils.isNoneBlank(string))
-						gidlist.add(string);
-				}
-				if (gidlist.size() > 0) {
-					return userAutoCompleteMapper.selectFunidsByPid(gidlist);
-				}
+	public List<BusFunction> getFunction4UserId(UserDetail user) {
+		if (!user.getGroups().isEmpty()) {
+			List<String> gidlist = new ArrayList<String>();
+			for (Group group : user.getGroups()) {
+				gidlist.add(group.getId());
+			}
+			if (gidlist.size() > 0) {
+				return userAutoCompleteMapper.selectFunidsByPid(gidlist);
 			}
 		}
 		return new ArrayList<BusFunction>(0);
@@ -187,22 +178,22 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 	@Override
 	public Pair<Boolean, String> saveRole(String ids, String rolename, String funcode, String fundesc,
 			Principal principal, int city) {
-		if(actIdGroupMapper.selectByPrimaryKey(funcode)!=null){
-			return new Pair<Boolean, String>(false,"角色简码已经存在,添加失败");
+		if (actIdGroupMapper.selectByPrimaryKey(funcode) != null) {
+			return new Pair<Boolean, String>(false, "角色简码已经存在,添加失败");
 		}
-		ActIdGroup gActIdGroup=new ActIdGroup();
-		gActIdGroup.setId(String.format(BODY_TAG, city)+funcode);
+		ActIdGroup gActIdGroup = new ActIdGroup();
+		gActIdGroup.setId(String.format(BODY_TAG, city) + "_" + funcode);
 		gActIdGroup.setName(rolename);
 		gActIdGroup.setType(fundesc);
-		if(actIdGroupMapper.insert(gActIdGroup)>0){
+		if (actIdGroupMapper.insert(gActIdGroup) > 0) {
 			String idsa[] = ids.split(",");
 			for (int i = 0; i < idsa.length; i++) {
-					GroupFunction groupFunction=new GroupFunction();
-					groupFunction.setFunId(NumberUtils.toInt(idsa[i]));
-					groupFunction.setCity(city);
-					groupFunction.setCreated(new Date());
-					groupFunction.setGroupId(gActIdGroup.getId());
-					groupFunctionMapper.insert(groupFunction);
+				GroupFunction groupFunction = new GroupFunction();
+				groupFunction.setFunId(NumberUtils.toInt(idsa[i]));
+				groupFunction.setCity(city);
+				groupFunction.setCreated(new Date());
+				groupFunction.setGroupId(gActIdGroup.getId());
+				groupFunctionMapper.insert(groupFunction);
 			}
 			return new Pair<Boolean, String>(true, "添加角色成功");
 		}
@@ -211,13 +202,13 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 
 	@Override
 	public List<RoleView> findAllBodyRoles(int cityId) {
-		List<RoleView> views=new ArrayList<RoleView>();
-		ActIdGroupExample  example=new ActIdGroupExample();
-		example.createCriteria().andIdLike(String.format(BODY_TAG, cityId)+"%");
-		List<ActIdGroup> groups=actIdGroupMapper.selectByExample(example);
+		List<RoleView> views = new ArrayList<RoleView>();
+		ActIdGroupExample example = new ActIdGroupExample();
+		example.createCriteria().andIdLike(String.format(BODY_TAG, cityId) + "%");
+		List<ActIdGroup> groups = actIdGroupMapper.selectByExample(example);
 		for (ActIdGroup actIdGroup : groups) {
-			String functions=findFunsByGroupId(actIdGroup.getId());
-			RoleView roleView=new RoleView();
+			String functions = findFunsByGroupId(actIdGroup.getId());
+			RoleView roleView = new RoleView();
 			roleView.setActIdGroup(actIdGroup);
 			roleView.setFunctions(functions);
 			views.add(roleView);
@@ -226,12 +217,17 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 	}
 
 	private String findFunsByGroupId(String id) {
-		List<String> gidlist=new ArrayList<String>();
+		List<String> gidlist = new ArrayList<String>();
 		gidlist.add(id);
-		List<BusFunction> list= userAutoCompleteMapper.selectFunidsByPid(gidlist);
-		String fuString="";
+		List<BusFunction> list = userAutoCompleteMapper.selectFunidsByPid(gidlist);
+		String fuString = "";
+		int i = 0;
 		for (BusFunction busFunction : list) {
-			fuString+=busFunction.getName()+",";
+
+			fuString += busFunction.getName() + ",";
+			if (i++ % 5 == 0 && i!=1) {
+				fuString += "<br>";
+			}
 		}
 		return fuString;
 	}

@@ -267,7 +267,7 @@ public class UserService implements UserServiceInter {
 		user.setUser(activitiUser);
 		user.setGroups(listGroup);
 		
-		user.setFunctions(goupManagerService.getFunction4UserId(username));
+		user.setFunctions(goupManagerService.getFunction4UserId(user));
 		
 
 		return user;

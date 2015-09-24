@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import com.pantuo.dao.pojo.JpaFunction;
+import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.ActIdGroup;
 import com.pantuo.mybatis.domain.BusFunction;
 import com.pantuo.util.Pair;
@@ -29,7 +30,7 @@ public interface GoupManagerService {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	public List<BusFunction> getFunction4UserId(String userId);
+	public List<BusFunction> getFunction4UserId(UserDetail user);
 
 	/**
 	 * 

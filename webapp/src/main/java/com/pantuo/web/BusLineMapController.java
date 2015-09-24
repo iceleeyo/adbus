@@ -53,6 +53,11 @@ public class BusLineMapController {
 	public String sortTable() {
 		return "sortTable";
 	}
+	
+	@RequestMapping(value = "/wantbuy")
+	public String wantbuy() {
+		return "bus_wantbuy";
+	}
 	@RequestMapping(value = "/lines")
 	public String lines() {
 		return "map_lines";

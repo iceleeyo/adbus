@@ -1,21 +1,37 @@
 package com.pantuo.web.view;
 
+import java.util.List;
+
 import com.pantuo.mybatis.domain.ActIdGroup;
+import com.pantuo.mybatis.domain.BusFunction;
 
 public class RoleView {
-   ActIdGroup actIdGroup;
-   String functions;
-public ActIdGroup getActIdGroup() {
-	return actIdGroup;
-}
-public void setActIdGroup(ActIdGroup actIdGroup) {
-	this.actIdGroup = actIdGroup;
-}
-public String getFunctions() {
-	return functions;
-}
-public void setFunctions(String functions) {
-	this.functions = functions;
-}
-   
+	ActIdGroup actIdGroup;
+	String functions;
+	List<BusFunction> funs;
+
+	public ActIdGroup getActIdGroup() {
+		return actIdGroup;
+	}
+
+	public void setActIdGroup(ActIdGroup actIdGroup) {
+		this.actIdGroup = actIdGroup;
+	}
+
+	public String getFunctions() {
+		return functions;
+	}
+
+	public void setFunctions(String functions) {
+		this.functions = functions;
+	}
+
+	public List<BusFunction> getFuns() {
+		return funs;
+	}
+
+	public void setFuns(List<BusFunction> funs) {
+		this.funs = funs;
+	}
+
 }
