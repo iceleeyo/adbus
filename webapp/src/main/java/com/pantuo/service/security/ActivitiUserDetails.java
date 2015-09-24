@@ -61,7 +61,7 @@ public class ActivitiUserDetails implements UserDetails {
 		this.user = user;
 		this.auths = new ArrayList<ActivityAuthority>();
 
-		if (user.utype == null || user.utype == UType.video) {
+		if (user.utype == null || user.utype == UType.screen) {
 			if (user.getGroups() != null) {
 				for (Group g : user.getGroups()) {
 					auths.add(new ActivityAuthority(g));
