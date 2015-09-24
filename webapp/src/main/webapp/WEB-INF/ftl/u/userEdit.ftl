@@ -134,6 +134,7 @@ function go_back(){
 				<#if groupsList?exists> <#list groupsList?keys as vkey> <input
 					type="checkbox" value="${vkey}" name="roles" <#if
 				uGroup?seq_contains(vkey)>checked </#if> /> ${groupsList[vkey]}&nbsp;&nbsp;
+				 <#if vkey_index % 4 ==  0 && vkey_index!=0><br></#if>
 				</#list> </#if>
 				<#else>
 				<#if bdGroupsList?exists> 
