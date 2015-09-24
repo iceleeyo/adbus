@@ -140,7 +140,7 @@ public class UserService implements UserServiceInter {
 			pageSize = 1;
 		//test();
 
-		String utype =utype ;// req != null ? req.getFilter("utype") : null;
+		//String utype =utype ;// req != null ? req.getFilter("utype") : null;
 		Page<UserDetail> result = null;
 		Pageable p = new PageRequest(page, pageSize, (order == null ? new Sort("id") : order));
 
