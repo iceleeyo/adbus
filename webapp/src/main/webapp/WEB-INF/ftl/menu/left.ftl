@@ -225,7 +225,7 @@
                                     <li class="pg-side-item">
                                         <a class="pg-side-item-t gg-icon">
                                             <i class="s-left pg-icon-a g-icon"></i>
-                                            合同
+                                            合同管理
                                         </a>
                                         <ul class="pg-side-exp-list">
                              			<@security.authorize ifAnyGranted="bodyScheduleManager">  
@@ -271,7 +271,7 @@
                                  <li class="pg-side-item">
                                         <a class="pg-side-item-t gg-icon">
                                             <i class="s-left pg-icon-a g-icon"></i>
-                                            媒介
+                                            媒介管理
                                         </a>
                                         <ul class="pg-side-exp-list">
                                          <@security.authorize ifAnyGranted="meijie_order">
@@ -306,7 +306,7 @@
                                                 <@security.authorize ifAnyGranted="meijie_busline">	
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/api/lines">
-                                                    车辆列表
+                                                    线路列表
                                                 </a>
                                             </li>
                                              </@security.authorize>

@@ -18,10 +18,10 @@
             },
             "columns": [
                 { "data": "actIdGroup.name", "defaultContent": ""},
-                { "data": "actIdGroup.id", "defaultContent": ""},
+                { "data": "groupId", "defaultContent": ""},
                 { "data": "functions", "defaultContent": ""},
                 { "data": function( row, type, set, meta) {
-                    return row.actIdGroup.id;
+                    return row.actIdGroup.id ;
                 },
                     "render": function(data, type, row, meta) {
                         var operations= '<a  href="${rc.contextPath}/user/to_editRole/' + data + '" >修改</a> ';
@@ -43,29 +43,32 @@
         $("div#toolbar").html('');
     }
 function delContract(id){
-	var bln=window.confirm("确定删除该角色吗？");
-    if(bln){
-	 $.ajax({
-			url:"${rc.contextPath}/user/deleRole/"+id,
-			type:"POST",
-			async:false,
-			dataType:"json",
-			data:{},
-			success:function(data){
-				if (data.left == true) {
-					layer.msg(data.right);
-				   var uptime = window.setTimeout(function(){
-				window.location.href="${rc.contextPath}/user/role_list";
-			   	clearTimeout(uptime);
-						},2000)
-				} else {
-					layer.msg(data.right);
-				}
-			}
-      });  
-   }
-	   
-	}
+	layer.confirm('确定删除吗？', {icon: 3}, function(index){
+    		layer.close(index);
+    		if(1==1){
+				 $.ajax({
+						url:"${rc.contextPath}/user/deleRole/"+id,
+						type:"POST",
+						async:false,
+						dataType:"json",
+						data:{},
+						success:function(data){
+							if (data.left == true) {
+								layer.msg(data.right);
+							   var uptime = window.setTimeout(function(){
+							window.location.href="${rc.contextPath}/user/role_list";
+						   	clearTimeout(uptime);
+									},2000)
+							} else {
+								layer.msg(data.right);
+							}
+						}
+			      }); 
+			      
+			     } 
+    		});	
+    		
+   } 		
     function drawCallback() {
         $('.table-action').click(function() {
             $.post($(this).attr("url"), function() {

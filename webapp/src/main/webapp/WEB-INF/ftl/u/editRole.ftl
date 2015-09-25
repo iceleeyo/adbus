@@ -76,9 +76,9 @@ function go_back(){
 			</div>
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>角色简码:</label>
-				<input class="ui-input validate[required]" type="text"  id="funcode" readonly="readonly" value="${actIdGroup.id!''}"
+				<input class="ui-input validate[required]" type="text"  id="funcode" readonly="readonly" value="${showId!''}"
 					data-is="isAmount isEnough" autocomplete="off"
-					disableautocomplete="" value="">
+					disableautocomplete="" value="" readonly>
 			</div>
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>权限:</label>
