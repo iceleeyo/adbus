@@ -78,28 +78,34 @@
 										</ul>
 									</li>	
 									</@security.authorize>
-									 <#if city.mediaType == 'screen'>
-									<li class="pg-side-item">
-										<a class="pg-side-item-t cc-icon">
-											<i class="s-left pg-icon-a f-icon"></i>
-											产品中心
-										</a>
-										<ul class="pg-side-exp-list">
-										<@security.authorize ifAnyGranted="ShibaOrderManager">
-											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/product/new">
-													产品定义
-												</a>
-											</li>
-										</@security.authorize>
-											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/product/list">
-													产品列表
-												</a>
-											</li>
-										</ul>
-									</li>
-									 </#if>
+									
+									
+									<@security.authorize ifNotGranted="UserManager">
+										 <#if city.mediaType == 'screen'>
+										<li class="pg-side-item">
+											<a class="pg-side-item-t cc-icon">
+												<i class="s-left pg-icon-a f-icon"></i>
+												产品中心
+											</a>
+											<ul class="pg-side-exp-list">
+											<@security.authorize ifAnyGranted="ShibaOrderManager">
+												<li class="pg-side-exp-item">
+													<a class="side-exp-item-t" href="${rc.contextPath}/product/new">
+														产品定义
+													</a>
+												</li>
+											</@security.authorize>
+											
+											
+												<li class="pg-side-exp-item">
+													<a class="side-exp-item-t" href="${rc.contextPath}/product/list">
+														产品列表
+													</a>
+												</li>
+											</ul>
+										</li>
+										 </#if>
+									 </@security.authorize>
 									
 									<@security.authorize ifAnyGranted="ShibaSuppliesManager,advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager,bodysales,bodyContractManager,bodyFinancialManager,bodyScheduleManager">
 									<li class="pg-side-item">
@@ -450,11 +456,13 @@
 											</li>
                                             </@security.authorize>
                                              <@security.authorize ifAnyGranted="UserManager,sys_roleManager">
-                                            <li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/user/role_list">
-													角色管理
-												</a>
-											</li>
+                                              <#if city.mediaType == 'body'>
+		                                            <li class="pg-side-exp-item">
+														<a class="side-exp-item-t" href="${rc.contextPath}/user/role_list">
+															角色管理
+														</a>
+													</li>
+											 </#if>
 											 </@security.authorize>
                                            <@security.authorize ifAnyGranted="advertiser">
 											<li class="pg-side-exp-item">
