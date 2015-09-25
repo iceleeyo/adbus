@@ -85,11 +85,12 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 		if (StringUtils.isNotBlank(groupId)) {
 			List<UserDetail> users = userRepo.findAll();
 			for (UserDetail userDetail : users) {
-				if (userDetail.getGroupIdList().contains(groupId)) {
+				if (StringUtils.isNotBlank(userDetail.getGroupIdList()) && userDetail.getGroupIdList().contains(groupId)) {
 					return new Pair<Boolean, String>(false, "该角色已有用户占用,删除失败");
 				}
 			}
 			if (actIdGroupMapper.deleteByPrimaryKey(groupId) > 0) {
+				deleteFunsByGroupid(groupId);
 				return new Pair<Boolean, String>(true, "删除成功");
 			} else {
 				return new Pair<Boolean, String>(false, "操作失败");
@@ -150,15 +151,6 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 
 	@Override
 	public Pair<Boolean, String> editPersonGroup(String userid, String groupIds) {
-		//		List<UserDetail> users = userRepo.findByUsername(userid);
-		//		if (users.isEmpty())
-		//			return new Pair<Boolean, String>(false,"用户不存在");
-		//		UserDetail user = users.get(0);
-		//		user.setGroupIdList(groupIds);
-		//		if(userRepo.save(user)!=null){
-		//			return new Pair<Boolean, String>(true,"操作成功");
-		//		}
-		//		return new Pair<Boolean, String>(false,"操作失败");
 		return setPersonGroup(userid, groupIds);
 	}
 
@@ -179,9 +171,6 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 	@Override
 	public Pair<Boolean, String> saveRole(String groupid,String ids, String rolename, String funcode, String fundesc,
 			Principal principal, int city) {
-		if(StringUtils.isNotBlank(groupid)){
-			deleteFunsByGroupid(groupid);
-		}
 		if (actIdGroupMapper.selectByPrimaryKey(funcode) != null) {
 			return new Pair<Boolean, String>(false, "角色简码已经存在,添加失败");
 		}
@@ -203,8 +192,29 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 		}
 		return new Pair<Boolean, String>(false, "操作失败");
 	}
+	@Override
+	public Pair<Boolean, String> editRole(String groupid,String ids, String rolename, String funcode, String fundesc,
+			Principal principal, int city) {
+		if(StringUtils.isNotBlank(groupid)){
+			deleteFunsByGroupid(groupid);
+			ActIdGroup gActIdGroup=actIdGroupMapper.selectByPrimaryKey(groupid);
+			gActIdGroup.setName(rolename);
+			if (actIdGroupMapper.updateByPrimaryKey(gActIdGroup)> 0) {
+				String idsa[] = ids.split(",");
+				for (int i = 0; i < idsa.length; i++) {
+					GroupFunction groupFunction = new GroupFunction();
+					groupFunction.setFunId(NumberUtils.toInt(idsa[i]));
+					groupFunction.setCity(city);
+					groupFunction.setCreated(new Date());
+					groupFunction.setGroupId(groupid);
+					groupFunctionMapper.insert(groupFunction);
+				}
+				return new Pair<Boolean, String>(true, "修改成功");
+			}
+		}
+		return new Pair<Boolean, String>(false, "信息丢失,操作失败");
+	}
 	private void deleteFunsByGroupid(String groupid) {
-		actIdGroupMapper.deleteByPrimaryKey(groupid);
 		GroupFunctionExample example=new GroupFunctionExample();
 		example.createCriteria().andGroupIdEqualTo(groupid);
 		groupFunctionMapper.deleteByExample(example);

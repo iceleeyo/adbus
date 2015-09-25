@@ -431,6 +431,13 @@ public class UserManagerController {
 			) throws ParseException{
 		return goupManagerService.saveRole(null,ids,rolename,funcode,fundesc,principal,city);
 	}
+	@RequestMapping(value = "/deleRole/{groupid}")
+	@ResponseBody
+	public Pair<Boolean, String> deleRole(
+			@PathVariable("groupid") String groupid
+			) throws ParseException{
+		return goupManagerService.deleteGroup(groupid);
+	}
 	@RequestMapping(value = "/editRole/{groupid}")
 	@ResponseBody
 	public Pair<Boolean, String> editRole(
@@ -441,7 +448,7 @@ public class UserManagerController {
 			@RequestParam(value = "fundesc", required = false) String fundesc,
 			@RequestParam(value = "ids", required = true) String ids
 			) throws ParseException{
-		return goupManagerService.saveRole(groupid,ids,rolename,funcode,fundesc,principal,city);
+		return goupManagerService.editRole(groupid,ids,rolename,funcode,fundesc,principal,city);
 	}
 	@RequestMapping("ajax-roleList")
 	@ResponseBody

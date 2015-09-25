@@ -37,7 +37,10 @@ function go_back(){
 		    			success:function(data){
 		    				if (data.left == true) {
 		    					layer.msg(data.right);
-		    					window.location.href="${rc.contextPath}/user/role_list";
+		    				var uptime = window.setTimeout(function(){
+			window.location.href="${rc.contextPath}/user/role_list";
+			   	clearTimeout(uptime);
+						},2000)
 		    				} else {
 		    					layer.msg(data.right,{icon: 5});
 		    				}

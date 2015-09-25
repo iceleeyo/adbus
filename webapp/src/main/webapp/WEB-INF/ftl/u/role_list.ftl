@@ -24,7 +24,9 @@
                     return row.actIdGroup.id;
                 },
                     "render": function(data, type, row, meta) {
-                        return '<a  href="${rc.contextPath}/user/to_editRole/' + data + '" >修改</a> ';
+                        var operations= '<a  href="${rc.contextPath}/user/to_editRole/' + data + '" >修改</a> ';
+                         operations +='&nbsp;&nbsp;<a class="table-link" href="javascript:delContract(\''+data+'\');" >删除</a>  &nbsp;';
+                         return operations;
                         ;
                     }},
             ],
@@ -40,7 +42,30 @@
     function initComplete() {
         $("div#toolbar").html('');
     }
-
+function delContract(id){
+	var bln=window.confirm("确定删除该角色吗？");
+    if(bln){
+	 $.ajax({
+			url:"${rc.contextPath}/user/deleRole/"+id,
+			type:"POST",
+			async:false,
+			dataType:"json",
+			data:{},
+			success:function(data){
+				if (data.left == true) {
+					layer.msg(data.right);
+				   var uptime = window.setTimeout(function(){
+				window.location.href="${rc.contextPath}/user/role_list";
+			   	clearTimeout(uptime);
+						},2000)
+				} else {
+					layer.msg(data.right);
+				}
+			}
+      });  
+   }
+	   
+	}
     function drawCallback() {
         $('.table-action').click(function() {
             $.post($(this).attr("url"), function() {

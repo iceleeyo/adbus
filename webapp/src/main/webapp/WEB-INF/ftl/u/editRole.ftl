@@ -37,7 +37,11 @@ function go_back(){
 		    			success:function(data){
 		    				if (data.left == true) {
 		    					layer.msg(data.right);
-		    					window.location.href="${rc.contextPath}/user/role_list";
+		    					var uptime = window.setTimeout(function(){
+			window.location.href="${rc.contextPath}/user/role_list";
+			   	clearTimeout(uptime);
+						},2000)
+		    					
 		    				} else {
 		    					layer.msg(data.right,{icon: 5});
 		    				}
@@ -72,7 +76,7 @@ function go_back(){
 			</div>
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>角色简码:</label>
-				<input class="ui-input validate[required]" type="text"  id="funcode" value="${actIdGroup.id!''}"
+				<input class="ui-input validate[required]" type="text"  id="funcode" readonly="readonly" value="${actIdGroup.id!''}"
 					data-is="isAmount isEnough" autocomplete="off"
 					disableautocomplete="" value="">
 			</div>
