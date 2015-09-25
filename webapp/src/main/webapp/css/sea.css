@@ -304,12 +304,12 @@ table {
 .ls-2 {
 	width: 12%;
 	float: left;
-	margin-left: 10px;
-	margin-right: 10px;
+	margin-left: 0px;
+	margin-right: 0px;
 }
 
 .ls-10 {
-	width: 85%;
+	width: 87%;
 	float: left;
 	margin-left: 10px;
 }
