@@ -235,7 +235,8 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 <div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title">
                <span> 线路列表</span>
-                <a class="block-btn" target="_Blank" href="${rc.contextPath}/busselect/applyBodyCtct">申请合同</a>
+                <a class="block-btn" style="margin-left: 10px;" href="javascript:void(0);" onclick="addline('${rc.contextPath}')">添加线路</a>&nbsp;
+                <a class="block-btn"  target="_Blank" href="${rc.contextPath}/busselect/applyBodyCtct">申请合同</a>
 									</div>
                 <table id="table" class="display compact" cellspacing="0" width="100%">
                     <thead>

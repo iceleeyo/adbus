@@ -645,40 +645,85 @@ function qEdit(tourl,id){
 		}, "text");
 		
 }
-//弹出添加分期付款的窗口
-function addfenqi(url,seriaNum) {
+//弹出添加线路窗口
+function addline(url) {
 	layer.open({
 				type : 1,
-				title : "合同分期",
+				title : "添加线路",
 				skin : 'layui-layer-rim',
 				area : [ '470px', '400px' ],
 				content : ''
-						+ '<form id="fenqiform" action='+url+'/busselect/saveDivid?seriaNum='+seriaNum+'>'
+						+ '<form id="addLineform" action='+url+'/busselect/saveLine>'
 						+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
-						+'<div class="ui-form-item"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/> <label class="ui-label mt10">期数：</label>'
+						+'<div class="ui-form-item"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/> <label class="ui-label mt10">线路名称：</label>'
 						+'<input class="ui-input " type="text" value="" name="name"  '
 						+'id="namestr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
        	 				+'</div>'
-       	 				+'<div class="ui-form-item"> <label class="ui-label mt10">金额：</label>'
-						+'<input class="ui-input " type="text" value="" name="amounts"  '
-						+'id="amounts" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-       	 				+'</div>'
-						+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">付款日期:</label>'
-						+'<input class="ui-input datepicker validate[required,custom[date],past[#payDate1]]" type="text" name="payDate1" value="" id="payDate1" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
-						+'</div>'
-						+'<div class="ui-form-item"> <label class="ui-label mt10">备注：</label>'
-						+'<textarea rows="4" cols="40"  data-is="isAmount isEnough" style="resize: none;" name="remarks"></textarea>'
+       	 				+'<div class="ui-form-item"> <label class="ui-label mt10">线路级别：</label>'
+						+'<select  class="ui-input bus-model" name="level" id="level">  '
+       	 				+'<option value="0" selected="selected">S(特级)</option><option value="1" > A++</option> <option value="2">A+</option><option value="3">A</option><option value="4">经纬线</option></select></div>'
+       	 				+'<div class="ui-form-item"> <label class="ui-label mt10">车辆数：</label>'
+       	 				+'<input class="ui-input " type="text" value="" name="cars"  onkeyup="value=value.replace(/[^\\d]/g,\'\')" '
+       	 				+'id="cars" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
        	 				+'</div>'
 						+ '</div>'
 						+ '<div class="ui-form-item widthdrawBtBox" style="position: absolute; bottom: 10px;">'
-						+ '<input type="button" onclick="subDivid()" class="block-btn" value="确认" ></div>'
+						+ '<input type="button" onclick="subLine()" class="block-btn" value="确认" ></div>'
 						+ '</form>'
 						+'<div id="worm-tips" class="worm-tips" style="width:350px;display:none;"></div>'
 			});
-		var checkin = $('#payDate1').datepicker()
-		.on('click', function (ev) {
-		        $('.datepicker').css("z-index", "999999999");
-		}).data('datepicker');
+}
+function subLine(){
+	var namestr=$("#namestr").val();
+	var level=$("#level").val();
+	var cars=$("#cars").val();
+	if(namestr==""){layer.msg("请填写线路名称");return;}
+	if(level==""){layer.msg("请线路级别");return;}
+	if(cars==""){layer.msg("请填车辆数");return;}
+	$('#addLineform').ajaxForm(function(data) {
+		if(data.left){
+		     layer.msg(data.right);
+		     table.dataTable()._fnAjaxUpdate();
+		       $("#cc").trigger("click");
+		     }else{
+		     layer.msg(data.right);
+		     }
+		}).submit();
+	}
+//弹出添加分期付款的窗口
+function addfenqi(url,seriaNum) {
+	layer.open({
+		type : 1,
+		title : "合同分期",
+		skin : 'layui-layer-rim',
+		area : [ '470px', '400px' ],
+		content : ''
+			+ '<form id="fenqiform" action='+url+'/busselect/saveDivid?seriaNum='+seriaNum+'>'
+			+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
+			+'<div class="ui-form-item"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/> <label class="ui-label mt10">期数：</label>'
+			+'<input class="ui-input " type="text" value="" name="name"  '
+			+'id="namestr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+			+'</div>'
+			+'<div class="ui-form-item"> <label class="ui-label mt10">金额：</label>'
+			+'<input class="ui-input " type="text" value="" name="amounts"  '
+			+'id="amounts" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+			+'</div>'
+			+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">付款日期:</label>'
+			+'<input class="ui-input datepicker validate[required,custom[date],past[#payDate1]]" type="text" name="payDate1" value="" id="payDate1" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
+			+'</div>'
+			+'<div class="ui-form-item"> <label class="ui-label mt10">备注：</label>'
+			+'<textarea rows="4" cols="40"  data-is="isAmount isEnough" style="resize: none;" name="remarks"></textarea>'
+			+'</div>'
+			+ '</div>'
+			+ '<div class="ui-form-item widthdrawBtBox" style="position: absolute; bottom: 10px;">'
+			+ '<input type="button" onclick="subDivid()" class="block-btn" value="确认" ></div>'
+			+ '</form>'
+			+'<div id="worm-tips" class="worm-tips" style="width:350px;display:none;"></div>'
+	});
+	var checkin = $('#payDate1').datepicker()
+	.on('click', function (ev) {
+		$('.datepicker').css("z-index", "999999999");
+	}).data('datepicker');
 }
 //弹出编辑分期付款的窗口
 function editDividPay(tourl,id){

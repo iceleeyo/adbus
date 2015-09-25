@@ -18,6 +18,7 @@ import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaOfflineContract;
 import com.pantuo.dao.pojo.JpaPublishLine;
 import com.pantuo.mybatis.domain.Bodycontract;
+import com.pantuo.mybatis.domain.BusLine;
 import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.domain.BusModel;
 import com.pantuo.mybatis.domain.BusinessCompany;
@@ -182,4 +183,6 @@ public interface BusLineCheckService {
 	public Page<JpaPublishLine> queryAllPublish(int cityId, TableRequest req, int page, int length, Sort sort);
 
 	public List<AutoCompleteView> ContractAutoCompleteByName(int city, String name);
+
+	public Pair<Boolean, String> saveLine(BusLine busLine);
 }

@@ -42,6 +42,7 @@ import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaOfflineContract;
 import com.pantuo.dao.pojo.JpaPublishLine;
 import com.pantuo.mybatis.domain.Bodycontract;
+import com.pantuo.mybatis.domain.BusLine;
 import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.domain.BusinessCompany;
 import com.pantuo.mybatis.domain.Contract;
@@ -445,6 +446,14 @@ public class BusSelectController {
 			HttpServletRequest request, @RequestParam(value = "seriaNum", required = false) long seriaNum) throws ParseException {
 		dividpay.setCity(city);
 		return busLineCheckService.saveDivid(dividpay, seriaNum, Request.getUserId(principal),payDate1);
+	}
+	@RequestMapping(value = "/saveLine")
+	@ResponseBody
+	public Pair<Boolean, String> saveLine(BusLine busLine,
+			@CookieValue(value = "city", defaultValue = "-1") int city, 
+			HttpServletRequest request) throws ParseException {
+		busLine.setCity(city);
+		return busLineCheckService.saveLine(busLine);
 	}
 
 	/**

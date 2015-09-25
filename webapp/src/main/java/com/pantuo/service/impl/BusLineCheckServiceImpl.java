@@ -66,6 +66,7 @@ import com.pantuo.mybatis.domain.Bus;
 import com.pantuo.mybatis.domain.BusContract;
 import com.pantuo.mybatis.domain.BusContractExample;
 import com.pantuo.mybatis.domain.BusExample;
+import com.pantuo.mybatis.domain.BusLine;
 import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.domain.BusLockExample;
 import com.pantuo.mybatis.domain.BusModel;
@@ -124,6 +125,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	PublishLineMapper publishLineMapper;
 	@Autowired
 	DividpayMapper dividpayMapper;
+	@Autowired
+	BusLineMapper busLineMapper;
 	@Autowired
 	BodycontractMapper bodycontractMapper;
 	@Autowired
@@ -1353,5 +1356,19 @@ public Pair<Boolean, String> saveDivid(Dividpay dividpay, long seriaNum, String 
 			}
 		}
 		return r;
+	}
+
+	@Override
+	public Pair<Boolean, String> saveLine(BusLine busLine) {
+		busLine.setCreated(new Date());
+		busLine.setMonth1day(0);
+		busLine.setMonth2day(0);
+		busLine.setMonth3day(0);
+		busLine.setToday(0);
+		busLine.setPersons(0);
+		if (busLineMapper.insert(busLine) > 0) {
+			return new Pair<Boolean, String>(true, "添加线路成功");
+		}
+		return new Pair<Boolean, String>(false, "保存失败");
 	}
 }
