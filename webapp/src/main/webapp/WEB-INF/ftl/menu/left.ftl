@@ -15,7 +15,7 @@
 								<ul class="pg-side-list">
 								<@security.authorize ifAnyGranted="ShibaSuppliesManager,advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 									<li class="pg-side-item">
-										<a class="pg-side-item-t aa-icon" style="color:#fff;background:#ff9966;" href="${rc.contextPath}/order/myTask/1">
+										<a class="pg-side-item-t aa-icon" style="color:#fff;background:#F45C55;" href="${rc.contextPath}/order/myTask/1">
 											<i class="s-left pg-icon-a a-icon" style="background:url(${rc.contextPath}/imgs/sidebar-icons.png) no-repeat -20px 0;"></i>
 											待办事项
 										</a>
@@ -24,7 +24,7 @@
 								 </@security.authorize>	
 								<@security.authorize ifAnyGranted="bodysales,bodyFinancialManager,bodyContractManager,bodyScheduleManager">
 									<li class="pg-side-item">
-										<a class="pg-side-item-t aa-icon" style="color:#fff;background:#ff9966;" href="${rc.contextPath}/busselect/myTask/1">
+										<a class="pg-side-item-t aa-icon" style="color:#fff;background:#F45C55;" href="${rc.contextPath}/busselect/myTask/1">
 											<i class="s-left pg-icon-a a-icon" style="background:url(${rc.contextPath}/imgs/sidebar-icons.png) no-repeat -20px 0;"></i>
 											待办事项
 										</a>
@@ -65,7 +65,7 @@
 									 -->
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t"  href="${rc.contextPath}/contract/list">
-													合同管理
+													屏幕广告合同列表
 												</a>
 											</li>
 											<#if city.mediaType == 'body'>
@@ -251,7 +251,7 @@
 											  <@security.authorize ifAnyGranted="bodyContractManager,contract_list"> 
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/busselect/offContract_list">
-												    合同列表
+												    车身合同列表
 												</a>
 											</li>
 											</@security.authorize>

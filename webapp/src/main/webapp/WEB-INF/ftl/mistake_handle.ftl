@@ -265,7 +265,7 @@ var table2;
                     </thead>
                 </table>
 </div>
-<div class="withdraw-wrap color-white-bg fn-clear">
+<div class="withdraw-wrap color-white-bg fn-clear" style="margin-top: 10px;">
             <div class="withdraw-title">
                 订单列表  	
 									</div>

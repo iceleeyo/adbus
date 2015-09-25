@@ -173,7 +173,7 @@ function showBusDetail(pathUrl,tourl,id){
 				type: 1,
 				title: "车辆信息修改",
 				skin: 'layui-layer-rim', 
-				area: ['450px', '750px'], 
+				area: ['450px', '650px'], 
 				content: ''
 				+ '<form id="publishform01" action='+pathUrl+'/bus/saveBus>'
 				+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;"><input type="hidden" name="id" value="'+data.id+'"/>'
@@ -207,7 +207,7 @@ function showBusDetail(pathUrl,tourl,id){
 				+'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">客户:</span> </label>'
 				+'<input class="ui-input-d"  value="'+data.branch+'" id="branch" name="branch" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 				+'<div class="ui-form-item"> <label class="ui-label mt10" style="width: 145px;">车辆情况:</label><textarea rows="4" name="description" cols="30"  style="resize: none;margin-left: -20px;" >'+data.description+'</textarea> </div></div>'
-				+ '<div class="ui-form-item widthdrawBtBox" style="position: absolute; bottom: 10px;">'
+				+ '<div class="ui-form-item widthdrawBtBox" style="margin-left:40px;">'
 				+ '<input type="button" onclick="saveBus()" class="block-btn" value="确认" ></div></div>'
 				+ '<input type="hidden" value="'+data.line.id+'" name="lineId" id="db_id"></form>'
 			});

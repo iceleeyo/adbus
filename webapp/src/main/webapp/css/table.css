@@ -55,6 +55,11 @@ div#table_length {
 	padding: 15px 0 10px;
 }
 
+div#table2_length {
+	float: right;
+	padding: 15px 0 10px;
+}
+
 table.dataTable td,table.dataTable th {
 	text-align: left;
 }

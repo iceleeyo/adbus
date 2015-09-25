@@ -1,7 +1,7 @@
 <#import "template/template.ftl" as frame>
-<#global menu="合同管理">
+<#global menu="屏幕广告合同列表">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="合同管理" js=["js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js"]>
+<@frame.html title="屏幕广告合同列表" js=["js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js"]>
 
 
 <script type="text/javascript">
@@ -165,7 +165,7 @@ $('#test').on('click', function(){
 									合同列表
 									</div> -->
 			<div class="withdraw-title">
-					<span>合同列表</span>
+					<span>屏幕广告合同列表</span>
 					<@security.authorize ifAnyGranted="ShibaOrderManager,bodyContractManager">
 					<a class="block-btn" href="${rc.contextPath}/contract/contractEnter">添加合同</a>
 					</@security.authorize>
