@@ -235,4 +235,7 @@ public interface BusSelectMapper {
 	public Integer countAllbusByContract(BusExample example);
 
 
+	
+	public Integer getGroupUserCount(String groupId);
+	public void deleteGroupMEMBERSHIP(String groupId);
 }

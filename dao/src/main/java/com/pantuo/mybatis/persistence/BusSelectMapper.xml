@@ -330,7 +330,18 @@
 	</select>
 	
 	
-	
+		
+	<!-- 用户组修改 与删除 -->
+	<select id="getGroupUserCount" resultType="java.lang.Integer">
+		select
+		count(1) from ACT_ID_MEMBERSHIP
+			where GROUP_ID_ = #{groupId}
+	</select>
+	 <delete id="deleteGroupMEMBERSHIP" parameterType="java.lang.String">
+     
+    delete from ACT_ID_MEMBERSHIP
+    where GROUP_ID_ = #{groupId}
+  </delete>
 	
 	
 	<!-- 按线路统计车辆个数 -->
