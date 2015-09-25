@@ -62,7 +62,7 @@ islogin(pathurl);
   margin-top: 15px;
 }
 .container-12{
-	width: 1065px;
+	width: 1150px;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -151,11 +151,11 @@ function bu(txtObj) {
 							</div>
 </form>
 <div class="bidPath">
-								<div class="lc">
+								<div class="lc" style="margin-left: 50px;">
 									<span>购&nbsp;&nbsp;&nbsp;买</span><br>
 									<span>流&nbsp;&nbsp;&nbsp;程</span>
 								</div>
-								<div class="flow" style="overflow: hidden; width: 700px;">
+								<div class="flow" style="overflow: hidden; width: 700px;padding-left: 20px;">
 									<div class="lc-flow" style="width: 800px;">
 										<ul>
 											<li class="item01 ui-accordion-item" style="width: 120px; overflow: hidden;">
@@ -279,7 +279,7 @@ function bu(txtObj) {
 </div>
 							</div>
 						</div>
-						<div class="ls-3" style="float:right;position:absolute;left:810px;top:0px;background: #fff;">
+						<div class="ls-3" style="float:right;position:absolute;left:900px;top:0px;background: #fff;">
 							<div class="record-sidebar">
 								<div class="record-title">
 									<label>购买记录（共<label>${logCount!''}</label>次购买）</label>

@@ -97,6 +97,9 @@ css=["js/jquery-ui/jquery-ui.css"]>
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
+            <div class="withdraw-title">
+               车辆变更查询
+									</div>
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>
                     <tr>

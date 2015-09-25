@@ -131,7 +131,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 									</div>
                 <table id="table" class="display compact" cellspacing="0" width="100%">
                     <thead>
-                    <tr>
+                    <tr style="height: 40px;">
                         <th orderBy="name">线路名</th>
                         <th orderBy="level">线路级别</th>
     <@security.authorize ifAnyGranted="BodyOrderManager">

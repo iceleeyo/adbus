@@ -63,7 +63,7 @@ $.ajax({
   margin-top: 15px;
 }
 .container-12{
-	width: 1065px;
+	width: 1150px;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -180,11 +180,11 @@ $.ajax({
 								</div>
 							</div>
 							<div class="bidPath">
-								<div class="lc">
+								<div class="lc" style="margin-left: 50px;">
 									<span>竞&nbsp;&nbsp;拍</span><br>
 									<span>流&nbsp;&nbsp;程</span>
 								</div>
-								<div class="flow" style="overflow: hidden; width: 650px;">
+								<div class="flow" style="overflow: hidden; width: 650px;padding-left: 20px;">
 									<div class="lc-flow" style="width: 650px;">
 										<ul>
 											<li class="item01 ui-accordion-item" style="width: 100px; overflow: hidden;">
@@ -309,7 +309,7 @@ $.ajax({
 </div>
 							</div>
 		</div>
-						<div class="ls-3" style="float:right;position:absolute;left:810px;top:0px;background: #fff;">
+						<div class="ls-3" style="float:right;position:absolute;left:900px;top:0px;background: #fff;">
 							<div class="record-sidebar">
 								<div class="record-title">
 									<label>出价记录（共<label>${jpaCpd.setcount}</label>次出价）</label>
