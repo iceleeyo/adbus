@@ -177,8 +177,11 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 	}
 
 	@Override
-	public Pair<Boolean, String> saveRole(String ids, String rolename, String funcode, String fundesc,
+	public Pair<Boolean, String> saveRole(String groupid,String ids, String rolename, String funcode, String fundesc,
 			Principal principal, int city) {
+		if(StringUtils.isNotBlank(groupid)){
+			deleteFunsByGroupid(groupid);
+		}
 		if (actIdGroupMapper.selectByPrimaryKey(funcode) != null) {
 			return new Pair<Boolean, String>(false, "角色简码已经存在,添加失败");
 		}
@@ -200,30 +203,8 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 		}
 		return new Pair<Boolean, String>(false, "操作失败");
 	}
-	@Override
-	public Pair<Boolean, String> editRole(String groupid,String ids, String rolename, String funcode, String fundesc,
-			Principal principal, int city) {
-		if(StringUtils.isNotBlank(groupid)){
-			deleteFunsByGroupid(groupid);
-			ActIdGroup gActIdGroup=actIdGroupMapper.selectByPrimaryKey(groupid);
-			gActIdGroup.setId(String.format(BODY_TAG, city) + "_" + funcode);
-			gActIdGroup.setName(rolename);
-			actIdGroupMapper.updateByPrimaryKey(gActIdGroup);
-			String idsa[] = ids.split(",");
-			for (int i = 0; i < idsa.length; i++) {
-				GroupFunction groupFunction = new GroupFunction();
-				groupFunction.setFunId(NumberUtils.toInt(idsa[i]));
-				groupFunction.setCity(city);
-				groupFunction.setCreated(new Date());
-				groupFunction.setGroupId(gActIdGroup.getId());
-				groupFunctionMapper.insert(groupFunction);
-			}
-			return new Pair<Boolean, String>(true, "修改成功");
-		}
-		return new Pair<Boolean, String>(false, "操作失败");
-		
-	}
 	private void deleteFunsByGroupid(String groupid) {
+		actIdGroupMapper.deleteByPrimaryKey(groupid);
 		GroupFunctionExample example=new GroupFunctionExample();
 		example.createCriteria().andGroupIdEqualTo(groupid);
 		groupFunctionMapper.deleteByExample(example);
