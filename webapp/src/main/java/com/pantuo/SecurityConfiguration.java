@@ -180,10 +180,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		protected String determineTargetUrl(Authentication authentication) {
 			boolean isBody = false;
-			boolean isBodysales = false;
+			boolean isBodysales = false, isUserAdmin = false;
+
 			Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 			for (GrantedAuthority grantedAuthority : authorities) {
-				
+
 				//如果是车身销售员 到我的订单 没有待办事项
 				if (StringUtils.startsWith(grantedAuthority.getAuthority(), "bodysales")) {
 					isBodysales = true;
@@ -191,12 +192,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				} else if (StringUtils.startsWith(grantedAuthority.getAuthority(), "body")) {
 					isBody = true;
 					break;
+				} else if (StringUtils.startsWith(grantedAuthority.getAuthority(), "UserManager")) {
+					isUserAdmin = true;
+					break;
 				}
 			}
 			if (isBodysales) {
 				return "/busselect/myOrders/1";
 			} else if (isBody) {
 				return "/busselect/myTask/1";
+			} else if (isUserAdmin) {
+				return "user/list";
 			} else {
 				return "/order/myTask/1";
 				//throw new IllegalStateException();
