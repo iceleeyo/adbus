@@ -21,10 +21,10 @@
                 { "data": "actIdGroup.id", "defaultContent": ""},
                 { "data": "functions", "defaultContent": ""},
                 { "data": function( row, type, set, meta) {
-                    return row.username;
+                    return row.actIdGroup.id;
                 },
                     "render": function(data, type, row, meta) {
-                        return '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/user/ustats/' + data + '/unauthentication">修改</a> ';
+                        return '<a  href="${rc.contextPath}/user/to_editRole/' + data + '" >修改</a> ';
                         ;
                     }},
             ],

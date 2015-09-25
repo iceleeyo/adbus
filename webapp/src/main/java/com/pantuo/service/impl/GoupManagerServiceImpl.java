@@ -21,6 +21,7 @@ import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.ActIdGroup;
 import com.pantuo.mybatis.domain.ActIdGroupExample;
 import com.pantuo.mybatis.domain.BusFunction;
+import com.pantuo.mybatis.domain.BusFunctionExample;
 import com.pantuo.mybatis.domain.GroupFunction;
 import com.pantuo.mybatis.domain.GroupFunctionExample;
 import com.pantuo.mybatis.persistence.ActIdGroupMapper;
@@ -199,6 +200,34 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 		}
 		return new Pair<Boolean, String>(false, "操作失败");
 	}
+	@Override
+	public Pair<Boolean, String> editRole(String groupid,String ids, String rolename, String funcode, String fundesc,
+			Principal principal, int city) {
+		if(StringUtils.isNotBlank(groupid)){
+			deleteFunsByGroupid(groupid);
+			ActIdGroup gActIdGroup=actIdGroupMapper.selectByPrimaryKey(groupid);
+			gActIdGroup.setId(String.format(BODY_TAG, city) + "_" + funcode);
+			gActIdGroup.setName(rolename);
+			actIdGroupMapper.updateByPrimaryKey(gActIdGroup);
+			String idsa[] = ids.split(",");
+			for (int i = 0; i < idsa.length; i++) {
+				GroupFunction groupFunction = new GroupFunction();
+				groupFunction.setFunId(NumberUtils.toInt(idsa[i]));
+				groupFunction.setCity(city);
+				groupFunction.setCreated(new Date());
+				groupFunction.setGroupId(gActIdGroup.getId());
+				groupFunctionMapper.insert(groupFunction);
+			}
+			return new Pair<Boolean, String>(true, "修改成功");
+		}
+		return new Pair<Boolean, String>(false, "操作失败");
+		
+	}
+	private void deleteFunsByGroupid(String groupid) {
+		GroupFunctionExample example=new GroupFunctionExample();
+		example.createCriteria().andGroupIdEqualTo(groupid);
+		groupFunctionMapper.deleteByExample(example);
+	}
 
 	@Override
 	public List<RoleView> findAllBodyRoles(int cityId) {
@@ -230,6 +259,22 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 			}
 		}
 		return fuString;
+	}
+	@Override
+	public List<Integer> findFuncIdsByGroupId(String id) {
+		List<Integer> idsList=new ArrayList<Integer>();
+		List<String> gidlist = new ArrayList<String>();
+		gidlist.add(id);
+		List<BusFunction> list = userAutoCompleteMapper.selectFunidsByPid(gidlist);
+		for (BusFunction busFunction : list) {
+			idsList.add(busFunction.getId());
+		}
+		return idsList;
+	}
+
+	@Override
+	public ActIdGroup getActIdGroupByID(String groupid) {
+		return actIdGroupMapper.selectByPrimaryKey(groupid);
 	}
 
 }

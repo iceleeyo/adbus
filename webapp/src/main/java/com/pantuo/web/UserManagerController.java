@@ -18,6 +18,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ import com.pantuo.dao.pojo.JpaFunction;
 import com.pantuo.dao.pojo.JpaInvoice;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.mybatis.domain.ActIdGroup;
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.BusFunction;
 import com.pantuo.mybatis.domain.Orders;
@@ -405,6 +407,15 @@ public class UserManagerController {
 		model.addAttribute("functions", functions);
 		return "u/addRole";
 	}
+	@RequestMapping(value = "/to_editRole/{groupid}")
+	public String to_editRole(Model model,@PathVariable("groupid") String groupid) {
+		List<JpaFunction> functions= goupManagerService.getAllFunction();
+		ActIdGroup actIdGroup=goupManagerService.getActIdGroupByID(groupid);
+		model.addAttribute("functions", functions);
+		model.addAttribute("funcIDList", goupManagerService.findFuncIdsByGroupId(groupid));
+		model.addAttribute("actIdGroup", actIdGroup);
+		return "u/editRole";
+	}
 	@RequestMapping(value = "/role_list")
 	public String roleList(Model model) {
 		return "u/role_list";
@@ -419,6 +430,18 @@ public class UserManagerController {
 			@RequestParam(value = "ids", required = true) String ids
 			) throws ParseException{
 		return goupManagerService.saveRole(ids,rolename,funcode,fundesc,principal,city);
+	}
+	@RequestMapping(value = "/editRole/{groupid}")
+	@ResponseBody
+	public Pair<Boolean, String> editRole(
+			@PathVariable("groupid") String groupid,
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
+			@RequestParam(value = "rolename", required = false) String rolename,
+			@RequestParam(value = "funcode", required = false) String funcode,
+			@RequestParam(value = "fundesc", required = false) String fundesc,
+			@RequestParam(value = "ids", required = true) String ids
+			) throws ParseException{
+		return goupManagerService.editRole(groupid,ids,rolename,funcode,fundesc,principal,city);
 	}
 	@RequestMapping("ajax-roleList")
 	@ResponseBody

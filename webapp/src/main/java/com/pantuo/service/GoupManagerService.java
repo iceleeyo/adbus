@@ -107,8 +107,13 @@ public interface GoupManagerService {
 
 	public Pair<Boolean, String> saveRole(String ids, String rolename, String funcode, String fundesc,
 			Principal principal, int city);
+	public Pair<Boolean, String> editRole(String groupid,String ids, String rolename, String funcode, String fundesc,
+			Principal principal, int city);
 
 
 	public List<RoleView> findAllBodyRoles(int cityId);
 
+
+	public ActIdGroup getActIdGroupByID(String groupid);
+	public List<Integer> findFuncIdsByGroupId(String id);
 }
