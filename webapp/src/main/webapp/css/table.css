@@ -50,6 +50,17 @@ div#toolbar input {
 	border-radius: 2px;
 	border: 1px solid #C5C5C5;
 }
+
+div#toolbar2 {
+	float: left;
+	margin: 5px;
+	padding: 10px 0 10px 0;
+}
+div#toolbar2 input {
+	height: 30px;
+	border-radius: 2px;
+	border: 1px solid #C5C5C5;
+}
 div#table_length {
 	float: right;
 	padding: 15px 0 10px;

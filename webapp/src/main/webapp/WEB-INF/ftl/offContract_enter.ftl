@@ -5,7 +5,9 @@ js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
 "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
 "js/jquery.datepicker.region.cn.js","js/progressbar.js"]
 css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
-
+<style type="text/css">
+    .tableTr{width: 100%;height: 40px; }
+</style>
 <script type="text/javascript">
 	function gotoSchedult(id,modelId){
 	  window.open("${rc.contextPath}/busselect/lineschedule/"+id+"?modelId="+modelId);
@@ -506,7 +508,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				</div>
 			   <div id="orderedBuses">
 				<table id="table" class="display compact"
-					cellspacing="0" width="100%">
+					cellspacing="0">
 					<thead>
 				<tr class="tableTr">
 					<th>发布形式</th>

@@ -10,7 +10,6 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
     .center {margin: auto;}
     .frame {width: 1000px;}
     .div {text-align:center; margin:25px;}
-    div#toolbar {float: left;}
     .processed {color: limegreen;}
     .invalid {color: red;}
     .hl {background-color: #ffff00;}
@@ -185,6 +184,19 @@ var table2;
                         '</div>'
         );
 
+        $("div#toolbar2").html(
+        '<div>'+
+        '    <span>线路</span>' +
+        '    <span>' +
+        '        <input value="" id="linename">' +
+        '    </span>&nbsp;&nbsp;' +
+        '    <span>合同编号：</span>' +
+        '    <span>' +
+        '        <input value="" id="contractid">' +
+        '    </span>&nbsp;&nbsp;' +
+        '</div>'
+        
+        );
         $('#name,#category,#levelStr,#linename,#company').change(function() {
             table.fnDraw();
              table2.fnDraw();
@@ -233,8 +245,7 @@ var table2;
 <div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title">
                订单及车辆查询
-                              &nbsp; &nbsp; &nbsp; &nbsp; 线路：<input class="ui-input" value="" id="linename" data-is="isAmount isEnough">
-                              &nbsp; &nbsp; &nbsp; &nbsp; 合同编号：<input class="ui-input" value="" id="contractid" data-is="isAmount isEnough">
+
 	     	</div>
 	     	<input type="hidden" id="cid" />
 	     	
