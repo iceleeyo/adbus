@@ -10,6 +10,8 @@
             "searching": false,
             "ordering": true,
             "serverSide": true,
+               "iDisplayLength" : 50,
+            "aLengthMenu": [[20, 50, 100], [20, 50, 100]],
             "columnDefs": [
                 {
                     "sClass": "align-left", "targets": [0,1] ,
