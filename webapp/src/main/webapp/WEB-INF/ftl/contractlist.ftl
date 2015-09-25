@@ -119,9 +119,9 @@ function delContract(conid){
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>合同号</span>' +
+                        '    <span>合同号：</span>' +
                         '        <input id="contractCode" value="">' +
-                        '    <span>合同名称</span>' +
+                        '    <span>合同名称：</span>' +
                         '        <input id="contractName" value="">' +
                         '</div>'
         );

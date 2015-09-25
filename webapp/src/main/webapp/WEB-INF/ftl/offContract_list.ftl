@@ -73,7 +73,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>合同编号</span>' +
+                        '    <span>合同编号：</span>' +
                         '    <span>' +
                         '        <input id="contractCode" value="">' +
                         '    </span>&nbsp;&nbsp;' +

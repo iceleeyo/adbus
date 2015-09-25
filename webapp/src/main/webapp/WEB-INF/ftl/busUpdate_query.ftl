@@ -71,11 +71,11 @@ css=["js/jquery-ui/jquery-ui.css"]>
 
     function initComplete() {
         $("div#toolbar").html( '<div>' +
-                        '    <span>车辆自编号</span>' +
+                        '    <span>车辆自编号：</span>' +
                         '    <span>' +
                         '        <input id="serinum" value="">' +
                         '    </span>&nbsp;&nbsp;' +
-                        '    <span>车牌号</span>' +
+                        '    <span>车牌号：</span>' +
                         '    <span>' +
                         '        <input id="pname" value="">' +
                         '    </span>&nbsp;&nbsp;' + '</div>');

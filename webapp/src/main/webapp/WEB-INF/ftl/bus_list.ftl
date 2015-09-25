@@ -95,11 +95,11 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>车牌号</span>' +
+                        '    <span>车牌号：</span>' +
                         '    <span>' +
                         '        <input id="name" value="">' +
                         '    </span>&nbsp;&nbsp;' +
-                        '    <span>线路</span>' +
+                        '    <span>线路：</span>' +
                         '    <span>' +
                         '        <input id="linename" value="">' +
                         '    </span>&nbsp;&nbsp;' +

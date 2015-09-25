@@ -163,12 +163,12 @@ function delSupp(Suppid){
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>物料名称</span>' +
+                        '    <span>物料名称：</span>' +
                         '    <span>' +
                         '        <input id="name" value="">' +
                         '    </span>' + 
                  		'    <span>行业</span>' +
-                        '<select  class="ui-input ui-input-mini" id="industry" name="industry" > '+
+                        '&nbsp;&nbsp;<select  class="ui-input ui-input-mini" id="industry" name="industry" > '+
 					    '<option value="0" selected="selected">所有行业</option>'  +
 					     <#list industries as industry>
 					    '<option value="${industry.id}">${industry.name}</option>'+

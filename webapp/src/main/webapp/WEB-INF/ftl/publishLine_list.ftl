@@ -98,19 +98,19 @@ css=["js/jquery-ui/jquery-ui.css","js/jquery-ui/jquery-ui.auto.complete.css","cs
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>合同编号</span>' +
+                        '    <span>合同编号：</span>' +
                         '    <span>' +
                         '        <input id="contractCode" value="">' +
                         '    </span>&nbsp;&nbsp;' +
-                         '    <span>线路</span>' +
+                         '    <span>线路：</span>' +
                         '    <span>' +
                         '        <input id="linename" value="">' +
                         '    </span>&nbsp;&nbsp;' +
-                         '    <span>车型</span>' +
+                         '    <span>车型：</span>' +
                         '    <span>' +
                         '        <input id="model" value="">' +
                         '    </span>&nbsp;&nbsp;' +
-                         '    <span>营销中心</span>&nbsp;&nbsp;' +
+                         '    <br><br><span>营销中心</span>&nbsp;&nbsp;' +
                        '<select class="ui-input ui-input-mini"  id="company">' +
                     '<option value="defaultAll" selected="selected">所有</option>' +
                   	                           '<option value="自营">自营</option>'+

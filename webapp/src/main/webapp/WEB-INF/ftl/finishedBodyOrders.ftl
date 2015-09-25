@@ -66,7 +66,7 @@
      function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>公司名称</span>' +
+                        '    <span>公司名称：</span>' +
                         '    <span>' +
                         '        <input id="companyname" value="">' +
                         '    </span>' +
@@ -83,7 +83,7 @@
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>订单号</span>' +
+                        '    <span>订单号：</span>' +
                         '    <span>' +
                         '        <input id="longOrderId" value="">' +
                         '    </span>' +

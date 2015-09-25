@@ -92,7 +92,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>时段名称</span>' +
+                        '    <span>时段名称：</span>' +
                         '    <span>' +
                         '        <input id="name" value="">' +
                         '    </span>' +'    <span>[备注：黄色代表占用时段，绿色代表剩余时段。]</span>' +

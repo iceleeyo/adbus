@@ -172,18 +172,18 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>附近线路</span>' +
+                        '    <span>附近线路：</span>' +
                         '    <span>' +
                         '        <input id="location" value="" style="width:300px">' +
-                        '<a href="javascript:;" onclick="checkLocation('+ "\'${rc.contextPath}/api/simple\'" +');">位置确认</a>&nbsp;'+
+                        '&nbsp;&nbsp;<a href="javascript:;" onclick="checkLocation('+ "\'${rc.contextPath}/api/simple\'" +');">位置确认</a>&nbsp;'+
                           '  <a href="javascript:;" onclick="searchLine();">查附近线路</a>&nbsp;'+
-                          '    <span>线路</span>    <input id="siteName" value=""> ' +
+                          '    <span>线路：</span>    <input id="siteName" value=""> ' +
                         '    &nbsp;&nbsp;' +
                                '  <a href="javascript:;" onclick="searchSite();">线路相似匹配</a>&nbsp;'+
-                          ' <br> <br>   <span>线路</span>' +
+                          ' <br> <br>   <span>线路：</span>' +
                         '    <span>' +
                         '        <input id="name" value="" ' +
-                        '    <span>线路级别</span>&nbsp;&nbsp;' +
+                        '    <span>&nbsp;&nbsp;线路级别</span>&nbsp;&nbsp;' +
                         '<select class="ui-input ui-input-mini" name="levelStr" id="levelStr">' +
                    		'<option value="defaultAll" selected="selected">所有</option>' +
                   		'<option value="S">特级</option>' +

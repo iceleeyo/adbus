@@ -78,11 +78,11 @@
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>车型</span>' +
+                        '    <span>车型：</span>' +
                         '    <span>' +
                         '        <input id="name" value="">' +
                         '    </span>' +
-                        '    <span>生产商</span>' +
+                        '    <span>生产商：</span>' +
                         '    <span>' +
                         '        <input id="manufacturer" value="">' +
                         '    </span>' +

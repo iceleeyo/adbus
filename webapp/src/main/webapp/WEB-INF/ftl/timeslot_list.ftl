@@ -74,7 +74,7 @@
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>时段名称</span>' +
+                        '    <span>时段名称：</span>' +
                         '    <span>' +
                         '        <input id="name" value="">' +
                         '    </span>' +

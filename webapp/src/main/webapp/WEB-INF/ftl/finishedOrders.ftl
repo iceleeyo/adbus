@@ -92,11 +92,11 @@
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>订单号</span>' +
+                        '    <span>订单号：</span>' +
                         '    <span>' +
                         '        <input id="longOrderId" value="">' +
                         '    </span>' + 
-                         '    <span>广告主</span>' +
+                         '    <span>广告主：</span>' +
                         '    <span>' +
                         '        <input id="autocomplete" value="">' +
                         '    </span>' +

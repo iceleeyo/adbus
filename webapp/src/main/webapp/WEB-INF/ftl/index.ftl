@@ -50,7 +50,7 @@
 	<div class="pg-header">
 		<div class="pg-header-top"> 
 					<div class="container-index s-clear">
-						<div class="grid-12 city-dropdown">
+						<div class="grid-12 city-dropdown" style="width: 1150px;">
                             <ul class="fl">
 <#--<@security.authorize access="isAuthenticated()">-->
                                 <li class="dorpdown" id="ttbar-mycity">

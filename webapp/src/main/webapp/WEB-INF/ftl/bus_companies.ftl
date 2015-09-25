@@ -74,11 +74,11 @@
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>线路名</span>' +
+                        '    <span>线路名：</span>' +
                         '    <span>' +
                         '        <input id="name" value="">' +
                         '    </span>' +
-                        '    <span>联系人</span>' +
+                        '    <span>联系人：</span>' +
                         '    <span>' +
                         '        <input id="contact" value="">' +
                         '    </span>' +

@@ -161,7 +161,15 @@ var table2;
     function initComplete() {
         $("div#toolbar").html(
                  '<div>' +
-                        '    <span>车牌号</span>' +
+	                 '    <span>合同编号：</span>' +
+	                 '    <span>' +
+	                 '        <input id="contractid" value="">' +
+	                 '    </span>&nbsp;&nbsp;' +
+	                 '&nbsp;&nbsp;<span>线路：</span>'+
+	                 '<span><input value="" id="linename" data-is="isAmount isEnough">'+
+	                 '</span>&nbsp;&nbsp;'+
+	                 
+                        '   <br><br> <span>车牌号：</span>' +
                         '    <span>' +
                         '        <input id="name" value="">' +
                         '    </span>&nbsp;&nbsp;' +
@@ -191,11 +199,39 @@ var table2;
          			'</select>' +
                         '</div>'
         );
-
+		
+        
         $('#name,#category,#levelStr,#linename,#company').change(function() {
             table.fnDraw();
              table2.fnDraw();
         });
+        $("#linename").autocomplete({
+    		minLength: 0,
+    			source : "${rc.contextPath}/busselect/autoComplete?tag=a",
+    			change : function(event, ui) {
+    			},
+    			select : function(event, ui) {
+    				$('#linename').val(ui.item.value);
+    				table.fnDraw();
+    				table2.fnDraw();
+    			}
+    		}).focus(function () {
+           				 $(this).autocomplete("search");
+       	 	});
+       	 	
+       	 	 $("#contractid").autocomplete({
+    		    minLength: 0,
+    			source : "${rc.contextPath}/busselect/contractAutoComplete?tag=a",
+    			change : function(event, ui) {
+    			},
+    			select : function(event, ui) {
+    			$('#cid').val(ui.item.dbId);
+    				table.fnDraw();
+    				table2.fnDraw();
+    			}
+    		}).focus(function () {
+           				 $(this).autocomplete("search");
+       	 	});
     }
 		
     function drawCallback() {
@@ -208,40 +244,13 @@ var table2;
     $(document).ready(function() {
         initTable();
         initTable2();
-    $("#linename").autocomplete({
-		minLength: 0,
-			source : "${rc.contextPath}/busselect/autoComplete?tag=a",
-			change : function(event, ui) {
-			},
-			select : function(event, ui) {
-				$('#linename').val(ui.item.value);
-				table.fnDraw();
-				table2.fnDraw();
-			}
-		}).focus(function () {
-       				 $(this).autocomplete("search");
-   	 	});
-   	 	
-   	 	 $("#contractid").autocomplete({
-		    minLength: 0,
-			source : "${rc.contextPath}/busselect/contractAutoComplete?tag=a",
-			change : function(event, ui) {
-			},
-			select : function(event, ui) {
-			$('#cid').val(ui.item.dbId);
-				table.fnDraw();
-				table2.fnDraw();
-			}
-		}).focus(function () {
-       				 $(this).autocomplete("search");
-   	 	});
+    
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title">
                 车辆上下刊处理
-                              &nbsp; &nbsp; &nbsp; &nbsp; 线路：<input class="ui-input" value="" id="linename" data-is="isAmount isEnough">
-                              &nbsp; &nbsp; &nbsp; &nbsp; 合同编号：<input class="ui-input" value="" id="contractid" data-is="isAmount isEnough">
+
 	     	</div>
 	     	<input type="hidden" id="cid" />
                 <table id="table" class="display nowrap" cellspacing="0">

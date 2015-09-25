@@ -153,7 +153,7 @@ var table2;
     function initComplete() {
         $("div#toolbar").html(
                  '<div>' +
-                        '    <span>车牌号</span>' +
+                        '    <span>车牌号：</span>' +
                         '    <span>' +
                         '        <input id="name" value="">' +
                         '    </span>&nbsp;&nbsp;' +
@@ -186,7 +186,7 @@ var table2;
 
         $("div#toolbar2").html(
         '<div>'+
-        '    <span>线路</span>' +
+        '    <span>线路：</span>' +
         '    <span>' +
         '        <input value="" id="linename">' +
         '    </span>&nbsp;&nbsp;' +
@@ -201,33 +201,21 @@ var table2;
             table.fnDraw();
              table2.fnDraw();
         });
-    }
-		
-    function drawCallback() {
-        $('.table-action').click(function() {
-            $.post($(this).attr("url"), function() {
-                table.fnDraw(true);
-            })
-        });
-    }
-    $(document).ready(function() {
-        initTable();
-        initTable2();
-    $("#linename").autocomplete({
-		minLength: 0,
-			source : "${rc.contextPath}/busselect/autoComplete?tag=a",
-			change : function(event, ui) {
-			},
-			select : function(event, ui) {
-				$('#linename').val(ui.item.value);
-				table.fnDraw();
-				table2.fnDraw();
-			}
-		}).focus(function () {
-       				 $(this).autocomplete("search");
-   	 	});
-   	 	
-   	 	 $("#contractid").autocomplete({
+        $("#linename").autocomplete({
+    		minLength: 0,
+    			source : "${rc.contextPath}/busselect/autoComplete?tag=a",
+    			change : function(event, ui) {
+    			},
+    			select : function(event, ui) {
+    				$('#linename').val(ui.item.value);
+    				table.fnDraw();
+    				table2.fnDraw();
+    			}
+    		}).focus(function () {
+           				 $(this).autocomplete("search");
+       	 	});
+        
+        $("#contractid").autocomplete({
 		    minLength: 0,
 			source : "${rc.contextPath}/busselect/contractAutoComplete?tag=a",
 			change : function(event, ui) {
@@ -240,6 +228,22 @@ var table2;
 		}).focus(function () {
        				 $(this).autocomplete("search");
    	 	});
+    }
+		
+    function drawCallback() {
+        $('.table-action').click(function() {
+            $.post($(this).attr("url"), function() {
+                table.fnDraw(true);
+            })
+            
+        });
+    }
+    $(document).ready(function() {
+        initTable();
+        initTable2();
+
+   	 	
+   	 	 
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
