@@ -96,10 +96,18 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
     function initComplete() {
         $("div#toolbar").html(
                  '<div>' +
-                        '    <span>合同编号</span>' +
+                        '    <span>合同编号:</span>' +
                         '    <span>' +
                         '        <input id="contractCode" value="">' +
                         '    </span>&nbsp;&nbsp;' +
+                        '<br> <span>线路：</span>'+
+                        '<span><input class="ui-input" value="" id="linename" data-is="isAmount isEnough">'+
+                        '</span>&nbsp;&nbsp;'+
+                        '<span>下刊日期：</span>'+
+                        '<span>'+
+                        '		<input  class="ui-input ui-input-mini datepicker" type="text" name="offday" id="offday" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'+ 
+                        '</span>&nbsp;&nbsp;'+  
+                        '<input type="button" class="button_kind" style="width: 85px;height: 30px;" value="批量下刊" onclick="batchOff()"/>'+
                         '</div>'
         );
 
@@ -172,12 +180,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title">
-                车辆下刊&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 线路：<input class="ui-input" value="" id="linename" data-is="isAmount isEnough">
-                    &nbsp; &nbsp;  下刊日期：<input  class="ui-input ui-input-mini datepicker" type="text" name="offday"
-                            id="offday" data-is="isAmount isEnough"
-                            autocomplete="off" disableautocomplete=""> 
-                               &nbsp;&nbsp; <input type="button" class="button_kind" style="width: 85px;height: 30px;"
-			                    value="批量下刊" onclick="batchOff()"/>
+                车辆下刊
 	     	</div>
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>
