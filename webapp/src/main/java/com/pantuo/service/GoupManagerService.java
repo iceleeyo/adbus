@@ -114,6 +114,6 @@ public interface GoupManagerService {
 	public List<RoleView> findAllBodyRoles(int cityId);
 
 
-	public ActIdGroup getActIdGroupByID(String groupid);
+	public ActIdGroup getActIdGroupByID(String groupid,int city);
 	public List<Integer> findFuncIdsByGroupId(String id);
 }

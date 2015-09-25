@@ -9,6 +9,17 @@ public class RoleView {
 	ActIdGroup actIdGroup;
 	String functions;
 	List<BusFunction> funs;
+	String groupId;
+	
+	
+
+	public String getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
+	}
 
 	public ActIdGroup getActIdGroup() {
 		return actIdGroup;

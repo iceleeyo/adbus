@@ -3,7 +3,6 @@ package com.pantuo.web;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
-import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,14 +12,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,17 +25,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.pojo.BaseEntity;
-import com.pantuo.dao.pojo.JpaBusOnline;
-import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaFunction;
 import com.pantuo.dao.pojo.JpaInvoice;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.ActIdGroup;
 import com.pantuo.mybatis.domain.Attachment;
-import com.pantuo.mybatis.domain.BusFunction;
 import com.pantuo.mybatis.domain.Orders;
-import com.pantuo.mybatis.domain.Product;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService.SystemRoles;
@@ -54,6 +46,7 @@ import com.pantuo.service.OrderService;
 import com.pantuo.service.ProductService;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.service.UserServiceInter;
+import com.pantuo.service.impl.GoupManagerServiceImpl;
 import com.pantuo.simulate.MailJob;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.Pair;
@@ -408,9 +401,14 @@ public class UserManagerController {
 		return "u/addRole";
 	}
 	@RequestMapping(value = "/to_editRole/{groupid}")
-	public String to_editRole(Model model,@PathVariable("groupid") String groupid) {
+	public String to_editRole(@CookieValue(value = "city", defaultValue = "-1") int city,Model model,@PathVariable("groupid") String groupid) {
 		List<JpaFunction> functions= goupManagerService.getAllFunction();
-		ActIdGroup actIdGroup=goupManagerService.getActIdGroupByID(groupid);
+		ActIdGroup actIdGroup=goupManagerService.getActIdGroupByID(groupid, city);
+		
+		if(actIdGroup!=null && StringUtils.isNoneBlank(actIdGroup.getId())){
+			String showId=actIdGroup.getId().replace(String.format(GoupManagerServiceImpl.BODY_TAG, city) + "_", StringUtils.EMPTY);;
+			model.addAttribute("showId", showId);
+		}
 		model.addAttribute("functions", functions);
 		model.addAttribute("funcIDList", goupManagerService.findFuncIdsByGroupId(groupid));
 		model.addAttribute("actIdGroup", actIdGroup);

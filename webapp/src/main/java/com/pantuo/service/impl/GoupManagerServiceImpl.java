@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.activiti.engine.IdentityService;
 import org.activiti.engine.identity.Group;
+import org.activiti.engine.identity.User;
+import org.activiti.engine.impl.persistence.entity.UserEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,7 @@ import com.pantuo.mybatis.domain.GroupFunction;
 import com.pantuo.mybatis.domain.GroupFunctionExample;
 import com.pantuo.mybatis.persistence.ActIdGroupMapper;
 import com.pantuo.mybatis.persistence.BusFunctionMapper;
+import com.pantuo.mybatis.persistence.BusSelectMapper;
 import com.pantuo.mybatis.persistence.GroupFunctionMapper;
 import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
 import com.pantuo.service.GoupManagerService;
@@ -34,7 +38,8 @@ import com.pantuo.web.view.RoleView;
 
 @Service
 public class GoupManagerServiceImpl implements GoupManagerService {
-
+	@Autowired
+	private IdentityService identityService;
 	@Autowired
 	ActIdGroupMapper actIdGroupMapper;
 
@@ -49,6 +54,9 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 	GroupFunctionMapper groupFunctionMapper;
 	@Autowired
 	UserAutoCompleteMapper userAutoCompleteMapper;
+	
+	@Autowired
+	BusSelectMapper busSelectMapper;
 	@Autowired
 	BusFunctionMapper busFunctionMapper;
 
@@ -83,14 +91,13 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 	@Override
 	public Pair<Boolean, String> deleteGroup(String groupId) {
 		if (StringUtils.isNotBlank(groupId)) {
-			List<UserDetail> users = userRepo.findAll();
-			for (UserDetail userDetail : users) {
-				if (StringUtils.isNotBlank(userDetail.getGroupIdList()) && userDetail.getGroupIdList().contains(groupId)) {
-					return new Pair<Boolean, String>(false, "该角色已有用户占用,删除失败");
-				}
+			int userNumber = busSelectMapper.getGroupUserCount(groupId);
+			if (userNumber > 0) {
+				return new Pair<Boolean, String>(false, "该角色已有用户占用,删除失败");
 			}
 			if (actIdGroupMapper.deleteByPrimaryKey(groupId) > 0) {
 				deleteFunsByGroupid(groupId);
+				busSelectMapper.deleteGroupMEMBERSHIP(groupId);
 				return new Pair<Boolean, String>(true, "删除成功");
 			} else {
 				return new Pair<Boolean, String>(false, "操作失败");
@@ -227,10 +234,12 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 		example.createCriteria().andIdLike(String.format(BODY_TAG, cityId) + "%");
 		List<ActIdGroup> groups = actIdGroupMapper.selectByExample(example);
 		for (ActIdGroup actIdGroup : groups) {
+		
 			String functions = findFunsByGroupId(actIdGroup.getId());
 			RoleView roleView = new RoleView();
 			roleView.setActIdGroup(actIdGroup);
 			roleView.setFunctions(functions);
+			roleView.setGroupId(actIdGroup.getId().replace(String.format(BODY_TAG, cityId) + "_", StringUtils.EMPTY));
 			views.add(roleView);
 		}
 		return views;
@@ -264,8 +273,9 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 	}
 
 	@Override
-	public ActIdGroup getActIdGroupByID(String groupid) {
-		return actIdGroupMapper.selectByPrimaryKey(groupid);
+	public ActIdGroup getActIdGroupByID(String groupid,int city) {
+		ActIdGroup actIdGroup =	 actIdGroupMapper.selectByPrimaryKey(groupid);
+		return actIdGroup;
 	}
 
 }
