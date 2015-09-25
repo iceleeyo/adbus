@@ -225,7 +225,7 @@
                                     <li class="pg-side-item">
                                         <a class="pg-side-item-t gg-icon">
                                             <i class="s-left pg-icon-a g-icon"></i>
-                                            合同部
+                                            合同
                                         </a>
                                         <ul class="pg-side-exp-list">
                              			<@security.authorize ifAnyGranted="bodyScheduleManager">  
@@ -271,7 +271,7 @@
                                  <li class="pg-side-item">
                                         <a class="pg-side-item-t gg-icon">
                                             <i class="s-left pg-icon-a g-icon"></i>
-                                            媒介部
+                                            媒介
                                         </a>
                                         <ul class="pg-side-exp-list">
                                          <@security.authorize ifAnyGranted="meijie_order">
