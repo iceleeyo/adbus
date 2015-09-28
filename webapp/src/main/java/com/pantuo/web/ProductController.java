@@ -276,5 +276,9 @@ public class ProductController {
     public String sift() {
     	return "sift";
     }
+    @RequestMapping(value = "/sift_bus")
+    public String bus_sift() {
+    	return "sift_bus";
+    }
 
 }

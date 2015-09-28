@@ -158,7 +158,7 @@ public interface BusLineCheckService {
 	 public List<LineBusCpd> getlines(Integer[] ids,Map<Integer,String> map);
 
 	public Pair<Boolean, String> saveOffContract(Offlinecontract offcontract, long seriaNum, String userId,
-			String signDate1)throws ParseException;
+			String signDate1, String otype)throws ParseException;
 
 	public List<JpaPublishLine> getpublishLineBySeriNum(long seriaNum);
 

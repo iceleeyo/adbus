@@ -433,10 +433,11 @@ public class BusSelectController {
 	@ResponseBody
 	public Pair<Boolean, String> saveOffContract(Offlinecontract offcontract,
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
-			@RequestParam(value = "signDate1") String signDate1,
+			@RequestParam(value = "signDate1",  required =false) String signDate1,
+			@RequestParam(value = "otype1",  required =false) String otype1,
 			HttpServletRequest request, @RequestParam(value = "seriaNum", required = true) long seriaNum) throws ParseException {
 		offcontract.setCity(city);
-		return busLineCheckService.saveOffContract(offcontract, seriaNum, Request.getUserId(principal),signDate1);
+		return busLineCheckService.saveOffContract(offcontract, seriaNum, Request.getUserId(principal),signDate1,otype1);
 	}
 	@RequestMapping(value = "/saveDivid")
 	@ResponseBody
@@ -668,6 +669,12 @@ public class BusSelectController {
 		model.addAttribute("seriaNum", Only1ServieUniqLong.getUniqLongNumber());
 		return "offContract_enter";
 	}
+	
+	@RequestMapping("public_order")
+	public String public_order(Model model, Principal principal) {
+		model.addAttribute("seriaNum", Only1ServieUniqLong.getUniqLongNumber());
+		return "public_order";
+	}
 	@RequestMapping(value = "/offcontract_edit/{contract_id}", produces = "text/html;charset=utf-8")
 	public String offcontract_edit(Model model,@PathVariable("contract_id") int contract_id,Principal principal,
 			@CookieValue(value = "city", defaultValue = "-1") int cityId,HttpServletRequest request) {
@@ -847,6 +854,11 @@ public class BusSelectController {
 	@RequestMapping(value = "/offContract_list")
 	public String offContract_list() {
 		return "offContract_list";
+	}
+	
+	@RequestMapping(value = "/publicOrder_list")
+	public String publicOrder_list() {
+		return "publicOrder_list";
 	}
 	@RequestMapping(value = "/publishLine_list")
 	public String publishLine_list() {

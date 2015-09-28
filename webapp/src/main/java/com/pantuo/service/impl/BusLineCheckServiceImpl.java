@@ -53,6 +53,7 @@ import com.pantuo.dao.pojo.JpaBus.Category;
 import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaOfflineContract;
+import com.pantuo.dao.pojo.JpaOfflineContract.OType;
 import com.pantuo.dao.pojo.JpaPublishLine;
 import com.pantuo.dao.pojo.QJapDividPay;
 import com.pantuo.dao.pojo.QJpaBodyContract;
@@ -1120,8 +1121,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 
 	@Override
 	public Pair<Boolean, String> saveOffContract(Offlinecontract offcontract, long seriaNum, String userId,
-			String signDate1) throws ParseException {
-		Date signDate = (Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(signDate1);
+			String signDate1, String otype) throws ParseException {
+	
 		offcontract.setDays(0);
 		offcontract.setTotalNum(0);
 		if (null != offcontract.getId() && offcontract.getId() > 0) {
@@ -1146,7 +1147,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		criteria2.andSeriaNumEqualTo(seriaNum);
 		List<Dividpay> list2 = dividpayMapper.selectByExample(example2);
 		if (list2.size() == 0) {
-			return new Pair<Boolean, String>(false, "请设置合同分期信息");
+			//return new Pair<Boolean, String>(false, "请设置合同分期信息");
 		}
 		if (list.size() == 0) {
 			return new Pair<Boolean, String>(false, "请发布线路");
@@ -1155,7 +1156,15 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		offcontract.setCreated(new Date());
 		offcontract.setUpdated(new Date());
 		offcontract.setIsSchedule(false);
-		offcontract.setSignDate(signDate);
+		try {
+			offcontract.setOtype(OType.valueOf(otype).ordinal());
+		} catch (Exception e) {
+			offcontract.setOtype(OType.PRIVATE_STATUS.ordinal());
+		}
+		if(StringUtils.isNoneBlank(signDate1)){
+			Date signDate = (Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(signDate1);
+			offcontract.setSignDate(signDate);
+		}
 		int b = offlinecontractMapper.insert(offcontract);
 		if (b > 0) {
 			for (PublishLine busLock : list) {
@@ -1283,9 +1292,12 @@ public Pair<Boolean, String> saveDivid(Dividpay dividpay, long seriaNum, String 
 			sort = new Sort("id");
 		Pageable p = new PageRequest(page, pageSize, sort);
 		BooleanExpression query = QJpaOfflineContract.jpaOfflineContract.city.eq(city);
-		String contractCode = req.getFilter("contractCode");
+		String contractCode = req.getFilter("contractCode"),otype=req.getFilter("otype");
 		if (StringUtils.isNotBlank(contractCode)) {
 			query = query.and(QJpaOfflineContract.jpaOfflineContract.contractCode.like("%" + contractCode + "%"));
+		}
+		if (StringUtils.isNotBlank(otype)) {
+			query = query.and(QJpaOfflineContract.jpaOfflineContract.otype.eq(OType.valueOf(otype)));
 		}
 		return query == null ? offContactRepository.findAll(p) : offContactRepository.findAll(query, p);
 	}
