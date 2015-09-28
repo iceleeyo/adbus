@@ -85,4 +85,6 @@ public interface BusService {
 
 	Page<JpaBusOnline> getbusOnlineList(int cityId, TableRequest req, int page, int length, Sort sort) ;
 	
+	public long getMoneyFromBusModel(JpaBusline.Level level,boolean doubleDecker);
+	
 }
