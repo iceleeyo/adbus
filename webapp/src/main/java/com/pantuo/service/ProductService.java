@@ -47,6 +47,11 @@ public interface ProductService {
 	Page<ProductView> getProductView( Page<JpaProduct> list);  
 	
 	
+	
+	
+	
+	Pair<Boolean, String>  buildPlan(  int city,long seriaNum, Principal principal); 
+	
 	Pair<Boolean, String> delPlan(int id,   Principal principal);
 	public Pair<Boolean, PlanRequest> addPlan(int city,long seriaNum,String select ,int  number,String startDate1,Principal principal);
 	

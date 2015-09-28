@@ -307,6 +307,12 @@ public class ProductController {
 		return productService.delPlan(id, principal);
 	}
 	
+	@RequestMapping(value = "/ajax-sift_buildPlan")
+	@ResponseBody
+	public Pair<Boolean, String> sift_buildPlan(@CookieValue(value = "city", defaultValue = "-1") int city,long seriaNum, Principal principal) {
+		return productService.buildPlan(city,seriaNum, principal);
+	}
+	
 	@RequestMapping(value = "ajax-orderdetailV2", method = RequestMethod.GET)
 	@ResponseBody
 	public List<BusOrderDetailV2> getBuses(Model model, @CookieValue(value = "city", defaultValue = "-1") int city,
