@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 @Entity
-@Table(name = "busOrderDetail_V2")
+@Table(name = "bus_order_detail_v2")
 public class JpaBusOrderDetailV2 extends CityEntity {
 
 	public JpaBusOrderDetailV2() {

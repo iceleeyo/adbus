@@ -150,12 +150,12 @@
         </table>
         
               
-                <table schema="" tableName="busOrder_V2" delimitIdentifiers="${generator.delimitIdentifiers}">
+                <table schema="" tableName="bus_order_v2" delimitIdentifiers="${generator.delimitIdentifiers}">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
         
                 
-                  <table schema="" tableName="busOrderDetail_V2" delimitIdentifiers="${generator.delimitIdentifiers}">
+                  <table schema="" tableName="bus_order_detail_v2" delimitIdentifiers="${generator.delimitIdentifiers}">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
         

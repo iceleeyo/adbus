@@ -8,7 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 @Entity
-@Table(name = "busOrder_V2")
+@Table(name = "bus_order_v2")
 public class JpaBusOrderV2 extends CityEntity {
 
 	public JpaBusOrderV2() {
