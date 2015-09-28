@@ -17,7 +17,7 @@
 							</li>
 							<li class="s-left breadcrumb-right"></li>
 							<li class="s-left bread-child">
-								<a class="gray-text" href="#">自主投放</a>
+								<a class="gray-text" href="#">车身自主投放</a>
 							</li>
 						</ul>
 					</div>
@@ -63,7 +63,7 @@
 									<input type="hidden" id= "sn" name ="sn" value='${seriaNum}'>
 									
 								<span id="pd"> </span>
-                                      	<a href="javascript:;" onclick="addPlan();">增加计划</a>
+                                   <span id="btn">   	<a href="javascript:;" onclick="addPlan();">增加计划</a></span>
                                         
 								</div>
 							</div>
@@ -84,13 +84,19 @@
                         <th  >单双层</th>
                         <th  >线路级别</th>
                         <th  >展示周期</th>
-                        <th>预购数理</th>
+                        <th>预购车辆</th>
                         <th>支付金额</th>
                         <th>展示时间</th>
                         <th>管理</th>
                     </tr>
                     </thead>
-
+		 		<tfoot>
+		            <tr>
+		                <th colspan="4" style="text-align:right">合计:</th>
+		                <th></th>
+		            </tr>
+		            
+		        </tfoot>
                 </table>
 			</div>
 			
@@ -167,6 +173,36 @@
 							},
 							"initComplete" : initComplete,
 							"drawCallback" : drawCallback,
+							"footerCallback": function ( row, data, start, end, display ) {
+							
+									if(end==0){
+										return ;
+									}
+					            var api = this.api(), data;
+					 
+					            // Remove the formatting to get integer data for summation
+					            var intVal = function ( i ) {
+					                return typeof i === 'string' ?
+					                    i.replace(/[\$,]/g, '')*1 :
+					                    typeof i === 'number' ?
+					                        i : 0;
+					            };
+					 
+					            // Total over all pages
+					            total = api
+					                .column( 4 )
+					                .data()
+					                .reduce( function (a, b) {
+					                    return intVal(a) + intVal(b);
+					                } );
+					            // Total over this page
+					          
+					 
+					            // Update footer
+					            $( api.column( 3 ).footer() ).html(
+					                '合计:'+total     
+					            );
+					        }
 						});
 		orderBusesTable.fnNameOrdering("orderBy").fnNoColumnsParams();
 	}
@@ -186,6 +222,10 @@
 		$("div#toolbar").attr("style", "width: 100%;")
 		$("div#toolbar")
 				.html('');
+				
+		$('#busNumber').change(function() {
+		 queryPrice();
+        });
 						
 	}
 
