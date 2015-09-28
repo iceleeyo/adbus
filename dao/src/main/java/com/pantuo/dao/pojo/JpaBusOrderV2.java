@@ -30,6 +30,7 @@ public class JpaBusOrderV2 extends CityEntity {
 
 	private double productPrice; //套餐价格或是下单后的价格
 	private double orderPrice;//订单实际管理员促销后的价格
+	private boolean ispay=false;
 
 	public static enum BusOrderStatus {
 		begin, auth, reduct, over,
@@ -78,6 +79,30 @@ public class JpaBusOrderV2 extends CityEntity {
 
 	public void setCreater(String creater) {
 		this.creater = creater;
+	}
+
+	public long getSeriaNum() {
+		return seriaNum;
+	}
+
+	public void setSeriaNum(long seriaNum) {
+		this.seriaNum = seriaNum;
+	}
+
+	public boolean isIspay() {
+		return ispay;
+	}
+
+	public void setIspay(boolean ispay) {
+		this.ispay = ispay;
+	}
+
+	public BusOrderStatus getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(BusOrderStatus orderStatus) {
+		this.orderStatus = orderStatus;
 	}
 
 }

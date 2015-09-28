@@ -26,7 +26,7 @@ public class JpaBusOrderDetailV2 extends CityEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "productId")
-	private JpaBusOrderV2 JpaProductV2;
+	private JpaProductV2 JpaProductV2;
 	
 	
 	@ManyToOne
@@ -50,11 +50,12 @@ public class JpaBusOrderDetailV2 extends CityEntity {
 		this.id = id;
 	}
 
-	public JpaBusOrderV2 getJpaProductV2() {
+
+	public JpaProductV2 getJpaProductV2() {
 		return JpaProductV2;
 	}
 
-	public void setJpaProductV2(JpaBusOrderV2 jpaProductV2) {
+	public void setJpaProductV2(JpaProductV2 jpaProductV2) {
 		JpaProductV2 = jpaProductV2;
 	}
 
