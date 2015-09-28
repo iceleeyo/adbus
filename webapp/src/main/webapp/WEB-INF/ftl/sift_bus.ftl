@@ -196,11 +196,10 @@
 					                    return intVal(a) + intVal(b);
 					                } );
 					            // Total over this page
-					          
-					 
+					 		   var operations ='<a  onclick="submitPlan();" href="javascript:void(0)"><font color="red">提交订单</font></a>';
 					            // Update footer
 					            $( api.column( 3 ).footer() ).html(
-					                '合计:'+total     
+					                '合计:'+total+operations 
 					            );
 					        }
 						});

@@ -1,5 +1,27 @@
 
 var swift_tableObject;
+
+function submitPlan(){
+	
+	$.ajax({
+		url:"/product/ajax-sift_buildPlan",
+		type:"POST",
+		async:false,
+		dataType:"json",
+		data : {
+			"seriaNum":  $("#sn").val()
+		},
+		success:function(data){
+			if (data.left == true) {
+				layer.msg("下单成功");
+			} else {
+				layer.msg(data.right.msg,{icon: 5});
+			}
+		}
+  }); 
+	
+	
+}
 function addPlan(){
 	var select=$("#sh").val();
 	var lc = $("#lc").val()
