@@ -403,7 +403,7 @@ public class ProductServiceImpl implements ProductService {
 			v2.setStartTime((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(startDate1));
 			v2.setSeriaNum(seriaNum);
 			double basePrice = busservice.getMoneyFromBusModel(JpaBusline.Level.valueOf(checkResult.getRight().level), checkResult.getRight().doubleChecker) * 1d;
-			v2.setPrice(basePrice* checkResult.getRight().days);
+			v2.setPrice(basePrice* checkResult.getRight().days/30*number);
 			v2.setDays(checkResult.getRight().days);
 			v2.setCreater(Request.getUserId(principal));
 			v2Mapper.insert(v2);
@@ -449,7 +449,7 @@ public class ProductServiceImpl implements ProductService {
 			return 0d;
 		double basePrice = busservice.getMoneyFromBusModel(JpaBusline.Level.valueOf(checkResult.getRight().level),
 				checkResult.getRight().doubleChecker) * 1d;
-		basePrice *= checkResult.getRight().days;
+		basePrice *= checkResult.getRight().days/30;
 		return basePrice;
 
 	}
