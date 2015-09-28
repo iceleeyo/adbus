@@ -1,18 +1,13 @@
 package com.pantuo.web;
 
+import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.pantuo.ActivitiConfiguration;
-import com.pantuo.dao.pojo.*;
-import com.pantuo.dao.pojo.JpaProduct.FrontShow;
-import com.pantuo.mybatis.domain.UserCpd;
-import com.pantuo.pojo.DataTablePage;
-import com.pantuo.pojo.TableRequest;
-import com.pantuo.util.Pair;
-import com.pantuo.util.Request;
-import com.pantuo.web.view.ProductView;
-import com.pantuo.web.view.SuppliesView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,17 +16,34 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.pantuo.ActivitiConfiguration;
+import com.pantuo.dao.pojo.BaseEntity;
+import com.pantuo.dao.pojo.JpaBusline;
+import com.pantuo.dao.pojo.JpaCity;
+import com.pantuo.dao.pojo.JpaCpd;
+import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.dao.pojo.JpaProduct.FrontShow;
+import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.mybatis.domain.BusOrderDetailV2;
+import com.pantuo.mybatis.domain.UserCpd;
+import com.pantuo.pojo.DataTablePage;
+import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.CpdService;
 import com.pantuo.service.ProductService;
 import com.pantuo.service.UserServiceInter;
-
-import java.security.Principal;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import com.pantuo.service.impl.ProductServiceImpl.PlanRequest;
+import com.pantuo.util.Only1ServieUniqLong;
+import com.pantuo.util.Pair;
+import com.pantuo.util.Request;
+import com.pantuo.web.view.ProductView;
 
 /**
  * @author xl
@@ -277,8 +289,36 @@ public class ProductController {
     	return "sift";
     }
     @RequestMapping(value = "/sift_bus")
-    public String bus_sift() {
+    public String bus_sift(Model model) {
+    	model.addAttribute("seriaNum", Only1ServieUniqLong.getUniqLongNumber());
     	return "sift_bus";
     }
+
+	@RequestMapping(value = "/sift_addPlan")
+	@ResponseBody
+	public Pair<Boolean, PlanRequest> addPlan(@CookieValue(value = "city", defaultValue = "-1") int city, Model model,
+			String select, int number, String startDate1,long seriaNum, Principal principal) {
+		return productService.addPlan(city,seriaNum, select, number, startDate1, principal);
+	}
+
+	@RequestMapping(value = "/ajax-delPlan")
+	@ResponseBody
+	public Pair<Boolean, String> delPlan(int id, Principal principal) {
+		return productService.delPlan(id, principal);
+	}
+	
+	@RequestMapping(value = "ajax-orderdetailV2", method = RequestMethod.GET)
+	@ResponseBody
+	public List<BusOrderDetailV2> getBuses(Model model, @CookieValue(value = "city", defaultValue = "-1") int city,
+			@RequestParam("seriaNum") long seriaNum,Principal principal) {
+		return productService.getOrderDetailV2BySeriNum(seriaNum,  principal);
+	}
+	
+	@RequestMapping(value = "ajax-querySelectPrice", method = RequestMethod.GET)
+	@ResponseBody
+	public Double querySelectPrice(Model model, @CookieValue(value = "city", defaultValue = "-1") int city,
+			String select,Principal principal) {
+		return productService.querySelectPrice(  city,select);
+	}
 
 }

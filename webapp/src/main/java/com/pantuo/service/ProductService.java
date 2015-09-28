@@ -6,13 +6,15 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
 
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProduct.FrontShow;
+import com.pantuo.mybatis.domain.BusOrderDetailV2;
 import com.pantuo.mybatis.domain.Product;
 import com.pantuo.pojo.TableRequest;
+import com.pantuo.service.impl.ProductServiceImpl.PlanRequest;
 import com.pantuo.util.NumberPageUtil;
+import com.pantuo.util.Pair;
 import com.pantuo.web.view.ProductView;
 
 public interface ProductService {
@@ -43,5 +45,14 @@ public interface ProductService {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	Page<ProductView> getProductView( Page<JpaProduct> list);  
+	
+	
+	Pair<Boolean, String> delPlan(int id,   Principal principal);
+	public Pair<Boolean, PlanRequest> addPlan(int city,long seriaNum,String select ,int  number,String startDate1,Principal principal);
+	
+	public List<BusOrderDetailV2> getOrderDetailV2BySeriNum(long seriaNum,Principal principal);
+	
+	
+	public Double querySelectPrice( int city,String  select);
 
 }

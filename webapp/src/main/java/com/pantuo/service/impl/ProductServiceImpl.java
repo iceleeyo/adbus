@@ -1,17 +1,21 @@
 package com.pantuo.service.impl;
 
 import java.security.Principal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.collections.map.HashedMap;
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,13 +31,18 @@ import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProduct.FrontShow;
 import com.pantuo.dao.pojo.QJpaProduct;
+import com.pantuo.mybatis.domain.BusOrderDetailV2;
+import com.pantuo.mybatis.domain.BusOrderDetailV2Example;
 import com.pantuo.mybatis.domain.Product;
 import com.pantuo.mybatis.domain.ProductExample;
+import com.pantuo.mybatis.persistence.BusOrderDetailV2Mapper;
 import com.pantuo.mybatis.persistence.ProductMapper;
 import com.pantuo.pojo.TableRequest;
+import com.pantuo.service.BusService;
 import com.pantuo.service.ProductService;
 import com.pantuo.simulate.ProductProcessCount;
 import com.pantuo.util.NumberPageUtil;
+import com.pantuo.util.Pair;
 import com.pantuo.util.ProductOrderCount;
 import com.pantuo.util.Request;
 import com.pantuo.web.view.ProductView;
@@ -45,6 +54,14 @@ public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	ProductRepository productRepo;
+
+	@Autowired
+	BusOrderDetailV2Mapper v2Mapper;
+
+	@Autowired
+	BusService busservice;
+
+	private static Logger log = LoggerFactory.getLogger(ProductServiceImpl.class);
 
 	public Page<JpaProduct> getAllProducts(int city, boolean includeExclusive, String exclusiveUser, TableRequest req) {
 		String name = req.getFilter("name");
@@ -144,16 +161,16 @@ public class ProductServiceImpl implements ProductService {
 					}
 				}
 				query = query == null ? subQuery : query.and(subQuery);
-			}else if (StringUtils.equals(entry.getKey(), "lev") && vIntegers.size() > 0) {
+			} else if (StringUtils.equals(entry.getKey(), "lev") && vIntegers.size() > 0) {
 				BooleanExpression subQuery = null;
 				List<JpaBusline.Level> right = new ArrayList<JpaBusline.Level>();
 				for (String type : vIntegers) {
 					right.add(JpaBusline.Level.valueOf(type));
 				}
-				subQuery=subQuery == null?QJpaProduct.jpaProduct.lineLevel.in(right):subQuery.and(QJpaProduct.jpaProduct.lineLevel.in(right));
+				subQuery = subQuery == null ? QJpaProduct.jpaProduct.lineLevel.in(right) : subQuery
+						.and(QJpaProduct.jpaProduct.lineLevel.in(right));
 				query = query == null ? subQuery : query.and(subQuery);
 			}
-
 
 		}
 
@@ -281,5 +298,159 @@ public class ProductServiceImpl implements ProductService {
 		org.springframework.data.domain.PageImpl<ProductView> r = new org.springframework.data.domain.PageImpl<ProductView>(
 				plist, p, list.getTotalElements());
 		return r;
+	}
+	
+	
+	public static class PlanRequest {
+		String level = null;
+		Boolean doubleChecker = false;
+		int days = 0;
+		String msg;
+		public PlanRequest(String level, Boolean doubleChecker, int days) {
+			this.level = level;
+			this.doubleChecker = doubleChecker;
+			this.days = days;
+		}
+		public PlanRequest(String msg) {
+			super();
+			this.msg = msg;
+		}
+		public PlanRequest() {
+			super();
+		}
+		public String getLevel() {
+			return level;
+		}
+		public void setLevel(String level) {
+			this.level = level;
+		}
+		public Boolean getDoubleChecker() {
+			return doubleChecker;
+		}
+		public void setDoubleChecker(Boolean doubleChecker) {
+			this.doubleChecker = doubleChecker;
+		}
+		public int getDays() {
+			return days;
+		}
+		public void setDays(int days) {
+			this.days = days;
+		}
+		public String getMsg() {
+			return msg;
+		}
+		public void setMsg(String msg) {
+			this.msg = msg;
+		}
+		
+		
+		
+	}
+	
+	public Pair<Boolean, PlanRequest>  checkPlan(int city,   String select
+			){
+		PlanRequest request =new PlanRequest();
+		Pair<Boolean, PlanRequest> r = new Pair<Boolean, PlanRequest>(false,request);
+		String[] split = StringUtils.split(select, ",");
+		if (split.length < 3) {
+			request.msg=("组合筛选条件不够,请再选择!");
+			return r;
+		}
+		String level = null;
+		Boolean doubleChecker = false;
+		int days = 0;
+		//lev_APP,dc_N,d_90,
+		for (String string : split) {
+			String[] sp2 = StringUtils.split(string, "_");
+			if (StringUtils.startsWith(string, "lev_")) {
+				level = sp2.length > 1 ? sp2[1] : null;
+				request.setLevel(level);
+			} else if (StringUtils.startsWith(string, "dc_")) {
+				doubleChecker = sp2.length > 1 ? BooleanUtils.toBoolean(sp2[1]) : null;
+				request.setDoubleChecker(doubleChecker);
+			} else if (StringUtils.startsWith(string, "d_")) {
+				days = sp2.length > 1 ? NumberUtils.toInt(sp2[1]) : 0;
+				request.setDays(days);
+			}
+		}
+		if (StringUtils.isBlank(level)) {
+			request.msg=("请选择相应的车辆级别!");
+			return r;
+		} else if (doubleChecker == null) {
+			request.msg=("请选择相应的车辆类型!");
+			return r;
+		} else if (days == 0) {
+			request.msg=("请选择相应的展示周期!");
+			return r;
+		}
+		r.setLeft(true);
+		return r;
+	}
+
+	public Pair<Boolean, PlanRequest> addPlan(int city, long seriaNum, String select, int number, String startDate1,
+			Principal principal) {
+		Pair<Boolean, PlanRequest> checkResult = checkPlan(city, select);
+		try {
+			if(!checkResult.getLeft())
+				return checkResult;
+			BusOrderDetailV2 v2 = new BusOrderDetailV2();
+			v2.setBusNumber(number);
+			v2.setDoubleDecker(checkResult.getRight().doubleChecker);
+			v2.setCreated(new Date());
+			v2.setCity(city);
+			v2.setUpdated(new Date());
+			v2.setLeval(JpaBusline.Level.valueOf(checkResult.getRight().level).ordinal());
+			v2.setStartTime((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(startDate1));
+			v2.setSeriaNum(seriaNum);
+			double basePrice = busservice.getMoneyFromBusModel(JpaBusline.Level.valueOf(checkResult.getRight().level), checkResult.getRight().doubleChecker) * 1d;
+			v2.setPrice(basePrice* checkResult.getRight().days);
+			v2.setDays(checkResult.getRight().days);
+			v2.setCreater(Request.getUserId(principal));
+			v2Mapper.insert(v2);
+		} catch (ParseException e) {
+			log.error("store plan exception", e);
+			checkResult .getRight().setMsg("保存投放计划失败!");
+			return checkResult;
+		}
+		return checkResult;
+	}
+
+	public List<BusOrderDetailV2> getOrderDetailV2BySeriNum(long seriaNum, Principal principal) {
+		BusOrderDetailV2Example example = new BusOrderDetailV2Example();
+		example.createCriteria().andSeriaNumEqualTo(seriaNum).andCreaterEqualTo(Request.getUserId(principal));
+		//需要加用户判断 
+		return v2Mapper.selectByExample(example);
+	}
+	
+	public Pair<Boolean, String> delPlan(int id, Principal principal) {
+		Pair<Boolean, String> r = new Pair<Boolean, String>(false, StringUtils.EMPTY);
+		BusOrderDetailV2 v2 = v2Mapper.selectByPrimaryKey(id);
+		if (v2 != null) {
+
+			if (!StringUtils.equals(Request.getUserId(principal), v2.getCreater())) {
+				r.setRight("未删除成功,记录属主不对!");
+
+			} else {
+				v2Mapper.deleteByPrimaryKey(id);
+				r.setLeft(true);
+			}
+		} else {
+
+			r.setRight("记录不存在!");
+		}
+		return r;
+
+	}
+
+	public Double querySelectPrice(int city, String select) {
+
+		Pair<Boolean, PlanRequest> checkResult = checkPlan(city, select);
+		if (!checkResult.getLeft())
+			return 0d;
+		double basePrice = busservice.getMoneyFromBusModel(JpaBusline.Level.valueOf(checkResult.getRight().level),
+				checkResult.getRight().doubleChecker) * 1d;
+		basePrice *= checkResult.getRight().days;
+		return basePrice;
+
 	}
 }
