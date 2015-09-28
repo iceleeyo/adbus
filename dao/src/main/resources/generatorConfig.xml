@@ -145,6 +145,21 @@
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
         
+              <table schema="" tableName="product_V2" delimitIdentifiers="${generator.delimitIdentifiers}">
+            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
+        </table>
+        
+              
+                <table schema="" tableName="busOrder_V2" delimitIdentifiers="${generator.delimitIdentifiers}">
+            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
+        </table>
+        
+                
+                  <table schema="" tableName="busOrderDetail_V2" delimitIdentifiers="${generator.delimitIdentifiers}">
+            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
+        </table>
+        
+        
         
     </context>
 </generatorConfiguration>

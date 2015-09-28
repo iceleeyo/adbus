@@ -39,6 +39,13 @@ public class JpaOfflineContract extends CityEntity {
 	private String payway;      //付款方式
 	private Date payDate;      //付款日期
 	private String markcenter;//营销中心
+	
+	private OType otype = OType.PRIVATE_STATUS;
+	
+	public static enum OType {
+		PRIVATE_STATUS,PUBLIC_STATUS
+	}
+	
 //	 @ManyToOne
 //	 @JoinColumn(name = "dividPayId")
 //	private JpaDividPay dividPay;
@@ -228,6 +235,14 @@ public class JpaOfflineContract extends CityEntity {
 
 	public void setMarkcenter(String markcenter) {
 		this.markcenter = markcenter;
+	}
+
+	public OType getOtype() {
+		return otype;
+	}
+
+	public void setOtype(OType otype) {
+		this.otype = otype;
 	}
 
 }
