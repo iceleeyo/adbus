@@ -19,21 +19,21 @@ function submitPlan(){
 			}
 		}
   }); 
-	
-	
+	$('#sendToServer').removeAttr('onclick');
+	$("#sendToServer").html('<font color="#F45C55">订单已提交!</font>');
 }
 function addPlan(){
 	var select=$("#sh").val();
+	
+	if(select =='' ){
+		layer.msg("请选择车辆类型!",{icon: 5});
+		return ;
+	}
 	var lc = $("#lc").val()
 	if(lc ==0 ){
-		layer.msg("请先登录!",{icon: 5});
+		layer.msg("为了便于记录,请先登录!",{icon: 5});
 		return ;
 	}
-	if(select =='' ){
-		alert("请选择车辆类型!");
-		return ;
-	}
-	
 	$.ajax({
 		url:"/product/sift_addPlan/",
 		type:"POST",
@@ -89,7 +89,7 @@ function queryPrice(){
 		c=1;
 	}
 	$.ajax({
-		url:"/product/ajax-querySelectPrice",
+		url:"/product/sift_SelectBodyPrice",
 		type:"GET",
 		async:false,
 		dataType:"json",
@@ -98,7 +98,8 @@ function queryPrice(){
 		},
 		success:function(data){
 			if(data>0){
-				$("#pd").html("当前消售金额:" +(data*c));
+				var t='<strong class="swift-bprice" id="jd-price">￥'+(data*c)+'</strong>';
+				$("#pd").html(t);
 				$("#btn").show();
 			}else {
 				$("#pd").html("");
