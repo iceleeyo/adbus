@@ -243,7 +243,7 @@
 												</a>
 											</li>
 									</@security.authorize>	
-									
+									        <!--
 										   <li class="pg-side-exp-item">
 												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/busselect/public_order">
 												    线路订购
@@ -254,6 +254,7 @@
 												    网络订单列表
 												</a>
 											</li>
+											-->
                                				<@security.authorize ifAnyGranted="bodyContractManager,contract_input">    
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/busselect/offContract_enter">
