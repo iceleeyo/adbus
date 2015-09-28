@@ -206,7 +206,7 @@
 					 		   var operations ='<a  onclick="submitPlan();" id="sendToServer" href="javascript:void(0)"><font color="#F45C55">提交订单</font></a>';
 					            // Update footer
 					            $( api.column( 3 ).footer() ).html(
-					                '合计:'+total+operations 
+					            '<strong class="swift-bprice" id="jd-price">￥'+('合计:'+total+operations )+'</strong>'
 					            );
 					        }
 					         </@security.authorize>
