@@ -26,13 +26,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.pojo.BaseEntity;
+import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
+import com.pantuo.dao.pojo.JpaBusOrderV2;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaCpd;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProduct.FrontShow;
+import com.pantuo.dao.pojo.JpaProductV2;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.BusOrderDetailV2;
+import com.pantuo.mybatis.domain.ProductV2;
 import com.pantuo.mybatis.domain.UserCpd;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
@@ -80,6 +84,30 @@ public class ProductController {
     		Principal principal) {
     	   Page<JpaProduct> page = productService.searchProducts(city, principal, req);
     	return new DataTablePage(productService.getProductView(page), req.getDraw());
+    }
+    @RequestMapping("ajax-productV2_list")
+    @ResponseBody
+    public DataTablePage<JpaProductV2> productV2_list( TableRequest req,
+    		@CookieValue(value="city", defaultValue = "-1") int city,
+    		Principal principal) {
+    	Page<JpaProductV2> page = productService.searchProductV2s(city, principal, req);
+    	return new DataTablePage(page, req.getDraw());
+    }
+    @RequestMapping("ajax-busOrderV2_list")
+    @ResponseBody
+    public DataTablePage<JpaProductV2> busOrderV2_list( TableRequest req,
+    		@CookieValue(value="city", defaultValue = "-1") int city,
+    		Principal principal) {
+    	Page<JpaBusOrderV2> page = productService.searchBusOrderV2(city, principal, req,"all");
+    	return new DataTablePage(page, req.getDraw());
+    }
+    @RequestMapping("ajax-BusOrderDetailV2")
+    @ResponseBody
+    public DataTablePage<JpaBusOrderDetailV2> ajaxBusOrderDetailV2( TableRequest req,
+    		@CookieValue(value="city", defaultValue = "-1") int city,@RequestParam(value = "pid",required=false ,defaultValue="0") int pid,@RequestParam(value="seriaNum",required=false,defaultValue="0") long seriaNum,
+    		Principal principal) {
+    	Page<JpaBusOrderDetailV2> page = productService.searchBusOrderDetailV2(pid,seriaNum,city, principal, req);
+    	return new DataTablePage(page, req.getDraw());
     }
     @RequestMapping("compareProduct-list")
     @ResponseBody
@@ -142,7 +170,21 @@ public class ProductController {
 		}
 		return rPair;
 	}
-	
+	@RequestMapping(value = "/saveProductV2")
+	@ResponseBody
+	public Pair<Boolean, String> saveProductV2(ProductV2 productV2,
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
+			HttpServletRequest request, @RequestParam(value = "seriaNum", required = true) long seriaNum) {
+		productV2.setCity(city);
+		return productService.saveProductV2(productV2, seriaNum, Request.getUserId(principal));
+	}
+	@RequestMapping(value = "/buyBodyPro/{pid}")
+	@ResponseBody
+	public Pair<Boolean, String> buyBodyPro(
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
+			HttpServletRequest request, @PathVariable("pid") int pid) {
+		return productService.buyBodyPro(pid,city, Request.getUserId(principal));
+	}
 	
 	@RequestMapping(value = "/c/{cpdid}", produces = "text/html;charset=utf-8")
 	public String goCpd(Model model, @PathVariable("cpdid") int cpdid,@RequestParam(value = "pid",required=false ,defaultValue="0") int pid) {
@@ -184,8 +226,13 @@ public class ProductController {
         }
         return "newProduct";
     }
+    @RequestMapping(value = "/newBodyPro", produces = "text/html;charset=utf-8")
+    public String newBodyPro(Model model) {
+    	model.addAttribute("seriaNum", Only1ServieUniqLong.getUniqLongNumber());
+    	model.addAttribute("lineLevels", JpaBusline.Level.values());
+    	return "newBodyPro";
+    }
    
-    
     @PreAuthorize(" hasRole('ShibaOrderManager')  ")
     @RequestMapping(value = "/{id}", produces = "text/html;charset=utf-8")
     public String updateProduct(@PathVariable int id,
@@ -264,16 +311,39 @@ public class ProductController {
         }
         return prod;
     }
-
+    @RequestMapping(value = "/saveBusOrderDetail", method = { RequestMethod.POST})
+    @ResponseBody
+    public Pair<Boolean, Long> saveBusOrderDetail(
+    		JpaBusOrderDetailV2 prod,@CookieValue(value="city", defaultValue = "-1") int city,
+    		HttpServletRequest request, @RequestParam(value = "seriaNum", required = true) long seriaNum) {
+    	  prod.setCity(city);
+    	  prod.setSeriaNum(seriaNum);
+    	  return productService.saveBusOrderDetail(prod);
+    }
+    @RequestMapping(value = "ajax-remove-busOrderDetail", method = RequestMethod.POST)
+	@ResponseBody
+	public Pair<Boolean, String> removepublishLine(Principal principal, @CookieValue(value = "city", defaultValue = "-1") int city,
+			 @RequestParam("id") int id) {
+		return productService.removeBusOrderDetail(principal, city, id);
+	}
 
     @RequestMapping(value = "/list")
     public String contralist() {
-//        int psize = 9;
-//        NumberPageUtil page = new NumberPageUtil(productService.countMyList(name, code, request), pageNum, psize);
-//        model.addAttribute("list", productService.queryContractList(page, name, code, request));
-//        model.addAttribute("pageNum", pageNum);
-//        model.addAttribute("paginationHTML", page.showNumPageWithEmpty());
         return "product_list2";
+    }
+    @RequestMapping(value = "/showProV2Detail/{id}", produces = "text/html;charset=utf-8")
+    public String showProV2Detail(Model model, @PathVariable("id") int id,HttpServletResponse response) {
+    	response.setHeader("X-Frame-Options", "SAMEORIGIN");
+    	model.addAttribute("pid", id);
+    	return "busOrderDetail_list";
+    }
+    @RequestMapping(value = "/busOrderV2_list")
+    public String busOrderV2_list() {
+    	return "BusOrderV2_list";
+    }
+    @RequestMapping(value = "/productV2_list")
+    public String productV2_list() {
+    	return "productV2_list";
     }
     @RequestMapping(value = "/auction")
     public String comparelist() {

@@ -7,10 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.data.domain.Page;
 
+import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
+import com.pantuo.dao.pojo.JpaBusOrderV2;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProduct.FrontShow;
+import com.pantuo.dao.pojo.JpaProductV2;
 import com.pantuo.mybatis.domain.BusOrderDetailV2;
 import com.pantuo.mybatis.domain.Product;
+import com.pantuo.mybatis.domain.ProductV2;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.impl.ProductServiceImpl.PlanRequest;
 import com.pantuo.util.NumberPageUtil;
@@ -44,7 +48,14 @@ public interface ProductService {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	Page<ProductView> getProductView( Page<JpaProduct> list);  
+	Page<ProductView> getProductView( Page<JpaProduct> list);
+	Pair<Boolean, Long> saveBusOrderDetail(JpaBusOrderDetailV2 prod);
+	Page<JpaBusOrderDetailV2> searchBusOrderDetailV2(int pid, long seriaNum2, int city, Principal principal, TableRequest req);
+	Pair<Boolean, String> saveProductV2(ProductV2 productV2, long seriaNum, String userId);
+	Page<JpaProductV2> searchProductV2s(int city, Principal principal, TableRequest req);
+	Pair<Boolean, String> buyBodyPro(int pid, int city, String userId);
+	Page<JpaBusOrderV2> searchBusOrderV2(int city, Principal principal, TableRequest req, String type);
+	Pair<Boolean, String> removeBusOrderDetail(Principal principal, int city, int id);  
 	
 	
 	

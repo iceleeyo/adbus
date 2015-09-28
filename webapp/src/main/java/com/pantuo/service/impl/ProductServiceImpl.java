@@ -26,20 +26,30 @@ import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.ActivitiConfiguration;
+import com.pantuo.dao.BusOrderDetailV2Repository;
+import com.pantuo.dao.BusOrderV2Repository;
 import com.pantuo.dao.ProductRepository;
+import com.pantuo.dao.ProductV2Repository;
+import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaBusOrderV2;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProduct.FrontShow;
+import com.pantuo.dao.pojo.JpaProductV2;
+import com.pantuo.dao.pojo.QJpaBusOrderDetailV2;
+import com.pantuo.dao.pojo.QJpaBusOrderV2;
 import com.pantuo.dao.pojo.QJpaProduct;
+import com.pantuo.dao.pojo.QJpaProductV2;
 import com.pantuo.mybatis.domain.BusOrderDetailV2;
 import com.pantuo.mybatis.domain.BusOrderDetailV2Example;
 import com.pantuo.mybatis.domain.BusOrderV2;
 import com.pantuo.mybatis.domain.Product;
 import com.pantuo.mybatis.domain.ProductExample;
+import com.pantuo.mybatis.domain.ProductV2;
 import com.pantuo.mybatis.persistence.BusOrderDetailV2Mapper;
 import com.pantuo.mybatis.persistence.BusOrderV2Mapper;
 import com.pantuo.mybatis.persistence.ProductMapper;
+import com.pantuo.mybatis.persistence.ProductV2Mapper;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.BusService;
 import com.pantuo.service.ProductService;
@@ -54,9 +64,22 @@ import com.pantuo.web.view.ProductView;
 public class ProductServiceImpl implements ProductService {
 	@Autowired
 	ProductMapper productMapper;
-
+	@Autowired
+	BusOrderDetailV2Mapper busOrderDetailV2Mapper;
+	@Autowired
+	ProductV2Mapper productV2Mapper;
+	@Autowired
+	BusOrderV2Mapper busOrderV2Mapper;
 	@Autowired
 	ProductRepository productRepo;
+	@Autowired
+	ProductV2Repository productV2Repository;
+	@Autowired
+	BusOrderV2Repository busOrderV2Repository;
+	@Autowired
+	BusOrderDetailV2Repository busOrderDetailV2Repository;
+	@Autowired
+	BusService busService;
 
 	@Autowired
 	BusOrderDetailV2Mapper v2Mapper;
@@ -303,6 +326,153 @@ public class ProductServiceImpl implements ProductService {
 		org.springframework.data.domain.PageImpl<ProductView> r = new org.springframework.data.domain.PageImpl<ProductView>(
 				plist, p, list.getTotalElements());
 		return r;
+	}
+
+	@Override
+	public Pair<Boolean, Long> saveBusOrderDetail(JpaBusOrderDetailV2 prod) {
+		//com.pantuo.util.BeanUtils.filterXss(prod);
+		 long price=busService.getMoneyFromBusModel(prod.getLeval(), prod.isDoubleDecker());
+		 price=price*prod.getBusNumber()*prod.getDays()/30;
+		 prod.setPrice(price);
+		long sumprice=0;
+		if(busOrderDetailV2Repository.save(prod)!=null){
+		    sumprice=getSumPriceBySerinum(prod.getSeriaNum());
+			return new Pair<Boolean, Long>(true,sumprice);
+		}
+		return new Pair<Boolean, Long>(false,sumprice);
+	}
+
+	private long getSumPriceBySerinum(long seriaNum) {
+		BusOrderDetailV2Example example=new BusOrderDetailV2Example();
+		example.createCriteria().andSeriaNumEqualTo(seriaNum);
+		List<BusOrderDetailV2> list=busOrderDetailV2Mapper.selectByExample(example);
+		long sum=0;
+		if(list.size()>0){
+			for (BusOrderDetailV2 busOrderDetailV2 : list) {
+				sum+=busOrderDetailV2.getPrice();
+			}
+		}
+		return sum;
+	}
+
+	@Override
+	public Page<JpaBusOrderDetailV2> searchBusOrderDetailV2(int pid,long seriaNum,int city, Principal principal, TableRequest req) {
+		int page = req.getPage(), pageSize = req.getLength();
+		Sort sort = req.getSort("id");
+		if (page < 0)
+			page = 0;
+		if (pageSize < 1)
+			pageSize = 1;
+		sort = (sort == null ? new Sort("id") : sort);
+		Pageable p = new PageRequest(page, pageSize, sort);
+		BooleanExpression query = QJpaBusOrderDetailV2.jpaBusOrderDetailV2.city.eq(city);
+		if(seriaNum>0){
+			query = query.and(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.seriaNum.eq(seriaNum));
+		}
+		if( pid>0){
+			query = query.and(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.JpaProductV2.id.eq(pid));
+		}
+		return busOrderDetailV2Repository.findAll(query, p);
+	}
+
+	@Override
+	public Pair<Boolean, String> saveProductV2(ProductV2 productV2, long seriaNum, String userId) {
+		BusOrderDetailV2Example example = new BusOrderDetailV2Example();
+		 example.createCriteria().andSeriaNumEqualTo(seriaNum);
+		List<BusOrderDetailV2> list = busOrderDetailV2Mapper.selectByExample(example);
+		if (list.size() == 0) {
+			return new Pair<Boolean, String>(false, "请添加套餐方案");
+		}
+		productV2.setCreated(new Date());
+		productV2.setUpdated(new Date());
+		productV2.setCreater(userId);
+		int a = productV2Mapper.insert(productV2);
+		if (a > 0) {
+			for (BusOrderDetailV2 v : list) {
+				if (v != null) {
+				  v.setProductId(productV2.getId());
+				  busOrderDetailV2Mapper.updateByPrimaryKey(v);
+				}
+			}
+			return new Pair<Boolean, String>(true, "添加套餐成功");
+		} 
+			return new Pair<Boolean, String>(false, "添加套餐失败");
+		
+	}
+
+	@Override
+	public Page<JpaProductV2> searchProductV2s(int city, Principal principal, TableRequest req) {
+		String name = req.getFilter("name");
+		int page = req.getPage(), pageSize = req.getLength();
+		Sort sort = req.getSort("id");
+
+		if (page < 0)
+			page = 0;
+		if (pageSize < 1)
+			pageSize = 1;
+		sort = (sort == null ? new Sort("id") : sort);
+		Pageable p = new PageRequest(page, pageSize, sort);
+		BooleanExpression query = city >= 0 ? QJpaProductV2.jpaProductV2.city.eq(city) : QJpaProduct.jpaProduct.city.goe(0);
+		if (StringUtils.isNotBlank(name)) {
+			query = query.and(QJpaProductV2.jpaProductV2.name.like("%" + name + "%"));
+		}
+		return productV2Repository.findAll(query, p);
+	}
+
+	@Override
+	public Pair<Boolean, String> buyBodyPro(int pid, int city, String userId) {
+		JpaProductV2 productV2=productV2Repository.findOne(pid);
+		if(productV2!=null){
+			BusOrderV2 v2=new BusOrderV2();
+			v2.setCity(city);
+			v2.setCreated(new Date());
+			v2.setCreater(userId);
+			v2.setIspay(false);
+			v2.setOrderPrice(productV2.getPrice());
+			v2.setProductPrice(productV2.getPrice());
+			v2.setOrderStatus(JpaBusOrderV2.BusOrderStatus.begin.ordinal());
+			v2.setProductId(pid);
+			v2.setSeriaNum((long)0);
+			if(busOrderV2Mapper.insert(v2)>0){
+				return new Pair<Boolean, String>(true, "下单成功");
+			}else{
+				return new Pair<Boolean, String>(false, "下单失败");
+			}
+		}else{
+			return new Pair<Boolean, String>(false, "信息丢失");
+		}
+	}
+
+	@Override
+	public Page<JpaBusOrderV2> searchBusOrderV2(int city, Principal principal, TableRequest req, String type) {
+		String name = req.getFilter("name");
+		int page = req.getPage(), pageSize = req.getLength();
+		Sort sort = req.getSort("id");
+
+		if (page < 0)
+			page = 0;
+		if (pageSize < 1)
+			pageSize = 1;
+		sort = (sort == null ? new Sort("id") : sort);
+		Pageable p = new PageRequest(page, pageSize, sort);
+		BooleanExpression query = city >= 0 ? QJpaBusOrderV2.jpaBusOrderV2.city.eq(city) : QJpaProduct.jpaProduct.city.goe(0);
+		if (StringUtils.isNotBlank(name)) {
+			query = query.and(QJpaBusOrderV2.jpaBusOrderV2.JpaProductV2.name.like("%" + name + "%"));
+		}
+		return busOrderV2Repository.findAll(query, p);
+	}
+
+	@Override
+	public Pair<Boolean, String> removeBusOrderDetail(Principal principal, int city, int id) {
+		BusOrderDetailV2 v=busOrderDetailV2Mapper.selectByPrimaryKey(id);
+		if(v!=null){
+			if(busOrderDetailV2Mapper.deleteByPrimaryKey(id)>0){
+				return new Pair<Boolean, String>(true, "删除成功");
+			}else{
+				return new Pair<Boolean, String>(false, "操作失败");
+			}
+		}
+		return new Pair<Boolean, String>(false, "信息丢失");
 	}
 
 	public static class PlanRequest {
