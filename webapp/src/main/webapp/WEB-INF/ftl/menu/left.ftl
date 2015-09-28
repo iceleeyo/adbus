@@ -69,11 +69,13 @@
 												</a>
 											</li>
 											<#if city.mediaType == 'body'>
-											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t"  href="${rc.contextPath}/contract/bus_contractEnter">
-													车辆关联合同
-												</a>
-											</li>
+											  <@security.authorize ifAnyGranted="bodyContractManager,contract_list"> 
+												<li class="pg-side-exp-item">
+													<a class="side-exp-item-t"  href="${rc.contextPath}/contract/bus_contractEnter">
+														车辆关联合同
+													</a>
+												</li>
+												</@security.authorize>
 											</#if>
 										</ul>
 									</li>	
@@ -227,7 +229,7 @@
                                     
                                     <#if city.mediaType == 'body'>
                                     
-                                     <@security.authorize ifAnyGranted="bodyContractManager,contract_input,contract_list,contract_search,contract_buy">  
+                                     <@security.authorize ifAnyGranted="bodysales,bodyContractManager,contract_input,contract_list,contract_search,contract_buy">  
                                     <li class="pg-side-item">
                                         <a class="pg-side-item-t gg-icon">
                                             <i class="s-left pg-icon-a g-icon"></i>
@@ -241,6 +243,17 @@
 												</a>
 											</li>
 									</@security.authorize>	
+									
+										   <li class="pg-side-exp-item">
+												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/busselect/public_order">
+												    线路订购
+												</a>
+											</li>
+											  <li class="pg-side-exp-item">
+												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/busselect/publicOrder_list">
+												    网络订单列表
+												</a>
+											</li>
                                				<@security.authorize ifAnyGranted="bodyContractManager,contract_input">    
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/busselect/offContract_enter">
@@ -249,11 +262,13 @@
 											</li>
 											  </@security.authorize>
 											  <@security.authorize ifAnyGranted="bodyContractManager,contract_list"> 
+											
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/busselect/offContract_list">
 												    车身合同列表
 												</a>
 											</li>
+											
 											</@security.authorize>
 											<@security.authorize ifAnyGranted="bodyContractManager,contract_search"> 
 											<li class="pg-side-exp-item">

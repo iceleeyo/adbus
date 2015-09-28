@@ -1,5 +1,5 @@
 <#import "template/template.ftl" as frame>
-<#global menu="车身合同列表">
+<#global menu="网络订单列表">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="车身合同列表" js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js", "js/datepicker.js","js/jquery.datepicker.region.cn.js"]
 css=["js/jquery-ui/jquery-ui.css"]>
@@ -36,7 +36,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 data: function(d) {
                     return $.extend( {}, d, {
                         "filter[contractCode]" : $('#contractCode').val(),
-                         "filter[otype]" : 'PRIVATE_STATUS'
+                         "filter[otype]" : 'PUBLIC_STATUS'
                     } );
                 },
                 "dataSrc": "content",
