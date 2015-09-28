@@ -59,7 +59,11 @@
 								<div>
 									<span>车辆数量</span>
 									<input  id="busNumber" type="text" placeholder="请输入车辆数量" style="height: 39px;">
-									<span>开始时间</span><input class="" id="startDate1" type="text" placeholder="开始展示时间" style="height: 39px;">
+									<span>开始时间</span>
+									<input  class="ui-input datepicker validate[required,custom[date] " 
+                                                type="text" name="startDate1"
+                                                id="startDate1" >
+                                                
 									<input type="hidden" id= "sn" name ="sn" value='${seriaNum}'>
 									
 								<span id="pd"> </span>
@@ -90,6 +94,7 @@
                         <th>管理</th>
                     </tr>
                     </thead>
+                    <@security.authorize access="isAuthenticated()">
 		 		<tfoot>
 		            <tr>
 		                <th colspan="4" style="text-align:right">合计:</th>
@@ -97,6 +102,7 @@
 		            </tr>
 		            
 		        </tfoot>
+		         </@security.authorize>
                 </table>
 			</div>
 			
@@ -129,7 +135,7 @@
 							"serverSide" : false,
 							"ajax" : {
 								type : "GET",
-								url : "${rc.contextPath}/product/ajax-orderdetailV2",
+								url : "${rc.contextPath}/product/sift_orderdetailV2",//ajax-orderdetailV2
 								data : function(d) {
 									return $.extend({}, d, {
 										"seriaNum" : '${seriaNum}'
@@ -173,6 +179,7 @@
 							},
 							"initComplete" : initComplete,
 							"drawCallback" : drawCallback,
+							<@security.authorize access="isAuthenticated()">
 							"footerCallback": function ( row, data, start, end, display ) {
 							
 									if(end==0){
@@ -196,12 +203,13 @@
 					                    return intVal(a) + intVal(b);
 					                } );
 					            // Total over this page
-					 		   var operations ='<a  onclick="submitPlan();" href="javascript:void(0)"><font color="red">提交订单</font></a>';
+					 		   var operations ='<a  onclick="submitPlan();" id="sendToServer" href="javascript:void(0)"><font color="#F45C55">提交订单</font></a>';
 					            // Update footer
 					            $( api.column( 3 ).footer() ).html(
 					                '合计:'+total+operations 
 					            );
 					        }
+					         </@security.authorize>
 						});
 		orderBusesTable.fnNameOrdering("orderBy").fnNoColumnsParams();
 	}
