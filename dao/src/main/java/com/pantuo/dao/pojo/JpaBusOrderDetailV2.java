@@ -34,7 +34,7 @@ public class JpaBusOrderDetailV2 extends CityEntity {
 	private JpaBusOrderV2 jpaBusOrderV2;
 
 	private JpaBusline.Level leval;
-	private boolean doubleDecker = false;
+	private boolean doubleDecker = false;//true双层
 	private double price; 
 	
 	
