@@ -61,6 +61,11 @@ function delPlan(id){
 
 
 function queryPrice(){
+	var c= $('#busNumber').val();
+	var ex = /^\d+$/;
+	if (!ex.test(c)) {
+		c=1;
+	}
 	$.ajax({
 		url:"/product/ajax-querySelectPrice",
 		type:"GET",
@@ -71,9 +76,12 @@ function queryPrice(){
 		},
 		success:function(data){
 			if(data>0){
-				$("#pd").html("当前消售金额:" +data);
+				$("#pd").html("当前消售金额:" +(data*c));
+				$("#btn").show();
+			}else {
+				$("#pd").html("");
+				$("#btn").hide();
 			}
-		
 		}
   }); 
 }
