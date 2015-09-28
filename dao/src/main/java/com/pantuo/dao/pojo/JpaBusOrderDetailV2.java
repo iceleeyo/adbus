@@ -45,6 +45,7 @@ public class JpaBusOrderDetailV2 extends CityEntity {
 	public int getId() {
 		return id;
 	}
+	private String creater;//下单人
 
 	public void setId(int id) {
 		this.id = id;
@@ -121,6 +122,14 @@ public class JpaBusOrderDetailV2 extends CityEntity {
 
 	public void setJpaBusOrderV2(JpaBusOrderV2 jpaBusOrderV2) {
 		this.jpaBusOrderV2 = jpaBusOrderV2;
+	}
+
+	public String getCreater() {
+		return creater;
+	}
+
+	public void setCreater(String creater) {
+		this.creater = creater;
 	}
 	
 	
