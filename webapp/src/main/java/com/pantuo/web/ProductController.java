@@ -383,14 +383,17 @@ public class ProductController {
 		return productService.buildPlan(city,seriaNum, principal);
 	}
 	
-	@RequestMapping(value = "ajax-orderdetailV2", method = RequestMethod.GET)
+	
+	@RequestMapping(value = "sift_orderdetailV2", method = RequestMethod.GET)
 	@ResponseBody
-	public List<BusOrderDetailV2> getBuses(Model model, @CookieValue(value = "city", defaultValue = "-1") int city,
+	public List<BusOrderDetailV2> sift_orderdetailV2(Model model, @CookieValue(value = "city", defaultValue = "-1") int city,
 			@RequestParam("seriaNum") long seriaNum,Principal principal) {
 		return productService.getOrderDetailV2BySeriNum(seriaNum,  principal);
 	}
 	
-	@RequestMapping(value = "ajax-querySelectPrice", method = RequestMethod.GET)
+	 
+	
+	@RequestMapping(value = "sift_SelectBodyPrice", method = RequestMethod.GET)
 	@ResponseBody
 	public Double querySelectPrice(Model model, @CookieValue(value = "city", defaultValue = "-1") int city,
 			String select,Principal principal) {
