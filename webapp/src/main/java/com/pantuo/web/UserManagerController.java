@@ -218,6 +218,17 @@ public class UserManagerController {
 		}
 		return "contract_templete";
 	}
+	
+	@RequestMapping(value = "/busContract_templete", produces = "text/html;charset=utf-8")
+	public String busContract_templete(Model model,Principal principal,
+			@RequestParam(value="orderid" ,required=false, defaultValue ="0") int orderid,
+			@RequestParam(value="productid" ,required=false, defaultValue ="0") int productid,
+			HttpServletRequest request,HttpServletResponse response) {
+		response.setHeader("X-Frame-Options", "SAMEORIGIN");
+		UserDetail userDetail = userService.findByUsername(Request.getUserId(principal));
+		model.addAttribute("userDetail", userDetail);
+		return "contract_bustemplete";
+	}
 	@RequestMapping(value = "/activate", produces = "text/html;charset=utf-8")
 	public String activate(Model model,Principal principal,HttpServletRequest request,@RequestParam(value = "userId") String userId,
 			@RequestParam(value = "uuid") String uuid) {
