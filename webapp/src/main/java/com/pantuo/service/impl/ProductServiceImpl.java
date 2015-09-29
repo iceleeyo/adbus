@@ -666,6 +666,11 @@ public class ProductServiceImpl implements ProductService {
 				checkResult.getRight().doubleChecker) * 1d;
 		basePrice *= checkResult.getRight().days / 30;
 		return basePrice;
-
 	}
+	
+	public  JpaProductV2 findV2ById(int productId){
+		  	return productV2Repository.findOne(productId);
+	}
+	
+	
 }

@@ -70,5 +70,11 @@ public interface ProductService {
 	
 	
 	public Double querySelectPrice( int city,String  select);
+	
+	/**
+	 * 
+	 */  
+	
+	JpaProductV2 findV2ById(int productId);
 
 }

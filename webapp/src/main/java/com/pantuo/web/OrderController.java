@@ -26,7 +26,6 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,7 +43,7 @@ import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaOrderBuses;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
-import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.dao.pojo.JpaProductV2;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.mybatis.domain.Orders;
@@ -104,6 +103,25 @@ public class OrderController {
 	@Autowired
 	private CpdService cpdService;
 
+	
+	
+	@RequestMapping(value = "/ibus/{product_id}", produces = "text/html;charset=utf-8")
+	public String ibus(Model model, @PathVariable("product_id") int product_id,
+                         Principal principal,@RequestParam(value="cpdid",required = false ,defaultValue = "0") int cpdid,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId,
+            @ModelAttribute("city") JpaCity city,
+            HttpServletRequest request) {
+		JpaProductV2 prod = productService.findV2ById(product_id);
+		List<Orders> logsList=orderService.queryLogByProId(prod.getId());
+		int logCount=orderService.queryLogCountByProId(prod.getId());
+		request.getSession(false).setAttribute("token", UUID.randomUUID().toString());
+		model.addAttribute("logCount", logCount);
+		model.addAttribute("prod", prod);
+		model.addAttribute("logsList", logsList);
+		return "commonBusPage";
+	}
+	
+	
 	@RequestMapping(value = "/iwant/{product_id}", produces = "text/html;charset=utf-8")
 	public String buypro(Model model, @PathVariable("product_id") int product_id,
                          Principal principal,@RequestParam(value="cpdid",required = false ,defaultValue = "0") int cpdid,

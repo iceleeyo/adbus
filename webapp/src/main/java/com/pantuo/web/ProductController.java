@@ -359,8 +359,12 @@ public class ProductController {
     	return "sift";
     }
     @RequestMapping(value = "/sift_bus")
-    public String bus_sift(Model model) {
+    public String bus_sift(@CookieValue(value = "city", defaultValue = "-1") int city,Principal principal,Model model) {
     	model.addAttribute("seriaNum", Only1ServieUniqLong.getUniqLongNumber());
+    	TableRequest r = new TableRequest();
+    	r.setLength(4);
+    	Page<JpaProductV2> page = productService.searchProductV2s(city, principal, r);
+    	model.addAttribute("siftList", page.getContent());
     	return "sift_bus";
     }
 
