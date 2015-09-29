@@ -394,7 +394,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 							+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">上刊日期:</label>'
 							+'<input class="ui-input datepicker validate[required,custom[date],past[#endDate]]" type="text" name="startD" value="" id="startDate" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
 							+'</div>'
-							+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">下刊日期:</label>'
+							+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">刊期:</label>'
 							+'<input class="ui-input datepicker validate[required,custom[date],past[#endDate]]" type="text" name="endD" value="" id="endDate" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
 							+'</div>'
 							+'<div class="ui-form-item"> <label class="ui-label mt10">批次：</label>'
@@ -623,7 +623,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 									class="ui-form-required">*</span>合同金额:
 								</label> <input
 									class="ui-input validate[required]"
-									type="text" name="amounts" value="${(offlinecontract.amounts)!''}"
+									type="text" name="amounts"  onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/[^\d.]/g,'')}" value="${(offlinecontract.amounts)!''}"
 									data-is="isAmount isEnough" autocomplete="off"
 									disableautocomplete="" placeholder="输入合同金额">
 							</div>

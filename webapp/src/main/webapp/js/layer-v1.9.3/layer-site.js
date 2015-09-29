@@ -729,7 +729,7 @@ function addfenqi(url,seriaNum) {
 			+'id="namestr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
 			+'</div>'
 			+'<div class="ui-form-item"> <label class="ui-label mt10">金额：</label>'
-			+'<input class="ui-input " type="text" value="" name="amounts"  '
+			+'<input class="ui-input " type="text" value="" name="amounts" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\\d.]/g,\'\')}else{this.value=this.value.replace(/[^\\d.]/g,\'\')}"'
 			+'id="amounts" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
 			+'</div>'
 			+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">付款日期:</label>'

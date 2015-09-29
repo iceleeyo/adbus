@@ -210,7 +210,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				</table>
 						</div>
 						</div>
-						<div class="withdraw-wrap color-white-bg fn-clear">
+						<div class="withdraw-wrap color-white-bg fn-clear" style="margin-top: 10px;">
 			<form data-name="withdraw" name="form2" id="form2"
 								class="ui-form" method="post" action="saveProductV2"
 								enctype="multipart/form-data">
@@ -238,9 +238,10 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 											<textarea rows="4" class=" validate[required]" cols="40" style="resize: none;" name="remarks"></textarea>
 										</div>
 									</div>
+									
 									</div>
-									<div class="ui-form-item widthdrawBtBox">
-										<input type="button" id="subutton" class="block-btn"
+									<div class="ui-form-item widthdrawBtBox" style="padding: 20px 0px 0px 0px; text-align: center;">
+										<input type="button" id="subutton" class="block-btn" 
 											onclick="sub();" value="生成套餐">
 									</div>
 								</div>

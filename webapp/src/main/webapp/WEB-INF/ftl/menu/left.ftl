@@ -349,7 +349,7 @@
 											   <@security.authorize ifAnyGranted="meijie_bus">	
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/bus/list">
-                                                    巴士列表
+                                                    车辆列表
                                                 </a>
                                             </li>
                                              </@security.authorize>

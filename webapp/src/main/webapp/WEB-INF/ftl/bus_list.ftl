@@ -1,7 +1,7 @@
 <#import "template/template.ftl" as frame>
-<#global menu="巴士列表">
+<#global menu="车辆列表">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="巴士列表" js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
+<@frame.html title="车辆列表" js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
 "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
 "js/jquery.datepicker.region.cn.js","js/progressbar.js"]
 css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
@@ -268,7 +268,7 @@ function showBusDetail(pathUrl,tourl,id){
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title">
-                巴士列表
+                车辆列表
 									</div>
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>

@@ -17,7 +17,14 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 </style>
 
 <script type="text/javascript">
-	
+	function check(id){
+		layer.confirm('确定下单吗？', {icon: 3}, function(index){
+    		layer.close(index);
+    		if(true){
+        		window.location.href="${rc.contextPath}/bus/offlineContract/" + id +"/0";
+    		}
+		});
+	}
     var table;
     function initTable () {
         table = $('#table').dataTable( {
@@ -78,7 +85,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 	              
 	              		var tString ='';
 	              		if(row.busInfo.stats == 'now' || row.busInfo.stats == 'future'){
-	              			tString = 	 '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/bus/offlineContract/' + (row.busInfo.busOnline.id) +"/0"+ '">撤销</a> &nbsp;'
+	              			tString = 	 '<a class="table-action" href="javascript:void(0);" onclick="check('+row.busInfo.busOnline.id+');" >撤销</a> &nbsp;'
 	              		}
 	                	return tString;
 	                }
