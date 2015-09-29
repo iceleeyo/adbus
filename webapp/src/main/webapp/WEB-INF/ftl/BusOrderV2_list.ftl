@@ -15,7 +15,7 @@
             "scrollX": true,
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                { "orderable": false, "targets": [0,1,3,4] },
+                { "orderable": false, "targets": [0,1,3] },
             ],
             "ajax": {
                 type: "GET",
@@ -40,10 +40,12 @@
                 	var d= $.format.date(data, "yyyy-MM-dd");
                 	return d;
                 }},
+                <@security.authorize ifAnyGranted="bodyContractManager">
                 { "data": "creater", "defaultContent": "" ,
                     "render": function(data, type, row, meta) {
                     return '<a href="${rc.contextPath}/user/u/' + data + '" >'+data+'</a> ';
                 } },
+                  </@security.authorize >
                 { "data": function( row, type, set, meta) {
                     return row.id;
                 },
@@ -53,6 +55,7 @@
                        return operations;
                         
                     }},
+                  
             ],
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
@@ -125,7 +128,9 @@ function buy(pid){
                         <th >套餐名称</th>
                         <th >价格(元)</th>
                         <th  orderBy="created">下单时间</th>
+                         <@security.authorize ifAnyGranted="bodyContractManager">
                         <th >下单人</th>
+                          </@security.authorize >
                         <th>管理</th>
                     </tr>
                     </thead>

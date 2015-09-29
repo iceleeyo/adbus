@@ -73,10 +73,15 @@ function addPlan(pathurl){
 			"seriaNum":  $("#sn").val()
 		},
 		success:function(data){
+			
 			if (data.left == true) {
 				//	swift_tableObject.fnDraw();;
+				layer.msg("增加计划成功!");
 					swift_tableObject.dataTable()._fnAjaxUpdate();
-					layer.msg("增加计划成功!");
+					 var uptime = window.setTimeout(function(){
+	                        window.location.href=pathurl+"/product/busOrderV2_list/my";
+	                        clearTimeout(uptime);
+	                    },3500);
 			} else {
 				bb=false;
 				layer.msg(data.right.msg,{icon: 5});
