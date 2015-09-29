@@ -26,9 +26,9 @@
             "columns": [
                 { "data": "jpaProductV2.name", "defaultContent": "" ,"render": function(data, type, row, meta) {
                     if(data==''){
-                          return '<a  onclick="showProV2Detail(\'${rc.contextPath}\','+row.jpaProductV2.id+');">'+data+'</a>';
-                    }else{
                 	  return '<a  onclick="showProV2Detail(\'${rc.contextPath}\','+row.jpaProductV2.id+');">自主下单</a>';
+                    }else{
+                          return '<a  onclick="showProV2Detail(\'${rc.contextPath}\','+row.jpaProductV2.id+');">'+data+'</a>';
                     }
                 }},
                 { "data": "productPrice", "defaultContent": "", "render": $.fn.dataTable.render.number( ',', '.', 2, ' ')  },
