@@ -242,6 +242,38 @@
                                     
                                     
                                     <#if city.mediaType == 'body'>
+                                     <@security.authorize ifAnyGranted="bodyContractManager,sale_packageDesign,sale_packageList,sale_packageOrder">  
+                                    <li class="pg-side-item">
+                                        <a class="pg-side-item-t gg-icon">
+                                            <i class="s-left pg-icon-a g-icon"></i>
+                                            套餐管理
+                                        </a>
+                                          <ul class="pg-side-exp-list">
+                                           <@security.authorize ifAnyGranted="bodyContractManager,sale_packageDesign"> 
+                                        	<li class="pg-side-exp-item">
+												<a class="side-exp-item-t"  href="${rc.contextPath}/product/newBodyPro">
+												   车身套餐定义
+												</a>
+											</li>
+											</@security.authorize>
+											 <@security.authorize ifAnyGranted="bodyContractManager,sale_packageList"> 
+											 <li class="pg-side-exp-item">
+												<a class="side-exp-item-t"  href="${rc.contextPath}/product/productV2_list">
+												   车身套餐列表
+												</a>
+											</li>
+											</@security.authorize>
+											 <@security.authorize ifAnyGranted="bodyContractManager,sale_packageOrder"> 
+											<li class="pg-side-exp-item">
+												<a class="side-exp-item-t"  href="${rc.contextPath}/product/busOrderV2_list/all">
+												   车身订单列表
+												</a>
+											</li>
+											</@security.authorize>
+                                          </ul>
+                                    </li>
+                                    </@security.authorize>	
+                                    
                                     
                                      <@security.authorize ifAnyGranted="bodysales,bodyContractManager,contract_input,contract_list,contract_search,contract_buy">  
                                     <li class="pg-side-item">
@@ -270,21 +302,6 @@
 											</li>
 											-->
                                				<@security.authorize ifAnyGranted="bodyContractManager,contract_input">    
-											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t"  href="${rc.contextPath}/product/newBodyPro">
-												   车身套餐定义
-												</a>
-											</li>
-											 <li class="pg-side-exp-item">
-												<a class="side-exp-item-t"  href="${rc.contextPath}/product/productV2_list">
-												   车身套餐列表
-												</a>
-											</li>
-											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t"  href="${rc.contextPath}/product/busOrderV2_list/all">
-												   车身订单列表
-												</a>
-											</li>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/busselect/offContract_enter">
 												    创建合同
