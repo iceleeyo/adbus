@@ -93,7 +93,7 @@
 							<div class="sift-item s-clear">
 								<span>展示周期：</span>
 								<div class="sift-list" qt="d">
-									<a class="item" href="javascript:;" sort="-1" qc="30" >30<i>×</i></a>
+									<a class="item active" href="javascript:;" sort="-1" qc="30" >30<i>×</i></a>
 									<a class="item" href="javascript:;" sort="-1" qc="60">60<i>×</i></a>
 									<a class="item" href="javascript:;" sort="-1" qc="90">90<i>×</i></a>
 									<a class="item" href="javascript:;" sort="-1" qc="180">180<i>×</i></a>
