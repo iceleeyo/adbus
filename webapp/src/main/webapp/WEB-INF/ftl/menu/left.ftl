@@ -117,6 +117,7 @@
 										</a>
 										<ul class="pg-side-exp-list">
 										<@security.authorize ifAnyGranted="advertiser">
+										<#if city.mediaType == 'screen'>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/order/myOrders/1">
 													我的订单
@@ -127,6 +128,14 @@
 													我的获拍
 												</a>
 											</li>
+											</#if>
+											<#if city.mediaType == 'body'>
+											<li class="pg-side-exp-item">
+												<a class="side-exp-item-t" href="${rc.contextPath}/product/busOrderV2_list/my">
+													我的订单
+												</a>
+											</li>
+											</#if>
 										</@security.authorize>	
 										<@security.authorize ifAnyGranted="bodysales">
 											<li class="pg-side-exp-item">
@@ -267,7 +276,7 @@
 												</a>
 											</li>
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t"  href="${rc.contextPath}/product/busOrderV2_list">
+												<a class="side-exp-item-t"  href="${rc.contextPath}/product/busOrderV2_list/all">
 												   车身订单列表
 												</a>
 											</li>

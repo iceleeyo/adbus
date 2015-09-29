@@ -5,9 +5,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.pantuo.dao.pojo.JpaSupplies.Status;
 @Entity
 @Table(name = "product_V2")
 public class JpaProductV2 extends CityEntity {
+	 public static enum Status {
+	       online,offline
+	    }
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
@@ -17,6 +22,7 @@ public class JpaProductV2 extends CityEntity {
 	private String jbremarks;//备注
 	private String remarks;//备注
 	private String creater;//创建人
+	private Status stats;//上下架
 
 	public JpaProductV2() {
 		super();
@@ -36,6 +42,14 @@ public class JpaProductV2 extends CityEntity {
 
 	public String getName() {
 		return name;
+	}
+
+	public Status getStats() {
+		return stats;
+	}
+
+	public void setStats(Status stats) {
+		this.stats = stats;
 	}
 
 	public void setName(String name) {

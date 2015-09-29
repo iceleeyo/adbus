@@ -386,6 +386,7 @@ public class ProductServiceImpl implements ProductService {
 		productV2.setCreated(new Date());
 		productV2.setUpdated(new Date());
 		productV2.setCreater(userId);
+		productV2.setStats(0);
 		int a = productV2Mapper.insert(productV2);
 		if (a > 0) {
 			for (BusOrderDetailV2 v : list) {
@@ -458,6 +459,9 @@ public class ProductServiceImpl implements ProductService {
 		BooleanExpression query = city >= 0 ? QJpaBusOrderV2.jpaBusOrderV2.city.eq(city) : QJpaProduct.jpaProduct.city.goe(0);
 		if (StringUtils.isNotBlank(name)) {
 			query = query.and(QJpaBusOrderV2.jpaBusOrderV2.JpaProductV2.name.like("%" + name + "%"));
+		}
+		if(StringUtils.equals(type, "my")){
+			query = query.and(QJpaBusOrderV2.jpaBusOrderV2.creater.eq(Request.getUserId(principal)));
 		}
 		return busOrderV2Repository.findAll(query, p);
 	}
@@ -666,6 +670,20 @@ public class ProductServiceImpl implements ProductService {
 				checkResult.getRight().doubleChecker) * 1d;
 		basePrice *= checkResult.getRight().days / 30;
 		return basePrice;
+
+	}
+
+	@Override
+	public Pair<Boolean, String> changeProStats(int proId, String enable) {
+		ProductV2 v=productV2Mapper.selectByPrimaryKey(proId);
+		if(v!=null){
+			v.setStats(JpaProductV2.Status.valueOf(enable).ordinal());
+			if(productV2Mapper.updateByPrimaryKey(v)>0){
+				return new Pair<Boolean, String>(true,"操作成功");
+			}
+			return new Pair<Boolean, String>(false,"操作失败");
+		}
+		return new Pair<Boolean, String>(false,"信息丢失");
 	}
 	
 	public  JpaProductV2 findV2ById(int productId){

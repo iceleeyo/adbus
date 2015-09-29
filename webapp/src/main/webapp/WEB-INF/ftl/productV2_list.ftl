@@ -36,7 +36,12 @@
                 },
                     "render": function(data, type, row, meta) {
                           var operations = '<a  onclick="showProV2Detail(\'${rc.contextPath}\','+data+');">查看详细</a>&nbsp;&nbsp;';
-                     	 	 operations+= '<a  href="javascript:void(0);" onclick="buy('+data+')" >下单</a>';
+                          if(row.stats=='online'){
+                     	 	 operations+= '<a  href="javascript:void(0);" onclick="buy('+data+')" >下单</a>&nbsp;&nbsp;';
+                      		operations +=	'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/changeStats/' + data + '/offline">取消上架</a> &nbsp;'
+                       	}else {
+                       		operations +=	'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/changeStats/' + data + '/online">上架</a> &nbsp;'
+                       	}
                        return operations;
                         
                     }},
@@ -89,7 +94,7 @@ function buy(pid){
 		    			success:function(data){
 		    				if (data.left == true) {
 		    					layer.msg(data.right);
-		    					 window.location.href="${rc.contextPath}/product/busOrderV2_list";
+		    					 window.location.href="${rc.contextPath}/product/busOrderV2_list/all";
 		    				} else {
 		    					layer.msg(data.right,{icon: 5});
 		    				}

@@ -70,6 +70,7 @@ public interface ProductService {
 	
 	
 	public Double querySelectPrice( int city,String  select);
+	Pair<Boolean, String> changeProStats(int proId, String enable);
 	
 	/**
 	 * 

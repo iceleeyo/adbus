@@ -15,7 +15,7 @@
             "scrollX": true,
             "ajax": {
                 type: "GET",
-                url: "${rc.contextPath}/product/ajax-busOrderV2_list",
+                url: "${rc.contextPath}/product/ajax-busOrderV2_list/${type}",
                 data: function(d) {
                     return $.extend( {}, d, {
                         "filter[name]" : $('#name').val()
@@ -24,7 +24,13 @@
                 "dataSrc": "content",
             },
             "columns": [
-                { "data": "jpaProductV2.name", "defaultContent": "自主下单" },
+                { "data": "jpaProductV2.name", "defaultContent": "" ,"render": function(data, type, row, meta) {
+                    if(data==''){
+                          return '<a  onclick="showProV2Detail(\'${rc.contextPath}\','+row.jpaProductV2.id+');">'+data+'</a>';
+                    }else{
+                	  return '<a  onclick="showProV2Detail(\'${rc.contextPath}\','+row.jpaProductV2.id+');">自主下单</a>';
+                    }
+                }},
                 { "data": "productPrice", "defaultContent": "", "render": $.fn.dataTable.render.number( ',', '.', 2, ' ')  },
                  { "data": "created", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd");

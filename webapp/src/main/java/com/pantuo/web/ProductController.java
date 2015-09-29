@@ -16,6 +16,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +34,7 @@ import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaCpd;
 import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.dao.pojo.JpaSupplies;
 import com.pantuo.dao.pojo.JpaProduct.FrontShow;
 import com.pantuo.dao.pojo.JpaProductV2;
 import com.pantuo.dao.pojo.UserDetail;
@@ -93,12 +96,12 @@ public class ProductController {
     	Page<JpaProductV2> page = productService.searchProductV2s(city, principal, req);
     	return new DataTablePage(page, req.getDraw());
     }
-    @RequestMapping("ajax-busOrderV2_list")
+    @RequestMapping("ajax-busOrderV2_list/{type}")
     @ResponseBody
     public DataTablePage<JpaProductV2> busOrderV2_list( TableRequest req,
-    		@CookieValue(value="city", defaultValue = "-1") int city,
+    		@CookieValue(value="city", defaultValue = "-1") int city,@PathVariable("type") String type,
     		Principal principal) {
-    	Page<JpaBusOrderV2> page = productService.searchBusOrderV2(city, principal, req,"all");
+    	Page<JpaBusOrderV2> page = productService.searchBusOrderV2(city, principal, req,type);
     	return new DataTablePage(page, req.getDraw());
     }
     @RequestMapping("ajax-BusOrderDetailV2")
@@ -337,8 +340,9 @@ public class ProductController {
     	model.addAttribute("pid", id);
     	return "busOrderDetail_list";
     }
-    @RequestMapping(value = "/busOrderV2_list")
-    public String busOrderV2_list() {
+    @RequestMapping(value = "/busOrderV2_list/{type}")
+    public String busOrderV2_list(Model model,@PathVariable("type") String type) {
+    	model.addAttribute("type", type);
     	return "BusOrderV2_list";
     }
     @RequestMapping(value = "/productV2_list")
@@ -395,7 +399,13 @@ public class ProductController {
 		return productService.getOrderDetailV2BySeriNum(seriaNum,  principal);
 	}
 	
-	 
+	@RequestMapping(value = "/changeStats/{proId}/{enable}", method = { RequestMethod.POST})
+    @ResponseBody
+    public Pair<Boolean, String> changeStats(@PathVariable("proId") int proId,
+    		@PathVariable("enable") String enable,
+                                 @CookieValue(value="city", defaultValue = "-1") int city) {
+		 return productService.changeProStats(proId,enable);
+    }
 	
 	@RequestMapping(value = "sift_SelectBodyPrice", method = RequestMethod.GET)
 	@ResponseBody
