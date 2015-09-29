@@ -1,0 +1,32 @@
+html {
+  overflow: hidden;
+  height: 100%;
+}
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  font-family: "微软雅黑", Arial;
+}
+header,
+section {
+  width: 100%;
+}
+section {
+  position: relative;
+}
+ul,
+ol {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+a {
+  background-color: transparent;
+  color: inherit;
+}
+a:focus {
+  color: inherit;
+}
+a {
+  text-decoration: none;
+}
