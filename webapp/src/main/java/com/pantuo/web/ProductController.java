@@ -17,8 +17,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +33,6 @@ import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaCpd;
 import com.pantuo.dao.pojo.JpaProduct;
-import com.pantuo.dao.pojo.JpaSupplies;
 import com.pantuo.dao.pojo.JpaProduct.FrontShow;
 import com.pantuo.dao.pojo.JpaProductV2;
 import com.pantuo.dao.pojo.UserDetail;
@@ -44,6 +41,7 @@ import com.pantuo.mybatis.domain.ProductV2;
 import com.pantuo.mybatis.domain.UserCpd;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
+import com.pantuo.service.CityService;
 import com.pantuo.service.CpdService;
 import com.pantuo.service.ProductService;
 import com.pantuo.service.UserServiceInter;
@@ -67,6 +65,8 @@ public class ProductController {
     private CpdService cpdService;
     @Autowired
 	private UserServiceInter userService;
+    @Autowired
+    private CityService cityService;
     
     @RequestMapping("ajax-list")
     @ResponseBody
@@ -368,19 +368,24 @@ public class ProductController {
     	return "myCompare";
     }
     
-    @RequestMapping(value = "/sift")
-    public String sift() {
-    	return "sift";
-    }
-    @RequestMapping(value = "/sift_bus")
-    public String bus_sift(@CookieValue(value = "city", defaultValue = "-1") int city,Principal principal,Model model) {
-    	model.addAttribute("seriaNum", Only1ServieUniqLong.getUniqLongNumber());
-    	TableRequest r = new TableRequest();
-    	r.setLength(4);
-    	Page<JpaProductV2> page = productService.searchProductV2s(city, principal, r);
-    	model.addAttribute("siftList", page.getContent());
-    	return "sift_bus";
-    }
+	@RequestMapping(value = "/sift")
+	public String sift(@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal, Model model) {
+		JpaCity jpaCity = cityService.fromId(city);
+		if (jpaCity != null && jpaCity.getMediaType() == JpaCity.MediaType.body) {
+			return bus_sift(city, principal, model);
+		}
+		return "sift";
+	}
+
+	@RequestMapping(value = "/sift_bus")
+	public String bus_sift(@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal, Model model) {
+		model.addAttribute("seriaNum", Only1ServieUniqLong.getUniqLongNumber());
+		TableRequest r = new TableRequest();
+		r.setLength(4);
+		Page<JpaProductV2> page = productService.searchProductV2s(city, principal, r);
+		model.addAttribute("siftList", page.getContent());
+		return "sift_bus";
+	}
 
 	@RequestMapping(value = "/sift_addPlan")
 	@ResponseBody
