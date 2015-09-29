@@ -66,12 +66,10 @@
 					</#if>
 					
 					
-					
 					<div class="container-12 mt10 s-clear">
 						<div class="sift-box">
 						
 						 
-							<#if city.mediaType=="body">
 								<div class="sift-item s-clear">
 								<span>车型类型：</span>
 								<div class="sift-list" qt="dc">
@@ -88,8 +86,6 @@
 									<a class="item" href="javascript:;"  sort="-1" qc="A" >A<i>×</i></a>
 								</div>
 							</div>
-							<#else>
-							</#if>
 							<div class="sift-item s-clear">
 								<span>展示周期：</span>
 								<div class="sift-list" qt="d">
