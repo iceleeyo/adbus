@@ -373,7 +373,7 @@ public class ProductServiceImpl implements ProductService {
 			query = query.and(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.JpaProductV2.id.eq(pid));
 		}
 		if( orderid>0){
-			query = query.and(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.jpaBusOrderV2.id.eq(pid));
+			query = query.and(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.jpaBusOrderV2.id.eq(orderid));
 		}
 		return busOrderDetailV2Repository.findAll(query, p);
 	}
@@ -615,7 +615,7 @@ public class ProductServiceImpl implements ProductService {
 	public Pair<Boolean, String> buildPlan(int city, long seriaNum, Principal principal) {
 		Pair<Boolean, String> r = new Pair<Boolean, String>(false, StringUtils.EMPTY);
 		BusOrderDetailV2Example example = new BusOrderDetailV2Example();
-		example.createCriteria().andSeriaNumEqualTo(seriaNum);
+		example.createCriteria().andSeriaNumEqualTo(seriaNum).andCreaterEqualTo(Request.getUserId(principal));
 		int totalPlan = v2Mapper.countByExample(example);
 		
 		double totalMoney = 0d;
@@ -639,6 +639,11 @@ public class ProductServiceImpl implements ProductService {
 		record.setOrderPrice(totalMoney);
 		record.setOrderStatus(JpaBusOrderV2.BusOrderStatus.begin.ordinal());
 		v2OMapper.insert(record);
+		BusOrderDetailV2 v2 =new BusOrderDetailV2();
+		BusOrderDetailV2Example example2 = new BusOrderDetailV2Example();
+		example2.createCriteria().andSeriaNumEqualTo(seriaNum).andCreaterEqualTo(Request.getUserId(principal));
+		v2.setOrderid(record.getId());
+		v2Mapper.updateByExampleSelective(v2, example2);
 		r.setLeft(true);
 		return r;
 

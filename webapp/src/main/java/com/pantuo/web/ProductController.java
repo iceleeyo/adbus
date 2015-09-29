@@ -9,6 +9,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -351,6 +352,7 @@ public class ProductController {
     @RequestMapping(value = "/busOrderV2_list/{type}")
     public String busOrderV2_list(Model model,@PathVariable("type") String type) {
     	model.addAttribute("type", type);
+    	model.addAttribute("currMenu", StringUtils.equals(type, "all")?"车身订单列表":"我的订单");
     	return "BusOrderV2_list";
     }
     @RequestMapping(value = "/productV2_list")
