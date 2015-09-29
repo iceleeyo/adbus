@@ -93,14 +93,13 @@
 							<div class="sift-item s-clear">
 								<span>展示周期：</span>
 								<div class="sift-list" qt="d">
-									<a class="item active" href="javascript:;" sort="-1" qc="30" >30<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" qc="30" >30<i>×</i></a>
 									<a class="item" href="javascript:;" sort="-1" qc="60">60<i>×</i></a>
 									<a class="item" href="javascript:;" sort="-1" qc="90">90<i>×</i></a>
 									<a class="item" href="javascript:;" sort="-1" qc="180">180<i>×</i></a>
 									<a class="item" href="javascript:;" sort="-1" qc="360">360<i>×</i></a>
 								</div>
 							</div>
-							
 							<div class="sift-item s-clear">
 								<span>商圈：</span>
 								<div class="sift-list" qt="d">
@@ -127,13 +126,6 @@
 									<a class="item" href="javascript:;" sort="-1" >密云<i>×</i></a>
 								</div>
 								</div>
-								
-								</div>
-								</div>
-								
-								</div>
-							</div>
-							
 							<div class="sift-item s-clear">
 									<span>车辆数量：</span>
 									<input  id="busNumber" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/[^\d.]/g,'')}" type="text" placeholder="请输入车辆数量">

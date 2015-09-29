@@ -107,7 +107,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				.antMatchers("/", "/*.html", "/login", "/logout", "/homepage/**", "/css/**", "/images/**", "/imgs/**",
-						"/js/**", "/style/**")
+						"/js/**", "/index_js/**","/index_img/**","/index_css/**","/style/**")
 				.permitAll()
 				.antMatchers("/busselect/work**/**","/intro**", "/about-me", "/loginForLayer", "/body","/**/public**", "/register", "/user/**",
 						"/doRegister", "/validate/**", "/f/**", "/product/d/**", "/product/c/**", "/product/sift**",

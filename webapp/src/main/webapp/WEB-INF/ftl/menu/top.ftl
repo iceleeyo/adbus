@@ -175,15 +175,15 @@
 								<li class="pg-nav-item s-left">
 									 <#if city??>
                                     <#if  medetype?? && medetype=="screen">
-                                       <a class="pg-nav-item-t" href="${rc.contextPath}/">首页</a>
+                                       <a class="pg-nav-item-t" href="/index.html">首页</a>
                                         <#else>
-                                       <a class="pg-nav-item-t" href="${rc.contextPath}/body">首页</a>
+                                       <a class="pg-nav-item-t" href="/index.html">首页</a>
                                         </#if>
                                     <#else>
                                       <#if medetype?? && medetype=="screen">
-                                       <a class="pg-nav-item-t" href="${rc.contextPath}/">首页</a>
+                                       <a class="pg-nav-item-t" href="/index.html">首页</a>
                                         <#else>
-                                        <a class="pg-nav-item-t" href="${rc.contextPath}/body">首页</a>
+                                        <a class="pg-nav-item-t" href="/index.html">首页</a>
                                         </#if>
                                     </#if>
 								</li>
