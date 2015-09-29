@@ -356,7 +356,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Page<JpaBusOrderDetailV2> searchBusOrderDetailV2(int pid,long seriaNum,int city, Principal principal, TableRequest req) {
+	public Page<JpaBusOrderDetailV2> searchBusOrderDetailV2(int orderid,int pid,long seriaNum,int city, Principal principal, TableRequest req) {
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("id");
 		if (page < 0)
@@ -371,6 +371,9 @@ public class ProductServiceImpl implements ProductService {
 		}
 		if( pid>0){
 			query = query.and(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.JpaProductV2.id.eq(pid));
+		}
+		if( orderid>0){
+			query = query.and(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.jpaBusOrderV2.id.eq(pid));
 		}
 		return busOrderDetailV2Repository.findAll(query, p);
 	}

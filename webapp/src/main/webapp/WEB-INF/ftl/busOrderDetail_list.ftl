@@ -19,7 +19,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 								url : "${rc.contextPath}/product/ajax-BusOrderDetailV2",
 								data : function(d) {
 									return $.extend({}, d, {
-										"pid" : '${pid!''}'
+										"pid" : '${pid!''}',
+										"orderid" : '${orderid!''}'
 									});
 								},
 								 "dataSrc": "content",

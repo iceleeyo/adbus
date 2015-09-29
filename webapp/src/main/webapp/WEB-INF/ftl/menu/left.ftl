@@ -130,6 +130,11 @@
 											</li>
 											</#if>
 											<#if city.mediaType == 'body'>
+											 <li class="pg-side-exp-item">
+												<a class="side-exp-item-t"  href="${rc.contextPath}/product/productV2_list">
+												   车身套餐列表
+												</a>
+											</li>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/product/busOrderV2_list/my">
 													我的订单
@@ -270,11 +275,7 @@
 												   车身套餐定义
 												</a>
 											</li>
-											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t"  href="${rc.contextPath}/product/productV2_list">
-												   车身套餐列表
-												</a>
-											</li>
+											
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t"  href="${rc.contextPath}/product/busOrderV2_list/all">
 												   车身订单列表

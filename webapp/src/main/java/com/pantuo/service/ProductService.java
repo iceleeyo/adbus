@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.data.domain.Page;
 
+import scala.collection.generic.BitOperations.Int;
+
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaBusOrderV2;
 import com.pantuo.dao.pojo.JpaProduct;
@@ -50,7 +52,7 @@ public interface ProductService {
 	 */
 	Page<ProductView> getProductView( Page<JpaProduct> list);
 	Pair<Boolean, Long> saveBusOrderDetail(JpaBusOrderDetailV2 prod);
-	Page<JpaBusOrderDetailV2> searchBusOrderDetailV2(int pid, long seriaNum2, int city, Principal principal, TableRequest req);
+	Page<JpaBusOrderDetailV2> searchBusOrderDetailV2(int orderid,int pid, long seriaNum, int city, Principal principal, TableRequest req);
 	Pair<Boolean, String> saveProductV2(ProductV2 productV2, long seriaNum, String userId);
 	Page<JpaProductV2> searchProductV2s(int city, Principal principal, TableRequest req);
 	Pair<Boolean, String> buyBodyPro(int pid, int city, String userId);

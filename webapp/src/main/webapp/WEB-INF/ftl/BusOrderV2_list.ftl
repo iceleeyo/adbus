@@ -25,8 +25,8 @@
             },
             "columns": [
                 { "data": "jpaProductV2.name", "defaultContent": "" ,"render": function(data, type, row, meta) {
-                    if(data==''){
-                	  return '<a  onclick="showProV2Detail(\'${rc.contextPath}\','+row.jpaProductV2.id+');">自主下单</a>';
+                    if(data==null || data==''){
+                	  return '<a  onclick="showProV2DetailByOrderID(\'${rc.contextPath}\','+row.id+');">自主下单</a>';
                     }else{
                           return '<a  onclick="showProV2Detail(\'${rc.contextPath}\','+row.jpaProductV2.id+');">'+data+'</a>';
                     }

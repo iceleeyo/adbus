@@ -107,9 +107,11 @@ public class ProductController {
     @RequestMapping("ajax-BusOrderDetailV2")
     @ResponseBody
     public DataTablePage<JpaBusOrderDetailV2> ajaxBusOrderDetailV2( TableRequest req,
-    		@CookieValue(value="city", defaultValue = "-1") int city,@RequestParam(value = "pid",required=false ,defaultValue="0") int pid,@RequestParam(value="seriaNum",required=false,defaultValue="0") long seriaNum,
+    		@CookieValue(value="city", defaultValue = "-1") int city,@RequestParam(value = "pid",required=false ,defaultValue="0") int pid,
+    		@RequestParam(value = "orderid",required=false ,defaultValue="0") int orderid,
+    		@RequestParam(value="seriaNum",required=false,defaultValue="0") long seriaNum,
     		Principal principal) {
-    	Page<JpaBusOrderDetailV2> page = productService.searchBusOrderDetailV2(pid,seriaNum,city, principal, req);
+    	Page<JpaBusOrderDetailV2> page = productService.searchBusOrderDetailV2(orderid,pid,seriaNum,city, principal, req);
     	return new DataTablePage(page, req.getDraw());
     }
     @RequestMapping("compareProduct-list")
@@ -338,6 +340,12 @@ public class ProductController {
     public String showProV2Detail(Model model, @PathVariable("id") int id,HttpServletResponse response) {
     	response.setHeader("X-Frame-Options", "SAMEORIGIN");
     	model.addAttribute("pid", id);
+    	return "busOrderDetail_list";
+    }
+    @RequestMapping(value = "/showProV2DetailByOrderID/{id}", produces = "text/html;charset=utf-8")
+    public String showProV2DetailByOrderID(Model model, @PathVariable("id") int id,HttpServletResponse response) {
+    	response.setHeader("X-Frame-Options", "SAMEORIGIN");
+    	model.addAttribute("orderid", id);
     	return "busOrderDetail_list";
     }
     @RequestMapping(value = "/busOrderV2_list/{type}")

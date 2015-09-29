@@ -94,7 +94,7 @@ function buy(pid){
 		    			success:function(data){
 		    				if (data.left == true) {
 		    					layer.msg(data.right);
-		    					 window.location.href="${rc.contextPath}/product/busOrderV2_list/all";
+		    					 window.location.href="${rc.contextPath}/product/busOrderV2_list/my";
 		    				} else {
 		    					layer.msg(data.right,{icon: 5});
 		    				}

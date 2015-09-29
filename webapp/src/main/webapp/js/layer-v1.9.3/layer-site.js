@@ -28,6 +28,18 @@ function showProV2Detail(tourl,id){
 	});
 	
 }
+function showProV2DetailByOrderID(tourl,id){
+	layer.open({
+		type: 1,
+		title: "套餐详细",
+		skin: 'layui-layer-rim', 
+		area: ['900px', '300px'], 
+		content:''
+			+' '
+			+'<iframe style="width:99%;height:98%" frameborder="no" src="'+tourl+'/product/showProV2DetailByOrderID/'+id+'"/>'
+	});
+	
+}
 //查看车辆上刊历史
 function showbusOnline_history(tourl,id){
 	layer.open({
