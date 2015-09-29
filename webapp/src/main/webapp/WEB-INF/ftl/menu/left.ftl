@@ -503,13 +503,14 @@
                                      </@security.authorize>
                                     </#if>
                                     </@security.authorize>
-                                    <@security.authorize ifAnyGranted="sys_userList,sys_roleManager,bodysales,bodyContractManager,ShibaSuppliesManager,advertiser,UserManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+                                 
 									<li class="pg-side-item">
 										<a class="pg-side-item-t ff-icon">
 											<i class="s-left pg-icon-a e-icon"></i>
 											用户信息
 										</a>
 										<ul class="pg-side-exp-list">
+										   <@security.authorize ifAnyGranted="sys_userList,sys_roleManager,bodysales,bodyContractManager,ShibaSuppliesManager,advertiser,UserManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
                                             <@security.authorize ifAnyGranted="UserManager,sys_userList">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/user/list">
@@ -537,6 +538,8 @@
 												
 											</li>
 											 </@security.authorize>
+											 
+											 </@security.authorize>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/user/qualification">
                                                  个人信息                                                                                             
@@ -550,7 +553,7 @@
 										</ul>
 									</li>	
 									
-									</@security.authorize>
+									
 									
 									<@security.authorize ifAnyGranted="advertiser">
                                     <li class="pg-side-item">
