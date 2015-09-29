@@ -33,8 +33,7 @@ function creorder(){
   }); 
 	$('#sendToServer').removeAttr('onclick');
 	$("#sendToServer").html('<font color="red">订单已提交!</font>');
-	
-	$("#del").hide();
+	$(".del").css("display","none");
 }
 
 function addPlan(pathurl){

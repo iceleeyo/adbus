@@ -177,7 +177,7 @@
                 	}
                  }, 
                 { "data": "", "defaultContent": "", "render": function(data, type, row, meta) {
-                  var operations ='<a class="table-link" id="del" onclick="delPlan('+row.id+');" href="javascript:void(0)">删除</a>';
+                  var operations ='<a class="table-link del" onclick="delPlan('+row.id+');" href="javascript:void(0)">删除</a>';
                          return operations;
                 } }
                     ],
