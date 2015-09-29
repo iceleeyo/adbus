@@ -355,7 +355,6 @@ public class UserManagerController {
 			throws IllegalStateException, IOException {
 		return suppliesService.savequlifi(principal, request,description);
 	}
-	@PreAuthorize(" hasRole('UserManager')  ")
 	@RequestMapping(value = "/u/{userId}", method = { RequestMethod.GET })
 	public String uDetail(Model model, @PathVariable("userId") String userId, HttpServletRequest request) {
 		List<Attachment> attachment=attachmentService.findUserQulifi(userId);

@@ -257,22 +257,22 @@
 											-->
                                				<@security.authorize ifAnyGranted="bodyContractManager,contract_input">    
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/product/newBodyPro">
+												<a class="side-exp-item-t"  href="${rc.contextPath}/product/newBodyPro">
 												   车身套餐定义
 												</a>
 											</li>
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/product/productV2_list">
+												<a class="side-exp-item-t"  href="${rc.contextPath}/product/productV2_list">
 												   车身套餐列表
 												</a>
 											</li>
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/product/busOrderV2_list">
+												<a class="side-exp-item-t"  href="${rc.contextPath}/product/busOrderV2_list">
 												   车身订单列表
 												</a>
 											</li>
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/busselect/offContract_enter">
+												<a class="side-exp-item-t" href="${rc.contextPath}/busselect/offContract_enter">
 												    创建合同
 												</a>
 											</li>
@@ -280,7 +280,7 @@
 											  <@security.authorize ifAnyGranted="bodyContractManager,contract_list"> 
 											
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/busselect/offContract_list">
+												<a class="side-exp-item-t"  href="${rc.contextPath}/busselect/offContract_list">
 												    车身合同列表
 												</a>
 											</li>
@@ -288,7 +288,7 @@
 											</@security.authorize>
 											<@security.authorize ifAnyGranted="bodyContractManager,contract_search"> 
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/bus/contractSearch">
+												<a class="side-exp-item-t"  href="${rc.contextPath}/bus/contractSearch">
 												    订单及车辆查询
 												</a>
 											</li>
@@ -313,21 +313,21 @@
                                         <ul class="pg-side-exp-list">
                                          <@security.authorize ifAnyGranted="meijie_order">
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/busselect/publishLine_list">
+												<a class="side-exp-item-t"  href="${rc.contextPath}/busselect/publishLine_list">
 												    订单列表
 												</a>
 											</li>
 											  </@security.authorize>
 											   <@security.authorize ifAnyGranted="meijie_error">	
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/bus/mistake_handle">
+												<a class="side-exp-item-t"  href="${rc.contextPath}/bus/mistake_handle">
 												    上下刊错误处理
 												</a>
 											</li>
 											 </@security.authorize>
 											   <@security.authorize ifAnyGranted="meijie_offline">	
 											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/bus/bus_offShelf">
+												<a class="side-exp-item-t"  href="${rc.contextPath}/bus/bus_offShelf">
 												    车辆下刊
 												</a>
 											</li>

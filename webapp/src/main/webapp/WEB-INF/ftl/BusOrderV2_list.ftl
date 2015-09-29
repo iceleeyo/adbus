@@ -30,7 +30,10 @@
                 	var d= $.format.date(data, "yyyy-MM-dd");
                 	return d;
                 }},
-                { "data": "creater", "defaultContent": "" },
+                { "data": "creater", "defaultContent": "" ,
+                    "render": function(data, type, row, meta) {
+                    return '<a href="${rc.contextPath}/user/u/' + data + '" >'+data+'</a> ';
+                } },
                 { "data": function( row, type, set, meta) {
                     return row.id;
                 },

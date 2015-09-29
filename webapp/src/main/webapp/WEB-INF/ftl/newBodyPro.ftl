@@ -25,7 +25,19 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 								 "dataSrc": "content",
 							},
 							"columns" : [
-                { "data": "leval", "defaultContent": ""}, 
+                { "data": "leval", "defaultContent": "", "render": function(data, type, row,meta) {
+                           if(data=='S'){
+                              return  '特级';
+                            }else if(data=='APP'){
+                               return 'A++';
+                            }else if(data=='AP'){
+                               return 'A+';
+                            }else if(data=='A'){
+                               return 'A';
+                                 }else{
+                                    return '经纬线';
+                                 }
+                               }},  
                 { "data": "doubleDecker", "defaultContent": "", "render": function(data, type, row,meta) {
                            if(data==false){
                               return  ' 单层';
@@ -220,6 +232,12 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 												id="name" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="2-20个字符">
 										</div>
+                                       <div class="ui-form-item">
+											<label class="ui-label mt10"><span
+												class="ui-form-required">*</span>套餐描述：</label> 
+											<textarea rows="4" class=" validate[required]" cols="40" style="resize: none;" name="remarks"></textarea>
+										</div>
+									</div>
 									</div>
 									<div class="ui-form-item widthdrawBtBox">
 										<input type="button" id="subutton" class="block-btn"

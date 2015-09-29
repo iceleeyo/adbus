@@ -19,13 +19,25 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 								url : "${rc.contextPath}/product/ajax-BusOrderDetailV2",
 								data : function(d) {
 									return $.extend({}, d, {
-										"seriaNum" : '${pid!''}'
+										"pid" : '${pid!''}'
 									});
 								},
 								 "dataSrc": "content",
 							},
 							"columns" : [
-                { "data": "leval", "defaultContent": ""}, 
+                { "data": "leval", "defaultContent": "", "render": function(data, type, row,meta) {
+                           if(data=='S'){
+                              return  '特级';
+                            }else if(data=='APP'){
+                               return 'A++';
+                            }else if(data=='AP'){
+                               return 'A+';
+                            }else if(data=='A'){
+                               return 'A';
+                                 }else{
+                                    return '经纬线';
+                                 }
+                               }},  
                 { "data": "doubleDecker", "defaultContent": "", "render": function(data, type, row,meta) {
                            if(data==false){
                               return  ' 单层';
@@ -72,7 +84,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 			<div class="p20bs mt10 color-white-bg border-ec">
 			   <div id="orderedBuses">
 				<table id="table" class="display compact"
-					cellspacing="0" width="70%">
+					cellspacing="0" width="100%">
 					<thead>
 				<tr class="tableTr">
 					<th>线路级别</th>
