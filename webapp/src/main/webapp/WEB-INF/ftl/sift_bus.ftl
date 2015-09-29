@@ -100,6 +100,40 @@
 									<a class="item" href="javascript:;" sort="-1" qc="360">360<i>×</i></a>
 								</div>
 							</div>
+							
+							<div class="sift-item s-clear">
+								<span>商圈：</span>
+								<div class="sift-list" qt="d">
+									<a class="item" href="javascript:;" sort="-1" >王府井<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >西单<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >国贸<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >公主坟<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >中关村<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >东直门<i>×</i></a>
+								</div>
+							</div>
+							
+							<div class="sift-item s-clear">
+								<span>城区：</span>
+								<div class="sift-list" qt="d">
+									<a class="item" href="javascript:;" sort="-1" >海淀<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >朝阳<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >丰台<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >东城<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >西城<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >石景山<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >通州<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >大兴<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >密云<i>×</i></a>
+								</div>
+								</div>
+								
+								</div>
+								</div>
+								
+								</div>
+							</div>
+							
 							<div class="sift-item s-clear">
 									<span>车辆数量：</span>
 									<input  id="busNumber" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/[^\d.]/g,'')}" type="text" placeholder="请输入车辆数量">
