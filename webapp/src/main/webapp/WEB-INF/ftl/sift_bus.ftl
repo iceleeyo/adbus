@@ -102,7 +102,7 @@
 							</div>
 							<div class="sift-item s-clear">
 								<span>商圈：</span>
-								<div class="sift-list" qt="d">
+								<div class="sift-list" qt="B">
 									<a class="item" href="javascript:;" sort="-1" >王府井<i>×</i></a>
 									<a class="item" href="javascript:;" sort="-1" >西单<i>×</i></a>
 									<a class="item" href="javascript:;" sort="-1" >国贸<i>×</i></a>
@@ -114,7 +114,7 @@
 							
 							<div class="sift-item s-clear">
 								<span>城区：</span>
-								<div class="sift-list" qt="d">
+								<div class="sift-list" qt="C">
 									<a class="item" href="javascript:;" sort="-1" >海淀<i>×</i></a>
 									<a class="item" href="javascript:;" sort="-1" >朝阳<i>×</i></a>
 									<a class="item" href="javascript:;" sort="-1" >丰台<i>×</i></a>
