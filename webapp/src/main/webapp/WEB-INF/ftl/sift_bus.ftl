@@ -210,7 +210,7 @@
 					                    return intVal(a) + intVal(b);
 					                } );
 					            // Total over this page
-					 		   var operations ='<a style="margin-left:30px;" onclick="submitPlan();" id="sendToServer" href="javascript:void(0)"><font color="red">提交订单</font></a>';
+					 		   var operations ='<a style="margin-left:30px;" onclick="submitPlan();" id="sendToServer" href="javascript:void(0)"><font color="red">支付并提交订单</font></a>';
 					            // Update footer
 					            $( api.column( 3 ).footer() ).html(
 					            '<strong class="swift-bprice" id="jd-price">￥'+('合计:'+total+operations )+'</strong>'
