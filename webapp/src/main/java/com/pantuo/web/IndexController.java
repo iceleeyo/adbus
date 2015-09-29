@@ -46,7 +46,7 @@ public class IndexController {
 	@Autowired
 	private BusLineCheckService busLineCheckService;
 
-	public int makeCookieValueRight(int city, HttpServletResponse response) {
+	public  int makeCookieValueRight(int city, HttpServletResponse response) {
 		JpaCity r = cityService.fromId(city);
 		
 		if(r==null){

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -369,22 +370,51 @@ public class ProductController {
     }
     
 	@RequestMapping(value = "/sift")
-	public String sift(@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal, Model model) {
+	public String sift(HttpServletRequest request, HttpServletResponse response,
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal, Model model) {
 		JpaCity jpaCity = cityService.fromId(city);
 		if (jpaCity != null && jpaCity.getMediaType() == JpaCity.MediaType.body) {
-			return bus_sift(city, principal, model);
+			return bus_sift(request, response, city, principal, model);
 		}
 		return "sift";
 	}
 
 	@RequestMapping(value = "/sift_bus")
-	public String bus_sift(@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal, Model model) {
+	public String bus_sift(HttpServletRequest request, HttpServletResponse response,
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal, Model model) {
+		request.getSession().setAttribute("medetype", "body");
+		city = makeCookieValueRight(city == -1 ? 2 : (city % 2 == 1 ? city + 1 : city), response);
+
 		model.addAttribute("seriaNum", Only1ServieUniqLong.getUniqLongNumber());
 		TableRequest r = new TableRequest();
 		r.setLength(4);
 		Page<JpaProductV2> page = productService.searchProductV2s(city, principal, r);
 		model.addAttribute("siftList", page.getContent());
 		return "sift_bus";
+	}
+
+	public int makeCookieValueRight(int city, HttpServletResponse response) {
+		JpaCity r = cityService.fromId(city);
+
+		if (r == null) {
+			log.warn("city:{} is ", city);
+
+			Cookie cookie = new Cookie("city", String.valueOf(city));
+			cookie.setPath("/");
+			cookie.setMaxAge(0);
+			response.addCookie(cookie);
+		}
+
+		int w = r == null ? ControllerSupport.defaultCookieValue : r.getId();
+		w = w > 6 ? ControllerSupport.defaultCookieValue : r.getId();
+		try {
+			Cookie cookie = new Cookie("city", String.valueOf(w));
+			cookie.setPath("/");
+			cookie.setMaxAge(604800);
+			response.addCookie(cookie);
+		} catch (Exception e) {
+		}
+		return w;
 	}
 
 	@RequestMapping(value = "/sift_addPlan")
