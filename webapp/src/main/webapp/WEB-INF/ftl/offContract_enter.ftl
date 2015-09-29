@@ -177,8 +177,12 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 	 layer.msg("请选择下刊日期");
 	   return;
 	   }
-	if($("#busNumber").val()==0){
-	 layer.msg("数量要大于0");
+	if($("#busNumber").val()<0){
+	 layer.msg("车辆数量要大于0");
+	   return;
+	   }
+	if($("#days").val()<0){
+	 layer.msg("刊期要大于0");
 	   return;
 	   }
 	var bb=false;
@@ -194,7 +198,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 			data : {
 				"buslinId" : $("#db_id").val(),
 				"start" : $("#startDate").val(),
-				"end" : $("#endDate").val(),
+				"days" : $("#days").val(),
 				"modelId" : $("#model_Id  option:selected").val()
 			},
 			success : function(data) {  
@@ -395,7 +399,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 							+'<input class="ui-input datepicker validate[required,custom[date],past[#endDate]]" type="text" name="startD" value="" id="startDate" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
 							+'</div>'
 							+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">刊期:</label>'
-							+'<input class="ui-input datepicker validate[required,custom[date],past[#endDate]]" type="text" name="endD" value="" id="endDate" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
+                            +'<input class="ui-input " type="text" value="30" name="days" onkeyup="value=value.replace(/[^\\d]/g,\'\')" '
+							+'id="days" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
 							+'</div>'
 							+'<div class="ui-form-item"> <label class="ui-label mt10">批次：</label>'
 							+'<input class="ui-input " type="text" value="0" name="batch"  '
@@ -424,11 +429,6 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 							+'<div id="worm-tips" class="worm-tips" style="width:350px;display:none;"></div>'
 				});
 			var checkin = $('#startDate').datepicker()
-			.on('click', function (ev) {
-			        $('.datepicker').css("z-index", "999999999");
-			}).data('datepicker');
-			
-			var checkin = $('#endDate').datepicker()
 			.on('click', function (ev) {
 			        $('.datepicker').css("z-index", "999999999");
 			}).data('datepicker');
@@ -623,7 +623,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 									class="ui-form-required">*</span>合同金额:
 								</label> <input
 									class="ui-input validate[required]"
-									type="text" name="amounts"  onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/[^\d.]/g,'')}" value="${(offlinecontract.amounts)!''}"
+									type="text" name="amounts" value="${(offlinecontract.amounts)!''}"
 									data-is="isAmount isEnough" autocomplete="off"
 									disableautocomplete="" placeholder="输入合同金额">
 							</div>

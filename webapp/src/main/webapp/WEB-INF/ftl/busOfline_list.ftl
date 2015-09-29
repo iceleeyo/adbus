@@ -438,7 +438,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                             id="stday" data-is="isAmount isEnough"
                             autocomplete="off" disableautocomplete=""> 
                            &nbsp;&nbsp; 刊期(天)：<input  class="ui-input"  type="text" 
-                            id="days" data-is="isAmount isEnough"  onkeyup="value=value.replace(/[^\d]/g,'')"
+                            id="days" data-is="isAmount isEnough"  value="${jpaPublishLine.days}" readonly="readonly"  onkeyup="value=value.replace(/[^\d]/g,'')"
                             autocomplete="off" disableautocomplete=""> 
                             
                              &nbsp;&nbsp; <input type="button" class="button_kind" style="width: 85px;height: 30px;"

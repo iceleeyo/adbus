@@ -1189,14 +1189,13 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	}
 
 	@Override
-	public Pair<Boolean, String> savePublishLine(PublishLine publishLine, String startD, String endD)
+	public Pair<Boolean, String> savePublishLine(PublishLine publishLine, String startD)
 			throws ParseException {
 		publishLine.setUpdated(new Date());
 		Date date1 = (Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(startD);
-		Date date2 = (Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(endD);
+		Date date2 = DateUtil.dateAdd(date1,publishLine.getDays());
 		publishLine.setStartDate(date1);
 		publishLine.setEndDate(date2);
-		publishLine.setDays((int) DateUtil.getQuot(date2, date1) + 1);
 		if (null != publishLine.getId() && publishLine.getId() > 0) {
 			PublishLine publishLine2 = publishLineMapper.selectByPrimaryKey(publishLine.getId());
 			com.pantuo.util.BeanUtils.copyProperties(publishLine, publishLine2);

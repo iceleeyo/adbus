@@ -1341,3 +1341,44 @@ function editLine(purl) {
 		}).submit();
 		}
 	}
+function publishAmount(tourl,id){
+	$.ajax({
+		url : tourl  +"/busselect/queryPublishLineByid/"+ id,
+		type : "GET",
+		data : {
+		},
+		success : function(data) {
+			layer.open({
+				type : 1,
+				title : "发布费详情",
+				skin : 'layui-layer-rim',
+				area : [ '400px', '450px' ],
+				content : ''
+					+ '<form id="publishform01" action='+tourl+'/busselect/savePublishLine?seriaNum='+data.seriaNum+'>'
+					+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
+					+'<div class="ui-form-item"> <label class="ui-label mt10">批次：</label>'
+					+'<input class="ui-input " type="text" value="'+data.batch+'" name="batch"  '
+					+'id="batch" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+					+'</div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10">发布费单价：</label>'
+					+'<input class="ui-input " type="text" value="'+data.unitPrice+'" name="unitPrice"  '
+					+'id="unitPrice" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+					+'</div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10">发布价值：</label>'
+					+'<input class="ui-input " type="text" value="'+data.publishValue+'" name="publishValue" '
+					+'id="publishValue" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+					+'</div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10">折扣率：</label>'
+					+'<input class="ui-input " type="text" value="'+data.discountrate+'" name="discountrate"  '
+					+'id="discountrate" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+					+'</div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10">优惠后金额：</label>'
+					+'<input class="ui-input " type="text" value="'+data.discountPrice+'" name="discountPrice"  '
+					+'id="discountPrice" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+					+ '</div></div>'
+					+ '</form>'
+					+'<div id="worm-tips" class="worm-tips" style="width:350px;display:none;"></div>'
+			});
+		}
+	}, "text");
+}

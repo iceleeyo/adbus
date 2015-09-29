@@ -328,6 +328,7 @@ public class BusSelectController {
 	 * @param start
 	 * @param end
 	 * @return
+	 * @throws ParseException 
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	@RequestMapping(value = "/lineReaminCheck")
@@ -335,8 +336,13 @@ public class BusSelectController {
 	public int lineReaminCheck(@RequestParam(value = "buslinId", required = true, defaultValue = "0") Integer buslinId,
 			@RequestParam(value = "modelId", required = true, defaultValue = "0") Integer modelId,
 			@RequestParam(value = "start", required = true) String start,
-			@RequestParam(value = "end", required = true) String end) {
+			@RequestParam(value = "end", required = false) String end,@RequestParam(value = "days", required = false) int days) throws ParseException {
 		//187 2015-08-07 2015-08-17
+		if(days>0){
+			Date sDate=(Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(start);
+			Date end2=DateUtil.dateAdd(sDate, days);
+			end=end2.toString();
+		}
 		return busLineCheckService.countByFreeCars(buslinId, modelId, JpaBus.Category.yunyingche, start, end);
 	}
 
@@ -401,12 +407,12 @@ public class BusSelectController {
 	public Pair<Boolean, String> savePublishLine(PublishLine publishLine,
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
 			HttpServletRequest request, @RequestParam(value = "seriaNum", required = true) long seriaNum,
-			@RequestParam(value = "startD", required = true) String startD,
-			@RequestParam(value = "endD", required = true) String endD) throws ParseException {
+			@RequestParam(value = "startD", required = true) String startD
+			) throws ParseException {
 		publishLine.setCity(city);
 		publishLine.setUserId(Request.getUserId(principal));
 		publishLine.setSeriaNum(seriaNum);
-		return busLineCheckService.savePublishLine(publishLine, startD, endD);
+		return busLineCheckService.savePublishLine(publishLine, startD);
 	}
 
 	/**

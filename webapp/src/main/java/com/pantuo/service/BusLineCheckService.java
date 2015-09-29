@@ -162,7 +162,7 @@ public interface BusLineCheckService {
 
 	public List<JpaPublishLine> getpublishLineBySeriNum(long seriaNum);
 
-	public Pair<Boolean, String> savePublishLine(PublishLine publishLine, String startD, String endD) throws ParseException;
+	public Pair<Boolean, String> savePublishLine(PublishLine publishLine, String startD) throws ParseException;
 
 	public Pair<Boolean, String> saveDivid(Dividpay dividpay, long seriaNum, String userId, String payDate1)throws ParseException;
 
