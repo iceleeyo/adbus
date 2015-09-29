@@ -36,12 +36,16 @@
                 },
                     "render": function(data, type, row, meta) {
                           var operations = '<a  onclick="showProV2Detail(\'${rc.contextPath}\','+data+');">查看详细</a>&nbsp;&nbsp;';
+                          
+                          
+                       <@security.authorize ifAnyGranted="bodyContractManager">
                           if(row.stats=='online'){
                      	 	 operations+= '<a  href="javascript:void(0);" onclick="buy('+data+')" >下单</a>&nbsp;&nbsp;';
                       		operations +=	'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/changeStats/' + data + '/offline">取消上架</a> &nbsp;'
                        	}else {
                        		operations +=	'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/changeStats/' + data + '/online">上架</a> &nbsp;'
                        	}
+                       	</@security.authorize>
                        return operations;
                         
                     }},

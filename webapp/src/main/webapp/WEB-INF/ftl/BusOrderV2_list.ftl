@@ -1,5 +1,5 @@
 <#import "template/template.ftl" as frame>
-<#global menu="车身订单列表">
+<#global menu="${currMenu}">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="车身订单列表" js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js","js/layer.onload.js"] >
 
@@ -13,6 +13,10 @@
             "ordering": true,
             "serverSide": true,
             "scrollX": true,
+            "columnDefs": [
+                { "sClass": "align-left", "targets": [0] },
+                { "orderable": false, "targets": [0,1,3,4] },
+            ],
             "ajax": {
                 type: "GET",
                 url: "${rc.contextPath}/product/ajax-busOrderV2_list/${type}",
@@ -120,7 +124,7 @@ function buy(pid){
                     <tr>
                         <th >套餐名称</th>
                         <th >价格(元)</th>
-                        <th >下单时间</th>
+                        <th  orderBy="created">下单时间</th>
                         <th >下单人</th>
                         <th>管理</th>
                     </tr>

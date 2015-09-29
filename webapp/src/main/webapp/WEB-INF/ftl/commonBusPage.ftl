@@ -38,9 +38,31 @@ islogin(pathurl);
 }
 
 	function creorder() {
-       $("#subWithdraworder").attr("disabled",true);
-       $("#subWithdraworder").css("background-color","#85A2AD");
-       $('#userForm2').submit();
+		$.ajax({
+		    			url:"${rc.contextPath}/product/buyBodyPro/"+(${prod.id!''}),
+		    			type:"POST",
+		    			async:false,
+		    			dataType:"json",
+		    			data:{},
+		    			success:function(data){
+		    				if (data.left == true) {
+		    					layer.msg(data.right);
+		    					    $("#subWithdraworder").attr("disabled",true);
+     								  $("#subWithdraworder").css("background-color","#85A2AD");
+		    					   var uptime = window.setTimeout(function(){
+				                        window.location.href="${rc.contextPath}/product/busOrderV2_list/my";
+				                        clearTimeout(uptime);
+				                    },1500);
+		    					
+		    				} else {
+		    					layer.msg(data.right,{icon: 5});
+		    				}
+		    			}
+		       });  
+		       
+		       
+   
+     //  $('#userForm2').submit();
 	}
 </script>
 
