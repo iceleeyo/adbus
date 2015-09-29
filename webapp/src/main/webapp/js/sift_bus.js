@@ -9,7 +9,7 @@ function submitPlan(){
 		area: ['650px', '630px'], 
 		content:''
 		   +' '
-		   +'<iframe  style="width:99%;height:90%" src="/user/contract_templete?productid=1"/><div class="ui-form-item widthdrawBtBox"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/> <input type="button" id="subWithdraworder" class="block-btn" onclick="creorder();" value="确认" style="margin:10px 0px -10px 110px;"> </div>'
+		   +'<iframe  style="width:99%;height:90%" src="/user/busContract_templete?productid=1"/><div class="ui-form-item widthdrawBtBox"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/> <input type="button" id="subWithdraworder" class="block-btn" onclick="creorder();" value="确认" style="margin:10px 0px -10px 110px;"> </div>'
 		});
 }
 
