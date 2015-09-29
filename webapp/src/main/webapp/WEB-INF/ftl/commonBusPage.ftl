@@ -205,7 +205,7 @@ function bu(txtObj) {
             <LI style="width: 720px;">
                 <SPAN>套餐名称：</SPAN><SPAN class="con">${prod.name!''}</SPAN>
             </LI>
-     			<iframe style="height:98%" frameborder="no" src="/product/showProV2Detail/${prod.id!''}"/>
+     			<iframe style="height:60%;width: 90%;" scrolling="no" frameborder="no" src="/product/showProV2Detail/${prod.id!''}"/>
         </UL>
     </DIV>
 </div>

@@ -30,8 +30,8 @@
 										<#if (siftList?size>0) >
 					<div class="container">
 								
-								<div class="module1">
-								  <div class="title s-clear">
+								<div class="module1 withdraw-wrap" style="width: 1110px;">
+								  <div class="title s-clear ">
 								  	<span>
 								  		线路推荐
 								  	</span>
@@ -39,7 +39,7 @@
 								  <div class="fn-clear pg-uplan-product-list text-middle mt15 mb10">
 								    <#list siftList as item>
 									  <div class="fn-left pg-uplan-product-item mr15">
-									  <a href="javascript:;" onclick="goV2Detail('/order/ibus/${item.id}');">
+									  <a href="javascript:;" target="_Blank" onclick="goV2Detail('/order/ibus/${item.id}');">
 												<dl class="bg-color-white">
 												  <dt class="ub" style="height: 310px;">
 									<div>
@@ -53,7 +53,7 @@
 											</span>
 							        </div>  
 												  <div class="img_box" style="width: 100%;height: 170px;">
-												  	<img class="img_size" src="${rc.contextPath}/imgs/t8.jpg" onmouseenter="changeImg('${rc.contextPath}','/imgs/t8.jpg',this)" style="width: 100%; height: 100%;">
+												  	<img class="img_size" src="${rc.contextPath}/imgs/t8.jpg" style="width: 100%; height: 100%;">
 												  </div>
 												  </dt>
 							  				</dl>
@@ -75,17 +75,17 @@
 								<div class="sift-item s-clear">
 								<span>车型类型：</span>
 								<div class="sift-list" qt="dc">
-									<a class="item" href="#"  sort="-1" qc="Y"> 双层<i>×</i></a>
-									<a class="item" href="#"  sort="-1" qc="N" >单层<i>×</i></a>
+									<a class="item" href="javascript:;"  sort="-1" qc="Y"> 双层<i>×</i></a>
+									<a class="item" href="javascript:;"  sort="-1" qc="N" >单层<i>×</i></a>
 								</div>
 							</div>
 							<div class="sift-item s-clear">
 								<span>线路级别：</span>
 								<div class="sift-list" qt="lev">
-									<a class="item" href="#"  sort="-1" qc="S" >特级<i>×</i></a>
-									<a class="item" href="#"  sort="-1" qc="APP" >A++<i>×</i></a>
-									<a class="item" href="#"  sort="-1" qc="AP" >A+<i>×</i></a>
-									<a class="item" href="#"  sort="-1" qc="A" >A<i>×</i></a>
+									<a class="item" href="javascript:;"  sort="-1" qc="S" >特级<i>×</i></a>
+									<a class="item" href="javascript:;"  sort="-1" qc="APP" >A++<i>×</i></a>
+									<a class="item" href="javascript:;"  sort="-1" qc="AP" >A+<i>×</i></a>
+									<a class="item" href="javascript:;"  sort="-1" qc="A" >A<i>×</i></a>
 								</div>
 							</div>
 							<#else>
@@ -93,11 +93,11 @@
 							<div class="sift-item s-clear">
 								<span>展示周期：</span>
 								<div class="sift-list" qt="d">
-									<a class="item active" href="#" sort="-1" qc="30" >30<i>×</i></a>
-									<a class="item" href="#" sort="-1" qc="60">60<i>×</i></a>
-									<a class="item" href="#" sort="-1" qc="90">90<i>×</i></a>
-									<a class="item" href="#" sort="-1" qc="180">180<i>×</i></a>
-									<a class="item" href="#" sort="-1" qc="360">360<i>×</i></a>
+									<a class="item active" href="javascript:;" sort="-1" qc="30" >30<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" qc="60">60<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" qc="90">90<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" qc="180">180<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" qc="360">360<i>×</i></a>
 								</div>
 							</div>
 							<div class="sift-item s-clear">
@@ -126,7 +126,7 @@
 				</div>
 				
 				
-				 <div class="withdraw-wrap color-white-bg fn-clear" style="margin-top: 30px;">
+				 <div class="withdraw-wrap color-white-bg fn-clear" style="margin-top: 30px;width: 1110px;">
             	 <div class="withdraw-title fn-clear">
 									投放计划列表
 				 </div>
