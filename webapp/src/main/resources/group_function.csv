@@ -18,4 +18,8 @@
 #
 2,年售出情况,年售出情况,report_monthp
 2,线路细分,线路细分,report_daylinep
+#
+2,套餐定义,车身套餐定义,sale_packageDesign
+2,套餐列表,车身套餐列表,sale_packageList
+2,套餐订单,车身订单列表,sale_packageOrder
 
