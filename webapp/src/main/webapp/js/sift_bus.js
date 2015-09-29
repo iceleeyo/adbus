@@ -35,6 +35,13 @@ function creorder(){
 			if (data.left == true) {
 				layer.msg("下单成功");
 				$("#cc").trigger("click");
+				
+				 var uptime = window.setTimeout(function(){
+                     window.location.href=pathurl+"/product/busOrderV2_list/my";
+                     clearTimeout(uptime);
+                 },1500);
+				 
+				 
 			} else {
 				layer.msg(data.right.msg,{icon: 5});
 			}
@@ -78,10 +85,6 @@ function addPlan(pathurl){
 				//	swift_tableObject.fnDraw();;
 				layer.msg("增加计划成功!");
 					swift_tableObject.dataTable()._fnAjaxUpdate();
-					 var uptime = window.setTimeout(function(){
-	                        window.location.href=pathurl+"/product/busOrderV2_list/my";
-	                        clearTimeout(uptime);
-	                    },3500);
 			} else {
 				bb=false;
 				layer.msg(data.right.msg,{icon: 5});
