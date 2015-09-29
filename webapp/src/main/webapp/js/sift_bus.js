@@ -1,6 +1,15 @@
 
 var swift_tableObject;
 
+
+
+function goV2Detail(r){
+    window.location.href = r;
+ }
+
+
+
+
 function submitPlan(){
     	layer.open({
 		type: 1,
