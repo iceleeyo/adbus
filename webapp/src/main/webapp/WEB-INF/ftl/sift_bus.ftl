@@ -2,6 +2,11 @@
 <#global menu="">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="商品sift" left=false nav=false js=["js/jquery-dateFormat.min.js","js/sift_bus.js","js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"] css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css"]>
+<style type="text/css">
+	#busNumber{height: 30px;float: left;}
+	#startDate1{float: left;}
+	th{border-top: none !important;}
+</style>
 <head> 
 
 </head>
@@ -55,11 +60,10 @@
 									<a class="item" href="#" sort="-1" qc="360">360<i>×</i></a>
 								</div>
 							</div>
-							<div class=" s-clear">
-								<div>
-									<span>车辆数量</span>
-									<input  id="busNumber" type="text" placeholder="请输入车辆数量" style="height: 39px;">
-									<span>开始时间</span>
+							<div class="sift-item s-clear">
+									<span>车辆数量：</span>
+									<input  id="busNumber" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/[^\d.]/g,'')}" type="text" placeholder="请输入车辆数量">
+									<span>开始时间：</span>
 									<input  class="ui-input datepicker validate[required,custom[date] " 
                                                 type="text" name="startDate1"
                                                 id="startDate1" >
@@ -67,9 +71,13 @@
 									<input type="hidden" id= "sn" name ="sn" value='${seriaNum}'>
 									
 								<span id="pd"> </span>
-                                   <span id="btn">   	<a href="javascript:;" onclick="addPlan();">增加计划</a></span>
-                                        
-								</div>
+                                   <span id="btn">   	<a href="javascript:;" onclick="addPlan('${rc.contextPath}');">增加计划</a></span>
+                                   <@security.authorize access="isAuthenticated()">
+                                        <input type="hidden" id="lc" value="1"/>	
+                                        </@security.authorize>
+                                        <@security.authorize access="! isAuthenticated()">
+                                         <input type="hidden" id="lc" value="0"/>	
+                                    </@security.authorize>
 							</div>
 							
 							 
@@ -97,8 +105,7 @@
                     <@security.authorize access="isAuthenticated()">
 		 		<tfoot>
 		            <tr>
-		                <th colspan="4" style="text-align:right">合计:</th>
-		                <th></th>
+		                <th id="sum" colspan="7" style="text-align: center;height: 50px;  background-color: navajowhite;"><font color="#000">合计:</font></th>
 		            </tr>
 		            
 		        </tfoot>
@@ -170,7 +177,7 @@
                 	}
                  }, 
                 { "data": "", "defaultContent": "", "render": function(data, type, row, meta) {
-                  var operations ='<a class="table-link" onclick="delPlan('+row.id+');" href="javascript:void(0)">删除</a>';
+                  var operations ='<a class="table-link" id="del" onclick="delPlan('+row.id+');" href="javascript:void(0)">删除</a>';
                          return operations;
                 } }
                     ],
@@ -203,7 +210,7 @@
 					                    return intVal(a) + intVal(b);
 					                } );
 					            // Total over this page
-					 		   var operations ='<a  onclick="submitPlan();" id="sendToServer" href="javascript:void(0)"><font color="#F45C55">提交订单</font></a>';
+					 		   var operations ='<a style="margin-left:30px;" onclick="submitPlan();" id="sendToServer" href="javascript:void(0)"><font color="red">提交订单</font></a>';
 					            // Update footer
 					            $( api.column( 3 ).footer() ).html(
 					            '<strong class="swift-bprice" id="jd-price">￥'+('合计:'+total+operations )+'</strong>'

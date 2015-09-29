@@ -2,7 +2,18 @@
 var swift_tableObject;
 
 function submitPlan(){
-	
+    	layer.open({
+		type: 1,
+		title: "电子合同",
+		skin: 'layui-layer-rim', 
+		area: ['650px', '630px'], 
+		content:''
+		   +' '
+		   +'<iframe  style="width:99%;height:90%" src="/user/contract_templete?productid=1"/><div class="ui-form-item widthdrawBtBox"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/> <input type="button" id="subWithdraworder" class="block-btn" onclick="creorder();" value="确认" style="margin:10px 0px -10px 110px;"> </div>'
+		});
+}
+
+function creorder(){
 	$.ajax({
 		url:"/product/ajax-sift_buildPlan",
 		type:"POST",
@@ -14,17 +25,25 @@ function submitPlan(){
 		success:function(data){
 			if (data.left == true) {
 				layer.msg("下单成功");
+				$("#cc").trigger("click");
 			} else {
 				layer.msg(data.right.msg,{icon: 5});
 			}
 		}
   }); 
 	$('#sendToServer').removeAttr('onclick');
-	$("#sendToServer").html('<font color="#F45C55">订单已提交!</font>');
-}
-function addPlan(){
-	var select=$("#sh").val();
+	$("#sendToServer").html('<font color="red">订单已提交!</font>');
 	
+	$("#del").hide();
+}
+
+function addPlan(pathurl){
+	var select=$("#sh").val();
+	var lc=$("#lc").val();
+	if(lc=="0"){
+		islogin(pathurl);
+		return;
+	}
 	if(select =='' ){
 		layer.msg("请选择车辆类型!",{icon: 5});
 		return ;
