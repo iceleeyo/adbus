@@ -133,6 +133,7 @@ function bu(txtObj) {
 											</div>
 										</div>
 											<div class="range">
+												<span>套餐描述：<em>${prod.remarks!''}</em></span>
 											</div>
 											<div class="" style="margin: 10px 5px;">
                                             <label class="range" style="color: #999;">支付金额:</label> <input
@@ -226,6 +227,9 @@ function bu(txtObj) {
         <UL class="uplan-detail-ul">
             <LI style="width: 720px;">
                 <SPAN>套餐名称：</SPAN><SPAN class="con">${prod.name!''}</SPAN>
+            </LI>
+              <LI style="width: 720px;">
+                <SPAN>套餐描述：</SPAN><SPAN class="con">${prod.remarks!''}</SPAN>
             </LI>
      			<iframe style="height:60%;width: 90%;" scrolling="no" frameborder="no" src="/product/showProV2Detail/${prod.id!''}"/>
         </UL>
