@@ -96,6 +96,8 @@
 									<a class="item" href="javascript:;" sort="-1" qc="360">360<i>×</i></a>
 								</div>
 							</div>
+							
+							<#if city.id==2>
 							<div class="sift-item s-clear">
 								<span>商圈：</span>
 								<div class="sift-list" qt="B">
@@ -121,7 +123,8 @@
 									<a class="item" href="javascript:;" sort="-1" >大兴<i>×</i></a>
 									<a class="item" href="javascript:;" sort="-1" >密云<i>×</i></a>
 								</div>
-								</div>
+							</div>
+								</#if>
 							<div class="sift-item s-clear">
 									<span>车辆数量：</span>
 									<input  id="busNumber" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/[^\d.]/g,'')}" type="text" placeholder="请输入车辆数量">
