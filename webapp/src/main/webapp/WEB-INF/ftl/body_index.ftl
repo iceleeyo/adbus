@@ -198,11 +198,11 @@ function changeImg(tourl,osrc,img){
 						<div class="phmain-nav-b pg-right">
 							<ul class="pg-nav">
 								<li class="pg-nav-item s-left">
-									<a class="pg-nav-item-t" href="${rc.contextPath}/body">首页</a>
+									<a class="pg-nav-item-t" href="${rc.contextPath}/">首页</a>
 								</li>
 								
 								<li class="pg-nav-item s-left">
-									<a class="pg-nav-item-t" href="${rc.contextPath}/">移动电视</a>
+									<a class="pg-nav-item-t" href="${rc.contextPath}/screen">移动电视</a>
 								</li>
 								
 								<li class="pg-nav-item s-left">
