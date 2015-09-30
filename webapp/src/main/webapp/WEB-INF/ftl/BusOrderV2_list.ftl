@@ -40,7 +40,7 @@
                 	var d= $.format.date(data, "yyyy-MM-dd");
                 	return d;
                 }},
-                <@security.authorize ifAnyGranted="bodyContractManager">
+                <@security.authorize ifAnyGranted="bodyContractManager,sale_packageList">
                 { "data": "creater", "defaultContent": "" ,
                     "render": function(data, type, row, meta) {
                     return '<a href="${rc.contextPath}/user/u/' + data + '" >'+data+'</a> ';
@@ -128,7 +128,7 @@ function buy(pid){
                         <th >套餐名称</th>
                         <th >价格(元)</th>
                         <th  orderBy="created">下单时间</th>
-                         <@security.authorize ifAnyGranted="bodyContractManager">
+                         <@security.authorize ifAnyGranted="bodyContractManager,sale_packageList">
                         <th >下单人</th>
                           </@security.authorize >
                         <th>管理</th>
