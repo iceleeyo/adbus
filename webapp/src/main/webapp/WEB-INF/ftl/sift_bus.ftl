@@ -47,7 +47,7 @@
 							            		<font color="#2ea7e0">${item.price!''}</font>
 							            	</span>
 							        </div>  
-							        <div style="  margin: -15px 2px 0px 0px;">
+							        <div style="  margin: -15px 2px 0px 0px;height: 80px;">
 							            	<span class="mr10" style="font-size: 12px;">套餐描述:         
 												 ${item.remarks!''}
 											</span>

@@ -5,19 +5,27 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="shortcut icon" href="./images/favicon.ico">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
+
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/sea.css">
   <link rel="stylesheet" type="text/css" href="homepage/css/homepage.css">
   <link rel="stylesheet" type="text/css" href="homepage/css/index.css">
   <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/one.css">
+  <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/table.css">
+  <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/account.css">
+  <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/sift.css">
   <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/foot.css">
   <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/city.css">
+  <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/sift.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery-1.8.3.min.js"></script>
    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.jcountdown.js"></script>
    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.jcountdown.site.js"></script>
    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer/layer.js"></script>
    	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer/layer.js"></script>
 	<title>首页</title>
+<style type="text/css">
+	.container-12{width: 1150px;}
+</style>
 <script type="text/javascript">
     function logout(){
        window.location.href = "${rc.contextPath}/logout";
@@ -106,7 +114,7 @@
 <#--</@security.authorize>-->
                             </ul>
 							<!-- 手机图标<div class="s-left ml10">
-								<a class="pg-nav-item" href="#" style="padding-top: 8px;">
+								<a class="pg-nav-item" href="javascript:;" style="padding-top: 8px;">
 									<i class="icon icon-app"></i>
 									
 								</a>
@@ -143,8 +151,8 @@
 													</span>
 												</div>
 												<div>
-													<a class="s-left pg-btn pg-btn-green pg-btn-md mr4" href="#">充值</a>
-													<a class="s-left pg-btn pg-btn-blue pg-btn-md" href="#">提现</a>
+													<a class="s-left pg-btn pg-btn-green pg-btn-md mr4" href="javascript:;">充值</a>
+													<a class="s-left pg-btn pg-btn-blue pg-btn-md" href="javascript:;">提现</a>
 												</div>
 											</div>
 										</div>
@@ -156,12 +164,12 @@
 									</div>
 								</div>
                                
-								<!--<a class="pg-nav-item s-left" href="#">
+								<!--<a class="pg-nav-item s-left" href="javascript:;">
 									<i class="icon-msg fsize-12">1</i>
 									消息
 								</a> -->
-								<!--<a class="pg-nav-item s-left" href="#">帮助</a>
-								<a class="pg-nav-item s-left" href="#">论坛</a>-->
+								<!--<a class="pg-nav-item s-left" href="javascript:;">帮助</a>
+								<a class="pg-nav-item s-left" href="javascript:;">论坛</a>-->
 								<a class="pg-nav-item s-left" href="${rc.contextPath}/message/all">消息<span id="msgNumber" class="layer-tips" style="color:#ff9966"></span></a>
 								 <@security.authorize access="isAuthenticated()">
 								<a href="javascript:;" class="pg-nav-item s-left" onclick="logout();">[退出]</a>
@@ -172,9 +180,9 @@
 				</div>
  
 		<div class="pg-header-main">
-					<div class="container-index s-clear">
+					<div class="container-12 s-clear">
 						<div class="phmain-logo-b pg-left">
-							<a class="phmain-logo" href="#"></a>
+							<a class="phmain-logo" href="javascript:;"></a>
 						</div>
 						<div class="phmain-slogan-b pg-left ml20">
 							<a class="phmain-slogan" href="${rc.contextPath}"></a>
@@ -182,7 +190,7 @@
 						<div class="phmain-nav-b pg-right">
 							<ul class="pg-nav">
 								<li class="pg-nav-item s-left">
-									<a class="pg-nav-item-t" href="${rc.contextPath}/">首页</a>
+									<a class="pg-nav-item-t" href="/index.html">首页</a>
 								</li>
 								
 								<li class="pg-nav-item s-left">
@@ -215,94 +223,7 @@
 				</div>
 	</div>
 	<div class="container-index maincontent">	
-		<div class="broadcast s-clear">
-			<!-- <div class="product-type items s-left">
-				<div class="item">
-					<span>城市列表</span>
-					<ul class="item-dropdown" style="display:none;">
-							<li class="pg-dropdown-li">
-								<a class="pg-dropdown-a" href="">北京</a>
-							</li>
-							<li class="pg-dropdown-li">
-								<a class="pg-dropdown-a" href="">上海</a>
-							</li>
-							<li class="pg-dropdown-li">
-								<a class="pg-dropdown-a" href="">深圳</a>
-							</li>
-						</ul>
-				</div>
-				<div class="item">
-					<span><a href="intro-video.html">视频广告</a></span>
-				</div>
-				<div class="item">
-					<span><a href="intro-txt.html">Info图片</a></span>
-				</div>
-				<div class="item">
-					<span>新业务介绍</span>
-				</div>
-				<div class="item">
-					<span><a href="intro-price.html">广告刊例</a></span>
-				</div>
-				<div class="item">
-					<span>代理商</span>
-				</div>
-				
-				
-			</div> -->
-			<div class="vediobox items s-left">
-
-				<div class="banner" id="b04" style="width: 1060px">
-				    <ul>
-				        <li><img src="homepage/imgs/sss.jpg" alt="" width="1060px" height="300" ></li>
-				        <li><img src="homepage/imgs/ddd.jpg" alt="" width="1060px" height="300" ></li>
-				        <li><img src="homepage/imgs/bbb.png" alt="" width="1060px" height="300" ></li>
-				        <li><img src="homepage/imgs/ddd.png" alt="" width="1060px" height="300" ></li>
-				        <li><img src="homepage/imgs/03.jpg" alt="" width="1060px" height="300" ></li>
-				    </ul>
-				    <a href="javascript:void(0);" class="unslider-arrow04 prev"><img class="arrow" id="al" src="homepage/imgs/arrowl.png" alt="prev" width="20" height="35"></a>
-				    <a href="javascript:void(0);" class="unslider-arrow04 next"><img class="arrow" id="ar" src="homepage/imgs/arrowr.png" alt="next" width="20" height="37"></a>
-				</div>
-
-			</div>
-			<div class="addition items s-left">
-				<div class="b2">
-					<div class="b3_1">
-						<!-- <div id="player" style="border:none;width:410px;padding:0px;">
-							<p>你需安装<a href="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0">Adobe Flash Player 9.0</a>查看以下视频</p>
-							<script type="text/javascript" src="http://www.bjmtv.com/templates/new/js/swfobject.js"></script>
-							<script type="text/javascript">
-								var s2 = new SWFObject('http://www.bjmtv.com/templates/new/swf/flvplayer.swf','mpl','410','300','9');
-								s2.addParam('allowscriptaccess','always');
-								s2.addParam('allowfullscreen','true');
-								s2.addParam('menu','false');
-								//是否自动播放
-								s2.addParam('play','true');
-								s2.addParam('wmode','opaque');
-								s2.addVariable('width','410');
-								s2.addVariable('height','300');
-								s2.addVariable("backcolor","0x000000");
-								s2.addVariable("frontcolor","0xCCCCCC");
-								s2.addVariable("lightcolor","0x99CC33");
-								s2.addVariable('file','rtmp://www.bjmtv.com:8000/live');
-								s2.addVariable('id','live1');
-								s2.addVariable('autostart','true');
-								s2.write('player');
-							</script>
-						</div>
-						-->	
-					</div>	
-			
-				</div>
-			
-				<div class="item">
-					<dl>
-						<dd>公告1：电商平台试运行。</dd>
-						<dd>公告2：电商平台试运行。</dd>
-						<dd>公告3：电商平台试运行。</dd>
-					</dl>
-				</div>
-			</div>
-		</div>
+		
 		<div class="notice-wrapper" style="padding: 10px 0;border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;
 margin:15px 0px 15px 0px;width:100%">
       <div class="notice-head fn-clear" style="width:98%">
@@ -580,9 +501,109 @@ margin:15px 0px 15px 0px;width:100%">
 			</#if>
 		</div>
 		
+		<div class="pg-container">
+				<div class="pg-container-main">
+					
+					<div class="container-12 mt10 s-clear">
+						<div class="sift-box">
+							<div class="sift-item s-clear">
+								<span>产品名称：</span>
+								<div class="sift-search">
+									<input class="" id="name" type="text" placeholder="搜索产品" >
+									<a class="btn-search" href="javascript:;" ></a>
+								</div>
+							</div>
+							<div class="sift-item s-clear">
+								<span>是否竞价：</span>
+								<div class="sift-list" qt="p">
+									<a class="item active" href="javascript:;" sort="-1" qc="all">所有</a>
+									<a class="item" href="javascript:;"  qc="2" >竞价商品<i>×</i></a>
+									<a class="item" href="javascript:;"  qc="3" >一口价<i>×</i></a>
+								</div>
+							</div>
+							<#if city.mediaType=="body">
+							<div class="sift-item s-clear">
+								<span>线路级别：</span>
+								<div class="sift-list" qt="lev">
+									<a class="item active" href="javascript:;" sort="-1" qc="all">所有</a>
+									<a class="item" href="javascript:;"  qc="S" >特级<i>×</i></a>
+									<a class="item" href="javascript:;"  qc="APP" >A++<i>×</i></a>
+									<a class="item" href="javascript:;"  qc="AP" >A+<i>×</i></a>
+									<a class="item" href="javascript:;"  qc="A" >A<i>×</i></a>
+									<a class="item" href="javascript:;"  qc="LATLONG" >经纬线<i>×</i></a>
+								</div>
+							</div>
+							<#else>
+							<div class="sift-item s-clear">
+								<span>产品类型：</span>
+								<div class="sift-list" qt="t">
+									<a class="item active" href="javascript:;" sort="-1" qc="all">所有</a>
+									<a class="item" href="javascript:;" qc="video">视频<i>×</i></a>
+									<a class="item" href="javascript:;" qc="image">图片<i>×</i></a>
+									<a class="item" href="javascript:;" qc="info">文字<i>×</i></a>
+								</div>
+							</div>
+							<div class="sift-item s-clear">
+								<span>日爆光次数：</span>
+								<div class="sift-list" qt="s">
+									<a class="item active" href="javascript:;" sort="-1" qc="all">所有</a>
+									<a class="item" href="javascript:;" qc="2">0-7（不含）<i>×</i></a>
+									<a class="item" href="javascript:;" qc="3">7-11（含）<i>×</i></a>
+									<a class="item" href="javascript:;" qc="4">11以上<i>×</i></a>
+								</div>
+							</div>
+							</#if>
+							<div class="sift-item s-clear">
+								<span>展示期限：</span>
+								<div class="sift-list" qt="d">
+									<a class="item active" href="javascript:;" sort="-1" qc="all">所有</a>
+									<a class="item" href="javascript:;" qc="2" >1（天）<i>×</i></a>
+									<a class="item" href="javascript:;" qc="3">2-6（含）<i>×</i></a>
+									<a class="item" href="javascript:;" qc="4">7（天）<i>×</i></a>
+									<a class="item" href="javascript:;" qc="5">7天以上<i>×</i></a>
+								</div>
+							</div>
+							
+							
+						</div>
+					</div>
+				</div>
+				
+				
+				 <div class="withdraw-wrap color-white-bg fn-clear" style="margin-top: 30px;">
+            	 <div class="withdraw-title fn-clear">
+									产品列表
+				 </div>
+                <table id="table" class="display" cellspacing="0" width="100%">
+                    <thead>
+                    <tr>
+                        <th orderBy="name">套餐名称</th>
+                        <th orderBy="type">类型</th>
+                        <th orderBy="type">类型</th>
+                        <th orderBy="price">价格(元)</th>
+                         <@security.authorize ifAnyGranted="ShibaOrderManager">  
+                        <th orderBy="exclusive">定向</th>
+                         </@security.authorize>
+                        <th orderBy="enabled">状态</th>
+                       
+                       <@security.authorize ifAnyGranted="ShibaOrderManager">  
+                        <th>首页</th>
+                        <th>进行中</th>
+                        <th>已结束</th>
+                        </@security.authorize>
+                        <th>管理</th>
+                    </tr>
+                    </thead>
+
+                </table>
+			</div>
+			
+			
+			</div>
+		
 		<!-- <div class="adds"><img src="homepage/imgs/321.jpg" alt="" width="960" height="100"></div> -->
 		
-		<div class="qqbox">
+		<!-- <div class="qqbox">
 			<dl>
 				<dt>客服中心</dt>
 				<dd>客服a:<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2430526836&site=qq&menu=yes"><img border="0" width="70" src="http://wpa.qq.com/pa?p=2:3271689631:41" alt="点击这里给我发消息" title="点击这里给我发消息"/></a></dd>
@@ -591,11 +612,158 @@ margin:15px 0px 15px 0px;width:100%">
 				<dd>销售b:<a class="qq-default"></a></dd>
 				
 			</dl>
-		</div>
+		</div> -->
 	</div>
 	
 	<#include "/menu/foot.ftl" />
+	
+	<input type="hidden" id="sh" value=""/>
+	    <script type="text/javascript">
+    var table;
+    function initTable () {
+        table = $('#table').dataTable( {
+            "dom": '<"#toolbar">lrtip',
+            "searching": false,
+            "ordering": true,
+            "serverSide": true,
+            
+            "columnDefs": [
+                { "sClass": "align-left", "targets": [0] },
+                { "orderable": false, "targets": [4] },
+            ],
+            "ajax": {
+                type: "GET",
+                url: "${rc.contextPath}/product/sift_data",
+                data: function(d) {
+                    return $.extend( {}, d, {
+                        "filter[name]" : $('#name').val(),
+                         "filter[sh]" : $('#sh').val(),
+                    } );
+                },
+                "dataSrc": "content",
+            },
+            "columns": [
+                { "data": "name", "defaultContent": "",
+                    "render": function(data, type, row, meta) {
+                    
+                    return '<a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer(\'${rc.contextPath}\','+row.id+');"  >'+row.name+'</a>';
+                    //    return '<a class="table-link" href="${rc.contextPath}/product/d/'+row.id+'">'+row.name+'</a>';
+                } },
+                { "data": "type", "defaultContent": "",
+                    "render": function(data, type, row, meta) {
+                        if (data == 'video')
+                            return '视频';
+                        if (data == 'image')
+                            return '图片';
+                        if (data == 'body')
+                            return '车身';
+                        if (data == 'info')
+                            return 'Info';
+                        return '';
+                    } },
+                    
+                       { "data": "iscompare", "defaultContent": "",
+                    "render": function(data, type, row, meta) {
+                        if (data == '1')
+                            return '竞价商品';
+                        if (data == '0')
+                            return '一口价';
+                        return '';
+                    } },
+                { "data": "price", "defaultContent": "", "render": $.fn.dataTable.render.number( ',', '.', 2, ' ')  },
+                 <@security.authorize ifAnyGranted="ShibaOrderManager"> 
+                { "data": "exclusiveUser", "defaultContent": "", "render": function(data, type, row) {
+                    if (data)
+                        return '<span class="invalid">' + data + '</span>';
+                    else
+                        return '';
+                } }, 
+                 </@security.authorize>
+                 
+                { "data": "enabled", "defaultContent": "", "render": function(data) {
+                    switch(data) {
+                        case true:
+                            return '<span class="processed">销售中</span>';
+                        default :
+                            return '<span class="invalid">已下架</span>';
+                    }
+                } },
+                
+                <@security.authorize ifAnyGranted="ShibaOrderManager">   
+                 { "data": "frontShow", "defaultContent": ""},
+                 { "data": "runningCount", "defaultContent": "", "render": function(data, type, row, meta) {
+                   return '<a class="table-link" href="${rc.contextPath}/order/product/' + (row.id) +'/1">'+data+'</a> &nbsp;'; 
+                } },
+                 { "data": "finishedCount", "defaultContent": "", "render": function(data, type, row, meta) {
+                    return '<a class="table-link" href="${rc.contextPath}/order/over/' +  (row.id) +'">'+data+'</a> &nbsp;'; 
+                } },
+                  </@security.authorize>
+                
+                { "data": function( row, type, set, meta) {
+                    return row.id;
+                },
+                    "render": function(data, type, row, meta) {
+                        var operations = '';
+                   		 <@security.authorize ifAnyGranted="ShibaOrderManager">  
+                     	operations+= (row.enabled ? '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/disable">禁用</a> &nbsp;'
+                                :'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/enable">启用</a> &nbsp;')
+                        operations +='<a class="table-link" href="${rc.contextPath}/product/' + data +'">编辑</a> &nbsp;';
+                        
+                       	if(row.frontShow=='Y'){
+                      		operations +=	'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/frontshow/' + data + '/N">取消首页</a> &nbsp;'
+                       	}else {
+                       		operations +=	'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/frontshow/' + data + '/Y">置首页</a> &nbsp;'
+                       	}
+                        
+                         //operations +='<a class="table-link" href="${rc.contextPath}/order/product/' + data +'/1">进行中订单</a> &nbsp;'; 
+                         //operations +='<a class="table-link" href="${rc.contextPath}/order/over/' + data +'">已完成订单</a> &nbsp;';
+                        </@security.authorize>
+                        if(row.enabled==true){
+                        	if(row.iscompare==1){
+                     	 		 operations+= '<a class="table-link" href="${rc.contextPath}/product/c/'+data+'?pid='+data+'">竞价</a>';
+                     	 	}else {
+                     	 		 operations+= '<a class="table-link" href="${rc.contextPath}/order/iwant/'+data+'">购买</a>';
+                     	 	}
+                    	}
+                       return operations;
+                        
+                    }},
+            ],
+            "language": {
+                "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
+            },
+            "initComplete": initComplete,
+            "drawCallback": drawCallback,
+        } );
+        table.fnNameOrdering("orderBy").fnNoColumnsParams();
+        return table;
+       
+    }
 
+    function initComplete() {
+        $("div#toolbar").html(
+        );
+
+        $('#name, #sh').change(function() {
+        	  table.fnDraw();
+        });
+    }
+
+    function drawCallback() {
+        $('.table-action').click(function() {
+            $.post($(this).attr("url"), function() {
+                table.fnDraw(true);
+            })
+        });
+    }
+
+    $(document).ready(function() {
+        initTable();
+        initSwift(table)
+    } );
+    
+   
+</script> 
 
 	<script type="text/javascript" src="homepage/js/jquery.js"></script>
 	<script src="homepage/js/index.js"></script>

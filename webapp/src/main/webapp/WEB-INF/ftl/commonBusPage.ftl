@@ -106,14 +106,14 @@ function bu(txtObj) {
 							<div class="product-info s-clear">
 								<div class="preview s-left">
 									<#if (medetype)=="body">
-									<img src="${rc.contextPath}/imgs/t8.jpg" width="298" height="298">
+									<img src="${rc.contextPath}/imgs/t8.jpg" class="comBusImg" >
 								<#elseif (medetype)=="screen">
 									<#if (prod.type)=="info">
-									<img src="${rc.contextPath}/imgs/info.png" width="298" height="298">
+									<img src="${rc.contextPath}/imgs/info.png" class="comBusImg" >
 									<#elseif (prod.type)=="image">
-									<img src="${rc.contextPath}/imgs/img.png" width="298" height="298">
+									<img src="${rc.contextPath}/imgs/img.png" class="comBusImg" >
 									<#elseif (prod.type)=="video">
-									<img src="${rc.contextPath}/imgs/video.png" width="298" height="298">
+									<img src="${rc.contextPath}/imgs/video.png" class="comBusImg" >
 									</#if>
 								</#if>
 								</div>

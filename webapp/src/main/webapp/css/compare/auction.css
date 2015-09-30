@@ -364,3 +364,9 @@ h3{
 .record-sidebar .record-detail .more a{
 	cursor: pointer;
 }
+.comBusImg{
+	width: 270px;
+	height: 270px;
+	margin: 5px;
+}
+}

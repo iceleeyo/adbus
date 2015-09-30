@@ -24,7 +24,7 @@
 					<div class="container-12 mt10 s-clear">
 						<div class="sift-box">
 							<div class="sift-item s-clear">
-								<span>产品名称</span>
+								<span>产品名称：</span>
 								<div class="sift-search">
 									<input class="" id="name" type="text" placeholder="搜索产品" style="height: 39px;">
 									<a class="btn-search" href="#" ></a>
