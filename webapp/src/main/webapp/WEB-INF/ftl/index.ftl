@@ -188,16 +188,16 @@
 								<li class="pg-nav-item s-left">
 									<a class="pg-nav-item-t" href="${rc.contextPath}/screen">移动电视</a>
 								</li>
-								
+								<!--
 								<li class="pg-nav-item s-left">
 									<a class="pg-nav-item-t" href="${rc.contextPath}/body">车身媒体</a>
 								</li>
-								
+								-->
 								
 								
 								<li class="pg-nav-item s-left">
 									<a class="pg-nav-item-t" href="${rc.contextPath}/product/sift">
-										<span>产品促销</span>
+										<span>车身媒体</span>
 										<#--<span class="shdown"></span>-->
 									</a>
 									
