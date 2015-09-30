@@ -210,7 +210,7 @@ function changeImg(tourl,osrc,img){
 								</li>
 								-->
 								<li class="pg-nav-item s-left">
-									<a class="pg-nav-item-t pg-nav-hover-us" href="${rc.contextPath}/product/sift">
+									<a class="pg-nav-item-t pg-nav-hover-us" href="${rc.contextPath}/product/sift_bus">
 										<span>车身媒体</span>
 										<#--<span class="shdown"></span>-->
 									</a>
