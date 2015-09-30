@@ -77,11 +77,20 @@ public class IndexController {
 		return commonData(model, request, city, "body_index", "body");
 	}
 
+	@RequestMapping(value = "/screen", produces = "text/html;charset=utf-8")
+	public String screen(Model model, HttpServletRequest request, HttpServletResponse response,
+			@CookieValue(value = "city", defaultValue = "-1") int city) {
+		city = makeCookieValueRight(city == -1 ? 1 : (city % 2 == 0 ? city - 1 : city), response);
+				return commonData(model, request, city, "index", "screen");
+	}
+
 	@RequestMapping(value = "/", produces = "text/html;charset=utf-8")
 	public String index(Model model, HttpServletRequest request, HttpServletResponse response,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
-		city = makeCookieValueRight(city == -1 ? 1 : (city % 2 == 0 ? city - 1 : city), response);
-		return commonData(model, request, city, "index", "screen");
+		//city = makeCookieValueRight(city == -1 ? 1 : (city % 2 == 0 ? city - 1 : city), response);
+			//		return commonData(model, request, city, "index", "screen");
+		
+		return "redirect:/index.html";
 	}
 
 	private String commonData(Model model, HttpServletRequest request, int city, String pageName, String medetype) {
