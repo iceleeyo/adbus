@@ -19,6 +19,9 @@ public class BusInfoView {
 	
 	
 	JpaBusUpLog busUpLog;
+	
+	
+	  String busLevel;
 
 	public BusInfo getBusInfo() {
 		return busInfo;
@@ -82,6 +85,14 @@ public class BusInfoView {
 
 	public void setBusCategory(String busCategory) {
 		this.busCategory = busCategory;
+	}
+
+	public String getBusLevel() {
+		return busLevel;
+	}
+
+	public void setBusLevel(String busLevel) {
+		this.busLevel = busLevel;
 	}
 
 }

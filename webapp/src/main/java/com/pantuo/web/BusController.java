@@ -75,6 +75,16 @@ public class BusController {
 				req.getSort("id"), false);
 		return new DataTablePage(busService.queryBusinfoView(req, jpabuspage), req.getDraw());
 	}
+
+	@RequestMapping("ajax-list.xls")
+	public void exportExcel(TableRequest req,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city,HttpServletResponse resp) {
+		Page<JpaBus> jpabuspage = busService.getAllBuses(cityId, req, req.getPage(), 1024 * 100, req.getSort("id"),
+				false);
+		 busService.exportBusExcel(req, jpabuspage,resp);
+	}
+	
+	
 	@RequestMapping("ajax-findBusByLineid")
 	@ResponseBody
 	public DataTablePage<BusInfoView> findBusByLineid(TableRequest req,

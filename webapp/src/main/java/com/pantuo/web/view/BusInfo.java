@@ -4,18 +4,28 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.pantuo.mybatis.domain.BusOnline;
 import com.pantuo.mybatis.domain.Offlinecontract;
+import com.pantuo.util.DateConverter;
 
 public class BusInfo {
 	public int busid;
-	public String contractCode;
+	public String contractCode = StringUtils.EMPTY;
 	public Offlinecontract offlinecontract;
 	public Date startD;
 	public Date endD;
 	public BusOnline busOnline;
 
-	
+	public String getStartDStr() {
+		return startD != null ? DateConverter.doConvertToString(startD, DateConverter.DATE_PATTERN) : StringUtils.EMPTY;
+	}
+
+	public String getEndDStr() {
+		return endD != null ? DateConverter.doConvertToString(endD, DateConverter.DATE_PATTERN) : StringUtils.EMPTY;
+	}
+
 	/**
 	 * 这个列表如果系统跑久了 数据会较大，需要再优化
 	 */

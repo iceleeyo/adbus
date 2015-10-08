@@ -5,6 +5,8 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -36,6 +38,10 @@ public interface BusService {
     long countFree(int city, JpaBusline.Level level, JpaBus.Category category, Integer lineId, Integer busModelId, Integer companyId);
 
     Page<JpaBus> getAllBuses(int city, TableRequest req, int page, int pageSize, Sort sort, boolean fetchDisabled);
+    
+    public void exportBusExcel(TableRequest req, Page<JpaBus> busList, HttpServletResponse resp);
+    
+    
     public DataTablePage<BusInfoView> getMybatisAllBuses(int city, TableRequest req, int page, int pageSize, Sort sort,
 			boolean fetchDisabled) ;
 

@@ -1,6 +1,10 @@
 package com.pantuo.service.impl;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,16 +21,22 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.jxls.transformer.XLSTransformer;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -77,8 +87,10 @@ import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.BusService;
 import com.pantuo.simulate.QueryBusInfo;
 import com.pantuo.util.BeanUtils;
+import com.pantuo.util.ExcelUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
+import com.pantuo.web.ScheduleController;
 import com.pantuo.web.view.BusInfo;
 import com.pantuo.web.view.BusInfoView;
 import com.pantuo.web.view.ContractLineDayInfo;
@@ -88,6 +100,8 @@ import com.pantuo.web.view.ContractLineDayInfo;
  */
 @Service
 public class BusServiceImpl implements BusService {
+	
+	private static Logger log = LoggerFactory.getLogger(BusServiceImpl.class);
 	@Autowired
 	BusRepository busRepo;
 	@Autowired
@@ -408,6 +422,68 @@ public class BusServiceImpl implements BusService {
 				(category == null ? null : category.ordinal()), lineId, busModelId, companyId);
 	}
 
+	public void exportBusExcel(TableRequest req, Page<JpaBus> busList, HttpServletResponse resp) {
+
+		String plateNumber = req.getFilter("plateNumber"), linename = req.getFilter("linename"), levelStr = req
+				.getFilter("levelStr"), category = req.getFilter("category");
+
+		List<JpaBus> list = busList.getContent();
+		List<BusInfoView> r = new ArrayList<BusInfoView>(list.size());
+		for (JpaBus jpaBus : list) {
+			BusInfoView view = new BusInfoView();
+			view.setJpaBus(jpaBus);
+			BusInfo info = queryBusInfo.getBusInfo2(jpaBus.getId());
+			view.setBusInfo(info != null ? info : QueryBusInfo.emptybusInfo);
+			view.setBusLevel(jpaBus.getLine().getLevelStr());
+			r.add(view);
+		}
+		String templateFileName = "/jxls/bus_list.xls";
+
+		StringBuffer sb = new StringBuffer();
+		if (StringUtils.isNotBlank(plateNumber)) {
+			//sb.append("车牌号_" + plateNumber + "_");
+			sb.append("_" + plateNumber + "_");
+		}
+		if (StringUtils.isNotBlank(linename)) {
+			sb.append("_" + linename + "_");
+			//sb.append("线路_" + linename + "_");
+		}
+
+		if (StringUtils.isNotBlank(category) && !StringUtils.equals(category, "defaultAll")) {
+			//sb.append("类型_" + JpaBus.Category.valueOf(category).getNameStr() + "_");
+			sb.append("_" + JpaBus.Category.valueOf(category).getNameStr() + "_");
+		}
+		if (StringUtils.isNotBlank(levelStr) && !StringUtils.equals(levelStr, "defaultAll")) {
+			//sb.append("线路级别_" + JpaBusline.Level.valueOf(levelStr).getNameStr() + "_");
+			sb.append("_" + JpaBusline.Level.valueOf(levelStr).getNameStr() + "_");
+		}
+		if (sb.length() == 0) {
+			sb.append("bus");
+		}
+		Map beans = new HashMap();
+		beans.put("report", r);
+		beans.put("title", sb.toString());
+		beans.put("number", sb.toString());
+		XLSTransformer transformer = new XLSTransformer();
+		try {
+			resp.setHeader("Content-Type", "application/x-xls");
+			resp.setHeader("Content-Disposition", "attachment; filename=\"bus-[" + sb.toString() + "].xls\"");
+			InputStream is = new BufferedInputStream(ScheduleController.class.getResourceAsStream(templateFileName));
+			org.apache.poi.ss.usermodel.Workbook workbook = transformer.transformXLS(is, beans);
+			//	ExcelUtil.dynamicMergeCells((HSSFSheet) workbook.getSheetAt(0), 1, 0, 1, 2);
+
+			OutputStream os = new BufferedOutputStream(resp.getOutputStream());
+			workbook.write(os);
+			is.close();
+			os.flush();
+			os.close();
+			log.info("export over!");
+		} catch (Exception e) {
+			log.error("Fail to export excel for city {}, req {}");
+			throw new RuntimeException("Fail to export excel", e);
+		}
+
+	}
 	public Page<BusInfoView> queryBusinfoView(TableRequest req, Page<JpaBus> page) {
 		List<JpaBus> list = page.getContent();
 		List<BusInfoView> r = new ArrayList<BusInfoView>(list.size());
