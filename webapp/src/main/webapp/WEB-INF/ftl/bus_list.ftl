@@ -120,8 +120,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                   	'<option value="jidongche">机动车</option>' +
                   	'<option value="yunyingche">运营车</option>' +
                   	'</select>'+
-                  	'<span style="float:right;"><a class="block-btn" href="javascript:void(0);">导出查询数据</a>'+
-                    '<a class="block-btn" style="margin-left: 20px;" href="javascript:void(0);">导出所有</a></span>'+
+                  	'<span style="float:right;"><a class="block-btn" id="export_xls" href="javascript:void(0);">导出查询数据</a>'+
+                 <!--   '<a class="block-btn" style="margin-left: 20px;" href="javascript:void(0);">导出所有</a></span>'+-->
                   	'</div>'+
                   	
                     '<br>'
@@ -129,6 +129,21 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 
         $('#name,#linename,#category,#levelStr').change(function() {
             table.fnDraw();
+        });
+        
+        $("#export_xls").click(function(){
+          var params =  "filter[plateNumber]=" + $('#name').val()
+                        +"&filter[linename]=" + $('#linename').val()
+                        +"&filter[category]=" + $('#category').val()
+                        +"&filter[levelStr]=" + $('#levelStr').val();
+                     //   alert(params);
+                        var w = ''+ $('#name').val()+$('#linename').val() ;
+                        if($('#name').val() =='' && $('#linename').val() ==''){
+                         	jDialog.Alert("导出车辆信息,由于数据量较大执行较慢 正在优化开发随后几天将开放!请先缩小查询范围再导出");
+                         	return ;
+                        }
+                        
+            location.href='${rc.contextPath}/bus/ajax-list.xls?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1&'+params;
         });
     }
 
