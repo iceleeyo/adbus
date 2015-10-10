@@ -127,7 +127,7 @@ header .area {
 .ad {
   width: 965px;
   height: 300px;
-  margin: 10px auto;
+  margin: 20px auto;
   margin-left: 30px;
 }
 .ad .banner {
@@ -164,7 +164,7 @@ header .area {
   padding: 50px 0 30px 20px;
   margin-left: 15px;
   margin-bottom: 30px;
-  background: #ffffff;
+  background: #E7EEF9;
 }
 .recommand .re-box .select {
   width: 130px;
@@ -247,7 +247,7 @@ header .area {
 }
 .select-more {
   height: 30px;
-  margin-top: 20px;
+  margin-top: 40px;
   background: #009deb;
 }
 .select-more li {
@@ -300,7 +300,7 @@ header .area {
   width: 950px;
   margin-left: 13px;
   margin-bottom: 30px;
-  background: #ffffff;
+  background: #E7EEF9;
 }
 .customs .back .desp {
   width: 80px;
@@ -311,6 +311,7 @@ header .area {
 .customs .back-items {
   padding: 60px 70px 10px 60px;
   font-size: 16px;
+  background-color: white;
 }
 .customs .back-item ul {
   padding: 0;
@@ -338,6 +339,7 @@ header .area {
 }
 .buy {
   padding: 30px 30px 20px 40px;
+  background-color: rgb(231, 238, 249);
 }
 .buy .inline-b {
   display: inline-block;
@@ -348,10 +350,11 @@ header .area {
 .buy .cont {
   height: 105px;
   width: 880px;
-  margin: 15px 0 15px;
+  margin: 15px 0 2px;
   display: inline-block;
   background: url(../index_img/linebar_blue_items.png) no-repeat;
   background-size: 100%;
+  border-radius: 10px;
 }
 .buy .cont .activity {
   padding-left: 40px;

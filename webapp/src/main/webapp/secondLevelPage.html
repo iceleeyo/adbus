@@ -9,6 +9,7 @@
 		<link rel="stylesheet" type="text/css" href="index_css/header.css">
 		<link rel="stylesheet" type="text/css" href="index_css/jack.css">
 		<link rel="stylesheet" type="text/css" href="index_css/secondLevel.css">	</head>
+		
 	<body>
 		<header>
 				<span class="area">北京</span>
@@ -279,10 +280,11 @@
 									<p class="p-one"><em>1700</em>元/月/辆</p>
 									<p class="p-two">5000000人次/月</p>
 								</div>
+								<!-- 加减控制 -->
 								<div class="num f-left inline-b">
-									<span class="icon f-left dec"></span>
-									<input class="f-left">
-									<span class="icon f-left plus"></span>
+									<input type="button" class="icon f-left dec" id="leftDec" />
+									<input class="f-left" id="sum" value="0">
+									<input type="button" class="icon f-left plus" id="leftPlus" />
 								</div>
 								<div class="map f-left inline-b">
 									<div class="map-box"></div>
@@ -359,6 +361,29 @@
 		<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
 		<script src="index_js/unslider.min.js"></script>
 		<script type="text/javascript">
+
+		$("#leftDec").click(function(){
+			  var oldValue=$(this).next().find("input").val();//获取文本框对象现有值
+			  alert(oldValue);
+			  if(oldValue>0){
+				  $(this).next().find("input").val(parseFloat(oldValue)-1);
+			  }
+			  
+		});
+		
+		$("#leftPlus").click(function(){
+			var oldValue=$(this).prev().find("input").val();//获取文本框对象现有值
+			alert(oldValue);
+			$(this).next().find("input").val(parseFloat(oldValue)+1);
+		}); 
+		
+		/* $("#leftPlus").click(function(){
+			  $(this).parent().find("input").val(parseint($(this).parent().find("input"))+1);
+		});
+		$("#leftDec").click(function(){
+			  $(this).parent().find("input").val(parseint($(this).parent().find("input"))-1);
+		}); */
+			
 		//走马灯图片事件
 		$(document).ready(function(e) {
 		    var unslider04 = $('#b04').unslider({
