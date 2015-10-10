@@ -1,126 +1,94 @@
 @charset "utf-8";
-html {
-  overflow: hidden;
-  height: 100%;
-}
-body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  font-family: "微软雅黑", Arial;
-}
-header,
-section {
-  width: 100%;
-}
-section {
-  position: relative;
-}
-ul,
-ol {
-  margin-top: 0;
-  margin-bottom: 10px;
-}
-a {
-  background-color: transparent;
-  color: inherit;
-}
-a:focus {
-  color: inherit;
-}
-a {
-  text-decoration: none;
-}
 .background-one .slide-container .view1 {
-  background: url(../index_img/bg1_1.png) no-repeat;
+  background: url(../img/bg1_1.png) no-repeat;
   background-size: 125%;
 }
 .background-one .slide-container .view2 {
-  background: url(../index_img/bg1_2.png) no-repeat;
+  background: url(../img/bg1_2.png) no-repeat;
   background-size: 125%;
 }
 .background-one .slide-container .view3 {
-  background: url(../index_img/bg1_3.png) no-repeat 50% 50%;
+  background: url(../img/bg1_3.png) no-repeat 50% 50%;
   background-size: 125%;
 }
 .background-one .slide-container .view4 {
-  background: url(../index_img/bg1_4.png) no-repeat;
+  background: url(../img/bg1_4.png) no-repeat;
   background-size: 125%;
 }
 .background-two {
-  background: url(../index_img/bg2.png);
+  background: url(../img/bg2.png);
   background-position: 0 50%;
   background-size: 120%;
 }
 .background-three {
-  background: url(../index_img/bg3.png);
+  background: url(../img/bg3.png);
   background-position: 40% 0;
   background-size: 125%;
 }
 .background-four {
-  background: url(../index_img/bg4.png);
+  background: url(../img/bg4.png);
   background-position: 50% 50%;
   background-size: 120%;
 }
 .background-five {
-  background: url(../index_img/bg5.png);
+  background: url(../img/bg5.png);
   background-position: 50% 100%;
   background-size: 110%;
 }
 .background-six {
-  background: url(../index_img/bg6.png);
+  background: url(../img/bg6.png);
   background-position: 50% 50%;
   background-size: 100%;
 }
 .background-two .items .item .ad1 {
-  background: url(../index_img/icon.png) 0 -272px;
+  background: url(../img/icon.png) 0 -272px;
   background-size: 420%;
 }
 .background-two .items .item .ad2 {
-  background: url(../index_img/icon.png) 0 -400px;
+  background: url(../img/icon.png) 0 -400px;
   background-size: 420%;
 }
 .background-two .items .item .ad3 {
-  background: url(../index_img/icon.png) 0 -529px;
+  background: url(../img/icon.png) 0 -529px;
   background-size: 420%;
 }
 .background-two .items .item .ad4 {
-  background: url(../index_img/icon.png) 0 -657px;
+  background: url(../img/icon.png) 0 -657px;
   background-size: 420%;
 }
 .background-two .items .item .ad5 {
-  background: url(../index_img/icon.png) 0 -787px;
+  background: url(../img/icon.png) 0 -787px;
   background-size: 420%;
 }
 .background-five .adv .mobile {
-  background: url(../index_img/line.png) no-repeat -935px 0;
+  background: url(../img/line.png) no-repeat -935px 0;
 }
 .background-five .adv .mengniu {
-  background: url(../index_img/line.png) no-repeat -1165px 0;
+  background: url(../img/line.png) no-repeat -1165px 0;
 }
 .background-five .adv .lenovo {
-  background: url(../index_img/line.png) no-repeat -1395px 0;
+  background: url(../img/line.png) no-repeat -1395px 0;
 }
 .background-five .adv .jd {
-  background: url(../index_img/line.png) no-repeat -705px 0;
+  background: url(../img/line.png) no-repeat -705px 0;
 }
 .background-five .adv .suning {
-  background: url(../index_img/line.png) no-repeat -2085px 0;
+  background: url(../img/line.png) no-repeat -2085px 0;
 }
 .background-five .adv .apple {
-  background: url(../index_img/line.png) no-repeat -245px 0;
+  background: url(../img/line.png) no-repeat -245px 0;
 }
 .background-five .adv .weiqian {
-  background: url(../index_img/line.png) no-repeat -1625px 0;
+  background: url(../img/line.png) no-repeat -1625px 0;
 }
 .background-five .adv .unilever {
-  background: url(../index_img/line.png) no-repeat -15px 0;
+  background: url(../img/line.png) no-repeat -15px 0;
 }
 .background-five .adv .cocacola {
-  background: url(../index_img/line.png) no-repeat -475px 0;
+  background: url(../img/line.png) no-repeat -475px 0;
 }
 .background-five .adv .taobao {
-  background: url(../index_img/line.png) no-repeat -1855px 0;
+  background: url(../img/line.png) no-repeat -1855px 0;
 }
 .clearfix:after {
   visibility: hidden;
@@ -135,66 +103,6 @@ a {
 }
 #content {
   position: relative;
-}
-header {
-  position: fixed;
-  height: 45px;
-  color: #fff;
-  z-index: 999;
-  background: #090e0d;
-}
-header .logo {
-  float: left;
-  width: 180px;
-  height: 45px;
-  margin-left: 30px;
-  background: url(../index_img/logo.png) no-repeat;
-  background-size: 100%;
-  background-position: 0 50%;
-}
-header .menu {
-  margin-top: 10px;
-  margin-left: 30%;
-}
-header .menu .list-line {
-  margin: 0 auto;
-}
-header .menu ul {
-  padding-left: 0;
-  list-style: none;
-  display: inline-block;
-}
-header .menu ul > li {
-  display: inline-block;
-}
-header .menu .login {
-  float: right;
-  margin-right: 10%;
-}
-header .menu .login > li {
-  margin: 0;
-  font-size: 12px;
-}
-header .menu ul li {
-  margin: 0 12px;
-  font-size: 18px;
-}
-header .menu ul li a {
-  color: #ffffff;
-  letter-spacing: 2px;
-  cursor: pointer;
-}
-header .menu ul li a:hover {
-  color: #1d70ed;
-  text-decoration: none;
-}
-header .menu ul li.active a {
-  color: #1d70ed;
-  text-decoration: none;
-}
-.blue-a {
-  color: #1d70ed;
-  text-decoration: none;
 }
 .slide-container .slider {
   float: left;
@@ -222,7 +130,7 @@ header .menu ul li.active a {
   font-size: 32px;
 }
 .background-one .slide-container .slider .view-text .bot {
-  width: 60%;
+  width: 40%;
 }
 .background-one .slide-container .slider .view-text .bot .info {
   margin: 5px;
@@ -235,7 +143,7 @@ header .menu ul li.active a {
   height: 40px;
   margin: 15px auto;
   line-height: 60px;
-  background: url(../index_img/icon.png) no-repeat -160px -230px;
+  background: url(../img/icon.png) no-repeat -160px -230px;
 }
 .background-one .slide-container .view1 .view-text .mid {
   margin-top: 160px;
@@ -256,7 +164,7 @@ header .menu ul li.active a {
   height: 40px;
   margin: 15px auto;
   line-height: 60px;
-  background: url(../index_img/icon.png) no-repeat -160px -480px;
+  background: url(../img/icon.png) no-repeat -160px -480px;
 }
 .background-one .slide-container .view2 .view-text .bot {
   margin-top: 140px;
@@ -267,7 +175,7 @@ header .menu ul li.active a {
   height: 45px;
   margin: 15px 32%;
   line-height: 60px;
-  background: url(../index_img/icon.png) no-repeat -205px -295px;
+  background: url(../img/icon.png) no-repeat -205px -295px;
 }
 .background-one .slide-container .view3 .view-text .right .mid {
   text-align: -webkit-auto;
@@ -292,7 +200,7 @@ header .menu ul li.active a {
   height: 45px;
   margin: 15px auto;
   line-height: 60px;
-  background: url(../index_img/icon.png) no-repeat -205px -395px;
+  background: url(../img/icon.png) no-repeat -205px -395px;
 }
 .background-one .slide-container .view4 .view-text .bot {
   margin-top: 160px;
@@ -330,7 +238,7 @@ header .menu ul li.active a {
   height: 45px;
   margin: 0 auto;
   cursor: pointer;
-  background: url(../index_img/icon.png) no-repeat -265px -630px;
+  background: url(../img/icon.png) no-repeat -265px -630px;
 }
 .background-two .container {
   position: absolute;
@@ -339,7 +247,7 @@ header .menu ul li.active a {
 }
 .background-two .container .title-en {
   width: 280px;
-  background: url(../index_img/icon.png) no-repeat 0px -50px;
+  background: url(../img/icon.png) no-repeat 0px -50px;
 }
 .background-two .container .title-zh {
   margin-top: 10px;
@@ -370,7 +278,7 @@ header .menu ul li.active a {
 }
 .background-three .container .title-en {
   width: 200px;
-  background: url(../index_img/icon.png) no-repeat -275px -50px;
+  background: url(../img/icon.png) no-repeat -275px -50px;
 }
 .background-three .container .title-zh {
   margin-top: 10px;
@@ -404,13 +312,13 @@ header .menu ul li.active a {
   display: inline-block;
   height: 100px;
   width: 300px;
-  background: url(../index_img/icon.png) no-repeat 0 -110px;
+  background: url(../img/icon.png) no-repeat 0 -110px;
 }
 .background-three .container .plain .right {
   display: inline-block;
   height: 100px;
   width: 150px;
-  background: url(../index_img/icon.png) no-repeat -350px -110px;
+  background: url(../img/icon.png) no-repeat -350px -110px;
 }
 .background-four .container {
   position: absolute;
@@ -419,7 +327,7 @@ header .menu ul li.active a {
 }
 .background-four .container .title-en {
   width: 210px;
-  background: url(../index_img/icon.png) no-repeat -270px 0px;
+  background: url(../img/icon.png) no-repeat -270px 0px;
 }
 .background-four .container .title-zh {
   margin-top: 10px;
@@ -493,7 +401,7 @@ header .menu ul li.active a {
 }
 .background-five .container .title-en {
   width: 280px;
-  background: url(../index_img/icon.png) no-repeat 0px 0px;
+  background: url(../img/icon.png) no-repeat 0px 0px;
 }
 .background-five .container .title-zh {
   margin-top: 10px;
@@ -583,11 +491,11 @@ header .menu ul li.active a {
   color: #1d70ed;
 }
 .background-six .slide-container .view1 .mid {
-  font-size: 16px;
+  font-size: 20px;
 }
 .background-six .slide-container .view2 .mid {
   width: 480px;
-  font-size: 16px;
+  font-size: 20px;
 }
 .background-six .slide-container .view3 .left {
   float: left;
@@ -598,62 +506,4 @@ header .menu ul li.active a {
 }
 .background-six .slide-container .view3 .right div {
   margin: 5px 0;
-}
-.jack {
-  position: fixed;
-  right: 0;
-  width: 50px;
-  -moz-opacity: 0.7;
-  opacity: 0.7;
-  z-index: 200;
-}
-.jack .icons {
-  position: absolute;
-  list-style: none;
-  right: 0;
-  padding: 0;
-  width: 50px;
-  border: 1px solid #333;
-  border-right: none;
-  background: #111;
-  -moz-border-radius: 10px 0 0 10px;
-  -webkit-border-radius: 10px 0 0 10px;
-  border-radius: 10px 0 0 10px;
-  -webkit-transition: all 0.3s ease-in-out 0s;
-  -moz-transition: all 0.3s ease-in-out 0s;
-  -ms-transition: all 0.3s ease-in-out 0s;
-  -o-transition: all 0.3s ease-in-out 0s;
-  transition: all 0.3s ease-in-out 0s;
-}
-.jack .icons li:hover i {
-  opacity: .8;
-}
-.jack .icons li i {
-  display: block;
-  position: relative;
-  width: 50px;
-  height: 50px;
-  background: url(../index_img/icons.png) no-repeat;
-  cursor: pointer;
-  -webkit-transition: all 0.3s ease-in-out 0s;
-  -moz-transition: all 0.3s ease-in-out 0s;
-  -ms-transition: all 0.3s ease-in-out 0s;
-  -o-transition: all 0.3s ease-in-out 0s;
-  transition: all 0.3s ease-in-out 0s;
-  z-index: 210;
-}
-.jack .icons li.up i {
-  background-position: -63px -150px;
-}
-.jack .icons li.qq i {
-  background-position: -62px -20px;
-}
-.jack .icons li.tel i {
-  background-position: -62px -108px;
-}
-.jack .icons li.wechat i {
-  background-position: -59px -66px;
-}
-.jack .icons li.down i {
-  background-position: -63px -190px;
 }

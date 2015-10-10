@@ -1,0 +1,91 @@
+.background-one .slide-container .view1 {
+  background: url(../img/bg1_1.png) no-repeat;
+  background-size: 125%;
+}
+.background-one .slide-container .view2 {
+  background: url(../img/bg1_2.png) no-repeat;
+  background-size: 125%;
+}
+.background-one .slide-container .view3 {
+  background: url(../img/bg1_3.png) no-repeat 50% 50%;
+  background-size: 125%;
+}
+.background-one .slide-container .view4 {
+  background: url(../img/bg1_4.png) no-repeat;
+  background-size: 125%;
+}
+.background-two {
+  background: url(../img/bg2.png);
+  background-position: 0 50%;
+  background-size: 120%;
+}
+.background-three {
+  background: url(../img/bg3.png);
+  background-position: 40% 0;
+  background-size: 125%;
+}
+.background-four {
+  background: url(../img/bg4.png);
+  background-position: 50% 50%;
+  background-size: 120%;
+}
+.background-five {
+  background: url(../img/bg5.png);
+  background-position: 50% 100%;
+  background-size: 110%;
+}
+.background-six {
+  background: url(../img/bg6.png);
+  background-position: 50% 50%;
+  background-size: 100%;
+}
+.background-two .items .item .ad1 {
+  background: url(../img/icon.png) 0 -272px;
+  background-size: 420%;
+}
+.background-two .items .item .ad2 {
+  background: url(../img/icon.png) 0 -400px;
+  background-size: 420%;
+}
+.background-two .items .item .ad3 {
+  background: url(../img/icon.png) 0 -529px;
+  background-size: 420%;
+}
+.background-two .items .item .ad4 {
+  background: url(../img/icon.png) 0 -657px;
+  background-size: 420%;
+}
+.background-two .items .item .ad5 {
+  background: url(../img/icon.png) 0 -787px;
+  background-size: 420%;
+}
+.background-five .adv .mobile {
+  background: url(../img/line.png) no-repeat -935px 0;
+}
+.background-five .adv .mengniu {
+  background: url(../img/line.png) no-repeat -1165px 0;
+}
+.background-five .adv .lenovo {
+  background: url(../img/line.png) no-repeat -1395px 0;
+}
+.background-five .adv .jd {
+  background: url(../img/line.png) no-repeat -705px 0;
+}
+.background-five .adv .suning {
+  background: url(../img/line.png) no-repeat -2085px 0;
+}
+.background-five .adv .apple {
+  background: url(../img/line.png) no-repeat -245px 0;
+}
+.background-five .adv .weiqian {
+  background: url(../img/line.png) no-repeat -1625px 0;
+}
+.background-five .adv .unilever {
+  background: url(../img/line.png) no-repeat -15px 0;
+}
+.background-five .adv .cocacola {
+  background: url(../img/line.png) no-repeat -475px 0;
+}
+.background-five .adv .taobao {
+  background: url(../img/line.png) no-repeat -1855px 0;
+}

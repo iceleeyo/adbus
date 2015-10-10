@@ -20,6 +20,9 @@ ol {
   margin-top: 0;
   margin-bottom: 10px;
 }
+li {
+  list-style: none;
+}
 a {
   background-color: transparent;
   color: inherit;
@@ -29,4 +32,18 @@ a:focus {
 }
 a {
   text-decoration: none;
+}
+p {
+  margin: 0;
+}
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+.clearfix {
+  display: inline-block;
 }

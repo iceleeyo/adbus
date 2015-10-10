@@ -1,0 +1,96 @@
+.jack {
+  position: fixed;
+  right: 0;
+  width: 50px;
+  -moz-opacity: 0.7;
+  opacity: 0.7;
+  z-index: 200;
+}
+.jack .icons {
+  position: absolute;
+  list-style: none;
+  right: 0;
+  padding: 0;
+  width: 50px;
+  border: 1px solid #333;
+  border-right: none;
+  background: #111;
+  -moz-border-radius: 10px 0 0 10px;
+  -webkit-border-radius: 10px 0 0 10px;
+  border-radius: 10px 0 0 10px;
+  -webkit-transition: all 0.3s ease-in-out 0s;
+  -moz-transition: all 0.3s ease-in-out 0s;
+  -ms-transition: all 0.3s ease-in-out 0s;
+  -o-transition: all 0.3s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s;
+}
+.jack .icons li:hover i {
+  opacity: .8;
+}
+.jack .icons li i {
+  display: block;
+  position: relative;
+  width: 50px;
+  height: 50px;
+  background: url(../img/icons.png) no-repeat;
+  cursor: pointer;
+  -webkit-transition: all 0.3s ease-in-out 0s;
+  -moz-transition: all 0.3s ease-in-out 0s;
+  -ms-transition: all 0.3s ease-in-out 0s;
+  -o-transition: all 0.3s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s;
+  z-index: 210;
+}
+.jack .icons li.up i {
+  background-position: -63px -150px;
+}
+.jack .icons li.qq i {
+  background-position: -62px -20px;
+}
+.jack .icons li.tel i {
+  background-position: -62px -108px;
+}
+.jack .icons li.wechat i {
+  background-position: -59px -66px;
+}
+.jack .icons li.down i {
+  background-position: -63px -190px;
+}
+.jacksec {
+  position: fixed;
+  right: 0;
+  width: 30px;
+  -moz-opacity: 0.7;
+  opacity: 0.7;
+  z-index: 200;
+}
+.jacksec .icons {
+  width: 35px;
+}
+.jacksec .icons li:hover i {
+  opacity: .8;
+}
+.jacksec .icons li i {
+  width: 35px;
+  height: 38px;
+}
+.jacksec .icons li.up i {
+  background-size: 220%;
+  background-position: -50px -115px;
+}
+.jacksec .icons li.qq i {
+  background-size: 220%;
+  background-position: -50px -16px;
+}
+.jacksec .icons li.tel i {
+  background-size: 220%;
+  background-position: -50px -80px;
+}
+.jacksec .icons li.wechat i {
+  background-size: 220%;
+  background-position: -48px -50px;
+}
+.jacksec .icons li.down i {
+  background-size: 220%;
+  background-position: -50px -145px;
+}
