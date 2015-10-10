@@ -365,8 +365,13 @@
 											 </@security.authorize>
 											   <@security.authorize ifAnyGranted="meijie_bus">	
                                             <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/mlist">
+                                                    车辆管理
+                                                </a>
+                                            </li>
+                                            <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/bus/list">
-                                                    车辆列表
+                                                    车辆查询
                                                 </a>
                                             </li>
                                              </@security.authorize>
@@ -398,7 +403,7 @@
                                           
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/bus/companies">
-                                                    运营公司
+                                                    营销中心
                                                 </a>
                                             </li>
                                                 </@security.authorize>

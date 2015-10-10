@@ -1,7 +1,7 @@
 <#import "template/template_blank.ftl" as frame>
-<#global menu="巴士列表">
+<#global menu="车辆上刊">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="巴士列表" js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js", "js/datepicker.js","js/jquery.datepicker.region.cn.js"]
+<@frame.html title="车辆上刊" js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js", "js/datepicker.js","js/jquery.datepicker.region.cn.js"]
 css=["js/jquery-ui/jquery-ui.css"]>
 
 <style type="text/css">
@@ -149,12 +149,11 @@ css=["js/jquery-ui/jquery-ui.css"]>
 											return operations;
 										}
 									},
-                { "data": "jpaBus.plateNumber", "defaultContent": "","render": function(data, type, row, meta) {
-                	//return '<a class="table-link" href="${rc.contextPath}/bus/busOnline_history/' + row.jpaBus.id +'" >'+data+'</a>';
+                { "data": "jpaBus.serialNumber", "defaultContent": "","render": function(data, type, row, meta) {
                 	return '<a  onclick="showbusOnline_history(\'${rc.contextPath}\','+row.jpaBus.id+');">'+data+'</a>';
                 }},
-                { "data": "jpaBus.serialNumber", "defaultContent": ""},
                 { "data": "jpaBus.oldSerialNumber", "defaultContent": ""},
+                { "data": "jpaBus.plateNumber", "defaultContent": ""},
                 { "data": "jpaBus.model.name", "defaultContent": ""},
                 { "data": "jpaBus.line.name", "defaultContent": ""},
                 { "data": "jpaBus.line.levelStr", "defaultContent": ""},
@@ -452,9 +451,9 @@ css=["js/jquery-ui/jquery-ui.css"]>
                     <thead>
                     <tr>
                         <th > <input type="checkbox" name="checkAll" /></th>
+                        <th >车辆自编号</th>
+                        <th >旧自编号</th>
                         <th >车牌号</th>
-                        <th >新车号</th>
-                        <th >旧车号</th>
                         <th >车型</th>
                         <th orderBy="line.name">线路</th>
                         <th orderBy="line.level">线路级别</th>

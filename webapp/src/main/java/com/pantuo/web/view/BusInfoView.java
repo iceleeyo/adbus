@@ -16,6 +16,7 @@ public class BusInfoView {
 	JpaBusline line;
 	String busCategory;
 	JpaBusinessCompany company;
+	boolean ishaveAd=false;
 	
 	
 	JpaBusUpLog busUpLog;
@@ -23,8 +24,20 @@ public class BusInfoView {
 	
 	  String busLevel;
 
+	public BusInfoView() {
+	}
+
 	public BusInfo getBusInfo() {
 		return busInfo;
+	}
+
+
+	public boolean isIshaveAd() {
+		return ishaveAd;
+	}
+
+	public void setIshaveAd(boolean ishaveAd) {
+		this.ishaveAd = ishaveAd;
 	}
 
 	public void setBusInfo(BusInfo busInfo) {

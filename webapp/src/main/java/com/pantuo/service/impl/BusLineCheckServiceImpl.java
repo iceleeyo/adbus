@@ -202,7 +202,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		if (StringUtils.isNotBlank(name)) {
 			query = query.and(QJpaBusline.jpaBusline.name.like("%" + name + "%"));
 		}
-		Pageable p = new PageRequest(0, 30, new Sort("name"));
+		Pageable p = new PageRequest(0, 900, new Sort("name"));
 		List<Integer> idsList = new ArrayList<Integer>();
 		Page<JpaBusline> list = buslineRepository.findAll(query, p);
 		if (!list.getContent().isEmpty()) {

@@ -255,6 +255,10 @@ public class BusController {
 	public String list() {
 		return "bus_list";
 	}
+	@RequestMapping(value = "/mlist")
+	public String mlist() {
+		return "bus_mlist";
+	}
 	@RequestMapping(value = "/busUpdate_query")
 	public String querybusUp() {
 		return "busUpdate_query";

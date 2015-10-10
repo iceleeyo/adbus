@@ -1,7 +1,7 @@
 <#import "template/template.ftl" as frame>
-<#global menu="运营公司">
+<#global menu="营销中心">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="运营公司列表" js=["js/jquery-dateFormat.min.js"]>
+<@frame.html title="营销中心列表" js=["js/jquery-dateFormat.min.js"]>
 
 <style type="text/css">
     .center {margin: auto;}
@@ -74,7 +74,7 @@
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>线路名：</span>' +
+                        '    <span>运营中心：</span>' +
                         '    <span>' +
                         '        <input id="name" value="">' +
                         '    </span>' +
@@ -104,7 +104,7 @@
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title">
-                运营公司列表
+                营销中心列表
 									</div>
                 <table id="table" class="display compact" cellspacing="0" width="100%">
                     <thead>

@@ -1382,3 +1382,178 @@ function publishAmount(tourl,id){
 		}
 	}, "text");
 }
+
+	
+//增加车辆
+function addBus(pathUrl){
+			layer.open({
+				type: 1,
+				title: "添加车辆",
+				skin: 'layui-layer-rim', 
+				area: ['600px', '650px'], 
+				content: ''
+				+ '<form id="publishform01" action='+pathUrl+'/bus/saveBus>'
+				+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
+				+'<div class="ui-form-item"> <label class="ui-label mt10">车牌号： </label><input class="ui-input validate[required]"'
+				+'type="text" name="plateNumber" id="plateNumber" value="" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+				+'<div class="ui-form-item"> <label class="ui-label mt10">车辆自编号：</label><input class="ui-input validate[required]"'
+				+'type="text" name="serialNumber" value=""  data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
+				+ '<div class="ui-form-item"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/>'
+				+ '<label class="ui-label mt10">选择线路：</label>'
+				+ '<input class="ui-input" value=""  id="line_id" data-is="isAmount isEnough">'
+				+ '</div>'
+				+ '<div id="four"><div class="ui-form-item" id="model_Id">'
+				+ '<label class="ui-label mt10">选择车型：</label>'
+				+ '<select  class="ui-input bus-model" name="modelId" id="model_id"> <option value="0">请选择车型</option> </select>'
+				+ '</div>'
+				+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">车辆类别：</label>'
+				+'<select class="ui-input ui-input-mini" name="category" id="category">' 
+              	+'<option value="0">包车</option>' 
+              	+'<option value="1">班车</option>' 
+              	+'<option value="2">机动车</option>' 
+              	+'<option value="3">运营车</option>' 
+     			+'</select>'
+				+'</div>'
+				+'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">营销中心：</span> </label>'
+				+ '<select  class="ui-input bus-model" name="companyId" id="companyId"> <option value="" selected="selected">请选择营销中心</option> </select>'
+				+'</div>'
+				+'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">公司名称：</span> </label>'
+				+'<input class="ui-input-d"  value="" name="office" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+				+'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">客户：</span> </label>'
+				+'<input class="ui-input-d"  value="" id="branch" name="branch" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+				+'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">车史：</span> </label>'
+				+'<input class="ui-input-d"  value="" id="branch" name="bushis" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+				+'<div class="ui-form-item"> <label class="ui-label mt10">车型描述：</label><textarea rows="4" name="description" cols="30"  style="resize: none;" ></textarea> </div></div>'
+				+ '<div class="ui-form-item widthdrawBtBox" style="margin-left:40px;">'
+				+ '<input type="button" onclick="saveBus()" class="block-btn" value="确认" ></div></div>'
+				+ '<input type="hidden" value="" name="lineId" id="db_id"></form>'
+			});
+					    $.ajax({
+		       url : pathUrl + "/bus/findAllCompany",
+		       type : "GET",
+		       success : function(data) {
+		      $.each(data, function(i, item) {
+				$("#companyId").append(
+						$("<option value="+item.id+">" + item.name
+								+ "</option>"));
+		         });
+	    }}, "text");
+			
+			$("#line_id").autocomplete({
+				minLength: 0,
+					source : pathUrl+"/busselect/autoComplete",
+					change : function(event, ui) {
+					},
+					select : function(event, ui) {
+						$('#line_id').val(ui.item.value);
+						initmodel(ui.item.dbId);
+						$("#db_id").val(ui.item.dbId);
+					}
+				}).focus(function () {
+		       				 $(this).autocomplete("search");
+		   				 });
+		}
+			
+//车辆信息修改
+function showBusDetail(pathUrl,tourl,id){
+	
+	$.ajax({
+		url : tourl  + id,
+		type : "POST",
+		data : {
+		},
+		success : function(data) {
+			layer.open({
+				type: 1,
+				title: "车辆信息修改",
+				skin: 'layui-layer-rim', 
+				area: ['650px', '650px'], 
+				content: ''
+					+ '<form id="publishform01" action='+pathUrl+'/bus/saveBus>'
+					+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;"><input type="hidden" name="id" value="'+data.id+'"/>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10">车牌号： </label><input class="ui-input validate[required]"'
+					+'type="text" name="plateNumber" id="plateNumber" value="'+data.plateNumber+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10">车辆自编号：</label><input  class="ui-input validate[required]"'
+					+'type="text" name="serialNumber" value="'+data.serialNumber+'"  data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10">旧自编号：</label><input  class="ui-input-d"'
+					+'type="text" name="oldSerialNumber" value="'+data.oldSerialNumber+'" id="oldSerialNumber" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
+					+ '<div class="ui-form-item"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/>'
+					+ '<label class="ui-label mt10">选择线路：</label>'
+					+ '<input class="ui-input" value="'+data.line.name+'"  id="line_id" data-is="isAmount isEnough">'
+					+ '</div>'
+					+ '<div id="four"><div class="ui-form-item" id="model_Id">'
+					+ '<label class="ui-label mt10">选择车型：</label>'
+					+ '<select  class="ui-input bus-model" name="modelId" id="model_id"> <option value="'+data.model.id+'" selected="selected">'+data.model.name+'</option><option value="0">所有类型</option> </select>'
+					+ '</div>'
+					+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">车辆类别：</label>'
+					+'<select class="ui-input ui-input-mini" name="category" id="category">' 
+					+'<option value="0">包车</option>' 
+					+'<option value="1">班车</option>' 
+					+'<option value="2">机动车</option>' 
+					+'<option value="3">运营车</option>' 
+					+'</select>'
+					+'</div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">营销中心：</span> </label>'
+					+ '<select  class="ui-input bus-model" name="companyId" id="companyId"> <option value="'+data.company.id+'" selected="selected">'+data.company.name+'</option> </select>'
+					+'</div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">公司名称：</span> </label>'
+					+'<input class="ui-input-d"  value="'+data.office+'" name="office" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">客户：</span> </label>'
+					+'<input class="ui-input-d"  value="'+data.branch+'" id="branch" name="branch" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10">车辆情况：</label><textarea rows="4" name="description" cols="30"  style="resize: none;" >'+data.description+'</textarea> </div></div>'
+					+ '<div class="ui-form-item widthdrawBtBox" style="margin-left:40px;">'
+					+ '<input type="button" onclick="saveBus()" class="block-btn" value="确认" ></div></div>'
+					+ '<input type="hidden" value="'+data.line.id+'" name="lineId" id="db_id"></form>'
+			});
+			var companyN=data.company.name;
+			$.ajax({
+				url : pathUrl + "/bus/findAllCompany",
+				type : "GET",
+				success : function(data) {
+					$.each(data, function(i, item) {
+						if(companyN!=item.name){
+							$("#companyId").append(
+									$("<option value="+item.id+">" + item.name
+											+ "</option>"));
+						}
+					});
+				}}, "text");
+			
+			$("#line_id").autocomplete({
+				minLength: 0,
+				source : pathUrl+"/busselect/autoComplete",
+				change : function(event, ui) {
+				},
+				select : function(event, ui) {
+					$('#line_id').val(ui.item.value);
+					initmodel(ui.item.dbId);
+					$("#db_id").val(ui.item.dbId);
+				}
+			}).focus(function () {
+				$(this).autocomplete("search");
+			});
+		}
+		
+	}, "text");
+	
+	
+}
+//编辑保存
+	function saveBus() {
+		 if (!$("#publishform01").validationEngine('validateBeforeSubmit'))
+	            return;
+		var lineid=$("#db_id").val();
+		if(lineid==0){
+			layer.msg("请选择线路");
+			return;
+		}
+		$('#publishform01').ajaxForm(function(data) {
+			if(data.left){
+				layer.msg("保存成功");
+				table.dataTable()._fnAjaxUpdate();
+				$("#cc").trigger("click");
+			}else{
+				layer.msg(data.right);
+			}
+		}).submit();
+	}

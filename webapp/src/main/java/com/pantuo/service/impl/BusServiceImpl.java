@@ -263,9 +263,15 @@ public class BusServiceImpl implements BusService {
 			sort = new Sort("id");
 		Pageable p = new PageRequest(page, pageSize, sort);
 		BooleanExpression query = QJpaBus.jpaBus.city.eq(city);
-		String plateNumber = req.getFilter("plateNumber"), linename = req.getFilter("linename"), levelStr = req
+		String serinum=req.getFilter("serinum"),oldserinum=req.getFilter("oldserinum"),plateNumber = req.getFilter("plateNumber"), linename = req.getFilter("linename"), levelStr = req
 				.getFilter("levelStr"), category = req.getFilter("category"), lineid = req.getFilter("lineid"), company = req
 				.getFilter("company");
+		if (StringUtils.isNotBlank(serinum)) {
+			query = query.and(QJpaBus.jpaBus.serialNumber.like("%" + serinum + "%"));
+		}
+		if (StringUtils.isNotBlank(oldserinum)) {
+			query = query.and(QJpaBus.jpaBus.oldSerialNumber.like("%" + oldserinum + "%"));
+		}
 		if (StringUtils.isNotBlank(plateNumber)) {
 			query = query.and(QJpaBus.jpaBus.plateNumber.like("%" + plateNumber + "%"));
 		}
@@ -491,11 +497,14 @@ public class BusServiceImpl implements BusService {
 			BusInfoView view = new BusInfoView();
 			view.setJpaBus(jpaBus);
 			view.setBusInfo(queryBusInfo.getBusInfo2(jpaBus.getId()));
+			boolean ishaveAd=queryBusInfo.ishaveAd(jpaBus.getId());
+			view.setIshaveAd(ishaveAd);
 			r.add(view);
 		}
 		Pageable p = new PageRequest(req.getPage(), req.getLength(), page.getSort());
 		return new org.springframework.data.domain.PageImpl<BusInfoView>(r, p, page.getTotalElements());
 	}
+
 
 	public Page<BusInfoView> queryBusinfoView2(TableRequest req, Page<JpaBusUpLog> page) throws JsonParseException,
 			JsonMappingException, IOException {
@@ -741,28 +750,39 @@ public class BusServiceImpl implements BusService {
 	@Override
 	public Pair<Boolean, String> saveBus(Bus bus, int cityId, Principal principal) throws JsonGenerationException,
 			JsonMappingException, IOException {
-		Bus bus2 = busMapper.selectByPrimaryKey(bus.getId());
-		if (bus2 == null) {
-			return new Pair<Boolean, String>(false, "信息丢失");
+		if(null!=bus.getId() && bus.getId()>0){
+			Bus bus2 = busMapper.selectByPrimaryKey(bus.getId());
+			if (bus2 == null) {
+				return new Pair<Boolean, String>(false, "信息丢失");
+			}
+			ObjectMapper t = new ObjectMapper();
+			t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+			t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
+			String jsonString = t.writeValueAsString(bus2);
+			BeanUtils.copyProperties(bus, bus2);
+			bus2.setUpdated(new Date());
+			int a = busMapper.updateByPrimaryKey(bus2);
+			if (a > 0) {
+				BusUplog log = new BusUplog();
+				log.setCreated(new Date());
+				log.setUpdated(new Date());
+				log.setCity(cityId);
+				log.setUpdator(Request.getUserId(principal));
+				log.setBusid(bus.getId());
+				log.setJsonString(jsonString);
+				busUplogMapper.insert(log);
+				return new Pair<Boolean, String>(true, "修改成功");
+			}
+		}else{
+			bus.setCity(cityId);
+			bus.setEnabled(true);
+			bus.setCreated(new Date());
+			int a = busMapper.insert(bus);
+			if(a>0){
+				return new Pair<Boolean, String>(true, "添加成功");
+			}
 		}
-		ObjectMapper t = new ObjectMapper();
-		t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
-		String jsonString = t.writeValueAsString(bus2);
-		BeanUtils.copyProperties(bus, bus2);
-		bus2.setUpdated(new Date());
-		int a = busMapper.updateByPrimaryKey(bus2);
-		if (a > 0) {
-			BusUplog log = new BusUplog();
-			log.setCreated(new Date());
-			log.setUpdated(new Date());
-			log.setCity(cityId);
-			log.setUpdator(Request.getUserId(principal));
-			log.setBusid(bus.getId());
-			log.setJsonString(jsonString);
-			busUplogMapper.insert(log);
-		}
-		return new Pair<Boolean, String>(true, "修改成功");
+		return new Pair<Boolean, String>(false, "操作失败");
 	}
 
 	@Override

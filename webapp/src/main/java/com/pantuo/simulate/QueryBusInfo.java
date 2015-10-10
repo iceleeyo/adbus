@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -224,7 +226,22 @@ public class QueryBusInfo implements Runnable, ScheduleStatsInter {
 	public BusInfo getBusInfo2(Integer busid) {
 		return map2.containsKey(busid) ? map2.get(busid) : emptybusInfo;
 	}
-
+     public boolean ishaveAd(Integer busid){
+    	 if(map2.containsKey(busid)){
+    		 List<BusOnline> list=map2.get(busid).getAllPlan();
+    		 if(list==null || list.isEmpty()){
+    			 return false;
+    		 }
+    		 for (BusOnline busOnline : list) {
+				if(busOnline.getStartDate().before(new Date())){
+					if(busOnline.getRealEndDate()==null){
+						return true;
+					}
+				}
+			}
+    	 }
+    	 return false;
+     }
 	public StatsMonitor statControl = new StatsMonitor(this);
 
 	@Override
