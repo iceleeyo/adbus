@@ -26,8 +26,9 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
             "ordering": true,
             "serverSide": true,
             "scrollX": true,
+               "aaSorting": [[1, "asc"]],
             "columnDefs": [
-                { "orderable": false, "targets": [7, 8,9,10] },
+                { "orderable": false, "targets": [0,2,3,4,7, 8,9,10] },
             ],
             "iDisplayLength" : 20,
             "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
@@ -47,6 +48,15 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 "dataSrc": "content",
             },
             "columns": [
+             { "data": function( row, type, set, meta) {
+                                                  return row.jpaBus.id;
+                                              },
+										"render" : function(data, type, row,
+												meta) {
+											var operations = '<input type="checkbox" name="checkone" value="'+data+'" />';
+											return operations;
+										}
+									},
                 { "data": "jpaBus.serialNumber", "defaultContent": ""},
                 { "data": "jpaBus.oldSerialNumber", "defaultContent": ""},
                 { "data": "jpaBus.plateNumber", "defaultContent": ""},
@@ -122,6 +132,10 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                   	'<option value="yunyingche">运营车</option>' +
                   	'</select>'+
                   	'<span>&nbsp;&nbsp;<a class="block-btn" id="export_xls" href="javascript:void(0);">导出查询数据</a>'+
+                  	   '&nbsp;&nbsp;&nbsp;&nbsp;  <span>线路调整：</span>  <span>' +
+                        '        <input id="newLine" value="">' +
+                        '    </span>&nbsp;&nbsp;' +
+                        '&nbsp;&nbsp;<a class="block-btn" id="change_line" href="javascript:void(0);">车辆调车</a>'+
                   	'</div>'+
                   	
                     '<br>'
@@ -130,6 +144,21 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
         $('#serinum,#oldserinum,#name,#linename,#category,#levelStr').change(function() {
             table.fnDraw();
         });
+          
+        
+            $("#newLine").autocomplete({
+			minLength: 0,
+				source : "${rc.contextPath}/busselect/autoComplete?tag=a",
+				change : function(event, ui) {
+				},
+				select : function(event, ui) {
+					$('#newLine').val(ui.item.value);
+					$('#newLineId').val(ui.item.dbId);
+				}
+			}).focus(function () {
+	       	  $(this).autocomplete("search");
+	   	 	});
+   	 	//---------
          $("#linename").autocomplete({
 		minLength: 0,
 			source : "${rc.contextPath}/busselect/autoComplete?tag=a",
@@ -155,6 +184,45 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                         }
                         
             location.href='${rc.contextPath}/bus/ajax-list.xls?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1&'+params;
+        });
+        
+         $("#change_line").click(function(){
+           
+			  	 	var o = document.getElementsByName("checkone");
+			        	var dIds='';
+			        	for(var i=0;i<o.length;i++){
+			                if(o[i].checked)
+			                dIds+=o[i].value+',';   
+			           }
+			           if(dIds==""){
+			        	   layer.msg("请选择需要调车的车辆");
+			        	   return false;
+			           }
+			           var newLineId = $('#newLineId').val();
+			           if(newLineId<=0){
+			               layer.msg("请选择要调到的线路");
+			        	   return false;
+			           }
+			           
+			   		var param={"ids":dIds,"newLineId":newLineId};
+					layer.confirm('确定调车吗？', {icon: 3}, function(index){
+			    		layer.close(index);
+					    	 $.ajax({
+					    			url:"${rc.contextPath}/bus/changeLine",
+					    			type:"POST",
+					    			async:false,
+					    			dataType:"json",
+					    			data:param,
+					    			success:function(data){
+					    				if (data.left == true) {
+					    					layer.msg("调车操作成功");
+					    					 table.dataTable()._fnAjaxUpdate();
+					    				} else {
+					    					layer.msg(data.right,{icon: 5});
+					    				}
+					    			}
+					       });  
+					});	
         });
     }
 
@@ -199,16 +267,18 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 <div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title">
                 车辆管理  <a class="block-btn" onclick="addBus('${rc.contextPath}');" href="javascript:void(0);">添加车辆</a>
-									</div>					
+									</div>		
+									<input type="hidden" id ="newLineId" value ="0" >			
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>
-                    <tr>
-                        <th >车辆自编号</th>
+                    <tr>   
+                    	<th > <input type="checkbox" name="checkAll" /></th>
+                        <th orderBy="serialNumber">车辆自编号</th>
                         <th>旧自编号</th>
                         <th >车牌号</th>
                         <th >车型</th>
-                        <th >线路</th>
-                        <th >线路级别</th>
+                        <th orderBy="line.id">线路</th>
+                        <th orderBy="line.level">线路级别</th>
                         <th >类别</th>
                         <th >营销中心</th>
                         <th>车型描述</th>

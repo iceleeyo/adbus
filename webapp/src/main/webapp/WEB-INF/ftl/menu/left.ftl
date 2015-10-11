@@ -374,6 +374,12 @@
                                                     车辆查询
                                                 </a>
                                             </li>
+                                            
+                                             <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/adJustLog">
+                                                    调车统计
+                                                </a>
+                                            </li>
                                              </@security.authorize>
                                              
                                                 <@security.authorize ifAnyGranted="meijie_busline">	
