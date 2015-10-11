@@ -786,7 +786,7 @@ public class BusServiceImpl implements BusService {
 			throws JsonGenerationException, JsonMappingException, IOException {
 		String forceExcute = request.getParameter("forceExcute");
 		if (bus != null && StringUtils.isNoneBlank(bus.getSerialNumber()) && !StringUtils.equals(forceExcute, "Y")) {
-			if (null == bus.getId() || bus.getId() == 0) {
+			if (null == bus.getId() || bus.getId() == 0) {//如果是保存操作 判断是否已经有
 				if (isSerialNumberExist(bus.getSerialNumber(), cityId)) {
 					return new Pair<Boolean, String>(false, "serialNumber_exist");
 				}
@@ -794,7 +794,7 @@ public class BusServiceImpl implements BusService {
 				Bus bus2 = busMapper.selectByPrimaryKey(bus.getId());
 				if (bus2 == null) {
 					return new Pair<Boolean, String>(false, "信息丢失");
-				} else {
+				} else {//如果是修改操作 判断当前修改的记录是否是自己
 					if (!StringUtils.equals(bus2.getSerialNumber(), bus.getSerialNumber())) {
 						BusExample example = new BusExample();
 						example.createCriteria().andCityEqualTo(cityId)
