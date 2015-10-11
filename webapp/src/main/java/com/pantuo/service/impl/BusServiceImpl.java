@@ -29,7 +29,6 @@ import net.sf.jxls.transformer.XLSTransformer;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.DeserializationConfig;
@@ -47,6 +46,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.expr.BooleanExpression;
+import com.pantuo.dao.AdJustLogRepository;
 import com.pantuo.dao.BusModelRepository;
 import com.pantuo.dao.BusOnlineRepository;
 import com.pantuo.dao.BusRepository;
@@ -54,12 +54,14 @@ import com.pantuo.dao.BusUpdateRepository;
 import com.pantuo.dao.BusinessCompanyRepository;
 import com.pantuo.dao.BuslineRepository;
 import com.pantuo.dao.pojo.JpaBus;
+import com.pantuo.dao.pojo.JpaBusAdjustLog;
 import com.pantuo.dao.pojo.JpaBusModel;
 import com.pantuo.dao.pojo.JpaBusOnline;
 import com.pantuo.dao.pojo.JpaBusUpLog;
 import com.pantuo.dao.pojo.JpaBusinessCompany;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.QJpaBus;
+import com.pantuo.dao.pojo.QJpaBusAdjustLog;
 import com.pantuo.dao.pojo.QJpaBusModel;
 import com.pantuo.dao.pojo.QJpaBusOnline;
 import com.pantuo.dao.pojo.QJpaBusUpLog;
@@ -88,10 +90,10 @@ import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.BusService;
 import com.pantuo.simulate.QueryBusInfo;
 import com.pantuo.util.BeanUtils;
-import com.pantuo.util.ExcelUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 import com.pantuo.web.ScheduleController;
+import com.pantuo.web.view.AdjustLogView;
 import com.pantuo.web.view.BusInfo;
 import com.pantuo.web.view.BusInfoView;
 import com.pantuo.web.view.ContractLineDayInfo;
@@ -141,6 +143,9 @@ public class BusServiceImpl implements BusService {
 	
 	@Autowired
 	BusSelectMapper busSelectMapper;
+	
+	@Autowired
+	AdJustLogRepository adJustLogRepository;
 
 	@Override
 	public long count() {
@@ -152,7 +157,56 @@ public class BusServiceImpl implements BusService {
 			Integer busModelId, Integer companyId) {
 		return 0;
 	}
-	
+	 public DataTablePage<AdjustLogView> getAdJustLog(int city, TableRequest req, int page, int pageSize, Sort sort
+) {
+		if (page < 0)
+			page = 0;
+		if (pageSize < 1)
+			pageSize = 1;
+		if (sort == null)
+			sort = new Sort("id");
+		Pageable p = new PageRequest(page, pageSize, sort);
+		BooleanExpression query = QJpaBusAdjustLog.jpaBusAdjustLog.city.eq(city);
+		String serinum = req.getFilter("serinum"), oldLineId = req.getFilter("oldLineId"), newLineId = req
+				.getFilter("newLineId");
+		 
+		
+		if (NumberUtils.toInt(oldLineId)>0) {
+			query = query.and(QJpaBusAdjustLog.jpaBusAdjustLog.oldline.id.eq(NumberUtils.toInt(oldLineId)));
+		}
+
+		if (NumberUtils.toInt(newLineId)>0) {
+			query = query.and(QJpaBusAdjustLog.jpaBusAdjustLog.nowline.id.eq(NumberUtils.toInt(newLineId)));
+		}
+		
+		if (StringUtils.isNotBlank(serinum)) {
+			query = query.and(QJpaBusAdjustLog.jpaBusAdjustLog.jpabus.serialNumber.like("%" + serinum + "%"));
+		}
+
+
+		Long countTotal = adJustLogRepository.count(query);
+		Page<JpaBusAdjustLog> list = query == null ? adJustLogRepository.findAll(p) : adJustLogRepository.findAll(
+				query, p);
+
+		List<AdjustLogView> r = new ArrayList<AdjustLogView>();
+		Page<AdjustLogView> jpabuspage = new org.springframework.data.domain.PageImpl<AdjustLogView>(r, p,
+				countTotal == null ? 0 : countTotal);
+
+		if (!list.getContent().isEmpty()) {
+
+			for (JpaBusAdjustLog log : list.getContent()) {
+				AdjustLogView w = new AdjustLogView();
+				w.setLog(log);
+				w.setOldBusLevel(log.getOldline().getLevelStr());
+				w.setBusLevel(log.getNowline().getLevelStr());
+				r.add(w);
+			}
+
+			jpabuspage = new org.springframework.data.domain.PageImpl<AdjustLogView>(r, p, countTotal == null ? 0
+					: countTotal);
+		}
+		return new DataTablePage(jpabuspage, req.getDraw());
+	}
 	
 	public DataTablePage<BusInfoView> getMybatisAllBuses(int city, TableRequest req, int page, int pageSize, Sort sort,
 			boolean fetchDisabled) {
@@ -781,6 +835,51 @@ public class BusServiceImpl implements BusService {
 		return busMapper.countByExample(example) > 0;
 	}
 
+	public Pair<Boolean, String> changeLine(String busIds, int newLineId, int cityId, Principal principal,
+			HttpServletRequest request) {
+		Pair<Boolean, String> pair = new Pair<Boolean, String>(false, StringUtils.EMPTY);
+		if (StringUtils.isBlank(busIds) || newLineId == 0) {
+			pair.setRight("参数错误!");
+			return pair;
+		} else {
+			String[] idList = StringUtils.split(busIds,",");
+			JpaBusline be = buslineRepository.getOne(newLineId);
+			if (be == null) {
+				pair.setRight("线路不存在!");
+				return pair;
+			}
+			for (String id : idList) {
+				int t = NumberUtils.toInt(id);
+				if (t != 0) {
+					Bus dbBus = busMapper.selectByPrimaryKey(t);
+					if (dbBus != null) {
+						int oldLineId = dbBus.getLineId();
+						dbBus.setLineId(newLineId);
+						
+						busMapper.updateByPrimaryKey(dbBus);
+						JpaBusAdjustLog entity= new JpaBusAdjustLog();
+						entity.setCity(cityId);
+						entity.setCreated(new Date());
+						entity.setUpdated(new Date());
+						entity.setUpdator(Request.getUserId(principal));
+						JpaBus jpabus =new JpaBus(cityId,t);
+						entity.setJpabus(jpabus);
+						//
+						JpaBusline  oldline =new JpaBusline();
+						oldline.setId(oldLineId);
+						entity.setOldline(oldline);
+						//
+						JpaBusline  newLine =new JpaBusline();
+						newLine.setId(newLineId);
+						entity.setNowline(newLine);
+						adJustLogRepository.save(entity);
+					}
+				}
+			}
+			pair.setLeft(true);
+		}
+		return pair;
+	}
 	@Override
 	public Pair<Boolean, String> saveBus(Bus bus, int cityId, Principal principal, HttpServletRequest request)
 			throws JsonGenerationException, JsonMappingException, IOException {

@@ -218,7 +218,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 				int carNumber = cache.containsKey(obj.getId()) ? cache.get(obj.getId()) : 0;
 				if (StringUtils.isNotBlank(tag)) {
 					String viewString = obj.getName();
-					r.add(new AutoCompleteView(viewString, viewString));//String.valueOf(obj.getId())
+					r.add(new AutoCompleteView(viewString, viewString,String.valueOf(obj.getId())));//String.valueOf(obj.getId())
 				} else {
 					String viewString = obj.getName() + "  " + obj.getLevelStr() + " [" + carNumber + "]";
 					r.add(new AutoCompleteView(viewString, viewString, String.valueOf(obj.getId())));//String.valueOf(obj.getId())

@@ -13,7 +13,6 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.Query;
 
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusModel;
@@ -29,6 +28,7 @@ import com.pantuo.mybatis.domain.CountableBusinessCompany;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.util.Pair;
+import com.pantuo.web.view.AdjustLogView;
 import com.pantuo.web.view.BusInfoView;
 import com.pantuo.web.view.ContractLineDayInfo;
 
@@ -45,6 +45,10 @@ public interface BusService {
     
     public DataTablePage<BusInfoView> getMybatisAllBuses(int city, TableRequest req, int page, int pageSize, Sort sort,
 			boolean fetchDisabled) ;
+    
+    
+    public DataTablePage<AdjustLogView> getAdJustLog(int city, TableRequest req, int page, int pageSize, Sort sort
+ 			) ;
 
     JpaBus findById(int id);
 
@@ -75,6 +79,18 @@ public interface BusService {
 	public BusOnline offlineBusContract(int cityId,int id,int publishLineId , Principal principal);
 	
 	List<JpaBusinessCompany> getAllCompany(int cityId);
+	/**
+	 * 
+	 * 调车.
+	 *
+	 * @param bus
+	 * @param cityId
+	 * @param principal
+	 * @param request
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	Pair<Boolean, String> changeLine(String busIds, int newLineId, int cityId, Principal principal, HttpServletRequest request);
 
 	Pair<Boolean, String> saveBus(Bus bus, int cityId, Principal principal, HttpServletRequest request) throws JsonGenerationException, JsonMappingException, IOException;
 

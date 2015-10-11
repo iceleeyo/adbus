@@ -17,8 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -47,6 +45,7 @@ import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.BusLineCheckService;
 import com.pantuo.service.BusService;
 import com.pantuo.util.Pair;
+import com.pantuo.web.view.AdjustLogView;
 import com.pantuo.web.view.BusInfoView;
 import com.pantuo.web.view.ContractLineDayInfo;
 
@@ -155,6 +154,16 @@ public class BusController {
 			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city, Principal principal) {
 		return busService.offlineBusContract(cityId, id,publishLineId,principal);
 	}
+ 	
+ 	
+	@RequestMapping("ajax-adJustLog")
+	@ResponseBody
+	public DataTablePage<AdjustLogView> adJustLog(TableRequest req,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city) {
+		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
+			return new DataTablePage(Collections.emptyList());
+		return busService.getAdJustLog(cityId, req, req.getPage(), req.getLength(), req.getSort("id"));
+	}
 
 	@RequestMapping("saveBus")
 	@ResponseBody
@@ -162,6 +171,14 @@ public class BusController {
 			Principal principal, HttpServletRequest request) throws JsonGenerationException, JsonMappingException,
 			IOException {
 		return busService.saveBus(bus, cityId, principal,request);
+	}
+	
+	@RequestMapping("changeLine")
+	@ResponseBody
+	public Pair<Boolean, String> changeLine(String ids, int newLineId,@CookieValue(value = "city", defaultValue = "-1") int cityId,
+			Principal principal, HttpServletRequest request) throws JsonGenerationException, JsonMappingException,
+			IOException {
+		return busService.changeLine(ids,newLineId, cityId, principal,request);
 	}
 	
 	@RequestMapping("ajax-busOnline_history")
@@ -268,6 +285,13 @@ public class BusController {
 	public String list() {
 		return "bus_list";
 	}
+	
+	@RequestMapping(value = "/adJustLog")
+	public String adJustLog() {
+		return "bus_adJustLog";
+	}
+	
+	
 	@RequestMapping(value = "/mlist")
 	public String mlist() {
 		return "bus_mlist";
