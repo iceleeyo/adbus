@@ -69,9 +69,7 @@
         <table schema="" tableName="city" delimitIdentifiers="${generator.delimitIdentifiers}">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
-        <table schema="" tableName="bus" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
+      
         <table schema="" tableName="business_company" delimitIdentifiers="${generator.delimitIdentifiers}">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
@@ -116,7 +114,7 @@
         <table schema="" tableName="goods_black" delimitIdentifiers="${generator.delimitIdentifiers}">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table> -->
-         <table schema="" tableName="publish_line" delimitIdentifiers="${generator.delimitIdentifiers}">
+        <!--  <table schema="" tableName="publish_line" delimitIdentifiers="${generator.delimitIdentifiers}">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
          <table schema="" tableName="offlinecontract" delimitIdentifiers="${generator.delimitIdentifiers}">
@@ -125,10 +123,6 @@
          <table schema="" tableName="dividpay" delimitIdentifiers="${generator.delimitIdentifiers}">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
-         <table schema="" tableName="bus_uplog" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        
           <table schema="" tableName="bus_online" delimitIdentifiers="${generator.delimitIdentifiers}">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
@@ -145,20 +139,29 @@
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
         
-              <table schema="" tableName="product_V2" delimitIdentifiers="${generator.delimitIdentifiers}">
+             -->
+         <!--  <table schema="" tableName="product_V2" delimitIdentifiers="${generator.delimitIdentifiers}">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
+        </table> -->
         
               
-                <table schema="" tableName="bus_order_v2" delimitIdentifiers="${generator.delimitIdentifiers}">
+            <!--     <table schema="" tableName="bus_order_v2" delimitIdentifiers="${generator.delimitIdentifiers}">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
-        
                 
                   <table schema="" tableName="bus_order_detail_v2" delimitIdentifiers="${generator.delimitIdentifiers}">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
+        </table> -->
         
+         <!--  <table schema="" tableName="bus" delimitIdentifiers="${generator.delimitIdentifiers}">
+            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
+        </table> -->
+          <table schema="" tableName="bus_adjustlog" delimitIdentifiers="${generator.delimitIdentifiers}">
+            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
+        </table>
+         <table schema="" tableName="bus_uplog" delimitIdentifiers="${generator.delimitIdentifiers}">
+            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
+        </table>
         
         
     </context>
