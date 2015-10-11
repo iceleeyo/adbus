@@ -1553,7 +1553,19 @@ function showBusDetail(pathUrl,tourl,id){
 				table.dataTable()._fnAjaxUpdate();
 				$("#cc").trigger("click");
 			}else{
-				layer.msg(data.right);
+			
+				if(data.right.indexOf("_exist")>=0)
+				{
+					layer.confirm('相同的自编号已经存在,确认保存？', {icon: 3}, function(index){
+						var t=$('#publishform01').attr('action');
+						$("#publishform01").attr("action",t+"?forceExcute=Y");
+					    layer.close(index);
+					    saveBus();
+					});
+				}else {
+					layer.msg(data.right);
+				}
+				
 			}
 		}).submit();
 	}
