@@ -104,24 +104,24 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                         '    <span>' +
                         '        <input id="linename" value="">' +
                         '    </span>&nbsp;&nbsp;' +
-                        '    <span>线路级别</span>&nbsp;&nbsp;' +
-                       '<select class="ui-input ui-input-mini" name="levelStr" id="levelStr">' +
+                        '  <br><br>  <span>线路级别</span>&nbsp;&nbsp;' +
+                       '<select class="ui-input ui-input-mini" name="levelStr" id="levelStr" style="width:120px">' +
                     '<option value="defaultAll" selected="selected">所有</option>' +
                   	'<option value="S">特级</option>' +
                   	'<option value="APP">A++</option>' +
                   	'<option value="AP">A+</option>' +
                   	'<option value="A">A</option>' +
                   	'<option value="LATLONG">经纬线</option>' +
-         			'</select><br><br>' +
+         			'</select>' +
                         '    <span>车辆类别</span>&nbsp;&nbsp;' +
-                       '<select class="ui-input ui-input-mini" name="category" id="category">' +
+                       '<select class="ui-input ui-input-mini" name="category" id="category" style="width:125px">' +
                     '<option value="defaultAll" selected="selected">所有</option>' +
                   	'<option value="baoche">包车</option>' +
                   	'<option value="banche">班车</option>' +
                   	'<option value="jidongche">机动车</option>' +
                   	'<option value="yunyingche">运营车</option>' +
                   	'</select>'+
-                  	'<span style="float:right;">&nbsp;&nbsp;<a class="block-btn" id="export_xls" href="javascript:void(0);">导出查询数据</a>'+
+                  	'<span>&nbsp;&nbsp;<a class="block-btn" id="export_xls" href="javascript:void(0);">导出查询数据</a>'+
                   	'</div>'+
                   	
                     '<br>'
