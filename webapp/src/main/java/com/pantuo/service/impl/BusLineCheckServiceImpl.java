@@ -68,6 +68,7 @@ import com.pantuo.mybatis.domain.BusContract;
 import com.pantuo.mybatis.domain.BusContractExample;
 import com.pantuo.mybatis.domain.BusExample;
 import com.pantuo.mybatis.domain.BusLine;
+import com.pantuo.mybatis.domain.BusLineExample;
 import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.domain.BusLockExample;
 import com.pantuo.mybatis.domain.BusModel;
@@ -1377,9 +1378,20 @@ public Pair<Boolean, String> saveDivid(Dividpay dividpay, long seriaNum, String 
 		busLine.setMonth3day(0);
 		busLine.setToday(0);
 		busLine.setPersons(0);
+		if(busLine!=null && busLine.getName()!=null){
+			if(islineExit(busLine.getName())){
+				return new Pair<Boolean, String>(false, "该线路名称已经存在");
+			}
+		}
 		if (busLineMapper.insert(busLine) > 0) {
 			return new Pair<Boolean, String>(true, "添加线路成功");
 		}
 		return new Pair<Boolean, String>(false, "保存失败");
+	}
+
+	private boolean islineExit(String name) {
+		BusLineExample example=new BusLineExample();
+		example.createCriteria().andNameEqualTo(name);
+		return buslineMapper.countByExample(example)>0;
 	}
 }
