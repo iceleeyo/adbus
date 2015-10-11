@@ -139,7 +139,18 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
         $('#serinum,#oldserinum,#name,#linename,#category,#levelStr').change(function() {
             table.fnDraw();
         });
-        
+         $("#linename").autocomplete({
+		minLength: 0,
+			source : "${rc.contextPath}/busselect/autoComplete?tag=a",
+			change : function(event, ui) {
+			},
+			select : function(event, ui) {
+				$('#linename').val(ui.item.value);
+				table.fnDraw();
+			}
+		}).focus(function () {
+       				 $(this).autocomplete("search");
+   	 	});
         $("#export_xls").click(function(){
           var params =  "filter[plateNumber]=" + $('#name').val()
                         +"&filter[linename]=" + $('#linename').val()
