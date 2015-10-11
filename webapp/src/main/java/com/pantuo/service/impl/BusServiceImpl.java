@@ -786,8 +786,25 @@ public class BusServiceImpl implements BusService {
 			throws JsonGenerationException, JsonMappingException, IOException {
 		String forceExcute = request.getParameter("forceExcute");
 		if (bus != null && StringUtils.isNoneBlank(bus.getSerialNumber()) && !StringUtils.equals(forceExcute, "Y")) {
-			if (isSerialNumberExist(bus.getSerialNumber(), cityId)) {
-				return new Pair<Boolean, String>(false, "serialNumber_exist");
+			if (null == bus.getId() || bus.getId() == 0) {
+				if (isSerialNumberExist(bus.getSerialNumber(), cityId)) {
+					return new Pair<Boolean, String>(false, "serialNumber_exist");
+				}
+			} else {
+				Bus bus2 = busMapper.selectByPrimaryKey(bus.getId());
+				if (bus2 == null) {
+					return new Pair<Boolean, String>(false, "信息丢失");
+				} else {
+					if (!StringUtils.equals(bus2.getSerialNumber(), bus.getSerialNumber())) {
+						BusExample example = new BusExample();
+						example.createCriteria().andCityEqualTo(cityId)
+								.andSerialNumberEqualTo(StringUtils.trim(bus.getSerialNumber()))
+								.andIdNotEqualTo(bus.getId());
+						if (busMapper.countByExample(example) > 0) {
+							return new Pair<Boolean, String>(false, "serialNumber_exist");
+						}
+					}
+				}
 			}
 		}
 
