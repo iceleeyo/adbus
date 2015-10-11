@@ -1,5 +1,6 @@
 package com.pantuo.dao.pojo;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,7 +18,9 @@ public class JpaBusUpLog extends CityEntity{
 	@ManyToOne
 	@JoinColumn(name = "busid")
 	private JpaBus jpabus;
+	@Column(length=1000) 
 	private String jsonString;
+	@Column(length=1000) 
 	private String oldjsonString;
 	private String updator;
 	public int getId() {
