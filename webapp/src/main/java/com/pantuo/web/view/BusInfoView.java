@@ -12,10 +12,15 @@ public class BusInfoView {
 	BusInfo busInfo;
 	JpaBus jpaBus;
 	Bus bus;
+	Bus oldbus;
 	JpaBusModel model;
 	JpaBusline line;
 	String busCategory;
 	JpaBusinessCompany company;
+	JpaBusModel oldmodel;
+	JpaBusline oldline;
+	String oldbusCategory;
+	JpaBusinessCompany oldcompany;
 	boolean ishaveAd=false;
 	
 	
@@ -42,6 +47,46 @@ public class BusInfoView {
 
 	public void setBusInfo(BusInfo busInfo) {
 		this.busInfo = busInfo;
+	}
+
+	public Bus getOldbus() {
+		return oldbus;
+	}
+
+	public JpaBusModel getOldmodel() {
+		return oldmodel;
+	}
+
+	public void setOldmodel(JpaBusModel oldmodel) {
+		this.oldmodel = oldmodel;
+	}
+
+	public JpaBusline getOldline() {
+		return oldline;
+	}
+
+	public void setOldline(JpaBusline oldline) {
+		this.oldline = oldline;
+	}
+
+	public String getOldbusCategory() {
+		return oldbusCategory;
+	}
+
+	public void setOldbusCategory(String oldbusCategory) {
+		this.oldbusCategory = oldbusCategory;
+	}
+
+	public JpaBusinessCompany getOldcompany() {
+		return oldcompany;
+	}
+
+	public void setOldcompany(JpaBusinessCompany oldcompany) {
+		this.oldcompany = oldcompany;
+	}
+
+	public void setOldbus(Bus oldbus) {
+		this.oldbus = oldbus;
 	}
 
 	public JpaBus getJpaBus() {

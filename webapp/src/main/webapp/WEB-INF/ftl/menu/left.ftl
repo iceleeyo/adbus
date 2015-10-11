@@ -386,6 +386,11 @@
                                              
 											   <@security.authorize ifAnyGranted="meijie_busChange">	
                                             <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/busUpLog_list">
+                                                    车辆变更历史
+                                                </a>
+                                            </li>
+                                            <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/bus/busUpdate_query">
                                                     车辆变更查询
                                                 </a>

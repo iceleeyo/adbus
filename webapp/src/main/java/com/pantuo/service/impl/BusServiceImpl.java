@@ -239,7 +239,7 @@ public class BusServiceImpl implements BusService {
 			linesIntegers.add(jpaBus.getLineId());
 			compaynIntegers.add(jpaBus.getCompanyId());
 		}
-		putBusBaseInfo(r, modelIdsIntegers, linesIntegers, compaynIntegers);
+		putBusBaseInfo(r, modelIdsIntegers, linesIntegers, compaynIntegers,"new");
 
 		//	Pageable p = new PageRequest(req.getPage(), req.getLength(),sort);
 		Page<BusInfoView> jpabuspage = new org.springframework.data.domain.PageImpl<BusInfoView>(r, p,
@@ -518,26 +518,37 @@ public class BusServiceImpl implements BusService {
 		Set<Integer> modelIdsIntegers = new HashSet<Integer>();
 		Set<Integer> linesIntegers = new HashSet<Integer>();
 		Set<Integer> compaynIntegers = new HashSet<Integer>();
+		Set<Integer> oldmodelIdsIntegers = new HashSet<Integer>();
+		Set<Integer> oldlinesIntegers = new HashSet<Integer>();
+		Set<Integer> oldcompaynIntegers = new HashSet<Integer>();
 
 		for (JpaBusUpLog log : list) {
 			BusInfoView view = new BusInfoView();
 			view.setBusUpLog(log);
 			Bus jpabus = t.readValue(log.getJsonString(), Bus.class);
+			Bus oldbus = t.readValue(log.getOldjsonString(), Bus.class);
 			view.setBus(jpabus);
+			view.setOldbus(oldbus);
+			boolean ishaveAd=queryBusInfo.ishaveAd(jpabus.getId());
+			view.setIshaveAd(ishaveAd);
 			r.add(view);
 			modelIdsIntegers.add(jpabus.getModelId());
 			linesIntegers.add(jpabus.getLineId());
 			compaynIntegers.add(jpabus.getCompanyId());
+			oldmodelIdsIntegers.add(oldbus.getModelId());
+			oldlinesIntegers.add(oldbus.getLineId());
+			oldcompaynIntegers.add(oldbus.getCompanyId());
 		}
 
 		//List<? > cc=modelIdsIntegers;
-		putBusBaseInfo(r, modelIdsIntegers, linesIntegers, compaynIntegers);
+		putBusBaseInfo(r, modelIdsIntegers, linesIntegers, compaynIntegers,"new");
+		putBusBaseInfo(r, oldmodelIdsIntegers, oldlinesIntegers, oldcompaynIntegers,"old");
 		Pageable p = new PageRequest(req.getPage(), req.getLength(), page.getSort());
 		return new org.springframework.data.domain.PageImpl<BusInfoView>(r, p, page.getTotalElements());
 	}
 
 	private void putBusBaseInfo(List<BusInfoView> r, Set<Integer> modelIdsIntegers, Set<Integer> linesIntegers,
-			Set<Integer> compaynIntegers) {
+			Set<Integer> compaynIntegers,String type) {
 		Map<Integer, ?> modelMap = null;
 		Map<Integer, ?> lineMap = null;
 		Map<Integer, ?> companyMap = null;
@@ -553,21 +564,37 @@ public class BusServiceImpl implements BusService {
 			List<JpaBusinessCompany> w = companyRepo.findAll(compaynIntegers);
 			companyMap = list2Map(w);
 		}
-
-		for (BusInfoView view : r) {
-			if (view.getBus() != null) {
-				view.setModel(modelMap != null && view.getBus().getModelId() != null ? (JpaBusModel) modelMap.get(view
-						.getBus().getModelId()) : null);
-				view.setLine(lineMap != null && view.getBus().getLineId() != null ? (JpaBusline) lineMap.get(view
-						.getBus().getLineId()) : null);
-				view.setCompany(companyMap != null && view.getBus().getCompanyId() != null ? (JpaBusinessCompany) companyMap
-						.get(view.getBus().getCompanyId()) : null);
-
-				view.setBusCategory(com.pantuo.dao.pojo.JpaBus.Category.values()[view.getBus().getCategory()]
-						.getNameStr());
-			}
-
-		}
+  if(StringUtils.equals(type, "new")){
+	  for (BusInfoView view : r) {
+		  if (view.getBus() != null) {
+			  view.setModel(modelMap != null && view.getBus().getModelId() != null ? (JpaBusModel) modelMap.get(view
+					  .getBus().getModelId()) : null);
+			  view.setLine(lineMap != null && view.getBus().getLineId() != null ? (JpaBusline) lineMap.get(view
+					  .getBus().getLineId()) : null);
+			  view.setCompany(companyMap != null && view.getBus().getCompanyId() != null ? (JpaBusinessCompany) companyMap
+					  .get(view.getBus().getCompanyId()) : null);
+			  
+			  view.setBusCategory(com.pantuo.dao.pojo.JpaBus.Category.values()[view.getBus().getCategory()]
+					  .getNameStr());
+		  }
+		  
+	  }
+  }else{
+	  for (BusInfoView view : r) {
+		  if (view.getOldbus() != null) {
+			  view.setOldmodel(modelMap != null && view.getOldbus().getModelId() != null ? (JpaBusModel) modelMap.get(view
+					  .getOldbus().getModelId()) : null);
+			  view.setOldline(lineMap != null && view.getOldbus().getLineId() != null ? (JpaBusline) lineMap.get(view
+					  .getOldbus().getLineId()) : null);
+			  view.setOldcompany(companyMap != null && view.getOldbus().getCompanyId() != null ? (JpaBusinessCompany) companyMap
+					  .get(view.getOldbus().getCompanyId()) : null);
+			  
+			  view.setOldbusCategory(com.pantuo.dao.pojo.JpaBus.Category.values()[view.getOldbus().getCategory()]
+					  .getNameStr());
+		  }
+		  
+	  }
+  }
 	}
 
 	public Map<Integer, ?> list2Map(List<?> list) {
@@ -772,7 +799,8 @@ public class BusServiceImpl implements BusService {
 			ObjectMapper t = new ObjectMapper();
 			t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 			t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
-			String jsonString = t.writeValueAsString(bus2);
+			String oldjsonString = t.writeValueAsString(bus2);
+			String jsonString = t.writeValueAsString(bus);
 			BeanUtils.copyProperties(bus, bus2);
 			bus2.setUpdated(new Date());
 			int a = busMapper.updateByPrimaryKey(bus2);
@@ -784,6 +812,7 @@ public class BusServiceImpl implements BusService {
 				log.setUpdator(Request.getUserId(principal));
 				log.setBusid(bus.getId());
 				log.setJsonString(jsonString);
+				log.setOldjsonString(oldjsonString);
 				busUplogMapper.insert(log);
 				return new Pair<Boolean, String>(true, "修改成功");
 			}

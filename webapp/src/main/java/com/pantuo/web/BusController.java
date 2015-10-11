@@ -205,6 +205,16 @@ public class BusController {
 				null);
 		return new DataTablePage(busService.queryBusinfoView2(req, jpabuspage), req.getDraw());
 	}
+	@RequestMapping("ajax-busUpLog_list")
+	@ResponseBody
+	public DataTablePage<BusInfoView> busUpdateLog(TableRequest req,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city)throws JsonParseException, JsonMappingException, IOException {
+		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
+			return new DataTablePage(Collections.emptyList());
+		Page<JpaBusUpLog> jpabuspage = busService.getbusUphistory(cityId, req, req.getPage(), req.getLength(),
+				null);
+		return new DataTablePage(busService.queryBusinfoView2(req, jpabuspage), req.getDraw());
+	}
 
 	@RequestMapping("ajax-all-lines")
 	@ResponseBody
@@ -265,6 +275,10 @@ public class BusController {
 	@RequestMapping(value = "/busUpdate_query")
 	public String querybusUp() {
 		return "busUpdate_query";
+	}
+	@RequestMapping(value = "/busUpLog_list")
+	public String busUpLog_list() {
+		return "busUpLog_list";
 	}
 	@RequestMapping(value = "/busOnline_history/{busid}")
 	public String busOnline_history(Model model,@PathVariable("busid") int busid,HttpServletResponse response) {
