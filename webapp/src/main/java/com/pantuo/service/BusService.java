@@ -5,6 +5,7 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.jackson.JsonGenerationException;
@@ -75,7 +76,7 @@ public interface BusService {
 	
 	List<JpaBusinessCompany> getAllCompany(int cityId);
 
-	Pair<Boolean, String> saveBus(Bus bus, int cityId, Principal principal) throws JsonGenerationException, JsonMappingException, IOException;
+	Pair<Boolean, String> saveBus(Bus bus, int cityId, Principal principal, HttpServletRequest request) throws JsonGenerationException, JsonMappingException, IOException;
 
 	Page<JpaBusUpLog> getbusUphistory(int cityId, TableRequest req, int page, int length, Sort sort);
 

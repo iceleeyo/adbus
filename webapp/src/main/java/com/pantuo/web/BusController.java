@@ -155,10 +155,13 @@ public class BusController {
 			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city, Principal principal) {
 		return busService.offlineBusContract(cityId, id,publishLineId,principal);
 	}
+
 	@RequestMapping("saveBus")
 	@ResponseBody
-	public Pair<Boolean, String> saveBus(Bus bus,@CookieValue(value = "city", defaultValue = "-1") int cityId, Principal principal) throws JsonGenerationException, JsonMappingException, IOException {
-		return busService.saveBus(bus, cityId,principal);
+	public Pair<Boolean, String> saveBus(Bus bus, @CookieValue(value = "city", defaultValue = "-1") int cityId,
+			Principal principal, HttpServletRequest request) throws JsonGenerationException, JsonMappingException,
+			IOException {
+		return busService.saveBus(bus, cityId, principal,request);
 	}
 	
 	@RequestMapping("ajax-busOnline_history")

@@ -21,6 +21,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jxls.transformer.XLSTransformer;
@@ -747,10 +748,23 @@ public class BusServiceImpl implements BusService {
 		return page.getContent();
 	}
 
+	public boolean isSerialNumberExist(String serialNumber, int cityId) {
+		BusExample example = new BusExample();
+		example.createCriteria().andCityEqualTo(cityId).andSerialNumberEqualTo(StringUtils.trim(serialNumber));
+		return busMapper.countByExample(example) > 0;
+	}
+
 	@Override
-	public Pair<Boolean, String> saveBus(Bus bus, int cityId, Principal principal) throws JsonGenerationException,
-			JsonMappingException, IOException {
-		if(null!=bus.getId() && bus.getId()>0){
+	public Pair<Boolean, String> saveBus(Bus bus, int cityId, Principal principal, HttpServletRequest request)
+			throws JsonGenerationException, JsonMappingException, IOException {
+		String forceExcute = request.getParameter("forceExcute");
+		if (bus != null && StringUtils.isNoneBlank(bus.getSerialNumber()) && !StringUtils.equals(forceExcute, "Y")) {
+			if (isSerialNumberExist(bus.getSerialNumber(), cityId)) {
+				return new Pair<Boolean, String>(false, "serialNumber_exist");
+			}
+		}
+
+		if (null != bus.getId() && bus.getId() > 0) {
 			Bus bus2 = busMapper.selectByPrimaryKey(bus.getId());
 			if (bus2 == null) {
 				return new Pair<Boolean, String>(false, "信息丢失");
@@ -773,12 +787,12 @@ public class BusServiceImpl implements BusService {
 				busUplogMapper.insert(log);
 				return new Pair<Boolean, String>(true, "修改成功");
 			}
-		}else{
+		} else {
 			bus.setCity(cityId);
 			bus.setEnabled(true);
 			bus.setCreated(new Date());
 			int a = busMapper.insert(bus);
-			if(a>0){
+			if (a > 0) {
 				return new Pair<Boolean, String>(true, "添加成功");
 			}
 		}
