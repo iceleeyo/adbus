@@ -121,7 +121,6 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                   	'<option value="APP">A++</option>' +
                   	'<option value="AP">A+</option>' +
                   	'<option value="A">A</option>' +
-                  	'<option value="LATLONG">经纬线</option>' +
          			'</select>' +
                         '    <span>车辆类别</span>&nbsp;&nbsp;' +
                        '<select class="ui-input ui-input-mini" name="category" id="category" style="width:125px">' +

@@ -1,7 +1,7 @@
 <#import "template/template.ftl" as frame>
-<#global menu="线路列表">
+<#global menu="线路管理">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="线路列表" js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js",
+<@frame.html title="线路管理" js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js",
 "js/jquery-ui/jquery-ui.auto.complete.js"] 
 css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 
@@ -35,18 +35,6 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 	}
 	
 	
-	function showSite(tourl){
-	layer.open({
-		type: 1,
-		title: "线路站点",
-		skin: 'layui-layer-rim', 
-		area: ['650px', '660px'], 
-		content:''
-			+' '
-			+'<iframe style="width:99%;height:98%" src="'+tourl+'"/>'
-	});
-	}
-   
     function initTable () {
         table = $('#table').dataTable( {
             "dom": '<"#toolbar">lrtip',
@@ -63,10 +51,8 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                 url: "${rc.contextPath}/api/ajax-all-lines",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "filter[name]" : $('#name').val(),
-                        "filter[level]" : $('#levelStr').val(),
-                        "filter[address]" : $('#address').val(),
-                        "filter[siteLine]" : $('#siteLine').val(), 
+                        "filter[name]" : $('#linename').val(),
+                         "filter[level]" : $('#levelStr').val()
                     } );
                 },
                 "dataSrc": "content",
@@ -76,20 +62,26 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                     "render": function(data, type, row, meta) {
                     return '<a  target="_Blank" href="${rc.contextPath}/busselect/lineschedule/' + row.id + '" >'+data+'</a> &nbsp;';
                 } },
-                { "data": "levelStr", "defaultContent": ""}, { "data": "_cars", "defaultContent": ""},
-                { "data": "_persons", "defaultContent": ""},
-                 { "data": "_today", "defaultContent": ""},
-                  { "data": "_month1day", "defaultContent": ""},
-                   { "data": "_month2day", "defaultContent": ""},
-                    { "data": "_month3day", "defaultContent": ""},
-                 { "data": "line.levelStr", "defaultContent": "","render": function(data, type, row, meta) {
-                     var _t='';
-                     if(row._sim>0){
-                     _t="["+row._sim+"]";
-                     }
-                        return '<a href="javascript:;" onclick="showSite('+ "\'${rc.contextPath}/api/lineMap?lineName="+row.name+"\' " +');">线路情况'+_t+'</a>&nbsp;';
-                    }},
-                    
+                { "data": "levelStr", "defaultContent": ""},
+                { "data": "routelocation", "defaultContent": ""},
+                 { "data": "tolength", "defaultContent": ""},
+                  { "data": "office", "defaultContent": ""},
+                   { "data": "branch", "defaultContent": ""},
+                    { "data": "linetype", "defaultContent": ""},
+                    { "data": "_cars", "defaultContent": ""},
+                    { "data": "description", "defaultContent": ""},
+                    { "data": "status", "defaultContent": ""},
+                    { "data": "company.name", "defaultContent": ""},
+                { "data": function( row, type, set, meta) {
+                    return row.id;
+                    },
+                    "render": function(data, type, row, meta) {
+                        var operations = '';
+                            operations +='<a class="table-link" href="${rc.contextPath}/bus/line/' + data +'">编辑</a>&nbsp;';
+                         return operations;
+
+                    }
+                },
             ],
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
@@ -156,17 +148,9 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>附近线路：</span>' +
+                          '   <span>线路：</span>' +
                         '    <span>' +
-                        '        <input id="location" value="" style="width:300px">' +
-                        '&nbsp;&nbsp;<a href="javascript:;" onclick="checkLocation('+ "\'${rc.contextPath}/api/simple\'" +');">位置确认</a>&nbsp;'+
-                          '  <a href="javascript:;" onclick="searchLine();">查附近线路</a>&nbsp;'+
-                          '    <span>线路：</span>    <input id="siteName" value=""> ' +
-                        '    &nbsp;&nbsp;' +
-                               '  <a href="javascript:;" onclick="searchSite();">线路相似匹配</a>&nbsp;'+
-                          ' <br> <br>   <span>线路：</span>' +
-                        '    <span>' +
-                        '        <input id="name" value="" ' +
+                        '        <input id="linename" value="" ' +
                         '    <span>线路级别</span>&nbsp;&nbsp;' +
                         '<select class="ui-input ui-input-mini" name="levelStr" id="levelStr">' +
                    		'<option value="defaultAll" selected="selected">所有</option>' +
@@ -174,30 +158,26 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                   		'<option value="APP">A++</option>' +
                   		'<option value="AP">A+</option>' +
                   		'<option value="A">A</option>' +
-                  		'<option value="LATLONG">经纬线</option>' +
          				'</select>' +
-                        ''+
                         '</div>'
         );
 
-        $('#name,#levelStr').change(function() {
-        	$('#address').val("");
-        	$('#location').val("");
+        $('#linename,#levelStr').change(function() {
             table.fnDraw();
         });
         
-        /*$("#name").autocomplete({
-			minLength: 0,
-			source : "${rc.contextPath}/busselect/autoComplete",
+   			$("#linename").autocomplete({
+		minLength: 0,
+			source : "${rc.contextPath}/busselect/autoComplete?tag=a",
 			change : function(event, ui) {
 			},
 			select : function(event, ui) {
-				$('#line_id').val(ui.item.value);
+				$('#linename').val(ui.item.value);
+				table.fnDraw();
 			}
 		}).focus(function () {
        				 $(this).autocomplete("search");
-   				 });*/
-   				 
+   	 	});	 
    				 
     }
 	function fnDrawCallback(){
@@ -219,19 +199,24 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 <div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title">
                <span> 线路列表</span>
+                <a class="block-btn" style="margin-left: 10px;" href="javascript:void(0);" onclick="addline('${rc.contextPath}')">添加线路</a>&nbsp;
+                
 									</div>
                 <table id="table" class="display compact" cellspacing="0" width="100%">
                     <thead>
                     <tr style="height: 40px;">
-                        <th orderBy="name">线路名</th>
-                        <th orderBy="level">线路级别</th>
-                         <th orderBy="_cars">自营车辆</th>
-                           <th orderBy="_persons">人车流量</th>
-                           <th orderBy="_today">当天上刊数</th>
-                          <th orderBy="_month1day">未来1月</th>
-                           <th orderBy="_month2day">未来2月</th>
-                            <th orderBy="_month3day">未来3月</th>
-                         <th>查看站点</th>
+                        <th >线路名</th>
+                        <th >线路级别</th>
+                        <th >途径地点</th>
+                        <th >线路总里程</th>
+                        <th >所属公司</th>
+                        <th >所属分公司</th>
+                        <th >线路类型</th>
+                        <th >车辆总数</th>
+                        <th >车辆详情</th>
+                        <th >状态</th>
+                        <th >所属营销中心</th>
+                        <th>管理</th>
                     </tr>
                     </thead>
 

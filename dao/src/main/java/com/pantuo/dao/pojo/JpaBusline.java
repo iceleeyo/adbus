@@ -46,6 +46,18 @@ public class JpaBusline extends CityEntity{
 
     private String name;    //线路名称
     private Level level;    //线路级别
+    @ManyToOne
+    @JoinColumn(name = "companyId")
+    private JpaBusinessCompany company; //营销中心
+
+    private String status;            //状态
+    private String description;         //车辆详情
+    private String office;              //所属公司
+    private String branch;              //所属分公司
+    private String linetype;              //线路类型
+    private String busnum;              //车辆数
+    private String routelocation;              //途径地点
+    private String tolength;              //总里程
     private int _cars;//线路对应车辆总数
     private int _persons;//人车流量
     
@@ -158,6 +170,78 @@ public class JpaBusline extends CityEntity{
 
 	public void set_sim(int _sim) {
 		this._sim = _sim;
+	}
+
+	public JpaBusinessCompany getCompany() {
+		return company;
+	}
+
+	public void setCompany(JpaBusinessCompany company) {
+		this.company = company;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getOffice() {
+		return office;
+	}
+
+	public void setOffice(String office) {
+		this.office = office;
+	}
+
+	public String getBranch() {
+		return branch;
+	}
+
+	public void setBranch(String branch) {
+		this.branch = branch;
+	}
+
+	public String getLinetype() {
+		return linetype;
+	}
+
+	public void setLinetype(String linetype) {
+		this.linetype = linetype;
+	}
+
+	public String getBusnum() {
+		return busnum;
+	}
+
+	public void setBusnum(String busnum) {
+		this.busnum = busnum;
+	}
+
+	public String getRoutelocation() {
+		return routelocation;
+	}
+
+	public void setRoutelocation(String routelocation) {
+		this.routelocation = routelocation;
+	}
+
+	public String getTolength() {
+		return tolength;
+	}
+
+	public void setTolength(String tolength) {
+		this.tolength = tolength;
 	}
 
  

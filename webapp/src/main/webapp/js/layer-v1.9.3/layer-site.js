@@ -675,7 +675,7 @@ function addline(url) {
 				type : 1,
 				title : "添加线路",
 				skin : 'layui-layer-rim',
-				area : [ '470px', '400px' ],
+				area : [ '550px', '700px' ],
 				content : ''
 						+ '<form id="addLineform" action='+url+'/busselect/saveLine>'
 						+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
@@ -683,25 +683,69 @@ function addline(url) {
 						+'<input class="ui-input " type="text" value="" name="name"  '
 						+'id="namestr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
        	 				+'</div>'
+       	 				+'<div class="ui-form-item"> <label class="ui-label mt10">线路途径地点：</label>'
+       	 				+'<input class="ui-input validate[required]" type="text" value="" name="routelocation"  '
+       	 				+'id="routelocation" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+       	 				+'</div>'
+       	 				+'<div class="ui-form-item"> <label class="ui-label mt10">线路总里程：</label>'
+       	 				+'<input class="ui-input " type="text" value="" name="tolength"  '
+       	 				+'id="tolength" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+       	 				+'</div>'
+       	 				+'<div class="ui-form-item"> <label class="ui-label mt10">所属公司：</label>'
+       	 				+'<input   class="ui-input validate[required]" type="text" value="" name="office"  '
+       	 				+'id="office" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+       	 				+'</div>'
+       	 				+'<div class="ui-form-item"> <label class="ui-label mt10">所属分公司：</label>'
+       	 				+'<input class="ui-input validate[required] " type="text" value="" name="branch"  '
+       	 				+'id="branch" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+       	 				+'</div>'
+       	 				+'<div class="ui-form-item"> <label class="ui-label mt10">线路类型：</label>'
+       	 				+'<input class="ui-input " type="text" value="" name="linetype"  '
+       	 				+'id="linetype" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+       	 				+'</div>'
+       	 			+'<div class="ui-form-item"> <label class="ui-label mt10">车辆数：</label>'
+   	 				+'<input class="ui-input " type="text" value="" name="cars"  onkeyup="value=value.replace(/[^\\d]/g,\'\')" '
+   	 				+'id="busnum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+   	 				+'</div>'
+       	 				+'<div class="ui-form-item"> <label class="ui-label mt10">车辆详情：</label>'
+       	 				+'<input class="ui-input " type="text" value="" name="description"  '
+       	 				+'id="description" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+       	 				+'</div>'
+       	 				+'<div class="ui-form-item"> <label class="ui-label mt10">状态：</label>'
+       	 				+'<input class="ui-input " type="text" value="" name="status"  '
+       	 				+'id="status" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+       	 				+'</div>'
        	 				+'<div class="ui-form-item"> <label class="ui-label mt10">线路级别：</label>'
 						+'<select  class="ui-input bus-model" name="level" id="level">  '
-       	 				+'<option value="0" selected="selected">S(特级)</option><option value="1" > A++</option> <option value="2">A+</option><option value="3">A</option><option value="4">经纬线</option></select></div>'
-       	 				+'<div class="ui-form-item"> <label class="ui-label mt10">车辆数：</label>'
-       	 				+'<input class="ui-input " type="text" value="" name="cars"  onkeyup="value=value.replace(/[^\\d]/g,\'\')" '
-       	 				+'id="cars" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-       	 				+'</div>'
-						+ '</div>'
+       	 				+'<option value="0" selected="selected">S(特级)</option><option value="1" > A++</option> <option value="2">A+</option><option value="3">A</option></select></div>'
+       	 			+'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">所属营销中心：</span> </label>'
+    				+ '<select  class="ui-input bus-model" name="companyId" id="companyId"> <option value="" selected="selected">请选择营销中心</option> </select>'
+    				+'</div>'
+       	 				+ '</div>'
 						+ '<div class="ui-form-item widthdrawBtBox" style="position: absolute; bottom: 10px;">'
 						+ '<input type="button" onclick="subLine()" class="block-btn" value="确认" ></div>'
 						+ '</form>'
 						+'<div id="worm-tips" class="worm-tips" style="width:350px;display:none;"></div>'
 			});
+	   $.ajax({
+	       url : url + "/bus/findAllCompany",
+	       type : "GET",
+	       success : function(data) {
+	      $.each(data, function(i, item) {
+			$("#companyId").append(
+					$("<option value="+item.id+">" + item.name
+							+ "</option>"));
+	         });
+    }}, "text");
 }
 function subLine(){
+	if (!$("#addLineform").validationEngine('validateBeforeSubmit'))
+        return;
 	var namestr=$("#namestr").val();
 	var level=$("#level").val();
-	var cars=$("#cars").val();
+	var cars=$("#busnum").val();
 	if(namestr==""){layer.msg("请填写线路名称");return;}
+	if($("#companyId  option:selected").val()==""){layer.msg("请选择营销中心");return;}
 	if(level==""){layer.msg("请线路级别");return;}
 	if(cars==""){layer.msg("请填车辆数");return;}
 	$('#addLineform').ajaxForm(function(data) {
