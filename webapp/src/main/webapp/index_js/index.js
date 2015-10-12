@@ -278,7 +278,7 @@
         var sh = setInterval(slideTimeSet, 5000); //图片计时循环
         function slideTimeSet() {
             var topval;
-            
+            var iNextD = sectionWidth * q;
             var iNextTransD = "-"+iNextD+"px, 0px, 0px";
             $('.background-one .slide-back').removeAttr('style').css({"width":  sectionWidth * pic_number1,
                                   "height": sectionHeight, 
