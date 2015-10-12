@@ -8,8 +8,14 @@
 		<link rel="stylesheet" type="text/css" href="index_css/base.css">
 		<link rel="stylesheet" type="text/css" href="index_css/header.css">
 		<link rel="stylesheet" type="text/css" href="index_css/jack.css">
-		<link rel="stylesheet" type="text/css" href="index_css/secondLevel.css">	</head>
-		
+		<link rel="stylesheet" type="text/css" href="index_css/secondLevel.css">
+		<link rel="stylesheet" type="text/css" href="css/sift.css">
+			
+	</head>
+<style type="text/css">
+    .sift-list {  width: 80px;  line-height: 30px;}
+    .sift-list a{margin-right: 10px;}
+</style>		
 	<body>
 		<header>
 				<span class="area">北京</span>
@@ -207,58 +213,64 @@
 						<div class="back-items">
 							<div class="back-item">
 								<span class="desp">商圈：</span>
-								<ul class="clearfix">
-									<li>王府井</li>
-									<li>西单</li>
-									<li>国贸</li>
-									<li>公主坟</li>
-									<li>中关村</li>
-									<li>东直门</li>
-								</ul>
+								<span class="sift-list" qt="B">
+									<a class="item" href="javascript:;" sort="-1" >王府井<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >西单<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >国贸<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >公主坟<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >中关村<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >东直门<i>×</i></a>
+								</span>
 								<div class="s-more">
 									+<span>多选</span>
 								</div>
 							</div>
 							<div class="back-item">
 								<span class="desp">城区：</span>
-								<ul class="clearfix">
-									<li>海淀</li>
-									<li>朝阳</li>
-									<li>丰台</li>
-									<li>东城</li>
-									<li>西城</li>
-									<li>石景山</li>
-								</ul>
+								<span class="sift-list" qt="C">
+									<a class="item" href="javascript:;" sort="-1" >海淀<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >朝阳<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >丰台<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >东城<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >西城<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >石景山<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >通州<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >大兴<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >密云<i>×</i></a>
+								</span>
 								<div class="s-more">
 									+<span>多选</span>
 								</div>
 							</div>
 							<div class="back-item">
 								<span class="desp">媒体：</span>
-								<ul class="clearfix">
-									<li>车身广告</li>
-									<li>视频广告</li>
-									<li>车内广告</li>
-									<li>站牌广告</li>
-									<li>站台广告</li>
-								</ul>
+								<span class="sift-list" qt="M">
+									<a class="item" href="javascript:;" sort="-1" >车身广告<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >视频广告<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >车内广告<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >站牌广告<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >站台广告<i>×</i></a>
+								</span>
 								<div class="s-more">
 									+<span>多选</span>
 								</div>
 							</div>
 							<div class="back-item">
 								<span class="desp">车型：</span>
-								<ul class="clearfix double">
-									<li>双层</li>
-									<li>双层特级</li>
-									<li>双层A++</li>
-									<li>双层A+</li>
-									<br>
-									<li>单层</li>
-									<li>单层特级</li>
-									<li>单层A++</li>
-									<li>单层A+</li>
-								</ul>
+								<span class="sift-list" qt="dc">
+									<a class="item" href="javascript:;" sort="-1" >双层<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >双层特级<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >双层A++<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >双层A+<i>×</i></a>
+								</span>
+								<br>
+								<span class="desp">&nbsp;</span>
+								<span class="sift-list" qt="dc">
+									<a class="item" href="javascript:;" sort="-1" >单层<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >单层特级<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >单层A++<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >单层A+<i>×</i></a>
+								</span>
 								<div class="s-more">
 									+<span>多选</span>
 								</div>
@@ -360,11 +372,11 @@
 
 		<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
 		<script src="index_js/unslider.min.js"></script>
+		<script src="js/sift_bus.js"></script>
 		<script type="text/javascript">
 
 		$("#leftDec").click(function(){
 			  var oldValue=$(this).next().find("input").val();//获取文本框对象现有值
-			  alert(oldValue);
 			  if(oldValue>0){
 				  $(this).next().find("input").val(parseFloat(oldValue)-1);
 			  }

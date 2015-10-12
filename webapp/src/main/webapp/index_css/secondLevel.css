@@ -164,7 +164,8 @@ header .area {
   padding: 50px 0 30px 20px;
   margin-left: 15px;
   margin-bottom: 30px;
-  background: #E7EEF9;
+  background: #fff;
+  border: 2px solid #e0e0e0;
 }
 .recommand .re-box .select {
   width: 130px;
@@ -312,6 +313,7 @@ header .area {
   padding: 60px 70px 10px 60px;
   font-size: 16px;
   background-color: white;
+  border: 2px solid #e0e0e0;
 }
 .customs .back-item ul {
   padding: 0;
@@ -354,7 +356,7 @@ header .area {
   display: inline-block;
   background: url(../index_img/linebar_blue_items.png) no-repeat;
   background-size: 100%;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 .buy .cont .activity {
   padding-left: 40px;
