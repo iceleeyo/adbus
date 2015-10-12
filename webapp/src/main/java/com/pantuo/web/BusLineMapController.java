@@ -3,6 +3,7 @@ package com.pantuo.web;
 import java.util.Collections;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
@@ -14,11 +15,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.pojo.DataTablePage;
@@ -180,6 +183,11 @@ public class BusLineMapController {
 				req.getLength(), req.getSort("id"));
 		//busMapService.putLineCarToPageView(req, w)
 		return new DataTablePage(w, req.getDraw());
+	}
+	@RequestMapping(value = "/ajaxdetail/{id}")
+	@ResponseBody
+	public JpaBusline ajaxdetail(@PathVariable int id, Model model, HttpServletRequest request) {
+		return busMapService.findLineById(id);
 	}
 
 }

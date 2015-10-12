@@ -70,7 +70,6 @@ public class JpaBus extends CityEntity{
     private String office;              //所属公司
     private String branch;              //所属分公司
     private String bushis;              //车史
-    private String remarks;              //车史
   //预计上刊时间
     //validation:必须为当天之后的几天
     private Date startDay;
@@ -277,13 +276,6 @@ public class JpaBus extends CityEntity{
 		this.bushis = bushis;
 	}
 
-	public String getRemarks() {
-		return remarks;
-	}
-
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
-	}
 
 	@Override
 	public String toString() {

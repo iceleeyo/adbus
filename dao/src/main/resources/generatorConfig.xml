@@ -160,7 +160,10 @@
          <table schema="" tableName="bus_uplog" delimitIdentifiers="${generator.delimitIdentifiers}">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table> -->
-          <table schema="" tableName="bus_line" delimitIdentifiers="${generator.delimitIdentifiers}">
+        <!--   <table schema="" tableName="bus_line" delimitIdentifiers="${generator.delimitIdentifiers}">
+            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
+        </table> -->
+          <table schema="" tableName="bus" delimitIdentifiers="${generator.delimitIdentifiers}">
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
         

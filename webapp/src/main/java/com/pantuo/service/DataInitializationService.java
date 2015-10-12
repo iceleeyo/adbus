@@ -516,6 +516,10 @@ public class DataInitializationService {
 			}
 
 			if (!buses.isEmpty() && buses.size() > 1000) {
+				if (!newCompanyMap.isEmpty()) {
+					companyRepo.save(newCompanyMap.values());
+					companyMap.putAll(newCompanyMap);
+				}
 				if (!newLineMap.isEmpty()) {
 					buslineRepo.save(newLineMap.values());
 					lineMap.putAll(newLineMap);
@@ -523,10 +527,6 @@ public class DataInitializationService {
 				if (!newModelMap.isEmpty()) {
 					busModelRepo.save(newModelMap.values());
 					modelMap.putAll(newModelMap);
-				}
-				if (!newCompanyMap.isEmpty()) {
-					companyRepo.save(newCompanyMap.values());
-					companyMap.putAll(newCompanyMap);
 				}
 				busService.saveBuses(buses);
 				count += buses.size();

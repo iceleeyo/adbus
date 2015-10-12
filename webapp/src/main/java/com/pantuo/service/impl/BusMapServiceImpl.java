@@ -283,4 +283,9 @@ public class BusMapServiceImpl implements BusMapService {
 		Pageable p = new PageRequest(req.getPage(), req.getLength(), page.getSort());
 		return new org.springframework.data.domain.PageImpl<JpaBuslineView>(r, p, page.getTotalElements());
 	}
+
+	@Override
+	public JpaBusline findLineById(int id) {
+		return lineRepo.findOne(id);
+	}
 }

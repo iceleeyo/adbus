@@ -27,6 +27,9 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.codehaus.jackson.map.DeserializationConfig;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +75,7 @@ import com.pantuo.mybatis.domain.BusLineExample;
 import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.domain.BusLockExample;
 import com.pantuo.mybatis.domain.BusModel;
+import com.pantuo.mybatis.domain.BusUplog;
 import com.pantuo.mybatis.domain.BusinessCompany;
 import com.pantuo.mybatis.domain.BusinessCompanyExample;
 import com.pantuo.mybatis.domain.Dividpay;
@@ -97,6 +101,7 @@ import com.pantuo.service.AttachmentService;
 import com.pantuo.service.BusLineCheckService;
 import com.pantuo.service.MailService;
 import com.pantuo.simulate.MailJob;
+import com.pantuo.util.BeanUtils;
 import com.pantuo.util.BusinessException;
 import com.pantuo.util.Constants;
 import com.pantuo.util.DateUtil;
@@ -219,7 +224,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 				int carNumber = cache.containsKey(obj.getId()) ? cache.get(obj.getId()) : 0;
 				if (StringUtils.isNotBlank(tag)) {
 					String viewString = obj.getName();
-					r.add(new AutoCompleteView(viewString, viewString,String.valueOf(obj.getId())));//String.valueOf(obj.getId())
+					r.add(new AutoCompleteView(viewString, viewString, String.valueOf(obj.getId())));//String.valueOf(obj.getId())
 				} else {
 					String viewString = obj.getName() + "  " + obj.getLevelStr() + " [" + carNumber + "]";
 					r.add(new AutoCompleteView(viewString, viewString, String.valueOf(obj.getId())));//String.valueOf(obj.getId())
@@ -1123,7 +1128,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	@Override
 	public Pair<Boolean, String> saveOffContract(Offlinecontract offcontract, long seriaNum, String userId,
 			String signDate1, String otype) throws ParseException {
-	
+
 		offcontract.setDays(0);
 		offcontract.setTotalNum(0);
 		if (null != offcontract.getId() && offcontract.getId() > 0) {
@@ -1162,7 +1167,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		} catch (Exception e) {
 			offcontract.setOtype(OType.PRIVATE_STATUS.ordinal());
 		}
-		if(StringUtils.isNoneBlank(signDate1)){
+		if (StringUtils.isNoneBlank(signDate1)) {
 			Date signDate = (Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(signDate1);
 			offcontract.setSignDate(signDate);
 		}
@@ -1190,11 +1195,10 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	}
 
 	@Override
-	public Pair<Boolean, String> savePublishLine(PublishLine publishLine, String startD)
-			throws ParseException {
+	public Pair<Boolean, String> savePublishLine(PublishLine publishLine, String startD) throws ParseException {
 		publishLine.setUpdated(new Date());
 		Date date1 = (Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(startD);
-		Date date2 = DateUtil.dateAdd(date1,publishLine.getDays());
+		Date date2 = DateUtil.dateAdd(date1, publishLine.getDays());
 		publishLine.setStartDate(date1);
 		publishLine.setEndDate(date2);
 		if (null != publishLine.getId() && publishLine.getId() > 0) {
@@ -1222,27 +1226,28 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	}
 
 	@Override
-public Pair<Boolean, String> saveDivid(Dividpay dividpay, long seriaNum, String userId, String payDate1) throws ParseException {
-         if(StringUtils.isBlank(payDate1)){
-        	 return new Pair<Boolean, String>(false, "请选择付款日期");
-        }
-	dividpay.setPayDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(payDate1));
-	dividpay.setUpdator(userId);
-	dividpay.setStats(0);
-	if(null!=dividpay.getId() && dividpay.getId()>0){
-		Dividpay dividpay2=dividpayMapper.selectByPrimaryKey(dividpay.getId());
-		com.pantuo.util.BeanUtils.copyProperties(dividpay, dividpay2);
-		if(dividpayMapper.updateByPrimaryKey(dividpay2)>0){
-			return new Pair<Boolean, String>(true, "修改成功");
+	public Pair<Boolean, String> saveDivid(Dividpay dividpay, long seriaNum, String userId, String payDate1)
+			throws ParseException {
+		if (StringUtils.isBlank(payDate1)) {
+			return new Pair<Boolean, String>(false, "请选择付款日期");
 		}
-		return new Pair<Boolean, String>(false, "操作失败");
+		dividpay.setPayDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(payDate1));
+		dividpay.setUpdator(userId);
+		dividpay.setStats(0);
+		if (null != dividpay.getId() && dividpay.getId() > 0) {
+			Dividpay dividpay2 = dividpayMapper.selectByPrimaryKey(dividpay.getId());
+			com.pantuo.util.BeanUtils.copyProperties(dividpay, dividpay2);
+			if (dividpayMapper.updateByPrimaryKey(dividpay2) > 0) {
+				return new Pair<Boolean, String>(true, "修改成功");
+			}
+			return new Pair<Boolean, String>(false, "操作失败");
+		}
+		dividpay.setSeriaNum(seriaNum);
+		if (dividpayMapper.insert(dividpay) > 0) {
+			return new Pair<Boolean, String>(true, "保存成功");
+		}
+		return new Pair<Boolean, String>(false, "保存失败");
 	}
-	dividpay.setSeriaNum(seriaNum);
-	if (dividpayMapper.insert(dividpay) > 0) {
-		return new Pair<Boolean, String>(true, "保存成功");
-	}
-	return new Pair<Boolean, String>(false, "保存失败");
-}
 
 	@Override
 	public List<JapDividPay> getDividPay(long seriaNum) {
@@ -1292,7 +1297,7 @@ public Pair<Boolean, String> saveDivid(Dividpay dividpay, long seriaNum, String 
 			sort = new Sort("id");
 		Pageable p = new PageRequest(page, pageSize, sort);
 		BooleanExpression query = QJpaOfflineContract.jpaOfflineContract.city.eq(city);
-		String contractCode = req.getFilter("contractCode"),otype=req.getFilter("otype");
+		String contractCode = req.getFilter("contractCode"), otype = req.getFilter("otype");
 		if (StringUtils.isNotBlank(contractCode)) {
 			query = query.and(QJpaOfflineContract.jpaOfflineContract.contractCode.like("%" + contractCode + "%"));
 		}
@@ -1332,8 +1337,8 @@ public Pair<Boolean, String> saveDivid(Dividpay dividpay, long seriaNum, String 
 		String contractCode = req.getFilter("contractCode"), contractid = req.getFilter("contractid"), model = req
 				.getFilter("model"), linename = req.getFilter("linename"), company = req.getFilter("company");
 		if (StringUtils.isNotBlank(contractCode)) {
-		//	query = query.and(QJpaPublishLine.jpaPublishLine.OfflineContract.contractCode
-		//			.like("%" + contractCode + "%"));
+			//	query = query.and(QJpaPublishLine.jpaPublishLine.OfflineContract.contractCode
+			//			.like("%" + contractCode + "%"));
 		}
 		if (StringUtils.isNotBlank(contractCode)) {
 			int cid = NumberUtils.toInt(contractCode);
@@ -1372,26 +1377,39 @@ public Pair<Boolean, String> saveDivid(Dividpay dividpay, long seriaNum, String 
 
 	@Override
 	public Pair<Boolean, String> saveLine(BusLine busLine) {
-		busLine.setCreated(new Date());
-		busLine.setMonth1day(0);
-		busLine.setMonth2day(0);
-		busLine.setMonth3day(0);
-		busLine.setToday(0);
-		busLine.setPersons(0);
-		if(busLine!=null && busLine.getName()!=null){
-			if(islineExit(busLine.getName())){
-				return new Pair<Boolean, String>(false, "该线路名称已经存在");
+		if (null != busLine.getId() && busLine.getId() > 0) {
+			BusLine bus2 = buslineMapper.selectByPrimaryKey(busLine.getId());
+			if (bus2 == null) {
+				return new Pair<Boolean, String>(false, "信息丢失");
+			}
+			BeanUtils.copyProperties(busLine, bus2);
+			bus2.setUpdated(new Date());
+			int a = buslineMapper.updateByPrimaryKey(bus2);
+			if (a > 0) {
+				return new Pair<Boolean, String>(true, "修改成功");
+			}
+		} else {
+			busLine.setCreated(new Date());
+			busLine.setMonth1day(0);
+			busLine.setMonth2day(0);
+			busLine.setMonth3day(0);
+			busLine.setToday(0);
+			busLine.setPersons(0);
+			if (busLine != null && busLine.getName() != null) {
+				if (islineExit(busLine.getName())) {
+					return new Pair<Boolean, String>(false, "该线路名称已经存在");
+				}
+			}
+			if (busLineMapper.insert(busLine) > 0) {
+				return new Pair<Boolean, String>(true, "添加线路成功");
 			}
 		}
-		if (busLineMapper.insert(busLine) > 0) {
-			return new Pair<Boolean, String>(true, "添加线路成功");
-		}
-		return new Pair<Boolean, String>(false, "保存失败");
+		return new Pair<Boolean, String>(false, "操作失败");
 	}
 
 	private boolean islineExit(String name) {
-		BusLineExample example=new BusLineExample();
+		BusLineExample example = new BusLineExample();
 		example.createCriteria().andNameEqualTo(name);
-		return buslineMapper.countByExample(example)>0;
+		return buslineMapper.countByExample(example) > 0;
 	}
 }

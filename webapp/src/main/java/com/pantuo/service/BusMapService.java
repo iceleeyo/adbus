@@ -37,5 +37,9 @@ public interface BusMapService {
 	   * @since pantuo 1.0-SNAPSHOT
 	   */
 	  public  Page<JpaBuslineView>   putLineCarToPageView(TableRequest req,Page<JpaBusline> page);
+
+
+
+	public JpaBusline findLineById(int id);
 	
 }

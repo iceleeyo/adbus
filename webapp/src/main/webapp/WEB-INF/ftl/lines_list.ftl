@@ -76,10 +76,8 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                     return row.id;
                     },
                     "render": function(data, type, row, meta) {
-                        var operations = '';
-                            operations +='<a class="table-link" href="${rc.contextPath}/bus/line/' + data +'">编辑</a>&nbsp;';
-                         return operations;
-
+                        var operations ='<a onclick="showLineDetail(\'${rc.contextPath}\','+data+')">编辑</a>';
+                        return operations;
                     }
                 },
             ],
