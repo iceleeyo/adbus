@@ -248,7 +248,6 @@ header .area {
 }
 .select-more {
   height: 30px;
-  margin-top: 40px;
   background: #009deb;
 }
 .select-more li {
@@ -301,7 +300,7 @@ header .area {
   width: 950px;
   margin-left: 13px;
   margin-bottom: 30px;
-  background: #E7EEF9;
+  background: #fff;
 }
 .customs .back .desp {
   width: 80px;
@@ -341,7 +340,8 @@ header .area {
 }
 .buy {
   padding: 30px 30px 20px 40px;
-  background-color: rgb(231, 238, 249);
+  background-color: #fff;
+  border: 2px solid #e0e0e0;
 }
 .buy .inline-b {
   display: inline-block;

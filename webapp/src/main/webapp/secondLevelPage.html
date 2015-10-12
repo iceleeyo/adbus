@@ -9,7 +9,7 @@
 		<link rel="stylesheet" type="text/css" href="index_css/header.css">
 		<link rel="stylesheet" type="text/css" href="index_css/jack.css">
 		<link rel="stylesheet" type="text/css" href="index_css/secondLevel.css">
-		<link rel="stylesheet" type="text/css" href="css/sift.css">
+		<link rel="stylesheet" type="text/css" href="index_css/sift.css">
 			
 	</head>
 <style type="text/css">
@@ -211,10 +211,11 @@
 					<div class="title"><span>定制自选</span></div>
 					<div class="back">
 						<div class="back-items">
+						
 							<div class="back-item">
 								<span class="desp">商圈：</span>
 								<span class="sift-list" qt="B">
-									<a class="item" href="javascript:;" sort="-1" >王府井<i>×</i></a>
+									<a class="item active" href="javascript:;" sort="-1" >王府井<i>×</i></a>
 									<a class="item" href="javascript:;" sort="-1" >西单<i>×</i></a>
 									<a class="item" href="javascript:;" sort="-1" >国贸<i>×</i></a>
 									<a class="item" href="javascript:;" sort="-1" >公主坟<i>×</i></a>
@@ -302,21 +303,6 @@
 									<div class="map-box"></div>
 								</div>
 							</div>
-							<div class="cont">
-								<div class="activity inline-b"><span>特11</span> 双层 特级</div>
-								<div class="price inline-b">
-									<p class="p-one"><em>1700</em>元/月/辆</p>
-									<p class="p-two">5000000人次/月</p>
-								</div>
-								<div class="num f-left inline-b">
-									<span class="icon f-left dec"></span>
-									<input class="f-left">
-									<span class="icon f-left plus"></span>
-								</div>
-								<div class="map f-left inline-b">
-									<div class="map-box"></div>
-								</div>
-							</div>
 
 							<div class="paginate">
 								<span>1</span>
@@ -376,17 +362,16 @@
 		<script type="text/javascript">
 
 		$("#leftDec").click(function(){
-			  var oldValue=$(this).next().find("input").val();//获取文本框对象现有值
+			  var oldValue=$(this).next().val();//获取文本框对象现有值
 			  if(oldValue>0){
-				  $(this).next().find("input").val(parseFloat(oldValue)-1);
+				  $(this).next().val(parseInt(oldValue)-1);
 			  }
 			  
 		});
 		
 		$("#leftPlus").click(function(){
-			var oldValue=$(this).prev().find("input").val();//获取文本框对象现有值
-			alert(oldValue);
-			$(this).next().find("input").val(parseFloat(oldValue)+1);
+			var oldValue=$(this).prev().val();//获取文本框对象现有值
+			$(this).prev().val(parseInt(oldValue)+1);
 		}); 
 		
 		/* $("#leftPlus").click(function(){
