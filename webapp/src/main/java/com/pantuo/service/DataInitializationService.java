@@ -463,14 +463,7 @@ public class DataInitializationService {
 					if (level == null)
 						throw new Exception("No busline level found for " + b[2]);
 
-					JpaBusline busline = lineMap.get(city.getId() + "/" + b[1]);
-					if (busline == null) {
-						busline = newLineMap.get(city.getId() + "/" + b[1]);
-						if (busline == null) {
-							busline = new JpaBusline(city.getId(), b[1], level);
-							newLineMap.put(city.getId() + "/" + b[1], busline);
-						}
-					}
+					
 
 					JpaBusModel model = modelMap.get(city.getId() + "/" + b[5]);
 					if (model == null) {
@@ -488,6 +481,17 @@ public class DataInitializationService {
 						if (company == null) {
 							company = new JpaBusinessCompany(city.getId(), b[13], null, null, null, null);
 							newCompanyMap.put(city.getId() + "/" + b[13], company);
+						}
+					}
+					JpaBusline busline = lineMap.get(city.getId() + "/" + b[1]);
+					if (busline == null) {
+						busline = newLineMap.get(city.getId() + "/" + b[1]);
+						if (busline == null) {
+							busline = new JpaBusline(city.getId(), b[1], level);
+							busline.setOffice(b[16]);
+							busline.setBranch(b[17]);
+							busline.setCompany(company);
+							newLineMap.put(city.getId() + "/" + b[1], busline);
 						}
 					}
 					Date startdate = new Date();
