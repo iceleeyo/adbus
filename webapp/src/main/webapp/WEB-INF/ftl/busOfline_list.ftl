@@ -352,7 +352,6 @@ css=["js/jquery-ui/jquery-ui.css"]>
      $("input[name='checkAll']:checkbox:checked").each(function(){
 	    		 	t++; 
 	}) 
-	alert(t);
     if(t==1){
 		  $("input[name='checkone']").attr("checked", 'true');
 	}else {
