@@ -193,12 +193,13 @@ public class BusServiceImpl implements BusService {
 				countTotal == null ? 0 : countTotal);
 
 		if (!list.getContent().isEmpty()) {
-
 			for (JpaBusAdjustLog log : list.getContent()) {
-				AdjustLogView w = new AdjustLogView();
+				AdjustLogView w = new AdjustLogView(queryBusInfo);
 				w.setLog(log);
 				w.setOldBusLevel(log.getOldline().getLevelStr());
 				w.setBusLevel(log.getNowline().getLevelStr());
+				BusInfo info = queryBusInfo.getBusInfo2(log.getJpabus().getId());
+				w.setBusInfo(info != null ? info : QueryBusInfo.emptybusInfo);
 				r.add(w);
 			}
 

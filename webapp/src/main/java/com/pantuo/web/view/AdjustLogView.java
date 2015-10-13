@@ -1,14 +1,39 @@
 package com.pantuo.web.view;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.pantuo.dao.pojo.JpaBusAdjustLog;
+import com.pantuo.simulate.QueryBusInfo;
 
 public class AdjustLogView {
+	
+	
+	
+	public AdjustLogView(QueryBusInfo queryBusInfo) {
+		this.queryBusInfo = queryBusInfo;
+	}
+
+	QueryBusInfo queryBusInfo;
+	
+	
 	BusInfo busInfo;
 
 	JpaBusAdjustLog log;
 
 	String oldBusLevel;
 	String busLevel;
+	
+	boolean ishaveAd=false;
+	
+	
+
+	public boolean isIshaveAd() {
+		return queryBusInfo.ishaveAd(log.getJpabus().getId());
+	}
+
+	public void setIshaveAd(boolean ishaveAd) {
+		this.ishaveAd = ishaveAd;
+	}
 
 	public AdjustLogView() {
 	}
