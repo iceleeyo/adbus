@@ -143,7 +143,78 @@ function queryPrice(){
 		}
   }); 
 }
-function initSwift2(/*table*/){
+
+
+function initPro(pathUrl,sh,page){
+	$("#productList").html("");
+	$.ajax({
+		url : pathUrl + "/product/sift_data?filter[sh]="+sh+"&length=10&page="+page,
+		data:{},
+		type : "POST",
+		success : function(data) {
+			var initPagination = function() {
+				var num_entries = data.totalElements;
+				// 创建分页
+				$("#Pagination").pagination(num_entries, {
+					num_edge_entries: 1, //边缘页数
+					num_display_entries: 4, //主体页数
+					callback: pageselectCallback,
+					items_per_page:data.size, //每页显示1项,
+					prev_text:'<',
+					next_text:'>',
+					prev_show_always:false,
+					next_show_always:false
+
+				});
+			 }();
+			 
+			function pageselectCallback(page_index, jq){
+//				alert(page_index);
+				initPro2(pathUrl,sh,page_index*data.size);
+				return false;
+			}
+				
+		}}, "text");
+}
+function initPro2(pathUrl,sh,page){
+	$("#productList").html("");
+	$.ajax({
+		url : pathUrl + "/product/sift_data?filter[sh]="+sh+"&length=10&start="+page,
+		data:{},
+		type : "POST",
+		success : function(data) {
+			var i=1;
+			$.each(data.content,function(i,item){
+				$("#productList").prepend(
+						"<div class=\"cont\">"+
+						"<div class=\"activity inline-b\"><span>"+item.name.substring(0,7)+"</span>&nbsp;&nbsp;"+item.days+"天</div>"+
+						"<div class=\"price inline-b\">"+
+						"<p class=\"p-one\"><em>"+item.price+"</em>元</p>"+
+						"<p class=\"p-two\">"+item.duration+"秒/次&nbsp;&nbsp;&nbsp;"+item.playNumber+"次/天</p></div>"+
+						"<div class=\"num f-left inline-b\">"+
+						"<input type=\"button\" class=\"icon f-left dec\" id='leftDec"+i+"' />"+
+						"<input class='f-left' id='sum"+i+"' value=\"0\">"+
+						"<input type=\"button\" class=\"icon f-left plus\" id='leftPlus"+i+"' /></div>"+
+						"<div class=\"map f-left inline-b\">"+
+						"<div class=\"map-box\"></div></div></div>"
+				);
+				$("#leftDec"+i+"").click(function(){
+					var oldValue=$(this).next().val();//获取文本框对象现有值
+					if(oldValue>0){
+						$(this).next().val(parseInt(oldValue)-1);
+					}
+					
+				});
+				$("#leftPlus"+i+"").click(function(){
+					var oldValue=$(this).prev().val();//获取文本框对象现有值
+					$(this).prev().val(parseInt(oldValue)+1);
+				}); 
+				i++;
+				
+			});
+		}}, "text");
+}
+function initSwift2(purl){
 /*	swift_tableObject =table;*/
 	 
     $('.item i').hide();
@@ -177,6 +248,7 @@ function initSwift2(/*table*/){
 			//alert(sendContext);
 			$("#sh").val(sendContext);
 			queryPrice();
+			initPro(purl,sendContext,0)
 			//重新画
 			/* table.fnDraw();*/
 			//alert($("#sh").val());

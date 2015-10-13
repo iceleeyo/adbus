@@ -82,7 +82,7 @@
 									</@security.authorize>
 									
 									
-									<@security.authorize ifNotGranted="UserManager">
+									<@security.authorize ifAnyGranted="UserManager">
 										 <#if city.mediaType == 'screen'>
 										<li class="pg-side-item">
 											<a class="pg-side-item-t cc-icon">
