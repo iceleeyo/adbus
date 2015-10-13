@@ -72,6 +72,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 	var d= $.format.date(data, "yyyy-MM-dd");
                 	return d;
                 }},
+                  { "data": "busInfo.offlinecontract.adcontent", "defaultContent": ""},
                  { "data": "jpaBus.description", "defaultContent": ""},
                      { "data": "jpaBus.office", "defaultContent": ""},
                       { "data": "jpaBus.branch", "defaultContent": ""},
@@ -111,18 +112,18 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                         '    <span>线路：</span>' +
                         '    <span>' +
                         '        <input id="linename" value="">' +
-                        '    </span>&nbsp;&nbsp;' +
+                        '    </span>&nbsp;&nbsp;<br><br>' +
                         '    <span>线路级别</span>&nbsp;&nbsp;' +
-                       '<select class="ui-input ui-input-mini" name="levelStr" id="levelStr">' +
+                       '<select class="ui-input ui-input-mini" name="levelStr" id="levelStr" style="width:120px"> ' +
                     '<option value="defaultAll" selected="selected">所有</option>' +
                   	'<option value="S">特级</option>' +
                   	'<option value="APP">A++</option>' +
                   	'<option value="AP">A+</option>' +
                   	'<option value="A">A</option>' +
                   	'<option value="LATLONG">经纬线</option>' +
-         			'</select><br><br>' +
+         			'</select>' +
                         '    <span>车辆类别</span>&nbsp;&nbsp;' +
-                       '<select class="ui-input ui-input-mini" name="category" id="category">' +
+                       '<select class="ui-input ui-input-mini" name="category" id="category" style="width:120px">' +
                     '<option value="defaultAll" selected="selected">所有</option>' +
                   	'<option value="baoche">包车</option>' +
                   	'<option value="banche">班车</option>' +
@@ -322,8 +323,9 @@ function showBusDetail(pathUrl,tourl,id){
                         <th >营销中心</th>
                          <th>是否有广告</th>
                         <th>合同编号</th>
-                        <th>上刊日期</th>
-                        <th>下刊日期</th>
+                        <th>实际上刊日期</th>
+                        <th>预计下刊日期</th>
+                           <th>广告内容</th>
                         <th>车辆描述</th>
                         <th>公司名称</th>
                         <th>所属分公司</th>
