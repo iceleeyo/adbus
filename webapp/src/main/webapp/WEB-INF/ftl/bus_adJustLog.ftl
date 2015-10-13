@@ -33,9 +33,9 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
             "ordering": true,
             "serverSide": true,
             "scrollX": true,
-               "aaSorting": [[1, "asc"]],
+               "aaSorting": [[0, "desc"]],
             "columnDefs": [
-                { "orderable": false, "targets": [1,4,5,6,7,8,9,10,11,12] },
+                { "orderable": false, "targets": [1,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18] },
             ],
             "iDisplayLength" : 20,
             "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
@@ -219,7 +219,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>
                     <tr>   
-                     	 <th>车辆变更日期</th>
+                     	 <th orderBy="updated">车辆变更日期</th>
                      	 <th>变更后分公司</th>
                       
                         <th orderBy="oldline.name">原线路</th>
