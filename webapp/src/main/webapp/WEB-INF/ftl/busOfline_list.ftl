@@ -120,7 +120,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
         table = $('#table').dataTable( {
             "dom": '<"#toolbar">lrtip',
             "searching": false,
-            "ordering": true,
+            "ordering": false,
             "serverSide": true,
             "scrollX": true,
             "iDisplayLength" : 20,
@@ -145,7 +145,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                                               },
 										"render" : function(data, type, row,
 												meta) {
-											var operations = '<input type="checkbox" name="checkone" value="'+row.jpaBus.id+'" />';
+											var operations = '<input type="checkbox" name="checkone" zbm="'+row.jpaBus.serialNumber+'" value="'+row.jpaBus.id+'" />';
 											return operations;
 										}
 									},
@@ -345,9 +345,37 @@ css=["js/jquery-ui/jquery-ui.css"]>
 		    			}
 		       });  
   }
-    
-    
-    
+  
+  
+  function selectAll(){ 
+  	 var t =0;
+     $("input[name='checkAll']:checkbox:checked").each(function(){
+	    		 	t++; 
+	}) 
+	alert(t);
+    if(t==1){
+		  $("input[name='checkone']").attr("checked", 'true');
+	}else {
+	  $("input[name='checkone']").removeAttr("checked");
+	}
+} 
+
+  
+  function checkSelect(){
+     
+    		 var aa='';
+    		 var c=0;
+	        $("input[name='checkone']:checkbox:checked").each(function(){
+	    		 	c++; 
+					aa+=$(this).attr("zbm") +","
+			}) 
+			if(c==0){
+			  layer.msg("请选择需要上刊的车辆");
+			} else {
+			   var t=aa.substring(0,aa.length-1);
+		   	   layer.alert('您选择的自编号有：'+t) ;
+			}
+    }
  function sub(){
             var stday=$("#stday").val();
             var days=$("#days").val();
@@ -440,7 +468,8 @@ css=["js/jquery-ui/jquery-ui.css"]>
                             id="days" data-is="isAmount isEnough"  value="${jpaPublishLine.days}" readonly="readonly"  onkeyup="value=value.replace(/[^\d]/g,'')"
                             autocomplete="off" disableautocomplete=""> 
                             
-                             &nbsp;&nbsp; <input type="button" class="button_kind" style="width: 85px;height: 30px;"
+                             &nbsp;&nbsp;<input type="button" class="button_kind" style="width: 85px;height: 30px;"
+			                    value="验证提醒" onclick="checkSelect()"/> <input type="button" class="button_kind" style="width: 85px;height: 30px;"
 			                    value="库存检查" onclick="checkFree()"/>
                            &nbsp;&nbsp; <input type="button" class="button_kind" style="width: 85px;height: 30px;"
 			                    value="批量上刊" onclick="sub()"/>
@@ -450,8 +479,8 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>
                     <tr>
-                        <th > <input type="checkbox" name="checkAll" /></th>
-                        <th >车辆自编号</th>
+                        <th > <input type="checkbox" id="checkAll" name="checkAll" onclick="selectAll()" /></th>
+                        <th orderBy="serialNumber" >车辆自编号</th>
                         <th >旧自编号</th>
                         <th >车牌号</th>
                         <th >车型</th>
