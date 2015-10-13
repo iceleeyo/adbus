@@ -65,7 +65,7 @@
 	margin-right: 10px;
 }
 
-.sift-list .item .active {
+.sift-list .item.active {
 	background: #00bb89;
 	color: #fff;
 	line-height: 20px;

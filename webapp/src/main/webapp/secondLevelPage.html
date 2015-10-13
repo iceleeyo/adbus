@@ -215,7 +215,7 @@
 							<div class="back-item">
 								<span class="desp">商圈：</span>
 								<span class="sift-list" qt="B">
-									<a class="item active" href="javascript:;" sort="-1" >王府井<i>×</i></a>
+									<a class="item" href="javascript:;" sort="-1" >王府井<i>×</i></a>
 									<a class="item" href="javascript:;" sort="-1" >西单<i>×</i></a>
 									<a class="item" href="javascript:;" sort="-1" >国贸<i>×</i></a>
 									<a class="item" href="javascript:;" sort="-1" >公主坟<i>×</i></a>
@@ -358,9 +358,12 @@
 
 		<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
 		<script src="index_js/unslider.min.js"></script>
-		<script src="js/sift_bus.js"></script>
+		<script src="index_js/sift_bus.js"></script>
 		<script type="text/javascript">
-
+	    $(document).ready(function() {
+	        initSwift2()
+	    } );
+	    
 		$("#leftDec").click(function(){
 			  var oldValue=$(this).next().val();//获取文本框对象现有值
 			  if(oldValue>0){
