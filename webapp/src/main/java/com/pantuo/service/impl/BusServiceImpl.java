@@ -53,6 +53,7 @@ import com.pantuo.dao.BusRepository;
 import com.pantuo.dao.BusUpdateRepository;
 import com.pantuo.dao.BusinessCompanyRepository;
 import com.pantuo.dao.BuslineRepository;
+import com.pantuo.dao.LineUpdateRepository;
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusAdjustLog;
 import com.pantuo.dao.pojo.JpaBusModel;
@@ -60,6 +61,7 @@ import com.pantuo.dao.pojo.JpaBusOnline;
 import com.pantuo.dao.pojo.JpaBusUpLog;
 import com.pantuo.dao.pojo.JpaBusinessCompany;
 import com.pantuo.dao.pojo.JpaBusline;
+import com.pantuo.dao.pojo.JpaLineUpLog;
 import com.pantuo.dao.pojo.QJpaBus;
 import com.pantuo.dao.pojo.QJpaBusAdjustLog;
 import com.pantuo.dao.pojo.QJpaBusModel;
@@ -67,8 +69,11 @@ import com.pantuo.dao.pojo.QJpaBusOnline;
 import com.pantuo.dao.pojo.QJpaBusUpLog;
 import com.pantuo.dao.pojo.QJpaBusinessCompany;
 import com.pantuo.dao.pojo.QJpaBusline;
+import com.pantuo.dao.pojo.QJpaLineUpLog;
+import com.pantuo.dao.pojo.JpaBusline.Level;
 import com.pantuo.mybatis.domain.Bus;
 import com.pantuo.mybatis.domain.BusExample;
+import com.pantuo.mybatis.domain.BusLine;
 import com.pantuo.mybatis.domain.BusOnline;
 import com.pantuo.mybatis.domain.BusOnlineExample;
 import com.pantuo.mybatis.domain.BusUplog;
@@ -111,6 +116,8 @@ public class BusServiceImpl implements BusService {
 	BusOnlineRepository busOnlineRepository;
 	@Autowired
 	BusUpdateRepository busUpdateRepository;
+	@Autowired
+	LineUpdateRepository lineUpdateRepository;
 	@Autowired
 	BuslineRepository lineRepo;
 	@Autowired
@@ -601,6 +608,70 @@ public class BusServiceImpl implements BusService {
 		Pageable p = new PageRequest(req.getPage(), req.getLength(), page.getSort());
 		return new org.springframework.data.domain.PageImpl<BusInfoView>(r, p, page.getTotalElements());
 	}
+	public Page<BusInfoView> queryBusinfoView3(TableRequest req, Page<JpaLineUpLog> page) throws JsonParseException,
+	JsonMappingException, IOException {
+		List<JpaLineUpLog> list = page.getContent();
+		List<BusInfoView> r = new ArrayList<BusInfoView>(list.size());
+		ObjectMapper t = new ObjectMapper();
+		t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
+		
+		Set<Integer> levleIntegers = new HashSet<Integer>();
+		Set<Integer> compaynIntegers = new HashSet<Integer>();
+		Set<Integer> oldlevleIntegers = new HashSet<Integer>();
+		Set<Integer> oldcompaynIntegers = new HashSet<Integer>();
+		
+		for (JpaLineUpLog log : list) {
+			BusInfoView view = new BusInfoView();
+			view.setLineUpLog(log);
+			BusLine newline = t.readValue(log.getJsonString(), BusLine.class);
+			BusLine oldline = t.readValue(log.getOldjsonString(), BusLine.class);
+			view.setNewLine(newline);
+			view.setOldLine2(oldline);
+			r.add(view);
+			levleIntegers.add(newline.getLevel());
+			compaynIntegers.add(newline.getCompanyId());
+			oldlevleIntegers.add(oldline.getLevel());
+			oldcompaynIntegers.add(oldline.getCompanyId());
+		}
+		
+		putLineBaseInfo(r,levleIntegers, compaynIntegers,"new");
+		putLineBaseInfo(r, oldlevleIntegers, oldcompaynIntegers,"old");
+		Pageable p = new PageRequest(req.getPage(), req.getLength(), page.getSort());
+		return new org.springframework.data.domain.PageImpl<BusInfoView>(r, p, page.getTotalElements());
+	}
+
+	private void putLineBaseInfo(List<BusInfoView> r, Set<Integer> levleIntegers, Set<Integer> compaynIntegers,
+			String type) {
+		Map<Integer, ?> companyMap = null;
+		Map<Integer, String> levelMap = new HashMap<Integer, String>();
+        for (JpaBusline.Level l : JpaBusline.Level.values()) {
+        	levelMap.put(l.ordinal(), l.getNameStr());
+        }
+		if (!compaynIntegers.isEmpty()) {
+			List<JpaBusinessCompany> w = companyRepo.findAll(compaynIntegers);
+			companyMap = list2Map(w);
+		}
+		if(StringUtils.equals(type, "new")){
+			  for (BusInfoView view : r) {
+				  if (view.getNewLine()!= null) {
+					  view.setCompany(companyMap != null && view.getNewLine().getCompanyId() != null ? (JpaBusinessCompany) companyMap
+							  .get(view.getNewLine().getCompanyId()) : null);
+					  view.setLevleString(view.getNewLine().getLevel()!=null?levelMap.get(view.getNewLine().getLevel()):null);
+				  }
+				  
+			  }
+		  }else{
+			  for (BusInfoView view : r) {
+				  if (view.getOldLine2() != null) {
+					  view.setOldcompany(companyMap != null && view.getOldLine2().getCompanyId() != null ? (JpaBusinessCompany) companyMap
+							  .get(view.getOldLine2().getCompanyId()) : null);
+					  view.setOldlevleString(view.getOldLine2().getLevel()!=null?levelMap.get(view.getOldLine2().getLevel()):null);
+				  }
+				  
+			  }
+		  }
+	}
 
 	private void putBusBaseInfo(List<BusInfoView> r, Set<Integer> modelIdsIntegers, Set<Integer> linesIntegers,
 			Set<Integer> compaynIntegers,String type) {
@@ -977,6 +1048,22 @@ public class BusServiceImpl implements BusService {
 			}
 		}
 		return query == null ? busUpdateRepository.findAll(p) : busUpdateRepository.findAll(query, p);
+	}
+	@Override
+	public Page<JpaLineUpLog> getlineUphistory(int cityId, TableRequest req, int page, int length, Sort sort) {
+		if (page < 0)
+			page = 0;
+		if (length < 1)
+			length = 1;
+		if (sort == null)
+			sort = new Sort("id");
+		Pageable p = new PageRequest(page, length, sort);
+		BooleanExpression query =QJpaLineUpLog.jpaLineUpLog.city.eq(cityId);
+		String linename = req.getFilter("linename");
+		if (StringUtils.isNotBlank(linename)) {
+			query = query.and(QJpaLineUpLog.jpaLineUpLog.jpabusline.name.eq(linename));
+		}
+		return query == null ? lineUpdateRepository.findAll(p) : lineUpdateRepository.findAll(query, p);
 	}
 
 	public ContractLineDayInfo getContractBusLineTodayInfo(int publish_line_id) {

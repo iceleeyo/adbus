@@ -1,5 +1,6 @@
 package com.pantuo.web;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,6 +20,8 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -457,10 +460,10 @@ public class BusSelectController {
 	@RequestMapping(value = "/saveLine")
 	@ResponseBody
 	public Pair<Boolean, String> saveLine(BusLine busLine,
-			@CookieValue(value = "city", defaultValue = "-1") int city, 
-			HttpServletRequest request) throws ParseException {
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
+			HttpServletRequest request) throws ParseException, JsonGenerationException, JsonMappingException, IOException {
 		busLine.setCity(city);
-		return busLineCheckService.saveLine(busLine);
+		return busLineCheckService.saveLine(busLine, city, principal,request);
 	}
 
 	/**

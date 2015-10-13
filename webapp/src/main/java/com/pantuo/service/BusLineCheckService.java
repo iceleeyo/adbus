@@ -1,5 +1,6 @@
 package com.pantuo.service;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.util.List;
@@ -7,6 +8,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
@@ -184,5 +187,5 @@ public interface BusLineCheckService {
 
 	public List<AutoCompleteView> ContractAutoCompleteByName(int city, String name);
 
-	public Pair<Boolean, String> saveLine(BusLine busLine);
+	public Pair<Boolean, String> saveLine(BusLine busLine, int cityId, Principal principal, HttpServletRequest request) throws JsonGenerationException, JsonMappingException, IOException;
 }

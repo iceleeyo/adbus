@@ -63,15 +63,15 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                     return '<a  target="_Blank" href="${rc.contextPath}/busselect/lineschedule/' + row.id + '" >'+data+'</a> &nbsp;';
                 } },
                 { "data": "levelStr", "defaultContent": ""},
-                { "data": "routelocation", "defaultContent": ""},
-                 { "data": "tolength", "defaultContent": ""},
+                 { "data": "company.name", "defaultContent": ""},
                   { "data": "office", "defaultContent": ""},
                    { "data": "branch", "defaultContent": ""},
-                    { "data": "linetype", "defaultContent": ""},
                     { "data": "_cars", "defaultContent": ""},
+                    { "data": "linetype", "defaultContent": ""},
                     { "data": "description", "defaultContent": ""},
-                    { "data": "status", "defaultContent": ""},
-                    { "data": "company.name", "defaultContent": ""},
+                     { "data": "routelocation", "defaultContent": ""},
+                 { "data": "tolength", "defaultContent": ""},
+                  { "data": "status", "defaultContent": ""},
                 { "data": function( row, type, set, meta) {
                     return row.id;
                     },
@@ -205,15 +205,15 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                     <tr style="height: 40px;">
                         <th >线路名</th>
                         <th >线路级别</th>
-                        <th >途径地点</th>
-                        <th >线路总里程</th>
+                          <th >所属营销中心</th>
                         <th >所属公司</th>
                         <th >所属分公司</th>
-                        <th >线路类型</th>
                         <th >车辆总数</th>
+                        <th >线路类型</th>
                         <th >车辆详情</th>
+                         <th >线路总里程</th>
+                        <th >途径地点</th>
                         <th >状态</th>
-                        <th >所属营销中心</th>
                         <th>管理</th>
                     </tr>
                     </thead>

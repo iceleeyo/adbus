@@ -6,7 +6,9 @@ import com.pantuo.dao.pojo.JpaBusModel;
 import com.pantuo.dao.pojo.JpaBusUpLog;
 import com.pantuo.dao.pojo.JpaBusinessCompany;
 import com.pantuo.dao.pojo.JpaBusline;
+import com.pantuo.dao.pojo.JpaLineUpLog;
 import com.pantuo.mybatis.domain.Bus;
+import com.pantuo.mybatis.domain.BusLine;
 
 public class BusInfoView {
 	BusInfo busInfo;
@@ -16,15 +18,21 @@ public class BusInfoView {
 	JpaBusModel model;
 	JpaBusline line;
 	String busCategory;
+	String oldbusCategory;
+	String levleString;
+	String oldlevleString;
 	JpaBusinessCompany company;
+	JpaBusinessCompany oldcompany;
 	JpaBusModel oldmodel;
 	JpaBusline oldline;
-	String oldbusCategory;
-	JpaBusinessCompany oldcompany;
 	boolean ishaveAd=false;
+	
+	BusLine newLine;
+	BusLine oldLine2;
 	
 	
 	JpaBusUpLog busUpLog;
+	JpaLineUpLog lineUpLog;
 	
 	
 	  String busLevel;
@@ -36,6 +44,47 @@ public class BusInfoView {
 		return busInfo;
 	}
 
+
+	public String getLevleString() {
+		return levleString;
+	}
+
+	public String getOldlevleString() {
+		return oldlevleString;
+	}
+
+	public void setOldlevleString(String oldlevleString) {
+		this.oldlevleString = oldlevleString;
+	}
+
+	public void setLevleString(String levleString) {
+		this.levleString = levleString;
+	}
+
+	public JpaLineUpLog getLineUpLog() {
+		return lineUpLog;
+	}
+
+	public void setLineUpLog(JpaLineUpLog lineUpLog) {
+		this.lineUpLog = lineUpLog;
+	}
+
+	public BusLine getNewLine() {
+		return newLine;
+	}
+
+	public void setNewLine(BusLine newLine) {
+		this.newLine = newLine;
+	}
+
+
+	public BusLine getOldLine2() {
+		return oldLine2;
+	}
+
+	public void setOldLine2(BusLine oldLine2) {
+		this.oldLine2 = oldLine2;
+	}
 
 	public boolean isIshaveAd() {
 		return ishaveAd;

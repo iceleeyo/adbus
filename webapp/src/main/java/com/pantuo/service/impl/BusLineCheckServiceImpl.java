@@ -1,5 +1,6 @@
 package com.pantuo.service.impl;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,7 +28,9 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.DeserializationConfig;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 import org.slf4j.Logger;
@@ -80,6 +83,7 @@ import com.pantuo.mybatis.domain.BusinessCompany;
 import com.pantuo.mybatis.domain.BusinessCompanyExample;
 import com.pantuo.mybatis.domain.Dividpay;
 import com.pantuo.mybatis.domain.DividpayExample;
+import com.pantuo.mybatis.domain.LineUplog;
 import com.pantuo.mybatis.domain.Offlinecontract;
 import com.pantuo.mybatis.domain.OfflinecontractExample;
 import com.pantuo.mybatis.domain.PublishLine;
@@ -92,6 +96,7 @@ import com.pantuo.mybatis.persistence.BusMapper;
 import com.pantuo.mybatis.persistence.BusSelectMapper;
 import com.pantuo.mybatis.persistence.BusinessCompanyMapper;
 import com.pantuo.mybatis.persistence.DividpayMapper;
+import com.pantuo.mybatis.persistence.LineUplogMapper;
 import com.pantuo.mybatis.persistence.OfflinecontractMapper;
 import com.pantuo.mybatis.persistence.PublishLineMapper;
 import com.pantuo.pojo.TableRequest;
@@ -126,6 +131,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	BusinessCompanyMapper businessCompanyMapper;
 	@Autowired
 	BusLineMapper buslineMapper;
+	@Autowired
+	LineUplogMapper lineUplogMapper;
 	@Autowired
 	BusLockMapper busLockMapper;
 	@Autowired
@@ -1376,16 +1383,30 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	}
 
 	@Override
-	public Pair<Boolean, String> saveLine(BusLine busLine) {
+	public Pair<Boolean, String> saveLine(BusLine busLine, int cityId, Principal principal, HttpServletRequest request) throws JsonGenerationException, JsonMappingException, IOException {
 		if (null != busLine.getId() && busLine.getId() > 0) {
 			BusLine bus2 = buslineMapper.selectByPrimaryKey(busLine.getId());
 			if (bus2 == null) {
 				return new Pair<Boolean, String>(false, "信息丢失");
 			}
+			ObjectMapper t = new ObjectMapper();
+			t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+			t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
+			String oldjsonString = t.writeValueAsString(bus2);
+			String jsonString = t.writeValueAsString(busLine);
 			BeanUtils.copyProperties(busLine, bus2);
 			bus2.setUpdated(new Date());
 			int a = buslineMapper.updateByPrimaryKey(bus2);
 			if (a > 0) {
+				LineUplog log = new LineUplog();
+				log.setCreated(new Date());
+				log.setUpdated(new Date());
+				log.setCity(cityId);
+				log.setUpdator(Request.getUserId(principal));
+				log.setLineid(busLine.getId());
+				log.setJsonString(jsonString);
+				log.setOldjsonString(oldjsonString);
+				lineUplogMapper.insert(log);
 				return new Pair<Boolean, String>(true, "修改成功");
 			}
 		} else {

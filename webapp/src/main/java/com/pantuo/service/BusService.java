@@ -20,6 +20,7 @@ import com.pantuo.dao.pojo.JpaBusOnline;
 import com.pantuo.dao.pojo.JpaBusUpLog;
 import com.pantuo.dao.pojo.JpaBusinessCompany;
 import com.pantuo.dao.pojo.JpaBusline;
+import com.pantuo.dao.pojo.JpaLineUpLog;
 import com.pantuo.mybatis.domain.Bus;
 import com.pantuo.mybatis.domain.BusOnline;
 import com.pantuo.mybatis.domain.CountableBusLine;
@@ -97,6 +98,7 @@ public interface BusService {
 	Page<JpaBusUpLog> getbusUphistory(int cityId, TableRequest req, int page, int length, Sort sort);
 
 	public Page<BusInfoView> queryBusinfoView2(TableRequest req, Page<JpaBusUpLog> page) throws JsonParseException, JsonMappingException, IOException;
+	public Page<BusInfoView> queryBusinfoView3(TableRequest req, Page<JpaLineUpLog> page) throws JsonParseException, JsonMappingException, IOException;
 	
 	
 	ContractLineDayInfo getContractBusLineTodayInfo(int publish_line_id);
@@ -109,5 +111,7 @@ public interface BusService {
 	Page<JpaBusOnline> getbusOnlineList(int cityId, TableRequest req, int page, int length, Sort sort) ;
 	
 	public long getMoneyFromBusModel(JpaBusline.Level level,boolean doubleDecker);
+
+	Page<JpaLineUpLog> getlineUphistory(int cityId, TableRequest req, int page, int length,Sort sort);
 	
 }

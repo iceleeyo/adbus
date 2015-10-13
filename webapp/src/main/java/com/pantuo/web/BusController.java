@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +36,9 @@ import com.pantuo.dao.pojo.JpaBusUpLog;
 import com.pantuo.dao.pojo.JpaBusinessCompany;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaCity;
+import com.pantuo.dao.pojo.JpaLineUpLog;
 import com.pantuo.dao.pojo.JpaPublishLine;
+import com.pantuo.dao.pojo.JpaBusline.Level;
 import com.pantuo.mybatis.domain.Bus;
 import com.pantuo.mybatis.domain.BusOnline;
 import com.pantuo.mybatis.domain.CountableBusLine;
@@ -232,6 +236,16 @@ public class BusController {
 				null);
 		return new DataTablePage(busService.queryBusinfoView2(req, jpabuspage), req.getDraw());
 	}
+	@RequestMapping("ajax-lineUpLog_list")
+	@ResponseBody
+	public DataTablePage<BusInfoView> lineUpdateLog(TableRequest req,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city)throws JsonParseException, JsonMappingException, IOException {
+		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
+			return new DataTablePage(Collections.emptyList());
+		Page<JpaLineUpLog> jpabuspage = busService.getlineUphistory(cityId, req, req.getPage(), req.getLength(),
+				null);
+		return new DataTablePage(busService.queryBusinfoView3(req, jpabuspage), req.getDraw());
+	}
 
 	@RequestMapping("ajax-all-lines")
 	@ResponseBody
@@ -304,6 +318,10 @@ public class BusController {
 	public String busUpLog_list() {
 		return "busUpLog_list";
 	}
+	@RequestMapping(value = "/lineUpLog_list")
+	public String lineUpLog_list() {
+		return "lineUpLog_list";
+	}
 	@RequestMapping(value = "/busOnline_history/{busid}")
 	public String busOnline_history(Model model,@PathVariable("busid") int busid,HttpServletResponse response) {
 		response.setHeader("X-Frame-Options", "SAMEORIGIN");
@@ -349,6 +367,15 @@ public class BusController {
 	@ResponseBody
 	public List<JpaBusinessCompany> findAllCompany(Model model,@CookieValue(value = "city", defaultValue = "-1") int cityId) {
 		return busService. getAllCompany(cityId);
+	}
+	@RequestMapping(value = "findLevelMap")
+	@ResponseBody
+	public Map<String, String> findLevelMap() {
+		Map<String, String> nameStrMap = new HashMap<String, String>();
+            for (Level l : Level.values()) {
+                nameStrMap.put(l.name(), l.getNameStr());
+            }
+                return nameStrMap;
 	}
 
 	@RequestMapping(value = "/lines")

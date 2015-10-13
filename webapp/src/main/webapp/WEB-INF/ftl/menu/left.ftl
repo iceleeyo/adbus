@@ -390,12 +390,17 @@
                                             </li>
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/api/lines">
-                                                    线路列表
+                                                    线路查询
                                                 </a>
                                             </li>
                                              </@security.authorize>
                                              
 											   <@security.authorize ifAnyGranted="meijie_busChange">	
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/lineUpLog_list">
+                                                    线路变更历史
+                                                </a>
+                                            </li>
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/bus/busUpLog_list">
                                                     车辆变更历史
