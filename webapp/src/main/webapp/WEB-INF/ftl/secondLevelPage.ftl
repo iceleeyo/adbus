@@ -281,12 +281,12 @@
 								<div class="num f-left inline-b" style="margin-left: 0px;">
 									<input type="text" id="totalnum" value="0" class="f-left">
 								</div>
-								<div class="map f-left inline-b" style="margin-left: 10px;">
+								<div class="map f-left inline-b" style="margin-left: -10px;">
 									<div class="map-box"></div>
 								</div>
 							</div>
 
-							<div class="cart-box">
+							<div class="cart-box" style="margin-top: 20px;">
 								<div class="cart">
 									加入购物车
 								</div>

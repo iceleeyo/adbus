@@ -339,7 +339,7 @@ header .area {
   color: #3c3c3c;
 }
 .activity{
-	width: 32%;
+	width: 36%;
 }
 .price{
 	width: 20%;
@@ -373,7 +373,7 @@ header .area {
   width: 130px;
   height: 40px;
   margin-top: 10px;
-  font-size: 30px;
+  font-size: 25px;
 }
 .buy .cont {
   height: 105px;
@@ -385,13 +385,13 @@ header .area {
   border-radius: 5px;
 }
 .buy .cont .activity {
-  padding-left: 40px;
+  padding-left: 20px;
   line-height: 100px;
-  font-size: 20px;
+  font-size: 17px;
   float: left;
 }
 .buy .cont .activity span {
-  font-size: 30px;
+  font-size: 22px;
 }
 .buy .cont .price {
   padding-top: 20px;
@@ -410,7 +410,7 @@ header .area {
 }
 .buy .cont .num {
   margin-top: 40px;
-  margin-left: 10%;
+  margin-left: 8%;
   line-height: 100px;
 }
 .buy .cont .num .icon {
