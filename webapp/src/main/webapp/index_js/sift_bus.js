@@ -184,6 +184,8 @@ function initPro2(pathUrl,sh,page){
 		type : "POST",
 		success : function(data) {
 			var i=1;
+			var j=0;
+			var sump=4;
 			$.each(data.content,function(i,item){
 				$("#productList").prepend(
 						"<div class=\"cont\">"+
@@ -199,19 +201,24 @@ function initPro2(pathUrl,sh,page){
 						"<div class=\"map-box\"></div></div></div>"
 				);
 				$("#leftDec"+i+"").click(function(){
+					j--;
 					var oldValue=$(this).next().val();//获取文本框对象现有值
 					if(oldValue>0){
 						$(this).next().val(parseInt(oldValue)-1);
 					}
-					
+					$("#totalnum").val(j);
+					$("#totalprice").val(sump);
 				});
 				$("#leftPlus"+i+"").click(function(){
+					j++;
 					var oldValue=$(this).prev().val();//获取文本框对象现有值
 					$(this).prev().val(parseInt(oldValue)+1);
+					$("#totalnum").val(j);
 				}); 
 				i++;
 				
 			});
+			
 		}}, "text");
 }
 function initSwift2(purl){
