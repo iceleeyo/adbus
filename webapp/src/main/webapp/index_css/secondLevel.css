@@ -338,6 +338,18 @@ header .area {
 .customs .back-item .s-more span {
   color: #3c3c3c;
 }
+.activity{
+	width: 30%;
+}
+.price{
+	width: 20%;
+}
+.num{
+	width: 20%;
+}
+.map{
+	width: 10%;
+}
 .buy {
   padding: 30px 30px 20px 40px;
   background-color: #fff;
@@ -348,6 +360,13 @@ header .area {
 }
 .buy .f-left {
   float: left;
+}
+.f-sum{
+  float: left;
+  width: 120px;
+  height: 40px;
+  margin-top: 10px;
+  font-size: 30px;
 }
 .buy .cont {
   height: 105px;
@@ -368,7 +387,6 @@ header .area {
   font-size: 30px;
 }
 .buy .cont .price {
-  margin-left: 20%;
   padding-top: 20px;
   float: left;
   color: #ffffff;
@@ -434,11 +452,11 @@ header .area {
   background: url(../index_img/linebar_blue_count.png) no-repeat;
   background-size: 100%;
 }
-.buy .contall .price {
+/* .buy .contall .price {
   margin-left: 15%;
-}
+} */
 .buy .contall .text {
-  margin-left: 17%;
+  margin-left: 5%;
   padding-top: 20px;
   float: left;
   color: #000;

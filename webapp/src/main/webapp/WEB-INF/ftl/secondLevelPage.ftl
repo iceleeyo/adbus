@@ -16,9 +16,7 @@
 <style type="text/css">
     .sift-list {  width: 80px;  line-height: 30px;}
     .sift-list a{margin-right: 10px;}
-    .price {width: 17%;}
-    .num{width: 13%;}
-    .map{width: 15%;}
+
 </style>		
 	<body>
 		<header>
@@ -274,16 +272,16 @@
 								<div class="activity inline-b"><span>合计</span></div>
 								<div class="price inline-b">
 									<p class="p-one">
-									<input type="text" class='f-left' id="totalprice" value="0"><em>元</em>
+									<input type="text" class='f-sum' id="totalprice" value="0" readonly="readonly"><em>元</em>
 									</p>
 								</div>
 								<div class="text inline-b">
 									<p class="p-one">总数量：</p>
 								</div>
-								<div class="num f-left inline-b">
+								<div class="num f-left inline-b" style="margin-left: 0px;">
 									<input type="text" id="totalnum" value="0" class="f-left">
 								</div>
-								<div class="map f-left inline-b">
+								<div class="map f-left inline-b" style="margin-left: -35px;">
 									<div class="map-box"></div>
 								</div>
 							</div>
