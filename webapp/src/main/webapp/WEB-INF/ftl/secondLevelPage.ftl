@@ -270,7 +270,9 @@
 							<div class="cont contall">
 								<div class="activity inline-b"><span>合计</span></div>
 								<div class="price inline-b">
-									<p class="p-one"><input type="text" class='f-left' id="totalprice" value="0"><em>元</em></p>
+									<p class="p-one">
+									<input type="text" class='f-left' id="totalprice" value="0"><em>元</em>
+									</p>
 								</div>
 								<div class="text inline-b">
 									<p class="p-one">总数量：</p>
