@@ -16,6 +16,9 @@
 <style type="text/css">
     .sift-list {  width: 80px;  line-height: 30px;}
     .sift-list a{margin-right: 10px;}
+    .price {width: 17%;}
+    .num{width: 13%;}
+    .map{width: 15%;}
 </style>		
 	<body>
 		<header>
