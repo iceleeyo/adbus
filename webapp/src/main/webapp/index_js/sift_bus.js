@@ -191,7 +191,7 @@ function initPro2(pathUrl,sh,page){
 						"<div class=\"cont\">"+
 						"<div class=\"activity inline-b\"><span>"+item.name.substring(0,7)+"</span>&nbsp;&nbsp;"+item.days+"天</div>"+
 						"<div class=\"price inline-b\">"+
-						"<p class=\"p-one\"><input class='f-left' id='uprice"+i+"' value='"+item.price+"'><em></em>元</p>"+
+						"<p class=\"p-one\"><input class='f-left' id='uprice"+i+"' value='"+item.price+"'/><em></em>元</p>"+
 						"<p class=\"p-two\">"+item.duration+"秒/次&nbsp;&nbsp;&nbsp;"+item.playNumber+"次/天</p></div>"+
 						"<div class=\"num f-left inline-b\">"+
 						"<input type=\"button\" class=\"icon f-left dec\" id='leftDec"+i+"' />"+
@@ -204,15 +204,16 @@ function initPro2(pathUrl,sh,page){
 					var oldValue=$(this).next().val();//获取文本框对象现有值
 					if(oldValue>0){
 						$(this).next().val(parseInt(oldValue)-1);
-						sump=parseInt(sump)-parseInt($("#uprice"+i).val());
+						sump=parseInt(sump)-parseInt($("#uprice"+(parseInt(i)-1)).val());
 						j--;
 					}
 					$("#totalnum").val(j);
 					$("#totalprice").val(sump);
 				});
 				$("#leftPlus"+i).click(function(){
+//					alert(i);
 					j++;
-					sump=parseInt(sump)+parseInt($("#uprice"+i).val());
+					sump=parseInt(sump)+parseInt($("#uprice"+(parseInt(i)-1)).val());
 					var oldValue=$(this).prev().val();//获取文本框对象现有值
 					$(this).prev().val(parseInt(oldValue)+1);
 					$("#totalnum").val(j);
