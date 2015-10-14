@@ -237,6 +237,7 @@ function initSwift2(purl){
       			$(this).removeClass('active');
       			isClick = false;
       			if(($(this).parent().has('.active')).length==0){
+      				$(this).parent().children().first().addClass("active");
       			}
       		}else{
 
@@ -248,7 +249,9 @@ function initSwift2(purl){
 	      		//add by impanxh
       			if($(this).attr("sort")==-1){
       				var list=$(this).parent().children();
- 					$(this).addClass("active");
+      				$(this).parent().children().removeClass("active");
+ 					$(this).parent().children().first().addClass("active");
+ 					//$(this).addClass("active");
       			 }
       		}
       		//add by impanxh
