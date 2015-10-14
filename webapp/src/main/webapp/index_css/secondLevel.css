@@ -339,13 +339,13 @@ header .area {
   color: #3c3c3c;
 }
 .activity{
-	width: 30%;
+	width: 32%;
 }
 .price{
 	width: 20%;
 }
 .num{
-	width: 20%;
+	width: 15%;
 }
 .map{
 	width: 10%;
@@ -361,9 +361,16 @@ header .area {
 .buy .f-left {
   float: left;
 }
+.buy .f-left_price {
+  float: left;
+  width: 130px;
+  height: 30px;
+  margin-left: 15px;
+  text-align: center;
+}
 .f-sum{
   float: left;
-  width: 120px;
+  width: 130px;
   height: 40px;
   margin-top: 10px;
   font-size: 30px;
@@ -403,7 +410,7 @@ header .area {
 }
 .buy .cont .num {
   margin-top: 40px;
-  margin-left: 5%;
+  margin-left: 10%;
   line-height: 100px;
 }
 .buy .cont .num .icon {

@@ -190,8 +190,8 @@ function initPro2(pathUrl,sh,page){
 				$("#productList").prepend(
 						"<div class=\"cont\">"+
 						"<div class=\"activity inline-b\"><span>"+item.name.substring(0,7)+"</span>&nbsp;&nbsp;"+item.days+"天</div>"+
-						"<div class=\"price inline-b\">"+
-						"<p class=\"p-one\"><input class='f-left' id='uprice"+i+"' value='"+item.price+"'/><em></em>元</p>"+
+						"<div class=\"price inline-b\" style=\"  margin-top: 10px; \">"+
+						"<p class=\"p-one\"><input class='f-left_price' id='uprice"+i+"' value='"+item.price+"'/><em></em>元</p>"+
 						"<p class=\"p-two\">"+item.duration+"秒/次&nbsp;&nbsp;&nbsp;"+item.playNumber+"次/天</p></div>"+
 						"<div class=\"num f-left inline-b\">"+
 						"<input type=\"button\" class=\"icon f-left dec\" id='leftDec"+i+"' />"+
