@@ -317,13 +317,13 @@
 											</li>
 											
 											</@security.authorize>
-											<@security.authorize ifAnyGranted="bodyContractManager,contract_search"> 
+											<#--<@security.authorize ifAnyGranted="bodyContractManager,contract_search"> 
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t"  href="${rc.contextPath}/bus/contractSearch">
 												    订单及车辆查询
 												</a>
 											</li>
-											</@security.authorize>
+											</@security.authorize>-->
 											<@security.authorize ifAnyGranted="bodyContractManager,contract_buy">
 											 <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/api/wantbuy">
@@ -346,6 +346,11 @@
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t"  href="${rc.contextPath}/busselect/publishLine_list">
 												    订单列表
+												</a>
+											</li>
+											<li class="pg-side-exp-item">
+												<a class="side-exp-item-t"  href="${rc.contextPath}/bus/busAndOrderSearch">
+												  车辆及订单查询
 												</a>
 											</li>
 											  </@security.authorize>

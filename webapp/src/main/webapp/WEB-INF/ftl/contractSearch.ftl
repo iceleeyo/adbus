@@ -40,8 +40,6 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                         "filter[contractid]" : $('#cid').val(),
                         "filter[contractTag]" : 'Y',
                         
-                        
-                        
                     } );
                 },
                 "dataSrc": "content",
@@ -246,6 +244,30 @@ var table2;
    	 	 
     } );
 </script>
+<div class="withdraw-wrap color-white-bg fn-clear" style="margin-top: 10px;">
+            <div class="withdraw-title">
+                订单车辆列表  	</div>
+                 <table id="table" class="display nowrap" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th >车牌号</th>
+                        <th >新车号</th>
+                        <th >旧车号</th>
+                        <th >车型</th>
+                        <th orderBy="line.name">线路</th>
+                        <th orderBy="line.level">线路级别</th>
+                        <th orderBy="category">类别</th>
+                        <th orderBy="company">营销中心</th>
+                        <th>合同编号</th>
+                        <th>上刊日期</th>
+                        <th>下刊日期</th>
+                        <th>车辆描述</th>
+                        <th>所属分公司</th>
+                    </tr>
+                    </thead>
+                </table>
+               
+</div>
 <div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title">
                订单及车辆查询
@@ -274,28 +296,5 @@ var table2;
                 </table>
                
 </div>
-<div class="withdraw-wrap color-white-bg fn-clear" style="margin-top: 10px;">
-            <div class="withdraw-title">
-                订单车辆列表  	</div>
-                 <table id="table" class="display nowrap" cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th >车牌号</th>
-                        <th >新车号</th>
-                        <th >旧车号</th>
-                        <th >车型</th>
-                        <th orderBy="line.name">线路</th>
-                        <th orderBy="line.level">线路级别</th>
-                        <th orderBy="category">类别</th>
-                        <th orderBy="company">营销中心</th>
-                        <th>合同编号</th>
-                        <th>上刊日期</th>
-                        <th>下刊日期</th>
-                        <th>车辆描述</th>
-                        <th>所属分公司</th>
-                    </tr>
-                    </thead>
-                </table>
-               
-</div>
+
 </@frame.html>

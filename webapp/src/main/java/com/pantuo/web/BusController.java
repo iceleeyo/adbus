@@ -304,7 +304,10 @@ public class BusController {
 	public String list_sales() {
 		return "lines_sales";
 	}
-	
+	@RequestMapping(value = "/busAndOrderSearch")
+	public String busAndOrderSearch() {
+		return "busAndOrderSearch";
+	}
 	
 	@RequestMapping(value = "/adJustLog")
 	public String adJustLog() {

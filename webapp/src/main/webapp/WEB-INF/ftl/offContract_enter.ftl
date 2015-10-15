@@ -641,8 +641,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				<div class="withdraw-title">
 					<span>（一）发布线路信息</span>
 					<input type="hidden" name="seriaNum" id="seriaNum" value="${seriaNum}"/>
-				 <#-- <a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="addPublishLine('${rc.contextPath}',${seriaNum})">增加批次</a>-->
-				   <a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="addBatch('${rc.contextPath}',${seriaNum})">增加批次</a>
+				   <a class="block-btn" style="margin-top: -5px;margin-left:5px;" href="javascript:void(0);" onclick="addBatch('${rc.contextPath}',${seriaNum})">增加批次</a>
+				 <a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="addPublishLine('${rc.contextPath}',${seriaNum})">发布线路</a>
 				</div>
 			   <div id="orderedBuses">
 				<table id="table" class="display compact"
