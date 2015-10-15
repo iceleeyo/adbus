@@ -4,16 +4,15 @@
 	border: 2px solid #8AD0D0;
 }
 .result{
+	margin-top:5px;
 	width: 100%;
 	border: 2px solid #8AD0D0;
 }
 table.screen td{
+	padding:2px;
 	border: 1px solid #ccc;
 }
 
-table.result td{
-	border: 1px solid #ccc;
-}
 
 table.screen input{
 	width: 100px;
@@ -29,9 +28,16 @@ table.screen input{
 	margin-left: 2px;
 }
 
+table.result td{
+	padding:2px;
+	border: 1px solid #ccc;
+}
+
 .result th{
+	padding:2px;
 	height: 25px;
 	text-align: left;
 	color: #fff;
 	background-color: #8CAAE8;
+	border: 1px solid #ccc;
 }
