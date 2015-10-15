@@ -335,6 +335,31 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 		}, "text");
 	
 	}
+	function changeModel2(sot){
+		$.ajax({
+			url : "${rc.contextPath}/busselect/ajax-des",
+			type : "POST",
+			data : {
+				"buslinId" : $("#db_id_"+sot).val(),
+				"modelid":0
+			},
+			success : function(data) {
+				var v='';
+				$.each(data, function(i, item) {
+				var w="<option value="+item+">"
+									+ "&nbsp;&nbsp;" + item 
+									+ "</option>";
+									v+=w;
+				});
+				if(v==''){
+					$("#desId_"+sot).html('<option value="暂无描述" selected="selected">暂无描述</option>');
+				}else {
+					$("#desId_"+sot).html(v);
+				}
+			}
+		}, "text");
+		
+	}
 	function initProvince(id) {
 		$.ajax({
 			url : "${rc.contextPath}/busselect/selectBusType",
@@ -454,7 +479,119 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
    				 });
 		
 	}
+	var i=1;
+	function addBatch(url,seriaNum) {
+		layer.open({
+					type : 1,
+					title : "发布线路",
+					skin : 'layui-layer-rim',
+					area : [ '1350px', '500px' ],
+					content : ''
+							+ '<br><table border="1px #ooo" id="tab" style="margin-left:20px;" cellpadding="0"   cellspacing="0" width="90%">'
+                            +' <tr align="center">'
+                            +' <td width="40px"><input id="allCkb" type="checkbox"/></td><td >线路</td> <td >媒体类型</td> <td >刊期</td><td >发布形式</td><td >级别</td><td >数量</td><td >备注</td>'
+                            +' </tr>'
+                            +' <tr align="center">'
+                            +' <td  width="40px"><input  type="checkbox" name="ckb"/></td><td ><input class="ui-input"  id="line_id_'+i+'"  sot="1" data-is="isAmount isEnough"></td> '
+                            +' <td ><select  id="isdouble_'+i+'"> <option value="单层" selected="selected">单层</option> <option value="双层" selected="selected">双层</option></select></td> '
+                            +' <td ><input class="ui-input " type="text" value="30" name="days" onkeyup="value=value.replace(/[^\\d]/g,\'\')" '
+							+'id="days_'+i+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+                            +' </td>'
+                            +' <td ><select  class="ui-input bus-model" name="lineDesc" id="desId_'+i+'"> <option value="0" selected="selected">所有类型</option> </select></td>'
+                            +'<td ><input class="ui-input"  id="levle_'+i+'" data-is="isAmount isEnough"></td>'
+                            +' <td ><input class="ui-input " type="text" value="0" name="salesNumber" onkeyup="value=value.replace(/[^\\d]/g,\'\')" '
+							+'id="busNumber_'+i+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+                            +' </td>'
+                            +' <td ><input class="ui-input"  id="remarks_'+i+'" data-is="isAmount isEnough"></td>'
+                            +' <input type="hidden" value="0" name="lineId" id="db_id_'+i+'"> </tr> '
+                            +'</table>'
+							+'<br> <input type="button" class="block-btn" style="margin-left:20px;" onclick="addTr2(\'tab\', -1)" value="添加一行">&nbsp;'
+                            +'<input type="button" class="block-btn" onclick="delTr2()" value="删除"><p></p><p align="center"><input type="button" class="block-btn"  value="确定"></p>'
+				});
+			
+		$("#line_id_"+i).autocomplete({
+		minLength: 0,
+			source : "${rc.contextPath}/busselect/autoComplete?tag=reLevel",
+			change : function(event, ui) {
+			},
+			select : function(event, ui) {
+			   var sot=$(this).attr("sot");
+				$('#line_id_'+sot).val(ui.item.value);
+				$("#db_id_"+sot).val(ui.item.dbId);
+				$("#levle_"+sot).val(ui.item.levelStr);
+				changeModel2(sot);
+			}
+		}).focus(function () {
+       				 $(this).autocomplete("search");
+   				 });
+   				 
+		
+	}
 	
+	function addTr(tab, row, trHtml){
+     //获取table最后一行 $("#tab tr:last")
+     //获取table第一行 $("#tab tr").eq(0)
+     //获取table倒数第二行 $("#tab tr").eq(-2)
+     var $tr=$("#"+tab+" tr").eq(row);
+     if($tr.size()==0){
+        alert("指定的table id或行数不存在！");
+        return;
+     }
+     $tr.after(trHtml);
+      $("#line_id_"+i).autocomplete({
+		minLength: 0,
+			source : "${rc.contextPath}/busselect/autoComplete?tag=reLevel",
+			change : function(event, ui) {
+			},
+			select : function(event, ui) {
+			    var sot=$(this).attr("sot");
+				$('#line_id_'+sot).val(ui.item.value);
+				$("#db_id_"+sot).val(ui.item.dbId);
+				$("#levle_"+sot).val(ui.item.levelStr);
+				changeModel2(sot);
+			}
+		}).focus(function () {
+       				 $(this).autocomplete("search");
+   				 });
+  }
+   
+  function delTr(ckb){
+     //获取选中的复选框，然后循环遍历删除
+     var ckbs=$("input[name="+ckb+"]:checked");
+     if(ckbs.size()==0){
+        alert("要删除指定行，需选中要删除的行！");
+        return;
+     }
+           ckbs.each(function(){
+              $(this).parent().parent().remove();
+           });
+  }
+  function allCheck(allCkb, items){
+   $("#"+allCkb).click(function(){
+      $('[name="ckb"]:checkbox').attr("checked", checked );
+   });
+  }
+    $(function(){
+   //全选
+   allCheck("allCkb", "ckb");
+  });
+  function addTr2(tab, row){
+   i++;
+    var trHtml='<tr align="center"><td width="10%"><input type="checkbox" name="ckb"/></td>'
+   +' <td ><input class="ui-input"  sot="'+i+'" id="line_id_'+i+'"/></td>'
+   +' <td ><select  id="isdouble_'+i+'"> <option value="单层" selected="selected">单层</option> <option value="双层" selected="selected">双层</option></select></td>'
+   +' <td ><input class="ui-input " type="text" value="30" name="days" onkeyup="value=value.replace(/[^\\d]/g,\'\')" id="days_'+i+'"/></td>'
+   +' <td ><select  class="ui-input bus-model" name="lineDesc" id="desId_'+i+'"> <option value="0" selected="selected">所有类型</option> </select></td>'
+   +' <td ><input class="ui-input"  id="levle_'+i+'" data-is="isAmount isEnough"></td>'
+   +' <td ><input class="ui-input " type="text" value="0" name="salesNumber" onkeyup="value=value.replace(/[^\\d]/g,\'\')" id="busNumber_'+i+'"/></td>'
+   +' <td ><input class="ui-input"  id="remarks_'+i+'" data-is="isAmount isEnough"></td><input type="hidden" value="0" name="lineId" id="db_id_'+i+'"></tr>';
+    addTr(tab, row, trHtml);
+   
+  }
+   
+  function delTr2(){
+     delTr('ckb');
+  }
 </script>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -504,7 +641,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				<div class="withdraw-title">
 					<span>（一）发布线路信息</span>
 					<input type="hidden" name="seriaNum" id="seriaNum" value="${seriaNum}"/>
-				   <a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="addPublishLine('${rc.contextPath}',${seriaNum})">增加批次</a>
+				 <#-- <a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="addPublishLine('${rc.contextPath}',${seriaNum})">增加批次</a>-->
+				   <a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="addBatch('${rc.contextPath}',${seriaNum})">增加批次</a>
 				</div>
 			   <div id="orderedBuses">
 				<table id="table" class="display compact"

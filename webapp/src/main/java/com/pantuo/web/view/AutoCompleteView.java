@@ -15,6 +15,7 @@ public class AutoCompleteView {
 	public String value;
 	public String label;
 	public String dbId;
+	public String levelStr;
 
 	public String getValue() {
 		return value;
@@ -26,6 +27,14 @@ public class AutoCompleteView {
 
 	public String getLabel() {
 		return label;
+	}
+
+	public String getLevelStr() {
+		return levelStr;
+	}
+
+	public void setLevelStr(String levelStr) {
+		this.levelStr = levelStr;
 	}
 
 	public void setLabel(String label) {
@@ -40,6 +49,13 @@ public class AutoCompleteView {
 	public AutoCompleteView(String value, String label, String dbId) {
 		this.value = value;
 		this.label = label;
+		this.dbId = dbId;
+	}
+
+	public AutoCompleteView(String value, String label,  String levelStr,String dbId) {
+		this.value = value;
+		this.label = label;
+		this.levelStr = levelStr;
 		this.dbId = dbId;
 	}
 

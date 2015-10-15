@@ -229,7 +229,12 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			Map<Integer, Integer> cache = getBusLineMap(vos);
 			for (JpaBusline obj : list.getContent()) {
 				int carNumber = cache.containsKey(obj.getId()) ? cache.get(obj.getId()) : 0;
-				if (StringUtils.isNotBlank(tag)) {
+				if (StringUtils.isNotBlank(tag) && StringUtils.equals(tag, "reLevel")) {
+					String viewString = obj.getName();
+					String levalString=obj.getLevelStr();
+					r.add(new AutoCompleteView(viewString, viewString, levalString,String.valueOf(obj.getId())));//String.valueOf(obj.getId())
+				} 
+				else if (StringUtils.isNotBlank(tag) && !StringUtils.equals(tag, "reLevel")) {
 					String viewString = obj.getName();
 					r.add(new AutoCompleteView(viewString, viewString, String.valueOf(obj.getId())));//String.valueOf(obj.getId())
 				} else {
