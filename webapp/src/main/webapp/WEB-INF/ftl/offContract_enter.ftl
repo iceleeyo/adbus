@@ -487,9 +487,9 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 					skin : 'layui-layer-rim',
 					area : [ '1350px', '500px' ],
 					content : ''
-							+ '<br><table border="1px #ooo" id="tab" style="margin-left:20px;" cellpadding="0"   cellspacing="0" width="90%">'
+							+ '<br><table border="1px #ooo" id="tab" style="  width: 97%;margin-left:20px;" cellpadding="0"   cellspacing="0" width="90%">'
                             +' <tr align="center">'
-                            +' <td width="40px"><input id="allCkb" type="checkbox"/></td><td >线路</td> <td >媒体类型</td> <td >刊期</td><td >发布形式</td><td >级别</td><td >数量</td><td >备注</td>'
+                            +' <td style="width:10%"><input id="allCkb" type="checkbox"/></td><td >线路</td> <td style="width:10%">媒体类型</td> <td >刊期</td><td >发布形式</td><td >级别</td><td >数量</td><td >备注</td>'
                             +' </tr>'
                             +' <tr align="center">'
                             +' <td  width="40px"><input  type="checkbox" name="ckb"/></td><td ><input class="ui-input"  id="line_id_'+i+'"  sot="1" data-is="isAmount isEnough"></td> '
