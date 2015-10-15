@@ -69,6 +69,11 @@ public class BusLineMapController {
 	public String linesManage() {
 		return "lines_list";
 	}
+	
+	@RequestMapping(value = "/linesCheck")
+	public String linesCheck() {
+		return "lines_check";
+	}
 
 	@RequestMapping(value = "/landmarkM_lines")
 	public String LandmarkM_lines() {
