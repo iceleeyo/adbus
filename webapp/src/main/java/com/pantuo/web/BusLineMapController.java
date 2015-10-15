@@ -70,6 +70,7 @@ public class BusLineMapController {
 		return "lines_list";
 	}
 	
+	
 	@RequestMapping(value = "/linesCheck")
 	public String linesCheck() {
 		return "lines_check";

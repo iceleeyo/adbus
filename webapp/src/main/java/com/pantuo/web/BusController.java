@@ -1,3 +1,4 @@
+
 package com.pantuo.web;
 
 import java.io.IOException;
@@ -299,6 +300,11 @@ public class BusController {
 	public String list() {
 		return "bus_list";
 	}
+	@RequestMapping(value = "/list_sales")
+	public String list_sales() {
+		return "lines_sales";
+	}
+	
 	
 	@RequestMapping(value = "/adJustLog")
 	public String adJustLog() {
