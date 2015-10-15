@@ -388,9 +388,9 @@
                                                     线路管理
                                                 </a>
                                             </li>
-                                            <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/lines">
-                                                    线路查询
+                                              <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/linesCheck">
+                                                    线路核实
                                                 </a>
                                             </li>
                                              </@security.authorize>
@@ -432,6 +432,23 @@
                                     </li>
                                      </@security.authorize>	
                                      
+                                        <li class="pg-side-item">
+	                                        <a class="pg-side-item-t ee-icon">
+	                                            <i class="s-left pg-icon-a e-icon"></i>
+	                                           业务车辆查询
+	                                        </a>
+	                                        <ul class="pg-side-exp-list">
+	
+	                                            <li class="pg-side-exp-item">
+	                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/list_sales">
+	                                                  业务车辆查询
+	                                                </a>
+	                                            </li>
+	                                        </ul>
+	                                    </li>
+                                    
+                                    
+                                     
 	                                     <#if city.mediaType == 'body'>
 	                                       <@security.authorize ifAnyGranted="bodyScheduleManager,bodysales,bodyContractManager,contract_input,contract_list,contract_search,contract_buy,meijie_order,meijie_error,meijie_offline,meijie_bus,meijie_busChange,meijie_busModel,meijie_company"> 
 	                                    <li class="pg-side-item">
@@ -440,7 +457,11 @@
 	                                            媒体推荐
 	                                        </a>
 	                                        <ul class="pg-side-exp-list">
-	
+	   										 <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/lines">
+                                                    线路查询
+                                                </a>
+                                            </li>
 	                                            <li class="pg-side-exp-item">
 	                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/landmarkM_lines">
 	                                                   地标匹配
