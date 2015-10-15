@@ -33,10 +33,10 @@
 		distinct
 	</if>
 
-	bus.id, bus.created, bus.updated,bus. city, ad_status, branch,
-	category, description, enabled, bus.end_day,
-	office, old_serial_number, plate_number,bus. serial_number, bus.start_day,
-	company_id, line_id,
+	bus.id, bus.created, bus.updated,bus. city, ad_status, bus.branch,
+	bus.category, bus.description, bus.enabled, bus.end_day,
+	bus.office, old_serial_number, plate_number,bus.serial_number, bus.start_day,
+	bus.company_id, line_id,
 	bus.model_id
 	from bus join bus_online  on bus.id = bus_online.busid join bus_line on bus_line.id =bus.line_id
 	<if test="_parameter != null">
@@ -58,10 +58,10 @@
 		distinct
 	</if>
 
-	bus.id, bus.created, bus.updated,bus. city, ad_status, branch,
-	category, description, enabled, bus.end_day,
-	office, old_serial_number, plate_number,bus. serial_number, bus.start_day,
-	company_id, line_id,
+	bus.id, bus.created, bus.updated,bus. city, ad_status, bus.branch,
+	bus.category, bus.description, enabled, bus.end_day,
+	bus.office, old_serial_number, plate_number,bus. serial_number, bus.start_day,
+	bus.company_id, line_id,
 	bus.model_id
 	from bus join bus_line on bus_line.id =bus.line_id
 	<if test="_parameter != null">

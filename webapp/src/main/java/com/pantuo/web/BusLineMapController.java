@@ -69,8 +69,11 @@ public class BusLineMapController {
 	public String linesManage() {
 		return "lines_list";
 	}
-	
-	
+	@RequestMapping(value = "/airMediaCount")
+	public String airMediaCount(Model model,@CookieValue(value = "city", defaultValue = "-1") int cityId) {
+		model.addAttribute("companys",busService. getAllCompany(cityId));
+		return "airMediaCount";
+	}
 	@RequestMapping(value = "/linesCheck")
 	public String linesCheck() {
 		return "lines_check";

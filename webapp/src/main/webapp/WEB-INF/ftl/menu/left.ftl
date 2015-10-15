@@ -531,6 +531,11 @@
                                             报表管理
                                         </a>
                                         <ul class="pg-side-exp-list">
+                                           <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/airMediaCount">
+                                                   空媒体统计
+                                                </a>
+                                            </li>
                                          <@security.authorize ifAnyGranted="bodyContractManager,report_monthp">  
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/report/body/monthp">
