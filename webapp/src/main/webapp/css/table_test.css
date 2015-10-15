@@ -1,0 +1,37 @@
+
+.screen{
+	width:70%;
+	border: 2px solid #8AD0D0;
+}
+.result{
+	width: 100%;
+	border: 2px solid #8AD0D0;
+}
+table.screen td{
+	border: 1px solid #ccc;
+}
+
+table.result td{
+	border: 1px solid #ccc;
+}
+
+table.screen input{
+	width: 100px;
+}
+.head{
+	width:15%;
+	height: 30px;
+	background-color: #8CAAE8;
+	color: #fff;
+}
+
+.head span{
+	margin-left: 2px;
+}
+
+.result th{
+	height: 25px;
+	text-align: left;
+	color: #fff;
+	background-color: #8CAAE8;
+}

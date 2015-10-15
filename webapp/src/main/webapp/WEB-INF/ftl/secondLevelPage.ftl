@@ -43,7 +43,7 @@
 					<img src="index_img/pic1.png" height="100" width="100">
 				</div>
 				<ul class="navibar">
-					<li><a>首页</a></li>
+					<li><a href="index.html">首页</a></li>
 					<li class="active"><a>产品媒体</a></li>
 					<li><a>案例欣赏</a></li>
 				</ul>
