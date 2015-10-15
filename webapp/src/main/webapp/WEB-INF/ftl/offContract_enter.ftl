@@ -485,25 +485,25 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 					type : 1,
 					title : "发布线路",
 					skin : 'layui-layer-rim',
-					area : [ '1350px', '500px' ],
+					area : [ '950px', '500px' ],
 					content : ''
 							+ '<br><table border="1px #ooo" id="tab" style="  width: 97%;margin-left:20px;" cellpadding="0"   cellspacing="0" width="90%">'
                             +' <tr align="center">'
-                            +' <td style="width:10%"><input id="allCkb" type="checkbox"/></td><td >线路</td> <td style="width:10%">媒体类型</td> <td >刊期</td><td >发布形式</td><td >级别</td><td >数量</td><td >备注</td>'
+                            +' <td style="width:10%"><input id="allCkb" type="checkbox"/></td><td >线路</td> <td  >媒体类型</td> <td style="width:10%">刊期</td><td >发布形式</td><td >级别</td><td >数量</td><td >备注</td>'
                             +' </tr>'
                             +' <tr align="center">'
-                            +' <td  width="40px"><input  type="checkbox" name="ckb"/></td><td ><input class="ui-input"  id="line_id_'+i+'"  sot="1" data-is="isAmount isEnough"></td> '
+                            +' <td  width="40px"><input  type="checkbox" name="ckb"/></td><td ><input style="width:75px" class="ui-input"  id="line_id_'+i+'"  sot="1" data-is="isAmount isEnough"></td> '
                             +' <td ><select  id="isdouble_'+i+'"> <option value="单层" selected="selected">单层</option> <option value="双层" selected="selected">双层</option></select></td> '
-                            +' <td ><input class="ui-input " type="text" value="30" name="days" onkeyup="value=value.replace(/[^\\d]/g,\'\')" '
-							+'id="days_'+i+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+                            +' <td width="40px"><input class="ui-input " type="text" value="30" name="days" onkeyup="value=value.replace(/[^\\d]/g,\'\')" '
+							+'id="days_'+i+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="" style="width:90px">'
                             +' </td>'
-                            +' <td ><select  class="ui-input bus-model" name="lineDesc" id="desId_'+i+'"> <option value="0" selected="selected">所有类型</option> </select></td>'
-                            +'<td ><input class="ui-input"  id="levle_'+i+'" data-is="isAmount isEnough"></td>'
+                            +' <td ><select  style="width:145px" class="ui-input bus-model" name="lineDesc" id="desId_'+i+'"> <option value="0" selected="selected">所有类型</option> </select></td>'
+                            +'<td ><input class="ui-input"  id="levle_'+i+'" data-is="isAmount isEnough" style="width:65px"></td>'
                             +' <td ><input class="ui-input " type="text" value="0" name="salesNumber" onkeyup="value=value.replace(/[^\\d]/g,\'\')" '
-							+'id="busNumber_'+i+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+							+'id="busNumber_'+i+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder=""  style="width:45px">'
                             +' </td>'
-                            +' <td ><input class="ui-input"  id="remarks_'+i+'" data-is="isAmount isEnough"></td>'
-                            +' <input type="hidden" value="0" name="lineId" id="db_id_'+i+'"> </tr> '
+                            +' <td ><input class="ui-input"  id="remarks_'+i+'" data-is="isAmount isEnough"  style="width:165px"></td>'
+                            +' <input type="hidden" value="0" name="lineId" id="db_id_'+i+'"  style="width:90px"> </tr> '
                             +'</table>'
 							+'<br> <input type="button" class="block-btn" style="margin-left:20px;" onclick="addTr2(\'tab\', -1)" value="添加一行">&nbsp;'
                             +'<input type="button" class="block-btn" onclick="delTr2()" value="删除"><p></p><p align="center"><input type="button" class="block-btn"  value="确定"></p>'
@@ -578,13 +578,13 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
   function addTr2(tab, row){
    i++;
     var trHtml='<tr align="center"><td width="10%"><input type="checkbox" name="ckb"/></td>'
-   +' <td ><input class="ui-input"  sot="'+i+'" id="line_id_'+i+'"/></td>'
-   +' <td ><select  id="isdouble_'+i+'"> <option value="单层" selected="selected">单层</option> <option value="双层" selected="selected">双层</option></select></td>'
-   +' <td ><input class="ui-input " type="text" value="30" name="days" onkeyup="value=value.replace(/[^\\d]/g,\'\')" id="days_'+i+'"/></td>'
-   +' <td ><select  class="ui-input bus-model" name="lineDesc" id="desId_'+i+'"> <option value="0" selected="selected">所有类型</option> </select></td>'
-   +' <td ><input class="ui-input"  id="levle_'+i+'" data-is="isAmount isEnough"></td>'
-   +' <td ><input class="ui-input " type="text" value="0" name="salesNumber" onkeyup="value=value.replace(/[^\\d]/g,\'\')" id="busNumber_'+i+'"/></td>'
-   +' <td ><input class="ui-input"  id="remarks_'+i+'" data-is="isAmount isEnough"></td><input type="hidden" value="0" name="lineId" id="db_id_'+i+'"></tr>';
+   +' <td ><input class="ui-input"  style="width:75px" sot="'+i+'" id="line_id_'+i+'"/></td>'
+   +' <td width="40px"><select  id="isdouble_'+i+'"> <option value="单层" selected="selected">单层</option> <option value="双层" selected="selected">双层</option></select></td>'
+   +' <td ><input class="ui-input " style="width:90px" type="text" value="30" name="days" onkeyup="value=value.replace(/[^\\d]/g,\'\')" id="days_'+i+'"/></td>'
+   +' <td ><select style="width:145px" class="ui-input bus-model" name="lineDesc" id="desId_'+i+'"> <option value="0" selected="selected">所有类型</option> </select></td>'
+   +' <td ><input class="ui-input"  id="levle_'+i+'" data-is="isAmount isEnough" style="width:65px"></td>'
+   +' <td ><input class="ui-input " type="text" value="0" style="width:45px" name="salesNumber" onkeyup="value=value.replace(/[^\\d]/g,\'\')" id="busNumber_'+i+'"/></td>'
+   +' <td ><input class="ui-input"  id="remarks_'+i+'"   style="width:165px" data-is="isAmount isEnough"></td><input type="hidden" style="width:90px" value="0" name="lineId" id="db_id_'+i+'"></tr>';
     addTr(tab, row, trHtml);
    
   }
