@@ -1,3 +1,4 @@
+
 /**
  * 获取产品详细
  * 依赖layer 和js/common.js 2个方法
@@ -1580,7 +1581,64 @@ function addBus(pathUrl){
 		       				 $(this).autocomplete("search");
 		   				 });
 		}
-			
+		
+
+
+function textdown(e) {
+    textevent = e;
+    if (textevent.keyCode == 8) {
+        return;
+    }
+    if (document.getElementById('description1').value.length >= 100) {
+    	/*
+        alert("比如：要更新的新自编号,目前新自编号")
+        if (!document.all) {
+            textevent.preventDefault();
+        } else {
+            textevent.returnValue = false;
+        }*/
+    }
+}
+function textup() {
+    var s = document.getElementById('description1').value;
+    //判断ID为text的文本区域字数是否超过100个 
+    if (s.length > 100) {
+      //  document.getElementById('description1').value = s.substring(0, 100);
+    }
+}
+function saveBus3(){
+	 layer.msg('正在开发中');
+}
+function addBusBatch(pathUrl){
+	layer.open({
+		type: 1,
+		title: "车辆批量修改",
+		skin: 'layui-layer-rim', 
+		area: ['600px', '650px'], 
+		content: ''
+		+ '<form id="publishform01" action='+pathUrl+'/bus/saveBus>'
+		+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">修改字段：</label>'
+		+'<select class="ui-input ui-input-mini" name="category" id="category">' 
+      	+'<option value="0">自编号</option>' 
+      	+'<option value="1">车版号</option>' 
+      	+'<option value="2">自编号|线路</option>' 
+			+'</select>'
+		+'</div>'
+	 
+		+'<div class="ui-form-item"> <label class="ui-label mt10">修改对应关系：</label>'
+		+'<textarea rows="21" id="description1" name="description" cols="50"  style="resize: none;"  onKeyDown="textdown(event)" onKeyUp="textup()" onfocus="if(value==\'比如：要更新的新自编号,目前新自编号\'){value=\'\'}" onblur="if (value==\'\'){value=\'比如：要更新的新自编号,目前新自编号\'}">比如：要更新的新自编号,目前新自编号</textarea></div> '
+		+ '<div class="ui-form-item widthdrawBtBox" style="margin-left:40px;">'
+		+ '<input type="button" onclick="saveBus3()" class="block-btn" value="确认" ></div>'
+		+ '<input type="hidden" value="" name="lineId" id="db_id"></form>'
+	});
+	 
+}
+
+
+
+
+
+
 //车辆信息修改
 function showBusDetail(pathUrl,tourl,id){
 	
