@@ -28,7 +28,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
     var table;
     function initTable () {
         table = $('#table').dataTable( {
-            "dom": '<"#toolbar">lrtip',
+            //"dom": '<"#toolbar">lrtip',
+             "dom": '<"#toolbar"><"top"iflp<"clear">>rt<"bottom"iflp<"clear">>',
             "searching": false,
             "ordering": true,
             "serverSide": true,
@@ -47,6 +48,9 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                         "filter[serinum]" : $('#serinum').val(),
                         "filter[oldLineId]" : $('#oldLineId').val(),
                         "filter[newLineId]" : $('#newLineId').val(),
+                         "filter[becompany]" : $('#becompany').val(),
+                          "filter[afcompany]" : $('#afcompany').val(),
+                        
                     } );
                 },
                 "dataSrc": "content",
@@ -58,13 +62,14 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 }},
                   { "data": "log.nowline.branch", "defaultContent": ""},
                
-                { "data": "log.oldline.name", "defaultContent": ""},
-                { "data": "log.nowline.name", "defaultContent": ""},
-                   { "data": "log.jpabus.oldSerialNumber", "defaultContent": ""},
+                { "data": "log.oldlineName", "defaultContent": ""},
+                { "data": "log.nowLineName", "defaultContent": ""},
+                   { "data": "log.serialNumber", "defaultContent": ""},
                    
                  { "data": "log.jpabus.serialNumber", "defaultContent": ""},
                   { "data": "log.jpabus.plateNumber", "defaultContent": ""},
-                    { "data": "log.oldline.company.name", "defaultContent": ""},
+                    { "data": "log.oldCompanyId.name", "defaultContent": ""},
+                        { "data": "log.nowCompanyId.name", "defaultContent": ""},
                        { "data": "log.jpabus.categoryStr", "defaultContent": ""},
                        { "data": "ishaveAd", "defaultContent": "", "render": function(data, type, row, meta) {
                     switch(data) {
@@ -124,19 +129,32 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                         '    <span>' +
                         '        <input id="newLinename" value="">' +
                         '    </span>&nbsp;&nbsp;' +
-                        
+                      ' <br>  <br>   <span>原营销中心</span>&nbsp;&nbsp;' +
+                    '<select class="ui-input ui-input-mini" name="becompany" id="becompany" style="width:135px">' +
+                    '<option value="defaultAll" selected="selected">所有</option>' +
+                  	    <#list companys as c>
+					'<option value="${c.id}">${c.name}</option>'+
+					    </#list>
+         			'</select>' +
+                           '    <span>修改后营销中心</span>&nbsp;&nbsp;' +
+                    '<select class="ui-input ui-input-mini" name="afcompany" id="afcompany" style="width:135px">' +
+                    '<option value="defaultAll" selected="selected">所有</option>' +
+                  	    <#list companys as c>
+					'<option value="${c.id}">${c.name}</option>'+
+					    </#list>
+         			'</select>' +
                   	'</div>'+
                   	
                     '<br>'
         );
 
-        $('#serinum,#newLinename,#oldLinename').change(function() {
+        $('#serinum,#newLinename,#oldLinename,#becompany,#afcompany').change(function() {
         
         	if($('#newLinename').val() ==''){
-        		  $('#newLineId').val(0);
+        		  $('#newLineId').val("");
         	}
         	if($('#oldLinename').val() ==''){
-        		  $('#oldLineId').val(0);
+        		  $('#oldLineId').val("");
         	}
             table.fnDraw();
         });
@@ -151,7 +169,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 			},
 			select : function(event, ui) {
 				$('#linename').val(ui.item.value);
-			   $('#newLineId').val(ui.item.dbId);
+			   //$('#newLineId').val(ui.item.dbId);
+			   $('#newLineId').val(ui.item.value);
 				table.fnDraw();
 			}
 		}).focus(function () {
@@ -164,7 +183,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 			},
 			select : function(event, ui) {
 				$('#linename').val(ui.item.value);
-				$('#oldLineId').val(ui.item.dbId);
+				//$('#oldLineId').val(ui.item.dbId);
+				$('#oldLineId').val(ui.item.value);
 				table.fnDraw();
 			}
 		}).focus(function () {
@@ -214,8 +234,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 <div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title">
 									</div>
-									<input type="hidden" id ="oldLineId" value ="0" >			
-									<input type="hidden" id ="newLineId" value ="0" >			
+									<input type="hidden" id ="oldLineId" value ="" >			
+									<input type="hidden" id ="newLineId" value ="" >			
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>
                     <tr>   
@@ -224,10 +244,11 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                       
                         <th orderBy="oldline.name">原线路</th>
                         <th orderBy="nowline.name">变更后线路</th>
-                            <th>旧自编号</th>
-                          <th orderBy="jpabus.serialNumber">新自编号</th>
+                            <th>调整时自编号</th>
+                         <th orderBy="jpabus.serialNumber">当前新自编号</th>
                            <th >车牌号</th>
                              <th >原营销中心</th>
+                                <th>调整后营销中心</th>
                                 <th >车辆状态</th>
                                 <th>车身广告状态</th>
                                   <th>合同编号</th>
