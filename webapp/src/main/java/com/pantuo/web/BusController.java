@@ -244,7 +244,7 @@ public class BusController {
 		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
 			return new DataTablePage(Collections.emptyList());
 		Page<JpaLineUpLog> jpabuspage = busService.getlineUphistory(cityId, req, req.getPage(), req.getLength(),
-				null);
+				req.getSort("id"));
 		return new DataTablePage(busService.queryBusinfoView3(req, jpabuspage), req.getDraw());
 	}
 
@@ -304,13 +304,20 @@ public class BusController {
 	public String list_sales() {
 		return "lines_sales";
 	}
+	
+	@RequestMapping(value = "/list_changeDate")
+	public String list_changeDate() {
+		return "lines_changeDate";
+	}
+	
 	@RequestMapping(value = "/busAndOrderSearch")
 	public String busAndOrderSearch() {
 		return "busAndOrderSearch";
 	}
 	
 	@RequestMapping(value = "/adJustLog")
-	public String adJustLog() {
+	public String adJustLog(Model model,@CookieValue(value = "city", defaultValue = "-1") int cityId) {
+		model.addAttribute("companys",busService. getAllCompany(cityId));
 		return "bus_adJustLog";
 	}
 	

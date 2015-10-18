@@ -70,7 +70,6 @@ import com.pantuo.dao.pojo.QJpaBusUpLog;
 import com.pantuo.dao.pojo.QJpaBusinessCompany;
 import com.pantuo.dao.pojo.QJpaBusline;
 import com.pantuo.dao.pojo.QJpaLineUpLog;
-import com.pantuo.dao.pojo.JpaBusline.Level;
 import com.pantuo.mybatis.domain.Bus;
 import com.pantuo.mybatis.domain.BusExample;
 import com.pantuo.mybatis.domain.BusLine;
@@ -82,6 +81,7 @@ import com.pantuo.mybatis.domain.CountableBusModel;
 import com.pantuo.mybatis.domain.CountableBusinessCompany;
 import com.pantuo.mybatis.domain.PublishLine;
 import com.pantuo.mybatis.persistence.BusCustomMapper;
+import com.pantuo.mybatis.persistence.BusLineMapper;
 import com.pantuo.mybatis.persistence.BusMapper;
 import com.pantuo.mybatis.persistence.BusOnlineMapper;
 import com.pantuo.mybatis.persistence.BusSelectMapper;
@@ -130,6 +130,10 @@ public class BusServiceImpl implements BusService {
 
 	@Autowired
 	BusMapper busMapper;
+	
+	
+	@Autowired
+	BusLineMapper busLineMapper;
 	@Autowired
 	BusinessCompanyRepository companyRepo;
 	@Autowired
@@ -175,19 +179,40 @@ public class BusServiceImpl implements BusService {
 		Pageable p = new PageRequest(page, pageSize, sort);
 		BooleanExpression query = QJpaBusAdjustLog.jpaBusAdjustLog.city.eq(city);
 		String serinum = req.getFilter("serinum"), oldLineId = req.getFilter("oldLineId"), newLineId = req
-				.getFilter("newLineId");
+				.getFilter("newLineId"),becompany = req
+						.getFilter("becompany"),afcompany = req
+								.getFilter("afcompany");
 		 
 		
-		if (NumberUtils.toInt(oldLineId)>0) {
-			query = query.and(QJpaBusAdjustLog.jpaBusAdjustLog.oldline.id.eq(NumberUtils.toInt(oldLineId)));
+		if (StringUtils.isNoneBlank(oldLineId) ) {
+			//query = query.and(QJpaBusAdjustLog.jpaBusAdjustLog.oldline.id.eq(NumberUtils.toInt(oldLineId)));
+			query = query.and(QJpaBusAdjustLog.jpaBusAdjustLog.oldlineName.eq(oldLineId));
 		}
 
-		if (NumberUtils.toInt(newLineId)>0) {
-			query = query.and(QJpaBusAdjustLog.jpaBusAdjustLog.nowline.id.eq(NumberUtils.toInt(newLineId)));
+		if (StringUtils.isNoneBlank(newLineId)) {
+			//query = query.and(QJpaBusAdjustLog.jpaBusAdjustLog.nowline.id.eq(NumberUtils.toInt(newLineId)));
+			query = query.and(QJpaBusAdjustLog.jpaBusAdjustLog.nowLineName.eq((newLineId)));
 		}
 		
 		if (StringUtils.isNotBlank(serinum)) {
-			query = query.and(QJpaBusAdjustLog.jpaBusAdjustLog.jpabus.serialNumber.like("%" + serinum + "%"));
+			//query = query.and(QJpaBusAdjustLog.jpaBusAdjustLog.jpabus.serialNumber.like("%" + serinum + "%"));
+			query = query.and(QJpaBusAdjustLog.jpaBusAdjustLog.serialNumber.like("%" + serinum + "%"));
+		}
+		if (StringUtils.isNotBlank(becompany) && !StringUtils.equals(becompany, "defaultAll")) {
+			JpaBusinessCompany company=new JpaBusinessCompany();
+			int bid =NumberUtils.toInt(becompany);
+			if(bid>0){
+			company.setId(bid);
+			query = query.and(QJpaBusAdjustLog.jpaBusAdjustLog.oldCompanyId.eq(company));
+			}
+		}
+		if (StringUtils.isNotBlank(afcompany) && !StringUtils.equals(afcompany, "defaultAll")) {
+			JpaBusinessCompany company = new JpaBusinessCompany();
+			int bid = NumberUtils.toInt(afcompany);
+			if (bid > 0) {
+				company.setId(bid);
+				query = query.and(QJpaBusAdjustLog.jpaBusAdjustLog.nowCompanyId.eq(company));
+			}
 		}
 
 
@@ -927,23 +952,38 @@ public class BusServiceImpl implements BusService {
 					if (dbBus != null) {
 						int oldLineId = dbBus.getLineId();
 						dbBus.setLineId(newLineId);
-						
+
 						busMapper.updateByPrimaryKey(dbBus);
-						JpaBusAdjustLog entity= new JpaBusAdjustLog();
+						JpaBusAdjustLog entity = new JpaBusAdjustLog();
 						entity.setCity(cityId);
 						entity.setCreated(new Date());
 						entity.setUpdated(new Date());
 						entity.setUpdator(Request.getUserId(principal));
-						JpaBus jpabus =new JpaBus(cityId,t);
+						JpaBus jpabus = new JpaBus(cityId, t);
 						entity.setJpabus(jpabus);
 						//
-						JpaBusline  oldline =new JpaBusline();
+						JpaBusline oldline = new JpaBusline();
 						oldline.setId(oldLineId);
 						entity.setOldline(oldline);
 						//
-						JpaBusline  newLine =new JpaBusline();
+						JpaBusline newLine = new JpaBusline();
 						newLine.setId(newLineId);
 						entity.setNowline(newLine);
+						BusLine oldLineObj = busLineMapper.selectByPrimaryKey(oldLineId);
+						if (oldLineObj != null) {
+							entity.setOldlineName(oldLineObj.getName());
+							JpaBusinessCompany c =new JpaBusinessCompany();
+							c.setId(oldLineObj.getCompanyId());
+							entity.setOldCompanyId(c);
+						}
+						entity.setSerialNumber(dbBus.getSerialNumber());
+						BusLine newLineObj = busLineMapper.selectByPrimaryKey(newLineId);
+						if (newLineObj != null) {
+							entity.setNowLineName(newLineObj.getName());
+							JpaBusinessCompany c =new JpaBusinessCompany();
+							c.setId(newLineObj.getCompanyId());
+							entity.setNowCompanyId(c);
+						}
 						adJustLogRepository.save(entity);
 					}
 				}
