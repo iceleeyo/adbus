@@ -199,6 +199,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 table.fnDraw(true);
             })
         });
+        $("#table_length").hide();
+         $(".dataTables_length").hide();
     }
     function initmodel(id) {
 	$.ajax({
