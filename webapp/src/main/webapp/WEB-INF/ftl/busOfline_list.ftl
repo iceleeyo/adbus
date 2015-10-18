@@ -149,17 +149,24 @@ css=["js/jquery-ui/jquery-ui.css"]>
 											return operations;
 										}
 									},
+									  { "data": "jpaBus.line.name", "defaultContent": ""},
+                { "data": "jpaBus.line.levelStr", "defaultContent": ""},
                 { "data": "jpaBus.serialNumber", "defaultContent": "","render": function(data, type, row, meta) {
                 	return '<a  onclick="showbusOnline_history(\'${rc.contextPath}\','+row.jpaBus.id+');">'+data+'</a>';
                 }},
+                
                 { "data": "jpaBus.oldSerialNumber", "defaultContent": ""},
                 { "data": "jpaBus.plateNumber", "defaultContent": ""},
                 { "data": "jpaBus.model.name", "defaultContent": ""},
-                { "data": "jpaBus.line.name", "defaultContent": ""},
-                { "data": "jpaBus.line.levelStr", "defaultContent": ""},
-                { "data": "jpaBus.categoryStr", "defaultContent": ""},
-                { "data": "jpaBus.company.name", "defaultContent": ""},
+                { "data": "jpaBus.description", "defaultContent": ""},
+                
+            
+               
                 { "data": "busInfo.contractCode", "defaultContent": ""},
+                        { "data": "busInfo.offlinecontract.adcontent", "defaultContent": ""},
+                            { "data": "", "defaultContent": ""},
+                    { "data": "jpaBus.categoryStr", "defaultContent": ""},
+                { "data": "jpaBus.company.name", "defaultContent": ""},
                 { "data": "busInfo.startD", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd");
                 	return d;
@@ -176,8 +183,9 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 	}
                 	return d;
                 }},
-                 { "data": "jpaBus.description", "defaultContent": ""},
-                 { "data": "jpaBus.branch", "defaultContent": ""},
+                 { "data": "", "defaultContent": ""},
+                   { "data": "", "defaultContent": ""},
+                 { "data": "busInfo.offlinecontract.relateMan", "defaultContent": ""},
 	              { "data": "", "defaultContent": "","render": function(data, type, row, meta) {
 	              
 	              		var tString ='';
@@ -205,7 +213,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 '<div>' +
                         '    <span>车牌号</span>' +
                         '    <span>' +
-                        '        <input id="name" value="">' +
+                        '        <input id="name" value="" style="width:125px">' +
                         '    </span>&nbsp;&nbsp;' +
                         '    <span>线路级别</span>&nbsp;&nbsp;' +
                        '<select class="ui-input ui-input-mini" name="levelStr" id="levelStr" style="width:125px">' +
@@ -225,12 +233,17 @@ css=["js/jquery-ui/jquery-ui.css"]>
                   	'<option value="yunyingche">运营车</option>' +
          			'</select>' +
          			'    <span>营销中心</span>&nbsp;&nbsp;' +
-                    '<select class="ui-input ui-input-mini" name="company" id="company">' +
+                    '<select class="ui-input ui-input-mini" name="company" id="company" style="width:125px">' +
                     '<option value="defaultAll" selected="selected">所有</option>' +
                   	    <#list companys as c>
 					'<option value="${c.id}">${c.name}</option>'+
 					    </#list>
          			'</select>' +
+         			   '    <span>下刊预留天数</span>' +
+                        '    <span>' +
+                        '        <input id="fdays" value="" style="width:125px">' +
+                        '    </span>&nbsp;&nbsp;<input type="button" class="button_kind" style="width: 85px;height: 30px;"'+
+			              'value="下刊预留设置" onclick="sub()"/>' +
                     '<br></div>'
         );//companys
 
@@ -457,19 +470,36 @@ css=["js/jquery-ui/jquery-ui.css"]>
 <div class="withdraw-wrap color-white-bg fn-clear">
 
 			<!--over-->
-            <div class="withdraw-title">
-                 <div class="report-toolbar">
+            <div  >
+                 <div >
                  <input type="hidden" id ="plid" value="${plid}"/>
                            上刊日期：<input  class="ui-input ui-input-mini datepicker" type="text" name="stday"
                             id="stday" data-is="isAmount isEnough"
-                            autocomplete="off" disableautocomplete=""> 
+                            autocomplete="off" disableautocomplete="" style="width:90px"> 
                            &nbsp;&nbsp; 刊期(天)：<input  class="ui-input"  type="text" 
                             id="days" data-is="isAmount isEnough"  value="${jpaPublishLine.days}" readonly="readonly"  onkeyup="value=value.replace(/[^\d]/g,'')"
-                            autocomplete="off" disableautocomplete=""> 
-                            
+                            autocomplete="off" disableautocomplete="" style="width:45px"> 
+                                  <span>广告形式</span>&nbsp;&nbsp;
+                       <select class="ui-input ui-input-mini" name="category" id="category" style="width:120px">
+                    <option value="defaultAll" selected="selected">条幅式</option>
+                  	<option value="baoche">车身彩贴</option>
+                  	<option value="banche">全车彩贴</option>
+                  	</select>
+                  	       <span>印制</span>&nbsp;&nbsp;
+                       <select class="ui-input ui-input-mini" name="category" id="category" style="width:120px">
+                    <option value="defaultAll" selected="selected">中心</option>
+                  	<option value="baoche">外部</option>
+                  	</select>
+                  	  <span>上刊类型</span>&nbsp;&nbsp;
+                       <select class="ui-input ui-input-mini" name="category" id="category" style="width:120px">
+                    <option value="defaultAll" selected="selected">正常上刊</option>
+                  	<option value="baoche">补刊</option>
+                  	<option value="baoche">继刊</option>
+                  	</select>
                              &nbsp;&nbsp;<input type="button" class="button_kind" style="width: 85px;height: 30px;"
-			                    value="验证提醒" onclick="checkSelect()"/> <input type="button" class="button_kind" style="width: 85px;height: 30px;"
-			                    value="库存检查" onclick="checkFree()"/>
+			                value="验证提醒" onclick="checkSelect()"/> 
+			                <!--    <input type="button" class="button_kind" style="width: 85px;height: 30px;" value="库存检查" onclick="checkFree()"/>-->
+			                   
                            &nbsp;&nbsp; <input type="button" class="button_kind" style="width: 85px;height: 30px;"
 			                    value="批量上刊" onclick="sub()"/>
                 </div>
@@ -479,18 +509,25 @@ css=["js/jquery-ui/jquery-ui.css"]>
                     <thead>
                     <tr>
                         <th > <input type="checkbox" id="checkAll" name="checkAll" onclick="selectAll()" /></th>
+                           <th orderBy="line.name">线路</th>
+                        <th orderBy="line.level">线路级别</th>
                         <th orderBy="serialNumber" >车辆自编号</th>
                         <th >旧自编号</th>
                         <th >车牌号</th>
                         <th >车型</th>
-                        <th orderBy="line.name">线路</th>
-                        <th orderBy="line.level">线路级别</th>
-                        <th orderBy="category">类别</th>
-                        <th orderBy="company">营销中心</th>
+                          <th>车辆描述</th>
+                        
+                    
                         <th>合同编号</th>
-                        <th>上刊日期</th>
-                        <th>下刊日期</th>
-                        <th>车辆描述</th>
+                        <th>广告内容</th>
+                        <th>广告类型</th>
+                        <th>车辆情况</th>
+                        <th orderBy="company">营销中心</th>
+                        <th>实际上刊日期</th>
+                        <th>预计下刊日期</th>
+                        <th>下刊预留日期</th>
+                        <th>实际下刊日期</th>
+                       
                         <th>客户名称</th>
                         <th>撤销上刊</th>
                     </tr>

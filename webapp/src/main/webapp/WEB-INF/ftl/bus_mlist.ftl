@@ -59,7 +59,10 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 									},
                 { "data": "jpaBus.serialNumber", "defaultContent": ""},
                 { "data": "jpaBus.oldSerialNumber", "defaultContent": ""},
-                { "data": "jpaBus.plateNumber", "defaultContent": ""},
+                { "data": "jpaBus.plateNumber", "defaultContent": "","render" : function(data, type, row,
+												meta) {
+											return data.replace("/","");
+										}},
                 { "data": "jpaBus.model.name", "defaultContent": ""},
                 { "data": "jpaBus.line.name", "defaultContent": ""},
                 { "data": "jpaBus.line.levelStr", "defaultContent": ""},
@@ -266,7 +269,10 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 <div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title">
                 车辆管理  <a class="block-btn" onclick="addBus('${rc.contextPath}');" href="javascript:void(0);">添加车辆</a>
+                
+               <span >    &nbsp;&nbsp   &nbsp;&nbsp   <a style="margin-right:25px" class="block-btn" onclick="addBusBatch('${rc.contextPath}');" href="javascript:void(0);">车辆批量修改</a><span>
 									</div>		
+									   &nbsp;&nbsp
 									<input type="hidden" id ="newLineId" value ="0" >			
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>

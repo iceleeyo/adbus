@@ -345,7 +345,7 @@
                                          <@security.authorize ifAnyGranted="meijie_order">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t"  href="${rc.contextPath}/busselect/publishLine_list">
-												    订单列表
+												    上刊发布
 												</a>
 											</li>
 											<li class="pg-side-exp-item">
@@ -383,6 +383,17 @@
                                              <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/bus/adJustLog">
                                                     调车统计
+                                                </a>
+                                            </li>
+                                            
+                                             <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/list_changeDate">
+                                                    调刊补刊
+                                                </a>
+                                            </li>
+                                             <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/table.html" target="_blank">
+                                                    上刊发布统计
                                                 </a>
                                             </li>
                                              </@security.authorize>

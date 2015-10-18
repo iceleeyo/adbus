@@ -120,7 +120,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                          <th >原线路总里程</th>
                         <th >途径地点</th>
                         <th >原途径地点</th>
-                        <th>最后更新时间</th>
+                        <th orderBy ="updated">最后更新时间</th>
                         <th>操作人</th>
                     </tr>
                     </thead>

@@ -47,6 +47,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                     { "data": "_cars", "defaultContent": ""},
                    { "data": "null", "defaultContent": "0"},
                    { "data": "null", "defaultContent": "0"},
+                      { "data": "null", "defaultContent": "0"},
                    { "data": "null", "defaultContent": "0"},
                    { "data": "null", "defaultContent": "0"},
                    { "data": "null", "defaultContent": "0"},
@@ -137,11 +138,12 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                         <th >配车数</th>
                         <th >广告在刊</th>
                         <th >合同预订</th>
-                        <th >到期未下刊车数</th>
+                        <th >本月可使用车数</th>
                          <th >次月下刊数</th>
                         <th >次月可使用车数</th>
                         <th >媒介在刊率</th>
                         <th >车身媒体占有率</th>
+                         <th >到期未下刊车数</th>
                     </tr>
                     </thead>
 
