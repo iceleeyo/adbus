@@ -92,7 +92,6 @@ public class CarBoxController {
 
 
 	@RequestMapping(value = "/toCard", produces = "text/html;charset=utf-8")
-	@ResponseBody
 	public String toCard(Model model,HttpServletRequest request,Principal principal) {
 		model.addAttribute("infos", cardService.getMediaList(principal));
 		return "secondCart_step1";
