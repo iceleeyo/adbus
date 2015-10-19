@@ -214,7 +214,9 @@
 					    		<div class="inner-right">
 					    			<span>总价:</span>
 					    			<span class="acount-price">￥180000</span>
+					    			<a href="${rc.contextPath}/toCard2">
 					    			<div class="btn-over">生成订单</div>
+					    			</a>
 					    		</div>
 					    	</div>
 					    </div>

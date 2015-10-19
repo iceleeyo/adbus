@@ -5,10 +5,10 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>secondCartStep2</title>
-		<link rel="stylesheet" type="text/css" href="css/base.css">
-		<link rel="stylesheet" type="text/css" href="css/header.css">
-		<link rel="stylesheet" type="text/css" href="css/jack.css">
-		<link rel="stylesheet" type="text/css" href="css/secondLevel.css"></head>
+		<link rel="stylesheet" type="text/css" href="index_css/base.css">
+		<link rel="stylesheet" type="text/css" href="index_css/header.css">
+		<link rel="stylesheet" type="text/css" href="index_css/jack.css">
+		<link rel="stylesheet" type="text/css" href="index_css/secondLevel.css"></head>
 	<body>
 		<header>
 				<span class="area">北京</span>
@@ -31,7 +31,7 @@
 			<div class="side-nav">
 				<div class="logo"></div>
 				<div class="de-code">
-					<img src="img/pic1.png" height="100" width="100">
+					<img src="index_img/pic1.png" height="100" width="100">
 				</div>
 				<ul class="navibar">
 					<li><a>首页</a></li>
@@ -65,7 +65,7 @@
 				<div class="cart-container cart-step2">
 					<div class="c-inner">
 						<div class="tabline">
-							<div class="arrow arrow-stp1"><span class="ara">1</span><span>查看购物车</span></div>
+							<div class="arrow arrow-stp1"><span class="ara">1</span><a href="${rc.contextPath}/toCard"><span>查看购物车</span></a></div>
 							<div class="arrow arrow-stp2"><span class="ara">2</span><span>确认订单信息</span></div>
 							<div class="arrow arrow-stp3"><span class="ara">3</span><span>成功提交订单</span></div>
 						</div>
@@ -298,8 +298,8 @@
         <a class="switch"></a>
       </div>
 
-		<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
-		<script src="js/unslider.min.js"></script>
+		<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
+		<script src="index_js/unslider.min.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function(e) {
 

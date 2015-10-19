@@ -62,7 +62,19 @@
         $('.menu ul.list-line li').eq(iIndex).addClass('active').siblings('.active').removeClass('active');
         scrollPage(arrElement[iIndex]);
     };
-
+	
+	
+	  SP.moveSectionUp = function(){
+        if(iIndex > 0){
+            iIndex--;
+        } else if(iIndex == 0){
+            iIndex = 0;
+        }else if(opts.loop){
+            iIndex = arrElement.length-1;
+        }
+        $('.menu ul.list-line li').eq(iIndex).addClass('active').siblings('.active').removeClass('active');
+        scrollPage(arrElement[iIndex]);
+    };
     //滚轮向下滑动事件
     SP.moveSectionDown = function(){
         if(iIndex < (arrElement.length-1)){
@@ -221,6 +233,16 @@
         });
     }
 
+    //为元素添加滑动的属性
+    function DOMTrans(element, width, hight, eSize, dom) {
+        _this.find('.slide-back').removeAttr('style').css({"width": width * eSize,
+                              "height": hight, 
+                              "transform": "translate3d("+dom+")", 
+                              "-webkit-transform": "translate3d("+dom+")", 
+                              "transition-duration": "0.6s", 
+                              "-webkit-transition-duration": "0.6s"});
+    }    
+
 
     $('.menu ul.list-line li').on('click', function(e) {
         e.preventDefault();
@@ -268,17 +290,20 @@
         _this = $(this);
         var sliders = $(this).find('.slider');
         var pic_number,pic_number1, pic_number2;
-        var i = 1,
+        var i = 0,
             q = 1;
+        var iNext = _width * i;
+        var iNextTrans = "-"+iNext+"px, 0px, 0px";
 
         pic_number = sliders.length;
         pic_number1 = $('.background-one .slider').length;
-        console.log(pic_number1);
+        
+
+        DOMTrans(_this, _width, _height, pic_number, iNextTrans);
 
         var sh = setInterval(slideTimeSet, 5000); //图片计时循环
         function slideTimeSet() {
-            var topval;
-            
+            var iNextD = sectionWidth * q;
             var iNextTransD = "-"+iNextD+"px, 0px, 0px";
             $('.background-one .slide-back').removeAttr('style').css({"width":  sectionWidth * pic_number1,
                                   "height": sectionHeight, 
@@ -314,19 +339,13 @@
         $('.background-six ul.menu li').on('click', function(e) {
             e.preventDefault();
             i = $(this).index();
-            var iNext = _width * i;
+            iNext = _width * i;
 
-            var iNextTrans = "-"+iNext+"px, 0px, 0px";
-            _this.find('.slide-back').removeAttr('style').css({"width": _width * pic_number,
-                                  "height": _height, 
-                                  "transform": "translate3d("+iNextTrans+")", 
-                                  "-webkit-transform": "translate3d("+iNextTrans+")", 
-                                  "transition-duration": "0.6s", 
-                                  "-webkit-transition-duration": "0.6s"});
-            topval = i * 42;
+            iNextTrans = "-"+iNext+"px, 0px, 0px";
+            DOMTrans(_this, _width, _height, pic_number, iNextTrans);
+            var topval = i * 42;
             _this.find('.menu .sl.small').removeClass('style').css({"height": "22px", "top": topval});
-        }
-            
-        );       
+        });   
+        
     }; 
 })(jQuery);
