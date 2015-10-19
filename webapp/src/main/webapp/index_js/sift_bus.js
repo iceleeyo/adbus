@@ -184,6 +184,7 @@ function initPro2(pathUrl,sh,page){
 		type : "POST",
 		success : function(data) {
 			var i=1;
+			var k=1;
 			var j=0;
 			var sump=0;
 			$.each(data.content,function(i,item){
@@ -191,29 +192,39 @@ function initPro2(pathUrl,sh,page){
 						"<div class=\"cont\">"+
 						"<div class=\"activity inline-b\"><span>"+item.name.substring(0,7)+"</span>&nbsp;&nbsp;"+item.days+"天</div>"+
 						"<div class=\"price inline-b\" style=\"  margin-top: 10px; \">"+
-						"<p class=\"p-one\"><input class='f-left_price' id='uprice"+i+"' value='"+item.price+"'/><em></em>元</p>"+
+						"<p class=\"p-one\"><input type=\"hidden\" id='pid_"+i+"' value='"+item.id+"'/><input class='f-left_price' id='uprice"+i+"' value='"+item.price+"'/><em></em>元</p>"+
 						"<p class=\"p-two\">"+item.duration+"秒/次&nbsp;&nbsp;&nbsp;"+item.playNumber+"次/天</p></div>"+
 						"<div class=\"num f-left inline-b\">"+
-						"<input type=\"button\" class=\"icon f-left dec\" id='leftDec"+i+"' />"+
+						"<input type=\"button\" class=\"icon f-left dec\" sot='"+k+"' id='leftDec"+i+"' />"+
 						"<input class='f-left' id='sum"+i+"' value=\"0\">"+
-						"<input type=\"button\" class=\"icon f-left plus\" id='leftPlus"+i+"' /></div>"+
+						"<input type=\"button\" class=\"icon f-left plus\" sot='"+k+"' id='leftPlus"+i+"' /></div>"+
 						"<div class=\"map f-left inline-b\">"+
 						"<div class=\"map-box\"></div></div></div>"
 				);
+				
 				$("#leftDec"+i).click(function(){
 					var oldValue=$(this).next().val();//获取文本框对象现有值
+					var sot=$(this).attr("sot");
 					if(oldValue>0){
 						$(this).next().val(parseInt(oldValue)-1);
 						sump=parseInt(sump)-parseInt($("#uprice"+(parseInt(i)-1)).val());
+						$.ajax({
+							url : pathUrl + "/carbox/saveCard/media",
+							data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum"+sot).val(),"uprice":$("#uprice"+sot).val()},
+							type : "POST",
+							success : function(data) {
+								alert(data.right);
+						}}, "text");
 						j--;
 					}
 					$("#totalnum").val(j);
 					$("#totalprice").val(sump);
 				});
 				$("#leftPlus"+i).click(function(){
+					var sot=$(this).attr("sot");
 					$.ajax({
 						url : pathUrl + "/carbox/saveCard/media",
-						data:{"proid":2,"needCount":4,"uprice":234},
+						data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum"+sot).val(),"uprice":$("#uprice"+sot).val()},
 						type : "POST",
 						success : function(data) {
 							alert(data.right);
