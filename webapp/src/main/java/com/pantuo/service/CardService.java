@@ -51,7 +51,17 @@ public interface CardService {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	public Pair<Boolean, String> updateBody(CardboxBody media, Principal principal,long seriaNum);
-
+	/**
+	 * 
+	 * 最后一步增加发标 素材待信息
+	 *
+	 * @param helper
+	 * @param principal
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	public void add(CardboxHelper helper, Principal principal);
+	
+	
+	
 
 }
