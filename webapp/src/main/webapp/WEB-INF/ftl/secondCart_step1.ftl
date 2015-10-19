@@ -189,7 +189,6 @@
 										</div>
 									</li>
 									<li class="td td-handle">
-										<p class="like"></p>
 										<p class="del-like"></p>
 									</li>
 								</ul>
