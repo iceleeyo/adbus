@@ -34,7 +34,7 @@ header .area {
   height: 30px;
   margin-top: 10px;
   margin-bottom: 30px;
-  background: url(../index_img/logo-2.png) no-repeat;
+  background: url(../index_index_img/logo-2.png) no-repeat;
   background-size: 70%;
   background-position: 50% 50%;
 }
@@ -150,7 +150,7 @@ header .area {
   position: absolute;
   top: 10px;
   text-align: center;
-  background: url(../index_img/icon_rec1.png) no-repeat;
+  background: url(../index_index_img/icon_rec1.png) no-repeat;
   background-size: 100%;
 }
 .recommand .title span {
@@ -236,7 +236,7 @@ header .area {
   height: 140px;
 }
 .timer .title {
-  background: url(../index_img/icon_rec2.png) no-repeat;
+  background: url(../index_index_img/icon_rec2.png) no-repeat;
   background-size: 100%;
 }
 .timer .select-item {
@@ -293,7 +293,7 @@ header .area {
 .customs .title {
   position: absolute;
   top: 10px;
-  background: url(../index_img/icon_rec3.png) no-repeat;
+  background: url(../index_index_img/icon_rec3.png) no-repeat;
   background-size: 90%;
 }
 .customs .back {
@@ -381,7 +381,7 @@ header .area {
   width: 880px;
   margin: 15px 0 2px;
   display: inline-block;
-  background: url(../index_img/linebar_blue_items.png) no-repeat;
+  background: url(../index_index_img/linebar_blue_items.png) no-repeat;
   background-size: 100%;
   border-radius: 5px;
 }
@@ -422,10 +422,10 @@ header .area {
   display: inline-block;
 }
 .buy .cont .num .dec {
-  background: url(../index_img/icon_dec.png) no-repeat;
+  background: url(../index_index_img/icon_dec.png) no-repeat;
 }
 .buy .cont .num .plus {
-  background: url(../index_img/icon_plus.png) no-repeat;
+  background: url(../index_index_img/icon_plus.png) no-repeat;
 }
 .buy .cont .num input {
   width: 50px;
@@ -457,7 +457,7 @@ header .area {
   background: #dcdcdc;
 }
 .buy .contall {
-  background: url(../index_img/linebar_blue_count.png) no-repeat;
+  background: url(../index_index_img/linebar_blue_count.png) no-repeat;
   background-size: 100%;
 }
 /* .buy .contall .price {
@@ -483,7 +483,7 @@ header .area {
   vertical-align: middle;
   text-align: -webkit-auto;
   background-color: #009eea;
-  background-image: url(../index_img/icon_cart.png);
+  background-image: url(../index_index_img/icon_cart.png);
   background-repeat: no-repeat;
   background-position: 20px 50%;
   background-size: 17%;
@@ -576,7 +576,7 @@ header .area {
   top: 0;
   width: 360px;
   color: #fff;
-  background: url(../img/secondCartIcons.png) -42px -8px;
+  background: url(../index_img/secondCartIcons.png) -42px -8px;
   background-size: 115%;
   z-index: 3;
 }
@@ -589,7 +589,7 @@ header .area {
   width: 340px;
   color: #9c9c9c;
   margin-left: -30px;
-  background: url(../img/secondCartIcons.png) -45px -49px;
+  background: url(../index_img/secondCartIcons.png) -45px -49px;
   background-size: 115%;
   z-index: 2;
 }
@@ -602,7 +602,7 @@ header .area {
   color: #9c9c9c;
   position: absolute;
   width: 340px;
-  background: url(../img/secondCartIcons.png) -50px -49px;
+  background: url(../index_img/secondCartIcons.png) -50px -49px;
   background-size: 115%;
   z-index: 1;
 }
@@ -650,7 +650,7 @@ header .area {
   right: 0;
   display: none;
   cursor: pointer;
-  background: url(../img/secondCartIcons.png);
+  background: url(../index_img/secondCartIcons.png);
   background-position: 3px -145px;
 }
 .panel .price,
@@ -713,14 +713,14 @@ header .area {
 .td-amount .icon-plus {
   width: 20px;
   height: 20px;
-  background: url(../img/secondCartIcons.png);
+  background: url(../index_img/secondCartIcons.png);
   background-position: 0 -283px;
   background-size: 1180%;
 }
 .td-amount .icon-sub {
   width: 20px;
   height: 20px;
-  background: url(../img/secondCartIcons.png);
+  background: url(../index_img/secondCartIcons.png);
   background-position: 0px -305px;
   background-size: 1180%;
 }
@@ -746,12 +746,12 @@ header .area {
   cursor: pointer;
 }
 .cart-check.active label {
-  background: url(../img/secondCartIcons.png);
+  background: url(../index_img/secondCartIcons.png);
   background-position: 0px -32px;
   background-size: 1270%;
 }
 .cart-check label {
-  background: url(../img/secondCartIcons.png);
+  background: url(../index_img/secondCartIcons.png);
   background-position: 0px -4px;
   background-size: 1270%;
 }
@@ -762,14 +762,14 @@ header .area {
 .td-handle .like {
   width: 35px;
   height: 35px;
-  background: url(../img/secondCartIcons.png);
+  background: url(../index_img/secondCartIcons.png);
   background-position: 0 -67px;
   background-size: 1150%;
 }
 .td-handle .del-like {
   width: 35px;
   height: 35px;
-  background: url(../img/secondCartIcons.png);
+  background: url(../index_img/secondCartIcons.png);
   background-position: 0 -102px;
   background-size: 1150%;
   margin-top: 50%;
@@ -803,7 +803,7 @@ header .area {
   width: 12px;
   height: 15px;
   float: left;
-  background: url(../img/triangle.png);
+  background: url(../index_img/triangle.png);
   background-size: 200%;
   background-position: 0 4px;
   background-repeat: no-repeat;
@@ -812,7 +812,7 @@ header .area {
   width: 12px;
   height: 15px;
   float: right;
-  background: url(../img/triangle.png);
+  background: url(../index_img/triangle.png);
   background-size: 200%;
   background-position: -12px 4px;
   background-repeat: no-repeat;
@@ -929,7 +929,7 @@ header .area {
 }
 .cart-step2 .arrow-stp1 {
   color: #9c9c9c;
-  background: url(../img/secondCartIcons.png) -41px -51px;
+  background: url(../index_img/secondCartIcons.png) -41px -51px;
   background-size: 113%;
   z-index: 3;
 }
@@ -938,7 +938,7 @@ header .area {
 }
 .cart-step2 .arrow-stp2 {
   color: #fff;
-  background: url(../img/secondCartIcons.png) -41px -6px;
+  background: url(../index_img/secondCartIcons.png) -41px -6px;
   background-size: 115%;
   z-index: 2;
 }
@@ -947,7 +947,7 @@ header .area {
 }
 .cart-step2 .arrow-stp3 {
   color: #9c9c9c;
-  background: url(../img/secondCartIcons.png) -50px -49px;
+  background: url(../index_img/secondCartIcons.png) -50px -49px;
   background-size: 115%;
   z-index: 1;
 }
@@ -986,7 +986,7 @@ header .area {
   right: 0;
   top: 0;
   background-color: #1573f4;
-  background-image: url(../img/icon_arrow.png);
+  background-image: url(../index_img/icon_arrow.png);
   background-size: 100%;
   background-position: 7px 10px;
 }
@@ -1024,11 +1024,11 @@ header .area {
   height: 18px;
   display: inline-block;
   vertical-align: text-bottom;
-  background: url(../img/secondCartIcons.png) 0 -461px;
+  background: url(../index_img/secondCartIcons.png) 0 -461px;
   background-size: 1140%;
 }
 .adj .active .iradio {
-  background: url(../img/secondCartIcons.png) 0 -444px;
+  background: url(../index_img/secondCartIcons.png) 0 -444px;
   background-size: 1140%;
 }
 .adj .sum,
@@ -1093,7 +1093,7 @@ header .area {
   width: 20px;
   height: 18px;
   display: inline-block;
-  background: url(../img/icon_social.png);
+  background: url(../index_img/icon_social.png);
 }
 .detail-bd .socials .qq {
   background-position: 1px 1px;
