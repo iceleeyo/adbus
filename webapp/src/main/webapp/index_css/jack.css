@@ -32,7 +32,7 @@
   position: relative;
   width: 50px;
   height: 50px;
-  background: url(../index_img/icons.png) no-repeat;
+  background: url(../img/icons.png) no-repeat;
   cursor: pointer;
   -webkit-transition: all 0.3s ease-in-out 0s;
   -moz-transition: all 0.3s ease-in-out 0s;
