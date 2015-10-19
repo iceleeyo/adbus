@@ -281,7 +281,7 @@ public class BusController {
 		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
 			return new DataTablePage(Collections.emptyList());
 
-		return new DataTablePage(busService.getAllBusModels(cityId, req.getFilter("name"),
+		return new DataTablePage(busService.getAllBusModels(cityId,req, req.getFilter("name"),
 				req.getFilter("manufacturer"), req.getPage(), req.getLength(), req.getSort("id")), req.getDraw());
 	}
 

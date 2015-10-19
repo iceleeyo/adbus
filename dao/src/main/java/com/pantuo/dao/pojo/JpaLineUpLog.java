@@ -22,6 +22,8 @@ public class JpaLineUpLog extends CityEntity{
 	private String jsonString;
 	@Column(length=1000) 
 	private String oldjsonString;
+	private String newlinename;
+	private String oldlinename;
 	private String updator;
 	public int getId() {
 		return id;
@@ -55,5 +57,18 @@ public class JpaLineUpLog extends CityEntity{
 	public void setUpdator(String updator) {
 		this.updator = updator;
 	}
+	public String getNewlinename() {
+		return newlinename;
+	}
+	public void setNewlinename(String newlinename) {
+		this.newlinename = newlinename;
+	}
+	public String getOldlinename() {
+		return oldlinename;
+	}
+	public void setOldlinename(String oldlinename) {
+		this.oldlinename = oldlinename;
+	}
+	
 	
 }

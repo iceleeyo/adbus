@@ -456,7 +456,7 @@ public class BusServiceImpl implements BusService {
 	}
 
 	@Override
-	public Page<JpaBusModel> getAllBusModels(int city, String name, String manufacturer, int page, int pageSize,
+	public Page<JpaBusModel> getAllBusModels(int city, TableRequest req,String name, String manufacturer, int page, int pageSize,
 			Sort sort) {
 		if (page < 0)
 			page = 0;
@@ -464,6 +464,7 @@ public class BusServiceImpl implements BusService {
 			pageSize = 1;
 		if (sort == null)
 			sort = new Sort("id");
+		
 		Pageable p = new PageRequest(page, pageSize, sort);
 		BooleanExpression query = QJpaBusModel.jpaBusModel.city.eq(city);
 		if (name != null) {
@@ -471,6 +472,16 @@ public class BusServiceImpl implements BusService {
 		}
 		if (manufacturer != null) {
 			query = query.and(QJpaBusModel.jpaBusModel.manufacturer.like("%" + manufacturer + "%"));
+		}
+       if(null!=req){
+			String description=req.getFilter("description"),doubleDecker=req.getFilter("doubleDecker");
+			if (description != null) {
+				query = query.and(QJpaBusModel.jpaBusModel.description.like("%" + description + "%"));
+			}
+			if (doubleDecker != null && !StringUtils.equals(doubleDecker, "defaultAll")) {
+				boolean b=BooleanUtils.toBoolean(doubleDecker);
+				query = query.and(QJpaBusModel.jpaBusModel.doubleDecker.eq(b));
+			}
 		}
 		return modelRepo.findAll(query, p);
 	}
@@ -1117,9 +1128,23 @@ public class BusServiceImpl implements BusService {
 		BooleanExpression query =QJpaLineUpLog.jpaLineUpLog.city.eq(cityId);
 		String linename = req.getFilter("linename");
 		if (StringUtils.isNotBlank(linename)) {
-			query = query.and(QJpaLineUpLog.jpaLineUpLog.jpabusline.name.eq(linename));
+			JpaLineUpLog log=findLineUpLogByLinename(cityId,linename);
+			if(log!=null){
+				query = query.and(QJpaLineUpLog.jpaLineUpLog.jpabusline.id.eq(log.getJpabusline().getId()));
+			}
 		}
 		return query == null ? lineUpdateRepository.findAll(p) : lineUpdateRepository.findAll(query, p);
+	}
+
+	private JpaLineUpLog findLineUpLogByLinename(int cityId,String linename) {
+		BooleanExpression query =QJpaLineUpLog.jpaLineUpLog.city.eq(cityId);
+		query = query.and(QJpaLineUpLog.jpaLineUpLog.oldlinename.eq(linename));
+		query = query.or(QJpaLineUpLog.jpaLineUpLog.newlinename.eq(linename));
+		List<JpaLineUpLog>  list=(List<JpaLineUpLog>) lineUpdateRepository.findAll(query);
+		if(list.size()>0){
+			return list.get(0);
+		}
+		return null;
 	}
 
 	public ContractLineDayInfo getContractBusLineTodayInfo(int publish_line_id) {

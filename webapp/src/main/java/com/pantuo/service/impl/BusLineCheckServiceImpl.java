@@ -78,6 +78,7 @@ import com.pantuo.mybatis.domain.BusLineExample;
 import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.domain.BusLockExample;
 import com.pantuo.mybatis.domain.BusModel;
+import com.pantuo.mybatis.domain.BusModelExample;
 import com.pantuo.mybatis.domain.BusUplog;
 import com.pantuo.mybatis.domain.BusinessCompany;
 import com.pantuo.mybatis.domain.BusinessCompanyExample;
@@ -93,6 +94,7 @@ import com.pantuo.mybatis.persistence.BusContractMapper;
 import com.pantuo.mybatis.persistence.BusLineMapper;
 import com.pantuo.mybatis.persistence.BusLockMapper;
 import com.pantuo.mybatis.persistence.BusMapper;
+import com.pantuo.mybatis.persistence.BusModelMapper;
 import com.pantuo.mybatis.persistence.BusSelectMapper;
 import com.pantuo.mybatis.persistence.BusinessCompanyMapper;
 import com.pantuo.mybatis.persistence.DividpayMapper;
@@ -131,6 +133,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	BusinessCompanyMapper businessCompanyMapper;
 	@Autowired
 	BusLineMapper buslineMapper;
+	@Autowired
+	BusModelMapper busModelMapper;
 	@Autowired
 	LineUplogMapper lineUplogMapper;
 	@Autowired
@@ -231,10 +235,9 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 				int carNumber = cache.containsKey(obj.getId()) ? cache.get(obj.getId()) : 0;
 				if (StringUtils.isNotBlank(tag) && StringUtils.equals(tag, "reLevel")) {
 					String viewString = obj.getName();
-					String levalString=obj.getLevelStr();
-					r.add(new AutoCompleteView(viewString, viewString, levalString,String.valueOf(obj.getId())));//String.valueOf(obj.getId())
-				} 
-				else if (StringUtils.isNotBlank(tag) && !StringUtils.equals(tag, "reLevel")) {
+					String levalString = obj.getLevelStr();
+					r.add(new AutoCompleteView(viewString, viewString, levalString, String.valueOf(obj.getId())));//String.valueOf(obj.getId())
+				} else if (StringUtils.isNotBlank(tag) && !StringUtils.equals(tag, "reLevel")) {
 					String viewString = obj.getName();
 					r.add(new AutoCompleteView(viewString, viewString, String.valueOf(obj.getId())));//String.valueOf(obj.getId())
 				} else {
@@ -1388,9 +1391,11 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	}
 
 	@Override
-	public Pair<Boolean, String> saveLine(BusLine busLine, int cityId, Principal principal, HttpServletRequest request) throws JsonGenerationException, JsonMappingException, IOException {
+	public Pair<Boolean, String> saveLine(BusLine busLine, int cityId, Principal principal, HttpServletRequest request)
+			throws JsonGenerationException, JsonMappingException, IOException {
 		if (null != busLine.getId() && busLine.getId() > 0) {
 			BusLine bus2 = buslineMapper.selectByPrimaryKey(busLine.getId());
+			String oldLinename = bus2.getName();
 			if (bus2 == null) {
 				return new Pair<Boolean, String>(false, "信息丢失");
 			}
@@ -1410,6 +1415,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 				log.setUpdator(Request.getUserId(principal));
 				log.setLineid(busLine.getId());
 				log.setJsonString(jsonString);
+				log.setNewlinename(busLine.getName());
+				log.setOldlinename(oldLinename);
 				log.setOldjsonString(oldjsonString);
 				lineUplogMapper.insert(log);
 				return new Pair<Boolean, String>(true, "修改成功");
@@ -1437,5 +1444,41 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		BusLineExample example = new BusLineExample();
 		example.createCriteria().andNameEqualTo(name);
 		return buslineMapper.countByExample(example) > 0;
+	}
+
+	@Override
+	public Pair<Boolean, String> saveBusModel(BusModel busmodel, int city, Principal principal,
+			HttpServletRequest request) {
+		if (null != busmodel.getId() && busmodel.getId() > 0) {
+			BusModel model = busModelMapper.selectByPrimaryKey(busmodel.getId());
+			if (model == null) {
+				return new Pair<Boolean, String>(false, "信息丢失");
+			}
+			BeanUtils.copyProperties(busmodel, model);
+			model.setUpdated(new Date());
+			int a = busModelMapper.updateByPrimaryKey(model);
+			if (a > 0) {
+				return new Pair<Boolean, String>(true, "修改成功");
+			}
+		} else {
+			busmodel.setCreated(new Date());
+			if (busModelMapper.insert(busmodel) > 0) {
+				return new Pair<Boolean, String>(true, "添加车型成功");
+			}
+		}
+		return new Pair<Boolean, String>(false, "操作失败");
+	}
+
+	@Override
+	public Pair<Boolean, String> removebusmodel(Principal principal, int city, int id) {
+		BusExample example = new BusExample();
+		example.createCriteria().andModelIdEqualTo(id);
+		if (busMapper.countByExample(example) > 0) {
+			return new Pair<Boolean, String>(false, "已有车辆占用该车型，删除失败");
+		}
+		if (busModelMapper.deleteByPrimaryKey(id) > 0) {
+			return new Pair<Boolean, String>(true, "删除成功");
+		}
+		return new Pair<Boolean, String>(false, "操作失败");
 	}
 }

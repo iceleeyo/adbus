@@ -59,7 +59,7 @@ public interface BusService {
 
     Page<JpaBusline> getAllBuslines(int city, JpaBusline.Level level, String name, int page, int pageSize, Sort sort);
 
-    Page<JpaBusModel> getAllBusModels(int city, String name, String manufacturer, int page, int pageSize, Sort sort);
+    Page<JpaBusModel> getAllBusModels(int city, TableRequest req, String name, String manufacturer, int page, int pageSize, Sort sort);
 
     Page<JpaBusinessCompany> getAllBusinessCompanies(int city, String name, String contact, int page, int pageSize, Sort sort);
 

@@ -34,14 +34,17 @@
                 data: function(d) {
                     return $.extend( {}, d, {
                         "filter[name]" : $('#name').val(),
-                        "filter[manufacturer]" : $('#manufacturer').val()
+                        "filter[manufacturer]" : $('#manufacturer').val(),
+                        "filter[description]" : $('#description').val(),
+                        "filter[doubleDecker]" : $('#doubleDecker').val()
                     } );
                 },
                 "dataSrc": "content",
             },
             "columns": [
                 { "data": "name", "defaultContent": ""},
-                { "data": "manufacturer", "defaultContent": ""},
+                { "data": "description", "defaultContent": ""},
+                { "data": "adSlot", "defaultContent": ""},
                 { "data": "doubleDecker", "defaultContent": "", "render": function(data) {
                     switch(data) {
                         case true:
@@ -50,21 +53,17 @@
                             return '<span class="processed">单层</span>';
                     }
                 } },
-                { "data": "description", "defaultContent": ""},
-                <@security.authorize ifAnyGranted="BodyOrderManager">
+                { "data": "manufacturer", "defaultContent": ""},
                 { "data": function( row, type, set, meta) {
                     return row.id;
                     },
                     "render": function(data, type, row, meta) {
-                        var operations = '';
-                            operations+= (row.enabled ? '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/bus/line/' + data + '/disable">禁用</a> &nbsp;'
-                                    :'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/bus/model/' + data + '/enable">启用</a> &nbsp;')
-                            operations +='<a class="table-link" href="${rc.contextPath}/bus/model/' + data +'">编辑</a>&nbsp;';
+                         var operations ='<a onclick="showBusModelDetail(\'${rc.contextPath}\','+data+')">编辑</a>&nbsp;&nbsp;';
+                         operations += '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/busselect/ajax-remove-busmodel?id=' + data +'">删除</a>';
                         return operations;
 
                     }
                 },
-                </@security.authorize>
             ],
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
@@ -82,24 +81,37 @@
                         '    <span>' +
                         '        <input id="name" value="">' +
                         '    </span>' +
-                        '    <span>生产商：</span>' +
+                        '   &nbsp; &nbsp; <span>生产商：</span>' +
                         '    <span>' +
                         '        <input id="manufacturer" value="">' +
+                        '    </span>' +
+                        '   &nbsp; &nbsp; <span>车型描述：</span>' +
+                        '    <span>' +
+                        '        <input id="description" value="">' +
+                        '    </span>' +
+                        '   &nbsp; &nbsp; <span>单双层：</span>' +
+                        '    <span>' +
+                        '        <select id="doubleDecker"><option value="defaultAll" selected="selected">所有</option><option value="false">单层</option><option value="true">双层</option></select>' +
                         '    </span>' +
                         '</div>'
         );
 
-        $('#name,#manufacturer').change(function() {
+        $('#name,#manufacturer,#doubleDecker,#description').change(function() {
             table.fnDraw();
         });
     }
 
     function drawCallback() {
         $('.table-action').click(function() {
-            $.post($(this).attr("url"), function() {
-                table.fnDraw(true);
-            })
-        });
+			$.post($(this).attr("url"), function(data) {
+			if(data.left){
+			    layer.msg(data.right);
+				 table.dataTable()._fnAjaxUpdate();
+				 }else{
+				  layer.msg(data.right);
+				 }
+			});
+		});
     }
 
     $(document).ready(function() {
@@ -109,17 +121,18 @@
 <div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title">
                 车型列表
+                 <a class="block-btn" style="margin-left: 10px;" href="javascript:void(0);" onclick="addBusModel('${rc.contextPath}')">添加车型</a>&nbsp;
+                
 									</div>
                 <table id="table" class="display compact" cellspacing="0" width="100%">
                     <thead>
                     <tr>
                         <th orderBy="name">车型</th>
-                        <th orderBy="manufacturer">生产商</th>
-                        <th orderBy="double_decker">是否双层</th>
                         <th orderBy="description">车型描述</th>
-    <@security.authorize ifAnyGranted="BodyOrderManager">
+                        <th orderBy="description">广告位尺寸</th>
+                        <th orderBy="double_decker">单双层</th>
+                        <th orderBy="manufacturer">生产商</th>
                         <th>管理</th>
-    </@security.authorize>
                     </tr>
                     </thead>
 

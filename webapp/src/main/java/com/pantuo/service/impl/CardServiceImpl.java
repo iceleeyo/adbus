@@ -8,6 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pantuo.dao.ProductRepository;
+import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.mybatis.domain.CardboxBody;
 import com.pantuo.mybatis.domain.CardboxBodyExample;
 import com.pantuo.mybatis.domain.CardboxHelper;
@@ -30,6 +32,8 @@ public class CardServiceImpl implements CardService {
 
 	@Autowired
 	CardboxBodyMapper cardBodyMapper;
+	@Autowired
+	ProductRepository productRepository;
 
 	@Autowired
 	CardboxUserMapper cardboxUserMapper;
@@ -67,15 +71,40 @@ public class CardServiceImpl implements CardService {
 		return true;
 	}
 	@Override
-	public Pair<Boolean, String> saveCard(int proid, int needCount, Principal principal, int city, String type) {
+	public Pair<Boolean, String> saveCard(int proid, double uprice,int needCount, Principal principal, int city, String type) {
 		if(StringUtils.equals(type, "media")){
-			CardboxMedia media=new CardboxMedia();
-			media.setCity(city);
-			media.setUserId(Request.getUserId(principal));
-			media.setCreated(new Date());
-			
+			    long seriaNum= getCardBingSeriaNum(principal);
+				CardboxMediaExample example = new CardboxMediaExample();
+				example.createCriteria().andSeriaNumEqualTo(seriaNum).andProductIdEqualTo(proid)
+						.andUserIdEqualTo(Request.getUserId(principal));
+				List<CardboxMedia> c = cardMapper.selectByExample(example);
+				if (c.isEmpty()) {//无记录时增加
+					CardboxMedia media=new CardboxMedia();
+					JpaProduct product=productRepository.findOne(proid);
+					media.setCity(city);
+					media.setUserId(Request.getUserId(principal));
+					media.setCreated(new Date());
+					media.setNeedCount(needCount);
+					media.setPrice(uprice*needCount);
+					media.setSeriaNum(seriaNum);
+					media.setProductId(proid);
+					media.setType(product.getType().ordinal());
+					int a=cardMapper.insert(media);
+					if(a>0){
+						return new Pair<Boolean, String>(true,"已加入购物车");
+					}
+				} else {
+					CardboxMedia existMedia = c.get(0);
+					if (needCount == 0 ) {//如果是0时删除
+						cardMapper.deleteByExample(example);
+					} else {
+						existMedia.setNeedCount(needCount);
+						cardMapper.updateByPrimaryKey(existMedia);
+					}
+					return new Pair<Boolean, String>(true,"已加入购物车");
+				}
 		}
-		return null;
+		  return new Pair<Boolean, String>(false,"操作失败");
 	}
 
 	@Override

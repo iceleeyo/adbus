@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.pantuo.dao.pojo.JpaBus;
+import com.pantuo.dao.pojo.JpaBusModel;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.pojo.DataTablePage;
@@ -197,6 +198,11 @@ public class BusLineMapController {
 	@ResponseBody
 	public JpaBusline ajaxdetail(@PathVariable int id, Model model, HttpServletRequest request) {
 		return busMapService.findLineById(id);
+	}
+	@RequestMapping(value = "/busmodelDetail/{id}")
+	@ResponseBody
+	public JpaBusModel busmodelDetail(@PathVariable int id, Model model, HttpServletRequest request) {
+		return busMapService.findModelById(id);
 	}
 
 }

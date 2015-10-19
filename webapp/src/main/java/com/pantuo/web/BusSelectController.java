@@ -47,6 +47,7 @@ import com.pantuo.dao.pojo.JpaPublishLine;
 import com.pantuo.mybatis.domain.Bodycontract;
 import com.pantuo.mybatis.domain.BusLine;
 import com.pantuo.mybatis.domain.BusLock;
+import com.pantuo.mybatis.domain.BusModel;
 import com.pantuo.mybatis.domain.BusinessCompany;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.Dividpay;
@@ -465,6 +466,14 @@ public class BusSelectController {
 		busLine.setCity(city);
 		return busLineCheckService.saveLine(busLine, city, principal,request);
 	}
+	@RequestMapping(value = "/saveBusModel")
+	@ResponseBody
+	public Pair<Boolean, String> saveBusModel(BusModel busmodel,
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
+			HttpServletRequest request) throws ParseException, JsonGenerationException, JsonMappingException, IOException {
+		busmodel.setCity(city);
+		return busLineCheckService.saveBusModel(busmodel, city, principal,request);
+	}
 
 	/**
 	 * 
@@ -764,6 +773,12 @@ public class BusSelectController {
 	public boolean removedividPay(Principal principal, @CookieValue(value = "city", defaultValue = "-1") int city,
 			@RequestParam("seriaNum") long seriaNum, @RequestParam("id") int id) {
 		return busLineCheckService.removedividPay(principal, city, seriaNum, id);
+	}
+	@RequestMapping(value = "ajax-remove-busmodel", method = RequestMethod.POST)
+	@ResponseBody
+	public Pair<Boolean, String> removebusmodel(Principal principal, @CookieValue(value = "city", defaultValue = "-1") int city,
+			 @RequestParam("id") int id) {
+		return busLineCheckService.removebusmodel(principal, city, id);
 	}
 
 	/**

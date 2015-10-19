@@ -22,7 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.mysema.query.types.expr.BooleanExpression;
+import com.pantuo.dao.BusModelRepository;
 import com.pantuo.dao.BuslineRepository;
+import com.pantuo.dao.pojo.JpaBusModel;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.QJpaBusline;
 import com.pantuo.pojo.TableRequest;
@@ -52,6 +54,8 @@ public class BusMapServiceImpl implements BusMapService {
 	Map<String, Integer> LINE_CACHE = new HashMap<String, Integer>();
 	@Autowired
 	BuslineRepository lineRepo;
+	@Autowired
+	BusModelRepository modelRepo;
 
 	@Autowired
 	LineCarsCount lineCarsCount;
@@ -287,5 +291,10 @@ public class BusMapServiceImpl implements BusMapService {
 	@Override
 	public JpaBusline findLineById(int id) {
 		return lineRepo.findOne(id);
+	}
+
+	@Override
+	public JpaBusModel findModelById(int id) {
+		return modelRepo.findOne(id);
 	}
 }

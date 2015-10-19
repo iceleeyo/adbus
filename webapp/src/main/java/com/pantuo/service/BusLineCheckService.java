@@ -188,4 +188,9 @@ public interface BusLineCheckService {
 	public List<AutoCompleteView> ContractAutoCompleteByName(int city, String name);
 
 	public Pair<Boolean, String> saveLine(BusLine busLine, int cityId, Principal principal, HttpServletRequest request) throws JsonGenerationException, JsonMappingException, IOException;
+
+	public Pair<Boolean, String> saveBusModel(BusModel busmodel, int city, Principal principal,
+			HttpServletRequest request);
+
+	public Pair<Boolean, String> removebusmodel(Principal principal, int city, int id);
 }

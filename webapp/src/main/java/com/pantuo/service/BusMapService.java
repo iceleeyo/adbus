@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.ui.Model;
 
+import com.pantuo.dao.pojo.JpaBusModel;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.util.Pair;
@@ -41,5 +42,9 @@ public interface BusMapService {
 
 
 	public JpaBusline findLineById(int id);
+
+
+
+	public JpaBusModel findModelById(int id);
 	
 }

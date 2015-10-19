@@ -265,7 +265,7 @@ public class OrderController {
         //选车
         if (city != null && city.getMediaType() == JpaCity.MediaType.body) {
             model.addAttribute("lines", busService.getAllBuslines(cityId, prod.getLineLevel(), null, 0, 9999, null).getContent());
-            model.addAttribute("models", busService.getAllBusModels(cityId, null, null, 0, 9999, null).getContent());
+            model.addAttribute("models", busService.getAllBusModels(cityId, null,null, null, 0, 9999, null).getContent());
             model.addAttribute("companies", busService.getAllBusinessCompanies(cityId, null, null, 0, 9999, null).getContent());
             model.addAttribute("categories", JpaBus.Category.values());
         }
@@ -338,7 +338,7 @@ public class OrderController {
         //选车
         if (city != null && city.getMediaType() == JpaCity.MediaType.body) {
             model.addAttribute("lines", busService.getAllBuslines(cityId, prod.getLineLevel(), null, 0, 9999, null).getContent());
-            model.addAttribute("models", busService.getAllBusModels(cityId, null, null, 0, 9999, null).getContent());
+            model.addAttribute("models", busService.getAllBusModels(cityId,null, null, null, 0, 9999, null).getContent());
             model.addAttribute("companies", busService.getAllBusinessCompanies(cityId, null, null, 0, 9999, null).getContent());
             model.addAttribute("categories", JpaBus.Category.values());
         }

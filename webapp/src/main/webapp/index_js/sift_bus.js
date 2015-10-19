@@ -211,7 +211,13 @@ function initPro2(pathUrl,sh,page){
 					$("#totalprice").val(sump);
 				});
 				$("#leftPlus"+i).click(function(){
-//					alert(i);
+					$.ajax({
+						url : pathUrl + "/carbox/saveCard/media",
+						data:{"proid":2,"needCount":4,"uprice":234},
+						type : "POST",
+						success : function(data) {
+							alert(data.right);
+							}}, "text");
 					j++;
 					sump=parseInt(sump)+parseInt($("#uprice"+(parseInt(i)-1)).val());
 					var oldValue=$(this).prev().val();//获取文本框对象现有值

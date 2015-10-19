@@ -432,7 +432,7 @@
                                           
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/bus/models">
-                                                    车型列表
+                                                    车型管理
                                                 </a>
                                             </li>
                                              </@security.authorize>

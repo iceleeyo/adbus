@@ -8,7 +8,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
     .center {margin: auto;}
     .frame {width: 1000px;}
     .div {text-align:center; margin:25px;}
-    div#toolbar {float: left;}
+    .div#toolbar {float: left;}
     .processed {color: limegreen;}
     .invalid {color: red;}
     .hl {background-color: #ffff00;}
@@ -78,7 +78,10 @@ css=["js/jquery-ui/jquery-ui.css"]>
                             return '<span class="processed">否</span>';
                     }
                 } },
-                { "data": "busCategory", "defaultContent": ""},
+                { "data": "busCategory", "defaultContent": "","render": function(data, type, row,meta) {
+                  if(row.busUpLog.change_fileds!='' && row.busUpLog.change_fileds.indexOf("category")>=0){
+                	  return '<b><span style="color:#B70909">'+data+'</span></b>';
+                  } else {return data;} }},
                 { "data": "oldbusCategory", "defaultContent": ""},
                 { "data": "company.name", "defaultContent": ""},
                 { "data": "oldcompany.name", "defaultContent": ""},
