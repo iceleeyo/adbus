@@ -8,7 +8,9 @@
 		<link rel="stylesheet" type="text/css" href="index_css/base.css">
 		<link rel="stylesheet" type="text/css" href="index_css/header.css">
 		<link rel="stylesheet" type="text/css" href="index_css/jack.css">
-		<link rel="stylesheet" type="text/css" href="index_css/secondLevel.css"></head>
+		<link rel="stylesheet" type="text/css" href="index_css/secondLevel.css">
+
+	</head>
 	<body>
 		<header>
 				<span class="area">北京</span>

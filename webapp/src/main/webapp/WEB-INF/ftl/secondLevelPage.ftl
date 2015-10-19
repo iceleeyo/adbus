@@ -269,7 +269,7 @@
 							</div>
 
 							<div class="cart-box" style="margin-top: 20px;">
-							<a href="${rc.contextPath}/carbox/toCard">
+							<a href="${rc.contextPath}/toCard">
 								<div class="cart">
 									加入购物车
 								</div>
