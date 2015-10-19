@@ -89,6 +89,7 @@
 									<li class="td td-handle">操作</li>
 								</ul>
 							</div>
+								<#list infos.media as item>
 							<div class="panel-item">
 								<ul class="item-info clearfix">
 									<li class="td td-check clearfix">
@@ -101,47 +102,45 @@
 									</li>
 									<li class="td td-item">
 										<div class="td-inner">
-											<p>te11sdf</p>
+											<p>${item.product.name}</p>
 										</div>
 									</li>
 									<li class="td td-info">
 										<div class="item-rect">
-											<p class="rec-line">day</p>
-											<p class="rec-line">frgfrev</p>
+											<p class="rec-line">${item.product.duration}秒/次</p>
+											<p class="rec-line">${item.product.days}</p>
 											<span class="btn-edit"></span>
 										</div>
 									</li>
 									<li class="td td-price">
 										<div class="td-inner">
-											<p class="price"><em>$</em>17000</p>
+											<p class="price"><em>￥</em>${item.price}</p>
 										</div>
 									</li>
 									<li class="td td-amount">
-										<span class="icon icon-plus" id="leftDec"></span>
-										<input type="text"  id="sum0" value="0">
-										<span class="icon icon-sub" id="leftPlus"></span>
+										<span class="icon icon-plus"></span>
+										<input type="text" value="${item.needCount}">
+										<span class="icon icon-sub"></span>
 									</li>
 									<li class="td td-sum">
 										<div class="td-inner">
-											<p class="sum"><em>$</em>17000</p>
+											<p class="sum"><em>￥</em>${item.price*item.needCount}</p>
 										</div>
 									</li>
 									<li class="td td-handle">
-										<p class="del-like"></p>
+										<p class="del-like" onclick="removeOne(${item.id});"></p>
 									</li>
 								</ul>
 							</div>
-
-
+									</#list>
 						</div>
-
 						<div class="panel">
 							<div class="panel-head">
 								<ul class="clearfix">
 									<li class="td td-check">
 										<div class="td-inner">
 											<div class="cart-check">
-												<input class="hideinput" type="checkbox" name="order">
+												<input class="hideinput" type="checkbox" name="order"> 
 												<label></label>
 											</div>
 										</div>
@@ -153,6 +152,7 @@
 									<li class="td td-handle">操作</li>
 								</ul>
 							</div>
+								<#list infos.media as item>
 							<div class="panel-item">
 								<ul class="item-info clearfix">
 									<li class="td td-check clearfix">
@@ -165,29 +165,29 @@
 									</li>
 									<li class="td td-item">
 										<div class="td-inner">
-											<p>te11sdf</p>
+											<p>${item.product.name}</p>
 										</div>
 									</li>
 									<li class="td td-info">
 										<div class="item-rect">
-											<p class="rec-line">day</p>
-											<p class="rec-line">frgfrev</p>
+											<p class="rec-line">${item.product.duration}秒/次</p>
+											<p class="rec-line">${item.product.days}</p>
 											<span class="btn-edit"></span>
 										</div>
 									</li>
 									<li class="td td-price">
 										<div class="td-inner">
-											<p class="price"><em>$</em>17000</p>
+											<p class="price"><em>￥</em>${item.price}</p>
 										</div>
 									</li>
 									<li class="td td-amount">
 										<span class="icon icon-plus"></span>
-										<input type="text">
+										<input type="text" value="${item.needCount}">
 										<span class="icon icon-sub"></span>
 									</li>
 									<li class="td td-sum">
 										<div class="td-inner">
-											<p class="sum"><em>$</em>17000</p>
+											<p class="sum"><em>￥</em>${item.price*item.needCount}</p>
 										</div>
 									</li>
 									<li class="td td-handle">
@@ -195,8 +195,11 @@
 									</li>
 								</ul>
 							</div>
+									</#list>
+
+
 						</div>
-					</div>
+
 					<div class="acount-fix">
 						<div class="acount-top">
 							<div class="top-left"></div>
@@ -213,7 +216,7 @@
 					    		</div>
 					    		<div class="inner-right">
 					    			<span>总价:</span>
-					    			<span class="acount-price">￥180000</span>
+					    			<span class="acount-price">￥${infos.totalPrice}</span>
 					    			<a href="${rc.contextPath}/toCard2">
 					    			<div class="btn-over">生成订单</div>
 					    			</a>
@@ -245,6 +248,29 @@
 		<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
 		<script src="index_js/unslider.min.js"></script>
 		<script type="text/javascript">
+		function removeOne(id){
+		 var bln=window.confirm("确定删除吗？");
+    if(bln){
+	 $.ajax({
+			url:"${rc.contextPath}/carbox/delOneCarBox/"+id,
+			type:"POST",
+			async:false,
+			dataType:"json",
+			data:{},
+			success:function(data){
+				if (data.left) {
+					alert(data.right);
+				   var uptime = window.setTimeout(function(){
+				   window.location.reload();
+			   	    clearTimeout(uptime);
+						},1000)
+				} else {
+					alert(data.right);
+				}
+			}
+      });  
+   }
+		}
 		$("#leftDec").click(function(){
 			  var oldValue=$(this).next().val();//获取文本框对象现有值
 			  if(oldValue>0){

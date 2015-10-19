@@ -79,4 +79,6 @@ public interface CardService {
 	
 	
 	public CardView getMediaList(Principal principal);
+
+	public Pair<Boolean, String> delOneCarBox(int id);
 }

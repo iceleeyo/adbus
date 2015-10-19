@@ -248,4 +248,12 @@ public class CardServiceImpl implements CardService {
 		return r;
 	}
 
+	@Override
+	public Pair<Boolean, String> delOneCarBox(int id) {
+		if(cardMapper.deleteByPrimaryKey(id)>0){
+			return new Pair<Boolean, String>(true,"删除成功");
+		}
+		return new Pair<Boolean, String>(false,"操作失败");
+	}
+
 }

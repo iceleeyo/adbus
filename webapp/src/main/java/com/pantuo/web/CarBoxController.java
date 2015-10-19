@@ -89,7 +89,13 @@ public class CarBoxController {
 			) {
 		return cardService.saveCard(proid,uprice,needCount,principal,city,type);
 	}
-
+	@RequestMapping(value = "/delOneCarBox/{id}")
+	@ResponseBody
+	public Pair<Boolean, String> delOneCarBox(Model model,
+			@PathVariable("id") int id, Principal principal,
+				HttpServletRequest request) {
+		return cardService.delOneCarBox(id);
+	}
 
 	
 }
