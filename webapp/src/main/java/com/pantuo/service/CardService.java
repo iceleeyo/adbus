@@ -34,12 +34,12 @@ public interface CardService {
 	 * 
 	 * 先判断用户和商品是否有记录，如果没有增加如果有就加减计数
 	 * 
-	 *
+	 *@param isadd false时表示删除该记录
 	 * @param media
 	 * @param principal
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	public Pair<Boolean, String> updateMedia(CardboxMedia media, Principal principal,long seriaNum);
+	public Pair<Boolean, String> updateMedia(CardboxMedia media,boolean isadd, Principal principal,long seriaNum);
 
 	/**
 	 * 
@@ -60,7 +60,14 @@ public interface CardService {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	public void add(CardboxHelper helper, Principal principal);
-	
+	/**
+	 * 
+	 * 取的购物车总价
+	 *
+	 * @param seriaNum
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	public double getBoxPrice(long seriaNum);
 	
 	
