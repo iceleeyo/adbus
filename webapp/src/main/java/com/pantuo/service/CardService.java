@@ -70,7 +70,7 @@ public interface CardService {
 	 */
 	public double getBoxPrice(long seriaNum);
 
-	public Pair<Boolean, String> saveCard(int proid, double uprice,int needCount, Principal principal, int city, String type);
+	public Pair<Double, Integer> saveCard(int proid, double uprice,int needCount, Principal principal, int city, String type);
 	
 	
 	

@@ -205,7 +205,8 @@ function initPro2(pathUrl,sh,page){
 						data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val(),"uprice":$("#uprice"+sot).val()},
 						type : "POST",
 						success : function(data) {
-							alert(data.right);
+							/*$("#totalnum").val(data.right);
+							$("#totalprice").val(data.left);*/
 					}}, "text");
 				});
 				
@@ -219,7 +220,6 @@ function initPro2(pathUrl,sh,page){
 							data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val(),"uprice":$("#uprice"+sot).val()},
 							type : "POST",
 							success : function(data) {
-								alert(data.right);
 						}}, "text");
 					}
 				});
@@ -232,7 +232,6 @@ function initPro2(pathUrl,sh,page){
 						data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val(),"uprice":$("#uprice"+sot).val()},
 						type : "POST",
 						success : function(data) {
-							alert(data.right);
 							}}, "text");
 				}); 
 				k++;

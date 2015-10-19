@@ -268,24 +268,6 @@
 								<div id="Pagination" class="pagination"></div>
 							</div>
 
-							<div class="cont contall">
-								<div class="activity inline-b"><span>合计</span></div>
-								<div class="price inline-b">
-									<p class="p-one">
-									<input type="text" class='f-sum' id="totalprice" value="0" readonly="readonly"><em>元</em>
-									</p>
-								</div>
-								<div class="text inline-b">
-									<p class="p-one">总数量：</p>
-								</div>
-								<div class="num f-left inline-b" style="margin-left: 0px;">
-									<input type="text" id="totalnum" value="0" class="f-left">
-								</div>
-								<div class="map f-left inline-b" style="margin-left: -10px;">
-									<div class="map-box"></div>
-								</div>
-							</div>
-
 							<div class="cart-box" style="margin-top: 20px;">
 								<div class="cart">
 									加入购物车

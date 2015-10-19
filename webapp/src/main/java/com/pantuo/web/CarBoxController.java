@@ -80,7 +80,7 @@ public class CarBoxController {
 	 */
 	@RequestMapping(value = "/saveCard/{type}")
 	@ResponseBody
-	public Pair<Boolean, String> saveCardBoxMedia(
+	public Pair<Double, Integer> saveCardBoxMedia(
 			@PathVariable("type") String type,
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
 			@RequestParam(value = "proid", required = true) int  proid,

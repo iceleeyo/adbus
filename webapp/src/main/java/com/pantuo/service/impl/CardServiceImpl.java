@@ -78,7 +78,9 @@ public class CardServiceImpl implements CardService {
 		return false;
 	}
 	@Override
-	public Pair<Boolean, String> saveCard(int proid, double uprice,int needCount, Principal principal, int city, String type) {
+	public Pair<Double, Integer> saveCard(int proid, double uprice,int needCount, Principal principal, int city, String type) {
+		double totalPrice=0;
+		int totalnum=0;
 		if(StringUtils.equals(type, "media")){
 			    long seriaNum= getCardBingSeriaNum(principal);
 				CardboxMediaExample example = new CardboxMediaExample();
@@ -96,10 +98,7 @@ public class CardServiceImpl implements CardService {
 					media.setSeriaNum(seriaNum);
 					media.setProductId(proid);
 					media.setType(product.getType().ordinal());
-					int a=cardMapper.insert(media);
-					if(a>0){
-						return new Pair<Boolean, String>(true,"已加入购物车");
-					}
+					cardMapper.insert(media);
 				} else {
 					CardboxMedia existMedia = c.get(0);
 					if (needCount == 0 ) {//如果是0时删除
@@ -108,10 +107,29 @@ public class CardServiceImpl implements CardService {
 						existMedia.setNeedCount(needCount);
 						cardMapper.updateByPrimaryKey(existMedia);
 					}
-					return new Pair<Boolean, String>(true,"已加入购物车");
 				}
+				 totalPrice=getBoxPrice(seriaNum);
+				 totalnum=getBoxTotalnum(seriaNum);
+				return new Pair<Double, Integer>(totalPrice,totalnum);
 		}
-		  return new Pair<Boolean, String>(false,"操作失败");
+		return new Pair<Double, Integer>(totalPrice,totalnum);
+	}
+
+	private int getBoxTotalnum(long seriaNum) {
+		int r = 0;
+		CardboxMediaExample example = new CardboxMediaExample();
+		example.createCriteria().andSeriaNumEqualTo(seriaNum);
+		List<CardboxMedia> list = cardMapper.selectByExample(example);
+		for (CardboxMedia cardboxMedia : list) {
+			r += cardboxMedia.getNeedCount();
+		}
+		CardboxBodyExample bodyExample = new CardboxBodyExample();
+		bodyExample.createCriteria().andSeriaNumEqualTo(seriaNum);
+		List<CardboxBody> bodyList = cardBodyMapper.selectByExample(bodyExample);
+		for (CardboxBody obj : bodyList) {
+			r += obj.getNeedCount();
+		}
+		return r;
 	}
 
 	@Override
@@ -190,13 +208,13 @@ public class CardServiceImpl implements CardService {
 		example.createCriteria().andSeriaNumEqualTo(seriaNum);
 		List<CardboxMedia> list = cardMapper.selectByExample(example);
 		for (CardboxMedia cardboxMedia : list) {
-			r += cardboxMedia.getPrice();
+			r += cardboxMedia.getPrice()*cardboxMedia.getNeedCount();
 		}
 		CardboxBodyExample bodyExample = new CardboxBodyExample();
 		bodyExample.createCriteria().andSeriaNumEqualTo(seriaNum);
 		List<CardboxBody> bodyList = cardBodyMapper.selectByExample(bodyExample);
 		for (CardboxBody obj : bodyList) {
-			r += obj.getPrice();
+			r += obj.getPrice()*obj.getNeedCount();
 		}
 		return r;
 	}
