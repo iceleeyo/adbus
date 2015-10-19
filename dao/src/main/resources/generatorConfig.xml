@@ -173,6 +173,19 @@
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
         
+         <!-- 以下是10份页面改版部分 -->
+          <table schema="" tableName="cardbox_media" delimitIdentifiers="${generator.delimitIdentifiers}">
+            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
+        </table>
+        
+           <table schema="" tableName="cardbox_helper" delimitIdentifiers="${generator.delimitIdentifiers}">
+            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
+        </table>
+        
+            <table schema="" tableName="cardbox_body" delimitIdentifiers="${generator.delimitIdentifiers}">
+            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
+        </table>
+        
         
     </context>
 </generatorConfiguration>
