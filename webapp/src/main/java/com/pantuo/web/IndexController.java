@@ -1,5 +1,6 @@
 package com.pantuo.web;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,7 @@ import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProduct.FrontShow;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.BusLineCheckService;
+import com.pantuo.service.CardService;
 import com.pantuo.service.CityService;
 import com.pantuo.service.CpdService;
 import com.pantuo.service.ProductService;
@@ -129,6 +131,14 @@ public class IndexController {
 		request.getSession().setAttribute("medetype", medetype);
 		return pageName;
 		//return "redirect:/index.html";
+	}
+
+	@Autowired
+	CardService cardService;
+	@RequestMapping(value = "/toCard", produces = "text/html;charset=utf-8")
+	public String toCard(Model model,HttpServletRequest request,Principal principal) {
+		model.addAttribute("infos", cardService.getMediaList(principal));
+		return "secondCart_step1";
 	}
 
 	@RequestMapping(value = "/intro-video")
