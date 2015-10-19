@@ -67,8 +67,15 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public boolean checkSeriaNumOwner(long seriaNum,Principal principal) {
-		return true;
+	public boolean checkSeriaNumOwner(long seriaNum, Principal principal) {
+		if (principal != null) {
+			String uid = Request.getUserId(principal);
+			CardboxUserExample example = new CardboxUserExample();
+			example.createCriteria().andUserIdEqualTo(uid).andSeriaNumEqualTo(seriaNum);
+			List<CardboxUser> r = cardboxUserMapper.selectByExample(example);
+			return !r.isEmpty();
+		}
+		return false;
 	}
 	@Override
 	public Pair<Boolean, String> saveCard(int proid, double uprice,int needCount, Principal principal, int city, String type) {
