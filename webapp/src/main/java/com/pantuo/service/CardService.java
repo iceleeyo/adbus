@@ -28,7 +28,7 @@ public interface CardService {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	public boolean checkSeriaNumOwner(long seriaNum);
+	public boolean checkSeriaNumOwner(long seriaNum,Principal principal);
 
 	/**
 	 * 
@@ -69,6 +69,8 @@ public interface CardService {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	public double getBoxPrice(long seriaNum);
+
+	public Pair<Boolean, String> saveCard(int proid, int needCount, Principal principal, int city, String type);
 	
 	
 	

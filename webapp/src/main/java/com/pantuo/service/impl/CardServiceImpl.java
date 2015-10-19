@@ -63,8 +63,19 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public boolean checkSeriaNumOwner(long seriaNum，Principal principal) {
+	public boolean checkSeriaNumOwner(long seriaNum,Principal principal) {
 		return true;
+	}
+	@Override
+	public Pair<Boolean, String> saveCard(int proid, int needCount, Principal principal, int city, String type) {
+		if(StringUtils.equals(type, "media")){
+			CardboxMedia media=new CardboxMedia();
+			media.setCity(city);
+			media.setUserId(Request.getUserId(principal));
+			media.setCreated(new Date());
+			
+		}
+		return null;
 	}
 
 	@Override
@@ -74,7 +85,7 @@ public class CardServiceImpl implements CardService {
 
 		if (principal != null) {
 			String uid = Request.getUserId(principal);
-			if (checkSeriaNumOwner(seriaNum)) {
+			if (checkSeriaNumOwner(seriaNum,principal)) {
 				CardboxMediaExample example = new CardboxMediaExample();
 				example.createCriteria().andSeriaNumEqualTo(seriaNum).andProductIdEqualTo(media.getProductId())
 						.andUserIdEqualTo(uid);
@@ -106,7 +117,7 @@ public class CardServiceImpl implements CardService {
 
 		if (principal != null) {
 			String uid = Request.getUserId(principal);
-			if (checkSeriaNumOwner(seriaNum)) {
+			if (checkSeriaNumOwner(seriaNum,principal)) {
 				CardboxBodyExample example = new CardboxBodyExample();
 				example.createCriteria().andSeriaNumEqualTo(seriaNum).andProductIdEqualTo(media.getProductId())
 						.andUserIdEqualTo(uid);
@@ -153,4 +164,5 @@ public class CardServiceImpl implements CardService {
 		}
 		return r;
 	}
+
 }
