@@ -76,6 +76,8 @@ public class CardServiceImpl implements CardService {
 				List<CardboxMedia> c = cardMapper.selectByExample(example);
 				if (c.isEmpty()) {//无记录时增加
 					cardMapper.insert(media);
+					r.setLeft(true);
+					r.setRight("Addsuccess");
 				} else {
 
 					if (media.getNeedCount() == 0 || !isadd) {//如果是0时删除
@@ -85,6 +87,8 @@ public class CardServiceImpl implements CardService {
 						existMedia.setNeedCount(existMedia.getNeedCount());
 						cardMapper.updateByPrimaryKey(existMedia);
 					}
+					r.setLeft(true);
+					r.setRight("Updatesuccess");
 
 				}
 
