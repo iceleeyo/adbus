@@ -141,6 +141,12 @@ public class IndexController {
 		return "secondCart_step1";
 	}
 
+	@RequestMapping(value = "/toCard2", produces = "text/html;charset=utf-8")
+	public String toCard2(Model model,HttpServletRequest request,Principal principal) {
+		model.addAttribute("infos", cardService.getMediaList(principal));
+		return "secondCart_step2";
+	}
+	
 	@RequestMapping(value = "/intro-video")
 	public String video() {
 		return "intro/intro-video";
