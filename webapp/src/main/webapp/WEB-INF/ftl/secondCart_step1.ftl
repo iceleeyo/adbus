@@ -242,8 +242,19 @@
 
 		<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
 		<script src="index_js/unslider.min.js"></script>
-		<script src="index_js/index.js"></script>
 		<script type="text/javascript">
+		$("#leftDec").click(function(){
+			  var oldValue=$(this).next().val();//获取文本框对象现有值
+			  if(oldValue>0){
+				  $(this).next().val(parseInt(oldValue)-1);
+			  }
+			  
+		});
+		
+		$("#leftPlus").click(function(){
+			var oldValue=$(this).prev().val();//获取文本框对象现有值
+			$(this).prev().val(parseInt(oldValue)+1);
+		}); 
 			$(document).ready(function(e) {
 				$('.td-info .item-rect').hover(function() {
 					$(this).addClass('item-rect-hover');
