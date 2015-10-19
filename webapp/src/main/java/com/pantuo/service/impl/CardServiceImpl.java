@@ -63,7 +63,7 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public boolean checkSeriaNumOwner(long seriaNum) {
+	public boolean checkSeriaNumOwner(long seriaNum，Principal principal) {
 		return true;
 	}
 
