@@ -61,6 +61,8 @@ public interface CardService {
 	 */
 	public void add(CardboxHelper helper, Principal principal);
 	
+	public double getBoxPrice(long seriaNum);
+	
 	
 	
 
