@@ -193,11 +193,22 @@ function initPro2(pathUrl,sh,page){
 						"<p class=\"p-two\">"+item.duration+"秒/次&nbsp;&nbsp;&nbsp;"+item.playNumber+"次/天</p></div>"+
 						"<div class=\"num f-left inline-b\">"+
 						"<input type=\"button\" class=\"icon f-left dec\" sot='"+k+"' id='leftDec"+k+"' />"+
-						"<input class='f-left' id='sum"+k+"' value=\"0\">"+
+						"<input class='f-left' sot='"+k+"' id='sum"+k+"' value=\"0\">"+
 						"<input type=\"button\" class=\"icon f-left plus\" sot='"+k+"' id='leftPlus"+k+"' /></div>"+
 						"<div class=\"map f-left inline-b\">"+
 						"<div class=\"map-box\"></div></div></div>"
 				);
+				$("#sum"+k).blur(function(){
+					var sot=$(this).attr("sot");
+					$.ajax({
+						url : pathUrl + "/carbox/saveCard/media",
+						data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val(),"uprice":$("#uprice"+sot).val()},
+						type : "POST",
+						success : function(data) {
+							alert(data.right);
+					}}, "text");
+				});
+				
 				$("#leftDec"+k).click(function(){
 					var oldValue=$(this).next().val();//获取文本框对象现有值
 					if(oldValue>0){
@@ -209,7 +220,7 @@ function initPro2(pathUrl,sh,page){
 							type : "POST",
 							success : function(data) {
 								alert(data.right);
-								}}, "text");
+						}}, "text");
 					}
 				});
 				$("#leftPlus"+k).click(function(){
