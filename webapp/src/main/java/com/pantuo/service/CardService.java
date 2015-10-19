@@ -1,11 +1,14 @@
 package com.pantuo.service;
 
 import java.security.Principal;
+import java.util.List;
 
+import com.pantuo.dao.pojo.JpaCardBoxMedia;
 import com.pantuo.mybatis.domain.CardboxBody;
 import com.pantuo.mybatis.domain.CardboxHelper;
 import com.pantuo.mybatis.domain.CardboxMedia;
 import com.pantuo.util.Pair;
+import com.pantuo.web.view.CardView;
 
 public interface CardService {
 
@@ -74,5 +77,6 @@ public interface CardService {
 	
 	
 	
-
+	
+	public CardView getMediaList(Principal principal);
 }
