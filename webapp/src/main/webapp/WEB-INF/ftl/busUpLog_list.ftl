@@ -24,9 +24,9 @@ css=["js/jquery-ui/jquery-ui.css"]>
             "ordering": true,
             "serverSide": true,
             "scrollX": true,
-               "aaSorting": [[8, "desc"]],
+               "aaSorting": [[21, "desc"]],
             "columnDefs": [
-                { "orderable": false, "targets": [0,1,2,3,4,5,6,8] },
+                { "orderable": false, "targets": [0,1,2,3,4,5,6,8,9,10,11,12,13,14,15,16,17,18,19,20] },
             ],
             "iDisplayLength" : 20,
             "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
@@ -42,9 +42,27 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 "dataSrc": "content",
             },
             "columns": [
-                { "data": "bus.serialNumber", "defaultContent": ""},
-                { "data": "bus.oldSerialNumber", "defaultContent": ""},
-                { "data": "bus.plateNumber", "defaultContent": ""},
+                { "data": "bus.serialNumber", "defaultContent": "", "render": function(data, type, row,meta) { 
+                
+                	if(row.serinum!=null &&  data == row.serinum){
+                		return '<span style="color:red">'+data+'</span>'
+                	}else {
+                		return data; 
+                	}
+                
+                }},
+                { "data": "bus.oldSerialNumber", "defaultContent": "", "render": function(data, type, row,meta) { 
+                	if(row.serinum!=null &&  data == row.serinum){
+                		return '<span style="color:red">'+data+'</span>'
+                	}else {
+                		return data; 
+                	}
+                
+                }},
+                { "data": "bus.plateNumber", "defaultContent": "","render": function(data, type, row,meta) {
+                  if(row.busUpLog.change_fileds!='' && row.busUpLog.change_fileds.indexOf("plateNumber")>=0){
+                	  return '<b><span style="color:#B70909">'+data+'</span></b>';
+                  } else {return data;} }},
                 { "data": "oldbus.plateNumber", "defaultContent": ""},
                 { "data": "model.name", "defaultContent": ""},
                 { "data": "oldmodel.name", "defaultContent": ""},
@@ -64,11 +82,23 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 { "data": "oldbusCategory", "defaultContent": ""},
                 { "data": "company.name", "defaultContent": ""},
                 { "data": "oldcompany.name", "defaultContent": ""},
-                { "data": "bus.description", "defaultContent": ""},
+                { "data": "bus.description", "defaultContent": "","render": function(data, type, row,meta) {
+                  if(row.busUpLog.change_fileds!='' && row.busUpLog.change_fileds.indexOf("description")>=0){
+                	  return '<b><span style="color:#B70909">'+data+'</span></b>';
+                  } else {return data;} }},
                 { "data": "oldbus.description", "defaultContent": ""},
-                { "data": "bus.office", "defaultContent": ""},
-                { "data": "oldbus.office", "defaultContent": ""},
-                { "data": "bus.branch", "defaultContent": ""},
+                { "data": "bus.office", "defaultContent": "","render": function(data, type, row,meta) {
+                  if(row.busUpLog.change_fileds!='' && row.busUpLog.change_fileds.indexOf("office")>=0){
+                	  return '<b><span style="color:#B70909">'+data+'</span></b>';
+                  } else {return data;} }},
+                { "data": "oldbus.office", "defaultContent": ""
+                
+                	
+                },
+                { "data": "bus.branch", "defaultContent": "","render": function(data, type, row,meta) {
+                  if(row.busUpLog.change_fileds!='' && row.busUpLog.change_fileds.indexOf("branch")>=0){
+                	  return '<b><span style="color:#B70909">'+data+'</span></b>';
+                  } else {return data;} }},
                 { "data": "oldbus.branch", "defaultContent": ""},
                 { "data": "busUpLog.updated", "defaultContent": "","render" : function(data, type, row,meta) {
 					return  $.format.date(data, "yyyy-MM-dd");
@@ -141,7 +171,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                         <th>原公司名称</th>
                         <th>客户名称</th>
                         <th>原客户名称</th>
-                        <th>最后更新时间</th>
+                        <th orderBy="updated" >最后更新时间</th>
                         <th>操作人</th>
                        
                     </tr>
