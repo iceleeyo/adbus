@@ -234,7 +234,7 @@ public class BusController {
 		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
 			return new DataTablePage(Collections.emptyList());
 		Page<JpaBusUpLog> jpabuspage = busService.getbusUphistory(cityId, req, req.getPage(), req.getLength(),
-				null);
+				req.getSort("id"));
 		return new DataTablePage(busService.queryBusinfoView2(req, jpabuspage), req.getDraw());
 	}
 	@RequestMapping("ajax-lineUpLog_list")

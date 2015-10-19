@@ -619,6 +619,7 @@ public class BusServiceImpl implements BusService {
 			boolean ishaveAd=queryBusInfo.ishaveAd(jpabus.getId());
 			view.setIshaveAd(ishaveAd);
 			r.add(view);
+			view.setSerinum(req.getFilter("serinum"));
 			modelIdsIntegers.add(jpabus.getModelId());
 			linesIntegers.add(jpabus.getLineId());
 			compaynIntegers.add(jpabus.getCompanyId());
@@ -1027,13 +1028,15 @@ public class BusServiceImpl implements BusService {
 			ObjectMapper t = new ObjectMapper();
 			t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 			t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
+			BusUplog log = new BusUplog();
 			String oldjsonString = t.writeValueAsString(bus2);
+			log.setAfSerialNumber(bus2.getSerialNumber());
 			String jsonString = t.writeValueAsString(bus);
-			BeanUtils.copyProperties(bus, bus2);
+			List<String> r = BeanUtils.copyPropertiesReturnChangeField(bus, bus2);
 			bus2.setUpdated(new Date());
 			int a = busMapper.updateByPrimaryKey(bus2);
 			if (a > 0) {
-				BusUplog log = new BusUplog();
+			
 				log.setCreated(new Date());
 				log.setUpdated(new Date());
 				log.setCity(cityId);
@@ -1041,6 +1044,11 @@ public class BusServiceImpl implements BusService {
 				log.setBusid(bus.getId());
 				log.setJsonString(jsonString);
 				log.setOldjsonString(oldjsonString);
+				//--
+				log.setChangeFileds(r.isEmpty()?StringUtils.EMPTY:r.toString());
+				log.setBeSerialNumber(bus.getSerialNumber());
+				
+				
 				busUplogMapper.insert(log);
 				return new Pair<Boolean, String>(true, "修改成功");
 			}
@@ -1073,7 +1081,15 @@ public class BusServiceImpl implements BusService {
 			query = query.and(QJpaBusUpLog.jpaBusUpLog.jpabus.id.eq(busId));
 		}
 		if (StringUtils.isNotBlank(serinum)) {
-			query = query.and(QJpaBusUpLog.jpaBusUpLog.jpabus.serialNumber.like("%" + serinum + "%"));
+		List<Integer> busIdsList = 	busSelectMapper.queryUplog(serinum);
+		if(busIdsList!=null && !busIdsList.isEmpty()){
+			query = query.and(QJpaBusUpLog.jpaBusUpLog.jpabus.id .in(busIdsList));//.serialNumber.like("%" + serinum + "%"));		
+		}else {
+			query = query.and(QJpaBusUpLog.jpaBusUpLog.jpabus.id.eq(0));
+		}
+		
+			
+			//query = query.and(QJpaBusUpLog.jpaBusUpLog.jpabus.serialNumber.like("%" + serinum + "%"));
 		}
 		if (StringUtils.isNotBlank(pname)) {
 			query = query.and(QJpaBusUpLog.jpaBusUpLog.jpabus.plateNumber.like("%" + pname + "%"));

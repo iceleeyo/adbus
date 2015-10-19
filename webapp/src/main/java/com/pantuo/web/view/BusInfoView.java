@@ -1,7 +1,10 @@
 package com.pantuo.web.view;
 
+import java.util.Set;
+
+import scala.collection.mutable.HashSet;
+
 import com.pantuo.dao.pojo.JpaBus;
-import com.pantuo.dao.pojo.JpaBus.Category;
 import com.pantuo.dao.pojo.JpaBusModel;
 import com.pantuo.dao.pojo.JpaBusUpLog;
 import com.pantuo.dao.pojo.JpaBusinessCompany;
@@ -36,6 +39,9 @@ public class BusInfoView {
 	
 	
 	  String busLevel;
+	  //以下是查询条件 
+	  String serinum;
+	  //String serinum = req.getFilter("serinum");
 
 	public BusInfoView() {
 	}
@@ -200,6 +206,14 @@ public class BusInfoView {
 
 	public void setBusLevel(String busLevel) {
 		this.busLevel = busLevel;
+	}
+
+	public String getSerinum() {
+		return serinum;
+	}
+
+	public void setSerinum(String serinum) {
+		this.serinum = serinum;
 	}
 
 }
