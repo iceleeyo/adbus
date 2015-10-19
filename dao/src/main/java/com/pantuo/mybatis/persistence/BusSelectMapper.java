@@ -53,6 +53,7 @@ public interface BusSelectMapper {
 	List<Integer> queryLineCompanyByModelid(@Param("lineId") int lineId, @Param("modelId") int modelid);
 	
 	
+	List<Integer> queryUplog(@Param("serial_number") String serial_number);
 	/**
 	 * 
 	 * 按线路查车型描述

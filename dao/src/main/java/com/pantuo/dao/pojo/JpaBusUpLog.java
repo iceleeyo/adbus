@@ -22,6 +22,13 @@ public class JpaBusUpLog extends CityEntity{
 	private String jsonString;
 	@Column(length=1000) 
 	private String oldjsonString;
+	
+	@Column(length=16) 
+	private String beSerialNumber;//修改前的自编号
+	@Column(length=16) 
+	private String afSerialNumber;//修改后的自编号
+	
+	private String change_fileds;//修改的字段
 	private String updator;
 	public int getId() {
 		return id;
@@ -53,6 +60,24 @@ public class JpaBusUpLog extends CityEntity{
 	}
 	public void setUpdator(String updator) {
 		this.updator = updator;
+	}
+	public String getBeSerialNumber() {
+		return beSerialNumber;
+	}
+	public void setBeSerialNumber(String beSerialNumber) {
+		this.beSerialNumber = beSerialNumber;
+	}
+	public String getAfSerialNumber() {
+		return afSerialNumber;
+	}
+	public void setAfSerialNumber(String afSerialNumber) {
+		this.afSerialNumber = afSerialNumber;
+	}
+	public String getChange_fileds() {
+		return change_fileds;
+	}
+	public void setChange_fileds(String change_fileds) {
+		this.change_fileds = change_fileds;
 	}
 	
 }

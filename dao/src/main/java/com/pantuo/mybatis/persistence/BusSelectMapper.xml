@@ -319,6 +319,15 @@
 		</if>
 
 	</select>
+	
+	<select id="queryUplog" resultType="java.lang.Integer">
+		select
+		distinct busid from bus_uplog
+		where be_serial_number = #{serial_number}
+		 or af_serial_number = ${serial_number}
+
+	</select>
+	
 	<select id="queryLineCompanyByModelid" resultType="java.lang.Integer">
 		select
 		distinct company_id from bus
