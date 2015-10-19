@@ -89,4 +89,11 @@ public class CarBoxController {
 			) {
 		return cardService.saveCard(proid,uprice,needCount,principal,city,type);
 	}
+
+
+	@RequestMapping(value = "/toCard", produces = "text/html;charset=utf-8")
+	@ResponseBody
+	public String toCard(HttpServletRequest request) {
+		return "secondCart_step1";
+	}
 }
