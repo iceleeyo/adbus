@@ -186,6 +186,10 @@
             <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
         </table>
         
+             <table schema="" tableName="cardbox_user" delimitIdentifiers="${generator.delimitIdentifiers}">
+            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
+        </table>
+        
         
     </context>
 </generatorConfiguration>
