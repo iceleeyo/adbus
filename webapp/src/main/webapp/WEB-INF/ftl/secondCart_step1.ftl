@@ -117,10 +117,12 @@
 											<p class="price"><em>￥</em>${item.price}</p>
 										</div>
 									</li>
+										<input type="hidden" id="pid_${item.id}" value="${item.product.id}">
+										<input type="hidden" id="uprice_${item.id}" value="${item.price}">
 									<li class="td td-amount">
-										<span class="icon icon-plus"></span>
-										<input type="text" value="${item.needCount}">
-										<span class="icon icon-sub"></span>
+										<span class="icon icon-plus" onclick="leftDec(${item.id});" ></span>
+										<input type="text" id="sum_${item.id}" value="${item.needCount}">
+										<span class="icon icon-sub"   onclick="leftPlus(${item.id});"></span>
 									</li>
 									<li class="td td-sum">
 										<div class="td-inner">
@@ -271,18 +273,33 @@
       });  
    }
 		}
-		$("#leftDec").click(function(){
-			  var oldValue=$(this).next().val();//获取文本框对象现有值
-			  if(oldValue>0){
-				  $(this).next().val(parseInt(oldValue)-1);
-			  }
-			  
-		});
 		
-		$("#leftPlus").click(function(){
-			var oldValue=$(this).prev().val();//获取文本框对象现有值
-			$(this).prev().val(parseInt(oldValue)+1);
-		}); 
+		function leftDec(id){
+			    var sot=id;
+			    var y=$("#sum_"+sot).val();
+			    if(y>0){
+			    $("#sum_"+sot).val(parseInt(y)-1);
+					$.ajax({
+						url :  "${rc.contextPath}/carbox/saveCard/media",
+						data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"uprice":$("#uprice_"+sot).val()},
+						type : "POST",
+						success : function(data) {
+							}}, "text");
+			  }
+		}
+		function leftPlus(id){
+		  //var oldValue=$(this).prev().val();//获取文本框对象现有值
+			//$(this).prev().val(parseInt(oldValue)+1);
+			var sot=id;
+			var y=$("#sum_"+sot).val();
+			$("#sum_"+sot).val(parseInt(y)+1);
+					$.ajax({
+						url : "${rc.contextPath}/carbox/saveCard/media",
+						data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"uprice":$("#uprice_"+sot).val()},
+						type : "POST",
+						success : function(data) {
+							}}, "text");
+		}
 			$(document).ready(function(e) {
 				$('.td-info .item-rect').hover(function() {
 					$(this).addClass('item-rect-hover');
