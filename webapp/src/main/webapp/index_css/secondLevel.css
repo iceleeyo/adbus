@@ -363,10 +363,11 @@ header .area {
 }
 .buy .f-left_price {
   float: left;
-  width: 130px;
-  height: 30px;
-  margin-left: 15px;
+  width: 100px;
+  height: 20px;
+  margin-left: 45px;
   text-align: center;
+  margin-top: 10px;
 }
 .f-sum{
   float: left;
@@ -376,7 +377,7 @@ header .area {
   font-size: 25px;
 }
 .buy .cont {
-  height: 105px;
+  height: 75px;
   width: 880px;
   margin: 15px 0 2px;
   display: inline-block;
@@ -386,7 +387,7 @@ header .area {
 }
 .buy .cont .activity {
   padding-left: 20px;
-  line-height: 100px;
+  line-height: 80px;
   font-size: 17px;
   float: left;
 }
@@ -394,9 +395,9 @@ header .area {
   font-size: 22px;
 }
 .buy .cont .price {
-  padding-top: 20px;
   float: left;
   color: #ffffff;
+  margin-top: 5px;
 }
 .buy .cont .price p {
   text-align: right;
@@ -409,7 +410,7 @@ header .area {
   font-style: inherit;
 }
 .buy .cont .num {
-  margin-top: 40px;
+  margin-top: 25px;
   margin-left: 8%;
   line-height: 100px;
 }
@@ -433,7 +434,7 @@ header .area {
   text-align: center;
 }
 .buy .cont .map {
-  padding-top: 27px;
+  padding-top: 8px;
   margin-left: 5%;
   line-height: 100px;
 }
@@ -464,11 +465,11 @@ header .area {
 } */
 .buy .contall .text {
   margin-left: 5%;
-  padding-top: 20px;
+  padding-top: 10px;
   float: left;
   color: #000;
   font-size: 28px;
-}
+}	
 .buy .contall .p-one {
   line-height: 70px;
 }

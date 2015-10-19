@@ -269,9 +269,11 @@
 							</div>
 
 							<div class="cart-box" style="margin-top: 20px;">
+							<a href="${rc.contextPath}/carbox/toCard">
 								<div class="cart">
 									加入购物车
 								</div>
+							</a>
 							</div>
 						</div>
 					</div>
@@ -315,7 +317,6 @@
 		});
 		
 		$("#leftPlus").click(function(){
-		alert(4);
 			var oldValue=$(this).prev().val();//获取文本框对象现有值
 			$(this).prev().val(parseInt(oldValue)+1);
 		}); 
