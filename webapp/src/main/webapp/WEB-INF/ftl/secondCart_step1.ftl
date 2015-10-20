@@ -285,6 +285,7 @@
 					if(!$(this).prev().is(':checked')){
 						$('.cart-check').addClass('active');
 						$(this).prev().checked = true;
+						/* alert($(this).prev().checked); */	
 	                }
 	                else{
 	                	alert("ss");
