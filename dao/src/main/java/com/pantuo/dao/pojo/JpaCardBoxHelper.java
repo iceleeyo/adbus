@@ -30,7 +30,7 @@ public class JpaCardBoxHelper extends CityEntity {
 	private String fengqi;//1,3,6,9,12期
 	private PayType payType;
 	private String mediaMark;
-
+	private String userid;
 	private long seriaNum;//表单序列号
 
 	public int getId() {
@@ -43,6 +43,14 @@ public class JpaCardBoxHelper extends CityEntity {
 
 	public JpaSupplies getSupplies() {
 		return supplies;
+	}
+
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 
 	public void setSupplies(JpaSupplies supplies) {
