@@ -23,7 +23,7 @@ public class JpaCardBoxBody extends CityEntity {
 	private JpaProductV2 product;
 	private int needCount;//购买数量
 	private double price = 0;//价格
-
+	private int isConfirm = 0;//1代表已确认
 	private long seriaNum;//表单序列号
 
 	public int getId() {
@@ -36,6 +36,14 @@ public class JpaCardBoxBody extends CityEntity {
 
 	public String getUserId() {
 		return userId;
+	}
+
+	public int getIsConfirm() {
+		return isConfirm;
+	}
+
+	public void setIsConfirm(int isConfirm) {
+		this.isConfirm = isConfirm;
 	}
 
 	public void setUserId(String userId) {
