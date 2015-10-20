@@ -218,7 +218,7 @@
 					    		</div>
 					    		<div class="inner-right">
 					    			<span>总价:</span>
-					    			<span class="acount-price">￥${infos.totalPrice}</span>
+					    			<span id="aprice" class="acount-price">￥${infos.totalPrice}</span>
 					    			<a href="${rc.contextPath}/toCard2">
 					    			<div class="btn-over">生成订单</div>
 					    			</a>
@@ -284,7 +284,9 @@
 						data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"uprice":$("#uprice_"+sot).val()},
 						type : "POST",
 						success : function(data) {
+						updateMoney();
 							}}, "text");
+							
 			  }
 		}
 		function leftPlus(id){
@@ -298,8 +300,22 @@
 						data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"uprice":$("#uprice_"+sot).val()},
 						type : "POST",
 						success : function(data) {
+						updateMoney();
 							}}, "text");
+							
 		}
+		
+		function updateMoney(){
+				 $.ajax({
+						url : "${rc.contextPath}/carbox/carboxMoney",
+						data:{},
+						type : "POST",
+						success : function(data) {
+								$("#aprice").html("￥"+data);
+					    }}, "text");
+		}
+		
+		
 			$(document).ready(function(e) {
 				$('.td-info .item-rect').hover(function() {
 					$(this).addClass('item-rect-hover');
