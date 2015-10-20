@@ -93,8 +93,8 @@
 							<div class="panel-item">
 								<ul class="item-info clearfix">
 									<li class="td td-check clearfix">
-										<div class="td-inner">
-												<input  type="checkbox" name="checkone" value="${item.id}"/>
+										<div class="cart-check">
+												<input class="hideinput" type="checkbox" name="checkone" value="${item.id}">
 												<label></label>
 										</div>
 									</li>
@@ -135,7 +135,9 @@
 									</#list>
 						</div>
 
-					<div class="acount-fix">
+					
+				</div>
+				<div class="acount-fix">
 						<div class="acount-top">
 							<div class="top-left"></div>
 							<div class="top-right"></div>
@@ -145,7 +147,7 @@
 					    		<div class="inner-left">
 					    			<div class="cart-check">
 										<input class="hideinput" type="checkbox" name="item">
-										<label></label>
+										<label id="all"></label>
 									</div>
 									 全选
 					    		</div>
@@ -159,8 +161,6 @@
 					    	</div>
 					    </div>
 					</div>
-				</div>
-				
 			</div>
 	  </div>
 	  <div class="jack jacksec" style="height: 296px; top: 160.5px;">
@@ -280,11 +280,19 @@
 					$(this).removeClass('item-rect-hover');
 				});
 
-				$('.cart-check label').on('click', function(event) {
+					$('#all').on('click', function(event) {
 					event.preventDefault();
-
-					$(this).parent().addClass('active');
-					$(this).prev().checked = true;
+					if(!$(this).prev().is(':checked')){
+						$('.cart-check').addClass('active');
+						$(this).prev().checked = true;
+	                }
+	                else{
+	                	alert("ss");
+	                	$('.cart-check').removeClass('active');        
+	                    $(this).prev().checked = false;
+	                }
+	                event.stopPropagation();
+					
 				});
 			});
 		</script>
