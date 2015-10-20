@@ -232,6 +232,34 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 												id="name" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="2-20个字符">
 										</div>
+										
+										   <div class="ui-form-item">
+											<label class="ui-label mt10"><span
+												class="ui-form-required">*</span>商区：</label> <input
+												class="ui-input validate[required]"
+                                                type="text" value="" name="addressList"
+												id="name" data-is="isAmount isEnough"
+												autocomplete="off" disableautocomplete="" placeholder="多个商区以,分开">
+										</div>
+										  <div class="ui-form-item">
+											<label class="ui-label mt10"><span
+												class="ui-form-required">*</span>城区：</label> <input
+												class="ui-input validate[required]"
+                                                type="text" value="" name="smallAdressList"
+												id="name" data-is="isAmount isEnough"
+												autocomplete="off" disableautocomplete="" placeholder="多个城区以,分开">
+										</div>
+										
+										 <div class="ui-form-item">
+											<label class="ui-label mt10"><span
+												class="ui-form-required">*</span>人次：</label> <input
+												class="ui-input validate[required]"
+                                                type="text" value="" name="personAvg"
+												id="name" data-is="isAmount isEnough"
+												autocomplete="off" disableautocomplete="" placeholder="数值">
+										</div>
+										
+										
                                        <div class="ui-form-item">
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>套餐描述：</label> 
