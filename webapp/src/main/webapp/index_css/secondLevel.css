@@ -70,10 +70,9 @@ header .area {
   text-align: right;
 }
 .cover {
-  width: 75%;
-  margin-left: 15%;
   padding: 5px 30px;
   position: absolute;
+  margin-left: 210px;
 }
 .cover .c-top {
   position: relative;

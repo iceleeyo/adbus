@@ -77,6 +77,10 @@ public class IndexController {
 	    public String secondLevelPage() {
 	    	return "secondLevelPage";
 	    }
+	 @RequestMapping(value = "/secondLevelPageBus")
+	    public String secondLevelPageBus() {
+	    	return "secondLevelPageBus";
+	    }
 	@RequestMapping(value = "/body", produces = "text/html;charset=utf-8")
 	public String body(Model model, HttpServletRequest request, HttpServletResponse response,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {

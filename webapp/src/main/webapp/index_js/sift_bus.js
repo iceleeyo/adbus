@@ -272,7 +272,6 @@ function initSwift2(purl){
 			$('.sift-list .active').each(function(){
 				sendContext+=($(this).parent().attr("qt")+"_"+$(this).attr("qc"))+",";			
 			});
-			alert(sendContext); 
 			$("#sh").val(sendContext);
 			queryPrice();
 			initPro(purl,sendContext,0)
