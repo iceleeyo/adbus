@@ -128,7 +128,7 @@
 										</div>
 									</li>
 									<li class="td td-handle">
-										<p class="del-like" onclick="removeOne(${item.id});"></p>
+									  <a href="javascript:void(0);" onclick="removeOne(${item.id});">	<p class="del-like" ></p></a>
 									</li>
 								</ul>
 							</div>
@@ -153,8 +153,8 @@
 					    		</div>
 					    		<div class="inner-right">
 					    			<span>总价:</span>
-					    			<span id="aprice" class="acount-price">￥${infos.totalPrice}</span>
-					    			<a href="javascript:void(0);" onclick="confirm()">
+					    			<span class="acount-price">￥${infos.totalPrice}</span>
+					    			<a href="javascript:void(0);" onclick="selectPro()">
 					    			<div class="btn-over">生成订单</div>
 					    			</a>
 					    		</div>
@@ -187,7 +187,7 @@
 	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer.onload.js"></script>
 	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
 		<script type="text/javascript">
-		function confirm(){
+		function selectPro(){
 		var o = document.getElementsByName("checkone");
         	var dIds='';
         	for(var i=0;i<o.length;i++){
@@ -208,8 +208,9 @@
 		
 		
 		function removeOne(id){
-		 var bln=window.confirm("确定删除吗？");
-    if(bln){
+		layer.confirm('确定删除吗？', {icon: 3}, function(index){
+    		layer.close(index);
+		    if(true){
 	 $.ajax({
 			url:"${rc.contextPath}/carbox/delOneCarBox/"+id,
 			type:"POST",
@@ -218,17 +219,18 @@
 			data:{},
 			success:function(data){
 				if (data.left) {
-					alert(data.right);
+					layer.msg(data.right);
 				   var uptime = window.setTimeout(function(){
 				   window.location.reload();
 			   	    clearTimeout(uptime);
 						},1000)
 				} else {
-					alert(data.right);
+					layer.msg(data.right);
 				}
 			}
       });  
    }
+		});		
 		}
 		
 		function leftDec(id){
@@ -241,9 +243,7 @@
 						data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"uprice":$("#uprice_"+sot).val()},
 						type : "POST",
 						success : function(data) {
-						updateMoney();
 							}}, "text");
-							
 			  }
 		}
 		function leftPlus(id){
@@ -257,22 +257,8 @@
 						data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"uprice":$("#uprice_"+sot).val()},
 						type : "POST",
 						success : function(data) {
-						updateMoney();
 							}}, "text");
-							
 		}
-		
-		function updateMoney(){
-				 $.ajax({
-						url : "${rc.contextPath}/carbox/carboxMoney",
-						data:{},
-						type : "POST",
-						success : function(data) {
-								$("#aprice").html("￥"+data);
-					    }}, "text");
-		}
-		
-		
 			$(document).ready(function(e) {
 				$('.td-info .item-rect').hover(function() {
 					$(this).addClass('item-rect-hover');

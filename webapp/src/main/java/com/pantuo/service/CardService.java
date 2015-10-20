@@ -71,7 +71,7 @@ public interface CardService {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	public double getBoxPrice(long seriaNum,int iscomfirm);
+	public double getBoxPrice(long seriaNum,int iscomfirm, List<Integer> idLists);
 	public double getBoxPrice( Principal principal);
 
 	public Pair<Double, Integer> saveCard(int proid, double uprice,int needCount, Principal principal, int city, String type);
@@ -79,9 +79,13 @@ public interface CardService {
 	
 	
 	
-	public CardView getMediaList(Principal principal, int isComfirm);
+	public CardView getMediaList(Principal principal, int isComfirm, String ids);
 
 	public Pair<Boolean, String> delOneCarBox(int id);
 
 	public void confirmByids(Principal principal, String ids);
+
+	public Pair<Boolean, String> payment(String paytype, String divid, long seriaNum, Principal principal, int city);
+
+	public void updateCardboxUser(long seriaNum, Principal principal);
 }

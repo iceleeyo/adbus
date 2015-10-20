@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mysema.commons.lang.Pair;
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProduct.FrontShow;
@@ -31,6 +33,7 @@ import com.pantuo.service.CardService;
 import com.pantuo.service.CityService;
 import com.pantuo.service.CpdService;
 import com.pantuo.service.ProductService;
+import com.pantuo.web.view.CardView;
 
 /**
  * Index controller
@@ -141,18 +144,26 @@ public class IndexController {
 
 	@Autowired
 	CardService cardService;
+	
 	@RequestMapping(value = "/toCard", produces = "text/html;charset=utf-8")
 	public String toCard(Model model,HttpServletRequest request,Principal principal) {
-		model.addAttribute("infos", cardService.getMediaList(principal,0));
+		model.addAttribute("infos", cardService.getMediaList(principal,0,null));
 		return "secondCart_step1";
 	}
 
 	@RequestMapping(value = "/toCard2", produces = "text/html;charset=utf-8")
 	public String toCard2(Model model,HttpServletRequest request,Principal principal,@RequestParam(value="ids") String ids) {
-		cardService.confirmByids(principal,ids);
-		model.addAttribute("infos", cardService.getMediaList(principal,1));
+		model.addAttribute("infos", cardService.getMediaList(principal,0,ids));
+		model.addAttribute("seriaNum", cardService.getCardBingSeriaNum(principal));
+		model.addAttribute("ids", ids);
 		return "secondCart_step2";
 	}
+//	@RequestMapping(value = "/confirmBox", produces = "text/html;charset=utf-8")
+//	@ResponseBody
+//	public Boolean confirmBox(Model model,HttpServletRequest request,Principal principal,@RequestParam(value="ids") String ids) {
+//		cardService.confirmByids(principal,ids);
+//		return true;
+//	}
 	
 	@RequestMapping(value = "/intro-video")
 	public String video() {

@@ -1014,7 +1014,6 @@ header .area {
   margin: 0 15px;
 }
 .adj input[type="radio"] {
-  position: absolute;
   left: -20px;
   top: -20px;
 }

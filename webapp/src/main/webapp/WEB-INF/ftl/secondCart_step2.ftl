@@ -127,7 +127,7 @@
 						</div>-->
 
 						<div class="adj">
-							<div class="file line">
+							<#--<div class="file line">
 								<div class="cart-check">
 									<input class="hideinput" type="checkbox" name="item">
 									<label></label>
@@ -137,47 +137,35 @@
 									<div class="s-blue"></div>
 								</div>
 								<a class="legged upload" href="javascript:void(0)">上传素材</a>
-							</div>
+							</div>-->
 							<div class="stage line">
-								<div class="cart-check">
-									<input class="hideinput" type="checkbox" name="item">
-									<label></label>
-								</div>
 								<span class="legged">分期付款</span>
-								<div class="selects">
-									<div class="s-blue"></div>
-								</div>
+								<select id="dividpay">
+								  <option value="3">3</option>
+								  <option value="6">6</option>
+								  <option value="12">12</option>
+								  <option value="24">24</option>
+								  <option value="36">36</option>
+								</select>
 							</div>
-							<div class="bill line">
-								<div class="cart-check">
-									<input class="hideinput" type="checkbox" name="item">
-									<label></label>
-								</div>
-								<span class="legged">发票信息</span>
-								<a class="legged upload" href="javascript:void(0)">录入发票</a>
-							</div>
-							<div class="way">
+							<div class="way" id="payway">
 								<span class="legged">支付方式</span>
 								<div class="select-items legged">
 									<ul class="iradios">
 										<li>
-											<input type="radio" name="type" value="">
-											<label class="iradio"></label>
+											<input type="radio" name="payType" value="online" checked="checked">
 											<span>网上支付</span>
 										</li>
 										<li>
-											<input type="radio"name="type" value="">
-											<label class="iradio"></label>
+											<input type="radio"name="payType" value="check">
 											<span>支票</span>
 										</li>
 										<li>
-											<input type="radio"name="type" value="">
-											<label class="iradio"></label>
+											<input type="radio"name="payType" value="remit">
 											<span>汇款</span>
 										</li>
 										<li class="active">
-											<input type="radio"name="type" value="">
-											<label class="iradio"></label>
+											<input type="radio"name="payType" value="cash">
 											<span>现金</span>
 										</li>
 									</ul>
@@ -187,7 +175,9 @@
 								<span class="legged">总价:<em>￥${infos.totalPrice}</em></span>
 							</div>
 							<div class="sure">
+							<a href="javascript:void(0);" onclick="payment()">
 								<div class="btn-sure">确认支付</div>
+								</a>
 							</div>
 						</div>
 					</div>
@@ -218,6 +208,40 @@
 	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
 		<script src="index_js/unslider.min.js"></script>
 		<script type="text/javascript">
+		function payment(){
+		var paytype=$('#payway :radio[name=payType]:checked').val();
+		var divid=$("#dividpay").val();
+		var seriaNum=${seriaNum};
+		var ids='${ids}';
+		if(paytype=="" || typeof(paytype)=="undefined"){
+		  layer.msg("请选择支付方式");
+		  return;
+		}
+		if(seriaNum=="" || seriaNum==null){
+		  layer.msg("没有seriaNum,操作异常");
+		  return;
+		}
+		$.ajax({
+			url:"${rc.contextPath}/carbox/payment",
+			type:"POST",
+			async:false,
+			dataType:"json",
+			data:{"divid":divid,"seriaNum":seriaNum,"paytype":paytype,"ids":ids},
+			success:function(data){
+				if (data.left) {
+					layer.msg(data.right);
+				   var uptime = window.setTimeout(function(){
+				   window.location.href="${rc.contextPath}/order/myOrders/1";
+			   	    clearTimeout(uptime);
+						},1500)
+				} else {
+					layer.msg(data.right);
+				}
+			}
+          });  
+		}
+		
+		
 			$(document).ready(function(e) {
 
 				$('.cart-check label').on('click', function(event) {

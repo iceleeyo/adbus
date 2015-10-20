@@ -85,6 +85,21 @@ public class CarBoxController {
 			@RequestParam(value = "needCount", required = false) int needCount) {
 		return cardService.saveCard(proid, uprice, needCount, principal, city, type);
 	}
+	@RequestMapping(value = "/payment")
+	@ResponseBody
+	public Pair<Boolean, String> payment(
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
+			@RequestParam(value = "paytype", required = false) String paytype,
+			@RequestParam(value = "divid", required = false) String divid,
+			@RequestParam(value = "ids", required = false) String ids,
+			@RequestParam(value = "seriaNum", required = false) long seriaNum) {
+		 Pair<Boolean, String> r=cardService.payment(paytype, divid, seriaNum, principal, city);
+		 if(r.getLeft()){
+			 cardService.updateCardboxUser(seriaNum,principal);
+			 cardService.confirmByids(principal,ids);
+		 }
+		return r;
+	}
 
 	@RequestMapping(value = "/delOneCarBox/{id}")
 	@ResponseBody
