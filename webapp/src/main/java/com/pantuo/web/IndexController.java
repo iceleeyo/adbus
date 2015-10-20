@@ -16,9 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaProduct;
@@ -137,13 +139,14 @@ public class IndexController {
 	CardService cardService;
 	@RequestMapping(value = "/toCard", produces = "text/html;charset=utf-8")
 	public String toCard(Model model,HttpServletRequest request,Principal principal) {
-		model.addAttribute("infos", cardService.getMediaList(principal));
+		model.addAttribute("infos", cardService.getMediaList(principal,0));
 		return "secondCart_step1";
 	}
 
 	@RequestMapping(value = "/toCard2", produces = "text/html;charset=utf-8")
-	public String toCard2(Model model,HttpServletRequest request,Principal principal) {
-		model.addAttribute("infos", cardService.getMediaList(principal));
+	public String toCard2(Model model,HttpServletRequest request,Principal principal,@RequestParam(value="ids") String ids) {
+		cardService.confirmByids(principal,ids);
+		model.addAttribute("infos", cardService.getMediaList(principal,1));
 		return "secondCart_step2";
 	}
 	

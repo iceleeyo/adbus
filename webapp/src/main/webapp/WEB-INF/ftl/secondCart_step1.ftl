@@ -94,10 +94,8 @@
 								<ul class="item-info clearfix">
 									<li class="td td-check clearfix">
 										<div class="td-inner">
-											<div class="cart-check">
-												<input class="hideinput" type="checkbox" name="item">
+												<input  type="checkbox" name="checkone" value="${item.id}"/>
 												<label></label>
-											</div>
 										</div>
 									</li>
 									<li class="td td-item">
@@ -136,71 +134,6 @@
 							</div>
 									</#list>
 						</div>
-						<div class="panel">
-							<div class="panel-head">
-								<ul class="clearfix">
-									<li class="td td-check">
-										<div class="td-inner">
-											<div class="cart-check">
-												<input class="hideinput" type="checkbox" name="order"> 
-												<label></label>
-											</div>
-										</div>
-									</li>
-									<li class="td td-name">北广传媒</li>
-									<li class="td td-price">单价</li>
-									<li class="td td-amount">数量</li>
-									<li class="td td-sum">合计</li>
-									<li class="td td-handle">操作</li>
-								</ul>
-							</div>
-								<#list infos.media as item>
-							<div class="panel-item">
-								<ul class="item-info clearfix">
-									<li class="td td-check clearfix">
-										<div class="td-inner">
-											<div class="cart-check">
-												<input class="hideinput" type="checkbox" name="item">
-												<label></label>
-											</div>
-										</div>
-									</li>
-									<li class="td td-item">
-										<div class="td-inner">
-											<p>${item.product.name}</p>
-										</div>
-									</li>
-									<li class="td td-info">
-										<div class="item-rect">
-											<p class="rec-line">${item.product.duration}秒/次</p>
-											<p class="rec-line">${item.product.days}</p>
-											<span class="btn-edit"></span>
-										</div>
-									</li>
-									<li class="td td-price">
-										<div class="td-inner">
-											<p class="price"><em>￥</em>${item.price}</p>
-										</div>
-									</li>
-									<li class="td td-amount">
-										<span class="icon icon-plus"></span>
-										<input type="text" value="${item.needCount}">
-										<span class="icon icon-sub"></span>
-									</li>
-									<li class="td td-sum">
-										<div class="td-inner">
-											<p class="sum"><em>￥</em>${item.price*item.needCount}</p>
-										</div>
-									</li>
-									<li class="td td-handle">
-										<p class="del-like"></p>
-									</li>
-								</ul>
-							</div>
-									</#list>
-
-
-						</div>
 
 					<div class="acount-fix">
 						<div class="acount-top">
@@ -219,7 +152,7 @@
 					    		<div class="inner-right">
 					    			<span>总价:</span>
 					    			<span id="aprice" class="acount-price">￥${infos.totalPrice}</span>
-					    			<a href="${rc.contextPath}/toCard2">
+					    			<a href="javascript:void(0);" onclick="confirm()">
 					    			<div class="btn-over">生成订单</div>
 					    			</a>
 					    		</div>
@@ -249,7 +182,31 @@
 
 		<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
 		<script src="index_js/unslider.min.js"></script>
+		<!--增加lay最新版本-->
+	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer/layer.js"></script>
+	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer.onload.js"></script>
+	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
 		<script type="text/javascript">
+		function confirm(){
+		var o = document.getElementsByName("checkone");
+        	var dIds='';
+        	for(var i=0;i<o.length;i++){
+                if(o[i].checked)
+                dIds+=o[i].value+',';   
+           }
+           if(dIds==""){
+        	   layer.msg("请选择商品");
+        	   return false;
+           }
+   		layer.confirm('确定选择这些商品吗？', {icon: 3}, function(index){
+    		layer.close(index);
+		    if(true){
+		          window.location.href="${rc.contextPath}/toCard2?ids="+dIds;
+		       }
+		});		
+		}
+		
+		
 		function removeOne(id){
 		 var bln=window.confirm("确定删除吗？");
     if(bln){

@@ -8,7 +8,9 @@
 		<link rel="stylesheet" type="text/css" href="index_css/base.css">
 		<link rel="stylesheet" type="text/css" href="index_css/header.css">
 		<link rel="stylesheet" type="text/css" href="index_css/jack.css">
-		<link rel="stylesheet" type="text/css" href="index_css/secondLevel.css"></head>
+		<link rel="stylesheet" type="text/css" href="index_css/secondLevel.css">
+		 
+		</head>
 	<body>
 		<header>
 				<span class="area">北京</span>
@@ -78,70 +80,42 @@
 									<li class="td td-sum">合计</li>
 								</ul>
 							</div>
+							<#list infos.media as item>
 							<div class="panel-item">
 								<ul class="item-info clearfix">
 									<li class="td td-item">
 										<div class="td-inner">
-											<p>特11路双层 特级</p>
+											<p>${item.product.name}</p>
 										</div>
 									</li>
 									<li class="td td-info">
 										<div class="td-inner">
-											<span class="date">日期：2015.11.25-2015.12.25</span>
-											<span class="perio">刊期：1个月</span>
+											<span >  时长：${item.product.duration}秒/次</span>
+											<span class="perio">频次：${item.product.playNumber}次/天</span>
+											<span class="perio">刊期：${item.product.days}天</span>
 										</div>
 									</li>
 									<li class="td td-price">
 										<div class="td-inner">
-											<p class="price"><em>$</em>17000</p>
+											<p class="price"><em>￥</em>${item.price}</p>
 										</div>
 									</li>
 									<li class="td td-amount">
 										<div class="td-inner">
-											<p class="amount">1</p>
+											<p class="amount">${item.needCount}</p>
 										</div>
 									</li>
 									<li class="td td-sum">
 										<div class="td-inner">
-											<p class="sum"><em>$</em>17000</p>
+											<p class="sum"><em>￥</em>${item.price*item.needCount}</p>
 										</div>
 									</li>
 								</ul>
 							</div>
-
-							<div class="panel-item">
-								<ul class="item-info clearfix">
-									<li class="td td-item">
-										<div class="td-inner">
-											<p>特11路双层 特级</p>
-										</div>
-									</li>
-									<li class="td td-info">
-										<div class="td-inner">
-											<span class="date">日期：2015.11.25-2015.12.25</span>
-											<span class="perio">刊期：1个月</span>
-										</div>
-									</li>
-									<li class="td td-price">
-										<div class="td-inner">
-											<p class="price"><em>￥</em>17000</p>
-										</div>
-									</li>
-									<li class="td td-amount">
-										<div class="td-inner">
-											<p class="amount">1</p>
-										</div>
-									</li>
-									<li class="td td-sum">
-										<div class="td-inner">
-											<p class="sum"><em>￥</em>17000</p>
-										</div>
-									</li>
-								</ul>
-							</div>
+                           </#list>
 						</div>
 
-						<div class="panel">
+						<#--<div class="panel">
 							<div class="panel-head">
 								<ul class="clearfix">
 									<li class="td td-name">北巴传媒广告分公司</li>
@@ -150,68 +124,7 @@
 									<li class="td td-sum">合计</li>
 								</ul>
 							</div>
-							<div class="panel-item">
-								<ul class="item-info clearfix">
-									<li class="td td-item">
-										<div class="td-inner">
-											<p>特11路双层 特级</p>
-										</div>
-									</li>
-									<li class="td td-info">
-										<div class="td-inner">
-											<span class="date">日期：2015.11.25-2015.12.25</span>
-											<span class="perio">刊期：1个月</span>
-										</div>
-									</li>
-									<li class="td td-price">
-										<div class="td-inner">
-											<p class="price"><em>$</em>17000</p>
-										</div>
-									</li>
-									<li class="td td-amount">
-										<div class="td-inner">
-											<p class="amount">1</p>
-										</div>
-									</li>
-									<li class="td td-sum">
-										<div class="td-inner">
-											<p class="sum"><em>$</em>17000</p>
-										</div>
-									</li>
-								</ul>
-							</div>
-
-							<div class="panel-item">
-								<ul class="item-info clearfix">
-									<li class="td td-item">
-										<div class="td-inner">
-											<p>特11路双层 特级</p>
-										</div>
-									</li>
-									<li class="td td-info">
-										<div class="td-inner">
-											<span class="date">日期：2015.11.25-2015.12.25</span>
-											<span class="perio">刊期：1个月</span>
-										</div>
-									</li>
-									<li class="td td-price">
-										<div class="td-inner">
-											<p class="price"><em>￥</em>17000</p>
-										</div>
-									</li>
-									<li class="td td-amount">
-										<div class="td-inner">
-											<p class="amount">1</p>
-										</div>
-									</li>
-									<li class="td td-sum">
-										<div class="td-inner">
-											<p class="sum"><em>￥</em>17000</p>
-										</div>
-									</li>
-								</ul>
-							</div>
-						</div>
+						</div>-->
 
 						<div class="adj">
 							<div class="file line">
@@ -271,7 +184,7 @@
 								</div>
 							</div>
 							<div class="sum">
-								<span class="legged">总价:<em>￥49000</em></span>
+								<span class="legged">总价:<em>￥${infos.totalPrice}</em></span>
 							</div>
 							<div class="sure">
 								<div class="btn-sure">确认支付</div>
@@ -299,6 +212,10 @@
       </div>
 
 		<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
+		<!--增加lay最新版本-->
+	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer/layer.js"></script>
+	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer.onload.js"></script>
+	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
 		<script src="index_js/unslider.min.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function(e) {

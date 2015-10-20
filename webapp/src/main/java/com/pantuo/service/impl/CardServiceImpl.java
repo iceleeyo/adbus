@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +21,7 @@ import com.pantuo.dao.pojo.JpaCardBoxMedia;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.QJpaCardBoxBody;
 import com.pantuo.dao.pojo.QJpaCardBoxMedia;
+import com.pantuo.mybatis.domain.BusOnline;
 import com.pantuo.mybatis.domain.CardboxBody;
 import com.pantuo.mybatis.domain.CardboxBodyExample;
 import com.pantuo.mybatis.domain.CardboxHelper;
@@ -93,15 +95,18 @@ public class CardServiceImpl implements CardService {
 		return false;
 	}
 
-	public CardView getMediaList(Principal principal) {
+	public CardView getMediaList(Principal principal, int isComfirm) {
 		long seriaNum = getCardBingSeriaNum(principal);
 		BooleanExpression query = QJpaCardBoxMedia.jpaCardBoxMedia.seriaNum.eq(seriaNum);
+		query=query.and(QJpaCardBoxMedia.jpaCardBoxMedia.isConfirm.eq(isComfirm));
+		
 		List<JpaCardBoxMedia> page = cardBoxRepository.findAll(query, new PageRequest(0, 1024, new Sort("id")))
 				.getContent();
 		BooleanExpression query2 = QJpaCardBoxBody.jpaCardBoxBody.seriaNum.eq(seriaNum);
+		query2=query2.and( QJpaCardBoxBody.jpaCardBoxBody.isConfirm.eq(isComfirm));
 		List<JpaCardBoxBody> page2 = cardBoxBodyRepository.findAll(query2, new PageRequest(0, 1024, new Sort("id")))
 				.getContent();
-		CardView w = new CardView(page, page2, getBoxPrice(seriaNum), getBoxTotalnum(seriaNum));
+		CardView w = new CardView(page, page2, getBoxPrice(seriaNum,isComfirm), getBoxTotalnum(seriaNum,isComfirm));
 		return w;
 	}
 
@@ -126,6 +131,7 @@ public class CardServiceImpl implements CardService {
 				media.setPrice(uprice * needCount);
 				media.setSeriaNum(seriaNum);
 				media.setProductId(proid);
+				media.setIsConfirm(0);
 				media.setType(product.getType().ordinal());
 				cardMapper.insert(media);
 			} else {
@@ -137,23 +143,23 @@ public class CardServiceImpl implements CardService {
 					cardMapper.updateByPrimaryKey(existMedia);
 				}
 			}
-			totalPrice = getBoxPrice(seriaNum);
-			totalnum = getBoxTotalnum(seriaNum);
+			totalPrice = getBoxPrice(seriaNum,0);
+			totalnum = getBoxTotalnum(seriaNum,0);
 			return new Pair<Double, Integer>(totalPrice, totalnum);
 		}
 		return new Pair<Double, Integer>(totalPrice, totalnum);
 	}
 
-	private int getBoxTotalnum(long seriaNum) {
+	private int getBoxTotalnum(long seriaNum,int isconfirm) {
 		int r = 0;
 		CardboxMediaExample example = new CardboxMediaExample();
-		example.createCriteria().andSeriaNumEqualTo(seriaNum);
+		example.createCriteria().andSeriaNumEqualTo(seriaNum).andIsConfirmEqualTo(isconfirm);
 		List<CardboxMedia> list = cardMapper.selectByExample(example);
 		for (CardboxMedia cardboxMedia : list) {
 			r += cardboxMedia.getNeedCount();
 		}
 		CardboxBodyExample bodyExample = new CardboxBodyExample();
-		bodyExample.createCriteria().andSeriaNumEqualTo(seriaNum);
+		bodyExample.createCriteria().andSeriaNumEqualTo(seriaNum).andIsConfirmEqualTo(isconfirm);
 		List<CardboxBody> bodyList = cardBodyMapper.selectByExample(bodyExample);
 		for (CardboxBody obj : bodyList) {
 			r += obj.getNeedCount();
@@ -236,16 +242,16 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public double getBoxPrice(long seriaNum) {
+	public double getBoxPrice(long seriaNum,int iscomfirm) {
 		double r = 0;
 		CardboxMediaExample example = new CardboxMediaExample();
-		example.createCriteria().andSeriaNumEqualTo(seriaNum);
+		example.createCriteria().andSeriaNumEqualTo(seriaNum).andIsConfirmEqualTo(iscomfirm);
 		List<CardboxMedia> list = cardMapper.selectByExample(example);
 		for (CardboxMedia cardboxMedia : list) {
 			r += cardboxMedia.getPrice() * cardboxMedia.getNeedCount();
 		}
 		CardboxBodyExample bodyExample = new CardboxBodyExample();
-		bodyExample.createCriteria().andSeriaNumEqualTo(seriaNum);
+		bodyExample.createCriteria().andSeriaNumEqualTo(seriaNum).andIsConfirmEqualTo(iscomfirm);
 		List<CardboxBody> bodyList = cardBodyMapper.selectByExample(bodyExample);
 		for (CardboxBody obj : bodyList) {
 			r += obj.getPrice() * obj.getNeedCount();
@@ -259,6 +265,21 @@ public class CardServiceImpl implements CardService {
 			return new Pair<Boolean, String>(true,"删除成功");
 		}
 		return new Pair<Boolean, String>(false,"操作失败");
+	}
+
+	@Override
+	public void confirmByids(Principal principal, String ids) {
+		String idsa[] = ids.split(",");
+		for (int i = 0; i < idsa.length; i++) {
+			if (!idsa[i].trim().equals("")) {
+				CardboxMedia cardboxMedia=cardMapper.selectByPrimaryKey(NumberUtils.toInt(idsa[i]));
+				if(cardboxMedia!=null){
+					cardboxMedia.setIsConfirm(1);
+					cardMapper.updateByPrimaryKey(cardboxMedia);
+				}
+			}
+		}
+		
 	}
 
 }
