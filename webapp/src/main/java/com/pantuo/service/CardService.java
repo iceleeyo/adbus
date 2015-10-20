@@ -72,6 +72,7 @@ public interface CardService {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	public double getBoxPrice(long seriaNum);
+	public double getBoxPrice( Principal principal);
 
 	public Pair<Double, Integer> saveCard(int proid, double uprice,int needCount, Principal principal, int city, String type);
 	

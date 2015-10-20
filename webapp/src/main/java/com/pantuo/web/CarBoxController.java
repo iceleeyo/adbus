@@ -1,4 +1,3 @@
-
 package com.pantuo.web;
 
 import java.io.IOException;
@@ -63,10 +62,9 @@ import com.pantuo.web.view.ContractLineDayInfo;
 public class CarBoxController {
 	private static Logger log = LoggerFactory.getLogger(CarBoxController.class);
 
-
 	@Autowired
 	CardService cardService;
-	
+
 	/**
 	 * 
 	 * 加入购物车
@@ -80,22 +78,25 @@ public class CarBoxController {
 	 */
 	@RequestMapping(value = "/saveCard/{type}")
 	@ResponseBody
-	public Pair<Double, Integer> saveCardBoxMedia(
-			@PathVariable("type") String type,
+	public Pair<Double, Integer> saveCardBoxMedia(@PathVariable("type") String type,
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
-			@RequestParam(value = "proid", required = true) int  proid,
-			@RequestParam(value = "uprice", required = true) int  uprice,
-			@RequestParam(value = "needCount", required = false) int  needCount
-			) {
-		return cardService.saveCard(proid,uprice,needCount,principal,city,type);
+			@RequestParam(value = "proid", required = true) int proid,
+			@RequestParam(value = "uprice", required = true) int uprice,
+			@RequestParam(value = "needCount", required = false) int needCount) {
+		return cardService.saveCard(proid, uprice, needCount, principal, city, type);
 	}
+
 	@RequestMapping(value = "/delOneCarBox/{id}")
 	@ResponseBody
-	public Pair<Boolean, String> delOneCarBox(Model model,
-			@PathVariable("id") int id, Principal principal,
-				HttpServletRequest request) {
+	public Pair<Boolean, String> delOneCarBox(Model model, @PathVariable("id") int id, Principal principal,
+			HttpServletRequest request) {
 		return cardService.delOneCarBox(id);
 	}
 
-	
+	@RequestMapping(value = "/carboxMoney")
+	@ResponseBody
+	public double carboxMoney(Model model, Principal principal, HttpServletRequest request) {
+		return cardService.getBoxPrice(principal);
+	}
+
 }

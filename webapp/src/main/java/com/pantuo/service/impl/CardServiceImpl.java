@@ -230,6 +230,11 @@ public class CardServiceImpl implements CardService {
 
 	}
 
+	public double getBoxPrice(Principal principal) {
+		long seriaNum = getCardBingSeriaNum(principal);
+		return seriaNum == 0 ? 0 : getBoxPrice(seriaNum);
+	}
+
 	@Override
 	public double getBoxPrice(long seriaNum) {
 		double r = 0;
