@@ -180,7 +180,7 @@ public class CardServiceImpl implements CardService {
 				media.setUserId(Request.getUserId(principal));
 				media.setCreated(new Date());
 				media.setNeedCount(needCount);
-				media.setPrice(uprice * needCount);
+				media.setPrice(product.getPrice() * needCount);
 				media.setSeriaNum(seriaNum);
 				media.setProductId(proid);
 				media.setIsConfirm(0);

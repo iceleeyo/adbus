@@ -188,7 +188,7 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 						"<div class=\"cont\">"+
 						"<div class=\"activity inline-b\"><span>"+item.name.substring(0,7)+"</span>&nbsp;&nbsp;"+item.days+"天</div>"+
 						"<div class=\"price inline-b\" style=\"  margin-top: 10px; \">"+
-						"<p class=\"p-one\"><input type=\"hidden\" id='pid"+k+"' value='"+item.id+"'/><input class='f-left_price' id='uprice"+k+"' value='"+item.price+"'/><em></em>元</p>"+
+						"<p class=\"p-one\"><input type=\"hidden\" id='pid"+k+"' value='"+item.id+"'/><em>"+item.price+"</em>元</p>"+
 						"<p class=\"p-two\">"+item.duration+"秒/次&nbsp;&nbsp;&nbsp;"+item.playNumber+"次/天</p></div>"+
 						"<div class=\"num f-left inline-b\">"+
 						"<input type=\"button\" class=\"icon f-left dec\" sot='"+k+"' id='leftDec"+k+"' />"+
@@ -201,7 +201,7 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 					var sot=$(this).attr("sot");
 					$.ajax({
 						url : pathUrl + "/carbox/saveCard/media",
-						data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val(),"uprice":$("#uprice"+sot).val()},
+						data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val(),"uprice":0},
 						type : "POST",
 						success : function(data) {
 							/*$("#totalnum").val(data.right);
@@ -216,7 +216,7 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 						var sot=$(this).attr("sot");
 						$.ajax({
 							url : pathUrl + "/carbox/saveCard/media",
-							data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val(),"uprice":$("#uprice"+sot).val()},
+							data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val(),"uprice":0},
 							type : "POST",
 							success : function(data) {
 						}}, "text");
@@ -228,7 +228,7 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 					var sot=$(this).attr("sot");
 					$.ajax({
 						url : pathUrl + "/carbox/saveCard/media",
-						data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val(),"uprice":$("#uprice"+sot).val()},
+						data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val(),"uprice":0},
 						type : "POST",
 						success : function(data) {
 							}}, "text");
