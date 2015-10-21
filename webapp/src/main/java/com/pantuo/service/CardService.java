@@ -3,10 +3,14 @@ package com.pantuo.service;
 import java.security.Principal;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
+import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaCardBoxMedia;
 import com.pantuo.mybatis.domain.CardboxBody;
 import com.pantuo.mybatis.domain.CardboxHelper;
 import com.pantuo.mybatis.domain.CardboxMedia;
+import com.pantuo.pojo.TableRequest;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.CardView;
 
@@ -84,6 +88,10 @@ public interface CardService {
 	public Pair<Boolean, String> delOneCarBox(int id);
 
 	public void confirmByids(Principal principal, String ids);
+	
+	public void test();
+	  Page<JpaBusOrderDetailV2> searchProducts(int city, Principal principal,
+	    		TableRequest req);
 
 	public Pair<Boolean, String> payment(String paytype, String divid, long seriaNum, Principal principal, int city);
 

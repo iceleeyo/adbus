@@ -3,25 +3,34 @@ package com.pantuo.service.impl;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.expr.BooleanExpression;
+import com.pantuo.dao.BusOrderDetailV2Repository;
 import com.pantuo.dao.CardBoxBodyRepository;
 import com.pantuo.dao.CardBoxRepository;
 import com.pantuo.dao.ProductRepository;
+import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
+import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaCardBoxBody;
 import com.pantuo.dao.pojo.JpaCardBoxMedia;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.dao.pojo.QJpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.QJpaCardBoxBody;
 import com.pantuo.dao.pojo.QJpaCardBoxMedia;
+import com.pantuo.dao.pojo.QJpaProduct;
 import com.pantuo.mybatis.domain.CardboxBody;
 import com.pantuo.mybatis.domain.CardboxBodyExample;
 import com.pantuo.mybatis.domain.CardboxHelper;
@@ -33,6 +42,7 @@ import com.pantuo.mybatis.persistence.CardboxBodyMapper;
 import com.pantuo.mybatis.persistence.CardboxHelperMapper;
 import com.pantuo.mybatis.persistence.CardboxMediaMapper;
 import com.pantuo.mybatis.persistence.CardboxUserMapper;
+import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.CardService;
 import com.pantuo.util.Only1ServieUniqLong;
 import com.pantuo.util.Pair;
@@ -50,6 +60,8 @@ public class CardServiceImpl implements CardService {
 	CardboxBodyMapper cardBodyMapper;
 	@Autowired
 	ProductRepository productRepository;
+	@Autowired
+	BusOrderDetailV2Repository busOrderDetailV2Repository;
 
 	@Autowired
 	CardboxUserMapper cardboxUserMapper;
@@ -111,6 +123,8 @@ public class CardServiceImpl implements CardService {
 		long seriaNum = getCardBingSeriaNum(principal);
 		BooleanExpression query = QJpaCardBoxMedia.jpaCardBoxMedia.seriaNum.eq(seriaNum);
 		query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.isConfirm.eq(isComfirm));
+
+		query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.isConfirm.eq(isComfirm));
 		if (!idLists.isEmpty()) {
 			query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.id.in(idLists));
 		}
@@ -123,6 +137,7 @@ public class CardServiceImpl implements CardService {
 		}
 		List<JpaCardBoxBody> page2 = cardBoxBodyRepository.findAll(query2, new PageRequest(0, 1024, new Sort("id")))
 				.getContent();
+ 
 		CardView w = new CardView(page, page2, getBoxPrice(seriaNum, isComfirm, idLists), getBoxTotalnum(seriaNum,
 				isComfirm, idLists));
 		return w;
@@ -161,6 +176,7 @@ public class CardServiceImpl implements CardService {
 					cardMapper.updateByPrimaryKey(existMedia);
 				}
 			}
+ 
 			totalPrice = getBoxPrice(seriaNum, 0, null);
 			totalnum = getBoxTotalnum(seriaNum, 0, null);
 			return new Pair<Double, Integer>(totalPrice, totalnum);
@@ -263,6 +279,7 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
+ 
 	public double getBoxPrice(long seriaNum, int iscomfirm, List<Integer> idLists) {
 		double r = 0;
 		CardboxMediaExample example = new CardboxMediaExample();
@@ -335,5 +352,102 @@ public class CardServiceImpl implements CardService {
 		}
 
 	}
+	
+	
+	public Map<String, List<String>> getQuestObj(String requestString) {
+		Map<String, List<String>> map = new HashMap<String, List<String>>();
+		String[] shSplit = StringUtils.split(requestString, ",");
+		if (shSplit != null) {
+			for (String string : shSplit) {//p1
+				String[] one = StringUtils.split(string, "_",2);
+				String field = one[0];
+				String v = one[1];
+				if (!map.containsKey(field)) {
+					map.put(field, new ArrayList<String>());
+				}
+				if (!StringUtils.equals("all", v)) {
+					map.get(field).add(v);
+				}
+			}
+		}
+		return map;
+	}
+   public  Page<JpaBusOrderDetailV2> searchProducts(int city, Principal principal,
+    		TableRequest req){
+    	
+	   Map<String, List<String>> map = getQuestObj(req.getFilter("sh"));
+	   BooleanExpression query = QJpaBusOrderDetailV2.jpaBusOrderDetailV2.city.eq(city);
+		for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+			List<String> values = entry.getValue();
+			if (StringUtils.equals(entry.getKey(), "B") && values.size() > 0) {
+				BooleanExpression subQuery = null;
+				for (String address : values) {
+					if (StringUtils.isNoneBlank(address)) {
+						BooleanExpression addressEx = QJpaBusOrderDetailV2.jpaBusOrderDetailV2.JpaProductV2.addressList
+								.like("%" + StringUtils.trim(address) + "%");
+						subQuery = subQuery == null ? addressEx : subQuery.or(addressEx);
+					}
+				}
+				query = query.and(subQuery);
+			} else if (StringUtils.equals(entry.getKey(), "C") && values.size() > 0) {
+				BooleanExpression subQuery = null;
+				for (String address : values) {
+					if (StringUtils.isNoneBlank(address)) {
+						BooleanExpression smallAdressEx = QJpaBusOrderDetailV2.jpaBusOrderDetailV2.JpaProductV2.smallAdressList
+								.like("%" + StringUtils.trim(address) + "%");
+						subQuery = subQuery == null ? smallAdressEx : subQuery.or(smallAdressEx);
+					}
+				}
+				query = query.and(subQuery);
+			}
+ else if (StringUtils.equals(entry.getKey(), "D") && values.size() > 0) {
+				BooleanExpression subQuery = null;
+				for (String catType : values) {
+					if (StringUtils.isNoneBlank(catType)) {
+						String[] s = StringUtils.split(catType, "_ ");
+						if (s.length == 2) {
+							boolean isDoubleChecker = StringUtils.equals(s[0], "1");
+							BooleanExpression smallAdressEx = QJpaBusOrderDetailV2.jpaBusOrderDetailV2.doubleDecker
+									.eq(isDoubleChecker);
+							if (!StringUtils.equals(s[1], "0")) {
+								JpaBusline.Level level = JpaBusline.Level.valueOf(s[1]);
+								smallAdressEx = smallAdressEx.and(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.leval.eq(level));
+							}
+							subQuery = subQuery == null ? smallAdressEx : subQuery.or(smallAdressEx);
+						}
+					}
+				}
+				query = query.and(subQuery);
+			}
 
+		}
+    	Sort sort = new Sort("id");
+    	int page = req.getPage(), pageSize = req.getLength();
+
+		if (page < 0)
+			page = 0;
+		if (pageSize < 1)
+			pageSize = 1;
+		sort = (sort == null ? new Sort("id") : sort);
+		Pageable p = new PageRequest(page, pageSize, sort);
+		Page<JpaBusOrderDetailV2> list = busOrderDetailV2Repository.findAll(query, p);
+		return list;
+    	
+    }
+	public void test() {
+		Sort sort = new Sort("id");
+		Pageable p = new PageRequest(0, 30, sort);
+		BooleanExpression query = QJpaBusOrderDetailV2.jpaBusOrderDetailV2.city.eq(2);
+		BooleanExpression subQuery2 = null;
+		BooleanExpression subQuery1 = null;
+		subQuery2 = QJpaBusOrderDetailV2.jpaBusOrderDetailV2.doubleDecker.eq(true);
+
+		subQuery1 = QJpaBusOrderDetailV2.jpaBusOrderDetailV2.JpaProductV2.addressList.like("%111%");
+		subQuery1 = subQuery1.or(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.JpaProductV2.addressList.like("%222%"));
+		BooleanExpression t = 	subQuery2.and(subQuery1);
+		BooleanExpression commonEx = query.and(t);
+		Page<JpaBusOrderDetailV2> list = busOrderDetailV2Repository.findAll(commonEx, p);
+		System.out.println(list.getContent().size());
+
+	}
 }
