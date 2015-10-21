@@ -148,7 +148,7 @@ function queryPrice(){
 function initPro(pathUrl,sh,page){
 	$("#productList").html("");
 	$.ajax({
-		url : pathUrl + "/product/sift_data?filter[sh]="+sh+"&length=10&page="+page,
+		url : pathUrl + "/carbox/sift_body?filter[sh]="+sh+"&length=10&page="+page,
 		data:{},
 		type : "POST",
 		success : function(data) {
@@ -169,7 +169,6 @@ function initPro(pathUrl,sh,page){
 			 }();
 			 
 			function pageselectCallback(page_index, jq){
-//				alert(page_index);
 				initPro2(pathUrl,sh,page_index*data.size);
 				return false;
 			}
@@ -179,7 +178,7 @@ function initPro(pathUrl,sh,page){
 function initPro2(pathUrl,sh,page){
 	$("#productList").html("");
 	$.ajax({
-		url : pathUrl + "/product/sift_data?filter[sh]="+sh+"&length=10&start="+page,
+		url : pathUrl + "/carbox/sift_body?filter[sh]="+sh+"&length=10&start="+page,
 		data:{},
 		type : "POST",
 		success : function(data) {
@@ -187,10 +186,11 @@ function initPro2(pathUrl,sh,page){
 			$.each(data.content,function(i,item){
 				$("#productList").prepend(
 						"<div class=\"cont\">"+
-						"<div class=\"activity inline-b\"><span>"+item.name.substring(0,7)+"</span>&nbsp;&nbsp;"+item.days+"天</div>"+
+						"<div class=\"activity inline-b\"><span>"+item.jpaProductV2.name.substring(0,7)+"</span></div>"+
 						"<div class=\"price inline-b\" style=\"  margin-top: 10px; \">"+
-						"<p class=\"p-one\"><input type=\"hidden\" id='pid"+k+"' value='"+item.id+"'/><input class='f-left_price' id='uprice"+k+"' value='"+item.price+"'/><em></em>元</p>"+
-						"<p class=\"p-two\">"+item.duration+"秒/次&nbsp;&nbsp;&nbsp;"+item.playNumber+"次/天</p></div>"+
+						"<input type=\"hidden\" id='+pid+"+k+"' value='"+item.id+"'/>"+
+						"<p class=\"p-one\"> 	<em>"+item.price+"</em>元/月/辆</p>"+
+						"<p class=\"p-two\">"+item.jpaProductV2.personAvg+"人次/月</p></div>"+
 						"<div class=\"num f-left inline-b\">"+
 						"<input type=\"button\" class=\"icon f-left dec\" sot='"+k+"' id='leftDec"+k+"' />"+
 						"<input class='f-left' sot='"+k+"' id='sum"+k+"' value=\"0\">"+
@@ -274,7 +274,8 @@ function initSwift2(purl){
 			});
 			$("#sh").val(sendContext);
 			//
-			queryPrice();
+			
+			//queryPrice();
 			initPro(purl,sendContext,0)
 			//重新画
 			/* table.fnDraw();*/
