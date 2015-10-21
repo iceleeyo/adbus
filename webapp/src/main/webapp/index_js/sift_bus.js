@@ -145,10 +145,10 @@ function queryPrice(){
 }
 
 
-function initPro(pathUrl,sh,page){
+function initPro(pathUrl,sh,price1,price2,p){
 	$("#productList").html("");
 	$.ajax({
-		url : pathUrl + "/product/sift_data?filter[sh]="+sh+"&length=10&page="+page,
+		url : pathUrl + "/product/sift_data?filter[sh]="+sh+"&filter[price1]="+price1+"&filter[price2]="+price2+"&filter[p]="+p,
 		data:{},
 		type : "POST",
 		success : function(data) {
@@ -169,23 +169,22 @@ function initPro(pathUrl,sh,page){
 			 }();
 			 
 			function pageselectCallback(page_index, jq){
-//				alert(page_index);
-				initPro2(pathUrl,sh,page_index*data.size);
+				initPro2(pathUrl,sh,page_index*data.size,price1,price2,p);
 				return false;
 			}
 				
 		}}, "text");
 }
-function initPro2(pathUrl,sh,page){
+function initPro2(pathUrl,sh,page,price1,price2,p){
 	$("#productList").html("");
 	$.ajax({
-		url : pathUrl + "/product/sift_data?filter[sh]="+sh+"&length=10&start="+page,
+		url : pathUrl + "/product/sift_data?filter[sh]="+sh+"&start="+page+"&filter[price1]="+price1+"&filter[price2]="+price2+"&filter[p]="+p,
 		data:{},
 		type : "POST",
 		success : function(data) {
 			var k=1;
 			$.each(data.content,function(i,item){
-				$("#productList").prepend(
+				$("#productList").append(
 						"<div class=\"cont\">"+
 						"<div class=\"activity inline-b\"><span>"+item.name.substring(0,7)+"</span>&nbsp;&nbsp;"+item.days+"天</div>"+
 						"<div class=\"price inline-b\" style=\"  margin-top: 10px; \">"+
@@ -238,6 +237,12 @@ function initPro2(pathUrl,sh,page){
 			});
 		}}, "text");
 }
+function changeByprice(purl){
+	var price1=$("#price1").val();
+	var price2=$("#price2").val();
+	var p=$('#ascOrDesc').val();
+	initPro(purl,$("#sh").val(),price1,price2,p);
+}
 function initSwift2(purl){
 /*	swift_tableObject =table;*/
 	 
@@ -275,7 +280,7 @@ function initSwift2(purl){
 			$("#sh").val(sendContext);
 			//
 			queryPrice();
-			initPro(purl,sendContext,0)
+			initPro(purl,sendContext,$("#price1").val(),$("#price2").val());
 			//重新画
 			/* table.fnDraw();*/
 			//alert($("#sh").val());

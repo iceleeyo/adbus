@@ -22,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.expr.BooleanExpression;
@@ -208,7 +209,7 @@ public class ProductServiceImpl implements ProductService {
 
 	public Page<JpaProduct> searchProducts(int city, Principal principal, TableRequest req) {
 		String name = req.getFilter("name");
-		String sh = req.getFilter("sh");
+		String sh = req.getFilter("sh"),price1=req.getFilter("price1"),price2=req.getFilter("price2");
 		BooleanExpression commonEx = getQueryFromPage(name, sh);
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("id");
@@ -218,6 +219,11 @@ public class ProductServiceImpl implements ProductService {
 		if (pageSize < 1)
 			pageSize = 1;
 		sort = (sort == null ? new Sort("id") : sort);
+		if (StringUtils.equals(req.getFilter("p"), "1")) {
+			sort = new Sort(Direction.fromString("desc"), "price");
+		} else {
+			sort = new Sort(Direction.fromString("asc"), "price"); 
+		}
 		Pageable p = new PageRequest(page, pageSize, sort);
 		BooleanExpression query = city >= 0 ? QJpaProduct.jpaProduct.city.eq(city) : QJpaProduct.jpaProduct.city.goe(0);
 		if (principal == null || Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)) {
@@ -229,6 +235,14 @@ public class ProductServiceImpl implements ProductService {
 		}
 		if (name != null && !StringUtils.isEmpty(name)) {
 			query = query.and(QJpaProduct.jpaProduct.name.like("%" + name + "%"));
+		}
+		if (StringUtils.isNotBlank(price1)) {
+			double p1=NumberUtils.toDouble(price1);
+			query = query.and(QJpaProduct.jpaProduct.price.goe(p1));
+		}
+		if (StringUtils.isNotBlank(price2)) {
+			double p2=NumberUtils.toDouble(price2);
+			query = query.and(QJpaProduct.jpaProduct.price.loe(p2));
 		}
 
 		return productRepo.findAll(query, p);

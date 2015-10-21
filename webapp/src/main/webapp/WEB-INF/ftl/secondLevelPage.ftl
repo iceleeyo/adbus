@@ -253,13 +253,13 @@
 						</div>
 						<div class="select-more">
 							<ul>
-								<li class="item1">销量</li>
-								<li class="item2">价格</li>
-								<li class="item3">价格<input class="i-short"><em>—</em><input class="i-short"></li>
-								<li class="item4">投放日期<input class="i-long"></li>
+								<li class="item1">&nbsp</li>
+								<li class="item2">价格 <span id = "priceSort" style="color:#ff9966">[高到低]</span></li>
+								<li class="item3">价格<input type="text" id="price1" value="" onkeyup="value=value.replace(/[^\\d]/g,\'\')" onblur="changeByprice('${rc.contextPath}');" class="i-short"><em>—</em><input type="text" id="price2" onblur="changeByprice('${rc.contextPath}');" class="i-short"></li>
+							    <li class="item4"> &nbsp</li>
 							</ul>
 						</div>
-
+<input type="hidden" value = "0" id="ascOrDesc"/> 
 						<div class="buy">
 						<div id="productList">
 						</div>
@@ -304,10 +304,23 @@
 		<script src="js/jquery.pagination.js"></script>
 		<script type="text/javascript">
 	    $(document).ready(function() {
-	        initPro('${rc.contextPath}',"");
+	        initPro('${rc.contextPath}',$("#sh").val(),"","",1);
 	        initSwift2('${rc.contextPath}');
 	    } );
-	    
+	     $('#priceSort').click(function() {
+                  var w = $('#ascOrDesc').val();
+                  if(w==0){
+                    $('#ascOrDesc').val(1);
+                      $('#priceSort').html("[低到高]"); 
+                  }else{
+                   $('#ascOrDesc').val(0); 
+                      $('#priceSort').html("[高到低]"); 
+                  }
+                  // initPro('${rc.contextPath}',$("#sh").val(),0);
+                  var price1=$("#price1").val();
+	               var price2=$("#price2").val();
+                   initPro('${rc.contextPath}',$("#sh").val(),price1,price2,w);
+       	 });
 		$("#leftDec").click(function(){
 			  var oldValue=$(this).next().val();//获取文本框对象现有值
 			  if(oldValue>0){
