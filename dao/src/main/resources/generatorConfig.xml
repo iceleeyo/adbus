@@ -3,7 +3,8 @@
   PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
   "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
-    <properties url="file:///${project.build.outputDirectory}/${adbus.env}.generator.properties"/>
+	<properties
+		url="file:///${project.build.outputDirectory}/${adbus.env}.generator.properties" />
 	<classPathEntry location="${generator.classPathEntry}" />
 	<context id="AdbusTables" targetRuntime="MyBatis3">
 		<plugin type="org.mybatis.generator.plugins.PaginationPlugin" />
@@ -12,184 +13,151 @@
 		<commentGenerator>
 			<property name="suppressDate" value="true" />
 		</commentGenerator>
-		<jdbcConnection driverClass="${generator.driverClass}" connectionURL="${generator.connectionURL}"
-			userId="${generator.userId}" password="${generator.password}">
+		<jdbcConnection driverClass="${generator.driverClass}"
+			connectionURL="${generator.connectionURL}" userId="${generator.userId}"
+			password="${generator.password}">
 		</jdbcConnection>
 
 		<javaTypeResolver>
 			<property name="forceBigDecimals" value="false" />
 		</javaTypeResolver>
-		<javaModelGenerator targetPackage="com.pantuo.mybatis.domain" targetProject="MAVEN">
+		<javaModelGenerator targetPackage="com.pantuo.mybatis.domain"
+			targetProject="MAVEN">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
 		</javaModelGenerator>
-		<sqlMapGenerator targetPackage="com.pantuo.mybatis.persistence" targetProject="MAVEN">
+		<sqlMapGenerator targetPackage="com.pantuo.mybatis.persistence"
+			targetProject="MAVEN">
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
-		<javaClientGenerator type="XMLMAPPER" targetPackage="com.pantuo.mybatis.persistence"
-			targetProject="MAVEN">
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.pantuo.mybatis.persistence" targetProject="MAVEN">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 
 
-		<!-- <table schema="" tableName="product" delimitIdentifiers="${generator.delimitIdentifiers}">
-			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
+		<!-- <table schema="" tableName="product" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="attachment" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="contract" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="orders" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="supplies" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="supplies_history" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="sys_config" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="box" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="industry" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="invoice" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="message" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="city" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="business_company" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="bus_model" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="order_buses" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="invoice_detail" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="role_cpd" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="user_cpd" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="account" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="black_ad" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="bus_lock" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="bus_contract" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="bodycontract" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="goods_black" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> -->
+		<!-- <table schema="" tableName="publish_line" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="offlinecontract" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="dividpay" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="bus_online" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="bus_function" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="group_function" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="ACT_ID_GROUP" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> -->
+		<!-- <table schema="" tableName="product_V2" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> -->
+
+
+		<!-- <table schema="" tableName="bus_order_v2" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="bus_order_detail_v2" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> -->
+
+		<!-- <table schema="" tableName="bus" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> -->
+		<!-- <table schema="" tableName="bus_adjustlog" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> <table schema="" tableName="bus_uplog" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> -->
+		<!-- <table schema="" tableName="bus_line" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> -->
+		<!-- <table schema="" tableName="bus" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table> -->
+		<table schema="" tableName="line_uplog" delimitIdentifiers="${generator.delimitIdentifiers}">
+			<generatedKey column="ID" sqlStatement="${generator.db}"
+				identity="true" />
 		</table>
-        <table schema="" tableName="attachment" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        <table schema="" tableName="contract" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        <table schema="" tableName="orders" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        <table schema="" tableName="supplies" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        <table schema="" tableName="supplies_history" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        <table schema="" tableName="sys_config" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        <table schema="" tableName="box" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-         <table schema="" tableName="industry" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        <table schema="" tableName="invoice" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        
-         <table schema="" tableName="message" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        <table schema="" tableName="city" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-      
-        <table schema="" tableName="business_company" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-      
-        <table schema="" tableName="bus_model" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        <table schema="" tableName="order_buses" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        
-        <table schema="" tableName="invoice_detail" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        
-          <table schema="" tableName="role_cpd" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-          <table schema="" tableName="user_cpd" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        <table schema="" tableName="account" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        <table schema="" tableName="black_ad" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        
-         <table schema="" tableName="bus_lock" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        
-         <table schema="" tableName="bus_contract" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        <table schema="" tableName="bodycontract" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        
-        <table schema="" tableName="goods_black" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table> -->
-        <!--  <table schema="" tableName="publish_line" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-         <table schema="" tableName="offlinecontract" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-         <table schema="" tableName="dividpay" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-          <table schema="" tableName="bus_online" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        
-          <table schema="" tableName="bus_function" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        
-          <table schema="" tableName="group_function" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        
-            <table schema="" tableName="ACT_ID_GROUP" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        
-             -->
-         <!--  <table schema="" tableName="product_V2" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table> -->
-        
-              
-            <!--     <table schema="" tableName="bus_order_v2" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-                
-                  <table schema="" tableName="bus_order_detail_v2" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table> -->
-        
-         <!--  <table schema="" tableName="bus" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table> -->
-         <!--  <table schema="" tableName="bus_adjustlog" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-         <table schema="" tableName="bus_uplog" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table> -->
-        <!--   <table schema="" tableName="bus_line" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table> -->
-        <!--   <table schema="" tableName="bus" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table> -->
-          <table schema="" tableName="line_uplog" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-         <table schema="" tableName="bus_uplog" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        
-         <!-- 以下是10份页面改版部分 -->
-          <table schema="" tableName="cardbox_media" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        
-           <table schema="" tableName="cardbox_helper" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        
-            <table schema="" tableName="cardbox_body" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        
-             <table schema="" tableName="cardbox_user" delimitIdentifiers="${generator.delimitIdentifiers}">
-            <generatedKey column="ID" sqlStatement="${generator.db}" identity="true" />
-        </table>
-        
-        
-    </context>
+		<table schema="" tableName="bus_uplog" delimitIdentifiers="${generator.delimitIdentifiers}">
+			<generatedKey column="ID" sqlStatement="${generator.db}"
+				identity="true" />
+		</table>
+		<table schema="" tableName="product_V2" delimitIdentifiers="${generator.delimitIdentifiers}">
+			<generatedKey column="ID" sqlStatement="${generator.db}"
+				identity="true" />
+		</table>
+		<!-- 以下是10份页面改版部分 -->
+		<table schema="" tableName="cardbox_media" delimitIdentifiers="${generator.delimitIdentifiers}">
+			<generatedKey column="ID" sqlStatement="${generator.db}"
+				identity="true" />
+		</table>
+
+		<table schema="" tableName="cardbox_helper" delimitIdentifiers="${generator.delimitIdentifiers}">
+			<generatedKey column="ID" sqlStatement="${generator.db}"
+				identity="true" />
+		</table>
+
+		<table schema="" tableName="cardbox_body" delimitIdentifiers="${generator.delimitIdentifiers}">
+			<generatedKey column="ID" sqlStatement="${generator.db}"
+				identity="true" />
+		</table>
+
+		<table schema="" tableName="cardbox_user" delimitIdentifiers="${generator.delimitIdentifiers}">
+			<generatedKey column="ID" sqlStatement="${generator.db}"
+				identity="true" />
+		</table>
+
+
+	</context>
 </generatorConfiguration>
