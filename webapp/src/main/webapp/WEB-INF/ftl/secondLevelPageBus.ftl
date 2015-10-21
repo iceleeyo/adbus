@@ -25,7 +25,7 @@
 						<li><a href="index.html">首页</a></li>
 						<li class="active"><a href="jvascript:void(0)">媒体产品</a></li>
 						<li><a href="jvascript:void(0)">传播效果</a></li>
-						<li><a href="jvascript:void(0)">案例欣赏</a></li>
+						<li><a href="/caseMore.html">案例欣赏</a></li>
 						<li><a href="jvascript:void(0)">合作伙伴</a></li>
 						<li><a href="jvascript:void(0)">关于我们</a></li>
 					</ul>
@@ -44,7 +44,7 @@
 				<ul class="navibar">
 					<li><a>首页</a></li>
 					<li class="active"><a>产品媒体</a></li>
-					<li><a>案例欣赏</a></li>
+					<li><a href="/caseMore.html">案例欣赏</a></li>
 				</ul>
 				<div class="markble">
 					<p>世界在你脚下，巴士一路随行</p>
@@ -269,7 +269,7 @@
 							<ul>
 								<!--<li class="item1">销量</li>-->
 								<li class="item1">&nbsp</li>
-								<li class="item2">价格 <span id = "priceSort" style="color:#ff9966">[高到低]</span></li>
+								<li class="item2">价格 <a href="jvascript:void(0)"><span id = "priceSort" style="color:#fff">ｖ</span></a></li>
 								<li class="item3">价格<input id="price1" class="i-short" ><em>—</em><input id="price2" class="i-short"></li>
 								<li class="item4"> &nbsp</li>
 							</ul>
@@ -371,10 +371,10 @@
                   var w = $('#ascOrDesc').val();
                   if(w==0){
                     $('#ascOrDesc').val(1);
-                      $('#priceSort').html("[低到高]"); 
+                      $('#priceSort').html("＾"); 
                   }else{
                    $('#ascOrDesc').val(0); 
-                      $('#priceSort').html("[高到低]"); 
+                      $('#priceSort').html("ｖ"); 
                   }
                    initPro('${rc.contextPath}',$("#sh").val(),0);
        	 });
