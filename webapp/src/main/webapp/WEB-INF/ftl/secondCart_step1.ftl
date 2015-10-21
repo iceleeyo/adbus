@@ -275,7 +275,7 @@
    		layer.confirm('确定选择这些商品吗？', {icon: 3}, function(index){
     		layer.close(index);
 		    if(true){
-		          window.location.href="${rc.contextPath}/toCard2?meids="+medIds+"&boids="+boIds;
+		          window.location.href="${rc.contextPath}/select?meids="+medIds+"&boids="+boIds;
 		       }
 		});		
 		}

@@ -10,20 +10,19 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.h2.util.New;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.mysema.commons.lang.Pair;
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProduct.FrontShow;
@@ -33,7 +32,7 @@ import com.pantuo.service.CardService;
 import com.pantuo.service.CityService;
 import com.pantuo.service.CpdService;
 import com.pantuo.service.ProductService;
-import com.pantuo.web.view.CardView;
+import com.pantuo.web.view.MapLocationSession;
 
 /**
  * Index controller
@@ -41,6 +40,8 @@ import com.pantuo.web.view.CardView;
  * @author tliu
  */
 @Controller
+
+@SessionAttributes("_cardSelect")
 public class IndexController {
 	
 	private static Logger logger = LoggerFactory.getLogger(IndexController.class);
@@ -150,15 +151,36 @@ public class IndexController {
 		model.addAttribute("infos", cardService.getMediaList(principal,0,null,null));
 		return "secondCart_step1";
 	}
-
-	@RequestMapping(value = "/toCard2", produces = "text/html;charset=utf-8")
-	public String toCard2(Model model,HttpServletRequest request,Principal principal,
+public class CardSelect{
+	
+	String meids;
+	String boids;
+	public CardSelect(String meids, String boids) {
+		super();
+		this.meids = meids;
+		this.boids = boids;
+	}
+	 
+ 
+	
+}
+	@RequestMapping(value = "/select", produces = "text/html;charset=utf-8")
+	public String toCard3(Model model,HttpServletRequest request,Principal principal,
 			@RequestParam(value="meids" , required = false) String meids,@RequestParam(value="boids" , required = false) String boids) {
-		model.addAttribute("infos", cardService.getMediaList(principal,0,meids,boids));
+		model.addAttribute("_cardSelect", new CardSelect(meids, boids));
+		 return "redirect:/selected";
+	//	return "secondCart_step2";
+	}
+	@RequestMapping(value = "/selected", produces = "text/html;charset=utf-8")
+	public String toCard2(Model model,HttpServletRequest request,Principal principal,
+			@ModelAttribute("_cardSelect") CardSelect cardselect
+			) {
+		//@RequestParam(value="meids" , required = false) String meids,@RequestParam(value="boids" , required = false) String boids
+		model.addAttribute("infos", cardService.getMediaList(principal,0,cardselect.meids,cardselect.boids));
 		model.addAttribute("seriaNum", cardService.getCardBingSeriaNum(principal));
-		model.addAttribute("meids", meids);
-		model.addAttribute("boids", boids);
-		return "secondCart_step2";
+		model.addAttribute("meids", cardselect.meids);
+		model.addAttribute("boids", cardselect.boids);
+	 	return "secondCart_step2";
 	}
 //	@RequestMapping(value = "/confirmBox", produces = "text/html;charset=utf-8")
 //	@ResponseBody
