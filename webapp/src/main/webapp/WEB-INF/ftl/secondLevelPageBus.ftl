@@ -10,6 +10,7 @@
 		<link rel="stylesheet" type="text/css" href="index_css/jack.css">
 		<link rel="stylesheet" type="text/css" href="index_css/secondLevel.css">
 		<link rel="stylesheet" type="text/css" href="index_css/sift.css">
+		<link rel="stylesheet" href="index_css/pagination.css">
 			
 	</head>
 <style type="text/css">
@@ -231,15 +232,15 @@
 								<span class="desp">城区：</span>
 								<span class="sift-list" qt="C">
 									<a class="item active" href="#" sort="-1" qc="all">所有</a>
-									<a class="item" href="javascript:;" qc="西单" sort="-1" >海淀<i>×</i></a>
-									<a class="item" href="javascript:;"  >朝阳<i>×</i></a>
-									<a class="item" href="javascript:;"  >丰台<i>×</i></a>
-									<a class="item" href="javascript:;"  >东城<i>×</i></a>
-									<a class="item" href="javascript:;"  >西城<i>×</i></a>
-									<a class="item" href="javascript:;"  >石景山<i>×</i></a>
-									<a class="item" href="javascript:;"  >通州<i>×</i></a>
-									<a class="item" href="javascript:;"  >大兴<i>×</i></a>
-									<a class="item" href="javascript:;"  >密云<i>×</i></a>
+									<a class="item" href="javascript:;" qc="海淀" sort="-1" >海淀<i>×</i></a>
+									<a class="item" href="javascript:;" qc="朝阳" >朝阳<i>×</i></a>
+									<a class="item" href="javascript:;" qc="丰台" >丰台<i>×</i></a>
+									<a class="item" href="javascript:;" qc="东城" >东城<i>×</i></a>
+									<a class="item" href="javascript:;" qc="西城" >西城<i>×</i></a>
+									<a class="item" href="javascript:;" qc="西单" >西单<i>×</i></a>
+									<a class="item" href="javascript:;" qc="通州" >通州<i>×</i></a>
+									<a class="item" href="javascript:;" qc="大兴" ><i>大兴</i></a>
+									<a class="item" href="javascript:;" qc="密云" ><i>密云</i></a>
 								</span>
 								<div class="s-more">
 									+<span>多选</span>
@@ -247,16 +248,17 @@
 							</div>
 							<div class="back-item">
 								<span class="desp">车型：</span>
-								<span class="sift-list" qt="dc">
-									<a class="item" href="javascript:;"  >双层<i>×</i></a>
-									<a class="item" href="javascript:;"  >双层特级<i>×</i></a>
-									<a class="item" href="javascript:;"  >双层A++<i>×</i></a>
-									<a class="item" href="javascript:;"  >双层A+<i>×</i></a>
+								<span class="sift-list" qt="D">
+									<a class="item active" href="#" sort="-1" qc="all">所有</a>
+									<a class="item" href="javascript:;" qc="1_0" >双层<i>×</i></a>
+									<a class="item" href="javascript:;" qc="1_S" >双层特级<i>×</i></a>
+									<a class="item" href="javascript:;"  qc="1_APP">双层A++<i>×</i></a>
+									<a class="item" href="javascript:;"   qc="1_AP">双层A+<i>×</i></a>
 								<br>
-									<a style="margin-left: 80px;" class="item" href="javascript:;"  >单层<i>×</i></a>
-									<a class="item" href="javascript:;"  >单层特级<i>×</i></a>
-									<a class="item" href="javascript:;"  >单层A++<i>×</i></a>
-									<a class="item" href="javascript:;"  >单层A+<i>×</i></a>
+									<a style="margin-left: 80px;" class="item" href="javascript:;"  qc="0_0" >单层<i>×</i></a>
+									<a class="item" href="javascript:;"  qc="0_S">单层特级<i>×</i></a>
+									<a class="item" href="javascript:;" qc="0_APP" >单层A++<i>×</i></a>
+									<a class="item" href="javascript:;" qc="0_AP"  >单层A+<i>×</i></a>
 								</span>
 								<div class="s-more">
 									+<span>多选</span>
@@ -273,13 +275,15 @@
 						</div>
 
 						<div class="buy">
+						<div id="productList">
+						</div>
+						<!--
 							<div class="cont">
 								<div class="activity inline-b"><span>特11</span> 双层 特级</div>
 								<div class="price inline-b">
 									<p class="p-one"><em>1700</em>元/月/辆</p>
 									<p class="p-two">5000000人次/月</p>
 								</div>
-								<!-- 加减控制 -->
 								<div class="num f-left inline-b">
 									<input type="button" class="icon f-left dec" id="leftDec" />
 									<input class="f-left" id="sum" value="0">
@@ -289,31 +293,12 @@
 									<div class="map-box"></div>
 								</div>
 							</div>
-
-							<div class="paginate">
-								<span>1</span>
-								<span>2</span>...
-								<span>1</span>
-							</div>
-
-							<div class="cont contall">
-								<div class="activity inline-b"><span>合计</span></div>
-								<div class="price inline-b">
-									<p class="p-one"><em>1700元</em></p>
+							-->
+							<input type="hidden" id="sh" value=""/>
+								<div class="paginate">
+									<div id="Pagination" class="pagination"></div>
 								</div>
-								<div class="text inline-b">
-									<p class="p-one">全选</p>
-								</div>
-								<div class="num f-left inline-b">
-									<span class="icon f-left dec"></span>
-									<input class="f-left">
-									<span class="icon f-left plus"></span>
-								</div>
-								<div class="map f-left inline-b">
-									<div class="map-box"></div>
-								</div>
-							</div>
-
+							 
 							<div class="cart-box">
 								<div class="cart">
 									加入购物车
@@ -344,10 +329,12 @@
 
 		<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
 		<script src="index_js/unslider.min.js"></script>
-		<script src="index_js/sift_bus.js"></script>
+		<script src="index_js/sift_body.js"></script>
+		<script src="js/jquery.pagination.js"></script>
 		<script type="text/javascript">
 	    $(document).ready(function() {
-	        initSwift2()
+	         initPro('${rc.contextPath}',"");
+	         initSwift2('${rc.contextPath}');
 	    } );
 	    
 		$("#leftDec").click(function(){
