@@ -77,9 +77,9 @@
 								<ul class="clearfix">
 									<li class="td td-check">
 										<div class="td-inner">
-											<div class="cart-check">
+											<div class="cart-check mediaB">
 												<input class="hideinput" type="checkbox" name="order"> 
-												<label></label>
+												<label id="mediaAll"></label>
 											</div>
 										</div>
 									</li>
@@ -94,7 +94,7 @@
 							<div class="panel-item">
 								<ul class="item-info clearfix">
 									<li class="td td-check clearfix">
-										<div class="cart-check">
+										<div class="cart-check mediaB">
 												<input class="hideinput"  type="checkbox" id="${item.id}" name="checkone" value="${item.id}">
 												<label class="chilbox" rowid="${item.id}"></label>
 
@@ -144,9 +144,9 @@
 								<ul class="clearfix">
 									<li class="td td-check">
 										<div class="td-inner">
-											<div class="cart-check">
+											<div class="cart-check bodyB">
 												<input class="hideinput" type="checkbox" name="order"> 
-												<label></label>
+												<label id="bodyAll"></label>
 											</div>
 										</div>
 									</li>
@@ -161,9 +161,9 @@
 							<div class="panel-item">
 								<ul class="item-info clearfix">
 									<li class="td td-check clearfix">
-										<div class="cart-check">
+										<div class="cart-check bodyB">
 												<input  type="checkbox" name="b_checkone" value="${item.id}">
-												<label></label>
+												<label class="chilbox"></label>
 										</div>
 									</li>
 									<li class="td td-item">
@@ -457,9 +457,45 @@
 						
 			});
 			
+			$('#mediaAll').on('click', function(event) {
+				event.preventDefault();
+				/* console.log($('.cart-check').find($("input"))[0].checked); */
+				function ifChecked (cartCheck, bool) {
+					$(cartCheck).each(function(i){
+					   $(this).find($("input"))[0].checked = bool;
+					 });
+				}
+				if(!$(this).parent().find($("input"))[0].checked){
+					$('.mediaB').addClass('active');
+					ifChecked(".mediaB", true);
+		        }
+		        else{
+		        	$('.mediaB').removeClass('active');  
+		        	ifChecked(".mediaB", false);  
+		        }
+		        	event.stopPropagation();
+						
+			});
 			
-			
-			
+			$('#bodyAll').on('click', function(event) {
+				event.preventDefault();
+				/* console.log($('.cart-check').find($("input"))[0].checked); */
+				function ifChecked (cartCheck, bool) {
+					$(cartCheck).each(function(i){
+					   $(this).find($("input"))[0].checked = bool;
+					 });
+				}
+				if(!$(this).parent().find($("input"))[0].checked){
+					$('.bodyB').addClass('active');
+					ifChecked(".bodyB", true);
+		        }
+		        else{
+		        	$('.bodyB').removeClass('active');  
+		        	ifChecked(".bodyB", false);  
+		        }
+		        	event.stopPropagation();
+						
+			});
 			
 			$("label.chilbox").on('click', function(){
 				console.log($(this).prev()[0].checked); 

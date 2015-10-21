@@ -254,7 +254,7 @@
 						<div class="select-more">
 							<ul>
 								<li class="item1">&nbsp</li>
-								<li class="item2">价格 <span id = "priceSort" style="color:#ff9966">[高到低]</span></li>
+								<li class="item2">价格 <a href="jvascript:void(0)"><span id = "priceSort" style="color:#fff">ｖ</span></a></li>
 								<li class="item3">价格<input type="text" id="price1" value="" onkeyup="value=value.replace(/[^\\d]/g,\'\')" onblur="changeByprice('${rc.contextPath}');" class="i-short"><em>—</em><input type="text" id="price2" onblur="changeByprice('${rc.contextPath}');" class="i-short"></li>
 							    <li class="item4"> &nbsp</li>
 							</ul>
@@ -311,10 +311,10 @@
                   var w = $('#ascOrDesc').val();
                   if(w==0){
                     $('#ascOrDesc').val(1);
-                      $('#priceSort').html("[低到高]"); 
+                      $('#priceSort').html("＾"); 
                   }else{
                    $('#ascOrDesc').val(0); 
-                      $('#priceSort').html("[高到低]"); 
+                      $('#priceSort').html("ｖ"); 
                   }
                   // initPro('${rc.contextPath}',$("#sh").val(),0);
                   var price1=$("#price1").val();
