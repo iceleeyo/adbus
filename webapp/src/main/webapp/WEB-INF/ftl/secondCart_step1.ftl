@@ -220,7 +220,7 @@
 					    		</div>
 					    		<div class="inner-right">
 					    			<span>总价:</span>
-					    			<span class="acount-price">￥${infos.totalPrice}</span>
+					    			<span id="aprice" class="acount-price">￥${infos.totalPrice}</span>
 					    			<a href="javascript:void(0);" onclick="selectPro()">
 					    			<div class="btn-over">生成订单</div>
 					    			</a>
@@ -331,7 +331,8 @@
 						data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"uprice":$("#uprice_"+sot).val()},
 						type : "POST",
 						success : function(data) {
-						   window.location.reload();
+						   //window.location.reload();
+						   updateMoney();
 					}}, "text");
 				}
 				function boblur(id){
@@ -341,7 +342,8 @@
 						data:{"proid":$("#b_pid_"+sot).val(),"needCount":$("#b_sum_"+sot).val(),"uprice":0},
 						type : "POST",
 						success : function(data) {
-						 window.location.reload();
+						// window.location.reload();
+						updateMoney();
 					}}, "text");
 				}
 		function leftDec(id){
@@ -353,7 +355,8 @@
 						url :  "${rc.contextPath}/carbox/saveCard/media",
 						data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"uprice":$("#uprice_"+sot).val()},
 						type : "POST",
-						success : function(data) { window.location.reload();
+						success : function(data) { //window.location.reload();
+						updateMoney();
 							}}, "text");
 			  }
 		}
@@ -368,7 +371,8 @@
 						data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"uprice":$("#uprice_"+sot).val()},
 						type : "POST",
 						success : function(data) {
-						 window.location.reload();
+						 //window.location.reload();
+						 updateMoney();
 							}}, "text");
 		}
 		function b_leftDec(id){
@@ -381,7 +385,8 @@
 						data:{"proid":$("#b_pid_"+sot).val(),"needCount":$("#b_sum_"+sot).val(),"uprice":0},
 						type : "POST",
 						success : function(data) {
-						 window.location.reload();
+						 //window.location.reload();
+						 updateMoney();
 							}}, "text");
 			  }
 		}
@@ -403,7 +408,8 @@
 						data:{"proid":$("#b_pid_"+sot).val(),"needCount":$("#b_sum_"+sot).val(),"uprice":0},
 						type : "POST",
 						success : function(data) {
-						 window.location.reload();
+						 //window.location.reload();
+						 updateMoney();
 							}}, "text");
 		}
 			$(document).ready(function(e) {
