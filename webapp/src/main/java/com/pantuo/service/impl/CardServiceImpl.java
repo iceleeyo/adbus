@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.expr.BooleanExpression;
@@ -442,10 +443,10 @@ public class CardServiceImpl implements CardService {
 		return map;
 	}
    public  Page<JpaBusOrderDetailV2> searchProducts(int city, Principal principal,
-    		TableRequest req){
-    	
-	   Map<String, List<String>> map = getQuestObj(req.getFilter("sh"));
-	   BooleanExpression query = QJpaBusOrderDetailV2.jpaBusOrderDetailV2.city.eq(city);
+ TableRequest req) {
+
+		Map<String, List<String>> map = getQuestObj(req.getFilter("sh"));
+		BooleanExpression query = QJpaBusOrderDetailV2.jpaBusOrderDetailV2.city.eq(city);
 		for (Map.Entry<String, List<String>> entry : map.entrySet()) {
 			List<String> values = entry.getValue();
 			if (StringUtils.equals(entry.getKey(), "B") && values.size() > 0) {
@@ -468,8 +469,7 @@ public class CardServiceImpl implements CardService {
 					}
 				}
 				query = query.and(subQuery);
-			}
- else if (StringUtils.equals(entry.getKey(), "D") && values.size() > 0) {
+			} else if (StringUtils.equals(entry.getKey(), "D") && values.size() > 0) {
 				BooleanExpression subQuery = null;
 				for (String catType : values) {
 					if (StringUtils.isNoneBlank(catType)) {
@@ -480,7 +480,8 @@ public class CardServiceImpl implements CardService {
 									.eq(isDoubleChecker);
 							if (!StringUtils.equals(s[1], "0")) {
 								JpaBusline.Level level = JpaBusline.Level.valueOf(s[1]);
-								smallAdressEx = smallAdressEx.and(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.leval.eq(level));
+								smallAdressEx = smallAdressEx.and(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.leval
+										.eq(level));
 							}
 							subQuery = subQuery == null ? smallAdressEx : subQuery.or(smallAdressEx);
 						}
@@ -490,8 +491,23 @@ public class CardServiceImpl implements CardService {
 			}
 
 		}
-    	Sort sort = new Sort("id");
-    	int page = req.getPage(), pageSize = req.getLength();
+		Sort sort = new Sort("id");
+		if (StringUtils.equals(req.getFilter("p"), "1")) {
+			sort = new Sort(Direction.fromString("desc"), "price");
+		} else {
+			sort = new Sort(Direction.fromString("asc"), "price"); 
+		}
+		Double t1 = NumberUtils.toDouble(req.getFilter("price1"));
+		if (t1 > 0) {
+			query=	query.and(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.JpaProductV2.price.goe(t1));
+		}
+		double t2 = NumberUtils.toDouble(req.getFilter("price2"));
+		if (t2 > 0) {
+			query=	query.and(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.JpaProductV2.price.loe(t2));
+		}
+		
+		
+		int page = req.getPage(), pageSize = req.getLength();
 
 		if (page < 0)
 			page = 0;
@@ -501,8 +517,8 @@ public class CardServiceImpl implements CardService {
 		Pageable p = new PageRequest(page, pageSize, sort);
 		Page<JpaBusOrderDetailV2> list = busOrderDetailV2Repository.findAll(query, p);
 		return list;
-    	
-    }
+
+	}
 	public void test() {
 		Sort sort = new Sort("id");
 		Pageable p = new PageRequest(0, 30, sort);
