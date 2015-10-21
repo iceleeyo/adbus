@@ -220,6 +220,7 @@
 			success:function(data){
 				if (data.left) {
 					layer.msg(data.right);
+					//查的自己 删除上级 上级的div
 					$("ul li[rowid="+id+"]").parent().parent().remove();
 				   /*var uptime = window.setTimeout(function(){
 				   window.location.reload();
