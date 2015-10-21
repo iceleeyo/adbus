@@ -127,7 +127,7 @@
 											<p class="sum"><em>￥</em>${item.price*item.needCount}</p>
 										</div>
 									</li>
-									<li class="td td-handle">
+									<li rowid= "${item.id}" class="td td-handle">
 									  <a href="javascript:void(0);" onclick="removeOne(${item.id});">	<p class="del-like" ></p></a>
 									</li>
 								</ul>
@@ -220,10 +220,11 @@
 			success:function(data){
 				if (data.left) {
 					layer.msg(data.right);
-				   var uptime = window.setTimeout(function(){
+					$("ul li[rowid="+id+"]").parent().parent().remove();
+				   /*var uptime = window.setTimeout(function(){
 				   window.location.reload();
 			   	    clearTimeout(uptime);
-						},1000)
+						},1000)*/
 				} else {
 					layer.msg(data.right);
 				}
