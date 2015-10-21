@@ -16,10 +16,10 @@
 				<span class="area">北京</span>
 				<nav class="menu">
 					<ul class="list-line">
-						<li><a href="jvascript:void(0)">首页</a></li>
+						<li><a href="/index.html">首页</a></li>
 						<li class="active"><a href="jvascript:void(0)">媒体产品</a></li>
 						<li><a href="jvascript:void(0)">传播效果</a></li>
-						<li><a href="jvascript:void(0)">案例欣赏</a></li>
+						<li><a href="/caseMore.html">案例欣赏</a></li>
 						<li><a href="jvascript:void(0)">合作伙伴</a></li>
 						<li><a href="jvascript:void(0)">关于我们</a></li>
 					</ul>
@@ -36,9 +36,9 @@
 					<img src="index_img/pic1.png" height="100" width="100">
 				</div>
 				<ul class="navibar">
-					<li><a>首页</a></li>
+					<li><a href="/index.html">首页</a></li>
 					<li class="active"><a>产品媒体</a></li>
-					<li><a>案例欣赏</a></li>
+					<li><a href="/caseMore.html">案例欣赏</a></li>
 				</ul>
 				<div class="markble">
 					<p>世界在你脚下，巴士一路随行</p>
@@ -95,8 +95,9 @@
 								<ul class="item-info clearfix">
 									<li class="td td-check clearfix">
 										<div class="cart-check">
-												<input  type="checkbox" name="checkone" value="${item.id}">
-												<label></label>
+												<input class="hideinput"  type="checkbox" id="${item.id}" name="checkone" value="${item.id}">
+												<label class="chilbox" rowid="${item.id}"></label>
+
 										</div>
 									</li>
 									<li class="td td-item">
@@ -419,21 +420,58 @@
 					$(this).removeClass('item-rect-hover');
 				});
 
-					$('#all').on('click', function(event) {
-					event.preventDefault();
-					if(!$(this).prev().is(':checked')){
-						$('.cart-check').addClass('active');
-						$(this).prev().checked = true;
-						/* alert($(this).prev().checked); */	
-	                }
-	                else{
-	                	alert("ss");
-	                	$('.cart-check').removeClass('active');        
-	                    $(this).prev().checked = false;
-	                }
-	                event.stopPropagation();
+			});
 					
-				});
+			/* $('#all').on('click', function(event) {
+				event.preventDefault();
+				console.log($(this).parent().find($("input"))[0].checked);
+				if(!$(this).parent().find($("input"))[0].checked){
+					$('.cart-check').addClass('active');
+					$('.cart-check').find($("input"))[0].checked = true;
+		        }
+		        else{
+		        	$('.cart-check').removeClass('active');        
+		            $('.cart-check').find($("input"))[0].checked = false;
+		        }
+		        	event.stopPropagation();
+						
+			}); */
+			
+			$('#all').on('click', function(event) {
+				event.preventDefault();
+				/* console.log($('.cart-check').find($("input"))[0].checked); */
+				function ifChecked (cartCheck, bool) {
+					$(cartCheck).each(function(i){
+					   $(this).find($("input"))[0].checked = bool;
+					 });
+				}
+				if(!$(this).parent().find($("input"))[0].checked){
+					$('.cart-check').addClass('active');
+					ifChecked(".cart-check", true);
+		        }
+		        else{
+		        	$('.cart-check').removeClass('active');  
+		        	ifChecked(".cart-check", false);  
+		        }
+		        	event.stopPropagation();
+						
+			});
+			
+			
+			
+			
+			
+			$("label.chilbox").on('click', function(){
+				console.log($(this).prev()[0].checked); 
+				if(!$(this).prev()[0].checked){
+					$(this).parent().addClass('active');
+					$(this).prev()[0].checked = true;
+		        }
+		        else{
+		        	$(this).parent().removeClass('active'); 
+		        	$(this).prev()[0].checked = false;
+		        }
+		        	event.stopPropagation();
 			});
 		</script>
 	</body>
