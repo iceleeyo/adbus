@@ -1,5 +1,6 @@
 package com.pantuo.dao.pojo;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -7,12 +8,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.pantuo.dao.pojo.JpaSupplies.Status;
+
 @Entity
 @Table(name = "product_V2")
 public class JpaProductV2 extends CityEntity {
-	 public static enum Status {
-	       online,offline
-	    }
+	public static enum Status {
+		online, offline
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
@@ -23,6 +26,15 @@ public class JpaProductV2 extends CityEntity {
 	private String remarks;//备注
 	private String creater;//创建人
 	private Status stats;//上下架
+	@Column(length = 128)
+	private String addressList;//商区
+	@Column(length = 128)
+	private String smallAdressList;//城区
+	@Column(length = 12)
+	private String personAvg;//人次
+	
+	
+	
 
 	public JpaProductV2() {
 		super();
@@ -86,6 +98,30 @@ public class JpaProductV2 extends CityEntity {
 
 	public void setJbremarks(String jbremarks) {
 		this.jbremarks = jbremarks;
+	}
+
+	public String getAddressList() {
+		return addressList;
+	}
+
+	public void setAddressList(String addressList) {
+		this.addressList = addressList;
+	}
+
+	public String getSmallAdressList() {
+		return smallAdressList;
+	}
+
+	public void setSmallAdressList(String smallAdressList) {
+		this.smallAdressList = smallAdressList;
+	}
+
+	public String getPersonAvg() {
+		return personAvg;
+	}
+
+	public void setPersonAvg(String personAvg) {
+		this.personAvg = personAvg;
 	}
 
 }
