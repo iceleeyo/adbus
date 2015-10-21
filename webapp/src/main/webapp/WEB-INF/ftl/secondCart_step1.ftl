@@ -71,6 +71,7 @@
 							<div class="arrow arrow-stp2"><span class="ara">2</span><span>确认订单信息</span></div>
 							<div class="arrow arrow-stp3"><span class="ara">3</span><span>成功提交订单</span></div>
 						</div>
+						  <#if infos.media?? && (infos.media?size>0)>
 						<div class="panel">
 							<div class="panel-head">
 								<ul class="clearfix">
@@ -82,7 +83,7 @@
 											</div>
 										</div>
 									</li>
-									<li class="td td-name">北广传媒</li>
+									<li class="td td-name">视频产品</li>
 									<li class="td td-price">单价</li>
 									<li class="td td-amount">数量</li>
 									<li class="td td-sum">合计</li>
@@ -94,7 +95,7 @@
 								<ul class="item-info clearfix">
 									<li class="td td-check clearfix">
 										<div class="cart-check">
-												<input class="hideinput" type="checkbox" name="checkone" value="${item.id}">
+												<input  type="checkbox" name="checkone" value="${item.id}">
 												<label></label>
 										</div>
 									</li>
@@ -106,7 +107,8 @@
 									<li class="td td-info">
 										<div class="item-rect">
 											<p class="rec-line">${item.product.duration}秒/次</p>
-											<p class="rec-line">${item.product.days}</p>
+											<p class="rec-line">${item.product.playNumber}次/天</p>
+											<p class="rec-line">${item.product.days}天</p>
 											<span class="btn-edit"></span>
 										</div>
 									</li>
@@ -119,7 +121,7 @@
 										<input type="hidden" id="uprice_${item.id}" value="${item.price}">
 									<li class="td td-amount">
 										<span class="icon icon-plus" onclick="leftDec(${item.id});" ></span>
-										<input type="text" id="sum_${item.id}" value="${item.needCount}">
+										<input type="text" id="sum_${item.id}" value="${item.needCount}" onblur="meblur(${item.id})">
 										<span class="icon icon-sub"   onclick="leftPlus(${item.id});"></span>
 									</li>
 									<li class="td td-sum">
@@ -134,8 +136,73 @@
 							</div>
 									</#list>
 						</div>
+						</#if>
+						  <#if (infos.body?size>0)>
+						<div class="panel">
+							<div class="panel-head">
+								<ul class="clearfix">
+									<li class="td td-check">
+										<div class="td-inner">
+											<div class="cart-check">
+												<input class="hideinput" type="checkbox" name="order"> 
+												<label></label>
+											</div>
+										</div>
+									</li>
+									<li class="td td-name">车身产品</li>
+									<li class="td td-price">单价</li>
+									<li class="td td-amount">数量</li>
+									<li class="td td-sum">合计</li>
+									<li class="td td-handle">操作</li>
+								</ul>
+							</div>
+								<#list infos.body as item>
+							<div class="panel-item">
+								<ul class="item-info clearfix">
+									<li class="td td-check clearfix">
+										<div class="cart-check">
+												<input  type="checkbox" name="b_checkone" value="${item.id}">
+												<label></label>
+										</div>
+									</li>
+									<li class="td td-item">
+										<div class="td-inner">
+											<p>${item.product.jpaProductV2.name}</p>
+										</div>
+									</li>
+									<li class="td td-info">
+										<div class="item-rect">
+											<p class="rec-line">线路级别：${item.product.leval.nameStr}</p>
+											<p class="rec-line">车辆数：${item.product.busNumber}</p>
+											<p class="rec-line">刊期：${item.product.days}</p>
+											<span class="btn-edit"></span>
+										</div>
+									</li>
+									<li class="td td-price">
+										<div class="td-inner">
+											<p class="price"><em>￥</em>${item.price}</p>
+										</div>
+									</li>
+										<input type="hidden" id="b_pid_${item.id}" value="${item.product.id}">
+									<li class="td td-amount">
+										<span class="icon icon-plus" onclick="b_leftDec(${item.id});" ></span>
+										<input type="text" id="b_sum_${item.id}" onblur="boblur(${item.id});" value="${item.needCount}">
+										<span class="icon icon-sub"   onclick="b_leftPlus(${item.id});"></span>
+									</li>
+									<li class="td td-sum">
+										<div class="td-inner">
+											<p class="sum"><em>￥</em>${item.price*item.needCount}</p>
+										</div>
+									</li>
+									<li rowid= "${item.id}" class="td td-handle">
+									  <a href="javascript:void(0);" onclick="b_removeOne(${item.id});">	<p class="del-like" ></p></a>
+									</li>
+								</ul>
+							</div>
+									</#list>
+						</div>
+						</#if>
 
-					
 				</div>
 				<div class="acount-fix">
 						<div class="acount-top">
@@ -153,7 +220,7 @@
 					    		</div>
 					    		<div class="inner-right">
 					    			<span>总价:</span>
-					    			<span id="aprice" class="acount-price">￥${infos.totalPrice}</span>
+					    			<span class="acount-price">￥${infos.totalPrice}</span>
 					    			<a href="javascript:void(0);" onclick="selectPro()">
 					    			<div class="btn-over">生成订单</div>
 					    			</a>
@@ -188,20 +255,26 @@
 	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
 		<script type="text/javascript">
 		function selectPro(){
-		var o = document.getElementsByName("checkone");
-        	var dIds='';
-        	for(var i=0;i<o.length;i++){
-                if(o[i].checked)
-                dIds+=o[i].value+',';   
+		var me= document.getElementsByName("checkone");
+        	var medIds='';
+        	for(var i=0;i<me.length;i++){
+                if(me[i].checked)
+                medIds+=me[i].value+',';   
            }
-           if(dIds==""){
+		var bo= document.getElementsByName("b_checkone");
+        	var boIds='';
+        	for(var i=0;i<bo.length;i++){
+                if(bo[i].checked)
+                boIds+=bo[i].value+',';   
+           }
+           if(medIds=="" && boIds==""){
         	   layer.msg("请选择商品");
         	   return false;
            }
    		layer.confirm('确定选择这些商品吗？', {icon: 3}, function(index){
     		layer.close(index);
 		    if(true){
-		          window.location.href="${rc.contextPath}/toCard2?ids="+dIds;
+		          window.location.href="${rc.contextPath}/toCard2?meids="+medIds+"&boids="+boIds;
 		       }
 		});		
 		}
@@ -212,7 +285,7 @@
     		layer.close(index);
 		    if(true){
 	 $.ajax({
-			url:"${rc.contextPath}/carbox/delOneCarBox/"+id,
+			url:"${rc.contextPath}/carbox/delOneCarBox/media/"+id,
 			type:"POST",
 			async:false,
 			dataType:"json",
@@ -220,12 +293,7 @@
 			success:function(data){
 				if (data.left) {
 					layer.msg(data.right);
-					//查的自己 删除上级 上级的div
-					$("ul li[rowid="+id+"]").parent().parent().remove();
-				   /*var uptime = window.setTimeout(function(){
-				   window.location.reload();
-			   	    clearTimeout(uptime);
-						},1000)*/
+				   $("ul li[rowid="+id+"]").parent().parent().remove();
 				} else {
 					layer.msg(data.right);
 				}
@@ -234,7 +302,48 @@
    }
 		});		
 		}
-		
+		function b_removeOne(id){
+		layer.confirm('确定删除吗？', {icon: 3}, function(index){
+    		layer.close(index);
+		    if(true){
+	 $.ajax({
+			url:"${rc.contextPath}/carbox/delOneCarBox/body/"+id,
+			type:"POST",
+			async:false,
+			dataType:"json",
+			data:{},
+			success:function(data){
+				if (data.left) {
+					layer.msg(data.right);
+				$("ul li[rowid="+id+"]").parent().parent().remove();
+				} else {
+					layer.msg(data.right);
+				}
+			}
+      });  
+   }
+		});		
+		}
+				function meblur(id){
+				  var sot=id;
+				 $.ajax({
+						url : "${rc.contextPath}/carbox/saveCard/media",
+						data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"uprice":$("#uprice_"+sot).val()},
+						type : "POST",
+						success : function(data) {
+						   window.location.reload();
+					}}, "text");
+				}
+				function boblur(id){
+				  var sot=id;
+				 $.ajax({
+						url : "${rc.contextPath}/carbox/saveCard/body",
+						data:{"proid":$("#b_pid_"+sot).val(),"needCount":$("#b_sum_"+sot).val(),"uprice":0},
+						type : "POST",
+						success : function(data) {
+						 window.location.reload();
+					}}, "text");
+				}
 		function leftDec(id){
 			    var sot=id;
 			    var y=$("#sum_"+sot).val();
@@ -244,8 +353,7 @@
 						url :  "${rc.contextPath}/carbox/saveCard/media",
 						data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"uprice":$("#uprice_"+sot).val()},
 						type : "POST",
-						success : function(data) {
-						updateMoney();
+						success : function(data) { window.location.reload();
 							}}, "text");
 			  }
 		}
@@ -260,10 +368,23 @@
 						data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"uprice":$("#uprice_"+sot).val()},
 						type : "POST",
 						success : function(data) {
-							updateMoney();
+						 window.location.reload();
 							}}, "text");
 		}
-		
+		function b_leftDec(id){
+			    var sot=id;
+			    var y=$("#b_sum_"+sot).val();
+			    if(y>0){
+			    $("#b_sum_"+sot).val(parseInt(y)-1);
+					$.ajax({
+						url :  "${rc.contextPath}/carbox/saveCard/body",
+						data:{"proid":$("#b_pid_"+sot).val(),"needCount":$("#b_sum_"+sot).val(),"uprice":0},
+						type : "POST",
+						success : function(data) {
+						 window.location.reload();
+							}}, "text");
+			  }
+		}
 		function updateMoney(){
 				 $.ajax({
 						url : "${rc.contextPath}/carbox/carboxMoney",
@@ -273,8 +394,18 @@
 								$("#aprice").html("￥"+data);
 					    }}, "text");
 		}
-		
-		
+		function b_leftPlus(id){
+			var sot=id;
+			var y=$("#b_sum_"+sot).val();
+			$("#b_sum_"+sot).val(parseInt(y)+1);
+					$.ajax({
+						url : "${rc.contextPath}/carbox/saveCard/body",
+						data:{"proid":$("#b_pid_"+sot).val(),"needCount":$("#b_sum_"+sot).val(),"uprice":0},
+						type : "POST",
+						success : function(data) {
+						 window.location.reload();
+							}}, "text");
+		}
 			$(document).ready(function(e) {
 				$('.td-info .item-rect').hover(function() {
 					$(this).addClass('item-rect-hover');

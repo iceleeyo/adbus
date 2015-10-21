@@ -147,15 +147,17 @@ public class IndexController {
 	
 	@RequestMapping(value = "/toCard", produces = "text/html;charset=utf-8")
 	public String toCard(Model model,HttpServletRequest request,Principal principal) {
-		model.addAttribute("infos", cardService.getMediaList(principal,0,null));
+		model.addAttribute("infos", cardService.getMediaList(principal,0,null,null));
 		return "secondCart_step1";
 	}
 
 	@RequestMapping(value = "/toCard2", produces = "text/html;charset=utf-8")
-	public String toCard2(Model model,HttpServletRequest request,Principal principal,@RequestParam(value="ids") String ids) {
-		model.addAttribute("infos", cardService.getMediaList(principal,0,ids));
+	public String toCard2(Model model,HttpServletRequest request,Principal principal,
+			@RequestParam(value="meids" , required = false) String meids,@RequestParam(value="boids" , required = false) String boids) {
+		model.addAttribute("infos", cardService.getMediaList(principal,0,meids,boids));
 		model.addAttribute("seriaNum", cardService.getCardBingSeriaNum(principal));
-		model.addAttribute("ids", ids);
+		model.addAttribute("meids", meids);
+		model.addAttribute("boids", boids);
 		return "secondCart_step2";
 	}
 //	@RequestMapping(value = "/confirmBox", produces = "text/html;charset=utf-8")

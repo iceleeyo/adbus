@@ -188,12 +188,12 @@ function initPro2(pathUrl,sh,page){
 						"<div class=\"cont\">"+
 						"<div class=\"activity inline-b\"><span>"+item.jpaProductV2.name.substring(0,7)+"</span></div>"+
 						"<div class=\"price inline-b\" style=\"  margin-top: 10px; \">"+
-						"<input type=\"hidden\" id='+pid+"+k+"' value='"+item.id+"'/>"+
+						"<input type=\"hidden\" id='pid_"+k+"' value='"+item.id+"'/>"+
 						"<p class=\"p-one\"> 	<em>"+item.price+"</em>元/月/辆</p>"+
 						"<p class=\"p-two\">"+item.jpaProductV2.personAvg+"人次/月</p></div>"+
 						"<div class=\"num f-left inline-b\">"+
 						"<input type=\"button\" class=\"icon f-left dec\" sot='"+k+"' id='leftDec"+k+"' />"+
-						"<input class='f-left' sot='"+k+"' id='sum"+k+"' value=\"0\">"+
+						"<input class='f-left' sot='"+k+"' id='sum_"+k+"' value=\"0\">"+
 						"<input type=\"button\" class=\"icon f-left plus\" sot='"+k+"' id='leftPlus"+k+"' /></div>"+
 						"<div class=\"map f-left inline-b\">"+
 						"<div class=\"map-box\"></div></div></div>"
@@ -201,8 +201,8 @@ function initPro2(pathUrl,sh,page){
 				$("#sum"+k).blur(function(){
 					var sot=$(this).attr("sot");
 					$.ajax({
-						url : pathUrl + "/carbox/saveCard/media",
-						data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val(),"uprice":$("#uprice"+sot).val()},
+						url : pathUrl + "/carbox/saveCard/body",
+						data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"uprice":0},
 						type : "POST",
 						success : function(data) {
 							/*$("#totalnum").val(data.right);
@@ -216,8 +216,8 @@ function initPro2(pathUrl,sh,page){
 						$(this).next().val(parseInt(oldValue)-1);
 						var sot=$(this).attr("sot");
 						$.ajax({
-							url : pathUrl + "/carbox/saveCard/media",
-							data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val(),"uprice":$("#uprice"+sot).val()},
+							url : pathUrl + "/carbox/saveCard/body",
+							data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"uprice":0},
 							type : "POST",
 							success : function(data) {
 						}}, "text");
@@ -228,8 +228,8 @@ function initPro2(pathUrl,sh,page){
 					$(this).prev().val(parseInt(oldValue)+1);
 					var sot=$(this).attr("sot");
 					$.ajax({
-						url : pathUrl + "/carbox/saveCard/media",
-						data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val(),"uprice":$("#uprice"+sot).val()},
+						url : pathUrl + "/carbox/saveCard/body",
+						data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"uprice":0},
 						type : "POST",
 						success : function(data) {
 							}}, "text");

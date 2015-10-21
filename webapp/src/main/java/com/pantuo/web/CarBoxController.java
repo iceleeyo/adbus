@@ -49,7 +49,7 @@ public class CarBoxController {
 	public Pair<Double, Integer> saveCardBoxMedia(@PathVariable("type") String type,
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
 			@RequestParam(value = "proid", required = true) int proid,
-			@RequestParam(value = "uprice", required = true) int uprice,
+			@RequestParam(value = "uprice", required = false) int uprice,
 			@RequestParam(value = "needCount", required = false) int needCount) {
 		return cardService.saveCard(proid, uprice, needCount, principal, city, type);
 	}
@@ -59,21 +59,22 @@ public class CarBoxController {
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
 			@RequestParam(value = "paytype", required = false) String paytype,
 			@RequestParam(value = "divid", required = false) String divid,
-			@RequestParam(value = "ids", required = false) String ids,
+			@RequestParam(value = "meids", required = false) String meids,
+			@RequestParam(value = "boids", required = false) String boids,
 			@RequestParam(value = "seriaNum", required = false) long seriaNum) {
 		 Pair<Boolean, String> r=cardService.payment(paytype, divid, seriaNum, principal, city);
 		 if(r.getLeft()){
 			 cardService.updateCardboxUser(seriaNum,principal);
-			 cardService.confirmByids(principal,ids);
+			 cardService.confirmByids(principal,meids,boids);
 		 }
 		return r;
 	}
 
-	@RequestMapping(value = "/delOneCarBox/{id}")
+	@RequestMapping(value = "/delOneCarBox/{type}/{id}")
 	@ResponseBody
 	public Pair<Boolean, String> delOneCarBox(Model model, @PathVariable("id") int id, Principal principal,
-			HttpServletRequest request) {
-		return cardService.delOneCarBox(id);
+			@PathVariable("type") String type,HttpServletRequest request) {
+		return cardService.delOneCarBox(type,id);
 	}
 
 	@RequestMapping(value = "/carboxMoney")

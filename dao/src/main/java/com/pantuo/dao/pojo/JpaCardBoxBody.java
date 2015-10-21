@@ -20,7 +20,7 @@ public class JpaCardBoxBody extends CityEntity {
 	private String userId;
 	@ManyToOne
 	@JoinColumn(name = "productId")
-	private JpaProductV2 product;
+	private JpaBusOrderDetailV2 product;
 	private int needCount;//购买数量
 	private double price = 0;//价格
 	private int isConfirm = 0;//1代表已确认
@@ -50,11 +50,12 @@ public class JpaCardBoxBody extends CityEntity {
 		this.userId = userId;
 	}
 
-	public JpaProductV2 getProduct() {
+
+	public JpaBusOrderDetailV2 getProduct() {
 		return product;
 	}
 
-	public void setProduct(JpaProductV2 product) {
+	public void setProduct(JpaBusOrderDetailV2 product) {
 		this.product = product;
 	}
 

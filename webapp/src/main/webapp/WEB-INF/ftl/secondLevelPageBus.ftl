@@ -300,9 +300,11 @@
 								</div>
 							 
 							<div class="cart-box">
+							<a href="${rc.contextPath}/toCard">
 								<div class="cart">
 									加入购物车
 								</div>
+								</a>
 							</div>
 						</div>
 					</div>

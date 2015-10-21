@@ -110,13 +110,22 @@ public class CardServiceImpl implements CardService {
 		return false;
 	}
 
-	public CardView getMediaList(Principal principal, int isComfirm, String ids) {
-		List<Integer> idLists = new ArrayList<Integer>();
-		if (StringUtils.isNotBlank(ids)) {
-			String idsa[] = ids.split(",");
+	public CardView getMediaList(Principal principal, int isComfirm , String meids,String boids) {
+		List<Integer> meidLists = new ArrayList<Integer>();
+		List<Integer> boidLists = new ArrayList<Integer>();
+		if (StringUtils.isNotBlank(meids)) {
+			String idsa[] = meids.split(",");
 			for (int i = 0; i < idsa.length; i++) {
 				if (!idsa[i].trim().equals("")) {
-					idLists.add(NumberUtils.toInt(idsa[i]));
+					meidLists.add(NumberUtils.toInt(idsa[i]));
+				}
+			}
+		}
+		if (StringUtils.isNotBlank(boids)) {
+			String idsa[] = boids.split(",");
+			for (int i = 0; i < idsa.length; i++) {
+				if (!idsa[i].trim().equals("")) {
+					boidLists.add(NumberUtils.toInt(idsa[i]));
 				}
 			}
 		}
@@ -125,21 +134,30 @@ public class CardServiceImpl implements CardService {
 		query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.isConfirm.eq(isComfirm));
 
 		query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.isConfirm.eq(isComfirm));
-		if (!idLists.isEmpty()) {
-			query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.id.in(idLists));
-		}
-		List<JpaCardBoxMedia> page = cardBoxRepository.findAll(query, new PageRequest(0, 1024, new Sort("id")))
-				.getContent();
 		BooleanExpression query2 = QJpaCardBoxBody.jpaCardBoxBody.seriaNum.eq(seriaNum);
 		query2 = query2.and(QJpaCardBoxBody.jpaCardBoxBody.isConfirm.eq(isComfirm));
-		if (!idLists.isEmpty()) {
-			query2 = query2.and(QJpaCardBoxBody.jpaCardBoxBody.id.in(idLists));
+		List<JpaCardBoxMedia> page =null;
+		List<JpaCardBoxBody> page2=null;
+		if(!meidLists.isEmpty() ||!boidLists.isEmpty()){
+			if (!meidLists.isEmpty()) {
+				query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.id.in(meidLists));
+				page = cardBoxRepository.findAll(query, new PageRequest(0, 1024, new Sort("id"))).getContent();
+			}else{
+				page=null;
+			}
+			if (!boidLists.isEmpty()) {
+				query2 = query2.and(QJpaCardBoxBody.jpaCardBoxBody.id.in(boidLists));
+				page2 = cardBoxBodyRepository.findAll(query2, new PageRequest(0, 1024, new Sort("id"))).getContent();
+			}else{
+				page2=null;
+			}
+		}else{
+			page = cardBoxRepository.findAll(query, new PageRequest(0, 1024, new Sort("id"))).getContent();
+			page2 = cardBoxBodyRepository.findAll(query2, new PageRequest(0, 1024, new Sort("id"))).getContent();
 		}
-		List<JpaCardBoxBody> page2 = cardBoxBodyRepository.findAll(query2, new PageRequest(0, 1024, new Sort("id")))
-				.getContent();
- 
-		CardView w = new CardView(page, page2, getBoxPrice(seriaNum, isComfirm, idLists), getBoxTotalnum(seriaNum,
-				isComfirm, idLists));
+		
+		CardView w = new CardView(page, page2, getBoxPrice(seriaNum, isComfirm, meidLists,boidLists), getBoxTotalnum(seriaNum,
+				isComfirm, meidLists,boidLists));
 		return w;
 	}
 
@@ -177,19 +195,47 @@ public class CardServiceImpl implements CardService {
 				}
 			}
  
-			totalPrice = getBoxPrice(seriaNum, 0, null);
-			totalnum = getBoxTotalnum(seriaNum, 0, null);
+//			totalPrice = getBoxPrice(seriaNum, 0, null);
+//			totalnum = getBoxTotalnum(seriaNum, 0, null);
+			return new Pair<Double, Integer>(totalPrice, totalnum);
+		}else{
+			long seriaNum = getCardBingSeriaNum(principal);
+			CardboxBodyExample example = new CardboxBodyExample();
+			example.createCriteria().andSeriaNumEqualTo(seriaNum).andProductIdEqualTo(proid)
+					.andUserIdEqualTo(Request.getUserId(principal)).andIsConfirmEqualTo(0);
+			List<CardboxBody> c = cardBodyMapper.selectByExample(example);
+			if (c.isEmpty()) {//无记录时增加
+				CardboxBody media = new CardboxBody();
+				JpaBusOrderDetailV2 product = busOrderDetailV2Repository.findOne(proid);
+				media.setCity(city);
+				media.setUserId(Request.getUserId(principal));
+				media.setCreated(new Date());
+				media.setNeedCount(needCount);
+				media.setPrice(product.getPrice() * needCount);
+				media.setSeriaNum(seriaNum);
+				media.setProductId(proid);
+				media.setIsConfirm(0);
+				cardBodyMapper.insert(media);
+			} else {
+				CardboxBody existMedia = c.get(0);
+				if (needCount == 0) {//如果是0时删除
+					cardBodyMapper.deleteByExample(example);
+				} else {
+					existMedia.setNeedCount(needCount);
+					cardBodyMapper.updateByPrimaryKey(existMedia);
+				}
+			}
+ 
 			return new Pair<Double, Integer>(totalPrice, totalnum);
 		}
-		return new Pair<Double, Integer>(totalPrice, totalnum);
 	}
 
-	private int getBoxTotalnum(long seriaNum, int isconfirm, List<Integer> idLists) {
+	private int getBoxTotalnum(long seriaNum, int isconfirm, List<Integer> meidLists, List<Integer> boidLists) {
 		int r = 0;
 		CardboxMediaExample example = new CardboxMediaExample();
 		example.createCriteria().andSeriaNumEqualTo(seriaNum).andIsConfirmEqualTo(isconfirm);
-		if (idLists != null && !idLists.isEmpty()) {
-			example.createCriteria().andIdIn(idLists);
+		if (meidLists != null && !meidLists.isEmpty()) {
+			example.createCriteria().andIdIn(meidLists);
 		}
 		List<CardboxMedia> list = cardMapper.selectByExample(example);
 		for (CardboxMedia cardboxMedia : list) {
@@ -197,6 +243,9 @@ public class CardServiceImpl implements CardService {
 		}
 		CardboxBodyExample bodyExample = new CardboxBodyExample();
 		bodyExample.createCriteria().andSeriaNumEqualTo(seriaNum).andIsConfirmEqualTo(isconfirm);
+		if (boidLists != null && !boidLists.isEmpty()) {
+			bodyExample.createCriteria().andIdIn(boidLists);
+		}
 		List<CardboxBody> bodyList = cardBodyMapper.selectByExample(bodyExample);
 		for (CardboxBody obj : bodyList) {
 			r += obj.getNeedCount();
@@ -275,17 +324,16 @@ public class CardServiceImpl implements CardService {
 
 	public double getBoxPrice(Principal principal) {
 		long seriaNum = getCardBingSeriaNum(principal);
-		return seriaNum == 0 ? 0 : getBoxPrice(seriaNum, 0, null);
+		return seriaNum == 0 ? 0 : getBoxPrice(seriaNum, 0, null,null);
 	}
 
 	@Override
- 
-	public double getBoxPrice(long seriaNum, int iscomfirm, List<Integer> idLists) {
+	public double getBoxPrice(long seriaNum, int iscomfirm, List<Integer> meLists, List<Integer> boLists) {
 		double r = 0;
 		CardboxMediaExample example = new CardboxMediaExample();
 		example.createCriteria().andSeriaNumEqualTo(seriaNum).andIsConfirmEqualTo(iscomfirm);
-		if (idLists != null && !idLists.isEmpty()) {
-			example.createCriteria().andIdIn(idLists);
+		if (meLists != null && !meLists.isEmpty()) {
+			example.createCriteria().andIdIn(meLists);
 		}
 		List<CardboxMedia> list = cardMapper.selectByExample(example);
 		for (CardboxMedia cardboxMedia : list) {
@@ -293,6 +341,9 @@ public class CardServiceImpl implements CardService {
 		}
 		CardboxBodyExample bodyExample = new CardboxBodyExample();
 		bodyExample.createCriteria().andSeriaNumEqualTo(seriaNum).andIsConfirmEqualTo(iscomfirm);
+		if (boLists != null && !boLists.isEmpty()) {
+			bodyExample.createCriteria().andIdIn(boLists);
+		}
 		List<CardboxBody> bodyList = cardBodyMapper.selectByExample(bodyExample);
 		for (CardboxBody obj : bodyList) {
 			r += obj.getPrice() * obj.getNeedCount();
@@ -301,16 +352,23 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public Pair<Boolean, String> delOneCarBox(int id) {
-		if (cardMapper.deleteByPrimaryKey(id) > 0) {
-			return new Pair<Boolean, String>(true, "删除成功");
+	public Pair<Boolean, String> delOneCarBox(String type,int id) {
+		if(StringUtils.equals(type, "media")){
+			if (cardMapper.deleteByPrimaryKey(id) > 0) {
+				return new Pair<Boolean, String>(true, "删除成功");
+			}
+		}else{
+			if (cardBodyMapper.deleteByPrimaryKey(id) > 0) {
+				return new Pair<Boolean, String>(true, "删除成功");
+			}
 		}
 		return new Pair<Boolean, String>(false, "操作失败");
 	}
 
 	@Override
-	public void confirmByids(Principal principal, String ids) {
-		String idsa[] = ids.split(",");
+	public void confirmByids(Principal principal, String meids, String boids) {
+		String idsa[] = meids.split(",");
+		String idsa2[] = boids.split(",");
 		for (int i = 0; i < idsa.length; i++) {
 			if (!idsa[i].trim().equals("")) {
 				CardboxMedia cardboxMedia = cardMapper.selectByPrimaryKey(NumberUtils.toInt(idsa[i]));
@@ -318,6 +376,17 @@ public class CardServiceImpl implements CardService {
 					if (cardboxMedia.getNeedCount() > 0) {
 						cardboxMedia.setIsConfirm(1);
 						cardMapper.updateByPrimaryKey(cardboxMedia);
+					}
+				}
+			}
+		}
+		for (int i = 0; i < idsa2.length; i++) {
+			if (!idsa2[i].trim().equals("")) {
+				CardboxBody cardboxMedia = cardBodyMapper.selectByPrimaryKey(NumberUtils.toInt(idsa2[i]));
+				if (cardboxMedia != null) {
+					if (cardboxMedia.getNeedCount() > 0) {
+						cardboxMedia.setIsConfirm(1);
+						cardBodyMapper.updateByPrimaryKey(cardboxMedia);
 					}
 				}
 			}

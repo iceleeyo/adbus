@@ -71,10 +71,11 @@
 							<div class="arrow arrow-stp2"><span class="ara">2</span><span>确认订单信息</span></div>
 							<div class="arrow arrow-stp3"><span class="ara">3</span><span>成功提交订单</span></div>
 						</div>
+					  <#if infos.media?? && (infos.media?size>0)>
 						<div class="panel">
 							<div class="panel-head">
 								<ul class="clearfix">
-									<li class="td td-name">北巴传媒广告分公司</li>
+									<li class="td td-name">视频产品</li>
 									<li class="td td-price">单价</li>
 									<li class="td td-amount">数量</li>
 									<li class="td td-sum">合计</li>
@@ -114,18 +115,52 @@
 							</div>
                            </#list>
 						</div>
-
-						<#--<div class="panel">
+</#if>
+					  <#if infos.body?? && (infos.body?size>0)>
+						<div class="panel">
 							<div class="panel-head">
 								<ul class="clearfix">
-									<li class="td td-name">北巴传媒广告分公司</li>
+									<li class="td td-name">车身产品</li>
 									<li class="td td-price">单价</li>
 									<li class="td td-amount">数量</li>
 									<li class="td td-sum">合计</li>
 								</ul>
 							</div>
-						</div>-->
-
+							<#list infos.body as item>
+							<div class="panel-item">
+								<ul class="item-info clearfix">
+									<li class="td td-item">
+										<div class="td-inner">
+											<p>${item.product.jpaProductV2.name}</p>
+										</div>
+									</li>
+									<li class="td td-info">
+										<div class="td-inner">
+											<p class="rec-line">线路级别：${item.product.leval.nameStr}</p>
+											<p class="rec-line">车辆数：${item.product.busNumber}</p>
+											<p class="rec-line">刊期：${item.product.days}</p>
+										</div>
+									</li>
+									<li class="td td-price">
+										<div class="td-inner">
+											<p class="price"><em>￥</em>${item.price}</p>
+										</div>
+									</li>
+									<li class="td td-amount">
+										<div class="td-inner">
+											<p class="amount">${item.needCount}</p>
+										</div>
+									</li>
+									<li class="td td-sum">
+										<div class="td-inner">
+											<p class="sum"><em>￥</em>${item.price*item.needCount}</p>
+										</div>
+									</li>
+								</ul>
+							</div>
+                           </#list>
+						</div>
+</#if>
 						<div class="adj">
 							<#--<div class="file line">
 								<div class="cart-check">
@@ -212,7 +247,8 @@
 		var paytype=$('#payway :radio[name=payType]:checked').val();
 		var divid=$("#dividpay").val();
 		var seriaNum=${seriaNum};
-		var ids='${ids}';
+		var meids='${meids}';
+		var boids='${boids}';
 		if(paytype=="" || typeof(paytype)=="undefined"){
 		  layer.msg("请选择支付方式");
 		  return;
@@ -226,7 +262,7 @@
 			type:"POST",
 			async:false,
 			dataType:"json",
-			data:{"divid":divid,"seriaNum":seriaNum,"paytype":paytype,"ids":ids},
+			data:{"divid":divid,"seriaNum":seriaNum,"paytype":paytype,"meids":meids,"boids":boids},
 			success:function(data){
 				if (data.left) {
 					layer.msg(data.right);
