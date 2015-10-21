@@ -144,11 +144,32 @@ function queryPrice(){
   }); 
 }
 
+function getPriceAndSort(){
+	var w='';
+	var p=$("#ascOrDesc").val();
+	var price1=$("#price1").val();
+	var price2=$("#price2").val();
+	w+="&filter[p]="+p
+	if(price1!=null && price2!=null && Number(price1)>0 && Number(price2)>0 ){
+		if(Number(price1) >= Number(price2)){
+			layer.msg("价格区间大小不符合实际!",{icon: 5});
+			return 
+		}
+	}
+	if(price1!=null){
+		w+="&filter[price1]="+Number(price1);
+	}
+	if(price2!=null){
+		w+="&filter[price2]="+Number(price2);
+	}
+	return w;
+}
 
 function initPro(pathUrl,sh,page){
 	$("#productList").html("");
+	var pw=getPriceAndSort();;
 	$.ajax({
-		url : pathUrl + "/carbox/sift_body?filter[sh]="+sh+"&length=10&page="+page,
+		url : pathUrl + "/carbox/sift_body?filter[sh]="+sh+"&length=10&page="+page+pw,
 		data:{},
 		type : "POST",
 		success : function(data) {
@@ -177,8 +198,9 @@ function initPro(pathUrl,sh,page){
 }
 function initPro2(pathUrl,sh,page){
 	$("#productList").html("");
+	var pw=getPriceAndSort();;
 	$.ajax({
-		url : pathUrl + "/carbox/sift_body?filter[sh]="+sh+"&length=10&start="+page,
+		url : pathUrl + "/carbox/sift_body?filter[sh]="+sh+"&length=10&start="+page+pw,
 		data:{},
 		type : "POST",
 		success : function(data) {

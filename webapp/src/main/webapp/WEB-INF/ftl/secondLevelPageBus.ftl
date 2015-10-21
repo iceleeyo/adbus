@@ -267,11 +267,13 @@
 						</div>
 						<div class="select-more">
 							<ul>
-								<li class="item1">销量</li>
-								<li class="item2">价格</li>
-								<li class="item3">价格<input class="i-short"><em>—</em><input class="i-short"></li>
-								<li class="item4">投放日期<input class="i-long"></li>
+								<!--<li class="item1">销量</li>-->
+								<li class="item1">&nbsp</li>
+								<li class="item2">价格 <span id = "priceSort" style="color:#ff9966">[高到低]</span></li>
+								<li class="item3">价格<input id="price1" class="i-short" ><em>—</em><input id="price2" class="i-short"></li>
+								<li class="item4"> &nbsp</li>
 							</ul>
+							<input type="hidden" value = "0" id="ascOrDesc"/> 
 						</div>
 
 						<div class="buy">
@@ -302,7 +304,7 @@
 							<div class="cart-box">
 							<a href="${rc.contextPath}/toCard">
 								<div class="cart">
-									加入购物车
+									进入购物车
 								</div>
 								</a>
 							</div>
@@ -361,6 +363,22 @@
 			
 		//走马灯图片事件
 		$(document).ready(function(e) {
+		
+		  $('#price1, #price2').change(function() {
+                 initPro('${rc.contextPath}',$("#sh").val(),0);
+       	 });
+       	   $('#priceSort').click(function() {
+                  var w = $('#ascOrDesc').val();
+                  if(w==0){
+                    $('#ascOrDesc').val(1);
+                      $('#priceSort').html("[低到高]"); 
+                  }else{
+                   $('#ascOrDesc').val(0); 
+                      $('#priceSort').html("[高到低]"); 
+                  }
+                   initPro('${rc.contextPath}',$("#sh").val(),0);
+       	 });
+		
 		    var unslider04 = $('#b04').unslider({
 				dots: true
 			}),
