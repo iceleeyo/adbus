@@ -25,6 +25,7 @@ public class JpaCardBoxBody extends CityEntity {
 	private double price = 0;//价格
 	private int isConfirm = 0;//1代表已确认
 	private long seriaNum;//表单序列号
+	private int days;//用户需求天数
 
 	public int getId() {
 		return id;
@@ -81,6 +82,14 @@ public class JpaCardBoxBody extends CityEntity {
 
 	public void setSeriaNum(long seriaNum) {
 		this.seriaNum = seriaNum;
+	}
+
+	public int getDays() {
+		return days;
+	}
+
+	public void setDays(int days) {
+		this.days = days;
 	}
  
 }
