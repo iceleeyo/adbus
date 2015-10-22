@@ -725,7 +725,7 @@ header .area {
 }
 
 .cart-step1 .panel:last-child {
-	margin-bottom: 90px;
+	margin-bottom: 53px;
 }
 
 .panel {
@@ -1199,6 +1199,7 @@ header .area {
 }
 
 .adj input[type="radio"] {
+	position: absolute;
 	left: -20px;
 	top: -20px;
 }
