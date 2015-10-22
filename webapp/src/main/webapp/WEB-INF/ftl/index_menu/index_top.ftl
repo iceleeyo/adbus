@@ -83,7 +83,7 @@
                             </div>
 				<nav class="menu">
 					<ul class="list-line">
-						<li><a href="index.html">首页</a></li>
+						<li><a href="/">首页</a></li>
 						<li class="active"><a href="jvascript:void(0)">媒体产品</a></li>
 						<li><a href="jvascript:void(0)">传播效果</a></li>
 						<li><a href="/caseMore.html">案例欣赏</a></li>

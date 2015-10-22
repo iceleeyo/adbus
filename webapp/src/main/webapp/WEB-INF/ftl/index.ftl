@@ -1,130 +1,40 @@
-<!DOCTYPE html>
-<html lang="zh-cn">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="shortcut icon" href="./images/favicon.ico">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/sea.css">
-  <link rel="stylesheet" type="text/css" href="homepage/css/homepage.css">
-  <link rel="stylesheet" type="text/css" href="homepage/css/index.css">
-  <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/one.css">
-  <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/table.css">
-  <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/account.css">
-  <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/sift.css">
-  <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/foot.css">
-  <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/city.css">
-  <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/sift.js"></script>
-    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery-1.8.3.min.js"></script>
-   <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.jcountdown.js"></script>
-   <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.jcountdown.site.js"></script>
-   <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer/layer.js"></script>
-   	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer/layer.js"></script>
-	<title>首页</title>
-<style type="text/css">
-	.container-12{width: 1150px;}
-</style>
-<script type="text/javascript">
-    function logout(){
-       window.location.href = "${rc.contextPath}/logout";
-    }
-
-    $(function() {
-        $("#city_dropdown a:not(.selected)").click(function(){
-            var cityName = $(this).parents("#ttbar-mycity")[0]?$(this).attr("data-id") : $("#ttbar-mycity a.selected").attr("data-id");
-            var media = $(this).parents("#ttbar-media")[0]?$(this).attr("data-id") : $("#ttbar-media a.selected").attr("data-id");
-            $.ajax({
-                url : "${rc.contextPath}/f/city/select?c=" + cityName + "&m="+media,
-                type : "POST",
-                data: {},
-                success : function(data) {
-                    layer.msg("正在切换到："+ data.name + " " + data.mediaTypeName);
-                    var uptime = window.setTimeout(function(){
-                        window.location.reload();
-                        clearTimeout(uptime);
-                    },1000);
-                }
-            }, "text");
-        });
-    });
-</script>
- 
-
-</head>
-
-<body>
-	<div class="pg-header">
-		<div class="pg-header-top"> 
-					<div class="container-index s-clear">
-						<div class="grid-12 city-dropdown" style="width: 1150px;">
-                            <ul class="fl">
-<#--<@security.authorize access="isAuthenticated()">-->
-                                <li class="dorpdown" id="ttbar-mycity">
-                                    <div class="dt cw-icon ui-areamini-text-wrap" style="">
-                                        <i class="ci-right"><s>◇</s></i>
-                                        <#if city??>
-                                            <span class="ui-areamini-text" data-id="${city.name}" title="${city.name}">${city.name}</span>
-                                        <#else>
-                                            <span class="ui-areamini-text" data-id="${cities[0].name!''}" title="${cities[0].name!''}">${cities[0].name!''}</span>
-                                        </#if>
-                                    </div>
-                                    <div class="dd dorpdown-layer">
-                                        <div class="dd-spacer"></div>
-                                        <div class="ui-areamini-content-wrap" style="left: auto;">
-                                            <div class="ui-areamini-content">
-                                                <div class="ui-areamini-content-list" id="city_dropdown">
-                                                    <#list cities as c>
-                                                        <div class="item">
-                                                            <a data-id="${c.name}" href="javascript:void(0)" <#if city?? && city.name == c.name>class="selected"</#if>>${c.name!''}</a>
-                                                        </div>
-                                                    </#list>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="dorpdown" id="ttbar-media">
-                                    <div class="dt cw-icon ui-areamini-text-wrap" style="">
-                                        <i class="ci-right"><s>◇</s></i>
-                                    <#if city??>
-                                        <a href="javascript:void(0)" class="selected ui-areamini-text" data-id="${city.mediaType}" title="${city.mediaType.typeName}">屏幕广告</a>
-                                    <#else>
-                                        <a href="javascript:void(0)" class="selected ui-areamini-text" data-id="${cities[0].mediaType!''}" title="${cities[0].mediaType.typeName!''}">屏幕广告</a>
-                                    </#if>
-                                    </div>
-                                  <#--  <div class="dd dorpdown-layer">
-                                        <div class="dd-spacer"></div>
-                                        <div class="ui-areamini-content-wrap" style="left: auto;">
-                                            <div class="ui-areamini-content">
-                                                <div class="ui-areamini-content-list" id="city_dropdown">
-                                                <#list medias as m>
-                                                  <#if m.mediaType=="screen">
-                                                    <div class="item">
-                                                        <a data-id="${m.mediaType}" href="javascript:void(0)" <#if city?? && city.id == m.id> cityid="${city.id}" mid="${m.id}" class="selected"</#if>>屏幕广告1</a>
-                                                    </div>
-                                                    </#if>
-                                                </#list>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>-->
-                                </li>
-<#--</@security.authorize>-->
-                            </ul>
-							<!-- 手机图标<div class="s-left ml10">
-								<a class="pg-nav-item" href="javascript:;" style="padding-top: 8px;">
-									<i class="icon icon-app"></i>
-									
-								</a>
-							</div> -->
-							<div class="s-right s-clear">
+<!doctype html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>公交媒体电商平台</title>
+		<link rel="stylesheet" type="text/css" href="index_css/base.css">
+		<link rel="stylesheet" type="text/css" href="index_css/header.css">
+		<link rel="stylesheet" type="text/css" href="index_css/jack.css">
+		<link rel="stylesheet" type="text/css" href="index_css/shibaHome.css">
+		<link rel="stylesheet" type="text/css" href="index_css/sift.css">
+		<link rel="stylesheet" type="text/css" href="index_css/sea.css">
+	</head>
+	<body>
+		<header>
+				<div class="logo"></div>
+				<nav class="menu">
+					<ul class="list-line">
+						<li class="active"><a href="jvascript:void(0)">首页</a></li>
+						<li><a href="jvascript:void(0)">媒体产品</a></li>
+						<li><a href="jvascript:void(0)">传播效果</a></li>
+						<li><a href="/caseMore.html">案例欣赏</a></li>
+						<li><a href="jvascript:void(0)">合作伙伴</a></li>
+						<li><a href="jvascript:void(0)">关于我们</a></li>
+					</ul>
+					<div class="s-right s-clear">
 								<span class="pg-nav-item s-left" style="padding:0;">您好，</span>
 									<span>
                                         <@security.authorize access="isAuthenticated()">
+                                        <#if medetype?? && medetype=="screen">
                                         <a class="pg-nav-item s-left" href="${rc.contextPath}/order/myTask/1">
-                                        	我的账户:
+                                        <#else>
+                                           <a class="pg-nav-item s-left" href="${rc.contextPath}/busselect/myTask/1">
+                                        </#if>
+                                                                                                                                   我的账户:
                                             <@security.authentication property="principal.user.firstName" />
                                             <@security.authentication property="principal.user.lastName" />
                                         </a>
@@ -151,8 +61,8 @@
 													</span>
 												</div>
 												<div>
-													<a class="s-left pg-btn pg-btn-green pg-btn-md mr4" href="javascript:;">充值</a>
-													<a class="s-left pg-btn pg-btn-blue pg-btn-md" href="javascript:;">提现</a>
+													<a class="s-left pg-btn pg-btn-green pg-btn-md mr4" href="#">充值</a>
+													<a class="s-left pg-btn pg-btn-blue pg-btn-md" href="#">提现</a>
 												</div>
 											</div>
 										</div>
@@ -164,706 +74,301 @@
 									</div>
 								</div>
                                
-								<!--<a class="pg-nav-item s-left" href="javascript:;">
+								<!--<a class="pg-nav-item s-left" href="#">
 									<i class="icon-msg fsize-12">1</i>
 									消息
 								</a> -->
-								<!--<a class="pg-nav-item s-left" href="javascript:;">帮助</a>
-								<a class="pg-nav-item s-left" href="javascript:;">论坛</a>-->
+								<!--<a class="pg-nav-item s-left" href="#">帮助</a>
+								<a class="pg-nav-item s-left" href="#">论坛</a>-->
 								<a class="pg-nav-item s-left" href="${rc.contextPath}/message/all">消息<span id="msgNumber" class="layer-tips" style="color:#ff9966"></span></a>
 								 <@security.authorize access="isAuthenticated()">
 								<a href="javascript:;" class="pg-nav-item s-left" onclick="logout();">[退出]</a>
                                 </@security.authorize>
 							</div>
-						</div>
-					</div>
-				</div>
- 
-		<div class="pg-header-main">
-					<div class="container-12 s-clear">
-						<div class="phmain-logo-b pg-left">
-							<a class="phmain-logo" href="javascript:;"></a>
-						</div>
-						<div class="phmain-slogan-b pg-left ml20">
-							<a class="phmain-slogan" href="${rc.contextPath}"></a>
-						</div>
-						<div class="phmain-nav-b pg-right">
-							<ul class="pg-nav">
-								<li class="pg-nav-item s-left">
-									<a class="pg-nav-item-t" href="/index.html">首页</a>
-								</li>
-								
-								<li class="pg-nav-item s-left">
-									<a class="pg-nav-item-t" href="${rc.contextPath}/screen">移动电视</a>
-								</li>
-								<!--
-								<li class="pg-nav-item s-left">
-									<a class="pg-nav-item-t" href="${rc.contextPath}/body">车身媒体</a>
-								</li>
-								-->
-								
-								
-								<li class="pg-nav-item s-left">
-									<a class="pg-nav-item-t" href="${rc.contextPath}/product/sift_bus">
-										<span>车身媒体</span>
-										<#--<span class="shdown"></span>-->
-									</a>
-									
-								</li>
-                                
-                                <li class="pg-nav-item s-left">
-                                    <a class="pg-nav-item-t pg-nav-hover-us" href="${rc.contextPath}/about-me">
-                                    	<span>关于我们</span>
-                                    </a>
-                                </li>
-
-							</ul>
-						</div>
-					</div>
-				</div>
-	</div>
-	<div class="container-index maincontent">	
-		
-		<div class="notice-wrapper" style="padding: 10px 0;border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;
-margin:15px 0px 15px 0px;width:100%">
-      <div class="notice-head fn-clear" style="width:98%">
-        <a href="${rc.contextPath}/intro-notice" target="_blank" class="notice-title h5 fn-left color-gray-text w700 fn-text-overflow" id="notice-title">北京城市旅游观光线车辆包装制作的比选公告</a>
-        <span class="notice-date fn-left color-silver-text">2015-08-15</span>
-        <a class="notice-more fn-right ui-button ui-button-transparent ui-button-small darkgray" href="${rc.contextPath}/intro-notice" target="_blank">更多公告</a>
-      </div>
-    </div>
-		<div class="container" style="clear:both">
-		<!--	{product_view._typeName}------------  -->
-			<#if (auctionList?size>0) >
-			<div class="module1">
-			  <div class="title s-clear">
-			  	<span>
-			  		竞价广告
-			  	</span>
-			  	<a href="${rc.contextPath}/product/sift" class="s-right">更多》</a>
-			  </div>
-			  <div class="fn-clear pg-uplan-product-list text-middle mt15 mb10">
-			    <#list auctionList as prod>
-				  <div class="fn-left pg-uplan-product-item mr15">
-						<a target="_blank" href="product/c/${prod.id}">
-							<dl class="bg-color-white">
-							  <dt class="ub"><span>${substring(prod.product.name,0,13)}</span></dt>
-							  <#if prod.product.type=="screen">
-							  <dd>
-							  	<span class="mr20">曝光次数</span>                 
-							  	<span><em>${prod.product.playNumber}</em>/天</span>
-							  </dd>
-							  <#elseif prod.product.type=="body">
-							  <dd>
-							  	<span class="mr20">巴士数量</span>                 
-							  	<span><em>${prod.product.busNumber}</em>辆</span>
-							  </dd>
-					          </#if>
-		            <dd>
-		            	<span class="mr20">展示期限</span>                 
-		            	<span><em>${prod.product.days}</em>天</span>
-		            </dd>
-		  					<dd>
-		  						<span class="mr20">底价</span>                 
-		  						<span style="color: red;">￥<em>#{prod.saleprice!'' ;m2M2}</em></span>  
-		  					 </dd>
-		          			  <dd>	
-		          			  
-		          			  <#if (prod.startDate < .now  && prod.biddingDate > .now  ) > 
-		  						<span class="mr20">截止</span>    
-		  						<span id="c_${prod_index}"><em></em></span>  
-		  						<script type="text/javascript">
-			  						var dateTo=new Date("${prod.biddingDate?string("yyyy-MM-dd HH:mm:ss")}".replace(/-/g, "/"));
-									 countDownReload("c_${prod_index}",dateTo);
-								 </script>
-								<#elseif (prod.startDate > .now   ) > 
-								<span class="mr10">距开拍</span>    
-		  						<span id="c_${prod_index}"><em></em></span>  
-		  						<script type="text/javascript">
-			  						var dateTo=new Date("${prod.startDate?string("yyyy-MM-dd HH:mm:ss")}".replace(/-/g, "/"));
-									 countDownReload("c_${prod_index}",dateTo);
-								 </script>
-								<#elseif (prod.biddingDate < .now   ) > 
-								<span class="mr20"><s>已结束</s></span>    
-		  						<span id="c_${prod_index}"><s>${prod.startDate?string("yyyy-MM-dd HH:mm")}</s></span>  
-								</#if>
-								
-								
-		  					</dd>
-		  				</dl>
-						</a>
-						<p class="J_click_p" data="218">
-							<span id="J_count_time_b" data2="0" data1="328261">
-								<a href="product/c/${prod.id}">
-								<#if (prod.startDate < .now  && prod.biddingDate > .now  ) > 
-									我要出价
-								<#elseif (prod.startDate > .now   ) > 
-									等待开始
-								<#elseif (prod.biddingDate < .now   ) > 
-									竞价结束
-								</#if>
-								
-								</a>
-							</span>
-							<a class="text" href="product/c/${prod.id}">（查看详情）</a>
-						</p>
-					</div> 
-				 </#list>	          
-				</div>
-			</div>
-			</#if>
+				</nav>
+			</header>
+		<div id="content">
 			
-			<#if (bodyList?size>0) >
-			<div class="module1">
-			  <div class="title s-clear">
-			  	<span>
-			  		车身广告
-			  	</span>
-			  	<a href="${rc.contextPath}/product/sift" class="s-right">更多》</a>
-			  </div>
-			  <div class="fn-clear pg-uplan-product-list text-middle mt15 mb10">
-			    <#list bodyList as prod>
-				  <div class="fn-left pg-uplan-product-item mr15">
-						<a target="_blank" href="order/iwant/${prod.id}"><!--product/d/-->
-							<dl class="bg-color-white">
-							  <dt class="ub"><span>${substring(prod.name,0,13)}</span></dt>
-							  <dd>
-							  	<span class="mr20">巴士数量</span>                 
-							  	<span><em>${prod.busNumber}</em>辆</span>
-		            </dd>
-		            <dd>
-		            	<span class="mr20">展示期限</span>                 
-		            	<span><em>${prod.days}</em>天</span>
-		            </dd>
-		  					<dd>
-		  						<span class="mr20">金额</span>                 
-		  						<span style="color: red;">￥<em>#{prod.price!'' ;m2M2}</em></span>               
-		  					</dd>
-		  				</dl>
-						</a>
-						<p class="J_click_p" data="218">
-							<span id="J_count_time_b" data2="0" data1="328261">
-								<a target="_blank" href="order/iwant/${prod.id}">马上预定</a>
-							</span>
-							<a class="text" target="_blank" href="order/iwant/${prod.id}">（查看详情）</a>
-						</p>
-					</div>           
-					 </#list>	      
-				</div>
-			</div>
-			</#if>
-			
-			
-			
-			
-			
-			<#if (videoList?size>0) >
-			<div class="module1">
-			  <div class="title s-clear">
-			  	<span>
-			  		视频广告
-			  	</span>
-			  	<a href="${rc.contextPath}/product/sift" class="s-right">更多》</a>
-			  </div>
-			  <div class="fn-clear pg-uplan-product-list text-middle mt15 mb10">
-			    <#list videoList as prod>
-				  <div class="fn-left pg-uplan-product-item mr15">
-						<a target="_blank" href="order/iwant/${prod.id}"><!--product/d/-->
-							<dl class="bg-color-white">
-							  <dt class="ub" style="height: 280px;">
-							  <span>${substring(prod.name,0,13)}</span>
-				<div style="  margin: -15px 2px 0px 0px;">
-		            	<span class="mr20" style="font-size: 12px;">展示期限             
-		            		${prod.days}天
-		            	</span>
-		        </div>  
-		        <div style="  margin: -15px 2px 0px 0px;">
-		            	<span class="mr20" style="font-size: 12px;">曝光次数                
-							  ${prod.playNumber}/天
-						</span>
-		        </div>  
-		        
-		        
-							  <div class="img_box" style="width: 98%;height: 170px;">
-							  	<img class="img_size" src="${rc.contextPath}/imgs/video.png" style="  width: 100%; height: 90%;">
+			<section class="background-one">
+				<div class="slide-container">
+					<div class="slide-back">
+						<div class="slider view1">
+							<div class="view-text">
+								<div class="left"></div>
+								<div class="right">
+								  <div class="top">
+								  	<span>10年专注投入          展望未来</span>
+								  	<p class="spec"></p>
+								  </div>
+								  <div class="mid">
+								  	专注于媒体销售，专业于户外传播
+								  </div>
+								  <div class="bot clearfix">
+								  	<span>辉煌过去，只为更好未来</span>
+								  	<p class="info"><a href="javascript: void(0)">more</a></p>
+								  </div>
 							  </div>
-							  </dt>
-		  				</dl>
-						</a>
+							</div>
+						</div>
+						<div class="slider view2">
+							<div class="view-text">
+								<div class="left"></div>
+								<div class="right">
+								  <div class="top">
+								  	<span>销售控 只为你</span>
+								  </div>
+								  <div class="mid">
+								  	<p class="spec"></p>
+								  </div>
+								  <div class="bot clearfix">
+								  	<span>不是非要量身定做，只是为你想的更多，我们想，再上一个好案例。</span>
+								  	<p class="info"><a href="javascript: void(0)">more</a></p>
+								  </div>
+							    </div>
+							</div>
+						</div>
+						<div class="slider view3">
+							<div class="view-text">
+								<div class="left"></div>
+								<div class="right">
+								  <div class="top">
+								  	<p class="spec"></p>
+								  </div>
+								  <div class="mid">
+								  	<span>行动派 论能力</span>
+								  </div>
+								  <div class="bot clearfix">
+								  	<span>我说--世界上没有最好的广告位，只有最好的广告销售员，掌握更多资源，为您垄断最优线路。</span>
+								  	<p class="info"><a href="javascript: void(0)">more</a></p>
+								  </div>
+							    </div>
+							</div>
+						</div>
+						<div class="slider view4">
+							<div class="view-text">
+								<div class="left"></div>
+								<div class="right">
+								  <div class="top">
+								  	<span>先入为主 布局<em>未来</em></span>
+								  </div>
+								  <div class="mid">
+								  	<p class="spec"></p>
+								  </div>
+								  <div class="bot clearfix">
+								  	<span>全面布局车身与车内，抢占头等商机，精品位置资源，多种广告形式，覆盖全市，辐射全国。</span>
+								  	<p class="info"><a href="javascript: void(0)">more</a></p>
+								  </div>
+							  </div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="inner-container">
+					<div class="navi">
+						<a class="active"></a>
+						<a></a>
+						<a></a>
+						<a></a>
+					</div>
+					<div class="cdown"></div>
+				</div>
+			</section>
+			<section class="background-two">
+				<div class="container">
+					<div class="title-en">
+					</div>
+					<div class="title-zh">媒体产品</div>
+					<ul class="items clearfix">
+						<li class="item">
+							<a href="secondLevelPageBus">
+								<div class="ad ad1"></div>
+								<span>车身广告</span>
+							</a>
+						</li>
+						<li class="item">
+							<a href="secondLevelPage">
+								<div class="ad ad2"></div>
+								<span>移动视频</span>
+							</a>
+						</li>
+						<li class="item">
+							<a href="#">
+								<div class="ad ad3"></div>
+								<span>优惠组合</span>
+							</a>
+						</li>
+						<li class="item">
+							<a href="#">
+								<div class="ad ad4"></div>
+								<span>车内广告</span>
+							</a>
+						</li>
+						<li class="item">
+							<a href="#">
+								<div class="ad ad5"></div>
+								<span>站牌广告</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</section>
+			<section class="background-three">
+				<div class="container">
+					<div class="title-en">
+					</div>
+					<div class="title-zh">传播效果</div>
+					<div class="descrip">
+						<p>公交媒体广告能有效针对商品的目标消费群体选择最适合的地点进行发布，从而直接击中目标消费者。公交媒体作为优势户外媒体之一，具有独特的传播优势。</p>
+						<p>作为在城市生活中无处不在的公交车辆，每一处现在我们的身边，这种不经意间的信息传播是人们无法避免、不可抗拒觉广告媒体，在市区的大街小巷及周边乡镇往返穿梭，线路固定且较长，有突出反复诉求的效果，可增加广告受众的数量和接触频率。
+					</div>
+					<div class="dec"><p>第三方检测平台<p></div>
+					<div class="plain">
+						<a class="left"></a>
+						<a class="right"></a>
+					</div>
+				</div>
+			</section>
+			<section class="background-four">
+				<div class="container">
+					<div class="title-en">
+					</div>
+					<div class="title-zh">案例欣赏</div>
+					<div class="examples clearfix">
+							<div class="example">
+								<!-- <div class="imab"></div> -->
+								<img src="index_img/example1.png">
+								<div class="desp">
+									<span>车身广告</span>
+									<p>窝窝团网站推广</p>
+									<span>白色 简介 突出</span>
+								</div>
+							</div>
+						<div class="example">
+							<img src="index_img/example2.png">
+							<div class="desp">
+								<span>站牌广告</span>
+								<p>美汁源果粒橙产品推广</p>
+								<span>直接 传播面广</span>
+							</div>
+						</div>
+						<div class="example">
+							<img src="index_img/example3.png">
+							<div class="desp">
+								<span>车身广告</span>
+								<p>蒙牛QQ星儿童牛奶产品推广</p>
+								<span>醒目 直白 受众广</span>
+							</div>
+						</div>
+					</div>
+					<div class="more">MORE></div>
+				</div>
+			</section>
+			<section class="background-five">
+				<div class="container">
+					<div class="title-en">
 						
-						<p class="J_click_p" data="218">
-							<span id="J_count_time_b" data2="0" data1="328261">
-								<a target="_blank" href="order/iwant/${prod.id}">
-		  						<span class="mr20">金额</span>                 
-		  						<span style="color: red;">￥<em>#{prod.price!'' ;m2M2}</em></span>              
-		  						</a>
-							</span>
-							
-						</p>
-					</div>           
-					 </#list>	      
+					</div>
+					<div class="title-zh">合作伙伴</div>
+					<ul class="adv">
+						<li class="mobile"></li>
+						<li class="mengniu"></li>
+						<li class="lenovo"></li>
+						<li class="jd"></li>
+						<li class="suning"></li>
+						<li class="apple"></li>
+						<li class="weiqian"></li>
+						<li class="unilever"></li>
+						<li class="cocacola"></li>
+						<li class="taobao"></li>
+					</ul>
 				</div>
-			</div>
-			</#if>
-			
-			<#if (imageList?size>0) >
-			<div class="module2">
-			  <div class="title s-clear">
-			  	<span>
-			  		图片广告
-			  	</span>
-			  	<a href="${rc.contextPath}/product/sift" class="s-right">更多》</a><!-- f/prod/list/image -->
-			  </div>
-			  <div class="fn-clear pg-uplan-product-list text-big mt15 mb10">
-			    <#list imageList as prod>
-				  <div class="fn-left pg-uplan-product-item mr15">
-						<a target="_blank" href="order/iwant/${prod.id}"><!--product/d/-->
-							<dl class="bg-color-white">
-							  <dt class="ub" style="height: 280px;">
-							  <span>${substring(prod.name,0,13)}</span>
-				<div style="  margin: -15px 2px 0px 0px;">
-		            	<span class="mr20" style="font-size: 12px;">展示期限             
-		            		${prod.days}天
-		            	</span>
-		        </div>  
-		        <div style="  margin: -15px 2px 0px 0px;">
-		            	<span class="mr20" style="font-size: 12px;">曝光次数                
-							  ${prod.playNumber}/天
-						</span>
-		        </div>  
-		        
-		        
-							  <div class="img_box" style="width: 98%;height: 170px;">
-							  	<img class="img_size" src="${rc.contextPath}/imgs/img.png" style="  width: 100%; height: 90%;">
+			</section>
+			<section class="background-six">
+				<ul class="menu">
+					<li class="active">思想</li>
+					<li>关于</li>
+					<li>联系</li>
+					<li class="sl big"></li>
+					<li class="sl small"></li>
+				</ul>
+				<div class="slide-container">
+					<div class="slide-back">
+						<div class="slider view1">
+							<div class="view-text">
+								<div class="right">
+								  <div class="top">
+								  	<h2>崇德尚能</h2>
+								  </div>
+								  <div class="mid">
+								  	以德行立足于世，我们用最高的行业标准要求自己<br><br>
+								  	用能力打造品牌，每一份产品都源自不断地构想与实践<br><br>
+								  	漫漫征途，只为远方<br><br>
+								  	不畏险阻，一路同行
+								  </div>
+							    </div>
+							</div>
+						</div>
+						<div class="slider view2">
+							<div class="view-text">
+								  <div class="mid">
+								  	北京世巴传媒有限公司（简称“世巴传媒”）成立于2014年4月17日，注册资本5000万，由北京巴士传媒股份有限公司和北京北广传媒移动电视有限公司合资成立。
+    								<br><br>世巴传媒电商平台经营内容包括北京全市公交车载电视媒体、电子站牌、场站信息服务显示屏等，依托公交车载移动电视实现北京市区全覆盖的优势，推出栏目植入广告业务，为客户专门定制节目，为客户提供专业、优质的服务。
+    								<br><br>平台遵循先进的O2O理念，大胆创新公交媒体营销模式，将互联网思维运用到传统交易中，将线上交易于线下体验相结合，更加方便用户使用，注重用户体验。
+
+								  </div>
+							</div>
+						</div>
+						<div class="slider view3">
+							<div class="view-text">
+								<div class="left">
+									<img src="index_img/wp1_1.jpg" height="180" width="180">
+								</div>
+								<div class="right">
+								  <h3>010-87899736</h3>
+								  <div>地址：北京市海淀区紫竹院路32号</div>
+								  <div>邮编：100048</div>
+								  <div>网址：http://www.wbmedia.com.cn</div>
 							  </div>
-							  </dt>
-		  				</dl>
-						</a>
-						<p class="J_click_p" data="218">
-							<span id="J_count_time_b" data2="0" data1="328261">
-								<a target="_blank" href="order/iwant/${prod.id}">
-		  						<span class="mr20">金额</span>                 
-		  						<span style="color: red;">￥<em>#{prod.price!'' ;m2M2}</em></span>              
-		  						</a>
-							</span>
-						</p>
-					</div>           
-				 </#list>	 	     
-				</div>
-			</div>
-			</#if>
-			
-			<#if (noteList?size>0) >
-			<div class="module3">
-			  <div class="title s-clear">
-			  	<span>
-			  		文字信息
-			  	</span>
-			  	<a href="${rc.contextPath}/product/sift" class="s-right">更多》</a><!-- -->
-			  </div>
-			  <div class="fn-clear pg-uplan-product-list text-big mt15 mb10">
-			   <#list noteList as prod>
-				  <div class="fn-left pg-uplan-product-item mr15">
-						<a target="_blank" href="order/iwant/${prod.id}"><!--product/d/-->
-							<dl class="bg-color-white">
-							  <dt class="ub" style="height: 280px;">
-							  <span>${substring(prod.name,0,13)}</span>
-				<div style="  margin: -15px 2px 0px 0px;">
-		            	<span class="mr20" style="font-size: 12px;">展示期限             
-		            		${prod.days}天
-		            	</span>
-		        </div>  
-		        <div style="  margin: -15px 2px 0px 0px;">
-		            	<span class="mr20" style="font-size: 12px;">曝光次数                
-							  ${prod.playNumber}/天
-						</span>
-		        </div>  
-		        
-		        
-							  <div class="img_box" style="width: 98%;height: 170px;">
-							  	<img class="img_size" src="${rc.contextPath}/imgs/info.png" style="  width: 100%; height: 90%;">
-							  </div>
-							  </dt>
-		  				</dl>
-						</a>
-						<p class="J_click_p" data="218">
-							<span id="J_count_time_b" data2="0" data1="328261">
-								<a target="_blank" href="order/iwant/${prod.id}">
-		  						<span class="mr20">金额</span>                 
-		  						<span style="color: red;">￥<em>#{prod.price!'' ;m2M2}</em></span>              
-		  						</a>
-							</span>
-						</p>
-					</div>           
-					 </#list>      
-				</div>
-			</div>
-			</#if>
-		</div>
-		
-		<div class="pg-container">
-				<div class="pg-container-main">
-					
-					<div class="container-12 mt10 s-clear">
-						<div class="sift-box">
-							<div class="sift-item s-clear">
-								<span>产品名称：</span>
-								<div class="sift-search">
-									<input class="" id="name" type="text" placeholder="搜索产品" >
-									<a class="btn-search" href="javascript:;" ></a>
-								</div>
 							</div>
-							<div class="sift-item s-clear">
-								<span>是否竞价：</span>
-								<div class="sift-list" qt="p">
-									<a class="item active" href="javascript:;" sort="-1" qc="all">所有</a>
-									<a class="item" href="javascript:;"  qc="2" >竞价商品<i>×</i></a>
-									<a class="item" href="javascript:;"  qc="3" >一口价<i>×</i></a>
-								</div>
-							</div>
-							<#if city.mediaType=="body">
-							<div class="sift-item s-clear">
-								<span>线路级别：</span>
-								<div class="sift-list" qt="lev">
-									<a class="item active" href="javascript:;" sort="-1" qc="all">所有</a>
-									<a class="item" href="javascript:;"  qc="S" >特级<i>×</i></a>
-									<a class="item" href="javascript:;"  qc="APP" >A++<i>×</i></a>
-									<a class="item" href="javascript:;"  qc="AP" >A+<i>×</i></a>
-									<a class="item" href="javascript:;"  qc="A" >A<i>×</i></a>
-									<a class="item" href="javascript:;"  qc="LATLONG" >经纬线<i>×</i></a>
-								</div>
-							</div>
-							<#else>
-							<div class="sift-item s-clear">
-								<span>产品类型：</span>
-								<div class="sift-list" qt="t">
-									<a class="item active" href="javascript:;" sort="-1" qc="all">所有</a>
-									<a class="item" href="javascript:;" qc="video">视频<i>×</i></a>
-									<a class="item" href="javascript:;" qc="image">图片<i>×</i></a>
-									<a class="item" href="javascript:;" qc="info">文字<i>×</i></a>
-								</div>
-							</div>
-							<div class="sift-item s-clear">
-								<span>日爆光次数：</span>
-								<div class="sift-list" qt="s">
-									<a class="item active" href="javascript:;" sort="-1" qc="all">所有</a>
-									<a class="item" href="javascript:;" qc="2">0-7（不含）<i>×</i></a>
-									<a class="item" href="javascript:;" qc="3">7-11（含）<i>×</i></a>
-									<a class="item" href="javascript:;" qc="4">11以上<i>×</i></a>
-								</div>
-							</div>
-							</#if>
-							<div class="sift-item s-clear">
-								<span>展示期限：</span>
-								<div class="sift-list" qt="d">
-									<a class="item active" href="javascript:;" sort="-1" qc="all">所有</a>
-									<a class="item" href="javascript:;" qc="2" >1（天）<i>×</i></a>
-									<a class="item" href="javascript:;" qc="3">2-6（含）<i>×</i></a>
-									<a class="item" href="javascript:;" qc="4">7（天）<i>×</i></a>
-									<a class="item" href="javascript:;" qc="5">7天以上<i>×</i></a>
-								</div>
-							</div>
-							
-							
 						</div>
 					</div>
-				</div>
-				
-				
-				 <div class="withdraw-wrap color-white-bg fn-clear" style="margin-top: 30px;">
-            	 <div class="withdraw-title fn-clear">
-									产品列表
-				 </div>
-                <table id="table" class="display" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th orderBy="name">套餐名称</th>
-                        <th orderBy="type">类型</th>
-                        <th orderBy="type">类型</th>
-                        <th orderBy="price">价格(元)</th>
-                         <@security.authorize ifAnyGranted="ShibaOrderManager">  
-                        <th orderBy="exclusive">定向</th>
-                         </@security.authorize>
-                        <th orderBy="enabled">状态</th>
-                       
-                       <@security.authorize ifAnyGranted="ShibaOrderManager">  
-                        <th>首页</th>
-                        <th>进行中</th>
-                        <th>已结束</th>
-                        </@security.authorize>
-                        <th>管理</th>
-                    </tr>
-                    </thead>
+			</section>
+	  </div>
+	  <div class="jack" style="height: 296px; top: 160.5px;">
+        <ul class="icons">
+        	<li class="up"><i></i></li>
+            <li class="qq">
+            	<i></i>
+            </li>
+            <li class="tel">
+            	<i></i>
+            </li>
+            <li class="wechat">
+            	<i></i>
+            </li>
+            <li class="down"><i></i></li>
+        </ul>
+        <a class="switch"></a>
+      </div>
+		<script type="text/javascript" src="index_js/unslider.min.js"></script>
+		<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
+		<script type="text/javascript" src="index_js/index.js"></script>
+		<script type="text/javascript">
+		$(function(){
+			var _winHeight = $(window).height(),
+			    _winWidth = $(window).width();
+			$('.background-one .slider').css({'height': _winHeight, 'width': _winWidth});
+			$('.background-six .slider').css({'height': '240px', 'width': _winWidth});
 
-                </table>
-			</div>
+			$("#content").switchPage({
+				'loop' : true,
+				'keyboard' : true,
+				'direction' : 'vertical'
+			});
 			
-			
-			</div>
-		
-		<!-- <div class="adds"><img src="homepage/imgs/321.jpg" alt="" width="960" height="100"></div> -->
-		
-		<!-- <div class="qqbox">
-			<dl>
-				<dt>客服中心</dt>
-				<dd>客服a:<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2430526836&site=qq&menu=yes"><img border="0" width="70" src="http://wpa.qq.com/pa?p=2:3271689631:41" alt="点击这里给我发消息" title="点击这里给我发消息"/></a></dd>
-				<dd>客服b:<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=215511727&site=qq&menu=yes"><img border="0" width="70" src="http://wpa.qq.com/pa?p=2:2799461911:41" alt="点击这里给我发消息" title="点击这里给我发消息"/></a></dd>
-				<dd>销售a:<a class="qq-default"></a></dd>
-				<dd>销售b:<a class="qq-default"></a></dd>
-				
-			</dl>
-		</div> -->
-	</div>
-	
-	<#include "/menu/foot.ftl" />
-	
-	<input type="hidden" id="sh" value=""/>
-	    <script type="text/javascript">
-    var table;
-    function initTable () {
-        table = $('#table').dataTable( {
-            "dom": '<"#toolbar">lrtip',
-            "searching": false,
-            "ordering": true,
-            "serverSide": true,
-            
-            "columnDefs": [
-                { "sClass": "align-left", "targets": [0] },
-                { "orderable": false, "targets": [4] },
-            ],
-            "ajax": {
-                type: "GET",
-                url: "${rc.contextPath}/product/sift_data",
-                data: function(d) {
-                    return $.extend( {}, d, {
-                        "filter[name]" : $('#name').val(),
-                         "filter[sh]" : $('#sh').val(),
-                    } );
-                },
-                "dataSrc": "content",
-            },
-            "columns": [
-                { "data": "name", "defaultContent": "",
-                    "render": function(data, type, row, meta) {
-                    
-                    return '<a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer(\'${rc.contextPath}\','+row.id+');"  >'+row.name+'</a>';
-                    //    return '<a class="table-link" href="${rc.contextPath}/product/d/'+row.id+'">'+row.name+'</a>';
-                } },
-                { "data": "type", "defaultContent": "",
-                    "render": function(data, type, row, meta) {
-                        if (data == 'video')
-                            return '视频';
-                        if (data == 'image')
-                            return '图片';
-                        if (data == 'body')
-                            return '车身';
-                        if (data == 'info')
-                            return 'Info';
-                        return '';
-                    } },
-                    
-                       { "data": "iscompare", "defaultContent": "",
-                    "render": function(data, type, row, meta) {
-                        if (data == '1')
-                            return '竞价商品';
-                        if (data == '0')
-                            return '一口价';
-                        return '';
-                    } },
-                { "data": "price", "defaultContent": "", "render": $.fn.dataTable.render.number( ',', '.', 2, ' ')  },
-                 <@security.authorize ifAnyGranted="ShibaOrderManager"> 
-                { "data": "exclusiveUser", "defaultContent": "", "render": function(data, type, row) {
-                    if (data)
-                        return '<span class="invalid">' + data + '</span>';
-                    else
-                        return '';
-                } }, 
-                 </@security.authorize>
-                 
-                { "data": "enabled", "defaultContent": "", "render": function(data) {
-                    switch(data) {
-                        case true:
-                            return '<span class="processed">销售中</span>';
-                        default :
-                            return '<span class="invalid">已下架</span>';
-                    }
-                } },
-                
-                <@security.authorize ifAnyGranted="ShibaOrderManager">   
-                 { "data": "frontShow", "defaultContent": ""},
-                 { "data": "runningCount", "defaultContent": "", "render": function(data, type, row, meta) {
-                   return '<a class="table-link" href="${rc.contextPath}/order/product/' + (row.id) +'/1">'+data+'</a> &nbsp;'; 
-                } },
-                 { "data": "finishedCount", "defaultContent": "", "render": function(data, type, row, meta) {
-                    return '<a class="table-link" href="${rc.contextPath}/order/over/' +  (row.id) +'">'+data+'</a> &nbsp;'; 
-                } },
-                  </@security.authorize>
-                
-                { "data": function( row, type, set, meta) {
-                    return row.id;
-                },
-                    "render": function(data, type, row, meta) {
-                        var operations = '';
-                   		 <@security.authorize ifAnyGranted="ShibaOrderManager">  
-                     	operations+= (row.enabled ? '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/disable">禁用</a> &nbsp;'
-                                :'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/enable">启用</a> &nbsp;')
-                        operations +='<a class="table-link" href="${rc.contextPath}/product/' + data +'">编辑</a> &nbsp;';
-                        
-                       	if(row.frontShow=='Y'){
-                      		operations +=	'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/frontshow/' + data + '/N">取消首页</a> &nbsp;'
-                       	}else {
-                       		operations +=	'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/frontshow/' + data + '/Y">置首页</a> &nbsp;'
-                       	}
-                        
-                         //operations +='<a class="table-link" href="${rc.contextPath}/order/product/' + data +'/1">进行中订单</a> &nbsp;'; 
-                         //operations +='<a class="table-link" href="${rc.contextPath}/order/over/' + data +'">已完成订单</a> &nbsp;';
-                        </@security.authorize>
-                        if(row.enabled==true){
-                        	if(row.iscompare==1){
-                     	 		 operations+= '<a class="table-link" href="${rc.contextPath}/product/c/'+data+'?pid='+data+'">竞价</a>';
-                     	 	}else {
-                     	 		 operations+= '<a class="table-link" href="${rc.contextPath}/order/iwant/'+data+'">购买</a>';
-                     	 	}
-                    	}
-                       return operations;
-                        
-                    }},
-            ],
-            "language": {
-                "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
-            },
-            "initComplete": initComplete,
-            "drawCallback": drawCallback,
-        } );
-        table.fnNameOrdering("orderBy").fnNoColumnsParams();
-        return table;
-       
-    }
-
-    function initComplete() {
-        $("div#toolbar").html(
-        );
-
-        $('#name, #sh').change(function() {
-        	  table.fnDraw();
-        });
-    }
-
-    function drawCallback() {
-        $('.table-action').click(function() {
-            $.post($(this).attr("url"), function() {
-                table.fnDraw(true);
-            })
-        });
-    }
-
-    $(document).ready(function() {
-        initTable();
-        initSwift(table)
-    } );
-    
-   
-</script> 
-
-	<script type="text/javascript" src="homepage/js/jquery.js"></script>
-	<script src="homepage/js/index.js"></script>
-	<script src="homepage/js/unslider.min.js"></script>
-	<script type="text/javascript">
-		$(".module1 .fn-left.pg-uplan-product-item").mouseenter(function(){
-			$(this).css("border", "1px solid rgb(64, 155, 234)");
-			$(this).children(".J_click_p").css("background-color","rgb(86, 170, 242)");
-			$(this).find("a").css("color","rgb(255, 255, 255)");
-			console.log("success");
-		}).mouseleave(function(){
-			$(this).removeAttr("style");
-			$(this).children(".J_click_p").removeAttr("style");
-			$(this).find("a").removeAttr("style");
+			$('.background-one').slidePic(_winHeight, _winWidth);
+			$('.background-six').slidePic(240, _winWidth);
 		});
-		$(".module2 .fn-left.pg-uplan-product-item").mouseenter(function(){
-			$(this).css("border", "1px solid rgb(239, 122, 48)");
-			$(this).children(".J_click_p").css("background-color","rgb(253, 110, 19)");
-			$(this).find("a").css("color","rgb(255, 255, 255)");
-			console.log("success");
-		}).mouseleave(function(){
-			$(this).removeAttr("style");
-			$(this).children(".J_click_p").removeAttr("style");
-			$(this).find("a").removeAttr("style");
-		});
-		$(".module3 .fn-left.pg-uplan-product-item").mouseenter(function(){
-			$(this).css("border", "1px solid rgb(240, 194, 50)");
-			$(this).children(".J_click_p").css("background-color","rgb(255, 205, 51)");
-			$(this).find("a").css("color","rgb(255, 255, 255)");
-			console.log("success");
-		}).mouseleave(function(){
-			$(this).removeAttr("style");
-			$(this).children(".J_click_p").removeAttr("style");
-			$(this).find("a").removeAttr("style");
-		});
-		//鼠标移入移出事件
-/*			   $(".select-city").mouseover(function(){
-				    $(this).next().show();
-				  });
-			   $(".select-city").mouseout(function(){
-				    $(".item-dropdown").next().hide();
-				  });*/
-			   $(".item-dropdown").mouseover(function(){
-			    $(this).show();
-			   });
-			   $(".item-dropdown").mouseout(function(){
-			    $(this).hide();
-			   });
-
-		//鼠标移入移出事件
-			   $(".product-type .item span").mouseover(function(){
-				    $(this).next().show();
-				  });
-			   $(".product-type .item span").mouseout(function(){
-				    $(".select-dropdown").next().hide();
-				  });
-			   $(".select-dropdown").mouseover(function(){
-			    $(this).show();
-			   });
-			   $(".select-dropdown").mouseout(function(){
-			    $(this).hide();
-			   });
-
-		//走马灯图片事件
-		$(document).ready(function(e) {
-		    var unslider04 = $('#b04').unslider({
-				dots: true
-			}),
-			data04 = unslider04.data('unslider');
-			
-			$('.unslider-arrow04').click(function() {
-		        var fn = this.className.split(' ')[1];
-		        data04[fn]();
-		    });
-		});
-  function logout(){
-       window.location.href = "${rc.contextPath}/logout";
-    }
-
 	</script>
-
-</body>
- <@security.authorize access="isAuthenticated()">
-<script type="text/javascript">		
-		$(document).ready(
-					function() {
-					   $.ajax({
-							url : "${rc.contextPath}/message/unread",
-							type : "GET",
-							success : function(data) {
-								var msgNumber = Number(data);
-								if(msgNumber > 0){
-									$("#msgNumber").html("["+data+"]");
-									$("#msgNumber").attr("tip","您有["+data+"]个未读消息!"); 
-									  bindLayerMouseOver();
-								}	
-							}
-						}, "text");
-					}
-		);
-</script>
- </@security.authorize>
+	</body>
 </html>

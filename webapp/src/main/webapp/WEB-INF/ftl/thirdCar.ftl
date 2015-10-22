@@ -5,10 +5,10 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>thirdCar</title>
-		<link rel="stylesheet" type="text/css" href="../index_css/base.css">
-		<link rel="stylesheet" type="text/css" href="../index_css/header.css">
-		<link rel="stylesheet" type="text/css" href="../index_css/jack.css">
-		<link rel="stylesheet" type="text/css" href="../index_css/secondLevel.css">	</head>
+		<link rel="stylesheet" type="text/css" href="css/base.css">
+		<link rel="stylesheet" type="text/css" href="css/header.css">
+		<link rel="stylesheet" type="text/css" href="css/jack.css">
+		<link rel="stylesheet" type="text/css" href="css/secondLevel.css">	</head>
 	<body>
 		<header>
 				<span class="area">北京</span>
@@ -31,7 +31,7 @@
 			<div class="side-nav">
 				<div class="logo"></div>
 				<div class="de-code">
-					<img src="../index_img/pic1.png" height="100" width="100">
+					<img src="img/pic1.png" height="100" width="100">
 				</div>
 				<ul class="navibar">
 					<li><a>首页</a></li>
@@ -70,9 +70,9 @@
 					<div class="detail">
 						<div class="detail-bd clearfix">
 							<div class="d-left">
-								<img src="../index_img/bg1.png" width="345" height="345">
-								<div class="sm-img/">
-									<img id="ima" src="../index_img/bg1.png" height="65" width="65">
+								<img src="img/bg1.png" width="345" height="345">
+								<div class="sm-imgs">
+									<img id="ima" src="img/bg1.png" height="65" width="65">
 									<img src="" height="65" width="65">
 									<img src="" height="65" width="65">
 								</div>
@@ -177,25 +177,54 @@
 									<p class="head-zh">媒体情况</p>
 									<p class="icon icon-line"></p>
 								</div>
-								<img src="../index_img/thirdCar_1.png">
+								<div class="pic-table c-head clearfix">
+									<div class="tbhead">硬广套装</div>
+									<div class="tbbody">
+										<div class="tbtr">
+											<div class="tbtd tb-position tb-left">
+												<span class="icon icon-position"></span>
+												<span>北京</span>
+											</div>
+											<div class="tbtd tb-flow">
+												<span class="icon icon-flow"></span><span>1300万人次/日</span>
+											</div>
+										</div>
+										<div class="tbtr">
+											<div class="tbtd tb-path tb-left">
+												<span class="icon icon-path"></span><span>北京六环内<br>470余条公交线路</span>
+											</div>
+											<div class="tbtd tb-medium">
+												<span class="icon icon-medium"></span><span>19寸公交彩色液晶电视</span>
+											</div>
+										</div>
+										<div class="tbtr">
+											<div class="tbtd tb-firm tb-left">
+												<span class="icon icon-firm"></span><span>北广传媒</span>
+											</div>
+											<div class="tbtd tb-number">
+												<span class="icon icon-number"></span><span>12000辆车24000块屏</span>
+											</div>
+										</div>
+									</div>
+								</div>
 								<div class="c-head">
 									<p class="head-en">MEDIA REGIONAL</p>
 									<p class="head-zh">媒体区域</p>
 									<p class="icon icon-line"></p>
 								</div>
-								<img src="../index_img/thirdCar_2.png">
+								<img src="img/thirdCar_2.png">
 								<div class="c-head">
 									<p class="head-en">MEDIA SHOW</p>
 									<p class="head-zh">媒体展示</p>
 									<p class="icon icon-line"></p>
 								</div>
-								<img src="../index_img/thirdCar_3.png">
+								<img src="img/thirdCar_3.png">
 								<div class="c-head">
 									<p class="head-en">MEDIA REGIONAL</p>
 									<p class="head-zh">合作品牌</p>
 									<p class="icon icon-line"></p>
 								</div>
-								<img src="../index_img/thirdCar_4.png">
+								<img src="img/thirdCar_4.png">
 							</div>
 						</div>
 					</div>
@@ -219,8 +248,8 @@
 	        <a class="switch"></a>
 	    </div>
 
-		<script type="text/javascript" src="../index_js/jquery-1.11.1.min.js"></script>
-		<script src="../index_js/unslider.min.js"></script>
+		<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+		<script src="js/unslider.min.js"></script>
 		<script type="text/javascript">
 		$(document).ready(function(e) {
 		   $('.perio li').on('click', function(event) {
