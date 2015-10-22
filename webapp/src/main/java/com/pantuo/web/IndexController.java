@@ -166,8 +166,17 @@ public class CardSelect{
 	}
 	 
  
+
 	
 }
+
+	@RequestMapping(value = "/b/public_detail", produces = "text/html;charset=utf-8")
+	public String _detail(Model model, HttpServletRequest request, Principal principal
+			 ) {
+		return "thirdCar";
+	}
+
+
 	@RequestMapping(value = "/select", produces = "text/html;charset=utf-8")
 	public String toCard3(Model model,HttpServletRequest request,Principal principal,
 			@RequestParam(value="meids" , required = false) String meids,@RequestParam(value="boids" , required = false) String boids) {
