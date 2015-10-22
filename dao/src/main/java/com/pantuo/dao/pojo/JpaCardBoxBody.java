@@ -23,9 +23,11 @@ public class JpaCardBoxBody extends CityEntity {
 	private JpaBusOrderDetailV2 product;
 	private int needCount;//购买数量
 	private double price = 0;//价格
+	private double totalprice = 0;//价格
 	private int isConfirm = 0;//1代表已确认
 	private long seriaNum;//表单序列号
 	private int days;//用户需求天数
+	private int isDesign =0;//0 管理员 1用户选择
 
 	public int getId() {
 		return id;
@@ -80,6 +82,14 @@ public class JpaCardBoxBody extends CityEntity {
 		return seriaNum;
 	}
 
+	public double getTotalprice() {
+		return totalprice;
+	}
+
+	public void setTotalprice(double totalprice) {
+		this.totalprice = totalprice;
+	}
+
 	public void setSeriaNum(long seriaNum) {
 		this.seriaNum = seriaNum;
 	}
@@ -90,6 +100,14 @@ public class JpaCardBoxBody extends CityEntity {
 
 	public void setDays(int days) {
 		this.days = days;
+	}
+
+	public int getIsDesign() {
+		return isDesign;
+	}
+
+	public void setIsDesign(int isDesign) {
+		this.isDesign = isDesign;
 	}
  
 }
