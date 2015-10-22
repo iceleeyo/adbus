@@ -1,34 +1,20 @@
-<!doctype html>
+<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="zh">
 	<head>
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>secondCart_step1</title>
-		<link rel="stylesheet" type="text/css" href="index_css/base.css">
-		<link rel="stylesheet" type="text/css" href="index_css/header.css">
-		<link rel="stylesheet" type="text/css" href="index_css/jack.css">
-		<link rel="stylesheet" type="text/css" href="index_css/secondLevel.css">
-
+		<title>购物车</title>
+			
 	</head>
+		
 	<body>
 		<header>
-				<span class="area">北京</span>
-				<nav class="menu">
-					<ul class="list-line">
-						<li><a href="/index.html">首页</a></li>
-						<li class="active"><a href="jvascript:void(0)">媒体产品</a></li>
-						<li><a href="jvascript:void(0)">传播效果</a></li>
-						<li><a href="/caseMore.html">案例欣赏</a></li>
-						<li><a href="jvascript:void(0)">合作伙伴</a></li>
-						<li><a href="jvascript:void(0)">关于我们</a></li>
-					</ul>
-					<ul class="login">
-						<li><a href="#">登录</a></li>|
-						<li><a href="#">注册</a></li>
-					</ul>
-				</nav>
-			</header>
+		<!-- 头部开始 -->
+<#include "/index_menu/index_top.ftl" />
+		<!-- 头部结束 -->
+		</header>
 		<div class="content">
 			<div class="side-nav">
 				<div class="logo"></div>
@@ -91,15 +77,17 @@
 								</ul>
 							</div>
 								<#list infos.media as item>
+								
 							<div class="panel-item">
 								<ul class="item-info clearfix">
-									<li class="td td-check clearfix">
-										<div class="cart-check mediaB">
+								<li class="td td-check clearfix">
+										<div class="td-inner">
+											<div class="cart-check mediaB">
 												<input class="hideinput"  type="checkbox" id="${item.id}" name="checkone" value="${item.id}">
 												<label class="chilbox" rowid="${item.id}"></label>
-
+											</div>
 										</div>
-									</li>
+								</li>
 									<li class="td td-item">
 										<div class="td-inner">
 											<p>${item.product.name}</p>
@@ -160,12 +148,16 @@
 								<#list infos.body as item>
 							<div class="panel-item">
 								<ul class="item-info clearfix">
+									
 									<li class="td td-check clearfix">
-										<div class="cart-check bodyB">
-												<input  class="hideinput" type="checkbox" name="b_checkone" value="${item.id}">
-												<label class="chilbox"></label>
-										</div>
+							<div class="td-inner">
+									<div class="cart-check bodyB">
+											<input  class="hideinput" type="checkbox" name="b_checkone" value="${item.id}">
+											<label class="chilbox"></label>
+									</div>
+							</div>
 									</li>
+									
 									<li class="td td-item">
 										<div class="td-inner">
 											<p>${item.product.jpaProductV2.name}</p>

@@ -607,7 +607,7 @@ html #layui_layer_skinlayercss {
 
 .layui-layer-page .layui-layer-content {
     position: relative;
-    overflow: auto
+    overflow: hidden;
 }
 
 .layui-layer-iframe .layui-layer-btn,

@@ -1,40 +1,19 @@
-<!doctype html>
+<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="zh">
 	<head>
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>secondLevel</title>
-		<link rel="stylesheet" type="text/css" href="index_css/base.css">
-		<link rel="stylesheet" type="text/css" href="index_css/header.css">
-		<link rel="stylesheet" type="text/css" href="index_css/jack.css">
-		<link rel="stylesheet" type="text/css" href="index_css/secondLevel.css">
-		<link rel="stylesheet" type="text/css" href="index_css/sift.css">
-		<link rel="stylesheet" href="index_css/pagination.css">
+		<title>车身广告产品</title>
 			
-	</head>
-<style type="text/css">
-    .sift-list {  width: 80px;  line-height: 30px;}
-    .sift-list a{margin-right: 10px;}
-</style>		
+	</head>	
 	<body>
 		<header>
-				<span class="area">北京</span>
-				<nav class="menu">
-					<ul class="list-line">
-						<li><a href="index.html">首页</a></li>
-						<li class="active"><a href="jvascript:void(0)">媒体产品</a></li>
-						<li><a href="jvascript:void(0)">传播效果</a></li>
-						<li><a href="/caseMore.html">案例欣赏</a></li>
-						<li><a href="jvascript:void(0)">合作伙伴</a></li>
-						<li><a href="jvascript:void(0)">关于我们</a></li>
-					</ul>
-					<ul class="login">
-						<li><a href="../login">登录</a></li>|
-						<li><a href="../register">注册</a></li>
-					</ul>
-				</nav>
-			</header>
+		<!-- 头部开始 -->
+<#include "/index_menu/index_top.ftl" />
+		<!-- 头部结束 -->
+		</header>
 		<div class="content">
 			<div class="side-nav">
 				<div class="logo"></div>
@@ -42,7 +21,7 @@
 					<img src="index_img/pic1.png" height="100" width="100">
 				</div>
 				<ul class="navibar">
-					<li><a>首页</a></li>
+					<li><a href="/index.html">首页</a></li>
 					<li class="active"><a>产品媒体</a></li>
 					<li><a href="/caseMore.html">案例欣赏</a></li>
 				</ul>
@@ -71,7 +50,7 @@
 					</div>
 				</div>
 				<div class="md-nav">
-					媒体产品>车身媒体
+					媒体产品>车身广告
 				</div>
 				<div class="ad">
 
@@ -331,17 +310,8 @@
         <a class="switch"></a>
       </div>
 
-		<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
-		<script src="index_js/unslider.min.js"></script>
-		<script src="index_js/sift_body.js"></script>
-		<script src="js/jquery.pagination.js"></script>
 		<script type="text/javascript">
-	    $(document).ready(function() {
-	         initPro('${rc.contextPath}',"");
-	         initSwift2('${rc.contextPath}');
-	    } );
-	    
-		$("#leftDec").click(function(){
+	    $("#leftDec").click(function(){
 			  var oldValue=$(this).next().val();//获取文本框对象现有值
 			  if(oldValue>0){
 				  $(this).next().val(parseInt(oldValue)-1);
@@ -361,60 +331,7 @@
 			  $(this).parent().find("input").val(parseint($(this).parent().find("input"))-1);
 		}); */
 			
-		//走马灯图片事件
-		$(document).ready(function(e) {
-		
-		  $('#price1, #price2').change(function() {
-                 initPro('${rc.contextPath}',$("#sh").val(),0);
-       	 });
-       	   $('#priceSort').click(function() {
-                  var w = $('#ascOrDesc').val();
-                  if(w==0){
-                    $('#ascOrDesc').val(1);
-                      $('#priceSort').html("＾"); 
-                  }else{
-                   $('#ascOrDesc').val(0); 
-                      $('#priceSort').html("ｖ"); 
-                  }
-                   initPro('${rc.contextPath}',$("#sh").val(),0);
-       	 });
-		
-		    var unslider04 = $('#b04').unslider({
-				dots: true
-			}),
-			data04 = unslider04.data('unslider');
-			
-			$('.unslider-arrow04').click(function() {
-		        var fn = this.className.split(' ')[1];
-		        data04[fn]();
-		    });
 
-			//限时套装Hover事件
-			$('.timer .select-item').hover(function(e) {
-				/* Stuff to do when the mouse enters the element */
-				e.preventDefault();
-				$(this).find('.lasttime').css({
-					'border-top': '1px solid #ca0d0e',
-					'border-right': '1px solid #ca0d0e',
-					'border-left': '1px solid #ca0d0e'
-				}).end().find('.cost-box').css({
-					'border-right': '1px solid #ca0d0e',
-					'border-bottom': '1px solid #ca0d0e',
-					'border-left': '1px solid #ca0d0e'
-				}).end().find('.cost').css(
-					'border-bottom', '1px solid #ca0d0e'
-				).end().find('.timeline').css(
-					'border-bottom', '1px solid #ca0d0e'
-				).end().find('.ston').css({
-					color: '#fff',
-					background: '#ca0d0e'
-				});
-			}, function(e) {
-				/* Stuff to do when the mouse leaves the element */
-				e.preventDefault();
-				$(this).find('.lasttime').removeAttr('style').end().find('.cost-box').removeAttr('style').end().find('.cost').removeAttr('style').end().find('.timeline').removeAttr('style').end().find('.ston').removeAttr('style');
-			});
-		});
 	</script>
 	</body>
 </html>

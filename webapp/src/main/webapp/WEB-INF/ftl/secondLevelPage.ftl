@@ -5,153 +5,30 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>secondLevel</title>
-		<link rel="stylesheet" type="text/css" href="index_css/base.css">
-		<link rel="stylesheet" type="text/css" href="index_css/header.css">
-		<link rel="stylesheet" type="text/css" href="index_css/jack.css">
-		<link rel="stylesheet" type="text/css" href="index_css/secondLevel.css">
-		<link rel="stylesheet" type="text/css" href="index_css/sift.css">
-		<link rel="stylesheet" type="text/css" href="index_css/sea.css">
-		<link rel="stylesheet" href="index_css/pagination.css">
-			
-	</head>
+
+		<title>移动视频产品</title>
 <script type="text/javascript">
-    function logout(){
-       window.location.href = "${rc.contextPath}/logout";
-    }
-
-    $(function() {
-        $("#city_dropdown a:not(.selected)").click(function(){
-            var cityName = $(this).parents("#ttbar-mycity")[0]?$(this).attr("data-id") : $("#ttbar-mycity a.selected").attr("data-id");
-            var media = $(this).parents("#ttbar-media")[0]?$(this).attr("data-id") : $("#ttbar-media a.selected").attr("data-id");
-            if (!cityName)
-                cityName = '北京';
-            if (!media)
-                media = 'screen';
-            $.ajax({
-                url : "${rc.contextPath}/f/city/select?c=" + cityName + "&m="+media,
-                type : "POST",
-                data: {},
-                success : function(data) {
-                    layer.msg("正在切换到："+ data.name + " " + data.mediaTypeName);
-                    var uptime = window.setTimeout(function(){
-                        window.location.reload();
-                        clearTimeout(uptime);
-                    },1000);
-                }
-            }, "text");
-        });
-    });
+/**
+ * 加入购物车判断登陆状态
+ */
+function tocard(pathurl){
+	var lc=$("#lc").val();
+	if(lc=="0"){
+		islogin(pathurl);
+	}
+	if(lc=="1"){
+		window.location.href=pathurl+"/toCard";
+	}
+}
 </script>
-<style type="text/css">
-    .sift-list {  width: 80px;  line-height: 30px;}
-    .sift-list a{margin-right: 10px;}
-
-</style>		
+	</head>
+		
 	<body>
 		<header>
-		<div class="grid-12 city-dropdown">
-                            <ul class="fl">
-<#--<@security.authorize access="isAuthenticated()">-->
-                                <li class="dorpdown" id="ttbar-mycity">
-                                    <div class="dt cw-icon ui-areamini-text-wrap" style="">
-                                        <i class="ci-right"><s>◇</s></i>
-                                        <#if city??>
-                                            <span class="ui-areamini-text" data-id="${city.name}" title="${city.name}">${city.name}</span>
-                                        <#else>
-                                            <span class="ui-areamini-text" data-id="${cities[0].name!''}" title="${cities[0].name!''}">${cities[0].name!''}</span>
-                                        </#if>
-                                    </div>
-                                    <div class="dd dorpdown-layer">
-                                        <div class="dd-spacer"></div>
-                                        <div class="ui-areamini-content-wrap" style="left: auto;">
-                                            <div class="ui-areamini-content">
-                                                <div class="ui-areamini-content-list" id="city_dropdown">
-                                                    <#list cities as c>
-                                                        <div class="item">
-                                                            <a data-id="${c.name}" href="javascript:void(0)" <#if city?? && city.name == c.name>class="selected"</#if>>${c.name!''}</a>
-                                                        </div>
-                                                    </#list>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                               
-<#--</@security.authorize>-->
-                            </ul>
-                            </div>
-				<nav class="menu">
-					<ul class="list-line">
-						<li><a href="index.html">首页</a></li>
-						<li class="active"><a href="jvascript:void(0)">媒体产品</a></li>
-						<li><a href="jvascript:void(0)">传播效果</a></li>
-						<li><a href="/caseMore.html">案例欣赏</a></li>
-						<li><a href="jvascript:void(0)">合作伙伴</a></li>
-						<li><a href="jvascript:void(0)">关于我们</a></li>
-					</ul>
-					<div class="s-right s-clear">
-								<span class="pg-nav-item s-left" style="padding:0;">您好，</span>
-									<span>
-                                        <@security.authorize access="isAuthenticated()">
-                                        <#if medetype?? && medetype=="screen">
-                                        <a class="pg-nav-item s-left" href="${rc.contextPath}/order/myTask/1">
-                                        <#else>
-                                           <a class="pg-nav-item s-left" href="${rc.contextPath}/busselect/myTask/1">
-                                        </#if>
-                                                                                                                                   我的账户:
-                                            <@security.authentication property="principal.user.firstName" />
-                                            <@security.authentication property="principal.user.lastName" />
-                                        </a>
-                                        </@security.authorize>
-                                        <@security.authorize access="! isAuthenticated()">
-                                            <a class="pg-nav-item s-left" href="${rc.contextPath}/login">请登录</a>
-                                            <a class="pg-nav-item s-left" href="${rc.contextPath}/register">免费注册</a>
-                                        </@security.authorize>
-                                    </span>
-									<#--<span class="arrow-down"></span>-->
-								<div class="pg-nav-dropdown" style="display: none;">
-									<div class="pg-dropdown-box">
-										<div class="dropdown-account s-clear">
-											<div class="account-img-box s-left">
-												<a href="">
-													<img src="${rc.contextPath}/imgs/default-img-78.png">
-												</a>
-											</div>
-											<div class="s-left">
-												<div class="user-money-handle s-clear grgray-text">
-													<span class="balance fsize-14 s-left mr10">账户余额</span>
-													<span class="orange-text fsize-14 s-left">
-														<em class="fsize-18">0.00</em>
-													</span>
-												</div>
-												<div>
-													<a class="s-left pg-btn pg-btn-green pg-btn-md mr4" href="#">充值</a>
-													<a class="s-left pg-btn pg-btn-blue pg-btn-md" href="#">提现</a>
-												</div>
-											</div>
-										</div>
-										<div class="dropdown-bottom s-clear">
-											<div class="dropdown-set s-left"><a class="is-line" href="">我的报表</a></div>
-											<div class="dropdown-set s-left"><a class="is-line" href="">我的物料</a></div>
-											<div class="dropdown-set s-left"><a href="">我的订单</a></div>
-										</div>
-									</div>
-								</div>
-                               
-								<!--<a class="pg-nav-item s-left" href="#">
-									<i class="icon-msg fsize-12">1</i>
-									消息
-								</a> -->
-								<!--<a class="pg-nav-item s-left" href="#">帮助</a>
-								<a class="pg-nav-item s-left" href="#">论坛</a>-->
-								<a class="pg-nav-item s-left" href="${rc.contextPath}/message/all">消息<span id="msgNumber" class="layer-tips" style="color:#ff9966"></span></a>
-								 <@security.authorize access="isAuthenticated()">
-								<a href="javascript:;" class="pg-nav-item s-left" onclick="logout();">[退出]</a>
-                                </@security.authorize>
-							</div>
-				</nav>
-			</header>
+		<!-- 头部开始 -->
+<#include "/index_menu/index_top.ftl" />
+		<!-- 头部结束 -->
+		</header>
 		<div class="content">
 			<div class="side-nav">
 				<div class="logo"></div>
@@ -159,7 +36,7 @@
 					<img src="index_img/pic1.png" height="100" width="100">
 				</div>
 				<ul class="navibar">
-					<li><a href="index.html">首页</a></li>
+					<li><a href="/index.html">首页</a></li>
 					<li class="active"><a>产品媒体</a></li>
 					<li><a href="/caseMore.html">案例欣赏</a></li>
 				</ul>
@@ -188,7 +65,7 @@
 					</div>
 				</div>
 				<div class="md-nav">
-					媒体产品>车身媒体
+					媒体产品>移动电视
 				</div>
 				<div class="ad">
 
@@ -385,10 +262,15 @@
 							</div>
 
 							<div class="cart-box" style="margin-top: 20px;">
-							<a href="${rc.contextPath}/toCard">
+							<a onclick="tocard('${rc.contextPath}');">
 								<div class="cart">
 									加入购物车
-								</div>
+								</div> 
+								<@security.authorize access="isAuthenticated()"> <input
+								type="hidden" id="lc" value="1" /> </@security.authorize>
+								<@security.authorize access="! isAuthenticated()"> <input
+								type="hidden" id="lc" value="0" /> </@security.authorize>
+
 							</a>
 							</div>
 						</div>
@@ -413,16 +295,9 @@
         </ul>
         <a class="switch"></a>
       </div>
-
-		<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
-		<script src="index_js/unslider.min.js"></script>
-		<script src="index_js/sift_bus.js"></script>
-		<script src="js/jquery.pagination.js"></script>
+		
 		<script type="text/javascript">
 	    $(document).ready(function() {
-	        initPro('${rc.contextPath}',$("#sh").val(),"","",1);
-	        initSwift2('${rc.contextPath}');
-	    } );
 	     $('#priceSort').click(function() {
                   var w = $('#ascOrDesc').val();
                   if(w==0){
@@ -457,44 +332,7 @@
 			  $(this).parent().find("input").val(parseint($(this).parent().find("input"))-1);
 		}); */
 			
-		//走马灯图片事件
-		$(document).ready(function(e) {
-		    var unslider04 = $('#b04').unslider({
-				dots: true
-			}),
-			data04 = unslider04.data('unslider');
-			
-			$('.unslider-arrow04').click(function() {
-		        var fn = this.className.split(' ')[1];
-		        data04[fn]();
-		    });
 
-			//限时套装Hover事件
-			$('.timer .select-item').hover(function(e) {
-				/* Stuff to do when the mouse enters the element */
-				e.preventDefault();
-				$(this).find('.lasttime').css({
-					'border-top': '1px solid #ca0d0e',
-					'border-right': '1px solid #ca0d0e',
-					'border-left': '1px solid #ca0d0e'
-				}).end().find('.cost-box').css({
-					'border-right': '1px solid #ca0d0e',
-					'border-bottom': '1px solid #ca0d0e',
-					'border-left': '1px solid #ca0d0e'
-				}).end().find('.cost').css(
-					'border-bottom', '1px solid #ca0d0e'
-				).end().find('.timeline').css(
-					'border-bottom', '1px solid #ca0d0e'
-				).end().find('.ston').css({
-					color: '#fff',
-					background: '#ca0d0e'
-				});
-			}, function(e) {
-				/* Stuff to do when the mouse leaves the element */
-				e.preventDefault();
-				$(this).find('.lasttime').removeAttr('style').end().find('.cost-box').removeAttr('style').end().find('.cost').removeAttr('style').end().find('.timeline').removeAttr('style').end().find('.ston').removeAttr('style');
-			});
-		});
 		
 	</script>
 	</body>
