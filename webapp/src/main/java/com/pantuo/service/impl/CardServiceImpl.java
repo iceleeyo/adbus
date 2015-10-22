@@ -163,7 +163,7 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public Pair<Double, Integer> saveCard(int proid, int needCount, Principal principal, int city, String type) {
+	public Pair<Double, Integer> saveCard(int proid, int needCount, Principal principal, int city, String type,int IsDesign) {
 		double totalPrice = 0;
 		int totalnum = 0;
 		if (StringUtils.equals(type, "media")) {
@@ -202,19 +202,22 @@ public class CardServiceImpl implements CardService {
 			long seriaNum = getCardBingSeriaNum(principal);
 			CardboxBodyExample example = new CardboxBodyExample();
 			example.createCriteria().andSeriaNumEqualTo(seriaNum).andProductIdEqualTo(proid)
-					.andUserIdEqualTo(Request.getUserId(principal)).andIsConfirmEqualTo(0);
+					.andUserIdEqualTo(Request.getUserId(principal)).andIsConfirmEqualTo(0).andIsDesignEqualTo(IsDesign);
 			List<CardboxBody> c = cardBodyMapper.selectByExample(example);
+			JpaBusOrderDetailV2 product = busOrderDetailV2Repository.findOne(proid);
 			if (c.isEmpty()) {//无记录时增加
 				CardboxBody media = new CardboxBody();
-				JpaBusOrderDetailV2 product = busOrderDetailV2Repository.findOne(proid);
 				media.setCity(city);
 				media.setUserId(Request.getUserId(principal));
 				media.setCreated(new Date());
 				media.setNeedCount(needCount);
-				media.setPrice(product.getPrice() * needCount);
+				media.setPrice(product.getPrice());
+				media.setTotalprice(needCount*product.getPrice());
 				media.setSeriaNum(seriaNum);
 				media.setProductId(proid);
 				media.setIsConfirm(0);
+				media.setDays(product.getDays());
+				media.setIsDesign(IsDesign);
 				cardBodyMapper.insert(media);
 			} else {
 				CardboxBody existMedia = c.get(0);
@@ -222,6 +225,7 @@ public class CardServiceImpl implements CardService {
 					cardBodyMapper.deleteByExample(example);
 				} else {
 					existMedia.setNeedCount(needCount);
+					existMedia.setTotalprice(existMedia.getDays()/product.getDays()*needCount*product.getPrice());
 					cardBodyMapper.updateByPrimaryKey(existMedia);
 				}
 			}
@@ -229,7 +233,74 @@ public class CardServiceImpl implements CardService {
 			return new Pair<Double, Integer>(totalPrice, totalnum);
 		}
 	}
+	@Override
+	public Pair<Boolean, String> putIncar(int proid, int needCount, int days, Principal principal, int city, String type) {
+		if (StringUtils.equals(type, "media")) {
+			return new Pair<Boolean, String>(true, "0");
+		} else {
+			long seriaNum = getCardBingSeriaNum(principal);
+			CardboxBodyExample example = new CardboxBodyExample();
+			example.createCriteria().andSeriaNumEqualTo(seriaNum).andProductIdEqualTo(proid)
+					.andUserIdEqualTo(Request.getUserId(principal)).andIsConfirmEqualTo(0).andIsDesignEqualTo(1);;
+			List<CardboxBody> c = cardBodyMapper.selectByExample(example);
+			JpaBusOrderDetailV2 product = busOrderDetailV2Repository.findOne(proid);
+			if (c.isEmpty()) {//无记录时增加
+				CardboxBody media = new CardboxBody();
+				media.setCity(city);
+				media.setUserId(Request.getUserId(principal));
+				media.setCreated(new Date());
+				media.setNeedCount(needCount);
+				media.setPrice(product.getPrice());
+				media.setTotalprice(days/product.getDays()*needCount*product.getPrice());
+				media.setSeriaNum(seriaNum);
+				media.setProductId(proid);
+				media.setIsConfirm(0);
+				media.setDays(days);
+				media.setIsDesign(1);
+				cardBodyMapper.insert(media);
+			} else {
+				CardboxBody existMedia = c.get(0);
+				if (needCount == 0) {//如果是0时删除
+					cardBodyMapper.deleteByExample(example);
+				} else {
+					existMedia.setNeedCount(needCount);
+					existMedia.setDays(days);
+					existMedia.setTotalprice(days/product.getDays()*needCount*product.getPrice());
+					cardBodyMapper.updateByPrimaryKey(existMedia);
+				}
+			}
 
+			return new Pair<Boolean, String>(true, "加入购物车成功");
+		}
+
+	}
+	@Override
+	public Pair<Boolean, String> buy(int proid, int needCount, int days, Principal principal, int city, String type) {
+		if (StringUtils.equals(type, "media")) {
+			return new Pair<Boolean, String>(true, "0");
+		} else {
+			long seriaNum = getCardBingSeriaNum(principal);
+			CardboxBody media = new CardboxBody();
+			JpaBusOrderDetailV2 product = busOrderDetailV2Repository.findOne(proid);
+			media.setCity(city);
+			media.setUserId(Request.getUserId(principal));
+			media.setCreated(new Date());
+			media.setNeedCount(needCount);
+			media.setPrice(product.getPrice());
+			media.setTotalprice(days/product.getDays()*needCount*product.getPrice());
+			media.setSeriaNum(seriaNum);
+			media.setProductId(proid);
+			media.setIsConfirm(0);
+			media.setDays(days);
+			media.setIsDesign(1);
+			int a=cardBodyMapper.insert(media);
+			if(a>0){
+				return new Pair<Boolean, String>(true, String.valueOf(media.getId()));
+			}
+			return new Pair<Boolean, String>(false, "");
+		}
+		
+	}
 	private int getBoxTotalnum(long seriaNum, int isconfirm, List<Integer> meidLists, List<Integer> boidLists) {
 		int r = 0;
 		CardboxMediaExample example = new CardboxMediaExample();
@@ -331,20 +402,22 @@ public class CardServiceImpl implements CardService {
 	public double getBoxPrice(long seriaNum, int iscomfirm, List<Integer> meLists, List<Integer> boLists) {
 		double r = 0;
 		CardboxMediaExample example = new CardboxMediaExample();
-		example.createCriteria().andSeriaNumEqualTo(seriaNum).andIsConfirmEqualTo(iscomfirm);
+		CardboxMediaExample.Criteria criteria1=example.createCriteria();
+		criteria1.andSeriaNumEqualTo(seriaNum).andIsConfirmEqualTo(iscomfirm);
 		CardboxBodyExample bodyExample = new CardboxBodyExample();
-		bodyExample.createCriteria().andSeriaNumEqualTo(seriaNum).andIsConfirmEqualTo(iscomfirm);
+		CardboxBodyExample.Criteria criteria2=bodyExample.createCriteria();
+		criteria2.andSeriaNumEqualTo(seriaNum).andIsConfirmEqualTo(iscomfirm);
 		List<CardboxMedia> list = null;
 		List<CardboxBody> bodyList = null;
 		if ((meLists != null && !meLists.isEmpty()) || (boLists != null && !boLists.isEmpty())) {
 			if (meLists != null && !meLists.isEmpty()) {
-				example.createCriteria().andIdIn(meLists);
+				criteria1.andIdIn(meLists);
 				list = cardMapper.selectByExample(example);
 			} else {
 				list = null;
 			}
 			if (boLists != null && !boLists.isEmpty()) {
-				bodyExample.createCriteria().andIdIn(boLists);
+				criteria2.andIdIn(boLists);
 				bodyList = cardBodyMapper.selectByExample(bodyExample);
 			} else {
 				bodyList = null;
@@ -360,7 +433,7 @@ public class CardServiceImpl implements CardService {
 		}
 		if (bodyList != null && !bodyList.isEmpty()) {
 			for (CardboxBody obj : bodyList) {
-				r += obj.getPrice() * obj.getNeedCount();
+				r += obj.getTotalprice();
 			}
 		}
 		return r;
@@ -549,4 +622,11 @@ public class CardServiceImpl implements CardService {
 		System.out.println(list.getContent().size());
 
 	}
+
+	@Override
+	public JpaBusOrderDetailV2 getJpaBusOrderDetailV2Byid(int id) {
+		return busOrderDetailV2Repository.findOne(id);
+	}
+
+	
 }

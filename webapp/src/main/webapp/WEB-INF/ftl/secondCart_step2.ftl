@@ -122,8 +122,7 @@
 									<li class="td td-info">
 										<div class="td-inner">
 											<p class="rec-line">线路级别：${item.product.leval.nameStr}</p>
-											<p class="rec-line">车辆数：${item.product.busNumber}</p>
-											<p class="rec-line">刊期：${item.product.days}</p>
+											<p class="rec-line">刊期：${item.days}天</p>
 										</div>
 									</li>
 									<li class="td td-price">
@@ -138,7 +137,7 @@
 									</li>
 									<li class="td td-sum">
 										<div class="td-inner">
-											<p class="sum"><em>￥</em>${item.price*item.needCount}</p>
+											<p class="sum"><em>￥</em>${item.totalprice}</p>
 										</div>
 									</li>
 								</ul>

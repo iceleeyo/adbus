@@ -10,6 +10,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.h2.util.New;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +21,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import scala.annotation.target.beanGetter;
+
+import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProduct.FrontShow;
@@ -32,6 +39,7 @@ import com.pantuo.service.CardService;
 import com.pantuo.service.CityService;
 import com.pantuo.service.CpdService;
 import com.pantuo.service.ProductService;
+import com.pantuo.util.Pair;
 import com.pantuo.web.view.MapLocationSession;
 
 /**
@@ -179,19 +187,31 @@ public class CardSelect{
 	
 }
 
-	@RequestMapping(value = "/b/public_detail", produces = "text/html;charset=utf-8")
-	public String _detail(Model model, HttpServletRequest request, Principal principal
+	@RequestMapping(value = "/b/public_detail/{id}", produces = "text/html;charset=utf-8")
+	public String _detail(Model model, HttpServletRequest request, Principal principal,
+			@PathVariable("id") int id
 			 ) {
+		JpaBusOrderDetailV2 j=cardService.getJpaBusOrderDetailV2Byid(id);
+		model.addAttribute("busOrderDetailV2", j);
 		return "thirdCar";
 	}
 
 
+	@RequestMapping(value = "/buy/{type}",produces = "text/html;charset=utf-8")
+	public String saveCardBoxMedia(Model model,@PathVariable("type") String type,
+			@CookieValue(value = "city", defaultValue = "-1") int cityjpa, Principal principal,
+			@RequestParam(value = "proid", required = true) int proid,
+			@RequestParam(value = "needCount", required = false) int needCount) {
+		  cardService.saveCard(proid, needCount, principal, cityjpa, type,0);
+		  String boidString=String.valueOf(proid)+",";
+		  model.addAttribute("_cardSelect", new CardSelect("", boidString));
+		  return "redirect:/selected";
+	}
 	@RequestMapping(value = "/select", produces = "text/html;charset=utf-8")
 	public String toCard3(Model model,HttpServletRequest request,Principal principal,
 			@RequestParam(value="meids" , required = false) String meids,@RequestParam(value="boids" , required = false) String boids) {
 		model.addAttribute("_cardSelect", new CardSelect(meids, boids));
-		 return "redirect:/selected";
-	//	return "secondCart_step2";
+		return "redirect:/selected";
 	}
 	@RequestMapping(value = "/selected", produces = "text/html;charset=utf-8")
 	public String toCard2(Model model,HttpServletRequest request,Principal principal,
@@ -204,12 +224,6 @@ public class CardSelect{
 		model.addAttribute("boids", cardselect.boids);
 	 	return "secondCart_step2";
 	}
-//	@RequestMapping(value = "/confirmBox", produces = "text/html;charset=utf-8")
-//	@ResponseBody
-//	public Boolean confirmBox(Model model,HttpServletRequest request,Principal principal,@RequestParam(value="ids") String ids) {
-//		cardService.confirmByids(principal,ids);
-//		return true;
-//	}
 	
 	@RequestMapping(value = "/intro-video")
 	public String video() {

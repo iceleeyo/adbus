@@ -37,7 +37,7 @@ public class CarBoxController {
 	 * 
 	 * 加入购物车
 	 *
-	 * @param city
+	 * @param cityjpa
 	 * @param principal
 	 * @param proid
 	 * @param needCount
@@ -47,10 +47,28 @@ public class CarBoxController {
 	@RequestMapping(value = "/saveCard/{type}")
 	@ResponseBody
 	public Pair<Double, Integer> saveCardBoxMedia(@PathVariable("type") String type,
+			@CookieValue(value = "city", defaultValue = "-1") int cityjpa, Principal principal,
+			@RequestParam(value = "proid", required = true) int proid,
+			@RequestParam(value = "needCount", required = false) int needCount,@RequestParam(value = "IsDesign", required = false) int IsDesign) {
+		return cardService.saveCard(proid, needCount, principal, cityjpa, type,IsDesign);
+	}
+	@RequestMapping(value = "/putIncar/{type}")
+	@ResponseBody
+	public Pair<Boolean, String> putIncar(@PathVariable("type") String type,
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
 			@RequestParam(value = "proid", required = true) int proid,
-			@RequestParam(value = "needCount", required = false) int needCount) {
-		return cardService.saveCard(proid, needCount, principal, city, type);
+			@RequestParam(value = "needCount", required = false) int needCount,
+			@RequestParam(value = "days", required = false) int days) {
+		return cardService.putIncar(proid, needCount, days,principal, city, type);
+	}
+	@RequestMapping(value = "/buy/{type}")
+	@ResponseBody
+	public Pair<Boolean, String> buy(@PathVariable("type") String type,
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
+			@RequestParam(value = "proid", required = true) int proid,
+			@RequestParam(value = "needCount", required = false) int needCount,
+			@RequestParam(value = "days", required = false) int days) {
+		return cardService.buy(proid, needCount, days,principal, city, type);
 	}
 	@RequestMapping(value = "/payment")
 	@ResponseBody

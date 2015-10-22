@@ -78,7 +78,7 @@ public interface CardService {
 	public double getBoxPrice(long seriaNum,int iscomfirm, List<Integer> meLists, List<Integer> boLists);
 	public double getBoxPrice( Principal principal);
 
-	public Pair<Double, Integer> saveCard(int proid,int needCount, Principal principal, int city, String type);
+	public Pair<Double, Integer> saveCard(int proid,int needCount, Principal principal, int city, String type,int IsDesign);
 	
 	
 	
@@ -96,4 +96,10 @@ public interface CardService {
 	public Pair<Boolean, String> payment(String paytype, String divid, long seriaNum, Principal principal, int city);
 
 	public void updateCardboxUser(long seriaNum, Principal principal);
+
+	public JpaBusOrderDetailV2 getJpaBusOrderDetailV2Byid(int id);
+
+	public Pair<Boolean, String> putIncar(int proid, int needCount, int days, Principal principal, int city, String type);
+
+	public Pair<Boolean, String> buy(int proid, int needCount, int days, Principal principal, int city, String type);
 }

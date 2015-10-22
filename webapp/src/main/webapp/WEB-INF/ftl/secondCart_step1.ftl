@@ -166,8 +166,13 @@
 									<li class="td td-info">
 										<div class="item-rect">
 											<p class="rec-line">线路级别：${item.product.leval.nameStr}</p>
-											<p class="rec-line">车辆数：${item.product.busNumber}</p>
-											<p class="rec-line">刊期：${item.product.days}</p>
+											<p class="rec-line">刊期：
+											<#if item.isDesign==0>
+											${item.product.days}天
+											<#else>
+											${item.days}天
+											</#if>
+											</p>
 											<span class="btn-edit"></span>
 										</div>
 									</li>
@@ -178,13 +183,13 @@
 									</li>
 										<input type="hidden" id="b_pid_${item.id}" value="${item.product.id}">
 									<li class="td td-amount">
-										<span class="icon icon-plus" onclick="b_leftDec(${item.id});" ></span>
-										<input type="text" id="b_sum_${item.id}" onblur="boblur(${item.id});" value="${item.needCount}">
-										<span class="icon icon-sub"   onclick="b_leftPlus(${item.id});"></span>
+										<span class="icon icon-plus" onclick="b_leftDec(${item.id},${item.isDesign});" ></span>
+										<input type="text" id="b_sum_${item.id}" onblur="boblur(${item.id},${item.isDesign});" value="${item.needCount}">
+										<span class="icon icon-sub"   onclick="b_leftPlus(${item.id},${item.isDesign});"></span>
 									</li>
 									<li class="td td-sum">
 										<div class="td-inner">
-											<p class="sum"><em>￥</em>${item.price*item.needCount}</p>
+											<p class="sum"><em>￥</em>${item.totalprice}</p>
 										</div>
 									</li>
 									<li rowid= "${item.id}" class="td td-handle">
@@ -334,7 +339,7 @@
 				  var sot=id;
 				 $.ajax({
 						url : "${rc.contextPath}/carbox/saveCard/body",
-						data:{"proid":$("#b_pid_"+sot).val(),"needCount":$("#b_sum_"+sot).val(),"uprice":0},
+						data:{"proid":$("#b_pid_"+sot).val(),"needCount":$("#b_sum_"+sot).val(),"IsDesign":isdesing},
 						type : "POST",
 						success : function(data) {
 						// window.location.reload();
@@ -370,14 +375,14 @@
 						 updateMoney();
 							}}, "text");
 		}
-		function b_leftDec(id){
+		function b_leftDec(id,isdesing){
 			    var sot=id;
 			    var y=$("#b_sum_"+sot).val();
 			    if(y>0){
 			    $("#b_sum_"+sot).val(parseInt(y)-1);
 					$.ajax({
 						url :  "${rc.contextPath}/carbox/saveCard/body",
-						data:{"proid":$("#b_pid_"+sot).val(),"needCount":$("#b_sum_"+sot).val(),"uprice":0},
+						data:{"proid":$("#b_pid_"+sot).val(),"needCount":$("#b_sum_"+sot).val(),"IsDesign":isdesing},
 						type : "POST",
 						success : function(data) {
 						 //window.location.reload();
@@ -394,13 +399,13 @@
 								$("#aprice").html("￥"+data);
 					    }}, "text");
 		}
-		function b_leftPlus(id){
+		function b_leftPlus(id,isdesing){
 			var sot=id;
 			var y=$("#b_sum_"+sot).val();
 			$("#b_sum_"+sot).val(parseInt(y)+1);
 					$.ajax({
 						url : "${rc.contextPath}/carbox/saveCard/body",
-						data:{"proid":$("#b_pid_"+sot).val(),"needCount":$("#b_sum_"+sot).val(),"uprice":0},
+						data:{"proid":$("#b_pid_"+sot).val(),"needCount":$("#b_sum_"+sot).val(),"IsDesign":isdesing},
 						type : "POST",
 						success : function(data) {
 						 //window.location.reload();

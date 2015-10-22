@@ -5,10 +5,12 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>thirdCar</title>
-		<link rel="stylesheet" type="text/css" href="css/base.css">
-		<link rel="stylesheet" type="text/css" href="css/header.css">
-		<link rel="stylesheet" type="text/css" href="css/jack.css">
-		<link rel="stylesheet" type="text/css" href="css/secondLevel.css">	</head>
+		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/base.css">
+		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/header.css">
+		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/jack.css">
+		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/js/jquery-ui/jquery-ui.css">
+		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/jquery-ui-1.8.16.custom.css">
+		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/secondLevel.css">	</head>
 	<body>
 		<header>
 				<span class="area">北京</span>
@@ -31,7 +33,7 @@
 			<div class="side-nav">
 				<div class="logo"></div>
 				<div class="de-code">
-					<img src="img/pic1.png" height="100" width="100">
+					<img src="${rc.contextPath}/index_img/pic1.png" height="100" width="100">
 				</div>
 				<ul class="navibar">
 					<li><a>首页</a></li>
@@ -70,9 +72,9 @@
 					<div class="detail">
 						<div class="detail-bd clearfix">
 							<div class="d-left">
-								<img src="img/bg1.png" width="345" height="345">
-								<div class="sm-imgs">
-									<img id="ima" src="img/bg1.png" height="65" width="65">
+								<img src="${rc.contextPath}/index_img/bg1.png" width="345" height="345">
+								<div class="sm-img/">
+									<img id="ima" src="../index_img/bg1.png" height="65" width="65">
 									<img src="" height="65" width="65">
 									<img src="" height="65" width="65">
 								</div>
@@ -100,35 +102,41 @@
 								<dl class="d-item">
 									<dt>车型：</dt>
 									<dd>
-										双层
+									<#if  busOrderDetailV2.doubleDecker==true>
+									双层
+									<#else>
+									单层
+									</#if>
+										
 									</dd>
 								</dl>
 								<dl class="d-item">
 									<dt>级别：</dt>
 									<dd>
-										特级
+										${busOrderDetailV2.leval.nameStr}
 									</dd>
 								</dl>
 								<dl class="d-item">
 									<dt>线路：</dt>
 									<dd>
-										特11路
+										${busOrderDetailV2.jpaProductV2.name}
 									</dd>
 								</dl>
-								<dl class="d-item price">
-									<dt>价格：</dt>
-									<dd>
-										￥170000.00
+								<dl class="d-item ">
+									<dt>价格：<input type="hidden" value="${busOrderDetailV2.price}" id="uprice"/>
+									 <input type="hidden" value="${busOrderDetailV2.days}" id="udays"/>
+									</dt>
+									<dd id="price" >
+										￥${busOrderDetailV2.price}
 									</dd>
 								</dl>
 								<dl class="d-item perio">
 									<dt>刊期：</dt>
 									<dd>
-										<ul class="clearfix">
-											<li class="active"><a href="javascript:void(0)">一个月</a></li>
-											<li><a href="javascript:void(0)">一个季度</a></li>
-											<li><a href="javascript:void(0)">一年</a></li>
-											<li><a href="javascript:void(0)">自选</a></li>
+										<ul class="clearfix" id="kanqi">
+											<li class="active"><a href="javascript:void(0)" qc="30">一个月</a></li>
+											<li><a href="javascript:void(0)" qc="90">一个季度</a></li>
+											<li><a href="javascript:void(0)" qc="360">一年</a></li>
 										</ul>
 									</dd>
 								</dl>
@@ -136,27 +144,27 @@
 									<dt>数量：</dt>
 									<dd>
 										<span class="stock">
-											<input type="text">
-											<a class="stock-plus" href="javascript:void(0)">+</a>
-											<a class="stock-dl" href="javascript:void(0)">-</a>
+											<input type="text" id="needCount" onblur="changeMonyByNeedCounts(this.value);" value="1">
+											<a class="stock-plus" href="javascript:void(0)" onclick="b_leftPlus();">+</a>
+											<a class="stock-dl" href="javascript:void(0)" onclick="b_leftDec();" >-</a>
 										</span>
 									</dd>
 								</dl>
 								<dl class="d-item random">
 									<dd>
-										上刊：
-										<input type="text">
-										下刊：
-										<input type="text">
+										上刊日期：
+                                           	<input  class="ui-input datepicker validate[required,custom[date] " 
+                                                type="text"  id="startTime" data-is="isAmount isEnough"
+                                                autocomplete="off" >
 									</dd>
 								</dl>
 
 								<div class="btn-group">
 									<div>
-										<a href="" class="btn btn-now">立即购买</a>
-
-										<a href="" class="btn btn-cart">加入购物车</a>
-									</div>								</div>
+										<a href="javascript:void(0);"  onclick="buy(${busOrderDetailV2.id})" class="btn btn-now">立即购买</a>
+										<a href="javascript:void(0);"  onclick="putIncar(${busOrderDetailV2.id})" class="btn btn-cart">加入购物车</a>
+									</div>							
+								</div>
 							</div>
 						</div>
 						
@@ -177,54 +185,25 @@
 									<p class="head-zh">媒体情况</p>
 									<p class="icon icon-line"></p>
 								</div>
-								<div class="pic-table c-head clearfix">
-									<div class="tbhead">硬广套装</div>
-									<div class="tbbody">
-										<div class="tbtr">
-											<div class="tbtd tb-position tb-left">
-												<span class="icon icon-position"></span>
-												<span>北京</span>
-											</div>
-											<div class="tbtd tb-flow">
-												<span class="icon icon-flow"></span><span>1300万人次/日</span>
-											</div>
-										</div>
-										<div class="tbtr">
-											<div class="tbtd tb-path tb-left">
-												<span class="icon icon-path"></span><span>北京六环内<br>470余条公交线路</span>
-											</div>
-											<div class="tbtd tb-medium">
-												<span class="icon icon-medium"></span><span>19寸公交彩色液晶电视</span>
-											</div>
-										</div>
-										<div class="tbtr">
-											<div class="tbtd tb-firm tb-left">
-												<span class="icon icon-firm"></span><span>北广传媒</span>
-											</div>
-											<div class="tbtd tb-number">
-												<span class="icon icon-number"></span><span>12000辆车24000块屏</span>
-											</div>
-										</div>
-									</div>
-								</div>
+								<img src="${rc.contextPath}/index_img/thirdCar_1.png">
 								<div class="c-head">
 									<p class="head-en">MEDIA REGIONAL</p>
 									<p class="head-zh">媒体区域</p>
 									<p class="icon icon-line"></p>
 								</div>
-								<img src="img/thirdCar_2.png">
+								<img src="${rc.contextPath}/index_img/thirdCar_2.png">
 								<div class="c-head">
 									<p class="head-en">MEDIA SHOW</p>
 									<p class="head-zh">媒体展示</p>
 									<p class="icon icon-line"></p>
 								</div>
-								<img src="img/thirdCar_3.png">
+								<img src="${rc.contextPath}/index_img/thirdCar_3.png">
 								<div class="c-head">
 									<p class="head-en">MEDIA REGIONAL</p>
 									<p class="head-zh">合作品牌</p>
 									<p class="icon icon-line"></p>
 								</div>
-								<img src="img/thirdCar_4.png">
+								<img src="${rc.contextPath}/index_img/thirdCar_4.png">
 							</div>
 						</div>
 					</div>
@@ -248,9 +227,66 @@
 	        <a class="switch"></a>
 	    </div>
 
-		<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
-		<script src="js/unslider.min.js"></script>
+		<script type="text/javascript" src="${rc.contextPath}/index_js/jquery-1.11.1.min.js"></script>
+		<script src="${rc.contextPath}/index_js/unslider.min.js"></script>
+		<script src="${rc.contextPath}/js/datepicker.js"></script>
+		<script src="${rc.contextPath}/js/jquery.datepicker.region.cn.js"></script>
+		<script src="${rc.contextPath}/js/jquery-ui/jquery-ui.js"></script>
 		<script type="text/javascript">
+		  $(document).ready(function() {
+		  $("#kanqi li").click(function(){
+				var days=$(this).children().attr("qc");		
+				changeMonyByDays(days);
+			});
+	    } );
+		function buy(id){
+		var medIds="";
+		var days=$("#kanqi .active").children().attr("qc");
+		
+		         $.ajax({
+							url : "${rc.contextPath}/carbox/buy/body",
+							data:{"proid":id,"needCount":$("#needCount").val(),"days":days},
+							type : "POST",
+							success : function(data) {
+							if(data.left){
+							  window.location.href="${rc.contextPath}/select?meids="+medIds+"&boids="+data.right;
+							}
+						}}, "text");
+		 }
+		function putIncar(id){
+			var days=$("#kanqi .active").children().attr("qc");
+		         $.ajax({
+							url : "${rc.contextPath}/carbox/putIncar/body",
+							data:{"proid":id,"needCount":$("#needCount").val(),"days":days},
+							type : "POST",
+							success : function(data) {
+							alert(data.right);
+						}}, "text");
+		 }
+		function changeMonyByNeedCounts(needc){
+		       var days=$("#kanqi .active").children().attr("qc");
+		       var p=days/$("#udays").val()*needc*$("#uprice").val();
+				 $("#price").html("￥"+p);
+		}
+		function changeMonyByDays(days){
+		 var p=days/$("#udays").val()*$("#needCount").val()*$("#uprice").val();
+		  $("#price").html("￥"+p);
+		}
+		function b_leftDec(){
+			    var y=$("#needCount").val();
+			    if(y>1){
+			    $("#needCount").val(parseInt(y)-1);
+			  }
+			  changeMonyByNeedCounts($("#needCount").val());
+		}
+		
+		function b_leftPlus(){
+			var y=$("#needCount").val();
+			$("#needCount").val(parseInt(y)+1);
+			changeMonyByNeedCounts($("#needCount").val());
+		}
+		
+		
 		$(document).ready(function(e) {
 		   $('.perio li').on('click', function(event) {
 		   	event.preventDefault();
