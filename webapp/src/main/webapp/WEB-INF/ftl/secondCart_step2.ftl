@@ -253,7 +253,7 @@
 		  layer.msg("请选择支付方式");
 		  return;
 		}
-		if(seriaNum=="" || seriaNum==null){
+		if(seriaNum=="" || typeof(seriaNum)=="undefined"){
 		  layer.msg("没有seriaNum,操作异常");
 		  return;
 		}

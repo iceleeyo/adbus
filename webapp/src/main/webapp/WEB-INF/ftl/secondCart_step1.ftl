@@ -162,7 +162,7 @@
 								<ul class="item-info clearfix">
 									<li class="td td-check clearfix">
 										<div class="cart-check bodyB">
-												<input  type="checkbox" name="b_checkone" value="${item.id}">
+												<input  class="hideinput" type="checkbox" name="b_checkone" value="${item.id}">
 												<label class="chilbox"></label>
 										</div>
 									</li>
@@ -294,6 +294,7 @@
 			success:function(data){
 				if (data.left) {
 					layer.msg(data.right);
+					updateMoney();
 				   $("ul li[rowid="+id+"]").parent().parent().remove();
 				} else {
 					layer.msg(data.right);
@@ -315,6 +316,7 @@
 			data:{},
 			success:function(data){
 				if (data.left) {
+				updateMoney();
 					layer.msg(data.right);
 				$("ul li[rowid="+id+"]").parent().parent().remove();
 				} else {
