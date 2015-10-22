@@ -111,7 +111,7 @@ public class CardServiceImpl implements CardService {
 		return false;
 	}
 
-	public CardView getMediaList(Principal principal, int isComfirm , String meids,String boids) {
+	public CardView getMediaList(Principal principal, int isComfirm, String meids, String boids) {
 		List<Integer> meidLists = new ArrayList<Integer>();
 		List<Integer> boidLists = new ArrayList<Integer>();
 		if (StringUtils.isNotBlank(meids)) {
@@ -137,34 +137,33 @@ public class CardServiceImpl implements CardService {
 		query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.isConfirm.eq(isComfirm));
 		BooleanExpression query2 = QJpaCardBoxBody.jpaCardBoxBody.seriaNum.eq(seriaNum);
 		query2 = query2.and(QJpaCardBoxBody.jpaCardBoxBody.isConfirm.eq(isComfirm));
-		List<JpaCardBoxMedia> page =null;
-		List<JpaCardBoxBody> page2=null;
-		if(!meidLists.isEmpty() ||!boidLists.isEmpty()){
+		List<JpaCardBoxMedia> page = null;
+		List<JpaCardBoxBody> page2 = null;
+		if (!meidLists.isEmpty() || !boidLists.isEmpty()) {
 			if (!meidLists.isEmpty()) {
 				query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.id.in(meidLists));
 				page = cardBoxRepository.findAll(query, new PageRequest(0, 1024, new Sort("id"))).getContent();
-			}else{
-				page=null;
+			} else {
+				page = null;
 			}
 			if (!boidLists.isEmpty()) {
 				query2 = query2.and(QJpaCardBoxBody.jpaCardBoxBody.id.in(boidLists));
 				page2 = cardBoxBodyRepository.findAll(query2, new PageRequest(0, 1024, new Sort("id"))).getContent();
-			}else{
-				page2=null;
+			} else {
+				page2 = null;
 			}
-		}else{
+		} else {
 			page = cardBoxRepository.findAll(query, new PageRequest(0, 1024, new Sort("id"))).getContent();
 			page2 = cardBoxBodyRepository.findAll(query2, new PageRequest(0, 1024, new Sort("id"))).getContent();
 		}
-		
-		CardView w = new CardView(page, page2, getBoxPrice(seriaNum, isComfirm, meidLists,boidLists), getBoxTotalnum(seriaNum,
-				isComfirm, meidLists,boidLists));
+
+		CardView w = new CardView(page, page2, getBoxPrice(seriaNum, isComfirm, meidLists, boidLists), getBoxTotalnum(
+				seriaNum, isComfirm, meidLists, boidLists));
 		return w;
 	}
 
 	@Override
-	public Pair<Double, Integer> saveCard(int proid, double uprice, int needCount, Principal principal, int city,
-			String type) {
+	public Pair<Double, Integer> saveCard(int proid, int needCount, Principal principal, int city, String type) {
 		double totalPrice = 0;
 		int totalnum = 0;
 		if (StringUtils.equals(type, "media")) {
@@ -195,11 +194,11 @@ public class CardServiceImpl implements CardService {
 					cardMapper.updateByPrimaryKey(existMedia);
 				}
 			}
- 
-//			totalPrice = getBoxPrice(seriaNum, 0, null);
-//			totalnum = getBoxTotalnum(seriaNum, 0, null);
+
+			//			totalPrice = getBoxPrice(seriaNum, 0, null);
+			//			totalnum = getBoxTotalnum(seriaNum, 0, null);
 			return new Pair<Double, Integer>(totalPrice, totalnum);
-		}else{
+		} else {
 			long seriaNum = getCardBingSeriaNum(principal);
 			CardboxBodyExample example = new CardboxBodyExample();
 			example.createCriteria().andSeriaNumEqualTo(seriaNum).andProductIdEqualTo(proid)
@@ -226,7 +225,7 @@ public class CardServiceImpl implements CardService {
 					cardBodyMapper.updateByPrimaryKey(existMedia);
 				}
 			}
- 
+
 			return new Pair<Double, Integer>(totalPrice, totalnum);
 		}
 	}
@@ -325,7 +324,7 @@ public class CardServiceImpl implements CardService {
 
 	public double getBoxPrice(Principal principal) {
 		long seriaNum = getCardBingSeriaNum(principal);
-		return seriaNum == 0 ? 0 : getBoxPrice(seriaNum, 0, null,null);
+		return seriaNum == 0 ? 0 : getBoxPrice(seriaNum, 0, null, null);
 	}
 
 	@Override
@@ -333,32 +332,47 @@ public class CardServiceImpl implements CardService {
 		double r = 0;
 		CardboxMediaExample example = new CardboxMediaExample();
 		example.createCriteria().andSeriaNumEqualTo(seriaNum).andIsConfirmEqualTo(iscomfirm);
-		if (meLists != null && !meLists.isEmpty()) {
-			example.createCriteria().andIdIn(meLists);
-		}
-		List<CardboxMedia> list = cardMapper.selectByExample(example);
-		for (CardboxMedia cardboxMedia : list) {
-			r += cardboxMedia.getPrice() * cardboxMedia.getNeedCount();
-		}
 		CardboxBodyExample bodyExample = new CardboxBodyExample();
 		bodyExample.createCriteria().andSeriaNumEqualTo(seriaNum).andIsConfirmEqualTo(iscomfirm);
-		if (boLists != null && !boLists.isEmpty()) {
-			bodyExample.createCriteria().andIdIn(boLists);
+		List<CardboxMedia> list = null;
+		List<CardboxBody> bodyList = null;
+		if ((meLists != null && !meLists.isEmpty()) || (boLists != null && !boLists.isEmpty())) {
+			if (meLists != null && !meLists.isEmpty()) {
+				example.createCriteria().andIdIn(meLists);
+				list = cardMapper.selectByExample(example);
+			} else {
+				list = null;
+			}
+			if (boLists != null && !boLists.isEmpty()) {
+				bodyExample.createCriteria().andIdIn(boLists);
+				bodyList = cardBodyMapper.selectByExample(bodyExample);
+			} else {
+				bodyList = null;
+			}
+		} else {
+			list = cardMapper.selectByExample(example);
+			bodyList = cardBodyMapper.selectByExample(bodyExample);
 		}
-		List<CardboxBody> bodyList = cardBodyMapper.selectByExample(bodyExample);
-		for (CardboxBody obj : bodyList) {
-			r += obj.getPrice() * obj.getNeedCount();
+		if (list != null && !list.isEmpty()) {
+			for (CardboxMedia cardboxMedia : list) {
+				r += cardboxMedia.getPrice() * cardboxMedia.getNeedCount();
+			}
+		}
+		if (bodyList != null && !bodyList.isEmpty()) {
+			for (CardboxBody obj : bodyList) {
+				r += obj.getPrice() * obj.getNeedCount();
+			}
 		}
 		return r;
 	}
 
 	@Override
-	public Pair<Boolean, String> delOneCarBox(String type,int id) {
-		if(StringUtils.equals(type, "media")){
+	public Pair<Boolean, String> delOneCarBox(String type, int id) {
+		if (StringUtils.equals(type, "media")) {
 			if (cardMapper.deleteByPrimaryKey(id) > 0) {
 				return new Pair<Boolean, String>(true, "删除成功");
 			}
-		}else{
+		} else {
 			if (cardBodyMapper.deleteByPrimaryKey(id) > 0) {
 				return new Pair<Boolean, String>(true, "删除成功");
 			}
@@ -403,6 +417,7 @@ public class CardServiceImpl implements CardService {
 		helper.setFengqi(divid);
 		helper.setPayType(JpaOrders.PayType.valueOf(paytype).ordinal());
 		helper.setSeriaNum(seriaNum);
+		helper.setUserid(Request.getUserId(principal));
 		if (cardboxHelpMapper.insert(helper) > 0) {
 			return new Pair<Boolean, String>(true, "支付成功");
 		}
@@ -422,14 +437,13 @@ public class CardServiceImpl implements CardService {
 		}
 
 	}
-	
-	
+
 	public Map<String, List<String>> getQuestObj(String requestString) {
 		Map<String, List<String>> map = new HashMap<String, List<String>>();
 		String[] shSplit = StringUtils.split(requestString, ",");
 		if (shSplit != null) {
 			for (String string : shSplit) {//p1
-				String[] one = StringUtils.split(string, "_",2);
+				String[] one = StringUtils.split(string, "_", 2);
 				String field = one[0];
 				String v = one[1];
 				if (!map.containsKey(field)) {
@@ -442,8 +456,8 @@ public class CardServiceImpl implements CardService {
 		}
 		return map;
 	}
-   public  Page<JpaBusOrderDetailV2> searchProducts(int city, Principal principal,
- TableRequest req) {
+
+	public Page<JpaBusOrderDetailV2> searchProducts(int city, Principal principal, TableRequest req) {
 
 		Map<String, List<String>> map = getQuestObj(req.getFilter("sh"));
 		BooleanExpression query = QJpaBusOrderDetailV2.jpaBusOrderDetailV2.city.eq(city);
@@ -495,18 +509,17 @@ public class CardServiceImpl implements CardService {
 		if (StringUtils.equals(req.getFilter("p"), "1")) {
 			sort = new Sort(Direction.fromString("desc"), "price");
 		} else {
-			sort = new Sort(Direction.fromString("asc"), "price"); 
+			sort = new Sort(Direction.fromString("asc"), "price");
 		}
 		Double t1 = NumberUtils.toDouble(req.getFilter("price1"));
 		if (t1 > 0) {
-			query=	query.and(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.JpaProductV2.price.goe(t1));
+			query = query.and(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.JpaProductV2.price.goe(t1));
 		}
 		double t2 = NumberUtils.toDouble(req.getFilter("price2"));
 		if (t2 > 0) {
-			query=	query.and(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.JpaProductV2.price.loe(t2));
+			query = query.and(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.JpaProductV2.price.loe(t2));
 		}
-		
-		
+
 		int page = req.getPage(), pageSize = req.getLength();
 
 		if (page < 0)
@@ -519,6 +532,7 @@ public class CardServiceImpl implements CardService {
 		return list;
 
 	}
+
 	public void test() {
 		Sort sort = new Sort("id");
 		Pageable p = new PageRequest(0, 30, sort);
@@ -529,7 +543,7 @@ public class CardServiceImpl implements CardService {
 
 		subQuery1 = QJpaBusOrderDetailV2.jpaBusOrderDetailV2.JpaProductV2.addressList.like("%111%");
 		subQuery1 = subQuery1.or(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.JpaProductV2.addressList.like("%222%"));
-		BooleanExpression t = 	subQuery2.and(subQuery1);
+		BooleanExpression t = subQuery2.and(subQuery1);
 		BooleanExpression commonEx = query.and(t);
 		Page<JpaBusOrderDetailV2> list = busOrderDetailV2Repository.findAll(commonEx, p);
 		System.out.println(list.getContent().size());

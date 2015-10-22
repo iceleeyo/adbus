@@ -201,7 +201,7 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 					var sot=$(this).attr("sot");
 					$.ajax({
 						url : pathUrl + "/carbox/saveCard/media",
-						data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val(),"uprice":0},
+						data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val()},
 						type : "POST",
 						success : function(data) {
 							/*$("#totalnum").val(data.right);
@@ -216,7 +216,7 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 						var sot=$(this).attr("sot");
 						$.ajax({
 							url : pathUrl + "/carbox/saveCard/media",
-							data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val(),"uprice":0},
+							data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val()},
 							type : "POST",
 							success : function(data) {
 						}}, "text");
@@ -228,7 +228,7 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 					var sot=$(this).attr("sot");
 					$.ajax({
 						url : pathUrl + "/carbox/saveCard/media",
-						data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val(),"uprice":0},
+						data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val()},
 						type : "POST",
 						success : function(data) {
 							}}, "text");

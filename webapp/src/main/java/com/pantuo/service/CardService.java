@@ -78,7 +78,7 @@ public interface CardService {
 	public double getBoxPrice(long seriaNum,int iscomfirm, List<Integer> meLists, List<Integer> boLists);
 	public double getBoxPrice( Principal principal);
 
-	public Pair<Double, Integer> saveCard(int proid, double uprice,int needCount, Principal principal, int city, String type);
+	public Pair<Double, Integer> saveCard(int proid,int needCount, Principal principal, int city, String type);
 	
 	
 	

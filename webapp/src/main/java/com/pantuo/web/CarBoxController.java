@@ -49,9 +49,8 @@ public class CarBoxController {
 	public Pair<Double, Integer> saveCardBoxMedia(@PathVariable("type") String type,
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
 			@RequestParam(value = "proid", required = true) int proid,
-			@RequestParam(value = "uprice", required = false) int uprice,
 			@RequestParam(value = "needCount", required = false) int needCount) {
-		return cardService.saveCard(proid, uprice, needCount, principal, city, type);
+		return cardService.saveCard(proid, needCount, principal, city, type);
 	}
 	@RequestMapping(value = "/payment")
 	@ResponseBody
