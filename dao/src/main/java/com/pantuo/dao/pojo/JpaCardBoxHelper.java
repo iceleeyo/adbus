@@ -33,6 +33,14 @@ public class JpaCardBoxHelper extends CityEntity {
 	private String userid;
 	private long seriaNum;//表单序列号
 
+	
+	
+	private double totalMoney;
+	private int product_count;
+	private int isPay;
+	
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -95,6 +103,30 @@ public class JpaCardBoxHelper extends CityEntity {
 
 	public void setMediaMark(String mediaMark) {
 		this.mediaMark = mediaMark;
+	}
+
+	public double getTotalMoney() {
+		return totalMoney;
+	}
+
+	public void setTotalMoney(double totalMoney) {
+		this.totalMoney = totalMoney;
+	}
+
+	public int getProduct_count() {
+		return product_count;
+	}
+
+	public void setProduct_count(int product_count) {
+		this.product_count = product_count;
+	}
+
+	public int getIsPay() {
+		return isPay;
+	}
+
+	public void setIsPay(int isPay) {
+		this.isPay = isPay;
 	}
 
 }
