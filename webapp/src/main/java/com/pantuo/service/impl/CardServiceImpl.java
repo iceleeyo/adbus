@@ -679,6 +679,11 @@ public class CardServiceImpl implements CardService {
 			helper.setTotalMoney(typeCount.getPrice());
 			helper.setProductCount(typeCount.getProductCount());
 			helper.setIsPay(1);
+			JpaCity _city = cityService.fromId(typeCount.getCity());
+			if (_city != null) {
+				helper.setMediaType(_city.getMediaType().ordinal());
+			}
+
 			cardboxHelpMapper.insert(helper);
 		}
 		return new Pair<Boolean, String>(true, "支付成功");
@@ -718,8 +723,8 @@ public class CardServiceImpl implements CardService {
 	}
 
 	public Page<CardBoxHelperView> myCards(int city, Principal principal, TableRequest req) {
-		Sort sort = req.getSort("id");
-		String orderid = req.getFilter("orderid");
+		Sort sort = new Sort(Direction.fromString("desc"), "id");//req.getSort("id");
+		String orderid = req.getFilter("orderid"),media_type = req.getFilter("media_type");;
 		int page = req.getPage(), pageSize = req.getLength();
 		if (page < 0)
 			page = 0;
@@ -746,6 +751,11 @@ public class CardServiceImpl implements CardService {
 			query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.seriaNum.eq(seriaNum) : query
 					.and(QJpaCardBoxHelper.jpaCardBoxHelper.seriaNum.eq(seriaNum));
 		}
+		
+		if (StringUtils.isNoneBlank(media_type)  && !StringUtils.equals("defaultAll", media_type)) {
+			query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.mediaType.eq(MediaType.valueOf(media_type)) : query
+					.and(QJpaCardBoxHelper.jpaCardBoxHelper.mediaType.eq(MediaType.valueOf(media_type)));
+		}
 		if (principal!=null && !Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)) {
 			query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.city.eq(city) : query
 					.and(QJpaCardBoxHelper.jpaCardBoxHelper.city.eq(city));
@@ -755,6 +765,12 @@ public class CardServiceImpl implements CardService {
 		List<CardBoxHelperView> views = new ArrayList<CardBoxHelperView>();
 		for (JpaCardBoxHelper jpaCardBoxHelper : list.getContent()) {
 			CardBoxHelperView obj = new CardBoxHelperView(jpaCardBoxHelper);
+			
+			JpaCity _city = cityService.fromId(jpaCardBoxHelper.getCity());
+			if (_city != null) {
+				obj.setMedia_type(_city.getMediaType().ordinal());
+			}
+			
 			/*if (cityObj != null && !Request.hasAuth(principal, ActivitiConfiguration.ADVERTISER)) {
 				if (cityObj.getMediaType() == MediaType.screen) {
 

@@ -8,6 +8,7 @@ public class CardBoxHelperView {
 
 	public double totalMoney;
 	public int product_count;
+	private int media_type = -1;
 
 	public JpaCardBoxHelper getR() {
 		return r;
@@ -35,6 +36,14 @@ public class CardBoxHelperView {
 
 	public CardBoxHelperView(JpaCardBoxHelper r) {
 		this.r = r;
+	}
+
+	public int getMedia_type() {
+		return media_type;
+	}
+
+	public void setMedia_type(int media_type) {
+		this.media_type = media_type;
 	}
 
 }
