@@ -155,7 +155,7 @@
 
 		<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
 		<script src="index_js/unslider.min.js"></script>
-		<script src="index_js/sift_bus.js"></script>
+	
 		<script src="js/jquery.pagination.js"></script>
 		<script type="text/javascript" language="javascript" src="js/layer/layer.js"></script>
     	<!--增加lay最新版本-->

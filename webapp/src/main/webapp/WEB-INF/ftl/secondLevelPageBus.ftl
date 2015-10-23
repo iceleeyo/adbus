@@ -12,6 +12,7 @@
 		<header>
 		<!-- 头部开始 -->
 <#include "/index_menu/index_top.ftl" />
+	<script src="index_js/sift_body.js"></script>
 		<!-- 头部结束 -->
 		</header>
 		<div class="content">
