@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.pantuo.dao.pojo.JpaCity.MediaType;
 import com.pantuo.dao.pojo.JpaOrders.PayType;
 
 /**
@@ -36,6 +37,7 @@ public class JpaCardBoxHelper extends CityEntity {
 	private double totalMoney;
 	private int productCount;
 	private int isPay;
+	private MediaType mediaType;
 	
 	
 	
@@ -126,6 +128,16 @@ public class JpaCardBoxHelper extends CityEntity {
 	public void setIsPay(int isPay) {
 		this.isPay = isPay;
 	}
+
+	public MediaType getMediaType() {
+		return mediaType;
+	}
+
+	public void setMediaType(MediaType mediaType) {
+		this.mediaType = mediaType;
+	}
+
+	 
  
 
 }
