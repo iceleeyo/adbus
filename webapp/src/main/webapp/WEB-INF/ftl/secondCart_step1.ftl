@@ -115,7 +115,7 @@
 									</li>
 									<li class="td td-sum">
 										<div class="td-inner">
-											<p class="sum"><em>￥</em>${item.price*item.needCount}</p>
+											<p class="sum"><em>￥</em>${item.totalprice}</p>
 										</div>
 									</li>
 									<li rowid= "${item.id}" class="td td-handle">
@@ -328,14 +328,14 @@
 				  var sot=id;
 				 $.ajax({
 						url : "${rc.contextPath}/carbox/saveCard/media",
-						data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"uprice":$("#uprice_"+sot).val()},
+						data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"uprice":$("#uprice_"+sot).val(),"IsDesign":0},
 						type : "POST",
 						success : function(data) {
 						   //window.location.reload();
 						   updateMoney();
 					}}, "text");
 				}
-				function boblur(id){
+				function boblur(id,isdesing){
 				  var sot=id;
 				 $.ajax({
 						url : "${rc.contextPath}/carbox/saveCard/body",
@@ -353,7 +353,7 @@
 			    $("#sum_"+sot).val(parseInt(y)-1);
 					$.ajax({
 						url :  "${rc.contextPath}/carbox/saveCard/media",
-						data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"uprice":$("#uprice_"+sot).val()},
+						data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"uprice":$("#uprice_"+sot).val(),"IsDesign":0},
 						type : "POST",
 						success : function(data) { //window.location.reload();
 						updateMoney();
@@ -368,7 +368,7 @@
 			$("#sum_"+sot).val(parseInt(y)+1);
 					$.ajax({
 						url : "${rc.contextPath}/carbox/saveCard/media",
-						data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"uprice":$("#uprice_"+sot).val()},
+						data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"uprice":$("#uprice_"+sot).val(),"IsDesign":0},
 						type : "POST",
 						success : function(data) {
 						 //window.location.reload();

@@ -175,14 +175,15 @@ public class CardServiceImpl implements CardService {
 			example.createCriteria().andSeriaNumEqualTo(seriaNum).andProductIdEqualTo(proid)
 					.andUserIdEqualTo(Request.getUserId(principal)).andIsConfirmEqualTo(0);
 			List<CardboxMedia> c = cardMapper.selectByExample(example);
+			JpaProduct product = productRepository.findOne(proid);
 			if (c.isEmpty()) {//无记录时增加
 				CardboxMedia media = new CardboxMedia();
-				JpaProduct product = productRepository.findOne(proid);
 				media.setCity(city);
 				media.setUserId(Request.getUserId(principal));
 				media.setCreated(new Date());
 				media.setNeedCount(needCount);
-				media.setPrice(product.getPrice() * needCount);
+				media.setPrice(product.getPrice());
+				media.setTotalprice(product.getPrice() * needCount);
 				media.setSeriaNum(seriaNum);
 				media.setProductId(proid);
 				media.setIsConfirm(0);
@@ -194,6 +195,7 @@ public class CardServiceImpl implements CardService {
 					cardMapper.deleteByExample(example);
 				} else {
 					existMedia.setNeedCount(needCount);
+					existMedia.setTotalprice(product.getPrice() * needCount);
 					cardMapper.updateByPrimaryKey(existMedia);
 				}
 			}
@@ -239,7 +241,37 @@ public class CardServiceImpl implements CardService {
 	@Override
 	public Pair<Boolean, String> putIncar(int proid, int needCount, int days, Principal principal, int city, String type) {
 		if (StringUtils.equals(type, "media")) {
-			return new Pair<Boolean, String>(true, "0");
+			long seriaNum = getCardBingSeriaNum(principal);
+			CardboxMediaExample example = new CardboxMediaExample();
+			example.createCriteria().andSeriaNumEqualTo(seriaNum).andProductIdEqualTo(proid)
+					.andUserIdEqualTo(Request.getUserId(principal)).andIsConfirmEqualTo(0);
+			List<CardboxMedia> c = cardMapper.selectByExample(example);
+			JpaProduct product = productRepository.findOne(proid);
+			if (c.isEmpty()) {//无记录时增加
+				CardboxMedia media = new CardboxMedia();
+				media.setCity(city);
+				media.setUserId(Request.getUserId(principal));
+				media.setCreated(new Date());
+				media.setNeedCount(needCount);
+				media.setPrice(product.getPrice());
+				media.setTotalprice(product.getPrice() * needCount);
+				media.setSeriaNum(seriaNum);
+				media.setProductId(proid);
+				media.setIsConfirm(0);
+				media.setType(product.getType().ordinal());
+				cardMapper.insert(media);
+			} else {
+				CardboxMedia existMedia = c.get(0);
+				if (needCount == 0) {//如果是0时删除
+					cardMapper.deleteByExample(example);
+				} else {
+					existMedia.setNeedCount(needCount);
+					existMedia.setTotalprice(product.getPrice() * needCount);
+					cardMapper.updateByPrimaryKey(existMedia);
+				}
+			}
+
+			return new Pair<Boolean, String>(true, "加入购物车成功");
 		} else {
 			long seriaNum = getCardBingSeriaNum(principal);
 			CardboxBodyExample example = new CardboxBodyExample();
@@ -280,7 +312,42 @@ public class CardServiceImpl implements CardService {
 	@Override
 	public Pair<Boolean, String> buy(int proid, int needCount, int days, Principal principal, int city, String type) {
 		if (StringUtils.equals(type, "media")) {
-			return new Pair<Boolean, String>(true, "0");
+			long seriaNum = getCardBingSeriaNum(principal);
+			CardboxMediaExample example = new CardboxMediaExample();
+			example.createCriteria().andSeriaNumEqualTo(seriaNum).andProductIdEqualTo(proid)
+					.andUserIdEqualTo(Request.getUserId(principal));
+			List<CardboxMedia> c = cardMapper.selectByExample(example);
+			JpaProduct product = productRepository.findOne(proid);
+			if (c.isEmpty()) {//无记录时增加
+				CardboxMedia media = new CardboxMedia();
+				media.setCity(city);
+				media.setUserId(Request.getUserId(principal));
+				media.setCreated(new Date());
+				media.setNeedCount(needCount);
+				media.setPrice(product.getPrice());
+				media.setTotalprice(product.getPrice() * needCount);
+				media.setSeriaNum(seriaNum);
+				media.setProductId(proid);
+				media.setIsConfirm(0);
+				media.setType(product.getType().ordinal());
+				int a=cardMapper.insert(media);
+				if(a>0){
+					return new Pair<Boolean, String>(true, String.valueOf(media.getId()));
+				}
+				return new Pair<Boolean, String>(false, "");
+			} else {
+				CardboxMedia existMedia = c.get(0);
+				if (needCount == 0) {//如果是0时删除
+					cardMapper.deleteByExample(example);
+					return new Pair<Boolean, String>(false, "");
+				} else {
+					existMedia.setNeedCount(needCount);
+					existMedia.setTotalprice(product.getPrice() * needCount);
+					cardMapper.updateByPrimaryKey(existMedia);
+					return new Pair<Boolean, String>(true, String.valueOf(existMedia.getId()));
+				}
+			}
+
 		} else {
 			long seriaNum = getCardBingSeriaNum(principal);
 			CardboxBody media = new CardboxBody();
@@ -644,6 +711,11 @@ public class CardServiceImpl implements CardService {
 	@Override
 	public JpaBusOrderDetailV2 getJpaBusOrderDetailV2Byid(int id) {
 		return busOrderDetailV2Repository.findOne(id);
+	}
+
+	@Override
+	public JpaProduct getJpaProductByid(int id) {
+		return productRepository.findOne(id);
 	}
 
 	

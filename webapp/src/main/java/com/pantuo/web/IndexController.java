@@ -195,6 +195,14 @@ public class CardSelect{
 		model.addAttribute("busOrderDetailV2", j);
 		return "thirdCar";
 	}
+	@RequestMapping(value = "/m/public_detail/{id}", produces = "text/html;charset=utf-8")
+	public String mdetail(Model model, HttpServletRequest request, Principal principal,
+			@PathVariable("id") int id
+			) {
+		JpaProduct j=cardService.getJpaProductByid(id);
+		model.addAttribute("jpaProduct", j);
+		return "thirdCarMedia";
+	}
 
 
 	@RequestMapping(value = "/buy/{type}",produces = "text/html;charset=utf-8")

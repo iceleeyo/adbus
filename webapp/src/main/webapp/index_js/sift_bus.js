@@ -192,7 +192,7 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 			$.each(data.content,function(i,item){
 				$("#productList").append(
 						"<div class=\"cont\">"+
-						"<div class=\"activity inline-b\"><span>"+item.name.substring(0,7)+"</span>&nbsp;&nbsp;"+item.days+"天</div>"+
+						"<div class=\"activity inline-b\"><span><a href='"+pathUrl+"/m/public_detail/"+item.id+"'>"+item.name.substring(0,7)+"</a></span>&nbsp;&nbsp;"+item.days+"天</div>"+
 						"<div class=\"price inline-b\" style=\"  margin-top: 10px; \">"+
 						"<p class=\"p-one\"><input type=\"hidden\" id='pid"+k+"' value='"+item.id+"'/><em>"+item.price+"</em>元</p>"+
 						"<p class=\"p-two\">"+item.duration+"秒/次&nbsp;&nbsp;&nbsp;"+item.playNumber+"次/天</p></div>"+
@@ -207,7 +207,7 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 					var sot=$(this).attr("sot");
 					$.ajax({
 						url : pathUrl + "/carbox/saveCard/media",
-						data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val()},
+						data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val(),"IsDesign":0},
 						type : "POST",
 						success : function(data) {
 							/*$("#totalnum").val(data.right);
@@ -222,7 +222,7 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 						var sot=$(this).attr("sot");
 						$.ajax({
 							url : pathUrl + "/carbox/saveCard/media",
-							data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val()},
+							data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val(),"IsDesign":0},
 							type : "POST",
 							success : function(data) {
 						}}, "text");
@@ -234,7 +234,7 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 					var sot=$(this).attr("sot");
 					$.ajax({
 						url : pathUrl + "/carbox/saveCard/media",
-						data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val()},
+						data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val(),"IsDesign":0},
 						type : "POST",
 						success : function(data) {
 							}}, "text");

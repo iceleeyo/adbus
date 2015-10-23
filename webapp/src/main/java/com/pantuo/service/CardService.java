@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaCardBoxMedia;
+import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.mybatis.domain.CardboxBody;
 import com.pantuo.mybatis.domain.CardboxHelper;
 import com.pantuo.mybatis.domain.CardboxMedia;
@@ -102,4 +103,6 @@ public interface CardService {
 	public Pair<Boolean, String> putIncar(int proid, int needCount, int days, Principal principal, int city, String type);
 
 	public Pair<Boolean, String> buy(int proid, int needCount, int days, Principal principal, int city, String type);
+
+	public JpaProduct getJpaProductByid(int id);
 }
