@@ -13,6 +13,16 @@
 <div class="ls-2">
 							<div class="pg-side">
 								<ul class="pg-side-list">
+								
+								<li class="pg-side-item">
+										<a class="pg-side-item-t aa-icon" style="color:#fff;background:#F45C55;" href="${rc.contextPath}/carbox/carTask">
+											<i class="s-left pg-icon-a a-icon" style="background:url(${rc.contextPath}/imgs/sidebar-icons.png) no-repeat -20px 0;"></i>
+											网上订单
+										</a>
+									</li>
+									
+									
+									
 								<@security.authorize ifAnyGranted="ShibaSuppliesManager,advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 									<li class="pg-side-item">
 										<a class="pg-side-item-t aa-icon" style="color:#fff;background:#F45C55;" href="${rc.contextPath}/order/myTask/1">
