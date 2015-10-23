@@ -24,6 +24,7 @@ public class JpaCardBoxMedia extends CityEntity {
 	private JpaProduct.Type type;//购买产品类型
 	private double price = 0;//价格
 	private int isConfirm = 0;//1代表已确认
+	private double totalprice = 0;//价格
 	
 	private long seriaNum;//表单序列号
 
@@ -89,6 +90,15 @@ public class JpaCardBoxMedia extends CityEntity {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+
+	public double getTotalprice() {
+		return totalprice;
+	}
+
+	public void setTotalprice(double totalprice) {
+		this.totalprice = totalprice;
 	}
 
 	public JpaCardBoxMedia() {
