@@ -72,16 +72,16 @@
             
             "columns": [
               <@security.authorize ifAnyGranted="bodyContractManager,contract_list,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
-                       	{ "data": "userId", "defaultContent": ""},
+                       	{ "data": "r.userid", "defaultContent": ""},
                   </@security.authorize>
             
-            	{ "data": "seriaNum", "defaultContent": "","render": function(data, type, row, meta) {
+            	{ "data": "r.seriaNum", "defaultContent": "","render": function(data, type, row, meta) {
                 	return "W"+data;
                 }},
-            	{ "data": "totalMoney", "defaultContent": ""},
-            	{ "data": "fengqi", "defaultContent": ""},
-            	{ "data": "product_count", "defaultContent": ""},
-            	{ "data": "payType", "defaultContent": "","render": function(data, type, row, meta) {
+            	{ "data": "r.totalMoney", "defaultContent": ""},
+            	{ "data": "r.fengqi", "defaultContent": ""},
+            	{ "data": "r.productCount", "defaultContent": ""},
+            	{ "data": "r.payType", "defaultContent": "","render": function(data, type, row, meta) {
                 	var t='';
                 	if(data =='online'){
                 		t='网上支付';
@@ -94,7 +94,7 @@
                 	}
                 	return t;
                 }},
-                { "data": "created", "defaultContent": "","render": function(data, type, row, meta) {
+                { "data": "r.created", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd HH:mm");
                 	return d;
                 }}
@@ -111,7 +111,7 @@
   		
   		 
     }
-    <@security.authorize ifAnyGranted="advertiser">
+    <@security.authorize ifAnyGranted="advertiser,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
      function initComplete() {
      
         $("div#toolbar").html(
@@ -209,7 +209,7 @@
                     <thead>
                     <tr>
                         <@security.authorize ifAnyGranted="bodyContractManager,contract_list,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
-                        <th>合同申请人</th>
+                        <th>下单用户</th>
                           </@security.authorize>
                         <th >订单号</th>
                         <th>订单总价</th>
