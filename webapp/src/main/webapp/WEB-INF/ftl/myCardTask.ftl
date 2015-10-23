@@ -43,7 +43,7 @@
         table = $('#table').dataTable( {
             "dom": '<"#toolbar">lrtip',
             "searching": false,
-            "ordering": true,
+            "ordering": false,
             "serverSide": true,
             "scrollX": true,
               <@security.authorize ifAnyGranted="bodyContractManager,contract_list,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
@@ -64,7 +64,7 @@
                 url: "${rc.contextPath}/carbox/ajax-myCards",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "filter[companyname]" : $('#companyname').val()
+                        "filter[orderid]" : $('#orderid').val(),
                     } );
                 },
                 "dataSrc": "content",
@@ -113,6 +113,20 @@
     }
     <@security.authorize ifAnyGranted="advertiser">
      function initComplete() {
+     
+        $("div#toolbar").html(
+                '<div>' +
+                          '    <span>订单号</span>' +
+                        '    <span>' +
+                        '        <input id="orderid" value="">' +
+                        '    </span>' +
+                        '</div>'
+        );
+        
+        $('#orderid').change(function() {
+            table.fnDraw();
+        });
+        
      }
      </@security.authorize>
     
@@ -197,7 +211,7 @@
                         <@security.authorize ifAnyGranted="bodyContractManager,contract_list,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
                         <th>合同申请人</th>
                           </@security.authorize>
-                        <th >流水号</th>
+                        <th >订单号</th>
                         <th>订单总价</th>
                         <th  >分期数</th>
                         <th  >相关产品个数</th>
