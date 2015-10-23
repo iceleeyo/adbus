@@ -1,6 +1,7 @@
 package com.pantuo.web;
 
 import java.security.Principal;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,6 +21,7 @@ import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.CardService;
+import com.pantuo.util.CardUtil;
 import com.pantuo.util.Pair;
 
 /**
@@ -79,7 +81,9 @@ public class CarBoxController {
 			@RequestParam(value = "meids", required = false) String meids,
 			@RequestParam(value = "boids", required = false) String boids,
 			@RequestParam(value = "seriaNum", required = false) long seriaNum) {
-		 Pair<Boolean, String> r=cardService.payment(paytype, divid, seriaNum, principal, city);
+		
+		
+		 Pair<Boolean, String> r=cardService.payment(paytype, divid, seriaNum, principal, city,  meids,boids);
 		 if(r.getLeft()){
 			 cardService.updateCardboxUser(seriaNum,principal);
 			 cardService.confirmByids(principal,meids,boids);

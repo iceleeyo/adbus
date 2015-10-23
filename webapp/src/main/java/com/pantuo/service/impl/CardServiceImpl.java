@@ -4,8 +4,10 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -45,6 +47,7 @@ import com.pantuo.mybatis.persistence.CardboxMediaMapper;
 import com.pantuo.mybatis.persistence.CardboxUserMapper;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.CardService;
+import com.pantuo.util.CardUtil;
 import com.pantuo.util.Only1ServieUniqLong;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
@@ -483,7 +486,7 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public Pair<Boolean, String> payment(String paytype, String divid, long seriaNum, Principal principal, int city) {
+	public Pair<Boolean, String> payment(String paytype, String divid, long seriaNum, Principal principal, int city, String meids, String boids) {
 		CardboxHelper helper = new CardboxHelper();
 		helper.setCity(city);
 		helper.setCreated(new Date());
@@ -491,6 +494,21 @@ public class CardServiceImpl implements CardService {
 		helper.setPayType(JpaOrders.PayType.valueOf(paytype).ordinal());
 		helper.setSeriaNum(seriaNum);
 		helper.setUserid(Request.getUserId(principal));
+		
+		
+		List<Integer> medisIds =CardUtil.parseIdsFromString(meids);
+		List<Integer> carid = CardUtil.parseIdsFromString(boids);
+		double totalPrice =  getBoxPrice(seriaNum, 0, medisIds ,carid) ;
+		helper.setTotalMoney(totalPrice);
+		Set<Integer> set = new HashSet<Integer>();
+		if(medisIds!=null){
+			set.addAll(medisIds);
+		}
+		if(carid!=null){
+			set.addAll(carid);
+		}
+		helper.setIsPay(1);
+		helper.setProductCount(set.size());
 		if (cardboxHelpMapper.insert(helper) > 0) {
 			return new Pair<Boolean, String>(true, "支付成功");
 		}
