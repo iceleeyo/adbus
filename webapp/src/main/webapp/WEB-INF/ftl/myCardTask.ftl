@@ -65,6 +65,10 @@
                 data: function(d) {
                     return $.extend( {}, d, {
                         "filter[orderid]" : $('#orderid').val(),
+                         <@security.authorize ifAnyGranted="advertiser">
+                        "filter[media_type]" : $('#media_type').val()
+                             </@security.authorize>
+                        
                     } );
                 },
                 "dataSrc": "content",
@@ -77,6 +81,15 @@
             
             	{ "data": "r.seriaNum", "defaultContent": "","render": function(data, type, row, meta) {
                 	return "W"+data;
+                }},
+                { "data": "media_type", "defaultContent": "","render": function(data, type, row, meta) {
+                   if(data==0){
+                   	 return '移动视频';
+                   }else if(data ==1){
+                  	 return '车身广告';
+                   }else {
+                		return "";
+                	}
                 }},
             	{ "data": "r.totalMoney", "defaultContent": ""},
             	{ "data": "r.fengqi", "defaultContent": ""},
@@ -120,10 +133,15 @@
                         '    <span>' +
                         '        <input id="orderid" value="">' +
                         '    </span>' +
+                          '<select class="ui-input ui-input-mini" name="media_type" id="media_type">' +
+	                    '<option value="defaultAll" selected="selected">所有媒体</option>' +
+	                    '<option value="screen">移动视频</option>' +
+	                    '<option value="body">车身广告</option>' +
+	         			'</select>' +
                         '</div>'
         );
         
-        $('#orderid').change(function() {
+        $('#orderid,#media_type').change(function() {
             table.fnDraw();
         });
         
@@ -168,7 +186,7 @@
                         '    <span>流水号</span>' +
                         '    <span>' +
                         '        <input id="seriaNum" value="">' +
-                        '    </span>' +
+                        '    </span>'+
                     '</div>'
         );
 
@@ -212,6 +230,7 @@
                         <th>下单用户</th>
                           </@security.authorize>
                         <th >订单号</th>
+                        <th>媒体类型</th>
                         <th>订单总价</th>
                         <th  >分期数</th>
                         <th  >相关产品个数</th>
