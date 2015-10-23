@@ -34,9 +34,11 @@ public class JpaCardBoxHelper extends CityEntity {
 	private long seriaNum;//表单序列号
 
 	
+	private double media_totalMoney;
+	private double bus_totalMoney;
+	private int mediaProductCcount;
+	private int busProductCcount;
 	
-	private double totalMoney;
-	private int product_count;
 	private int isPay;
 	
 	
@@ -105,20 +107,37 @@ public class JpaCardBoxHelper extends CityEntity {
 		this.mediaMark = mediaMark;
 	}
 
-	public double getTotalMoney() {
-		return totalMoney;
+	 
+	public double getMedia_totalMoney() {
+		return media_totalMoney;
 	}
 
-	public void setTotalMoney(double totalMoney) {
-		this.totalMoney = totalMoney;
+	public void setMedia_totalMoney(double media_totalMoney) {
+		this.media_totalMoney = media_totalMoney;
 	}
 
-	public int getProduct_count() {
-		return product_count;
+	public double getBus_totalMoney() {
+		return bus_totalMoney;
 	}
 
-	public void setProduct_count(int product_count) {
-		this.product_count = product_count;
+	public void setBus_totalMoney(double bus_totalMoney) {
+		this.bus_totalMoney = bus_totalMoney;
+	}
+
+	public int getMediaProductCcount() {
+		return mediaProductCcount;
+	}
+
+	public void setMediaProductCcount(int mediaProductCcount) {
+		this.mediaProductCcount = mediaProductCcount;
+	}
+
+	public int getBusProductCcount() {
+		return busProductCcount;
+	}
+
+	public void setBusProductCcount(int busProductCcount) {
+		this.busProductCcount = busProductCcount;
 	}
 
 	public int getIsPay() {
