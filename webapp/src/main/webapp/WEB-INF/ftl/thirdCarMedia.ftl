@@ -175,7 +175,36 @@
 									<p class="head-zh">媒体情况</p>
 									<p class="icon icon-line"></p>
 								</div>
-								<img src="${rc.contextPath}/index_img/thirdCar_1.png">
+										<div class="pic-table c-head clearfix">
+									<div class="tbhead">硬广套装</div>
+									<div class="tbbody">
+										<div class="tbtr">
+											<div class="tbtd tb-position tb-left">
+												<span class="icon icon-position"></span>
+												<span>北京</span>
+											</div>
+											<div class="tbtd tb-flow">
+												<span class="icon icon-flow"></span><span>1300万人次/日</span>
+											</div>
+										</div>
+										<div class="tbtr">
+											<div class="tbtd tb-path tb-left">
+												<span class="icon icon-path"></span><span>北京六环内<br>470余条公交线路</span>
+											</div>
+											<div class="tbtd tb-medium">
+												<span class="icon icon-medium"></span><span>19寸公交彩色液晶电视</span>
+											</div>
+										</div>
+										<div class="tbtr">
+											<div class="tbtd tb-firm tb-left">
+												<span class="icon icon-firm"></span><span>北广传媒</span>
+											</div>
+											<div class="tbtd tb-number">
+												<span class="icon icon-number"></span><span>12000辆车24000块屏</span>
+											</div>
+										</div>
+									</div>
+								</div>
 								<div class="c-head">
 									<p class="head-en">MEDIA REGIONAL</p>
 									<p class="head-zh">媒体区域</p>
