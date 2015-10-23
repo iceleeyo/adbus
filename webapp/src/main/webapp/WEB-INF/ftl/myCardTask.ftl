@@ -80,7 +80,8 @@
                   </@security.authorize>
             
             	{ "data": "r.seriaNum", "defaultContent": "","render": function(data, type, row, meta) {
-                	return "W"+data;
+                	var option= "W"+data;
+                	return '<a  onclick="queryCarBoxBody(\'${rc.contextPath}\','+row.r.id+');">'+option+'</a>';
                 }},
                 { "data": "media_type", "defaultContent": "","render": function(data, type, row, meta) {
                    if(data==0){

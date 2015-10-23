@@ -4,8 +4,10 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
+import com.pantuo.dao.pojo.JpaCardBoxBody;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.mybatis.domain.CardboxBody;
 import com.pantuo.mybatis.domain.CardboxHelper;
@@ -120,4 +122,6 @@ public interface CardService {
 	    		TableRequest req);
 
 	public JpaProduct getJpaProductByid(int id);
+
+	public Page<JpaCardBoxBody> queryCarBoxBody(int cityId, TableRequest req, int page, int length, Sort sort);
 }

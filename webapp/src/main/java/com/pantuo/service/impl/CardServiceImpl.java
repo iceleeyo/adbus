@@ -33,6 +33,7 @@ import com.pantuo.dao.pojo.JpaCardBoxBody;
 import com.pantuo.dao.pojo.JpaCardBoxHelper;
 import com.pantuo.dao.pojo.JpaCardBoxMedia;
 import com.pantuo.dao.pojo.JpaCity;
+import com.pantuo.dao.pojo.QJpaBusOnline;
 import com.pantuo.dao.pojo.JpaCity.MediaType;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
@@ -793,7 +794,6 @@ public class CardServiceImpl implements CardService {
 		return result;
 	}
 	
-	
 
 	public Page<JpaBusOrderDetailV2> searchProducts(int city, Principal principal, TableRequest req) {
 
@@ -898,5 +898,19 @@ public class CardServiceImpl implements CardService {
 		return productRepository.findOne(id);
 	}
 
-	
+	@Override
+	public Page<JpaCardBoxBody> queryCarBoxBody(int cityId, TableRequest req, int page, int length, Sort sort) {
+		if (page < 0)
+			page = 0;
+		if (length < 1)
+			length = 1;
+		if (sort == null)
+			sort = new Sort("id");
+		Pageable p = new PageRequest(page, length, sort);
+		String helpid = req.getFilter("helpid");
+		JpaCardBoxHelper help=cardHelperRepository.findOne(NumberUtils.toInt(helpid));
+		BooleanExpression query = QJpaCardBoxBody.jpaCardBoxBody.city.eq(help.getCity());
+		query=query.and(QJpaCardBoxBody.jpaCardBoxBody.seriaNum.eq(help.getSeriaNum()));
+		return query == null ? cardBoxBodyRepository.findAll(p) : cardBoxBodyRepository.findAll(query, p);
+	}
 }

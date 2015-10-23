@@ -1,8 +1,10 @@
 package com.pantuo.web;
 
 import java.security.Principal;
+import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,12 +13,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.pantuo.dao.pojo.JpaBusOnline;
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
+import com.pantuo.dao.pojo.JpaCardBoxBody;
+import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.CardService;
@@ -129,5 +135,19 @@ public class CarBoxController {
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal) {
 		Page<CardBoxHelperView> page = cardService.myCards(city, principal, req);
 		return new DataTablePage(page, req.getDraw());
+	}
+	@RequestMapping(value = "/queryCarBoxBody/{helpid}")
+	public String busOnline_history(Model model,@PathVariable("helpid") int helpid,HttpServletResponse response) {
+		response.setHeader("X-Frame-Options", "SAMEORIGIN");
+		model.addAttribute("helpid", helpid);
+		return "carBoxBodyDetail";
+	}
+	@RequestMapping("ajax-queryCarBoxBody")
+	@ResponseBody
+	public DataTablePage<JpaCardBoxBody> queryCarBoxBody(TableRequest req,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId) {
+		Page<JpaCardBoxBody> jpabuspage = cardService.queryCarBoxBody(cityId, req, req.getPage(), req.getLength(),
+				req.getSort("id"));
+		return new DataTablePage(jpabuspage, req.getDraw());
 	}
 }

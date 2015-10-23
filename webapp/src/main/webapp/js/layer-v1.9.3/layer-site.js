@@ -53,6 +53,18 @@ function showbusOnline_history(tourl,id){
 			+'<iframe style="width:99%;height:98%" frameborder="no" src="'+tourl+'/bus/busOnline_history/'+id+'"/>'
 	});
 }
+//查看车身订单（carBoxBody）
+function queryCarBoxBody(tourl,id){
+	layer.open({
+		type: 1,
+		title: "订单详细",
+		skin: 'layui-layer-rim', 
+		area: ['1020px', '600px'],  
+		content:''
+			+' '
+			+'<iframe style="width:99%;height:98%" frameborder="no" src="'+tourl+'/carbox/queryCarBoxBody/'+id+'"/>'
+	});
+}
 //查看车辆上刊列表
 function showbusOnline_list(tourl,id){
 	layer.open({
