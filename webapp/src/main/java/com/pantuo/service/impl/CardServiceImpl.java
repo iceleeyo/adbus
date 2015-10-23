@@ -628,6 +628,7 @@ public class CardServiceImpl implements CardService {
 
 	public Page<JpaCardBoxHelper> myCards(int city, Principal principal, TableRequest req) {
 		Sort sort = req.getSort("id");
+		String orderid = req.getFilter("orderid");
 		int page = req.getPage(), pageSize = req.getLength();
 		if (page < 0)
 			page = 0;
@@ -647,6 +648,10 @@ public class CardServiceImpl implements CardService {
 			}
 		} else {
 			query = query.and(QJpaCardBoxHelper.jpaCardBoxHelper.userid.eq(u));
+		}
+		if (StringUtils.isNoneBlank(orderid)) {
+			long seriaNum = NumberUtils.toLong(StringUtils.replace(orderid, "W", StringUtils.EMPTY));
+			query = query.and(QJpaCardBoxHelper.jpaCardBoxHelper.seriaNum.eq(seriaNum));
 		}
 
 		Page<JpaCardBoxHelper> list = cardHelperRepository.findAll(query, p);
