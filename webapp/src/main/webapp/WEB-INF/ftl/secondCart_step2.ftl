@@ -146,45 +146,53 @@
 						</div>
 </#if>
 						<div class="adj">
-							<#--<div class="file line">
-								<div class="cart-check">
-									<input class="hideinput" type="checkbox" name="item">
-									<label></label>
-								</div>
+							<div class="file line">
+								
 								<span class="legged">绑定素材</span>
-								<div class="selects">
-									<div class="s-blue"></div>
-								</div>
-								<a class="legged upload" href="javascript:void(0)">上传素材</a>
-							</div>-->
-							<div class="stage line">
-								<span class="legged">分期付款</span>
-								<select id="dividpay">
+								<select id="" class="selects">
+								
 								  <option value="3">3</option>
 								  <option value="6">6</option>
 								  <option value="12">12</option>
 								  <option value="24">24</option>
 								  <option value="36">36</option>
 								</select>
+								<a class="legged upload" href="javascript:void(0)">上传素材</a>
+								<a class="legged upload" href="javascript:;" onclick="supEnter('${rc.contextPath}',${city.mediaType},'${prod.type.typeName!''}')">上传素材</a>
 							</div>
+							<div class="stage line">
+								<span class="legged">分期付款</span>
+								<select id="dividpay" class="selects">
+								
+								  <option value="3">3</option>
+								  <option value="6">6</option>
+								  <option value="12">12</option>
+								  <option value="24">24</option>
+								  <option value="36">36</option>
+								</select>
+							</div><div class="s-blue"></div>
 							<div class="way" id="payway">
 								<span class="legged">支付方式</span>
 								<div class="select-items legged">
 									<ul class="iradios">
 										<li>
-											<input type="radio" name="payType" value="online" checked="checked">
+											<input type="radio" name="payType" value="online">
+											<label class="iradio"></label>
 											<span>网上支付</span>
 										</li>
 										<li>
 											<input type="radio"name="payType" value="check">
+											<label class="iradio"></label>
 											<span>支票</span>
 										</li>
 										<li>
 											<input type="radio"name="payType" value="remit">
+											<label class="iradio"></label>
 											<span>汇款</span>
 										</li>
 										<li class="active">
 											<input type="radio"name="payType" value="cash">
+											<label class="iradio"></label>
 											<span>现金</span>
 										</li>
 									</ul>
