@@ -576,17 +576,23 @@ public class CardServiceImpl implements CardService {
 
 		List<Integer> medisIds = CardUtil.parseIdsFromString(meids);
 		List<Integer> carid = CardUtil.parseIdsFromString(boids);
-		double totalPrice = getBoxPrice(seriaNum, 0, medisIds, carid);
-		helper.setTotalMoney(totalPrice);
+		double totalPrice = getBoxPrice(seriaNum, 0, medisIds, null);
+		helper.setMediaTotalMoney(totalPrice);
+
+		totalPrice = getBoxPrice(seriaNum, 0, null, carid);
+		helper.setBusTotalMoney(totalPrice);
 		Set<Integer> set = new HashSet<Integer>();
 		if (medisIds != null) {
 			set.addAll(medisIds);
+			helper.setMediaProductCcount(set.size());
 		}
 		if (carid != null) {
+			set.clear();
 			set.addAll(carid);
+			helper.setBusProductCcount(set.size());
 		}
 		helper.setIsPay(1);
-		helper.setProductCount(set.size());
+
 		if (cardboxHelpMapper.insert(helper) > 0) {
 			return new Pair<Boolean, String>(true, "支付成功");
 		}
