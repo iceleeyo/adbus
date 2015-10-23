@@ -1,7 +1,6 @@
 package com.pantuo.web;
 
 import java.security.Principal;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
+import com.pantuo.dao.pojo.JpaCardBoxHelper;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.CardService;
-import com.pantuo.util.CardUtil;
 import com.pantuo.util.Pair;
 
 /**
@@ -115,6 +114,20 @@ public class CarBoxController {
 	public DataTablePage<JpaBusOrderDetailV2> searchPro(TableRequest req,
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal) {
 		Page<JpaBusOrderDetailV2> page = cardService.searchProducts(city, principal, req);
+		return new DataTablePage(page, req.getDraw());
+	}
+	
+	
+	@RequestMapping(value = "/carTask")
+	public String list() {
+		return "myCardTask";
+	}
+	
+	@RequestMapping("ajax-myCards")
+	@ResponseBody
+	public DataTablePage<JpaCardBoxHelper> myCards(TableRequest req,
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal) {
+		Page<JpaCardBoxHelper> page = cardService.myCards(city, principal, req);
 		return new DataTablePage(page, req.getDraw());
 	}
 }
