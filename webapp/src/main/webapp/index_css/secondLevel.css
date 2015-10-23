@@ -923,10 +923,11 @@ header .area {
 
 .panel-head .cart-check label {
 	margin: 0 10px;
+	margin-top: 25%;
 }
 
 .panel-item .td-check {
-	margin-top: 8px;
+	margin-top: 53px;
 }
 
 .cart-check label {
