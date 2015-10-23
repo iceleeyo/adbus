@@ -2,6 +2,7 @@ package com.pantuo.service.impl;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -31,6 +32,8 @@ import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaCardBoxBody;
 import com.pantuo.dao.pojo.JpaCardBoxHelper;
 import com.pantuo.dao.pojo.JpaCardBoxMedia;
+import com.pantuo.dao.pojo.JpaCity;
+import com.pantuo.dao.pojo.JpaCity.MediaType;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.QJpaBusOrderDetailV2;
@@ -50,10 +53,12 @@ import com.pantuo.mybatis.persistence.CardboxMediaMapper;
 import com.pantuo.mybatis.persistence.CardboxUserMapper;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.CardService;
+import com.pantuo.service.CityService;
 import com.pantuo.util.CardUtil;
 import com.pantuo.util.Only1ServieUniqLong;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
+import com.pantuo.web.view.CardBoxHelperView;
 import com.pantuo.web.view.CardView;
 
 @Service
@@ -79,6 +84,9 @@ public class CardServiceImpl implements CardService {
 	CardBoxRepository cardBoxRepository;
 	@Autowired
 	CardBoxBodyRepository cardBoxBodyRepository;
+	
+	@Autowired
+	CityService cityService;
 
 	@Override
 	public long getCardBingSeriaNum(Principal principal) {
@@ -562,41 +570,118 @@ public class CardServiceImpl implements CardService {
 		}
 
 	}
+	static class TypeCount{
+		int city;
+		int productCount;
+		double price;
+		public int getProductCount() {
+			return productCount;
+		}
+		public void setProductCount(int productCount) {
+			this.productCount = productCount;
+		}
+		public double getPrice() {
+			return price;
+		}
+		public void setPrice(double price) {
+			this.price = price;
+		}
+		public int getCity() {
+			return city;
+		}
+		public void setCity(int city) {
+			this.city = city;
+		}
+		public TypeCount(int city, int productCount, double price) {
+			super();
+			this.city = city;
+			this.productCount = productCount;
+			this.price = price;
+		}
+		
+	}
+	
+
+	public Collection<TypeCount> countCardByCity(long seriaNum, int iscomfirm, List<Integer> meLists, List<Integer> boLists) {
+		
+		Map<Integer,TypeCount> map =new HashMap<Integer, CardServiceImpl.TypeCount>();
+		CardboxMediaExample example = new CardboxMediaExample();
+		CardboxMediaExample.Criteria criteria1 = example.createCriteria();
+		criteria1.andSeriaNumEqualTo(seriaNum).andIsConfirmEqualTo(iscomfirm);
+		CardboxBodyExample bodyExample = new CardboxBodyExample();
+		CardboxBodyExample.Criteria criteria2 = bodyExample.createCriteria();
+		criteria2.andSeriaNumEqualTo(seriaNum).andIsConfirmEqualTo(iscomfirm);
+		List<CardboxMedia> list = null;
+		List<CardboxBody> bodyList = null;
+		if ((meLists != null && !meLists.isEmpty()) || (boLists != null && !boLists.isEmpty())) {
+			if (meLists != null && !meLists.isEmpty()) {
+				criteria1.andIdIn(meLists);
+				list = cardMapper.selectByExample(example);
+			} else {
+				list = null;
+			}
+			if (boLists != null && !boLists.isEmpty()) {
+				criteria2.andIdIn(boLists);
+				bodyList = cardBodyMapper.selectByExample(bodyExample);
+			} else {
+				bodyList = null;
+			}
+		} else {
+			list = cardMapper.selectByExample(example);
+			bodyList = cardBodyMapper.selectByExample(bodyExample);
+		}
+		if (list != null && !list.isEmpty()) {
+			int m=list.size();
+			for (CardboxMedia cardboxMedia : list) {
+				double w=cardboxMedia.getPrice() * cardboxMedia.getNeedCount();
+				if(!map.containsKey(cardboxMedia.getCity())){
+					map.put(cardboxMedia.getCity(), new TypeCount(cardboxMedia.getCity(),m,w));
+				}else {
+					TypeCount v = 	map.get(cardboxMedia.getCity());
+					v.setPrice(v.getPrice()+w);
+				}
+				
+				
+			}
+		}
+		if (bodyList != null && !bodyList.isEmpty()) {
+			int l=bodyList.size();
+			for (CardboxBody obj : bodyList) {
+				double w=obj.getTotalprice();
+				if(!map.containsKey(obj.getCity())){
+					map.put(obj.getCity(), new TypeCount(obj.getCity(),l,w));
+				}else {
+					TypeCount v = map.get(obj.getCity());
+					v.setPrice(v.getPrice()+w);
+				}
+			}
+		}
+		return map.values();
+	}
+	 
 
 	@Override
 	public Pair<Boolean, String> payment(String paytype, String divid, long seriaNum, Principal principal, int city,
 			String meids, String boids) {
-		CardboxHelper helper = new CardboxHelper();
-		helper.setCity(city);
-		helper.setCreated(new Date());
-		helper.setFengqi(divid);
-		helper.setPayType(JpaOrders.PayType.valueOf(paytype).ordinal());
-		helper.setSeriaNum(seriaNum);
-		helper.setUserid(Request.getUserId(principal));
-
 		List<Integer> medisIds = CardUtil.parseIdsFromString(meids);
 		List<Integer> carid = CardUtil.parseIdsFromString(boids);
-		double totalPrice = getBoxPrice(seriaNum, 0, medisIds, null);
-		helper.setMediaTotalMoney(totalPrice);
 
-		totalPrice = getBoxPrice(seriaNum, 0, null, carid);
-		helper.setBusTotalMoney(totalPrice);
-		Set<Integer> set = new HashSet<Integer>();
-		if (medisIds != null) {
-			set.addAll(medisIds);
-			helper.setMediaProductCcount(set.size());
-		}
-		if (carid != null) {
-			set.clear();
-			set.addAll(carid);
-			helper.setBusProductCcount(set.size());
-		}
-		helper.setIsPay(1);
+		Collection<TypeCount> list = countCardByCity(seriaNum, 0, medisIds, carid);
 
-		if (cardboxHelpMapper.insert(helper) > 0) {
-			return new Pair<Boolean, String>(true, "支付成功");
+		for (TypeCount typeCount : list) {
+			CardboxHelper helper = new CardboxHelper();
+			helper.setCity(typeCount.getCity());
+			helper.setCreated(new Date());
+			helper.setFengqi(divid);
+			helper.setPayType(JpaOrders.PayType.valueOf(paytype).ordinal());
+			helper.setSeriaNum(seriaNum);
+			helper.setUserid(Request.getUserId(principal));
+			helper.setTotalMoney(typeCount.getPrice());
+			helper.setProductCount(typeCount.getProductCount());
+			helper.setIsPay(1);
+			cardboxHelpMapper.insert(helper);
 		}
-		return new Pair<Boolean, String>(false, "支付失败");
+		return new Pair<Boolean, String>(true, "支付成功");
 	}
 
 	@Override
@@ -632,7 +717,7 @@ public class CardServiceImpl implements CardService {
 		return map;
 	}
 
-	public Page<JpaCardBoxHelper> myCards(int city, Principal principal, TableRequest req) {
+	public Page<CardBoxHelperView> myCards(int city, Principal principal, TableRequest req) {
 		Sort sort = req.getSort("id");
 		String orderid = req.getFilter("orderid");
 		int page = req.getPage(), pageSize = req.getLength();
@@ -640,29 +725,59 @@ public class CardServiceImpl implements CardService {
 			page = 0;
 		if (pageSize < 1)
 			pageSize = 1;
-		BooleanExpression query = QJpaCardBoxHelper.jpaCardBoxHelper.city.eq(city);
+		BooleanExpression query = null;//QJpaCardBoxHelper.jpaCardBoxHelper.city.eq(city);
 		Pageable p = new PageRequest(page, pageSize, sort);
 		String u = StringUtils.EMPTY;
 		boolean isAdmin = false;
 		if (principal != null) {
 			u = Request.getUserId(principal);
-			if (Request.hasAuth(principal, ActivitiConfiguration.ORDER)) {
+			if (!Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)) {
 				isAdmin = true;
 			}
 			if (!isAdmin) {
-				query = query.and(QJpaCardBoxHelper.jpaCardBoxHelper.userid.eq(u));
+				query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.userid.eq(u) : query
+						.and(QJpaCardBoxHelper.jpaCardBoxHelper.userid.eq(u));
 			}
 		} else {
-			query = query.and(QJpaCardBoxHelper.jpaCardBoxHelper.userid.eq(u));
+			query = QJpaCardBoxHelper.jpaCardBoxHelper.userid.eq(u);
 		}
 		if (StringUtils.isNoneBlank(orderid)) {
 			long seriaNum = NumberUtils.toLong(StringUtils.replace(orderid, "W", StringUtils.EMPTY));
-			query = query.and(QJpaCardBoxHelper.jpaCardBoxHelper.seriaNum.eq(seriaNum));
+			query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.seriaNum.eq(seriaNum) : query
+					.and(QJpaCardBoxHelper.jpaCardBoxHelper.seriaNum.eq(seriaNum));
+		}
+		if (principal!=null && !Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)) {
+			query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.city.eq(city) : query
+					.and(QJpaCardBoxHelper.jpaCardBoxHelper.city.eq(city));
 		}
 
 		Page<JpaCardBoxHelper> list = cardHelperRepository.findAll(query, p);
-		return list;
+		List<CardBoxHelperView> views = new ArrayList<CardBoxHelperView>();
+		for (JpaCardBoxHelper jpaCardBoxHelper : list.getContent()) {
+			CardBoxHelperView obj = new CardBoxHelperView(jpaCardBoxHelper);
+			/*if (cityObj != null && !Request.hasAuth(principal, ActivitiConfiguration.ADVERTISER)) {
+				if (cityObj.getMediaType() == MediaType.screen) {
+
+					obj.setProduct_count(jpaCardBoxHelper.getMediaProductCcount());
+					obj.setTotalMoney(jpaCardBoxHelper.getMedia_totalMoney());
+				} else if (cityObj.getMediaType() == MediaType.body) {
+					obj.setProduct_count(jpaCardBoxHelper.getBusProductCcount());
+					obj.setTotalMoney(jpaCardBoxHelper.getBus_totalMoney());
+				}
+			}
+			if (Request.hasAuth(principal, ActivitiConfiguration.ADVERTISER)) {
+				obj.setProduct_count(jpaCardBoxHelper.getBusProductCcount() + jpaCardBoxHelper.getMediaProductCcount());
+				obj.setTotalMoney(jpaCardBoxHelper.getMedia_totalMoney() + jpaCardBoxHelper.getBus_totalMoney());
+			}*/
+
+			views.add(obj);
+		}
+		org.springframework.data.domain.PageImpl<CardBoxHelperView> result = new org.springframework.data.domain.PageImpl<CardBoxHelperView>(
+				views, p, list.getTotalElements());
+		return result;
 	}
+	
+	
 
 	public Page<JpaBusOrderDetailV2> searchProducts(int city, Principal principal, TableRequest req) {
 

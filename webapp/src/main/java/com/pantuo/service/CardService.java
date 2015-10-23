@@ -6,14 +6,13 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
-import com.pantuo.dao.pojo.JpaCardBoxHelper;
-import com.pantuo.dao.pojo.JpaCardBoxMedia;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.mybatis.domain.CardboxBody;
 import com.pantuo.mybatis.domain.CardboxHelper;
 import com.pantuo.mybatis.domain.CardboxMedia;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.util.Pair;
+import com.pantuo.web.view.CardBoxHelperView;
 import com.pantuo.web.view.CardView;
 
 public interface CardService {
@@ -117,7 +116,7 @@ public interface CardService {
  * @return
  * @since pantuo 1.0-SNAPSHOT
  */
-	  Page<JpaCardBoxHelper> myCards(int city, Principal principal,
+	  Page<CardBoxHelperView> myCards(int city, Principal principal,
 	    		TableRequest req);
 
 	public JpaProduct getJpaProductByid(int id);

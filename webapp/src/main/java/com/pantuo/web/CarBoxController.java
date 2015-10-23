@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
-import com.pantuo.dao.pojo.JpaCardBoxHelper;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.CardService;
 import com.pantuo.util.Pair;
+import com.pantuo.web.view.CardBoxHelperView;
 
 /**
  * @author tliu
@@ -125,9 +125,9 @@ public class CarBoxController {
 	
 	@RequestMapping("ajax-myCards")
 	@ResponseBody
-	public DataTablePage<JpaCardBoxHelper> myCards(TableRequest req,
+	public DataTablePage<CardBoxHelperView> myCards(TableRequest req,
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal) {
-		Page<JpaCardBoxHelper> page = cardService.myCards(city, principal, req);
+		Page<CardBoxHelperView> page = cardService.myCards(city, principal, req);
 		return new DataTablePage(page, req.getDraw());
 	}
 }
