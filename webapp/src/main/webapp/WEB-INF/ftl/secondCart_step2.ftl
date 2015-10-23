@@ -146,20 +146,7 @@
 						</div>
 </#if>
 						<div class="adj">
-							<div class="file line">
-								
-								<span class="legged">绑定素材</span>
-								<select id="" class="selects">
-								
-								  <option value="3">3</option>
-								  <option value="6">6</option>
-								  <option value="12">12</option>
-								  <option value="24">24</option>
-								  <option value="36">36</option>
-								</select>
-								<a class="legged upload" href="javascript:void(0)">上传素材</a>
-								<a class="legged upload" href="javascript:;" onclick="supEnter('${rc.contextPath}',${city.mediaType},'${prod.type.typeName!''}')">上传素材</a>
-							</div>
+							
 							<div class="stage line">
 								<span class="legged">分期付款</span>
 								<select id="dividpay" class="selects">
@@ -170,7 +157,7 @@
 								  <option value="24">24</option>
 								  <option value="36">36</option>
 								</select>
-							</div><div class="s-blue"></div>
+							</div>
 							<div class="way" id="payway">
 								<span class="legged">支付方式</span>
 								<div class="select-items legged">
@@ -281,7 +268,7 @@
 
 				$('.legged .iradio').on('click', function(event) {
 					event.preventDefault();
-					
+					$(this).prev()[0].checked = true;
 					$(this).parent().siblings().removeClass('active').end().addClass('active');
 				});
 			});
