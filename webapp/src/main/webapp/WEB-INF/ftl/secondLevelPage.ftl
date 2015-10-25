@@ -265,7 +265,7 @@ function tocard(pathurl){
 							<div class="cart-box" style="margin-top: 20px;">
 							<a onclick="tocard('${rc.contextPath}');">
 								<div class="cart">
-									加入购物车
+									查看购物车
 								</div> 
 								<@security.authorize access="isAuthenticated()"> <input
 								type="hidden" id="lc" value="1" /> </@security.authorize>
