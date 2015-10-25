@@ -95,9 +95,9 @@
 									</li>
 									<li class="td td-info">
 										<div class="item-rect">
-											<p class="rec-line">${item.product.duration}秒/次</p>
-											<p class="rec-line">${item.product.playNumber}次/天</p>
-											<p class="rec-line">${item.product.days}天</p>
+											<p class="rec-line">时长（秒）：${item.product.duration}</p>
+											<p class="rec-line">单日播放次数：${item.product.playNumber}次</p>
+											<p class="rec-line">刊期：${item.product.days}天</p>
 											<span class="btn-edit"></span>
 										</div>
 									</li>
@@ -167,6 +167,12 @@
 									<li class="td td-info">
 										<div class="item-rect">
 											<p class="rec-line">线路级别：${item.product.leval.nameStr}</p>
+											<p class="rec-line">车型：<#if item.product.doubleDecker>
+											双层
+											<#else>
+											单层
+											</#if>
+											</p>
 											<p class="rec-line">刊期：
 											<#if item.isDesign==0>
 											${item.product.days/30}个月
