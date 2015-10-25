@@ -299,6 +299,10 @@ function tocard(pathurl){
 								<div class="cart">
 									加入购物车
 								</div>
+								<@security.authorize access="isAuthenticated()"> <input
+								type="hidden" id="lc" value="1" /> </@security.authorize>
+								<@security.authorize access="! isAuthenticated()"> <input
+								type="hidden" id="lc" value="0" /> </@security.authorize>
 								</a>
 							</div>
 						</div>
