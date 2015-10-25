@@ -115,7 +115,7 @@
 									</li>
 									<li class="td td-sum">
 										<div class="td-inner">
-											<p class="sum"><em>￥</em>${item.totalprice}</p>
+											<p class="sum"><em >￥</em><span id="mexiaoji_${item.id}">${item.totalprice}</span></p>
 										</div>
 									</li>
 									
@@ -140,8 +140,8 @@
 										</div>
 									</li>
 									<li class="td td-name">车身产品</li>
-									<li class="td td-price">单价</li>
-									<li class="td td-amount">数量</li>
+									<li class="td td-price">单价(元/月/辆)</li>
+									<li class="td td-amount">车辆数</li>
 									<li class="td td-sum">合计</li>
 									<li class="td td-handle">操作</li>
 								</ul>
@@ -169,9 +169,11 @@
 											<p class="rec-line">线路级别：${item.product.leval.nameStr}</p>
 											<p class="rec-line">刊期：
 											<#if item.isDesign==0>
-											${item.product.days}天
+											${item.product.days/30}个月
+											<input type="hidden" id="b_days_${item.id}" value="${item.product.days/30}"/>
 											<#else>
-											${item.days}天
+											${item.days/30}个月
+											<input type="hidden" id="b_days_${item.id}" value="${item.days/30}"/>
 											</#if>
 											</p>
 											<span class="btn-edit"></span>
@@ -182,6 +184,7 @@
 											<p class="price"><em>￥</em>${item.price}</p>
 										</div>
 									</li>
+									<input type="hidden" id="b_uprice_${item.id}" value="${item.price}">
 										<input type="hidden" id="b_pid_${item.id}" value="${item.product.id}">
 									<li class="td td-amount">
 										<span class="icon icon-plus" onclick="b_leftDec(${item.id},${item.isDesign});" ></span>
@@ -190,7 +193,7 @@
 									</li>
 									<li class="td td-sum">
 										<div class="td-inner">
-											<p class="sum"><em>￥</em>${item.totalprice}</p>
+											<p class="sum"><em>￥</em><span id="boxiaoji_${item.id}">${item.totalprice}</p>
 										</div>
 									</li>
 									<li rowid= "${item.id}" class="td td-handle">
@@ -325,6 +328,10 @@
    }
 		});		
 		}
+		function me_changexiaoji(sot,needC,uprice){
+		var t=needC*uprice;
+		 $("#mexiaoji_"+sot).html(t);
+		}
 				function meblur(id){
 				  var sot=id;
 				 $.ajax({
@@ -334,16 +341,17 @@
 						success : function(data) {
 						   //window.location.reload();
 						   updateMoney();
+						   me_changexiaoji(sot,$("#sum_"+sot).val(),$("#uprice_"+sot).val());
 					}}, "text");
 				}
 				function boblur(id,isdesing){
 				  var sot=id;
+				  bo_changexiaoji(sot,$("#b_sum_"+sot).val(),$("#b_uprice_"+sot).val());
 				 $.ajax({
 						url : "${rc.contextPath}/carbox/saveCard/body",
 						data:{"proid":$("#b_pid_"+sot).val(),"needCount":$("#b_sum_"+sot).val(),"IsDesign":isdesing},
 						type : "POST",
 						success : function(data) {
-						// window.location.reload();
 						updateMoney();
 					}}, "text");
 				}
@@ -352,35 +360,39 @@
 			    var y=$("#sum_"+sot).val();
 			    if(y>0){
 			    $("#sum_"+sot).val(parseInt(y)-1);
+			    me_changexiaoji(sot,$("#sum_"+sot).val(),$("#uprice_"+sot).val());
 					$.ajax({
 						url :  "${rc.contextPath}/carbox/saveCard/media",
 						data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"uprice":$("#uprice_"+sot).val(),"IsDesign":0},
 						type : "POST",
-						success : function(data) { //window.location.reload();
+						success : function(data) {
 						updateMoney();
 							}}, "text");
 			  }
 		}
 		function leftPlus(id){
-		  //var oldValue=$(this).prev().val();//获取文本框对象现有值
-			//$(this).prev().val(parseInt(oldValue)+1);
 			var sot=id;
 			var y=$("#sum_"+sot).val();
 			$("#sum_"+sot).val(parseInt(y)+1);
+			 me_changexiaoji(sot,$("#sum_"+sot).val(),$("#uprice_"+sot).val());
 					$.ajax({
 						url : "${rc.contextPath}/carbox/saveCard/media",
 						data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"uprice":$("#uprice_"+sot).val(),"IsDesign":0},
 						type : "POST",
 						success : function(data) {
-						 //window.location.reload();
 						 updateMoney();
 							}}, "text");
+		}
+		function bo_changexiaoji(sot,needC,uprice){
+		var t=$("#b_days_"+sot).val()*needC*uprice;
+		 $("#boxiaoji_"+sot).html(t);
 		}
 		function b_leftDec(id,isdesing){
 			    var sot=id;
 			    var y=$("#b_sum_"+sot).val();
 			    if(y>0){
 			    $("#b_sum_"+sot).val(parseInt(y)-1);
+			     bo_changexiaoji(sot,$("#b_sum_"+sot).val(),$("#b_uprice_"+sot).val());
 					$.ajax({
 						url :  "${rc.contextPath}/carbox/saveCard/body",
 						data:{"proid":$("#b_pid_"+sot).val(),"needCount":$("#b_sum_"+sot).val(),"IsDesign":isdesing},
@@ -391,19 +403,11 @@
 							}}, "text");
 			  }
 		}
-		function updateMoney(){
-				 $.ajax({
-						url : "${rc.contextPath}/carbox/carboxMoney",
-						data:{},
-						type : "POST",
-						success : function(data) {
-								$("#aprice").html("￥"+data);
-					    }}, "text");
-		}
 		function b_leftPlus(id,isdesing){
 			var sot=id;
 			var y=$("#b_sum_"+sot).val();
 			$("#b_sum_"+sot).val(parseInt(y)+1);
+			 bo_changexiaoji(sot,$("#b_sum_"+sot).val(),$("#b_uprice_"+sot).val());
 					$.ajax({
 						url : "${rc.contextPath}/carbox/saveCard/body",
 						data:{"proid":$("#b_pid_"+sot).val(),"needCount":$("#b_sum_"+sot).val(),"IsDesign":isdesing},
@@ -413,6 +417,16 @@
 						 updateMoney();
 							}}, "text");
 		}
+		function updateMoney(){
+				 $.ajax({
+						url : "${rc.contextPath}/carbox/carboxMoney",
+						data:{},
+						type : "POST",
+						success : function(data) {
+								$("#aprice").html("￥"+data);
+					    }}, "text");
+		}
+		
 			$(document).ready(function(e) {
 				$('.td-info .item-rect').hover(function() {
 					$(this).addClass('item-rect-hover');
