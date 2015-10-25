@@ -15,6 +15,7 @@ import com.pantuo.mybatis.domain.CardboxMedia;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.CardBoxHelperView;
+import com.pantuo.web.view.CardTotalView;
 import com.pantuo.web.view.CardView;
 
 public interface CardService {
@@ -78,8 +79,10 @@ public interface CardService {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	public double getBoxPrice(long seriaNum,int iscomfirm, List<Integer> meLists, List<Integer> boLists);
+	public CardTotalView getBoxPrice(long seriaNum,int iscomfirm, List<Integer> meLists, List<Integer> boLists);
 	public double getBoxPrice( Principal principal);
+	
+	public CardTotalView getCarSumInfo( Principal principal);
 
 	public Pair<Double, Integer> saveCard(int proid,int needCount, Principal principal, int city, String type,int IsDesign);
 	

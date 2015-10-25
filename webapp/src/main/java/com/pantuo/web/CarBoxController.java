@@ -1,7 +1,6 @@
 package com.pantuo.web;
 
 import java.security.Principal;
-import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,21 +12,19 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.pantuo.dao.pojo.JpaBusOnline;
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaCardBoxBody;
-import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.CardService;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.CardBoxHelperView;
+import com.pantuo.web.view.CardTotalView;
 
 /**
  * @author tliu
@@ -107,6 +104,12 @@ public class CarBoxController {
 	@ResponseBody
 	public double carboxMoney(Model model, Principal principal, HttpServletRequest request) {
 		return cardService.getBoxPrice(principal);
+	}
+	
+	@RequestMapping(value = "/totalView")
+	@ResponseBody
+	public CardTotalView totalView(Model model, Principal principal, HttpServletRequest request) {
+		return cardService.getCarSumInfo(principal);
 	}
 
 	@RequestMapping(value = "/test")

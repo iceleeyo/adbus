@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -33,7 +31,6 @@ import com.pantuo.dao.pojo.JpaCardBoxBody;
 import com.pantuo.dao.pojo.JpaCardBoxHelper;
 import com.pantuo.dao.pojo.JpaCardBoxMedia;
 import com.pantuo.dao.pojo.JpaCity;
-import com.pantuo.dao.pojo.QJpaBusOnline;
 import com.pantuo.dao.pojo.JpaCity.MediaType;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
@@ -60,6 +57,7 @@ import com.pantuo.util.Only1ServieUniqLong;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 import com.pantuo.web.view.CardBoxHelperView;
+import com.pantuo.web.view.CardTotalView;
 import com.pantuo.web.view.CardView;
 
 @Service
@@ -85,7 +83,7 @@ public class CardServiceImpl implements CardService {
 	CardBoxRepository cardBoxRepository;
 	@Autowired
 	CardBoxBodyRepository cardBoxBodyRepository;
-	
+
 	@Autowired
 	CityService cityService;
 
@@ -174,9 +172,9 @@ public class CardServiceImpl implements CardService {
 			page = cardBoxRepository.findAll(query, new PageRequest(0, 1024, new Sort("id"))).getContent();
 			page2 = cardBoxBodyRepository.findAll(query2, new PageRequest(0, 1024, new Sort("id"))).getContent();
 		}
-
-		CardView w = new CardView(page, page2, getBoxPrice(seriaNum, isComfirm, meidLists, boidLists), getBoxTotalnum(
-				seriaNum, isComfirm, meidLists, boidLists));
+		CardTotalView totalView = getBoxPrice(seriaNum, isComfirm, meidLists, boidLists);
+		CardView w = new CardView(page, page2, totalView.getPrice(), getBoxTotalnum(seriaNum, isComfirm, meidLists,
+				boidLists));
 		return w;
 	}
 
@@ -349,8 +347,8 @@ public class CardServiceImpl implements CardService {
 				media.setProductId(proid);
 				media.setIsConfirm(0);
 				media.setType(product.getType().ordinal());
-				int a=cardMapper.insert(media);
-				if(a>0){
+				int a = cardMapper.insert(media);
+				if (a > 0) {
 					return new Pair<Boolean, String>(true, String.valueOf(media.getId()));
 				}
 				return new Pair<Boolean, String>(false, "");
@@ -482,15 +480,19 @@ public class CardServiceImpl implements CardService {
 	public void add(CardboxHelper helper, Principal principal) {
 
 	}
-
+	public CardTotalView getCarSumInfo( Principal principal) {
+		long seriaNum = getCardBingSeriaNum(principal);
+		return getBoxPrice(seriaNum, 0, null, null);
+	}
 	public double getBoxPrice(Principal principal) {
 		long seriaNum = getCardBingSeriaNum(principal);
-		return seriaNum == 0 ? 0 : getBoxPrice(seriaNum, 0, null, null);
+		return seriaNum == 0 ? 0 : getBoxPrice(seriaNum, 0, null, null).price;
 	}
 
 	@Override
-	public double getBoxPrice(long seriaNum, int iscomfirm, List<Integer> meLists, List<Integer> boLists) {
+	public CardTotalView getBoxPrice(long seriaNum, int iscomfirm, List<Integer> meLists, List<Integer> boLists) {
 		double r = 0;
+		int needCount = 0, cardCount = 0;
 		CardboxMediaExample example = new CardboxMediaExample();
 		CardboxMediaExample.Criteria criteria1 = example.createCriteria();
 		criteria1.andSeriaNumEqualTo(seriaNum).andIsConfirmEqualTo(iscomfirm);
@@ -519,14 +521,18 @@ public class CardServiceImpl implements CardService {
 		if (list != null && !list.isEmpty()) {
 			for (CardboxMedia cardboxMedia : list) {
 				r += cardboxMedia.getPrice() * cardboxMedia.getNeedCount();
+				needCount += cardboxMedia.getNeedCount();
+				cardCount++;
 			}
 		}
 		if (bodyList != null && !bodyList.isEmpty()) {
 			for (CardboxBody obj : bodyList) {
 				r += obj.getTotalprice();
+				needCount += obj.getNeedCount();
+				cardCount++;
 			}
 		}
-		return r;
+		return new CardTotalView(seriaNum, r, cardCount, needCount);
 	}
 
 	@Override
@@ -571,41 +577,49 @@ public class CardServiceImpl implements CardService {
 		}
 
 	}
-	static class TypeCount{
+
+	static class TypeCount {
 		int city;
 		int productCount;
 		double price;
+
 		public int getProductCount() {
 			return productCount;
 		}
+
 		public void setProductCount(int productCount) {
 			this.productCount = productCount;
 		}
+
 		public double getPrice() {
 			return price;
 		}
+
 		public void setPrice(double price) {
 			this.price = price;
 		}
+
 		public int getCity() {
 			return city;
 		}
+
 		public void setCity(int city) {
 			this.city = city;
 		}
+
 		public TypeCount(int city, int productCount, double price) {
 			super();
 			this.city = city;
 			this.productCount = productCount;
 			this.price = price;
 		}
-		
-	}
-	
 
-	public Collection<TypeCount> countCardByCity(long seriaNum, int iscomfirm, List<Integer> meLists, List<Integer> boLists) {
-		
-		Map<Integer,TypeCount> map =new HashMap<Integer, CardServiceImpl.TypeCount>();
+	}
+
+	public Collection<TypeCount> countCardByCity(long seriaNum, int iscomfirm, List<Integer> meLists,
+			List<Integer> boLists) {
+
+		Map<Integer, TypeCount> map = new HashMap<Integer, CardServiceImpl.TypeCount>();
 		CardboxMediaExample example = new CardboxMediaExample();
 		CardboxMediaExample.Criteria criteria1 = example.createCriteria();
 		criteria1.andSeriaNumEqualTo(seriaNum).andIsConfirmEqualTo(iscomfirm);
@@ -632,34 +646,32 @@ public class CardServiceImpl implements CardService {
 			bodyList = cardBodyMapper.selectByExample(bodyExample);
 		}
 		if (list != null && !list.isEmpty()) {
-			int m=list.size();
+			int m = list.size();
 			for (CardboxMedia cardboxMedia : list) {
-				double w=cardboxMedia.getPrice() * cardboxMedia.getNeedCount();
-				if(!map.containsKey(cardboxMedia.getCity())){
-					map.put(cardboxMedia.getCity(), new TypeCount(cardboxMedia.getCity(),m,w));
-				}else {
-					TypeCount v = 	map.get(cardboxMedia.getCity());
-					v.setPrice(v.getPrice()+w);
+				double w = cardboxMedia.getPrice() * cardboxMedia.getNeedCount();
+				if (!map.containsKey(cardboxMedia.getCity())) {
+					map.put(cardboxMedia.getCity(), new TypeCount(cardboxMedia.getCity(), m, w));
+				} else {
+					TypeCount v = map.get(cardboxMedia.getCity());
+					v.setPrice(v.getPrice() + w);
 				}
-				
-				
+
 			}
 		}
 		if (bodyList != null && !bodyList.isEmpty()) {
-			int l=bodyList.size();
+			int l = bodyList.size();
 			for (CardboxBody obj : bodyList) {
-				double w=obj.getTotalprice();
-				if(!map.containsKey(obj.getCity())){
-					map.put(obj.getCity(), new TypeCount(obj.getCity(),l,w));
-				}else {
+				double w = obj.getTotalprice();
+				if (!map.containsKey(obj.getCity())) {
+					map.put(obj.getCity(), new TypeCount(obj.getCity(), l, w));
+				} else {
 					TypeCount v = map.get(obj.getCity());
-					v.setPrice(v.getPrice()+w);
+					v.setPrice(v.getPrice() + w);
 				}
 			}
 		}
 		return map.values();
 	}
-	 
 
 	@Override
 	public Pair<Boolean, String> payment(String paytype, String divid, long seriaNum, Principal principal, int city,
@@ -725,7 +737,8 @@ public class CardServiceImpl implements CardService {
 
 	public Page<CardBoxHelperView> myCards(int city, Principal principal, TableRequest req) {
 		Sort sort = new Sort(Direction.fromString("desc"), "id");//req.getSort("id");
-		String orderid = req.getFilter("orderid"),media_type = req.getFilter("media_type");;
+		String orderid = req.getFilter("orderid"), media_type = req.getFilter("media_type");
+		;
 		int page = req.getPage(), pageSize = req.getLength();
 		if (page < 0)
 			page = 0;
@@ -752,12 +765,12 @@ public class CardServiceImpl implements CardService {
 			query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.seriaNum.eq(seriaNum) : query
 					.and(QJpaCardBoxHelper.jpaCardBoxHelper.seriaNum.eq(seriaNum));
 		}
-		
-		if (StringUtils.isNoneBlank(media_type)  && !StringUtils.equals("defaultAll", media_type)) {
-			query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.mediaType.eq(MediaType.valueOf(media_type)) : query
-					.and(QJpaCardBoxHelper.jpaCardBoxHelper.mediaType.eq(MediaType.valueOf(media_type)));
+
+		if (StringUtils.isNoneBlank(media_type) && !StringUtils.equals("defaultAll", media_type)) {
+			query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.mediaType.eq(MediaType.valueOf(media_type))
+					: query.and(QJpaCardBoxHelper.jpaCardBoxHelper.mediaType.eq(MediaType.valueOf(media_type)));
 		}
-		if (principal!=null && !Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)) {
+		if (principal != null && !Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)) {
 			query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.city.eq(city) : query
 					.and(QJpaCardBoxHelper.jpaCardBoxHelper.city.eq(city));
 		}
@@ -766,12 +779,12 @@ public class CardServiceImpl implements CardService {
 		List<CardBoxHelperView> views = new ArrayList<CardBoxHelperView>();
 		for (JpaCardBoxHelper jpaCardBoxHelper : list.getContent()) {
 			CardBoxHelperView obj = new CardBoxHelperView(jpaCardBoxHelper);
-			
+
 			JpaCity _city = cityService.fromId(jpaCardBoxHelper.getCity());
 			if (_city != null) {
 				obj.setMedia_type(_city.getMediaType().ordinal());
 			}
-			
+
 			/*if (cityObj != null && !Request.hasAuth(principal, ActivitiConfiguration.ADVERTISER)) {
 				if (cityObj.getMediaType() == MediaType.screen) {
 
@@ -793,7 +806,6 @@ public class CardServiceImpl implements CardService {
 				views, p, list.getTotalElements());
 		return result;
 	}
-	
 
 	public Page<JpaBusOrderDetailV2> searchProducts(int city, Principal principal, TableRequest req) {
 
@@ -908,9 +920,9 @@ public class CardServiceImpl implements CardService {
 			sort = new Sort("id");
 		Pageable p = new PageRequest(page, length, sort);
 		String helpid = req.getFilter("helpid");
-		JpaCardBoxHelper help=cardHelperRepository.findOne(NumberUtils.toInt(helpid));
+		JpaCardBoxHelper help = cardHelperRepository.findOne(NumberUtils.toInt(helpid));
 		BooleanExpression query = QJpaCardBoxBody.jpaCardBoxBody.city.eq(help.getCity());
-		query=query.and(QJpaCardBoxBody.jpaCardBoxBody.seriaNum.eq(help.getSeriaNum()));
+		query = query.and(QJpaCardBoxBody.jpaCardBoxBody.seriaNum.eq(help.getSeriaNum()));
 		return query == null ? cardBoxBodyRepository.findAll(p) : cardBoxBodyRepository.findAll(query, p);
 	}
 }
