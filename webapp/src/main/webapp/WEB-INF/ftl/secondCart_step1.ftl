@@ -158,12 +158,12 @@
 									</div>
 							</div>
 									</li>
-									
 									<li class="td td-item">
 										<div class="td-inner">
-											<p>${item.product.jpaProductV2.name}</p>
+											<p>${substring(item.product.jpaProductV2.name, 0, 9)}</p>
 										</div>
 									</li>
+									 
 									<li class="td td-info">
 										<div class="item-rect">
 											<p class="rec-line">线路级别：${item.product.leval.nameStr}</p>

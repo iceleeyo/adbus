@@ -71,12 +71,12 @@
 								<ul class="item-info clearfix">
 									<li class="td td-item">
 										<div class="td-inner">
-											<p>${item.product.name}</p>
+											<p>${substring(item.product.name, 0, 7)}</p>
 										</div>
 									</li>
 									<li class="td td-info">
 										<div class="td-inner">
-											<span >  时长：${item.product.duration}秒/次</span>
+											<span >  时长：${item.product.duration}秒/次</span> 
 											<span class="perio">频次：${item.product.playNumber}次/天</span>
 											<span class="perio">刊期：${item.product.days}天</span>
 										</div>
@@ -116,7 +116,7 @@
 								<ul class="item-info clearfix">
 									<li class="td td-item">
 										<div class="td-inner">
-											<p>${item.product.jpaProductV2.name}</p>
+										<p>${substring(item.product.jpaProductV2.name, 0, 7)}</p>
 										</div>
 									</li>
 									<li class="td td-info">
