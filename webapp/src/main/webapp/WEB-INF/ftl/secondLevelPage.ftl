@@ -302,7 +302,7 @@ function tocard(pathurl){
 	    
 	        initPro('${rc.contextPath}',$("#sh").val(),"","",1);
 	        initSwift2('${rc.contextPath}');
-	        
+	       } );  
 	        
 	     $('#priceSort').click(function() {
                   var w = $('#ascOrDesc').val();
