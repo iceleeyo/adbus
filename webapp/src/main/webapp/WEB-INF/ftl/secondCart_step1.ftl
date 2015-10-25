@@ -118,6 +118,7 @@
 											<p class="sum"><em>￥</em>${item.totalprice}</p>
 										</div>
 									</li>
+									
 									<li rowid= "${item.id}" class="td td-handle">
 									  <a href="javascript:void(0);" onclick="removeOne(${item.id});">	<p class="del-like" ></p></a>
 									</li>

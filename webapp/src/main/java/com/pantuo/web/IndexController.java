@@ -128,6 +128,15 @@ public class IndexController {
 		
 		return "index";
 	}
+	
+	@RequestMapping(value = "/media", produces = "text/html;charset=utf-8")
+	public String tomedia(Model model, HttpServletRequest request, HttpServletResponse response,
+			@CookieValue(value = "city", defaultValue = "-1") int city) {
+		//city = makeCookieValueRight(city == -1 ? 1 : (city % 2 == 0 ? city - 1 : city), response);
+			//		return commonData(model, request, city, "index", "screen");
+		
+		return "media_production";
+	}
 
 	private String commonData(Model model, HttpServletRequest request, int city, String pageName, String medetype) {
         Integer[] ids={2504,2313,1786,1804};

@@ -258,6 +258,11 @@
 		
 		
 			$(document).ready(function(e) {
+				//默认.active下radio选中
+				if($('li').is('.active')){
+					$('.active').prev()[0].checked = true;
+				}
+				/* console.log($('.active').prev()[0].checked); */ 
 
 				$('.cart-check label').on('click', function(event) {
 					event.preventDefault();
