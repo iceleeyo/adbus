@@ -10,6 +10,8 @@ function initCardView(pathUrl){
 			data:{"ts":  new Date().getTime()},
 			type : "GET",
 			success : function(data) {
-				$("#cardCount").html("[<b>"+data.cardCount+"</b>]");
+				if(data.cardCount>0){
+					$("#cardCount").html("[<b>"+data.cardCount+"</b>]");
+				}
 		 }}, "text");
 }
