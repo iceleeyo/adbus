@@ -111,7 +111,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.permitAll()
 				.antMatchers("/busselect/work**/**","/intro**", "/about-me", "/loginForLayer","/screen","/secondLevelPage","/secondLevelPageBus", "/body","/**/public**", "/register", "/user/**",
 						"/doRegister", "/validate/**", "/f/**", "/product/d/**", "/product/c/**", "/product/sift**",
-						"/product/sift_data", "/product/ajaxdetail/**", "/order/iwant/**","/order/ibus/**").permitAll()
+						"/product/sift_data", "/carbox/sift_body","/product/ajaxdetail/**", "/order/iwant/**","/order/ibus/**").permitAll()
 				.antMatchers("/**")
 				.authenticated()
 				.anyRequest()
