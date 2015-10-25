@@ -137,18 +137,15 @@
 								<div class="btn-group">
 									<div>
 										<a href="javascript:void(0);"  onclick="buy('${rc.contextPath}',${jpaProduct.id})" class="btn btn-now">立即购买
-								<@security.authorize access="isAuthenticated()"> <input
-								type="hidden" id="lc" value="1" /> </@security.authorize>
-								<@security.authorize access="! isAuthenticated()"> <input
-								type="hidden" id="lc" value="0" /> </@security.authorize>
+								
 										</a>
 										<a href="javascript:void(0);"  onclick="putIncar('${rc.contextPath}',${jpaProduct.id})" class="btn btn-cart">加入购物车
+								
+										</a>
 								<@security.authorize access="isAuthenticated()"> <input
 								type="hidden" id="lc" value="1" /> </@security.authorize>
 								<@security.authorize access="! isAuthenticated()"> <input
 								type="hidden" id="lc" value="0" /> </@security.authorize>
-										</a>
-								
 									</div>							
 								</div>
 							</div>

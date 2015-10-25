@@ -55,7 +55,7 @@
 				<nav class="menu">
 					<ul class="list-line">
 						<li><a href="/">首页</a></li>
-						<li class="active"><a href="media">媒体产品</a></li>
+						<li class="active"><a href="${rc.contextPath}/media">媒体产品</a></li>
 						<li><a href="jvascript:void(0)">传播效果</a></li>
 						<li><a href="/caseMore.html">案例欣赏</a></li>
 						<li><a href="jvascript:void(0)">合作伙伴</a></li>
