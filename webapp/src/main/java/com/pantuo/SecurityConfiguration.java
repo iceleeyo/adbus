@@ -107,17 +107,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				.antMatchers("/", "/*.html", "/login", "/logout", "/homepage/**", "/css/**", "/images/**", "/imgs/**",
-						"/js/**", "/index_js/**","/index_img/**","/index_css/**","/style/**")
+						"/js/**", "/index_js/**", "/index_img/**", "/index_css/**", "/style/**")
 				.permitAll()
-				.antMatchers("/busselect/work**/**","/intro**", "/about-me", "/loginForLayer","/screen","/secondLevelPage","/secondLevelPageBus", "/body","/**/public**", "/register", "/user/**",
-						"/doRegister", "/validate/**", "/f/**", "/product/d/**", "/product/c/**", "/product/sift**",
-						"/product/sift_data", "/carbox/sift_body","/product/ajaxdetail/**", "/order/iwant/**","/order/ibus/**").permitAll()
+				.antMatchers("/busselect/work**/**", "/intro**", "/about-me", "/loginForLayer", "/screen",
+						"/secondLevelPage", "/secondLevelPageBus", "/body", "/**/public**/**", "/**/public**",
+						"/register", "/user/**", "/doRegister", "/validate/**", "/f/**", "/product/d/**",
+						"/product/c/**", "/product/sift**", "/product/sift_data", "/carbox/sift_body",
+						"/product/ajaxdetail/**", "/order/iwant/**", "/order/ibus/**")
+				.permitAll()
 				.antMatchers("/**")
 				.authenticated()
 				.anyRequest()
 				.permitAll()
 				//.antMatchers("/user/enter").access("hasRole('ShibaOrderManager')")
-//192.168.1.105/busselect/workList/1439893707748/4
+				//192.168.1.105/busselect/workList/1439893707748/4
 				//http://www.baeldung.com/spring_redirect_after_login
 				.and().formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/order/myTask/1")
 				.successHandler(new SimpleRoleAuthenticationSuccessHandler())
@@ -146,6 +149,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 				.logoutSuccessUrl("/login?logout").invalidateHttpSession(false).and().csrf().disable();
 	}
+
 	/**
 	 * 
 	 * <b><code>SimpleRoleAuthenticationSuccessHandler</code></b>
