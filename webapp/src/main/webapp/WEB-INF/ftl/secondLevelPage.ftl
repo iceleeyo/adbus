@@ -27,6 +27,7 @@ function tocard(pathurl){
 		<header>
 		<!-- 头部开始 -->
 <#include "/index_menu/index_top.ftl" />
+<script src="index_js/sift_common.js"></script>
 <script src="index_js/sift_bus.js"></script>
 		<!-- 头部结束 -->
 		</header>
@@ -265,7 +266,7 @@ function tocard(pathurl){
 							<div class="cart-box" style="margin-top: 20px;">
 							<a onclick="tocard('${rc.contextPath}');">
 								<div class="cart">
-									查看购物车
+									查看购物车<span id="cardCount"  style="color:#ff9966" ></span>
 								</div> 
 								<@security.authorize access="isAuthenticated()"> <input
 								type="hidden" id="lc" value="1" /> </@security.authorize>

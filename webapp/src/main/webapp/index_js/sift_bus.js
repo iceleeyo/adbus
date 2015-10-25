@@ -212,6 +212,7 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 						success : function(data) {
 							/*$("#totalnum").val(data.right);
 							$("#totalprice").val(data.left);*/
+							$("#cardCount").html("[<b>"+data.cardCount+"</b>]");
 					}}, "text");
 				});
 				
@@ -225,6 +226,7 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 							data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val(),"IsDesign":0},
 							type : "POST",
 							success : function(data) {
+								$("#cardCount").html("[<b>"+data.cardCount+"</b>]");
 						}}, "text");
 					}
 				});
@@ -237,6 +239,7 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 						data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val(),"IsDesign":0},
 						type : "POST",
 						success : function(data) {
+							$("#cardCount").html("[<b>"+data.cardCount+"</b>]");
 							}}, "text");
 				}); 
 				k++;
@@ -298,6 +301,8 @@ function initSwift2(purl){
       		isClick = true;
       		
       	});
-	
-	
+      	initCardView(purl);
 }
+
+ 
+
