@@ -148,7 +148,7 @@
 							</div>
 								<#list infos.body as item>
 							<div class="panel-item">
-								<ul class="item-info clearfix">
+								<ul class="item-info clearfix_">
 									
 									<li class="td td-check clearfix">
 							<div class="td-inner">
