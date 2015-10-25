@@ -312,6 +312,29 @@
       </div>
 
 		<script type="text/javascript">
+		
+		   $(document).ready(function() {
+	        initPro('${rc.contextPath}',$("#sh").val(),"","",1);
+	        initSwift2('${rc.contextPath}');
+	        $('#price1, #price2').change(function() {
+                 initPro('${rc.contextPath}',$("#sh").val(),0);
+       		 });
+       	   $('#priceSort').click(function() {
+                  var w = $('#ascOrDesc').val();
+                  if(w==0){
+                    $('#ascOrDesc').val(1);
+                      $('#priceSort').html("＾"); 
+                  }else{
+                   $('#ascOrDesc').val(0); 
+                      $('#priceSort').html("ｖ"); 
+                  }
+                   initPro('${rc.contextPath}',$("#sh").val(),0);
+       	 });
+       	 
+       	 
+	    } );
+	    
+	    
 	    $("#leftDec").click(function(){
 			  var oldValue=$(this).next().val();//获取文本框对象现有值
 			  if(oldValue>0){

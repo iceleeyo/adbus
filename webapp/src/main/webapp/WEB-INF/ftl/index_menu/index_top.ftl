@@ -163,11 +163,6 @@
 		<script type="text/javascript" language="javascript" src="js/layer.onload.js"></script>
 		<script type="text/javascript" language="javascript" src="js/layer-v1.9.3/layer-site.js"></script>
 		<script type="text/javascript">
-	    $(document).ready(function() {
-	        initPro('${rc.contextPath}',$("#sh").val(),"","",1);
-	        initSwift2('${rc.contextPath}');
-	    } );
-	     
 			
 		//走马灯图片事件
 		$(document).ready(function(e) {

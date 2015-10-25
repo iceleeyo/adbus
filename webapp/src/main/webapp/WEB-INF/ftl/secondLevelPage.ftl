@@ -299,6 +299,11 @@ function tocard(pathurl){
 		
 		<script type="text/javascript">
 	    $(document).ready(function() {
+	    
+	        initPro('${rc.contextPath}',$("#sh").val(),"","",1);
+	        initSwift2('${rc.contextPath}');
+	        
+	        
 	     $('#priceSort').click(function() {
                   var w = $('#ascOrDesc').val();
                   if(w==0){
