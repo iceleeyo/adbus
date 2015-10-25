@@ -918,7 +918,7 @@ public class CardServiceImpl implements CardService {
 		if (length < 1)
 			length = 1;
 		if (sort == null)
-			sort = new Sort("id");
+			sort = new Sort(Direction.fromString("desc"), "price");//new Sort("id");
 		Pageable p = new PageRequest(page, length, sort);
 		String helpid = req.getFilter("helpid");
 		JpaCardBoxHelper help = cardHelperRepository.findOne(NumberUtils.toInt(helpid));
@@ -935,7 +935,7 @@ public class CardServiceImpl implements CardService {
 		if (length < 1)
 			length = 1;
 		if (sort == null)
-			sort = new Sort("id");
+			sort = new Sort(Direction.fromString("desc"), "price");//new Sort("id");
 		Pageable p = new PageRequest(page, length, sort);
 		String helpid = req.getFilter("helpid");
 		JpaCardBoxHelper help=cardHelperRepository.findOne(NumberUtils.toInt(helpid));

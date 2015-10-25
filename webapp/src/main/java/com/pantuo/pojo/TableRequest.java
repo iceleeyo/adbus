@@ -2,6 +2,7 @@ package com.pantuo.pojo;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 
 import java.util.Iterator;
 import java.util.List;
@@ -46,24 +47,28 @@ public class TableRequest {
         this.length = length;
     }
 
-    public Sort getSort(String defaultSort) {
-        if (order == null || order.isEmpty()) {
-            return (defaultSort == null ? null : new Sort(defaultSort));
-        }
-        Sort sort = null;
-        for (Map<String, String> o : order) {
-            if (o.isEmpty())
-                continue;
-            Map.Entry<String, String> e = o.entrySet().iterator().next();
-            String dir = "".equals(e.getValue()) ? "ASC" : e.getValue().toUpperCase();
-            Sort s = new Sort(Sort.Direction.valueOf(dir), e.getKey());
-            if (sort == null)
-                sort = s;
-            else
-                sort = sort.and(s);
-        }
-        return sort;
-    }
+	public Sort getSort(String ascOrDesc, String defaultSort) {
+		if (order == null || order.isEmpty()) {
+			return (defaultSort == null ? null : new Sort(Direction.fromString(ascOrDesc), defaultSort));
+		}
+		Sort sort = null;
+		for (Map<String, String> o : order) {
+			if (o.isEmpty())
+				continue;
+			Map.Entry<String, String> e = o.entrySet().iterator().next();
+			String dir = "".equals(e.getValue()) ? "ASC" : e.getValue().toUpperCase();
+			Sort s = new Sort(Sort.Direction.valueOf(dir), e.getKey());
+			if (sort == null)
+				sort = s;
+			else
+				sort = sort.and(s);
+		}
+		return sort;
+	}
+
+	public Sort getSort(String defaultSort) {
+		return getSort("desc", defaultSort);
+	}
 
     public List<Map<String, String>> getOrder() {
         return this.order;

@@ -157,7 +157,7 @@ public class CarBoxController {
 	public DataTablePage<JpaCardBoxBody> queryCarBoxBody(TableRequest req,
 			@CookieValue(value = "city", defaultValue = "-1") int cityId) {
 		Page<JpaCardBoxBody> jpabuspage = cardService.queryCarBoxBody(cityId, req, req.getPage(), req.getLength(),
-				req.getSort("id"));
+				req.getSort("totalprice"));
 		return new DataTablePage(jpabuspage, req.getDraw());
 	}
 	@RequestMapping("ajax-queryCarBoxMedia")
@@ -165,7 +165,7 @@ public class CarBoxController {
 	public DataTablePage<JpaCardBoxMedia> queryCarBoxMedia(TableRequest req,
 			@CookieValue(value = "city", defaultValue = "-1") int cityId) {
 		Page<JpaCardBoxMedia> jpabuspage = cardService.queryCarBoxMedia(cityId, req, req.getPage(), req.getLength(),
-				req.getSort("id"));
+				req.getSort("totalprice"));
 		return new DataTablePage(jpabuspage, req.getDraw());
 	}
 }
