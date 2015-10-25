@@ -162,8 +162,8 @@
 								<span class="legged">支付方式</span>
 								<div class="select-items legged">
 									<ul class="iradios">
-										<li>
-											<input type="radio" name="payType" value="online">
+										<li class="active">
+											<input type="radio" name="payType" checked="checked" value="online">
 											<label class="iradio"></label>
 											<span>网上支付</span>
 										</li>
@@ -177,7 +177,7 @@
 											<label class="iradio"></label>
 											<span>汇款</span>
 										</li>
-										<li class="active">
+										<li >
 											<input type="radio"name="payType" value="cash">
 											<label class="iradio"></label>
 											<span>现金</span>
