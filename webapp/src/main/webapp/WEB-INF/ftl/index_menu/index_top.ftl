@@ -5,15 +5,17 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" type="text/css" href="css/layer.css">
-		<link rel="stylesheet" type="text/css" href="css/logMini.css">
-		<link rel="stylesheet" type="text/css" href="index_css/base.css">
-		<link rel="stylesheet" type="text/css" href="index_css/header.css">
-		<link rel="stylesheet" type="text/css" href="index_css/jack.css">
-		<link rel="stylesheet" type="text/css" href="index_css/secondLevel.css">
-		<link rel="stylesheet" type="text/css" href="index_css/sift.css">
-		<link rel="stylesheet" type="text/css" href="index_css/sea.css">
-		<link rel="stylesheet" type="text/css" href="index_css/pagination.css">
+		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/base.css">
+		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/header.css">
+		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/jack.css">
+		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/js/jquery-ui/jquery-ui.css">
+		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/jquery-ui-1.8.16.custom.css">
+		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/secondLevel.css">
+		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/sift.css">
+		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/sea.css">
+		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/pagination.css">
+		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/layer.css">
+		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/logMini.css">
 			
 	</head>
 <script type="text/javascript">
@@ -49,37 +51,7 @@
     .sift-list a{margin-right: 10px;}
 
 </style>		
-		<div class="grid-12 city-dropdown">
-                            <ul class="fl">
-<#--<@security.authorize access="isAuthenticated()">-->
-                                <li class="dorpdown" id="ttbar-mycity">
-                                    <div class="dt cw-icon ui-areamini-text-wrap" style="">
-                                        <i class="ci-right"><s>◇</s></i>
-                                        <#if city??>
-                                            <span class="ui-areamini-text" data-id="${city.name}" title="${city.name}">${city.name}</span>
-                                        <#else>
-                                            <span class="ui-areamini-text" data-id="${cities[0].name!''}" title="${cities[0].name!''}">${cities[0].name!''}</span>
-                                        </#if>
-                                    </div>
-                                    <div class="dd dorpdown-layer">
-                                        <div class="dd-spacer"></div>
-                                        <div class="ui-areamini-content-wrap" style="left: auto;">
-                                            <div class="ui-areamini-content">
-                                                <div class="ui-areamini-content-list" id="city_dropdown">
-                                                    <#list cities as c>
-                                                        <div class="item">
-                                                            <a data-id="${c.name}" href="javascript:void(0)" <#if city?? && city.name == c.name>class="selected"</#if>>${c.name!''}</a>
-                                                        </div>
-                                                    </#list>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                               
-<#--</@security.authorize>-->
-                            </ul>
-                            </div>
+
 				<nav class="menu">
 					<ul class="list-line">
 						<li><a href="/">首页</a></li>
@@ -152,15 +124,15 @@
 				</nav>
 
 
-		<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
-		<script src="index_js/unslider.min.js"></script>
+		<script type="text/javascript" src="${rc.contextPath}/index_js/jquery-1.11.1.min.js"></script>
+		<script src="${rc.contextPath}/index_js/unslider.min.js"></script>
 	
 		<script src="js/jquery.pagination.js"></script>
-		<script type="text/javascript" language="javascript" src="js/layer/layer.js"></script>
+		<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer/layer.js"></script>
     	<!--增加lay最新版本-->
-		<script type="text/javascript" language="javascript" src="js/layer-v1.9.3/layer/layer.js"></script>
-		<script type="text/javascript" language="javascript" src="js/layer.onload.js"></script>
-		<script type="text/javascript" language="javascript" src="js/layer-v1.9.3/layer-site.js"></script>
+		<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer/layer.js"></script>
+		<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer.onload.js"></script>
+		<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
 		<script type="text/javascript">
 			
 		//走马灯图片事件

@@ -1,34 +1,19 @@
-<!doctype html>
+<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="zh">
 	<head>
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>thirdCarMedia</title>
-		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/base.css">
-		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/header.css">
-		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/jack.css">
-		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/js/jquery-ui/jquery-ui.css">
-		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/jquery-ui-1.8.16.custom.css">
-		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/secondLevel.css">	</head>
+		
+	</head>
 	<body>
-		<header>
-				<span class="area">北京</span>
-				<nav class="menu">
-					<ul class="list-line">
-						<li><a href="jvascript:void(0)">首页</a></li>
-						<li class="active"><a href="jvascript:void(0)">媒体产品</a></li>
-						<li><a href="jvascript:void(0)">传播效果</a></li>
-						<li><a href="jvascript:void(0)">案例欣赏</a></li>
-						<li><a href="jvascript:void(0)">合作伙伴</a></li>
-						<li><a href="jvascript:void(0)">关于我们</a></li>
-					</ul>
-					<ul class="login">
-						<li><a href="#">登录</a></li>|
-						<li><a href="#">注册</a></li>
-					</ul>
-				</nav>
-			</header>
+<header>
+		<!-- 头部开始 -->
+<#include "/index_menu/index_top.ftl" />
+		<!-- 头部结束 -->
+</header>
 		<div class="content">
 			<div class="side-nav">
 				<div class="logo"></div>
@@ -151,8 +136,19 @@
 
 								<div class="btn-group">
 									<div>
-										<a href="javascript:void(0);"  onclick="buy(${jpaProduct.id})" class="btn btn-now">立即购买</a>
-										<a href="javascript:void(0);"  onclick="putIncar(${jpaProduct.id})" class="btn btn-cart">加入购物车</a>
+										<a href="javascript:void(0);"  onclick="buy('${rc.contextPath}',${jpaProduct.id})" class="btn btn-now">立即购买
+								<@security.authorize access="isAuthenticated()"> <input
+								type="hidden" id="lc" value="1" /> </@security.authorize>
+								<@security.authorize access="! isAuthenticated()"> <input
+								type="hidden" id="lc" value="0" /> </@security.authorize>
+										</a>
+										<a href="javascript:void(0);"  onclick="putIncar('${rc.contextPath}',${jpaProduct.id})" class="btn btn-cart">加入购物车
+								<@security.authorize access="isAuthenticated()"> <input
+								type="hidden" id="lc" value="1" /> </@security.authorize>
+								<@security.authorize access="! isAuthenticated()"> <input
+								type="hidden" id="lc" value="0" /> </@security.authorize>
+										</a>
+								
 									</div>							
 								</div>
 							</div>
@@ -173,7 +169,7 @@
 								<div class="c-head">
 									<p class="head-en">MEDIA PROFILE</p>
 									<p class="head-zh">媒体情况</p>
-									<p class="icon icon-line"></p>
+									<p class="icon-line"></p>
 								</div>
 										<div class="pic-table c-head clearfix">
 									<div class="tbhead">硬广套装</div>
@@ -208,19 +204,19 @@
 								<div class="c-head">
 									<p class="head-en">MEDIA REGIONAL</p>
 									<p class="head-zh">媒体区域</p>
-									<p class="icon icon-line"></p>
+									<p class="icon-line"></p>
 								</div>
 								<img src="${rc.contextPath}/index_img/thirdCar_2.png">
 								<div class="c-head">
 									<p class="head-en">MEDIA SHOW</p>
 									<p class="head-zh">媒体展示</p>
-									<p class="icon icon-line"></p>
+									<p class="icon-line"></p>
 								</div>
 								<img src="${rc.contextPath}/index_img/thirdCar_3.png">
 								<div class="c-head">
 									<p class="head-en">MEDIA REGIONAL</p>
 									<p class="head-zh">合作品牌</p>
-									<p class="icon icon-line"></p>
+									<p class="icon-line"></p>
 								</div>
 								<img src="${rc.contextPath}/index_img/thirdCar_4.png">
 							</div>
@@ -258,8 +254,13 @@
 				changeMonyByDays(days);
 			});
 	    } );
-		function buy(id){
+		function buy(pathurl,id){
+		var lc=$("#lc").val();
+		if(lc=="0"){
+			islogin(pathurl);
+		}	
 		var bodIds="";
+		if(lc=="1"){	
 		         $.ajax({
 							url : "${rc.contextPath}/carbox/buy/media",
 							data:{"proid":id,"needCount":$("#needCount").val(),"days":0},
@@ -269,8 +270,14 @@
 							  window.location.href="${rc.contextPath}/select?meids="+data.right+"&boids="+bodIds;
 							}
 						}}, "text");
-		 }
-		function putIncar(id){
+		}
+		}
+		function putIncar(pathurl,id){
+			var lc=$("#lc").val();
+			if(lc=="0"){
+				islogin(pathurl);
+			}
+			if(lc=="1"){
 		         $.ajax({
 							url : "${rc.contextPath}/carbox/putIncar/media",
 							data:{"proid":id,"needCount":$("#needCount").val(),"days":0},
@@ -278,7 +285,8 @@
 							success : function(data) {
 							alert(data.right);
 						}}, "text");
-		 }
+		 	}
+		}
 		function changeMonyByNeedCounts(needc){
 		       var p=needc*$("#uprice").val();
 				 $("#price").html("￥"+p);

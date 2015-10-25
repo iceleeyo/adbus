@@ -1,3 +1,4 @@
+<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <!doctype html>
 <html lang="zh">
 	<head>
@@ -13,22 +14,10 @@
 		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/secondLevel.css">	</head>
 	<body>
 		<header>
-				<span class="area">北京</span>
-				<nav class="menu">
-					<ul class="list-line">
-						<li><a href="jvascript:void(0)">首页</a></li>
-						<li class="active"><a href="jvascript:void(0)">媒体产品</a></li>
-						<li><a href="jvascript:void(0)">传播效果</a></li>
-						<li><a href="jvascript:void(0)">案例欣赏</a></li>
-						<li><a href="jvascript:void(0)">合作伙伴</a></li>
-						<li><a href="jvascript:void(0)">关于我们</a></li>
-					</ul>
-					<ul class="login">
-						<li><a href="#">登录</a></li>|
-						<li><a href="#">注册</a></li>
-					</ul>
-				</nav>
-			</header>
+		<!-- 头部开始 -->
+<#include "/index_menu/index_top.ftl" />
+		<!-- 头部结束 -->
+		</header>
 		<div class="content">
 			<div class="side-nav">
 				<div class="logo"></div>
@@ -161,8 +150,12 @@
 
 								<div class="btn-group">
 									<div>
-										<a href="javascript:void(0);"  onclick="buy(${busOrderDetailV2.id})" class="btn btn-now">立即购买</a>
-										<a href="javascript:void(0);"  onclick="putIncar(${busOrderDetailV2.id})" class="btn btn-cart">加入购物车</a>
+										<a href="javascript:void(0);"  onclick="buy('${rc.contextPath}',${busOrderDetailV2.id})" class="btn btn-now">立即购买</a>
+										<a href="javascript:void(0);"  onclick="putIncar('${rc.contextPath}',${busOrderDetailV2.id})" class="btn btn-cart">加入购物车</a>
+								<@security.authorize access="isAuthenticated()"> <input
+								type="hidden" id="lc" value="1" /> </@security.authorize>
+								<@security.authorize access="! isAuthenticated()"> <input
+								type="hidden" id="lc" value="0" /> </@security.authorize>
 									</div>							
 								</div>
 							</div>
@@ -268,29 +261,43 @@
 				changeMonyByDays(days);
 			});
 	    } );
-		function buy(id){
+		function buy(pathurl,id){
 		var medIds="";
-		var days=$("#kanqi .active").children().attr("qc");
+		var lc=$("#lc").val();
+		if(lc=="0"){
+			islogin(pathurl);
+		}
 		
-		         $.ajax({
-							url : "${rc.contextPath}/carbox/buy/body",
-							data:{"proid":id,"needCount":$("#needCount").val(),"days":days},
-							type : "POST",
-							success : function(data) {
-							if(data.left){
-							  window.location.href="${rc.contextPath}/select?meids="+medIds+"&boids="+data.right;
-							}
-						}}, "text");
+		if(lc=="1"){	
+		var days=$("#kanqi .active").children().attr("qc");
+				$.ajax({
+						url : "${rc.contextPath}/carbox/buy/body",
+						data:{"proid":id,"needCount":$("#needCount").val(),"days":days},
+						type : "POST",
+						success : function(data) {
+						if(data.left){
+						  window.location.href="${rc.contextPath}/select?meids="+medIds+"&boids="+data.right;
+						}
+					}}, "text");
+		}
+
 		 }
-		function putIncar(id){
-			var days=$("#kanqi .active").children().attr("qc");
-		         $.ajax({
-							url : "${rc.contextPath}/carbox/putIncar/body",
-							data:{"proid":id,"needCount":$("#needCount").val(),"days":days},
-							type : "POST",
-							success : function(data) {
-							alert(data.right);
-						}}, "text");
+		function putIncar(pathurl,id){
+			var lc=$("#lc").val();
+			if(lc=="0"){
+				islogin(pathurl);
+			}
+			if(lc=="1"){
+				var days=$("#kanqi .active").children().attr("qc");
+	         		$.ajax({
+						url : "${rc.contextPath}/carbox/putIncar/body",
+						data:{"proid":id,"needCount":$("#needCount").val(),"days":days},
+						type : "POST",
+						success : function(data) {
+						alert(data.right);
+					}}, "text");
+			}
+			
 		 }
 		function changeMonyByNeedCounts(needc){
 		       var days=$("#kanqi .active").children().attr("qc");

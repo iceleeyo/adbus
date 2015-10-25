@@ -79,7 +79,7 @@
 								<#list infos.media as item>
 								
 							<div class="panel-item">
-								<ul class="item-info clearfix">
+								<ul class="item-info clearfix_">
 								<li class="td td-check clearfix">
 										<div class="td-inner">
 											<div class="cart-check mediaB">

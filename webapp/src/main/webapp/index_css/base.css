@@ -45,7 +45,7 @@ dd {
 img {
   border: 0;
 }
-/* .clearfix:after {
+.clearfix:after {
   visibility: hidden;
   display: block;
   font-size: 0;
@@ -53,19 +53,13 @@ img {
   clear: both;
   height: 0;
 }
-.clearfix {
+.clearfix_ {
   display: inline-block;
-} */
-.clearfix:before,
-.clearfix:after {
-  content: " ";
-  /* 1 */
-  display: table;
-  /* 2 */
+  
 }
-.clearfix:after {
+.clearfix:before{
   clear: both;
-}
+}	
 /**
  * For IE 6/7 only
  * Include this rule to trigger hasLayout and contain floats.

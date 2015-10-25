@@ -13,7 +13,7 @@
 		<!-- 头部开始 -->
 <#include "/index_menu/index_top.ftl" />
 		<!-- 头部结束 -->
-		</header>
+</header>
 		<div class="content">
 			<div class="side-nav">
 				<div class="logo"></div>

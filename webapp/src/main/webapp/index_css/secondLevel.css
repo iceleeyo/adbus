@@ -16,7 +16,13 @@ header .area {
 	left: 220px;
 	top: 13px;
 }
-
+.btn {
+  text-align: center;
+  vertical-align: middle;
+  display: inline-block;
+  font-family: 黑体;
+  border-radius: 4px;
+}
 .content {
 	position: relative;
 	top: 45px;
