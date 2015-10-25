@@ -179,7 +179,7 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public Pair<Double, Integer> saveCard(int proid, int needCount, Principal principal, int city, String type,
+	public CardTotalView saveCard(int proid, int needCount, Principal principal, int city, String type,
 			int IsDesign) {
 		double totalPrice = 0;
 		int totalnum = 0;
@@ -216,7 +216,8 @@ public class CardServiceImpl implements CardService {
 
 			//			totalPrice = getBoxPrice(seriaNum, 0, null);
 			//			totalnum = getBoxTotalnum(seriaNum, 0, null);
-			return new Pair<Double, Integer>(totalPrice, totalnum);
+			return getBoxPrice(seriaNum, 0, null, null);
+			//return new Pair<Double, Integer>(totalPrice, totalnum);
 		} else {
 			long seriaNum = getCardBingSeriaNum(principal);
 			CardboxBodyExample example = new CardboxBodyExample();
@@ -248,8 +249,8 @@ public class CardServiceImpl implements CardService {
 					cardBodyMapper.updateByPrimaryKey(existMedia);
 				}
 			}
-
-			return new Pair<Double, Integer>(totalPrice, totalnum);
+			  	return getBoxPrice(seriaNum, 0, null, null);
+			//return new Pair<Double, Integer>(totalPrice, totalnum);
 		}
 	}
 

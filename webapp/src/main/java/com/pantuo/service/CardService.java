@@ -85,7 +85,7 @@ public interface CardService {
 	
 	public CardTotalView getCarSumInfo( Principal principal);
 
-	public Pair<Double, Integer> saveCard(int proid,int needCount, Principal principal, int city, String type,int IsDesign);
+	public CardTotalView saveCard(int proid,int needCount, Principal principal, int city, String type,int IsDesign);
 	
 	
 	

@@ -51,7 +51,7 @@ public class CarBoxController {
 	 */
 	@RequestMapping(value = "/saveCard/{type}")
 	@ResponseBody
-	public Pair<Double, Integer> saveCardBoxMedia(@PathVariable("type") String type,
+	public CardTotalView saveCardBoxMedia(@PathVariable("type") String type,
 			@CookieValue(value = "city", defaultValue = "-1") int cityjpa, Principal principal,
 			@RequestParam(value = "proid", required = true) int proid,
 			@RequestParam(value = "needCount", required = false) int needCount,@RequestParam(value = "IsDesign", required = false) int IsDesign) {
