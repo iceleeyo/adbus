@@ -20,7 +20,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
         table = $('#table').dataTable( {
             "dom": '<"#toolbar">lrtip',
             "searching": false,
-            "ordering": true,
+            "ordering": false,
             "serverSide": true,
             "scrollX": true,
                "aaSorting": [[5, "desc"]],
