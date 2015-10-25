@@ -206,9 +206,27 @@ function initPro2(pathUrl,sh,page){
 		success : function(data) {
 			var k=1;
 			$.each(data.content,function(i,item){
+				
+				var dDecker= item.doubleDecker ?"双层":"单层";
+				var leval ='';
+				if(item.leval=='S'){
+					leval="特级";
+				}else if(item.leval=='APP'){
+					leval="A++";
+				}else if(item.leval=='AP'){
+					leval="A+";
+				}else if(item.leval=='A'){
+					leval="A";
+				}else if(item.leval=='LATLONG'){
+					leval="经纬线";
+				}
+					
+					
+				  
+				
 				$("#productList").prepend(
 						"<div class=\"cont\">"+
-						"<div class=\"activity inline-b\"><span><a href='"+pathUrl+"/b/public_detail/"+item.id+"'>"+item.jpaProductV2.name.substring(0,7)+"</a></span></div>"+
+						"<div class=\"activity inline-b\"><span><a href='"+pathUrl+"/b/public_detail/"+item.id+"'>"+item.jpaProductV2.name.substring(0,7)+"</a></span>&nbsp;&nbsp;"+dDecker+("&nbsp;&nbsp;"+leval)+"</div>"+
 						"<div class=\"price inline-b\" style=\"  margin-top: 10px; \">"+
 						"<input type=\"hidden\" id='pid_"+k+"' value='"+item.id+"'/>"+
 						"<p class=\"p-one\"> 	<em>"+item.price+"</em>元/月/辆</p>"+
