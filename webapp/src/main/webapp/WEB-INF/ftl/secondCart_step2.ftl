@@ -106,8 +106,8 @@
 							<div class="panel-head">
 								<ul class="clearfix">
 									<li class="td td-name">车身产品</li>
-									<li class="td td-price">单价</li>
-									<li class="td td-amount">数量</li>
+									<li class="td td-price">单价(元/月/辆)</li>
+									<li class="td td-amount">车辆数</li>
 									<li class="td td-sum">合计</li>
 								</ul>
 							</div>
@@ -122,7 +122,7 @@
 									<li class="td td-info">
 										<div class="td-inner">
 											<p class="rec-line">线路级别：${item.product.leval.nameStr}</p>
-											<p class="rec-line">刊期：${item.days}天</p>
+											<p class="rec-line">刊期：${item.days/30}个月</p>
 										</div>
 									</li>
 									<li class="td td-price">
