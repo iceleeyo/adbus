@@ -31,7 +31,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
             "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
             "ajax": {
                 type: "GET",
-                url: "${rc.contextPath}/carbox/ajax-queryCarBoxBody",
+                url: "${rc.contextPath}/carbox/ajax-queryCarBoxMedia",
                 data: function(d) {
                     return $.extend( {}, d, {
                         "filter[helpid]" : ${helpid}
@@ -40,28 +40,24 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 "dataSrc": "content",
             },
             "columns": [
-                { "data": "product.jpaProductV2.name", "defaultContent": ""},
-                { "data": "product.leval", "defaultContent": "",
+                { "data": "product.name", "defaultContent": ""},
+                 { "data": "product.type", "defaultContent": "",
                     "render": function(data, type, row, meta) {
-                        if (data == 'S')
-                            return '特级';
-                        if (data == 'APP')
-                            return 'A++';
-                        if (data == 'AP')
-                            return 'A+';
-                        if (data == 'A')
-                            return 'A';
-                        return '其它';
+                        if (data == 'video')
+                            return '全屏视频';
+                        if (data == 'image')
+                            return 'INFO图片';
+                        if (data == 'info')
+                            return 'INFO字幕';
+                        if (data == 'team')
+                            return '团类广告';
+                        return '';
                     } },
-                { "data": " product.doubleDecker", "defaultContent": "","render": function(data, type, row, meta) {
-                	if(data==true){
-                	 return '双层';
-                	}else{
-                	   return '单层';
-                	}
-                }},
+                 { "data": "product.duration", "defaultContent": ""},
+                 { "data": "product.playNumber", "defaultContent": ""},
+                 { "data": "product.days", "defaultContent": ""},
+                 { "data": "product.price", "defaultContent": ""},
                  { "data": "needCount", "defaultContent": ""},
-                 { "data": "days", "defaultContent": ""},
                  { "data": "totalprice", "defaultContent": ""},
               
             ],
@@ -93,12 +89,14 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>
                     <tr>
-                        <th >线路</th>
-                        <th>级别</th>
-                        <th>单双层</th>
-                        <th>车辆数</th>
+                        <th >套餐名称</th>
+                        <th>类型</th>
+                        <th>时长（秒）</th>
+                        <th>每天播放次数</th>
                         <th>刊期(天)</th>
                         <th>价格</th>
+                        <th>数量</th>
+                        <th>小计</th>
                     </tr>
                     </thead>
 

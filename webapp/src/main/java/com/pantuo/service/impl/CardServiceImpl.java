@@ -923,6 +923,24 @@ public class CardServiceImpl implements CardService {
 		JpaCardBoxHelper help = cardHelperRepository.findOne(NumberUtils.toInt(helpid));
 		BooleanExpression query = QJpaCardBoxBody.jpaCardBoxBody.city.eq(help.getCity());
 		query = query.and(QJpaCardBoxBody.jpaCardBoxBody.seriaNum.eq(help.getSeriaNum()));
+		query=query.and(QJpaCardBoxBody.jpaCardBoxBody.isConfirm.eq(1));
 		return query == null ? cardBoxBodyRepository.findAll(p) : cardBoxBodyRepository.findAll(query, p);
+	}
+
+	@Override
+	public Page<JpaCardBoxMedia> queryCarBoxMedia(int cityId, TableRequest req, int page, int length, Sort sort) {
+		if (page < 0)
+			page = 0;
+		if (length < 1)
+			length = 1;
+		if (sort == null)
+			sort = new Sort("id");
+		Pageable p = new PageRequest(page, length, sort);
+		String helpid = req.getFilter("helpid");
+		JpaCardBoxHelper help=cardHelperRepository.findOne(NumberUtils.toInt(helpid));
+		BooleanExpression query = QJpaCardBoxMedia.jpaCardBoxMedia.city.eq(help.getCity());
+		query=query.and(QJpaCardBoxMedia.jpaCardBoxMedia.seriaNum.eq(help.getSeriaNum()));
+		query=query.and(QJpaCardBoxMedia.jpaCardBoxMedia.isConfirm.eq(1));
+		return query == null ? cardBoxRepository.findAll(p) : cardBoxRepository.findAll(query, p);
 	}
 }

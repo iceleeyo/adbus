@@ -81,7 +81,11 @@
             
             	{ "data": "r.seriaNum", "defaultContent": "","render": function(data, type, row, meta) {
                 	var option= "W"+data;
-                	return '<a  onclick="queryCarBoxBody(\'${rc.contextPath}\','+row.r.id+');">'+option+'</a>';
+                	if(row.r.mediaType=='body'){
+                	   return '<a  onclick="queryCarBoxBody(\'${rc.contextPath}\','+row.r.id+');">'+option+'</a>';
+                	}else{
+                	   return '<a  onclick="queryCarBoxMedia(\'${rc.contextPath}\','+row.r.id+');">'+option+'</a>';
+                	}
                 }},
                 { "data": "media_type", "defaultContent": "","render": function(data, type, row, meta) {
                    if(data==0){

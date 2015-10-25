@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaCardBoxBody;
+import com.pantuo.dao.pojo.JpaCardBoxMedia;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.CardService;
@@ -140,16 +141,30 @@ public class CarBoxController {
 		return new DataTablePage(page, req.getDraw());
 	}
 	@RequestMapping(value = "/queryCarBoxBody/{helpid}")
-	public String busOnline_history(Model model,@PathVariable("helpid") int helpid,HttpServletResponse response) {
+	public String queryCarBoxBody(Model model,@PathVariable("helpid") int helpid,HttpServletResponse response) {
 		response.setHeader("X-Frame-Options", "SAMEORIGIN");
 		model.addAttribute("helpid", helpid);
 		return "carBoxBodyDetail";
+	}
+	@RequestMapping(value = "/queryCarBoxMedia/{helpid}")
+	public String queryCarBoxMedia(Model model,@PathVariable("helpid") int helpid,HttpServletResponse response) {
+		response.setHeader("X-Frame-Options", "SAMEORIGIN");
+		model.addAttribute("helpid", helpid);
+		return "carBoxMediaDetail";
 	}
 	@RequestMapping("ajax-queryCarBoxBody")
 	@ResponseBody
 	public DataTablePage<JpaCardBoxBody> queryCarBoxBody(TableRequest req,
 			@CookieValue(value = "city", defaultValue = "-1") int cityId) {
 		Page<JpaCardBoxBody> jpabuspage = cardService.queryCarBoxBody(cityId, req, req.getPage(), req.getLength(),
+				req.getSort("id"));
+		return new DataTablePage(jpabuspage, req.getDraw());
+	}
+	@RequestMapping("ajax-queryCarBoxMedia")
+	@ResponseBody
+	public DataTablePage<JpaCardBoxMedia> queryCarBoxMedia(TableRequest req,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId) {
+		Page<JpaCardBoxMedia> jpabuspage = cardService.queryCarBoxMedia(cityId, req, req.getPage(), req.getLength(),
 				req.getSort("id"));
 		return new DataTablePage(jpabuspage, req.getDraw());
 	}
