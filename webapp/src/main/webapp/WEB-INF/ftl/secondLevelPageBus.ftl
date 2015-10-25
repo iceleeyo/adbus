@@ -6,7 +6,20 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>车身广告产品</title>
-			
+<script type="text/javascript">
+/**
+ * 加入购物车判断登陆状态
+ */
+function tocard(pathurl){
+	var lc=$("#lc").val();
+	if(lc=="0"){
+		islogin(pathurl);
+	}
+	if(lc=="1"){
+		window.location.href=pathurl+"/toCard";
+	}
+}
+</script>			
 	</head>	
 	<body>
 		<header>
@@ -282,9 +295,9 @@
 								</div>
 							 
 							<div class="cart-box">
-							<a href="${rc.contextPath}/toCard">
+							<a onclick="tocard('${rc.contextPath}');">
 								<div class="cart">
-									进入购物车
+									加入购物车
 								</div>
 								</a>
 							</div>
