@@ -62,7 +62,7 @@ public class ActivitiUserDetails implements UserDetails {
 		this.user = user;
 		this.auths = new ArrayList<ActivityAuthority>();
 
-		if (user.utype == null || user.utype == UType.screen) {
+		if (user.utype == null || user.utype == UType.screen || user.utype == UType.pub) {
 			if (user.getGroups() != null) {
 				for (Group g : user.getGroups()) {
 					auths.add(new ActivityAuthority(g));
@@ -74,8 +74,7 @@ public class ActivitiUserDetails implements UserDetails {
 					auths.add(new ActivityAuthority(g.getFuncode()));
 				}
 			}
-
-		}
+		} 
 	}
 
 	public Collection<? extends GrantedAuthority> getAuthorities() {

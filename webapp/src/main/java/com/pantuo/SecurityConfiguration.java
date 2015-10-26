@@ -3,10 +3,12 @@ package com.pantuo;
 import java.io.IOException;
 import java.util.Collection;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,8 +29,13 @@ import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
+import com.pantuo.dao.pojo.JpaCity;
+import com.pantuo.service.CityService;
+import com.pantuo.service.DataInitializationService;
 import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.security.ActivitiUserDetailsService;
+import com.pantuo.util.Request;
+import com.pantuo.web.ControllerSupport;
 
 /**
  * Web security
@@ -55,6 +62,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	*/
 	@Autowired
 	private UserServiceInter userService;
+	@Autowired
+	private CityService cityService;
 
 	@Autowired
 	private ActivitiUserDetailsService userDetailsService;
@@ -109,10 +118,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/", "/*.html", "/login", "/logout", "/homepage/**", "/css/**", "/images/**", "/imgs/**",
 						"/js/**", "/index_js/**", "/index_img/**", "/index_css/**", "/style/**")
 				.permitAll()
-				.antMatchers("/busselect/work**/**", "/intro**", "/about-me","/media","*/media**", "/loginForLayer", "/screen",
-						"/secondLevelPage", "/secondLevelPageBus", "/body", "/**/public**/**", "/**/public**",
-						"/register", "/user/**", "/doRegister", "/validate/**", "/f/**", "/product/d/**",
-						"/product/c/**", "/product/sift**", "/product/sift_data", "/carbox/sift_body",
+				.antMatchers("/busselect/work**/**", "/intro**", "/about-me", "/media", "*/media**", "/loginForLayer",
+						"/screen", "/secondLevelPage", "/secondLevelPageBus", "/body", "/**/public**/**",
+						"/**/public**", "/register", "/user/**", "/doRegister", "/validate/**", "/f/**",
+						"/product/d/**", "/product/c/**", "/product/sift**", "/product/sift_data", "/carbox/sift_body",
 						"/product/ajaxdetail/**", "/order/iwant/**", "/order/ibus/**")
 				.permitAll()
 				.antMatchers("/**")
@@ -172,7 +181,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 				throws IOException {
-			String targetUrl = determineTargetUrl(authentication);
+			String targetUrl = determineTargetUrl(authentication,request,response);
 
 			if (response.isCommitted()) {
 				logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
@@ -182,7 +191,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			redirectStrategy.sendRedirect(request, response, targetUrl);
 		}
 
-		protected String determineTargetUrl(Authentication authentication) {
+		protected String determineTargetUrl(Authentication authentication,HttpServletRequest request,HttpServletResponse response) {
 			boolean isBody = false;
 			boolean isBodysales = false, isUserAdmin = false;
 
@@ -193,7 +202,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				if (StringUtils.startsWith(grantedAuthority.getAuthority(), "bodysales")) {
 					isBodysales = true;
 					break;
-				} else if (StringUtils.startsWith(grantedAuthority.getAuthority(), "body")) {
+				} else if (StringUtils.startsWith(grantedAuthority.getAuthority(), "body")
+						|| DataInitializationService.bodyAuthSet.contains(grantedAuthority.getAuthority())) {
 					isBody = true;
 					break;
 				} else if (StringUtils.startsWith(grantedAuthority.getAuthority(), "UserManager")) {
@@ -202,12 +212,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				}
 			}
 			if (isBodysales) {
+				makeCookieRight(request, response,false);
 				return "/busselect/myOrders/1";
 			} else if (isBody) {
+				makeCookieRight(request, response,false);
 				return "/busselect/myTask/1";
 			} else if (isUserAdmin) {
 				return "user/list";
 			} else {
+				makeCookieRight(request, response,true);
 				return "/order/myTask/1";
 				//throw new IllegalStateException();
 			}
@@ -228,5 +241,55 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		protected RedirectStrategy getRedirectStrategy() {
 			return redirectStrategy;
 		}
+
+		/**
+		 * 
+		 * 纠正cookie 
+		 *
+		 * @param request
+		 * @param response
+		 * @param isScreen
+		 * @return
+		 * @since pantuo 1.0-SNAPSHOT
+		 */
+		public int makeCookieRight(HttpServletRequest request, HttpServletResponse response, boolean isScreen) {
+			String cityCookieValue = Request.getCookieValue(request, "city");
+			int city = NumberUtils.toInt(cityCookieValue, -1);
+			if (isScreen) {
+				city = city == -1 ? 1 : (city % 2 == 0 ? city - 1 : city);
+			} else {
+				city = city == -1 ? 2 : (city % 2 == 1 ? city + 1 : city);
+			}
+
+			request.getSession().setAttribute("medetype", isScreen ? "screen" : "body");
+
+			JpaCity r = cityService.fromId(city);
+			if (r == null) {
+				logger.warn("city:{} is ", city);
+
+				Cookie cookie = new Cookie("city", String.valueOf(city));
+				cookie.setPath("/");
+				cookie.setMaxAge(0);
+				response.addCookie(cookie);
+			}
+			int defaultCitye = (isScreen ? ControllerSupport.defaultCookieValue
+					: ControllerSupport.defaultCookieValue + 1);
+
+			int w = r == null ? (defaultCitye) : r.getId();
+			w = w > 6 ? (defaultCitye) : r.getId();
+			try {
+				Cookie cookie = new Cookie("city", String.valueOf(w));
+				cookie.setPath("/");
+				cookie.setMaxAge(604800);
+				response.addCookie(cookie);
+			} catch (Exception e) {
+			}
+			return w;
+		}
 	}
+	
+	
+	
+	
+	
 }

@@ -17,6 +17,21 @@ function go_back(){
             //failure : function() { alert("验证失败，请检查。");  }//验证失败时调用的函数
             //success : function() { callSuccessFunction() },//验证通过时调用的函数
         });
+        
+        $('.c').click(function() {
+            var w = $(this).val();
+            if(w=='screen'){
+            	$("#c1").show();
+            	$("#c2").hide();
+            	$("#utype").val("screen")
+            }else if(w=='body') {
+            	$("#c2").show();
+            	$("#c1").hide();
+            	$("#utype").val("body")
+            }
+        });
+        
+        
     });
 </script>
 
@@ -123,7 +138,7 @@ function go_back(){
 	enctype="multipart/form-data">
 	<div class="withdraw-title fn-clear">
 		<span>用户添加信息录入</span>
-		<input type = "hidden" name="utype" value= "${medetype}" >
+		<input type = "hidden" name="utype"  id ="utype" value= "screen" >
 		<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="go_back()">返回</a>
 		<!--
             <ul class="fn-clear">
@@ -182,13 +197,22 @@ function go_back(){
 					data-is="isAmount isEnough" autocomplete="off"
 					disableautocomplete="" placeholder="请输入联系电话">
 			</div>
-
+			<div class="ui-form-item">
+				<label class="ui-label mt10"><span class="ui-form-required">*</span>
+				 用户类型:
+				</label>
+                <div>
+                <input type="radio" class="c" name="identity" value="screen" />移动电视
+				<input type="radio" class="c" name="identity" value="body" />车身广告
+                    
+                </div>
+			</div>
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>
 				所属组:
 				</label>
                 <div>
-                <#if medetype =='screen'>
+                <span id="c1">
                     <#if groupsList?exists> 
 	                    <#list groupsList?keys as vkey> <input
 	                            type="checkbox" value="${vkey}" name="roles" id="roles" />${groupsList[vkey]} &nbsp;&nbsp;
@@ -197,8 +221,8 @@ function go_back(){
     							  </#if>
 	                    </#list> 
                     </#if>
-                </#if>
-                <#if medetype =='body'>
+                    </span>
+                 <span id="c2" style="display:none">
                     <#if bdGroupsList?exists> 
 	                    <#list bdGroupsList as  vkey> <input
 	                            type="checkbox" value="${vkey.id}" name="roles" id="roles" />${vkey.name} &nbsp;&nbsp;
@@ -207,7 +231,7 @@ function go_back(){
     							  </#if>
 	                    </#list> 
                     </#if>
-                </#if>      
+                     </span>
                     
                 </div>
 			</div>

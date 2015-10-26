@@ -13,14 +13,14 @@
 <div class="ls-2">
 							<div class="pg-side">
 								<ul class="pg-side-list">
-								
+								<@security.authorize ifNotGranted="UserManager,sys_userList,sys_roleManager">
 								<li class="pg-side-item">
 										<a class="pg-side-item-t aa-icon" style="color:#fff;background:#F45C55;" href="${rc.contextPath}/carbox/carTask">
 											<i class="s-left pg-icon-a a-icon" style="background:url(${rc.contextPath}/imgs/sidebar-icons.png) no-repeat -20px 0;"></i>
 											网上订单
 										</a>
 									</li>
-									
+									 </@security.authorize>	
 									
 									
 								<@security.authorize ifAnyGranted="ShibaSuppliesManager,advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
@@ -91,7 +91,7 @@
 									</li>	
 									</@security.authorize>
 									
-									
+									<@security.authorize ifNotGranted="UserManager,sys_userList,sys_roleManager">
 										 <#if city.mediaType == 'screen'>
 										<li class="pg-side-item">
 											<a class="pg-side-item-t cc-icon">
@@ -106,8 +106,6 @@
 													</a>
 												</li>
 											</@security.authorize>
-											
-											
 												<li class="pg-side-exp-item">
 													<a class="side-exp-item-t" href="${rc.contextPath}/product/list">
 														产品列表
@@ -116,6 +114,7 @@
 											</ul>
 										</li>
 										 </#if>
+										 </@security.authorize>
 									
 									<@security.authorize ifAnyGranted="ShibaSuppliesManager,advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager,bodysales,bodyContractManager,bodyFinancialManager,bodyScheduleManager">
 									<li class="pg-side-item">
@@ -455,12 +454,13 @@
                                         </ul>
                                     </li>
                                      </@security.authorize>	
-                                     
+                                     	<@security.authorize ifNotGranted="UserManager,sys_userList,sys_roleManager">
                                         <li class="pg-side-item">
 	                                        <a class="pg-side-item-t ee-icon">
 	                                            <i class="s-left pg-icon-a e-icon"></i>
 	                                           业务车辆查询
 	                                        </a>
+	                                         
 	                                        <ul class="pg-side-exp-list">
 	
 	                                            <li class="pg-side-exp-item">
@@ -470,7 +470,7 @@
 	                                            </li>
 	                                        </ul>
 	                                    </li>
-                                    
+                                     </@security.authorize>	
                                     
                                      
 	                                     <#if city.mediaType == 'body'>
@@ -595,13 +595,11 @@
 											</li>
                                             </@security.authorize>
                                              <@security.authorize ifAnyGranted="UserManager,sys_roleManager">
-                                              <#if city.mediaType == 'body'>
 		                                            <li class="pg-side-exp-item">
 														<a class="side-exp-item-t" href="${rc.contextPath}/user/role_list">
-															角色管理
+															车身角色管理
 														</a>
 													</li>
-											 </#if>
 											 </@security.authorize>
                                            <@security.authorize ifAnyGranted="advertiser">
 											<li class="pg-side-exp-item">

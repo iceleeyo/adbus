@@ -6,6 +6,7 @@ import java.net.SocketException;
 import java.security.Principal;
 import java.util.Enumeration;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -114,5 +115,18 @@ public class Request {
 	 */
 	public static boolean hasOnlyAuth(Principal principal, String... group) {
 		return ((ActivitiUserDetails) ((Authentication) principal).getPrincipal()).hasOnlyAuthority(group);
+	}
+	
+	public static String getCookieValue(HttpServletRequest request, String keyName) {
+		String r = null;
+		Cookie[] cookies = request.getCookies();
+		if (null != cookies) {
+			for (Cookie cookie : cookies) {
+				if (keyName.equals(cookie.getName())) {
+					return cookie.getValue();
+				}
+			}
+		}
+		return r;
 	}
 }

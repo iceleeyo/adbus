@@ -90,7 +90,7 @@ public class LoginController {
     @ResponseBody
     public UserDetail createUser(UserDetail detail, HttpServletRequest request,Principal principal) {
     	com.pantuo.util.BeanUtils.filterXss(detail);
-    	
+    	detail.setUtype(UserDetail.UType.pub);
         detail.setStringGroups(Arrays.asList(new String[]{"advertiser"}));
         boolean success = userService.createUserFromPage(detail,request,principal);
         if (success) {

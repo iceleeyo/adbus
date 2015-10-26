@@ -183,7 +183,15 @@ function tocard(pathurl){
 					<div class="title_cart"><a href="${rc.contextPath}/product/sift_bus"><span>自定义产品</span></a></div>
 					<div class="back">
 						<div class="back-items">
-						
+							<div class="back-item">
+								<span class="desp">地区：</span>
+								<span class="sift-list" qt="c">
+									<a class="item active" style="background:#ff9966" href="#" sort="-1" qc="all">北京</a>
+									<a class="item" href="#"   sort="-3" qc="2" >天津<i></i></a>
+									<a class="item" href="#"   sort="-3" qc="2" >大连<i></i></a>
+								</span>
+							</div>
+							
 							<div class="back-item">
 								<span class="desp">商圈：</span>
 								<span class="sift-list" qt="B">

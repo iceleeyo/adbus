@@ -56,7 +56,17 @@
                         } else {
                             return data.length ? data[0].name : "";
                         }
-                    } },
+                    } },  
+                    { "data": "utype", "defaultContent": "", "render": function(data) {
+		                   if(data=='screen'){
+                           		 return '移动电视';
+                            }  else if(data=='body'){
+                          		 	 return '车身广告';
+                            }else {
+                            	return '注册广告主'; 
+                            }
+                    }
+                },
                 { "data": "enabled", "defaultContent": "", "render": function(data) {
                     switch(data) {
                         case true:
@@ -69,7 +79,7 @@
                     if (data == 'init')
                             return '<span class="processed layer-tips" tip="已认证的用户可以参与竞价!">未上传资质</span>'; 
                         if (data == 'authentication')
-                    return '<span class="invalid">认证通过</span>';
+                    return '<span class="invalid">认证通过</span>'; 
                         if (data == 'upload')
                     return '<span class="invalid">待认证</span>';
                         if (data == 'unauthentication')
@@ -106,10 +116,16 @@
                         '    <span>' +
                         '        <input id="name" value="">' +
                         '    </span>' +
+                        '    <span>用户类型</span>' + 
+                     '<select class="ui-input ui-input-mini" name="utype" id="utype">' +
+                  	'<option value="screen" selected="selected">移动视频</option>' +
+                  	'<option value="body">车身广告</option>' +
+                  	'<option value="pub">注册广告主</option>' +
+         			'</select>' +
                         '</div>'
         );
 
-        $('#name').change(function() {
+        $('#name,#utype').change(function() {
             table.fnDraw();
         });
         bindLayerMouseOver();
@@ -135,13 +151,12 @@
 									用户列表
 									<a class="block-btn" href="${rc.contextPath}/user/enter">添加用户</a>
 									</div>
-									<input type = "hidden" id="utype" value= "${medetype}" >
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
                         <th orderBy="username">用户名</th>
                         <th>所属组</th>
-                        
+                        <th>类型</th>
                         <th orderBy="enabled">状态</th>
                         <th >认证状态</th>
                         <th>管理</th>

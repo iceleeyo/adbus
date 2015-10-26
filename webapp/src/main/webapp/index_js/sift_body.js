@@ -324,7 +324,10 @@ function initSwift2(purl){
       				$(this).parent().children().first().addClass("active");
       			}
       		}else{
-
+      			if($(this).attr("sort")==-3){
+      				layer.msg("该城市暂未开放,敬请期待",{icon: 5});
+      				return ;
+      			 }
       			
       			$(this).addClass('active');
 	      		$(this).children().show();

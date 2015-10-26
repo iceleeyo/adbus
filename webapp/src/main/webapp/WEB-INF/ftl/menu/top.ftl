@@ -31,67 +31,6 @@
 					<div class="container-12 s-clear">
 						<div class="grid-12 city-dropdown">
                             <ul class="fl">
-<#--<@security.authorize access="isAuthenticated()">-->
-                                <li class="dorpdown" id="ttbar-mycity">
-                                    <div class="dt cw-icon ui-areamini-text-wrap" style="">
-                                        <i class="ci-right"><s>◇</s></i>
-                                        <#if city??>
-                                            <span class="ui-areamini-text" data-id="${city.name}" title="${city.name}">${city.name}</span>
-                                        <#else>
-                                            <span class="ui-areamini-text" data-id="${cities[0].name!''}" title="${cities[0].name!''}">${cities[0].name!''}</span>
-                                        </#if>
-                                    </div>
-                                    <div class="dd dorpdown-layer">
-                                        <div class="dd-spacer"></div>
-                                        <div class="ui-areamini-content-wrap" style="left: auto;">
-                                            <div class="ui-areamini-content">
-                                                <div class="ui-areamini-content-list" id="city_dropdown">
-                                                    <#list cities as c>
-                                                        <div class="item">
-                                                            <a data-id="${c.name}" href="javascript:void(0)" <#if city?? && city.name == c.name>class="selected"</#if>>${c.name!''}</a>
-                                                        </div>
-                                                    </#list>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="dorpdown" id="ttbar-media">
-                                    <div class="dt cw-icon ui-areamini-text-wrap" style="">
-                                        <i class="ci-right"><s>◇</s></i>
-                                        
-                                        
-                                    <#if city??>
-                                    
-                                       <#if medetype?? && medetype=="screen">
-                                        <a class="selected ui-areamini-text" data-id="${city.mediaType}" title="${city.mediaType.typeName}">屏幕广告</a>
-                                        <#else>
-                                        <a class="selected ui-areamini-text" data-id="${city.mediaType}" title="${city.mediaType.typeName}">车身广告</span>
-                                        </#if>
-                                    <#else>
-                                      <#if medetype?? && medetype=="screen">
-                                        <a class="selected ui-areamini-text" data-id="${city.mediaType}" title="${city.mediaType.typeName}">屏幕广告</a>
-                                        <#else>
-                                        <a class="selected ui-areamini-text" data-id="${city.mediaType}" title="${city.mediaType.typeName}">车身广告</a>
-                                        </#if>
-                                    </#if>
-                                    </div>
-                                   <#--<div class="dd dorpdown-layer">
-                                        <div class="dd-spacer"></div>
-                                        <div class="ui-areamini-content-wrap" style="left: auto;">
-                                            <div class="ui-areamini-content">
-                                                <div class="ui-areamini-content-list" id="city_dropdown">
-                                                <#list medias as m>
-                                                    <div class="item">
-                                                        <a data-id="${m.mediaType}" href="javascript:void(0)" <#if city?? && city.id == m.id> cityid="${city.id}" mid="${m.id}" class="selected"</#if>>${m.mediaType.typeName!''}</a>
-                                                    </div>
-                                                </#list>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>--> 
-                                </li>
-<#--</@security.authorize>-->
                             </ul>
 							<!-- 手机图标<div class="s-left ml10">
 								<a class="pg-nav-item" href="#" style="padding-top: 8px;">

@@ -20,6 +20,7 @@ import org.activiti.engine.identity.Group;
 import org.activiti.engine.impl.persistence.entity.GroupEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.xmlbeans.impl.common.IOUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,7 @@ import com.pantuo.mybatis.domain.BusModel;
 import com.pantuo.mybatis.domain.BusModelExample;
 import com.pantuo.mybatis.persistence.BusModelMapper;
 import com.pantuo.util.DateUtil;
+import com.pantuo.util.IOTools;
 
 /**
  * 初始化数据
@@ -65,6 +67,8 @@ public class DataInitializationService {
 	public static Map<String, Set<String>> lineSiteMap = new HashMap<String, Set<String>>();
 
 	public static Map<String, Set<String>> siteLineMap = new HashMap<String, Set<String>>();
+	//车身权限集合
+	public static Set<String> bodyAuthSet = new HashSet<String>();
 
 	@Autowired
 	UserServiceInter userService;
@@ -102,6 +106,7 @@ public class DataInitializationService {
 	CityService cityService;
 
 	public void intialize() throws Exception {
+		initBodyAuthList();
 		initializeFunctionFunction();
 		initializeLineSite();
 		initializeCalendar();
@@ -321,6 +326,32 @@ public class DataInitializationService {
 		log.info("init line site lines:{},site:{} ", lineSiteMap.size(), siteLineMap.size());
 	}
 
+	
+	
+	
+	private void initBodyAuthList() throws Exception {
+	 
+		InputStream is = DataInitializationService.class.getClassLoader().getResourceAsStream("group_function.csv");
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+		String line = null;
+
+		while ((line = reader.readLine()) != null) {
+			if (line.startsWith("#"))
+				continue;
+			try {
+				String[] str = line.split(",");
+				bodyAuthSet.add(str[3]);
+			} catch (Exception e) {
+				log.warn("Fail to parse function for {}, e={}", line, e.getMessage());
+			}
+		}
+		IOTools.close(reader);
+		IOTools.close(is);
+	}
+	
+	
+	
+	
 	private void initializeFunctionFunction() throws Exception {
 		long count = functionRepository.count();
 		if (count > 0) {
