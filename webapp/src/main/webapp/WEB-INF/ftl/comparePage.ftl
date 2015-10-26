@@ -30,7 +30,8 @@ $.ajax({
 			},
 			success:function(data){
 			     if(data.right=="资质未认证"){
-			     	layer.msg("抱歉，您未获得竞拍资格<br><a href='${rc.contextPath}/user/UserQulifi'>点击立即获取资格</a>");
+			     	layer.msg("抱歉，您未获得竞拍资格<br><a href='${rc.contextPath}/user/UserQulifi'>点击立即获取资格</a>", {icon: 5});
+			     	return ;
 			     }else{
 			       layer.msg(data.right);
 			     }
