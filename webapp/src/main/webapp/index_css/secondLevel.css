@@ -29,7 +29,7 @@ header .area {
 }
 
 .pd {
-	margin: 5px 30px 5px 30px;
+	margin: 5px 30px 5px 20px;
 }
 
 .side-nav {
@@ -90,14 +90,14 @@ header .area {
 }
 
 .cover {
-	padding: 5px 30px;
+	padding: 5px 10px;
 	position: absolute;
-	margin-left: 210px;
+	margin-left: 200px;
 }
 
 .cover .c-top {
 	position: relative;
-  	margin: 15px 280px 55px 185px;
+  	margin: 15px 280px 5px 185px;
 }
 
 .cover .c-top .search-panel {
@@ -153,10 +153,10 @@ header .area {
 }
 
 .ad {
-	width: 965px;
-	height: 300px;
+	width: 1020px;
+	height: 260px;
 	margin: 20px auto;
-	margin-left: 30px;
+	margin-left: 20px;
 }
 
 .ad .banner {
@@ -195,10 +195,10 @@ header .area {
 }
 
 .recommand .re-box {
-	width: 930px;
-	padding: 50px 0 30px 20px;
+	width: 980px;
+	padding: 30px 0 20px 20px;
 	margin-left: 15px;
-	margin-bottom: 30px;
+	margin-bottom: 20px;
 	background: #fff;
 	border: 2px solid #e0e0e0;
 }
@@ -360,9 +360,9 @@ header .area {
 }
 
 .customs .back {
-	width: 950px;
+	width: 1005px;
 	margin-left: 13px;
-	margin-bottom: 30px;
+	margin-bottom: 20px;
 	background: #fff;
 }
 
@@ -425,7 +425,7 @@ header .area {
 }
 
 .buy {
-	padding: 30px 30px 20px 40px;
+	padding: 10px 10px 20px 20px;
 	background-color: #fff;
 	border: 2px solid #e0e0e0;
 }
@@ -457,7 +457,7 @@ header .area {
 
 .buy .cont {
 	height: 75px;
-	width: 880px;
+	width: 960px;
 	margin: 15px 0 2px;
 	display: inline-block;
 	background: url(../index_img/linebar_blue_items.png) no-repeat;
