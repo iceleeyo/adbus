@@ -183,9 +183,10 @@ function tocard(pathurl){
 				</div>
 				<div class="recommand customs pd">
 					<div class="title"><span>定制自选</span></div>
+					<div class="title_cart"><a href="${rc.contextPath}/product/sift"><span>自定义产品</span></a></div>
+					
 					<div class="back">
 						<div class="back-items">
-						
 							<div class="back-item">
 								<span class="desp">是否竞价：</span>
 								<span class="sift-list" qt="p">

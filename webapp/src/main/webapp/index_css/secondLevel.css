@@ -287,6 +287,20 @@ header .area {
 	background-size: 100%;
 }
 
+.title_cart {
+	line-height: 45px;
+	text-indent: 5px;
+	letter-spacing: 5px;
+	font-size: 22px;
+	background-color: #009eea;
+	margin-left: 200;
+	width: 145px;
+	position: absolute;
+  	top: 10px;
+  	color: #ffffff;
+  	text-align: center;
+}
+
 .timer .select-item {
 	margin: 0 10px !important;
 }

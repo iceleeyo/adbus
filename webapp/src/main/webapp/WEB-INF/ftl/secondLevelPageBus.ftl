@@ -180,6 +180,7 @@ function tocard(pathurl){
 				</div>
 				<div class="recommand customs pd">
 					<div class="title"><span>定制自选</span></div>
+					<div class="title_cart"><a href="${rc.contextPath}/product/sift_bus"><span>自定义产品</span></a></div>
 					<div class="back">
 						<div class="back-items">
 						
