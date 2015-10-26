@@ -244,11 +244,7 @@
 			data:{"divid":divid,"seriaNum":seriaNum,"paytype":paytype,"meids":meids,"boids":boids},
 			success:function(data){
 				if (data.left) {
-					layer.msg(data.right);
-				   var uptime = window.setTimeout(function(){
-				   window.location.href="${rc.contextPath}/order/myOrders/1";
-			   	    clearTimeout(uptime);
-						},1500)
+				  window.location.href="${rc.contextPath}/carbox/paySuccess";
 				} else {
 					layer.msg(data.right);
 				}

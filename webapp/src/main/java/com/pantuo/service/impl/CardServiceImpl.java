@@ -812,6 +812,7 @@ public class CardServiceImpl implements CardService {
 
 		Map<String, List<String>> map = getQuestObj(req.getFilter("sh"));
 		BooleanExpression query = QJpaBusOrderDetailV2.jpaBusOrderDetailV2.city.eq(city);
+		query=query.and(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.JpaProductV2.id.isNotNull());
 		for (Map.Entry<String, List<String>> entry : map.entrySet()) {
 			List<String> values = entry.getValue();
 			if (StringUtils.equals(entry.getKey(), "B") && values.size() > 0) {

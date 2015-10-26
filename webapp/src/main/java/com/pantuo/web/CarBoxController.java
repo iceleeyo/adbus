@@ -118,6 +118,11 @@ public class CarBoxController {
 	public void test(Model model, Principal principal, HttpServletRequest request) {
 		cardService.test();
 	}
+	
+	@RequestMapping(value = "/paySuccess")
+	public String paysuccess() {
+		return "paySuccess";
+	}
 
 	@RequestMapping("sift_body")
 	@ResponseBody

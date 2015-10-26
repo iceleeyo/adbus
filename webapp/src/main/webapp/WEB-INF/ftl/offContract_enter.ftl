@@ -391,7 +391,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 					type : 1,
 					title : "选择车辆",
 					skin : 'layui-layer-rim',
-					area : [ '400px', '650px' ],
+					area : [ '400px', '550px' ],
 					content : ''
 							+ '<form id="form01" action='+url+'/busselect/savePublishLine?seriaNum='+seriaNum+'>'
 							+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
@@ -427,7 +427,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                             +'<input class="ui-input " type="text" value="30" name="days" onkeyup="value=value.replace(/[^\\d]/g,\'\')" '
 							+'id="days" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
 							+'</div>'
-							+'<div class="ui-form-item"> <label class="ui-label mt10">批次：</label>'
+							+'<div style="display:none"><div class="ui-form-item"> <label class="ui-label mt10">批次：</label>'
 							+'<input class="ui-input " type="text" value="0" name="batch"  '
 							+'id="batch" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
            	 				+'</div>'
@@ -446,7 +446,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
            	 				+'<div class="ui-form-item"> <label class="ui-label mt10">优惠后金额：</label>'
 							+'<input class="ui-input " type="text" value="0" name="discountPrice"  '
 							+'id="discountPrice" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-           	 				+'</div>'
+           	 				+'</div></div>'
 							+ '</div></div>'
 							+ '<div class="ui-form-item widthdrawBtBox" style="position: absolute;">'
 							+ '<input type="button" onclick="sub()" class="block-btn" value="确认" ></div>'

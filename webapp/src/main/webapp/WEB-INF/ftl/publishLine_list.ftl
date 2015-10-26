@@ -1,7 +1,7 @@
 <#import "template/template.ftl" as frame>
-<#global menu="订单列表">
+<#global menu="上刊发布">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="订单列表" js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js","js/jquery-ui/jquery-ui.auto.complete.js", "js/datepicker.js","js/jquery.datepicker.region.cn.js"]
+<@frame.html title="上刊发布" js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js","js/jquery-ui/jquery-ui.auto.complete.js", "js/datepicker.js","js/jquery.datepicker.region.cn.js"]
 css=["js/jquery-ui/jquery-ui.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 
 <style type="text/css">
@@ -173,7 +173,7 @@ css=["js/jquery-ui/jquery-ui.css","js/jquery-ui/jquery-ui.auto.complete.css","cs
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title">
-                订单列表
+               上刊发布
 									</div>
 										<input type="hidden" id="cid" />
                 <table id="table" class="display nowrap" cellspacing="0">
