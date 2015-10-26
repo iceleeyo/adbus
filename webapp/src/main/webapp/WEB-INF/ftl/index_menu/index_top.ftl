@@ -125,6 +125,8 @@
 
 
 		<script type="text/javascript" src="${rc.contextPath}/index_js/jquery-1.11.1.min.js"></script>
+		   <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.jcountdown.js"></script>
+         <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.jcountdown.site.js"></script>
 		<script src="${rc.contextPath}/index_js/unslider.min.js"></script>
 	
 		<script src="js/jquery.pagination.js"></script>

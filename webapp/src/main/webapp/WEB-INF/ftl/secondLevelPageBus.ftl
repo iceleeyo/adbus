@@ -125,80 +125,56 @@ function tocard(pathurl){
 								<li><a href="javascript:void(0)">视频广告</a></li>
 								<li><a href="javascript:void(0)">车内广告</a></li>
 								<li><a href="javascript:void(0)">站台广告</a></li>
+								<li><a href="${rc.contextPath}/product/sift_bus">更多》</a></li>
 							</ul>
 							<div class="select-items clearfix">
+								<#if auctionList?? && (auctionList?size>0) >
+   <#list auctionList as prod>
 								<div class="select-item">
 									<div class="lasttime">
-										<p>剩余时间：</p>
-										<p>24天24小时24分钟24秒</p>
+							 <#if (prod.startDate < .now  && prod.biddingDate > .now  ) > 
+		  						<p>截止</p>    
+		  						<p><span id="c_${prod_index}"></span>  </p>
+		  						<script type="text/javascript">
+			  						var dateTo=new Date("${prod.biddingDate?string("yyyy-MM-dd HH:mm:ss")}".replace(/-/g, "/"));
+									 countDownReload("c_${prod_index}",dateTo);
+								 </script>
+								<#elseif (prod.startDate > .now   ) > 
+								<p>距开拍</p>    
+		  						<p><span id="c_${prod_index}"></span>  </p>
+		  						<script type="text/javascript">
+			  						var dateTo=new Date("${prod.startDate?string("yyyy-MM-dd HH:mm:ss")}".replace(/-/g, "/"));
+									 countDownReload("c_${prod_index}",dateTo);
+								 </script>
+								<#elseif (prod.biddingDate < .now   ) > 
+								<p><s>已结束</s></p>    
+		  						<p><span id="c_${prod_index}"><s>${prod.startDate?string("yyyy-MM-dd HH:mm")}</s></span>  </p>
+								</#if>
 									</div>
 									<img src="index_img/wp1_1.jpg" height="100" width="100">
 									<div class="cost-box">
 										<div class="cost">
-											价格:<em>50000</em>
+											底价:￥<em>#{prod.saleprice!'' ;m2M2}</em>
 										</div>
 										<div class="timeline">
-											期限: 7天
+											刊期: ${prod.product.playNumber}天
 										</div>
 										<div class="ston">
-											我要出价
+											<a href="${rc.contextPath}/product/c/${prod.id}">
+								<#if (prod.startDate < .now  && prod.biddingDate > .now  ) > 
+									我要出价
+								<#elseif (prod.startDate > .now   ) > 
+									等待开始
+								<#elseif (prod.biddingDate < .now   ) > 
+									竞价结束
+								</#if>
+								
+								</a>
 										</div>
 									</div>
 								</div>
-								<div class="select-item">
-									<div class="lasttime">
-										<p>剩余时间：</p>
-										<p>24天24小时24分钟24秒</p>
-									</div>
-									<img src="index_img/wp1_1.jpg" height="100" width="100">
-									<div class="cost-box">
-										<div class="cost">
-											价格:<em>50000</em>
-										</div>
-										<div class="timeline">
-											期限: 7天
-										</div>
-										<div class="ston">
-											我要出价
-										</div>
-									</div>
-								</div>
-								<div class="select-item">
-									<div class="lasttime">
-										<p>剩余时间：</p>
-										<p>24天24小时24分钟24秒</p>
-									</div>
-									<img src="index_img/wp1_1.jpg" height="100" width="100">
-									<div class="cost-box">
-										<div class="cost">
-											价格:<em>50000</em>
-										</div>
-										<div class="timeline">
-											期限: 7天
-										</div>
-										<div class="ston">
-											我要出价
-										</div>
-									</div>
-								</div>
-								<div class="select-item">
-									<div class="lasttime">
-										<p>剩余时间：</p>
-										<p>24天24小时24分钟24秒</p>
-									</div>
-									<img src="index_img/wp1_1.jpg" height="100" width="100">
-									<div class="cost-box">
-										<div class="cost">
-											价格:<em>50000</em>
-										</div>
-										<div class="timeline">
-											期限: 7天
-										</div>
-										<div class="ston">
-											我要出价
-										</div>
-									</div>
-								</div>
+								</#list>
+	</#if>							
 							</div>
 					</div>
 				</div>
