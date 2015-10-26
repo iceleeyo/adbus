@@ -92,7 +92,6 @@
 									</@security.authorize>
 									
 									
-									<@security.authorize ifAnyGranted="UserManager">
 										 <#if city.mediaType == 'screen'>
 										<li class="pg-side-item">
 											<a class="pg-side-item-t cc-icon">
@@ -117,7 +116,6 @@
 											</ul>
 										</li>
 										 </#if>
-									 </@security.authorize>
 									
 									<@security.authorize ifAnyGranted="ShibaSuppliesManager,advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager,bodysales,bodyContractManager,bodyFinancialManager,bodyScheduleManager">
 									<li class="pg-side-item">
