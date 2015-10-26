@@ -204,7 +204,12 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 						"<div class=\"map-box\"></div></div></div>"
 				);
 				$("#sum"+k).blur(function(){
+					var lc=$("#lc").val();
+					if(lc=="0"){
+						islogin(pathUrl);
+					}
 					var sot=$(this).attr("sot");
+					if(lc=="1"){	
 					$.ajax({
 						url : pathUrl + "/carbox/saveCard/media",
 						data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val(),"IsDesign":0},
@@ -213,26 +218,41 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 							/*$("#totalnum").val(data.right);
 							$("#totalprice").val(data.left);*/
 							setCarCount(data.cardCount);
+							setCarCount(data.cardCount_top);
 							//$("#cardCount").html("[<b>"+data.cardCount+"</b>]");
 					}}, "text");
+					}
 				});
 				
 				$("#leftDec"+k).click(function(){
 					var oldValue=$(this).next().val();//获取文本框对象现有值
-					if(oldValue>0){
-						$(this).next().val(parseInt(oldValue)-1);
-						var sot=$(this).attr("sot");
-						$.ajax({
-							url : pathUrl + "/carbox/saveCard/media",
-							data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val(),"IsDesign":0},
-							type : "POST",
-							success : function(data) {
-								setCarCount(data.cardCount);
-								//$("#cardCount").html("[<b>"+data.cardCount+"</b>]");
-						}}, "text");
+					var lc=$("#lc").val();
+					if(lc=="0"){
+						islogin(pathUrl);
 					}
+					if(lc=="1"){
+						if(oldValue>0){
+							$(this).next().val(parseInt(oldValue)-1);
+							var sot=$(this).attr("sot");
+							$.ajax({
+								url : pathUrl + "/carbox/saveCard/media",
+								data:{"proid":$("#pid"+sot).val(),"needCount":$("#sum"+sot).val(),"IsDesign":0},
+								type : "POST",
+								success : function(data) {
+									setCarCount(data.cardCount);
+									setCarCount(data.cardCount_top);
+									//$("#cardCount").html("[<b>"+data.cardCount+"</b>]");
+							}}, "text");
+						}
+					}
+					
 				});
 				$("#leftPlus"+k).click(function(){
+					var lc=$("#lc").val();
+					if(lc=="0"){
+						islogin(pathUrl);
+					}
+					if(lc=="1"){
 					var oldValue=$(this).prev().val();//获取文本框对象现有值
 					$(this).prev().val(parseInt(oldValue)+1);
 					var sot=$(this).attr("sot");
@@ -243,8 +263,10 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 						success : function(data) {
 							//$("#cardCount").html("[<b>"+data.cardCount+"</b>]");
 							setCarCount(data.cardCount);
+							setCarCount(data.cardCount_top);
 							}}, "text");
-				}); 
+					}
+				 }); 
 				k++;
 			});
 		}}, "text");

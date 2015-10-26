@@ -1131,6 +1131,26 @@ header .area {
 .cart-step2 .arrow-stp3 .ara {
 	margin: 0 60px 0 50px;
 }
+.cart-step3 .success-content {
+  margin: 100px auto;
+  text-align: center;
+}
+.cart-step3 .success-area {
+  margin-bottom: 50px;
+  font-size: 32px;
+}
+.cart-step3 .success-area span {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  margin-right: 5px;
+  vertical-align: sub;
+  background: url(../index_img/icon_register_success.png) no-repeat;
+  background-size: 100%;
+}
+.cart-step3 .more-info {
+  color: #009deb;
+}
 
 .adj {
 	margin-top: 40px;

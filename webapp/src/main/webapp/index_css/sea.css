@@ -1269,3 +1269,8 @@ height: 14px;
 * html #process .singular {
 	background-position-y: -60px;
 }
+.shop_icon{
+	width: 20px;
+	height: 20px;
+	margin: 2px;
+}

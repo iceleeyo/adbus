@@ -4,6 +4,8 @@ function setCarCount(catCount){
 	if (typeof(exp) != "undefined"){
 		if(exp>0){
 			$("#cardCount").html("[<b>"+exp+"</b>]");
+			$("#cardCount_top").html("["+exp+"]");
+			
 		}
 	}
 }
@@ -20,6 +22,7 @@ function initCardView(pathUrl){
 				if (typeof(data) != "undefined"){
 					if(data.cardCount>0){
 						$("#cardCount").html("[<b>"+data.cardCount+"</b>]");
+						$("#cardCount_top").html("["+data.cardCount+"]");
 					}
 				}
 		 }}, "text");

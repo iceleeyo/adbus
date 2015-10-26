@@ -12,6 +12,12 @@
 		<link rel="stylesheet" type="text/css" href="index_css/shibaHome.css">
 		<link rel="stylesheet" type="text/css" href="index_css/sift.css">
 		<link rel="stylesheet" type="text/css" href="index_css/sea.css">
+		<script src="js/jquery.pagination.js"></script>
+		<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer/layer.js"></script>
+    	<!--增加lay最新版本-->
+		<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer/layer.js"></script>
+		<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer.onload.js"></script>
+		<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
 	</head>
 	<body>
 		<header>
@@ -81,7 +87,7 @@
 								<!--<a class="pg-nav-item s-left" href="#">帮助</a>
 								<a class="pg-nav-item s-left" href="#">论坛</a>-->
 								<a class="pg-nav-item s-left" href="${rc.contextPath}/message/all">消息<span id="msgNumber" class="layer-tips" style="color:#ff9966"></span></a>
-								 <@security.authorize access="isAuthenticated()">
+								<@security.authorize access="isAuthenticated()">
 								<a href="javascript:;" class="pg-nav-item s-left" onclick="logout();">[退出]</a>
                                 </@security.authorize>
 							</div>
@@ -354,6 +360,12 @@
 		<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
 		<script type="text/javascript" src="index_js/index.js"></script>
 		<script type="text/javascript">
+		/**
+		 * 登出
+		 */
+		function logout(){
+			window.location.href = "${rc.contextPath}/logout";
+		}
 		$(function(){
 			var _winHeight = $(window).height(),
 			    _winWidth = $(window).width();

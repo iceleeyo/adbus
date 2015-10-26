@@ -9,7 +9,7 @@
 		<title>移动视频产品</title>
 <script type="text/javascript">
 /**
- * 加入购物车判断登陆状态
+ * 查看购物车判断登陆状态
  */
 function tocard(pathurl){
 	var lc=$("#lc").val();

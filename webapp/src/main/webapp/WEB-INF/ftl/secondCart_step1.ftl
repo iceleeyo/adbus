@@ -364,7 +364,7 @@
 		function leftDec(id){
 			    var sot=id;
 			    var y=$("#sum_"+sot).val();
-			    if(y>0){
+			    if(y>1){
 			    $("#sum_"+sot).val(parseInt(y)-1);
 			    me_changexiaoji(sot,$("#sum_"+sot).val(),$("#uprice_"+sot).val());
 					$.ajax({
@@ -396,7 +396,7 @@
 		function b_leftDec(id,isdesing){
 			    var sot=id;
 			    var y=$("#b_sum_"+sot).val();
-			    if(y>0){
+			    if(y>1){
 			    $("#b_sum_"+sot).val(parseInt(y)-1);
 			     bo_changexiaoji(sot,$("#b_sum_"+sot).val(),$("#b_uprice_"+sot).val());
 					$.ajax({

@@ -240,45 +240,69 @@ function initPro2(pathUrl,sh,page){
 				);
 				$("#sum"+k).blur(function(){
 					var sot=$(this).attr("sot");
-					$.ajax({
-						url : pathUrl + "/carbox/saveCard/body",
-						data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"IsDesign":0},
-						type : "POST",
-						success : function(data) {
-							/*$("#totalnum").val(data.right);
-							$("#totalprice").val(data.left);*/
-							setCarCount(data.cardCount);
-							//$("#cardCount").html("[<b>"+data.cardCount+"</b>]");
-					}}, "text");
-				});
-				
-				$("#leftDec"+k).click(function(){
-					var oldValue=$(this).next().val();//获取文本框对象现有值
-					if(oldValue>0){
-						$(this).next().val(parseInt(oldValue)-1);
-						var sot=$(this).attr("sot");
+					var lc=$("#lc").val();
+					if(lc=="0"){
+						islogin(pathUrl);
+					}
+					if(lc=="1"){
 						$.ajax({
 							url : pathUrl + "/carbox/saveCard/body",
 							data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"IsDesign":0},
 							type : "POST",
 							success : function(data) {
+								/*$("#totalnum").val(data.right);
+								$("#totalprice").val(data.left);*/
 								setCarCount(data.cardCount);
+								setCarCount(data.cardCount_top);
 								//$("#cardCount").html("[<b>"+data.cardCount+"</b>]");
 						}}, "text");
 					}
+					
+				});
+				
+				$("#leftDec"+k).click(function(){
+					var oldValue=$(this).next().val();//获取文本框对象现有值
+					var lc=$("#lc").val();
+					if(lc=="0"){
+						islogin(pathUrl);
+					}
+					if(lc=="1"){
+						if(oldValue>0){
+							$(this).next().val(parseInt(oldValue)-1);
+							var sot=$(this).attr("sot");
+							$.ajax({
+								url : pathUrl + "/carbox/saveCard/body",
+								data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"IsDesign":0},
+								type : "POST",
+								success : function(data) {
+									setCarCount(data.cardCount);
+									setCarCount(data.cardCount_top);
+									//$("#cardCount").html("[<b>"+data.cardCount+"</b>]");
+							}}, "text");
+						}
+					}
+					
 				});
 				$("#leftPlus"+k).click(function(){
+					var lc=$("#lc").val();
+					if(lc=="0"){
+						islogin(pathUrl);
+					}
 					var oldValue=$(this).prev().val();//获取文本框对象现有值
 					$(this).prev().val(parseInt(oldValue)+1);
 					var sot=$(this).attr("sot");
-					$.ajax({
-						url : pathUrl + "/carbox/saveCard/body",
-						data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"IsDesign":0},
-						type : "POST",
-						success : function(data) {
-							//$("#cardCount").html("[<b>"+data.cardCount+"</b>]");
-							setCarCount(data.cardCount);
-							}}, "text");
+					if(lc=="1"){
+						$.ajax({
+							url : pathUrl + "/carbox/saveCard/body",
+							data:{"proid":$("#pid_"+sot).val(),"needCount":$("#sum_"+sot).val(),"IsDesign":0},
+							type : "POST",
+							success : function(data) {
+								//$("#cardCount").html("[<b>"+data.cardCount+"</b>]");
+								setCarCount(data.cardCount);
+								setCarCount(data.cardCount_top);
+							}}, "text");	
+					}
+					
 				}); 
 				k++;
 			});

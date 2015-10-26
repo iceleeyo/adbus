@@ -22,6 +22,18 @@
     function logout(){
        window.location.href = "${rc.contextPath}/logout";
     }
+    /**
+     * 查看购物车判断登陆状态
+     */
+    function tocard(pathurl){
+    	var lc=$("#lc").val();
+    	if(lc=="0"){
+    		islogin(pathurl);
+    	}
+    	if(lc=="1"){
+    		window.location.href=pathurl+"/toCard";
+    	}
+    }
 
     $(function() {
         $("#city_dropdown a:not(.selected)").click(function(){
@@ -62,6 +74,11 @@
 						<li><a href="jvascript:void(0)">关于我们</a></li>
 					</ul>
 					<div class="s-right s-clear">
+					<span class="pg-nav-item s-left">
+						<a onclick="tocard('${rc.contextPath}');"><img class="shop_icon" alt="" src="../index_img/icon_cart.png">
+						<span id="cardCount_top"  style="color:#ff9966" ></span>
+						</a>
+					</span>
 								<span class="pg-nav-item s-left" style="padding:0;">您好，</span>
 									<span>
                                         <@security.authorize access="isAuthenticated()">

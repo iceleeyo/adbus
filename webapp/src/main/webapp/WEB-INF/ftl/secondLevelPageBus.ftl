@@ -329,12 +329,13 @@ function tocard(pathurl){
 	    } );
 	    
 	    
-	    $("#leftDec").click(function(){
+	    $("#leftDec").click(function(pathurl){
+	    	
 			  var oldValue=$(this).next().val();//获取文本框对象现有值
 			  if(oldValue>0){
 				  $(this).next().val(parseInt(oldValue)-1);
 			  }
-			  
+			
 		});
 		
 		$("#leftPlus").click(function(){
