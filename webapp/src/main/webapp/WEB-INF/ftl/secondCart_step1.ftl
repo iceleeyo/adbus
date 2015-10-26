@@ -90,7 +90,7 @@
 								</li>
 									<li class="td td-item">
 										<div class="td-inner">
-											<p>${item.product.name}</p>
+											<p>${substring(item.product.name, 0, 9)}</p>
 										</div>
 									</li>
 									<li class="td td-info">
