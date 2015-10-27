@@ -1126,6 +1126,8 @@ header .area {
 	margin: 0 80px 0 20px;
 }
 
+
+
 .cart-step2 .arrow-stp2 {
 	color: #fff;
 	background: url(../index_img/secondCartIcons.png) -41px -6px;
@@ -1155,6 +1157,8 @@ header .area {
   margin-bottom: 50px;
   font-size: 32px;
 }
+
+
 .cart-step3 .success-area span {
   display: inline-block;
   width: 40px;
@@ -1171,7 +1175,14 @@ header .area {
 	color: #fff;
 	background: url(../index_img/secondCartIcons.png) -41px -6px;
 	background-size: 115%;
-	z-index: 2;
+	z-index: 1;
+}
+
+.cart-step3 .arrow-stp1 {
+	color: #9c9c9c;
+	background: url(../index_img/secondCartIcons.png) -41px -51px;
+	background-size: 113%;
+	z-index: 3;
 }
 
 .adj {
