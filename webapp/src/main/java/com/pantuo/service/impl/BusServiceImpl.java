@@ -181,7 +181,8 @@ public class BusServiceImpl implements BusService {
 		String serinum = req.getFilter("serinum"), oldLineId = req.getFilter("oldLineId"), newLineId = req
 				.getFilter("newLineId"),becompany = req
 						.getFilter("becompany"),afcompany = req
-								.getFilter("afcompany");
+								.getFilter("afcompany"),box= req
+										.getFilter("box");
 		 
 		
 		if (StringUtils.isNoneBlank(oldLineId) ) {
@@ -195,9 +196,19 @@ public class BusServiceImpl implements BusService {
 		}
 		
 		if (StringUtils.isNotBlank(serinum)) {
-			//query = query.and(QJpaBusAdjustLog.jpaBusAdjustLog.jpabus.serialNumber.like("%" + serinum + "%"));
-			query = query.and(QJpaBusAdjustLog.jpaBusAdjustLog.serialNumber.like("%" + serinum + "%"));
-		}
+			if (NumberUtils.toInt(box) == 0) {
+				//query = query.and(QJpaBusAdjustLog.jpaBusAdjustLog.jpabus.serialNumber.like("%" + serinum + "%"));
+				query = query.and(QJpaBusAdjustLog.jpaBusAdjustLog.serialNumber.like("%" + serinum + "%"));
+			} else {
+
+				List<Integer> busIdsList = busSelectMapper.queryUplog(serinum);
+				if (busIdsList != null && !busIdsList.isEmpty()) {
+					query = query.and(QJpaBusAdjustLog.jpaBusAdjustLog.jpabus.id.in(busIdsList));
+				} else {
+					query = query.and(QJpaBusAdjustLog.jpaBusAdjustLog.jpabus.id.eq(0));
+				}
+			}
+		} 
 		if (StringUtils.isNotBlank(becompany) && !StringUtils.equals(becompany, "defaultAll")) {
 			JpaBusinessCompany company=new JpaBusinessCompany();
 			int bid =NumberUtils.toInt(becompany);
