@@ -7,12 +7,17 @@
     var table;
 
     function initTable () {
-        table = $('#table').dataTable( {
-            "dom": '<"#toolbar">lrtip',
+        table = $('#table').DataTable( {
+             "dom": '<"#toolbar"><"top"i>rt<"bottom"flp><"clear"> ',
             "searching": false,
             "ordering": true,
             "serverSide": true,
             "scrollX": true,
+             "aaSorting": [[3, "desc"]],
+            "columnDefs": [
+                { "sClass": "align-left", "targets": [0] },
+                { "orderable": false, "targets": [0,1,4,5] },
+            ],
             "ajax": {
                 type: "GET",
                 url: "${rc.contextPath}/product/ajax-productV2_list",
@@ -24,6 +29,7 @@
                 "dataSrc": "content",
             },
             "columns": [
+              { "data": "", "defaultContent": "" },
                 { "data": "name", "defaultContent": "" },
                 { "data": "price", "defaultContent": "", "render": $.fn.dataTable.render.number( ',', '.', 2, ' ')  },
                  { "data": "created", "defaultContent": "","render": function(data, type, row, meta) {
@@ -56,7 +62,14 @@
             "initComplete": initComplete,
             "drawCallback": drawCallback,
         } );
-        table.fnNameOrdering("orderBy").fnNoColumnsParams();
+         $('#table').dataTable().fnNameOrdering();
+        //table.fnNameOrdering("orderBy").fnNoColumnsParams();
+        
+        table.on( 'order.dt search.dt', function () {
+	        table.column(0, {}).nodes().each( function (cell, i) {
+	            cell.innerHTML = i+1;
+	        } );
+	    } ).draw();
        
     }
 
@@ -114,18 +127,20 @@ function buy(pid){
 </script>
 
 <div class="withdraw-wrap color-white-bg fn-clear">
-		
+		<div class="paging"></div>
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
+                     <th ></th>
                         <th >套餐名称</th>
-                        <th >价格(元)</th>
-                        <th >创建时间</th>
+                        <th orderBy="price">价格(元)</th>
+                        <th orderBy="created">创建时间</th>
                         <th >创建人</th>
                         <th>管理</th>
                     </tr>
                     </thead>
 
                 </table>
+                <span>-</span>
 </div>
 </@frame.html>
