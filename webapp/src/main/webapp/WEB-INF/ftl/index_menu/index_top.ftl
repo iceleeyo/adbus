@@ -85,7 +85,7 @@
                                         <#if medetype?? && medetype=="screen">
                                         <a class="pg-nav-item s-left" href="${rc.contextPath}/order/myTask/1">
                                         <#else>
-                                           <a class="pg-nav-item s-left" href="${rc.contextPath}/busselect/myTask/1">
+                                        <a class="pg-nav-item s-left" href="${rc.contextPath}/busselect/myTask/1">
                                         </#if>
                                                                                                                                    我的账户:
                                             <@security.authentication property="principal.user.firstName" />
