@@ -59,10 +59,12 @@ function tocard(pathurl){
 						</div>
 						<div class="search-key">
 							<span>车身广告</span>
-							<span>车身广告</span>
-							<span>车身广告</span>
-							<span>车身广告</span>
-							<span>车身广告</span>
+							<span>视频广告</span>
+							<span>医院周边</span>
+							<span>特级</span>
+							<span>CBD</span>
+							<span>A++</span>
+							<span>东城区</span>
 						</div>
 					</div>
 				</div>
@@ -94,26 +96,26 @@ function tocard(pathurl){
 								<div class="select-item">
 									<img src="index_img/food.png">
 									<p>食品</p>
-									<p>价格：50000</p>
-									<p>周期：7天</p>
+									<p>价格：500000</p>
+									<p>周期：3个月</p>
 								</div>
 								<div class="select-item">
 									<img src="index_img/internet.png">
-									<p>食品</p>
-									<p>价格：50000</p>
+									<p>互联网</p>
+									<p>价格：1500000</p>
 									<p>周期：7天</p>
 								</div>
 								<div class="select-item">
 									<img src="index_img/travel.png">
-									<p>食品</p>
-									<p>价格：50000</p>
-									<p>周期：7天</p>
+									<p>旅游</p>
+									<p>价格：520000</p>
+									<p>周期：1个月</p>
 								</div>
 								<div class="select-item">
 									<img src="index_img/drink.png">
-									<p>食品</p>
-									<p>价格：50000</p>
-									<p>周期：7天</p>
+									<p>饮料</p>
+									<p>价格：590000</p>
+									<p>周期：3个月</p>
 								</div>
 							</div>
 					</div>
