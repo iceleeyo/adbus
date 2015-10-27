@@ -118,7 +118,7 @@
 								<div class="left"></div>
 								<div class="right">
 								  <div class="top">
-								  	<span>10年专注投入          展望未来</span>
+								  	<span>专注投入          展望未来</span>
 								  	<p class="spec"></p>
 								  </div>
 								  <div class="mid">
