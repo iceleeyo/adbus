@@ -68,45 +68,8 @@
       </div>
 
 		<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
-		<!--增加lay最新版本-->
-	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer/layer.js"></script>
-	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer.onload.js"></script>
-	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
 		<script src="index_js/unslider.min.js"></script>
 		<script type="text/javascript">
-		function payment(){
-		var paytype=$('#payway :radio[name=payType]:checked').val();
-		var divid=$("#dividpay").val();
-		var seriaNum=${seriaNum};
-		var meids='${meids}';
-		var boids='${boids}';
-		if(paytype=="" || typeof(paytype)=="undefined"){
-		  layer.msg("请选择支付方式");
-		  return;
-		}
-		if(seriaNum=="" || typeof(seriaNum)=="undefined"){
-		  layer.msg("没有seriaNum,操作异常");
-		  return;
-		}
-		$.ajax({
-			url:"${rc.contextPath}/carbox/payment",
-			type:"POST",
-			async:false,
-			dataType:"json",
-			data:{"divid":divid,"seriaNum":seriaNum,"paytype":paytype,"meids":meids,"boids":boids},
-			success:function(data){
-				if (data.left) {
-					layer.msg(data.right);
-				   var uptime = window.setTimeout(function(){
-				   window.location.href="${rc.contextPath}/order/myOrders/1";
-			   	    clearTimeout(uptime);
-						},1500)
-				} else {
-					layer.msg(data.right);
-				}
-			}
-          });  
-		}
 		
 		
 			$(document).ready(function(e) {
