@@ -27,16 +27,16 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 	
     var table;
     function initTable () {
-        table = $('#table').dataTable( {
+        table = $('#table').DataTable( {
             //"dom": '<"#toolbar">lrtip',
-             "dom": '<"#toolbar"><"top"iflp<"clear">>rt<"bottom"iflp<"clear">>',
+             "dom": '<"#toolbar"><"top"il>rt<"bottom"p><"clear">',
             "searching": false,
             "ordering": true,
             "serverSide": true,
             "scrollX": true,
-               "aaSorting": [[0, "desc"]],
+               "aaSorting": [[1, "desc"]],
             "columnDefs": [
-                { "orderable": false, "targets": [1,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18] },
+                { "orderable": false, "targets": [0,2,5,7,8,9,10,11,12,13,14,15,16,17,18,19,20] },
             ],
             "iDisplayLength" : 20,
             "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
@@ -50,12 +50,15 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                         "filter[newLineId]" : $('#newLineId').val(),
                          "filter[becompany]" : $('#becompany').val(),
                           "filter[afcompany]" : $('#afcompany').val(),
+                             "filter[box]" : $("#showAll").val() 
+                          
                         
                     } );
                 },
                 "dataSrc": "content",
             },
             "columns": [
+            { "data": "", "defaultContent": ""},
             { "data": "log.updated", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd");
                 	return d;
@@ -103,6 +106,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
             },
             "initComplete": initComplete,
             "drawCallback": drawCallback,
+            "fnDrawCallback": fnDrawCallback,
             "createdRow": function ( row, data, index ) {
 	            if (data.ishaveAd) {
 	            // $('td', row).eq(5).addClass('highlight');
@@ -110,13 +114,17 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 	            }
         }
         } );
-        table.fnNameOrdering("orderBy").fnNoColumnsParams();
+         $('#table').dataTable().fnNameOrdering();
+       // table.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
-
+	function fnDrawCallback(){
+    	 counter_columns(table,0);
+    }
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>车辆自编号：</span>' +
+                		
+                        '    <span>车辆自编号</span>' +'[历史<input type="checkbox" name="box1" id="box1" value="1"  />]：'+
                         '    <span>' +
                         '        <input id="serinum" value="">' +
                         '    </span>&nbsp;&nbsp;' +
@@ -147,7 +155,15 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                   	
                     '<br>'
         );
-
+	$("#box1").click(function(){  
+			 var w = $("#showAll").val();
+			 if(w==0){
+			   $("#showAll").val(1);
+			 }else {
+			 	$("#showAll").val(0);
+			 }  
+			  table.draw(); 
+	    }); 
         $('#serinum,#newLinename,#oldLinename,#becompany,#afcompany').change(function() {
         
         	if($('#newLinename').val() ==''){
@@ -156,7 +172,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
         	if($('#oldLinename').val() ==''){
         		  $('#oldLineId').val("");
         	}
-            table.fnDraw();
+            table.draw();
         });
           
         
@@ -171,7 +187,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				$('#linename').val(ui.item.value);
 			   //$('#newLineId').val(ui.item.dbId);
 			   $('#newLineId').val(ui.item.value);
-				table.fnDraw();
+				table.draw();
 			}
 		}).focus(function () {
        				 $(this).autocomplete("search");
@@ -185,7 +201,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				$('#linename').val(ui.item.value);
 				//$('#oldLineId').val(ui.item.dbId);
 				$('#oldLineId').val(ui.item.value);
-				table.fnDraw();
+				table.draw();
 			}
 		}).focus(function () {
        				 $(this).autocomplete("search");
@@ -196,7 +212,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
     function drawCallback() {
         $('.table-action').click(function() {
             $.post($(this).attr("url"), function() {
-                table.fnDraw(true);
+                table.draw();
             })
         });
         $("#table_length").hide(); 
@@ -237,10 +253,12 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
             <div class="withdraw-title">
 									</div>
 									<input type="hidden" id ="oldLineId" value ="" >			
-									<input type="hidden" id ="newLineId" value ="" >			
+									<input type="hidden" id ="newLineId" value ="" >		
+									<input type="hidden" id ="showAll" value ="0" >	
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>
                     <tr>   
+                     <th ></th>
                      	 <th orderBy="updated">车辆变更日期</th>
                      	 <th>变更后分公司</th>
                       

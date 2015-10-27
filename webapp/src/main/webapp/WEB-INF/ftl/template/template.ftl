@@ -8,7 +8,8 @@
   <link rel="shortcut icon" href="${rc.contextPath}/images/favicon.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${title!''}</title>
-    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery-1.8.3.min.js"></script>
+   <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery-1.8.3.min.js"></script>
+    <!--<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery-1.11.3.min.js"></script>-->
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.form.js"></script>
     
   <!--  <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.min.js"></script>-->
@@ -16,8 +17,11 @@
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/validation/jquery.validationEngine.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/validation/jquery.validationEngine-zh_CN.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.dataTables.js"></script>
+    <!--<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.dataTables-1.10.9.js"></script>-->
+    
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery-dataTables-fnNameOrdering.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery-dataTables-fnNoColumnsParams.js"></script>
+    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery-dataTables-fnCounterColumns.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer/layer.js"></script>
        <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/icheck.js"></script>
     <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/platform.js"></script>

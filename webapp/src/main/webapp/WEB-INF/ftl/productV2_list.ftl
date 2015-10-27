@@ -61,16 +61,14 @@
             },
             "initComplete": initComplete,
             "drawCallback": drawCallback,
+            "fnDrawCallback": fnDrawCallback,
         } );
          $('#table').dataTable().fnNameOrdering();
         //table.fnNameOrdering("orderBy").fnNoColumnsParams();
         
-        table.on( 'order.dt search.dt', function () {
-	        table.column(0, {}).nodes().each( function (cell, i) {
-	            cell.innerHTML = i+1;
-	        } );
-	    } ).draw();
-       
+    }
+     function fnDrawCallback(){
+    	 counter_columns(table,1);
     }
 
     function initComplete() {
@@ -84,11 +82,13 @@
         );
 
         $('#name').change(function() {
-            table.fnDraw();
+           // table.fnDraw();
+            table.draw();
         });
     }
 
     function drawCallback() {
+    
         $('.table-action').click(function() {
         var r = confirm("确定执行该操作吗")
         if(r==true){

@@ -20,15 +20,15 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 	
     var table;
     function initTable () {
-        table = $('#table').dataTable( {
-            "dom": '<"#toolbar">lrtip',
+        table = $('#table').DataTable( {
+             "dom": '<"#toolbar"><"top"il>rt<"bottom"p><"clear">',
             "searching": false,
             "ordering": true,
             "serverSide": true,
             "scrollX": true,
-               "aaSorting": [[1, "asc"]],
+               "aaSorting": [[2, "asc"]],
             "columnDefs": [
-                { "orderable": false, "targets": [0,2,3,4,7, 8,9,10] },
+                { "orderable": false, "targets": [0,1,3,4,5,6, 9,10,11] },
             ],
             "iDisplayLength" : 20,
             "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
@@ -57,6 +57,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 											return operations;
 										}
 									},
+									  { "data": "", "defaultContent": ""},
                 { "data": "jpaBus.serialNumber", "defaultContent": ""},
                 { "data": "jpaBus.oldSerialNumber", "defaultContent": ""},
                 { "data": "jpaBus.plateNumber", "defaultContent": "","render" : function(data, type, row,
@@ -94,9 +95,17 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
             },
             "initComplete": initComplete,
             "drawCallback": drawCallback,
+            "fnDrawCallback": fnDrawCallback,
         } );
-        table.fnNameOrdering("orderBy").fnNoColumnsParams();
+        $('#table').dataTable().fnNameOrdering();
+      //  table.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
+    
+    function fnDrawCallback(){
+    	 counter_columns(table,1);
+    }
+    
+     
 
     function initComplete() {
         $("div#toolbar").html(
@@ -144,7 +153,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
         );
 
         $('#serinum,#oldserinum,#name,#linename,#category,#levelStr').change(function() {
-            table.fnDraw();
+            table.draw();
         });
           
         
@@ -168,7 +177,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 			},
 			select : function(event, ui) {
 				$('#linename').val(ui.item.value);
-				table.fnDraw();
+				table.draw();
 			}
 		}).focus(function () {
        				 $(this).autocomplete("search");
@@ -218,7 +227,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 					    			success:function(data){
 					    				if (data.left == true) {
 					    					layer.msg("调车操作成功");
-					    					 table.dataTable()._fnAjaxUpdate();
+					    					 table.draw();
 					    				} else {
 					    					layer.msg(data.right,{icon: 5});
 					    				}
@@ -231,7 +240,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
     function drawCallback() {
         $('.table-action').click(function() {
             $.post($(this).attr("url"), function() {
-                table.fnDraw(true);
+                table.draw();
             })
         });
     }
@@ -278,6 +287,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                     <thead>
                     <tr>   
                     	<th > <input type="checkbox" name="checkAll" /></th>
+                    		<th ></th>
                         <th orderBy="serialNumber">车辆自编号</th>
                         <th>旧自编号</th>
                         <th >车牌号</th>
