@@ -75,7 +75,7 @@
 									 -->
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t"  href="${rc.contextPath}/contract/list">
-													屏幕广告合同列表
+													屏幕广告合同
 												</a>
 											</li>
 											<#if city.mediaType == 'body'>
