@@ -217,7 +217,9 @@ header .area {
 	margin: 5px 0;
 	font-size: 16px;
 }
-
+.item span{
+	font-size: 16px;
+}
 .recommand .re-box .select-items {
 	float: left;
 	margin-left: 30px;
@@ -1164,6 +1166,12 @@ header .area {
 }
 .cart-step3 .more-info {
   color: #009deb;
+}
+.cart-step3 .arrow-stp3 {
+	color: #fff;
+	background: url(../index_img/secondCartIcons.png) -41px -6px;
+	background-size: 115%;
+	z-index: 2;
 }
 
 .adj {
