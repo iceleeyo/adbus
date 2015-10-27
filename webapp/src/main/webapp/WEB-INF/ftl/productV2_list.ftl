@@ -8,7 +8,7 @@
 
     function initTable () {
         table = $('#table').DataTable( {
-             "dom": '<"#toolbar"><"top"i>rt<"bottom"flp><"clear"> ',
+             "dom": '<"#toolbar"><"top"il>rt<"bottom"p><"clear">',
             "searching": false,
             "ordering": true,
             "serverSide": true,
