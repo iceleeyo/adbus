@@ -37,9 +37,9 @@
 				<div class="cart-container cart-step3">
 					<div class="c-inner">
 						<div class="tabline">
-							<div class="arrow arrow-stp1"><span class="ara">1</span><a href="${rc.contextPath}/toCard"><span>查看购物车</span></a></div>
+							<div class="arrow arrow-stp3"><span class="ara">1</span><a href="${rc.contextPath}/toCard"><span>查看购物车</span></a></div>
 							<div class="arrow arrow-stp2"><span class="ara">2</span><span>确认订单信息</span></div>
-							<div class="arrow arrow-stp3"><span class="ara">3</span><span>成功提交订单</span></div>
+							<div class="arrow arrow-stp1"><span class="ara">3</span><span>成功提交订单</span></div>
 						</div>
 					 <div class="success-content clearfix">
 							<p class="success-area"><span></span>交易成功！</p>
