@@ -228,7 +228,7 @@ header .area {
 
 .recommand .re-box .select-items .select-item {
 	float: left;
-	margin: 0 20px;
+	margin: 0 30px;
 	cursor: pointer;
 }
 
@@ -308,7 +308,7 @@ header .area {
 }
 
 .timer .select-item img {
-	width: 160px;
+	width: 180px;
 	height: 160px;
 }
 
