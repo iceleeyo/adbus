@@ -34,27 +34,17 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 								 "dataSrc": function(json) {return json;},
 							},
 							"columns" : [
-							{ "data": "lineDesc", "defaultContent": ""},
+				{ "data": "batch", "defaultContent": ""},
 			    { "data": "line.name", "defaultContent": "", "render": function(data, type, row, meta) {
                       return '<a   onclick=" gotoSchedult(' + row.line.id +","+(row.model.id )+ ')" >'+data+'</a> &nbsp;';
                 }},
                 { "data": "line.levelStr", "defaultContent": ""}, 
-                { "data": "model.name", "defaultContent": "", "render": function(data, type, row,meta) {
-                           if(row.model.id ==0){
-                                return "所有车型"
-                            }else if(row.model.doubleDecker==false){
-                              return row.model.name+ ' 单层';
-                            }else{
-                               return row.model.name+ ' 双层';
-                                 }
-                               }}, 
+                { "data": "mediaType", "defaultContent": ""},
+                { "data": "days", "defaultContent": 0}, 
+                { "data": "lineDesc", "defaultContent": ""}, 
                 { "data": "salesNumber", "defaultContent": ""}, 
                 { "data": "remainNuber", "defaultContent": ""}, 
-                { "data": "days", "defaultContent": 0}, 
-                { "data": "startDate","render" : function(data, type, row,meta) {
-					return  $.format.date(data, "yyyy-MM-dd");
-										}
-									},
+                { "data": "remarks", "defaultContent": ""}, 
                 { "data": "created","render" : function(data, type, row,meta) {
 					return  $.format.date(data, "yyyy-MM-dd");
 										}
@@ -67,7 +57,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 											var operations = '';
 											operations += '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/busselect/ajax-remove-publishLine?seriaNum=${seriaNum}&id=' + data +'">删除</a>';
 											operations +='&nbsp;&nbsp;<a class="table-link" onclick="editPublishLine(\'${rc.contextPath}\','+data+');" href="javascript:void(0)">修改</a>';
-											operations +='&nbsp;&nbsp;<a class="table-link" onclick="publishAmount(\'${rc.contextPath}\','+data+');" href="javascript:void(0)">发布费详情</a>';
+											//operations +='&nbsp;&nbsp;<a class="table-link" onclick="publishAmount(\'${rc.contextPath}\','+data+');" href="javascript:void(0)">发布费详情</a>';
 											if(row.offlineContract!=null && row.offlineContract.id!=null && row.offlineContract.id>0){
 												operations +='&nbsp;&nbsp;<a class="table-link" target="_blank" href="${rc.contextPath}/bus/findBusByLineid/'+data+'">车辆上刊</a>';
 											}
@@ -226,67 +216,6 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 		}
 	}
 	
-	//编辑保存
-	function editLine() {
-		var lineid=$("#db_id").val();
-		var startd=$("#startDate").val();
-		var endDate=$("#endDate").val();
-		if(lineid==0){
-		   alert("请选择线路");
-		   return;
-		}
-		if(startd==""){
-		 alert("请选上刊日期");
-		   return;
-		   }
-		if(endDate==""){
-		 alert("请选择下刊日期");
-		   return;
-		   }
-		if($("#busNumber").val()==0){
-		 alert("数量要大于0");
-		   return;
-		   }
-		var bb=false;
-		if(endDate<startd){
-		layer.msg("下刊时间不能小于上刊开始时间");
-			return;
-		}
-		$.ajax({
-				url : "${rc.contextPath}/busselect/lineReaminCheck",
-				type : "POST",
-				async:false,
-				dataType:"json",
-				data : {
-					"buslinId" : $("#db_id").val(),
-					"start" : $("#startDate").val(),
-					"end" : $("#endDate").val(),
-					"modelId" : $("#model_Id  option:selected").val()
-				},
-				success : function(data) {  
-					if($("#busNumber").val()>data){
-						$("#worm-tips").empty(); 
-						var tip='<div  class="tips-title" id="tip" style="padding-left: 13%;">[抱歉，所选线路库存量：<font color="red">'+data+'&nbsp;</font>少于选取数量]</div>'
-						$("#worm-tips").append(tip);
-						$("#worm-tips").show();
-						return;
-					}else {
-						bb=true;
-					}
-				}
-			});
-		if(bb==true){
-			$('#publishform01').ajaxForm(function(data) {
-			if(data.left){
-			     layer.msg("编辑成功");
-			       orderBusesTable.dataTable()._fnAjaxUpdate();
-			       $("#cc").trigger("click");
-			     }else{
-			     layer.msg(data.right);
-			     }
-			}).submit();
-			}
-		}
 	function changeModel(){
 	
 		var t=$("#model_id").children('option:selected').val();
@@ -486,7 +415,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 					skin : 'layui-layer-rim',
 					area : [ '950px', '500px' ],
 					content : ''
-							+ '<br><table border="1px #ooo" id="tab" style="  width: 97%;margin-left:20px;" cellpadding="0"   cellspacing="0" width="90%">'
+							+ '<br><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/><table border="1px #ooo" id="tab" style="  width: 97%;margin-left:20px;" cellpadding="0"   cellspacing="0" width="90%">'
                             +' <tr align="center">'
                             +' <td style="width:10%"><input id="allCkb" type="checkbox"/></td><td >批次</td> <td >线路</td><td  >媒体类型</td> <td style="width:10%">刊期</td><td >发布形式</td><td >级别</td><td >数量</td><td >备注</td>'
                             +' </tr>'
@@ -543,26 +472,27 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 if(o[i].checked){
                 var obj=new Object(); 
                 var sot=o[i].value;
-                var batch=$("#batch_"+sot).val();
-                var lineid=$("#db_id_"+sot).val();
-                var isdouble=$("#isdouble_"+sot).val();
-                var days=$("#days_"+sot).val();
-                var desId=$("#desId_"+sot).val();
-                var salesNumber=$("#salesNumber_"+sot).val();
-                var remarks=$("#remarks_"+sot).val();
-                if(lineid>0){
-                  saveOne(batch,lineid,isdouble,days,desId,salesNumber,remarks);
-                }
+                obj.batch=$("#batch_"+sot).val();
+                obj.lineId=$("#db_id_"+sot).val();
+                obj.mediaType=$("#isdouble_"+sot).val();
+                obj.days=$("#days_"+sot).val();
+                obj.lineDesc=$("#desId_"+sot).val();
+                obj.salesNumber=$("#salesNumber_"+sot).val();
+                obj.remarks=$("#remarks_"+sot).val();
+                 obj.seriaNum=${seriaNum};
+                if($("#db_id_"+sot).val()>0){
+                  saveOne(obj);
+                 }
                 }
            }
-            
+             orderBusesTable.dataTable()._fnAjaxUpdate();
+		       $("#cc").trigger("click");
         }
-   function saveOne(batch,lineid,isdouble,days,desId,salesNumber,remarks){
-      return;
-     alert(batch+"-"+lineid+"-"+isdouble+"-"+days+"-"+salesNumber);
-     var param={"batch":batch,"lineid":lineid,"mediatype":isdouble,"days":days,"desId":desId,"salesNumber":salesNumber,"remarks":remarks};
+   function saveOne(obj){
+     var str = JSON.stringify(obj);  
+     var param={"obj":str}
       $.ajax({
-		    			url:"${rc.contextPath}/bus/savep",
+		    			url:"${rc.contextPath}/busselect/savePublishLine2",
 		    			type:"POST",
 		    			async:false,
 		    			dataType:"json",
@@ -691,14 +621,15 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 					cellspacing="0">
 					<thead>
 				<tr class="tableTr">
-					<th>发布形式</th>
+					<th>批次</th>
 					<th>线路</th>
 					<th>级别</th>
-					<th>车型</th>
+					<th>媒体类型</th>
+					<th>刊期（天）</th>
+                    <th>发布形式</th>
                     <th>订购数量</th>
                     <th>已上刊数量</th>
-                    <th>刊期(天)</th>
-                    <th>预计上刊时间</th>
+                    <th>备注</th>
                     <th>创建时间</th>
                     <th>操作</th>
 				</tr>

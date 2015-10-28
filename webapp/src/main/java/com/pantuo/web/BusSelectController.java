@@ -21,6 +21,7 @@ import org.activiti.engine.task.Task;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -412,7 +413,7 @@ public class BusSelectController {
 	public Pair<Boolean, String> savePublishLine(PublishLine publishLine,
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
 			HttpServletRequest request, @RequestParam(value = "seriaNum", required = true) long seriaNum,
-			@RequestParam(value = "startD", required = true) String startD
+			@RequestParam(value = "startD", required = false) String startD
 			) throws ParseException {
 		publishLine.setCity(city);
 		publishLine.setUserId(Request.getUserId(principal));
@@ -424,15 +425,9 @@ public class BusSelectController {
 	public Pair<Boolean, String> savePublishLine2(PublishLine publishLine,
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
 			HttpServletRequest request,
-			@RequestParam(value = "batch", required = false) String batch, 
-			@RequestParam(value = "lineid", required = false) int lineid, 
-			@RequestParam(value = "mediatype", required = false) String mediatype,
-			@RequestParam(value = "desId", required = false) String desId,
-			@RequestParam(value = "days", required = false) int days, 
-			@RequestParam(value = "salesNumber", required = false) int salesNumber,
-			@RequestParam(value = "remarks", required = false) String remarks
-			) {
-		return busLineCheckService.savePublishLine2(batch, lineid,mediatype,days,desId,salesNumber,remarks,principal,city);
+			@RequestParam(value = "obj", required = false) String obj
+			) throws JsonProcessingException, IOException {
+		return busLineCheckService.savePublishLine2(publishLine,obj,principal,city);
 	}
 
 	/**

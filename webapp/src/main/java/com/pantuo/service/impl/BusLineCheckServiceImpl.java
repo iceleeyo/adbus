@@ -29,8 +29,12 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.JsonGenerator;
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.MappingIterator;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 import org.slf4j.Logger;
@@ -1209,36 +1213,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		return list;
 	}
 
-	@Override
-	public Pair<Boolean, String> savePublishLine(PublishLine publishLine, String startD) throws ParseException {
-		publishLine.setUpdated(new Date());
-		Date date1 = (Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(startD);
-		Date date2 = DateUtil.dateAdd(date1, publishLine.getDays());
-		publishLine.setStartDate(date1);
-		publishLine.setEndDate(date2);
-		if (null != publishLine.getId() && publishLine.getId() > 0) {
-			PublishLine publishLine2 = publishLineMapper.selectByPrimaryKey(publishLine.getId());
-			com.pantuo.util.BeanUtils.copyProperties(publishLine, publishLine2);
-			if (publishLineMapper.updateByPrimaryKey(publishLine2) > 0) {
-				return new Pair<Boolean, String>(true, "修改成功");
-			}
-			return new Pair<Boolean, String>(false, "修改失败");
-		}
-		OfflinecontractExample example = new OfflinecontractExample();
-		OfflinecontractExample.Criteria criteria = example.createCriteria();
-		criteria.andSeriaNumEqualTo(publishLine.getSeriaNum());
-		List<Offlinecontract> list = offlinecontractMapper.selectByExample(example);
-		if (list.size() > 0) {
-			publishLine.setContractId(list.get(0).getId());
-		}
-		publishLine.setStats(JpaBusLock.Status.ready.ordinal());
-		publishLine.setCreated(new Date());
-		publishLine.setRemainNuber(0);
-		if (publishLineMapper.insert(publishLine) > 0) {
-			return new Pair<Boolean, String>(true, "保存成功");
-		}
-		return new Pair<Boolean, String>(false, "保存失败");
-	}
+	
 
 	@Override
 	public Pair<Boolean, String> saveDivid(Dividpay dividpay, long seriaNum, String userId, String payDate1)
@@ -1277,7 +1252,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		if (publishLine == null) {
 			return new Pair<Boolean, String>(false, "信息丢失");
 		}
-		if (publishLine.getSalesNumber() != publishLine.getRemainNuber()) {
+		if (publishLine.getRemainNuber()>0) {
 			return new Pair<Boolean, String>(false, "已有车辆在刊，不能删除");
 		}
 		if (publishLineMapper.deleteByPrimaryKey(id) > 0) {
@@ -1527,20 +1502,71 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		}
 		return new Pair<Boolean, String>(true, "该线路存在");
 	}
-
 	@Override
-	public Pair<Boolean, String> savePublishLine2(String batch, int lineid, String mediatype, int days,String fabu,
-			int salesNumber, String remarks, Principal principal, int city) {
+	public Pair<Boolean, String> savePublishLine(PublishLine publishLine, String startD) throws ParseException {
+		publishLine.setUpdated(new Date());
+		if(StringUtils.isNotBlank(startD)){
+			Date date1 = (Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(startD);
+			Date date2 = DateUtil.dateAdd(date1, publishLine.getDays());
+			publishLine.setStartDate(date1);
+			publishLine.setEndDate(date2);
+		}
+		if (null != publishLine.getId() && publishLine.getId() > 0) {
+			PublishLine publishLine2 = publishLineMapper.selectByPrimaryKey(publishLine.getId());
+			com.pantuo.util.BeanUtils.copyProperties(publishLine, publishLine2);
+			if (publishLineMapper.updateByPrimaryKey(publishLine2) > 0) {
+				return new Pair<Boolean, String>(true, "修改成功");
+			}
+			return new Pair<Boolean, String>(false, "修改失败");
+		}
+		OfflinecontractExample example = new OfflinecontractExample();
+		OfflinecontractExample.Criteria criteria = example.createCriteria();
+		criteria.andSeriaNumEqualTo(publishLine.getSeriaNum());
+		List<Offlinecontract> list = offlinecontractMapper.selectByExample(example);
+		if (list.size() > 0) {
+			publishLine.setContractId(list.get(0).getId());
+		}
+		publishLine.setStats(JpaBusLock.Status.ready.ordinal());
+		publishLine.setCreated(new Date());
+		publishLine.setRemainNuber(0);
+		if (publishLineMapper.insert(publishLine) > 0) {
+			return new Pair<Boolean, String>(true, "保存成功");
+		}
+		return new Pair<Boolean, String>(false, "保存失败");
+	}
+	@Override
+	public Pair<Boolean, String> savePublishLine2(PublishLine pub,String obj, Principal principal, int city) throws JsonProcessingException, IOException {
+		if (null != pub.getId() && pub.getId() > 0) {
+			PublishLine publishLine2 = publishLineMapper.selectByPrimaryKey(pub.getId());
+			com.pantuo.util.BeanUtils.copyProperties(pub, publishLine2);
+			if (publishLineMapper.updateByPrimaryKey(publishLine2) > 0) {
+				return new Pair<Boolean, String>(true, "修改成功");
+			}
+			return new Pair<Boolean, String>(false, "修改失败");
+		}
+		ObjectMapper t = new ObjectMapper();
+		t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
+		PublishLine stud=t.readValue(obj, PublishLine.class);
 		PublishLine publishLine=new PublishLine();
-		publishLine.setBatch(batch);
+		BeanUtils.copyProperties(stud, publishLine);
 		publishLine.setCity(city);
 		publishLine.setCreated(new Date());
-		publishLine.setDays(days);
-		publishLine.setLineId(lineid);
+		publishLine.setStats(JpaBusLock.Status.ready.ordinal());
 		publishLine.setUserId(Request.getUserId(principal));
-		publishLine.setSalesNumber(salesNumber);
-		publishLine.setLineDesc(fabu);
-		return null;
+		publishLine.setRemainNuber(0);
+		publishLine.setModelId(0);
+		OfflinecontractExample example = new OfflinecontractExample();
+		OfflinecontractExample.Criteria criteria = example.createCriteria();
+		criteria.andSeriaNumEqualTo(publishLine.getSeriaNum());
+		List<Offlinecontract> list = offlinecontractMapper.selectByExample(example);
+		if (list.size() > 0) {
+			publishLine.setContractId(list.get(0).getId());
+		}
+		if (publishLineMapper.insert(publishLine) > 0) {
+			return new Pair<Boolean, String>(true, "保存成功");
+		}
+		return new Pair<Boolean, String>(false, "保存失败");
 	}
 	
 }

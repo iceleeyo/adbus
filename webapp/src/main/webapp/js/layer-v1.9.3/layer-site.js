@@ -1477,63 +1477,40 @@ function editPublishLine(tourl,id){
 	type : 1,
 	title : "信息修改",
 	skin : 'layui-layer-rim',
-	area : [ '400px', '650px' ],
+	area : [ '400px', '550px' ],
 	content : ''
-			+ '<form id="publishform01" action='+tourl+'/busselect/savePublishLine?seriaNum='+data.seriaNum+'>'
+			+ '<form id="editPublishLineform" action='+tourl+'/busselect/savePublishLine2>'
 			+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
 			+ '<div class="ui-form-item"><input type="hidden" name="id" value="'+data.id+'"/><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/>'
 			+ '<label class="ui-label mt10">选择线路：</label>'
 			+ '<input class="ui-input" value="'+data.line.name+'"  id="line_id" data-is="isAmount isEnough">'
 			+ '</div>'
-			+ '<div id="four"><div class="ui-form-item" id="model_Id">'
-			+ '<label class="ui-label mt10">选择车型：</label>'
-			+ '<select  class="ui-input bus-model" name="modelId" id="model_id"> <option value="'+data.model.id+'" selected="selected">'+data.model.name+'</option><option value="0">所有类型</option> </select>'
-			+ '</div>'
-			+'<div class="ui-form-item"> <label class="ui-label mt10">选取数量：</label>'
+			+'<div class="ui-form-item"> <label class="ui-label mt10">订购数量：</label>'
 			+'<input class="ui-input " type="text" value="'+data.salesNumber+'" name="salesNumber" onkeyup="value=value.replace(/[^\\d]/g,\'\')" '
 			+'id="busNumber" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
 				+'</div>'
-			+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">上刊日期:</label>'
-			+'<input class="ui-input datepicker validate[required,custom[date],past[#endDate]]" type="text" name="startD" value="'+$.format.date(data.startDate, "yyyy-MM-dd")+'" id="startDate" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
-			+'</div>'
-			+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">下刊日期:</label>'
-			+'<input class="ui-input datepicker validate[required,custom[date],past[#endDate]]" type="text" name="endD" value="'+$.format.date(data.endDate, "yyyy-MM-dd")+'" id="endDate" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
-			+'</div>'
 			+'<div class="ui-form-item"> <label class="ui-label mt10">批次：</label>'
 			+'<input class="ui-input " type="text" value="'+data.batch+'" name="batch"  '
 			+'id="batch" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-				+'</div>'
-				+'<div class="ui-form-item"> <label class="ui-label mt10">发布费单价：</label>'
-			+'<input class="ui-input " type="text" value="'+data.unitPrice+'" name="unitPrice"  '
-			+'id="unitPrice" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-				+'</div>'
-				+'<div class="ui-form-item"> <label class="ui-label mt10">发布价值：</label>'
-			+'<input class="ui-input " type="text" value="'+data.publishValue+'" name="publishValue" '
-			+'id="publishValue" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-				+'</div>'
-				+'<div class="ui-form-item"> <label class="ui-label mt10">折扣率：</label>'
-			+'<input class="ui-input " type="text" value="'+data.discountrate+'" name="discountrate"  '
-			+'id="discountrate" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-				+'</div>'
-				+'<div class="ui-form-item"> <label class="ui-label mt10">优惠后金额：</label>'
-			+'<input class="ui-input " type="text" value="'+data.discountPrice+'" name="discountPrice"  '
-			+'id="discountPrice" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-				+'</div>'
-			+ '</div></div>'
+			+'</div>'
+			+'<div class="ui-form-item"> <label class="ui-label mt10">媒体类型：</label>'
+			+'<input class="ui-input " type="text" value="'+data.mediaType+'" name="mediaType"  '
+			+'id="batch" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+			+'</div>'
+			+'<div class="ui-form-item"> <label class="ui-label mt10">刊期：</label>'
+			+'<input class="ui-input " type="text" value="'+data.days+'" name="days"  '
+			+'id="batch" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+			+'</div>'
+			+'<div class="ui-form-item"> <label class="ui-label mt10">备注：</label>'
+			+'<input class="ui-input " type="text" value="'+data.remarks+'" name="remarks"  '
+			+'id="batch" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+			+'</div>'
 			+ '<div class="ui-form-item widthdrawBtBox" style="position: absolute; bottom: 10px;">'
-			+ '<input type="button" onclick="editLine(\''+tourl+'\')" class="block-btn" value="确认" ></div>'
+			+ '<input type="button" onclick="editLine(\''+tourl+'\')" class="block-btn" value="保存" ></div>'
+			+ '</div>'
 			+ '<input type="hidden" value="'+data.line.id+'" name="lineId" id="db_id"></form>'
 			+'<div id="worm-tips" class="worm-tips" style="width:350px;display:none;"></div>'
 });
-	var checkin = $('#startDate').datepicker()
-	.on('click', function (ev) {
-	    $('.datepicker').css("z-index", "999999999");
-	}).data('datepicker');
-	
-	var checkin = $('#endDate').datepicker()
-	.on('click', function (ev) {
-	    $('.datepicker').css("z-index", "999999999");
-	}).data('datepicker');
 	
 	
 	$("#line_id").autocomplete({
@@ -1546,7 +1523,7 @@ function editPublishLine(tourl,id){
 	select : function(event, ui) {
 	$('#line_id').val(ui.item.value);
 	//table.fnDraw();
-	initProvince(ui.item.dbId);
+	//initProvince(ui.item.dbId);
 	$("#db_id").val(ui.item.dbId);
 	}
 	}).focus(function () {
@@ -1558,54 +1535,15 @@ function editPublishLine(tourl,id){
 //编辑保存
 function editLine(purl) {
 	var lineid=$("#db_id").val();
-	var startd=$("#startDate").val();
-	var endDate=$("#endDate").val();
 	if(lineid==0){
 	   alert("请选择线路");
 	   return;
 	}
-	if(startd==""){
-	 alert("请选上刊日期");
-	   return;
-	   }
-	if(endDate==""){
-	 alert("请选择下刊日期");
-	   return;
-	   }
 	if($("#busNumber").val()==0){
 	 alert("数量要大于0");
 	   return;
 	   }
-	var bb=false;
-	if(endDate<startd){
-	layer.msg("下刊时间不能小于上刊开始时间");
-		return;
-	}
-	$.ajax({
-			url : purl+"/busselect/lineReaminCheck",
-			type : "POST",
-			async:false,
-			dataType:"json",
-			data : {
-				"buslinId" : $("#db_id").val(),
-				"start" : $("#startDate").val(),
-				"end" : $("#endDate").val(),
-				"modelId" : $("#model_Id  option:selected").val()
-			},
-			success : function(data) {  
-				if($("#busNumber").val()>data){
-					$("#worm-tips").empty(); 
-					var tip='<div  class="tips-title" id="tip" style="padding-left: 13%;">[抱歉，所选线路库存量：<font color="red">'+data+'&nbsp;</font>少于选取数量]</div>'
-					$("#worm-tips").append(tip);
-					$("#worm-tips").show();
-					return;
-				}else {
-					bb=true;
-				}
-			}
-		});
-	if(bb==true){
-		$('#publishform01').ajaxForm(function(data) {
+		$('#editPublishLineform').ajaxForm(function(data) {
 		if(data.left){
 		     layer.msg("编辑成功");
 		       orderBusesTable.dataTable()._fnAjaxUpdate();
@@ -1614,7 +1552,6 @@ function editLine(purl) {
 		     layer.msg(data.right);
 		     }
 		}).submit();
-		}
 	}
 function publishAmount(tourl,id){
 	$.ajax({

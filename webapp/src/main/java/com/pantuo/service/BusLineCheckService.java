@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -200,6 +201,5 @@ public interface BusLineCheckService {
 
 	public Pair<Boolean, String> ishaveline(String linename);
 
-	public Pair<Boolean, String> savePublishLine2(String batch, int lineid, String mediatype, int days,String fabu,
-			int salesNumber, String remarks, Principal principal, int city);
+	public Pair<Boolean, String> savePublishLine2(PublishLine pub, String obj, Principal principal, int city)throws JsonProcessingException, IOException;
 }
