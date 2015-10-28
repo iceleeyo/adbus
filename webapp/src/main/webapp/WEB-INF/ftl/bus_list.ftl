@@ -146,6 +146,10 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
         $('#serinum,#oldserinum,#name,#linename,#category,#levelStr').change(function() {
             table.fnDraw();
         });
+         $('#linename').change(function() {
+            ishaveline($("#linename").val());
+            table.fnDraw();
+        });
          $("#linename").autocomplete({
 		minLength: 0,
 			source : "${rc.contextPath}/busselect/autoComplete?tag=a",
@@ -173,7 +177,17 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
             location.href='${rc.contextPath}/bus/ajax-list.xls?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1&'+params;
         });
     }
-
+function ishaveline(linename){
+     $.ajax({
+				url :  "${rc.contextPath}/busselect/ishaveline/"+linename,
+				type : "POST",
+				success : function(data) {
+				if(!data.left){
+				    layer.msg(data.right);
+				  }
+				 }
+			}, "text");
+    }
     function drawCallback() {
         $('.table-action').click(function() {
             $.post($(this).attr("url"), function() {

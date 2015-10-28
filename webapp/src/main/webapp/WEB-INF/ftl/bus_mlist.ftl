@@ -162,7 +162,10 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
         $('#serinum,#oldserinum,#name,#linename,#category,#levelStr').change(function() {
             table.draw();
         });
-          
+          $('#linename').change(function() {
+            ishaveline($("#linename").val());
+            table.fnDraw();
+        });
         
             $("#newLine").autocomplete({
 			minLength: 0,
@@ -243,7 +246,17 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 					});	
         });
     }
-
+function ishaveline(linename){
+     $.ajax({
+				url :  "${rc.contextPath}/busselect/ishaveline/"+linename,
+				type : "POST",
+				success : function(data) {
+				if(!data.left){
+				    layer.msg(data.right);
+				  }
+				 }
+			}, "text");
+    }
     function drawCallback() {
         $('.table-action').click(function() {
 			$.post($(this).attr("url"), function(data) {

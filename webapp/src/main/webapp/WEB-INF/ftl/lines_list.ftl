@@ -194,7 +194,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 				type : "POST",
 				success : function(data) {
 				if(!data.left){
-				    msg.layer(data.right);
+				    layer.msg(data.right);
 				  }
 				 }
 			}, "text");
