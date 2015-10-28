@@ -116,7 +116,7 @@ function sub(){
 			</div>
 
 			<div class="tips">
-				<span>已有帐号? <a href="#"> 立即登录</a></span>
+				<span>已有帐号? <a href="${rc.contextPath}/login"> 立即登录</a></span>
 			</div>
 		</div>
 
