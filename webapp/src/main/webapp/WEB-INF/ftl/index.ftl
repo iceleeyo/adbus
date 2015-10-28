@@ -71,34 +71,7 @@
                                         </@security.authorize>
                                     </span>
 									<#--<span class="arrow-down"></span>-->
-								<div class="pg-nav-dropdown" style="display: none;">
-									<div class="pg-dropdown-box">
-										<div class="dropdown-account s-clear">
-											<div class="account-img-box s-left">
-												<a href="">
-													<img src="${rc.contextPath}/imgs/default-img-78.png">
-												</a>
-											</div>
-											<div class="s-left">
-												<div class="user-money-handle s-clear grgray-text">
-													<span class="balance fsize-14 s-left mr10">账户余额</span>
-													<span class="orange-text fsize-14 s-left">
-														<em class="fsize-18">0.00</em>
-													</span>
-												</div>
-												<div>
-													<a class="s-left pg-btn pg-btn-green pg-btn-md mr4" href="#">充值</a>
-													<a class="s-left pg-btn pg-btn-blue pg-btn-md" href="#">提现</a>
-												</div>
-											</div>
-										</div>
-										<div class="dropdown-bottom s-clear">
-											<div class="dropdown-set s-left"><a class="is-line" href="">我的报表</a></div>
-											<div class="dropdown-set s-left"><a class="is-line" href="">我的物料</a></div>
-											<div class="dropdown-set s-left"><a href="">我的订单</a></div>
-										</div>
-									</div>
-								</div>
+								
                                
 								<!--<a class="pg-nav-item s-left" href="#">
 									<i class="icon-msg fsize-12">1</i>
@@ -106,10 +79,17 @@
 								</a> -->
 								<!--<a class="pg-nav-item s-left" href="#">帮助</a>
 								<a class="pg-nav-item s-left" href="#">论坛</a>-->
-								<a class="pg-nav-item s-left" href="${rc.contextPath}/message/all">消息<span id="msgNumber" class="layer-tips" style="color:#ff9966"></span></a>
 								<@security.authorize access="isAuthenticated()">
+								<a class="pg-nav-item s-left" href="${rc.contextPath}/message/all">消息<span id="msgNumber" class="layer-tips" style="color:#ff9966"></span></a>
+								
 								<a href="javascript:;" class="pg-nav-item s-left" onclick="logout();">[退出]</a>
                                 </@security.authorize>
+                                
+                                <span class="pg-nav-item s-left">
+						<a onclick="tocard('${rc.contextPath}');"><img class="shop_icon" alt="" src="../index_img/icon_cart.png">
+						<span id="cardCount_top"  style="color:#ff9966" ></span>
+						</a>
+					</span>
 							</div>
 				</nav>
 			</header>
