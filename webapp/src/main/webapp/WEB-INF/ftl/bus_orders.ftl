@@ -182,5 +182,6 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                     </thead>
 
                 </table>
+                <span>订单的 形式,实际上刊时间,印制,上刊类型 以最后一辆上刊时的信息为准</span>
 </div>
 </@frame.html>
