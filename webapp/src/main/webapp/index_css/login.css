@@ -123,12 +123,13 @@ img {
   outline: 0;
 }
 .rg-content .field .rg-text {
-  width: 210px;
-  height: 33px;
+  width: 250px;
+  height: 35px;
   padding-left: 45px;
-  line-height: 33px;
+  line-height: 35px;
   vertical-align: middle;
   border: 1px solid #dedede;
+  margin-top: 1;
 }
 .rg-content .field i {
   vertical-align: middle;
@@ -143,6 +144,7 @@ img {
   text-align: center;
   vertical-align: middle;
   background: #cccccc url(../index_img/icon_regist.png) no-repeat;
+  margin-top: 7px;
 }
 .rg-content .field .icon-username {
   background-position: 0 0;
