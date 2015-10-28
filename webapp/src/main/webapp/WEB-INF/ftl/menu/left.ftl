@@ -393,6 +393,15 @@
                                                 </a>
                                             </li>
                                             
+                                            
+  											 <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/orders">
+                                                    上刊发布统计
+                                                </a>
+                                            </li>                                            	
+                                            	
+                                            	
+                                            
                                              <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/bus/list_changeDate">
                                                     调刊补刊
