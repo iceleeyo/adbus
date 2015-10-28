@@ -206,9 +206,7 @@ function tocard(pathurl){
 									<a class="item" href="javascript:;" qc="中关村"  >中关村<i>×</i></a>
 									<a class="item" href="javascript:;" qc="东直门" >东直门<i>×</i></a>
 								</span>
-								<div class="s-more">
-									+<span>多选</span>
-								</div>
+								
 							</div>
 							<div class="back-item">
 								<span class="desp">城区：</span>
@@ -224,9 +222,7 @@ function tocard(pathurl){
 									<a class="item" href="javascript:;" qc="大兴" ><i>大兴</i></a>
 									<a class="item" href="javascript:;" qc="密云" ><i>密云</i></a>
 								</span>
-								<div class="s-more">
-									+<span>多选</span>
-								</div>
+								
 							</div>
 							<div class="back-item">
 								<span class="desp">车型：</span>
@@ -242,9 +238,7 @@ function tocard(pathurl){
 									<a class="item" href="javascript:;" qc="0_APP" >单层A++<i>×</i></a>
 									<a class="item" href="javascript:;" qc="0_AP"  >单层A+<i>×</i></a>
 								</span>
-								<div class="s-more">
-									+<span>多选</span>
-								</div>
+								
 							</div>
 						</div>
 						<div class="select-more">
