@@ -187,10 +187,19 @@ public interface BusLineCheckService {
 
 	public List<AutoCompleteView> ContractAutoCompleteByName(int city, String name);
 
-	public Pair<Boolean, String> saveLine(BusLine busLine, int cityId, Principal principal, HttpServletRequest request) throws JsonGenerationException, JsonMappingException, IOException;
+	public Pair<Boolean, String> saveLine(BusLine busLine,String update,int cityId, Principal principal, HttpServletRequest request) throws JsonGenerationException, JsonMappingException, IOException, ParseException;
 
 	public Pair<Boolean, String> saveBusModel(BusModel busmodel, int city, Principal principal,
 			HttpServletRequest request);
 
 	public Pair<Boolean, String> removebusmodel(Principal principal, int city, int id);
+
+	public Pair<Boolean, String> removebusline(Principal principal, int city, int id, int type);
+
+	public Pair<Boolean, String> removebus(Principal principal, int city, int id);
+
+	public Pair<Boolean, String> ishaveline(String linename);
+
+	public Pair<Boolean, String> savePublishLine2(String batch, int lineid, String mediatype, int days,String fabu,
+			int salesNumber, String remarks, Principal principal, int city);
 }

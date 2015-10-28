@@ -239,11 +239,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 					'<option value="${c.id}">${c.name}</option>'+
 					    </#list>
          			'</select>' +
-         			   '    <span>下刊预留天数</span>' +
-                        '    <span>' +
-                        '        <input id="fdays" value="" style="width:125px">' +
-                        '    </span>&nbsp;&nbsp;<input type="button" class="button_kind" style="width: 85px;height: 30px;"'+
-			              'value="下刊预留设置" onclick="sub()"/>' +
+         			   
                     '<br></div>'
         );//companys
 
@@ -391,9 +387,14 @@ css=["js/jquery-ui/jquery-ui.css"]>
  function sub(){
             var stday=$("#stday").val();
             var days=$("#days").val();
+            var fdays=$("#fdays").val();
             var contractid=${jpaPublishLine.offlineContract.id};
             if(stday==""){
             layer.msg("请选择上刊日期");
+            return;
+            }
+            if(fdays==""){
+            layer.msg("请填写下刊预留天数");
             return;
             }
             if(days==""){
@@ -410,10 +411,16 @@ css=["js/jquery-ui/jquery-ui.css"]>
         	   layer.msg("请选择需要上刊的车辆");
         	   return false;
            }
-   		var param={"ids":dIds,"days":days,"stday":stday,"contractid":contractid,"plid":$("#plid").val()};
+   		var param={"ids":dIds,
+   		"days":days,"stday":stday,
+   		"contractid":contractid,
+   		"plid":$("#plid").val(),
+   		"fday":fdays,
+   		"adtype":$("#adtype  option:selected").val(),
+   		"print":$("#print  option:selected").val(),
+   		"sktype":$("#sktype  option:selected").val()
+   		};
     	
-    	 
-
 		layer.confirm('确定上刊吗？', {icon: 3}, function(index){
     		layer.close(index);
     		
@@ -480,23 +487,24 @@ css=["js/jquery-ui/jquery-ui.css"]>
                             id="days" data-is="isAmount isEnough"  value="${jpaPublishLine.days}" readonly="readonly"  onkeyup="value=value.replace(/[^\d]/g,'')"
                             autocomplete="off" disableautocomplete="" style="width:45px"> 
                                   <span>广告形式</span>&nbsp;&nbsp;
-                       <select class="ui-input ui-input-mini" name="category" id="category" style="width:120px">
-                    <option value="defaultAll" selected="selected">条幅式</option>
-                  	<option value="baoche">车身彩贴</option>
-                  	<option value="banche">全车彩贴</option>
+                       <select class="ui-input ui-input-mini"  id="adtype" style="width:120px">
+                    <option value="tiaofu" selected="selected">条幅式</option>
+                  	<option value="cheshen">车身彩贴</option>
+                  	<option value="quanche">全车彩贴</option>
                   	</select>
                   	       <span>印制</span>&nbsp;&nbsp;
-                       <select class="ui-input ui-input-mini" name="category" id="category" style="width:120px">
-                    <option value="defaultAll" selected="selected">中心</option>
-                  	<option value="baoche">外部</option>
+                       <select class="ui-input ui-input-mini" name="print" id="print" style="width:120px">
+                    <option value="center" selected="selected">中心</option>
+                  	<option value="out">外部</option>
                   	</select>
                   	  <span>上刊类型</span>&nbsp;&nbsp;
-                       <select class="ui-input ui-input-mini" name="category" id="category" style="width:120px">
-                    <option value="defaultAll" selected="selected">正常上刊</option>
-                  	<option value="baoche">补刊</option>
-                  	<option value="baoche">继刊</option>
+                      <select class="ui-input ui-input-mini" name="sktype" id="sktype" style="width:120px">
+                    <option value="normal" selected="selected">正常上刊</option>
+                  	<option value="fill">补刊</option>
+                  	<option value="contin">续刊</option>
                   	</select>
-                             &nbsp;&nbsp;<input type="button" class="button_kind" style="width: 85px;height: 30px;"
+                  <span>下刊预留天数</span>&nbsp;&nbsp; <input id="fdays"  value="" onkeyup="value=value.replace(/[^\\d]/g,\'\')" style="width:125px">
+                       &nbsp;&nbsp;<input type="button" class="button_kind" style="width: 85px;height: 30px;"
 			                value="验证提醒" onclick="checkSelect()"/> 
 			                <!--    <input type="button" class="button_kind" style="width: 85px;height: 30px;" value="库存检查" onclick="checkFree()"/>-->
 			                   
@@ -515,9 +523,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                         <th >旧自编号</th>
                         <th >车牌号</th>
                         <th >车型</th>
-                          <th>车辆描述</th>
-                        
-                    
+                         <th>车辆描述</th>
                         <th>合同编号</th>
                         <th>广告内容</th>
                         <th>广告类型</th>
@@ -527,7 +533,6 @@ css=["js/jquery-ui/jquery-ui.css"]>
                         <th>预计下刊日期</th>
                         <th>下刊预留日期</th>
                         <th>实际下刊日期</th>
-                       
                         <th>客户名称</th>
                         <th>撤销上刊</th>
                     </tr>

@@ -736,10 +736,10 @@ function addline(url) {
 				type : 1,
 				title : "添加线路",
 				skin : 'layui-layer-rim',
-				area : [ '550px', '700px' ],
+				area : [ '550px', '780px' ],
 				content : ''
 						+ '<form id="addLineform" action='+url+'/busselect/saveLine>'
-						+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
+						+ '<div class="inputs" style="margin-top: 15px;margin-left: -30px;">'
 						+'<div class="ui-form-item"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/> <label class="ui-label mt10">线路名称：</label>'
 						+'<input class="ui-input " type="text" value="" name="name"  '
 						+'id="namestr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
@@ -772,22 +772,33 @@ function addline(url) {
        	 				+'<input class="ui-input " type="text" value="" name="description"  '
        	 				+'id="description" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
        	 				+'</div>'
-       	 				+'<div class="ui-form-item"> <label class="ui-label mt10">状态：</label>'
-       	 				+'<input class="ui-input " type="text" value="" name="status"  '
-       	 				+'id="status" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-       	 				+'</div>'
        	 				+'<div class="ui-form-item"> <label class="ui-label mt10">线路级别：</label>'
 						+'<select  class="ui-input bus-model" name="level" id="level">  '
        	 				+'<option value="0" selected="selected">S(特级)</option><option value="1" > A++</option> <option value="2">A+</option><option value="3">A</option></select></div>'
-       	 			+'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">所属营销中心：</span> </label>'
-    				+ '<select  class="ui-input bus-model" name="companyId" id="companyId"> <option value="" selected="selected">请选择营销中心</option> </select>'
-    				+'</div>'
+       	 			    +'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">所属营销中心：</span> </label>'
+    				    + '<select  class="ui-input bus-model" name="companyId" id="companyId"> <option value="" selected="selected">请选择营销中心</option> </select>'
+    				    +'</div>'
+    			    	+'<div class="ui-form-item"> <label class="ui-label mt10">首班时间：</label>'
+       	 				+'<input class="ui-input " type="text" value="" name="startTime"  '
+       	 				+'id="description" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+       	 				+'</div>'
+       	 				+'<div class="ui-form-item"> <label class="ui-label mt10">末班时间：</label>'
+       	 				+'<input class="ui-input " type="text" value="" name="endTime"  '
+       	 				+'id="description" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+       	 				+'</div>'
+    			    	+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">变更日期:</label>'
+    					+'<input class="ui-input datepicker validate[required,custom[date],past[#upDate1]]" type="text" name="updated1" value="" id="upDate1" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
+    					+'</div>'
        	 				+ '</div>'
 						+ '<div class="ui-form-item widthdrawBtBox" style="position: absolute; bottom: 10px;">'
 						+ '<input type="button" onclick="subLine()" class="block-btn" value="确认" ></div>'
 						+ '</form>'
 						+'<div id="worm-tips" class="worm-tips" style="width:350px;display:none;"></div>'
 			});
+	var checkin = $('#upDate1').datepicker()
+	.on('click', function (ev) {
+		$('.datepicker').css("z-index", "999999999");
+	}).data('datepicker');
 	   $.ajax({
 	       url : url + "/bus/findAllCompany",
 	       type : "GET",
@@ -812,12 +823,12 @@ function showLineDetail(pathUrl,id){
 				type: 1,
 				title: "线路信息修改",
 				skin: 'layui-layer-rim', 
-				area: ['650px', '700px'], 
+				area: ['650px', '780px'], 
 				content: ''
 					+ '<form id="addLineform" action='+pathUrl+'/busselect/saveLine>'
-					+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
+					+ '<div class="inputs" style="margin-top: 15px;margin-left: -30px;">'
 					+'<div class="ui-form-item"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/> <label class="ui-label mt10">线路名称：</label>'
-					+'<input type="hidden" name="id" value="'+data.id+'"/><input class="ui-input " type="text" value="'+data.name+'" name="name"  '
+					+'<input type="hidden" name="id" value="'+data.id+'"/><input class="ui-input "  type="text" value="'+data.name+'" name="name"  '
 					+'id="namestr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
    	 				+'</div>'
    	 				+'<div class="ui-form-item"> <label class="ui-label mt10">线路途径地点：</label>'
@@ -848,22 +859,33 @@ function showLineDetail(pathUrl,id){
    	 				+'<input class="ui-input " type="text" value="'+isNotEmptyString(data.description)+'" name="description"  '
    	 				+'id="description" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
    	 				+'</div>'
-   	 				+'<div class="ui-form-item"> <label class="ui-label mt10">状态：</label>'
-   	 				+'<input class="ui-input " type="text" value="'+isNotEmptyString(data.status)+'" name="status"  '
-   	 				+'id="status" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-   	 				+'</div>'
    	 				+'<div class="ui-form-item"> <label class="ui-label mt10">线路级别：</label>'
 					+'<select  class="ui-input bus-model" name="level" id="level">  '
    	 				+'<option value="0" selected="selected">S(特级)</option><option value="1" > A++</option> <option value="2">A+</option><option value="3">A</option></select></div>'
    	 			    +'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">所属营销中心：</span> </label>'
 			     	+ '<select  class="ui-input bus-model" name="companyId" id="companyId"> <option value="'+data.company.id+'" selected="selected">'+data.company.name+'</option> </select>'
 			    	+'</div>'
+			    	+'<div class="ui-form-item"> <label class="ui-label mt10">首班时间：</label>'
+   	 				+'<input class="ui-input " type="text" value="'+isNotEmptyString(data.startTime)+'" name="startTime"  '
+   	 				+'id="description" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+   	 				+'</div>'
+   	 				+'<div class="ui-form-item"> <label class="ui-label mt10">末班时间：</label>'
+   	 				+'<input class="ui-input " type="text" value="'+isNotEmptyString(data.endTime)+'" name="endTime"  '
+   	 				+'id="description" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+   	 				+'</div>'
+			    	+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">变更日期:</label>'
+					+'<input class="ui-input datepicker validate[required,custom[date],past[#upDate1]]" type="text" name="updated1" value="'+$.format.date(data.updated, "yyyy-MM-dd")+'" id="upDate1" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
+					+'</div>'
    	 				+ '</div>'
 					+ '<div class="ui-form-item widthdrawBtBox" style="position: absolute; bottom: 10px;">'
 					+ '<input type="button" onclick="subLine()" class="block-btn" value="确认" ></div>'
 					+ '</form>'
 					+'<div id="worm-tips" class="worm-tips" style="width:350px;display:none;"></div>'
 			});
+			var checkin = $('#upDate1').datepicker()
+			.on('click', function (ev) {
+				$('.datepicker').css("z-index", "999999999");
+			}).data('datepicker');
 			var companyN=data.company.name;
 			$.ajax({
 				url : pathUrl + "/bus/findAllCompany",
@@ -1789,7 +1811,7 @@ function showBusDetail(pathUrl,tourl,id){
 					+'type="text" name="oldSerialNumber" value="'+data.oldSerialNumber+'" id="oldSerialNumber" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
 					+ '<div class="ui-form-item"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/>'
 					+ '<label class="ui-label mt10">选择线路：</label>'
-					+ '<input class="ui-input" value="'+data.line.name+'"  id="line_id" data-is="isAmount isEnough">'
+					+ '<input class="ui-input" value="'+data.line.name+'"  readonly="readonly" data-is="isAmount isEnough">'
 					+ '</div>'
 					+ '<div id="four"><div class="ui-form-item" id="model_Id">'
 					+ '<label class="ui-label mt10">选择车型：</label>'

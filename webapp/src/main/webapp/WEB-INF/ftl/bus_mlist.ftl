@@ -67,7 +67,13 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 { "data": "jpaBus.model.name", "defaultContent": ""},
                 { "data": "jpaBus.line.name", "defaultContent": ""},
                 { "data": "jpaBus.line.levelStr", "defaultContent": ""},
-                { "data": "jpaBus.categoryStr", "defaultContent": ""},
+                { "data": "jpaBus.categoryStr", "defaultContent": "", "render": function(data) {
+                  if(data=="机动车"){
+                     return '<span class="invalid">'+data+'</span>';
+                  }else{
+                     return data;
+                  }
+                } },
                 { "data": "jpaBus.company.name", "defaultContent": ""},
                  { "data": "jpaBus.description", "defaultContent": ""},
                   { "data": "ishaveAd","defaultContent": "", "render": function(data) {
@@ -85,6 +91,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                     },
                     "render": function(data, type, row, meta) {
                         var operations = '<a  onclick="showBusDetail(\'${rc.contextPath}\',\'${rc.contextPath}/bus/ajaxdetail/\','+data+');"  >编辑</a>';
+                         operations += '&nbsp;&nbsp;<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/busselect/ajax-remove-bus?id=' + data +'">删除</a>'
                         operations+='&nbsp;&nbsp;<a  onclick="showbusUpdate_history(\'${rc.contextPath}\','+row.jpaBus.id+');">查看变更历史</a>'
                         return operations;
                     }
@@ -239,10 +246,15 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 
     function drawCallback() {
         $('.table-action').click(function() {
-            $.post($(this).attr("url"), function() {
-                table.draw();
-            })
-        });
+			$.post($(this).attr("url"), function(data) {
+			if(data.left){
+			    layer.msg(data.right);
+				 table.dataTable()._fnAjaxUpdate();
+				 }else{
+				  layer.msg(data.right);
+				 }
+			});
+		});
     }
     function initmodel(id) {
 	$.ajax({

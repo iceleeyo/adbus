@@ -1391,8 +1391,9 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	}
 
 	@Override
-	public Pair<Boolean, String> saveLine(BusLine busLine, int cityId, Principal principal, HttpServletRequest request)
-			throws JsonGenerationException, JsonMappingException, IOException {
+	public Pair<Boolean, String> saveLine(BusLine busLine,String update, int cityId, Principal principal, HttpServletRequest request)
+			throws JsonGenerationException, JsonMappingException, IOException, ParseException {
+		busLine.setUpdated((Date)new SimpleDateFormat("yyyy-MM-dd").parseObject(update));
 		if (null != busLine.getId() && busLine.getId() > 0) {
 			BusLine bus2 = buslineMapper.selectByPrimaryKey(busLine.getId());
 			String oldLinename = bus2.getName();
@@ -1404,7 +1405,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
 			String oldjsonString = t.writeValueAsString(bus2);
 			String jsonString = t.writeValueAsString(busLine);
-			BeanUtils.copyProperties(busLine, bus2);
+			//BeanUtils.copyProperties(busLine, bus2);
+			List<String> r = BeanUtils.copyPropertiesReturnChangeField(busLine, bus2);
 			bus2.setUpdated(new Date());
 			int a = buslineMapper.updateByPrimaryKey(bus2);
 			if (a > 0) {
@@ -1418,6 +1420,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 				log.setNewlinename(busLine.getName());
 				log.setOldlinename(oldLinename);
 				log.setOldjsonString(oldjsonString);
+				log.setChangeFileds(r.isEmpty()?StringUtils.EMPTY:r.toString());
 				lineUplogMapper.insert(log);
 				return new Pair<Boolean, String>(true, "修改成功");
 			}
@@ -1481,4 +1484,63 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		}
 		return new Pair<Boolean, String>(false, "操作失败");
 	}
+
+	@Override
+	public Pair<Boolean, String> removebusline(Principal principal, int city, int id,int type) {
+		BusLine busLine=buslineMapper.selectByPrimaryKey(id);
+		if(busLine==null){
+			return new Pair<Boolean, String>(false, "信息丢失");
+		}
+		if(type==0){
+			busLine.setIsdelete(1);
+			if (buslineMapper.updateByPrimaryKey(busLine) > 0) {
+				return new Pair<Boolean, String>(true, "删除成功");
+			}
+		}else{
+			busLine.setIsdelete(0);
+			if (buslineMapper.updateByPrimaryKey(busLine) > 0) {
+				return new Pair<Boolean, String>(true, "恢复成功");
+			}
+		}
+		return new Pair<Boolean, String>(false, "操作失败");
+	}
+
+	@Override
+	public Pair<Boolean, String> removebus(Principal principal, int city, int id) {
+		Bus bus=busMapper.selectByPrimaryKey(id);
+		if(bus==null){
+			return new Pair<Boolean, String>(false, "信息丢失");
+		}
+		bus.setEnabled(false);
+		if (busMapper.updateByPrimaryKey(bus) > 0) {
+			return new Pair<Boolean, String>(true, "删除成功");
+		}
+		return new Pair<Boolean, String>(false, "操作失败");
+	}
+
+	@Override
+	public Pair<Boolean, String> ishaveline(String linename) {
+		BusLineExample example=new BusLineExample();
+		example.createCriteria().andNameEqualTo(linename);
+		if(!(buslineMapper.selectByExample(example).size()>0)){
+			return new Pair<Boolean, String>(false, "该线路不存在");
+		}
+		return new Pair<Boolean, String>(true, "该线路存在");
+	}
+
+	@Override
+	public Pair<Boolean, String> savePublishLine2(String batch, int lineid, String mediatype, int days,String fabu,
+			int salesNumber, String remarks, Principal principal, int city) {
+		PublishLine publishLine=new PublishLine();
+		publishLine.setBatch(batch);
+		publishLine.setCity(city);
+		publishLine.setCreated(new Date());
+		publishLine.setDays(days);
+		publishLine.setLineId(lineid);
+		publishLine.setUserId(Request.getUserId(principal));
+		publishLine.setSalesNumber(salesNumber);
+		publishLine.setLineDesc(fabu);
+		return null;
+	}
+	
 }

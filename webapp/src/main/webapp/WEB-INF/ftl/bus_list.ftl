@@ -53,7 +53,13 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 { "data": "jpaBus.model.name", "defaultContent": ""},
                 { "data": "jpaBus.line.name", "defaultContent": ""},
                 { "data": "jpaBus.line.levelStr", "defaultContent": ""},
-                { "data": "jpaBus.categoryStr", "defaultContent": ""},
+                { "data": "jpaBus.categoryStr", "defaultContent": "", "render": function(data) {
+                  if(data=="机动车"){
+                     return '<span class="invalid">'+data+'</span>';
+                  }else{
+                     return data;
+                  }
+                } },
                 { "data": "jpaBus.company.name", "defaultContent": ""},
                 { "data": "ishaveAd","defaultContent": "", "render": function(data) {
                     switch(data) {

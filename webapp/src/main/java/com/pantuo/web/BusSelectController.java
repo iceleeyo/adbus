@@ -29,6 +29,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -418,6 +419,21 @@ public class BusSelectController {
 		publishLine.setSeriaNum(seriaNum);
 		return busLineCheckService.savePublishLine(publishLine, startD);
 	}
+	@RequestMapping(value = "/savePublishLine2")
+	@ResponseBody
+	public Pair<Boolean, String> savePublishLine2(PublishLine publishLine,
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
+			HttpServletRequest request,
+			@RequestParam(value = "batch", required = false) String batch, 
+			@RequestParam(value = "lineid", required = false) int lineid, 
+			@RequestParam(value = "mediatype", required = false) String mediatype,
+			@RequestParam(value = "desId", required = false) String desId,
+			@RequestParam(value = "days", required = false) int days, 
+			@RequestParam(value = "salesNumber", required = false) int salesNumber,
+			@RequestParam(value = "remarks", required = false) String remarks
+			) {
+		return busLineCheckService.savePublishLine2(batch, lineid,mediatype,days,desId,salesNumber,remarks,principal,city);
+	}
 
 	/**
 	 * 
@@ -462,9 +478,10 @@ public class BusSelectController {
 	@ResponseBody
 	public Pair<Boolean, String> saveLine(BusLine busLine,
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
-			HttpServletRequest request) throws ParseException, JsonGenerationException, JsonMappingException, IOException {
+			@RequestParam(value="updated1", required = false) String updated1,
+			HttpServletRequest request) throws ParseException, JsonGenerationException, JsonMappingException, IOException, ParseException {
 		busLine.setCity(city);
-		return busLineCheckService.saveLine(busLine, city, principal,request);
+		return busLineCheckService.saveLine(busLine, updated1,city, principal,request);
 	}
 	@RequestMapping(value = "/saveBusModel")
 	@ResponseBody
@@ -779,6 +796,24 @@ public class BusSelectController {
 	public Pair<Boolean, String> removebusmodel(Principal principal, @CookieValue(value = "city", defaultValue = "-1") int city,
 			 @RequestParam("id") int id) {
 		return busLineCheckService.removebusmodel(principal, city, id);
+	}
+	@RequestMapping(value = "ajax-remove-line/{type}", method = RequestMethod.POST)
+	@ResponseBody
+	public Pair<Boolean, String> removebusline(Principal principal, @CookieValue(value = "city", defaultValue = "-1") int city,
+			@RequestParam(value="id") int id,@PathVariable("type") int type) {
+		return busLineCheckService.removebusline(principal, city, id,type);
+	}
+	@RequestMapping(value = "ajax-remove-bus", method = RequestMethod.POST)
+	@ResponseBody
+	public Pair<Boolean, String> removebus(Principal principal, @CookieValue(value = "city", defaultValue = "-1") int city,
+			@RequestParam("id") int id) {
+		return busLineCheckService.removebus(principal, city, id);
+	}
+	@RequestMapping(value = "ishaveline/{linename}", method = RequestMethod.POST)
+	@ResponseBody
+	public Pair<Boolean, String> ishaveline(Principal principal, @CookieValue(value = "city", defaultValue = "-1") int city,
+			@PathVariable("linename") String linename) {
+		return busLineCheckService.ishaveline(linename);
 	}
 
 	/**

@@ -62,6 +62,7 @@ import com.pantuo.dao.pojo.JpaBusUpLog;
 import com.pantuo.dao.pojo.JpaBusinessCompany;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaLineUpLog;
+import com.pantuo.dao.pojo.JpaPublishLine;
 import com.pantuo.dao.pojo.QJpaBus;
 import com.pantuo.dao.pojo.QJpaBusAdjustLog;
 import com.pantuo.dao.pojo.QJpaBusModel;
@@ -852,9 +853,10 @@ public class BusServiceImpl implements BusService {
 
 	@Override
 	public Pair<Boolean, String> batchOnline(String ids, String stday, int days, int contractid, Principal principal,
-			int city, int plid) throws ParseException {
+			int city, int plid, int fday, String adtype, String print, String sktype) throws ParseException {
 		Date startDate = (Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(stday);
 		Date endDate = com.pantuo.util.DateUtil.dateAdd(startDate, days);
+		Date reserveDate = com.pantuo.util.DateUtil.dateAdd(endDate, fday);
 		String idsa[] = ids.split(",");
 		List<Integer> ids2 = new ArrayList<Integer>();
 		for (int i = 0; i < idsa.length; i++) {
@@ -869,7 +871,13 @@ public class BusServiceImpl implements BusService {
 				return r;
 			}
 		}
-
+         PublishLine puLine= publishLineMapper.selectByPrimaryKey(plid);
+         if(puLine!=null){
+        	 puLine.setSktype(JpaPublishLine.Sktype.valueOf(sktype).ordinal());
+        	 publishLineMapper.updateByPrimaryKey(puLine);
+         }else{
+        	 return new Pair<Boolean, String>(false, "信息丢失");
+         }
 		for (Integer busid : ids2) {
 			BusOnline busOnline = new BusOnline();
 			busOnline.setDays(days);
@@ -883,6 +891,10 @@ public class BusServiceImpl implements BusService {
 			busOnline.setBusid(busid);
 			busOnline.setCity(city);
 			busOnline.setPublishLineId(plid);
+			busOnline.setReserveDate(reserveDate);
+			busOnline.setAdtype(JpaBusOnline.Adtype.valueOf(adtype).ordinal());
+			busOnline.setPrint(JpaBusOnline.Print.valueOf(print).ordinal());
+			busOnline.setSktype(JpaBusOnline.Sktype.valueOf(sktype).ordinal());
 			busOnlineMapper.insert(busOnline);
 			queryBusInfo.updateBusContractCache(busid);
 			ascRemainNumber(plid, true);
@@ -1139,21 +1151,25 @@ public class BusServiceImpl implements BusService {
 		BooleanExpression query =QJpaLineUpLog.jpaLineUpLog.city.eq(cityId);
 		String linename = req.getFilter("linename");
 		if (StringUtils.isNotBlank(linename)) {
-			JpaLineUpLog log=findLineUpLogByLinename(cityId,linename);
-			if(log!=null){
-				query = query.and(QJpaLineUpLog.jpaLineUpLog.jpabusline.id.eq(log.getJpabusline().getId()));
+			List<Integer> idsIntegers=findLineUpLogByLinename(cityId,linename);
+			if(idsIntegers!=null){
+				query = query.and(QJpaLineUpLog.jpaLineUpLog.jpabusline.id.in(idsIntegers));
 			}
 		}
 		return query == null ? lineUpdateRepository.findAll(p) : lineUpdateRepository.findAll(query, p);
 	}
 
-	private JpaLineUpLog findLineUpLogByLinename(int cityId,String linename) {
+	private List<Integer> findLineUpLogByLinename(int cityId,String linename) {
 		BooleanExpression query =QJpaLineUpLog.jpaLineUpLog.city.eq(cityId);
 		query = query.and(QJpaLineUpLog.jpaLineUpLog.oldlinename.eq(linename));
 		query = query.or(QJpaLineUpLog.jpaLineUpLog.newlinename.eq(linename));
 		List<JpaLineUpLog>  list=(List<JpaLineUpLog>) lineUpdateRepository.findAll(query);
+		List<Integer> idsIntegers=new ArrayList<Integer>();
 		if(list.size()>0){
-			return list.get(0);
+			for (JpaLineUpLog jpaLineUpLog : list) {
+				idsIntegers.add(jpaLineUpLog.getJpabusline().getId());
+			}
+			return idsIntegers;
 		}
 		return null;
 	}

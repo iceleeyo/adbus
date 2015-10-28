@@ -479,7 +479,6 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
    				 });
 		
 	}
-	var i=1;
 	function addBatch(url,seriaNum) {
 		layer.open({
 					type : 1,
@@ -489,27 +488,29 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 					content : ''
 							+ '<br><table border="1px #ooo" id="tab" style="  width: 97%;margin-left:20px;" cellpadding="0"   cellspacing="0" width="90%">'
                             +' <tr align="center">'
-                            +' <td style="width:10%"><input id="allCkb" type="checkbox"/></td><td >线路</td> <td  >媒体类型</td> <td style="width:10%">刊期</td><td >发布形式</td><td >级别</td><td >数量</td><td >备注</td>'
+                            +' <td style="width:10%"><input id="allCkb" type="checkbox"/></td><td >批次</td> <td >线路</td><td  >媒体类型</td> <td style="width:10%">刊期</td><td >发布形式</td><td >级别</td><td >数量</td><td >备注</td>'
                             +' </tr>'
                             +' <tr align="center">'
-                            +' <td  width="40px"><input  type="checkbox" name="ckb"/></td><td ><input style="width:75px" class="ui-input"  id="line_id_'+i+'"  sot="1" data-is="isAmount isEnough"></td> '
-                            +' <td ><select  id="isdouble_'+i+'"> <option value="单层" selected="selected">单层</option> <option value="双层" selected="selected">双层</option></select></td> '
+                            +' <td  width="40px"><input  type="checkbox" id="ckb" name="ckb" value="1"/></td>'
+                            +' <td ><select  id="batch_1"> <option value="1" selected="selected">1</option> <option value="2" >2</option><option value="3" >3</option><option value="4" >4</option></select></td> '
+                            +'<td ><input style="width:75px" class="ui-input"  id="line_id_1"  sot="1" data-is="isAmount isEnough"></td> '
+                            +' <td ><select  id="isdouble_1"> <option value="单层" selected="selected">单层</option> <option value="单层市区" >单层市区</option><option value="单层郊区" >单层郊区</option><option value="双层" >双层</option></select></td> '
                             +' <td width="40px"><input class="ui-input " type="text" value="30" name="days" onkeyup="value=value.replace(/[^\\d]/g,\'\')" '
-							+'id="days_'+i+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="" style="width:90px">'
+							+'id="days_1" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="" style="width:90px">'
                             +' </td>'
-                            +' <td ><select  style="width:145px" class="ui-input bus-model" name="lineDesc" id="desId_'+i+'"> <option value="0" selected="selected">所有类型</option> </select></td>'
-                            +'<td ><input class="ui-input"  id="levle_'+i+'" data-is="isAmount isEnough" style="width:65px"></td>'
+                            +' <td ><select  style="width:145px" class="ui-input bus-model" name="lineDesc" id="desId_1"> <option value="0" selected="selected">所有类型</option> </select></td>'
+                            +'<td ><input class="ui-input"  id="levle_1" data-is="isAmount isEnough" style="width:65px"></td>'
                             +' <td ><input class="ui-input " type="text" value="0" name="salesNumber" onkeyup="value=value.replace(/[^\\d]/g,\'\')" '
-							+'id="busNumber_'+i+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder=""  style="width:45px">'
+							+'id="salesNumber_1" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder=""  style="width:45px">'
                             +' </td>'
-                            +' <td ><input class="ui-input"  id="remarks_'+i+'" data-is="isAmount isEnough"  style="width:165px"></td>'
-                            +' <input type="hidden" value="0" name="lineId" id="db_id_'+i+'"  style="width:90px"> </tr> '
+                            +' <td ><input class="ui-input"  id="remarks_1" data-is="isAmount isEnough"  style="width:165px"></td>'
+                            +' <input type="hidden" value="0" name="lineId" id="db_id_1"  style="width:90px"> </tr> '
                             +'</table>'
 							+'<br> <input type="button" class="block-btn" style="margin-left:20px;" onclick="addTr2(\'tab\', -1)" value="添加一行">&nbsp;'
-                            +'<input type="button" class="block-btn" onclick="delTr2()" value="删除"><p></p><p align="center"><input type="button" class="block-btn"  value="确定"></p>'
+                            +'<input type="button" class="block-btn" onclick="delTr2()" value="删除"><p></p><p align="center"><input type="button" class="block-btn" onclick="batchOff()" value="确定"></p>'
 				});
 			
-		$("#line_id_"+i).autocomplete({
+		$("#line_id_1").autocomplete({
 		minLength: 0,
 			source : "${rc.contextPath}/busselect/autoComplete?tag=reLevel",
 			change : function(event, ui) {
@@ -525,10 +526,86 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
        				 $(this).autocomplete("search");
    				 });
    				 
-		
 	}
 	
-	function addTr(tab, row, trHtml){
+	 function batchOff(){
+        	var o = document.getElementsByName("ckb");
+        	var dIds='';
+        	for(var i=0;i<o.length;i++){
+                if(o[i].checked)
+                dIds+=o[i].value+',';   
+           }
+           if(dIds==""){
+        	   layer.msg("请选择需要添加的数据");
+        	   return false;
+           }
+        	for(var i=0;i<o.length;i++){
+                if(o[i].checked){
+                var obj=new Object(); 
+                var sot=o[i].value;
+                var batch=$("#batch_"+sot).val();
+                var lineid=$("#db_id_"+sot).val();
+                var isdouble=$("#isdouble_"+sot).val();
+                var days=$("#days_"+sot).val();
+                var desId=$("#desId_"+sot).val();
+                var salesNumber=$("#salesNumber_"+sot).val();
+                var remarks=$("#remarks_"+sot).val();
+                if(lineid>0){
+                  saveOne(batch,lineid,isdouble,days,desId,salesNumber,remarks);
+                }
+                }
+           }
+            
+        }
+   function saveOne(batch,lineid,isdouble,days,desId,salesNumber,remarks){
+      return;
+     alert(batch+"-"+lineid+"-"+isdouble+"-"+days+"-"+salesNumber);
+     var param={"batch":batch,"lineid":lineid,"mediatype":isdouble,"days":days,"desId":desId,"salesNumber":salesNumber,"remarks":remarks};
+      $.ajax({
+		    			url:"${rc.contextPath}/bus/savep",
+		    			type:"POST",
+		    			async:false,
+		    			dataType:"json",
+		    			data:param,
+		    			success:function(data){
+		    			}
+		       });  
+   }
+  function delTr(ckb){
+     //获取选中的复选框，然后循环遍历删除
+     var ckbs=$("input[name="+ckb+"]:checked");
+     if(ckbs.size()==0){
+        alert("要删除指定行，需选中要删除的行！");
+        return;
+     }
+           ckbs.each(function(){
+              $(this).parent().parent().remove();
+           });
+  }
+  function allCheck(allCkb, items){
+   $("#"+allCkb).click(function(){
+      $('[name="ckb"]:checkbox').attr("checked", checked );
+   });
+  }
+    $(function(){
+   //全选
+   allCheck("allCkb", "ckb");
+  });
+  var i=2;
+  function addTr2(tab, row){
+    var trHtml='<tr align="center"><td width="10%"><input type="checkbox" value="'+i+'" id="ckb" name="ckb"/></td>'
+   +' <td ><select  id="batch_'+i+'"> <option value="1" selected="selected">1</option> <option value="2" >2</option><option value="3" >3</option><option value="4" >4</option></select></td> '
+   +' <td ><input class="ui-input"  style="width:75px" sot="'+i+'" id="line_id_'+i+'"/></td>'
+   +' <td ><select  id="isdouble_'+i+'"> <option value="单层" selected="selected">单层</option> <option value="单层市区" >单层市区</option><option value="单层郊区" >单层郊区</option><option value="双层" >双层</option></select></td> '
+   +' <td ><input class="ui-input " style="width:90px" type="text" value="30" name="days" onkeyup="value=value.replace(/[^\\d]/g,\'\')" id="days_'+i+'"/></td>'
+   +' <td ><select style="width:145px" class="ui-input bus-model" name="lineDesc" id="desId_'+i+'"> <option value="0" selected="selected">所有类型</option> </select></td>'
+   +' <td ><input class="ui-input"  id="levle_'+i+'" data-is="isAmount isEnough" style="width:65px"></td>'
+   +' <td ><input class="ui-input " type="text" value="0" style="width:45px" name="salesNumber" onkeyup="value=value.replace(/[^\\d]/g,\'\')" id="salesNumber_'+i+'"/></td>'
+   +' <td ><input class="ui-input"  id="remarks_'+i+'"   style="width:165px" data-is="isAmount isEnough"></td><input type="hidden" style="width:90px" value="0" name="lineId" id="db_id_'+i+'"></tr>';
+    addTr(tab, row, trHtml);
+   i++;
+  }
+   function addTr(tab, row, trHtml){
      //获取table最后一行 $("#tab tr:last")
      //获取table第一行 $("#tab tr").eq(0)
      //获取table倒数第二行 $("#tab tr").eq(-2)
@@ -554,41 +631,6 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
        				 $(this).autocomplete("search");
    				 });
   }
-   
-  function delTr(ckb){
-     //获取选中的复选框，然后循环遍历删除
-     var ckbs=$("input[name="+ckb+"]:checked");
-     if(ckbs.size()==0){
-        alert("要删除指定行，需选中要删除的行！");
-        return;
-     }
-           ckbs.each(function(){
-              $(this).parent().parent().remove();
-           });
-  }
-  function allCheck(allCkb, items){
-   $("#"+allCkb).click(function(){
-      $('[name="ckb"]:checkbox').attr("checked", checked );
-   });
-  }
-    $(function(){
-   //全选
-   allCheck("allCkb", "ckb");
-  });
-  function addTr2(tab, row){
-   i++;
-    var trHtml='<tr align="center"><td width="10%"><input type="checkbox" name="ckb"/></td>'
-   +' <td ><input class="ui-input"  style="width:75px" sot="'+i+'" id="line_id_'+i+'"/></td>'
-   +' <td width="40px"><select  id="isdouble_'+i+'"> <option value="单层" selected="selected">单层</option> <option value="双层" selected="selected">双层</option></select></td>'
-   +' <td ><input class="ui-input " style="width:90px" type="text" value="30" name="days" onkeyup="value=value.replace(/[^\\d]/g,\'\')" id="days_'+i+'"/></td>'
-   +' <td ><select style="width:145px" class="ui-input bus-model" name="lineDesc" id="desId_'+i+'"> <option value="0" selected="selected">所有类型</option> </select></td>'
-   +' <td ><input class="ui-input"  id="levle_'+i+'" data-is="isAmount isEnough" style="width:65px"></td>'
-   +' <td ><input class="ui-input " type="text" value="0" style="width:45px" name="salesNumber" onkeyup="value=value.replace(/[^\\d]/g,\'\')" id="busNumber_'+i+'"/></td>'
-   +' <td ><input class="ui-input"  id="remarks_'+i+'"   style="width:165px" data-is="isAmount isEnough"></td><input type="hidden" style="width:90px" value="0" name="lineId" id="db_id_'+i+'"></tr>';
-    addTr(tab, row, trHtml);
-   
-  }
-   
   function delTr2(){
      delTr('ckb');
   }

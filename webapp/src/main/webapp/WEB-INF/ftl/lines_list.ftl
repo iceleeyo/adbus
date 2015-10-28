@@ -76,7 +76,13 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                     return row.id;
                     },
                     "render": function(data, type, row, meta) {
-                        var operations ='<a onclick="showLineDetail(\'${rc.contextPath}\','+data+')">编辑</a>';
+                        var operations ='';
+                         if(row.isdelete==0 || row.isdelete=='' ){
+                         operations +='<a onclick="showLineDetail(\'${rc.contextPath}\','+data+')">编辑</a>';
+                          operations += '&nbsp;&nbsp;<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/busselect/ajax-remove-line/0?id=' + data +'">删除</a>';
+                       	}else {
+                       		 operations += '&nbsp;&nbsp;<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/busselect/ajax-remove-line/1?id=' + data +'">恢复</a>';
+                       	}
                         return operations;
                     }
                 },
@@ -160,7 +166,11 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                         '</div>'
         );
 
-        $('#linename,#levelStr').change(function() {
+        $('#levelStr').change(function() {
+            table.fnDraw();
+        });
+        $('#linename').change(function() {
+            ishaveline($("#linename").val());
             table.fnDraw();
         });
         
@@ -178,14 +188,30 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
    	 	});	 
    				 
     }
+    function ishaveline(linename){
+     $.ajax({
+				url :  "${rc.contextPath}/busselect/ishaveline/"+linename,
+				type : "POST",
+				success : function(data) {
+				if(!data.left){
+				    msg.layer(data.right);
+				  }
+				 }
+			}, "text");
+    }
 	function fnDrawCallback(){
+	  $('.table-action').click(function() {
+			$.post($(this).attr("url"), function(data) {
+			if(data.left){
+			    layer.msg(data.right);
+				 table.dataTable()._fnAjaxUpdate();
+				 }else{
+				  layer.msg(data.right);
+				 }
+			});
+		});
     }
     function drawCallback() {
-        $('.table-action').click(function() {
-            $.post($(this).attr("url"), function() {
-                table.fnDraw(true);
-            })
-        });
     }
 
     $(document).ready(function() {

@@ -43,19 +43,37 @@ css=["js/jquery-ui/jquery-ui.css"]>
             "columns": [
                 { "data": "newLine.name", "defaultContent": ""},
                 { "data": "oldLine2.name", "defaultContent": ""},
-               { "data": "levleString", "defaultContent": ""},
+               { "data": "levleString", "defaultContent": "","render": function(data, type, row,meta) {
+                  if(row.lineUpLog.change_fileds!='' && row.lineUpLog.change_fileds.indexOf("level")>=0){
+                	  return '<b><span style="color:#B70909">'+data+'</span></b>';
+                  } else {return data;} }},
                { "data": "oldlevleString", "defaultContent": ""},
-                  { "data": "newLine.office", "defaultContent": ""},
+                  { "data": "newLine.office", "defaultContent": "","render": function(data, type, row,meta) {
+                  if(row.lineUpLog.change_fileds!='' && row.lineUpLog.change_fileds.indexOf("office")>=0){
+                	  return '<b><span style="color:#B70909">'+data+'</span></b>';
+                  } else {return data;} }},
                   { "data": "oldLine2.office", "defaultContent": ""},
-                   { "data": "newLine.branch", "defaultContent": ""},
+                   { "data": "newLine.branch", "defaultContent": "","render": function(data, type, row,meta) {
+                  if(row.lineUpLog.change_fileds!='' && row.lineUpLog.change_fileds.indexOf("branch")>=0){
+                	  return '<b><span style="color:#B70909">'+data+'</span></b>';
+                  } else {return data;} }},
                    { "data": "oldLine2.branch", "defaultContent": ""},
                  { "data": "company.name", "defaultContent": ""},
                  { "data": "oldcompany.name", "defaultContent": ""},
-                    { "data": "newLine.cars", "defaultContent": ""},
+                    { "data": "newLine.cars", "defaultContent": "","render": function(data, type, row,meta) {
+                  if(row.lineUpLog.change_fileds!='' && row.lineUpLog.change_fileds.indexOf("cars")>=0){
+                	  return '<b><span style="color:#B70909">'+data+'</span></b>';
+                  } else {return data;} }},
                     { "data": "oldLine2.cars", "defaultContent": ""},
-                 { "data": "newLine.tolength", "defaultContent": ""},
+                 { "data": "newLine.tolength", "defaultContent": "","render": function(data, type, row,meta) {
+                  if(row.lineUpLog.change_fileds!='' && row.lineUpLog.change_fileds.indexOf("tolength")>=0){
+                	  return '<b><span style="color:#B70909">'+data+'</span></b>';
+                  } else {return data;} }},
                  { "data": "oldLine2.tolength", "defaultContent": ""},
-                     { "data": "newLine.routelocation", "defaultContent": ""},
+                     { "data": "newLine.routelocation", "defaultContent": "","render": function(data, type, row,meta) {
+                  if(row.lineUpLog.change_fileds!='' && row.lineUpLog.change_fileds.indexOf("routelocation")>=0){
+                	  return '<b><span style="color:#B70909">'+data+'</span></b>';
+                  } else {return data;} }},
                      { "data": "oldLine2.routelocation", "defaultContent": ""},
                 { "data": "lineUpLog.updated", "defaultContent": "","render" : function(data, type, row,meta) {
 					return  $.format.date(data, "yyyy-MM-dd");

@@ -453,8 +453,13 @@ public class BusController {
 			@RequestParam(value = "ids", required = true) String ids,
 			@RequestParam(value = "contractid", required = true) int contractid,
 			@RequestParam(value = "plid", required = true) int plid,
-			@RequestParam(value = "days", required = true) int  days) throws ParseException {
-		return busService.batchOnline(ids,stday, days, contractid,principal,city,plid);
+			@RequestParam(value = "days", required = false) int  days,
+			@RequestParam(value = "fday", required = false) int  fday,
+			@RequestParam(value = "adtype", required = false) String  adtype,
+			@RequestParam(value = "print", required = false) String  print,
+			@RequestParam(value = "sktype", required = false) String  sktype
+			) throws ParseException {
+		return busService.batchOnline(ids,stday, days, contractid,principal,city,plid,fday,adtype,print,sktype);
 	}
 	@RequestMapping(value = "/batchOffline")
 	@ResponseBody

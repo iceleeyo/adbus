@@ -70,7 +70,7 @@ public interface BusService {
     Iterable<CountableBusinessCompany> getBusinessCompanies(int city, JpaBusline.Level level, JpaBus.Category category, Integer lineId, Integer busModelId, Integer companyId);
     public Page<BusInfoView> queryBusinfoView(TableRequest req, Page<JpaBus> page);
 
-	Pair<Boolean, String> batchOnline(String ids, String stday, int days, int contractid, Principal principal, int city,int plid)throws ParseException; 
+	Pair<Boolean, String> batchOnline(String ids, String stday, int days, int contractid, Principal principal, int city,int plid, int fday, String adtype, String print, String sktype)throws ParseException; 
 
 	Page<JpaBusOnline> getbusOnlinehistory(int cityId, TableRequest req, int page, int length, Sort sort);
 	
