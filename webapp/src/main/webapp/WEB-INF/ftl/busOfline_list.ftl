@@ -156,12 +156,15 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 }},
                 
                 { "data": "jpaBus.oldSerialNumber", "defaultContent": ""},
-                { "data": "jpaBus.plateNumber", "defaultContent": ""},
+                { "data": "jpaBus.plateNumber", "defaultContent": "","render": function(data, type, row, meta) {
+                if($.format.date(row.jpaBus.updated, "yyyy-MM-dd")==$.format.date(new Date(), "yyyy-MM-dd")){
+                 return '<font color="red">'+data+'</font>';
+                }else{
+                   return data;;
+                }
+                }},
                 { "data": "jpaBus.model.name", "defaultContent": ""},
                 { "data": "jpaBus.description", "defaultContent": ""},
-                
-            
-               
                 { "data": "busInfo.contractCode", "defaultContent": ""},
                         { "data": "busInfo.offlinecontract.adcontent", "defaultContent": ""},
                             { "data": "", "defaultContent": ""},

@@ -43,7 +43,10 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 { "data": "days", "defaultContent": 0}, 
                 { "data": "lineDesc", "defaultContent": ""}, 
                 { "data": "salesNumber", "defaultContent": ""}, 
-                { "data": "remainNuber", "defaultContent": ""}, 
+                { "data": "remainNuber", "defaultContent": "","render": function(data, type, row, meta) {
+                	 
+                	return "<font color='red'>"+data+"</font>";
+                }}, 
                 { "data": "remarks", "defaultContent": ""}, 
                 { "data": "created","render" : function(data, type, row,meta) {
 					return  $.format.date(data, "yyyy-MM-dd");
