@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.pantuo.dao.pojo.JpaBusOnline.Sktype;
+
 @Entity
 @Table(name = "publish_line")
 public class JpaPublishLine extends CityEntity {
@@ -18,6 +20,18 @@ public class JpaPublishLine extends CityEntity {
 		ready, invalid, enable, close,
 		/*初始化,无库存,生效,关闭状态*/
 	}
+	
+	//上刊类型
+	 public static enum Sktype {
+			normal("正常上刊"), fill("补刊"), contin("续刊");
+			 private final String name;
+			 private Sktype(String name) {
+				 this.name = name;
+			 }
+			 public String getSktypeName() {
+				 return name;
+			 }
+		 }
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,7 +51,7 @@ public class JpaPublishLine extends CityEntity {
 	@JoinColumn(name = "companyId")
 	private JpaBusinessCompany jpaBusinessCompany;
 	private String lineDesc;//车辆描述
-	
+	 private Sktype sktype;
 	
 	
 	private int salesNumber;//合同生效时购买的线路车辆数量
@@ -54,6 +68,8 @@ public class JpaPublishLine extends CityEntity {
      private String  publishValue;//发布价值
      private String  discountrate;//折扣率
      private String  discountPrice;//优惠后金额
+     private String  mediaType;//媒体类型
+     private String  remarks;//媒体类型
      
 
 	public long getSeriaNum() {
@@ -76,8 +92,24 @@ public class JpaPublishLine extends CityEntity {
 		this.user_id = user_id;
 	}
 
+	public Sktype getSktype() {
+		return sktype;
+	}
+
+	public void setSktype(Sktype sktype) {
+		this.sktype = sktype;
+	}
+
 	public void setSeriaNum(long seriaNum) {
 		this.seriaNum = seriaNum;
+	}
+
+	public String getMediaType() {
+		return mediaType;
+	}
+
+	public void setMediaType(String mediaType) {
+		this.mediaType = mediaType;
 	}
 
 	public int getId() {
@@ -215,6 +247,14 @@ public class JpaPublishLine extends CityEntity {
 
 	public void setLineDesc(String lineDesc) {
 		this.lineDesc = lineDesc;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
 	}
    
 }

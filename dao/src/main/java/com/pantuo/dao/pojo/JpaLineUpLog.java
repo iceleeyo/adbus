@@ -24,6 +24,7 @@ public class JpaLineUpLog extends CityEntity{
 	private String oldjsonString;
 	private String newlinename;
 	private String oldlinename;
+	private String change_fileds;//修改的字段
 	private String updator;
 	public int getId() {
 		return id;
@@ -68,6 +69,12 @@ public class JpaLineUpLog extends CityEntity{
 	}
 	public void setOldlinename(String oldlinename) {
 		this.oldlinename = oldlinename;
+	}
+	public String getChange_fileds() {
+		return change_fileds;
+	}
+	public void setChange_fileds(String change_fileds) {
+		this.change_fileds = change_fileds;
 	}
 	
 	

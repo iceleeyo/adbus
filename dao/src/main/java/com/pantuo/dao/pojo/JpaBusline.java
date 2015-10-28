@@ -17,8 +17,7 @@ public class JpaBusline extends CityEntity{
         S ("特级"),
         APP ("A++"),
         AP ("A+"),
-        A ("A"),
-        LATLONG("经纬线");
+        A ("A");
 
         private static Map<String, Level> nameStrMap = new HashMap<String, Level>();
         static {
@@ -58,9 +57,11 @@ public class JpaBusline extends CityEntity{
     private String busnum;              //车辆数
     private String routelocation;              //途径地点
     private String tolength;              //总里程
+    private String startTime;              //首班时间
+    private String endTime;              //末班时间
     private int _cars;//线路对应车辆总数
     private int _persons;//人车流量
-    
+    private int isdelete=0;//假删除
     private int _today;//当天在刊车数
     
     private int _month1day;//当天+30天日期的那天 在刊车数
@@ -70,6 +71,7 @@ public class JpaBusline extends CityEntity{
     private int _month3day;
     @Transient
     private int _sim;//相近的站点数量
+  
 	public JpaBusline(){
 
 	}
@@ -88,7 +90,31 @@ public class JpaBusline extends CityEntity{
         this.id = id;
     }
 
-    public String getName() {
+    public String getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
+	public int getIsdelete() {
+		return isdelete;
+	}
+
+	public void setIsdelete(int isdelete) {
+		this.isdelete = isdelete;
+	}
+
+	public String getName() {
         return name;
     }
 

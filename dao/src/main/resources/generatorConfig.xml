@@ -85,15 +85,11 @@
 			/> </table> <table schema="" tableName="goods_black" delimitIdentifiers="${generator.delimitIdentifiers}"> 
 			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
 			/> </table> -->
-		<!-- <table schema="" tableName="publish_line" delimitIdentifiers="${generator.delimitIdentifiers}"> 
-			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
-			/> </table> <table schema="" tableName="offlinecontract" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+		<!--  <table schema="" tableName="offlinecontract" delimitIdentifiers="${generator.delimitIdentifiers}"> 
 			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
 			/> </table> <table schema="" tableName="dividpay" delimitIdentifiers="${generator.delimitIdentifiers}"> 
 			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
-			/> </table> <table schema="" tableName="bus_online" delimitIdentifiers="${generator.delimitIdentifiers}"> 
-			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
-			/> </table> <table schema="" tableName="bus_function" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			/> </table>  <table schema="" tableName="bus_function" delimitIdentifiers="${generator.delimitIdentifiers}"> 
 			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
 			/> </table> <table schema="" tableName="group_function" delimitIdentifiers="${generator.delimitIdentifiers}"> 
 			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
@@ -119,22 +115,29 @@
 			/> </table> <table schema="" tableName="bus_uplog" delimitIdentifiers="${generator.delimitIdentifiers}"> 
 			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
 			/> </table> -->
-		<!-- <table schema="" tableName="bus_line" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+		    <table schema="" tableName="bus_line" delimitIdentifiers="${generator.delimitIdentifiers}"> 
 			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
-			/> </table> -->
+			/> </table> 
+			<table schema="" tableName="line_uplog" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/></table> 
+			<table schema="" tableName="publish_line" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table>
+			<table schema="" tableName="bus_online" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table>
 		<!-- <table schema="" tableName="bus" delimitIdentifiers="${generator.delimitIdentifiers}"> 
 			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
 			/> </table> -->
-		<!-- <table schema="" tableName="line_uplog" delimitIdentifiers="${generator.delimitIdentifiers}"> 
-			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
-			/> </table> <table schema="" tableName="bus_uplog" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+		<!--  </table> <table schema="" tableName="bus_uplog" delimitIdentifiers="${generator.delimitIdentifiers}"> 
 			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
 			/> </table> <table schema="" tableName="product_V2" delimitIdentifiers="${generator.delimitIdentifiers}"> 
 			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
 			/> </table> <table schema="" tableName="cardbox_user" delimitIdentifiers="${generator.delimitIdentifiers}"> 
 			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
 			/> </table> -->
-		<table schema="" tableName="cardbox_body" delimitIdentifiers="${generator.delimitIdentifiers}">
+		<!-- <table schema="" tableName="cardbox_body" delimitIdentifiers="${generator.delimitIdentifiers}">
 			<generatedKey column="ID" sqlStatement="${generator.db}"
 				identity="true" />
 		</table>
@@ -145,7 +148,7 @@
 		<table schema="" tableName="cardbox_helper" delimitIdentifiers="${generator.delimitIdentifiers}">
 			<generatedKey column="ID" sqlStatement="${generator.db}"
 				identity="true" />
-		</table>
+		</table> -->
 
 
 	</context>
