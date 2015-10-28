@@ -60,11 +60,7 @@
 						<li><a href="jvascript:void(0)">关于我们</a></li>
 					</ul>
 					<div class="s-right s-clear">
-					<span class="pg-nav-item s-left">
-						<a onclick="tocard('${rc.contextPath}');"><img class="shop_icon" alt="" src="../index_img/icon_cart.png">
-						<span id="cardCount_top"  style="color:#ff9966" ></span>
-						</a>
-					</span>
+					
 								<span class="pg-nav-item s-left" style="padding:0;">您好，</span>
 									<span>
                                         <@security.authorize access="isAuthenticated()">
@@ -120,6 +116,15 @@
 								<!--<a class="pg-nav-item s-left" href="#">帮助</a>
 								<a class="pg-nav-item s-left" href="#">论坛</a>-->
 								<a class="pg-nav-item s-left" href="${rc.contextPath}/message/all">消息<span id="msgNumber" class="layer-tips" style="color:#ff9966"></span></a>
+								<span class="pg-nav-item s-left">
+								<a onclick="tocard('${rc.contextPath}');"><img class="shop_icon" alt="" src="${rc.contextPath}/index_img/icon_cart.png">
+								<span id="cardCount_top"  style="color:#ff9966" ></span>
+								</a>
+								</span>
+								<@security.authorize access="isAuthenticated()"> <input
+								type="hidden" id="lc" value="1" /> </@security.authorize>
+								<@security.authorize access="! isAuthenticated()"> <input
+								type="hidden" id="lc" value="0" /> </@security.authorize>
 								 <@security.authorize access="isAuthenticated()">
 								<a href="javascript:;" class="pg-nav-item s-left" onclick="logout();">[退出]</a>
                                 </@security.authorize>
@@ -178,5 +183,16 @@
 				$(this).find('.lasttime').removeAttr('style').end().find('.cost-box').removeAttr('style').end().find('.cost').removeAttr('style').end().find('.timeline').removeAttr('style').end().find('.ston').removeAttr('style');
 			});
 		});
-		
+		/**
+		 * 查看购物车判断登陆状态
+		 */
+		function tocard(pathurl){
+			var lc=$("#lc").val();
+			if(lc=="0"){
+				islogin(pathurl);
+			}
+			if(lc=="1"){
+				window.location.href=pathurl+"/toCard";
+			}
+		}
 	</script>

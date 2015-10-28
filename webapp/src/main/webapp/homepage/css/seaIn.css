@@ -225,3 +225,65 @@ display: block;}
 			.is-line{border-right: 2px solid #2ea7e0;padding-right: 20px;line-height: 16px;height: 16px;display: inline-block;}
 			.pg-nav-hover {background-color: #fff;color: #666}
 			.pg-foot{bottom: 0;width: 100%;padding: 10px 0;background: #555;}
+			
+header {
+  position: fixed;
+  height: 45px;
+  color: #fff;
+  z-index: 999;
+  background: #090e0d;
+}
+header .logo {
+  float: left;
+  width: 180px;
+  height: 45px;
+  margin-left: 30px;
+  background: url(../img/logo.png) no-repeat;
+  background-size: 100%;
+  background-position: 0 50%;
+}
+header .menu {
+  margin-top: 10px;
+  margin-left: 30%;
+}
+header .menu .list-line {
+  margin: 0 auto;
+}
+header .menu ul {
+  padding-left: 0;
+  list-style: none;
+  display: inline-block;
+}
+header .menu ul > li {
+  display: inline-block;
+}
+header .menu .login {
+  float: right;
+  margin-right: 130px;
+}
+header .menu .login > li {
+  margin: 0;
+  font-size: 12px;
+}
+header .menu ul li {
+  margin: 0 12px;
+  font-size: 16px;
+}
+header .menu ul li a {
+  color: #ffffff;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+header .menu ul li a:hover {
+  color: #1d70ed;
+  text-decoration: none;
+}
+header .menu ul li.active a {
+  color: #1d70ed;
+  text-decoration: none;
+}
+.blue-a {
+  color: #1d70ed;
+  text-decoration: none;
+}
+			

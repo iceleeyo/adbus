@@ -1,6 +1,13 @@
 .container-12{
 	width: 98%;
 }
+.ls-10_sift{
+	float: left;
+	margin-left: 100px;
+	width: 100%;
+	margin-top: 5%;
+}
+
 .ls-10{
 	float: left;
 	margin-left: 10px;

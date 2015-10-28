@@ -31,7 +31,7 @@
 										<#if (siftList?size>0) >
 					<div class="container">
 								
-								<div class="module1 withdraw-wrap" style="width: 1110px;">
+								<div class="module1 withdraw-wrap" style="width: 1000px;">
 								  <div class="title s-clear ">
 								  	<span>
 								  		线路推荐
@@ -152,7 +152,7 @@
 				</div>
 				
 				
-				 <div class="withdraw-wrap color-white-bg fn-clear" style="margin-top: 30px;width: 1110px;">
+				 <div class="withdraw-wrap color-white-bg fn-clear" style="margin-top: 30px;">
             	 <div class="withdraw-title fn-clear">
 									投放计划列表
 				 </div>

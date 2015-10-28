@@ -13,11 +13,11 @@
 		<link rel="stylesheet" type="text/css" href="index_css/sift.css">
 		<link rel="stylesheet" type="text/css" href="index_css/sea.css">
 		<script src="js/jquery.pagination.js"></script>
-		<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer/layer.js"></script>
+		<script type="text/javascript" language="javascript" src="js/layer/layer.js"></script>
     	<!--增加lay最新版本-->
-		<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer/layer.js"></script>
-		<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer.onload.js"></script>
-		<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
+		<script type="text/javascript" language="javascript" src="js/layer-v1.9.3/layer/layer.js"></script>
+		<script type="text/javascript" language="javascript" src="js/layer.onload.js"></script>
+		<script type="text/javascript" language="javascript" src="js/layer-v1.9.3/layer-site.js"></script>
 	</head>
 	<script type="text/javascript">
 	        var _PageHeight = document.documentElement.clientHeight,
@@ -33,6 +33,19 @@
 	                loadingMask.parentNode.removeChild(loadingMask);
 	            }
 	        }
+	        
+	        /**
+	         * 查看购物车判断登陆状态
+	         */
+	        function tocard(pathurl){
+	        	var lc=$("#lc").val();
+	        	if(lc=="0"){
+	        		window.location.href="/login";
+	        	}
+	        	if(lc=="1"){
+	        		window.location.href=pathurl+"/toCard";
+	        	}
+	        }
 		</script>	
 	<body>
 		<header>
@@ -47,11 +60,7 @@
 						<li><a href="jvascript:void(0)">关于我们</a></li>
 					</ul>
 					<div class="s-right s-clear">
-					<span class="pg-nav-item s-left">
-						<a onclick="tocard('${rc.contextPath}');"><img class="shop_icon" alt="" src="../index_img/icon_cart.png">
-						<span id="cardCount_top"  style="color:#ff9966" ></span>
-						</a>
-					</span>
+					
 								<span class="pg-nav-item s-left" style="padding:0;">您好，</span>
 									<span>
                                         <@security.authorize access="isAuthenticated()">
@@ -81,7 +90,16 @@
 								<a class="pg-nav-item s-left" href="#">论坛</a>-->
 								<@security.authorize access="isAuthenticated()">
 								<a class="pg-nav-item s-left" href="${rc.contextPath}/message/all">消息<span id="msgNumber" class="layer-tips" style="color:#ff9966"></span></a>
-								
+								<span class="pg-nav-item s-left">
+								<a onclick="tocard('${rc.contextPath}');"><img class="shop_icon" alt="" src="../index_img/icon_cart.png">
+								<span id="cardCount_top"  style="color:#ff9966" ></span>
+								</a>
+								</span>
+								<@security.authorize access="isAuthenticated()"> <input
+								type="hidden" id="lc" value="1" /> </@security.authorize>
+								<@security.authorize access="! isAuthenticated()"> <input
+								type="hidden" id="lc" value="0" /> </@security.authorize>
+								<@security.authorize access="isAuthenticated()">
 								<a href="javascript:;" class="pg-nav-item s-left" onclick="logout();">[退出]</a>
                                 </@security.authorize>
                                 

@@ -93,7 +93,12 @@
 								<a class="pg-nav-item s-left" href="#">论坛</a>-->
 								<@security.authorize access="isAuthenticated()">
 								<a class="pg-nav-item s-left" href="${rc.contextPath}/message/all">消息<span id="msgNumber" class="layer-tips" style="color:#ff9966"></span></a>
-								 
+								<span class="pg-nav-item s-left">
+								<a onclick="tocard('${rc.contextPath}');"><img class="shop_icon" alt="" src="../index_img/icon_cart.png">
+								<span id="cardCount_top"  style="color:#ff9966" ></span>
+								</a>
+								</span>
+								 <@security.authorize access="isAuthenticated()">
 								<a href="javascript:;" class="pg-nav-item s-left" onclick="logout();">[退出]</a>
                                 </@security.authorize>
                                 

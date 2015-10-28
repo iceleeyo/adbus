@@ -72,18 +72,37 @@
             height: 32px;
         }
         
-        .container-12{
-	width: 1150px;
+    .container-12{
+	width: 1000px;
 	margin-left: auto;
 	margin-right: auto;
 }
     </style>
 </head>
 <body>
-<div class="page-container">
+<header>
 <!--上部DIV-->
 	<#include "../index_menu/top.ftl" />
 <!--下部DIV-->
+</header>
+<div class="page-container">
+<div class="side-nav">
+				<div class="logo"></div>
+				<div class="de-code">
+					<img src="${rc.contextPath}/index_img/pic1.png" height="100" width="100">
+				</div>
+				<ul class="navibar">
+					<li><a href="/">首页</a></li>
+					<li class="active"><a href="${rc.contextPath}/secondLevelPage">移动视频</a></li>
+					<li><a href="${rc.contextPath}/secondLevelPageBus">车身媒体</a></li>
+					<li><a href="/caseMore.html">案例欣赏</a></li>
+				</ul>
+				<div class="markble">
+					<p>世界在你脚下，巴士一路随行</p>
+					<p>北巴出品</p>
+					<p>北京公交媒体</p>
+				</div>
+			</div>
 <div class="page-container">
 	<div class="pg-container-main">
         <div class="container-12 mt10 s-clear">
@@ -96,7 +115,7 @@
 		<!--菜单结束-->
 		
 		<!--主体开始-->
-	<div class="ls-10">
+	<div class="ls-10_sift">
             <#nested>
 	<br>
 	</div>
