@@ -115,6 +115,7 @@
 								</a> -->
 								<!--<a class="pg-nav-item s-left" href="#">帮助</a>
 								<a class="pg-nav-item s-left" href="#">论坛</a>-->
+								<@security.authorize access="isAuthenticated()">
 								<a class="pg-nav-item s-left" href="${rc.contextPath}/message/all">消息<span id="msgNumber" class="layer-tips" style="color:#ff9966"></span></a>
 								<span class="pg-nav-item s-left">
 								<a onclick="tocard('${rc.contextPath}');"><img class="shop_icon" alt="" src="${rc.contextPath}/index_img/icon_cart.png">
@@ -128,15 +129,12 @@
 								 <@security.authorize access="isAuthenticated()">
 								<a href="javascript:;" class="pg-nav-item s-left" onclick="logout();">[退出]</a>
                                 </@security.authorize>
+                                </@security.authorize>
 							</div>
 				</nav>
 
 
-		<script type="text/javascript" src="${rc.contextPath}/index_js/jquery-1.11.1.min.js"></script>
-		   <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.jcountdown.js"></script>
-         <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.jcountdown.site.js"></script>
-		<script src="${rc.contextPath}/index_js/unslider.min.js"></script>
-	
+		
 		<script src="js/jquery.pagination.js"></script>
 		<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer/layer.js"></script>
     	<!--增加lay最新版本-->
