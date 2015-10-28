@@ -689,7 +689,7 @@ public class BusServiceImpl implements BusService {
 			view.setOldLine2(oldline);
 			r.add(view);
 			levleIntegers.add(newline.getLevel());
-			compaynIntegers.add(newline.getCompanyId());
+			compaynIntegers.add(newline.getCompanyId());		
 			oldlevleIntegers.add(oldline.getLevel());
 			oldcompaynIntegers.add(oldline.getCompanyId());
 		}

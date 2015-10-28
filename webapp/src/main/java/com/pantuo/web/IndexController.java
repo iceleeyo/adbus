@@ -139,6 +139,35 @@ public class IndexController {
 		
 		return "index_menu/media_production";
 	}
+	
+	@RequestMapping(value = "/effect", produces = "text/html;charset=utf-8")
+	public String toeffect(Model model, HttpServletRequest request, HttpServletResponse response,
+			@CookieValue(value = "city", defaultValue = "-1") int city) {
+		//city = makeCookieValueRight(city == -1 ? 1 : (city % 2 == 0 ? city - 1 : city), response);
+			//		return commonData(model, request, city, "index", "screen");
+		
+		return "index_menu/effect";
+	}
+	
+	@RequestMapping(value = "/partner", produces = "text/html;charset=utf-8")
+	public String topartner(Model model, HttpServletRequest request, HttpServletResponse response,
+			@CookieValue(value = "city", defaultValue = "-1") int city) {
+		//city = makeCookieValueRight(city == -1 ? 1 : (city % 2 == 0 ? city - 1 : city), response);
+			//		return commonData(model, request, city, "index", "screen");
+		
+		return "index_menu/partner";
+	}
+	
+	@RequestMapping(value = "/aboutme", produces = "text/html;charset=utf-8")
+	public String toaboutme(Model model, HttpServletRequest request, HttpServletResponse response,
+			@CookieValue(value = "city", defaultValue = "-1") int city) {
+		//city = makeCookieValueRight(city == -1 ? 1 : (city % 2 == 0 ? city - 1 : city), response);
+			//		return commonData(model, request, city, "index", "screen");
+		
+		return "index_menu/aboutme";
+	}
+	
+	
 
 	private String commonData(Model model, HttpServletRequest request, int city, String pageName, String medetype) {
         Integer[] ids={2504,2313,1786,1804};

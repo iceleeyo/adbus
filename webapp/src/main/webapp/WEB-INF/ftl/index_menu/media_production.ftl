@@ -16,7 +16,7 @@
 <#include "/index_menu/index_top.ftl" />
 		<!-- 头部结束 -->
 		</header>
-		<div id="content" style="transition: all 1000ms ease; -webkit-transition: all 1000ms ease; transform: translate3d(0px, -649px, 0px);">
+		<div id="content" style="transition: all 1000ms ease; -webkit-transition: all 1000ms ease; transform: translate3d(0px, 0px, 0px);">
 
 			<section class="background-two active" style="height: 649px;">
 				<div class="container">
@@ -77,7 +77,6 @@
       </div>
 		<script type="text/javascript" src="index_js/unslider.min.js"></script>
 		<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
-		<script type="text/javascript" src="index_js/index.js"></script>
 		<script type="text/javascript">
 		$(function(){
 			var _winHeight = $(window).height(),

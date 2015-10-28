@@ -2,6 +2,7 @@
 <#global menu="">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="商品sift" left=false nav=false js=["js/jquery-dateFormat.min.js","js/sift_bus.js","js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"] css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css"]>
+
 <style type="text/css">
 	#busNumber{height: 30px;float: left;}
 	#startDate1{float: left;}

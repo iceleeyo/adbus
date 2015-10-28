@@ -54,6 +54,11 @@
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/homepage/css/seaIn.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/homepage/css/tab.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/homepage/tem/guide.css">
+    <!-- indexcss -->
+	<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/base.css">
+	<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/header.css">
+	<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/secondLevel.css">
+	<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/sea.css">
     <#list css as entry>
         <link rel="stylesheet" type="text/css" href="${rc.contextPath}/${entry}">
     </#list>
@@ -77,7 +82,7 @@
 <body>
 <div class="page-container">
 <!--上部DIV-->
-	<#include "../menu/top.ftl" />
+	<#include "../index_menu/top.ftl" />
 <!--下部DIV-->
 <div class="page-container">
 	<div class="pg-container-main">

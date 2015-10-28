@@ -1844,3 +1844,15 @@ function showBusDetail(pathUrl,tourl,id){
 		}	
 		return '';
 	}
+/**
+ * 查看购物车判断登陆状态
+*/
+function tocard(pathurl) {
+	var lc = $("#lc").val();
+	if (lc == "0") {
+		islogin(pathurl);
+	}
+	if (lc == "1") {
+		window.location.href = pathurl + "/toCard";
+	}
+}

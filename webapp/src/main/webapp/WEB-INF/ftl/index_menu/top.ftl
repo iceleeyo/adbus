@@ -5,24 +5,24 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/base.css">
-		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/header.css">
-		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/jack.css">
-		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/js/jquery-ui/jquery-ui.css">
-		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/jquery-ui-1.8.16.custom.css">
-		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/secondLevel.css">
-		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/sift.css">
-		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/sea.css">
-		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/pagination.css">
-		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/layer.css">
-		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/logMini.css">
 			
 	</head>
 <script type="text/javascript">
     function logout(){
        window.location.href = "${rc.contextPath}/logout";
     }
-
+    /**
+     * 查看购物车判断登陆状态
+     */
+    function tocard(pathurl){
+    	var lc=$("#lc").val();
+    	if(lc=="0"){
+    		islogin(pathurl);
+    	}
+    	if(lc=="1"){
+    		window.location.href=pathurl+"/toCard";
+    	}
+    }
 
     $(function() {
         $("#city_dropdown a:not(.selected)").click(function(){
@@ -48,19 +48,16 @@
     });
 </script>
 <style type="text/css">
-    .sift-list {  width: 80px;  line-height: 30px;}
-    .sift-list a{margin-right: 10px;}
-
 </style>		
 
 				<nav class="menu">
 					<ul class="list-line">
 						<li><a href="/">首页</a></li>
 						<li class="active"><a href="${rc.contextPath}/media">媒体产品</a></li>
-						<li><a href="${rc.contextPath}/effect">传播效果</a></li>
+						<li><a href="jvascript:void(0)">传播效果</a></li>
 						<li><a href="/caseMore.html">案例欣赏</a></li>
-						<li><a href="${rc.contextPath}/partner">合作伙伴</a></li>
-						<li><a href="${rc.contextPath}/aboutme">关于我们</a></li>
+						<li><a href="jvascript:void(0)">合作伙伴</a></li>
+						<li><a href="jvascript:void(0)">关于我们</a></li>
 					</ul>
 					<div class="s-right s-clear">
 					<span class="pg-nav-item s-left">

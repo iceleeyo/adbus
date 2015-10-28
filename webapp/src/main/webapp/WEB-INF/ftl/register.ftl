@@ -68,14 +68,14 @@ function sub(){
 					</div>
 					<div class="field password-field">
 						<label><i class="icon icon-password"></i></label>
-						<input type="text" value="" class="rg-text validate[required,minSize[6],maxSize[20]]" placeholder="密码"
+						<input type="password" value="" class="rg-text validate[required,minSize[6],maxSize[20]]" placeholder="密码"
 						 name="password" id="password" data-is="isAmount isEnough" autocomplete="off"
 						/>
 						<i>*</i>
 					</div>
 					<div class="field pwdagain-field">
 						<label><i class="icon icon-pwdagain"></i></label>
-						<input type="text" value="" class="rg-text validate[required,equals[password]]" data-is="isAmount isEnough" autocomplete="off" placeholder="确认密码"/>
+						<input type="password" value="" class="rg-text validate[required,equals[password]]" data-is="isAmount isEnough" autocomplete="off" placeholder="确认密码"/>
 						<i>*</i>
 					</div>
 					<div class="field contact-field">
@@ -103,7 +103,7 @@ function sub(){
 
 					<div class="agreement">
 						<input type="checkbox" id="agreement" value="">
-						<label class="verify">同意<a href="#">《免费条款》</a></label>
+						<label class="verify">同意<a href="#">《免责条款》</a></label>
 					</div>
 
 					<div class="info-submit">
