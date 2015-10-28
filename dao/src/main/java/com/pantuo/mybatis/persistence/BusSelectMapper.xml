@@ -25,6 +25,31 @@
 	</if>
 </select>
 
+	
+	<!-- 按合同查车 -->
+	<select id="queryOnlineExample" 
+	resultMap="com.pantuo.mybatis.persistence.BusMapper.BaseResultMap">
+	select
+	bus.id, bus.created, bus.updated,bus. city, ad_status, bus.branch,
+	bus.category, bus.description, bus.enabled, bus.end_day,
+	bus.office, old_serial_number, plate_number,bus.serial_number, bus.start_day,
+	bus.company_id, line_id,
+	bus.model_id
+	from bus join  bus_online on bus.id = bus_online.busid
+	 	where publish_line_id in
+		<foreach close=")" collection="idList" item="listItem" open="("
+			separator=",">
+			#{listItem}
+		</foreach>
+</select>
+
+	
+	
+	
+	
+	
+	
+	
 	<!-- 按合同查车 -->
 	<select id="queryAllbusByContract" parameterType="com.pantuo.mybatis.domain.BusExample"
 	resultMap="com.pantuo.mybatis.persistence.BusMapper.BaseResultMap">

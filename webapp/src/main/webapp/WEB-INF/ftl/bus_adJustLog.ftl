@@ -60,7 +60,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
             "columns": [
             { "data": "", "defaultContent": ""},
             { "data": "log.updated", "defaultContent": "","render": function(data, type, row, meta) {
-                	var d= $.format.date(data, "yyyy-MM-dd");
+                	var d= $.format.date(data, "yyyy-MM-dd hh:mm");
                 	return d;
                 }},
                   { "data": "log.nowline.branch", "defaultContent": ""},

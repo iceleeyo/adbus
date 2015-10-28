@@ -32,6 +32,7 @@ import com.pantuo.util.Pair;
 import com.pantuo.web.view.AdjustLogView;
 import com.pantuo.web.view.BusInfoView;
 import com.pantuo.web.view.ContractLineDayInfo;
+import com.pantuo.web.view.PulishLineView;
 
 public interface BusService {
 
@@ -113,5 +114,8 @@ public interface BusService {
 	public long getMoneyFromBusModel(JpaBusline.Level level,boolean doubleDecker);
 
 	Page<JpaLineUpLog> getlineUphistory(int cityId, TableRequest req, int page, int length,Sort sort);
+	
+	
+	DataTablePage<PulishLineView> queryOrders(int cityId, TableRequest req, int page, int length,Sort sort);
 	
 }

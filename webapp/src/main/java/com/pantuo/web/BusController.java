@@ -36,10 +36,10 @@ import com.pantuo.dao.pojo.JpaBusOnline;
 import com.pantuo.dao.pojo.JpaBusUpLog;
 import com.pantuo.dao.pojo.JpaBusinessCompany;
 import com.pantuo.dao.pojo.JpaBusline;
+import com.pantuo.dao.pojo.JpaBusline.Level;
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaLineUpLog;
 import com.pantuo.dao.pojo.JpaPublishLine;
-import com.pantuo.dao.pojo.JpaBusline.Level;
 import com.pantuo.mybatis.domain.Bus;
 import com.pantuo.mybatis.domain.BusOnline;
 import com.pantuo.mybatis.domain.CountableBusLine;
@@ -53,6 +53,7 @@ import com.pantuo.util.Pair;
 import com.pantuo.web.view.AdjustLogView;
 import com.pantuo.web.view.BusInfoView;
 import com.pantuo.web.view.ContractLineDayInfo;
+import com.pantuo.web.view.PulishLineView;
 
 /**
  * @author tliu
@@ -295,6 +296,17 @@ public class BusController {
 		return new DataTablePage(busService.getAllBusinessCompanies(cityId, req.getFilter("name"),
 				req.getFilter("contact"), req.getPage(), req.getLength(), req.getSort("id")), req.getDraw());
 	}
+	
+	@RequestMapping("ajax-bus_orders")
+	@ResponseBody
+	public DataTablePage<PulishLineView> bus_orders(TableRequest req,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city)throws JsonParseException, JsonMappingException, IOException {
+		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
+			return new DataTablePage(Collections.emptyList());
+		return busService.queryOrders(cityId, req, req.getPage(), req.getLength(),
+				req.getSort("id"));
+	}
+
 
 	@RequestMapping(value = "/list")
 	public String list() {
@@ -394,6 +406,12 @@ public class BusController {
                 return nameStrMap;
 	}
 
+	
+	@RequestMapping(value = "/orders")
+	public String orders(Model model,@CookieValue(value = "city", defaultValue = "-1") int cityId) {
+		model.addAttribute("companys",busService. getAllCompany(cityId));
+		return "bus_orders";
+	}
 	@RequestMapping(value = "/lines")
 	public String lines() {
 		return "bus_lines";

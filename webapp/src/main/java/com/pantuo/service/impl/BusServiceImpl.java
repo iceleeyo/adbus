@@ -42,8 +42,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import scala.Array;
 
 import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.dao.AdJustLogRepository;
@@ -54,6 +57,7 @@ import com.pantuo.dao.BusUpdateRepository;
 import com.pantuo.dao.BusinessCompanyRepository;
 import com.pantuo.dao.BuslineRepository;
 import com.pantuo.dao.LineUpdateRepository;
+import com.pantuo.dao.PublishLineRepository;
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusAdjustLog;
 import com.pantuo.dao.pojo.JpaBusModel;
@@ -63,6 +67,7 @@ import com.pantuo.dao.pojo.JpaBusinessCompany;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaLineUpLog;
 import com.pantuo.dao.pojo.JpaPublishLine;
+import com.pantuo.dao.pojo.JpaPublishLine.Sktype;
 import com.pantuo.dao.pojo.QJpaBus;
 import com.pantuo.dao.pojo.QJpaBusAdjustLog;
 import com.pantuo.dao.pojo.QJpaBusModel;
@@ -71,6 +76,7 @@ import com.pantuo.dao.pojo.QJpaBusUpLog;
 import com.pantuo.dao.pojo.QJpaBusinessCompany;
 import com.pantuo.dao.pojo.QJpaBusline;
 import com.pantuo.dao.pojo.QJpaLineUpLog;
+import com.pantuo.dao.pojo.QJpaPublishLine;
 import com.pantuo.mybatis.domain.Bus;
 import com.pantuo.mybatis.domain.BusExample;
 import com.pantuo.mybatis.domain.BusLine;
@@ -103,6 +109,7 @@ import com.pantuo.web.view.AdjustLogView;
 import com.pantuo.web.view.BusInfo;
 import com.pantuo.web.view.BusInfoView;
 import com.pantuo.web.view.ContractLineDayInfo;
+import com.pantuo.web.view.PulishLineView;
 
 /**
  * @author tliu
@@ -119,6 +126,9 @@ public class BusServiceImpl implements BusService {
 	BusUpdateRepository busUpdateRepository;
 	@Autowired
 	LineUpdateRepository lineUpdateRepository;
+	
+	@Autowired
+	PublishLineRepository publishLineRepository;
 	@Autowired
 	BuslineRepository lineRepo;
 	@Autowired
@@ -874,6 +884,7 @@ public class BusServiceImpl implements BusService {
          PublishLine puLine= publishLineMapper.selectByPrimaryKey(plid);
          if(puLine!=null){
         	 puLine.setSktype(JpaPublishLine.Sktype.valueOf(sktype).ordinal());
+        	 puLine.setUpdated(new Date());
         	 publishLineMapper.updateByPrimaryKey(puLine);
          }else{
         	 return new Pair<Boolean, String>(false, "信息丢失");
@@ -1158,7 +1169,108 @@ public class BusServiceImpl implements BusService {
 		}
 		return query == null ? lineUpdateRepository.findAll(p) : lineUpdateRepository.findAll(query, p);
 	}
+	/**
+	 * 1:先查publid_line 表
+	 * 2：根据publish_line_id 查line_online 查的一个订单的所有车id
+	 * 3:组装
+	 * 4：
+	 *
+	 * 
+	 */
+	public DataTablePage<PulishLineView> queryOrders(int cityId, TableRequest req, int page, int length, Sort sort) {
 
+		if (page < 0)
+			page = 0;
+		if (length < 1)
+			length = 1;
+		if (sort == null)
+			sort = new Sort(Direction.fromString("desc"), "updated"); //new Sort("updated");
+		Pageable p = new PageRequest(page, length, sort);
+
+		String becompany = req.getFilter("becompany"), sktype = req.getFilter("sktype"), contractCode = req
+				.getFilter("contractCode"), box = req.getFilter("box");
+		BooleanExpression query = QJpaPublishLine.jpaPublishLine.city.eq(cityId);
+		query = query.and(QJpaPublishLine.jpaPublishLine.OfflineContract.id.gt(0));
+		if (StringUtils.isNotBlank(becompany) && !StringUtils.equals(becompany, "defaultAll")) {
+			JpaBusinessCompany company = new JpaBusinessCompany();
+			int bid = NumberUtils.toInt(becompany);
+			if (bid > 0) {
+				company.setId(bid);
+				query = query.and(QJpaPublishLine.jpaPublishLine.jpaBusinessCompany.eq(company));
+			}
+		}
+		if (StringUtils.isNotBlank(box) && NumberUtils.toInt(box) > 0) {
+			query = query.and(QJpaPublishLine.jpaPublishLine.remainNuber.gt(0));
+		}
+		if (StringUtils.isNotBlank(contractCode)) {
+			query = query.and(QJpaPublishLine.jpaPublishLine.OfflineContract.contractCode
+					.like("%" + contractCode + "%"));
+		}
+
+		if (StringUtils.isNotBlank(sktype) && !StringUtils.equals(sktype, "defaultAll")) {
+			try {
+				Sktype u = Sktype.valueOf(sktype);
+				query = query.and(QJpaPublishLine.jpaPublishLine.sktype.eq(u));
+			} catch (Exception e) {
+			}
+		}
+
+		Page<JpaPublishLine> list = query == null ? publishLineRepository.findAll(p) : publishLineRepository.findAll(
+				query, p);
+		List<PulishLineView> r = new ArrayList<PulishLineView>();
+		List<JpaPublishLine> db = list.getContent();
+
+		List<Integer/*订单id列表*/> order_id = new ArrayList<Integer>();
+		Map<Integer, PulishLineView/*订单id,订单页面数据对象*/> cache = new java.util.HashMap<Integer, PulishLineView>();
+		for (JpaPublishLine jpaPublishLine : db) {
+			order_id.add(jpaPublishLine.getId());
+			PulishLineView w = new PulishLineView(jpaPublishLine);
+			r.add(w);
+			cache.put(jpaPublishLine.getId(), w);
+		}
+
+		if (!order_id.isEmpty()) {
+			BooleanExpression sub2 = QJpaBusOnline.jpaBusOnline.city.eq(cityId);
+			sub2 = sub2.and(QJpaBusOnline.jpaBusOnline.publish_lineId.in(order_id));
+			Sort t2 = new Sort(Direction.fromString("asc"), "startDate");
+			Pageable p2 = new PageRequest(0, Integer.MAX_VALUE, t2);
+			//排序 以最后一辆装车的广告形式     印制     上刊类型   和上刊时期做为订单的 属性   
+			java.lang.Iterable<JpaBusOnline> subList = busOnlineRepository.findAll(sub2, p2);
+
+			for (JpaBusOnline jpaBusOnline : subList) {
+				int id = jpaBusOnline.getPublish_lineId();
+				if (cache.containsKey(id)) {
+					PulishLineView value = cache.get(id);
+					value.setOne(jpaBusOnline);
+					value.addBusId(jpaBusOnline.getJpabus().getId());
+				}
+			}
+
+			List<Bus> bus = busSelectMapper.queryOnlineExample(order_id);
+
+			Map<Integer, String/*busid,serialNumber*/> busMap = new HashMap<Integer, String>();
+			for (Bus bus2 : bus) {
+				busMap.put(bus2.getId(), bus2.getSerialNumber());
+			}
+			if (busMap.size() > 0) {
+				for (PulishLineView pulishLineView : r) {
+
+					List<Integer> order_busList = pulishLineView.getBusId();
+					if (order_busList != null) {
+						for (Integer integer : order_busList) {
+							pulishLineView.appendBusId(busMap.get(integer));
+						}
+					}
+
+				}
+			}
+			//-------------------------------
+		}
+		return new DataTablePage<PulishLineView>(new org.springframework.data.domain.PageImpl<PulishLineView>(r, p,
+				list.getTotalElements()), req.getDraw());
+	}
+	
+	
 	private List<Integer> findLineUpLogByLinename(int cityId,String linename) {
 		BooleanExpression query =QJpaLineUpLog.jpaLineUpLog.city.eq(cityId);
 		query = query.and(QJpaLineUpLog.jpaLineUpLog.oldlinename.eq(linename));

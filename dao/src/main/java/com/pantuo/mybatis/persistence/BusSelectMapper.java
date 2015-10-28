@@ -239,4 +239,18 @@ public interface BusSelectMapper {
 	
 	public Integer getGroupUserCount(String groupId);
 	public void deleteGroupMEMBERSHIP(String groupId);
+	
+	
+	
+	
+	
+	/**
+	 * 
+	 *  按线路一些信息查车
+	 *
+	 * @param example
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	 public List<Bus> queryOnlineExample(@Param("idList") List<Integer > idList);
 }
