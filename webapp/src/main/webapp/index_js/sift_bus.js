@@ -194,7 +194,7 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 						"<div class=\"cont\">"+
 						"<div class=\"activity inline-b\"><span><a href='"+pathUrl+"/m/public_detail/"+item.id+"'>"+item.name.substring(0,7)+"</a></span>&nbsp;&nbsp;"+item.days+"天</div>"+
 						"<div class=\"price inline-b\" style=\"  margin-top: 10px; \">"+
-						"<p class=\"p-one\"><input type=\"hidden\" id='pid"+k+"' value='"+item.id+"'/><em>"+item.price+"</em>元</p>"+
+						"<p class=\"p-one\"><input type=\"hidden\" id='pid"+k+"' value='"+item.id+"'/><em>"+((item.price).toFixed(2))+"</em>元</p>"+
 						"<p class=\"p-two\">"+item.duration+"秒/次&nbsp;&nbsp;&nbsp;"+item.playNumber+"次/天</p></div>"+
 						"<div class=\"num f-left inline-b\">"+
 						"<input type=\"button\" class=\"icon f-left dec\" sot='"+k+"' id='leftDec"+k+"' />"+

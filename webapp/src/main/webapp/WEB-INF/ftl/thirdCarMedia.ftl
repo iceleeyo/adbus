@@ -50,7 +50,7 @@
 					</div>
 				</div>
 				<div class="md-nav">
-					媒体产品>车身媒体
+					媒体产品>移动视频
 				</div>		
 
 				<div class="third-step">
@@ -58,7 +58,7 @@
 						<div class="detail-bd clearfix">
 							<div class="d-left">
 								<img src="${rc.contextPath}/index_img/bg1.png" width="345" height="345">
-								<div class="sm-img/">
+								<div class="sm-imgs">
 									<img id="ima" src="../index_img/bg1.png" height="65" width="65">
 									<img src="" height="65" width="65">
 									<img src="" height="65" width="65">
@@ -199,17 +199,17 @@
 									</div>
 								</div>
 								<div class="c-head">
-									<p class="head-en">MEDIA REGIONAL</p>
-									<p class="head-zh">媒体区域</p>
+									<p class="head-en">MEDIA ADVANTAGE</p>
+									<p class="head-zh">媒体优势</p>
 									<p class="icon-line"></p>
 								</div>
-								<img src="${rc.contextPath}/index_img/thirdCar_2.png">
+								<img src="${rc.contextPath}/index_img/thirdVideo_2.png">
 								<div class="c-head">
-									<p class="head-en">MEDIA SHOW</p>
-									<p class="head-zh">媒体展示</p>
+									<p class="head-en">AUDIENCE ANALYSIS</p>
+									<p class="head-zh">受众分析</p>
 									<p class="icon-line"></p>
 								</div>
-								<img src="${rc.contextPath}/index_img/thirdCar_3.png">
+								<img src="${rc.contextPath}/index_img/thirdVideo_3.png">
 								<div class="c-head">
 									<p class="head-en">MEDIA REGIONAL</p>
 									<p class="head-zh">合作品牌</p>

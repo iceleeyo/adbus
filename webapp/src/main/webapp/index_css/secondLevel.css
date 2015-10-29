@@ -92,7 +92,7 @@ header .area {
 .cover {
 	padding: 5px 10px;
 	position: absolute;
-	margin-left: 200px;
+	margin-left: 230px;
 }
 
 .cover .c-top {
@@ -1317,7 +1317,7 @@ header .area {
 
 .detail-bd .d-right {
 	width: 495px;
-	padding-top: 20px;
+	padding-top: 35px;
 	margin-left: 100px;
 	float: left;
 }
@@ -1835,4 +1835,7 @@ ol, ul {
 	float: left;
 	margin-left: 15%;
 	line-height: 45px;
+}
+.sm-imgs{
+	margin-top: 5px;
 }

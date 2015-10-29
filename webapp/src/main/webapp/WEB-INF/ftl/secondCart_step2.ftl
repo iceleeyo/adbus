@@ -83,7 +83,7 @@
 									</li>
 									<li class="td td-price">
 										<div class="td-inner">
-											<p class="price"><em>￥</em>${item.price}</p>
+											<p class="price"><em>￥</em>#{item.price!'' ;m2M2}</p>
 										</div>
 									</li>
 									<li class="td td-amount">
@@ -93,7 +93,7 @@
 									</li>
 									<li class="td td-sum">
 										<div class="td-inner">
-											<p class="sum"><em>￥</em>${item.price*item.needCount}</p>
+											<p class="sum"><em>￥</em>#{(item.price*item.needCount)!'' ;m2M2}</p>
 										</div>
 									</li>
 								</ul>
@@ -127,7 +127,7 @@
 									</li>
 									<li class="td td-price">
 										<div class="td-inner">
-											<p class="price"><em>￥</em>${item.price}</p>
+											<p class="price"><em>￥</em>#{item.price!'' ;m2M2}</p>
 										</div>
 									</li>
 									<li class="td td-amount">
@@ -137,7 +137,7 @@
 									</li>
 									<li class="td td-sum">
 										<div class="td-inner">
-											<p class="sum"><em>￥</em>${item.totalprice}</p>
+											<p class="sum"><em>￥</em>#{item.totalprice!'' ;m2M2}</p>
 										</div>
 									</li>
 								</ul>
@@ -186,7 +186,7 @@
 								</div>
 							</div>
 							<div class="sum">
-								<span class="legged">总价:<em>￥${infos.totalPrice}</em></span>
+								<span class="legged">总价:<em>￥#{infos.totalPrice!'' ;m2M2}</em></span>
 							</div>
 							<div class="sure">
 							<a href="javascript:void(0);" onclick="payment()">
