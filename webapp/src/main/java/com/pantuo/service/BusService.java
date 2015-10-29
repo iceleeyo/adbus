@@ -3,6 +3,7 @@ package com.pantuo.service;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,7 @@ import com.pantuo.pojo.TableRequest;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.AdjustLogView;
 import com.pantuo.web.view.BusInfoView;
+import com.pantuo.web.view.BusModelGroupView;
 import com.pantuo.web.view.ContractLineDayInfo;
 import com.pantuo.web.view.PulishLineView;
 
@@ -70,6 +72,9 @@ public interface BusService {
 
     Iterable<CountableBusinessCompany> getBusinessCompanies(int city, JpaBusline.Level level, JpaBus.Category category, Integer lineId, Integer busModelId, Integer companyId);
     public Page<BusInfoView> queryBusinfoView(TableRequest req, Page<JpaBus> page);
+    
+    
+    public Collection<BusModelGroupView> queryModelGroup(TableRequest req, Page<JpaBus> page);
 
 	Pair<Boolean, String> batchOnline(String ids, String stday, int days, int contractid, Principal principal, int city,int plid, int fday, String adtype, String print, String sktype)throws ParseException; 
 

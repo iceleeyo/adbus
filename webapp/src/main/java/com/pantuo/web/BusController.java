@@ -4,6 +4,8 @@ package com.pantuo.web;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -52,6 +54,7 @@ import com.pantuo.service.BusService;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.AdjustLogView;
 import com.pantuo.web.view.BusInfoView;
+import com.pantuo.web.view.BusModelGroupView;
 import com.pantuo.web.view.ContractLineDayInfo;
 import com.pantuo.web.view.PulishLineView;
 
@@ -79,6 +82,17 @@ public class BusController {
 		Page<JpaBus> jpabuspage = busService.getAllBuses(cityId, req, req.getPage(), req.getLength(),
 				req.getSort("id"), false);
 		return new DataTablePage(busService.queryBusinfoView(req, jpabuspage), req.getDraw());
+	}
+
+	@RequestMapping("ajax-countbus_list")
+	@ResponseBody
+	public Collection<BusModelGroupView> countbus_list(TableRequest req,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city) {
+		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
+			return new ArrayList<BusModelGroupView>(0);
+		Page<JpaBus> jpabuspage = busService.getAllBuses(cityId, req, req.getPage(), Integer.MAX_VALUE,
+				req.getSort("id"), false);
+		return busService.queryModelGroup(req, jpabuspage);
 	}
 
 	@RequestMapping("ajax-list.xls")

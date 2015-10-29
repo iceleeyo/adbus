@@ -1,37 +1,27 @@
 package com.pantuo.simulate;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.google.common.collect.Maps;
 import com.pantuo.mybatis.domain.Bodycontract;
 import com.pantuo.mybatis.domain.BusContract;
 import com.pantuo.mybatis.domain.BusContractExample;
-import com.pantuo.mybatis.domain.BusLock;
-import com.pantuo.mybatis.domain.BusLockExample;
 import com.pantuo.mybatis.domain.BusOnline;
 import com.pantuo.mybatis.domain.BusOnlineExample;
 import com.pantuo.mybatis.domain.Offlinecontract;
-import com.pantuo.mybatis.domain.OfflinecontractExample;
 import com.pantuo.mybatis.persistence.BodycontractMapper;
 import com.pantuo.mybatis.persistence.BusContractMapper;
-import com.pantuo.mybatis.persistence.BusLockMapper;
 import com.pantuo.mybatis.persistence.BusOnlineMapper;
-import com.pantuo.mybatis.persistence.BusSelectMapper;
 import com.pantuo.mybatis.persistence.OfflinecontractMapper;
-import com.pantuo.vo.LineBatchUpdateView;
 import com.pantuo.web.view.BusInfo;
-import com.pantuo.web.view.LineDateCount;
+import com.pantuo.web.view.BusModelGroupView;
 
 /**
  * 
@@ -226,22 +216,56 @@ public class QueryBusInfo implements Runnable, ScheduleStatsInter {
 	public BusInfo getBusInfo2(Integer busid) {
 		return map2.containsKey(busid) ? map2.get(busid) : emptybusInfo;
 	}
-     public boolean ishaveAd(Integer busid){
-    	 if(map2.containsKey(busid)){
-    		 List<BusOnline> list=map2.get(busid).getAllPlan();
-    		 if(list==null || list.isEmpty()){
-    			 return false;
-    		 }
-    		 for (BusOnline busOnline : list) {
-				if(busOnline.getStartDate().before(new Date())){
-					if(busOnline.getRealEndDate()==null){
+
+	public boolean ishaveAd(Integer busid) {
+		if (map2.containsKey(busid)) {
+			List<BusOnline> list = map2.get(busid).getAllPlan();
+			if (list == null || list.isEmpty()) {
+				return false;
+			}
+			for (BusOnline busOnline : list) {
+				if (busOnline.getStartDate().before(new Date())) {
+					if (busOnline.getRealEndDate() == null) {
 						return true;
 					}
 				}
 			}
-    	 }
-    	 return false;
-     }
+		}
+		return false;
+	}
+	
+	public void fullBusModelGroupView(Integer busid, BusModelGroupView countTools) {
+		countTools.ascTotal();
+		if (map2.containsKey(busid)) {
+			List<BusOnline> list = map2.get(busid).getAllPlan();
+			if (list == null || list.isEmpty()) {
+				//countTools.ascFree();
+				return;
+			}
+			Date now = new Date();
+			boolean isFree=true;
+			for (BusOnline busOnline : list) {
+				if (busOnline.getStartDate().before(now) && busOnline.getEndDate().after(now)) {
+					countTools.ascOnline();
+					isFree=false;
+					break;
+				}
+				if (busOnline.getEndDate().before(now)) {
+					if (busOnline.getRealEndDate() == null) {
+						countTools.ascNowDown();
+						isFree=false;
+						break;
+					}
+				}
+			}
+			if(isFree){
+				//countTools.ascFree();;	
+			}
+		}
+	}
+	
+	
+	
 	public StatsMonitor statControl = new StatsMonitor(this);
 
 	@Override

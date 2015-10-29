@@ -9,6 +9,7 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -45,8 +46,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
-import scala.Array;
 
 import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.dao.AdJustLogRepository;
@@ -108,6 +107,7 @@ import com.pantuo.web.ScheduleController;
 import com.pantuo.web.view.AdjustLogView;
 import com.pantuo.web.view.BusInfo;
 import com.pantuo.web.view.BusInfoView;
+import com.pantuo.web.view.BusModelGroupView;
 import com.pantuo.web.view.ContractLineDayInfo;
 import com.pantuo.web.view.PulishLineView;
 
@@ -609,6 +609,29 @@ public class BusServiceImpl implements BusService {
 			log.error("Fail to export excel for city {}, req {}");
 			throw new RuntimeException("Fail to export excel", e);
 		}
+
+	}
+
+	public Collection<BusModelGroupView> queryModelGroup(TableRequest req, Page<JpaBus> page) {
+
+		Map<String, BusModelGroupView> map = new HashMap<String, BusModelGroupView>();
+
+		List<JpaBus> list = page.getContent();
+		for (JpaBus jpaBus : list) {
+			String _modelName = jpaBus.getModel().getName();
+			BusModelGroupView w = null;
+			if (!map.containsKey(_modelName)) {
+				map.put(_modelName, w = new BusModelGroupView(_modelName));
+			} else {
+				w = map.get(_modelName);
+			}
+			queryBusInfo.fullBusModelGroupView(jpaBus.getId(), w);
+		}
+		for (BusModelGroupView  entry: map.values()) {
+			entry.setFree(entry.getTotal()-entry.getOnline()-entry.getNowDown());
+			
+		}
+		return  map.values();
 
 	}
 	public Page<BusInfoView> queryBusinfoView(TableRequest req, Page<JpaBus> page) {
