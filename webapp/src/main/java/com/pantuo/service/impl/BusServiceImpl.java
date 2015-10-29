@@ -614,7 +614,7 @@ public class BusServiceImpl implements BusService {
 	}
 
 	public Collection<BusModelGroupView> queryModelGroup(TableRequest req, Page<JpaBus> page) {
-
+		long t = System.currentTimeMillis();
 		Map<String, BusModelGroupView> map = new HashMap<String, BusModelGroupView>();
 
 		List<JpaBus> list = page.getContent();
@@ -623,16 +623,31 @@ public class BusServiceImpl implements BusService {
 			BusModelGroupView w = null;
 			if (!map.containsKey(_modelName)) {
 				map.put(_modelName, w = new BusModelGroupView(_modelName));
-			} else {
+			} else {  
 				w = map.get(_modelName);
 			}
 			queryBusInfo.fullBusModelGroupView(jpaBus.getId(), w);
 		}
-		for (BusModelGroupView  entry: map.values()) {
-			entry.setFree(entry.getTotal()-entry.getOnline()-entry.getNowDown());
-			
+		List<BusModelGroupView> r = new ArrayList<BusModelGroupView>();
+
+		if (!map.isEmpty()) {
+			BusModelGroupView total = new BusModelGroupView("-total-");
+			for (BusModelGroupView entry : map.values()) {
+				int free = entry.getTotal() - entry.getOnline() - entry.getNowDown();
+				entry.setFree(free);
+				total.setTotal(total.getTotal() + entry.getTotal());
+				total.setFree(total.getFree() + entry.getFree());
+				total.setOnline(total.getOnline() + entry.getOnline());
+				total.setNowDown(total.getNowDown() + entry.getNowDown());
+				r.add(entry);
+			}
+			r.add(total);
 		}
-		return  map.values();
+		long end = System.currentTimeMillis() - t;
+		if (end > 500) {
+			log.info("queryModelGroup slow [ms]: " + end);
+		}
+		return r;
 
 	}
 	public Page<BusInfoView> queryBusinfoView(TableRequest req, Page<JpaBus> page) {
