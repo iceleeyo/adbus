@@ -52,10 +52,18 @@
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/table.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/city.css">
     <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/logMini.css">
+    <!-- indexcss -->
+	<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/base.css">
+	<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/header.css">
+	<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/secondLevel.css">
+	<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/sea.css">
     <#list css as entry>
         <link rel="stylesheet" type="text/css" href="${rc.contextPath}/${entry}">
     </#list>
     <style type="text/css">
+    	.page-container{
+    		  margin-top: 6%;
+    	}
         .online-support {
             display: none;
             position: fixed;
@@ -67,10 +75,11 @@
     </style>
 </head>
 <body>
-<div class="page-container">
+<header>
 <!--上部DIV-->
-	<#include "../menu/top.ftl" />
+	<#include "${rc.contextPath}/index_menu/top.ftl" />
 <!--下部DIV-->
+</header>
 <div class="page-container">
 	<div class="pg-container-main">
         <div class="container-12 mt10 s-clear">

@@ -81,7 +81,6 @@
 		</ul>
 		<a class="switch"></a>
 	</div>
-	<script type="text/javascript" src="${rc.contextPath}/index_js/index.js"></script>
 	<script type="text/javascript" src="${rc.contextPath}/index_js/unslider.min.js"></script>
 	<script type="text/javascript" src="${rc.contextPath}/index_js/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript">

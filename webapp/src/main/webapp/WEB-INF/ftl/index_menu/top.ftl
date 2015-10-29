@@ -23,7 +23,7 @@
     		window.location.href=pathurl+"/toCard";
     	}
     }
-
+/* 
     $(function() {
         $("#city_dropdown a:not(.selected)").click(function(){
             var cityName = $(this).parents("#ttbar-mycity")[0]?$(this).attr("data-id") : $("#ttbar-mycity a.selected").attr("data-id");
@@ -45,7 +45,7 @@
                 }
             }, "text");
         });
-    });
+    }); */
 </script>
 <style type="text/css">
 </style>		
@@ -54,10 +54,10 @@
 					<ul class="list-line">
 						<li><a href="/">首页</a></li>
 						<li class="active"><a href="${rc.contextPath}/media">媒体产品</a></li>
-						<li><a href="jvascript:void(0)">传播效果</a></li>
+						<li><a href="${rc.contextPath}/effect">传播效果</a></li>
 						<li><a href="/caseMore.html">案例欣赏</a></li>
-						<li><a href="jvascript:void(0)">合作伙伴</a></li>
-						<li><a href="jvascript:void(0)">关于我们</a></li>
+						<li><a href="${rc.contextPath}/partner">合作伙伴</a></li>
+						<li><a href="${rc.contextPath}/aboutme">关于我们</a></li>
 					</ul>
 					<div class="s-right s-clear">
 					
@@ -135,7 +135,6 @@
 
 
 		
-		<script src="js/jquery.pagination.js"></script>
 		<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer/layer.js"></script>
     	<!--增加lay最新版本-->
 		<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer/layer.js"></script>
@@ -143,44 +142,7 @@
 		<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
 		<script type="text/javascript">
 			
-		//走马灯图片事件
-		$(document).ready(function(e) {
-		    var unslider04 = $('#b04').unslider({
-				dots: true
-			}),
-			data04 = unslider04.data('unslider');
-			
-			$('.unslider-arrow04').click(function() {
-		        var fn = this.className.split(' ')[1];
-		        data04[fn]();
-		    });
-
-			//限时套装Hover事件
-			$('.timer .select-item').hover(function(e) {
-				/* Stuff to do when the mouse enters the element */
-				e.preventDefault();
-				$(this).find('.lasttime').css({
-					'border-top': '1px solid #ca0d0e',
-					'border-right': '1px solid #ca0d0e',
-					'border-left': '1px solid #ca0d0e'
-				}).end().find('.cost-box').css({
-					'border-right': '1px solid #ca0d0e',
-					'border-bottom': '1px solid #ca0d0e',
-					'border-left': '1px solid #ca0d0e'
-				}).end().find('.cost').css(
-					'border-bottom', '1px solid #ca0d0e'
-				).end().find('.timeline').css(
-					'border-bottom', '1px solid #ca0d0e'
-				).end().find('.ston').css({
-					color: '#fff',
-					background: '#ca0d0e'
-				});
-			}, function(e) {
-				/* Stuff to do when the mouse leaves the element */
-				e.preventDefault();
-				$(this).find('.lasttime').removeAttr('style').end().find('.cost-box').removeAttr('style').end().find('.cost').removeAttr('style').end().find('.timeline').removeAttr('style').end().find('.ston').removeAttr('style');
-			});
-		});
+	
 		/**
 		 * 查看购物车判断登陆状态
 		 */

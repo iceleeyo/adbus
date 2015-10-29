@@ -23,7 +23,7 @@
        window.location.href = "${rc.contextPath}/logout";
     }
 
-
+/* 
     $(function() {
         $("#city_dropdown a:not(.selected)").click(function(){
             var cityName = $(this).parents("#ttbar-mycity")[0]?$(this).attr("data-id") : $("#ttbar-mycity a.selected").attr("data-id");
@@ -45,7 +45,7 @@
                 }
             }, "text");
         });
-    });
+    }); */
 </script>
 <style type="text/css">
     .sift-list {  width: 80px;  line-height: 30px;}
