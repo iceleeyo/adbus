@@ -104,6 +104,8 @@ import com.pantuo.util.BeanUtils;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
+import com.pantuo.vo.CountView;
+import com.pantuo.vo.ModelCountView;
 import com.pantuo.web.ScheduleController;
 import com.pantuo.web.view.AdjustLogView;
 import com.pantuo.web.view.BusInfo;
@@ -1502,6 +1504,26 @@ public class BusServiceImpl implements BusService {
 			}
 		}
 		return new Pair<Boolean, String>(true, "调刊成功");
+	}
+
+	@Override
+	public CountView ModelCountlist(TableRequest req, Page<JpaPublishLine> jpabuspage) {
+		int totalsalsnum=0;//总订购数
+		 int totalalrnum=0;//总已上刊数
+		CountView view=new CountView();
+		List<Integer> ids=new ArrayList<Integer>();
+		List<JpaPublishLine> list = jpabuspage.getContent();
+		for (JpaPublishLine jpaPublishLine : list) {
+			totalsalsnum+=jpaPublishLine.getSalesNumber();
+			totalalrnum+=jpaPublishLine.getRemainNuber();
+			ids.add(jpaPublishLine.getId());
+		}
+		Collection<ModelCountView> Views= userAutoCompleteMapper.selectBusModelGroupView(ids);
+		view.setViews(Views);
+		view.setTotalsalsnum(totalsalsnum);
+		view.setTotalalrnum(totalalrnum);
+		view.setTotalfree(totalsalsnum-totalalrnum);
+		return view;
 	}
 
 }

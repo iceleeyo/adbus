@@ -52,6 +52,8 @@ import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.BusLineCheckService;
 import com.pantuo.service.BusService;
 import com.pantuo.util.Pair;
+import com.pantuo.vo.CountView;
+import com.pantuo.vo.ModelCountView;
 import com.pantuo.web.view.AdjustLogView;
 import com.pantuo.web.view.BusInfoView;
 import com.pantuo.web.view.BusModelGroupView;
@@ -94,7 +96,14 @@ public class BusController {
 				req.getSort("id"), false);
 		return busService.queryModelGroup(req, jpabuspage);
 	}
-
+	@RequestMapping("ajax-ModelCount_list")
+	@ResponseBody
+	public CountView ModelCount_list(TableRequest req,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city) {
+		Page<JpaPublishLine> jpabuspage=busLineCheckService.queryAllPublish(cityId, req, req.getPage(), req.getLength(),
+				req.getSort("id"));
+		return busService.ModelCountlist(req, jpabuspage);
+	}
 	@RequestMapping("ajax-list.xls")
 	public void exportExcel(TableRequest req,
 			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city,HttpServletResponse resp) {

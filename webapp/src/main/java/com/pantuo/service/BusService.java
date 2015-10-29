@@ -22,6 +22,7 @@ import com.pantuo.dao.pojo.JpaBusUpLog;
 import com.pantuo.dao.pojo.JpaBusinessCompany;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaLineUpLog;
+import com.pantuo.dao.pojo.JpaPublishLine;
 import com.pantuo.mybatis.domain.Bus;
 import com.pantuo.mybatis.domain.BusOnline;
 import com.pantuo.mybatis.domain.CountableBusLine;
@@ -30,6 +31,8 @@ import com.pantuo.mybatis.domain.CountableBusinessCompany;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.util.Pair;
+import com.pantuo.vo.CountView;
+import com.pantuo.vo.ModelCountView;
 import com.pantuo.web.view.AdjustLogView;
 import com.pantuo.web.view.BusInfoView;
 import com.pantuo.web.view.BusModelGroupView;
@@ -124,5 +127,7 @@ public interface BusService {
 	DataTablePage<PulishLineView> queryOrders(int cityId, TableRequest req, int page, int length,Sort sort);
 
 	Pair<Boolean, String> changeDate(String ids, String sday, int days, String eday, Principal principal, int city) throws ParseException ;
+
+	CountView ModelCountlist(TableRequest req, Page<JpaPublishLine> jpabuspage);
 	
 }

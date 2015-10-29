@@ -5,6 +5,7 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -71,6 +72,7 @@ import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 import com.pantuo.vo.GroupVo;
 import com.pantuo.web.view.AutoCompleteView;
+import com.pantuo.web.view.BusModelGroupView;
 import com.pantuo.web.view.LineBusCpd;
 import com.pantuo.web.view.OrderView;
 
@@ -934,6 +936,7 @@ public class BusSelectController {
 				req.getSort("id"));
 		return new DataTablePage(jpabuspage, req.getDraw());
 	}
+	
 	@RequestMapping(value = "/queryDividPayByid/{id}")
 	@ResponseBody
 	public Dividpay queryDividPayByid(Model model,

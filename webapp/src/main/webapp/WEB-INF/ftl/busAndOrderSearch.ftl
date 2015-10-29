@@ -144,6 +144,32 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 										$("#modelGroupView").html(w);
 					    			}
 					       });  
+    			 $.ajax({
+					    			url:"${rc.contextPath}/bus/ajax-ModelCount_list",
+					    			type:"POST",
+					    			async:false,
+					    			dataType:"json",
+					    			data:param,
+					    			success:function(data){
+					    			var w='';
+					    			$("#modelcountView").html(w);
+					    				 $.each(data.views,function(index,value){
+        								        w+='<span id="trw2">';
+        								        w+='车型：'+value.modelName;
+        								        w+='&nbsp;&nbsp;&nbsp; &nbsp;已上刊车辆数：';
+        								        w+=value.alrnum;
+        								        w+='</span><br>';
+										})
+										 w+='<span id="trw2">';
+        								        w+='车辆订购总数：'+data.totalsalsnum;
+        								        w+='&nbsp;&nbsp;&nbsp; &nbsp;已上刊车辆数：';
+        								        w+=data.totalalrnum;
+        								        w+='&nbsp;&nbsp;&nbsp; &nbsp;排队车辆数：';
+        								        w+=data.totalfree;
+        								        w+='</span>';
+										$("#modelcountView").html(w);
+					    			}
+					       });  
     
     }
 
@@ -363,7 +389,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                     </tr>
                     </thead>
                 </table>
-               <div><span id="trw2">订购数量合计：10&nbsp;&nbsp;&nbsp; &nbsp;已上刊数：6  &nbsp;&nbsp;&nbsp; &nbsp; 排队车辆数：4</span>
+               <div id="modelcountView">
                </div> 
 </div>
 </@frame.html>
