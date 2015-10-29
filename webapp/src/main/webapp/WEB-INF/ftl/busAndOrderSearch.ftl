@@ -20,8 +20,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 	
     var table;
     function initTable () {
-        table = $('#table').dataTable( {
-            "dom": '<"#toolbar">lrtip',
+        table = $('#table').DataTable( {
+			 "dom": '<"#toolbar"><"top"il>rt<"bottom"p><"clear">',
             "searching": false,
             "ordering": false,
             "serverSide": true,
@@ -48,6 +48,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 "dataSrc": "content",
             },
             "columns": [
+             { "data": "", "defaultContent": ""},
              { "data": "jpaBus.line.name", "defaultContent": ""},
                 { "data": "jpaBus.line.levelStr", "defaultContent": ""},
                 { "data": "jpaBus.serialNumber", "defaultContent": ""},
@@ -97,11 +98,20 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
             },
             "initComplete": initComplete,
             "drawCallback": drawCallback,
+              "fnDrawCallback": fnDrawCallback,
         } );
-        table.fnNameOrdering("orderBy").fnNoColumnsParams();
+
+ 		 $('#table').dataTable().fnNameOrdering();
+      //  table.fnNameOrdering("orderBy").fnNoColumnsParams(); 
+      
+         }
+      
+      
+       function fnDrawCallback(){
+    	 counter_columns(table,0);
     }
     
-    function getTotalInfo(){
+    function reFreshTotalInfo(){
     		var param={ "filter[oldserinum]" : $('#oldserinum').val(),
                         "filter[serinum]" : $('#serinum').val(),
                         "filter[plateNumber]" : $('#name').val(),
@@ -116,9 +126,22 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 					    			dataType:"json",
 					    			data:param,
 					    			success:function(data){
+					    			var w='';
+					    			$("#modelGroupView").html(w);
 					    				 $.each(data,function(index,value){
-        								   alert(value.string);	 
+        								        w+='<span id="trw2">';
+        								        w+=value.modelName=='-total-'?"该线路合计总数：":value.modelName;
+        								        w+='&nbsp;&nbsp;&nbsp; &nbsp车辆总数：';
+        								        w+=value.total;
+        								        w+='&nbsp;&nbsp;&nbsp; &nbsp;占用车辆数：';
+        								        w+=value.online;
+        								        w+='&nbsp;&nbsp;&nbsp; &nbsp; 可用车辆数：';
+        								        w+=value.free;
+        								        w+='&nbsp;&nbsp;&nbsp; &nbsp; 到期未下刊数：';
+        								        w+=value.nowDown;
+        								        w+='</span><br>';
 										})
+										$("#modelGroupView").html(w);
 					    			}
 					       });  
     
@@ -163,8 +186,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
         );
 
         $('#serinum,#oldserinum,#name,#linename,#category,#levelStr,#contractid').change(function() {
-        	getTotalInfo();
-            table.fnDraw();
+        	reFreshTotalInfo();
+            table.draw();
              table2.fnDraw();
         });
          $("#linename").autocomplete({
@@ -174,8 +197,9 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 			},
 			select : function(event, ui) {
 				$('#linename').val(ui.item.value);
-				table.fnDraw();
+				table.draw();
 				table2.fnDraw();
+				reFreshTotalInfo();
 			}
 		}).focus(function () {
        				 $(this).autocomplete("search");
@@ -188,8 +212,9 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 			},
 			select : function(event, ui) {
 			$('#cid').val(ui.item.dbId);
-				table.fnDraw();
+				table.draw();
 				table2.fnDraw();
+				reFreshTotalInfo();
 			}
 		}).focus(function () {
        				 $(this).autocomplete("search");
@@ -200,6 +225,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
         $('.table-action').click(function() {
             $.post($(this).attr("url"), function() {
                 table.fnDraw(true);
+                reFreshTotalInfo();
             })
         });
     }
@@ -281,6 +307,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>
                     <tr>
+                   	    <th ></th>
                   		<th >线路</th>
                         <th >线路级别</th>
                         <th >车辆自编号</th>
@@ -305,10 +332,11 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                     </tr>
                     </thead>
                 </table>
-                <div>
-                <span id="trw2">BJ6851C6BCD车辆总数：34&nbsp;&nbsp;&nbsp; &nbsp;占用车辆数：6  &nbsp;&nbsp;&nbsp; &nbsp; 可用车辆数：30 &nbsp;&nbsp;&nbsp;&nbsp;到期未下刊数：0</span><br>
+                <div id="modelGroupView">
+             <!--   <span id="trw2">BJ6851C6BCD车辆总数：34&nbsp;&nbsp;&nbsp; &nbsp;占用车辆数：6  &nbsp;&nbsp;&nbsp; &nbsp; 可用车辆数：30 &nbsp;&nbsp;&nbsp;&nbsp;到期未下刊数：0</span><br>
                 <span id="trw2">ZK6128HGA车辆总数：34&nbsp;&nbsp;&nbsp; &nbsp;占用车辆数：6  &nbsp;&nbsp;&nbsp; &nbsp; 可用车辆数：30 &nbsp;&nbsp;&nbsp;&nbsp;到期未下刊数：0</span><br>
                 <span id="trw2">该线路总车辆数：63&nbsp;&nbsp;&nbsp;&nbsp;已占用车辆数：33 &nbsp;&nbsp; &nbsp;&nbsp; 可用车辆数：30 &nbsp;&nbsp;&nbsp;&nbsp;到期未下刊数：0</span>
+                -->
                 </div> 
 </div>
 <div class="withdraw-wrap color-white-bg fn-clear">
