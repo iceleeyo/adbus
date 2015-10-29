@@ -1556,6 +1556,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		publishLine.setUserId(Request.getUserId(principal));
 		publishLine.setRemainNuber(0);
 		publishLine.setModelId(0);
+		publishLine.setCompanyId(buslineRepository.findOne(publishLine.getLineId()).getCompany().getId());
 		OfflinecontractExample example = new OfflinecontractExample();
 		OfflinecontractExample.Criteria criteria = example.createCriteria();
 		criteria.andSeriaNumEqualTo(publishLine.getSeriaNum());

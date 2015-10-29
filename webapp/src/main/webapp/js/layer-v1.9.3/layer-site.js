@@ -1736,7 +1736,7 @@ function showBusDetail(pathUrl,tourl,id){
 				type: 1,
 				title: "车辆信息修改",
 				skin: 'layui-layer-rim', 
-				area: ['650px', '650px'], 
+				area: ['650px', '700px'], 
 				content: ''
 					+ '<form id="publishform01" action='+pathUrl+'/bus/saveBus>'
 					+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;"><input type="hidden" name="id" value="'+data.id+'"/>'

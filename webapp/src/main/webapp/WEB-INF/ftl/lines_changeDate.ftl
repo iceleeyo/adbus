@@ -173,7 +173,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
        				 $(this).autocomplete("search");
    	 	});
         $("#export_xls").click(function(){
-        
+        alert(3);
         	if(1==1){
 	        	jDialog.Alert("正在开发中");
 	            return ;
