@@ -122,5 +122,7 @@ public interface BusService {
 	
 	
 	DataTablePage<PulishLineView> queryOrders(int cityId, TableRequest req, int page, int length,Sort sort);
+
+	Pair<Boolean, String> changeDate(String ids, String sday, int days, String eday, Principal principal, int city) throws ParseException ;
 	
 }

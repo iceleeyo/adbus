@@ -181,9 +181,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 	     	</div>
 	     	<div>
 	     	<span style="margin-left: 5px;">下刊日期：</span>
-            <span>
-                  <input  class="datepicker" type="text" name="offday" id="offday" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> 
-            </span>&nbsp;&nbsp;<input type="button" class="button_kind" style="width: 85px;height: 30px;" value="批量下刊" onclick="batchOff()"/>
+            <span> <input  class="datepicker" type="text" name="offday" id="offday" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </span>&nbsp;&nbsp; 
+           <input type="button" class="button_kind" style="width: 85px;height: 30px;" value="批量下刊" onclick="batchOff()"/>
             </div>    
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>

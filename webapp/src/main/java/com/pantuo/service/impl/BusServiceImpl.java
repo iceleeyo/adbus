@@ -101,6 +101,7 @@ import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.BusService;
 import com.pantuo.simulate.QueryBusInfo;
 import com.pantuo.util.BeanUtils;
+import com.pantuo.util.DateUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 import com.pantuo.web.ScheduleController;
@@ -1409,13 +1410,18 @@ public class BusServiceImpl implements BusService {
 		Pageable p = new PageRequest(page, length, sort);
 		BooleanExpression query = QJpaBusOnline.jpaBusOnline.city.eq(cityId);
 		query = query.and(QJpaBusOnline.jpaBusOnline.enable.eq(true));
-		String contracCode = req.getFilter("contracCode"),linename=req.getFilter("linename"),publishLineid=req.getFilter("publishLineid");
+		String contracCode = req.getFilter("contracCode"),linename=req.getFilter("linename"),
+				serinum=req.getFilter("serinum"),
+				publishLineid=req.getFilter("publishLineid");
 		if (StringUtils.isNotBlank(publishLineid)) {
 			int pid=NumberUtils.toInt(publishLineid);
 			query = query.and(QJpaBusOnline.jpaBusOnline.publish_lineId.eq(pid));
 		}
 		if (StringUtils.isNotBlank(contracCode)) {
 			query = query.and(QJpaBusOnline.jpaBusOnline.offlineContract.contractCode.like("%"+contracCode+"%"));
+		}
+		if (StringUtils.isNotBlank(serinum)) {
+			query = query.and(QJpaBusOnline.jpaBusOnline.jpabus.serialNumber.like("%"+serinum+"%"));
 		}
 		if (StringUtils.isNotBlank(linename)) {
 			query = query.and(QJpaBusOnline.jpaBusOnline.jpabus.line.name.like("%"+linename+"%"));
@@ -1450,6 +1456,37 @@ public class BusServiceImpl implements BusService {
 		}
 		return r;
 
+	}
+
+	@Override
+	public Pair<Boolean, String> changeDate(String ids, String sday, int days, String eday, Principal principal,
+			int city) throws ParseException {
+		Date stday = (Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(sday);
+		Date endDate=null;
+		int kanqi=0;
+		if(days>0){
+			endDate= DateUtil.dateAdd(stday, days);
+			kanqi=days;
+		}
+		if(StringUtils.isNotBlank(eday)){
+			endDate = (Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(eday);
+			kanqi=(int) DateUtil.getQuot(endDate,stday);
+		}
+		String idsa[] = ids.split(",");
+		for (int i = 0; i < idsa.length; i++) {
+			if (!idsa[i].trim().equals("")) {
+				BusOnline busOnline=busOnlineMapper.selectByPrimaryKey(Integer.parseInt(idsa[i]));
+				if(busOnline!=null){
+					busOnline.setStartDate(stday);
+					busOnline.setEndDate(endDate);
+					busOnline.setDays(kanqi);
+					busOnline.setUpdated(new Date());
+					busOnline.setEditor(Request.getUserId(principal));
+					busOnlineMapper.updateByPrimaryKeySelective(busOnline);
+				}
+			}
+		}
+		return new Pair<Boolean, String>(true, "调刊成功");
 	}
 
 }

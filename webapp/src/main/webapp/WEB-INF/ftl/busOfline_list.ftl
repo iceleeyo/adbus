@@ -186,8 +186,14 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 	}
                 	return d;
                 }},
-                 { "data": "", "defaultContent": ""},
-                   { "data": "", "defaultContent": ""},
+                 { "data": "busInfo.busOnline.reserveDate", "defaultContent": "","render": function(data, type, row, meta) {
+              	  var d= $.format.date(data, "yyyy-MM-dd");
+              	  return d;
+              	  }},
+                 { "data": "busInfo.busOnline.realEndDate", "defaultContent": "","render": function(data, type, row, meta) {
+              	  var d= $.format.date(data, "yyyy-MM-dd");
+              	  return d;
+              	  }},
                  { "data": "busInfo.offlinecontract.relateMan", "defaultContent": ""},
 	              { "data": "", "defaultContent": "","render": function(data, type, row, meta) {
 	              

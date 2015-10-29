@@ -477,6 +477,8 @@ public class BusController {
 			@RequestParam(value = "companyId", required = false) Integer companyId) {
 		return busService.getBusinessCompanies(city, level, category, lineId, modelId, companyId);
 	}
+	
+	//批量上刊
 	@RequestMapping(value = "/batchOnline")
 	@ResponseBody
 	public Pair<Boolean, String> batchOnline(
@@ -493,6 +495,8 @@ public class BusController {
 			) throws ParseException {
 		return busService.batchOnline(ids,stday, days, contractid,principal,city,plid,fday,adtype,print,sktype);
 	}
+	
+	//批量下刊
 	@RequestMapping(value = "/batchOffline")
 	@ResponseBody
 	public Pair<Boolean, String> batchOffline(
@@ -501,5 +505,18 @@ public class BusController {
 			@RequestParam(value = "ids", required = true) String ids
 			) throws ParseException{
 		return busService.batchOffline(ids,offday,principal,city);
+	}
+	
+	//调刊补刊
+	@RequestMapping(value = "/changeDate")
+	@ResponseBody
+	public Pair<Boolean, String> changeDate(
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
+			@RequestParam(value = "sday", required = true) String sday,
+			@RequestParam(value = "days", required = false) int days,
+			@RequestParam(value = "eday", required = false) String eday,
+			@RequestParam(value = "ids", required = true) String ids
+			) throws ParseException{
+		return busService.changeDate(ids,sday,days,eday,principal,city);
 	}
 }
