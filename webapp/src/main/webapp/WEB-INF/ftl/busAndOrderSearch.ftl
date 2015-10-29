@@ -100,6 +100,29 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
         } );
         table.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
+    
+    function getTotalInfo(){
+    		var param={ "filter[oldserinum]" : $('#oldserinum').val(),
+                        "filter[serinum]" : $('#serinum').val(),
+                        "filter[plateNumber]" : $('#name').val(),
+                        "filter[linename]" : $('#linename').val(),
+                        "filter[category]" : $('#category').val(),
+                        "filter[levelStr]" : $('#levelStr').val(),
+                         "filter[contractid]" : $('#cid').val()};
+    			 $.ajax({
+					    			url:"${rc.contextPath}/bus/ajax-countbus_list",
+					    			type:"POST",
+					    			async:false,
+					    			dataType:"json",
+					    			data:param,
+					    			success:function(data){
+					    				 $.each(data,function(index,value){
+        								   alert(value.string);	 
+										})
+					    			}
+					       });  
+    
+    }
 
     function initComplete() {
         $("div#toolbar").html(
@@ -140,6 +163,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
         );
 
         $('#serinum,#oldserinum,#name,#linename,#category,#levelStr,#contractid').change(function() {
+        	getTotalInfo();
             table.fnDraw();
              table2.fnDraw();
         });
