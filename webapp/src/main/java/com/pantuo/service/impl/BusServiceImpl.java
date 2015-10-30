@@ -9,6 +9,7 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -65,7 +66,9 @@ import com.pantuo.dao.pojo.JpaBusUpLog;
 import com.pantuo.dao.pojo.JpaBusinessCompany;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaLineUpLog;
+import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaPublishLine;
+import com.pantuo.dao.pojo.QJpaProduct;
 import com.pantuo.dao.pojo.JpaPublishLine.Sktype;
 import com.pantuo.dao.pojo.QJpaBus;
 import com.pantuo.dao.pojo.QJpaBusAdjustLog;
@@ -376,17 +379,27 @@ public class BusServiceImpl implements BusService {
 			sort = new Sort("id");
 		Pageable p = new PageRequest(page, pageSize, sort);
 		BooleanExpression query = QJpaBus.jpaBus.city.eq(city);
-		String serinum=req.getFilter("serinum"),oldserinum=req.getFilter("oldserinum"),plateNumber = req.getFilter("plateNumber"), linename = req.getFilter("linename"), levelStr = req
+		String sh = req.getFilter("sh"),serinum=req.getFilter("serinum"),oldserinum=req.getFilter("oldserinum"),plateNumber = req.getFilter("plateNumber"), linename = req.getFilter("linename"), levelStr = req
 				.getFilter("levelStr"), category = req.getFilter("category"), lineid = req.getFilter("lineid"), company = req
 				.getFilter("company");
+		BooleanExpression commonEx = getQueryFromPage(sh);
+		if (commonEx != null) {
+			query = query.and(commonEx);
+		}
 		if (StringUtils.isNotBlank(serinum)) {
-			query = query.and(QJpaBus.jpaBus.serialNumber.like("%" + serinum + "%"));
+			String[] a=serinum.split(",");
+			List<String> list=Arrays.asList(a);
+			query = query.and(QJpaBus.jpaBus.serialNumber.in(list));
 		}
 		if (StringUtils.isNotBlank(oldserinum)) {
-			query = query.and(QJpaBus.jpaBus.oldSerialNumber.like("%" + oldserinum + "%"));
+			String[] a=oldserinum.split(",");
+			List<String> list=Arrays.asList(a);
+			query = query.and(QJpaBus.jpaBus.oldSerialNumber.in(list));
 		}
 		if (StringUtils.isNotBlank(plateNumber)) {
-			query = query.and(QJpaBus.jpaBus.plateNumber.like("%" + plateNumber + "%"));
+			String[] a=plateNumber.split(",");
+			List<String> list=Arrays.asList(a);
+			query = query.and(QJpaBus.jpaBus.plateNumber.in(list));
 		}
 		if (StringUtils.isNotBlank(lineid)) {
 			int lineId = NumberUtils.toInt(lineid);
@@ -424,6 +437,59 @@ public class BusServiceImpl implements BusService {
 		return query == null ? busRepo.findAll(p) : busRepo.findAll(query, p);
 
 	}
+	private BooleanExpression getQueryFromPage(String sh) {
+		Map<String, List<String>> map = new HashMap<String, List<String>>();
+		BooleanExpression query = null;
+		String[] shSplit = StringUtils.split(sh, ",");
+		if (shSplit != null) {
+			for (String string : shSplit) {//p1
+				String[] one = StringUtils.split(string, "_");
+				String field = one[0];
+				String v = one[1];
+				if (!map.containsKey(field)) {
+					map.put(field, new ArrayList<String>());
+				}
+				if (!StringUtils.equals("all", v)) {
+					map.get(field).add(v);
+				}
+			}
+		}
+		for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+			List<String> vIntegers = entry.getValue();
+			 if (StringUtils.equals(entry.getKey(), "com") && vIntegers.size() > 0) {
+				BooleanExpression subQuery = null;
+				List<Integer> idsList=new ArrayList<Integer>();
+				for (String playNumber : vIntegers) {
+					idsList.add(NumberUtils.toInt(playNumber));
+				}
+				subQuery = subQuery == null ? QJpaBus.jpaBus.company.id.in(idsList) : subQuery
+						.and(QJpaBus.jpaBus.company.id.in(idsList));
+				query = query == null ? subQuery : query.and(subQuery);
+			}   else if (StringUtils.equals(entry.getKey(), "lev") && vIntegers.size() > 0) {
+				BooleanExpression subQuery = null;
+				List<JpaBusline.Level> right = new ArrayList<JpaBusline.Level>();
+				for (String type : vIntegers) {
+					right.add(JpaBusline.Level.valueOf(type));
+				}
+				subQuery = subQuery == null ? QJpaBus.jpaBus.line.level.in(right) : subQuery
+						.and(QJpaBus.jpaBus.line.level.in(right));
+				query = query == null ? subQuery : query.and(subQuery);
+			} else if (StringUtils.equals(entry.getKey(), "gor") && vIntegers.size() > 0) {
+				BooleanExpression subQuery = null;
+				List<JpaBus.Category> right = new ArrayList<JpaBus.Category>();
+				for (String type : vIntegers) {
+					right.add(JpaBus.Category.valueOf(type));
+				}
+				subQuery = subQuery == null ? QJpaBus.jpaBus.category.in(right) : subQuery
+						.and(QJpaBus.jpaBus.category.in(right));
+				query = query == null ? subQuery : query.and(subQuery);
+			}
+
+		}
+
+		return query;
+	}
+
 	public static Specification<JpaBus> emptyPredicate(){
 		  return new Specification<JpaBus>(){
 		    

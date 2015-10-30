@@ -1,24 +1,17 @@
 function initSwift(table){
-	
-	 
     $('.item i').hide();
       	var isClick = false;
       	$('.sift-list .item').click(function(){
-
       		if(isClick){
-      			 
       			$(this).removeClass('active');
       			isClick = false;
       			if(($(this).parent().has('.active')).length==0){
       			   $(this).parent().children().first().addClass("active");
       			}
       		}else{
-
       			$(this).addClass('active');
 	      		$(this).children().show();
 	      		$(this).parent().children().first().removeClass("active");
-
-	      		//add by impanxh
       			if($(this).attr("sort")==-1){
       				var list=$(this).parent().children();
       				$(this).parent().children().removeClass("active");
@@ -32,18 +25,11 @@ function initSwift(table){
 			});
 			//alert(sendContext);
 			$("#sh").val(sendContext);
-			
 			//重新画
 			 table.fnDraw();
-			//alert($("#sh").val());
-			
-
       	});
       	$('i').click(function(){
       		$(this).hide();
       		isClick = true;
-      		
       	});
-	
-	
 }
