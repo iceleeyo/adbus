@@ -25,7 +25,7 @@ function initSwift(table){
 			});
 			$("#sh").val(sendContext);
 			//重新画
-			 table.fnDraw();
+			 table.draw();
       	});
       	$('i').click(function(){
       		$(this).hide();

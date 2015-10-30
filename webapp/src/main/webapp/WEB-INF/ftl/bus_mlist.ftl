@@ -1,7 +1,7 @@
 <#import "template/template.ftl" as frame>
 <#global menu="车辆管理">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="车辆管理" js=["js/sift.js","js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
+<@frame.html title="车辆管理" js=["js/bus_mlist.js","js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
 "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
 "js/jquery.datepicker.region.cn.js","js/progressbar.js"]
 css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
@@ -281,7 +281,7 @@ function ishaveline(linename){
 			
     $(document).ready(function() {
         initTable();
-         initSwift(table)
+         initSwift(table);
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
