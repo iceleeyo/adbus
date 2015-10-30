@@ -1,7 +1,7 @@
 <#import "template/template.ftl" as frame>
-<#global menu="屏幕广告合同列表">
+<#global menu="屏幕广告合同">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="屏幕广告合同列表" js=["js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js"]>
+<@frame.html title="屏幕广告合同" js=["js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js"]>
 
 
 <script type="text/javascript">

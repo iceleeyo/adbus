@@ -166,7 +166,7 @@ var table;
 				<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 					<a id="tab2" href="${rc.contextPath}/order/allRuningOrders/1">进行中的订单</a>
 				</@security.authorize>	
-					<a id="tab3" href="${rc.contextPath}/order/finished">已完成的订单</a>
+					
 				<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 				<#if orderMenu=="我参与订单">
 					<a id="tab4" class="active" href="${rc.contextPath}/order/join/1">我参与的订单<span id="recordsTotal"  style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></a>
@@ -174,7 +174,7 @@ var table;
 					<a id="tab4" href="${rc.contextPath}/order/join/1">我参与的订单<span id="recordsTotal" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;" ></span></a>
 				</#if>
 				</@security.authorize>
-				
+				<a id="tab3" href="${rc.contextPath}/order/finished">已完成的订单</a>
 				</div>
 				
 				<table id="table" class="display" cellspacing="0" width="100%">
