@@ -388,18 +388,31 @@ public class BusServiceImpl implements BusService {
 		}
 		if (StringUtils.isNotBlank(serinum)) {
 			String[] a=serinum.split(",");
-			List<String> list=Arrays.asList(a);
-			query = query.and(QJpaBus.jpaBus.serialNumber.in(list));
+			if(a.length>1){
+				List<String> list=Arrays.asList(a);
+				query = query.and(QJpaBus.jpaBus.serialNumber.in(list));
+			}else{
+				query = query.and(QJpaBus.jpaBus.serialNumber.like("%"+serinum+"%"));
+			}
 		}
 		if (StringUtils.isNotBlank(oldserinum)) {
 			String[] a=oldserinum.split(",");
-			List<String> list=Arrays.asList(a);
-			query = query.and(QJpaBus.jpaBus.oldSerialNumber.in(list));
+			if(a.length>1){
+				List<String> list=Arrays.asList(a);
+				query = query.and(QJpaBus.jpaBus.oldSerialNumber.in(list));
+			}else{
+				query = query.and(QJpaBus.jpaBus.oldSerialNumber.like("%"+oldserinum+"%"));
+			}
+			
 		}
 		if (StringUtils.isNotBlank(plateNumber)) {
 			String[] a=plateNumber.split(",");
-			List<String> list=Arrays.asList(a);
-			query = query.and(QJpaBus.jpaBus.plateNumber.in(list));
+			if(a.length>1){
+				List<String> list=Arrays.asList(a);
+				query = query.and(QJpaBus.jpaBus.plateNumber.in(list));
+			}else{
+				query = query.and(QJpaBus.jpaBus.plateNumber.like("%"+plateNumber+"%"));
+			}
 		}
 		if (StringUtils.isNotBlank(lineid)) {
 			int lineId = NumberUtils.toInt(lineid);
@@ -1294,7 +1307,7 @@ public class BusServiceImpl implements BusService {
 			sort = new Sort(Direction.fromString("desc"), "updated"); //new Sort("updated");
 		Pageable p = new PageRequest(page, length, sort);
 
-		String becompany = req.getFilter("becompany"), sktype = req.getFilter("sktype"), contractCode = req
+		String becompany = req.getFilter("becompany"),contractid=req.getFilter("contractid"), adcontent=req.getFilter("adcontent"),sktype = req.getFilter("sktype"), contractCode = req
 				.getFilter("contractCode"), box = req.getFilter("box");
 		BooleanExpression query = QJpaPublishLine.jpaPublishLine.city.eq(cityId);
 		query = query.and(QJpaPublishLine.jpaPublishLine.OfflineContract.id.gt(0));
@@ -1312,6 +1325,14 @@ public class BusServiceImpl implements BusService {
 		if (StringUtils.isNotBlank(contractCode)) {
 			query = query.and(QJpaPublishLine.jpaPublishLine.OfflineContract.contractCode
 					.like("%" + contractCode + "%"));
+		}
+		if (StringUtils.isNotBlank(contractid)) {
+			int cid=NumberUtils.toInt(contractid);
+			query = query.and(QJpaPublishLine.jpaPublishLine.OfflineContract.id.eq(cid));
+		}
+		if (StringUtils.isNotBlank(adcontent)) {
+			query = query.and(QJpaPublishLine.jpaPublishLine.OfflineContract.adcontent
+					.like("%" + adcontent + "%"));
 		}
 
 		if (StringUtils.isNotBlank(sktype) && !StringUtils.equals(sktype, "defaultAll")) {

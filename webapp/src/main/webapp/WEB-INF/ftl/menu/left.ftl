@@ -407,11 +407,6 @@
                                                     调刊补刊
                                                 </a>
                                             </li>
-                                             <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/table.html" target="_blank">
-                                                    上刊发布统计
-                                                </a>
-                                            </li>
                                              </@security.authorize>
                                              
                                                 <@security.authorize ifAnyGranted="meijie_busline">	

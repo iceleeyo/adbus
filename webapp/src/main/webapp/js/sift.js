@@ -23,7 +23,7 @@ function initSwift(table){
 			$('.sift-list .active').each(function(){
 				sendContext+=($(this).parent().attr("qt")+"_"+$(this).attr("qc"))+",";			
 			});
-			//alert(sendContext);
+			alert(sendContext);
 			$("#sh").val(sendContext);
 			//重新画
 			 table.fnDraw();

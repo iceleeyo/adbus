@@ -45,9 +45,11 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 url: "${rc.contextPath}/bus/ajax-bus_orders",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "filter[contractCode]" : $('#contractCode').val(),
+                      //  "filter[contractCode]" : $('#contractCode').val(),
+                        "filter[contractid]" : $('#cid').val(),
                         "filter[sktype]" : $('#sktype').val(),
                         "filter[becompany]" : $('#becompany').val(),
+                        "filter[adcontent]" : $('#adcontent').val(),
                         "filter[box]" : $("#showAll").val()  
                         
                     } );
@@ -99,7 +101,10 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                         '    <span>' +
                         '        <input id="contractCode" value="">' +
                         '    </span>&nbsp;&nbsp;' +
-                       '    </span>&nbsp;&nbsp;' +
+                        '    <span>广告内容</span>'+
+                        '    <span>' +
+                        '        <input id="adcontent" value="">' +
+                        '    </span>&nbsp;&nbsp;' +
                       '  <span>原营销中心</span>&nbsp;&nbsp;' +
                     '<select class="ui-input ui-input-mini" name="becompany" id="becompany" style="width:135px">' +
                     '<option value="defaultAll" selected="selected">所有</option>' +
@@ -124,10 +129,22 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                     '<br>'
         );
  
-        $('#contractCode,#sktype,#becompany').change(function() {
+        $('#contractCode,#sktype,#becompany,#adcontent').change(function() {
             table.draw();
         });
-          
+           $("#contractCode").autocomplete({
+		minLength: 0,
+			source : "${rc.contextPath}/busselect/contractAutoComplete?tag=a",
+			change : function(event, ui) {
+			},
+			select : function(event, ui) {
+			$('#cid').val(ui.item.dbId);
+				 table.draw();
+				$('#cid').val("");
+			}
+		}).focus(function () {
+       				 $(this).autocomplete("search");
+   	 	});
         $("#box1").click(function(){  
 			 var w = $("#showAll").val();5
 			 if(w==0){
@@ -162,6 +179,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
             <div class="withdraw-title">
 									</div>
 									<input type="hidden" id ="showAll" value ="0" >	
+									<input type="hidden" id="cid" />
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>
                     <tr>   
