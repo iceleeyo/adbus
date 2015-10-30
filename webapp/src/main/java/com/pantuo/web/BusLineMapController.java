@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
-import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusModel;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaCity;
@@ -30,6 +29,7 @@ import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.BusMapService;
 import com.pantuo.service.BusService;
 import com.pantuo.util.Pair;
+import com.pantuo.web.view.CarUseView;
 import com.pantuo.web.view.MapLocationSession;
 
 /**
@@ -69,6 +69,11 @@ public class BusLineMapController {
 	@RequestMapping(value = "/linesManage")
 	public String linesManage() {
 		return "lines_list";
+	}
+	
+	@RequestMapping(value = "/use")
+	public String use() {
+		return "lines_use";
 	}
 	@RequestMapping(value = "/airMediaCount")
 	public String airMediaCount(Model model,@CookieValue(value = "city", defaultValue = "-1") int cityId) {
@@ -151,6 +156,15 @@ public class BusLineMapController {
 			}
 		}
 		return r;
+	}
+	
+	@RequestMapping("ajax-use")
+	@ResponseBody
+	public DataTablePage<CarUseView> useInfo(Model model, TableRequest req,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city,
+			SessionStatus status) {
+		Page<CarUseView> r = busService.getLinesUse(cityId, req);
+		return new DataTablePage(r, req.getDraw());
 	}
 	@RequestMapping("ajax-all-lines")
 	@ResponseBody

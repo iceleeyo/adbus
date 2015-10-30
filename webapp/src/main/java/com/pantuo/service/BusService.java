@@ -36,6 +36,7 @@ import com.pantuo.vo.ModelCountView;
 import com.pantuo.web.view.AdjustLogView;
 import com.pantuo.web.view.BusInfoView;
 import com.pantuo.web.view.BusModelGroupView;
+import com.pantuo.web.view.CarUseView;
 import com.pantuo.web.view.ContractLineDayInfo;
 import com.pantuo.web.view.PulishLineView;
 
@@ -64,6 +65,17 @@ public interface BusService {
     void saveBuses(Iterable<JpaBus> buses);
 
     Page<JpaBusline> getAllBuslines(int city, JpaBusline.Level level, String name, int page, int pageSize, Sort sort);
+    
+    /**
+     * 
+     * 空媒体统计
+     *
+     * @param city
+     * @param req
+     * @return
+     * @since pantuo 1.0-SNAPSHOT
+     */
+    Page<CarUseView> getLinesUse(int city, TableRequest req);
 
     Page<JpaBusModel> getAllBusModels(int city, TableRequest req, String name, String manufacturer, int page, int pageSize, Sort sort);
 

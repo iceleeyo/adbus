@@ -1,9 +1,11 @@
 package com.pantuo.simulate;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -263,6 +265,47 @@ public class QueryBusInfo implements Runnable, ScheduleStatsInter {
 			}
 		}
 	}
+
+	public static enum Qstats {
+		online,nextMonthOver, empty, notDown;
+	}
+	
+	
+
+	public Qstats getStatus(Integer busid, String nextMonthParams) {
+		Qstats r = Qstats.empty;
+		if (map2.containsKey(busid)) {
+			List<BusOnline> list = map2.get(busid).getAllPlan();
+			if (list == null || list.isEmpty()) {
+				return Qstats.empty;
+			}
+			Date now = new Date();
+			boolean isFree = true;
+			for (BusOnline busOnline : list) {
+				if (busOnline.getStartDate().before(now) && busOnline.getEndDate().after(now)) {
+					isFree = false;
+					r = Qstats.online;
+					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM");
+					if (StringUtils.equals(nextMonthParams, df.format(busOnline.getEndDate()))) {
+						r = Qstats.nextMonthOver;
+					}
+					break;
+				}
+				if (busOnline.getEndDate().before(now)) {
+					if (busOnline.getRealEndDate() == null) {
+						isFree = false;
+						r = Qstats.notDown;
+						break;
+					}
+				}
+			}
+			if (isFree) {
+				r = Qstats.empty;
+			}
+		}
+		return r;
+	}
+	
 	
 	
 	

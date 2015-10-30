@@ -560,7 +560,7 @@
                                         </a>
                                         <ul class="pg-side-exp-list">
                                            <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/airMediaCount">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/use">
                                                    空媒体统计
                                                 </a>
                                             </li>

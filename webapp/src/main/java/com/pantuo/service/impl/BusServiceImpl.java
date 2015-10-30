@@ -102,6 +102,7 @@ import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.BusService;
+import com.pantuo.simulate.BodyUseMonitor;
 import com.pantuo.simulate.QueryBusInfo;
 import com.pantuo.util.BeanUtils;
 import com.pantuo.util.DateUtil;
@@ -114,6 +115,7 @@ import com.pantuo.web.view.AdjustLogView;
 import com.pantuo.web.view.BusInfo;
 import com.pantuo.web.view.BusInfoView;
 import com.pantuo.web.view.BusModelGroupView;
+import com.pantuo.web.view.CarUseView;
 import com.pantuo.web.view.ContractLineDayInfo;
 import com.pantuo.web.view.PulishLineView;
 
@@ -147,6 +149,10 @@ public class BusServiceImpl implements BusService {
 
 	@Autowired
 	BusMapper busMapper;
+	
+	@Autowired
+	
+	BodyUseMonitor bodyUseMonitor;
 	
 	
 	@Autowired
@@ -539,6 +545,33 @@ public class BusServiceImpl implements BusService {
 		busRepo.save(buses);
 	}
 
+	public Page<CarUseView> getLinesUse(int city, TableRequest req) {
+		String levelStr = req.getFilter("level");
+		String name = req.getFilter("name");
+		int page = req.getPage();
+		int pageSize = req.getLength();
+		Sort sort = req.getSort("id");
+
+		JpaBusline.Level level = null;
+		if (!StringUtils.isBlank(levelStr)) {
+			level = JpaBusline.Level.fromNameStr(levelStr);
+			try {
+				level = JpaBusline.Level.valueOf(levelStr);
+			} catch (Exception e) {
+			}
+		}
+		Page<JpaBusline> lines = getAllBuslines(city, level, name, page, pageSize, sort);
+		List<JpaBusline> w = lines.getContent();
+		List<CarUseView> list = new ArrayList<CarUseView>();
+		for (JpaBusline e : w) {
+			CarUseView one1 = new CarUseView(e);
+			one1.setView(bodyUseMonitor.getUserView(e.getId()));
+			list.add(one1);
+		}
+		Pageable p = new PageRequest(req.getPage(), req.getLength(), sort);
+		return new org.springframework.data.domain.PageImpl<CarUseView>(list, p, lines.getTotalElements());
+
+	}
 	@Override
 	public Page<JpaBusline> getAllBuslines(int city, JpaBusline.Level level, String name, int page, int pageSize,
 			Sort sort) {
