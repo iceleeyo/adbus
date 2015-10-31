@@ -1227,6 +1227,8 @@ public class BusServiceImpl implements BusService {
 			t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 			t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
 			BusUplog log = new BusUplog();
+			log.setOldCompanyId(bus2.getCompanyId());
+			log.setOldBranch(bus2.getBranch());
 			String oldjsonString = t.writeValueAsString(bus2);
 			log.setAfSerialNumber(bus2.getSerialNumber());
 			String jsonString = t.writeValueAsString(bus);
@@ -1273,7 +1275,9 @@ public class BusServiceImpl implements BusService {
 		Pageable p = new PageRequest(page, length, sort);
 		BooleanExpression query = QJpaBusUpLog.jpaBusUpLog.city.eq(cityId);
 		String busid = req.getFilter("busid"), serinum = req.getFilter("serinum"), pname = req.getFilter("pname"), plid = req
-				.getFilter("plid");
+				.getFilter("plid"), companyId = req
+						.getFilter("companyId");
+		int companyIdCheck=0;
 		if (StringUtils.isNotBlank(busid)) {
 			int busId = NumberUtils.toInt(busid);
 			query = query.and(QJpaBusUpLog.jpaBusUpLog.jpabus.id.eq(busId));
@@ -1285,13 +1289,17 @@ public class BusServiceImpl implements BusService {
 		}else {
 			query = query.and(QJpaBusUpLog.jpaBusUpLog.jpabus.id.eq(0));
 		}
-		
-			
 			//query = query.and(QJpaBusUpLog.jpaBusUpLog.jpabus.serialNumber.like("%" + serinum + "%"));
 		}
 		if (StringUtils.isNotBlank(pname)) {
 			query = query.and(QJpaBusUpLog.jpaBusUpLog.jpabus.plateNumber.like("%" + pname + "%"));
 		}
+		
+		if (StringUtils.isNotBlank(companyId) && (companyIdCheck= NumberUtils.toInt(companyId) )>0) {
+			query = query.and(QJpaBusUpLog.jpaBusUpLog.oldCompanyId.eq(companyIdCheck));
+		}
+		
+		
 		if (StringUtils.isNotBlank(plid)) {
 			int pid = NumberUtils.toInt(plid);
 			List<Integer> busids = userAutoCompleteMapper.selectBusidsByPid(pid);

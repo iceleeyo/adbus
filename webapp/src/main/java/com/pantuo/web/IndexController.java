@@ -148,7 +148,12 @@ public class IndexController {
 		
 		return "index_menu/effect";
 	}
-	
+
+	@RequestMapping(value = "report/public/{pageName}", produces = "text/html;charset=utf-8")
+	public String publicView(@PathVariable("pageName") String pageName, Model model, HttpServletRequest request,
+			HttpServletResponse response, @CookieValue(value = "city", defaultValue = "-1") int city) {
+		return "report/" + pageName;
+	}
 	@RequestMapping(value = "/partner", produces = "text/html;charset=utf-8")
 	public String topartner(Model model, HttpServletRequest request, HttpServletResponse response,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
