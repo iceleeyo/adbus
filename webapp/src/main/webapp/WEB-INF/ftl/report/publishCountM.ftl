@@ -64,7 +64,7 @@
                         <td >11</td>
                     </tr>
                     <tr>
-                        <td >SBC</td>
+                        <td rowspan=2>SBC</td>
                         <td >单层</td>
                         <td >11</td>
                         <td >11</td>
@@ -85,7 +85,7 @@
                         <td >11</td>
                     </tr>
                     <tr>
-                        <td >SBC</td>
+                        <td ></td>
                         <td >双层</td>
                         <td >11</td>
                         <td >11</td>
