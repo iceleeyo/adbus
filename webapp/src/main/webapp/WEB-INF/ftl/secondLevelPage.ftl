@@ -96,25 +96,25 @@ function tocard(pathurl){
 								<div class="select-item">
 									<img src="index_img/food.png">
 									<p>食品</p>
-									<p>价格：500000.00</p>
+									<p>价格：￥<em>500000.00</em></p>
 									<p>周期：3个月</p>
 								</div>
 								<div class="select-item">
 									<img src="index_img/internet.png">
 									<p>互联网</p>
-									<p>价格：1500000.00</p>
+									<p>价格：￥<em>1500000.00</em></p>
 									<p>周期：7天</p>
 								</div>
 								<div class="select-item">
 									<img src="index_img/travel.png">
 									<p>旅游</p>
-									<p>价格：520000.00</p>
+									<p>价格：￥<em>520000.00</em></p>
 									<p>周期：1个月</p>
 								</div>
 								<div class="select-item">
 									<img src="index_img/drink.png">
 									<p>饮料</p>
-									<p>价格：590000.00</p>
+									<p>价格：￥<em>590000.00</em></p>
 									<p>周期：3个月</p>
 								</div>
 							</div>
