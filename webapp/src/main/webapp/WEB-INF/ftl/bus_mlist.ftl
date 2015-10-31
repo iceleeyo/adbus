@@ -30,8 +30,8 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
             "columnDefs": [
                 { "orderable": false, "targets": [0,1,3,4,5,6, 9,10,11] },
             ],
-            "iDisplayLength" : 20,
-            "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
+            "iDisplayLength" : 50,
+            "aLengthMenu": [[50, 100], [50, 100]],
             "ajax": {
                 type: "GET",
                 url: "${rc.contextPath}/bus/ajax-list",
