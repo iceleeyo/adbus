@@ -114,7 +114,7 @@ public interface BusService {
 	 */
 	Pair<Boolean, String> changeLine(String busIds, int newLineId, int cityId, Principal principal, HttpServletRequest request);
 
-	Pair<Boolean, String> saveBus(Bus bus, int cityId, Principal principal, HttpServletRequest request) throws JsonGenerationException, JsonMappingException, IOException;
+	Pair<Boolean, String> saveBus(Bus bus, String updated1, int cityId, Principal principal, HttpServletRequest request) throws JsonGenerationException, JsonMappingException, IOException,ParseException;
 
 	Page<JpaBusUpLog> getbusUphistory(int cityId, TableRequest req, int page, int length, Sort sort);
 

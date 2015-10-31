@@ -31,6 +31,7 @@ import net.sf.jxls.transformer.XLSTransformer;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.poi.ss.formula.udf.UDFFinder;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.DeserializationConfig;
@@ -475,6 +476,7 @@ public class BusServiceImpl implements BusService {
 		}
 		for (Map.Entry<String, List<String>> entry : map.entrySet()) {
 			List<String> vIntegers = entry.getValue();
+			//营销中心
 			 if (StringUtils.equals(entry.getKey(), "com") && vIntegers.size() > 0) {
 				BooleanExpression subQuery = null;
 				List<Integer> idsList=new ArrayList<Integer>();
@@ -484,7 +486,20 @@ public class BusServiceImpl implements BusService {
 				subQuery = subQuery == null ? QJpaBus.jpaBus.company.id.in(idsList) : subQuery
 						.and(QJpaBus.jpaBus.company.id.in(idsList));
 				query = query == null ? subQuery : query.and(subQuery);
-			}   else if (StringUtils.equals(entry.getKey(), "lev") && vIntegers.size() > 0) {
+				//公司名称
+			}  else if (StringUtils.equals(entry.getKey(), "company") && vIntegers.size() > 0) {
+				BooleanExpression subQuery = null;
+				for (String type : vIntegers) {
+					if (StringUtils.equals("1", type)) {
+						subQuery = subQuery == null ?  QJpaBus.jpaBus.office.eq("大公共公司") : subQuery
+								.or(QJpaBus.jpaBus.office.eq("大公共公司"));
+					} else if (StringUtils.equals("2", type)) {
+						subQuery = subQuery == null ? QJpaBus.jpaBus.office.eq("八方达公司") : subQuery
+								.or(QJpaBus.jpaBus.office.eq("八方达公司"));
+					}
+				}
+				query = query == null ? subQuery : query.and(subQuery);
+			}  else if (StringUtils.equals(entry.getKey(), "lev") && vIntegers.size() > 0) {
 				BooleanExpression subQuery = null;
 				List<JpaBusline.Level> right = new ArrayList<JpaBusline.Level>();
 				for (String type : vIntegers) {
@@ -1192,9 +1207,13 @@ public class BusServiceImpl implements BusService {
 		return pair;
 	}
 	@Override
-	public Pair<Boolean, String> saveBus(Bus bus, int cityId, Principal principal, HttpServletRequest request)
-			throws JsonGenerationException, JsonMappingException, IOException {
+	public Pair<Boolean, String> saveBus(Bus bus,String updated1, int cityId, Principal principal, HttpServletRequest request)
+			throws JsonGenerationException, JsonMappingException, IOException, ParseException {
 		String forceExcute = request.getParameter("forceExcute");
+		Date uDate=new Date();
+		if(StringUtils.isNotBlank(updated1)){
+			uDate=(Date)new SimpleDateFormat("yyyy-MM-dd").parseObject(updated1); 
+		}
 		if (bus != null && StringUtils.isNoneBlank(bus.getSerialNumber()) && !StringUtils.equals(forceExcute, "Y")) {
 			if (null == bus.getId() || bus.getId() == 0) {//如果是保存操作 判断是否已经有
 				if (isSerialNumberExist(bus.getSerialNumber(), cityId)) {
@@ -1233,12 +1252,12 @@ public class BusServiceImpl implements BusService {
 			log.setAfSerialNumber(bus2.getSerialNumber());
 			String jsonString = t.writeValueAsString(bus);
 			List<String> r = BeanUtils.copyPropertiesReturnChangeField(bus, bus2);
-			bus2.setUpdated(new Date());
+			bus2.setUpdated(uDate);
 			int a = busMapper.updateByPrimaryKey(bus2);
 			if (a > 0) {
 			
 				log.setCreated(new Date());
-				log.setUpdated(new Date());
+				log.setUpdated(uDate);
 				log.setCity(cityId);
 				log.setUpdator(Request.getUserId(principal));
 				log.setBusid(bus.getId());

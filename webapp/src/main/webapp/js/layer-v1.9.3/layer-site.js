@@ -1736,18 +1736,18 @@ function showBusDetail(pathUrl,tourl,id){
 				type: 1,
 				title: "车辆信息修改",
 				skin: 'layui-layer-rim', 
-				area: ['650px', '700px'], 
+				area: ['650px', '760px'], 
 				content: ''
 					+ '<form id="publishform01" action='+pathUrl+'/bus/saveBus>'
-					+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;"><input type="hidden" name="id" value="'+data.id+'"/>'
+					+ '<input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/><div class="inputs" style="margin-top: 10px;margin-left: -30px;"><input type="hidden" name="id" value="'+data.id+'"/>'
 					+'<div class="ui-form-item"> <label class="ui-label mt10">车牌号： </label><input class="ui-input validate[required]"'
 					+'type="text" name="plateNumber" id="plateNumber" value="'+data.plateNumber+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 					+'<div class="ui-form-item"> <label class="ui-label mt10">车辆自编号：</label><input  class="ui-input validate[required]"'
 					+'type="text" name="serialNumber" value="'+data.serialNumber+'"  data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
 					+'<div class="ui-form-item"> <label class="ui-label mt10">旧自编号：</label><input  class="ui-input-d"'
 					+'type="text" name="oldSerialNumber" value="'+data.oldSerialNumber+'" id="oldSerialNumber" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
-					+ '<div class="ui-form-item"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/>'
-					+ '<label class="ui-label mt10">选择线路：</label>'
+					+ '<div class="ui-form-item">'
+					+ '<label class="ui-label mt10">线路名称：</label>'
 					+ '<input class="ui-input" value="'+data.line.name+'"  readonly="readonly" data-is="isAmount isEnough">'
 					+ '</div>'
 					+ '<div id="four"><div class="ui-form-item" id="model_Id">'
@@ -1768,13 +1768,23 @@ function showBusDetail(pathUrl,tourl,id){
 					+'</div>'
 					+'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">公司名称：</span> </label>'
 					+'<input class="ui-input-d"  value="'+data.office+'" name="office" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-					+'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">客户：</span> </label>'
-					+'<input class="ui-input-d"  value="'+data.branch+'" id="branch" name="branch" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-					+'<div class="ui-form-item"> <label class="ui-label mt10">车辆情况：</label><textarea rows="4" name="description" cols="30"  style="resize: none;" >'+data.description+'</textarea> </div></div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">分公司名称：</span> </label>'
+					+'<input class="ui-input-d"  value="'+data.branch+'" name="branch" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">车史：</span> </label>'
+					+'<input class="ui-input-d"  value="'+isNotEmptyString(data.bushis)+'" name="bushis" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10">车型描述：</label><textarea rows="1" name="description" cols="30"  style="resize: none;" >'+data.description+'</textarea> </div>'
+					+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">变更日期:</label>'
+					+'<input class="ui-input datepicker validate[required,custom[date],past[#upDate1]]" type="text" name="uodated1" value="'+$.format.date(data.updated, "yyyy-MM-dd")+'" id="upDate1" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
+					+'</div>'
+					+'</div>'
 					+ '<div class="ui-form-item widthdrawBtBox" style="margin-left:40px;">'
 					+ '<input type="button" onclick="saveBus()" class="block-btn" value="确认" ></div></div>'
-					+ '<input type="hidden" value="'+data.line.id+'" name="lineId" id="db_id"></form>'
+					+ '</form>'
 			});
+			var checkin = $('#upDate1').datepicker()
+			.on('click', function (ev) {
+				$('.datepicker').css("z-index", "999999999");
+			}).data('datepicker');
 			var companyN=data.company.name;
 			$.ajax({
 				url : pathUrl + "/bus/findAllCompany",
@@ -1788,20 +1798,6 @@ function showBusDetail(pathUrl,tourl,id){
 						}
 					});
 				}}, "text");
-			
-			$("#line_id").autocomplete({
-				minLength: 0,
-				source : pathUrl+"/busselect/autoComplete",
-				change : function(event, ui) {
-				},
-				select : function(event, ui) {
-					$('#line_id').val(ui.item.value);
-					initmodel(ui.item.dbId);
-					$("#db_id").val(ui.item.dbId);
-				}
-			}).focus(function () {
-				$(this).autocomplete("search");
-			});
 		}
 		
 	}, "text");
@@ -1820,7 +1816,7 @@ function showBusDetail(pathUrl,tourl,id){
 		$('#publishform01').ajaxForm(function(data) {
 			if(data.left){
 				layer.msg("保存成功");
-				table.dataTable()._fnAjaxUpdate();
+				table.draw();
 				$("#cc").trigger("click");
 			}else{
 			

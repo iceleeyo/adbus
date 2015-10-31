@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -197,9 +198,9 @@ public class BusController {
 	@RequestMapping("saveBus")
 	@ResponseBody
 	public Pair<Boolean, String> saveBus(Bus bus, @CookieValue(value = "city", defaultValue = "-1") int cityId,
-			Principal principal, HttpServletRequest request) throws JsonGenerationException, JsonMappingException,
-			IOException {
-		return busService.saveBus(bus, cityId, principal,request);
+			Principal principal, HttpServletRequest request,@RequestParam(value="uodated1") String updated1) throws JsonGenerationException, JsonMappingException,
+			IOException, ParseException{
+		return busService.saveBus(bus, updated1,cityId, principal,request);
 	}
 	
 	@RequestMapping("changeLine")

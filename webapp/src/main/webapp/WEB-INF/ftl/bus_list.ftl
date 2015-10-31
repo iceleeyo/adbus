@@ -220,6 +220,14 @@ function ishaveline(linename){
 									<a class="item" href="#"  qc="yunyingche" >运营车<i>×</i></a>
 								</div>
 							</div>
+							 <div class="sift-item s-clear">
+								<span>公司名称：</span>
+								<div class="sift-list" qt="company">
+									<a class="item active" href="#" sort="-1" qc="all">所有</a>
+									<a class="item" href="#"  qc="1" >大公共公司<i>×</i></a>
+									<a class="item" href="#"  qc="2"> 八方达公司<i>×</i></a>
+								</div>
+							</div>
 				</div>					
 			</div>					
 	</div>					
