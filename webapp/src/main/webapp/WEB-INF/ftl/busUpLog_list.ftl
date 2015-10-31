@@ -43,27 +43,24 @@ css=["js/jquery-ui/jquery-ui.css"]>
             },
             "columns": [
                 { "data": "bus.serialNumber", "defaultContent": "", "render": function(data, type, row,meta) { 
-                
-                	if(row.serinum!=null &&  data == row.serinum){
-                		return '<span style="color:red">'+data+'</span>'
-                	}else {
-                		return data; 
-                	}
-                
+               	   if(row.busUpLog.change_fileds!='' && row.busUpLog.change_fileds.indexOf("serialNumber")>=0){
+                	  return '<b><span style="color:#B70909">'+data+'</span></b>';
+                  } else {return data;} 
                 }},
                 { "data": "bus.oldSerialNumber", "defaultContent": "", "render": function(data, type, row,meta) { 
-                	if(row.serinum!=null &&  data == row.serinum){
-                		return '<span style="color:red">'+data+'</span>'
-                	}else {
-                		return data; 
-                	}
                 
+                 if(row.busUpLog.change_fileds!='' && row.busUpLog.change_fileds.indexOf("oldSerialNumber")>=0){
+                	  return '<b><span style="color:#B70909">'+data+'</span></b>';
+                  } else {return data;} 
                 }},
                 { "data": "bus.plateNumber", "defaultContent": "","render": function(data, type, row,meta) {
                   if(row.busUpLog.change_fileds!='' && row.busUpLog.change_fileds.indexOf("plateNumber")>=0){
                 	  return '<b><span style="color:#B70909">'+data+'</span></b>';
                   } else {return data;} }},
                 { "data": "oldbus.plateNumber", "defaultContent": ""},
+                
+                
+                
                 { "data": "model.name", "defaultContent": ""},
                 { "data": "oldmodel.name", "defaultContent": ""},
                 { "data": "line.name", "defaultContent": ""},
@@ -83,7 +80,11 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 	  return '<b><span style="color:#B70909">'+data+'</span></b>';
                   } else {return data;} }},
                 { "data": "oldbusCategory", "defaultContent": ""},
-                { "data": "company.name", "defaultContent": ""},
+                { "data": "company.name", "defaultContent": "","render": function(data, type, row,meta) {
+                  if(row.busUpLog.change_fileds!='' && row.busUpLog.change_fileds.indexOf("companyId")>=0){
+                	  return '<b><span style="color:#B70909">'+data+'</span></b>';
+                  } else {return data;} }
+                  },
                 { "data": "oldcompany.name", "defaultContent": ""},
                 { "data": "bus.description", "defaultContent": "","render": function(data, type, row,meta) {
                   if(row.busUpLog.change_fileds!='' && row.busUpLog.change_fileds.indexOf("description")>=0){
