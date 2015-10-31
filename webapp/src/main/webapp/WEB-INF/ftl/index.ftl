@@ -283,20 +283,32 @@
 								</div>
 							</div>
 						<div class="example">
+						<div class="hover-top">
+								<u></u>
+							</div>
 							<img src="index_img/example2.png">
 							<div class="desp">
 								<span>站牌广告</span>
 								<p>美汁源果粒橙产品推广</p>
 								<span>直接 传播面广</span>
 							</div>
+							<div class="hover-m">
+									<div class="hover-bottom"></div>
+								</div>
 						</div>
 						<div class="example">
+						<div class="hover-top">
+								<u></u>
+							</div>
 							<img src="index_img/example3.png">
 							<div class="desp">
 								<span>车身广告</span>
 								<p>蒙牛QQ星儿童牛奶产品推广</p>
 								<span>醒目 直白 受众广</span>
 							</div>
+							<div class="hover-m">
+									<div class="hover-bottom"></div>
+								</div>
 						</div>
 					</div>
 					<div class="more">MORE></div>
