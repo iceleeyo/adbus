@@ -112,7 +112,8 @@
 				</div>
                 <table id="table" style="line-height: 30px;text-align: center;border: 1px solid #D7D5D5;" class="display" width="100%">
                     <tr>
-                        <td class="tdd">营销中心</td>
+                        <td class="tdd">类型</td>
+                        <td class="tdd">级   别</td>
                         <td class="tdd">线路数</td>
                         <td class="tdd">总配车数</td>
                         <td class="tdd">在刊广告</td>
@@ -124,8 +125,10 @@
                         <td class="tdd">车身媒体占有率</td>
                     </tr>
                     <tr>
-                        <td >自营营销中心</td>
-                        <td >单层</td>
+                        <td rowspan=5>单层车合计</td>
+                        <td >特级线路</td>
+                        <td >11</td>
+                        <td >11</td>
                         <td >11</td>
                         <td >11</td>
                         <td >11</td>
