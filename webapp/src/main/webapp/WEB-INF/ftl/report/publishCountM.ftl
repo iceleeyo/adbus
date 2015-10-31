@@ -8,7 +8,7 @@
 </script>
 
 <style type="text/css">
-#tdd{
+.tdd{
     background-color: #3bafda;
     color: white;
     font-weight: normal;
