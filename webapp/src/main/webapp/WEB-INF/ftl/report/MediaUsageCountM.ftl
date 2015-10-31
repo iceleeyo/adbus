@@ -20,8 +20,9 @@
 				<div style="line-height: 30px; padding:15px;">
 				<span>选择月份</span>
 				<select class="ui-input ui-input-mini" name="utype" id="utype">
-                  	<option value="screen" selected="selected">2015年10月</option>
-                  	<option value="body">2015年月</option>
+                  	<option value="screen" selected="selected">2015年9月</option>
+                  	<option value="body">2015年10月</option>
+                  	<option value="body">2015年11月</option>
                   	<option value="pub">2015年12月</option>
          		</select>
 				</div>
