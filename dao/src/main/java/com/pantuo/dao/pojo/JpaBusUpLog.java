@@ -28,6 +28,11 @@ public class JpaBusUpLog extends CityEntity{
 	@Column(length=16) 
 	private String afSerialNumber;//修改后的自编号
 	
+	@Column(length=16) 
+	private int oldCompanyId;//原销售中心
+	@Column(length=16) 
+	private String oldBranch;//原分公司
+	
 	private String change_fileds;//修改的字段
 	private String updator;
 	public int getId() {
@@ -78,6 +83,18 @@ public class JpaBusUpLog extends CityEntity{
 	}
 	public void setChange_fileds(String change_fileds) {
 		this.change_fileds = change_fileds;
+	}
+	public int getOldCompanyId() {
+		return oldCompanyId;
+	}
+	public void setOldCompanyId(int oldCompanyId) {
+		this.oldCompanyId = oldCompanyId;
+	}
+	public String getOldBranch() {
+		return oldBranch;
+	}
+	public void setOldBranch(String oldBranch) {
+		this.oldBranch = oldBranch;
 	}
 	
 }
