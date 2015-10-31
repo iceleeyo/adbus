@@ -557,6 +557,16 @@
                                                    空媒体统计
                                                 </a>
                                             </li>
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/public/publishCountM">
+                                                   空媒体统计汇总
+                                                </a>
+                                            </li>
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/public/MediaUsageCountM">
+                                                   媒体使用报表
+                                                </a>
+                                            </li>
                                          <@security.authorize ifAnyGranted="bodyContractManager,report_monthp">  
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/report/body/monthp">
