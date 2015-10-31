@@ -13,18 +13,18 @@
 					<span>2015年各营销中心本月媒体发布情况统计表【9月】</span>
 				</div>
                 <table id="table" style="line-height: 30px;text-align: center;border: 1px solid #D7D5D5;" class="display" width="100%">
-                    <thead >
+                   
                     <tr>
                         <td rowspan=2>营销中心</td>
                         <td rowspan=2>车型</td>
                         <td rowspan=2>合同数</td>
-                        <th colspan='5'>上刊发布车辆数</th>
-                        <th colspan='5'>续刊车数</th>
-                        <th colspan='6'>刊期分类（车数）</th>
+                        <td colspan='5'>上刊发布车辆数</td>
+                        <td colspan='5'>续刊车数</td>
+                        <td colspan='6'>刊期分类（车数）</td>
                     </tr>
-                    </thead>
+                    
                     <tr>
-                        <th ></th><th ></th><th ></th>
+                        
                         <th >特级</th>
                         <th >A++</th>
                         <th >A+</th>
