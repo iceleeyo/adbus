@@ -250,6 +250,19 @@
                         <th >11</th>
                         <th >11</th>
                     </tr>
+                    <tr>
+                        <th >合计</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
+                    </tr>
                 </table>
 </div>
 </@frame.html>
