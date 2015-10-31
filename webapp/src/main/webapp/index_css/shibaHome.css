@@ -288,6 +288,7 @@
   -o-transition: all 0.5s ease-in-out 0s;
   transition: all 0.5s ease-in-out 0s;
 }
+
 .background-two .item .cl {
   clip: rect(0px, 156px, 156px, 78px);
 }
@@ -299,6 +300,47 @@
   position: relative;
   margin: 0 auto;
 }
+
+.background-two .item .ad1 i {
+  top: 53px;
+  height: 49px;
+}
+.background-two .item .ad2 i {
+  top: 53px;
+  height: 60px;
+}
+.background-two .item .ad3 i {
+  top: 30px;
+  height: 90px;
+}
+.background-two .item .ad4 i {
+  top: 33px;
+  height: 90px;
+}
+.background-two .item .ad5 i {
+  top: 53px;
+  height: 55px;
+}
+.background-two .item:hover {
+  background-position: 0px 0px;
+  -webkit-transition: all 0.5s ease-in-out 0.3s;
+  -moz-transition: all 0.5s ease-in-out 0.3s;
+  -ms-transition: all 0.5s ease-in-out 0.3s;
+  -o-transition: all 0.5s ease-in-out 0.3s;
+  transition: all 0.5s ease-in-out 0.3s;
+}
+.background-two .item:hover u.cl {
+  clip: rect(0px, 156px, -10px, 78px);
+}
+.background-two .item:hover u.cr {
+  clip: rect(156px, 78px, 156px, 0px);
+}
+.background-three .container {
+  position: absolute;
+  top: 120px;
+  width: 100%;
+}
+
 .background-three .container .title-en {
   width: 200px;
   background: url(../index_img/icon.png) no-repeat -275px -50px;
