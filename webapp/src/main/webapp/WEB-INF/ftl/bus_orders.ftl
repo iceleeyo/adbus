@@ -136,17 +136,20 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 		minLength: 0,
 			source : "${rc.contextPath}/busselect/contractAutoComplete?tag=a",
 			change : function(event, ui) {
+				if(ui.item==null){
+					$('#cid').val("");
+				}
 			},
 			select : function(event, ui) {
 			$('#cid').val(ui.item.dbId);
 				 table.draw();
-				$('#cid').val("");
+		    //$('#cid').val("");
 			}
 		}).focus(function () {
        				 $(this).autocomplete("search");
    	 	});
         $("#box1").click(function(){  
-			 var w = $("#showAll").val();5
+			 var w = $("#showAll").val();
 			 if(w==0){
 			   $("#showAll").val(1);
 			 }else {
