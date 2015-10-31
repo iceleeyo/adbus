@@ -32,35 +32,20 @@
                 <table id="table" style="line-height: 30px;text-align: center;border: 1px solid #D7D5D5;" class="display" width="100%">
                    
                     <tr>
-                        <td rowspan=2 class="tdd">营销中心</td>
-                        <td rowspan=2 class="tdd">车型</td>
-                        <td rowspan=2 class="tdd">合同数</td>
-                        <td colspan='5' class="tdd">上刊发布车辆数</td>
-                        <td colspan='5' class="tdd">续刊车数</td>
-                        <td colspan='6' class="tdd">刊期分类（车数）</td>
+                        <td class="tdd">营销中心</td>
+                        <td class="tdd">线路数</td>
+                        <td class="tdd">总配车数</td>
+                        <td class="tdd">在刊广告</td>
+                        <td class="tdd">合同预定</td>
+                        <td class="tdd">本月可使用车数</td>
+                        <td class="tdd">次月下刊车数</td>
+                        <td class="tdd">次月可使用车数</td>
+                        <td class="tdd">广告在刊率</td>
+                        <td class="tdd">车身媒体占有率</td>
                     </tr>
                     
                     <tr>
-                        
-                        <th >特级</th>
-                        <th >A++</th>
-                        <th >A+</th>
-                        <th >A&nbsp;&nbsp;&nbsp;</th>
-                        <th >合计</th>
-                        <th >特级</th>
-                        <th >A++</th>
-                        <th >A+</th>
-                        <th >A&nbsp;&nbsp;&nbsp;</th>
-                        <th >合计</th>
-                        <th >1个月</th>
-                        <th >3个月</th>
-                        <th >6个月</th>
-                        <th >12个月</th>
-                        <th >其他期刊</th>
-                        <th >合计</th>
-                    </tr>
-					<tr>
-                        <td >自营</td>
+                        <td >自营营销中心</td>
                         <td >单层</td>
                         <td >11</td>
                         <td >11</td>
@@ -70,7 +55,11 @@
                         <td >11</td>
                         <td >11</td>
                         <td >11</td>
-                        <td >11</td>
+                        
+                    </tr>
+					<tr>
+                        <td >自营</td>
+                        <td >单层</td>
                         <td >11</td>
                         <td >11</td>
                         <td >11</td>
