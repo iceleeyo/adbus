@@ -276,6 +276,29 @@
   top: 120px;
   width: 100%;
 }
+.background-two .item u {
+  display: block;
+  position: absolute;
+  width: 156px;
+  height: 156px;
+  background: url(../img/homepage_icon_circle.png) no-repeat 2px -385px;
+  -webkit-transition: all 0.5s ease-in-out 0s;
+  -moz-transition: all 0.5s ease-in-out 0s;
+  -ms-transition: all 0.5s ease-in-out 0s;
+  -o-transition: all 0.5s ease-in-out 0s;
+  transition: all 0.5s ease-in-out 0s;
+}
+.background-two .item .cl {
+  clip: rect(0px, 156px, 156px, 78px);
+}
+.background-two .item .cr {
+  clip: rect(0px, 78px, 156px, 0px);
+}
+.background-two .item i {
+  display: block;
+  position: relative;
+  margin: 0 auto;
+}
 .background-three .container .title-en {
   width: 200px;
   background: url(../index_img/icon.png) no-repeat -275px -50px;
