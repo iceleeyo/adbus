@@ -355,6 +355,22 @@
 												    上刊发布
 												</a>
 											</li>
+											    
+  											 <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/orders">
+                                                                                                                                       上刊发布统计
+                                                </a>
+                                            </li>  
+                                             <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/list_changeDate">
+                                                                                                                                         调刊补刊
+                                                </a>
+                                            </li>
+                                            <li class="pg-side-exp-item">
+												<a class="side-exp-item-t"  href="${rc.contextPath}/bus/bus_offShelf">
+												    车辆下刊
+												</a>
+											</li>
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t"  href="${rc.contextPath}/bus/busAndOrderSearch">
 												  车辆及订单查询
@@ -365,13 +381,6 @@
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t"  href="${rc.contextPath}/bus/mistake_handle">
 												    上下刊错误处理
-												</a>
-											</li>
-											 </@security.authorize>
-											   <@security.authorize ifAnyGranted="meijie_offline">	
-											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t"  href="${rc.contextPath}/bus/bus_offShelf">
-												    车辆下刊
 												</a>
 											</li>
 											 </@security.authorize>
@@ -392,23 +401,7 @@
                                                     调车统计
                                                 </a>
                                             </li>
-                                            
-                                            
-  											 <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/orders">
-                                                    上刊发布统计
-                                                </a>
-                                            </li>                                            	
-                                            	
-                                            	
-                                            
-                                             <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/list_changeDate">
-                                                    调刊补刊
-                                                </a>
-                                            </li>
                                              </@security.authorize>
-                                             
                                                 <@security.authorize ifAnyGranted="meijie_busline">	
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/api/linesManage">

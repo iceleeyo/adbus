@@ -1,7 +1,7 @@
 <#import "template/template.ftl" as frame>
-<#global menu="车型列表">
+<#global menu="车型管理">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="车型列表" js=["js/jquery-dateFormat.min.js"]>
+<@frame.html title="车型管理" js=["js/jquery-dateFormat.min.js"]>
 
 <style type="text/css">
     .center {margin: auto;}
@@ -120,7 +120,7 @@
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title">
-                车型列表
+                车型管理
                  <a class="block-btn" style="margin-left: 10px;" href="javascript:void(0);" onclick="addBusModel('${rc.contextPath}')">添加车型</a>&nbsp;
                 
 									</div>
