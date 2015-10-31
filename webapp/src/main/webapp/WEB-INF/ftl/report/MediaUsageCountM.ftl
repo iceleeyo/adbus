@@ -176,7 +176,7 @@
                         <td ></td>
                     </tr>
                     <tr>
-                        <th >合计</th>
+                        <th >小计</th>
                         <th ></th>
                         <th ></th>
                         <th ></th>
@@ -239,7 +239,7 @@
                         <td ></td>
                     </tr>
                     <tr>
-                        <th >合计</th>
+                        <th >小计</th>
                         <th ></th>
                         <th ></th>
                         <th ></th>
@@ -251,8 +251,8 @@
                         <th ></th>
                     </tr>
                     <tr>
-                        <th >合计</th>
-                        <th ></th>
+                        <th colspan=2>合计</th>
+                        
                         <th ></th>
                         <th ></th>
                         <th ></th>
