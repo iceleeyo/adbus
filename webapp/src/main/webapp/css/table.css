@@ -90,4 +90,4 @@ div.DTTT_container {
  .div.dataTables_wrapper {
         margin: 0 auto;
     }
-th, td { white-space: nowrap; }
+th, td { white-space: nowrap;border: 1px solid #C5C5C5; }
