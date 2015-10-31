@@ -7,6 +7,15 @@
     
 </script>
 
+<style type="text/css">
+#tdd{
+    background-color: #3bafda;
+    color: white;
+    font-weight: normal;
+    text-align: center;
+    line-height: 30px;
+    }
+</style>
 <div class="withdraw-wrap color-white-bg fn-clear">
 
                 <div class="withdraw-title">
@@ -23,7 +32,7 @@
                 <table id="table" style="line-height: 30px;text-align: center;border: 1px solid #D7D5D5;" class="display" width="100%">
                    
                     <tr>
-                        <td rowspan=2>营销中心</td>
+                        <td rowspan=2 class="tdd">营销中心</td>
                         <td rowspan=2>车型</td>
                         <td rowspan=2>合同数</td>
                         <td colspan='5'>上刊发布车辆数</td>
