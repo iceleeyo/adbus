@@ -61,7 +61,7 @@
 								</div>
 							</div>
 							<div class="sift-item s-clear">
-								<span>日爆光次数：</span>
+								<span>日曝光次数：</span>
 								<div class="sift-list" qt="s">
 									<a class="item active" href="#" sort="-1" qc="all">所有</a>
 									<a class="item" href="#" qc="2">0-7（不含）<i>×</i></a>
