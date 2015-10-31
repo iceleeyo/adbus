@@ -136,7 +136,6 @@
                         <td >11</td>
                         <td >11</td>
                         <td >11</td>
-                        <td >11</td>
                     </tr>
 					<tr>
                         
@@ -161,6 +160,7 @@
                         <td >11</td>
                         <td >11</td>
                         <td >11</td>
+                        <td >11</td>
                     </tr>
                     <tr>
                         
@@ -173,19 +173,20 @@
                         <td >11</td>
                         <td >11</td>
                         <td >11</td>
+                        <td >11</td>
                     </tr>
                     
                     <tr>
                         <th >合计</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
                         
                     </tr>
                 </table>
