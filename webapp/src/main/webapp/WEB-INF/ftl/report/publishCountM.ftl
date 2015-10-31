@@ -12,8 +12,8 @@
                 <div class="withdraw-title">
 					<span>2015年各营销中心本月媒体发布情况统计表【9月】</span>
 				</div>
-                <table id="table" style="line-height: 20px;" class="display" width="100%">
-                    <thead>
+                <table id="table" style="line-height: 30px;text-align: center;border: 1px solid #D7D5D5;" class="display" width="100%">
+                    <thead style="line-height: 30px;text-align: center;border: 1px solid #D7D5D5;">
                     <tr>
                         <th rowspan=2>营销中心</th>
                         <th rowspan=2>车型</th>
