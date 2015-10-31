@@ -175,7 +175,6 @@
                         <td >11</td>
                         <td >11</td>
                     </tr>
-                    
                     <tr>
                         <th >合计</th>
                         <th >11</th>
@@ -187,7 +186,69 @@
                         <th >11</th>
                         <th >11</th>
                         <th >11</th>
+                    </tr>
+                    <tr>
+                        <td rowspan=5>双层车合计</td>
+                        <td >特级线路</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                    </tr>
+					<tr>
                         
+                        <td >A++</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td><td >11</td>
+                    </tr>
+                    <tr>
+                        
+                        <td >A+</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                    </tr>
+                    <tr>
+                        
+                        <td >A</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                    </tr>
+                    <tr>
+                        <th >合计</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
                     </tr>
                 </table>
 </div>
