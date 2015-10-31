@@ -30,9 +30,9 @@ public class BodyUseView {
 		NumberFormat formatter = new DecimalFormat("0.00");
 		if (cars.get() != 0) {
 			Double x = new Double(online.get() * 1d / cars.get());
-			onlineBl = NumberUtils.toDouble(formatter.format(x)) * 100 + "%";
+			onlineBl = ((int)(NumberUtils.toDouble(formatter.format(x)) * 100)) + "%";
 			Double x2 = new Double((online.get() * 1d + orders.get()) / cars.get());
-			useBl = NumberUtils.toDouble(formatter.format(x2)) * 100 + "%";
+			useBl = ((int)(NumberUtils.toDouble(formatter.format(x2)) * 100)) + "%";
 		}
 
 	}

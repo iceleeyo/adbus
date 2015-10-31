@@ -62,7 +62,7 @@ public class BodyUseMonitor implements Runnable, ScheduleStatsInter {
 	}
 
 	public void runWork() {
-		log.info("runWork begin: {}", System.currentTimeMillis());
+		long t = System.currentTimeMillis();
 
 		map.clear();
 		//BusLineExample example = new BusLineExample();
@@ -75,37 +75,58 @@ public class BodyUseMonitor implements Runnable, ScheduleStatsInter {
 		/*for (BusLine busLine : lines) {
 			map.put(busLine.getId(), new BodyUseView(busLine.getId()));
 		}*/
-		BusExample busExample = new BusExample();
-		List<Bus> bus = busMapper.selectByExample(busExample);
+		int fetchsize = 100;//一次查100条记录
+		int beginIndex = 0;
+		while (true) {
+			BusExample busExample = new BusExample();
+			busExample.setOrderByClause("id asc");
+			busExample.setLimitStart(beginIndex);
+			busExample.setLimitEnd(fetchsize);
+			List<Bus> bus = busMapper.selectByExample(busExample);
+			String nextMonty = getNextMonty();
+			for (Bus bus2 : bus) {
+				Integer busId = bus2.getId();
+				if (map.containsKey(bus2.getLineId())) {
+					BodyUseView view = map.get(bus2.getLineId());
+					view.cars.incrementAndGet();//总车辆数
 
-		String nextMonty = getNextMonty();
-		for (Bus bus2 : bus) {
-			Integer busId = bus2.getId();
-			if (map.containsKey(bus2.getLineId())) {
-				BodyUseView view = map.get(bus2.getLineId());
-				view.cars.incrementAndGet();//总车辆数
-
-				Qstats q = queryBusInfo.getStatus(busId, nextMonty);
-				if (q == Qstats.notDown) {
-					view.notDown.incrementAndGet();//到期未下刊车辆
-				} else if (q == Qstats.online || q == Qstats.nextMonthOver) {
-					view.online.incrementAndGet();//累计在刊
-					if (q == Qstats.nextMonthOver) {
-						view.nextMonthEndCount.incrementAndGet();//在刊 下月到期	
+					Qstats q = queryBusInfo.getStatus(busId, nextMonty);
+					if (q == Qstats.notDown) {
+						view.notDown.incrementAndGet();//到期未下刊车辆
+					} else if (q == Qstats.online || q == Qstats.nextMonthOver) {
+						view.online.incrementAndGet();//累计在刊
+						if (q == Qstats.nextMonthOver) {
+							view.nextMonthEndCount.incrementAndGet();//在刊 下月到期	
+						}
 					}
 				}
 			}
+			beginIndex += fetchsize;
+			if (bus.size() < fetchsize) {
+				break;
+			}
 		}
 
-		PublishLineExample publishExample = new PublishLineExample();
-		List<PublishLine> orders = publishLineMapper.selectByExample(publishExample);
+		int fetchsize2 = 100;
+		int beginIndex2 = 0;
+		while (true) {
+			PublishLineExample publishExample = new PublishLineExample();
+			publishExample.setOrderByClause("id asc");
+			publishExample.setLimitStart(beginIndex2);
+			publishExample.setLimitEnd(fetchsize2);
+			List<PublishLine> orders = publishLineMapper.selectByExample(publishExample);
 
-		for (PublishLine publishLine : orders) {
-			Integer lineId = publishLine.getLineId();
-			if (map.containsKey(lineId)) {
-				BodyUseView view = map.get(lineId);
-				int notInstall = publishLine.getSalesNumber() - publishLine.getRemainNuber();
-				view.orders.addAndGet(notInstall);
+			for (PublishLine publishLine : orders) {
+				Integer lineId = publishLine.getLineId();
+				if (map.containsKey(lineId)) {
+					BodyUseView view = map.get(lineId);
+					int notInstall = publishLine.getSalesNumber() - publishLine.getRemainNuber();
+					view.orders.addAndGet(notInstall);
+				}
+			}
+			beginIndex2 += fetchsize2;
+			if (orders.size() < fetchsize2) {
+				break;
 			}
 		}
 
@@ -113,12 +134,11 @@ public class BodyUseMonitor implements Runnable, ScheduleStatsInter {
 			bsView.reduceTotalInfo();
 			//System.out.println(bsView.toString());
 		}
-		log.info("runWork end: {}", System.currentTimeMillis());
+		log.info("runWork time: {}", System.currentTimeMillis() - t);
 	}
-	
-	public BodyUseView getUserView(int line_id){
-		
-		
+
+	public BodyUseView getUserView(int line_id) {
+
 		return map.get(line_id);
 	}
 
