@@ -169,25 +169,25 @@
                         <td >11</td>
                     </tr>
                     <tr>
-                        <th >七彩</th>
-                        <th >单层</th>
+                        <th colspan=2>合计</th>
+                        
                         <th >11</th>
                         <th >11</th>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</th>
+                        <th >11</td>
+                        <th >11</td>
                     </tr>
                 </table>
                 
