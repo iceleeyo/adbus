@@ -12,8 +12,13 @@
                 <div class="withdraw-title">
 					<span>2015年各营销中心本月媒体发布情况统计表【9月】</span>
 				</div>
-				<div>
+				<div style="line-height: 30px;">
 				<span>选择月份</span>
+				<select class="ui-input ui-input-mini" name="utype" id="utype">
+                  	<option value="screen" selected="selected">2015年10月</option>
+                  	<option value="body">2015年11月</option>
+                  	<option value="pub">2015年12月</option>
+         		</select>'
 				</div>
                 <table id="table" style="line-height: 30px;text-align: center;border: 1px solid #D7D5D5;" class="display" width="100%">
                    
