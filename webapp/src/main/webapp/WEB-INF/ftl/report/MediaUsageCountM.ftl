@@ -21,7 +21,7 @@
 				<span>选择月份</span>
 				<select class="ui-input ui-input-mini" name="utype" id="utype">
                   	<option value="screen" selected="selected">2015年10月</option>
-                  	<option value="body">2015年11月</option>
+                  	<option value="body">2015年月</option>
                   	<option value="pub">2015年12月</option>
          		</select>
 				</div>
@@ -46,63 +46,63 @@
                     <tr>
                         <td >自营营销中心</td>
                         <td >单层</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
                     </tr>
 					<tr>
                         <td >CBS营销中心</td>
                         <td >单层</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
                     </tr>
                     <tr>
                         <td >白马营销中心</td>
                         <td >单层</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
                     </tr>
                     <tr>
                         <td >七彩营销中心</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
                     </tr>
                     
                     <tr>
                         <th >合计</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
                         
                     </tr>
                 </table><br>
@@ -127,141 +127,141 @@
                     <tr>
                         <td rowspan=5>单层车合计</td>
                         <td >特级线路</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
                     </tr>
 					<tr>
                         
                         <td >A++</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td><td >11</td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td><td ></td>
                     </tr>
                     <tr>
                         
                         <td >A+</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
                     </tr>
                     <tr>
                         
                         <td >A</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
                     </tr>
                     <tr>
                         <th >合计</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
                     </tr>
                     <tr>
                         <td rowspan=5>双层车合计</td>
                         <td >特级线路</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
                     </tr>
 					<tr>
                         
                         <td >A++</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td><td >11</td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td><td ></td>
                     </tr>
                     <tr>
                         
                         <td >A+</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
                     </tr>
                     <tr>
                         
                         <td >A</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
                     </tr>
                     <tr>
                         <th >合计</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
                     </tr>
                     <tr>
                         <th >合计</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
                     </tr>
                 </table>
 </div>
