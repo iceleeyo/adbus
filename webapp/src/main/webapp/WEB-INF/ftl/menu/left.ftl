@@ -559,12 +559,12 @@
                                             </li>
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/report/public/publishCountM">
-                                                   空媒体统计汇总
+                                                   月发布汇总
                                                 </a>
                                             </li>
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/report/public/MediaUsageCountM">
-                                                   媒体使用报表
+                                                   媒体使用汇总
                                                 </a>
                                             </li>
                                          <@security.authorize ifAnyGranted="bodyContractManager,report_monthp">  
