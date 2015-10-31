@@ -33,11 +33,11 @@
                    
                     <tr>
                         <td rowspan=2 class="tdd">营销中心</td>
-                        <td rowspan=2>车型</td>
-                        <td rowspan=2>合同数</td>
-                        <td colspan='5'>上刊发布车辆数</td>
-                        <td colspan='5'>续刊车数</td>
-                        <td colspan='6'>刊期分类（车数）</td>
+                        <td rowspan=2 class="tdd">车型</td>
+                        <td rowspan=2 class="tdd">合同数</td>
+                        <td colspan='5' class="tdd">上刊发布车辆数</td>
+                        <td colspan='5' class="tdd">续刊车数</td>
+                        <td colspan='6' class="tdd">刊期分类（车数）</td>
                     </tr>
                     
                     <tr>
