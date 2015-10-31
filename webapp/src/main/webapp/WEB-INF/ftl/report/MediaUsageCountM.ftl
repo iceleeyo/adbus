@@ -1,5 +1,5 @@
 <#import "../template/template.ftl" as frame>
-<#global menu="媒体使用情况统计">
+<#global menu="媒体使用汇总">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="媒体使用情况统计" js=["../js/jquery-dateFormat.js"]>
     
