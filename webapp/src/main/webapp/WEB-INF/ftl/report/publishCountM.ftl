@@ -15,21 +15,32 @@
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th orderBy="name">营销中心</th>
-                        <th orderBy="name">车型</th>
-                        <th orderBy="suppliesType">合同数</th>
+                        <th orderBy="name" rowspan=2>营销中心</th>
+                        <th orderBy="name" rowspan=2>车型</th>
+                        <th orderBy="suppliesType" rowspan=2>合同数</th>
                         <th orderBy="industry.id" colspan='5'>上刊发布车辆数</th>
                         <th orderBy="created" colspan='5'>续刊车数</th>
-                        <th orderBy="created" colspan='5'>刊期分类（车数）</th>
+                        <th orderBy="created" colspan='6'>刊期分类（车数）</th>
                     </tr>
                     </thead>
                     <tr>
-                        <th orderBy="name">营销中心</th>
-                        <th orderBy="name">车型</th>
-                        <th orderBy="suppliesType">合同数</th>
-                        <th orderBy="industry.id">上刊发布车辆数</th>
-                        <th orderBy="created">续刊车数</th>
-                        <th orderBy="created">刊期分类（车数）</th>
+                        <th orderBy="name">特级</th>
+                        <th orderBy="name">A++</th>
+                        <th orderBy="suppliesType">A+</th>
+                        <th orderBy="industry.id">A</th>
+                        <th orderBy="created">合计</th>
+                        <th orderBy="name">特级</th>
+                        <th orderBy="name">A++</th>
+                        <th orderBy="suppliesType">A+</th>
+                        <th orderBy="industry.id">A</th>
+                        <th orderBy="created">合计</th>
+                        <th orderBy="name">1个月</th>
+                        <th orderBy="name">3个月</th>
+                        <th orderBy="suppliesType">6个月</th>
+                        <th orderBy="industry.id">12个月</th>
+                        <th orderBy="created">其他期刊</th>
+                        <th orderBy="created">合计</th>
+                        
                     </tr>
 
                 </table>
