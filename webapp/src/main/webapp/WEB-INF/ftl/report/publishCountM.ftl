@@ -41,7 +41,7 @@
                         <th >特级</th>
                         <th >A++</th>
                         <th >A+</th>
-                        <th >A</th>
+                        <th >A&nbsp;&nbsp;&nbsp;</th>
                         <th >合计</th>
                         <th >1个月</th>
                         <th >3个月</th>
