@@ -62,14 +62,93 @@
                         <td >11</td>
                         <td >11</td>
                         <td >11</td>
-                        
+                    </tr>
+                    <tr>
+                        <td >自营</td>
+                        <td >单层</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                    </tr>
+                    <tr>
+                        <td >自营</td>
+                        <td >单层</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                    </tr>
+                    <tr>
+                        <td >白马</td>
+                        <td >单层</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                    </tr>
+                    <tr>
+                        <td >七彩</td>
+                        <td >单层</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
+                        <td >11</td>
                     </tr>
                 </table>
                 
-                <div class="worm-tips">
-		<div class="tips-title">
-			<span class="icon"></span>温馨提示：未绑定订单的物料才能够删除。
-		</div>
-		</div>
+                
 </div>
 </@frame.html>
