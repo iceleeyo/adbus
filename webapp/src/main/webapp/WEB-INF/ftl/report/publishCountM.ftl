@@ -62,149 +62,149 @@
 					<tr>
                         <td >自营</td>
                         <td >单层</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
                     </tr>
                     <tr>
                         <td rowspan=2>SBC</td>
                         <td >单层</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
                     </tr>
                     <tr>
                         
                         <td >双层</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
                     </tr>
                     <tr>
                         <td rowspan=2>白马</td>
                         <td >单层</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
                     </tr>
                     <tr>
                         
                         <td >双层</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
                     </tr>
                     <tr>
                         <td >七彩</td>
                         <td >单层</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
-                        <td >11</td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
                     </tr>
                     <tr>
                         <th colspan=2>合计</th>
                         
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</th>
-                        <th >11</td>
-                        <th >11</td>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></td>
+                        <th ></td>
                     </tr>
                 </table>
                 
