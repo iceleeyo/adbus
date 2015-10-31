@@ -17,10 +17,6 @@
     }
 </style>
 <div class="withdraw-wrap color-white-bg fn-clear">
-
-                <div class="withdraw-title">
-					<span>2015年各营销中心车身媒体使用情况汇总表【9月】</span>
-				</div>
 				<div style="line-height: 30px; padding:15px;">
 				<span>选择月份</span>
 				<select class="ui-input ui-input-mini" name="utype" id="utype">
@@ -29,6 +25,11 @@
                   	<option value="pub">2015年12月</option>
          		</select>
 				</div>
+				
+                <div class="withdraw-title">
+					<span>2015年各营销中心车身媒体使用情况汇总表【9月】</span>
+				</div>
+				
                 <table id="table" style="line-height: 30px;text-align: center;border: 1px solid #D7D5D5;" class="display" width="100%">
                     <tr>
                         <td class="tdd">营销中心</td>
