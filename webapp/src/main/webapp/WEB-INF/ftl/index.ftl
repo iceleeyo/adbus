@@ -202,7 +202,11 @@
 					<ul class="items clearfix">
 						<li class="item">
 							<a href="secondLevelPageBus">
-								<div class="ad ad1"></div>
+								<div class="ad ad1">
+								<u class="cl"></u>
+								<u class="cr"></u>
+								<i></i>
+								</div>
 								<span>车身广告</span>
 							</a>
 						</li>
@@ -256,6 +260,9 @@
 					<div class="title-zh">案例欣赏</div>
 					<div class="examples clearfix">
 							<div class="example">
+								<div class="hover-top">
+									<u></u>
+								</div>
 								<!-- <div class="imab"></div> -->
 								<img src="index_img/example1.png">
 								<div class="desp">
