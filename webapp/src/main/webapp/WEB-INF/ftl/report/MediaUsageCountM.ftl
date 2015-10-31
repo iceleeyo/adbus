@@ -252,7 +252,6 @@
                     </tr>
                     <tr>
                         <th colspan=2>合计</th>
-                        
                         <th ></th>
                         <th ></th>
                         <th ></th>
