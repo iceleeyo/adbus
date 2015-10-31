@@ -24,6 +24,7 @@
                     </tr>
                     </thead>
                     <tr>
+                        <th orderBy="name" colspan='3'></th>
                         <th orderBy="name">特级</th>
                         <th orderBy="name">A++</th>
                         <th orderBy="suppliesType">A+</th>
