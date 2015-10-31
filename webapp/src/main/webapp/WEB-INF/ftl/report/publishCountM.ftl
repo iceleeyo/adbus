@@ -11,10 +11,6 @@
 
                 <div class="withdraw-title">
 					<span>2015年各营销中心本月媒体发布情况统计表【9月】</span>
-					<a class="block-btn" href="${rc.contextPath}/supplies/new" style="margin-left:10px">添加物料</a>
-					<@security.authorize ifAnyGranted="ShibaOrderManager">
-					<a class="block-btn" href="${rc.contextPath}/supplies/newBlackAd">添加底板</a>
-					</@security.authorize>
 				</div>
                 <table id="table" class="display" cellspacing="0" width="100%">
                     <thead>
@@ -22,9 +18,9 @@
                         <th orderBy="name">营销中心</th>
                         <th orderBy="name">车型</th>
                         <th orderBy="suppliesType">合同数</th>
-                        <th orderBy="industry.id" >上刊发布车辆数</th>
-                        <th orderBy="created">续刊车数</th>
-                        <th orderBy="created">刊期分类（车数）</th>
+                        <th orderBy="industry.id" colspan='5'>上刊发布车辆数</th>
+                        <th orderBy="created" colspan='5'>续刊车数</th>
+                        <th orderBy="created" colspan='5'>刊期分类（车数）</th>
                     </tr>
                     </thead>
                     <tr>
