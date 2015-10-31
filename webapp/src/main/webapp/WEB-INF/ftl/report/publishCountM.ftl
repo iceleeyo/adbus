@@ -12,6 +12,9 @@
                 <div class="withdraw-title">
 					<span>2015年各营销中心本月媒体发布情况统计表【9月】</span>
 				</div>
+				<div>
+				<span>选择月份</span>
+				</div>
                 <table id="table" style="line-height: 30px;text-align: center;border: 1px solid #D7D5D5;" class="display" width="100%">
                    
                     <tr>
