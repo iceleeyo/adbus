@@ -267,11 +267,10 @@
 					</div>
 					<div class="title-zh">案例欣赏</div>
 					<div class="examples clearfix">
-							<div class="example">
-								<div class="hover-top">
-									<u></u>
-								</div>
-								<!-- <div class="imab"></div> -->
+						<div class="example">
+						  <div class="hover-top">
+							<u></u>
+						  </div>
 								<img src="index_img/example1.png">
 								<div class="desp">
 									<span>车身广告</span>
