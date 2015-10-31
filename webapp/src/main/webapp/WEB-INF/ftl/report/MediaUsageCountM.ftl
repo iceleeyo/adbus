@@ -45,8 +45,8 @@
                     </tr>
                     <tr>
                         <td >自营营销中心</td>
-                        <td >单层</td>
-                        <td ></td>
+                        <td >220</td>
+                        <td >3872</td>
                         <td ></td>
                         <td ></td>
                         <td ></td>
@@ -57,8 +57,8 @@
                     </tr>
 					<tr>
                         <td >CBS营销中心</td>
-                        <td >单层</td>
-                        <td ></td>
+                        <td >153</td>
+                        <td >4243</td>
                         <td ></td>
                         <td ></td>
                         <td ></td>
@@ -69,8 +69,8 @@
                     </tr>
                     <tr>
                         <td >白马营销中心</td>
-                        <td >单层</td>
-                        <td ></td>
+                        <td >126</td>
+                        <td >3212</td>
                         <td ></td>
                         <td ></td>
                         <td ></td>
@@ -81,8 +81,8 @@
                     </tr>
                     <tr>
                         <td >七彩营销中心</td>
-                        <td ></td>
-                        <td ></td>
+                        <td >311</td>
+                        <td >8294</td>
                         <td ></td>
                         <td ></td>
                         <td ></td>
@@ -94,8 +94,8 @@
                     
                     <tr>
                         <th >合计</th>
-                        <th ></th>
-                        <th ></th>
+                        <th >810</th>
+                        <th >19621</th>
                         <th ></th>
                         <th ></th>
                         <th ></th>
