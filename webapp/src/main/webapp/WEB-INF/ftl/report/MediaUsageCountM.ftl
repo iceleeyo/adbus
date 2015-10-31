@@ -139,8 +139,8 @@
                         <td >11</td>
                     </tr>
 					<tr>
-                        <td >CBS营销中心</td>
-                        <td >单层</td>
+                        
+                        <td >A++</td>
                         <td >11</td>
                         <td >11</td>
                         <td >11</td>
@@ -151,8 +151,8 @@
                         <td >11</td>
                     </tr>
                     <tr>
-                        <td >白马营销中心</td>
-                        <td >单层</td>
+                        
+                        <td >A+</td>
                         <td >11</td>
                         <td >11</td>
                         <td >11</td>
@@ -163,8 +163,8 @@
                         <td >11</td>
                     </tr>
                     <tr>
-                        <td >七彩营销中心</td>
-                        <td >11</td>
+                        
+                        <td >A</td>
                         <td >11</td>
                         <td >11</td>
                         <td >11</td>
