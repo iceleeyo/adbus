@@ -1778,7 +1778,7 @@ function showBusDetail(pathUrl,tourl,id){
 					+'</div>'
 					+'</div>'
 					+ '<div class="ui-form-item widthdrawBtBox" style="margin-left:40px;">'
-					+ '<input type="button" onclick="saveBus()" class="block-btn" value="确认" ></div></div>'
+					+ '<input type="hidden" value="'+data.line.id+'" name="lineId" id="db_id"><input type="button" onclick="saveBus()" class="block-btn" value="确认" ></div></div>'
 					+ '</form>'
 			});
 			var checkin = $('#upDate1').datepicker()

@@ -800,11 +800,11 @@ public class BusSelectController {
 			@RequestParam(value="id") int id,@PathVariable("type") int type) {
 		return busLineCheckService.removebusline(principal, city, id,type);
 	}
-	@RequestMapping(value = "ajax-remove-bus", method = RequestMethod.POST)
+	@RequestMapping(value = "ajax-remove-bus/{type}", method = RequestMethod.POST)
 	@ResponseBody
 	public Pair<Boolean, String> removebus(Principal principal, @CookieValue(value = "city", defaultValue = "-1") int city,
-			@RequestParam("id") int id) {
-		return busLineCheckService.removebus(principal, city, id);
+			@RequestParam("id") int id,@PathVariable("type") int type) {
+		return busLineCheckService.removebus(principal, city, id,type);
 	}
 	@RequestMapping(value = "ishaveline/{linename}", method = RequestMethod.POST)
 	@ResponseBody

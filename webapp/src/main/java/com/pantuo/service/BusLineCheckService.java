@@ -197,7 +197,7 @@ public interface BusLineCheckService {
 
 	public Pair<Boolean, String> removebusline(Principal principal, int city, int id, int type);
 
-	public Pair<Boolean, String> removebus(Principal principal, int city, int id);
+	public Pair<Boolean, String> removebus(Principal principal, int city, int id, int type);
 
 	public Pair<Boolean, String> ishaveline(String linename);
 

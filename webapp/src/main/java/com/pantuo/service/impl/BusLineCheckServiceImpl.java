@@ -83,6 +83,7 @@ import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.domain.BusLockExample;
 import com.pantuo.mybatis.domain.BusModel;
 import com.pantuo.mybatis.domain.BusModelExample;
+import com.pantuo.mybatis.domain.BusOnline;
 import com.pantuo.mybatis.domain.BusUplog;
 import com.pantuo.mybatis.domain.BusinessCompany;
 import com.pantuo.mybatis.domain.BusinessCompanyExample;
@@ -112,6 +113,7 @@ import com.pantuo.service.AttachmentService;
 import com.pantuo.service.BusLineCheckService;
 import com.pantuo.service.MailService;
 import com.pantuo.simulate.MailJob;
+import com.pantuo.simulate.QueryBusInfo;
 import com.pantuo.util.BeanUtils;
 import com.pantuo.util.BusinessException;
 import com.pantuo.util.Constants;
@@ -165,6 +167,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	BusContractMapper busContractMapper;
 	@Autowired
 	AttachmentService attachmentService;
+	@Autowired
+	QueryBusInfo queryBusInfo;
 
 	@Autowired
 	BusMapper busMapper;
@@ -1467,9 +1471,13 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			return new Pair<Boolean, String>(false, "信息丢失");
 		}
 		if(type==0){
-			busLine.setIsdelete(1);
-			if (buslineMapper.updateByPrimaryKey(busLine) > 0) {
-				return new Pair<Boolean, String>(true, "删除成功");
+			if(!lineHasBus(busLine)){
+				busLine.setIsdelete(1);
+				if (buslineMapper.updateByPrimaryKey(busLine) > 0) {
+					return new Pair<Boolean, String>(true, "删除成功");
+				}
+			}else{
+				return new Pair<Boolean, String>(false, "该线路有车，删除失败");
 			}
 		}else{
 			busLine.setIsdelete(0);
@@ -1480,17 +1488,38 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		return new Pair<Boolean, String>(false, "操作失败");
 	}
 
+	private boolean lineHasBus(BusLine busLine) {
+		BusExample example=new BusExample();
+		example.createCriteria().andLineIdEqualTo(busLine.getId());
+		if(busMapper.selectByExample(example).size()>0){
+			return true;
+		}
+		return false;
+	}
+
 	@Override
-	public Pair<Boolean, String> removebus(Principal principal, int city, int id) {
+	public Pair<Boolean, String> removebus(Principal principal, int city, int id,int type) {
 		Bus bus=busMapper.selectByPrimaryKey(id);
 		if(bus==null){
 			return new Pair<Boolean, String>(false, "信息丢失");
 		}
-		bus.setEnabled(false);
-		if (busMapper.updateByPrimaryKey(bus) > 0) {
-			return new Pair<Boolean, String>(true, "删除成功");
+		if(type==0){
+			if(!queryBusInfo.ishaveAd(bus.getId())){
+				bus.setEnabled(false);
+				if (busMapper.updateByPrimaryKey(bus) > 0) {
+					return new Pair<Boolean, String>(true, "删除成功");
+				}
+			}else{
+				return new Pair<Boolean, String>(false, "该车有广告在身，删除失败");
+			}
+		}else{
+			bus.setEnabled(true);
+			if (busMapper.updateByPrimaryKey(bus) > 0) {
+				return new Pair<Boolean, String>(true, "恢复成功");
+			}
 		}
 		return new Pair<Boolean, String>(false, "操作失败");
+		
 	}
 
 	@Override

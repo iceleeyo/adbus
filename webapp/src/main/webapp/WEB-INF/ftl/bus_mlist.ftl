@@ -84,14 +84,18 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
                     }
                 } },
                      { "data": "jpaBus.office", "defaultContent": ""},
-                      { "data": "jpaBus.branch", "defaultContent": ""},
                  { "data": function( row, type, set, meta) {
                     return row.jpaBus.id;
                     },
                     "render": function(data, type, row, meta) {
-                        var operations = '<a  onclick="showBusDetail(\'${rc.contextPath}\',\'${rc.contextPath}/bus/ajaxdetail/\','+data+');"  >编辑</a>';
-                         operations += '&nbsp;&nbsp;<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/busselect/ajax-remove-bus?id=' + data +'">删除</a>'
+                         var operations ='';
+                         if(row.jpaBus.enabled==true){
+                         operations += '<a  onclick="showBusDetail(\'${rc.contextPath}\',\'${rc.contextPath}/bus/ajaxdetail/\','+data+');"  >编辑</a>';
+                         operations += '&nbsp;&nbsp;<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/busselect/ajax-remove-bus/0?id=' + data +'">删除</a>'
                         operations+='&nbsp;&nbsp;<a  onclick="showbusUpdate_history(\'${rc.contextPath}\','+row.jpaBus.id+');">查看变更历史</a>'
+                       	}else {
+                       		 operations += '&nbsp;&nbsp;<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/busselect/ajax-remove-bus/1?id=' + data +'">恢复</a>';
+                       	}
                         return operations;
                     }
                 },
@@ -109,9 +113,30 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
     
     function fnDrawCallback(){
     	 counter_columns(table,1);
+    	  $('.table-action').click(function() {
+			$.post($(this).attr("url"), function(data) {
+			if(data.left){
+			    layer.msg(data.right);
+				 table.dataTable()._fnAjaxUpdate();
+				 }else{
+				  layer.msg(data.right);
+				 }
+			});
+		});
     }
     
-     
+      function drawCallback() {
+        $('.table-action').click(function() {
+			$.post($(this).attr("url"), function(data) {
+			if(data.left){
+			    layer.msg(data.right);
+				 table.dataTable()._fnAjaxUpdate();
+				 }else{
+				  layer.msg(data.right);
+				 }
+			});
+		});
+    }
 
     function initComplete() {
         $("div#toolbar").html(
@@ -240,18 +265,7 @@ function ishaveline(linename){
 				 }
 			}, "text");
     }
-    function drawCallback() {
-        $('.table-action').click(function() {
-			$.post($(this).attr("url"), function(data) {
-			if(data.left){
-			    layer.msg(data.right);
-				 table.dataTable()._fnAjaxUpdate();
-				 }else{
-				  layer.msg(data.right);
-				 }
-			});
-		});
-    }
+   
     function initmodel(id) {
 	$.ajax({
 		url : "${rc.contextPath}/busselect/selectBusType",
@@ -330,6 +344,14 @@ function ishaveline(linename){
 									<a class="item" href="#"  qc="2"> 八方达公司<i>×</i></a>
 								</div>
 							</div>
+							 <div class="sift-item s-clear">
+								<span>状态：</span>
+								<div class="sift-list" qt="stats">
+									<a class="item active" href="#" sort="-1" qc="all">所有</a>
+									<a class="item" href="#"  qc="1" >正常车辆<i>×</i></a>
+									<a class="item" href="#"  qc="2"> 回收站车辆<i>×</i></a>
+								</div>
+							</div>
 				</div>					
 			</div>					
 									</div>		
@@ -351,7 +373,6 @@ function ishaveline(linename){
                         <th>车型描述</th>
                         <th>是否有广告</th>
                         <th>公司名称</th>
-                        <th>所属分公司</th>
                         <th>管理</th>
                     </tr>
                     </thead>

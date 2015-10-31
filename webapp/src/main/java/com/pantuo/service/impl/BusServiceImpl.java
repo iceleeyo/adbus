@@ -440,20 +440,14 @@ public class BusServiceImpl implements BusService {
 			query = query.and(QJpaBus.jpaBus.company.eq(c));
 		}
 
-		
-		if (!fetchDisabled) {
-			BooleanExpression q = QJpaBus.jpaBus.enabled.isTrue();
-			if (query == null)
-				query = q;
-			else
-				query = query.and(q);
-		}
-	/*	Specification<JpaBus> ew= emptyPredicate();
-		Specifications ss= Specifications.where(ew);
-		Page<JpaBus> r=
-				busRepo.queryBus(city, 1, JpaBusline.Level.valueOf("A"), JpaBus.Category.valueOf("yunyingche"),p);
-				//busRepo.queryBus(city, NumberUtils.toInt(company), JpaBusline.Level.valueOf(levelStr).ordinal(), JpaBus.Category.valueOf(category).ordinal());
-		System.out.println(r.getContent().size());*/
+//		
+//		if (!fetchDisabled) {
+//			BooleanExpression q = QJpaBus.jpaBus.enabled.isTrue();
+//			if (query == null)
+//				query = q;
+//			else
+//				query = query.and(q);
+//		}
 		return query == null ? busRepo.findAll(p) : busRepo.findAll(query, p);
 
 	}
@@ -499,7 +493,19 @@ public class BusServiceImpl implements BusService {
 					}
 				}
 				query = query == null ? subQuery : query.and(subQuery);
-			}  else if (StringUtils.equals(entry.getKey(), "lev") && vIntegers.size() > 0) {
+			} else if (StringUtils.equals(entry.getKey(), "stats") && vIntegers.size() > 0) {
+				BooleanExpression subQuery = null;
+				for (String type : vIntegers) {
+					if (StringUtils.equals("1", type)) {
+						subQuery = subQuery == null ?  QJpaBus.jpaBus.enabled.eq(true) : subQuery
+								.or(QJpaBus.jpaBus.enabled.eq(true));
+					} else if (StringUtils.equals("2", type)) {
+						subQuery = subQuery == null ? QJpaBus.jpaBus.enabled.eq(false) : subQuery
+								.or(QJpaBus.jpaBus.enabled.eq(false));
+					}
+				}
+				query = query == null ? subQuery : query.and(subQuery);
+			} else if (StringUtils.equals(entry.getKey(), "lev") && vIntegers.size() > 0) {
 				BooleanExpression subQuery = null;
 				List<JpaBusline.Level> right = new ArrayList<JpaBusline.Level>();
 				for (String type : vIntegers) {
