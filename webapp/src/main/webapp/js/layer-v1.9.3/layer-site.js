@@ -874,7 +874,7 @@ function showLineDetail(pathUrl,id){
    	 				+'id="description" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
    	 				+'</div>'
 			    	+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">变更日期:</label>'
-					+'<input class="ui-input datepicker validate[required,custom[date],past[#upDate1]]" type="text" name="updated1" value="'+$.format.date(data.updated, "yyyy-MM-dd")+'" id="upDate1" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
+					+'<input class="ui-input datepicker validate[required,custom[date],past[#upD]]" type="text" name="updated1" value="'+$.format.date(data.updated, "yyyy-MM-dd")+'" id="upDate1" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
 					+'</div>'
    	 				+ '</div>'
 					+ '<div class="ui-form-item widthdrawBtBox" style="position: absolute; bottom: 10px;">'

@@ -181,6 +181,7 @@ function ishaveline(linename){
     }
 			
     $(document).ready(function() {
+    $("#sh").val("stats_1");
         initTable();
          initSwift(table)
     } );
@@ -231,8 +232,8 @@ function ishaveline(linename){
 							 <div class="sift-item s-clear">
 								<span>状态：</span>
 								<div class="sift-list" qt="stats">
-									<a class="item active" href="#" sort="-1" qc="all">所有</a>
-									<a class="item" href="#"  qc="1" >正常车辆<i>×</i></a>
+									<a class="item " href="#" sort="-1" qc="all">所有</a>
+									<a class="item active" href="#"  qc="1" >正常车辆<i >×</i></a>
 									<a class="item" href="#"  qc="2"> 回收站车辆<i>×</i></a>
 								</div>
 							</div>
