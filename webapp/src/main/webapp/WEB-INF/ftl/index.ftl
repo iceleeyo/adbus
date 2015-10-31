@@ -212,25 +212,33 @@
 						</li>
 						<li class="item">
 							<a href="secondLevelPage">
-								<div class="ad ad2"></div>
+								<div class="ad ad2"><u class="cl"></u>
+								<u class="cr"></u>
+								<i></i></div>
 								<span>移动视频</span>
 							</a>
 						</li>
 						<li class="item">
 							<a href="#">
-								<div class="ad ad3"></div>
+								<div class="ad ad3"><u class="cl"></u>
+								<u class="cr"></u>
+								<i></i></div>
 								<span>优惠组合</span>
 							</a>
 						</li>
 						<li class="item">
 							<a href="#">
-								<div class="ad ad4"></div>
+								<div class="ad ad4"><u class="cl"></u>
+								<u class="cr"></u>
+								<i></i></div>
 								<span>车内广告</span>
 							</a>
 						</li>
 						<li class="item">
 							<a href="#">
-								<div class="ad ad5"></div>
+								<div class="ad ad5"><u class="cl"></u>
+								<u class="cr"></u>
+								<i></i></div>
 								<span>站牌广告</span>
 							</a>
 						</li>
@@ -269,6 +277,9 @@
 									<span>车身广告</span>
 									<p>窝窝团网站推广</p>
 									<span>白色 简介 突出</span>
+								</div>
+								<div class="hover-m">
+									<div class="hover-bottom"></div>
 								</div>
 							</div>
 						<div class="example">
