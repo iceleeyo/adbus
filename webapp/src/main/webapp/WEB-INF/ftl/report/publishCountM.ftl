@@ -1,7 +1,7 @@
-<#import "template/template.ftl" as frame>
+<#import "../template/template.ftl" as frame>
 <#global menu="月发布统计">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="月发布统计" js=["js/jquery-dateFormat.js"]>
+<@frame.html title="月发布统计" js=["../js/jquery-dateFormat.js"]>
     
 <script type="text/javascript">
     
