@@ -1,7 +1,7 @@
 <#import "../template/template.ftl" as frame>
-<#global menu="月发布统计">
+<#global menu="媒体使用情况统计">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="月发布统计" js=["../js/jquery-dateFormat.js"]>
+<@frame.html title="媒体使用情况统计" js=["../js/jquery-dateFormat.js"]>
     
 <script type="text/javascript">
     
@@ -19,7 +19,7 @@
 <div class="withdraw-wrap color-white-bg fn-clear">
 
                 <div class="withdraw-title">
-					<span>2015年各营销中心本月媒体发布情况统计表【9月】</span>
+					<span>2015年各营销中心车身媒体使用情况汇总表【9月】</span>
 				</div>
 				<div style="line-height: 30px; padding:15px;">
 				<span>选择月份</span>
