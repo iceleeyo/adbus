@@ -292,125 +292,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 		}, "text");
 		
 	}
-	function initProvince(id) {
-		$.ajax({
-			url : "${rc.contextPath}/busselect/selectBusType",
-			type : "POST",
-			data : {
-				"buslinId" : id
-			},
-			success : function(data) {
-				$("#four").show();
-				var v=' <option value="0" selected="selected">所有类型</option> ';
-				$("#model_id").html(v);
-				$.each(data, function(i, item) {
-				
-				var w="<option value="+item.gn1+">"
-									+ item.gp2
-									+ (item.gn2 == 0 ? "&nbsp;&nbsp; 单层"
-											: "&nbsp;&nbsp; 双层")
-									+ "&nbsp;&nbsp;[" + item.count + "]"
-									+ "</option>";
-					$("#model_id").append(w);
-								
-				});
-			}
-		}, "text");
-	}
-
-	function addPublishLine(url,seriaNum) {
-		layer.open({
-					type : 1,
-					title : "选择车辆",
-					skin : 'layui-layer-rim',
-					area : [ '400px', '550px' ],
-					content : ''
-							+ '<form id="form01" action='+url+'/busselect/savePublishLine?seriaNum='+seriaNum+'>'
-							+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
-							+ '<div class="ui-form-item"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/>'
-							+ '<label class="ui-label mt10">选择线路：</label>'
-							+ '<input class="ui-input"  id="line_id" data-is="isAmount isEnough">'
-							+ '</div>'
-							+ '<div id="four" style="display:none;"><div class="ui-form-item" id="model_Id">'
-							+ '<label class="ui-label mt10">选择车型：</label>'
-							+ '<select onchange="changeModel()" class="ui-input bus-model" name="modelId" id="model_id"> <option value="0" selected="selected" >所有类型</option> </select>'
-							+ '</div>'
-							
-							+ '<div class="ui-form-item" id="model_Id2">'
-							+ '<label class="ui-label mt10">车型描述：</label>'
-							+ '<select  class="ui-input bus-model" name="lineDesc" id="desId"> <option value="0" selected="selected">所有类型</option> </select>'
-							+ '</div>'
-							
-							
-						    + ' <div class="ui-form-item" id="model_Id3">'
-							+ '<label class="ui-label mt10">营销中心：</label>'
-							+ '<select  class="ui-input bus-model" name="companyId" id="companyId"> <option value="0" selected="selected">所有类型</option> </select>'
-							+ '</div>'
-							
-							
-							+'<div class="ui-form-item"> <label class="ui-label mt10">选取数量：</label>'
-							+'<input class="ui-input " type="text" value="0" name="salesNumber" onkeyup="value=value.replace(/[^\\d]/g,\'\')" '
-							+'id="busNumber" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-           	 				+'</div>'
-							+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">上刊日期:</label>'
-							+'<input class="ui-input datepicker validate[required,custom[date],past[#endDate]]" type="text" name="startD" value="" id="startDate" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
-							+'</div>'
-							+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">刊期:</label>'
-                            +'<input class="ui-input " type="text" value="30" name="days" onkeyup="value=value.replace(/[^\\d]/g,\'\')" '
-							+'id="days" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-							+'</div>'
-							+'<div style="display:none"><div class="ui-form-item"> <label class="ui-label mt10">批次：</label>'
-							+'<input class="ui-input " type="text" value="0" name="batch"  '
-							+'id="batch" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-           	 				+'</div>'
-           	 				+'<div class="ui-form-item"> <label class="ui-label mt10">发布费单价：</label>'
-							+'<input class="ui-input " type="text" value="0" name="unitPrice"  '
-							+'id="unitPrice" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-           	 				+'</div>'
-           	 				+'<div class="ui-form-item"> <label class="ui-label mt10">发布价值：</label>'
-							+'<input class="ui-input " type="text" value="0" name="publishValue" '
-							+'id="publishValue" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-           	 				+'</div>'
-           	 				+'<div class="ui-form-item"> <label class="ui-label mt10">折扣率：</label>'
-							+'<input class="ui-input " type="text" value="0" name="discountrate"  '
-							+'id="discountrate" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-           	 				+'</div>'
-           	 				+'<div class="ui-form-item"> <label class="ui-label mt10">优惠后金额：</label>'
-							+'<input class="ui-input " type="text" value="0" name="discountPrice"  '
-							+'id="discountPrice" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-           	 				+'</div></div>'
-							+ '</div></div>'
-							+ '<div class="ui-form-item widthdrawBtBox" style="position: absolute;">'
-							+ '<input type="button" onclick="sub()" class="block-btn" value="确认" ></div>'
-							+ '<input type="hidden" value="0" name="lineId" id="db_id"></form>'
-							+'<div id="worm-tips" class="worm-tips" style="width:350px;display:none;"></div>'
-				});
-			var checkin = $('#startDate').datepicker()
-			.on('click', function (ev) {
-			        $('.datepicker').css("z-index", "999999999");
-			}).data('datepicker');
-			
-			
-		$("#line_id").autocomplete({
-		minLength: 0,
-			source : "${rc.contextPath}/busselect/autoComplete",
-			change : function(event, ui) {
-				/*if(ui.item!=null){alert(ui.item.value);}*/
-				//table.fnDraw();
-			},
-			select : function(event, ui) {
-				$('#line_id').val(ui.item.value);
-				//table.fnDraw();
-				initProvince(ui.item.dbId);
-				$("#db_id").val(ui.item.dbId);
-				changeModel();
-				
-			}
-		}).focus(function () {
-       				 $(this).autocomplete("search");
-   				 });
-		
-	}
+	
 	function addBatch(url,seriaNum) {
 		layer.open({
 					type : 1,
@@ -457,6 +339,13 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 		}).focus(function () {
        				 $(this).autocomplete("search");
    				 });
+   				 $("#allCkb").click(function(){
+   				 if($(this).attr("checked") == "checked"){
+   				  $("input[name='ckb']").attr("checked",true);
+   				 }else{
+   				  $("input[name='ckb']").attr("checked",false);
+   				 }
+              });
    				 
 	}
 	
@@ -521,8 +410,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
    });
   }
     $(function(){
-   //全选
-   allCheck("allCkb", "ckb");
+  // allCheck("allCkb", "ckb");
   });
   var i=2;
   function addTr2(tab, row){
@@ -617,7 +505,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 					<span>（一）发布线路信息</span>
 					<input type="hidden" name="seriaNum" id="seriaNum" value="${seriaNum}"/>
 				   <a class="block-btn" style="margin-top: -5px;margin-left:5px;" href="javascript:void(0);" onclick="addBatch('${rc.contextPath}',${seriaNum})">增加批次</a>
-				 <a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="addPublishLine('${rc.contextPath}',${seriaNum})">发布线路</a>
+				<#--<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="addPublishLine('${rc.contextPath}',${seriaNum})">发布线路</a>--> 
+				
 				</div>
 			   <div id="orderedBuses">
 				<table id="table" class="display compact"
