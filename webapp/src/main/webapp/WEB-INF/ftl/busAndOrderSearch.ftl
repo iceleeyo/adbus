@@ -72,7 +72,10 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 	var d= $.format.date(data, "yyyy-MM-dd");
                 	return d;
                 }},
-                  { "data": "", "defaultContent": ""},
+                  { "data": "busInfo.busOnline.realEndDate","defaultContent": "","render": function(data, type, row, meta) {
+                	var d= $.format.date(data, "yyyy-MM-dd");
+                	return d;
+                }},
                     { "data": "busInfo.busOnline.days", "defaultContent": ""},
                
                    { "data": "jpaBus.categoryStr", "defaultContent": ""},

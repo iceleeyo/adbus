@@ -66,6 +66,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 	return  $.format.date(data, "yyyy-MM-dd");
                 }},
              	{ "data": "orders.days", "defaultContent": ""},//刊期
+                { "data": "orders.salesNumber", "defaultContent": ""},
              	{ "data": "orders.remainNuber", "defaultContent": ""},
              	{ "data": "orders.line.name", "defaultContent": ""},
              	{ "data": "sb", "defaultContent": ""},
@@ -193,7 +194,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                         <th>形式</th>
                         <th>实际上刊时间</th>
                         <th>刊期</th>
-                        <th>数量</th>
+                        <th>订购数量</th>
+                        <th>上刊车数</th>
                         <th>线路</th>
                         <th>车辆自编号</th>
                         <th>印制</th>
