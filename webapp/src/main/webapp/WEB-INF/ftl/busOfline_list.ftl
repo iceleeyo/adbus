@@ -458,6 +458,9 @@ css=["js/jquery-ui/jquery-ui.css"]>
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
+<div class="withdraw-title">
+               上刊发布
+									</div>
   			 <div id="orderedBuses">
 				<table id="lineTable" class="display compact"
 					cellspacing="0" width="100%">
