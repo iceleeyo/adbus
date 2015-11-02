@@ -152,9 +152,7 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
                         '        <input id="newLine" value="">' +
                         '    </span>&nbsp;&nbsp;' +
                         '&nbsp;&nbsp;<a class="block-btn" id="change_line" href="javascript:void(0);">车辆调车</a>'+
-                  	'</div>'+
-                  	
-                    '<br>'
+                  	'</div>'
         );
 
         $('#serinum,#oldserinum,#name,#linename').change(function() {
