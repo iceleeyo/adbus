@@ -188,7 +188,7 @@ function ishaveline(linename){
             <div class="withdraw-title">车辆查询</div>
              <input type="hidden" id="sh" value=""/>
               <div class="container-12 mt10 s-clear">
-						<div class="sift-box">
+						<div class="sift-box" style="width:100%;">
 						   <div class="sift-item s-clear">
 								<span>线路级别：</span>
 								<div class="sift-list" qt="lev">
