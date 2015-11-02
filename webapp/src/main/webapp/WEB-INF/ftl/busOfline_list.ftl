@@ -496,18 +496,18 @@ css=["js/jquery-ui/jquery-ui.css"]>
                             id="days" data-is="isAmount isEnough"  value="${jpaPublishLine.days}" readonly="readonly"  onkeyup="value=value.replace(/[^\d]/g,'')"
                             autocomplete="off" disableautocomplete="" style="width:45px"> 
                                   <span>广告形式</span>&nbsp;&nbsp;
-                       <select class="ui-input ui-input-mini"  id="adtype" style="width:120px">
+                       <select class="ui-input ui-input-mini"  id="adtype" style="width:100px">
                     <option value="tiaofu" selected="selected">条幅式</option>
                   	<option value="cheshen">车身彩贴</option>
                   	<option value="quanche">全车彩贴</option>
                   	</select>
                   	       <span>印制</span>&nbsp;&nbsp;
-                       <select class="ui-input ui-input-mini" name="print" id="print" style="width:120px">
+                       <select class="ui-input ui-input-mini" name="print" id="print" style="width:100px">
                     <option value="center" selected="selected">中心</option>
                   	<option value="out">外部</option>
                   	</select>
                   	  <span>上刊类型</span>&nbsp;&nbsp;
-                      <select class="ui-input ui-input-mini" name="sktype" id="sktype" style="width:120px">
+                      <select class="ui-input ui-input-mini" name="sktype" id="sktype" style="width:100px">
                     <option value="normal" selected="selected">正常上刊</option>
                   	<option value="fill">补刊</option>
                   	<option value="contin">续刊</option>
