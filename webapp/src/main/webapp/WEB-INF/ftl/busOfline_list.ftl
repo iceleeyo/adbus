@@ -479,7 +479,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 					</thead>
 				</table>
 			 </div>
-			  </div>
+			  </div><br>
 <div class="withdraw-wrap color-white-bg fn-clear">
 
 			<!--over-->
