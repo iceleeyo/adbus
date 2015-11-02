@@ -60,9 +60,9 @@
 						<li><a href="${rc.contextPath}/partner">合作伙伴</a></li>
 						<li><a href="${rc.contextPath}/aboutme">关于我们</a></li>
 					</ul>
-					<div class="s-right s-clear">
+					<div class="s-right s-clear" style="padding-top:13px;">
 					
-								<span class="pg-nav-item s-left" style="padding:0;">您好，</span>
+								<span class="pg-nav-item s-left" >您好，</span>
 									<span>
                                         <@security.authorize access="isAuthenticated()">
                                         <#if medetype?? && medetype=="screen">
