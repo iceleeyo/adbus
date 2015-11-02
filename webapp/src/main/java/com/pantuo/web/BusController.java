@@ -94,7 +94,7 @@ public class BusController {
 		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
 			return new ArrayList<BusModelGroupView>(0);
 		Page<JpaBus> jpabuspage = busService.getAllBuses(cityId, req, req.getPage(), Integer.MAX_VALUE,
-				req.getSort("id"), false);
+				req.getSort("id"), true);
 		return busService.queryModelGroup(req, jpabuspage);
 	}
 	@RequestMapping("ajax-ModelCount_list")

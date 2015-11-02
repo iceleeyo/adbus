@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.pantuo.dao.pojo.JpaBusOnline.Adtype;
+import com.pantuo.dao.pojo.JpaBusOnline.Sktype;
 import com.pantuo.mybatis.domain.BusOnline;
 import com.pantuo.mybatis.domain.Offlinecontract;
 import com.pantuo.util.DateConverter;
@@ -17,6 +19,22 @@ public class BusInfo {
 	public Date startD;
 	public Date endD;
 	public BusOnline busOnline;
+
+	public String _sktype;
+	public String _adtype;
+
+	public String get_sktype() {
+		return busOnline == null ? StringUtils.EMPTY
+				: (busOnline.getSktype() >= Sktype.values().length ? StringUtils.EMPTY : Sktype.values()[busOnline
+						.getSktype()].getSktypeName());
+	}
+
+	public String get_adtype() {
+
+		return busOnline == null ? StringUtils.EMPTY
+				: (busOnline.getAdtype() >= Adtype.values().length ? StringUtils.EMPTY : Adtype.values()[busOnline
+						.getAdtype()].getAdtypeName());
+	}
 
 	public String getStartDStr() {
 		return startD != null ? DateConverter.doConvertToString(startD, DateConverter.DATE_PATTERN) : StringUtils.EMPTY;

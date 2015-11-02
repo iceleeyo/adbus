@@ -31,7 +31,6 @@ import net.sf.jxls.transformer.XLSTransformer;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.poi.ss.formula.udf.UDFFinder;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.DeserializationConfig;
@@ -51,6 +50,7 @@ import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.dao.AdJustLogRepository;
+import com.pantuo.dao.BusContractRepository;
 import com.pantuo.dao.BusModelRepository;
 import com.pantuo.dao.BusOnlineRepository;
 import com.pantuo.dao.BusRepository;
@@ -67,9 +67,7 @@ import com.pantuo.dao.pojo.JpaBusUpLog;
 import com.pantuo.dao.pojo.JpaBusinessCompany;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaLineUpLog;
-import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaPublishLine;
-import com.pantuo.dao.pojo.QJpaProduct;
 import com.pantuo.dao.pojo.JpaPublishLine.Sktype;
 import com.pantuo.dao.pojo.QJpaBus;
 import com.pantuo.dao.pojo.QJpaBusAdjustLog;
@@ -129,6 +127,9 @@ public class BusServiceImpl implements BusService {
 	private static Logger log = LoggerFactory.getLogger(BusServiceImpl.class);
 	@Autowired
 	BusRepository busRepo;
+	@Autowired
+	BusContractRepository busContractRepository;
+	
 	@Autowired
 	BusOnlineRepository busOnlineRepository;
 	@Autowired
@@ -378,6 +379,13 @@ public class BusServiceImpl implements BusService {
 
 	@Override
 	public Page<JpaBus> getAllBuses(int city, TableRequest req, int page, int pageSize, Sort sort, boolean fetchDisabled) {
+		
+		if(fetchDisabled){
+			if(!isParamerQuery(req)){
+				Pageable p = new PageRequest(page, pageSize, sort);
+				return new org.springframework.data.domain.PageImpl<JpaBus>(new ArrayList<JpaBus>(0), p, 0);
+			}
+		}
 		if (page < 0)
 			page = 0;
 		if (pageSize < 1)
@@ -385,69 +393,103 @@ public class BusServiceImpl implements BusService {
 		if (sort == null)
 			sort = new Sort("id");
 		Pageable p = new PageRequest(page, pageSize, sort);
-		BooleanExpression query = QJpaBus.jpaBus.city.eq(city);
-		String sh = req.getFilter("sh"),serinum=req.getFilter("serinum"),oldserinum=req.getFilter("oldserinum"),plateNumber = req.getFilter("plateNumber"), linename = req.getFilter("linename"), levelStr = req
-				.getFilter("levelStr"), category = req.getFilter("category"), lineid = req.getFilter("lineid"), company = req
-				.getFilter("company");
+	
+		final String sh = req.getFilter("sh"), serinum = req.getFilter("serinum"), oldserinum = req
+				.getFilter("oldserinum"), plateNumber = req.getFilter("plateNumber"), linename = req
+				.getFilter("linename"), levelStr = req.getFilter("levelStr"), category = req.getFilter("category"), lineid = req
+				.getFilter("lineid"), company = req.getFilter("company"), contractid = req.getFilter("contractid");
+		boolean isNormalQuery = true;
+		int _contractid = NumberUtils.toInt(contractid);
+		if (_contractid > 0) {
+			isNormalQuery = false;
+		}
+		
+		
+		BooleanExpression query =isNormalQuery? QJpaBus.jpaBus.city.eq(city): QJpaBusOnline.jpaBusOnline.city.eq(city);
 		BooleanExpression commonEx = getQueryFromPage(sh);
 		if (commonEx != null) {
 			query = query.and(commonEx);
 		}
 		if (StringUtils.isNotBlank(serinum)) {
-			String[] a=serinum.split(",");
-			if(a.length>1){
-				List<String> list=Arrays.asList(a);
-				query = query.and(QJpaBus.jpaBus.serialNumber.in(list));
-			}else{
-				query = query.and(QJpaBus.jpaBus.serialNumber.like("%"+serinum+"%"));
+			String[] a = serinum.split(",");
+			if (a.length > 1) {
+				List<String> list = Arrays.asList(a);
+				query = query.and(isNormalQuery ? QJpaBus.jpaBus.serialNumber.in(list)
+						: QJpaBusOnline.jpaBusOnline.jpabus.serialNumber.in(list));
+			} else {
+				query = query.and(isNormalQuery ? QJpaBus.jpaBus.serialNumber.like("%" + serinum + "%")
+						: QJpaBusOnline.jpaBusOnline.jpabus.serialNumber.like("%" + serinum + "%"));
 			}
 		}
 		if (StringUtils.isNotBlank(oldserinum)) {
-			String[] a=oldserinum.split(",");
-			if(a.length>1){
-				List<String> list=Arrays.asList(a);
-				query = query.and(QJpaBus.jpaBus.oldSerialNumber.in(list));
-			}else{
-				query = query.and(QJpaBus.jpaBus.oldSerialNumber.like("%"+oldserinum+"%"));
+			String[] a = oldserinum.split(",");
+			if (a.length > 1) {
+				List<String> list = Arrays.asList(a);
+				query = query.and(isNormalQuery ? QJpaBus.jpaBus.oldSerialNumber.in(list)
+						: QJpaBusOnline.jpaBusOnline.jpabus.oldSerialNumber.in(list));
+			} else {
+				query = query.and(isNormalQuery ? QJpaBus.jpaBus.oldSerialNumber.like("%" + oldserinum + "%")
+						: QJpaBusOnline.jpaBusOnline.jpabus.oldSerialNumber.like("%" + oldserinum + "%"));
 			}
-			
+
 		}
 		if (StringUtils.isNotBlank(plateNumber)) {
-			String[] a=plateNumber.split(",");
-			if(a.length>1){
-				List<String> list=Arrays.asList(a);
-				query = query.and(QJpaBus.jpaBus.plateNumber.in(list));
-			}else{
-				query = query.and(QJpaBus.jpaBus.plateNumber.like("%"+plateNumber+"%"));
+			String[] a = plateNumber.split(",");
+			if (a.length > 1) {
+				List<String> list = Arrays.asList(a);
+				query = query.and(isNormalQuery ? QJpaBus.jpaBus.plateNumber.in(list) : QJpaBus.jpaBus.plateNumber
+						.in(list));
+			} else {
+				query = query.and(isNormalQuery ? QJpaBus.jpaBus.plateNumber.like("%" + plateNumber + "%")
+						: QJpaBusOnline.jpaBusOnline.jpabus.plateNumber.like("%" + plateNumber + "%"));
 			}
 		}
 		if (StringUtils.isNotBlank(lineid)) {
 			int lineId = NumberUtils.toInt(lineid);
-			query = query.and(QJpaBus.jpaBus.line.id.eq(lineId));
+			query = query.and(isNormalQuery ? QJpaBus.jpaBus.line.id.eq(lineId)
+					: QJpaBusOnline.jpaBusOnline.jpabus.line.id.eq(lineId));
 		}
 		if (StringUtils.isNotBlank(linename)) {
-			query = query.and(QJpaBus.jpaBus.line.name.eq(linename));
+			query = query.and(isNormalQuery ? QJpaBus.jpaBus.line.name.eq(linename)
+					: QJpaBusOnline.jpaBusOnline.jpabus.line.name.eq(linename));
 		}
 		if (StringUtils.isNotBlank(category) && !StringUtils.equals(category, "defaultAll")) {
-			query = query.and(QJpaBus.jpaBus.category.eq(JpaBus.Category.valueOf(category)));
+			query = query.and(isNormalQuery ? QJpaBus.jpaBus.category.eq(JpaBus.Category.valueOf(category))
+					: QJpaBusOnline.jpaBusOnline.jpabus.category.eq(JpaBus.Category.valueOf(category)));
 		}
 		if (StringUtils.isNotBlank(levelStr) && !StringUtils.equals(levelStr, "defaultAll")) {
-			query = query.and(QJpaBus.jpaBus.line.level.eq(JpaBusline.Level.valueOf(levelStr)));
+			query = query.and(isNormalQuery ? QJpaBus.jpaBus.line.level.eq(JpaBusline.Level.valueOf(levelStr))
+					: QJpaBusOnline.jpaBusOnline.jpabus.line.level.eq(JpaBusline.Level.valueOf(levelStr)));
 		}
 		if (StringUtils.isNotBlank(company) && !StringUtils.equals(company, "defaultAll")) {
 			JpaBusinessCompany c = new JpaBusinessCompany();
 			c.setId(NumberUtils.toInt(company));
-			query = query.and(QJpaBus.jpaBus.company.eq(c));
+			query = query.and(isNormalQuery ? QJpaBus.jpaBus.company.eq(c) : QJpaBusOnline.jpaBusOnline.jpabus.company
+					.eq(c));
 		}
+		if (!isNormalQuery) {
+			BooleanExpression contractQuery = QJpaBusOnline.jpaBusOnline.city.eq(city);
+			contractQuery = contractQuery.and(QJpaBusOnline.jpaBusOnline.offlineContract.id.eq(_contractid));
+			contractQuery = contractQuery.and(query);
+			Page<JpaBusOnline> r = busOnlineRepository.findAll(contractQuery, p);
 
-//		
-//		if (!fetchDisabled) {
-//			BooleanExpression q = QJpaBus.jpaBus.enabled.isTrue();
-//			if (query == null)
-//				query = q;
-//			else
-//				query = query.and(q);
-//		}
+			List<JpaBus> busList = new ArrayList<JpaBus>();
+			List<JpaBusOnline> wt = r.getContent();
+			for (JpaBusOnline e : wt) {
+				busList.add(e.getJpabus());
+			}
+			return new org.springframework.data.domain.PageImpl<JpaBus>(busList, p, r.getTotalElements());
+		}
+		//ss
+
+		//		
+		//		if (!fetchDisabled) {
+		//			BooleanExpression q = QJpaBus.jpaBus.enabled.isTrue();
+		//			if (query == null)
+		//				query = q;
+		//			else
+		//				query = query.and(q);
+		//		}
 		return query == null ? busRepo.findAll(p) : busRepo.findAll(query, p);
 
 	}
@@ -745,6 +787,28 @@ public class BusServiceImpl implements BusService {
 			log.error("Fail to export excel for city {}, req {}");
 			throw new RuntimeException("Fail to export excel", e);
 		}
+
+	}
+	/**
+	 * 
+	 *  返回true表示有参数查询
+	 *
+	 * @param req
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	public boolean isParamerQuery(TableRequest req) {
+		final String sh = req.getFilter("sh"), serinum = req.getFilter("serinum"), oldserinum = req
+				.getFilter("oldserinum"), plateNumber = req.getFilter("plateNumber"), linename = req
+				.getFilter("linename"), levelStr = req.getFilter("levelStr"), category = req.getFilter("category"), lineid = req
+				.getFilter("lineid"), company = req.getFilter("company"), contractid = req.getFilter("contractid");
+		return StringUtils.isNotBlank(sh) || StringUtils.isNotBlank(serinum) || StringUtils.isNotBlank(oldserinum)
+				|| StringUtils.isNotBlank(plateNumber) || StringUtils.isNotBlank(linename)
+				|| (StringUtils.isNotBlank(category) && !StringUtils.equals(category, "defaultAll"))
+				|| StringUtils.isNotBlank(lineid)
+				|| (StringUtils.isNotBlank(company) && !StringUtils.equals(levelStr, "defaultAll"))
+				|| (StringUtils.isNotBlank(contractid) && NumberUtils.toInt(contractid) > 0)
+				|| (StringUtils.isNotBlank(levelStr) && !StringUtils.equals(levelStr, "defaultAll"));
 
 	}
 
@@ -1426,6 +1490,8 @@ public class BusServiceImpl implements BusService {
 		if (!order_id.isEmpty()) {
 			BooleanExpression sub2 = QJpaBusOnline.jpaBusOnline.city.eq(cityId);
 			sub2 = sub2.and(QJpaBusOnline.jpaBusOnline.publish_lineId.in(order_id));
+			sub2 = sub2.and(QJpaBusOnline.jpaBusOnline.enable.eq(true));
+			
 			Sort t2 = new Sort(Direction.fromString("asc"), "startDate");
 			Pageable p2 = new PageRequest(0, Integer.MAX_VALUE, t2);
 			//排序 以最后一辆装车的广告形式     印制     上刊类型   和上刊时期做为订单的 属性   

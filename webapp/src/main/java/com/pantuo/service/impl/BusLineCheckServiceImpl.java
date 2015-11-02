@@ -1334,6 +1334,11 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			//	query = query.and(QJpaPublishLine.jpaPublishLine.OfflineContract.contractCode
 			//			.like("%" + contractCode + "%"));
 		}
+		if (StringUtils.isNotBlank(contractid)) {
+			int cid = NumberUtils.toInt(contractid);
+			query = query.and(QJpaPublishLine.jpaPublishLine.OfflineContract.id.eq(cid));
+		}
+		
 		if (StringUtils.isNotBlank(contractCode)) {
 			int cid = NumberUtils.toInt(contractCode);
 			query = query.and(QJpaPublishLine.jpaPublishLine.OfflineContract.id.eq(cid));
@@ -1415,6 +1420,9 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 					return new Pair<Boolean, String>(false, "该线路名称已经存在");
 				}
 			}
+			
+			busLine.setIsdelete(0);
+			
 			if (busLineMapper.insert(busLine) > 0) {
 				return new Pair<Boolean, String>(true, "添加线路成功");
 			}
