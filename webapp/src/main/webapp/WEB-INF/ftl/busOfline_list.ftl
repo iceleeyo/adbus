@@ -485,8 +485,8 @@ css=["js/jquery-ui/jquery-ui.css"]>
 			<!--over-->
 			<div class="withdraw-title">
                上刊发布
-									</div>
-            <div  >
+			</div>
+            <div style="padding-top:10px;" >
                  <div >
                  <input type="hidden" id ="plid" value="${plid}"/>
                            上刊日期：<input  class="ui-input ui-input-mini datepicker" type="text" name="stday"
