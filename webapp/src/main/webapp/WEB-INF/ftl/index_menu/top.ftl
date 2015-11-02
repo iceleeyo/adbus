@@ -50,8 +50,8 @@
 <style type="text/css">
 </style>		
 
-				<nav class="menu">
-				<img alt="" src="${rc.contextPath}/index_img/logob.png">
+				<nav class="menu1">
+				<img alt="" src="${rc.contextPath}/index_img/logob.png" >
 					<ul class="list-line" style="padding-top:13px;">
 						<li><a href="/">首页</a></li>
 						<li class="active"><a href="${rc.contextPath}/media">媒体产品</a></li>
