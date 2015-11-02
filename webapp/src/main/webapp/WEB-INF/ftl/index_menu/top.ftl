@@ -49,10 +49,9 @@
 </script>
 <style type="text/css">
 </style>		
-				<div><img alt="" src="${rc.contextPath}/index_img/logob.png" /></div>
+				<div ><img alt="" src="${rc.contextPath}/index_img/logob.png" /></div>
 				<nav class="menu">
-				
-					<ul class="list-line" style="padding-top:13px;">
+					<ul class="list-line">
 						<li><a href="/">首页</a></li>
 						<li class="active"><a href="${rc.contextPath}/media">媒体产品</a></li>
 						<li><a href="${rc.contextPath}/effect">传播效果</a></li>
