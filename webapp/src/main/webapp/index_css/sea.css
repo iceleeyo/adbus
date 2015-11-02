@@ -270,8 +270,9 @@ table {
 }
 
 .pg-side-item {
-	background: #ececec;
+	background: #3BAFDA;
 	border-bottom: 1px solid #f2f2f2;
+	color: #fff;
 }
 
 .pg-side-item-link {
