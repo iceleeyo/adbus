@@ -40,25 +40,23 @@
   background-position: 50% 50%;
   background-size: 100%;
 }
-.background-two .items .item .ad1 {
-  background: url(../index_img/icon.png) 0 -272px;
-  background-size: 420%;
+.background-two .items .item .ad i {
+  background: url(../index_img/homepage_icon_circle.png) no-repeat;
 }
-.background-two .items .item .ad2 {
-  background: url(../index_img/icon.png) 0 -400px;
-  background-size: 420%;
+.background-two .items .item .ad1 i {
+  background-position: 30px -329px;
 }
-.background-two .items .item .ad3 {
-  background: url(../index_img/icon.png) 0 -529px;
-  background-size: 420%;
+.background-two .items .item .ad2 i {
+  background-position: 45px -270px;
 }
-.background-two .items .item .ad4 {
-  background: url(../index_img/icon.png) 0 -657px;
-  background-size: 420%;
+.background-two .items .item .ad3 i {
+  background-position: 35px -60px;
 }
-.background-two .items .item .ad5 {
-  background: url(../index_img/icon.png) 0 -787px;
-  background-size: 420%;
+.background-two .items .item .ad4 i {
+  background-position: 55px -155px;
+}
+.background-two .items .item .ad5 i {
+  background-position: 40px 0;
 }
 .background-five .adv .mobile {
   background: url(../index_img/line.png) no-repeat -935px 0;
@@ -268,13 +266,8 @@
   display: inline-block;
 }
 .background-two .container .items .item .ad {
-  width: 150px;
-  height: 130px;
-}
-.background-three .container {
-  position: absolute;
-  top: 120px;
-  width: 100%;
+  width: 156px;
+  height: 156px;
 }
 .background-two .item u {
   display: block;
@@ -288,7 +281,6 @@
   -o-transition: all 0.5s ease-in-out 0s;
   transition: all 0.5s ease-in-out 0s;
 }
-
 .background-two .item .cl {
   clip: rect(0px, 156px, 156px, 78px);
 }
@@ -300,7 +292,6 @@
   position: relative;
   margin: 0 auto;
 }
-
 .background-two .item .ad1 i {
   top: 53px;
   height: 49px;
@@ -340,7 +331,6 @@
   top: 120px;
   width: 100%;
 }
-
 .background-three .container .title-en {
   width: 200px;
   background: url(../index_img/icon.png) no-repeat -275px -50px;
@@ -386,12 +376,14 @@
   background: url(../index_img/icon.png) no-repeat -350px -110px;
 }
 .background-four .container {
-  position: absolute;
+  position: relative;
   top: 100px;
   width: 100%;
+  text-align: center;
 }
 .background-four .container .title-en {
   width: 210px;
+  display: inline-block;
   background: url(../index_img/icon.png) no-repeat -270px 0px;
 }
 .background-four .container .title-zh {
@@ -400,57 +392,6 @@
   font-size: 20px;
   color: #000;
 }
-.background-four .container .examples {
-  margin: 30px auto;
-  width: 100%;
-  text-align: center;
-}
-.background-four .container .examples .example {
-  width: 300px;
-  margin: 0 10px;
-  display: inline-block;
-  border-bottom: 1px solid #1d70ed;
-  background: #ffffff;
-}
-.background-four .container .examples .example .imab {
-  height: 200px;
-  width: 200px;
-  margin-top: -200px;
-  background: blue;
-  transition: all 2s linear 0s;
-  -moz-transition: all 2s linear 0s;
-  /* Firefox 4 */
-  -webkit-transition: all 2s linear 0s;
-  /* Safari and Chrome */
-  -o-transition: all 2s linear 0s;
-  /* Opera */
-}
-.background-four .container .examples .example .imab:hover {
-  margin-top: 0;
-}
-.background-four .container .examples .example .infos {
-  -webkit-transform: translateY(100%);
-  -moz-transform: translateY(100%);
-  -ms-transform: translateY(100%);
-  -o-transform: translateY(100%);
-  transform: translateY(100%);
-}
-.background-four .container .examples .example img {
-  width: 300px;
-  height: 180px;
-}
-.background-four .container .examples .example .desp {
-  padding-left: 15px;
-  text-align: left;
-  color: #1d70ed;
-}
-.background-four .container .examples .example .desp span {
-  font-size: 12px;
-}
-.background-four .container .examples .example .desp p {
-  margin: 5px 0;
-  font-weight: 600;
-}
 .background-four .container .more {
   margin-top: 20px;
   width: 87%;
@@ -458,6 +399,103 @@
   font-size: 20px;
   font-weight: 600;
   text-align: right;
+}
+.background-four .examples {
+  margin: 30px auto;
+  width: 100%;
+  text-align: center;
+}
+.background-four .examples .example {
+  width: 300px;
+  margin: 0 10px;
+  overflow: hidden;
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px solid #1d70ed;
+  background: #ffffff;
+}
+.background-four .examples .example:hover .hover-top {
+  top: 0;
+}
+.background-four .examples .example:hover .hover-bottom {
+  bottom: 0;
+}
+.background-four .examples .example:hover .desp {
+  color: #fff;
+}
+.background-four .examples .example .infos {
+  -webkit-transform: translateY(100%);
+  -moz-transform: translateY(100%);
+  -ms-transform: translateY(100%);
+  -o-transform: translateY(100%);
+  transform: translateY(100%);
+}
+.background-four .examples .example img {
+  width: 300px;
+  height: 180px;
+}
+.background-four .examples .example .desp {
+  position: relative;
+  padding-left: 15px;
+  text-align: left;
+  color: #1d70ed;
+  z-index: 10;
+  transition: all 0.3s ease-in-out 0s;
+  -moz-transition: all 0.3s ease-in-out 0s;
+  /* Firefox 4 */
+  -webkit-transition: all 0.3s ease-in-out 0s;
+  /* Safari and Chrome */
+  -o-transition: all 0.3s ease-in-out 0s;
+  /* Opera */
+}
+.background-four .examples .example .desp span {
+  font-size: 12px;
+}
+.background-four .examples .example .desp p {
+  margin: 5px 0;
+  font-weight: 600;
+}
+.background-four .examples .hover-top {
+  height: 180px;
+  width: 300px;
+  position: absolute;
+  top: -180px;
+  background: Black;
+  -moz-opacity: 0.7;
+  opacity: 0.7;
+  filter: alpha(opacity=70);
+  transition: all 0.3s ease-in-out 0s;
+  -moz-transition: all 0.3s ease-in-out 0s;
+  /* Firefox 4 */
+  -webkit-transition: all 0.3s ease-in-out 0s;
+  /* Safari and Chrome */
+  -o-transition: all 0.3s ease-in-out 0s;
+  /* Opera */
+}
+.background-four .examples .hover-top u {
+  display: block;
+  width: 44px;
+  height: 44px;
+  margin: 0 auto;
+  margin-top: 60px;
+  background: url(../index_img/icons.png) no-repeat 0 -168px;
+}
+.background-four .examples .hover-bottom {
+  width: 300px;
+  height: 77px;
+  position: absolute;
+  bottom: -80px;
+  background: #2ED0B4;
+  -moz-opacity: 0.8;
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+  transition: all 0.3s ease-in-out 0s;
+  -moz-transition: all 0.3s ease-in-out 0s;
+  /* Firefox 4 */
+  -webkit-transition: all 0.3s ease-in-out 0s;
+  /* Safari and Chrome */
+  -o-transition: all 0.3s ease-in-out 0s;
+  /* Opera */
 }
 .background-five .container {
   position: absolute;
