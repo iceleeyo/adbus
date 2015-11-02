@@ -512,7 +512,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                   	<option value="fill">补刊</option>
                   	<option value="contin">续刊</option>
                   	</select>
-                  <span>下刊预留天数</span>&nbsp;&nbsp; <input id="fdays"  value="" onkeyup="value=value.replace(/[^\\d]/g,\'\')" style="width:125px">
+                  <span>下刊预留天数</span>&nbsp;&nbsp; <input id="fdays"  value="" onkeyup="value=value.replace(/[^\\d]/g,\'\')" style="width:75px">
                        &nbsp;&nbsp;<input type="button" class="button_kind" style="width: 85px;height: 30px;"
 			                value="验证提醒" onclick="checkSelect()"/> 
 			                <!--    <input type="button" class="button_kind" style="width: 85px;height: 30px;" value="库存检查" onclick="checkFree()"/>-->
