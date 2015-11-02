@@ -554,7 +554,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 <div class="withdraw-wrap color-white-bg fn-clear">
  <div class="withdraw-title">
              已上刊车辆历史变更信息
-                </div>
+                </div><br>
                 <table id="busUpHis" class="display nowrap" cellspacing="0">
                     <thead>
                     <tr>
