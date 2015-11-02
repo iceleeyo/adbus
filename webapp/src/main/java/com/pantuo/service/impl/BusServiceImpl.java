@@ -1631,6 +1631,7 @@ public class BusServiceImpl implements BusService {
 				if(busOnline!=null){
 					busOnline.setRealEndDate(offday1); 
 					busOnlineMapper.updateByPrimaryKeySelective(busOnline);
+					queryBusInfo.updateBusContractCache(busOnline.getBusid());
 				}
 			}
 		}
@@ -1721,6 +1722,7 @@ public class BusServiceImpl implements BusService {
 					busOnline.setUpdated(new Date());
 					busOnline.setEditor(Request.getUserId(principal));
 					busOnlineMapper.updateByPrimaryKeySelective(busOnline);
+					queryBusInfo.updateBusContractCache(busOnline.getBusid());
 				}
 			}
 		}

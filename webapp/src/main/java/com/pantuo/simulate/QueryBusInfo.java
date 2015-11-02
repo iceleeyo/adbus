@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.pantuo.dao.BusRepository;
+import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.mybatis.domain.Bodycontract;
 import com.pantuo.mybatis.domain.BusContract;
 import com.pantuo.mybatis.domain.BusContractExample;
@@ -50,6 +52,12 @@ public class QueryBusInfo implements Runnable, ScheduleStatsInter {
 	BusOnlineMapper busOnlineMapper;
 	@Autowired
 	BodycontractMapper bodycontractMapper;
+	
+	@Autowired
+	BodyUseMonitor bodyUseMonitor;
+	
+	@Autowired
+	BusRepository busRepository;
 
 	//@Scheduled(fixedRate = 5000)
 	@Scheduled(cron = "0/50 * * * * ?")
@@ -119,6 +127,11 @@ public class QueryBusInfo implements Runnable, ScheduleStatsInter {
 				updateBusContractCache(today, busOnline);
 			}
 		}
+		JpaBus _bus = busRepository.findOne(busId);
+		if (_bus != null) {
+			bodyUseMonitor.updateLineCount(_bus.getLine().getId());
+		}
+		
 	}
 
 	private void updateBusContractCache(Date today, BusOnline busOnline) {
