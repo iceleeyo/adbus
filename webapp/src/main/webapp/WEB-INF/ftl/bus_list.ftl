@@ -230,7 +230,7 @@ function ishaveline(linename){
 								</div>
 							</div>
 							 <div class="sift-item s-clear">
-								<span>状态：</span>
+								<span>车辆状态：</span>
 								<div class="sift-list" qt="stats">
 									<a class="item " href="#" sort="-1" qc="all">所有</a>
 									<a class="item active" href="#"  qc="1" >正常车辆<i >×</i></a>
