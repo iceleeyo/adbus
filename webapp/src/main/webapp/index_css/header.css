@@ -3,7 +3,7 @@ header {
   height: 50px;
   color: #fff;
   z-index: 999;
-  background: #090e0d;
+  background: #393D46;
 }
 header .logo {
   float: left;
@@ -15,8 +15,8 @@ header .logo {
   background-position: 0 50%;
 }
 header .menu {
-  margin-top: 0px;
-  margin-left: 1%;
+  margin-top: 0;
+  margin-left: 0;
 }
 header .menu .list-line {
   margin: 0 auto;
