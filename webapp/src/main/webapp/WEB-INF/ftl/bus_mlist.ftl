@@ -295,7 +295,7 @@ function ishaveline(linename){
                <span >    &nbsp;&nbsp   &nbsp;&nbsp   
                <a style="margin-right:25px" class="block-btn" onclick="addBusBatch('${rc.contextPath}');" href="javascript:void(0);">批量修改车辆</a><span>
 					</div>
-					<div class="container-12 s-clear" width="100%">
+					<div class="container-12 s-clear" style="width:100%;">
 						<div class="sift-box">
 						   <div class="sift-item s-clear">
 								<span>线路级别：</span>
