@@ -131,24 +131,24 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>车辆自编号：</span>' +
+                        '    <span>车辆自编号</span>' +
                         '    <span>' +
                         '        <input id="serinum" value="">' +
                         '    </span>&nbsp;&nbsp;' +
-                        '    <span>旧自编号：</span>' +
+                        '    <span>旧自编号</span>' +
                         '    <span>' +
                         '        <input id="oldserinum" value="">' +
                         '    </span>&nbsp;&nbsp;' +
-                        '    <span>车牌号：</span>' +
+                        '    <span>车牌号</span>' +
                         '    <span>' +
                         '        <input id="name" value="">' +
                         '    </span>&nbsp;&nbsp;' +
-                        '    <span>线路：</span>' +
+                        '    <span>线路</span>' +
                         '    <span>' +
                         '        <input id="linename" value="">' +
                         '    </span>&nbsp;&nbsp;' +
                   	'<span>&nbsp;&nbsp;<a class="block-btn" id="export_xls" href="javascript:void(0);">导出查询数据</a>'+
-                  	   '&nbsp;&nbsp;&nbsp;&nbsp; <br> <span>线路调整：</span>  <span>' +
+                  	   '&nbsp;&nbsp;&nbsp;&nbsp; <br> <span>线路调整</span>  <span>' +
                         '        <input id="newLine" value="">' +
                         '    </span>&nbsp;&nbsp;' +
                         '&nbsp;&nbsp;<a class="block-btn" id="change_line" href="javascript:void(0);">车辆调车</a>'+
