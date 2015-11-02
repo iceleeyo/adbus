@@ -473,7 +473,7 @@
 	                                     <#if city.mediaType == 'body'>
 	                                       <@security.authorize ifAnyGranted="bodyScheduleManager,bodysales,bodyContractManager,contract_input,contract_list,contract_search,contract_buy,meijie_order,meijie_error,meijie_offline,meijie_bus,meijie_busChange,meijie_busModel,meijie_company"> 
 	                                    <li class="pg-side-item">
-	                                        <a class="pg-side-item ee-icon">
+	                                        <a class="pg-side-item-t ee-icon">
 	                                            <i class="s-left pg-icon-a e-icon"></i>
 	                                            媒体推荐
 	                                        </a>
@@ -559,7 +559,7 @@
                                             </li>
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/report/public/publishCountM">
-                                                   月发布汇总
+                                                   月发布统计
                                                 </a>
                                             </li>
                                             <li class="pg-side-exp-item">
