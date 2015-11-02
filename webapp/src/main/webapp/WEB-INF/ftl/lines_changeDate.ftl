@@ -146,7 +146,13 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
     }
     $(document).ready(function() {
         initTable();
-   
+       $("#checkAll").click(function(){
+         if($(this).attr("checked")=="checked"){
+            $("input[name='checkone']:checkbox").attr("checked",true);
+         }else{
+            $("input[name='checkone']:checkbox").attr("checked",false);
+         }
+       });
     } );
     function changeDate(){
        var sday=$("#sday").val();
@@ -225,7 +231,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>
                     <tr>
-                     <th > <input type="checkbox" name="checkAll" /></th>
+                     <th > <input type="checkbox" name="checkAll" id="checkAll" /></th>
                         <th>合同编号</th>
                         <th >车牌号</th>
                         <th >新车号</th>
