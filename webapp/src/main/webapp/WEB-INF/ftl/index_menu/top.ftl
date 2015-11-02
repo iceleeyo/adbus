@@ -59,7 +59,7 @@
 						<li><a href="${rc.contextPath}/partner">合作伙伴</a></li>
 						<li><a href="${rc.contextPath}/aboutme">关于我们</a></li>
 					</ul>
-					<div class="s-right s-clear" style="padding-top:13px;">
+					<div class="s-right s-clear">
 					
 								<span class="pg-nav-item s-left" >您好，</span>
 									<span>
