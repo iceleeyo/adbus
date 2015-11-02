@@ -491,8 +491,10 @@ public class DataInitializationService {
 					//#城市,线路名称,级别,新车号,旧车号,车型,合同编号,上刊内容,实际上刊时间,预计下刊时间,
 					// 刊期,类别,车辆状态,营销中心,车牌号,车辆描述,公司名称,分公司名称,客户名称
 					JpaBusline.Level level = JpaBusline.Level.fromNameStr(b[2]);
-					if (level == null)
-						throw new Exception("No busline level found for " + b[2]);
+					if (level == null){
+						level=  JpaBusline.Level.LATLONG;
+					}
+						//throw new Exception("No busline level found for " + b[2]);
 
 					
 

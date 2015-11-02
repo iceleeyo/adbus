@@ -467,6 +467,7 @@ public class BusServiceImpl implements BusService {
 		if (!isNormalQuery) {
 			BooleanExpression contractQuery = QJpaBusOnline.jpaBusOnline.city.eq(city);
 			contractQuery = contractQuery.and(QJpaBusOnline.jpaBusOnline.offlineContract.id.eq(_contractid));
+			contractQuery =contractQuery.and(QJpaBusOnline.jpaBusOnline.enable.eq(true));
 			contractQuery = contractQuery.and(query);
 			Page<JpaBusOnline> r = busOnlineRepository.findAll(contractQuery, p);
 
@@ -1069,6 +1070,7 @@ public class BusServiceImpl implements BusService {
 		dateCheckExample.createCriteria().andBusidEqualTo(busId).andEnableEqualTo(true);
 		;
 		List<BusOnline> onlineList = busOnlineMapper.selectByExample(dateCheckExample);
+		Date now =new Date();
 		for (BusOnline busOnline : onlineList) {
 			boolean isDup = false;//上刊重复标记
 
@@ -1085,10 +1087,13 @@ public class BusServiceImpl implements BusService {
 			if (startDate.before(busOnline.getStartDate()) && endDate.after(busOnline.getEndDate())) {
 				isDup = true;
 			}
+			if(busOnline.getRealEndDate() != null && busOnline.getRealEndDate().before(now)){
+				isDup=false;
+			}
 			if (isDup) {
 				JpaBus bus = findById(busId);
 				r = new Pair<Boolean, String>(false, bus == null ? "数据异常# 车辆未找到 编号:" + bus : "上刊冲突<br>[自编号为 "
-						+ bus.getSerialNumber() + " 上刊时段内已有其他合同上刊!]");
+						+ bus.getSerialNumber() + " 上刊时段内已有其他合同上刊,请先进行上刊处理!]");
 				break;
 			}
 		}

@@ -247,6 +247,10 @@ public class QueryBusInfo implements Runnable, ScheduleStatsInter {
 			Date now = new Date();
 			boolean isFree=true;
 			for (BusOnline busOnline : list) {
+				if (busOnline.getRealEndDate() != null && busOnline.getRealEndDate().before(now)) {
+					continue;
+				}
+				
 				if (busOnline.getStartDate().before(now) && busOnline.getEndDate().after(now)) {
 					countTools.ascOnline();
 					isFree=false;
@@ -282,21 +286,26 @@ public class QueryBusInfo implements Runnable, ScheduleStatsInter {
 			Date now = new Date();
 			boolean isFree = true;
 			for (BusOnline busOnline : list) {
-				if (busOnline.getStartDate().before(now) && busOnline.getEndDate().after(now)) {
-					isFree = false;
-					r = Qstats.online;
-					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM");
-					if (StringUtils.equals(nextMonthParams, df.format(busOnline.getEndDate()))) {
-						r = Qstats.nextMonthOver;
-					}
-					break;
-				}
-				if (busOnline.getEndDate().before(now)) {
-					if (busOnline.getRealEndDate() == null) {
+				if (busOnline.getRealEndDate() != null && busOnline.getRealEndDate().before(now)) {
+					continue;
+				} else {
+					if (busOnline.getStartDate().before(now) && busOnline.getEndDate().after(now)) {
 						isFree = false;
-						r = Qstats.notDown;
+						r = Qstats.online;
+						SimpleDateFormat df = new SimpleDateFormat("yyyy-MM");
+						if (StringUtils.equals(nextMonthParams, df.format(busOnline.getEndDate()))) {
+							r = Qstats.nextMonthOver;
+						}
 						break;
 					}
+					if (busOnline.getEndDate().before(now)) {
+						if (busOnline.getRealEndDate() == null) {
+							isFree = false;
+							r = Qstats.notDown;
+							break;
+						}
+					}
+
 				}
 			}
 			if (isFree) {
