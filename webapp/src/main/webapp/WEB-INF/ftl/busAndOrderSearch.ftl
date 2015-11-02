@@ -301,17 +301,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 { "data": "offlineContract.contractCode", "defaultContent": ""},
                 { "data": "line.name", "defaultContent": ""},
                 { "data": "offlineContract.adcontent", "defaultContent": ""},
-                { "data": "model", "defaultContent": "" , "render": function(data) {
-               			 if(data.id ==0){
-                                return "所有车型"
-                            }else if(data.doubleDecker==false){
-                              return data.name+ ' 单层';
-                            }else{
-                               return data.name+ '双层';
-                                 }
-                                 
-                  }               
-                },
+                { "data": "mediaType", "defaultContent": ""},
                 { "data": "lineDesc", "defaultContent": ""},
                 { "data": "salesNumber", "defaultContent": ""},
                 { "data": "remainNuber", "defaultContent": ""},
@@ -393,8 +383,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                         <th >合同编号</th>
                         <th >线路</th>
                         <th>广告内容</th>
-                        <th>车型</th>
-                        <th>车型描述</th>
+                        <th>媒体类型</th>
+					    <th>发布形式</th>
                         <th>订购数量</th>
                         <th>已上刊数量</th>
                         <th>在刊率</th>

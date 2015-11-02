@@ -56,19 +56,12 @@ css=["js/jquery-ui/jquery-ui.css"]>
 								 "dataSrc": function(json) {return json;},
 							},
 							"columns" : [
-							{ "data": "model", "defaultContent": "", "render": function(data) {
-                           if(data.id ==0){
-                                return "所有车型"
-                            }else if(data.doubleDecker==false){
-                              return '单层';
-                            }else{
-                               return '双层';
-                                 }
-                               }},
 			    { "data": "line.name", "defaultContent": "", "render": function(data, type, row, meta) {
                       return '<a   onclick=" gotoSchedult(' + row.line.id +","+(row.model.id )+ ')" >'+data+'</a> &nbsp;';
                 }},
                 { "data": "line.levelStr", "defaultContent": ""}, 
+                { "data": "mediaType", "defaultContent": ""},
+                { "data": "lineDesc", "defaultContent": ""},
                 	{ "data": "batch", "defaultContent": ""}, 
                 { "data": "salesNumber", "defaultContent": ""}, 
                  { "data": "remainNuber", "defaultContent": "","render": function(data, type, row, meta) {
@@ -470,10 +463,11 @@ css=["js/jquery-ui/jquery-ui.css"]>
 					cellspacing="0" width="100%">
 					<thead>
 				<tr class="tableTr">
-					<th>发布形式</th>
 					<th>线路</th>
 					<th>级别</th>
-					   <th>批次</th>
+					<th>媒体类型</th>
+					<th>发布形式</th>
+					<th>批次</th>
                     <th>数量（辆）</th>
                     <th>已装数量</th>
                     <th>刊期(天)</th>
