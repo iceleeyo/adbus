@@ -106,15 +106,15 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
                 '<div>' +
                         '    <span>车辆自编号</span>' +
                         '    <span>' +
-                        '        <input id="serinum" value="" placeholder="可以输入多个，用逗号分隔。" style="width:360px;">' +
+                        '        <input id="serinum" value="" placeholder="可以输入多个，用逗号分隔。" style="width:300px;">' +
                         '    </span>&nbsp;&nbsp;' +
                         '    <span>旧自编号</span>' +
                         '    <span>' +
-                        '        <input id="oldserinum" value="">' +
+                        '        <input id="oldserinum" value="" placeholder="可以输入多个，用逗号分隔。" style="width:300px;">' +
                         '    </span>&nbsp;&nbsp;' +
                         '    <span>车牌号</span>' +
                         '    <span>' +
-                        '        <input id="name" value="">' +
+                        '        <input id="name" value="" placeholder="可以输入多个，用逗号分隔。" style="width:300px;">' +
                         '    </span>&nbsp;&nbsp;' +
                         '    <span>线路</span>' +
                         '    <span>' +
