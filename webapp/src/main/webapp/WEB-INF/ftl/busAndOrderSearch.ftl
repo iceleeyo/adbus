@@ -73,10 +73,10 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 	return d;
                 }},
                   { "data": "", "defaultContent": ""},
-                    { "data": "", "defaultContent": ""},
+                    { "data": "busInfo.busOnline.days", "defaultContent": ""},
                
                    { "data": "jpaBus.categoryStr", "defaultContent": ""},
-                     { "data": "", "defaultContent": ""},
+                     { "data": "busInfo._adtype", "defaultContent": ""},
                        { "data": "ishaveAd","defaultContent": "", "render": function(data) {
                     switch(data) {
                         case true:
@@ -90,7 +90,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                   { "data": "jpaBus.plateNumber", "defaultContent": ""},
                      { "data": "jpaBus.office", "defaultContent": ""},
                       { "data": "jpaBus.branch", "defaultContent": ""},
-                        { "data": "", "defaultContent": ""},
+                        { "data": "busInfo._sktype", "defaultContent": ""},
                          { "data": "busInfo.offlinecontract.adcontent", "defaultContent": ""},
             ],
             "language": {
@@ -231,6 +231,22 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
        				 $(this).autocomplete("search");
    	 	});
    	 	
+   	 	
+   	 	 $('#linename').change(function() {
+	        if($('#linename').val()==""){
+	            $('#linename').val("");
+	            table.draw();
+	        }
+        });
+        
+        
+        
+   	 	 $('#contractid').change(function() {
+	        if($('#contractid').val()==""){
+	            $('#cid').val("");
+	            table.draw();
+	        }
+        });
    	 	 $("#contractid").autocomplete({
 		    minLength: 0,
 			source : "${rc.contextPath}/busselect/contractAutoComplete?tag=a",

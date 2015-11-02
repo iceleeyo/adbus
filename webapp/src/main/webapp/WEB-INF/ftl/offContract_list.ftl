@@ -106,7 +106,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                     <thead>
                     <tr>
                         <th >营销中心</th>
-                        <th >签订日期</th>
+                        <th orderBy="created">签订日期</th>
                         <th >合同编号</th>
                         <th >客户名称</th>
                         <th >业务员</th>

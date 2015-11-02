@@ -36,7 +36,9 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 data: function(d) {
                     return $.extend( {}, d, {
                         "filter[serinum]" : $('#serinum').val(),
-                        "filter[pname]" : $('#pname').val()
+                        "filter[pname]" : $('#pname').val(),
+                        "filter[companyId]" : $('#companyId').val()
+                        
                     } );
                 },
                 "dataSrc": "content",
@@ -126,14 +128,31 @@ css=["js/jquery-ui/jquery-ui.css"]>
                         '    <span>' +
                         '        <input id="serinum" value="">' +
                         '    </span>&nbsp;&nbsp;' +
-                        '    <span>车牌号：</span>' +
-                        '    <span>' +
-                        '        <input id="pname" value="">' +
-                        '    </span>&nbsp;&nbsp;' + '</div>');
+                        '     &nbsp;&nbsp;'+ 
+                           '    <span>原营销中心：</span>' +
+                         '<select class="ui-input ui-input-mini" name="companyId" id="companyId">' +
+                   		'<option value="-1" selected="selected">所有</option>' +
+         				'</select>' +
+         				
+                        '</div>');
                         
-        $('#serinum,#pname').change(function() {
+                        $.ajax({
+				url :   "/bus/findAllCompany",
+				type : "GET",
+				success : function(data) {
+					$.each(data, function(i, item) {
+							$("#companyId").append(
+									$("<option value="+item.id+">" + item.name
+											+ "</option>"));
+					});
+				}}, "text");
+                        
+        $('#serinum,#pname,#companyId').change(function() {
             table.fnDraw();
         });
+        
+        
+        
     }
 
     function drawCallback() {

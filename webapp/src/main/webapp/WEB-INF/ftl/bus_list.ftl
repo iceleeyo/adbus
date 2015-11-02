@@ -23,7 +23,7 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
         table = $('#table').dataTable( {
             "dom": '<"#toolbar">lrtip',
             "searching": false,
-            "ordering": true,
+            "ordering": false,
             "serverSide": true,
             "scrollX": true,
             "columnDefs": [
