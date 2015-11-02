@@ -63,12 +63,12 @@ div#toolbar2 input {
 }
 div#table_length {
 	float: right;
-	padding: 15px 0 10px;
+	padding: 10px 0 10px;
 }
 
 div#table2_length {
 	float: right;
-	padding: 15px 0 10px;
+	padding: 10px 0 10px;
 }
 
 table.dataTable td,table.dataTable th {
