@@ -16,10 +16,10 @@ header .logo {
 }
 header .menu {
   margin-top: 0;
-  margin-left: 0;
+  margin-left: 0px;
 }
 header .menu .list-line {
-  margin: 0 auto;
+  margin-left: 20px;
 }
 header .menu ul {
   padding-left: 0;
