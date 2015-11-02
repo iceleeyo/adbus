@@ -111,7 +111,7 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
                         '    <span>旧自编号</span>' +
                         '    <span>' +
                         '        <input id="oldserinum" value="" placeholder="可以输入多个，用逗号分隔。" style="width:300px;">' +
-                        '    </span>&nbsp;&nbsp;' +
+                        '    </span>&nbsp;&nbsp;<br>' +
                         '    <span>车牌号</span>' +
                         '    <span>' +
                         '        <input id="name" value="" placeholder="可以输入多个，用逗号分隔。" style="width:300px;">' +
