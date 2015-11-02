@@ -17,7 +17,8 @@ public class JpaBusline extends CityEntity{
         S ("特级"),
         APP ("A++"),
         AP ("A+"),
-        A ("A");
+        A ("A"),
+        LATLONG("未归类");
 
         private static Map<String, Level> nameStrMap = new HashMap<String, Level>();
         static {
