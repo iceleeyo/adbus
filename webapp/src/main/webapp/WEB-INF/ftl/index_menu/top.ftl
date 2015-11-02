@@ -49,7 +49,7 @@
 </script>
 <style type="text/css">
 </style>		
-				<div ><img alt="" src="${rc.contextPath}/index_img/logob.png" /></div>
+				<div class="logo2"></div>
 				<nav class="menu">
 					<ul class="list-line">
 						<li><a href="/">首页</a></li>
