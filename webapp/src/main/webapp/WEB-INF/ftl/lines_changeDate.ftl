@@ -220,7 +220,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
             <span> <input type="text" name="days" id="days" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </span>&nbsp;&nbsp; 
 	     	<span style="margin-left: 5px;">预计下刊日期：</span>
             <span> <input  class="datepicker" type="text" name="eday" id="eday" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </span>&nbsp;&nbsp; 
-           <input type="button" class="button_kind" style="width: 85px;height: 30px;" value="调刊" onclick="changeDate()"/>
+           <input type="button" class="button_kind" style="width: 85px;height: 40px;font-size:16px;" value="调刊" onclick="changeDate()"/>
             </div>    
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>
