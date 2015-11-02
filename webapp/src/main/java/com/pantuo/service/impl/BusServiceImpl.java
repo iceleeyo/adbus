@@ -50,7 +50,6 @@ import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.dao.AdJustLogRepository;
-import com.pantuo.dao.BusContractRepository;
 import com.pantuo.dao.BusModelRepository;
 import com.pantuo.dao.BusOnlineRepository;
 import com.pantuo.dao.BusRepository;
@@ -127,8 +126,6 @@ public class BusServiceImpl implements BusService {
 	private static Logger log = LoggerFactory.getLogger(BusServiceImpl.class);
 	@Autowired
 	BusRepository busRepo;
-	@Autowired
-	BusContractRepository busContractRepository;
 	
 	@Autowired
 	BusOnlineRepository busOnlineRepository;
