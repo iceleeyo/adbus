@@ -459,7 +459,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
 <div class="withdraw-title">
-               上刊发布
+               已上刊发布信息
 									</div>
   			 <div id="orderedBuses">
 				<table id="lineTable" class="display compact"
@@ -483,6 +483,9 @@ css=["js/jquery-ui/jquery-ui.css"]>
 <div class="withdraw-wrap color-white-bg fn-clear">
 
 			<!--over-->
+			<div class="withdraw-title">
+               上刊发布
+									</div>
             <div  >
                  <div >
                  <input type="hidden" id ="plid" value="${plid}"/>
