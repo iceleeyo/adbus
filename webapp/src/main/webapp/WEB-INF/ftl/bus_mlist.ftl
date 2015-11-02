@@ -90,11 +90,11 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
                     "render": function(data, type, row, meta) {
                          var operations ='';
                          if(row.jpaBus.enabled==true){
-                         operations += '<a  onclick="showBusDetail(\'${rc.contextPath}\',\'${rc.contextPath}/bus/ajaxdetail/\','+data+');"  >编辑</a>';
-                         operations += '&nbsp;&nbsp;<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/busselect/ajax-remove-bus/0?id=' + data +'">删除</a>'
-                        operations+='&nbsp;&nbsp;<a  onclick="showbusUpdate_history(\'${rc.contextPath}\','+row.jpaBus.id+');">查看变更历史</a>'
+                         operations += '<a  onclick="showBusDetail(\'${rc.contextPath}\',\'${rc.contextPath}/bus/ajaxdetail/\','+data+');"  ><font color="green"><B>编辑</B></font></a>';
+                         operations += '&nbsp;&nbsp;<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/busselect/ajax-remove-bus/0?id=' + data +'"><font color="green"><B>删除</B></font></a>'
+                        operations+='&nbsp;&nbsp;<a  onclick="showbusUpdate_history(\'${rc.contextPath}\','+row.jpaBus.id+');"><font color="green"><B>查看变更历史</B></font></a>'
                        	}else {
-                       		 operations += '&nbsp;&nbsp;<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/busselect/ajax-remove-bus/1?id=' + data +'">恢复</a>';
+                       		 operations += '&nbsp;&nbsp;<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/busselect/ajax-remove-bus/1?id=' + data +'"><font color="green"><B>恢复</B></font></a>';
                        	}
                         return operations;
                     }
