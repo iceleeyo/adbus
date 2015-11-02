@@ -123,8 +123,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
          			'</select>' +
          			 '    <span>过滤零装车：</span>'+ 
          			'<input type="checkbox" name="box1" id="box1" value="1"  />'+
-                  	'</div>'+
-                    '<br>'
+                  	'</div>'
         );
  
         $('#contractCode,#sktype,#becompany,#adcontent').change(function() {
