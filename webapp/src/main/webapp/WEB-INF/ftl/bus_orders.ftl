@@ -180,7 +180,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title">
+            <div class="withdraw-title">上刊发布统计
 									</div>
 									<input type="hidden" id ="showAll" value ="0" >	
 									<input type="hidden" id="cid" />
