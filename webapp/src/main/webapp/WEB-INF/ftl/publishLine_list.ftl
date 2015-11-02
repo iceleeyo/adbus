@@ -71,8 +71,8 @@ css=["js/jquery-ui/jquery-ui.css","js/jquery-ui/jquery-ui.auto.complete.css","cs
                     return row.id;
                 },
                     "render": function(data, type, row, meta) {
-                    var operations ='<a class="table-link" onclick="editPublishLine(\'${rc.contextPath}\','+data+');" href="javascript:void(0)"><font color='green'><B>修改</B></font></a>';
-                    operations +='&nbsp;&nbsp;<a class="table-link" target="_blank" href="${rc.contextPath}/bus/findBusByLineid/'+data+'"><font color='green'><B>车辆上刊</B></font></a>';
+                    var operations ='<a class="table-link" onclick="editPublishLine(\'${rc.contextPath}\','+data+');" href="javascript:void(0)"><font color="green"><B>修改</B></font></a>';
+                    operations +='&nbsp;&nbsp;<a class="table-link" target="_blank" href="${rc.contextPath}/bus/findBusByLineid/'+data+'"><font color="green"><B>车辆上刊</B></font></a>';
                          return operations;
                     }}
             ],
