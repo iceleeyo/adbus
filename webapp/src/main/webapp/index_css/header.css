@@ -1,6 +1,6 @@
 header {
   position: fixed;
-  height: 45px;
+  height: 50px;
   color: #fff;
   z-index: 999;
   background: #090e0d;
@@ -16,7 +16,7 @@ header .logo {
 }
 header .menu {
   margin-top: 10px;
-  margin-left: 30%;
+  margin-left: 1%;
 }
 header .menu .list-line {
   margin: 0 auto;
