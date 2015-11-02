@@ -29,7 +29,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 		    			data:param,
 		    			success:function(data){
 		    				if (data != null) {
-		    				var t="线路车辆总数: <font color='red'>["+data.totalBus +"]</font>当日已上刊总数:<font color='red'>["+data.dayOnlieBus+"]</font>";
+		    				var t="线路车辆总数: <font color='red'>[&nbsp;&nbsp;"+data.totalBus +"&nbsp;&nbsp;]</font>当日已上刊总数:<font color='red'>[&nbsp;&nbsp;"+data.dayOnlieBus+"&nbsp;&nbsp;]</font>";
 		    					$("#trw").html(t);
 		    					$("#trw2").html(t);
 		    				}  
