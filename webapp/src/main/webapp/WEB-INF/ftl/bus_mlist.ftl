@@ -292,7 +292,9 @@ function ishaveline(linename){
              <input type="hidden" id="sh" value=""/>
                 车辆管理  <a class="block-btn" onclick="addBus('${rc.contextPath}');" href="javascript:void(0);">添加车辆</a>
                 
-               <span >    &nbsp;&nbsp   &nbsp;&nbsp   <a style="margin-right:25px" class="block-btn" onclick="addBusBatch('${rc.contextPath}');" href="javascript:void(0);">批量修改车辆</a><span>
+               <span >    &nbsp;&nbsp   &nbsp;&nbsp   
+               <a style="margin-right:25px" class="block-btn" onclick="addBusBatch('${rc.contextPath}');" href="javascript:void(0);">批量修改车辆</a><span>
+					</div>
 					<div class="container-12 s-clear" width="100%">
 						<div class="sift-box">
 						   <div class="sift-item s-clear">
@@ -340,7 +342,7 @@ function ishaveline(linename){
 									<a class="item active" href="#"  qc="1" >正常车辆<i >×</i></a>
 									<a class="item" href="#"  qc="2"> 回收站车辆<i>×</i></a>
 								</div>
-							</div>
+							
 				</div>					
 			</div>					
 									</div>		
