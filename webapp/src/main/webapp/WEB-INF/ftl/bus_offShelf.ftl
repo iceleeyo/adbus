@@ -129,17 +129,16 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 table.fnDraw(true);
             })
         });
-         $("#checkAll").click(function(){
-   				 if($(this).attr("checked") == "checked"){
-   				  $("input[name='checkone']").attr("checked",true);
-   				 }else{
-   				  $("input[name='checkone']").attr("checked",false);
-   				 }
-              });
     }
     $(document).ready(function() {
         initTable();
-       
+       $("#checkAll").click(function(){
+         if($(this).attr("checked")=="checked"){
+          $("input[name='checkone']:checkbox").attr("checked",true);
+         }else{
+          $("input[name='checkone']:checkbox").attr("checked",false);
+         }
+       });
     } );
     function batchOff(){
        var offday=$("#offday").val();
