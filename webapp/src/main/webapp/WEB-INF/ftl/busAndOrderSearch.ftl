@@ -208,7 +208,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                   	'<option value="yunyingche">运营车</option>' +
                   	'</select>'+
                   	'</div>'+
-                    '<br>'
+                    ''
         );
 
         $('#serinum,#oldserinum,#name,#linename,#category,#levelStr,#contractid').change(function() {
