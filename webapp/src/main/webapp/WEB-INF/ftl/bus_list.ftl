@@ -119,12 +119,10 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
                         '    <span>线路</span>' +
                         '    <span>' +
                         '        <input id="linename" value="">' +
-                        '    </span>&nbsp;&nbsp;<br><br>' +
+                        '    </span>&nbsp;&nbsp;' +
                   	'<span style="float:right;"><a class="block-btn" id="export_xls" href="javascript:void(0);">导出查询数据</a>'+
                  <!--   '<a class="block-btn" style="margin-left: 20px;" href="javascript:void(0);">导出所有</a></span>'+-->
-                  	'</div>'+
-                  	
-                    '<br>'
+                  	'</div>'
         );
 
         $('#serinum,#oldserinum,#name,#linename').change(function() {
