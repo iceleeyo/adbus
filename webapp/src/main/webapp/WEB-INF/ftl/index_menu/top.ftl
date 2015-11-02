@@ -51,9 +51,9 @@
 </style>		
 
 				<nav class="menu">
-				<img alt="" src="${rc.contextPath}/index_img/logob.png">首页</a>
+				<img alt="" src="${rc.contextPath}/index_img/logob.png">
 					<ul class="list-line">
-						<li><a href="/"></li>
+						<li><a href="/">首页</a></li>
 						<li class="active"><a href="${rc.contextPath}/media">媒体产品</a></li>
 						<li><a href="${rc.contextPath}/effect">传播效果</a></li>
 						<li><a href="/caseMore.html">案例欣赏</a></li>
