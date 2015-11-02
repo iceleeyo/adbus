@@ -187,7 +187,7 @@ function ishaveline(linename){
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title">车辆查询
+            <div class="withdraw-title">车辆查询</div>
              <input type="hidden" id="sh" value=""/>
               <div class="container-12 mt10 s-clear">
 						<div class="sift-box">
@@ -237,7 +237,7 @@ function ishaveline(linename){
 									<a class="item" href="#"  qc="2"> 回收站车辆<i>×</i></a>
 								</div>
 							</div>
-				</div>					
+									
 			</div>					
 	</div>					
                 <table id="table" class="display nowrap" cellspacing="0">
