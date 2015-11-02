@@ -148,7 +148,7 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
                         '        <input id="linename" value="">' +
                         '    </span>&nbsp;&nbsp;' +
                   	'<span>&nbsp;&nbsp;<a class="block-btn" id="export_xls" href="javascript:void(0);">导出查询数据</a>'+
-                  	   '&nbsp;&nbsp;&nbsp;&nbsp; <br> <span>线路调整</span>  <span>' +
+                  	   '&nbsp;&nbsp;&nbsp;&nbsp; <br><br> <span>线路调整</span>  <span>' +
                         '        <input id="newLine" value="">' +
                         '    </span>&nbsp;&nbsp;' +
                         '&nbsp;&nbsp;<a class="block-btn" id="change_line" href="javascript:void(0);">车辆调车</a>'+
