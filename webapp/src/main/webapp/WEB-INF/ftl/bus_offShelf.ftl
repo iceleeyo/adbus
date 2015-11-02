@@ -23,7 +23,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
         table = $('#table').dataTable( {
             "dom": '<"#toolbar">lrtip',
             "searching": false,
-            "ordering": true,
+            "ordering": false,
             "serverSide": true,
             "scrollX": true,
             "iDisplayLength" : 20,
@@ -129,11 +129,17 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 table.fnDraw(true);
             })
         });
-        
+         $("#checkAll").click(function(){
+   				 if($(this).attr("checked") == "checked"){
+   				  $("input[name='checkone']").attr("checked",true);
+   				 }else{
+   				  $("input[name='checkone']").attr("checked",false);
+   				 }
+              });
     }
     $(document).ready(function() {
         initTable();
-   
+       
     } );
     function batchOff(){
        var offday=$("#offday").val();
@@ -174,6 +180,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 		});		
     
         }
+         
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title">
@@ -187,7 +194,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>
                     <tr>
-                     <th > <input type="checkbox" name="checkAll" /></th>
+                     <th > <input type="checkbox" name="checkAll" id="checkAll" /></th>
                         <th>合同编号</th>
                         <th >车牌号</th>
                         <th >新车号</th>
