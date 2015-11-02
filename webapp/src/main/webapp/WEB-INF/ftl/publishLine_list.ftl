@@ -175,8 +175,8 @@ css=["js/jquery-ui/jquery-ui.css","js/jquery-ui/jquery-ui.auto.complete.css","cs
                         <th>广告内容</th>
                         <th>媒体类型</th>
                         <th>发布形式</th>
-                        <th>订购数量</th>
-                        <th>已上刊数量</th>
+                        <th>订购数</th>
+                        <th>已上刊数</th>
                         <th>在刊率</th>
                         <th>刊期</th>
                         <th>营销中心</th>
