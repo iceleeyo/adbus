@@ -124,7 +124,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
         $("div#toolbar").html(
                 '<div>' +
                 		
-                        '    <span>车辆自编号</span>' +'[历史<input type="checkbox" name="box1" id="box1" value="1"  />]：'+
+                        '    <span>车辆自编号</span>' +'[历史<input type="checkbox" style=" height: 15px;  width: 15px;" name="box1" id="box1" value="1"  />]：'+
                         '    <span>' +
                         '        <input id="serinum" value="">' +
                         '    </span>&nbsp;&nbsp;' +
@@ -151,9 +151,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 					'<option value="${c.id}">${c.name}</option>'+
 					    </#list>
          			'</select>' +
-                  	'</div>'+
-                  	
-                    '<br>'
+                  	'</div>'
         );
 	$("#box1").click(function(){  
 			 var w = $("#showAll").val();

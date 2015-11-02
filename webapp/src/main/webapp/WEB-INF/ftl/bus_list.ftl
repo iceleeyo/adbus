@@ -21,7 +21,7 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
     var table;
     function initTable () {
         table = $('#table').dataTable( {
-            "dom": '<"#toolbar">lrtip',
+            "dom": '<"#toolbar"><"top"il>rt<"bottom"p><"clear">',
             "searching": false,
             "ordering": false,
             "serverSide": true,
@@ -120,7 +120,7 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
                         '    <span>' +
                         '        <input id="linename" value="">' +
                         '    </span>&nbsp;&nbsp;' +
-                  	'<span style="float:right;"><a class="block-btn" id="export_xls" href="javascript:void(0);">导出查询数据</a>'+
+                  	'<span style="float:right;  margin-right: -20%;margin-top: -53px;"><a class="block-btn" id="export_xls" href="javascript:void(0);">导出查询数据</a>'+
                  <!--   '<a class="block-btn" style="margin-left: 20px;" href="javascript:void(0);">导出所有</a></span>'+-->
                   	'</div>'
         );
