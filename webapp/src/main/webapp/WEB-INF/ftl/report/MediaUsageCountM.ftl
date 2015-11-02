@@ -15,6 +15,7 @@
     text-align: center;
     line-height: 30px;
     }
+    th, td { white-space: nowrap;border: 1px solid #C5C5C5;}
 </style>
 <div class="withdraw-wrap color-white-bg fn-clear">
 				<div style="line-height: 30px; padding:15px;">
