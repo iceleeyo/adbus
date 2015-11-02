@@ -736,7 +736,7 @@ function addline(url) {
 				type : 1,
 				title : "添加线路",
 				skin : 'layui-layer-rim',
-				area : [ '550px', '600px' ],
+				area : [ '550px', '650px' ],
 				content : ''
 						+ '<form id="addLineform" action='+url+'/busselect/saveLine>'
 						+ '<div class="inputs" style="margin-top: 15px;margin-left: -30px;">'
