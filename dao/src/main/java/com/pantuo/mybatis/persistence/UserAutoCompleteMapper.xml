@@ -30,7 +30,7 @@
   </select>
 <select id="selectBusModelGroupView"   resultType="com.pantuo.vo.ModelCountView">
 select bus_model.name as modelName,count(*) as alrnum
-from bus_model,bus,bus_online where bus.id=bus_online.busid 
+from bus_model,bus,bus_online where bus.id=bus_online.busid and bus_online.enable=1
 and bus.model_id=bus_model.id and bus_online.publish_line_id in
      <foreach collection="pubidList" index="index" item="item" open="(" separator="," close=")"> 
             #{item} 
