@@ -69,6 +69,7 @@
 .sift-list .item.active {
 	background: #00bb89;
 	color: #fff;
+	padding: 0 6px;
 	line-height: 20px;
 	position: relative;
 	display: inline-block;
