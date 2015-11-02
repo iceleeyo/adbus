@@ -87,6 +87,11 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 	              		if(row.busInfo.stats == 'now' || row.busInfo.stats == 'future'){
 	              			tString = 	 '<a class="table-action" href="javascript:void(0);" onclick="check('+row.busInfo.busOnline.id+');" >撤销</a> &nbsp;'
 	              		}
+	              		if(typeof(row.busInfo.busOnline)!="undefined" ){
+	              		 if( $.format.date(row.busInfo.busOnline.realEndDate, "yyyy-MM-dd") <= $.format.date(new Date(), "yyyy-MM-dd")){
+                           tString ='';
+                         }
+                         }
 	                	return tString;
 	                }
                 }

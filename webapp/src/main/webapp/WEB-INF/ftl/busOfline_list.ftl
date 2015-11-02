@@ -194,6 +194,11 @@ css=["js/jquery-ui/jquery-ui.css"]>
 	              		if(row.busInfo.stats == 'now' || row.busInfo.stats == 'future'){
 	              			tString = 	 '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/bus/offlineContract/' + (row.busInfo.busOnline.id) +"/"+($("#plid").val())+ '">撤销</a> &nbsp;'
 	              		}
+	              		if(typeof(row.busInfo.busOnline)!="undefined" ){
+	              		 if( $.format.date(row.busInfo.busOnline.realEndDate, "yyyy-MM-dd") <= $.format.date(new Date(), "yyyy-MM-dd")){
+                           tString ='';
+                         }
+                         }
 	                	return tString;
 	                }
                 }
