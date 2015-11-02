@@ -475,7 +475,7 @@
 	                                    <li class="pg-side-item">
 	                                        <a class="pg-side-item-t ee-icon">
 	                                            <i class="s-left pg-icon-a e-icon"></i>
-	                                            媒体推荐
+	                                            媒介推荐
 	                                        </a>
 	                                        <ul class="pg-side-exp-list">
 	   										 <li class="pg-side-exp-item">
