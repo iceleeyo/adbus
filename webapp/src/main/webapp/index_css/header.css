@@ -15,11 +15,11 @@ header .logo {
   background-position: 0 50%;
 }
 header .menu {
-  margin-top: 0;
-  margin-left: 0px;
+  margin-top: 0px;
+  margin-left: 1%;
 }
 header .menu .list-line {
-  margin-left: 20px;
+  margin: 0 auto;
 }
 header .menu ul {
   padding-left: 0;
