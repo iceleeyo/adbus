@@ -291,8 +291,9 @@ function ishaveline(linename){
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title">
-             <input type="hidden" id="sh" value=""/>
-                车辆管理  <a class="block-btn" onclick="addBus('${rc.contextPath}');" href="javascript:void(0);">添加车辆</a>
+             
+                车辆管理 </div>
+                 <input type="hidden" id="sh" value=""/><a class="block-btn" onclick="addBus('${rc.contextPath}');" href="javascript:void(0);">添加车辆</a>
                 
                <span >    &nbsp;&nbsp   &nbsp;&nbsp   <a style="margin-right:25px" class="block-btn" onclick="addBusBatch('${rc.contextPath}');" href="javascript:void(0);">车辆批量修改</a><span>
 					<div class="container-12 mt10 s-clear">
