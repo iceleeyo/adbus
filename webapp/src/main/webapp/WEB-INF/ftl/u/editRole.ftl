@@ -6,6 +6,13 @@ function go_back(){
 	history.go(-1);
 }
 	$(document).ready(function() {
+	$("#checkAll").click(function(){
+         if($(this).attr("checked")=="checked"){
+            $("input[name='checkone']:checkbox").attr("checked",true);
+         }else{
+            $("input[name='checkone']:checkbox").attr("checked",false);
+         }
+       });
 					});
 
 	function sub(){
@@ -82,12 +89,51 @@ function go_back(){
 			</div>
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>权限:</label>
-				<#if functions?exists> 
+				<input type="checkbox"  id="checkAll"/>全选<br>
+	<#if functions?exists> 
+				<font color="red">  资源管理</font>&nbsp;<br>
 				  <#list functions as item>
-					<input type="checkbox" value="${item.id}" name="checkone" <#if
-				funcIDList?seq_contains(item.id)>checked </#if> />${item.name} <br>
+				   <#if item.funcode?index_of("res")!=-1>
+					<input type="checkbox" value="${item.id}" name="checkone" 
+				   <#if funcIDList?seq_contains(item.id)>checked </#if> />${item.name} <br>
+				   </#if>
 				 </#list>
-				 </#if>
+				 <br>
+				 <font color="red">  媒介管理 </font>&nbsp;<br>
+				  <#list functions as item>
+				   <#if item.funcode?index_of("meijie")!=-1>
+					<input type="checkbox" value="${item.id}" name="checkone" 
+				   <#if funcIDList?seq_contains(item.id)>checked </#if> />${item.name} <br>
+				   </#if>
+				 </#list>
+				 <br>
+				 
+				  <font color="red"> 合同管理 </font>&nbsp;<br>
+				  <#list functions as item>
+				   <#if item.funcode?index_of("contract")!=-1>
+					<input type="checkbox" value="${item.id}" name="checkone" 
+				   <#if funcIDList?seq_contains(item.id)>checked </#if> />${item.name} <br>
+				   </#if>
+				 </#list>
+				 
+				 <br>
+				 <font color="red">报表管理</font>&nbsp;<br>
+				  <#list functions as item>
+				   <#if item.funcode?index_of("report")!=-1>
+					<input type="checkbox" value="${item.id}" name="checkone" 
+				   <#if funcIDList?seq_contains(item.id)>checked </#if> />${item.name} <br>
+				   </#if>
+				 </#list>
+				 
+				  <br>
+				   <#list functions as item>
+				   <#if item.funcode?index_of("res")==-1 && item.funcode?index_of("meijie")==-1 && item.funcode?index_of("report")==-1 && item.funcode?index_of("contract")==-1>
+					<input type="checkbox" value="${item.id}" name="checkone" 
+				   <#if funcIDList?seq_contains(item.id)>checked </#if> />${item.name} <br>
+				   </#if>
+				 </#list>
+				 
+		 </#if>
 			</div>
 		</div>
 		<div class="ui-form-item widthdrawBtBox">

@@ -246,7 +246,7 @@
                                     </#if>
                                     
                                     
-                                    <#if city.mediaType == 'body'>
+                                  <#if city.mediaType == 'body'>
                                      <@security.authorize ifAnyGranted="bodyContractManager,sale_packageDesign,sale_packageList,sale_packageOrder">  
                                     <li class="pg-side-item">
                                         <a class="pg-side-item-t gg-icon">
@@ -280,21 +280,21 @@
                                     </@security.authorize>	
                                     
                                     
-                                     <@security.authorize ifAnyGranted="bodysales,bodyContractManager,contract_input,contract_list,contract_search,contract_buy">  
+                                     <@security.authorize ifAnyGranted="contract_input,contract_list,contract_buy">  
                                     <li class="pg-side-item">
                                         <a class="pg-side-item-t gg-icon">
                                             <i class="s-left pg-icon-a g-icon"></i>
                                             合同管理
                                         </a>
                                         <ul class="pg-side-exp-list">
-                             			<@security.authorize ifAnyGranted="bodyScheduleManager">  
+                             		  <#--<@security.authorize ifAnyGranted="bodyScheduleManager">  
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/busselect/public_bodyContracts">
 												    施工单列表
 												</a>
 											</li>
-									</@security.authorize>	
-									        <!--
+									        </@security.authorize>	
+									     
 										   <li class="pg-side-exp-item">
 												<a class="side-exp-item-t" target="_Blank" href="${rc.contextPath}/busselect/public_order">
 												    线路订购
@@ -320,15 +320,7 @@
 												    车身合同列表
 												</a>
 											</li>
-											
 											</@security.authorize>
-											<#--<@security.authorize ifAnyGranted="bodyContractManager,contract_search"> 
-											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t"  href="${rc.contextPath}/bus/contractSearch">
-												    订单及车辆查询
-												</a>
-											</li>
-											</@security.authorize>-->
 											<@security.authorize ifAnyGranted="bodyContractManager,contract_buy">
 											 <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/api/wantbuy">
@@ -340,25 +332,28 @@
                                     </li>
                                     </@security.authorize>	
                                     
-                                 <@security.authorize ifAnyGranted="meijie_order,meijie_error,meijie_offline,meijie_bus,meijie_busChange,meijie_busModel,meijie_company">     
+                                 <@security.authorize ifAnyGranted="meijie_online,meijie_onlinecount,meijie_change,meijie_offline,meijie_search,meijie_error,meijie_linecheck">     
                                  <li class="pg-side-item">
                                         <a class="pg-side-item-t gg-icon">
                                             <i class="s-left pg-icon-a g-icon"></i>
                                             媒介管理
                                         </a>
                                         <ul class="pg-side-exp-list">
-                                         <@security.authorize ifAnyGranted="meijie_order">
+                                         <@security.authorize ifAnyGranted="meijie_online">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t"  href="${rc.contextPath}/busselect/publishLine_list">
 												    上刊发布
 												</a>
 											</li>
-											    
+									     </@security.authorize>	
+									      <@security.authorize ifAnyGranted="meijie_onlinecount"> 
   											 <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/bus/orders">
                                                                                                                                        上刊发布统计
                                                 </a>
                                             </li>  
+                                            </@security.authorize>	
+                                             <@security.authorize ifAnyGranted="meijie_change">
                                              <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/api/use">
                                                    空媒体统计
@@ -369,73 +364,103 @@
                                                                                                                                          调刊补刊
                                                 </a>
                                             </li>
+                                            </@security.authorize>	
+                                            <@security.authorize ifAnyGranted="meijie_offline">
                                             <li class="pg-side-exp-item">
 												<a class="side-exp-item-t"  href="${rc.contextPath}/bus/bus_offShelf">
 												    车辆下刊
 												</a>
 											</li>
+											 </@security.authorize>	
+											 <@security.authorize ifAnyGranted="meijie_search">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t"  href="${rc.contextPath}/bus/busAndOrderSearch">
 												  车辆及订单查询
 												</a>
 											</li>
 											  </@security.authorize>
-											   <@security.authorize ifAnyGranted="meijie_error">	
+									      <@security.authorize ifAnyGranted="meijie_error">	
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t"  href="${rc.contextPath}/bus/mistake_handle">
 												    上下刊错误处理
 												</a>
 											</li>
-											 </@security.authorize>
-											   <@security.authorize ifAnyGranted="meijie_bus">	
-                                            <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/mlist">
-                                                    车辆管理
-                                                </a>
-                                            </li>
-                                            <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/list">
-                                                    车辆查询
-                                                </a>
-                                            </li>
-                                            
-                                             <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/adJustLog">
-                                                    调车统计
-                                                </a>
-                                            </li>
-                                             </@security.authorize>
-                                                <@security.authorize ifAnyGranted="meijie_busline">	
-                                            <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/linesManage">
-                                                    线路管理
-                                                </a>
-                                            </li>
+										 </@security.authorize>
+										   <@security.authorize ifAnyGranted="meijie_servicebus">	
+											   <li class="pg-side-exp-item">
+	                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/list_sales">
+	                                                                                                         业务车辆查询
+	                                                </a>
+	                                            </li>
+	                                             </@security.authorize>
+	                                               <@security.authorize ifAnyGranted="meijie_linecheck">
                                               <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/api/linesCheck">
                                                     线路核实
                                                 </a>
                                             </li>
                                              </@security.authorize>
-                                             
-											   <@security.authorize ifAnyGranted="meijie_busChange">	
-                                            <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/lineUpLog_list">
-                                                    线路变更历史
+                 
+                                        </ul>
+                                    </li>
+                                     </@security.authorize>	
+                                     	<@security.authorize ifAnyGranted="res_busmanage,res_busquery,res_linemanage,res_linequery,res_busChange,res_lineChange,res_buschangecount,res_model,res_company">
+                                        <li class="pg-side-item">
+	                                        <a class="pg-side-item-t ee-icon">
+	                                            <i class="s-left pg-icon-a e-icon"></i>
+	                                           资源管理
+	                                        </a>
+	                                        <ul class="pg-side-exp-list">
+	                                         <@security.authorize ifAnyGranted="res_busmanage">
+	                                         <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/mlist">
+                                                    车辆管理
                                                 </a>
                                             </li>
+                                             </@security.authorize>
+                                             <@security.authorize ifAnyGranted="res_busquery">
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/list">
+                                                    车辆查询
+                                                </a>
+                                            </li>
+                                             </@security.authorize>
+                                                <@security.authorize ifAnyGranted="res_linemanage">
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/linesManage">
+                                                    线路管理
+                                                </a>
+                                            </li>
+                                             </@security.authorize>
+                                               <@security.authorize ifAnyGranted="res_linequery">
+                                              <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/lines">
+                                                    线路查询
+                                                </a>
+                                            </li>
+                                             </@security.authorize>
+                                            <@security.authorize ifAnyGranted="res_buschangecount"> 
+                                             <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/adJustLog">
+                                                    调车统计
+                                                </a>
+                                            </li>
+                                             </@security.authorize>
+                                             <@security.authorize ifAnyGranted="res_busChange">
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/bus/busUpLog_list">
                                                     车辆变更历史
                                                 </a>
                                             </li>
-                                         <#--   <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/busUpdate_query">
-                                                    车辆变更查询
-                                                </a>
-                                            </li>-->
                                              </@security.authorize>
-											   <@security.authorize ifAnyGranted="meijie_busModel">	
+                                              <@security.authorize ifAnyGranted="res_lineChange">
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/lineUpLog_list">
+                                                    线路变更历史
+                                                </a>
+                                            </li>
+                                             </@security.authorize>
+											   <@security.authorize ifAnyGranted="res_model">	
                                           
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/bus/models">
@@ -443,81 +468,102 @@
                                                 </a>
                                             </li>
                                              </@security.authorize>
-											   <@security.authorize ifAnyGranted="meijie_company">	
-                                          
+											   <@security.authorize ifAnyGranted="res_company">	
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/bus/companies">
                                                     营销中心
                                                 </a>
                                             </li>
                                                 </@security.authorize>
-                                        </ul>
-                                    </li>
-                                     </@security.authorize>	
-                                     	<@security.authorize ifNotGranted="UserManager,sys_userList,sys_roleManager">
-                                        <li class="pg-side-item">
-	                                        <a class="pg-side-item-t ee-icon">
-	                                            <i class="s-left pg-icon-a e-icon"></i>
-	                                           业务车辆查询
-	                                        </a>
-	                                         
-	                                        <ul class="pg-side-exp-list">
-	
-	                                            <li class="pg-side-exp-item">
-	                                                <a class="side-exp-item-t" href="${rc.contextPath}/bus/list_sales">
-	                                                  业务车辆查询
-	                                                </a>
-	                                            </li>
 	                                        </ul>
 	                                    </li>
                                      </@security.authorize>	
                                     
                                      
-	                                     <#if city.mediaType == 'body'>
-	                                       <@security.authorize ifAnyGranted="bodyScheduleManager,bodysales,bodyContractManager,contract_input,contract_list,contract_search,contract_buy,meijie_order,meijie_error,meijie_offline,meijie_bus,meijie_busChange,meijie_busModel,meijie_company"> 
+	                                       <@security.authorize ifAnyGranted="landmatch,trackmatch,relatemedia"> 
 	                                    <li class="pg-side-item">
 	                                        <a class="pg-side-item-t ee-icon">
 	                                            <i class="s-left pg-icon-a e-icon"></i>
 	                                            媒介推荐
 	                                        </a>
 	                                        <ul class="pg-side-exp-list">
-	   										 <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/lines">
-                                                    线路查询
-                                                </a>
-                                            </li>
+	   										  <@security.authorize ifAnyGranted="landmatch">	
 	                                            <li class="pg-side-exp-item">
 	                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/landmarkM_lines">
 	                                                   地标匹配
 	                                                </a>
 	                                            </li>
-	                                            
+	                                             </@security.authorize>	
+	                                             <@security.authorize ifAnyGranted="trackmatch">	 
 	                                            <li class="pg-side-exp-item">
 	                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/trackM_lines">
 	                                                   轨迹匹配
 	                                                </a>
 	                                            </li>
-	                                            
+	                                             </@security.authorize>	
+	                                             <@security.authorize ifAnyGranted="relatemedia">	 
 	                                            <li class="pg-side-exp-item">
 	                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/media_lines">
 	                                                   相关媒体
 	                                                </a>
 	                                            </li>
+	                                             </@security.authorize>	
 	                                        </ul>
 	                                    </li>
 	                                     </@security.authorize>	
-	                                     </#if>
-	                                     
+	                             <@security.authorize ifAnyGranted="report_airmedia,report_monthcount,report_meusersumary,report_yearsalecount,report_line">  
+                                    <li class="pg-side-item">
+                                        <a class="pg-side-item-t gg-icon">
+                                            <i class="s-left pg-icon-a g-icon"></i>
+                                                                                                            车身报表管理
+                                        </a>
+                                        <ul class="pg-side-exp-list">
+                                         <@security.authorize ifAnyGranted="report_airmedia">	
+                                           <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/use">
+                                                   空媒体统计
+                                                </a>
+                                            </li>
+                                            </@security.authorize>
+                                             <@security.authorize ifAnyGranted="report_monthcount">	
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/public/publishCountM">
+                                                   月发布统计
+                                                </a>
+                                            </li>
+                                            </@security.authorize>
+                                             <@security.authorize ifAnyGranted="report_meusersumary">	
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/public/MediaUsageCountM">
+                                                   媒体使用汇总
+                                                </a>
+                                            </li>
+                                            </@security.authorize>
+                                         <@security.authorize ifAnyGranted="report_yearsalecount">  
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/body/monthp">
+                                                    年售出情况
+                                                </a>
+                                            </li>
+                                            </@security.authorize>
+                                             <@security.authorize ifAnyGranted="report_line">
+                                            <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/body/daylinep">
+                                                    线路细分
+                                                </a>
+                                            </li>
+                                            </@security.authorize>
+                                        </ul>
+                                    </li>
+                                     </@security.authorize>    
                                     </#if>
                                     
-                                    
-                                    
-                                    <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,contract_input,contract_list,contract_search,contract_buy">
                                     <#if city.mediaType == 'screen'>
+                                    <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,contract_input,contract_list,contract_search,contract_buy">
 									<li class="pg-side-item">
 										<a class="pg-side-item-t hh-icon">
 											<i class="s-left pg-icon-a c-icon"></i>
-											报表管理
+											视屏报表管理
 										</a>
 										<ul class="pg-side-exp-list">
                                         <@security.authorize ifAnyGranted="ShibaFinancialManager">
@@ -539,56 +585,10 @@
                                                     销售报表
 												</a>
 											</li>
-<#--											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="#">
-													广告主报表
-												</a>
-											</li>-->
 										</ul>
 									</li>
-                                    </#if>
-                                    <#if city.mediaType == 'body'>
-                                  <@security.authorize ifAnyGranted="bodyContractManager,report_monthp,report_daylinep">  
-                                    <li class="pg-side-item">
-                                        <a class="pg-side-item-t gg-icon">
-                                            <i class="s-left pg-icon-a g-icon"></i>
-                                            报表管理
-                                        </a>
-                                        <ul class="pg-side-exp-list">
-                                           <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/use">
-                                                   空媒体统计
-                                                </a>
-                                            </li>
-                                            <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/public/publishCountM">
-                                                   月发布统计
-                                                </a>
-                                            </li>
-                                            <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/public/MediaUsageCountM">
-                                                   媒体使用汇总
-                                                </a>
-                                            </li>
-                                         <@security.authorize ifAnyGranted="bodyContractManager,report_monthp">  
-                                            <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/body/monthp">
-                                                    年售出情况
-                                                </a>
-                                            </li>
-                                            </@security.authorize>
-                                             <@security.authorize ifAnyGranted="bodyContractManager,report_daylinep">
-                                            <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/body/daylinep">
-                                                    线路细分
-                                                </a>
-                                            </li>
-                                            </@security.authorize>
-                                        </ul>
-                                    </li>
-                                     </@security.authorize>
-                                    </#if>
                                     </@security.authorize>
+                                    </#if>
                                  
 									<li class="pg-side-item">
 										<a class="pg-side-item-t ff-icon">
@@ -596,7 +596,7 @@
 											用户信息
 										</a>
 										<ul class="pg-side-exp-list">
-										   <@security.authorize ifAnyGranted="sys_userList,sys_roleManager,bodysales,bodyContractManager,ShibaSuppliesManager,advertiser,UserManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+										   <@security.authorize ifAnyGranted="sys_userList,body_roleManager,bodysales,bodyContractManager,ShibaSuppliesManager,advertiser,UserManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
                                             <@security.authorize ifAnyGranted="UserManager,sys_userList">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/user/list">
@@ -604,7 +604,7 @@
 												</a>
 											</li>
                                             </@security.authorize>
-                                             <@security.authorize ifAnyGranted="UserManager,sys_roleManager">
+                                             <@security.authorize ifAnyGranted="UserManager,body_roleManager">
 		                                            <li class="pg-side-exp-item">
 														<a class="side-exp-item-t" href="${rc.contextPath}/user/role_list">
 															车身角色管理
