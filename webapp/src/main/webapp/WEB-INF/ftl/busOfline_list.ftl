@@ -188,6 +188,8 @@ css=["js/jquery-ui/jquery-ui.css"]>
               	  return d;
               	  }},
                  { "data": "busInfo.offlinecontract.relateMan", "defaultContent": ""},
+                 { "data": "busInfo._print", "defaultContent": ""},
+                 { "data": "busInfo._sktype", "defaultContent": ""},
 	              { "data": "", "defaultContent": "","render": function(data, type, row, meta) {
 	              
 	              		var tString ='';
@@ -548,6 +550,8 @@ css=["js/jquery-ui/jquery-ui.css"]>
                         <th>下刊预留日期</th>
                         <th>实际下刊日期</th>
                         <th>客户名称</th>
+                          <th>印制</th>
+                            <th>上刊类型</th>
                         <th>撤销上刊</th>
                     </tr>
                     </thead>
