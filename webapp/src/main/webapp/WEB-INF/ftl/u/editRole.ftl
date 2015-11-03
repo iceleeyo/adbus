@@ -125,9 +125,28 @@ function go_back(){
 				   </#if>
 				 </#list>
 				 
+				 <br>
+				 <font color="red">用户角色管理</font>&nbsp;<br>
+				  <#list functions as item>
+				   <#if item.funcode?index_of("sys_userList")!=-1 || item.funcode?index_of("body_roleManager")!=-1>
+					<input type="checkbox" value="${item.id}" name="checkone" 
+				   <#if funcIDList?seq_contains(item.id)>checked </#if> />${item.name} <br>
+				   </#if>
+				 </#list>
+				 
+				 <br>
+				 <font color="red">车身套餐</font>&nbsp;<br>
+				  <#list functions as item>
+				   <#if item.funcode?index_of("sale")!=-1 >
+					<input type="checkbox" value="${item.id}" name="checkone" 
+				   <#if funcIDList?seq_contains(item.id)>checked </#if> />${item.name} <br>
+				   </#if>
+				 </#list>
+				 
 				  <br>
+				   <font color="red">媒介推荐</font>&nbsp;<br>
 				   <#list functions as item>
-				   <#if item.funcode?index_of("res")==-1 && item.funcode?index_of("meijie")==-1 && item.funcode?index_of("report")==-1 && item.funcode?index_of("contract")==-1>
+				   <#if item.funcode?index_of("landmatch")!=-1|| item.funcode?index_of("trackmatch")!=-1 || item.funcode?index_of("relatemedia")!=-1 >
 					<input type="checkbox" value="${item.id}" name="checkone" 
 				   <#if funcIDList?seq_contains(item.id)>checked </#if> />${item.name} <br>
 				   </#if>

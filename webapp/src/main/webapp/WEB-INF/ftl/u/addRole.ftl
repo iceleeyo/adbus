@@ -124,10 +124,29 @@ function go_back(){
 				 </#list>
 				 
 				  <br>
-				   <#list functions as item>
-				   <#if item.funcode?index_of("res")==-1 && item.funcode?index_of("meijie")==-1 && item.funcode?index_of("report")==-1 && item.funcode?index_of("contract")==-1>
+				 <font color="red">用户角色管理</font>&nbsp;<br>
+				  <#list functions as item>
+				   <#if item.funcode?index_of("sys_userList")!=-1 || item.funcode?index_of("body_roleManager")!=-1>
+					<input type="checkbox" value="${item.id}" name="checkone" 
+				  />${item.name} <br>
+				   </#if>
+				 </#list>
+				 
+				 <br>
+				 <font color="red">车身套餐管理</font>&nbsp;<br>
+				  <#list functions as item>
+				   <#if item.funcode?index_of("sale_")!=-1 >
 					<input type="checkbox" value="${item.id}" name="checkone" 
 				   />${item.name} <br>
+				   </#if>
+				 </#list>
+				 
+				  <br>
+				   <font color="red">媒介推荐</font>&nbsp;<br>
+				   <#list functions as item>
+				   <#if item.funcode?index_of("landmatch")!=-1 || item.funcode?index_of("trackmatch")!=-1 || item.funcode?index_of("relatemedia")!=-1 >
+					<input type="checkbox" value="${item.id}" name="checkone" 
+				  />${item.name} <br>
 				   </#if>
 				 </#list>
 				 

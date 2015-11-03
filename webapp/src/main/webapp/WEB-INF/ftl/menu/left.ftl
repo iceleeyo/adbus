@@ -520,13 +520,6 @@
                                                                                                             车身报表管理
                                         </a>
                                         <ul class="pg-side-exp-list">
-                                         <@security.authorize ifAnyGranted="report_airmedia">	
-                                           <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/use">
-                                                   空媒体统计
-                                                </a>
-                                            </li>
-                                            </@security.authorize>
                                              <@security.authorize ifAnyGranted="report_monthcount">	
                                             <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/report/public/publishCountM">
