@@ -45,7 +45,8 @@ public interface BusService {
     long count();
 
     long countFree(int city, JpaBusline.Level level, JpaBus.Category category, Integer lineId, Integer busModelId, Integer companyId);
-
+    public DataTablePage<BusInfoView> getAllBusesForContract(int city, TableRequest req, int page, int pageSize,
+			Sort sort, boolean fetchDisabled) ;
     Page<JpaBus> getAllBuses(int city, TableRequest req, int page, int pageSize, Sort sort, boolean fetchDisabled);
     
     public void exportBusExcel(TableRequest req, Page<JpaBus> busList, HttpServletResponse resp);
@@ -88,7 +89,7 @@ public interface BusService {
     Iterable<CountableBusinessCompany> getBusinessCompanies(int city, JpaBusline.Level level, JpaBus.Category category, Integer lineId, Integer busModelId, Integer companyId);
     public Page<BusInfoView> queryBusinfoView(TableRequest req, Page<JpaBus> page);
     
-    
+    public  Collection<BusModelGroupView> queryModelGroup4Contract(int city, TableRequest req, boolean fetchDisabled);
     public Collection<BusModelGroupView> queryModelGroup(TableRequest req, Page<JpaBus> page);
 
 	Pair<Boolean, String> batchOnline(String ids, String stday, int days, int contractid, Principal principal, int city,int plid, int fday, String adtype, String print, String sktype)throws ParseException; 

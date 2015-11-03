@@ -82,9 +82,11 @@ public class BusController {
 			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city) {
 		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
 			return new DataTablePage(Collections.emptyList());
-		Page<JpaBus> jpabuspage = busService.getAllBuses(cityId, req, req.getPage(), req.getLength(),
+		/*Page<JpaBus> jpabuspage = busService.getAllBuses(cityId, req, req.getPage(), req.getLength(),
 				req.getSort("id"), false);
-		return new DataTablePage(busService.queryBusinfoView(req, jpabuspage), req.getDraw());
+		return new DataTablePage(busService.queryBusinfoView(req, jpabuspage), req.getDraw());*/
+		return busService.getAllBusesForContract(cityId, req, req.getPage(), req.getLength(),
+				req.getSort("id"), false);
 	}
 
 	@RequestMapping("ajax-countbus_list")
@@ -93,9 +95,11 @@ public class BusController {
 			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city) {
 		if (city == null || city.getMediaType() != JpaCity.MediaType.body)
 			return new ArrayList<BusModelGroupView>(0);
-		Page<JpaBus> jpabuspage = busService.getAllBuses(cityId, req, req.getPage(), Integer.MAX_VALUE,
+		/*Page<JpaBus> jpabuspage = busService.getAllBuses(cityId, req, req.getPage(), Integer.MAX_VALUE,
 				req.getSort("id"), true);
-		return busService.queryModelGroup(req, jpabuspage);
+		return busService.queryModelGroup(req, jpabuspage);*/
+		
+		return busService.queryModelGroup4Contract(cityId, req, true);
 	}
 	@RequestMapping("ajax-ModelCount_list")
 	@ResponseBody

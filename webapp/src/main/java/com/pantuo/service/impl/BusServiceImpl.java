@@ -86,6 +86,7 @@ import com.pantuo.mybatis.domain.BusUplog;
 import com.pantuo.mybatis.domain.CountableBusLine;
 import com.pantuo.mybatis.domain.CountableBusModel;
 import com.pantuo.mybatis.domain.CountableBusinessCompany;
+import com.pantuo.mybatis.domain.Offlinecontract;
 import com.pantuo.mybatis.domain.PublishLine;
 import com.pantuo.mybatis.persistence.BusCustomMapper;
 import com.pantuo.mybatis.persistence.BusLineMapper;
@@ -369,14 +370,72 @@ public class BusServiceImpl implements BusService {
 
 	}
 	
-	
+	public DataTablePage<BusInfoView> getAllBusesForContract(int city, TableRequest req, int page, int pageSize,
+			Sort sort, boolean fetchDisabled) {
+
+		final String contractid = req.getFilter("contractid");
+		boolean isNormalQuery = true;
+		int _contractid = NumberUtils.toInt(contractid);
+		if (_contractid > 0) {
+			isNormalQuery = false;
+		}
+		BooleanExpression query = getQueryCommon(city, req, isNormalQuery);
+		if (isNormalQuery) {
+			Page<JpaBus> pageObject = getAllBuses(city, req, page, pageSize, sort, fetchDisabled);
+			return new DataTablePage<BusInfoView>(queryBusinfoView(req, pageObject), req.getDraw());
+		} else {
+			BooleanExpression contractQuery = QJpaBusOnline.jpaBusOnline.city.eq(city);
+			contractQuery = contractQuery.and(QJpaBusOnline.jpaBusOnline.offlineContract.id.eq(_contractid));
+			contractQuery = contractQuery.and(QJpaBusOnline.jpaBusOnline.enable.eq(true));
+			contractQuery = contractQuery.and(query);
+
+			Pageable p = new PageRequest(page < 0 ? 0 : page, pageSize < 1 ? 1 : pageSize,
+					sort == null ? new Sort("id") : sort);
+			Page<JpaBusOnline> r = busOnlineRepository.findAll(contractQuery, p);
+
+			List<BusInfoView> busList = new ArrayList<BusInfoView>();
+			List<JpaBusOnline> wt = r.getContent();
+			Date now = new Date();
+
+			Offlinecontract contractObj = offlinecontractMapper.selectByPrimaryKey(_contractid);
+
+			for (JpaBusOnline e : wt) {
+				BusInfoView temp = new BusInfoView();
+				temp.setJpaBus(e.getJpabus());
+				boolean isHave = false;
+				if (e.getStartDate().before(now)) {
+					if (e.getReal_endDate() == null) {
+						isHave = true;
+					}
+				}
+				temp.setIshaveAd(isHave);
+				BusInfo info = new BusInfo();
+				if (contractObj != null) {
+					info.setOfflinecontract(contractObj);
+					info.setContractCode(contractObj.getContractCode());
+				}
+				info.setStartD(e.getStartDate());
+				info.setEndD(e.getEndDate());
+				BusOnline be = new BusOnline();
+				be.setAdtype(e.getAdtype().ordinal());
+				be.setSktype(e.getSktype().ordinal());
+				be.setRealEndDate(e.getReal_endDate());
+				be.setDays(e.getDays());
+				temp.setBusInfo(info);
+				;
+				busList.add(temp);
+			}
+			Page<BusInfoView> result = new org.springframework.data.domain.PageImpl<BusInfoView>(busList, p,
+					r.getTotalElements());
+			return new DataTablePage<BusInfoView>(result, req.getDraw());
+		}
+	}
 	
 	
 	
 
 	@Override
 	public Page<JpaBus> getAllBuses(int city, TableRequest req, int page, int pageSize, Sort sort, boolean fetchDisabled) {
-		
 		if(fetchDisabled){
 			if(!isParamerQuery(req)){
 				Pageable p = new PageRequest(page, pageSize, sort);
@@ -390,16 +449,47 @@ public class BusServiceImpl implements BusService {
 		if (sort == null)
 			sort = new Sort("id");
 		Pageable p = new PageRequest(page, pageSize, sort);
-	
-		final String sh = req.getFilter("sh"), serinum = req.getFilter("serinum"), oldserinum = req
-				.getFilter("oldserinum"), plateNumber = req.getFilter("plateNumber"), linename = req
-				.getFilter("linename"), levelStr = req.getFilter("levelStr"), category = req.getFilter("category"), lineid = req
-				.getFilter("lineid"), company = req.getFilter("company"), contractid = req.getFilter("contractid");
+		final String contractid = req.getFilter("contractid");
 		boolean isNormalQuery = true;
 		int _contractid = NumberUtils.toInt(contractid);
 		if (_contractid > 0) {
 			isNormalQuery = false;
 		}
+		BooleanExpression query = getQueryCommon(city, req, isNormalQuery);
+		if (!isNormalQuery) {
+			BooleanExpression contractQuery = QJpaBusOnline.jpaBusOnline.city.eq(city);
+			contractQuery = contractQuery.and(QJpaBusOnline.jpaBusOnline.offlineContract.id.eq(_contractid));
+			contractQuery =contractQuery.and(QJpaBusOnline.jpaBusOnline.enable.eq(true));
+			contractQuery = contractQuery.and(query);
+			Page<JpaBusOnline> r = busOnlineRepository.findAll(contractQuery, p);
+
+			List<JpaBus> busList = new ArrayList<JpaBus>();
+			List<JpaBusOnline> wt = r.getContent();
+			for (JpaBusOnline e : wt) {
+				busList.add(e.getJpabus());
+			}
+			return new org.springframework.data.domain.PageImpl<JpaBus>(busList, p, r.getTotalElements());
+		}
+		//ss
+
+		//		
+		//		if (!fetchDisabled) {
+		//			BooleanExpression q = QJpaBus.jpaBus.enabled.isTrue();
+		//			if (query == null)
+		//				query = q;
+		//			else
+		//				query = query.and(q);
+		//		}
+		return query == null ? busRepo.findAll(p) : busRepo.findAll(query, p);
+
+	}
+
+	private BooleanExpression getQueryCommon(int city, TableRequest req, boolean isNormalQuery) {
+		final String sh = req.getFilter("sh"), serinum = req.getFilter("serinum"), oldserinum = req
+				.getFilter("oldserinum"), plateNumber = req.getFilter("plateNumber"), linename = req
+				.getFilter("linename"), levelStr = req.getFilter("levelStr"), category = req.getFilter("category"), lineid = req
+				.getFilter("lineid"), company = req.getFilter("company"); 
+		
 		
 		
 		BooleanExpression query =isNormalQuery? QJpaBus.jpaBus.city.eq(city): QJpaBusOnline.jpaBusOnline.city.eq(city);
@@ -464,32 +554,7 @@ public class BusServiceImpl implements BusService {
 			query = query.and(isNormalQuery ? QJpaBus.jpaBus.company.eq(c) : QJpaBusOnline.jpaBusOnline.jpabus.company
 					.eq(c));
 		}
-		if (!isNormalQuery) {
-			BooleanExpression contractQuery = QJpaBusOnline.jpaBusOnline.city.eq(city);
-			contractQuery = contractQuery.and(QJpaBusOnline.jpaBusOnline.offlineContract.id.eq(_contractid));
-			contractQuery =contractQuery.and(QJpaBusOnline.jpaBusOnline.enable.eq(true));
-			contractQuery = contractQuery.and(query);
-			Page<JpaBusOnline> r = busOnlineRepository.findAll(contractQuery, p);
-
-			List<JpaBus> busList = new ArrayList<JpaBus>();
-			List<JpaBusOnline> wt = r.getContent();
-			for (JpaBusOnline e : wt) {
-				busList.add(e.getJpabus());
-			}
-			return new org.springframework.data.domain.PageImpl<JpaBus>(busList, p, r.getTotalElements());
-		}
-		//ss
-
-		//		
-		//		if (!fetchDisabled) {
-		//			BooleanExpression q = QJpaBus.jpaBus.enabled.isTrue();
-		//			if (query == null)
-		//				query = q;
-		//			else
-		//				query = query.and(q);
-		//		}
-		return query == null ? busRepo.findAll(p) : busRepo.findAll(query, p);
-
+		return query;
 	}
 	private BooleanExpression getQueryFromPage(String sh) {
 		Map<String, List<String>> map = new HashMap<String, List<String>>();
@@ -810,6 +875,28 @@ public class BusServiceImpl implements BusService {
 
 	}
 
+	public Collection<BusModelGroupView> queryModelGroup4Contract(int city, TableRequest req, boolean fetchDisabled) {
+
+		final String contractid = req.getFilter("contractid");
+		boolean isNormalQuery = true;
+		int _contractid = NumberUtils.toInt(contractid);
+		if (_contractid <= 0) {
+			Page<JpaBus> jpabuspage = getAllBuses(city, req, 0, Integer.MAX_VALUE, req.getSort("id"), true);
+			return queryModelGroup(req, jpabuspage);
+		} else {
+			BooleanExpression query = getQueryCommon(city, req, isNormalQuery);
+			BooleanExpression contractQuery = QJpaBusOnline.jpaBusOnline.city.eq(city);
+			contractQuery = contractQuery.and(QJpaBusOnline.jpaBusOnline.offlineContract.id.eq(_contractid));
+			contractQuery = contractQuery.and(QJpaBusOnline.jpaBusOnline.enable.eq(true));
+			contractQuery = contractQuery.and(query);
+			long rc = busOnlineRepository.count();
+			List<BusModelGroupView> r = new ArrayList<BusModelGroupView>();
+			BusModelGroupView total = new BusModelGroupView("-total-");
+			total.setTotal((int) rc);
+			r.add(total);
+			return r;
+		}
+	}
 	public Collection<BusModelGroupView> queryModelGroup(TableRequest req, Page<JpaBus> page) {
 		long t = System.currentTimeMillis();
 		Map<String, BusModelGroupView> map = new HashMap<String, BusModelGroupView>();
