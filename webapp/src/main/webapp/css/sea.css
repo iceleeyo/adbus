@@ -376,77 +376,51 @@ table {
 }
 
 .a-icon {
-	background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat 0 0;
-}
-
-.pg-side-item .pg-side-item-t:hover .a-icon {
-	background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat -20px 0;
+	background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat -17px 0px;
 }
 
 .b-icon {
-	background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat 0 -20px;
-}
-
-.pg-side-item .pg-side-item-t:hover .b-icon {
-	background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat -20px -20px;
+	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 0px;
+	background-size: 32px;
 }
 
 .c-icon {
-	background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat 0 -40px;
-}
-
-.pg-side-item .pg-side-item-t:hover .c-icon {
-	background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat -20px -40px;
+	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -150px;
+	background-size: 32px;
 }
 
 .d-icon {
-	background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat 0 -60px;
-}
-
-.pg-side-item .pg-side-item-t:hover .d-icon {
-	background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat -20px -60px;
+	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -90px;
+	background-size: 32px;
 }
 
 .e-icon {
-	background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat 0 -80px;
+	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -180px;
+	background-size: 32px;
 }
 
-.pg-side-item .pg-side-item-t:hover .e-icon {
-	background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat -20px -80px;
-}
 
 .f-icon {
-	background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat 0 -100px;
+	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -120px;
+	background-size: 32px;
 }
 
-.pg-side-item .pg-side-item-t:hover .f-icon {
-	background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat -20px
-		-100px;
-}
 
 .g-icon {
-	background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat 0 -120px;
-}
-
-.pg-side-item .pg-side-item-t:hover .g-icon {
-	background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat -20px
-		-120px;
+	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -30px;
+	background-size: 32px;
 }
 
 .h-icon {
-	background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat 0 -120px;
+	background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat -17px -116px;
 }
 
-.pg-side-item .pg-side-item-t:hover .h-icon {
-	background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat -20px
-		-120px;
-}
 
 .pg-icon-a {
-	width: 20px;
-	height: 20px;
-	margin-top: 10px;
-	margin-right: 8px;
+	width: 30px;
+  	height: 30px;
+	margin-top: 6px;
+  	margin-right: 8px;
 }
 
 .pg-side-exp-list {
