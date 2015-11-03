@@ -414,6 +414,7 @@ public class BusServiceImpl implements BusService {
 					info.setOfflinecontract(contractObj);
 					info.setContractCode(contractObj.getContractCode());
 				}
+				
 				info.setStartD(e.getStartDate());
 				info.setEndD(e.getEndDate());
 				BusOnline be = new BusOnline();
@@ -422,6 +423,7 @@ public class BusServiceImpl implements BusService {
 				be.setRealEndDate(e.getReal_endDate());
 				be.setDays(e.getDays());
 				temp.setBusInfo(info);
+				info.setBusOnline(be);
 				;
 				busList.add(temp);
 			}
