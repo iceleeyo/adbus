@@ -346,7 +346,7 @@ function ishaveline(linename){
 				</div>					
 			</div>					
 									</div>		
-									   &nbsp;&nbsp
+									  
 									<input type="hidden" id ="newLineId" value ="0" >			
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>
