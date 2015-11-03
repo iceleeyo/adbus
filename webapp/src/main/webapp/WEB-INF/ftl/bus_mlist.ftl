@@ -190,9 +190,9 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
    	 	});
         $("#export_xls").click(function(){
           var params =  "filter[plateNumber]=" + $('#name').val()
-                        +"&filter[linename]=" + $('#linename').val()
-                        +"&filter[category]=" + $('#category').val()
-                        +"&filter[levelStr]=" + $('#levelStr').val();
+                        +"&filter[linename]=" + $('#linename').val();
+                     //   +"&filter[category]=" + $('#category').val()
+                      //  +"&filter[levelStr]=" + $('#levelStr').val();
                      //   alert(params);
                         var w = ''+ $('#name').val()+$('#linename').val() ;
                         if($('#name').val() =='' && $('#linename').val() ==''){
