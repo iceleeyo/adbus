@@ -19,10 +19,8 @@
 											<i class="s-left pg-icon-a a-icon" style="background:url(${rc.contextPath}/imgs/sidebar-icons.png) no-repeat -20px 0;"></i>
 											网上订单
 										</a>
-									</li>
-									 </@security.authorize>	
-									
-									
+								</li>
+								</@security.authorize>	
 								<@security.authorize ifAnyGranted="ShibaSuppliesManager,advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 									<li class="pg-side-item">
 										<a class="pg-side-item-t aa-icon" style="color:#fff;background:#F45C55;" href="${rc.contextPath}/order/myTask/1">
@@ -32,7 +30,7 @@
 										
 									</li>
 								 </@security.authorize>	
-								<@security.authorize ifAnyGranted="bodysales,bodyFinancialManager,bodyContractManager,bodyScheduleManager">
+								 <@security.authorize ifAnyGranted="bodysales,bodyFinancialManager,bodyContractManager,bodyScheduleManager">
 									<li class="pg-side-item">
 										<a class="pg-side-item-t aa-icon" style="color:#fff;background:#F45C55;" href="${rc.contextPath}/busselect/myTask/1">
 											<i class="s-left pg-icon-a a-icon" style="background:url(${rc.contextPath}/imgs/sidebar-icons.png) no-repeat -20px 0;"></i>
@@ -361,6 +359,11 @@
                                                                                                                                        上刊发布统计
                                                 </a>
                                             </li>  
+                                             <li class="pg-side-exp-item">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/api/use">
+                                                   空媒体统计
+                                                </a>
+                                            </li>
                                              <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/bus/list_changeDate">
                                                                                                                                          调刊补刊
