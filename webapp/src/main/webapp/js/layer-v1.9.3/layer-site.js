@@ -741,7 +741,7 @@ function addline(url) {
 						+ '<form id="addLineform" action='+url+'/busselect/saveLine>'
 						+ '<div class="inputs" style="margin-top: 15px;margin-left: -30px;">'
 						+'<div class="ui-form-item"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/> <label class="ui-label mt10">线路名称：</label>'
-						+'<input class="ui-input " type="text" value="" name="name"  '
+						+'<input class="ui-input " id="linename" type="text" value="" name="name" onblur="checkline(this.value)" '
 						+'id="namestr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
        	 				+'</div>'
        	 				+'<div class="ui-form-item"> <label class="ui-label mt10">线路途径地点：</label>'

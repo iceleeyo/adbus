@@ -195,6 +195,17 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 				 }
 			}, "text");
     }
+    function checkline(linename){
+     $.ajax({
+				url :  "${rc.contextPath}/busselect/ishaveline/"+linename,
+				type : "POST",
+				success : function(data) {
+				if(data.left){
+				    layer.msg("该线路已存在");
+				  }
+				 }
+			}, "text");
+    }
 	function fnDrawCallback(){
 	  $('.table-action').click(function() {
 			$.post($(this).attr("url"), function(data) {
