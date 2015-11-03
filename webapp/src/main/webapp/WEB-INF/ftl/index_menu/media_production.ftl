@@ -18,7 +18,7 @@
 		</header>
 		<div id="content" style="transition: all 1000ms ease; -webkit-transition: all 1000ms ease; transform: translate3d(0px, 0px, 0px);">
 
-			<section class="background-two active" style="height: 649px;">
+			<section class="background-two" style="height: 649px;">
 				<div class="container">
 					<div class="title-en">
 					</div>
@@ -26,31 +26,43 @@
 					<ul class="items clearfix">
 						<li class="item">
 							<a href="secondLevelPageBus">
-								<div class="ad ad1"></div>
+								<div class="ad ad1">
+								<u class="cl"></u>
+								<u class="cr"></u>
+								<i></i>
+								</div>
 								<span>车身广告</span>
 							</a>
 						</li>
 						<li class="item">
 							<a href="secondLevelPage">
-								<div class="ad ad2"></div>
+								<div class="ad ad2"><u class="cl"></u>
+								<u class="cr"></u>
+								<i></i></div>
 								<span>移动视频</span>
 							</a>
 						</li>
 						<li class="item">
 							<a href="#">
-								<div class="ad ad3"></div>
+								<div class="ad ad3"><u class="cl"></u>
+								<u class="cr"></u>
+								<i></i></div>
 								<span>优惠组合</span>
 							</a>
 						</li>
 						<li class="item">
 							<a href="#">
-								<div class="ad ad4"></div>
+								<div class="ad ad4"><u class="cl"></u>
+								<u class="cr"></u>
+								<i></i></div>
 								<span>车内广告</span>
 							</a>
 						</li>
 						<li class="item">
 							<a href="#">
-								<div class="ad ad5"></div>
+								<div class="ad ad5"><u class="cl"></u>
+								<u class="cr"></u>
+								<i></i></div>
 								<span>站牌广告</span>
 							</a>
 						</li>

@@ -62,21 +62,22 @@
     <#list css as entry>
         <link rel="stylesheet" type="text/css" href="${rc.contextPath}/${entry}">
     </#list>
-    <style type="text/css">
-        .online-support {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            width: 80px;
-            height: 32px;
-        }
+<style type="text/css">
+.online-support {
+	display: none;
+	position: fixed;
+	bottom: 20px;
+	left: 20px;
+	width: 80px;
+	height: 32px;
+}
         
-    .container-12{
+.container-12{
 	width: 1000px;
 	margin-left: auto;
 	margin-right: auto;
 }
+
     </style>
 </head>
 <body>

@@ -33,6 +33,7 @@ header .area {
 }
 
 .side-nav {
+	margin-top:50px;
 	width: 200px;
 	height: 530px;
 	position: fixed;
