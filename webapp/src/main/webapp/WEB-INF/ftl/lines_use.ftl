@@ -1,7 +1,7 @@
 <#import "template/template.ftl" as frame>
-<#global menu="空媒体统计">
+<#global menu="空媒体查询">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="空媒体统计" js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js",
+<@frame.html title="空媒体查询" js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js",
 "js/jquery-ui/jquery-ui.auto.complete.js"] 
 css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 
