@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.pantuo.dao.pojo.JpaBusOnline.Adtype;
+import com.pantuo.dao.pojo.JpaBusOnline.Print;
 import com.pantuo.dao.pojo.JpaBusOnline.Sktype;
 import com.pantuo.mybatis.domain.BusOnline;
 import com.pantuo.mybatis.domain.Offlinecontract;
@@ -22,6 +23,13 @@ public class BusInfo {
 
 	public String _sktype;
 	public String _adtype;
+	public String _print;
+	
+	public String get_print() {
+		return busOnline == null ? StringUtils.EMPTY
+				: (busOnline.getPrint() >= Sktype.values().length ? StringUtils.EMPTY : Print.values()[busOnline
+						.getPrint()].getPrintName());
+	}
 
 	public String get_sktype() {
 		return busOnline == null ? StringUtils.EMPTY
