@@ -390,10 +390,10 @@ public class BusController {
 		model.addAttribute("publishLineid", publishLineid);
 		return "publishLine_query";
 	}
-	@RequestMapping(value = "/busUpdate_history/{busid}")
-	public String busUpdate_history(Model model,@PathVariable("busid") int busid,HttpServletResponse response) {
+	@RequestMapping(value = "/busUpdate_history/{serinum}")
+	public String busUpdate_history(Model model,@PathVariable("serinum") int serinum,HttpServletResponse response) {
 		response.setHeader("X-Frame-Options", "SAMEORIGIN");
-		model.addAttribute("busid", busid);
+		model.addAttribute("serinum", serinum);
 		return "busUpdate_history";
 	}
 

@@ -90,7 +90,7 @@ function showbusOnline_list(tourl,id){
 	});
 }
 //查看车辆变更历史
-function showbusUpdate_history(tourl,id){
+function showbusUpdate_history(tourl,serialNumber){
 	layer.open({
 		type: 1,
 		title: "车辆变更历史",
@@ -98,7 +98,7 @@ function showbusUpdate_history(tourl,id){
 		area: ['1120px', '600px'],  
 		content:''
 			+' '
-			+'<iframe style="width:99%;height:98%" frameborder="no" src="'+tourl+'/bus/busUpdate_history/'+id+'"/>'
+			+'<iframe style="width:99%;height:98%" frameborder="no" src="'+tourl+'/bus/busUpdate_history/'+serialNumber+'"/>'
 	});
 	
 }
