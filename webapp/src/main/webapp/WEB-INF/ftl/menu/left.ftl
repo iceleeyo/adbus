@@ -513,7 +513,7 @@
 	                                        </ul>
 	                                    </li>
 	                                     </@security.authorize>	
-	                             <@security.authorize ifAnyGranted="report_airmedia,report_monthcount,report_meusersumary,report_yearsalecount,report_line">  
+	                             <@security.authorize ifAnyGranted="report_monthcount,report_meusersumary,report_yearsalecount,report_line">  
                                     <li class="pg-side-item">
                                         <a class="pg-side-item-t gg-icon">
                                             <i class="s-left pg-icon-a g-icon"></i>
