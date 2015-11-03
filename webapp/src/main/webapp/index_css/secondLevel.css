@@ -226,6 +226,10 @@ header .area {
 	margin-left: 30px;
 	text-align: center;
 }
+.recommand .re-box2 .select-items {
+	float: left;
+	margin-left: 30px;
+}
 
 .recommand .re-box .select-items .select-item {
 	float: left;

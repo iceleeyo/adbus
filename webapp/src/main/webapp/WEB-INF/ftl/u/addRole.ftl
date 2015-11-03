@@ -86,18 +86,24 @@ function go_back(){
 					disableautocomplete="" value="">
 			</div>
 			<div class="ui-form-item">
+			  
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>权限:</label>
 				<input type="checkbox"  id="checkAll"/>全选<br>
+				 <div class="recommand timer pd">
+					<div class="re-box2 clearfix">
 				<#if functions?exists> 
-				<font color="red">  资源管理</font>&nbsp;<br>
+							<div class="select-items clearfix">
+						         <font color="red">  资源管理</font>&nbsp;<br>
 				  <#list functions as item>
 				   <#if item.funcode?index_of("res")!=-1>
 					<input type="checkbox" value="${item.id}" name="checkone" 
 				  />${item.name} <br>
 				   </#if>
 				 </#list>
-				 <br>
-				 <font color="red">  媒介管理 </font>&nbsp;<br>
+				 <br>  
+							</div>
+							<div class="select-items clearfix">
+						            <font color="red">  媒介管理 </font>&nbsp;<br>
 				  <#list functions as item>
 				   <#if item.funcode?index_of("meijie")!=-1>
 					<input type="checkbox" value="${item.id}" name="checkone" 
@@ -105,7 +111,9 @@ function go_back(){
 				   </#if>
 				 </#list>
 				 <br>
-				 
+							</div>
+							<div class="select-items clearfix">
+						          	 
 				  <font color="red"> 合同管理 </font>&nbsp;<br>
 				  <#list functions as item>
 				   <#if item.funcode?index_of("contract")!=-1>
@@ -113,9 +121,10 @@ function go_back(){
 				   />${item.name} <br>
 				   </#if>
 				 </#list>
-				 
-				 <br>
-				 <font color="red">报表管理</font>&nbsp;<br>
+				 <br> 
+							</div>
+							<div class="select-items clearfix">
+						            <font color="red">报表管理</font>&nbsp;<br>
 				  <#list functions as item>
 				   <#if item.funcode?index_of("report")!=-1>
 					<input type="checkbox" value="${item.id}" name="checkone" 
@@ -124,6 +133,9 @@ function go_back(){
 				 </#list>
 				 
 				  <br>
+							</div>
+							<div class="select-items clearfix">
+						          
 				 <font color="red">用户角色管理</font>&nbsp;<br>
 				  <#list functions as item>
 				   <#if item.funcode?index_of("sys_userList")!=-1 || item.funcode?index_of("body_roleManager")!=-1>
@@ -132,8 +144,11 @@ function go_back(){
 				   </#if>
 				 </#list>
 				 
-				 <br>
-				 <font color="red">车身套餐管理</font>&nbsp;<br>
+				 <br> 
+							</div>
+							<div class="select-items clearfix">
+						          
+				  <font color="red">车身套餐管理</font>&nbsp;<br>
 				  <#list functions as item>
 				   <#if item.funcode?index_of("sale_")!=-1 >
 					<input type="checkbox" value="${item.id}" name="checkone" 
@@ -149,6 +164,12 @@ function go_back(){
 				  />${item.name} <br>
 				   </#if>
 				 </#list>
+							</div>
+					</div>
+				</div>
+				
+				
+				
 				 
 		 </#if>
 			</div>

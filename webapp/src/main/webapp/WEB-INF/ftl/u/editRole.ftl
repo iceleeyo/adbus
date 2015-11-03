@@ -90,16 +90,21 @@ function go_back(){
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>权限:</label>
 				<input type="checkbox"  id="checkAll"/>全选<br>
-	<#if functions?exists> 
-				<font color="red">  资源管理</font>&nbsp;<br>
+<div class="recommand timer pd">
+					<div class="re-box2 clearfix">
+				<#if functions?exists> 
+							<div class="select-items clearfix">
+						         <font color="red">  资源管理</font>&nbsp;<br>
 				  <#list functions as item>
 				   <#if item.funcode?index_of("res")!=-1>
 					<input type="checkbox" value="${item.id}" name="checkone" 
-				   <#if funcIDList?seq_contains(item.id)>checked </#if> />${item.name} <br>
+				  <#if funcIDList?seq_contains(item.id)>checked </#if>/>${item.name} <br>
 				   </#if>
 				 </#list>
-				 <br>
-				 <font color="red">  媒介管理 </font>&nbsp;<br>
+				 <br>  
+							</div>
+							<div class="select-items clearfix">
+						            <font color="red">  媒介管理 </font>&nbsp;<br>
 				  <#list functions as item>
 				   <#if item.funcode?index_of("meijie")!=-1>
 					<input type="checkbox" value="${item.id}" name="checkone" 
@@ -107,54 +112,67 @@ function go_back(){
 				   </#if>
 				 </#list>
 				 <br>
-				 
+							</div>
+							<div class="select-items clearfix">
+						          	 
 				  <font color="red"> 合同管理 </font>&nbsp;<br>
 				  <#list functions as item>
 				   <#if item.funcode?index_of("contract")!=-1>
 					<input type="checkbox" value="${item.id}" name="checkone" 
-				   <#if funcIDList?seq_contains(item.id)>checked </#if> />${item.name} <br>
+				  <#if funcIDList?seq_contains(item.id)>checked </#if> />${item.name} <br>
 				   </#if>
 				 </#list>
-				 
-				 <br>
-				 <font color="red">报表管理</font>&nbsp;<br>
+				 <br> 
+							</div>
+							<div class="select-items clearfix">
+						            <font color="red">报表管理</font>&nbsp;<br>
 				  <#list functions as item>
 				   <#if item.funcode?index_of("report")!=-1>
 					<input type="checkbox" value="${item.id}" name="checkone" 
-				   <#if funcIDList?seq_contains(item.id)>checked </#if> />${item.name} <br>
+				 <#if funcIDList?seq_contains(item.id)>checked </#if>  />${item.name} <br>
 				   </#if>
 				 </#list>
 				 
-				 <br>
+				  <br>
+							</div>
+							<div class="select-items clearfix">
+						          
 				 <font color="red">用户角色管理</font>&nbsp;<br>
 				  <#list functions as item>
 				   <#if item.funcode?index_of("sys_userList")!=-1 || item.funcode?index_of("body_roleManager")!=-1>
 					<input type="checkbox" value="${item.id}" name="checkone" 
-				   <#if funcIDList?seq_contains(item.id)>checked </#if> />${item.name} <br>
+				 <#if funcIDList?seq_contains(item.id)>checked </#if> />${item.name} <br>
 				   </#if>
 				 </#list>
 				 
-				 <br>
-				 <font color="red">车身套餐</font>&nbsp;<br>
+				 <br> 
+							</div>
+							<div class="select-items clearfix">
+						          
+				  <font color="red">车身套餐管理</font>&nbsp;<br>
 				  <#list functions as item>
-				   <#if item.funcode?index_of("sale")!=-1 >
+				   <#if item.funcode?index_of("sale_")!=-1 >
 					<input type="checkbox" value="${item.id}" name="checkone" 
-				   <#if funcIDList?seq_contains(item.id)>checked </#if> />${item.name} <br>
+				  <#if funcIDList?seq_contains(item.id)>checked </#if> />${item.name} <br>
 				   </#if>
 				 </#list>
 				 
 				  <br>
 				   <font color="red">媒介推荐</font>&nbsp;<br>
 				   <#list functions as item>
-				   <#if item.funcode?index_of("landmatch")!=-1|| item.funcode?index_of("trackmatch")!=-1 || item.funcode?index_of("relatemedia")!=-1 >
+				   <#if item.funcode?index_of("landmatch")!=-1 || item.funcode?index_of("trackmatch")!=-1 || item.funcode?index_of("relatemedia")!=-1 >
 					<input type="checkbox" value="${item.id}" name="checkone" 
-				   <#if funcIDList?seq_contains(item.id)>checked </#if> />${item.name} <br>
+				  <#if funcIDList?seq_contains(item.id)>checked </#if>/>${item.name} <br>
 				   </#if>
 				 </#list>
-				 
+							</div>
+					</div>
+				</div>
+				
 		 </#if>
 			</div>
 		</div>
+		
 		<div class="ui-form-item widthdrawBtBox">
 			<input type="button" id="subWithdraw" class="block-btn"
 				onclick="sub();" value="确认">
