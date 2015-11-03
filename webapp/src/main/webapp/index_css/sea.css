@@ -270,7 +270,7 @@ table {
 }
 
 .pg-side-item {
-	background: #3BAFDA;
+	background: #71C0DD;
 	border-bottom: 1px solid #f2f2f2;
 	color: #fff!important;
 }
@@ -343,7 +343,6 @@ table {
 	cursor: pointer;
 	color: #fff;
 	font-size: 15px;
-    font-weight: 600;
 }
 
 .pg-side-item-t1 {
@@ -435,16 +434,6 @@ table {
 	margin-right: 8px;
 }
 
-.pg-side-exp-list {
-	padding: 0;
-	background: #ffffff;
-	display: block;
-}
-
-.pg-side-exp-item {
-	
-}
-
 .side-exp-item-t {
 	display: block;
 	margin-left: 10px;
@@ -453,7 +442,6 @@ table {
 	line-height: 36px;
 	color: #909090;
 	cursor: pointer;
-	border-bottom: 1px solid #c5c5c5;
 }
 
 .side-exp-item-t:hover {

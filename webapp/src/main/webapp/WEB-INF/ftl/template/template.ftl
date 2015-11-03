@@ -77,7 +77,7 @@
 <!--下部DIV-->
 </header>
 
-<div class="page-container" style="margin-top: 4%">
+<div class="page-container" style="margin-top: 4.5%">
 <div class="page-container">
 	<div class="pg-container-main">
         <div class="container-12 mt10 s-clear">
