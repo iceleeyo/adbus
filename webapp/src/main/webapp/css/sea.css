@@ -423,6 +423,16 @@ table {
 	background-size: 25px;
 }
 
+.j-icon {
+	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -462px;
+	background-size: 25px;
+}
+
+.k-icon {
+	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -402px;
+	background-size: 25px;
+}
+
 
 .pg-icon-a {
 	width: 25px;

@@ -409,7 +409,7 @@
                                      	<@security.authorize ifAnyGranted="res_busmanage,res_busquery,res_linemanage,res_linequery,res_busChange,res_lineChange,res_buschangecount,res_model,res_company">
                                         <li class="pg-side-item">
 	                                        <a class="pg-side-item-t ee-icon">
-	                                            <i class="s-left pg-icon-a e-icon"></i>
+	                                            <i class="s-left pg-icon-a k-icon"></i>
 	                                           资源管理
 	                                        </a>
 	                                        <ul class="pg-side-exp-list">
@@ -485,7 +485,7 @@
 	                                       <@security.authorize ifAnyGranted="landmatch,trackmatch,relatemedia"> 
 	                                    <li class="pg-side-item">
 	                                        <a class="pg-side-item-t ee-icon">
-	                                            <i class="s-left pg-icon-a e-icon"></i>
+	                                            <i class="s-left pg-icon-a j-icon"></i>
 	                                            媒介推荐
 	                                        </a>
 	                                        <ul class="pg-side-exp-list">
