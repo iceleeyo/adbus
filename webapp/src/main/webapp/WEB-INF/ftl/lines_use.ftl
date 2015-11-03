@@ -228,7 +228,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                         <th >次月下刊数</th>
                         <th >次月可使用数</th>
                         <th >媒介在刊率</th>
-                        <th >媒体占有率</th>
+                        <th >媒介占有率</th>
                         <th >到期未下刊数</th>
                     </tr>
                     </thead>
