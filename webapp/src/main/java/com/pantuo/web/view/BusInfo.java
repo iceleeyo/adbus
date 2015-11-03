@@ -27,7 +27,7 @@ public class BusInfo {
 	
 	public String get_print() {
 		return busOnline == null ? StringUtils.EMPTY
-				: (busOnline.getPrint() >= Sktype.values().length ? StringUtils.EMPTY : Print.values()[busOnline
+				: (busOnline.getPrint() >= Print.values().length ? StringUtils.EMPTY : Print.values()[busOnline
 						.getPrint()].getPrintName());
 	}
 
