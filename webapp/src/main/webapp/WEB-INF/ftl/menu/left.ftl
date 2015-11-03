@@ -516,7 +516,7 @@
 	                             <@security.authorize ifAnyGranted="report_monthcount,report_meusersumary,report_yearsalecount,report_line">  
                                     <li class="pg-side-item">
                                         <a class="pg-side-item-t gg-icon">
-                                            <i class="s-left pg-icon-a g-icon"></i>
+                                            <i class="s-left pg-icon-a l-icon"></i>
                                                                                                             车身报表管理
                                         </a>
                                         <ul class="pg-side-exp-list">

@@ -433,6 +433,11 @@ table {
 	background-size: 25px;
 }
 
+.l-icon {
+	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -338px;
+	background-size: 25px;
+}
+
 
 .pg-icon-a {
 	width: 25px;
