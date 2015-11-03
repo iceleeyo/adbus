@@ -160,7 +160,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                 { "data": "jpaBus.description", "defaultContent": ""},
                 { "data": "busInfo.contractCode", "defaultContent": ""},
                         { "data": "busInfo.offlinecontract.adcontent", "defaultContent": ""},
-                            { "data": "", "defaultContent": ""},
+                            { "data": "busInfo._adtype", "defaultContent": ""},
                     { "data": "jpaBus.categoryStr", "defaultContent": ""},
                 { "data": "jpaBus.company.name", "defaultContent": ""},
                 { "data": "busInfo.startD", "defaultContent": "","render": function(data, type, row, meta) {
