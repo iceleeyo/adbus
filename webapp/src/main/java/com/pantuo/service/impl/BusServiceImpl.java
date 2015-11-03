@@ -422,9 +422,9 @@ public class BusServiceImpl implements BusService {
 				be.setSktype(e.getSktype().ordinal());
 				be.setRealEndDate(e.getReal_endDate());
 				be.setDays(e.getDays());
+				be.setPrint(e.getPrint().ordinal());
 				temp.setBusInfo(info);
 				info.setBusOnline(be);
-				;
 				busList.add(temp);
 			}
 			Page<BusInfoView> result = new org.springframework.data.domain.PageImpl<BusInfoView>(busList, p,
