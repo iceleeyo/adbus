@@ -106,6 +106,7 @@ import com.pantuo.mybatis.persistence.DividpayMapper;
 import com.pantuo.mybatis.persistence.LineUplogMapper;
 import com.pantuo.mybatis.persistence.OfflinecontractMapper;
 import com.pantuo.mybatis.persistence.PublishLineMapper;
+import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.ActivitiService.TaskQueryType;
@@ -169,6 +170,8 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 	AttachmentService attachmentService;
 	@Autowired
 	QueryBusInfo queryBusInfo;
+	@Autowired
+	UserAutoCompleteMapper userAutoCompleteMapper;
 
 	@Autowired
 	BusMapper busMapper;
@@ -1532,9 +1535,16 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 
 	@Override
 	public Pair<Boolean, String> ishaveline(String linename) {
-		BusLineExample example=new BusLineExample();
-		example.createCriteria().andNameEqualTo(linename);
-		if(!(buslineMapper.selectByExample(example).size()>0)){
+//		BusLineExample example=new BusLineExample();
+//		example.createCriteria().andNameEqualTo(linename);
+//		List<BusLine> lines=buslineMapper.selectByExample(example);
+//		if(lines.isEmpty() || lines.size()<1){
+//			return new Pair<Boolean, String>(false, "该线路不存在");
+//		}
+//		return new Pair<Boolean, String>(true, "该线路存在");
+		BooleanExpression query=QJpaBusline.jpaBusline.name.eq(linename);
+		List<JpaBusline> list=(List<JpaBusline>) buslineRepository.findAll(query);
+		if(list.size()<1){
 			return new Pair<Boolean, String>(false, "该线路不存在");
 		}
 		return new Pair<Boolean, String>(true, "该线路存在");

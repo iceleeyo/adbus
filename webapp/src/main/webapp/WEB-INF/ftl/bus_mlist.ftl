@@ -155,12 +155,12 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
                   	'</div>'
         );
 
-        $('#serinum,#oldserinum,#name,#linename').change(function() {
+        $('#serinum,#oldserinum,#name').change(function() {
             table.draw();
         });
           $('#linename').change(function() {
             ishaveline($("#linename").val());
-            table.fnDraw();
+           table.draw();
         });
         
             $("#newLine").autocomplete({
