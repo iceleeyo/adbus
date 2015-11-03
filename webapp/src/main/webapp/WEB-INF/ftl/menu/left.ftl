@@ -332,7 +332,7 @@
                                     </li>
                                     </@security.authorize>	
                                     
-                                 <@security.authorize ifAnyGranted="meijie_online,meijie_onlinecount,meijie_change,meijie_offline,meijie_search,meijie_error,meijie_linecheck">     
+                                 <@security.authorize ifAnyGranted="report_airmedia,meijie_online,meijie_onlinecount,meijie_change,meijie_offline,meijie_search,meijie_error,meijie_linecheck">     
                                  <li class="pg-side-item">
                                         <a class="pg-side-item-t gg-icon">
                                             <i class="s-left pg-icon-a g-icon"></i>
@@ -353,12 +353,14 @@
                                                 </a>
                                             </li>  
                                             </@security.authorize>	
-                                             <@security.authorize ifAnyGranted="meijie_change">
+                                             <@security.authorize ifAnyGranted="report_airmedia"> 
                                              <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/api/use">
                                                    空媒体统计
                                                 </a>
                                             </li>
+                                             </@security.authorize>	
+                                             <@security.authorize ifAnyGranted="meijie_change">
                                              <li class="pg-side-exp-item">
                                                 <a class="side-exp-item-t" href="${rc.contextPath}/bus/list_changeDate">
                                                                                                                                          调刊补刊
