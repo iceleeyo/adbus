@@ -2,7 +2,7 @@ html {
 	color: #666;
 }
 
-body,input {
+body, input {
 	margin: 0;
 	font: 14px/1.5 'microsoft yahei', YaHei, tahoma, arial,
 		"Hiragino Sans GB", \5b8b\4f53;
@@ -13,11 +13,11 @@ a {
 	color: #2ea7e0
 }
 
-ol,ul {
+ol, ul {
 	list-style: none;
 }
 
-html,body {
+html, body {
 	height: 100%;
 	background: #fcfcfc
 }
@@ -34,11 +34,11 @@ h5 {
 	font-size: 14px;
 }
 
-h1,h2,h3,h4,h5,h6 {
+h1, h2, h3, h4, h5, h6 {
 	font-weight: 500;
 }
 
-h1,h2,h3,h4,h5,h6,p {
+h1, h2, h3, h4, h5, h6, p {
 	margin: 0;
 	padding: 0;
 }
@@ -47,7 +47,7 @@ img {
 	border: 0;
 }
 
-address,caption,cite,code,dfn,em,th,var {
+address, caption, cite, code, dfn, em, th, var {
 	font-style: normal;
 	font-weight: 500;
 }
@@ -60,7 +60,7 @@ table {
 	position: relative;
 	margin-left: auto;
 	margin-right: auto;
-	min-height:85%;
+	min-height: 85%;
 }
 
 .pg-header {
@@ -225,7 +225,7 @@ table {
 	padding: 0 20px 0 20px;
 	color: #fff
 }
-			/* .pg-nav-item-n:hover {background-color: #fff;color: #666} */
+/* .pg-nav-item-n:hover {background-color: #fff;color: #666} */
 .pg-nav-item-p {
 	position: relative;
 	padding: 0 10px 0 0px;
@@ -247,7 +247,7 @@ table {
 	overflow: hidden;
 	margin-left: 2px;
 }
-			
+
 .shdown {
 	position: absolute;
 	top: 22px;
@@ -287,7 +287,7 @@ table {
 }
 
 .pg-side-item {
-	background: #89CBE4;
+	background: rgba(161, 164, 165, 0.64);
 	border-bottom: 1px solid #f2f2f2;
 	color: #fff !important;
 }
@@ -317,7 +317,7 @@ table {
 
 .ls-101 {
 	width: 95%;
-	margin-left:30px;
+	margin-left: 30px;
 	position: absolute;
 }
 
@@ -378,12 +378,12 @@ table {
 
 .a-icon {
 	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -1px;
-  	background-size: 25px;
+	background-size: 25px;
 }
 
 .b-icon {
 	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -28px;
-  	background-size: 25px;
+	background-size: 25px;
 }
 
 .c-icon {
@@ -392,8 +392,8 @@ table {
 }
 
 .d-icon {
-	  background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -109px;
-  background-size: 25px;
+	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -109px;
+	background-size: 25px;
 }
 
 .e-icon {
@@ -401,16 +401,14 @@ table {
 	background-size: 25px;
 }
 
-
 .f-icon {
-	  background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -136px;
-  background-size: 25px;
+	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -136px;
+	background-size: 25px;
 }
-
 
 .g-icon {
 	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -56px;
-  background-size: 25px;
+	background-size: 25px;
 }
 
 .h-icon {
@@ -438,12 +436,11 @@ table {
 	background-size: 25px;
 }
 
-
 .pg-icon-a {
 	width: 25px;
-  	height: 25px;
+	height: 25px;
 	margin-top: 7px;
-  	margin-right: 8px;
+	margin-right: 8px;
 }
 
 .pg-side-exp-list {
@@ -1072,8 +1069,8 @@ table {
 
 .pg-dropdown-angle span {
 	background: url(../imgs/angle-up.png) no-repeat;
-width: 14px;
-height: 14px;
+	width: 14px;
+	height: 14px;
 	display: block;
 }
 
@@ -1190,7 +1187,7 @@ height: 14px;
 	width: 880px;
 }
 
-#process .node,#process .proce {
+#process .node, #process .proce {
 	float: left;
 	position: relative;
 	height: 13px;
