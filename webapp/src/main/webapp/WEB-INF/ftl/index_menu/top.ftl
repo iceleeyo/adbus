@@ -52,12 +52,14 @@
 				<div class="logo2"></div>
 				<nav class="menu">
 					<ul class="list-line">
+						<!--
 						<li><a href="/">首页</a></li>
 						<li class="active"><a href="${rc.contextPath}/media">媒体产品</a></li>
 						<li><a href="${rc.contextPath}/effect">传播效果</a></li>
 						<li><a href="/caseMore.html">案例欣赏</a></li>
 						<li><a href="${rc.contextPath}/partner">合作伙伴</a></li>
 						<li><a href="${rc.contextPath}/aboutme">关于我们</a></li>
+						-->
 					</ul>
 					<div class="s-right s-clear">
 					
