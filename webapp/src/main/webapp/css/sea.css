@@ -377,50 +377,57 @@ table {
 }
 
 .a-icon {
-	background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat -17px 0px;
+	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -1px;
+  	background-size: 25px;
 }
 
 .b-icon {
-	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 0px;
-	background-size: 32px;
+	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -28px;
+  	background-size: 25px;
 }
 
 .c-icon {
-	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -150px;
-	background-size: 32px;
+	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -82px;
+	background-size: 25px;
 }
 
 .d-icon {
-	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -90px;
-	background-size: 32px;
+	  background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -109px;
+  background-size: 25px;
 }
 
 .e-icon {
-	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -180px;
-	background-size: 32px;
+	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -190px;
+	background-size: 25px;
 }
 
 
 .f-icon {
-	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -120px;
-	background-size: 32px;
+	  background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -136px;
+  background-size: 25px;
 }
 
 
 .g-icon {
-	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -30px;
-	background-size: 32px;
+	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -56px;
+  background-size: 25px;
 }
 
 .h-icon {
-	background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat -17px -116px;
+	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -278px;
+	background-size: 25px;
+}
+
+.i-icon {
+	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -249px;
+	background-size: 25px;
 }
 
 
 .pg-icon-a {
-	width: 30px;
-  	height: 30px;
-	margin-top: 6px;
+	width: 25px;
+  	height: 25px;
+	margin-top: 7px;
   	margin-right: 8px;
 }
 

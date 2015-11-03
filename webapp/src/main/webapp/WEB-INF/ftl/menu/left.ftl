@@ -33,7 +33,7 @@
 								 <@security.authorize ifAnyGranted="bodysales,bodyFinancialManager,bodyContractManager,bodyScheduleManager">
 									<li class="pg-side-item">
 										<a class="pg-side-item-t aa-icon" style="color:#fff;background:#F45C55;" href="${rc.contextPath}/busselect/myTask/1">
-											<i class="s-left pg-icon-a a-icon" style="background:url(${rc.contextPath}/imgs/sidebar-icons.png) no-repeat -20px 0;"></i>
+											<i class="s-left pg-icon-a a-icon"></i>
 											待办事项
 										</a>
 										
@@ -250,7 +250,7 @@
                                      <@security.authorize ifAnyGranted="bodyContractManager,sale_packageDesign,sale_packageList,sale_packageOrder">  
                                     <li class="pg-side-item">
                                         <a class="pg-side-item-t gg-icon">
-                                            <i class="s-left pg-icon-a g-icon"></i>
+                                            <i class="s-left pg-icon-a i-icon"></i>
                                             套餐管理
                                         </a>
                                           <ul class="pg-side-exp-list">
@@ -335,7 +335,7 @@
                                  <@security.authorize ifAnyGranted="report_airmedia,meijie_online,meijie_onlinecount,meijie_change,meijie_offline,meijie_search,meijie_error,meijie_linecheck">     
                                  <li class="pg-side-item">
                                         <a class="pg-side-item-t gg-icon">
-                                            <i class="s-left pg-icon-a g-icon"></i>
+                                            <i class="s-left pg-icon-a f-icon"></i>
                                             媒介管理
                                         </a>
                                         <ul class="pg-side-exp-list">

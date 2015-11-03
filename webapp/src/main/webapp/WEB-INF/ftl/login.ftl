@@ -15,7 +15,7 @@
 			<div class="lg-content">
 				<div class="lg-box">
 					<div class="lg-info">
-						<form id='loginForm' style="margin-top: -35px;" name='loginForm' class="login-form" action="login" method='POST'>
+						<form id='loginForm' style="margin-top: -50px;" name='loginForm' class="login-form" action="login" method='POST'>
 							<br>
                              <#if (SPRING_SECURITY_LAST_EXCEPTION.message)?? && (SPRING_SECURITY_LAST_EXCEPTION.message)?index_of("Bad")!=-1>
                              	<font color="red" size="3">密码错误!</font>
