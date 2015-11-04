@@ -285,12 +285,9 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 
                 <div class="worm-tips">
 		<div class="tips-title">
-			<span class="icon"></span> 温馨提示
+			 温馨提示：记录为黄色表示改调整车辆有相关联的在刊广告需要处理。
 		</div>
-		<ol>
-			<li>1.记录为黄色表示改调整车辆有相关联的在刊广告需要处理。</li>
-			
-		</ol>
+		
 	</div>
 </div>
 </@frame.html>
