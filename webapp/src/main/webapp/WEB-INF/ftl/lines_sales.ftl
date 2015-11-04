@@ -104,7 +104,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>车辆自编号：</span>' +
+                        '    <span>车辆自编号</span>' +
                         '    <span>' +
                         '        <input id="serinum" value="">' +
                         '    </span>&nbsp;&nbsp;' +
@@ -112,11 +112,11 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                         '    <span>' +
                         '        <input id="oldserinum" value="">' +
                         '    </span>&nbsp;&nbsp;' +
-                        '    <span>车牌号：</span>' +
+                        '    <span>车牌号</span>' +
                         '    <span>' +
                         '        <input id="name" value="">' +
                         '    </span>&nbsp;&nbsp;' +
-                        '    <span>线路：</span>' +
+                        '    <span>线路</span>' +
                         '    <span>' +
                         '        <input id="linename" value="">' +
                         '    </span>&nbsp;&nbsp;<br><br>' +
@@ -340,7 +340,7 @@ function showBusDetail(pathUrl,tourl,id){
                            
                              <th >类别</th>
                              <th >广告类型</th>
-                                <th>车身广告状态</th>
+                                <th>广告状态</th>
                                     <th>车辆描述</th>
                              <th >车牌号</th>
                         <th>总公司名称</th>
