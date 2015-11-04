@@ -4,6 +4,7 @@
  * 依赖layer 和js/common.js 2个方法
  * author:impanxh
  * @param id
+ * test
  */
 function showProductlayer(tourl,id){
 	layer.open({
