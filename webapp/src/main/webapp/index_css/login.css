@@ -255,6 +255,14 @@ img {
   background: url(../index_img/login_kuang.png);
   background-size: 100%;
 }
+
+.lg-content .lg-box_bus {
+  display: inline-block;
+  width: 340px;
+  height: 270px;
+  background: url(../index_img/login_kuang_body.png);
+  background-size: 100%;
+}
 .lg-content .lg-info {
   width: 230px;
   margin: 0 auto;

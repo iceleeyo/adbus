@@ -19,7 +19,11 @@
 			</div>
 		</#if>
 			<div class="lg-content">
+		<#if city.mediaType == 'screen'>
 				<div class="lg-box">
+		<#elseif city.mediaType == 'body'>
+				<div class="lg-box_bus">
+		</#if>
 					<div class="lg-info">
 						<form id='loginForm' style="margin-top: -50px;" name='loginForm' class="login-form" action="login" method='POST'>
 							<br>
