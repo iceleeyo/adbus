@@ -7,13 +7,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>用户登录</title>
 		<link rel="stylesheet" type="text/css" href="index_css/login.css">
-	<body class="login">
+
+	<body class="login_bus">
 		<div class="contain">
-			<div class="lg-logo">
-				<img src="index_img/login_logo.png" width="450" height="60">
-			</div>
 			<div class="lg-content">
-				<div class="lg-box">
+				<div class="lg-box_bus">
 					<div class="lg-info">
 						<form id='loginForm' style="margin-top: -50px;" name='loginForm' class="login-form" action="login" method='POST'>
 							<br>

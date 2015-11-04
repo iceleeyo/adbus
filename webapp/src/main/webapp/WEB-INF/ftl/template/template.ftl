@@ -120,8 +120,9 @@
 <div class="online-support">
     <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=3070339185&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=3:3070339185:3" alt="点击这里咨询" title="点击这里咨询"/></a>
 </div>
-
+<#if city.mediaType == 'screen'>
 	<#include "../menu/foot.ftl" />
+</#if>
 </body>
 </html>
 </#macro>
