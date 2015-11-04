@@ -282,5 +282,15 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                     </thead>
 
                 </table>
+                
+                <div class="worm-tips">
+		<div class="tips-title">
+			<span class="icon"></span> 温馨提示
+		</div>
+		<ol>
+			<li>1.请输入正确的姓名、电话及公司信息。</li>
+			<li>2.请赋予相应的员工权限。</li>
+		</ol>
+	</div>
 </div>
 </@frame.html>
