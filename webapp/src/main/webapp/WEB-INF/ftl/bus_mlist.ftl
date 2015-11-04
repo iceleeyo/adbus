@@ -352,7 +352,7 @@ function ishaveline(linename){
                     <thead>
                     <tr>   
                     	<th > <input type="checkbox" name="checkAll" /></th>
-                    		<th ></th>
+                    	<th >序号</th>
                         <th orderBy="serialNumber">车辆自编号</th>
                         <th>旧自编号</th>
                         <th >车牌号</th>
