@@ -23,6 +23,15 @@ header .logo2 {
   background-size: 100%;
   background-position: 0 50%;
 }
+header .logo_bus {
+  float: left;
+  width: 491px;
+  height: 50px;
+  margin-left: 5px;
+  background: url(../index_img/logo_bus.png) no-repeat;
+  background-size: 100%;
+  background-position: 0 50%;
+}
 header .menu {
   margin-top: 15px;
   margin-left: 27%;

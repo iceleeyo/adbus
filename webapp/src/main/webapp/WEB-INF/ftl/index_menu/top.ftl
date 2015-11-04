@@ -49,7 +49,11 @@
 </script>
 <style type="text/css">
 </style>		
+<#if city.mediaType == 'body'>
+				<div class="logo_bus"></div>
+<#elseif city.mediaType == 'screen'>
 				<div class="logo2"></div>
+</#if>
 				<nav class="menu">
 					<ul class="list-line">
 						<!--
