@@ -101,7 +101,6 @@ public class UserManagerController {
 	 * <b>Ajax：获取所有用户</b>
 	 *
 	 */
-	@PreAuthorize(" hasRole('UserManager')  ")
 	@RequestMapping(value = "/ajax-list", method = { RequestMethod.GET })
 	@ResponseBody
 	public DataTablePage<UserDetail> getUsers(TableRequest req) { 
