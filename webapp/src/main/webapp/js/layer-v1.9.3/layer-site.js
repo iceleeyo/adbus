@@ -159,7 +159,7 @@ function UserQualifi(tourl,username){
 				}else{
 					$.each(data, function(i, item) {
 						  if(item.type==10){
-							  $("#qualifi").append("营业执照：<div> <img src='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"' /></div>");
+							  $("#qualifi").append("营业执照：<div> <img height='100' width='150' src='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"' /></div>");
 						  }
 						  if(item.type==11){
 							  $("#qualifi").append("税务登记证：<div> <img src='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"' /></div>");
