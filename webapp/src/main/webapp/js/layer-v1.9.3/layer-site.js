@@ -1701,7 +1701,7 @@ function addBusBatch(pathUrl){
 		area: ['600px', '650px'], 
 		content: ''
 		+ '<form id="publishform01" action='+pathUrl+'/bus/saveBus>'
-		+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">修改字段：</label>'
+		+'<div class="ui-form-item toggle bodyToggle"><br> <label class="ui-label mt10">修改字段：</label>'
 		+'<select class="ui-input ui-input-mini" name="category" id="category">' 
       	+'<option value="0">自编号</option>' 
       	+'<option value="1">车版号</option>' 
