@@ -916,6 +916,30 @@ public class BusSelectController {
 	public String publicOrder_list() {
 		return "publicOrder_list";
 	}
+	
+	//到期提醒
+	@RequestMapping(value = "/reminder")
+	public String reminder() {
+		return "reminder";
+	}
+	
+	//广告查询
+	@RequestMapping(value = "/adquery")
+	public String adquery() {
+		return "adquery";
+	}
+	
+	//配车查询
+	@RequestMapping(value = "/matchbusquery")
+	public String matchbusquery() {
+		return "matchbusquery";
+	}
+	
+	//日常检查
+	@RequestMapping(value = "/dailycheck")
+	public String dailycheck() {
+		return "dailycheck";
+	}
 	@RequestMapping(value = "/publishLine_list")
 	public String publishLine_list() {
 		return "publishLine_list";

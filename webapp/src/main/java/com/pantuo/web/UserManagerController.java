@@ -331,14 +331,13 @@ public class UserManagerController {
 			+ "or hasRole('ShibaSuppliesManager')or hasRole('UserManager') ")*/
 	
 	
-	@PreAuthorize(" hasRole('UserManager')  ")
 	@RequestMapping(value = "/enter")
 	public String enter(Model model, HttpServletRequest request,@CookieValue(value = "city", defaultValue = "-1")int city) {
 		model.addAttribute("groupsList", DataInitializationService._GROUPS);
 		model.addAttribute("bdGroupsList", goupManagerService.getAllDescionGroup(city));
 		return "u/userEnter";
 	}
-	@PreAuthorize(" hasRole('UserManager')  ")
+	//@PreAuthorize(" hasRole('UserManager')  ")
 	@RequestMapping(value = "/save", method = { RequestMethod.POST })
 	@ResponseBody
 	public UserDetail createProduct(UserDetail detail, HttpServletRequest request,Principal principal) {
@@ -389,7 +388,7 @@ public class UserManagerController {
 	}
 	
 	
-	@PreAuthorize(" hasRole('UserManager')  ")
+	//@PreAuthorize(" hasRole('UserManager')  ")
 	@RequestMapping(value = "/u_edit/{userId}", method = { RequestMethod.GET })
 	public String userEdit(@CookieValue(value = "city", defaultValue = "-1")int city,
 			Model model, @PathVariable("userId") String userId, HttpServletRequest request) {

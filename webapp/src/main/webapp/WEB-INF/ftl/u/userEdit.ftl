@@ -130,13 +130,15 @@ function go_back(){
            <input type="hidden" name="ustats" value="${userDetail.ustats!''}">
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>所属组:</label>
-				<#if medetype =='screen'>
-				<#if groupsList?exists> <#list groupsList?keys as vkey> <input
+		<#if userDetail.utype =='screen'>
+				  <#if groupsList?exists> <#list groupsList?keys as vkey> <input
 					type="checkbox" value="${vkey}" name="roles" <#if
-				uGroup?seq_contains(vkey)>checked </#if> /> ${groupsList[vkey]}&nbsp;&nbsp;
-				 <#if vkey_index % 4 ==  0 && vkey_index!=0><br></#if>
-				</#list> </#if>
-				<#else>
+				      uGroup?seq_contains(vkey)>checked </#if> /> ${groupsList[vkey]}&nbsp;&nbsp;
+				    <#if vkey_index % 4 ==  0 && vkey_index!=0><br></#if>
+				      </#list>
+				  </#if>
+				
+		<#else>
 				<#if bdGroupsList?exists> 
 				<#list bdGroupsList as  vkey> <input
 					type="checkbox" value="${vkey.id}" name="roles" <#if
@@ -145,7 +147,7 @@ function go_back(){
     							  
 				</#list>
 				 </#if>
-				</#if>
+		</#if>
 			</div>
 
 			<div class="ui-form-item">

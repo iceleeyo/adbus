@@ -582,9 +582,17 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 											<label class="ui-label mt10"><span
 												class="ui-form-required">*</span>客户名称:</label>
 												<input class="ui-input validate[required]"
-												type="text" name="relateMan" value="${(offlinecontract.relateMan)!''}"
+												type="text" name="company" value="${(offlinecontract.company)!''}"
 												id="name" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="请输入客户名称">
+										</div>
+										<div class="ui-form-item">
+											<label class="ui-label mt10"><span
+												class="ui-form-required">*</span>联系人:</label>
+												<input class="ui-input validate[required]"
+												type="text" name="relateMan" value="${(offlinecontract.relateMan)!''}"
+												id="name" data-is="isAmount isEnough"
+												autocomplete="off" disableautocomplete="" >
 										</div>
 										<div class="ui-form-item">
 											<label class="ui-label mt10"><span
@@ -602,9 +610,9 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                                             </label>
                                             <select data-is="isAmount isEnough"  name="adway" id="adway"
 												autocomplete="off" disableautocomplete="" style="width:173px; height: 38px;">
-                                            	<option value="单机">单机</option>
-                                            	<option value="双层">双层</option>
-                                            	<option value="其他">其他</option>
+                                            	<option value="条幅式">条幅式</option>
+                                            	<option value="车身彩贴">车身彩贴</option>
+                                            	<option value="全车彩贴">全车彩贴</option>
                                             </select>
                                  </div>
 							<div class="ui-form-item">

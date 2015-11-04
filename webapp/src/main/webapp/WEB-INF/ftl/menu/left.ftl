@@ -482,6 +482,38 @@
                                      </@security.authorize>	
                                     
                                      
+                                     
+	                                    <li class="pg-side-item">
+	                                        <a class="pg-side-item-t ee-icon">
+	                                            <i class="s-left pg-icon-a j-icon"></i>
+	                                          检查部门
+	                                        </a>
+	                                        <ul class="pg-side-exp-list">
+	                                          <#-- <li class="pg-side-exp-item">
+	                                                <a class="side-exp-item-t" href="${rc.contextPath}/busselect/reminder">
+	                                                   到期提醒
+	                                                </a>
+	                                            </li>--> 
+	                                            <li class="pg-side-exp-item">
+	                                                <a class="side-exp-item-t" href="${rc.contextPath}/busselect/adquery">
+	                                                   广告查询
+	                                                </a>
+	                                            </li>
+	                                            <li class="pg-side-exp-item">
+	                                                <a class="side-exp-item-t" href="${rc.contextPath}/busselect/matchbusquery">
+	                                                   配车查询
+	                                                </a>
+	                                            </li>
+	                                            <li class="pg-side-exp-item">
+	                                                <a class="side-exp-item-t" href="${rc.contextPath}/busselect/dailycheck">
+	                                                   日常检查
+	                                                </a>
+	                                            </li>
+	                                        </ul>
+	                                    </li>
+                                     
+                                     
+                                     
 	                                       <@security.authorize ifAnyGranted="landmatch,trackmatch,relatemedia"> 
 	                                    <li class="pg-side-item">
 	                                        <a class="pg-side-item-t ee-icon">
@@ -513,6 +545,9 @@
 	                                        </ul>
 	                                    </li>
 	                                     </@security.authorize>	
+	                                     
+	                                     
+	                                     
 	                             <@security.authorize ifAnyGranted="report_monthcount,report_meusersumary,report_yearsalecount,report_line">  
                                     <li class="pg-side-item">
                                         <a class="pg-side-item-t gg-icon">

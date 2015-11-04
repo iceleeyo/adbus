@@ -1229,6 +1229,7 @@ public class BusServiceImpl implements BusService {
 			busOnline.setUserid(Request.getUserId(principal));
 			busOnline.setEndDate(endDate);
 			busOnline.setBusid(busid);
+			busOnline.setEditor(Request.getUserId(principal));
 			busOnline.setCity(city);
 			busOnline.setPublishLineId(plid);
 			busOnline.setReserveDate(reserveDate);
