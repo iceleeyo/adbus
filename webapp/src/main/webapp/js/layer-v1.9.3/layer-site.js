@@ -152,18 +152,18 @@ function UserQualifi(tourl,username){
 	    		area: ['450px', '600px'], //宽高
 	    		content: ' '
 						 +'<br/>'
-						 +'<div  id="qualifi"> </div>'
+						 +'<div  id="qualifi" style="padding-left:50px;"> </div>'
 		});
 				if(typeof(data)=="undefined"){
 					$("#qualifi").append("用户尚未上传资质");
 				}else{
 					$.each(data, function(i, item) {
 						  if(item.type==10){
-							  $("#qualifi").append("营业执照：<div style='padding-left:50px;'> <img style='height:150px; width:200px;' src='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"' /></div>");
+							  $("#qualifi").append("营业执照：<div > <img style='height:200px; width:300px;' src='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"' /></div>");
 
 						  }
 						  if(item.type==11){
-							  $("#qualifi").append("税务登记证：<div style='padding-left:50px;'> <img style='height:150px; width:200px;' src='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"' /></div>");
+							  $("#qualifi").append("税务登记证：<div > <img style='height:200px; width:300px;' src='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"' /></div>");
 
 						  }
 						});
