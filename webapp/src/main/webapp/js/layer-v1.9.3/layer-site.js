@@ -1602,7 +1602,7 @@ function addBus(pathUrl){
 				type: 1,
 				title: "添加车辆",
 				skin: 'layui-layer-rim', 
-				area: ['600px', '650px'], 
+				area: ['500px', '620px'], 
 				content: ''
 				+ '<form id="publishform01" action='+pathUrl+'/bus/saveBus>'
 				+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
