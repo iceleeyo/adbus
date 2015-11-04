@@ -105,7 +105,7 @@ function go_back(){
   			num=num;
   		}
  		if(num<=0){
-  			jDialog.Alert("请选择至少一个分组");
+  			jDialog.Alert("请选择至少一个角色");
   			return;
   		}
 		
@@ -209,7 +209,7 @@ function go_back(){
 			</div>
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>
-				所属组:
+				角色:
 				</label>
                 <div>
                 <span id="c1">
