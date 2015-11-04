@@ -100,7 +100,7 @@ css=["js/jquery-ui/jquery-ui.css","js/jquery-ui/jquery-ui.auto.complete.css","cs
                         '    <span>' +
                         '        <input id="model" value="">' +
                         '    </span>&nbsp;&nbsp;' +
-                         '    <br><br><span>营销中心</span>&nbsp;&nbsp;' +
+                         '    <br><br><span>营销中心</span>' +
                        '<select class="ui-input ui-input-mini"  id="company">' +
                     '<option value="defaultAll" selected="selected">所有</option>' +
                   	                           '<option value="自营">自营</option>'+
