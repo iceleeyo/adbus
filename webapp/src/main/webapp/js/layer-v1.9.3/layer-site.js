@@ -1698,7 +1698,7 @@ function addBusBatch(pathUrl){
 		type: 1,
 		title: "车辆批量修改",
 		skin: 'layui-layer-rim', 
-		area: ['600px', '650px'], 
+		area: ['600px', '620px'], 
 		content: ''
 		+ '<form id="publishform01" action='+pathUrl+'/bus/saveBus>'
 		+'<div class="ui-form-item toggle bodyToggle"><br> <label class="ui-label mt10">修改字段：</label>'
