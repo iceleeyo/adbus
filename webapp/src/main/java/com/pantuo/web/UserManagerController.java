@@ -91,7 +91,6 @@ public class UserManagerController {
 	@Autowired
 	AttachmentService attachmentService;
 	
-	@PreAuthorize(" hasRole('UserManager')  ")
 	@RequestMapping(value = "/list", method = { RequestMethod.GET })
 	public String userlist() {
 		return "user_list";
