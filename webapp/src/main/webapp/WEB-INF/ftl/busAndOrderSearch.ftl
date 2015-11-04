@@ -343,28 +343,28 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>
                     <tr>
-                   	    <th ></th>
+                   	    <th></th>
                   		<th >线路</th>
                         <th >线路级别</th>
                         <th >车辆自编号</th>
                         <th>旧自编号</th>
-                         <th >营销中心</th>
-                          <th>是否有广告</th>
+                        <th >营销中心</th>
+                        <th>是否有广告</th>
                         <th>合同编号</th>
-                          <th >车型</th>
+                        <th >车型</th>
                         <th>实际上刊日期</th>
                         <th>预计下刊日期</th>
-                         <th>实际下刊日期</th>
-                          <th>刊期</th>
-                             <th >类别</th>
-                             <th >广告类型</th>
-                                <th>车身广告状态</th>
-                                    <th>车辆描述</th>
-                             <th >车牌号</th>
+                        <th>实际下刊日期</th>
+                        <th>刊期</th>
+                        <th >类别</th>
+                        <th >广告类型</th>
+                        <th>车身广告状态</th>
+                        <th>车辆描述</th>
+                        <th >车牌号</th>
                         <th>总公司名称</th>
                         <th>分公司名称</th>
-                         <th>上刊类型</th>
-                         <th>广告内容</th>
+                        <th>上刊类型</th>
+                        <th>广告内容</th>
                     </tr>
                     </thead>
                 </table>
