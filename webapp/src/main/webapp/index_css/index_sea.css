@@ -355,22 +355,6 @@ table {
 }
 
 
-.side-exp-item-t {
-	display: block;
-	margin-left: 10px;
-	padding-left: 30px;
-	height: 36px;
-	line-height: 36px;
-	color: #909090;
-	cursor: pointer;
-}
-
-.side-exp-item-t:hover {
-	cursor: pointer;
-	color: #fff;
-	background: #7fd4f3;
-}
-
 .main-solid {
 	background: #2da7e0;
 	width: 760px;
