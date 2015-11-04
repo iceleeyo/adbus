@@ -482,7 +482,7 @@
                                      </@security.authorize>	
                                     
                                      
-                                     
+                                     <#if _utype == 'body'>
 	                                    <li class="pg-side-item">
 	                                        <a class="pg-side-item-t ee-icon">
 	                                            <i class="s-left pg-icon-a j-icon"></i>
@@ -511,7 +511,7 @@
 	                                            </li>
 	                                        </ul>
 	                                    </li>
-                                     
+                                     </#if>
                                      
                                      
 	                                       <@security.authorize ifAnyGranted="landmatch,trackmatch,relatemedia"> 
@@ -635,11 +635,13 @@
 											</li>
                                             </@security.authorize>
                                              <@security.authorize ifAnyGranted="UserManager,body_roleManager">
+                                                <#if _utype == 'body'>
 		                                            <li class="pg-side-exp-item">
 														<a class="side-exp-item-t" href="${rc.contextPath}/user/role_list">
 															车身角色管理
 														</a>
 													</li>
+												</#if>
 											 </@security.authorize>
                                            <@security.authorize ifAnyGranted="advertiser">
 											<li class="pg-side-exp-item">

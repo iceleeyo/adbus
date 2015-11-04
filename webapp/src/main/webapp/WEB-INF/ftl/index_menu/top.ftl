@@ -49,9 +49,9 @@
 </script>
 <style type="text/css">
 </style>		
-<#if city.mediaType == 'body'>
+<#if _utype == 'body'>
 				<div class="logo_bus"></div>
-<#elseif city.mediaType == 'screen'>
+<#elseif _utype == 'screen'>
 				<div class="logo2"></div>
 </#if>
 				<nav class="menu">
@@ -67,7 +67,7 @@
 					</ul>
 					<div class="s-right s-clear">
 					
-								<span class="pg-nav-item s-left" >您好，</span>
+								<span class="pg-nav-item s-left" >您好，${city.mediaType}   ${_utype}</span>
 									<span>
                                         <@security.authorize access="isAuthenticated()">
                                         <#if medetype?? && medetype=="screen">

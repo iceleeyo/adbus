@@ -118,9 +118,12 @@
                         '    </span>' +
                         '    <span>用户类型</span>' + 
                      '<select class="ui-input ui-input-mini" name="utype" id="utype">' +
-                  	'<option value="screen" selected="selected">移动视频</option>' +
+                     <#if _utype == 'body'>
                   	'<option value="body">车身广告</option>' +
+                  	<#elseif _utype == 'screen'>
+                  	'<option value="screen" selected="selected">移动视频</option>' +
                   	'<option value="pub">注册广告主</option>' +
+                  	</#if>
          			'</select>' +
                         '</div>'
         );
