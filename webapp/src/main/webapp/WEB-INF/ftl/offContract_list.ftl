@@ -58,7 +58,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
                     return row.id;
                 },
                     "render": function(data, type, row, meta) {
-                    var operations='<a class="table-link" href="${rc.contextPath}/busselect/offcontract_edit/' + data +'" >详情</a>';
+                    var operations='<a class="table-link" href="${rc.contextPath}/busselect/offcontract_edit/' + data +'" ><font color="green"><B>编辑</B></font></a>';
                          return operations;
                     }},
             ],
