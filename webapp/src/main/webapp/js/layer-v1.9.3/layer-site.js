@@ -164,7 +164,6 @@ function UserQualifi(tourl,username){
 						  }
 						  if(item.type==11){
 							  $("#qualifi").append("税务登记证：<div > <img style='height:200px; width:300px;' src='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"' /></div>");
-
 						  }
 						});
 					
