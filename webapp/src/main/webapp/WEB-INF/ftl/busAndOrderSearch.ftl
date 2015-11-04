@@ -14,6 +14,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
     .processed {color: limegreen;}
     .invalid {color: red;}
     .hl {background-color: #ffff00;}
+    .data1 {color: blue; font-size:16px;}
 </style>
 
 <script type="text/javascript">
@@ -134,9 +135,9 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 					    				 $.each(data,function(index,value){
         								        w+='<span id="trw2">';
         								        w+=value.modelName=='-total-'?"该线路合计总数：":value.modelName;
-        								        w+='&nbsp;&nbsp;&nbsp; &nbsp车辆总数：';
+        								        w+='&nbsp;&nbsp;&nbsp; &nbsp车辆总数：<span class="data1">';
         								        w+=value.total;
-        								        w+='&nbsp;&nbsp;&nbsp; &nbsp;占用车辆数：';
+        								        w+='</span>&nbsp;&nbsp;&nbsp; &nbsp;占用车辆数：';
         								        w+=value.online;
         								        w+='&nbsp;&nbsp;&nbsp; &nbsp; 可用车辆数：';
         								        w+=value.free;
