@@ -209,7 +209,7 @@ function go_back(){
 			</div>
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>
-				角色:
+				角色选择:
 				</label>
                 <div>
                 <span id="c1">
