@@ -7,11 +7,17 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>用户登录</title>
 		<link rel="stylesheet" type="text/css" href="index_css/login.css">
+<#if city.mediaType == 'screen'>
 	<body class="login">
+<#elseif city.mediaType == 'body'>
+	<body class="login_bus">
+</#if>
 		<div class="contain">
+		<#if city.mediaType == 'screen'>
 			<div class="lg-logo">
 				<img src="index_img/login_logo.png" width="450" height="60">
 			</div>
+		</#if>
 			<div class="lg-content">
 				<div class="lg-box">
 					<div class="lg-info">

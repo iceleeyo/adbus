@@ -84,6 +84,10 @@ img {
   background: url(../index_img/login_background.png) no-repeat;
   background-size: 100%;
 }
+.login_bus {
+  background: url(../index_img/bg-body-login.png) no-repeat;
+  background-size: 100%;
+}
 .rg-logo {
   width: 800px;
   margin: 10px auto;
