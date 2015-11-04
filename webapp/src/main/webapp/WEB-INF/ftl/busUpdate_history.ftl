@@ -169,5 +169,10 @@ css=["js/jquery-ui/jquery-ui.css"]>
                     </thead>
 
                 </table>
+     <div class="worm-tips">
+		<div class="tips-title">
+			 温馨提示：高亮的字段表示被修改的字段。
+		</div>
+	</div>                
 </div>
 </@frame.html>
