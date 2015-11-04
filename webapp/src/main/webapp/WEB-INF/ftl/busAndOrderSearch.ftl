@@ -160,17 +160,17 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 					    				 $.each(data.views,function(index,value){
         								        w+='<span id="trw2">';
         								        w+='车型：'+value.modelName;
-        								        w+='&nbsp;&nbsp;&nbsp; &nbsp;已上刊车辆数：';
+        								        w+='&nbsp;&nbsp;&nbsp; &nbsp;已上刊车辆数：<span class="data1">';
         								        w+=value.alrnum;
-        								        w+='</span><br>';
+        								        w+='</span></span><br>';
 										})
 										 w+='<span id="trw2">';
         								        w+='车辆订购总数：'+data.totalsalsnum;
-        								        w+='&nbsp;&nbsp;&nbsp; &nbsp;已上刊车辆数：';
+        								        w+='&nbsp;&nbsp;&nbsp; &nbsp;已上刊车辆数：<span class="data1">';
         								        w+=data.totalalrnum;
-        								        w+='&nbsp;&nbsp;&nbsp; &nbsp;排队车辆数：';
+        								        w+='</span>&nbsp;&nbsp;&nbsp; &nbsp;排队车辆数：<span class="data1">';
         								        w+=data.totalfree;
-        								        w+='</span>';
+        								        w+='</span></span>';
 										$("#modelcountView").html(w);
 					    			}
 					       });  
