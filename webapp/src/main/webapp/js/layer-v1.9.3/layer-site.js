@@ -149,7 +149,7 @@ function UserQualifi(tourl,username){
 	    		type: 1,
 	    		title: "用户资质",
 	    		skin: 'layui-layer-rim', //加上边框
-	    		area: ['650px', '650px'], //宽高
+	    		area: ['450px', '600px'], //宽高
 	    		content: ' '
 						 +'<br/>'
 						 +'<div  id="qualifi"> </div>'
@@ -159,11 +159,11 @@ function UserQualifi(tourl,username){
 				}else{
 					$.each(data, function(i, item) {
 						  if(item.type==10){
-							  $("#qualifi").append("营业执照：<div> <img style='height:150px; width:200px;' src='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"' /></div>");
+							  $("#qualifi").append("营业执照：<div style='padding-left:50px;'> <img style='height:150px; width:200px;' src='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"' /></div>");
 
 						  }
 						  if(item.type==11){
-							  $("#qualifi").append("税务登记证：<div> <img style='height:150px; width:200px;' src='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"' /></div>");
+							  $("#qualifi").append("税务登记证：<div style='padding-left:50px;'> <img style='height:150px; width:200px;' src='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"' /></div>");
 
 						  }
 						});
