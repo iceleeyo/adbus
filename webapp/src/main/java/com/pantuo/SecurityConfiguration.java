@@ -30,9 +30,11 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 import com.pantuo.dao.pojo.JpaCity;
+import com.pantuo.dao.pojo.UserDetail.UType;
 import com.pantuo.service.CityService;
 import com.pantuo.service.DataInitializationService;
 import com.pantuo.service.UserServiceInter;
+import com.pantuo.service.security.ActivitiUserDetails;
 import com.pantuo.service.security.ActivitiUserDetailsService;
 import com.pantuo.util.Request;
 import com.pantuo.web.ControllerSupport;
@@ -118,7 +120,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/", "/*.html", "/login", "/logout", "/homepage/**", "/css/**", "/images/**", "/imgs/**",
 						"/js/**", "/index_js/**", "/index_img/**", "/index_css/**", "/style/**")
 				.permitAll()
-				.antMatchers("/busselect/work**/**", "/intro**", "/about-me", "/media", "/effect","*/media**","*/effect**", 
+				.antMatchers("/login_bus","/busselect/work**/**", "/intro**", "/about-me", "/media", "/effect","*/media**","*/effect**", 
 						"*/partner**","/partner","*/aboutme**","/aboutme","/loginForLayer",
 						"/screen", "/secondLevelPage", "/secondLevelPageBus", "/body", "/**/public**/**",
 						"/**/public**", "/register", "/user/**", "/doRegister", "/validate/**", "/f/**",
@@ -148,11 +150,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 						HttpSession session = request.getSession(false);
 						if (session != null) {
 							String tString = (String) session.getAttribute("medetype");
+							String _utype = (String) session.getAttribute("_utype");
 							System.err.println(tString);
 							if (session != null) {
 								session.invalidate();
 							}
 							request.getSession().setAttribute("medetype", tString);
+							request.getSession().setAttribute("_utype", _utype);
 						}
 					}
 				})
@@ -192,36 +196,50 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			redirectStrategy.sendRedirect(request, response, targetUrl);
 		}
 
-		protected String determineTargetUrl(Authentication authentication,HttpServletRequest request,HttpServletResponse response) {
+		protected String determineTargetUrl(Authentication authentication, HttpServletRequest request,
+				HttpServletResponse response) {
 			boolean isBody = false;
 			boolean isBodysales = false, isUserAdmin = false;
-
+			String userName = StringUtils.EMPTY;
+			if (authentication.getPrincipal() instanceof ActivitiUserDetails) {
+				userName = (((ActivitiUserDetails) authentication.getPrincipal()).getUserDetail().getUsername());
+			}
 			Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 			for (GrantedAuthority grantedAuthority : authorities) {
 
 				//如果是车身销售员 到我的订单 没有待办事项
 				if (StringUtils.startsWith(grantedAuthority.getAuthority(), "bodysales")) {
+					request.getSession().setAttribute("_utype", "body");
 					isBodysales = true;
 					break;
 				} else if (StringUtils.startsWith(grantedAuthority.getAuthority(), "body")
 						|| DataInitializationService.bodyAuthSet.contains(grantedAuthority.getAuthority())) {
 					isBody = true;
+					request.getSession().setAttribute("_utype", "body");
 					break;
-				} else if (StringUtils.startsWith(grantedAuthority.getAuthority(), "UserManager")) {
+				} else if (StringUtils.startsWith(grantedAuthority.getAuthority(), "UserManager")
+						|| StringUtils.startsWith(grantedAuthority.getAuthority(), "body_roleManager")) {
+					if (StringUtils.startsWith(userName, "mediaAdmin")) {
+						request.getSession().setAttribute("_utype", "screen");
+					} else {
+						request.getSession().setAttribute("_utype", "body");
+
+					}
 					isUserAdmin = true;
 					break;
 				}
 			}
 			if (isBodysales) {
-				makeCookieRight(request, response,false);
+				makeCookieRight(request, response, false);
 				return "/busselect/myOrders/1";
 			} else if (isBody) {
-				makeCookieRight(request, response,false);
+				makeCookieRight(request, response, false);
 				return "/busselect/myTask/1";
 			} else if (isUserAdmin) {
 				return "user/list";
 			} else {
-				makeCookieRight(request, response,true);
+				makeCookieRight(request, response, true);
+				request.getSession().setAttribute("_utype", "screen");
 				return "/order/myTask/1";
 				//throw new IllegalStateException();
 			}

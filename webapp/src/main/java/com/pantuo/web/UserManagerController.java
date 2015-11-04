@@ -17,11 +17,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.pojo.BaseEntity;
@@ -29,6 +31,7 @@ import com.pantuo.dao.pojo.JpaFunction;
 import com.pantuo.dao.pojo.JpaInvoice;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.dao.pojo.UserDetail.UType;
 import com.pantuo.mybatis.domain.ActIdGroup;
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.Orders;
@@ -53,6 +56,7 @@ import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 import com.pantuo.web.view.AutoCompleteView;
 import com.pantuo.web.view.InvoiceView;
+import com.pantuo.web.view.MapLocationSession;
 import com.pantuo.web.view.RoleView;
 
 /**
@@ -65,6 +69,7 @@ import com.pantuo.web.view.RoleView;
 
 @Controller
 @RequestMapping(value = "user", produces = "application/json;charset=utf-8")
+@SessionAttributes("_utype")
 public class UserManagerController {
 	private static Logger log = LoggerFactory.getLogger(UserManagerController.class);
 
@@ -102,9 +107,12 @@ public class UserManagerController {
 	 */
 	@RequestMapping(value = "/ajax-list", method = { RequestMethod.GET })
 	@ResponseBody
-	public DataTablePage<UserDetail> getUsers(TableRequest req) { 
-		return new DataTablePage(userService.getAllUsers(req.getFilter("utype"),req.getFilter("name"), req.getPage(), req.getLength(),
-				req.getSort("id")), req.getDraw());
+	public DataTablePage<UserDetail> getUsers(TableRequest req, @ModelAttribute("_utype") String user) {
+		System.out.println(user);
+		/*return new DataTablePage(userService.getAllUsers(req.getFilter("utype"),req.getFilter("name"), req.getPage(), req.getLength(),
+				req.getSort("id")), req.getDraw());*/
+		return new DataTablePage<UserDetail>(userService.getUsers(req.getFilter("utype"), req.getFilter("name"), null,
+				req.getPage(), req.getLength(), req.getSort("id"), UType.valueOf(user)), req.getDraw());
 	}
 	@RequestMapping(value = "/invoiceList")
 	public String invoicelist() {

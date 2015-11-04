@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import scala.collection.generic.BitOperations.Int;
 
 import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.dao.pojo.UserDetail.UType;
 import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.util.Pair;
@@ -26,6 +27,8 @@ public interface UserServiceInter {
 	public abstract long countGroups();
 
 	public abstract Page<UserDetail> getAllUsers(String utype,String name, int page, int pageSize, Sort order);
+public	Page<UserDetail> getUsers(String utype, String name, Boolean isEnabled, int page, int pageSize,
+			Sort order,UType loginUserType);
 
 	public abstract Page<UserDetail> getValidUsers(String utype,int page, int pageSize, Sort order);
 

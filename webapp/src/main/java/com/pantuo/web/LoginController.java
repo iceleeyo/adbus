@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.activiti.engine.IdentityService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,10 +56,26 @@ public class LoginController {
 			@RequestParam("password") String password, HttpServletRequest request, Authentication auth) {
 		return userService.loginForLayer(request, username, password);
 	} 
-    
+	 @RequestMapping(value = "/login_bus", produces = "text/html;charset=utf-8")
+	    public String login_bus(Model model,HttpServletRequest request, Authentication auth)
+	    {
+	    	Object asObject=  request.getSession().getAttribute("medetype");
+	    	if(asObject==null){
+	    		request.getSession().setAttribute("medetype","body");
+	    	}
+	        if (auth != null && auth.isAuthenticated()) {
+	            return "redirect:/busselect/myTask/1";
+	        }else{
+	        	model.addAttribute("msg", "用户名或密码错误");
+	        return "login_bus";
+	        }
+	    }
     @RequestMapping(value = "/login", produces = "text/html;charset=utf-8")
     public String login(Model model,HttpServletRequest request, Authentication auth)
     {
+    	if(StringUtils.equals("body", (String)request.getSession().getAttribute("_utype"))){
+    		  return "login_bus";
+    	}
     	Object asObject=  request.getSession().getAttribute("medetype");
     	if(asObject==null){
     		request.getSession().setAttribute("medetype","screen");

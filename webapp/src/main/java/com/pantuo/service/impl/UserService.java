@@ -36,6 +36,7 @@ import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.QUserDetail;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.dao.pojo.UserDetail.UStats;
+import com.pantuo.dao.pojo.UserDetail.UType;
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.mybatis.domain.InvoiceExample;
@@ -113,7 +114,7 @@ public class UserService implements UserServiceInter {
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
 	public Page<UserDetail> getAllUsers(String utype,String name, int page, int pageSize, Sort order) {
-		return getUsers(  utype,name, null, page, pageSize, order);
+		return getUsers(  utype,name, null, page, pageSize, order,null);
 	}
 
 	/**
@@ -121,7 +122,7 @@ public class UserService implements UserServiceInter {
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
 	public Page<UserDetail> getValidUsers(String utype,int page, int pageSize, Sort order) {
-		return getUsers(  utype,null, true, page, pageSize, order);
+		return getUsers(  utype,null, true, page, pageSize, order,null);
 	}
 
 	/**
@@ -132,8 +133,8 @@ public class UserService implements UserServiceInter {
 		return identityService.createGroupQuery().list();
 	}
 
-	private Page<UserDetail> getUsers(String utype, String name, Boolean isEnabled, int page, int pageSize,
-			Sort order) {
+	public Page<UserDetail> getUsers(String utype, String name, Boolean isEnabled, int page, int pageSize,
+			Sort order,UType loginUserType) {
 		if (page < 0)
 			page = 0;
 		if (pageSize < 1)
@@ -152,7 +153,22 @@ public class UserService implements UserServiceInter {
 				query = (query == null ? q.utype.eq(u) : query.and(q.utype.eq(u)));
 				result = userRepo.findAll(query, p);
 			} else {
-				result = userRepo.findAll(p);
+				if(loginUserType!=null){
+					if(loginUserType==UType.body){
+						BooleanExpression query = null;
+						query = (query == null ? q.utype.eq(UType.body) : query.and(q.utype.eq(UType.body)));
+						result = userRepo.findAll(query, p);
+					}else if(loginUserType==UType.screen){
+						BooleanExpression query = null;
+						query = (query == null ? q.utype.ne(UType.body) : query.and(q.utype.ne(UType.body)));
+						result = userRepo.findAll(query, p);
+					}
+					
+				}else {
+					
+					result = userRepo.findAll(p);	
+				}
+				
 			}
 		} else { 
 			QUserDetail q = QUserDetail.userDetail;

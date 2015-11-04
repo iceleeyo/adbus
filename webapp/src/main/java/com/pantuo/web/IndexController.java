@@ -118,7 +118,9 @@ public class IndexController {
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
 		//city = makeCookieValueRight(city == -1 ? 1 : (city % 2 == 0 ? city - 1 : city), response);
 			//		return commonData(model, request, city, "index", "screen");
-		
+		if(!StringUtils.contains(request.getServerName(), "busme")){
+			return "redirect:/login_bus"; 
+		}
 		return "index";
 	}
 	
