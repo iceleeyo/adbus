@@ -1999,6 +1999,7 @@ left: 50px; /*position where enlarged image should offset horizontally */
 }
 .withdraw-wrap.color-white-bg.fn-clear{
 	margin-left:0px; 
+	margin-top: 10px;
 }
 
 .withdraw-wrap.color-white-bg.fn-clear_blank{

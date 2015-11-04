@@ -11,7 +11,7 @@
 		<link rel="stylesheet" type="text/css" href="index_css/jack.css">
 		<link rel="stylesheet" type="text/css" href="index_css/shibaHome.css">
 		<link rel="stylesheet" type="text/css" href="index_css/sift.css">
-		<link rel="stylesheet" type="text/css" href="index_css/sea.css">
+		<link rel="stylesheet" type="text/css" href="index_css/index_sea.css">
 		<script src="js/jquery.pagination.js"></script>
 		<script type="text/javascript" language="javascript" src="js/layer/layer.js"></script>
     	<!--增加lay最新版本-->

@@ -12,7 +12,7 @@
 		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/jquery-ui-1.8.16.custom.css">
 		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/secondLevel.css">
 		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/sift.css">
-		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/sea.css">
+		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/index_sea.css">
 		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/pagination.css">
 		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/layer.css">
 		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/logMini.css">

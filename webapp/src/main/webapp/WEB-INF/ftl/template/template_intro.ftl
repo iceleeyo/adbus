@@ -58,7 +58,7 @@
 	<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/base.css">
 	<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/header.css">
 	<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/secondLevel.css">
-	<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/sea.css">
+	<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/index_sea.css">
     <#list css as entry>
         <link rel="stylesheet" type="text/css" href="${rc.contextPath}/${entry}">
     </#list>
