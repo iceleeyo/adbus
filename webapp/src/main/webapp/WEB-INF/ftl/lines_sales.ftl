@@ -108,7 +108,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                         '    <span>' +
                         '        <input id="serinum" value="">' +
                         '    </span>&nbsp;&nbsp;' +
-                        '    <span>旧自编号：</span>' +
+                        '    <span>旧自编号</span>' +
                         '    <span>' +
                         '        <input id="oldserinum" value="">' +
                         '    </span>&nbsp;&nbsp;' +
@@ -320,7 +320,7 @@ function showBusDetail(pathUrl,tourl,id){
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title">
-                车辆列表
+                业务车辆查询
 									</div>					
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>
