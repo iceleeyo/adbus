@@ -343,7 +343,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>
                     <tr>
-                   	    <th></th>
+                   	    <th>序号</th>
                   		<th >线路</th>
                         <th >线路级别</th>
                         <th >车辆自编号</th>
