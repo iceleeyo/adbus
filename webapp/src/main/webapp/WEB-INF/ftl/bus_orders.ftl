@@ -187,7 +187,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>
                     <tr>   
-                    	<th ></th>
+                    	<th >序号</th>
                      	<th>订单编号</th>
                      	<th>合同编号</th>
                         <th>广告内容</th>
