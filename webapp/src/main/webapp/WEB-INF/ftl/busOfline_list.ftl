@@ -13,6 +13,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
     .processed {color: limegreen;}
     .invalid {color: red;}
     .hl {background-color: #ffff00;}
+    .dataTables_wrapper .dataTables_length{float:right;}
 </style>
 
 <script type="text/javascript">
@@ -28,6 +29,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 		    			dataType:"json",
 		    			data:param,
 		    			success:function(data){
+		    		
 		    				if (data != null) {
 		    				var t="线路车辆总数: <font color='red'>[&nbsp;&nbsp;"+data.totalBus +"&nbsp;&nbsp;]</font>当日已上刊总数:<font color='red'>[&nbsp;&nbsp;"+data.dayOnlieBus+"&nbsp;&nbsp;]</font>";
 		    					$("#trw").html(t);
