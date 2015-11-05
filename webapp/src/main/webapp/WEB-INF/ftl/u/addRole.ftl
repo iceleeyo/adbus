@@ -143,7 +143,14 @@ function go_back(){
 				  />${item.name} <br>
 				   </#if>
 				 </#list>
-				 
+				 <br>
+				 <font color="red">检查部门</font>&nbsp;<br>
+				  <#list functions as item>
+				   <#if item.funcode?index_of("check_")!=-1 >
+					<input type="checkbox" value="${item.id}" name="checkone" 
+				  />${item.name} <br>
+				   </#if>
+				 </#list>
 				 <br> 
 							</div>
 							<div class="select-items clearfix">

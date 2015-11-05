@@ -130,7 +130,7 @@ public interface BusService {
 
 	Pair<Boolean, String> batchOffline(String ids, String offday, Principal principal, int city)  throws ParseException;
 
-	Page<JpaBusOnline> getbusOnlineList(int cityId, TableRequest req, int page, int length, Sort sort) ;
+	Page<JpaBusOnline> getbusOnlineList(int cityId, TableRequest req, int page, int length, Sort sort)throws ParseException ;
 	
 	public long getMoneyFromBusModel(JpaBusline.Level level,boolean doubleDecker);
 

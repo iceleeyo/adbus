@@ -135,8 +135,7 @@ function go_back(){
 				 
 				  <br>
 							</div>
-							<div class="select-items clearfix">
-						          
+				<div class="select-items clearfix">
 				 <font color="red">用户角色管理</font>&nbsp;<br>
 				  <#list functions as item>
 				   <#if item.funcode?index_of("sys_userList")!=-1 || item.funcode?index_of("body_roleManager")!=-1>
@@ -144,9 +143,16 @@ function go_back(){
 				 <#if funcIDList?seq_contains(item.id)>checked </#if> />${item.name} <br>
 				   </#if>
 				 </#list>
-				 
 				 <br> 
-							</div>
+				 <font color="red">检查部门</font>&nbsp;<br>
+				  <#list functions as item>
+				   <#if item.funcode?index_of("check_")!=-1 >
+					<input type="checkbox" value="${item.id}" name="checkone" 
+				 <#if funcIDList?seq_contains(item.id)>checked </#if> />${item.name} <br>
+				   </#if>
+				 </#list>
+				 <br> 
+					</div>
 							<div class="select-items clearfix">
 						          
 				  <font color="red">车身套餐管理</font>&nbsp;<br>

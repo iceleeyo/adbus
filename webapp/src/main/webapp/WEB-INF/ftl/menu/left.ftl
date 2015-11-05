@@ -246,7 +246,6 @@
                                     </#if>
                                     
                                     
-                                  <#if _utype == 'body'>
                                      <@security.authorize ifAnyGranted="bodyContractManager,sale_packageDesign,sale_packageList,sale_packageOrder">  
                                     <li class="pg-side-item">
                                         <a class="pg-side-item-t gg-icon">
@@ -481,38 +480,44 @@
 	                                    </li>
                                      </@security.authorize>	
                                     
-                                     
-                                     <#if _utype == 'body'>
+                           <@security.authorize ifAnyGranted="check_remind,check_adquery,check_matchbusquery,check_dailycheck">            
 	                                    <li class="pg-side-item">
 	                                        <a class="pg-side-item-t ee-icon">
 	                                            <i class="s-left pg-icon-a m-icon"></i>
-	                                          检查部门
+	                                          检查部门  ${_utype}
 	                                        </a>
 	                                        <ul class="pg-side-exp-list">
-	                                          <#-- <li class="pg-side-exp-item">
+	                                        <@security.authorize ifAnyGranted="check_remind">	
+	                                           <li class="pg-side-exp-item">
 	                                                <a class="side-exp-item-t" href="${rc.contextPath}/busselect/reminder">
-	                                                   到期提醒
+	                                                   到期提示
 	                                                </a>
-	                                            </li>--> 
+	                                            </li>
+	                                             </@security.authorize>
+	                                            <@security.authorize ifAnyGranted="check_adquery">	
 	                                            <li class="pg-side-exp-item">
 	                                                <a class="side-exp-item-t" href="${rc.contextPath}/busselect/adquery">
 	                                                   广告查询
 	                                                </a>
 	                                            </li>
+	                                             </@security.authorize>
+	                                            <@security.authorize ifAnyGranted="check_matchbusquery">	
 	                                            <li class="pg-side-exp-item">
 	                                                <a class="side-exp-item-t" href="${rc.contextPath}/busselect/matchbusquery">
 	                                                   配车查询
 	                                                </a>
 	                                            </li>
+	                                             </@security.authorize>
+	                                            <@security.authorize ifAnyGranted="check_dailycheck">	
 	                                            <li class="pg-side-exp-item">
 	                                                <a class="side-exp-item-t" href="${rc.contextPath}/busselect/dailycheck">
 	                                                   日常检查
 	                                                </a>
 	                                            </li>
+	                                             </@security.authorize>
 	                                        </ul>
 	                                    </li>
-                                     </#if>
-                                     
+                                     </@security.authorize>	
                                      
 	                                       <@security.authorize ifAnyGranted="landmatch,trackmatch,relatemedia"> 
 	                                    <li class="pg-side-item">
@@ -586,7 +591,6 @@
                                         </ul>
                                     </li>
                                      </@security.authorize>    
-                                    </#if>
                                     
                                     <#if _utype == 'screen'>
                                     <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,contract_input,contract_list,contract_search,contract_buy">

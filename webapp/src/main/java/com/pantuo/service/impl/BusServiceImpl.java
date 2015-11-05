@@ -1729,7 +1729,7 @@ public class BusServiceImpl implements BusService {
 	}
 
 	@Override
-	public Page<JpaBusOnline> getbusOnlineList(int cityId, TableRequest req, int page, int length, Sort sort) {
+	public Page<JpaBusOnline> getbusOnlineList(int cityId, TableRequest req, int page, int length, Sort sort) throws ParseException {
 		if (page < 0)
 			page = 0;
 		if (length < 1)
@@ -1739,8 +1739,8 @@ public class BusServiceImpl implements BusService {
 		Pageable p = new PageRequest(page, length, sort);
 		BooleanExpression query = QJpaBusOnline.jpaBusOnline.city.eq(cityId);
 		query = query.and(QJpaBusOnline.jpaBusOnline.enable.eq(true));
-		String contracCode = req.getFilter("contracCode"),linename=req.getFilter("linename"),
-				serinum=req.getFilter("serinum"),
+		String contracCode = req.getFilter("contracCode"),contractid=req.getFilter("contractid"),linename=req.getFilter("linename"),
+				serinum=req.getFilter("serinum"),end1=req.getFilter("end1"),end2=req.getFilter("end2"),
 				publishLineid=req.getFilter("publishLineid");
 		if (StringUtils.isNotBlank(publishLineid)) {
 			int pid=NumberUtils.toInt(publishLineid);
@@ -1749,11 +1749,23 @@ public class BusServiceImpl implements BusService {
 		if (StringUtils.isNotBlank(contracCode)) {
 			query = query.and(QJpaBusOnline.jpaBusOnline.offlineContract.contractCode.like("%"+contracCode+"%"));
 		}
+		if (StringUtils.isNotBlank(contractid)) {
+			int cid=NumberUtils.toInt(contractid);
+			query = query.and(QJpaBusOnline.jpaBusOnline.offlineContract.id.eq(cid));
+		}
+		if (StringUtils.isNotBlank(end1)) {
+			Date edtDate1=(Date)new SimpleDateFormat("yyyy-MM-dd").parseObject(end1);
+			query = query.and(QJpaBusOnline.jpaBusOnline.endDate.after(edtDate1));
+		}
+		if (StringUtils.isNotBlank(end2)) {
+			Date edtDate2=(Date)new SimpleDateFormat("yyyy-MM-dd").parseObject(end2);
+			query = query.and(QJpaBusOnline.jpaBusOnline.endDate.before(edtDate2));
+		}
 		if (StringUtils.isNotBlank(serinum)) {
 			query = query.and(QJpaBusOnline.jpaBusOnline.jpabus.serialNumber.like("%"+serinum+"%"));
 		}
 		if (StringUtils.isNotBlank(linename)) {
-			query = query.and(QJpaBusOnline.jpaBusOnline.jpabus.line.name.like("%"+linename+"%"));
+			query = query.and(QJpaBusOnline.jpaBusOnline.jpabus.line.name.eq(linename));
 		}
 		return query == null ? busOnlineRepository.findAll(p) : busOnlineRepository.findAll(query, p);
 	}

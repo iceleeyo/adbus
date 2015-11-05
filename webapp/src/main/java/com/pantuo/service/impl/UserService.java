@@ -601,6 +601,7 @@ public class UserService implements UserServiceInter {
 				} else {
 					p.setLeft(true);
 					UserDetails newUser = new ActivitiUserDetails(udetail);
+					request.getSession().setAttribute("_utype", String.valueOf(udetail.getUtype()));
 					Authentication auth = new UsernamePasswordAuthenticationToken(newUser, newUser.getPassword(),
 							newUser.getAuthorities());
 					SecurityContextHolder.getContext().setAuthentication(auth);
