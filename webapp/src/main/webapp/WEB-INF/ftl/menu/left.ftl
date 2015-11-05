@@ -246,7 +246,7 @@
                                     </#if>
                                     
                                     
-                                  <#if city.mediaType == 'body'>
+                                  <#if _utype == 'body'>
                                      <@security.authorize ifAnyGranted="bodyContractManager,sale_packageDesign,sale_packageList,sale_packageOrder">  
                                     <li class="pg-side-item">
                                         <a class="pg-side-item-t gg-icon">
@@ -588,7 +588,7 @@
                                      </@security.authorize>    
                                     </#if>
                                     
-                                    <#if city.mediaType == 'screen'>
+                                    <#if _utype == 'screen'>
                                     <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,contract_input,contract_list,contract_search,contract_buy">
 									<li class="pg-side-item">
 										<a class="pg-side-item-t hh-icon">
