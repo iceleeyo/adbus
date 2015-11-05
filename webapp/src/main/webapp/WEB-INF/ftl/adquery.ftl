@@ -45,7 +45,6 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 }},
 				{ "data": "offlineContract.contractCode", "defaultContent": ""},
                 { "data": "jpabus.model.name", "defaultContent": ""},
-                 { "data": "jpabus.description", "defaultContent": ""},
                 { "data": "offlineContract.company", "defaultContent": ""},
                 { "data": "jpabus.line.name", "defaultContent": ""},
                 { "data": "startDate", "defaultContent": "","render": function(data, type, row, meta) {
@@ -163,7 +162,6 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 <table id="table" class="display nowrap" cellspacing="0">
                     <thead>
                     <tr>
-                     <th > <input type="checkbox" name="checkAll" id="checkAll" /></th>
                         <th >车牌号</th>
                         <th>合同编号</th>
                         <th >车型</th>
