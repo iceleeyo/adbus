@@ -113,7 +113,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 					'<option value="${c.id}">${c.name}</option>'+
 					    </#list>
          			'</select>' +
-                           '   <br/><br/>  <span>上刊类型</span>' +
+                           '   <span>上刊类型</span>' +
                         '    <span>' +
                        
 					 '<select class="ui-input ui-input-mini" name="sktype" id="sktype" style="width:135px">' +
