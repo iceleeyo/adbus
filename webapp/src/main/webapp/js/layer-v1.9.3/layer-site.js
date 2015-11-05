@@ -1774,7 +1774,7 @@ function showBusDetail(pathUrl,tourl,id){
 					+'<input class="ui-input-d"  value="'+data.branch+'" name="branch" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 					+'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">车史：</span> </label>'
 					+'<input class="ui-input-d"  value="'+isNotEmptyString(data.bushis)+'" name="bushis" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-					+'<div class="ui-form-item"> <label class="ui-label mt10">车型描述：</label><textarea rows="1" name="description" cols="30"  style="resize: none;" >'+data.description+'</textarea> </div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10">车型描述：</label><textarea rows="1" name="description" cols="30"  style="resize: none;" readonly="readonly">'+data.description+'</textarea> </div>'
 					+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">变更日期:</label>'
 					+'<input class="ui-input datepicker validate[required,custom[date],past[#upDate1]]" type="text" name="uodated1" value="'+$.format.date(data.updated, "yyyy-MM-dd")+'" id="upDate1" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
 					+'</div>'
