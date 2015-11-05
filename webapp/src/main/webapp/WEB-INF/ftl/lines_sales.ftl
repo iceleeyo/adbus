@@ -60,7 +60,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                             return '<span class="processed">否</span>';
                     }
                 } },
-                { "data": "busInfo.contractCode", "defaultContent": ""},
+                { "data": "", "defaultContent": ""},
                   { "data": "jpaBus.model.name", "defaultContent": ""},
               
                 { "data": "busInfo.startD", "defaultContent": "","render": function(data, type, row, meta) {
@@ -71,11 +71,14 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 	var d= $.format.date(data, "yyyy-MM-dd");
                 	return d;
                 }},
-                  { "data": "", "defaultContent": ""},
-                    { "data": "", "defaultContent": ""},
+                  { "data": "busInfo.busOnline.realEndDate", "defaultContent": "","render": function(data, type, row, meta) {
+                	var d= $.format.date(data, "yyyy-MM-dd");
+                	return d;
+                }},
+                    { "data": "busInfo.busOnline.days", "defaultContent": ""},
                
                    { "data": "jpaBus.categoryStr", "defaultContent": ""},
-                     { "data": "", "defaultContent": ""},
+                     { "data": "busInfo._adtype", "defaultContent": ""},
                        { "data": "ishaveAd","defaultContent": "", "render": function(data) {
                     switch(data) {
                         case true:
@@ -89,7 +92,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                   { "data": "jpaBus.plateNumber", "defaultContent": ""},
                      { "data": "jpaBus.office", "defaultContent": ""},
                       { "data": "jpaBus.branch", "defaultContent": ""},
-                        { "data": "", "defaultContent": ""},
+                        { "data": "busInfo._sktype", "defaultContent": ""},
                          { "data": "busInfo.offlinecontract.adcontent", "defaultContent": ""},
             ],
             "language": {

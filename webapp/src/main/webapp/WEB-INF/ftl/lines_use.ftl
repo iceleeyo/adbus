@@ -236,6 +236,14 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                 </table>
                 <input type="hidden" id = "address" value="">
                   <input type="hidden" id = "siteLine" value="">
+                  <span>1:<b>广告在刊</b> 当天广告在刊的车辆总数<br>
+                  		2:<b>合同预订</b> 线路预订的数量减广告在刊,如产生负数表示多上刊了车辆<br>
+                  		3:<b>本月可用数</b> 配车数-广告在刊-合同预订<br>
+                  		4:<b>次月下刊数</b> 下刊车辆在下个月任一天的车辆总数<br>
+                  		5:<b>次月可用数</b> 本月可用数+次月下刊数<br>
+                  		6:<b>媒介在刊率</b> 在刊广告车数/车辆配车<br>
+                  		7:<b>媒体占有率</b> (在刊广告车数+预定车数)/车辆配车<br>
+                  </span>
 </div>
 
 
