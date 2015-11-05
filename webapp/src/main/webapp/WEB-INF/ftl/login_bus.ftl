@@ -10,7 +10,7 @@
 
 	<body class="login_bus">
 		<div class="contain">
-			<div class="lg-content">
+			<div class="lg-content" style="margin-top: 160px;">
 				<div class="lg-box_bus">
 					<div class="lg-info">
 						<form id='loginForm' style="margin-top: -50px;" name='loginForm' class="login-form" action="login" method='POST'>

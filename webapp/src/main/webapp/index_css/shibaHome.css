@@ -1,7 +1,7 @@
 @charset "utf-8";
 .background-one .slide-container .view1 {
   background: url(../index_img/bg1_1.png) no-repeat;
-  background-size: 125%;
+  background-size: 100%;
 }
 .background-one .slide-container .view2 {
   background: url(../index_img/bg1_2.png) no-repeat;
@@ -148,7 +148,7 @@
   font-size: 20px;
 }
 .background-one .slide-container .view1 .view-text .bot {
-  margin-top: 40px;
+  margin-top: 20px;
   font-size: 16px;
 }
 .background-one .slide-container .view1 .view-text .bot .info {
@@ -201,7 +201,7 @@
   background: url(../index_img/icon.png) no-repeat -205px -395px;
 }
 .background-one .slide-container .view4 .view-text .bot {
-  margin-top: 160px;
+  margin-top: 140px;
   font-size: 16px;
 }
 .background-one .slide-container .view4 .view-text .bot .info {
