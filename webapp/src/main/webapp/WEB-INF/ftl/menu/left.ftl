@@ -485,7 +485,7 @@
                                      <#if _utype == 'body'>
 	                                    <li class="pg-side-item">
 	                                        <a class="pg-side-item-t ee-icon">
-	                                            <i class="s-left pg-icon-a j-icon"></i>
+	                                            <i class="s-left pg-icon-a m-icon"></i>
 	                                          检查部门
 	                                        </a>
 	                                        <ul class="pg-side-exp-list">
