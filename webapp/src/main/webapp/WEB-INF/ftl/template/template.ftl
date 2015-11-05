@@ -89,7 +89,7 @@
 		<#if medetype?? &&  medetype=="screen">
 		<a class="gray-text" href="${rc.contextPath}/">首页</a>
 		<#else>
-		<a class="gray-text" href="${rc.contextPath}/login_bus">首页</a>
+		<a class="gray-text" href="${rc.contextPath}/">首页</a>
 		</#if>
 		</li>
 		<li class="s-left breadcrumb-right"></li>
