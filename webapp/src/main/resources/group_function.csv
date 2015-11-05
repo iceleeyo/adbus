@@ -45,3 +45,9 @@
 2,套餐列表,车身套餐列表,sale_packageList
 2,套餐订单,车身订单列表,sale_packageOrder
 
+#检查部门
+2,到期提醒,到期提醒,check_remind
+2,广告查询,广告查询,check_adquery
+2,配车查询,配车查询,check_matchbusquery
+2,日常检查,日常检查,check_dailycheck
+
