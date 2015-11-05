@@ -111,7 +111,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 	
     function initTable () {
         table = $('#table').dataTable( {
-            "dom": '<"#toolbar">lrtip',
+            "dom": '<"#toolbar"><"top"il>rt<"bottom"p><"clear">',
             "searching": false,
             "ordering": false,
             "serverSide": true,
@@ -277,7 +277,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
      var buslogtable;
     function initTable2 () {
         buslogtable = $('#busUpHis').dataTable( {
-            "dom": '<"#toolbar3">lrtip',
+            "dom": '<"#toolbar3"><"top"il>rt<"bottom"p><"clear">',
             "searching": false,
             "ordering": true,
             "serverSide": true,
