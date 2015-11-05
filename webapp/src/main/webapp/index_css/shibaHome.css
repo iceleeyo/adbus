@@ -4,15 +4,15 @@
   background-size: 100%;
 }
 .background-one .slide-container .view2 {
-  background: url(../index_img/bg1_2.png) no-repeat;
+  background: url(../index_img/bg1_2.jpg) no-repeat;
   background-size: 125%;
 }
 .background-one .slide-container .view3 {
-  background: url(../index_img/bg1_3.png) no-repeat 50% 50%;
+  background: url(../index_img/bg1_3.jpg) no-repeat 50% 50%;
   background-size: 125%;
 }
 .background-one .slide-container .view4 {
-  background: url(../index_img/bg1_4.png) no-repeat;
+  background: url(../index_img/bg1_4.jpg) no-repeat;
   background-size: 125%;
 }
 .background-two {
