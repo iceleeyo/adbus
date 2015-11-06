@@ -5,11 +5,16 @@ import com.pantuo.dao.GoodsRepository;
 import com.pantuo.dao.pojo.*;
 import com.pantuo.mybatis.domain.TimeslotReport;
 import com.pantuo.mybatis.persistence.ReportMapper;
+import com.pantuo.pojo.TableRequest;
 import com.pantuo.pojo.highchart.DayList;
+import com.pantuo.simulate.CountMonth;
 import com.pantuo.util.DateUtil;
+import com.pantuo.web.view.CountMonthView;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.*;
 
 /**
@@ -26,6 +31,8 @@ public class ReportService {
 
     @Autowired
     private TimeslotService timeslotService;
+    @Autowired
+     CountMonth countMonth;
 
     public List<TimeslotReport> getRemainTimeslots(int city, Date from, Date to, Boolean peak) {
         List<TimeslotReport> report = mapper.getRemainTimeslots(city, from, to, peak);
@@ -297,4 +304,12 @@ public class ReportService {
         }
 
     }
+
+	public List<CountMonthView> getCountMonthView(int city, TableRequest req, Principal principal) {
+		List<CountMonthView> views=new ArrayList<CountMonthView>();
+		for(Map.Entry<Integer, CountMonthView> mEntry :countMonth.map.entrySet()){
+			views.add(mEntry.getValue());
+		}
+		return views;
+	}
 }

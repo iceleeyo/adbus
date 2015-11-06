@@ -73,7 +73,7 @@ div#table2_length {
 }
 
 table.dataTable td,table.dataTable th {
-	text-align: left;
+	//text-align: left;
 }
 
 .align-left {

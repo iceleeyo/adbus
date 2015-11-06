@@ -13,7 +13,7 @@
 <div class="ls-2">
 							<div class="pg-side">
 								<ul class="pg-side-list">
-								<@security.authorize ifNotGranted="UserManager,sys_userList,sys_roleManager">
+								<@security.authorize ifNotGranted="UserManager,sys_userList,body_roleManager">
 								<li class="pg-side-item">
 										<a class="pg-side-item-t aa-icon" style="color:#fff;background:#F45C55;" href="${rc.contextPath}/carbox/carTask">
 											<i class="s-left pg-icon-a a-icon"></i>
@@ -63,33 +63,16 @@
 											合同管理
 										</a>
 										<ul class="pg-side-exp-list">
-									<!-- 	<@security.authorize ifAnyGranted="ShibaOrderManager">
-											<li class="pg-side-exp-item">
-												<a class="side-exp-item-t" href="${rc.contextPath}/contract/contractEnter">
-													添加合同
-												</a>
-											</li>
-											</@security.authorize>
-									 -->
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t"  href="${rc.contextPath}/contract/list">
 													屏幕广告合同
 												</a>
 											</li>
-											<#if city.mediaType == 'body'>
-											  <@security.authorize ifAnyGranted="bodyContractManager,contract_list"> 
-												<li class="pg-side-exp-item">
-													<a class="side-exp-item-t"  href="${rc.contextPath}/contract/bus_contractEnter">
-														车辆关联合同
-													</a>
-												</li>
-												</@security.authorize>
-											</#if>
 										</ul>
 									</li>	
 									</@security.authorize>
 									
-									<@security.authorize ifNotGranted="UserManager,sys_userList,sys_roleManager">
+									<@security.authorize ifNotGranted="UserManager,sys_userList,body_roleManager">
 										 <#if city.mediaType == 'screen'>
 										<li class="pg-side-item">
 											<a class="pg-side-item-t cc-icon">
@@ -562,7 +545,7 @@
                                         <ul class="pg-side-exp-list">
                                              <@security.authorize ifAnyGranted="report_monthcount">	
                                             <li class="pg-side-exp-item">
-                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/public/publishCountM">
+                                                <a class="side-exp-item-t" href="${rc.contextPath}/report/publishCountM">
                                                    月发布统计
                                                 </a>
                                             </li>

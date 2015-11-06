@@ -1,11 +1,14 @@
 package com.pantuo;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 
 import com.pantuo.service.DataInitializationService;
+import com.pantuo.simulate.CountMonth;
 import com.pantuo.simulate.LineCarsCount;
 import com.pantuo.simulate.LineOnlineCount;
 import com.pantuo.simulate.QueryBusInfo;
@@ -33,6 +36,8 @@ public class InitializationConfiguration {
 	LineOnlineCount lineOnlineCount;
 	@Autowired
 	QueryBusInfo qb;
+	@Autowired
+	CountMonth countMonth;
 
 	@Bean
 	public boolean initialize() throws Exception {
@@ -41,6 +46,7 @@ public class InitializationConfiguration {
 		qb.countCars();
 		qb.countCars2();
 		initService.intialize();
+		countMonth.act(new Date());
 		return true;
 	}
 }

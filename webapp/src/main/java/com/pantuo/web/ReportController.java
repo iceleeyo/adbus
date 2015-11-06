@@ -4,15 +4,20 @@ import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaIndustry;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.mybatis.domain.TimeslotReport;
+import com.pantuo.pojo.DataTablePage;
+import com.pantuo.pojo.TableRequest;
 import com.pantuo.pojo.highchart.*;
 import com.pantuo.service.*;
 import com.pantuo.util.DateUtil;
+import com.pantuo.web.view.CountMonthView;
+import com.pantuo.web.view.OrderView;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,8 +25,13 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.security.Principal;
 import java.util.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author tliu
@@ -39,6 +49,19 @@ public class ReportController {
     @Autowired
     private IndustryService industryService;
     
+    
+    
+    @RequestMapping(value = "/publishCountM")
+	public String sift() {
+		return "publishCountM";
+	}
+    
+    @RequestMapping("ajax-publishCountM")
+	@ResponseBody
+	public List<CountMonthView> getCountMonthView(TableRequest req, Principal principal,
+			@CookieValue(value = "city", defaultValue = "-1") int city) {
+		return service.getCountMonthView(city, req, principal);
+	}
 	@PreAuthorize(" hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
 			+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
 			+ "or hasRole('ShibaSuppliesManager')  ")

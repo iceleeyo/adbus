@@ -1,5 +1,5 @@
 <#import "../template/template.ftl" as frame>
-<#global menu="月发布汇总">
+<#global menu="月发布统计">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="月发布统计" js=["../js/jquery-dateFormat.js"]>
     
