@@ -18,4 +18,11 @@ public interface UserAutoCompleteMapper {
 	
 	List<BusFunction> selectFunidsByPid(@Param("gidlist") List<String> gidlist);
 	Collection<ModelCountView> selectBusModelGroupView(@Param("pubidList") List<Integer> pubidList);
+	
+	//根据营销中心查找合同数量
+	int getContactCountBycomid(@Param("companyid") int companyid, @Param("monthstr") String monthstr);
+	//根据营销中心查找各个线路级别对应的车辆数
+	List<ModelCountView>  getlevelbusnumBycomid(@Param("companyid") int companyid, @Param("monthstr") String monthstr);
+	//根据营销中心查找各个刊期对应的车辆数
+	List<ModelCountView> getdaysbusnumBycomid(@Param("companyid") int companyid, @Param("monthstr") String monthstr);
 }

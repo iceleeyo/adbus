@@ -24,6 +24,10 @@ public class ModelCountView {
 	public int alrnum;//已上刊数
 	public int free;//排队数
 	
+	public int leval;
+	public int days;
+	public int busnum;
+	
 
 	public String getModelName() {
 		return modelName;
@@ -41,6 +45,30 @@ public class ModelCountView {
 
 	public int getFree() {
 		return free;
+	}
+
+	public int getLeval() {
+		return leval;
+	}
+
+	public void setLeval(int leval) {
+		this.leval = leval;
+	}
+
+	public int getDays() {
+		return days;
+	}
+
+	public void setDays(int days) {
+		this.days = days;
+	}
+
+	public int getBusnum() {
+		return busnum;
+	}
+
+	public void setBusnum(int busnum) {
+		this.busnum = busnum;
 	}
 
 	public void setFree(int free) {

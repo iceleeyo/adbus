@@ -19,6 +19,21 @@
     from bus_online
     where publish_line_id = #{pid,jdbcType=INTEGER}
   </select>
+<select id="getContactCountBycomid"  resultType="java.lang.Integer">
+   select count(distinct contractid)  from bus_online,bus where bus_online.busid=bus.id and 
+    bus.company_id= #{companyid,jdbcType=INTEGER} and date_format(bus_online.start_date, '%Y%m')=date_format(#{monthstr},'%Y%m')
+  </select>
+<select id="getlevelbusnumBycomid"  resultType="com.pantuo.vo.ModelCountView">
+  select bus_line.level as leval ,count( distinct bus_online.busid) as busnum from bus_online,bus,bus_line 
+  where bus_online.busid=bus.id 
+  and bus.company_id=#{companyid,jdbcType=INTEGER} and 
+  date_format(bus_online.start_date, '%Y%m')=date_format(#{monthstr},'%Y%m') and bus.line_id=bus_line.id group by bus_line.level
+  </select>
+<select id="getdaysbusnumBycomid"  resultType="com.pantuo.vo.ModelCountView">
+  select days,count(*) as busnum from bus_online,bus where bus_online.busid=bus.id 
+  and bus.company_id=#{companyid,jdbcType=INTEGER} and date_format(bus_online.start_date, '%Y%m')=date_format(#{monthstr},'%Y%m')
+   group by days 
+  </select>
 <select id="selectFunidsByPid"   resultMap="com.pantuo.mybatis.persistence.BusFunctionMapper.BaseResultMap">
     select   bus_function.id, bus_function.created, bus_function.updated, bus_function.city, funcode, fundesc,
      bus_function.name
