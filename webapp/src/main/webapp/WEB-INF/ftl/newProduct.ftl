@@ -281,9 +281,11 @@ function go_back(){
 												class="ui-form-required"></span>产品缩略图</label>
 											<div id="newUpload2">
 												<#if prod.imgurl?has_content  > 
+												 <input type="hidden" name="imgurl"  value="${prod.imgurl}"/>
 	                                           <img src="${rc.contextPath}/upload_temp/${prod.imgurl}"  class="m11" width="240"/>
 	                                           <#else>
-												<img src="index_img/wp1_1.jpg" height="100" width="100">
+												<img src="../index_img/wp1_1.jpg" height="100" width="100">
+												 <input type="hidden" name="imgurl"  value=""/>
 								  			  </#if>
 											</div>
 										</div>
@@ -296,7 +298,7 @@ function go_back(){
 											</div>
 										</div>
 										<input type="hidden" name="id"  value="${prod.id}"/>
-									   <input type="hidden" name="imgurl"  value="${prod.imgurl}"/>
+									  
 									<#else>
 									 <div class="ui-form-item" id="file">
 											<label class="ui-label mt10"><span
