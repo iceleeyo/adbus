@@ -28,7 +28,7 @@
 							<div class="info-item">
 								<label>用户名</label>
 								<input placeholder="请输入用户名" id="username" class="lg-input lg-username" type="text" name="username">
-								<input type="checkbox" name="">
+								<!-- <input type="checkbox" name=""> -->
 							</div>
 							<div class="info-item">
 								<label class="text-pwd">
@@ -36,7 +36,7 @@
 								</label>
 								<input class="lg-input lg-password" type="password" placeholder="请输入密码" id="password" name="password">
 							</div>
-							<div class="login-item"><a class="s-right" href="${rc.contextPath}/user/find_pwd">忘记密码?</a></div>
+							<div class="login-item"><!-- <a class="s-right" href="${rc.contextPath}/user/find_pwd">忘记密码?</a> --></div>
 							<p class="mt37"></p>
 							
 							<div class="text-center login-submit">
