@@ -537,9 +537,9 @@ public class DataInitializationService {
 					JpaBus bus = new JpaBus(city.getId(), busline, category, b[3], b[4], b[14], model, company, b[16],
 							b[17], b[8] + "/" + b[9] + "/" + b[7], b[15], startdate, endDate);
 
-					log.info("bus: {}, category: {}, level: {}, line: {}, model: {}, company: {}",
-							bus.getPlateNumber(), category, level, busline.getName(), model.getName(),
-							company.getName());
+			//		log.info("bus: {}, category: {}, level: {}, line: {}, model: {}, company: {}",
+			//				bus.getPlateNumber(), category, level, busline.getName(), model.getName(),
+			//				company.getName());
 					buses.add(bus);
 				} else {
 					log.warn("No city record found for name {} and mediaType body", cityName);
