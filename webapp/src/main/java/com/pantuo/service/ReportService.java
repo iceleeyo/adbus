@@ -11,10 +11,13 @@ import com.pantuo.simulate.CountMonth;
 import com.pantuo.util.DateUtil;
 import com.pantuo.web.view.CountMonthView;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -305,8 +308,12 @@ public class ReportService {
 
     }
 
-	public List<CountMonthView> getCountMonthView(int city, TableRequest req, Principal principal) {
-		//countMonth.act(date);
+	public List<CountMonthView> getCountMonthView(int city, TableRequest req, Principal principal) throws ParseException {
+		String yd=req.getFilter("day");
+		if(StringUtils.isNotBlank(yd)){
+			String yd2=yd+"-1";
+			countMonth.act((Date)new SimpleDateFormat("yyyy-MM-dd").parseObject(yd2));
+		}
 		List<CountMonthView> views=new ArrayList<CountMonthView>();
 		for(Map.Entry<Integer, CountMonthView> mEntry :countMonth.map.entrySet()){
 			views.add(mEntry.getValue());

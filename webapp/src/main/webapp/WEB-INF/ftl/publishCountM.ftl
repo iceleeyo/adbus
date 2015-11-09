@@ -44,6 +44,7 @@ th, td { white-space: nowrap;border: 1px solid #C5C5C5;}
                 url: "${rc.contextPath}/report/ajax-publishCountM",
                 data: function(d) {
                     return $.extend( {}, d, {
+                    "filter[day]" : $("#day").val()
                     } );
                 },
                 "dataSrc": function(json) {return json;},
@@ -92,14 +93,22 @@ th, td { white-space: nowrap;border: 1px solid #C5C5C5;}
             })
         });
     }
-
+function serch(){
+ if($("#day").val()==""){
+   layer.msg("请选择年月");
+ }
+  table.dataTable()._fnAjaxUpdate();
+}
     $(document).ready(function() {
         initTable();
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
             <div class="withdraw-title">
-                月发布统计
+                     <input
+                            class="ui-input ui-input-mini monthpicker" type="text" name="day"
+                            id="day" data-is="isAmount isEnough"
+                            autocomplete="off" disableautocomplete=""> <input type="button" class="block-btn" onclick="serch();" value="搜索"/>
 									</div>
                 <table id="table" class="cell-border compact nowrap display"  cellspacing="0">
                     <thead>

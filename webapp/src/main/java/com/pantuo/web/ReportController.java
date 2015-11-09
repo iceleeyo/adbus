@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.Principal;
+import java.text.ParseException;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,7 +60,7 @@ public class ReportController {
     @RequestMapping("ajax-publishCountM")
 	@ResponseBody
 	public List<CountMonthView> getCountMonthView(TableRequest req, Principal principal,
-			@CookieValue(value = "city", defaultValue = "-1") int city) {
+			@CookieValue(value = "city", defaultValue = "-1") int city) throws ParseException {
 		return service.getCountMonthView(city, req, principal);
 	}
 	@PreAuthorize(" hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
