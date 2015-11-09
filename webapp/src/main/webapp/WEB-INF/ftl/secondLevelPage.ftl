@@ -155,7 +155,7 @@ function tocard(pathurl){
 		  						<p><span id="c_${prod_index}"><s>${prod.startDate?string("yyyy-MM-dd HH:mm")}</s></span>  </p>
 								</#if>
 									</div>
-									<#if prod.product.imgurl!=null && prod.product.imgurl!='' ) > 
+									<#if prod.product.imgurl!=null && prod.product.imgurl!=''  > 
 									<img src="${rc.contextPath}/upload_temp/${prod.product.imgurl}" height="100" width="100">
 									<#else>
 									<img src="index_img/wp1_1.jpg" height="100" width="100">
