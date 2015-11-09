@@ -633,7 +633,9 @@ public class BusServiceImpl implements BusService {
 			}
 
 		}
-
+		if(query!=null){
+			log.debug(query.toString());
+		}
 		return query;
 	}
 
@@ -1415,23 +1417,29 @@ public class BusServiceImpl implements BusService {
 			String jsonString = t.writeValueAsString(bus);
 			List<String> r = BeanUtils.copyPropertiesReturnChangeField(bus, bus2);
 			bus2.setUpdated(uDate);
-			int a = busMapper.updateByPrimaryKey(bus2);
-			if (a > 0) {
-			
-				log.setCreated(new Date());
-				log.setUpdated(uDate);
-				log.setCity(cityId);
-				log.setUpdator(Request.getUserId(principal));
-				log.setBusid(bus.getId());
-				log.setJsonString(jsonString);
-				log.setOldjsonString(oldjsonString);
-				//--
-				log.setChangeFileds(r.isEmpty()?StringUtils.EMPTY:r.toString());
-				log.setBeSerialNumber(bus.getSerialNumber());
+			try {
+				int a = busMapper.updateByPrimaryKey(bus2);
+				if (a > 0) {
 				
-				
-				busUplogMapper.insert(log);
-				return new Pair<Boolean, String>(true, "修改成功");
+					log.setCreated(new Date());
+					log.setUpdated(uDate);
+					log.setCity(cityId);
+					log.setUpdator(Request.getUserId(principal));
+					log.setBusid(bus.getId());
+					log.setJsonString(jsonString);
+					log.setOldjsonString(oldjsonString);
+					//--
+					log.setChangeFileds(r.isEmpty()?StringUtils.EMPTY:r.toString());
+					log.setBeSerialNumber(bus.getSerialNumber());
+					
+					
+					busUplogMapper.insert(log);
+					return new Pair<Boolean, String>(true, "修改成功");
+				}
+			} catch (Exception e) {
+				if(e  instanceof org.springframework.dao.DuplicateKeyException){
+					return new Pair<Boolean, String>(false, "相同的车牌号已经存在!");
+				}
 			}
 		} else {
 			bus.setCity(cityId);
