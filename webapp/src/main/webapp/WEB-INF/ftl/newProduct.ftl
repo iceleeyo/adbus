@@ -99,7 +99,6 @@ function go_back(){
 							<form data-name="withdraw" name="productForm" id="productForm"
 								class="ui-form" method="post" action="save"
 								enctype="multipart/form-data">
-                                <input type="hidden" name="id" id="id" value="<#if prod??>${(prod.id)!''}<#else>0</#if>"/>
 								<div class="withdraw-title fn-clear">
 								<span>${action}产品套餐</span>
 									<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="go_back()">返回</a>
@@ -124,34 +123,6 @@ function go_back(){
 												id="name" data-is="isAmount isEnough"
 												autocomplete="off" disableautocomplete="" placeholder="2-20个字符">
 										</div>
-										<#--<div class="ui-form-item toggle teamToggle">
-											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>时长（秒）:</label> <input 
-												class="ui-input validate[required,integer,min[5],max[180]]"
-                                                onkeyup="value=value.replace(/[^\d]/g,'')" value="<#if prod??>${prod.duration!''}<#else>5</#if>" name="duration"
-												id="duration" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="" placeholder="5-180秒">
-											<p class="ui-term-placeholder"></p>
-
-										</div>
-										<div class="ui-form-item toggle teamToggle">
-											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>频次（次/天）:</label> <input
-												class="ui-input validate[required,integer,min[1],max[100]" readonly="readonly"
-                                                onkeyup="value=value.replace(/[^\d.]/g,'')" type="text" value="<#if prod??>${prod.playNumber!''}<#else>2</#if>" name="playNumber"
-												id="playNumber" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="" >
-											<p class="ui-term-placeholder"></p>
-										</div>
-										<div class="ui-form-item toggle teamToggle">
-											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>周期(天/期):</label>  <input
-                                                    class="ui-input validate[required,integer,min[1],max[360]" readonly="readonly"
-                                                    onkeyup="value=value.replace(/[^\d.]/g,'')" value="<#if prod??>${prod.days!''}<#else>7</#if>" name="days"
-                                                    id="days" data-is="isAmount isEnough"
-                                                    autocomplete="off" disableautocomplete="" >
-											<p class="ui-term-placeholder"></p>
-										</div>-->
 										<div class="ui-form-item toggle videoToggle imageToggle infoToggle teamToggle">
 											<label class="ui-label mt10"><span class="ui-form-required">*</span>时长（秒）:</label> <input
 												class="ui-input validate[required,integer,min[5],max[180]]"
@@ -304,15 +275,43 @@ function go_back(){
 												>
 										</div>
 									</div>
-									
+									<#if prod??>
+									<div class="ui-form-item" id="file">
+											<label class="ui-label mt10"><span
+												class="ui-form-required"></span>产品缩略图</label>
+											<div id="newUpload2">
+	                                           <img src="${rc.contextPath}/upload_temp/${prod.imgurl}"  class="m11" width="240"/>
+											</div>
+										</div>
+										 <div class="ui-form-item" id="file">
+											<label class="ui-label mt10">修改缩略图</label>
+											<div id="newUpload2">
+												<div class="filebox" id="div_1">
+													<input type="file" name="file2" >
+												</div>
+											</div>
+										</div>
+										<input type="hidden" name="id"  value="${prod.id}"/>
+									   <input type="hidden" name="imgurl"  value="${prod.imgurl}"/>
+									<#else>
+									 <div class="ui-form-item" id="file">
+											<label class="ui-label mt10"><span
+												class="ui-form-required">*</span>产品缩略图上传</label>
+											<div id="newUpload2">
+												<div class="filebox" id="div_1">
+													<input type="file" name="file" id="Sfile" class="validate[required]">
+												</div>
+											</div>
+										</div>
+										</#if>
 									<div class="ui-form-item">
 											<label class="ui-label mt10">套餐描述：</label> 
 											<textarea rows="4" cols="40" style="resize: none;" name="remarks"></textarea>
 										</div>
 									</div>
 									<div class="ui-form-item widthdrawBtBox">
-										<input type="button" id="submit" class="block-btn"
-											onclick="sub2();" value="确定">
+										<input type="submit"  class="block-btn"
+											 value="确定">
 									</div>
 								</div>
 

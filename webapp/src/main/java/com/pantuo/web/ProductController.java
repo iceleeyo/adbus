@@ -134,7 +134,7 @@ public class ProductController {
     @RequestMapping(value = "/{productId}/{enable}", method = { RequestMethod.POST})
     @ResponseBody
     public JpaProduct enableProduct(@PathVariable("productId") int productId,
-                                 @PathVariable("enable") String enable,
+                                 @PathVariable("enable") String enable,HttpServletRequest request,
                                  @CookieValue(value="city", defaultValue = "-1") int city) {
         boolean en = "enable".equals(enable);
         JpaProduct product = productService.findById(productId);
@@ -146,7 +146,7 @@ public class ProductController {
 
         if (product.isEnabled() != en) {
             product.setEnabled(en);
-            productService.saveProduct(city, product);
+            productService.saveProduct(city, product,null);
         }
         return product;
     }
@@ -163,7 +163,7 @@ public class ProductController {
             return p;
         }
             product.setFrontShow(FrontShow.valueOf(enable));
-            productService.saveProduct(city, product);
+            productService.saveProduct(city, product,null);
         return product;
     }
     
@@ -290,8 +290,7 @@ public class ProductController {
 
     @PreAuthorize(" hasRole('ShibaOrderManager')  ")
     @RequestMapping(value = "/save", method = { RequestMethod.POST})
-    @ResponseBody
-    public JpaProduct createProduct(
+    public String createProduct(
             JpaProduct prod,JpaCpd jpacpd,
             @CookieValue(value="city", defaultValue = "-1") int city,
             HttpServletRequest request) {
@@ -302,7 +301,7 @@ public class ProductController {
         }
         try {
         	prod.setFrontShow(FrontShow.N);
-            productService.saveProduct(city, prod);
+            productService.saveProduct(city, prod,request);
             if(prod.getIscompare()==1){
             	String biddingDate1 = request.getParameter("biddingDate1").toString();
             	String startDate1 = request.getParameter("startDate1").toString();
@@ -316,7 +315,7 @@ public class ProductController {
         } catch (Exception e) {
             prod.setErrorInfo(BaseEntity.ERROR, e.getMessage());
         }
-        return prod;
+        return "product_list2";
     }
     @RequestMapping(value = "/saveBusOrderDetail", method = { RequestMethod.POST})
     @ResponseBody

@@ -52,9 +52,11 @@ import com.pantuo.mybatis.persistence.BusOrderV2Mapper;
 import com.pantuo.mybatis.persistence.ProductMapper;
 import com.pantuo.mybatis.persistence.ProductV2Mapper;
 import com.pantuo.pojo.TableRequest;
+import com.pantuo.service.AttachmentService;
 import com.pantuo.service.BusService;
 import com.pantuo.service.ProductService;
 import com.pantuo.simulate.ProductProcessCount;
+import com.pantuo.util.BusinessException;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.ProductOrderCount;
@@ -81,6 +83,8 @@ public class ProductServiceImpl implements ProductService {
 	BusOrderDetailV2Repository busOrderDetailV2Repository;
 	@Autowired
 	BusService busService;
+	@Autowired
+	AttachmentService attachmentService;
 
 	@Autowired
 	BusOrderDetailV2Mapper v2Mapper;
@@ -283,11 +287,24 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	//  @Override
-	public void saveProduct(int city, JpaProduct product) {
-		product.setCity(city);
-		com.pantuo.util.BeanUtils.filterXss(product);
-		product.setExclusiveUser(product.getExclusiveUser());
-		productRepo.save(product);
+	public void saveProduct(int city, JpaProduct product,HttpServletRequest request) {
+		try {
+			product.setCity(city);
+			com.pantuo.util.BeanUtils.filterXss(product);
+			product.setExclusiveUser(product.getExclusiveUser());
+			if(product.getId()>0){
+				String a=attachmentService.saveAttachmentSimple(request);
+				if(a.length()>1){
+					product.setImgurl(a);
+				}
+			}else{
+				if(request!=null){
+					product.setImgurl(attachmentService.saveAttachmentSimple(request));
+				}
+			}
+			productRepo.save(product);
+		} catch (BusinessException e) {
+		}
 	}
 
 	public int countMyList(int city, String name, String code, HttpServletRequest request) {

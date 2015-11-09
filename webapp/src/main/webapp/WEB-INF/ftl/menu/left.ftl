@@ -72,21 +72,18 @@
 									</li>	
 									</@security.authorize>
 									
-									<@security.authorize ifNotGranted="UserManager,sys_userList,body_roleManager">
-										 <#if city.mediaType == 'screen'>
+									<@security.authorize ifAnyGranted="ShibaOrderManager">
 										<li class="pg-side-item">
 											<a class="pg-side-item-t cc-icon">
 												<i class="s-left pg-icon-a h-icon"></i>
 												产品中心
 											</a>
 											<ul class="pg-side-exp-list">
-											<@security.authorize ifAnyGranted="ShibaOrderManager">
 												<li class="pg-side-exp-item">
 													<a class="side-exp-item-t" href="${rc.contextPath}/product/new">
 														产品定义
 													</a>
 												</li>
-											</@security.authorize>
 												<li class="pg-side-exp-item">
 													<a class="side-exp-item-t" href="${rc.contextPath}/product/list">
 														产品列表
@@ -94,7 +91,6 @@
 												</li>
 											</ul>
 										</li>
-										 </#if>
 										 </@security.authorize>
 									
 									<@security.authorize ifAnyGranted="ShibaSuppliesManager,advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager,bodysales,bodyContractManager,bodyFinancialManager,bodyScheduleManager">

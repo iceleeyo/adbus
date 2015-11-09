@@ -161,7 +161,7 @@ public class BodyUseMonitor implements Runnable, ScheduleStatsInter {
 			map.putAll(tempMap);
 		}
 
-		log.info("runWork time: {},lineId: {} ", System.currentTimeMillis() - t, _lineId);
+//		log.info("runWork time: {},lineId: {} ", System.currentTimeMillis() - t, _lineId);
 	}
 
 	private void reduceOneBus(Map<Integer, BodyUseView> tempMap, List<Bus> bus) {

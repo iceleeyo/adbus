@@ -11,7 +11,7 @@ function showProductlayer(tourl,id){
 		type: 1,
 		title: "套餐详细",
 		skin: 'layui-layer-rim', 
-		area: ['900px', '300px'], 
+		area: ['900px', '600px'], 
 		content:''
 			+' '
 			+'<iframe style="width:99%;height:98%" frameborder="no" src="'+tourl+'/product/prodetail/'+id+'"/>'
