@@ -21,6 +21,8 @@ import com.pantuo.util.Pair;
  * @since pantuotech 1.0-SNAPSHOT
  */
 public interface AttachmentService {
+	
+	public String saveAttachmentSimple(HttpServletRequest request) throws BusinessException;
 	/**
 	 * 
 	 * 保存文件接口

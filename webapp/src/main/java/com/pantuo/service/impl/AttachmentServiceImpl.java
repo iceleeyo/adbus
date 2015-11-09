@@ -52,6 +52,47 @@ public class AttachmentServiceImpl implements AttachmentService {
 	UserDetailRepository userDetailRepo;
 	private static Logger log = LoggerFactory.getLogger(SuppliesServiceImpl.class);
 
+	
+	
+	public String saveAttachmentSimple(HttpServletRequest request) throws BusinessException {
+		StringBuffer r = new StringBuffer();
+		try {
+			CustomMultipartResolver multipartResolver = new CustomMultipartResolver(request.getSession()
+					.getServletContext());
+			if (multipartResolver.isMultipart(request)) {
+				String path = request.getSession().getServletContext()
+						.getRealPath(com.pantuo.util.Constants.FILE_UPLOAD_DIR).replaceAll("WEB-INF", "");
+				MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+				Iterator<String> iter = multiRequest.getFileNames();
+				while (iter.hasNext()) {
+					MultipartFile file = multiRequest.getFile(iter.next());
+					if (file != null && !file.isEmpty()) {
+						String oriFileName = file.getOriginalFilename();
+						if (StringUtils.isNoneBlank(oriFileName)) {
+							String storeName = GlobalMethods.md5Encrypted((System.currentTimeMillis() + oriFileName)
+									.getBytes());
+							Pair<String, String> p = FileHelper.getUploadFileName(path,
+									storeName += FileHelper.getFileExtension(oriFileName, true));
+							File localFile = new File(p.getLeft());
+							file.transferTo(localFile);
+							if (r.length() == 0) {
+								r.append(p.getRight());
+							} else {
+								r.append(";" + p.getRight());
+							}
+						}
+					}
+				}
+			}
+			return r.toString();
+		} catch (Exception e) {
+			log.error("saveAttachmentSimple", e);
+			throw new BusinessException("saveAttachment-error", e);
+		}
+	}
+							
+							
+							
 	public void saveAttachment(HttpServletRequest request, String user_id, int main_id, JpaAttachment.Type file_type,String description)
 			throws BusinessException {
 
