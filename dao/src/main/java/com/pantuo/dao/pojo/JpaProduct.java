@@ -59,6 +59,8 @@ public class JpaProduct extends CityEntity {
     private boolean exclusive = false;  //是否专用套餐，专用套餐定向对某一个用户有效
     private String exclusiveUser;   //定向用户
     private String remarks;
+    @Column(length=128) 
+    private String imgurl;
     private int iscompare;
     private FrontShow frontShow;
     //add by impanxh 首页根据 发现json responseBody到前端时json死循环
@@ -148,6 +150,14 @@ public class JpaProduct extends CityEntity {
 		return hotRatio;
 	}
 	
+	public String getImgurl() {
+		return imgurl;
+	}
+
+	public void setImgurl(String imgurl) {
+		this.imgurl = imgurl;
+	}
+
 	public String getRemarks() {
 		return remarks;
 	}
