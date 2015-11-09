@@ -1,4 +1,5 @@
 
+
 var swift_tableObject;
 
 
@@ -190,6 +191,11 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 		success : function(data) {
 			var k=1;
 			$.each(data.content,function(i,item){
+				
+				var image='';
+				if(item.imgurl!=''){
+					image ="<img src="+pathUrl+"/upload_temp/"+item.imgurl+" height=\"60\" width=\"100\"/>";	
+				}
 				$("#productList").append(
 						"<div class=\"cont\">"+
 						"<div class=\"activity inline-b\"><span><a href='"+pathUrl+"/m/public_detail/"+item.id+"'>"+item.name.substring(0,7)+"</a></span>&nbsp;&nbsp;"+item.days+"天</div>"+
@@ -201,7 +207,7 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 						"<input class='f-left' sot='"+k+"' id='sum"+k+"' value=\"0\">"+
 						"<input type=\"button\" class=\"icon f-left plus\" sot='"+k+"' id='leftPlus"+k+"' /></div>"+
 						"<div class=\"map f-left inline-b\">"+
-						"<div class=\"map-box\"><img src="+pathUrl+"/upload_temp/"+item.imgurl+" height=\"60\" width=\"100\"/></div></div></div>"
+						"<div class=\"map-box\">"+image+"</div></div></div>"
 				);
 				$("#sum"+k).blur(function(){
 					var lc=$("#lc").val();
