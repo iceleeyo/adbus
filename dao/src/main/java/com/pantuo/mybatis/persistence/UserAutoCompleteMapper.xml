@@ -27,7 +27,8 @@
   select bus_line.level as leval ,count( distinct bus_online.busid) as busnum from bus_online,bus,bus_line 
   where bus_online.busid=bus.id 
   and bus.company_id=#{companyid,jdbcType=INTEGER} and 
-  date_format(bus_online.start_date, '%Y%m')=date_format(#{monthstr},'%Y%m') and bus.line_id=bus_line.id group by bus_line.level
+  date_format(bus_online.start_date, '%Y%m')=date_format(#{monthstr},'%Y%m') and bus.line_id=bus_line.id 
+  and bus_online.sktype=#{sktype} group by bus_line.level
   </select>
 <select id="getdaysbusnumBycomid"  resultType="com.pantuo.vo.ModelCountView">
   select days,count(*) as busnum from bus_online,bus where bus_online.busid=bus.id 
