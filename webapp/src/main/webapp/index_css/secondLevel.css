@@ -555,7 +555,7 @@ header .area {
 	height: 60px;
 	width: 100px;
 	background: #000;
-	opacity: .6;
+	//opacity: .6;
 	border-radius: 5px;
 }
 

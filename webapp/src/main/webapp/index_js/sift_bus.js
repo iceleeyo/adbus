@@ -201,7 +201,7 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 						"<input class='f-left' sot='"+k+"' id='sum"+k+"' value=\"0\">"+
 						"<input type=\"button\" class=\"icon f-left plus\" sot='"+k+"' id='leftPlus"+k+"' /></div>"+
 						"<div class=\"map f-left inline-b\">"+
-						"<div class=\"map-box\"></div></div></div>"
+						"<div class=\"map-box\"><img src="+pathUrl+"/upload_temp/"+item.imgurl+" height=\"60\" width=\"100\"/></div></div></div>"
 				);
 				$("#sum"+k).blur(function(){
 					var lc=$("#lc").val();
