@@ -118,7 +118,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				.antMatchers("/", "/*.html", "/login", "/logout", "/homepage/**", "/css/**", "/images/**", "/imgs/**",
-						"/js/**", "/index_js/**", "/index_img/**", "/index_css/**", "/style/**")
+						"/js/**", "/index_js/**", "/index_img/**", "/index_css/**", "/style/**","/upload_temp/**")
 				.permitAll()
 				.antMatchers("/login_bus","/busselect/work**/**", "/intro**", "/about-me", "/media", "/effect","*/media**","*/effect**", 
 						"*/partner**","/partner","*/aboutme**","/aboutme","/loginForLayer",
