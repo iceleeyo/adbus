@@ -280,7 +280,11 @@ function go_back(){
 											<label class="ui-label mt10"><span
 												class="ui-form-required"></span>产品缩略图</label>
 											<div id="newUpload2">
+												<#if prod.imgurl?has_content  > 
 	                                           <img src="${rc.contextPath}/upload_temp/${prod.imgurl}"  class="m11" width="240"/>
+	                                           <#else>
+												<img src="index_img/wp1_1.jpg" height="100" width="100">
+								  			  </#if>
 											</div>
 										</div>
 										 <div class="ui-form-item" id="file">
