@@ -193,7 +193,7 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 			$.each(data.content,function(i,item){
 				
 				var image='';
-				if(item.imgurl!=''){
+				if(item.imgurl!=''  &&   typeof(item.imgurl)!= "undefined"){
 					image ="<img src="+pathUrl+"/upload_temp/"+item.imgurl+" height=\"60\" width=\"100\"/>";	
 				}
 				$("#productList").append(
