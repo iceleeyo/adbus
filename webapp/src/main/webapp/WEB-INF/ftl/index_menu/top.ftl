@@ -67,7 +67,7 @@
 					</ul>
 					<div class="s-right s-clear">
 					
-								<span class="pg-nav-item s-left" >您好，${city.mediaType}   ${_utype}</span>
+								<span class="pg-nav-item s-left" >您好，<!--${city.mediaType}   ${_utype}--></span>
 									<span>
                                         <@security.authorize access="isAuthenticated()">
                                         <#if medetype?? && medetype=="screen">
