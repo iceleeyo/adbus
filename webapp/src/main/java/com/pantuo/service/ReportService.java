@@ -306,6 +306,7 @@ public class ReportService {
     }
 
 	public List<CountMonthView> getCountMonthView(int city, TableRequest req, Principal principal) {
+		//countMonth.act(date);
 		List<CountMonthView> views=new ArrayList<CountMonthView>();
 		for(Map.Entry<Integer, CountMonthView> mEntry :countMonth.map.entrySet()){
 			views.add(mEntry.getValue());

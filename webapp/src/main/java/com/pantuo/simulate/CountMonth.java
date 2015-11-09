@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.pantuo.dao.pojo.JpaBusOnline;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.mybatis.domain.BusLock;
 import com.pantuo.mybatis.domain.BusLockExample;
@@ -96,7 +97,8 @@ public class CountMonth implements Runnable ,ScheduleStatsInter{
         for(Map.Entry<Integer, CountMonthView> onemap:map.entrySet()){
         	CountMonthView view=onemap.getValue();
         	view.setContractNum(autoCompleteMapper.getContactCountBycomid(onemap.getKey(),monthstr));
-        	Map<Integer, Integer> levalMap=list2map(autoCompleteMapper.getlevelbusnumBycomid(onemap.getKey(),monthstr));
+        	Map<Integer, Integer> levalMap=list2map(autoCompleteMapper.getlevelbusnumBycomid(JpaBusOnline.Sktype.normal.ordinal(),onemap.getKey(),monthstr));
+        	Map<Integer, Integer> levalMap2=list2map(autoCompleteMapper.getlevelbusnumBycomid(JpaBusOnline.Sktype.contin.ordinal(),onemap.getKey(),monthstr));
         	Map<Integer, Integer> dasyMap=list2map2(autoCompleteMapper.getdaysbusnumBycomid(onemap.getKey(),monthstr));
         	view.setNor_Snum(levalMap==null?0:(levalMap.containsKey(JpaBusline.Level.S.ordinal())?levalMap.get(JpaBusline.Level.S.ordinal()):0));
         	view.setNor_APPnum(levalMap==null?0:(levalMap.containsKey(JpaBusline.Level.APP.ordinal())?levalMap.get(JpaBusline.Level.APP.ordinal()):0));
@@ -104,21 +106,21 @@ public class CountMonth implements Runnable ,ScheduleStatsInter{
         	view.setNor_Anum(levalMap==null?0:(levalMap.containsKey(JpaBusline.Level.A.ordinal())?levalMap.get(JpaBusline.Level.A.ordinal()):0));
         	view.setNor_xiaoji(view.getNor_Anum()+view.getNor_APnum()+view.getNor_APPnum()+view.getNor_Snum());
         	
-        	view.setXu_Anum(0);
-        	view.setXu_APnum(0);
-        	view.setXu_APPnum(0);
-        	view.setXu_Snum(0);
-        	view.setXu_xiaoji(0);
+        	view.setXu_Anum(levalMap2==null?0:(levalMap2.containsKey(JpaBusline.Level.A.ordinal())?levalMap2.get(JpaBusline.Level.A.ordinal()):0));
+        	view.setXu_APnum(levalMap2==null?0:(levalMap2.containsKey(JpaBusline.Level.AP.ordinal())?levalMap2.get(JpaBusline.Level.AP.ordinal()):0));
+        	view.setXu_APPnum(levalMap2==null?0:(levalMap2.containsKey(JpaBusline.Level.APP.ordinal())?levalMap2.get(JpaBusline.Level.APP.ordinal()):0));
+        	view.setXu_Snum(levalMap2==null?0:(levalMap2.containsKey(JpaBusline.Level.S.ordinal())?levalMap2.get(JpaBusline.Level.S.ordinal()):0));
+        	view.setXu_xiaoji(view.getXu_Anum()+view.getXu_APnum()+view.getXu_APPnum()+view.getXu_Snum());
         	
         	view.setOne_num(dasyMap==null?0:(dasyMap.containsKey(30)?dasyMap.get(30):0));
         	view.setThree_num(dasyMap==null?0:(dasyMap.containsKey(90)?dasyMap.get(90):0));
         	view.setSix_num(dasyMap==null?0:(dasyMap.containsKey(180)?dasyMap.get(180):0));
         	view.setTwelve_num(dasyMap==null?0:(dasyMap.containsKey(360)?dasyMap.get(360):0));
-        	view.setDays_xiaoji(view.getNor_xiaoji());
+        	view.setDays_xiaoji(view.getNor_xiaoji()+view.getXu_xiaoji());
         	view.setOther_num(view.getDays_xiaoji()-view.getOne_num()-view.getThree_num()-view.getSix_num()-view.getTwelve_num());
         }
         
-        log.info("月发布统计："+map);
+//        log.info("月发布统计："+map);
 	}
 
 	@Override
