@@ -1,4 +1,4 @@
-<div class="jack1" style="height: 296px; top: 160.5px;">
+<div class="jack" style="height: 296px; top: 160.5px;">
         <ul class="icons">
         	<li class="up"><i></i></li>
             <li class="qq">
@@ -17,7 +17,7 @@
 
 <script type="text/javascript">
 var iIndex = 0;	
-	    $('.jack .icons .up').on('click', function(e) {
+	    $('.jack1 .icons .up').on('click', function(e) {
 	        e.preventDefault();
 	        if(iIndex > 0){
 	            iIndex--;
