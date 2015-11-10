@@ -25,7 +25,6 @@
 							
 							<#if (reLoginMsg)?? >
                              	<font color="red" size="3">密码错误!</font>
-                             	${session.remove("reLoginMsg")}
    								<#else>
    								${(reLoginMsg)!''}
 							</#if>
