@@ -15,12 +15,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.impl.persistence.entity.GroupEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.xmlbeans.impl.common.IOUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +70,8 @@ public class DataInitializationService {
 	//车身权限集合
 	public static Set<String> bodyAuthSet = new HashSet<String>();
 
+	public static Map<String,java.util.concurrent.atomic.AtomicInteger> CAR_NUMBER = new HashMap<String,java.util.concurrent.atomic.AtomicInteger>(100000);
+
 	@Autowired
 	UserServiceInter userService;
 
@@ -106,6 +108,7 @@ public class DataInitializationService {
 	CityService cityService;
 
 	public void intialize() throws Exception {
+	//	initContract();
 		initBodyAuthList();
 		initializeFunctionFunction();
 		initializeLineSite();
@@ -173,8 +176,8 @@ public class DataInitializationService {
 				continue;
 			try {
 				String[] group = line.split(",");
-				if(!group[0].trim().startsWith("body"))
-				_GROUPS.put(group[0].trim(), group[1].trim());
+				if (!group[0].trim().startsWith("body"))
+					_GROUPS.put(group[0].trim(), group[1].trim());
 			} catch (Exception e) {
 				log.warn("Fail to parse group for {}, e={}", line, e.getMessage());
 			}
@@ -207,8 +210,8 @@ public class DataInitializationService {
 				g.setName(group[1]);
 				g.setType(group[2]);
 				userService.saveGroup(g);
-				if(!group[0].trim().startsWith("body"))
-				_GROUPS.put(group[0].trim(), group[1].trim());
+				if (!group[0].trim().startsWith("body"))
+					_GROUPS.put(group[0].trim(), group[1].trim());
 				groups.add(g);
 			} catch (Exception e) {
 				log.warn("Fail to parse group for {}, e={}", line, e.getMessage());
@@ -326,11 +329,8 @@ public class DataInitializationService {
 		log.info("init line site lines:{},site:{} ", lineSiteMap.size(), siteLineMap.size());
 	}
 
-	
-	
-	
 	private void initBodyAuthList() throws Exception {
-	 
+
 		InputStream is = DataInitializationService.class.getClassLoader().getResourceAsStream("group_function.csv");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
 		String line = null;
@@ -348,10 +348,7 @@ public class DataInitializationService {
 		IOTools.close(reader);
 		IOTools.close(is);
 	}
-	
-	
-	
-	
+
 	private void initializeFunctionFunction() throws Exception {
 		long count = functionRepository.count();
 		if (count > 0) {
@@ -368,7 +365,7 @@ public class DataInitializationService {
 				continue;
 			try {
 				String[] str = line.split(",");
-				JpaFunction function = new JpaFunction(str[1], str[2],str[3]);
+				JpaFunction function = new JpaFunction(str[1], str[2], str[3]);
 				function.setCity(NumberUtils.toInt(str[0]));
 				list.add(function);
 			} catch (Exception e) {
@@ -451,7 +448,6 @@ public class DataInitializationService {
 			cityService.init();
 		}
 	}
-
 	//初始化公交车表
 	private void initializeBuses() throws Exception {
 		initDefaultBusModel();
@@ -491,12 +487,10 @@ public class DataInitializationService {
 					//#城市,线路名称,级别,新车号,旧车号,车型,合同编号,上刊内容,实际上刊时间,预计下刊时间,
 					// 刊期,类别,车辆状态,营销中心,车牌号,车辆描述,公司名称,分公司名称,客户名称
 					JpaBusline.Level level = JpaBusline.Level.fromNameStr(b[2]);
-					if (level == null){
-						level=  JpaBusline.Level.LATLONG;
+					if (level == null) {
+						level = JpaBusline.Level.LATLONG;
 					}
-						//throw new Exception("No busline level found for " + b[2]);
-
-					
+					//throw new Exception("No busline level found for " + b[2]);
 
 					JpaBusModel model = modelMap.get(city.getId() + "/" + b[5]);
 					if (model == null) {
@@ -537,9 +531,9 @@ public class DataInitializationService {
 					JpaBus bus = new JpaBus(city.getId(), busline, category, b[3], b[4], b[14], model, company, b[16],
 							b[17], b[8] + "/" + b[9] + "/" + b[7], b[15], startdate, endDate);
 
-			//		log.info("bus: {}, category: {}, level: {}, line: {}, model: {}, company: {}",
-			//				bus.getPlateNumber(), category, level, busline.getName(), model.getName(),
-			//				company.getName());
+					//		log.info("bus: {}, category: {}, level: {}, line: {}, model: {}, company: {}",
+					//				bus.getPlateNumber(), category, level, busline.getName(), model.getName(),
+					//				company.getName());
 					buses.add(bus);
 				} else {
 					log.warn("No city record found for name {} and mediaType body", cityName);
@@ -570,6 +564,31 @@ public class DataInitializationService {
 				newModelMap.clear();
 				newCompanyMap.clear();
 			}
+		}
+		
+		//增加尾部处理  最后集合小于1000时 也需要保存
+		if (!buses.isEmpty() ) {
+			if (!newCompanyMap.isEmpty()) {
+				companyRepo.save(newCompanyMap.values());
+				companyMap.putAll(newCompanyMap);
+			}
+			if (!newLineMap.isEmpty()) {
+				buslineRepo.save(newLineMap.values());
+				lineMap.putAll(newLineMap);
+			}
+			if (!newModelMap.isEmpty()) {
+				busModelRepo.save(newModelMap.values());
+				modelMap.putAll(newModelMap);
+			}
+			busService.saveBuses(buses);
+			count += buses.size();
+			log.info("Inserted {} buses with: {} new lines, {} new models, {} new companies into table",
+					buses.size(), newLineMap.size(), newModelMap.size(), newCompanyMap.size());
+			buses.clear();
+			newLineMap.clear();
+			newModelMap.clear();
+			newCompanyMap.clear();
+			
 		}
 
 		log.info("Inserted {} buses entries into table", count);
