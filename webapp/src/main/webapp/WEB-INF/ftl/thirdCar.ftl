@@ -236,7 +236,7 @@
 		<div class="jack jacksec" style="height: 296px; top: 160.5px;">
 	        <ul class="icons">
 	        	<li class="up"><i></i></li>
-	            <li class="qq">
+	            <li class="qq" >
 	            	<i></i>
 	            </li>
 	            <li class="tel">
@@ -245,7 +245,7 @@
 	            <li class="wechat">
 	            	<i></i>
 	            </li>
-	            <li class="down"><i></i></li>
+	            <li class="down"></li>
 	        </ul>
 	        <a class="switch"></a>
 	    </div>
