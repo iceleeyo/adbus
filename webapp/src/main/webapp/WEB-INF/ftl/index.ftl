@@ -79,7 +79,7 @@
                                         </a>
                                         </@security.authorize>
                                         <@security.authorize access="! isAuthenticated()">
-                                            <a class="pg-nav-item s-left" href="${rc.contextPath}/login">请登录</a>
+                                            <a class="pg-nav-item s-left" href="${rc.contextPath}/logMini">请登录</a>
                                             <a class="pg-nav-item s-left" href="${rc.contextPath}/register">免费注册</a>
                                         </@security.authorize>
                                     </span>

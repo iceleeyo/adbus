@@ -210,6 +210,19 @@ img {
   border: 1px solid #cfd0d1;
   font-weight: 600;
 }
+.tipslog {
+  width: 350px;
+  height: 30px;
+  margin: 20px auto;
+  line-height: 30px;
+  text-align: center;
+  background-color: #E2F6FF;
+  color: rgb(155, 147, 147);
+}
+.tipslog a {
+  text-shadow: 1px 1px 1px #000;
+  color: #009deb;
+}
 .tips a {
   text-shadow: 1px 1px 1px #000;
   color: #009deb;

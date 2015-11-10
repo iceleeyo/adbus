@@ -61,11 +61,11 @@
 					<div class="detail">
 						<div class="detail-bd clearfix">
 							<div class="d-left">
-								<img src="${rc.contextPath}/index_img/bg1.png" width="345" height="345">
+								<img src="${rc.contextPath}/index_img/jj-1.png" width="345" height="345">
 								<div class="sm-imgs">
-									<img id="ima" src="../index_img/bg1.png" height="65" width="65">
-									<img src="" height="65" width="65">
-									<img src="" height="65" width="65">
+									<img id="ima" src="${rc.contextPath}/index_img/jj-1.png" height="65" width="65">
+									<img src="${rc.contextPath}/index_img/jj-4.png" height="65" width="65">
+									<img src="${rc.contextPath}/index_img/jj-4.png" height="65" width="65">
 								</div>
 								<div class="clearfix socials">
 									<ul class="social">

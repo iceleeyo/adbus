@@ -121,7 +121,7 @@
 								<@security.authorize access="isAuthenticated()">
 								<a class="pg-nav-item s-left" href="${rc.contextPath}/message/all">消息<span id="msgNumber" class="layer-tips" style="color:#ff9966"></span></a>
 								<span class="pg-nav-item s-left">
-								<a onclick="tocard('${rc.contextPath}');"><img class="shop_icon" alt="" src="../index_img/icon_cart.png">
+								<a onclick="tocard('${rc.contextPath}');"><img class="shop_icon" alt="" src="${rc.contextPath}/index_img/icon_cart.png">
 								<span id="cardCount_top"  style="color:#ff9966" ></span>
 								</a>
 								</span>

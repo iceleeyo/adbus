@@ -87,6 +87,12 @@ public class LoginController {
         return "login";
         }
     }
+    
+    @RequestMapping(value = "/logMini", produces = "text/html;charset=utf-8")
+    public String logMini(Model model,HttpServletRequest request, Authentication auth)
+    {
+    	return "logMini";
+    }
     @RequestMapping(value = "/logout", produces = "text/html;charset=utf-8")
     public String logout(HttpServletRequest request)
     {
