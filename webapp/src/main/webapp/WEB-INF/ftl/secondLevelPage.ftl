@@ -275,11 +275,11 @@ function tocard(pathurl){
 				
 			</div>
 	  </div>
-	  <div class="jack jacksec" style="height: 296px; top: 160.5px;">
+	  <div class="jack" style="height: 296px; top: 160.5px;">
         <ul class="icons">
         	<li class="up"><i></i></li>
             <li class="qq">
-            	<i>106179729</i>
+            	<i></i>
             </li>
             <li class="tel">
             	<i></i>
@@ -313,6 +313,7 @@ function tocard(pathurl){
 	        scrollPage(arrElement[iIndex]);
 	    });
 	    
+		
 	     $('#priceSort').click(function() {
                   var w = $('#ascOrDesc').val();
                   if(w==0){
