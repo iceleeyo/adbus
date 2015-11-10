@@ -36,6 +36,11 @@
 			<div class="rg-content clearfix">
 				<div class="rg-title">
 					登录
+					<#if (reLoginMsg)?? >
+                             	<font color="red" size="3">密码错误!</font>
+   								<#else>
+   								${(reLoginMsg)!''}
+					</#if>
 				</div>
 				<form name="loginForm" id="loginForm" action="login" method='POST' >
 					<div class="field username-field">
