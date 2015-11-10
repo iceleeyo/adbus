@@ -1045,7 +1045,6 @@ header .area {
 }
 
 .cart-step2 .panel {
-	width: 865px;
 	margin: 20px auto;
 }
 
@@ -1241,7 +1240,7 @@ header .area {
 }
 
 .adj .way {
-	padding-left: 55px;
+	padding-left:0px;
 }
 
 .adj .way .select-items {
