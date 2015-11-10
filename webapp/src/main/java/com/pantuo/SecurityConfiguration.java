@@ -3,6 +3,7 @@ package com.pantuo;
 import java.io.IOException;
 import java.util.Collection;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +14,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,16 +24,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 import com.pantuo.dao.pojo.JpaCity;
-import com.pantuo.dao.pojo.UserDetail.UType;
 import com.pantuo.service.CityService;
 import com.pantuo.service.DataInitializationService;
 import com.pantuo.service.UserServiceInter;
@@ -72,6 +76,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	//@Autowired
 	//private DaoAuthenticationProvider daoAuthenticationProvider;
+
+	@Value("${sys.type}")
+	private String isBodySys;
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -118,14 +125,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				.antMatchers("/", "/*.html", "/login", "/logout", "/homepage/**", "/css/**", "/images/**", "/imgs/**",
-						"/js/**", "/index_js/**", "/index_img/**", "/index_css/**", "/style/**","/upload_temp/**")
+						"/js/**", "/index_js/**", "/index_img/**", "/index_css/**", "/style/**", "/upload_temp/**")
 				.permitAll()
-				.antMatchers("/login_bus","/busselect/work**/**", "/intro**", "/about-me", "/media", "/effect","*/media**","*/effect**", 
-						"*/partner**","/partner","*/aboutme**","/aboutme","/loginForLayer","/index","/logMini**",
-						"/screen", "/secondLevelPage", "/secondLevelPageBus", "/body", "/**/public**/**",
-						"/**/public**", "/register", "/user/**", "/doRegister", "/validate/**", "/f/**",
-						"/product/d/**", "/product/c/**", "/product/sift**", "/product/sift_data", "/carbox/sift_body",
-						"/product/ajaxdetail/**", "/order/iwant/**", "/order/ibus/**")
+				.antMatchers("/login_bus", "/busselect/work**/**", "/intro**", "/about-me", "/media", "/effect",
+						"*/media**", "*/effect**", "*/partner**", "/partner", "*/aboutme**", "/aboutme",
+						"/loginForLayer", "/index", "/logMini**", "/screen", "/secondLevelPage", "/secondLevelPageBus",
+						"/body", "/**/public**/**", "/**/public**", "/register", "/user/**", "/doRegister",
+						"/validate/**", "/f/**", "/product/d/**", "/product/c/**", "/product/sift**",
+						"/product/sift_data", "/carbox/sift_body", "/product/ajaxdetail/**", "/order/iwant/**",
+						"/order/ibus/**")
 				.permitAll()
 				.antMatchers("/**")
 				.authenticated()
@@ -136,6 +144,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				//http://www.baeldung.com/spring_redirect_after_login
 				.and().formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/order/myTask/1")
 				.successHandler(new SimpleRoleAuthenticationSuccessHandler())
+				.failureHandler(new SimpleRoleAuthenticationFailHandler())
 				//.failureHandler((new SecurityCustomException()))
 				.usernameParameter("username").passwordParameter("password").and().logout()
 				.addLogoutHandler(new LogoutHandler() {
@@ -164,6 +173,46 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.logoutSuccessUrl("/login?logout").invalidateHttpSession(false).and().csrf().disable();
 	}
 
+	class SimpleRoleAuthenticationFailHandler implements AuthenticationFailureHandler {
+		private final Logger logger = LoggerFactory.getLogger(SimpleRoleAuthenticationSuccessHandler.class);
+		private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
+		@Override
+		public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
+				AuthenticationException exception) throws IOException, ServletException {
+			//如果是车身
+			//if (StringUtils.contains(isBodySys, "body") && exception instanceof BadCredentialsException) {
+				if ( exception instanceof BadCredentialsException) {
+				BadCredentialsException new_name = (BadCredentialsException) exception;
+				if (StringUtils.contains(new_name.getMessage(), "Bad")) {
+					request.getSession().setAttribute("reLoginMsg", "密码错误!");
+				}
+			}
+			handle(request, response);
+
+		}
+
+		protected void handle(HttpServletRequest request, HttpServletResponse response) throws IOException {
+			String targetUrl = determineTargetUrl(request, response);
+
+			if (response.isCommitted()) {
+				logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
+				return;
+			}
+			redirectStrategy.sendRedirect(request, response, targetUrl);
+		}
+
+		protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response) {
+			if (StringUtils.contains(isBodySys, "body")) {
+				return "/login_bus?error";
+			}
+			String referer = request.getHeader("referer");
+			System.out.println("referer:" + referer);
+			return "/login?error";
+		}
+
+	}
+
 	/**
 	 * 
 	 * <b><code>SimpleRoleAuthenticationSuccessHandler</code></b>
@@ -186,7 +235,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 				throws IOException {
-			String targetUrl = determineTargetUrl(authentication,request,response);
+			String targetUrl = determineTargetUrl(authentication, request, response);
 
 			if (response.isCommitted()) {
 				logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
@@ -306,9 +355,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			return w;
 		}
 	}
-	
-	
-	
-	
-	
+
 }
