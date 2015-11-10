@@ -7,47 +7,11 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/validation/jquery.validationEngine.js"></script>
-    	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/validation/jquery.validationEngine-zh_CN.js"></script>
 		<title>用户注册</title>
+		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/js/jquery-ui/jquery-ui.min.css">
 		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/index_css/login.css">
 		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/js/validation/validationEngine.jquery.css">
-<script type="text/javascript">
-    $(document).ready(function() {
-        $("#userForm2").validationEngine({
-            validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
-            inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
-            success :  false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
-            promptPosition: "centerRight",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
-            showOneMessage: true,
-            maxErrorsPerField: 1,
-            //failure : function() { alert("验证失败，请检查。");  }//验证失败时调用的函数
-            //success : function() { callSuccessFunction() },//验证通过时调用的函数
-        });
-    });
-</script>
 
-<script type="text/javascript">
-function sub(){
-    if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
-        return;
-    if (!$("#agreement").is(":checked")) {
-        jDialog.Alert("请同意免责条款");
-        return;
-    }
-    $('#userForm2').ajaxForm(function(data) {
-        if(data.user!=null){
-            jDialog.Alert("注册成功,请注意查收邮件进行激活!");
-        }
-       // var uptime = window.setTimeout(function(){
-         //   window.location.href="${rc.contextPath}/order/myTask/1";
-           // clearTimeout(uptime);
-        //},2000);
-    }).submit();
-//	$('#userForm2').submit();
-
-}
-</script>
 	<body class="register">
 		<div class="contain">
 			<div class="rg-logo">
@@ -61,7 +25,7 @@ function sub(){
 				enctype="multipart/form-data">
 					<div class="field username-field">
 					<label><i class="icon icon-username"></i></label>
-					<input type="text" value="" class="rg-text validate[required,custom[noSpecialLetterChinese],minSize[6],maxSize[12],ajax[ajaxUserCall]]" placeholder="用户名（请填写邮箱地址）"
+					<input type="text" value="" class="rg-text validate[required,custom[noSpecialLetterChinese],minSize[6],maxSize[12],ajax[ajaxUserCall]]" placeholder="用户名"
 					 name="username" id="username" data-is="isAmount isEnough" autocomplete="off"
 					/>
 					<i>*</i>
@@ -87,7 +51,7 @@ function sub(){
 					</div>
 					<div class="field qq-field">
 						<label><i class="icon icon-qq"></i></label>
-						<input type="text" value="" class="rg-text" placeholder="QQ">
+						<input type="text" name="email" value="" class="rg-text validate[required,custom[email]]" placeholder="邮箱地址">
 						<i>*</i>
 					</div>
 					<div class="field company-field">
@@ -120,9 +84,49 @@ function sub(){
 			</div>
 		</div>
 
-		<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
-		<script type="text/javascript">
+		<script type="text/javascript" src="${rc.contextPath}/index_js/jquery-1.11.1.min.js"></script>
+		<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery-ui/jquery-ui.js"></script>
+		<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.form.js"></script>
+		 <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.validate.js"></script>
+		<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/validation/jquery.validationEngine.js"></script>
+    	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/validation/jquery.validationEngine-zh_CN.js"></script>
+    	 <!--增加lay最新版本-->
+	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer/layer.js"></script>
+	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer.onload.js"></script>
+	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
+	<script type="text/javascript">
+    $(document).ready(function() {
+        $("#userForm2").validationEngine({
+            validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
+            inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
+            success :  false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
+            promptPosition: "centerRight",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
+            showOneMessage: true,
+            maxErrorsPerField: 1,
+            //failure : function() { alert("验证失败，请检查。");  }//验证失败时调用的函数
+            //success : function() { callSuccessFunction() },//验证通过时调用的函数
+        });
+    });
+</script>
 
-		</script>
+<script type="text/javascript">
+function sub(){
+    if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
+        return;
+    if (!$("#agreement").is(":checked")) {
+        layer.msg("请同意免责条款");
+        return;
+    }
+    $('#userForm2').ajaxForm(function(data) {
+        if(data.user!=null){
+           layer.msg("注册成功,请注意查收邮件进行激活!");
+        }
+       // var uptime = window.setTimeout(function(){
+         //   window.location.href="${rc.contextPath}/order/myTask/1";
+           // clearTimeout(uptime);
+        //},2000);
+    }).submit();
+}
+</script>
 	</body>
 </html>

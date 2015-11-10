@@ -50,9 +50,16 @@
                 <SPAN>套餐描述：</SPAN><SPAN class="con">${substring(product.remarks!'',0,38)}</SPAN>
             </LI>
              </#if>
+             <#if product.imgurl?has_content>
             <LI style="width:480px;">
                 <SPAN>缩略图：</SPAN><SPAN class="con"> <img src="${rc.contextPath}/upload_temp/${product.imgurl}"  class="m11" width="240"/></SPAN>
             </LI>
+            <#else>
+             <LI style="width:480px;">
+                <SPAN>缩略图：</SPAN><SPAN class="con">  <img src="${rc.contextPath}/index_img/wp1_1.jpg" height="100" width="100"></SPAN>
+            </LI>
+           
+            </#if>
         </UL>
     </DIV>
 </div>
@@ -128,9 +135,16 @@
                 <SPAN>套餐描述：</SPAN><SPAN class="con">${substring(view.remarks!'',0,38)}</SPAN>
             </LI>
              </#if>
- <LI style="width:480px;">
+             <#if view.imgurl?has_content>
+             <LI style="width:480px;">
                 <SPAN>缩略图：</SPAN><SPAN class="con"> <img src="${rc.contextPath}/upload_temp/${view.imgurl}"  class="m11" width="240"/></SPAN>
             </LI>
+             <#else>
+             <LI style="width:480px;">
+                <SPAN>缩略图：</SPAN><SPAN class="con">  <img src="${rc.contextPath}/index_img/wp1_1.jpg" height="100" width="100"></SPAN>
+            </LI>
+           
+            </#if>
         </UL>
     </DIV>
 </div>
