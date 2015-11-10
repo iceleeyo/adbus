@@ -6,7 +6,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>确认订单信息</title>
-		 
+		
 		</head>
 	<body>
 <header>
@@ -146,11 +146,26 @@
 						</div>
 </#if>
 						<div class="adj">
-							
-							<div class="stage line">
-								<span class="legged">分期付款</span>
+							<div class="way" >
+								<span class="legged">是否分期</span>
+								<div class="select-items legged">
+									<ul class="iradios">
+										<li class="active">
+											<input type="radio" class="c" name="isdiv" checked="checked" value="0">
+											<label class="iradio iradio2"></label>
+											<span>否</span>
+										</li>
+										<li>
+											<input type="radio" class="c"  name="isdiv" value="1">
+											<label class="iradio iradio2"></label>
+											<span>是</span>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="stage line" style="display:none" id="c2">
+								<span class="legged">选择期数</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<select id="dividpay" class="selects">
-								
 								  <option value="3">3</option>
 								  <option value="6">6</option>
 								  <option value="12">12</option>
@@ -251,9 +266,19 @@
 			}
           });  
 		}
-		
-		
+		  $(document).ready(function() {
+		  $('.legged .iradio2').on('click', function(event) {
+					$(this).prev()[0].checked = true;
+					var w = ($(this).prev()[0]).value;
+            if(w==0){
+            	$("#c2").hide();
+            }else if(w==1) {
+            	$("#c2").show();
+            }
+				});
+		});
 			$(document).ready(function(e) {
+			 
 				//默认.active下radio选中
 				if($('li').is('.active')){
 					$('.active').prev()[0].checked = true;

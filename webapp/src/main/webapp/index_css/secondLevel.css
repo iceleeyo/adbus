@@ -1211,8 +1211,8 @@ header .area {
 }
 
 .adj .selects {
-	width: 290px;
-	height: 45px;
+	width: 100px;
+	height: 30px;
 	margin-right: 40px;
 	position: relative;
 	vertical-align: sub;
