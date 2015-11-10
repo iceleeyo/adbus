@@ -710,10 +710,6 @@ function addBusModel(url) {
 			+'<input class="ui-input validate[required]" type="text" value="" name="name"  '
 			+'id="namestr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
 			+'</div>'
-			+'<div class="ui-form-item"> <label class="ui-label mt10">车型描述：</label>'
-			+'<input class="ui-input validate[required]" type="text" value="" name="description"  '
-			+'id="description" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-			+'</div>'
 			+'<div class="ui-form-item"> <label class="ui-label mt10">广告位尺寸：</label>'
 			+'<input class="ui-input validate[required]" type="text" value="" name="adSlot"  '
 			+'id="adSlot" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
@@ -723,14 +719,113 @@ function addBusModel(url) {
 			+'id="manufacturer" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
 			+'</div>'
 			+'<div class="ui-form-item"> <label class="ui-label mt10">单双层：</label>'
-			+'<select  class="ui-input bus-model" name="doubleDecker" >  '
+			+'<select  class="ui-input bus-model" onchange="changemodeldec(\''+url+'\')" id="doubleDecker3" name="doubleDecker" >  '
 			+'<option value="false" selected="selected">单层</option><option value="true" >双层</option></select></div>'
+			+'<div class="ui-form-item"> <label class="ui-label mt10">车型描述：</label>'
+			+'<select class="ui-input "  name="modeldescId"  '
+			+'id="modeldescId"></select>'
+			+'</div>'
 			+ '</div>'
 			+ '<div class="ui-form-item widthdrawBtBox" style="position: absolute; bottom: 10px;">'
 			+ '<input type="button" onclick="subBusModel()" class="block-btn" value="确认" ></div>'
 			+ '</form>'
 			+'<div id="worm-tips" class="worm-tips" style="width:350px;display:none;"></div>'
 	});
+	$.ajax({
+	       url : url + "/bus/findModedesc/false",
+	       type : "GET",
+	       success : function(data) {
+	      $.each(data, function(i, item) {
+			$("#modeldescId").append(
+					$("<option value="+item.id+">" + item.description
+							+ "</option>"));
+	         });
+}}, "text");
+}
+//车型信息修改
+function showBusModelDetail(pathUrl,id){
+	$.ajax({
+		url : pathUrl  +"/api/busmodelDetail/"+ id,
+		type : "POST",
+		data : {
+		},
+		success : function(data) {
+			var m='';
+			var modedid=0;
+			if(typeof(data.modeldesc)!="undefined"){
+				m=data.modeldesc.description;
+				modedid=data.modeldesc.id;
+			}else{
+				m='暂无描述';
+			}
+			layer.open({
+				type: 1,
+				title: "车型信息修改",
+				skin: 'layui-layer-rim', 
+				area: ['650px', '500px'], 
+				content: ''
+					+ '<form id="addBusModelform" action='+pathUrl+'/busselect/saveBusModel>'
+					+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
+					+'<div class="ui-form-item"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/> <label class="ui-label mt10">型号：</label>'
+					+'<input type="hidden" name="id" value="'+data.id+'"/><input class="ui-input validate[required]" type="text" value="'+data.name+'" name="name"  '
+					+'id="namestr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+					+'</div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10">广告位尺寸：</label>'
+					+'<input class="ui-input validate[required]" type="text" value="'+isNotEmptyString(data.adSlot)+'" name="adSlot"  '
+					+'id="adSlot" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+					+'</div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10">广告商：</label>'
+					+'<input   class="ui-input validate[required]" type="text" value="'+isNotEmptyString(data.manufacturer)+'" name="manufacturer"  '
+					+'id="manufacturer" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+					+'</div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10">单双层：</label>'
+					+'<select  class="ui-input bus-model" name="doubleDecker" onchange="changemodeldec(\''+pathUrl+'\')" id="doubleDecker3" >  '
+					+'<option value="false" >单层</option><option value="true" >双层</option></select></div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10">车型描述：</label>'
+					+'<select class="ui-input "  name="modeldescId"  '
+					+'id="modeldescId"><option value="'+modedid+'">'+isNotEmptyString(m)+'</option></select>'
+					+'</div>'
+					+ '</div>'
+					+ '<div class="ui-form-item widthdrawBtBox" style="position: absolute; bottom: 10px;">'
+					+ '<input type="button" onclick="subBusModel()" class="block-btn" value="确认" ></div>'
+					+ '</form>'
+					+'<div id="worm-tips" class="worm-tips" style="width:350px;display:none;"></div>'
+			});
+			$("#doubleDecker3 option").each(function(){
+				   if(Boolean($(this).val()) == data.doubleDecker){
+				     $(this).attr("selected", "selected");  
+				   }
+				});
+			$.ajax({
+			       url : pathUrl + "/bus/findModedesc/"+data.doubleDecker,
+			       type : "GET",
+			       success : function(data) {
+			      $.each(data, function(i, item) {
+			    	  if(item.id!=modedid){
+					$("#modeldescId").append(
+							$("<option value="+item.id+">" + item.description
+									+ "</option>"));
+							}
+			         });
+		}}, "text");
+		}
+		
+	}, "text");
+	
+}
+function changemodeldec(purl){
+	$("#modeldescId").empty();
+	var doubleDecker=$("#doubleDecker3  option:selected").val();
+	$.ajax({
+	       url : purl + "/bus/findModedesc/"+doubleDecker,
+	       type : "GET",
+	       success : function(data) {
+	      $.each(data, function(i, item) {
+			$("#modeldescId").append(
+					$("<option value="+item.id+">" + item.description
+							+ "</option>"));
+	         });
+ }}, "text");
 }
 //弹出添加线路窗口
 function addline(url) {
@@ -907,57 +1002,7 @@ function showLineDetail(pathUrl,id){
 	}, "text");
 	
 }
-//车型信息修改
-function showBusModelDetail(pathUrl,id){
-	$.ajax({
-		url : pathUrl  +"/api/busmodelDetail/"+ id,
-		type : "POST",
-		data : {
-		},
-		success : function(data) {
-			layer.open({
-				type: 1,
-				title: "车型信息修改",
-				skin: 'layui-layer-rim', 
-				area: ['650px', '500px'], 
-				content: ''
-					+ '<form id="addBusModelform" action='+pathUrl+'/busselect/saveBusModel>'
-					+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
-					+'<div class="ui-form-item"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/> <label class="ui-label mt10">型号：</label>'
-					+'<input type="hidden" name="id" value="'+data.id+'"/><input class="ui-input validate[required]" type="text" value="'+data.name+'" name="name"  '
-					+'id="namestr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-					+'</div>'
-					+'<div class="ui-form-item"> <label class="ui-label mt10">车型描述：</label>'
-					+'<input class="ui-input validate[required]" type="text" value="'+isNotEmptyString(data.description)+'" name="description"  '
-					+'id="description" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-					+'</div>'
-					+'<div class="ui-form-item"> <label class="ui-label mt10">广告位尺寸：</label>'
-					+'<input class="ui-input validate[required]" type="text" value="'+isNotEmptyString(data.adSlot)+'" name="adSlot"  '
-					+'id="adSlot" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-					+'</div>'
-					+'<div class="ui-form-item"> <label class="ui-label mt10">广告商：</label>'
-					+'<input   class="ui-input validate[required]" type="text" value="'+isNotEmptyString(data.manufacturer)+'" name="manufacturer"  '
-					+'id="manufacturer" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-					+'</div>'
-					+'<div class="ui-form-item"> <label class="ui-label mt10">单双层：</label>'
-					+'<select  class="ui-input bus-model" name="doubleDecker" id="doubleDecker2" >  '
-					+'<option value="false" >单层</option><option value="true" >双层</option></select></div>'
-					+ '</div>'
-					+ '<div class="ui-form-item widthdrawBtBox" style="position: absolute; bottom: 10px;">'
-					+ '<input type="button" onclick="subBusModel()" class="block-btn" value="确认" ></div>'
-					+ '</form>'
-					+'<div id="worm-tips" class="worm-tips" style="width:350px;display:none;"></div>'
-			});
-			$("#doubleDecker2 option").each(function(){
-				   if(Boolean($(this).val()) == data.doubleDecker){
-				     $(this).attr("selected", "selected");  
-				   }
-				});
-		}
-		
-	}, "text");
-	
-}
+
 function subLine(){
 	if (!$("#addLineform").validationEngine('validateBeforeSubmit'))
         return;
@@ -981,6 +1026,11 @@ function subLine(){
 function subBusModel(){
 	if (!$("#addBusModelform").validationEngine('validateBeforeSubmit'))
 		return;
+	var modeldescId=$("#modeldescId  option:selected").val();
+	if(modeldescId==0){
+		layer.msg("请选择车型描述");
+		return;
+	}
 	$('#addBusModelform').ajaxForm(function(data) {
 		if(data.left){
 			layer.msg(data.right);
@@ -1838,7 +1888,7 @@ function showBusDetail(pathUrl,tourl,id){
 		}).submit();
 	}
 	function isNotEmptyString(str) {
-		if (str != null && str != undefined && str != "") {
+		if (str != null && typeof(str) != "undefined" && str != "") {
 			return str;
 		}	
 		return '';

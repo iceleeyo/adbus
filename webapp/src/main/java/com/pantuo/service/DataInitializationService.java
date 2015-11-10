@@ -35,6 +35,7 @@ import com.pantuo.dao.CalendarRepository;
 import com.pantuo.dao.CityRepository;
 import com.pantuo.dao.FunctionRepository;
 import com.pantuo.dao.IndustryRepository;
+import com.pantuo.dao.ModelDescRepository;
 import com.pantuo.dao.SuppliesRepository;
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaBusModel;
@@ -44,6 +45,7 @@ import com.pantuo.dao.pojo.JpaCalendar;
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaFunction;
 import com.pantuo.dao.pojo.JpaIndustry;
+import com.pantuo.dao.pojo.JpaModeldesc;
 import com.pantuo.dao.pojo.JpaTimeslot;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.dao.pojo.UserDetail.UStats;
@@ -91,6 +93,8 @@ public class DataInitializationService {
 
 	@Autowired
 	IndustryRepository industryRepo;
+	@Autowired
+	ModelDescRepository modelDescRepository;
 
 	@Autowired
 	FunctionRepository functionRepository;
@@ -122,6 +126,7 @@ public class DataInitializationService {
 		initializeBuses();
 		//初始增加一条记录
 		initializeSupplies();
+		initializeModeldesc();
 	}
 
 	private void initializeCalendar() throws Exception {
@@ -254,6 +259,33 @@ public class DataInitializationService {
 		}
 
 		log.info("Inserted {} user entries into table", users.size());
+	}
+	//初始化车型描述表
+	private void initializeModeldesc() throws Exception {
+		long count = userService.countModeldesc();
+		if (count > 0) {
+			log.info("There are already {} modeldesc in table, skip initialization step", count);
+		}
+		
+		InputStream is = DataInitializationService.class.getClassLoader().getResourceAsStream("modeldesc.csv");
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+		String line = null;
+		List<JpaModeldesc> list = new ArrayList<JpaModeldesc>();
+
+		while ((line = reader.readLine()) != null) {
+			if (line.startsWith("#"))
+				continue;
+			try {
+				String[] str = line.split(",");
+				JpaModeldesc model = new JpaModeldesc(NumberUtils.toInt(str[0]), str[1]);
+				list.add(model);
+			} catch (Exception e) {
+				log.warn("Fail to parse modeldesc for {}, e={}", line, e.getMessage());
+			}
+		}
+		modelDescRepository.save(list);
+
+		log.info("Inserted {} modeldesc entries into table", list.size());
 	}
 
 	//初始化时段表
@@ -497,7 +529,7 @@ public class DataInitializationService {
 						model = newModelMap.get(city.getId() + "/" + b[5]);
 						if (model == null) {
 							boolean doubleDecker = "双层".equals(b[15]);
-							model = new JpaBusModel(city.getId(), b[5], doubleDecker, null, null, null);
+							model = new JpaBusModel(city.getId(), b[5], doubleDecker, null, null);
 							newModelMap.put(city.getId() + "/" + b[5], model);
 						}
 					}

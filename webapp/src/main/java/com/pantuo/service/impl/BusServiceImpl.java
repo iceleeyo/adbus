@@ -86,6 +86,8 @@ import com.pantuo.mybatis.domain.BusUplog;
 import com.pantuo.mybatis.domain.CountableBusLine;
 import com.pantuo.mybatis.domain.CountableBusModel;
 import com.pantuo.mybatis.domain.CountableBusinessCompany;
+import com.pantuo.mybatis.domain.Modeldesc;
+import com.pantuo.mybatis.domain.ModeldescExample;
 import com.pantuo.mybatis.domain.Offlinecontract;
 import com.pantuo.mybatis.domain.PublishLine;
 import com.pantuo.mybatis.persistence.BusCustomMapper;
@@ -95,6 +97,7 @@ import com.pantuo.mybatis.persistence.BusOnlineMapper;
 import com.pantuo.mybatis.persistence.BusSelectMapper;
 import com.pantuo.mybatis.persistence.BusSubExample;
 import com.pantuo.mybatis.persistence.BusUplogMapper;
+import com.pantuo.mybatis.persistence.ModeldescMapper;
 import com.pantuo.mybatis.persistence.OfflinecontractMapper;
 import com.pantuo.mybatis.persistence.PublishLineMapper;
 import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
@@ -149,6 +152,8 @@ public class BusServiceImpl implements BusService {
 
 	@Autowired
 	BusMapper busMapper;
+	@Autowired
+	ModeldescMapper modeldescMapper;
 	
 	@Autowired
 	
@@ -730,7 +735,7 @@ public class BusServiceImpl implements BusService {
 		if (pageSize < 1)
 			pageSize = 1;
 		if (sort == null)
-			sort = new Sort("id");
+			sort = new Sort("updated");
 		
 		Pageable p = new PageRequest(page, pageSize, sort);
 		BooleanExpression query = QJpaBusModel.jpaBusModel.city.eq(city);
@@ -742,9 +747,9 @@ public class BusServiceImpl implements BusService {
 		}
        if(null!=req){
 			String description=req.getFilter("description"),doubleDecker=req.getFilter("doubleDecker");
-			if (description != null) {
-				query = query.and(QJpaBusModel.jpaBusModel.description.like("%" + description + "%"));
-			}
+//			if (description != null) {
+//				query = query.and(QJpaBusModel.jpaBusModel.description.like("%" + description + "%"));
+//			}
 			if (doubleDecker != null && !StringUtils.equals(doubleDecker, "defaultAll")) {
 				boolean b=BooleanUtils.toBoolean(doubleDecker);
 				query = query.and(QJpaBusModel.jpaBusModel.doubleDecker.eq(b));
@@ -1857,6 +1862,17 @@ public class BusServiceImpl implements BusService {
 		view.setTotalalrnum(totalalrnum);
 		view.setTotalfree(totalsalsnum-totalalrnum);
 		return view;
+	}
+
+	@Override
+	public List<Modeldesc> findModedesc(String type) {
+		ModeldescExample e=new ModeldescExample();
+		if(StringUtils.equals(type, "false")){
+			e.createCriteria().andTypeEqualTo(0);
+		}else{
+			e.createCriteria().andTypeEqualTo(1);
+		}
+		return modeldescMapper.selectByExample(e);
 	}
 
 }

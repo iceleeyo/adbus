@@ -31,6 +31,7 @@ import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.ActivitiConfiguration;
+import com.pantuo.dao.ModelDescRepository;
 import com.pantuo.dao.UserDetailRepository;
 import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.QUserDetail;
@@ -66,6 +67,8 @@ public class UserService implements UserServiceInter {
 	private static Logger log = LoggerFactory.getLogger(UserService.class);
 	@Autowired
 	private UserDetailRepository userRepo;
+	@Autowired
+	private ModelDescRepository modelDescRepository;
 
 	@Autowired
 	private IdentityService identityService;
@@ -99,6 +102,9 @@ public class UserService implements UserServiceInter {
 	 */
 	public long count() {
 		return userRepo.count();
+	}
+	public long countModeldesc() {
+		return modelDescRepository.count();
 	}
 
 	/**

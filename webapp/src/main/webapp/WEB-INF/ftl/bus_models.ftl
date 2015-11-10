@@ -43,7 +43,7 @@
             },
             "columns": [
                 { "data": "name", "defaultContent": ""},
-                { "data": "description", "defaultContent": ""},
+                { "data": "modeldesc.description", "defaultContent": ""},
                 { "data": "adSlot", "defaultContent": ""},
                 { "data": "doubleDecker", "defaultContent": "", "render": function(data) {
                     switch(data) {

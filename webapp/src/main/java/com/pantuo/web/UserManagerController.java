@@ -97,7 +97,13 @@ public class UserManagerController {
 	AttachmentService attachmentService;
 	
 	@RequestMapping(value = "/list", method = { RequestMethod.GET })
-	public String userlist() {
+	public String userlist(Model model) {
+		model.addAttribute("usertype", "screen");
+		return "user_list";
+	}
+	@RequestMapping(value = "/bodyuserlist", method = { RequestMethod.GET })
+	public String bodyuserlist(Model model) {
+		model.addAttribute("usertype", "body");
 		return "user_list";
 	}
 

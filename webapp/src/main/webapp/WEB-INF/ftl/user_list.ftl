@@ -24,7 +24,7 @@
                 data: function(d) {
                     return $.extend( {}, d, {
                         "filter[name]" : $('#name').val(),
-                        "filter[utype]" : $('#utype').val(),
+                        "filter[utype]" : '${usertype!''}'
                         
                     } );
                 },
@@ -116,19 +116,10 @@
                         '    <span>' +
                         '        <input id="name" value="">' +
                         '    </span>' +
-                        '    <span>用户类型</span>' + 
-                     '<select class="ui-input ui-input-mini" name="utype" id="utype">' +
-                     <#if _utype == 'body'>
-                  	'<option value="body">车身广告</option>' +
-                  	<#elseif _utype == 'screen'>
-                  	'<option value="screen" selected="selected">移动视频</option>' +
-                  	'<option value="pub">注册广告主</option>' +
-                  	</#if>
-         			'</select>' +
                         '</div>'
         );
 
-        $('#name,#utype').change(function() {
+        $('#name').change(function() {
             table.fnDraw();
         });
         bindLayerMouseOver();

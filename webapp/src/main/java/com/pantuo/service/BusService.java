@@ -28,6 +28,7 @@ import com.pantuo.mybatis.domain.BusOnline;
 import com.pantuo.mybatis.domain.CountableBusLine;
 import com.pantuo.mybatis.domain.CountableBusModel;
 import com.pantuo.mybatis.domain.CountableBusinessCompany;
+import com.pantuo.mybatis.domain.Modeldesc;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.util.Pair;
@@ -142,5 +143,7 @@ public interface BusService {
 	Pair<Boolean, String> changeDate(String ids, String sday, int days, String eday, Principal principal, int city) throws ParseException ;
 
 	CountView ModelCountlist(TableRequest req, Page<JpaPublishLine> jpabuspage);
+
+	List<Modeldesc> findModedesc(String type);
 	
 }
