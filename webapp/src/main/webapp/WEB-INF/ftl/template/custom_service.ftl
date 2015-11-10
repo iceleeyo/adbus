@@ -17,18 +17,7 @@
 
 <script type="text/javascript">
 var iIndex = 0;	
-	    $('.jack1 .icons .up').on('click', function(e) {
-	        e.preventDefault();
-	        if(iIndex > 0){
-	            iIndex--;
-	        } else if(iIndex == 0){
-	            iIndex = 0;
-	        }else if(opts.loop){
-	            iIndex = arrElement.length-1;
-	        }
-	        $('.menu ul.list-line li').eq(iIndex).addClass('active').siblings('.active').removeClass('active');
-	        scrollPage(arrElement[iIndex]);
-	    });
+	    
 	    
     
 </script>
