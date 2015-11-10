@@ -1,4 +1,4 @@
-<div class="jack" style="height: 296px; top: 160.5px;">
+<div class="jack1" style="height: 296px; top: 160.5px;">
         <ul class="icons">
         	<li class="up"><i></i></li>
             <li class="qq">
