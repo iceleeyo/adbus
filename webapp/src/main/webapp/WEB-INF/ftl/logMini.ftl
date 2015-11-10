@@ -37,8 +37,7 @@
 				<div class="rg-title">
 					登录
 				</div>
-				<form data-name="withdraw" name="loginForm" id="loginForm"  action="login" method='POST'
-				enctype="multipart/form-data">
+				<form name="loginForm" id="loginForm" action="login" method='POST' >
 					<div class="field username-field">
 					<label><i class="icon icon-username"></i></label>
 					<input type="text" value="" class="rg-text" placeholder="注册帐号"
