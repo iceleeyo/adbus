@@ -22,6 +22,12 @@
    								<#else>
    								${(SPRING_SECURITY_LAST_EXCEPTION.message)!''}
 							</#if>
+							
+							<#if (reLoginMsg)?? >
+                             	<font color="red" size="3">密码错误!</font>
+   								<#else>
+   								${(reLoginMsg)!''}
+							</#if>
                              
                                 <div class="login-tips mb10" style="display : none;">
                                     <span class="login-tip">密码不能为空</span>
