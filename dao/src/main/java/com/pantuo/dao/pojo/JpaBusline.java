@@ -18,7 +18,7 @@ public class JpaBusline extends CityEntity{
         APP ("A++"),
         AP ("A+"),
         A ("A"),
-        LATLONG("未归类");
+        LATLONG("无");
 
         private static Map<String, Level> nameStrMap = new HashMap<String, Level>();
         static {
@@ -56,7 +56,8 @@ public class JpaBusline extends CityEntity{
     private String branch;              //所属分公司
     private String linetype;              //线路类型
     private String busnum;              //车辆数
-    private String routelocation;              //途径地点
+    private String routelocation;              //首末站
+    private String mepeak;              //早晚高峰
     private String tolength;              //总里程
     private String startTime;              //首班时间
     private String endTime;              //末班时间

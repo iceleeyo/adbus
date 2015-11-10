@@ -1,6 +1,14 @@
 package com.pantuo.dao.pojo;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  * 车辆型号信息
@@ -15,23 +23,24 @@ public class JpaBusModel extends CityEntity{
     private int id;
 
     private String name;                //车型
-
-    private String description;         //车型描述
+    @ManyToOne
+    @JoinColumn(name = "modeldescId")
+    private JpaModeldesc modeldesc;         //车型描述
     private String manufacturer;        //生产商
     private boolean doubleDecker = false;   //是否双层
     private String adSlot;                 //广告位尺寸
+    private String description;                 //备注
 
 	public JpaBusModel(){
 
 	}
 
 	public JpaBusModel(int city, String name, boolean doubleDecker,
-                       String description, String manufacturer,
+                       String manufacturer,
                        String adSlot) {
 		super(city);
         this.name = name;
         this.doubleDecker = doubleDecker;
-        this.description = description;
         this.manufacturer = manufacturer;
         this.adSlot = adSlot;
 	}
@@ -44,7 +53,8 @@ public class JpaBusModel extends CityEntity{
         this.id = id;
     }
 
-    public String getName() {
+
+	public String getName() {
         return name;
     }
 
@@ -52,15 +62,24 @@ public class JpaBusModel extends CityEntity{
         this.name = name;
     }
 
+
     public String getDescription() {
-        return description;
-    }
+		return description;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public String getManufacturer() {
+	public JpaModeldesc getModeldesc() {
+		return modeldesc;
+	}
+
+	public void setModeldesc(JpaModeldesc modeldesc) {
+		this.modeldesc = modeldesc;
+	}
+
+	public String getManufacturer() {
         return manufacturer;
     }
 
@@ -84,14 +103,4 @@ public class JpaBusModel extends CityEntity{
         this.adSlot = adSlot;
     }
 
-    @Override
-    public String toString() {
-        return "JpaBusModel{" +
-                "adSlot=" + adSlot +
-                ", doubleDecker=" + doubleDecker +
-                ", manufacturer='" + manufacturer + '\'' +
-                ", description='" + description + '\'' +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }
