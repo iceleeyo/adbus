@@ -275,8 +275,7 @@ function tocard(pathurl){
 				
 			</div>
 	  </div>
-	  
-<#include "/template/custom_service.ftl" />
+	 <#include "/template/custom_service.ftl" />
       	
 		<script type="text/javascript">
 	    $(document).ready(function() {
@@ -284,6 +283,21 @@ function tocard(pathurl){
 	        initPro('${rc.contextPath}',$("#sh").val(),"","",1);
 	        initSwift2('${rc.contextPath}');
 	       } );  
+	        
+	    var iIndex = 0;	
+	    $('.jack .icons .up').on('click', function(e) {
+	        e.preventDefault();
+	        if(iIndex > 0){
+	            iIndex--;
+	        } else if(iIndex == 0){
+	            iIndex = 0;
+	        }else if(opts.loop){
+	            iIndex = arrElement.length-1;
+	        }
+	        $('.menu ul.list-line li').eq(iIndex).addClass('active').siblings('.active').removeClass('active');
+	        scrollPage(arrElement[iIndex]);
+	    });
+	    
 		
 	     $('#priceSort').click(function() {
                   var w = $('#ascOrDesc').val();
