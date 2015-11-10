@@ -13,14 +13,6 @@
 <div class="ls-2">
 							<div class="pg-side">
 								<ul class="pg-side-list">
-								<@security.authorize ifNotGranted="UserManager,sys_userList,body_roleManager">
-								<li class="pg-side-item">
-										<a class="pg-side-item-t aa-icon" style="color:#fff;background:#F45C55;" href="${rc.contextPath}/carbox/carTask">
-											<i class="s-left pg-icon-a a-icon"></i>
-											网上订单
-										</a>
-								</li>
-								</@security.authorize>	
 								<@security.authorize ifAnyGranted="ShibaSuppliesManager,advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 									<li class="pg-side-item">
 										<a class="pg-side-item-t aa-icon" style="color:#fff;background:#F45C55;" href="${rc.contextPath}/order/myTask/1">
@@ -100,6 +92,11 @@
 											订单管理
 										</a>
 										<ul class="pg-side-exp-list">
+								         <li class="pg-side-exp-item">
+												<a class="side-exp-item-t" href="${rc.contextPath}/carbox/carTask">
+													   网上订单
+												</a>
+											</li>
 										<@security.authorize ifAnyGranted="advertiser">
 										<#if city.mediaType == 'screen'>
 											<li class="pg-side-exp-item">
@@ -613,7 +610,12 @@
                                             <@security.authorize ifAnyGranted="UserManager,sys_userList">
 											<li class="pg-side-exp-item">
 												<a class="side-exp-item-t" href="${rc.contextPath}/user/list">
-													用户列表
+													视频用户列表
+												</a>
+											</li>
+											<li class="pg-side-exp-item">
+												<a class="side-exp-item-t" href="${rc.contextPath}/user/bodyuserlist">
+													车身用户列表
 												</a>
 											</li>
                                             </@security.authorize>
