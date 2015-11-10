@@ -1315,13 +1315,13 @@ header .area {
 }
 
 .detail-bd .d-left {
-	padding: 40px 0 0 50px;
+	padding: 10px 0 0 50px;
 	float: left;
 }
 
 .detail-bd .d-right {
 	width: 495px;
-	padding-top: 35px;
+	padding-top: 10px;
 	margin-left: 100px;
 	float: left;
 }
