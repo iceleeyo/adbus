@@ -57,12 +57,21 @@
 					<div class="detail">
 						<div class="detail-bd clearfix">
 							<div class="d-left">
+							<#if prod.product.imgurl?has_content  > 
 								<img src="${rc.contextPath}/upload_temp/${prod.product.imgurl}" width="345" height="345">
 								<div class="sm-imgs">
 									<img id="ima" src="${rc.contextPath}/upload_temp/${prod.product.imgurl}" height="65" width="65">
 									<img src="${rc.contextPath}/upload_temp/${prod.product.imgurl}" height="65" width="65">
 									<img src="${rc.contextPath}/upload_temp/${prod.product.imgurl}" height="65" width="65">
 								</div>
+								<#else>
+								<img src="${rc.contextPath}/index_img/wp1_1.jpg" width="345" height="345">
+								<div class="sm-imgs">
+									<img id="ima" src="${rc.contextPath}/index_img/wp1_1.jpg" height="65" width="65">
+									<img src="${rc.contextPath}/index_img/wp1_1.jpg" height="65" width="65">
+									<img src="${rc.contextPath}/index_img/wp1_1.jpg" height="65" width="65">
+								</div>
+								</#if>
 								<div class="clearfix socials">
 									<ul class="social">
 										<li>
