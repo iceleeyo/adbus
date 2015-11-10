@@ -111,6 +111,7 @@ function go_back(){
 			suppotFile[0] = "avi";
 			suppotFile[1] = "mp4";
 			suppotFile[2] = "rmvb";
+			suppotFile[3] = "mpeg2";
 			var flag=false;
 			for (var i = 0; i < suppotFile.length; i++) {
 				if (suppotFile[i] == fileType) {
@@ -119,7 +120,7 @@ function go_back(){
 			}
 				if(flag == false)
 				{
-				jDialog.Alert("文件类型只支持AVI,MP4,RMVB");
+				jDialog.Alert("文件类型只支持AVI,MP4,RMVB,MPEG2");
 				return;
 				}
 		}
