@@ -253,7 +253,7 @@
         scrollPage(arrElement[iIndex]);
     });
 
-    $('.jack .icons .up').on('click', function(e) {
+    /*$('.jack .icons .up').on('click', function(e) {
         e.preventDefault();
         if(iIndex > 0){
             iIndex--;
@@ -277,7 +277,7 @@
         }
         $('.menu ul.list-line li').eq(iIndex).addClass('active').siblings('.active').removeClass('active');
         scrollPage(arrElement[iIndex]);
-    });
+    });*/
 
      $('.cdown').on('click', function(e) {
         iIndex = 1;
