@@ -49,9 +49,9 @@
 </script>
 <style type="text/css">
 </style>		
-<#if _utype == 'body'>
+<#if _utype?? && _utype == 'body'>
 				<div class="logo_bus"></div>
-<#elseif _utype == 'screen'>
+<#elseif _utype?? && _utype == 'screen'>
 				<div class="logo2"></div>
 </#if>
 				<nav class="menu">
@@ -124,7 +124,7 @@
 								<@security.authorize access="isAuthenticated()">
 								<a class="pg-nav-item s-left" href="${rc.contextPath}/message/all">消息<span id="msgNumber" class="layer-tips" style="color:#ff9966"></span></a>
 								<span class="pg-nav-item s-left">
-								<#if _utype == 'screen'>
+								<#if _utype?? && _utype == 'screen'>
 								<a onclick="tocard('${rc.contextPath}');"><img class="shop_icon" alt="" src="${rc.contextPath}/index_img/icon_cart.png">
 								<span id="cardCount_top"  style="color:#ff9966" ></span>
 								</#if>
