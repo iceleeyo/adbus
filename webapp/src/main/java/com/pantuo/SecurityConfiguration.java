@@ -35,6 +35,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 import com.pantuo.dao.pojo.JpaCity;
+import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.dao.pojo.UserDetail.UType;
 import com.pantuo.service.CityService;
 import com.pantuo.service.DataInitializationService;
 import com.pantuo.service.UserServiceInter;
@@ -129,7 +131,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.permitAll()
 				.antMatchers("/login_bus", "/busselect/work**/**", "/intro**", "/about-me", "/media", "/effect",
 						"*/media**", "*/effect**", "*/partner**", "/partner", "*/aboutme**", "/aboutme",
-						"/loginForLayer", "/index", "/logMini**", "/screen", "/secondLevelPage", "/secondLevelPageBus",
+						"/loginForLayer", "/index", "/backend**", "/screen", "/secondLevelPage", "/secondLevelPageBus",
 						"/body", "/**/public**/**", "/**/public**", "/register", "/user/**", "/doRegister",
 						"/validate/**", "/f/**", "/product/d/**", "/product/c/**", "/product/sift**",
 						"/product/sift_data", "/carbox/sift_body", "/product/ajaxdetail/**", "/order/iwant/**",
@@ -152,6 +154,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 					public void logout(HttpServletRequest request, HttpServletResponse response,
 							Authentication authentication) {
 						Authentication r = SecurityContextHolder.getContext().getAuthentication();
+
+						UserDetail udetail = null;
+						ActivitiUserDetails v = (ActivitiUserDetails) r.getPrincipal();
+						if (v != null) {
+							udetail = ((ActivitiUserDetails) authentication.getPrincipal()).getUserDetail();
+						}
+
 						if (r != null) {
 							r.setAuthenticated(false);
 						}
@@ -166,11 +175,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 							}
 							request.getSession().setAttribute("medetype", tString);
 							request.getSession().setAttribute("_utype", _utype);
+
+							if (udetail != null && udetail.getUtype() == UType.pub) {
+								request.getSession().setAttribute("UType", UType.pub.name());
+							}
 						}
 					}
 				})
 
-				.logoutSuccessUrl("/login?logout").invalidateHttpSession(false).and().csrf().disable();
+				.logoutSuccessUrl("/login?logout=relogin").invalidateHttpSession(false).and().csrf().disable();
 	}
 
 	class SimpleRoleAuthenticationFailHandler implements AuthenticationFailureHandler {
@@ -182,7 +195,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				AuthenticationException exception) throws IOException, ServletException {
 			//如果是车身
 			//if (StringUtils.contains(isBodySys, "body") && exception instanceof BadCredentialsException) {
-				if ( exception instanceof BadCredentialsException) {
+			if (exception instanceof BadCredentialsException) {
 				BadCredentialsException new_name = (BadCredentialsException) exception;
 				if (StringUtils.contains(new_name.getMessage(), "Bad")) {
 					request.getSession().setAttribute("reLoginMsg", "密码错误!");
@@ -204,11 +217,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response) {
 			if (StringUtils.contains(isBodySys, "body")) {
-				return "/login_bus?error";
+				return "/login_bus?error=relogin";
 			}
 			String referer = request.getHeader("referer");
 			System.out.println("referer:" + referer);
-			return "/login?error";
+			if (StringUtils.contains(referer, "/backend")) {
+				return "/backend?error=relogin";
+			} else {
+				return "/login?error=relogin";
+			}
 		}
 
 	}

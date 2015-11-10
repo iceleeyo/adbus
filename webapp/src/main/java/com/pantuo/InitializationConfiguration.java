@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 
+import com.pantuo.service.ContractInitService;
 import com.pantuo.service.DataInitializationService;
 import com.pantuo.simulate.CountMonth;
 import com.pantuo.simulate.LineCarsCount;
@@ -24,6 +25,12 @@ import com.pantuo.simulate.QueryBusInfo;
 public class InitializationConfiguration {
 	@Autowired
 	DataInitializationService initService;
+	
+	
+	@Autowired
+	
+	ContractInitService contractInitService;
+	
 	/**
 	 * 初始化线路对应的车辆数量
 	 */
@@ -41,12 +48,14 @@ public class InitializationConfiguration {
 
 	@Bean
 	public boolean initialize() throws Exception {
+		//contractInitService.intialize();
 		lineCarsCount.countCars();
 		lineOnlineCount.countCars();
 		qb.countCars();
 		qb.countCars2();
 		initService.intialize();
 		countMonth.act(new Date());
+		
 		return true;
 	}
 }

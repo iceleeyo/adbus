@@ -26,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import scala.actors.threadpool.Arrays;
 
 import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.dao.pojo.UserDetail.UType;
 import com.pantuo.service.MailService;
 import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.security.ActivitiUserDetailsService;
@@ -70,7 +71,7 @@ public class LoginController {
 	        return "login_bus";
 	        }
 	    }
-    @RequestMapping(value = "/login", produces = "text/html;charset=utf-8")
+    @RequestMapping(value = "/backend", produces = "text/html;charset=utf-8")
     public String login(Model model,HttpServletRequest request, Authentication auth)
     {
     	if(StringUtils.equals("body", (String)request.getSession().getAttribute("_utype"))){
@@ -80,19 +81,39 @@ public class LoginController {
     	if(asObject==null){
     		request.getSession().setAttribute("medetype","screen");
     	}
+    	clearErrorMsg(request);
         if (auth != null && auth.isAuthenticated()) {
             return "redirect:/order/myTask/1";
         }else{
         	model.addAttribute("msg", "用户名或密码错误");
-        return "login";
+        	return "login";
         }
     }
     
-    @RequestMapping(value = "/logMini", produces = "text/html;charset=utf-8")
+    @RequestMapping(value = "/login", produces = "text/html;charset=utf-8")
     public String logMini(Model model,HttpServletRequest request, Authentication auth)
-    {
-    	return "logMini";
-    }
+ {
+		clearErrorMsg(request);
+		if (StringUtils.isBlank(request.getParameter("logout"))) {
+			return "logMini";
+		} else {
+			if (StringUtils.equals("relogin", (String) request.getParameter("logout"))
+					&& StringUtils.equals(UType.pub.name(), (String) request.getSession().getAttribute("UType"))) {
+				return "logMini";
+			} else {
+				return "redirect:/backend";
+			}
+		}
+
+	}
+	private void clearErrorMsg(HttpServletRequest request) {
+		if(StringUtils.isBlank(request.getParameter("error"))){
+    		try {
+				request.getSession().removeAttribute("reLoginMsg");
+			} catch (Exception e) {
+			}
+    	}
+	}
     @RequestMapping(value = "/logout", produces = "text/html;charset=utf-8")
     public String logout(HttpServletRequest request)
     {
@@ -100,6 +121,10 @@ public class LoginController {
             request.logout();
         } catch (ServletException e) {
             log.error("Failed to logout.", e);
+        }
+        if(StringUtils.isBlank(request.getParameter("error"))){
+        	
+        	
         }
         return "redirect:/login";
     }

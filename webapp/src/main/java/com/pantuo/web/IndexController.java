@@ -16,6 +16,7 @@ import org.h2.util.New;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,6 +62,10 @@ public class IndexController {
 	private ProductService productService;
 	@Autowired
 	private BusLineCheckService busLineCheckService;
+	
+	
+	  @Value("${sys.type}")
+		private String isBodySys;
 
 	public  int makeCookieValueRight(int city, HttpServletResponse response) {
 		JpaCity r = cityService.fromId(city);
@@ -118,7 +123,12 @@ public class IndexController {
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
 		//city = makeCookieValueRight(city == -1 ? 1 : (city % 2 == 0 ? city - 1 : city), response);
 			//		return commonData(model, request, city, "index", "screen");
-		if(!StringUtils.contains(request.getServerName(), "busme")){
+		//if(!StringUtils.contains(request.getServerName(), "busme")){
+		if(StringUtils.contains(isBodySys, "body")){ 
+			try {
+				request.getSession().removeAttribute("reLoginMsg");
+			} catch (Exception e) {
+			}
 			return "redirect:/login_bus"; 
 		}
 		return "index";
