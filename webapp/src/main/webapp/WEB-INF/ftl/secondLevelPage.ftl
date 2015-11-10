@@ -279,7 +279,7 @@ function tocard(pathurl){
         <ul class="icons">
         	<li class="up"><i></i></li>
             <li class="qq">
-            	<i></i>
+            	<i>106179729</i>
             </li>
             <li class="tel">
             	<i></i>
