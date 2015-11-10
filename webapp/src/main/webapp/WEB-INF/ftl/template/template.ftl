@@ -87,9 +87,9 @@
 		<ul class="breadcrumb m11 s-clear">
 		<li class="s-left fsize-16 bread-homep">
 		<#if medetype?? &&  medetype=="screen">
-		<a class="gray-text" href="${rc.contextPath}/index">首页</a>
+		<a class="gray-text" href="${rc.contextPath}/">首页</a>
 		<#else>
-		<a class="gray-text" href="${rc.contextPath}/index">首页</a>
+		<a class="gray-text" href="${rc.contextPath}/">首页</a>
 		</#if>
 		</li>
 		<li class="s-left breadcrumb-right"></li>
