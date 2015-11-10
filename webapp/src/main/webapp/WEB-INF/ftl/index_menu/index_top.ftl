@@ -22,30 +22,6 @@
     function logout(){
        window.location.href = "${rc.contextPath}/logout";
     }
-
-/* 
-    $(function() {
-        $("#city_dropdown a:not(.selected)").click(function(){
-            var cityName = $(this).parents("#ttbar-mycity")[0]?$(this).attr("data-id") : $("#ttbar-mycity a.selected").attr("data-id");
-            var media = $(this).parents("#ttbar-media")[0]?$(this).attr("data-id") : $("#ttbar-media a.selected").attr("data-id");
-            if (!cityName)
-                cityName = '北京';
-            if (!media)
-                media = 'screen';
-            $.ajax({
-                url : "${rc.contextPath}/f/city/select?c=" + cityName + "&m="+media,
-                type : "POST",
-                data: {},
-                success : function(data) {
-                    layer.msg("正在切换到："+ data.name + " " + data.mediaTypeName);
-                    var uptime = window.setTimeout(function(){
-                        window.location.reload();
-                        clearTimeout(uptime);
-                    },1000);
-                }
-            }, "text");
-        });
-    }); */
 </script>
 <style type="text/css">
     .sift-list {  width: 80px;  line-height: 30px;}
