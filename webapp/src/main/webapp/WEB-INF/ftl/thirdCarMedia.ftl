@@ -58,7 +58,7 @@
 						<div class="detail-bd clearfix">
 							<div class="d-left">
 							<#if jpaProduct.imgurl?has_content  > 
-								<img src="${rc.contextPath}/upload_temp/${jpaProduct.imgurl}" width="345" height="345">
+								<img src="${rc.contextPath}/upload_temp/${jpaProduct.imgurl}" width="345" height="285">
 								<div class="sm-imgs">
 									<img id="ima" src="${rc.contextPath}/upload_temp/${jpaProduct.imgurl}" height="65" width="65">
 									<img src="${rc.contextPath}/upload_temp/${jpaProduct.imgurl}" height="65" width="65">
