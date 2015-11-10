@@ -66,7 +66,7 @@
 									<img src="${rc.contextPath}/upload_temp/${jpaProduct.imgurl}" height="65" width="65">
 								</div>
 								<#else>
-								<img src="${rc.contextPath}/index_img/wp1_1.jpg" width="345" height="345">
+								<img src="${rc.contextPath}/index_img/wp1_1.jpg" width="345" height="290">
 								<div class="sm-imgs">
 									<img id="ima" src="${rc.contextPath}/index_img/wp1_1.jpg" height="65" width="65">
 									<img src="${rc.contextPath}/index_img/wp1_1.jpg" height="65" width="65">
