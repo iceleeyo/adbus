@@ -26,7 +26,7 @@
 							<#if (reLoginMsg)?? >
                              	<font color="red" size="3">密码错误!</font>
    								<#else>
-   								#${(reLoginMsg)!''}#
+   								${(reLoginMsg)!''}
 							</#if>
                              
                                 <div class="login-tips mb10" style="display : none;">
