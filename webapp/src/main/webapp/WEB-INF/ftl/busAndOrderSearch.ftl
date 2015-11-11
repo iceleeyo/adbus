@@ -89,6 +89,7 @@ div#toolbar {
                     }
                 } },
                 { "data": "busInfo.contractCode", "defaultContent": ""},
+                { "data": "busInfo.offlinecontract.adcontent", "defaultContent": ""},
                   { "data": "jpaBus.model.name", "defaultContent": ""},
                 { "data": "busInfo.startD", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd");
@@ -120,7 +121,7 @@ div#toolbar {
                      { "data": "jpaBus.office", "defaultContent": ""},
                       { "data": "jpaBus.branch", "defaultContent": ""},
                         { "data": "busInfo._sktype", "defaultContent": ""},
-                         { "data": "busInfo.offlinecontract.adcontent", "defaultContent": ""},
+                         
             ],
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
@@ -374,6 +375,7 @@ div#toolbar {
 				<th>营销中心</th>
 				<th>是否有广告</th>
 				<th>合同编号</th>
+				<th>广告内容</th>
 				<th>车型</th>
 				<th>实际上刊日期</th>
 				<th>预计下刊日期</th>
@@ -387,7 +389,7 @@ div#toolbar {
 				<th>总公司名称</th>
 				<th>分公司名称</th>
 				<th>上刊类型</th>
-				<th>广告内容</th>
+				
 			</tr>
 		</thead>
 	</table>
