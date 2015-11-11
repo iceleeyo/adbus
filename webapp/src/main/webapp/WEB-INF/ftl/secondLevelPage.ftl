@@ -91,7 +91,7 @@ function tocard(pathurl){
 					<div class="select-items clearfix">
 						<div class="select-item">
 							<img src="index_img/food.png"><br>
-							<p>食品</p>
+							<p style="padding-top: 10px;">食品</p>
 							<p>
 								价格：￥<em>500000.00</em>
 							</p>
@@ -99,7 +99,7 @@ function tocard(pathurl){
 						</div>
 						<div class="select-item">
 							<img src="index_img/internet.png">
-							<p>互联网</p>
+							<p style="padding-top: 10px;">互联网</p>
 							<p>
 								价格：￥<em>1500000.00</em>
 							</p>
@@ -107,7 +107,7 @@ function tocard(pathurl){
 						</div>
 						<div class="select-item">
 							<img src="index_img/travel.png">
-							<p>旅游</p>
+							<p style="padding-top: 10px;">旅游</p>
 							<p>
 								价格：￥<em>520000.00</em>
 							</p>
@@ -115,7 +115,7 @@ function tocard(pathurl){
 						</div>
 						<div class="select-item">
 							<img src="index_img/drink.png">
-							<p>饮料</p>
+							<p style="padding-top: 10px;">饮料</p>
 							<p>
 								价格：￥<em>590000.00</em>
 							</p>
