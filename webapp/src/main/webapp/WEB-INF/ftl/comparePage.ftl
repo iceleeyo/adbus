@@ -109,15 +109,13 @@ $.ajax({
 			<div class="ls-9">
 				<div class="product-info s-clear">
 					<div class="preview s-left">
-						<#if (medetype)=="body"> <img src="${rc.contextPath}/imgs/19.jpg"
-							width="298" height="298"> <#elseif (medetype)=="screen">
 						<#if (prod.type)=="info"> <img
 							src="${rc.contextPath}/imgs/info.png" width="298" height="298">
 						<#elseif (prod.type)=="image"> <img
 							src="${rc.contextPath}/imgs/img.png" width="298" height="298">
 						<#elseif (prod.type)=="video"> <img
 							src="${rc.contextPath}/imgs/video.png" width="298" height="298">
-						</#if> </#if>
+						</#if>
 					</div>
 					<div class="product-detail s-left">
 						<div class="product-title">
