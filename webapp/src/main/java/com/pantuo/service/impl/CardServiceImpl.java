@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,13 +25,17 @@ import com.pantuo.dao.BusOrderDetailV2Repository;
 import com.pantuo.dao.CardBoxBodyRepository;
 import com.pantuo.dao.CardBoxRepository;
 import com.pantuo.dao.CardHelperRepository;
+import com.pantuo.dao.OrdersRepository;
 import com.pantuo.dao.ProductRepository;
+import com.pantuo.dao.UserDetailRepository;
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaCardBoxBody;
 import com.pantuo.dao.pojo.JpaCardBoxHelper;
 import com.pantuo.dao.pojo.JpaCardBoxMedia;
 import com.pantuo.dao.pojo.JpaCity;
+import com.pantuo.dao.pojo.QUserDetail;
+import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.dao.pojo.JpaCity.MediaType;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
@@ -50,6 +55,7 @@ import com.pantuo.mybatis.persistence.CardboxHelperMapper;
 import com.pantuo.mybatis.persistence.CardboxMediaMapper;
 import com.pantuo.mybatis.persistence.CardboxUserMapper;
 import com.pantuo.pojo.TableRequest;
+import com.pantuo.service.ActivitiService;
 import com.pantuo.service.CardService;
 import com.pantuo.service.CityService;
 import com.pantuo.util.CardUtil;
@@ -66,7 +72,8 @@ public class CardServiceImpl implements CardService {
 	CardboxMediaMapper cardMapper;
 	@Autowired
 	CardboxHelperMapper cardboxHelpMapper;
-
+	@Autowired
+	ActivitiService activitiService;
 	@Autowired
 	CardboxBodyMapper cardBodyMapper;
 	@Autowired
@@ -83,10 +90,12 @@ public class CardServiceImpl implements CardService {
 	CardBoxRepository cardBoxRepository;
 	@Autowired
 	CardBoxBodyRepository cardBoxBodyRepository;
-
+	@Autowired
+	OrdersRepository ordersRepository;
 	@Autowired
 	CityService cityService;
-
+	@Autowired
+	 UserDetailRepository userRepo;
 	@Override
 	public long getCardBingSeriaNum(Principal principal) {
 		long result = 0;
@@ -698,9 +707,40 @@ public class CardServiceImpl implements CardService {
 				helper.setMediaType(_city.getMediaType().ordinal());
 			}
 
-			cardboxHelpMapper.insert(helper);
+			int a=cardboxHelpMapper.insert(helper);
+			if(a>0 && helper.getMediaType()==0){
+				change2Order(helper,principal);
+			}
 		}
 		return new Pair<Boolean, String>(true, "支付成功");
+	}
+
+	public void change2Order(CardboxHelper helper,Principal principal) {
+		BooleanExpression query = QJpaCardBoxMedia.jpaCardBoxMedia.city.eq(helper.getCity());
+		query=query.and(QJpaCardBoxMedia.jpaCardBoxMedia.seriaNum.eq(helper.getSeriaNum()));
+		List<JpaCardBoxMedia> mList=(List<JpaCardBoxMedia>) cardBoxRepository.findAll(query);
+		for (JpaCardBoxMedia jpaCardBoxMedia : mList) {
+			JpaOrders order=new JpaOrders();
+			order.setCity(jpaCardBoxMedia.getCity());
+			order.setPrice(jpaCardBoxMedia.getTotalprice());
+			order.setCreated(new Date());
+			order.setUpdated(new Date());
+			order.setUserId(jpaCardBoxMedia.getUserId());
+			order.setCreator(jpaCardBoxMedia.getUserId());
+			order.setProduct(jpaCardBoxMedia.getProduct());
+			order.setSuppliesId(1);;
+			if(helper.getPayType()==JpaOrders.PayType.valueOf("offline").ordinal()){
+				order.setStats(JpaOrders.Status.unpaid);
+			}else{
+				order.setStats(JpaOrders.Status.paid);
+			}
+			order.setType(jpaCardBoxMedia.getProduct().getType());
+			ordersRepository.save(order);
+			if(order.getId()>0){
+				activitiService.startProcess2(jpaCardBoxMedia.getCity(),  Request.getUser(principal), order);
+			}
+		}
+		
 	}
 
 	@Override

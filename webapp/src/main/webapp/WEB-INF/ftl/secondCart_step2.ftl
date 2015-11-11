@@ -177,13 +177,9 @@
 								<ul class="iradios">
 									<li class="active"><input type="radio" name="payType"
 										checked="checked" value="online"> <label
-										class="iradio"></label> <span>网上支付</span></li>
-									<li><input type="radio" name="payType" value="check">
-										<label class="iradio"></label> <span>支票</span></li>
-									<li><input type="radio" name="payType" value="remit">
-										<label class="iradio"></label> <span>汇款</span></li>
-									<li><input type="radio" name="payType" value="cash">
-										<label class="iradio"></label> <span>现金</span></li>
+										class="iradio"></label> <span>线上支付</span></li>
+									<li><input type="radio" name="payType" value="offline">
+										<label class="iradio"></label> <span>线下支付</span></li>
 								</ul>
 							</div>
 						</div>

@@ -22,6 +22,7 @@ import com.pantuo.dao.pojo.JpaCardBoxBody;
 import com.pantuo.dao.pojo.JpaCardBoxMedia;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
+import com.pantuo.service.ActivitiService;
 import com.pantuo.service.CardService;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.CardBoxHelperView;
@@ -37,7 +38,8 @@ public class CarBoxController {
 
 	@Autowired
 	CardService cardService;
-
+	@Autowired
+	ActivitiService activitiService;
 	/**
 	 * 
 	 * 加入购物车

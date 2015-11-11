@@ -837,7 +837,11 @@ public class ActivitiServiceImpl implements ActivitiService {
 		initParams.put(ActivitiService.ORDER_ID, order.getId());
 		initParams.put(ActivitiService.CITY, cityId);
 		initParams.put(ActivitiService.PRODUCT, order.getProductId());
-		initParams.put(ActivitiService.SUPPLIEID, order.getSupplies().getId());
+		if(null!=order.getSupplies()){
+			initParams.put(ActivitiService.SUPPLIEID, order.getSupplies().getId());
+		}else{
+			initParams.put(ActivitiService.SUPPLIEID, 0);
+		}
 		initParams.put(ActivitiService.NOW, new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
 		JpaCity city = cityService.fromId(cityId);
 		if (city != null && city.getMediaType() == JpaCity.MediaType.body) {
@@ -864,6 +868,10 @@ public class ActivitiServiceImpl implements ActivitiService {
 			Task task = tasks.get(0);
 			if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
 				taskService.claim(task.getId(), u.getUsername());
+					//如果是线上已经支付过了，完成这一步
+					if (order.getStats().equals(JpaOrders.Status.paid)) {
+							taskService.complete(task.getId());
+					}
 			}
 		}
 		tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime().desc()
@@ -881,7 +889,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 					if (info.containsKey(ORDER_ID) && ObjectUtils.equals(info.get(ORDER_ID), order.getId())) {
 						//默认签收 绑定素材
 						taskService.claim(task.getId(), u.getUsername());
-						if (alwaysSet || order.getSupplies().getId() > 1) {
+						if (alwaysSet || (null!=order.getSupplies() && order.getSupplies().getId() > 1)) {
 							//如果是下单的时候 就绑定了素材 完成这一步
 							//TaskDefinition nextTaskDefinition = getNextTaskByTaskOrder(task.getId());
 							MailTask mailTask = new MailTask(u.getUsername(), order.getId(), null,
