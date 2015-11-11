@@ -182,6 +182,7 @@ header .area {
 	width: 160px;
 	color: #ffffff;
 	position: absolute;
+	text-indent: 5px;
 	top: 10px;
 	text-align: center;
 	background: url(../index_img/icon_rec1.png) no-repeat;
