@@ -297,8 +297,8 @@ header .area {
 .title_cart {
 	line-height: 45px;
 	text-indent: 5px;
-	letter-spacing: 5px;
-	font-size: 22px;
+	
+	font-size: 20px;
 	background-color: #009eea;
 	margin-left: 200;
 	width: 145px;
