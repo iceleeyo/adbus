@@ -92,6 +92,7 @@ div#toolbar {
                     }
                 } },
                 { "data": "busInfo.contractCode", "defaultContent": ""},
+                { "data": "busInfo.offlinecontract.adcontent", "defaultContent": ""},
                 { "data": "busInfo.startD", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd");
                 	return d;
@@ -100,7 +101,7 @@ div#toolbar {
                 	var d= $.format.date(data, "yyyy-MM-dd");
                 	return d;
                 }},
-                  { "data": "busInfo.offlinecontract.adcontent", "defaultContent": ""},
+                 
                  { "data": "jpaBus.description", "defaultContent": ""},
                      { "data": "jpaBus.office", "defaultContent": ""},
                       { "data": "jpaBus.branch", "defaultContent": ""},
@@ -270,9 +271,9 @@ function ishaveline(linename){
 				<th>营销中心</th>
 				<th>是否有广告</th>
 				<th>合同编号</th>
+				<th>广告内容</th>
 				<th>实际上刊日期</th>
 				<th>预计下刊日期</th>
-				<th>广告内容</th>
 				<th>车辆描述</th>
 				<th>公司名称</th>
 				<th>所属分公司</th>
