@@ -2,36 +2,7 @@
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="车型管理" js=["js/jquery-dateFormat.min.js"]>
 
-<style type="text/css">
-.center {
-	margin: auto;
-}
-
-.frame {
-	width: 1000px;
-}
-
-.div {
-	text-align: center;
-	margin: 25px;
-}
-
-div#toolbar {
-	float: left;
-}
-
-.processed {
-	color: limegreen;
-}
-
-.invalid {
-	color: red;
-}
-
-.hl {
-	background-color: #ffff00;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/basecss.css">
 
 <script type="text/javascript">
     var table;
