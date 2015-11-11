@@ -378,7 +378,7 @@ function ishaveline(linename){
 				<th>车牌号</th>
 				<th>车型</th>
 				<th orderBy="line.id">线路</th>
-				<th orderBy="line.level">线路级别</th>
+				<th orderBy="line.level">级别</th>
 				<th>类别</th>
 				<th>营销中心</th>
 				<th>车型描述</th>
