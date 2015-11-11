@@ -260,7 +260,7 @@
 			</ul></li> </@security.authorize> <@security.authorize
 		ifAnyGranted="check_remind,check_adquery,check_matchbusquery,check_dailycheck">
 		<li class="pg-side-item"><a class="pg-side-item-t ee-icon"> <i
-				class="s-left pg-icon-a m-icon"></i> 检查部门 ${_utype}
+				class="s-left pg-icon-a m-icon"></i> 检查部门 
 		</a>
 			<ul class="pg-side-exp-list">
 				<@security.authorize ifAnyGranted="check_remind">
