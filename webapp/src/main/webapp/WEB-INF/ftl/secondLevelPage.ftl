@@ -90,7 +90,7 @@ function tocard(pathurl){
 					</ul>
 					<div class="select-items clearfix">
 						<div class="select-item">
-							<img src="index_img/food.png">
+							<img src="index_img/food.png"><br>
 							<p>食品</p>
 							<p>
 								价格：￥<em>500000.00</em>
