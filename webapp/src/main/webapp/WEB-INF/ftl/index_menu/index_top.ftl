@@ -67,11 +67,10 @@
 			isAuthenticated()"> <a class="pg-nav-item s-left"
 			href="${rc.contextPath}/login">请登录</a> <a class="pg-nav-item s-left"
 			href="${rc.contextPath}/register">免费注册</a> </@security.authorize> 
-	</span> <#--<span class="arrow-down"></span>-->
-
-	<@security.authorize access="isAuthenticated()"> <a
-		class="pg-nav-item s-left" href="${rc.contextPath}/message/all">消息<span
-		id="msgNumber" class="layer-tips" style="color: #ff9966"></span></a> <span
+	</span> <#--<span class="arrow-down"></span>--> <@security.authorize
+	access="isAuthenticated()"> <a class="pg-nav-item s-left"
+		href="${rc.contextPath}/message/all">消息<span id="msgNumber"
+		class="layer-tips" style="color: #ff9966"></span></a> <span
 		class="pg-nav-item s-left"> <a
 		onclick="tocard('${rc.contextPath}');"><img class="shop_icon"
 			alt="" src="${rc.contextPath}/index_img/icon_cart.png"> <span
