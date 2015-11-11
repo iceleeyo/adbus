@@ -24,8 +24,9 @@ function tocard(pathurl){
 </head>
 
 <body>
-	<header> <!-- 头部开始 --> <#include "/index_menu/index_top.ftl"
-	/> <script src="index_js/sift_common.js"></script> <script
+	<header> <!-- 头部开始 --> 
+	<#include "/index_menu/index_top.ftl"/> 
+	<script src="index_js/sift_common.js"></script> <script
 		src="index_js/sift_bus.js"></script> <!-- 头部结束 --> </header>
 	<div class="content">
 		<div class="side-nav">
@@ -195,7 +196,7 @@ function tocard(pathurl){
 			</div>
 			<div class="recommand customs pd">
 				<div class="title">
-					<span>定制自选</span>
+					<span>自选产品</span>
 				</div>
 				<div class="title_cart">
 					<a href="${rc.contextPath}/product/sift"><span>自定义产品</span></a>
