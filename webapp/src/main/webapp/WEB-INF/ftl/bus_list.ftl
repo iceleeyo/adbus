@@ -194,9 +194,9 @@ function ishaveline(linename){
 				<span>营销中心：</span>
 				<div class="sift-list" qt="com">
 					<a class="item active" href="#" sort="-1" qc="all">所有</a> <a
-						class="item" href="#" qc="2">自营<i>×</i></a> <a class="item"
-						href="#" qc="4">CBS<i>×</i></a> <a class="item" href="#" qc="3">白马<i>×</i></a>
-					<a class="item" href="#" qc="1">七彩<i>×</i></a>
+						class="item" href="#" qc="10">自营<i>×</i></a> <a class="item"
+						href="#" qc="13">CBS<i>×</i></a> <a class="item" href="#" qc="12">白马<i>×</i></a>
+					<a class="item" href="#" qc="8">七彩<i>×</i></a>
 				</div>
 			</div>
 			<div class="sift-item s-clear">
