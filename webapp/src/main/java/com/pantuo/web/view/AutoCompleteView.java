@@ -16,6 +16,9 @@ public class AutoCompleteView {
 	public String label;
 	public String dbId;
 	public String levelStr;
+	
+	//供排序使用
+	public int sortKey;
 
 	public String getValue() {
 		return value;
@@ -65,6 +68,14 @@ public class AutoCompleteView {
 
 	public void setDbId(String dbId) {
 		this.dbId = dbId;
+	}
+
+	public int getSortKey() {
+		return sortKey;
+	}
+
+	public void setSortKey(int sortKey) {
+		this.sortKey = sortKey;
 	}
 
 }

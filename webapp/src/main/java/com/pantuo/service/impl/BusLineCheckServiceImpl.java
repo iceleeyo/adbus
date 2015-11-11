@@ -115,6 +115,7 @@ import com.pantuo.service.BusLineCheckService;
 import com.pantuo.service.MailService;
 import com.pantuo.simulate.MailJob;
 import com.pantuo.simulate.QueryBusInfo;
+import com.pantuo.util.AutoCompleteViewSort;
 import com.pantuo.util.BeanUtils;
 import com.pantuo.util.BusinessException;
 import com.pantuo.util.Constants;
@@ -258,7 +259,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 
 			}
 		}
-		return r;
+		return AutoCompleteViewSort.sort(r);
 	}
 
 	public Map<Integer, Integer> getBusLineMap(List<GroupVo> vos) {
