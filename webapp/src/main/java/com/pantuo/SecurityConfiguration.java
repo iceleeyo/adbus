@@ -88,41 +88,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		//obj.setUserDetailsService(userDetailsService);
 		//obj.setHideUserNotFoundExceptions(false);
 		//auth.authenticationProvider(obj);
-
 		auth.userDetailsService(userDetailsService);
-		/*        auth
-		                .jdbcAuthentication()
-		                .dataSource(dataSource)
-		                .usersByUsernameQuery(
-		                        "select username, password, enabled from UserDetail where username=?")
-		                .authoritiesByUsernameQuery(
-		                        "select username, role from UserRole where username=?");
-
-
-		        if (userRepo.findByUsername("admin").isEmpty()) {
-		            List<UserDetail> users = new ArrayList<UserDetail> ();
-		            users.add(new UserDetail("admin", "123456"));
-		            users.add(new UserDetail("liuchao", "abcdef"));
-		            userRepo.save(users);
-		        }
-		        if (roleRepo.findByName("admin").isEmpty()) {
-		            List<Role> roles = new ArrayList<Role>();
-		            roles.add(new Role("admin", "super user"));
-		            roles.add(new Role("user", "normal user"));
-		            roleRepo.save(roles);
-		        }
-		        if (userRoleRepo.findByUsername("admin").isEmpty()) {
-		            List<UserRole> userRoles = new ArrayList<UserRole>();
-		            userRoles.add(new UserRole("admin", "user"));
-		            userRoles.add(new UserRole("admin", "admin"));
-		            userRoleRepo.save(userRoles);
-		        }*/
-		//        auth.inMemoryAuthentication()
-		//                .withUser("admin").password("123$%^").roles("USER");
-
 	}
 
-	//.csrf() is optional, enabled by default, if using WebSecurityConfigurerAdapter constructor
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
@@ -141,9 +109,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.authenticated()
 				.anyRequest()
 				.permitAll()
-				//.antMatchers("/user/enter").access("hasRole('ShibaOrderManager')")
-				//192.168.1.105/busselect/workList/1439893707748/4
-				//http://www.baeldung.com/spring_redirect_after_login
 				.and().formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/order/myTask/1")
 				.successHandler(new SimpleRoleAuthenticationSuccessHandler())
 				.failureHandler(new SimpleRoleAuthenticationFailHandler())
@@ -202,7 +167,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				}
 			}
 			handle(request, response);
-
 		}
 
 		protected void handle(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -270,31 +234,32 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			if (authentication.getPrincipal() instanceof ActivitiUserDetails) {
 				userName = (((ActivitiUserDetails) authentication.getPrincipal()).getUserDetail().getUsername());
 			}
+			
+			UserDetail udetail = null;
+			ActivitiUserDetails v = (ActivitiUserDetails) authentication.getPrincipal();
+			if (v != null) {
+				udetail = ((ActivitiUserDetails) authentication.getPrincipal()).getUserDetail();
+			}
+
 			Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 			for (GrantedAuthority grantedAuthority : authorities) {
-
 				//如果是车身销售员 到我的订单 没有待办事项
 				if (StringUtils.startsWith(grantedAuthority.getAuthority(), "bodysales")) {
-					request.getSession().setAttribute("_utype", "body");
 					isBodysales = true;
 					break;
 				} else if (StringUtils.startsWith(grantedAuthority.getAuthority(), "body")
 						|| DataInitializationService.bodyAuthSet.contains(grantedAuthority.getAuthority())) {
 					isBody = true;
-					request.getSession().setAttribute("_utype", "body");
 					break;
 				} else if (StringUtils.startsWith(grantedAuthority.getAuthority(), "UserManager")
 						|| StringUtils.startsWith(grantedAuthority.getAuthority(), "body_roleManager")) {
-					if (StringUtils.startsWith(userName, "mediaAdmin")) {
-						request.getSession().setAttribute("_utype", "screen");
-					} else {
-						request.getSession().setAttribute("_utype", "body");
-
-					}
 					isUserAdmin = true;
 					break;
 				}
 			}
+			request.getSession().setAttribute("_utype", udetail.getUtype().name());
+			request.getSession().setAttribute("UType", udetail.getUtype().name());
+			
 			if (isBodysales) {
 				makeCookieRight(request, response, false);
 				return "/busselect/myOrders/1";
@@ -305,9 +270,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				return "user/list";
 			} else {
 				makeCookieRight(request, response, true);
-				request.getSession().setAttribute("_utype", "screen");
 				return "/order/myTask/1";
-				//throw new IllegalStateException();
 			}
 		}
 

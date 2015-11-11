@@ -53,6 +53,8 @@
 <div class="logo_bus"></div>
 <#elseif _utype?? && _utype == 'screen'>
 <div class="logo2"></div>
+<#else>
+<div class="logo2"></div>
 </#if>
 <nav class="menu">
 <ul class="list-line">
@@ -67,7 +69,7 @@
 </ul>
 <div class="s-right s-clear">
 
-	<span class="pg-nav-item s-left">您好，<!--${city.mediaType}   ${_utype}--></span>
+	<span class="pg-nav-item s-left">您好，</span>
 	<span> <@security.authorize access="isAuthenticated()"> <#if
 		medetype?? && medetype=="screen"> <a class="pg-nav-item s-left"
 		href="${rc.contextPath}/order/myTask/1"> <#else> <a
