@@ -73,6 +73,10 @@ $.ajax({
 	margin-left: auto;
 	margin-right: auto;
 }
+
+.ls-3{
+	margin-left: 0px;
+}
 </style>
 
 <script type="text/javascript">
@@ -82,6 +86,24 @@ $.ajax({
 </script>
 
 <div class="pg-container">
+<div class="navbuy side-nav">
+			<div class="logo"></div>
+			<div class="de-code">
+				<img src="${rc.contextPath}/index_img/pic1.png" height="100" width="100">
+			</div>
+			<ul class="navibar">
+				<li><a href="/">首页</a></li>
+				<li><a href="${rc.contextPath}/secondLevelPage">移动视频</a></li>
+				<li class="active"><a
+					href="${rc.contextPath}/secondLevelPageBus">车身媒体</a></li>
+				<li><a href="/caseMore.html">案例欣赏</a></li>
+			</ul>
+			<div class="markble">
+				<p>世界在你脚下，巴士一路随行</p>
+				<p>北巴出品</p>
+				<p>北京公交媒体</p>
+			</div>
+</div>
 	<div class="pg-container-main">
 		<div class="container-12 mt10 s-clear">
 			<div class="ls-9">

@@ -120,13 +120,13 @@ security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 </head>
 <body>
 	<header> <!--上部DIV--> <#include
-	"${rc.contextPath}/index_menu/top.ftl" /> <!--下部DIV--> </header>
+	"${rc.contextPath}/index_menu/index_top.ftl" /> <!--下部DIV--> </header>
 	<div class="page-container">
 		<div class="pg-container-main">
-			<div class="container-12 mt10 s-clear">
+			<div class="container-12 mt10 s-clear" style="padding-left: 155px;">
 				<#if nav>
 				<!--顶部导航开始-->
-				<div class="container-12">
+				<div class="container-12" style="margin-left: 10px;">
 					<ul class="breadcrumb m11 s-clear">
 						<li class="s-left fsize-16 bread-homep"><#if medetype?? &&
 							medetype=="screen"> <a class="gray-text"
