@@ -343,21 +343,30 @@
 			<ul class="pg-side-exp-list">
 				<@security.authorize
 				ifAnyGranted="sys_userList,body_roleManager,bodysales,bodyContractManager,ShibaSuppliesManager,advertiser,UserManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+				
+			 
+				
 				<@security.authorize ifAnyGranted="UserManager,sys_userList">
+				<#if UType != 'body'>
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
-					href="${rc.contextPath}/user/list"> 视频用户列表 </a></li>
+					href="${rc.contextPath}/user/list"> 视频用户列表 </a></li></#if>
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/user/bodyuserlist"> 车身用户列表 </a></li>
-				</@security.authorize> <@security.authorize
-				ifAnyGranted="UserManager,body_roleManager">
+				</@security.authorize>
+				
+				 <@security.authorize
+				ifAnyGranted="UserManager,body_roleManager"> <#if UType == 'body'>
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
-					href="${rc.contextPath}/user/role_list"> 车身角色管理 </a></li> 
-				</@security.authorize> <@security.authorize
+					href="${rc.contextPath}/user/role_list"> 车身角色管理 </a></li> </#if>
+				</@security.authorize>
+				 <@security.authorize
 				ifAnyGranted="advertiser">
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/user/invoiceList"> 发票列表 </a> <a
 					class="side-exp-item-t" href="${rc.contextPath}/user/UserQulifi">
 						资质管理 </a></li> </@security.authorize> </@security.authorize>
+						
+						
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/user/qualification"> 个人信息 </a></li>
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
