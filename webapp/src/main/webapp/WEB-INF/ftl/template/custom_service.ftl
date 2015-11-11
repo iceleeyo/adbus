@@ -16,8 +16,7 @@
 </div>
 
 <script type="text/javascript">
-var iIndex = 0;	
-	    
+
 	    
     
 </script>
