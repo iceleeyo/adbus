@@ -1,7 +1,9 @@
-<#import "template/template.ftl" as frame>
-<#global menu="修改密码">
+<#import "template/template.ftl" as frame> <#global menu="修改密码">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="用户信息" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer/layer.js"] css=["js/jquery-ui/jquery-ui.css"]>
+<@frame.html title="用户信息" js=["js/jquery-ui/jquery-ui.js",
+"js/datepicker.js",
+"js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer/layer.js"]
+css=["js/jquery-ui/jquery-ui.css"]>
 <script type="text/javascript">
 function go_back(){
 	history.go(-1);
@@ -46,49 +48,49 @@ function go_back(){
 	
 }
 </script>
-<div class="withdraw-wrap color-white-bg fn-clear">					
-							<form data-name="withdraw" name="userForm2" id="userForm2"
-								class="ui-form" enctype="multipart/form-data">
-								<div class="withdraw-title fn-clear">
-									<span>修改密码</span>
-									<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="go_back()">返回</a>
-								</div>
-	<div class="withdrawInputs">
-		<div class="inputs">
-			<div class="ui-form-item">
-				<label class="ui-label mt10">登录名:</label> <input readonly="readonly"
-					class="ui-input" type="text"  id="userId"
-					data-is="isAmount isEnough" autocomplete="off"
-					disableautocomplete="" value="${userid!''}">
-			</div>
-			<div class="ui-form-item">
-				<label class="ui-label mt10"><span class="ui-form-required">*</span>原密码:</label>
-				<input class="ui-input validate[required]" type="password" id="oldpassword"
-					data-is="isAmount isEnough" autocomplete="off"
-					disableautocomplete="" value="">
-			</div>
-			<div class="ui-form-item">
-				<label class="ui-label mt10"><span class="ui-form-required">*</span>新密码:</label>
-				<input class="ui-input validate[required]" type="password"  id="password1"
-					data-is="isAmount isEnough" autocomplete="off"
-					disableautocomplete="" value="">
-			</div>
-			<div class="ui-form-item">
-				<label class="ui-label mt10"><span class="ui-form-required">*</span>确认新密码:</label>
-				<input class="ui-input validate[required]" type="password" id="password2"
-					data-is="isAmount isEnough" autocomplete="off"
-					disableautocomplete="" value="">
-			</div>
+<div class="withdraw-wrap color-white-bg fn-clear">
+	<form data-name="withdraw" name="userForm2" id="userForm2"
+		class="ui-form" enctype="multipart/form-data">
+		<div class="withdraw-title fn-clear">
+			<span>修改密码</span> <a class="block-btn" style="margin-top: -5px;"
+				href="javascript:void(0);" onclick="go_back()">返回</a>
+		</div>
+		<div class="withdrawInputs">
+			<div class="inputs">
+				<div class="ui-form-item">
+					<label class="ui-label mt10">登录名:</label> <input
+						readonly="readonly" class="ui-input" type="text" id="userId"
+						data-is="isAmount isEnough" autocomplete="off"
+						disableautocomplete="" value="${userid!''}">
+				</div>
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>原密码:</label>
+					<input class="ui-input validate[required]" type="password"
+						id="oldpassword" data-is="isAmount isEnough" autocomplete="off"
+						disableautocomplete="" value="">
+				</div>
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>新密码:</label>
+					<input class="ui-input validate[required]" type="password"
+						id="password1" data-is="isAmount isEnough" autocomplete="off"
+						disableautocomplete="" value="">
+				</div>
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>确认新密码:</label>
+					<input class="ui-input validate[required]" type="password"
+						id="password2" data-is="isAmount isEnough" autocomplete="off"
+						disableautocomplete="" value="">
+				</div>
 
-	    	<div class="ui-form-item widthdrawBtBox">
-			<input type="button" id="subWithdraw" class="block-btn"
-				onclick="changePwd();" value="保存">
+				<div class="ui-form-item widthdrawBtBox">
+					<input type="button" id="subWithdraw" class="block-btn"
+						onclick="changePwd();" value="保存">
+				</div>
+			</div>
 		</div>
-		</div>
-		</div>
-		
-							</form>
+
+	</form>
 </div>
 
-    
+
 </@frame.html>

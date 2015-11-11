@@ -1,16 +1,36 @@
-<#import "template/template.ftl" as frame>
-<#global menu="车型管理">
+<#import "template/template.ftl" as frame> <#global menu="车型管理">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="车型管理" js=["js/jquery-dateFormat.min.js"]>
 
 <style type="text/css">
-    .center {margin: auto;}
-    .frame {width: 1000px;}
-    .div {text-align:center; margin:25px;}
-    div#toolbar {float: left;}
-    .processed {color: limegreen;}
-    .invalid {color: red;}
-    .hl {background-color: #ffff00;}
+.center {
+	margin: auto;
+}
+
+.frame {
+	width: 1000px;
+}
+
+.div {
+	text-align: center;
+	margin: 25px;
+}
+
+div#toolbar {
+	float: left;
+}
+
+.processed {
+	color: limegreen;
+}
+
+.invalid {
+	color: red;
+}
+
+.hl {
+	background-color: #ffff00;
+}
 </style>
 
 <script type="text/javascript">
@@ -119,23 +139,23 @@
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title">
-                车型管理
-                 <a class="block-btn" style="margin-left: 10px;" href="javascript:void(0);" onclick="addBusModel('${rc.contextPath}')">添加车型</a>&nbsp;
-                
-									</div>
-                <table id="table" class="display compact" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th orderBy="name">车型</th>
-                        <th orderBy="description">车型描述</th>
-                        <th orderBy="description">广告位尺寸</th>
-                        <th orderBy="double_decker">单双层</th>
-                        <th orderBy="manufacturer">生产商</th>
-                        <th>管理</th>
-                    </tr>
-                    </thead>
+	<div class="withdraw-title">
+		车型管理 <a class="block-btn" style="margin-left: 10px;"
+			href="javascript:void(0);" onclick="addBusModel('${rc.contextPath}')">添加车型</a>&nbsp;
 
-                </table>
+	</div>
+	<table id="table" class="display compact" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th orderBy="name">车型</th>
+				<th orderBy="description">车型描述</th>
+				<th orderBy="description">广告位尺寸</th>
+				<th orderBy="double_decker">单双层</th>
+				<th orderBy="manufacturer">生产商</th>
+				<th>管理</th>
+			</tr>
+		</thead>
+
+	</table>
 </div>
 </@frame.html>

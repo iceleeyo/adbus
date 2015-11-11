@@ -1,5 +1,4 @@
-<#import "template/template.ftl" as frame> 
-<#global menu="线路订购">
+<#import "template/template.ftl" as frame> <#global menu="线路订购">
 <@frame.html title="创建合同"
 js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
 "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
@@ -431,90 +430,82 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 		}).submit();
 	}
 </script>
+<div id="relateSup">
+	<div class="p20bs mt10 color-white-bg border-ec">
+		<div class="withdraw-title">
+			<span>（一）发布线路信息</span> <input type="hidden" name="seriaNum"
+				id="seriaNum" value="${seriaNum}" /> <a class="block-btn"
+				style="margin-top: -5px;" href="javascript:void(0);"
+				onclick="addPublishLine('${rc.contextPath}',${seriaNum})">增加批次</a>
+		</div>
+		<div id="orderedBuses">
+			<table id="table" class="display compact" cellspacing="0"
+				width="100%">
+				<thead>
+					<tr class="tableTr">
+						<th>发布形式</th>
+						<th>线路</th>
+						<th>级别</th>
+						<th>车型</th>
+						<th>订购数量</th>
+						<th>已上刊数量</th>
+						<th>刊期(天)</th>
+						<th>预计上刊时间</th>
+						<th>创建时间</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
 	<div id="relateSup">
 		<div class="p20bs mt10 color-white-bg border-ec">
-				<div class="withdraw-title">
-					<span>（一）发布线路信息</span>
-					<input type="hidden" name="seriaNum" id="seriaNum" value="${seriaNum}"/>
-				   <a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="addPublishLine('${rc.contextPath}',${seriaNum})">增加批次</a>
+			<div class="withdraw-title fn-clear">（二）客户信息</div>
+			<form data-name="withdraw" name="form02" id="form02" class="ui-form"
+				method="post"
+				action="${rc.contextPath}/busselect/saveOffContract?otype1=PUBLIC_STATUS"
+				enctype="multipart/form-data">
+				<input type="hidden" name="seriaNum" id="seriaNum"
+					value="${seriaNum}" />
+				<div class="withdrawInputs">
+					<div class="inputs">
+						<#if offlinecontract??> <input type="hidden" name="id"
+							value="${(offlinecontract.id)!''}" /> </#if>
+						<div class="ui-form-item">
+							<label class="ui-label mt10"><span
+								class="ui-form-required">*</span>客户名称:</label> <input
+								class="ui-input validate[required]" type="text" name="relateMan"
+								value="${(offlinecontract.relateMan)!''}" id="name"
+								data-is="isAmount isEnough" autocomplete="off"
+								disableautocomplete="" placeholder="请输入客户名称">
+						</div>
+
+						<div class="ui-form-item">
+							<label class="ui-label mt10"> <span
+								class="ui-form-required">*</span>合同金额:
+							</label> <input class="ui-input validate[required]" type="text"
+								name="amounts" value="${(offlinecontract.amounts)!''}"
+								data-is="isAmount isEnough" autocomplete="off"
+								disableautocomplete="" placeholder="输入合同金额">
+						</div>
+
+					</div>
 				</div>
-			   <div id="orderedBuses">
-				<table id="table" class="display compact"
-					cellspacing="0" width="100%">
-					<thead>
-				<tr class="tableTr">
-					<th>发布形式</th>
-					<th>线路</th>
-					<th>级别</th>
-					<th>车型</th>
-                    <th>订购数量</th>
-                    <th>已上刊数量</th>
-                    <th>刊期(天)</th>
-                    <th>预计上刊时间</th>
-                    <th>创建时间</th>
-                    <th>操作</th>
-				</tr>
-					</thead>
-				</table>
-			 </div>
-	    </div>
-		<div id="relateSup">
-		<div class="p20bs mt10 color-white-bg border-ec">
-				<div class="withdraw-title fn-clear">
-									（二）客户信息
-								</div>
-				<form data-name="withdraw" name="form02" id="form02"
-					class="ui-form" method="post"
-					action="${rc.contextPath}/busselect/saveOffContract?otype1=PUBLIC_STATUS"
-					enctype="multipart/form-data">
-					<input type="hidden" name="seriaNum" id="seriaNum" value="${seriaNum}"/>
-					<div class="withdrawInputs">
-						<div class="inputs">
-						<#if offlinecontract??>
-								  <input type="hidden" name="id" value="${(offlinecontract.id)!''}"/>
-								</#if>
-										<div class="ui-form-item">
-											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>客户名称:</label>
-												<input class="ui-input validate[required]"
-												type="text" name="relateMan" value="${(offlinecontract.relateMan)!''}"
-												id="name" data-is="isAmount isEnough"
-												autocomplete="off" disableautocomplete="" placeholder="请输入客户名称">
-										</div>
-						 
-							<div class="ui-form-item">
-								<label class="ui-label mt10"> <span
-									class="ui-form-required">*</span>合同金额:
-								</label> <input
-									class="ui-input validate[required]"
-									type="text" name="amounts" value="${(offlinecontract.amounts)!''}"
-									data-is="isAmount isEnough" autocomplete="off"
-									disableautocomplete="" placeholder="输入合同金额">
-							</div>
-						 
-				</div>
-				</div>
-				</div>
-		   <div id="relateSup">							
-			<div class="p20bs mt10 color-white-bg border-ec">
-				 
-				</form>
-			<div id="tb2">
-				<p style="text-align: center; margin-top: 10px;">
-					<button type="button"  id="subutton" onclick="SupContract()"
-						class="block-btn">保存合同</button>
-					<br> <br />
-				</p>
-			</div>
 		</div>
-		<br>
+		<div id="relateSup">
+			<div class="p20bs mt10 color-white-bg border-ec">
+
+				</form>
+				<div id="tb2">
+					<p style="text-align: center; margin-top: 10px;">
+						<button type="button" id="subutton" onclick="SupContract()"
+							class="block-btn">保存合同</button>
+						<br> <br />
+					</p>
+				</div>
+			</div>
+			<br>
+		</div>
 	</div>
-</div>
 
-</@frame.html>
-
-
-
-
-
-
+	</@frame.html>

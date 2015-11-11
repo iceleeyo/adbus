@@ -1,26 +1,45 @@
-<#import "template/template.ftl" as frame>
-<#global menu="调车统计">
+<#import "template/template.ftl" as frame> <#global menu="调车统计">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="调车统计" js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
+<@frame.html title="调车统计"
+js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
 "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
 "js/jquery.datepicker.region.cn.js","js/progressbar.js"]
 css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 
 <style type="text/css">
-    .center {margin: auto;}
-    .frame {width: 1000px;}
-    .div {text-align:center; margin:25px;}
-    div#toolbar {float: left;}
-    .processed {color: limegreen;}
-    .invalid {color: red;}
-    .hl {background-color: #ffff00;}
-    
-    td.highlight {
-        font-weight: bold;
-        color: blue;
-    }
-    
-    
+.center {
+	margin: auto;
+}
+
+.frame {
+	width: 1000px;
+}
+
+.div {
+	text-align: center;
+	margin: 25px;
+}
+
+div#toolbar {
+	float: left;
+}
+
+.processed {
+	color: limegreen;
+}
+
+.invalid {
+	color: red;
+}
+
+.hl {
+	background-color: #ffff00;
+}
+
+td.highlight {
+	font-weight: bold;
+	color: blue;
+}
 </style>
 
 <script type="text/javascript">
@@ -248,45 +267,42 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title">调车统计
-									</div>
-									<input type="hidden" id ="oldLineId" value ="" >			
-									<input type="hidden" id ="newLineId" value ="" >		
-									<input type="hidden" id ="showAll" value ="0" >	
-                <table id="table" class="display nowrap" cellspacing="0">
-                    <thead>
-                    <tr>   
-                     <th ></th>
-                     	 <th orderBy="updated">车辆变更日期</th>
-                     	 <th>变更后分公司</th>
-                      
-                        <th orderBy="oldline.name">原线路</th>
-                        <th orderBy="nowline.name">变更后线路</th>
-                            <th>调整时自编号</th>
-                         <th orderBy="jpabus.serialNumber">当前新自编号</th>
-                           <th >车牌号</th>
-                             <th >原营销中心</th>
-                                <th>调整后营销中心</th>
-                                <th >车辆状态</th>
-                                <th>车身广告状态</th>
-                                  <th>合同编号</th>
-                        <th>实际上刊日期</th>
-                        <th>预计下刊日期</th>
-                        <th>广告内容</th>
-                        <th>原线路级别</th>
-                        <th >原分公司</th>
-                        <th>原总公司</th>
-                        <th>变更后总公司</th>
-                            <th>记录人</th>
-                    </tr>
-                    </thead>
+	<div class="withdraw-title">调车统计</div>
+	<input type="hidden" id="oldLineId" value=""> <input
+		type="hidden" id="newLineId" value=""> <input type="hidden"
+		id="showAll" value="0">
+	<table id="table" class="display nowrap" cellspacing="0">
+		<thead>
+			<tr>
+				<th></th>
+				<th orderBy="updated">车辆变更日期</th>
+				<th>变更后分公司</th>
 
-                </table>
-                
-     <div class="worm-tips">
-		<div class="tips-title">
-			 温馨提示：记录为黄色表示改调整车辆有相关联的在刊广告需要处理。
-		</div>
+				<th orderBy="oldline.name">原线路</th>
+				<th orderBy="nowline.name">变更后线路</th>
+				<th>调整时自编号</th>
+				<th orderBy="jpabus.serialNumber">当前新自编号</th>
+				<th>车牌号</th>
+				<th>原营销中心</th>
+				<th>调整后营销中心</th>
+				<th>车辆状态</th>
+				<th>车身广告状态</th>
+				<th>合同编号</th>
+				<th>实际上刊日期</th>
+				<th>预计下刊日期</th>
+				<th>广告内容</th>
+				<th>原线路级别</th>
+				<th>原分公司</th>
+				<th>原总公司</th>
+				<th>变更后总公司</th>
+				<th>记录人</th>
+			</tr>
+		</thead>
+
+	</table>
+
+	<div class="worm-tips">
+		<div class="tips-title">温馨提示：记录为黄色表示改调整车辆有相关联的在刊广告需要处理。</div>
 	</div>
 </div>
 </@frame.html>

@@ -1,19 +1,40 @@
-<#import "template/template.ftl" as frame>
-<#global menu="配车查询">
+<#import "template/template.ftl" as frame> <#global menu="配车查询">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="配车查询" js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
+<@frame.html title="配车查询"
+js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
 "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
 "js/jquery.datepicker.region.cn.js","js/progressbar.js"]
 css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 
 <style type="text/css">
-    .center {margin: auto;}
-    .frame {width: 1000px;}
-    .div {text-align:center; margin:25px;}
-    div#toolbar {float: left;}
-    .processed {color: limegreen;}
-    .invalid {color: red;}
-    .hl {background-color: #ffff00;}
+.center {
+	margin: auto;
+}
+
+.frame {
+	width: 1000px;
+}
+
+.div {
+	text-align: center;
+	margin: 25px;
+}
+
+div#toolbar {
+	float: left;
+}
+
+.processed {
+	color: limegreen;
+}
+
+.invalid {
+	color: red;
+}
+
+.hl {
+	background-color: #ffff00;
+}
 </style>
 
 <script type="text/javascript">
@@ -239,38 +260,36 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title">
-              配车查询
-                <input type="hidden" id="cid" />
-									</div>					
-                <table id="table" class="display nowrap" cellspacing="0">
-                    <thead>
-                    <tr>
-                   	    <th ></th>
-                  		<th >线路</th>
-                        <th >线路级别</th>
-                        <th >车辆自编号</th>
-                        <th>旧自编号</th>
-                        <th >营销中心</th>
-                        <th >车型号</th>
-                        <th>合同编号</th>
-                        <th>广告内容</th>
-                        <th>实际上刊日期</th>
-                        <th>预计下刊日期</th>
-                        <th>实际下刊日期</th>
-                        <th>刊期</th>
-                        <th >广告类型</th>
-                        <th>车身广告状态</th>
-                        <th >类别</th>
-                        <th >客户名称</th>
-                        <th>车辆描述</th>
-                        <th >车牌号</th>
-                        <th>上刊类型</th>
-                    </tr>
-                    </thead>
-                </table>
-                <div id="modelGroupView">
-                </div> 
+	<div class="withdraw-title">
+		配车查询 <input type="hidden" id="cid" />
+	</div>
+	<table id="table" class="display nowrap" cellspacing="0">
+		<thead>
+			<tr>
+				<th></th>
+				<th>线路</th>
+				<th>线路级别</th>
+				<th>车辆自编号</th>
+				<th>旧自编号</th>
+				<th>营销中心</th>
+				<th>车型号</th>
+				<th>合同编号</th>
+				<th>广告内容</th>
+				<th>实际上刊日期</th>
+				<th>预计下刊日期</th>
+				<th>实际下刊日期</th>
+				<th>刊期</th>
+				<th>广告类型</th>
+				<th>车身广告状态</th>
+				<th>类别</th>
+				<th>客户名称</th>
+				<th>车辆描述</th>
+				<th>车牌号</th>
+				<th>上刊类型</th>
+			</tr>
+		</thead>
+	</table>
+	<div id="modelGroupView"></div>
 </div>
-	
+
 </@frame.html>

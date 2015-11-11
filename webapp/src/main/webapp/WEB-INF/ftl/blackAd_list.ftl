@@ -1,7 +1,7 @@
-<#import "template/template.ftl" as frame>
-<#global menu="底片管理">
+<#import "template/template.ftl" as frame> <#global menu="底片管理">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="底片管理" js=["js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js"]>
+<@frame.html title="底片管理"
+js=["js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js"]>
 
 
 <script type="text/javascript">
@@ -119,23 +119,23 @@ function delContract(conid){
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-			<div class="withdraw-title">
-					<span>底片列表</span>
-					<@security.authorize ifAnyGranted="ShibaOrderManager">
-					<a class="block-btn" href="${rc.contextPath}/contract/blackAdEnter">添加底片</a>
-					</@security.authorize>
-				</div>
-                <table id="table" class="display" cellspacing="0" width="100%">
-                    <thead>
-                    <tr class="tableTr">
-                        <th >底片名称</th>
-                        <th >审核号</th>
-                        <th >时长(秒)</th>
-                        <th >权重</th>
-                        <th>管理</th>
-                    </tr>
-                    </thead>
-                </table>
+	<div class="withdraw-title">
+		<span>底片列表</span> <@security.authorize
+		ifAnyGranted="ShibaOrderManager"> <a class="block-btn"
+			href="${rc.contextPath}/contract/blackAdEnter">添加底片</a>
+		</@security.authorize>
+	</div>
+	<table id="table" class="display" cellspacing="0" width="100%">
+		<thead>
+			<tr class="tableTr">
+				<th>底片名称</th>
+				<th>审核号</th>
+				<th>时长(秒)</th>
+				<th>权重</th>
+				<th>管理</th>
+			</tr>
+		</thead>
+	</table>
 </div>
 </@frame.html>
 

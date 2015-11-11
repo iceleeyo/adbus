@@ -1,19 +1,40 @@
-<#import "template/template.ftl" as frame>
-<#global menu="车辆管理">
+<#import "template/template.ftl" as frame> <#global menu="车辆管理">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="车辆管理" js=["js/bus_mlist.js","js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
+<@frame.html title="车辆管理"
+js=["js/bus_mlist.js","js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
 "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
 "js/jquery.datepicker.region.cn.js","js/progressbar.js"]
 css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 
 <style type="text/css">
-    .center {margin: auto;}
-    .frame {width: 1000px;}
-    .div {text-align:center; margin:25px;}
-    div#toolbar {float: left;}
-    .processed {color: limegreen;}
-    .invalid {color: red;}
-    .hl {background-color: #ffff00;}
+.center {
+	margin: auto;
+}
+
+.frame {
+	width: 1000px;
+}
+
+.div {
+	text-align: center;
+	margin: 25px;
+}
+
+div#toolbar {
+	float: left;
+}
+
+.processed {
+	color: limegreen;
+}
+
+.invalid {
+	color: red;
+}
+
+.hl {
+	background-color: #ffff00;
+}
 </style>
 
 <script type="text/javascript">
@@ -288,86 +309,85 @@ function ishaveline(linename){
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title">
-             <input type="hidden" id="sh" value=""/>
-                车辆管理  <a class="block-btn" onclick="addBus('${rc.contextPath}');" href="javascript:void(0);">添加车辆</a>
-                
-               <span >    &nbsp;&nbsp   &nbsp;&nbsp   
-               <a style="margin-right:25px" class="block-btn" onclick="addBusBatch('${rc.contextPath}');" href="javascript:void(0);">批量修改车辆</a><span>
-					</div>
-					<div class="container-12 s-clear" style="width:100%;">
-						<div class="sift-box">
-						   <div class="sift-item s-clear">
-								<span>线路级别：</span>
-								<div class="sift-list" qt="lev">
-									<a class="item active" href="#" sort="-1" qc="all">所有</a>
-									<a class="item" href="#"  qc="S" >特级<i>×</i></a>
-									<a class="item" href="#"  qc="APP" >A++<i>×</i></a>
-									<a class="item" href="#"  qc="AP" >A+<i>×</i></a>
-									<a class="item" href="#"  qc="A" >A<i>×</i></a>
-								</div>
-							</div>
-						   <div class="sift-item s-clear">
-								<span>营销中心：</span>
-								<div class="sift-list" qt="com">
-									<a class="item active" href="#" sort="-1" qc="all">所有</a>
-									<a class="item" href="#"  qc="2" >自营<i>×</i></a>
-									<a class="item" href="#"  qc="4" >CBS<i>×</i></a>
-									<a class="item" href="#"  qc="3" >白马<i>×</i></a>
-									<a class="item" href="#"  qc="1" >七彩<i>×</i></a>
-								</div>
-							</div>
-							 <div class="sift-item s-clear">
-								<span>车辆类型：</span>
-								<div class="sift-list" qt="gor">
-									<a class="item active" href="#" sort="-1" qc="all">所有</a>
-									<a class="item" href="#"  qc="baoche" >包车<i>×</i></a>
-									<a class="item" href="#"  qc="banche" >班车<i>×</i></a>
-									<a class="item" href="#"  qc="jidongche" >机动车<i>×</i></a>
-									<a class="item" href="#"  qc="yunyingche" >运营车<i>×</i></a>
-								</div>
-							</div>
-							 <div class="sift-item s-clear">
-								<span>公司名称：</span>
-								<div class="sift-list" qt="company">
-									<a class="item active" href="#" sort="-1" qc="all">所有</a>
-									<a class="item" href="#"  qc="1" >大公共公司<i>×</i></a>
-									<a class="item" href="#"  qc="2"> 八方达公司<i>×</i></a>
-								</div>
-							</div>
-							 <div class="sift-item s-clear">
-								<span>车辆状态：</span>
-								<div class="sift-list" qt="stats">
-									<a class="item " href="#" sort="-1" qc="all">所有</a>
-									<a class="item active" href="#"  qc="1" >正常车辆<i >×</i></a>
-									<a class="item" href="#"  qc="2"> 回收站车辆<i>×</i></a>
-								</div>
-							
-				</div>					
-			</div>					
-									</div>		
-									  
-									<input type="hidden" id ="newLineId" value ="0" >			
-                <table id="table" class="display nowrap" cellspacing="0">
-                    <thead>
-                    <tr>   
-                    	<th > <input type="checkbox" name="checkAll" /></th>
-                    	<th >序号</th>
-                        <th orderBy="serialNumber">车辆自编号</th>
-                        <th>旧自编号</th>
-                        <th >车牌号</th>
-                        <th >车型</th>
-                        <th orderBy="line.id">线路</th>
-                        <th orderBy="line.level">线路级别</th>
-                        <th >类别</th>
-                        <th >营销中心</th>
-                        <th>车型描述</th>
-                        <th>是否有广告</th>
-                        <th>公司名称</th>
-                        <th>管理</th>
-                    </tr>
-                    </thead>
+	<div class="withdraw-title">
+		<input type="hidden" id="sh" value="" /> 车辆管理 <a class="block-btn"
+			onclick="addBus('${rc.contextPath}');" href="javascript:void(0);">添加车辆</a>
 
-                </table>
+		<span> &nbsp;&nbsp &nbsp;&nbsp <a style="margin-right: 25px"
+			class="block-btn" onclick="addBusBatch('${rc.contextPath}');"
+			href="javascript:void(0);">批量修改车辆</a><span>
+	</div>
+	<div class="container-12 s-clear" style="width: 100%;">
+		<div class="sift-box">
+			<div class="sift-item s-clear">
+				<span>线路级别：</span>
+				<div class="sift-list" qt="lev">
+					<a class="item active" href="#" sort="-1" qc="all">所有</a> <a
+						class="item" href="#" qc="S">特级<i>×</i></a> <a class="item"
+						href="#" qc="APP">A++<i>×</i></a> <a class="item" href="#"
+						qc="AP">A+<i>×</i></a> <a class="item" href="#" qc="A">A<i>×</i></a>
+				</div>
+			</div>
+			<div class="sift-item s-clear">
+				<span>营销中心：</span>
+				<div class="sift-list" qt="com">
+					<a class="item active" href="#" sort="-1" qc="all">所有</a> <a
+						class="item" href="#" qc="2">自营<i>×</i></a> <a class="item"
+						href="#" qc="4">CBS<i>×</i></a> <a class="item" href="#" qc="3">白马<i>×</i></a>
+					<a class="item" href="#" qc="1">七彩<i>×</i></a>
+				</div>
+			</div>
+			<div class="sift-item s-clear">
+				<span>车辆类型：</span>
+				<div class="sift-list" qt="gor">
+					<a class="item active" href="#" sort="-1" qc="all">所有</a> <a
+						class="item" href="#" qc="baoche">包车<i>×</i></a> <a class="item"
+						href="#" qc="banche">班车<i>×</i></a> <a class="item" href="#"
+						qc="jidongche">机动车<i>×</i></a> <a class="item" href="#"
+						qc="yunyingche">运营车<i>×</i></a>
+				</div>
+			</div>
+			<div class="sift-item s-clear">
+				<span>公司名称：</span>
+				<div class="sift-list" qt="company">
+					<a class="item active" href="#" sort="-1" qc="all">所有</a> <a
+						class="item" href="#" qc="1">大公共公司<i>×</i></a> <a class="item"
+						href="#" qc="2"> 八方达公司<i>×</i></a>
+				</div>
+			</div>
+			<div class="sift-item s-clear">
+				<span>车辆状态：</span>
+				<div class="sift-list" qt="stats">
+					<a class="item " href="#" sort="-1" qc="all">所有</a> <a
+						class="item active" href="#" qc="1">正常车辆<i>×</i></a> <a
+						class="item" href="#" qc="2"> 回收站车辆<i>×</i></a>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<input type="hidden" id="newLineId" value="0">
+	<table id="table" class="display nowrap" cellspacing="0">
+		<thead>
+			<tr>
+				<th><input type="checkbox" name="checkAll" /></th>
+				<th>序号</th>
+				<th orderBy="serialNumber">车辆自编号</th>
+				<th>旧自编号</th>
+				<th>车牌号</th>
+				<th>车型</th>
+				<th orderBy="line.id">线路</th>
+				<th orderBy="line.level">线路级别</th>
+				<th>类别</th>
+				<th>营销中心</th>
+				<th>车型描述</th>
+				<th>是否有广告</th>
+				<th>公司名称</th>
+				<th>管理</th>
+			</tr>
+		</thead>
+
+	</table>
 </div>
 </@frame.html>

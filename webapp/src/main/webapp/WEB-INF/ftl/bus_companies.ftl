@@ -1,16 +1,36 @@
-<#import "template/template.ftl" as frame>
-<#global menu="营销中心">
+<#import "template/template.ftl" as frame> <#global menu="营销中心">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="营销中心列表" js=["js/jquery-dateFormat.min.js"]>
 
 <style type="text/css">
-    .center {margin: auto;}
-    .frame {width: 1000px;}
-    .div {text-align:center; margin:25px;}
-    div#toolbar {float: left;}
-    .processed {color: limegreen;}
-    .invalid {color: red;}
-    .hl {background-color: #ffff00;}
+.center {
+	margin: auto;
+}
+
+.frame {
+	width: 1000px;
+}
+
+.div {
+	text-align: center;
+	margin: 25px;
+}
+
+div#toolbar {
+	float: left;
+}
+
+.processed {
+	color: limegreen;
+}
+
+.invalid {
+	color: red;
+}
+
+.hl {
+	background-color: #ffff00;
+}
 </style>
 
 <script type="text/javascript">
@@ -103,23 +123,20 @@
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title">
-                营销中心列表
-									</div>
-                <table id="table" class="display compact" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th orderBy="name">公司名称</th>
-                        <th orderBy="contact">联系人</th>
-                        <th orderBy="phone">电话</th>
-                        <th orderBy="address">联系地址</th>
-                        <th orderBy="office">办公地址</th>
-                        <@security.authorize ifAnyGranted="BodyOrderManager">
-                            <th>管理</th>
-                        </@security.authorize>
-                    </tr>
-                    </thead>
+	<div class="withdraw-title">营销中心列表</div>
+	<table id="table" class="display compact" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th orderBy="name">公司名称</th>
+				<th orderBy="contact">联系人</th>
+				<th orderBy="phone">电话</th>
+				<th orderBy="address">联系地址</th>
+				<th orderBy="office">办公地址</th> <@security.authorize
+				ifAnyGranted="BodyOrderManager">
+				<th>管理</th> </@security.authorize>
+			</tr>
+		</thead>
 
-                </table>
+	</table>
 </div>
 </@frame.html>

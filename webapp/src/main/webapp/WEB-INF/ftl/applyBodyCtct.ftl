@@ -1,5 +1,4 @@
-<#import "template/template.ftl" as frame> 
-<@frame.html title=""
+<#import "template/template.ftl" as frame> <@frame.html title=""
 js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
 "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
 "js/jquery.datepicker.region.cn.js","js/progressbar.js"]
@@ -272,24 +271,25 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 
 	<div id="relateSup">
 		<div class="p20bs mt10 color-white-bg border-ec">
-				<div class="withdraw-title">
-					<span>选取车辆</span>
-					<input type="hidden" name="seriaNum" id="seriaNum" value="${seriaNum}"/>
-				<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="selctLine('${rc.contextPath}',${seriaNum})">增加选择</a>
-					
-				</div>
-			
+			<div class="withdraw-title">
+				<span>选取车辆</span> <input type="hidden" name="seriaNum" id="seriaNum"
+					value="${seriaNum}" /> <a class="block-btn"
+					style="margin-top: -5px;" href="javascript:void(0);"
+					onclick="selctLine('${rc.contextPath}',${seriaNum})">增加选择</a>
+
+			</div>
+
 			<div id="orderedBuses">
-				<table id="table" class="display compact"
-					cellspacing="0" width="100%">
+				<table id="table" class="display compact" cellspacing="0"
+					width="100%">
 					<thead>
 						<tr class="tableTr">
-					<th>线路</th>
-                    <th>数量（辆）</th>
-                    <th width="180px">车型</th>
-                     <th>上刊时间</th>
-                    <th>下刊时间</th>
-                    <th>操作</th>
+							<th>线路</th>
+							<th>数量（辆）</th>
+							<th width="180px">车型</th>
+							<th>上刊时间</th>
+							<th>下刊时间</th>
+							<th>操作</th>
 						</tr>
 					</thead>
 
@@ -300,80 +300,74 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 		</div>
 
 		<div class="p20bs mt10 color-white-bg border-ec">
-		
-				<div class="withdraw-title fn-clear">
-									合同详情录入
-								</div>
-				<form data-name="withdraw" name="form02" id="form02"
-					class="ui-form" method="post"
-					action="${rc.contextPath}/busselect/saveBodyContract"
-					enctype="multipart/form-data">
-					<input type="hidden" name="seriaNum" id="seriaNum" value="${seriaNum}"/>
-					<div class="withdrawInputs">
-						<div class="inputs">
-							<div class="ui-form-item">
-								<label class="ui-label mt10"> <span
-									class="ui-form-required">*</span>法人代表:
-								</label> <input
-									class="ui-input validate[required,custom[noSpecialContratNum],minSize[2],maxSize[120]]"
-									type="text" name="legalman" id="code"
-									value=""
-									data-is="isAmount isEnough" autocomplete="off"
-									disableautocomplete="" placeholder="中英文、数字、下划线">
-							</div>
-							<div class="ui-form-item">
-								<label class="ui-label mt10"> <span
-									class="ui-form-required">*</span>公司名称:
-								</label> <input
-									class="ui-input validate[required,custom[noSpecialContratNum],minSize[2],maxSize[120]]"
-									type="text" name="company" id="code"
-									value=""
-									data-is="isAmount isEnough" autocomplete="off"
-									disableautocomplete="" placeholder="中英文、数字、下划线">
-							</div>
-							<div class="ui-form-item">
-								<label class="ui-label mt10"><span
-									class="ui-form-required">*</span> 地址:
-								</label> <input
-									class="ui-input validate[required,custom[noSpecialContratNum],minSize[2],maxSize[120]]"
-									type="text" name="companyAddr" id="code"
-									value=""
-									data-is="isAmount isEnough" autocomplete="off"
-									disableautocomplete="" placeholder="中英文、数字、下划线">
-							</div>
-							<div class="ui-form-item">
-								<label class="ui-label mt10"><span
-									class="ui-form-required">*</span>联系人:</label> <input
-									class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[2],maxSize[120]]"
-									type="text" name="relateMan" value="" 
-									data-is="isAmount isEnough" autocomplete="off"
-									disableautocomplete="">
-								<p class="ui-term-placeholder" placeholder="中英文、数字、下划线"></p>
 
-							</div>
-							<div class="ui-form-item">
-								<label class="ui-label mt10"><span
-									class="ui-form-required">*</span>联系电话:</label> <input
-									class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
-									type="text" name="phoneNum" value=""
-									data-is="isAmount isEnough" autocomplete="off"
-									disableautocomplete="">
-								<p class="ui-term-placeholder" placeholder="中英文、数字、下划线"></p>
+			<div class="withdraw-title fn-clear">合同详情录入</div>
+			<form data-name="withdraw" name="form02" id="form02" class="ui-form"
+				method="post" action="${rc.contextPath}/busselect/saveBodyContract"
+				enctype="multipart/form-data">
+				<input type="hidden" name="seriaNum" id="seriaNum"
+					value="${seriaNum}" />
+				<div class="withdrawInputs">
+					<div class="inputs">
+						<div class="ui-form-item">
+							<label class="ui-label mt10"> <span
+								class="ui-form-required">*</span>法人代表:
+							</label> <input
+								class="ui-input validate[required,custom[noSpecialContratNum],minSize[2],maxSize[120]]"
+								type="text" name="legalman" id="code" value=""
+								data-is="isAmount isEnough" autocomplete="off"
+								disableautocomplete="" placeholder="中英文、数字、下划线">
+						</div>
+						<div class="ui-form-item">
+							<label class="ui-label mt10"> <span
+								class="ui-form-required">*</span>公司名称:
+							</label> <input
+								class="ui-input validate[required,custom[noSpecialContratNum],minSize[2],maxSize[120]]"
+								type="text" name="company" id="code" value=""
+								data-is="isAmount isEnough" autocomplete="off"
+								disableautocomplete="" placeholder="中英文、数字、下划线">
+						</div>
+						<div class="ui-form-item">
+							<label class="ui-label mt10"><span
+								class="ui-form-required">*</span> 地址: </label> <input
+								class="ui-input validate[required,custom[noSpecialContratNum],minSize[2],maxSize[120]]"
+								type="text" name="companyAddr" id="code" value=""
+								data-is="isAmount isEnough" autocomplete="off"
+								disableautocomplete="" placeholder="中英文、数字、下划线">
+						</div>
+						<div class="ui-form-item">
+							<label class="ui-label mt10"><span
+								class="ui-form-required">*</span>联系人:</label> <input
+								class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[2],maxSize[120]]"
+								type="text" name="relateMan" value=""
+								data-is="isAmount isEnough" autocomplete="off"
+								disableautocomplete="">
+							<p class="ui-term-placeholder" placeholder="中英文、数字、下划线"></p>
 
-							</div>
-							<div class="ui-form-item">
-								<label class="ui-label mt10">备注:</label> <textarea rows="4" cols="40" style="resize: none;" name="remark"></textarea>
-							</div>
+						</div>
+						<div class="ui-form-item">
+							<label class="ui-label mt10"><span
+								class="ui-form-required">*</span>联系电话:</label> <input
+								class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"
+								type="text" name="phoneNum" value="" data-is="isAmount isEnough"
+								autocomplete="off" disableautocomplete="">
+							<p class="ui-term-placeholder" placeholder="中英文、数字、下划线"></p>
+
+						</div>
+						<div class="ui-form-item">
+							<label class="ui-label mt10">备注:</label>
+							<textarea rows="4" cols="40" style="resize: none;" name="remark"></textarea>
 						</div>
 					</div>
+				</div>
 
-				</form>
-		
-			
+			</form>
+
+
 			<div id="tb2">
 
 				<p style="text-align: center; margin-top: 10px;">
-					<button type="button"  id="subutton" onclick="SupContract()"
+					<button type="button" id="subutton" onclick="SupContract()"
 						class="block-btn">确认</button>
 					<br> <br />
 				</p>

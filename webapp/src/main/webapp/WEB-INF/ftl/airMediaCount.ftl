@@ -1,18 +1,39 @@
-<#import "template/template.ftl" as frame>
-<#global menu="空媒体统计">
+<#import "template/template.ftl" as frame> <#global menu="空媒体统计">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="空媒体统计" js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js",
-"js/jquery-ui/jquery-ui.auto.complete.js"] 
+<@frame.html title="空媒体统计"
+js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js",
+"js/jquery-ui/jquery-ui.auto.complete.js"]
 css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 
 <style type="text/css">
-    .center {margin: auto;}
-    .frame {width: 1000px;}
-    .div {text-align:center; margin:25px;}
-    div#toolbar {float: left;}
-    .processed {color: limegreen;}
-    .invalid {color: red;}
-    .hl {background-color: #ffff00;}
+.center {
+	margin: auto;
+}
+
+.frame {
+	width: 1000px;
+}
+
+.div {
+	text-align: center;
+	margin: 25px;
+}
+
+div#toolbar {
+	float: left;
+}
+
+.processed {
+	color: limegreen;
+}
+
+.invalid {
+	color: red;
+}
+
+.hl {
+	background-color: #ffff00;
+}
 </style>
 <script type="text/javascript">
  	var table;
@@ -124,32 +145,32 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 
 
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title">
-               <span> 空媒体统计</span>
-									</div>
-                <table id="table" class="display compact" cellspacing="0" width="100%">
-                    <thead>
-                    <tr style="height: 40px;">
-                        <th >线路名</th>
-                        <th >单双层</th>
-                        <th >线路级别</th>
-                        <th >所属公司</th>
-                          <th >营销中心</th>
-                        <th >配车数</th>
-                        <th >广告在刊</th>
-                        <th >合同预订</th>
-                        <th >本月可使用车数</th>
-                         <th >次月下刊数</th>
-                        <th >次月可使用车数</th>
-                        <th >媒介在刊率</th>
-                        <th >车身媒体占有率</th>
-                         <th >到期未下刊车数</th>
-                    </tr>
-                    </thead>
+	<div class="withdraw-title">
+		<span> 空媒体统计</span>
+	</div>
+	<table id="table" class="display compact" cellspacing="0" width="100%">
+		<thead>
+			<tr style="height: 40px;">
+				<th>线路名</th>
+				<th>单双层</th>
+				<th>线路级别</th>
+				<th>所属公司</th>
+				<th>营销中心</th>
+				<th>配车数</th>
+				<th>广告在刊</th>
+				<th>合同预订</th>
+				<th>本月可使用车数</th>
+				<th>次月下刊数</th>
+				<th>次月可使用车数</th>
+				<th>媒介在刊率</th>
+				<th>车身媒体占有率</th>
+				<th>到期未下刊车数</th>
+			</tr>
+		</thead>
 
-                </table>
+	</table>
 </div>
 
 
- 
+
 </@frame.html>

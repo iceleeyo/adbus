@@ -1,17 +1,39 @@
-<#import "template/template.ftl" as frame>
-<#global menu="巴士列表">
+<#import "template/template.ftl" as frame> <#global menu="巴士列表">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="巴士列表" js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js", "js/datepicker.js","js/jquery.datepicker.region.cn.js"]
+<@frame.html title="巴士列表"
+js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js",
+"js/datepicker.js","js/jquery.datepicker.region.cn.js"]
 css=["js/jquery-ui/jquery-ui.css"]>
 
 <style type="text/css">
-    .center {margin: auto;}
-    .frame {width: 1000px;}
-    .div {text-align:center; margin:25px;}
-    div#toolbar {float: left;}
-    .processed {color: limegreen;}
-    .invalid {color: red;}
-    .hl {background-color: #ffff00;}
+.center {
+	margin: auto;
+}
+
+.frame {
+	width: 1000px;
+}
+
+.div {
+	text-align: center;
+	margin: 25px;
+}
+
+div#toolbar {
+	float: left;
+}
+
+.processed {
+	color: limegreen;
+}
+
+.invalid {
+	color: red;
+}
+
+.hl {
+	background-color: #ffff00;
+}
 </style>
 
 <script type="text/javascript">
@@ -130,25 +152,23 @@ css=["js/jquery-ui/jquery-ui.css"]>
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title">
-                巴士列表
-									</div>
-                <table id="table" class="display compact" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th orderBy="plateNumber">车牌号</th>
-                        <th orderBy="serialNumber">车辆自编号</th>
-                        <th orderBy="line.name">线路</th>
-                        <th orderBy="line.level">线路级别</th>
-                        <th orderBy="category">类别</th>
-                        <th orderBy="company">营销中心</th>
-                        <th>上刊日期</th>
-                        <th>下刊日期</th>
-                        <th orderBy="enabled">状态</th>
-                        <th>管理</th>
-                    </tr>
-                    </thead>
+	<div class="withdraw-title">巴士列表</div>
+	<table id="table" class="display compact" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th orderBy="plateNumber">车牌号</th>
+				<th orderBy="serialNumber">车辆自编号</th>
+				<th orderBy="line.name">线路</th>
+				<th orderBy="line.level">线路级别</th>
+				<th orderBy="category">类别</th>
+				<th orderBy="company">营销中心</th>
+				<th>上刊日期</th>
+				<th>下刊日期</th>
+				<th orderBy="enabled">状态</th>
+				<th>管理</th>
+			</tr>
+		</thead>
 
-                </table>
+	</table>
 </div>
 </@frame.html>

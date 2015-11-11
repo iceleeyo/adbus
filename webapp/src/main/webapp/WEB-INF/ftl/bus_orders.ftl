@@ -1,26 +1,45 @@
-<#import "template/template.ftl" as frame>
-<#global menu="上刊发布统计">
+<#import "template/template.ftl" as frame> <#global menu="上刊发布统计">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="上刊发布统计" js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
+<@frame.html title="上刊发布统计"
+js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
 "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
 "js/jquery.datepicker.region.cn.js","js/progressbar.js"]
 css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 
 <style type="text/css">
-    .center {margin: auto;}
-    .frame {width: 1000px;}
-    .div {text-align:center; margin:25px;}
-    div#toolbar {float: left;}
-    .processed {color: limegreen;}
-    .invalid {color: red;}
-    .hl {background-color: #ffff00;}
-    
-    td.highlight {
-        font-weight: bold;
-        color: blue;
-    }
-    
-    
+.center {
+	margin: auto;
+}
+
+.frame {
+	width: 1000px;
+}
+
+.div {
+	text-align: center;
+	margin: 25px;
+}
+
+div#toolbar {
+	float: left;
+}
+
+.processed {
+	color: limegreen;
+}
+
+.invalid {
+	color: red;
+}
+
+.hl {
+	background-color: #ffff00;
+}
+
+td.highlight {
+	font-weight: bold;
+	color: blue;
+}
 </style>
 
 <script type="text/javascript">
@@ -180,31 +199,30 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title">上刊发布统计
-									</div>
-									<input type="hidden" id ="showAll" value ="0" >	
-									<input type="hidden" id="cid" />
-                <table id="table" class="display nowrap" cellspacing="0">
-                    <thead>
-                    <tr>   
-                    	<th >序号</th>
-                     	<th>订单编号</th>
-                     	<th>合同编号</th>
-                        <th>广告内容</th>
-                        <th>形式</th>
-                        <th>实际上刊时间</th>
-                        <th>刊期</th>
-                        <th>订购数量</th>
-                        <th>上刊车数</th>
-                        <th>线路</th>
-                        <th>车辆自编号</th>
-                        <th>印制</th>
-                        <th>营销中心</th>
-                        <th>上刊类型</th>
-                    </tr>
-                    </thead>
+	<div class="withdraw-title">上刊发布统计</div>
+	<input type="hidden" id="showAll" value="0"> <input
+		type="hidden" id="cid" />
+	<table id="table" class="display nowrap" cellspacing="0">
+		<thead>
+			<tr>
+				<th>序号</th>
+				<th>订单编号</th>
+				<th>合同编号</th>
+				<th>广告内容</th>
+				<th>形式</th>
+				<th>实际上刊时间</th>
+				<th>刊期</th>
+				<th>订购数量</th>
+				<th>上刊车数</th>
+				<th>线路</th>
+				<th>车辆自编号</th>
+				<th>印制</th>
+				<th>营销中心</th>
+				<th>上刊类型</th>
+			</tr>
+		</thead>
 
-                </table>
-                <span>订单的 形式,实际上刊时间,印制,上刊类型 以最后一辆上刊时的信息为准</span>
+	</table>
+	<span>订单的 形式,实际上刊时间,印制,上刊类型 以最后一辆上刊时的信息为准</span>
 </div>
 </@frame.html>

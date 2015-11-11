@@ -1,7 +1,9 @@
-<#import "template/template.ftl" as frame>
-<#import "template/proDetail.ftl" as proDetail>
-<#global menu="购买产品">
-<@frame.html title="未绑定物料订单" js=["js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer/layer.js","js/progressbar.js"] css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/uploadprogess.css"]>
+<#import "template/template.ftl" as frame> <#import
+"template/proDetail.ftl" as proDetail> <#global menu="购买产品">
+<@frame.html title="未绑定物料订单" js=["js/jquery-ui/jquery-ui.js",
+"js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
+"js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer/layer.js","js/progressbar.js"]
+css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/uploadprogess.css"]>
 
 
 
@@ -93,58 +95,64 @@ function stop() {
 	}
 </script>
 
-							<form data-name="withdraw" name="userForm2" id="userForm2"
-								class="ui-form" method="post" action="${rc.contextPath}/order/confirm"
-								enctype="multipart/form-data">
-                                <@proDetail.proDetail prod=prod buyLink=false/>
+<form data-name="withdraw" name="userForm2" id="userForm2"
+	class="ui-form" method="post" action="${rc.contextPath}/order/confirm"
+	enctype="multipart/form-data">
+	<@proDetail.proDetail prod=prod buyLink=false/>
 
 
-<div class="p20bs mt10 color-white-bg border-ec">
-                <H3 class=".withdraw-title text-xl title-box"><p align="left"><A class="black" href="#">填写订单信息</A></p></H3><br>
-									<div class="inputs">
-                                            <input type="hidden" readonly="readonly" name="product.id" id="productId" value="${prod.id!''}"/>
-                                            <input type="hidden" readonly="readonly"  name="cpdid" id="cpdid" value="${cpdid!''}"/>
-                                        <div class="ui-form-item">
-                                            <label class="ui-label mt10"><span
-												class="ui-form-required">*</span>开播日期</label> <input
-                                                class="ui-input datepicker validate[required,custom[date] layer-tips" 
-                                                type="text" name="startTime1"
-                                                id="startTime" data-is="isAmount isEnough"
-                                                autocomplete="off" disableautocomplete="" tip="可选择3天后日期!">
-                                                
-                                               	 
-                                        </div>
-										<div class="ui-form-item">
-											<label class="ui-label mt10">选择物料:</label>
-                                            <select class="ui-input" 
-                                            name="supplies.id" id="supplieid">
-                                                <option value="1" selected="selected"></option>
-                                                <#list supplies as s>
-                                                    <option value="${s.id}">${s.name}</option>
-                                                </#list>
-                                            </select>&nbsp;&nbsp;&nbsp;&nbsp;
-                                            	<a  href="javascript:;" onclick="supEnter('${rc.contextPath}',${city.mediaType},'${prod.type.typeName!''}')">上传物料</a>
-											<p class="ui-term-placeholder"></p>
-											
-										</div>
-										
-										<div class="ui-form-item" id="orderRemark">
-											<label class="ui-label mt10">备注信息:</label>
-                                            <textarea rows="4" cols="40" style="resize: none;border: 1px solid #c5c5c5;" name="ordRemark"></textarea>
-											<p class="ui-term-placeholder"></p>
-											
-										</div>
-										
-									</div>
-									<div class="ui-form-item widthdrawBtBox">
-										<input type="button" onclick="isagree('${username!''}','${prod.name!''}')" class="block-btn"
-										id="subWithdraw" value="确认提交" >
-									</div>
-								</div>
+	<div class="p20bs mt10 color-white-bg border-ec">
+		<H3 class=".withdraw-title text-xl title-box">
+			<p align="left">
+				<A class="black" href="#">填写订单信息</A>
+			</p>
+		</H3>
+		<br>
+		<div class="inputs">
+			<input type="hidden" readonly="readonly" name="product.id"
+				id="productId" value="${prod.id!''}" /> <input type="hidden"
+				readonly="readonly" name="cpdid" id="cpdid" value="${cpdid!''}" />
+			<div class="ui-form-item">
+				<label class="ui-label mt10"><span class="ui-form-required">*</span>开播日期</label>
+				<input
+					class="ui-input datepicker validate[required,custom[date] layer-tips"
+					type="text" name="startTime1" id="startTime"
+					data-is="isAmount isEnough" autocomplete="off"
+					disableautocomplete="" tip="可选择3天后日期!">
 
-							</form>
-							
-							<script type="text/javascript">
+
+			</div>
+			<div class="ui-form-item">
+				<label class="ui-label mt10">选择物料:</label> <select class="ui-input"
+					name="supplies.id" id="supplieid">
+					<option value="1" selected="selected"></option> <#list supplies as
+					s>
+					<option value="${s.id}">${s.name}</option> </#list>
+				</select>&nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:;"
+					onclick="supEnter('${rc.contextPath}',${city.mediaType},'${prod.type.typeName!''}')">上传物料</a>
+				<p class="ui-term-placeholder"></p>
+
+			</div>
+
+			<div class="ui-form-item" id="orderRemark">
+				<label class="ui-label mt10">备注信息:</label>
+				<textarea rows="4" cols="40"
+					style="resize: none; border: 1px solid #c5c5c5;" name="ordRemark"></textarea>
+				<p class="ui-term-placeholder"></p>
+
+			</div>
+
+		</div>
+		<div class="ui-form-item widthdrawBtBox">
+			<input type="button"
+				onclick="isagree('${username!''}','${prod.name!''}')"
+				class="block-btn" id="subWithdraw" value="确认提交">
+		</div>
+	</div>
+
+</form>
+
+<script type="text/javascript">
 								//限定不能选今天之前的日期
 								jQuery(function($){ 
 						    	 $.datepicker.regional['zh-CN'] = { 

@@ -1,18 +1,36 @@
-<#import "template/template.ftl" as frame>
-<#global menu="订单及车辆查询">
+<#import "template/template.ftl" as frame> <#global menu="订单及车辆查询">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="订单及车辆查询" js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
+<@frame.html title="订单及车辆查询"
+js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
 "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
 "js/jquery.datepicker.region.cn.js","js/progressbar.js"]
 css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 
 <style type="text/css">
-    .center {margin: auto;}
-    .frame {width: 1000px;}
-    .div {text-align:center; margin:25px;}
-    .processed {color: limegreen;}
-    .invalid {color: red;}
-    .hl {background-color: #ffff00;}
+.center {
+	margin: auto;
+}
+
+.frame {
+	width: 1000px;
+}
+
+.div {
+	text-align: center;
+	margin: 25px;
+}
+
+.processed {
+	color: limegreen;
+}
+
+.invalid {
+	color: red;
+}
+
+.hl {
+	background-color: #ffff00;
+}
 </style>
 
 <script type="text/javascript">
@@ -244,57 +262,54 @@ var table2;
    	 	 
     } );
 </script>
-<div class="withdraw-wrap color-white-bg fn-clear" style="margin-top: 10px;">
-            <div class="withdraw-title">
-                订单车辆列表  	</div>
-                 <table id="table" class="display nowrap" cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th >车牌号</th>
-                        <th >新车号</th>
-                        <th >旧车号</th>
-                        <th >车型</th>
-                        <th orderBy="line.name">线路</th>
-                        <th orderBy="line.level">线路级别</th>
-                        <th orderBy="category">类别</th>
-                        <th orderBy="company">营销中心</th>
-                        <th>合同编号</th>
-                        <th>上刊日期</th>
-                        <th>下刊日期</th>
-                        <th>车辆描述</th>
-                        <th>所属分公司</th>
-                    </tr>
-                    </thead>
-                </table>
-               
+<div class="withdraw-wrap color-white-bg fn-clear"
+	style="margin-top: 10px;">
+	<div class="withdraw-title">订单车辆列表</div>
+	<table id="table" class="display nowrap" cellspacing="0">
+		<thead>
+			<tr>
+				<th>车牌号</th>
+				<th>新车号</th>
+				<th>旧车号</th>
+				<th>车型</th>
+				<th orderBy="line.name">线路</th>
+				<th orderBy="line.level">线路级别</th>
+				<th orderBy="category">类别</th>
+				<th orderBy="company">营销中心</th>
+				<th>合同编号</th>
+				<th>上刊日期</th>
+				<th>下刊日期</th>
+				<th>车辆描述</th>
+				<th>所属分公司</th>
+			</tr>
+		</thead>
+	</table>
+
 </div>
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title">
-               订单及车辆查询
+	<div class="withdraw-title">订单及车辆查询</div>
+	<input type="hidden" id="cid" />
 
-	     	</div>
-	     	<input type="hidden" id="cid" />
-	     	
-	     	 <table id="table2" class="display nowrap" cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th >订单编号</th>
-                        <th >合同编号</th>
-                        <th >线路</th>
-                        <th>广告内容</th>
-                        <th>车型</th>
-                        <th>车型描述</th>
-                        <th>订购数量</th>
-                        <th>已上刊数量</th>
-                        <th>在刊率</th>
-                        <th>刊期</th>
-                        <th>营销中心</th>
-                        <th>预计上刊日期</th>
-                        <th>订单记录时间</th>
-                    </tr>
-                    </thead>
-                </table>
-               
+	<table id="table2" class="display nowrap" cellspacing="0">
+		<thead>
+			<tr>
+				<th>订单编号</th>
+				<th>合同编号</th>
+				<th>线路</th>
+				<th>广告内容</th>
+				<th>车型</th>
+				<th>车型描述</th>
+				<th>订购数量</th>
+				<th>已上刊数量</th>
+				<th>在刊率</th>
+				<th>刊期</th>
+				<th>营销中心</th>
+				<th>预计上刊日期</th>
+				<th>订单记录时间</th>
+			</tr>
+		</thead>
+	</table>
+
 </div>
 
 </@frame.html>

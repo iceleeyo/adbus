@@ -1,7 +1,9 @@
-<#import "template/template.ftl" as frame>
-<#global menu="物料管理">
-<#import "template/pickBuses.ftl" as pickBuses>
-<@frame.html title="物料上传" js=["js/jquery-ui/jquery-ui.js", "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/progressbar.js"] css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
+<#import "template/template.ftl" as frame> <#global menu="物料管理">
+<#import "template/pickBuses.ftl" as pickBuses> <@frame.html
+title="物料上传" js=["js/jquery-ui/jquery-ui.js",
+"js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
+"js/jquery.datepicker.region.cn.js","js/progressbar.js"]
+css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 
 <script type="text/javascript">
@@ -203,170 +205,168 @@ function go_back(){
 </script>
 
 <div class="withdraw-wrap color-white-bg fn-clear">
-							<form id="userForm2" name="userForm2" action="put?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1"
-								enctype="multipart/form-data" method="post"">
-								<div class="withdraw-title fn-clear">
-									<span>上传物料及相关资质</span>
-									<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="go_back()">返回</a>
-									<!--
+	<form id="userForm2" name="userForm2"
+		action="put?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1"
+		enctype="multipart/form-data" method="post"">
+		<div class="withdraw-title fn-clear">
+			<span>上传物料及相关资质</span> <a class="block-btn" style="margin-top: -5px;"
+				href="javascript:void(0);" onclick="go_back()">返回</a>
+			<!--
             <ul class="fn-clear">
               <li class="first"><a class="addBank fn-right" href="/account/userBank!toAdd.action">xxxx</a></li>
               <li><a class="mgmtBank fn-right" id="mgmtBank" href="/account/info!bank.action">xxxx</a></li>
             </ul>
             -->
-								</div>
-								<div class="withdrawInputs">
-									<div class="inputs">
+		</div>
+		<div class="withdrawInputs">
+			<div class="inputs">
 
-										<br>
-										 <@security.authorize ifAnyGranted="ShibaOrderManager">   
-											<div class="ui-form-item">
-	                                            <label class="ui-label mt10">
-												<span
-	                                                    class="ui-form-required">*
-												</span>广告主:
-	                                            </label>
-	                                            <span>
-	                         						<input id="userId" name="userId"
-	                         						 class="ui-input validate[required,custom[noSpecialLetterChinese]]" placeholder="请选择广告主" >
-	                       						</span>
-	                                        </div>
-                                         </@security.authorize>
-										<div class="ui-form-item">
-											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>物料名称</label> 
-												<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[1],maxSize[120]]" 
-												type="text" name="name" id="name"
-												data-is="isAmount isEnough" autocomplete="off"
-												disableautocomplete="" placeholder="支持中英文、数字、下划线">
-										</div>
+				<br> <@security.authorize ifAnyGranted="ShibaOrderManager">
+				<div class="ui-form-item">
+					<label class="ui-label mt10"> <span
+						class="ui-form-required">* </span>广告主:
+					</label> <span> <input id="userId" name="userId"
+						class="ui-input validate[required,custom[noSpecialLetterChinese]]"
+						placeholder="请选择广告主">
+					</span>
+				</div>
+				</@security.authorize>
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>物料名称</label>
+					<input
+						class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[1],maxSize[120]]"
+						type="text" name="name" id="name" data-is="isAmount isEnough"
+						autocomplete="off" disableautocomplete=""
+						placeholder="支持中英文、数字、下划线">
+				</div>
 
-										<div class="ui-form-item">
-											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>物料类型</label>
-											<select class="ui-input" name="suppliesType" id="suppliesType">
-                                                <#if city.mediaType == 'body'>
-                                                    <option value="4" selected="selected">车身</option>
-                                                <#else>
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>物料类型</label>
+					<select class="ui-input" name="suppliesType" id="suppliesType">
+						<#if city.mediaType == 'body'>
+						<option value="4" selected="selected">车身</option> <#else>
 
-												<option value="0" selected="selected">全屏视频</option>
-                                                <option value="1">INFO图片</option>
-                                                <option value="2">INFO字幕</option>
-                                                <option value="3">团类</option>
-                                                </#if>
-                                            </select>
-										</div>
-                                        <div class="ui-form-item videoToggle">
-                                            <label class="ui-label mt10"><span
-                                                    class="ui-form-required">*</span>时长（秒）:</label> <input
-                                                class="ui-input validate[required,integer,min[5],max[180]]"
-                                                onkeyup="value=value.replace(/[^\d]/g,'')" value="<#if prod??>${prod.duration!''}<#else>0</#if>" name="duration"
-                                                id="duration" data-is="isAmount isEnough"
-                                                autocomplete="off" disableautocomplete="" placeholder="5-180秒">
-                                            <p class="ui-term-placeholder"></p>
+						<option value="0" selected="selected">全屏视频</option>
+						<option value="1">INFO图片</option>
+						<option value="2">INFO字幕</option>
+						<option value="3">团类</option> </#if>
+					</select>
+				</div>
+				<div class="ui-form-item videoToggle">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>时长（秒）:</label>
+					<input class="ui-input validate[required,integer,min[5],max[180]]"
+						onkeyup="value=value.replace(/[^\d]/g,'')"
+						value="<#if prod??>${prod.duration!''}<#else>0</#if>"
+						name="duration" id="duration" data-is="isAmount isEnough"
+						autocomplete="off" disableautocomplete="" placeholder="5-180秒">
+					<p class="ui-term-placeholder"></p>
 
-                                        </div>
+				</div>
 
-                                        <div class="ui-form-item">
-                                            <label class="ui-label mt10"><span
-                                                    class="ui-form-required">*</span>所属行业:</label>
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>所属行业:</label>
 
-                                            <select id="industryId" class="ui-input" name="industryId" data-is="isAmount isEnough"
-                                                    autocomplete="off" disableautocomplete="" >
-                                                <#list industries as industry>
-                                                <#if industry.id!=14>
-                                                    <option value="${industry.id}">${industry.name}</option>
-                                                    </#if>
-                                                </#list>
-                                            </select>
+					<select id="industryId" class="ui-input" name="industryId"
+						data-is="isAmount isEnough" autocomplete="off"
+						disableautocomplete=""> <#list industries as industry>
+						<#if industry.id!=14>
+						<option value="${industry.id}">${industry.name}</option> </#if>
+						</#list>
+					</select>
 
-                                        </div>
-										<div class="ui-form-item" id="text" style="display:none;">
-											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>文本信息</label> 
-												
-												<textarea rows="5" cols="50"
-												id="infoContext" data-is="isAmount isEnough"  
-												style="resize: none;" name="infoContext"></textarea>
-										</div>
-										<div class="ui-form-item" id="file">
-											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>物料上传</label>
-											<div id="newUpload2">
-												<div class="filebox" id="div_1">
-													<input type="file" name="file" id="Sfile" class="validate[required]">
-												</div>
-												</div>
-											<input class="btn-sm btn-success" type="button" id="btn_add2" value="增加一行"
-												style="margin-top: 10px;"><br>
-										</div>
-										<div class="ui-form-item">
-											<label class="ui-label mt10"><span
-												class="ui-form-required">*</span>资质上传</label>
-											<div id="newUpload3">
-												<div id="quadiv_1">
-													<input type="file" name="qua" id="Sfile1" class="validate[required]">
-												</div>
-											</div>
-											<input class="btn-sm btn-success" type="button" id="btn_add3" value="增加一行"
-												style="margin-top: 10px;" ><br>
-										</div>
-										<div class="ui-form-item widthdrawBtBox">
-											<input type="button" id="subWithdraw" class="block-btn"
-												onclick="sub2();" value="开始上传">
-										</div>
-									
-												 <div id="progress1">
-										            <div class="percent"></div>
-										            <div class="pbar"></div>
-										            <div class="elapsed"></div>
-										        </div>
-									</div>
-								</div>
+				</div>
+				<div class="ui-form-item" id="text" style="display: none;">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>文本信息</label>
+
+					<textarea rows="5" cols="50" id="infoContext"
+						data-is="isAmount isEnough" style="resize: none;"
+						name="infoContext"></textarea>
+				</div>
+				<div class="ui-form-item" id="file">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>物料上传</label>
+					<div id="newUpload2">
+						<div class="filebox" id="div_1">
+							<input type="file" name="file" id="Sfile"
+								class="validate[required]">
+						</div>
+					</div>
+					<input class="btn-sm btn-success" type="button" id="btn_add2"
+						value="增加一行" style="margin-top: 10px;"><br>
+				</div>
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>资质上传</label>
+					<div id="newUpload3">
+						<div id="quadiv_1">
+							<input type="file" name="qua" id="Sfile1"
+								class="validate[required]">
+						</div>
+					</div>
+					<input class="btn-sm btn-success" type="button" id="btn_add3"
+						value="增加一行" style="margin-top: 10px;"><br>
+				</div>
+				<div class="ui-form-item widthdrawBtBox">
+					<input type="button" id="subWithdraw" class="block-btn"
+						onclick="sub2();" value="开始上传">
+				</div>
+
+				<div id="progress1">
+					<div class="percent"></div>
+					<div class="pbar"></div>
+					<div class="elapsed"></div>
+				</div>
+			</div>
+		</div>
 		<div id="otherType" style="display: none">
-		<div class="worm-tips">
-		<div class="tips-title">
-			<span class="icon"></span> 温馨提示
-		</div>
-		<ol>
-			<li>1.请提供符合产品要求的物料类型，视频类型格式支持<font color="red">AVI，MP4，RMVB</font>。</li>
-			<li>2.图片类型格式支持<font color="red">GIF，PNG，JPG</font>；资质类型格式支持<font color="red">GIF，PNG，JPG</font>。</li>
-			<li>3.在必须要的时候，请上传物料说明和广告资质。</li>
-			<li>4.如果物料的文件比较大，可能需要一定的时间，请耐心等待。文件大小尽量控制在200M以内。</li>
-			<li>5.请勿上传违反国家广告法及相关法律法规的物料文件。</li>
-			<li>6.物料的其他技术性要求（待补充）。</li>
+			<div class="worm-tips">
+				<div class="tips-title">
+					<span class="icon"></span> 温馨提示
+				</div>
+				<ol>
+					<li>1.请提供符合产品要求的物料类型，视频类型格式支持<font color="red">AVI，MP4，RMVB</font>。
+					</li>
+					<li>2.图片类型格式支持<font color="red">GIF，PNG，JPG</font>；资质类型格式支持<font
+						color="red">GIF，PNG，JPG</font>。
+					</li>
+					<li>3.在必须要的时候，请上传物料说明和广告资质。</li>
+					<li>4.如果物料的文件比较大，可能需要一定的时间，请耐心等待。文件大小尽量控制在200M以内。</li>
+					<li>5.请勿上传违反国家广告法及相关法律法规的物料文件。</li>
+					<li>6.物料的其他技术性要求（待补充）。</li>
 
-		</ol>
+				</ol>
+			</div>
 		</div>
-		</div>
-		
+
 		<div id="videoType">
-	<div class="worm-tips">
-		<div class="tips-title">
-			<span class="icon"></span> 全屏视频广告规格要求说明
+			<div class="worm-tips">
+				<div class="tips-title">
+					<span class="icon"></span> 全屏视频广告规格要求说明
+				</div>
+				<ol>
+					<li>一、广告素材基础:</li>
+					<li>1.广告时长为：5秒，10秒，15秒，30秒。</li>
+					<li>2.广告发布素材为模拟，需要准备DVC
+						pro带，需把硬广吐到带子中，同时需提供电子版的视频文件（要求：720*576像素，PAL制，<font color="red">MPEG-2</font>文件格式
+						帧速率为：<font color="red">24</font>帧每秒。
+					</li>
+					<li>3.以上物料素材需在广告首个发布日的7个工作日前送达。</li>
+					<li>4.硬广前后需各加<font color="red">1-3秒</font>静帧
+					</li>
+					<li>5.硬广前一秒静帧前必须加上北广的5秒倒计时</li>
+					<li>6.<font color="red">声音要求在-12至18db</font></li>
+					<li>7.<font color="red">需记录起始码</font></li>
+
+					<li>二、广告素材内容、技术禁止和限制:</li>
+					<li>1.杂帧、跳帧、加帧。</li>
+					<li>2.非创意黑场画面。</li>
+					<li>3.模糊。</li>
+					<li>4.画面出框。</li>
+					<li>5.声画不同步。</li>
+					<li>6.吞音、破音。</li>
+					<li>7.三秒以上静帧无伴音。</li>
+					<li>8.字幕有错或误导含义。</li>
+				</ol>
+			</div>
 		</div>
-		<ol>	
-			<li>一、广告素材基础:</li>
-			<li>1.广告时长为：5秒，10秒，15秒，30秒。</li>
-			<li>2.广告发布素材为模拟，需要准备DVC pro带，需把硬广吐到带子中，同时需提供电子版的视频文件（要求：720*576像素，PAL制，<font color="red">MPEG-2</font>文件格式 帧速率为：<font color="red">24</font>帧每秒。</li>
-			<li>3.以上物料素材需在广告首个发布日的7个工作日前送达。</li>
-			<li>4.硬广前后需各加<font color="red">1-3秒</font>静帧</li>
-			<li>5.硬广前一秒静帧前必须加上北广的5秒倒计时</li>
-			<li>6.<font color="red">声音要求在-12至18db</font></li>
-			<li>7.<font color="red">需记录起始码</font></li>
-			
-			<li>二、广告素材内容、技术禁止和限制:</li>
-			<li>1.杂帧、跳帧、加帧。</li>
-			<li>2.非创意黑场画面。</li>
-			<li>3.模糊。</li>
-			<li>4.画面出框。</li>
-			<li>5.声画不同步。</li>
-			<li>6.吞音、破音。</li>
-			<li>7.三秒以上静帧无伴音。</li>
-			<li>8.字幕有错或误导含义。</li>
-		</ol>
-	</div>
-		</div>
-							</form>
+	</form>
 </div>
 </@frame.html>

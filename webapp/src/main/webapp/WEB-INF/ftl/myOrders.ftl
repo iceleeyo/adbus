@@ -1,6 +1,7 @@
-<#import "template/template.ftl" as frame>
-<#global menu="${orderMenu}">
-<@frame.html title="我参与的订单" css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"] js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
+<#import "template/template.ftl" as frame> <#global menu="${orderMenu}">
+<@frame.html title="我参与的订单"
+css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]
+js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <script type="text/javascript">
 var table;
@@ -150,48 +151,49 @@ var table;
 </script>
 
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <!-- <div class="withdraw-title" style="padding-top: 0px; text-align:left; ">
+	<!-- <div class="withdraw-title" style="padding-top: 0px; text-align:left; ">
 									
 									</div> -->
-                
-                <div class="tabs">
-                <@security.authorize ifAnyGranted="advertiser">
-                <#if orderMenu=="我的订单">
-					<a id="tab1" href="${rc.contextPath}/order/myOrders/1" class="active">${orderMenu}<span id="recordsTotal" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></a>
-				<#else>
-					<a id="tab1" href="${rc.contextPath}/order/myOrders/1">${orderMenu}</span></a>
-					
-				</#if>
-				</@security.authorize>
-				<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
-					<a id="tab2" href="${rc.contextPath}/order/allRuningOrders/1">进行中的订单</a>
-				</@security.authorize>	
-					
-				<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
-				<#if orderMenu=="我参与订单">
-					<a id="tab4" class="active" href="${rc.contextPath}/order/join/1">我参与的订单<span id="recordsTotal"  style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></a>
-				<#else>
-					<a id="tab4" href="${rc.contextPath}/order/join/1">我参与的订单<span id="recordsTotal" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;" ></span></a>
-				</#if>
-				</@security.authorize>
-				<a id="tab3" href="${rc.contextPath}/order/finished">已完成的订单</a>
-				</div>
-				
-				<table id="table" class="display" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th>下单用户</th>
-                        <th>订单编号</th>
-                        <th>起播时间</th>
-                        <th orderBy="created">创建时间</th>
-                        <th>待办事项</th>
-                        <th>当前处理人</th>
-                         <th>订单详情</th>
-                    </tr>
-                    </thead>
 
-                </table>
-                
+	<div class="tabs">
+		<@security.authorize ifAnyGranted="advertiser"> <#if
+		orderMenu=="我的订单"> <a id="tab1"
+			href="${rc.contextPath}/order/myOrders/1" class="active">${orderMenu}<span
+			id="recordsTotal"
+			style="background-color: #ff9966; font-size: 14px; border-radius: 4px;"></span></a>
+		<#else> <a id="tab1" href="${rc.contextPath}/order/myOrders/1">${orderMenu}</span></a>
+
+		</#if> </@security.authorize> <@security.authorize
+		ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+		<a id="tab2" href="${rc.contextPath}/order/allRuningOrders/1">进行中的订单</a>
+		</@security.authorize> <@security.authorize
+		ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+		<#if orderMenu=="我参与订单"> <a id="tab4" class="active"
+			href="${rc.contextPath}/order/join/1">我参与的订单<span
+			id="recordsTotal"
+			style="background-color: #ff9966; font-size: 14px; border-radius: 4px;"></span></a>
+		<#else> <a id="tab4" href="${rc.contextPath}/order/join/1">我参与的订单<span
+			id="recordsTotal"
+			style="background-color: #ff9966; font-size: 14px; border-radius: 4px;"></span></a>
+		</#if> </@security.authorize> <a id="tab3"
+			href="${rc.contextPath}/order/finished">已完成的订单</a>
+	</div>
+
+	<table id="table" class="display" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th>下单用户</th>
+				<th>订单编号</th>
+				<th>起播时间</th>
+				<th orderBy="created">创建时间</th>
+				<th>待办事项</th>
+				<th>当前处理人</th>
+				<th>订单详情</th>
+			</tr>
+		</thead>
+
+	</table>
+
 </div>
 </@frame.html>
 <!-- 针对tab的js -->

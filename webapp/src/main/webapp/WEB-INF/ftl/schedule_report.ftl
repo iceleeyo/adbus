@@ -1,25 +1,46 @@
-<#import "template/template.ftl" as frame>
-<#global menu="剩余时段">
-<@frame.html title="剩余时段" js=["js/jquery-dateFormat.js", "js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"]
-css=["js/jquery-ui/jquery-ui.css"]>
+<#import "template/template.ftl" as frame> <#global menu="剩余时段">
+<@frame.html title="剩余时段" js=["js/jquery-dateFormat.js",
+"js/jquery-ui/jquery-ui.js", "js/datepicker.js",
+"js/jquery.datepicker.region.cn.js"] css=["js/jquery-ui/jquery-ui.css"]>
 
 <style type="text/css">
-    #table {font-size: 13px;}
-    #table td {position:relative;}
-    .per-occupied {position:absolute;background-color: #ffad20;left:0;top:0;height:4px;}
-    .per-free {position:absolute;background-color: #4acd48;right:0;top:0;height:4px;}
+#table {
+	font-size: 13px;
+}
+
+#table td {
+	position: relative;
+}
+
+.per-occupied {
+	position: absolute;
+	background-color: #ffad20;
+	left: 0;
+	top: 0;
+	height: 4px;
+}
+
+.per-free {
+	position: absolute;
+	background-color: #4acd48;
+	right: 0;
+	top: 0;
+	height: 4px;
+}
 </style>
 <style type="text/css">
-    .ui-datepicker-calendar.only-month {
-        display: none;
-    }
-    .report-toolbar {
-        float: right;
-    }
+.ui-datepicker-calendar.only-month {
+	display: none;
+}
 
-    .report-toolbar .ui-label-mini {
-        font-size: 12px;line-height: 35px;
-    }
+.report-toolbar {
+	float: right;
+}
+
+.report-toolbar .ui-label-mini {
+	font-size: 12px;
+	line-height: 35px;
+}
 </style>
 <script type="text/javascript">
     $(function(){
@@ -117,37 +138,39 @@ css=["js/jquery-ui/jquery-ui.css"]>
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-<#--            <div class="div" style="margin-top:25px">
-                <caption><h2>产品套餐列表</h2></caption>
-            </div>
-            <div class="div">
-                <hr/>
-            </div>-->
-            <div class="withdraw-title">
-									剩余时段
-							
-                <div class="report-toolbar">
-                
-                    <input
-                            class="ui-input ui-input-mini datepicker" type="text" name="day"
-                            id="day" data-is="isAmount isEnough"
-                            autocomplete="off" disableautocomplete="">
-                </div>
-                
-            </div>
-            
-                <table id="table" class="cell-border compact display" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th>时段名</th>
-                        <th>时段</th>
-                        <th>时长</th>
-                        <#list dates as d>
-                            <th>${d?substring(5)}</th>
-                        </#list>
-                    </tr>
-                    </thead>
+	<#--
+	<div class="div" style="margin-top: 25px">
+		<caption>
+			<h2>产品套餐列表</h2>
+		</caption>
+	</div>
+	<div class="div">
+		<hr />
+	</div>
+	-->
+	<div class="withdraw-title">
+		剩余时段
 
-                </table>
+		<div class="report-toolbar">
+
+			<input class="ui-input ui-input-mini datepicker" type="text"
+				name="day" id="day" data-is="isAmount isEnough" autocomplete="off"
+				disableautocomplete="">
+		</div>
+
+	</div>
+
+	<table id="table" class="cell-border compact display" cellspacing="0"
+		width="100%">
+		<thead>
+			<tr>
+				<th>时段名</th>
+				<th>时段</th>
+				<th>时长</th> <#list dates as d>
+				<th>${d?substring(5)}</th> </#list>
+			</tr>
+		</thead>
+
+	</table>
 </div>
 </@frame.html>

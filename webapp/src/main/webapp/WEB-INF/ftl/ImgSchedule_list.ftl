@@ -1,36 +1,67 @@
-<#import "template/template.ftl" as frame>
-<#global menu="排条单">
-<@frame.html title="排条单" js=["js/jquery-dateFormat.js", "js/jquery-ui/jquery-ui.js", "js/datepicker.js",
-"js/jquery.datepicker.region.cn.js", "js/jquery-dataTables-fnFakeRowspan.js"<#--, "js/tabletools/js/dataTables.tableTools.js"-->]
-css=["js/jquery-ui/jquery-ui.css"<#--, "js/tabletools/css/dataTables.tableTools.min.css"-->]>
+<#import "template/template.ftl" as frame> <#global menu="排条单">
+<@frame.html title="排条单" js=["js/jquery-dateFormat.js",
+"js/jquery-ui/jquery-ui.js", "js/datepicker.js",
+"js/jquery.datepicker.region.cn.js",
+"js/jquery-dataTables-fnFakeRowspan.js"<#--,
+"js/tabletools/js/dataTables.tableTools.js"-->]
+css=["js/jquery-ui/jquery-ui.css"<#--,
+"js/tabletools/css/dataTables.tableTools.min.css"-->]>
 
 <style type="text/css">
-    #table.dataTable thead th:first-child, #table.dataTable thead td:first-child,
-    #table.dataTable.cell-border tbody tr th:first-child,
-    #table.dataTable.cell-border tbody tr td:first-child {display: none;}
-    #table {font-size: 13px;}
-    #table td {position:relative;}
-    #table td .per-occupied {position:absolute;background-color: #ffad20;left:0;top:0;height:4px;}
-    #table td .per-free {position:absolute;background-color: #4acd48;right:0;top:0;height:4px;}
-    .report-toolbar {float: left !important; margin-top: 40px;}
-    div#toolbar{
-		float: left;
-		margin-left: 89%;
-		padding: 10px 0 10px 0;
-		margin-top: -40px;
-    }
+#table.dataTable thead th:first-child,#table.dataTable thead td:first-child,#table.dataTable.cell-border tbody tr th:first-child,#table.dataTable.cell-border tbody tr td:first-child
+	{
+	display: none;
+}
+
+#table {
+	font-size: 13px;
+}
+
+#table td {
+	position: relative;
+}
+
+#table td .per-occupied {
+	position: absolute;
+	background-color: #ffad20;
+	left: 0;
+	top: 0;
+	height: 4px;
+}
+
+#table td .per-free {
+	position: absolute;
+	background-color: #4acd48;
+	right: 0;
+	top: 0;
+	height: 4px;
+}
+
+.report-toolbar {
+	float: left !important;
+	margin-top: 40px;
+}
+
+div#toolbar {
+	float: left;
+	margin-left: 89%;
+	padding: 10px 0 10px 0;
+	margin-top: -40px;
+}
 </style>
 <style type="text/css">
-    .ui-datepicker-calendar.only-month {
-        display: none;
-    }
-    .report-toolbar {
-        float: right;
-    }
+.ui-datepicker-calendar.only-month {
+	display: none;
+}
 
-    .report-toolbar .ui-label-mini {
-        font-size: 12px;line-height: 35px;
-    }
+.report-toolbar {
+	float: right;
+}
+
+.report-toolbar .ui-label-mini {
+	font-size: 12px;
+	line-height: 35px;
+}
 </style>
 <script type="text/javascript">
     $(function(){
@@ -142,33 +173,32 @@ css=["js/jquery-ui/jquery-ui.css"<#--, "js/tabletools/css/dataTables.tableTools.
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
 
-            <div class="withdraw-title">
-            <div class="tabs">
-		<a id="tab1"  href="${rc.contextPath}/schedule/list">视频广告排条单</a>
-		<a id="tab2"  class="active" href="${rc.contextPath}/schedule/img-list">图片广告排条单[${day}]</a>
-		<a id="tab3"  href="${rc.contextPath}/schedule/info-list">字幕广告排条单</a>
+	<div class="withdraw-title">
+		<div class="tabs">
+			<a id="tab1" href="${rc.contextPath}/schedule/list">视频广告排条单</a> <a
+				id="tab2" class="active" href="${rc.contextPath}/schedule/img-list">图片广告排条单[${day}]</a>
+			<a id="tab3" href="${rc.contextPath}/schedule/info-list">字幕广告排条单</a>
 		</div>
-                <div class="report-toolbar">
-                    <input
-                            class="ui-input ui-input-mini datepicker" type="text" name="day"
-                            id="day" data-is="isAmount isEnough"
-                            autocomplete="off" disableautocomplete="">
-                </div>
-            </div>
-            <table id="table" class="cell-border compact display" cellspacing="0"
-                   style="width: 100%; border-left-style: solid; border-left-width: 1px; border-left-color: rgb(221, 221, 221);">
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>序号</th>
-                    <th>审批合格号</th>
-                    <th>图片包名称</th>
-                    <th>性质</th>
-                    <th>图片名称</th>
-                    <th>时长(秒)</th>
-                </tr>
-                </thead>
-            </table>
-            </tbody>
+		<div class="report-toolbar">
+			<input class="ui-input ui-input-mini datepicker" type="text"
+				name="day" id="day" data-is="isAmount isEnough" autocomplete="off"
+				disableautocomplete="">
+		</div>
+	</div>
+	<table id="table" class="cell-border compact display" cellspacing="0"
+		style="width: 100%; border-left-style: solid; border-left-width: 1px; border-left-color: rgb(221, 221, 221);">
+		<thead>
+			<tr>
+				<th></th>
+				<th>序号</th>
+				<th>审批合格号</th>
+				<th>图片包名称</th>
+				<th>性质</th>
+				<th>图片名称</th>
+				<th>时长(秒)</th>
+			</tr>
+		</thead>
+	</table>
+	</tbody>
 </div>
 </@frame.html>

@@ -1,130 +1,124 @@
-<#import "template/template_intro.ftl" as frame>
-<#global menu="">
+<#import "template/template_intro.ftl" as frame> <#global menu="">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="商品sift" left=false nav=false js=["js/sift.js","js/jquery-ui/jquery-ui.js", "js/datepicker.js", "js/jquery.datepicker.region.cn.js"] css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css"]>
-<head> 
+<@frame.html title="商品sift" left=false nav=false
+js=["js/sift.js","js/jquery-ui/jquery-ui.js", "js/datepicker.js",
+"js/jquery.datepicker.region.cn.js"]
+css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css"]>
+<head>
 
 </head>
 <body>
 
 
-<div class="pg-container">
-				<div class="pg-container-main">
-					<div class="container-12">
-						<ul class="breadcrumb ml10 m11 s-clear">
-							<li class="s-left fsize-16 bread-homep">
-								<a class="gray-text" href="/">首页</a>
-							</li>
-							<li class="s-left breadcrumb-right"></li>
-							<li class="s-left bread-child">
-								<a class="gray-text" href="#">商品搜索</a>
-							</li>
-						</ul>
-					</div>
-					<div class="container-12 mt10 s-clear">
-						<div class="sift-box">
-							<div class="sift-item s-clear">
-								<span>产品名称：</span>
-								<div class="sift-search">
-									<input class="" id="name" type="text" placeholder="搜索产品" style="height: 39px;">
-									<a class="btn-search" href="#" ></a>
-								</div>
-							</div>
-							<div class="sift-item s-clear">
-								<span>是否竞价：</span>
-								<div class="sift-list" qt="p">
-									<a class="item active" href="#" sort="-1" qc="all">所有</a>
-									<a class="item" href="#"  qc="2" >竞价商品<i>×</i></a>
-									<a class="item" href="#"  qc="3" >一口价<i>×</i></a>
-								</div>
-							</div>
-							<#if city.mediaType=="body">
-							<div class="sift-item s-clear">
-								<span>线路级别：</span>
-								<div class="sift-list" qt="lev">
-									<a class="item active" href="#" sort="-1" qc="all">所有</a>
-									<a class="item" href="#"  qc="S" >特级<i>×</i></a>
-									<a class="item" href="#"  qc="APP" >A++<i>×</i></a>
-									<a class="item" href="#"  qc="AP" >A+<i>×</i></a>
-									<a class="item" href="#"  qc="A" >A<i>×</i></a>
-									<a class="item" href="#"  qc="LATLONG" >经纬线<i>×</i></a>
-								</div>
-							</div>
-							<#else>
-							<div class="sift-item s-clear">
-								<span>产品类型：</span>
-								<div class="sift-list" qt="t">
-									<a class="item active" href="#" sort="-1" qc="all">所有</a>
-									<a class="item" href="#" qc="video">视频<i>×</i></a>
-									<a class="item" href="#" qc="image">图片<i>×</i></a>
-									<a class="item" href="#" qc="info">文字<i>×</i></a>
-								</div>
-							</div>
-							<div class="sift-item s-clear">
-								<span>日曝光次数：</span>
-								<div class="sift-list" qt="s">
-									<a class="item active" href="#" sort="-1" qc="all">所有</a>
-									<a class="item" href="#" qc="2">0-7（不含）<i>×</i></a>
-									<a class="item" href="#" qc="3">7-11（含）<i>×</i></a>
-									<a class="item" href="#" qc="4">11以上<i>×</i></a>
-								</div>
-							</div>
-							</#if>
-							<div class="sift-item s-clear">
-								<span>展示期限：</span>
-								<div class="sift-list" qt="d">
-									<a class="item active" href="#" sort="-1" qc="all">所有</a>
-									<a class="item" href="#" qc="2" >1（天）<i>×</i></a>
-									<a class="item" href="#" qc="3">2-6（含）<i>×</i></a>
-									<a class="item" href="#" qc="4">7（天）<i>×</i></a>
-									<a class="item" href="#" qc="5">7天以上<i>×</i></a>
-								</div>
-							</div>
-							
-							
+	<div class="pg-container">
+		<div class="pg-container-main">
+			<div class="container-12">
+				<ul class="breadcrumb ml10 m11 s-clear">
+					<li class="s-left fsize-16 bread-homep"><a class="gray-text"
+						href="/">首页</a></li>
+					<li class="s-left breadcrumb-right"></li>
+					<li class="s-left bread-child"><a class="gray-text" href="#">商品搜索</a>
+					</li>
+				</ul>
+			</div>
+			<div class="container-12 mt10 s-clear">
+				<div class="sift-box">
+					<div class="sift-item s-clear">
+						<span>产品名称：</span>
+						<div class="sift-search">
+							<input class="" id="name" type="text" placeholder="搜索产品"
+								style="height: 39px;"> <a class="btn-search" href="#"></a>
 						</div>
 					</div>
+					<div class="sift-item s-clear">
+						<span>是否竞价：</span>
+						<div class="sift-list" qt="p">
+							<a class="item active" href="#" sort="-1" qc="all">所有</a> <a
+								class="item" href="#" qc="2">竞价商品<i>×</i></a> <a class="item"
+								href="#" qc="3">一口价<i>×</i></a>
+						</div>
+					</div>
+					<#if city.mediaType=="body">
+					<div class="sift-item s-clear">
+						<span>线路级别：</span>
+						<div class="sift-list" qt="lev">
+							<a class="item active" href="#" sort="-1" qc="all">所有</a> <a
+								class="item" href="#" qc="S">特级<i>×</i></a> <a class="item"
+								href="#" qc="APP">A++<i>×</i></a> <a class="item" href="#"
+								qc="AP">A+<i>×</i></a> <a class="item" href="#" qc="A">A<i>×</i></a>
+							<a class="item" href="#" qc="LATLONG">经纬线<i>×</i></a>
+						</div>
+					</div>
+					<#else>
+					<div class="sift-item s-clear">
+						<span>产品类型：</span>
+						<div class="sift-list" qt="t">
+							<a class="item active" href="#" sort="-1" qc="all">所有</a> <a
+								class="item" href="#" qc="video">视频<i>×</i></a> <a class="item"
+								href="#" qc="image">图片<i>×</i></a> <a class="item" href="#"
+								qc="info">文字<i>×</i></a>
+						</div>
+					</div>
+					<div class="sift-item s-clear">
+						<span>日曝光次数：</span>
+						<div class="sift-list" qt="s">
+							<a class="item active" href="#" sort="-1" qc="all">所有</a> <a
+								class="item" href="#" qc="2">0-7（不含）<i>×</i></a> <a class="item"
+								href="#" qc="3">7-11（含）<i>×</i></a> <a class="item" href="#"
+								qc="4">11以上<i>×</i></a>
+						</div>
+					</div>
+					</#if>
+					<div class="sift-item s-clear">
+						<span>展示期限：</span>
+						<div class="sift-list" qt="d">
+							<a class="item active" href="#" sort="-1" qc="all">所有</a> <a
+								class="item" href="#" qc="2">1（天）<i>×</i></a> <a class="item"
+								href="#" qc="3">2-6（含）<i>×</i></a> <a class="item" href="#"
+								qc="4">7（天）<i>×</i></a> <a class="item" href="#" qc="5">7天以上<i>×</i></a>
+						</div>
+					</div>
+
+
 				</div>
-				
-				
-				 <div class="withdraw-wrap color-white-bg fn-clear" style="margin-top: 30px;">
-            	 <div class="withdraw-title fn-clear">
-									产品列表
-				 </div>
-                <table id="table" class="display" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th orderBy="name">套餐名称</th>
-                        <th orderBy="type">类型</th>
-                        <th orderBy="type">类型</th>
-                        <th orderBy="price">价格(元)</th>
-                         <@security.authorize ifAnyGranted="ShibaOrderManager">  
-                        <th orderBy="exclusive">定向</th>
-                         </@security.authorize>
-                        <th orderBy="enabled">状态</th>
-                       
-                       <@security.authorize ifAnyGranted="ShibaOrderManager">  
-                        <th>首页</th>
-                        <th>进行中</th>
-                        <th>已结束</th>
-                        </@security.authorize>
-                        <th>管理</th>
-                    </tr>
-                    </thead>
-
-                </table>
 			</div>
-			
-			
-			</div>
-
 		</div>
 
-      <script type="text/javascript">
+
+		<div class="withdraw-wrap color-white-bg fn-clear"
+			style="margin-top: 30px;">
+			<div class="withdraw-title fn-clear">产品列表</div>
+			<table id="table" class="display" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th orderBy="name">套餐名称</th>
+						<th orderBy="type">类型</th>
+						<th orderBy="type">类型</th>
+						<th orderBy="price">价格(元)</th> <@security.authorize
+						ifAnyGranted="ShibaOrderManager">
+						<th orderBy="exclusive">定向</th> </@security.authorize>
+						<th orderBy="enabled">状态</th> <@security.authorize
+						ifAnyGranted="ShibaOrderManager">
+						<th>首页</th>
+						<th>进行中</th>
+						<th>已结束</th> </@security.authorize>
+						<th>管理</th>
+					</tr>
+				</thead>
+
+			</table>
+		</div>
+
+
+	</div>
+
+	</div>
+
+	<script type="text/javascript">
       </script>
-        <input type="hidden" id="sh" value=""/>
-        
-    <script type="text/javascript">
+	<input type="hidden" id="sh" value="" />
+
+	<script type="text/javascript">
     var table;
     function initTable () {
         table = $('#table').dataTable( {
@@ -269,12 +263,12 @@
     } );
     
    
-</script>    
-        
-        
-        
-        
-     
-      
+</script>
+
+
+
+
+
+
 </body>
 </@frame.html>

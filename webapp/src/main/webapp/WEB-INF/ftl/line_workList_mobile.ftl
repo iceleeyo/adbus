@@ -1,31 +1,93 @@
-<#import "template/template_mobile.ftl" as frame>
-<#import "template/orderDetail.ftl" as orderDetail/>
-<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<#global menu="合同线路施工单" >
-<@frame.html title="线路施工单"   js=["js/nano.js","js/jquery-dateFormat.js","js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js","js/jquery.datepicker.region.cn.js"]
+<#import "template/template_mobile.ftl" as frame> <#import
+"template/orderDetail.ftl" as orderDetail/> <#assign
+security=JspTaglibs["/WEB-INF/tlds/security.tld"] /> <#global
+menu="合同线路施工单" > <@frame.html title="线路施工单"
+js=["js/nano.js","js/jquery-dateFormat.js","js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js","js/jquery.datepicker.region.cn.js"]
 css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]
 >
 
 <style type="text/css">
-    .center {margin: auto;}
-    .div {text-align:center;}
-    div#toolbar {float: left;}
-    .div2 {text-align:center;}
-    .div5{margin: 5px;}
-    div2#toolbar2 {float: left;}
-    #toolbar2{  margin-bottom: 20px;}
-    
-    .processed {color: limegreen;}
-    .invalid {color: red;}
-    .hl {background-color: #ffff00;}
-    #table {font-size: 14px;}
-    #table td, #table2 td{position:relative;  line-height: 30px;}
-    #table td .per-middle {position:absolute;background-color: #ffad20;top:0;height:100%;z-index:1}
-    #table td .per-first-or-last {position:absolute;background-color: #4acd48;border-left: 1px solid white;border-right: 1px solid white;top:0;height:100%;z-index:1;}
-	#table th, #table2 th,#his_table th{background-color: #3bafda;color: white;  font-weight: normal;  text-align: left;  line-height: 30px;  padding: 2px 2px;}
-	table.dataTable.compact tbody td { padding: 2px 2px;}
+.center {
+	margin: auto;
+}
+
+.div {
+	text-align: center;
+}
+
+div#toolbar {
+	float: left;
+}
+
+.div2 {
+	text-align: center;
+}
+
+.div5 {
+	margin: 5px;
+}
+
+div2#toolbar2 {
+	float: left;
+}
+
+#toolbar2 {
+	margin-bottom: 20px;
+}
+
+.processed {
+	color: limegreen;
+}
+
+.invalid {
+	color: red;
+}
+
+.hl {
+	background-color: #ffff00;
+}
+
+#table {
+	font-size: 14px;
+}
+
+#table td,#table2 td {
+	position: relative;
+	line-height: 30px;
+}
+
+#table td .per-middle {
+	position: absolute;
+	background-color: #ffad20;
+	top: 0;
+	height: 100%;
+	z-index: 1
+}
+
+#table td .per-first-or-last {
+	position: absolute;
+	background-color: #4acd48;
+	border-left: 1px solid white;
+	border-right: 1px solid white;
+	top: 0;
+	height: 100%;
+	z-index: 1;
+}
+
+#table th,#table2 th,#his_table th {
+	background-color: #3bafda;
+	color: white;
+	font-weight: normal;
+	text-align: left;
+	line-height: 30px;
+	padding: 2px 2px;
+}
+
+table.dataTable.compact tbody td {
+	padding: 2px 2px;
+}
 </style>
- 
+
 <script type="text/javascript">
 	  function gotoSchedult(id,modelId){
 	  window.open("${rc.contextPath}/busselect/lineschedule/"+id+"?modelId="+modelId);
@@ -388,106 +450,102 @@ $("#wpform").ajaxForm(function(data) {
 
 
 
-    <H3 class="text-xl title-box"><A class="black" href="#">已安装车辆
-    <span id="recordsTotal2" style="background-color:red;font-size: 14px;border-radius: 4px;"></span></A></H3>
-             <div class="div5" style="overflow-x:auto;" id = "div2">
-                <table id="table2" class="cell-border compact display" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th>自编号</th>
-                         <th>车牌号</th>
-                          <th>线路</th>
-                             <@security.authorize ifAnyGranted="bodyFinancialManager,bodyContractManager,bodyScheduleManager">
-                          <th>上刊时间</th>
-                          <th>下刊时间</th>
-                            </@security.authorize>
-                           <th>施工时间</th>
-                           <th>状态</th>
-                              <@security.authorize ifAnyGranted="bodyScheduleManager">
-                           <th>操作</th>
-                             </@security.authorize>
-                    </tr>
-                    </thead>
-                </table>
-            </div>
-            
+<H3 class="text-xl title-box">
+	<A class="black" href="#">已安装车辆 <span id="recordsTotal2"
+		style="background-color: red; font-size: 14px; border-radius: 4px;"></span></A>
+</H3>
+<div class="div5" style="overflow-x: auto;" id="div2">
+	<table id="table2" class="cell-border compact display" cellspacing="0"
+		width="100%">
+		<thead>
+			<tr>
+				<th>自编号</th>
+				<th>车牌号</th>
+				<th>线路</th> <@security.authorize
+				ifAnyGranted="bodyFinancialManager,bodyContractManager,bodyScheduleManager">
+				<th>上刊时间</th>
+				<th>下刊时间</th> </@security.authorize>
+				<th>施工时间</th>
+				<th>状态</th> <@security.authorize ifAnyGranted="bodyScheduleManager">
+				<th>操作</th> </@security.authorize>
+			</tr>
+		</thead>
+	</table>
+</div>
 
 
 
-    <H3 class="text-xl title-box"><A class="black" href="#">可安装车辆列表
-    <span id="loading"><image src="${rc.contextPath}/imgs/load_.gif"/> </span>
-    <span id="recordsTotal" style="background-color:red;font-size: 14px;border-radius: 4px;"></span></A></H3>
-            <div class="div5" style="overflow-x:auto;" id = "div1">
-                <table id="table" class="cell-border compact display" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th>自编号</th>
-                        
-                         <th>车牌号</th>
-                          <th>线路</th>
-                           <@security.authorize ifNotGranted="bodyFinancialManager,bodyContractManager">  
-                           <th>安装</th>
-                            </@security.authorize>
-                       
-                    </tr>
-                    </thead>
-                </table>
-            </div>
-            
-            
-            <div class="wormB-tips">
-		<div class="tips-title">
-			<span class="icon"></span>排期说明：
-			<ol>
+
+<H3 class="text-xl title-box">
+	<A class="black" href="#">可安装车辆列表 <span id="loading"><image
+				src="${rc.contextPath}/imgs/load_.gif" /> </span> <span id="recordsTotal"
+		style="background-color: red; font-size: 14px; border-radius: 4px;"></span></A>
+</H3>
+<div class="div5" style="overflow-x: auto;" id="div1">
+	<table id="table" class="cell-border compact display" cellspacing="0"
+		width="100%">
+		<thead>
+			<tr>
+				<th>自编号</th>
+
+				<th>车牌号</th>
+				<th>线路</th> <@security.authorize
+				ifNotGranted="bodyFinancialManager,bodyContractManager">
+				<th>安装</th> </@security.authorize>
+
+			</tr>
+		</thead>
+	</table>
+</div>
+
+
+<div class="wormB-tips">
+	<div class="tips-title">
+		<span class="icon"></span>排期说明：
+		<ol>
 			<li>1.列表显示的是该合同可以施工的所有车辆列表</li>
 		</ol>
-		</div>
-		</div>
-<div id ="ccc" style="display:none" >
- <div class="withdrawInputs">
-	<div class="inputs">
-		<div class="ui-form-item"> 
-			<label class="ui-labels mt10">
-				自编号
-			</label>
-				<input class="ui-input" type="text"  readonly="readonly"  autocomplete="off" value="{bus.serialNumber}">
-		</div>
-		<div class="ui-form-item">
-			<label class="ui-labels mt10">
-				车牌号
-			</label>
-				<input class="ui-input" type="text"  readonly="readonly"  autocomplete="off" value="{bus.plateNumber}">
-		</div>
+	</div>
+</div>
+<div id="ccc" style="display: none">
+	<div class="withdrawInputs">
+		<div class="inputs">
+			<div class="ui-form-item">
+				<label class="ui-labels mt10"> 自编号 </label> <input class="ui-input"
+					type="text" readonly="readonly" autocomplete="off"
+					value="{bus.serialNumber}">
+			</div>
+			<div class="ui-form-item">
+				<label class="ui-labels mt10"> 车牌号 </label> <input class="ui-input"
+					type="text" readonly="readonly" autocomplete="off"
+					value="{bus.plateNumber}">
+			</div>
 
-		<div class="ui-form-item">
-			<label class="ui-labels mt10">
-				线路
-			</label>
-				<input class="ui-input" type="text"  readonly="readonly"  autocomplete="off" value="{line.name}">
+			<div class="ui-form-item">
+				<label class="ui-labels mt10"> 线路 </label> <input class="ui-input"
+					type="text" readonly="readonly" autocomplete="off"
+					value="{line.name}">
+			</div>
+
+			<div class="ui-form-item">
+				<label class="ui-labels mt10"> 预上刊时间 </label> <input
+					class="ui-input" type="text" readonly="readonly" autocomplete="off"
+					value="{staTime}">
+			</div>
+
+			<div class="ui-form-item">
+				<label class="ui-labels mt10"> 预下刊时间 </label> <input
+					class="ui-input" type="text" readonly="readonly" autocomplete="off"
+					value="{endTime}">
+			</div>
+
+			<div class="ui-form-item">
+				<label class="ui-labels mt10"> 施工时间 </label> <input class="ui-input"
+					type="text" readonly="readonly" autocomplete="off"
+					value="{creTime}">
+			</div>
 		</div>
-		
-		<div class="ui-form-item">
-			<label class="ui-labels mt10">
-				预上刊时间
-			</label>
-				<input class="ui-input" type="text"  readonly="readonly"  autocomplete="off" value="{staTime}">
-		</div>
-		
-		<div class="ui-form-item">
-			<label class="ui-labels mt10">
-				预下刊时间
-			</label>
-				<input class="ui-input" type="text"  readonly="readonly"  autocomplete="off" value="{endTime}">
-		</div>
-		
-		<div class="ui-form-item">
-			<label class="ui-labels mt10">
-				施工时间
-			</label>
-				<input class="ui-input" type="text"  readonly="readonly"  autocomplete="off" value="{creTime}">
-		</div>
-	 </div>
-   </div>
+	</div>
 </div>
 <script type="text/javascript">
  $(document).ready(function() {

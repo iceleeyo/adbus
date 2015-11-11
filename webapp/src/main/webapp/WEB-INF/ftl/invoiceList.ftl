@@ -1,5 +1,4 @@
-<#import "template/template.ftl" as frame>
-<#global menu="发票列表">
+<#import "template/template.ftl" as frame> <#global menu="发票列表">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="发票管理" js=["js/jquery-dateFormat.js"]>
 
@@ -113,23 +112,22 @@ function delInvoice(conid){
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title" style="padding-top: 0px;text-align:left;">
-									发票列表
-									<a class="block-btn" href="${rc.contextPath}/user/invoice">添加发票信息</a>
-									</div>
-                <table id="table" class="display" cellspacing="0" width="100%">
-                    <thead>
-                    <tr class="tableTr">
-                        <th orderBy="title">发票抬头</th>
-                        <th orderBy="type">发票类型</th>
-                        <th orderBy="taxrenum">税务登记证号</th>
-                        <th orderBy="bankname">邮寄地址</th>
-                        <th orderBy="updated">创建时间</th>
-                        <th>管理</th>
-                    </tr>
-                    </thead>
+	<div class="withdraw-title" style="padding-top: 0px; text-align: left;">
+		发票列表 <a class="block-btn" href="${rc.contextPath}/user/invoice">添加发票信息</a>
+	</div>
+	<table id="table" class="display" cellspacing="0" width="100%">
+		<thead>
+			<tr class="tableTr">
+				<th orderBy="title">发票抬头</th>
+				<th orderBy="type">发票类型</th>
+				<th orderBy="taxrenum">税务登记证号</th>
+				<th orderBy="bankname">邮寄地址</th>
+				<th orderBy="updated">创建时间</th>
+				<th>管理</th>
+			</tr>
+		</thead>
 
-                </table>
+	</table>
 </div>
 </@frame.html>
 

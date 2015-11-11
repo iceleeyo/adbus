@@ -1,7 +1,8 @@
-<#import "template/template.ftl" as frame>
-<#global menu="车身套餐列表">
+<#import "template/template.ftl" as frame> <#global menu="车身套餐列表">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="车身套餐列表" js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js","js/layer.onload.js"] >
+<@frame.html title="车身套餐列表"
+js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js","js/layer.onload.js"]
+>
 
 <script type="text/javascript">
     var table;
@@ -127,20 +128,20 @@ function buy(pid){
 </script>
 
 <div class="withdraw-wrap color-white-bg fn-clear">
-		<div class="paging"></div>
-                <table id="table" class="display" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                     <th ></th>
-                        <th >套餐名称</th>
-                        <th orderBy="price">价格(元)</th>
-                        <th orderBy="created">创建时间</th>
-                        <th >创建人</th>
-                        <th>管理</th>
-                    </tr>
-                    </thead>
+	<div class="paging"></div>
+	<table id="table" class="display" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th></th>
+				<th>套餐名称</th>
+				<th orderBy="price">价格(元)</th>
+				<th orderBy="created">创建时间</th>
+				<th>创建人</th>
+				<th>管理</th>
+			</tr>
+		</thead>
 
-                </table>
-                <span>-</span>
+	</table>
+	<span>-</span>
 </div>
 </@frame.html>

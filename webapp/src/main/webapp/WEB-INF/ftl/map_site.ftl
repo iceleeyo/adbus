@@ -2,11 +2,24 @@
 <html>
 <META name=GENERATOR content="MSHTML 10.00.9200.16576">
 <style type="text/css">
-body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
-		#l-map{height:300px;width:100%;}
-		#r-result {width:100%;}
+body,html {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	font-family: "微软雅黑";
+}
+
+#l-map {
+	height: 300px;
+	width: 100%;
+}
+
+#r-result {
+	width: 100%;
+}
 </style>
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Ok6Nri8q5UjAa0anpoGv7R3o"></script>
+<script type="text/javascript"
+	src="http://api.map.baidu.com/api?v=2.0&ak=Ok6Nri8q5UjAa0anpoGv7R3o"></script>
 
 <body>
 	<div id="l-map"></div>

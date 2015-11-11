@@ -1,16 +1,28 @@
 <#global menu="位置确认:${address}">
 <META name=GENERATOR content="MSHTML 10.00.9200.16576">
 <style type="text/css">
-#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+#allmap {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	margin: 0;
+	font-family: "微软雅黑";
+}
 </style>
-    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery-1.8.3.min.js"></script>
-    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/jquery.form.js"></script>
-    <script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer/layer.js"></script>
-	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer.onload.js"></script>
-	<script type="text/javascript" language="javascript" src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Ok6Nri8q5UjAa0anpoGv7R3o"></script>
+<script type="text/javascript" language="javascript"
+	src="${rc.contextPath}/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" language="javascript"
+	src="${rc.contextPath}/js/jquery.form.js"></script>
+<script type="text/javascript" language="javascript"
+	src="${rc.contextPath}/js/layer-v1.9.3/layer/layer.js"></script>
+<script type="text/javascript" language="javascript"
+	src="${rc.contextPath}/js/layer.onload.js"></script>
+<script type="text/javascript" language="javascript"
+	src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
+<script type="text/javascript"
+	src="http://api.map.baidu.com/api?v=2.0&ak=Ok6Nri8q5UjAa0anpoGv7R3o"></script>
 <#if locationPair??>
-<div id="allmap"  width="100%"			height="100%"></div>
+<div id="allmap" width="100%" height="100%"></div>
 <script type="text/javascript">
 	// 百度地图API功能
 	var map = new BMap.Map("allmap");
@@ -36,7 +48,13 @@
 </script>
 <#else>
 <style type="text/css">
-body {TEXT-ALIGN: center;} #center { MARGIN-RIGHT: auto; MARGIN-LEFT: auto; } 
+body {
+	TEXT-ALIGN: center;
+}
+
+#center {
+	MARGIN-RIGHT: auto;
+	MARGIN-LEFT: auto;
+}
 </style>
-layer.msg("查询不到相应的查询信息,请确认查询地址"); 
-</#if>
+layer.msg("查询不到相应的查询信息,请确认查询地址"); </#if>

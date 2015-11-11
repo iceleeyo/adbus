@@ -1,24 +1,77 @@
-<#import "template/template_blank.ftl" as frame>
-<#import "template/orderDetail.ftl" as orderDetail/>
-    <#global menu="上刊巴士列表">
+<#import "template/template_blank.ftl" as frame> <#import
+"template/orderDetail.ftl" as orderDetail/> <#global menu="上刊巴士列表">
 <@frame.html title=menu>
 
 <style type="text/css">
-	.center {margin: auto;}
-    .frame {width: 1000px;}
-    .div {text-align:center; margin:25px;}
-    div#toolbar {float: left;}
-    .processed {color: limegreen;}
-    .invalid {color: red;}
-    .hl {background-color: #ffff00;}
-    #table {font-size: 12px;}
-    #table td {position:relative;}
-    #table td .per-middle {position:absolute;background-color: #ffad20;top:0;height:100%;z-index:1}
-    #table td .per-first-or-last {position:absolute;background-color: #4acd48;border-left: 1px solid white;border-right: 1px solid white;top:0;height:100%;z-index:1}
-	#table th, #his_table th{background-color: #3bafda;color: white;  font-weight: normal;  text-align: left;  line-height: 20px;  padding: 2px 2px;}
-	table.dataTable.compact tbody td { padding: 2px 2px;}
+.center {
+	margin: auto;
+}
+
+.frame {
+	width: 1000px;
+}
+
+.div {
+	text-align: center;
+	margin: 25px;
+}
+
+div#toolbar {
+	float: left;
+}
+
+.processed {
+	color: limegreen;
+}
+
+.invalid {
+	color: red;
+}
+
+.hl {
+	background-color: #ffff00;
+}
+
+#table {
+	font-size: 12px;
+}
+
+#table td {
+	position: relative;
+}
+
+#table td .per-middle {
+	position: absolute;
+	background-color: #ffad20;
+	top: 0;
+	height: 100%;
+	z-index: 1
+}
+
+#table td .per-first-or-last {
+	position: absolute;
+	background-color: #4acd48;
+	border-left: 1px solid white;
+	border-right: 1px solid white;
+	top: 0;
+	height: 100%;
+	z-index: 1
+}
+
+#table th,#his_table th {
+	background-color: #3bafda;
+	color: white;
+	font-weight: normal;
+	text-align: left;
+	line-height: 20px;
+	padding: 2px 2px;
+}
+
+table.dataTable.compact tbody td {
+	padding: 2px 2px;
+}
 </style>
- 
+
 <script type="text/javascript">
     var table;
     function initTable () {
@@ -138,36 +191,37 @@
 </script>
 
 
-<div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear" >
-    <H3 class="text-xl title-box"><A class="black" href="#">线路车辆排期表
-    <span id="loading"><image src="${rc.contextPath}/imgs/load_.gif"/> </span>
-    <span id="recordsTotal" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></A></H3>
-            <div class="div" style="overflow-x:auto;">
-                      
-                <table id="table" class="cell-border compact display" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th style="min-width:110px;">车辆自编号</th>
-                        <#list dates as d>
-                            <th style="min-width:10px;">${d?substring(5)}</th>
-                        </#list>
-                    </tr>
-                    </thead>
+<div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear">
+	<H3 class="text-xl title-box">
+		<A class="black" href="#">线路车辆排期表 <span id="loading"><image
+					src="${rc.contextPath}/imgs/load_.gif" /> </span> <span id="recordsTotal"
+			style="background-color: #ff9966; font-size: 14px; border-radius: 4px;"></span></A>
+	</H3>
+	<div class="div" style="overflow-x: auto;">
 
-                </table>
-                
-               
-            </div>
-            
-            <div class="worm-tips">
+		<table id="table" class="cell-border compact display" cellspacing="0"
+			width="100%">
+			<thead>
+				<tr>
+					<th style="min-width: 110px;">车辆自编号</th> <#list dates as d>
+					<th style="min-width: 10px;">${d?substring(5)}</th> </#list>
+				</tr>
+			</thead>
+
+		</table>
+
+
+	</div>
+
+	<div class="worm-tips">
 		<div class="tips-title">
 			<span class="icon"></span>排期说明：
 			<ol>
-			<li>1.一个方格代表某一天的一个广告时段。</li>
-			<li>2.彩条代表该广告的播出位置，绿色代表首播或者末播，橘色代表中间播。</li>
-		</ol>
+				<li>1.一个方格代表某一天的一个广告时段。</li>
+				<li>2.彩条代表该广告的播出位置，绿色代表首播或者末播，橘色代表中间播。</li>
+			</ol>
 		</div>
-		</div>
+	</div>
 </div>
 <script type="text/javascript">
  $(document).ready(function() {

@@ -1,16 +1,36 @@
-<#import "template/template.ftl" as frame>
-<#global menu="物料展示">
+<#import "template/template.ftl" as frame> <#global menu="物料展示">
 <@frame.html title="物料展示列表">
 
 
 <style type="text/css">
-    .center {margin: auto;}
-    .frame {width: 1000px;}
-    .div {text-align:center; margin:25px;}
-    div#toolbar {float: left;}
-    .processed {color: limegreen;}
-    .invalid {color: red;}
-    .hl {background-color: #ffff00;}
+.center {
+	margin: auto;
+}
+
+.frame {
+	width: 1000px;
+}
+
+.div {
+	text-align: center;
+	margin: 25px;
+}
+
+div#toolbar {
+	float: left;
+}
+
+.processed {
+	color: limegreen;
+}
+
+.invalid {
+	color: red;
+}
+
+.hl {
+	background-color: #ffff00;
+}
 </style>
 <script type="text/javascript">
     var table;
@@ -96,22 +116,25 @@
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-<#--            <div class="div" style="margin-top:25px">
-                <caption><h2>物料表</h2></caption>
-            </div>
-            <div class="div">
-                <hr/>
-            </div>
--->
-                <table id="table" class="display" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th>物料名称</th>
-                        <th>物料类型</th>
-                        <th>创建时间</th>
-                    </tr>
-                    </thead>
+	<#--
+	<div class="div" style="margin-top: 25px">
+		<caption>
+			<h2>物料表</h2>
+		</caption>
+	</div>
+	<div class="div">
+		<hr />
+	</div>
+	-->
+	<table id="table" class="display" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th>物料名称</th>
+				<th>物料类型</th>
+				<th>创建时间</th>
+			</tr>
+		</thead>
 
-                </table>
+	</table>
 </div>
 </@frame.html>

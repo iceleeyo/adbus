@@ -1,20 +1,45 @@
-<#import "template/template.ftl" as frame>
-<#global menu="车辆及订单查询">
+<#import "template/template.ftl" as frame> <#global menu="车辆及订单查询">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="车辆及订单查询" js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
+<@frame.html title="车辆及订单查询"
+js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
 "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
 "js/jquery.datepicker.region.cn.js","js/progressbar.js"]
 css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 
 <style type="text/css">
-    .center {margin: auto;}
-    .frame {width: 1000px;}
-    .div {text-align:center; margin:25px;}
-    div#toolbar {float: left;}
-    .processed {color: limegreen;}
-    .invalid {color: red;}
-    .hl {background-color: #ffff00;}
-    .data1 {color: blue; font-size:16px;}
+.center {
+	margin: auto;
+}
+
+.frame {
+	width: 1000px;
+}
+
+.div {
+	text-align: center;
+	margin: 25px;
+}
+
+div#toolbar {
+	float: left;
+}
+
+.processed {
+	color: limegreen;
+}
+
+.invalid {
+	color: red;
+}
+
+.hl {
+	background-color: #ffff00;
+}
+
+.data1 {
+	color: blue;
+	font-size: 16px;
+}
 </style>
 
 <script type="text/javascript">
@@ -337,69 +362,64 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title">
-                车辆列表
-									</div>					
-                <table id="table" class="display nowrap" cellspacing="0">
-                    <thead>
-                    <tr>
-                   	    <th>序号</th>
-                  		<th >线路</th>
-                        <th >线路级别</th>
-                        <th >车辆自编号</th>
-                        <th>旧自编号</th>
-                        <th >营销中心</th>
-                        <th>是否有广告</th>
-                        <th>合同编号</th>
-                        <th >车型</th>
-                        <th>实际上刊日期</th>
-                        <th>预计下刊日期</th>
-                        <th>实际下刊日期</th>
-                        <th>刊期</th>
-                        <th >类别</th>
-                        <th >广告类型</th>
-                        <th>车身广告状态</th>
-                        <th>车辆描述</th>
-                        <th >车牌号</th>
-                        <th>总公司名称</th>
-                        <th>分公司名称</th>
-                        <th>上刊类型</th>
-                        <th>广告内容</th>
-                    </tr>
-                    </thead>
-                </table>
-                <div id="modelGroupView">
-             <!--   <span id="trw2">BJ6851C6BCD车辆总数：34&nbsp;&nbsp;&nbsp; &nbsp;占用车辆数：6  &nbsp;&nbsp;&nbsp; &nbsp; 可用车辆数：30 &nbsp;&nbsp;&nbsp;&nbsp;到期未下刊数：0</span><br>
+	<div class="withdraw-title">车辆列表</div>
+	<table id="table" class="display nowrap" cellspacing="0">
+		<thead>
+			<tr>
+				<th>序号</th>
+				<th>线路</th>
+				<th>线路级别</th>
+				<th>车辆自编号</th>
+				<th>旧自编号</th>
+				<th>营销中心</th>
+				<th>是否有广告</th>
+				<th>合同编号</th>
+				<th>车型</th>
+				<th>实际上刊日期</th>
+				<th>预计下刊日期</th>
+				<th>实际下刊日期</th>
+				<th>刊期</th>
+				<th>类别</th>
+				<th>广告类型</th>
+				<th>车身广告状态</th>
+				<th>车辆描述</th>
+				<th>车牌号</th>
+				<th>总公司名称</th>
+				<th>分公司名称</th>
+				<th>上刊类型</th>
+				<th>广告内容</th>
+			</tr>
+		</thead>
+	</table>
+	<div id="modelGroupView">
+		<!--   <span id="trw2">BJ6851C6BCD车辆总数：34&nbsp;&nbsp;&nbsp; &nbsp;占用车辆数：6  &nbsp;&nbsp;&nbsp; &nbsp; 可用车辆数：30 &nbsp;&nbsp;&nbsp;&nbsp;到期未下刊数：0</span><br>
                 <span id="trw2">ZK6128HGA车辆总数：34&nbsp;&nbsp;&nbsp; &nbsp;占用车辆数：6  &nbsp;&nbsp;&nbsp; &nbsp; 可用车辆数：30 &nbsp;&nbsp;&nbsp;&nbsp;到期未下刊数：0</span><br>
                 <span id="trw2">该线路总车辆数：63&nbsp;&nbsp;&nbsp;&nbsp;已占用车辆数：33 &nbsp;&nbsp; &nbsp;&nbsp; 可用车辆数：30 &nbsp;&nbsp;&nbsp;&nbsp;到期未下刊数：0</span>
                 -->
-                </div> 
+	</div>
 </div>
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title">
-               订单列表
-	     	</div>
-	     	<input type="hidden" id="cid" />
-	     	 <table id="table2" class="display nowrap" cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th >订单编号</th>
-                        <th >合同编号</th>
-                        <th >线路</th>
-                        <th>广告内容</th>
-                        <th>媒体类型</th>
-					    <th>发布形式</th>
-                        <th>订购数量</th>
-                        <th>已上刊数量</th>
-                        <th>在刊率</th>
-                        <th>刊期</th>
-                        <th>营销中心</th>
-                        <th>预计上刊日期</th>
-                        <th>订单记录时间</th>
-                    </tr>
-                    </thead>
-                </table>
-               <div id="modelcountView">
-               </div> 
+	<div class="withdraw-title">订单列表</div>
+	<input type="hidden" id="cid" />
+	<table id="table2" class="display nowrap" cellspacing="0">
+		<thead>
+			<tr>
+				<th>订单编号</th>
+				<th>合同编号</th>
+				<th>线路</th>
+				<th>广告内容</th>
+				<th>媒体类型</th>
+				<th>发布形式</th>
+				<th>订购数量</th>
+				<th>已上刊数量</th>
+				<th>在刊率</th>
+				<th>刊期</th>
+				<th>营销中心</th>
+				<th>预计上刊日期</th>
+				<th>订单记录时间</th>
+			</tr>
+		</thead>
+	</table>
+	<div id="modelcountView"></div>
 </div>
 </@frame.html>

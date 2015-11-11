@@ -10,13 +10,14 @@ css=["js/highslide/highslide.css",
 "js/video-js/video-js.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","css/liselect/pkg-generator.css$ver=1431443489.css"]>
 <#include "template/preview.ftl" />
 <style type="text/css">
-.textareaBox{
+.textareaBox {
 	border: 1px solid #3BAFDA;
 }
-.banknameformError .parentFormuserForm3 .formError{
+
+.banknameformError .parentFormuserForm3 .formError {
 	opacity: 0.87;
 	position: absolute;
-	top: 0px;	
+	top: 0px;
 	left: 340px !important;
 	margin-top: -38px;
 }
@@ -571,25 +572,25 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 						<div class="cart_address_wrap" id="cartAddress"
 							style="width: 540px;">
 							<#if (InvoiceList?size>0)>
-				                <ul class="cart_address_list clearfix" style="width:550px;" id="cartAddressList">
-				                  <#list InvoiceList as ilist>
-				                <li data-aid="${ilist.id}" tip="${ (ilist.type==1)?string('专用发票','普通发票')}:${ilist.title!''}" class="layer-tips">
-				                    <span href="javascript:;"  class="" style="text-decoration:none;" data-aid="${ilist.id}">
-				                    <div class="item"><i></i>
-				                        <span class="" >
-				                      ${substring(ilist.title,0,11)}
-				                      <br>
-				                      <b class="cart_address_edit" style="display: none;position:inherit;"onclick="qEdit('${rc.contextPath}',${ilist.id})" id="${ilist.id}">编辑</b>
-				                      </span>
-				                    </div>    
-				                    </span>
-				                </li>
-				                </#list>
-				                <#else>
-				                                                         暂无发票，请录入发票
-				                </#if>
+							<ul class="cart_address_list clearfix" style="width: 550px;"
+								id="cartAddressList">
+								<#list InvoiceList as ilist>
+								<li data-aid="${ilist.id}"
+									tip="${ (ilist.type==1)?string('专用发票','普通发票')}:${ilist.title!''}"
+									class="layer-tips"><span href="javascript:;" class=""
+									style="text-decoration: none;" data-aid="${ilist.id}">
+										<div class="item">
+											<i></i> <span class="">
+												${substring(ilist.title,0,11)} <br> <b
+												class="cart_address_edit"
+												style="display: none; position: inherit;"
+												onclick="qEdit('${rc.contextPath}',${ilist.id})"
+												id="${ilist.id}">编辑</b>
+											</span>
+										</div>
+								</span></li> </#list> <#else> 暂无发票，请录入发票 </#if>
 							</ul>
-								<input type="hidden" id="hiddenINvoiceId" value="0" />
+							<input type="hidden" id="hiddenINvoiceId" value="0" />
 						</div>
 					</TD>
 				</TR>
@@ -737,8 +738,8 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 					value="${suppliesView.mainView.seqNumber!''}" />
 				<TR>
 					<TH>物料详情</TH>
-					<TD colspan=3><a href="javascript:void(0)" onclick="supDetail(${(suppliesView.mainView.id)!''})">查看</a>
-					</TD>
+					<TD colspan=3><a href="javascript:void(0)"
+						onclick="supDetail(${(suppliesView.mainView.id)!''})">查看</a></TD>
 				</TR>
 				<TR>
 					<TH>更改物料</TH>
@@ -776,14 +777,15 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 				</TR>
 				<TR>
 					<TD>物料信息</TD>
-					<TD colspan=3><a href="javascript:void(0)" onclick="supDetail(${(suppliesView.mainView.id)!''})">查看</a>
-					</TD>
+					<TD colspan=3><a href="javascript:void(0)"
+						onclick="supDetail(${(suppliesView.mainView.id)!''})">查看</a></TD>
 				</TR>
 				<TR>
 					<TD>物料编号</TD>
 					<input type="hidden" id="suppliesid"
 						value="${suppliesView.mainView.id!''}" />
-					<TD colspan=3><input id="seqNumber"  class="textareaBox" type="text"></TD>
+					<TD colspan=3><input id="seqNumber" class="textareaBox"
+						type="text"></TD>
 				</TR>
 				<TR>
 					<TD>审核意见</TD>
@@ -861,23 +863,23 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 				</TR>
 				<TR>
 					<TH>物料详情</TH>
-					<TD colspan=3><a href="javascript:void(0)" onclick="supDetail(${(suppliesView.mainView.id)!''})">查看</a>
-					</TD>
+					<TD colspan=3><a href="javascript:void(0)"
+						onclick="supDetail(${(suppliesView.mainView.id)!''})">查看</a></TD>
 				</TR>
 
 
 				<TR style="height: 45px;">
 					<TH>物料审核</TH>
 					<TD colspan=3><input name="approve1Result" type="radio"
-						value="true" checked="checked" style="padding: 5px 15px;" />符合要求 <input
-						name="approve1Result" type="radio" value="false"
+						value="true" checked="checked" style="padding: 5px 15px;" />符合要求
+						<input name="approve1Result" type="radio" value="false"
 						style="padding: 5px 15px;" />不符合要求</TD>
 				</TR>
 				<TR style="height: 45px;">
 					<TH>资质审核</TH>
 					<TD colspan=3><input name="quaResult" type="radio"
-						value="true" checked="checked" style="padding: 5px 15px;" />符合要求 <input
-						name="quaResult" type="radio" value="false"
+						value="true" checked="checked" style="padding: 5px 15px;" />符合要求
+						<input name="quaResult" type="radio" value="false"
 						style="padding: 5px 15px;" />不符合要求</TD>
 				</TR>
 				<TR>
@@ -1026,7 +1028,8 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 				</TR>
 				<TR>
 					<TH>意见</TH>
-					<TD><textarea name="jianboComments" id="jianboComments" class="textareaBox"
+					<TD><textarea name="jianboComments" id="jianboComments"
+							class="textareaBox"
 							style="margin: 5px 0; width: 400px; margin-top: 5px;">已确认广告播放正常!</textarea></TD>
 				</TR>
 				<TR style="height: 45px;">

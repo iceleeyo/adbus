@@ -1,18 +1,39 @@
-<#import "template/template.ftl" as frame>
-<#global menu="线路核实">
+<#import "template/template.ftl" as frame> <#global menu="线路核实">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="线路核实" js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js",
-"js/jquery-ui/jquery-ui.auto.complete.js"] 
+<@frame.html title="线路核实"
+js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js",
+"js/jquery-ui/jquery-ui.auto.complete.js"]
 css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 
 <style type="text/css">
-    .center {margin: auto;}
-    .frame {width: 1000px;}
-    .div {text-align:center; margin:25px;}
-    div#toolbar {float: left;}
-    .processed {color: limegreen;}
-    .invalid {color: red;}
-    .hl {background-color: #ffff00;}
+.center {
+	margin: auto;
+}
+
+.frame {
+	width: 1000px;
+}
+
+.div {
+	text-align: center;
+	margin: 25px;
+}
+
+div#toolbar {
+	float: left;
+}
+
+.processed {
+	color: limegreen;
+}
+
+.invalid {
+	color: red;
+}
+
+.hl {
+	background-color: #ffff00;
+}
 </style>
 
 
@@ -225,32 +246,32 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 
 
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title">
-               <span> 线路核实</span>
-									</div>
-                <table id="table" class="display compact" cellspacing="0" width="100%">
-                    <thead>
-                    <tr style="height: 40px;">
-                        <th >线路名称</th>
-                        <th >线路级别</th>
-                       
-                        <th >所属公司</th>
-                        <th >所属分公司</th>
-                           <th >所属营销中心</th>
-                           
-                        <th >所属车辆数</th>
-                        <th >所属运营车</th>
-                        <th >白车数据</th>
-                         <th >到期可用</th>
-                       
-                    </tr>
-                    </thead>
+	<div class="withdraw-title">
+		<span> 线路核实</span>
+	</div>
+	<table id="table" class="display compact" cellspacing="0" width="100%">
+		<thead>
+			<tr style="height: 40px;">
+				<th>线路名称</th>
+				<th>线路级别</th>
 
-                </table>
-                <input type="hidden" id = "address" value="">
-                  <input type="hidden" id = "siteLine" value="">
+				<th>所属公司</th>
+				<th>所属分公司</th>
+				<th>所属营销中心</th>
+
+				<th>所属车辆数</th>
+				<th>所属运营车</th>
+				<th>白车数据</th>
+				<th>到期可用</th>
+
+			</tr>
+		</thead>
+
+	</table>
+	<input type="hidden" id="address" value=""> <input
+		type="hidden" id="siteLine" value="">
 </div>
 
 
- 
+
 </@frame.html>

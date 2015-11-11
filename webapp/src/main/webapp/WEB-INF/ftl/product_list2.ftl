@@ -1,7 +1,8 @@
-<#import "template/template.ftl" as frame>
-<#global menu="产品列表">
+<#import "template/template.ftl" as frame> <#global menu="产品列表">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="产品套餐列表" js=["js/jquery-ui/jquery-ui.js","js/layer-v1.9.3/layer/layer.js","js/layer.onload.js"] >
+<@frame.html title="产品套餐列表"
+js=["js/jquery-ui/jquery-ui.js","js/layer-v1.9.3/layer/layer.js","js/layer.onload.js"]
+>
 
 <script type="text/javascript">
     var table;
@@ -146,40 +147,43 @@
 </script>
 
 <div class="withdraw-wrap color-white-bg fn-clear">
-<#--            <div class="div" style="margin-top:25px">
-                <caption><h2>产品套餐列表</h2></caption>
-            </div>
-            <div class="div">
-                <hr/>
-            </div>-->
-            <div class="tabs">
-            <a id="tab1" href="${rc.contextPath}/product/list" class="active">定价产品</a>
-            <a id="tab2" href="${rc.contextPath}/product/auction">竞价产品</a>
-            <div class="taba">
-            <@security.authorize ifAnyGranted="ShibaOrderManager">
-           	<a class="block-btn" href="${rc.contextPath}/product/new" style="width: 90px;float:right;color: #fff">新增产品</a>
-            </@security.authorize>
-            </div>
-            </div>
-		
-                <table id="table" class="display" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th orderBy="name">套餐名称</th>
-                        <th orderBy="type">类型</th>
-                        <th orderBy="price">价格(元)</th>
-                        <th orderBy="exclusive">定向</th>
-                        <th orderBy="enabled">状态</th>
-                       
-                       <@security.authorize ifAnyGranted="ShibaOrderManager">  
-                        <th>首页</th>
-                        <th>进行中</th>
-                        <th>已结束</th>
-                        </@security.authorize>
-                        <th>管理</th>
-                    </tr>
-                    </thead>
+	<#--
+	<div class="div" style="margin-top: 25px">
+		<caption>
+			<h2>产品套餐列表</h2>
+		</caption>
+	</div>
+	<div class="div">
+		<hr />
+	</div>
+	-->
+	<div class="tabs">
+		<a id="tab1" href="${rc.contextPath}/product/list" class="active">定价产品</a>
+		<a id="tab2" href="${rc.contextPath}/product/auction">竞价产品</a>
+		<div class="taba">
+			<@security.authorize ifAnyGranted="ShibaOrderManager"> <a
+				class="block-btn" href="${rc.contextPath}/product/new"
+				style="width: 90px; float: right; color: #fff">新增产品</a>
+			</@security.authorize>
+		</div>
+	</div>
 
-                </table>
+	<table id="table" class="display" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th orderBy="name">套餐名称</th>
+				<th orderBy="type">类型</th>
+				<th orderBy="price">价格(元)</th>
+				<th orderBy="exclusive">定向</th>
+				<th orderBy="enabled">状态</th> <@security.authorize
+				ifAnyGranted="ShibaOrderManager">
+				<th>首页</th>
+				<th>进行中</th>
+				<th>已结束</th> </@security.authorize>
+				<th>管理</th>
+			</tr>
+		</thead>
+
+	</table>
 </div>
 </@frame.html>

@@ -1,6 +1,7 @@
-<#import "template/template.ftl" as frame>
-<#global menu="网上订单">
-<@frame.html title="网上订单" css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css","css/layer.css"] js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer-site.js"]>
+<#import "template/template.ftl" as frame> <#global menu="网上订单">
+<@frame.html title="网上订单"
+css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css","css/layer.css"]
+js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer-site.js"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <script type="text/javascript">
 
@@ -225,25 +226,26 @@
 
 
 <div class="withdraw-wrap color-white-bg fn-clear">
-              <div class="withdraw-title" style="padding-top: 0px; text-align:left; ">
-									网上订单 <span id="recordsTotal"  style="background-color:#ff9966;color: #fff;font-size: 14px;border-radius: 4px;"></span>
-									</div>
-                <table id="table" class="display" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <@security.authorize ifAnyGranted="bodyContractManager,contract_list,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
-                        <th>下单用户</th>
-                          </@security.authorize>
-                        <th >订单号</th>
-                        <th>媒体类型</th>
-                        <th>订单总价</th>
-                        <th  >分期数</th>
-                        <th  >相关产品个数</th>
-                          <th  >支付方式</th>
-                          <th orderBy="created" >下单时间</th>
-                    </tr>
-                    </thead>
+	<div class="withdraw-title" style="padding-top: 0px; text-align: left;">
+		网上订单 <span id="recordsTotal"
+			style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
+	</div>
+	<table id="table" class="display" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<@security.authorize
+				ifAnyGranted="bodyContractManager,contract_list,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+				<th>下单用户</th> </@security.authorize>
+				<th>订单号</th>
+				<th>媒体类型</th>
+				<th>订单总价</th>
+				<th>分期数</th>
+				<th>相关产品个数</th>
+				<th>支付方式</th>
+				<th orderBy="created">下单时间</th>
+			</tr>
+		</thead>
 
-                </table>
+	</table>
 </div>
 </@frame.html>

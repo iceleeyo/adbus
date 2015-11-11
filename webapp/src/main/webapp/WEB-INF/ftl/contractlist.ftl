@@ -1,7 +1,7 @@
-<#import "template/template.ftl" as frame>
-<#global menu="屏幕广告合同">
+<#import "template/template.ftl" as frame> <#global menu="屏幕广告合同">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="屏幕广告合同" js=["js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js"]>
+<@frame.html title="屏幕广告合同"
+js=["js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js"]>
 
 
 <script type="text/javascript">
@@ -155,36 +155,40 @@ $('#test').on('click', function(){
 });
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-<#--            <div class="div" style="margin-top:25px">
-                <caption><h2>合同列表</h2></caption>
-            </div>
-            <div class="div">
-                <hr/>
-            </div>-->
-            <!-- <div class="withdraw-title" style="padding-top: 0px;text-align:left;">
+	<#--
+	<div class="div" style="margin-top: 25px">
+		<caption>
+			<h2>合同列表</h2>
+		</caption>
+	</div>
+	<div class="div">
+		<hr />
+	</div>
+	-->
+	<!-- <div class="withdraw-title" style="padding-top: 0px;text-align:left;">
 									合同列表
 									</div> -->
-			<div class="withdraw-title">
-					<span>屏幕广告合同列表</span>
-					<@security.authorize ifAnyGranted="ShibaOrderManager,bodyContractManager">
-					<a class="block-btn" href="${rc.contextPath}/contract/contractEnter">添加合同</a>
-					</@security.authorize>
-				</div>
-                <table id="table" class="display" cellspacing="0" width="100%">
-                    <thead>
-                    <tr class="tableTr">
-                        <th orderBy="userId">广告主</th>
-                        <th orderBy="contractCode">合同号</th>
-                        <th orderBy="contractName">名称</th>
-                       	<th orderBy="contractType">类型</th>
-                        <th orderBy="amounts">金额</th>
-                        <th orderBy="startDate">上刊日期</th>
-                        <th orderBy="endDate">下刊日期</th>
-                        <th>管理</th>
-                    </tr>
-                    </thead>
+	<div class="withdraw-title">
+		<span>屏幕广告合同列表</span> <@security.authorize
+		ifAnyGranted="ShibaOrderManager,bodyContractManager"> <a
+			class="block-btn" href="${rc.contextPath}/contract/contractEnter">添加合同</a>
+		</@security.authorize>
+	</div>
+	<table id="table" class="display" cellspacing="0" width="100%">
+		<thead>
+			<tr class="tableTr">
+				<th orderBy="userId">广告主</th>
+				<th orderBy="contractCode">合同号</th>
+				<th orderBy="contractName">名称</th>
+				<th orderBy="contractType">类型</th>
+				<th orderBy="amounts">金额</th>
+				<th orderBy="startDate">上刊日期</th>
+				<th orderBy="endDate">下刊日期</th>
+				<th>管理</th>
+			</tr>
+		</thead>
 
-                </table>
+	</table>
 </div>
 </@frame.html>
 

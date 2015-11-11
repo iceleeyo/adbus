@@ -1,19 +1,40 @@
-<#import "template/template.ftl" as frame>
-<#global menu="调刊补刊">
+<#import "template/template.ftl" as frame> <#global menu="调刊补刊">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="调刊补刊" js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
+<@frame.html title="调刊补刊"
+js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
 "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
 "js/jquery.datepicker.region.cn.js","js/progressbar.js"]
 css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 
 <style type="text/css">
-    .center {margin: auto;}
-    .frame {width: 1000px;}
-    .div {text-align:center; margin:25px;}
-    div#toolbar {float: left;}
-    .processed {color: limegreen;}
-    .invalid {color: red;}
-    .hl {background-color: #ffff00;}
+.center {
+	margin: auto;
+}
+
+.frame {
+	width: 1000px;
+}
+
+.div {
+	text-align: center;
+	margin: 25px;
+}
+
+div#toolbar {
+	float: left;
+}
+
+.processed {
+	color: limegreen;
+}
+
+.invalid {
+	color: red;
+}
+
+.hl {
+	background-color: #ffff00;
+}
 </style>
 
 <script type="text/javascript">
@@ -216,41 +237,43 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
         }
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title">
-                调刊补刊
-	     	</div>
-	     	<div>
-	     	<span style="margin-left: 5px;">实际上刊日期：</span>
-            <span> <input  class="datepicker" type="text" name="sday" id="sday" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </span>&nbsp;&nbsp; 
-	     	<span style="margin-left: 5px;">刊期：</span>
-            <span> <input type="text" name="days" id="days" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </span>&nbsp;&nbsp; 
-	     	<span style="margin-left: 5px;">预计下刊日期：</span>
-            <span> <input  class="datepicker" type="text" name="eday" id="eday" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </span>&nbsp;&nbsp; 
-           <input type="button" class="button_kind" style="width: 85px;" value="调刊" onclick="changeDate()"/>
-            </div>    
-                <table id="table" class="display nowrap" cellspacing="0">
-                    <thead>
-                    <tr>
-                     <th > <input type="checkbox" name="checkAll" id="checkAll" /></th>
-                        <th>合同编号</th>
-                        <th >车牌号</th>
-                        <th >新车号</th>
-                        <th >旧车号</th>
-                        <th >车型</th>
-                        <th >线路</th>
-                        <th >线路级别</th>
-                        <th >类别</th>
-                        <th >营销中心</th>
-                        <th >刊期</th>
-                        <th>上刊日期</th>
-                        <th>预计下刊日期</th>
-                        <th>实际下刊日期</th>
-                        <th>发布形式</th>
-                        <th>客户名称</th>
-                        <th>最后更新时间</th>
-                        <th>操作人</th>
-                    </tr>
-                    </thead>
-                </table>
+	<div class="withdraw-title">调刊补刊</div>
+	<div>
+		<span style="margin-left: 5px;">实际上刊日期：</span> <span> <input
+			class="datepicker" type="text" name="sday" id="sday"
+			data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">
+		</span>&nbsp;&nbsp; <span style="margin-left: 5px;">刊期：</span> <span>
+			<input type="text" name="days" id="days" data-is="isAmount isEnough"
+			autocomplete="off" disableautocomplete="">
+		</span>&nbsp;&nbsp; <span style="margin-left: 5px;">预计下刊日期：</span> <span>
+			<input class="datepicker" type="text" name="eday" id="eday"
+			data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">
+		</span>&nbsp;&nbsp; <input type="button" class="button_kind"
+			style="width: 85px;" value="调刊" onclick="changeDate()" />
+	</div>
+	<table id="table" class="display nowrap" cellspacing="0">
+		<thead>
+			<tr>
+				<th><input type="checkbox" name="checkAll" id="checkAll" /></th>
+				<th>合同编号</th>
+				<th>车牌号</th>
+				<th>新车号</th>
+				<th>旧车号</th>
+				<th>车型</th>
+				<th>线路</th>
+				<th>线路级别</th>
+				<th>类别</th>
+				<th>营销中心</th>
+				<th>刊期</th>
+				<th>上刊日期</th>
+				<th>预计下刊日期</th>
+				<th>实际下刊日期</th>
+				<th>发布形式</th>
+				<th>客户名称</th>
+				<th>最后更新时间</th>
+				<th>操作人</th>
+			</tr>
+		</thead>
+	</table>
 </div>
 </@frame.html>

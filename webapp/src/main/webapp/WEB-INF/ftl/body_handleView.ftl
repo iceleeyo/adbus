@@ -1,6 +1,5 @@
-<#import "template/template.ftl" as frame> 
-<#import "template/select_lines.ftl" as select_lines>
-<@frame.html title=""
+<#import "template/template.ftl" as frame> <#import
+"template/select_lines.ftl" as select_lines> <@frame.html title=""
 js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
 "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
 "js/jquery.datepicker.region.cn.js","js/progressbar.js"]
@@ -426,7 +425,7 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 	}
 
 </script>
-<script type="text/javascript">
+	<script type="text/javascript">
 	$(document).ready(function() {
          refreshOrderedBuses();
          $("#form002").validationEngine({
@@ -456,84 +455,86 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 		}).submit();
 	}
 </script>
-<div class="color-white-bg fn-clear">
+	<div class="color-white-bg fn-clear">
 
-	<div id="relateSup">
-		<div class="p20bs mt10 color-white-bg border-ec">
-		<div class="withdraw-title">
-			<span>选取车辆</span>
-			<input type="hidden" name="seriaNum" id="seriaNum" value="${bodycontract.seriaNum}"/>
-			<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="selctLine('${rc.contextPath}',${bodycontract.seriaNum})">增加选择</a>
-			<#if bodycontract.isSchedule()==true> 
-				<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="worklist(${bodycontract.seriaNum},${bodycontract.id})">施工单
-			</#if>
-			</a>
-		</div>
-			<div id="orderedBuses">
-				<table id="table" class="display compact"
-					cellspacing="0" width="100%">
-					<thead>
-						<tr class="tableTr">
-					<th>线路</th>
-                    <th>数量（辆）</th>
-                    <th width="180px">车型</th>
-                     <th>上刊日期</th>
-                    <th>下刊日期</th>
-                     <th>操作</th>
-						</tr>
-					</thead>
+		<div id="relateSup">
+			<div class="p20bs mt10 color-white-bg border-ec">
+				<div class="withdraw-title">
+					<span>选取车辆</span> <input type="hidden" name="seriaNum"
+						id="seriaNum" value="${bodycontract.seriaNum}" /> <a
+						class="block-btn" style="margin-top: -5px;"
+						href="javascript:void(0);"
+						onclick="selctLine('${rc.contextPath}',${bodycontract.seriaNum})">增加选择</a>
+					<#if bodycontract.isSchedule()==true> <a class="block-btn"
+						style="margin-top: -5px;" href="javascript:void(0);"
+						onclick="worklist(${bodycontract.seriaNum},${bodycontract.id})">施工单
+						</#if> </a>
+				</div>
+				<div id="orderedBuses">
+					<table id="table" class="display compact" cellspacing="0"
+						width="100%">
+						<thead>
+							<tr class="tableTr">
+								<th>线路</th>
+								<th>数量（辆）</th>
+								<th width="180px">车型</th>
+								<th>上刊日期</th>
+								<th>下刊日期</th>
+								<th>操作</th>
+							</tr>
+						</thead>
 
-				</table>
+					</table>
+				</div>
+
+				<div id="orderBusesPopup" title="选择车辆"></div>
 			</div>
+		</div>
+		<#include "template/body_contratDetail.ftl" />
+		<div class="p20bs mt10 color-white-bg border-ec">
+			<TABLE class="ui-table ui-table-gray">
+				<TBODY>
+					<TR style="height: 45px;">
+						<TH style="width: 22%;">锁定库存</TH>
+						<TD colspan=3><input name="canSchedule" type="radio"
+							value="true" checked="checked" style="padding: 5px 15px;" />有库存
+							<input name="canSchedule" type="radio" value="false"
+							style="padding: 5px 15px;" />库存不足</TD>
+					</TR>
+					<TR style="height: 45px;">
+						<TH>预留截止日期</TH>
+						<TD colspan=3><input
+							class="ui-input datepicker validate[required,custom[date],past[#endDate]]"
+							type="text" value="" id="LockDate" data-is="isAmount isEnough"
+							autocomplete="off" disableautocomplete=""> <em
+							style="color: #ccc; margin-left: 10px;">注：预留截止时间不得早于当前时间</em></TD>
 
-			<div id="orderBusesPopup" title="选择车辆"></div>
+					</TR>
+					<TR style="height: 45px;">
+						<TD width="20%" style="text-align: right">合同选择</TD>
+						<TD><select class="ui-input" name="contractCode"
+							id="contractCode">
+								<option value="" selected="selected">请选择合同</option> <#if
+								contracts?exists> <#list contracts as c>
+								<option value="${c.id}">${c.contractName!''}</option> </#list>
+								</#if>
+						</select></TD>
+					</TR>
+			</TABLE>
+			<div style="text-align: center; margin-top: 10px;">
+				<button type="button" id="subutton" onclick="LockStore()"
+					class="block-btn">确定</button>
+			</div>
 		</div>
-</div>
-<#include "template/body_contratDetail.ftl" />	
-<div class="p20bs mt10 color-white-bg border-ec">
-<TABLE class="ui-table ui-table-gray">
-			<TBODY>
-				<TR style="height: 45px;">
-					<TH style="width: 22%;">锁定库存</TH>
-					<TD colspan=3><input name="canSchedule" type="radio"
-						value="true" checked="checked" style="padding: 5px 15px;" />有库存 <input
-						name="canSchedule" type="radio" value="false"
-						style="padding: 5px 15px;" />库存不足</TD>
-				</TR>
-				<TR style="height: 45px;">
-					<TH>预留截止日期</TH>
-					<TD colspan=3>
-							<input	class="ui-input datepicker validate[required,custom[date],past[#endDate]]" 
-							type="text" value=""
-							id="LockDate" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">
-						<em style="color: #ccc;margin-left: 10px;">注：预留截止时间不得早于当前时间</em>						
-					</TD>
-					
-				</TR>
-				<TR style="height: 45px;">
-				<TD width="20%" style="text-align: right">合同选择</TD>
-					<TD>	<select class="ui-input" name="contractCode" id="contractCode">
-							<option value="" selected="selected">请选择合同</option> <#if
-							contracts?exists> <#list contracts as c>
-							<option value="${c.id}">${c.contractName!''}</option> </#list>
-							</#if>
-						</select>
-				</TD>
-			</TR>
-		</TABLE>
-        <div style="text-align: center; margin-top: 10px;">
-			<button type="button"  id="subutton" onclick="LockStore()" class="block-btn">确定</button>
-		</div>
-       </div>
-       
-       
+
+
 	</div>
 </div>
-</#if>
-<#if activityId == "usertask2">
+</#if> <#if activityId == "usertask2">
 <!-- 合同回执确认 -->
-<@select_lines.select_lines seriaNum=bodycontract.seriaNum bodycontract=bodycontract activityId =activityId/>
-<#include "template/body_contratDetail.ftl" />
+<@select_lines.select_lines seriaNum=bodycontract.seriaNum
+bodycontract=bodycontract activityId =activityId/> <#include
+"template/body_contratDetail.ftl" />
 <div id="usertask2" class="usertask2" style="display: none;">
 	<div class="p20bs mt10 color-white-bg border-ec">
 		<H3 class="text-xl title-box">
@@ -561,10 +562,9 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 </div>
 
 
-</#if> 
-<#if activityId == "financialCheck">
-<@select_lines.select_lines seriaNum=bodycontract.seriaNum activityId =activityId/>
-<#include "template/body_contratDetail.ftl" />
+</#if> <#if activityId == "financialCheck"> <@select_lines.select_lines
+seriaNum=bodycontract.seriaNum activityId =activityId/> <#include
+"template/body_contratDetail.ftl" />
 <!--财务确认 -->
 
 <div id="financialCheck" class="financialCheck" style="display: none;">
@@ -583,13 +583,14 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 				<TR style="height: 45px;">
 					<TH>支付确认</TH>
 					<TD colspan=3><input name="paymentResult" type="radio"
-						value="true" checked="checked" style="padding: 5px 15px;" />支付OK <input
-						name="paymentResult" type="radio" value="false"
+						value="true" checked="checked" style="padding: 5px 15px;" />支付OK
+						<input name="paymentResult" type="radio" value="false"
 						style="padding: 5px 15px;" />逾期未支付</TD>
 				</TR>
 				<TR>
 					<TH>意见</TH>
-					<TD colspan=2><textarea name="financialcomment" id="financialcomment"
+					<TD colspan=2><textarea name="financialcomment"
+							id="financialcomment"
 							style="margin: 5px 0; width: 400px; margin-top: 5px;">已收到Money</textarea></TD>
 				</TR>
 		</TABLE>
@@ -599,56 +600,57 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 
 	</div>
 </div>
-</#if> 
-<#if activityId == "approve2">
-<@select_lines.select_lines seriaNum=bodycontract.seriaNum activityId =activityId/>
-<#include "template/body_contratDetail.ftl" />
+</#if> <#if activityId == "approve2"> <@select_lines.select_lines
+seriaNum=bodycontract.seriaNum activityId =activityId/> <#include
+"template/body_contratDetail.ftl" />
 <!--录入小样 -->
 <div id="approve2" class="approve2" style="display: none;">
-		<form name="xyform" id="xyform" action="${rc.contextPath}/busselect/uploadXiaoY?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1" method="post" enctype="multipart/form-data">
-	<div class="p20bs mt10 color-white-bg border-ec">
-		<H3 class="text-xl title-box">
-			<A class="black" href="#">录入小样</A>
-		</H3>
-		<BR>
-		<TABLE class="ui-table ui-table-gray">
-		<input type="hidden" name="mainid" value="${bodycontract.id!''}" />
-        <input type="hidden" name="taskid" value="${taskid!''}" />
-			<TBODY>
-				<TR>
-					<TH width="20%">签收时间</TH>
-					<TD colspan=2 style="border-radius: 0 0 0"><#setting
-						date_format="yyyy-MM-dd HH:mm:ss"> ${claimTime!''}</TD>
-				</TR>
-				<TR style="height: 45px;">
-					<TH>上传小样</TH>
-					<TD colspan=3>
-					                      <div id="newUpload2">
-												<div id="div_1">
-													<input type="file" name="file01" id="Sfile" class="validate[required]"/>
-												</div>
-											</div>
-											<input class="btn-sm btn-success" type="button" id="btn_add2" value="增加一行"
-												style="margin-top: 10px;" ><br>
-					</TD>
-				</TR>
-				<TR>
-					<TH>意见</TH>
-					<TD colspan=2><textarea name="approve2Comments" id="approve2Comments"
-							style="margin: 5px 0; width: 400px; margin-top: 5px;">小样已上传</textarea></TD>
-				</TR>
-		</TABLE>
-		<div style="margin: 10px 0 0; text-align: center;">
-			<input type="button" id="xybutton" value="上传小样" onclick="uploadXY();" class="block-btn"/>
+	<form name="xyform" id="xyform"
+		action="${rc.contextPath}/busselect/uploadXiaoY?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1"
+		method="post" enctype="multipart/form-data">
+		<div class="p20bs mt10 color-white-bg border-ec">
+			<H3 class="text-xl title-box">
+				<A class="black" href="#">录入小样</A>
+			</H3>
+			<BR>
+			<TABLE class="ui-table ui-table-gray">
+				<input type="hidden" name="mainid" value="${bodycontract.id!''}" />
+				<input type="hidden" name="taskid" value="${taskid!''}" />
+				<TBODY>
+					<TR>
+						<TH width="20%">签收时间</TH>
+						<TD colspan=2 style="border-radius: 0 0 0"><#setting
+							date_format="yyyy-MM-dd HH:mm:ss"> ${claimTime!''}</TD>
+					</TR>
+					<TR style="height: 45px;">
+						<TH>上传小样</TH>
+						<TD colspan=3>
+							<div id="newUpload2">
+								<div id="div_1">
+									<input type="file" name="file01" id="Sfile"
+										class="validate[required]" />
+								</div>
+							</div> <input class="btn-sm btn-success" type="button" id="btn_add2"
+							value="增加一行" style="margin-top: 10px;"><br>
+						</TD>
+					</TR>
+					<TR>
+						<TH>意见</TH>
+						<TD colspan=2><textarea name="approve2Comments"
+								id="approve2Comments"
+								style="margin: 5px 0; width: 400px; margin-top: 5px;">小样已上传</textarea></TD>
+					</TR>
+			</TABLE>
+			<div style="margin: 10px 0 0; text-align: center;">
+				<input type="button" id="xybutton" value="上传小样"
+					onclick="uploadXY();" class="block-btn" />
+			</div>
 		</div>
-	</div>
-		</form>
+	</form>
 </div>
-</#if> 
-
-<#if activityId == "usertask4">
-<@select_lines.select_lines seriaNum=bodycontract.seriaNum activityId =activityId/>
-<#include "template/body_contratDetail.ftl" />
+</#if> <#if activityId == "usertask4"> <@select_lines.select_lines
+seriaNum=bodycontract.seriaNum activityId =activityId/> <#include
+"template/body_contratDetail.ftl" />
 <!--施工确认 -->
 <div id="usertask4" class="usertask4" style="display: none;">
 	<div class="p20bs mt10 color-white-bg border-ec">
@@ -665,7 +667,8 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 				</TR>
 				<TR>
 					<TH>意见</TH>
-					<TD colspan=2><textarea name="shigongComments" id="shigongComments"
+					<TD colspan=2><textarea name="shigongComments"
+							id="shigongComments"
 							style="margin: 5px 0; width: 400px; margin-top: 5px;">已按施工单要求施工完毕</textarea></TD>
 				</TR>
 		</TABLE>
@@ -675,6 +678,4 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
 
 	</div>
 </div>
-</#if> 
-<#include "template/hisDetail.ftl" />
-</@frame.html>
+</#if> <#include "template/hisDetail.ftl" /> </@frame.html>

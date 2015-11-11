@@ -1,7 +1,8 @@
-<#import "template/template.ftl" as frame>
-<#global menu="产品列表">
+<#import "template/template.ftl" as frame> <#global menu="产品列表">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="竞价产品列表" js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js","js/layer.onload.js"] >
+<@frame.html title="竞价产品列表"
+js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js","js/layer.onload.js"]
+>
 
 <script type="text/javascript">
     var table;
@@ -144,31 +145,31 @@
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-                        <div class="tabs">
-            <a id="tab1" href="${rc.contextPath}/product/list">定价产品</a>
-            <a id="tab2" href="${rc.contextPath}/product/auction" class="active">竞价产品</a>
-            <div class="taba">
-            <@security.authorize ifAnyGranted="ShibaOrderManager">
-           	<a class="block-btn" href="${rc.contextPath}/product/new" style="width: 90px;float:right;color: #fff">新增产品</a>
-            </@security.authorize>
-            </div>
-            </div>
-                <table id="table" class="display" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th>套餐名称</th>
-                        <th>类型</th>
-                        <th orderBy="saleprice">底价(元)</th>
-                        <th orderBy="comparePrice">当前价(元)</th>
-                        <th>围观</th>
-                        <th>竞价</th>
-                        <th orderBy="biddingDate">截止时间</th>
-                        <@security.authorize ifAnyGranted="advertiser">
-                        <th >竞价</th>
-                        </@security.authorize>
-                    </tr>
-                    </thead>
+	<div class="tabs">
+		<a id="tab1" href="${rc.contextPath}/product/list">定价产品</a> <a
+			id="tab2" href="${rc.contextPath}/product/auction" class="active">竞价产品</a>
+		<div class="taba">
+			<@security.authorize ifAnyGranted="ShibaOrderManager"> <a
+				class="block-btn" href="${rc.contextPath}/product/new"
+				style="width: 90px; float: right; color: #fff">新增产品</a>
+			</@security.authorize>
+		</div>
+	</div>
+	<table id="table" class="display" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th>套餐名称</th>
+				<th>类型</th>
+				<th orderBy="saleprice">底价(元)</th>
+				<th orderBy="comparePrice">当前价(元)</th>
+				<th>围观</th>
+				<th>竞价</th>
+				<th orderBy="biddingDate">截止时间</th> <@security.authorize
+				ifAnyGranted="advertiser">
+				<th>竞价</th> </@security.authorize>
+			</tr>
+		</thead>
 
-                </table>
+	</table>
 </div>
 </@frame.html>

@@ -50,7 +50,7 @@
 		<#include "/menu/foot.ftl" />
 		<!--底部DIV -->
 	</div>
-<script type="text/javascript" language="javascript"
-	src="${rc.contextPath}/js/index.js"></script>
+	<script type="text/javascript" language="javascript"
+		src="${rc.contextPath}/js/index.js"></script>
 </body>
 </html>

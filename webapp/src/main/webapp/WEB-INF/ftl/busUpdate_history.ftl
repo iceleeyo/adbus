@@ -1,17 +1,39 @@
-<#import "template/template_blank.ftl" as frame>
-<#global menu="车辆变更历史">
+<#import "template/template_blank.ftl" as frame> <#global menu="车辆变更历史">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="车辆变更历史" js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js", "js/datepicker.js","js/jquery.datepicker.region.cn.js"]
+<@frame.html title="车辆变更历史"
+js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js",
+"js/datepicker.js","js/jquery.datepicker.region.cn.js"]
 css=["js/jquery-ui/jquery-ui.css"]>
 
 <style type="text/css">
-    .center {margin: auto;}
-    .frame {width: 1000px;}
-    .div {text-align:center; margin:25px;}
-    .div#toolbar {float: left;}
-    .processed {color: limegreen;}
-    .invalid {color: red;}
-    .hl {background-color: #ffff00;}
+.center {
+	margin: auto;
+}
+
+.frame {
+	width: 1000px;
+}
+
+.div {
+	text-align: center;
+	margin: 25px;
+}
+
+.div#toolbar {
+	float: left;
+}
+
+.processed {
+	color: limegreen;
+}
+
+.invalid {
+	color: red;
+}
+
+.hl {
+	background-color: #ffff00;
+}
 </style>
 
 <script type="text/javascript">
@@ -135,44 +157,40 @@ css=["js/jquery-ui/jquery-ui.css"]>
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title">
-               车辆变更查询
-									</div>
-                <table id="table" class="display nowrap" cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th >车辆自编号</th>
-                        <th>旧自编号</th>
-                        <th >车牌号</th>
-                        <th >原车牌号</th>
-                        <th >车型</th>
-                        <th >原车型</th>
-                        <th >线路</th>
-                        <th >原线路</th>
-                        <th >线路级别</th>
-                        <th >原线路级别</th>
-                        <th >是否有广告</th>
-                        <th >类别</th>
-                        <th >原类别</th>
-                        <th >营销中心</th>
-                        <th >原营销中心</th>
-                         <th>车辆描述</th>
-                         <th>原车型描述</th>
-                        <th>公司名称</th>
-                        <th>原公司名称</th>
-                        <th>客户名称</th>
-                        <th>原客户名称</th>
-                        <th orderBy="updated" >最后更新时间</th>
-                        <th>操作人</th>
-                       
-                    </tr>
-                    </thead>
+	<div class="withdraw-title">车辆变更查询</div>
+	<table id="table" class="display nowrap" cellspacing="0">
+		<thead>
+			<tr>
+				<th>车辆自编号</th>
+				<th>旧自编号</th>
+				<th>车牌号</th>
+				<th>原车牌号</th>
+				<th>车型</th>
+				<th>原车型</th>
+				<th>线路</th>
+				<th>原线路</th>
+				<th>线路级别</th>
+				<th>原线路级别</th>
+				<th>是否有广告</th>
+				<th>类别</th>
+				<th>原类别</th>
+				<th>营销中心</th>
+				<th>原营销中心</th>
+				<th>车辆描述</th>
+				<th>原车型描述</th>
+				<th>公司名称</th>
+				<th>原公司名称</th>
+				<th>客户名称</th>
+				<th>原客户名称</th>
+				<th orderBy="updated">最后更新时间</th>
+				<th>操作人</th>
 
-                </table>
-     <div class="worm-tips">
-		<div class="tips-title">
-			 温馨提示：高亮的字段表示被修改的字段。
-		</div>
-	</div>                
+			</tr>
+		</thead>
+
+	</table>
+	<div class="worm-tips">
+		<div class="tips-title">温馨提示：高亮的字段表示被修改的字段。</div>
+	</div>
 </div>
 </@frame.html>

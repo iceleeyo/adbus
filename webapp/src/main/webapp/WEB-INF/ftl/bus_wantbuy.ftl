@@ -1,18 +1,39 @@
-<#import "template/template.ftl" as frame>
-<#global menu="媒体定购">
+<#import "template/template.ftl" as frame> <#global menu="媒体定购">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="线路列表" js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js",
-"js/jquery-ui/jquery-ui.auto.complete.js"] 
+<@frame.html title="线路列表"
+js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js",
+"js/jquery-ui/jquery-ui.auto.complete.js"]
 css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 
 <style type="text/css">
-    .center {margin: auto;}
-    .frame {width: 1000px;}
-    .div {text-align:center; margin:25px;}
-    div#toolbar {float: left;}
-    .processed {color: limegreen;}
-    .invalid {color: red;}
-    .hl {background-color: #ffff00;}
+.center {
+	margin: auto;
+}
+
+.frame {
+	width: 1000px;
+}
+
+.div {
+	text-align: center;
+	margin: 25px;
+}
+
+div#toolbar {
+	float: left;
+}
+
+.processed {
+	color: limegreen;
+}
+
+.invalid {
+	color: red;
+}
+
+.hl {
+	background-color: #ffff00;
+}
 </style>
 
 
@@ -233,33 +254,31 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 
 
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title">
-               <span> 线路列表</span>
-                <a class="block-btn" target="_Blank" href="${rc.contextPath}/busselect/applyBodyCtct">申请合同</a>
-									</div>
-                <table id="table" class="display compact" cellspacing="0" width="100%">
-                    <thead>
-                    <tr style="height: 40px;">
-                        <th orderBy="name">线路名</th>
-                        <th orderBy="level">线路级别</th>
-                         <th orderBy="_cars">自营车辆</th>
-                           <th orderBy="_persons">人车流量</th>
-                           <th orderBy="_today">当天上刊数</th>
-                          <th orderBy="_month1day">未来1月</th>
-                           <th orderBy="_month2day">未来2月</th>
-                            <th orderBy="_month3day">未来3月</th>
-                         <th>查看站点</th>
-    <@security.authorize ifAnyGranted="BodyOrderManager">
-                        <th>管理</th>
-    </@security.authorize>
-                    </tr>
-                    </thead>
+	<div class="withdraw-title">
+		<span> 线路列表</span> <a class="block-btn" target="_Blank"
+			href="${rc.contextPath}/busselect/applyBodyCtct">申请合同</a>
+	</div>
+	<table id="table" class="display compact" cellspacing="0" width="100%">
+		<thead>
+			<tr style="height: 40px;">
+				<th orderBy="name">线路名</th>
+				<th orderBy="level">线路级别</th>
+				<th orderBy="_cars">自营车辆</th>
+				<th orderBy="_persons">人车流量</th>
+				<th orderBy="_today">当天上刊数</th>
+				<th orderBy="_month1day">未来1月</th>
+				<th orderBy="_month2day">未来2月</th>
+				<th orderBy="_month3day">未来3月</th>
+				<th>查看站点</th> <@security.authorize ifAnyGranted="BodyOrderManager">
+				<th>管理</th> </@security.authorize>
+			</tr>
+		</thead>
 
-                </table>
-                <input type="hidden" id = "address" value="">
-                  <input type="hidden" id = "siteLine" value="">
+	</table>
+	<input type="hidden" id="address" value=""> <input
+		type="hidden" id="siteLine" value="">
 </div>
 
 
- 
+
 </@frame.html>

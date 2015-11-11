@@ -1,7 +1,8 @@
-<#import "template/template.ftl" as frame>
-<#global menu="我的获拍">
+<#import "template/template.ftl" as frame> <#global menu="我的获拍">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="我的获拍" js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js","js/layer.onload.js"] >
+<@frame.html title="我的获拍"
+js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js","js/layer.onload.js"]
+>
 
 <script type="text/javascript">
     var table;
@@ -107,22 +108,21 @@
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title" style="padding-top: 0px;text-align:left;">
-									竞价产品列表
-									</div>
-                <table id="table" class="display" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th >套餐名称</th>
-                        <th >类型</th>
-                        <th orderBy="id">交易时间</th>
-                         <th orderBy="saleprice">竞价底价</th>
-                        <th orderBy="comparePrice">交易价格</th>
-                        <th >是否转订单</th>
-                        <th>操作</th>
-                    </tr>
-                    </thead>
+	<div class="withdraw-title" style="padding-top: 0px; text-align: left;">
+		竞价产品列表</div>
+	<table id="table" class="display" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th>套餐名称</th>
+				<th>类型</th>
+				<th orderBy="id">交易时间</th>
+				<th orderBy="saleprice">竞价底价</th>
+				<th orderBy="comparePrice">交易价格</th>
+				<th>是否转订单</th>
+				<th>操作</th>
+			</tr>
+		</thead>
 
-                </table>
+	</table>
 </div>
 </@frame.html>

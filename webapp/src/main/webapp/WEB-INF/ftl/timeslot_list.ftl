@@ -1,15 +1,35 @@
-<#import "template/template.ftl" as frame>
-<#global menu="时段设置">
+<#import "template/template.ftl" as frame> <#global menu="时段设置">
 <@frame.html title="媒体时段列表" js=["js/jquery-dateFormat.min.js"]>
 
 <style type="text/css">
-    .center {margin: auto;}
-    .frame {width: 1000px;}
-    .div {text-align:center; margin:25px;}
-    div#toolbar {float: left;}
-    .processed {color: limegreen;}
-    .invalid {color: red;}
-    .hl {background-color: #ffff00;}
+.center {
+	margin: auto;
+}
+
+.frame {
+	width: 1000px;
+}
+
+.div {
+	text-align: center;
+	margin: 25px;
+}
+
+div#toolbar {
+	float: left;
+}
+
+.processed {
+	color: limegreen;
+}
+
+.invalid {
+	color: red;
+}
+
+.hl {
+	background-color: #ffff00;
+}
 </style>
 
 <script type="text/javascript">
@@ -99,19 +119,17 @@
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title">
-									时段设置列表
-									</div>
-                <table id="table" class="display compact" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th orderBy="startTime">开始时间</th>
-                        <th orderBy="id">时段名称</th>
-                        <th orderBy="duration">时长</th>
-                        <th orderBy="peak">高峰</th>
-                    </tr>
-                    </thead>
+	<div class="withdraw-title">时段设置列表</div>
+	<table id="table" class="display compact" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th orderBy="startTime">开始时间</th>
+				<th orderBy="id">时段名称</th>
+				<th orderBy="duration">时长</th>
+				<th orderBy="peak">高峰</th>
+			</tr>
+		</thead>
 
-                </table>
+	</table>
 </div>
 </@frame.html>

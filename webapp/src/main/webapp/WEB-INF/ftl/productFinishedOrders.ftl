@@ -1,6 +1,7 @@
-<#import "template/template.ftl" as frame>
-<#global menu="已完成订单">
-<@frame.html title="套餐已完成的订单" css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"] js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
+<#import "template/template.ftl" as frame> <#global menu="已完成订单">
+<@frame.html title="套餐已完成的订单"
+css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]
+js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 
 <script type="text/javascript">
@@ -160,31 +161,37 @@
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-<#--            <div class="div" style="margin-top:25px">
-                <caption><h2>待办事项</h2></caption>
-            </div>
-            <div class="div">
-                <hr/>
-            </div>-->
+	<#--
+	<div class="div" style="margin-top: 25px">
+		<caption>
+			<h2>待办事项</h2>
+		</caption>
+	</div>
+	<div class="div">
+		<hr />
+	</div>
+	-->
 
-            <div class="withdraw-title" style="padding-top: 0px; text-align:left; ">
-									套餐[<a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer('${rc.contextPath}/product/ajaxdetail/',${prod.id});"  >${prod.name!''}</a>]	已完成的订单
-									</div>
-                <table id="table" class="display" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th>下单用户</th>
-                            <th>订单编号</th>
-                        <th>套餐名称</th>
-                       <!-- <th>素材号</th>-->
-                        <th orderBy="startTime">创建时间</th>
-                           <th orderBy="endTime">结束建时间</th>
-                         <th>订单详情</th>
-                           <th>最终状态</th>
-                       
-                    </tr>
-                    </thead>
+	<div class="withdraw-title" style="padding-top: 0px; text-align: left;">
+		套餐[<a class="layer-tips" tip="点击可查看套餐详细内容!"
+			onclick="showProductlayer('${rc.contextPath}/product/ajaxdetail/',${prod.id});">${prod.name!''}</a>]
+		已完成的订单
+	</div>
+	<table id="table" class="display" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th>下单用户</th>
+				<th>订单编号</th>
+				<th>套餐名称</th>
+				<!-- <th>素材号</th>-->
+				<th orderBy="startTime">创建时间</th>
+				<th orderBy="endTime">结束建时间</th>
+				<th>订单详情</th>
+				<th>最终状态</th>
 
-                </table>
+			</tr>
+		</thead>
+
+	</table>
 </div>
 </@frame.html>

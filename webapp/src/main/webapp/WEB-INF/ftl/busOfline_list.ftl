@@ -1,19 +1,47 @@
-<#import "template/template_blank.ftl" as frame>
-<#global menu="车辆上刊">
+<#import "template/template_blank.ftl" as frame> <#global menu="车辆上刊">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="车辆上刊" js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js", "js/datepicker.js","js/jquery.datepicker.region.cn.js"]
+<@frame.html title="车辆上刊"
+js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js",
+"js/datepicker.js","js/jquery.datepicker.region.cn.js"]
 css=["js/jquery-ui/jquery-ui.css"]>
 
 <style type="text/css">
-    .center {margin: auto;}
-    .frame {width: 1000px;}
-    .div {text-align:center; margin:25px;}
-    div#toolbar {float: left;}
-    div#toolbar3 {float: left;}
-    .processed {color: limegreen;}
-    .invalid {color: red;}
-    .hl {background-color: #ffff00;}
-    .dataTables_wrapper .dataTables_length{float:right;}
+.center {
+	margin: auto;
+}
+
+.frame {
+	width: 1000px;
+}
+
+.div {
+	text-align: center;
+	margin: 25px;
+}
+
+div#toolbar {
+	float: left;
+}
+
+div#toolbar3 {
+	float: left;
+}
+
+.processed {
+	color: limegreen;
+}
+
+.invalid {
+	color: red;
+}
+
+.hl {
+	background-color: #ffff00;
+}
+
+.dataTables_wrapper .dataTables_length {
+	float: right;
+}
 </style>
 
 <script type="text/javascript">
@@ -468,127 +496,126 @@ css=["js/jquery-ui/jquery-ui.css"]>
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-<div class="withdraw-title">
-               已上刊发布信息
-									</div>
-  			 <div id="orderedBuses">
-				<table id="lineTable" class="display compact"
-					cellspacing="0" width="100%">
-					<thead>
+	<div class="withdraw-title">已上刊发布信息</div>
+	<div id="orderedBuses">
+		<table id="lineTable" class="display compact" cellspacing="0"
+			width="100%">
+			<thead>
 				<tr class="tableTr">
 					<th>线路</th>
 					<th>级别</th>
 					<th>媒体类型</th>
 					<th>发布形式</th>
 					<th>批次</th>
-                    <th>数量（辆）</th>
-                    <th>已装数量</th>
-                    <th>刊期(天)</th>
-                    <th>发布时间</th>
+					<th>数量（辆）</th>
+					<th>已装数量</th>
+					<th>刊期(天)</th>
+					<th>发布时间</th>
 				</tr>
-					</thead>
-				</table>
-			 </div>
-			  </div><br>
-<div class="withdraw-wrap color-white-bg fn-clear">
-
-			<!--over-->
-			<div class="withdraw-title">
-               上刊发布
-			</div>
-            <div style="padding-top:10px;" >
-                 <div >
-                 <input type="hidden" id ="plid" value="${plid}"/>
-                           上刊日期：<input  class="ui-input ui-input-mini datepicker" type="text" name="stday"
-                            id="stday" data-is="isAmount isEnough"
-                            autocomplete="off" disableautocomplete="" style="width:90px"> 
-                           &nbsp;&nbsp; 刊期(天)：<input  class="ui-input"  type="text" 
-                            id="days" data-is="isAmount isEnough"  value="${jpaPublishLine.days}" readonly="readonly"  onkeyup="value=value.replace(/[^\d]/g,'')"
-                            autocomplete="off" disableautocomplete="" style="width:45px"> 
-                                  <span>广告形式</span>&nbsp;&nbsp;
-                       <select class="ui-input ui-input-mini"  id="adtype" style="width:100px">
-                    <option value="tiaofu" selected="selected">条幅式</option>
-                  	<option value="cheshen">车身彩贴</option>
-                  	<option value="quanche">全车彩贴</option>
-                  	</select>
-                  	       <span>印制</span>&nbsp;&nbsp;
-                       <select class="ui-input ui-input-mini" name="print" id="print" style="width:100px">
-                    <option value="center" selected="selected">中心</option>
-                  	<option value="out">外部</option>
-                  	</select>
-                  	  <span>上刊类型</span>&nbsp;&nbsp;
-                      <select class="ui-input ui-input-mini" name="sktype" id="sktype" style="width:100px">
-                    <option value="normal" selected="selected">正常上刊</option>
-                  	<option value="fill">补刊</option>
-                  	<option value="contin">续刊</option>
-                  	</select>
-                  <span>下刊预留天数</span>&nbsp;&nbsp; <input id="fdays"  value="" onkeyup="value=value.replace(/[^\\d]/g,\'\')" style="width:75px;height: 30px;border-radius: 2px;border: 1px solid #C5C5C5;">
-                       &nbsp;&nbsp;<input type="button" class="button_kind" style="width: 85px;"
-			                value="验证提醒" onclick="checkSelect()"/> 
-			                <!--    <input type="button" class="button_kind" style="width: 85px;height: 30px;" value="库存检查" onclick="checkFree()"/>-->
-			                   
-                           &nbsp;&nbsp; <input type="button" class="button_kind" style="width: 85px;"
-			                    value="批量上刊" onclick="sub()"/>
-                </div>
-	     	</div>
-	     	
-                <table id="table" class="display nowrap" cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th > <input type="checkbox" id="checkAll" name="checkAll" onclick="selectAll()" /></th>
-                           <th orderBy="line.name">线路</th>
-                        <th orderBy="line.level">线路级别</th>
-                        <th orderBy="serialNumber" >车辆自编号</th>
-                        <th >旧自编号</th>
-                        <th >车牌号</th>
-                        <th >车型</th>
-                         <th>车辆描述</th>
-                        <th>合同编号</th>
-                        <th>广告内容</th>
-                        <th>广告类型</th>
-                        <th>车辆情况</th>
-                        <th orderBy="company">营销中心</th>
-                        <th>实际上刊日期</th>
-                        <th>预计下刊日期</th>
-                        <th>下刊预留日期</th>
-                        <th>实际下刊日期</th>
-                        <th>客户名称</th>
-                        <th>印制</th>
-                        <th>上刊类型</th>
-                        <th>操作人</th>
-                        <th>撤销上刊</th>
-                    </tr>
-                    </thead>
-                </table>
-                <div><span id="trw2">ss</span></div>
-                
+			</thead>
+		</table>
+	</div>
 </div>
 <br>
 <div class="withdraw-wrap color-white-bg fn-clear">
- <div class="withdraw-title">
-             已上刊车辆历史变更信息
-                </div><br>
-                <table id="busUpHis" class="display nowrap" cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th >车牌号</th>
-                        <th >车辆自编号</th>
-                        <th>旧自编号</th>
-                        <th >车型</th>
-                        <th >线路</th>
-                        <th >线路级别</th>
-                        <th >类别</th>
-                        <th >营销中心</th>
-                         <th>车辆描述</th>
-                        <th>公司名称</th>
-                        <th>客户名称</th>
-                        <th>最后更新时间</th>
-                        <th>操作人</th>
-                       
-                    </tr>
-                    </thead>
 
-                </table>
+	<!--over-->
+	<div class="withdraw-title">上刊发布</div>
+	<div style="padding-top: 10px;">
+		<div>
+			<input type="hidden" id="plid" value="${plid}" /> 上刊日期：<input
+				class="ui-input ui-input-mini datepicker" type="text" name="stday"
+				id="stday" data-is="isAmount isEnough" autocomplete="off"
+				disableautocomplete="" style="width: 90px"> &nbsp;&nbsp;
+			刊期(天)：<input class="ui-input" type="text" id="days"
+				data-is="isAmount isEnough" value="${jpaPublishLine.days}"
+				readonly="readonly" onkeyup="value=value.replace(/[^\d]/g,'')"
+				autocomplete="off" disableautocomplete="" style="width: 45px">
+			<span>广告形式</span>&nbsp;&nbsp; <select class="ui-input ui-input-mini"
+				id="adtype" style="width: 100px">
+				<option value="tiaofu" selected="selected">条幅式</option>
+				<option value="cheshen">车身彩贴</option>
+				<option value="quanche">全车彩贴</option>
+			</select> <span>印制</span>&nbsp;&nbsp; <select class="ui-input ui-input-mini"
+				name="print" id="print" style="width: 100px">
+				<option value="center" selected="selected">中心</option>
+				<option value="out">外部</option>
+			</select> <span>上刊类型</span>&nbsp;&nbsp; <select class="ui-input ui-input-mini"
+				name="sktype" id="sktype" style="width: 100px">
+				<option value="normal" selected="selected">正常上刊</option>
+				<option value="fill">补刊</option>
+				<option value="contin">续刊</option>
+			</select> <span>下刊预留天数</span>&nbsp;&nbsp; <input id="fdays" value=""
+				onkeyup="value=value.replace(/[^\\d]/g,\'\')"
+				style="width: 75px; height: 30px; border-radius: 2px; border: 1px solid #C5C5C5;">
+			&nbsp;&nbsp;<input type="button" class="button_kind"
+				style="width: 85px;" value="验证提醒" onclick="checkSelect()" />
+			<!--    <input type="button" class="button_kind" style="width: 85px;height: 30px;" value="库存检查" onclick="checkFree()"/>-->
+
+			&nbsp;&nbsp; <input type="button" class="button_kind"
+				style="width: 85px;" value="批量上刊" onclick="sub()" />
+		</div>
+	</div>
+
+	<table id="table" class="display nowrap" cellspacing="0">
+		<thead>
+			<tr>
+				<th><input type="checkbox" id="checkAll" name="checkAll"
+					onclick="selectAll()" /></th>
+				<th orderBy="line.name">线路</th>
+				<th orderBy="line.level">线路级别</th>
+				<th orderBy="serialNumber">车辆自编号</th>
+				<th>旧自编号</th>
+				<th>车牌号</th>
+				<th>车型</th>
+				<th>车辆描述</th>
+				<th>合同编号</th>
+				<th>广告内容</th>
+				<th>广告类型</th>
+				<th>车辆情况</th>
+				<th orderBy="company">营销中心</th>
+				<th>实际上刊日期</th>
+				<th>预计下刊日期</th>
+				<th>下刊预留日期</th>
+				<th>实际下刊日期</th>
+				<th>客户名称</th>
+				<th>印制</th>
+				<th>上刊类型</th>
+				<th>操作人</th>
+				<th>撤销上刊</th>
+			</tr>
+		</thead>
+	</table>
+	<div>
+		<span id="trw2">ss</span>
+	</div>
+
+</div>
+<br>
+<div class="withdraw-wrap color-white-bg fn-clear">
+	<div class="withdraw-title">已上刊车辆历史变更信息</div>
+	<br>
+	<table id="busUpHis" class="display nowrap" cellspacing="0">
+		<thead>
+			<tr>
+				<th>车牌号</th>
+				<th>车辆自编号</th>
+				<th>旧自编号</th>
+				<th>车型</th>
+				<th>线路</th>
+				<th>线路级别</th>
+				<th>类别</th>
+				<th>营销中心</th>
+				<th>车辆描述</th>
+				<th>公司名称</th>
+				<th>客户名称</th>
+				<th>最后更新时间</th>
+				<th>操作人</th>
+
+			</tr>
+		</thead>
+
+	</table>
 </div>
 
 </@frame.html>

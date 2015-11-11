@@ -1,17 +1,39 @@
-<#import "template/template.ftl" as frame>
-<#global menu="上刊发布">
+<#import "template/template.ftl" as frame> <#global menu="上刊发布">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="上刊发布" js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js","js/jquery-ui/jquery-ui.auto.complete.js", "js/datepicker.js","js/jquery.datepicker.region.cn.js"]
+<@frame.html title="上刊发布"
+js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js","js/jquery-ui/jquery-ui.auto.complete.js",
+"js/datepicker.js","js/jquery.datepicker.region.cn.js"]
 css=["js/jquery-ui/jquery-ui.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 
 <style type="text/css">
-    .center {margin: auto;}
-    .frame {width: 1000px;}
-    .div {text-align:center; margin:25px;}
-    div#toolbar {float: left;}
-    .processed {color: limegreen;}
-    .invalid {color: red;}
-    .hl {background-color: #ffff00;}
+.center {
+	margin: auto;
+}
+
+.frame {
+	width: 1000px;
+}
+
+.div {
+	text-align: center;
+	margin: 25px;
+}
+
+div#toolbar {
+	float: left;
+}
+
+.processed {
+	color: limegreen;
+}
+
+.invalid {
+	color: red;
+}
+
+.hl {
+	background-color: #ffff00;
+}
 </style>
 
 <script type="text/javascript">
@@ -162,29 +184,27 @@ css=["js/jquery-ui/jquery-ui.css","js/jquery-ui/jquery-ui.auto.complete.css","cs
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title">
-               上刊发布
-									</div>
-										<input type="hidden" id="cid" />
-                <table id="table" class="display nowrap" cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th >订单编号</th>
-                        <th >合同编号</th>
-                        <th >线路</th>
-                        <th>广告内容</th>
-                        <th>媒体类型</th>
-                        <th>发布形式</th>
-                        <th>订购数</th>
-                        <th>已上刊数</th>
-                        <th>在刊率</th>
-                        <th>刊期</th>
-                        <th>营销中心</th>
-                        <th>预计上刊日期</th>
-                        <th>订单记录时间</th>
-                        <th>操作</th>
-                    </tr>
-                    </thead>
-                </table>
+	<div class="withdraw-title">上刊发布</div>
+	<input type="hidden" id="cid" />
+	<table id="table" class="display nowrap" cellspacing="0">
+		<thead>
+			<tr>
+				<th>订单编号</th>
+				<th>合同编号</th>
+				<th>线路</th>
+				<th>广告内容</th>
+				<th>媒体类型</th>
+				<th>发布形式</th>
+				<th>订购数</th>
+				<th>已上刊数</th>
+				<th>在刊率</th>
+				<th>刊期</th>
+				<th>营销中心</th>
+				<th>预计上刊日期</th>
+				<th>订单记录时间</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+	</table>
 </div>
 </@frame.html>

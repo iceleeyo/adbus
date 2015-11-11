@@ -1,6 +1,7 @@
-<#import "template/template.ftl" as frame>
-<#global menu="进行中订单">
-<@frame.html title="套餐进行中的订单" css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"] js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js"]>
+<#import "template/template.ftl" as frame> <#global menu="进行中订单">
+<@frame.html title="套餐进行中的订单"
+css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]
+js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <script type="text/javascript">
 
@@ -138,23 +139,24 @@
 </script>
 
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title" style="padding-top: 0px; text-align:left; ">
-									套餐[<a class="layer-tips" tip="点击可查看套餐详细内容!" onclick="showProductlayer('${rc.contextPath}/product/ajaxdetail/',${prod.id});"  >${prod.name!''}</a>]进行中的订单
-			</div>
-                <table id="table" class="display" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th>用户</th>
-                        <th>订单名称</th>
-                        <th>套餐名称</th>
-                       <!-- <th>素材号</th>-->
-                        <th orderBy="created">创建时间</th>
-                        <th>当前环节</th>
-                        <th>处理人</th>
-                         <th>操作</th>
-                    </tr>
-                    </thead>
+	<div class="withdraw-title" style="padding-top: 0px; text-align: left;">
+		套餐[<a class="layer-tips" tip="点击可查看套餐详细内容!"
+			onclick="showProductlayer('${rc.contextPath}/product/ajaxdetail/',${prod.id});">${prod.name!''}</a>]进行中的订单
+	</div>
+	<table id="table" class="display" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th>用户</th>
+				<th>订单名称</th>
+				<th>套餐名称</th>
+				<!-- <th>素材号</th>-->
+				<th orderBy="created">创建时间</th>
+				<th>当前环节</th>
+				<th>处理人</th>
+				<th>操作</th>
+			</tr>
+		</thead>
 
-                </table>
+	</table>
 </div>
 </@frame.html>

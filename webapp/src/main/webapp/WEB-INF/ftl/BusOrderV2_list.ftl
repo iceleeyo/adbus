@@ -1,7 +1,8 @@
-<#import "template/template.ftl" as frame>
-<#global menu="${currMenu}">
+<#import "template/template.ftl" as frame> <#global menu="${currMenu}">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="车身订单列表" js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js","js/layer.onload.js"] >
+<@frame.html title="车身订单列表"
+js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js","js/layer.onload.js"]
+>
 
 <script type="text/javascript">
     var table;
@@ -121,20 +122,19 @@ function buy(pid){
 </script>
 
 <div class="withdraw-wrap color-white-bg fn-clear">
-		
-                <table id="table" class="display" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th >套餐名称</th>
-                        <th >价格(元)</th>
-                        <th  orderBy="created">下单时间</th>
-                         <@security.authorize ifAnyGranted="bodyContractManager,sale_packageList">
-                        <th >下单人</th>
-                          </@security.authorize >
-                        <th>管理</th>
-                    </tr>
-                    </thead>
 
-                </table>
+	<table id="table" class="display" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th>套餐名称</th>
+				<th>价格(元)</th>
+				<th orderBy="created">下单时间</th> <@security.authorize
+				ifAnyGranted="bodyContractManager,sale_packageList">
+				<th>下单人</th> </@security.authorize >
+				<th>管理</th>
+			</tr>
+		</thead>
+
+	</table>
 </div>
 </@frame.html>

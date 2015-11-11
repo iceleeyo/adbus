@@ -1,16 +1,39 @@
-<#import "template/template_blank.ftl" as frame>
-<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="订单详情" js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js", "js/datepicker.js","js/jquery.datepicker.region.cn.js"]
+<#import "template/template_blank.ftl" as frame> <#assign
+security=JspTaglibs["/WEB-INF/tlds/security.tld"] /> <@frame.html
+title="订单详情"
+js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js",
+"js/datepicker.js","js/jquery.datepicker.region.cn.js"]
 css=["js/jquery-ui/jquery-ui.css"]>
 
 <style type="text/css">
-    .center {margin: auto;}
-    .frame {width: 1000px;}
-    .div {text-align:center; margin:25px;}
-    div#toolbar {float: left;}
-    .processed {color: limegreen;}
-    .invalid {color: red;}
-    .hl {background-color: #ffff00;}
+.center {
+	margin: auto;
+}
+
+.frame {
+	width: 1000px;
+}
+
+.div {
+	text-align: center;
+	margin: 25px;
+}
+
+div#toolbar {
+	float: left;
+}
+
+.processed {
+	color: limegreen;
+}
+
+.invalid {
+	color: red;
+}
+
+.hl {
+	background-color: #ffff00;
+}
 </style>
 
 <script type="text/javascript">
@@ -90,18 +113,18 @@ css=["js/jquery-ui/jquery-ui.css"]>
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-                <table id="table" class="display nowrap" cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th >线路</th>
-                        <th>级别</th>
-                        <th>单双层</th>
-                        <th>车辆数</th>
-                        <th>刊期(天)</th>
-                        <th>价格</th>
-                    </tr>
-                    </thead>
+	<table id="table" class="display nowrap" cellspacing="0">
+		<thead>
+			<tr>
+				<th>线路</th>
+				<th>级别</th>
+				<th>单双层</th>
+				<th>车辆数</th>
+				<th>刊期(天)</th>
+				<th>价格</th>
+			</tr>
+		</thead>
 
-                </table>
+	</table>
 </div>
 </@frame.html>

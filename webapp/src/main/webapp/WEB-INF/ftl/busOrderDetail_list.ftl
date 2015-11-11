@@ -1,9 +1,9 @@
-<#import "template/template_blank.ftl" as frame>
-<@frame.html title="套餐详情" js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
+<#import "template/template_blank.ftl" as frame> <@frame.html
+title="套餐详情" js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
 "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
 "js/jquery.datepicker.region.cn.js","js/progressbar.js"]
 css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
-<meta http-equiv="X-Frame-Options" content="SAMEORIGIN"> 
+<meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
 <script type="text/javascript">
      var orderBusesTable;
 	function refreshOrderedBuses() {
@@ -82,22 +82,22 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
     });
 </script>
 <div id="relateSup">
-			<div class="p20bs mt10 color-white-bg border-ec">
-			   <div id="orderedBuses">
-				<table id="table" class="display compact"
-					cellspacing="0" width="100%">
-					<thead>
-				<tr class="tableTr">
-					<th>线路级别</th>
-					<th>车型</th>
-					<th>车辆数</th>
-					<th>刊期</th>
-					<th>金额</th>
-				</tr>
-					</thead>
-				</table>
-						</div>
-						</div>
-						
+	<div class="p20bs mt10 color-white-bg border-ec">
+		<div id="orderedBuses">
+			<table id="table" class="display compact" cellspacing="0"
+				width="100%">
+				<thead>
+					<tr class="tableTr">
+						<th>线路级别</th>
+						<th>车型</th>
+						<th>车辆数</th>
+						<th>刊期</th>
+						<th>金额</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
 
-</@frame.html>
+
+	</@frame.html>

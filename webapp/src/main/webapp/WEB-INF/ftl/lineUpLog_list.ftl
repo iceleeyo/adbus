@@ -1,17 +1,39 @@
-<#import "template/template.ftl" as frame>
-<#global menu="线路变更历史">
+<#import "template/template.ftl" as frame> <#global menu="线路变更历史">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="线路变更历史" js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js", "js/datepicker.js","js/jquery.datepicker.region.cn.js"]
+<@frame.html title="线路变更历史"
+js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js",
+"js/datepicker.js","js/jquery.datepicker.region.cn.js"]
 css=["js/jquery-ui/jquery-ui.css"]>
 
 <style type="text/css">
-    .center {margin: auto;}
-    .frame {width: 1000px;}
-    .div {text-align:center; margin:25px;}
-    div#toolbar {float: left;}
-    .processed {color: limegreen;}
-    .invalid {color: red;}
-    .hl {background-color: #ffff00;}
+.center {
+	margin: auto;
+}
+
+.frame {
+	width: 1000px;
+}
+
+.div {
+	text-align: center;
+	margin: 25px;
+}
+
+div#toolbar {
+	float: left;
+}
+
+.processed {
+	color: limegreen;
+}
+
+.invalid {
+	color: red;
+}
+
+.hl {
+	background-color: #ffff00;
+}
 </style>
 
 <script type="text/javascript">
@@ -116,32 +138,30 @@ css=["js/jquery-ui/jquery-ui.css"]>
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <div class="withdraw-title">
-           线路变更信息
-									</div>
-                <table id="table" class="display nowrap" cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th >线路名称</th>
-                        <th>原线路名称</th>
-                        <th >线路级别</th>
-                        <th >原线路级别</th>
-                        <th >所属大公司</th>
-                        <th >原所属大公司</th>
-                        <th >所属分公司</th>
-                        <th >原所属分公司</th>
-                        <th >营销中心</th>
-                        <th >原营销中心</th>
-                        <th>车辆总数</th>
-                        <th>原车辆总数</th>
-                         <th >线路总里程</th>
-                         <th >原线路总里程</th>
-                        <th >途径地点</th>
-                        <th >原途径地点</th>
-                        <th orderBy ="updated">最后更新时间</th>
-                        <th>操作人</th>
-                    </tr>
-                    </thead>
-                </table>
+	<div class="withdraw-title">线路变更信息</div>
+	<table id="table" class="display nowrap" cellspacing="0">
+		<thead>
+			<tr>
+				<th>线路名称</th>
+				<th>原线路名称</th>
+				<th>线路级别</th>
+				<th>原线路级别</th>
+				<th>所属大公司</th>
+				<th>原所属大公司</th>
+				<th>所属分公司</th>
+				<th>原所属分公司</th>
+				<th>营销中心</th>
+				<th>原营销中心</th>
+				<th>车辆总数</th>
+				<th>原车辆总数</th>
+				<th>线路总里程</th>
+				<th>原线路总里程</th>
+				<th>途径地点</th>
+				<th>原途径地点</th>
+				<th orderBy="updated">最后更新时间</th>
+				<th>操作人</th>
+			</tr>
+		</thead>
+	</table>
 </div>
 </@frame.html>

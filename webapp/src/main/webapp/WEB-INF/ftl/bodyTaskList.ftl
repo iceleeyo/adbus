@@ -1,6 +1,7 @@
-<#import "template/template.ftl" as frame>
-<#global menu="待办事项">
-<@frame.html title="待办事项列表" css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css","css/layer.css"] js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer-site.js"]>
+<#import "template/template.ftl" as frame> <#global menu="待办事项">
+<@frame.html title="待办事项列表"
+css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css","css/layer.css"]
+js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer-site.js"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <script type="text/javascript">
 
@@ -174,23 +175,23 @@
 
 
 <div class="withdraw-wrap color-white-bg fn-clear">
-              <div class="withdraw-title" style="padding-top: 0px; text-align:left; ">
-									待办事项 <span id="recordsTotal"  style="background-color:#ff9966;color: #fff;font-size: 14px;border-radius: 4px;"></span>
-									</div>
-                <table id="table" class="display" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th>合同申请人</th>
-                        <th orderBy="jpaBodyContract.seriaNum">流水号</th>
-                        <th>签约公司</th>
-                        <th orderBy="created">创建时间</th>
-                        <@security.authorize ifAnyGranted="bodyFinancialManager,bodyContractManager,bodyScheduleManager">
-                        <th orderBy="taskKey">当前节点</th>
-                        </@security.authorize>
-                        <th>操作</th>
-                    </tr>
-                    </thead>
+	<div class="withdraw-title" style="padding-top: 0px; text-align: left;">
+		待办事项 <span id="recordsTotal"
+			style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
+	</div>
+	<table id="table" class="display" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th>合同申请人</th>
+				<th orderBy="jpaBodyContract.seriaNum">流水号</th>
+				<th>签约公司</th>
+				<th orderBy="created">创建时间</th> <@security.authorize
+				ifAnyGranted="bodyFinancialManager,bodyContractManager,bodyScheduleManager">
+				<th orderBy="taskKey">当前节点</th> </@security.authorize>
+				<th>操作</th>
+			</tr>
+		</thead>
 
-                </table>
+	</table>
 </div>
 </@frame.html>
