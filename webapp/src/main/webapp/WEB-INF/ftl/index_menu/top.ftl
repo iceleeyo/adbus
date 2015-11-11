@@ -81,40 +81,6 @@
 			href="${rc.contextPath}/login">请登录</a> <a class="pg-nav-item s-left"
 			href="${rc.contextPath}/register">免费注册</a> </@security.authorize> 
 	</span> <#--<span class="arrow-down"></span>-->
-	<div class="pg-nav-dropdown" style="display: none;">
-		<div class="pg-dropdown-box">
-			<div class="dropdown-account s-clear">
-				<div class="account-img-box s-left">
-					<a href=""> <img
-						src="${rc.contextPath}/imgs/default-img-78.png">
-					</a>
-				</div>
-				<div class="s-left">
-					<div class="user-money-handle s-clear grgray-text">
-						<span class="balance fsize-14 s-left mr10">账户余额</span> <span
-							class="orange-text fsize-14 s-left"> <em class="fsize-18">0.00</em>
-						</span>
-					</div>
-					<div>
-						<a class="s-left pg-btn pg-btn-green pg-btn-md mr4" href="#">充值</a>
-						<a class="s-left pg-btn pg-btn-blue pg-btn-md" href="#">提现</a>
-					</div>
-				</div>
-			</div>
-			<div class="dropdown-bottom s-clear">
-				<div class="dropdown-set s-left">
-					<a class="is-line" href="">我的报表</a>
-				</div>
-				<div class="dropdown-set s-left">
-					<a class="is-line" href="">我的物料</a>
-				</div>
-				<div class="dropdown-set s-left">
-					<a href="">我的订单</a>
-				</div>
-			</div>
-		</div>
-	</div>
-
 	<!--<a class="pg-nav-item s-left" href="#">
 									<i class="icon-msg fsize-12">1</i>
 									消息
