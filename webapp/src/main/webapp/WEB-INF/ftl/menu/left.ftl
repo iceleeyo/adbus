@@ -349,9 +349,9 @@
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/user/bodyuserlist"> 车身用户列表 </a></li>
 				</@security.authorize> <@security.authorize
-				ifAnyGranted="UserManager,body_roleManager"> <#if _utype == 'body'>
+				ifAnyGranted="UserManager,body_roleManager">
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
-					href="${rc.contextPath}/user/role_list"> 车身角色管理 </a></li> </#if>
+					href="${rc.contextPath}/user/role_list"> 车身角色管理 </a></li> 
 				</@security.authorize> <@security.authorize
 				ifAnyGranted="advertiser">
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
