@@ -22,6 +22,9 @@ table td {
 	border: solid thin #EEEEEE;
 	height: 38px;
 }
+.ls-10{
+	margin-left: 7%;
+}
 </style>
 <title>密码找回</title>
 
