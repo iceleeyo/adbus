@@ -1,5 +1,6 @@
-<#macro select_lines title="选取车辆" buyLink=false activityId =activityId seriaNum=seriaNum bodycontract=bodycontract> 
-<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
+<#macro select_lines title="选取车辆" buyLink=false activityId =activityId
+seriaNum=seriaNum bodycontract=bodycontract> <#assign
+security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <script type="text/javascript">
 	function gotoSchedult(id,modelId){
 	  window.open("${rc.contextPath}/busselect/lineschedule/"+id+"?modelId="+modelId);

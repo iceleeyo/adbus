@@ -1,4 +1,5 @@
-<#macro trendChart chartDiv title titleY highChart yName baseY menuId="" seriesTypes=[] yName={}>
+<#macro trendChart chartDiv title titleY highChart yName baseY menuId=""
+seriesTypes=[] yName={}>
 <script type="text/javascript">
     var chart;
 

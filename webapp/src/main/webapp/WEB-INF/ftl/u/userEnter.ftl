@@ -1,6 +1,7 @@
 <#import "../template/template.ftl" as frame> <#global menu="用户添加">
-<@frame.html title="用户添加" js=["js/jquery-ui/jquery-ui.js", "js/datepicker.js",
-"js/jquery.datepicker.region.cn.js"] css=["js/jquery-ui/jquery-ui.css"]>
+<@frame.html title="用户添加" js=["js/jquery-ui/jquery-ui.js",
+"js/datepicker.js", "js/jquery.datepicker.region.cn.js"]
+css=["js/jquery-ui/jquery-ui.css"]>
 
 
 <script type="text/javascript">
@@ -133,137 +134,129 @@ function go_back(){
 
 <div class="withdraw-wrap color-white-bg fn-clear">
 
-<form data-name="withdraw" name="userForm2" id="userForm2"
-	class="ui-form" method="post" action="save"
-	enctype="multipart/form-data">
-	<div class="withdraw-title fn-clear">
-		<span>用户添加信息录入</span>
-		<input type = "hidden" name="utype"  id ="utype" value= "screen" >
-		<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="go_back()">返回</a>
-		<!--
+	<form data-name="withdraw" name="userForm2" id="userForm2"
+		class="ui-form" method="post" action="save"
+		enctype="multipart/form-data">
+		<div class="withdraw-title fn-clear">
+			<span>用户添加信息录入</span> <input type="hidden" name="utype" id="utype"
+				value="screen"> <a class="block-btn"
+				style="margin-top: -5px;" href="javascript:void(0);"
+				onclick="go_back()">返回</a>
+			<!--
             <ul class="fn-clear">
               <li class="first"><a class="addBank fn-right" href="/account/userBank!toAdd.action">xxxx</a></li>
               <li><a class="mgmtBank fn-right" id="mgmtBank" href="/account/info!bank.action">xxxx</a></li>
             </ul>
             -->
-	</div>
-	<div class="withdrawInputs">
-		<div class="inputs">
-                     
-			<div class="ui-form-item">
-				<label class="ui-label mt10"><span class="ui-form-required">*</span>登录名:</label>
-				<input class="ui-input validate[required,custom[noSpecialLetterChinese],ajax[ajaxUserCall]]" 
-				type="text" name="username" id="username"
-					data-is="isAmount isEnough" autocomplete="off"
-					disableautocomplete="" placeholder="6-12位中英文、数字、下划线">
+		</div>
+		<div class="withdrawInputs">
+			<div class="inputs">
+
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>登录名:</label>
+					<input
+						class="ui-input validate[required,custom[noSpecialLetterChinese],ajax[ajaxUserCall]]"
+						type="text" name="username" id="username"
+						data-is="isAmount isEnough" autocomplete="off"
+						disableautocomplete="" placeholder="6-12位中英文、数字、下划线">
 
 
-			</div>
-			<p class="ui-term-placeholder"></p>
-			<div class="ui-form-item">
-				<label class="ui-label mt10"><span class="ui-form-required">*</span>真实姓名:</label>
-				<input class="ui-input  validate[required,custom[chinese],minSize[2],maxSize[12],ajax[ajaxUserCall]]" 
-				type="text" name="firstName" id="firstName"
-					data-is="isAmount isEnough" autocomplete="off"
-					disableautocomplete="" placeholder="2-12位中英文">
-			</div>
+				</div>
+				<p class="ui-term-placeholder"></p>
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>真实姓名:</label>
+					<input
+						class="ui-input  validate[required,custom[chinese],minSize[2],maxSize[12],ajax[ajaxUserCall]]"
+						type="text" name="firstName" id="firstName"
+						data-is="isAmount isEnough" autocomplete="off"
+						disableautocomplete="" placeholder="2-12位中英文">
+				</div>
 
-			<div class="ui-form-item">
-				<label class="ui-label mt10"><span class="ui-form-required">*</span>密码:</label>
-				<input class="ui-input validate[required,minSize[6],maxSize[20]]"
-					type="password" name="password" id="password"
-					data-is="isAmount isEnough" autocomplete="off"
-					disableautocomplete="" placeholder="请输入6-20位密码">
-			</div>
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>密码:</label>
+					<input class="ui-input validate[required,minSize[6],maxSize[20]]"
+						type="password" name="password" id="password"
+						data-is="isAmount isEnough" autocomplete="off"
+						disableautocomplete="" placeholder="请输入6-20位密码">
+				</div>
 
-			<div class="ui-form-item">
-				<label class="ui-label mt10"><span class="ui-form-required">*</span>请确认密码:</label>
-				<input class="ui-input validate[required,equals[password]]" type="password" data-is="isAmount isEnough" 
-				type="text" name="password2" id="password2"
-					data-is="isAmount isEnough" autocomplete="off"
-					disableautocomplete="" placeholder="请再输入一次密码">
-			</div>
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>请确认密码:</label>
+					<input class="ui-input validate[required,equals[password]]"
+						type="password" data-is="isAmount isEnough" type="text"
+						name="password2" id="password2" data-is="isAmount isEnough"
+						autocomplete="off" disableautocomplete="" placeholder="请再输入一次密码">
+				</div>
 
-			<div class="ui-form-item">
-				<label class="ui-label mt10"><span class="ui-form-required">*</span>邮箱地址:</label>
-				<input class="ui-input validate[required,custom[email]]" type="text" name="email" id="email"
-					data-is="isAmount isEnough" autocomplete="off"
-					disableautocomplete="" placeholder="请输入邮箱地址">
-			</div>
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>邮箱地址:</label>
+					<input class="ui-input validate[required,custom[email]]"
+						type="text" name="email" id="email" data-is="isAmount isEnough"
+						autocomplete="off" disableautocomplete="" placeholder="请输入邮箱地址">
+				</div>
 
-			<div class="ui-form-item">
-				<label class="ui-label mt10"><span class="ui-form-required">*</span>联系电话:</label>
-				<input class="ui-input validate[required,custom[phone]]" type="text" name="phone" id="phone"
-					data-is="isAmount isEnough" autocomplete="off"
-					disableautocomplete="" placeholder="请输入联系电话">
-			</div>
-			<div class="ui-form-item">
-				<label class="ui-label mt10"><span class="ui-form-required">*</span>
-				 用户类型:
-				</label>
-                <div>
-                <input type="radio" class="c" name="identity" value="screen" />移动电视
-				<input type="radio" class="c" name="identity" value="body" />车身广告
-                    
-                </div>
-			</div>
-			<div class="ui-form-item">
-				<label class="ui-label mt10"><span class="ui-form-required">*</span>
-				角色选择:
-				</label>
-                <div>
-                <span id="c1">
-                    <#if groupsList?exists> 
-	                    <#list groupsList?keys as vkey> <input
-	                            type="checkbox" value="${vkey}" name="roles" id="roles" />${groupsList[vkey]} &nbsp;&nbsp;
-	                             <#if vkey_index % 4 ==  0 && vkey_index!=0>
-    				 				 <br>
-    							  </#if>
-	                    </#list> 
-                    </#if>
-                    </span>
-                 <span id="c2" style="display:none">
-                    <#if bdGroupsList?exists> 
-	                    <#list bdGroupsList as  vkey> <input
-	                            type="checkbox" value="${vkey.id}" name="roles" id="roles" />${vkey.name} &nbsp;&nbsp;
-	                              <#if vkey_index % 4 ==  0 && vkey_index!=0>
-    				 				 <br>
-    							  </#if>
-	                    </#list> 
-                    </#if>
-                     </span>
-                    
-                </div>
-			</div>
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>联系电话:</label>
+					<input class="ui-input validate[required,custom[phone]]"
+						type="text" name="phone" id="phone" data-is="isAmount isEnough"
+						autocomplete="off" disableautocomplete="" placeholder="请输入联系电话">
+				</div>
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>
+						用户类型: </label>
+					<div>
+						<input type="radio" class="c" name="identity" value="screen" />移动电视
+						<input type="radio" class="c" name="identity" value="body" />车身广告
 
-			<div class="ui-form-item">
-				<label class="ui-label mt10"><span class="ui-form-required">*</span>所属公司:</label>
-				<input class="ui-input validate[required]" type="text" name="company" id="company"
-					data-is="isAmount isEnough" autocomplete="off"
-					disableautocomplete="" placeholder="请输入所属公司">
-			</div>
+					</div>
+				</div>
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>
+						角色选择: </label>
+					<div>
+						<span id="c1"> <#if groupsList?exists> <#list
+							groupsList?keys as vkey> <input type="checkbox" value="${vkey}"
+							name="roles" id="roles" />${groupsList[vkey]} &nbsp;&nbsp; <#if
+							vkey_index % 4 == 0 && vkey_index!=0> <br> </#if> </#list>
+							</#if>
+						</span> <span id="c2" style="display: none"> <#if
+							bdGroupsList?exists> <#list bdGroupsList as vkey> <input
+							type="checkbox" value="${vkey.id}" name="roles" id="roles" />${vkey.name}
+							&nbsp;&nbsp; <#if vkey_index % 4 == 0 && vkey_index!=0> <br>
+							</#if> </#list> </#if>
+						</span>
 
-			<div class="ui-form-item">
-				<label class="ui-label mt10"><span class="ui-form-required">*</span>所属部门:</label>
-				<input class="ui-input validate[required]" type="text" name="department"
-					id="department" data-is="isAmount isEnough" autocomplete="off"
-					disableautocomplete="" placeholder="请输入所属部门">
+					</div>
+				</div>
+
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>所属公司:</label>
+					<input class="ui-input validate[required]" type="text"
+						name="company" id="company" data-is="isAmount isEnough"
+						autocomplete="off" disableautocomplete="" placeholder="请输入所属公司">
+				</div>
+
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>所属部门:</label>
+					<input class="ui-input validate[required]" type="text"
+						name="department" id="department" data-is="isAmount isEnough"
+						autocomplete="off" disableautocomplete="" placeholder="请输入所属部门">
+				</div>
+			</div>
+			<div class="ui-form-item widthdrawBtBox">
+				<input type="button" id="subWithdraw" class="block-btn"
+					onclick="sub();" value="创建用户">
 			</div>
 		</div>
-		<div class="ui-form-item widthdrawBtBox">
-			<input type="button" id="subWithdraw" class="block-btn"
-				onclick="sub();" value="创建用户">
+		<div class="worm-tips">
+			<div class="tips-title">
+				<span class="icon"></span> 温馨提示
+			</div>
+			<ol>
+				<li>1.请输入正确的姓名、电话及公司信息。</li>
+				<li>2.请赋予相应的员工权限。</li>
+			</ol>
 		</div>
-	</div>
-	<div class="worm-tips">
-		<div class="tips-title">
-			<span class="icon"></span> 温馨提示
-		</div>
-		<ol>
-			<li>1.请输入正确的姓名、电话及公司信息。</li>
-			<li>2.请赋予相应的员工权限。</li>
-		</ol>
-	</div>
-</form>
+	</form>
 </div>
 </@frame.html>

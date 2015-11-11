@@ -1,18 +1,26 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="shortcut icon" href="${rc.contextPath}/images/favicon.ico">
-        <title>流程图跟踪</title>
-        <link rel="stylesheet" href="${rc.contextPath}/style/blueprint/screen.css" type="text/css" media="screen, projection">
-		<link rel="stylesheet" href="${rc.contextPath}/style/blueprint/print.css" type="text/css" media="print"> 
-        <link href="${rc.contextPath}/style/style.css" type="text/css" rel="stylesheet">
-		<link href="${rc.contextPath}/js/qtip/jquery.qtip.min.css" type="text/css" rel="stylesheet">
-		<script src="${rc.contextPath}/js/jquery.js" type="text/javascript"></script>
-		<script type="text/javascript" src="${rc.contextPath}/js/qtip/jquery.qtip.pack.js"></script>
-		<script type="text/javascript" src="${rc.contextPath}/js/html/jquery.outerhtml.js"></script>
-        <script type="text/javascript">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="shortcut icon" href="${rc.contextPath}/images/favicon.ico">
+<title>流程图跟踪</title>
+<link rel="stylesheet"
+	href="${rc.contextPath}/style/blueprint/screen.css" type="text/css"
+	media="screen, projection">
+<link rel="stylesheet"
+	href="${rc.contextPath}/style/blueprint/print.css" type="text/css"
+	media="print">
+<link href="${rc.contextPath}/style/style.css" type="text/css"
+	rel="stylesheet">
+<link href="${rc.contextPath}/js/qtip/jquery.qtip.min.css"
+	type="text/css" rel="stylesheet">
+<script src="${rc.contextPath}/js/jquery.js" type="text/javascript"></script>
+<script type="text/javascript"
+	src="${rc.contextPath}/js/qtip/jquery.qtip.pack.js"></script>
+<script type="text/javascript"
+	src="${rc.contextPath}/js/html/jquery.outerhtml.js"></script>
+<script type="text/javascript">
         	 
         	$(function(){
         		//流程节点详细信息
@@ -78,7 +86,7 @@
             	});
         	});
         </script>
-    </head>
-    <body>
-    </body>
+</head>
+<body>
+</body>
 </html>

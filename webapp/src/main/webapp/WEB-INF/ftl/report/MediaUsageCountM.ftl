@@ -10,6 +10,7 @@
 	text-align: center;
 	line-height: 30px;
 }
+
 th,td {
 	white-space: nowrap;
 	border: 1px solid #C5C5C5;

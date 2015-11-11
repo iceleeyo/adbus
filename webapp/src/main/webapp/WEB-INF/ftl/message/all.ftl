@@ -1,5 +1,4 @@
-<#import "../template/template.ftl" as frame>
-<#global menu="系统消息">
+<#import "../template/template.ftl" as frame> <#global menu="系统消息">
 <@frame.html title="系统消息" js=["js/jquery-dateFormat.js"]>
 <script type="text/javascript">
 
@@ -98,20 +97,19 @@
 </script>
 
 <div class="withdraw-wrap color-white-bg fn-clear">
-              <div class="withdraw-title" style="padding-top: 0px; text-align:left; ">
-									系统消息
-									</div>
-                <table id="table" class="display" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                            <th>订单编号</th>
-                       <!-- <th>素材号</th>-->
-                        <th>消息发生时间</th>
-                        <th>内容</th>
-                        <th>状态</th>
-                    </tr>
-                    </thead>
+	<div class="withdraw-title" style="padding-top: 0px; text-align: left;">
+		系统消息</div>
+	<table id="table" class="display" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th>订单编号</th>
+				<!-- <th>素材号</th>-->
+				<th>消息发生时间</th>
+				<th>内容</th>
+				<th>状态</th>
+			</tr>
+		</thead>
 
-                </table>
+	</table>
 </div>
 </@frame.html>
