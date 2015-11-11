@@ -1,6 +1,7 @@
-<#import "template/template.ftl" as frame>
-<#global menu="进行中订单">
-<@frame.html title="进行中的订单" css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"] js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
+<#import "template/template.ftl" as frame> <#global menu="进行中订单">
+<@frame.html title="进行中的订单"
+css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]
+js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <script type="text/javascript">
 
@@ -146,36 +147,39 @@
 </script>
 
 <div class="withdraw-wrap color-white-bg fn-clear">
-            <!-- <div class="withdraw-title" style="padding-top: 0px; text-align:left; ">
+	<!-- <div class="withdraw-title" style="padding-top: 0px; text-align:left; ">
 									所有订单
 			</div> -->
-			<div class="tabs">
-					<@security.authorize ifAnyGranted="advertiser">
-					<a id="tab1" href="${rc.contextPath}/order/myOrders/1">我的订单</a>
-					</@security.authorize>	
-					<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
-					<a id="tab2" class="active" href="${rc.contextPath}/order/allRuningOrders/1">进行中的订单<span id="recordsTotal" style="background-color:#ff9966;font-size: 14px;border-radius: 4px;"></span></a>
-					</@security.authorize>	
-					<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
-					<a id="tab4" href="${rc.contextPath}/order/join/1">我参与的订单</a>
-					</@security.authorize>
-					<a id="tab3" href="${rc.contextPath}/order/finished">已完成的订单</a>
-					
-				</div>
-                <table id="table" class="display" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th>用户</th>
-                        <th>订单名称</th>
-                        <th>套餐名称</th>
-                       <!-- <th>素材号</th>-->
-                        <th orderBy="created">创建时间</th>
-                        <th>当前环节</th>
-                        <th>处理人</th>
-                         <th>操作</th>
-                    </tr>
-                    </thead>
+	<div class="tabs">
+		<@security.authorize ifAnyGranted="advertiser"> <a id="tab1"
+			href="${rc.contextPath}/order/myOrders/1">我的订单</a>
+		</@security.authorize> <@security.authorize
+		ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+		<a id="tab2" class="active"
+			href="${rc.contextPath}/order/allRuningOrders/1">进行中的订单<span
+			id="recordsTotal"
+			style="background-color: #ff9966; font-size: 14px; border-radius: 4px;"></span></a>
+		</@security.authorize> <@security.authorize
+		ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+		<a id="tab4" href="${rc.contextPath}/order/join/1">我参与的订单</a>
+		</@security.authorize> <a id="tab3"
+			href="${rc.contextPath}/order/finished">已完成的订单</a>
 
-                </table>
+	</div>
+	<table id="table" class="display" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th>用户</th>
+				<th>订单名称</th>
+				<th>套餐名称</th>
+				<!-- <th>素材号</th>-->
+				<th orderBy="created">创建时间</th>
+				<th>当前环节</th>
+				<th>处理人</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+
+	</table>
 </div>
 </@frame.html>
