@@ -1,5 +1,5 @@
-<#macro pickBuses order product city lineLevel categories title="选取车辆" buyLink=false>
-<#if city.mediaType == 'body'>
+<#macro pickBuses order product city lineLevel categories title="选取车辆"
+buyLink=false> <#if city.mediaType == 'body'>
 <script type="text/javascript">
     var orderBusesTable;
     function refreshOrderedBuses () {
@@ -238,85 +238,85 @@
         ).submit();
     }
 </script>
-    <div class="p20bs mt10 color-white-bg border-ec">
-        <H3 class=".withdraw-title text-xl title-box"><A class="black" href="#">${title}</A></H3><br>
-        <div id="orderedBuses">
-            <table id="orderedBusesTable" class="display compact" cellspacing="0" width="100%">
-                <thead>
-                <tr>
-                    <th>类别</th>
-                    <th>运营公司</th>
-                    <th>线路</th>
-                    <th>车型</th>
-                    <th>数量（辆）</th>
-                    <th>删除</th>
-                </tr>
-                </thead>
+<div class="p20bs mt10 color-white-bg border-ec">
+	<H3 class=".withdraw-title text-xl title-box">
+		<A class="black" href="#">${title}</A>
+	</H3>
+	<br>
+	<div id="orderedBuses">
+		<table id="orderedBusesTable" class="display compact" cellspacing="0"
+			width="100%">
+			<thead>
+				<tr>
+					<th>类别</th>
+					<th>运营公司</th>
+					<th>线路</th>
+					<th>车型</th>
+					<th>数量（辆）</th>
+					<th>删除</th>
+				</tr>
+			</thead>
 
-            </table>
-        </div>
+		</table>
+	</div>
 
-        <div id="orderBusesPopup"  title="选择车辆">
-        <form data-name="withdraw" name="pickBusesForm" id="pickBusesForm"
-              class="ui-form" method="post" action="${rc.contextPath}/order/ajax-order-buses"
-              enctype="multipart/form-data">
-            <input type="hidden" name="order.id" id="order.id" value="${order.id}"/>
-        <div class="inputs">
-            <div class="ui-form-item">
-                <label class="ui-label mt10">线路级别：</label>
-                <div>${lineLevel.nameStr}</div>
-                <input type="hidden" name="level" id="level" value="${lineLevel}"/>
-            </div>
-            <div class="ui-form-item">
-                <label class="ui-label mt10">共可选（辆）:</label>
-                <div class="toBeOrdered">${order.selectableBusesNumber}</div>
-            </div>
-            <div class="ui-form-item">
-                <label class="ui-label mt10">选择类别：</label>
-                <select class="ui-input bus-category"
-                        name="category" id="category">
-                    <option value="" selected="selected"></option>
-                    <#list categories as cate>
-                        <option value="${cate}">${cate.nameStr}</option>
-                    </#list>
-                </select>
-            </div>
+	<div id="orderBusesPopup" title="选择车辆">
+		<form data-name="withdraw" name="pickBusesForm" id="pickBusesForm"
+			class="ui-form" method="post"
+			action="${rc.contextPath}/order/ajax-order-buses"
+			enctype="multipart/form-data">
+			<input type="hidden" name="order.id" id="order.id"
+				value="${order.id}" />
+			<div class="inputs">
+				<div class="ui-form-item">
+					<label class="ui-label mt10">线路级别：</label>
+					<div>${lineLevel.nameStr}</div>
+					<input type="hidden" name="level" id="level" value="${lineLevel}" />
+				</div>
+				<div class="ui-form-item">
+					<label class="ui-label mt10">共可选（辆）:</label>
+					<div class="toBeOrdered">${order.selectableBusesNumber}</div>
+				</div>
+				<div class="ui-form-item">
+					<label class="ui-label mt10">选择类别：</label> <select
+						class="ui-input bus-category" name="category" id="category">
+						<option value="" selected="selected"></option> <#list categories
+						as cate>
+						<option value="${cate}">${cate.nameStr}</option> </#list>
+					</select>
+				</div>
 
-            <div class="ui-form-item" style="display:none">
-                <label class="ui-label mt10">营销中心：</label>
-                <select class="ui-input bus-company"
-                        name="company.id" id="company.id">
-                    <option value="" selected="selected"></option>
-                </select>
-            </div>
-            <div class="ui-form-item" style="display:none">
-                <label class="ui-label mt10">选择线路：</label>
-                <select class="ui-input bus-line"
-                        name="line.id" id="line.id">
-                    <option value="" selected="selected"></option>
-                </select>
-            </div>
-            <div class="ui-form-item" style="display:none">
-                <label class="ui-label mt10">选择车型：</label>
-                <select class="ui-input bus-model"
-                        name="model.id" id="model.id">
-                    <option value="" selected="selected"></option>
-                </select>
-            </div>
-            <div class="ui-form-item">
-                <label class="ui-label mt10">选取数量：</label>
-                <input class="ui-input validate[required,integer,min[1],max[2000]]"
-                        type="number" value="0" name="busNumber"
-                        id="busNumber" data-is="isAmount isEnough"
-                        autocomplete="off" disableautocomplete="" placeholder="">
-            </div>
-        </div>
-        <div class="ui-form-item widthdrawBtBox" style="position: absolute; bottom: 10px;">
-            <input type="button" onclick="sub()" class="block-btn"
-                   value="确认选车" >
-        </div>
-        </form>
-        </div>
-    </div>
-    </#if>
-</#macro>
+				<div class="ui-form-item" style="display: none">
+					<label class="ui-label mt10">营销中心：</label> <select
+						class="ui-input bus-company" name="company.id" id="company.id">
+						<option value="" selected="selected"></option>
+					</select>
+				</div>
+				<div class="ui-form-item" style="display: none">
+					<label class="ui-label mt10">选择线路：</label> <select
+						class="ui-input bus-line" name="line.id" id="line.id">
+						<option value="" selected="selected"></option>
+					</select>
+				</div>
+				<div class="ui-form-item" style="display: none">
+					<label class="ui-label mt10">选择车型：</label> <select
+						class="ui-input bus-model" name="model.id" id="model.id">
+						<option value="" selected="selected"></option>
+					</select>
+				</div>
+				<div class="ui-form-item">
+					<label class="ui-label mt10">选取数量：</label> <input
+						class="ui-input validate[required,integer,min[1],max[2000]]"
+						type="number" value="0" name="busNumber" id="busNumber"
+						data-is="isAmount isEnough" autocomplete="off"
+						disableautocomplete="" placeholder="">
+				</div>
+			</div>
+			<div class="ui-form-item widthdrawBtBox"
+				style="position: absolute; bottom: 10px;">
+				<input type="button" onclick="sub()" class="block-btn" value="确认选车">
+			</div>
+		</form>
+	</div>
+</div>
+</#if> </#macro>

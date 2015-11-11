@@ -1,4 +1,4 @@
-<#macro select_lines title="选取车辆" buyLink=false activityId =activityId seriaNum=seriaNum bodycontract=bodycontract>
+<#macro select_lines title="选取车辆" buyLink=false activityId =activityId seriaNum=seriaNum bodycontract=bodycontract> 
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <script type="text/javascript">
 	function gotoSchedult(id,modelId){
@@ -251,39 +251,38 @@
 }
 </script>
 
-		<div class="p20bs mt10 color-white-bg border-ec">
-				<div class="withdraw-title">
-					<span>选取车辆</span>
-					<input type="hidden" name="seriaNum" id="seriaNum" value="${seriaNum}"/>
-					
-					    <@security.authorize ifAnyGranted="bodyFinancialManager,bodyContractManager,bodyScheduleManager">
-					    <#if bodycontract.isSchedule()==true> 
-							<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="worklist(${bodycontract.seriaNum},${bodycontract.id})">施工单</a>
-							<a class="block-btn" style="margin-right:10px ;margin-top: -5px;"  href="javascript:void(0)" onclick="XYDetail(${bodycontract.id});">查看小样</a>
-						</#if>
-					     </@security.authorize>
-				<#--<a class="block-btn" style="margin-top: -5px;" href="javascript:void(0);" onclick="selctLine('${rc.contextPath}',${seriaNum})">增加选择</a>
-					-->
-				</div>
-			
-			<div id="orderedBuses">
-				<table id="table" class="display compact"
-					cellspacing="0" width="100%">
-					<thead>
-						<tr class="tableTr">
+<div class="p20bs mt10 color-white-bg border-ec">
+	<div class="withdraw-title">
+		<span>选取车辆</span> <input type="hidden" name="seriaNum" id="seriaNum"
+			value="${seriaNum}" /> <@security.authorize
+		ifAnyGranted="bodyFinancialManager,bodyContractManager,bodyScheduleManager">
+		<#if bodycontract.isSchedule()==true> <a class="block-btn"
+			style="margin-top: -5px;" href="javascript:void(0);"
+			onclick="worklist(${bodycontract.seriaNum},${bodycontract.id})">施工单</a>
+		<a class="block-btn" style="margin-right: 10px; margin-top: -5px;"
+			href="javascript:void(0)" onclick="XYDetail(${bodycontract.id});">查看小样</a>
+		</#if> </@security.authorize> <#--<a class="block-btn"
+			style="margin-top: -5px;" href="javascript:void(0);"
+			onclick="selctLine('${rc.contextPath}',${seriaNum})">增加选择</a> -->
+	</div>
+
+	<div id="orderedBuses">
+		<table id="table" class="display compact" cellspacing="0" width="100%">
+			<thead>
+				<tr class="tableTr">
 					<th>线路</th>
-                    <th>数量（辆）</th>
-                     <th>已安装</th>
-                    <th width="180px">车型</th>
-                     <th>上刊时间</th>
-                    <th>下刊时间</th>
-                    <th>锁定预留时间</th>
-						</tr>
-					</thead>
+					<th>数量（辆）</th>
+					<th>已安装</th>
+					<th width="180px">车型</th>
+					<th>上刊时间</th>
+					<th>下刊时间</th>
+					<th>锁定预留时间</th>
+				</tr>
+			</thead>
 
-				</table>
-			</div>
+		</table>
+	</div>
 
-			<div id="orderBusesPopup" title="选择车辆"></div>
-		</div>
+	<div id="orderBusesPopup" title="选择车辆"></div>
+</div>
 </#macro>
