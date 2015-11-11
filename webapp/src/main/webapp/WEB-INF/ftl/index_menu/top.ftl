@@ -69,9 +69,9 @@
 </ul>
 <div class="s-right s-clear">
 
-	<span class="pg-nav-item s-left">您好，</span>
-	<span> <@security.authorize access="isAuthenticated()"> <#if
-		medetype?? && medetype=="screen"> <a class="pg-nav-item s-left"
+	<span class="pg-nav-item s-left">您好，</span> <span>
+		<@security.authorize access="isAuthenticated()"> <#if medetype?? &&
+		medetype=="screen"> <a class="pg-nav-item s-left"
 		href="${rc.contextPath}/order/myTask/1"> <#else> <a
 			class="pg-nav-item s-left"
 			href="${rc.contextPath}/busselect/myTask/1"> </#if> 我的账户:

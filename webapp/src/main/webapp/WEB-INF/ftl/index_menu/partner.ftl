@@ -17,28 +17,27 @@
 		<#include "/index_menu/index_top.ftl" />
 		<!-- 头部结束 -->
 	</header>
-	<div id="content" style="transition: all 1000ms ease; -webkit-transition: all 1000ms ease; transform: translate3d(0px, 0px, 0px);">
+	<div id="content"
+		style="transition: all 1000ms ease; -webkit-transition: all 1000ms ease; transform: translate3d(0px, 0px, 0px);">
 
-			<section class="background-five" style="height: 649px;">
-				<div class="container">
-					<div class="title-en">
-						
-					</div>
-					<div class="title-zh">合作伙伴</div>
-					<ul class="adv">
-						<li class="mobile"></li>
-						<li class="mengniu"></li>
-						<li class="lenovo"></li>
-						<li class="jd"></li>
-						<li class="suning"></li>
-						<li class="apple"></li>
-						<li class="weiqian"></li>
-						<li class="unilever"></li>
-						<li class="cocacola"></li>
-						<li class="taobao"></li>
-					</ul>
-				</div>
-			</section>
+		<section class="background-five" style="height: 649px;">
+			<div class="container">
+				<div class="title-en"></div>
+				<div class="title-zh">合作伙伴</div>
+				<ul class="adv">
+					<li class="mobile"></li>
+					<li class="mengniu"></li>
+					<li class="lenovo"></li>
+					<li class="jd"></li>
+					<li class="suning"></li>
+					<li class="apple"></li>
+					<li class="weiqian"></li>
+					<li class="unilever"></li>
+					<li class="cocacola"></li>
+					<li class="taobao"></li>
+				</ul>
+			</div>
+		</section>
 
 	</div>
 	<div class="jack" style="height: 296px; top: 160.5px;">
