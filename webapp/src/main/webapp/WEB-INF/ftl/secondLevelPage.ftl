@@ -318,15 +318,6 @@ function tocard(pathurl){
 			$(this).prev().val(parseInt(oldValue)+1);
 		}); 
 		
-		/* $("#leftPlus").click(function(){
-			  $(this).parent().find("input").val(parseint($(this).parent().find("input"))+1);
-		});
-		$("#leftDec").click(function(){
-			  $(this).parent().find("input").val(parseint($(this).parent().find("input"))-1);
-		}); */
-			
-
-		
 	</script>
 </body>
 </html>
