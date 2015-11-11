@@ -61,8 +61,8 @@ div#toolbar {
             "columnDefs": [
                 { "orderable": false, "targets": [7] },
             ],
-            "iDisplayLength" : 50,
-            "aLengthMenu": [[50, 100], [50, 100]],
+            "iDisplayLength" : 20,
+            "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
             "ajax": {
                 type: "GET",
                 url: "${rc.contextPath}/api/ajax-all-lines",
