@@ -212,8 +212,8 @@ css=["js/jquery-ui/jquery-ui.css"]>
 				<th>原车型描述</th>
 				<th>公司名称</th>
 				<th>原公司名称</th>
-				<th>客户名称</th>
-				<th>原客户名称</th>
+				<th>分公司名称</th>
+                <th>原分公司名称</th>
 				<th orderBy="updated">最后更新时间</th>
 				<th>操作人</th>
 
