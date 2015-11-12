@@ -110,11 +110,11 @@ $.ajax({
 				<div class="product-info s-clear">
 					<div class="preview s-left">
 						<#if (prod.type)=="info"> <img
-							src="${rc.contextPath}/imgs/info.png" width="298" height="298">
+							src="${rc.contextPath}/imgs/info.png" width="360" height="298">
 						<#elseif (prod.type)=="image"> <img
-							src="${rc.contextPath}/imgs/img.png" width="298" height="298">
+							src="${rc.contextPath}/imgs/img.png" width="360" height="298">
 						<#elseif (prod.type)=="video"> <img
-							src="${rc.contextPath}/imgs/video.png" width="298" height="298">
+							src="${rc.contextPath}/imgs/video.png" width="360" height="298">
 						</#if>
 					</div>
 					<div class="product-detail s-left">
