@@ -1747,6 +1747,7 @@
 				"marginTop": pos.marginTopSize,
 				"opacity": 0.87};
 
+				alert(pos.marginTopSize);
                 prompt.css({
                     "opacity": 0,
                     "display": "block"
