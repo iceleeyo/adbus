@@ -495,10 +495,9 @@ html #layui_layer_skinlayercss {
     line-height: 30px;
     margin: 0 8px;
     padding: 0 20px;
-    background: #5FBFE7;
+    background: #1D70ED;
     color: #fff;
     font-size: 14px;
-    font-weight: 700;
     cursor: pointer;
     text-decoration: none
 }

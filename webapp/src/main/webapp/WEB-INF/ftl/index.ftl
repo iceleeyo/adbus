@@ -13,15 +13,12 @@
 <link rel="stylesheet" type="text/css" href="index_css/sift.css">
 <link rel="stylesheet" type="text/css" href="index_css/index_sea.css">
 <script src="js/jquery.pagination.js"></script>
-<script type="text/javascript" language="javascript"
-	src="js/layer/layer.js"></script>
-<!--增加lay最新版本-->
-<script type="text/javascript" language="javascript"
-	src="js/layer-v1.9.3/layer/layer.js"></script>
-<script type="text/javascript" language="javascript"
-	src="js/layer.onload.js"></script>
-<script type="text/javascript" language="javascript"
-	src="js/layer-v1.9.3/layer-site.js"></script>
+<style type="text/css">
+.layui-layer-title{
+	background-color:#7D7D92 !important;
+}
+
+</style>
 </head>
 <script type="text/javascript">
 	/**
@@ -373,6 +370,7 @@
 			<li class="qq"><i></i></li>
 			<li class="tel"><i></i></li>
 			<li class="wechat"><i></i></li>
+			<div class="erweima" style="display: none;"><p><img src="/Public/img/erweima.jpg" width="110" height="110" alt="关注世巴微信平台">关注世巴微信平台</p><i class="arrow3"></i></div>
 			<li class="down"><i></i></li>
 		</ul>
 		<a class="switch"></a>
@@ -380,6 +378,15 @@
 	<script type="text/javascript" src="index_js/unslider.min.js"></script>
 	<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="index_js/index.js"></script>
+	<script type="text/javascript" language="javascript"
+	src="${rc.contextPath}/js/layer/layer.js"></script>
+<!--增加lay最新版本-->
+<script type="text/javascript" language="javascript"
+	src="${rc.contextPath}/js/layer-v1.9.3/layer/layer.js"></script>
+<script type="text/javascript" language="javascript"
+	src="${rc.contextPath}/js/layer.onload.js"></script>
+<script type="text/javascript" language="javascript"
+	src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
 	<script type="text/javascript">
 		/**
 		 * 登出
@@ -387,7 +394,9 @@
 		function logout() {
 			window.location.href = "${rc.contextPath}/logout";
 		}
+		
 		$(function() {
+			
 			var _winHeight = $(window).height(), _winWidth = $(window).width();
 			$('.background-one .slider').css({
 				'height' : _winHeight,

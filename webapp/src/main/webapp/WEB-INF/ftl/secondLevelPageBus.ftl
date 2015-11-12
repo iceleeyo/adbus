@@ -68,9 +68,9 @@ function tocard(pathurl){
 							height="260"></li>
 						<li><img src="index_img/new-07.png" alt="" width="100%"
 							height="260"></li>
-						<li><img src="index_img/new-08.png" alt="" width="100%"
+						<li><img src="index_img/new-08.jpg" alt="" width="100%"
 							height="260"></li>
-						<li><img src="index_img/new-09.png" alt="" width="100%"
+						<li><img src="index_img/new-09.jpg" alt="" width="100%"
 							height="260"></li>
 					</ul>
 				</div>
