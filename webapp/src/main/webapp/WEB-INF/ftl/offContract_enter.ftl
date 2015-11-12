@@ -588,7 +588,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 						</div>
 						<div class="ui-form-item">
 							<label class="ui-label mt10"><span
-								class="ui-form-required">*</span>联系人:</label> <input
+								class="ui-form-required"></span>联系人:</label> <input
 								class="ui-input validate[required]" type="text" name="relateMan"
 								value="${(offlinecontract.relateMan)!''}" id="name"
 								data-is="isAmount isEnough" autocomplete="off"
@@ -637,8 +637,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 						</div>
 						<div class="ui-form-item">
 							<label class="ui-label mt10"><span
-								class="ui-form-required">*</span> 付款方式: </label> <input
-								class="ui-input validate[required]" type="text" name="payway"
+								class="ui-form-required"></span> 付款方式: </label> <input
+								class="ui-input" type="text" name="payway"
 								value="${(offlinecontract.payway)!''}"
 								data-is="isAmount isEnough" autocomplete="off"
 								disableautocomplete="" placeholder="请输入付款方式">
