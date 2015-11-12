@@ -136,7 +136,7 @@ $.ajax({
 									<!--<input type="text" id="time_h">时<input type="text" id="time_m">分<input type="text" id="time_s">秒-->
 								</div>
 							</div>
-							<div class="">
+							<div class="price s-clear">
 								<span>出价:</span><span id="cspan"><a class="reduce">-</a> <input
 									class="text product-text" onblur="bu(this)"
 									onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/[^\d.]/g,'')}"
