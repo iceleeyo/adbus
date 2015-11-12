@@ -136,14 +136,14 @@ $.ajax({
 									<!--<input type="text" id="time_h">时<input type="text" id="time_m">分<input type="text" id="time_s">秒-->
 								</div>
 							</div>
-							<div class="product-form">
+							<div class="">
 								<span>出价:</span><span id="cspan"><a class="reduce">-</a> <input
 									class="text product-text" onblur="bu(this)"
 									onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/[^\d.]/g,'')}"
 									type="text" id="myprice" value="" /> <a class="plus">+</a>
 								</span>
 							</div>
-							<div class="product-intro">
+							<div class="product-intro product-form">
 								<div class="price s-clear">
 									<span>最低加价：<em>￥1000.00</em></span> <span>最高加价：<em>不限</em></span>
 								</div>
