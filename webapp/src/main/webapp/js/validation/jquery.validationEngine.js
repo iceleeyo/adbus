@@ -1627,6 +1627,7 @@
 			// create the prompt content
 			var promptContent = $('<div>').addClass("formErrorContent").html(promptText).appendTo(prompt);
 
+			alert(promptContent);
 			// determine position type
 			var positionType=field.data("promptPosition") || options.promptPosition;
 
