@@ -1,16 +1,27 @@
-
-
 /* Z-INDEX */
- .formError { z-index: 990; }
-    .formError .formErrorContent { z-index: 991; }
-    .formError .formErrorArrow { z-index: 996; }
+.formError {
+	z-index: 990;
+}
 
-    .ui-dialog .formError { z-index: 5000; }
-    .ui-dialog .formError .formErrorContent { z-index: 5001; }
-    .ui-dialog .formError .formErrorArrow { z-index: 5006; }
+.formError .formErrorContent {
+	z-index: 991;
+}
 
+.formError .formErrorArrow {
+	z-index: 996;
+}
 
+.ui-dialog .formError {
+	z-index: 5000;
+}
 
+.ui-dialog .formError .formErrorContent {
+	z-index: 5001;
+}
+
+.ui-dialog .formError .formErrorArrow {
+	z-index: 5006;
+}
 
 .inputContainer {
 	position: relative;
@@ -43,8 +54,8 @@
 .formError .formErrorContent {
 	width: 100%;
 	background: #F7FBFF;
-	position:relative;
-	left:140px;
+	position: relative;
+	left: 140px;
 	color: #ee0101;
 	min-width: 120px;
 	font-size: 11px;
@@ -54,7 +65,6 @@
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
 	-o-border-radius: 2px;
-	
 }
 
 .formError.inline .formErrorContent {
@@ -71,7 +81,7 @@
 
 .greenPopup .formErrorContent {
 	background: #ffffaa;
-    color: #33be40;
+	color: #33be40;
 }
 
 .blackPopup .formErrorContent {
@@ -82,11 +92,12 @@
 .formError .formErrorArrow {
 	width: 15px;
 	margin: -2px 0 0 13px;
-	position:relative;
-	left:140px;
+	position: relative;
+	left: 140px;
 }
-body[dir='rtl'] .formError .formErrorArrow,
-body.rtl .formError .formErrorArrow {
+
+body[dir='rtl'] .formError .formErrorArrow,body.rtl .formError .formErrorArrow
+	{
 	margin: -2px 13px 0 0;
 }
 
@@ -96,7 +107,7 @@ body.rtl .formError .formErrorArrow {
 	-webkit-box-shadow: none;
 	-o-box-shadow: none;
 	margin: 0px 0 0 12px;
-	top:2px;
+	top: 2px;
 }
 
 .formError .formErrorArrow div {
