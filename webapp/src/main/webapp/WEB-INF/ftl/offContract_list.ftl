@@ -69,7 +69,7 @@ div#toolbar {
                     return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
                 }},
                 { "data": "contractCode", "defaultContent": ""},
-                { "data": "relateMan", "defaultContent": ""},
+                { "data": "company", "defaultContent": ""},
                 { "data": "salesman", "defaultContent": ""},
                 { "data": "adway", "defaultContent": ""},
                 { "data": "adcontent", "defaultContent": ""},
