@@ -12,7 +12,7 @@
 		<li class="wechat"><i></i></li>
 		<div class="erweima" style="display: none;">
 			<p>
-				<img src="${rc.contextPath}/index_img/pic1.png" width="110"
+				<img src="${rc.contextPath}/index_img/wbwc.jpg" width="110"
 					height="110" alt="关注世巴微信平台">关注世巴微信平台
 			</p>
 			<i class="arrow3"></i>
