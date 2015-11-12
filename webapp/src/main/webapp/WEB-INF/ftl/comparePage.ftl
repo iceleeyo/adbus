@@ -147,6 +147,11 @@ $.ajax({
 
 								</div>
 							</div>
+							<div class="product-intro">
+								<div class="range">
+									<span>最低加价：<em>￥1000.00</em></span> <span>最高加价：<em>不限</em></span>
+								</div>
+							</div>
 							<div class="product-btn" style="float: right;">
 								<#if (jpaCpd.startDate < .now && jpaCpd.biddingDate > .now ) > <a
 									class="btn-bid" href="javascript:void(0)"
