@@ -304,7 +304,7 @@ $.ajax({
 				</div>
 			</div>
 			<div class="ls-3"
-				style="float: right; position: absolute; left: 900px; top: 0px; background: #fff;">
+				style="float: right; position: absolute; left: 850px; top: 0px; background: #fff;">
 				<div class="record-sidebar">
 					<div class="record-title">
 						<label>出价记录（共<label>${jpaCpd.setcount}</label>次出价）
