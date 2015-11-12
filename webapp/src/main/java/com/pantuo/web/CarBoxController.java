@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaCardBoxBody;
+import com.pantuo.dao.pojo.JpaCardBoxHelper;
 import com.pantuo.dao.pojo.JpaCardBoxMedia;
+import com.pantuo.mybatis.domain.CardboxHelper;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
@@ -166,6 +168,16 @@ public class CarBoxController {
 		Page<JpaCardBoxBody> jpabuspage = cardService.queryCarBoxBody(cityId, req, req.getPage(), req.getLength(),
 				req.getSort("totalprice"));
 		return new DataTablePage(jpabuspage, req.getDraw());
+	}
+	@RequestMapping("/queryCarHelperyByid/{id}")
+	@ResponseBody
+	public JpaCardBoxHelper queryCarHelperyByid(@PathVariable("id") int id) {
+		return cardService.queryCarHelperyByid(id);
+	}
+	@RequestMapping("/editCarHelper")
+	@ResponseBody
+	public Pair<Boolean, String> editCarHelper(CardboxHelper helper,@RequestParam("stat") String stas) {
+		return cardService.editCarHelper(helper,stas);
 	}
 	@RequestMapping("ajax-queryCarBoxMedia")
 	@ResponseBody

@@ -702,6 +702,7 @@ public class CardServiceImpl implements CardService {
 			helper.setTotalMoney(typeCount.getPrice());
 			helper.setProductCount(typeCount.getProductCount());
 			helper.setIsPay(1);
+			helper.setStats(JpaCardBoxHelper.Stats.init.ordinal());
 			JpaCity _city = cityService.fromId(typeCount.getCity());
 			if (_city != null) {
 				helper.setMediaType(_city.getMediaType().ordinal());
@@ -785,7 +786,7 @@ public class CardServiceImpl implements CardService {
 			page = 0;
 		if (pageSize < 1)
 			pageSize = 1;
-		BooleanExpression query = null;//QJpaCardBoxHelper.jpaCardBoxHelper.city.eq(city);
+		BooleanExpression query = QJpaCardBoxHelper.jpaCardBoxHelper.mediaType.eq(MediaType.body);
 		Pageable p = new PageRequest(page, pageSize, sort);
 		String u = StringUtils.EMPTY;
 		boolean isAdmin = false;
@@ -807,10 +808,10 @@ public class CardServiceImpl implements CardService {
 					.and(QJpaCardBoxHelper.jpaCardBoxHelper.seriaNum.eq(seriaNum));
 		}
 
-		if (StringUtils.isNoneBlank(media_type) && !StringUtils.equals("defaultAll", media_type)) {
-			query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.mediaType.eq(MediaType.valueOf(media_type))
-					: query.and(QJpaCardBoxHelper.jpaCardBoxHelper.mediaType.eq(MediaType.valueOf(media_type)));
-		}
+//		if (StringUtils.isNoneBlank(media_type) && !StringUtils.equals("defaultAll", media_type)) {
+//			query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.mediaType.eq(MediaType.valueOf(media_type))
+//					: query.and(QJpaCardBoxHelper.jpaCardBoxHelper.mediaType.eq(MediaType.valueOf(media_type)));
+//		}
 		if (principal != null && !Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)) {
 			query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.city.eq(city) : query
 					.and(QJpaCardBoxHelper.jpaCardBoxHelper.city.eq(city));
@@ -825,21 +826,6 @@ public class CardServiceImpl implements CardService {
 			if (_city != null) {
 				obj.setMedia_type(_city.getMediaType().ordinal());
 			}
-
-			/*if (cityObj != null && !Request.hasAuth(principal, ActivitiConfiguration.ADVERTISER)) {
-				if (cityObj.getMediaType() == MediaType.screen) {
-
-					obj.setProduct_count(jpaCardBoxHelper.getMediaProductCcount());
-					obj.setTotalMoney(jpaCardBoxHelper.getMedia_totalMoney());
-				} else if (cityObj.getMediaType() == MediaType.body) {
-					obj.setProduct_count(jpaCardBoxHelper.getBusProductCcount());
-					obj.setTotalMoney(jpaCardBoxHelper.getBus_totalMoney());
-				}
-			}
-			if (Request.hasAuth(principal, ActivitiConfiguration.ADVERTISER)) {
-				obj.setProduct_count(jpaCardBoxHelper.getBusProductCcount() + jpaCardBoxHelper.getMediaProductCcount());
-				obj.setTotalMoney(jpaCardBoxHelper.getMedia_totalMoney() + jpaCardBoxHelper.getBus_totalMoney());
-			}*/
 
 			views.add(obj);
 		}
@@ -985,4 +971,26 @@ public class CardServiceImpl implements CardService {
 		query=query.and(QJpaCardBoxMedia.jpaCardBoxMedia.isConfirm.eq(1));
 		return query == null ? cardBoxRepository.findAll(p) : cardBoxRepository.findAll(query, p);
 	}
+
+	@Override
+	public JpaCardBoxHelper queryCarHelperyByid(int id) {
+		return cardHelperRepository.findOne(id);
+	}
+
+	@Override
+	public Pair<Boolean, String> editCarHelper(CardboxHelper helper,String stas) {
+		CardboxHelper cardboxHelper=cardboxHelpMapper.selectByPrimaryKey(helper.getId());
+		if(cardboxHelper==null){
+			return new Pair<Boolean, String>(false,"信息丢失");
+		}
+		cardboxHelper.setStats(JpaCardBoxHelper.Stats.valueOf(stas).ordinal());
+		cardboxHelper.setRemarks(helper.getRemarks());
+		int a=cardboxHelpMapper.updateByPrimaryKey(cardboxHelper);
+		if(a>0){
+			return new Pair<Boolean, String>(true,"操作成功");
+		}else{
+			return new Pair<Boolean, String>(false,"操作失败");
+		}
+	}
+	
 }

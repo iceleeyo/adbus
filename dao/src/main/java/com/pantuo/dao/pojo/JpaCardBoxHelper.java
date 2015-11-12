@@ -16,6 +16,18 @@ import com.pantuo.dao.pojo.JpaOrders.PayType;
 @Entity
 @Table(name = "cardbox_helper")
 public class JpaCardBoxHelper extends CityEntity {
+	  public static enum Stats {
+	        init ("待审核"),
+	        pass ("审核通过"),
+	        refu ("订单已拒绝");
+	        private final String nameStr;
+	        private Stats(String nameStr) {
+	            this.nameStr = nameStr;
+	        }
+	        public String getNameStr () {
+	            return nameStr;
+	        }
+	    }
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
@@ -32,12 +44,14 @@ public class JpaCardBoxHelper extends CityEntity {
 	private PayType payType;
 	private String mediaMark;
 	private String userid;
+	private String remarks;
 	private long seriaNum;//表单序列号
 
 	private double totalMoney;
 	private int productCount;
 	private int isPay;
 	private MediaType mediaType;
+	private Stats stats;
 	
 	
 	
@@ -51,6 +65,22 @@ public class JpaCardBoxHelper extends CityEntity {
 
 	public JpaSupplies getSupplies() {
 		return supplies;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+
+	public Stats getStats() {
+		return stats;
+	}
+
+	public void setStats(Stats stats) {
+		this.stats = stats;
 	}
 
 	public String getUserid() {

@@ -1,5 +1,6 @@
 #用户名,密码,用户昵称,FirstName,LastName,邮箱,所属组别（冒号隔开）
 admin,123456,超级管理员,,admin@pantuo.com,advertiser:ShibaOrderManager:ShibaFinancialManager:BeiguangMaterialManager:BeiguangScheduleManager:ShibaSuppliesManager:UserManager
+bodyadmin,123456,车身超级管理员,,admin@pantuo.com,body_roleManager
 order,123456,订单管理员,,order@pantuo.com,ShibaOrderManager:ShibaSuppliesManager
 financial,123456,财务管理员,,financial@pantuo.com,ShibaFinancialManager
 material,123456,物料管理员,,material@pantuo.com,BeiguangMaterialManager:ShibaSuppliesManager
@@ -14,3 +15,4 @@ bodysales,123456,车身销售,,269048814@qq.com,bodysales
 contract,123456,合同管理,,269048814@qq.com,bodyContractManager
 bodyfinancial,123456,车身财务管理,,269048814@qq.com,bodyFinancialManager
 bodySchedule,123456,车身工单管理,,269048814@qq.com,bodyScheduleManager
+bodyorder,123456,车身网上订单管理,,493626221@qq.com,bodyOnlineManager

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaCardBoxBody;
+import com.pantuo.dao.pojo.JpaCardBoxHelper;
 import com.pantuo.dao.pojo.JpaCardBoxMedia;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.mybatis.domain.CardboxBody;
@@ -130,4 +131,8 @@ public interface CardService {
 	public Page<JpaCardBoxBody> queryCarBoxBody(int cityId, TableRequest req, int page, int length, Sort sort);
 
 	public Page<JpaCardBoxMedia> queryCarBoxMedia(int cityId, TableRequest req, int page, int length, Sort sort);
+
+	public JpaCardBoxHelper queryCarHelperyByid(int id);
+
+	public Pair<Boolean, String> editCarHelper(CardboxHelper helper, String stas);
 }

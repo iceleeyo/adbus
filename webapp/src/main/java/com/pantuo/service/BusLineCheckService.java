@@ -202,4 +202,6 @@ public interface BusLineCheckService {
 	public Pair<Boolean, String> ishaveline(String linename);
 
 	public Pair<Boolean, String> savePublishLine2(PublishLine pub, String obj, Principal principal, int city)throws JsonProcessingException, IOException;
+
+	public Pair<Boolean, Integer> tolockline(String code, Principal principal, HttpServletRequest request);
 }

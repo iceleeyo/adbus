@@ -473,7 +473,7 @@ public class UserService implements UserServiceInter {
 		} else if (user.getUser() != null) {
 			com.pantuo.util.BeanUtils.filterXss(user);
 			user.setUstats(UStats.init);
-			if(principal!=null && Request.hasAuth(principal,"UserManager")){
+			if(principal!=null && (Request.hasAuth(principal,"UserManager") ||Request.hasAuth(principal,"body_roleManager"))){
 				user.setIsActivate(1);
 				userRepo.save(user);
 				identityService.saveUser(user.getUser());

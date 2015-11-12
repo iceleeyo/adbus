@@ -5,39 +5,6 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <script type="text/javascript">
 
-	function closeOrder22(mainPath,orderid,taskid){
-		$.ajax({
-			url : mainPath+"/order/closeOrder/"+taskid+"?orderid="+orderid,
-			type : "POST",
-			success : function(data) {
-				//jDialog.Alert(data.right);
-				 jDialog.Alert(data.right,function(){
-		        var uptime = window.setTimeout(function(){
-				$(location).attr('href', mainPath+"/order/myTask/1");
-		         clearTimeout(uptime);
-		       },2000);});
-				//location.reload([true]);
-			}
-		}, "text");
-	}
-
-	function claim(orderid,taskid){
- 	$.ajax({
-			url : "${rc.contextPath}/order/claim?orderid="+orderid+"&taskid="+taskid,
-			type : "POST",
-			success : function(data) {
-				//jDialog.Alert(data.right);
-				 jDialog.Alert(data.right,function(){
-		        var uptime = window.setTimeout(function(){
-				$(location).attr('href', "${rc.contextPath}/busselect/body_handleView?orderid=" +(orderid)+ "&taskid="+taskid);
-		         clearTimeout(uptime);
-		       },1000);});
-				//location.reload([true]);
-			}
-		}, "text");
-	  
-	}
-	
 	
     var table;
     function initTable () {
@@ -65,10 +32,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                 url: "${rc.contextPath}/carbox/ajax-myCards",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "filter[orderid]" : $('#orderid').val(),
-                         <@security.authorize ifAnyGranted="advertiser">
-                        "filter[media_type]" : $('#media_type').val()
-                             </@security.authorize>
+                        "filter[orderid]" : $('#orderid').val()
                         
                     } );
                 },
@@ -76,7 +40,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
             },
             
             "columns": [
-              <@security.authorize ifAnyGranted="bodyContractManager,contract_list,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+              <@security.authorize ifAnyGranted="bodyOnlineManager">
                        	{ "data": "r.userid", "defaultContent": ""},
                   </@security.authorize>
             
@@ -111,12 +75,39 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                 	}else if(data =='remit'){
                 		t='汇款';
                 	}
+                	else if(data =='offline'){
+                		t='线下支付';
+                	}
                 	return t;
                 }},
                 { "data": "r.created", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd HH:mm");
                 	return d;
-                }}
+                }},
+                { "data": "r.stats", "defaultContent": "","render": function(data, type, row, meta) {
+                	var t='';
+                	if(data =='init'){
+                		t='待审核';
+                	}else if(data =='pass'){
+                		t='<font color="greeen">审核通过</font>';
+                	}else if(data =='refu'){
+                		t='<font color="red">订单已拒绝</font>';
+                	}
+                	return t;
+                }},
+                { "data": "r.remarks", "defaultContent": ""},
+                 <@security.authorize ifAnyGranted="bodyOnlineManager">
+                { "data": function( row, type, set, meta) {
+                                                  return row.id;
+                                              },
+										"render" : function(data, type, row,
+												meta) {
+											var operations = '';
+											operations +='&nbsp;&nbsp;<a class="table-link" onclick="handlebodyorder(\'${rc.contextPath}\','+row.r.id+');" href="javascript:void(0)">处理</a>';
+											return operations;
+										}
+									},
+				 </@security.authorize>
                 
             ],
             "language": {
@@ -130,79 +121,22 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
   		
   		 
     }
-    <@security.authorize ifAnyGranted="advertiser,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
      function initComplete() {
-     
         $("div#toolbar").html(
                 '<div>' +
                           '    <span>订单号</span>' +
                         '    <span>' +
                         '        <input id="orderid" value="">' +
                         '    </span>' +
-                          '<select class="ui-input ui-input-mini" name="media_type" id="media_type">' +
-	                    '<option value="defaultAll" selected="selected">所有媒体</option>' +
-	                    '<option value="screen">移动视频</option>' +
-	                    '<option value="body">车身广告</option>' +
-	         			'</select>' +
                         '</div>'
         );
         
-        $('#orderid,#media_type').change(function() {
+        $('#orderid').change(function() {
             table.fnDraw();
         });
         
      }
-     </@security.authorize>
     
-    
-	<@security.authorize ifAnyGranted="bodyFinancialManager,bodyContractManager,bodyScheduleManager">
-    function initComplete() {
-        $("div#toolbar").html(
-                '<div>' +
-                          '    <span>公司名称</span>' +
-                        '    <span>' +
-                        '        <input id="companyname" value="">' +
-                        '    </span>' +
-                        '</div>'
-        );
-
-        $('#companyname').change(function() {
-            table.fnDraw();
-        });
-        //author:impanxh 2015-05-20 22:36 自动补全功能
-        $( "#autocomplete" ).autocomplete({
-  			source: "${rc.contextPath}/user/autoComplete",
-  			change: function( event, ui ) { 
-  				/*if(ui.item!=null){alert(ui.item.value);}*/
-  				table.fnDraw();
-  			 },
-  			 select: function(event,ui) {
-  			 $('#autocomplete').val(ui.item.value);
-  				table.fnDraw();
-  			 }
-		});
-		bindLayerMouseOver();
-    }
-    </@security.authorize>
-    
-    <@security.authorize ifAnyGranted="bodysales">
-    function initComplete() {
-        $("div#toolbar").html(
-                '<div>' +
-                        '    <span>流水号</span>' +
-                        '    <span>' +
-                        '        <input id="seriaNum" value="">' +
-                        '    </span>'+
-                    '</div>'
-        );
-
-        $('#seriaNum').change(function() {
-            table.fnDraw();
-        });
-        bindLayerMouseOver();
-    }
-    </@security.authorize>
-
     function drawCallback() {
         $('.table-action').click(function() {
             $.post($(this).attr("url"), function() {
@@ -220,7 +154,6 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
  		
     $(document).ready(function() {
         initTable();
-       // setInterval("bindLayerMouseOver()",1500);
     } );
 </script>
 
@@ -234,8 +167,9 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
 		<thead>
 			<tr>
 				<@security.authorize
-				ifAnyGranted="bodyContractManager,contract_list,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
-				<th>下单用户</th> </@security.authorize>
+				ifAnyGranted="bodyOnlineManager">
+				<th>下单用户</th> 
+				</@security.authorize>
 				<th>订单号</th>
 				<th>媒体类型</th>
 				<th>订单总价</th>
@@ -243,6 +177,12 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
 				<th>相关产品个数</th>
 				<th>支付方式</th>
 				<th orderBy="created">下单时间</th>
+				<th>状态</th>
+				<th>备注</th>
+				<@security.authorize
+				ifAnyGranted="bodyOnlineManager">
+				<th>操作</th>
+				</@security.authorize>
 			</tr>
 		</thead>
 

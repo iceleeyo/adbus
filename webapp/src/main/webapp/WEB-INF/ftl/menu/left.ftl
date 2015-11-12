@@ -25,7 +25,15 @@
 				style="color: #fff; background: #F45C55;"
 				href="${rc.contextPath}/busselect/myTask/1"> <i
 					class="s-left pg-icon-a a-icon"></i> 待办事项
-			</a></li> </@security.authorize> <@security.authorize
+			</a></li> </@security.authorize> 
+				<@security.authorize ifAnyGranted="bodyOnlineManager,advertiser">
+			<li class="pg-side-item">
+			      <a class="pg-side-item-t aa-icon"  href="${rc.contextPath}/carbox/carTask">
+					 <i class="s-left pg-icon-a d-icon"></i> 车身网上订单
+			       </a>
+			</li> 
+			</@security.authorize> 
+			<@security.authorize
 			ifAnyGranted="advertiser,ShibaOrderManager,BeiguangMaterialManager,ShibaSuppliesManager">
 			<li class="pg-side-item"><a class="pg-side-item-t bb-icon">
 					<i class="s-left pg-icon-a b-icon"></i> 物料管理
@@ -59,8 +67,6 @@
 					<i class="s-left pg-icon-a d-icon"></i> 订单管理
 			</a>
 				<ul class="pg-side-exp-list">
-					<li class="pg-side-exp-item"><a class="side-exp-item-t"
-						href="${rc.contextPath}/carbox/carTask"> 网上订单 </a></li>
 					<@security.authorize ifAnyGranted="advertiser"> <#if city.mediaType
 					== 'screen'>
 					<li class="pg-side-exp-item"><a class="side-exp-item-t"
@@ -182,6 +188,8 @@
 				<@security.authorize ifAnyGranted="meijie_online">
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/busselect/publishLine_list"> 上刊发布 </a></li>
+				<li class="pg-side-exp-item"><a class="side-exp-item-t"
+					href="${rc.contextPath}/busselect/befLockLine"> 锁定线路 </a></li>
 				</@security.authorize> <@security.authorize
 				ifAnyGranted="meijie_onlinecount">
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
@@ -349,15 +357,18 @@
 				<@security.authorize ifAnyGranted="UserManager,sys_userList">
 				<#if UType != 'body'>
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
-					href="${rc.contextPath}/user/list"> 视频用户列表 </a></li></#if>
-				<li class="pg-side-exp-item"><a class="side-exp-item-t"
-					href="${rc.contextPath}/user/bodyuserlist"> 车身用户列表 </a></li>
+					href="${rc.contextPath}/user/list"> 视频用户列表 </a></li>
+					</#if>
+				
 				</@security.authorize>
 				
-				 <@security.authorize
-				ifAnyGranted="UserManager,body_roleManager"> <#if UType == 'body'>
-				<li class="pg-side-exp-item"><a class="side-exp-item-t"
-					href="${rc.contextPath}/user/role_list"> 车身角色管理 </a></li> </#if>
+				
+				 <@security.authorize ifAnyGranted="body_roleManager"> 
+				 <li class="pg-side-exp-item"><a class="side-exp-item-t"
+					href="${rc.contextPath}/user/bodyuserlist"> 车身用户列表 </a></li>
+				   <li class="pg-side-exp-item"><a class="side-exp-item-t"
+					href="${rc.contextPath}/user/role_list"> 车身角色管理 </a>
+					</li>
 				</@security.authorize>
 				 <@security.authorize
 				ifAnyGranted="advertiser">

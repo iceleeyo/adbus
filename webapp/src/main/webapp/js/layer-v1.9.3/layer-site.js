@@ -347,7 +347,8 @@ function supEnter(tourl,city,type){
     		type: 1,
     		title: "物料录入",
     		skin: 'layui-layer-rim', //加上边框
-    		area: ['525px', '540px'], //宽高
+    		area: ['525px', '740px'], //宽高
+    		 fix: true, //不固定
     		content: '<form id="userForm1" name="userForm1" action="'+tourl+'/supplies/put?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1" enctype="multipart/form-data" method="post"">'
 					 +'<br/><br/><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/><div class="withdrawInputs"><div class="inputs">'
 					 +'<div class="ui-form-item"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>广告名称</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[1],maxSize[120]]"'
@@ -1119,6 +1120,58 @@ function editDividPay(tourl,id){
 		}
 	}, "text");
 	
+}
+//处理车身订单
+function handlebodyorder(tourl,id){
+	$.ajax({
+		url : tourl+"/carbox/queryCarHelperyByid/"+id,
+		type : "POST",
+		data : {
+		},
+		success : function(data) {
+			layer.open({
+				type : 1,
+				title : "车身订单处理",
+				skin : 'layui-layer-rim',
+				area : [ '500px', '360px' ],
+				content : ''
+					+ '<form id="carhelperform" action='+tourl+'/carbox/editCarHelper>'
+					+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
+					+'<input type="hidden" name="id" value="'+data.id+'"/><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/><div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">状态：</label>'
+					+'<select class="ui-input ui-input-mini" name="stat" id="stats">' 
+	              	+'<option value="init">待审核</option>' 
+	              	+'<option value="pass">审核通过</option>' 
+	              	+'<option value="refu">拒绝订单</option>' 
+	     			+'</select>'
+					+'</div>'
+					+'<div class="ui-form-item"> <label class="ui-label mt10">备注：</label>'
+					+'<textarea rows="4" cols="40"  data-is="isAmount isEnough" style="resize: none;" name="remarks">'+isNotEmptyString(data.remarks)+'</textarea>'
+					+'</div>'
+					+ '</div>'
+					+ '<div class="ui-form-item widthdrawBtBox" style="position: absolute; bottom: 10px;">'
+					+ '<input type="button" onclick="subhelper()" class="block-btn" value="确认" ></div>'
+					+ '</form>'
+					+'<div id="worm-tips" class="worm-tips" style="width:350px;display:none;"></div>'
+			});
+			$("#stats option").each(function(){
+				   if($(this).val() == data.stats){
+				     $(this).attr("selected", "selected");  
+				   }
+				});
+		}
+	}, "text");
+	
+}
+function subhelper(){
+	$('#carhelperform').ajaxForm(function(data) {
+		if(data.left){
+			layer.msg("修改成功");
+			table.dataTable()._fnAjaxUpdate();
+			$("#cc").trigger("click");
+		}else{
+			layer.msg(data.right);
+		}
+	}).submit();
 }
 function subDivid(){
 	na=$("#namestr").val();

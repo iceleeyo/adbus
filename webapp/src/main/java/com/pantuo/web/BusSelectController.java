@@ -717,6 +717,16 @@ public class BusSelectController {
 		}
 		return "offContract_enter";
 	}
+	@RequestMapping(value = "/to_lockLine/{contract_id}", produces = "text/html;charset=utf-8")
+	public String to_lockLine(Model model,@PathVariable("contract_id") int contract_id,Principal principal,
+			@CookieValue(value = "city", defaultValue = "-1") int cityId,HttpServletRequest request) {
+		Offlinecontract  offlinecontract=busLineCheckService.findOffContractById(contract_id);
+		model.addAttribute("offlinecontract", offlinecontract);
+		if(offlinecontract!=null){
+			model.addAttribute("seriaNum", offlinecontract.getSeriaNum());
+		}
+		return "lockLine";
+	}
 	/**
 	 * 
 	 * 查合同的选车情况
@@ -877,6 +887,13 @@ public class BusSelectController {
 		return activitiService.uploadXiaoY(mainid, taskid, approve2Comments, principal, request);
 
 	}
+	@RequestMapping(value = "/tolockline/{contractcode}", method = RequestMethod.POST)
+	@ResponseBody
+	public Pair<Boolean, Integer> tolockline(@PathVariable("contractcode") String code,Principal principal,
+			HttpServletRequest request) {
+		return busLineCheckService.tolockline(code, principal, request);
+		
+	}
 
 	/**
 	 * 
@@ -889,7 +906,10 @@ public class BusSelectController {
 	public String finishedOrders() {
 		return "finishedBodyOrders";
 	}
-
+  @RequestMapping(value="/befLockLine")
+  public String befLockLine(){
+	  return "befLockLine";
+  }
 	/**
 	 * 
 	 * 已完成的订单 datatable

@@ -1624,5 +1624,16 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		}
 		return new Pair<Boolean, String>(false, "保存失败");
 	}
+
+	@Override
+	public Pair<Boolean, Integer> tolockline(String code, Principal principal, HttpServletRequest request) {
+		OfflinecontractExample example=new OfflinecontractExample();
+		example.createCriteria().andContractCodeEqualTo(code);
+		List<Offlinecontract> list=offlinecontractMapper.selectByExample(example);
+		if(list.size()>0){
+			return new Pair<Boolean, Integer>(true,list.get(0).getId());
+		}
+		return new Pair<Boolean, Integer>(false,0);
+	}
 	
 }

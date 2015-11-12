@@ -259,10 +259,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 			if (isBodysales) {
 				makeCookieRight(request, response, false);
-				return "/busselect/myOrders/1";
+				return "/user/qualification";
 			} else if (isBody) {
 				makeCookieRight(request, response, false);
-				return "/busselect/myTask/1";
+				return "/user/qualification";
 			} else if (isUserAdmin) {
 				return "user/list";
 			} else {
