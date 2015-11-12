@@ -862,7 +862,7 @@ function addline(url) {
        	 				+'<input class="ui-input " type="text" value="" name="linetype"  '
        	 				+'id="linetype" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
        	 				+'</div>'
-       	 			+'<div class="ui-form-item"> <label class="ui-label mt10">车辆数：</label>'
+       	 			+'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">* </span>车辆数：</label>'
    	 				+'<input class="ui-input " type="text" value="" name="cars"  onkeyup="value=value.replace(/[^\\d]/g,\'\')" '
    	 				+'id="busnum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
    	 				+'</div>'
@@ -873,7 +873,7 @@ function addline(url) {
        	 				+'<div class="ui-form-item"> <label class="ui-label mt10">线路级别：</label>'
 						+'<select  class="ui-input bus-model" name="level" id="level">  '
        	 				+'<option value="0" selected="selected">S(特级)</option><option value="1" > A++</option> <option value="2">A+</option><option value="3">A</option></select></div>'
-       	 			    +'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle">所属营销中心：</span> </label>'
+       	 			    +'<div class="ui-form-item"> <label class="ui-label mt10"> <span class="toggle bodyToggle"><span class="ui-form-required">* </span>所属营销中心：</span> </label>'
     				    + '<select  class="ui-input bus-model" name="companyId" id="companyId"> <option value="" selected="selected">请选择营销中心</option> </select>'
     				    +'</div>'
     			    	+'<div class="ui-form-item"> <label class="ui-label mt10">首班时间：</label>'
@@ -921,7 +921,7 @@ function showLineDetail(pathUrl,id){
 				type: 1,
 				title: "线路信息修改",
 				skin: 'layui-layer-rim', 
-				area: ['650px', '780px'], 
+				area: ['550px', '650px'], 
 				content: ''
 					+ '<form id="addLineform" action='+pathUrl+'/busselect/saveLine>'
 					+ '<div class="inputs" style="margin-top: 15px;margin-left: -30px;">'
