@@ -125,11 +125,9 @@ $.ajax({
 							<div class="product-intro">
 								<div class="price s-clear">
 									<span>当前价：</span> <span class="fsize-24 t-red"><em>¥</em>
-										#{jpaCpd.comparePrice!'' ;m2M2} </span> <em class="line"></em> <span>原价：</span>
-									<del> #{(jpaCpd.product.price)!'' ;m2M2} </del>
-									<div class="s-right" style="margin-top: 13;">
-										<span>围观数：</span> <em>${jpaCpd.pv} 次</em>
-									</div>
+										#{jpaCpd.comparePrice!'' ;m2M2} </span> <em class="line"></em> 
+									<span>原价：</span><del> #{(jpaCpd.product.price)!'' ;m2M2} </del><em class="line"></em>
+									<span>围观数：</span><em>${jpaCpd.pv} 次</em>
 								</div>
 							</div>
 							<div class="product-time">
