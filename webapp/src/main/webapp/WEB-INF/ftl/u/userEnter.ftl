@@ -204,29 +204,23 @@ function go_back(){
 				</div>
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>
-						用户类型: </label>
-					<div>
-						<input type="radio" class="c" name="identity" value="screen" />移动电视
-						<input type="radio" class="c" name="identity" value="body" />车身广告
-
-					</div>
-				</div>
-				<div class="ui-form-item">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>
 						角色选择: </label>
 					<div>
-						<span id="c1"> <#if groupsList?exists> <#list
-							groupsList?keys as vkey> <input type="checkbox" value="${vkey}"
-							name="roles" id="roles" />${groupsList[vkey]} &nbsp;&nbsp; <#if
-							vkey_index % 4 == 0 && vkey_index!=0> <br> </#if> </#list>
-							</#if>
-						</span> <span id="c2" style="display: none"> <#if
+					<#if UType?? && UType=="body">
+						 <span id="c2" > <#if
 							bdGroupsList?exists> <#list bdGroupsList as vkey> <input
 							type="checkbox" value="${vkey.id}" name="roles" id="roles" />${vkey.name}
 							&nbsp;&nbsp; <#if vkey_index % 4 == 0 && vkey_index!=0> <br>
 							</#if> </#list> </#if>
 						</span>
-
+						<#else>
+						<span id="c1"> <#if groupsList?exists> <#list
+							groupsList?keys as vkey> <input type="checkbox" value="${vkey}"
+							name="roles" id="roles" />${groupsList[vkey]} &nbsp;&nbsp; <#if
+							vkey_index % 4 == 0 && vkey_index!=0> <br> </#if> </#list>
+							</#if>
+						</span>
+                   </#if>
 					</div>
 				</div>
 

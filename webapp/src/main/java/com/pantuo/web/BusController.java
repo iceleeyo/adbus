@@ -203,7 +203,7 @@ public class BusController {
 	@RequestMapping("saveBus")
 	@ResponseBody
 	public Pair<Boolean, String> saveBus(Bus bus, @CookieValue(value = "city", defaultValue = "-1") int cityId,
-			Principal principal, HttpServletRequest request,@RequestParam(value="uodated1") String updated1) throws JsonGenerationException, JsonMappingException,
+			Principal principal, HttpServletRequest request,@RequestParam(value="uodated1",required=false) String updated1) throws JsonGenerationException, JsonMappingException,
 			IOException, ParseException{
 		return busService.saveBus(bus, updated1,cityId, principal,request);
 	}
