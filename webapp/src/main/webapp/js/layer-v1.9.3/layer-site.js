@@ -1707,20 +1707,20 @@ function addBus(pathUrl){
 				type: 1,
 				title: "添加车辆",
 				skin: 'layui-layer-rim', 
-				area: ['500px', '620px'], 
+				area: ['700px', '620px'], 
 				content: ''
 				+ '<form id="publishform01" action='+pathUrl+'/bus/saveBus>'
 				+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
-				+'<div class="ui-form-item"> <label class="ui-label mt10">车牌号： </label><input class="ui-input validate[required]"'
+				+'<div class="ui-form-item"> <label class="ui-label mt10">*车牌号： </label><input class="ui-input validate[required]"'
 				+'type="text" name="plateNumber" id="plateNumber" value="" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-				+'<div class="ui-form-item"> <label class="ui-label mt10">车辆自编号：</label><input class="ui-input validate[required]"'
+				+'<div class="ui-form-item"> <label class="ui-label mt10">*车辆自编号：</label><input class="ui-input validate[required]"'
 				+'type="text" name="serialNumber" value=""  data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> <p class="ui-term-placeholder"></p> </div>'
 				+ '<div class="ui-form-item"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/>'
-				+ '<label class="ui-label mt10">选择线路：</label>'
+				+ '<label class="ui-label mt10">*选择线路：</label>'
 				+ '<input class="ui-input" value=""  id="line_id" data-is="isAmount isEnough">'
 				+ '</div>'
 				+ '<div id="four"><div class="ui-form-item" id="model_Id">'
-				+ '<label class="ui-label mt10">选择车型：</label>'
+				+ '<label class="ui-label mt10">*选择车型：</label>'
 				+ '<select  class="ui-input bus-model" name="modelId" id="model_id"> <option value="0">请选择车型</option> </select>'
 				+ '</div>'
 				+'<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">车辆类别：</label>'
