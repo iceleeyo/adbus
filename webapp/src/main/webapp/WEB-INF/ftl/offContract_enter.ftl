@@ -592,7 +592,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 								class="ui-input" type="text" name="relateMan"
 								value="${(offlinecontract.relateMan)!''}" id="name"
 								data-is="isAmount isEnough" autocomplete="off"
-								disableautocomplete="">
+								disableautocomplete="" placeholder="请输入联系人，可以不填">
 						</div>
 						<div class="ui-form-item">
 							<label class="ui-label mt10"><span
@@ -600,7 +600,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 								class="ui-input" type="text" name="salesman"
 								value="${(offlinecontract.salesman)!''}" id="name"
 								data-is="isAmount isEnough" autocomplete="off"
-								disableautocomplete="" placeholder="请输入业务员名称">
+								disableautocomplete="" placeholder="请输入业务员名称，可以不填">
 						</div>
 						<div class="ui-form-item">
 							<label class="ui-label mt10"> <span
@@ -641,7 +641,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 								class="ui-input" type="text" name="payway"
 								value="${(offlinecontract.payway)!''}"
 								data-is="isAmount isEnough" autocomplete="off"
-								disableautocomplete="" placeholder="请输入付款方式">
+								disableautocomplete="" placeholder="请输入付款方式，可以不填">
 						</div>
 					</div>
 				</div>
