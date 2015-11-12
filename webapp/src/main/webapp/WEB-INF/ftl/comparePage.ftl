@@ -131,7 +131,7 @@ $.ajax({
 								</div>
 							</div>
 							<div class="product-time">
-								<span class="residue" id="residue">剩余时间：</span>
+								<span class="residue" id="residue">距结束：</span>
 								<div class="timer" id="auction1Timer">
 									<!--<input type="text" id="time_h">时<input type="text" id="time_m">分<input type="text" id="time_s">秒-->
 								</div>
