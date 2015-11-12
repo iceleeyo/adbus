@@ -478,7 +478,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
             validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
             inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
             success :  false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
-            promptPosition: "bottomLeft",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
+            promptPosition: "centerRight",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
             showOneMessage: true,
             maxErrorsPerField: 1,
         });
@@ -624,7 +624,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 						<div class="ui-form-item">
 							<label class="ui-label mt10 "><span
 								class="ui-form-required">*</span>发布线路:</label>
-							<textarea rows="4" cols="40" data-is="isAmount isEnough"
+							<textarea rows="6" cols="30" data-is="isAmount isEnough"
 								style="resize: none;" name="linecontent">${(offlinecontract.linecontent)!''}</textarea>
 						</div>
 						<div class="ui-form-item">
