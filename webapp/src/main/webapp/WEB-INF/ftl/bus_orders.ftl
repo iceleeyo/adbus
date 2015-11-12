@@ -6,36 +6,8 @@ js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
 "js/jquery.datepicker.region.cn.js","js/progressbar.js"]
 css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 
+<link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/basecss.css">
 <style type="text/css">
-.center {
-	margin: auto;
-}
-
-.frame {
-	width: 1000px;
-}
-
-.div {
-	text-align: center;
-	margin: 25px;
-}
-
-div#toolbar {
-	float: left;
-}
-
-.processed {
-	color: limegreen;
-}
-
-.invalid {
-	color: red;
-}
-
-.hl {
-	background-color: #ffff00;
-}
-
 td.highlight {
 	font-weight: bold;
 	color: blue;

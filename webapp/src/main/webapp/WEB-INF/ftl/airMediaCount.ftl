@@ -5,36 +5,8 @@ js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js",
 "js/jquery-ui/jquery-ui.auto.complete.js"]
 css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 
-<style type="text/css">
-.center {
-	margin: auto;
-}
+<link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/basecss.css">
 
-.frame {
-	width: 1000px;
-}
-
-.div {
-	text-align: center;
-	margin: 25px;
-}
-
-div#toolbar {
-	float: left;
-}
-
-.processed {
-	color: limegreen;
-}
-
-.invalid {
-	color: red;
-}
-
-.hl {
-	background-color: #ffff00;
-}
-</style>
 <script type="text/javascript">
  	var table;
     function initTable () {

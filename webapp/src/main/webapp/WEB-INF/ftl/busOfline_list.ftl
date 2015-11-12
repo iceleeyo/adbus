@@ -5,40 +5,11 @@ js=["js/jquery-dateFormat.min.js","js/jquery-ui/jquery-ui.js",
 "js/datepicker.js","js/jquery.datepicker.region.cn.js"]
 css=["js/jquery-ui/jquery-ui.css"]>
 
+<link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/basecss.css">
 <style type="text/css">
-.center {
-	margin: auto;
-}
-
-.frame {
-	width: 1000px;
-}
-
-.div {
-	text-align: center;
-	margin: 25px;
-}
-
-div#toolbar {
-	float: left;
-}
-
 div#toolbar3 {
 	float: left;
 }
-
-.processed {
-	color: limegreen;
-}
-
-.invalid {
-	color: red;
-}
-
-.hl {
-	background-color: #ffff00;
-}
-
 .dataTables_wrapper .dataTables_length {
 	float: right;
 }
