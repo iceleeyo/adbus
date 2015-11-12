@@ -26,8 +26,8 @@ function tocard(pathurl){
 <body>
 	<header> <!-- 头部开始 --> 
 	<#include "/index_menu/index_top.ftl"/> 
-	<script src="index_js/sift_common.js"></script> <script
-		src="index_js/sift_bus.js"></script> <!-- 头部结束 --> </header>
+	<script src="index_js/sift_common.js"></script>
+	<script src="index_js/sift_bus.js"></script> <!-- 头部结束 --> </header>
 	<div class="content">
 		<div class="side-nav">
 			<div class="logo"></div>
@@ -283,7 +283,6 @@ function tocard(pathurl){
 		</div>
 	</div>
 	<#include "/template/custom_service.ftl" />
-
 	<script type="text/javascript">
 	    $(document).ready(function() {
 	    

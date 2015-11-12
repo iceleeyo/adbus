@@ -232,11 +232,13 @@
 			<li class="qq"><i></i></li>
 			<li class="tel"><i></i></li>
 			<li class="wechat"><i></i></li>
-			<li class="down"></li>
+			<div class="erweima" style="display: none;"><p><img src="${rc.contextPath}/index_img/pic1.png" width="110" height="110" alt="关注世巴微信平台">关注世巴微信平台</p><i class="arrow3"></i></div>
+			<li class="down"><i></i></li>
 		</ul>
 		<a class="switch"></a>
 	</div>
-
+	<script type="text/javascript" language="javascript"
+		src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
 	<script type="text/javascript"
 		src="${rc.contextPath}/index_js/jquery-1.11.1.min.js"></script>
 	<script src="${rc.contextPath}/index_js/unslider.min.js"></script>

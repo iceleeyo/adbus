@@ -1905,3 +1905,56 @@ function tocard(pathurl) {
 		window.location.href = pathurl + "/toCard";
 	}
 }
+
+
+//微信二维码
+$('.wechat').hover(
+	function() {
+		if($('.erweima').is(':hidden')){
+			$('.erweima').show();
+		}else{
+			$('.erweima').hide();
+		}
+	}
+);
+$('.erweima').mouseover(
+	function(){
+		$('.erweima').show();
+	}
+)
+$('.erweima').mouseout(
+	function(){
+		$('.erweima').hide();
+	}
+)
+
+//客服电话提醒
+$(".tel i").click(function(){
+	/* layer.alert('世巴客服联系电话: 010-87899736', {
+		title:false,
+        skin: 'layui-layer-lan'
+        ,closeBtn: 0
+        ,shift: 4 //动画类型
+    }); */
+	layer.msg('世巴客服联系电话: 010-88510188', {
+		 time: 50000, //50s后自动关闭
+        btn: ['确定']
+    });
+});
+
+//QQ客服列表
+$(".qq i").click(function(){
+	//页面层
+	layer.open({
+		type: 1,
+		title: "QQ客服列表",
+	    skin: 'layui-layer-rim', //加上边框
+	    area: ['420px', '240px'], //宽高
+	    content: ''
+	    +'<div class="qq_layer">'
+	    +'<span class="child"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=492918047&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:2118878347:51" alt="联系我们" title="联系我们"/><span>QQ客服：2118878347</span></a></span>'
+	    +'<span class="child"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=492918047&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:2952734147:51" alt="联系我们" title="联系我们"/><span>QQ客服：2952734147</span></a></span>'
+	    +'<span class="child"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=492918047&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:2275955417:51" alt="联系我们" title="联系我们"/><span>QQ客服：2275955417</span></a></span>'
+	   	+'</div>'
+	});
+});

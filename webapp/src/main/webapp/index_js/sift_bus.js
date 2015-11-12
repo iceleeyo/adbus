@@ -331,7 +331,7 @@ function initSwift2(purl){
 			
 
       	});
-      	$('i').click(function(){
+      	$('.back-item i').click(function(){
       		$(this).hide();
       		isClick = true;
       		
