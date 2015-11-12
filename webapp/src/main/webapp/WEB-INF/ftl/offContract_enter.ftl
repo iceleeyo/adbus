@@ -589,7 +589,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 						<div class="ui-form-item">
 							<label class="ui-label mt10"><span
 								class="ui-form-required"></span>联系人:</label> <input
-								class="ui-input validate[required]" type="text" name="relateMan"
+								class="ui-input" type="text" name="relateMan"
 								value="${(offlinecontract.relateMan)!''}" id="name"
 								data-is="isAmount isEnough" autocomplete="off"
 								disableautocomplete="">
