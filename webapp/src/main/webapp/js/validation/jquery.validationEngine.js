@@ -1694,7 +1694,7 @@
 				'position': positionType === 'inline' ? 'relative' : 'absolute',
 				"top": pos.callerTopPosition,
 				"left": pos.callerleftPosition,
-				"marginTop": pos.marginTopSize,
+				"marginTop": 0,
 				"opacity": 0
 			}).data("callerField", field);
 
