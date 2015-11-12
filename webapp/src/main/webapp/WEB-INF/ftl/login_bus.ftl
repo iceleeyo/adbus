@@ -38,7 +38,7 @@
 								placeholder="请输入密码" id="password" name="password">
 						</div>
 						<div class="login-item">
-							<!-- <a class="s-right" href="${rc.contextPath}/user/find_pwd">忘记密码?</a> -->
+							<a class="s-right" href="${rc.contextPath}/user/find_pwd">忘记密码?</a>
 						</div>
 						<p class="mt37"></p>
 
