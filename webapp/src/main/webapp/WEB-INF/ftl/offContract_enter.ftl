@@ -551,7 +551,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 								class="ui-form-required">* </span>营销中心:
 							</label> <select data-is="isAmount isEnough" name="markcenter"
 								id="markcenter" autocomplete="off" disableautocomplete=""
-								style="width: 173px; height: 38px;">
+								style="width: 220px; height: 35px;">
 								<option value="自营">自营</option>
 								<option value="CBS">CBS</option>
 								<option value="白马">白马</option>
@@ -607,7 +607,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 								class="ui-form-required">* </span>广告形式:
 							</label> <select data-is="isAmount isEnough" name="adway" id="adway"
 								autocomplete="off" disableautocomplete=""
-								style="width: 173px; height: 38px;">
+								style="width: 220px; height: 35px;">
 								<option value="条幅式">条幅式</option>
 								<option value="车身彩贴">车身彩贴</option>
 								<option value="全车彩贴">全车彩贴</option>
