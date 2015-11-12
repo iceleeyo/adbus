@@ -596,8 +596,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 						</div>
 						<div class="ui-form-item">
 							<label class="ui-label mt10"><span
-								class="ui-form-required">*</span>业务员:</label> <input
-								class="ui-input validate[required]" type="text" name="salesman"
+								class="ui-form-required"></span>业务员:</label> <input
+								class="ui-input" type="text" name="salesman"
 								value="${(offlinecontract.salesman)!''}" id="name"
 								data-is="isAmount isEnough" autocomplete="off"
 								disableautocomplete="" placeholder="请输入业务员名称">
