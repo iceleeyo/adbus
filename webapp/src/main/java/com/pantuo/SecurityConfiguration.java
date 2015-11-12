@@ -103,13 +103,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 						"/body", "/**/public**/**", "/**/public**", "/register", "/user/**", "/doRegister",
 						"/validate/**", "/f/**", "/product/d/**", "/product/c/**", "/product/sift**",
 						"/product/sift_data", "/carbox/sift_body", "/product/ajaxdetail/**", "/order/iwant/**",
-						"/order/ibus/**")
-				.permitAll()
-				.antMatchers("/**")
-				.authenticated()
-				.anyRequest()
-				.permitAll()
-				.and().formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/order/myTask/1")
+						"/order/ibus/**").permitAll().antMatchers("/**").authenticated().anyRequest().permitAll().and()
+				.formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/order/myTask/1")
 				.successHandler(new SimpleRoleAuthenticationSuccessHandler())
 				.failureHandler(new SimpleRoleAuthenticationFailHandler())
 				//.failureHandler((new SecurityCustomException()))
@@ -121,11 +116,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 						Authentication r = SecurityContextHolder.getContext().getAuthentication();
 
 						UserDetail udetail = null;
-						ActivitiUserDetails v = (ActivitiUserDetails) r.getPrincipal();
-						if (v != null) {
-							udetail = ((ActivitiUserDetails) authentication.getPrincipal()).getUserDetail();
-						}
+						if (r != null) {
+							ActivitiUserDetails v = (ActivitiUserDetails) r.getPrincipal();
+							if (v != null) {
+								udetail = ((ActivitiUserDetails) authentication.getPrincipal()).getUserDetail();
+							}
 
+						}
 						if (r != null) {
 							r.setAuthenticated(false);
 						}
@@ -234,7 +231,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			if (authentication.getPrincipal() instanceof ActivitiUserDetails) {
 				userName = (((ActivitiUserDetails) authentication.getPrincipal()).getUserDetail().getUsername());
 			}
-			
+
 			UserDetail udetail = null;
 			ActivitiUserDetails v = (ActivitiUserDetails) authentication.getPrincipal();
 			if (v != null) {
@@ -259,7 +256,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			}
 			request.getSession().setAttribute("_utype", udetail.getUtype().name());
 			request.getSession().setAttribute("UType", udetail.getUtype().name());
-			
+
 			if (isBodysales) {
 				makeCookieRight(request, response, false);
 				return "/busselect/myOrders/1";
