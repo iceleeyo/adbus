@@ -370,7 +370,7 @@
 			<li class="qq"><i></i></li>
 			<li class="tel"><i></i></li>
 			<li class="wechat"><i></i></li>
-			<div class="erweima" style="display: none;"><p><img src="/Public/img/erweima.jpg" width="110" height="110" alt="关注世巴微信平台">关注世巴微信平台</p><i class="arrow3"></i></div>
+			<div class="erweima" style="display: none;"><p><img src="../index_img/pic1.png" width="110" height="110" alt="关注世巴微信平台">关注世巴微信平台</p><i class="arrow3"></i></div>
 			<li class="down"><i></i></li>
 		</ul>
 		<a class="switch"></a>
