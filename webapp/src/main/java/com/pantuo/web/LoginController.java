@@ -81,7 +81,7 @@ public class LoginController {
     	if(asObject==null){
     		request.getSession().setAttribute("medetype","screen");
     	}
-    	clearErrorMsg(request);
+    	//clearErrorMsg(request);
         if (auth != null && auth.isAuthenticated()) {
             return "redirect:/order/myTask/1";
         }else{
@@ -93,7 +93,7 @@ public class LoginController {
     @RequestMapping(value = "/login", produces = "text/html;charset=utf-8")
     public String logMini(Model model,HttpServletRequest request, Authentication auth)
  {
-		clearErrorMsg(request);
+		//clearErrorMsg(request);
 		if (StringUtils.isBlank(request.getParameter("logout"))) {
 			return "logMini";
 		} else {

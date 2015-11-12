@@ -34,6 +34,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
+import com.pantuo.activiti.GenerateSchedule;
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.dao.pojo.UserDetail.UType;
@@ -57,7 +58,7 @@ import com.pantuo.web.ControllerSupport;
 /*panxh method security*/
 @EnableGlobalMethodSecurity(prePostEnabled = true, proxyTargetClass = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-
+	private static final Logger log = LoggerFactory.getLogger(SecurityConfiguration.class);
 	/*
 	    @Autowired
 	    private UserDetailRepository userRepo;
@@ -81,6 +82,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Value("${sys.type}")
 	private String isBodySys;
+
+	@Value("${login.error}")
+	private String loginError;
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -181,7 +185,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				return "/login_bus?error=relogin";
 			}
 			String referer = request.getHeader("referer");
-			System.out.println("referer:" + referer);
+			log.info("SimpleRoleAuthenticationFailHandler ,referer :{}", referer);
 			if (StringUtils.contains(referer, "/backend")) {
 				return "/backend?error=relogin";
 			} else {
@@ -223,6 +227,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			redirectStrategy.sendRedirect(request, response, targetUrl);
 		}
 
+		public void clearLogin(Authentication r, HttpServletRequest request) {
+
+			if (r != null) {
+				r.setAuthenticated(false);
+			}
+			SecurityContextHolder.clearContext();
+
+			HttpSession session = request.getSession(false);
+			if (session != null) {
+				log.info("clearlogin");
+				if (session != null) {
+					session.invalidate();
+				}
+				request.getSession().setAttribute("reLoginMsg", loginError);
+			}
+		}
+
 		protected String determineTargetUrl(Authentication authentication, HttpServletRequest request,
 				HttpServletResponse response) {
 			boolean isBody = false;
@@ -236,6 +257,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			ActivitiUserDetails v = (ActivitiUserDetails) authentication.getPrincipal();
 			if (v != null) {
 				udetail = ((ActivitiUserDetails) authentication.getPrincipal()).getUserDetail();
+			}
+
+			if (udetail != null) {
+
+				String referer = request.getHeader("referer");
+
+				log.info("referer :{}, utype:{}", referer, udetail.getUtype());
+				if (StringUtils.contains(referer, "/login_bus") && udetail.getUtype() != UType.body) {
+					clearLogin(authentication, request);
+					return "/login_bus";
+				} else if (StringUtils.contains(referer, "/backend") && udetail.getUtype() != UType.screen) {
+					clearLogin(authentication, request);
+					return "/backend";
+				} else if (StringUtils.contains(referer, "/login") && udetail.getUtype() != UType.pub) {
+					clearLogin(authentication, request);
+					return "/login";
+				}
 			}
 
 			Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();

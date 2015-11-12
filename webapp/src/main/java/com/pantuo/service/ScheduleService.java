@@ -380,6 +380,7 @@ public class ScheduleService {
 				Date now = cal.getTime();
 
 				ScheduleLog slog = null;
+				slog =new ScheduleLog(city, cal.getTime(), orderId);//add by impanxh 2015-11-12
 				try {
 					MDC.put("func", "Schedule[R2]");
 					MDC.put("day", DateUtil.longDf.get().format(now));
