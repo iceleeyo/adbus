@@ -141,14 +141,10 @@ $.ajax({
 									class="text product-text" onblur="bu(this)"
 									onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/[^\d.]/g,'')}"
 									type="text" id="myprice" value="" /> <a class="plus">+</a>
-								</span><br>
-								<div class="range">
-									<span>最低加价：<em>￥1000.00</em></span> <span>最高加价：<em>不限</em></span>
-
-								</div>
+								</span>
 							</div>
 							<div class="product-intro">
-								<div class="range">
+								<div class="price s-clear">
 									<span>最低加价：<em>￥1000.00</em></span> <span>最高加价：<em>不限</em></span>
 								</div>
 							</div>
