@@ -53,10 +53,10 @@ public class AutoCompleteViewSort {
 		List<AutoCompleteView> specilList = new ArrayList<AutoCompleteView>();
 
 		List<AutoCompleteView> chartList = new ArrayList<AutoCompleteView>();
-		boolean isMapSort=false;
+
 		for (AutoCompleteView autoCompleteView : list) {
 			String lineName = StringUtils.trim(autoCompleteView.getValue());
-			boolean needSort = false;
+			boolean needSort = false,isMapSort = false;
 			if (StringUtils.startsWith(lineName, "0")) {
 				needSort = true;
 				aezoList.add(autoCompleteView);
@@ -72,7 +72,7 @@ public class AutoCompleteViewSort {
 			} else if (SPECIALLINE.containsKey(lineName)) {
 				needSort = true;
 				specilList.add(autoCompleteView);
-				isMapSort=true;
+				isMapSort = true;
 			} else {
 				chartList.add(autoCompleteView);
 			}
@@ -80,8 +80,8 @@ public class AutoCompleteViewSort {
 				String filterChart = lineName.replaceAll("\\D+", "");
 				autoCompleteView.setSortKey(NumberUtils.toInt(filterChart));
 			}
-			if(isMapSort){
-				autoCompleteView.setSortKey(SPECIALLINE.get(lineName));	
+			if (isMapSort) {
+				autoCompleteView.setSortKey(SPECIALLINE.get(lineName));
 			}
 		}
 
