@@ -6911,3 +6911,9 @@ a.ui-side-sub-item-link:hover {
 	top: 0px;
 	left: 340px !important;	
 }
+
+.operation
+{
+	color: #69F969;
+    font-weight: 800;
+}
