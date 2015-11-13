@@ -50,7 +50,7 @@ function tocard(pathurl){
 			<div class="c-top">
 				<div class="c-search">
 					<div class="search-panel">
-						<input type="text" value="">
+						<input type="text" id="searchText" value="">
 					</div>
 					<div class="search-handle">
 						<button class="search-btn" type="submit">搜索</button>
@@ -287,8 +287,6 @@ function tocard(pathurl){
 	<#include "/template/custom_service.ftl" />
 	<script type="text/javascript">
 	    $(document).ready(function() {
-	    
-	    	
 	        initPro('${rc.contextPath}',$("#sh").val(),"","",1);
 	        initSwift2('${rc.contextPath}');
 	       } );  
