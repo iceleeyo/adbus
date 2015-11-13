@@ -36,7 +36,7 @@ div#toolbar {
     var table;
     function initTable () {
         table = $('#table').dataTable( {
-            "dom": '<"#toolbar">lrtip',
+            "dom": '<"#toolbar"><"top"il>rt<"bottom"p><"clear">',
             "searching": false,
             "ordering": true,
             "serverSide": true,
