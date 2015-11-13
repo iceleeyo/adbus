@@ -219,7 +219,7 @@ public class ProductServiceImpl implements ProductService {
 
 	public Page<JpaProduct> searchProducts(int city, Principal principal, TableRequest req) {
 		String name = req.getFilter("name");
-		String sh = req.getFilter("sh"),price1=req.getFilter("price1"),price2=req.getFilter("price2");
+		String sh = req.getFilter("sh"),price1=req.getFilter("price1"),price2=req.getFilter("price2"),searchText=req.getFilter("searchText");
 		BooleanExpression commonEx = getQueryFromPage(name, sh);
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("id");
@@ -245,6 +245,9 @@ public class ProductServiceImpl implements ProductService {
 		}
 		if (name != null && !StringUtils.isEmpty(name)) {
 			query = query.and(QJpaProduct.jpaProduct.name.like("%" + name + "%"));
+		}
+		if (StringUtils.isNotEmpty(searchText)) {
+			query = query.and(QJpaProduct.jpaProduct.tags.like("%" + searchText + "%"));
 		}
 		if (StringUtils.isNotBlank(price1)) {
 			double p1=NumberUtils.toDouble(price1);
