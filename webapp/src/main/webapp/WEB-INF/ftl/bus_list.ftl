@@ -39,12 +39,29 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
                 "dataSrc": "content",
             },
             "columns": [
+              { "data": "jpaBus.company.name", "defaultContent": ""},
+               { "data": "jpaBus.line.name", "defaultContent": ""},
+                { "data": "jpaBus.line.levelStr", "defaultContent": ""},
                 { "data": "jpaBus.serialNumber", "defaultContent": ""},
-                { "data": "jpaBus.oldSerialNumber", "defaultContent": ""},
+              
                 { "data": "jpaBus.plateNumber", "defaultContent": ""},
                 { "data": "jpaBus.model.name", "defaultContent": ""},
-                { "data": "jpaBus.line.name", "defaultContent": ""},
-                { "data": "jpaBus.line.levelStr", "defaultContent": ""},
+                  { "data": "jpaBus.description", "defaultContent": ""},
+                { "data": "busInfo.contractCode", "defaultContent": ""},
+                { "data": "busInfo.offlinecontract.adcontent", "defaultContent": ""},
+                 { "data": "busInfo.startD", "defaultContent": "","render": function(data, type, row, meta) {
+                	var d= $.format.date(data, "yyyy-MM-dd");
+                	return d;
+                }},
+                { "data": "busInfo.endD", "defaultContent": "","render": function(data, type, row, meta) {
+                	var d= $.format.date(data, "yyyy-MM-dd");
+                	return d;
+                }},
+                    { "data": "busInfo.busOnline.realEndDate", "defaultContent": "","render": function(data, type, row, meta) {
+                	var d= $.format.date(data, "yyyy-MM-dd");
+                	return d;
+                }},
+                <#--
                 { "data": "jpaBus.categoryStr", "defaultContent": "", "render": function(data) {
                   if(data=="机动车"){
                      return '<span class="invalid">'+data+'</span>';
@@ -52,7 +69,7 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
                      return data;
                   }
                 } },
-                { "data": "jpaBus.company.name", "defaultContent": ""},
+              
                 { "data": "ishaveAd","defaultContent": "", "render": function(data) {
                     switch(data) {
                         case true:
@@ -61,20 +78,19 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
                             return '<span class="processed">否</span>';
                     }
                 } },
-                { "data": "busInfo.contractCode", "defaultContent": ""},
-                { "data": "busInfo.offlinecontract.adcontent", "defaultContent": ""},
-                { "data": "busInfo.startD", "defaultContent": "","render": function(data, type, row, meta) {
-                	var d= $.format.date(data, "yyyy-MM-dd");
-                	return d;
-                }},
-                { "data": "busInfo.endD", "defaultContent": "","render": function(data, type, row, meta) {
-                	var d= $.format.date(data, "yyyy-MM-dd");
-                	return d;
-                }},
-                 
-                 { "data": "jpaBus.description", "defaultContent": ""},
-                     { "data": "jpaBus.office", "defaultContent": ""},
-                      { "data": "jpaBus.branch", "defaultContent": ""},
+             
+                     { "data": "jpaBus.office", "defaultContent": ""},  -->
+                            { "data": "busInfo._adtype", "defaultContent": ""},
+                              { "data": "ishaveAd","defaultContent": "", "render": function(data) {
+                    switch(data) {
+                        case true:
+                            return '<span class="invalid">有</span>';
+                        default :
+                            return '<span class="processed">否</span>';
+                    }
+                } },
+                          { "data": "busInfo.busOnline.days", "defaultContent": ""},
+                       { "data": "busInfo._sktype", "defaultContent": ""},
                 { "data": "jpaBus.enabled", "defaultContent": "", "render": function(data) {
                     switch(data) {
                         case true:
@@ -82,7 +98,9 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
                         default :
                             return '<span class="invalid">禁用</span>';
                     }
-                } },
+                } }, { "data": "busInfo.offlinecontract.company", "defaultContent": ""},
+                  { "data": "jpaBus.oldSerialNumber", "defaultContent": ""},
+            <#--     { "data": "jpaBus.branch", "defaultContent": ""},-->
             ],
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
@@ -231,23 +249,35 @@ function ishaveline(linename){
 	<table id="table" class="display nowrap" cellspacing="0">
 		<thead>
 			<tr>
+			<th>营销中心</th>
+			<th>线路名称</th>
+			<th>线路级别</th>
+				
+				
 				<th>车辆自编号</th>
-				<th>旧自编号</th>
 				<th>车牌号</th>
-				<th>车型</th>
-				<th>线路</th>
-				<th>线路级别</th>
-				<th>类别</th>
-				<th>营销中心</th>
-				<th>是否有广告</th>
-				<th>合同编号</th>
+				<th>车辆型号</th>
+				<th>车辆描述</th>
+					<th>合同编号</th>
 				<th>广告内容</th>
 				<th>实际上刊日期</th>
 				<th>预计下刊日期</th>
-				<th>车辆描述</th>
+					<th>实际下刊日期</th>
+				
+				<!--
+				<th>类别</th>
 				<th>公司名称</th>
 				<th>所属分公司</th>
-				<th orderBy="enabled">状态</th>
+				-->
+				<th>广告类型</th>
+				<th>车身广告状态</th>
+				<th>刊期</th>
+				
+				<th>上刊类型</th>
+				<th orderBy="enabled">车辆情况</th>
+					<th>客户名称</th>
+				<th>老车辆自编号</th>
+				
 			</tr>
 		</thead>
 	</table>
