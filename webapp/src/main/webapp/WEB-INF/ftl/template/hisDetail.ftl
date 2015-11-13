@@ -28,7 +28,7 @@
 	</script>
 	<style type="text/css">
 #his_table {
-	font-size: 12px;
+	font-size: 14px;
 }
 </style>
 	<div class="uplan-table-box">
