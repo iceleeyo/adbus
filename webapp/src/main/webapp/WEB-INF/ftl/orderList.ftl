@@ -3,6 +3,7 @@
 css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css","css/layer.css"]
 js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer-site.js"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
+
 <script type="text/javascript">
 
 	function closeOrder22(mainPath,orderid,taskid){
@@ -108,24 +109,24 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                   		var tr="";
 	                  if(row.task_assignee =='' || row.task_assignee == null){
 		                  if(row.task_name=="支付" || row.task_name=="绑定素材"){
-		                  tr=  "<a href=\"javascript:;\" onclick=\"claim('"+row.order.id+"','"+( row.task_id)+"');\">"+row.task_name+"</a>&nbsp;";
+		                  tr=  "<a class='operation' href=\"javascript:;\" onclick=\"claim('"+row.order.id+"','"+( row.task_id)+"');\">"+row.task_name+"</a>&nbsp;";
 		                  }else if(row.definitionKey =='jianboReport'){
-		                  	  	  tr=  "<a href=\"javascript:;\" onclick=\"claim('"+row.order.id+"','"+( row.task_id)+"');\">播放确认</a>&nbsp;";
+		                  	  	  tr=  "<a class='operation' href=\"javascript:;\" onclick=\"claim('"+row.order.id+"','"+( row.task_id)+"');\">播放确认</a>&nbsp;";
 		                 	}else{
-		                 	 	tr=  "<a href=\"javascript:;\" onclick=\"claim('"+row.order.id+"','"+( row.task_id)+"');\">签收</a>&nbsp;";
+		                 	 	tr=  "<a class='operation' href=\"javascript:;\" onclick=\"claim('"+row.order.id+"','"+( row.task_id)+"');\">签收</a>&nbsp;";
 		                  	}
 	                  	}else {
 	                  	  	 var taskId = row.task_id;
 	                  	  	 if(row.task_name=="支付" || row.task_name=="绑定素材"){
-	                        	 tr= "<a href='${rc.contextPath}/order/handleView2?orderid=" +(row.order.id)+ "&taskid="+taskId+ "'>"+row.task_name+"</a>&nbsp;";
+	                        	 tr= "<a class='operation' href='${rc.contextPath}/order/handleView2?orderid=" +(row.order.id)+ "&taskid="+taskId+ "'>"+row.task_name+"</a>&nbsp;";
 	                  	  	 }else if(row.definitionKey =='jianboReport'){
-		                  	  	  tr= "<a href='${rc.contextPath}/order/handleView2?orderid=" +(row.order.id)+ "&taskid="+taskId+ "'>播放确认</a>&nbsp;";
+		                  	  	  tr= "<a class='operation' href='${rc.contextPath}/order/handleView2?orderid=" +(row.order.id)+ "&taskid="+taskId+ "'>播放确认</a>&nbsp;";
 		                 	}else{
-	                  	  	  tr= "<a href='${rc.contextPath}/order/handleView2?orderid=" +(row.order.id)+ "&taskid="+taskId+ "'>办理</a>&nbsp;";
+	                  	  	  tr= "<a class='operation' href='${rc.contextPath}/order/handleView2?orderid=" +(row.order.id)+ "&taskid="+taskId+ "'>办理</a>&nbsp;";
 	                  	  	 }
 	                    }	
 	                    if(row.canClosed==true){
-		                    	tr+="<a href=\"javascript:;\" tip=\"未支付的订单可以关闭哦!\"  class=\"btn disabled layer-tips\" onclick=\"showCloseRemark('${rc.contextPath}','"+row.order.id+"','"+( row.task_id)+"');\">关闭</a>&nbsp;";
+		                    	tr+="<a class='operation' href=\"javascript:;\" tip=\"未支付的订单可以关闭哦!\"  class=\"btn disabled layer-tips\" onclick=\"showCloseRemark('${rc.contextPath}','"+row.order.id+"','"+( row.task_id)+"');\">关闭</a>&nbsp;";
 		                }
                   	  return tr;
                     }
