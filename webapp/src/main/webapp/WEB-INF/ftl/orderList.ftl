@@ -6,7 +6,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
 <style type="text/css">
 .operation
 {
-	color: #69F969;
+	color: #31B533;
     font-weight: 800;
 }
 </style>
