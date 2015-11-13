@@ -247,7 +247,14 @@ public class ProductServiceImpl implements ProductService {
 			query = query.and(QJpaProduct.jpaProduct.name.like("%" + name + "%"));
 		}
 		if (StringUtils.isNotEmpty(searchText)) {
-			query = query.and(QJpaProduct.jpaProduct.tags.like("%" + searchText + "%"));
+			searchText =StringUtils.replace(searchText, "%", "");
+			searchText =StringUtils.replace(searchText, "'", "");
+			searchText =StringUtils.replace(searchText, "\r\n", "");
+			if(StringUtils.isNotEmpty(searchText)){
+				query = query.and(QJpaProduct.jpaProduct.tags.like("%" + searchText + "%"));
+			}else {//保证不查到记录
+				query = query.and(QJpaProduct.jpaProduct.tags.like("%QJpaProduct.jpaProduct.%"));	
+			}
 		}
 		if (StringUtils.isNotBlank(price1)) {
 			double p1=NumberUtils.toDouble(price1);
