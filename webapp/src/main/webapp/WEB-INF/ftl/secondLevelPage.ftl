@@ -61,6 +61,7 @@ function tocard(pathurl){
 					</div>
 				</div>
 			</div>
+			<div class="middle">
 			<div class="md-nav">媒体产品>移动电视</div>
 			<div class="ad">
 				<div class="banner" id="b04">
@@ -194,6 +195,7 @@ function tocard(pathurl){
 					</div>
 				</div>
 			</div>
+			</div>
 			<div class="recommand customs pd">
 				<div class="title">
 					<span>自选产品</span>
@@ -286,10 +288,16 @@ function tocard(pathurl){
 	<script type="text/javascript">
 	    $(document).ready(function() {
 	    
+	    	
 	        initPro('${rc.contextPath}',$("#sh").val(),"","",1);
 	        initSwift2('${rc.contextPath}');
 	       } );  
 	        
+	    $('.search-btn').click(function(){
+	    	initPro('${rc.contextPath}',$("#sh").val(),"","",1);
+	    	$('.middle,.title,.title_cart,.back-items').hide();
+   			$('.select-more').css('margin-top','30px');
+   		} );  
 	   		
 	     $('#priceSort').click(function() {
                   var w = $('#ascOrDesc').val();
