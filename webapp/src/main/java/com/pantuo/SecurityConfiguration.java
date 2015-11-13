@@ -270,7 +270,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				} else if (StringUtils.contains(referer, "/backend") && udetail.getUtype() != UType.screen) {
 					clearLogin(authentication, request);
 					return "/backend";
-				} else if (StringUtils.contains(referer, "/login") && udetail.getUtype() != UType.pub) {
+				} else if (StringUtils.contains(referer, "/login") && 
+						!StringUtils.contains(referer, "/login_bus") && udetail.getUtype() != UType.pub) {
 					clearLogin(authentication, request);
 					return "/login";
 				}
