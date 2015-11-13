@@ -71,17 +71,17 @@ js=["js/jquery-ui/jquery-ui.js","js/layer-v1.9.3/layer/layer.js","js/layer.onloa
                         case true:
                             return '<span class="processed">正常</span>';
                         default :
-                            return '<span class="invalid">禁用</span>';
+                            return '<span class="invalid">已下架</span>';
                     }
                 } },
                 
                 <@security.authorize ifAnyGranted="ShibaOrderManager">   
                  { "data": "frontShow", "defaultContent": ""},
                  { "data": "runningCount", "defaultContent": "", "render": function(data, type, row, meta) {
-                   return '<a class="table-link " href="${rc.contextPath}/order/product/' + (row.id) +'/1">'+data+'</a> &nbsp;'; 
+                   return '<a class="table-link" href="${rc.contextPath}/order/product/' + (row.id) +'/1">'+data+'</a> &nbsp;'; 
                 } },
                  { "data": "finishedCount", "defaultContent": "", "render": function(data, type, row, meta) {
-                    return '<a class="table-link " href="${rc.contextPath}/order/over/' +  (row.id) +'">'+data+'</a> &nbsp;'; 
+                    return '<a class="table-link" href="${rc.contextPath}/order/over/' +  (row.id) +'">'+data+'</a> &nbsp;'; 
                 } },
                   </@security.authorize>
                 
@@ -91,8 +91,8 @@ js=["js/jquery-ui/jquery-ui.js","js/layer-v1.9.3/layer/layer.js","js/layer.onloa
                     "render": function(data, type, row, meta) {
                         var operations = '';
                    		 <@security.authorize ifAnyGranted="ShibaOrderManager">  
-                     	operations+= (row.enabled ? '<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/disable">禁用</a> &nbsp;'
-                                :'<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/enable">启用</a> &nbsp;')
+                     	operations+= (row.enabled ? '<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/0">下架</a> &nbsp;'
+                                :'<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/1">上架</a> &nbsp;')
                         operations +='<a class="table-link operation" href="${rc.contextPath}/product/' + data +'">编辑</a> &nbsp;';
                         
                        	if(row.frontShow=='Y'){

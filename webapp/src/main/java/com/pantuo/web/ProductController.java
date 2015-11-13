@@ -133,22 +133,10 @@ public class ProductController {
 
     @RequestMapping(value = "/{productId}/{enable}", method = { RequestMethod.POST})
     @ResponseBody
-    public JpaProduct enableProduct(@PathVariable("productId") int productId,
-                                 @PathVariable("enable") String enable,HttpServletRequest request,
+    public Pair<Boolean, String> enableProduct(@PathVariable("productId") int productId,
+                                 @PathVariable("enable") int enable,HttpServletRequest request,
                                  @CookieValue(value="city", defaultValue = "-1") int city) {
-        boolean en = "enable".equals(enable);
-        JpaProduct product = productService.findById(productId);
-        if (product == null) {
-            JpaProduct p = new JpaProduct();
-            p.setErrorInfo(BaseEntity.ERROR, "找不到ID为" + productId + "的套餐");
-            return p;
-        }
-
-        if (product.isEnabled() != en) {
-            product.setEnabled(en);
-            productService.saveProduct(city, product,null);
-        }
-        return product;
+        return productService.changeProStats(productId, enable);
     }
     
     @RequestMapping(value = "/frontshow/{productId}/{enable}", method = { RequestMethod.POST})
@@ -257,6 +245,14 @@ public class ProductController {
 //        model.addAttribute("types", JpaProduct.Type.values());
         return "newProduct";
     }
+    @RequestMapping(value = "editComparePro/{id}", produces = "text/html;charset=utf-8")
+    public String editComparePro(@PathVariable int id,
+    		@ModelAttribute("city") JpaCity city,
+    		Model model, HttpServletRequest request) {
+    	 model.addAttribute("types", JpaProduct.productTypesForMedia.get(city.getMediaType()));
+    	model.addAttribute("prod", productService.findCpdById(id));
+    	return "editComparePro";
+    }
     @RequestMapping(value = "/d/{id}", produces = "text/html;charset=utf-8")
     public String showdetail(@PathVariable int id,
                                 Model model, HttpServletRequest request) {
@@ -291,7 +287,7 @@ public class ProductController {
     @PreAuthorize(" hasRole('ShibaOrderManager')  ")
     @RequestMapping(value = "/save", method = { RequestMethod.POST})
     public String createProduct(
-            JpaProduct prod,JpaCpd jpacpd,
+            JpaProduct prod,JpaCpd jpacpd,@RequestParam(value="startDate1")  String startDate1,@RequestParam(value="biddingDate1")  String biddingDate1,
             @CookieValue(value="city", defaultValue = "-1") int city,
             HttpServletRequest request) {
         if (prod.getId() > 0) {
@@ -303,8 +299,6 @@ public class ProductController {
         	prod.setFrontShow(FrontShow.N);
             productService.saveProduct(city, prod,request);
             if(prod.getIscompare()==1){
-            	String biddingDate1 = request.getParameter("biddingDate1").toString();
-            	String startDate1 = request.getParameter("startDate1").toString();
             	if (biddingDate1.length() > 1 && startDate1.length()>1 ) {
             		jpacpd.setStartDate((Date) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parseObject(startDate1));
             		jpacpd.setBiddingDate((Date) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parseObject(biddingDate1));
@@ -316,6 +310,27 @@ public class ProductController {
             prod.setErrorInfo(BaseEntity.ERROR, e.getMessage());
         }
         return "product_list2";
+    }
+    @RequestMapping(value = "/saveCompareProduct", method = { RequestMethod.POST})
+    public String saveCompareProduct(
+    		JpaProduct product,JpaCpd cpd,@RequestParam(value="productid") int productid,@RequestParam(value="cpdid") int cpdid,
+    		@RequestParam(value="startDate1") String startDate1,@RequestParam(value="biddingDate1")  String biddingDate1,
+    		@CookieValue(value="city", defaultValue = "-1") int city,
+    		HttpServletRequest request) {
+    	try {
+    		product.setId(productid);
+    		product.setFrontShow(FrontShow.N);
+    		productService.saveProduct(city, product,request);
+    			if (biddingDate1.length() > 1 && startDate1.length()>1 ) {
+    				cpd.setStartDate((Date) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parseObject(startDate1));
+    				cpd.setBiddingDate((Date) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parseObject(biddingDate1));
+    			}
+    			cpd.setId(cpdid);
+    			cpd.setProduct(product);
+    			cpdService.saveOrUpdateCpd(cpd);
+    	} catch (Exception e) {
+    	}
+    	return "compareProduct_list";
     }
     @RequestMapping(value = "/saveBusOrderDetail", method = { RequestMethod.POST})
     @ResponseBody
@@ -448,7 +463,7 @@ public class ProductController {
     public Pair<Boolean, String> changeStats(@PathVariable("proId") int proId,
     		@PathVariable("enable") String enable,
                                  @CookieValue(value="city", defaultValue = "-1") int city) {
-		 return productService.changeProStats(proId,enable);
+		 return productService.changeProV2Stats(proId,enable);
     }
 	
 	@RequestMapping(value = "sift_SelectBodyPrice", method = RequestMethod.GET)

@@ -87,10 +87,12 @@ public class CarBoxController {
 			@RequestParam(value = "divid", required = false) String divid,
 			@RequestParam(value = "meids", required = false) String meids,
 			@RequestParam(value = "boids", required = false) String boids,
+			@RequestParam(value = "startdate1", required = false) String startdate1,
+			@RequestParam(value = "payment", required = false) String payment,
 			@RequestParam(value = "seriaNum", required = false) long seriaNum) {
 		
 		
-		 Pair<Boolean, String> r=cardService.payment(paytype, divid, seriaNum, principal, city,  meids,boids);
+		 Pair<Boolean, String> r=cardService.payment(startdate1,paytype, divid, seriaNum, principal, city,  meids,boids);
 		 if(r.getLeft()){
 			 cardService.updateCardboxUser(seriaNum,principal);
 			 cardService.confirmByids(principal,meids,boids);

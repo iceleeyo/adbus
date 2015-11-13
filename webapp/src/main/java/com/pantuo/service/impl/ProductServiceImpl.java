@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.omg.PortableInterceptor.INACTIVE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -29,12 +30,14 @@ import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.BusOrderDetailV2Repository;
 import com.pantuo.dao.BusOrderV2Repository;
+import com.pantuo.dao.CpdRepository;
 import com.pantuo.dao.ProductRepository;
 import com.pantuo.dao.ProductTagRepository;
 import com.pantuo.dao.ProductV2Repository;
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaBusOrderV2;
 import com.pantuo.dao.pojo.JpaBusline;
+import com.pantuo.dao.pojo.JpaCpd;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProduct.FrontShow;
 import com.pantuo.dao.pojo.JpaProductV2;
@@ -81,6 +84,8 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Autowired
 	ProductTagRepository productTagRepository;
+	@Autowired
+	CpdRepository cpdRepository;
 	@Autowired
 	ProductV2Repository productV2Repository;
 	@Autowired
@@ -236,6 +241,7 @@ public class ProductServiceImpl implements ProductService {
 		}
 		Pageable p = new PageRequest(page, pageSize, sort);
 		BooleanExpression query = city >= 0 ? QJpaProduct.jpaProduct.city.eq(city) : QJpaProduct.jpaProduct.city.goe(0);
+		query = query.and(QJpaProduct.jpaProduct.enabled.eq(true));
 		if (principal == null || Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)) {
 			query = query.and(QJpaProduct.jpaProduct.exclusive.eq(false).or(
 					QJpaProduct.jpaProduct.exclusiveUser.eq(Request.getUserId(principal))));
@@ -300,6 +306,11 @@ public class ProductServiceImpl implements ProductService {
 	//  @Override
 	public JpaProduct findById(int productId) {
 		return productRepo.findOne(productId);
+	}
+
+	@Override
+	public JpaCpd findCpdById(int id) {
+		return cpdRepository.findOne(id);
 	}
 
 	//  @Override
@@ -729,7 +740,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Pair<Boolean, String> changeProStats(int proId, String enable) {
+	public Pair<Boolean, String> changeProV2Stats(int proId, String enable) {
 		ProductV2 v=productV2Mapper.selectByPrimaryKey(proId);
 		if(v!=null){
 			v.setStats(JpaProductV2.Status.valueOf(enable).ordinal());
@@ -743,6 +754,24 @@ public class ProductServiceImpl implements ProductService {
 	
 	public  JpaProductV2 findV2ById(int productId){
 		  	return productV2Repository.findOne(productId);
+	}
+
+	@Override
+	public Pair<Boolean, String> changeProStats(int proId, int enable) {
+		Product product=productMapper.selectByPrimaryKey(proId);
+		if(product==null){
+			return new Pair<Boolean, String>(false,"产品不存在");
+		}
+		if(enable==1){
+			product.setEnabled(true);
+		}else{
+			product.setEnabled(false);
+		}
+		int a=productMapper.updateByPrimaryKey(product);
+		if(a>0){
+			return new Pair<Boolean, String>(true,"操作成功");
+		}
+		return new Pair<Boolean, String>(false,"操作失败");
 	}
 	
 	

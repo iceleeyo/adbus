@@ -221,8 +221,9 @@
 		var paytype=$('#payway :radio[name=payType]:checked').val();
 		var divid=$("#dividpay").val();
 		var seriaNum=${seriaNum};
-		var meids='${meids}';
-		var boids='${boids}';
+		var meids='${meids!''}';
+		var boids='${boids!''}';
+		var startdate1='${startdate1!''}';
 		if(paytype=="" || typeof(paytype)=="undefined"){
 		  layer.msg("请选择支付方式");
 		  return;
@@ -236,7 +237,7 @@
 			type:"POST",
 			async:false,
 			dataType:"json",
-			data:{"divid":divid,"seriaNum":seriaNum,"paytype":paytype,"meids":meids,"boids":boids},
+			data:{"divid":divid,"seriaNum":seriaNum,"paytype":paytype,"meids":meids,"boids":boids,"startdate1":startdate1},
 			success:function(data){
 				if (data.left) {
 				  window.location.href="${rc.contextPath}/carbox/paySuccess";

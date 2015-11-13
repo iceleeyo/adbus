@@ -275,10 +275,10 @@ public class OrderController {
 	@RequestMapping(value = "modifyOrder")
 	@ResponseBody
 	public Pair<Object, String> modifyOrder(@RequestParam(value = "orderid") String orderid,
-			@CookieValue(value = "city", defaultValue = "-1") int city,
+			@CookieValue(value = "city", defaultValue = "-1") int city,@RequestParam(value="startdate1",required=false) String startdate1,
 			@RequestParam(value = "supplieid") int supplieid, @RequestParam(value = "taskid") String taskid,
-			Principal principal, HttpServletRequest request, HttpServletResponse response) {
-		    return activitiService.modifyOrder(city, Integer.parseInt(orderid), taskid, supplieid,
+			Principal principal, HttpServletRequest request, HttpServletResponse response) throws NumberFormatException, ParseException {
+		    return activitiService.modifyOrder(city, startdate1,Integer.parseInt(orderid), taskid, supplieid,
 				Request.getUser(principal));
 	}
 

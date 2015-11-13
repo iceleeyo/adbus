@@ -125,7 +125,7 @@
 								<dd>
 									上播日期： <input
 										class="ui-input datepicker validate[required,custom[date] "
-										type="text" id="startTime" data-is="isAmount isEnough"
+										type="text" id="startdate1" data-is="isAmount isEnough"
 										autocomplete="off">
 								</dd>
 							</dl>
@@ -232,6 +232,11 @@
 			});
 	    } );
 		function buy(pathurl,id){
+		var startdate1=$("#startdate1").val();
+		if(startdate1==""){
+		   layer.msg("请填写上播日期");
+		   return;
+		}
 		var lc=$("#lc").val();
 		if(lc=="0"){
 			islogin(pathurl);
@@ -244,7 +249,7 @@
 							type : "POST",
 							success : function(data) {
 							if(data.left){
-							  window.location.href="${rc.contextPath}/select?meids="+data.right+"&boids="+bodIds;
+							  window.location.href="${rc.contextPath}/select?meids="+data.right+"&boids="+bodIds+"&startdate1="+startdate1;
 							}
 						}}, "text");
 		}

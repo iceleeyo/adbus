@@ -94,6 +94,7 @@ import com.pantuo.simulate.MailJob;
 import com.pantuo.util.BeanUtils;
 import com.pantuo.util.BusinessException;
 import com.pantuo.util.Constants;
+import com.pantuo.util.DateUtil;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.OrderException;
 import com.pantuo.util.OrderIdSeq;
@@ -1545,14 +1546,14 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 	}
 
-	public Pair<Object, String> modifyOrder(int city, int orderid, String taskid, int supplieid, UserDetail user) {
+	public Pair<Object, String> modifyOrder(int city, String startdate1,int orderid, String taskid, int supplieid, UserDetail user) throws ParseException {
 		Pair<Object, String> r = null;
 		Orders orders = ordersMapper.selectByPrimaryKey(orderid);
 		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 		if (task != null) {
 			Map<String, Object> info = taskService.getVariables(task.getId());
 			UserDetail ul = (UserDetail) info.get(ActivitiService.OWNER);
-			if (updateSupplise(orderid, supplieid) > 0) {
+			if (updateSupplise(startdate1,orderid, supplieid) > 0) {
 				taskService.claim(task.getId(), ul.getUsername());
 				//TaskDefinition nextTaskDefinition = getNextTaskByTaskOrder(task.getId());
 				MailTask mailTask = new MailTask(user.getUsername(), orderid, null, task.getTaskDefinitionKey(),
@@ -1566,14 +1567,13 @@ public class ActivitiServiceImpl implements ActivitiService {
 				return new Pair<Object, String>(null, "订单修改失败!");
 			}
 		} else {
-			if (updateSupplise(orderid, supplieid) > 0) {
+			if (updateSupplise(startdate1,orderid, supplieid) > 0) {
 				JpaOrders order = orderService.getJpaOrder(orderid);
 
 				List<Task> tasks = taskService.createTaskQuery()
 						.processVariableValueEquals(ActivitiService.ORDER_ID, order.getId()).orderByTaskCreateTime()
 						.desc().listPage(0, 4);
 				autoCompleteBindStatic(user, order, tasks, true);
-				//	startProcess2(city, user, order);
 				return new Pair<Object, String>(order, String.format("绑定物料成功%s!",
 						getNextTaskInfo(new Date(System.currentTimeMillis() - 2500), orderid)));
 			} else {
@@ -1582,13 +1582,24 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 	}
 
-	public int updateSupplise(int orderid, int supplieid) {
+	public int updateSupplise(String stdate,int orderid, int supplieid) throws ParseException {
+		Date sDate=null;
+		Date eDate=null;
 		Orders o = ordersMapper.selectByPrimaryKey(orderid);
+		if(StringUtils.isNotBlank(stdate)){
+			JpaProduct prod = productService.findById(o.getProductId());
+			 sDate=DateUtil.longDf.get().parse(stdate);
+			 eDate=DateUtil.dateAdd(sDate, prod.getDays());
+		}
 		if (o != null && supplieid > 0) {
 			o.setSuppliesId(supplieid);
+			if(sDate!=null && eDate!=null){
+				o.setStartTime(sDate);
+				o.setEndTime(eDate);
+			}
 			return ordersMapper.updateByPrimaryKey(o);
 		}
-		return 1;
+		return 0;
 	}
 
 	Map<String, Date> getOperationTime(List<HistoricTaskView> list) {

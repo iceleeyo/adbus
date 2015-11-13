@@ -156,7 +156,7 @@ public interface ActivitiService {
 	//根据流程实例和节点ID查找历史审批记录
 	public List<HistoricTaskView> findHistoricUserTask(int city, String processInstanceId, String activityId);
 
-	public Pair<Object, String> modifyOrder(int city, int orderid, String taskid, int supplieid, UserDetail user);
+	public Pair<Object, String> modifyOrder(int city, String startdate1,int orderid, String taskid, int supplieid, UserDetail user)throws ParseException;
 
 	public String showOrderDetail(int city, Model model, int orderid, String taskid, String pid, Principal principal, boolean isAutoGoto);
 

@@ -386,8 +386,13 @@ function pay() {
 	
 	function modifyOrder() {
 	        var supplieid=$("#supplieid  option:selected").val();
+	            var stardate1=$("#startdate1").val();
+	            if(stardate1==""){
+	              layer.msg("请选择开播日期");
+	              return;
+	            }
 	            if(supplieid==""){
-	              jDialog.Alert("请选择物料");
+	              layer.msg("请选择物料");
 	              return;
 	            }
 		var orderid = $("#orderid").val();
@@ -398,7 +403,8 @@ function pay() {
 			data : {
 				"orderid" :orderid,
 				"taskid" :taskid,
-				"supplieid":supplieid
+				"supplieid":supplieid,
+				"stardate1":stardate1
 			},
 			success : function(data) {
 				jDialog.Alert(  data.right);
@@ -737,6 +743,16 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 				<input type="hidden" id="seqNumber"
 					value="${suppliesView.mainView.seqNumber!''}" />
 				<TR>
+					<TH>开播日期</TH>
+					<TD colspan=3>
+					<#if orderview.order.startTime?has_content>
+					<#setting date_format="yyyy-MM-dd HH:mm:ss"> ${(orderview.order.startTime)!''}
+					<#else>
+                    <input class="ui-input datepicker validate[required,custom[date],past[#upDate1]]" type="text"  value="" id="startdate1" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> 						
+					 </#if>	
+						</TD>
+				</TR>
+				<TR>
 					<TH>物料详情</TH>
 					<TD colspan=3><a href="javascript:void(0)"
 						onclick="supDetail(${(suppliesView.mainView.id)!''})">查看</a></TD>
@@ -772,8 +788,9 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 			<TBODY>
 				<TR>
 					<TD width="20%">签收时间</TD>
-					<TD colspan=3 style="border-radius: 0 0 0"><#setting
-						date_format="yyyy-MM-dd HH:mm:ss"> ${claimTime!''}</TD>
+					<TD colspan=3 style="border-radius: 0 0 0">
+						<#setting date_format="yyyy-MM-dd HH:mm:ss"> ${claimTime!''}
+					</TD>
 				</TR>
 				<TR>
 					<TD>物料信息</TD>

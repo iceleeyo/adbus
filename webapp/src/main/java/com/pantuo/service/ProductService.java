@@ -11,6 +11,7 @@ import scala.collection.generic.BitOperations.Int;
 
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaBusOrderV2;
+import com.pantuo.dao.pojo.JpaCpd;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProduct.FrontShow;
 import com.pantuo.dao.pojo.JpaProductV2;
@@ -72,12 +73,14 @@ public interface ProductService {
 	
 	
 	public Double querySelectPrice( int city,String  select);
-	Pair<Boolean, String> changeProStats(int proId, String enable);
+	Pair<Boolean, String> changeProStats(int proId, int enable);
 	
 	/**
 	 * 
 	 */  
 	
 	JpaProductV2 findV2ById(int productId);
+	Pair<Boolean, String> changeProV2Stats(int proId, String enable);
+	JpaCpd findCpdById(int id);
 
 }

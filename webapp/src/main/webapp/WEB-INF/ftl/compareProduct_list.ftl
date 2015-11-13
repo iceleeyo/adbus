@@ -61,6 +61,14 @@ js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer
                 { "data": "biddingDate", "defaultContent": "", "render": function(data) {
                     return data == null ? "" : $.format.date(data, "yyyy-MM-dd HH:mm:ss");
                 } },
+                { "data": "product.enabled", "defaultContent": "", "render": function(data) {
+                    switch(data) {
+                        case true:
+                            return '<span class="processed">正常</span>';
+                        default :
+                            return '<span class="invalid">已下架</span>';
+                    }
+                } },
                    <@security.authorize ifAnyGranted="advertiser">
                 { "data": function( row, type, set, meta) {
                     return row.id;
@@ -71,6 +79,18 @@ js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer
                        return operations;
                     }},
                      	</@security.authorize>
+                  <@security.authorize ifAnyGranted="ShibaOrderManager">  
+                  	{ "data": function( row, type, set, meta) {
+                    return row.id;
+                },
+                    "render": function(data, type, row, meta) {
+                        var operations = '';
+                     	operations+= (row.product.enabled ? '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + row.product.id + '/0">下架</a> &nbsp;'
+                                :'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + row.product.id + '/1">上架</a> &nbsp;')
+                        operations +='<a class="table-link" href="${rc.contextPath}/product/editComparePro/' + data +'">编辑</a> &nbsp;';
+                       return operations;
+                    }},
+                        </@security.authorize>
             ],
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
@@ -164,9 +184,14 @@ js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer
 				<th orderBy="comparePrice">当前价(元)</th>
 				<th>围观</th>
 				<th>竞价</th>
-				<th orderBy="biddingDate">截止时间</th> <@security.authorize
-				ifAnyGranted="advertiser">
-				<th>竞价</th> </@security.authorize>
+				<th orderBy="biddingDate">截止时间</th>
+				<th>状态</th>
+				 <@security.authorize ifAnyGranted="advertiser">
+				<th>竞价</th> 
+				</@security.authorize>
+				<@security.authorize ifAnyGranted="ShibaOrderManager">
+				<th>操作</th> 
+				</@security.authorize>
 			</tr>
 		</thead>
 

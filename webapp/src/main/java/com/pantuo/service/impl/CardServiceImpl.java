@@ -1,6 +1,7 @@
 package com.pantuo.service.impl;
 
 import java.security.Principal;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -59,6 +60,7 @@ import com.pantuo.service.ActivitiService;
 import com.pantuo.service.CardService;
 import com.pantuo.service.CityService;
 import com.pantuo.util.CardUtil;
+import com.pantuo.util.DateUtil;
 import com.pantuo.util.Only1ServieUniqLong;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
@@ -684,7 +686,7 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public Pair<Boolean, String> payment(String paytype, String divid, long seriaNum, Principal principal, int city,
+	public Pair<Boolean, String> payment(String startdate1,String paytype, String divid, long seriaNum, Principal principal, int city,
 			String meids, String boids) {
 		List<Integer> medisIds = CardUtil.parseIdsFromString(meids);
 		List<Integer> carid = CardUtil.parseIdsFromString(boids);
@@ -710,13 +712,13 @@ public class CardServiceImpl implements CardService {
 
 			int a=cardboxHelpMapper.insert(helper);
 			if(a>0 && helper.getMediaType()==0){
-				change2Order(helper,principal);
+				change2Order(startdate1,helper,principal);
 			}
 		}
 		return new Pair<Boolean, String>(true, "支付成功");
 	}
 
-	public void change2Order(CardboxHelper helper,Principal principal) {
+	public void change2Order(String startdate1,CardboxHelper helper,Principal principal) {
 		BooleanExpression query = QJpaCardBoxMedia.jpaCardBoxMedia.city.eq(helper.getCity());
 		query=query.and(QJpaCardBoxMedia.jpaCardBoxMedia.seriaNum.eq(helper.getSeriaNum()));
 		List<JpaCardBoxMedia> mList=(List<JpaCardBoxMedia>) cardBoxRepository.findAll(query);
@@ -729,7 +731,17 @@ public class CardServiceImpl implements CardService {
 			order.setUserId(jpaCardBoxMedia.getUserId());
 			order.setCreator(jpaCardBoxMedia.getUserId());
 			order.setProduct(jpaCardBoxMedia.getProduct());
-			order.setSuppliesId(1);;
+			order.setSuppliesId(1);
+			if(StringUtils.isNotBlank(startdate1)){
+				try {
+					Date sDate=DateUtil.longDf.get().parse(startdate1);
+					Date eDate=DateUtil.dateAdd(sDate, jpaCardBoxMedia.getProduct().getDays());
+					order.setStartTime(sDate);
+					order.setEndTime(eDate);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}
 			if(helper.getPayType()==JpaOrders.PayType.valueOf("offline").ordinal()){
 				order.setStats(JpaOrders.Status.unpaid);
 			}else{

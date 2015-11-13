@@ -274,12 +274,14 @@ public class CardSelect{
 	}
 	@RequestMapping(value = "/select", produces = "text/html;charset=utf-8")
 	public String toCard3(Model model,HttpServletRequest request,Principal principal,
-			@RequestParam(value="meids" , required = false) String meids,@RequestParam(value="boids" , required = false) String boids) {
+			@RequestParam(value="meids" , required = false) String meids,@RequestParam(value="startdate1" , required = false) String startdate1,@RequestParam(value="boids" , required = false) String boids) {
 		model.addAttribute("_cardSelect", new CardSelect(meids, boids));
+		model.addAttribute("startdate1", startdate1);
 		return "redirect:/selected";
 	}
 	@RequestMapping(value = "/selected", produces = "text/html;charset=utf-8")
 	public String toCard2(Model model,HttpServletRequest request,Principal principal,
+			@RequestParam(value="startdate1" , required = false) String startdate1,
 			@ModelAttribute("_cardSelect") CardSelect cardselect
 			) {
 		//@RequestParam(value="meids" , required = false) String meids,@RequestParam(value="boids" , required = false) String boids
@@ -287,6 +289,7 @@ public class CardSelect{
 		model.addAttribute("seriaNum", cardService.getCardBingSeriaNum(principal));
 		model.addAttribute("meids", cardselect.meids);
 		model.addAttribute("boids", cardselect.boids);
+		model.addAttribute("startdate1", startdate1);
 	 	return "secondCart_step2";
 	}
 	
