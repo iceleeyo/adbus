@@ -56,7 +56,7 @@
     var table;
     function initTable () {
         table = $('#table').dataTable( {
-            "dom": '<"#toolbar"><"top"il>rt<"bottom"p><"clear">',
+            "dom": '<"#toolbar">rt',
             "searching": false,
             "ordering": false,
             "serverSide": true,
