@@ -56,7 +56,7 @@
     var table;
     function initTable () {
         table = $('#table').dataTable( {
-            "dom": '<"#toolbar">rt',
+            "dom": '<"#toolbar"><"top"il>rt<"bottom"p><"clear">',
             "searching": false,
             "ordering": false,
             "serverSide": true,
@@ -113,7 +113,7 @@
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>时段名称：</span>' +
+                        '    <span>广告包名称：</span>' +
                         '    <span>' +
                         '        <input id="name" value="">' +
                         '    </span>' +'    <span>[备注：黄色代表占用时段，绿色代表剩余时段。]</span>' +
@@ -164,9 +164,9 @@
 		width="100%">
 		<thead>
 			<tr>
-				<th>时段名</th>
-				<th>时段</th>
-				<th>时长</th> <#list dates as d>
+				<th>广告包名称</th>
+				<th>播出时间</th>
+				<th>包长</th> <#list dates as d>
 				<th>${d?substring(5)}</th> </#list>
 			</tr>
 		</thead>
