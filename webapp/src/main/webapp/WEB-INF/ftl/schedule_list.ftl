@@ -379,8 +379,8 @@ div#toolbar {
 		<thead>
 			<tr>
 				<th></th>
-				<th>时段名</th>
-				<th>时段</th>
+				<th>广告包名称</th>
+				<th>播出时间</th>
 				<th>包长</th>
 				<th>广告名称</th>
 				<th>时长</th>
