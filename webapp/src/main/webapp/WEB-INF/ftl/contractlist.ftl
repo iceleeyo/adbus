@@ -3,7 +3,13 @@
 <@frame.html title="屏幕广告合同"
 js=["js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js"]>
 
-
+<style type="text/css">
+.operation
+{
+	color: #31B533;
+    font-weight: 800;
+}
+</style>
 <script type="text/javascript">
     var table;
     function initTable () {
@@ -76,10 +82,10 @@ js=["js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js"]>
                     return row.id;
                 },
                     "render": function(data, type, row, meta) {
-                    var operations='<a class="table-link" onclick="contractdetail(\'${rc.contextPath}\','+data+');" href="javascript:void(0)">详情</a>';
+                    var operations='<a class="table-link operation" onclick="contractdetail(\'${rc.contextPath}\','+data+');" href="javascript:void(0)">详情</a>';
                      <@security.authorize ifAnyGranted="ShibaOrderManager">  
-                        operations +='&nbsp;&nbsp;<a class="table-link" href="${rc.contextPath}/contract/contract_edit/' + data +'" >编辑</a>';
-                        operations +='&nbsp;&nbsp;<a class="table-link" href="javascript:delContract('+data+');" >删除</a>  &nbsp;';
+                        operations +='&nbsp;&nbsp;<a class="table-link operation" href="${rc.contextPath}/contract/contract_edit/' + data +'" >编辑</a>';
+                        operations +='&nbsp;&nbsp;<a class="table-link operation" href="javascript:delContract('+data+');" >删除</a>  &nbsp;';
                         </@security.authorize>
                          return operations;
                     }},
