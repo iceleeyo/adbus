@@ -138,12 +138,12 @@
 									'}/page/${item.processInstanceId}' title="点击查看流程图">${item.task_name }</a>
 							</em> </span> <span style="width: 90px; height: 35px;"
 								class="ui-list-field num-s text-center w120 fn-left"> <em
-								class="value-small"> <#if item.assignee?exists> <a
-									href="${rc.contextPath}/order/handleView2?orderid=${(item.order.id)!''}&taskid=${(item.task_id)!''}">办理</a>
-									<#else> <a href="javascript:;"
-									onclick="claim('${(item.order.id)!''}','${(item.task_id)!''}');">签收</a>
-
-									</#if>
+								class="value-small"> 
+								<#if item.assignee?exists>
+									<a href="${rc.contextPath}/order/handleView2?orderid=${(item.order.id)!''}&taskid=${(item.task_id)!''}"><font color="green"><B>办理</B></font></a>
+								<#else> 
+									<a href="javascript:;" onclick="claim('${(item.order.id)!''}','${(item.task_id)!''}');"><font color="green"><B>签收</B></font></a>
+								</#if>
 							</em>
 							</span>
 					</li> </#list>
