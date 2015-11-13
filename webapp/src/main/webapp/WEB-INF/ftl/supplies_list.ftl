@@ -1,6 +1,15 @@
 <#import "template/template.ftl" as frame> <#global menu="物料管理">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="物料管理" js=["js/jquery-dateFormat.js"]>
+
+<style type="text/css">
+.operation
+{
+	color: #31B533;
+    font-weight: 800;
+}
+</style>
+
 <!-- <script>
         function pages(pageNum) {
             var by = ($("#by").val());
@@ -101,13 +110,13 @@
                     return row.id;
                 },
                     "render": function(data, type, row, meta) {
-                        var operations=  row.industry.name=="垫片"?'<a class="table-link" href="javascript:void(0)" onclick="showBlackAdlayer(\'${rc.contextPath}/supplies/blackdetail/\',' + data + ');">查看详情</a>&nbsp;&nbsp;':'<a class="table-link" href="javascript:void(0)" onclick="supDetail('+data+')">查看物料</a>&nbsp;&nbsp;';
-                        operations +='<a class="table-link" href="javascript:delSupp('+data+');" >删除</a>  ';
+                        var operations=  row.industry.name=="垫片"?'<a class="table-link operation" href="javascript:void(0)" onclick="showBlackAdlayer(\'${rc.contextPath}/supplies/blackdetail/\',' + data + ');">查看详情</a>&nbsp;&nbsp;':'<a class="table-link operation" href="javascript:void(0)" onclick="supDetail('+data+')">查看物料</a>&nbsp;&nbsp;';
+                        operations +='<a class="table-link operation" href="javascript:delSupp('+data+');" >删除</a>  ';
                         if(row.industry.name=="垫片"){
                             	if(row.stats=='online'){
-                      		operations +=	'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/supplies/changeStats/' + data + '/offline">取消上架</a> &nbsp;'
+                      		operations +=	'<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/supplies/changeStats/' + data + '/offline">取消上架</a> &nbsp;'
                        	}else {
-                       		operations +=	'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/supplies/changeStats/' + data + '/online">上架</a> &nbsp;'
+                       		operations +=	'<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/supplies/changeStats/' + data + '/online">上架</a> &nbsp;'
                        	}
                         }
                         return operations;
