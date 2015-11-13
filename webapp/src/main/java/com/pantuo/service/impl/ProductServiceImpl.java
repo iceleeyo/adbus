@@ -30,6 +30,7 @@ import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.BusOrderDetailV2Repository;
 import com.pantuo.dao.BusOrderV2Repository;
 import com.pantuo.dao.ProductRepository;
+import com.pantuo.dao.ProductTagRepository;
 import com.pantuo.dao.ProductV2Repository;
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaBusOrderV2;
@@ -75,6 +76,11 @@ public class ProductServiceImpl implements ProductService {
 	BusOrderV2Mapper busOrderV2Mapper;
 	@Autowired
 	ProductRepository productRepo;
+	
+	
+	
+	@Autowired
+	ProductTagRepository productTagRepository;
 	@Autowired
 	ProductV2Repository productV2Repository;
 	@Autowired
