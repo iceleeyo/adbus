@@ -48,8 +48,7 @@ function go_back(){
 		class="ui-form" method="post" action=""
 		enctype="multipart/form-data">
 		<div class="withdraw-title fn-clear">
-			<span>锁定线路</span> <a class="block-btn" style="margin-top: -5px;"
-				href="javascript:void(0);" onclick="go_back()">返回</a>
+			<span>锁定线路</span> 
 		</div>
 		<div class="withdrawInputs">
 			<div class="inputs">
