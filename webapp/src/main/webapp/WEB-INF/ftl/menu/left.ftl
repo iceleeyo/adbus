@@ -16,7 +16,7 @@
 			<@security.authorize
 			ifAnyGranted="ShibaSuppliesManager,advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 			<li class="pg-side-item"><a class="pg-side-item-t aa-icon"
-				style="color: #fff; background: #F45C55;"
+				
 				href="${rc.contextPath}/order/myTask/1"> <i
 					class="s-left pg-icon-a a-icon"></i> 待办事项
 			</a></li> </@security.authorize> <@security.authorize
