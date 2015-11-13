@@ -3,7 +3,13 @@
 css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css","css/layer.css"]
 js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer-site.js"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-
+<style type="text/css">
+.operation
+{
+	color: #69F969;
+    font-weight: 800;
+}
+</style>
 <script type="text/javascript">
 
 	function closeOrder22(mainPath,orderid,taskid){
