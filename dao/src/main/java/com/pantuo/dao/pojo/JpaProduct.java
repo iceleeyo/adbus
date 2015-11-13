@@ -59,6 +59,7 @@ public class JpaProduct extends CityEntity {
     private boolean exclusive = false;  //是否专用套餐，专用套餐定向对某一个用户有效
     private String exclusiveUser;   //定向用户
     private String remarks;
+    private String tags;
     @Column(length=128) 
     private String imgurl;
     private int iscompare;
@@ -265,6 +266,14 @@ public class JpaProduct extends CityEntity {
 
 	public void setFrontShow(FrontShow frontShow) {
 		this.frontShow = frontShow;
+	}
+
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
 	}
 
 	/*public JpaCpd getJpaCpd() {

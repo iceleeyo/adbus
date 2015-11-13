@@ -9,7 +9,9 @@ import com.pantuo.dao.pojo.JpaBusline.Level;
 import java.util.*;
 
 /**
- * 产品标签
+ * 
+ * 
+ * 产品标签 未来扩展
  *
  */
 @Entity
