@@ -6,7 +6,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 <style type="text/css">
 .operation
 {
-	color: #31B533;
+	color: #E0296C;
     font-weight: 800;
 }
 </style>
