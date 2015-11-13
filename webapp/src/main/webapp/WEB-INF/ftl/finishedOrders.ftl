@@ -26,7 +26,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
     var table;
     function initTable () {
         table = $('#table').dataTable( {
-            "dom": '<"#toolbar">lrtip',
+            "dom": '<"#toolbar"><"top"il>rt<"bottom"p><"clear">',
             "searching": false,
             "ordering": true,
             "serverSide": true,
@@ -191,7 +191,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 		<thead>
 			<tr>
 				<th>下单用户</th>
-				<th>订单编号</th>
+				<th orderBy="longOrderId">订单编号</th>
 				<th>套餐名称</th>
 				<!-- <th>素材号</th>-->
 				<th orderBy="startTime">创建时间</th>
