@@ -150,9 +150,13 @@ function initPro(pathUrl,sh,price1,price2,p){
 	if(typeof(sh)=="undefined"){
 		sh="";
 	}
+	var text=$("#searchText").val();
+	if(typeof(text)=="undefined"){
+		text="";
+	}
 	$("#productList").html("");
 	$.ajax({
-		url : pathUrl + "/product/sift_data?filter[sh]="+sh+"&filter[price1]="+price1+"&filter[price2]="+price2+"&filter[p]="+p,
+		url : pathUrl + "/product/sift_data?filter[sh]="+sh+"&filter[price1]="+price1+"&filter[price2]="+price2+"&filter[p]="+p+"&filter[searchText]="+text,
 		data:{},
 		type : "POST",
 		success : function(data) {
@@ -183,9 +187,13 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 	if(typeof(sh)=="undefined"){
 		sh="";
 	}
+	var text=$("#searchText").val();
+	if(typeof(text)=="undefined"){
+		text="";
+	}
 	$("#productList").html("");
 	$.ajax({
-		url : pathUrl + "/product/sift_data?filter[sh]="+sh+"&start="+page+"&filter[price1]="+price1+"&filter[price2]="+price2+"&filter[p]="+p,
+		url : pathUrl + "/product/sift_data?filter[sh]="+sh+"&start="+page+"&filter[price1]="+price1+"&filter[price2]="+price2+"&filter[p]="+p+"&filter[searchText]="+text,
 		data:{},
 		type : "POST",
 		success : function(data) {
