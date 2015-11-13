@@ -4,6 +4,14 @@
 js=["js/jquery-ui/jquery-ui.js","js/layer-v1.9.3/layer/layer.js","js/layer.onload.js"]
 >
 
+<style type="text/css">
+.operation
+{
+	color: #31B533;
+    font-weight: 800;
+}
+</style>
+
 <script type="text/javascript">
     var table;
 
@@ -70,10 +78,10 @@ js=["js/jquery-ui/jquery-ui.js","js/layer-v1.9.3/layer/layer.js","js/layer.onloa
                 <@security.authorize ifAnyGranted="ShibaOrderManager">   
                  { "data": "frontShow", "defaultContent": ""},
                  { "data": "runningCount", "defaultContent": "", "render": function(data, type, row, meta) {
-                   return '<a class="table-link" href="${rc.contextPath}/order/product/' + (row.id) +'/1">'+data+'</a> &nbsp;'; 
+                   return '<a class="table-link operation" href="${rc.contextPath}/order/product/' + (row.id) +'/1">'+data+'</a> &nbsp;'; 
                 } },
                  { "data": "finishedCount", "defaultContent": "", "render": function(data, type, row, meta) {
-                    return '<a class="table-link" href="${rc.contextPath}/order/over/' +  (row.id) +'">'+data+'</a> &nbsp;'; 
+                    return '<a class="table-link operation" href="${rc.contextPath}/order/over/' +  (row.id) +'">'+data+'</a> &nbsp;'; 
                 } },
                   </@security.authorize>
                 
@@ -83,14 +91,14 @@ js=["js/jquery-ui/jquery-ui.js","js/layer-v1.9.3/layer/layer.js","js/layer.onloa
                     "render": function(data, type, row, meta) {
                         var operations = '';
                    		 <@security.authorize ifAnyGranted="ShibaOrderManager">  
-                     	operations+= (row.enabled ? '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/disable">禁用</a> &nbsp;'
-                                :'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/enable">启用</a> &nbsp;')
-                        operations +='<a class="table-link" href="${rc.contextPath}/product/' + data +'">编辑</a> &nbsp;';
+                     	operations+= (row.enabled ? '<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/disable">禁用</a> &nbsp;'
+                                :'<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/enable">启用</a> &nbsp;')
+                        operations +='<a class="table-link operation" href="${rc.contextPath}/product/' + data +'">编辑</a> &nbsp;';
                         
                        	if(row.frontShow=='Y'){
-                      		operations +=	'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/frontshow/' + data + '/N">取消首页</a> &nbsp;'
+                      		operations +=	'<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/product/frontshow/' + data + '/N">取消首页</a> &nbsp;'
                        	}else {
-                       		operations +=	'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/frontshow/' + data + '/Y">置首页</a> &nbsp;'
+                       		operations +=	'<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/product/frontshow/' + data + '/Y">置首页</a> &nbsp;'
                        	}
                         
                          //operations +='<a class="table-link" href="${rc.contextPath}/order/product/' + data +'/1">进行中订单</a> &nbsp;'; 
@@ -98,7 +106,7 @@ js=["js/jquery-ui/jquery-ui.js","js/layer-v1.9.3/layer/layer.js","js/layer.onloa
                         </@security.authorize>
                         if(row.enabled){
                         	<@security.authorize ifAnyGranted="normaluser,advertiser">
-                     	 	 operations+= '<a class="table-link" target="_blank" href="${rc.contextPath}/order/iwant/'+data+'">购买</a>';
+                     	 	 operations+= '<a class="table-link operation" target="_blank" href="${rc.contextPath}/order/iwant/'+data+'">购买</a>';
                      	    </@security.authorize>
                     	}
                        return operations;
