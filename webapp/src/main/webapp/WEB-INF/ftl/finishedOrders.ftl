@@ -31,7 +31,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
             "ordering": true,
             "serverSide": true,
             "scrollX": true,
-             "aaSorting": [[3, "desc"]],
+            "aaSorting": [[3, "desc"]],
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
                 { "orderable": false, "targets": [0,1,2,5,6] },
