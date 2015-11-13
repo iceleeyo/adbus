@@ -93,8 +93,8 @@ $.ajax({
 			</div>
 			<ul class="navibar">
 				<li><a href="/">首页</a></li>
-				<li><a href="${rc.contextPath}/secondLevelPage">移动视频</a></li>
-				<li class="active"><a
+				<li class="active"><a href="${rc.contextPath}/secondLevelPage">移动视频</a></li>
+				<li><a
 					href="${rc.contextPath}/secondLevelPageBus">车身媒体</a></li>
 				<li><a href="/caseMore.html">案例欣赏</a></li>
 			</ul>
