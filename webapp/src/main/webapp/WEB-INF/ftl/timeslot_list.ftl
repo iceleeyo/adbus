@@ -94,7 +94,7 @@ div#toolbar {
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                        '    <span>时段名称：</span>' +
+                        '    <span>广告包名称：</span>' +
                         '    <span>' +
                         '        <input id="name" value="">' +
                         '    </span>' +
@@ -123,9 +123,9 @@ div#toolbar {
 	<table id="table" class="display compact" cellspacing="0" width="100%">
 		<thead>
 			<tr>
-				<th orderBy="startTime">开始时间</th>
-				<th orderBy="id">时段名称</th>
-				<th orderBy="duration">时长</th>
+				<th orderBy="startTime">播出时间</th>
+				<th orderBy="id">广告包名称</th>
+				<th orderBy="duration">包长</th>
 				<th orderBy="peak">高峰</th>
 			</tr>
 		</thead>
