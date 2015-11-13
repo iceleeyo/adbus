@@ -36,6 +36,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
                 { "sClass": "align-left", "targets": [0] },
                 { "orderable": false, "targets": [0,1,2,5,6] },
             ],
+            "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
             "ajax": {
                 type: "GET",
                 url: "${rc.contextPath}/order/ajax-finishedOrders",
