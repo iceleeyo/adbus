@@ -32,6 +32,7 @@ import com.pantuo.service.MailService;
 import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.security.ActivitiUserDetailsService;
 import com.pantuo.util.Pair;
+import com.pantuo.util.Request;
 
 /**
  * Index controller
@@ -76,6 +77,7 @@ public class LoginController {
 
 	@RequestMapping(value = "/backend", produces = "text/html;charset=utf-8")
 	public String login(Model model, HttpServletRequest request, Authentication auth) {
+		log.info("---backend-----:{}" ,Request.getIpAddr(request));
 		if (StringUtils.equals(isBodySys, "body")) {
 			return "redirect:/login_bus";
 		}
@@ -97,7 +99,7 @@ public class LoginController {
 
 	@RequestMapping(value = "/login", produces = "text/html;charset=utf-8")
 	public String logMini(Model model, HttpServletRequest request, Authentication auth) {
-
+		log.info("---login-----:{}" ,Request.getIpAddr(request));
 		if (StringUtils.equals(isBodySys, "body")) {
 			return "redirect:/login_bus";
 		}
@@ -135,6 +137,7 @@ public class LoginController {
 		if (StringUtils.isBlank(request.getParameter("error"))) {
 
 		}
+		log.info("---logout-----:{}" ,Request.getIpAddr(request));
 		return "redirect:/login";
 	}
 

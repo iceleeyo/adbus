@@ -127,10 +127,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 							}
 
 						}
+						log.info("logout : {} ",udetail!=null?udetail.getId():StringUtils.EMPTY);
 						if (r != null) {
 							r.setAuthenticated(false);
 						}
 						SecurityContextHolder.clearContext();
+						
 						HttpSession session = request.getSession(false);
 						if (session != null) {
 							String tString = (String) session.getAttribute("medetype");
@@ -275,6 +277,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 					clearLogin(authentication, request);
 					return "/login";
 				}
+				log.info("login success u:{}", udetail.getId());
 			}
 
 			Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
