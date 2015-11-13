@@ -219,7 +219,7 @@ function delSupp(Suppid){
 	<table id="table" class="display" cellspacing="0" width="100%">
 		<thead>
 			<tr>
-				<th orderBy="name">编号</th>
+				<th orderBy="id">编号</th>
 				<th orderBy="name">物料名称</th>
 				<th orderBy="suppliesType">类型</th>
 				<th orderBy="industry.id">行业</th>
