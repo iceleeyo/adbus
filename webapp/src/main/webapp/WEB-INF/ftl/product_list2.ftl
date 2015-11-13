@@ -78,10 +78,10 @@ js=["js/jquery-ui/jquery-ui.js","js/layer-v1.9.3/layer/layer.js","js/layer.onloa
                 <@security.authorize ifAnyGranted="ShibaOrderManager">   
                  { "data": "frontShow", "defaultContent": ""},
                  { "data": "runningCount", "defaultContent": "", "render": function(data, type, row, meta) {
-                   return '<a class="table-link operation" href="${rc.contextPath}/order/product/' + (row.id) +'/1">'+data+'</a> &nbsp;'; 
+                   return '<a class="table-link " href="${rc.contextPath}/order/product/' + (row.id) +'/1">'+data+'</a> &nbsp;'; 
                 } },
                  { "data": "finishedCount", "defaultContent": "", "render": function(data, type, row, meta) {
-                    return '<a class="table-link operation" href="${rc.contextPath}/order/over/' +  (row.id) +'">'+data+'</a> &nbsp;'; 
+                    return '<a class="table-link " href="${rc.contextPath}/order/over/' +  (row.id) +'">'+data+'</a> &nbsp;'; 
                 } },
                   </@security.authorize>
                 
