@@ -210,9 +210,18 @@ public class BoxRemain implements Serializable  {
     }
 
     //check and return put position
-    private Remain checkPut (long goodsSize) {
+    private Remain checkPut (long goodsSize) { 
+    	boolean isAll=true;//add by impanxh
+    	if(remains.size()>1){
+    		isAll=false;
+    	}
         for (Remain p : remains) {
             if (p.size >= goodsSize) {
+            	if(!isAll){
+            		if(p.start==0){
+            			continue;//add by impanxh
+            		}
+            	}
                 return p;
             }
         }
