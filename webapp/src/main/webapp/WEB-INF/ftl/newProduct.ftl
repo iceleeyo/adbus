@@ -304,7 +304,7 @@ function go_back(){
 				</#if>
 				<div class="ui-form-item">
 					<label class="ui-label mt10">套餐描述：</label>
-					<textarea rows="4" cols="40" style="resize: none;" name="remarks"></textarea>
+					<textarea rows="4" cols="40" style="resize: none;" name="remarks"><#if prod?exists && prod.remarks?has_content >${prod.remarks!''}</#if></textarea>
 				</div>
 			</div>
 			<div class="ui-form-item widthdrawBtBox">
