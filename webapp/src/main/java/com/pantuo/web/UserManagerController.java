@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -76,7 +77,8 @@ public class UserManagerController {
 	@Autowired
 	private UserServiceInter userService;
 	
-	
+	@Value("${sys.type}")
+	private String isBodySys;
 	@Autowired
 	private MailJob mailJob;
 	@Autowired
@@ -355,13 +357,22 @@ public class UserManagerController {
 	@RequestMapping(value = "/save", method = { RequestMethod.POST })
 	@ResponseBody
 	public UserDetail createProduct(UserDetail detail, HttpServletRequest request,Principal principal) {
+		if(detail!=null &&StringUtils.contains(isBodySys, "body")){
+			detail.setUtype(UType.body);
+		}else {
+			detail.setUtype(UType.screen);
+		}
 		userService.createUserFromPage(detail,request,principal);
 		return detail;
 	}
 
+
 	@RequestMapping(value = "/register", method = { RequestMethod.POST })
 	@ResponseBody
 	public UserDetail register(UserDetail detail, HttpServletRequest request,Principal principal) {
+		if(detail!=null && !StringUtils.contains(isBodySys, "body")){
+			detail.setUtype(UType.pub);
+		}
 		userService.createUserFromPage(detail,request,principal);
 		return detail;
 	}

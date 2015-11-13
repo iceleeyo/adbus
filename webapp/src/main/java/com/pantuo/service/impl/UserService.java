@@ -44,7 +44,6 @@ import com.pantuo.mybatis.domain.InvoiceExample;
 import com.pantuo.mybatis.persistence.AttachmentMapper;
 import com.pantuo.mybatis.persistence.InvoiceMapper;
 import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
-import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService.SystemRoles;
 import com.pantuo.service.AttachmentService;
 import com.pantuo.service.GoupManagerService;
@@ -445,7 +444,9 @@ public class UserService implements UserServiceInter {
 			if (!StringUtils.equals(user.getUsername(), Request.getUserId(principal))) {
 				return new Pair<Boolean, String>(false, "操作非法");
 			} else if (user.getUser() != null) {
+				UType u =dbUser.getUtype();//用户类型不能修改
 				com.pantuo.util.BeanUtils.copyPropertiesFilterZero(user, dbUser);
+				dbUser.setUtype(u);
 				userRepo.save(dbUser);//先更新user_detail 信息
 				org.activiti.engine.identity.User activitiUser = identityService.createUserQuery()
 						.userId(dbUser.getUsername()).singleResult();
