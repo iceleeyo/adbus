@@ -130,12 +130,24 @@ $.ajax({
 									<span>围观数：</span><em>${jpaCpd.pv} 次</em>
 								</div>
 							</div>
+							<div class="product-Sdetail">
+								<div class="s-detail">
+									<span>广告时长：</span> <em>${prod.duration!''}秒</em>
+								</div>
+								<div class="s-detail">
+									<span>广告频长：</span> <em>${prod.playNumber!''}/天</em>
+								</div>
+								<div class="s-detail">
+									<span>天数：</span> <em>${prod.days!''}天</em>
+								</div>
+							</div>
 							<div class="product-time">
 								<span class="residue" id="residue">距结束：</span>
 								<div class="timer" id="auction1Timer">
 									<!--<input type="text" id="time_h">时<input type="text" id="time_m">分<input type="text" id="time_s">秒-->
 								</div>
 							</div>
+							
 							<div class="product-form">
 								<span class="residue" id="residue">出价</span><span id="cspan"><a class="reduce">-</a> <input
 									class="text product-text" onblur="bu(this)"
@@ -143,6 +155,7 @@ $.ajax({
 									type="text" id="myprice" value="" /> <a class="plus">+</a>
 								</span>
 							</div>
+							
 							<div class="product-intro product-form">
 								<div class="price s-clear">
 									<span>最低加价：<em>￥1000.00</em></span> <span>最高加价：<em>不限</em></span>
@@ -303,7 +316,7 @@ $.ajax({
 				</div>
 			</div>
 			<div class="ls-3"
-				style="float: right; position: absolute; left: 850px; top: 0px; background: #fff;">
+				style="float: right; position: absolute; right:-15%; top: 0px; background: #fff;">
 				<div class="record-sidebar">
 					<div class="record-title">
 						<label>出价记录（共<label>${jpaCpd.setcount}</label>次出价）

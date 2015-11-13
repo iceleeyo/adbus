@@ -59,6 +59,7 @@ function tocard(pathurl){
 					</div>
 				</div>
 			</div>
+			<div class="middle">
 			<div class="md-nav">媒体产品>车身广告</div>
 			<div class="ad">
 
@@ -178,6 +179,7 @@ function tocard(pathurl){
 						</#list> </#if>
 					</div>
 				</div>
+			</div>
 			</div>
 			<div class="recommand customs pd">
 				<div class="title">
@@ -317,6 +319,11 @@ function tocard(pathurl){
        	 
 	    } );
 	    
+		$('.search-btn').click(function(){
+		    initPro('${rc.contextPath}',$("#sh").val(),"","",1);
+		    $('.middle,.title,.title_cart,.back-items').hide();
+	   		$('.select-more').css('margin-top','30px');
+	   	} );  
 	    
 	    $("#leftDec").click(function(pathurl){
 	    	

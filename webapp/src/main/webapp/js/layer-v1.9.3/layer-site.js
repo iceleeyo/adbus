@@ -347,8 +347,8 @@ function supEnter(tourl,city,type){
     		type: 1,
     		title: "物料录入",
     		skin: 'layui-layer-rim', //加上边框
-    		area: ['525px', '740px'], //宽高
-    		 fix: true, //不固定
+    		area: ['525px', '560px'], //宽高
+    		fix: true, //不固定
     		content: '<form id="userForm1" name="userForm1" action="'+tourl+'/supplies/put?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1" enctype="multipart/form-data" method="post"">'
 					 +'<br/><br/><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/><div class="withdrawInputs"><div class="inputs">'
 					 +'<div class="ui-form-item"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>广告名称</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[1],maxSize[120]]"'

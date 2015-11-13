@@ -6,7 +6,7 @@ body{
 	width: 1150px;
 } */
 .ls-9{
-	width: 800px;
+	width: 840px;
 	float: left;
 	margin-left: 10px;
 	margin-right: 10px;
@@ -28,9 +28,9 @@ body{
 	border: 1px solid #ccc;
 }
 .product-detail {
-	width: 410px;
 	margin-left: 20px;
 	color: #333;
+	width: 50%;
 }
 .product-title{
 	height: 35px;
@@ -74,6 +74,13 @@ h3{
 	margin-bottom: 15px;
 	color: #999;
 }
+.product-Sdetail{
+	color: #999;
+}
+.s-detail{
+	margin-bottom:5px;
+	zoom: 1;
+}
 .product-time .residue{
 	display: inline-block;
 	height: 20px;
@@ -89,7 +96,7 @@ h3{
 	font-size: 16px;
 }
 .product-time .timer input[type='text']{
-	width:15px;
+	width:16px;
 	height:35px;
 	border:none;
 }

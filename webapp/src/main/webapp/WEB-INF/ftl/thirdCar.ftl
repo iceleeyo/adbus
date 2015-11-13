@@ -69,12 +69,9 @@
 							<img src="${rc.contextPath}/index_img/wp1_1.jpg" width="360"
 								height="290">
 							<div class="sm-imgs">
-								<img id="ima" src="${rc.contextPath}/index_img/wp1_1.jpg"
-									height="65" width="65"> <img
-									src="${rc.contextPath}/index_img/wp1_1.jpg" height="65"
-									width="65"> <img
-									src="${rc.contextPath}/index_img/wp1_1.jpg" height="65"
-									width="65">
+								<a><img id="ima" src="${rc.contextPath}/index_img/wp1_1.jpg" height="65" width="65"></a> 
+								<a><img src="${rc.contextPath}/index_img/wp1_1.jpg" height="65" width="65"> </a>
+								<a><img src="${rc.contextPath}/index_img/wp1_1.jpg" height="65" width="65"></a>
 							</div>
 							<div class="clearfix socials">
 								<ul class="social">

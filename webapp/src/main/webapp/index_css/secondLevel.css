@@ -33,7 +33,7 @@ header .area {
 }
 
 .side-nav {
-	margin-top:50px;
+	margin-top: 3.7%;
 	width: 200px;
 	height: 530px;
 	position: fixed;
@@ -43,8 +43,8 @@ header .area {
 }
 
 .navbuy.side-nav {
-	margin-left: -200px;
-	margin-top:50px;
+	margin-left: -15%;
+  	margin-top: 3.7%;
 	width: 200px;
 	height: 530px;
 	position: fixed;
@@ -103,7 +103,7 @@ header .area {
 .cover {
 	padding: 5px 10px;
 	position: absolute;
-	margin-left: 230px;
+	margin-left: 17%;
 }
 
 .cover .c-top {
@@ -233,7 +233,7 @@ header .area {
 }
 .recommand .re-box .select-items {
 	float: left;
-	margin-left: 30px;
+	margin-left: 70px;
 	text-align: center;
 }
 .recommand .re-box2 .select-items {

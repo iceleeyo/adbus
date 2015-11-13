@@ -76,6 +76,24 @@ css=["js/jquery-ui/jquery-ui.css"]>
 
 				</div>
 
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>组织结构代码证书:
+					</label> <#if attachments?has_content > <#list attachments as item> <#if
+					item?has_content && item.type==11> <a
+						href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}"
+						onclick="return hs.expand(this)"> <img
+						src="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}"
+						class="m11" width="240" /></a><br> </#if> </#list> <br>
+					<#else>
+					<div id="newUpload2">
+						<div id="div_1">
+							<input type="file" name="user_tax" id="Sfile2"
+								class="validate[required]">
+						</div>
+					</div>
+					</#if>
+
+				</div>
 				<div class="ui-form-item" tip="上传资质图片,审核通过可以参与商品竞价!">
 					<label class="ui-label mt10">认证状态:</label>
 					<div id="up" style="padding-top: 10px;"><#if

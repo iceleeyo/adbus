@@ -123,7 +123,7 @@ security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 	"${rc.contextPath}/index_menu/index_top.ftl" /> <!--下部DIV--> </header>
 	<div class="page-container">
 		<div class="pg-container-main">
-			<div class="container-12 mt10 s-clear" style="padding-left: 155px;">
+			<div class="container-12 mt10 s-clear" style="padding-left: 12%;">
 				<#if nav>
 				<!--顶部导航开始-->
 				<div class="container-12" style="margin-left: 10px;">

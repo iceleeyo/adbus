@@ -55,7 +55,8 @@ html #layui_layer_skinlayercss {
 }
 
 .layui-layer-content {
-    position: relative
+    position: relative;
+    OVERFLOW-Y: auto !important;
 }
 
 .layui-layer-border {
