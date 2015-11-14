@@ -1070,7 +1070,7 @@ header .area {
 }
 
 .cart-step2 .panel-head .td-name, .cart-step2 .panel-item .td-name {
-	width: 474px;
+	width: 574px;
 	padding-left: 20px;
 }
 
@@ -1087,11 +1087,11 @@ header .area {
 }
 
 .cart-step2 .panel-head .td-item, .cart-step2 .panel-item .td-item {
-	width: 200px;
+	width: 350px;
 }
 
 .cart-step2 .panel-head .td-info, .cart-step2 .panel-item .td-info {
-	width: 275px;
+	width: 225px;
 }
 
 .cart-step2 .panel-item .td-amount {
