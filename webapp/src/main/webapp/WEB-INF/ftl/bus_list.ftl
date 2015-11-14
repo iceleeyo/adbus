@@ -7,6 +7,17 @@ js=["js/sift.js","js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
 css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 
 <link rel="stylesheet" type="text/css" href="${rc.contextPath}/css/basecss.css">
+
+<style type="text/css">
+
+ .ui-widget-content {
+   // width: auto !important;
+}
+
+
+</style>
+
+
 <script type="text/javascript">
 	
     var table;
@@ -129,7 +140,7 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
                         '    </span>&nbsp;&nbsp;' +
                         '    <span>线路</span>' +
                         '    <span>' +
-                        '    <input id="tags" style="width:450px;">' +
+                        '    <input id="tags" style="width:350px;">' +
                         '    </span>&nbsp;&nbsp;' +
                   	'<span style="float:right;  margin-right: -20%;margin-top: -53px;"><a class="block-btn" id="export_xls" href="javascript:void(0);">导出查询数据</a>'+
                  <!--   '<a class="block-btn" style="margin-left: 20px;" href="javascript:void(0);">导出所有</a></span>'+-->
