@@ -160,7 +160,7 @@
 .background-one .slide-container .view2 .view-text .mid .spec {
   width: 245px;
   height: 40px;
-  margin: 15px auto;
+  margin: 15px 32%;
   line-height: 60px;
   background: url(../index_img/icon.png) no-repeat -160px -480px;
 }
