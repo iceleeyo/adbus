@@ -104,7 +104,7 @@ public class CardServiceImpl implements CardService {
 		if (principal != null) {
 			String uid = Request.getUserId(principal);
 			CardboxUserExample example = new CardboxUserExample();
-			example.createCriteria().andUserIdEqualTo(uid).andIsPayEqualTo(0);
+			example.createCriteria().andUserIdEqualTo(uid);
 
 			List<CardboxUser> r = cardboxUserMapper.selectByExample(example);
 			if (r.isEmpty()) {
@@ -158,12 +158,10 @@ public class CardServiceImpl implements CardService {
 			}
 		}
 		long seriaNum = getCardBingSeriaNum(principal);
-		BooleanExpression query = QJpaCardBoxMedia.jpaCardBoxMedia.seriaNum.eq(seriaNum);
-		query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.isConfirm.eq(isComfirm));
-
-		query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.isConfirm.eq(isComfirm));
-		BooleanExpression query2 = QJpaCardBoxBody.jpaCardBoxBody.seriaNum.eq(seriaNum);
-		query2 = query2.and(QJpaCardBoxBody.jpaCardBoxBody.isConfirm.eq(isComfirm));
+		BooleanExpression query = QJpaCardBoxMedia.jpaCardBoxMedia.isConfirm.eq(isComfirm);
+//		query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.isConfirm.eq(isComfirm));
+		BooleanExpression query2 = QJpaCardBoxBody.jpaCardBoxBody.isConfirm.eq(isComfirm);
+//		query2 = query2.and(QJpaCardBoxBody.jpaCardBoxBody.isConfirm.eq(isComfirm));
 		List<JpaCardBoxMedia> page = null;
 		List<JpaCardBoxBody> page2 = null;
 		if (!meidLists.isEmpty() || !boidLists.isEmpty()) {

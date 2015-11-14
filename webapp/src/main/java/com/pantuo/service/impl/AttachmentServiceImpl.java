@@ -203,14 +203,18 @@ public class AttachmentServiceImpl implements AttachmentService {
 		AttachmentExample example=new AttachmentExample();
 		AttachmentExample.Criteria criteria=example.createCriteria();
 		AttachmentExample.Criteria criteria2=example.createCriteria();
+		AttachmentExample.Criteria criteria3=example.createCriteria();
 		criteria.andUserIdEqualTo(user_id);
 		criteria2.andUserIdEqualTo(user_id);
 		criteria.andTypeEqualTo(JpaAttachment.Type.user_license.ordinal());
 		criteria2.andTypeEqualTo(JpaAttachment.Type.user_tax.ordinal());
+		criteria3.andTypeEqualTo(JpaAttachment.Type.user_code.ordinal());
 		example.or(criteria2);
+		example.or(criteria3);
 		if(userDetail!=null){
 			criteria.andMainIdEqualTo(userDetail.getId());
 			criteria2.andMainIdEqualTo(userDetail.getId());
+			criteria3.andMainIdEqualTo(userDetail.getId());
 		}
 		return attachmentMapper.selectByExample(example);
 	}
