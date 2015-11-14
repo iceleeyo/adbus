@@ -21,11 +21,7 @@ function go_back(){
     });
 </script>
 <script type="text/javascript">
-	$(document).ready(function() {
-
-
-					});
-
+	
 	function sub(){
 	   if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
             return;
