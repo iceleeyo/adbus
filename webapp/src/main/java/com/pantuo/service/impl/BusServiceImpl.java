@@ -108,6 +108,7 @@ import com.pantuo.simulate.BodyUseMonitor;
 import com.pantuo.simulate.QueryBusInfo;
 import com.pantuo.util.BeanUtils;
 import com.pantuo.util.DateUtil;
+import com.pantuo.util.ListUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 import com.pantuo.vo.CountView;
@@ -544,8 +545,9 @@ public class BusServiceImpl implements BusService {
 					: QJpaBusOnline.jpaBusOnline.jpabus.line.id.eq(lineId));
 		}
 		if (StringUtils.isNotBlank(tags)) {
-			query = query.and(isNormalQuery ? QJpaBus.jpaBus.line.name.in(StringUtils.split(tags, ","))
-					: QJpaBusOnline.jpaBusOnline.jpabus.line.name.in(StringUtils.split(tags, ",")));
+			String[] s=ListUtil.trimList(StringUtils.split(tags, ","));
+			query = query.and(isNormalQuery ? QJpaBus.jpaBus.line.name.in(s)
+					: QJpaBusOnline.jpaBusOnline.jpabus.line.name.in(s));
 		}
 		if (StringUtils.isNotBlank(linename)) {
 			query = query.and(isNormalQuery ? QJpaBus.jpaBus.line.name.eq(linename)
