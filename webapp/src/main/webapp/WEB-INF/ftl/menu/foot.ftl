@@ -12,13 +12,7 @@
 					<li><a href="">帮助中心</a></li>
 					<li><a href="">联系我们</a></li>
 				</ul>
-				<ul class="s-left icons">
-					<li><h4>客户服务</h4></li>
-					<li><a class="foot-link-img weibo" href=""></a></li>
-					<li><a class="foot-link-img qq-weibo" href=""></a></li>
-					<li><a class="foot-link-img wechat" href=""></a></li>
-					<li><a class="foot-link-img kefu" href=""></a></li>
-				</ul>
+				
 			</div>
 			<div class="foot-link-none s-right">
 				<p class="text-right">客服电话</p>
