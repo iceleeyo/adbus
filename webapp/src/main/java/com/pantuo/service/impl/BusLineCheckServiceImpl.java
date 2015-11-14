@@ -229,7 +229,9 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 		List<AutoCompleteView> r = new ArrayList<AutoCompleteView>();
 		BooleanExpression query = QJpaBusline.jpaBusline.city.eq(city);
 		if (StringUtils.isNotBlank(name)) {
-			query = query.and(QJpaBusline.jpaBusline.name.like("%" + name + "%"));
+			name=","+name;
+			String name2=StringUtils.substringAfterLast(name, ",");
+			query = query.and(QJpaBusline.jpaBusline.name.like("%" + name2 + "%"));
 		}
 		Pageable p = new PageRequest(0, 900, new Sort("name"));
 		List<Integer> idsList = new ArrayList<Integer>();

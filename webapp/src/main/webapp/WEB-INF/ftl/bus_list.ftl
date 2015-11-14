@@ -33,7 +33,8 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
                         "filter[linename]" : $('#linename').val(),
                        // "filter[category]" : $('#category').val(),
                         //"filter[levelStr]" : $('#levelStr').val(),
-                        "filter[sh]" : $('#sh').val()
+                        "filter[sh]" : $('#sh').val(),
+                        "filter[tags]" : $('#tags').val()
                     } );
                 },
                 "dataSrc": "content",
@@ -128,14 +129,47 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
                         '    </span>&nbsp;&nbsp;' +
                         '    <span>线路</span>' +
                         '    <span>' +
-                        '        <input id="linename" value="">' +
+                        '    <input id="tags" style="width:450px;">' +
                         '    </span>&nbsp;&nbsp;' +
                   	'<span style="float:right;  margin-right: -20%;margin-top: -53px;"><a class="block-btn" id="export_xls" href="javascript:void(0);">导出查询数据</a>'+
                  <!--   '<a class="block-btn" style="margin-left: 20px;" href="javascript:void(0);">导出所有</a></span>'+-->
                   	'</div>'
         );
-
-        $('#serinum,#oldserinum,#name,#linename').change(function() {
+function split( val ) {
+      return val.split( /,\s*/ );
+    }
+    $( "#tags" )
+      // don't navigate away from the field on tab when selecting an item
+      .bind( "keydown", function( event ) {
+        if ( event.keyCode === $.ui.keyCode.TAB &&
+            $( this ).autocomplete( "instance" ).menu.active ) {
+          event.preventDefault();
+        }
+      })
+      .autocomplete({
+        minLength: 0,
+        source : "${rc.contextPath}/busselect/autoComplete?tag=b",
+        focus: function() {
+          // prevent value inserted on focus
+          return false;
+        },
+        select: function( event, ui ) {
+          var terms = split( this.value );
+        
+          // remove the current input
+          terms.pop();
+          // add the selected item
+          terms.push( ui.item.value );
+          // add placeholder to get the comma-and-space at the end
+          terms.push( "" );
+          this.value = terms.join( "," );
+          table.fnDraw();
+          return false;
+        }
+      }).focus(function () {
+       				 $(this).autocomplete("search");
+   	 	});;
+        $('#serinum,#oldserinum,#name,#tags').change(function() {
             table.fnDraw();
         });
          $('#linename').change(function() {
@@ -193,6 +227,9 @@ function ishaveline(linename){
         initTable();
          initSwift(table)
     } );
+     $(function() {
+    
+  });
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
 	<div class="withdraw-title">车辆查询</div>

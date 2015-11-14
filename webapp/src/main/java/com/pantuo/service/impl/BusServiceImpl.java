@@ -495,7 +495,7 @@ public class BusServiceImpl implements BusService {
 		final String sh = req.getFilter("sh"), serinum = req.getFilter("serinum"), oldserinum = req
 				.getFilter("oldserinum"), plateNumber = req.getFilter("plateNumber"), linename = req
 				.getFilter("linename"), levelStr = req.getFilter("levelStr"), category = req.getFilter("category"), lineid = req
-				.getFilter("lineid"), company = req.getFilter("company"); 
+				.getFilter("lineid"), company = req.getFilter("company"),tags=req.getFilter("tags"); 
 		
 		
 		
@@ -542,6 +542,10 @@ public class BusServiceImpl implements BusService {
 			int lineId = NumberUtils.toInt(lineid);
 			query = query.and(isNormalQuery ? QJpaBus.jpaBus.line.id.eq(lineId)
 					: QJpaBusOnline.jpaBusOnline.jpabus.line.id.eq(lineId));
+		}
+		if (StringUtils.isNotBlank(tags)) {
+			query = query.and(isNormalQuery ? QJpaBus.jpaBus.line.name.in(StringUtils.split(tags, ","))
+					: QJpaBusOnline.jpaBusOnline.jpabus.line.name.in(StringUtils.split(tags, ",")));
 		}
 		if (StringUtils.isNotBlank(linename)) {
 			query = query.and(isNormalQuery ? QJpaBus.jpaBus.line.name.eq(linename)
