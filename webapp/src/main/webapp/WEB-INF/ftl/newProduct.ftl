@@ -309,7 +309,7 @@ function go_back(){
 				
 				<div class="ui-form-item">
 					<label class="ui-label mt10">产品搜索标签：</label>
-					<textarea rows="6" cols="40" style="resize: none;" name="tags"><#if prod?exists && prod.tags?has_content >${prod.tags!''}</#if></textarea>
+					<textarea rows="6" cols="40" style="resize: none;" name="tags" placeholder="用于产品搜索，可以输入多个，每行一个标签。"><#if prod?exists && prod.tags?has_content >${prod.tags!''}</#if></textarea>
 				</div>
 			</div>
 			<div class="ui-form-item widthdrawBtBox">
