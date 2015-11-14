@@ -867,7 +867,7 @@ header .area {
 }
 
 .td-item p {
-	margin-left: 10px;
+	margin-left: 0;
 	text-align: left;
 }
 
