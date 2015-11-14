@@ -60,7 +60,7 @@
 					<div class="panel">
 						<div class="panel-head">
 							<ul class="clearfix">
-								<li class="td td-name">视频产品</li>
+								<li class="td td-name">产品名称及描述</li>
 								<li class="td td-price">单价</li>
 								<li class="td td-amount">数量</li>
 								<li class="td td-sum">合计</li>
