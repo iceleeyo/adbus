@@ -101,7 +101,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/", "/*.html", "/login", "/logout", "/homepage/**", "/css/**", "/images/**", "/imgs/**",
 						"/js/**", "/index_js/**", "/index_img/**", "/index_css/**", "/style/**", "/upload_temp/**")
 				.permitAll()
-				.antMatchers("/code", "/login_bus", "/busselect/work**/**", "/intro**", "/about-me", "/media",
+				.antMatchers("/favicon.ico","/code", "/login_bus", "/busselect/work**/**", "/intro**", "/about-me", "/media",
 						"/effect", "*/media**", "*/effect**", "*/partner**", "/partner", "*/aboutme**", "/aboutme",
 						"/loginForLayer", "/index", "/backend**", "/screen", "/secondLevelPage", "/secondLevelPageBus",
 						"/body", "/**/public**/**", "/**/public**", "/register", "/user/**", "/doRegister",
