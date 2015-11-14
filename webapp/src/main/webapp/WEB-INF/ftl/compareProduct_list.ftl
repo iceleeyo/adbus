@@ -4,11 +4,19 @@
 js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js","js/layer.onload.js"]
 >
 
+<style type="text/css">
+.operation
+{
+	color: #31B533;
+    font-weight: 800;
+}
+</style>
+
 <script type="text/javascript">
     var table;
     function initTable () {
         table = $('#table').dataTable( {
-            "dom": '<"#toolbar">lrtip',
+            "dom": '<"#toolbar"><"top"il>rt<"bottom"p><"clear">',
             "searching": false,
             "ordering": true,
             "serverSide": true,
@@ -75,7 +83,7 @@ js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer
                 },
                     "render": function(data, type, row, meta) {
                         var operations = '';
-                      operations+= '<a class="table-link" href="${rc.contextPath}/product/to_comparePage/'+data+'">竞价</a>';
+                      operations+= '<a class="table-link operation" href="${rc.contextPath}/product/to_comparePage/'+data+'">竞价</a>';
                        return operations;
                     }},
                      	</@security.authorize>
@@ -85,9 +93,9 @@ js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer
                 },
                     "render": function(data, type, row, meta) {
                         var operations = '';
-                     	operations+= (row.product.enabled ? '<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + row.product.id + '/0">下架</a> &nbsp;'
-                                :'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/' + row.product.id + '/1">上架</a> &nbsp;')
-                        operations +='<a class="table-link" href="${rc.contextPath}/product/editComparePro/' + data +'">编辑</a> &nbsp;';
+                     	operations+= (row.product.enabled ? '<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/product/' + row.product.id + '/0">下架</a> &nbsp;'
+                                :'<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/product/' + row.product.id + '/1">上架</a> &nbsp;')
+                        operations +='<a class="table-link operation" href="${rc.contextPath}/product/editComparePro/' + data +'">编辑</a> &nbsp;';
                        return operations;
                     }},
                         </@security.authorize>
