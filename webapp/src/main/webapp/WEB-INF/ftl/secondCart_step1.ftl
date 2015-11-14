@@ -84,6 +84,7 @@
 									<div class="td-inner">
 										<div class="cart-check mediaB">
 											<input class="hideinput" type="checkbox" id="${item.id}"
+												pid="p_${item.id}"
 												name="checkone" value="${item.id}"> <label
 												class="chilbox" rowid="${item.id}"></label>
 										</div>
@@ -92,6 +93,7 @@
 								<li class="td td-item">
 									<div class="td-inner">
 										<p>${substring(item.product.name, 0, 15)}</p>
+										
 									</div>
 								</li>
 								<li class="td td-info">
@@ -106,6 +108,7 @@
 									<div class="td-inner">
 										<p class="price">
 											<em>￥</em>#{item.price!'' ;m2M2}</p>
+											<input type="hidden" id="price_${item.id}" value="${item.price}">
 									</div>
 								</li>
 								<input type="hidden" id="pid_${item.id}"
@@ -160,7 +163,7 @@
 									<div class="td-inner">
 										<div class="cart-check bodyB">
 											<input class="hideinput" type="checkbox" name="b_checkone"
-												value="${item.id}"> <label class="chilbox"></label>
+												value="${item.id}"> <label class="chilbox" rowid="b_${item.id}"></label>
 										</div>
 									</div>
 								</li>
@@ -189,6 +192,7 @@
 									<div class="td-inner">
 										<p class="price">
 											<em>￥</em>#{item.price!'' ;m2M2}</p>
+											<input type="hidden" id="price_b_${item.id}" value="${item.price}">
 									</div>
 								</li>
 								<input type="hidden" id="b_uprice_${item.id}"
@@ -436,15 +440,27 @@
 					    }}, "text");
 		}
 		
+		function updateSelectMoney(){
+			var selectPrice=0;
+			$('.chilbox').each(function(){
+						 if($(this).prev()[0].checked){
+							var t=$(this).attr("rowid");//先取的id
+							var tprice =$("#price_"+t).val();//再根据id取的价格
+							selectPrice+=Number(tprice);
+						}
+			 });
+			 $("#aprice").html("￥"+selectPrice);
+		} 
+		
 			$(document).ready(function(e) {
 				$('.td-info .item-rect').hover(function() {
 					$(this).addClass('item-rect-hover');
 				}, function() {
 					$(this).removeClass('item-rect-hover');
 				});
-
 			});
-					
+				
+				 	
 			/* $('#all').on('click', function(event) {
 				event.preventDefault();
 				console.log($(this).parent().find($("input"))[0].checked);
@@ -477,7 +493,7 @@
 		        	ifChecked(".cart-check", false);  
 		        }
 		        	event.stopPropagation();
-						
+						updateSelectMoney();
 			});
 			
 			$('#mediaAll').on('click', function(event) {
@@ -497,7 +513,7 @@
 		        	ifChecked(".mediaB", false);  
 		        }
 		        	event.stopPropagation();
-						
+				updateSelectMoney();		
 			});
 			
 			$('#bodyAll').on('click', function(event) {
@@ -517,9 +533,9 @@
 		        	ifChecked(".bodyB", false);  
 		        }
 		        	event.stopPropagation();
-						
+					updateSelectMoney();	
 			});
-			
+				
 			$("label.chilbox").on('click', function(){
 				console.log($(this).prev()[0].checked); 
 				if(!$(this).prev()[0].checked){
@@ -531,6 +547,7 @@
 		        	$(this).prev()[0].checked = false;
 		        }
 		        	event.stopPropagation();
+					updateSelectMoney();  
 			});
 		</script>
 </body>
