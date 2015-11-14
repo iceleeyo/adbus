@@ -76,7 +76,7 @@
 
 				<div class="info-submit">
 					<span> <input type="button"
-						style="margin-top: 10px; cursor: pointer;heigth:40px;font-size:14px;" id="register"
+						style="letter-spacing:5px;margin-top: 10px; cursor: pointer;heigth:40px;font-size:14px;" id="register"
 						class="btn-submit" onclick="sub();" value="注册用户">
 					</span>
 				</div>
