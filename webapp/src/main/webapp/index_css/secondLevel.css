@@ -836,13 +836,13 @@ header .area {
 }
 
 .panel .td-item {
-	width: 175px;
+	width: 255px;
 	font-size: 18px;
 	text-align: left;
 }
 
 .panel .td-info {
-	width: 280px;
+	width: 220px;
 	font-size: 16px;
 	text-align: left;
 	line-height: normal;
