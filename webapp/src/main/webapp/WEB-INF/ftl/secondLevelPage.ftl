@@ -248,9 +248,9 @@ function tocard(pathurl){
 					</div>
 					<div class="select-more">
 						<ul>
-							<li class="item2">按价格降序<a href="jvascript:void(0)"><span
+							<li class="item2">按价格排序<a href="jvascript:void(0)"><span
 									id="priceSort" style="color: #fff">ｖ</span></a></li>
-							<li class="item3">按价格升序<input type="text" id="price1" value=""
+							<li class="item3">按价格排序<input type="text" id="price1" value=""
 								onkeyup="value=value.replace(/[^\\d]/g,\'\')"
 								onblur="changeByprice('${rc.contextPath}');" class="i-short"><em>—</em><input
 								type="text" id="price2"
