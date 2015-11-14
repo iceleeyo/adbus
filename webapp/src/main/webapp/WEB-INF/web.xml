@@ -22,6 +22,7 @@
 	</servlet-mapping>
 	
 	<!-- DOS filter, check http://www.eclipse.org/jetty/documentation/current/dos-filter.html -->
+	<!-- 
 	<filter>
 		<filter-name>DoSFilter</filter-name>
 		<filter-class>com.pantuo.aspect.SiteDosFilter</filter-class>
@@ -39,7 +40,7 @@
 		<filter-name>DoSFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
+ -->
 	<!-- 解决xss漏洞 -->
 	<filter>
 		<filter-name>xssFilter</filter-name>
@@ -57,4 +58,10 @@
 	     <error-code>404</error-code>
 	     <location>/404.htm</location>
 	 </error-page>
+	 
+	 <listener>
+    <listener-class>
+        org.springframework.web.context.request.RequestContextListener
+    </listener-class>
+</listener>
 </web-app>
