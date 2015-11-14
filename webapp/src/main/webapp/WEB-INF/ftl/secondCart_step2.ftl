@@ -148,15 +148,15 @@
 						</#list>
 					</div>
 					</#if>
-					<div class="adj">
+					<div class="adj" id="payway0">
 						<div class="way">
 							<span class="legged">是否分期</span>
 							<div class="select-items legged">
 								<ul class="iradios">
-									<li class="active"><input type="radio" class="c"
+									<li class="active"><input type="radio" 
 										name="isdiv" checked="checked" value="0"> <label
 										class="iradio iradio2"></label> <span>否</span></li>
-									<li><input type="radio" class="c" name="isdiv" value="1">
+									<li><input type="radio"  name="isdiv" value="1">
 										<label class="iradio iradio2"></label> <span>是</span></li>
 								</ul>
 							</div>
@@ -219,6 +219,7 @@
 	<script type="text/javascript">
 		function payment(){
 		var paytype=$('#payway :radio[name=payType]:checked').val();
+		var isdiv=$('#payway0 :radio[name=isdiv]:checked').val();
 		var divid=$("#dividpay").val();
 		var seriaNum=${seriaNum};
 		var meids='${meids!''}';
@@ -237,7 +238,7 @@
 			type:"POST",
 			async:false,
 			dataType:"json",
-			data:{"divid":divid,"seriaNum":seriaNum,"paytype":paytype,"meids":meids,"boids":boids,"startdate1":startdate1},
+			data:{"divid":divid,"isdiv":isdiv,"seriaNum":seriaNum,"paytype":paytype,"meids":meids,"boids":boids,"startdate1":startdate1},
 			success:function(data){
 				if (data.left) {
 				  window.location.href="${rc.contextPath}/carbox/paySuccess";

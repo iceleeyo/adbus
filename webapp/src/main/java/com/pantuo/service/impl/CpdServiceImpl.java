@@ -206,7 +206,7 @@ public class CpdServiceImpl implements CpdService {
 				"created"));
 		//BooleanExpression query = city >= 0 ? QJpaCpd.jpaCpd.product.city.eq(city) : QJpaCpd.jpaCpd.product.city.goe(0);
 		BooleanExpression query = QJpaCpd.jpaCpd.product.city.goe(0);
-		
+		query=query.and(QJpaCpd.jpaCpd.product.enabled.eq(true));
 		Page<JpaCpd> r = cpdRepository.findAll(query,p);
 		return r.getContent();
 	}

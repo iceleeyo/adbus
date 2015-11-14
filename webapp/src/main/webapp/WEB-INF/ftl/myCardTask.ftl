@@ -46,11 +46,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
             
             	{ "data": "r.seriaNum", "defaultContent": "","render": function(data, type, row, meta) {
                 	var option= "W"+data;
-                	if(row.r.mediaType=='body'){
-                	   return '<a  onclick="queryCarBoxBody(\'${rc.contextPath}\','+row.r.id+');">'+option+'</a>';
-                	}else{
-                	   return '<a  onclick="queryCarBoxMedia(\'${rc.contextPath}\','+row.r.id+');">'+option+'</a>';
-                	}
+                	return option;
                 }},
                 { "data": "media_type", "defaultContent": "","render": function(data, type, row, meta) {
                    if(data==0){
@@ -62,7 +58,20 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                 	}
                 }},
             	{ "data": "r.totalMoney", "defaultContent": ""},
-            	{ "data": "r.fengqi", "defaultContent": ""},
+            	{ "data": "r.isdivid", "defaultContent": "","render": function(data, type, row, meta) {
+            	   if(data==0){
+            	      return '否';
+            	   }else{
+            	      return '是';
+            	   }
+            	}},
+            	{ "data": "r.fengqi", "defaultContent": "","render": function(data, type, row, meta) {
+            	   if(row.r.isdivid==0){
+            	      return '--';
+            	   }else{
+            	      return data;
+            	   }
+            	}},
             	{ "data": "r.productCount", "defaultContent": ""},
             	{ "data": "r.payType", "defaultContent": "","render": function(data, type, row, meta) {
                 	var t='';
@@ -96,18 +105,21 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                 	return t;
                 }},
                 { "data": "r.remarks", "defaultContent": ""},
-                 <@security.authorize ifAnyGranted="bodyOnlineManager">
+                
                 { "data": function( row, type, set, meta) {
                                                   return row.id;
                                               },
 										"render" : function(data, type, row,
 												meta) {
 											var operations = '';
+											operations +='<a class="table-link" onclick="queryCarBoxBody(\'${rc.contextPath}\','+row.r.id+');" href="javascript:void(0)">详情</a>';
+											 <@security.authorize ifAnyGranted="bodyOnlineManager">
 											operations +='&nbsp;&nbsp;<a class="table-link" onclick="handlebodyorder(\'${rc.contextPath}\','+row.r.id+');" href="javascript:void(0)">处理</a>';
+											 </@security.authorize>
 											return operations;
 										}
 									},
-				 </@security.authorize>
+				
                 
             ],
             "language": {
@@ -173,16 +185,14 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
 				<th>订单号</th>
 				<th>媒体类型</th>
 				<th>订单总价</th>
+				<th>是否分期</th>
 				<th>分期数</th>
 				<th>相关产品个数</th>
 				<th>支付方式</th>
 				<th orderBy="created">下单时间</th>
 				<th>状态</th>
 				<th>备注</th>
-				<@security.authorize
-				ifAnyGranted="bodyOnlineManager">
 				<th>操作</th>
-				</@security.authorize>
 			</tr>
 		</thead>
 

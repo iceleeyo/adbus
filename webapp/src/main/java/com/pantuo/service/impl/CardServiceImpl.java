@@ -686,7 +686,7 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public Pair<Boolean, String> payment(String startdate1,String paytype, String divid, long seriaNum, Principal principal, int city,
+	public Pair<Boolean, String> payment(String startdate1,String paytype,int isdiv, String divid, long seriaNum, Principal principal, int city,
 			String meids, String boids) {
 		List<Integer> medisIds = CardUtil.parseIdsFromString(meids);
 		List<Integer> carid = CardUtil.parseIdsFromString(boids);
@@ -700,6 +700,7 @@ public class CardServiceImpl implements CardService {
 			helper.setFengqi(divid);
 			helper.setPayType(JpaOrders.PayType.valueOf(paytype).ordinal());
 			helper.setSeriaNum(seriaNum);
+			helper.setIsdivid(isdiv);
 			helper.setUserid(Request.getUserId(principal));
 			helper.setTotalMoney(typeCount.getPrice());
 			helper.setProductCount(typeCount.getProductCount());

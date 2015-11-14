@@ -151,6 +151,9 @@ public class AttachmentServiceImpl implements AttachmentService {
 							else if(StringUtils.equals(fn, "user_license")){
 								t.setType(JpaAttachment.Type.user_license.ordinal());
 							}
+							else if(StringUtils.equals(fn, "user_code")){
+								t.setType(JpaAttachment.Type.user_code.ordinal());
+							}
 							else if(StringUtils.equals(fn, "user_tax")){
 								t.setType(JpaAttachment.Type.user_tax.ordinal());
 							}
