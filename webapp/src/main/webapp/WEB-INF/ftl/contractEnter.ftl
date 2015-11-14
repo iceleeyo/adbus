@@ -6,42 +6,46 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 
 <script type="text/javascript">
+	$(document).ready(function() {
 
-    $(document).ready(function() {
-    
-    	$("#userForm2").validationEngine({
-            validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
-            inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
-            success :  false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
-            promptPosition: "centerRight",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
-            showOneMessage: true,
-            maxErrorsPerField: 1,
-            //failure : function() { alert("验证失败，请检查。");  }//验证失败时调用的函数
-            //success : function() { callSuccessFunction() },//验证通过时调用的函数
-        });
-        
-    var industryId=${(contractView.mainView.industryId)!''};
-    var contractType='${(contractView.mainView.contractType)!''}';
-    $("#industry option").each(function(){
-     if($(this).val() == industryId){
-     $(this).attr("selected", "selected");  
-      }
-    });
-    $("#contractType option").each(function(){
-      if($(this).val()==contractType){
-      
-     $(this).attr("selected", "selected");  
-      }
-    });
+		$("#userForm2").validationEngine({
+			validationEventTrigger : "blur", //触发的事件  validationEventTriggers:"keyup blur",
+			inlineValidation : true,//是否即时验证，false为提交表单时验证,默认true
+			success : false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
+			promptPosition : "centerRight",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
+			showOneMessage : true,
+			maxErrorsPerField : 1,
+		//failure : function() { alert("验证失败，请检查。");  }//验证失败时调用的函数
+		//success : function() { callSuccessFunction() },//验证通过时调用的函数
+		});
 
-        
-    });
+		var industryId = $
+		{
+			(contractView.mainView.industryId)
+			!''
+		}
+		;
+		var contractType = '${(contractView.mainView.contractType)!'
+		'}';
+		$("#industry option").each(function() {
+			if ($(this).val() == industryId) {
+				$(this).attr("selected", "selected");
+			}
+		});
+		$("#contractType option").each(function() {
+			if ($(this).val() == contractType) {
+
+				$(this).attr("selected", "selected");
+			}
+		});
+
+	});
 </script>
 
 <script type="text/javascript">
-function go_back(){
-	history.go(-1);
-}
+	function go_back() {
+		history.go(-1);
+	}
 	i = 2;
 	j = 2;
 	$(document)
@@ -66,32 +70,31 @@ function go_back(){
 				document.getElementById("div_" + o));
 	}
 
+	function sub() {
 
-	function sub(){
-				
-        if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
-            return;
+		if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
+			return;
 		var code = ($("#code").val());
 		var name = ($("#name").val());
 		var startDate = $("#startDate").val();
 		var endDate = ($("#endDate").val());
-		var amounts=($("#amounts").val());
-		var contractType=($("#contractType").val());
-		Sfile= ($("#Sfile").val());
+		var amounts = ($("#amounts").val());
+		var contractType = ($("#contractType").val());
+		Sfile = ($("#Sfile").val());
 		if ($("#relaCon").is(":checked")) {
-		if($("#parentid  option:selected").val()==0){
-		   jDialog.Alert("请选择要绑定的合同");
-			return;
+			if ($("#parentid  option:selected").val() == 0) {
+				jDialog.Alert("请选择要绑定的合同");
+				return;
+			}
 		}
-		}
-		if(endDate<startDate){
+		if (endDate < startDate) {
 			jDialog.Alert("终止时间不能小于开始时间");
 			return;
 		}
 		/*
 		alert(3);
 		return;
-var bb=false;
+		var bb=false;
 		var userid=$("#username").val();
 		if(typeof(userid)=="undefined"){
 		   bb=true;
@@ -111,73 +114,73 @@ var bb=false;
 					jDialog.Alert(data.right);
 				}
 			}
-      }); 
-      }*/
+		}); 
+		}*/
 		$('#userForm2').ajaxForm(function(data) {
 			jDialog.Alert(data.right);
-			var uptime = window.setTimeout(function(){
-				window.location.href="${rc.contextPath}/contract/list"
-			   	clearTimeout(uptime);
-						},2000)
-							
+			var uptime = window.setTimeout(function() {
+				window.location.href = "${rc.contextPath}/contract/list"
+				clearTimeout(uptime);
+			}, 2000)
+
 		}).submit();
-		document.getElementById('subWithdraw').setAttribute('disabled',true);
-		 $("#subWithdraw").css("background-color","#85A2AD");
-		var uploadProcess={upath:'${rc.contextPath}/upload/process'};
+		document.getElementById('subWithdraw').setAttribute('disabled', true);
+		$("#subWithdraw").css("background-color", "#85A2AD");
+		var uploadProcess = {
+			upath : '${rc.contextPath}/upload/process'
+		};
 		$('#progress1').anim_progressbar(uploadProcess);
 	}
- $(document).ready(function() {
-  $("#otherindustry").click(function(){
-     
-  if ($("#otherindustry").is(":checked")) {
-    $("#industry").hide();
-    $("#industryname").css("display","inline");
-}else{
-   $("#industryname").css("display","none");
-   $("#industryname").val("");
-   $("#industry").show();
-   
-}
-    });
-  $("#relaCon").click(function(){
-     
-  if ($("#relaCon").is(":checked")) {
-    $("#amounts").hide();
-    $("#amounts").val("0");
-    $("#parentid").css("display","inline");
-}else{
-   $("#parentid").css("display","none");
-   $("#parentid").val("0");
-   $("#amounts").show();
-   
-}
-    });
- 
-		        //author:pxh 2015-05-20 22:36
- 
-		        $( "#username" ).autocomplete({
-		       	 	minLength: 0,
-		        	source: "${rc.contextPath}/user/autoComplete",
-		  			change: function( event, ui ) { 
-		  				/*if(ui.item!=null){alert(ui.item.value);}*/
-		  				//table.fnDraw();
-		  			 },
-		  			 select: function(event,ui) {
-		  			 $('#username').val(ui.item.value);
-		  				//table.fnDraw();
-		  			 },
-				}) .focus(function () {
-       				 $(this).autocomplete("search");
-   				 });
-					
- 
-	    });
+	$(document).ready(function() {
+		$("#otherindustry").click(function() {
 
+			if ($("#otherindustry").is(":checked")) {
+				$("#industry").hide();
+				$("#industryname").css("display", "inline");
+			} else {
+				$("#industryname").css("display", "none");
+				$("#industryname").val("");
+				$("#industry").show();
+
+			}
+		});
+		$("#relaCon").click(function() {
+
+			if ($("#relaCon").is(":checked")) {
+				$("#amounts").hide();
+				$("#amounts").val("0");
+				$("#parentid").css("display", "inline");
+			} else {
+				$("#parentid").css("display", "none");
+				$("#parentid").val("0");
+				$("#amounts").show();
+
+			}
+		});
+
+		//author:pxh 2015-05-20 22:36
+
+		$("#username").autocomplete({
+			minLength : 0,
+			source : "${rc.contextPath}/user/autoComplete",
+			change : function(event, ui) {
+				/*if(ui.item!=null){alert(ui.item.value);}*/
+				//table.fnDraw();
+			},
+			select : function(event, ui) {
+				$('#username').val(ui.item.value);
+				//table.fnDraw();
+			},
+		}).focus(function() {
+			$(this).autocomplete("search");
+		});
+
+	});
 </script>
 <script type="text/javascript">
-        function bu(txtObj) {
-            txtObj.value = Number(txtObj.value).toFixed(2);
-        }
+	function bu(txtObj) {
+		txtObj.value = Number(txtObj.value).toFixed(2);
+	}
 </script>
 
 
