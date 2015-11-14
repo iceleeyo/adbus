@@ -71,7 +71,7 @@
 							<ul class="item-info clearfix">
 								<li class="td td-item">
 									<div class="td-inner">
-										<p>${substring(item.product.name, 0, 7)}</p>
+										<p>${substring(item.product.name, 0, 14)}</p>
 									</div>
 								</li>
 								<li class="td td-info">
