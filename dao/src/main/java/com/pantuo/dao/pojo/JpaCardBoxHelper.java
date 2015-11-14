@@ -41,6 +41,7 @@ public class JpaCardBoxHelper extends CityEntity {
 	private JpaInvoiceDetail invoiceDetail;
 
 	private String fengqi;//1,3,6,9,12期
+	private int isdivid=0;  //默认不分期
 	private PayType payType;
 	private String mediaMark;
 	private String userid;
@@ -73,6 +74,14 @@ public class JpaCardBoxHelper extends CityEntity {
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
+	}
+
+	public int getIsdivid() {
+		return isdivid;
+	}
+
+	public void setIsdivid(int isdivid) {
+		this.isdivid = isdivid;
 	}
 
 	public Stats getStats() {
