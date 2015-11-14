@@ -3,6 +3,13 @@
 css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]
 js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
+<style type="text/css">
+.operation
+{
+	color: #31B533;
+    font-weight: 800;
+}
+</style>
 
 <script type="text/javascript">
 
@@ -74,7 +81,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
                 	return d;
                 }},
                   { "data": "order.created", "defaultContent": "","render": function(data, type, row, meta) {
-                	 var tr= "<a target='_blank' href='${rc.contextPath}/order/orderDetail/" +(row.id)+ "?pid="+(row.processInstanceId) +  "'>查看详情</a>";
+                	 var tr= "<a target='_blank' class='operation' href='${rc.contextPath}/order/orderDetail/" +(row.id)+ "?pid="+(row.processInstanceId) +  "'>查看详情</a>";
                 	return tr;
                 }},{ "data": "finishedState", "defaultContent": "" },
                 
