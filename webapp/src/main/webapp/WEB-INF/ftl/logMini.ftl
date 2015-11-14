@@ -88,7 +88,7 @@
 				</div>
 
 				<div class="login-item">
-					<a class="s-right" href="${rc.contextPath}/user/find_pwd">忘记密码?</a>
+					<a class="s-right" style="padding-top: 20px;" href="${rc.contextPath}/user/find_pwd">忘记密码?</a>
 				</div>
 
 				<div class="info-submit">
