@@ -189,11 +189,12 @@ img {
 }
 .rg-content .info-submit {
   margin-top: 5px;
+  font-size:14px;
 }
 .rg-content .info-submit .btn-submit {
   display: inline-block;
   width: 120px;
-  height: 25px;
+  height: 40px;
   line-height: 25px;
   border: 1px solid #009deb;
   background-color: #009deb;
