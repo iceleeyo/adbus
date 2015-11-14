@@ -1,5 +1,6 @@
 package com.pantuo.web;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,10 +10,9 @@ import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.h2.util.New;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +25,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-
-import scala.annotation.target.beanGetter;
 
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaCity;
@@ -40,8 +37,7 @@ import com.pantuo.service.CardService;
 import com.pantuo.service.CityService;
 import com.pantuo.service.CpdService;
 import com.pantuo.service.ProductService;
-import com.pantuo.util.Pair;
-import com.pantuo.web.view.MapLocationSession;
+import com.pantuo.util.image.ValidateCode;
 
 /**
  * Index controller
@@ -293,6 +289,22 @@ public class CardSelect{
 	 	return "secondCart_step2";
 	}
 	
+	
+	
+	
+	@RequestMapping("/code")
+	public void getCode(HttpServletRequest reqeust, HttpServletResponse response) throws IOException {
+		 // 设置响应的类型格式为图片格式  
+        response.setContentType("image/jpeg");  
+        //禁止图像缓存。  
+        response.setHeader("Pragma", "no-cache");  
+        response.setHeader("Cache-Control", "no-cache");  
+        response.setDateHeader("Expires", 0);  
+        HttpSession session = reqeust.getSession();  
+        ValidateCode vCode = new ValidateCode(120,40,5,100);  
+        session.setAttribute("code", vCode.getCode());  
+        vCode.write(response.getOutputStream());  
+	}
 	@RequestMapping(value = "/intro-video")
 	public String video() {
 		return "intro/intro-video";

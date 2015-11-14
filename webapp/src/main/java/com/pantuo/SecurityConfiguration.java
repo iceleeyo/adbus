@@ -27,6 +27,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
@@ -34,7 +35,6 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
-import com.pantuo.activiti.GenerateSchedule;
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.dao.pojo.UserDetail.UType;
@@ -101,8 +101,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/", "/*.html", "/login", "/logout", "/homepage/**", "/css/**", "/images/**", "/imgs/**",
 						"/js/**", "/index_js/**", "/index_img/**", "/index_css/**", "/style/**", "/upload_temp/**")
 				.permitAll()
-				.antMatchers("/login_bus", "/busselect/work**/**", "/intro**", "/about-me", "/media", "/effect",
-						"*/media**", "*/effect**", "*/partner**", "/partner", "*/aboutme**", "/aboutme",
+				.antMatchers("/code", "/login_bus", "/busselect/work**/**", "/intro**", "/about-me", "/media",
+						"/effect", "*/media**", "*/effect**", "*/partner**", "/partner", "*/aboutme**", "/aboutme",
 						"/loginForLayer", "/index", "/backend**", "/screen", "/secondLevelPage", "/secondLevelPageBus",
 						"/body", "/**/public**/**", "/**/public**", "/register", "/user/**", "/doRegister",
 						"/validate/**", "/f/**", "/product/d/**", "/product/c/**", "/product/sift**",
@@ -127,12 +127,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 							}
 
 						}
-						log.info("logout : {} ",udetail!=null?udetail.getId():StringUtils.EMPTY);
+						log.info("logout : {} ", udetail != null ? udetail.getId() : StringUtils.EMPTY);
 						if (r != null) {
 							r.setAuthenticated(false);
 						}
 						SecurityContextHolder.clearContext();
-						
+
 						HttpSession session = request.getSession(false);
 						if (session != null) {
 							String tString = (String) session.getAttribute("medetype");
@@ -168,6 +168,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				if (StringUtils.contains(new_name.getMessage(), "Bad")) {
 					request.getSession().setAttribute("reLoginMsg", "密码错误!");
 				}
+			} else if (exception instanceof UsernameNotFoundException) {
+				request.getSession().setAttribute("reLoginMsg", exception.getMessage());
 			}
 			handle(request, response);
 		}
@@ -272,8 +274,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				} else if (StringUtils.contains(referer, "/backend") && udetail.getUtype() != UType.screen) {
 					clearLogin(authentication, request);
 					return "/backend";
-				} else if (StringUtils.contains(referer, "/login") && 
-						!StringUtils.contains(referer, "/login_bus") && udetail.getUtype() != UType.pub) {
+				} else if (StringUtils.contains(referer, "/login") && !StringUtils.contains(referer, "/login_bus")
+						&& udetail.getUtype() != UType.pub) {
 					clearLogin(authentication, request);
 					return "/login";
 				}
