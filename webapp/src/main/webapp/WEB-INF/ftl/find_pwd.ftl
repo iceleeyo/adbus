@@ -60,7 +60,7 @@ function findPwd(){
 </head>
 <body>
 	<div class="pg-container-main">
-		<div class="container-12 mt10 s-clear" width="60%">
+		<div class="container-12 mt10 s-clear" style="width:60%;">
 			<div class="withdraw-wrap color-white-bg fn-clear">
 				<div class="Page-Title">
 					<span>找回密码</span>
