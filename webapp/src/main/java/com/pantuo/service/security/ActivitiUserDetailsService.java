@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.dao.pojo.UserDetail.UType;
 import com.pantuo.service.UserServiceInter;
 
 /**
@@ -24,17 +25,20 @@ public class ActivitiUserDetailsService implements UserDetailsService {
 	private HttpServletRequest request;//重点在里这里  需要xml配置lister
 
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		//检查验证码
-		String checkCode = request.getParameter("code");
-		if (StringUtils.isBlank(checkCode)) {
-			throw new UsernameNotFoundException("请输入验证码!");
+		
+		String referer = request.getHeader("referer");
+		if (StringUtils.contains(referer, "/login") && !StringUtils.contains(referer, "/login_bus")) {
+			//检查验证码
+			String checkCode = request.getParameter("code");
+			if (StringUtils.isBlank(checkCode)) {
+				throw new UsernameNotFoundException("请输入验证码!");
+			}
+			String code = request.getSession().getAttribute("code").toString();
+			if (!StringUtils.equals(StringUtils.lowerCase(checkCode), StringUtils.lowerCase(code))
+					&& StringUtils.isNoneBlank(code)) {
+				throw new UsernameNotFoundException("验证码不符!");
+			}
 		}
-		String code = request.getSession().getAttribute("code").toString();
-		if (!StringUtils.equals(StringUtils.lowerCase(checkCode), StringUtils.lowerCase(code))
-				&& StringUtils.isNoneBlank(code)) {
-			throw new UsernameNotFoundException("验证码不符!");
-		}
-
 		//以下是认证部分
 		UserDetail user = userService.getByUsername(username);
 		if (user == null)
