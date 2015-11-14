@@ -163,7 +163,7 @@
 									<div class="td-inner">
 										<div class="cart-check bodyB">
 											<input class="hideinput" type="checkbox" name="b_checkone"
-												value="${item.id}"> <label class="chilbox" rowid="b_${item.id}"></label>
+												value="${item.id}"> <label class="chilbox" rowid="${item.id}"></label>
 										</div>
 									</div>
 								</li>
@@ -437,7 +437,9 @@
 						type : "POST",
 						success : function(data) {
 								$("#aprice").html("￥"+data);
+								updateSelectMoney();
 					    }}, "text");
+					    
 		}
 		
 		function updateSelectMoney(){
@@ -445,11 +447,18 @@
 			$('.chilbox').each(function(){
 						 if($(this).prev()[0].checked){
 							var t=$(this).attr("rowid");//先取的id
-							var tprice =$("#price_"+t).val();//再根据id取的价格
+							//var tprice =$("#price_"+t).val();//再根据id取的价格
+							var tprice =$("#mexiaoji_"+t).html();
+							//alert(tprice);
+							if (typeof(tprice) == "undefined"){
+								tprice =$("#boxiaoji_"+t).html();
+							}
 							selectPrice+=Number(tprice);
 						}
 			 });
-			 $("#aprice").html("￥"+selectPrice);
+			 if(selectPrice>0){
+				 $("#aprice").html("￥"+selectPrice);
+			 }
 		} 
 		
 			$(document).ready(function(e) {
