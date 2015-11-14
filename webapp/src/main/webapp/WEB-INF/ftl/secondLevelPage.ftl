@@ -250,7 +250,7 @@ function tocard(pathurl){
 						<ul>
 							<li class="item2">按价格排序<a href="jvascript:void(0)"><span
 									id="priceSort" style="color: #fff">ｖ</span></a></li>
-							<li class="item3">按价格排序<input type="text" id="price1" value=""
+							<li class="item3">价格筛选<input type="text" id="price1" value=""
 								onkeyup="value=value.replace(/[^\\d]/g,\'\')"
 								onblur="changeByprice('${rc.contextPath}');" class="i-short"><em>—</em><input
 								type="text" id="price2"
