@@ -1745,7 +1745,8 @@
 				var pos = methods._calculatePosition(field, prompt, options);
 				var css = {"top": pos.callerTopPosition,
 				"left": pos.callerleftPosition,
-				"marginTop": pos.marginTopSize,
+				//"marginTop": pos.marginTopSize,
+				"marginTop": 0,
 				"opacity": 0.87};
 
 				
@@ -1929,7 +1930,8 @@
 			return {
 				"callerTopPosition": promptTopPosition + "px",
 				"callerleftPosition": promptleftPosition + "px",
-				"marginTopSize": marginTopSize + "px"
+				//"marginTopSize": marginTopSize + "px"
+				"marginTopSize": "0"
 			};
 		},
 		/**
