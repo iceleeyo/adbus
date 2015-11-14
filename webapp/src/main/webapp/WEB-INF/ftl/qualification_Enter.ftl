@@ -9,7 +9,7 @@ function go_back(){
 	history.go(-1);
 }
     $(document).ready(function() {
-    	alert("testing");
+  
         $("#userForm2").validationEngine({
             validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
             inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
