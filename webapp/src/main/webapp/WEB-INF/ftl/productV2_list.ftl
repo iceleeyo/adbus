@@ -128,6 +128,7 @@ function buy(pid){
 </script>
 
 <div class="withdraw-wrap color-white-bg fn-clear">
+	<div class="withdraw-title">套餐列表</div>
 	<div class="paging"></div>
 	<table id="table" class="display" cellspacing="0" width="100%">
 		<thead>
