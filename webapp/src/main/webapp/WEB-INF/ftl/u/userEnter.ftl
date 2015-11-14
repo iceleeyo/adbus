@@ -125,10 +125,20 @@ function go_back(){
 				}else {
 					jDialog.Alert(data.errorMessage);
 				}
-			var uptime = window.setTimeout(function(){
-				window.location.href="${rc.contextPath}/user/list",
+				
+				var t='${UType}';
+				if(t=='body'){
+					var uptime = window.setTimeout(function(){
+				window.location.href="${rc.contextPath}/user/bodyuserlist",
 			   	clearTimeout(uptime);
 						},2000)
+			 }else {
+			 	var uptime = window.setTimeout(function(){
+				window.location.href="${rc.contextPath}/user/list",
+				   	clearTimeout(uptime);
+							},2000) 
+			 
+			 }		
 		}).submit();
 	}
 </script>
