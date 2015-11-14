@@ -93,7 +93,7 @@
 
 				<div class="info-submit">
 					<span> <input type="submit"
-						style="height: 40px;font-size: 16px; cursor: pointer" id="register"
+						style="font-weight:600;letter-spacing:5px;height: 40px;font-size: 16px; cursor: pointer" id="register"
 						class="btn-submit" value="登录">
 					</span>
 				</div>
