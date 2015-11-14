@@ -10,7 +10,7 @@
 	src="${rc.contextPath}/js/validation/jquery.validationEngine.js"></script>
 <script type="text/javascript" language="javascript"
 	src="${rc.contextPath}/js/validation/jquery.validationEngine-zh_CN.js"></script>
-<title>用户注册</title>
+<title>公交媒体电商平台-用户登陆</title>
 <link rel="stylesheet" type="text/css"
 	href="${rc.contextPath}/index_css/login.css">
 <link rel="stylesheet" type="text/css"
