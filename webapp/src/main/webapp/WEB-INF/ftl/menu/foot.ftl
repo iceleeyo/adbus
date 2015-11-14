@@ -14,11 +14,12 @@
 				</ul>
 				
 			</div>
+			<!-- 
 			<div class="foot-link-none s-right">
 				<p class="text-right">客服电话</p>
 				<h4 class="phone-number">xxx-xxx-xxxx</h4>
 				<p class="text-right">9：00-21：00</p>
-			</div>
+			</div>-->
 		</div>
 		<div class="foot-copyright">
 			<span class="foot-cr-link gray-text has-border">&copy;2015 All
