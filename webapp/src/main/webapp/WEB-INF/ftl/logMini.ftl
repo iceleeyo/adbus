@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" language="javascript"
 	src="${rc.contextPath}/js/validation/jquery.validationEngine.js"></script>
 <script type="text/javascript" language="javascript"
@@ -32,6 +33,28 @@
 	text-align: left;
 }
 </style>
+
+<script type="text/javascript">
+    function changeImg() {
+        var imgSrc = $("#imgObj");
+        var src = imgSrc.attr("src");
+        imgSrc.attr("src", chgUrl(src));
+    }
+    //时间戳   
+    //为了使每次生成图片不一致，即不让浏览器读缓存，所以需要加上时间戳   
+    function chgUrl(url) {
+        var timestamp = (new Date()).valueOf();
+        url = url.substring(0, 17);
+        if ((url.indexOf("&") >= 0)) {
+            url = url + "×tamp=" + timestamp;
+        } else {
+            url = url + "?timestamp=" + timestamp;
+        }
+        return url;
+    }
+</script>
+
+
 <body class="register">
 	<div class="contain">
 		<div class="rg-logo">
@@ -53,6 +76,15 @@
 						type="password" value=""
 						class="rg-text validate[required,minSize[6],maxSize[20]]"
 						placeholder="密码" name="password" id="password" />
+				</div>
+				
+				<div class="field">
+					<input
+						type="text" value="" style="    padding-left: 5px;width:90px"
+						class="rg-text"
+						placeholder="验证码" name="code" id="code" />
+						<img id="imgObj" alt="验证码" src="/code" />
+						<a href="#" onclick="changeImg()">换一张</a>
 				</div>
 
 				<div class="login-item">
