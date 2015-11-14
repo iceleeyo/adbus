@@ -122,7 +122,7 @@ function buy(pid){
 </script>
 
 <div class="withdraw-wrap color-white-bg fn-clear">
-
+    <div class="withdraw-title">订单列表</div>
 	<table id="table" class="display" cellspacing="0" width="100%">
 		<thead>
 			<tr>
