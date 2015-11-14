@@ -80,7 +80,7 @@
 				
 				<div class="field">
 					<input
-						type="text" value="" style="    padding-left: 5px;width:90px"
+						type="text" value="" style=" margin-bottom: 25px;  padding-left: 5px;width:90px"
 						class="rg-text"
 						placeholder="验证码" name="code" id="code" />
 						<img id="imgObj" alt="验证码" src="/code" />
