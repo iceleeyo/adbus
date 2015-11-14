@@ -94,8 +94,6 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
           promptPosition: "centerRight",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
           showOneMessage: true,
           maxErrorsPerField: 1,
-          //failure : function() { alert("验证失败，请检查。");  }//验证失败时调用的函数
-          //success : function() { callSuccessFunction() },//验证通过时调用的函数
       });
 	if (!$("#form2").validationEngine('validateBeforeSubmit'))
             return;
@@ -127,7 +125,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 		}).submit();
 	}
     $(document).ready(function() {
-      refreshOrderedBuses();
+        refreshOrderedBuses();
         $("#form1").validationEngine({
             validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
             inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
