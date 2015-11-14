@@ -211,7 +211,7 @@ header .area {
 	margin-left: 15px;
 	margin-bottom: 20px;
 	background: #fff;
-	border: 2px solid #e0e0e0;
+	border: 1px solid #e0e0e0;
 }
 
 .recommand .re-box .select {
@@ -409,7 +409,7 @@ header .area {
 	padding: 60px 70px 10px 20px;
 	font-size: 16px;
 	background-color: white;
-	border: 2px solid #e0e0e0;
+	border: 1px solid #e0e0e0;
 }
 
 .customs .back-item ul {
@@ -459,7 +459,7 @@ header .area {
 .buy {
 	padding: 10px 10px 20px 20px;
 	background-color: #fff;
-	border: 2px solid #e0e0e0;
+	border: 1px solid #e0e0e0;
 }
 
 .buy .inline-b {
