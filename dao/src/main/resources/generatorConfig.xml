@@ -92,11 +92,6 @@
 			/> </table> <table schema="" tableName="ACT_ID_GROUP" delimitIdentifiers="${generator.delimitIdentifiers}"> 
 			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
 			/> </table> -->
-		<!-- <table schema="" tableName="product_V2" delimitIdentifiers="${generator.delimitIdentifiers}"> 
-			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
-			/> </table> -->
-
-
 		<!-- <table schema="" tableName="bus_order_v2" delimitIdentifiers="${generator.delimitIdentifiers}"> 
 			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
 			/> </table> <table schema="" tableName="bus_order_detail_v2" delimitIdentifiers="${generator.delimitIdentifiers}"> 
@@ -160,6 +155,9 @@
 			<generatedKey column="ID" sqlStatement="${generator.db}"
 				identity="true" />
 		</table>
+				<table schema="" tableName="product_V2" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table>
 
 	</context>
 </generatorConfiguration>
