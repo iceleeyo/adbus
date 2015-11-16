@@ -250,10 +250,12 @@ function ishaveline(linename){
 			<div class="sift-item s-clear">
 				<span>线路级别：</span>
 				<div class="sift-list" qt="lev">
-					<a class="item active" href="#" sort="-1" qc="all">所有</a> <a
-						class="item" href="#" qc="S">特级<i>×</i></a> <a class="item"
-						href="#" qc="APP">A++<i>×</i></a> <a class="item" href="#"
-						qc="AP">A+<i>×</i></a> <a class="item" href="#" qc="A">A<i>×</i></a>
+					<a class="item active" href="#" sort="-1" qc="all">所有</a> 
+					<a class="item" href="#" qc="S">特级<i>×</i></a> 
+					<a class="item" href="#" qc="APP">A++<i>×</i></a> 
+					<a class="item" href="#" qc="AP">A+<i>×</i></a> 
+					<a class="item" href="#" qc="A">A<i>×</i></a>
+					<a class="item" href="#" qc="LATLONG">其他<i>×</i></a>
 				</div>
 			</div>
 			<div class="sift-item s-clear">
