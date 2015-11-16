@@ -42,6 +42,7 @@ import com.pantuo.mybatis.domain.ProductV2;
 import com.pantuo.mybatis.domain.UserCpd;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
+import com.pantuo.service.CardService;
 import com.pantuo.service.CityService;
 import com.pantuo.service.CpdService;
 import com.pantuo.service.ProductService;
@@ -50,6 +51,7 @@ import com.pantuo.service.impl.ProductServiceImpl.PlanRequest;
 import com.pantuo.util.Only1ServieUniqLong;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
+import com.pantuo.web.view.MediaSurvey;
 import com.pantuo.web.view.ProductView;
 
 /**
@@ -68,7 +70,9 @@ public class ProductController {
 	private UserServiceInter userService;
     @Autowired
     private CityService cityService;
-    
+	@Autowired
+	CardService cardService;
+	
     @RequestMapping("ajax-list")
     @ResponseBody
     public DataTablePage<ProductView> getAllProducts( TableRequest req,
@@ -151,7 +155,7 @@ public class ProductController {
             return p;
         }
             product.setFrontShow(FrontShow.valueOf(enable));
-            productService.saveProduct(city, product,null);
+            productService.saveProduct(city, product,null,null);
         return product;
     }
     
@@ -167,11 +171,11 @@ public class ProductController {
 	}
 	@RequestMapping(value = "/saveProductV2")
 	@ResponseBody
-	public Pair<Boolean, String> saveProductV2(ProductV2 productV2,
+	public Pair<Boolean, String> saveProductV2(ProductV2 productV2,MediaSurvey survey,
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
 			HttpServletRequest request, @RequestParam(value = "seriaNum", required = true) long seriaNum) {
 		productV2.setCity(city);
-		return productService.saveProductV2(productV2, seriaNum, Request.getUserId(principal));
+		return productService.saveProductV2(productV2, survey,seriaNum, Request.getUserId(principal));
 	}
 	@RequestMapping(value = "/buyBodyPro/{pid}")
 	@ResponseBody
@@ -236,6 +240,7 @@ public class ProductController {
         Page<UserDetail> users = userService.getValidUsers(null,0, 999, null);
         model.addAttribute("users", users.getContent());
     	model.addAttribute("prod", productService.findById(id));
+    	model.addAttribute("jsonView", cardService.getJsonfromJsonStr(productService.findById(id).getJsonString()));
         if (city != null) {
             model.addAttribute("types", JpaProduct.productTypesForMedia.get(city.getMediaType()));
             if (city.getMediaType() == JpaCity.MediaType.body) {
@@ -251,6 +256,7 @@ public class ProductController {
     		Model model, HttpServletRequest request) {
     	 model.addAttribute("types", JpaProduct.productTypesForMedia.get(city.getMediaType()));
     	model.addAttribute("prod", productService.findCpdById(id));
+    	model.addAttribute("jsonView", cardService.getJsonfromJsonStr(productService.findCpdById(id).getProduct().getJsonString()));
     	return "editComparePro";
     }
     @RequestMapping(value = "/d/{id}", produces = "text/html;charset=utf-8")
@@ -287,7 +293,7 @@ public class ProductController {
     @PreAuthorize(" hasRole('ShibaOrderManager')  ")
     @RequestMapping(value = "/save", method = { RequestMethod.POST})
     public String createProduct(
-            JpaProduct prod,JpaCpd jpacpd,@RequestParam(value="startDate1")  String startDate1,@RequestParam(value="biddingDate1")  String biddingDate1,
+            JpaProduct prod,JpaCpd jpacpd,MediaSurvey survey,@RequestParam(value="startDate1")  String startDate1,@RequestParam(value="biddingDate1")  String biddingDate1,
             @CookieValue(value="city", defaultValue = "-1") int city,
             HttpServletRequest request) {
         if (prod.getId() > 0) {
@@ -297,7 +303,7 @@ public class ProductController {
         }
         try {
         	prod.setFrontShow(FrontShow.N);
-            productService.saveProduct(city, prod,request);
+            productService.saveProduct(city, prod,survey,request);
             if(prod.getIscompare()==1){
             	if (biddingDate1.length() > 1 && startDate1.length()>1 ) {
             		jpacpd.setStartDate((Date) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parseObject(startDate1));
@@ -313,14 +319,14 @@ public class ProductController {
     }
     @RequestMapping(value = "/saveCompareProduct", method = { RequestMethod.POST})
     public String saveCompareProduct(
-    		JpaProduct product,JpaCpd cpd,@RequestParam(value="productid") int productid,@RequestParam(value="cpdid") int cpdid,
+    		JpaProduct product,JpaCpd cpd,MediaSurvey survey,@RequestParam(value="productid") int productid,@RequestParam(value="cpdid") int cpdid,
     		@RequestParam(value="startDate1") String startDate1,@RequestParam(value="biddingDate1")  String biddingDate1,
     		@CookieValue(value="city", defaultValue = "-1") int city,
     		HttpServletRequest request) {
     	try {
     		product.setId(productid);
     		product.setFrontShow(FrontShow.N);
-    		productService.saveProduct(city, product,request);
+    		productService.saveProduct(city, product,survey,request);
     			if (biddingDate1.length() > 1 && startDate1.length()>1 ) {
     				cpd.setStartDate((Date) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parseObject(startDate1));
     				cpd.setBiddingDate((Date) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parseObject(biddingDate1));

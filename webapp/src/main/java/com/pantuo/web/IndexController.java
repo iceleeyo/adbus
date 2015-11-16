@@ -246,6 +246,7 @@ public class CardSelect{
 			 ) {
 		JpaBusOrderDetailV2 j=cardService.getJpaBusOrderDetailV2Byid(id);
 		model.addAttribute("busOrderDetailV2", j);
+		model.addAttribute("jsonView", cardService.getJsonfromJsonStr(j.getJpaProductV2().getJsonString()));
 		return "thirdCar";
 	}
 	@RequestMapping(value = "/m/public_detail/{id}", produces = "text/html;charset=utf-8")
@@ -254,6 +255,7 @@ public class CardSelect{
 			) {
 		JpaProduct j=cardService.getJpaProductByid(id);
 		model.addAttribute("jpaProduct", j);
+		model.addAttribute("jsonView", cardService.getJsonfromJsonStr(j.getJsonString()));
 		return "thirdCarMedia";
 	}
 
