@@ -259,6 +259,17 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				<textarea rows="4" class=" validate[required]" cols="40"
 					style="resize: none;" name="remarks"></textarea>
 			</div>
+			<div class="ui-form-item">
+					<label class="ui-label mt10">媒体情况：</label>
+					媒体位置&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="locationstr" value="" placeholder="例如：北京" >&nbsp;&nbsp;&nbsp;&nbsp;
+					覆盖人次&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="personnum" onkeyup="value=value.replace(/[^\d]/g,'')" value="" placeholder="" >万&nbsp;&nbsp;&nbsp;&nbsp;<br>
+					线路概况&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="linesurvey" value="" placeholder="例如：北京六环内
+                                      470余条公交线路" >&nbsp;&nbsp;&nbsp;&nbsp;
+					媒体概况&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="mesurvey" value="" placeholder="例如：19寸公交彩色液晶电视" >&nbsp;&nbsp;&nbsp;&nbsp;<br>
+					媒体属主&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="mediaowner" value="" placeholder="例如：北广传媒" >&nbsp;&nbsp;&nbsp;&nbsp;
+					媒体数量&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="mediacount" value="" placeholder="例如：12000辆车24000块屏" >&nbsp;&nbsp;
+						
+				</div>
 		</div>
 </div>
 <div class="ui-form-item widthdrawBtBox"
