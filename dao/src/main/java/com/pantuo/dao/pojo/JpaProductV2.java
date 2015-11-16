@@ -32,7 +32,8 @@ public class JpaProductV2 extends CityEntity {
 	private String smallAdressList;//城区
 	@Column(length = 12)
 	private String personAvg;//人次
-	
+	@Column(length=1000) 
+	private String jsonString;
 	
 	
 
@@ -66,6 +67,14 @@ public class JpaProductV2 extends CityEntity {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getJsonString() {
+		return jsonString;
+	}
+
+	public void setJsonString(String jsonString) {
+		this.jsonString = jsonString;
 	}
 
 	public double getPrice() {

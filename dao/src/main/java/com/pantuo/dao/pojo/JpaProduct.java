@@ -64,6 +64,8 @@ public class JpaProduct extends CityEntity {
     private String imgurl;
     private int iscompare;
     private FrontShow frontShow;
+    @Column(length=1000) 
+	private String jsonString;
     //add by impanxh 首页根据 发现json responseBody到前端时json死循环
    // @OneToOne(cascade = { CascadeType.ALL },mappedBy="product", fetch = FetchType.EAGER, orphanRemoval = true)
    // private JpaCpd jpaCpd;
@@ -117,6 +119,18 @@ public class JpaProduct extends CityEntity {
 
 	public void setIscompare(int iscompare) {
 		this.iscompare = iscompare;
+	}
+
+	public void setExclusive(boolean exclusive) {
+		this.exclusive = exclusive;
+	}
+
+	public String getJsonString() {
+		return jsonString;
+	}
+
+	public void setJsonString(String jsonString) {
+		this.jsonString = jsonString;
 	}
 
 	public int getId() {
