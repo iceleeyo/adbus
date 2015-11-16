@@ -154,6 +154,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 					    			dataType:"json",
 					    			data:param,
 					    			success:function(data){
+					    			if(data!=null || typeof(data)!="undefined"){
 					    			var w='';
 					    			$("#modelcountView").html(w);
 					    				 $.each(data.views,function(index,value){
@@ -171,6 +172,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
         								        w+=data.totalfree;
         								        w+='</span></span>';
 										$("#modelcountView").html(w);
+					    			  }
 					    			}
 					       });  
     
