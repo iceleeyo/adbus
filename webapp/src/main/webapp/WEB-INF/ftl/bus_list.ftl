@@ -259,10 +259,13 @@ function ishaveline(linename){
 			<div class="sift-item s-clear">
 				<span>营销中心：</span>
 				<div class="sift-list" qt="com">
-					<a class="item active" href="#" sort="-1" qc="all">所有</a> <a
-						class="item" href="#" qc="10">自营<i>×</i></a> <a class="item"
-						href="#" qc="13">CBS<i>×</i></a> <a class="item" href="#" qc="12">白马<i>×</i></a>
+					<a class="item active" href="#" sort="-1" qc="all">所有</a> 
+					<a class="item" href="#" qc="10">自营<i>×</i></a> 
+					<a class="item" href="#" qc="13">CBS<i>×</i></a> 
+					<a class="item" href="#" qc="12">白马<i>×</i></a>
 					<a class="item" href="#" qc="8">七彩<i>×</i></a>
+					<a class="item" href="#" qc="15">市场<i>×</i></a>
+					<a class="item" href="#" qc="11">其他<i>×</i></a>
 				</div>
 			</div>
 			<div class="sift-item s-clear">
