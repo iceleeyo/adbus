@@ -1,5 +1,6 @@
 package com.pantuo.service.impl;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,6 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.DeserializationConfig;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 import org.omg.PortableInterceptor.INACTIVE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,6 +71,7 @@ import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.ProductOrderCount;
 import com.pantuo.util.Request;
+import com.pantuo.web.view.MediaSurvey;
 import com.pantuo.web.view.ProductView;
 
 @Service
@@ -315,8 +322,23 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	//  @Override
-	public void saveProduct(int city, JpaProduct product,HttpServletRequest request) {
+	public void saveProduct(int city, JpaProduct product,MediaSurvey survey,HttpServletRequest request) {
 		try {
+			if(null!=survey){
+				ObjectMapper t = new ObjectMapper();
+				t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+				t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
+				try {
+					String jsonString = t.writeValueAsString(survey);
+					product.setJsonString(jsonString);
+				} catch (JsonGenerationException e) {
+					e.printStackTrace();
+				} catch (JsonMappingException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 			product.setCity(city);
 			com.pantuo.util.BeanUtils.filterXss(product);
 			product.setExclusiveUser(product.getExclusiveUser());
@@ -438,12 +460,27 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Pair<Boolean, String> saveProductV2(ProductV2 productV2, long seriaNum, String userId) {
+	public Pair<Boolean, String> saveProductV2(ProductV2 productV2,MediaSurvey survey, long seriaNum, String userId) {
 		BusOrderDetailV2Example example = new BusOrderDetailV2Example();
 		 example.createCriteria().andSeriaNumEqualTo(seriaNum);
 		List<BusOrderDetailV2> list = busOrderDetailV2Mapper.selectByExample(example);
 		if (list.size() == 0) {
 			return new Pair<Boolean, String>(false, "请添加套餐方案");
+		}
+		if(null!=survey){
+			ObjectMapper t = new ObjectMapper();
+			t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+			t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
+			try {
+				String jsonString = t.writeValueAsString(survey);
+				productV2.setJsonString(jsonString);
+			} catch (JsonGenerationException e) {
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		productV2.setCreated(new Date());
 		productV2.setUpdated(new Date());

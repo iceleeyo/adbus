@@ -1,5 +1,6 @@
 package com.pantuo.service.impl;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -11,6 +12,11 @@ import java.util.Map;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.DeserializationConfig;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -67,6 +73,7 @@ import com.pantuo.util.Request;
 import com.pantuo.web.view.CardBoxHelperView;
 import com.pantuo.web.view.CardTotalView;
 import com.pantuo.web.view.CardView;
+import com.pantuo.web.view.MediaSurvey;
 
 @Service
 public class CardServiceImpl implements CardService {
@@ -1002,6 +1009,24 @@ public class CardServiceImpl implements CardService {
 		}else{
 			return new Pair<Boolean, String>(false,"操作失败");
 		}
+	}
+
+	@Override
+	public MediaSurvey getJsonfromJsonStr(String jsonString) {
+		ObjectMapper t = new ObjectMapper();
+		t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
+		MediaSurvey s=null;
+		try {
+			s = t.readValue(jsonString, MediaSurvey.class);
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return s;
 	}
 	
 }

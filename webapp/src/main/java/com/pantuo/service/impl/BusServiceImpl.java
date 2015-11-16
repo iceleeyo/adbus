@@ -1862,12 +1862,15 @@ public class BusServiceImpl implements BusService {
 			totalalrnum+=jpaPublishLine.getRemainNuber();
 			ids.add(jpaPublishLine.getId());
 		}
-		Collection<ModelCountView> Views= userAutoCompleteMapper.selectBusModelGroupView(ids);
-		view.setViews(Views);
-		view.setTotalsalsnum(totalsalsnum);
-		view.setTotalalrnum(totalalrnum);
-		view.setTotalfree(totalsalsnum-totalalrnum);
-		return view;
+		if(!ids.isEmpty()){
+			Collection<ModelCountView> Views= userAutoCompleteMapper.selectBusModelGroupView(ids);
+			view.setViews(Views);
+			view.setTotalsalsnum(totalsalsnum);
+			view.setTotalalrnum(totalalrnum);
+			view.setTotalfree(totalsalsnum-totalalrnum);
+			return view;
+		}
+		return null;
 	}
 
 	@Override
