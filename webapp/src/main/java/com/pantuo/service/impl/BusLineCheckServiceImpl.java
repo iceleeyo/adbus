@@ -1353,7 +1353,7 @@ public class BusLineCheckServiceImpl implements BusLineCheckService {
 			query = query.and(QJpaPublishLine.jpaPublishLine.model.name.like("%" + model + "%"));
 		}
 		if (StringUtils.isNotBlank(linename)) {
-			query = query.and(QJpaPublishLine.jpaPublishLine.line.name.like("%" + linename + "%"));
+			query = query.and(QJpaPublishLine.jpaPublishLine.line.name.eq(linename));
 		}
 		if (StringUtils.isNotBlank(company) && !StringUtils.equals(company, "defaultAll")) {
 			query = query.and(QJpaPublishLine.jpaPublishLine.jpaBusinessCompany.name.like("%" + company + "%"));
