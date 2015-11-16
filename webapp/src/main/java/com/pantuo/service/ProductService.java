@@ -22,6 +22,7 @@ import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.impl.ProductServiceImpl.PlanRequest;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
+import com.pantuo.web.view.MediaSurvey;
 import com.pantuo.web.view.ProductView;
 
 public interface ProductService {
@@ -35,7 +36,7 @@ public interface ProductService {
 
     JpaProduct findById(int productId);
 
-    void saveProduct(int city, JpaProduct product,HttpServletRequest request);
+    void saveProduct(int city, JpaProduct product,MediaSurvey survey,HttpServletRequest request);
 
     public int countMyList(int city, String name, String code, HttpServletRequest request);
 
@@ -54,7 +55,7 @@ public interface ProductService {
 	Page<ProductView> getProductView( Page<JpaProduct> list);
 	Pair<Boolean, Long> saveBusOrderDetail(JpaBusOrderDetailV2 prod);
 	Page<JpaBusOrderDetailV2> searchBusOrderDetailV2(int orderid,int pid, long seriaNum, int city, Principal principal, TableRequest req);
-	Pair<Boolean, String> saveProductV2(ProductV2 productV2, long seriaNum, String userId);
+	Pair<Boolean, String> saveProductV2(ProductV2 productV2,MediaSurvey survey, long seriaNum, String userId);
 	Page<JpaProductV2> searchProductV2s(int city, Principal principal, TableRequest req);
 	Pair<Boolean, String> buyBodyPro(int pid, int city, String userId);
 	Page<JpaBusOrderV2> searchBusOrderV2(int city, Principal principal, TableRequest req, String type);
