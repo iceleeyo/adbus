@@ -142,7 +142,7 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
                         '    <span>' +
                         '    <input id="tags" placeholder="多选输入框。" style="width:350px;">' +
                         '    </span>&nbsp;&nbsp;' +
-                  	'<span style="float:right;  margin-right: -20%;margin-top: -53px;"><a class="block-btn" id="export_xls" href="javascript:void(0);">导出查询数据</a>'+
+                  	'<span><a class="block-btn" id="export_xls" href="javascript:void(0);">导出查询数据</a>'+
                  <!--   '<a class="block-btn" style="margin-left: 20px;" href="javascript:void(0);">导出所有</a></span>'+-->
                   	'</div>'
         );
@@ -273,27 +273,27 @@ function ishaveline(linename){
 			<div class="sift-item s-clear">
 				<span>车辆类型：</span>
 				<div class="sift-list" qt="gor">
-					<a class="item active" href="#" sort="-1" qc="all">所有</a> <a
-						class="item" href="#" qc="baoche">包车<i>×</i></a> <a class="item"
-						href="#" qc="banche">班车<i>×</i></a> <a class="item" href="#"
-						qc="jidongche">机动车<i>×</i></a> <a class="item" href="#"
-						qc="yunyingche">运营车<i>×</i></a>
+					<a class="item active" href="#" sort="-1" qc="all">所有</a> 
+					<a class="item" href="#" qc="baoche">包车<i>×</i></a> 
+					<a class="item" href="#" qc="banche">班车<i>×</i></a> 
+					<a class="item" href="#" qc="jidongche">机动车<i>×</i></a>
+					<a class="item" href="#" qc="yunyingche">运营车<i>×</i></a>
 				</div>
 			</div>
 			<div class="sift-item s-clear">
 				<span>公司名称：</span>
 				<div class="sift-list" qt="company">
-					<a class="item active" href="#" sort="-1" qc="all">所有</a> <a
-						class="item" href="#" qc="1">大公共公司<i>×</i></a> <a class="item"
-						href="#" qc="2"> 八方达公司<i>×</i></a>
+					<a class="item active" href="#" sort="-1" qc="all">所有</a>
+					<a class="item" href="#" qc="1">大公共公司<i>×</i></a> 
+					<a class="item" href="#" qc="2"> 八方达公司<i>×</i></a>
 				</div>
 			</div>
 			<div class="sift-item s-clear">
 				<span>车辆状态：</span>
 				<div class="sift-list" qt="stats">
-					<a class="item " href="#" sort="-1" qc="all">所有</a> <a
-						class="item active" href="#" qc="1">正常车辆<i>×</i></a> <a
-						class="item" href="#" qc="2"> 回收站车辆<i>×</i></a>
+					<a class="item " href="#" sort="-1" qc="all">所有</a> 
+					<a class="item active" href="#" qc="1">正常车辆<i>×</i></a>
+					<a class="item" href="#" qc="2"> 回收站车辆<i>×</i></a>
 				</div>
 			</div>
 
