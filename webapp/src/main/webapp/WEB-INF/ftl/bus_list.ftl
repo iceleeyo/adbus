@@ -25,11 +25,11 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
         table = $('#table').dataTable( {
             "dom": '<"#toolbar"><"top"il>rt<"bottom"p><"clear">',
             "searching": false,
-            "ordering": false,
+            "ordering": true,
             "serverSide": true,
             "scrollX": true,
             "columnDefs": [
-                { "orderable": false, "targets": [7, 8,9,10] },
+                { "orderable": false, "targets": [0,1,2,4,5,6,7, 8,9,10,11,12,13,14,15,16,17,18] },
             ],
             "iDisplayLength" : 20,
             "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
@@ -307,7 +307,7 @@ function ishaveline(linename){
 			<th>线路级别</th>
 				
 				
-				<th>车辆自编号</th>
+				<th orderBy="serialNumber">车辆自编号</th>
 				<th>车牌号</th>
 				<th>车辆型号</th>
 				<th>车辆描述</th>
