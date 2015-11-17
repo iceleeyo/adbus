@@ -55,13 +55,15 @@ public class GenerateSchedule implements JavaDelegate {
                 return;
             }
             if (order.getType() == JpaProduct.Type.video) {
-                ScheduleLog log = scheduleService.schedule(order);
-                if (log.getStatus() == ScheduleLog.Status.scheduled) {
+//                ScheduleLog log = scheduleService.schedule(order);
+                scheduleService.schedule2(order,
+                		false);
+//                if (log.getStatus() == ScheduleLog.Status.scheduled) {
                     execution.setVariable("scheduleResult", true);
-                } else {
-                    execution.setVariable("scheduleResult", false);
-                    execution.setVariable("scheduleComments", log.getDescription());
-                }
+//                } else {
+//                    execution.setVariable("scheduleResult", false);
+//                    execution.setVariable("scheduleComments", log.getDescription());
+//                }
             } else if (order.getType() == JpaProduct.Type.body) {
                 boolean result = busScheduleService.schedule(order);
                 execution.setVariable("scheduleResult", result);

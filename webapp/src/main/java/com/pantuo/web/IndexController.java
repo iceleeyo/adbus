@@ -25,10 +25,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaCity;
+import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProduct.FrontShow;
 import com.pantuo.pojo.TableRequest;
@@ -36,7 +38,10 @@ import com.pantuo.service.BusLineCheckService;
 import com.pantuo.service.CardService;
 import com.pantuo.service.CityService;
 import com.pantuo.service.CpdService;
+import com.pantuo.service.OrderService;
 import com.pantuo.service.ProductService;
+import com.pantuo.service.ScheduleService;
+import com.pantuo.service.ScheduleService.SchedUltResult;
 import com.pantuo.util.image.ValidateCode;
 
 /**
@@ -54,11 +59,14 @@ public class IndexController {
 	private CityService cityService;
 	@Autowired
 	CpdService cpdService;
+	  @Autowired
+	    private OrderService orderService;
 	@Autowired
 	private ProductService productService;
 	@Autowired
 	private BusLineCheckService busLineCheckService;
-	
+	  @Autowired
+	    private ScheduleService scheduleService;
 	
 	  @Value("${sys.type}")
 		private String isBodySys;
@@ -86,6 +94,16 @@ public class IndexController {
 		}
 		return w;
 	}
+	
+	@RequestMapping(value = "/testsch/{id}")
+	@ResponseBody
+    public SchedUltResult testsch(Model model, HttpServletRequest request, HttpServletResponse response,
+    		@PathVariable("id") int id,
+			@CookieValue(value = "city", defaultValue = "-1") int city) {
+		 JpaOrders order = orderService.getJpaOrder(id);
+		return  scheduleService.schedule2(order,false);
+    }
+	
 	 @RequestMapping(value = "/secondLevelPage")
 	    public String secondLevelPage(Model model, HttpServletRequest request, HttpServletResponse response,
 				@CookieValue(value = "city", defaultValue = "-1") int city) {

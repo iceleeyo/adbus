@@ -8,7 +8,7 @@ import java.io.Serializable;
 */
 //货物
 @Entity
-@Table(name="goods", uniqueConstraints=@UniqueConstraint(columnNames={"city", "orderId", "day", "seed"}))
+@Table(name="goods")
 public class JpaGoods extends CityEntity implements Comparable<JpaGoods>, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

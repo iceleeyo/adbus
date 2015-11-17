@@ -34,22 +34,14 @@ public class JpaBox extends CityEntity implements Comparable<JpaBox>, Serializab
     private int hour;      //back up for report
     private long size;
     private long remain;
+    private int fremain;
+    private boolean isfirst=false;
     @JsonIgnore
     private String remainString;
 
     @Transient
     private BoxRemain remains;
 
-/*    public String getRemainString () {
-        remainString = remains == null ? null : remains.toString();
-        remain = remains.remainSize();
-        size = remains.getDuration();
-        return remainString;
-    }
-    public void setRemainString(String str) {
-        remainString = str;
-        remains = BoxRemain.fromJson(str);
-    }*/
 
     @ManyToOne
     @JoinColumn(name = "slotId")
@@ -64,6 +56,10 @@ public class JpaBox extends CityEntity implements Comparable<JpaBox>, Serializab
     private long putWeight;    //刚刚堆放货物，权重降低
     @Transient
     private int seed;           //用作随机的种子
+    @Transient
+    private int sort=1000;           
+    @Transient
+    private int fsort=1000;           
 
     public JpaBox() {}
 
@@ -76,11 +72,14 @@ public class JpaBox extends CityEntity implements Comparable<JpaBox>, Serializab
         this.month = yearMon[1];
         this.hour = yearMon[2];
         timeslot = slot;
+        remain=30;
+        fremain=0;
+        size=slot.getDuration();
 //        this.size = slot.getDuration();
 //        this.remain = size;
 //        this.remainStart = 0;
-        remains = new BoxRemain(slot.getDuration(), 0, slot.getDuration());
-        updateRemainToDb();
+//        remains = new BoxRemain(slot.getDuration(), 0, slot.getDuration());
+//        updateRemainToDb();
     }
 
     public Date getDay() {
@@ -91,7 +90,15 @@ public class JpaBox extends CityEntity implements Comparable<JpaBox>, Serializab
         return timeslot.getId();
     }
 
-    public JpaTimeslot getTimeslot() {
+    public boolean isIsfirst() {
+		return isfirst;
+	}
+
+	public void setIsfirst(boolean isfirst) {
+		this.isfirst = isfirst;
+	}
+
+	public JpaTimeslot getTimeslot() {
         return timeslot;
     }
 
@@ -99,15 +106,45 @@ public class JpaBox extends CityEntity implements Comparable<JpaBox>, Serializab
         return size;
     }
 
-    public long getRemain() {
-        return getRemains().remainSize();
-    }
+    public int getSort() {
+		return sort;
+	}
+
+	public int getFremain() {
+		return fremain;
+	}
+
+	public void setFremain(int fremain) {
+		this.fremain = fremain;
+	}
+
+	public int getFsort() {
+		return fsort;
+	}
+
+	public void setFsort(int fsort) {
+		this.fsort = fsort;
+	}
+
+	public void setSort(int sort) {
+		this.sort = sort;
+	}
+
+	
+	
+//	public long getRemain() {
+//        return getRemains().remainSize();
+//    }
 
 //    public long getRemainStart() {
 //        return remainStart;
 //    }
 
-    public List<JpaGoods> getGoods() {
+    public long getRemain() {
+		return remain;
+	}
+
+	public List<JpaGoods> getGoods() {
         return goods;
     }
 
@@ -115,7 +152,79 @@ public class JpaBox extends CityEntity implements Comparable<JpaBox>, Serializab
         this.goods = goods;
     }
 
-    public void setDay(Date day) {
+    public static ThreadLocal<Long> getPUT_WEIGHT() {
+		return PUT_WEIGHT;
+	}
+
+	public static void setPUT_WEIGHT(ThreadLocal<Long> pUT_WEIGHT) {
+		PUT_WEIGHT = pUT_WEIGHT;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
+	}
+
+	public int getMonth() {
+		return month;
+	}
+
+	public void setMonth(int month) {
+		this.month = month;
+	}
+
+	public int getHour() {
+		return hour;
+	}
+
+	public void setHour(int hour) {
+		this.hour = hour;
+	}
+
+	public String getRemainString() {
+		return remainString;
+	}
+
+	public void setRemainString(String remainString) {
+		this.remainString = remainString;
+	}
+
+	public long getPutWeight() {
+		return putWeight;
+	}
+
+	public void setPutWeight(long putWeight) {
+		this.putWeight = putWeight;
+	}
+
+	public int getSeed() {
+		return seed;
+	}
+
+	public void setSeed(int seed) {
+		this.seed = seed;
+	}
+
+	public int getTmpAbsoluteWight() {
+		return tmpAbsoluteWight;
+	}
+
+	public void setRemain(long remain) {
+		this.remain = remain;
+	}
+
+	public void setDay(Date day) {
         this.day = day;
     }
 

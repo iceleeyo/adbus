@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -56,6 +57,7 @@ import com.pantuo.util.DateUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Schedule;
 import com.pantuo.vo.SortRequest;
+import com.pantuo.web.view.AutoCompleteView;
 import com.pantuo.web.view.SolitSortView;
 
 /**
@@ -147,79 +149,6 @@ public class ScheduleService {
 		}
 		return schedule(order, order.getStartTime(), order.getProduct().getDays());
 	}
-
-	/*
-	    public ScheduleLog schedule(Date day, JpaOrders order) {
-	        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-	        cal.setTime(day);
-	        cal.set(Calendar.HOUR_OF_DAY, 0);
-	        cal.set(Calendar.MINUTE, 0);
-	        cal.set(Calendar.SECOND, 0);
-	        cal.set(Calendar.MILLISECOND, 0);
-	        Date now = cal.getTime();
-
-	        if (order == null || order.getId() == 0) {
-	            log.error("Order {} does not exists or not persisted");
-	            return new ScheduleLog(now, 0, ScheduleLog.Status.failed);
-	        }
-	        int orderId = order.getId();
-
-	        ScheduleLog slog = scheduleLogRepository.findByDayAndStatus(now, ScheduleLog.Status.scheduling);
-	        if (slog != null) {
-	            log.info("Order {} is now scheduling for day {}, please wait", slog.getOrderId(), now);
-	            return new ScheduleLog(now, orderId, ScheduleLog.Status.racing);
-	        }
-
-	        slog = scheduleLogRepository.findByDayAndOrderId(now, orderId);
-	        if (slog != null && slog.getStatus() == ScheduleLog.Status.scheduled) {
-	            log.info("Scheduling for day {} and order {} is running or completed", now, orderId);
-	            return new ScheduleLog(now, orderId, ScheduleLog.Status.duplicate);
-	        }
-
-	        try {
-	            MDC.put("func", "Schedule");
-	            MDC.put("day", GlobalMethods.sdf.get().format(now));
-	            MDC.put("order", orderId + "");
-
-	            log.info(":::Start scheduling for day {}, order {}", now, orderId);
-	            slog = new ScheduleLog(now, orderId);
-	            scheduleLogRepository.save(slog);
-
-	            Schedule s = null;
-	            boolean firstOrder = false;
-	            List<Box> boxes = boxRepo.findByDay(now);
-	            if (!boxes.isEmpty()) {
-	                log.info("There is already scheduled orders for day {}", now);
-	                s = Schedule.newFromBoxes(now, boxes, order);
-	            } else {
-	                firstOrder = true;
-	                log.info("First order to be scheduled for day {}", now);
-	                Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(null, 0, 9999);
-	                s = Schedule.newFromTimeslots(now, slots.getContent(), order);
-	            }
-
-	            boolean scheduled = s.schedule();
-	            log.info(s.toString());
-
-	            if (scheduled) {
-	                boxRepo.save(s.getOrderedHotBoxList());
-	                boxRepo.save(s.getOrderedNormalBoxList());
-	            }
-	            slog.setStatus(ScheduleLog.Status.scheduled);
-	            slog.setDescription("success at " + new Date());
-	            scheduleLogRepository.save(slog);
-	            return slog;
-	        } catch (Exception e) {
-	            slog.setStatus(ScheduleLog.Status.failed);
-	            slog.setDescription(e.getMessage());
-	            scheduleLogRepository.save(slog);
-	            log.error("Fail to schedule for day {}", now, e);
-	            return slog;
-	        } finally {
-	            MDC.clear();
-	        }
-	    }
-	*/
 
 	//根据每天每个时段的box列表，构建基于slot的行级box
 	private List<SlotBoxBar> buildSlotBoxBar(Map<Integer/*slotId*/, List<JpaBox>> boxSlotMap) {
@@ -380,7 +309,7 @@ public class ScheduleService {
 				Date now = cal.getTime();
 
 				ScheduleLog slog = null;
-				slog =new ScheduleLog(city, cal.getTime(), orderId);//add by impanxh 2015-11-12
+				slog = new ScheduleLog(city, cal.getTime(), orderId);//add by impanxh 2015-11-12
 				try {
 					MDC.put("func", "Schedule[R2]");
 					MDC.put("day", DateUtil.longDf.get().format(now));
@@ -625,67 +554,270 @@ public class ScheduleService {
 	private SuppliesService suppliesService;
 	@Autowired
 	private GoodsBlackRepository goodsBlackRepository;
+
 	public boolean scheduleInfoImg(JpaOrders order) {
-		Date start=order.getStartTime();
-		int days=order.getProduct().getDays();
-	    Calendar cal = DateUtil.newCalendar();
-	    cal.setTime(start);
-		    if (order == null || order.getId() == 0) {
-	            log.error("Order {} does not exists or not persisted");
-	            return false;
-	        }
-	        if (days == 0) {
-	            log.info("Order {} has 0 days", order.getId());
-	            return false;
-	        }
-	        for (int i=0; i<days; i++) {
-	        	 Date day = cal.getTime();
-	        	 saveInfoImg(day,order);
-                 cal.add(Calendar.DATE, 1);
-	        }
+		Date start = order.getStartTime();
+		int days = order.getProduct().getDays();
+		Calendar cal = DateUtil.newCalendar();
+		cal.setTime(start);
+		if (order == null || order.getId() == 0) {
+			log.error("Order {} does not exists or not persisted");
+			return false;
+		}
+		if (days == 0) {
+			log.info("Order {} has 0 days", order.getId());
+			return false;
+		}
+		for (int i = 0; i < days; i++) {
+			Date day = cal.getTime();
+			saveInfoImg(day, order);
+			cal.add(Calendar.DATE, 1);
+		}
 		return true;
 	}
-	
-    @Autowired
-    private AttachmentService attachmentService;
-    @Autowired
-    private InfoimgscheduleMapper infoimgscheduleMapper;
-    private void saveInfoImg(Date day, JpaOrders order) {
-		if(order.getProduct().getType()==JpaProduct.Type.info){
-			Infoimgschedule  infoimgschedule=new Infoimgschedule();
+
+	@Autowired
+	private AttachmentService attachmentService;
+	@Autowired
+	private InfoimgscheduleMapper infoimgscheduleMapper;
+
+	private void saveInfoImg(Date day, JpaOrders order) {
+		if (order.getProduct().getType() == JpaProduct.Type.info) {
+			Infoimgschedule infoimgschedule = new Infoimgschedule();
 			infoimgschedule.setCity(order.getCity());
 			infoimgschedule.setDate(day);
-			infoimgschedule.setDuration((long)0);
+			infoimgschedule.setDuration((long) 0);
 			infoimgschedule.setOrderId(order.getId());
 			infoimgschedule.setType(JpaInfoImgSchedule.Type.info.ordinal());
 			infoimgscheduleMapper.insert(infoimgschedule);
-		}else{
-			List<Attachment> list=attachmentService.queryimg(null, order.getSuppliesId());
-			long duration=order.getProduct().getDuration();
-			long a =(long)Math.floor((float)duration/list.size() + 0.5d);
-			int i=list.size();
-			long sum=0;
+		} else {
+			List<Attachment> list = attachmentService.queryimg(null, order.getSuppliesId());
+			long duration = order.getProduct().getDuration();
+			long a = (long) Math.floor((float) duration / list.size() + 0.5d);
+			int i = list.size();
+			long sum = 0;
 			for (Attachment attachment : list) {
-				if(attachment!=null){
-					Infoimgschedule  infoimgschedule=new Infoimgschedule();
+				if (attachment != null) {
+					Infoimgschedule infoimgschedule = new Infoimgschedule();
 					infoimgschedule.setCity(order.getCity());
 					infoimgschedule.setDate(day);
 					infoimgschedule.setProper("新");
 					infoimgschedule.setOrderId(order.getId());
 					infoimgschedule.setType(JpaInfoImgSchedule.Type.image.ordinal());
 					infoimgschedule.setAttamentId(attachment.getId());
-					if(i==1){
-						infoimgschedule.setDuration(duration-sum);
-					}else{
+					if (i == 1) {
+						infoimgschedule.setDuration(duration - sum);
+					} else {
 						infoimgschedule.setDuration(a);
 					}
 					infoimgscheduleMapper.insert(infoimgschedule);
-					sum+=a;
+					sum += a;
 					i--;
 				}
 			}
 		}
+
+	}
+	public class SchedUltResult{
+		String msg;
+		boolean isScheduled;
+		Date notSchedultDay;
+		boolean isFrist;
+		public String getMsg() {
+			return msg;
+		}
+		public void setMsg(String msg) {
+			this.msg = msg;
+		}
+		public boolean isScheduled() {
+			return isScheduled;
+		}
+		public void setScheduled(boolean isScheduled) {
+			this.isScheduled = isScheduled;
+		}
+		public Date getNotSchedultDay() {
+			return notSchedultDay;
+		}
+		public void setNotSchedultDay(Date notSchedultDay) {
+			this.notSchedultDay = notSchedultDay;
+		}
+		public boolean isFrist() {
+			return isFrist;
+		}
+		public void setFrist(boolean isFrist) {
+			this.isFrist = isFrist;
+		}
+		public SchedUltResult(String msg, boolean isScheduled, Date notSchedultDay, boolean isFrist) {
+			this.msg = msg;
+			this.isScheduled = isScheduled;
+			this.notSchedultDay = notSchedultDay;
+			this.isFrist = isFrist;
+		}
+		@Override
+		public String toString() {
+			return "SchedUltResult [msg=" + msg + ", isScheduled=" + isScheduled + "]";
+		}
 		
 	}
+
+	public SchedUltResult schedule2(JpaOrders order,boolean isOnlyCheck) {
+		Date start = order.getStartTime();
+		int days = order.getProduct().getDays();
+		Date end = DateUtil.dateAdd(start, days);
+		int city = order.getCity();
+		Calendar cal = DateUtil.newCalendar();
+		int numberPlayer = order.getProduct().getPlayNumber();
+		int duration = (int) order.getProduct().getDuration();
+
+		List<JpaBox> boxList = null;
+		boxList = boxRepo.findByCityAndDayGreaterThanEqualAndDayLessThan(city, start, end);
+		Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(city, null, 0, 9999, null, false);
+		Map<Date, List<JpaBox>> boxDayMap = new HashMap<Date, List<JpaBox>>();
+		for (JpaBox b : boxList) {
+			List<JpaBox> l = boxDayMap.get(b.getDay());
+			if (l == null) {
+				l = new ArrayList<JpaBox>();
+				boxDayMap.put(b.getDay(), l);
+			}
+			l.add(b);
+		}
+		cal.setTime(start);
+		SchedUltResult isAllAllow =new SchedUltResult(StringUtils.EMPTY , false, null, false); 
+		List<JpaGoods> gs = new ArrayList<JpaGoods>();
+		Map<Integer, JpaBox> boxEx = new HashMap<Integer, JpaBox>();
+		for (int i = 0; i < days; i++) {
+			Date day = cal.getTime();
+			if (!boxDayMap.containsKey(day)) {
+				List<JpaBox> boxesForDay = new ArrayList<>(slots.getContent().size());
+				for (JpaTimeslot slot : slots) {
+					boxesForDay.add(Schedule.boxFromTimeslot(city, day, slot));
+				}
+				boxRepo.save(boxesForDay);
+				boxDayMap.put(day, boxesForDay);
+			}
+			cal.add(Calendar.DATE, 1);
+		}
+
+		if (order.getProduct().getFirstNumber() > 0) {
+			//如果有首播排首播
+			int playNum = order.getProduct().getFirstNumber();
+			isAllAllow = scheduleFirst(gs, boxEx, order, playNum, start, days, boxDayMap);
+			if (isAllAllow.isScheduled) {
+				//首播排完了排非首播
+				playNum = order.getProduct().getPlayNumber() - order.getProduct().getFirstNumber();
+				if (playNum > 0) {
+					isAllAllow = scheduleNormal(gs, boxEx, order, playNum, start, days, boxDayMap);
+				}
+			}
+		} else {
+			//排非首播
+			isAllAllow = scheduleNormal(gs, boxEx, order, order.getProduct().getPlayNumber(), start, days, boxDayMap);
+			if (!isAllAllow.isScheduled) {
+				isAllAllow = scheduleFirst(gs, boxEx, order, order.getProduct().getPlayNumber(), start, days, boxDayMap);
+			}
+		}
+		if ( !isOnlyCheck && isAllAllow.isScheduled) {
+			goodsRepo.save(gs);
+			boxRepo.save(boxEx.values());
+		}
+		log.info(isAllAllow.toString());
+		return isAllAllow;
+
+	}
+
+	//排首播
+	private SchedUltResult scheduleFirst(List<JpaGoods> gs, Map<Integer, JpaBox> boxEx, JpaOrders order, int numberPlayer,
+			Date start, int days, Map<Date, List<JpaBox>> boxDayMap) {
+		int duration = (int) order.getProduct().getDuration();
+		Calendar cal = DateUtil.newCalendar();
+		cal.setTime(start);
+		for (int i = 0; i < days; i++) {
+			Date day = cal.getTime();
+			int k = 0;
+			List<JpaBox> list2 = boxDayMap.get(day);
+			for (int j = 0; j < numberPlayer; j++) {
+				Collections.sort(list2, FRIST_SLOT_COMPARATOR);
+				JpaBox box = list2.get(0);
+				if (30 - box.getFremain() >= duration) {
+					JpaGoods goods = new JpaGoods();
+					goods.setOrder(order);
+					goods.setCity(order.getCity());
+					goods.setCreated(new Date());
+					goods.setSize(duration);
+					goods.setInboxPosition((int) box.getFremain());
+					goods.setBox(box);
+					gs.add(goods);
+					boxEx.put(box.getId(), box);
+
+					box.setFremain(box.getFremain() + duration);
+					box.setFsort(box.getFsort() - duration);
+					k++;
+				}
+			}
+			if (k < numberPlayer) {
+				return new SchedUltResult("可上刊库存:"+k+" 订单上刊次数"+numberPlayer, false, day, true);
+			}
+			cal.add(Calendar.DATE, 1);
+		}
+		return new SchedUltResult(StringUtils.EMPTY, true, start, true);
+	}
+
+	//排非首播
+	private SchedUltResult scheduleNormal(List<JpaGoods> gs, Map<Integer, JpaBox> boxEx, JpaOrders order, int numberPlayer,
+			Date start, int days, Map<Date, List<JpaBox>> boxDayMap) {
+		Calendar cal = DateUtil.newCalendar();
+		cal.setTime(start);
+		int duration = (int) order.getProduct().getDuration();
+		for (int i = 0; i < days; i++) {
+			Date day = cal.getTime();
+			int k = 0;
+			List<JpaBox> list2 = boxDayMap.get(day);
+			for (int j = 0; j < numberPlayer; j++) {
+				Collections.sort(list2, NORMAL_COMPARATOR);
+				JpaBox box = list2.get(0);
+				if (box.getSize() - box.getRemain() >= duration) {
+					JpaGoods goods = new JpaGoods();
+					goods.setOrder(order);
+					goods.setCity(order.getCity());
+					goods.setCreated(new Date());
+					goods.setSize(duration);
+					goods.setInboxPosition((int) box.getRemain());
+					goods.setBox(box);
+					gs.add(goods);
+					boxEx.put(box.getId(), box);
+
+					box.setRemain(box.getRemain() + duration);
+					box.setSort(box.getSort() - duration);
+					k++;
+				}
+			}
+			if (k < numberPlayer) {
+				return new SchedUltResult("可上刊库存:"+k+" 订单上刊次数"+numberPlayer, false, day, false);
+			}
+			cal.add(Calendar.DATE, 1);
+		}
+		return new SchedUltResult(StringUtils.EMPTY, true, start, true);
+	}
+
+	Comparator<JpaBox> NORMAL_COMPARATOR = new Comparator<JpaBox>() {
+		public int compare(JpaBox o1, JpaBox o2) {
+			int w = o2.getSort() - o1.getSort();
+			if (w == 0) {
+				return (int) ((o2.getSize() - o2.getRemain()) - (o1.getSize() - o1.getRemain()));
+			} else {
+				return w;
+			}
+		}
+	};
+	Comparator<JpaBox> FRIST_SLOT_COMPARATOR = new Comparator<JpaBox>() {
+		public int compare(JpaBox o1, JpaBox o2) {
+			int w = o2.getFsort() - o1.getFsort();
+			if (w == 0) {
+				return (int) ((30 - o2.getFremain()) - (30 - o1.getFremain()));
+			} else {
+				return w;
+			}
+		}
+	};
 
 }

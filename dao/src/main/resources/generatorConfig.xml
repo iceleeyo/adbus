@@ -48,9 +48,7 @@
 			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
 			/> </table> <table schema="" tableName="sys_config" delimitIdentifiers="${generator.delimitIdentifiers}"> 
 			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
-			/> </table> <table schema="" tableName="box" delimitIdentifiers="${generator.delimitIdentifiers}"> 
-			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
-			/> </table> <table schema="" tableName="industry" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			/>  <table schema="" tableName="industry" delimitIdentifiers="${generator.delimitIdentifiers}"> 
 			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
 			/> </table> <table schema="" tableName="invoice" delimitIdentifiers="${generator.delimitIdentifiers}"> 
 			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
@@ -78,9 +76,7 @@
 			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
 			/> </table> <table schema="" tableName="bodycontract" delimitIdentifiers="${generator.delimitIdentifiers}"> 
 			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
-			/> </table> <table schema="" tableName="goods_black" delimitIdentifiers="${generator.delimitIdentifiers}"> 
-			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
-			/> </table> -->
+			/> </table>  -->
 		<!--  <table schema="" tableName="offlinecontract" delimitIdentifiers="${generator.delimitIdentifiers}"> 
 			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
 			/> </table> <table schema="" tableName="dividpay" delimitIdentifiers="${generator.delimitIdentifiers}"> 
@@ -156,6 +152,12 @@
 				identity="true" />
 		</table>
 				<table schema="" tableName="product_V2" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table>
+			 <table schema="" tableName="box" delimitIdentifiers="${generator.delimitIdentifiers}"> 
+			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
+			/> </table>
+			<table schema="" tableName="goods" delimitIdentifiers="${generator.delimitIdentifiers}"> 
 			<generatedKey column="ID" sqlStatement="${generator.db}" identity="true" 
 			/> </table>
 
