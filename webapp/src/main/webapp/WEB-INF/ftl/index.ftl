@@ -249,7 +249,7 @@
 						<div class="hover-top">
 							<u></u>
 						</div>
-						<img src="index_img/example1.png">
+						<img src="index_img/example1.jpg">
 						<div class="desp">
 							<span>车身广告</span>
 							<p>窝窝团网站推广</p>
@@ -263,7 +263,7 @@
 						<div class="hover-top">
 							<u></u>
 						</div>
-						<img src="index_img/example2.png">
+						<img src="index_img/example2.jpg">
 						<div class="desp">
 							<span>站牌广告</span>
 							<p>美汁源果粒橙产品推广</p>
@@ -277,7 +277,7 @@
 						<div class="hover-top">
 							<u></u>
 						</div>
-						<img src="index_img/example3.png">
+						<img src="index_img/example3.jpg">
 						<div class="desp">
 							<span>车身广告</span>
 							<p>蒙牛QQ星儿童牛奶产品推广</p>
