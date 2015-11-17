@@ -265,7 +265,9 @@ public class ProductServiceImpl implements ProductService {
 			searchText =StringUtils.replace(searchText, "'", "");
 			searchText =StringUtils.replace(searchText, "\r\n", "");
 			if(StringUtils.isNotEmpty(searchText)){
-				query = query.and(QJpaProduct.jpaProduct.tags.like("%" + searchText + "%"));
+				query = query.and(QJpaProduct.jpaProduct.tags.like("%" + searchText + "%")
+						.or(QJpaProduct.jpaProduct.name.like("%" + searchText + "%")));
+			
 			}else {//保证不查到记录
 				query = query.and(QJpaProduct.jpaProduct.tags.like("%QJpaProduct.jpaProduct.%"));	
 			}
