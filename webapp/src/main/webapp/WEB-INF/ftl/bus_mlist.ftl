@@ -18,7 +18,7 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
             "ordering": true,
             "serverSide": true,
             "scrollX": true,
-               "aaSorting": [[2, "asc"]],
+            "aaSorting": [[2, "asc"]],
             "columnDefs": [
                 { "orderable": false, "targets": [0,1,3,5,8,9,10,11,12,13] },
             ],
