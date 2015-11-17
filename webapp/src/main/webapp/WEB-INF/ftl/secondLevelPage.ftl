@@ -77,7 +77,7 @@ function tocard(pathurl){
 					</ul>
 				</div>
 			</div>
-			<div class="recommand suit pd">
+			<!-- <div class="recommand suit pd">
 				<div class="title">
 					<span>推荐套装</span>
 				</div>
@@ -124,7 +124,7 @@ function tocard(pathurl){
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 			<div class="recommand timer pd">
 				<div class="title">
 					<span>限时套装</span>
