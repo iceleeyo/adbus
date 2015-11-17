@@ -172,6 +172,7 @@
 							<div class="pic-table c-head clearfix">
 								<div class="tbhead">硬广套装</div>
 								<div class="tbbody">
+								<#if jsonView??>
 									<div class="tbtr">
 										<div class="tbtd tb-position tb-left">
 											<span class="icon icon-position"></span> <span>${jsonView.locationstr!''}</span>
@@ -198,6 +199,7 @@
 										</div>
 									</div>
 								</div>
+								</#if>
 							</div>
 							<div class="c-head">
 								<p class="head-en">MEDIA REGIONAL</p>
