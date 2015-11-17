@@ -13,10 +13,7 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
  .ui-widget-content {
    // width: auto !important;
 }
-
-
 </style>
-
 
 <script type="text/javascript">
 	
@@ -29,7 +26,7 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
             "serverSide": true,
             "scrollX": true,
             "columnDefs": [
-                { "orderable": false, "targets": [0,1,2,4,5,6,7, 8,9,10,11,12,13,14,15,16,17,18] },
+                { "orderable": false, "targets": [0,1,2,5,6,7, 8,9,10,11,12,13,14,15,16,17,18] },
             ],
             "iDisplayLength" : 20,
             "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
@@ -305,17 +302,15 @@ function ishaveline(linename){
 			<th>营销中心</th>
 			<th>线路名称</th>
 			<th>线路级别</th>
-				
-				
 				<th orderBy="serialNumber">车辆自编号</th>
-				<th>车牌号</th>
+				<th orderBy="plateNumber">车牌号</th>
 				<th>车辆型号</th>
 				<th>车辆描述</th>
-					<th>合同编号</th>
+				<th>合同编号</th>
 				<th>广告内容</th>
 				<th>实际上刊日期</th>
 				<th>预计下刊日期</th>
-					<th>实际下刊日期</th>
+				<th>实际下刊日期</th>
 				
 				<!--
 				<th>类别</th>
