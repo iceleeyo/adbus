@@ -75,7 +75,7 @@ div#toolbar {
             "ordering": true,
             "serverSide": true,
             "columnDefs": [
-                { "orderable": false, "targets": [7] },
+                { "orderable": false, "targets": [8] },
             ],
             "iDisplayLength" : 50,
             "aLengthMenu": [[50, 100], [50, 100]],
