@@ -10,8 +10,7 @@
 <link rel="stylesheet" type="text/css" href="index_css/header.css">
 <link rel="stylesheet" type="text/css" href="index_css/jack.css">
 <link rel="stylesheet" type="text/css" href="index_css/shibaHome.css">
-<link rel="stylesheet" type="text/css" href="index_css/sift.css">
-<link rel="stylesheet" type="text/css" href="index_css/index_sea.css">
+<!-- <link rel="stylesheet" type="text/css" href="index_css/index_sea.css"> -->
 <script src="js/jquery.pagination.js"></script>
 
 </head>
@@ -29,8 +28,7 @@
 		}
 	}
 </script>
-<link rel="stylesheet" type="text/css"
-	href="index_css/line-spin-clockwise-fade.css">
+<link rel="stylesheet" type="text/css" href="index_css/line-spin-clockwise-fade.css">
 <link rel="stylesheet" type="text/css" href="index_css/loaders.css" />
 <script type="text/javascript">
 	var _PageHeight = document.documentElement.clientHeight, _PageWidth = document.documentElement.clientWidth;
@@ -365,13 +363,13 @@
 	<script type="text/javascript" src="index_js/index.js"></script>
 	<script type="text/javascript" language="javascript"
 	src="${rc.contextPath}/js/layer/layer.js"></script>
-<!--增加lay最新版本-->
+<!--增加lay最新版本
 <script type="text/javascript" language="javascript"
 	src="${rc.contextPath}/js/layer-v1.9.3/layer/layer.js"></script>
 <script type="text/javascript" language="javascript"
 	src="${rc.contextPath}/js/layer.onload.js"></script>
 <script type="text/javascript" language="javascript"
-	src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
+	src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>-->
 	<script type="text/javascript">
 		/**
 		 * 登出
