@@ -20,7 +20,7 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css","css/uploadpr
             "scrollX": true,
                "aaSorting": [[2, "asc"]],
             "columnDefs": [
-                { "orderable": false, "targets": [0,1,3,4,5,6, 9,10,11] },
+                { "orderable": false, "targets": [0,1,3,5,8,9,10,11,12,13] },
             ],
             "iDisplayLength" : 20,
             "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
@@ -351,7 +351,7 @@ function ishaveline(linename){
 				<th>序号</th>
 				<th orderBy="serialNumber">车辆自编号</th>
 				<th>旧自编号</th>
-				<th>车牌号</th>
+				<th orderBy="plateNumber">车牌号</th>
 				<th>车型</th>
 				<th orderBy="line.id">线路</th>
 				<th orderBy="line.level">级别</th>
