@@ -30,6 +30,7 @@
 			</div>
 		</div>
 		<div class="cover">
+			<!--  
 			<div class="c-top">
 				<div class="c-search">
 					<div class="search-panel">
@@ -43,7 +44,7 @@
 						<span>车身广告</span>
 					</div>
 				</div>
-			</div>
+			</div> -->
 			<div class="cart-container cart-step1">
 				<div class="c-inner">
 					<div class="tabline">
