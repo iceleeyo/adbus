@@ -1,6 +1,5 @@
 package com.pantuo.service.impl;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -12,12 +11,11 @@ import java.util.Map;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
-import org.omg.PortableInterceptor.INACTIVE;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -41,8 +39,6 @@ import com.pantuo.dao.pojo.JpaCardBoxBody;
 import com.pantuo.dao.pojo.JpaCardBoxHelper;
 import com.pantuo.dao.pojo.JpaCardBoxMedia;
 import com.pantuo.dao.pojo.JpaCity;
-import com.pantuo.dao.pojo.QUserDetail;
-import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.dao.pojo.JpaCity.MediaType;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
@@ -105,6 +101,9 @@ public class CardServiceImpl implements CardService {
 	CityService cityService;
 	@Autowired
 	 UserDetailRepository userRepo;
+	
+	
+	private static Logger log = LoggerFactory.getLogger(ProductServiceImpl.class);
 	@Override
 	public long getCardBingSeriaNum(Principal principal) {
 		long result = 0;
@@ -1013,18 +1012,18 @@ public class CardServiceImpl implements CardService {
 
 	@Override
 	public MediaSurvey getJsonfromJsonStr(String jsonString) {
-		ObjectMapper t = new ObjectMapper();
-		t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
-		MediaSurvey s=null;
+	
+		MediaSurvey s = null;
+		if (StringUtils.isBlank(jsonString)) {
+			return s;
+		}
 		try {
+			ObjectMapper t = new ObjectMapper();
+			t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+			t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
 			s = t.readValue(jsonString, MediaSurvey.class);
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			log.error("getJsonfromJsonStr,{}", e);
 		}
 		return s;
 	}
