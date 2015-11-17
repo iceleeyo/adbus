@@ -45,8 +45,8 @@
 					</div>
 				</div> -->
 			</div>
-			<br>
-			<div class="cart-container cart-step1">
+			
+			<div class="cart-container cart-step1" style="padding-top:10px;">
 				<div class="c-inner">
 					<div class="tabline">
 						<div class="arrow arrow-stp1">
