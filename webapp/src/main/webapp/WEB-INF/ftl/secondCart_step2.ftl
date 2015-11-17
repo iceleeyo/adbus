@@ -44,7 +44,7 @@
 					</div>
 				</div>
 			</div> -->
-			<div class="cart-container cart-step2">
+			<div class="cart-container cart-step2" style="padding-top:10px;">
 				<div class="c-inner">
 					<div class="tabline">
 						<div class="arrow arrow-stp1">
