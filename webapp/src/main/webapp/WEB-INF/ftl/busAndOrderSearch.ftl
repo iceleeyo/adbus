@@ -285,7 +285,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
             "serverSide": true,
               "aaSorting": [[12, "desc"]],
               "columnDefs": [
-                 { "orderable": false, "targets": [0,1,2,3,4,5,6,7,8,9,10,11,12,13] },
+                 { "orderable": false, "targets": [1,2,3,4,5,6,7,8,9,10,11,12,13] },
             ],
             "scrollX": true,
             "iDisplayLength" : 20,
@@ -380,7 +380,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 	<table id="table2" class="display nowrap" cellspacing="0">
 		<thead>
 			<tr>
-				<th>订单编号</th>
+				<th orderBy="id">订单编号</th>
 				<th>合同编号</th>
 				<th>线路</th>
 				<th>广告内容</th>
