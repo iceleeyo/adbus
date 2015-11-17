@@ -26,17 +26,17 @@
   background-size: 125%;
 }
 .background-four {
-  background: url(../index_img/bg4.png);
+  background: url(../index_img/bg4.jpg);
   background-position: 50% 50%;
   background-size: 120%;
 }
 .background-five {
-  background: url(../index_img/bg5.png);
+  background: url(../index_img/bg5.jpg);
   background-position: 50% 100%;
   background-size: 110%;
 }
 .background-six {
-  background: url(../index_img/bg6.png);
+  background: url(../index_img/bg6.jpg);
   background-position: 50% 50%;
   background-size: 100%;
 }
