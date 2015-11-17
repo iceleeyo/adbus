@@ -49,11 +49,11 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
             "columns": [
              { "data": "", "defaultContent": ""},
              { "data": "jpaBus.line.name", "defaultContent": ""},
-                { "data": "jpaBus.line.levelStr", "defaultContent": ""},
-                { "data": "jpaBus.serialNumber", "defaultContent": ""},
-                { "data": "jpaBus.oldSerialNumber", "defaultContent": ""},
-                 { "data": "jpaBus.company.name", "defaultContent": ""},
-                 { "data": "ishaveAd","defaultContent": "", "render": function(data) {
+             { "data": "jpaBus.line.levelStr", "defaultContent": ""},
+             { "data": "jpaBus.serialNumber", "defaultContent": ""},
+             { "data": "jpaBus.oldSerialNumber", "defaultContent": ""},
+             { "data": "jpaBus.company.name", "defaultContent": ""},
+             { "data": "ishaveAd","defaultContent": "", "render": function(data) {
                     switch(data) {
                         case true:
                             return '<span class="invalid">有</span>';
@@ -61,40 +61,38 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                             return '<span class="processed">否</span>';
                     }
                 } },
-                { "data": "busInfo.contractCode", "defaultContent": ""},
-                { "data": "busInfo.offlinecontract.adcontent", "defaultContent": ""},
-                  { "data": "jpaBus.model.name", "defaultContent": ""},
-                { "data": "busInfo.startD", "defaultContent": "","render": function(data, type, row, meta) {
+              { "data": "busInfo.contractCode", "defaultContent": ""},
+              { "data": "busInfo.offlinecontract.adcontent", "defaultContent": ""},
+              { "data": "jpaBus.model.name", "defaultContent": ""},
+              { "data": "busInfo.startD", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd");
                 	return d;
-                }},
-                { "data": "busInfo.endD", "defaultContent": "","render": function(data, type, row, meta) {
+              }},
+              { "data": "busInfo.endD", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd");
                 	return d;
-                }},
-                { "data": "busInfo.busOnline.realEndDate","defaultContent": "","render": function(data, type, row, meta) {
+              }},
+              { "data": "busInfo.busOnline.realEndDate","defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd");
                 	return d;
-                }},
-                { "data": "busInfo.busOnline.days", "defaultContent": ""},
-               
-                { "data": "jpaBus.categoryStr", "defaultContent": ""},
-                { "data": "busInfo._adtype", "defaultContent": ""},
-                { "data": "ishaveAd","defaultContent": "", "render": function(data) {
+              }},
+              { "data": "busInfo.busOnline.days", "defaultContent": ""},
+              { "data": "jpaBus.categoryStr", "defaultContent": ""},
+              { "data": "busInfo._adtype", "defaultContent": ""},
+              { "data": "ishaveAd","defaultContent": "", "render": function(data) {
                     switch(data) {
                         case true:
                             return '<span class="invalid">有</span>';
                         default :
                             return '<span class="processed">无</span>';
                     }
-                 } },
-                   
-                 { "data": "jpaBus.description", "defaultContent": ""},
-                 { "data": "jpaBus.plateNumber", "defaultContent": ""},
-                 { "data": "jpaBus.office", "defaultContent": ""},
-                 { "data": "jpaBus.branch", "defaultContent": ""},
-                 { "data": "busInfo._sktype", "defaultContent": ""},
-                         
+              } },
+                  
+              { "data": "jpaBus.description", "defaultContent": ""},
+              { "data": "jpaBus.plateNumber", "defaultContent": ""},
+              { "data": "jpaBus.office", "defaultContent": ""},
+              { "data": "jpaBus.branch", "defaultContent": ""},
+              { "data": "busInfo._sktype", "defaultContent": ""},
             ],
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
