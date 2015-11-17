@@ -66,6 +66,7 @@ import com.pantuo.mybatis.domain.Box;
 import com.pantuo.mybatis.domain.GoodsBlackExample;
 import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.mybatis.persistence.GoodsBlackMapper;
+import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.FlatScheduleListItem;
 import com.pantuo.pojo.TableRequest;
@@ -81,6 +82,7 @@ import com.pantuo.util.DateUtil;
 import com.pantuo.util.ExcelUtil;
 import com.pantuo.util.OrderIdSeq;
 import com.pantuo.util.Pair;
+import com.pantuo.vo.MediaInventory;
 import com.pantuo.web.view.OrderView;
 import com.pantuo.web.view.SolitSortView;
 import com.pantuo.web.view.SuppliesView;
@@ -103,6 +105,8 @@ public class ScheduleController {
 
 	@Autowired
 	private TimeslotService timeslotService;
+	@Autowired
+	private UserAutoCompleteMapper userAutoCompleteMapper;
 
 	@Autowired
 	private CityService cityService;
@@ -400,6 +404,24 @@ public class ScheduleController {
 		model.addAttribute("type", type);
 
 		return "schedule_list";
+	}
+	
+	@RequestMapping("/mediaInventory")
+	public String getmediaInventory(Model model
+			) {
+		Date day = new Date();
+		model.addAttribute("day", DateUtil.longDf.get().format(day));
+		return "mediaInventory";
+	}
+	@RequestMapping("ajax-mediaInventory")
+	@ResponseBody
+	public List<MediaInventory> getajaxmediaInventory(TableRequest req
+			) {
+		String dayStr = req.getFilter("day");
+		if(StringUtils.isNotBlank(dayStr)){
+			return userAutoCompleteMapper.getMediaInventory(dayStr);
+		}
+		return Collections.emptyList();
 	}
 
 	@PreAuthorize(" hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"

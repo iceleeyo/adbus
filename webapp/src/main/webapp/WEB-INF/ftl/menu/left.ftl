@@ -128,6 +128,8 @@
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/schedule/list"> 排条单 </a></li>
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
+					href="${rc.contextPath}/schedule/mediaInventory"> 媒体库存查询 </a></li>
+				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/timeslot/list"> 时段设置 </a></li>
 			</ul></li> </@security.authorize> </#if> <@security.authorize
 		ifAnyGranted="bodyContractManager,sale_packageDesign,sale_packageList,sale_packageOrder">
