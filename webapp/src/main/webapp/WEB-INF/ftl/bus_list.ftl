@@ -264,7 +264,6 @@ function ishaveline(linename){
 					<a class="item" href="#" qc="13">CBS<i>×</i></a> 
 					<a class="item" href="#" qc="12">白马<i>×</i></a>
 					<a class="item" href="#" qc="8">七彩<i>×</i></a>
-					<a class="item" href="#" qc="15">市场<i>×</i></a>
 					<a class="item" href="#" qc="11">其他<i>×</i></a>
 				</div>
 			</div>
