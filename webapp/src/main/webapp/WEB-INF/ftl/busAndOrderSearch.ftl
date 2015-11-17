@@ -108,7 +108,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
          }
       
       
-       function fnDrawCallback(){
+    function fnDrawCallback(){
     	 counter_columns(table,0);
     }
     
@@ -281,8 +281,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
             "searching": false,
             "ordering": true,
             "serverSide": true,
-              "aaSorting": [[12, "desc"]],
-              "columnDefs": [
+            "aaSorting": [[12, "desc"]],
+            "columnDefs": [
                  { "orderable": false, "targets": [1,2,3,4,5,6,7,8,9,10,11,12] },
             ],
             "scrollX": true,
