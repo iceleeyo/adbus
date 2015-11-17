@@ -155,7 +155,12 @@ public class UserService implements UserServiceInter {
 			if (utype != null) {
 				BooleanExpression query = null;
 				UserDetail.UType u =   UserDetail.UType.valueOf(utype);
-				query = (query == null ? q.utype.eq(u) : query.and(q.utype.eq(u)));
+				if(u == UType.body){
+					query = (query == null ? q.utype.eq(UType.body) : query.and(q.utype.eq(UType.body)));
+				}else if(u==UType.screen){
+					query = (query == null ? q.utype.ne(UType.body) : query.and(q.utype.ne(UType.body)));
+				}
+				//query = (query == null ? q.utype.eq(u) : query.and(q.utype.eq(u)));
 				result = userRepo.findAll(query, p);
 			} else {
 				if(loginUserType!=null){
@@ -186,7 +191,17 @@ public class UserService implements UserServiceInter {
 			}
 			if (utype != null) {
 				UserDetail.UType u = utype == null ? UserDetail.UType.pub : UserDetail.UType.valueOf(utype);
-				query = (query == null ? q.utype.eq(u) : query.and(q.utype.eq(u)));
+				
+				
+				if(u == UType.body){
+					query = (query == null ? q.utype.eq(UType.body) : query.and(q.utype.eq(UType.body)));
+				}else if(u==UType.screen){
+					query = (query == null ? q.utype.ne(UType.body) : query.and(q.utype.ne(UType.body)));
+				}
+				
+				
+				
+				//query = (query == null ? q.utype.eq(u) : query.and(q.utype.eq(u)));
 			}
 			result = userRepo.findAll(query, p);
 		}
