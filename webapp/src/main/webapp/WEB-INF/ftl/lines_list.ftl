@@ -30,7 +30,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
             "ordering": true,
             "serverSide": true,
             "columnDefs": [
-                { "orderable": false, "targets": [7] },
+                { "orderable": false, "targets": [2,3,4,6,7,8,9,10,11] },
             ],
             "iDisplayLength" : 20,
             "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
@@ -228,12 +228,12 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 	<table id="table" class="display compact" cellspacing="0" width="100%">
 		<thead>
 			<tr style="height: 40px;">
-				<th>线路名</th>
-				<th>线路级别</th>
+				<th orderBy="name">线路名</th>
+				<th orderBy="level">线路级别</th>
 				<th>所属营销中心</th>
 				<th>所属公司</th>
 				<th>所属分公司</th>
-				<th>车辆总数</th>
+				<th orderBy="_cars">车辆总数</th>
 				<th>线路类型</th>
 				<th>车辆详情</th>
 				<th>线路总里程</th>
