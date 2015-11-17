@@ -666,9 +666,6 @@ public class ScheduleService {
 		Date end = DateUtil.dateAdd(start, days);
 		int city = order.getCity();
 		Calendar cal = DateUtil.newCalendar();
-		int numberPlayer = order.getProduct().getPlayNumber();
-		int duration = (int) order.getProduct().getDuration();
-
 		List<JpaBox> boxList = null;
 		boxList = boxRepo.findByCityAndDayGreaterThanEqualAndDayLessThan(city, start, end);
 		Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(city, null, 0, 9999, null, false);
