@@ -22,11 +22,11 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
         table = $('#table').DataTable( {
 			 "dom": '<"#toolbar"><"top"il>rt<"bottom"p><"clear">',
             "searching": false,
-            "ordering": false,
+            "ordering": true,
             "serverSide": true,
             "scrollX": true,
             "columnDefs": [
-                { "orderable": false, "targets": [7, 8,9,10] },
+                { "orderable": false, "targets": [0,5,6,7,8,9,10,11,12,13,14,15,16,17,19,20,21] },
             ],
             "iDisplayLength" : 20,
             "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
@@ -72,28 +72,28 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
                 	var d= $.format.date(data, "yyyy-MM-dd");
                 	return d;
                 }},
-                  { "data": "busInfo.busOnline.realEndDate","defaultContent": "","render": function(data, type, row, meta) {
+                { "data": "busInfo.busOnline.realEndDate","defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd");
                 	return d;
                 }},
-                    { "data": "busInfo.busOnline.days", "defaultContent": ""},
+                { "data": "busInfo.busOnline.days", "defaultContent": ""},
                
-                   { "data": "jpaBus.categoryStr", "defaultContent": ""},
-                     { "data": "busInfo._adtype", "defaultContent": ""},
-                       { "data": "ishaveAd","defaultContent": "", "render": function(data) {
+                { "data": "jpaBus.categoryStr", "defaultContent": ""},
+                { "data": "busInfo._adtype", "defaultContent": ""},
+                { "data": "ishaveAd","defaultContent": "", "render": function(data) {
                     switch(data) {
                         case true:
                             return '<span class="invalid">有</span>';
                         default :
                             return '<span class="processed">无</span>';
                     }
-                } },
+                 } },
                    
                  { "data": "jpaBus.description", "defaultContent": ""},
-                  { "data": "jpaBus.plateNumber", "defaultContent": ""},
-                     { "data": "jpaBus.office", "defaultContent": ""},
-                      { "data": "jpaBus.branch", "defaultContent": ""},
-                        { "data": "busInfo._sktype", "defaultContent": ""},
+                 { "data": "jpaBus.plateNumber", "defaultContent": ""},
+                 { "data": "jpaBus.office", "defaultContent": ""},
+                 { "data": "jpaBus.branch", "defaultContent": ""},
+                 { "data": "busInfo._sktype", "defaultContent": ""},
                          
             ],
             "language": {
@@ -101,7 +101,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
             },
             "initComplete": initComplete,
             "drawCallback": drawCallback,
-              "fnDrawCallback": fnDrawCallback,
+            "fnDrawCallback": fnDrawCallback,
         } );
 
  		 $('#table').dataTable().fnNameOrdering();
@@ -285,7 +285,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
             "serverSide": true,
               "aaSorting": [[12, "desc"]],
               "columnDefs": [
-                 { "orderable": false, "targets": [0,1,2,3,4,5,6,7,8,9,10,11] },
+                 { "orderable": false, "targets": [0,1,2,3,4,5,6,7,8,9,10,11,12,13] },
             ],
             "scrollX": true,
             "iDisplayLength" : 20,
@@ -343,10 +343,10 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 		<thead>
 			<tr>
 				<th>序号</th>
-				<th>线路</th>
-				<th>线路级别</th>
-				<th>车辆自编号</th>
-				<th>旧自编号</th>
+				<th orderBy="line.id">线路</th>
+				<th orderBy="line.level">线路级别</th>
+				<th orderBy="serialNumber">车辆自编号</th>
+				<th orderBy="oldSerialNumber">旧自编号</th>
 				<th>营销中心</th>
 				<th>是否有广告</th>
 				<th>合同编号</th>
@@ -360,11 +360,10 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				<th>广告类型</th>
 				<th>车身广告状态</th>
 				<th>车辆描述</th>
-				<th>车牌号</th>
+				<th orderBy="plateNumber">车牌号</th>
 				<th>总公司名称</th>
 				<th>分公司名称</th>
 				<th>上刊类型</th>
-				
 			</tr>
 		</thead>
 	</table>
