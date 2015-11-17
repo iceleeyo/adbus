@@ -35,6 +35,10 @@
   and bus.company_id=#{companyid,jdbcType=INTEGER} and date_format(bus_online.start_date, '%Y%m')=date_format(#{monthstr},'%Y%m')
    group by days 
   </select>
+<select id="getMediaInventory"  resultType="com.pantuo.vo.MediaInventory">
+   select timeslot.name as bname,box.size as bsize,(box.size-box.remain) as normalremain,(30-box.fremain) as fremain  from timeslot  left join box on timeslot.id=box.slot_id 
+    where  date_format(box.day, '%Y%m%d')=date_format(#{datestr},'%Y%m%d') order by timeslot.id asc
+  </select>
 <select id="selectFunidsByPid"   resultMap="com.pantuo.mybatis.persistence.BusFunctionMapper.BaseResultMap">
     select   bus_function.id, bus_function.created, bus_function.updated, bus_function.city, funcode, fundesc,
      bus_function.name
