@@ -45,7 +45,7 @@ function go_back(){
 		    			dataType:"json",
 		    			data:param,
 		    			success:function(data){
-		    				if (data.left == true) {
+		    			if (data.left == true) {
 		    					layer.msg(data.right);
 		    					var uptime = window.setTimeout(function(){
 			window.location.href="${rc.contextPath}/user/role_list";
