@@ -16,7 +16,7 @@ function go_back(){
             $("input[name='checkone']:checkbox").attr("checked",false);
          }
        });
-					});
+	});
 
 	function sub(){
 		if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
