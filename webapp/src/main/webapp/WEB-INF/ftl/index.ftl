@@ -48,7 +48,7 @@
 </script>
 <body>
 	<header>
-		<!--  <div class="logo"></div>-->
+		<div class="logo"></div>
 		<nav class="menu">
 			<ul class="list-line">
 				<li class="active"><a href="jvascript:void(0)">首页</a></li>
