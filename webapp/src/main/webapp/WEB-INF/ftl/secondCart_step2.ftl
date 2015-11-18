@@ -188,7 +188,7 @@
 							<span class="legged">总价:<em>￥#{infos.totalPrice!'' ;m2M2}</em></span>
 						</div>
 						<div class="sure">
-							<a href="javascript:void(0);" onclick="payment()">
+							<a href="javascript:void(0);" id="subid" onclick="payment()">
 								<div class="btn-sure">确认支付</div>
 							</a>
 						</div>
@@ -234,6 +234,7 @@
 		  layer.msg("没有seriaNum,操作异常");
 		  return;
 		}
+		 $("#subid").attr("onclick",'');
 		$.ajax({
 			url:"${rc.contextPath}/carbox/payment",
 			type:"POST",
