@@ -789,6 +789,31 @@ public class ScheduleService {
 		}
 	};
 
+	
+	public SchedUltResult checkInventory(int id, String startdate1) {
+		JpaOrders order = orderService.getJpaOrder(id);
+		Date d = order.getStartTime();
+		if (StringUtils.isNotBlank(startdate1)) {
+			try {
+				d = DateUtil.longDf.get().parse(startdate1);
+				order.setStartTime(d);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		SchedUltResult r = new SchedUltResult("未来30天均无可排日期", false, null, false);
+		for (int i = 0; i < 30; i++) {
+			r = schedule2(order, true);
+			if (!r.isScheduled) {
+				d = DateUtils.addDays(d, 1);
+				order.setStartTime(d);
+			} else {
+				break;
+			}
+		}
+		return r;
+	}
+	
 	public SchedUltResult checkInventory(int id, String taskid,String startdate1, boolean ischeck) {
 		 JpaOrders order = orderService.getJpaOrder(id);
 		 Date d=order.getStartTime();

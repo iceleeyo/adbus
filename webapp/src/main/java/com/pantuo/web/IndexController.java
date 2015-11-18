@@ -66,8 +66,7 @@ public class IndexController {
 	private ProductService productService;
 	@Autowired
 	private BusLineCheckService busLineCheckService;
-	  @Autowired
-	    private ScheduleService scheduleService;
+	
 	
 	  @Value("${sys.type}")
 		private String isBodySys;
@@ -96,15 +95,6 @@ public class IndexController {
 		return w;
 	}
 	
-	@RequestMapping(value = "/testsch/{id}/{ischeck}")
-	@ResponseBody
-    public SchedUltResult testsch(Model model, HttpServletRequest request, HttpServletResponse response,
-    		@PathVariable("id") int id,@PathVariable("ischeck") boolean ischeck,
-    		@RequestParam(value="startdate1", required=false) String startdate1,
-    		@RequestParam(value="taskid", required=false) String taskid,
-			@CookieValue(value = "city", defaultValue = "-1") int city) {
-			return scheduleService.checkInventory(id,taskid,startdate1,ischeck);
-    }
 	
 	 @RequestMapping(value = "/secondLevelPage")
 	    public String secondLevelPage(Model model, HttpServletRequest request, HttpServletResponse response,

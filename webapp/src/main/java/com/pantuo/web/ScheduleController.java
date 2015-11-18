@@ -24,6 +24,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jxls.transformer.XLSTransformer;
@@ -78,6 +79,7 @@ import com.pantuo.service.OrderService;
 import com.pantuo.service.ScheduleService;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.service.TimeslotService;
+import com.pantuo.service.ScheduleService.SchedUltResult;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.ExcelUtil;
 import com.pantuo.util.OrderIdSeq;
@@ -125,6 +127,27 @@ public class ScheduleController {
 	@Autowired
 	GoodsBlackMapper goodsBlackMapper;
 	public static final List<BlackAd> ls = new ArrayList<BlackAd>();
+	
+	@RequestMapping(value = "/testsch/{id}/{ischeck}")
+	@ResponseBody
+	public SchedUltResult testsch(Model model, HttpServletRequest request, HttpServletResponse response,
+			@PathVariable("id") int id, @PathVariable("ischeck") boolean ischeck,
+			@RequestParam(value = "startdate1", required = false) String startdate1,
+			@RequestParam(value = "taskid", required = false) String taskid,
+			@CookieValue(value = "city", defaultValue = "-1") int city) {
+		return scheduleService.checkInventory(id, taskid, startdate1, ischeck);
+	}
+
+	@RequestMapping(value = "/queryFeature/{id}")
+	@ResponseBody
+	public SchedUltResult queryFeature(Model model, HttpServletRequest request, HttpServletResponse response,
+			@PathVariable("id") int id, @RequestParam(value = "startdate1", required = false) String startdate1) {
+		return scheduleService.checkInventory(id, startdate1);
+	}
+	  @Autowired
+	    private ScheduleService scheduleService;
+	  
+	  
 
 	/**
 	 * 排期表表单
@@ -1258,5 +1281,9 @@ public class ScheduleController {
 		public String getRemainStr() {
 			return DateUtil.toShortStr(this.getRemain());
 		}
+		
+		
+		
+		
 	}
 }
