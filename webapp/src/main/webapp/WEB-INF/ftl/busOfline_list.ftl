@@ -117,8 +117,8 @@ div#toolbar3 {
             "ordering": false,
             "serverSide": true,
             "scrollX": true,
-            "iDisplayLength" : 20,
-            "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
+            "iDisplayLength" : 500,
+            "aLengthMenu": [[20, 40, 100,500], [20, 40, 100,500]],
             "ajax": {
                 type: "GET",
                 url: "${rc.contextPath}/bus/ajax-findBusByLineid",
@@ -283,8 +283,8 @@ div#toolbar3 {
             "ordering": true,
             "serverSide": true,
             "scrollX": true,
-            "iDisplayLength" : 20,
-            "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
+            "iDisplayLength" : 500,
+            "aLengthMenu": [[20, 40, 100,500], [20, 40, 100,500]],
             "ajax": {
                 type: "GET",
                 url: "${rc.contextPath}/bus/ajax-busUpdate_history",
