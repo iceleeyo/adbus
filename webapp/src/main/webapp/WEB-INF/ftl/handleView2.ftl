@@ -29,6 +29,12 @@ css=["js/highslide/highslide.css",
 	$('.${activityId!'' }').css("display","inline");
 	$("#otherpay").hide();
 	
+	$("#generateSchedule #startdate1").change(function() {
+           $("#ischeckInventory").val(0);
+           $("#sureButton").css({"background-color":"#f2f2f2"});
+		   $("#sureButton").css({"color":"#fff"});
+     });
+	
 });
 //Radio反选
 var isChecked = false;
@@ -293,7 +299,6 @@ function check() {
 		}, "text");
 	}
 function checkInventory() {
-	 $("#ischeckInventory").val(1);
       var orderid = $("#orderid").val();
       var startdate1= $("#generateSchedule #startdate1").val();
       if(orderid==""){
@@ -313,8 +318,11 @@ function checkInventory() {
 			success : function(data) {
 			if(data.scheduled){
 			   layer.msg("库存充足可排期");
+			   $("#ischeckInventory").val(1);
+			   $("#sureButton").css({"background-color":"rgb(245, 135, 8)"});
+			    $("#sureButton").css({"color":"#fff"});
 			}else{
-				layer.msg(data.notSchedultDay+"库存不足:"+data.msg);
+				layer.msg(data.notSchedultDay+"库存不足:"+data.msg, {icon: 5});
 			}
 			}
 		}, "text");
@@ -325,15 +333,15 @@ function confirmSchedule() {
 		var taskid = $("#taskid").val();
       var startdate1= $("#generateSchedule #startdate1").val();
       if(ischeckInventory==0){
-         layer.msg("确认排期前请先检查库存");
+         layer.msg("确认排期前请先检查库存", {icon: 5});
           return;
       }
       if(orderid=="" || taskid==""){
-         layer.msg("信息丢失,请刷新页面");
+         layer.msg("信息丢失,请刷新页面", {icon: 5});
           return;
       }
       if(startdate1==""){
-         layer.msg("实际开播日期必填");
+         layer.msg("实际开播日期必填", {icon: 5});
           return;
       }
  		layer.confirm('实际开播日期为'+startdate1+',确定排期吗？', {icon: 3}, function(index){
@@ -875,12 +883,13 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 				<TR>
 					<TH>检查库存</TH>
 					<TD colspan=3>
-						<button onclick="checkInventory();" class="block-btn">check</button>
+						<button onclick="checkInventory();" class="block-btn">检查库存</button> 
+						<button id="sureButton" onclick="confirmSchedule();" class="block-btn" style="background:#f2f2f2"><font style="font-weight:bold;font-style:italic;">确定排期</font></button>
 					</TD>
 				</TR>
 		</TABLE>
 		<div style="margin: 10px 0 0; text-align: center;">
-			<button onclick="confirmSchedule();" class="block-btn">确定排期</button>
+			
 		</div>
 	</div>
 </div>
