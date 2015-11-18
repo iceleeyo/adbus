@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -95,13 +96,14 @@ public class IndexController {
 		return w;
 	}
 	
-	@RequestMapping(value = "/testsch/{id}")
+	@RequestMapping(value = "/testsch/{id}/{ischeck}")
 	@ResponseBody
     public SchedUltResult testsch(Model model, HttpServletRequest request, HttpServletResponse response,
-    		@PathVariable("id") int id,
+    		@PathVariable("id") int id,@PathVariable("ischeck") boolean ischeck,
+    		@RequestParam(value="startdate1", required=false) String startdate1,
+    		@RequestParam(value="taskid", required=false) String taskid,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
-		 JpaOrders order = orderService.getJpaOrder(id);
-		return  scheduleService.schedule2(order,false);
+			return scheduleService.checkInventory(id,taskid,startdate1,ischeck);
     }
 	
 	 @RequestMapping(value = "/secondLevelPage")

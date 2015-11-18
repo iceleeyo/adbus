@@ -292,6 +292,74 @@ function check() {
 			}
 		}, "text");
 	}
+function checkInventory() {
+	 $("#ischeckInventory").val(1);
+      var orderid = $("#orderid").val();
+      var startdate1= $("#generateSchedule #startdate1").val();
+      if(orderid==""){
+         layer.msg("信息丢失,请刷新页面");
+          return;
+      }
+      if(startdate1==""){
+         layer.msg("实际开播日期必填");
+          return;
+      }
+		$.ajax({
+			url : "${rc.contextPath}/testsch/"+orderid+"/true",
+			type : "POST",
+			data : {
+			"startdate1":startdate1
+			},
+			success : function(data) {
+			if(data.scheduled){
+			   layer.msg("库存充足可排期");
+			}else{
+				layer.msg(data.notSchedultDay+"库存不足:"+data.msg);
+			}
+			}
+		}, "text");
+	}
+function confirmSchedule() {
+	  var ischeckInventory= $("#ischeckInventory").val();
+      var orderid = $("#orderid").val();
+		var taskid = $("#taskid").val();
+      var startdate1= $("#generateSchedule #startdate1").val();
+      if(ischeckInventory==0){
+         layer.msg("确认排期前请先检查库存");
+          return;
+      }
+      if(orderid=="" || taskid==""){
+         layer.msg("信息丢失,请刷新页面");
+          return;
+      }
+      if(startdate1==""){
+         layer.msg("实际开播日期必填");
+          return;
+      }
+ 		layer.confirm('实际开播日期为'+startdate1+',确定排期吗？', {icon: 3}, function(index){
+    		layer.close(index);
+      if(true){
+		$.ajax({
+			url : "${rc.contextPath}/testsch/"+orderid+"/false",
+			type : "POST",
+			data : {
+			"startdate1":startdate1,
+			"taskid":taskid
+			},
+			success : function(data) {
+			  jDialog.Alert(data.scheduled==true?"执行成功!":"执行失败!");
+    	    var uptime = window.setTimeout(function(){
+			var a = document.createElement('a');
+    		a.href='${rc.contextPath}/order/myTask/1';
+    		document.body.appendChild(a);
+    		a.click();
+			   	clearTimeout(uptime);
+						},2000)
+			}
+		        }, "text");
+		      }
+		});		
+	}
 	
 function pay() {
 	    var contractid=-1;
@@ -726,10 +794,11 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 		</div>
 	</div>
 </div>
-</#if> <#if activityId == "modifyOrder">
+</#if> 
+
+<#if activityId == "modifyOrder">
 <!-- 广告主修改订单 -->
 <div id="modifyOrder" class="modifyOrder" style="display: none;">
-
 	<div class="p20bs mt10 color-white-bg border-ec">
 		<H3 class="text-xl title-box">
 			<p style="text-align: left">
@@ -774,7 +843,50 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 		</div>
 	</div>
 </div>
-</#if> <#if activityId == "approve2">
+</#if>
+<#if activityId == "generateSchedule">
+<!-- 生成排期表 -->
+<div id="generateSchedule" class="generateSchedule" style="display: none;">
+	<div class="p20bs mt10 color-white-bg border-ec">
+		<H3 class="text-xl title-box">
+			<p style="text-align: left">
+				<A class="black" href="">生成排期表</A>
+			</p>
+		</H3>
+		<br>
+
+		<TABLE class="ui-table ui-table-gray">
+			<TBODY>
+				<input type="hidden" id="ischeckInventory" value="0" />
+				<TR>
+					<TH>预计开播日期</TH>
+					<TD colspan=3>
+					<#if orderview.order.startTime?has_content>
+					<#setting date_format="yyyy-MM-dd"> ${(orderview.order.startTime)!''}
+					 </#if>	
+					</TD>
+				</TR>
+				<TR>
+					<TH>实际开播日期</TH>
+					<TD colspan=3>
+                    <input class="ui-input datepicker validate[required,custom[date],past[#upDate1]]" type="text"  value="${orderview.order.startTime?string("yyyy-MM-dd")}" id="startdate1" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> 						
+					</TD>
+				</TR>
+				<TR>
+					<TH>检查库存</TH>
+					<TD colspan=3>
+						<button onclick="checkInventory();" class="block-btn">check</button>
+					</TD>
+				</TR>
+		</TABLE>
+		<div style="margin: 10px 0 0; text-align: center;">
+			<button onclick="confirmSchedule();" class="block-btn">确定排期</button>
+		</div>
+	</div>
+</div>
+</#if>
+
+ <#if activityId == "approve2">
 <!-- 北广审核并填写物料ID等信息 -->
 <div id="approve2" class="approve2" style="display: none;">
 	<div class="p20bs mt10 color-white-bg border-ec">

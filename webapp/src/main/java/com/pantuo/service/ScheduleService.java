@@ -1,5 +1,6 @@
 package com.pantuo.service;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -13,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.activiti.engine.TaskService;
+import org.activiti.engine.task.Task;
 import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -32,6 +35,7 @@ import com.mysema.query.types.expr.StringOperation;
 import com.pantuo.dao.BoxRepository;
 import com.pantuo.dao.GoodsBlackRepository;
 import com.pantuo.dao.GoodsRepository;
+import com.pantuo.dao.OrdersRepository;
 import com.pantuo.dao.ScheduleLogRepository;
 import com.pantuo.dao.pojo.JpaBox;
 import com.pantuo.dao.pojo.JpaGoods;
@@ -53,6 +57,9 @@ import com.pantuo.mybatis.persistence.BoxMapper;
 import com.pantuo.mybatis.persistence.GoodsSortMapper;
 import com.pantuo.mybatis.persistence.InfoimgscheduleMapper;
 import com.pantuo.pojo.SlotBoxBar;
+import com.pantuo.service.MailTask.Type;
+import com.pantuo.service.ScheduleService.SchedUltResult;
+import com.pantuo.simulate.MailJob;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Schedule;
@@ -76,7 +83,8 @@ public class ScheduleService {
 	private OrderService orderService;
 	@Autowired
 	private TimeslotService timeslotService;
-
+	@Autowired
+	private TaskService taskService;
 	@Autowired
 	private GoodsRepository goodsRepo;
 	@Autowired
@@ -84,54 +92,14 @@ public class ScheduleService {
 	@Autowired
 	private BoxMapper boxMapper;
 	@Autowired
+	private OrdersRepository ordersRepository;
+	@Autowired
 	private ScheduleLogRepository scheduleLogRepository;
-
+	@Autowired
+	private MailJob mailJob;
 	@Autowired
 	private GoodsSortMapper goodsSortMapper;
 
-	/*    public ScheduleLog schedule(Date day) {
-	        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-	        cal.setTime(day);
-	        cal.set(Calendar.HOUR_OF_DAY, 0);
-	        cal.set(Calendar.MINUTE, 0);
-	        cal.set(Calendar.SECOND, 0);
-	        cal.set(Calendar.MILLISECOND, 0);
-	        Date now = cal.getTime();
-
-	        ScheduleLog slog = scheduleLogRepository.findByDay(now);
-	        if (slog != null && (slog.getStatus() == ScheduleLog.Status.scheduling || slog.getStatus() == ScheduleLog.Status.scheduled)) {
-	            log.info("Scheduling for day {} is running or completed", now);
-	            return new ScheduleLog(now, ScheduleLog.Status.duplicate);
-	        }
-	        log.info(":::Start scheduling for day {}", now);
-	        slog = new ScheduleLog(now);
-	        scheduleLogRepository.save(slog);
-
-	        try {
-	            Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(null, 0, 9999);
-	            Iterable<JpaOrders> ordersForSchedule = orderService.getOrdersForSchedule(now, JpaProduct.Type.video);
-
-	            Schedule s = new Schedule(now, slots.getContent(), ordersForSchedule);
-
-	            boolean scheduled = s.schedule();
-	            log.info(s.toString());
-
-	            if (scheduled) {
-	                boxRepo.save(s.getOrderedHotBoxList());
-	                boxRepo.save(s.getOrderedNormalBoxList());
-	            }
-	            slog.setStatus(ScheduleLog.Status.scheduled);
-	            slog.setDescription("success at " + new Date());
-	            scheduleLogRepository.save(slog);
-	            return slog;
-	        } catch (Exception e) {
-	            slog.setStatus(ScheduleLog.Status.failed);
-	            slog.setDescription(e.getMessage());
-	            scheduleLogRepository.save(slog);
-	            log.error("Fail to schedule for day {}", now, e);
-	            return slog;
-	        }
-	    }*/
 
 	public ScheduleLog schedule(Date day, int orderId) {
 		return schedule(day, orderService.getJpaOrder(orderId));
@@ -687,8 +655,12 @@ public class ScheduleService {
 			if (!boxDayMap.containsKey(day)) {
 				List<JpaBox> boxesForDay = new ArrayList<>(slots.getContent().size());
 				for (JpaTimeslot slot : slots) {
-					boxesForDay.add(Schedule.boxFromTimeslot(city, day, slot));
+					JpaBox box=Schedule.boxFromTimeslot(city, day, slot);
+					box.setFsort(1000);
+					box.setSort(1000);
+					boxesForDay.add(box);
 				}
+			 
 				boxRepo.save(boxesForDay);
 				boxDayMap.put(day, boxesForDay);
 			}
@@ -816,5 +788,39 @@ public class ScheduleService {
 			}
 		}
 	};
+
+	public SchedUltResult checkInventory(int id, String taskid,String startdate1, boolean ischeck) {
+		 JpaOrders order = orderService.getJpaOrder(id);
+		 Date d=order.getStartTime();
+		 if(StringUtils.isNotBlank(startdate1)){
+				try {
+					d=DateUtil.longDf.get().parse(startdate1);
+					order.setStartTime(d);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}	 
+			 }
+		 if(ischeck){
+			 return  schedule2(order,ischeck);
+		 }else{
+			 SchedUltResult r= schedule2(order,ischeck);
+			 if(r.isScheduled){
+				 Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
+				 if(task==null){
+					 r=new SchedUltResult("不存在该任务节点", false, d, true);
+				 }
+				 Map<String, Object> variables = new HashMap<String, Object>();
+				 variables.put("scheduleResult", true);
+				 MailTask mailTask = new MailTask(order.getUserId(), id, null, task.getTaskDefinitionKey(),
+						 Type.sendCompleteMail);
+				 taskService.complete(task.getId(), variables);
+				 mailJob.putMailTask(mailTask);
+			 }
+			 Date end = DateUtil.dateAdd(order.getStartTime(), order.getProduct().getDays());
+			 order.setEndTime(end);
+			 ordersRepository.save(order);
+			 return r;
+		 }
+	}
 
 }

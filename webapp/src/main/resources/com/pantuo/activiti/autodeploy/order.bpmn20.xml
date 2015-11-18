@@ -109,7 +109,7 @@
         <sequenceFlow id="flow44" sourceRef="financialCheck" targetRef="paymentGateway"></sequenceFlow>
         <inclusiveGateway id="readyGateway" name="订单支付及物料情况确认"></inclusiveGateway>
         <sequenceFlow id="flow37" name="订单/支付/物料OK" sourceRef="readyGateway" targetRef="generateSchedule">
-          <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approve1Result == true && approve2Result == true && paymentResult == true}]]></conditionExpression>
+          <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approve1Result == true && approve2Result == true  }]]></conditionExpression>
         </sequenceFlow>
         <serviceTask id="denyEmail" name="发送审核不通过的通知给广告主" activiti:delegateExpression="${messageBox}">
           <extensionElements>
