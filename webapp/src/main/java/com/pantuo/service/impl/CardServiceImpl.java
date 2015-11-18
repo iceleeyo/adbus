@@ -165,9 +165,9 @@ public class CardServiceImpl implements CardService {
 		}
 		long seriaNum = getCardBingSeriaNum(principal);
 		BooleanExpression query = QJpaCardBoxMedia.jpaCardBoxMedia.isConfirm.eq(isComfirm);
-//		query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.isConfirm.eq(isComfirm));
+		query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.userId.eq(Request.getUserId(principal)));
 		BooleanExpression query2 = QJpaCardBoxBody.jpaCardBoxBody.isConfirm.eq(isComfirm);
-//		query2 = query2.and(QJpaCardBoxBody.jpaCardBoxBody.isConfirm.eq(isComfirm));
+		query2 = query2.and(QJpaCardBoxBody.jpaCardBoxBody.userId.eq(Request.getUserId(principal)));
 		List<JpaCardBoxMedia> page = null;
 		List<JpaCardBoxBody> page2 = null;
 		if (!meidLists.isEmpty() || !boidLists.isEmpty()) {
