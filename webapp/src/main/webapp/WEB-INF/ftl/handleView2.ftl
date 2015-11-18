@@ -310,20 +310,42 @@ function checkInventory() {
           return;
       }
 		$.ajax({
-			url : "${rc.contextPath}/testsch/"+orderid+"/true",
+			url : "${rc.contextPath}/schedule/testsch/"+orderid+"/true",
 			type : "POST",
 			data : {
 			"startdate1":startdate1
 			},
 			success : function(data) {
 			if(data.scheduled){
-			   layer.msg("库存充足可排期");
-			   $("#ischeckInventory").val(1);
-			   $("#sureButton").css({"background-color":"rgb(245, 135, 8)"});
-			    $("#sureButton").css({"color":"#fff"});
+				   layer.msg("库存充足可排期");
+				   $("#ischeckInventory").val(1);
+				   $("#sureButton").css({"background-color":"rgb(245, 135, 8)"});
+				    $("#sureButton").css({"color":"#fff"});
 			}else{
-				layer.msg(data.notSchedultDay+"库存不足:"+data.msg, {icon: 5});
-			}
+				var w=$.format.date(data.notSchedultDay, "yyyy-MM-dd");
+				//	layer.msg("日期:<font color='red'>"+w+"</font>  库存不足<br>"+data.msg, {icon: 5});
+					
+					
+		 	layer.confirm("日期:<font color='red'>"+w+"</font>  库存不足<br>根据当前订单信息库存信息如下:<br><br>"+data.msg+"<br><br>是否让系统推荐一个可排期的日期?", {icon: 3}, function(index){
+    				layer.close(index);
+				$.ajax({
+					url : "${rc.contextPath}/schedule/queryFeature/"+orderid,
+					type : "POST",
+					success : function(data) {
+					  	if(data.scheduled){
+					  		var w=$.format.date(data.notSchedultDay, "yyyy-MM-dd");
+					  		var t="从日期    <font color='red'>"+w+"</font>   起有档期可安排!";
+					  		 layer.alert(t, {icon: 6});
+					  	}else {
+					  	 layer.alert(data.msg, {icon: 6});
+					  	}
+					}
+				   }, "text");
+		});	
+		
+		
+		
+				}
 			}
 		}, "text");
 	}
