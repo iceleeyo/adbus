@@ -16,10 +16,10 @@ header .logo {
 }
 header .logo2 {
   float: left;
-  width: 280px;
+  width: 491px;
   height: 50px;
   margin-left: 5px;
-  background: url(../index_img/logob.png) no-repeat;
+  background: url(../index_img/logo_screen.jpg) no-repeat;
   background-size: 100%;
   background-position: 0 50%;
 }

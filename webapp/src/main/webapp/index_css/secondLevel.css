@@ -637,11 +637,11 @@ header .area {
 
 #b04 .dots li {
 	display: inline-block;
-	width: 3px;
-	height: 3px;
+	width: 5px;
+	height: 5px;
 	margin: 0 4px;
 	text-indent: -999em;
-	border: 1px solid #fff;
+	border: 1px solid #B89B9B;
 	border-radius: 6px;
 	cursor: pointer;
 	opacity: .4;
