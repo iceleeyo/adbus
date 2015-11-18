@@ -458,7 +458,7 @@
 							selectPrice+=Number(tprice);
 						}
 			 });
-			 if(selectPrice>0){
+			 if(selectPrice>=0){
 				 $("#aprice").html("￥"+selectPrice);
 			 }
 		} 
