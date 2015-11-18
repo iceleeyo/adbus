@@ -370,7 +370,7 @@ function confirmSchedule() {
     		layer.close(index);
       if(true){
 		$.ajax({
-			url : "${rc.contextPath}/testsch/"+orderid+"/false",
+			url : "${rc.contextPath}/schedule/testsch/"+orderid+"/false",
 			type : "POST",
 			data : {
 			"startdate1":startdate1,
