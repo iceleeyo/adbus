@@ -99,14 +99,14 @@ public class IndexController {
 	 @RequestMapping(value = "/secondLevelPage")
 	    public String secondLevelPage(Model model, HttpServletRequest request, HttpServletResponse response,
 				@CookieValue(value = "city", defaultValue = "-1") int city) {
-		 makeCookieValueRight(city == -1 ? 1 : (city % 2 == 0 ? city - 1 : city), response);
+//		 makeCookieValueRight(city == -1 ? 1 : (city % 2 == 0 ? city - 1 : city), response);
 		 model.addAttribute("auctionList", cpdService.getIndexCpdList(city, 4));
 	    	return "secondLevelPage";
 	    }
 	 @RequestMapping(value = "/secondLevelPageBus")
 	    public String secondLevelPageBus(Model model, HttpServletRequest request, HttpServletResponse response,
 				@CookieValue(value = "city", defaultValue = "-1") int city) {
-		  makeCookieValueRight(city == -1 ? 2 : (city % 2 == 1 ? city + 1 : city), response);
+//		  makeCookieValueRight(city == -1 ? 2 : (city % 2 == 1 ? city + 1 : city), response);
 		  model.addAttribute("auctionList", cpdService.getIndexCpdList(city, 4));
 	    	return "secondLevelPageBus";
 	    }

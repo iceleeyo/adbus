@@ -717,15 +717,16 @@ public class CardServiceImpl implements CardService {
 
 			int a=cardboxHelpMapper.insert(helper);
 			if(a>0 && helper.getMediaType()==0){
-				change2Order(startdate1,helper,principal);
+				change2Order(startdate1,medisIds,helper,principal);
 			}
 		}
 		return new Pair<Boolean, String>(true, "支付成功");
 	}
 
-	public void change2Order(String startdate1,CardboxHelper helper,Principal principal) {
+	public void change2Order(String startdate1,List<Integer> medisIds,CardboxHelper helper,Principal principal) {
 		BooleanExpression query = QJpaCardBoxMedia.jpaCardBoxMedia.city.eq(helper.getCity());
 		query=query.and(QJpaCardBoxMedia.jpaCardBoxMedia.seriaNum.eq(helper.getSeriaNum()));
+		query=query.and(QJpaCardBoxMedia.jpaCardBoxMedia.id.in(medisIds));
 		List<JpaCardBoxMedia> mList=(List<JpaCardBoxMedia>) cardBoxRepository.findAll(query);
 		for (JpaCardBoxMedia jpaCardBoxMedia : mList) {
 			JpaOrders order=new JpaOrders();

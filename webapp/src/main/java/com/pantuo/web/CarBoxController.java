@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -126,8 +127,9 @@ public class CarBoxController {
 		cardService.test();
 	}
 	
-	@RequestMapping(value = "/paySuccess")
-	public String paysuccess() {
+	@RequestMapping(value = "/paySuccess/{metype}")
+	public String paysuccess(Model model,@PathVariable("metype") String metype) {
+		model.addAttribute("metype", metype);
 		return "paySuccess";
 	}
 

@@ -242,7 +242,11 @@
 			data:{"divid":divid,"isdiv":isdiv,"seriaNum":seriaNum,"paytype":paytype,"meids":meids,"boids":boids,"startdate1":startdate1},
 			success:function(data){
 				if (data.left) {
-				  window.location.href="${rc.contextPath}/carbox/paySuccess";
+				if(meids==""){
+				  window.location.href="${rc.contextPath}/carbox/paySuccess/body";
+				}else{
+				    window.location.href="${rc.contextPath}/carbox/paySuccess/media";
+				}
 				} else {
 					layer.msg(data.right);
 				}

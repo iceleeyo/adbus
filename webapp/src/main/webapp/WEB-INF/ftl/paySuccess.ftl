@@ -49,7 +49,11 @@
 							<span></span>交易成功！
 						</p>
 						<p class="more-info">
+						<#if metype?? && metype=='body'>
 							<a href="${rc.contextPath}/carbox/carTask">查看订单</a>
+							<#else>
+							<a href="${rc.contextPath}/order/myTask/1">查看订单</a>
+					     </#if>
 						</p>
 					</div>
 
