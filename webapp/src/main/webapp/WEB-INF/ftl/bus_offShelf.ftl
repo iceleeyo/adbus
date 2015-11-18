@@ -18,8 +18,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
             "ordering": false,
             "serverSide": true,
             "scrollX": true,
-            "iDisplayLength" : 20,
-            "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
+            "iDisplayLength" : 200,
+            "aLengthMenu": [[20, 40, 100,200,500], [20, 40, 100,200,500]],
             "ajax": {
                 type: "GET",
                 url: "${rc.contextPath}/bus/ajax-bus_offShelf",
