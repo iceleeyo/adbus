@@ -29,10 +29,10 @@ th, td { white-space: nowrap;border: 1px solid #C5C5C5;}
     function initTable () {
         table = $('#table').dataTable( {
             "dom": '<"#toolbar">rt',
+                processing : true,
             "searching": false,
             "ordering": false,
-            "serverSide": false,
-            "scrollX": true,
+            "serverSide": true,
              "columnDefs": [
                  { "orderable": false, "targets": [0,1,2,3] },
             ],
@@ -49,8 +49,20 @@ th, td { white-space: nowrap;border: 1px solid #C5C5C5;}
             "columns": [
                 { "data": "bname", "defaultContent": ""},
                 { "data": "bsize", "defaultContent": ""},
-                { "data": "normalremain", "defaultContent": ""},
-                { "data": "fremain", "defaultContent": ""},
+                { "data": "normalremain", "defaultContent": "","render" : function(data, type, row, meta) {
+                        if(data==0){
+                          return '<font color="red">'+data+'</font>';
+                        }else{
+                          return data;
+                        }
+                }},
+                { "data": "fremain", "defaultContent": "","render" : function(data, type, row, meta) {
+                        if(data==0){
+                          return '<font color="red">'+data+'</font>';
+                        }else{
+                          return data;
+                        }
+                }},
             ],
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
@@ -95,7 +107,7 @@ function serch(){
                             autocomplete="off" disableautocomplete=""> <input type="button" class="block-btn" onclick="serch();" value="搜索"/>
 									</div>
           <table id="table" class="cell-border compact display" cellspacing="0"
-		style="width: 70%; border-left-style: solid; border-left-width: 1px; border-left-color: rgb(221, 221, 221);">
+		style="width:70%; border-left-style: solid; border-left-width: 1px; border-left-color: rgb(221, 221, 221);">
 		<thead>
 			<tr>
 				<th>广告包名称</th>
