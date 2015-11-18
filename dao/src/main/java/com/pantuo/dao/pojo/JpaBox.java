@@ -56,10 +56,8 @@ public class JpaBox extends CityEntity implements Comparable<JpaBox>, Serializab
     private long putWeight;    //刚刚堆放货物，权重降低
     @Transient
     private int seed;           //用作随机的种子
-    @Transient
-    private int sort=1000;           
-    @Transient
-    private int fsort=1000;           
+    private int sort;           
+    private int fsort;           
 
     public JpaBox() {}
 
