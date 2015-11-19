@@ -85,16 +85,24 @@ $(document).ready(function() {
 				document.getElementById("quadiv_" + o));
 	}
 
-
+	flag=true;
 	function showdoc(){		
-		alert($("#videoType").css("display"));
-		if(suppliesType=="0"){
-    		$("#otherType").hide();
-        	$("#videoType").show();
-    	}else{
-    		$("#videoType").hide();
-        	$("#otherType").show();
-    	}
+		if(flag == true)
+		{
+			if(suppliesType=="0"){
+        		$("#videoType").show();
+    		}else{
+        		$("#otherType").show();
+    		}
+			flag=false;
+		}else{
+			if(suppliesType=="0"){
+        		$("#videoType").hide();
+    		}else{
+        		$("#otherType").hide();
+    		}
+			
+		}
 	}
 	
 	function sub2() {
