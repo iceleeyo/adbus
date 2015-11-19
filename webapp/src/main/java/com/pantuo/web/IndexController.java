@@ -306,14 +306,19 @@ public class CardSelect{
 	
 	@RequestMapping("/code")
 	public void getCode(HttpServletRequest reqeust, HttpServletResponse response) throws IOException {
-		 // 设置响应的类型格式为图片格式  
         response.setContentType("image/jpeg");  
-        //禁止图像缓存。  
         response.setHeader("Pragma", "no-cache");  
         response.setHeader("Cache-Control", "no-cache");  
         response.setDateHeader("Expires", 0);  
+        
+        response.setHeader("Expires", "Sat, 16 Jan 1980 12:00:00 GMT"); 
+        response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate"); 
+        response.addHeader("Cache-Control", "post-check=0, pre-check=0"); 
+        response.addHeader("Content-Type","image/jpeg");  
+        
+        
         HttpSession session = reqeust.getSession();  
-        ValidateCode vCode = new ValidateCode(120,40,5,100);  
+        ValidateCode vCode = new ValidateCode(120,40,5,30); //,100); 
         session.setAttribute("code", vCode.getCode());  
         vCode.write(response.getOutputStream());  
 	}

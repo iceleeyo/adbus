@@ -1,4 +1,5 @@
 package com.pantuo.util.image;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -9,6 +10,7 @@ import java.io.OutputStream;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+
 /**
  * 验证码生成器
  * author impanxh
@@ -26,13 +28,12 @@ public class ValidateCode {
 	// 验证码
 	private String code = null;
 	// 验证码图片Buffer
-	private BufferedImage buffImg=null;
+	private BufferedImage buffImg = null;
 
-	private char[] codeSequence = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
-			'K', 'L', 'M', 'N',  'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
-			'X', 'Y', 'Z',  '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+	private char[] codeSequence = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'P', 'Q',
+			'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
-	public  ValidateCode() {
+	public ValidateCode() {
 		this.createCode();
 	}
 
@@ -41,11 +42,12 @@ public class ValidateCode {
 	 * @param width 图片宽
 	 * @param height 图片高
 	 */
-	public  ValidateCode(int width,int height) {
-		this.width=width;
-		this.height=height;
+	public ValidateCode(int width, int height) {
+		this.width = width;
+		this.height = height;
 		this.createCode();
 	}
+
 	/**
 	 * 
 	 * @param width 图片宽
@@ -53,24 +55,24 @@ public class ValidateCode {
 	 * @param codeCount 字符个数
 	 * @param lineCount 干扰线条数
 	 */
-	public  ValidateCode(int width,int height,int codeCount,int lineCount) {
-		this.width=width;
-		this.height=height;
-		this.codeCount=codeCount;
-		this.lineCount=lineCount;
+	public ValidateCode(int width, int height, int codeCount, int lineCount) {
+		this.width = width;
+		this.height = height;
+		this.codeCount = codeCount;
+		this.lineCount = lineCount;
 		this.createCode();
 	}
-	
+
 	public void createCode() {
-		int x = 0,fontHeight=0,codeY=0;
+		int x = 0, fontHeight = 0, codeY = 0;
 		int red = 0, green = 0, blue = 0;
-		
-		x = width / (codeCount +2);//每个字符的宽度
+
+		x = width / (codeCount + 2);//每个字符的宽度
 		fontHeight = height - 2;//字体的高度
 		codeY = height - 4;
-		
+
 		// 图像buffer
-		buffImg = new BufferedImage(width, height,BufferedImage.TYPE_INT_RGB);
+		buffImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = buffImg.createGraphics();
 		// 生成随机数
 		Random random = new Random();
@@ -78,22 +80,27 @@ public class ValidateCode {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, width, height);
 		// 创建字体
-		ImgFontByte imgFont=new ImgFontByte();
-		Font font =imgFont.getFont(fontHeight);
+		ImgFontByte imgFont = new ImgFontByte();
+		Font font = imgFont.getFont(fontHeight);
 		g.setFont(font);
-		
+
 		for (int i = 0; i < lineCount; i++) {
 			int xs = random.nextInt(width);
 			int ys = random.nextInt(height);
-			int xe = xs+random.nextInt(width/8);
-			int ye = ys+random.nextInt(height/8);
-			red = random.nextInt(255);
-			green = random.nextInt(255);
-			blue = random.nextInt(255);
-			g.setColor(new Color(red, green, blue));
+			int xe = xs + random.nextInt(width / 8);
+			int ye = ys + random.nextInt(height / 8);
+
+			while (true) {
+				red = random.nextInt(255);
+				green = random.nextInt(255);
+				blue = random.nextInt(255);
+				g.setColor(new Color(red, green, blue));
+				if ((red + green + blue) < 350) {
+					break;
+				}
+			}
 			g.drawLine(xs, ys, xe, ye);
 		}
-		
 		// randomCode记录随机产生的验证码
 		StringBuffer randomCode = new StringBuffer();
 		// 随机产生codeCount个字符的验证码。
@@ -104,27 +111,28 @@ public class ValidateCode {
 			green = random.nextInt(255);
 			blue = random.nextInt(255);
 			g.setColor(new Color(red, green, blue));
-			g.drawString(strRand, (i + 1) * x, codeY);
+			g.drawString(strRand, (i) * x + codeCount * i, codeY);
 			// 将产生的四个随机数组合在一起。
 			randomCode.append(strRand);
 		}
 		// 将四位数字的验证码保存到Session中。
-		code=randomCode.toString();		
+		code = randomCode.toString();
 	}
-	
+
 	public void write(String path) throws IOException {
 		OutputStream sos = new FileOutputStream(path);
-			this.write(sos);
+		this.write(sos);
 	}
-	
+
 	public void write(OutputStream sos) throws IOException {
-			ImageIO.write(buffImg, "png", sos);
-			sos.close();
+		ImageIO.write(buffImg, "jpg", sos);
+		sos.close();
 	}
+
 	public BufferedImage getBuffImg() {
 		return buffImg;
 	}
-	
+
 	public String getCode() {
 		return code;
 	}
