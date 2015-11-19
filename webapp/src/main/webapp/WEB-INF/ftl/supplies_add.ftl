@@ -238,7 +238,7 @@ $(document).ready(function() {
 				<br> <@security.authorize ifAnyGranted="ShibaOrderManager">
 				<div class="ui-form-item">
 					<label class="ui-label mt10"> <span
-						class="ui-form-required">* </span>广告主:
+						class="ui-form-required">* </span>广告主
 					</label> <span> <input id="userId" name="userId"
 						class="ui-input validate[required,custom[noSpecialLetterChinese]]"
 						placeholder="请选择广告主">
@@ -267,7 +267,7 @@ $(document).ready(function() {
 					</select>
 				</div>
 				<div class="ui-form-item videoToggle">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>时长（秒）:</label>
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>时长（秒）</label>
 					<input class="ui-input validate[required,integer,min[5],max[180]]"
 						onkeyup="value=value.replace(/[^\d]/g,'')"
 						value="<#if prod??>${prod.duration!''}<#else>0</#if>"
@@ -278,7 +278,7 @@ $(document).ready(function() {
 				</div>
 
 				<div class="ui-form-item">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>所属行业:</label>
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>所属行业</label>
 
 					<select id="industryId" class="ui-input" name="industryId"
 						data-is="isAmount isEnough" autocomplete="off"
