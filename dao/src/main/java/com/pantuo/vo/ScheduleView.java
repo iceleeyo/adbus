@@ -1,28 +1,23 @@
 package com.pantuo.vo;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import com.pantuo.dao.pojo.JpaTimeslot;
 import com.pantuo.util.DateUtil;
 
-public class MediaInventory {
+public class ScheduleView {
+	JpaTimeslot timeslot;
     private String bname;
     private Date startTime;
-    private Date day;
     private long duration;
     private int num;
-    private int sotid;
     private int bsize;
-    private int normalremain;
-    private int fremain;
-    
-	public MediaInventory() {
-	}
-	public MediaInventory(String bname, int bsize, int normalremain, int fremain) {
-		super();
-		this.bname = bname;
-		this.bsize = bsize;
-		this.normalremain = normalremain;
-		this.fremain = fremain;
+    private String day;
+    Map<String/*date*/, Integer> map=new HashMap<String, Integer>();
+	public ScheduleView() {
 	}
 	public String getBname() {
 		return bname;
@@ -33,22 +28,28 @@ public class MediaInventory {
 	public int getBsize() {
 		return bsize;
 	}
-	
-	public Date getDay() {
-		return day;
-	}
-	public void setDay(Date day) {
-		this.day = day;
-	}
 	public void setBsize(int bsize) {
 		this.bsize = bsize;
 	}
 	
-	 public int getSotid() {
-		return sotid;
+	 public JpaTimeslot getTimeslot() {
+		return timeslot;
 	}
-	public void setSotid(int sotid) {
-		this.sotid = sotid;
+	public void setTimeslot(JpaTimeslot timeslot) {
+		this.timeslot = timeslot;
+	}
+	
+	public Map<String, Integer> getMap() {
+		return map;
+	}
+	public void setMap(Map<String, Integer> map) {
+		this.map = map;
+	}
+	public String getDay() {
+		return day;
+	}
+	public void setDay(String day) {
+		this.day = day;
 	}
 	public long getDuration() {
 		return duration;
@@ -76,18 +77,6 @@ public class MediaInventory {
 	}
 	public void setNum(int num) {
 		this.num = num;
-	}
-	public int getNormalremain() {
-		return normalremain;
-	}
-	public void setNormalremain(int normalremain) {
-		this.normalremain = normalremain;
-	}
-	public int getFremain() {
-		return fremain;
-	}
-	public void setFremain(int fremain) {
-		this.fremain = fremain;
 	}
     
 } 

@@ -28,4 +28,6 @@ public interface UserAutoCompleteMapper {
 	List<ModelCountView> getdaysbusnumBycomid(@Param("companyid") int companyid, @Param("monthstr") String monthstr);
 	//根据日期查媒体库存
 	List<MediaInventory> getMediaInventory( @Param("datestr") String datestr);
+	//根据日期和orerid查找goods
+	List<MediaInventory> getScheduleViewByDateStr( @Param("orderid") int orderid,@Param("datestr") String datestr);
 }

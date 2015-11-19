@@ -50,6 +50,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pantuo.dao.GoodsBlackRepository;
+import com.pantuo.dao.TimeslotRepository;
 import com.pantuo.dao.pojo.BoxRemain;
 import com.pantuo.dao.pojo.JpaBox;
 import com.pantuo.dao.pojo.JpaBusSchedule;
@@ -84,7 +85,9 @@ import com.pantuo.util.DateUtil;
 import com.pantuo.util.ExcelUtil;
 import com.pantuo.util.OrderIdSeq;
 import com.pantuo.util.Pair;
+import com.pantuo.util.Schedule;
 import com.pantuo.vo.MediaInventory;
+import com.pantuo.vo.ScheduleView;
 import com.pantuo.web.view.OrderView;
 import com.pantuo.web.view.SolitSortView;
 import com.pantuo.web.view.SuppliesView;
@@ -107,6 +110,8 @@ public class ScheduleController {
 
 	@Autowired
 	private TimeslotService timeslotService;
+	@Autowired
+	private TimeslotRepository timeslotRepository;
 	@Autowired
 	private UserAutoCompleteMapper userAutoCompleteMapper;
 
@@ -178,9 +183,65 @@ public class ScheduleController {
 			model.addAttribute("suppliesView", suppliesView);
 			model.addAttribute("ischedule", "Y");
 		}
-		return "order_schedule";
+		return "order_schedule2";
 	}
 
+	@RequestMapping("ajax-schedule")
+	@ResponseBody
+	public Collection<ScheduleView> ajaxSchedule(@RequestParam(value = "orderId", required = true) int orderId){
+		Map<Integer, ScheduleView> map=new LinkedHashMap<Integer, ScheduleView>();
+		 JpaOrders order = orderService.getJpaOrder(orderId);
+			if (order != null) {
+			   String dString=DateUtil.longDf.get().format(order.getStartTime());
+			   List<MediaInventory> list=userAutoCompleteMapper.getScheduleViewByDateStr(orderId,dString);
+			   for (MediaInventory mediaInventory : list) {
+				  if(!map.containsKey(mediaInventory.getSotid())){
+					  ScheduleView view= new ScheduleView();
+					  map.put(mediaInventory.getSotid(), view);
+					  view.setTimeslot(timeslotRepository.findOne(mediaInventory.getSotid()));
+				  }
+					  ScheduleView scheduleView= map.get(mediaInventory.getSotid());
+					  String d=DateUtil.longDf.get().format(mediaInventory.getDay());  
+					  scheduleView.getMap().put(d, mediaInventory.getNum());
+				  
+			}
+			   return map.values();
+		}
+			return  Collections.EMPTY_LIST;
+	}
+//	@RequestMapping("ajax-schedule")
+//	@ResponseBody
+//	public List<ScheduleView> ajaxSchedule(@RequestParam(value = "orderId", required = true) int orderId){
+//		
+//		Map<String/*date*/, List<MediaInventory>> map=new HashMap<String, List<MediaInventory>>();
+//		Map<String/*date*/, Map<Integer/*slotid*/,Long>> map2=new HashMap<String, Map<Integer,Long>>();
+//		JpaOrders order = orderService.getJpaOrder(orderId);
+//		if (order != null && order.getStartTime().before(order.getEndTime())) {
+//			Calendar cal = DateUtil.newCalendar();
+//			cal.setTime(order.getStartTime());
+//			while (cal.getTime().before(order.getEndTime())) {
+//				String dString=DateUtil.longDf.get().format(cal.getTime());
+//				if(!map.containsKey(dString)){
+//					List<MediaInventory> list=userAutoCompleteMapper.getScheduleViewByDateStr(orderId,dString);
+//					map.put(dString, list);
+//				}
+//				cal.add(Calendar.DATE, 1);
+//			}
+//			String d=DateUtil.longDf.get().format(cal.getTime());
+//			List<ScheduleView> views=new ArrayList<ScheduleView>();
+//			for (int i = 0; i < map.get(d).size(); i++) {
+//				ScheduleView view=new ScheduleView();
+//				view.setBname(map.get(d).get(0).getBname());
+//				view.setDuration(map.get(d).get(0).getDuration());
+//				view.setStartTime(map.get(d).get(0).getStartTime());
+//				view.setDay(day);
+//				view.setMap(map);
+//				views.add(view);
+//			}
+//			return views;
+//		}
+//		return  Collections.EMPTY_LIST;
+//	}
 	@RequestMapping("querySchedule/{taskId}")
 	public String querySchedule(Model model, @PathVariable("taskId") String taskId, Principal principal) {
 		OrderView orderView = activitiService.findOrderViewByTaskId(taskId, principal);
