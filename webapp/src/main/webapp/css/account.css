@@ -3062,9 +3062,9 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	color: #000
 }
 .uplan-detail-ul .con-title {
-	margin-left: 15px;
-	color: #000;
-	
+	margin-left: 18px;
+	color: #392AAD;
+    font-weight: 600;	
 }
 
 .progress-acco-div {
