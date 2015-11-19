@@ -55,15 +55,18 @@ $(document).ready(function() {
                 $(".videoToggle").hide();
             }
             
-            if(suppliesType=="0"){
-            	$("#otherType").hide();
-                $("#videoType").show();
-            }else{
-            	$("#videoType").hide();
-                $("#otherType").show();
-            }
+            
      });
-        
+    
+	function showdoc(){
+		if(suppliesType=="0"){
+    		$("#otherType").hide();
+        	$("#videoType").show();
+    	}else{
+    		$("#videoType").hide();
+        	$("#otherType").show();
+    	}
+	}
     <@security.authorize ifAnyGranted="ShibaOrderManager">    
     //author:pxh 2015-05-20 22:36
 	$( "#userId" ).autocomplete({
@@ -307,6 +310,8 @@ $(document).ready(function() {
 				<div class="ui-form-item widthdrawBtBox">
 					<input type="button" id="subWithdraw" class="block-btn"
 						onclick="sub2();" value="开始上传">
+					<input type="button" id="subWithdraw" class="block-btn"
+						onclick="showdoc();" value="查看物料规格说明">
 				</div>
 
 				<div id="progress1">
@@ -330,13 +335,14 @@ $(document).ready(function() {
 					<li>3.在必须要的时候，请上传物料说明和广告资质。</li>
 					<li>4.如果物料的文件比较大，可能需要一定的时间，请耐心等待。文件大小尽量控制在200M以内。</li>
 					<li>5.请勿上传违反国家广告法及相关法律法规的物料文件。</li>
-					<li>6.物料的其他技术性要求（待补充）。</li>
+					<li>6.视频节目物料素材应符合合同附件《节目制作规范》的相关要求。</li>
+					<li>7.广告物料及节目播出带（三期备播节目物料）须在广告/节目首个发布日的7个工作日前将送达乙方指定地址。如因延误或错误送达导致广告/节目延误发布的，责任由甲方承担。</li>
 
 				</ol>
 			</div>
 		</div>
 
-		<div id="videoType">
+		<div id="videoType" style="display: none">
 			<div class="worm-tips">
 				<div class="tips-title">
 					<span class="icon"></span> 全屏视频广告规格要求说明
