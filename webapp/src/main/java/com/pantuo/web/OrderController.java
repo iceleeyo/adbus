@@ -222,7 +222,7 @@ public class OrderController {
             HttpServletRequest request)
 			throws Exception {
 		NumberPageUtil page = new NumberPageUtil(9999, 1, 9999);
-		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
+		Task task = taskService.createTaskQuery().includeProcessVariables().taskId(taskid).singleResult();
 		HistoricTaskInstance currTask = historyService
                 .createHistoricTaskInstanceQuery().taskId(taskid)
                 .singleResult();
@@ -249,6 +249,7 @@ public class OrderController {
 		model.addAttribute("contracts", contracts);
 		model.addAttribute("supplieslist", supplieslist);
 		model.addAttribute("taskid", taskid);
+		model.addAttribute("paymentResult", task.getProcessVariables().get("paymentResult"));
 		model.addAttribute("orderview", v);
 		model.addAttribute("prod", prod);
 		model.addAttribute("claimTime", claimTime);
