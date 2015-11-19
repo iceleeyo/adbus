@@ -23,6 +23,15 @@ header .logo2 {
   background-size: 70%;
   background-position: 0 50%;
 }
+header .logo_screen {
+  float: left;
+  width: 491px;
+  height: 50px;
+  margin-left: 5px;
+  background: url(../index_img/logob.png) no-repeat;
+  background-size: 70%;
+  background-position: 0 50%;
+}
 header .logo_bus {
   float: left;
   width: 491px;
