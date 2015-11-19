@@ -58,7 +58,7 @@
 <body class="register">
 	<div class="contain">
 		<div class="rg-logo">
-			<img src="index_img/logo3.png" width="540" height="50">
+			<img src="index_img/logo3.png" width="350" height="40">
 		</div>
 		<div class="rg-content clearfix">
 			<div class="rg-title">
