@@ -31,7 +31,7 @@
 						<div class="info-item">
 							<label>用户名</label> <input placeholder="请输入用户名" id="username"
 								class="lg-input lg-username" type="text" name="username">
-							<input type="checkbox" name="">
+							
 						</div>
 						<div class="info-item">
 							<label class="text-pwd"> <a class="lg-input lg-username"
