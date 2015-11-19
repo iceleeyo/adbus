@@ -132,13 +132,13 @@ $.ajax({
 							</div>
 							<div class="product-Sdetail">
 								<div class="s-detail">
-									<span>广告时长：</span> <em>${prod.duration!''}秒</em>
+									<span>广告时长：</span> <em>${prod.duration!''}秒/次</em>
 								</div>
 								<div class="s-detail">
-									<span>广告频长：</span> <em>${prod.playNumber!''}/天</em>
+									<span>广告频次：</span> <em>${prod.playNumber!''}次/天</em>
 								</div>
 								<div class="s-detail">
-									<span>天数：</span> <em>${prod.days!''}天</em>
+									<span>播放天数：</span> <em>${prod.days!''}天</em>
 								</div>
 							</div>
 							<div class="product-time">
