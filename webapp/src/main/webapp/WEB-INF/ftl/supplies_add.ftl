@@ -87,7 +87,7 @@ $(document).ready(function() {
 
 
 	function showdoc(){		
-		alert($("#otherType").attr("display"));
+		alert($("#videoType").css("display"));
 		if(suppliesType=="0"){
     		$("#otherType").hide();
         	$("#videoType").show();
