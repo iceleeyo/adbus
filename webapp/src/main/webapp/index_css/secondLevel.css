@@ -207,9 +207,9 @@ header .area {
 
 .recommand .re-box {
 	width: 980px;
-	padding: 10px 0 20px 20px;
+	padding: 10px 0 10px 20px;
 	margin-left: 15px;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 	background: #fff;
 	border: 1px solid #e0e0e0;
 }
