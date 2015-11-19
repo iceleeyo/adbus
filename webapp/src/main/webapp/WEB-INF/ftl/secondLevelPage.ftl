@@ -30,7 +30,7 @@ function tocard(pathurl){
 	<script src="index_js/sift_bus.js"></script> <!-- 头部结束 --> </header>
 	<div class="content">
 		<div class="side-nav">
-			<div class="logo"></div>
+			<div class="logo2"></div>
 			<div class="de-code">
 				<img src="index_img/pic1.png" height="100" width="100">
 			</div>
