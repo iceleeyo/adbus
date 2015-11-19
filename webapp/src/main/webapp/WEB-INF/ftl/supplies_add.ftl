@@ -59,6 +59,7 @@ $(document).ready(function() {
      });
     
 	function showdoc(){
+		alert("ssssss");
 		if(suppliesType=="0"){
     		$("#otherType").hide();
         	$("#videoType").show();
