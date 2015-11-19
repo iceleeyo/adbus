@@ -1,7 +1,7 @@
 <div class="pg-foot">
 	<div class="container-11 plr10">
 		<div class="foot-link gray s-clear">
-			<div class="foot-link-hold s-left">
+			<div class="foot-link-hold s-left" style="width: 100%;  text-align: center;">
 				<ul class="s-left">
 					<li><a href="">公司介绍</a></li>
 					<li><a href="">安全保障</a></li>
@@ -24,7 +24,9 @@
 		<div class="foot-copyright">
 			<span class="foot-cr-link gray-text has-border">&copy;2015 All
 				rights reserved 北京世巴传媒有限公司</span> <span
-				class="foot-cr-link gray-text has-border">京ICP备15027671号 </span> <span
+				class="foot-cr-link gray-text has-border">京ICP备15027671号 </span> 
+				<span
+				class="foot-cr-link gray-text has-border">京ICP证151015号 </span><span
 				class="foot-cr-link gray-text has-border">北京市海淀区紫竹院路32号15号平房
 			</span> <span class="foot-cr-link gray-text none-border">联系电话：010-88518758
 			</span>
