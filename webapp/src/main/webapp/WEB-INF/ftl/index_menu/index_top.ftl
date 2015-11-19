@@ -46,7 +46,7 @@
 
 <nav class="menu">
 <ul class="list-line">
-	<div class="logo2"></div>
+	
 	<li><a href="/">首页</a></li>
 	<li class="active"><a href="${rc.contextPath}/media">媒体产品</a></li>
 	<li><a href="${rc.contextPath}/effect">传播效果</a></li>
