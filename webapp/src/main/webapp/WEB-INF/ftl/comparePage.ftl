@@ -149,7 +149,7 @@ $.ajax({
 							</div>
 							
 							<div class="product-form">
-								<span class="residue" id="residue">出价</span><span id="cspan"><a class="reduce">-</a> <input
+								<span class="residue" id="residue"></span><span id="cspan"><a class="reduce">-</a> <input
 									class="text product-text" onblur="bu(this)"
 									onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/[^\d.]/g,'')}"
 									type="text" id="myprice" value="" /> <a class="plus">+</a>
