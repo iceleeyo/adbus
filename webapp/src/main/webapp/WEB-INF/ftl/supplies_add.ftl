@@ -10,7 +10,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 function go_back(){
 	history.go(-1);
 }
-    $(document).ready(function() {
+$(document).ready(function() {
         $("#userForm2").validationEngine({
             validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
             inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
@@ -209,7 +209,7 @@ function go_back(){
 		action="put?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1"
 		enctype="multipart/form-data" method="post"">
 		<div class="withdraw-title fn-clear">
-			<span>上传物料及相关资质</span> <a class="block-btn" style="margin-top: -5px;"
+			<span>上传广告及相关资质</span> <a class="block-btn" style="margin-top: -5px;"
 				href="javascript:void(0);" onclick="go_back()">返回</a>
 			<!--
             <ul class="fn-clear">
@@ -232,7 +232,7 @@ function go_back(){
 				</div>
 				</@security.authorize>
 				<div class="ui-form-item">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>物料名称</label>
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>广告名称</label>
 					<input
 						class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[1],maxSize[120]]"
 						type="text" name="name" id="name" data-is="isAmount isEnough"
@@ -246,10 +246,10 @@ function go_back(){
 						<#if city.mediaType == 'body'>
 						<option value="4" selected="selected">车身</option> <#else>
 
-						<option value="0" selected="selected">全屏视频</option>
-						<option value="1">INFO图片</option>
-						<option value="2">INFO字幕</option>
-						<option value="3">团类</option> </#if>
+						<option value="0" selected="selected">硬广</option>
+						<option value="1">图片</option>
+						<option value="2">字幕</option>
+						<option value="3">节目</option> </#if>
 					</select>
 				</div>
 				<div class="ui-form-item videoToggle">
