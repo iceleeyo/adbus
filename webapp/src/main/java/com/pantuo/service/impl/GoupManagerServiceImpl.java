@@ -12,6 +12,10 @@ import org.activiti.engine.impl.persistence.entity.UserEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import scala.actors.threadpool.Arrays;
@@ -21,6 +25,8 @@ import com.pantuo.dao.GroupFunctionRepository;
 import com.pantuo.dao.UserDetailRepository;
 import com.pantuo.dao.pojo.JpaFunction;
 import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.dao.pojo.UserDetail.UStats;
+import com.pantuo.dao.pojo.UserDetail.UType;
 import com.pantuo.mybatis.domain.ActIdGroup;
 import com.pantuo.mybatis.domain.ActIdGroupExample;
 import com.pantuo.mybatis.domain.BusFunction;
@@ -32,6 +38,7 @@ import com.pantuo.mybatis.persistence.BusFunctionMapper;
 import com.pantuo.mybatis.persistence.BusSelectMapper;
 import com.pantuo.mybatis.persistence.GroupFunctionMapper;
 import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
+import com.pantuo.service.ActivitiService;
 import com.pantuo.service.GoupManagerService;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.RoleView;
@@ -277,5 +284,37 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 		ActIdGroup actIdGroup =	 actIdGroupMapper.selectByPrimaryKey(groupid);
 		return actIdGroup;
 	}
+	/**
+	 * 检查避免由于组不存在导致错误
+	 */
+	public UserDetail checkUserHaveGroup(String username) {
 
+		if (StringUtils.endsWith(username, ActivitiService.GROUP)) {
+			Pageable p = new PageRequest(0, 20, (new Sort("id")));
+			UserDetail w = new UserDetail();
+			UserDetail exist = null;
+			Page<UserDetail> wp = userRepo.findAll(p);
+			if (wp != null && !wp.getContent().isEmpty()) {
+				exist = wp.getContent().get(0);
+			}
+
+			w.setUtype(UType.screen);
+			w.setIsActivate(1);
+			w.setUstats(UStats.authentication);
+			
+			User activitiUser = new UserEntity();
+			w.setUsername(username);
+			w.setPassword(username);
+			activitiUser.setPassword(username);
+			if (exist != null) {
+				activitiUser.setFirstName(exist.getUsername());
+				activitiUser.setLastName(exist.getLastName());
+			}
+			w.setUser(activitiUser);
+			List<Group> listGroup = identityService.createGroupQuery().list();
+			w.setGroups(listGroup);
+			return w;
+		}
+		return null;
+	}
 }

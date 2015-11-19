@@ -43,6 +43,7 @@ public interface ActivitiService {
 	public static final String THE_COMPANY = "_theCompany";
 	public static final String TIMEOUT = "_timeout";
 	public static final String NOW = "_now";
+	public static final String GROUP = "_GRUOP";
 
 	public static String R_BIND_STATIC = "bindstatic";
 	public static String R_MODIFY_ORDER = "modifyOrder";

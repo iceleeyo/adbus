@@ -44,6 +44,7 @@ import com.pantuo.mybatis.domain.InvoiceExample;
 import com.pantuo.mybatis.persistence.AttachmentMapper;
 import com.pantuo.mybatis.persistence.InvoiceMapper;
 import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
+import com.pantuo.service.ActivitiService;
 import com.pantuo.service.ActivitiService.SystemRoles;
 import com.pantuo.service.AttachmentService;
 import com.pantuo.service.GoupManagerService;
@@ -284,14 +285,22 @@ public class UserService implements UserServiceInter {
 		return null;
 	}
 
+	
 	/**
 	 * @see com.pantuo.service.UserServiceInter#getByUsername(java.lang.String)
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
 	public UserDetail getByUsername(String username) {
+		
 		List<UserDetail> users = userRepo.findByUsername(username);
-		if (users.isEmpty())
+		if (users.isEmpty()){
+			UserDetail detail = goupManagerService.checkUserHaveGroup(username);
+			if (detail != null) {
+				return detail;
+			}
 			return null;
+		}
+			
 
 		UserDetail user = users.get(0);
 		//fetch and fill info from activiti user table
@@ -305,7 +314,6 @@ public class UserService implements UserServiceInter {
 		
 		user.setFunctions(goupManagerService.getFunction4UserId(user));
 		
-
 		return user;
 	}
 

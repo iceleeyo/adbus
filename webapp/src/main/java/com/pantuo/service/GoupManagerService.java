@@ -116,4 +116,5 @@ public interface GoupManagerService {
 
 	public ActIdGroup getActIdGroupByID(String groupid,int city);
 	public List<Integer> findFuncIdsByGroupId(String id);
+	public UserDetail checkUserHaveGroup(String username) ;
 }
