@@ -185,7 +185,7 @@ function initSwift2(table){
 			
 
       	});
-      	$('i').click(function(){
+      	$('.sift-list i').click(function(){
       		$(this).hide();
       		isClick = true;
       		

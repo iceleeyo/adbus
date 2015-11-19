@@ -27,7 +27,7 @@ function initSwift(table){
 			//重新画
 			 table.fnDraw();
       	});
-      	$('i').click(function(){
+      	$('.sift-list i').click(function(){
       		$(this).hide();
       		isClick = true;
       	});
