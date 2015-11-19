@@ -16,16 +16,16 @@ header .logo {
 }
 header .logo2 {
   float: left;
-  width: 450px;
+  width: 290px;
   height: 50px;
   margin-left: 20px;
   background: url(../index_img/logo_screen.jpg) no-repeat;
-  background-size: 70%;
+  background-size: 100%;
   background-position: 0 50%;
 }
 header .logo_screen {
   float: left;
-  width: 491px;
+  width: 400px;
   height: 50px;
   margin-left: 5px;
   background: url(../index_img/logob.png) no-repeat;
@@ -50,7 +50,6 @@ header .menu .list-line {
   margin: 0 auto;
 }
 header .menu ul {
-  padding-left: 20px;
   list-style: none;
   display: inline-block;
 }
