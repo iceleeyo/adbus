@@ -19,7 +19,7 @@ css=["js/highslide/highslide.css",
 	position: absolute;
 	top: 0px;
 	left: 340px !important;
-	margin-top: -38px;
+	
 }
 </style>
 
@@ -580,6 +580,7 @@ function pay() {
 </script>
 <input type="hidden" id="orderid" value="${orderview.order.id!''}" />
 <input type="hidden" id="taskid" value="${taskid!''}" />
+<!-- 
 <div class="payment">
 	<div id="process" class="section4">
 		<div class="node fore ready">
@@ -642,7 +643,7 @@ function pay() {
 		</div>
 	</div>
 </div>
-
+ -->
 
 <@orderDetail.orderDetail orderview=orderview quafiles=quafiles
 suppliesView=suppliesView/> <#if activityId == "payment" || activityId
