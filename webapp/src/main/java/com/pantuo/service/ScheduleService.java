@@ -1,18 +1,29 @@
 package com.pantuo.service;
 
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletResponse;
+
+import jxl.Workbook;
+import jxl.write.Label;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
 
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
@@ -37,6 +48,7 @@ import com.pantuo.dao.GoodsBlackRepository;
 import com.pantuo.dao.GoodsRepository;
 import com.pantuo.dao.OrdersRepository;
 import com.pantuo.dao.ScheduleLogRepository;
+import com.pantuo.dao.TimeslotRepository;
 import com.pantuo.dao.pojo.JpaBox;
 import com.pantuo.dao.pojo.JpaGoods;
 import com.pantuo.dao.pojo.JpaGoodsBlack;
@@ -56,6 +68,7 @@ import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.mybatis.persistence.BoxMapper;
 import com.pantuo.mybatis.persistence.GoodsSortMapper;
 import com.pantuo.mybatis.persistence.InfoimgscheduleMapper;
+import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
 import com.pantuo.pojo.SlotBoxBar;
 import com.pantuo.service.MailTask.Type;
 import com.pantuo.service.ScheduleService.SchedUltResult;
@@ -63,6 +76,8 @@ import com.pantuo.simulate.MailJob;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Schedule;
+import com.pantuo.vo.MediaInventory;
+import com.pantuo.vo.ScheduleView;
 import com.pantuo.vo.SortRequest;
 import com.pantuo.web.view.AutoCompleteView;
 import com.pantuo.web.view.SolitSortView;
@@ -813,7 +828,114 @@ public class ScheduleService {
 		}
 		return r;
 	}
-	
+	@Autowired
+	private TimeslotRepository timeslotRepository;
+	@Autowired
+	private UserAutoCompleteMapper userAutoCompleteMapper;
+	 public void writeExcel(String filePath,int orderId,HttpServletResponse response) {  
+		   Map<Integer, ScheduleView> map=new LinkedHashMap<Integer, ScheduleView>();
+			List<JpaTimeslot> lotlList=timeslotRepository.findAll();
+			for (JpaTimeslot jpaTimeslot : lotlList) {
+				 ScheduleView view= new ScheduleView();
+				map.put(jpaTimeslot.getId(), view);
+				view.setTimeslot(jpaTimeslot);
+			}
+			 JpaOrders order = orderService.getJpaOrder(orderId);
+				if (order != null) {
+				   String dString=DateUtil.longDf.get().format(order.getStartTime());
+				   List<MediaInventory> list=userAutoCompleteMapper.getScheduleViewByDateStr(orderId,dString);
+				   for (MediaInventory mediaInventory : list) {
+						  ScheduleView scheduleView= map.get(mediaInventory.getSotid());
+						  String d=DateUtil.longDf.get().format(mediaInventory.getDay());  
+						  scheduleView.getMap().put(d, mediaInventory.getNum());
+					  
+				}
+				   Collection<ScheduleView> views= map.values();
+		  
+	        if (null != filePath && !"".equals(filePath.trim())) {  
+	  
+	            WritableWorkbook wWorkbook = null;  
+	            OutputStream outputStream = null;  
+	  
+	            // 根据不同的excel格式创建workbook  
+	            if (filePath.trim().toLowerCase().endsWith(".xls")) {  
+	  
+	                try {  
+	                	response.setHeader("Content-Type", "application/x-xls");
+	                	response.setHeader("Content-Disposition", "attachment; filename=\"order-schedule.xls\"");
+	                    outputStream = response.getOutputStream();//new FileOutputStream(filePath);  
+	                    wWorkbook = Workbook.createWorkbook(outputStream);  
+	                    WritableSheet wSheet = wWorkbook.createSheet("订单排期表", 0);  
+	                    // 添加string  
+	                    wSheet.addCell(new Label(0, 0, "广告名称")); 
+	                    wSheet.addCell(new Label(1, 0, "广告内容编号")); 
+	                    wSheet.addCell(new Label(2, 0, "播出周期")); 
+	                    wSheet.addCell(new Label(3, 0, "广告时长")); 
+	                    wSheet.addCell(new Label(4, 0, "播出频次")); 
+	                     String startt=DateUtil.longDf.get().format(order.getStartTime());
+	                     String endt=DateUtil.longDf.get().format(order.getEndTime());
+	                    wSheet.addCell(new Label(0, 1, order.getProduct().getName())); 
+	                    wSheet.addCell(new Label(1, 1, order.getSupplies().getSeqNumber())); 
+	                    wSheet.addCell(new Label(2, 1,startt+"至"+endt )); 
+	                    wSheet.addCell(new Label(3, 1, String.valueOf(order.getProduct().getDuration())+"s")); 
+	                    wSheet.addCell(new Label(4, 1, String.valueOf(order.getProduct().getPlayNumber())+"次/天")); 
+	                    
+	                	int j=5;
+	                	int k=3;
+	                    wSheet.addCell(new Label(0, 4, "包名")); 
+	                    wSheet.addCell(new Label(1, 4, "时间段")); 
+	                    wSheet.addCell(new Label(2, 4, "时长")); 
+	                    Calendar cal = DateUtil.newCalendar();
+	        			cal.setTime(order.getStartTime());
+	        			List<String> dList=new ArrayList<String>();
+	        			while (cal.getTime().before(order.getEndTime())) {
+	        				String dSt=DateUtil.longDf.get().format(cal.getTime());
+	        				dList.add(dSt);
+	        			    wSheet.addCell(new Label(k, 4, dSt)); 
+	        				cal.add(Calendar.DATE, 1);
+	        				k++;
+	        			}
+	        		
+	        			for (ScheduleView scheduleView : views) {
+	        				wSheet.addCell(new Label(0, j, scheduleView.getTimeslot().getName())); 
+	        				wSheet.addCell(new Label(1, j, scheduleView.getTimeslot().getStartTimeStr())); 
+	        				wSheet.addCell(new Label(2, j, scheduleView.getTimeslot().getDurationStr())); 
+	        				
+	        				int h=3;
+	        				for (String string : dList) {
+	        					Integer a= scheduleView.getMap().get(string);
+	        					String tempd=StringUtils.EMPTY;
+	        					if(a!=null){
+	        						tempd=a.toString();
+	        					}
+	        					wSheet.addCell(new Label(h, j,tempd)); 
+	        					h++;
+							}
+	        				j++;
+						}
+	        				
+	        			
+	                    //需要write  
+	                    wWorkbook.write();  
+	                    wWorkbook.close();  
+	                } catch (Exception e) {  
+	                    e.printStackTrace();  
+	                } finally {  
+	  
+	                    if (null != outputStream) {  
+	                        try {  
+	                            outputStream.close();  
+	                        } catch (Exception e) {  
+	                            e.printStackTrace();  
+	                        }  
+	                    }  
+	  
+	                }  
+	            }
+	        }
+				}
+	  
+	    }  
 	public SchedUltResult checkInventory(int id, String taskid,String startdate1, boolean ischeck) {
 		 JpaOrders order = orderService.getJpaOrder(id);
 		 Date d=order.getStartTime();

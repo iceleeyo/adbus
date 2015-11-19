@@ -120,7 +120,9 @@ div#toolbar {
             })
         });
     }
-
+   function export_xls(){
+     location.href='${rc.contextPath}/schedule/writeExcel/${orderId}';
+   }
     $(document).ready(function() {
         initTable();
     } );
@@ -134,7 +136,9 @@ viewScheduleLink=false/>
 		<A class="black" href="#">排期表</A>
 	</H3>
 	<div class="div" style="overflow-x: auto;">
-
+	<div style="float:left">
+<a href="javascript:void()" onclick="export_xls();" class="btn-sm btn-success">导出Excel</a>
+</div>
 		<table id="table" class="cell-border compact display" cellspacing="0"
 			width="100%">
 			<thead>
