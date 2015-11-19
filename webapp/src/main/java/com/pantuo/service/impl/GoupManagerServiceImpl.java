@@ -298,7 +298,7 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 				exist = wp.getContent().get(0);
 			}
 
-			w.setUtype(UType.screen);
+			w.setUtype(UType.pub);
 			w.setIsActivate(1);
 			w.setUstats(UStats.authentication);
 			
