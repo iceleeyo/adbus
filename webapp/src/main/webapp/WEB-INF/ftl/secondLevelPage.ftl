@@ -208,9 +208,11 @@ function tocard(pathurl){
 					<div class="back-items">
 						<div class="back-item">
 							<span class="desp">所属地区：</span> <span class="sift-list" qt="c">
-								<a class="item active" style="background: #ff9966" href="#"
-								sort="-1" qc="all">北京</a> <a class="item" href="#" sort="-3"
-								qc="2">天津<i>×</i></a> <a class="item" href="#" sort="-3" qc="2">大连<i>×</i></a>
+								<a class="item active" style="background: #ff9966" href="#"	sort="-1" qc="all">北京</a> 
+								<a class="item" href="#" sort="-3" qc="2">天津<i>×</i></a>
+								<a class="item" href="#" sort="-3" qc="2">大连<i>×</i></a>
+								<a class="item" href="#" sort="-3" qc="2">唐山<i>×</i></a>
+								<a class="item" href="#" sort="-3" qc="2">抚顺<i>×</i></a>
 							</span>
 						</div>
 
