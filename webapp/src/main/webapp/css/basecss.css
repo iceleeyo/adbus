@@ -15,6 +15,10 @@ div#toolbar {
 	float: left;
 }
 
+#toolbar input{
+	margin-right: 10px;
+}
+
 .processed {
 	color: limegreen;
 }

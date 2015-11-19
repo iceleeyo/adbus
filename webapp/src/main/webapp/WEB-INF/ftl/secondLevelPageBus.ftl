@@ -48,14 +48,19 @@ function tocard(pathurl){
 			<div class="c-top">
 				<div class="c-search">
 					<div class="search-panel">
-						<input type="text" value="">
+						<input type="text" id="searchText" value="">
 					</div>
 					<div class="search-handle">
-						<button class="search-btn" type="submit">搜索</button>
+						<button class="search-btn" type="submit" id="search-btn">搜索</button>
 					</div>
 					<div class="search-key">
-						<span>车身广告</span> <span>视频广告</span> <span>医院周边</span> <span>特级</span>
-						<span>CBD</span> <span>A++</span> <span>东城区</span>
+						<span><a href="javascript:void(0)">车身广告</a></span> <span><a
+							href="javascript:void(0)">视频广告</a></span> <span><a
+							href="javascript:void(0)">医院周边</a></span> <span><a
+							href="javascript:void(0)">特级</a></span> <span><a
+							href="javascript:void(0)">CBD</a></span> <span><a
+							href="javascript:void(0)">A++</a></span> <span><a
+							href="javascript:void(0)">东城区</a></span>
 					</div>
 				</div>
 			</div>

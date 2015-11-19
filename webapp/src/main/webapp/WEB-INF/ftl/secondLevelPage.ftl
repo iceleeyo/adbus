@@ -24,10 +24,9 @@ function tocard(pathurl){
 </head>
 
 <body>
-	<header> <!-- 头部开始 --> 
-	<#include "/index_menu/index_top.ftl"/> 
-	<script src="index_js/sift_common.js"></script>
-	<script src="index_js/sift_bus.js"></script> <!-- 头部结束 --> </header>
+	<header> <!-- 头部开始 --> <#include "/index_menu/index_top.ftl"/>
+	<script src="index_js/sift_common.js"></script> <script
+		src="index_js/sift_bus.js"></script> <!-- 头部结束 --> </header>
 	<div class="content">
 		<div class="side-nav">
 			<div class="logo2"></div>
@@ -53,31 +52,36 @@ function tocard(pathurl){
 						<input type="text" id="searchText" value="">
 					</div>
 					<div class="search-handle">
-						<button class="search-btn" type="submit">搜索</button>
+						<button class="search-btn" type="submit" id="search-btn">搜索</button>
 					</div>
 					<div class="search-key">
-						<span>车身广告</span> <span>视频广告</span> <span>医院周边</span> <span>特级</span>
-						<span>CBD</span> <span>A++</span> <span>东城区</span>
+						<span><a href="javascript:void(0)">车身广告</a></span> <span><a
+							href="javascript:void(0)">视频广告</a></span> <span><a
+							href="javascript:void(0)">医院周边</a></span> <span><a
+							href="javascript:void(0)">特级</a></span> <span><a
+							href="javascript:void(0)">CBD</a></span> <span><a
+							href="javascript:void(0)">A++</a></span> <span><a
+							href="javascript:void(0)">东城区</a></span>
 					</div>
 				</div>
 			</div>
 			<div class="middle">
-			<div class="md-nav">媒体产品>移动电视</div>
-			<div class="ad">
-				<div class="banner" id="b04">
-					<ul>
-						<li><img src="index_img/new-08.jpg" alt="" width="100%"
-							height="260"></li>
-						<li><img src="index_img/new-09.jpg" alt="" width="100%"
-							height="260"></li>
-						<li><img src="index_img/new-06.png" alt="" width="100%"
-							height="260"></li>
-						<li><img src="index_img/new-07.png" alt="" width="100%"
-							height="260"></li>
-					</ul>
+				<div class="md-nav">媒体产品>移动电视</div>
+				<div class="ad">
+					<div class="banner" id="b04">
+						<ul>
+							<li><img src="index_img/new-08.jpg" alt="" width="100%"
+								height="260"></li>
+							<li><img src="index_img/new-09.jpg" alt="" width="100%"
+								height="260"></li>
+							<li><img src="index_img/new-06.png" alt="" width="100%"
+								height="260"></li>
+							<li><img src="index_img/new-07.png" alt="" width="100%"
+								height="260"></li>
+						</ul>
+					</div>
 				</div>
-			</div>
-			<!-- <div class="recommand suit pd">
+				<!-- <div class="recommand suit pd">
 				<div class="title">
 					<span>推荐套装</span>
 				</div>
@@ -125,76 +129,77 @@ function tocard(pathurl){
 					</div>
 				</div>
 			</div> -->
-			<div class="recommand timer pd">
-				<div class="title">
-					<span>限时套装</span>
-				</div>
-				<div class="re-box clearfix">
-					<ul class="select">
-						<li class="active"><a href="javascript:void(0)">全部</a></li>
-						<li><a href="javascript:void(0)">车身广告</a></li>
-						<li><a href="javascript:void(0)">视频广告</a></li>
-						<li><a href="javascript:void(0)">车内广告</a></li>
-						<li><a href="javascript:void(0)">站台广告</a></li>
-						<li><a href="${rc.contextPath}/product/sift">更多》</a></li>
-					</ul>
-					<div class="select-items clearfix">
-						<#if auctionList?? && (auctionList?size>0) > <#list auctionList as
-						prod>
-						<div class="select-item">
-							<div class="lasttime">
-								<#if (prod.startDate < .now && prod.biddingDate > .now ) >
-								<p>截止</p>
-								<span style="color: red">
-									<p>
-										<span id="c_${prod_index}"></span>
-									</p>
-								</span>
-								<script type="text/javascript">
+				<div class="recommand timer pd">
+					<div class="title">
+						<span>限时套装</span>
+					</div>
+					<div class="re-box clearfix">
+						<ul class="select">
+							<li class="active"><a href="javascript:void(0)">全部</a></li>
+							<li><a href="javascript:void(0)">车身广告</a></li>
+							<li><a href="javascript:void(0)">视频广告</a></li>
+							<li><a href="javascript:void(0)">车内广告</a></li>
+							<li><a href="javascript:void(0)">站台广告</a></li>
+							<li><a href="${rc.contextPath}/product/sift">更多》</a></li>
+						</ul>
+						<div class="select-items clearfix">
+							<#if auctionList?? && (auctionList?size>0) > <#list auctionList
+							as prod>
+							<div class="select-item">
+								<div class="lasttime">
+									<#if (prod.startDate < .now && prod.biddingDate > .now ) >
+									<p>截止</p>
+									<span style="color: red">
+										<p>
+											<span id="c_${prod_index}"></span>
+										</p>
+									</span>
+									<script type="text/javascript">
 			  						var dateTo=new Date("${prod.biddingDate?string("yyyy-MM-dd HH:mm:ss")}".replace(/-/g, "/"));
 									 countDownReload("c_${prod_index}",dateTo);
 								 </script>
-								<#elseif (prod.startDate > .now ) >
-								<p>距开拍</p>
-								<span style="color: red"><p>
-										<span id="c_${prod_index}"></span>
-									</p></span>
-								<script type="text/javascript">
+									<#elseif (prod.startDate > .now ) >
+									<p>距开拍</p>
+									<span style="color: red"><p>
+											<span id="c_${prod_index}"></span>
+										</p></span>
+									<script type="text/javascript">
 			  						var dateTo=new Date("${prod.startDate?string("yyyy-MM-dd HH:mm:ss")}".replace(/-/g, "/"));
 									 countDownReload("c_${prod_index}",dateTo);
 								 </script>
-								<#elseif (prod.biddingDate < .now ) >
-								<p>
-									<s>已结束</s>
-								</p>
-								<p>
-									<span id="c_${prod_index}"><s>${prod.startDate?string("yyyy-MM-dd HH:mm")}</s></span>
-								</p>
+									<#elseif (prod.biddingDate < .now ) >
+									<p>
+										<s>已结束</s>
+									</p>
+									<p>
+										<span id="c_${prod_index}"><s>${prod.startDate?string("yyyy-MM-dd HH:mm")}</s></span>
+									</p>
+									</#if>
+								</div>
+								<#if prod.product.imgurl?has_content > <img
+									src="${rc.contextPath}/upload_temp/${prod.product.imgurl}"
+									height="100" width="100"> <#else> <img
+									src="index_img/wp1_1.jpg" height="100" width="100">
 								</#if>
-							</div>
-							<#if prod.product.imgurl?has_content > <img
-								src="${rc.contextPath}/upload_temp/${prod.product.imgurl}"
-								height="100" width="100"> <#else> <img
-								src="index_img/wp1_1.jpg" height="100" width="100"> </#if>
 
-							<div class="cost-box">
-								<div class="cost">
-									底价:￥<em>#{prod.saleprice!'' ;m2M2}</em>
-								</div>
-								<div class="timeline">刊期: ${prod.product.playNumber}天</div>
-								<div class="ston">
-									<a href="${rc.contextPath}/product/c/${prod.id}"> <#if
-										(prod.startDate < .now && prod.biddingDate > .now ) > 我要出价
-										<#elseif (prod.startDate > .now ) > 等待开始 <#elseif
-										(prod.biddingDate < .now ) > 竞价结束 </#if> </a>
+								<div class="cost-box">
+									<div class="cost">
+										底价:￥<em>#{prod.saleprice!'' ;m2M2}</em>
+									</div>
+									<div class="timeline">刊期: ${prod.product.playNumber}天</div>
+									<div class="ston">
+										<a href="${rc.contextPath}/product/c/${prod.id}"> <#if
+											(prod.startDate < .now && prod.biddingDate > .now ) > 我要出价
+											<#elseif (prod.startDate > .now ) > 等待开始 <#elseif
+											(prod.biddingDate < .now ) > 竞价结束 </#if> </a>
+									</div>
 								</div>
 							</div>
+							</#list> </#if>
+
 						</div>
-						</#list> </#if>
-
 					</div>
 				</div>
-			</div>
 			</div>
 			<div class="recommand customs pd">
 				<div class="title">
@@ -252,8 +257,8 @@ function tocard(pathurl){
 						<ul>
 							<li class="item2">按价格排序<a href="jvascript:void(0)"><span
 									id="priceSort" style="color: #fff">ｖ</span></a></li>
-							<li class="item3">价格筛选<input type="text" id="price1" value=""
-								onkeyup="value=value.replace(/[^\\d]/g,\'\')"
+							<li class="item3">价格筛选<input type="text" id="price1"
+								value="" onkeyup="value=value.replace(/[^\\d]/g,\'\')"
 								onblur="changeByprice('${rc.contextPath}');" class="i-short"><em>—</em><input
 								type="text" id="price2"
 								onblur="changeByprice('${rc.contextPath}');" class="i-short"></li>
@@ -284,6 +289,7 @@ function tocard(pathurl){
 			</div>
 
 		</div>
+		
 	</div>
 	<#include "/template/custom_service.ftl" />
 	<script type="text/javascript">

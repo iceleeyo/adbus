@@ -7,7 +7,7 @@
 	padding-left: 15px
 }
 
-.datepicker{
+.datepicker {
 	z-index: 999999999;
 }
 
@@ -212,7 +212,7 @@
 	padding-left: 10px
 }
 
-#pg-account-index .summary,#pg-account-index .summary p {
+#pg-account-index .summary, #pg-account-index .summary p {
 	height: 50px;
 	line-height: 50px
 }
@@ -353,12 +353,12 @@
 	top: 585px
 }
 
-#novice-guide .account-step-3-lender .close,#novice-guide .account-step-3-borrower .close
+#novice-guide .account-step-3-lender .close, #novice-guide .account-step-3-borrower .close
 	{
 	top: 432px
 }
 
-#novice-guide .account-step-3-lender .goto,#novice-guide .account-step-3-borrower .goto
+#novice-guide .account-step-3-lender .goto, #novice-guide .account-step-3-borrower .goto
 	{
 	top: 483px
 }
@@ -478,45 +478,46 @@
 	line-height: 30px
 }
 
-.ui-input-d{
+.ui-input-d {
 	width: 150px;
 	padding: 0 10px;
 	height: 30px;
 	border: 1px solid #c5c5c5;
-  	box-shadow: 0 1px 3px #eee inset;
-  	border-radius: 2px;
-}
-.thumbnail{
-position: relative;
-z-index: 0;
+	box-shadow: 0 1px 3px #eee inset;
+	border-radius: 2px;
 }
 
-.thumbnail:hover{
-background-color: transparent;
-z-index: 50;
+.thumbnail {
+	position: relative;
+	z-index: 0;
 }
 
-.thumbnail span{ /*css for enlarged image*/
-position: absolute;
-background-color: lightyellow;
-padding: 1px;
-left: -900px;
-border: 1px dashed gray;
-visibility: hidden;
-color: black;
-text-decoration: none;
+.thumbnail:hover {
+	background-color: transparent;
+	z-index: 50;
 }
 
-.thumbnail span img{ /*css for enlarged image*/
-border-width: 0;
-padding: 2px;
+.thumbnail span { /*css for enlarged image*/
+	position: absolute;
+	background-color: lightyellow;
+	padding: 1px;
+	left: -900px;
+	border: 1px dashed gray;
+	visibility: hidden;
+	color: black;
+	text-decoration: none;
 }
 
-.thumbnail:hover span{ /*css for enlarged image on hover*/
-visibility: visible;
-top: -10px;
-left: 50px; /*position where enlarged image should offset horizontally */
+.thumbnail span img { /*css for enlarged image*/
+	border-width: 0;
+	padding: 2px;
+}
 
+.thumbnail:hover span { /*css for enlarged image on hover*/
+	visibility: visible;
+	top: -10px;
+	left: 50px;
+	/*position where enlarged image should offset horizontally */
 }
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
@@ -597,7 +598,7 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	color: #30a9df
 }
 
-.probox .hotCitiesBox,.probox .allCitiesBox {
+.probox .hotCitiesBox, .probox .allCitiesBox {
 	padding: 10px;
 	display: none;
 	position: relative
@@ -735,7 +736,7 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	font-size: 22px
 }
 
-#dialog-card a.ui-button-gray,#dialog-card a.ui-button-gray:hover {
+#dialog-card a.ui-button-gray, #dialog-card a.ui-button-gray:hover {
 	color: #676d70
 }
 
@@ -836,7 +837,7 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	position: relative
 }
 
-.otherBankList li:hover,.has-icon-list li:hover {
+.otherBankList li:hover, .has-icon-list li:hover {
 	color: #30a9df
 }
 
@@ -1180,7 +1181,7 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	position: relative
 }
 
-.safety_step .fourStep,.safety_step .threeStep {
+.safety_step .fourStep, .safety_step .threeStep {
 	left: 107px;
 	top: -19px
 }
@@ -1197,12 +1198,12 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	padding-top: 40px
 }
 
-.safety_step .fourStep ul li,.safety_step .threeStep ul li {
+.safety_step .fourStep ul li, .safety_step .threeStep ul li {
 	width: 135px;
 	padding-left: 0
 }
 
-.safety_step .fourStep ul li,.safety_step .threeStep ul li {
+.safety_step .fourStep ul li, .safety_step .threeStep ul li {
 	width: 135px;
 	padding-left: 0
 }
@@ -1249,6 +1250,20 @@ left: 50px; /*position where enlarged image should offset horizontally */
 
 #pg-account-user .box {
 	padding: 10px 0
+}
+
+.inputs {
+	margin-bottom: 50px;
+}
+
+.inputs_left {
+	width: 45%;
+	float: left;
+}
+
+.inputs_right {
+	width: 45%;
+	float: left;
 }
 
 #pg-account-user .inputs {
@@ -1495,14 +1510,14 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	
 }
 
-#pg-account-repayments .ui-button-blue.switch.active,#pg-account-repayments .ui-button-blue.switch.active:hover
-	{
+#pg-account-repayments .ui-button-blue.switch.active,
+	#pg-account-repayments .ui-button-blue.switch.active:hover {
 	box-shadow: inset 0 0 4px 1px #046a99;
 	background: #0697da
 }
 
-#pg-account-repayments .ui-button-green.switch.active,#pg-account-repayments .ui-button-green.switch.active:hover
-	{
+#pg-account-repayments .ui-button-green.switch.active,
+	#pg-account-repayments .ui-button-green.switch.active:hover {
 	box-shadow: inset 0 0 4px 1px #5c7500;
 	background: #6e8b00
 }
@@ -1523,7 +1538,8 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	background: #f2f2f2
 }
 
-#pg-account-repayments .ui-list-item-box,#repayments-tab-content h4,#pg-account-repayments .ui-list-item-box h5,#pg-account-repayments .ui-list-item-box span.ul-list-title
+#pg-account-repayments .ui-list-item-box, #repayments-tab-content h4,
+	#pg-account-repayments .ui-list-item-box h5, #pg-account-repayments .ui-list-item-box span.ul-list-title
 	{
 	color: #555
 }
@@ -1547,7 +1563,7 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	text-align: center
 }
 
-#pg-account-recharge .bankList dl dd:hover,#pg-account-recharge .bankList dl dd.current
+#pg-account-recharge .bankList dl dd:hover, #pg-account-recharge .bankList dl dd.current
 	{
 	border: 1px solid #55A500
 }
@@ -1903,7 +1919,7 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	border-top: 1px solid #ddd
 }
 
-#pg-account-withdraw .ui-poptip table tr td,#pg-account-withdraw .ui-poptip table tr th
+#pg-account-withdraw .ui-poptip table tr td, #pg-account-withdraw .ui-poptip table tr th
 	{
 	border-right: 1px solid #ddd;
 	border-bottom: 1px solid #ddd;
@@ -1931,57 +1947,57 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	padding: 20px;
 }
 
-.withdrawB-wrap{
+.withdrawB-wrap {
 	padding: 20px;
 	border: 1px solid #efefef;
 }
 
-.withdraw-wrap .tabs{
+.withdraw-wrap .tabs {
 	height: 40px;
 	background: #f4f5f9;
 	border: 1px solid #e7e7eb;
 }
 
-.withdraw-wrap .tabs a{
+.withdraw-wrap .tabs a {
 	color: #333;
 	height: 40px;
 	line-height: 40px;
 	display: inline-block;
 	padding: 0 15px 0 15px;
-	float:left;
+	float: left;
 }
 
-.withdraw-wrap .tabs .active{
+.withdraw-wrap .tabs .active {
 	color: #fff;
 	background: #2DA7E0;
 }
 
-.withdraw-wrap .tabs .active:hover{
+.withdraw-wrap .tabs .active:hover {
 	color: #fff;
 	background: #2DA7E0;
 }
 
-.withdraw-wrap .tabs a:hover{
+.withdraw-wrap .tabs a:hover {
 	background: #e6e7ec;
 }
 
-.withdraw-wrap .taba a:hover{
+.withdraw-wrap .taba a:hover {
 	background: #2DA7E0;
 }
 
-
-.withdraw-wrap .tabs.sift{
+.withdraw-wrap .tabs.sift {
 	height: 50px;
 	line-height: 50px;
 	padding: 5px 20px 5px 15px;
 	vertival-align: middle;
-	border-top:none;
+	border-top: none;
 }
 
-.withdraw-wrap .tabs.sift span{
+.withdraw-wrap .tabs.sift span {
 	margin-right: 10px;
 }
-.withdraw-wrap .tab-content{
+
+.withdraw-wrap .tab-content {
 	border: 1px solid #e7e7eb;
 	border-top: none;
 	background: #fff;
@@ -1995,31 +2011,32 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	border-bottom: solid 1px #e0e0e0;
 	margin-bottom: 0px;
 	position: relative;
-	color:#a2a2a2;
+	color: #a2a2a2;
 }
-.withdraw-wrap.color-white-bg.fn-clear{
-	margin-left:0px; 
+
+.withdraw-wrap.color-white-bg.fn-clear {
+	margin-left: 0px;
 	
 }
 
-.withdraw-wrap.color-white-bg.fn-clear_blank{
+.withdraw-wrap.color-white-bg.fn-clear_blank {
 	margin: 10px 90px 0px 0px;
 }
 
-.fn-clear{
-	margin-left:10px; 
+.fn-clear {
+	margin-left: 10px;
 }
 
-.fn-clears{
-	margin-left:10px; 
+.fn-clears {
+	margin-left: 10px;
 	margin-top: 10px;
 	text-align: center;
 }
 
-.withdraw-title a{
-	float:right;
-	font-size:14px;
-	cursor:pointer;
+.withdraw-title a {
+	float: right;
+	font-size: 14px;
+	cursor: pointer;
 }
 
 .withdraw-title ul {
@@ -2042,11 +2059,19 @@ left: 50px; /*position where enlarged image should offset horizontally */
 }
 
 .withdrawInputs {
-    margin-top: 10px;
+	margin-top: 10px;
 }
 
 .withdrawInputs .ui-form-item {
 	padding: 0 5px 10px 200px
+}
+
+.inputs_left .ui-form-item{
+	padding: 0 5px 10px 210px
+}
+
+.inputs_right .ui-form-item{
+	padding: 0 5px 10px 210px
 }
 
 .withdrawInputs .ui-label {
@@ -2063,6 +2088,7 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	width: 210px;
 	margin-left: -230px
 }
+
 .withdrawInputs .ui-input {
 	width: 220px;
 	padding: 0 20px 0 5px;
@@ -2085,6 +2111,7 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	margin-top: 5px;
 	margin-left: -25px;
 }
+
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	.withdrawInputs .ui-input {
 		line-height: normal
@@ -2245,7 +2272,8 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	padding: 0 24px;
 	text-decoration: none
 }
-.btn-sm{
+
+.btn-sm {
 	border: 0;
 	font-size: 12px;
 	height: 32px;
@@ -2257,10 +2285,12 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	padding: 0 14px;
 	text-decoration: none
 }
-.btn-success{
+
+.btn-success {
 	background: #31B533;
 }
-.btn-wrong{
+
+.btn-wrong {
 	background: #D01F25;
 }
 
@@ -2268,7 +2298,7 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	background: #d7d7d7
 }
 
-.block-btn-gray:hover,.block-btn:hover {
+.block-btn-gray:hover, .block-btn:hover {
 	color: #fff
 }
 
@@ -2277,6 +2307,7 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	color: #fff;
 	cursor: default
 }
+
 .worm-tips {
 	margin: 10px auto;
 	padding: 10px 16px;
@@ -2384,8 +2415,6 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	margin-left: 44px
 }
 
-
-
 .card-dialog .card-btn a:hover {
 	color: #fff
 }
@@ -2403,7 +2432,7 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	vertical-align: middle
 }
 
-.card-dialog .ui-form-item .phone-code-succ,.card-dialog .ui-form label.error
+.card-dialog .ui-form-item .phone-code-succ, .card-dialog .ui-form label.error
 	{
 	clear: both;
 	line-height: normal
@@ -2460,7 +2489,7 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	padding: 2px 4px
 }
 
-#pg-account-mails div.pagelist .end,div.pagelist .begin {
+#pg-account-mails div.pagelist .end, div.pagelist .begin {
 	display: none
 }
 
@@ -2481,7 +2510,7 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	text-decoration: none
 }
 
-#pg-account-mails div.pagelist a.disabled:link,#pg-account-mails a.disabled:visited
+#pg-account-mails div.pagelist a.disabled:link, #pg-account-mails a.disabled:visited
 	{
 	color: gray
 }
@@ -2581,7 +2610,7 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	float: left
 }
 
-#swicthRCon0,#swicthRCon1,#swicthRCon3 {
+#swicthRCon0, #swicthRCon1, #swicthRCon3 {
 	float: right
 }
 
@@ -2983,11 +3012,11 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	margin-bottom: 10px
 }
 
-#selfTypeForm,#oneKeyTypeForm {
+#selfTypeForm, #oneKeyTypeForm {
 	padding: 20px
 }
 
-#selfTypeForm .bts,#oneKeyTypeForm .bts {
+#selfTypeForm .bts, #oneKeyTypeForm .bts {
 	margin-top: 20px;
 	margin-left: 250px
 }
@@ -3014,9 +3043,9 @@ left: 50px; /*position where enlarged image should offset horizontally */
 }
 
 .title-box {
-	padding-bottom:10px;
+	padding-bottom: 10px;
 	border-bottom: 1px solid #e0e0e0;
-	text-align:left;
+	text-align: left;
 }
 
 .border-ec {
@@ -3035,27 +3064,27 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	width: 250px
 }
 
-.s-left.ff-icon{
+.s-left.ff-icon {
 	height: 14px;
-    width: 14px;
-    margin: 15px 5px 0 0;
-    background-size: 80%;
-    background-position: left;
-    background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat 0 -120px;
-    display: inline-block;
+	width: 14px;
+	margin: 15px 5px 0 0;
+	background-size: 80%;
+	background-position: left;
+	background: url(../imgs/sidebar-icons.png?v=1548a) no-repeat 0 -120px;
+	display: inline-block;
 }
 
-.s-left.f-iconli{
+.s-left.f-iconli {
 	width: 95%;
 	border-bottom: 1px solid #F7F7F7;
 	height: 30px;
 	margin-top: 15px;
 }
 
-.s-left.tt{
-	color: #8B8686;font-size: 10px;
+.s-left.tt {
+	color: #8B8686;
+	font-size: 10px;
 }
-
 
 .uplan-detail-ul .con {
 	margin-left: 15px;
@@ -3263,7 +3292,7 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	text-align: left
 }
 
-#pg-account-plan .bank-column,#pg-account-plan .summary span {
+#pg-account-plan .bank-column, #pg-account-plan .summary span {
 	height: 35px;
 	line-height: 35px;
 	vertical-align: top;
@@ -3291,12 +3320,12 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	
 }
 
-#pg-account-plans .ui-final-amount,#pg-account-plans .ui-interest-amount
+#pg-account-plans .ui-final-amount, #pg-account-plans .ui-interest-amount
 	{
 	position: relative
 }
 
-#pg-account-plans .ui-final-amount .ui-poptip,#pg-account-plans .ui-interest-amount .ui-poptip
+#pg-account-plans .ui-final-amount .ui-poptip, #pg-account-plans .ui-interest-amount .ui-poptip
 	{
 	position: absolute;
 	top: 0;
@@ -3329,7 +3358,7 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	color: #00a8e8
 }
 
-#pg-account-plans a.quit-disabled,#pg-account-plans a.quit-disabled:hover
+#pg-account-plans a.quit-disabled, #pg-account-plans a.quit-disabled:hover
 	{
 	color: gray
 }
@@ -3428,7 +3457,7 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	color: #000
 }
 
-.ucode-use-div .user-info span,.ucode-use-div .ucode-info span {
+.ucode-use-div .user-info span, .ucode-use-div .ucode-info span {
 	display: inline-block;
 	margin-right: 20px;
 	text-align: right;
@@ -3680,12 +3709,15 @@ left: 50px; /*position where enlarged image should offset horizontally */
 .ui-input {
 	padding: 2px 5px
 }
-.ui-textarea:{
+
+.ui-textarea: {
 	border: 1px solid #c5c5c5;
 }
-.ui-textarea:hover{
+
+.ui-textarea:hover {
 	border: 1px solid #2ea7e0;
 }
+
 .ui-selectdrop {
 	
 }
@@ -3858,11 +3890,11 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	padding: 10px 20px
 }
 
-.paly-to-pay,.yelltip-overdue {
+.paly-to-pay, .yelltip-overdue {
 	position: relative
 }
 
-.paly-to-pay p,.yelltip-overdue p {
+.paly-to-pay p, .yelltip-overdue p {
 	line-height: 24px;
 	width: 630px;
 	word-break: break-all;
@@ -4028,25 +4060,25 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	display: none
 }
 
-.ui-table .item{
+.ui-table .item {
 	display: inline-block;
-	height:32px;
-	margin:10px 0 10px 0;
+	height: 32px;
+	margin: 10px 0 10px 0;
 	position: relative;
 }
 
-.ui-table .item.selected  i{
+.ui-table .item.selected  i {
 	background: url(../images/icon_checkcase.png);
-	position:absolute;
+	position: absolute;
 	bottom: 0;
-  	right: 0;
-  	height:12px;
-  	width:12px;
-  	background-size: cover;
-  	display:none;
+	right: 0;
+	height: 12px;
+	width: 12px;
+	background-size: cover;
+	display: none;
 }
 
-.ui-table .item{
+.ui-table .item {
 	height: auto;
 	line-height: initial;
 	display: inline-block;
@@ -4055,37 +4087,50 @@ left: 50px; /*position where enlarged image should offset horizontally */
 	padding: 5px 10px 5px 10px;
 	background-color: #fff;
 	color: #333;
-	font-size:12px;
+	font-size: 12px;
 }
-.ui-table .item:hover{
-	border:1px solid #e4393c;
+
+.ui-table .item:hover {
+	border: 1px solid #e4393c;
 	color: #e4393c;
-	cursor:pointer;
+	cursor: pointer;
 }
-.ui-table .item.selected{
-	border:1px solid #e4393c;
-	cursor:pointer;
-} 
-.ui-table .item .selected:hover{
+
+.ui-table .item.selected {
+	border: 1px solid #e4393c;
+	cursor: pointer;
+}
+
+.ui-table .item .selected:hover {
 	color: #333;
 }
-.ui-table .item a{
+
+.ui-table .item a {
 	color: #333;
 }
-.ui-table .item .selected:hover{
+
+.ui-table .item .selected:hover {
 	color: #e4393c;
 }
-.cart_address_wrap ul li .item{
-	width:150px;
+
+.cart_address_wrap ul li .item {
+	width: 150px;
 	height: 50px;
 	margin: 5px 0 0 0;
 }
-.cart_address_wrap li .item span{
-	  height: 30px;
-	  width: 140px;
-	  line-height: 30px;
-	  display: inline-block;
+
+.cart_address_wrap li .item span {
+	height: 30px;
+	width: 140px;
+	line-height: 30px;
+	display: inline-block;
 }
-.cart_address_wrap li .item b{
-	  float:right;
+
+.cart_address_wrap li .item b {
+	float: right;
+}
+
+.widthdrawBtBox {
+	clear: both;
+	text-align: center;
 }
