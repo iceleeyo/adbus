@@ -86,7 +86,9 @@ function go_back(){
 		  			 }
 				});
 	    });
-
+function check_size(){
+	return;
+}
 </script>
 <script type="text/javascript">
 
@@ -104,7 +106,7 @@ function go_back(){
 				onclick="go_back()">返回</a>
 		</div>
 		<div class="withdrawInputs">
-			<div class="inputs" style="padding-left: 20px;">
+			<div class="inputs_left">
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>媒体类型：</label>
 					<select class="ui-input" name="type" id="type"> <#list
@@ -221,12 +223,6 @@ function go_back(){
 						name="produceCost" id="produceCost" data-is="isAmount isEnough"
 						autocomplete="off" disableautocomplete="">
 				</div>
-				<div class="ui-form-item">
-					<label class="ui-label mt10"><span class="ui-form-required"></span>产品定向:</label>
-					<span> <input id="exclusiveUser" name="exclusiveUser"
-						value="" placeholder="请选择广告主" style="margin-top: 8px;">
-					</span>
-				</div>
 
 				<div
 					class="ui-form-item toggle videoToggle imageToggle infoToggle bodyToggle">
@@ -271,6 +267,7 @@ function go_back(){
 							data-is="isAmount isEnough">
 					</div>
 				</div>
+				
 				<#if prod??>
 				<div class="ui-form-item" id="file">
 					<label class="ui-label mt10"><span class="ui-form-required"></span>产品缩略图</label>
@@ -302,6 +299,17 @@ function go_back(){
 					</div>
 				</div>
 				</#if>
+			</div>
+			
+			<div class="inputs_right">
+				
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required"></span>产品定向:</label>
+					<span> <input id="exclusiveUser" name="exclusiveUser"
+						value="" placeholder="请选择广告主" style="margin-top: 8px;">
+					</span>
+				</div>
+				
 				<div class="ui-form-item">
 					<label class="ui-label mt10">套餐描述：</label>
 					<textarea rows="4" cols="40" style="resize: none;" name="remarks"><#if prod?exists && prod.remarks?has_content >${prod.remarks!''}</#if></textarea>
@@ -323,9 +331,10 @@ function go_back(){
 					<textarea rows="6" cols="40" style="resize: none;" name="tags" placeholder="用于产品搜索，可以输入多个，每行一个标签。"><#if prod?exists && prod.tags?has_content >${prod.tags!''}</#if></textarea>
 				</div>
 			</div>
-			<div class="ui-form-item widthdrawBtBox">
-				<input type="submit" class="block-btn" value="确定">
-			</div>
+			
+		</div>
+		<div class="widthdrawBtBox">
+				<input type="submit" onclick="check_size()" class="block-btn" value="确定">
 		</div>
 
 	</form>

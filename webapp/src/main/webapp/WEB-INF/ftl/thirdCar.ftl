@@ -66,10 +66,10 @@
 				<div class="detail">
 					<div class="detail-bd clearfix">
 						<div class="d-left">
-							<img src="${rc.contextPath}/index_img/wp1_1.jpg" width="360"
+							<img id="big_img" src="${rc.contextPath}/index_img/wp1_1.jpg" width="360"
 								height="290">
 							<div class="sm-imgs">
-								<a><img id="ima" src="${rc.contextPath}/index_img/wp1_1.jpg" height="65" width="65"></a> 
+								<a><img src="${rc.contextPath}/index_img/wp1_1.jpg" height="65" width="65"></a> 
 								<a><img src="${rc.contextPath}/index_img/wp1_1.jpg" height="65" width="65"> </a>
 								<a><img src="${rc.contextPath}/index_img/wp1_1.jpg" height="65" width="65"></a>
 							</div>
@@ -251,6 +251,7 @@
 				changeMonyByDays(days);
 			});
 	    } );
+		
 		function buy(pathurl,id){
 		var medIds="";
 		var lc=$("#lc").val();

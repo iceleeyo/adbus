@@ -2025,9 +2025,8 @@ $(".qq i").click(function(){
 
 //详情图片放大
 $(".sm-imgs img").mouseover(function(){
-	var url=$(this)[0].attr('src');
-	alert(url);
-	/*$('#big_img').attr('src','../index_img/wp1_1.jpg'); */
+	var url=$(this).attr('src');
+	$('#big_img').attr('src',url);
 })
 
 //点击关键词搜索

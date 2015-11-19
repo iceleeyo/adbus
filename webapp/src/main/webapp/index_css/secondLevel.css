@@ -1856,3 +1856,7 @@ ol, ul {
 .sm-imgs{
 	margin-top: 5px;
 }
+
+.sm-imgs img{
+	cursor:pointer;
+}
