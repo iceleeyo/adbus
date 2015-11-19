@@ -66,7 +66,10 @@ function complete(taskId, variables) {
 			types += this.type;
 		});
 	}
-	
+	 layer.load(1);			
+	 setTimeout(function(){
+	  layer.closeAll('loading');
+	 }, 4000);
 var url="${rc.contextPath}/order/"+taskId+"/complete";
 	// 发送任务完成请求
     $.post(url,{
@@ -74,6 +77,7 @@ var url="${rc.contextPath}/order/"+taskId+"/complete";
         values: values,
         types: types
     },function(data){
+     layer.closeAll('loading');
     	jDialog.Alert(data.left==true? data.right :"执行失败!");
     	var uptime = window.setTimeout(function(){
 			var a = document.createElement('a');
@@ -175,7 +179,10 @@ function bgzs(suppliesid,seqNumber,taskId, variables) {
 			types += this.type;
 		});
 	}
-	
+	 layer.load(1);			
+	 setTimeout(function(){
+	  layer.closeAll('loading');
+	 }, 4000);
 	var url="${rc.contextPath}/order/"+taskId+"/complete";
 	// 发送任务完成请求
     $.post(url,{
@@ -186,6 +193,7 @@ function bgzs(suppliesid,seqNumber,taskId, variables) {
         seqNumber:seqNumber
         
     },function(data){
+     layer.closeAll('loading');
     	jDialog.Alert(data.left==true?"执行成功!":"执行失败!");
     	var uptime = window.setTimeout(function(){
 			var a = document.createElement('a');
@@ -309,6 +317,14 @@ function checkInventory() {
          layer.msg("实际开播日期必填");
           return;
       }
+      
+      	//加载层-默认风格
+		layer.load(1);
+		//此处演示关闭
+		setTimeout(function(){
+		    layer.closeAll('loading');
+		}, 5000);
+		
 		$.ajax({
 			url : "${rc.contextPath}/schedule/testsch/"+orderid+"/true",
 			type : "POST",
@@ -316,6 +332,7 @@ function checkInventory() {
 			"startdate1":startdate1
 			},
 			success : function(data) {
+			 layer.closeAll('loading');
 			if(data.scheduled){
 				   layer.msg("库存充足可排期");
 				   $("#ischeckInventory").val(1);
@@ -328,10 +345,16 @@ function checkInventory() {
 					
 		 	layer.confirm("日期:<font color='red'>"+w+"</font>  库存不足<br>根据当前订单信息库存信息如下:<br><br>"+data.msg+"<br><br>是否让系统推荐一个可排期的日期?", {icon: 3}, function(index){
     				layer.close(index);
+					layer.load(1);
+					setTimeout(function(){
+					    layer.closeAll('loading');
+					}, 9000);
+		
 				$.ajax({
 					url : "${rc.contextPath}/schedule/queryFeature/"+orderid,
 					type : "POST",
 					success : function(data) {
+						 layer.closeAll('loading');
 					  	if(data.scheduled){
 					  		var w=$.format.date(data.notSchedultDay, "yyyy-MM-dd");
 					  		var t="从日期    <font color='red'>"+w+"</font>   起有档期可安排!";
@@ -369,6 +392,10 @@ function confirmSchedule() {
  		layer.confirm('实际开播日期为'+startdate1+',确定排期吗？', {icon: 3}, function(index){
     		layer.close(index);
       if(true){
+     			 layer.load(1);
+					setTimeout(function(){
+					    layer.closeAll('loading');
+					}, 9000);
 		$.ajax({
 			url : "${rc.contextPath}/schedule/testsch/"+orderid+"/false",
 			type : "POST",
@@ -377,6 +404,7 @@ function confirmSchedule() {
 			"taskid":taskid
 			},
 			success : function(data) {
+			 layer.closeAll('loading');
 			  jDialog.Alert(data.scheduled==true?"执行成功!":"执行失败!");
     	    var uptime = window.setTimeout(function(){
 			var a = document.createElement('a');
