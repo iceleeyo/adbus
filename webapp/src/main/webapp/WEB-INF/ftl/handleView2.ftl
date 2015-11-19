@@ -934,8 +934,12 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 				<TR>
 					<TH>检查库存</TH>
 					<TD colspan=3>
+						<#if paymentResult>
 						<button onclick="checkInventory();" class="block-btn">检查库存</button> 
 						<button id="sureButton" onclick="confirmSchedule();" class="block-btn" style="background:#f2f2f2"><font style="font-weight:bold;font-style:italic;">确定排期</font></button>
+						<#else>
+						订单未经财务确认,暂不能排期!
+						 </#if>	
 					</TD>
 				</TR>
 		</TABLE>
