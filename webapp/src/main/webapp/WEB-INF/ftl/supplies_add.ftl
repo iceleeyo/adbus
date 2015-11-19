@@ -101,7 +101,7 @@ $(document).ready(function() {
     		}else{
         		$("#otherType").hide();
     		}
-			
+			flag=true;
 		}
 	}
 	
