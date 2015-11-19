@@ -58,16 +58,7 @@ $(document).ready(function() {
             
      });
     
-	function showdoc(){
-		alert("ssssss");
-		if(suppliesType=="0"){
-    		$("#otherType").hide();
-        	$("#videoType").show();
-    	}else{
-    		$("#videoType").hide();
-        	$("#otherType").show();
-    	}
-	}
+	
     <@security.authorize ifAnyGranted="ShibaOrderManager">    
     //author:pxh 2015-05-20 22:36
 	$( "#userId" ).autocomplete({
@@ -95,6 +86,16 @@ $(document).ready(function() {
 	}
 
 
+	function showdoc(){		
+		if(suppliesType=="0"){
+    		$("#otherType").hide();
+        	$("#videoType").show();
+    	}else{
+    		$("#videoType").hide();
+        	$("#otherType").show();
+    	}
+	}
+	
 	function sub2() {
         if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
             return;
