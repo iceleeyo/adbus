@@ -34,16 +34,28 @@ function supDetail(data){
 					onclick="showProductlayer('${rc.contextPath}',${prod.id});">${prod.name!''}</a></SPAN></li>
 			<#if !(cpdDetail?exists)>
 			<li style="width: 200px;"><SPAN>套餐价格：</SPAN><SPAN class="con"
-				style="color: rgb(245, 135, 8);"> <@security.authorize
-					ifAnyGranted="BeiguangMaterialManager,BeiguangScheduleManager,ShibaSuppliesManager,UserManager">**</@security.authorize>
-					<@security.authorize
-					ifAnyGranted="advertiser,ShibaFinancialManager">
-					#{(orderview.order.price)!'';m2M2}</@security.authorize>
-					<@security.authorize ifAnyGranted="ShibaOrderManager"> <a
+				style="color: rgb(245, 135, 8);"> 
+				 <#assign priceTag=0 />
+				 <@security.authorize ifAnyGranted="ShibaOrderManager,advertiser,ShibaFinancialManager">
+					 	<@security.authorize ifAnyGranted="advertiser,ShibaFinancialManager"> 
+					 	<#assign priceTag=1 />
+					  </@security.authorize>
+					  <@security.authorize ifAnyGranted="ShibaOrderManager"> 
+					 	<#assign priceTag=2 />
+					  </@security.authorize>
+				 </@security.authorize>
+				#${priceTag}#
+				<#if priceTag == 0>
+				  **
+				<#elseif priceTag == 1>
+				  #{(orderview.order.price)!'';m2M2}
+				<#elseif priceTag == 2>
+				   <a
 					class="layer-tips" tip="点击修改订单价格!"
 					onclick="setOrderPrice('${rc.contextPath}/order/setOrderPrice',${orderview.order.id});">
 						<span id="prodPrice">#{(orderview.order.price)!'';m2M2}</span>
-				</a> </@security.authorize>
+				</a>
+				</#if>  
 			</SPAN><SPAN>元</SPAN></li> </#if> <#if cpdDetail?exists>
 			<li style="width: 200px;"><SPAN>套餐底价：</SPAN>${cpdDetail.saleprice!''}</li>
 			<li style="width: 200px;"><SPAN><b>成交价</b>：</SPAN><font
