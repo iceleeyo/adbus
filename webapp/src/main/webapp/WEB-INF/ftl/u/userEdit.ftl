@@ -130,8 +130,8 @@ function go_back(){
 				</div>
 				<input type="hidden" name="ustats" value="${userDetail.ustats!''}">
 				<div class="ui-form-item">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>所属组${userDetail.utype}:</label>
-					<#if userDetail.utype =='body'>
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>所属组:</label>
+					<#if UType =='body'>
 					  
 					<#if bdGroupsList?exists> <#list bdGroupsList as vkey> <input
 						type="checkbox" value="${vkey.id}" name="roles"<#if
