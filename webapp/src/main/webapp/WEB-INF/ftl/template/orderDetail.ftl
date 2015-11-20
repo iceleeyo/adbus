@@ -36,14 +36,14 @@ function supDetail(data){
 			<li style="width: 200px;"><SPAN>套餐价格：</SPAN><SPAN class="con"
 				style="color: rgb(245, 135, 8);"> 
 				 <#assign priceTag=0 />
-				 <@security.authorize ifAnyGranted="ShibaOrderManager,advertiser,ShibaFinancialManager">
-					 	<@security.authorize ifAnyGranted="advertiser,ShibaFinancialManager"> 
-					 	<#assign priceTag=1 />
-					  </@security.authorize>
-					  <@security.authorize ifAnyGranted="ShibaOrderManager"> 
-					 	<#assign priceTag=2 />
-					  </@security.authorize>
-				 </@security.authorize>
+					 <@security.authorize ifAnyGranted="ShibaOrderManager,advertiser,ShibaFinancialManager">
+								  <@security.authorize ifAnyGranted="advertiser,ShibaFinancialManager"> 
+								 	<#assign priceTag=1 />
+								  </@security.authorize>
+								  <@security.authorize ifAnyGranted="ShibaOrderManager"> 
+								 	<#assign priceTag=2 />
+								  </@security.authorize>
+					 </@security.authorize>
 				<#if priceTag == 0>
 				  **
 				<#elseif priceTag == 1>
