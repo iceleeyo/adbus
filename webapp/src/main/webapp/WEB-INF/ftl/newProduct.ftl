@@ -317,7 +317,7 @@ function check_size(){
 				<div class="ui-form-item">
 					<label class="ui-label mt10">媒体情况：</label>
 					媒体位置&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="locationstr" value="<#if jsonView??>${jsonView.locationstr!''}</#if>" placeholder="例如：北京" >
-					覆盖人次&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="personnum" onkeyup="value=value.replace(/[^\d]/g,'')" value="<#if jsonView??>${jsonView.personnum!''}</#if>" placeholder="" >万<br>
+					覆盖人次&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="personnum" onkeyup="value=value.replace(/[^\d]/g,'')" value="<#if jsonView??>${jsonView.personnum!''}</#if>" placeholder="例如：1000万人" >
 					线路概况&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="linesurvey" value="<#if jsonView??>${jsonView.linesurvey!''}</#if>" placeholder="例如：北京六环内470余条公交线路" >
 					媒体概况&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="mesurvey" value="<#if jsonView??>${jsonView.mesurvey!''}</#if>" placeholder="例如：19寸公交彩色液晶电视" ><br>
 					媒体属主&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="mediaowner" value="<#if jsonView??>${jsonView.mediaowner!''}</#if>" placeholder="例如：北广传媒" >
