@@ -372,12 +372,20 @@ function supEnter(tourl,city,type){
 					 +'<input class="btn-sm btn-success" type="button" id="btn_add3" value="增加一行" style="margin-top: 10px;" ><br> </div> <div class="ui-form-item widthdrawBtBox"> <input type="button" id="uploadbutton" class="block-btn" onclick="subSup();" value="开始上传"><input type="button" id="subWithdraw" class="block-btn" onclick="showdoc();" value="查看物料规格说明"> </div>'
 					 +'<div id="progress1"> <div class="percent"></div> <div class="pbar"></div> <div class="elapsed"></div> </div> </div> </div></form>'
 					 //视频说明
-					 +'<div id="videoType" style="display: none"> <div class="worm-tips">'
+					 +'<div id="videoType" style="display: none> <div class="worm-tips">'
 					 +'<div class="tips-title"> <span class="icon"></span> 全屏视频广告规格要求说明 </div>'
 					 +'<ol> <li>一、广告素材基础:</li> <li>1.广告时长为：5秒，10秒，15秒，30秒。</li>'
 					 +'<li>2.广告发布素材为模拟，需要准备DVC pro带，需把硬广吐到带子中，同时需提供电子版的视频文件（要求：720*576像素，PAL制，<font color="red">MPEG-2</font>文件格式帧速率为：<font color="red">24</font>帧每秒。 </li>'
 					 +'<li>3.以上物料素材需在广告首个发布日的7个工作日前送达。</li> <li>4.硬广前后需各加<font color="red">1-3秒</font>静帧 </li> <li>5.硬广前一秒静帧前必须加上北广的5秒倒计时</li> <li>6.<font color="red">声音要求在-12至18db</font></li> <li>7.<font color="red">需记录起始码</font></li>'
 					 +'<li>二、广告素材内容、技术禁止和限制:</li> <li>1.杂帧、跳帧、加帧。</li> <li>2.非创意黑场画面。</li><li>3.模糊。</li><li>4.画面出框。</li><li>5.声画不同步。</li><li>6.吞音、破音。</li><li>7.三秒以上静帧无伴音。</li><li>8.字幕有错或误导含义。</li>'
+					 +'</ol> </div> </div>'
+					 
+					 //图片说明
+					 +'<div id="otherType" style="display: none"> <div class="worm-tips"> <div class="tips-title"><span class="icon"></span> 温馨提示</div>'
+					 +'<ol> <li>1.请提供符合产品要求的物料类型，视频类型格式支持<font color="red">AVI，MP4，RMVB，MPEG-2</font>。</li>'
+					 +'<li>2.图片类型格式支持<font color="red">GIF，PNG，JPG</font>；资质类型格式支持<font color="red">GIF，PNG，JPG</font>。</li>'
+					 +'<li>3.在必须要的时候，请上传物料说明和广告资质。</li> <li>4.如果物料的文件比较大，可能需要一定的时间，请耐心等待。文件大小尽量控制在200M以内。</li><li>5.请勿上传违反国家广告法及相关法律法规的物料文件。</li><li>6.视频节目物料素材应符合合同附件《节目制作规范》的相关要求。</li>'
+					 +'<li>7.广告物料及节目播出带（三期备播节目物料）须在广告/节目首个发布日的7个工作日前将送达乙方指定地址。如因延误或错误送达导致广告/节目延误发布的，责任由甲方承担。</li>'
 					 +'</ol> </div> </div>'
 		});
 		
@@ -415,6 +423,25 @@ function supEnter(tourl,city,type){
 			$("#text").hide();
             $("#file").show();
 		};
+		flag=true;
+		function showdoc(){		
+			if(flag == true)
+			{
+				if(suppliesType=="0"){
+	        		$("#videoType").show();
+	    		}else{
+	        		$("#otherType").show();
+	    		}
+				flag=false;
+			}else{
+				if(suppliesType=="0"){
+	        		$("#videoType").hide();
+	    		}else{
+	        		$("#otherType").hide();
+	    		}
+				flag=true;
+			}
+		}
 		$("#userForm1").validationEngine({
             validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
             inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true

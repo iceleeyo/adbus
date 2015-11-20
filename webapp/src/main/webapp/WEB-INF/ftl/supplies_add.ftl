@@ -338,7 +338,7 @@ $(document).ready(function() {
 					<span class="icon"></span> 温馨提示
 				</div>
 				<ol>
-					<li>1.请提供符合产品要求的物料类型，视频类型格式支持<font color="red">AVI，MP4，RMVB</font>。
+					<li>1.请提供符合产品要求的物料类型，视频类型格式支持<font color="red">AVI，MP4，RMVB，MPEG-2</font>。
 					</li>
 					<li>2.图片类型格式支持<font color="red">GIF，PNG，JPG</font>；资质类型格式支持<font
 						color="red">GIF，PNG，JPG</font>。
