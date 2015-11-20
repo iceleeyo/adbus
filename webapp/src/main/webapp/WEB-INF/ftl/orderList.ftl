@@ -97,6 +97,8 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                             return '车身';
                         if (data == 'info')
                             return 'INFO字幕';
+                        if (data == 'team')
+                            return '团类广告';
                         return '';
                     } },
                 { "data": "task_createTime", "defaultContent": "","render": function(data, type, row, meta) {
