@@ -13,7 +13,7 @@
 	/> <!-- 头部结束 --> </header>
 	<div class="content">
 		<div class="side-nav">
-			<div class="logo"></div>
+			
 			<div class="de-code">
 				<img src="${rc.contextPath}/index_img/pic1.png" height="100"
 					width="100">
@@ -31,7 +31,7 @@
 			</div>
 		</div>
 		<div class="cover">
-			<div class="c-top">
+			<!--  <div class="c-top">
 				<div class="c-search">
 					<div class="search-panel">
 						<input type="text" value="">
@@ -44,7 +44,7 @@
 						<span>车身广告</span>
 					</div>
 				</div>
-			</div>
+			</div> -->
 			<div class="md-nav">媒体产品>移动视频</div>
 
 			<div class="third-step">
