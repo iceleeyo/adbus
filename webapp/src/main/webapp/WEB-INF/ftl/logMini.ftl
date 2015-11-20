@@ -103,6 +103,13 @@
 		<div class="tipslog">
 			<span>没有帐号? <a href="${rc.contextPath}/register"> 立即注册</a></span>
 		</div>
+		
+		<div class="tipsask">
+		</div>
+		<div class="tipshelp">
+		<span class="service"></span>
+		<span class="phone"></span>
+		</div>
 	</div>
 
 	<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
