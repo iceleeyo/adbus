@@ -26,7 +26,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
             "serverSide": true,
             "scrollX": true,
             "columnDefs": [
-                { "orderable": false, "targets": [0,5,6,7,8,9,10,11,12,13,14,15,16,17,19,20,21] },
+                { "orderable": false, "targets": [0,5,6,7,8,9,10,11,12,13,14,15,16,18,19,20] },
             ],
             "iDisplayLength" : 20,
             "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
@@ -79,14 +79,14 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
               { "data": "busInfo.busOnline.days", "defaultContent": ""},
               { "data": "jpaBus.categoryStr", "defaultContent": ""},
               { "data": "busInfo._adtype", "defaultContent": ""},
-              { "data": "ishaveAd","defaultContent": "", "render": function(data) {
+              /*{ "data": "ishaveAd","defaultContent": "", "render": function(data) {
                     switch(data) {
                         case true:
                             return '<span class="invalid">有</span>';
                         default :
                             return '<span class="processed">无</span>';
                     }
-              } },
+              } },*/
                   
               { "data": "jpaBus.description", "defaultContent": ""},
               { "data": "jpaBus.plateNumber", "defaultContent": ""},
@@ -356,7 +356,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				<th>刊期</th>
 				<th>类别</th>
 				<th>广告类型</th>
-				<th>车身广告状态</th>
+				<!--  <th>车身广告状态</th> -->
 				<th>车辆描述</th>
 				<th orderBy="plateNumber">车牌号</th>
 				<th>总公司名称</th>
