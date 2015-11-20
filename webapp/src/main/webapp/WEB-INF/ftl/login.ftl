@@ -9,7 +9,7 @@
 <link rel="stylesheet" type="text/css" href="index_css/login.css">
 <body class="login">
 	<div class="contain">
-		<div class="lg-logo">
+		<div class="rg-logo">
 			<img src="index_img/login_logo.png" width="450" height="60">
 		</div>
 		<div class="lg-content">
