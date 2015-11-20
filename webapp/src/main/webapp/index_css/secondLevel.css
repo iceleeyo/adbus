@@ -16,13 +16,15 @@ header .area {
 	left: 220px;
 	top: 13px;
 }
+
 .btn {
-  text-align: center;
-  vertical-align: middle;
-  display: inline-block;
-  font-family: 黑体;
-  border-radius: 4px;
+	text-align: center;
+	vertical-align: middle;
+	display: inline-block;
+	font-family: 黑体;
+	border-radius: 4px;
 }
+
 .content {
 	position: relative;
 	top: 45px;
@@ -44,7 +46,7 @@ header .area {
 
 .navbuy.side-nav {
 	margin-left: -15%;
-  	margin-top: 50px;
+	margin-top: 50px;
 	width: 200px;
 	height: 530px;
 	position: fixed;
@@ -52,6 +54,7 @@ header .area {
 	background: #ffffff;
 	z-index: 10000;
 }
+
 .side-nav .logo {
 	width: 100%;
 	height: 30px;
@@ -108,7 +111,7 @@ header .area {
 
 .cover .c-top {
 	position: relative;
-  	margin: 15px 280px 5px 185px;
+	margin: 15px 280px 5px 185px;
 }
 
 .cover .c-top .search-panel {
@@ -228,14 +231,17 @@ header .area {
 	margin: 5px 0;
 	font-size: 16px;
 }
-.item span{
+
+.item span {
 	font-size: 16px;
 }
+
 .recommand .re-box .select-items {
 	float: left;
 	margin-left: 15px;
 	text-align: center;
 }
+
 .recommand .re-box2 .select-items {
 	float: left;
 	margin-left: 30px;
@@ -308,15 +314,14 @@ header .area {
 .title_cart {
 	line-height: 40px;
 	text-indent: 5px;
-	
 	font-size: 20px;
 	background-color: #009eea;
 	margin-left: 200;
 	width: 145px;
 	position: absolute;
-  	top: 10px;
-  	color: #ffffff;
-  	text-align: center;
+	top: 10px;
+	color: #ffffff;
+	text-align: center;
 }
 
 .timer .select-item {
@@ -567,8 +572,8 @@ header .area {
 .buy .cont .map-box {
 	height: 60px;
 	width: 100px;
-	background: #000;
-	//opacity: .6;
+	background: #000; //
+	opacity: .6;
 	border-radius: 5px;
 }
 
@@ -1143,8 +1148,6 @@ header .area {
 	margin: 0 80px 0 20px;
 }
 
-
-
 .cart-step2 .arrow-stp2 {
 	color: #fff;
 	background: url(../index_img/secondCartIcons.png) -41px -6px;
@@ -1166,28 +1169,31 @@ header .area {
 .cart-step2 .arrow-stp3 .ara {
 	margin: 0 60px 0 50px;
 }
+
 .cart-step3 .success-content {
-  margin: 100px auto;
-  text-align: center;
-}
-.cart-step3 .success-area {
-  margin-bottom: 50px;
-  font-size: 32px;
+	margin: 100px auto;
+	text-align: center;
 }
 
+.cart-step3 .success-area {
+	margin-bottom: 50px;
+	font-size: 32px;
+}
 
 .cart-step3 .success-area span {
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  margin-right: 5px;
-  vertical-align: sub;
-  background: url(../index_img/icon_register_success.png) no-repeat;
-  background-size: 100%;
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	margin-right: 5px;
+	vertical-align: sub;
+	background: url(../index_img/icon_register_success.png) no-repeat;
+	background-size: 100%;
 }
+
 .cart-step3 .more-info {
-  color: #009deb;
+	color: #009deb;
 }
+
 .cart-step3 .arrow-stp3 {
 	color: #fff;
 	background: url(../index_img/secondCartIcons.png) -41px -6px;
@@ -1253,7 +1259,7 @@ header .area {
 }
 
 .adj .way {
-	padding-left:0px;
+	padding-left: 0px;
 }
 
 .adj .way .select-items {
@@ -1853,10 +1859,29 @@ ol, ul {
 	margin-left: 15%;
 	line-height: 45px;
 }
-.sm-imgs{
+
+.sm-imgs {
 	margin-top: 5px;
 }
 
-.sm-imgs img{
-	cursor:pointer;
+.sm-imgs img {
+	cursor: pointer;
+}
+
+.subWithdraworder {
+	text-align: center;
+}
+
+.block-btn {
+	border: 0;
+	font-size: 14px;
+	height: 32px;
+	line-height: 32px;
+	text-align: center;
+	background: #00a8e8;
+	color: #fff;
+	cursor: pointer;
+	display: inline-block;
+	padding: 0 24px;
+	text-decoration: none;
 }

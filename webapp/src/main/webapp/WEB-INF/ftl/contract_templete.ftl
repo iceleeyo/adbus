@@ -227,8 +227,7 @@
 		<span class="s5">一、 &nbsp;</span><span class="s1">执行媒体</span>
 	</p>
 	<p class="p3">
-		<span class="s2">执行媒体为乙方&ldquo;北广传媒移动电视公交频道&rdquo;。</span> <#include
-		"template/proDetail.ftl" />
+		<span class="s2">执行媒体为乙方&ldquo;北广传媒移动电视公交频道&rdquo;。</span> 
 	</p>
 
 	<p class="p5">
@@ -236,14 +235,9 @@
 			class="s5">付款金额</span><span class="s1">（单位：人民币）</span><span
 			class="s5">、</span><span class="s1">付款方式</span>
 	</p>
+	
 	<p class="p2">
-		<span class="s2">1.广告/节目内容名称:</span><a
-			href="${rc.contextPath}/order/iwant/${(product.id)!''}"
-			target="_blank"><span class="s3">${(product.name)!''}</span></a> <span
-			class="s2"> </span>
-	</p>
-	<p class="p2">
-		<span>2. 开具发票：</span><span class="s2">乙方在收到甲方支付的金额后为甲方开具有效发票。</span>
+		<span>1. 开具发票：</span><span class="s2">乙方在收到甲方支付的金额后为甲方开具有效发票。</span>
 	</p>
 	<p class="p5">
 		<span class="s5">三、 发布形式</span>
