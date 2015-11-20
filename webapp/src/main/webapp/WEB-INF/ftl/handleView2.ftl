@@ -892,7 +892,9 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 							<option value="" selected="selected">请选择物料</option> <#if
 							supplieslist?exists> <#list supplieslist as c>
 							<option value="${c.id}">${c.name!''}</option> </#list> </#if>
-					</select> &nbsp;&nbsp;&nbsp; <a href="javascript:;"
+					</select> &nbsp;&nbsp;&nbsp; 
+					<input class="btn-sm btn-success" type="button"  onclick="supEnter('${rc.contextPath}',${city.mediaType},'${orderview.product.type.typeName!''}')" id="btn_add2" value="上传物料" style="margin-top: 10px;">
+					<a href="javascript:;"
 						onclick="supEnter('${rc.contextPath}',${city.mediaType},'${orderview.product.type.typeName!''}')">上传物料</a>
 					</TD>
 				</TR>
