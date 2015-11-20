@@ -66,7 +66,7 @@ public interface BusService {
 
     void saveBuses(Iterable<JpaBus> buses);
 
-    Page<JpaBusline> getAllBuslines(int city, JpaBusline.Level level, String name, int page, int pageSize, Sort sort);
+    Page<JpaBusline> getAllBuslines(int city, JpaBusline.Level level, String name, int page, int pageSize, Sort sort,TableRequest req);
     
     /**
      * 

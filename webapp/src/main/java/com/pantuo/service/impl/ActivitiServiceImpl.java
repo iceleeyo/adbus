@@ -864,15 +864,18 @@ public class ActivitiServiceImpl implements ActivitiService {
 			}
 		}
 		tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime().desc()
-				.listPage(0, 1);
+				.listPage(0,5);
 		if (!tasks.isEmpty()) {
-			Task task = tasks.get(0);
-			if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
-				taskService.claim(task.getId(), u.getUsername());
+			for (Task task : tasks) {
+				if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
+					taskService.claim(task.getId(), u.getUsername());
 					//如果是线上已经支付过了，完成这一步
 					if (order.getStats().equals(JpaOrders.Status.paid)) {
-							taskService.complete(task.getId());
+						Map<String, Object> variables = new HashMap<String, Object>();
+						variables.put(ActivitiService.R_USERPAYED, true);
+						taskService.complete(task.getId(),variables);
 					}
+				}
 			}
 		}
 		tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime().desc()

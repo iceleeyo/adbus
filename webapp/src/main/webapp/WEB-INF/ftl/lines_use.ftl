@@ -41,6 +41,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                 data: function(d) {
                     return $.extend( {}, d, {
                         "filter[name]" : $('#linename').val(),
+                        "filter[company]" : $('#company').val(),
                          "filter[level]" : $('#levelStr').val()
                     } );
                 },
@@ -141,11 +142,19 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                   		'<option value="APP">A++</option>' +
                   		'<option value="AP">A+</option>' +
                   		'<option value="A">A</option>' +
-         				'</select>' +
+                  		'<option value="LATLONG">无</option>' +
+         				'</select>&nbsp;&nbsp;' +
+         				'    <span>营销中心</span>' +
+                    '<select class="ui-input ui-input-mini" name="company" id="company">' +
+                    '<option value="defaultAll" selected="selected">所有</option>' +
+                  	    <#list companys as c>
+					'<option value="${c.id}">${c.name}</option>'+
+					    </#list>
+         			'</select>' +
                         '</div>'
         );
 
-        $('#levelStr').change(function() {
+        $('#levelStr,#company').change(function() {
             table.fnDraw();
         });
         $('#linename').change(function() {

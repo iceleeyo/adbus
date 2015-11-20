@@ -72,7 +72,8 @@ public class BusLineMapController {
 	}
 	
 	@RequestMapping(value = "/use")
-	public String use() {
+	public String use(Model model,@CookieValue(value = "city", defaultValue = "-1") int cityId) {
+		model.addAttribute("companys",busService. getAllCompany(cityId));
 		return "lines_use";
 	}
 	@RequestMapping(value = "/airMediaCount")
@@ -204,7 +205,7 @@ public class BusLineMapController {
 			}
 		}
 		Page<JpaBusline> w = busService.getAllBuslines(cityId, level, req.getFilter("name"), req.getPage(),
-				req.getLength(), req.getSort("id"));
+				req.getLength(), req.getSort("id"),req);
 		//busMapService.putLineCarToPageView(req, w)
 		return new DataTablePage(w, req.getDraw());
 	}

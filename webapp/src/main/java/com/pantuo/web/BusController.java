@@ -295,7 +295,7 @@ public class BusController {
 			}
 		}
 		return new DataTablePage(busService.getAllBuslines(cityId, level, req.getFilter("name"), req.getPage(),
-				req.getLength(), req.getSort("id")), req.getDraw());
+				req.getLength(), req.getSort("id"),req), req.getDraw());
 	}
 
 	@RequestMapping(value = "/ajaxdetail/{id}")

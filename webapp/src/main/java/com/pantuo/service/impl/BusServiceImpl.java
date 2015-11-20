@@ -701,7 +701,7 @@ public class BusServiceImpl implements BusService {
 			} catch (Exception e) {
 			}
 		}
-		Page<JpaBusline> lines = getAllBuslines(city, level, name, page, pageSize, sort);
+		Page<JpaBusline> lines = getAllBuslines(city, level, name, page, pageSize, sort,req);
 		List<JpaBusline> w = lines.getContent();
 		List<CarUseView> list = new ArrayList<CarUseView>();
 		for (JpaBusline e : w) {
@@ -715,19 +715,27 @@ public class BusServiceImpl implements BusService {
 	}
 	@Override
 	public Page<JpaBusline> getAllBuslines(int city, JpaBusline.Level level, String name, int page, int pageSize,
-			Sort sort) {
+			Sort sort,TableRequest req) {
 		if (page < 0)
 			page = 0;
 		if (pageSize < 1)
 			pageSize = 1;
 		if (sort == null)
 			sort = new Sort("id");
+		String company=null;
+		if(req!=null){
+			 company = req.getFilter("company");
+		}
+				
 		Pageable p = new PageRequest(page, pageSize, sort);
 		BooleanExpression query = QJpaBusline.jpaBusline.city.eq(city);
+		if (StringUtils.isNotBlank(company) && !StringUtils.equals(company, "defaultAll")) {
+			query = query.and(QJpaBusline.jpaBusline.company.id.eq(NumberUtils.toInt(company)));
+		}
 		if (level != null)
 			query = query.and(QJpaBusline.jpaBusline.level.eq(level));
 		if (name != null) {
-			query = query.and(QJpaBusline.jpaBusline.name.like("%" + name + "%"));
+			query = query.and(QJpaBusline.jpaBusline.name.eq(name));
 		}
 
 		return lineRepo.findAll(query, p);
