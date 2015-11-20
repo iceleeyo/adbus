@@ -130,18 +130,26 @@ function go_back(){
 				</div>
 				<input type="hidden" name="ustats" value="${userDetail.ustats!''}">
 				<div class="ui-form-item">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>所属组:</label>
-					<#if userDetail.utype =='screen'> <#if groupsList?exists> <#list
-					groupsList?keys as vkey> <input type="checkbox" value="${vkey}"
-						name="roles"<#if uGroup?seq_contains(vkey)>checked </#if>
-					/> ${groupsList[vkey]}&nbsp;&nbsp; <#if vkey_index % 4 == 0 &&
-					vkey_index!=0><br></#if> </#list> </#if> <#else> <#if
-					bdGroupsList?exists> <#list bdGroupsList as vkey> <input
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>所属组${userDetail.utype}:</label>
+					<#if userDetail.utype =='body'>
+					  
+					<#if bdGroupsList?exists> <#list bdGroupsList as vkey> <input
 						type="checkbox" value="${vkey.id}" name="roles"<#if
 					uGroup?seq_contains(vkey.id)>checked </#if> /> ${vkey.name}
 					&nbsp;&nbsp; <#if vkey_index % 4 == 0 && vkey_index!=0><br></#if>
-
-					</#list> </#if> </#if>
+					</#list> </#if> 
+					
+					   <#else>
+					   
+					  <#if groupsList?exists>
+					   <#list groupsList?keys as vkey> <input type="checkbox" value="${vkey}"
+						name="roles"<#if uGroup?seq_contains(vkey)>checked </#if>
+					   /> ${groupsList[vkey]}&nbsp;&nbsp; <#if vkey_index % 4 == 0 &&
+					   vkey_index!=0><br></#if> 
+					  </#list> 
+					  </#if>
+					
+					</#if>
 				</div>
 
 				<div class="ui-form-item">
