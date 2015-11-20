@@ -369,9 +369,16 @@ function supEnter(tourl,city,type){
 					 +'<div class="ui-form-item" id="file"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>物料上传</label> <div id="newUpload2"> <div class="filebox" id="div_1"> <input type="file" name="file" id="Sfile" class="validate[required]"> </div> </div>'
 					 +'<input class="btn-sm btn-success" type="button" id="btn_add2" value="增加一行" style="margin-top: 10px;"><br> </div>'
 					 +'<div class="ui-form-item"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>资质上传</label> <div id="newUpload3"> <div id="quadiv_1"> <input type="file" name="qua" id="Sfile1" class="validate[required]"> </div> </div>'
-					 +'<input class="btn-sm btn-success" type="button" id="btn_add3" value="增加一行" style="margin-top: 10px;" ><br> </div> <div class="ui-form-item widthdrawBtBox"> <input type="button" id="uploadbutton" class="block-btn" onclick="subSup();" value="开始上传"> </div>'
+					 +'<input class="btn-sm btn-success" type="button" id="btn_add3" value="增加一行" style="margin-top: 10px;" ><br> </div> <div class="ui-form-item widthdrawBtBox"> <input type="button" id="uploadbutton" class="block-btn" onclick="subSup();" value="开始上传"><input type="button" id="subWithdraw" class="block-btn" onclick="showdoc();" value="查看物料规格说明"> </div>'
 					 +'<div id="progress1"> <div class="percent"></div> <div class="pbar"></div> <div class="elapsed"></div> </div> </div> </div></form>'
-
+					 //视频说明
+					 +'<div id="videoType" style="display: none"> <div class="worm-tips">'
+					 +'<div class="tips-title"> <span class="icon"></span> 全屏视频广告规格要求说明 </div>'
+					 +'<ol> <li>一、广告素材基础:</li> <li>1.广告时长为：5秒，10秒，15秒，30秒。</li>'
+					 +'<li>2.广告发布素材为模拟，需要准备DVC pro带，需把硬广吐到带子中，同时需提供电子版的视频文件（要求：720*576像素，PAL制，<font color="red">MPEG-2</font>文件格式帧速率为：<font color="red">24</font>帧每秒。 </li>'
+					 +'<li>3.以上物料素材需在广告首个发布日的7个工作日前送达。</li> <li>4.硬广前后需各加<font color="red">1-3秒</font>静帧 </li> <li>5.硬广前一秒静帧前必须加上北广的5秒倒计时</li> <li>6.<font color="red">声音要求在-12至18db</font></li> <li>7.<font color="red">需记录起始码</font></li>'
+					 +'<li>二、广告素材内容、技术禁止和限制:</li> <li>1.杂帧、跳帧、加帧。</li> <li>2.非创意黑场画面。</li><li>3.模糊。</li><li>4.画面出框。</li><li>5.声画不同步。</li><li>6.吞音、破音。</li><li>7.三秒以上静帧无伴音。</li><li>8.字幕有错或误导含义。</li>'
+					 +'</ol> </div> </div>'
 		});
 		
 		$.each(data, function(i, item) {
