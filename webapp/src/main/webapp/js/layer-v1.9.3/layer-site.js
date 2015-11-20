@@ -541,6 +541,7 @@ function subSup() {
 		suppotFile[0] = "avi";
 		suppotFile[1] = "mp4";
 		suppotFile[2] = "rmvb";
+		suppotFile[3] = "mpeg2";
 		var flag=false;
 		for (var i = 0; i < suppotFile.length; i++) {
 			if (suppotFile[i] == fileType) {
@@ -549,7 +550,7 @@ function subSup() {
 		}
 			if(flag == false)
 			{
-				layer.msg('文件类型只支持AVI,MP4,RMVB', {icon: 5});
+				layer.msg('文件类型只支持AVI,MP4,RMVB,MPEG2', {icon: 5});
 			//jDialog.Alert("文件类型只支持AVI,MP4,RMVB");
 			return;
 			}
