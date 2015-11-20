@@ -31,7 +31,8 @@ js=["js/jquery-ui/jquery-ui.js","js/layer-v1.9.3/layer/layer.js","js/layer.onloa
                 url: "${rc.contextPath}/product/ajax-list",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "filter[name]" : $('#name').val()
+                        "filter[name]" : $('#name').val(),
+                        "filter[stats]" : $('#stats').val()
                     } );
                 },
                 "dataSrc": "content",
@@ -130,10 +131,16 @@ js=["js/jquery-ui/jquery-ui.js","js/layer-v1.9.3/layer/layer.js","js/layer.onloa
                         '    <span>' +
                         '        <input id="name" value="">' +
                         '    </span>' +
+                        '    &nbsp;&nbsp<span>状态</span>' +
+                        '    <span><select id="stats">' +
+                        '        <option value="defaultAll">所有</option>' +
+                        '        <option value="true">正常</option>' +
+                        '        <option value="false">已下架</option>' +
+                        '    </select></span>' +
                         '</div>'
         );
 
-        $('#name').change(function() {
+        $('#name,#stats').change(function() {
             table.fnDraw();
         });
     }
