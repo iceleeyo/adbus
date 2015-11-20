@@ -21,7 +21,7 @@ header .area {
 	text-align: center;
 	vertical-align: middle;
 	display: inline-block;
-	font-family: 黑体;
+	font-family: microsoft yahei;
 	border-radius: 4px;
 }
 
@@ -1421,7 +1421,7 @@ header .area {
 	width: 80px;
 	height: 35px;
 	font-size: 18px;
-	font-family: 黑体;
+	font-family: microsoft yahei;
 	line-height: 35px;
 	display: inline-block;
 	vertical-align: middle;
@@ -1538,7 +1538,7 @@ header .area {
 	line-height: 30px;
 	font-size: 20px;
 	text-align: center;
-	font-family: 黑体;
+	font-family: Microsoft yahei;
 	display: inline-block;
 	background-color: #75adff;
 }
@@ -1554,7 +1554,7 @@ header .area {
 
 .layout .layout-contain {
 	text-align: center;
-	padding: 0 90px;
+	padding: 0 50px;
 }
 
 .layout .layout-contain img {
