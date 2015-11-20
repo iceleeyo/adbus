@@ -20,9 +20,6 @@
 	color: #009DEB;
 }
 
-.rg-content {
-	margin-top: 5%;
-}
 
 .rg-content .info-submit {
 	margin-top: 5%;
