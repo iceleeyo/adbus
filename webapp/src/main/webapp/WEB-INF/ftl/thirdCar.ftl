@@ -27,7 +27,7 @@
 	</header>
 	<div class="content">
 		<div class="side-nav">
-			<div class="logo"></div>
+			
 			<div class="de-code">
 				<img src="${rc.contextPath}/index_img/pic1.png" height="100"
 					width="100">
