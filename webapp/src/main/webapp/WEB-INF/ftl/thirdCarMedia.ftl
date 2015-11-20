@@ -140,7 +140,7 @@
 					</div>
 
 					<div class="l-lau">
-						<a href="javascript:void(0)" class="btn btn-contact">联系客服</a>
+						
 					</div>
 
 					<div class="layout">
