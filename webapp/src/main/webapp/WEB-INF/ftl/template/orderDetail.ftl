@@ -44,7 +44,6 @@ function supDetail(data){
 					 	<#assign priceTag=2 />
 					  </@security.authorize>
 				 </@security.authorize>
-				#${priceTag}#
 				<#if priceTag == 0>
 				  **
 				<#elseif priceTag == 1>
