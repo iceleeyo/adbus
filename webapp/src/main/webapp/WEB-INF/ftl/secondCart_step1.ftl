@@ -21,7 +21,7 @@
 			<ul class="navibar">
 				<li><a href="/">首页</a></li>
 				<li class="active"><a href="${rc.contextPath}/media">产品媒体</a></li>
-				<li><a href="/caseMore.html">案例欣赏</a></li>
+				<li><a href="${rc.contextPath}/caseMore">案例欣赏</a></li>
 			</ul>
 			<div class="markble">
 				<p>世界在你脚下，巴士一路随行</p>

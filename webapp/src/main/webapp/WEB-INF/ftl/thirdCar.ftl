@@ -37,7 +37,7 @@
 				<li><a href="${rc.contextPath}/secondLevelPage">移动视频</a></li>
 				<li class="active"><a
 					href="${rc.contextPath}/secondLevelPageBus">车身媒体</a></li>
-				<li><a href="/caseMore.html">案例欣赏</a></li>
+				<li><a href="${rc.contextPath}/caseMore">案例欣赏</a></li>
 			</ul>
 			<div class="markble">
 				<p>世界在你脚下，巴士一路随行</p>
@@ -167,7 +167,7 @@
 							<div class="c-head">
 								<p class="head-en">MEDIA PROFILE</p>
 								<p class="head-zh">媒体情况</p>
-								<p class="icon icon-line"></p>
+								<p class="icon-line"></p>
 							</div>
 							<div class="pic-table c-head clearfix">
 								<div class="tbhead">硬广套装</div>
@@ -204,19 +204,19 @@
 							<div class="c-head">
 								<p class="head-en">MEDIA REGIONAL</p>
 								<p class="head-zh">媒体区域</p>
-								<p class="icon icon-line"></p>
+								<p class="icon-line"></p>
 							</div>
 							<img src="${rc.contextPath}/index_img/thirdCar_2.png">
 							<div class="c-head">
 								<p class="head-en">MEDIA SHOW</p>
 								<p class="head-zh">媒体展示</p>
-								<p class="icon icon-line"></p>
+								<p class="icon-line"></p>
 							</div>
 							<img src="${rc.contextPath}/index_img/thirdCar_3.png">
 							<div class="c-head">
 								<p class="head-en">MEDIA REGIONAL</p>
 								<p class="head-zh">合作品牌</p>
-								<p class="icon icon-line"></p>
+								<p class="icon-line"></p>
 							</div>
 							<img src="${rc.contextPath}/index_img/thirdCar_4.png">
 						</div>

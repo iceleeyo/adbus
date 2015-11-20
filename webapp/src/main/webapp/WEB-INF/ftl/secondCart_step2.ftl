@@ -20,7 +20,7 @@
 			<ul class="navibar">
 				<li><a href="/">首页</a></li>
 				<li class="active"><a href="${rc.contextPath}/media">产品媒体</a></li>
-				<li><a href="/caseMore.html">案例欣赏</a></li>
+				<li><a href="${rc.contextPath}/caseMore">案例欣赏</a></li>
 			</ul>
 			<div class="markble">
 				<p>世界在你脚下，巴士一路随行</p>
@@ -188,7 +188,8 @@
 							<span class="legged">总价:<em>￥#{infos.totalPrice!'' ;m2M2}</em></span>
 						</div>
 						<div class="sure">
-							<a href="javascript:void(0);" id="subid" onclick="payment()">
+							<!-- <a href="javascript:void(0);" onclick="check()"> -->
+							<a href="javascript:void(0);" id="subid" onclick="check()">
 								<div class="btn-sure">确认支付</div>
 							</a>
 						</div>
@@ -218,6 +219,17 @@
 		src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
 	<script src="index_js/unslider.min.js"></script>
 	<script type="text/javascript">
+		function check(proid){
+			layer.open({
+	    		type: 1,
+	    		title: "电子合同",
+	    		skin: 'layui-layer-rim', 
+	    		area: ['650px', '630px'], 
+	    		content:''
+				   +' '
+				   +'<iframe  style="width:99%;height:90%" src="${rc.contextPath}/user/contract_templete?"/><div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraworder" class="block-btn" onclick="payment();" value="确认" style="margin:10px 0px -10px 110px;"> </div>'
+				});
+		}
 		function payment(){
 		var paytype=$('#payway :radio[name=payType]:checked').val();
 		var isdiv=$('#payway0 :radio[name=isdiv]:checked').val();

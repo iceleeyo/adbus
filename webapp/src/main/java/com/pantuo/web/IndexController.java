@@ -110,6 +110,13 @@ public class IndexController {
 		  model.addAttribute("auctionList", cpdService.getIndexCpdList(city, 4));
 	    	return "secondLevelPageBus";
 	    }
+	 @RequestMapping(value = "/caseMore")
+	    public String caseMore(Model model, HttpServletRequest request, HttpServletResponse response,
+				@CookieValue(value = "city", defaultValue = "-1") int city) {
+//		  makeCookieValueRight(city == -1 ? 2 : (city % 2 == 1 ? city + 1 : city), response);
+		  model.addAttribute("auctionList", cpdService.getIndexCpdList(city, 4));
+	    	return "caseMore";
+	    }
 	@RequestMapping(value = "/body", produces = "text/html;charset=utf-8")
 	public String body(Model model, HttpServletRequest request, HttpServletResponse response,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {

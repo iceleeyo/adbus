@@ -129,7 +129,6 @@ security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 	</header>
 	<div class="page-container">
 		<div class="side-nav">
-			<div class="logo"></div>
 			<div class="de-code">
 				<img src="${rc.contextPath}/index_img/pic1.png" height="100"
 					width="100">
@@ -138,7 +137,7 @@ security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 				<li class="active"><a href="/">首页</a></li>
 				<li><a href="${rc.contextPath}/secondLevelPage">移动视频</a></li>
 				<li><a href="${rc.contextPath}/secondLevelPageBus">车身媒体</a></li>
-				<li><a href="/caseMore.html">案例欣赏</a></li>
+				<li><a href="${rc.contextPath}/caseMore">案例欣赏</a></li>
 			</ul>
 			<div class="markble">
 				<p>世界在你脚下，巴士一路随行</p>
