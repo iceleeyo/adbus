@@ -160,10 +160,10 @@ public class SuppliesServiceImpl implements SuppliesService {
 			if(userDetail!=null){
 				if(attachmentService.findUserQulifi(Request.getUserId(principal)).size()>0){
 					attachmentService.updateAttachments(request, Request.getUserId(principal), userDetail.getId(),JpaAttachment.Type.fp_file,null);
-					userDetail.setUstats(UserDetail.UStats.upload);
 				}else{
 				    attachmentService.saveAttachment(request, Request.getUserId(principal), userDetail.getId(),JpaAttachment.Type.user_qualifi,description);
 				}
+				userDetail.setUstats(UserDetail.UStats.upload);
 				userDetailRepo.save(userDetail);
 				 r = new Pair<Boolean, String>(true, "保存成功");
 			}

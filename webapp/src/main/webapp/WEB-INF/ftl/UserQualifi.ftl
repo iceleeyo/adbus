@@ -39,7 +39,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 		<div class="withdraw-title fn-clear">用户资质</div>
 		<div class="withdrawInputs">
 			<div class="inputs">
-				<div class="ui-form-item">
+				   <div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>营业执照副本复印件:
 					</label> <#if attachments?has_content > <#list attachments as item> <#if
 					item?has_content && item.type==10> <a
@@ -47,6 +47,10 @@ css=["js/jquery-ui/jquery-ui.css"]>
 						onclick="return hs.expand(this)"> <img
 						src="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}"
 						class="m11" width="240" /></a><br> </#if> </#list> <br>
+					 <label class="ui-label mt10">修改营业执照副本复印件:</label>
+						<div id="div_1">
+							<input type="file" name="user_license" id="Sfile2"/>
+						</div>
 					<#else>
 					<div id="newUpload2">
 						<div id="div_1">
@@ -65,6 +69,10 @@ css=["js/jquery-ui/jquery-ui.css"]>
 						onclick="return hs.expand(this)"> <img
 						src="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}"
 						class="m11" width="240" /></a><br> </#if> </#list> <br>
+					<label class="ui-label mt10">修改税务登记证副本复印件:</label>
+						<div id="div_1">
+							<input type="file" name="user_tax" id="Sfile2"/>
+						</div>
 					<#else>
 					<div id="newUpload2">
 						<div id="div_1">
@@ -84,6 +92,10 @@ css=["js/jquery-ui/jquery-ui.css"]>
 						onclick="return hs.expand(this)"> 
 						<img src="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}"
 						class="m11" width="240" /></a><br> </#if> </#list> <br>
+					 <label class="ui-label mt10">修改组织结构代码证书:</label>
+						<div id="div_1">
+							<input type="file" name="user_code" id="Sfile2"/>
+						</div>
 					<#else>
 					<div id="newUpload2">
 						<div id="div_1">
@@ -102,48 +114,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 						</#if></div>
 				</div>
 				<div class="ui-form-item widthdrawBtBox">
-					<#if !(attachments?has_content) > <input type="button"
-						id="subWithdraw" class="block-btn" onclick="sub();" value="保存">
-					<#else> <input type="button" class="block-btn"
-						onclick="showform();" value="修改"> </#if>
-
-				</div>
-				<div id="updateform" style="display: none">
-					<div class="ui-form-item">
-						<label class="ui-label mt10"><span
-							class="ui-form-required">*</span>营业执照副本复印件: </label>
-						<div id="newUpload2">
-							<div id="div_1">
-								<input type="file" name="user_license" id="Sfile2"
-									class="validate[required]">
-							</div>
-						</div>
-					</div>
-					<div class="ui-form-item">
-						<label class="ui-label mt10"><span
-							class="ui-form-required">*</span>税务登记副本复印件: </label>
-						<div id="newUpload2">
-							<div id="div_1">
-								<input type="file" name="user_tax" id="Sfile2"
-									class="validate[required]">
-							</div>
-						</div>
-					</div>
-					<div class="ui-form-item">
-						<label class="ui-label mt10"><span
-							class="ui-form-required">*</span>组织机构代码证书: </label>
-						<div id="newUpload2">
-							<div id="div_1">
-								<input type="file" name="user_code" id="Sfile2"
-									class="validate[required]">
-							</div>
-						</div>
-					</div>
-
-					<div class="ui-form-item widthdrawBtBox">
-						<input type="button" id="subWithdraw" class="block-btn"
-							onclick="sub();" value="保存">
-					</div>
+						<input type="button"id="subWithdraw" class="block-btn" onclick="sub();" value="保存">
 				</div>
 			</div>
 		</div>
@@ -155,6 +126,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 				<li>1.请选择合法的用户资质[图片]进行上传、审核通过(已认证)后可参与竞价商品的竞拍</li>
 				<li>2.如果您填写的信息不正确可能会导致下单失败。</li>
 				<li>3.平台禁止洗钱、信用卡套现、虚假交易等行为，一经发现并确认，将终止该账户的使用。</li>
+				<li>4.资质经过认证后再修改则需重新审核。</li>
 			</ol>
 		</div>
 	</form>

@@ -278,6 +278,12 @@ public class AttachmentServiceImpl implements AttachmentService {
 								  t.setUrl(p.getRight());
 								  attachmentMapper.updateByPrimaryKey(t);
 							  }
+							  if(StringUtils.equals(fn, "user_code") && t.getType()==JpaAttachment.Type.user_code.ordinal()){
+								  t.setUpdated(new Date());
+								  t.setName(oriFileName);
+								  t.setUrl(p.getRight());
+								  attachmentMapper.updateByPrimaryKey(t);
+							  }
 								
 							}
 						}
