@@ -372,7 +372,7 @@ function supEnter(tourl,city,type){
 					 +'<input class="btn-sm btn-success" type="button" id="btn_add3" value="增加一行" style="margin-top: 10px;" ><br> </div> <div class="ui-form-item widthdrawBtBox"> <input type="button" id="uploadbutton" class="block-btn" onclick="subSup();" value="开始上传"><input type="button" id="subWithdraw" class="block-btn" onclick="showdoc();" value="查看物料规格说明"> </div>'
 					 +'<div id="progress1"> <div class="percent"></div> <div class="pbar"></div> <div class="elapsed"></div> </div> </div> </div></form>'
 					 //视频说明
-					 +'<div id="videoType" style="display: none> <div class="worm-tips">'
+					 +'<div id="videoType" style="display: none"> <div class="worm-tips">'
 					 +'<div class="tips-title"> <span class="icon"></span> 全屏视频广告规格要求说明 </div>'
 					 +'<ol> <li>一、广告素材基础:</li> <li>1.广告时长为：5秒，10秒，15秒，30秒。</li>'
 					 +'<li>2.广告发布素材为模拟，需要准备DVC pro带，需把硬广吐到带子中，同时需提供电子版的视频文件（要求：720*576像素，PAL制，<font color="red">MPEG-2</font>文件格式帧速率为：<font color="red">24</font>帧每秒。 </li>'
@@ -423,25 +423,7 @@ function supEnter(tourl,city,type){
 			$("#text").hide();
             $("#file").show();
 		};
-		flag=true;
-		function showdoc(){		
-			if(flag == true)
-			{
-				if(suppliesType=="0"){
-	        		$("#videoType").show();
-	    		}else{
-	        		$("#otherType").show();
-	    		}
-				flag=false;
-			}else{
-				if(suppliesType=="0"){
-	        		$("#videoType").hide();
-	    		}else{
-	        		$("#otherType").hide();
-	    		}
-				flag=true;
-			}
-		}
+		
 		$("#userForm1").validationEngine({
             validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
             inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
@@ -648,7 +630,25 @@ function subSup() {
 	 $('#progress1').anim_progressbar(uploadProcess);
 	 
 }
-
+flag=true;
+function showdoc(){
+	if(flag == true)
+	{
+		if(suppliesType=="0"){
+    		$("#videoType").show();
+		}else{
+    		$("#otherType").show();
+		}
+		flag=false;
+	}else{
+		if(suppliesType=="0"){
+    		$("#videoType").hide();
+		}else{
+    		$("#otherType").hide();
+		}
+		flag=true;
+	}
+}
 //弹出编辑发票窗口
 function qEdit(tourl,id){
 	$.ajax({
