@@ -82,7 +82,7 @@
 						<div class="d-right">
 							<dl class="d-item">
 								<dt>名称：</dt>
-								<dd>${jpaProduct.name}</dd>
+								<dd class="pro-til">${jpaProduct.name}</dd>
 							</dl>
 							<dl class="d-item">
 								<dt>类型：</dt>
