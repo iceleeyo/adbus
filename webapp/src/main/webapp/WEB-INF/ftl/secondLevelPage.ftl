@@ -183,7 +183,7 @@ function tocard(pathurl){
 
 								<div class="cost-box">
 									<div class="cost">
-										底价:￥<em>#{prod.saleprice!'' ;m2M2}</em>
+										底价:￥<em>${prod.saleprice}</em>
 									</div>
 									<div class="timeline">刊期: ${prod.product.playNumber}天</div>
 									<div class="ston">
