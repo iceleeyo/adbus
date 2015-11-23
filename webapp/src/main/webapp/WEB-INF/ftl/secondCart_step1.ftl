@@ -25,7 +25,6 @@
 			</ul>
 			<div class="markble">
 				<p>世界在你脚下，巴士一路随行</p>
-				<p>北巴出品</p>
 				<p>北京公交媒体</p>
 			</div>
 		</div>
@@ -109,14 +108,14 @@
 								<li class="td td-price">
 									<div class="td-inner">
 										<p class="price">
-											<em>￥</em>#{item.price!'' ;m2M2}</p>
+											<em>￥</em>${item.price}</p>
 											<input type="hidden" id="price_${item.id}" value="${item.price}">
 									</div>
 								</li>
 								<input type="hidden" id="pid_${item.id}"
 									value="${item.product.id}">
 								<input type="hidden" id="uprice_${item.id}"
-									value="#{item.price!'' ;m2M2}">
+									value="${item.price}">
 								<li class="td td-amount"><span class="icon icon-plus"
 									onclick="leftDec(${item.id});"></span> <input type="text"
 									id="sum_${item.id}" value="${item.needCount}"
@@ -125,7 +124,7 @@
 								<li class="td td-sum">
 									<div class="td-inner">
 										<p class="sum">
-											<em>￥</em><span id="mexiaoji_${item.id}">#{item.totalprice!'' ;m2M2}</span>
+											<em>￥</em><span id="mexiaoji_${item.id}">${item.totalprice}</span>
 										</p>
 									</div>
 								</li>
@@ -193,12 +192,12 @@
 								<li class="td td-price">
 									<div class="td-inner">
 										<p class="price">
-											<em>￥</em>#{item.price!'' ;m2M2}</p>
+											<em>￥</em>${item.price}</p>
 											<input type="hidden" id="price_b_${item.id}" value="${item.price}">
 									</div>
 								</li>
 								<input type="hidden" id="b_uprice_${item.id}"
-									value="#{item.price!'' ;m2M2}">
+									value="${item.price}">
 								<input type="hidden" id="b_pid_${item.id}"
 									value="${item.product.id}">
 								<li class="td td-amount"><span class="icon icon-plus"
@@ -210,7 +209,7 @@
 								<li class="td td-sum">
 									<div class="td-inner">
 										<p class="sum">
-											<em>￥</em><span id="boxiaoji_${item.id}">#{item.totalprice!'' ;m2M2}
+											<em>￥</em><span id="boxiaoji_${item.id}">${item.totalprice}
 										</p>
 									</div>
 								</li>
@@ -240,7 +239,7 @@
 								全选
 							</div>
 							<div class="inner-right">
-								<span>总价:</span> <span id="aprice" class="acount-price">￥#{infos.totalPrice!'' ;m2M2}</span>
+								<span>总价:</span> <span id="aprice" class="acount-price">￥${infos.totalPrice}</span>
 								<a href="javascript:void(0);" onclick="selectPro()">
 									<div class="btn-over">生成订单</div>
 								</a>

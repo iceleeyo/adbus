@@ -24,7 +24,6 @@
 			</ul>
 			<div class="markble">
 				<p>世界在你脚下，巴士一路随行</p>
-				<p>北巴出品</p>
 				<p>北京公交媒体</p>
 			</div>
 		</div>
@@ -85,7 +84,7 @@
 								<li class="td td-price">
 									<div class="td-inner">
 										<p class="price">
-											<em>￥</em>#{item.price!'' ;m2M2}</p>
+											<em>￥</em>${item.price}</p>
 									</div>
 								</li>
 								<li class="td td-amount">
@@ -96,7 +95,7 @@
 								<li class="td td-sum">
 									<div class="td-inner">
 										<p class="sum">
-											<em>￥</em>#{(item.price*item.needCount)!'' ;m2M2}</p>
+											<em>￥</em>${item.price*item.needCount}</p>
 									</div>
 								</li>
 							</ul>
@@ -130,7 +129,7 @@
 								<li class="td td-price">
 									<div class="td-inner">
 										<p class="price">
-											<em>￥</em>#{item.price!'' ;m2M2}</p>
+											<em>￥</em>${item.price}</p>
 									</div>
 								</li>
 								<li class="td td-amount">
@@ -141,7 +140,7 @@
 								<li class="td td-sum">
 									<div class="td-inner">
 										<p class="sum">
-											<em>￥</em>#{item.totalprice!'' ;m2M2}</p>
+											<em>￥</em>${item.totalprice}</p>
 									</div>
 								</li>
 							</ul>
@@ -185,7 +184,7 @@
 							</div>
 						</div>
 						<div class="sum">
-							<span class="legged">总价:<em>￥#{infos.totalPrice!'' ;m2M2}</em></span>
+							<span class="legged">总价:<em>￥${infos.totalPrice}</em></span>
 						</div>
 						<div class="sure">
 							<!-- <a href="javascript:void(0);" onclick="check()"> -->
@@ -219,7 +218,7 @@
 		src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
 	<script src="index_js/unslider.min.js"></script>
 	<script type="text/javascript">
-		function check(proid){
+		function check(){
 			layer.open({
 	    		type: 1,
 	    		title: "电子合同",
@@ -227,7 +226,7 @@
 	    		area: ['650px', '630px'], 
 	    		content:''
 				   +' '
-				   +'<iframe  style="width:99%;height:90%" src="${rc.contextPath}/user/contract_templete?"/><div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraworder" class="block-btn" onclick="payment();" value="确认" style="margin:10px 0px -10px 45%;"> </div>'
+				   +'<iframe  style="width:99%;height:90%" src="${rc.contextPath}/user/contract_templete"/><div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraworder" class="block-btn" onclick="payment();" value="确认" style="margin:10px 0px -10px 45%;"> </div>'
 				});
 		}
 		function payment(){

@@ -229,7 +229,7 @@ function initPro2(pathUrl,sh,page){
 						"<div class=\"activity inline-b\"><span><a href='"+pathUrl+"/b/public_detail/"+item.id+"'>"+item.jpaProductV2.name.substring(0,7)+"</a></span>&nbsp;&nbsp;"+dDecker+("&nbsp;&nbsp;"+leval)+"</div>"+
 						"<div class=\"price inline-b\" style=\"  margin-top: 10px; \">"+
 						"<input type=\"hidden\" id='pid_"+k+"' value='"+item.id+"'/>"+
-						"<p class=\"p-one\"> 	<em>"+((item.price).toFixed(2))+"</em>元/月/辆</p>"+
+						"<p class=\"p-one\"> 	<em>"+item.price+"</em>元/月/辆</p>"+
 						"<p class=\"p-two\">"+item.jpaProductV2.personAvg+"人次/月</p></div>"+
 						"<div class=\"num f-left inline-b\">"+
 						"<input type=\"button\" class=\"icon f-left dec\" sot='"+k+"' id='leftDec"+k+"' />"+
