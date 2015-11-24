@@ -26,7 +26,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
             "serverSide": true,
             "scrollX": true,
             "columnDefs": [
-                { "orderable": false, "targets": [0,5,6,7,8,9,10,11,12,13,14,15,16,18,19,20] },
+                { "orderable": false, "targets": [0,5,6,7,8,9,13,14,15,16,18,19,20] },
             ],
             "iDisplayLength" : 20,
             "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
@@ -350,9 +350,9 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				<th>合同编号</th>
 				<th>广告内容</th>
 				<th>车型</th>
-				<th>实际上刊日期</th>
-				<th>预计下刊日期</th>
-				<th>实际下刊日期</th>
+				<th orderBy="startDay|NULLS_LAST">实际上刊日期</th>
+				<th orderBy="endDay|NULLS_LAST">预计下刊日期</th>
+				<th orderBy="realEndDate|NULLS_LAST">实际下刊日期</th> 
 				<th>刊期</th>
 				<th>类别</th>
 				<th>广告类型</th>
