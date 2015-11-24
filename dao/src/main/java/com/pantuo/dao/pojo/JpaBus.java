@@ -76,6 +76,7 @@ public class JpaBus extends CityEntity{
     //预计下刊时间
     //validation：必须大于startDay
     private Date endDay;
+    private Date realEndDate;
     private boolean enabled = true;      //是否启用
 
 //    @OneToMany(mappedBy="bus", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
@@ -284,6 +285,14 @@ public class JpaBus extends CityEntity{
 				+ ", company=" + company + ", adStatus=" + adStatus + ", description=" + description + ", office="
 				+ office + ", branch=" + branch + ", startDay=" + startDay + ", endDay=" + endDay + ", enabled="
 				+ enabled + "]";
+	}
+
+	public Date getRealEndDate() {
+		return realEndDate;
+	}
+
+	public void setRealEndDate(Date realEndDate) {
+		this.realEndDate = realEndDate;
 	}
 
 }
