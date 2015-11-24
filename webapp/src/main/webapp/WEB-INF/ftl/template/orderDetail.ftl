@@ -123,7 +123,7 @@ function supDetail(data){
 					<#if orderview.order.isInvoice==1 > <a class="layer-tips"
 					tip="点击可查看发票详细内容!"
 					onclick="invoicedetail('${rc.contextPath}',${orderview.order.id!''});"
-					href="javascript:void(0)"> 是</a> <#else> 否 </#if>
+					href="javascript:void(0)"> 是(查看发票详情)</a> <#else> 否 </#if>
 			</SPAN></li>
 
 
