@@ -382,6 +382,7 @@ img {
 .lg-content .lg-input {
 	width: 140px;
 	line-height: 25px;
+	height: 30px;
 }
 
 .lg-content .login-submit {
