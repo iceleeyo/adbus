@@ -100,7 +100,6 @@ $.ajax({
 			</ul>
 			<div class="markble">
 				<p>世界在你脚下，巴士一路随行</p>
-				<p>北巴出品</p>
 				<p>北京公交媒体</p>
 			</div>
 </div>
