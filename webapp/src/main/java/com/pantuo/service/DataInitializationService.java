@@ -561,7 +561,7 @@ public class DataInitializationService {
 						endDate = (Date) f.parse(b[9].toString());
 					}
 					JpaBus bus = new JpaBus(city.getId(), busline, category, b[3], b[4], b[14], model, company, b[16],
-							b[17], b[8] + "/" + b[9] + "/" + b[7], b[15], startdate, endDate);
+							b[17], b[8] + "/" + b[9] + "/" + b[7], b[15], null, null);
 
 					//		log.info("bus: {}, category: {}, level: {}, line: {}, model: {}, company: {}",
 					//				bus.getPlateNumber(), category, level, busline.getName(), model.getName(),

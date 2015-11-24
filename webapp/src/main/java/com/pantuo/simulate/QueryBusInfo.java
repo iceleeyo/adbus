@@ -5,16 +5,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.pantuo.dao.BusRepository;
 import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.mybatis.domain.Bodycontract;
+import com.pantuo.mybatis.domain.Bus;
 import com.pantuo.mybatis.domain.BusContract;
 import com.pantuo.mybatis.domain.BusContractExample;
 import com.pantuo.mybatis.domain.BusOnline;
@@ -22,6 +25,7 @@ import com.pantuo.mybatis.domain.BusOnlineExample;
 import com.pantuo.mybatis.domain.Offlinecontract;
 import com.pantuo.mybatis.persistence.BodycontractMapper;
 import com.pantuo.mybatis.persistence.BusContractMapper;
+import com.pantuo.mybatis.persistence.BusMapper;
 import com.pantuo.mybatis.persistence.BusOnlineMapper;
 import com.pantuo.mybatis.persistence.OfflinecontractMapper;
 import com.pantuo.web.view.BusInfo;
@@ -55,9 +59,15 @@ public class QueryBusInfo implements Runnable, ScheduleStatsInter {
 	
 	@Autowired
 	BodyUseMonitor bodyUseMonitor;
+	@Autowired
+	BusMapper busMapper;
 	
 	@Autowired
 	BusRepository busRepository;
+	@Value("${bus.FreshContractToDb}")
+	private String freshContractToDb;
+
+	
 
 	//@Scheduled(fixedRate = 5000)
 	@Scheduled(cron = "0/50 * * * * ?")
@@ -99,6 +109,8 @@ public class QueryBusInfo implements Runnable, ScheduleStatsInter {
 	}
 
 	public void countCars2() {
+		
+		boolean needFresh = BooleanUtils.toBooleanObject(freshContractToDb);
 		Date today = new Date();
 		BusOnlineExample example = new BusOnlineExample();
 		BusOnlineExample.Criteria c = example.createCriteria();
@@ -109,7 +121,7 @@ public class QueryBusInfo implements Runnable, ScheduleStatsInter {
 		map2.clear();
 		for (BusOnline busOnline : list) {
 			if (busOnline != null) {
-				updateBusContractCache(today, busOnline);
+				updateBusContractCache(today, busOnline,needFresh);
 			}
 		}
 	}
@@ -124,7 +136,7 @@ public class QueryBusInfo implements Runnable, ScheduleStatsInter {
 		map2.remove(busId);
 		for (BusOnline busOnline : list) {
 			if (busOnline != null) {
-				updateBusContractCache(today, busOnline);
+				updateBusContractCache(today, busOnline,true);
 			}
 		}
 		JpaBus _bus = busRepository.findOne(busId);
@@ -134,15 +146,15 @@ public class QueryBusInfo implements Runnable, ScheduleStatsInter {
 		
 	}
 
-	private void updateBusContractCache(Date today, BusOnline busOnline) {
+	private void updateBusContractCache(Date today, BusOnline busOnline,boolean needUpdateDb) {
 		if (busOnline.getStartDate().before(today) && busOnline.getEndDate().after(today)) {
-			putInMap(busOnline, BusInfo.Stats.now);
+			putInMap(busOnline, BusInfo.Stats.now,needUpdateDb);
 		} else if (busOnline.getStartDate().after(today)) {
 			busOnline = findAfterLatestBusContract(busOnline);
-			putInMap(busOnline, BusInfo.Stats.future);
+			putInMap(busOnline, BusInfo.Stats.future,needUpdateDb);
 		} else {
 			busOnline = findBefLatestBusContract(busOnline);
-			putInMap(busOnline, BusInfo.Stats.past);
+			putInMap(busOnline, BusInfo.Stats.past,needUpdateDb);
 		}
 		//return busOnline;
 	}
@@ -173,7 +185,7 @@ public class QueryBusInfo implements Runnable, ScheduleStatsInter {
 		return null;
 	}
 
-	private void putInMap(BusOnline busContract, BusInfo.Stats status) {
+	private void putInMap(BusOnline busContract, BusInfo.Stats status,boolean needUpdateDb) {
 		if (busContract != null) {
 			Offlinecontract bodycontract = offlinecontractMapper.selectByPrimaryKey(busContract.getContractid());
 			int busid = busContract.getBusid();
@@ -183,39 +195,46 @@ public class QueryBusInfo implements Runnable, ScheduleStatsInter {
 			BusInfo busInfo = map2.get(busid);
 			busInfo.addPlan(busContract);
 			if (busInfo.getStats() == BusInfo.Stats.empty) {
-				busInfo.setStartD(busContract.getStartDate());
+			/*	busInfo.setStartD(busContract.getStartDate());
 				busInfo.setEndD(busContract.getEndDate());
 				busInfo.setStats(status);
-				busInfo.setBusOnline(busContract);
+				busInfo.setBusOnline(busContract);*/
+				putCache(busContract, status, busInfo,bodycontract,needUpdateDb);
 			} else if (status == BusInfo.Stats.now) {
-				busInfo.setStartD(busContract.getStartDate());
-				busInfo.setEndD(busContract.getEndDate());
-				busInfo.setBusOnline(busContract);
-				busInfo.setStats(BusInfo.Stats.now);
+				putCache(busContract, status, busInfo,bodycontract,needUpdateDb);
 			} else if (status == BusInfo.Stats.future && (busInfo.getStats() == BusInfo.Stats.past)) {
-				busInfo.setStartD(busContract.getStartDate());
-				busInfo.setEndD(busContract.getEndDate());
-				busInfo.setBusOnline(busContract);
-				busInfo.setStats(BusInfo.Stats.future);
+				putCache(busContract, status, busInfo,bodycontract,needUpdateDb);
+				//busInfo.setStats(BusInfo.Stats.future);
 			} else if (status == BusInfo.Stats.future && (busInfo.getStats() == BusInfo.Stats.future)) {
 				if (busContract.getStartDate().before(busInfo.getStartD())) {
-					busInfo.setStartD(busContract.getStartDate());
-					busInfo.setEndD(busContract.getEndDate());
-					busInfo.setBusOnline(busContract);
-					busInfo.setStats(BusInfo.Stats.future);
+					putCache(busContract, status, busInfo,bodycontract,needUpdateDb);
 				}
 			} else if (status == BusInfo.Stats.past && busInfo.getStats() == BusInfo.Stats.past) {
 				if (busContract.getEndDate().after(busInfo.getEndD())) {
-					busInfo.setStartD(busContract.getStartDate());
-					busInfo.setEndD(busContract.getEndDate());
-					busInfo.setBusOnline(busContract);
-					busInfo.setStats(BusInfo.Stats.past);
+					putCache(busContract, status, busInfo,bodycontract,needUpdateDb);
 				}
 			}
-			if (bodycontract != null) {
-				busInfo.setContractCode(bodycontract.getContractCode());
-				busInfo.setOfflinecontract(bodycontract);
-			}
+			
+		}
+	}
+
+	private void putCache(BusOnline busContract, BusInfo.Stats status, BusInfo busInfo, Offlinecontract bodycontract,
+			boolean needUpdateDb) {
+		busInfo.setStartD(busContract.getStartDate());
+		busInfo.setEndD(busContract.getEndDate());
+		busInfo.setBusOnline(busContract);
+		busInfo.setStats(status);
+		if (bodycontract != null) {
+			busInfo.setContractCode(bodycontract.getContractCode());
+			busInfo.setOfflinecontract(bodycontract);
+		}
+		if (needUpdateDb) {
+			Bus record = new Bus();
+			record.setId(busInfo.getBusid());
+			record.setStartDay(busContract.getStartDate());
+			record.setEndDay(busContract.getEndDate());
+			record.setRealEndDate(busContract.getRealEndDate());
+			busMapper.updateByPrimaryKeySelective(record);
 		}
 	}
 

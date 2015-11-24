@@ -45,6 +45,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -456,6 +457,15 @@ public class BusServiceImpl implements BusService {
 			pageSize = 1;
 		if (sort == null)
 			sort = new Sort("id");
+		
+		Order order = sort.getOrderFor("startDay");
+		if (order != null) {
+			//order.nullsLast();//(Sort.NullHandling.NULLS_LAST);
+		//	order =new Order(order.getDirection(), "startDay", Sort.NullHandling.NULLS_LAST); 
+		//	sort = new Sort(order);
+		}
+		
+		
 		Pageable p = new PageRequest(page, pageSize, sort);
 		final String contractid = req.getFilter("contractid");
 		boolean isNormalQuery = true;

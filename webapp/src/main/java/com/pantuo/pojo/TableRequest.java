@@ -1,12 +1,13 @@
 package com.pantuo.pojo;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
-
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import org.springframework.data.domain.Sort.NullHandling;
+import org.springframework.data.domain.Sort.Order;
 
 /**
  * Created by tliu on 4/13/15.
@@ -57,7 +58,20 @@ public class TableRequest {
 				continue;
 			Map.Entry<String, String> e = o.entrySet().iterator().next();
 			String dir = "".equals(e.getValue()) ? "ASC" : e.getValue().toUpperCase();
-			Sort s = new Sort(Sort.Direction.valueOf(dir), e.getKey());
+
+			Sort s = null;
+			if (StringUtils.contains(e.getKey(), "|")) {
+				String[] split = StringUtils.split(e.getKey(),"\\|");
+				Order r = new Order(Sort.Direction.valueOf(dir), StringUtils.trim(split[0]),
+						NullHandling.valueOf(StringUtils.trim(split[1])));//NULLS_LAST  //NULLS_FIRST
+				s = new Sort(r);
+
+			} else {
+
+				s = new Sort(Sort.Direction.valueOf(dir), e.getKey());
+
+			}
+
 			if (sort == null)
 				sort = s;
 			else
