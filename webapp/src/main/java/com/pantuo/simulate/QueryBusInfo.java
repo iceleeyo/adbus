@@ -2,8 +2,10 @@ package com.pantuo.simulate;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -70,11 +72,11 @@ public class QueryBusInfo implements Runnable, ScheduleStatsInter {
 	
 
 	//@Scheduled(fixedRate = 5000)
-	@Scheduled(cron = "0/50 * * * * ?")
+	@Scheduled(cron = "0 5 0 * * ?")
 	public void work() {
 		if (statControl.isRunning) {
 			try {
-				countCars();
+				countCars(); 
 				countCars2();
 			} finally {
 				statControl.runover();
@@ -115,13 +117,20 @@ public class QueryBusInfo implements Runnable, ScheduleStatsInter {
 		BusOnlineExample example = new BusOnlineExample();
 		BusOnlineExample.Criteria c = example.createCriteria();
 		c.andEnableEqualTo(true);
-		
+		example.setOrderByClause("busid asc ");
 		List<BusOnline> list = busOnlineMapper.selectByExample(example);
 		//example.setOrderByClause("start_date asc");
-		map2.clear();
+		//	map2.clear();
+		
+		
+		Set<Integer> busids = new HashSet<Integer>(33750);
 		for (BusOnline busOnline : list) {
+			if (!busids.contains(busOnline.getBusid())) {
+				map2.remove(busOnline.getBusid());
+				busids.add(busOnline.getBusid());
+			}
 			if (busOnline != null) {
-				updateBusContractCache(today, busOnline,needFresh);
+				updateBusContractCache(today, busOnline, needFresh);
 			}
 		}
 	}
