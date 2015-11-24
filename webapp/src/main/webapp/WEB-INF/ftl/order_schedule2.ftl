@@ -76,7 +76,7 @@ div#toolbar {
             "ordering": false,
             "serverSide": true,
             "ajax": {
-                type: "GET",
+                type: "POST",
                 url: "${rc.contextPath}/schedule/ajax-schedule",
                 data: function(d) {
                     return $.extend( {}, d, {
