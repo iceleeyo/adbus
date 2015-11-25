@@ -31,7 +31,7 @@ function tocard(pathurl){
 		<div class="side-nav">
 			<div class="logo2"></div>
 			<div class="de-code">
-				<img src="index_img/pic1.png" height="100" width="100">
+				<img src="index_img/pic1.jpg" height="100" width="100">
 			</div>
 			<ul class="navibar">
 				<li><a href="/">首页</a></li>

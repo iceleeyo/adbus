@@ -130,7 +130,7 @@ security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 	<div class="page-container">
 		<div class="side-nav">
 			<div class="de-code">
-				<img src="${rc.contextPath}/index_img/pic1.png" height="100"
+				<img src="${rc.contextPath}/index_img/pic1.jpg" height="100"
 					width="100">
 			</div>
 			<ul class="navibar">
