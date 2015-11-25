@@ -126,6 +126,8 @@ header .area {
 	outline: none;
 	line-height: 40px;
 	border: 0px solid #ffffff;
+	font-size: 18px;
+    font-family: microsoft yahei;
 }
 
 .cover .c-top .search-handle {
