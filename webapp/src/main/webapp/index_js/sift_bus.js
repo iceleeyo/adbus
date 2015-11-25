@@ -202,7 +202,7 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 				
 				var image='';
 				if(item.imgurl!=''  &&   typeof(item.imgurl)!= "undefined"){
-					image ="<img src="+pathUrl+"/upload_temp/"+item.imgurl+" height=\"60\" width=\"100\"/>";	
+					image ="<img src="+pathUrl+"/upload_temp/"+item.imgurl+" height=\"66\" width=\"100\"/>";	
 				}
 				$("#productList").append(
 						"<div class=\"cont\">"+
