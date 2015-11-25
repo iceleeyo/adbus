@@ -291,13 +291,14 @@ $.ajax({
 								<LI style="width: 240px;"><SPAN>单日播放次数：</SPAN> <SPAN
 									class="con">${prod.playNumber!''}</SPAN></LI> </#if> <#if prod.type
 								== 'video'>
-								<LI style="width: 240px;"><SPAN>首播次数：</SPAN><SPAN
+								<!-- <LI style="width: 240px;"><SPAN>首播次数：</SPAN><SPAN
 									class="con">${prod.firstNumber!''}</SPAN></LI>
 								<LI style="width: 240px;"><SPAN>末播次数：</SPAN><SPAN
-									class="con">${prod.lastNumber!''}</SPAN></LI>
+									class="con">${prod.lastNumber!''}</SPAN></LI> -->
+								<!--	
 								<li style="width: 720; border-bottom: 1px solid #F7F7F7"></li>
 								<LI style="width: 240px;"><SPAN>高峰时段占比：</SPAN><SPAN
-									class="con">${prod.hotRatio!''}</SPAN></LI> </#if>
+									class="con">${prod.hotRatio!''}</SPAN></LI>--> </#if>
 								<LI style="width: 200px;"><SPAN><#if prod.type ==
 										'video' || prod.type == 'image' || prod.type ==
 										'info'>套餐播放天数：<#else>广告展示天数：</#if></SPAN> <SPAN class="con">${prod.days!''}天</SPAN>
