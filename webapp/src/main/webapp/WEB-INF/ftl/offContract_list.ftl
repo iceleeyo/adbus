@@ -73,16 +73,17 @@ div#toolbar {
                 { "data": "salesman", "defaultContent": ""},
                 { "data": "adway", "defaultContent": ""},
                 { "data": "adcontent", "defaultContent": ""},
-                { "data": "linecontent", "defaultContent": ""},
                 { "data": "amounts", "defaultContent": ""},
                 { "data": "payway", "defaultContent": ""},
-                 { "data": function( row, type, set, meta) {
+                { "data": function( row, type, set, meta) {
                     return row.id;
                 },
-                    "render": function(data, type, row, meta) {
+                "render": function(data, type, row, meta) {
                     var operations='<a class="table-link" href="${rc.contextPath}/busselect/offcontract_edit/' + data +'" ><font color="green"><B>编辑</B></font></a>';
                          return operations;
-                    }},
+                }},
+                { "data": "linecontent", "defaultContent": ""},
+
             ],
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
@@ -132,10 +133,10 @@ div#toolbar {
 				<th>业务员</th>
 				<th>广告形式</th>
 				<th>广告内容</th>
-				<th>发布线路</th>
 				<th>合同金额</th>
 				<th>付款方式</th>
 				<th>操作</th>
+				<th>发布线路</th>
 			</tr>
 		</thead>
 	</table>
