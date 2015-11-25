@@ -323,7 +323,7 @@ function checkInventory() {
 		//此处演示关闭
 		setTimeout(function(){
 		    layer.closeAll('loading');
-		}, 55000);
+		}, 60000*4);
 		
 		$.ajax({
 			url : "${rc.contextPath}/schedule/testsch/"+orderid+"/true?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
@@ -348,7 +348,7 @@ function checkInventory() {
 					layer.load(1);
 					setTimeout(function(){
 					    layer.closeAll('loading');
-					}, 55000);
+					}, 60000*4);
 		
 				$.ajax({
 					url : "${rc.contextPath}/schedule/queryFeature/"+orderid+"?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
@@ -395,7 +395,7 @@ function confirmSchedule() {
      			 layer.load(1);
 					setTimeout(function(){
 					    layer.closeAll('loading');
-					}, 55000);
+					}, 60000*4);
 		$.ajax({
 			url : "${rc.contextPath}/schedule/testsch/"+orderid+"/false?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
 			type : "POST",
