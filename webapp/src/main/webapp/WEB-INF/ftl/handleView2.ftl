@@ -323,12 +323,12 @@ function checkInventory() {
 		//此处演示关闭
 		setTimeout(function(){
 		    layer.closeAll('loading');
-		}, 5000);
+		}, 55000);
 		
 		$.ajax({
-			url : "${rc.contextPath}/schedule/testsch/"+orderid+"/true",
+			url : "${rc.contextPath}/schedule/testsch/"+orderid+"/true?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
 			type : "POST",
-			data : {
+			data : { 
 			"startdate1":startdate1
 			},
 			success : function(data) {
@@ -348,10 +348,10 @@ function checkInventory() {
 					layer.load(1);
 					setTimeout(function(){
 					    layer.closeAll('loading');
-					}, 9000);
+					}, 55000);
 		
 				$.ajax({
-					url : "${rc.contextPath}/schedule/queryFeature/"+orderid,
+					url : "${rc.contextPath}/schedule/queryFeature/"+orderid+"?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
 					type : "POST",
 					success : function(data) {
 						 layer.closeAll('loading');
@@ -395,9 +395,9 @@ function confirmSchedule() {
      			 layer.load(1);
 					setTimeout(function(){
 					    layer.closeAll('loading');
-					}, 9000);
+					}, 55000);
 		$.ajax({
-			url : "${rc.contextPath}/schedule/testsch/"+orderid+"/false",
+			url : "${rc.contextPath}/schedule/testsch/"+orderid+"/false?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
 			type : "POST",
 			data : {
 			"startdate1":startdate1,
