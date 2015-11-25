@@ -249,9 +249,9 @@
 						</div>
 						<img src="index_img/example1.jpg">
 						<div class="desp">
-							<span>车身广告</span>
-							<p>窝窝团网站推广</p>
-							<span>白色 简介 突出</span>
+							<span>视频广告</span>
+							<p>肯德基外卖推广</p>
+							<span>红色  醒目 直接</span>
 						</div>
 						<div class="hover-m">
 							<div class="hover-bottom"></div>
@@ -263,8 +263,8 @@
 						</div>
 						<img src="index_img/example2.jpg">
 						<div class="desp">
-							<span>站牌广告</span>
-							<p>美汁源果粒橙产品推广</p>
+							<span>视频广告</span>
+							<p>《爸爸去哪儿》节目推广</p>
 							<span>直接 传播面广</span>
 						</div>
 						<div class="hover-m">
@@ -277,8 +277,8 @@
 						</div>
 						<img src="index_img/example3.jpg">
 						<div class="desp">
-							<span>车身广告</span>
-							<p>蒙牛QQ星儿童牛奶产品推广</p>
+							<span>视频广告</span>
+							<p>立白洗衣粉产品推广</p>
 							<span>醒目 直白 受众广</span>
 						</div>
 						<div class="hover-m">
