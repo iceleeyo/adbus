@@ -321,6 +321,7 @@ function check() {
 						// layer.closeAll('loading');
 						 $("#infoText").prepend("<span style='margin-left:130px'>"+(data.show)+"</span><br>");
 						 if(data.result!=null){
+						  layer.closeAll('loading');
 						  		clearInterval(_interval);
 		  						$("#infoText").prepend('<span style="margin-left:130px"><input type="button" id="subWithdraw" class="block-btn"   onclick="_closeLayer();" value="关闭"></span><br>');
 		  					 
