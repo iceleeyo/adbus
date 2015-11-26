@@ -144,7 +144,7 @@ function supDetail(data){
 			orderview.task_id?? && (orderview.task_name=='已排期待上播' ||
 			orderview.task_name=='已上播' ||orderview.task_name=='已排期待上播')>
 			<li style="width: 200px;"><SPAN>排期状态：<a target="_blank"
-					href="${rc.contextPath}/schedule/querySchedule/${orderview.task_id!''}">
+					href="${rc.contextPath}/schedule/${orderview.order.id!''}">
 						<#if city.mediaType == 'screen'> 查看排期表 <#elseif city.mediaType ==
 						'body'> 查看上刊巴士列表 </#if> </a></SPAN></li> <#elseif orderview.task_name?exists &&
 			(orderview.task_name=='已排期待上播' || orderview.task_name=='已上播'
