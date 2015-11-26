@@ -25,8 +25,9 @@ public class ScheduleProgressListener implements ProgressListener {
 	}
 
 	public ScheduleProgressListener(HttpSession session, String key) {
-		setSession(session);
 		this._key = key;
+		setSession(session);
+		
 	}
 
 	private HttpSession session;
