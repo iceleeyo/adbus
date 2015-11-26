@@ -406,41 +406,40 @@ function checkInventory() {
 			},
 			success : function(data) {
 			 layer.closeAll('loading');
-			 /*
-			if(data.scheduled){
-				   layer.msg("库存充足可排期");
-				   $("#ischeckInventory").val(1);
-				   $("#sureButton").css({"background-color":"rgb(245, 135, 8)"});
-				    $("#sureButton").css({"color":"#fff"});
-			}else{
-				var w=$.format.date(data.notSchedultDay, "yyyy-MM-dd");
-				//	layer.msg("日期:<font color='red'>"+w+"</font>  库存不足<br>"+data.msg, {icon: 5});
+						 /*
+						if(data.scheduled){
+							   layer.msg("库存充足可排期");
+							   $("#ischeckInventory").val(1);
+							   $("#sureButton").css({"background-color":"rgb(245, 135, 8)"});
+							    $("#sureButton").css({"color":"#fff"});
+						}else{
+							var w=$.format.date(data.notSchedultDay, "yyyy-MM-dd");
+							//	layer.msg("日期:<font color='red'>"+w+"</font>  库存不足<br>"+data.msg, {icon: 5});
+								
+								
+					 	layer.confirm("日期:<font color='red'>"+w+"</font>  库存不足<br>根据当前订单信息库存信息如下:<br><br>"+data.msg+"<br><br>是否让系统推荐一个可排期的日期?", {icon: 3}, function(index){
+			    				layer.close(index);
+								layer.load(1);
+								setTimeout(function(){
+								    layer.closeAll('loading');
+								}, 60000*10);
 					
-					
-		 	layer.confirm("日期:<font color='red'>"+w+"</font>  库存不足<br>根据当前订单信息库存信息如下:<br><br>"+data.msg+"<br><br>是否让系统推荐一个可排期的日期?", {icon: 3}, function(index){
-    				layer.close(index);
-					layer.load(1);
-					setTimeout(function(){
-					    layer.closeAll('loading');
-					}, 60000*10);
-		
-				$.ajax({
-					url : "${rc.contextPath}/schedule/queryFeature/"+orderid+"?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
-					type : "POST",
-					success : function(data) {
-						 layer.closeAll('loading');
-					  	if(data.scheduled){
-					  		var w=$.format.date(data.notSchedultDay, "yyyy-MM-dd");
-					  		var t="从日期    <font color='red'>"+w+"</font>   起有档期可安排!";
-					  		 layer.alert(t, {icon: 6});
-					  	}else {
-					  	 layer.alert(data.msg, {icon: 6});
-					  	}
-					}
-				   }, "text");
-			});	
-		
-		 }*/
+							$.ajax({
+								url : "${rc.contextPath}/schedule/queryFeature/"+orderid+"?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
+								type : "POST",
+								success : function(data) {
+									 layer.closeAll('loading');
+								  	if(data.scheduled){
+								  		var w=$.format.date(data.notSchedultDay, "yyyy-MM-dd");
+								  		var t="从日期    <font color='red'>"+w+"</font>   起有档期可安排!";
+								  		 layer.alert(t, {icon: 6});
+								  	}else {
+								  	 layer.alert(data.msg, {icon: 6});
+								  	}
+								}
+							   }, "text");
+						});	
+					 }*/
 			}
 		}, "text");
 		
