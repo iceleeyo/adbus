@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import jxl.Workbook;
@@ -79,6 +80,8 @@ import com.pantuo.util.Schedule;
 import com.pantuo.vo.MediaInventory;
 import com.pantuo.vo.ScheduleView;
 import com.pantuo.vo.SortRequest;
+import com.pantuo.web.progress.ScheduleProgressListener;
+import com.pantuo.web.upload.FileUploadProgressListener;
 import com.pantuo.web.view.AutoCompleteView;
 import com.pantuo.web.view.SolitSortView;
 
@@ -643,13 +646,14 @@ public class ScheduleService {
 		
 	}
 
-	public SchedUltResult schedule2(JpaOrders order,boolean isOnlyCheck) {
+	public SchedUltResult schedule2(JpaOrders order,boolean isOnlyCheck,ScheduleProgressListener listener) {
 		Date start = order.getStartTime();
 		int days = order.getProduct().getDays();
 		Date end = DateUtil.dateAdd(start, days);
 		int city = order.getCity();
 		Calendar cal = DateUtil.newCalendar();
 		List<JpaBox> boxList = null;
+		listener.update("正在初始化库存数据.");
 		boxList = boxRepo.findByCityAndDayGreaterThanEqualAndDayLessThan(city, start, end);
 		Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(city, null, 0, 9999, null, false);
 		Map<Date, List<JpaBox>> boxDayMap = new HashMap<Date, List<JpaBox>>();
@@ -681,28 +685,34 @@ public class ScheduleService {
 			}
 			cal.add(Calendar.DATE, 1);
 		}
-
+		listener.update("开始根据订单信息排期.");
 		if (order.getProduct().getFirstNumber() > 0) {
+			listener.update("发现有首播排期需要<");
 			//如果有首播排首播
 			int playNum = order.getProduct().getFirstNumber();
 			isAllAllow = scheduleFirst(gs, boxEx, order, playNum, start, days, boxDayMap);
+			listener.update("订单首播排期结束!");
+			listener.update("开始常规时间段排期<");
 			if (isAllAllow.isScheduled) {
 				//首播排完了排非首播
 				playNum = order.getProduct().getPlayNumber() - order.getProduct().getFirstNumber();
 				if (playNum > 0) {
-					isAllAllow = scheduleNormal(gs, boxEx, order, playNum, start, days, boxDayMap);
+					isAllAllow = scheduleNormal(gs, boxEx, order, playNum, start, days, boxDayMap,listener);
 				}
 			}
 		} else {
+			listener.update("开始常规时间段排期<");
 			//排非首播
-			isAllAllow = scheduleNormal(gs, boxEx, order, order.getProduct().getPlayNumber(), start, days, boxDayMap);
+			isAllAllow = scheduleNormal(gs, boxEx, order, order.getProduct().getPlayNumber(), start, days, boxDayMap,listener);
 			if (!isAllAllow.isScheduled) {
 				isAllAllow = scheduleFirst(gs, boxEx, order, order.getProduct().getPlayNumber(), start, days, boxDayMap);
 			}
 		}
 		if ( !isOnlyCheck && isAllAllow.isScheduled) {
+			listener.update("开始保存排期结果<");
 			goodsRepo.save(gs);
 			boxRepo.save(boxEx.values());
+			listener.update("保存排期结果结束!");
 		}
 		log.info(isAllAllow.toString());
 		return isAllAllow;
@@ -748,15 +758,17 @@ public class ScheduleService {
 
 	//排非首播
 	private SchedUltResult scheduleNormal(List<JpaGoods> gs, Map<Integer, JpaBox> boxEx, JpaOrders order, int numberPlayer,
-			Date start, int days, Map<Date, List<JpaBox>> boxDayMap) {
+			Date start, int days, Map<Date, List<JpaBox>> boxDayMap,ScheduleProgressListener listener) {
 		Calendar cal = DateUtil.newCalendar();
 		cal.setTime(start);
 		int duration = (int) order.getProduct().getDuration();
 		for (int i = 0; i < days; i++) {
 			Date day = cal.getTime();
+			listener.update("开始检查 ["+DateUtil.longDf.get().format(day) +"] 库存情况.");
 			int k = 0;
 			List<JpaBox> list2 = boxDayMap.get(day);
 			for (int j = 0; j < numberPlayer; j++) {
+				
 				Collections.sort(list2, NORMAL_COMPARATOR);
 				JpaBox box = list2.get(0);
 				if (box.getSize() - box.getRemain() >= duration) {
@@ -818,7 +830,7 @@ public class ScheduleService {
 		}
 		SchedUltResult r = new SchedUltResult("未来30天均无可排日期", false, null, false);
 		for (int i = 0; i < 30; i++) {
-			r = schedule2(order, true);
+			r = schedule2(order, true,null);
 			if (!r.isScheduled) {
 				d = DateUtils.addDays(d, 1);
 				order.setStartTime(d);
@@ -936,7 +948,10 @@ public class ScheduleService {
 				}
 	  
 	    }  
-	public SchedUltResult checkInventory(int id, String taskid,String startdate1, boolean ischeck) {
+	public SchedUltResult checkInventory(int id, String taskid,String startdate1, boolean ischeck, HttpServletRequest request) {
+		
+		ScheduleProgressListener listener = new ScheduleProgressListener(request.getSession());
+		
 		 JpaOrders order = orderService.getJpaOrder(id);
 		 Date d=order.getStartTime();
 		 if(StringUtils.isNotBlank(startdate1)){
@@ -947,10 +962,12 @@ public class ScheduleService {
 					e.printStackTrace();
 				}	 
 			 }
-		 if(ischeck){
-			 return  schedule2(order,ischeck);
-		 }else{
-			 SchedUltResult r= schedule2(order,ischeck);
+		if (ischeck) {
+			SchedUltResult result = schedule2(order, ischeck, listener);
+			listener.endResult(result);
+			return result;
+		}else{
+			 SchedUltResult r= schedule2(order,ischeck,listener);
 			 if(r.isScheduled){
 				 Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
 				 if(task==null){
@@ -966,6 +983,7 @@ public class ScheduleService {
 			 Date end = DateUtil.dateAdd(order.getStartTime(), order.getProduct().getDays());
 			 order.setEndTime(end);
 			 ordersRepository.save(order);
+			 listener.endResult(r);
 			 return r;
 		 }
 	}

@@ -46,6 +46,7 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -78,16 +79,16 @@ import com.pantuo.service.CityService;
 import com.pantuo.service.ContractService;
 import com.pantuo.service.OrderService;
 import com.pantuo.service.ScheduleService;
+import com.pantuo.service.ScheduleService.SchedUltResult;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.service.TimeslotService;
-import com.pantuo.service.ScheduleService.SchedUltResult;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.ExcelUtil;
 import com.pantuo.util.OrderIdSeq;
 import com.pantuo.util.Pair;
-import com.pantuo.util.Schedule;
 import com.pantuo.vo.MediaInventory;
 import com.pantuo.vo.ScheduleView;
+import com.pantuo.web.progress.ScheduleInfo;
 import com.pantuo.web.view.OrderView;
 import com.pantuo.web.view.SolitSortView;
 import com.pantuo.web.view.SuppliesView;
@@ -132,7 +133,18 @@ public class ScheduleController {
 	@Autowired
 	GoodsBlackMapper goodsBlackMapper;
 	public static final List<BlackAd> ls = new ArrayList<BlackAd>();
-	
+	/** 
+	 * process 获取进度 
+	 * @param request 
+	 * @param response 
+	 * @return 
+	 * @throws Exception 
+	 */
+	@RequestMapping(value = "/process", method = RequestMethod.GET)
+	@ResponseBody
+	public ScheduleInfo jecprocess(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return (ScheduleInfo) request.getSession().getAttribute("schInfo");
+	}
 	@RequestMapping(value = "/testsch/{id}/{ischeck}")
 	@ResponseBody
 	public SchedUltResult testsch(Model model, HttpServletRequest request, HttpServletResponse response,
@@ -140,7 +152,11 @@ public class ScheduleController {
 			@RequestParam(value = "startdate1", required = false) String startdate1,
 			@RequestParam(value = "taskid", required = false) String taskid,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
-		return scheduleService.checkInventory(id, taskid, startdate1, ischeck);
+		long t=System.currentTimeMillis();
+		SchedUltResult r= scheduleService.checkInventory(id, taskid, startdate1, ischeck, request);
+		log.info("SchedUltResult time:{}",System.currentTimeMillis()-t);
+		return r;
+		
 	}
 
 	@RequestMapping(value = "/queryFeature/{id}")

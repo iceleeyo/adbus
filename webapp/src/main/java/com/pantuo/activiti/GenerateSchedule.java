@@ -57,7 +57,7 @@ public class GenerateSchedule implements JavaDelegate {
             if (order.getType() == JpaProduct.Type.video) {
 //                ScheduleLog log = scheduleService.schedule(order);
                 scheduleService.schedule2(order,
-                		false);
+                		false,null);
 //                if (log.getStatus() == ScheduleLog.Status.scheduled) {
                     execution.setVariable("scheduleResult", true);
 //                } else {
