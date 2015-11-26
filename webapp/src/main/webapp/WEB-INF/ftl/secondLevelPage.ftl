@@ -221,13 +221,6 @@ function tocard(pathurl){
 						</div>
 
 						<div class="back-item">
-							<span class="desp">是否竞价：</span> <span class="sift-list" qt="p">
-								<a class="item active" href="#" sort="-1" qc="all">所有</a> 
-								<a class="item" href="#" qc="2">竞价商品<i>×</i></a> 
-								<a class="item" href="#" qc="3">一口价<i>×</i></a>
-							</span>
-						</div>
-						<div class="back-item">
 							<span class="desp">产品类型：</span> <span class="sift-list" qt="t">
 								<a class="item active" href="#" sort="-1" qc="all">所有</a>
 								<a class="item" href="#" qc="video">视频<i>×</i></a> 
