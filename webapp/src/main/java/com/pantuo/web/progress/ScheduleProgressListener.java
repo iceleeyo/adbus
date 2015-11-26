@@ -18,8 +18,15 @@ import com.pantuo.web.upload.ProcessInfo;
  */
 public class ScheduleProgressListener implements ProgressListener {
 
+	String _key = "schInfo";
+
 	public ScheduleProgressListener(HttpSession session) {
 		setSession(session);
+	}
+
+	public ScheduleProgressListener(HttpSession session, String key) {
+		setSession(session);
+		this._key = key;
 	}
 
 	private HttpSession session;
@@ -28,19 +35,19 @@ public class ScheduleProgressListener implements ProgressListener {
 		this.session = session;
 		ScheduleInfo status = new ScheduleInfo();
 		status.setSessionId(session.getId());
-		session.setAttribute("schInfo", status);
+		session.setAttribute(_key, status);
 	}
 
 	/*
 	 * pBytesRead 到目前为止读取文件的比特数 pContentLength 文件总大小 pItems 目前正在读取第几个文件
 	 */
 	public void update(String msg) {
-		ScheduleInfo pri = (ScheduleInfo) session.getAttribute("schInfo");
+		ScheduleInfo pri = (ScheduleInfo) session.getAttribute(_key);
 		pri.show = msg;
 	}
 
 	public void endResult(SchedUltResult result) {
-		ScheduleInfo pri = (ScheduleInfo) session.getAttribute("schInfo");
+		ScheduleInfo pri = (ScheduleInfo) session.getAttribute(_key);
 		pri.setResult(result);
 	}
 

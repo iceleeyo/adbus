@@ -133,6 +133,21 @@ public class ScheduleController {
 	@Autowired
 	GoodsBlackMapper goodsBlackMapper;
 	public static final List<BlackAd> ls = new ArrayList<BlackAd>();
+	
+	
+	/** 
+	 * process 获取进度 
+	 * @param request 
+	 * @param response 
+	 * @return 
+	 * @throws Exception 
+	 */
+	@RequestMapping(value = "/session/{_key}", method = RequestMethod.GET)
+	@ResponseBody
+	public ScheduleInfo jecprocess2(@PathVariable("_key") String _key, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		return (ScheduleInfo) request.getSession().getAttribute(_key);
+	}
 	/** 
 	 * process 获取进度 
 	 * @param request 
