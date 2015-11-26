@@ -319,12 +319,11 @@ function check() {
 					type : "GET",
 					success : function(data) {
 						// layer.closeAll('loading');
-						 
 						 $("#infoText").prepend("<span style='margin-left:130px'>"+(data.show)+"</span><br>");
 						 if(data.result!=null){
-						 	
-						  	clearInterval(_interval);
-		  					 $("#infoText").prepend('<span style="margin-left:130px"><input type="button" id="subWithdraw" class="block-btn"   onclick="_closeLayer();" value="关闭"></span><br>');
+						  		clearInterval(_interval);
+		  						$("#infoText").prepend('<span style="margin-left:130px"><input type="button" id="subWithdraw" class="block-btn"   onclick="_closeLayer();" value="关闭"></span><br>');
+		  					 
 								//-------
 									 if(data.result.scheduled){
 										   layer.msg("库存充足可排期.");
@@ -343,27 +342,27 @@ function check() {
 												    layer.closeAll('loading');
 												}, 60000*10);
 									
-											$.ajax({
-												url : "${rc.contextPath}/schedule/queryFeature/"+orderid+"?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
-												type : "POST",
-												success : function(data) {
-													 layer.closeAll('loading');
-												  	 /*if(data.scheduled){
-												  		var w=$.format.date(data.notSchedultDay, "yyyy-MM-dd");
-												  		var t="从日期    <font color='red'>"+w+"</font>   起有档期可安排!";
-												  		 layer.alert(t, {icon: 6});
-												  	}else {
-												  	 layer.alert(data.msg, {icon: 6});
-												  	}*/
-												}
-											   }, "text");
-											//--------begin get ----- 
+												$.ajax({
+													url : "${rc.contextPath}/schedule/queryFeature/"+orderid+"?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
+													type : "POST",
+													success : function(data) {
+														 layer.closeAll('loading');
+													  	 /*if(data.scheduled){
+													  		var w=$.format.date(data.notSchedultDay, "yyyy-MM-dd");
+													  		var t="从日期    <font color='red'>"+w+"</font>   起有档期可安排!";
+													  		 layer.alert(t, {icon: 6});
+													  	}else {
+													  	 layer.alert(data.msg, {icon: 6});
+													  	}*/
+													}
+												   }, "text");//--------begin queryFeature ----- 
+											
 											initCheckFeautreInfo();
 										});	//-----end layer.confirm()
-								 }
+								 }//end else 
 						  	//-------------------------------
-						  	}
-					}
+						  	}//end if data.result!=null
+					}//end ajax success
 				   }, "text");
 	}
 	function initSchedultInfo(){
