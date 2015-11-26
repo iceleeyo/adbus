@@ -348,16 +348,18 @@ function check() {
 												type : "POST",
 												success : function(data) {
 													 layer.closeAll('loading');
-												  	if(data.scheduled){
+												  	 /*if(data.scheduled){
 												  		var w=$.format.date(data.notSchedultDay, "yyyy-MM-dd");
 												  		var t="从日期    <font color='red'>"+w+"</font>   起有档期可安排!";
 												  		 layer.alert(t, {icon: 6});
 												  	}else {
 												  	 layer.alert(data.msg, {icon: 6});
-												  	}
+												  	}*/
 												}
 											   }, "text");
-										});	
+											//--------begin get ----- 
+											initCheckFeautreInfo();
+										});	//-----end layer.confirm()
 								 }
 						  	//-------------------------------
 						  	}
@@ -377,6 +379,48 @@ function check() {
 	    content: '<div><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/>'+t+"</div>"
 		});
 		_interval =setInterval(function () { _scheduleProgess(); }, 1700);
+
+	}
+	
+	
+	function _checkFeautreProgess(){ 
+					$.ajax({
+						url : "${rc.contextPath}/schedule/session/_checkFeature",
+						type : "GET",
+						success : function(data) {
+							 $("#infoText").prepend("<span style='margin-left:130px'>"+(data.show)+"</span><br>");
+							 if(data.result!=null){
+							  		clearInterval(_interval);
+			  						 $("#infoText").prepend('<span style="margin-left:130px"><input type="button" id="subWithdraw" class="block-btn"   onclick="_closeLayer();" value="关闭"></span><br>');
+			  						 //关闭检查窗口
+			  						_closeLayer();
+									if(data.scheduled){
+										var w=$.format.date(data.notSchedultDay, "yyyy-MM-dd");
+										var t="从日期    <font color='red'>"+w+"</font>   起有档期可安排!";
+										layer.alert(t, {icon: 6});
+									}else {
+										 layer.alert(data.msg, {icon: 6});
+									}					  	
+							 }//end if
+						}//end success function
+				   }, "text");
+	}
+	
+	
+	
+	function initCheckFeautreInfo(){
+		var t= "<span id='infoText'></span>";
+		layer.open({
+		title:'操作进行中,如中断请刷新页面',
+	    type: 1,
+	    skin: 'layui-layer-demo', //样式类名
+	    closeBtn: 0, //不显示关闭按钮
+	    shift: 2,
+	    area: ['400px', '400px'], 
+	    shadeClose: false, //开启遮罩关闭
+	    content: '<div><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/>'+t+"</div>"
+		});
+		_interval =setInterval(function () { _checkFeautreProgess(); }, 1700);
 
 	}
 	
