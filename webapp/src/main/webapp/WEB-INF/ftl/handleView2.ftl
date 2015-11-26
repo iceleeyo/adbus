@@ -410,7 +410,7 @@ function checkInventory() {
 						if(data.scheduled){
 							   layer.msg("库存充足可排期");
 							   $("#ischeckInventory").val(1);
-							   $("#sureButton").css({"background-color":"rgb(245, 135, 8)"});
+							   $("#sureButton").css({"background-color":"rgb(245, 135, 8)"}); 
 							    $("#sureButton").css({"color":"#fff"});
 						}else{
 							var w=$.format.date(data.notSchedultDay, "yyyy-MM-dd");
