@@ -839,7 +839,7 @@ public class ScheduleService {
 		SchedUltResult r = new SchedUltResult("未来30天均无可排日期", false, null, false);
 		for (int i = 0; i < 30; i++) {   
 			listener.update("正在检查 ["+DateUtil.longDf.get().format(order.getStartTime()) +"]起 库存情况.");
-			r = schedule2(order, true,null);
+			r = schedule2(order, true,listener);
 			if (!r.isScheduled) {
 				d = DateUtils.addDays(d, 1);
 				order.setStartTime(d);
