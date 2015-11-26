@@ -46,15 +46,15 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                 "dataSrc": "content",
             },
             "columns": [
+                { "data": "office", "defaultContent": ""},
+                { "data": "branch", "defaultContent": ""},
                 { "data": "name", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                     return '<a  target="_Blank" href="${rc.contextPath}/busselect/lineschedule/' + row.id + '" >'+data+'</a> &nbsp;';
                 } },
+                { "data": "_cars", "defaultContent": ""},
+                { "data": "company.name", "defaultContent": ""},
                 { "data": "levelStr", "defaultContent": ""},
-                 { "data": "company.name", "defaultContent": ""},
-                  { "data": "office", "defaultContent": ""},
-                   { "data": "branch", "defaultContent": ""},
-                    { "data": "_cars", "defaultContent": ""},
                     { "data": "linetype", "defaultContent": ""},
                     { "data": "description", "defaultContent": ""},
                      { "data": "routelocation", "defaultContent": ""},
@@ -228,12 +228,12 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 	<table id="table" class="display compact" cellspacing="0" width="100%">
 		<thead>
 			<tr style="height: 40px;">
-				<th orderBy="name">线路名</th>
-				<th orderBy="level">线路级别</th>
-				<th>所属营销中心</th>
 				<th>所属公司</th>
 				<th>所属分公司</th>
+				<th orderBy="name">线路名</th>
 				<th orderBy="_cars">车辆总数</th>
+				<th>所属营销中心</th>
+				<th orderBy="level">线路级别</th>
 				<th orderBy="linetype">线路类型</th>
 				<th>车辆详情</th>
 				<th>线路总里程</th>
