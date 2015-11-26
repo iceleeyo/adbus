@@ -847,7 +847,7 @@ public class ScheduleService {
 				break;
 			}
 		}
-		listener.update("检查结束.");
+		listener.updateInfo("检查结束.");
 		listener.endResult(r);
 		return r;
 	}
