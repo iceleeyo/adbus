@@ -715,7 +715,7 @@ public class ScheduleService {
 			listener.update("保存排期结果结束!");
 		}
 		if(isOnlyCheck){
-			listener.update("库存检查结束!");
+			listener.updateInfo("库存检查结束!");
 		}
 		log.info(isAllAllow.toString());
 		return isAllAllow;
@@ -823,7 +823,7 @@ public class ScheduleService {
 	public SchedUltResult checkInventory(int id, String startdate1, HttpServletRequest request) {
 		
 		
-		ScheduleProgressListener listener = new ScheduleProgressListener(request.getSession(),"_checkFeature");
+		ScheduleProgressListener listener = new ScheduleProgressListener(request.getSession(),ScheduleProgressListener.Type._checkFeature);
 		
 		
 		JpaOrders order = orderService.getJpaOrder(id);
@@ -838,7 +838,7 @@ public class ScheduleService {
 		}
 		SchedUltResult r = new SchedUltResult("未来30天均无可排日期", false, null, false);
 		for (int i = 0; i < 30; i++) {   
-			listener.update("正在检查 ["+DateUtil.longDf.get().format(order.getStartTime()) +"]起 库存情况.");
+			listener.updateInfo("正在检查 ["+DateUtil.longDf.get().format(order.getStartTime()) +"]起 库存情况.");
 			r = schedule2(order, true,listener);
 			if (!r.isScheduled) {
 				d = DateUtils.addDays(d, 1);
