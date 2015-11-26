@@ -387,11 +387,11 @@ function check() {
 						url : "${rc.contextPath}/schedule/session/_checkFeature",
 						type : "GET",
 						success : function(data) {
-							 $("#infoText").prepend("<span style='margin-left:130px'>"+(data.show)+"</span><br>");
+							 $("#infoText2").prepend("<span style='margin-left:130px'>"+(data.show)+"</span><br>");
 							 if(data.result!=null){
 							  		clearInterval(_interval);
 							  		_closeLayer();
-			  						$("#infoText").prepend('<span style="margin-left:130px"><input type="button" id="subWithdraw" class="block-btn"   onclick="_closeLayer();" value="关闭"></span><br>');
+			  						$("#infoText2").prepend('<span style="margin-left:130px"><input type="button" id="subWithdraw" class="block-btn"   onclick="_closeLayer();" value="关闭"></span><br>');
 			  						//关闭检查窗口
 									if(data.scheduled){
 										var w=$.format.date(data.notSchedultDay, "yyyy-MM-dd");
@@ -408,7 +408,7 @@ function check() {
 	
 	
 	function initCheckFeautreInfo(){
-		var t= "<span id='infoText'></span>";
+		var t= "<span id='infoText2'></span>";
 		layer.open({
 		title:'操作进行中,如中断请刷新页面',
 	    type: 1,
