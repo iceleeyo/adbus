@@ -54,13 +54,14 @@ function tocard(pathurl){
 						<button class="search-btn" type="submit" id="search-btn">搜索</button>
 					</div>
 					<div class="search-key">
-						<span><a href="javascript:void(0)">车身广告</a></span> <span><a
-							href="javascript:void(0)">视频广告</a></span> <span><a
-							href="javascript:void(0)">医院周边</a></span> <span><a
-							href="javascript:void(0)">特级</a></span> <span><a
-							href="javascript:void(0)">CBD</a></span> <span><a
-							href="javascript:void(0)">A++</a></span> <span><a
-							href="javascript:void(0)">东城区</a></span>
+						<span><a href="javascript:void(0)">硬广</a></span> <span><a
+							href="javascript:void(0)">图片</a></span> <span><a
+							href="javascript:void(0)">字幕</a></span> <span><a
+							href="javascript:void(0)">32次</a></span> <span><a
+							href="javascript:void(0)">64次</a></span> <span><a
+							href="javascript:void(0)">14天</a></span> 
+						<span><a href="javascript:void(0)">28天</a></span>
+						<span><a href="javascript:void(0)">90天</a></span>
 					</div>
 				</div>
 			</div>
@@ -229,11 +230,12 @@ function tocard(pathurl){
 							</span>
 						</div>
 						<div class="back-item">
-							<span class="desp">日展次数：</span> <span class="sift-list" qt="s">
-								<a class="item active" href="#" sort="-1" qc="all">所有</a> <a
-								class="item" href="#" qc="2">0-7（不含）<i>×</i></a> <a class="item"
-								href="#" qc="3">7-11（含）<i>×</i></a> <a class="item" href="#"
-								qc="4">11以上<i>×</i></a>
+							<span class="desp">日展次数：</span> 
+							<span class="sift-list" qt="s">
+								<a class="item active" href="#" sort="-1" qc="all">所有</a>
+								<a class="item" href="#" qc="2">0-7（不含）<i>×</i></a> 
+								<a class="item"	href="#" qc="3">7-11（含）<i>×</i></a> 
+								<a class="item" href="#" qc="4">11以上<i>×</i></a>
 							</span>
 						</div>
 						<div class="back-item">
