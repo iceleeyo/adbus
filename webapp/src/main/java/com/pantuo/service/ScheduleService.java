@@ -714,6 +714,9 @@ public class ScheduleService {
 			boxRepo.save(boxEx.values());
 			listener.update("保存排期结果结束!");
 		}
+		if(isOnlyCheck){
+			listener.update("库存检查结束!");
+		}
 		log.info(isAllAllow.toString());
 		return isAllAllow;
 
@@ -764,7 +767,7 @@ public class ScheduleService {
 		int duration = (int) order.getProduct().getDuration();
 		for (int i = 0; i < days; i++) {
 			Date day = cal.getTime();
-			listener.update("开始检查 ["+DateUtil.longDf.get().format(day) +"] 库存情况.");
+		//	listener.update("开始检查 ["+DateUtil.longDf.get().format(day) +"] 库存情况.");
 			int k = 0;
 			List<JpaBox> list2 = boxDayMap.get(day);
 			for (int j = 0; j < numberPlayer; j++) {
