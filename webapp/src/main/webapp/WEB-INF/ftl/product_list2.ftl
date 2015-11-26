@@ -94,7 +94,7 @@ js=["js/jquery-ui/jquery-ui.js","js/layer-v1.9.3/layer/layer.js","js/layer.onloa
                    		 <@security.authorize ifAnyGranted="ShibaOrderManager">  
                      	operations+= (row.enabled ? '<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/0">下架</a> &nbsp;'
                                 :'<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/product/' + data + '/1">上架</a> &nbsp;')
-                        operations +='<a class="table-link operation" href="${rc.contextPath}/product/' + data +'">编辑</a> &nbsp;';
+                        operations +='<a class="table-link operation" onclick="toeditProduct('+data+')" href="javascript:void(0);">编辑</a> &nbsp;';
                         
                        	if(row.frontShow=='Y'){
                       		operations +=	'<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/product/frontshow/' + data + '/N">取消首页</a> &nbsp;'
@@ -123,7 +123,16 @@ js=["js/jquery-ui/jquery-ui.js","js/layer-v1.9.3/layer/layer.js","js/layer.onloa
         table.fnNameOrdering("orderBy").fnNoColumnsParams();
        
     }
-
+function toeditProduct(id){
+var url="${rc.contextPath}/product/checkProHadBought/"+id;
+      $.post(url, function(data) {
+               if(data.left){
+                window.location.href="${rc.contextPath}/product/"+id;
+               }else{
+                 layer.msg(data.right);
+               }
+        	});
+}
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +

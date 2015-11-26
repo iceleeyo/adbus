@@ -143,6 +143,12 @@ public class ProductController {
         return productService.changeProStats(productId, enable);
     }
     
+    @RequestMapping(value = "/checkProHadBought/{productId}")
+    @ResponseBody
+    public Pair<Boolean, String> checkProHadBought(@PathVariable("productId") int productId){
+    	return productService.checkProHadBought(productId);
+    }
+    
     @RequestMapping(value = "/frontshow/{productId}/{enable}", method = { RequestMethod.POST})
     @ResponseBody
     public JpaProduct frontshow(@PathVariable("productId") int productId,

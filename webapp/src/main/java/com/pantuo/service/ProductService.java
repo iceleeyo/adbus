@@ -83,5 +83,6 @@ public interface ProductService {
 	JpaProductV2 findV2ById(int productId);
 	Pair<Boolean, String> changeProV2Stats(int proId, String enable);
 	JpaCpd findCpdById(int id);
+	Pair<Boolean, String> checkProHadBought(int productId);
 
 }

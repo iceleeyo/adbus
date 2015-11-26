@@ -54,11 +54,13 @@ import com.pantuo.dao.pojo.QJpaProductV2;
 import com.pantuo.mybatis.domain.BusOrderDetailV2;
 import com.pantuo.mybatis.domain.BusOrderDetailV2Example;
 import com.pantuo.mybatis.domain.BusOrderV2;
+import com.pantuo.mybatis.domain.OrdersExample;
 import com.pantuo.mybatis.domain.Product;
 import com.pantuo.mybatis.domain.ProductExample;
 import com.pantuo.mybatis.domain.ProductV2;
 import com.pantuo.mybatis.persistence.BusOrderDetailV2Mapper;
 import com.pantuo.mybatis.persistence.BusOrderV2Mapper;
+import com.pantuo.mybatis.persistence.OrdersMapper;
 import com.pantuo.mybatis.persistence.ProductMapper;
 import com.pantuo.mybatis.persistence.ProductV2Mapper;
 import com.pantuo.pojo.TableRequest;
@@ -106,6 +108,8 @@ public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	BusOrderDetailV2Mapper v2Mapper;
+	@Autowired
+	OrdersMapper ordersMapper;
 	@Autowired
 	BusOrderV2Mapper v2OMapper;
 
@@ -816,6 +820,16 @@ public class ProductServiceImpl implements ProductService {
 			return new Pair<Boolean, String>(true,"操作成功");
 		}
 		return new Pair<Boolean, String>(false,"操作失败");
+	}
+
+	@Override
+	public Pair<Boolean, String> checkProHadBought(int productId) {
+		OrdersExample example=new OrdersExample();
+		example.createCriteria().andProductIdEqualTo(productId);
+		if(ordersMapper.selectByExample(example).size()>0){
+			return new Pair<Boolean, String>(false,"该产品已有用户下单，不能编辑");
+		}
+		return new Pair<Boolean, String>(true,"操作成功");
 	}
 	
 	
