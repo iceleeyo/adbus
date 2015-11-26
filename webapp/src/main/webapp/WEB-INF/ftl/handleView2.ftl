@@ -899,7 +899,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 		<div class="worm-tips">
 		<div class="tips-title">
 			<span class="icon"></span>
-			温馨提示：合同甲方与付款单位、开具发票单位三者名称必须完全一致。<br>
+			<font color="orange"><B>温馨提示</B></font>：合同甲方与付款单位、开具发票单位三者名称必须完全一致。<br>
 			线下付款的账户信息：<br>
 			&nbsp;&nbsp;&nbsp;&nbsp;开户行：<B>工行知春路支行</B><br>
 			&nbsp;&nbsp;&nbsp;&nbsp;账户名称：<b>北京世巴传媒有限公司</b><br>
