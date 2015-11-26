@@ -306,6 +306,79 @@ function check() {
 			}
 		}, "text");
 	}
+	
+	//---------------------排期部分js
+	 var w=0;
+	var _interval;
+	function _closeLayer(){
+		$("#cc").trigger("click");
+	}
+	function _scheduleProgess(){ 
+	$.ajax({
+					url : "${rc.contextPath}/schedule/process",
+					type : "GET",
+					success : function(data) {
+						// layer.closeAll('loading');
+						 
+						 $("#infoText").prepend("<span style='margin-left:130px'>"+(data.show)+"</span><br>");
+						 if(data.result!=null){
+						  	clearInterval(_interval);
+		  					 $("#infoText").prepend('<span style="margin-left:130px"><input type="button" id="subWithdraw" class="block-btn"   onclick="_closeLayer();" value="关闭"></span><br>');
+								//-------
+									 if(data.result.scheduled){
+										   layer.msg("库存充足可排期.");
+										   $("#ischeckInventory").val(1);
+										   $("#sureButton").css({"background-color":"rgb(245, 135, 8)"});
+										    $("#sureButton").css({"color":"#fff"});
+									}else{
+										var w=$.format.date(data.result.notSchedultDay, "yyyy-MM-dd");
+										//	layer.msg("日期:<font color='red'>"+w+"</font>  库存不足<br>"+data.msg, {icon: 5});
+									 	layer.confirm("日期:<font color='red'>"+w+"</font>  库存不足<br>根据当前订单信息库存信息如下:<br><br>"+data.result.msg+"<br><br>是否让系统推荐一个可排期的日期?", {icon: 3}, function(index){
+							    				layer.close(index);
+												layer.load(1);
+												setTimeout(function(){
+												    layer.closeAll('loading');
+												}, 60000*10);
+									
+											$.ajax({
+												url : "${rc.contextPath}/schedule/queryFeature/"+orderid+"?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
+												type : "POST",
+												success : function(data) {
+													 layer.closeAll('loading');
+												  	if(data.scheduled){
+												  		var w=$.format.date(data.notSchedultDay, "yyyy-MM-dd");
+												  		var t="从日期    <font color='red'>"+w+"</font>   起有档期可安排!";
+												  		 layer.alert(t, {icon: 6});
+												  	}else {
+												  	 layer.alert(data.msg, {icon: 6});
+												  	}
+												}
+											   }, "text");
+										});	
+								 }
+						  	//-------------------------------
+						  	}
+					}
+				   }, "text");
+	}
+	function initSchedultInfo(){
+		var t= "<span id='infoText'></span>";
+		layer.open({
+		title:'操作进行中,如中断请刷新页面',
+	    type: 1,
+	    skin: 'layui-layer-demo', //样式类名
+	    closeBtn: 0, //不显示关闭按钮
+	    shift: 2,
+	    area: ['400px', '400px'], 
+	    shadeClose: false, //开启遮罩关闭
+	    content: '<div><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/>'+t+"</div>"
+		});
+		_interval =setInterval(function () { _scheduleProgess(); }, 1700);
+
+	}
+	
+	
+	
 function checkInventory() {
       var orderid = $("#orderid").val();
       var startdate1= $("#generateSchedule #startdate1").val();
@@ -333,6 +406,7 @@ function checkInventory() {
 			},
 			success : function(data) {
 			 layer.closeAll('loading');
+			 /*
 			if(data.scheduled){
 				   layer.msg("库存充足可排期");
 				   $("#ischeckInventory").val(1);
@@ -364,13 +438,13 @@ function checkInventory() {
 					  	}
 					}
 				   }, "text");
-		});	
+			});	
 		
-		
-		
-				}
+		 }*/
 			}
 		}, "text");
+		
+		initSchedultInfo();
 	}
 function confirmSchedule() {
 	  var ischeckInventory= $("#ischeckInventory").val();
