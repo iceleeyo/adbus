@@ -820,7 +820,12 @@ public class ScheduleService {
 	};
 
 	
-	public SchedUltResult checkInventory(int id, String startdate1) {
+	public SchedUltResult checkInventory(int id, String startdate1, HttpServletRequest request) {
+		
+		
+		ScheduleProgressListener listener = new ScheduleProgressListener(request.getSession(),"_checkFeature");
+		
+		
 		JpaOrders order = orderService.getJpaOrder(id);
 		Date d = order.getStartTime();
 		if (StringUtils.isNotBlank(startdate1)) {
@@ -832,7 +837,8 @@ public class ScheduleService {
 			}
 		}
 		SchedUltResult r = new SchedUltResult("未来30天均无可排日期", false, null, false);
-		for (int i = 0; i < 30; i++) {
+		for (int i = 0; i < 30; i++) {   
+			listener.update("正在检查 ["+DateUtil.longDf.get().format(order.getStartTime()) +"]起 库存情况.");
 			r = schedule2(order, true,null);
 			if (!r.isScheduled) {
 				d = DateUtils.addDays(d, 1);
@@ -841,6 +847,7 @@ public class ScheduleService {
 				break;
 			}
 		}
+		listener.endResult(r);
 		return r;
 	}
 	@Autowired
