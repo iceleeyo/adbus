@@ -134,7 +134,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
 	                  	  	 }
 	                    }	
 	                    if(row.canClosed==true){
-		                    	tr+="<a class='operation' href=\"javascript:;\" tip=\"未支付的订单可以关闭哦!\"  class=\"btn disabled layer-tips\" onclick=\"showCloseRemark('${rc.contextPath}','"+row.order.id+"','"+( row.task_id)+"');\">关闭</a>&nbsp;";
+		                    	tr+="<a class='operation' href=\"javascript:;\" tip=\"未支付的订单可以关闭哦!\"  class=\"btn disabled layer-tips\" onclick=\"showCloseRemark('${rc.contextPath}','"+row.order.id+"','"+( row.task_id)+"');\">取消订单</a>&nbsp;";
 		                }
                   	  return tr;
                     }
