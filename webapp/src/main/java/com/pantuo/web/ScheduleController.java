@@ -167,10 +167,16 @@ public class ScheduleController {
 			@RequestParam(value = "startdate1", required = false) String startdate1,
 			@RequestParam(value = "taskid", required = false) String taskid,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
-		long t=System.currentTimeMillis();
-		SchedUltResult r= scheduleService.checkInventory(id, taskid, startdate1, ischeck, request);
-		log.info("SchedUltResult time:{}",System.currentTimeMillis()-t);
-		return r;
+//		long t=System.currentTimeMillis();
+		//add by xiaoli
+		JpaOrders order = orderService.getJpaOrder(id);
+		if (order.getType() == JpaProduct.Type.info || order.getType() == JpaProduct.Type.image) {
+			return scheduleService.scheduleInfoImg(order,taskid,startdate1);
+        }else{
+        	SchedUltResult r= scheduleService.checkInventory(id, taskid, startdate1, ischeck, request);
+        	return r;
+        }
+//		log.info("SchedUltResult time:{}",System.currentTimeMillis()-t);
 		
 	}
 

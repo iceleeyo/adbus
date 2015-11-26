@@ -496,7 +496,8 @@ function confirmSchedule() {
       var orderid = $("#orderid").val();
 		var taskid = $("#taskid").val();
       var startdate1= $("#generateSchedule #startdate1").val();
-      if(ischeckInventory==0){
+      var mediatype='${orderview.order.type}';
+      if(mediatype=='video' && ischeckInventory==0){
          layer.msg("确认排期前请先检查库存", {icon: 5});
           return;
       }
@@ -884,7 +885,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 							<div class="item">
 								<i></i><a recew="邮寄" class="select-type">邮寄</a>
 							</div>
-							<input type="hidden" id="receway" value="" />
+							<input type="hidden" id="receway" value="自取" />
 						</div>
 					</td>
 				</TR>
@@ -1069,8 +1070,12 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 					<TH>检查库存</TH>
 					<TD colspan=3>
 						<#if paymentResult>
+						  <#if orderview.order.type=='video'>
 						<button onclick="checkInventory();" class="block-btn">检查库存</button> 
 						<button id="sureButton" onclick="confirmSchedule();" class="block-btn" style="background:#f2f2f2"><font style="font-weight:bold;font-style:italic;">确定排期</font></button>
+						  <#else>
+						  <button id="sureButton" onclick="confirmSchedule();" class="block-btn" >确定排期</button>
+						 </#if>
 						<#else>
 						订单未经财务确认,暂不能排期!
 						 </#if>	

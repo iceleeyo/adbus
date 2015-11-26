@@ -39,6 +39,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import scala.reflect.generic.Trees.This;
+
 import com.mysema.query.types.ConstantImpl;
 import com.mysema.query.types.Ops;
 import com.mysema.query.types.Predicate;
@@ -117,7 +119,6 @@ public class ScheduleService {
 	private MailJob mailJob;
 	@Autowired
 	private GoodsSortMapper goodsSortMapper;
-
 
 	public ScheduleLog schedule(Date day, int orderId) {
 		return schedule(day, orderService.getJpaOrder(orderId));
@@ -541,25 +542,45 @@ public class ScheduleService {
 	@Autowired
 	private GoodsBlackRepository goodsBlackRepository;
 
-	public boolean scheduleInfoImg(JpaOrders order) {
+	public SchedUltResult scheduleInfoImg(JpaOrders order, String taskid, String startdate1) {
+		Date d = order.getStartTime();
+		if (StringUtils.isNotBlank(startdate1)) {
+			try {
+				d = DateUtil.longDf.get().parse(startdate1);
+				order.setStartTime(d);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
 		Date start = order.getStartTime();
 		int days = order.getProduct().getDays();
 		Calendar cal = DateUtil.newCalendar();
 		cal.setTime(start);
 		if (order == null || order.getId() == 0) {
-			log.error("Order {} does not exists or not persisted");
-			return false;
+			return new SchedUltResult("不存在该订单", false, new Date(), false);
 		}
 		if (days == 0) {
-			log.info("Order {} has 0 days", order.getId());
-			return false;
+			return new SchedUltResult("刊期不对", false, new Date(), false);
 		}
 		for (int i = 0; i < days; i++) {
 			Date day = cal.getTime();
 			saveInfoImg(day, order);
 			cal.add(Calendar.DATE, 1);
 		}
-		return true;
+		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
+		if (task == null) {
+			return new SchedUltResult("不存在该任务节点", false, new Date(), false);
+		}
+		Map<String, Object> variables = new HashMap<String, Object>();
+		variables.put("scheduleResult", true);
+		MailTask mailTask = new MailTask(order.getUserId(), order.getId(), null, task.getTaskDefinitionKey(),
+				Type.sendCompleteMail);
+		taskService.complete(task.getId(), variables);
+		mailJob.putMailTask(mailTask);
+		Date end = DateUtil.dateAdd(order.getStartTime(), order.getProduct().getDays());
+		order.setEndTime(end);
+		ordersRepository.save(order);
+		return new SchedUltResult(StringUtils.EMPTY, true, start, true);
 	}
 
 	@Autowired
@@ -604,49 +625,60 @@ public class ScheduleService {
 		}
 
 	}
-	public class SchedUltResult{
+
+	public class SchedUltResult {
 		String msg;
 		boolean isScheduled;
 		Date notSchedultDay;
 		boolean isFrist;
+
 		public String getMsg() {
 			return msg;
 		}
+
 		public void setMsg(String msg) {
 			this.msg = msg;
 		}
+
 		public boolean isScheduled() {
 			return isScheduled;
 		}
+
 		public void setScheduled(boolean isScheduled) {
 			this.isScheduled = isScheduled;
 		}
+
 		public Date getNotSchedultDay() {
 			return notSchedultDay;
 		}
+
 		public void setNotSchedultDay(Date notSchedultDay) {
 			this.notSchedultDay = notSchedultDay;
 		}
+
 		public boolean isFrist() {
 			return isFrist;
 		}
+
 		public void setFrist(boolean isFrist) {
 			this.isFrist = isFrist;
 		}
+
 		public SchedUltResult(String msg, boolean isScheduled, Date notSchedultDay, boolean isFrist) {
 			this.msg = msg;
 			this.isScheduled = isScheduled;
 			this.notSchedultDay = notSchedultDay;
 			this.isFrist = isFrist;
 		}
+
 		@Override
 		public String toString() {
 			return "SchedUltResult [msg=" + msg + ", isScheduled=" + isScheduled + "]";
 		}
-		
+
 	}
 
-	public SchedUltResult schedule2(JpaOrders order,boolean isOnlyCheck,ScheduleProgressListener listener) {
+	public SchedUltResult schedule2(JpaOrders order, boolean isOnlyCheck, ScheduleProgressListener listener) {
 		Date start = order.getStartTime();
 		int days = order.getProduct().getDays();
 		Date end = DateUtil.dateAdd(start, days);
@@ -666,7 +698,7 @@ public class ScheduleService {
 			l.add(b);
 		}
 		cal.setTime(start);
-		SchedUltResult isAllAllow =new SchedUltResult(StringUtils.EMPTY , false, null, false); 
+		SchedUltResult isAllAllow = new SchedUltResult(StringUtils.EMPTY, false, null, false);
 		List<JpaGoods> gs = new ArrayList<JpaGoods>();
 		Map<Integer, JpaBox> boxEx = new HashMap<Integer, JpaBox>();
 		for (int i = 0; i < days; i++) {
@@ -674,12 +706,12 @@ public class ScheduleService {
 			if (!boxDayMap.containsKey(day)) {
 				List<JpaBox> boxesForDay = new ArrayList<>(slots.getContent().size());
 				for (JpaTimeslot slot : slots) {
-					JpaBox box=Schedule.boxFromTimeslot(city, day, slot);
+					JpaBox box = Schedule.boxFromTimeslot(city, day, slot);
 					box.setFsort(1000);
 					box.setSort(1000);
 					boxesForDay.add(box);
 				}
-			 
+
 				boxRepo.save(boxesForDay);
 				boxDayMap.put(day, boxesForDay);
 			}
@@ -697,24 +729,25 @@ public class ScheduleService {
 				//首播排完了排非首播
 				playNum = order.getProduct().getPlayNumber() - order.getProduct().getFirstNumber();
 				if (playNum > 0) {
-					isAllAllow = scheduleNormal(gs, boxEx, order, playNum, start, days, boxDayMap,listener);
+					isAllAllow = scheduleNormal(gs, boxEx, order, playNum, start, days, boxDayMap, listener);
 				}
 			}
 		} else {
 			listener.update("开始常规时间段排期<");
 			//排非首播
-			isAllAllow = scheduleNormal(gs, boxEx, order, order.getProduct().getPlayNumber(), start, days, boxDayMap,listener);
+			isAllAllow = scheduleNormal(gs, boxEx, order, order.getProduct().getPlayNumber(), start, days, boxDayMap,
+					listener);
 			if (!isAllAllow.isScheduled) {
 				isAllAllow = scheduleFirst(gs, boxEx, order, order.getProduct().getPlayNumber(), start, days, boxDayMap);
 			}
 		}
-		if ( !isOnlyCheck && isAllAllow.isScheduled) {
+		if (!isOnlyCheck && isAllAllow.isScheduled) {
 			listener.update("开始保存排期结果<");
 			goodsRepo.save(gs);
 			boxRepo.save(boxEx.values());
 			listener.update("保存排期结果结束!");
 		}
-		if(isOnlyCheck){
+		if (isOnlyCheck) {
 			listener.updateInfo("库存检查结束!");
 		}
 		log.info(isAllAllow.toString());
@@ -723,8 +756,8 @@ public class ScheduleService {
 	}
 
 	//排首播
-	private SchedUltResult scheduleFirst(List<JpaGoods> gs, Map<Integer, JpaBox> boxEx, JpaOrders order, int numberPlayer,
-			Date start, int days, Map<Date, List<JpaBox>> boxDayMap) {
+	private SchedUltResult scheduleFirst(List<JpaGoods> gs, Map<Integer, JpaBox> boxEx, JpaOrders order,
+			int numberPlayer, Date start, int days, Map<Date, List<JpaBox>> boxDayMap) {
 		int duration = (int) order.getProduct().getDuration();
 		Calendar cal = DateUtil.newCalendar();
 		cal.setTime(start);
@@ -752,7 +785,7 @@ public class ScheduleService {
 				}
 			}
 			if (k < numberPlayer) {
-				return new SchedUltResult("可上刊库存:"+k+" 订单上刊次数"+numberPlayer, false, day, true);
+				return new SchedUltResult("可上刊库存:" + k + " 订单上刊次数" + numberPlayer, false, day, true);
 			}
 			cal.add(Calendar.DATE, 1);
 		}
@@ -760,18 +793,18 @@ public class ScheduleService {
 	}
 
 	//排非首播
-	private SchedUltResult scheduleNormal(List<JpaGoods> gs, Map<Integer, JpaBox> boxEx, JpaOrders order, int numberPlayer,
-			Date start, int days, Map<Date, List<JpaBox>> boxDayMap,ScheduleProgressListener listener) {
+	private SchedUltResult scheduleNormal(List<JpaGoods> gs, Map<Integer, JpaBox> boxEx, JpaOrders order,
+			int numberPlayer, Date start, int days, Map<Date, List<JpaBox>> boxDayMap, ScheduleProgressListener listener) {
 		Calendar cal = DateUtil.newCalendar();
 		cal.setTime(start);
 		int duration = (int) order.getProduct().getDuration();
 		for (int i = 0; i < days; i++) {
 			Date day = cal.getTime();
-		//	listener.update("开始检查 ["+DateUtil.longDf.get().format(day) +"] 库存情况.");
+			//	listener.update("开始检查 ["+DateUtil.longDf.get().format(day) +"] 库存情况.");
 			int k = 0;
 			List<JpaBox> list2 = boxDayMap.get(day);
 			for (int j = 0; j < numberPlayer; j++) {
-				
+
 				Collections.sort(list2, NORMAL_COMPARATOR);
 				JpaBox box = list2.get(0);
 				if (box.getSize() - box.getRemain() >= duration) {
@@ -791,7 +824,7 @@ public class ScheduleService {
 				}
 			}
 			if (k < numberPlayer) {
-				return new SchedUltResult("可上刊库存:"+k+" 订单上刊次数"+numberPlayer, false, day, false);
+				return new SchedUltResult("可上刊库存:" + k + " 订单上刊次数" + numberPlayer, false, day, false);
 			}
 			cal.add(Calendar.DATE, 1);
 		}
@@ -819,8 +852,7 @@ public class ScheduleService {
 		}
 	};
 
-	
-	public SchedUltResult checkInventory(int id, String startdate1, HttpServletRequest request) {
+public SchedUltResult checkInventory(int id, String startdate1, HttpServletRequest request) {
 		
 		
 		ScheduleProgressListener listener = new ScheduleProgressListener(request.getSession(),ScheduleProgressListener.Type._checkFeature);
@@ -851,152 +883,155 @@ public class ScheduleService {
 		listener.endResult(r);
 		return r;
 	}
+
 	@Autowired
 	private TimeslotRepository timeslotRepository;
 	@Autowired
 	private UserAutoCompleteMapper userAutoCompleteMapper;
-	 public void writeExcel(String filePath,int orderId,HttpServletResponse response) {  
-		   Map<Integer, ScheduleView> map=new LinkedHashMap<Integer, ScheduleView>();
-			List<JpaTimeslot> lotlList=timeslotRepository.findAll();
-			for (JpaTimeslot jpaTimeslot : lotlList) {
-				 ScheduleView view= new ScheduleView();
-				map.put(jpaTimeslot.getId(), view);
-				view.setTimeslot(jpaTimeslot);
+
+	public void writeExcel(String filePath, int orderId, HttpServletResponse response) {
+		Map<Integer, ScheduleView> map = new LinkedHashMap<Integer, ScheduleView>();
+		List<JpaTimeslot> lotlList = timeslotRepository.findAll();
+		for (JpaTimeslot jpaTimeslot : lotlList) {
+			ScheduleView view = new ScheduleView();
+			map.put(jpaTimeslot.getId(), view);
+			view.setTimeslot(jpaTimeslot);
+		}
+		JpaOrders order = orderService.getJpaOrder(orderId);
+		if (order != null) {
+			String dString = DateUtil.longDf.get().format(order.getStartTime());
+			List<MediaInventory> list = userAutoCompleteMapper.getScheduleViewByDateStr(orderId, dString);
+			for (MediaInventory mediaInventory : list) {
+				ScheduleView scheduleView = map.get(mediaInventory.getSotid());
+				String d = DateUtil.longDf.get().format(mediaInventory.getDay());
+				scheduleView.getMap().put(d, mediaInventory.getNum());
+
 			}
-			 JpaOrders order = orderService.getJpaOrder(orderId);
-				if (order != null) {
-				   String dString=DateUtil.longDf.get().format(order.getStartTime());
-				   List<MediaInventory> list=userAutoCompleteMapper.getScheduleViewByDateStr(orderId,dString);
-				   for (MediaInventory mediaInventory : list) {
-						  ScheduleView scheduleView= map.get(mediaInventory.getSotid());
-						  String d=DateUtil.longDf.get().format(mediaInventory.getDay());  
-						  scheduleView.getMap().put(d, mediaInventory.getNum());
-					  
-				}
-				   Collection<ScheduleView> views= map.values();
-		  
-	        if (null != filePath && !"".equals(filePath.trim())) {  
-	  
-	            WritableWorkbook wWorkbook = null;  
-	            OutputStream outputStream = null;  
-	  
-	            // 根据不同的excel格式创建workbook  
-	            if (filePath.trim().toLowerCase().endsWith(".xls")) {  
-	  
-	                try {  
-	                	response.setHeader("Content-Type", "application/x-xls");
-	                	response.setHeader("Content-Disposition", "attachment; filename=\"order-schedule.xls\"");
-	                    outputStream = response.getOutputStream();//new FileOutputStream(filePath);  
-	                    wWorkbook = Workbook.createWorkbook(outputStream);  
-	                    WritableSheet wSheet = wWorkbook.createSheet("订单排期表", 0);  
-	                    // 添加string  
-	                    wSheet.addCell(new Label(0, 0, "广告名称")); 
-	                    wSheet.addCell(new Label(1, 0, "广告内容编号")); 
-	                    wSheet.addCell(new Label(2, 0, "播出周期")); 
-	                    wSheet.addCell(new Label(3, 0, "广告时长")); 
-	                    wSheet.addCell(new Label(4, 0, "播出频次")); 
-	                     String startt=DateUtil.longDf.get().format(order.getStartTime());
-	                     String endt=DateUtil.longDf.get().format(order.getEndTime());
-	                    wSheet.addCell(new Label(0, 1, order.getProduct().getName())); 
-	                    wSheet.addCell(new Label(1, 1, order.getSupplies().getSeqNumber())); 
-	                    wSheet.addCell(new Label(2, 1,startt+"至"+endt )); 
-	                    wSheet.addCell(new Label(3, 1, String.valueOf(order.getProduct().getDuration())+"s")); 
-	                    wSheet.addCell(new Label(4, 1, String.valueOf(order.getProduct().getPlayNumber())+"次/天")); 
-	                    
-	                	int j=5;
-	                	int k=3;
-	                    wSheet.addCell(new Label(0, 4, "包名")); 
-	                    wSheet.addCell(new Label(1, 4, "时间段")); 
-	                    wSheet.addCell(new Label(2, 4, "时长")); 
-	                    Calendar cal = DateUtil.newCalendar();
-	        			cal.setTime(order.getStartTime());
-	        			List<String> dList=new ArrayList<String>();
-	        			while (cal.getTime().before(order.getEndTime())) {
-	        				String dSt=DateUtil.longDf.get().format(cal.getTime());
-	        				dList.add(dSt);
-	        			    wSheet.addCell(new Label(k, 4, dSt)); 
-	        				cal.add(Calendar.DATE, 1);
-	        				k++;
-	        			}
-	        		
-	        			for (ScheduleView scheduleView : views) {
-	        				wSheet.addCell(new Label(0, j, scheduleView.getTimeslot().getName())); 
-	        				wSheet.addCell(new Label(1, j, scheduleView.getTimeslot().getStartTimeStr())); 
-	        				wSheet.addCell(new Label(2, j, scheduleView.getTimeslot().getDurationStr())); 
-	        				
-	        				int h=3;
-	        				for (String string : dList) {
-	        					Integer a= scheduleView.getMap().get(string);
-	        					String tempd=StringUtils.EMPTY;
-	        					if(a!=null){
-	        						tempd=a.toString();
-	        					}
-	        					wSheet.addCell(new Label(h, j,tempd)); 
-	        					h++;
-							}
-	        				j++;
+			Collection<ScheduleView> views = map.values();
+
+			if (null != filePath && !"".equals(filePath.trim())) {
+
+				WritableWorkbook wWorkbook = null;
+				OutputStream outputStream = null;
+
+				// 根据不同的excel格式创建workbook  
+				if (filePath.trim().toLowerCase().endsWith(".xls")) {
+
+					try {
+						response.setHeader("Content-Type", "application/x-xls");
+						response.setHeader("Content-Disposition", "attachment; filename=\"order-schedule.xls\"");
+						outputStream = response.getOutputStream();//new FileOutputStream(filePath);  
+						wWorkbook = Workbook.createWorkbook(outputStream);
+						WritableSheet wSheet = wWorkbook.createSheet("订单排期表", 0);
+						// 添加string  
+						wSheet.addCell(new Label(0, 0, "广告名称"));
+						wSheet.addCell(new Label(1, 0, "广告内容编号"));
+						wSheet.addCell(new Label(2, 0, "播出周期"));
+						wSheet.addCell(new Label(3, 0, "广告时长"));
+						wSheet.addCell(new Label(4, 0, "播出频次"));
+						String startt = DateUtil.longDf.get().format(order.getStartTime());
+						String endt = DateUtil.longDf.get().format(order.getEndTime());
+						wSheet.addCell(new Label(0, 1, order.getProduct().getName()));
+						wSheet.addCell(new Label(1, 1, order.getSupplies().getSeqNumber()));
+						wSheet.addCell(new Label(2, 1, startt + "至" + endt));
+						wSheet.addCell(new Label(3, 1, String.valueOf(order.getProduct().getDuration()) + "s"));
+						wSheet.addCell(new Label(4, 1, String.valueOf(order.getProduct().getPlayNumber()) + "次/天"));
+
+						int j = 5;
+						int k = 3;
+						wSheet.addCell(new Label(0, 4, "包名"));
+						wSheet.addCell(new Label(1, 4, "时间段"));
+						wSheet.addCell(new Label(2, 4, "时长"));
+						Calendar cal = DateUtil.newCalendar();
+						cal.setTime(order.getStartTime());
+						List<String> dList = new ArrayList<String>();
+						while (cal.getTime().before(order.getEndTime())) {
+							String dSt = DateUtil.longDf.get().format(cal.getTime());
+							dList.add(dSt);
+							wSheet.addCell(new Label(k, 4, dSt));
+							cal.add(Calendar.DATE, 1);
+							k++;
 						}
-	        				
-	        			
-	                    //需要write  
-	                    wWorkbook.write();  
-	                    wWorkbook.close();  
-	                } catch (Exception e) {  
-	                    e.printStackTrace();  
-	                } finally {  
-	  
-	                    if (null != outputStream) {  
-	                        try {  
-	                            outputStream.close();  
-	                        } catch (Exception e) {  
-	                            e.printStackTrace();  
-	                        }  
-	                    }  
-	  
-	                }  
-	            }
-	        }
+
+						for (ScheduleView scheduleView : views) {
+							wSheet.addCell(new Label(0, j, scheduleView.getTimeslot().getName()));
+							wSheet.addCell(new Label(1, j, scheduleView.getTimeslot().getStartTimeStr()));
+							wSheet.addCell(new Label(2, j, scheduleView.getTimeslot().getDurationStr()));
+
+							int h = 3;
+							for (String string : dList) {
+								Integer a = scheduleView.getMap().get(string);
+								String tempd = StringUtils.EMPTY;
+								if (a != null) {
+									tempd = a.toString();
+								}
+								wSheet.addCell(new Label(h, j, tempd));
+								h++;
+							}
+							j++;
+						}
+
+						//需要write  
+						wWorkbook.write();
+						wWorkbook.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					} finally {
+
+						if (null != outputStream) {
+							try {
+								outputStream.close();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+
+					}
 				}
-	  
-	    }  
-	public SchedUltResult checkInventory(int id, String taskid,String startdate1, boolean ischeck, HttpServletRequest request) {
-		
+			}
+		}
+
+	}
+
+	public SchedUltResult checkInventory(int id, String taskid, String startdate1, boolean ischeck,
+			HttpServletRequest request) {
+
 		ScheduleProgressListener listener = new ScheduleProgressListener(request.getSession());
-		
-		 JpaOrders order = orderService.getJpaOrder(id);
-		 Date d=order.getStartTime();
-		 if(StringUtils.isNotBlank(startdate1)){
-				try {
-					d=DateUtil.longDf.get().parse(startdate1);
-					order.setStartTime(d);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}	 
-			 }
+
+		JpaOrders order = orderService.getJpaOrder(id);
+		Date d = order.getStartTime();
+		if (StringUtils.isNotBlank(startdate1)) {
+			try {
+				d = DateUtil.longDf.get().parse(startdate1);
+				order.setStartTime(d);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
 		if (ischeck) {
 			SchedUltResult result = schedule2(order, ischeck, listener);
 			listener.endResult(result);
 			return result;
-		}else{
-			 SchedUltResult r= schedule2(order,ischeck,listener);
-			 if(r.isScheduled){
-				 Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
-				 if(task==null){
-					 r=new SchedUltResult("不存在该任务节点", false, d, true);
-				 }
-				 Map<String, Object> variables = new HashMap<String, Object>();
-				 variables.put("scheduleResult", true);
-				 MailTask mailTask = new MailTask(order.getUserId(), id, null, task.getTaskDefinitionKey(),
-						 Type.sendCompleteMail);
-				 taskService.complete(task.getId(), variables);
-				 mailJob.putMailTask(mailTask);
-			 }
-			 Date end = DateUtil.dateAdd(order.getStartTime(), order.getProduct().getDays());
-			 order.setEndTime(end);
-			 ordersRepository.save(order);
-			 listener.endResult(r);
-			 return r;
-		 }
+		} else {
+			SchedUltResult r = schedule2(order, ischeck, listener);
+			if (r.isScheduled) {
+				Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
+				if (task == null) {
+					r = new SchedUltResult("不存在该任务节点", false, d, true);
+				}
+				Map<String, Object> variables = new HashMap<String, Object>();
+				variables.put("scheduleResult", true);
+				MailTask mailTask = new MailTask(order.getUserId(), id, null, task.getTaskDefinitionKey(),
+						Type.sendCompleteMail);
+				taskService.complete(task.getId(), variables);
+				mailJob.putMailTask(mailTask);
+			}
+			Date end = DateUtil.dateAdd(order.getStartTime(), order.getProduct().getDays());
+			order.setEndTime(end);
+			ordersRepository.save(order);
+			listener.endResult(r);
+			return r;
+		}
 	}
 
 }

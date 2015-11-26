@@ -347,7 +347,7 @@ public class CardServiceImpl implements CardService {
 		if (StringUtils.equals(type, "media")) {
 			long seriaNum = getCardBingSeriaNum(principal);
 			CardboxMediaExample example = new CardboxMediaExample();
-			example.createCriteria().andSeriaNumEqualTo(seriaNum).andProductIdEqualTo(proid)
+			example.createCriteria().andSeriaNumEqualTo(seriaNum).andProductIdEqualTo(proid).andIsConfirmEqualTo(0)
 					.andUserIdEqualTo(Request.getUserId(principal));
 			List<CardboxMedia> c = cardMapper.selectByExample(example);
 			JpaProduct product = productRepository.findOne(proid);

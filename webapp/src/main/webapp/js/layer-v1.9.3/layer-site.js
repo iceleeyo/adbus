@@ -367,7 +367,7 @@ function supEnter(tourl,city,type){
 					 +'<textarea rows="4" cols="30" name="infoContext" id="infoContext" style="resize: none;" ></textarea>'
 					 +'</div>'
 					 +'<div class="ui-form-item" id="file"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>物料上传</label> <div id="newUpload2"> <div class="filebox" id="div_1"> <input type="file" name="file" id="Sfile" class="validate[required]"> </div> </div>'
-					 +'<input class="btn-sm btn-success" type="button" id="btn_add2" value="增加一行" style="margin-top: 10px;"><br> </div>'
+					 +'<input class="btn-sm btn-success" type="button" id="btn_add4" value="增加一行" style="margin-top: 10px;"><br> </div>'
 					 +'<div class="ui-form-item"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>资质上传</label> <div id="newUpload3"> <div id="quadiv_1"> <input type="file" name="qua" id="Sfile1" class="validate[required]"> </div> </div>'
 					 +'<input class="btn-sm btn-success" type="button" id="btn_add3" value="增加一行" style="margin-top: 10px;" ><br> </div> <div class="widthdrawBtBox" style="margin-top: 25;"> <input type="button" id="uploadbutton" style="margin-right: 20px;" class="block-btn" onclick="subSup();" value="开始上传"><input type="button" id="subWithdraw" class="block-btn" onclick="showdoc();" value="查看物料规格说明"> </div>'
 					 +'<div id="progress1"> <div class="percent"></div> <div class="pbar"></div> <div class="elapsed"></div> </div> </div> </div></form>'
@@ -435,7 +435,7 @@ function supEnter(tourl,city,type){
         	});
 		i = 2;
 		j = 2;
-		$("#btn_add2").click(function() {
+		$("#btn_add4").click(function() {
 		    $("#newUpload2").append(
 		            '<div id="div_'+j+'"><input  name="file_'+j+'" type="file"  style="margin-top:10px;"  class="validate[required]" />' +
 		            '<input class="btn-sm btn-wrong" type="button"  style="margin-top:10px;" value="删除"  onclick="del_2('+ j + ')"/></div>');
