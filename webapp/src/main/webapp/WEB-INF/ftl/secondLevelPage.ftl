@@ -54,9 +54,9 @@ function tocard(pathurl){
 						<button class="search-btn" type="submit" id="search-btn">搜索</button>
 					</div>
 					<div class="search-key">
-						<span><a href="javascript:void(0)">硬广</a></span> <span><a
-							href="javascript:void(0)">图片</a></span> <span><a
-							href="javascript:void(0)">字幕</a></span> <span><a
+						<span><a href="javascript:void(0)">全屏硬广</a></span> <span><a
+							href="javascript:void(0)">INFO图片</a></span> <span><a
+							href="javascript:void(0)">INFO字幕</a></span> <span><a
 							href="javascript:void(0)">32次</a></span> <span><a
 							href="javascript:void(0)">64次</a></span> <span><a
 							href="javascript:void(0)">14天</a></span> 
