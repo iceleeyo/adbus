@@ -30,7 +30,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
             "ordering": true,
             "serverSide": true,
             "columnDefs": [
-                { "orderable": false, "targets": [2,3,4,7,8,9,10,11] },
+                { "orderable": false, "targets": [0,1,4,7,8,9,10,11] },
             ],
             "iDisplayLength" : 20,
             "aLengthMenu": [[20, 40, 100], [20, 40, 100]],
