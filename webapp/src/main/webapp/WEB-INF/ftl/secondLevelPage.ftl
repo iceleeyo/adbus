@@ -66,7 +66,7 @@ function tocard(pathurl){
 				</div>
 			</div>
 			<div class="middle">
-				<div class="md-nav">媒体产品>移动电视</div>
+				<!--  <div class="md-nav">媒体产品>移动电视</div> -->
 				<div class="ad">
 					<div class="banner" id="b04">
 						<ul>
