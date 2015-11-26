@@ -307,7 +307,7 @@ function check() {
 		}, "text");
 	}
 	
-	//---------------------排期部分js
+	//---------------------排期部分js---作者panxh
 	 var w=0;
 	var _interval;
 	function _closeLayer(){
@@ -322,17 +322,20 @@ function check() {
 						 
 						 $("#infoText").prepend("<span style='margin-left:130px'>"+(data.show)+"</span><br>");
 						 if(data.result!=null){
+						 	
 						  	clearInterval(_interval);
 		  					 $("#infoText").prepend('<span style="margin-left:130px"><input type="button" id="subWithdraw" class="block-btn"   onclick="_closeLayer();" value="关闭"></span><br>');
 								//-------
 									 if(data.result.scheduled){
 										   layer.msg("库存充足可排期.");
+										   _closeLayer();
 										   $("#ischeckInventory").val(1);
 										   $("#sureButton").css({"background-color":"rgb(245, 135, 8)"});
 										    $("#sureButton").css({"color":"#fff"});
 									}else{
 										var w=$.format.date(data.result.notSchedultDay, "yyyy-MM-dd");
 										//	layer.msg("日期:<font color='red'>"+w+"</font>  库存不足<br>"+data.msg, {icon: 5});
+										_closeLayer();
 									 	layer.confirm("日期:<font color='red'>"+w+"</font>  库存不足<br>根据当前订单信息库存信息如下:<br><br>"+data.result.msg+"<br><br>是否让系统推荐一个可排期的日期?", {icon: 3}, function(index){
 							    				layer.close(index);
 												layer.load(1);
