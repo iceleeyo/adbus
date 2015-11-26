@@ -55,11 +55,11 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                 { "data": "_cars", "defaultContent": ""},
                 { "data": "company.name", "defaultContent": ""},
                 { "data": "levelStr", "defaultContent": ""},
-                    { "data": "linetype", "defaultContent": ""},
-                    { "data": "description", "defaultContent": ""},
-                     { "data": "routelocation", "defaultContent": ""},
-                 { "data": "tolength", "defaultContent": ""},
-                  { "data": "status", "defaultContent": ""},
+                { "data": "linetype", "defaultContent": ""},
+                { "data": "description", "defaultContent": ""},
+                { "data": "routelocation", "defaultContent": ""},
+                { "data": "tolength", "defaultContent": ""},
+                { "data": "status", "defaultContent": ""},
                 { "data": function( row, type, set, meta) {
                     return row.id;
                     },
