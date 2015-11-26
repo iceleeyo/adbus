@@ -140,7 +140,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
-                          '   <span>线路：</span>' +
+                        '   <span>线路：</span>' +
                         '    <span>' +
                         '        <input id="linename" value="" ' +
                         '    <span>线路级别</span>&nbsp;&nbsp;' +
