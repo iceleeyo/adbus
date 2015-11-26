@@ -163,7 +163,7 @@ public class ScheduleController {
 	@ResponseBody
 	public SchedUltResult queryFeature(Model model, HttpServletRequest request, HttpServletResponse response,
 			@PathVariable("id") int id, @RequestParam(value = "startdate1", required = false) String startdate1) {
-		return scheduleService.checkInventory(id, startdate1);
+		return scheduleService.checkInventory(id, startdate1,request);
 	}
 	@RequestMapping(value = "/writeExcel/{orderid}")
 	public void writeExcel(Model model, HttpServletRequest request, HttpServletResponse response,
