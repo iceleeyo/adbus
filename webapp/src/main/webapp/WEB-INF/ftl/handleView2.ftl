@@ -341,7 +341,7 @@ function check() {
 												setTimeout(function(){
 												    layer.closeAll('loading');
 												}, 60000*10);
-									
+											var orderid = $("#orderid").val();
 												$.ajax({
 													url : "${rc.contextPath}/schedule/queryFeature/"+orderid+"?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
 													type : "POST",
