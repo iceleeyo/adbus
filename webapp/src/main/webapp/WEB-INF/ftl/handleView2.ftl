@@ -1500,7 +1500,7 @@ $(document).ready(function(){
 					  var t2 =decodeURIComponent(json);
 					  var obj = jQuery.parseJSON(t2);
 					  //-----------
-					  if(obj.reqType == 'schInfo' )
+					  if(obj.reqType == 'schInfo' ){
 									 if(obj.scheduled==true){
 											   layer.msg("库存充足可排期.");
 											   _closeLayer();
