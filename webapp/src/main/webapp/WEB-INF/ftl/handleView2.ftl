@@ -1536,8 +1536,10 @@ $(document).ready(function(){
 									if(obj.scheduled){
 										var w=$.format.date(obj.notSchedultDay, "yyyy-MM-dd");
 										var t="从日期    <font color='red'>"+w+"</font>   起有档期可安排!";
+										_closeLayer();
 										layer.alert(t, {icon: 6});
 									} else {
+									alert(obj.msg);
 										layer.alert(obj.msg, {icon: 6});
 									}					  	
 						}
