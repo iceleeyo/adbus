@@ -253,7 +253,7 @@ function ishaveline(linename){
 					<a class="item" href="#" qc="APP">A++<i>×</i></a> 
 					<a class="item" href="#" qc="AP">A+<i>×</i></a> 
 					<a class="item" href="#" qc="A">A<i>×</i></a>
-					<a class="item" href="#" qc="LATLONG">其他<i>×</i></a>
+					<a class="item" href="#" qc="LATLONG">无<i>×</i></a>
 				</div>
 			</div>
 			<div class="sift-item s-clear">
