@@ -26,7 +26,8 @@
 				href="${rc.contextPath}/busselect/myTask/1"> <i
 					class="s-left pg-icon-a a-icon"></i> 待办事项
 			</a></li> </@security.authorize> 
-				<@security.authorize ifAnyGranted="bodyOnlineManager,advertiser">
+				<@security.authorize ifAnyGranted="bodyOnlineManager">
+				<!-- 移除广告主权限，车身网上订单暂未开放 -->
 			<li class="pg-side-item">
 			      <a class="pg-side-item-t aa-icon"  href="${rc.contextPath}/carbox/carTask">
 					 <i class="s-left pg-icon-a d-icon"></i> 车身网上订单
