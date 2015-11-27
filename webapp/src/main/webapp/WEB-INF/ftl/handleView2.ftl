@@ -1009,7 +1009,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 	<div class="p20bs mt10 color-white-bg border-ec">
 		<H3 class="text-xl title-box">
 			<p style="text-align: left">
-				<A class="black" href="">生成排期表</A> <input type="text" onclick="tttt()">
+				<A class="black" href="">生成排期表</A><!-- <input type="text" onclick="tttt()">-->
 			</p>
 		</H3>
 		<br>
