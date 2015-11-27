@@ -188,36 +188,22 @@ public class ProductServiceImpl implements ProductService {
 			} else if (StringUtils.equals(entry.getKey(), "s") && vIntegers.size() > 0) {
 				BooleanExpression subQuery = null;
 				for (String playNumber : vIntegers) {
-					if (StringUtils.equals("2", playNumber)) {
-						subQuery = subQuery == null ? QJpaProduct.jpaProduct.playNumber.between(0, 6) : subQuery
-								.or(QJpaProduct.jpaProduct.playNumber.between(0, 6));
-					} else if (StringUtils.equals("3", playNumber)) {
-						subQuery = subQuery == null ? QJpaProduct.jpaProduct.playNumber.between(7, 11) : subQuery
-								.or(QJpaProduct.jpaProduct.playNumber.between(7, 11));
-					} else if (StringUtils.equals("4", playNumber)) {
-						subQuery = subQuery == null ? QJpaProduct.jpaProduct.playNumber.gt(11) : subQuery
-								.or(QJpaProduct.jpaProduct.playNumber.gt(11));
-					}
+					 String[] qc=StringUtils.split(playNumber, "-");
+	                    int f= NumberUtils.toInt(qc[0]);
+	                    int e= NumberUtils.toInt(qc[1]);
+	                    subQuery = subQuery == null ? QJpaProduct.jpaProduct.playNumber.between(f, e) : subQuery
+								.or(QJpaProduct.jpaProduct.playNumber.between(f, e));
 				}
 				query = query == null ? subQuery : query.and(subQuery);
 			} else if (StringUtils.equals(entry.getKey(), "d") && vIntegers.size() > 0) {
 				BooleanExpression subQuery = null;
 				for (String playNumber : vIntegers) {
-
-					if (StringUtils.equals("2", playNumber)) {
-						subQuery = subQuery == null ? QJpaProduct.jpaProduct.days.eq(1) : subQuery
-								.or(QJpaProduct.jpaProduct.days.eq(1));
-					} else if (StringUtils.equals("3", playNumber)) {
-						subQuery = subQuery == null ? QJpaProduct.jpaProduct.days.between(2, 6) : subQuery
-								.or(QJpaProduct.jpaProduct.days.between(2, 6));
-					} else if (StringUtils.equals("4", playNumber)) {
-						subQuery = subQuery == null ? QJpaProduct.jpaProduct.days.eq(7) : subQuery
-								.or(QJpaProduct.jpaProduct.days.eq(7));
-
-					} else if (StringUtils.equals("5", playNumber)) {
-						subQuery = subQuery == null ? QJpaProduct.jpaProduct.days.gt(7) : subQuery
-								.or(QJpaProduct.jpaProduct.days.gt(7));
-					}
+                     String[] qc=StringUtils.split(playNumber, "-");
+                    int f= NumberUtils.toInt(qc[0]);
+                    int e= NumberUtils.toInt(qc[1]);
+					subQuery = subQuery == null ? QJpaProduct.jpaProduct.days.between(f, e) : subQuery
+								.or(QJpaProduct.jpaProduct.days.between(f, e));
+					
 				}
 				query = query == null ? subQuery : query.and(subQuery);
 			} else if (StringUtils.equals(entry.getKey(), "lev") && vIntegers.size() > 0) {

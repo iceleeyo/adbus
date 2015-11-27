@@ -233,17 +233,18 @@ function tocard(pathurl){
 							<span class="desp">日展次数：</span> 
 							<span class="sift-list" qt="s">
 								<a class="item active" href="#" sort="-1" qc="all">所有</a>
-								<a class="item" href="#" qc="2">0-7（不含）<i>×</i></a> 
-								<a class="item"	href="#" qc="3">7-11（含）<i>×</i></a> 
-								<a class="item" href="#" qc="4">11以上<i>×</i></a>
+								<a class="item" href="#" qc="0-7">0-7（不含）<i>×</i></a> 
+								<a class="item"	href="#" qc="7-11">7-11（含）<i>×</i></a> 
+								<a class="item" href="#" qc="12-3000">11以上<i>×</i></a>
 							</span>
 						</div>
 						<div class="back-item">
 							<span class="desp">展示期限：</span> <span class="sift-list" qt="d">
-								<a class="item active" href="#" sort="-1" qc="all">所有</a> <a
-								class="item" href="#" qc="2">1（天）<i>×</i></a> <a class="item"
-								href="#" qc="3">2-6（含）<i>×</i></a> <a class="item" href="#"
-								qc="4">7（天）<i>×</i></a> <a class="item" href="#" qc="5">7天以上<i>×</i></a>
+								<a class="item active" href="#" sort="-1" qc="all">所有</a> 
+								<a class="item" href="#" qc="1-1">1（天）<i>×</i></a>
+								 <a class="item" href="#" qc="2-6">2-6（含）<i>×</i></a> 
+								<a class="item" href="#" qc="7-7">7（天）<i>×</i></a> 
+								<a class="item" href="#" qc="8-2000">7天以上<i>×</i></a>
 							</span>
 						</div>
 					</div>
