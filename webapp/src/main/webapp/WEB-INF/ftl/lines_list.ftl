@@ -150,6 +150,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                   		'<option value="APP">A++</option>' +
                   		'<option value="AP">A+</option>' +
                   		'<option value="A">A</option>' +
+                  		'<option value="LATLONG">无</option>' +
          				'</select>' +
                         '</div>'
         );
