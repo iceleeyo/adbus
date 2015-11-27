@@ -1539,7 +1539,7 @@ $(document).ready(function(){
 										_closeLayer();
 										layer.alert(t, {icon: 6});
 									} else {
-									alert(obj.msg);
+									//alert(obj.msg);
 										layer.alert(obj.msg, {icon: 6});
 									}					  	
 						}
