@@ -64,4 +64,21 @@
         org.springframework.web.context.request.RequestContextListener
     </listener-class>
 </listener>
+
+	 
+	 <servlet>  
+   <servlet-name>pushlet</servlet-name>  
+   <servlet-class>nl.justobjects.pushlet.servlet.Pushlet</servlet-class>  
+   <load-on-startup>1</load-on-startup>  
+ </servlet>  
+ <servlet-mapping>  
+   <servlet-name>pushlet</servlet-name>  
+   <url-pattern>*.srv</url-pattern>
+   <!-- <url-pattern>/pushlet.srv</url-pattern>-->  
+ </servlet-mapping> 
+ 
+ 
+ 
+ 
+ 
 </web-app>
