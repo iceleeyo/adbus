@@ -265,6 +265,7 @@ public class DataInitializationService {
 		long count = userService.countModeldesc();
 		if (count > 0) {
 			log.info("There are already {} modeldesc in table, skip initialization step", count);
+			return;
 		}
 		
 		InputStream is = DataInitializationService.class.getClassLoader().getResourceAsStream("modeldesc.csv");
