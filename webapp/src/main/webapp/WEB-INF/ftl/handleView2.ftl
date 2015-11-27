@@ -1009,7 +1009,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 	<div class="p20bs mt10 color-white-bg border-ec">
 		<H3 class="text-xl title-box">
 			<p style="text-align: left">
-				<A class="black" href="">生成排期表</A>
+				<A class="black" href="">生成排期表</A> <input type="text" onclick="tttt()">
 			</p>
 		</H3>
 		<br>
@@ -1485,6 +1485,7 @@ $(document).ready(function(){
         var isFrist=0;
         function onData(event){  
            	 var msg =decodeURIComponent(event.get("message"));
+           	 alert(msg);
              var json=event.get("json");
              if(isFrist==0){
             	 isFrist=1;
@@ -1544,6 +1545,31 @@ $(document).ready(function(){
 		            // PL.leave();
 				}
         }  
+        
+        function tttt(){
+        
+        
+        
+       									 layer.confirm("日期:  库存不足<br>根据当前订单信息库存信息如下:<br><br><br><br>是否让系统推荐一个可排期的日期?", {icon: 3}, function(index){
+								    				layer.close(index);
+													layer.load(1);
+													setTimeout(function(){
+													    layer.closeAll('loading');
+													}, 60000*10);
+												var orderid = $("#orderid").val();
+													$.ajax({
+														url : "${rc.contextPath}/schedule/queryFeature/"+orderid+"?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
+														type : "POST",
+														success : function(data) {
+															 layer.closeAll('loading');
+														}
+													   }, "text");//--------begin queryFeature ----- 
+												initCheckFeautreInfo();
+												});	//-----end layer.confirm()
+												
+												
+												
+        }
 </script>  
     
     
