@@ -5,7 +5,9 @@ js=["js/nano.js","js/highslide/highslide-full.js",
 "js/video-js/video.js", "js/video-js/lang/zh-CN.js",
 "js/jquery-ui/jquery-ui.min.js",
 "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
-"js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer/layer.js","js/progressbar.js","js/jquery-dateFormat.js"]
+"js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer/layer.js","js/progressbar.js","js/jquery-dateFormat.js"
+,"js/ajax-pushlet-client.js"
+]
 css=["js/highslide/highslide.css",
 "js/video-js/video-js.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","css/liselect/pkg-generator.css$ver=1431443489.css"]>
 <#include "template/preview.ftl" />
@@ -366,6 +368,9 @@ function check() {
 					}//end ajax success
 				   }, "text");
 	}
+	
+	 			
+					
 	function initSchedultInfo(){
 		var t= "<span id='infoText'></span>";
 		layer.open({
@@ -437,13 +442,12 @@ function checkInventory() {
          layer.msg("实际开播日期必填");
           return;
       }
-      
-      	//加载层-默认风格
+      /*
 		layer.load(1);
-		//此处演示关闭
 		setTimeout(function(){
 		    layer.closeAll('loading');
 		}, 60000*10);
+		*/
 		
 		$.ajax({
 			url : "${rc.contextPath}/schedule/testsch/"+orderid+"/true?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
@@ -489,8 +493,7 @@ function checkInventory() {
 					 }*/
 			}
 		}, "text");
-		
-		initSchedultInfo();
+		//initSchedultInfo();
 	}
 function confirmSchedule() {
 	  var ischeckInventory= $("#ischeckInventory").val();
@@ -1080,9 +1083,11 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 						 </#if>	
 					</TD>
 				</TR>
+				
+				
 		</TABLE>
 		<div style="margin: 10px 0 0; text-align: center;">
-			
+			<span id="cc1"> </span>
 		</div>
 	</div>
 </div>
@@ -1504,4 +1509,40 @@ $(document).ready(function(){
 	//提交发票
 
 </script>
+
+
+
+
+
+
+
+<script type="text/javascript">  
+       	// PL._init();  
+        PL.joinListen("/ynb/helloworld");  
+        function onData(event){  
+           	 var t =decodeURIComponent(event.get("message"));
+             layer.msg(t); 
+             
+             var json=event.get("abc");
+             if (typeof(json) != "undefined")
+			{
+			  var t2 =decodeURIComponent(json);
+			  var obj = jQuery.parseJSON(t2);
+			  alert(obj.notSchedultDay);
+             $("#cc1").prepend("<br>"+t2);
+             PL.leave();
+			}
+			  $("#cc1").prepend(t+"<br>");
+        }  
+</script>  
+    
+    
+    
+    
+    
+
+
+
+
+
 </@frame.html>
