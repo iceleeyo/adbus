@@ -1533,7 +1533,7 @@ $(document).ready(function(){
 							// $("#infoText2").prepend("<span style='margin-left:130px'>"+(obj.show)+"</span><br>");
 							  		_closeLayer();
 			  						$("#infoText2").prepend('<span style="margin-left:130px"><input type="button" id="subWithdraw" class="block-btn"   onclick="_closeLayer();" value="关闭"></span><br>');
-									if(data.scheduled){
+									if(obj.scheduled){
 										var w=$.format.date(obj.notSchedultDay, "yyyy-MM-dd");
 										var t="从日期    <font color='red'>"+w+"</font>   起有档期可安排!";
 										layer.alert(t, {icon: 6});
