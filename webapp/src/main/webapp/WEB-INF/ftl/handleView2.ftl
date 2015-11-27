@@ -426,7 +426,7 @@ function check() {
 	    shadeClose: false, //开启遮罩关闭
 	    content: '<div><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/>'+t+"</div>"
 		});
-		_interval =setInterval(function () { _checkFeautreProgess(); }, 1700);
+		//_interval =setInterval(function () { _checkFeautreProgess(); }, 1700);
 
 	}
 	
@@ -1490,7 +1490,9 @@ $(document).ready(function(){
             	 isFrist=1;
             	 initSchedultInfo();
              }
-              $("#infoText").prepend("<span style='margin-left:130px'>"+msg+"</span><br>");
+	             if(msg!=null){
+	            	  $("#infoText").prepend("<span style='margin-left:130px'>"+msg+"</span><br>");
+	              }
 	             if (typeof(json) != "undefined")
 				{
 					isFrist=0;
@@ -1498,32 +1500,47 @@ $(document).ready(function(){
 					  var t2 =decodeURIComponent(json);
 					  var obj = jQuery.parseJSON(t2);
 					  //-----------
-								 if(obj.scheduled==true){
-										   layer.msg("库存充足可排期.");
-										   _closeLayer();
-										   $("#ischeckInventory").val(1);
-										   $("#sureButton").css({"background-color":"rgb(245, 135, 8)"});
-										    $("#sureButton").css({"color":"#fff"});
-									}else{
+					  if(obj.reqType == 'schInfo' )
+									 if(obj.scheduled==true){
+											   layer.msg("库存充足可排期.");
+											   _closeLayer();
+											   $("#ischeckInventory").val(1);
+											   $("#sureButton").css({"background-color":"rgb(245, 135, 8)"});
+											    $("#sureButton").css({"color":"#fff"});
+										}else{
+											var w=$.format.date(obj.notSchedultDay, "yyyy-MM-dd");
+											_closeLayer();
+										 	layer.confirm("日期:<font color='red'>"+w+"</font>  库存不足<br>根据当前订单信息库存信息如下:<br><br>"+obj.msg+"<br><br>是否让系统推荐一个可排期的日期?", {icon: 3}, function(index){
+								    				layer.close(index);
+													layer.load(1);
+													setTimeout(function(){
+													    layer.closeAll('loading');
+													}, 60000*10);
+												var orderid = $("#orderid").val();
+													$.ajax({
+														url : "${rc.contextPath}/schedule/queryFeature/"+orderid+"?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
+														type : "POST",
+														success : function(data) {
+															 layer.closeAll('loading');
+														}
+													   }, "text");//--------begin queryFeature ----- 
+												initCheckFeautreInfo();
+											});	//-----end layer.confirm()
+									 }//end else 
+						} else if(obj.reqType == '_checkFeature'){
+							layer.closeAll('loading');
+							// $("#infoText2").prepend("<span style='margin-left:130px'>"+(obj.show)+"</span><br>");
+							  		_closeLayer();
+			  						$("#infoText2").prepend('<span style="margin-left:130px"><input type="button" id="subWithdraw" class="block-btn"   onclick="_closeLayer();" value="关闭"></span><br>');
+									if(data.scheduled){
 										var w=$.format.date(obj.notSchedultDay, "yyyy-MM-dd");
-										_closeLayer();
-									 	layer.confirm("日期:<font color='red'>"+w+"</font>  库存不足<br>根据当前订单信息库存信息如下:<br><br>"+obj.msg+"<br><br>是否让系统推荐一个可排期的日期?", {icon: 3}, function(index){
-							    				layer.close(index);
-												layer.load(1);
-												setTimeout(function(){
-												    layer.closeAll('loading');
-												}, 60000*10);
-											var orderid = $("#orderid").val();
-												$.ajax({
-													url : "${rc.contextPath}/schedule/queryFeature/"+orderid+"?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
-													type : "POST",
-													success : function(data) {
-														 layer.closeAll('loading');
-													}
-												   }, "text");//--------begin queryFeature ----- 
-											initCheckFeautreInfo();
-										});	//-----end layer.confirm()
-								 }//end else 											  
+										var t="从日期    <font color='red'>"+w+"</font>   起有档期可安排!";
+										layer.alert(t, {icon: 6});
+									} else {
+										layer.alert(obj.msg, {icon: 6});
+									}					  	
+						}
+						//--------------------------		 											  
 		            // PL.leave();
 				}
         }  
