@@ -1485,7 +1485,6 @@ $(document).ready(function(){
         var isFrist=0;
         function onData(event){  
            	 var msg =decodeURIComponent(event.get("message"));
-           	 alert(msg);
              var json=event.get("json");
              if(isFrist==0){
             	 isFrist=1;
