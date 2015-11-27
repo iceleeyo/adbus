@@ -908,10 +908,8 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 			&nbsp;&nbsp;&nbsp;&nbsp;账户名称：<b>北京世巴传媒有限公司</b><br>
 			&nbsp;&nbsp;&nbsp;&nbsp;收款方账号：<b>0200207909200097152</b><br>
 			&nbsp;&nbsp;&nbsp;&nbsp;公司地址：北京市海淀区紫竹院路32号15号平房	电话：68427368<br>
-			
-			
 		</div>
-	</div>
+		</div>
 
 	</div>
 </div>
