@@ -17,7 +17,7 @@
 <body class="register">
 	<div class="contain">
 		<div class="rg-logo">
-			<img src="index_img/logo-2.png" width="160" height="20">
+			<img src="index_img/logo-screen.jpg" width="160" height="20">
 		</div>
 		<div class="rg-content clearfix">
 			<div class="rg-title">用户注册</div>
