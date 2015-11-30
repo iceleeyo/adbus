@@ -178,6 +178,72 @@ public class AttachmentServiceImpl implements AttachmentService {
 		}
 
 	}
+	@Override
+	public String  savePayvoucher(HttpServletRequest request, String user_id, int main_id, JpaAttachment.Type file_type,String description)
+			throws BusinessException {
+		String result="";
+		try {
+			CustomMultipartResolver multipartResolver = new CustomMultipartResolver(request.getSession()
+					.getServletContext());
+			log.info("userid:{},main_id:{},file_type:{}", user_id, main_id, file_type);
+			if (multipartResolver.isMultipart(request)) {
+				String path = request.getSession().getServletContext()
+						.getRealPath(com.pantuo.util.Constants.FILE_UPLOAD_DIR).replaceAll("WEB-INF", "");
+				log.info("path=",path);
+				MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+				Iterator<String> iter = multiRequest.getFileNames();
+				while (iter.hasNext()) {
+					MultipartFile file = multiRequest.getFile(iter.next());
+					if (file != null && !file.isEmpty()) {
+						String oriFileName = file.getOriginalFilename();
+						String fn=file.getName();
+						if (StringUtils.isNoneBlank(oriFileName)) {
+							
+							String storeName = GlobalMethods.md5Encrypted((System.currentTimeMillis() + oriFileName)
+									.getBytes());
+							Pair<String, String> p = FileHelper.getUploadFileName(path,
+									storeName += FileHelper.getFileExtension(oriFileName,true));
+							File localFile = new File(p.getLeft());
+							file.transferTo(localFile);
+							AttachmentExample example=new AttachmentExample();
+							AttachmentExample.Criteria criteria=example.createCriteria();
+							criteria.andMainIdEqualTo(main_id);
+							criteria.andUserIdEqualTo(user_id);
+							criteria.andTypeEqualTo(JpaAttachment.Type.payvoucher.ordinal());
+							List<Attachment> attachments=attachmentMapper.selectByExample(example);
+							if(attachments.size()>0){
+								Attachment t=attachments.get(0);
+								t.setUpdated(new Date());
+								t.setName(oriFileName);
+								t.setUrl(p.getRight());
+								attachmentMapper.updateByPrimaryKey(t);
+								result=p.getRight();
+							}else{
+								Attachment t = new Attachment();
+								if(StringUtils.isNotBlank(description)){
+									t.setDescription(description);
+								}
+								t.setMainId(main_id);
+								t.setType(file_type.ordinal());
+								t.setCreated(new Date());
+								t.setUpdated(t.getCreated());
+								t.setName(oriFileName);
+								t.setUrl(p.getRight());
+								t.setUserId(user_id);
+								attachmentMapper.insert(t);
+								result=p.getRight();
+							}
+						}
+					}
+				}
+			}
+			
+		} catch (Exception e) {
+			log.error("saveAttachment", e);
+			throw new BusinessException("saveAttachment-error", e);
+		}
+		return result;
+	}
 	//查询发票附件
 		public List<Attachment> queryinvoiceF(Principal principal, int main_id) {
 			AttachmentExample example =new AttachmentExample();

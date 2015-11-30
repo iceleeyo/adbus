@@ -175,6 +175,36 @@ function UserQualifi(tourl,username){
 			}
 		}, "text");
 }
+//查看支付凭证
+function queryPayvoucher(tourl,orderid){
+	$.ajax({
+		url : tourl +"/user/queryPayvoucher/"+orderid,
+		type : "POST",
+		data : {
+		},
+		success : function(data) {
+			layer.open({
+				type: 1,
+				title: "支付凭证",
+				skin: 'layui-layer-rim', //加上边框
+				area: ['500px', '500px'], //宽高
+				content: ' '
+					+'<br/>'
+					+'<div  id="qualifi" style="padding-left:50px;"> </div>'
+			});
+			if(typeof(data)=="undefined"){
+				$("#qualifi").append("用户没上传支付凭证");
+			}else{
+				$.each(data, function(i, item) {
+					if(item.type==15){
+						$("#qualifi").append("<div > <img style='height:200px; width:300px;' src='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"' /></div>");
+					}
+				});
+				
+			}
+		}
+	}, "text");
+}
 //查看合同详情
 function contractdetails(tourl,contractid){
 	$.ajax({

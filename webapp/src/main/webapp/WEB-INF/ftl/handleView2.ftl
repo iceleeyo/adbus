@@ -664,73 +664,37 @@ function pay() {
 			   +'<iframe  style="width:99%;height:99%" frameborder="no" src="${rc.contextPath}/supplies/suppliesDetail/'+data+'"/>'
 			});
 }
+function uploadImaget(formId) { 
+    var image_name=$("#fileMaterial").val();
+    if(image_name != ''){
+    var imgs=image_name.split(".");
+    var img_subfier= imgs[imgs.length-1].toLocaleLowerCase();
+    var img_parr = ["jpg", "jpeg", "gif"]; 
+    
+    if(image_name !=''){
+        if($.inArray(img_subfier, img_parr) ==-1){
+            jDialog.Alert("请上传['jpg','gif']格式的图片!");
+            return false;
+        }
+    }
+    var options = { 
+            url : "${rc.contextPath}/upload/savePayvoucher/${orderview.order.id!''}",
+            type : "POST",
+            dataType : "json",
+            success : function(data) {
+             if(data !=null && data!=""){
+                  $("#showImg").attr("src","${rc.contextPath}/upload_temp/"+data);
+                   } 
+                 }
+        }; 
+        $("#" +formId+"").ajaxSubmit(options);
+        document.getElementById('form_img').reset();
+        }
+}
 </script>
 <input type="hidden" id="orderid" value="${orderview.order.id!''}" />
 <input type="hidden" id="taskid" value="${taskid!''}" />
-<!-- 
-<div class="payment">
-	<div id="process" class="section4">
-		<div class="node fore ready">
-			<ul>
-				<li class="tx1">&nbsp;</li>
-				<li class="tx2">提交订单</li>
-				<li id="track_time_0" class="tx3"><#setting
-					date_format="yyyy-MM-dd">${(orderview.order.created?date)!''}</li>
-				<li id="track_time_0" class="tx3"><#setting
-					date_format="HH:mm:ss">${(orderview.order.created?date)!''}</li>
-			</ul>
-		</div>
-		<div class="proce ready">
-			<ul>
-				<li class="tx1">&nbsp;</li>
-			</ul>
-		</div>
-		<div class="node wait">
-			<ul>
-				<li class="tx1">&nbsp;</li>
-				<li class="tx2">支付</li>
-				<li id="track_time_4" class="tx3"></li>
-			</ul>
-		</div>
-		<div class="proce wait">
-			<ul>
-				<li class="tx1">&nbsp;</li>
-			</ul>
-		</div>
-		<div class="node wait">
-			<ul>
-				<li class="tx1">&nbsp;</li>
-				<li class="tx2">物料审核</li>
-				<li id="track_time_1" class="tx3"></li>
-			</ul>
-		</div>
-		<div class="proce wait">
-			<ul>
-				<li class="tx1">&nbsp;</li>
-			</ul>
-		</div>
-		<div class="node wait">
-			<ul>
-				<li class="tx1">&nbsp;</li>
-				<li class="tx2">广告播出</li>
-				<li id="track_time_5" class="tx3"></li>
-			</ul>
-		</div>
-		<div class="proce wait">
-			<ul>
-				<li class="tx1">&nbsp;</li>
-			</ul>
-		</div>
-		<div class="node wait">
-			<ul>
-				<li class="tx1">&nbsp;</li>
-				<li class="tx2">播出完成</li>
-				<li id="track_time_6" class="tx3"></li>
-			</ul>
-		</div>
-	</div>
-</div>
- -->
+
 
 <@orderDetail.orderDetail orderview=orderview quafiles=quafiles
 suppliesView=suppliesView/> <#if activityId == "payment" || activityId
@@ -776,6 +740,15 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 							<option value="cash">现金</option>
 						</select>
 					</div>
+				</TD>
+			</TR>
+			<TR style="height: 45px;">
+				<TD style="text-align: right">上传凭证（可选）</TD>
+				<TD colspan=3>
+				  <form id="form_img" method="post" enctype="multipart/form-data"> 
+                     <img src="" id="showImg" width="200" height="100" border="1px solid #d0d0d0;"/>
+                     <input id ="fileMaterial" name="fileMaterial" type="file" onchange="uploadImaget('form_img');"/>
+                 </form>
 				</TD>
 			</TR>
 			<TR style="height: 45px;">

@@ -411,6 +411,12 @@ public class UserManagerController {
 		List<Attachment> attachment=attachmentService.findUserQulifi(userId);
 		return attachment;
 	}
+	@ResponseBody
+	@RequestMapping(value = "/queryPayvoucher/{orderid}")
+	public List<Attachment> queryPayvoucher(Principal principal, @PathVariable("orderid") int orderid, HttpServletRequest request) {
+		List<Attachment> attachment=suppliesService.queryPayvouchers(principal, orderid);
+		return attachment;
+	}
 	
 	
 	//@PreAuthorize(" hasRole('UserManager')  ")

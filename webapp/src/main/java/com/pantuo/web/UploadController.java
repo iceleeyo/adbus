@@ -3,18 +3,27 @@ package com.pantuo.web;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+
+import com.pantuo.dao.pojo.JpaAttachment;
+import com.pantuo.service.AttachmentService;
+import com.pantuo.util.BusinessException;
+import com.pantuo.util.Request;
 
 /**
  * 
@@ -27,9 +36,10 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
  * @since pantuotech 1.0-SNAPSHOT
  */
 @Controller
-@RequestMapping(produces = "application/json;charset=utf-8")
+@RequestMapping(produces = "application/json;charset=utf-8", value = "/upload")
 public class UploadController {
-
+	@Autowired
+	AttachmentService attachmentService;
 	 
 	@RequestMapping(value = "/upload_enter", method = RequestMethod.GET)
 	public String enter(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws IOException {
@@ -49,7 +59,8 @@ public class UploadController {
 	  * @since pantuotech 1.0-SNAPSHOT
 	  */
 	@RequestMapping(value = "storeFile", method = RequestMethod.POST)
-	public void upload(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws IOException {
+	@ResponseBody
+	public String  upload(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws IOException {
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		// 得到上传的文件  
 		MultipartFile mFile = multipartRequest.getFile("file");
@@ -63,6 +74,13 @@ public class UploadController {
 		FileOutputStream outputStream = new FileOutputStream(path);
 		outputStream.write(b);
 		outputStream.close();
+		return path;
+	}
+	@RequestMapping(value = "savePayvoucher/{orderid}", method = RequestMethod.POST)
+	@ResponseBody
+	public String  savePayvoucher(HttpServletRequest request, Principal principal,@PathVariable("orderid") int orderid,
+			ModelMap model) throws IOException, BusinessException {
+		return attachmentService.savePayvoucher(request, Request.getUserId(principal), orderid, JpaAttachment.Type.payvoucher, null);
 	}
 	 @RequestMapping(value = "upload2" , method = RequestMethod.POST )  
 	    public String upload2(HttpServletRequest request,HttpServletResponse response) throws IllegalStateException, IOException {  

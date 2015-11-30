@@ -1641,7 +1641,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 				OrderView v = findOrderViewByTaskId(taskid, principal);
 				JpaProduct prod = productService.findById(v.getOrder().getProductId());
-				SuppliesView suppliesView = suppliesService.getSuppliesDetail(v.getOrder().getSuppliesId(), null);
+				SuppliesView suppliesView = suppliesService.getSuppliesDetail(v.getOrder(), principal);
 				SuppliesView quafiles = suppliesService.getQua(v.getOrder().getSuppliesId(), null);
 				model.addAttribute("cpdDetail", cpdService.queryOneCpdByPid(v.getOrder().getProductId()));
 				model.addAttribute("suppliesView", suppliesView);
@@ -1671,7 +1671,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 				orderView.setOrder(order);
 				prod = productService.findById(order.getProductId());
 				longorderid = OrderIdSeq.getIdFromDate(order.getId(), order.getCreated());
-				suppliesView = suppliesService.getSuppliesDetail(orderView.getOrder().getSuppliesId(), null);
+				suppliesView = suppliesService.getSuppliesDetail(orderView.getOrder(), principal);
 				quafiles = suppliesService.getQua(orderView.getOrder().getSuppliesId(), null);
 				prod = productService.findById(order.getProductId());
 			} else {

@@ -100,11 +100,10 @@ function supDetail(data){
 
 
 			<li class="s-left f-iconli"><span class="s-left tt"><i
-					class="s-left ff-icon"></i>支付及发票</span></li> <#if
-			orderview.payTypeString?has_content>
+					class="s-left ff-icon"></i>支付及发票</span></li> 
+			<#if orderview.payTypeString?has_content>
 			<li style="width: 200px;"><SPAN>支付方式：</SPAN><SPAN class="con">${(orderview.payTypeString)!''}</SPAN></li>
-			<#if orderview.payTypeString?has_content &&
-			orderview.payTypeString=="关联合同">
+			<#if orderview.payTypeString?has_content && orderview.payTypeString=="关联合同">
 			<li style="width: 200px;"><SPAN>合同号：</SPAN><SPAN class="con">
 					<@security.authorize ifAnyGranted="ShibaFinancialManager"> <a
 					class="layer-tips" tip="点击可查看发票详细内容!"
@@ -113,10 +112,21 @@ function supDetail(data){
 					</@security.authorize> <@security.authorize
 					ifNotGranted="ShibaFinancialManager">
 					${(orderview.order.contractCode)!''} </@security.authorize>
-			</SPAN></li> <#elseif orderview.payTypeString?has_content &&
-			orderview.payTypeString=="线上支付">
-			<li style="width: 200px;"><SPAN>流水号：</SPAN><SPAN class="con">123912800234</SPAN></li>
-			</#if> </#if> <#if contract?? && contract.parentid!=0>
+			</SPAN></li>
+			 <#elseif orderview.payTypeString?has_content && orderview.payTypeString=="线上支付">
+			     <li style="width: 200px;"><SPAN>流水号：</SPAN><SPAN class="con">123912800234</SPAN></li>
+			  </#if>
+			  <@security.authorize ifAnyGranted="advertiser,ShibaFinancialManager">
+			      <li style="width: 200px;"><SPAN>支付凭证：</SPAN><SPAN class="con">
+			      <#if suppliesView.payvouchers??>
+			      <a href="javascript:void(0)" class="operation" onclick="queryPayvoucher('${rc.contextPath}',${orderview.order.id!''});" >查看</a>
+			      <#else>
+			         无
+			      </#if>
+			      </@security.authorize>
+			      </SPAN></li>
+			   </#if>
+			   <#if contract?? && contract.parentid!=0>
 			<li style="width: 200px;"><SPAN>结算方式：</SPAN><SPAN class="con">统一结算</SPAN></li>
 			</#if>
 			<li style="width: 200px;"><SPAN>是否开发票：</SPAN><SPAN class="con">

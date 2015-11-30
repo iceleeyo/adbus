@@ -153,7 +153,7 @@ public class SuppliesController {
 			HttpServletRequest request,HttpServletResponse response) {
 		response.setHeader("X-Frame-Options", "SAMEORIGIN");
 		//    	int supplies_id=Integer.parseInt(request.getParameter("supplies_id"));
-		SuppliesView view = suppliesService.getSuppliesDetail(supplies_id, principal);
+		SuppliesView view = suppliesService.getSuppliesDetailBySupId(supplies_id, principal);
 		model.addAttribute("view", view);
 		return "suppliesDetail";
 	}

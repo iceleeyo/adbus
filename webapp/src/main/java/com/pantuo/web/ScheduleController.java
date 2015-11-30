@@ -220,7 +220,7 @@ public class ScheduleController {
 			orderView.setProduct(order.getProduct());
 			orderView.setOrder(order);
 			JpaCity city = cityService.fromId(order.getCity());
-			SuppliesView suppliesView = suppliesService.getSuppliesDetail(order.getSuppliesId(), null);
+			SuppliesView suppliesView = suppliesService.getSuppliesDetail(order, principal);
 			model.addAttribute("orderview", orderView);
 			model.addAttribute("orderIdSeq", OrderIdSeq.getLongOrderId(order));
 			model.addAttribute("mediaType", city.getMediaType());
@@ -269,7 +269,7 @@ public class ScheduleController {
 				cal.add(Calendar.DATE, 1);
 			}
 			JpaCity city = cityService.fromId(order.getCity());
-			SuppliesView suppliesView = suppliesService.getSuppliesDetail(order.getSuppliesId(), null);
+			SuppliesView suppliesView = suppliesService.getSuppliesDetail(order, principal);
 			model.addAttribute("dates", dates);
 			model.addAttribute("orderview", orderView);
 			model.addAttribute("orderIdSeq", OrderIdSeq.getLongOrderId(order));

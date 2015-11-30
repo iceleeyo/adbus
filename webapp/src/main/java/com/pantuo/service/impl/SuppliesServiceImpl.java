@@ -12,6 +12,7 @@ import com.pantuo.dao.ProductRepository;
 import com.pantuo.dao.UserDetailRepository;
 import com.pantuo.dao.pojo.JpaAttachment;
 import com.pantuo.dao.pojo.JpaInvoice;
+import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaSupplies;
 import com.pantuo.dao.pojo.QJpaProduct;
@@ -21,6 +22,8 @@ import com.pantuo.dao.pojo.UserDetail;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import scala.collection.generic.BitOperations.Int;
 
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.AttachmentExample;
@@ -217,17 +220,45 @@ public class SuppliesServiceImpl implements SuppliesService {
 		return example;
 	}
 
-	public SuppliesView getSuppliesDetail(int supplies_id, Principal principal) {
+	public SuppliesView getSuppliesDetail(JpaOrders order, Principal principal) {
 		SuppliesView v = null;
-		Supplies supplies = suppliesMapper.selectByPrimaryKey(supplies_id);
+		Supplies supplies = suppliesMapper.selectByPrimaryKey(order.getSuppliesId());
 		if (supplies != null) {
 			v = new SuppliesView();
-			List<Attachment> files = attachmentService.querysupFile(principal, supplies_id);
+			List<Attachment> files = attachmentService.querysupFile(principal, order.getSuppliesId());
+			v.setFiles(files);
+			v.setMainView(supplies);
+		}
+		List<Attachment> files2 = queryPayvouchers(principal, order.getId());
+		if(files2.size()>0){
+			v.setPayvouchers(files2);
+		}
+		return v;
+	}
+	@Override
+	public SuppliesView getSuppliesDetailBySupId(int suppid, Principal principal) {
+		SuppliesView v = null;
+		Supplies supplies = suppliesMapper.selectByPrimaryKey(suppid);
+		if (supplies != null) {
+			v = new SuppliesView();
+			List<Attachment> files = attachmentService.querysupFile(principal, suppid);
 			v.setFiles(files);
 			v.setMainView(supplies);
 		}
 		return v;
 	}
+	@Override
+	public List<Attachment> queryPayvouchers(Principal principal, int id) {
+		AttachmentExample example =new AttachmentExample();
+		AttachmentExample.Criteria ca=example.createCriteria();
+		ca.andMainIdEqualTo(id);
+		ca.andTypeEqualTo(JpaAttachment.Type.payvoucher.ordinal());
+		 if (Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)) {
+		    	ca.andUserIdEqualTo(Request.getUserId(principal));
+		    }
+		return attachmentMapper.selectByExample(example);
+	}
+
 	public Pair<Boolean, String> delSupp(int Suppid,Principal principal) {
 	    OrdersExample example=new OrdersExample();
 	    OrdersExample.Criteria criteria=example.createCriteria();

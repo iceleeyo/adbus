@@ -8,7 +8,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.pantuo.dao.pojo.JpaInvoice;
+import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.Industry;
 import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.mybatis.domain.Supplies;
@@ -40,6 +42,7 @@ public interface SuppliesService {
 	 */
     Pair<Object, String> addSupplies(int city, Supplies obj, Principal principal, HttpServletRequest request);
     public Pair<Boolean, String> delSupp(int Suppid,Principal principal);
+    public List<Attachment> queryPayvouchers(Principal principal, int id);
 	/**
 	 * 
 	 * 取素材列表
@@ -82,8 +85,8 @@ public interface SuppliesService {
 	 * @return
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
-	public SuppliesView getSuppliesDetail(int supplies_id, Principal principal);
-
+	public SuppliesView getSuppliesDetail(JpaOrders order, Principal principal);
+	public SuppliesView getSuppliesDetailBySupId(int suppid, Principal principal);
 	Supplies selectSuppliesById(Integer suppliesId);
 
 	int updateSupplies(int city, Supplies supplies);
