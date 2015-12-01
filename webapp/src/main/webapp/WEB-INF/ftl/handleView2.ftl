@@ -654,11 +654,13 @@ function pay() {
 	     $("#pingzhengTab").hide();
 	}
 	function hideboth(){
+		alert("test-hideboth");
 	     $("#contractCode").hide();
 	     $("#otherpay").hide();
 	     $("#pingzhengTab").show();
 	}
 	function hideall(){
+		alert("test-hideall");
 	     $("#contractCode").hide();
 	     $("#otherpay").hide();
 	     $("#pingzhengTab").hide();
