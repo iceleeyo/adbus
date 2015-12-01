@@ -316,66 +316,62 @@ function check() {
 	function _closeLayer(){
 		$("#cc").trigger("click");
 	}
-	function _scheduleProgess(){ 
-	$.ajax({
-					url : "${rc.contextPath}/schedule/process",
-					type : "GET",
-					success : function(data) {
-						// layer.closeAll('loading');
-						 $("#infoText").prepend("<span style='margin-left:130px'>"+(data.show)+"</span><br>");
-						 if(data.result!=null){
-						  layer.closeAll('loading');
-						  		clearInterval(_interval);
-		  						$("#infoText").prepend('<span style="margin-left:130px"><input type="button" id="subWithdraw" class="block-btn"   onclick="_closeLayer();" value="关闭"></span><br>');
-		  					 
-								//-------
-									 if(data.result.scheduled){
-										   layer.msg("库存充足可排期.");
-										   _closeLayer();
-										   $("#ischeckInventory").val(1);
-										   $("#sureButton").css({"background-color":"rgb(245, 135, 8)"});
-										    $("#sureButton").css({"color":"#fff"});
-									}else{
-										var w=$.format.date(data.result.notSchedultDay, "yyyy-MM-dd");
-										//	layer.msg("日期:<font color='red'>"+w+"</font>  库存不足<br>"+data.msg, {icon: 5});
-										_closeLayer();
-									 	layer.confirm("日期:<font color='red'>"+w+"</font>  库存不足<br>根据当前订单信息库存信息如下:<br><br>"+data.result.msg+"<br><br>是否让系统推荐一个可排期的日期?", {icon: 3}, function(index){
-							    				layer.close(index);
-												layer.load(1);
-												setTimeout(function(){
-												    layer.closeAll('loading');
-												}, 60000*10);
-											var orderid = $("#orderid").val();
-												$.ajax({
-													url : "${rc.contextPath}/schedule/queryFeature/"+orderid+"?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
-													type : "POST",
-													success : function(data) {
-														 layer.closeAll('loading');
-													  	 /*if(data.scheduled){
-													  		var w=$.format.date(data.notSchedultDay, "yyyy-MM-dd");
-													  		var t="从日期    <font color='red'>"+w+"</font>   起有档期可安排!";
-													  		 layer.alert(t, {icon: 6});
-													  	}else {
-													  	 layer.alert(data.msg, {icon: 6});
-													  	}*/
-													}
-												   }, "text");//--------begin queryFeature ----- 
-											
-											initCheckFeautreInfo();
-										});	//-----end layer.confirm()
-								 }//end else 
-						  	//-------------------------------
-						  	}//end if data.result!=null
-					}//end ajax success
-				   }, "text");
-	}
-	
+	function _scheduleProgess() {
+    $.ajax({
+        url:"${rc.contextPath}/schedule/process",
+        type:"GET",
+        success:function(data) {
+            // layer.closeAll('loading');
+            $("#infoText").prepend("<span style='margin-left:130px'>" + data.show + "</span><br>");
+            if (data.result != null) {
+                layer.closeAll("loading");
+                clearInterval(_interval);
+                $("#infoText").prepend('<span style="margin-left:130px"><input type="button" id="subWithdraw" class="block-btn"   onclick="_closeLayer();" value="关闭"></span><br>');
+                //-------
+                if (data.result.scheduled) {
+                    layer.msg("库存充足可排期.");
+                    _closeLayer();
+                    $("#ischeckInventory").val(1);
+                    $("#sureButton").css({
+                        "background-color":"rgb(245, 135, 8)"
+                    });
+                    $("#sureButton").css({
+                        color:"#fff"
+                    });
+                } else {
+                    var w = $.format.date(data.result.notSchedultDay, "yyyy-MM-dd");
+                    //	layer.msg("日期:<font color='red'>"+w+"</font>  库存不足<br>"+data.msg, {icon: 5});
+                    _closeLayer();
+                    layer.confirm("日期:<font color='red'>" + w + "</font>  库存不足<br>根据当前订单信息库存信息如下:<br><br>" + data.result.msg + "<br><br>是否让系统推荐一个可排期的日期?", {
+                        icon:3
+                    }, function(index) {
+                        layer.close(index);
+                        layer.load(1);
+                        setTimeout(function() {
+                            layer.closeAll("loading");
+                        }, 6e4 * 10);
+                        var orderid = $("#orderid").val();
+                        $.ajax({
+                            url:"${rc.contextPath}/schedule/queryFeature/" + orderid + "?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
+                            type:"POST",
+                            success:function(data) {
+                                layer.closeAll("loading");
+                            }
+                        }, "text");
+                        //--------begin queryFeature ----- 
+                        initCheckFeautreInfo();
+                    });
+                }
+            }
+        }
+    }, "text");
+}
 	 			
 					
 	function initSchedultInfo(){
 		var t= "<span id='infoText'></span>";
 		layer.open({
-		title:'操作进行中,如中断请刷新页面',
+		title:'[执行过程窗口]',
 	    type: 1,
 	    skin: 'layui-layer-demo', //样式类名
 	    closeBtn: 0, //不显示关闭按钮
@@ -389,35 +385,39 @@ function check() {
 	}
 	
 	
-	function _checkFeautreProgess(){ 
-					$.ajax({
-						url : "${rc.contextPath}/schedule/session/_checkFeature",
-						type : "GET",
-						success : function(data) {
-							 $("#infoText2").prepend("<span style='margin-left:130px'>"+(data.show)+"</span><br>");
-							 if(data.result!=null){
-							  		clearInterval(_interval);
-							  		_closeLayer();
-			  						$("#infoText2").prepend('<span style="margin-left:130px"><input type="button" id="subWithdraw" class="block-btn"   onclick="_closeLayer();" value="关闭"></span><br>');
-			  						//关闭检查窗口
-									if(data.scheduled){
-										var w=$.format.date(data.notSchedultDay, "yyyy-MM-dd");
-										var t="从日期    <font color='red'>"+w+"</font>   起有档期可安排!";
-										layer.alert(t, {icon: 6});
-									} else {
-										layer.alert(data.msg, {icon: 6});
-									}					  	
-							 }//end if
-						}//end success function
-				   }, "text");
+	function _checkFeautreProgess() {
+    $.ajax({
+        url:"${rc.contextPath}/schedule/session/_checkFeature",
+        type:"GET",
+        success:function(data) {
+            $("#infoText2").prepend("<span style='margin-left:130px'>" + data.show + "</span><br>");
+            if (data.result != null) {
+                clearInterval(_interval);
+                _closeLayer();
+                $("#infoText2").prepend('<span style="margin-left:130px"><input type="button" id="subWithdraw" class="block-btn"   onclick="_closeLayer();" value="关闭"></span><br>');
+                //关闭检查窗口
+                if (data.scheduled) {
+                    var w = $.format.date(data.notSchedultDay, "yyyy-MM-dd");
+                    var t = "从日期    <font color='red'>" + w + "</font>   起有档期可安排!";
+                    layer.alert(t, {
+                        icon:6
+                    });
+                } else {
+                    layer.alert(data.msg, {
+                        icon:6
+                    });
+                }
+            }
+        }
+    }, "text");
 	}
 	
 	
 	
 	function initCheckFeautreInfo(){
-		var t= "<span id='infoText2'></span>";
+		var t= "<span id='checkResultSpan'></span>";
 		layer.open({
-		title:'操作进行中,如中断请刷新页面',
+		title:'[执行过程窗口]',
 	    type: 1,
 	    skin: 'layui-layer-demo', //样式类名
 	    closeBtn: 0, //不显示关闭按钮
@@ -476,34 +476,36 @@ function confirmSchedule() {
          layer.msg("实际开播日期必填", {icon: 5});
           return;
       }
- 		layer.confirm('实际开播日期为'+startdate1+',确定排期吗？', {icon: 3}, function(index){
-    		layer.close(index);
-      if(true){
-     			 layer.load(1);
-					setTimeout(function(){
-					    layer.closeAll('loading');
-					}, 60000*10);
-		$.ajax({
-			url : "${rc.contextPath}/schedule/testsch/"+orderid+"/false?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
-			type : "POST",
-			data : {
-			"startdate1":startdate1,
-			"taskid":taskid
-			},
-			success : function(data) {
-			 layer.closeAll('loading');
-			  jDialog.Alert(data.scheduled==true?"执行成功!":"执行失败!");
-    	    var uptime = window.setTimeout(function(){
-			var a = document.createElement('a');
-    		a.href='${rc.contextPath}/order/myTask/1';
-    		document.body.appendChild(a);
-    		a.click();
-			   	clearTimeout(uptime);
-						},2000)
-			}
+		 	layer.confirm("实际开播日期为" + startdate1 + ",确定排期吗？", {
+		    icon:3
+		}, function(index) {
+		    layer.close(index);
+		    if (true) {
+		        layer.load(1);
+		        setTimeout(function() {
+		            layer.closeAll("loading");
+		        }, 60000 * 10);
+		        $.ajax({
+		            url:"${rc.contextPath}/schedule/testsch/" + orderid + "/false?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
+		            type:"POST",
+		            data:{
+		                startdate1:startdate1,
+		                taskid:taskid
+		            },
+		            success:function(data) {
+		                layer.closeAll("loading");
+		               //jDialog.Alert(data.scheduled == true ? "执行成功!" :"执行失败!");
+		                var uptime = window.setTimeout(function() {
+		                    var a = document.createElement("a");
+		                    a.href = "${rc.contextPath}/order/myTask/1";
+		                    document.body.appendChild(a);
+		                    a.click();
+		                    clearTimeout(uptime);
+		                }, 5000);
+		            }
 		        }, "text");
-		      }
-		});		
+		    }
+		});
 	}
 	
 function pay() {
@@ -1456,93 +1458,103 @@ $(document).ready(function(){
        	// PL._init();  
         PL.joinListen("/schedulePush/<@security.authentication property="principal.user.id"/>");  
         var isFrist=0;
-        function onData(event){  
-           	 var msg =decodeURIComponent(event.get("message"));
-             var json=event.get("json");
-             if(isFrist==0){
-            	 isFrist=1;
-            	 initSchedultInfo();
-             }
-	             if(msg!=null){
-	            	  $("#infoText").prepend("<span style='margin-left:130px'>"+msg+"</span><br>");
-	              }
-	             if (typeof(json) != "undefined")
-				{
-					isFrist=0;
-					layer.closeAll('loading');
-					  var t2 =decodeURIComponent(json);
-					  var obj = jQuery.parseJSON(t2);
-					  //-----------
-					  if(obj.reqType == 'schInfo' ){
-									 if(obj.scheduled==true){
-											   layer.msg("库存充足可排期.");
-											   _closeLayer();
-											   $("#ischeckInventory").val(1);
-											   $("#sureButton").css({"background-color":"rgb(245, 135, 8)"});
-											    $("#sureButton").css({"color":"#fff"});
-										}else{
-											var w=$.format.date(obj.notSchedultDay, "yyyy-MM-dd");
-											_closeLayer();
-										 	layer.confirm("日期:<font color='red'>"+w+"</font>  库存不足<br>根据当前订单信息库存信息如下:<br><br>"+obj.msg+"<br><br>是否让系统推荐一个可排期的日期?", {icon: 3}, function(index){
-								    				layer.close(index);
-													layer.load(1);
-													setTimeout(function(){
-													    layer.closeAll('loading');
-													}, 60000*10);
-												var orderid = $("#orderid").val();
-													$.ajax({
-														url : "${rc.contextPath}/schedule/queryFeature/"+orderid+"?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
-														type : "POST",
-														success : function(data) {
-															 layer.closeAll('loading');
-														}
-													   }, "text");//--------begin queryFeature ----- 
-												initCheckFeautreInfo();
-											});	//-----end layer.confirm()
-									 }//end else 
-						} else if(obj.reqType == '_checkFeature'){
-							layer.closeAll('loading');
-							// $("#infoText2").prepend("<span style='margin-left:130px'>"+(obj.show)+"</span><br>");
-							  		_closeLayer();
-			  						$("#infoText2").prepend('<span style="margin-left:130px"><input type="button" id="subWithdraw" class="block-btn"   onclick="_closeLayer();" value="关闭"></span><br>');
-									if(obj.scheduled){
-										var w=$.format.date(obj.notSchedultDay, "yyyy-MM-dd");
-										var t="从日期    <font color='red'>"+w+"</font>   起有档期可安排!";
-										_closeLayer();
-										layer.alert(t, {icon: 6});
-									} else {
-									//alert(obj.msg);
-										layer.alert(obj.msg, {icon: 6});
-									}					  	
-						}
-						//--------------------------		 											  
-		            // PL.leave();
-				}
-        }  
+        function onData(event) {
+			    var msg = decodeURIComponent(event.get("message"));
+			    var f = decodeURIComponent(event.get("from"));
+			    var json = event.get("json");
+			    if (isFrist == 0) {
+			        isFrist = 1;
+			        initSchedultInfo();
+			    }
+			    if (msg != null) {
+			        if (f == "schInfo") {
+			            $("#infoText").prepend("<span style='margin-left:130px'>" + msg + "</span><br>");
+			        } else {
+			            $("#checkResultSpan").prepend("<span style='margin-left:130px'>" + msg + "</span><br>");
+			        }
+			    }
+			    if (typeof json != "undefined") {
+			        isFrist = 0;
+			        layer.closeAll("loading");
+			        var t2 = decodeURIComponent(json);
+			        var obj = jQuery.parseJSON(t2);
+			        //-----------
+			        if (obj.reqType == "schInfo") {
+			            if (obj.scheduled == true) {
+			                layer.msg(obj.msg);//提示
+			                _closeLayer();
+			                $("#ischeckInventory").val(1);
+			                $("#sureButton").css({
+			                    "background-color":"rgb(245, 135, 8)"
+			                });
+			                $("#sureButton").css({
+			                    color:"#fff"
+			                });
+			            } else {
+			                var w = $.format.date(obj.notSchedultDay, "yyyy-MM-dd");
+			                _closeLayer();
+			                layer.confirm("日期:<font color='red'>" + w + "</font>  库存不足<br>根据当前订单信息库存信息如下:<br><br>" + obj.msg + "<br><br>是否让系统推荐一个可排期的日期?", {
+			                    icon:3
+			                }, function(index) {
+			                    layer.close(index);
+			                    layer.load(1);
+			                    setTimeout(function() {
+			                        layer.closeAll("loading");
+			                    }, 60000 * 10);
+			                    var orderid = $("#orderid").val();
+			                    $.ajax({
+			                        url:"${rc.contextPath}/schedule/queryFeature/" + orderid + "?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
+			                        type:"POST",
+			                        success:function(data) {
+			                            layer.closeAll("loading");
+			                        }
+			                    }, "text");
+			                    //--------begin queryFeature ----- 
+			                    initCheckFeautreInfo();
+			                    isFrist = 2;
+			                });
+			            }
+			        } else if (obj.reqType == "_checkFeature") {
+			            layer.closeAll("loading");
+			            // $("#checkResultSpan").prepend("<span style='margin-left:130px'>"+(obj.show)+"</span><br>");
+			            _closeLayer();
+			            $("#checkResultSpan").prepend('<span style="margin-left:130px"><input type="button" id="subWithdraw" class="block-btn"   onclick="_closeLayer();" value="关闭"></span><br>');
+			            if (obj.scheduled) {
+			                var w = $.format.date(obj.notSchedultDay, "yyyy-MM-dd");
+			                var t = "从日期    <font color='red'>" + w + "</font>   起有档期可安排!";
+			                layer.alert(t, {
+			                    icon:6
+			                });
+			            } else {
+			                layer.alert(obj.msg, {
+			                    icon:6
+			                });
+			            }
+			            isFrist = 0;
+			        }
+			    }
+		}
         
         function tttt(){
-        
-        
-        
-       									 layer.confirm("日期:  库存不足<br>根据当前订单信息库存信息如下:<br><br><br><br>是否让系统推荐一个可排期的日期?", {icon: 3}, function(index){
-								    				layer.close(index);
-													layer.load(1);
-													setTimeout(function(){
-													    layer.closeAll('loading');
-													}, 60000*10);
-												var orderid = $("#orderid").val();
-													$.ajax({
-														url : "${rc.contextPath}/schedule/queryFeature/"+orderid+"?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
-														type : "POST",
-														success : function(data) {
-															 layer.closeAll('loading');
-														}
-													   }, "text");//--------begin queryFeature ----- 
-												initCheckFeautreInfo();
-												});	//-----end layer.confirm()
-												
-												
-												
+			layer.confirm("日期:  库存不足<br>根据当前订单信息库存信息如下:<br><br><br><br>是否让系统推荐一个可排期的日期?", {
+			    icon:3
+			}, function(index) {
+			    layer.close(index);
+			    layer.load(1);
+			    setTimeout(function() {
+			        layer.closeAll("loading");
+			    }, 60000 * 10);
+			    var orderid = $("#orderid").val();
+			    $.ajax({
+			        url:"${rc.contextPath}/schedule/queryFeature/" + orderid + "?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
+			        type:"POST",
+			        success:function(data) {
+			            layer.closeAll("loading");
+			        }
+			    }, "text");
+			    //--------begin queryFeature ----- 
+			    initCheckFeautreInfo();
+			});      
         }
 </script>  
     
