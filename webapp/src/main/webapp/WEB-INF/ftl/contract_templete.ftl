@@ -224,14 +224,14 @@
 			class="s2">事宜，达成如下合同：</span>
 	</p>
 	<p class="p5">
-		<span class="s5">一、 &nbsp;</span><span class="s1">执行媒体</span>
+		<span class="s5">一、</span><span class="s1">执行媒体</span>
 	</p>
 	<p class="p3">
 		<span class="s2">执行媒体为乙方&ldquo;北广传媒移动电视公交频道&rdquo;。</span> 
 	</p>
 
 	<p class="p5">
-		<span class="s5">二、 &nbsp;</span><span class="s1">发布内容、</span><span
+		<span class="s5">二、 </span><span class="s1">发布内容、</span><span
 			class="s5">付款金额</span><span class="s1">（单位：人民币）</span><span
 			class="s5">、</span><span class="s1">付款方式</span>
 	</p>
