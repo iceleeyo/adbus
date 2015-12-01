@@ -1496,7 +1496,7 @@ $(document).ready(function(){
 				                    a.href = "${rc.contextPath}/order/myTask/1";
 				                    document.body.appendChild(a);
 				                    a.click();
-				                    clearTimeout(uptime);
+				                  //  clearTimeout(uptime);
 				                }, 5000);
 			                }
 			                
