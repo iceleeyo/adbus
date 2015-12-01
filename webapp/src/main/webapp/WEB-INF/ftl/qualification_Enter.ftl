@@ -1,4 +1,4 @@
-<#import "template/template.ftl" as frame> <#global menu="个人信息">
+<#import "template/template.ftl" as frame> <#global menu="用户信息">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="用户信息" js=["js/jquery-ui/jquery-ui.js",
 "js/datepicker.js",
@@ -71,7 +71,7 @@ function go_back(){
 						value="${userDetail.user.email!''}">
 				</div>
 				<div class="ui-form-item">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>联系人:</label>
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>公司联系人:</label>
 					<input class="ui-input validate[required]" type="text"
 						name="relateman" id="relateman" data-is="isAmount isEnough"
 						autocomplete="off" disableautocomplete=""
@@ -125,7 +125,7 @@ function go_back(){
 			<ol>
 				<li>1.请选择合法的用户资质进行上传、审核通过(已认证)后可参与竞价商品的竞拍</li>
 				<li>2.如果您填写的信息不正确可能会导致下单失败。</li>
-				<li>3.平台禁止洗钱、信用卡套现、虚假交易等行为，一经发现并确认，将终止该账户的使用。</li>
+				<li>3.您填写的公司名称一定要正确，后续的合同及发票都以此名称为准。</li>
 			</ol>
 		</div>
 	</form>
