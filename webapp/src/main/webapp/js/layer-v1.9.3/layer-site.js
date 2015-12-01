@@ -358,10 +358,10 @@ function eleContract(tourl,orderid){
 	    		type: 1,
 	    		title: "电子合同",
 	    		skin: 'layui-layer-rim', 
-	    		area: ['650px', '600px'], 
+	    		area: ['750px', '600px'], 
 	    		content:''
 	    			 +' '
-	  			   	 +'<iframe  style="width:99%;height:95%" frameborder="no" src="'+tourl+'/user/contract_templete?orderid='+orderid+'"/><div class="ui-form-item widthdrawBtBox"> </div>'
+	  			   	 +'<iframe  style="width:100%;height:100%" frameborder="no" src="'+tourl+'/user/contract_templete?orderid='+orderid+'"/><div class="ui-form-item widthdrawBtBox"> </div>'
 	  			});
 		}
 	}, "text");
