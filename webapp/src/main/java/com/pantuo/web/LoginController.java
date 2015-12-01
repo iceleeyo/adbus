@@ -99,7 +99,7 @@ public class LoginController {
 
 	@RequestMapping(value = "/login", produces = "text/html;charset=utf-8")
 	public String logMini(Model model, HttpServletRequest request, Authentication auth) {
-		log.info("---login-----:{}" ,Request.getIpAddr(request));
+		log.info("---login-----:{},referer:{}", Request.getIpAddr(request), request.getHeader("referer"));
 		if (StringUtils.equals(isBodySys, "body")) {
 			return "redirect:/login_bus";
 		}

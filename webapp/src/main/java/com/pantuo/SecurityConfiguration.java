@@ -193,6 +193,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			if (StringUtils.contains(referer, "/backend")) {
 				return "/backend?error=relogin";
 			} else {
+				log.info("for debug determineTargetUrl:1");
 				return "/login?error=relogin";
 			}
 		}
@@ -277,6 +278,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				} else if (StringUtils.contains(referer, "/login") && !StringUtils.contains(referer, "/login_bus")
 						&& udetail.getUtype() != UType.pub) {
 					clearLogin(authentication, request);
+					log.info("for debug determineTargetUrl:2");
 					return "/login";
 				}
 				log.info("login success u:{}", udetail.getId());
