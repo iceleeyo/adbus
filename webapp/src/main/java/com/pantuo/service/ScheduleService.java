@@ -2,6 +2,7 @@ package com.pantuo.service;
 
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.security.Principal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -627,10 +628,14 @@ public class ScheduleService {
 	}
 
 	public class SchedUltResult {
+
+		String reqType;
 		String msg;
 		boolean isScheduled;
 		Date notSchedultDay;
 		boolean isFrist;
+		
+		boolean isScheduleOver=false;
 
 		public String getMsg() {
 			return msg;
@@ -671,9 +676,32 @@ public class ScheduleService {
 			this.isFrist = isFrist;
 		}
 
+		 
+
+		/**
+		 * @see java.lang.Object#toString()
+		 * @since pantuo 1.0-SNAPSHOT
+		 */
 		@Override
 		public String toString() {
-			return "SchedUltResult [msg=" + msg + ", isScheduled=" + isScheduled + "]";
+			return "SchedUltResult [reqType=" + reqType + ", msg=" + msg + ", isScheduled=" + isScheduled
+					+ ", notSchedultDay=" + notSchedultDay + ", isFrist=" + isFrist + "]";
+		}
+
+		public String getReqType() {
+			return reqType;
+		}
+
+		public void setReqType(String reqType) {
+			this.reqType = reqType;
+		}
+
+		public boolean isScheduleOver() {
+			return isScheduleOver;
+		}
+
+		public void setScheduleOver(boolean isScheduleOver) {
+			this.isScheduleOver = isScheduleOver;
 		}
 
 	}
@@ -685,7 +713,7 @@ public class ScheduleService {
 		int city = order.getCity();
 		Calendar cal = DateUtil.newCalendar();
 		List<JpaBox> boxList = null;
-		listener.update("正在初始化库存数据.");
+		listener.update("正在检查库存信息.");
 		boxList = boxRepo.findByCityAndDayGreaterThanEqualAndDayLessThan(city, start, end);
 		Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(city, null, 0, 9999, null, false);
 		Map<Date, List<JpaBox>> boxDayMap = new HashMap<Date, List<JpaBox>>();
@@ -717,14 +745,14 @@ public class ScheduleService {
 			}
 			cal.add(Calendar.DATE, 1);
 		}
-		listener.update("开始根据订单信息排期.");
+		listener.update("开始根据订单信息准备排期.");
 		if (order.getProduct().getFirstNumber() > 0) {
-			listener.update("发现有首播排期需要<");
+			//listener.update("发现有首播排期需要.");
 			//如果有首播排首播
 			int playNum = order.getProduct().getFirstNumber();
 			isAllAllow = scheduleFirst(gs, boxEx, order, playNum, start, days, boxDayMap);
-			listener.update("订单首播排期结束!");
-			listener.update("开始常规时间段排期<");
+			//listener.update("订单首播排期结束!");
+			//listener.update("开始常规时间段排期.");
 			if (isAllAllow.isScheduled) {
 				//首播排完了排非首播
 				playNum = order.getProduct().getPlayNumber() - order.getProduct().getFirstNumber();
@@ -733,7 +761,7 @@ public class ScheduleService {
 				}
 			}
 		} else {
-			listener.update("开始常规时间段排期<");
+			//listener.update("开始常规时间段排期.");
 			//排非首播
 			isAllAllow = scheduleNormal(gs, boxEx, order, order.getProduct().getPlayNumber(), start, days, boxDayMap,
 					listener);
@@ -742,14 +770,23 @@ public class ScheduleService {
 			}
 		}
 		if (!isOnlyCheck && isAllAllow.isScheduled) {
-			listener.update("开始保存排期结果<");
+			listener.update("系统开始保存排期结果.");
 			goodsRepo.save(gs);
 			boxRepo.save(boxEx.values());
 			listener.update("保存排期结果结束!");
 		}
 		if (isOnlyCheck) {
-			listener.updateInfo("库存检查结束!");
+			listener.update("库存检查结束!",ScheduleProgressListener.SCH_TYPE);
 		}
+		if (isAllAllow.isScheduled) {
+			String w = isOnlyCheck ? "库存充足可排期" : "订单排期成功,5秒后将跳转到待办事项!";
+			listener.update(w, ScheduleProgressListener.SCH_TYPE);
+			isAllAllow.setMsg(w);
+			if(!isOnlyCheck){
+				isAllAllow.setScheduleOver(true);
+			}
+		}
+
 		log.info(isAllAllow.toString());
 		return isAllAllow;
 
@@ -852,12 +889,11 @@ public class ScheduleService {
 		}
 	};
 
-public SchedUltResult checkInventory(int id, String startdate1, HttpServletRequest request) {
-		
-		
-		ScheduleProgressListener listener = new ScheduleProgressListener(request.getSession(),ScheduleProgressListener.Type._checkFeature);
-		
-		
+	public SchedUltResult checkInventory(int id, String startdate1, HttpServletRequest request, Principal principal) {
+
+		ScheduleProgressListener listener = new ScheduleProgressListener(request.getSession(), principal,
+				ScheduleProgressListener.Type._checkFeature);
+
 		JpaOrders order = orderService.getJpaOrder(id);
 		Date d = order.getStartTime();
 		if (StringUtils.isNotBlank(startdate1)) {
@@ -868,10 +904,11 @@ public SchedUltResult checkInventory(int id, String startdate1, HttpServletReque
 				e.printStackTrace();
 			}
 		}
-		SchedUltResult r = new SchedUltResult("未来30天均无可排日期", false, null, false);
-		for (int i = 0; i < 30; i++) {   
-			listener.updateInfo("正在检查 ["+DateUtil.longDf.get().format(order.getStartTime()) +"]起 库存情况.");
-			r = schedule2(order, true,listener);
+		final  String noTime="未来30天均无可排日期"; 
+		SchedUltResult r = new SchedUltResult(noTime, false, null, false);
+		for (int i = 0; i < 30; i++) {
+			listener.updateInfo("正在检查[" + DateUtil.longDf.get().format(order.getStartTime()) + "]库存情况.");
+			r = schedule2(order, true, listener);
 			if (!r.isScheduled) {
 				d = DateUtils.addDays(d, 1);
 				order.setStartTime(d);
@@ -880,7 +917,11 @@ public SchedUltResult checkInventory(int id, String startdate1, HttpServletReque
 			}
 		}
 		listener.updateInfo("检查结束.");
+		if(!r.isScheduled){
+			r.setMsg(noTime);
+		}
 		listener.endResult(r);
+		
 		return r;
 	}
 
@@ -994,9 +1035,9 @@ public SchedUltResult checkInventory(int id, String startdate1, HttpServletReque
 	}
 
 	public SchedUltResult checkInventory(int id, String taskid, String startdate1, boolean ischeck,
-			HttpServletRequest request) {
+			HttpServletRequest request, Principal principal) {
 
-		ScheduleProgressListener listener = new ScheduleProgressListener(request.getSession());
+		ScheduleProgressListener listener = new ScheduleProgressListener(request.getSession(), principal);
 
 		JpaOrders order = orderService.getJpaOrder(id);
 		Date d = order.getStartTime();
@@ -1005,7 +1046,7 @@ public SchedUltResult checkInventory(int id, String startdate1, HttpServletReque
 				d = DateUtil.longDf.get().parse(startdate1);
 				order.setStartTime(d);
 			} catch (ParseException e) {
-				e.printStackTrace();
+				log.error("Parse date error:{}", e);
 			}
 		}
 		if (ischeck) {

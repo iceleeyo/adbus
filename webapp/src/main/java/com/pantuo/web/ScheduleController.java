@@ -166,14 +166,14 @@ public class ScheduleController {
 			@PathVariable("id") int id, @PathVariable("ischeck") boolean ischeck,
 			@RequestParam(value = "startdate1", required = false) String startdate1,
 			@RequestParam(value = "taskid", required = false) String taskid,
-			@CookieValue(value = "city", defaultValue = "-1") int city) {
+			@CookieValue(value = "city", defaultValue = "-1") int city,Principal principal) {
 //		long t=System.currentTimeMillis();
 		//add by xiaoli
 		JpaOrders order = orderService.getJpaOrder(id);
 		if (order.getType() == JpaProduct.Type.info || order.getType() == JpaProduct.Type.image) {
 			return scheduleService.scheduleInfoImg(order,taskid,startdate1);
         }else{
-        	SchedUltResult r= scheduleService.checkInventory(id, taskid, startdate1, ischeck, request);
+        	SchedUltResult r= scheduleService.checkInventory(id, taskid, startdate1, ischeck, request,principal);
         	return r;
         }
 //		log.info("SchedUltResult time:{}",System.currentTimeMillis()-t);
@@ -183,8 +183,8 @@ public class ScheduleController {
 	@RequestMapping(value = "/queryFeature/{id}")
 	@ResponseBody
 	public SchedUltResult queryFeature(Model model, HttpServletRequest request, HttpServletResponse response,
-			@PathVariable("id") int id, @RequestParam(value = "startdate1", required = false) String startdate1) {
-		return scheduleService.checkInventory(id, startdate1,request);
+			@PathVariable("id") int id, @RequestParam(value = "startdate1", required = false) String startdate1,Principal principal) {
+		return scheduleService.checkInventory(id, startdate1,request, principal); 
 	}
 	@RequestMapping(value = "/writeExcel/{orderid}")
 	public void writeExcel(Model model, HttpServletRequest request, HttpServletResponse response,
