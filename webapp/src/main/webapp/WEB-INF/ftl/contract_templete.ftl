@@ -239,8 +239,8 @@
 	<p class="p2">
 		<table width="100%" border=1>
 		<tr>
-			<td COLSPAN="2" width="25%">广告/节目内容名称</td><td COLSPAN=2 width="25%"></td>
-			<td COLSPAN="2" width="25%">发布时间/刊期</td><td COLSPAN=2 width="25%"></td>
+			<td width="15%">广告/节目内容名称</td><td COLSPAN=3 ></td>
+			<td width="15%">发布时间/刊期</td><td COLSPAN=3 ></td>
 		</tr>
 		<tr>
 			<td width="15%">广告/节目类型</td><td ></td>
