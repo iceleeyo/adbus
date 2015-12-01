@@ -733,7 +733,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 			<TR style="height: 45px;">
 				<TD width="20%" style="text-align: right">支付方式</TD>
 				<TD>
-					<input type="radio" name="payType" value="online" onclick="hideall();" >在线支付 
+					<input type="radio" name="payType" value="online" onchange="hideall();" >在线支付 
 					<input type="radio" name="payType" value="remit" onchange="hideboth();" >汇款支付 
 					<input type="radio"	name="payType" value="others" onchange="hideContract();">其他支付
 					<input type="radio" name="payType" onchange="showContract();" value="contract" >关联合同				
@@ -1352,9 +1352,11 @@ $(document).ready(function(){
 				if(p=='contract'){
 					showContract();
 				}else if(p == 'online'){
-					hideboth();
-				}else {
-				 hideContract();
+					hideall();
+				}else if(p == 'remit'){
+					hideall();
+				}else{
+				 	hideContract();
 				}
 			}
 		});
