@@ -238,7 +238,9 @@
 			class="s5">付款金额</span><span class="s1">（单位：人民币）</span><span
 			class="s5">、</span><span class="s1">付款方式</span>
 	</p>
-	
+	<p class="p7">
+		<span class="s7">1. </span><span>发布内容</span>
+	</p>
 	<p class="p2 table-c">
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tr>
