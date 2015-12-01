@@ -396,16 +396,16 @@
 	<p class="p7">
 		<span class="s7">2. &nbsp;</span><span>甲方使用乙方媒体服务时，以下情况视为重大违约，乙方有权取消甲方广告主资格，并通知解除本协议，同时有权向甲方索要赔偿金：</span>
 	</p>
-	<p class="p11">
+	<p class="p7">
 		<span class="s10">1) &nbsp;</span><span>侵害了乙方或第三者权益（包含但不仅限于违背公序良俗、名誉权、肖像权、著作权等）或其他权利；</span>
 	</p>
-	<p class="p11">
+	<p class="p7">
 		<span class="s10">2) &nbsp;</span><span>将违反公共秩序、善良风俗及风俗习惯的内容、信息、文章、图形、图片等利用媒体公布；</span>
 	</p>
-	<p class="p11">
+	<p class="p7">
 		<span class="s10">3) &nbsp;</span><span>因停业、倒闭等理由未按合同约定支付相关费用；</span>
 	</p>
-	<p class="p11">
+	<p class="p7">
 		<span class="s10">4) &nbsp;</span><span>其他明显的非正当行为。</span>
 	</p>
 	<p class="p7">
