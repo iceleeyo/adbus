@@ -468,7 +468,7 @@ function confirmSchedule() {
       var mediatype='${orderview.order.type}';
       if(mediatype=='video' && ischeckInventory==0){
          layer.msg("确认排期前请先检查库存", {icon: 5});
-       //   return;
+         return;
       }
       if(orderid=="" || taskid==""){
          layer.msg("信息丢失,请刷新页面", {icon: 5});
