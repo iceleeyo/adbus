@@ -181,6 +181,9 @@
 	font-family: Times New Roman;
 	font-size: 10pt;
 }
+.table .tr .td {
+	border: 1px solid #000;
+}
 </style>
 <meta content="Administrator" name="author">
 </head>
@@ -237,7 +240,7 @@
 	</p>
 	
 	<p class="p2">
-		<table width="100%" style="border: 1px solid #000;">
+		<table width="100%" >
 		<tr>
 			<td width="15%">广告/节目内容名称</td><td COLSPAN=3 ></td>
 			<td width="15%">发布时间/刊期</td><td COLSPAN=3 ></td>
