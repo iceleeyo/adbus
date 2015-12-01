@@ -14,7 +14,7 @@ function showProductlayer(tourl,id){
 		area: ['900px', '600px'], 
 		content:''
 			+' '
-			+'<iframe style="width:99%;height:98%" frameborder="no" src="'+tourl+'/product/prodetail/'+id+'"/>'
+			+'<iframe style="width:99%;height:100%" frameborder="no" src="'+tourl+'/product/prodetail/'+id+'"/>'
 	});
 	
 }
@@ -217,7 +217,7 @@ function contractdetails(tourl,contractid){
 				type: 1,
 				title: "合同详情",
 				skin: 'layui-layer-rim', //加上边框
-				area: ['650px', '450px'], //宽高
+				area: ['750px', '550px'], //宽高
 				content: '<form data-name="withdraw"  enctype="multipart/form-data"> '
 					+'<br/>'
 					+'<div class="ui-form-item" style="margin-left:110px;"> <label class="ui-label mt10"> 合同编号: </label>  <input readonly="readonly" class="ui-input-d"'
