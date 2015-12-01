@@ -497,7 +497,7 @@ function confirmSchedule() {
 		            success:function(data) {
 		                layer.closeAll("loading");
 		                if(data.lock){
-		               		layer.alert(obj.msg, {
+		               		layer.alert(data.msg, {
 			                    icon:6
 			                });
 		                } else {
