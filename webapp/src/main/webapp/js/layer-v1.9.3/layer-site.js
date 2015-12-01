@@ -361,7 +361,7 @@ function eleContract(tourl,orderid){
 	    		area: ['750px', '650px'], 
 	    		content:''
 	    			 +' '
-	  			   	 +'<iframe style="width:99%;height:95%" frameborder="no" src="'+tourl+'/user/contract_templete?orderid='+orderid+'"/><div class="ui-form-item widthdrawBtBox"> </div>'
+	  			   	 +'<iframe style="width:99%;height:97%" frameborder="no" src="'+tourl+'/user/contract_templete?orderid='+orderid+'"/><div class="ui-form-item widthdrawBtBox"> </div>'
 	  			});
 		}
 	}, "text");
