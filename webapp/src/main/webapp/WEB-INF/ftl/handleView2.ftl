@@ -729,10 +729,12 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
   								</TR>  -->
 			<TR style="height: 45px;">
 				<TD width="20%" style="text-align: right">支付方式</TD>
-				<TD><input type="radio" name="payType" onchange="showContract()" value="contract" checked="checked">关联合同
-					<input type="radio" name="payType" value="online" onchange="hideboth()">在线支付 
+				<TD>
+					<input type="radio" name="payType" value="online" onchange="hideboth()" checked="checked">在线支付 
 					<input type="radio" name="payType" value="remit" onchange="hideContract1()">汇款支付 
-					<input type="radio"	name="payType" value="others" onchange="hideContract()">其他支付</TD>
+					<input type="radio"	name="payType" value="others" onchange="hideContract()">其他支付
+					<input type="radio" name="payType" onchange="showContract()" value="contract" >关联合同				
+				</TD>
 				<TD>
 					<div id="contractCode">
 						<select class="ui-input" name="contractCode" id="contractCode">
