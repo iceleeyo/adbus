@@ -31,7 +31,7 @@ islogin(pathurl);
     		type: 1,
     		title: "电子合同",
     		skin: 'layui-layer-rim', 
-    		area: ['750px', '750px'], 
+    		area: ['800px', '600px'], 
     		content:''
 			   +' '
 			   +'<iframe  style="width:99%;height:90%" src="${rc.contextPath}/user/contract_templete?productid='+proid+'"/><div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraworder" class="block-btn" onclick="creorder();" value="确认" style="margin:10px 0px -10px 110px;"> </div>'
