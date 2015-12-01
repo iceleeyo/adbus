@@ -1444,7 +1444,7 @@ $(document).ready(function(){
 				}else if(p == 'online'){
 					hideall();
 				}else if(p == 'remit'){
-					hideall();
+					hideboth();
 				}else{
 				 	hideContract();
 				}
