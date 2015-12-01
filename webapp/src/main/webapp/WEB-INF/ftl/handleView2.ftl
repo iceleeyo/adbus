@@ -842,7 +842,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 				               						<option value="自取">自取</option>
 				               						<option value="邮寄">邮寄</option>
 				               					</select> -->
-						<div id="rece">
+						<div id="rece" style="display: none;">
 							<div class="item">
 								<i></i><a recew="自取" class="select-type">自取</a>
 							</div>
@@ -1205,19 +1205,18 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 					<TD width="20%">签收时间</TD>
 					<TD colspan=3 style="border-radius: 0 0 0"><#setting
 						date_format="yyyy-MM-dd HH:mm:ss"> ${claimTime!''}</TD>
+				</TR>				
+				<TR style="height: 45px;">
+					<TD>支付状态</TD>
+					<TD><input name="rad" type="radio" value="true"
+						checked="checked" style="padding: 5px 15px;" />支付正常 <input
+						name="rad" type="radio" value="false" style="padding: 5px 15px;" />支付异常</TD>
 				</TR>
 				<TR>
 					<TD>审核意见</TD>
 					<TD colspan=3><textarea name="financialcomment"
 							id="financialcomment" class="textareaBox"
 							style="margin: 5px 0; width: 400px; margin-top: 5px;"></textarea></TD>
-				</TR>
-				<TR style="height: 45px;">
-					<TD>支付状态</TD>
-					<TD><input name="rad" type="radio" value="true"
-						checked="checked" style="padding: 5px 15px;" />支付正常 <input
-						name="rad" type="radio" value="false" style="padding: 5px 15px;" />支付异常</TD>
-
 				</TR>
 		</TABLE>
 		<div style="text-align: center; margin-top: 10px;">
