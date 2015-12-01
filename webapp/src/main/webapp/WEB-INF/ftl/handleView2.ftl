@@ -652,9 +652,10 @@ function pay() {
 	    $("#pingzhengTab").hide();
 	}
 	function hideContract1(){
+		$("#pingzhengTab").show();
 	     $("#contractCode").hide();
 	     $("#otherpay").hide();
-		 $("#pingzhengTab").show();
+		 
 	}
 	function hideboth(){
 	     $("#contractCode").hide();
