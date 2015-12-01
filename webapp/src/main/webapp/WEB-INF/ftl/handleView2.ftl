@@ -1490,6 +1490,16 @@ $(document).ready(function(){
 			                $("#sureButton").css({
 			                    color:"#fff"
 			                });
+			                if(obj.scheduleOver){
+					            var uptime = window.setTimeout(function() {
+				                    var a = document.createElement("a");
+				                    a.href = "${rc.contextPath}/order/myTask/1";
+				                    document.body.appendChild(a);
+				                    a.click();
+				                    clearTimeout(uptime);
+				                }, 5000);
+			                }
+			                
 			            } else {
 			                var w = $.format.date(obj.notSchedultDay, "yyyy-MM-dd");
 			                _closeLayer();
