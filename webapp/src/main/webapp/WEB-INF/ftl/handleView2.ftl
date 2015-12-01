@@ -31,6 +31,8 @@ css=["js/highslide/highslide.css",
 	//显示当前节点对应的表单信息
 	$('.${activityId!'' }').css("display","inline");
 	$("#otherpay").hide();
+	$("#contractCode").hide();
+    $("#pingzhengTab").show();
 	
 	$("#generateSchedule #startdate1").change(function() {
            $("#ischeckInventory").val(0);
