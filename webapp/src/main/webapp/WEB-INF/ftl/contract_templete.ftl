@@ -240,7 +240,7 @@
 	</p>
 	
 	<p class="p2 table-c">
-		<table width="100%" >
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tr>
 			<td width="15%">广告/节目内容名称</td><td COLSPAN=3 ></td>
 			<td width="15%">发布时间/刊期</td><td COLSPAN=3 ></td>
