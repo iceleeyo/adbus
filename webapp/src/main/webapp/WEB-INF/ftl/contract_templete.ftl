@@ -181,9 +181,9 @@
 	font-family: Times New Roman;
 	font-size: 10pt;
 }
-.table .tr .td {
-	border: 1px solid #000;
-}
+
+.table-c table{border-right:1px solid #000;border-bottom:1px solid #000}
+.table-c table td{border-left:1px solid #000;border-top:1px solid #000}
 </style>
 <meta content="Administrator" name="author">
 </head>
@@ -239,7 +239,7 @@
 			class="s5">、</span><span class="s1">付款方式</span>
 	</p>
 	
-	<p class="p2">
+	<p class="p2 table-c">
 		<table width="100%" >
 		<tr>
 			<td width="15%">广告/节目内容名称</td><td COLSPAN=3 ></td>
