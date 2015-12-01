@@ -239,12 +239,14 @@
 	<p class="p2">
 		<table width="100%" border=1>
 		<tr>
-			<td cols=2>广告/节目内容名称</td><td cols=2></td>
-			<td cols=2>发布时间/刊期</td><td cols=2></td>
+			<td cols=2 width="25%">广告/节目内容名称</td><td cols=2 width="25%"></td>
+			<td cols=2 width="25%">发布时间/刊期</td><td cols=2 width="25%"></td>
 		</tr>
 		<tr>
-			<td cols=2>广告/节目内容名称</td><td cols=2></td>
-			<td cols=2>发布时间/刊期</td><td cols=2></td>
+			<td width="15%">广告/节目类型</td><td ></td>
+			<td width="15%">广告/节目长度</td><td ></td>
+			<td width="15%">播出频次</td><td ></td>
+			<td width="15%">数量</td><td ></td>			
 		</tr>
 		<tr>
 			<td cols=2>发布费用</td><td cols=6></td>
