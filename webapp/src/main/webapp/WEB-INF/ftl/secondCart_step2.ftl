@@ -241,7 +241,7 @@
 	    		type: 1,
 	    		title: "电子合同",
 	    		skin: 'layui-layer-rim', 
-	    		area: ['650px', '750px'], 
+	    		area: ['600px', '750px'], 
 	    		content:''
 				   +' '
 				   +'<iframe  style="width:99%;height:90%" src="${rc.contextPath}/user/contract_templete"/><div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraworder" class="block-btn" onclick="payment();" value="确认" style="margin:10px 0px -10px 45%;"> </div>'
