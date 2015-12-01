@@ -658,6 +658,11 @@ function pay() {
 	     $("#otherpay").hide();
 	     $("#pingzhengTab").show();
 	}
+	function hidebo(){
+	     $("#contractCode").hide();
+	     $("#otherpay").hide();
+	     $("#pingzhengTab").hide();
+	}
 	
 	//物料详情浮窗
 	function supDetail(data){
@@ -726,8 +731,8 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 			<TR style="height: 45px;">
 				<TD width="20%" style="text-align: right">支付方式</TD>
 				<TD>
-					<input type="radio" name="payType" value="online" onchange="hideboth()" checked="checked">在线支付 
-					<input type="radio" name="payType" value="remit" onchange="hideboth()">汇款支付 
+					<input type="radio" name="payType" value="online" onchange="hidebo()" >在线支付 
+					<input type="radio" name="payType" value="remit" onchange="hideboth()" checked="checked">汇款支付 
 					<input type="radio"	name="payType" value="others" onchange="hideContract()">其他支付
 					<input type="radio" name="payType" onchange="showContract()" value="contract" >关联合同				
 				</TD>
