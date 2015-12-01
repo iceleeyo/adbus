@@ -671,11 +671,11 @@ function uploadImaget(formId) {
     if(image_name != ''){
     var imgs=image_name.split(".");
     var img_subfier= imgs[imgs.length-1].toLocaleLowerCase();
-    var img_parr = ["jpg", "jpeg", "gif"]; 
+    var img_parr = ["jpg", "jpeg", "gif","png"]; 
     
     if(image_name !=''){
         if($.inArray(img_subfier, img_parr) ==-1){
-            jDialog.Alert("请上传['jpg','gif']格式的图片!");
+            jDialog.Alert("请上传['jpg','gif','png','jpeg']格式的图片!");
             return false;
         }
     }
@@ -690,7 +690,7 @@ function uploadImaget(formId) {
                  }
         }; 
         $("#" +formId+"").ajaxSubmit(options);
-        document.getElementById('form_img').reset();
+        document.getElementById(formId).reset();
         }
 }
 </script>
