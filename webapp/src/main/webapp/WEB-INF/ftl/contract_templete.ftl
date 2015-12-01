@@ -237,7 +237,7 @@
 	</p>
 	
 	<p class="p2">
-		<table>
+		<table width="100%" border=1>
 		<tr>
 			<td cols=2>广告/节目内容名称</td><td cols=2></td>
 			<td cols=2>发布时间/刊期</td><td cols=2></td>
