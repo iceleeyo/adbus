@@ -1492,49 +1492,55 @@ $(document).ready(function(){
 			        var obj = jQuery.parseJSON(t2);
 			        //-----------
 			        if (obj.reqType == "schInfo") {
-			            if (obj.scheduled == true) {
-			                layer.msg(obj.msg);//提示
-			                _closeLayer();
-			                $("#ischeckInventory").val(1);
-			                $("#sureButton").css({
-			                    "background-color":"rgb(245, 135, 8)"
-			                });
-			                $("#sureButton").css({
-			                    color:"#fff"
-			                });
-			                if(obj.scheduleOver){
-					            var uptime = window.setTimeout(function() {
-				                    var a = document.createElement("a");
-				                    a.href = "${rc.contextPath}/order/myTask/1";
-				                    document.body.appendChild(a);
-				                    a.click();
-				                  //  clearTimeout(uptime);
-				                }, 5000);
-			                }
-			                
+			        	if(obj.lock==false){
+				            if (obj.scheduled == true) {
+				                layer.msg(obj.msg);//提示
+				                _closeLayer();
+				                $("#ischeckInventory").val(1);
+				                $("#sureButton").css({
+				                    "background-color":"rgb(245, 135, 8)"
+				                });
+				                $("#sureButton").css({
+				                    color:"#fff"
+				                });
+				                if(obj.scheduleOver){
+						            var uptime = window.setTimeout(function() {
+					                    var a = document.createElement("a");
+					                    a.href = "${rc.contextPath}/order/myTask/1";
+					                    document.body.appendChild(a);
+					                    a.click();
+					                  //  clearTimeout(uptime);
+					                }, 5000);
+				                }
+				                
+				            } else {
+				                var w = $.format.date(obj.notSchedultDay, "yyyy-MM-dd");
+				                _closeLayer();
+				                layer.confirm("日期:<font color='red'>" + w + "</font>  库存不足<br>根据当前订单信息库存信息如下:<br><br>" + obj.msg + "<br><br>是否让系统推荐一个可排期的日期?", {
+				                    icon:3
+				                }, function(index) {
+				                    layer.close(index);
+				                    layer.load(1);
+				                    setTimeout(function() {
+				                        layer.closeAll("loading");
+				                    }, 60000 * 10);
+				                    var orderid = $("#orderid").val();
+				                    $.ajax({
+				                        url:"${rc.contextPath}/schedule/queryFeature/" + orderid + "?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
+				                        type:"POST",
+				                        success:function(data) {
+				                            layer.closeAll("loading");
+				                        }
+				                    }, "text");
+				                    //--------begin queryFeature ----- 
+				                    initCheckFeautreInfo();
+				                    isFrist = 2;
+				                });
+				            }
 			            } else {
-			                var w = $.format.date(obj.notSchedultDay, "yyyy-MM-dd");
-			                _closeLayer();
-			                layer.confirm("日期:<font color='red'>" + w + "</font>  库存不足<br>根据当前订单信息库存信息如下:<br><br>" + obj.msg + "<br><br>是否让系统推荐一个可排期的日期?", {
-			                    icon:3
-			                }, function(index) {
-			                    layer.close(index);
-			                    layer.load(1);
-			                    setTimeout(function() {
-			                        layer.closeAll("loading");
-			                    }, 60000 * 10);
-			                    var orderid = $("#orderid").val();
-			                    $.ajax({
-			                        url:"${rc.contextPath}/schedule/queryFeature/" + orderid + "?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
-			                        type:"POST",
-			                        success:function(data) {
-			                            layer.closeAll("loading");
-			                        }
-			                    }, "text");
-			                    //--------begin queryFeature ----- 
-			                    initCheckFeautreInfo();
-			                    isFrist = 2;
-			                });
+				            layer.alert(obj.msg, {
+				                    icon:6
+				                });
 			            }
 			        } else if (obj.reqType == "_checkFeature") {
 			            layer.closeAll("loading");
