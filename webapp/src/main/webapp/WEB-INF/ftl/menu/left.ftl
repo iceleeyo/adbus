@@ -45,7 +45,7 @@
 						href="${rc.contextPath}/supplies/list"> 物料管理 </a></li>
 
 				</ul></li> </@security.authorize> <@security.authorize
-			ifAnyGranted="advertiser,ShibaOrderManager,ShibaFinancialManager,bodyContractManager">
+			ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,bodyContractManager">
 			<li class="pg-side-item"><a class="pg-side-item-t ee-icon"
 				href="#"> <i class="s-left pg-icon-a g-icon"></i> 合同管理
 			</a>
