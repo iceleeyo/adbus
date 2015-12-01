@@ -496,6 +496,12 @@ function confirmSchedule() {
 		            },
 		            success:function(data) {
 		                layer.closeAll("loading");
+		                if(data.lock){
+		               		layer.alert(obj.msg, {
+			                    icon:6
+			                });
+		                } else {
+		                
 		               //jDialog.Alert(data.scheduled == true ? "执行成功!" :"执行失败!");
 		                var uptime = window.setTimeout(function() {
 		                    var a = document.createElement("a");
@@ -504,6 +510,7 @@ function confirmSchedule() {
 		                    a.click();
 		                    clearTimeout(uptime);
 		                }, 5000);
+		                }
 		            }
 		        }, "text");
 		    }
@@ -1496,7 +1503,6 @@ $(document).ready(function(){
 			        isFrist = 0;
 			        layer.closeAll("loading");
 			        var t2 = decodeURIComponent(json);
-			        alert(t2);
 			        var obj = jQuery.parseJSON(t2);
 			        
 			        //-----------
@@ -1547,7 +1553,6 @@ $(document).ready(function(){
 				                });
 				            }
 			            } else {
-			            alert(1);
 				            layer.alert(obj.msg, {
 				                    icon:6
 				                });
