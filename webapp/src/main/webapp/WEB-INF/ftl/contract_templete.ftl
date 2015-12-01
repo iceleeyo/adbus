@@ -237,7 +237,18 @@
 	</p>
 	
 	<p class="p2">
-		<span>1. 开具发票：</span><span class="s2">乙方在收到甲方支付的金额后为甲方开具有效发票。</span>
+		<table>
+		<tr>
+			<td cols=2>广告/节目内容名称<td><td cols=2><td>
+			<td cols=2>发布时间/刊期<td><td cols=2><td>
+		<tr>
+		<tr>
+			<td cols=2>广告/节目内容名称<td><td cols=2><td>
+			<td cols=2>发布时间/刊期<td><td cols=2><td>
+		<tr>
+		<tr>
+			<td cols=2>发布费用<td><td cols=6><td>
+		<tr>
 	</p>
 	<p class="p5">
 		<span class="s5">三、 发布形式</span>
