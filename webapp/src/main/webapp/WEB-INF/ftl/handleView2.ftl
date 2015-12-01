@@ -644,15 +644,24 @@ function pay() {
 	function showContract(){
 	     $("#contractCode").show();
 	     $("#otherpay").hide();
+	     $("#pingzhengTab").hide();
 	}
 	function hideContract(){
 	     $("#contractCode").hide();
 	    $("#otherpay").show();
+	    $("#pingzhengTab").hide();
+	}
+	function hideContract1(){
+	     $("#contractCode").hide();
+	     $("#otherpay").hide();
+		 $("#pingzhengTab").show();
 	}
 	function hideboth(){
 	     $("#contractCode").hide();
 	    $("#otherpay").hide();
+	    $("#pingzhengTab").show();
 	}
+	
 	//物料详情浮窗
 	function supDetail(data){
 
@@ -719,12 +728,10 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
   								</TR>  -->
 			<TR style="height: 45px;">
 				<TD width="20%" style="text-align: right">支付方式</TD>
-				<TD><input type="radio" name="payType"
-					onchange="showContract()" value="contract" checked="checked">关联合同
-					<input type="radio" name="payType" value="online"
-					onchange="hideboth()">线上支付 <input type="radio"
-					name="payType" value="others" onchange="hideContract()">其他支付</TD>
-
+				<TD><input type="radio" name="payType" onchange="showContract()" value="contract" checked="checked">关联合同
+					<input type="radio" name="payType" value="online" onchange="hideboth()">在线支付 
+					<input type="radio" name="payType" value="remit" onchange="hideContract1()">汇款支付 
+					<input type="radio"	name="payType" value="others" onchange="hideContract()">其他支付</TD>
 				<TD>
 					<div id="contractCode">
 						<select class="ui-input" name="contractCode" id="contractCode">
@@ -738,12 +745,12 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 						<select class="ui-input" name="otherpay" id="otherpay">
 							<option value="" selected="selected">请选择支付方式</option>
 							<option value="check">支票</option>
-							<option value="remit">汇款</option>
 							<option value="cash">现金</option>
 						</select>
 					</div>
 				</TD>
 			</TR>
+			<tbody id="pingzhengTab">
 			<TR style="height: 45px;">
 				<TD style="text-align: right">上传凭证（可选）</TD>
 				<TD colspan=3>
@@ -753,6 +760,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
                  </form>
 				</TD>
 			</TR>
+			</tbody>
 			<TR style="height: 45px;">
 				<TD style="text-align: right">发票信息</TD>
 				<TD colspan=3><input type="checkbox" id="check1" />开具发票
@@ -760,6 +768,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 					href="javascript:;" onclick="IvcEnter('${rc.contextPath}');">录入发票</a>
 				</TD>
 			</TR>
+			
 			<tbody id="invoiceTab" style="display: none;">
 				<TR>
 					<td style="text-align: right">发票抬头</td>
@@ -843,7 +852,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 		<div class="tips-title">
 			<span class="icon"></span>
 			<font color="orange"><B>温馨提示</B></font><br>
-			三方一致：合同甲方公司名称-付款方银行开户名称-我方开具发票抬头名称<br>
+			三方一致：合同甲方公司名称-付款方银行开户名称-开具发票抬头名称<br>
 			线下付款的账户信息：<br>
 			&nbsp;&nbsp;&nbsp;&nbsp;开户行：<B>工行知春路支行</B><br>
 			&nbsp;&nbsp;&nbsp;&nbsp;账户名称：<b>北京世巴传媒有限公司</b><br>
