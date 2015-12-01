@@ -1,6 +1,5 @@
 package com.pantuo.service;
 
-import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.security.Principal;
 import java.text.ParseException;
@@ -31,7 +30,6 @@ import jxl.write.WritableWorkbook;
 
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
-import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -41,8 +39,6 @@ import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
-import scala.reflect.generic.Trees.This;
 
 import com.mysema.query.types.ConstantImpl;
 import com.mysema.query.types.Ops;
@@ -77,7 +73,6 @@ import com.pantuo.mybatis.persistence.InfoimgscheduleMapper;
 import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
 import com.pantuo.pojo.SlotBoxBar;
 import com.pantuo.service.MailTask.Type;
-import com.pantuo.service.ScheduleService.SchedUltResult;
 import com.pantuo.simulate.MailJob;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.Pair;
@@ -87,8 +82,6 @@ import com.pantuo.vo.MediaInventory;
 import com.pantuo.vo.ScheduleView;
 import com.pantuo.vo.SortRequest;
 import com.pantuo.web.progress.ScheduleProgressListener;
-import com.pantuo.web.upload.FileUploadProgressListener;
-import com.pantuo.web.view.AutoCompleteView;
 import com.pantuo.web.view.SolitSortView;
 
 /**
@@ -727,6 +720,10 @@ public class ScheduleService {
 		long t1 = System.currentTimeMillis();
 		boxList = boxRepo.findByCityAndDayGreaterThanEqualAndDayLessThan(city, start, end);
 		log.info("#Load data from Db :{} ms", System.currentTimeMillis() - t1);
+		//long m1 = System.currentTimeMillis();
+		//log.info(Memory.humanReadableByteCount(MemoryMeasurer.measureBytes(boxList), false));
+		//log.info("#MemoryMeasurer.measureBytes :{} ms", System.currentTimeMillis() - m1);
+		
 		
 		long t2 = System.currentTimeMillis();
 		Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(city, null, 0, 9999, null, false);
