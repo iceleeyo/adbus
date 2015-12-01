@@ -834,14 +834,9 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 					</td>
 				</TR>
 
-				<TR>
+				<TR style="display: none;">
 					<td style="text-align: right">领取方式</td>
 					<td colspan="3">
-						<!-- <select  style="margin: 20px;" id="receway">
-				               						<option value="">请选择发票领取方式</option>
-				               						<option value="自取">自取</option>
-				               						<option value="邮寄">邮寄</option>
-				               					</select> -->
 						<div id="rece" style="display: none;">
 							<div class="item">
 								<i></i><a recew="自取" class="select-type">自取</a>
