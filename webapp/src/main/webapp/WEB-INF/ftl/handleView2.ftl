@@ -1494,7 +1494,9 @@ $(document).ready(function(){
 			        isFrist = 0;
 			        layer.closeAll("loading");
 			        var t2 = decodeURIComponent(json);
+			        alert(t2);
 			        var obj = jQuery.parseJSON(t2);
+			        
 			        //-----------
 			        if (obj.reqType == "schInfo") {
 			        	if(obj.lock==false){
