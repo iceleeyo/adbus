@@ -1541,6 +1541,7 @@ $(document).ready(function(){
 				                });
 				            }
 			            } else {
+			            alert(1);
 				            layer.alert(obj.msg, {
 				                    icon:6
 				                });
