@@ -220,7 +220,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 						disableautocomplete="" placeholder="中英文、数字、下划线">
 				</div>
 				<div class="ui-form-item">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>合同名称:</label>
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>广告/节目内容名称:</label>
 					<input
 						class="ui-input validate[required,custom[noSpecialLetterChinese],maxSize[120]]"
 						type="text" name="contractName"
