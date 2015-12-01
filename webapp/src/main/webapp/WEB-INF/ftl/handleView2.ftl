@@ -1354,7 +1354,7 @@ $(document).ready(function(){
 				}else if(p == 'online'){
 					hideall();
 				}else if(p == 'remit'){
-					hideall();
+					hideboth();
 				}else{
 				 	hideContract();
 				}
@@ -1442,9 +1442,11 @@ $(document).ready(function(){
 				if(p=='contract'){
 					showContract();
 				}else if(p == 'online'){
-					hideboth();
-				}else {
-				 hideContract();
+					hideall();
+				}else if(p == 'remit'){
+					hideall();
+				}else{
+				 	hideContract();
 				}
 			}
 		});
