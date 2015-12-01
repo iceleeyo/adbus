@@ -55,13 +55,9 @@
 							<div class="tips-title">
 							<span class="icon"></span>
 			<font color="orange"><B>温馨提示</B></font><br>
-			三方一致：合同甲方公司名称-付款方银行开户名称-我方开具发票抬头名称<br>
-			线下付款的账户信息：<br>
-			&nbsp;&nbsp;&nbsp;&nbsp;开户行：<B>工行知春路支行</B><br>
-			&nbsp;&nbsp;&nbsp;&nbsp;账户名称：<b>北京世巴传媒有限公司</b><br>
-			&nbsp;&nbsp;&nbsp;&nbsp;收款方账号：<b>0200207909200097152</b><br>
-			&nbsp;&nbsp;&nbsp;&nbsp;公司地址：北京市海淀区紫竹院路32号15号平房	电话：68427368<br>
-		</div>
+			您可以登录系统查看订单的状态及其他相关操作。<br>
+			我们的客服将尽快致电与您沟通订单的其他相关事宜。<br>
+			</div>
 		</div>
 						<p class="more-info">
 						<#if metype?? && metype=='body'>
