@@ -338,18 +338,18 @@ public class ProductServiceImpl implements ProductService {
 			product.setCity(city);
 			com.pantuo.util.BeanUtils.filterXss(product);
 			product.setExclusiveUser(product.getExclusiveUser());
-			if(product.getId()>0){
-				String a=attachmentService.saveAttachmentSimple(request);
-				if(a.length()>1){
-					product.setImgurl(a);
-				}
-			}else{
-				if(request!=null){
-					product.setImgurl(attachmentService.saveAttachmentSimple(request));
-				}
-			}
+//			if(product.getId()>0){
+//				String a=attachmentService.saveAttachmentSimple(request);
+//				if(a.length()>1){
+//					product.setImgurl(a);
+//				}
+//			}else{
+//				if(request!=null){
+//					product.setImgurl(attachmentService.saveAttachmentSimple(request));
+//				}
+//			}
 			productRepo.save(product);
-		} catch (BusinessException e) {
+		} catch (Exception e) {
 		}
 	}
 

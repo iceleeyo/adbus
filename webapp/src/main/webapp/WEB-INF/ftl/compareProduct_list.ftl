@@ -95,7 +95,7 @@ js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer
                         var operations = '';
                      	operations+= (row.product.enabled ? '<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/product/' + row.product.id + '/0">下架</a> &nbsp;'
                                 :'<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/product/' + row.product.id + '/1">上架</a> &nbsp;')
-                        operations +='<a class="table-link operation" href="${rc.contextPath}/product/editComparePro/' + data +'">编辑</a> &nbsp;';
+                        operations +='<a class="table-link operation" onclick="toeditProduct('+data+')" href="javascript:void(0);">编辑</a>  &nbsp;';
                        return operations;
                     }},
                         </@security.authorize>
@@ -109,7 +109,16 @@ js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer
         table.fnNameOrdering("orderBy").fnNoColumnsParams();
        
     }
-
+function toeditProduct(id){
+var url="${rc.contextPath}/product/checkProHadBought/"+id;
+      $.post(url, function(data) {
+               if(data.left){
+                window.location.href="${rc.contextPath}/product/editComparePro/"+id;
+               }else{
+                 layer.msg(data.right);
+               }
+        	});
+}
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +

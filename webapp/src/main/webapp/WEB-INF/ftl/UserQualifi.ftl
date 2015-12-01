@@ -40,13 +40,17 @@ css=["js/jquery-ui/jquery-ui.css"]>
 		<div class="withdrawInputs">
 			<div class="inputs">
 				   <div class="ui-form-item">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>营业执照副本复印件:
-					</label> <#if attachments?has_content > <#list attachments as item> <#if
-					item?has_content && item.type==10> <a
-						href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}"
+					<label class="ui-label mt10">营业执照副本复印件:
+					</label> 
+			<#if attachments?has_content && typelist?? && typelist?seq_contains(10)> 
+				<#list attachments as item>
+				 <#if item?has_content && item.type==10> 
+					<a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}"
 						onclick="return hs.expand(this)"> <img
 						src="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}"
-						class="m11" width="240" /></a><br> </#if> </#list> <br>
+						class="m11" width="240" /></a><br> 
+					</#if> 
+				 </#list> <br>
 					 <label class="ui-label mt10">修改营业执照副本复印件:</label>
 						<div id="div_1">
 							<input type="file" name="user_license" id="Sfile2"/>
@@ -55,15 +59,15 @@ css=["js/jquery-ui/jquery-ui.css"]>
 					<div id="newUpload2">
 						<div id="div_1">
 							<input type="file" name="user_license" id="Sfile2"
-								class="validate[required]">
+								>
 						</div>
 					</div>
 					</#if>
 
 				</div>
 				<div class="ui-form-item">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>税务登记证副本复印件:
-					</label> <#if attachments?has_content > <#list attachments as item> <#if
+					<label class="ui-label mt10">税务登记证副本复印件:
+					</label> <#if attachments?has_content && typelist?? && typelist?seq_contains(10)> <#list attachments as item> <#if
 					item?has_content && item.type==11> <a
 						href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}"
 						onclick="return hs.expand(this)"> <img
@@ -77,7 +81,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 					<div id="newUpload2">
 						<div id="div_1">
 							<input type="file" name="user_tax" id="Sfile2"
-								class="validate[required]">
+								>
 						</div>
 					</div>
 					</#if>
@@ -85,8 +89,8 @@ css=["js/jquery-ui/jquery-ui.css"]>
 				</div>
 
 				<div class="ui-form-item">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>组织结构代码证书:
-					</label> <#if attachments?has_content > <#list attachments as item> <#if
+					<label class="ui-label mt10">组织结构代码证书:
+					</label> <#if attachments?has_content && typelist?? && typelist?seq_contains(10)> <#list attachments as item> <#if
 					item?has_content && item.type==14> 
 						<a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}"
 						onclick="return hs.expand(this)"> 
@@ -100,7 +104,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 					<div id="newUpload2">
 						<div id="div_1">
 							<input type="file" name="user_code" id="Sfile2"
-								class="validate[required]">
+								>
 						</div>
 					</div>
 					</#if>

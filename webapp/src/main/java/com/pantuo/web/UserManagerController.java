@@ -333,6 +333,9 @@ public class UserManagerController {
 		List<Attachment> attachments=attachmentService.findUserQulifi(Request.getUserId(principal));
 		model.addAttribute("userDetail", userService.getByUsernameSafe(Request.getUserId(principal)));
 		model.addAttribute("attachments", attachments);
+		if(attachments.size()>0){
+			model.addAttribute("typelist", userService.gettypeListByAttach(attachments));
+		}
 		return "UserQualifi";
 	}
 	@RequestMapping(value = "/updateQualifi", method = { RequestMethod.POST })

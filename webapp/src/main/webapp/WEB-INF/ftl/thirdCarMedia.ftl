@@ -50,13 +50,12 @@
 				<div class="detail">
 					<div class="detail-bd clearfix">
 						<div class="d-left">
-							<#if jpaProduct.imgurl?has_content > <img id="big_img"
-								src="${rc.contextPath}/upload_temp/${jpaProduct.imgurl}"
-								width="360" height="290">
+							<#if jsonView?has_content > 
+							<img id="big_img" src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}</#if>" width="345" height="290">
 							<div class="sm-imgs">
-								<a><img src="${rc.contextPath}/upload_temp/${jpaProduct.imgurl}" height="65" width="65"></a> 
-								<a><img src="${rc.contextPath}/upload_temp/${jpaProduct.imgurl}" height="65" width="65"></a> 
-								<a><img src="${rc.contextPath}/index_img/wp1_1.jpg" height="65" width="65"></a> 
+								<a><img src="<#if jsonView?? && jsonView.img2_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img2_url}</#if>" height="65" width="65"></a> 
+								<a><img src="<#if jsonView?? && jsonView.img3_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img3_url}</#if>" height="65" width="65"></a> 
+								<a><img src="<#if jsonView?? && jsonView.img4_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img4_url}</#if>" height="65" width="65"></a> 
 							</div>
 							<#else> <img id="big_img" src="${rc.contextPath}/index_img/wp1_1.jpg"
 								width="345" height="290">
@@ -191,19 +190,19 @@
 								<p class="head-zh">媒体优势</p>
 								<p class="icon-line"></p>
 							</div>
-							<img src="${rc.contextPath}/index_img/thirdVideo_2.png">
+							<img src="<#if  jsonView.intro1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro1_url}<#else>${rc.contextPath}/index_img/thirdVideo_2.png</#if>">
 							<div class="c-head">
 								<p class="head-en">AUDIENCE ANALYSIS</p>
 								<p class="head-zh">受众分析</p>
 								<p class="icon-line"></p>
 							</div>
-							<img src="${rc.contextPath}/index_img/thirdVideo_3.png">
+							<img src="<#if  jsonView.intro2_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro2_url}<#else>${rc.contextPath}/index_img/thirdVideo_3.png</#if>">
 							<div class="c-head">
 								<p class="head-en">MEDIA REGIONAL</p>
 								<p class="head-zh">合作品牌</p>
 								<p class="icon-line"></p>
 							</div>
-							<img src="${rc.contextPath}/index_img/thirdCar_4.png">
+							<img src="<#if  jsonView.intro3_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro3_url}<#else>${rc.contextPath}/index_img/thirdCar_4.png</#if>">
 						</div>
 					</div>
 				</div>

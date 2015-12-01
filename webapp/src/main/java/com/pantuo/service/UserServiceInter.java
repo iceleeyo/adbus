@@ -14,6 +14,7 @@ import scala.collection.generic.BitOperations.Int;
 
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.dao.pojo.UserDetail.UType;
+import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.util.Pair;
@@ -108,5 +109,6 @@ public	Page<UserDetail> getUsers(String utype, String name, Boolean isEnabled, i
 	public String getUserUniqCode(String uname);
 
 	public abstract Pair<Boolean, String> editPwd(String userId, String oldpassword, String psw);
+	public abstract List<Integer> gettypeListByAttach(List<Attachment> attachments);
 
 }

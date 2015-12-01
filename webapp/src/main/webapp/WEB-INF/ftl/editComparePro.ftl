@@ -208,52 +208,121 @@ function go_back(){
 							type="text" name="biddingDate1" id="biddingDate1" value="${prod.biddingDate?string("yyyy-MM-dd HH:mm:ss ")}"
 							data-is="isAmount isEnough">
 					</div>
-				<#if prod.product??>
-				<div class="ui-form-item" id="file">
-					<label class="ui-label mt10"><span class="ui-form-required"></span>产品缩略图</label>
-					<div id="newUpload2">
-						<#if prod.product.imgurl?has_content > <input type="hidden" name="imgurl"
-							value="${prod.product.imgurl}" /> 
-							<img src="${rc.contextPath}/upload_temp/${prod.product.imgurl}" class="m11"
-							width="240" /> <#else> <img src="../index_img/wp1_1.jpg"
-							height="100" width="100"> <input type="hidden"
-							name="imgurl" value="" /> </#if>
-					</div>
-				</div>
-				<div class="ui-form-item" id="file">
-					<label class="ui-label mt10">修改缩略图</label>
-					<div id="newUpload2">
-						<div class="filebox" id="div_1">
-							<input type="file" name="file2">
-						</div>
-					</div>
-				</div>
-				<input type="hidden" name="productid" value="${prod.product.id}" /> 
-				<input type="hidden" name="cpdid" value="${prod.id}" /> 
-				<#else>
-				<div class="ui-form-item" id="file">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>产品缩略图上传</label>
-					<div id="newUpload2">
-						<div class="filebox" id="div_1">
-							<input type="file" name="file" id="Sfile"
-								class="validate[required]">
-						</div>
-					</div>
-				</div>
-				</#if>
+				
 				<div class="ui-form-item">
 					<label class="ui-label mt10">套餐描述：</label>
 					<textarea rows="4" cols="40" style="resize: none;" name="product.remarks" value="${(pro.product.remarks)!''}"></textarea>
 				</div>
 			</div>
+			 <input id ="img1_url" name="img1_url" type="hidden" value="<#if jsonView?? && jsonView.img1_url?has_content>${jsonView.img1_url}</#if>"/>
+		 <input id ="img2_url" name="img2_url" type="hidden" value="<#if jsonView?? && jsonView.img2_url?has_content>${jsonView.img2_url}</#if>"/>
+		 <input id ="img3_url" name="img3_url" type="hidden" value="<#if jsonView?? && jsonView.img3_url?has_content>${jsonView.img3_url}</#if>"/>
+		 <input id ="img4_url" name="img4_url" type="hidden" value="<#if jsonView?? && jsonView.img4_url?has_content>${jsonView.img4_url}</#if>"/>
+		 <input id ="intro1_url" name="intro1_url" type="hidden" value="<#if jsonView?? && jsonView.intro1_url?has_content>${jsonView.intro1_url}</#if>"/>
+		 <input id ="intro2_url" name="intro2_url" type="hidden" value="<#if jsonView?? && jsonView.intro2_url?has_content>${jsonView.intro2_url}</#if>"/>
+		 <input id ="intro3_url" name="intro3_url" type="hidden" value="<#if jsonView?? && jsonView.intro3_url?has_content>${jsonView.intro3_url}</#if>"/>
+		 <input id ="intro4_url" name="intro4_url" type="hidden" value="<#if jsonView?? && jsonView.intro4_url?has_content>${jsonView.intro4_url}</#if>"/>
+		 <input type="hidden" name="productid" value="${prod.product.id}" /> 
+				<input type="hidden" name="cpdid" value="${prod.id}" /> 
 			<div class="ui-form-item widthdrawBtBox">
 				<input type="submit" class="block-btn" value="确定">
+				<input type="button" id="subWithdraw" class="block-btn"
+						onclick="showdoc();" value="需更改产品图片">
 			</div>
 		</div>
 
 	</form>
+	<div id="needimg" style="display: none">
+	<div class="ui-form-item" id="file">
+					<label class="ui-label mt10">产品缩略图1</label>
+				 <form id="img1" method="post" enctype="multipart/form-data"> 
+                     <img src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}</#if>" id="img1_img" width="200" height="100" border="1px solid #d0d0d0;"/>
+                     <input id="img1_file" name="img1_file" type="file" onchange="uploadImaget('img1');"/>
+                 </form>
+				</div>
+				<div class="ui-form-item" id="file">
+					<label class="ui-label mt10"><span class="ui-form-required"></span>产品缩略图2</label>
+				 <form id="img2" method="post" enctype="multipart/form-data"> 
+                     <img src="<#if jsonView?? && jsonView.img2_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img2_url}</#if>" id="img2_img" width="200" height="100" border="1px solid #d0d0d0;"/>
+                     <input id ="img2_file" name="img2_file" type="file" onchange="uploadImaget('img2');"/>
+                 </form>
+				</div>
+				<div class="ui-form-item" id="file">
+					<label class="ui-label mt10"><span class="ui-form-required"></span>产品缩略图3</label>
+				 <form id="img3" method="post" enctype="multipart/form-data"> 
+                     <img src="<#if jsonView?? && jsonView.img3_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img3_url}</#if>" id="img3_img" width="200" height="100" border="1px solid #d0d0d0;"/>
+                     <input id ="img3_file" name="img3_file" type="file" onchange="uploadImaget('img3');"/>
+                 </form>
+				</div>
+				<div class="ui-form-item" id="file">
+					<label class="ui-label mt10"><span class="ui-form-required"></span>产品缩略图4</label>
+				 <form id="img4" method="post" enctype="multipart/form-data"> 
+                     <img src="<#if jsonView?? && jsonView.img4_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img4_url}</#if>" id="img4_img" width="200" height="100" border="1px solid #d0d0d0;"/>
+                     <input id ="img4_file" name="img4_file" type="file" onchange="uploadImaget('img4');"/>
+                 </form>
+				</div>
+				
+				<div class="ui-form-item" id="file">
+					<label class="ui-label mt10"><span class="ui-form-required"></span>媒体优势图</label>
+				 <form id="intro1" method="post" enctype="multipart/form-data"> 
+                     <img src="<#if jsonView?? && jsonView.intro1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro1_url}</#if>" id="intro1_img" width="200" height="100" border="1px solid #d0d0d0;"/>
+                     <input id ="intro1_file" name="intro1_file" type="file" onchange="uploadImaget('intro1');"/>
+                     
+                 </form>
+				</div>
+				<div class="ui-form-item" id="file">
+					<label class="ui-label mt10"><span class="ui-form-required"></span>受众分析图</label>
+				 <form id="intro2" method="post" enctype="multipart/form-data"> 
+                     <img src="<#if jsonView?? && jsonView.intro2_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro2_url}</#if>" id="intro2_img" width="200" height="100" border="1px solid #d0d0d0;"/>
+                     <input id ="intro2_file" name="intro2_file" type="file" onchange="uploadImaget('intro2');"/>
+                 </form>
+				</div>
+				<div class="ui-form-item" id="file">
+					<label class="ui-label mt10"><span class="ui-form-required"></span>合作品牌图</label>
+				 <form id="intro3" method="post" enctype="multipart/form-data"> 
+                     <img src="<#if jsonView?? && jsonView.intro1_ur3?has_content>${rc.contextPath}/upload_temp/${jsonView.intro3_url}</#if>" id="intro3_img" width="200" height="100" border="1px solid #d0d0d0;"/>
+                     <input id ="intro3_file" name="intro3_file" type="file" onchange="uploadImaget('intro3');"/>
+                 </form>
+				</div>
+				<div class="ui-form-item" id="file">
+					<label class="ui-label mt10"><span class="ui-form-required"></span>介绍图4</label>
+				 <form id="intro4" method="post" enctype="multipart/form-data"> 
+                     <img src="<#if jsonView?? && jsonView.intro4_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro4_url}</#if>" id="intro4_img" width="200" height="100" border="1px solid #d0d0d0;"/>
+                     <input id ="intro4_file" name="intro4_file" type="file" onchange="uploadImaget('intro4');"/>
+                 </form>
+				</div>
+				</div>
 </div>
 <script type="text/javascript">
+function uploadImaget(formId) { 
+    var image_name=$("#"+formId+"_file").val();
+    if(image_name != ''){
+    var imgs=image_name.split(".");
+    var img_subfier= imgs[imgs.length-1].toLocaleLowerCase();
+    var img_parr = ["jpg", "jpeg", "gif","png"]; 
+    
+    if(image_name !=''){
+        if($.inArray(img_subfier, img_parr) ==-1){
+            jDialog.Alert("请上传['jpg','gif','png','jpeg']格式的图片!");
+            document.getElementById(formId).reset();
+            return false;
+        }
+    }
+    var options = { 
+            url : "${rc.contextPath}/upload/saveSimpleFile",
+            type : "POST",
+            dataType : "json",
+            success : function(data) {
+             if(data !=null && data!=""){
+                  $("#"+formId+"_img").attr("src","${rc.contextPath}/upload_temp/"+data);
+                  $("#"+formId+"_url").val(data);
+                   } 
+                 }
+        }; 
+        $("#"+formId).ajaxSubmit(options);
+        document.getElementById(formId).reset();
+        }
+}
 //竞价选项	    
 function showisAuction(){
 	 $("#isAuction").show();
@@ -261,7 +330,17 @@ function showisAuction(){
 function hideboth(){
 	$("#isAuction").hide();
 }
-
+flag=true;
+	function showdoc(){		
+		if(flag == true)
+		{
+		$("#needimg").show();
+			flag=false;
+		}else{
+			$("#needimg").hide();
+			flag=true;
+		}
+	}
 
 </script>
 </@frame.html>

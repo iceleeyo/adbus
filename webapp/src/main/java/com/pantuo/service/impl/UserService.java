@@ -324,7 +324,15 @@ public class UserService implements UserServiceInter {
 		}
 		return u;
 	}
-
+    
+	@Override
+	public List<Integer> gettypeListByAttach(List<Attachment> attachments) {
+		List<Integer> list=new ArrayList<Integer>();
+       for (Attachment attachment : attachments) {
+    	   list.add(attachment.getType());
+      }
+		return list;
+	}
 	/**
 	 * @see com.pantuo.service.UserServiceInter#updatePwd(java.lang.String, java.lang.String)
 	 * @since pantuotech 1.0-SNAPSHOT

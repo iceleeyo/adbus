@@ -82,6 +82,12 @@ public class UploadController {
 			ModelMap model) throws IOException, BusinessException {
 		return attachmentService.savePayvoucher(request, Request.getUserId(principal), orderid, JpaAttachment.Type.payvoucher, null);
 	}
+	@RequestMapping(value = "saveSimpleFile", method = RequestMethod.POST)
+	@ResponseBody
+	public String  saveSimpleFile(HttpServletRequest request, Principal principal,
+			ModelMap model) throws IOException, BusinessException {
+		return attachmentService.saveAttachmentSimple(request);
+	}
 	 @RequestMapping(value = "upload2" , method = RequestMethod.POST )  
 	    public String upload2(HttpServletRequest request,HttpServletResponse response) throws IllegalStateException, IOException {  
 	        //创建一个通用的多部分解析器  
