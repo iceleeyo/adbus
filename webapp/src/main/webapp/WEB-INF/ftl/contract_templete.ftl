@@ -239,16 +239,18 @@
 	<p class="p2">
 		<table>
 		<tr>
-			<td cols=2>广告/节目内容名称<td><td cols=2><td>
-			<td cols=2>发布时间/刊期<td><td cols=2><td>
+			<td cols=2>广告/节目内容名称</td><td cols=2></td>
+			<td cols=2>发布时间/刊期</td><td cols=2></td>
+		</tr>
 		<tr>
+			<td cols=2>广告/节目内容名称</td><td cols=2></td>
+			<td cols=2>发布时间/刊期</td><td cols=2></td>
+		</tr>
 		<tr>
-			<td cols=2>广告/节目内容名称<td><td cols=2><td>
-			<td cols=2>发布时间/刊期<td><td cols=2><td>
-		<tr>
-		<tr>
-			<td cols=2>发布费用<td><td cols=6><td>
-		<tr>
+			<td cols=2>发布费用</td><td cols=6></td>
+		</tr>
+		</table>
+		
 	</p>
 	<p class="p5">
 		<span class="s5">三、 发布形式</span>
