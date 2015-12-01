@@ -650,14 +650,13 @@ function pay() {
 	}
 	function hideContract(){
 	     $("#contractCode").hide();
-	    $("#otherpay").show();
-	    $("#pingzhengTab").hide();
+	     $("#otherpay").show();
+	     $("#pingzhengTab").hide();
 	}
-	
 	function hideboth(){
 	     $("#contractCode").hide();
-	    $("#otherpay").hide();
-	    $("#pingzhengTab").show();
+	     $("#otherpay").hide();
+	     $("#pingzhengTab").show();
 	}
 	
 	//物料详情浮窗
