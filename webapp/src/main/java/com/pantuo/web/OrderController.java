@@ -196,10 +196,10 @@ public class OrderController {
 				Request.getUser(principal));
 	}
 
-	@RequestMapping(value = "claim")
+	@RequestMapping(value = "claim/{taskid}")
 	@ResponseBody
-	public Pair<Boolean, String> claimTask(@RequestParam(value = "orderid", required = true) String orderid,
-			@RequestParam(value = "taskid", required = true) String taskid, Principal principal,
+	public Pair<Boolean, String> claimTask(
+			@PathVariable("taskid") String taskid, Principal principal,
 			HttpServletRequest request, HttpServletResponse response) {
 		taskService.claim(taskid, Request.getUserId(principal));
 		return new Pair<Boolean, String>(true, "任务签收成功!");
@@ -213,9 +213,9 @@ public class OrderController {
 		return	activitiService.closeOrder(org.apache.commons.lang.math.NumberUtils.toInt(orderid),closeRemark, taskid, principal);
 	}
 
-	@RequestMapping(value = "/handleView2", produces = "text/html;charset=utf-8")
+	@RequestMapping(value = "/handl/{taskid}", produces = "text/html;charset=utf-8")
 	public String HandleView2(Model model,
-            @RequestParam(value = "taskid", required = true) String taskid,
+            @PathVariable("taskid") String taskid,
 			Principal principal,
             @CookieValue(value = "city", defaultValue = "-1") int cityId,
             @ModelAttribute("city") JpaCity city,

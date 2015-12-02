@@ -30,13 +30,13 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
 
 	function claim(orderid,taskid){
  	$.ajax({
-			url : "${rc.contextPath}/order/claim?orderid="+orderid+"&taskid="+taskid,
+			url : "${rc.contextPath}/order/claim/"+taskid,
 			type : "POST",
 			success : function(data) {
 				//jDialog.Alert(data.right);
 				 jDialog.Alert(data.right,function(){
 		        var uptime = window.setTimeout(function(){
-				$(location).attr('href', "${rc.contextPath}/order/handleView2?orderid=" +(orderid)+ "&taskid="+taskid);
+				$(location).attr('href', "${rc.contextPath}/order/handl/"+taskid);
 		         clearTimeout(uptime);
 		       },1000);});
 				//location.reload([true]);
@@ -126,11 +126,11 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
 	                  	}else {
 	                  	  	 var taskId = row.task_id;
 	                  	  	 if(row.task_name=="支付" || row.task_name=="绑定素材"){
-	                        	 tr= "<a class='operation' href='${rc.contextPath}/order/handleView2?orderid=" +(row.order.id)+ "&taskid="+taskId+ "'>"+row.task_name+"</a>&nbsp;";
+	                        	 tr= "<a class='operation' href='${rc.contextPath}/order/handl/"+taskId+ "'>"+row.task_name+"</a>&nbsp;";
 	                  	  	 }else if(row.definitionKey =='jianboReport'){
-		                  	  	  tr= "<a class='operation' href='${rc.contextPath}/order/handleView2?orderid=" +(row.order.id)+ "&taskid="+taskId+ "'>播放确认</a>&nbsp;";
+		                  	  	  tr= "<a class='operation' href='${rc.contextPath}/order/handl/"+taskId+ "'>播放确认</a>&nbsp;";
 		                 	}else{
-	                  	  	  tr= "<a class='operation' href='${rc.contextPath}/order/handleView2?orderid=" +(row.order.id)+ "&taskid="+taskId+ "'>办理</a>&nbsp;";
+	                  	  	  tr= "<a class='operation' href='${rc.contextPath}/order/handl/"+taskId+ "'>办理</a>&nbsp;";
 	                  	  	 }
 	                    }	
 	                    if(row.canClosed==true){
