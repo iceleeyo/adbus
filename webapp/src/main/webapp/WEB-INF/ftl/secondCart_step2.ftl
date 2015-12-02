@@ -150,7 +150,7 @@
 						</#list>
 					</div>
 					</#if>
-					<div class="adj" id="payway0">
+					<div class="adj" id="payway0" style="display:none;">
 						<div class="way">
 							<span class="legged">是否分期</span>
 							<div class="select-items legged">
