@@ -150,8 +150,8 @@
 						</#list>
 					</div>
 					</#if>
-					<div class="adj" id="payway0" style="display:none;">
-						<div class="way">
+					<div class="adj" id="payway0" >
+						<div class="way" style="display:none;">
 							<span class="legged">是否分期</span>
 							<div class="select-items legged">
 								<ul class="iradios">
