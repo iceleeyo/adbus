@@ -267,7 +267,7 @@ $(document).ready(function() {
 					</select>
 				</div>
 				<div class="ui-form-item videoToggle" style="display:none;">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>时长（秒）</label>
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>广告/节目长度</label>
 					<input class="ui-input validate[required,integer,min[5],max[180]]"
 						onkeyup="value=value.replace(/[^\d]/g,'')"
 						value="<#if prod??>${prod.duration!''}<#else>0</#if>"
