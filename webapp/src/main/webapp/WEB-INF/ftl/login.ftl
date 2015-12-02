@@ -48,7 +48,7 @@
 							</span>
 						</div>
 						<div class="login-item p-center">
-							<span>没有账号？</span> <a href="/register">免费注册</a>
+							<!-- <span>没有账号？</span> <a href="/register">免费注册</a> -->
 						</div>
 					</form>
 				</div>
