@@ -147,6 +147,7 @@ public class ScheduleController {
 			JpaProduct product = new JpaProduct();
 			product.setDays(days);
 			order.setProduct(product);
+			order.setCity(1);
 			scheduleService.checkDbBoxState(order, true, null);
 
 		} catch (ParseException e) {
