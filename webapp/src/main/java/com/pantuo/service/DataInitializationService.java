@@ -110,6 +110,8 @@ public class DataInitializationService {
 
 	@Autowired
 	CityService cityService;
+	@Autowired
+	ScheduleService scheduleService;
 
 	public void intialize() throws Exception {
 	//	initContract();
@@ -127,6 +129,7 @@ public class DataInitializationService {
 		//初始增加一条记录
 		initializeSupplies();
 		initializeModeldesc();
+		scheduleService.initAllBoxMemory();
 	}
 
 	private void initializeCalendar() throws Exception {
