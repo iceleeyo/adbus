@@ -7,7 +7,7 @@
 .login-nav-right span{display: block;line-height: 40px;height: 40px;font-size: 25px;border-left: 1px solid #CCC;padding-left: 20px;margin-top: 4px;color: #aaa;}
 .login-box{}
 .login-info{width: 465px;height:280px;background: #fff;margin: 10px;}
-.login-form{padding: 10px 20px 0 20px;}
+.login-form{padding: 10px 80px 0 80px;}
 .login-form fieldset{border:0;padding:0;}
 .login-tip{color: red;height:40px;line-height: 40px;display: block;}
 .login-item{margin-bottom: 20px;position:relative;}
@@ -19,7 +19,7 @@
 .icon-position-pwd{background: url(/images/icon-input.png) 0 -426px no-repeat;}
 .login-name-icon{position: absolute;top: 10px;left: 10px;width: 25px;height: 21px; }
 .login-btn{height: 40px;line-height: 40px;background: #2ea7e0;border: 0;border-radius: 2px;color: #fff;text-align: center;cursor: pointer;display: inline-block;}
-.login-btn-size{width: 165px;font-size: 18px;}
+.login-btn-size{width: 165px;font-size: 18px;font-family: "microsoft yahei";}
 .icon-select{height: 20px;width:26px;background: url(/images/icon-select.png) 0 -33px no-repeat;display: inline-block;padding-bottom: 3px;}
 /* .icon-yes{background-position: } */
 .icon-no{background-position: 0 0;}
