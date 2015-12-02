@@ -155,22 +155,18 @@ function UserQualifi(tourl,username){
 						 +'<br/>'
 						 +'<div  id="qualifi" style="padding-left:50px;"> </div>'
 		});
-				if(typeof(data)=="undefined"){
+				if(typeof(data)=="undefined" || data==null ||data==""){
 					$("#qualifi").append("用户尚未上传资质");
 				}else{
-					$.each(data, function(i, item) {
-						  if(item.type==10){
-							  $("#qualifi").append("营业执照：<div > <img style='height:200px; width:300px;' src='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"' /></div>");
+						  if(data.user_license!=""){
+							  $("#qualifi").append("营业执照：<div > <img style='height:200px; width:300px;' src='"+tourl+"/upload_temp/"+data.user_license+"' /></div>");
 						  }
-						  if(item.type==11){
-							  $("#qualifi").append("税务登记证：<div > <img style='height:200px; width:300px;' src='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"' /></div>");
+						  if(data.user_tax!=""){
+							  $("#qualifi").append("税务登记证：<div > <img style='height:200px; width:300px;' src='"+tourl+"/upload_temp/"+data.user_tax+"' /></div>");
 						  }
-						  if(item.type==14){
-							  $("#qualifi").append("组织机构代码证书：<div > <img style='height:200px; width:300px;' src='"+tourl+"/downloadFile/"+item.userId+"/"+item.id+"' /></div>");
+						  if(data.user_code!=""){
+							  $("#qualifi").append("组织机构代码证书：<div > <img style='height:200px; width:300px;' src='"+tourl+"/upload_temp/"+data.user_code+"' /></div>");
 						  }
-						});
-					
-					
 				}
 			}
 		}, "text");

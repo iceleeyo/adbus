@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -74,6 +75,8 @@ public class UserDetail extends BaseEntity {
 	public String legalman;
 	public String relateman;
 	public String department;
+	 @Column(length=1000) 
+	public String qulifijsonstr;
 	public UStats ustats;
 	public int isActivate;
 	
@@ -120,7 +123,15 @@ public class UserDetail extends BaseEntity {
         this.username = user.getId();
     }
 
-    public UserDetail() {
+    public String getQulifijsonstr() {
+		return qulifijsonstr;
+	}
+
+	public void setQulifijsonstr(String qulifijsonstr) {
+		this.qulifijsonstr = qulifijsonstr;
+	}
+
+	public UserDetail() {
         super();
     }
 

@@ -1,5 +1,6 @@
 package com.pantuo.service.impl;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.*;
 
@@ -20,6 +21,11 @@ import com.pantuo.dao.pojo.QUserDetail;
 import com.pantuo.dao.pojo.UserDetail;
 
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.DeserializationConfig;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +60,7 @@ import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
 import com.pantuo.web.view.InvoiceView;
 import com.pantuo.web.view.SuppliesView;
+import com.pantuo.web.view.UserQualifiView;
 
 @Service
 public class SuppliesServiceImpl implements SuppliesService {
@@ -155,22 +162,38 @@ public class SuppliesServiceImpl implements SuppliesService {
 		}
 	}
 
-	public Pair<Boolean, String> savequlifi(Principal principal, HttpServletRequest request,String description) {
+	@Override
+	public Pair<Boolean, String> savequlifi(Principal principal, UserQualifiView userQualifiView,HttpServletRequest request,String description) {
 		Pair<Boolean, String> r = null;
 		try {
 			Predicate query = QUserDetail.userDetail.username.eq(Request.getUserId(principal));
 			UserDetail userDetail = userDetailRepo.findOne(query);
 			if(userDetail!=null){
-				if(attachmentService.findUserQulifi(Request.getUserId(principal)).size()>0){
-					attachmentService.updateAttachments(request, Request.getUserId(principal), userDetail.getId(),JpaAttachment.Type.fp_file,null);
-				}else{
-				    attachmentService.saveAttachment(request, Request.getUserId(principal), userDetail.getId(),JpaAttachment.Type.user_qualifi,description);
+//				if(attachmentService.findUserQulifi(Request.getUserId(principal)).size()>0){
+//					attachmentService.updateAttachments(request, Request.getUserId(principal), userDetail.getId(),JpaAttachment.Type.fp_file,null);
+//				}else{
+//				    attachmentService.saveAttachment(request, Request.getUserId(principal), userDetail.getId(),JpaAttachment.Type.user_qualifi,description);
+//				}
+				if(null!=userQualifiView){
+					ObjectMapper t = new ObjectMapper();
+					t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+					t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
+					try {
+						String jsonString = t.writeValueAsString(userQualifiView);
+						userDetail.setQulifijsonstr(jsonString);
+					} catch (JsonGenerationException e) {
+						e.printStackTrace();
+					} catch (JsonMappingException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 				userDetail.setUstats(UserDetail.UStats.upload);
 				userDetailRepo.save(userDetail);
 				 r = new Pair<Boolean, String>(true, "保存成功");
 			}
-		} catch (BusinessException e) {
+		} catch (Exception e) {
 			r = new Pair<Boolean, String>(false, "保存失败");
 		}
 		return r;
@@ -428,4 +451,6 @@ public class SuppliesServiceImpl implements SuppliesService {
 		}
 		return r;
 	}
+
+
 }

@@ -18,6 +18,7 @@ import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.InvoiceView;
 import com.pantuo.web.view.SuppliesView;
+import com.pantuo.web.view.UserQualifiView;
 
 import org.springframework.data.domain.*;
 /**
@@ -96,8 +97,6 @@ public interface SuppliesService {
 	Pair<Object, String> addInvoice(int city,JpaInvoice obj, Principal principal,
 			HttpServletRequest request);
 
-	Pair<Boolean, String> savequlifi(Principal principal,
-			HttpServletRequest request,String description);
 
 	public SuppliesView getQua(int supplies_id, Principal principal);
 	public InvoiceView getInvoiceDetail(int orderid, Principal principal);
@@ -110,4 +109,6 @@ public interface SuppliesService {
     
     
     public Map<Integer,Supplies> getSuppliesByIds(List<Integer> ids);
+	Pair<Boolean, String> savequlifi(Principal principal, UserQualifiView userQualifiView, HttpServletRequest request,
+			String description);
 }

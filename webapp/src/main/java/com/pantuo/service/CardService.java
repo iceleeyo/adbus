@@ -20,6 +20,7 @@ import com.pantuo.web.view.CardBoxHelperView;
 import com.pantuo.web.view.CardTotalView;
 import com.pantuo.web.view.CardView;
 import com.pantuo.web.view.MediaSurvey;
+import com.pantuo.web.view.UserQualifiView;
 
 public interface CardService {
 
@@ -138,4 +139,6 @@ public interface CardService {
 	public Pair<Boolean, String> editCarHelper(CardboxHelper helper, String stas);
 
 	public MediaSurvey getJsonfromJsonStr(String jsonString);
+
+	public UserQualifiView getUserQualifiView(String qulifijsonstr);
 }

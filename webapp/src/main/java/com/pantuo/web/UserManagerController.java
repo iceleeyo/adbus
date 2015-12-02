@@ -40,6 +40,7 @@ import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService.SystemRoles;
 import com.pantuo.service.AttachmentService;
+import com.pantuo.service.CardService;
 import com.pantuo.service.DataInitializationService;
 import com.pantuo.service.GoupManagerService;
 import com.pantuo.service.InvoiceServiceData;
@@ -59,6 +60,7 @@ import com.pantuo.web.view.AutoCompleteView;
 import com.pantuo.web.view.InvoiceView;
 import com.pantuo.web.view.MapLocationSession;
 import com.pantuo.web.view.RoleView;
+import com.pantuo.web.view.UserQualifiView;
 
 /**
  * <font size=5><b>公交广告交易系统接口</b></font>
@@ -97,6 +99,9 @@ public class UserManagerController {
 	ProductService productService;
 	@Autowired
 	AttachmentService attachmentService;
+	@Autowired
+	CardService cardService;
+	
 	
 	@RequestMapping(value = "/list", method = { RequestMethod.GET })
 	public String userlist(Model model) {
@@ -328,20 +333,11 @@ public class UserManagerController {
 		model.addAttribute("userDetail", userService.getByUsernameSafe(Request.getUserId(principal)));
 		return "qualification_Enter";
 	}
-	@RequestMapping(value = "/UserQulifi", produces = "text/html;charset=utf-8")
-	public String UserQulifi(Model model,Principal principal,HttpServletRequest request) {
-		List<Attachment> attachments=attachmentService.findUserQulifi(Request.getUserId(principal));
-		model.addAttribute("userDetail", userService.getByUsernameSafe(Request.getUserId(principal)));
-		model.addAttribute("attachments", attachments);
-		if(attachments.size()>0){
-			model.addAttribute("typelist", userService.gettypeListByAttach(attachments));
-		}
-		return "UserQualifi";
-	}
+	
 	@RequestMapping(value = "/updateQualifi", method = { RequestMethod.POST })
 	@ResponseBody
-	public Pair<Boolean, String> updateQualifi(Principal principal,HttpServletRequest request) {
-		return suppliesService.savequlifi(principal, request, null);
+	public Pair<Boolean, String> updateQualifi(Principal principal,UserQualifiView userQualifiView,HttpServletRequest request) {
+		return suppliesService.savequlifi(principal,userQualifiView, request, null);
 	}
 	
 
@@ -389,7 +385,7 @@ public class UserManagerController {
 	@ResponseBody
 	public Pair<Boolean, String> savequalifi(Principal principal, @RequestParam(value = "description") String description, HttpServletRequest request)
 			throws IllegalStateException, IOException {
-		return suppliesService.savequlifi(principal, request,description);
+		return suppliesService.savequlifi(principal,null, request,description);
 	}
 	@RequestMapping(value = "/u/{userId}", method = { RequestMethod.GET })
 	public String uDetail(Model model, @PathVariable("userId") String userId, HttpServletRequest request) {
@@ -410,9 +406,21 @@ public class UserManagerController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "/qua/{userId}")
-	public List<Attachment> qua(Model model, @PathVariable("userId") String userId, HttpServletRequest request) {
-		List<Attachment> attachment=attachmentService.findUserQulifi(userId);
-		return attachment;
+	public UserQualifiView qua(Model model, @PathVariable("userId") String userId, HttpServletRequest request) {
+		UserDetail userDetail=userService.getByUsernameSafe(userId);
+		return cardService.getUserQualifiView(userDetail.getQulifijsonstr());
+	}
+	@RequestMapping(value = "/UserQulifi", produces = "text/html;charset=utf-8")
+	public String UserQulifi(Model model,Principal principal,HttpServletRequest request) {
+		UserDetail userDetail=userService.getByUsernameSafe(Request.getUserId(principal));
+		model.addAttribute("userDetail",userDetail);
+		model.addAttribute("jsonView", cardService.getUserQualifiView(userDetail.getQulifijsonstr()));
+//		List<Attachment> attachments=attachmentService.findUserQulifi(Request.getUserId(principal));
+//		model.addAttribute("attachments", attachments);
+//		if(attachments.size()>0){
+//			model.addAttribute("typelist", userService.gettypeListByAttach(attachments));
+//		}
+		return "UserQualifi";
 	}
 	@ResponseBody
 	@RequestMapping(value = "/queryPayvoucher/{orderid}")

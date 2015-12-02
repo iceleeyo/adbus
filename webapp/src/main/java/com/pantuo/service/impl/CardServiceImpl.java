@@ -70,6 +70,7 @@ import com.pantuo.web.view.CardBoxHelperView;
 import com.pantuo.web.view.CardTotalView;
 import com.pantuo.web.view.CardView;
 import com.pantuo.web.view.MediaSurvey;
+import com.pantuo.web.view.UserQualifiView;
 
 @Service
 public class CardServiceImpl implements CardService {
@@ -1022,6 +1023,23 @@ public class CardServiceImpl implements CardService {
 			t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 			t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
 			s = t.readValue(jsonString, MediaSurvey.class);
+		} catch (Exception e) {
+			log.error("getJsonfromJsonStr,{}", e);
+		}
+		return s;
+	}
+
+	@Override
+	public UserQualifiView getUserQualifiView(String qulifijsonstr) {
+		UserQualifiView s = null;
+		if (StringUtils.isBlank(qulifijsonstr)) {
+			return s;
+		}
+		try {
+			ObjectMapper t = new ObjectMapper();
+			t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+			t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
+			s = t.readValue(qulifijsonstr, UserQualifiView.class);
 		} catch (Exception e) {
 			log.error("getJsonfromJsonStr,{}", e);
 		}

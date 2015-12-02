@@ -25,90 +25,71 @@ css=["js/jquery-ui/jquery-ui.css"]>
 			var uptime = window.setTimeout(function(){
 				window.location.reload();
 			   	clearTimeout(uptime);
-						},2000)
+						},1500)
 		}).submit();
 	}
+	function uploadImaget(formId) { 
+    var image_name=$("#"+formId+"_file").val();
+    if(image_name != ''){
+    var imgs=image_name.split(".");
+    var img_subfier= imgs[imgs.length-1].toLocaleLowerCase();
+    var img_parr = ["jpg", "jpeg", "gif","png"]; 
+    
+    if(image_name !=''){
+        if($.inArray(img_subfier, img_parr) ==-1){
+            jDialog.Alert("请上传['jpg','gif','png','jpeg']格式的图片!");
+            document.getElementById(formId).reset();
+            return false;
+        }
+    }
+    var options = { 
+            url : "${rc.contextPath}/upload/saveSimpleFile",
+            type : "POST",
+            dataType : "json",
+            success : function(data) {
+             if(data !=null && data!=""){
+                  $("#"+formId+"_img").attr("src","${rc.contextPath}/upload_temp/"+data);
+                  $("#"+formId+"_url").val(data);
+                   } 
+                 }
+        }; 
+        $("#"+formId).ajaxSubmit(options);
+        document.getElementById(formId).reset();
+        }
+}
 	function showform(){
 	    $("#updateform").css("display","inline");
 	}
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
-	<form data-name="withdraw" name="userForm2" id="userForm2"
-		class="ui-form" method="post" action="updateQualifi"
-		enctype="multipart/form-data">
+	
 		<div class="withdraw-title fn-clear">用户资质</div>
 		<div class="withdrawInputs">
 			<div class="inputs">
-				   <div class="ui-form-item">
-					<label class="ui-label mt10">营业执照副本复印件:
-					</label> 
-			<#if attachments?has_content && typelist?? && typelist?seq_contains(10)> 
-				<#list attachments as item>
-				 <#if item?has_content && item.type==10> 
-					<a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}"
-						onclick="return hs.expand(this)"> <img
-						src="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}"
-						class="m11" width="240" /></a><br> 
-					</#if> 
-				 </#list> <br>
-					 <label class="ui-label mt10">修改营业执照副本复印件:</label>
-						<div id="div_1">
-							<input type="file" name="user_license" id="Sfile2"/>
-						</div>
-					<#else>
-					<div id="newUpload2">
-						<div id="div_1">
-							<input type="file" name="user_license" id="Sfile2"
-								>
-						</div>
-					</div>
-					</#if>
-
+				   
+				   <div class="ui-form-item" id="file">
+					<label class="ui-label mt10">营业执照副本复印件:</label>
+				 <form id="img1" method="post" enctype="multipart/form-data"> 
+                     <img src="<#if jsonView?? && jsonView.user_license?has_content>${rc.contextPath}/upload_temp/${jsonView.user_license}</#if>" id="img1_img" width="200" height="100" border="1px solid #d0d0d0;"/>
+                     <input id="img1_file" style="margin-top:-100px;" name="img1_file" type="file" onchange="uploadImaget('img1');"/>
+                 </form>
 				</div>
-				<div class="ui-form-item">
-					<label class="ui-label mt10">税务登记证副本复印件:
-					</label> <#if attachments?has_content && typelist?? && typelist?seq_contains(10)> <#list attachments as item> <#if
-					item?has_content && item.type==11> <a
-						href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}"
-						onclick="return hs.expand(this)"> <img
-						src="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}"
-						class="m11" width="240" /></a><br> </#if> </#list> <br>
-					<label class="ui-label mt10">修改税务登记证副本复印件:</label>
-						<div id="div_1">
-							<input type="file" name="user_tax" id="Sfile2"/>
-						</div>
-					<#else>
-					<div id="newUpload2">
-						<div id="div_1">
-							<input type="file" name="user_tax" id="Sfile2"
-								>
-						</div>
-					</div>
-					</#if>
-
+				<div class="ui-form-item" id="file">
+					<label class="ui-label mt10"><span class="ui-form-required"></span>税务登记证副本复印件:</label>
+				 <form id="img2" method="post" enctype="multipart/form-data"> 
+                     <img src="<#if jsonView?? && jsonView.user_tax?has_content>${rc.contextPath}/upload_temp/${jsonView.user_tax}</#if>" id="img2_img" width="200" height="100" border="1px solid #d0d0d0;"/>
+                     <input id ="img2_file" style="margin-top:-100px;" name="img2_file" type="file" onchange="uploadImaget('img2');"/>
+                 </form>
 				</div>
-
-				<div class="ui-form-item">
-					<label class="ui-label mt10">组织结构代码证书:
-					</label> <#if attachments?has_content && typelist?? && typelist?seq_contains(10)> <#list attachments as item> <#if
-					item?has_content && item.type==14> 
-						<a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}"
-						onclick="return hs.expand(this)"> 
-						<img src="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}"
-						class="m11" width="240" /></a><br> </#if> </#list> <br>
-					 <label class="ui-label mt10">修改组织结构代码证书:</label>
-						<div id="div_1">
-							<input type="file" name="user_code" id="Sfile2"/>
-						</div>
-					<#else>
-					<div id="newUpload2">
-						<div id="div_1">
-							<input type="file" name="user_code" id="Sfile2"
-								>
-						</div>
-					</div>
-					</#if>
+				<div class="ui-form-item" id="file">
+					<label class="ui-label mt10"><span class="ui-form-required"></span>组织结构代码证书:</label>
+				 <form id="img3" method="post" enctype="multipart/form-data"> 
+                     <img src="<#if jsonView?? && jsonView.user_code?has_content>${rc.contextPath}/upload_temp/${jsonView.user_code}</#if>" id="img3_img" width="200" height="100" border="1px solid #d0d0d0;"/>
+                     <input id ="img3_file" style="margin-top:-100px;" name="img3_file" type="file" onchange="uploadImaget('img3');"/>
+                 </form>
 				</div>
+				   
+				   
 				<div class="ui-form-item" tip="上传资质图片,审核通过可以参与商品竞价!">
 					<label class="ui-label mt10">认证状态:</label>
 					<div id="up" style="padding-top: 10px;"><#if
@@ -117,6 +98,12 @@ css=["js/jquery-ui/jquery-ui.css"]>
 						userDetail.ustats=="unauthentication"> 认证不通过,请重新上传资质 <#else> 认证通过
 						</#if></div>
 				</div>
+				<form data-name="withdraw" name="userForm2" id="userForm2"
+		class="ui-form" method="post" action="updateQualifi"
+		enctype="multipart/form-data">
+		 <input id ="img1_url" name="user_license" type="hidden" value="<#if jsonView?? && jsonView.user_license?has_content>${jsonView.user_license}</#if>"/>
+		 <input id ="img2_url" name="user_tax" type="hidden" value="<#if jsonView?? && jsonView.user_tax?has_content>${jsonView.user_tax}</#if>"/>
+		 <input id ="img3_url" name="user_code" type="hidden" value="<#if jsonView?? && jsonView.user_code?has_content>${jsonView.user_code}</#if>"/>
 				<div class="ui-form-item widthdrawBtBox">
 						<input type="button"id="subWithdraw" class="block-btn" onclick="sub();" value="保存">
 				</div>
