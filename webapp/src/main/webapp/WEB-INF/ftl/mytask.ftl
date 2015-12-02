@@ -140,7 +140,7 @@
 								class="ui-list-field num-s text-center w120 fn-left"> <em
 								class="value-small"> 
 								<#if item.assignee?exists>
-									<a href="${rc.contextPath}/order/handleView2?orderid=${(item.order.id)!''}&taskid=${(item.task_id)!''}"><font color="green"><B>办理</B></font></a>
+									<a href="${rc.contextPath}/order/handl/${(item.task_id)!''}"><font color="green"><B>办理</B></font></a>
 								<#else> 
 									<a href="javascript:;" onclick="claim('${(item.order.id)!''}','${(item.task_id)!''}');"><font color="green"><B>签收</B></font></a>
 								</#if>
