@@ -405,7 +405,7 @@ img {
 }
 
 .mt37 {
-	margin-top: 50px
+	margin-top: 20px
 }
 
 .login-item {
@@ -419,7 +419,10 @@ img {
 	font-size: 14px;
 	color: #CCE2EA;
 }
-
+.ipt-c{
+	font-size: 14px;
+	color: #CCE2EA;
+}
 .p-center {
 	text-align: center;
 	font-size: 14px;
@@ -427,4 +430,18 @@ img {
 
 .p-center a {
 	color: #CCE2EA;
+}
+
+.explain {
+	margin: 0 auto;
+  	margin-top: 30px;
+  	margin-bottom: 30px;
+  	width: 95%;
+  	border: 1px solid #009deb;
+  	padding: 15px;
+  	font-size: 14px; 
+}
+
+.explain li{
+	margin-top: 5px;
 }
