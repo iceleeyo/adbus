@@ -70,6 +70,8 @@ function go_back(){
 						autocomplete="off" disableautocomplete=""
 						value="${userDetail.user.email!''}">
 				</div>
+				<@security.authorize>
+				<#if UType == 'pub'>
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>公司联系人:</label>
 					<input class="ui-input validate[required]" type="text"
@@ -77,6 +79,16 @@ function go_back(){
 						autocomplete="off" disableautocomplete=""
 						value="${userDetail.relateman!''}">
 				</div>
+				<#else>
+				<div class="ui-form-item" style="display:none;">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>公司联系人:</label>
+					<input class="ui-input validate[required]" type="text"
+						name="relateman" id="relateman" data-is="isAmount isEnough"
+						autocomplete="off" disableautocomplete=""
+						value="XXXXX">
+				</div>
+				</#if>
+				</@security.authorize>
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>联系电话:</label>
 					<input class="ui-input validate[required,custom[mobilephone]]"
