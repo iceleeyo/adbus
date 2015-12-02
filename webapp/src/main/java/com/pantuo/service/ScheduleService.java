@@ -18,7 +18,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -74,6 +76,7 @@ import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
 import com.pantuo.pojo.SlotBoxBar;
 import com.pantuo.service.MailTask.Type;
 import com.pantuo.simulate.MailJob;
+import com.pantuo.util.BeanUtils;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Request;
@@ -116,6 +119,12 @@ public class ScheduleService {
 	private MailJob mailJob;
 	@Autowired
 	private GoodsSortMapper goodsSortMapper;
+
+	private static ReadWriteLock RW_LOCK = new ReentrantReadWriteLock();
+	//date -box list
+	public static Map<Date, List<Box>> BOXDAYMAP = new HashMap<Date, List<Box>>(365 * 5 * 2);
+	//all box 
+	public static Map<Integer, Box> ALLBOX = new HashMap<Integer, Box>(107 * 365 * 5 * 2);
 
 	public ScheduleLog schedule(Date day, int orderId) {
 		return schedule(day, orderService.getJpaOrder(orderId));
@@ -709,22 +718,103 @@ public class ScheduleService {
 
 	}
 
-	public SchedUltResult schedule2(JpaOrders order, boolean isOnlyCheck, ScheduleProgressListener listener) {
+	public String initAllBoxMemory() {
+		int fetchsize = 250;//一次查*条记录
+		int beginIndex = 0;
+		int count = 0;
+		long t = System.currentTimeMillis();
+		Map<Date, List<Box>> tempBoxMap = new HashMap<Date, List<Box>>(365 * 5 * 2);
+		Map<Integer, Box> alBox = new HashMap<Integer, Box>(107 * 365 * 5 * 2);
+		while (true) {
+			BoxExample busExample = new BoxExample();
+			busExample.createCriteria().andIdGreaterThan(beginIndex);
+			busExample.setOrderByClause("id asc");
+			busExample.setLimitStart(0);
+			busExample.setLimitEnd(fetchsize);
+			List<Box> boxList = boxMapper.selectByExample(busExample);
+			for (Box box : boxList) {
+				count++;
+				beginIndex = box.getId();
+			}
+			putMemory(boxList, tempBoxMap, alBox);
+			if (boxList.size() < fetchsize) {
+				break;
+			}
+		}
+		long w1 = System.currentTimeMillis();
+		try {
+			RW_LOCK.writeLock().lock();
+			BOXDAYMAP.putAll(tempBoxMap);
+			ALLBOX.putAll(alBox);
+		} finally {
+			RW_LOCK.writeLock().unlock();
+		}
+		log.info("#*****# update AllMemory:{} ms", count, System.currentTimeMillis() - w1);
+		log.info("#initBaseBox - Load {} mybatis box data  from Db :{} ms", count, System.currentTimeMillis() - t);
+		return String.valueOf(count);
+	}
+
+	private void putMemory(List<Box> boxList, Map<Date, List<Box>> tempBoxMap, Map<Integer, Box> alBox) {
+		for (Box b : boxList) {
+			List<Box> l = tempBoxMap.get(b.getDay());
+			if (l == null) {
+				tempBoxMap.put(b.getDay(), l = new ArrayList<Box>());
+			}
+			l.add(b);
+			alBox.put(b.getId(), b);
+		}
+	}
+
+	/**
+	 * 
+	 * 检查内存中是存都缓存了所有box
+	 *
+	 * @param order
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	public boolean checkDbBoxState2(JpaOrders order) {
+		boolean r = true;
+		Calendar cal = DateUtil.newCalendar();
+		Date start = order.getStartTime();
+		cal.setTime(start);
+		int days = order.getProduct().getDays();
+		for (int i = 0; i < days; i++) {
+			Date day = cal.getTime();
+			if (!BOXDAYMAP.containsKey(day)) {
+				r = false;
+				break;
+			}
+			cal.add(Calendar.DATE, 1);
+		}
+		return r;
+	}
+
+	public void checkDbBoxState(JpaOrders order, boolean isOnlyCheck, ScheduleProgressListener listener) {
+		boolean r = checkDbBoxState2(order);
+		if (r) {
+			log.info("#order all need box is in memory!");
+			return;
+		} else {
+			log.info("#order need load box from db !");
+		}
+
 		Date start = order.getStartTime();
 		int days = order.getProduct().getDays();
 		Date end = DateUtil.dateAdd(start, days);
 		int city = order.getCity();
 		Calendar cal = DateUtil.newCalendar();
 		List<JpaBox> boxList = null;
+		if(listener!=null){
 		listener.update("正在检查库存信息.");
+		}
 		long t1 = System.currentTimeMillis();
 		boxList = boxRepo.findByCityAndDayGreaterThanEqualAndDayLessThan(city, start, end);
 		log.info("#Load data from Db :{} ms", System.currentTimeMillis() - t1);
 		//long m1 = System.currentTimeMillis();
 		//log.info(Memory.humanReadableByteCount(MemoryMeasurer.measureBytes(boxList), false));
 		//log.info("#MemoryMeasurer.measureBytes :{} ms", System.currentTimeMillis() - m1);
-		
-		
+
 		long t2 = System.currentTimeMillis();
 		Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(city, null, 0, 9999, null, false);
 		Map<Date, List<JpaBox>> boxDayMap = new HashMap<Date, List<JpaBox>>();
@@ -737,9 +827,6 @@ public class ScheduleService {
 			l.add(b);
 		}
 		cal.setTime(start);
-		SchedUltResult isAllAllow = new SchedUltResult(StringUtils.EMPTY, false, null, false);
-		List<JpaGoods> gs = new ArrayList<JpaGoods>();
-		Map<Integer, JpaBox> boxEx = new HashMap<Integer, JpaBox>();
 		for (int i = 0; i < days; i++) {
 			Date day = cal.getTime();
 			if (!boxDayMap.containsKey(day)) {
@@ -757,35 +844,91 @@ public class ScheduleService {
 			cal.add(Calendar.DATE, 1);
 		}
 		log.info("#Load data to memory :{} ms", System.currentTimeMillis() - t2);
+
+		initAllBoxMemory();
+	}
+
+	/**
+	 * 
+	 * lock boxlist 
+	 *
+	 * @param day
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	public List<Box> getBoxListByDate(Date day) {
+		return BOXDAYMAP.get(day);
+	}
+
+	public Box getBox(int id) {
+		Box box = null;
+		try {
+			RW_LOCK.readLock().lock();
+			box = ALLBOX.get(id);
+		} finally {
+			RW_LOCK.readLock().unlock();
+		}
+		return box;
+	}
+
+	public SchedUltResult schedule2(JpaOrders order, boolean isOnlyCheck, ScheduleProgressListener listener) {
+		checkDbBoxState(order, isOnlyCheck, listener);
+
+		Calendar cal = DateUtil.newCalendar();
+		Date start = order.getStartTime();
+		int days = order.getProduct().getDays();
+		cal.setTime(start);
+		Map<Date, List<Box>> tempMap = new HashMap<Date, List<Box>>();
+		for (int i = 0; i < days; i++) {
+			Date day = cal.getTime();
+			List<Box> memoryBoxList = getBoxListByDate(day);
+			tempMap.put(day, copyBoxList(memoryBoxList));
+			cal.add(Calendar.DATE, 1);
+		}
+		//----------
+
+		SchedUltResult isAllAllow = new SchedUltResult(StringUtils.EMPTY, false, null, false);
+		List<JpaGoods> gs = new ArrayList<JpaGoods>();
+		Map<Integer, Box> boxEx = new HashMap<Integer, Box>();
+
 		listener.update("开始根据订单信息准备排期.");
 		if (order.getProduct().getFirstNumber() > 0) {
 			//listener.update("发现有首播排期需要.");
 			//如果有首播排首播
 			int playNum = order.getProduct().getFirstNumber();
-			isAllAllow = scheduleFirst(gs, boxEx, order, playNum, start, days, boxDayMap);
+			isAllAllow = scheduleFirst(gs, boxEx, order, tempMap);
 			//listener.update("订单首播排期结束!");
 			//listener.update("开始常规时间段排期.");
 			if (isAllAllow.isScheduled) {
 				//首播排完了排非首播
 				playNum = order.getProduct().getPlayNumber() - order.getProduct().getFirstNumber();
 				if (playNum > 0) {
-					isAllAllow = scheduleNormal(gs, boxEx, order, playNum, start, days, boxDayMap, listener);
+					isAllAllow = scheduleNormal(gs, boxEx, order, tempMap, listener);
 				}
 			}
 		} else {
 			//listener.update("开始常规时间段排期.");
 			//排非首播
-			isAllAllow = scheduleNormal(gs, boxEx, order, order.getProduct().getPlayNumber(), start, days, boxDayMap,
-					listener);
+			isAllAllow = scheduleNormal(gs, boxEx, order, tempMap, listener);
 			if (!isAllAllow.isScheduled) {
-				isAllAllow = scheduleFirst(gs, boxEx, order, order.getProduct().getPlayNumber(), start, days, boxDayMap);
+				isAllAllow = scheduleFirst(gs, boxEx, order, tempMap);
 			}
 		}
 		if (!isOnlyCheck && isAllAllow.isScheduled) {
 			listener.update("系统开始保存排期结果.");
 			long t3 = System.currentTimeMillis();
 			goodsRepo.save(gs);
-			boxRepo.save(boxEx.values());
+			//boxRepo.save(boxEx.values());
+			for (Box boxUpdate : boxEx.values()) {
+				boxMapper.updateByPrimaryKey(boxUpdate);
+			}
+			try {
+				RW_LOCK.writeLock().lock();
+				ALLBOX.putAll(boxEx);
+			} finally {
+				RW_LOCK.writeLock().unlock();
+			}
+
 			log.info("#Save data to db :{} ms", System.currentTimeMillis() - t3);
 			listener.update("保存排期结果结束!");
 		}
@@ -807,18 +950,23 @@ public class ScheduleService {
 	}
 
 	//排首播
-	private SchedUltResult scheduleFirst(List<JpaGoods> gs, Map<Integer, JpaBox> boxEx, JpaOrders order,
-			int numberPlayer, Date start, int days, Map<Date, List<JpaBox>> boxDayMap) {
+	private SchedUltResult scheduleFirst(List<JpaGoods> gs, Map<Integer, Box> boxEx, JpaOrders order,
+			Map<Date, List<Box>> boxMap) {
+
+		Date start = order.getStartTime();
+		int days = order.getProduct().getDays();
+		int numberPlayer = order.getProduct().getFirstNumber();
 		int duration = (int) order.getProduct().getDuration();
 		Calendar cal = DateUtil.newCalendar();
 		cal.setTime(start);
+
 		for (int i = 0; i < days; i++) {
 			Date day = cal.getTime();
 			int k = 0;
-			List<JpaBox> list2 = boxDayMap.get(day);
+			List<Box> list2 = boxMap.get(day);
 			for (int j = 0; j < numberPlayer; j++) {
 				Collections.sort(list2, FRIST_SLOT_COMPARATOR);
-				JpaBox box = list2.get(0);
+				Box box = list2.get(0);
 				if (30 - box.getFremain() >= duration) {
 					JpaGoods goods = new JpaGoods();
 					goods.setOrder(order);
@@ -826,7 +974,14 @@ public class ScheduleService {
 					goods.setCreated(new Date());
 					goods.setSize(duration);
 					goods.setInboxPosition((int) box.getFremain());
-					goods.setBox(box);
+
+					//-----
+					//goods.setBox(box);
+					JpaBox storeBox = getJpaBoxFromEntity(order, box);
+					goods.setBox(storeBox);
+					//--------
+
+					//goods.setBox(box);
 					gs.add(goods);
 					boxEx.put(box.getId(), box);
 
@@ -843,29 +998,62 @@ public class ScheduleService {
 		return new SchedUltResult(StringUtils.EMPTY, true, start, true);
 	}
 
+	public Box copyBox(Box box) {
+		Box r = new Box();
+		BeanUtils.copyProperties(box, r);
+		return r;
+	}
+
+	/**
+	 * 
+	 * 获取最新的box copy
+	 *
+	 * @param box 内存中一天对应的boxlist 会过期
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	public List<Box> copyBoxList(List<Box> box) {
+		List<Box> list = new ArrayList<Box>(box.size());
+		for (Box expireBox : box) {
+			Box newBox = new Box();
+			BeanUtils.copyProperties(getBox(expireBox.getId()), newBox);
+			list.add(newBox);
+		}
+		return list;
+	}
+
 	//排非首播
-	private SchedUltResult scheduleNormal(List<JpaGoods> gs, Map<Integer, JpaBox> boxEx, JpaOrders order,
-			int numberPlayer, Date start, int days, Map<Date, List<JpaBox>> boxDayMap, ScheduleProgressListener listener) {
+	private SchedUltResult scheduleNormal(List<JpaGoods> gs, Map<Integer, Box> boxEx, JpaOrders order,
+			Map<Date, List<Box>> boxMap, ScheduleProgressListener listener) {
+
+		Date start = order.getStartTime();
+		int days = order.getProduct().getDays();
 		Calendar cal = DateUtil.newCalendar();
-		cal.setTime(start);
+		int numberPlayer = order.getProduct().getFirstNumber();
 		int duration = (int) order.getProduct().getDuration();
+
+		cal.setTime(start);
+
 		for (int i = 0; i < days; i++) {
 			Date day = cal.getTime();
 			//	listener.update("开始检查 ["+DateUtil.longDf.get().format(day) +"] 库存情况.");
 			int k = 0;
-			List<JpaBox> list2 = boxDayMap.get(day);
+			List<Box> list2 = boxMap.get(day);
 			for (int j = 0; j < numberPlayer; j++) {
-
 				Collections.sort(list2, NORMAL_COMPARATOR);
-				JpaBox box = list2.get(0);
+				Box box = list2.get(0);
 				if (box.getSize() - box.getRemain() >= duration) {
 					JpaGoods goods = new JpaGoods();
 					goods.setOrder(order);
 					goods.setCity(order.getCity());
 					goods.setCreated(new Date());
 					goods.setSize(duration);
-					goods.setInboxPosition((int) box.getRemain());
-					goods.setBox(box);
+					goods.setInboxPosition(box.getRemain());
+					//-----
+					//goods.setBox(box);
+					JpaBox storeBox = getJpaBoxFromEntity(order, box);
+					goods.setBox(storeBox);
+					//--------
 					gs.add(goods);
 					boxEx.put(box.getId(), box);
 
@@ -882,8 +1070,22 @@ public class ScheduleService {
 		return new SchedUltResult(StringUtils.EMPTY, true, start, true);
 	}
 
-	Comparator<JpaBox> NORMAL_COMPARATOR = new Comparator<JpaBox>() {
-		public int compare(JpaBox o1, JpaBox o2) {
+	private JpaBox getJpaBoxFromEntity(JpaOrders order, Box box) {
+		//-----------------------------------
+		JpaTimeslot slot = new JpaTimeslot();
+		slot.setId(box.getSlotId());
+		//-------------------------------------
+		JpaBox storeBox = new JpaBox();
+		storeBox.setCity(order.getCity());
+		storeBox.setDay(box.getDay());
+		storeBox.setId(box.getId());
+
+		storeBox.setTimeslot(slot);
+		return storeBox;
+	}
+
+	Comparator<Box> NORMAL_COMPARATOR = new Comparator<Box>() {
+		public int compare(Box o1, Box o2) {
 			int w = o2.getSort() - o1.getSort();
 			if (w == 0) {
 				return (int) ((o2.getSize() - o2.getRemain()) - (o1.getSize() - o1.getRemain()));
@@ -892,8 +1094,8 @@ public class ScheduleService {
 			}
 		}
 	};
-	Comparator<JpaBox> FRIST_SLOT_COMPARATOR = new Comparator<JpaBox>() {
-		public int compare(JpaBox o1, JpaBox o2) {
+	Comparator<Box> FRIST_SLOT_COMPARATOR = new Comparator<Box>() {
+		public int compare(Box o1, Box o2) {
 			int w = o2.getFsort() - o1.getFsort();
 			if (w == 0) {
 				return (int) ((30 - o2.getFremain()) - (30 - o1.getFremain()));
@@ -918,7 +1120,7 @@ public class ScheduleService {
 				e.printStackTrace();
 			}
 		}
-		final  String noTime="未来30天均无可排日期"; 
+		final String noTime = "未来30天均无可排日期";
 		SchedUltResult r = new SchedUltResult(noTime, false, null, false);
 		for (int i = 0; i < 30; i++) {
 			listener.updateInfo("正在检查[" + DateUtil.longDf.get().format(order.getStartTime()) + "]库存情况.");
@@ -931,11 +1133,11 @@ public class ScheduleService {
 			}
 		}
 		listener.updateInfo("检查结束.");
-		if(!r.isScheduled){
+		if (!r.isScheduled) {
 			r.setMsg(noTime);
 		}
 		listener.endResult(r);
-		
+
 		return r;
 	}
 
@@ -1047,8 +1249,10 @@ public class ScheduleService {
 		}
 
 	}
+
 	static ReentrantLock lock = new ReentrantLock();
-	public static   String currOperatorUser=StringUtils.EMPTY;
+	public static String currOperatorUser = StringUtils.EMPTY;
+
 	public SchedUltResult checkInventory(int id, String taskid, String startdate1, boolean ischeck,
 			HttpServletRequest request, Principal principal) {
 		//检查

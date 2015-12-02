@@ -134,6 +134,26 @@ public class ScheduleController {
 	GoodsBlackMapper goodsBlackMapper;
 	public static final List<BlackAd> ls = new ArrayList<BlackAd>();
 	
+	@RequestMapping(value = "/initBaseBox", method = RequestMethod.GET)
+	@ResponseBody
+	public String initBaseBox(int days, String start) {
+		Date startDate;
+		String r = null;
+		try {
+			startDate = DateUtil.longDf.get().parse(start);
+			scheduleService.initAllBoxMemory();
+			JpaOrders order = new JpaOrders();
+			order.setStartTime(startDate);
+			JpaProduct product = new JpaProduct();
+			product.setDays(days);
+			order.setProduct(product);
+			scheduleService.checkDbBoxState(order, true, null);
+
+		} catch (ParseException e) {
+			log.error("params-error :{}", e);
+		}
+		return r;
+	}
 	
 	/** 
 	 * process 获取进度 
