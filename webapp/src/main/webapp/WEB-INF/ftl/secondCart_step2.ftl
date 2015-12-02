@@ -179,7 +179,7 @@
 								<ul class="iradios">
 									<li class="active"><input type="radio" name="payType"
 										checked="checked" value="online"> <label
-										class="iradio"></label> <span>线上支付</span></li>
+										class="iradio"></label> <span>线上支付(工商银行)</span></li>
 									<li><input type="radio" name="payType" value="offline">
 										<label class="iradio"></label> <span>线下支付</span></li>
 								</ul>
