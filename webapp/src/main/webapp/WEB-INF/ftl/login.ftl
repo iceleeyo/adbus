@@ -49,6 +49,9 @@
 						</div>
 						<div class="login-item p-center">
 							<!-- <span>没有账号？</span> <a href="/register">免费注册</a> -->
+							<a target="_black"
+								href="http://down.tech.sina.com.cn/content/40975.html"><span
+								style="color: #ff9966">浏览器推荐(谷歌浏览器Chrome)</span></a>
 						</div>
 					</form>
 				</div>
