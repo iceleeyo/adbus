@@ -765,7 +765,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 			</TR>
 			<tbody id="pingzhengTab">
 			<TR style="height: 45px;">
-				<TD style="text-align: right">上传凭证（可选）</TD>
+				<TD style="text-align: right">上传有效银行支付凭证（可选）</TD>
 				<TD colspan=3>
 				  <form id="form_img" method="post" enctype="multipart/form-data"> 
                      <img src="" id="showImg" width="200" height="100" border="1px solid #d0d0d0;"/>
