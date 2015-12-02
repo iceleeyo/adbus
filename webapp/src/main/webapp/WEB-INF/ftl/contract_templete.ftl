@@ -273,8 +273,8 @@
 	<p class="p5">
 		<span class="s5">三、 发布形式</span>
 	</p>
-	<p class="p5">
-		<span class="s5"> </span><span>见套餐说明。</span>
+	<p class="p6">
+		<span>见套餐说明。</span>
 	</p>
 	<p class="p5">
 		<span class="s5">四、 </span><span class="s6"> </span><span class="s5">物料素材及送达要求</span>
