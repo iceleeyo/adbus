@@ -265,10 +265,10 @@
 	</p>
 	<p class="p7">
 		<span class="s7">3. </span><span>通过银行转账（或在线支付）的方式将服务费用支付至乙方指定账户，汇款信息如下：
-<br>&nbsp;&nbsp;&nbsp;&nbsp;账户名称：北京世巴传媒有限公司
+<br><br><B>&nbsp;&nbsp;&nbsp;&nbsp;账户名称：北京世巴传媒有限公司
 <br>&nbsp;&nbsp;&nbsp;&nbsp;账号:0200207909200097152
 <br>&nbsp;&nbsp;&nbsp;&nbsp;开户银行名称：中国工商银行股份有限公司北京知春路支行
-		</span>
+		</B></span>
 	</p>
 	<p class="p5">
 		<span class="s5">三、 发布形式</span>
