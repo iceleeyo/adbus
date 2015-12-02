@@ -896,24 +896,28 @@ public class ScheduleService {
 			//listener.update("发现有首播排期需要.");
 			//如果有首播排首播
 			int playNum = order.getProduct().getFirstNumber();
-			isAllAllow = scheduleFirst(gs, boxEx, order, tempMap);
+			isAllAllow = scheduleFirst(gs, boxEx, order,playNum, tempMap);
 			//listener.update("订单首播排期结束!");
 			//listener.update("开始常规时间段排期.");
 			if (isAllAllow.isScheduled) {
 				//首播排完了排非首播
 				playNum = order.getProduct().getPlayNumber() - order.getProduct().getFirstNumber();
 				if (playNum > 0) {
-					isAllAllow = scheduleNormal(gs, boxEx, order, tempMap, listener);
+					isAllAllow = scheduleNormal(gs, boxEx, order, tempMap,playNum, listener);
 				}
 			}
 		} else {
+			int playNum = order.getProduct().getFirstNumber();
 			//listener.update("开始常规时间段排期.");
 			//排非首播
-			isAllAllow = scheduleNormal(gs, boxEx, order, tempMap, listener);
+			
+			isAllAllow = scheduleNormal(gs, boxEx, order, tempMap,playNum, listener);//5   5 
 			if (!isAllAllow.isScheduled) {
-				isAllAllow = scheduleFirst(gs, boxEx, order, tempMap);
+				int numberPlayer = order.getProduct().getFirstNumber();
+				isAllAllow = scheduleFirst(gs, boxEx, order,numberPlayer, tempMap);//7     6  6  11
 			}
 		}
+		int pcount=0;
 		if (!isOnlyCheck && isAllAllow.isScheduled) {
 			listener.update("系统开始保存排期结果.");
 			long t3 = System.currentTimeMillis();
@@ -921,6 +925,10 @@ public class ScheduleService {
 			//boxRepo.save(boxEx.values());
 			for (Box boxUpdate : boxEx.values()) {
 				boxMapper.updateByPrimaryKey(boxUpdate);
+				pcount++;
+				if(pcount%250==0){
+					log.info("update to:{}", pcount);
+				}
 			}
 			try {
 				RW_LOCK.writeLock().lock();
@@ -950,12 +958,12 @@ public class ScheduleService {
 	}
 
 	//排首播
-	private SchedUltResult scheduleFirst(List<JpaGoods> gs, Map<Integer, Box> boxEx, JpaOrders order,
-			Map<Date, List<Box>> boxMap) {
+	private SchedUltResult scheduleFirst(List<JpaGoods> gs, Map<Integer, Box> boxEx, JpaOrders order,int numberPlayer, 
+			Map<Date,List<Box>> boxMap) {
 
 		Date start = order.getStartTime();
 		int days = order.getProduct().getDays();
-		int numberPlayer = order.getProduct().getFirstNumber();
+
 		int duration = (int) order.getProduct().getDuration();
 		Calendar cal = DateUtil.newCalendar();
 		cal.setTime(start);
@@ -1024,12 +1032,11 @@ public class ScheduleService {
 
 	//排非首播
 	private SchedUltResult scheduleNormal(List<JpaGoods> gs, Map<Integer, Box> boxEx, JpaOrders order,
-			Map<Date, List<Box>> boxMap, ScheduleProgressListener listener) {
+			Map<Date, List<Box>> boxMap, int numberPlayer,ScheduleProgressListener listener) {
 
 		Date start = order.getStartTime();
 		int days = order.getProduct().getDays();
 		Calendar cal = DateUtil.newCalendar();
-		int numberPlayer = order.getProduct().getFirstNumber();
 		int duration = (int) order.getProduct().getDuration();
 
 		cal.setTime(start);
