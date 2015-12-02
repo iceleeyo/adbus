@@ -907,14 +907,14 @@ public class ScheduleService {
 				}
 			}
 		} else {
-			int playNum = order.getProduct().getFirstNumber();
+			int playNum = order.getProduct().getPlayNumber();
 			//listener.update("开始常规时间段排期.");
 			//排非首播
 			
-			isAllAllow = scheduleNormal(gs, boxEx, order, tempMap,playNum, listener);//5   5 
+			isAllAllow = scheduleNormal(gs, boxEx, order, tempMap,playNum, listener);//5 2  5 
 			if (!isAllAllow.isScheduled) {
-				int numberPlayer = order.getProduct().getFirstNumber();
-				isAllAllow = scheduleFirst(gs, boxEx, order,numberPlayer, tempMap);//7     6  6  11
+				int numberPlayer = order.getProduct().getPlayNumber();
+				isAllAllow = scheduleFirst(gs, boxEx, order,numberPlayer, tempMap);//7   3  6  6  11
 			}
 		}
 		int pcount=0;
