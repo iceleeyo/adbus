@@ -76,7 +76,7 @@ body{
 
 				<div class="agreement">
 					<input type="checkbox" id="agreement" value=""> <label
-						class="verify">同意<a href="#">《免责条款》</a></label>
+						class="verify">同意<a href="#explain">《免责条款》</a></label>
 				</div>
 
 				<div class="info-submit">
@@ -91,7 +91,7 @@ body{
 		<div class="tips">
 			<span>已有帐号? <a href="${rc.contextPath}/login"> 立即登录</a></span>
 		</div>
-		<div class="explain">
+		<div class="explain" id="explain">
 		<span><h2 style="text-align: center;">用户注册免责条款</h2></span>
 <h3>1.特别提示</h3>
 <li>1.1 公交媒体电商平台（以下称“电商平台”）同意按照本协议的规定提供竞价等相关服务（以下称“本服务”）。为获得本服务，服务使用人（以下称“用户”）应当充分阅读并同意本协议的全部条款并按照页面上的提示完成全部的注册程序。</li>
