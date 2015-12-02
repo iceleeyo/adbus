@@ -6,7 +6,49 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>用户登录</title>
+<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" language="javascript"
+	src="${rc.contextPath}/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" language="javascript"
+	src="${rc.contextPath}/js/jquery.form.js"></script>
 <link rel="stylesheet" type="text/css" href="index_css/login.css">
+<script type="text/javascript">
+$(document).ready(function() {
+    if ($.cookie("rmbUser") == "true") {
+        $("#ck_rmbUser").attr("checked", true);
+        $("#username").val($.cookie("username"));
+        $("#password").val($.cookie("password"));
+    }
+});
+
+//记住用户名密码
+function saveUser() {
+    if ($("#ck_rmbUser").attr("checked")) {
+        var str_username = $("#username").val();
+        var str_password = $("#password").val();
+        $.cookie("rmbUser", "true", {
+            expires:7
+        });
+        //存储一个带7天期限的cookie
+        $.cookie("username", str_username, {
+            expires:7
+        });
+        $.cookie("password", str_password, {
+            expires:7
+        });
+    } else {
+        $.cookie("rmbUser", "false", {
+            expire:-1
+        });
+        $.cookie("username", "", {
+            expires:-1
+        });
+        $.cookie("password", "", {
+            expires:-1
+        });
+    }
+}
+</script>
 <body class="login">
 	<div class="contain">
 		<div class="rg-logo">
@@ -21,8 +63,8 @@
 						(SPRING_SECURITY_LAST_EXCEPTION.message)?index_of("Bad")!=-1> <font
 							color="red" size="3">密码错误!</font> <#else>
 						${(SPRING_SECURITY_LAST_EXCEPTION.message)!''} </#if> <#if
-						(reLoginMsg)?? > <font color="red" size="3"> ${(reLoginMsg)!''} </font> <#else>
-						${(reLoginMsg)!''} </#if>
+						(reLoginMsg)?? > <font color="red" size="3">
+							${(reLoginMsg)!''} </font> <#else> ${(reLoginMsg)!''} </#if>
 
 						<div class="login-tips mb10" style="display: none;">
 							<span class="login-tip">密码不能为空</span>
@@ -39,12 +81,14 @@
 								placeholder="请输入密码" id="password" name="password">
 						</div>
 						<div class="login-item">
+							<label for="ck_rmbUser" class="ipt-c"><input
+								name="ck_rmbUser" id="ck_rmbUser" value="" type="checkbox" />记住登录状态</label>
 							<a class="s-right" href="${rc.contextPath}/user/find_pwd">忘记密码?</a>
 						</div>
 						<p class="mt37"></p>
 
 						<div class="text-center login-submit">
-							<span class="btn-login"> <input type="submit" value="立即登录" />
+							<span class="btn-login"> <input type="submit" onclick="saveUser()" value="立即登录" />
 							</span>
 						</div>
 						<div class="login-item p-center">
@@ -58,8 +102,6 @@
 			</div>
 		</div>
 	</div>
-
-	<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
 
 </body>
 </html>

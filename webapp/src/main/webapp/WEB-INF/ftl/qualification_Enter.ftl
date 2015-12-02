@@ -113,10 +113,10 @@ function go_back(){
 						data-is="isAmount isEnough" autocomplete="off"
 						disableautocomplete="" value="${userDetail.department!''}">
 				</div>
-				<div class="ui-form-item widthdrawBtBox">
+			</div>
+			<div class="widthdrawBtBox">
 					<input type="button" id="subWithdraw" class="block-btn"
 						onclick="sub();" value="保存">
-				</div>
 			</div>
 		</div>
 

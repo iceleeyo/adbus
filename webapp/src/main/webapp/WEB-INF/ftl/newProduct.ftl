@@ -320,42 +320,44 @@ function check_size(){
 		</div>
 
 	</form>
-	          <div id="needimg" style="display: none">
+			<div id="needimg" style="display: none;  margin-top: 40px;">
+	          <div id="needimg_left">
 	          
 	             <div class="ui-form-item" id="file">
 					<label class="ui-label mt10">产品缩略图1</label>
 				 <form id="img1" method="post" enctype="multipart/form-data"> 
                      <img src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}</#if>" id="img1_img" width="200" height="100" border="1px solid #d0d0d0;"/>
-                     <input id="img1_file" style="margin-top:-100px;" name="img1_file" type="file" onchange="uploadImaget('img1');"/>
+                     <input id="img1_file" class="select_img" name="img1_file" type="file" onchange="uploadImaget('img1');"/>
                  </form>
 				</div>
 				<div class="ui-form-item" id="file">
 					<label class="ui-label mt10"><span class="ui-form-required"></span>产品缩略图2</label>
 				 <form id="img2" method="post" enctype="multipart/form-data"> 
                      <img src="<#if jsonView?? && jsonView.img2_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img2_url}</#if>" id="img2_img" width="200" height="100" border="1px solid #d0d0d0;"/>
-                     <input id ="img2_file" style="margin-top:-100px;" name="img2_file" type="file" onchange="uploadImaget('img2');"/>
+                     <input id ="img2_file" class="select_img" name="img2_file" type="file" onchange="uploadImaget('img2');"/>
                  </form>
 				</div>
 				<div class="ui-form-item" id="file">
 					<label class="ui-label mt10"><span class="ui-form-required"></span>产品缩略图3</label>
 				 <form id="img3" method="post" enctype="multipart/form-data"> 
                      <img src="<#if jsonView?? && jsonView.img3_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img3_url}</#if>" id="img3_img" width="200" height="100" border="1px solid #d0d0d0;"/>
-                     <input id ="img3_file" style="margin-top:-100px;" name="img3_file" type="file" onchange="uploadImaget('img3');"/>
+                     <input id ="img3_file" class="select_img" name="img3_file" type="file" onchange="uploadImaget('img3');"/>
                  </form>
 				</div>
 				<div class="ui-form-item" id="file">
 					<label class="ui-label mt10"><span class="ui-form-required"></span>产品缩略图4</label>
 				 <form id="img4" method="post" enctype="multipart/form-data"> 
                      <img src="<#if jsonView?? && jsonView.img4_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img4_url}</#if>" id="img4_img" width="200" height="100" border="1px solid #d0d0d0;"/>
-                     <input id ="img4_file" style="margin-top:-100px;" name="img4_file" type="file" onchange="uploadImaget('img4');"/>
+                     <input id ="img4_file" class="select_img" name="img4_file" type="file" onchange="uploadImaget('img4');"/>
                  </form>
 				</div>
-				
+				</div>
+				<div id="needimg_right">
 				<div class="ui-form-item" id="file">
 					<label class="ui-label mt10"><span class="ui-form-required"></span>媒体优势图</label>
 				 <form id="intro1" method="post" enctype="multipart/form-data"> 
                      <img src="<#if jsonView?? && jsonView.intro1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro1_url}</#if>" id="intro1_img" width="200" height="100" border="1px solid #d0d0d0;"/>
-                     <input id ="intro1_file" style="margin-top:-100px;" name="intro1_file" type="file" onchange="uploadImaget('intro1');"/>
+                     <input id ="intro1_file" class="select_img" name="intro1_file" type="file" onchange="uploadImaget('intro1');"/>
                      
                  </form>
 				</div>
@@ -363,24 +365,25 @@ function check_size(){
 					<label class="ui-label mt10"><span class="ui-form-required"></span>受众分析图</label>
 				 <form id="intro2" method="post" enctype="multipart/form-data"> 
                      <img src="<#if jsonView?? && jsonView.intro2_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro2_url}</#if>" id="intro2_img" width="200" height="100" border="1px solid #d0d0d0;"/>
-                     <input id ="intro2_file" style="margin-top:-100px;" name="intro2_file" type="file" onchange="uploadImaget('intro2');"/>
+                     <input id ="intro2_file" class="select_img" name="intro2_file" type="file" onchange="uploadImaget('intro2');"/>
                  </form>
 				</div>
 				<div class="ui-form-item" id="file">
 					<label class="ui-label mt10"><span class="ui-form-required"></span>合作品牌图</label>
 				 <form id="intro3" method="post" enctype="multipart/form-data"> 
                      <img src="<#if jsonView?? && jsonView.intro1_ur3?has_content>${rc.contextPath}/upload_temp/${jsonView.intro3_url}</#if>" id="intro3_img" width="200" height="100" border="1px solid #d0d0d0;"/>
-                     <input id ="intro3_file" style="margin-top:-100px;" name="intro3_file" type="file" onchange="uploadImaget('intro3');"/>
+                     <input id ="intro3_file" class="select_img" name="intro3_file" type="file" onchange="uploadImaget('intro3');"/>
                  </form>
 				</div>
 				<div class="ui-form-item" id="file">
 					<label class="ui-label mt10"><span class="ui-form-required"></span>介绍图4</label>
 				 <form id="intro4" method="post" enctype="multipart/form-data"> 
                      <img src="<#if jsonView?? && jsonView.intro4_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro4_url}</#if>" id="intro4_img" width="200" height="100" border="1px solid #d0d0d0;"/>
-                     <input id ="intro4_file" style="margin-top:-100px;" name="intro4_file" type="file" onchange="uploadImaget('intro4');"/>
+                     <input id ="intro4_file" class="select_img" name="intro4_file" type="file" onchange="uploadImaget('intro4');"/>
                  </form>
 				</div>
 				</div>
+			</div>
 </div>
 
 <script type="text/javascript">
@@ -424,7 +427,7 @@ flag=true;
 	function showdoc(){		
 		if(flag == true)
 		{
-		$("#needimg").show();
+			$("#needimg").show();
 			flag=false;
 		}else{
 			$("#needimg").hide();

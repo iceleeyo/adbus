@@ -102,8 +102,8 @@ img {
 }
 
 .rg-logo {
-  padding-left:50px;
-  margin: 30px auto;
+	padding-left: 50px;
+	margin: 30px auto;
 }
 
 .rg-content {
@@ -420,10 +420,12 @@ img {
 	font-size: 14px;
 	color: #CCE2EA;
 }
-.ipt-c{
+
+.ipt-c {
 	font-size: 14px;
 	color: #CCE2EA;
 }
+
 .p-center {
 	text-align: center;
 	font-size: 14px;
@@ -435,14 +437,32 @@ img {
 
 .explain {
 	margin: 0 auto;
-  	margin-top: 30px;
-  	margin-bottom: 30px;
-  	width: 95%;
-  	border: 1px solid #009deb;
-  	padding: 15px;
-  	font-size: 14px; 
+	margin-top: 30px;
+	margin-bottom: 30px; width : 95%;
+	border: 1px solid #009deb;
+	padding: 15px;
+	font-size: 14px;
+	width: 95%;
 }
 
-.explain li{
+.explain li {
 	margin-top: 5px;
+}
+
+.back_box{
+	text-align: center;
+	margin-top: 20px;
+}
+
+.back_box a{
+	height: 30px;
+	padding: 0 20px 0 21px;
+	display: inline-block;
+	vertical-align: middle;
+	text-align: -webkit-auto;
+	background-color: #009eea;
+	line-height: 30px;
+	cursor: pointer;
+	font-size: 16px;
+	color: #fff;
 }

@@ -185,14 +185,19 @@
 								</ul>
 							</div>
 						</div>
-						<div class="sum">
-							<span class="legged">总价:<em>￥${infos.totalPrice}</em></span>
-						</div>
-						<div class="sure">
-							<!-- <a href="javascript:void(0);" onclick="check()"> -->
-							<a href="javascript:void(0);" id="subid" onclick="check()">
-								<div class="btn-sure">确认支付</div>
-							</a>
+						<div class="footall">
+							<div class="">
+							
+							</div>
+							<div class="sum">
+								<span class="legged">总价:<em>￥${infos.totalPrice}</em></span>
+							</div>
+							<div class="sure">
+								<!-- <a href="javascript:void(0);" onclick="check()"> -->
+								<a href="javascript:void(0);" id="subid" onclick="check()">
+									<div class="btn-sure">确认支付</div>
+								</a>
+							</div>
 						</div>
 						
 						<div class="worm-tips">

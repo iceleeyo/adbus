@@ -20,7 +20,7 @@ body{
 }
 </style>
 <body class="register">
-	<div class="contain">
+	<div class="contain" id="contain">
 		<div class="rg-logo">
 			<img src="index_img/logo3.png" width="320" height="50">
 		</div>
@@ -172,7 +172,7 @@ body{
 <li>11.1 本协议构成双方对本协议之约定事项及其他有关事宜的完整协议，除本协议规定的之外，未赋予本协议各方其他权利。</li>
 <li>11.2 如本协议中的任何条款无论因何种原因完全或部分无效或不具有执行力，本协议的其余条款仍应有效并且有约束力。</li>
 <li>11.3 本协议所有条款的最终解释权属于电商平台。</li>
-
+<div class="back_box"><a href="#contain">返回顶部</a></div>
 		</div>
 		
 	</div>

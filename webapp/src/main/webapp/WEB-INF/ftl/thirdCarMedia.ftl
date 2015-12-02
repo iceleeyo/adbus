@@ -259,6 +259,8 @@
 							type : "POST",
 							success : function(data) {
 							alert(data.right);
+							setCarCount(data.cardCount);
+							setCarCount(data.cardCount_top);
 						}}, "text");
 		 	}
 		}
