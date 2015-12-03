@@ -284,23 +284,23 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 
 				<div class="ui-form-item">
 					<label class="ui-label mt10">媒体情况：</label> 媒体位置&nbsp;&nbsp;<input
-						style="width: 250px;" id="exclusiveUser" name="locationstr"
+						style="width: 250px;" class="ui-input" id="exclusiveUser" name="locationstr"
 						value="<#if jsonView??>${jsonView.locationstr!''}</#if>"
 						placeholder="例如：北京"> 覆盖人次&nbsp;&nbsp;<input
-						style="width: 250px;" id="exclusiveUser" name="personnum"
+						style="width: 250px;" class="ui-input" id="exclusiveUser" name="personnum"
 						onkeyup="value=value.replace(/[^\d]/g,'')"
 						value="<#if jsonView??>${jsonView.personnum!''}</#if>"
 						placeholder="例如：1000万人"> 线路概况&nbsp;&nbsp;<input
-						style="width: 250px;" id="exclusiveUser" name="linesurvey"
+						style="width: 250px;" class="ui-input" id="exclusiveUser" name="linesurvey"
 						value="<#if jsonView??>${jsonView.linesurvey!''}</#if>"
 						placeholder="例如：北京六环内470余条公交线路"> 媒体概况&nbsp;&nbsp;<input
-						style="width: 250px;" id="exclusiveUser" name="mesurvey"
+						style="width: 250px;" class="ui-input" id="exclusiveUser" name="mesurvey"
 						value="<#if jsonView??>${jsonView.mesurvey!''}</#if>"
 						placeholder="例如：19寸公交彩色液晶电视"><br> 媒体属主&nbsp;&nbsp;<input
-						style="width: 250px;" id="exclusiveUser" name="mediaowner"
+						style="width: 250px;" class="ui-input" id="exclusiveUser" name="mediaowner"
 						value="<#if jsonView??>${jsonView.mediaowner!''}</#if>"
 						placeholder="例如：北广传媒"> 媒体数量&nbsp;&nbsp;<input
-						style="width: 250px;" id="exclusiveUser" name="mediacount"
+						style="width: 250px;" class="ui-input" id="exclusiveUser" name="mediacount"
 						value="<#if jsonView??>${jsonView.mediacount!''}</#if>"
 						placeholder="例如：12000辆车24000块屏">
 
@@ -343,7 +343,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 				<form id="img1" method="post" enctype="multipart/form-data">
 					<img
 						src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}</#if>"
-						id="img1_img" width="200" height="100" border="1px solid #d0d0d0;" />
+						id="img1_img"  border="1px solid #d0d0d0;" />
 					<input id="img1_file" class="select_img" name="img1_file"
 						type="file" onchange="uploadImaget('img1');" />
 				</form>
@@ -353,7 +353,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 				<form id="img2" method="post" enctype="multipart/form-data">
 					<img
 						src="<#if jsonView?? && jsonView.img2_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img2_url}</#if>"
-						id="img2_img" width="200" height="100" border="1px solid #d0d0d0;" />
+						id="img2_img"  border="1px solid #d0d0d0;" />
 					<input id="img2_file" class="select_img" name="img2_file"
 						type="file" onchange="uploadImaget('img2');" />
 				</form>
@@ -363,7 +363,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 				<form id="img3" method="post" enctype="multipart/form-data">
 					<img
 						src="<#if jsonView?? && jsonView.img3_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img3_url}</#if>"
-						id="img3_img" width="200" height="100" border="1px solid #d0d0d0;" />
+						id="img3_img"  border="1px solid #d0d0d0;" />
 					<input id="img3_file" class="select_img" name="img3_file"
 						type="file" onchange="uploadImaget('img3');" />
 				</form>
@@ -373,7 +373,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 				<form id="img4" method="post" enctype="multipart/form-data">
 					<img
 						src="<#if jsonView?? && jsonView.img4_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img4_url}</#if>"
-						id="img4_img" width="200" height="100" border="1px solid #d0d0d0;" />
+						id="img4_img"  border="1px solid #d0d0d0;" />
 					<input id="img4_file" class="select_img" name="img4_file"
 						type="file" onchange="uploadImaget('img4');" />
 				</form>
@@ -385,7 +385,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 				<form id="intro1" method="post" enctype="multipart/form-data">
 					<img
 						src="<#if jsonView?? && jsonView.intro1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro1_url}</#if>"
-						id="intro1_img" width="200" height="100"
+						id="intro1_img" 
 						border="1px solid #d0d0d0;" /> <input id="intro1_file"
 						class="select_img" name="intro1_file" type="file"
 						onchange="uploadImaget('intro1');" />
@@ -397,7 +397,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 				<form id="intro2" method="post" enctype="multipart/form-data">
 					<img
 						src="<#if jsonView?? && jsonView.intro2_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro2_url}</#if>"
-						id="intro2_img" width="200" height="100"
+						id="intro2_img" 
 						border="1px solid #d0d0d0;" /> <input id="intro2_file"
 						class="select_img" name="intro2_file" type="file"
 						onchange="uploadImaget('intro2');" />
@@ -408,7 +408,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 				<form id="intro3" method="post" enctype="multipart/form-data">
 					<img
 						src="<#if jsonView?? && jsonView.intro1_ur3?has_content>${rc.contextPath}/upload_temp/${jsonView.intro3_url}</#if>"
-						id="intro3_img" width="200" height="100"
+						id="intro3_img" 
 						border="1px solid #d0d0d0;" /> <input id="intro3_file"
 						class="select_img" name="intro3_file" type="file"
 						onchange="uploadImaget('intro3');" />
@@ -419,7 +419,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 				<form id="intro4" method="post" enctype="multipart/form-data">
 					<img
 						src="<#if jsonView?? && jsonView.intro4_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro4_url}</#if>"
-						id="intro4_img" width="200" height="100"
+						id="intro4_img" 
 						border="1px solid #d0d0d0;" /> <input id="intro4_file"
 						class="select_img" name="intro4_file" type="file"
 						onchange="uploadImaget('intro4');" />

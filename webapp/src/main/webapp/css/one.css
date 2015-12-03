@@ -6969,6 +6969,15 @@ a.ui-side-sub-item-link:hover {
 	margin-top: -16%;
 	margin-left: 47%;
 }
+
+.widthdrawBtBox input{
+	margin-top: 30px;
+}
+
+.ui-form-item img{
+	width: 180px;
+	height: 100px;
+}
 /* #needimg #intro1_file {
 	margin-top: -16%;
 	margin-left: 47%;
