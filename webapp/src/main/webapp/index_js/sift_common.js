@@ -1,4 +1,5 @@
 
+
 function setCarCount(catCount){
 	var exp = catCount;
 	if (typeof(exp) != "undefined"){
@@ -24,6 +25,26 @@ function initCardView(pathUrl){
 						$("#cardCount").html("[<b>"+data.cardCount+"</b>]");
 						$("#cardCount_top").html("["+data.cardCount+"]");
 					}
+				}
+		 }}, "text");
+}
+
+
+/**
+ * 查当前购物车条数
+ * @param pathUrl
+ */
+function checkTime(start,prouctId){
+		$.ajax({
+			url : "/checkFree",
+			data:{"start":  start, "productId":prouctId},
+			type : "GET",
+			success : function(data) {
+				if(data.scheduled){
+					layer.msg(data.msg);
+				} else {
+					var t = $.format.date(data.notSchedultDay, "yyyy-MM-dd");
+					layer.alert("库存不足<br> 日期:" +t+" "+data.msg);
 				}
 		 }}, "text");
 }
