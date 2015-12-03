@@ -49,8 +49,6 @@ function checkTime(start,prouctId){
 					    content: msg,
 					    scrollbar: false
 					});
-					
-					
 				//	layer.msg(, {icon: 5});
 				}
 		 }}, "text");
