@@ -217,6 +217,9 @@
 	<script src="${rc.contextPath}/js/datepicker.js"></script>
 	<script src="${rc.contextPath}/js/jquery.datepicker.region.cn.js"></script>
 	<script src="${rc.contextPath}/js/jquery-ui/jquery-ui.js"></script>
+	
+		<script src="${rc.contextPath}/js/jquery-dateFormat.js"></script>
+		
 	<script type="text/javascript">
 		  $(document).ready(function() {
 		  $("#kanqi li").click(function(){
@@ -286,9 +289,13 @@
 		$(document).ready(function(e) {
 		   $('.perio li').on('click', function(event) {
 		   	event.preventDefault();
-
 		   	$(this).siblings().removeClass('active').end().addClass('active');
 		   });
+		 //check time
+		$('#startdate1').change(function() {
+            checkTime($("#startdate1").val(),${jpaProduct.id});
+        });
+		   
 		});
 	</script>
 </body>
