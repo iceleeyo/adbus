@@ -40,7 +40,7 @@ function checkTime(start,prouctId){
 			data:{"start":  start, "productId":prouctId},
 			type : "GET",
 			success : function(data) {
-				alert(data); 
+				alert(data.scheduled); 
 				if (typeof(data) == "undefined"){
 					
 					layer.alert("请先登录！", {icon: 5});
