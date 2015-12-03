@@ -39,7 +39,7 @@ function checkTime(start,prouctId){
 			url : "/checkFree",
 			data:{"start":  start, "productId":prouctId},
 			type : "GET",
-			success : function(data) {
+			success : function(data) { 
 				if (typeof(data.scheduled) == "undefined"){
 					layer.alert("请先登录！", {icon: 5});
 				}else {
