@@ -29,6 +29,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -281,6 +282,27 @@ public class OrderController {
 			Principal principal, HttpServletRequest request, HttpServletResponse response) throws NumberFormatException, ParseException {
 		    return activitiService.modifyOrder(city, startdate1,Integer.parseInt(orderid), taskid, supplieid,
 				Request.getUser(principal));
+	}
+	@RequestMapping(value = "checkApproveResult")
+	@ResponseBody
+	public Pair<Boolean, String> checkApproveResult(@RequestParam(value = "orderid") String orderid
+			)  {
+		return activitiService.checkApproveResult(orderid);
+	}
+	@RequestMapping(value = "findOrderAndSup/{orderid}")
+	@ResponseBody
+	public Pair<Object, Object> findOrderAndSup(@PathVariable("orderid") int orderid,
+			@CookieValue(value = "city", defaultValue = "-1") int city,Principal principal
+			)  {
+		return orderService.findOrderAndSup(city, principal,orderid);
+	}
+	@RequestMapping(value = "editOrderStartTime/{orderid}")
+	@ResponseBody
+	public Pair<Boolean, String> editOrderStartTime(@PathVariable("orderid") int orderid,@RequestParam(value="supid") int supid,
+			@CookieValue(value = "city", defaultValue = "-1") int city,
+			@RequestParam(value="startD") String startD,@RequestParam(value="ordRemark") String ordRemark,Principal principal
+			)  {
+		return orderService.editOrderStartTime(orderid,supid,startD,ordRemark,city,principal);
 	}
 
 	@RequestMapping(value = "confirm", method = RequestMethod.POST, produces = "text/html;charset=utf-8")

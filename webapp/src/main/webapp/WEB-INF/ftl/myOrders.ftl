@@ -1,7 +1,7 @@
 <#import "template/template.ftl" as frame> <#global menu="${orderMenu}">
 <@frame.html title="我参与的订单"
 css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]
-js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
+js=["js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js","js/jquery.datepicker.region.cn.js","js/jquery-dateFormat.js"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <style type="text/css">
 .operation
@@ -60,7 +60,10 @@ var table;
                    
                    },
                    { "data": "order.created", "defaultContent": "","render": function(data, type, row, meta) {
-                	 var tr= "<a target='_blank' class='operation' href='${rc.contextPath}/order/orderDetail/0?taskid=" +(row.task_id)+  "'>查看详情</a>";
+                	 var tr= "<a target='_blank' class='operation' href='${rc.contextPath}/order/orderDetail/0?taskid=" +(row.task_id)+  "'>查看详情</a>&nbsp;&nbsp;";
+                	 if(row.approve1Result!=true){
+                	  tr+= "<a  class='operation' onclick='editOrderStartD(\"${rc.contextPath}\","+row.order.id+");'>修改订单</a>";
+                	 }
                 	return tr;
                 }},
             ],

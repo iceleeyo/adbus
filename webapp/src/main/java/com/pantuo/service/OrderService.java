@@ -1,6 +1,7 @@
 package com.pantuo.service;
 
 import java.security.Principal;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.ConstantImpl;
 import com.mysema.query.types.Ops;
+import com.mysema.query.types.Order;
 import com.mysema.query.types.Predicate;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.expr.StringOperation;
@@ -36,6 +38,7 @@ import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.OrdersExample;
 import com.pantuo.mybatis.domain.Product;
 import com.pantuo.mybatis.domain.RoleCpd;
+import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.mybatis.persistence.OrderBusesMapper;
 import com.pantuo.mybatis.persistence.OrdersMapper;
 import com.pantuo.mybatis.persistence.ProductMapper;
@@ -56,29 +59,10 @@ import com.pantuo.web.view.SectionView;
 public class OrderService {
 	@Autowired
 	private RoleCpdMapper roleCpdMapper;
+	@Autowired
+	private SuppliesService suppliesService;
 	private static Logger log = LoggerFactory.getLogger(OrderService.class);
 
-	/*	public enum Stats {
-			unpay, paid, datetime, report, finish, canel;
-			public static Stats getQt(String queryType) {
-				try {
-					return Stats.valueOf(queryType);
-				} catch (Exception e) {
-					return Stats.unpay;
-				}
-			}
-		}
-
-		public enum PayWay {
-			ht_pay, dire_pay;
-			public static PayWay getQt(String queryType) {
-				try {
-					return PayWay.valueOf(queryType);
-				} catch (Exception e) {
-					return PayWay.ht_pay;
-				}
-			}
-		}*/
 
 	public Orders selectOrderById(Integer id) {
 		return ordersMapper.selectByPrimaryKey(id);
@@ -377,6 +361,35 @@ public class OrderService {
 	}
 	public void startTest(){
 		activitiService.startTest();
+	}
+	public Pair<Boolean, String> editOrderStartTime(int orderid, int supid, String startD, String ordRemark, int city,
+			Principal principal) {
+		JpaOrders orders=ordersRepository.findOne(orderid);
+		if(orders==null){
+			return new Pair<Boolean, String>(false,"信息丢失");
+		}
+		if(!StringUtils.equals(orders.getUserId(), Request.getUserId(principal))){
+			return new Pair<Boolean, String>(false,"订单属主不匹配,不能修改");
+		}
+		try {
+			Date st=DateUtil.longDf.get().parse(startD);
+			Date end=DateUtil.dateAdd(st, orders.getProduct().getDays());
+			orders.setStartTime(st);
+			orders.setEndTime(end);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		orders.setOrdRemark(ordRemark);
+		orders.setSuppliesId(supid);
+		if(ordersRepository.save(orders)!=null){
+			return new Pair<Boolean, String>(true,"订单修改成功");
+		}
+		return new Pair<Boolean, String>(false,"操作异常");
+	}
+	public Pair<Object, Object> findOrderAndSup(int city, Principal principal, int orderid) {
+		List<Supplies> supplieslist = suppliesService.querySuppliesByUser(city, principal);
+		JpaOrders orders=ordersRepository.findOne(orderid);
+		return new Pair<Object, Object>(orders,supplieslist);
 	}
 
 }

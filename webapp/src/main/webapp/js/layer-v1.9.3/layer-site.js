@@ -6,6 +6,12 @@
  * @param id
  * test
  */
+function isNotEmptyString(str) {
+		if (str != null && typeof(str) != "undefined" && str != "") {
+			return str;
+		}	
+		return '';
+	}
 function showProductlayer(tourl,id){
 	layer.open({
 		type: 1,
@@ -1312,6 +1318,7 @@ function setPriceHelp(tourl,orderid){
 	
 }
 
+
 function setOrderPrice(tourl,orderid){
 			var postPath =  tourl;
 			layer.open({
@@ -1342,7 +1349,78 @@ function setOrderPrice(tourl,orderid){
 
 
 }
-
+function editOrderStartD(tourl,orderid){
+	$.ajax({
+		url : tourl+"/order/findOrderAndSup/"+orderid,
+		type : "POST",
+		data : {
+		},
+		success : function(data) {
+			layer.open({
+	    		type: 1,
+	    		title: "修改订单",
+	    		skin: 'layui-layer-rim', 
+	    		area: ['420px', '340px'], 
+	    		content: 
+				 '<br/><br/><form ><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/><div class="withdrawInputs" id="editOrderStartTimeForm"><div class="inputs" style="margin-left:-25px;">'
+	    		 +'<div class="ui-form-item"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>物料</label> <select class="ui-input"  id="supid">'
+				 +'<option value="'+data.left.supplies.id+'" selected="selected">'+data.left.supplies.name+'</option></select> </div>'
+				 +'<div class="ui-form-item"> <label class="ui-labels mt10" style="width:170px;margin-left:-200px;"><span class="ui-form-required">*</span>开播时间</label>' 
+				 +'<input class="ui-input datepicker validate[required,custom[date],past[#endDate]]" type="text"  value="'+isNotEmptyString($.format.date(data.left.startTime, "yyyy-MM-dd"))+'" id="startD" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
+				 +'</div>'
+				 +'<div class="ui-form-item"> <label class="ui-label mt10">备注：</label>'
+				 +'<input class="ui-input " type="text" value="'+isNotEmptyString(data.left.ordRemark)+'" name="ordRemark"  '
+				 +'id="ordRemark" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+				 +'</div>'
+				 +' <div class="ui-form-item widthdrawBtBox" style="margin-left:-120px;"> <input type="button" id="uploadbutton" class="block-btn" onclick="editOrderStartTime(\''+tourl+'\','+orderid+');" value="修改"> </div>'
+				 +' </div> </div></form>' 
+				});
+			var checkin = $('#startD').datepicker()
+			.on('click', function (ev) {
+			        $('.datepicker').css("z-index", "999999999");
+			}).data('datepicker');
+			$.each(data.right, function(i, item) {
+				if(data.left.supplies.id!=item.id){
+					$("#supid").append(
+							$("<option value="+item.id+">" + item.name
+									+ "</option>"));
+				}
+		});
+		}
+	}, "text");
+}
+function editOrderStartTime(tourl,orderid){
+	var startD= $("#startD").val();
+	var supid= $("#supid  option:selected").val();
+	if (startD==""){
+		layer.msg("请输入开播时间");
+		return;
+	}
+	if (supid==""){
+		layer.msg("请选择物料");
+		return;
+	}
+	document.getElementById('uploadbutton').setAttribute('disabled',true); 
+	$("#uploadbutton").css("background-color","#85A2AD");
+	$.ajax({
+		url : tourl+"/order/editOrderStartTime/"+orderid ,
+		type : "POST",
+		data : {
+			"startD":startD,
+			"supid" :supid,
+			"ordRemark":$("#ordRemark").val()
+		},
+		success : function(data) {
+			layer.msg(data.right);
+			var uptime = window.setTimeout(function(){
+				$("#cc").trigger("click");
+				clearTimeout(uptime);
+			},1500)
+		}
+	}, "text");
+	
+	
+}
 function setLockTime(tourl,id){
 	layer.open({
 	type: 1,
@@ -2014,12 +2092,7 @@ function showBusDetail(pathUrl,tourl,id){
 			}
 		}).submit();
 	}
-	function isNotEmptyString(str) {
-		if (str != null && typeof(str) != "undefined" && str != "") {
-			return str;
-		}	
-		return '';
-	}
+	
 /**
  * 查看购物车判断登陆状态
 */

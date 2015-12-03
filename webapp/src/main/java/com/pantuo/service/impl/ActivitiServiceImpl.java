@@ -269,6 +269,14 @@ public class ActivitiServiceImpl implements ActivitiService {
 			Integer orderid = (Integer) tasks.get(0).getProcessVariables().get(ORDER_ID);
 			OrderView v = new OrderView();
 			JpaOrders order = orderService.queryOrderDetail(orderid, principal);
+			ProcessInstance instance = runtimeService.createProcessInstanceQuery().includeProcessVariables()
+					.variableValueEquals(ORDER_ID, orderid).singleResult();
+			Boolean approve1 = (Boolean) instance.getProcessVariables().get("approve1Result");
+			if(approve1!=null && approve1){
+				v.setApprove1Result(true);
+			}else{
+				v.setApprove1Result(false);
+			}
 			if (order != null) {
 				v.setOrder(order);
 			}
@@ -299,7 +307,16 @@ public class ActivitiServiceImpl implements ActivitiService {
 				orders, p, pageUtil.getTotal());
 		return r;
 	}
-
+	@Override
+	public Pair<Boolean, String> checkApproveResult(String orderid) {
+		ProcessInstance instance = runtimeService.createProcessInstanceQuery().includeProcessVariables()
+				.variableValueEquals(ORDER_ID, orderid).singleResult();
+		Boolean approve1 = (Boolean) instance.getProcessVariables().get("approve1Result");
+		if(approve1){
+			return new Pair<Boolean, String>(false,"该订单已经初审通过不能修改");
+		}
+		 return new Pair<Boolean, String>(true,"可以修改");
+	}
 	private void setVarFilter(String taskKey, ProcessInstanceQuery countQuery, ProcessInstanceQuery listQuery) {
 		if (StringUtils.isNoneBlank(taskKey) && !StringUtils.startsWith(taskKey, ActivitiService.R_DEFAULTALL)) {
 			if (StringUtils.equals(ActivitiService.OrderStatus.payment.name(), taskKey)) {
@@ -1234,6 +1251,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		return sb.toString();
 	}
+
+
 
 	public OrderView findOrderViewByOrder(int orderid, Principal principal) {
 		ProcessInstance instance = runtimeService.createProcessInstanceQuery().includeProcessVariables()

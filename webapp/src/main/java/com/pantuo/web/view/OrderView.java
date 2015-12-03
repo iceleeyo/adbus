@@ -38,6 +38,7 @@ public class OrderView {
 	private String definitionKey;//xml定义的英文说明 
 	private String executionId;
 	private String task_assignee;
+	private boolean approve1Result;
 	private Date task_createTime;
 	
 	//=====================================
@@ -91,7 +92,16 @@ public class OrderView {
         this.orderBuses = orderBuses;
     }
 
-    public JpaProduct getProduct() {
+
+	public boolean isApprove1Result() {
+		return approve1Result;
+	}
+
+	public void setApprove1Result(boolean approve1Result) {
+		this.approve1Result = approve1Result;
+	}
+
+	public JpaProduct getProduct() {
 		return product;
 	}
 
