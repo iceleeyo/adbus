@@ -136,7 +136,8 @@ public class ScheduleController {
 	
 	@RequestMapping(value = "/initBaseBox", method = RequestMethod.GET)
 	@ResponseBody
-	public String initBaseBox(int days, String start) {
+	public String initBaseBox(int days, String start,
+			@RequestParam(value = "city", required = false, defaultValue = "1") int city) {
 		Date startDate;
 		String r = null;
 		try {
@@ -147,7 +148,7 @@ public class ScheduleController {
 			JpaProduct product = new JpaProduct();
 			product.setDays(days);
 			order.setProduct(product);
-			order.setCity(1);
+			order.setCity(city);
 			scheduleService.checkDbBoxState(order, true, null);
 
 		} catch (ParseException e) {
