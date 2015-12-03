@@ -7,95 +7,94 @@ js=["js/jquery-ui/jquery-ui.js",
 css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-ui-timepicker-addon.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <script type="text/javascript">
-function go_back(){
-	history.go(-1);
-}
-    $(document).ready(function() {
-        $("#productForm").validationEngine({
-            validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
-            inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
-            success :  false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
-            promptPosition: "centerRight",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
-            showOneMessage: true,
-            maxErrorsPerField: 1,
-            //failure : function() { alert("验证失败，请检查。");  }//验证失败时调用的函数
-            //success : function() { callSuccessFunction() },//验证通过时调用的函数
-        });
-    });
-</script>
-<script type="text/javascript">
-    $(function(){
- $(".ui_timepicker").datetimepicker({
-            //showOn: "button",
-            //buttonImage: "./css/images/icon_calendar.gif",
-            //buttonImageOnly: true,
-            showSecond: true,
-            timeFormat: 'hh:mm:ss',
-            stepHour: 1,
-            stepMinute: 1,
-            stepSecond: 1
-        })
-        function toggleFields(){
-            var type = $("#type").val();
-            $(".toggle").hide();
-            $("."+type+"Toggle").show();
-        }
-        $("#type").change(toggleFields);
-        toggleFields();
-    });
-	function sub2() {
-        if (!$("#productForm").validationEngine('validateBeforeSubmit'))
-            return;
-        var iscompare=$('input:radio[name="iscompare"]:checked').val();
-        var startDate1=$("#startDate1").val();
-        var biddingDate1=$("#biddingDate1").val();
-        if(iscompare==1){
-        if(biddingDate1<startDate1){
-			jDialog.Alert("截止时间不能小于开拍时间");
-			return;
-		  }
-        }
-        $('#productForm').ajaxForm(function(data) {
-            jDialog.Alert(data.name);
-        }).submit();
-        document.getElementById('submit').setAttribute('disabled',true);
-        
-        if(iscompare==0){
-	   		 var a = document.createElement('a');
-	    	 a.href='${rc.contextPath}/product/list';
-    	}else {
-    		 var a = document.createElement('a');
-	    	 a.href='${rc.contextPath}/product/auction';
-    	}
-    	 document.body.appendChild(a);
-	   	 a.click(); 
+	function go_back() {
+		history.go(-1);
 	}
-		
- $(document).ready(function() {
-   
-		        //author:pxh 2015-05-20 22:36
-		        $( "#exclusiveUser" ).autocomplete({
-		  			source: "${rc.contextPath}/user/autoComplete",
-		  			change: function( event, ui ) { 
-		  				/*if(ui.item!=null){alert(ui.item.value);}*/
-		  				table.fnDraw();
-		  			 },
-		  			 select: function(event,ui) {
-		  			 $('#exclusiveUser').val(ui.item.value);
-		  				//table.fnDraw();
-		  			 }
-				});
-	    });
-function check_size(){
-	return;
-}
+	$(document).ready(function() {
+		$("#productForm").validationEngine({
+			validationEventTrigger : "blur", //触发的事件  validationEventTriggers:"keyup blur",
+			inlineValidation : true,//是否即时验证，false为提交表单时验证,默认true
+			success : false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
+			promptPosition : "centerRight",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
+			showOneMessage : true,
+			maxErrorsPerField : 1,
+		//failure : function() { alert("验证失败，请检查。");  }//验证失败时调用的函数
+		//success : function() { callSuccessFunction() },//验证通过时调用的函数
+		});
+	});
 </script>
 <script type="text/javascript">
+	$(function() {
+		$(".ui_timepicker").datetimepicker({
+			//showOn: "button",
+			//buttonImage: "./css/images/icon_calendar.gif",
+			//buttonImageOnly: true,
+			showSecond : true,
+			timeFormat : 'hh:mm:ss',
+			stepHour : 1,
+			stepMinute : 1,
+			stepSecond : 1
+		})
+		function toggleFields() {
+			var type = $("#type").val();
+			$(".toggle").hide();
+			$("." + type + "Toggle").show();
+		}
+		$("#type").change(toggleFields);
+		toggleFields();
+	});
+	function sub2() {
+		if (!$("#productForm").validationEngine('validateBeforeSubmit'))
+			return;
+		var iscompare = $('input:radio[name="iscompare"]:checked').val();
+		var startDate1 = $("#startDate1").val();
+		var biddingDate1 = $("#biddingDate1").val();
+		if (iscompare == 1) {
+			if (biddingDate1 < startDate1) {
+				jDialog.Alert("截止时间不能小于开拍时间");
+				return;
+			}
+		}
+		$('#productForm').ajaxForm(function(data) {
+			jDialog.Alert(data.name);
+		}).submit();
+		document.getElementById('submit').setAttribute('disabled', true);
 
-        function bu(txtObj) {
-            txtObj.value = Number(txtObj.value).toFixed(2);
-        }
-    </script>
+		if (iscompare == 0) {
+			var a = document.createElement('a');
+			a.href = '${rc.contextPath}/product/list';
+		} else {
+			var a = document.createElement('a');
+			a.href = '${rc.contextPath}/product/auction';
+		}
+		document.body.appendChild(a);
+		a.click();
+	}
+
+	$(document).ready(function() {
+
+		//author:pxh 2015-05-20 22:36
+		$("#exclusiveUser").autocomplete({
+			source : "${rc.contextPath}/user/autoComplete",
+			change : function(event, ui) {
+				/*if(ui.item!=null){alert(ui.item.value);}*/
+				table.fnDraw();
+			},
+			select : function(event, ui) {
+				$('#exclusiveUser').val(ui.item.value);
+				//table.fnDraw();
+			}
+		});
+	});
+	function check_size() {
+		return;
+	}
+</script>
+<script type="text/javascript">
+	function bu(txtObj) {
+		txtObj.value = Number(txtObj.value).toFixed(2);
+	}
+</script>
 <div class="withdraw-wrap color-white-bg fn-clear">
 
 	<form data-name="withdraw" name="productForm" id="productForm"
@@ -128,7 +127,7 @@ function check_size(){
 				</div>
 				<div
 					class="ui-form-item toggle videoToggle imageToggle infoToggle teamToggle">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>时长（秒）:</label>
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>时长（秒）：</label>
 					<input class="ui-input validate[required,integer,min[5],max[180]]"
 						onkeyup="value=value.replace(/[^\d]/g,'')"
 						value="<#if prod??>${prod.duration!''}<#else>5</#if>"
@@ -139,7 +138,7 @@ function check_size(){
 
 				<div
 					class="ui-form-item toggle videoToggle imageToggle infoToggle teamToggle">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>单日播放次数:</label>
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>单日播放次数：</label>
 					<input class="ui-input validate[required,integer,min[1],max[100]"
 						onkeyup="value=value.replace(/[^\d.]/g,'')" type="text"
 						value="<#if prod??>${prod.playNumber!''}<#else>2</#if>"
@@ -148,24 +147,24 @@ function check_size(){
 				</div>
 
 				<div class="ui-form-item toggle videoToggle">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>首播次数:</label>
-					<input class="ui-input validate[required,integer,min[0],max[30]"
+					<label class="ui-label mt10">首播次数：</label>
+					<input class="ui-input validate[integer,min[0],max[30]"
 						onkeyup="value=value.replace(/[^\d.]/g,'')"
 						value="<#if prod??>${prod.firstNumber!''}<#else>0</#if>"
 						name="firstNumber" id="firstNumber" data-is="isAmount isEnough"
 						autocomplete="off" disableautocomplete="" placeholder="0-30次">
 				</div>
 				<div class="ui-form-item toggle videoToggle">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>末播次数:</label>
-					<input class="ui-input validate[required,integer,min[0],max[30]"
+					<label class="ui-label mt10">末播次数：</label>
+					<input class="ui-input validate[integer,min[0],max[30]"
 						onkeyup="value=value.replace(/[^\d.]/g,'')"
 						value="<#if prod??>${prod.lastNumber!''}<#else>0</#if>"
 						name="lastNumber" id="lastNumber" data-is="isAmount isEnough"
 						autocomplete="off" disableautocomplete="" placeholder="0-30次">
 				</div>
 				<div class="ui-form-item toggle videoToggle">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>高峰时段占比:</label>
-					<input class="ui-input validate[required,number,min[0],max[1]"
+					<label class="ui-label mt10">高峰时段占比：</label>
+					<input class="ui-input validate[number,min[0],max[1]"
 						onkeyup="value=value.replace(/[^\d.]/g,'')"
 						value="<#if prod??>${prod.hotRatio!''}<#else>0.1</#if>"
 						name="hotRatio" id="hotRatio" data-is="isAmount isEnough"
@@ -183,7 +182,7 @@ function check_size(){
 					</select>
 				</div>
 				<div class="ui-form-item toggle bodyToggle">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>巴士数量:</label>
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>巴士数量：</label>
 					<input class="ui-input validate[required,number,min[1]"
 						type="number"
 						value="<#if prod??>${prod.busNumber!''}<#else>0</#if>"
@@ -192,9 +191,9 @@ function check_size(){
 				</div>
 				<div class="ui-form-item ">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>
-						<span class="toggle videoToggle imageToggle infoToggle ">套餐播放天数:</span>
-						<span class="toggle bodyToggle">广告展示天数:</span> <span
-						class="toggle teamToggle">周期(天/期):</span> </label> <input
+						<span class="toggle videoToggle imageToggle infoToggle ">套餐播放天数：</span>
+						<span class="toggle bodyToggle">广告展示天数：</span> <span
+						class="toggle teamToggle">周期(天/期)：</span> </label> <input
 						class="ui-input validate[required,integer,min[1],max[360]"
 						onkeyup="value=value.replace(/[^\d.]/g,'')"
 						value="<#if prod??>${prod.days!''}<#else>7</#if>" name="days"
@@ -203,8 +202,8 @@ function check_size(){
 				</div>
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>
-						<span class="toggle videoToggle imageToggle infoToggle teamToggle">套餐价格（元）:</span>
-						<span class="toggle bodyToggle">套餐价格（元）:</span> </label> <input
+						<span class="toggle videoToggle imageToggle infoToggle teamToggle">套餐价格（元）：</span>
+						<span class="toggle bodyToggle">套餐价格（元）：</span> </label> <input
 						class="ui-input validate[required,number,min[0],max[10000000]"
 						onblur="bu(this)"
 						onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/\D+\./g,'')}"
@@ -217,14 +216,24 @@ function check_size(){
 
 
 				<div class="ui-form-item toggle bodyToggle">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>制作费:</label>
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>制作费：</label>
 					<input class="ui-input validate[required,number,min[1]"
 						type="number"
 						value="<#if prod??>${prod.produceCost!''}<#else>0</#if>"
 						name="produceCost" id="produceCost" data-is="isAmount isEnough"
 						autocomplete="off" disableautocomplete="">
 				</div>
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required"></span>产品定向：</label>
+					<span> <input id="exclusiveUser" name="exclusiveUser"
+						value="" placeholder="请选择广告主" style="margin-top: 8px;">
+					</span>
+				</div>
 
+				<div class="ui-form-item">
+					<label class="ui-label mt10">套餐描述：</label>
+					<textarea rows="4" cols="40" style="resize: none;" name="remarks"><#if prod?exists && prod.remarks?has_content >${prod.remarks!''}</#if></textarea>
+				</div>
 				<div
 					class="ui-form-item toggle videoToggle imageToggle infoToggle bodyToggle">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>是否为竞价套餐：</label>
@@ -243,8 +252,8 @@ function check_size(){
 					<div class="ui-form-item">
 						<label class="ui-label mt10"><span
 							class="ui-form-required">*</span> <span
-							class="toggle videoToggle imageToggle infoToggle">竞拍底价（元）:</span>
-							<span class="toggle bodyToggle">竞拍底价（元）:</span> </label> <input
+							class="toggle videoToggle imageToggle infoToggle">竞拍底价（元）：</span>
+							<span class="toggle bodyToggle">竞拍底价（元）：</span> </label> <input
 							class="ui-input validate[required,number,min[1]"
 							onblur="bu(this)"
 							onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/\D+\./g,'')}"
@@ -262,178 +271,219 @@ function check_size(){
 					</div>
 					<div class="ui-form-item">
 						<label class="ui-label mt10"><span
-							class="ui-form-required">*</span>截止时间: </label> <input
+							class="ui-form-required">*</span>截止时间：</label> <input
 							class="ui-input ui_timepicker validate[required,past[#biddingDate1]]"
 							type="text" name="biddingDate1" id="biddingDate1"
 							data-is="isAmount isEnough">
 					</div>
 				</div>
-				
+
 			</div>
-			
+
 			<div class="inputs_right">
-				
+
 				<div class="ui-form-item">
-					<label class="ui-label mt10"><span class="ui-form-required"></span>产品定向:</label>
-					<span> <input id="exclusiveUser" name="exclusiveUser"
-						value="" placeholder="请选择广告主" style="margin-top: 8px;">
-					</span>
+					<label class="ui-label mt10">媒体情况：</label> 媒体位置&nbsp;&nbsp;<input
+						style="width: 250px;" id="exclusiveUser" name="locationstr"
+						value="<#if jsonView??>${jsonView.locationstr!''}</#if>"
+						placeholder="例如：北京"> 覆盖人次&nbsp;&nbsp;<input
+						style="width: 250px;" id="exclusiveUser" name="personnum"
+						onkeyup="value=value.replace(/[^\d]/g,'')"
+						value="<#if jsonView??>${jsonView.personnum!''}</#if>"
+						placeholder="例如：1000万人"> 线路概况&nbsp;&nbsp;<input
+						style="width: 250px;" id="exclusiveUser" name="linesurvey"
+						value="<#if jsonView??>${jsonView.linesurvey!''}</#if>"
+						placeholder="例如：北京六环内470余条公交线路"> 媒体概况&nbsp;&nbsp;<input
+						style="width: 250px;" id="exclusiveUser" name="mesurvey"
+						value="<#if jsonView??>${jsonView.mesurvey!''}</#if>"
+						placeholder="例如：19寸公交彩色液晶电视"><br> 媒体属主&nbsp;&nbsp;<input
+						style="width: 250px;" id="exclusiveUser" name="mediaowner"
+						value="<#if jsonView??>${jsonView.mediaowner!''}</#if>"
+						placeholder="例如：北广传媒"> 媒体数量&nbsp;&nbsp;<input
+						style="width: 250px;" id="exclusiveUser" name="mediacount"
+						value="<#if jsonView??>${jsonView.mediacount!''}</#if>"
+						placeholder="例如：12000辆车24000块屏">
+
 				</div>
-				
-				<div class="ui-form-item">
-					<label class="ui-label mt10">套餐描述：</label>
-					<textarea rows="4" cols="40" style="resize: none;" name="remarks"><#if prod?exists && prod.remarks?has_content >${prod.remarks!''}</#if></textarea>
-				</div>
-				<div class="ui-form-item">
-					<label class="ui-label mt10">媒体情况：</label>
-					媒体位置&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="locationstr" value="<#if jsonView??>${jsonView.locationstr!''}</#if>" placeholder="例如：北京" >
-					覆盖人次&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="personnum" onkeyup="value=value.replace(/[^\d]/g,'')" value="<#if jsonView??>${jsonView.personnum!''}</#if>" placeholder="例如：1000万人" >
-					线路概况&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="linesurvey" value="<#if jsonView??>${jsonView.linesurvey!''}</#if>" placeholder="例如：北京六环内470余条公交线路" >
-					媒体概况&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="mesurvey" value="<#if jsonView??>${jsonView.mesurvey!''}</#if>" placeholder="例如：19寸公交彩色液晶电视" ><br>
-					媒体属主&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="mediaowner" value="<#if jsonView??>${jsonView.mediaowner!''}</#if>" placeholder="例如：北广传媒" >
-					媒体数量&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="mediacount" value="<#if jsonView??>${jsonView.mediacount!''}</#if>" placeholder="例如：12000辆车24000块屏" >
-						
-				</div>
-				
+
 				<div class="ui-form-item">
 					<label class="ui-label mt10">产品搜索标签：</label>
-					<textarea rows="6" cols="40" style="resize: none;" name="tags" placeholder="用于产品搜索，可以输入多个，每行一个标签。"><#if prod?exists && prod.tags?has_content >${prod.tags!''}</#if></textarea>
+					<textarea rows="6" cols="40" style="resize: none;" name="tags"
+						placeholder="用于产品搜索，可以输入多个，每行一个标签。"><#if prod?exists && prod.tags?has_content >${prod.tags!''}</#if></textarea>
 				</div>
 			</div>
+
+		</div>
+		<#if prod?? > <input type="hidden" name="id" value="${prod.id}" />
+		</#if> <input id="img1_url" name="img1_url" type="hidden"
+			value="<#if jsonView?? && jsonView.img1_url?has_content>${jsonView.img1_url}</#if>" />
+		<input id="img2_url" name="img2_url" type="hidden"
+			value="<#if jsonView?? && jsonView.img2_url?has_content>${jsonView.img2_url}</#if>" />
+		<input id="img3_url" name="img3_url" type="hidden"
+			value="<#if jsonView?? && jsonView.img3_url?has_content>${jsonView.img3_url}</#if>" />
+		<input id="img4_url" name="img4_url" type="hidden"
+			value="<#if jsonView?? && jsonView.img4_url?has_content>${jsonView.img4_url}</#if>" />
+		<input id="intro1_url" name="intro1_url" type="hidden"
+			value="<#if jsonView?? && jsonView.intro1_url?has_content>${jsonView.intro1_url}</#if>" />
+		<input id="intro2_url" name="intro2_url" type="hidden"
+			value="<#if jsonView?? && jsonView.intro2_url?has_content>${jsonView.intro2_url}</#if>" />
+		<input id="intro3_url" name="intro3_url" type="hidden"
+			value="<#if jsonView?? && jsonView.intro3_url?has_content>${jsonView.intro3_url}</#if>" />
+		<input id="intro4_url" name="intro4_url" type="hidden"
+			value="<#if jsonView?? && jsonView.intro4_url?has_content>${jsonView.intro4_url}</#if>" />
+		<div class="widthdrawBtBox">
 			
 		</div>
-		<#if prod?? >
-		   <input type="hidden" name="id" value="${prod.id}"/>
-		</#if>
-		 <input id ="img1_url" name="img1_url" type="hidden" value="<#if jsonView?? && jsonView.img1_url?has_content>${jsonView.img1_url}</#if>"/>
-		 <input id ="img2_url" name="img2_url" type="hidden" value="<#if jsonView?? && jsonView.img2_url?has_content>${jsonView.img2_url}</#if>"/>
-		 <input id ="img3_url" name="img3_url" type="hidden" value="<#if jsonView?? && jsonView.img3_url?has_content>${jsonView.img3_url}</#if>"/>
-		 <input id ="img4_url" name="img4_url" type="hidden" value="<#if jsonView?? && jsonView.img4_url?has_content>${jsonView.img4_url}</#if>"/>
-		 <input id ="intro1_url" name="intro1_url" type="hidden" value="<#if jsonView?? && jsonView.intro1_url?has_content>${jsonView.intro1_url}</#if>"/>
-		 <input id ="intro2_url" name="intro2_url" type="hidden" value="<#if jsonView?? && jsonView.intro2_url?has_content>${jsonView.intro2_url}</#if>"/>
-		 <input id ="intro3_url" name="intro3_url" type="hidden" value="<#if jsonView?? && jsonView.intro3_url?has_content>${jsonView.intro3_url}</#if>"/>
-		 <input id ="intro4_url" name="intro4_url" type="hidden" value="<#if jsonView?? && jsonView.intro4_url?has_content>${jsonView.intro4_url}</#if>"/>
-		<div class="widthdrawBtBox">
-				<input type="submit" onclick="check_size()" class="block-btn" value="确定">
-				<input type="button" id="subWithdraw" class="block-btn"
-						onclick="showdoc();" value="需更改产品图片">
-		</div>
+		
+		<div id="needimg" style="display: none; margin-top: 40px;">
+		<div id="needimg_left">
 
-	</form>
-			<div id="needimg" style="display: none;  margin-top: 40px;">
-	          <div id="needimg_left">
-	          
-	             <div class="ui-form-item" id="file">
-					<label class="ui-label mt10">产品缩略图1</label>
-				 <form id="img1" method="post" enctype="multipart/form-data"> 
-                     <img src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}</#if>" id="img1_img" width="200" height="100" border="1px solid #d0d0d0;"/>
-                     <input id="img1_file" class="select_img" name="img1_file" type="file" onchange="uploadImaget('img1');"/>
-                 </form>
-				</div>
-				<div class="ui-form-item" id="file">
-					<label class="ui-label mt10"><span class="ui-form-required"></span>产品缩略图2</label>
-				 <form id="img2" method="post" enctype="multipart/form-data"> 
-                     <img src="<#if jsonView?? && jsonView.img2_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img2_url}</#if>" id="img2_img" width="200" height="100" border="1px solid #d0d0d0;"/>
-                     <input id ="img2_file" class="select_img" name="img2_file" type="file" onchange="uploadImaget('img2');"/>
-                 </form>
-				</div>
-				<div class="ui-form-item" id="file">
-					<label class="ui-label mt10"><span class="ui-form-required"></span>产品缩略图3</label>
-				 <form id="img3" method="post" enctype="multipart/form-data"> 
-                     <img src="<#if jsonView?? && jsonView.img3_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img3_url}</#if>" id="img3_img" width="200" height="100" border="1px solid #d0d0d0;"/>
-                     <input id ="img3_file" class="select_img" name="img3_file" type="file" onchange="uploadImaget('img3');"/>
-                 </form>
-				</div>
-				<div class="ui-form-item" id="file">
-					<label class="ui-label mt10"><span class="ui-form-required"></span>产品缩略图4</label>
-				 <form id="img4" method="post" enctype="multipart/form-data"> 
-                     <img src="<#if jsonView?? && jsonView.img4_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img4_url}</#if>" id="img4_img" width="200" height="100" border="1px solid #d0d0d0;"/>
-                     <input id ="img4_file" class="select_img" name="img4_file" type="file" onchange="uploadImaget('img4');"/>
-                 </form>
-				</div>
-				</div>
-				<div id="needimg_right">
-				<div class="ui-form-item" id="file">
-					<label class="ui-label mt10"><span class="ui-form-required"></span>媒体优势图</label>
-				 <form id="intro1" method="post" enctype="multipart/form-data"> 
-                     <img src="<#if jsonView?? && jsonView.intro1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro1_url}</#if>" id="intro1_img" width="200" height="100" border="1px solid #d0d0d0;"/>
-                     <input id ="intro1_file" class="select_img" name="intro1_file" type="file" onchange="uploadImaget('intro1');"/>
-                     
-                 </form>
-				</div>
-				<div class="ui-form-item" id="file">
-					<label class="ui-label mt10"><span class="ui-form-required"></span>受众分析图</label>
-				 <form id="intro2" method="post" enctype="multipart/form-data"> 
-                     <img src="<#if jsonView?? && jsonView.intro2_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro2_url}</#if>" id="intro2_img" width="200" height="100" border="1px solid #d0d0d0;"/>
-                     <input id ="intro2_file" class="select_img" name="intro2_file" type="file" onchange="uploadImaget('intro2');"/>
-                 </form>
-				</div>
-				<div class="ui-form-item" id="file">
-					<label class="ui-label mt10"><span class="ui-form-required"></span>合作品牌图</label>
-				 <form id="intro3" method="post" enctype="multipart/form-data"> 
-                     <img src="<#if jsonView?? && jsonView.intro1_ur3?has_content>${rc.contextPath}/upload_temp/${jsonView.intro3_url}</#if>" id="intro3_img" width="200" height="100" border="1px solid #d0d0d0;"/>
-                     <input id ="intro3_file" class="select_img" name="intro3_file" type="file" onchange="uploadImaget('intro3');"/>
-                 </form>
-				</div>
-				<div class="ui-form-item" id="file">
-					<label class="ui-label mt10"><span class="ui-form-required"></span>介绍图4</label>
-				 <form id="intro4" method="post" enctype="multipart/form-data"> 
-                     <img src="<#if jsonView?? && jsonView.intro4_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro4_url}</#if>" id="intro4_img" width="200" height="100" border="1px solid #d0d0d0;"/>
-                     <input id ="intro4_file" class="select_img" name="intro4_file" type="file" onchange="uploadImaget('intro4');"/>
-                 </form>
-				</div>
-				</div>
+			<div class="ui-form-item" id="file">
+				<label class="ui-label mt10">产品缩略图1</label>
+				<form id="img1" method="post" enctype="multipart/form-data">
+					<img
+						src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}</#if>"
+						id="img1_img" width="200" height="100" border="1px solid #d0d0d0;" />
+					<input id="img1_file" class="select_img" name="img1_file"
+						type="file" onchange="uploadImaget('img1');" />
+				</form>
 			</div>
+			<div class="ui-form-item" id="file">
+				<label class="ui-label mt10"><span class="ui-form-required"></span>产品缩略图2</label>
+				<form id="img2" method="post" enctype="multipart/form-data">
+					<img
+						src="<#if jsonView?? && jsonView.img2_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img2_url}</#if>"
+						id="img2_img" width="200" height="100" border="1px solid #d0d0d0;" />
+					<input id="img2_file" class="select_img" name="img2_file"
+						type="file" onchange="uploadImaget('img2');" />
+				</form>
+			</div>
+			<div class="ui-form-item" id="file">
+				<label class="ui-label mt10"><span class="ui-form-required"></span>产品缩略图3</label>
+				<form id="img3" method="post" enctype="multipart/form-data">
+					<img
+						src="<#if jsonView?? && jsonView.img3_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img3_url}</#if>"
+						id="img3_img" width="200" height="100" border="1px solid #d0d0d0;" />
+					<input id="img3_file" class="select_img" name="img3_file"
+						type="file" onchange="uploadImaget('img3');" />
+				</form>
+			</div>
+			<div class="ui-form-item" id="file">
+				<label class="ui-label mt10"><span class="ui-form-required"></span>产品缩略图4</label>
+				<form id="img4" method="post" enctype="multipart/form-data">
+					<img
+						src="<#if jsonView?? && jsonView.img4_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img4_url}</#if>"
+						id="img4_img" width="200" height="100" border="1px solid #d0d0d0;" />
+					<input id="img4_file" class="select_img" name="img4_file"
+						type="file" onchange="uploadImaget('img4');" />
+				</form>
+			</div>
+		</div>
+		<div id="needimg_right">
+			<div class="ui-form-item" id="file">
+				<label class="ui-label mt10"><span class="ui-form-required"></span>媒体优势图</label>
+				<form id="intro1" method="post" enctype="multipart/form-data">
+					<img
+						src="<#if jsonView?? && jsonView.intro1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro1_url}</#if>"
+						id="intro1_img" width="200" height="100"
+						border="1px solid #d0d0d0;" /> <input id="intro1_file"
+						class="select_img" name="intro1_file" type="file"
+						onchange="uploadImaget('intro1');" />
+
+				</form>
+			</div>
+			<div class="ui-form-item" id="file">
+				<label class="ui-label mt10"><span class="ui-form-required"></span>受众分析图</label>
+				<form id="intro2" method="post" enctype="multipart/form-data">
+					<img
+						src="<#if jsonView?? && jsonView.intro2_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro2_url}</#if>"
+						id="intro2_img" width="200" height="100"
+						border="1px solid #d0d0d0;" /> <input id="intro2_file"
+						class="select_img" name="intro2_file" type="file"
+						onchange="uploadImaget('intro2');" />
+				</form>
+			</div>
+			<div class="ui-form-item" id="file">
+				<label class="ui-label mt10"><span class="ui-form-required"></span>合作品牌图</label>
+				<form id="intro3" method="post" enctype="multipart/form-data">
+					<img
+						src="<#if jsonView?? && jsonView.intro1_ur3?has_content>${rc.contextPath}/upload_temp/${jsonView.intro3_url}</#if>"
+						id="intro3_img" width="200" height="100"
+						border="1px solid #d0d0d0;" /> <input id="intro3_file"
+						class="select_img" name="intro3_file" type="file"
+						onchange="uploadImaget('intro3');" />
+				</form>
+			</div>
+			<div class="ui-form-item" id="file">
+				<label class="ui-label mt10"><span class="ui-form-required"></span>介绍图4</label>
+				<form id="intro4" method="post" enctype="multipart/form-data">
+					<img
+						src="<#if jsonView?? && jsonView.intro4_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro4_url}</#if>"
+						id="intro4_img" width="200" height="100"
+						border="1px solid #d0d0d0;" /> <input id="intro4_file"
+						class="select_img" name="intro4_file" type="file"
+						onchange="uploadImaget('intro4');" />
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="widthdrawBtBox">
+			<input type="submit" onclick="check_size()" class="block-btn"
+				value="提交产品"> <input type="button" id="subWithdraw"
+				class="block-btn" onclick="showdoc();" value="上传产品图片">
+		</div>
+		
+	</form>
+	
 </div>
 
 <script type="text/javascript">
-function uploadImaget(formId) { 
-    var image_name=$("#"+formId+"_file").val();
-    if(image_name != ''){
-    var imgs=image_name.split(".");
-    var img_subfier= imgs[imgs.length-1].toLocaleLowerCase();
-    var img_parr = ["jpg", "jpeg", "gif","png"]; 
-    
-    if(image_name !=''){
-        if($.inArray(img_subfier, img_parr) ==-1){
-            jDialog.Alert("请上传['jpg','gif','png','jpeg']格式的图片!");
-            document.getElementById(formId).reset();
-            return false;
-        }
-    }
-    var options = { 
-            url : "${rc.contextPath}/upload/saveSimpleFile",
-            type : "POST",
-            dataType : "json",
-            success : function(data) {
-             if(data !=null && data!=""){
-                  $("#"+formId+"_img").attr("src","${rc.contextPath}/upload_temp/"+data);
-                  $("#"+formId+"_url").val(data);
-                   } 
-                 }
-        }; 
-        $("#"+formId).ajaxSubmit(options);
-        document.getElementById(formId).reset();
-        }
-}
-//竞价选项	    
-function showisAuction(){
-	 $("#isAuction").show();
-}	    
-function hideboth(){
-	$("#isAuction").hide();
-}
-flag=true;
-	function showdoc(){		
-		if(flag == true)
-		{
-			$("#needimg").show();
-			flag=false;
-		}else{
-			$("#needimg").hide();
-			flag=true;
+	function uploadImaget(formId) {
+		var image_name = $("#" + formId + "_file").val();
+		if (image_name != '') {
+			var imgs = image_name.split(".");
+			var img_subfier = imgs[imgs.length - 1].toLocaleLowerCase();
+			var img_parr = [ "jpg", "jpeg", "gif", "png" ];
+
+			if (image_name != '') {
+				if ($.inArray(img_subfier, img_parr) == -1) {
+					jDialog.Alert("请上传['jpg','gif','png','jpeg']格式的图片!");
+					document.getElementById(formId).reset();
+					return false;
+				}
+			}
+			var options = {
+				url : "${rc.contextPath}/upload/saveSimpleFile",
+				type : "POST",
+				dataType : "json",
+				success : function(data) {
+					if (data != null && data != "") {
+						$("#" + formId + "_img").attr("src",
+								"${rc.contextPath}/upload_temp/" + data);
+						$("#" + formId + "_url").val(data);
+					}
+				}
+			};
+			$("#" + formId).ajaxSubmit(options);
+			document.getElementById(formId).reset();
 		}
 	}
-
+	//竞价选项	    
+	function showisAuction() {
+		$("#isAuction").show();
+	}
+	function hideboth() {
+		$("#isAuction").hide();
+	}
+	flag = true;
+	function showdoc() {
+		if (flag == true) {
+			$("#needimg").show();
+			flag = false;
+		} else {
+			$("#needimg").hide();
+			flag = true;
+		}
+	}
 </script>
 </@frame.html>
