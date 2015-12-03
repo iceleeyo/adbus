@@ -48,3 +48,9 @@ function checkTime(start,prouctId){
 				}
 		 }}, "text");
 }
+
+
+function dateInput(inputId,prouctId){
+	var forceInput = $("#"+inputId).val();
+	checkTime(forceInput,prouctId);
+}
