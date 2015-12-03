@@ -241,10 +241,10 @@ function tocard(pathurl){
 						<div class="back-item">
 							<span class="desp">展示期限：</span> <span class="sift-list" qt="d">
 								<a class="item active" href="#" sort="-1" qc="all">所有</a> 
-								<a class="item" href="#" qc="1-1">1（天）<i>×</i></a>
-								 <a class="item" href="#" qc="2-6">2-6（含）<i>×</i></a> 
-								<a class="item" href="#" qc="7-7">7（天）<i>×</i></a> 
-								<a class="item" href="#" qc="8-2000">7天以上<i>×</i></a>
+								<a class="item" href="#" qc="1-7">1-7（含）<i>×</i></a>
+								 <a class="item" href="#" qc="8-30">8-30（含）<i>×</i></a> 
+								<a class="item" href="#" qc="31-90">31-90（含）<i>×</i></a> 
+								<a class="item" href="#" qc="91-2000">91天以上<i>×</i></a>
 							</span>
 						</div>
 					</div>
