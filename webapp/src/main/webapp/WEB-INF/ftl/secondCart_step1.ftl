@@ -278,6 +278,7 @@
 	<script src="${rc.contextPath}/js/datepicker.js"></script>
 	<script src="${rc.contextPath}/js/jquery.datepicker.region.cn.js"></script>
 	<script src="${rc.contextPath}/js/jquery-ui/jquery-ui.js"></script>
+		<script src="${rc.contextPath}/js/jquery-dateFormat.js"></script>
 	
 		<script type="text/javascript">
 		function selectPro(){
