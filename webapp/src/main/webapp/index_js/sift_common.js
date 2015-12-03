@@ -40,16 +40,21 @@ function checkTime(start,prouctId){
 			data:{"start":  start, "productId":prouctId},
 			type : "GET",
 			success : function(data) {
-				if(data.scheduled){
-					layer.msg(data.msg,{icon: 1});//6
-				} else {
-					var t = $.format.date(data.notSchedultDay, "yyyy-MM-dd");
-					var msg="库存不足<br> 日期:" +t+" <br>"+data.msg;
-					/*layer.open({
-					    content: msg,
-					    scrollbar: false
-					});*/
-				layer.alert(msg, {icon: 5});
+				if (typeof(data) == "undefined"){
+					
+					layer.alert("请先登录！", {icon: 5});
+				}else {
+					if(data.scheduled){
+						layer.msg(data.msg,{icon: 1});//6
+					} else {
+						var t = $.format.date(data.notSchedultDay, "yyyy-MM-dd");
+						var msg="库存不足<br> 日期:" +t+" <br>"+data.msg;
+						/*layer.open({
+						    content: msg,
+						    scrollbar: false
+						});*/
+					layer.alert(msg, {icon: 5});
+					}
 				}
 		 }}, "text");
 }
