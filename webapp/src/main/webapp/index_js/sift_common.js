@@ -45,11 +45,11 @@ function checkTime(start,prouctId){
 				} else {
 					var t = $.format.date(data.notSchedultDay, "yyyy-MM-dd");
 					var msg="库存不足<br> 日期:" +t+" <br>"+data.msg;
-					layer.open({
+					/*layer.open({
 					    content: msg,
 					    scrollbar: false
-					});
-				//	layer.msg(, {icon: 5});
+					});*/
+				layer.msg(msg, {icon: 5});
 				}
 		 }}, "text");
 }
