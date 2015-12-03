@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -66,7 +67,8 @@ public class IndexController {
 	private ProductService productService;
 	@Autowired
 	private BusLineCheckService busLineCheckService;
-	
+	@Autowired
+	private ScheduleService scheduleService;
 	
 	  @Value("${sys.type}")
 		private String isBodySys;
@@ -275,6 +277,21 @@ public class CardSelect{
 		model.addAttribute("jsonView", cardService.getJsonfromJsonStr(j.getJsonString()));
 		return "thirdCarMedia";
 	}
+	
+	
+	
+	
+
+	@RequestMapping(value = "/checkFree", method = RequestMethod.GET)
+	@ResponseBody
+	public SchedUltResult checkFree(String start, int productId,
+			@RequestParam(value = "city", required = false, defaultValue = "1") int city, HttpServletRequest request,
+			Principal principal) {
+		return scheduleService.checkForWeb(start, productId, city, request, principal);
+	}
+	
+	
+	
 
 
 	@RequestMapping(value = "/buy/{type}",produces = "text/html;charset=utf-8")

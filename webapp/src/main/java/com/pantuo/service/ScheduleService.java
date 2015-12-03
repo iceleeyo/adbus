@@ -1189,6 +1189,46 @@ public class ScheduleService {
 		}
 	};
 
+	
+	public  SchedUltResult checkForWeb(String start, int productId, int city, HttpServletRequest request,
+			Principal principal) {
+		Date startDate;
+		SchedUltResult r = null;
+		try {
+			startDate = DateUtil.longDf.get().parse(start);
+			JpaOrders order = new JpaOrders();
+			Calendar b = DateUtil.newCalendar();
+			b.add(Calendar.DATE, -90);
+			Calendar f = DateUtil.newCalendar();
+			f.add(Calendar.DATE, 365 * 3);
+
+			if (startDate.before(b.getTime())) {
+				r = new SchedUltResult("系统目前支持的排期时间段:" + DateUtil.longDf.get().format(b.getTime()) + " - "
+						+ DateUtil.longDf.get().format(f.getTime()), false, null, false);
+				return r;
+			}
+			if (startDate.after(f.getTime())) {
+				r = new SchedUltResult("系统目前支持的排期时间段:" + DateUtil.longDf.get().format(b.getTime()) + " - "
+						+ DateUtil.longDf.get().format(f.getTime()), false, null, false);
+				return r;
+			}
+			order.setStartTime(startDate);
+			JpaProduct product = productService.findById(productId);
+			if (product == null) {
+				r = new SchedUltResult("商品信息未找到!", false, null, false);
+			} else {
+				order.setProduct(product);
+				order.setCity(city);
+				r = schedule2(order, true, new ScheduleProgressListener(request.getSession(), principal));
+			}
+		} catch (ParseException e) {
+			log.error("params-error :{}", e);
+			r = new SchedUltResult("日期参数错误!", false, null, false);
+		}
+		return r;
+	}
+	
+	
 	public SchedUltResult checkInventory(int id, String startdate1, HttpServletRequest request, Principal principal) {
 
 		ScheduleProgressListener listener = new ScheduleProgressListener(request.getSession(), principal,

@@ -78,6 +78,7 @@ import com.pantuo.service.BusScheduleService;
 import com.pantuo.service.CityService;
 import com.pantuo.service.ContractService;
 import com.pantuo.service.OrderService;
+import com.pantuo.service.ProductService;
 import com.pantuo.service.ScheduleService;
 import com.pantuo.service.ScheduleService.SchedUltResult;
 import com.pantuo.service.SuppliesService;
@@ -89,6 +90,7 @@ import com.pantuo.util.Pair;
 import com.pantuo.vo.MediaInventory;
 import com.pantuo.vo.ScheduleView;
 import com.pantuo.web.progress.ScheduleInfo;
+import com.pantuo.web.progress.ScheduleProgressListener;
 import com.pantuo.web.view.OrderView;
 import com.pantuo.web.view.SolitSortView;
 import com.pantuo.web.view.SuppliesView;
@@ -108,6 +110,8 @@ public class ScheduleController {
 
 	@Autowired
 	private OrderService orderService;
+	@Autowired
+	ProductService productService;
 
 	@Autowired
 	private TimeslotService timeslotService;
@@ -133,7 +137,18 @@ public class ScheduleController {
 	@Autowired
 	GoodsBlackMapper goodsBlackMapper;
 	public static final List<BlackAd> ls = new ArrayList<BlackAd>();
-	
+
+	/**
+	 * 
+	 * 
+	 * 初始化库存信息
+	 *
+	 * @param days
+	 * @param start
+	 * @param city
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	@RequestMapping(value = "/initBaseBox", method = RequestMethod.GET)
 	@ResponseBody
 	public String initBaseBox(int days, String start,
@@ -156,7 +171,7 @@ public class ScheduleController {
 		}
 		return r;
 	}
-	
+
 	/** 
 	 * process 获取进度 
 	 * @param request 
@@ -170,6 +185,7 @@ public class ScheduleController {
 			HttpServletResponse response) throws Exception {
 		return (ScheduleInfo) request.getSession().getAttribute(_key);
 	}
+
 	/** 
 	 * process 获取进度 
 	 * @param request 
@@ -182,43 +198,43 @@ public class ScheduleController {
 	public ScheduleInfo jecprocess(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return (ScheduleInfo) request.getSession().getAttribute("schInfo");
 	}
+
 	@RequestMapping(value = "/testsch/{id}/{ischeck}")
 	@ResponseBody
 	public SchedUltResult testsch(Model model, HttpServletRequest request, HttpServletResponse response,
 			@PathVariable("id") int id, @PathVariable("ischeck") boolean ischeck,
 			@RequestParam(value = "startdate1", required = false) String startdate1,
 			@RequestParam(value = "taskid", required = false) String taskid,
-			@CookieValue(value = "city", defaultValue = "-1") int city,Principal principal) {
-//		long t=System.currentTimeMillis();
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal) {
+		//		long t=System.currentTimeMillis();
 		//add by xiaoli
 		JpaOrders order = orderService.getJpaOrder(id);
 		if (order.getType() == JpaProduct.Type.info || order.getType() == JpaProduct.Type.image) {
-			return scheduleService.scheduleInfoImg(order,taskid,startdate1);
-        }else{
-        	SchedUltResult r= scheduleService.checkInventory(id, taskid, startdate1, ischeck, request,principal);
-        	return r;
-        }
-//		log.info("SchedUltResult time:{}",System.currentTimeMillis()-t);
-		
+			return scheduleService.scheduleInfoImg(order, taskid, startdate1);
+		} else {
+			SchedUltResult r = scheduleService.checkInventory(id, taskid, startdate1, ischeck, request, principal);
+			return r;
+		}
+		//		log.info("SchedUltResult time:{}",System.currentTimeMillis()-t);
+
 	}
 
 	@RequestMapping(value = "/queryFeature/{id}")
 	@ResponseBody
 	public SchedUltResult queryFeature(Model model, HttpServletRequest request, HttpServletResponse response,
-			@PathVariable("id") int id, @RequestParam(value = "startdate1", required = false) String startdate1,Principal principal) {
-		return scheduleService.checkInventory(id, startdate1,request, principal); 
+			@PathVariable("id") int id, @RequestParam(value = "startdate1", required = false) String startdate1,
+			Principal principal) {
+		return scheduleService.checkInventory(id, startdate1, request, principal);
 	}
+
 	@RequestMapping(value = "/writeExcel/{orderid}")
 	public void writeExcel(Model model, HttpServletRequest request, HttpServletResponse response,
 			@PathVariable("orderid") int orderid) {
-		 scheduleService.writeExcel("order-schedule.xls", orderid,response);
+		scheduleService.writeExcel("order-schedule.xls", orderid, response);
 	}
-	 
-	
+
 	@Autowired
-	    private ScheduleService scheduleService;
-	  
-	  
+	private ScheduleService scheduleService;
 
 	/**
 	 * 排期表表单
@@ -254,30 +270,31 @@ public class ScheduleController {
 
 	@RequestMapping("ajax-schedule")
 	@ResponseBody
-	public Collection<ScheduleView> ajaxSchedule(@RequestParam(value = "orderId", required = true) int orderId){
-		Map<Integer, ScheduleView> map=new LinkedHashMap<Integer, ScheduleView>();
-		
-		List<JpaTimeslot> lotlList=timeslotRepository.findAll();
+	public Collection<ScheduleView> ajaxSchedule(@RequestParam(value = "orderId", required = true) int orderId) {
+		Map<Integer, ScheduleView> map = new LinkedHashMap<Integer, ScheduleView>();
+
+		List<JpaTimeslot> lotlList = timeslotRepository.findAll();
 		for (JpaTimeslot jpaTimeslot : lotlList) {
-			 ScheduleView view= new ScheduleView();
+			ScheduleView view = new ScheduleView();
 			map.put(jpaTimeslot.getId(), view);
 			view.setTimeslot(jpaTimeslot);
 		}
-		
-		 JpaOrders order = orderService.getJpaOrder(orderId);
-			if (order != null) {
-			   String dString=DateUtil.longDf.get().format(order.getStartTime());
-			   List<MediaInventory> list=userAutoCompleteMapper.getScheduleViewByDateStr(orderId,dString);
-			   for (MediaInventory mediaInventory : list) {
-					  ScheduleView scheduleView= map.get(mediaInventory.getSotid());
-					  String d=DateUtil.longDf.get().format(mediaInventory.getDay());  
-					  scheduleView.getMap().put(d, mediaInventory.getNum());
-				  
+
+		JpaOrders order = orderService.getJpaOrder(orderId);
+		if (order != null) {
+			String dString = DateUtil.longDf.get().format(order.getStartTime());
+			List<MediaInventory> list = userAutoCompleteMapper.getScheduleViewByDateStr(orderId, dString);
+			for (MediaInventory mediaInventory : list) {
+				ScheduleView scheduleView = map.get(mediaInventory.getSotid());
+				String d = DateUtil.longDf.get().format(mediaInventory.getDay());
+				scheduleView.getMap().put(d, mediaInventory.getNum());
+
 			}
-			   return map.values();
+			return map.values();
 		}
-			return  Collections.EMPTY_LIST;
+		return Collections.EMPTY_LIST;
 	}
+
 	@RequestMapping("querySchedule/{taskId}")
 	public String querySchedule(Model model, @PathVariable("taskId") String taskId, Principal principal) {
 		OrderView orderView = activitiService.findOrderViewByTaskId(taskId, principal);
@@ -525,20 +542,19 @@ public class ScheduleController {
 
 		return "schedule_list";
 	}
-	
+
 	@RequestMapping("/mediaInventory")
-	public String getmediaInventory(Model model
-			) {
+	public String getmediaInventory(Model model) {
 		Date day = new Date();
 		model.addAttribute("day", DateUtil.longDf.get().format(day));
 		return "mediaInventory";
 	}
+
 	@RequestMapping("ajax-mediaInventory")
 	@ResponseBody
-	public List<MediaInventory> getajaxmediaInventory(TableRequest req
-			) {
+	public List<MediaInventory> getajaxmediaInventory(TableRequest req) {
 		String dayStr = req.getFilter("day");
-		if(StringUtils.isNotBlank(dayStr)){
+		if (StringUtils.isNotBlank(dayStr)) {
 			return userAutoCompleteMapper.getMediaInventory(dayStr);
 		}
 		return Collections.emptyList();
@@ -547,7 +563,6 @@ public class ScheduleController {
 	@PreAuthorize(" hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
 			+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
 			+ "or hasRole('ShibaSuppliesManager')  ")
-	
 	@RequestMapping("ajax-sortSolt")
 	@ResponseBody
 	public List<SolitSortView> sortSolt(TableRequest req,
@@ -561,19 +576,18 @@ public class ScheduleController {
 		Date day;
 		try {
 			day = DateUtil.longDf.get().parse(dayStr);
-			return service.querySortView(day, NumberUtils.toInt(soltid,Integer.MAX_VALUE), 1);
+			return service.querySortView(day, NumberUtils.toInt(soltid, Integer.MAX_VALUE), 1);
 		} catch (ParseException e) {
 			return Collections.EMPTY_LIST;
 		}
 	}
-	
+
 	@RequestMapping("sortSolit")
 	@ResponseBody
-	public Pair<Boolean,String> sortSolit(String sortString){
+	public Pair<Boolean, String> sortSolit(String sortString) {
 		return service.sortSolit(sortString);
 	}
-	
-	
+
 	/**
 	 * 排条单
 	 */
@@ -997,6 +1011,7 @@ public class ScheduleController {
 			throw new RuntimeException("Fail to export excel", e);
 		}
 	}
+
 	@RequestMapping("info-list")
 	public String getinfoScheduleList(Model model, @RequestParam(value = "day", required = false) String dayStr,
 			@RequestParam(value = "type", required = false, defaultValue = "video") JpaProduct.Type type) {
@@ -1045,10 +1060,11 @@ public class ScheduleController {
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal) throws ParseException {
 		return timeslotService.getInfoSchedule(city, req, principal, mtype);
 	}
-/**
-	 * 图片info排条单
-	 * @throws ParseException 
-	 */
+
+	/**
+		 * 图片info排条单
+		 * @throws ParseException 
+		 */
 	@RequestMapping("InfoImglist.xls/{mtype}")
 	public void exportInfoScheduleDetailList(TableRequest req, @PathVariable("mtype") String mtype,
 			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city,
@@ -1082,7 +1098,7 @@ public class ScheduleController {
 			InputStream is = new BufferedInputStream(ScheduleController.class.getResourceAsStream(templateFileName));
 			org.apache.poi.ss.usermodel.Workbook workbook = transformer.transformXLS(is, beans);
 			if (!StringUtils.equals("info", mtype)) {
-				ExcelUtil.dynamicMergeCells((HSSFSheet) workbook.getSheetAt(0), 1, 0,1, 2,3);
+				ExcelUtil.dynamicMergeCells((HSSFSheet) workbook.getSheetAt(0), 1, 0, 1, 2, 3);
 			}
 			OutputStream os = new BufferedOutputStream(resp.getOutputStream());
 			workbook.write(os);
@@ -1102,6 +1118,7 @@ public class ScheduleController {
 		}
 		return set.size();
 	}
+
 	private List<Report> flatDetailForGoods(String day, List<Report> reports, BlackAdGrouop blackGroup) {
 		List<Report> list = new LinkedList<Report>();
 		for (Report r : reports) {
@@ -1378,9 +1395,6 @@ public class ScheduleController {
 		public String getRemainStr() {
 			return DateUtil.toShortStr(this.getRemain());
 		}
-		
-		
-		
-		
+
 	}
 }
