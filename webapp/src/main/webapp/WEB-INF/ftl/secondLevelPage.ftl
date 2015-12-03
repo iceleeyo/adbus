@@ -233,9 +233,9 @@ function tocard(pathurl){
 							<span class="desp">日展次数：</span> 
 							<span class="sift-list" qt="s">
 								<a class="item active" href="#" sort="-1" qc="all">所有</a>
-								<a class="item" href="#" qc="0-7">0-7（不含）<i>×</i></a> 
-								<a class="item"	href="#" qc="7-11">7-11（含）<i>×</i></a> 
-								<a class="item" href="#" qc="12-3000">11以上<i>×</i></a>
+								<a class="item" href="#" qc="0-31">0-31（不含）<i>×</i></a> 
+								<a class="item"	href="#" qc="32-90">32-90（含）<i>×</i></a> 
+								<a class="item" href="#" qc="91-3000">91以上<i>×</i></a>
 							</span>
 						</div>
 						<div class="back-item">
