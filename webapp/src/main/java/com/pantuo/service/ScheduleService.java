@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -120,6 +121,11 @@ public class ScheduleService {
 	@Autowired
 	private GoodsSortMapper goodsSortMapper;
 
+	public static enum ScheduleType {
+		ALLNORMAL, HASFRIST;
+	}
+
+	static Map<Date, AtomicInteger> EMPTY_MAP = Collections.emptyMap();
 	private static ReadWriteLock RW_LOCK = new ReentrantReadWriteLock();
 	//date -box list
 	public static Map<Date, List<Box>> BOXDAYMAP = new HashMap<Date, List<Box>>(365 * 5 * 2);
@@ -640,8 +646,14 @@ public class ScheduleService {
 		Date notSchedultDay;
 		boolean isFrist;
 		boolean isLock = false;//是否有其他用户正在排期
-
 		boolean isScheduleOver = false;
+
+		Map<Date, AtomicInteger> needSchedule;
+		
+		
+		
+		
+		
 
 		public String getMsg() {
 			return msg;
@@ -716,6 +728,23 @@ public class ScheduleService {
 			this.isScheduleOver = isScheduleOver;
 		}
 
+		public Map<Date, AtomicInteger> getNeedSchedule() {
+			return needSchedule;
+		}
+
+		public void setNeedSchedule(Map<Date, AtomicInteger> needSchedule) {
+			this.needSchedule = needSchedule;
+		}
+
+		public void debugMap() {
+			if (needSchedule != null) {
+				for (Map.Entry<Date, AtomicInteger> entry : needSchedule.entrySet()) {
+					log.info(entry.getKey() + " = " + entry.getValue().get());
+				}
+			}
+
+		}
+
 	}
 
 	public String initAllBoxMemory() {
@@ -749,6 +778,8 @@ public class ScheduleService {
 		} finally {
 			RW_LOCK.writeLock().unlock();
 		}
+		tempBoxMap.clear();
+		alBox.clear();
 		log.info("#*****# update AllMemory:{} ms", count, System.currentTimeMillis() - w1);
 		log.info("#initBaseBox - Load {} mybatis box data  from Db :{} ms", count, System.currentTimeMillis() - t);
 		return String.valueOf(count);
@@ -790,6 +821,15 @@ public class ScheduleService {
 		return r;
 	}
 
+	/**
+	 * 
+	 * 检查要排的日期在内存中是否存在 ,不存在需要初始化db到内存
+	 *
+	 * @param order
+	 * @param isOnlyCheck
+	 * @param listener
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	public void checkDbBoxState(JpaOrders order, boolean isOnlyCheck, ScheduleProgressListener listener) {
 		boolean r = checkDbBoxState2(order);
 		if (r) {
@@ -805,8 +845,8 @@ public class ScheduleService {
 		int city = order.getCity();
 		Calendar cal = DateUtil.newCalendar();
 		List<JpaBox> boxList = null;
-		if(listener!=null){
-		listener.update("正在检查库存信息.");
+		if (listener != null) {
+			listener.update("正在检查库存信息.");
 		}
 		long t1 = System.currentTimeMillis();
 		boxList = boxRepo.findByCityAndDayGreaterThanEqualAndDayLessThan(city, start, end);
@@ -872,12 +912,14 @@ public class ScheduleService {
 	}
 
 	public SchedUltResult schedule2(JpaOrders order, boolean isOnlyCheck, ScheduleProgressListener listener) {
+		//检查内存
 		checkDbBoxState(order, isOnlyCheck, listener);
 
 		Calendar cal = DateUtil.newCalendar();
 		Date start = order.getStartTime();
 		int days = order.getProduct().getDays();
 		cal.setTime(start);
+		//得到订单要排期的内部段内 每天的box 列表
 		Map<Date, List<Box>> tempMap = new HashMap<Date, List<Box>>();
 		for (int i = 0; i < days; i++) {
 			Date day = cal.getTime();
@@ -896,38 +938,36 @@ public class ScheduleService {
 			//listener.update("发现有首播排期需要.");
 			//如果有首播排首播
 			int playNum = order.getProduct().getFirstNumber();
-			isAllAllow = scheduleFirst(gs, boxEx, order,playNum, tempMap);
+			isAllAllow = scheduleFirst(gs, boxEx, order, playNum, tempMap, EMPTY_MAP);
 			//listener.update("订单首播排期结束!");
 			//listener.update("开始常规时间段排期.");
 			if (isAllAllow.isScheduled) {
 				//首播排完了排非首播
 				playNum = order.getProduct().getPlayNumber() - order.getProduct().getFirstNumber();
 				if (playNum > 0) {
-					isAllAllow = scheduleNormal(gs, boxEx, order, tempMap,playNum, listener);
+					isAllAllow = scheduleNormal(gs, boxEx, order, tempMap, playNum, listener, ScheduleType.HASFRIST);
 				}
 			}
 		} else {
 			int playNum = order.getProduct().getPlayNumber();
 			//listener.update("开始常规时间段排期.");
 			//排非首播
-			
-			isAllAllow = scheduleNormal(gs, boxEx, order, tempMap,playNum, listener);//5 2  5 
+			isAllAllow = scheduleNormal(gs, boxEx, order, tempMap, playNum, listener, ScheduleType.ALLNORMAL);//5 2  5 
 			if (!isAllAllow.isScheduled) {
-				int numberPlayer = order.getProduct().getPlayNumber();
-				isAllAllow = scheduleFirst(gs, boxEx, order,numberPlayer, tempMap);//7   3  6  6  11
+				isAllAllow = scheduleFirst(gs, boxEx, order, playNum, tempMap, isAllAllow.getNeedSchedule());//7   3  6  6  11
 			}
 		}
-		int pcount=0;
+		int updateCount = 0;
 		if (!isOnlyCheck && isAllAllow.isScheduled) {
 			listener.update("系统开始保存排期结果.");
 			long t3 = System.currentTimeMillis();
 			goodsRepo.save(gs);
-			//boxRepo.save(boxEx.values());
+			//boxRepo.save(boxEx.values());//原来的保存无用了
 			for (Box boxUpdate : boxEx.values()) {
 				boxMapper.updateByPrimaryKey(boxUpdate);
-				pcount++;
-				if(pcount%250==0){
-					log.info("update to:{}", pcount);
+				updateCount++;
+				if (updateCount % 100 == 0) {
+					log.info("#Update boxResult to DB :{}", updateCount);
 				}
 			}
 			try {
@@ -958,20 +998,30 @@ public class ScheduleService {
 	}
 
 	//排首播
-	private SchedUltResult scheduleFirst(List<JpaGoods> gs, Map<Integer, Box> boxEx, JpaOrders order,int numberPlayer, 
-			Map<Date,List<Box>> boxMap) {
+	private SchedUltResult scheduleFirst(List<JpaGoods> gs, Map<Integer, Box> boxEx, JpaOrders order, int numberPlayer,
+			Map<Date, List<Box>> boxMap, Map<Date, AtomicInteger> needSchedule) {
 
+		int numberCopy = numberPlayer;
 		Date start = order.getStartTime();
 		int days = order.getProduct().getDays();
 
 		int duration = (int) order.getProduct().getDuration();
 		Calendar cal = DateUtil.newCalendar();
 		cal.setTime(start);
-
+		boolean isEmpty = needSchedule.isEmpty();
+		//临时变量 播放数次
 		for (int i = 0; i < days; i++) {
 			Date day = cal.getTime();
 			int k = 0;
 			List<Box> list2 = boxMap.get(day);
+
+			//----取每天的常规时间排期后还需要 时间 次数需要排
+
+			AtomicInteger r = needSchedule.get(day);
+			if (!isEmpty) {
+				numberPlayer = r.get();
+			}
+			//----
 			for (int j = 0; j < numberPlayer; j++) {
 				Collections.sort(list2, FRIST_SLOT_COMPARATOR);
 				Box box = list2.get(0);
@@ -996,10 +1046,19 @@ public class ScheduleService {
 					box.setFremain(box.getFremain() + duration);
 					box.setFsort(box.getFsort() - duration);
 					k++;
+					r.decrementAndGet();
 				}
 			}
-			if (k < numberPlayer) {
-				return new SchedUltResult("可上刊库存:" + k + " 订单上刊次数" + numberPlayer, false, day, true);
+			if (isEmpty) {//计算是要求有首播时的库存
+				if (k < numberPlayer) {
+					return new SchedUltResult("可上刊库存:" + k + " 订单上刊次数" + numberPlayer, false, day, true);
+				}
+			} else {//计算常规时间段 排期后排首播时的库存情况 
+				if (k < numberPlayer) {
+					return new SchedUltResult("可上刊库存:" + (numberCopy - r.get()) + " 订单上刊次数" + numberCopy, false, day,
+							true);
+				}
+
 			}
 			cal.add(Calendar.DATE, 1);
 		}
@@ -1032,20 +1091,26 @@ public class ScheduleService {
 
 	//排非首播
 	private SchedUltResult scheduleNormal(List<JpaGoods> gs, Map<Integer, Box> boxEx, JpaOrders order,
-			Map<Date, List<Box>> boxMap, int numberPlayer,ScheduleProgressListener listener) {
+			Map<Date, List<Box>> boxMap, int numberPlayer, ScheduleProgressListener listener, ScheduleType type) {
 
 		Date start = order.getStartTime();
 		int days = order.getProduct().getDays();
 		Calendar cal = DateUtil.newCalendar();
 		int duration = (int) order.getProduct().getDuration();
-
+		SchedUltResult schedUltResult = new SchedUltResult(StringUtils.EMPTY, true, start, true);
 		cal.setTime(start);
-
+		//int _playerNumber = numberPlayer.get();
+		Map<Date, AtomicInteger> jiMap = new HashMap<Date, AtomicInteger>();
 		for (int i = 0; i < days; i++) {
 			Date day = cal.getTime();
 			//	listener.update("开始检查 ["+DateUtil.longDf.get().format(day) +"] 库存情况.");
 			int k = 0;
 			List<Box> list2 = boxMap.get(day);
+
+			//-------记录每天排了多少次
+			AtomicInteger dateCount = new AtomicInteger(numberPlayer);
+			jiMap.put(day, dateCount);
+
 			for (int j = 0; j < numberPlayer; j++) {
 				Collections.sort(list2, NORMAL_COMPARATOR);
 				Box box = list2.get(0);
@@ -1067,14 +1132,24 @@ public class ScheduleService {
 					box.setRemain(box.getRemain() + duration);
 					box.setSort(box.getSort() - duration);
 					k++;
+					//记录排了多少
+					dateCount.decrementAndGet();
 				}
 			}
 			if (k < numberPlayer) {
-				return new SchedUltResult("可上刊库存:" + k + " 订单上刊次数" + numberPlayer, false, day, false);
+				if (ScheduleType.ALLNORMAL != type) {
+					return new SchedUltResult("可上刊库存:" + k + " 订单上刊次数" + numberPlayer, false, day, false);
+				} else {
+					schedUltResult = new SchedUltResult("可上刊库存:" + k + " 订单上刊次数" + numberPlayer, false, day, false);
+				}
 			}
 			cal.add(Calendar.DATE, 1);
 		}
-		return new SchedUltResult(StringUtils.EMPTY, true, start, true);
+		if (!schedUltResult.isScheduled) {
+			schedUltResult.setNeedSchedule(jiMap);
+			schedUltResult.debugMap();
+		}
+		return schedUltResult;
 	}
 
 	private JpaBox getJpaBoxFromEntity(JpaOrders order, Box box) {
