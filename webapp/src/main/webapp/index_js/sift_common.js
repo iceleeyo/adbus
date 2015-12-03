@@ -44,7 +44,14 @@ function checkTime(start,prouctId){
 					layer.msg(data.msg);
 				} else {
 					var t = $.format.date(data.notSchedultDay, "yyyy-MM-dd");
-					layer.msg("库存不足<br> 日期:" +t+" <br>"+data.msg, {icon: 5});
+					var msg="库存不足<br> 日期:" +t+" <br>"+data.msg;
+					layer.open({
+					    content: msg,
+					    scrollbar: false
+					});
+					
+					
+				//	layer.msg(, {icon: 5});
 				}
 		 }}, "text");
 }
