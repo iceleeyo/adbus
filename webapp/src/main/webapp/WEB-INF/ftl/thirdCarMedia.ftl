@@ -293,8 +293,16 @@
 		   });
 		 //check time
 		$('#startdate1').change(function() {
-            checkTime($("#startdate1").val(),${jpaProduct.id});
+			<@security.authorize access="isAuthenticated()"> 
+            	checkTime($("#startdate1").val(),${jpaProduct.id});
+            </@security.authorize> 
+            
+	         <@security.authorize access="!isAuthenticated()">
+	         layer.alert("登录后可查看时间段库存!"); 
+			 </@security.authorize>					
         });
+        
+        
 		   
 		});
 	</script>
