@@ -1053,11 +1053,11 @@ public class ScheduleService {
 			}
 			if (isEmpty) {//计算是要求有首播时的库存
 				if (k < numberPlayer) {
-					return new SchedUltResult("可上刊库存:" + k + " 订单上刊次数" + numberPlayer, false, day, true);
+					return new SchedUltResult("实际可上刊次数:" + k + " 订单上刊次数" + numberPlayer, false, day, true);
 				}
 			} else {//计算常规时间段 排期后排首播时的库存情况 
 				if (k < numberPlayer) {
-					return new SchedUltResult("可上刊库存:" + (numberCopy - r.get()) + " 订单上刊次数" + numberCopy, false, day,
+					return new SchedUltResult("实际可上刊次数:" + (numberCopy - r.get()) + " 订单上刊次数" + numberCopy, false, day,
 							true);
 				}
 
