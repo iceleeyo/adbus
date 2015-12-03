@@ -332,10 +332,12 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 		<input id="intro4_url" name="intro4_url" type="hidden"
 			value="<#if jsonView?? && jsonView.intro4_url?has_content>${jsonView.intro4_url}</#if>" />
 		<div class="widthdrawBtBox">
-			
+			<input type="submit" onclick="check_size()" class="block-btn"
+				value="提交产品"> <input type="button" id="subWithdraw"
+				class="block-btn" onclick="showdoc();" value="上传产品图片">
 		</div>
-		
-		<div id="needimg" style="display: none; margin-top: 40px;">
+	</form>
+	<div id="needimg" style="display: none; margin-top: 40px;">
 		<div id="needimg_left">
 
 			<div class="ui-form-item" id="file">
@@ -427,14 +429,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 			</div>
 		</div>
 	</div>
-	<div class="widthdrawBtBox">
-			<input type="submit" onclick="check_size()" class="block-btn"
-				value="提交产品"> <input type="button" id="subWithdraw"
-				class="block-btn" onclick="showdoc();" value="上传产品图片">
-		</div>
 		
-	</form>
-	
 </div>
 
 <script type="text/javascript">
