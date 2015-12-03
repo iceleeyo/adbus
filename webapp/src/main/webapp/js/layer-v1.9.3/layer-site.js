@@ -354,7 +354,7 @@ function eleContract(tourl,orderid){
 	    		type: 1,
 	    		title: "电子合同",
 	    		skin: 'layui-layer-rim', 
-	    		area: ['750px', '650px'], 
+	    		area: ['800px', '650px'], 
 	    		content:''
 	    			 +' '
 	  			   	 +'<iframe style="width:99%;height:96%" frameborder="no" src="'+tourl+'/user/contract_templete?orderid='+orderid+'"/><div class="ui-form-item widthdrawBtBox"> </div>'
