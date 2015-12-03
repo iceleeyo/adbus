@@ -102,6 +102,11 @@
 										<p class="rec-line">时长（秒）：${item.product.duration}</p>
 										<p class="rec-line">单日播放次数：${item.product.playNumber}次</p>
 										<p class="rec-line">刊期：${item.product.days}天</p>
+										上播日期： <input style="width:100px"
+										class="ui-input datepicker validate[required,custom[date] "
+										type="text" id="st_${item.product.id}" data-is="isAmount isEnough"
+										autocomplete="off" onchange="dateInput('st_${item.product.id}',${item.product.id})">
+										
 										<span class="btn-edit"></span>
 									</div>
 								</li>
@@ -269,6 +274,11 @@
 			src="${rc.contextPath}/js/layer.onload.js"></script>
 		<script type="text/javascript" language="javascript"
 			src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
+			
+	<script src="${rc.contextPath}/js/datepicker.js"></script>
+	<script src="${rc.contextPath}/js/jquery.datepicker.region.cn.js"></script>
+	<script src="${rc.contextPath}/js/jquery-ui/jquery-ui.js"></script>
+	
 		<script type="text/javascript">
 		function selectPro(){
 		var me= document.getElementsByName("checkone");
