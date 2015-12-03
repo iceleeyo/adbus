@@ -41,7 +41,7 @@ function checkTime(start,prouctId){
 			type : "GET",
 			success : function(data) {
 				if(data.scheduled){
-					layer.msg(data.msg);
+					layer.msg(data.msg,{icon: 1});
 				} else {
 					var t = $.format.date(data.notSchedultDay, "yyyy-MM-dd");
 					var msg="库存不足<br> 日期:" +t+" <br>"+data.msg;
