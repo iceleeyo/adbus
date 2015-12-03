@@ -49,7 +49,7 @@ function checkTime(start,prouctId){
 					    content: msg,
 					    scrollbar: false
 					});*/
-				layer.msg(msg, {icon: 5});
+				layer.alert(msg, {icon: 5});
 				}
 		 }}, "text");
 }
