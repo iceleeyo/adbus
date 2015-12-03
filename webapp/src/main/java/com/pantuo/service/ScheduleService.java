@@ -1046,7 +1046,9 @@ public class ScheduleService {
 					box.setFremain(box.getFremain() + duration);
 					box.setFsort(box.getFsort() - duration);
 					k++;
-					r.decrementAndGet();
+					if (!isEmpty) {
+						r.decrementAndGet();
+					}
 				}
 			}
 			if (isEmpty) {//计算是要求有首播时的库存
