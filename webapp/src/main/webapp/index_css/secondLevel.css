@@ -806,7 +806,7 @@ header .area {
 }
 
 .panel .rec-line {
-	margin: 0 5px 0 5px;
+	margin: 0 5px 0 10px;
 	color: #646464;
 	overflow: hidden;
 	text-overflow: ellipsis;
