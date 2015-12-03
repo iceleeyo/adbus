@@ -780,7 +780,7 @@ public class ScheduleService {
 		}
 		tempBoxMap.clear();
 		alBox.clear();
-		log.info("#*****# update AllMemory:{} ms", count, System.currentTimeMillis() - w1);
+		log.info("#*****# update AllMemory record:{} time:{} ms", count, System.currentTimeMillis() - w1);
 		log.info("#initBaseBox - Load {} mybatis box data  from Db :{} ms", count, System.currentTimeMillis() - t);
 		return String.valueOf(count);
 	}
