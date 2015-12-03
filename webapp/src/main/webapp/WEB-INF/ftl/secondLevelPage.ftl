@@ -235,7 +235,7 @@ function tocard(pathurl){
 								<a class="item active" href="#" sort="-1" qc="all">所有</a>
 								<a class="item" href="#" qc="0-31">0-31（不含）<i>×</i></a> 
 								<a class="item"	href="#" qc="32-90">32-90（含）<i>×</i></a> 
-								<a class="item" href="#" qc="91-3000">91以上<i>×</i></a>
+								<a class="item" href="#" qc="91-3000">91次以上<i>×</i></a>
 							</span>
 						</div>
 						<div class="back-item">
