@@ -146,31 +146,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 						autocomplete="off" disableautocomplete="" placeholder="1-100次">
 				</div>
 
-				<div class="ui-form-item toggle videoToggle">
-					<label class="ui-label mt10">首播次数：</label>
-					<input class="ui-input validate[integer,min[0],max[30]"
-						onkeyup="value=value.replace(/[^\d.]/g,'')"
-						value="<#if prod??>${prod.firstNumber!''}<#else>0</#if>"
-						name="firstNumber" id="firstNumber" data-is="isAmount isEnough"
-						autocomplete="off" disableautocomplete="" placeholder="0-30次">
-				</div>
-				<div class="ui-form-item toggle videoToggle">
-					<label class="ui-label mt10">末播次数：</label>
-					<input class="ui-input validate[integer,min[0],max[30]"
-						onkeyup="value=value.replace(/[^\d.]/g,'')"
-						value="<#if prod??>${prod.lastNumber!''}<#else>0</#if>"
-						name="lastNumber" id="lastNumber" data-is="isAmount isEnough"
-						autocomplete="off" disableautocomplete="" placeholder="0-30次">
-				</div>
-				<div class="ui-form-item toggle videoToggle">
-					<label class="ui-label mt10">高峰时段占比：</label>
-					<input class="ui-input validate[number,min[0],max[1]"
-						onkeyup="value=value.replace(/[^\d.]/g,'')"
-						value="<#if prod??>${prod.hotRatio!''}<#else>0.1</#if>"
-						name="hotRatio" id="hotRatio" data-is="isAmount isEnough"
-						autocomplete="off" disableautocomplete=""
-						placeholder="0-1之间的小数，例如：0.2表示高峰占比20%。">
-				</div>
+				
 				<div class="ui-form-item toggle bodyToggle">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>线路级别：</label>
 					<select class="ui-input" name="lineLevel" id="lineLevel">
@@ -245,6 +221,32 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 						<input type="radio" name="iscompare" value="0"
 							onchange="hideboth()" checked="checked">否
 					</div>
+				</div>
+				
+				<div class="ui-form-item toggle videoToggle">
+					<label class="ui-label mt10">首播次数：</label>
+					<input class="ui-input validate[integer,min[0],max[30]"
+						onkeyup="value=value.replace(/[^\d.]/g,'')"
+						value="<#if prod??>${prod.firstNumber!''}<#else>0</#if>"
+						name="firstNumber" id="firstNumber" data-is="isAmount isEnough"
+						autocomplete="off" disableautocomplete="" placeholder="0-30次">
+				</div>
+				<div class="ui-form-item toggle videoToggle">
+					<label class="ui-label mt10">末播次数：</label>
+					<input class="ui-input validate[integer,min[0],max[30]"
+						onkeyup="value=value.replace(/[^\d.]/g,'')"
+						value="<#if prod??>${prod.lastNumber!''}<#else>0</#if>"
+						name="lastNumber" id="lastNumber" data-is="isAmount isEnough"
+						autocomplete="off" disableautocomplete="" placeholder="0-30次">
+				</div>
+				<div class="ui-form-item toggle videoToggle">
+					<label class="ui-label mt10">高峰时段占比：</label>
+					<input class="ui-input validate[number,min[0],max[1]"
+						onkeyup="value=value.replace(/[^\d.]/g,'')"
+						value="<#if prod??>${prod.hotRatio!''}<#else>0.1</#if>"
+						name="hotRatio" id="hotRatio" data-is="isAmount isEnough"
+						autocomplete="off" disableautocomplete=""
+						placeholder="0-1之间的小数，例如：0.2表示高峰占比20%。">
 				</div>
 
 
