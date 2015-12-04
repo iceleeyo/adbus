@@ -973,7 +973,7 @@ public class ScheduleService {
 			//listener.update("开始常规时间段排期.");
 			//排非首播
 			ScheduleContent command = new ScheduleContent(gs, boxEx, order, tempMap, playNum, listener,
-					ScheduleType.HASFRIST);
+					ScheduleType.ALLNORMAL);
 			isAllAllow = scheduleNormal(command);//5 2  5 
 			if (!isAllAllow.isScheduled) {
 				isAllAllow = scheduleFirst(gs, boxEx, order, playNum, tempMap, isAllAllow.getNeedSchedule());//7   3  6  6  11
@@ -1028,8 +1028,9 @@ public class ScheduleService {
 		int days = order.getProduct().getDays();
 
 		int duration = (int) order.getProduct().getDuration();
-		Calendar cal = DateUtil.newCalendar();
+		Calendar cal = DateUtil.newCalendar();   
 		cal.setTime(start);
+		log.info("needSchedule:"+needSchedule);
 		boolean isEmpty = needSchedule.isEmpty();
 		//临时变量 播放数次
 		for (int i = 0; i < days; i++) {
