@@ -43,11 +43,39 @@
 }
 </style>
 <script type="text/javascript">
+function checkEndTime(){  
+    var startTime=$("#day").val();  
+    var start=new Date(startTime.replace("-", "/").replace("-", "/"));  
+    var endTime=$("#end").val();  
+    var end=new Date(endTime.replace("-", "/").replace("-", "/"));  
+    if(end<start){  
+        return false;  
+    }  
+    return true;  
+}  
     $(function(){
             $("#day").val(<#if from??>'${from}'<#else>$.format.date(new Date(), 'yyyy-MM-dd')</#if>);
-
+            var d =new Date($('#day').val());
+            alert(d);
+            var endD = new Date();
+            alert($.format.date((d.getTime() + 10*24*60*60*1000), 'yyyy-MM-dd'));
+            $("#end").val(<#if from??>'${from}'<#else>$.format.date((d.getTime() + 10*24*60*60*1000), 'yyyy-MM-dd')</#if>);
         $("#day").change(function() {
-            $(location).attr('href', "report?from=" + $("#day").val());
+        	if(!checkEndTime()){
+        		 layer.msg("结束时间必须晚于开始时间！");
+        		 return;
+        	}else{
+            	$(location).attr('href', "report?from=" + $("#day").val());
+        	}
+	    });
+        
+        $("#end").change(function() {
+        	if(!checkEndTime()){
+        		layer.msg("结束时间必须晚于开始时间！");  
+        		return;
+        	}else{
+                $(location).attr('href', "report?from=" + $("#end").val());
+        	}
         });
     });
 
@@ -150,13 +178,24 @@
 	-->
 	<div class="withdraw-title">
 		剩余时段
-
+		
 		<div class="report-toolbar">
-
+		<span>
+		结束时间：
+		</span>
+			<input class="ui-input ui-input-mini datepicker" type="text"
+				name="end" id="end" data-is="isAmount isEnough" autocomplete="off"
+				disableautocomplete="">
+		</div>
+		<div class="report-toolbar">
+		<span>
+		开始时间：
+		</span>
 			<input class="ui-input ui-input-mini datepicker" type="text"
 				name="day" id="day" data-is="isAmount isEnough" autocomplete="off"
 				disableautocomplete="">
 		</div>
+		
 
 	</div>
 
