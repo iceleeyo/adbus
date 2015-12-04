@@ -408,9 +408,10 @@ public class ScheduleService {
 	 * 获取剩余时段表，不获取排期
 	 * @param from inclusive
 	 */
-	public List<Box> getBoxes(Date from, int days) {
+	public List<Box> getBoxes(Date from, int days,Date end) {
 		from = DateUtil.trimDate(from);
 		Date to = DateUtils.addDays(from, days);
+		to =end;
 		BoxExample example = new BoxExample();
 		example.createCriteria().andDayGreaterThanOrEqualTo(from).andDayLessThan(to);
 		return boxMapper.selectByExample(example);
