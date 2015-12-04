@@ -204,6 +204,9 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 				if(item.imgurl!=''  &&   typeof(item.imgurl)!= "undefined"){
 					image ="<img src="+pathUrl+"/upload_temp/"+item.imgurl+" height=\"66\" width=\"100\"/>";	
 				}
+				else{
+					image ="<img src="+"/index_img/wp1_1.jpg" + " height=\"66\" width=\"100\"/>";
+				}
 				$("#productList").append(
 						"<div class=\"cont\">"+
 						"<div class=\"activity inline-b\"><span><a href='"+pathUrl+"/m/public_detail/"+item.id+"'>"+item.name.substring(0,10)+"</a></span>&nbsp;&nbsp;"+item.days+"天</div>"+
