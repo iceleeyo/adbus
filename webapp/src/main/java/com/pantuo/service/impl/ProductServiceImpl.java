@@ -36,6 +36,7 @@ import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.BusOrderDetailV2Repository;
 import com.pantuo.dao.BusOrderV2Repository;
+import com.pantuo.dao.CardBoxRepository;
 import com.pantuo.dao.CpdRepository;
 import com.pantuo.dao.ProductRepository;
 import com.pantuo.dao.ProductTagRepository;
@@ -43,12 +44,14 @@ import com.pantuo.dao.ProductV2Repository;
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaBusOrderV2;
 import com.pantuo.dao.pojo.JpaBusline;
+import com.pantuo.dao.pojo.JpaCardBoxMedia;
 import com.pantuo.dao.pojo.JpaCpd;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProduct.FrontShow;
 import com.pantuo.dao.pojo.JpaProductV2;
 import com.pantuo.dao.pojo.QJpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.QJpaBusOrderV2;
+import com.pantuo.dao.pojo.QJpaCardBoxMedia;
 import com.pantuo.dao.pojo.QJpaProduct;
 import com.pantuo.dao.pojo.QJpaProductV2;
 import com.pantuo.mybatis.domain.BusOrderDetailV2;
@@ -69,6 +72,7 @@ import com.pantuo.service.BusService;
 import com.pantuo.service.ProductService;
 import com.pantuo.simulate.ProductProcessCount;
 import com.pantuo.util.BusinessException;
+import com.pantuo.util.CardUtil;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.ProductOrderCount;
@@ -327,6 +331,9 @@ public class ProductServiceImpl implements ProductService {
 				try {
 					String jsonString = t.writeValueAsString(survey);
 					product.setJsonString(jsonString);
+					if(null!=survey.getImg1_url()){
+						product.setImgurl(survey.getImg1_url());	
+					}
 				} catch (JsonGenerationException e) {
 					e.printStackTrace();
 				} catch (JsonMappingException e) {
@@ -816,6 +823,15 @@ public class ProductServiceImpl implements ProductService {
 			return new Pair<Boolean, String>(false,"该产品已有用户下单，不能编辑");
 		}
 		return new Pair<Boolean, String>(true,"操作成功");
+	}
+     @Autowired
+     CardBoxRepository cardBoxRepository;
+	@Override
+	public List<JpaCardBoxMedia> selectProByMedias(String meids) {
+		List<Integer> medisIds = CardUtil.parseIdsFromString(meids);
+		BooleanExpression query=QJpaCardBoxMedia.jpaCardBoxMedia.id.in(medisIds);
+		List<JpaCardBoxMedia> medias=(List<JpaCardBoxMedia>) cardBoxRepository.findAll(query);
+		return medias;
 	}
 	
 	

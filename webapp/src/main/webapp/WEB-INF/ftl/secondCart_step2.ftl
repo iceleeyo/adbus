@@ -78,9 +78,13 @@
 								</li>
 								<li class="td td-info">
 									<div class="td-inner">
-										<span> 时长：${item.product.duration}秒/次</span> <span
-											class="perio">频次：${item.product.playNumber}次/天</span> <span
-											class="perio">刊期：${item.product.days}天</span>
+										<span> 时长：${item.product.duration}秒/次</span> 
+										<span class="perio">频次：${item.product.playNumber}次/天</span> 
+										<span class="perio">刊期：${item.product.days}天</span>
+										<#if item.startTime?has_content>
+										<span class="perio">上播日期：${item.startTime?string("yyyy-MM-dd")}</span>
+										</#if>
+											
 									</div>
 								</li>
 								<li class="td td-price">
@@ -249,7 +253,7 @@
 	    		area: ['800px', '600px'], 
 	    		content:''
 				   +' '
-				   +'<iframe  style="width:99%;height:90%" src="${rc.contextPath}/user/contract_templete"/><div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraworder" class="block-btn" onclick="payment();" value="确认" style="margin:10px 0px -10px 45%;"> </div>'
+				   +'<iframe  style="width:99%;height:90%" src="${rc.contextPath}/user/contract_templete?meids=${meids!''}"/><div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraworder" class="block-btn" onclick="payment();" value="确认" style="margin:10px 0px -10px 45%;"> </div>'
 				});
 		}
 		function payment(){

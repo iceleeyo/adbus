@@ -289,11 +289,14 @@ public class CardSelect{
 			Principal principal) {
 		return scheduleService.checkForWeb(start, productId, city, request, principal);
 	}
+	@RequestMapping(value = "/updateCardMeida", method = RequestMethod.GET)
+	@ResponseBody
+	public boolean updateCardMeida(String start, int mediaId,
+			@RequestParam(value = "city", required = false, defaultValue = "1") int city, HttpServletRequest request,
+			Principal principal) {
+		return cardService.updateCardMeida(start,mediaId);
+	}
 	
-	
-	
-
-
 	@RequestMapping(value = "/buy/{type}",produces = "text/html;charset=utf-8")
 	public String saveCardBoxMedia(Model model,@PathVariable("type") String type,
 			@CookieValue(value = "city", defaultValue = "-1") int cityjpa, Principal principal,

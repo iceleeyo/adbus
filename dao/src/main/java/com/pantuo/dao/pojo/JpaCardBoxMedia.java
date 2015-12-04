@@ -1,5 +1,7 @@
 package com.pantuo.dao.pojo;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,11 +27,20 @@ public class JpaCardBoxMedia extends CityEntity {
 	private double price = 0;//价格
 	private int isConfirm = 0;//1代表已确认
 	private double totalprice = 0;//价格
+	private Date startTime;
 	
 	private long seriaNum;//表单序列号
 
 	public int getId() {
 		return id;
+	}
+
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
 	}
 
 	public void setId(int id) {

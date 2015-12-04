@@ -105,7 +105,7 @@
 									<p class="rec-line">上播日期： <input style="width:80px"
 										class="ui-input datepicker validate[required,custom[date] "
 										type="text" id="st_${item.product.id}" data-is="isAmount isEnough"
-										autocomplete="off" onchange="dateInput('st_${item.product.id}',${item.product.id})">
+										autocomplete="off" onchange="dateInput('st_${item.product.id}',${item.product.id}),updateCardMeida('st_${item.product.id}',${item.id})">
 										</p>
 										<span class="btn-edit"></span>
 									</div>

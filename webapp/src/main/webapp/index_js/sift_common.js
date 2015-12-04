@@ -57,6 +57,20 @@ function checkTime(start,prouctId){
 				}
 		 }}, "text");
 }
+function updateCardMeida(start,carmediaId){
+	var forceInput = $("#"+start).val();
+	$.ajax({
+		url : "/updateCardMeida",
+		data:{"start":  forceInput, "mediaId":carmediaId},
+		type : "GET",
+		success : function(data) { 
+			  if(!data){
+				  layer.alert("操作数据库异常", {icon: 5}); 
+				  
+			  }
+		}
+		}, "text");
+}
 
 
 function dateInput(inputId,prouctId){

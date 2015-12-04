@@ -242,22 +242,25 @@
 		<span class="s7">1. </span><span>发布内容</span>
 	</p>
 	<p class="p2 table-c">
+	<#if cardBoxMedis??>
+	<#list cardBoxMedis as item>
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tr>
-			<td width="15%">广告/节目内容名称</td><td COLSPAN=3 ></td>
-			<td width="15%">发布时间/刊期</td><td COLSPAN=3 ></td>
+			<td width="15%">套餐名称</td><td COLSPAN=3 >${item.product.name}</td>
+			<td width="15%">刊期(天)</td><td COLSPAN=3 >${item.product.days}</td>
 		</tr>
 		<tr>
-			<td width="15%">广告/节目类型</td><td ></td>
-			<td width="15%">广告/节目长度</td><td ></td>
-			<td width="15%">播出频次</td><td ></td>
-			<td width="15%">数量</td><td ></td>			
+			<td width="15%">媒体类型</td><td >${item.product.type.typeName}</td>
+			<td width="15%">广告时长（秒）</td><td >${item.product.duration}</td>
+			<td width="15%">播出频次（次/天）</td><td >${item.product.playNumber}</td>
+			<td width="15%">数量</td><td >${item.needCount}</td>			
 		</tr>
 		<tr>
-			<td COLSPAN=2>发布费用</td><td COLSPAN=6></td>
+			<td COLSPAN=2>总价（元）</td><td COLSPAN=6>#{item.totalprice;m2M2}</td>
 		</tr>
-		</table>
-		
+		</table><br>
+	</#list>
+	</#if>
 	</p>
 	
 	<p class="p7">

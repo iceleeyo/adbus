@@ -739,6 +739,11 @@ public class CardServiceImpl implements CardService {
 			order.setCreator(jpaCardBoxMedia.getUserId());
 			order.setProduct(jpaCardBoxMedia.getProduct());
 			order.setSuppliesId(1);
+			if(jpaCardBoxMedia.getStartTime()!=null){
+				Date eDate=DateUtil.dateAdd(jpaCardBoxMedia.getStartTime(), jpaCardBoxMedia.getProduct().getDays());
+				order.setStartTime(jpaCardBoxMedia.getStartTime());
+				order.setEndTime(eDate);
+			}
 			if(StringUtils.isNotBlank(startdate1)){
 				try {
 					Date sDate=DateUtil.longDf.get().parse(startdate1);
@@ -1044,6 +1049,25 @@ public class CardServiceImpl implements CardService {
 			log.error("getJsonfromJsonStr,{}", e);
 		}
 		return s;
+	}
+
+	@Override
+	public boolean updateCardMeida(String start, int mediaId) {
+		  CardboxMedia cardboxMedia=cardMapper.selectByPrimaryKey(mediaId);
+		  if(!StringUtils.isNotBlank(start) ||cardboxMedia==null ){
+			  return false;
+		  }
+		try {
+			Date sDate=DateUtil.longDf.get().parse(start);
+			cardboxMedia.setStartTime(sDate);
+			int a=cardMapper.updateByPrimaryKey(cardboxMedia);
+			if(a>0){
+				return true;
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 }

@@ -49,6 +49,13 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 		var iscompare = $('input:radio[name="iscompare"]:checked').val();
 		var startDate1 = $("#startDate1").val();
 		var biddingDate1 = $("#biddingDate1").val();
+		var firstNumber=$("#firstNumber").val();
+		if(firstNumber>0){
+		  if($("#duration").val()>30){
+		       jDialog.Alert("有首播时广告时长不能大于30秒");
+				return false;
+		  }
+		}
 		if (iscompare == 1) {
 			if (biddingDate1 < startDate1) {
 				jDialog.Alert("截止时间不能小于开拍时间");
@@ -130,7 +137,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>时长（秒）：</label>
 					<input class="ui-input validate[required,integer,min[5],max[180]]"
 						onkeyup="value=value.replace(/[^\d]/g,'')"
-						value="<#if prod??>${prod.duration!''}<#else>5</#if>"
+						value="<#if prod??>${prod.duration!''}<#else>15</#if>"
 						name="duration" id="duration" data-is="isAmount isEnough"
 						autocomplete="off" disableautocomplete="" placeholder="5-180秒">
 					<p class="ui-term-placeholder"></p>
@@ -141,30 +148,21 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>单日播放次数：</label>
 					<input class="ui-input validate[required,integer,min[1],max[100]"
 						onkeyup="value=value.replace(/[^\d.]/g,'')" type="text"
-						value="<#if prod??>${prod.playNumber!''}<#else>2</#if>"
+						value="<#if prod??>${prod.playNumber!''}<#else>24</#if>"
 						name="playNumber" id="playNumber" data-is="isAmount isEnough"
 						autocomplete="off" disableautocomplete="" placeholder="1-100次">
 				</div>
 
-				
-				<div class="ui-form-item toggle bodyToggle">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>线路级别：</label>
-					<select class="ui-input" name="lineLevel" id="lineLevel">
-						<#if lineLevels??> <#list lineLevels as level>
-						<option value="${level.name()}"<#if (prod?? &&
-							prod.lineLevel ==
-							level.name())>selected="selected"</#if>>${level.nameStr}</option> </#list>
-						</#if>
-					</select>
+				<div class="ui-form-item toggle videoToggle">
+					<label class="ui-label mt10">首播次数：</label>
+					<input class="ui-input validate[integer,min[0],max[30]"
+						onkeyup="value=value.replace(/[^\d.]/g,'')"
+						value="<#if prod??>${prod.firstNumber!''}<#else>0</#if>"
+						name="firstNumber" id="firstNumber" data-is="isAmount isEnough"
+						autocomplete="off" disableautocomplete="" placeholder="0-30次">
 				</div>
-				<div class="ui-form-item toggle bodyToggle">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>巴士数量：</label>
-					<input class="ui-input validate[required,number,min[1]"
-						type="number"
-						value="<#if prod??>${prod.busNumber!''}<#else>0</#if>"
-						name="busNumber" id="busNumber" data-is="isAmount isEnough"
-						autocomplete="off" disableautocomplete="">
-				</div>
+				<input type="hidden" value="0.1" name="hotRatio"/>
+				<input type="hidden" value="0" name="lastNumber"/>
 				<div class="ui-form-item ">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>
 						<span class="toggle videoToggle imageToggle infoToggle ">套餐播放天数：</span>
@@ -188,17 +186,6 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 						disableautocomplete="">
 				</div>
 
-
-
-
-				<div class="ui-form-item toggle bodyToggle">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>制作费：</label>
-					<input class="ui-input validate[required,number,min[1]"
-						type="number"
-						value="<#if prod??>${prod.produceCost!''}<#else>0</#if>"
-						name="produceCost" id="produceCost" data-is="isAmount isEnough"
-						autocomplete="off" disableautocomplete="">
-				</div>
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required"></span>产品定向：</label>
 					<span> <input id="exclusiveUser" name="exclusiveUser"
@@ -206,7 +193,10 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 					</span>
 				</div>
 
-				
+				<div class="ui-form-item">
+					<label class="ui-label mt10">套餐描述：</label>
+					<textarea rows="4" cols="40" style="resize: none;" name="remarks"><#if prod?exists && prod.remarks?has_content >${prod.remarks!''}</#if></textarea>
+				</div>
 				<div
 					class="ui-form-item toggle videoToggle imageToggle infoToggle bodyToggle">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>是否为竞价套餐：</label>
@@ -218,32 +208,6 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 						<input type="radio" name="iscompare" value="0"
 							onchange="hideboth()" checked="checked">否
 					</div>
-				</div>
-				
-				<div class="ui-form-item toggle videoToggle">
-					<label class="ui-label mt10">首播次数：</label>
-					<input class="ui-input validate[integer,min[0],max[30]"
-						onkeyup="value=value.replace(/[^\d.]/g,'')"
-						value="<#if prod??>${prod.firstNumber!''}<#else>0</#if>"
-						name="firstNumber" id="firstNumber" data-is="isAmount isEnough"
-						autocomplete="off" disableautocomplete="" placeholder="0-30次">
-				</div>
-				<div class="ui-form-item toggle videoToggle">
-					<label class="ui-label mt10">末播次数：</label>
-					<input class="ui-input validate[integer,min[0],max[30]"
-						onkeyup="value=value.replace(/[^\d.]/g,'')"
-						value="<#if prod??>${prod.lastNumber!''}<#else>0</#if>"
-						name="lastNumber" id="lastNumber" data-is="isAmount isEnough"
-						autocomplete="off" disableautocomplete="" placeholder="0-30次">
-				</div>
-				<div class="ui-form-item toggle videoToggle">
-					<label class="ui-label mt10">高峰时段占比：</label>
-					<input class="ui-input validate[number,min[0],max[1]"
-						onkeyup="value=value.replace(/[^\d.]/g,'')"
-						value="<#if prod??>${prod.hotRatio!''}<#else>0.1</#if>"
-						name="hotRatio" id="hotRatio" data-is="isAmount isEnough"
-						autocomplete="off" disableautocomplete=""
-						placeholder="0-1之间的小数，例如：0.2表示高峰占比20%。">
 				</div>
 
 
@@ -282,10 +246,6 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 			<div class="inputs_right">
 
 				<div class="ui-form-item">
-					<label class="ui-label mt10">套餐描述：</label>
-					<textarea rows="3" cols="40" style="resize: none;" name="remarks"><#if prod?exists && prod.remarks?has_content >${prod.remarks!''}</#if></textarea>
-				</div>
-				<div class="ui-form-item">
 					<label class="ui-label mt10">媒体情况：</label> 媒体位置&nbsp;&nbsp;<input
 						style="width: 250px;" class="ui-input" id="exclusiveUser" name="locationstr"
 						value="<#if jsonView??>${jsonView.locationstr!''}</#if>"
@@ -311,7 +271,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 
 				<div class="ui-form-item">
 					<label class="ui-label mt10">产品搜索标签：</label>
-					<textarea rows="4" cols="40" style="resize: none;" name="tags"
+					<textarea rows="6" cols="40" style="resize: none;" name="tags"
 						placeholder="用于产品搜索，可以输入多个，每行一个标签。"><#if prod?exists && prod.tags?has_content >${prod.tags!''}</#if></textarea>
 				</div>
 			</div>
@@ -335,7 +295,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 		<input id="intro4_url" name="intro4_url" type="hidden"
 			value="<#if jsonView?? && jsonView.intro4_url?has_content>${jsonView.intro4_url}</#if>" />
 		<div class="widthdrawBtBox">
-			<input type="submit" onclick="check_size()" class="block-btn"
+			<input type="button" id="submit" onclick="sub2()" class="block-btn"
 				value="提交产品"> <input type="button" id="subWithdraw"
 				class="block-btn" onclick="showdoc();" value="上传产品图片">
 		</div>

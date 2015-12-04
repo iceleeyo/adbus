@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.pojo.BaseEntity;
+import com.pantuo.dao.pojo.JpaCardBoxMedia;
 import com.pantuo.dao.pojo.JpaFunction;
 import com.pantuo.dao.pojo.JpaInvoice;
 import com.pantuo.dao.pojo.JpaProduct;
@@ -213,6 +214,7 @@ public class UserManagerController {
 	public String contract_templete(Model model,Principal principal,
 			@RequestParam(value="orderid" ,required=false, defaultValue ="0") int orderid,
 			@RequestParam(value="productid" ,required=false, defaultValue ="0") int productid,
+			@RequestParam(value = "meids", required = false) String meids,
 			HttpServletRequest request,HttpServletResponse response) {
 		response.setHeader("X-Frame-Options", "SAMEORIGIN");
 		if(orderid>0){
@@ -232,8 +234,12 @@ public class UserManagerController {
 		}else{
 			UserDetail userDetail = userService.findByUsername(Request.getUserId(principal));
 			JpaProduct view =  productService.findById(productid);
-			model.addAttribute("product", view);
+			if(meids!=null && meids!=""){
+				List<JpaCardBoxMedia> cardBoxMedis=productService.selectProByMedias(meids);
+				model.addAttribute("cardBoxMedis", cardBoxMedis);
+			}
 			model.addAttribute("userDetail", userDetail);
+			model.addAttribute("product", view);
 		}
 		return "contract_templete";
 	}

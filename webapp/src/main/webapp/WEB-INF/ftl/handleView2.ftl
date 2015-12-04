@@ -4,7 +4,7 @@
 "template/pickBuses.ftl" as pickBuses> <@frame.html title="订单办理"
 js=["js/nano.js","js/highslide/highslide-full.js",
 "js/video-js/video.js", "js/video-js/lang/zh-CN.js",
-"js/jquery-ui/jquery-ui.min.js",
+"js/jquery-ui/jquery-ui.min.js","index_js/sift_common.js",
 "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
 "js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer/layer.js","js/progressbar.js","js/jquery-dateFormat.js"
 ,"js/ajax-pushlet-client.js"
@@ -965,11 +965,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 				<TR>
 					<TH>开播日期</TH>
 					<TD colspan=3>
-					<#if orderview.order.startTime?has_content>
-					<#setting date_format="yyyy-MM-dd HH:mm:ss"> ${(orderview.order.startTime)!''}
-					<#else>
-                    <input class="ui-input datepicker validate[required,custom[date],past[#upDate1]]" type="text"  value="" id="startdate1" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> 						
-					 </#if>	
+                    <input class="ui-input datepicker validate[required,custom[date],past[#upDate1]]" type="text"  value="<#if orderview.order.startTime?has_content>${(orderview.order.startTime)?string("yyyy-MM-dd")}</#if>" id="startdate1" onchange="dateInput('startdate1',${orderview.order.product.id})"; data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> 						
 						</TD>
 				</TR>
 				<TR>
@@ -1471,7 +1467,7 @@ $(document).ready(function(){
 
 
 
-
+<#if activityId == "generateSchedule">
 
 
 <script type="text/javascript">  
@@ -1596,7 +1592,7 @@ $(document).ready(function(){
 </script>  
     
     
-    
+  </#if>  
     
     
 

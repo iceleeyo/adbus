@@ -11,6 +11,7 @@ import scala.collection.generic.BitOperations.Int;
 
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaBusOrderV2;
+import com.pantuo.dao.pojo.JpaCardBoxMedia;
 import com.pantuo.dao.pojo.JpaCpd;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProduct.FrontShow;
@@ -84,5 +85,6 @@ public interface ProductService {
 	Pair<Boolean, String> changeProV2Stats(int proId, String enable);
 	JpaCpd findCpdById(int id);
 	Pair<Boolean, String> checkProHadBought(int productId);
+	List<JpaCardBoxMedia> selectProByMedias(String meids);
 
 }

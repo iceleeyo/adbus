@@ -141,4 +141,6 @@ public interface CardService {
 	public MediaSurvey getJsonfromJsonStr(String jsonString);
 
 	public UserQualifiView getUserQualifiView(String qulifijsonstr);
+
+	public boolean updateCardMeida(String start, int mediaId);
 }
