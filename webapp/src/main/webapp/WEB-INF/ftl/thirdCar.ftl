@@ -65,24 +65,32 @@
 				<div class="detail">
 					<div class="detail-bd clearfix">
 						<div class="d-left">
-							<img id="big_img" src="${rc.contextPath}/index_img/wp1_1.jpg" width="360"
+							<#if jsonView?has_content > <img id="big_img"
+								src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}</#if>"
+								width="345" height="290">
+							<div class="sm-imgs">
+								<a><img
+									src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}</#if>"
+									height="65" width="65"></a> <a><img
+									src="<#if jsonView?? && jsonView.img2_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img2_url}</#if>"
+									height="65" width="65"></a> <a><img
+									src="<#if jsonView?? && jsonView.img3_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img3_url}</#if>"
+									height="65" width="65"></a> <a><img
+									src="<#if jsonView?? && jsonView.img4_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img4_url}</#if>"
+									height="65" width="65"></a>
+							</div>
+							<#else> <img id="big_img"
+								src="${rc.contextPath}/index_img/wp1_1.jpg" width="345"
 								height="290">
 							<div class="sm-imgs">
-								<a><img src="${rc.contextPath}/index_img/wp1_1.jpg" height="65" width="65"></a> 
-								<a><img src="${rc.contextPath}/index_img/wp1_1.jpg" height="65" width="65"> </a>
-								<a><img src="${rc.contextPath}/index_img/wp1_1.jpg" height="65" width="65"></a>
+								<a><img src="${rc.contextPath}/index_img/wp1_1.jpg"
+									height="65" width="65"></a> <a><img
+									src="${rc.contextPath}/index_img/wp1_1.jpg" height="65"
+									width="65"> </a> <a><img
+									src="${rc.contextPath}/index_img/wp1_1.jpg" height="65"
+									width="65"></a>
 							</div>
-							<div class="clearfix socials">
-								<ul class="social">
-									<li><a href="" class="qq icon"></a></li>
-									<li><a href="" class="wechat icon"></a></li>
-									<li><a href="" class="weibo icon"></a></li>
-									<li><a href="" class="email icon"></a></li>
-								</ul>
-								<div class="focus">
-									<a href="javascript:void(0)" class="btn btn-focus">+ 关注</a>
-								</div>
-							</div>
+							</#if>
 						</div>
 						<div class="d-right">
 							<dl class="d-item">

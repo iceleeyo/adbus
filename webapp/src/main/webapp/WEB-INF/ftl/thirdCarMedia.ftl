@@ -13,7 +13,7 @@
 	/> <!-- 头部结束 --> </header>
 	<div class="content">
 		<div class="side-nav">
-			
+
 			<div class="de-code">
 				<img src="${rc.contextPath}/index_img/pic1.png" height="100"
 					width="100">
@@ -50,19 +50,30 @@
 				<div class="detail">
 					<div class="detail-bd clearfix">
 						<div class="d-left">
-							<#if jsonView?has_content > 
-							<img id="big_img" src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}</#if>" width="345" height="290">
-							<div class="sm-imgs">
-								<a><img src="<#if jsonView?? && jsonView.img2_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img2_url}</#if>" height="65" width="65"></a> 
-								<a><img src="<#if jsonView?? && jsonView.img3_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img3_url}</#if>" height="65" width="65"></a> 
-								<a><img src="<#if jsonView?? && jsonView.img4_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img4_url}</#if>" height="65" width="65"></a> 
-							</div>
-							<#else> <img id="big_img" src="${rc.contextPath}/index_img/wp1_1.jpg"
+							<#if jsonView?has_content > <img id="big_img"
+								src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}</#if>"
 								width="345" height="290">
 							<div class="sm-imgs">
-								<a><img src="${rc.contextPath}/index_img/wp1_1.jpg" height="65" width="65"></a> 
-								<a><img src="${rc.contextPath}/index_img/wp1_1.jpg" height="65" width="65"> </a>
-								<a><img src="${rc.contextPath}/index_img/wp1_1.jpg" height="65" width="65"></a>
+								<a><img
+									src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}</#if>"
+									height="65" width="65"></a> <a><img
+									src="<#if jsonView?? && jsonView.img2_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img2_url}</#if>"
+									height="65" width="65"></a> <a><img
+									src="<#if jsonView?? && jsonView.img3_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img3_url}</#if>"
+									height="65" width="65"></a> <a><img
+									src="<#if jsonView?? && jsonView.img4_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img4_url}</#if>"
+									height="65" width="65"></a>
+							</div>
+							<#else> <img id="big_img"
+								src="${rc.contextPath}/index_img/wp1_1.jpg" width="345"
+								height="290">
+							<div class="sm-imgs">
+								<a><img src="${rc.contextPath}/index_img/wp1_1.jpg"
+									height="65" width="65"></a> <a><img
+									src="${rc.contextPath}/index_img/wp1_1.jpg" height="65"
+									width="65"> </a> <a><img
+									src="${rc.contextPath}/index_img/wp1_1.jpg" height="65"
+									width="65"></a>
 							</div>
 							</#if>
 							<div class="clearfix socials">
@@ -137,9 +148,7 @@
 						</div>
 					</div>
 
-					<div class="l-lau">
-						
-					</div>
+					<div class="l-lau"></div>
 
 					<div class="layout">
 						<div class="layout-top">
@@ -156,7 +165,7 @@
 							<div class="pic-table c-head clearfix">
 								<div class="tbhead">硬广套装</div>
 								<div class="tbbody">
-								<#if jsonView??>
+									<#if jsonView??>
 									<div class="tbtr">
 										<div class="tbtd tb-position tb-left">
 											<span class="icon icon-position"></span> <span>${jsonView.locationstr!''}</span>
@@ -190,19 +199,22 @@
 								<p class="head-zh">媒体优势</p>
 								<p class="icon-line"></p>
 							</div>
-							<img src="<#if  jsonView.intro1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro1_url}<#else>${rc.contextPath}/index_img/thirdVideo_2.png</#if>">
+							<img
+								src="<#if  jsonView.intro1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro1_url}<#else>${rc.contextPath}/index_img/thirdVideo_2.png</#if>">
 							<div class="c-head">
 								<p class="head-en">AUDIENCE ANALYSIS</p>
 								<p class="head-zh">受众分析</p>
 								<p class="icon-line"></p>
 							</div>
-							<img src="<#if  jsonView.intro2_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro2_url}<#else>${rc.contextPath}/index_img/thirdVideo_3.png</#if>">
+							<img
+								src="<#if  jsonView.intro2_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro2_url}<#else>${rc.contextPath}/index_img/thirdVideo_3.png</#if>">
 							<div class="c-head">
 								<p class="head-en">MEDIA REGIONAL</p>
 								<p class="head-zh">合作品牌</p>
 								<p class="icon-line"></p>
 							</div>
-							<img src="<#if  jsonView.intro3_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro3_url}<#else>${rc.contextPath}/index_img/thirdCar_4.png</#if>">
+							<img
+								src="<#if  jsonView.intro3_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro3_url}<#else>${rc.contextPath}/index_img/thirdCar_4.png</#if>">
 						</div>
 					</div>
 				</div>
@@ -210,16 +222,16 @@
 		</div>
 	</div>
 	<#include "/template/custom_service.ftl" />
-	
+
 	<script type="text/javascript"
 		src="${rc.contextPath}/index_js/jquery-1.11.1.min.js"></script>
 	<script src="${rc.contextPath}/index_js/unslider.min.js"></script>
 	<script src="${rc.contextPath}/js/datepicker.js"></script>
 	<script src="${rc.contextPath}/js/jquery.datepicker.region.cn.js"></script>
 	<script src="${rc.contextPath}/js/jquery-ui/jquery-ui.js"></script>
-	
-		<script src="${rc.contextPath}/js/jquery-dateFormat.js"></script>
-		
+
+	<script src="${rc.contextPath}/js/jquery-dateFormat.js"></script>
+
 	<script type="text/javascript">
 		  $(document).ready(function() {
 		  $("#kanqi li").click(function(){
