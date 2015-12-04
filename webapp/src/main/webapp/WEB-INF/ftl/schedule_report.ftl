@@ -43,38 +43,48 @@
 }
 </style>
 <script type="text/javascript">
+
+function getDateDiff(startDate,endDate){  
+	var startTime = new Date(startDate);     
+	var endTime = new Date(endDate);     
+	var days = (startTime - endTime)/(1000*60*60*24);     
+	return  days;    
+}
+
+
 function checkEndTime(){  
     var startTime=$("#day").val();  
     var start=new Date(startTime.replace("-", "/").replace("-", "/"));  
     var endTime=$("#end").val();  
     var end=new Date(endTime.replace("-", "/").replace("-", "/"));  
     if(end<start){  
+    	 layer.msg("结束时间必须晚于开始时间！");
         return false;  
     }  
+    var t=getDateDiff(end,start);
+    if(t>60){
+   		layer.msg("查询范围过大,暂限定60天！");
+        return false;
+    }
     return true;  
 }  
     $(function(){
             $("#day").val(<#if from??>'${from}'<#else>$.format.date(new Date(), 'yyyy-MM-dd')</#if>);
-            var d =new Date($('#day').val());
-            alert(d);
             var endD = new Date();
-            alert($.format.date((d.getTime() + 10*24*60*60*1000), 'yyyy-MM-dd'));
-            $("#end").val(<#if from??>'${from}'<#else>$.format.date((d.getTime() + 10*24*60*60*1000), 'yyyy-MM-dd')</#if>);
+            $("#end").val(<#if end??>'${end}'<#else>$.format.date((d.getTime() + 10*24*60*60*1000), 'yyyy-MM-dd')</#if>);
         $("#day").change(function() {
         	if(!checkEndTime()){
-        		 layer.msg("结束时间必须晚于开始时间！");
         		 return;
         	}else{
-            	$(location).attr('href', "report?from=" + $("#day").val());
+            	$(location).attr('href', "report?from=" + $("#day").val() +"&end="+ $("#end").val()      );
         	}
 	    });
         
         $("#end").change(function() {
         	if(!checkEndTime()){
-        		layer.msg("结束时间必须晚于开始时间！");  
         		return;
         	}else{
-                $(location).attr('href', "report?from=" + $("#end").val());
+                $(location).attr('href',  "report?from=" + $("#day").val() +"&end="+ $("#end").val()   );
         	}
         });
     });
@@ -89,13 +99,14 @@ function checkEndTime(){
             "ordering": false,
             "serverSide": true,
             "ajax": {
-                type: "GET",
+                type: "POST",
                 url: "${rc.contextPath}/schedule/box-ajax-list",
                 data: function(d) {
                     return $.extend( {}, d, {
                         "filter[name]" : $('#name').val(),
                         "filter[from]" : "${from}",
-                        "filter[days]" : "${days}",
+                         "filter[days]" : "${days}",
+                        "filter[end]" : "${end}",
                         "filter[type]" : "${type}"
                     } );
                 },
@@ -124,8 +135,8 @@ function checkEndTime(){
                     "render" : function(data, type, row, meta) {
                         var freePer = row.boxes['${d}'] ? (row.boxes['${d}'].remain * 100 / row.boxes['${d}'].size) : 100;
                         return (row.boxes['${d}'] ? row.boxes['${d}'].remainStr : row.slot.durationStr) +
-                                '<span class="per-occupied" style="width:' + (100-freePer) + '%"></span>' +
-                                '<span class="per-free" style="width:' + freePer + '%"></span>';
+                                '<span class="per-free" style="width:' + (100-freePer) + '%"></span>' +
+                                '<span class="per-occupied" style="width:' + freePer + '%"></span>';
                 }},
     </#list>
             ],
