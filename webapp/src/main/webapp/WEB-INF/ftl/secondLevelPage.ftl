@@ -179,7 +179,7 @@ function tocard(pathurl){
 								<#if prod.product.imgurl?has_content > <img
 									src="${rc.contextPath}/upload_temp/${prod.product.imgurl}"
 									height="100" width="100"> <#else> <img
-									src="index_img/wp1_1.jpg" height="100" width="100">
+									src="index_img/exp1.jpg" height="100" width="100">
 								</#if>
 
 								<div class="cost-box">
