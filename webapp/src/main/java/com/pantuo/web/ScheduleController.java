@@ -410,9 +410,10 @@ public class ScheduleController {
 	 */
 	@RequestMapping("report")
 	public String getScheduleReport(Model model, @RequestParam(value = "from", required = false) String fromStr,
+			@RequestParam(value = "end", required = false) String endStr,
 			@RequestParam(value = "days", required = false, defaultValue = "7") int days,
 			@RequestParam(value = "type", required = false, defaultValue = "video") JpaProduct.Type type) {
-		Date from = null;
+		Date from = null,end=null;
 
 		if (StringUtils.isNotBlank(fromStr)) {
 			try {
@@ -420,18 +421,29 @@ public class ScheduleController {
 			} catch (Exception e) {
 			}
 		}
+		if (StringUtils.isNotBlank(endStr)) {
+			try {
+				end = DateUtil.longDf.get().parse(endStr);
+			} catch (Exception e) {
+			}
+		}
 		if (from == null) {
 			from = new Date();
+		}
+		if (end == null) {
+			end = DateUtils.addDays(from, 10);
 		}
 
 		Date d = from;
 		List<String> dates = new ArrayList<String>();
 		dates.add(DateUtil.longDf.get().format(d));
-		for (int i = 0; i < days - 1; i++) {
+		
+		while(d.before(end)){
 			d = DateUtils.addDays(d, 1);
 			dates.add(DateUtil.longDf.get().format(d));
 		}
 		model.addAttribute("from", DateUtil.longDf.get().format(from));
+		model.addAttribute("end", DateUtil.longDf.get().format(end));
 		model.addAttribute("days", days);
 		model.addAttribute("dates", dates);
 		model.addAttribute("type", type);
@@ -452,6 +464,7 @@ public class ScheduleController {
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
 		String name = req.getFilter("name");
 		String fromStr = req.getFilter("from");
+		String endStr = req.getFilter("end");
 		int days = req.getFilterInt("days", 7);
 		JpaProduct.Type type = req.getFilter("type", JpaProduct.Type.class, JpaProduct.Type.video);
 
@@ -463,13 +476,20 @@ public class ScheduleController {
 		try {
 			Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(city, name, 0, 999, null, false);
 			Date from = DateUtil.longDf.get().parse(fromStr);
-			List<Box> boxes = service.getBoxes(from, days);
+			Date end = DateUtil.longDf.get().parse(endStr);
+			List<Box> boxes = service.getBoxes(from, days,end); 
 
 			//total row
 			long totalDuration = 0;
 			Map<String/*date*/, UiBox> totalBoxes = new HashMap<String, UiBox>();
 			Date d = from;
-			for (int i = 0; i < days; i++) {
+			/*for (int i = 0; i < days; i++) {
+				UiBox t = new UiBox();
+				t.setDay(d);
+				totalBoxes.put(DateUtil.longDf.get().format(d), t);
+				d = DateUtils.addDays(d, 1);
+			}*/
+			while(d.before(end)){
 				UiBox t = new UiBox();
 				t.setDay(d);
 				totalBoxes.put(DateUtil.longDf.get().format(d), t);
@@ -487,7 +507,7 @@ public class ScheduleController {
 
 			for (Box t : totalBoxes.values()) {
 				t.setSize(totalDuration);
-				t.setRemain(totalDuration);
+				t.setRemain(0L);
 			}
 
 			for (Box b : boxes) {
@@ -496,7 +516,9 @@ public class ScheduleController {
 					String key = r.addBox(b);
 					Box t = totalBoxes.get(key);
 					if (t != null) {
-						t.setRemain(t.getRemain() - (b.getSize() - b.getRemain()));
+						//System.out.println(key+"  " +t.getRemain() +" -- "+ );
+					//	t.setRemain(t.getRemain() - (b.getRemain()-30 + b.getFremain() ));
+					t.setRemain(t.getRemain()+ b.getRemain()-30 +b.getFremain());	
 					}
 				}
 
@@ -1393,7 +1415,11 @@ public class ScheduleController {
 		}
 
 		public String getRemainStr() {
-			return DateUtil.toShortStr(this.getRemain());
+		//	System.out.println(this.getDay() +" " +this.getSize() +" "+ getRemain() +" " +( getFremain()));
+			
+			int f= getFremain()==null?0:(30 - getFremain());
+			return DateUtil.toShortStr(this.getSize() - getRemain() + f);//
+		//	return DateUtil.toShortStr( getRemain() );//
 		}
 
 	}
