@@ -361,6 +361,8 @@
 				<#if UType != 'body'>
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/user/list"> 视频用户列表 </a></li>
+				<li class="pg-side-exp-item"><a class="side-exp-item-t"
+					href="${rc.contextPath}/user/adlist"> 广告主用户列表 </a></li>
 					</#if>
 				
 				</@security.authorize>

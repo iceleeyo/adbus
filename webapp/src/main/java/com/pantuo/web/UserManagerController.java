@@ -109,6 +109,13 @@ public class UserManagerController {
 		model.addAttribute("usertype", "screen");
 		return "user_list";
 	}
+	
+	@RequestMapping(value = "/adlist", method = { RequestMethod.GET })
+	public String useradlist(Model model) {
+		model.addAttribute("usertype", "pub");
+		return "user_adlist";
+	}
+	
 	@RequestMapping(value = "/bodyuserlist", method = { RequestMethod.GET })
 	public String bodyuserlist(Model model) {
 		model.addAttribute("usertype", "body");
