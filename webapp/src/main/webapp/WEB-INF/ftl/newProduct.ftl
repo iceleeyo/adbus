@@ -417,7 +417,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 				</form>
 			</div>
 			<div class="ui-form-item" id="file">
-				<label class="ui-label mt10"><span class="ui-form-required"></span>介绍图4</label>
+				<label class="ui-label mt10"><span class="ui-form-required"></span>其他介绍图</label>
 				<form id="intro4" method="post" enctype="multipart/form-data">
 					<img
 						src="<#if jsonView?? && jsonView.intro4_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro4_url}</#if>"
