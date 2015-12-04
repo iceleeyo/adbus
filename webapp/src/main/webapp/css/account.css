@@ -2016,7 +2016,6 @@
 
 .withdraw-wrap.color-white-bg.fn-clear {
 	margin-left: 0px;
-	
 }
 
 .withdraw-wrap.color-white-bg.fn-clear_blank {
@@ -2066,11 +2065,11 @@
 	padding: 0 5px 10px 200px
 }
 
-.inputs_left .ui-form-item{
+.inputs_left .ui-form-item {
 	padding: 0 5px 10px 210px
 }
 
-.inputs_right .ui-form-item{
+.inputs_right .ui-form-item {
 	padding: 0 5px 10px 230px
 }
 
@@ -3090,10 +3089,11 @@
 	margin-left: 15px;
 	color: #000
 }
+
 .uplan-detail-ul .con-title {
 	margin-left: 18px;
 	color: #392AAD;
-    font-weight: 600;	
+	font-weight: 600;
 }
 
 .progress-acco-div {
@@ -4133,4 +4133,14 @@
 .widthdrawBtBox {
 	clear: both;
 	text-align: center;
+}
+
+.report-toolbar span {
+	color: 000;
+	font-size: 14;
+}
+
+.report-toolbar .ui-input-mini{
+	margin-right: 10px;
+	width: 120px;
 }
