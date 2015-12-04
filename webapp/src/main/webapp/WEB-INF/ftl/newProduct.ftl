@@ -206,10 +206,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 					</span>
 				</div>
 
-				<div class="ui-form-item">
-					<label class="ui-label mt10">套餐描述：</label>
-					<textarea rows="4" cols="40" style="resize: none;" name="remarks"><#if prod?exists && prod.remarks?has_content >${prod.remarks!''}</#if></textarea>
-				</div>
+				
 				<div
 					class="ui-form-item toggle videoToggle imageToggle infoToggle bodyToggle">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>是否为竞价套餐：</label>
@@ -284,6 +281,10 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 
 			<div class="inputs_right">
 
+				<div class="ui-form-item">
+					<label class="ui-label mt10">套餐描述：</label>
+					<textarea rows="4" cols="40" style="resize: none;" name="remarks"><#if prod?exists && prod.remarks?has_content >${prod.remarks!''}</#if></textarea>
+				</div>
 				<div class="ui-form-item">
 					<label class="ui-label mt10">媒体情况：</label> 媒体位置&nbsp;&nbsp;<input
 						style="width: 250px;" class="ui-input" id="exclusiveUser" name="locationstr"
