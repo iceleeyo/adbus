@@ -205,7 +205,7 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 					image ="<img src="+pathUrl+"/upload_temp/"+item.imgurl+" height=\"66\" width=\"100\"/>";	
 				}
 				else{
-					image ="<img src="+"/index_img/wp1_1.jpg" + " height=\"66\" width=\"100\"/>";
+					image ="<img src="+"/index_img/exp1.jpg" + " height=\"66\" width=\"100\"/>";
 				}
 				$("#productList").append(
 						"<div class=\"cont\">"+
