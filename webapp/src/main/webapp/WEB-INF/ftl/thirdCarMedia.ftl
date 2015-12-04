@@ -65,14 +65,14 @@
 									height="65" width="65"></a>
 							</div>
 							<#else> <img id="big_img"
-								src="${rc.contextPath}/index_img/wp1_1.jpg" width="345"
+								src="${rc.contextPath}/index_img/exp1.jpg" width="345"
 								height="290">
 							<div class="sm-imgs">
-								<a><img src="${rc.contextPath}/index_img/wp1_1.jpg"
+								<a><img src="${rc.contextPath}/index_img/exp2.jpg"
 									height="65" width="65"></a> <a><img
-									src="${rc.contextPath}/index_img/wp1_1.jpg" height="65"
+									src="${rc.contextPath}/index_img/exp3.jpg" height="65"
 									width="65"> </a> <a><img
-									src="${rc.contextPath}/index_img/wp1_1.jpg" height="65"
+									src="${rc.contextPath}/index_img/exp1.jpg" height="65"
 									width="65"></a>
 							</div>
 							</#if>
