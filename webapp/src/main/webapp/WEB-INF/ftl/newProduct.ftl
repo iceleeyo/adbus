@@ -283,7 +283,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 
 				<div class="ui-form-item">
 					<label class="ui-label mt10">套餐描述：</label>
-					<textarea rows="4" cols="40" style="resize: none;" name="remarks"><#if prod?exists && prod.remarks?has_content >${prod.remarks!''}</#if></textarea>
+					<textarea rows="3" cols="40" style="resize: none;" name="remarks"><#if prod?exists && prod.remarks?has_content >${prod.remarks!''}</#if></textarea>
 				</div>
 				<div class="ui-form-item">
 					<label class="ui-label mt10">媒体情况：</label> 媒体位置&nbsp;&nbsp;<input
@@ -311,7 +311,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 
 				<div class="ui-form-item">
 					<label class="ui-label mt10">产品搜索标签：</label>
-					<textarea rows="6" cols="40" style="resize: none;" name="tags"
+					<textarea rows="4" cols="40" style="resize: none;" name="tags"
 						placeholder="用于产品搜索，可以输入多个，每行一个标签。"><#if prod?exists && prod.tags?has_content >${prod.tags!''}</#if></textarea>
 				</div>
 			</div>
