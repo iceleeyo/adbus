@@ -651,11 +651,6 @@ public class ScheduleService {
 
 		Map<Date, AtomicInteger> needSchedule;
 		
-		
-		
-		
-		
-
 		public String getMsg() {
 			return msg;
 		}
@@ -746,6 +741,25 @@ public class ScheduleService {
 
 		}
 
+	}
+	public class ScheduleContent{
+		public List<JpaGoods> gs;
+		public	Map<Integer, Box> boxEx;
+		public	JpaOrders order;
+		public Map<Date, List<Box>> boxMap;
+		public int numberPlayer;
+		public ScheduleProgressListener listener;
+		public ScheduleType type;
+		public ScheduleContent(List<JpaGoods> gs, Map<Integer, Box> boxEx, JpaOrders order,
+				Map<Date, List<Box>> boxMap, int numberPlayer, ScheduleProgressListener listener, ScheduleType type) {
+			this.gs = gs;
+			this.boxEx = boxEx;
+			this.order = order;
+			this.boxMap = boxMap;
+			this.numberPlayer = numberPlayer;
+			this.listener = listener;
+			this.type = type;
+		}
 	}
 
 	public String initAllBoxMemory() {
@@ -946,14 +960,18 @@ public class ScheduleService {
 				//首播排完了排非首播
 				playNum = order.getProduct().getPlayNumber() - order.getProduct().getFirstNumber();
 				if (playNum > 0) {
-					isAllAllow = scheduleNormal(gs, boxEx, order, tempMap, playNum, listener, ScheduleType.HASFRIST);
+					ScheduleContent command = new ScheduleContent(gs, boxEx, order, tempMap, playNum, listener,
+							ScheduleType.HASFRIST);
+					isAllAllow = scheduleNormal(command);
 				}
 			}
 		} else {
 			int playNum = order.getProduct().getPlayNumber();
 			//listener.update("开始常规时间段排期.");
 			//排非首播
-			isAllAllow = scheduleNormal(gs, boxEx, order, tempMap, playNum, listener, ScheduleType.ALLNORMAL);//5 2  5 
+			ScheduleContent command = new ScheduleContent(gs, boxEx, order, tempMap, playNum, listener,
+					ScheduleType.HASFRIST);
+			isAllAllow = scheduleNormal(command);//5 2  5 
 			if (!isAllAllow.isScheduled) {
 				isAllAllow = scheduleFirst(gs, boxEx, order, playNum, tempMap, isAllAllow.getNeedSchedule());//7   3  6  6  11
 			}
@@ -1093,13 +1111,15 @@ public class ScheduleService {
 	}
 
 	//排非首播
-	private SchedUltResult scheduleNormal(List<JpaGoods> gs, Map<Integer, Box> boxEx, JpaOrders order,
-			Map<Date, List<Box>> boxMap, int numberPlayer, ScheduleProgressListener listener, ScheduleType type) {
+	private SchedUltResult scheduleNormal(ScheduleContent command) {
 
-		Date start = order.getStartTime();
-		int days = order.getProduct().getDays();
+		//List<JpaGoods> gs , Map<Integer, Box> boxEx, JpaOrders order,
+		//Map<Date, List<Box>> boxMap, int numberPlayer, ScheduleProgressListener listener, ScheduleType type
+
+		Date start = command.order.getStartTime();
+		int days = command.order.getProduct().getDays();
 		Calendar cal = DateUtil.newCalendar();
-		int duration = (int) order.getProduct().getDuration();
+		int duration = (int) command.order.getProduct().getDuration();
 		SchedUltResult schedUltResult = new SchedUltResult(StringUtils.EMPTY, true, start, true);
 		cal.setTime(start);
 		//int _playerNumber = numberPlayer.get();
@@ -1108,29 +1128,29 @@ public class ScheduleService {
 			Date day = cal.getTime();
 			//	listener.update("开始检查 ["+DateUtil.longDf.get().format(day) +"] 库存情况.");
 			int k = 0;
-			List<Box> list2 = boxMap.get(day);
+			List<Box> list2 = command.boxMap.get(day);
 
 			//-------记录每天排了多少次
-			AtomicInteger dateCount = new AtomicInteger(numberPlayer);
+			AtomicInteger dateCount = new AtomicInteger(command.numberPlayer);
 			jiMap.put(day, dateCount);
 
-			for (int j = 0; j < numberPlayer; j++) {
+			for (int j = 0; j < command.numberPlayer; j++) {
 				Collections.sort(list2, NORMAL_COMPARATOR);
 				Box box = list2.get(0);
 				if (box.getSize() - box.getRemain() >= duration) {
 					JpaGoods goods = new JpaGoods();
-					goods.setOrder(order);
-					goods.setCity(order.getCity());
+					goods.setOrder(command.order);
+					goods.setCity(command.order.getCity());
 					goods.setCreated(new Date());
 					goods.setSize(duration);
 					goods.setInboxPosition(box.getRemain());
 					//-----
 					//goods.setBox(box);
-					JpaBox storeBox = getJpaBoxFromEntity(order, box);
+					JpaBox storeBox = getJpaBoxFromEntity(command.order, box);
 					goods.setBox(storeBox);
 					//--------
-					gs.add(goods);
-					boxEx.put(box.getId(), box);
+					command.gs.add(goods);
+					command.boxEx.put(box.getId(), box);
 
 					box.setRemain(box.getRemain() + duration);
 					box.setSort(box.getSort() - duration);
@@ -1139,11 +1159,12 @@ public class ScheduleService {
 					dateCount.decrementAndGet();
 				}
 			}
-			if (k < numberPlayer) {
-				if (ScheduleType.ALLNORMAL != type) {
-					return new SchedUltResult("可上刊库存:" + k + " 订单上刊次数" + numberPlayer, false, day, false);
+			if (k < command.numberPlayer) {
+				if (ScheduleType.ALLNORMAL != command.type) {
+					return new SchedUltResult("可上刊库存:" + k + " 订单上刊次数" + command.numberPlayer, false, day, false);
 				} else {
-					schedUltResult = new SchedUltResult("可上刊库存:" + k + " 订单上刊次数" + numberPlayer, false, day, false);
+					schedUltResult = new SchedUltResult("可上刊库存:" + k + " 订单上刊次数" + command.numberPlayer, false, day,
+							false);
 				}
 			}
 			cal.add(Calendar.DATE, 1);
