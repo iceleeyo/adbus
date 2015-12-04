@@ -29,8 +29,8 @@ function supDetail(data){
 
 			<li class="s-left f-iconli"><span class="s-left tt"><i
 					class="s-left ff-icon"></i>订单信息</span></li>
-			<li style="width: 1000px;"><SPAN>套餐名称：</SPAN><SPAN class="con-title"><a
-					class="layer-tips" tip="点击可查看套餐详细内容!"
+			<li style="width: 1000px;"><SPAN>套餐名称：</SPAN>
+			<SPAN class="con-title"><a class="layer-tips" tip="点击可查看套餐详细内容!"
 					onclick="showProductlayer('${rc.contextPath}',${prod.id});">${prod.name!''}</a></SPAN></li>
 			<#if !(cpdDetail?exists)>
 			<li style="width: 200px;"><SPAN>套餐价格：</SPAN><SPAN class="con"
@@ -49,16 +49,16 @@ function supDetail(data){
 				<#elseif priceTag == 1>
 				  #{(orderview.order.price)!'';m2M2}
 				<#elseif priceTag == 2>
-				   <a
-					class="layer-tips" tip="点击修改订单价格!"
+				   <a class="layer-tips" tip="点击修改订单价格!"
 					onclick="setOrderPrice('${rc.contextPath}/order/setOrderPrice',${orderview.order.id});">
 						<span id="prodPrice">#{(orderview.order.price)!'';m2M2}</span>
 				</a>
 				</#if>  
-			</SPAN><SPAN>元</SPAN></li> </#if> <#if cpdDetail?exists>
-			<li style="width: 200px;"><SPAN>套餐底价：</SPAN>${cpdDetail.saleprice!''}</li>
-			<li style="width: 200px;"><SPAN><b>成交价</b>：</SPAN><font
-				color='#ff9966'>${cpdDetail.comparePrice!''}</font></li> </#if>
+			</SPAN><SPAN>元</SPAN></li> </#if>
+			<#if cpdDetail?exists>
+				<li style="width: 200px;"><SPAN>套餐底价：</SPAN>${cpdDetail.saleprice!''}</li>
+				<li style="width: 200px;"><SPAN><b>成交价</b>：</SPAN><font color='#ff9966'>${cpdDetail.comparePrice!''}</font></li>
+			</#if>
 			<li style="width: 200px;"><SPAN>媒体类型：</SPAN><SPAN class="con">${prod.type.typeName!''}</SPAN></li>
 
 			<@security.authorize
@@ -67,8 +67,9 @@ function supDetail(data){
 					<a class="layer-tips" tip="点击查看下单用户信息!"
 					onclick="showOrderUserlayer('${rc.contextPath}', '${(orderview.order.creator)!''}');">
 						${(orderview.order.creator)!''}</a>
-			</SPAN></li> </@security.authorize> <@security.authorize
-			ifAnyGranted="advertiser"
+			</SPAN></li>
+			</@security.authorize> 
+			<@security.authorize ifAnyGranted="advertiser" 
 			ifNotGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 			<li style="width: 200px;"><SPAN>下单用户：</SPAN><SPAN class="con">${(orderview.order.creator)!''}</SPAN></li>
 			</@security.authorize>
@@ -82,8 +83,8 @@ function supDetail(data){
 					date_format="yyyy-MM-dd">${(orderview.order.endTime?date)!''}</SPAN></li>
 
 
-			<li style="width: 200px;"><SPAN>电子合同：</SPAN><SPAN class="con"><a
-					class="layer-tips" tip="点击可查看电子合同!"
+			<li style="width: 200px;"><SPAN>电子合同：</SPAN>
+				<SPAN class="con"><a class="layer-tips" tip="点击可查看电子合同!"
 					onclick="eleContract('${rc.contextPath}',${orderview.order.id!''});">查看</a></SPAN></li>
 
 			<#if (orderview.order.ordRemark!'')?length lt 38>
@@ -99,21 +100,20 @@ function supDetail(data){
 			</#if>
 
 
-			<li class="s-left f-iconli"><span class="s-left tt"><i
-					class="s-left ff-icon"></i>支付及发票</span></li> 
+			<li class="s-left f-iconli"><span class="s-left tt"><i class="s-left ff-icon"></i>支付及发票</span></li> 
 			<#if orderview.payTypeString?has_content>
 			<li style="width: 200px;"><SPAN>支付方式：</SPAN><SPAN class="con">${(orderview.payTypeString)!''}</SPAN></li>
 			<#if orderview.payTypeString?has_content && orderview.payTypeString=="关联合同">
 			<li style="width: 200px;"><SPAN>合同号：</SPAN><SPAN class="con">
-					<@security.authorize ifAnyGranted="ShibaFinancialManager"> <a
-					class="layer-tips" tip="点击可查看发票详细内容!"
-					onclick="contractdetail('${rc.contextPath}',${(orderview.order.contractId)!''});"
+					<@security.authorize ifAnyGranted="ShibaFinancialManager">
+					<a class="layer-tips" tip="点击可查看发票详细内容!" onclick="contractdetail('${rc.contextPath}',${(orderview.order.contractId)!''});"
 					href="javascript:void(0)">${(orderview.order.contractCode)!''}</a>
-					</@security.authorize> <@security.authorize
-					ifNotGranted="ShibaFinancialManager">
-					${(orderview.order.contractCode)!''} </@security.authorize>
+					</@security.authorize>
+					<@security.authorize ifNotGranted="ShibaFinancialManager">
+					${(orderview.order.contractCode)!''} 
+					</@security.authorize>
 			</SPAN></li>
-			 <#elseif orderview.payTypeString?has_content && orderview.payTypeString=="线上支付">
+			  <#elseif orderview.payTypeString?has_content && orderview.payTypeString=="线上支付">
 			     <li style="width: 200px;"><SPAN>流水号：</SPAN><SPAN class="con">123912800234</SPAN></li>
 			  </#if>
 			  <@security.authorize ifAnyGranted="advertiser,ShibaFinancialManager">
@@ -121,9 +121,9 @@ function supDetail(data){
 			      <#if suppliesView.payvouchers??>
 			      <a href="javascript:void(0)" class="operation" onclick="queryPayvoucher('${rc.contextPath}',${orderview.order.id!''});" >查看</a>
 			      <#else>
-			         无
+			               无
 			      </#if>
-			      </@security.authorize>
+			  </@security.authorize>
 			      </SPAN></li>
 			   </#if>
 			   <#if contract?? && contract.parentid!=0>
