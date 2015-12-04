@@ -159,9 +159,9 @@ public class UserService implements UserServiceInter {
 				if(u == UType.body){
 					query = (query == null ? q.utype.eq(UType.body) : query.and(q.utype.eq(UType.body)));
 				}else if(u==UType.screen){
-					query = (query == null ? q.utype.ne(UType.screen) : query.and(q.utype.ne(UType.screen)));
+					query = (query == null ? q.utype.eq(UType.screen) : query.and(q.utype.ne(UType.screen)));
 				}else if(u==UType.pub){
-					query = (query == null ? q.utype.ne(UType.pub) : query.and(q.utype.ne(UType.pub)));
+					query = (query == null ? q.utype.eq(UType.pub) : query.and(q.utype.ne(UType.pub)));
 				}
 				//query = (query == null ? q.utype.eq(u) : query.and(q.utype.eq(u)));
 				result = userRepo.findAll(query, p);
