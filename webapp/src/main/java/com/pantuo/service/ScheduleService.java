@@ -408,10 +408,11 @@ public class ScheduleService {
 	 * 获取剩余时段表，不获取排期
 	 * @param from inclusive
 	 */
-	public List<Box> getBoxes(Date from, int days,Date end) {
+	public List<Box> getBoxes(Date from, int days, Date end) {
 		from = DateUtil.trimDate(from);
 		Date to = DateUtils.addDays(from, days);
-		to =end;
+		to = end;
+		to = DateUtils.addDays(to, 1);
 		BoxExample example = new BoxExample();
 		example.createCriteria().andDayGreaterThanOrEqualTo(from).andDayLessThan(to);
 		return boxMapper.selectByExample(example);
@@ -650,7 +651,7 @@ public class ScheduleService {
 		boolean isScheduleOver = false;
 
 		Map<Date, AtomicInteger> needSchedule;
-		
+
 		public String getMsg() {
 			return msg;
 		}
@@ -742,14 +743,16 @@ public class ScheduleService {
 		}
 
 	}
-	public class ScheduleContent{
+
+	public class ScheduleContent {
 		public List<JpaGoods> gs;
-		public	Map<Integer, Box> boxEx;
-		public	JpaOrders order;
+		public Map<Integer, Box> boxEx;
+		public JpaOrders order;
 		public Map<Date, List<Box>> boxMap;
 		public int numberPlayer;
 		public ScheduleProgressListener listener;
 		public ScheduleType type;
+
 		public ScheduleContent(List<JpaGoods> gs, Map<Integer, Box> boxEx, JpaOrders order,
 				Map<Date, List<Box>> boxMap, int numberPlayer, ScheduleProgressListener listener, ScheduleType type) {
 			this.gs = gs;
@@ -1211,8 +1214,7 @@ public class ScheduleService {
 		}
 	};
 
-	
-	public  SchedUltResult checkForWeb(String start, int productId, int city, HttpServletRequest request,
+	public SchedUltResult checkForWeb(String start, int productId, int city, HttpServletRequest request,
 			Principal principal) {
 		Date startDate;
 		SchedUltResult r = null;
@@ -1249,8 +1251,7 @@ public class ScheduleService {
 		}
 		return r;
 	}
-	
-	
+
 	public SchedUltResult checkInventory(int id, String startdate1, HttpServletRequest request, Principal principal) {
 
 		ScheduleProgressListener listener = new ScheduleProgressListener(request.getSession(), principal,

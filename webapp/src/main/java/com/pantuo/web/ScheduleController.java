@@ -413,7 +413,7 @@ public class ScheduleController {
 			@RequestParam(value = "end", required = false) String endStr,
 			@RequestParam(value = "days", required = false, defaultValue = "7") int days,
 			@RequestParam(value = "type", required = false, defaultValue = "video") JpaProduct.Type type) {
-		Date from = null,end=null;
+		Date from = null, end = null;
 
 		if (StringUtils.isNotBlank(fromStr)) {
 			try {
@@ -437,8 +437,8 @@ public class ScheduleController {
 		Date d = from;
 		List<String> dates = new ArrayList<String>();
 		dates.add(DateUtil.longDf.get().format(d));
-		
-		while(d.before(end)){
+
+		while (d.before(end)) {
 			d = DateUtils.addDays(d, 1);
 			dates.add(DateUtil.longDf.get().format(d));
 		}
@@ -477,7 +477,7 @@ public class ScheduleController {
 			Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(city, name, 0, 999, null, false);
 			Date from = DateUtil.longDf.get().parse(fromStr);
 			Date end = DateUtil.longDf.get().parse(endStr);
-			List<Box> boxes = service.getBoxes(from, days,end); 
+			List<Box> boxes = service.getBoxes(from, days, end);
 
 			//total row
 			long totalDuration = 0;
@@ -489,7 +489,7 @@ public class ScheduleController {
 				totalBoxes.put(DateUtil.longDf.get().format(d), t);
 				d = DateUtils.addDays(d, 1);
 			}*/
-			while(d.before(end)){
+			while (!d.after(end)) {
 				UiBox t = new UiBox();
 				t.setDay(d);
 				totalBoxes.put(DateUtil.longDf.get().format(d), t);
@@ -517,8 +517,8 @@ public class ScheduleController {
 					Box t = totalBoxes.get(key);
 					if (t != null) {
 						//System.out.println(key+"  " +t.getRemain() +" -- "+ );
-					//	t.setRemain(t.getRemain() - (b.getRemain()-30 + b.getFremain() ));
-					t.setRemain(t.getRemain()+ b.getRemain()-30 +b.getFremain());	
+						//	t.setRemain(t.getRemain() - (b.getRemain()-30 + b.getFremain() ));
+						t.setRemain(t.getRemain() + b.getRemain() - 30 + b.getFremain());
 					}
 				}
 
@@ -1415,11 +1415,11 @@ public class ScheduleController {
 		}
 
 		public String getRemainStr() {
-		//	System.out.println(this.getDay() +" " +this.getSize() +" "+ getRemain() +" " +( getFremain()));
-			
-			int f= getFremain()==null?0:(30 - getFremain());
+			//	System.out.println(this.getDay() +" " +this.getSize() +" "+ getRemain() +" " +( getFremain()));
+
+			int f = getFremain() == null ? 0 : (30 - getFremain());
 			return DateUtil.toShortStr(this.getSize() - getRemain() + f);//
-		//	return DateUtil.toShortStr( getRemain() );//
+			//	return DateUtil.toShortStr( getRemain() );//
 		}
 
 	}
