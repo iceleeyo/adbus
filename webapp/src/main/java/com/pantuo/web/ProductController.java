@@ -214,6 +214,7 @@ public class ProductController {
 		JpaCpd jpaCpd = productId > 0 ? cpdService.queryOneCpdByPid(productId) : cpdService.queryOneCpdDetail(cpdid);
 		List<UserCpd> userCpdList = cpdService.queryLogByCpdId(cpdid);
 		JpaProduct prod = jpaCpd.getProduct();
+		productService.fillImg(prod);
 		model.addAttribute("prod", prod);
 		model.addAttribute("jpaCpd", jpaCpd);
 		model.addAttribute("userCpdList", userCpdList);

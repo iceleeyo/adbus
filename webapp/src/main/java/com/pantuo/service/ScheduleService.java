@@ -40,6 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -85,7 +86,8 @@ import com.pantuo.util.Schedule;
 import com.pantuo.vo.MediaInventory;
 import com.pantuo.vo.ScheduleView;
 import com.pantuo.vo.SortRequest;
-import com.pantuo.web.progress.ScheduleProgressListener;
+import com.pantuo.web.schedule.SchedUltResult;
+import com.pantuo.web.schedule.ScheduleProgressListener;
 import com.pantuo.web.view.SolitSortView;
 
 /**
@@ -120,6 +122,13 @@ public class ScheduleService {
 	private MailJob mailJob;
 	@Autowired
 	private GoodsSortMapper goodsSortMapper;
+	@Autowired
+	@Lazy
+	ScheduleAlgorithm scheduleAlgorithm;
+
+	@Autowired
+	@Lazy
+	ScheduleFristAlgorithm scheduleFristAlgorithm;
 
 	public static enum ScheduleType {
 		ALLNORMAL, HASFRIST;
@@ -640,110 +649,6 @@ public class ScheduleService {
 
 	}
 
-	public class SchedUltResult {
-
-		String reqType;
-		String msg;
-		boolean isScheduled;
-		Date notSchedultDay;
-		boolean isFrist;
-		boolean isLock = false;//是否有其他用户正在排期
-		boolean isScheduleOver = false;
-
-		Map<Date, AtomicInteger> needSchedule;
-
-		public String getMsg() {
-			return msg;
-		}
-
-		public void setMsg(String msg) {
-			this.msg = msg;
-		}
-
-		public boolean isScheduled() {
-			return isScheduled;
-		}
-
-		public void setScheduled(boolean isScheduled) {
-			this.isScheduled = isScheduled;
-		}
-
-		public Date getNotSchedultDay() {
-			return notSchedultDay;
-		}
-
-		public void setNotSchedultDay(Date notSchedultDay) {
-			this.notSchedultDay = notSchedultDay;
-		}
-
-		public boolean isFrist() {
-			return isFrist;
-		}
-
-		public void setFrist(boolean isFrist) {
-			this.isFrist = isFrist;
-		}
-
-		public SchedUltResult(String msg, boolean isScheduled, Date notSchedultDay, boolean isFrist) {
-			this.msg = msg;
-			this.isScheduled = isScheduled;
-			this.notSchedultDay = notSchedultDay;
-			this.isFrist = isFrist;
-		}
-
-		public boolean isLock() {
-			return isLock;
-		}
-
-		public void setLock(boolean isLock) {
-			this.isLock = isLock;
-		}
-
-		/**
-		 * @see java.lang.Object#toString()
-		 * @since pantuo 1.0-SNAPSHOT
-		 */
-		@Override
-		public String toString() {
-			return "SchedUltResult [reqType=" + reqType + ", msg=" + msg + ", isScheduled=" + isScheduled
-					+ ", notSchedultDay=" + notSchedultDay + ", isFrist=" + isFrist + "]";
-		}
-
-		public String getReqType() {
-			return reqType;
-		}
-
-		public void setReqType(String reqType) {
-			this.reqType = reqType;
-		}
-
-		public boolean isScheduleOver() {
-			return isScheduleOver;
-		}
-
-		public void setScheduleOver(boolean isScheduleOver) {
-			this.isScheduleOver = isScheduleOver;
-		}
-
-		public Map<Date, AtomicInteger> getNeedSchedule() {
-			return needSchedule;
-		}
-
-		public void setNeedSchedule(Map<Date, AtomicInteger> needSchedule) {
-			this.needSchedule = needSchedule;
-		}
-
-		public void debugMap() {
-			if (needSchedule != null) {
-				for (Map.Entry<Date, AtomicInteger> entry : needSchedule.entrySet()) {
-					log.info(entry.getKey() + " = " + entry.getValue().get());
-				}
-			}
-
-		}
-
-	}
-
 	public class ScheduleContent {
 		public List<JpaGoods> gs;
 		public Map<Integer, Box> boxEx;
@@ -762,7 +667,28 @@ public class ScheduleService {
 			this.numberPlayer = numberPlayer;
 			this.listener = listener;
 			this.type = type;
+			this.needSchedule = Collections.emptyMap();
 		}
+
+		Map<Date, AtomicInteger> needSchedule;
+
+		public Map<Date, AtomicInteger> getNeedSchedule() {
+			return needSchedule;
+		}
+
+		public void setNeedSchedule(Map<Date, AtomicInteger> needSchedule) {
+			this.needSchedule = needSchedule;
+		}
+
+		public void debugMap() {
+			if (needSchedule != null) {
+				for (Map.Entry<Date, AtomicInteger> entry : needSchedule.entrySet()) {
+					log.info(entry.getKey() + " = " + entry.getValue().get());
+				}
+			}
+
+		}
+
 	}
 
 	public String initAllBoxMemory() {
@@ -956,7 +882,10 @@ public class ScheduleService {
 			//listener.update("发现有首播排期需要.");
 			//如果有首播排首播
 			int playNum = order.getProduct().getFirstNumber();
-			isAllAllow = scheduleFirst(gs, boxEx, order, playNum, tempMap, EMPTY_MAP);
+
+			ScheduleContent command1 = new ScheduleContent(gs, boxEx, order, tempMap, playNum, listener,
+					ScheduleType.HASFRIST);
+			isAllAllow = scheduleFristAlgorithm.scheduleFrist(command1);// scheduleFirst(gs, boxEx, order, playNum, tempMap, EMPTY_MAP);
 			//listener.update("订单首播排期结束!");
 			//listener.update("开始常规时间段排期.");
 			if (isAllAllow.isScheduled) {
@@ -965,7 +894,7 @@ public class ScheduleService {
 				if (playNum > 0) {
 					ScheduleContent command = new ScheduleContent(gs, boxEx, order, tempMap, playNum, listener,
 							ScheduleType.HASFRIST);
-					isAllAllow = scheduleNormal(command);
+					isAllAllow = scheduleAlgorithm.scheduleNormal(command);
 				}
 			}
 		} else {
@@ -974,9 +903,10 @@ public class ScheduleService {
 			//排非首播
 			ScheduleContent command = new ScheduleContent(gs, boxEx, order, tempMap, playNum, listener,
 					ScheduleType.ALLNORMAL);
-			isAllAllow = scheduleNormal(command);//5 2  5 
+			//isAllAllow = scheduleNormal(command);
+			isAllAllow = scheduleAlgorithm.scheduleNormal(command);
 			if (!isAllAllow.isScheduled) {
-				isAllAllow = scheduleFirst(gs, boxEx, order, playNum, tempMap, isAllAllow.getNeedSchedule());//7   3  6  6  11
+				isAllAllow = scheduleFristAlgorithm.scheduleFrist(command);
 			}
 		}
 		int updateCount = 0;
@@ -1020,51 +950,49 @@ public class ScheduleService {
 	}
 
 	//排首播
-	private SchedUltResult scheduleFirst(List<JpaGoods> gs, Map<Integer, Box> boxEx, JpaOrders order, int numberPlayer,
-			Map<Date, List<Box>> boxMap, Map<Date, AtomicInteger> needSchedule) {
+	private SchedUltResult scheduleFirst(ScheduleContent command) {
+		int numberCopy = command.numberPlayer;
+		Date start = command.order.getStartTime();
+		int days = command.order.getProduct().getDays();
 
-		int numberCopy = numberPlayer;
-		Date start = order.getStartTime();
-		int days = order.getProduct().getDays();
-
-		int duration = (int) order.getProduct().getDuration();
-		Calendar cal = DateUtil.newCalendar();   
+		int duration = (int) command.order.getProduct().getDuration();
+		Calendar cal = DateUtil.newCalendar();
 		cal.setTime(start);
-		log.info("needSchedule:"+needSchedule);
-		boolean isEmpty = needSchedule.isEmpty();
+
+		boolean isEmpty = command.needSchedule.isEmpty();
 		//临时变量 播放数次
 		for (int i = 0; i < days; i++) {
 			Date day = cal.getTime();
 			int k = 0;
-			List<Box> list2 = boxMap.get(day);
+			List<Box> list2 = command.boxMap.get(day);
 
 			//----取每天的常规时间排期后还需要 时间 次数需要排
 
-			AtomicInteger r = needSchedule.get(day);
+			AtomicInteger r = command.needSchedule.get(day);
 			if (!isEmpty) {
-				numberPlayer = r.get();
+				command.numberPlayer = r.get();
 			}
 			//----
-			for (int j = 0; j < numberPlayer; j++) {
+			for (int j = 0; j < command.numberPlayer; j++) {
 				Collections.sort(list2, FRIST_SLOT_COMPARATOR);
 				Box box = list2.get(0);
 				if (30 - box.getFremain() >= duration) {
 					JpaGoods goods = new JpaGoods();
-					goods.setOrder(order);
-					goods.setCity(order.getCity());
+					goods.setOrder(command.order);
+					goods.setCity(command.order.getCity());
 					goods.setCreated(new Date());
 					goods.setSize(duration);
 					goods.setInboxPosition((int) box.getFremain());
 
 					//-----
 					//goods.setBox(box);
-					JpaBox storeBox = getJpaBoxFromEntity(order, box);
+					JpaBox storeBox = getJpaBoxFromEntity(command.order, box);
 					goods.setBox(storeBox);
 					//--------
 
 					//goods.setBox(box);
-					gs.add(goods);
-					boxEx.put(box.getId(), box);
+					command.gs.add(goods);
+					command.boxEx.put(box.getId(), box);
 
 					box.setFremain(box.getFremain() + duration);
 					box.setFsort(box.getFsort() - duration);
@@ -1075,11 +1003,11 @@ public class ScheduleService {
 				}
 			}
 			if (isEmpty) {//计算是要求有首播时的库存
-				if (k < numberPlayer) {
-					return new SchedUltResult("实际可上刊次数:" + k + " 订单上刊次数" + numberPlayer, false, day, true);
+				if (k < command.numberPlayer) {
+					return new SchedUltResult("实际可上刊次数:" + k + " 订单上刊次数" + command.numberPlayer, false, day, true);
 				}
 			} else {//计算常规时间段 排期后排首播时的库存情况 
-				if (k < numberPlayer) {
+				if (k < command.numberPlayer) {
 					return new SchedUltResult("实际可上刊次数:" + (numberCopy - r.get()) + " 订单上刊次数" + numberCopy, false, day,
 							true);
 				}
@@ -1112,72 +1040,6 @@ public class ScheduleService {
 			list.add(newBox);
 		}
 		return list;
-	}
-
-	//排非首播
-	private SchedUltResult scheduleNormal(ScheduleContent command) {
-
-		//List<JpaGoods> gs , Map<Integer, Box> boxEx, JpaOrders order,
-		//Map<Date, List<Box>> boxMap, int numberPlayer, ScheduleProgressListener listener, ScheduleType type
-
-		Date start = command.order.getStartTime();
-		int days = command.order.getProduct().getDays();
-		Calendar cal = DateUtil.newCalendar();
-		int duration = (int) command.order.getProduct().getDuration();
-		SchedUltResult schedUltResult = new SchedUltResult(StringUtils.EMPTY, true, start, true);
-		cal.setTime(start);
-		//int _playerNumber = numberPlayer.get();
-		Map<Date, AtomicInteger> jiMap = new HashMap<Date, AtomicInteger>();
-		for (int i = 0; i < days; i++) {
-			Date day = cal.getTime();
-			//	listener.update("开始检查 ["+DateUtil.longDf.get().format(day) +"] 库存情况.");
-			int k = 0;
-			List<Box> list2 = command.boxMap.get(day);
-
-			//-------记录每天排了多少次
-			AtomicInteger dateCount = new AtomicInteger(command.numberPlayer);
-			jiMap.put(day, dateCount);
-
-			for (int j = 0; j < command.numberPlayer; j++) {
-				Collections.sort(list2, NORMAL_COMPARATOR);
-				Box box = list2.get(0);
-				if (box.getSize() - box.getRemain() >= duration) {
-					JpaGoods goods = new JpaGoods();
-					goods.setOrder(command.order);
-					goods.setCity(command.order.getCity());
-					goods.setCreated(new Date());
-					goods.setSize(duration);
-					goods.setInboxPosition(box.getRemain());
-					//-----
-					//goods.setBox(box);
-					JpaBox storeBox = getJpaBoxFromEntity(command.order, box);
-					goods.setBox(storeBox);
-					//--------
-					command.gs.add(goods);
-					command.boxEx.put(box.getId(), box);
-
-					box.setRemain(box.getRemain() + duration);
-					box.setSort(box.getSort() - duration);
-					k++;
-					//记录排了多少
-					dateCount.decrementAndGet();
-				}
-			}
-			if (k < command.numberPlayer) {
-				if (ScheduleType.ALLNORMAL != command.type) {
-					return new SchedUltResult("可上刊库存:" + k + " 订单上刊次数" + command.numberPlayer, false, day, false);
-				} else {
-					schedUltResult = new SchedUltResult("可上刊库存:" + k + " 订单上刊次数" + command.numberPlayer, false, day,
-							false);
-				}
-			}
-			cal.add(Calendar.DATE, 1);
-		}
-		if (!schedUltResult.isScheduled) {
-			schedUltResult.setNeedSchedule(jiMap);
-			schedUltResult.debugMap();
-		}
-		return schedUltResult;
 	}
 
 	private JpaBox getJpaBoxFromEntity(JpaOrders order, Box box) {

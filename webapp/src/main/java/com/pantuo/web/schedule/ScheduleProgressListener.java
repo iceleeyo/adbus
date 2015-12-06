@@ -1,4 +1,4 @@
-package com.pantuo.web.progress;
+package com.pantuo.web.schedule;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -14,7 +14,6 @@ import nl.justobjects.pushlet.util.Log;
 import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.lang3.StringUtils;
 
-import com.pantuo.service.ScheduleService.SchedUltResult;
 import com.pantuo.util.JsonTools;
 import com.pantuo.util.Request;
 

@@ -17,10 +17,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,9 +32,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaCity;
-import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProduct.FrontShow;
+import com.pantuo.dynamic.service.GroovySimpleInterface;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.BusLineCheckService;
 import com.pantuo.service.CardService;
@@ -43,8 +43,8 @@ import com.pantuo.service.CpdService;
 import com.pantuo.service.OrderService;
 import com.pantuo.service.ProductService;
 import com.pantuo.service.ScheduleService;
-import com.pantuo.service.ScheduleService.SchedUltResult;
 import com.pantuo.util.image.ValidateCode;
+import com.pantuo.web.schedule.SchedUltResult;
 
 /**
  * Index controller
@@ -377,4 +377,19 @@ public class CardSelect{
 	public String aboutme() {
 		return "intro/about-me";
 	}
+	
+	@RequestMapping(value = "/intro-groovy")
+	public String test() {
+		//	Foo foo2 = (Foo) GroovyFactory.context.getBean("Foo");
+		//	Foo foo = GroovyFactory.context.getBean(Foo.class);
+		foo.execute();
+		t.add(System.currentTimeMillis());
+		System.out.println(foo.executew(t));
+		//System.currentTimeMillis();
+		return "intro/about-me";
+	}
+	static List<Long > t  =new ArrayList<Long>();
+	@Autowired
+	@Lazy
+	GroovySimpleInterface foo;
 }

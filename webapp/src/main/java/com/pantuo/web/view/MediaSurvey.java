@@ -1,7 +1,15 @@
 package com.pantuo.web.view;
 
 public class MediaSurvey {
-   String locationstr; //位置
+	
+	
+	
+	
+	
+   public MediaSurvey() {
+	   super();
+	}
+String locationstr; //位置
    String personnum;   //人次
    String linesurvey;   //线路概况
    String mesurvey;    //媒体概况

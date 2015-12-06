@@ -1,14 +1,15 @@
 package com.pantuo;
 
 
-import com.pantuo.dao.DaoBeanConfiguration;
-import com.pantuo.service.DataInitializationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+
+import org.springframework.context.annotation.AnnotatedBeanDefinitionReader;
+import org.springframework.context.support.GenericGroovyApplicationContext;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
+import com.pantuo.dao.DaoBeanConfiguration;
 
 /**
  * This class will be loaded by a servlet 3.0 container automatically.
@@ -24,7 +25,8 @@ public class SpringWebInitializer extends AbstractAnnotationConfigDispatcherServ
 
     @Override
     protected Class[] getRootConfigClasses() {
-        return new Class[] { InitializationConfiguration.class, DaoBeanConfiguration.class, ActivitiConfiguration.class, WebAppConfiguration.class, SecurityConfiguration.class, CacheConfiguration.class, SchedulerConfiguration.class };
+        return new Class[] { InitializationConfiguration.class, DaoBeanConfiguration.class, ActivitiConfiguration.class, WebAppConfiguration.class, SecurityConfiguration.class, CacheConfiguration.class, SchedulerConfiguration.class
+        		,GroovyConfiguration.class};
     }
 
     @Override
@@ -45,4 +47,15 @@ public class SpringWebInitializer extends AbstractAnnotationConfigDispatcherServ
         dynamic.addMapping("/");
     }*/
 
+    public void onStartupDsl(ServletContext servletContext) throws ServletException {
+    	System.out.println("----init groovy------");
+		GenericGroovyApplicationContext ctx = new GenericGroovyApplicationContext();
+		ctx.load("classpath:com/pantuo/dynamic/service/Test.groovy");
+		AnnotatedBeanDefinitionReader configReader = new AnnotatedBeanDefinitionReader(ctx);
+		configReader.register(GroovyConfiguration.class);
+		ctx.refresh();
+		
+		
+    	
+    }
 }

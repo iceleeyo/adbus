@@ -1,6 +1,5 @@
-package com.pantuo.web.progress;
+package com.pantuo.web.schedule;
 
-import com.pantuo.service.ScheduleService.SchedUltResult;
 
 /**
  * 

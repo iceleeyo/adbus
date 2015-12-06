@@ -87,4 +87,5 @@ public interface ProductService {
 	Pair<Boolean, String> checkProHadBought(int productId);
 	List<JpaCardBoxMedia> selectProByMedias(String meids);
 
+	public void fillImg(JpaProduct product);
 }

@@ -1,0 +1,2 @@
+
+http://dist.springsource.org/snapshot/GRECLIPSE/e4.4/
