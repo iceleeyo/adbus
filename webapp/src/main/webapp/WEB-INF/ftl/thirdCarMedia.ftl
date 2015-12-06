@@ -200,21 +200,21 @@
 								<p class="icon-line"></p>
 							</div>
 							<img
-								src="<#if  jsonView.intro1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro1_url}<#else>${rc.contextPath}/index_img/thirdVideo_2.png</#if>">
+								src="<#if  jsonView.intro1_url?? &&  jsonView.intro1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro1_url}<#else>${rc.contextPath}/index_img/thirdVideo_2.png</#if>">
 							<div class="c-head">
 								<p class="head-en">AUDIENCE ANALYSIS</p>
 								<p class="head-zh">受众分析</p>
 								<p class="icon-line"></p>
 							</div>
 							<img
-								src="<#if  jsonView.intro2_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro2_url}<#else>${rc.contextPath}/index_img/thirdVideo_3.png</#if>">
+								src="<#if  jsonView.intro2_url?? && jsonView.intro2_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro2_url}<#else>${rc.contextPath}/index_img/thirdVideo_3.png</#if>">
 							<div class="c-head">
 								<p class="head-en">MEDIA REGIONAL</p>
 								<p class="head-zh">合作品牌</p>
 								<p class="icon-line"></p>
 							</div>
 							<img
-								src="<#if  jsonView.intro3_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro3_url}<#else>${rc.contextPath}/index_img/thirdCar_4.png</#if>">
+								src="<#if jsonView.intro3_url?? && jsonView.intro3_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro3_url}<#else>${rc.contextPath}/index_img/thirdCar_4.png</#if>">
 						</div>
 					</div>
 				</div>
