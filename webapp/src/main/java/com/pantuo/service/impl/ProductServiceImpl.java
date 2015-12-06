@@ -20,7 +20,6 @@ import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
-import org.omg.PortableInterceptor.INACTIVE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -69,10 +68,11 @@ import com.pantuo.mybatis.persistence.ProductV2Mapper;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.AttachmentService;
 import com.pantuo.service.BusService;
+import com.pantuo.service.CardService;
 import com.pantuo.service.ProductService;
 import com.pantuo.simulate.ProductProcessCount;
-import com.pantuo.util.BusinessException;
 import com.pantuo.util.CardUtil;
+import com.pantuo.util.JsonTools;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.ProductOrderCount;
@@ -93,6 +93,8 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	ProductRepository productRepo;
 	
+	@Autowired
+	CardService cardService;
 	
 	
 	@Autowired
@@ -324,7 +326,7 @@ public class ProductServiceImpl implements ProductService {
 	//  @Override
 	public void saveProduct(int city, JpaProduct product,MediaSurvey survey,HttpServletRequest request) {
 		try {
-			if(null!=survey){
+			if(null!=survey){/*
 				ObjectMapper t = new ObjectMapper();
 				t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 				t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
@@ -340,6 +342,11 @@ public class ProductServiceImpl implements ProductService {
 					e.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
+				}
+			*/
+				product.setJsonString(JsonTools.getJsonFromObject(survey));
+				if(null!=survey.getImg1_url()){
+					product.setImgurl(survey.getImg1_url());	
 				}
 			}
 			product.setCity(city);
@@ -834,5 +841,12 @@ public class ProductServiceImpl implements ProductService {
 		return medias;
 	}
 	
-	
+	public void fillImg(JpaProduct product) {
+		if (StringUtils.isBlank(product.getImgurl())) {
+			MediaSurvey survery = cardService.getJsonfromJsonStr(product.getJsonString());
+			if (survery != null) {
+				product.setImgurl(survery.getImg1_url());
+			}
+		}
+	}
 }
