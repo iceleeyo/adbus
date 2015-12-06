@@ -108,7 +108,7 @@ $.ajax({
 			<div class="ls-9">
 				<div class="product-info s-clear">
 					<div class="preview s-left"> <img
-							src="${rc.contextPath}/upload_temp/${(jpaCpd.product.imgurl) }" width="360" height="298">
+							src="<#if jpaCpd.product?? && jpaCpd.product.imgurl?has_content>${rc.contextPath}/upload_temp/${jpaCpd.product.imgurl}<#else>upload_temp/30/7/afa19a2cadb2536fad38fbb3af4de4f2.jpg</#if>" width="360" height="298">
 					</div>
 					<div class="product-detail s-left">
 						<div class="product-title">
