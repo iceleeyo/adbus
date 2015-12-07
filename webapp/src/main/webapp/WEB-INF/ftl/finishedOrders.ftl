@@ -191,9 +191,8 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 		ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 		<a id="tab4" href="${rc.contextPath}/order/join/1">我参与的订单</a>
 		</@security.authorize> <a id="tab3"
-			href="${rc.contextPath}/order/finished" class="active"><span
-			id="recordsTotal"
-			style="background-color: #ff9966; font-size: 14px; border-radius: 4px;">&nbsp;&nbsp;</span>已完成的订单<span
+			href="${rc.contextPath}/order/finished" class="active">
+			<span style="background-color: #ff9966; font-size: 14px; border-radius: 4px;">&nbsp;&nbsp;&nbsp;&nbsp;</span>已完成的订单<span
 			id="recordsTotal"
 			style="background-color: #ff9966; font-size: 14px; border-radius: 4px;"></span></a>
 	</div>
