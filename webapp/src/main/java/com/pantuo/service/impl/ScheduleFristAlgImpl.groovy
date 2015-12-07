@@ -4,9 +4,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang3.StringUtils;
@@ -14,13 +12,9 @@ import org.springframework.stereotype.Service;
 
 import com.pantuo.dao.pojo.JpaBox;
 import com.pantuo.dao.pojo.JpaGoods;
-import com.pantuo.dao.pojo.JpaOrders;
-import com.pantuo.dao.pojo.JpaTimeslot;
 import com.pantuo.mybatis.domain.Box;
-import com.pantuo.service.ScheduleAlgorithm;
 import com.pantuo.service.ScheduleFristAlgorithm;
 import com.pantuo.service.ScheduleService.ScheduleContent;
-import com.pantuo.service.ScheduleService.ScheduleType;
 import com.pantuo.util.DateUtil;
 import com.pantuo.web.schedule.SchedUltResult;
 
