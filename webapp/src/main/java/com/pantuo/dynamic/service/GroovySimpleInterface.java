@@ -7,4 +7,4 @@ public interface GroovySimpleInterface {
 	public void execute();
 
 	public String executew(List<Long> w);
-}
+} 
