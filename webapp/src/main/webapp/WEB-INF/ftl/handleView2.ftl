@@ -1273,7 +1273,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 					<TH>上播意见</TH>
 					<TD colspan=2><textarea name="shangboComments"
 							id="shangboComments" class="textareaBox"
-							style="margin: 5px 0; width: 400px; margin-top: 5px;">您的广告按照合同要求已安排上播</textarea></TD>
+							style="margin: 5px 0; width: 400px; margin-top: 5px;"></textarea></TD>
 				</TR>
 				<TR style="height: 45px;">
 					<TH>是否上播</TH>
@@ -1316,7 +1316,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 					<TH>意见</TH>
 					<TD><textarea name="jianboComments" id="jianboComments"
 							class="textareaBox"
-							style="margin: 5px 0; width: 400px; margin-top: 5px;">已确认广告播放正常!</textarea></TD>
+							style="margin: 5px 0; width: 400px; margin-top: 5px;"></textarea></TD>
 				</TR>
 				<TR style="height: 45px;">
 					<TH>确认结果</TH>
