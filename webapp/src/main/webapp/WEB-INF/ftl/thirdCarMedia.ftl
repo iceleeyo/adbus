@@ -242,7 +242,7 @@
 		function buy(pathurl,id){
 		var startdate1=$("#startdate1").val();
 		if(startdate1==""){
-		   layer.msg("请填写上播日期");
+		   layer.msg("请填写开播日期");
 		   return;
 		}
 		var lc=$("#lc").val();
@@ -253,7 +253,7 @@
 		if(lc=="1"){	
 		         $.ajax({
 							url : "${rc.contextPath}/carbox/buy/media",
-							data:{"proid":id,"needCount":$("#needCount").val(),"days":0},
+							data:{"proid":id,"needCount":$("#needCount").val(),"days":0,"startdate1":startdate1},
 							type : "POST",
 							success : function(data) {
 							if(data.left){
@@ -263,6 +263,7 @@
 		}
 		}
 		function putIncar(pathurl,id){
+		    var startdate1=$("#startdate1").val();
 			var lc=$("#lc").val();
 			if(lc=="0"){
 				islogin(pathurl);
@@ -270,7 +271,7 @@
 			if(lc=="1"){
 		         $.ajax({
 							url : "${rc.contextPath}/carbox/putIncar/media",
-							data:{"proid":id,"needCount":$("#needCount").val(),"days":0},
+							data:{"proid":id,"needCount":$("#needCount").val(),"days":0,"startdate1":startdate1},
 							type : "POST",
 							success : function(data) {
 							alert(data.right);

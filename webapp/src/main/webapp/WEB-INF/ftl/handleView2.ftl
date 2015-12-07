@@ -968,11 +968,13 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
                     <input class="ui-input datepicker validate[required,custom[date],past[#upDate1]]" type="text"  value="<#if orderview.order.startTime?has_content>${(orderview.order.startTime)?string("yyyy-MM-dd")}</#if>" id="startdate1" onchange="dateInput('startdate1',${orderview.order.product.id})"; data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> 						
 						</TD>
 				</TR>
+				<#if (orderview.order.supplies.id>1)>
 				<TR>
 					<TH>物料详情</TH>
 					<TD colspan=3><a href="javascript:void(0)"
 						onclick="supDetail(${(suppliesView.mainView.id)!''})">查看</a></TD>
 				</TR>
+				</#if>
 				<TR>
 					<TH>更改物料</TH>
 					<TD colspan=3><select class="ui-input" name="supplieid"

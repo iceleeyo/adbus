@@ -59,9 +59,11 @@ import com.pantuo.mybatis.persistence.CardboxMediaMapper;
 import com.pantuo.mybatis.persistence.CardboxUserMapper;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
+import com.pantuo.service.ActivitiService.SystemRoles;
 import com.pantuo.service.CardService;
 import com.pantuo.service.CityService;
 import com.pantuo.util.CardUtil;
+import com.pantuo.util.DateConverter;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.Only1ServieUniqLong;
 import com.pantuo.util.Pair;
@@ -271,7 +273,7 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public Pair<Boolean, String> putIncar(int proid, int needCount, int days, Principal principal, int city, String type) {
+	public Pair<Boolean, String> putIncar(int proid, int needCount, int days, Principal principal, int city,String startdate1, String type) {
 		if (StringUtils.equals(type, "media")) {
 			long seriaNum = getCardBingSeriaNum(principal);
 			CardboxMediaExample example = new CardboxMediaExample();
@@ -281,6 +283,14 @@ public class CardServiceImpl implements CardService {
 			JpaProduct product = productRepository.findOne(proid);
 			if (c.isEmpty()) {//无记录时增加
 				CardboxMedia media = new CardboxMedia();
+				try {
+					if(StringUtils.isNotBlank(startdate1)){
+						Date st=DateUtil.longDf.get().parse(startdate1);
+						media.setStartTime(st);
+					}
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 				media.setCity(city);
 				media.setUserId(Request.getUserId(principal));
 				media.setCreated(new Date());
@@ -294,6 +304,14 @@ public class CardServiceImpl implements CardService {
 				cardMapper.insert(media);
 			} else {
 				CardboxMedia existMedia = c.get(0);
+				try {
+					if(StringUtils.isNotBlank(startdate1)){
+						Date st=DateUtil.longDf.get().parse(startdate1);
+						existMedia.setStartTime(st);
+					}
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 				if (needCount == 0) {//如果是0时删除
 					cardMapper.deleteByExample(example);
 				} else {
@@ -344,7 +362,7 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public Pair<Boolean, String> buy(int proid, int needCount, int days, Principal principal, int city, String type) {
+	public Pair<Boolean, String> buy(int proid, int needCount, int days, Principal principal, int city, String startdate1,String type) {
 		if (StringUtils.equals(type, "media")) {
 			long seriaNum = getCardBingSeriaNum(principal);
 			CardboxMediaExample example = new CardboxMediaExample();
@@ -354,6 +372,14 @@ public class CardServiceImpl implements CardService {
 			JpaProduct product = productRepository.findOne(proid);
 			if (c.isEmpty()) {//无记录时增加
 				CardboxMedia media = new CardboxMedia();
+				try {
+					if(StringUtils.isNotBlank(startdate1)){
+						Date st=DateUtil.longDf.get().parse(startdate1);
+						media.setStartTime(st);
+					}
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 				media.setCity(city);
 				media.setUserId(Request.getUserId(principal));
 				media.setCreated(new Date());
@@ -371,6 +397,14 @@ public class CardServiceImpl implements CardService {
 				return new Pair<Boolean, String>(false, "");
 			} else {
 				CardboxMedia existMedia = c.get(0);
+				try {
+					if(StringUtils.isNotBlank(startdate1)){
+						Date st=DateUtil.longDf.get().parse(startdate1);
+						existMedia.setStartTime(st);
+					}
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 				if (needCount == 0) {//如果是0时删除
 					cardMapper.deleteByExample(example);
 					return new Pair<Boolean, String>(false, "");

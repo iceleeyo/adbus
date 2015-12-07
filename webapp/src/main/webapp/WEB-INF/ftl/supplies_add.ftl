@@ -289,6 +289,10 @@ $(document).ready(function() {
 					</select>
 
 				</div>
+				<div class="ui-form-item">
+					<label class="ui-label mt10">备注：</label>
+					<textarea rows="4" cols="40" style="resize: none;" name="operFristcomment"></textarea>
+				</div>
 				<div class="ui-form-item" id="text" style="display: none;">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>文本信息</label>
 

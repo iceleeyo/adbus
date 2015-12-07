@@ -395,6 +395,8 @@ function supEnter(tourl,city,type){
 					 +'</select> </div>'
 					 +'<div class="ui-form-item"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>所属行业:</label> <select id="industryId" class="ui-input" name="industryId" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" >'
 					 +'</select> </div>'
+					 +'<div class="ui-form-item"><label class="ui-labels mt10">备注：</label>'
+					 +'<textarea rows="4" cols="40" style="resize: none;" name="operFristcomment"></textarea></div>'
 					 +'<div class="ui-form-item" id="text" style="display:none;"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>文本信息</label>'
 					 +'<textarea rows="4" cols="30" name="infoContext" id="infoContext" style="resize: none;" ></textarea>'
 					 +'</div>'

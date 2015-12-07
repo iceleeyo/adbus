@@ -43,8 +43,8 @@ var table;
             	{ "data": "longOrderId", "defaultContent": ""},
             	
                 { "data": "order.startTime", "defaultContent": "","render": function(data, type, row, meta) {
-                	var d= $.format.date(data, "yyyy-MM-dd HH:mm");
-                	return d;
+                	var d= $.format.date(data, "yyyy-MM-dd");
+                	return d+'至'+$.format.date(row.order.endTime, "yyyy-MM-dd");
                 }},
                 { "data": "order.created", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd HH:mm");
@@ -194,7 +194,7 @@ var table;
 			<tr>
 				<th>下单用户</th>
 				<th>订单编号</th>
-				<th>起播时间</th>
+				<th>广告刊期</th>
 				<th orderBy="created">创建时间</th>
 				<th>待办事项</th>
 				<th>当前处理人</th>

@@ -106,6 +106,7 @@
                 	var d= $.format.date(data, "yyyy-MM-dd HH:mm:ss");
                 	return d;
                 }},
+                 { "data": "operFristcomment", "defaultContent": ""},
                 { "data": function( row, type, set, meta) {
                     return row.id;
                 },
@@ -234,6 +235,7 @@ function delSupp(Suppid){
 				<th orderBy="industry.id">行业</th>
 				<th orderBy="created">属主</th>
 				<th orderBy="created">创建时间</th>
+				<th orderBy="created">备注</th>
 				<th>管理</th>
 			</tr>
 		</thead>

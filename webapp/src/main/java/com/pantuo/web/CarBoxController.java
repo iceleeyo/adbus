@@ -68,8 +68,9 @@ public class CarBoxController {
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
 			@RequestParam(value = "proid", required = true) int proid,
 			@RequestParam(value = "needCount", required = false) int needCount,
+			@RequestParam(value = "startdate1", required = false) String startdate1,
 			@RequestParam(value = "days", required = false) int days) {
-		return cardService.putIncar(proid, needCount, days,principal, city, type);
+		return cardService.putIncar(proid, needCount, days,principal, city,startdate1,type);
 	}
 	@RequestMapping(value = "/buy/{type}")
 	@ResponseBody
@@ -77,8 +78,9 @@ public class CarBoxController {
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
 			@RequestParam(value = "proid", required = true) int proid,
 			@RequestParam(value = "needCount", required = false) int needCount,
+			@RequestParam(value = "startdate1", required = false) String startdate1,
 			@RequestParam(value = "days", required = false) int days) {
-		return cardService.buy(proid, needCount, days,principal, city, type);
+		return cardService.buy(proid, needCount, days,principal, city,startdate1, type);
 	}
 	@RequestMapping(value = "/payment")
 	@ResponseBody

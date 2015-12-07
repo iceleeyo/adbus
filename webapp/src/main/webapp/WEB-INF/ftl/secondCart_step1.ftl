@@ -104,7 +104,7 @@
 										<p class="rec-line">刊期：${item.product.days}天</p>
 									<p class="rec-line">上播日期： <input style="width:80px"
 										class="ui-input datepicker validate[required,custom[date] "
-										type="text" id="st_${item.product.id}" data-is="isAmount isEnough"
+										type="text" value="<#if item.startTime?has_content>${item.startTime?string("yyyy-MM-dd")}</#if>" id="st_${item.product.id}" data-is="isAmount isEnough"
 										autocomplete="off" onchange="dateInput('st_${item.product.id}',${item.product.id}),updateCardMeida('st_${item.product.id}',${item.id})">
 										</p>
 										<span class="btn-edit"></span>
