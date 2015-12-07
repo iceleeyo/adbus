@@ -192,9 +192,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 		<a id="tab4" href="${rc.contextPath}/order/join/1">我参与的订单</a>
 		</@security.authorize> <a id="tab3"
 			href="${rc.contextPath}/order/finished" class="active">
-			<span style="background-color: #ff9966; font-size: 14px; border-radius: 4px;">&nbsp;&nbsp;&nbsp;&nbsp;</span>已完成的订单<span
-			id="recordsTotal"
-			style="background-color: #ff9966; font-size: 14px; border-radius: 4px;"></span></a>
+			已完成的订单<span id="recordsTotal" style="background-color: #ff9966; font-size: 14px; border-radius: 4px;"></span></a>
 	</div>
 	<table id="table" class="display" cellspacing="0" width="100%">
 		<thead>
