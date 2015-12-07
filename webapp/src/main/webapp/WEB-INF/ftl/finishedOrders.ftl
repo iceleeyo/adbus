@@ -168,7 +168,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
     function fnDrawCallback(){
 		var record_count = (this.fnSettings().fnRecordsTotal() );
 		if(record_count>0){
-	 	  $("#recordsTotal").html("&nbsp;"+record_count+"&nbsp;");
+	 	  //$("#recordsTotal").html("&nbsp;"+record_count+"&nbsp;");
 		  }
     }
 
