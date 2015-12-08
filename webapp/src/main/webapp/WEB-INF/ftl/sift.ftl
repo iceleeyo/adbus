@@ -222,7 +222,7 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css"]>
                         	if(row.iscompare==1){
                      	 		 operations+= '<a class="table-link" href="${rc.contextPath}/product/c/'+data+'?pid='+data+'">竞价</a>';
                      	 	}else {
-                     	 		 operations+= '<a class="table-link" href="${rc.contextPath}/order/iwant/'+data+'">购买</a>';
+                     	 		 operations+= '<a class="table-link" href="${rc.contextPath}/m/public_detail/'+data+'">购买</a>';
                      	 	}
                     	}
                        return operations;
