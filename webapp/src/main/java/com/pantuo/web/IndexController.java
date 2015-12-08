@@ -60,6 +60,7 @@ public class IndexController {
 	@Autowired
 	private CityService cityService;
 	@Autowired
+	@Lazy
 	CpdService cpdService;
 	  @Autowired
 	    private OrderService orderService;
