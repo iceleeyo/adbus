@@ -1,6 +1,6 @@
-package com.pantuo.service.impl;
+//package dynamic; 
 
-import java.util.Calendar;
+import java.util.Calendar; 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -22,7 +22,7 @@ import com.pantuo.util.DateUtil;
 import com.pantuo.web.schedule.SchedUltResult;
 
 @Service
-public class ScheduleFristAlgImpl extends ScheduleAbstract implements ScheduleFristAlgorithm {
+public class ScheduleFristAlgImpl extends com.pantuo.service.impl.ScheduleAbstract implements ScheduleFristAlgorithm {
 
 	public SchedUltResult scheduleFrist(ScheduleContent command) {
 		int numberCopy = command.numberPlayer;
@@ -90,7 +90,7 @@ public class ScheduleFristAlgImpl extends ScheduleAbstract implements ScheduleFr
 						oneBoxScheduleCount = boxScheduleCount.get(boxId);
 					}
 					if (oneBoxScheduleCount.incrementAndGet() >= 2) {
-						box.setTmpAbsoluteWight(box.getTmpAbsoluteWight() - box.getTmpAbsoluteWight() / 10);
+						box.setTmpAbsoluteWight((int) (box.getTmpAbsoluteWight() - box.getTmpAbsoluteWight() / 10));
 					}
 					//--------------------
 

@@ -1,4 +1,4 @@
-package com.pantuo.service.impl;
+//package dynamic;
 
 import java.util.Calendar;
 import java.util.Collections;
@@ -22,7 +22,7 @@ import com.pantuo.service.ScheduleService.ScheduleType;
 import com.pantuo.util.DateUtil;
 import com.pantuo.web.schedule.SchedUltResult;
 @Service
-public class ScheduleNormalAlgImpl extends ScheduleAbstract implements ScheduleAlgorithm {
+public class ScheduleNormalAlgImpl extends com.pantuo.service.impl.ScheduleAbstract implements ScheduleAlgorithm {
 
 	public SchedUltResult scheduleNormal(ScheduleContent command) {
 		Date start = command.order.getStartTime();
@@ -81,7 +81,7 @@ public class ScheduleNormalAlgImpl extends ScheduleAbstract implements ScheduleA
 						r = boxScheduleCount.get(boxId);
 					}
 					if (r.incrementAndGet() >= 2) {
-						box.setTmpAbsoluteWight(box.getTmpAbsoluteWight() - box.getTmpAbsoluteWight() / 10);
+						box.setTmpAbsoluteWight((int) (box.getTmpAbsoluteWight() - box.getTmpAbsoluteWight() / 10));
 					}
 					//--------------------
 				} else {
