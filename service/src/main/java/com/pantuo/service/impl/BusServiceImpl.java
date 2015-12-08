@@ -114,7 +114,6 @@ import com.pantuo.util.Pair;
 import com.pantuo.service.security.Request;
 import com.pantuo.vo.CountView;
 import com.pantuo.vo.ModelCountView;
-import com.pantuo.web.ScheduleController;
 import com.pantuo.web.view.AdjustLogView;
 import com.pantuo.web.view.BusInfo;
 import com.pantuo.web.view.BusInfoView;
@@ -869,7 +868,7 @@ public class BusServiceImpl implements BusService {
 		try {
 			resp.setHeader("Content-Type", "application/x-xls");
 			resp.setHeader("Content-Disposition", "attachment; filename=\"bus-[" + sb.toString() + "].xls\"");
-			InputStream is = new BufferedInputStream(ScheduleController.class.getResourceAsStream(templateFileName));
+			InputStream is = new BufferedInputStream(Thread.currentThread().getContextClassLoader().getResourceAsStream(templateFileName));
 			org.apache.poi.ss.usermodel.Workbook workbook = transformer.transformXLS(is, beans);
 			//	ExcelUtil.dynamicMergeCells((HSSFSheet) workbook.getSheetAt(0), 1, 0, 1, 2);
 

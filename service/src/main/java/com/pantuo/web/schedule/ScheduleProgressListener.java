@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import nl.justobjects.pushlet.core.Dispatcher;
 import nl.justobjects.pushlet.core.Event;
-import nl.justobjects.pushlet.util.Log;
+import nl.justobjects.pushlet.util.Log; 
 
 import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.lang3.StringUtils;
