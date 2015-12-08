@@ -16,6 +16,6 @@ public class CardUtil {
 				r.add(NumberUtils.toInt(id));
 			}
 		}
-		return r;
+		return r;  
 	}
 }
