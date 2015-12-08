@@ -10,7 +10,6 @@ import org.activiti.engine.identity.Group;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
-import scala.collection.generic.BitOperations.Int;
 
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.dao.pojo.UserDetail.UType;

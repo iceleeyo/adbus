@@ -4,7 +4,7 @@
 package com.pantuo.pojo.highchart;
 
 import com.pantuo.util.DateUtil;
-import org.apache.commons.lang.time.FastDateFormat;
+import org.apache.commons.lang3.time.FastDateFormat;
 
 import java.util.*;
 

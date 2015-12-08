@@ -26,7 +26,7 @@ import com.pantuo.dao.pojo.QJpaSupplies;
 import com.pantuo.mybatis.persistence.ContractMapper;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ContractServiceData;
-import com.pantuo.util.Request;
+import com.pantuo.service.security.Request;
 
 @Service
 public class ContractServiceImpl implements ContractServiceData {

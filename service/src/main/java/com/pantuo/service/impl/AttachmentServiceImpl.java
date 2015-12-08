@@ -29,7 +29,7 @@ import com.pantuo.util.BusinessException;
 import com.pantuo.util.FileHelper;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.Pair;
-import com.pantuo.util.Request;
+import com.pantuo.service.security.Request;
 import com.pantuo.web.upload.CustomMultipartResolver;
 
 /**

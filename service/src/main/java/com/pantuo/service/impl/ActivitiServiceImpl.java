@@ -37,8 +37,8 @@ import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.activiti.engine.task.IdentityLink;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
-import org.apache.commons.lang.BooleanUtils;
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -51,7 +51,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import scala.collection.mutable.StringBuilder;
 
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.BodyContractRepository;
@@ -99,7 +98,7 @@ import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.OrderException;
 import com.pantuo.util.OrderIdSeq;
 import com.pantuo.util.Pair;
-import com.pantuo.util.Request;
+import com.pantuo.service.security.Request;
 import com.pantuo.web.view.OrderView;
 import com.pantuo.web.view.SuppliesView;
 

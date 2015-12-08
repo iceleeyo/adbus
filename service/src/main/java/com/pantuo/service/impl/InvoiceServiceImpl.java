@@ -16,7 +16,7 @@ import com.pantuo.dao.pojo.JpaInvoice;
 import com.pantuo.dao.pojo.QJpaInvoice;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.InvoiceServiceData;
-import com.pantuo.util.Request;
+import com.pantuo.service.security.Request;
 
 @Service
 public class InvoiceServiceImpl implements InvoiceServiceData {

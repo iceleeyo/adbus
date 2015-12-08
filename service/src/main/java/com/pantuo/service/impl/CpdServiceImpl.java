@@ -43,7 +43,7 @@ import com.pantuo.service.ActivitiService;
 import com.pantuo.service.CpdService;
 import com.pantuo.service.UserServiceInter;
 import com.pantuo.util.Pair;
-import com.pantuo.util.Request;
+import com.pantuo.service.security.Request;
 
 @Service 
 public class CpdServiceImpl implements CpdService {

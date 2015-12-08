@@ -54,7 +54,7 @@ import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.security.ActivitiUserDetails;
 import com.pantuo.service.security.ActivitiUserDetailsService;
 import com.pantuo.util.Pair;
-import com.pantuo.util.Request;
+import com.pantuo.service.security.Request;
 import com.pantuo.web.view.AutoCompleteView;
 import com.pantuo.web.view.InvoiceView;
 

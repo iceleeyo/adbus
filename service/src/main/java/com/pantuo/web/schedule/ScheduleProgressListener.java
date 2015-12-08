@@ -15,7 +15,7 @@ import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.lang3.StringUtils;
 
 import com.pantuo.util.JsonTools;
-import com.pantuo.util.Request;
+import com.pantuo.service.security.Request;
 
 /**
  * 
