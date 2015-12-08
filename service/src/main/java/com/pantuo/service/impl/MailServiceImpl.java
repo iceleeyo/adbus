@@ -15,7 +15,7 @@ import org.activiti.engine.identity.User;
 import org.activiti.engine.impl.task.TaskDefinition;
 import org.activiti.engine.task.IdentityLink;
 import org.activiti.engine.task.Task;
-import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,12 +35,11 @@ import com.pantuo.service.OrderService;
 import com.pantuo.service.UserServiceInter;
 import com.pantuo.util.FreeMarker;
 import com.pantuo.util.GlobalMethods;
-import com.pantuo.util.LinuxMailService;
 import com.pantuo.util.Mail;
 import com.pantuo.util.OSinfoUtils;
 import com.pantuo.util.OrderIdSeq;
 import com.pantuo.util.Pair;
-import com.pantuo.util.Request;
+import com.pantuo.service.security.Request;
 import com.pantuo.util.SendMailException;
 
 @Service

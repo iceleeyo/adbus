@@ -23,9 +23,8 @@ import com.pantuo.dao.pojo.QJpaMessage;
 import com.pantuo.mybatis.domain.Message;
 import com.pantuo.mybatis.persistence.MessageMapper;
 import com.pantuo.service.MessageService;
-import com.pantuo.util.Request;
+import com.pantuo.service.security.Request;
 import com.pantuo.web.view.MessageView;
-import com.pantuo.web.view.OrderView;
 
 @Service
 public class MessageServiceImpl implements MessageService {

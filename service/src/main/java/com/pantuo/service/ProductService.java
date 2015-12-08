@@ -2,13 +2,8 @@ package com.pantuo.service;
 
 import java.security.Principal;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.data.domain.Page;
-
-import scala.collection.generic.BitOperations.Int;
-
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaBusOrderV2;
 import com.pantuo.dao.pojo.JpaCardBoxMedia;

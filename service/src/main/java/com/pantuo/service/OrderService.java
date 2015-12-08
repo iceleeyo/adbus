@@ -51,7 +51,7 @@ import com.pantuo.util.Constants;
 import com.pantuo.util.DateConverter;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.Pair;
-import com.pantuo.util.Request;
+import com.pantuo.service.security.Request;
 import com.pantuo.web.view.OrderView;
 import com.pantuo.web.view.SectionView;
 

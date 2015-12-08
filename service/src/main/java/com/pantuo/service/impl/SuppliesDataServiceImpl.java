@@ -22,7 +22,7 @@ import com.pantuo.dao.pojo.QJpaSupplies;
 import com.pantuo.mybatis.persistence.SuppliesMapper;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.SuppliesServiceData;
-import com.pantuo.util.Request;
+import com.pantuo.service.security.Request;
 
 @Service
 public class SuppliesDataServiceImpl implements SuppliesServiceData {

@@ -7,24 +7,20 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
+
+import org.activiti.engine.IdentityService;
+import org.activiti.engine.ManagementService;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.pantuo.dao.BlackAdRepository;
 import com.pantuo.dao.pojo.JpaAttachment;
 import com.pantuo.dao.pojo.JpaBlackAd;
 import com.pantuo.dao.pojo.JpaContract;
-import com.pantuo.dao.pojo.JpaProduct;
-
-import org.activiti.engine.IdentityService;
-import org.activiti.engine.ManagementService;
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Service;
-
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.AttachmentExample;
 import com.pantuo.mybatis.domain.BlackAd;
@@ -36,9 +32,6 @@ import com.pantuo.mybatis.domain.BusExample;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.ContractExample;
 import com.pantuo.mybatis.domain.Industry;
-import com.pantuo.mybatis.domain.IndustryExample;
-import com.pantuo.mybatis.domain.Invoice;
-import com.pantuo.mybatis.domain.InvoiceExample;
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.OrdersExample;
 import com.pantuo.mybatis.persistence.AttachmentMapper;
@@ -48,14 +41,11 @@ import com.pantuo.mybatis.persistence.BusMapper;
 import com.pantuo.mybatis.persistence.ContractMapper;
 import com.pantuo.mybatis.persistence.IndustryMapper;
 import com.pantuo.mybatis.persistence.OrdersMapper;
-import com.pantuo.service.ActivitiService.SystemRoles;
+import com.pantuo.service.security.Request;
 import com.pantuo.util.BusinessException;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
-import com.pantuo.util.Request;
 import com.pantuo.web.view.ContractView;
-import com.pantuo.web.view.InvoiceView;
-import com.pantuo.web.view.SuppliesView;
 
 /**
  * @author xl
