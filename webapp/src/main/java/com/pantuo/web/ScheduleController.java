@@ -204,6 +204,7 @@ public class ScheduleController {
 			@PathVariable("id") int id, @PathVariable("ischeck") boolean ischeck,
 			@RequestParam(value = "startdate1", required = false) String startdate1,
 			@RequestParam(value = "taskid", required = false) String taskid,
+			@RequestParam(value = "bm", required = false, defaultValue = "0") int bm,
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal) {
 		//		long t=System.currentTimeMillis();
 		//add by xiaoli
@@ -211,7 +212,7 @@ public class ScheduleController {
 		if (order.getType() == JpaProduct.Type.info || order.getType() == JpaProduct.Type.image) {
 			return scheduleService.scheduleInfoImg(order, taskid, startdate1);
 		} else {
-			SchedUltResult r = scheduleService.checkInventory(id, taskid, startdate1, ischeck, request, principal);
+			SchedUltResult r = scheduleService.checkInventory(id, taskid, startdate1, ischeck, bm == 1, request, principal);
 			return r;
 		}
 		//		log.info("SchedUltResult time:{}",System.currentTimeMillis()-t);
@@ -1216,71 +1217,6 @@ public class ScheduleController {
 				}
 			}
 			return list;
-		}
-	}
-
-	public static class Report implements Serializable {
-		private Map<String/*date*/, UiBox> boxes;
-		private JpaTimeslot slot;
-
-		public Report(JpaTimeslot slot) {
-			this.slot = slot;
-			this.boxes = new HashMap<String, UiBox>();
-		}
-
-		public String addBox(Box box) {
-			String key = DateUtil.longDf.get().format(box.getDay());
-			if (!(box instanceof UiBox))
-				box = new UiBox(box);
-			boxes.put(key, (UiBox) box);
-			return key;
-		}
-
-		public String addBox(JpaBox box) {
-			List<JpaGoods> goods = box.getGoods();
-
-			String key = DateUtil.longDf.get().format(box.getDay());
-			UiBox b = boxes.get(key);
-			if (b == null) {
-				b = new UiBox(box);
-				boxes.put(key, b);
-			}
-			if (goods != null) {
-				for (JpaGoods g : goods) {
-					b.addGood(g);
-				}
-			}
-			return key;
-		}
-
-		public String addBox(JpaBox box, JpaGoods good) {
-			String key = DateUtil.longDf.get().format(box.getDay());
-			UiBox b = boxes.get(key);
-			if (b != null) {
-				b.addGood(good);
-			} else {
-				b = new UiBox(box);
-				b.addGood(good);
-				boxes.put(key, b);
-			}
-
-			return key;
-		}
-
-		public Map<String/*date*/, UiBox> getBoxes() {
-			return boxes;
-		}
-
-		private void setBoxes(Map<String, UiBox> boxes) {
-			this.boxes = boxes;
-		}
-
-		private UiBox getBox(String dayStr) {
-			return boxes.get(dayStr);
-		}
-
-		public JpaTimeslot getSlot() {
-			return slot;
 		}
 	}
 
