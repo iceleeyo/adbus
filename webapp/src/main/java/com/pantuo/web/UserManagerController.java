@@ -54,13 +54,12 @@ import com.pantuo.service.ProductService;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.impl.GoupManagerServiceImpl;
+import com.pantuo.service.security.Request;
 import com.pantuo.simulate.MailJob;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.Pair;
-import com.pantuo.util.Request;
 import com.pantuo.web.view.AutoCompleteView;
 import com.pantuo.web.view.InvoiceView;
-import com.pantuo.web.view.MapLocationSession;
 import com.pantuo.web.view.RoleView;
 import com.pantuo.web.view.UserQualifiView;
 

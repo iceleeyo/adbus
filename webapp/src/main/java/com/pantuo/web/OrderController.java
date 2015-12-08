@@ -64,7 +64,7 @@ import com.pantuo.service.UserServiceInter;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
-import com.pantuo.util.Request;
+import com.pantuo.service.security.Request;
 import com.pantuo.util.Variable;
 import com.pantuo.web.view.InvoiceView;
 import com.pantuo.web.view.OrderView;

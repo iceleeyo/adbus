@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.MessageService;
-import com.pantuo.util.Request;
+import com.pantuo.service.security.Request;
 import com.pantuo.web.view.MessageView;
 
 /**

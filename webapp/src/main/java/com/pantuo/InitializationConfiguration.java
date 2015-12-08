@@ -49,8 +49,8 @@ public class InitializationConfiguration {
 	@Bean
 	public boolean initialize() throws Exception {
 		//contractInitService.intialize();
-		lineCarsCount.countCars();
-		lineOnlineCount.countCars();
+//		lineCarsCount.countCars();
+//		lineOnlineCount.countCars();
 		qb.countCars();
 		qb.countCars2();
 		initService.intialize();

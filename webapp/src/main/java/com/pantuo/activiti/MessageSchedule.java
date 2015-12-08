@@ -25,7 +25,7 @@ import com.pantuo.service.MessageService;
 import com.pantuo.service.OrderService;
 import com.pantuo.util.DateConverter;
 import com.pantuo.util.OrderIdSeq;
-import com.pantuo.util.Request;
+import com.pantuo.service.security.Request;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;

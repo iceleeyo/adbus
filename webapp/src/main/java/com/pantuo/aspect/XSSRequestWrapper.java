@@ -5,6 +5,11 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
+import com.pantuo.util.XSSReplace;
+
+import freemarker.core._RegexBuiltins.replace_reBI;
+import scala.remote;
+
 public class XSSRequestWrapper extends HttpServletRequestWrapper {
 
 	public XSSRequestWrapper(HttpServletRequest servletRequest) {
@@ -22,7 +27,7 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
 		int count = values.length;
 		String[] encodedValues = new String[count];
 		for (int i = 0; i < count; i++) {
-			encodedValues[i] = stripXSS(values[i]);
+			encodedValues[i] = XSSReplace.stripXSS(values[i]);
 		}
 
 		return encodedValues;
@@ -31,7 +36,7 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
 	@Override
 	public String getParameter(String parameter) {
 		String value = super.getParameter(parameter);
-		return stripXSS(value);
+		return XSSReplace.stripXSS(value);
 	}
 
 	@Override

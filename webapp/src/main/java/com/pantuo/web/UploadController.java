@@ -23,7 +23,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import com.pantuo.dao.pojo.JpaAttachment;
 import com.pantuo.service.AttachmentService;
 import com.pantuo.util.BusinessException;
-import com.pantuo.util.Request;
+import com.pantuo.service.security.Request;
 
 /**
  * 

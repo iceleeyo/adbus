@@ -43,7 +43,7 @@ import com.pantuo.service.DataInitializationService;
 import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.security.ActivitiUserDetails;
 import com.pantuo.service.security.ActivitiUserDetailsService;
-import com.pantuo.util.Request;
+import com.pantuo.service.security.Request;
 import com.pantuo.web.ControllerSupport;
 
 /**

@@ -23,7 +23,7 @@ import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ContractServiceData;
 import com.pantuo.service.UserServiceInter;
-import com.pantuo.util.Request;
+import com.pantuo.service.security.Request;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
