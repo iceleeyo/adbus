@@ -271,7 +271,7 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public Pair<Boolean, String> putIncar(int proid, int needCount, int days, Principal principal, int city, String type) {
+	public Pair<Boolean, String> putIncar(int proid, int needCount, int days, Principal principal, int city,String date,  String type) {
 		if (StringUtils.equals(type, "media")) {
 			long seriaNum = getCardBingSeriaNum(principal);
 			CardboxMediaExample example = new CardboxMediaExample();
@@ -344,7 +344,7 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public Pair<Boolean, String> buy(int proid, int needCount, int days, Principal principal, int city, String type) {
+	public Pair<Boolean, String> buy(int proid, int needCount, int days, Principal principal, int city,String date,  String type) {
 		if (StringUtils.equals(type, "media")) {
 			long seriaNum = getCardBingSeriaNum(principal);
 			CardboxMediaExample example = new CardboxMediaExample();
