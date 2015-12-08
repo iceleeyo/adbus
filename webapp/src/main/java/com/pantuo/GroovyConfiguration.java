@@ -42,7 +42,7 @@ public class GroovyConfiguration {
 	@Bean
 	public GroovyFactory groovyFactory() {
 		GroovyFactory factory = new GroovyFactory();
-		factory.setDirectory("groovy", "/com/pantuo/service/impl");
+		factory.setDirectory("groovy");//, "/com/pantuo/service/impl"
 		return factory;
 	}
 
