@@ -70,6 +70,7 @@
     <modules>
         <module>dao</module>
         <module>webapp</module>
-	</modules>
+        <module>util</module>
+    </modules>
 
 </project>
