@@ -152,6 +152,15 @@
             <artifactId>dao</artifactId>
             <version>${project.version}</version>
         </dependency>
+        
+        <dependency>
+            <groupId>com.pantuo</groupId>
+            <artifactId>util</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        
+        
         <dependency>
             <groupId>com.blogspot.nurkiewicz.springwadl</groupId>
             <artifactId>generator</artifactId>
