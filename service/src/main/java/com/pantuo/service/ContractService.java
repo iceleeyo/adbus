@@ -381,10 +381,12 @@ public Bus findBusByPlateNum(String plateNumber){
 			isUpdate = true;
 		}
 		if (isUpdate) {
+			
 			ContractId c = list.get(0);
-			c.setCount(c.getCount() + 1);
+			int db=c.getCount() + 1;
+			c.setCount(db);
 			if (contractIdMapper.updateByPrimaryKey(c) > 0) {
-				r = c.getCount() + 1;
+				r =db;
 			}
 		}
 
