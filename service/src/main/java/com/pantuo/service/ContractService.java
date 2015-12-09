@@ -5,8 +5,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -33,8 +31,6 @@ import com.pantuo.mybatis.domain.BusContractExample;
 import com.pantuo.mybatis.domain.BusExample;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.ContractExample;
-import com.pantuo.mybatis.domain.ContractId;
-import com.pantuo.mybatis.domain.ContractIdExample;
 import com.pantuo.mybatis.domain.Industry;
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.OrdersExample;
@@ -44,6 +40,7 @@ import com.pantuo.mybatis.persistence.BusContractMapper;
 import com.pantuo.mybatis.persistence.BusMapper;
 import com.pantuo.mybatis.persistence.ContractIdMapper;
 import com.pantuo.mybatis.persistence.ContractMapper;
+import com.pantuo.mybatis.persistence.CpdProductMapper;
 import com.pantuo.mybatis.persistence.IndustryMapper;
 import com.pantuo.mybatis.persistence.OrdersMapper;
 import com.pantuo.service.security.Request;
@@ -361,43 +358,25 @@ public Bus findBusByPlateNum(String plateNumber){
 		return contractMapper.selectByPrimaryKey(contractId);
 	}
 	
-	static Lock lock =new ReentrantLock();
+	@Autowired
+	CpdProductMapper cpdProductMapper;
+	
 	public String getContractId() {
-		int r = 1;
+		int contractId = 1;
 		String date = new SimpleDateFormat("yy-MM-dd").format(System.currentTimeMillis());
 
-		ContractIdExample example = new ContractIdExample();
-		example.createCriteria().andDateObjEqualTo(date);
-		List<ContractId> list = contractIdMapper.selectByExample(example);
-		boolean isUpdate = false;
-		if (list.size() == 0) {
-			try {
-				ContractId id = new ContractId();
-				id.setCount(r);
-				id.setDateObj(date);
-				contractIdMapper.insert(id);
-			} catch (Exception e) {
-				if (StringUtils.contains(e.getMessage(), "duplicate")) {
-					isUpdate = true;
-				}
-			}
+		if (DataInitializationService.CONTRACT_ID_MAP.containsKey(date)) {
+			cpdProductMapper.updateContractId(date);
+			contractId = DataInitializationService.CONTRACT_ID_MAP.get(date).incrementAndGet();
+			StringBuilder sb = new StringBuilder();
+			sb.append("WBM（XS）-");
+			sb.append(date);
+			sb.append("-");
+			sb.append(contractId < 10 ? "0" + contractId : contractId);
+			return sb.toString();
 		} else {
-			isUpdate = true;
-		}
-		if (isUpdate) {
-			try {
-				lock.lock();
-				ContractId c = list.get(0);
-				int db = c.getCount() + 1;
-				c.setCount(db);
-				if (contractIdMapper.updateByPrimaryKey(c) > 0) {
-					r = db;
-				}
-			} finally {
-				lock.unlock();
-			}
+			return "Fetch ContractId Error";
 		}
 
-		return "WBM（XS）-" + date + "-" + (r < 10 ? "0" + r : r);
 	}
 }
