@@ -375,7 +375,9 @@ public Bus findBusByPlateNum(String plateNumber){
 				id.setDateObj(date);
 				contractIdMapper.insert(id);
 			} catch (Exception e) {
-				isUpdate = true;
+				if (StringUtils.contains(e.getMessage(), "duplicate")) {
+					isUpdate = true;
+				}
 			}
 		} else {
 			isUpdate = true;
