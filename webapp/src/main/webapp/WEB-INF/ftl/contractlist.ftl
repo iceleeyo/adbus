@@ -21,7 +21,7 @@ js=["js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js"]>
             "scrollX": true,
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                { "orderable": false, "targets": [5] },
+                { "orderable": false, "targets": [7] },
             ],
             "ajax": {
                 type: "GET",
