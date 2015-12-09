@@ -53,10 +53,10 @@ css=["css/sift.css","css/account.css","js/jquery-ui/jquery-ui.css"]>
 					<div class="sift-item s-clear">
 						<span>产品类型：</span>
 						<div class="sift-list" qt="t">
-							<a class="item active" href="#" sort="-1" qc="all">所有</a> <a
-								class="item" href="#" qc="video">视频<i>×</i></a> <a class="item"
-								href="#" qc="image">图片<i>×</i></a> <a class="item" href="#"
-								qc="info">文字<i>×</i></a>
+							<a class="item active" href="#" sort="-1" qc="all">所有</a> 
+							<a class="item" href="#" qc="video">全屏硬广<i>×</i></a>
+							<a class="item" href="#" qc="image">INFO图片<i>×</i></a> 
+							<a class="item" href="#" qc="info">INFO文字<i>×</i></a>
 						</div>
 					</div>
 					<div class="sift-item s-clear">
