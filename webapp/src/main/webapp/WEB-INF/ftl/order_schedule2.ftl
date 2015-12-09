@@ -147,7 +147,7 @@ viewScheduleLink=false/>
 					<th>时段</th>
 					<th>时长</th>
 					 <#list dates as d>
-					<th style="min-width: 60px;">${d?substring(5)}</th>
+					<th style="min-width: 30px;">${d?substring(5)}</th>
 					 </#list>
 				</tr>
 			</thead>
