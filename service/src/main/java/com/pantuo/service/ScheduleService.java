@@ -99,6 +99,7 @@ public class ScheduleService {
 	private static Logger log = LoggerFactory.getLogger(ScheduleService.class);
 
 	@Autowired
+	@Lazy
 	private ProductService productService;
 	@Autowired
 	private ContractService contractService;

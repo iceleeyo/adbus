@@ -2,8 +2,11 @@ package com.pantuo.service;
 
 import java.security.Principal;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.data.domain.Page;
+
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaBusOrderV2;
 import com.pantuo.dao.pojo.JpaCardBoxMedia;
@@ -15,10 +18,10 @@ import com.pantuo.mybatis.domain.BusOrderDetailV2;
 import com.pantuo.mybatis.domain.Product;
 import com.pantuo.mybatis.domain.ProductV2;
 import com.pantuo.pojo.TableRequest;
-import com.pantuo.service.impl.ProductServiceImpl.PlanRequest;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.MediaSurvey;
+import com.pantuo.web.view.PlanRequest;
 import com.pantuo.web.view.ProductView;
 
 public interface ProductService {

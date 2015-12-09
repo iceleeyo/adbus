@@ -78,6 +78,7 @@ import com.pantuo.util.Pair;
 import com.pantuo.util.ProductOrderCount;
 import com.pantuo.service.security.Request;
 import com.pantuo.web.view.MediaSurvey;
+import com.pantuo.web.view.PlanRequest;
 import com.pantuo.web.view.ProductView;
 
 @Service
@@ -587,61 +588,7 @@ public class ProductServiceImpl implements ProductService {
 		}
 		return new Pair<Boolean, String>(false, "信息丢失");
 	}
-
-	public static class PlanRequest {
-		String level = null;
-		Boolean doubleChecker = false;
-		int days = 0;
-		String msg;
-
-		public PlanRequest(String level, Boolean doubleChecker, int days) {
-			this.level = level;
-			this.doubleChecker = doubleChecker;
-			this.days = days;
-		}
-
-		public PlanRequest(String msg) {
-			super();
-			this.msg = msg;
-		}
-
-		public PlanRequest() {
-			super();
-		}
-
-		public String getLevel() {
-			return level;
-		}
-
-		public void setLevel(String level) {
-			this.level = level;
-		}
-
-		public Boolean getDoubleChecker() {
-			return doubleChecker;
-		}
-
-		public void setDoubleChecker(Boolean doubleChecker) {
-			this.doubleChecker = doubleChecker;
-		}
-
-		public int getDays() {
-			return days;
-		}
-
-		public void setDays(int days) {
-			this.days = days;
-		}
-
-		public String getMsg() {
-			return msg;
-		}
-
-		public void setMsg(String msg) {
-			this.msg = msg;
-		}
-
-	}
+ 
 
 	public Pair<Boolean, PlanRequest> checkPlan(int city, String select) {
 		PlanRequest request = new PlanRequest();
@@ -684,7 +631,7 @@ public class ProductServiceImpl implements ProductService {
 
 	public Pair<Boolean, PlanRequest> addPlan(int city, long seriaNum, String select, int number, String startDate1,
 			Principal principal) {
-		Pair<Boolean, PlanRequest> checkResult = checkPlan(city, select);
+		Pair<Boolean, PlanRequest> checkResult = checkPlan(city, select); 
 		try {
 			if (!checkResult.getLeft())
 				return checkResult;

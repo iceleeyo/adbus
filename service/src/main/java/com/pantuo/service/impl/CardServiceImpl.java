@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
@@ -59,15 +59,14 @@ import com.pantuo.mybatis.persistence.CardboxMediaMapper;
 import com.pantuo.mybatis.persistence.CardboxUserMapper;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
-import com.pantuo.service.ActivitiService.SystemRoles;
 import com.pantuo.service.CardService;
 import com.pantuo.service.CityService;
+import com.pantuo.service.ContractService;
+import com.pantuo.service.security.Request;
 import com.pantuo.util.CardUtil;
-import com.pantuo.util.DateConverter;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.Only1ServieUniqLong;
 import com.pantuo.util.Pair;
-import com.pantuo.service.security.Request;
 import com.pantuo.web.view.CardBoxHelperView;
 import com.pantuo.web.view.CardTotalView;
 import com.pantuo.web.view.CardView;
@@ -82,6 +81,8 @@ public class CardServiceImpl implements CardService {
 	CardboxHelperMapper cardboxHelpMapper;
 	@Autowired
 	ActivitiService activitiService;
+	@Autowired
+	ContractService contractService;
 	@Autowired
 	CardboxBodyMapper cardBodyMapper;
 	@Autowired
@@ -106,7 +107,7 @@ public class CardServiceImpl implements CardService {
 	 UserDetailRepository userRepo;
 	
 	
-	private static Logger log = LoggerFactory.getLogger(ProductServiceImpl.class);
+	private static Logger log = LoggerFactory.getLogger(CardServiceImpl.class);
 	@Override
 	public long getCardBingSeriaNum(Principal principal) {
 		long result = 0;
@@ -763,6 +764,7 @@ public class CardServiceImpl implements CardService {
 		query=query.and(QJpaCardBoxMedia.jpaCardBoxMedia.seriaNum.eq(helper.getSeriaNum()));
 		query=query.and(QJpaCardBoxMedia.jpaCardBoxMedia.id.in(medisIds));
 		List<JpaCardBoxMedia> mList=(List<JpaCardBoxMedia>) cardBoxRepository.findAll(query);
+		String code=contractService.getContractId();
 		for (JpaCardBoxMedia jpaCardBoxMedia : mList) {
 			JpaOrders order=new JpaOrders();
 			order.setCity(jpaCardBoxMedia.getCity());
@@ -772,6 +774,7 @@ public class CardServiceImpl implements CardService {
 			order.setUserId(jpaCardBoxMedia.getUserId());
 			order.setCreator(jpaCardBoxMedia.getUserId());
 			order.setProduct(jpaCardBoxMedia.getProduct());
+			order.setContractCode(code);
 			order.setSuppliesId(1);
 			if(jpaCardBoxMedia.getStartTime()!=null){
 				Date eDate=DateUtil.dateAdd(jpaCardBoxMedia.getStartTime(), jpaCardBoxMedia.getProduct().getDays());
