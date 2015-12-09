@@ -24,7 +24,7 @@ public class JpaContractId implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	private Date dateObj;
+	private String dateObj;
 	private int count;
 
 	public int getId() {
@@ -35,11 +35,11 @@ public class JpaContractId implements Serializable {
 		this.id = id;
 	}
 
-	public Date getDateObj() {
+	public String getDateObj() {
 		return dateObj;
 	}
 
-	public void setDateObj(Date dateObj) {
+	public void setDateObj(String dateObj) {
 		this.dateObj = dateObj;
 	}
 
