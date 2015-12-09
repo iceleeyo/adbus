@@ -8,9 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "contract_Id")
+@Table(name = "contract_Id", uniqueConstraints=@UniqueConstraint(columnNames={"dateObj"}))
 public class JpaContractId implements Serializable {
 
 	/**
