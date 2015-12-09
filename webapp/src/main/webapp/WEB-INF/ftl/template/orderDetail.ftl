@@ -1,5 +1,5 @@
 <#import "../macro/materialPreview.ftl" as preview> <#macro orderDetail
-orderview quafiles suppliesView="" title="订单详情" suppliesLink=true
+orderview quafiles suppliesView="" title="订单管理" suppliesLink=true
 viewScheduleLink=true> <#assign
 security=JspTaglibs["/WEB-INF/tlds/security.tld"] /> <#assign
 prod=orderview.order.product>
