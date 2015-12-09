@@ -224,9 +224,10 @@ function tocard(pathurl){
 						<div class="back-item">
 							<span class="desp">产品类型：</span> <span class="sift-list" qt="t">
 								<a class="item active" href="#" sort="-1" qc="all">所有</a>
-								<a class="item" href="#" qc="video">视频<i>×</i></a> 
-								<a class="item" href="#" qc="image">图片<i>×</i></a> 
-								<a class="item" href="#" qc="info">文字<i>×</i></a>
+								<a class="item" href="#" qc="video">全屏硬广<i>×</i></a> 
+								<a class="item" href="#" qc="image">INFO图片<i>×</i></a> 
+								<a class="item" href="#" qc="info">INFO字幕<i>×</i></a>
+								
 							</span>
 						</div>
 						<div class="back-item">
