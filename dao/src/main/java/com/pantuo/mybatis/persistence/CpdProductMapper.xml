@@ -13,7 +13,7 @@
 	
 	
 	<update id="updateContractId">
-		update contract_id set count=count +  1 where dateObj = #{dateObj}
+		update contract_id set count=count +  1 where date_obj = #{dateObj}
 	</update>
 
 </mapper>
