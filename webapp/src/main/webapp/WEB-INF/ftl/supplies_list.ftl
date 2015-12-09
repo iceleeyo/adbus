@@ -83,9 +83,9 @@
                         }
 
                         if(data.length>15){
-                    		return "<span class=\"hl\">"+data.substring(0,15)+ ".. </span>";
+                    		return "<span>"+data.substring(0,15)+ ".. </span>";
                     	}else{
-                    		return "<span class=\"hl\">"+data+" </span>";
+                    		return "<span>"+data+" </span>";
                     	}
                 } },
                 { "data": "suppliesType", "defaultContent": "",
