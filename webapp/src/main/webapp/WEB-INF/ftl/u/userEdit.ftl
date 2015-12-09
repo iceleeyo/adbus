@@ -169,8 +169,7 @@ function go_back(){
 			<div class="ui-form-item widthdrawBtBox">
 				<input type="button" id="subWithdraw" class="block-btn"
 					onclick="sub();" value="确认修改">
-				<button type="button" onclick="go_back()" class="block-btn"
-					style="margin-bottom: 10px;">返回</button>
+				
 
 			</div>
 			<div class="worm-tips">
