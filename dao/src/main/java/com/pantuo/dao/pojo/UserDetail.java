@@ -79,7 +79,7 @@ public class UserDetail extends BaseEntity {
 	public String qulifijsonstr;
 	public UStats ustats;
 	public int isActivate;
-	
+	 
 	//以下是页面表单值 
 	@Transient
 	public String password;

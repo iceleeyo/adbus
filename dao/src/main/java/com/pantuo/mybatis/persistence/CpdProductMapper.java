@@ -31,5 +31,16 @@ public interface CpdProductMapper {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	int updateCpdCompareCount(@Param("id") int id);
+	
+	
+	/**
+	 * 
+	 * 更新合同使用次数 
+	 *
+	 * @param id
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	int updateContractId(@Param("dateObj") String dateObj);
 
 }
