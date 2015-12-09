@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -359,7 +361,7 @@ public Bus findBusByPlateNum(String plateNumber){
 		return contractMapper.selectByPrimaryKey(contractId);
 	}
 	
-	
+	static Lock lock =new ReentrantLock();
 	public String getContractId() {
 		int r = 1;
 		String date = new SimpleDateFormat("yy-MM-dd").format(System.currentTimeMillis());
@@ -383,12 +385,16 @@ public Bus findBusByPlateNum(String plateNumber){
 			isUpdate = true;
 		}
 		if (isUpdate) {
-
-			ContractId c = list.get(0);
-			int db = c.getCount() + 1;
-			c.setCount(db);
-			if (contractIdMapper.updateByPrimaryKey(c) > 0) {
-				r = db;
+			try {
+				lock.lock();
+				ContractId c = list.get(0);
+				int db = c.getCount() + 1;
+				c.setCount(db);
+				if (contractIdMapper.updateByPrimaryKey(c) > 0) {
+					r = db;
+				}
+			} finally {
+				lock.unlock();
 			}
 		}
 
