@@ -119,7 +119,7 @@ function supDetail(data){
 			  <@security.authorize ifAnyGranted="advertiser,ShibaFinancialManager">
 			      <li style="width: 200px;"><SPAN>支付凭证：</SPAN><SPAN class="con">
 			      <#if suppliesView.payvouchers??>
-			      <a href="javascript:void(0)" class="operation" onclick="queryPayvoucher('${rc.contextPath}',${orderview.order.id!''});" >查看</a>
+			      <a href="javascript:void(0)" onclick="queryPayvoucher('${rc.contextPath}',${orderview.order.id!''});" >查看</a>
 			      <#else>
 			               无
 			      </#if>
