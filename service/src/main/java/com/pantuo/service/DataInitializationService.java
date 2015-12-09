@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.impl.persistence.entity.GroupEntity;
@@ -49,7 +50,10 @@ import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.dao.pojo.UserDetail.UStats;
 import com.pantuo.mybatis.domain.BusModel;
 import com.pantuo.mybatis.domain.BusModelExample;
+import com.pantuo.mybatis.domain.ContractId;
+import com.pantuo.mybatis.domain.ContractIdExample;
 import com.pantuo.mybatis.persistence.BusModelMapper;
+import com.pantuo.mybatis.persistence.ContractIdMapper;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.IOTools;
 
@@ -67,6 +71,8 @@ public class DataInitializationService {
 	public static Map<String, Set<String>> lineSiteMap = new HashMap<String, Set<String>>();
 
 	public static Map<String, Set<String>> siteLineMap = new HashMap<String, Set<String>>();
+	
+	public static Map<String,AtomicInteger> CONTRACT_ID_MAP =new  HashMap<String, AtomicInteger>();
 	//车身权限集合
 	public static Set<String> bodyAuthSet = new HashSet<String>();
 
@@ -113,6 +119,7 @@ public class DataInitializationService {
 
 	public void intialize() throws Exception {
 	//	initContract();
+		initContractId();
 		initBodyAuthList();
 		initializeFunctionFunction();
 		initializeLineSite();
@@ -654,6 +661,35 @@ public class DataInitializationService {
 			log.error("id0exist", e1);
 		}
 	}
+	
+
+	private void initContractId() {
+		ContractIdExample example = new ContractIdExample();
+		int u = contractIdMapper.countByExample(example);
+		if (u == 0) {
+			Date date = new Date();
+			int y = 1000;
+			for (int i = 0; i < y; i++) {
+				Date e = DateUtil.dateAdd(date, i);
+				try {
+					String f = new SimpleDateFormat("yy-MM-dd").format(e);
+					ContractId id = new ContractId();
+					id.setCount(0);
+					id.setDateObj(f);
+					contractIdMapper.insert(id);
+				} catch (Exception e2) {
+				}
+			}
+		}
+		ContractIdExample example2 = new ContractIdExample();
+		List<ContractId> list = contractIdMapper.selectByExample(example2);
+		for (ContractId contractId : list) {
+			CONTRACT_ID_MAP.put(contractId.getDateObj(), new AtomicInteger(contractId.getCount()));
+		}
+
+	}
+	@Autowired
+	ContractIdMapper   contractIdMapper;
 
 	private Map<String, JpaBusline> initBuslineMap() {
 		Map<String, JpaBusline> lineMap = new HashMap<String, JpaBusline>();
