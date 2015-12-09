@@ -30,11 +30,28 @@ function initCardView(pathUrl){
 }
 
 
+
+function checkNow(startDate){ 
+	
+    var start=new Date(startDate.replace("-", "/").replace("-", "/"));  
+    var end=new Date();  
+    if(start>end){  
+        return true;  
+    }  
+    return false;  
+} 
+
+
+
 /**
  * 查当前购物车条数
  * @param pathUrl
  */
 function checkTime(start,prouctId){
+	if(!checkNow(start)){
+		layer.alert("开播时间 请选择今天以后!", {icon: 5});
+		return ;
+	}
 		$.ajax({
 			url : "/checkFree",
 			data:{"start":  start, "productId":prouctId},
