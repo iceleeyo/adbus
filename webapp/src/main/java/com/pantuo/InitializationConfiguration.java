@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.Lazy;
 
 import com.pantuo.service.ContractInitService;
 import com.pantuo.service.DataInitializationService;
@@ -24,11 +25,11 @@ import com.pantuo.simulate.QueryBusInfo;
 @ImportResource("classpath:/properties.xml")
 public class InitializationConfiguration {
 	@Autowired
+	@Lazy
 	DataInitializationService initService;
 	
 	
 	@Autowired
-	
 	ContractInitService contractInitService;
 	
 	/**

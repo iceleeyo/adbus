@@ -9,6 +9,7 @@ import com.pantuo.dao.pojo.*;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.Schedule;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,6 +18,7 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.ContextConfiguration;
@@ -34,6 +36,7 @@ public class ScheduleServiceTest {
     private static Logger log = LoggerFactory.getLogger(ScheduleServiceTest.class);
 
     @Autowired
+    @Lazy
     private ProductService productService;
     @Autowired
     private ContractService contractService;

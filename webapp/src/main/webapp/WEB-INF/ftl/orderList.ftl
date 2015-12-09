@@ -76,6 +76,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
             "columns": [
             	{ "data": "order.creator", "defaultContent": ""},
             	{ "data": "longOrderId", "defaultContent": ""},
+            	{ "data": "order.contractCode", "defaultContent": ""},
             	{ "data": "product.name", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         var filter = $('#order.productId').val();
@@ -241,6 +242,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
 			<tr>
 				<th>下单用户</th>
 				<th orderBy="longOrderId">订单编号</th>
+				<th>合同编号</th>
 				<th>套餐名称</th>
 				<th>媒体类型</th>
 				<th orderBy="created">创建时间</th> <@security.authorize

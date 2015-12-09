@@ -87,6 +87,7 @@ public class UserManagerController {
 	@Autowired
 	MailService mailService;
 	@Autowired
+	@Lazy
 	private DataInitializationService dataService;
 	@Autowired
 	private InvoiceServiceData invoiceServiceData;
@@ -97,6 +98,7 @@ public class UserManagerController {
 	@Autowired
 	GoupManagerService goupManagerService;
 	@Autowired
+	@Lazy
 	ProductService productService;
 	@Autowired
 	AttachmentService attachmentService;

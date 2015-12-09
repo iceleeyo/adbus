@@ -65,6 +65,7 @@ public class IndexController {
 	  @Autowired
 	    private OrderService orderService;
 	@Autowired
+	@Lazy
 	private ProductService productService;
 	@Autowired
 	private BusLineCheckService busLineCheckService;

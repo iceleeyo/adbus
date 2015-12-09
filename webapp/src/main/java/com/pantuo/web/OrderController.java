@@ -25,6 +25,7 @@ import org.activiti.engine.task.Task;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -84,6 +85,7 @@ public class OrderController {
 	@Autowired
 	private IdentityService identityService;
 	@Autowired
+	@Lazy
 	private ProductService productService;
 	@Autowired
 	private SuppliesService suppliesService;

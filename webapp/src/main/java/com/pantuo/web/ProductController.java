@@ -48,11 +48,11 @@ import com.pantuo.service.CityService;
 import com.pantuo.service.CpdService;
 import com.pantuo.service.ProductService;
 import com.pantuo.service.UserServiceInter;
-import com.pantuo.service.impl.ProductServiceImpl.PlanRequest;
+import com.pantuo.service.security.Request;
 import com.pantuo.util.Only1ServieUniqLong;
 import com.pantuo.util.Pair;
-import com.pantuo.service.security.Request;
 import com.pantuo.web.view.MediaSurvey;
+import com.pantuo.web.view.PlanRequest;
 import com.pantuo.web.view.ProductView;
 
 /**
@@ -64,6 +64,7 @@ public class ProductController {
     private static Logger log = LoggerFactory.getLogger(ProductController.class);
 
     @Autowired
+    @Lazy
     private ProductService productService;
     @Autowired
     private CpdService cpdService;
