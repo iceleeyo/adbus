@@ -260,10 +260,10 @@ $(document).ready(function() {
 						<#if city.mediaType == 'body'>
 						<option value="4" selected="selected">车身</option> <#else>
 
-						<option value="0" selected="selected">硬广</option>
-						<option value="1">图片</option>
-						<option value="2">字幕</option>
-						<option value="3">节目</option> </#if>
+						<option value="0" selected="selected">全屏硬广</option>
+						<option value="1">INFO图片</option>
+						<option value="2">INFO字幕</option>
+						<option value="3">二类节目</option> </#if>
 					</select>
 				</div>
 				<div class="ui-form-item videoToggle" style="display:none;">
