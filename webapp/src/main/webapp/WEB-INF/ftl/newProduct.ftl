@@ -62,6 +62,10 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 				return;
 			}
 		}
+		var tis=$("#exclusiveUser").val()==""?'请确认产品定向：公开':'请确认产品定向：定向';
+		layer.confirm(tis, {icon: 3}, function(index){
+    		layer.close(index);
+		    if(true){
 		$('#productForm').ajaxForm(function(data) {
 			jDialog.Alert(data.name);
 		}).submit();
@@ -76,6 +80,9 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 		}
 		document.body.appendChild(a);
 		a.click();
+}}
+);
+
 	}
 
 	$(document).ready(function() {
