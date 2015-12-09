@@ -1,12 +1,11 @@
-<#import "../macro/materialPreview.ftl" as preview> <#macro orderDetail
-orderview quafiles suppliesView="" title="订单详情" suppliesLink=true
-viewScheduleLink=true> <#assign
-security=JspTaglibs["/WEB-INF/tlds/security.tld"] /> <#assign
-prod=orderview.order.product>
+<#import "../macro/materialPreview.ftl" as preview> 
+<#macro orderDetail orderview quafiles suppliesView="" title="订单详情" suppliesLink=true
+viewScheduleLink=true> 
+<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
+<#assign prod=orderview.order.product>
 
 <script type="text/javascript">
 function supDetail(data){
-
 	layer.open({
     		type: 1,
     		title: "物料及资质",
