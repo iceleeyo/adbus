@@ -31,6 +31,8 @@ import com.pantuo.mybatis.domain.BusContractExample;
 import com.pantuo.mybatis.domain.BusExample;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.ContractExample;
+import com.pantuo.mybatis.domain.ContractId;
+import com.pantuo.mybatis.domain.ContractIdExample;
 import com.pantuo.mybatis.domain.Industry;
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.OrdersExample;
@@ -38,6 +40,7 @@ import com.pantuo.mybatis.persistence.AttachmentMapper;
 import com.pantuo.mybatis.persistence.BlackAdMapper;
 import com.pantuo.mybatis.persistence.BusContractMapper;
 import com.pantuo.mybatis.persistence.BusMapper;
+import com.pantuo.mybatis.persistence.ContractIdMapper;
 import com.pantuo.mybatis.persistence.ContractMapper;
 import com.pantuo.mybatis.persistence.IndustryMapper;
 import com.pantuo.mybatis.persistence.OrdersMapper;
@@ -56,6 +59,8 @@ public class ContractService {
 
 	@Autowired
 	private IdentityService identityService;
+	@Autowired
+	ContractIdMapper   contractIdMapper;
 	@Autowired
 	ContractMapper contractMapper;
 	@Autowired
@@ -352,5 +357,37 @@ public Bus findBusByPlateNum(String plateNumber){
 
 	public Contract selectContractById(int contractId) {
 		return contractMapper.selectByPrimaryKey(contractId);
+	}
+	
+	
+	public String getContractId() {
+		int r = 1;
+		String date = new SimpleDateFormat("yy-MM-dd").format(System.currentTimeMillis());
+
+		ContractIdExample example = new ContractIdExample();
+		example.createCriteria().andDateObjEqualTo(date);
+		List<ContractId> list = contractIdMapper.selectByExample(example);
+		boolean isUpdate = false;
+		if (list.size() == 0) {
+			try {
+				ContractId id = new ContractId();
+				id.setCount(r);
+				id.setDateObj(date);
+				contractIdMapper.insert(id);
+			} catch (Exception e) {
+				isUpdate = true;
+			}
+		} else {
+			isUpdate = true;
+		}
+		if (isUpdate) {
+			ContractId c = list.get(0);
+			c.setCount(c.getCount() + 1);
+			if (contractIdMapper.updateByPrimaryKey(c) > 0) {
+				r = c.getCount() + 1;
+			}
+		}
+
+		return "WBM（XS）-" + date + "-" + (r < 10 ? "0" + r : r);
 	}
 }
