@@ -91,13 +91,13 @@
                 { "data": "suppliesType", "defaultContent": "",
                 "render": function(data, type, row, meta) {
                         if (data == 'video')
-                            return '全屏视频';
+                            return '全屏硬广';
                         if (data == 'image')
                             return 'INFO图片';
                         if (data == 'info')
                             return 'INFO字幕';
                         if (data == 'team')
-                            return '团类';
+                            return '二类节目';
                         return '';
                 } },
                 { "data": "industry.name", "defaultContent": ""},
