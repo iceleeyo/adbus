@@ -11,6 +11,8 @@
 	src="${rc.contextPath}/js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" language="javascript"
 	src="${rc.contextPath}/js/jquery.form.js"></script>
+<script type="text/javascript" language="javascript"
+	src="${rc.contextPath}/js/jquery.cookie.js"></script>
 <link rel="stylesheet" type="text/css" href="index_css/login.css">
 <script type="text/javascript">
 $(document).ready(function() {
@@ -31,11 +33,11 @@ function saveUser() {
         });
         //存储一个带7天期限的cookie
         $.cookie("username", str_username, {
-            expires:7
+        	expires:7
         });
         $.cookie("password", str_password, {
             expires:7
-        });
+        });	
     } else {
         $.cookie("rmbUser", "false", {
             expire:-1
@@ -57,7 +59,7 @@ function saveUser() {
 		<div class="lg-content">
 			<div class="lg-box">
 				<div class="lg-info">
-					<form id='loginForm' style="margin-top: -50px;" name='loginForm'
+					<form id='loginForm' style="margin-top: -70px;" name='loginForm'
 						class="login-form" action="login" method='POST'>
 						<br> <#if (SPRING_SECURITY_LAST_EXCEPTION.message)?? &&
 						(SPRING_SECURITY_LAST_EXCEPTION.message)?index_of("Bad")!=-1> <font

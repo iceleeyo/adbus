@@ -47,7 +47,7 @@
 <div class="logo2"></div>
 <nav class="menu">
 <ul class="list-line">
-	
+
 	<li><a href="/">首页</a></li>
 	<li class="active"><a href="${rc.contextPath}/media">媒体产品</a></li>
 	<li><a href="${rc.contextPath}/effect">传播效果</a></li>
@@ -100,7 +100,7 @@
 	src="${rc.contextPath}/js/layer.onload.js"></script>
 <script type="text/javascript" language="javascript"
 	src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
-	
+
 <script src="${rc.contextPath}/index_js/sift_common.js"></script>
 <script src="${rc.contextPath}/index_js/sift_bus.js"></script>
 <script type="text/javascript">
@@ -149,5 +149,6 @@
 									.removeAttr('style').end().find('.ston')
 									.removeAttr('style');
 						});
+				
 			});
 </script>

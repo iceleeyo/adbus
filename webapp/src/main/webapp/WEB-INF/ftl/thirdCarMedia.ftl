@@ -54,15 +54,18 @@
 								src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}</#if>"
 								width="345" height="290">
 							<div class="sm-imgs">
-								<a><img
-									src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}</#if>"
-									height="65" width="65"></a> <a><img
-									src="<#if jsonView?? && jsonView.img2_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img2_url}</#if>"
-									height="65" width="65"></a> <a><img
-									src="<#if jsonView?? && jsonView.img3_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img3_url}</#if>"
-									height="65" width="65"></a> <a><img
-									src="<#if jsonView?? && jsonView.img4_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img4_url}</#if>"
-									height="65" width="65"></a>
+								<#if jsonView?? && jsonView.img1_url?has_content> <a><img
+									src="${rc.contextPath}/upload_temp/${jsonView.img1_url}"
+									height="65" width="65"></a></#if>
+								<#if jsonView?? && jsonView.img2_url?has_content> <a><img
+									src="${rc.contextPath}/upload_temp/${jsonView.img2_url}"
+									height="65" width="65"></a></#if>
+								<#if jsonView?? && jsonView.img3_url?has_content> <a><img
+									src="${rc.contextPath}/upload_temp/${jsonView.img3_url}"
+									height="65" width="65"></a></#if>
+								<#if jsonView?? && jsonView.img4_url?has_content> <a><img
+									src="${rc.contextPath}/upload_temp/${jsonView.img4_url}"
+									height="65" width="65"></a></#if>
 							</div>
 							<#else> <img id="big_img"
 								src="${rc.contextPath}/index_img/exp1.jpg" width="345"
