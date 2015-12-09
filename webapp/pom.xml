@@ -136,7 +136,7 @@
 							<overwrite>true</overwrite>
 							<resources>
 								<resource>
-									<directory>../service/src/resources/dynamic/</directory>
+									<directory>../service/src/main/resources/dynamic/</directory>
 									<includes>
 										<include>*.groovy</include>
 									</includes>
