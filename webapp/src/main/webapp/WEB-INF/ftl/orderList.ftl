@@ -91,7 +91,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                  { "data": "product.type", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         if (data == 'video')
-                            return '视频';
+                            return '全屏硬广';
                         if (data == 'image')
                             return 'INFO图片';
                         if (data == 'body')
