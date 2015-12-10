@@ -191,6 +191,11 @@
 	<p class="p1">
 		<span class="s1">广告/节目发布合同</span>
 	</p>
+	<#if contractCode??>
+	<p class="p2">
+		<span class="s2">合同编号：</span><span class="s3">${contractCode!''}</span>
+	</p>
+	</#if>
 	<p class="p2">
 		<span class="s2">甲方：</span><span class="s3">${userDetail.company!''}</span>
 	</p>
@@ -257,6 +262,25 @@
 		</tr>
 		<tr>
 			<td COLSPAN=2>总价（元）</td><td COLSPAN=6>#{item.totalprice;m2M2}</td>
+		</tr>
+		</table><br>
+	</#list>
+	</#if>
+	<#if ordersList??>
+	<#list ordersList as item>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<tr>
+			<td width="15%">套餐名称</td><td COLSPAN=3 >${item.product.name}</td>
+			<td width="15%">刊期(天)</td><td COLSPAN=3 >${item.product.days}</td>
+		</tr>
+		<tr>
+			<td width="15%">媒体类型</td><td >${item.product.type.typeName}</td>
+			<td width="15%">广告时长（秒）</td><td >${item.product.duration}</td>
+			<td width="15%">播出频次（次/天）</td><td >${item.product.playNumber}</td>
+			<td width="15%">数量</td><td >1</td>			
+		</tr>
+		<tr>
+			<td COLSPAN=2>总价（元）</td><td COLSPAN=6>#{item.price;m2M2}</td>
 		</tr>
 		</table><br>
 	</#list>

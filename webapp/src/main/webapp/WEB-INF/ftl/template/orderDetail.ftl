@@ -80,6 +80,7 @@ function supDetail(data){
 					date_format="yyyy-MM-dd">${(orderview.order.startTime?date)!''}</SPAN></li>
 			<li style="width: 200px;"><SPAN>到期时间：</SPAN><SPAN class="con"><#setting
 					date_format="yyyy-MM-dd">${(orderview.order.endTime?date)!''}</SPAN></li>
+			<li style="width:400px;"><SPAN>合同编号：</SPAN><SPAN class="con">${(orderview.order.contractCode)!''}</SPAN></li>
 
 
 			<li style="width: 200px;"><SPAN>电子合同：</SPAN>

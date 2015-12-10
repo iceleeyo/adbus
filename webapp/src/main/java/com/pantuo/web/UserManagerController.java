@@ -32,6 +32,7 @@ import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.JpaCardBoxMedia;
 import com.pantuo.dao.pojo.JpaFunction;
 import com.pantuo.dao.pojo.JpaInvoice;
+import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.dao.pojo.UserDetail.UType;
@@ -235,21 +236,20 @@ public class UserManagerController {
 						throw new AccessDeniedException("非法操作！");
 					}
 				}
-				JpaProduct view =  productService.findById(orders.getProductId());
+				List<JpaOrders> ordersList=orderService.findordersList(orders.getContractCode());
 				UserDetail userDetail = userService.findByUsername(orders.getUserId());
-				model.addAttribute("product", view);
+				model.addAttribute("ordersList", ordersList);
 				model.addAttribute("userDetail", userDetail);
+				model.addAttribute("contractCode",orders.getContractCode());
 			}
 			
 		}else{
 			UserDetail userDetail = userService.findByUsername(Request.getUserId(principal));
-			JpaProduct view =  productService.findById(productid);
 			if(meids!=null && meids!=""){
 				List<JpaCardBoxMedia> cardBoxMedis=productService.selectProByMedias(meids);
 				model.addAttribute("cardBoxMedis", cardBoxMedis);
 			}
 			model.addAttribute("userDetail", userDetail);
-			model.addAttribute("product", view);
 		}
 		return "contract_templete";
 	}
