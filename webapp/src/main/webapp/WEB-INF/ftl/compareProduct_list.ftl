@@ -53,7 +53,7 @@ js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer
                 { "data": "product.type", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         if (data == 'video')
-                            return '全屏视频';
+                            return '全屏硬广';
                         if (data == 'image')
                             return 'INFO图片';
                         if (data == 'body')
@@ -124,7 +124,7 @@ var url="${rc.contextPath}/product/checkProHadBought/"+id;
                 '<div>' +
                      '<select class="ui-input ui-input-mini" name="protype" id="protype" style="width:140px">' +
                     '<option value="" selected="selected">产品类型</option>' +
-                  	'<option value="video">全屏视频</option>' +
+                  	'<option value="video">全屏硬广</option>' +
                   	'<option value="image">INFO图片</option>' +
                     '<option value="info">INFO字幕</option>' +
          			'</select>' +
