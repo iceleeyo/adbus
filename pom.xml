@@ -70,6 +70,6 @@
         <module>webapp</module>
         <module>util</module>
     <module>service</module>
-  </modules>
+    </modules>
 
 </project>
