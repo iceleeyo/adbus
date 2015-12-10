@@ -204,7 +204,7 @@
 							</div>
 						</div>
 						
-						<div class="worm-tips">
+						<div class="wormB-tips">
 							<div class="tips-title">
 							<span class="icon"></span>
 			<font color="orange"><B>温馨提示</B></font><br>
