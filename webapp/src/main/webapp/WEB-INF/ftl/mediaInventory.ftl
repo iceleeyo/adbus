@@ -107,7 +107,7 @@ function serch(){
                             autocomplete="off" disableautocomplete=""> <input type="button" class="block-btn" onclick="serch();" value="搜索"/>
 									</div>
           <table id="table" class="cell-border compact display" cellspacing="0"
-		style="width:70%; border-left-style: solid; border-left-width: 1px; border-left-color: rgb(221, 221, 221);">
+		style="width:70%;">
 		<thead>
 			<tr>
 				<th>广告包名称</th>
