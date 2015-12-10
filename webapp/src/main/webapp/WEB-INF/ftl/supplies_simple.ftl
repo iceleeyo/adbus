@@ -65,12 +65,12 @@ div#toolbar {
                 { "data": "suppliesType", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         if (data == 'video')
-                            return '视频';
+                            return '全屏硬广';
                         if (data == 'image')
-                            return '图片';
+                            return 'INFO图片';
                         if (data == 'info')
-                            return 'Info';
-                        return '';
+                            return 'INFO字幕';
+                        return '其他';
                     } },
 				{ "data": "createTime", "defaultContent": "",
                     "render": function(data, type, row, meta) {
