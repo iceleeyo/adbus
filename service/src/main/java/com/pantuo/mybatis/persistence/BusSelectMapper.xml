@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pantuo.mybatis.persistence.BusSelectMapper">
+
+	<select id="countAllbusByContract" parameterType="com.pantuo.mybatis.domain.BusExample"
+	resultType="java.lang.Integer">
+	select
+	 count(1)
+	from bus join bus_online  on bus.id = bus_online.busid join bus_line on bus_line.id =bus.line_id
+	<if test="_parameter != null">
+		<include
+			refid="com.pantuo.mybatis.persistence.BusMapper.Example_Where_Clause" />
+	</if>
+</select>
+
+	
+	<select id="countAllbusExample" parameterType="com.pantuo.mybatis.domain.BusExample"
+	resultType="java.lang.Integer">
+	select
+	 count(1)
+	from bus join bus_line on bus_line.id =bus.line_id
+	<if test="_parameter != null">
+		<include
+			refid="com.pantuo.mybatis.persistence.BusMapper.Example_Where_Clause" />
+	</if>
+</select>
+
+	
+	<!-- 按合同查车 -->
+	<select id="queryOnlineExample" 
+	resultMap="com.pantuo.mybatis.persistence.BusMapper.BaseResultMap">
+	select
+	bus.id, bus.created, bus.updated,bus. city, ad_status, bus.branch,
+	bus.category, bus.description, bus.enabled, bus.end_day,
+	bus.office, old_serial_number, plate_number,bus.serial_number, bus.start_day,
+	bus.company_id, line_id,
+	bus.model_id
+	from bus join  bus_online on bus.id = bus_online.busid
+	 	where publish_line_id in
+		<foreach close=")" collection="idList" item="listItem" open="("
+			separator=",">
+			#{listItem}
+		</foreach>
+</select>
+
+	
+	
+	
+	
+	
+	
+	
+	<!-- 按合同查车 -->
+	<select id="queryAllbusByContract" parameterType="com.pantuo.mybatis.domain.BusExample"
+	resultMap="com.pantuo.mybatis.persistence.BusMapper.BaseResultMap">
+	select
+	<if test="distinct">
+		distinct
+	</if>
+
+	bus.id, bus.created, bus.updated,bus. city, ad_status, bus.branch,
+	bus.category, bus.description, bus.enabled, bus.end_day,
+	bus.office, old_serial_number, plate_number,bus.serial_number, bus.start_day,
+	bus.company_id, line_id,
+	bus.model_id
+	from bus join bus_online  on bus.id = bus_online.busid join bus_line on bus_line.id =bus.line_id
+	<if test="_parameter != null">
+		<include
+			refid="com.pantuo.mybatis.persistence.BusMapper.Example_Where_Clause" />
+	</if>
+	<if test="orderByClause != null">
+		order by ${orderByClause}
+	</if>
+	<if test="limitEnd != -1">
+		limit ${limitStart} , ${limitEnd}
+	</if>
+</select>
+
+	<select id="queryAllbusExample" parameterType="com.pantuo.mybatis.domain.BusExample"
+	resultMap="com.pantuo.mybatis.persistence.BusMapper.BaseResultMap">
+	select
+	<if test="distinct">
+		distinct
+	</if>
+
+	bus.id, bus.created, bus.updated,bus. city, ad_status, bus.branch,
+	bus.category, bus.description, enabled, bus.end_day,
+	bus.office, old_serial_number, plate_number,bus. serial_number, bus.start_day,
+	bus.company_id, line_id,
+	bus.model_id
+	from bus join bus_line on bus_line.id =bus.line_id
+	<if test="_parameter != null">
+		<include
+			refid="com.pantuo.mybatis.persistence.BusMapper.Example_Where_Clause" />
+	</if>
+	<if test="orderByClause != null">
+		order by ${orderByClause}
+	</if>
+	<if test="limitEnd != -1">
+		limit ${limitStart} , ${limitEnd}
+	</if>
+</select>
+	
+    
+    
+    
+    
+    
+
+	<resultMap id="GroupVO" type="com.pantuo.vo.GroupVo">
+		<id column="count" jdbcType="INTEGER" property="count" />
+		<result column="gn1" jdbcType="BIGINT" property="gn1" />
+		<result column="gn2" jdbcType="BIGINT" property="gn2" />
+		<result column="gp1" jdbcType="VARCHAR" property="gp1" />
+		<result column="gp2" jdbcType="VARCHAR" property="gp2" />
+	</resultMap>
+	<!-- 查线路车辆类型 返回车辆对象 -->
+	<select id="getBusModel"
+		resultMap="com.pantuo.mybatis.persistence.BusModelMapper.BaseResultMap">
+		select distinct bus_model.* from bus_model join
+		(select
+		bus.model_id from bus join bus_line
+		on bus.line_id = bus_line.id where
+		bus_line.id=#{lineId} and category =
+		#{category}) t
+		on bus_model.id =
+		t.model_id
+	</select>
+
+
+	<select id="getBusContract"
+		resultMap="com.pantuo.mybatis.persistence.BusContractMapper.BaseResultMap">
+
+		select bus_contract.* from bus_contract join (
+		select bus.id
+		from
+		bus_line
+		join bus on bus_line.id = bus.line_id
+		where enabled = 1 and
+		category = #{category}
+		and bus_line.id =
+		#{lineId}
+		<if test="modelId > 0">
+			and model_id = #{modelId}
+		</if>
+		) m on m.id=bus_contract.busid
+		where bus_contract.end_date > now() and
+		bus_contract.enable=1
+
+	</select>
+
+	<select id="selectWorkDoneBus"
+		resultMap="com.pantuo.mybatis.persistence.BusContractMapper.BaseResultMap">
+
+		select w.* from
+		(select
+		bus_contract.*,bus.line_id from bus_contract
+		join bus on bus.id = bus_contract.busid
+		where
+		enabled = 1 and category =
+		#{category}
+		and bus_contract.contractid=#{bodycontract_id}
+		<if test="modelId > 0">
+			and model_id = #{modelId}
+		</if>
+		)
+		w join bus_line on bus_line.id = w.line_id
+		where bus_line.id=#{lineId}
+	</select>
+
+	<select id="getBusList"
+		resultMap="com.pantuo.mybatis.persistence.BusMapper.BaseResultMap">
+		select
+		bus.* from bus_line
+		join bus on bus_line.id = bus.line_id
+		where
+		enabled = 1 and category =
+		#{category} and bus_line.id=#{lineId}
+		<if test="modelId > 0">
+			and model_id = #{modelId}
+		</if>
+	</select>
+
+
+
+	<select id="countLineCars" resultMap="GroupVO">
+		select count(1) as count,
+		line_id as gn1 from bus
+		where enabled = 1 and
+		category =#{category}
+		group
+		by bus.line_id
+	</select>
+
+
+	<select id="countCarTypeByLine" resultMap="GroupVO">
+		select count as
+		count,gn1 ,bus_model.name as gp2,bus_model.double_decker as gn2 from
+		(select
+		count(bus.model_id) as count,bus.model_id as gn1 from bus_line
+		join bus on bus_line.id = bus.line_id
+		where enabled = 1 and category =
+		#{category} and bus_line.id=#{lineId}
+		group by bus.model_id )t join
+		bus_model
+		on gn1=bus_model.id
+
+	</select>
+
+	<!--按合同 线路和车辆 查已安装数量 -->
+	<select id="countContractidCarGroupbyLineModel" resultMap="GroupVO">
+		select bus.line_id as gn1,bus.model_id as gn2,count(1) as count
+		from
+		bus_contract
+		join bus on bus.id = bus_contract.busid
+		where
+		enabled = 1
+		and bus_contract.enable=1
+		and category =#{category}
+
+		and
+		bus_contract.contractid=#{bodycontract_id}
+		group by
+		bus.line_id,bus.model_id
+
+	</select>
+
+
+	<select id="countCarByLines" resultMap="GroupVO">
+		select
+		count(bus.id) as count,bus_line.id as gn1 from bus_line
+		join bus
+		on bus_line.id = bus.line_id
+		where enabled = 1 and category =
+		#{category}
+		and bus_line.id in
+		<foreach close=")" collection="idList" item="listItem" open="("
+			separator=",">
+			#{listItem}
+		</foreach>
+		group by bus_line.id
+	</select>
+
+
+
+
+
+	<select id="countContractCar" resultMap="GroupVO">
+		select
+		sum(sales_number) as count,contract_id as gn1 from bus_lock
+		where contract_id in
+		<foreach close=")" collection="idList" item="listItem" open="("
+			separator=",">
+			#{listItem}
+		</foreach>
+		group by contract_id
+	</select>
+
+	<select id="countContractDoneCar" resultMap="GroupVO">
+		select
+		count(distinct busid) as count,contractid as gn1 from
+		bus_contract
+		where enable=1 and contractid in
+		<foreach close=")" collection="idList" item="listItem" open="("
+			separator=",">
+			#{listItem}
+		</foreach>
+		group by contractid
+	</select>
+
+
+
+
+	<select id="countWorkingCarList" resultType="java.lang.Integer">
+	<![CDATA[
+		select sum(remain_nuber) from bus_lock
+		where  bus_lock.line_id = #{lineId}
+		and lock_expired_time > now()
+		and stats = #{stats}
+		and (
+		(bus_lock.start_date<= #{start}
+		and bus_lock.end_date>= #{start})
+		or (bus_lock.start_date<= #{end}
+		and bus_lock.end_date>= #{end})
+		or (bus_lock.start_date>= #{start}
+		and bus_lock.end_date<= #{end})
+		)
+		]]>
+		<if test="modelId > 0">
+			and model_id = #{modelId}
+		</if>
+	</select>
+
+
+	<select id="getOnlineCarList" resultType="java.lang.Integer">
+		<![CDATA[
+		select distinct bus.id from bus_line join bus on bus_line.id = bus.line_id
+		join bus_contract on bus.id = bus_contract.busid
+		where
+		bus.enabled = 1 and bus.category = #{category}
+		and bus_line.id = #{lineId}
+		and (
+		(bus_contract.start_date<= #{start}
+		and bus_contract.end_date>= #{start})
+		or (bus_contract.start_date<= #{end}
+		and bus_contract.end_date>= #{end})
+		
+		or (bus_contract.start_date>= #{start}
+		and bus_contract.end_date<= #{end})
+		)
+	]]>
+	</select>
+
+	<select id="countOnlineCarList" resultType="java.lang.Integer">
+	<![CDATA[
+		select count(distinct bus.id) from bus_line join bus on bus_line.id = bus.line_id
+		join bus_contract on bus.id = bus_contract.busid
+		where
+		bus.enabled = 1 and bus_contract.enable =1 and bus.category = #{category}
+		and bus_line.id = #{lineId}
+		and (
+		(bus_contract.start_date<= #{start}
+		and bus_contract.end_date>= #{start})
+		or (bus_contract.start_date<= #{end}
+		and bus_contract.end_date>= #{end})
+		or (bus_contract.start_date>= #{start}
+		and bus_contract.end_date<= #{end})
+		)
+		]]>
+		<if test="modelId > 0">
+			and model_id = #{modelId}
+		</if>
+	</select>
+
+
+
+
+	<select id="queryLineDesByModelid" resultType="java.lang.String">
+		select
+		distinct description from bus
+		where line_id = #{lineId}
+		<if test="modelId > 0">
+			and model_id = #{modelId}
+		</if>
+
+	</select>
+	
+	<select id="queryUplog" resultType="java.lang.Integer">
+		select
+		distinct busid from bus_uplog
+		where be_serial_number = #{serial_number}
+		 or af_serial_number = ${serial_number}
+
+	</select>
+	
+	<select id="queryLineCompanyByModelid" resultType="java.lang.Integer">
+		select
+		distinct company_id from bus
+		where line_id = #{lineId}
+		<if test="modelId > 0">
+			and model_id = #{modelId}
+		</if>
+
+	</select>
+	
+	
+		
+	<!-- 用户组修改 与删除 -->
+	<select id="getGroupUserCount" resultType="java.lang.Integer">
+		select
+		count(1) from ACT_ID_MEMBERSHIP
+			where GROUP_ID_ = #{groupId}
+	</select>
+	 <delete id="deleteGroupMEMBERSHIP" parameterType="java.lang.String">
+     
+    delete from ACT_ID_MEMBERSHIP
+    where GROUP_ID_ = #{groupId}
+  </delete>
+	
+	
+	<!-- 按线路统计车辆个数 -->
+	<select id="countBusCar" resultType="java.lang.Integer">
+
+		select
+		count(1) from bus_line
+		join bus on bus_line.id = bus.line_id
+		where enabled = #{enabled} and
+		category = #{category}
+		and bus_line.id =
+		#{lineId}
+		<if test="modelId > 0">
+			and model_id = #{modelId}
+		</if>
+
+	</select>
+
+
+	<update id="pdateLineOnineInfo" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			update bus_line
+			<set>
+				_today=${item._today},
+				_month1day=${item.month_1_day},
+				_month2day=${item.month_2_day},
+				_month3day=${item.month_3_day}
+
+			</set>
+			where id = ${item.line_id}
+		</foreach>
+	</update>
+	<update id="batchUpdateLineCars" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			update bus_line
+			<set>
+				_cars=${item._cars},
+				_persons=${item._persion}
+			</set>
+			where id = ${item.line_id}
+		</foreach>
+	</update>
+</mapper>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pantuo.mybatis.persistence.UserAutoCompleteMapper">
+
+
+	<select id="getUserIdLike" parameterType="map" resultType="java.lang.String">
+		select USER_ID_ from ACT_ID_MEMBERSHIP where GROUP_ID_ = #{groupId}
+		<if test="uname != null  ">
+			and USER_ID_ like #{uname}
+		</if>
+		order by USER_ID_ limit 30
+	</select>
+	<select id="selectAllProId"  resultType="java.lang.Integer">
+		select distinct id from product 
+		order by id asc
+	</select>
+<select id="selectBusidsByPid" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select  distinct busid
+    from bus_online
+    where publish_line_id = #{pid,jdbcType=INTEGER}
+  </select>
+<select id="getContactCountBycomid"  resultType="java.lang.Integer">
+   select count(distinct contractid)  from bus_online,bus where bus_online.busid=bus.id and 
+    bus.company_id= #{companyid,jdbcType=INTEGER} and date_format(bus_online.start_date, '%Y%m')=date_format(#{monthstr},'%Y%m')
+  </select>
+<select id="getlevelbusnumBycomid"  resultType="com.pantuo.vo.ModelCountView">
+  select bus_line.level as leval ,count( distinct bus_online.busid) as busnum from bus_online,bus,bus_line 
+  where bus_online.busid=bus.id 
+  and bus.company_id=#{companyid,jdbcType=INTEGER} and 
+  date_format(bus_online.start_date, '%Y%m')=date_format(#{monthstr},'%Y%m') and bus.line_id=bus_line.id 
+  and bus_online.sktype=#{sktype} group by bus_line.level
+  </select>
+<select id="getdaysbusnumBycomid"  resultType="com.pantuo.vo.ModelCountView">
+  select days,count(*) as busnum from bus_online,bus where bus_online.busid=bus.id 
+  and bus.company_id=#{companyid,jdbcType=INTEGER} and date_format(bus_online.start_date, '%Y%m')=date_format(#{monthstr},'%Y%m')
+   group by days 
+  </select>
+<select id="getMediaInventory"  resultType="com.pantuo.vo.MediaInventory">
+   select timeslot.name as bname,box.size as bsize,(box.size-box.remain) as normalremain,(30-box.fremain) as fremain  from timeslot  left join box on timeslot.id=box.slot_id 
+    where  date_format(box.day, '%Y%m%d')=date_format(#{datestr},'%Y%m%d') order by timeslot.id asc
+  </select>
+<select id="getScheduleViewByDateStr"  resultType="com.pantuo.vo.MediaInventory">
+   select  timeslot.id as sotid, timeslot.name as bname,timeslot.start_time as startTime,count(goods.box_slot_id) as num,timeslot.duration as duration,goods.day as day
+ from timeslot,goods where goods.box_slot_id=timeslot.id and order_id=#{orderid} and goods.day>=date_format(#{datestr},'%Y%m%d')
+group by goods.box_slot_id,goods.day order by timeslot.id asc
+  </select>
+<select id="selectFunidsByPid"   resultMap="com.pantuo.mybatis.persistence.BusFunctionMapper.BaseResultMap">
+    select   bus_function.id, bus_function.created, bus_function.updated, bus_function.city, funcode, fundesc,
+     bus_function.name
+    from group_function join bus_function on bus_function.id=group_function.fun_id
+    where group_id in 
+    <foreach collection="gidlist" index="index" item="item" open="(" separator="," close=")"> 
+            #{item} 
+        </foreach> 
+  </select>
+<select id="selectBusModelGroupView"   resultType="com.pantuo.vo.ModelCountView">
+select bus_model.name as modelName,count(*) as alrnum
+from bus_model,bus,bus_online where bus.id=bus_online.busid and bus_online.enable=1
+and bus.model_id=bus_model.id and bus_online.publish_line_id in
+     <foreach collection="pubidList" index="index" item="item" open="(" separator="," close=")"> 
+            #{item} 
+        </foreach>  group by bus_model.name
+  </select>
+</mapper>

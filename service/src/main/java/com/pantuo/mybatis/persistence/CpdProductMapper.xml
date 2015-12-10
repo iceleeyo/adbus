@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pantuo.mybatis.persistence.CpdProductMapper">
+
+	<update id="updateCpdPv">
+		update role_cpd set pv=pv+1 where id = #{id}
+	</update>
+
+	<update id="updateCpdCompareCount">
+		update role_cpd set setcount=setcount+1 where id = #{id}
+	</update>
+	
+	
+	
+	<update id="updateContractId">
+		update contract_id set count=count +  1 where date_obj = #{dateObj}
+	</update>
+
+</mapper>
