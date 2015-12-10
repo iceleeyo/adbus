@@ -333,7 +333,7 @@
 			</ul></li> </@security.authorize> <#if _utype == 'screen'> <@security.authorize
 		ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,contract_input,contract_list,contract_search,contract_buy">
 		<li class="pg-side-item"><a class="pg-side-item-t hh-icon"> <i
-				class="s-left pg-icon-a c-icon"></i> 视屏报表管理
+				class="s-left pg-icon-a c-icon"></i> 视频报表管理
 		</a>
 			<ul class="pg-side-exp-list">
 				<@security.authorize ifAnyGranted="ShibaFinancialManager">
