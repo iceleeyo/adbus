@@ -32,7 +32,7 @@ function showProV2Detail(tourl,id){
 		area: ['900px', '300px'], 
 		content:''
 			+' '
-			+'<iframe style="width:99%;height:98%" frameborder="no" src="'+tourl+'/product/showProV2Detail/'+id+'"/>'
+			+'<iframe style="width:100%;height:98%" frameborder="no" src="'+tourl+'/product/showProV2Detail/'+id+'"/>'
 	});
 	
 }
@@ -44,7 +44,7 @@ function showProV2DetailByOrderID(tourl,id){
 		area: ['900px', '300px'], 
 		content:''
 			+' '
-			+'<iframe style="width:99%;height:98%" frameborder="no" src="'+tourl+'/product/showProV2DetailByOrderID/'+id+'"/>'
+			+'<iframe style="width:100%;height:98%" frameborder="no" src="'+tourl+'/product/showProV2DetailByOrderID/'+id+'"/>'
 	});
 	
 }
@@ -57,7 +57,7 @@ function showbusOnline_history(tourl,id){
 		area: ['1020px', '600px'],  
 		content:''
 			+' '
-			+'<iframe style="width:99%;height:98%" frameborder="no" src="'+tourl+'/bus/busOnline_history/'+id+'"/>'
+			+'<iframe style="width:100%;height:98%" frameborder="no" src="'+tourl+'/bus/busOnline_history/'+id+'"/>'
 	});
 }
 //查看车身订单（carBoxBody）
