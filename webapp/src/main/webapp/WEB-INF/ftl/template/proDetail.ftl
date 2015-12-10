@@ -2,7 +2,7 @@
 <#include "preview.ftl" />
 <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
 <#if product??>
-<div class="withdrawB-wrap color-white-bg fn-clear" style="">
+<div class="withdrawB-wrap color-white-bg fn-clear">
 	<DIV class="summary mt10 uplan-summary-div">
 		<UL class="uplan-detail-ul">
 			<LI style="width: 480px;"><SPAN>套餐名称：</SPAN><SPAN class="con">${product.name!''}</SPAN>
