@@ -76,7 +76,9 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
             "columns": [
             	{ "data": "order.creator", "defaultContent": ""},
             	{ "data": "longOrderId", "defaultContent": ""},
-            	{ "data": "order.contractCode", "defaultContent": ""},
+            	{ "data": "order.contractCode", "defaultContent": "", "render": function(data, type, row, meta) {
+                        return "<a class='operation' onclick='eleContract(\"${rc.contextPath}\","+row.order.id+")' >"+data+"</a>";
+                    }},
             	{ "data": "product.name", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         var filter = $('#order.productId').val();
