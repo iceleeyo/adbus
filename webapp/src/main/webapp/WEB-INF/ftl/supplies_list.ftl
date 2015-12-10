@@ -137,7 +137,7 @@ function supDetail(data){
     		type: 1,
     		title: "物料及资质",
     		skin: 'layui-layer-rim', 
-    		area: ['1000px', '529px'], 
+    		area: ['1200px', '529px'], 
     		content:''
 			   +' '
 			   +'<iframe  style="width:100%;height:100%" frameborder="no" src="${rc.contextPath}/supplies/suppliesDetail/'+data+'"/>'
