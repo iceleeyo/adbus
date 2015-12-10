@@ -263,7 +263,7 @@ function contractdetail(tourl,contractid){
 				area: ['900px', '350px'], //宽高
 				content:''
 					   +' '
-					   +'<iframe style="width:99%;height:97%" frameborder="no" src="'+tourl+'/contract/contractDetail/'+contractid+'"/>'
+					   +'<iframe style="width:100%;height:97%" frameborder="no" src="'+tourl+'/contract/contractDetail/'+contractid+'"/>'
 			});
 			
 		}
