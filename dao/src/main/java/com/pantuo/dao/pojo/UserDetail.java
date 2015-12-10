@@ -22,7 +22,6 @@ import org.activiti.engine.impl.persistence.entity.GroupEntity;
 import org.activiti.engine.impl.persistence.entity.UserEntity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.pantuo.mybatis.domain.BusFunction;
 
 
 /**
@@ -59,7 +58,7 @@ public class UserDetail extends BaseEntity {
     
     
     @Transient 
-    List<BusFunction> functions;
+    List<JpaFunction> functions;
     public String username;
     public boolean enabled = true;
     
@@ -308,11 +307,11 @@ public class UserDetail extends BaseEntity {
 	}
 
 
-	public List<BusFunction> getFunctions() {
+	public List<JpaFunction> getFunctions() {
 		return functions;
 	}
 
-	public void setFunctions(List<BusFunction> functions) {
+	public void setFunctions(List<JpaFunction> functions) {
 		this.functions = functions;
 	}
 
