@@ -32,11 +32,11 @@
 			</LI> </#if> <#if product.imgurl?has_content>
 			<LI style="width: 480px;"><SPAN>缩略图：</SPAN><SPAN class="con">
 					<img src="${rc.contextPath}/upload_temp/${product.imgurl}"
-					class="m11" height="100" width="100" />
+					class="m11" height="100" width="100" style="padding-top: 15px;"/>
 			</SPAN></LI> <#else>
 			<LI style="width: 480px;"><SPAN>缩略图：</SPAN><SPAN class="con">
 					<img src="${rc.contextPath}/index_img/wp1_1.jpg" height="100"
-					width="100">
+					width="100" style="padding-top: 15px;">
 			</SPAN></LI> </#if>
 		</UL>
 	</DIV>
@@ -87,11 +87,11 @@
 			</LI> </#if> <#if view.imgurl?has_content>
 			<LI style="width: 480px;"><SPAN>缩略图：</SPAN><SPAN class="con">
 					<img src="${rc.contextPath}/upload_temp/${view.imgurl}" class="m11"
-					height="100" width="100" />
+					height="100" width="100" style="padding-top: 15px;"/>
 			</SPAN></LI> <#else>
 			<LI style="width: 480px;"><SPAN>缩略图：</SPAN><SPAN class="con">
 					<img src="${rc.contextPath}/index_img/wp1_1.jpg" height="100"
-					width="100">
+					width="100" style="padding-top: 15px;">
 			</SPAN></LI> </#if>
 		</UL>
 	</DIV>
