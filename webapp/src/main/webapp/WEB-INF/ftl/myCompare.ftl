@@ -35,13 +35,13 @@ js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer
                 { "data": "product.type", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         if (data == 'video')
-                            return '视频';
+                            return '全屏硬广';
                         if (data == 'image')
-                            return '图片';
+                            return 'INFO图片';
                         if (data == 'body')
                             return '车身';
                         if (data == 'info')
-                            return 'Info';
+                            return 'INFO字幕';
                         return '';
                     } },
                 
