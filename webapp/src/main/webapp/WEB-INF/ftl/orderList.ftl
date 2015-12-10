@@ -54,10 +54,10 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
             "ordering": true,
             "serverSide": true,
             "scrollX": true,
-            "aaSorting": [[4, "desc"]],
+            "aaSorting": [[1, "desc"]],
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                 { "orderable": false, "targets": [0,1,2,3,5] },
+                 { "orderable": false, "targets": [0,2,3,4,7] },
             ],
             "ajax": {
                 type: "GET",
