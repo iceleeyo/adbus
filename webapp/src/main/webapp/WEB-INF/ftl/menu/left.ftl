@@ -354,9 +354,6 @@
 			<ul class="pg-side-exp-list">
 				<@security.authorize
 				ifAnyGranted="sys_userList,body_roleManager,bodysales,bodyContractManager,ShibaSuppliesManager,advertiser,UserManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
-				
-			 
-				
 				<@security.authorize ifAnyGranted="UserManager,sys_userList">
 				<#if UType != 'body'>
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
