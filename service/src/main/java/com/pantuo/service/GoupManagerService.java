@@ -30,7 +30,7 @@ public interface GoupManagerService {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	public List<BusFunction> getFunction4UserId(UserDetail user);
+	public List<JpaFunction> getFunction4UserId(UserDetail user);
 
 	/**
 	 * 

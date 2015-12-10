@@ -39,6 +39,7 @@ import com.pantuo.mybatis.persistence.GroupFunctionMapper;
 import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.GoupManagerService;
+import com.pantuo.util.BeanUtils;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.RoleView;
 
@@ -168,17 +169,25 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 	}
 
 	@Override
-	public List<BusFunction> getFunction4UserId(UserDetail user) {
+	public List<JpaFunction> getFunction4UserId(UserDetail user) {
 		if (!user.getGroups().isEmpty()) {
 			List<String> gidlist = new ArrayList<String>();
 			for (Group group : user.getGroups()) {
 				gidlist.add(group.getId());
 			}
 			if (gidlist.size() > 0) {
-				return userAutoCompleteMapper.selectFunidsByPid(gidlist);
+				List<BusFunction> funs = userAutoCompleteMapper.selectFunidsByPid(gidlist);
+				List<JpaFunction> r = new ArrayList<JpaFunction>();
+				for (BusFunction each : funs) {
+					JpaFunction jpaFunction = new JpaFunction();
+					BeanUtils.copyPropertiesFilterZero(each, jpaFunction);
+					r.add(jpaFunction);
+					return r;
+				}
+
 			}
 		}
-		return new ArrayList<BusFunction>(0);
+		return new ArrayList<JpaFunction>(0);
 	}
 
 	@Override

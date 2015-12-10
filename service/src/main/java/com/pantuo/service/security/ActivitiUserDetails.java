@@ -70,7 +70,7 @@ public class ActivitiUserDetails implements UserDetails {
 			}
 		} else if (user.utype == UType.body) {
 			if (user.getFunctions() != null) {
-				for (BusFunction g : user.getFunctions()) {
+				for (JpaFunction g : user.getFunctions()) {
 					auths.add(new ActivityAuthority(g.getFuncode()));
 				}
 			}
