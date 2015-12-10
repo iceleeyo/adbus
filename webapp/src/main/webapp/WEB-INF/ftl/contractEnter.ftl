@@ -255,7 +255,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 						style="width: 173px; height: 38px;">
 						<option value="INFO字幕">INFO字幕</option>
 						<option value="INFO图片">INFO图片</option>
-						<option value="全屏视频">全屏视频</option>
+						<option value="全屏硬广">全屏硬广</option>
 						<option value="团类广告">团类广告</option>
 						<option value="车身广告">车身广告</option>
 					</select>
