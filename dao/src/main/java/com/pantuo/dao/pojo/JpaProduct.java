@@ -17,7 +17,7 @@ import java.util.*;
 @Table(name="product")
 public class JpaProduct extends CityEntity {
     public static enum Type {
-        video("全屏视频"), image("INFO图片"), info("INFO字幕"),team("团类广告"), body("车身"), other("其他");
+        video("全屏硬广"), image("INFO图片"), info("INFO字幕"),team("团类广告"), body("车身"), other("其他");
 
         private final String name;
         private Type(String name) {
