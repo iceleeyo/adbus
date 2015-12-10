@@ -123,9 +123,12 @@
 									value="${item.price}">
 								<li class="td td-amount"><span class="icon icon-plus"
 									onclick="leftDec(${item.id});"></span> <input type="text"
-									id="sum_${item.id}" value="${item.needCount}"
-									onblur="meblur(${item.id})"> <span
-									class="icon icon-sub" onclick="leftPlus(${item.id});"></span></li>
+									id="sum_${item.id}" value="1"
+									onblur="meblur(${item.id})"> 
+									<!-- ${item.needCount}  -->
+									<span
+									class="icon icon-sub" onclick="notAllow()"></span></li><!-- leftPlus(${item.id}); -->
+									
 								<li class="td td-sum">
 									<div class="td-inner">
 										<p class="sum">
@@ -209,8 +212,10 @@
 									onclick="b_leftDec(${item.id},${item.isDesign});"></span> <input
 									type="text" id="b_sum_${item.id}"
 									onblur="boblur(${item.id},${item.isDesign});"
-									value="${item.needCount}"> <span class="icon icon-sub"
-									onclick="b_leftPlus(${item.id},${item.isDesign});"></span></li>
+									value="1"> 
+								<!-- ${item.needCount} -->
+								<span class="icon icon-sub"
+									onclick="notAllow()"></span></li><!-- b_leftPlus(${item.id},${item.isDesign}); -->
 								<li class="td td-sum">
 									<div class="td-inner">
 										<p class="sum">
@@ -281,6 +286,9 @@
 		<script src="${rc.contextPath}/js/jquery-dateFormat.js"></script>
 	
 		<script type="text/javascript">
+		function notAllow(){
+			layer.msg("暂时只支持购买单件商品");
+		}
 		function selectPro(){
 		var me= document.getElementsByName("checkone");
         	var medIds='';

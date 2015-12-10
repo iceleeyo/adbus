@@ -2308,10 +2308,9 @@
 }
 
 .worm-tips {
-	margin: 10px auto;
 	padding: 10px 16px;
-	width: 630px;
-	height: auto
+  	width: 630px;
+  	height: auto;
 }
 
 .wormB-tips {

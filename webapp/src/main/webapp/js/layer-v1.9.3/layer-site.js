@@ -2173,3 +2173,17 @@ $('.search-key span').click(function(){
 	$("#searchText").val(val);
 	$("#search-btn").trigger('click');
 });
+
+//产品详情图片放大
+$(function(){
+	$w = $('.con img').width();
+	$h = $('.con img').height();
+	$w2 = $w + 150;
+	$h2 = $h + 150;
+
+	$('.con img').hover(function(){
+		 $(this).stop().animate({height:$h2,width:$w2,left:"-10px",top:"-10px"},800);
+	},function(){
+		 $(this).stop().animate({height:$h,width:$w,left:"0px",top:"0px"},800);
+	});
+});

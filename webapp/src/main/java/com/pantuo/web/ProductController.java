@@ -289,7 +289,9 @@ public class ProductController {
 		response.setHeader("X-Frame-Options", "SAMEORIGIN");
 		//    	int supplies_id=Integer.parseInt(request.getParameter("supplies_id"));
 		JpaProduct view =  productService.findById(productId);
+		JpaProduct j=cardService.getJpaProductByid(productId);
 		model.addAttribute("view", view);
+		model.addAttribute("jsonView", cardService.getJsonfromJsonStr(j.getJsonString()));
 		return "template/proDetail";
 	}
     

@@ -30,12 +30,22 @@
 			product.remarks?has_content>
 			<LI style="width: 480px;"><SPAN>套餐描述：</SPAN><SPAN class="con">${substring(product.remarks!'',0,38)}</SPAN>
 			</LI> </#if> <#if product.imgurl?has_content>
-			<LI style="width: 480px;"><SPAN>缩略图：</SPAN><SPAN class="con">
-					<img src="${rc.contextPath}/upload_temp/${product.imgurl}"
-					class="m11" height="100" width="100" style="padding-top: 15px;"/>
+			<LI style="width: 480px;padding-top: 20px;"><SPAN>缩略图：</SPAN><SPAN class="con">
+					<#if jsonView?? && jsonView.img1_url?has_content> <a><img
+									src="${rc.contextPath}/upload_temp/${jsonView.img1_url}" class="m11"
+									height="65" width="65"></a></#if>
+								<#if jsonView?? && jsonView.img2_url?has_content> <a><img
+									src="${rc.contextPath}/upload_temp/${jsonView.img2_url}" class="m11"
+									height="65" width="65"></a></#if>
+								<#if jsonView?? && jsonView.img3_url?has_content> <a><img
+									src="${rc.contextPath}/upload_temp/${jsonView.img3_url}" class="m11"
+									height="65" width="65"></a></#if>
+								<#if jsonView?? && jsonView.img4_url?has_content> <a><img
+									src="${rc.contextPath}/upload_temp/${jsonView.img4_url}" class="m11"
+									height="65" width="65"></a></#if>
 			</SPAN></LI> <#else>
-			<LI style="width: 480px;"><SPAN>缩略图：</SPAN><SPAN class="con">
-					<img src="${rc.contextPath}/index_img/wp1_1.jpg" height="100"
+			<LI style="width: 480px;padding-top: 20px;"><SPAN>缩略图：</SPAN><SPAN class="con">
+					<img src="${rc.contextPath}/index_img/wp1_1.jpg" height="100" class="m11"
 					width="100" style="padding-top: 15px;">
 			</SPAN></LI> </#if>
 		</UL>
@@ -85,12 +95,22 @@
 			view.remarks?has_content>
 			<LI style="width: 720px;"><SPAN>套餐描述：</SPAN><SPAN class="con">${substring(view.remarks!'',0,38)}</SPAN>
 			</LI> </#if> <#if view.imgurl?has_content>
-			<LI style="width: 480px;"><SPAN>缩略图：</SPAN><SPAN class="con">
-					<img src="${rc.contextPath}/upload_temp/${view.imgurl}" class="m11"
-					height="100" width="100" style="padding-top: 15px;"/>
+			<LI style="width: 480px;padding-top: 20px;"><SPAN>缩略图：</SPAN><SPAN class="con">
+					<#if jsonView?? && jsonView.img1_url?has_content> <a><img
+									src="${rc.contextPath}/upload_temp/${jsonView.img1_url}" class="m11"
+									height="65" width="65"></a></#if>
+								<#if jsonView?? && jsonView.img2_url?has_content> <a><img
+									src="${rc.contextPath}/upload_temp/${jsonView.img2_url}" class="m11"
+									height="65" width="65"></a></#if>
+								<#if jsonView?? && jsonView.img3_url?has_content> <a><img
+									src="${rc.contextPath}/upload_temp/${jsonView.img3_url}" class="m11"
+									height="65" width="65"></a></#if>
+								<#if jsonView?? && jsonView.img4_url?has_content> <a><img
+									src="${rc.contextPath}/upload_temp/${jsonView.img4_url}" class="m11"
+									height="65" width="65"></a></#if>
 			</SPAN></LI> <#else>
-			<LI style="width: 480px;"><SPAN>缩略图：</SPAN><SPAN class="con">
-					<img src="${rc.contextPath}/index_img/wp1_1.jpg" height="100"
+			<LI style="width: 480px;padding-top: 20px;"><SPAN>缩略图：</SPAN><SPAN class="con">
+					<img src="${rc.contextPath}/index_img/wp1_1.jpg" height="100" class="m11"
 					width="100" style="padding-top: 15px;">
 			</SPAN></LI> </#if>
 		</UL>
