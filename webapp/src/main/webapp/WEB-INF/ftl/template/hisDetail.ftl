@@ -16,6 +16,7 @@
 								"searching" : false,
 								"ordering" : false,
 								"serverSide" : false,
+								"iDisplayLength" : 50,
 								"language" : {
 									"url" : "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
 								}
