@@ -21,7 +21,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
     text-align: center;
     line-height: 30px;
     }
-th, td { white-space: nowrap;border: 1px solid #C5C5C5;}
+th, td { white-space: nowrap;}
 </style>
 <script type="text/javascript">
 	
