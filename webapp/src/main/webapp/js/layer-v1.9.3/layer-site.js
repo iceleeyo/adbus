@@ -432,25 +432,25 @@ function supEnter(tourl,city,type){
 				$("#suppliesType").append(
 						"<option value='3'>车身</option>"
 				);
-		}else if(type=="全屏视频"){
+		}else if(type=="video"){
 			$("#suppliesType").append(
-			"<option value='0'>全屏视频</option>"
+			"<option value='0'>全屏硬广</option>"
 				);
 			$("#text").hide();
             $("#file").show();
-		}else if(type=="INFO图片"){
+		}else if(type=="image"){
 			$("#suppliesType").append(
 			"<option value='1'>INFO图片</option>"
 			);
 			$("#text").hide();
             $("#file").show();
-		}else if(type=="INFO字幕"){
+		}else if(type=="info"){
 			$("#suppliesType").append(
 			"<option value='2'>INFO字幕</option>"
 			);
 			$("#text").show();
             $("#file").hide();
-		}else if(type=="团类"){
+		}else if(type=="team"){
 			$("#suppliesType").append(
 			"<option value='4'>团类</option>"
 			);
