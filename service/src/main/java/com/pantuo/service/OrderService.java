@@ -393,5 +393,8 @@ public class OrderService {
 		JpaOrders orders=ordersRepository.findOne(orderid);
 		return new Pair<Object, Object>(orders,supplieslist);
 	}
-
+  public List<JpaOrders> findordersList(String code){
+	  BooleanExpression query=QJpaOrders.jpaOrders.contractCode.eq(code);
+	  return (List<JpaOrders>) ordersRepository.findAll(query);
+  }
 }
