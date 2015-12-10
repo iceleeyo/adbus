@@ -20,7 +20,7 @@ function showProductlayer(tourl,id){
 		area: ['900px', '600px'], 
 		content:''
 			+' '
-			+'<iframe style="width:99%;height:100%" frameborder="no" src="'+tourl+'/product/prodetail/'+id+'"/>'
+			+'<iframe style="width:100%;height:100%" frameborder="no" src="'+tourl+'/product/prodetail/'+id+'"/>'
 	});
 	
 }
