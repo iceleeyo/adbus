@@ -42,8 +42,7 @@
 	</DIV>
 </div>
 <#else>
-<div class="withdrawB-wrap color-white-bg fn-clear"
-	style="margin-right: -30px; margin-top: 20px;">
+<div class="withdrawB-wrap color-white-bg fn-clear">
 	<DIV class="summary mt10 uplan-summary-div">
 		<UL class="uplan-detail-ul">
 			<LI style="width: 720px;"><SPAN>套餐名称：</SPAN><SPAN class="con">${view.name!''}</SPAN>
@@ -88,7 +87,7 @@
 			</LI> </#if> <#if view.imgurl?has_content>
 			<LI style="width: 480px;"><SPAN>缩略图：</SPAN><SPAN class="con">
 					<img src="${rc.contextPath}/upload_temp/${view.imgurl}" class="m11"
-					width="240" />
+					height="100" width="100" />
 			</SPAN></LI> <#else>
 			<LI style="width: 480px;"><SPAN>缩略图：</SPAN><SPAN class="con">
 					<img src="${rc.contextPath}/index_img/wp1_1.jpg" height="100"
