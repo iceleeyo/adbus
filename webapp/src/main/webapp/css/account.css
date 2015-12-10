@@ -1965,6 +1965,7 @@
 	display: inline-block;
 	padding: 0 15px 0 15px;
 	float: left;
+	    font-weight: 600;
 }
 
 .withdraw-wrap .tabs .active {
