@@ -40,7 +40,7 @@ public class ContractServiceImpl implements ContractServiceData {
 
 	public Page<JpaContract> getAllContracts(int city, TableRequest req, Principal principal) {
 
-		String name = req.getFilter("contractName"), code = req.getFilter("contractCode");
+		String name = req.getFilter("contractName"), code = req.getFilter("contractCode"),contractType=req.getFilter("contractType");
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("id");
 
@@ -51,18 +51,19 @@ public class ContractServiceImpl implements ContractServiceData {
 		sort = (sort == null ? new Sort("id") : sort);
 		Pageable p = new PageRequest(page, pageSize, sort);
 		BooleanExpression query = QJpaContract.jpaContract.city.eq(city);
-		if (!(StringUtils.isBlank(name) && StringUtils.isBlank(code))) {
 			if (StringUtils.isNotBlank(name)) {
 				query = query.and(QJpaContract.jpaContract.contractName.like("%" + name + "%"));
 			}
-			if (StringUtils.isNoneBlank(code)) {
-				BooleanExpression q = QJpaContract.jpaContract.contractCode.like("%" + code + "%");
-				if (query == null)
-					query = q;
-				else
-					query = query.and(q);
+			if (StringUtils.isNotBlank(contractType) && !StringUtils.equals(contractType, "defaultAll")) {
+				if(StringUtils.equals(contractType, "0")){
+					query = query.and(QJpaContract.jpaContract.parentid.eq(0));
+				}else{
+					query = query.and(QJpaContract.jpaContract.parentid.goe(1));
+				}
 			}
-		}
+			if (StringUtils.isNotBlank(code)) {
+				query = query.and(QJpaContract.jpaContract.contractCode.like("%" + code + "%"));
+			}
 		if (Request.hasAuth(principal, ActivitiConfiguration.ORDER)) {
 		} else if (Request.hasAuth(principal, ActivitiConfiguration.ADVERTISER)) {
 			query = query.and(QJpaContract.jpaContract.userId.eq(Request.getUserId(principal)));

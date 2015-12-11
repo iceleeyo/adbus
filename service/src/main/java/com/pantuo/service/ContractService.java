@@ -3,6 +3,7 @@ package com.pantuo.service;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,10 +18,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.dao.BlackAdRepository;
+import com.pantuo.dao.ContractRepository;
 import com.pantuo.dao.pojo.JpaAttachment;
 import com.pantuo.dao.pojo.JpaBlackAd;
 import com.pantuo.dao.pojo.JpaContract;
+import com.pantuo.dao.pojo.QJpaContract;
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.AttachmentExample;
 import com.pantuo.mybatis.domain.BlackAd;
@@ -45,6 +49,7 @@ import com.pantuo.mybatis.persistence.IndustryMapper;
 import com.pantuo.mybatis.persistence.OrdersMapper;
 import com.pantuo.service.security.Request;
 import com.pantuo.util.BusinessException;
+import com.pantuo.util.DateUtil;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.ContractView;
@@ -82,55 +87,8 @@ public class ContractService {
 	BlackAdRepository  blackAdRepository;
 	@Autowired
 	BlackAdMapper blackAdMapper;
-	public Pair<Boolean, String> saveContract(int city, Contract con, String username, HttpServletRequest request) {
-		Pair<Boolean, String> r = null;
-		try {
-//			if(StringUtils.isNotBlank(con.getUserId())){
-//				if (!userService.isUserHaveGroup(con.getUserId(), SystemRoles.advertiser.name())) {
-//					return new Pair<Boolean, String>(false, con.getUserId() + " 不是广告主,保存失败！");
-//				}
-//			}
-			if(null!=con.getId() && con.getId()>0){
-				Contract contract=contractMapper.selectByPrimaryKey(con.getId());
-				contract.setUpdated(new Date());
-				contract.setContractCode(con.getContractCode());
-				contract.setAmounts(con.getAmounts());
-				contract.setContractName(con.getContractName());
-				contract.setContractType(con.getContractType());
-				contract.setStartDate(con.getStartDate());
-				contract.setEndDate(con.getEndDate());
-				contract.setIndustryId(con.getIndustryId());
-				contract.setRemark(con.getRemark());
-				contract.setUserId(con.getUserId());
-				int a=contractMapper.updateByPrimaryKey(contract);
-				if(a>0){
-					return new Pair<Boolean, String>(true, "合同修改成功");
-				}else{
-					return new Pair<Boolean, String>(false, "合同修改失败");
-				}
-			}
-			con.setCity(city);
-			con.setIsUpload(false);
-			con.setCreated(new Date());
-			con.setStats(JpaContract.Status.not_started.ordinal());
-//			if (!userService.isUserHaveGroup(con.getUserId(), SystemRoles.advertiser.name())) {
-//				return new Pair<Boolean, String>(true, con.getUserId() + " 不是广告主,创建合同失败！");
-//
-//			}
-			con.setCreator(username);
-			//			System.out.println(JpaContract.Status.not_started.ordinal());
-			//			con.setStats(JpaContract.Status.not_started.ordinal());
-			com.pantuo.util.BeanUtils.filterXss(con);
-			int dbId = contractMapper.insert(con);
-			if (dbId > 0) {
-				attachmentService.saveAttachment(request, username, con.getId(), JpaAttachment.Type.ht_fj,null);
-				r = new Pair<Boolean, String>(true, "合同创建成功！");
-			}
-		} catch (BusinessException e) {
-			r = new Pair<Boolean, String>(false, "合同创建失败");
-		}
-		return r;
-	}
+	@Autowired
+	ContractRepository contractRepository;
 
 	/**
 	 * 
@@ -231,37 +189,28 @@ public class ContractService {
 		return contractMapper.selectByExample(example);
 	}
 
-	public ContractView getContractDetail(int contract_id, Principal principal) {
-		ContractView v = null;
-		Contract con = contractMapper.selectByPrimaryKey(contract_id);
-		if (con != null) {
-			v = new ContractView();
-			if(con.getIndustryId()!=null){
-				Industry industry=industryMapper.selectByPrimaryKey(con.getIndustryId());
-				if(industry!=null&&industry.getName()!=null){
-					v.setIndustryname(industry.getName());
-				}
-				}
-			List<Attachment> files = attachmentService.queryContracF(principal, contract_id);
-			v.setFiles(files);
-			v.setMainView(con);
-		}
-		return v;
+	public List<ContractView> getContractDetail(int contract_id, Principal principal) {
+		List<ContractView> list=new ArrayList<ContractView>();
+		BooleanExpression query=QJpaContract.jpaContract.id.eq(contract_id);
+		query=query.or(QJpaContract.jpaContract.parentid.eq(contract_id));
+			List<JpaContract> cons=	(List<JpaContract>) contractRepository.findAll(query);
+			for (JpaContract jpaContract : cons) {
+				ContractView v = new ContractView();
+				List<Attachment> files = attachmentService.queryContracF(principal, jpaContract.getId());
+				v.setFiles(files);
+				v.setJpaContract(jpaContract);
+				list.add(v);
+			}
+		return list;
 	}
 
 	public ContractView findContractById(int contract_id, Principal principal) {
-		ContractView v = new ContractView();
-		ContractExample example=new ContractExample();
-		ContractExample.Criteria criteria=example.createCriteria();
-		criteria.andIdEqualTo(contract_id);
-		List<Contract> invoices=contractMapper.selectByExample(example);
-		if(invoices.size()>0){
-			v.setMainView(invoices.get(0));
-			List<Attachment> files = attachmentService.queryContracF(principal, invoices.get(0).getId());
+		   ContractView v = new ContractView();
+		   JpaContract con=contractRepository.findOne(contract_id);
+			v.setJpaContract(con);
+			List<Attachment> files = attachmentService.queryContracF(principal,contract_id);
 			v.setFiles(files);
 			return v;
-		}
-		return null;
 	}
 
 	public Pair<Boolean, String> saveBlackAd(int city, JpaBlackAd blackAd, String userId, HttpServletRequest request) {
@@ -378,5 +327,39 @@ public Bus findBusByPlateNum(String plateNumber){
 			return "Fetch ContractId Error";
 		}
 
+	}
+
+	public Pair<Boolean, String> saveContract(String startDate1, String endDate1, String signDate1,
+			JpaContract contract, String userId, int city, HttpServletRequest request) {
+		Pair<Boolean, String> r = null;
+			try {
+				contract.setStartDate(DateUtil.longDf.get().parse(startDate1));
+				contract.setEndDate(DateUtil.longDf.get().parse(endDate1));
+				contract.setSignDate(DateUtil.longDf.get().parse(signDate1));
+				contract.setCity(city);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			if(contract.getId()>0){
+				if(contractRepository.save(contract)!=null){
+					return new Pair<Boolean, String>(true, "合同修改成功");
+				}else{
+					return new Pair<Boolean, String>(false, "合同修改失败");
+				}
+			}
+			contract.setUpload(false);
+			contract.setCreated(new Date());
+			contract.setStats(JpaContract.Status.not_started);
+			contract.setCreator(userId);
+			com.pantuo.util.BeanUtils.filterXss(contract);
+			if (contractRepository.save(contract)!=null) {
+				try {
+					attachmentService.saveAttachment(request, userId, contract.getId(), JpaAttachment.Type.ht_fj,null);
+				} catch (BusinessException e) {
+					e.printStackTrace();
+				}
+				r = new Pair<Boolean, String>(true, "合同创建成功！");
+			}
+		return r;
 	}
 }

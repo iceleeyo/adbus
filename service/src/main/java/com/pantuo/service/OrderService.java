@@ -389,8 +389,8 @@ public class OrderService {
 		return new Pair<Boolean, String>(false,"操作异常");
 	}
 	public Pair<Object, Object> findOrderAndSup(int city, Principal principal, int orderid) {
-		List<Supplies> supplieslist = suppliesService.querySuppliesByUser(city, principal);
 		JpaOrders orders=ordersRepository.findOne(orderid);
+		List<Supplies> supplieslist = suppliesService.querySuppliesByUser(city, principal,orders.getProduct().getType().ordinal());
 		return new Pair<Object, Object>(orders,supplieslist);
 	}
   public List<JpaOrders> findordersList(String code){

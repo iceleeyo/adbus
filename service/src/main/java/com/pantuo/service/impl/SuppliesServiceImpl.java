@@ -362,11 +362,14 @@ public class SuppliesServiceImpl implements SuppliesService {
 		return 1;
 	}
 
-	public List<Supplies> querySuppliesByUser(int city, Principal principal) {
+	public List<Supplies> querySuppliesByUser(int city, Principal principal,int type) {
 		SuppliesExample example = new SuppliesExample();
 		SuppliesExample.Criteria criteria = example.createCriteria();
 		criteria.andCityEqualTo(city);
 		criteria.andIndustryIdNotEqualTo(14);
+		if(type!=-1){
+			criteria.andSuppliesTypeEqualTo(type);
+		}
 		if (principal != null) {
 			criteria.andUserIdEqualTo(Request.getUserId(principal));
 		}

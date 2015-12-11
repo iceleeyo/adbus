@@ -328,24 +328,7 @@ public class ProductServiceImpl implements ProductService {
 	//  @Override
 	public void saveProduct(int city, JpaProduct product,MediaSurvey survey,HttpServletRequest request) {
 		try {
-			if(null!=survey){/*
-				ObjectMapper t = new ObjectMapper();
-				t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-				t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
-				try {
-					String jsonString = t.writeValueAsString(survey);
-					product.setJsonString(jsonString);
-					if(null!=survey.getImg1_url()){
-						product.setImgurl(survey.getImg1_url());	
-					}
-				} catch (JsonGenerationException e) {
-					e.printStackTrace();
-				} catch (JsonMappingException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			*/
+			if(null!=survey){
 				product.setJsonString(JsonTools.getJsonFromObject(survey));
 				if(null!=survey.getImg1_url()){
 					product.setImgurl(survey.getImg1_url());	
@@ -354,16 +337,6 @@ public class ProductServiceImpl implements ProductService {
 			product.setCity(city);
 			com.pantuo.util.BeanUtils.filterXss(product);
 			product.setExclusiveUser(product.getExclusiveUser());
-//			if(product.getId()>0){
-//				String a=attachmentService.saveAttachmentSimple(request);
-//				if(a.length()>1){
-//					product.setImgurl(a);
-//				}
-//			}else{
-//				if(request!=null){
-//					product.setImgurl(attachmentService.saveAttachmentSimple(request));
-//				}
-//			}
 			productRepo.save(product);
 		} catch (Exception e) {
 		}

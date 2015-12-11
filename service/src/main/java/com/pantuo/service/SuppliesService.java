@@ -92,7 +92,7 @@ public interface SuppliesService {
 
 	int updateSupplies(int city, Supplies supplies);
 
-	List<Supplies> querySuppliesByUser(int city, Principal principal);
+	List<Supplies> querySuppliesByUser(int city, Principal principal, int type);
 
 	Pair<Object, String> addInvoice(int city,JpaInvoice obj, Principal principal,
 			HttpServletRequest request);
