@@ -437,6 +437,9 @@ function check() {
 function checkInventory() {
       var orderid = $("#orderid").val();
       var startdate1= $("#generateSchedule #startdate1").val();
+      
+      var bm=$('#generateSchedule :radio[name=bm]:checked').val();
+      
       if(orderid==""){
          layer.msg("信息丢失,请刷新页面");
           return;
@@ -453,7 +456,8 @@ function checkInventory() {
 			url : "${rc.contextPath}/schedule/testsch/"+orderid+"/true?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624",
 			type : "POST",
 			data : { 
-			"startdate1":startdate1
+			"startdate1":startdate1,
+			"bm":bm
 			},
 			success : function(data) {
 				 layer.closeAll('loading');
@@ -465,6 +469,7 @@ function confirmSchedule() {
       var orderid = $("#orderid").val();
 		var taskid = $("#taskid").val();
       var startdate1= $("#generateSchedule #startdate1").val();
+        var bm=$('#generateSchedule :radio[name=bm]:checked').val();
       var mediatype='${orderview.order.type}';
       if(mediatype=='video' && ischeckInventory==0){
          layer.msg("确认排期前请先检查库存", {icon: 5});
@@ -492,7 +497,8 @@ function confirmSchedule() {
 		            type:"POST",
 		            data:{
 		                startdate1:startdate1,
-		                taskid:taskid
+		                taskid:taskid,
+		                bm:bm
 		            },
 		            success:function(data) {
 		                layer.closeAll("loading");
@@ -1019,6 +1025,13 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 					<TH>实际开播日期</TH>
 					<TD colspan=3>
                     <input class="ui-input datepicker validate[required,custom[date],past[#upDate1]]" type="text"  value="${orderview.order.startTime?string("yyyy-MM-dd")}" id="startdate1" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> 						
+					</TD>
+				</TR>
+				<TR>
+					<TH>只排高峰时段</TH>
+					<TD colspan=3>
+                    <input type="radio" name="bm" value="1"/>是
+					<input name="bm" type="radio" value="0" checked=checked/>否					
 					</TD>
 				</TR>
 				<TR>

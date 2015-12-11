@@ -74,6 +74,14 @@
                 { "data": "id", "defaultContent": ""},
             	{ "data": "name", "defaultContent": "",
                     "render": function(data, type, row, meta) {
+                        var filter = $('#name').val();
+                        if (filter && filter != '') {
+                            var regex = new RegExp(filter, "gi");
+                            data = data.replace(regex, function(matched) {
+                                return "<span class=\"hl\">" + matched + "</span>";
+                            });
+                            return data;//add by panxh 增加返回值 
+                        }
 
                         if(data.length>15){
                     		return "<span>"+data.substring(0,15)+ ".. </span>";
