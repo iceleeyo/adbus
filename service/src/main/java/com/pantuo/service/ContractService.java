@@ -192,6 +192,20 @@ public class ContractService {
 	public List<ContractView> getContractDetail(int contract_id, Principal principal) {
 		List<ContractView> list=new ArrayList<ContractView>();
 		BooleanExpression query=QJpaContract.jpaContract.id.eq(contract_id);
+		JpaContract j=contractRepository.findOne(query);
+		if(j.getParentid()!=0){
+			JpaContract j2=contractRepository.findOne(j.getParentid());
+			ContractView v = new ContractView();
+			List<Attachment> files = attachmentService.queryContracF(principal, j2.getId());
+			v.setFiles(files);
+			v.setJpaContract(j2);
+			list.add(v);
+			v = new ContractView();
+			 files = attachmentService.queryContracF(principal, j.getId());
+			v.setFiles(files);
+			v.setJpaContract(j);
+			list.add(v);
+		}else{
 		query=query.or(QJpaContract.jpaContract.parentid.eq(contract_id));
 			List<JpaContract> cons=	(List<JpaContract>) contractRepository.findAll(query);
 			for (JpaContract jpaContract : cons) {
@@ -201,6 +215,7 @@ public class ContractService {
 				v.setJpaContract(jpaContract);
 				list.add(v);
 			}
+		}
 		return list;
 	}
 

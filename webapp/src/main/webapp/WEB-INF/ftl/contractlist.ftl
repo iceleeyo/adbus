@@ -50,7 +50,7 @@ js=["js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js"]>
                 } },
                  { "data": "parentid","defaultContent": "",
                     "render": function(data, type, row, meta) {
-                      return data==0?'大合同':'子合同';
+                      return data==0?'主合同':'子合同';
                     }},
                 { "data": "contractName", "defaultContent": "",
                     "render": function(data, type, row, meta) {
@@ -142,7 +142,7 @@ function delContract(conid){
                         '        <input id="contractName" value="">' +
                         '    <span>合同类型：</span>' +
                         '        <select id="contractType" > ' +
-                        '<option value="defaultAll" selected="selected">所有</option><option value="0">大合同</option><option value="1">子合同</option>'+
+                        '<option value="defaultAll" selected="selected">所有</option><option value="0">主合同</option><option value="1">子合同</option>'+
                         '</div>'
         );
 

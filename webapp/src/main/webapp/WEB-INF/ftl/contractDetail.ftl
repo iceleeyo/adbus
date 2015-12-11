@@ -22,7 +22,7 @@ function go_back(){
 				<LI style="width: 240px;"><SPAN>合同名称：</SPAN><SPAN class="con"
 					style="color: rgb(245, 135, 8);">${(view.jpaContract.contractName)!''}</SPAN></LI>
 				<LI style="width: 240px;"><SPAN>合同类型：</SPAN><SPAN class="con">
-				<#if view.jpaContract.parentid==0>大合同<#else>子合同</#if>
+				<#if view.jpaContract.parentid==0>主合同<#else>子合同</#if>
 				</SPAN></LI>
 				<LI style="width: 240px;"><SPAN>媒体类型：</SPAN><SPAN class="con">${(view.jpaContract.type)!''}</SPAN></LI>
 
