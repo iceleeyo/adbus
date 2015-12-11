@@ -183,7 +183,7 @@
 }
 
 .table-c table{border-right:1px solid #000;border-bottom:1px solid #000}
-.table-c table td{border-left:1px solid #000;border-top:1px solid #000}
+.table-c table td{border-left:1px solid #000;border-top:1px solid #000;padding-left:5px;}
 </style>
 <meta content="Administrator" name="author">
 </head>
