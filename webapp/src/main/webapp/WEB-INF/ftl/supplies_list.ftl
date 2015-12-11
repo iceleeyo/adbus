@@ -74,13 +74,6 @@
                 { "data": "id", "defaultContent": ""},
             	{ "data": "name", "defaultContent": "",
                     "render": function(data, type, row, meta) {
-                        var filter = $('#name').val();
-                        if (filter && filter != '') {
-                            var regex = new RegExp(filter, "gi");
-                            data = data.replace(regex, function(matched) {
-                                return "<span class=\"hl\">" + matched + "</span>";
-                            });
-                        }
 
                         if(data.length>15){
                     		return "<span>"+data.substring(0,15)+ ".. </span>";
