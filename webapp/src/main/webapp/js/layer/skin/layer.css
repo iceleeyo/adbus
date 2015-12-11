@@ -674,8 +674,8 @@ html #layui_layer_skinlayercss {
 }
 
 .layui-layer-tips .layui-layer-close {
-    right: -2px;
-    top: -1px
+    right: 7px;
+    top: -10px
 }
 
 .layui-layer-tips i.layui-layer-TipsG {
