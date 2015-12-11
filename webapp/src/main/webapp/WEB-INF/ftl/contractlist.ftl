@@ -78,7 +78,7 @@ js=["js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js"]>
                         return '';
                     } },
                 { "data": "amounts","render": function(data, type, row, meta) {
-                         return row.parentid!=0?'统一结算':data;
+                         return data;
                     }},
                 { "data": "signDate", "defaultContent": "", "render": function(data) {
                     return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
