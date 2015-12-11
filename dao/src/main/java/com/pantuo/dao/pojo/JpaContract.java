@@ -1,6 +1,7 @@
 package com.pantuo.dao.pojo;
 
 import javax.persistence.*;
+
 import java.util.Date;
 
 /**
@@ -25,12 +26,15 @@ public class JpaContract extends CityEntity {
     private String userId;
     private Date startDate;
     private Date endDate;
+    private Date signDate;//签订时间
     private Status stats;
     private boolean isUpload;
+    private String settle; //合同结算
     private String remark;
     private String creator;
     private String amounts;
     private String contractType;
+    private JpaProduct.Type type;
     private int parentid;
     @ManyToOne
     @JoinColumn(name = "industryId")
@@ -68,6 +72,30 @@ public class JpaContract extends CityEntity {
 		this.id = id;
 	}
 
+
+	public JpaProduct.Type getType() {
+		return type;
+	}
+
+	public void setType(JpaProduct.Type type) {
+		this.type = type;
+	}
+
+	public Date getSignDate() {
+		return signDate;
+	}
+
+	public void setSignDate(Date signDate) {
+		this.signDate = signDate;
+	}
+
+	public String getSettle() {
+		return settle;
+	}
+
+	public void setSettle(String settle) {
+		this.settle = settle;
+	}
 
 	public int getParentid() {
 		return parentid;

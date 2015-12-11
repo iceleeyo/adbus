@@ -87,9 +87,9 @@ public class JpaTimeslot extends CityEntity {
         if (startTime == null)
             return "--";
         String sb=DateUtil.shortDf.get().format(startTime);
-        sb=sb+"-";
-        Date end = new Date(startTime.getTime() + duration * 1000);
-        sb=sb+(DateUtil.shortDf.get().format(end));
+//        sb=sb+"-";
+//        Date end = new Date(startTime.getTime() + duration * 1000);
+//        sb=sb+(DateUtil.shortDf.get().format(end));
         return sb;
     }
 
