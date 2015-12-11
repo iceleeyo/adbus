@@ -56,8 +56,14 @@
 					<td>${act.assignee!''}</td>
 					<td>${(act.claimTime?string("yyyy-MM-dd HH:mm"))!''}</td>
 					<td>${(act.endTime?string("yyyy-MM-dd HH:mm"))!''}</td>
-					<td style="text-align: left;">${act.result!''}</td>
-					<td style="text-align: left;">${act.comment!''}</td>
+					<td style="text-align: left;">${act.result!''}</td><!-- ${act.comment!''} -->
+					<td style="text-align: left;">
+					<#if act.comment?length lt 20>
+						${act.comment?default("")}&nbsp;
+					<#else>
+						${act.comment[0..19]?default("")}...
+					</#if>
+					</td>
 				</tr>
 				</#if> </#list>
 			</tbody>
