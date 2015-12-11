@@ -182,8 +182,10 @@
 	font-size: 10pt;
 }
 
-.table-c table{border-right:1px solid #000;border-bottom:1px solid #000}
-.table-c table td{border-left:1px solid #000;border-top:1px solid #000;padding-left:5px;}
+.table-c table{border-right:1px solid #000;border-bottom:1px solid #000;height:40px;}
+.table-c table td{border-left:1px solid #000;border-top:1px solid #000;padding-left:5px;width: 15%;}
+.table-c table th{border-left:1px solid #000;border-top:1px solid #000}
+.table-c table tr{border-left:1px solid #000;border-top:1px solid #000;height: 40px;}
 </style>
 <meta content="Administrator" name="author">
 </head>
@@ -248,42 +250,58 @@
 	</p>
 	<p class="p2 table-c">
 	<#if cardBoxMedis??>
-	<#list cardBoxMedis as item>
+	<#assign sum=0/>
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<#list cardBoxMedis as item>
 		<tr style="height:40px;">
-			<td width="15%">套餐名称</td><td COLSPAN=3 >${item.product.name}</td>
-			<td width="15%">刊期(天)</td><td COLSPAN=3 >${item.product.days}</td>
+			<td >套餐名称</td><td COLSPAN=3 >${item.product.name}</td>
+			<td >刊期(天)</td><td COLSPAN=3 >${item.product.days}</td>
 		</tr>
 		<tr style="height:40px;">
-			<td width="15%">媒体类型</td><td >${item.product.type.typeName}</td>
-			<td width="15%">广告时长（秒）</td><td >${item.product.duration}</td>
-			<td width="15%">播出频次（次/天）</td><td >${item.product.playNumber}</td>
-			<td width="15%">数量</td><td >${item.needCount}</td>			
+			<td >媒体类型</td><td >${item.product.type.typeName}</td>
+			<td >广告时长（秒）</td><td >${item.product.duration}</td>
+			<td >播出频次（次/天）</td><td >${item.product.playNumber}</td>
+			<td >数量</td><td >${item.needCount}</td>			
 		</tr>
 		<tr style="height:40px;">
-			<td COLSPAN=2>总价（元）</td><td COLSPAN=6>#{item.totalprice;m2M2}</td>
+			<td >总价（元）</td><th COLSPAN=7>￥${item.totalprice}</th>
+		</tr>
+		<#assign sum=sum+(item.totalprice) />
+	</#list>
+		<tr>
+			<td>合同结算情况</td><th COLSPAN=7>一次性付款</th>
+		</tr>
+		<tr>
+			<td>签约价格（元）</td><th COLSPAN=7>￥${sum}</th>
 		</tr>
 		</table><br>
-	</#list>
 	</#if>
 	<#if ordersList??>
+	<#assign sum=0/>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<#list ordersList as item>
-		<table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:40px;">
 		<tr style="height:40px;">
-			<td width="15%">套餐名称</td><td COLSPAN=3 >${item.product.name}</td>
-			<td width="15%">刊期(天)</td><td COLSPAN=3 >${item.product.days}</td>
+			<td >套餐名称</td><td COLSPAN=3 >${item.product.name}</td>
+			<td >刊期(天)</td><td COLSPAN=3 >${item.product.days}</td>
 		</tr>
 		<tr style="height:40px;">
-			<td width="15%">媒体类型</td><td >${item.product.type.typeName}</td>
-			<td width="15%">广告时长（秒）</td><td >${item.product.duration}</td>
-			<td width="15%">播出频次（次/天）</td><td >${item.product.playNumber}</td>
-			<td width="15%">数量</td><td >1</td>			
+			<td >媒体类型</td><td >${item.product.type.typeName}</td>
+			<td >广告时长（秒）</td><td >${item.product.duration}</td>
+			<td >播出频次（次/天）</td><td >${item.product.playNumber}</td>
+			<td >数量</td><td >1</td>			
 		</tr>
 		<tr style="height:40px;">
-			<td COLSPAN=2>总价（元）</td><td COLSPAN=6>#{item.price;m2M2}</td>
+			<td >总价（元）</td><td COLSPAN=7>￥${item.price}</td>
+		</tr>
+		<#assign sum=sum+(item.price) />
+	</#list>
+		<tr>
+			<td>合同结算情况</td><th COLSPAN=7>一次性付款</th>
+		</tr>
+		<tr>
+			<td>签约价格（元）</td><th COLSPAN=7>￥${sum}</th>
 		</tr>
 		</table><br>
-	</#list>
 	</#if>
 	</p>
 	
