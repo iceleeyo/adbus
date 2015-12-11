@@ -268,18 +268,18 @@
 	</#if>
 	<#if ordersList??>
 	<#list ordersList as item>
-		<table width="100%" border="0" cellspacing="0" cellpadding="0">
-		<tr>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:40px;">
+		<tr style="height:40px;">
 			<td width="15%">套餐名称</td><td COLSPAN=3 >${item.product.name}</td>
 			<td width="15%">刊期(天)</td><td COLSPAN=3 >${item.product.days}</td>
 		</tr>
-		<tr>
+		<tr style="height:40px;">
 			<td width="15%">媒体类型</td><td >${item.product.type.typeName}</td>
 			<td width="15%">广告时长（秒）</td><td >${item.product.duration}</td>
 			<td width="15%">播出频次（次/天）</td><td >${item.product.playNumber}</td>
 			<td width="15%">数量</td><td >1</td>			
 		</tr>
-		<tr>
+		<tr style="height:40px;">
 			<td COLSPAN=2>总价（元）</td><td COLSPAN=6>#{item.price;m2M2}</td>
 		</tr>
 		</table><br>
