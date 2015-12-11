@@ -61,7 +61,7 @@
 					<#if (act.comment!'')?length lt 20 >
 						${act.comment!''}&nbsp;
 					<#else>
-						<a tip="${act.comment!''}" href="javascript:void(0);">${act.comment[0..29]?default("")}...</a>
+						<a tip="${act.comment!''}" href="javascript:void(0);">${act.comment[0..24]?default("")}...</a>
 					</#if>
 					</td>
 				</tr>
