@@ -12,7 +12,7 @@
 <a
 	href="${rc.contextPath}/downloadFile/${theItem.userId!''}/${theItem.id!''}"
 	onclick="return hs.expand(this)"> <img
-	src="${rc.contextPath}/downloadFile/${theItem.userId!''}/${theItem.id!''}"
+	src="${rc.contextPath}/upload_temp/${theItem.url!''}"
 	class="m11" width="240" />
 </a>
 <#elseif view.mainView.suppliesType == 0> <#if theItem.type == 3>
@@ -20,7 +20,7 @@
 <a
 	href="${rc.contextPath}/downloadFile/${theItem.userId!''}/${theItem.id!''}"
 	onclick="return hs.expand(this)"> <img
-	src="${rc.contextPath}/downloadFile/${theItem.userId!''}/${theItem.id!''}"
+	src="${rc.contextPath}/upload_temp/${theItem.url!''}"
 	class="m11" width="240" />
 </a>
 </#if> <#if theItem.type != 3>
@@ -35,7 +35,7 @@
 		                                        "preload" : "none"
 		                                    }'>
 		<source
-			src="${rc.contextPath}/downloadFile/${theItem.userId!''}/${theItem.id!''}"
+			src="${rc.contextPath}/upload_temp/${theItem.url!''}"
 			type='video/mp4'>
 		<p class="vjs-no-js">
 			请升级浏览器以<a href="http://videojs.com/html5-video-support/"
@@ -50,7 +50,7 @@ view.mainView.suppliesType == 1 || view.mainView.suppliesType == 3>
 <a
 	href="${rc.contextPath}/downloadFile/${theItem.userId!''}/${theItem.id!''}"
 	onclick="return hs.expand(this)"> <img
-	src="${rc.contextPath}/downloadFile/${theItem.userId!''}/${theItem.id!''}"
+	src="${rc.contextPath}/upload_temp/${theItem.url!''}"
 	class="m11" width="240" />
 </a>
 <#elseif view.mainView.suppliesType == 0>
