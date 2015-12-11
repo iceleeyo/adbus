@@ -373,7 +373,7 @@
 					</li>
 				</@security.authorize>
 				 <@security.authorize
-				ifAnyGranted="advertiser">
+				ifAnyGranted="advertiser,ShibaOrderManager">
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/user/invoiceList"> 发票列表 </a> <a
 					class="side-exp-item-t" href="${rc.contextPath}/user/UserQulifi">
