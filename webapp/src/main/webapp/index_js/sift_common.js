@@ -59,7 +59,7 @@ function checkTime(start,prouctId){
 			success : function(data) { 
 				
 				if (typeof(data.scheduled) == "undefined"){
-					console.log(data.status);
+					//console.log(data.status);
 					layer.alert("请先登录！", {icon: 5});
 				}else {
 					if(data.scheduled){
