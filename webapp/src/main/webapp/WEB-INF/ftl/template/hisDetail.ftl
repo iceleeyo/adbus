@@ -41,7 +41,7 @@
 					<th width="12%">人员</th>
 					<th width="15%">签收时间</th>
 					<th width="15%">办理时间</th>
-					<th width="12%">操作意见</th>
+					<th width="10%">操作意见</th>
 					<th>操作备注</th>
 				</tr>
 			</thead>
@@ -71,10 +71,4 @@
 	</div>
 </div>
 </#if>
-<script type="text/javascript" language="javascript"
-	src="${rc.contextPath}/js/layer-v1.9.3/layer/layer.js"></script>
-<script type="text/javascript" language="javascript"
-	src="${rc.contextPath}/js/layer.onload.js"></script>
-<script type="text/javascript" language="javascript"
-	src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
 
