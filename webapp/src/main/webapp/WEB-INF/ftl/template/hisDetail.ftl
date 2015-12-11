@@ -71,3 +71,10 @@
 	</div>
 </div>
 </#if>
+<script type="text/javascript" language="javascript"
+	src="${rc.contextPath}/js/layer-v1.9.3/layer/layer.js"></script>
+<script type="text/javascript" language="javascript"
+	src="${rc.contextPath}/js/layer.onload.js"></script>
+<script type="text/javascript" language="javascript"
+	src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
+
