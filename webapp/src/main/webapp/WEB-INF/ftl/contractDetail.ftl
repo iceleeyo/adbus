@@ -47,9 +47,7 @@ function go_back(){
 				<LI style="width: 720px;"><SPAN>附件【合同扫描件及其他附件】：</SPAN><SPAN
 					class="con"> <#list view.files as item>
 						<@preview.materialPreview view=view items=[item]/> <a
-						class="thumbnail">${item.name!''}<span><img
-								src="${rc.contextPath}/${item.url!''}" alt="${item.name!''}"
-								width="300" height="200" border="0"></span></a> <a
+						class="">${item.name!''}</a><a
 						style="margin-left: 20px;"
 						href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">点击下载附件</a>
 						&nbsp;&nbsp; &nbsp; </#list>
