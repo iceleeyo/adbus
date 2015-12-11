@@ -58,10 +58,10 @@
 					<td>${(act.endTime?string("yyyy-MM-dd HH:mm"))!''}</td>
 					<td style="text-align: left;">${act.result!''}</td><!-- ${act.comment!''} -->
 					<td style="text-align: left;">
-					<#if act.comment?length lt 20>
-						${act.comment?default("")}&nbsp;
+					<#if (act.comment!'')?length lt 20 >
+						${act.comment!''}&nbsp;
 					<#else>
-						${act.comment[0..19]?default("")}...
+						<a tip="${act.comment!''}" href="javascript:void(0);">${act.comment[0..19]?default("")}...</a>
 					</#if>
 					</td>
 				</tr>
