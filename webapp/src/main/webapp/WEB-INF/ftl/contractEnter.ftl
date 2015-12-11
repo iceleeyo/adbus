@@ -288,14 +288,17 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 						autocomplete="off" disableautocomplete="">
 				</div>
 				<div class="ui-form-item">
-					<label class="ui-label mt10"><span class="ui-form-required"></span>合同结算:</label>
-					<textarea rows="6" cols="60"
-						value="" id="settle"
-						data-is="isAmount isEnough" style="resize: none;" name="settle">${(contractView.jpaContract.settle)!''}</textarea>
+					<label class="ui-label mt10"><span class="ui-form-required"></span>结算方式:</label>
+					<input
+						class="ui-input validate[required,custom[noSpecialContratNum],maxSize[120]]"
+						type="text" name="settle" id="settle"
+						value="${(contractView.jpaContract.settle)!''}"
+						data-is="isAmount isEnough" autocomplete="off"
+						disableautocomplete="" >
 				</div>
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required"></span>合同备注:</label>
-					<textarea rows="2" cols="60"
+					<textarea rows="4" cols="40"
 						value="" id="remark"
 						data-is="isAmount isEnough" style="resize: none;" name="remark">${(contractView.jpaContract.remark)!''}</textarea>
 				</div>
