@@ -38,7 +38,7 @@
 				<tr>
 					<th width="30px"></th>
 					<th width="12%">操作类型</th>
-					<th width="12%">人员</th>
+					<th width="12%">操作人员</th>
 					<th width="15%">签收时间</th>
 					<th width="15%">办理时间</th>
 					<th width="10%">操作意见</th>
