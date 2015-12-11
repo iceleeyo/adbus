@@ -309,7 +309,9 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 					<#if contractView??> <label class="ui-label mt10">合同附件：</label><br>
 					<#list contractView.files as item> <#if item?has_content > <a
 						href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">
-						${item.name!''}</a> &nbsp;&nbsp; <br> </#if> </#list> <#else> <label
+						<img
+	src="${rc.contextPath}/upload_temp/${item.url!''}"
+	class="m11" width="240" /></a> &nbsp;&nbsp; <br> </#if> </#list> <#else> <label
 						class="ui-label mt10"><span class="ui-form-required">*</span>附件上传</label>
 					<div id="newUpload2">
 						<div id="div_1">
