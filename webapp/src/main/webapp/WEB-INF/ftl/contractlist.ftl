@@ -29,13 +29,14 @@ js=["js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js"]>
                 data: function(d) {
                     return $.extend( {}, d, {
                         "filter[contractCode]" : $('#contractCode').val(),
-                        "filter[contractName]" : $('#contractName').val()
+                        "filter[contractName]" : $('#contractName').val(),
+                        "filter[contractType]" : $('#contractType').val()
                     } );
                 },
                 "dataSrc": "content",
             },
             "columns": [
-                { "data": "userId"},
+                { "data": "userId","defaultContent": ""},
             	{ "data": "contractCode", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         var filter = $('#contractCode').val();
@@ -47,6 +48,10 @@ js=["js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js"]>
                         }
                     return data;
                 } },
+                 { "data": "parentid","defaultContent": "",
+                    "render": function(data, type, row, meta) {
+                      return data==0?'大合同':'子合同';
+                    }},
                 { "data": "contractName", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         var filter = $('#contractName').val();
@@ -58,20 +63,26 @@ js=["js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js"]>
                         }
                         return data;
                 }},
-                { "data": "contractType", "defaultContent": "",
+                { "data": "type", "defaultContent": "",
                     "render": function(data, type, row, meta) {
-                        var filter = $('#contractType').val();
-                        if (filter && filter != '') {
-                            var regex = new RegExp(filter, "gi");
-                            data = data.replace(regex, function(matched) {
-                                return "<span class=\"hl\">" + matched + "</span>";
-                            });
-                        }
-                        return data;
-                }},
+                        if (data == 'video')
+                            return '全屏硬广';
+                        if (data == 'image')
+                            return 'INFO图片';
+                        if (data == 'info')
+                            return 'INFO字幕';
+                        if (data == 'team')
+                            return '团类广告';
+                        if (data == 'mixture')
+                            return '混合类型';
+                        return '';
+                    } },
                 { "data": "amounts","render": function(data, type, row, meta) {
                          return row.parentid!=0?'统一结算':data;
                     }},
+                { "data": "signDate", "defaultContent": "", "render": function(data) {
+                    return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
+                }},
                 { "data": "startDate", "defaultContent": "", "render": function(data) {
                     return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
                 }},
@@ -129,10 +140,13 @@ function delContract(conid){
                         '        <input id="contractCode" value="">' +
                         '    <span>合同名称：</span>' +
                         '        <input id="contractName" value="">' +
+                        '    <span>合同类型：</span>' +
+                        '        <select id="contractType" > ' +
+                        '<option value="defaultAll" selected="selected">所有</option><option value="0">大合同</option><option value="1">子合同</option>'+
                         '</div>'
         );
 
-        $('#contractCode, #contractName').change(function() {
+        $('#contractCode, #contractName,#contractType').change(function() {
             table.fnDraw();
         });
     }
@@ -184,10 +198,12 @@ $('#test').on('click', function(){
 		<thead>
 			<tr class="tableTr">
 				<th orderBy="userId">广告主</th>
-				<th orderBy="contractCode">合同号</th>
+				<th orderBy="contractCode">合同编号</th>
+				<th >合同类型</th>
 				<th orderBy="contractName">名称</th>
-				<th orderBy="contractType">类型</th>
+				<th >媒体类型</th>
 				<th orderBy="amounts">金额</th>
+				<th orderBy="signDate">签订日期</th>
 				<th orderBy="startDate">上刊日期</th>
 				<th orderBy="endDate">下刊日期</th>
 				<th>管理</th>

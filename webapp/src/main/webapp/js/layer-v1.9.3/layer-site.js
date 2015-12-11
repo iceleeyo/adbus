@@ -260,7 +260,7 @@ function contractdetail(tourl,contractid){
 				type: 1,
 				title: "合同详情",
 				skin: 'layui-layer-rim', //加上边框
-				area: ['900px', '350px'], //宽高
+				area: ['900px', '700px'], //宽高
 				content:''
 					   +' '
 					   +'<iframe style="width:100%;height:97%" frameborder="no" src="'+tourl+'/contract/contractDetail/'+contractid+'"/>'

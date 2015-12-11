@@ -1,6 +1,6 @@
 <#import "template/template.ftl" as frame> <#global menu="屏幕广告合同">
 <@frame.html title="合同录入" js=["js/jquery-ui/jquery-ui.js",
-"js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
+"js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js","js/jquery-ui-timepicker-addon.js","js/jquery-ui-timepicker-zh-CN.js",
 "js/jquery.datepicker.region.cn.js","js/progressbar.js"]
 css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
@@ -21,11 +21,11 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 
 		var industryId = $
 		{
-			(contractView.mainView.industryId)
+			(contractView.jpaContract.industryId)
 			!''
 		}
 		;
-		var contractType = '${(contractView.mainView.contractType)!'
+		var contractType = '${(contractView.jpaContract.contractType)!'
 		'}';
 		$("#industry option").each(function() {
 			if ($(this).val() == industryId) {
@@ -81,12 +81,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 		var amounts = ($("#amounts").val());
 		var contractType = ($("#contractType").val());
 		Sfile = ($("#Sfile").val());
-		if ($("#relaCon").is(":checked")) {
-			if ($("#parentid  option:selected").val() == 0) {
-				jDialog.Alert("请选择要绑定的合同");
-				return;
-			}
-		}
+		
 		if (endDate < startDate) {
 			jDialog.Alert("终止时间不能小于开始时间");
 			return;
@@ -144,19 +139,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 
 			}
 		});
-		$("#relaCon").click(function() {
-
-			if ($("#relaCon").is(":checked")) {
-				$("#amounts").hide();
-				$("#amounts").val("0");
-				$("#parentid").css("display", "inline");
-			} else {
-				$("#parentid").css("display", "none");
-				$("#parentid").val("0");
-				$("#amounts").show();
-
-			}
-		});
+		
 
 		//author:pxh 2015-05-20 22:36
 
@@ -189,8 +172,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 		class="ui-form" method="post"
 		action="${rc.contextPath}/contract/saveContract?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1"
 		enctype="multipart/form-data">
-		<#if contractView?? && contractView.mainView??> <input type="hidden"
-			name="id" value="${(contractView.mainView.id)!''}" /> </#if>
+		<#if contractView?? && contractView.jpaContract??> <input type="hidden"
+			name="id" value="${(contractView.jpaContract.id)!''}" /> </#if>
 		<div class="withdraw-title fn-clear">
 			<span>合同详情录入</span> <a class="block-btn" style="margin-top: -5px;"
 				href="javascript:void(0);" onclick="go_back()">返回</a>
@@ -202,7 +185,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 					<label class="ui-label mt10"> <span
 						class="ui-form-required">* </span>广告主:
 					</label> <span> <input id="username" name="userId"
-						value="${(contractView.mainView.userId)!''}"
+						value="${(contractView.jpaContract.userId)!''}"
 						class="ui-input validate[required,custom[noSpecialLetterChinese]]"
 						placeholder="请选择广告主" />
 					</span>
@@ -215,7 +198,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 					</label> <input
 						class="ui-input validate[required,custom[noSpecialContratNum],maxSize[120]]"
 						type="text" name="contractCode" id="code"
-						value="${(contractView.mainView.contractCode)!''}"
+						value="${(contractView.jpaContract.contractCode)!''}"
 						data-is="isAmount isEnough" autocomplete="off"
 						disableautocomplete="" placeholder="中英文、数字、下划线">
 				</div>
@@ -224,7 +207,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 					<input
 						class="ui-input validate[required,custom[noSpecialLetterChinese],maxSize[120]]"
 						type="text" name="contractName"
-						value="${(contractView.mainView.contractName)!''}" id="name"
+						value="${(contractView.jpaContract.contractName)!''}" id="name"
 						data-is="isAmount isEnough" autocomplete="off"
 						disableautocomplete="">
 					<p class="ui-term-placeholder" placeholder="中英文、数字、下划线"></p>
@@ -237,10 +220,14 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 						onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/[^\d.]/g,'')}"
 						type="text" name="amounts" id="amounts"
 						data-is="isAmount isEnough"
-						value="${(contractView.mainView.amounts)!''}" autocomplete="off"
-						disableautocomplete="" placeholder="请输入合同金额" /> <input
-						type="checkbox" id="relaCon" />绑定大合同 <select class="ui-input"
-						name="parentid" id="parentid" style="display: none">
+						value="${(contractView.jpaContract.amounts)!''}" autocomplete="off"
+						disableautocomplete="" placeholder="请输入合同金额" /> 
+				</div>
+				<div class="ui-form-item">
+					<label class="ui-label mt10"> <span
+						class="ui-form-required"> </span>绑定大合同:
+					</label> 
+					<select class="ui-input" name="parentid" id="parentid" >
 						<option value="0" selected="selected">请选择要绑定的合同</option> <#if
 						contracts?exists> <#list contracts as c>
 						<option value="${c.id}">${c.contractName!''}</option> </#list>
@@ -249,15 +236,13 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				</div>
 				<div class="ui-form-item">
 					<label class="ui-label mt10"> <span
-						class="ui-form-required">* </span>合同类型:
-					</label> <select data-is="isAmount isEnough" id="contractType"
-						name="contractType" autocomplete="off" disableautocomplete=""
-						style="width: 173px; height: 38px;">
-						<option value="INFO字幕">INFO字幕</option>
-						<option value="INFO图片">INFO图片</option>
-						<option value="全屏硬广">全屏硬广</option>
-						<option value="团类广告">团类广告</option>
-						<option value="车身广告">车身广告</option>
+						class="ui-form-required">* </span>媒体类型:
+					</label> 
+					<select class="ui-input" name="type" id="type">
+					 <#list types as item>
+						<option value="${item.name()}" <#if (contractView?? && contractView.jpaContract.type== item.name())
+							>selected="selected"</#if>>${item.typeName}</option>
+						</#list>
 					</select>
 				</div>
 
@@ -275,13 +260,20 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				</div>
 
 				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>签订日期:
+					</label> <input
+						class="ui-input datepicker validate[required,custom[date],past[#signDate]]"
+						type="text" name="signDate1"
+						value="${(contractView.jpaContract.signDate?string("yyyy-MM-dd"))!''}" id="signDate1"
+						data-is="isAmount isEnough" autocomplete="off"
+						disableautocomplete="">
+				</div>
+				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>上刊日期:
 					</label> <input
 						class="ui-input datepicker validate[required,custom[date],past[#endDate]]"
 						type="text" name="startDate1"
-						value="${(contractView.mainView.startDate?string("
-						yyyy-MM-dd"))!''}"
-												id="startDate"
+						value="${(contractView.jpaContract.startDate?string("yyyy-MM-dd"))!''}" id="startDate"
 						data-is="isAmount isEnough" autocomplete="off"
 						disableautocomplete="">
 				</div>
@@ -292,16 +284,20 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 						class="ui-input datepicker validate[required,custom[date],future[#startDate]"
 						type="text" name="endDate1" id="endDate"
 						data-is="isAmount isEnough"
-						value="${(contractView.mainView.endDate?string("
-						yyyy-MM-dd"))!''}"
-												autocomplete="off"
-						disableautocomplete="">
+						value="${(contractView.jpaContract.endDate?string("yyyy-MM-dd"))!''}"
+						autocomplete="off" disableautocomplete="">
+				</div>
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required"></span>合同结算:</label>
+					<textarea rows="6" cols="60"
+						value="" id="settle"
+						data-is="isAmount isEnough" style="resize: none;" name="settle">${(contractView.jpaContract.settle)!''}</textarea>
 				</div>
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required"></span>合同备注:</label>
-					<textarea rows="4" cols="40"
-						value="${(contractView.mainView.remark)!''}" id="remark"
-						data-is="isAmount isEnough" style="resize: none;" name="remarks"></textarea>
+					<textarea rows="2" cols="60"
+						value="" id="remark"
+						data-is="isAmount isEnough" style="resize: none;" name="remark">${(contractView.jpaContract.remark)!''}</textarea>
 				</div>
 
 

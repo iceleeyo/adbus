@@ -139,7 +139,7 @@ public class SuppliesController {
 	public List<Supplies> getMysupplies(Principal principal,
 			@CookieValue(value = "city", defaultValue = "-1") int city, HttpServletRequest request)
 					throws IllegalStateException, IOException {
-		return suppliesService.querySuppliesByUser(city, principal);
+		return suppliesService.querySuppliesByUser(city, principal,-1);
 	}
 
 	@RequestMapping(value = "/list")

@@ -226,7 +226,7 @@ div#toolbar {
                                         + box.goods[0].order.supplies.id + ')" >'
                                         + box.goods[0].order.supplies.seqNumber + '-'
                                         + box.goods[0].order.supplies.name + '</a>' :
-                                       box.goods[0].order.supplies.seqNumber + '-'+box.goods[0].order.supplies.name)
+                                       box.goods[0].order.supplies.seqNumber +''+box.goods[0].order.supplies.name)
                                 : '';
                 }},
                 { "data": "", "defaultContent": "",

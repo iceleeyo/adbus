@@ -241,7 +241,7 @@ public class OrderController {
 				activityId);
 		JpaProduct prod = productService.findById(v.getOrder().getProductId());
 		List<Contract> contracts = contractService.queryContractList(cityId, page, null, null, principal);
-		List<Supplies> supplieslist = suppliesService.querySuppliesByUser(cityId, principal);
+		List<Supplies> supplieslist = suppliesService.querySuppliesByUser(cityId, principal,v.getProduct().getType().ordinal());
 		SuppliesView suppliesView = suppliesService.getSuppliesDetail(v.getOrder(), principal);
 		SuppliesView quafiles = suppliesService.getQua(v.getOrder().getSuppliesId(), null);
 		List<Invoice> InvoiceList = userService.queryInvoiceByUser(cityId, principal);
@@ -342,7 +342,7 @@ public class OrderController {
 		}
 		OrderView v = new OrderView();
 		orderService.saveOrderJpa(cityId, order, Request.getUser(principal),cpdid,prod);
-		List<Supplies> supplieslist = suppliesService.querySuppliesByUser(cityId, principal);
+		List<Supplies> supplieslist = suppliesService.querySuppliesByUser(cityId, principal,0);
 		List<Invoice> InvoiceList = userService.queryInvoiceByUser(cityId, principal);
 		List<Contract> contracts = contractService.queryContractList(cityId, page, null, null, principal);
 		SuppliesView suppliesView = suppliesService.getSuppliesDetail(order, principal);

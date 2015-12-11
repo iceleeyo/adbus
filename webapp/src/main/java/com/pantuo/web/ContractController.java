@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.pantuo.dao.IndustryRepository;
 import com.pantuo.dao.pojo.JpaBlackAd;
+import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaContract;
 import com.pantuo.dao.pojo.JpaIndustry;
 import com.pantuo.dao.pojo.JpaProduct;
@@ -94,20 +95,17 @@ public class ContractController {
 	@RequestMapping(value = "saveContract", method = RequestMethod.POST)
 	@ResponseBody
 	public Pair<Boolean, String> saveContract(@CookieValue(value = "city", defaultValue = "-1") int city,
-			Contract contract,Industry industry, Principal principal, HttpServletRequest request) throws IllegalStateException,
+			@RequestParam(value="startDate1") String startDate1,
+			@RequestParam(value="endDate1") String endDate1,
+			@RequestParam(value="signDate1") String signDate1,
+			JpaContract contract,Industry industry, Principal principal, HttpServletRequest request) throws IllegalStateException,
 			IOException, ParseException {
-		String start = request.getParameter("startDate1").toString();
-		String end = request.getParameter("endDate1").toString();
 		if(StringUtils.isNotBlank(industry.getName())){
 			if(contractService.saveIndustry(industry)>0){
 				contract.setIndustryId(industry.getId());
 			}
 		}
-		if (start.length() > 1 && end.length() > 1) {
-			contract.setStartDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(start));
-			contract.setEndDate((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(end));
-		}
-		return contractService.saveContract(city, contract, Request.getUserId(principal), request);
+		return contractService.saveContract(startDate1,endDate1,signDate1,contract, Request.getUserId(principal),city,request);
 	}
 	@PreAuthorize(" hasRole('ShibaOrderManager')  ")
 	@RequestMapping(value = "saveblackAd", method = RequestMethod.POST)
@@ -119,7 +117,9 @@ public class ContractController {
 	}
 	@RequestMapping(value = "/contract_edit/{contract_id}", produces = "text/html;charset=utf-8")
 	public String contract_edit(Model model,@PathVariable("contract_id") int contract_id,Principal principal,
-			@CookieValue(value = "city", defaultValue = "-1") int cityId,HttpServletRequest request) {
+			@CookieValue(value = "city", defaultValue = "-1") int cityId,
+			@ModelAttribute("city") JpaCity city,
+			HttpServletRequest request) {
 		ContractView  contractView=contractService.findContractById(contract_id,principal);
 		Page<UserDetail> users = userService.getValidUsers( null ,0, 999, null);
 		List<JpaIndustry> industries = industryRepo.findAll();
@@ -127,6 +127,7 @@ public class ContractController {
 		model.addAttribute("contracts", contracts);
 		model.addAttribute("users", users.getContent());
 		model.addAttribute("industries", industries);
+		 model.addAttribute("types", JpaProduct.productTypesForMedia.get(city.getMediaType()));
 		model.addAttribute("contractView", contractView);
 		return "contractEnter";
 	}
@@ -164,13 +165,15 @@ public class ContractController {
 	 */
 	@PreAuthorize(" hasRole('ShibaOrderManager')  "+ " or hasRole('bodyContractManager')")
 	@RequestMapping(value = "/contractEnter", produces = "text/html;charset=utf-8")
-	public String contractEnter(Model model, @CookieValue(value = "city", defaultValue = "-1") int cityId,HttpServletRequest request) {
+	public String contractEnter(Model model, @CookieValue(value = "city", defaultValue = "-1") int cityId,
+			@ModelAttribute("city") JpaCity city,HttpServletRequest request) {
 		Page<UserDetail> users = userService.getValidUsers(null , 0, 999, null);
 		List<Contract> contracts = contractService.queryParentContractList(cityId);
 		List<JpaIndustry> industries = industryRepo.findAll();
 		model.addAttribute("contracts", contracts);
 		model.addAttribute("users", users.getContent());
 		model.addAttribute("industries", industries);
+		 model.addAttribute("types", JpaProduct.productTypesForMedia.get(city.getMediaType()));
 		return "contractEnter";
 	}
 	@PreAuthorize(" hasRole('ShibaOrderManager')  ")
@@ -182,16 +185,16 @@ public class ContractController {
 	public String contractDetail(Model model, @PathVariable("contract_id") int contract_id, Principal principal,
 			HttpServletRequest request,HttpServletResponse response) {
 		response.setHeader("X-Frame-Options", "SAMEORIGIN");
-		//    	int contract_id=Integer.parseInt(request.getParameter("contract_id"));
-		ContractView view = contractService.getContractDetail(contract_id, principal);
-		model.addAttribute("view", view);
+		List<ContractView> views = contractService.getContractDetail(contract_id, principal);
+		model.addAttribute("views", views);
 		return "contractDetail";
 	}
 	@RequestMapping(value = "/ajax-contractDetail/{contract_id}")
 	@ResponseBody
 	public ContractView ajaxcontractDetail(Model model, @PathVariable("contract_id") int contract_id, Principal principal,
 			HttpServletRequest request) {
-		return  contractService.getContractDetail(contract_id, principal);
+		List<ContractView> views = contractService.getContractDetail(contract_id, principal);
+		return  views.get(0);
 	}
 	@PreAuthorize(" hasRole('ShibaOrderManager')  ")
 	@RequestMapping(value = "/delContract/{contract_id}")

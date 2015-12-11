@@ -193,7 +193,7 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 	}
 	$("#productList").html("");
 	$.ajax({
-		url : pathUrl + "/product/sift_data?filter[sh]="+sh+"&start="+page+"&filter[price1]="+price1+"&filter[price2]="+price2+"&filter[p]="+p+"&filter[searchText]="+text,
+		url : pathUrl + "/product/sift_data?filter[sh]="+sh+"&filter[price1]="+price1+"&filter[price2]="+price2+"&filter[p]="+p+"&filter[searchText]="+text,
 		data:{},
 		type : "POST",
 		success : function(data) {

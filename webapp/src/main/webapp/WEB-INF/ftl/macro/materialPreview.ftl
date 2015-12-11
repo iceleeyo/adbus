@@ -1,7 +1,7 @@
 <#macro materialPreview view items=[]> <#if (items?? && items?size>0)>
 <#list items as theItem>
 <!-- 如果是合同 -->
-<#if (view.mainView.contractName)??>
+<#if (view.jpaContract.contractName)??>
 <a
 	href="${rc.contextPath}/upload_temp/${theItem.url!''}"
 	onclick="return hs.expand(this)"> </a>
