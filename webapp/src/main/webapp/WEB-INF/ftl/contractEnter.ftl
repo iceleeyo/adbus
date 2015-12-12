@@ -289,12 +289,9 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				</div>
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required"></span>结算方式:</label>
-					<input
-						class="ui-input validate[required,custom[noSpecialContratNum],maxSize[120]]"
-						type="text" name="settle" id="settle"
-						value="${(contractView.jpaContract.settle)!''}"
-						data-is="isAmount isEnough" autocomplete="off"
-						disableautocomplete="" >
+					
+					<textarea rows="4" cols="40" name="settle" id="remark" class="validate[required,custom[noSpecialContratNum],maxSize[120]]"
+						data-is="isAmount isEnough" style="resize: none;" name="remark">${(contractView.jpaContract.settle)!''}</textarea>
 				</div>
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required"></span>合同备注:</label>
@@ -323,7 +320,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 						value="增加一行" style="margin-top: 10px;"><br> </#if>
 				</div>
 			</div>
-			<div class="ui-form-item widthdrawBtBox">
+			<div class="widthdrawBtBox">
 				<input type="button" id="subWithdraw" class="block-btn"
 					onclick="sub();" value="保存合同">
 			</div>
