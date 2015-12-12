@@ -1027,6 +1027,8 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
                     <input class="ui-input datepicker validate[required,custom[date],past[#upDate1]]" type="text"  value="${orderview.order.startTime?string("yyyy-MM-dd")}" id="startdate1" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> 						
 					</TD>
 				</TR>
+				<#if paymentResult>
+						  <#if orderview.order.type=='video'>
 				<TR>
 					<TH>只排高峰时段</TH>
 					<TD colspan=3>
@@ -1034,6 +1036,8 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 					<input name="bm" type="radio" value="0" checked=checked/>否					
 					</TD>
 				</TR>
+				 </#if>
+				 </#if>	 
 				<TR>
 					<TH>检查库存</TH>
 					<TD colspan=3>
