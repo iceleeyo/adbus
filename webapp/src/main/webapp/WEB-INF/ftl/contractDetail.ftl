@@ -19,8 +19,6 @@ function go_back(){
 		<DIV class="summary mt10 uplan-summary-div">
 			<UL class="uplan-detail-ul">
 				<LI style="width: 240px;"><SPAN>合同编号：</SPAN><SPAN class="con">${(view.jpaContract.contractCode)!''}</SPAN></LI>
-				<LI style="width: 240px;"><SPAN>合同名称：</SPAN><SPAN class="con"
-					style="color: rgb(245, 135, 8);">${(view.jpaContract.contractName)!''}</SPAN></LI>
 				<LI style="width: 240px;"><SPAN>合同类型：</SPAN><SPAN class="con">
 				<#if view.jpaContract.parentid==0>主合同<#else>子合同</#if>
 				</SPAN></LI>
