@@ -310,11 +310,15 @@
 		 //check time
 		$('#startdate1').change(function() {
 			<@security.authorize access="isAuthenticated()"> 
+				<#if jpaProduct.type=='video'> <!-- add by panxh, text image not need check -->
             	checkTime($("#startdate1").val(),${jpaProduct.id});
+            	</#if>
             </@security.authorize> 
             
 	         <@security.authorize access="!isAuthenticated()">
+	         <#if jpaProduct.type=='video'>
 	         layer.alert("登录后可查看时间段库存!"); 
+	         </#if>
 			 </@security.authorize>					
         });
         
