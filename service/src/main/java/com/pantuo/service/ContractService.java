@@ -47,6 +47,7 @@ import com.pantuo.mybatis.persistence.ContractMapper;
 import com.pantuo.mybatis.persistence.CpdProductMapper;
 import com.pantuo.mybatis.persistence.IndustryMapper;
 import com.pantuo.mybatis.persistence.OrdersMapper;
+import com.pantuo.service.ActivitiService.SystemRoles;
 import com.pantuo.service.security.Request;
 import com.pantuo.util.BusinessException;
 import com.pantuo.util.DateUtil;
@@ -162,15 +163,15 @@ public class ContractService {
 		ContractExample example = new ContractExample();
 		ContractExample.Criteria ca = example.createCriteria();
         ca.andCityEqualTo(city);
+        if (Request.hasAuth(principal, SystemRoles.advertiser.name())) {
+        	ca.andUserIdEqualTo(Request.getUserId(principal));
+        }
 		if (StringUtils.isNoneBlank(name)) {
 			ca.andContractNameLike("%" + name + "%");
 		}
 		if (StringUtils.isNoneBlank(code)) {
 			ca.andContractCodeEqualTo(code);
 		}
-        if (principal != null) {
-            ca.andUserIdEqualTo(Request.getUserId(principal));
-        }
 		return example;
 	}
 
