@@ -163,7 +163,7 @@ public class ContractService {
 		ContractExample example = new ContractExample();
 		ContractExample.Criteria ca = example.createCriteria();
         ca.andCityEqualTo(city);
-        if (Request.hasAuth(principal, SystemRoles.advertiser.name())) {
+        if (Request.hasAuth(principal, SystemRoles.advertiser.name()) && !Request.hasAuth(principal, SystemRoles.ShibaOrderManager.name())) {
         	ca.andUserIdEqualTo(Request.getUserId(principal));
         }
 		if (StringUtils.isNoneBlank(name)) {
