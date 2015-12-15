@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
@@ -52,18 +50,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.pantuo.ActivitiConfiguration;
-import com.pantuo.dao.pojo.JpaAttachment;
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
-import com.pantuo.mybatis.domain.Bodycontract;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.mybatis.domain.InvoiceDetail;
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.Product;
-import com.pantuo.mybatis.persistence.BodycontractMapper;
 import com.pantuo.mybatis.persistence.ContractMapper;
 import com.pantuo.mybatis.persistence.InvoiceDetailMapper;
 import com.pantuo.mybatis.persistence.InvoiceMapper;
@@ -85,7 +80,6 @@ import com.pantuo.service.SuppliesService;
 import com.pantuo.service.security.Request;
 import com.pantuo.simulate.MailJob;
 import com.pantuo.util.BeanUtils;
-import com.pantuo.util.BusinessException;
 import com.pantuo.util.Constants;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.NumberPageUtil;
@@ -121,8 +115,6 @@ public class ActivitiServiceImpl implements ActivitiService {
 	private SuppliesService suppliesService;
 	@Autowired
 	private OrdersMapper ordersMapper;
-	@Autowired
-	private BodycontractMapper bodycontractMapper;
 	@Autowired
 	private ContractMapper contractMapper;
 	@Autowired
@@ -1738,20 +1730,6 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return r;
 	}
 
-	@Override
-	public Pair<Boolean, String> uploadXiaoY(int mainid, String taskid, String approve2Comments, Principal principal,HttpServletRequest request) throws BusinessException {
-		Bodycontract bodycontract = bodycontractMapper.selectByPrimaryKey(mainid);
-		   if (bodycontract != null) {
-			   attachmentService.saveAttachment(request, Request.getUserId(principal), bodycontract.getId(), JpaAttachment.Type.xiaoY, approve2Comments);
-			}else{
-				return new Pair<Boolean, String>(false,"信息丢失");
-			}
-		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("closed", false);
-		variables.put(ActivitiService.ISUPLOADXY, true);
-		variables.put("approve2Comments", approve2Comments);
-		return complete(taskid, variables, principal);
-	}
 
 
 	

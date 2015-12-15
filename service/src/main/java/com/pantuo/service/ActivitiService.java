@@ -176,7 +176,6 @@ public interface ActivitiService {
 
 
 
-	public Pair<Boolean, String> uploadXiaoY(int mainid, String taskid, String approve2Comments, Principal principal,HttpServletRequest request)throws BusinessException;
 
 	public Pair<Boolean, String> checkApproveResult(String orderid);
 }

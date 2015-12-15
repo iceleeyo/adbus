@@ -29,7 +29,6 @@ import com.pantuo.dao.pojo.UserDetail.UType;
 import com.pantuo.mybatis.domain.ActIdGroup;
 import com.pantuo.mybatis.domain.ActIdGroupExample;
 import com.pantuo.mybatis.domain.BusFunction;
-import com.pantuo.mybatis.domain.BusFunctionExample;
 import com.pantuo.mybatis.domain.GroupFunction;
 import com.pantuo.mybatis.domain.GroupFunctionExample;
 import com.pantuo.mybatis.persistence.ActIdGroupMapper;
@@ -37,7 +36,6 @@ import com.pantuo.mybatis.persistence.BusFunctionMapper;
 import com.pantuo.mybatis.persistence.BusSelectMapper;
 import com.pantuo.mybatis.persistence.GroupFunctionMapper;
 import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
-import com.pantuo.service.ActivitiService;
 import com.pantuo.service.GoupManagerService;
 import com.pantuo.util.BeanUtils;
 import com.pantuo.util.Pair;
@@ -182,8 +180,8 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 					JpaFunction jpaFunction = new JpaFunction();
 					BeanUtils.copyPropertiesFilterZero(each, jpaFunction);
 					r.add(jpaFunction);
-					return r;
 				}
+				return r;
 
 			}
 		}
@@ -297,7 +295,7 @@ public class GoupManagerServiceImpl implements GoupManagerService {
 	 */
 	public UserDetail checkUserHaveGroup(String username) {
 
-		if (StringUtils.endsWith(username, ActivitiService.GROUP)) {
+		if (StringUtils.endsWith(username, "_GRUOP")) {
 			Pageable p = new PageRequest(0, 20, (new Sort("id")));
 			UserDetail w = new UserDetail();
 			UserDetail exist = null;
