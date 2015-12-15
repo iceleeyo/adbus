@@ -290,7 +290,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required"></span>结算方式:</label>
 					
-					<textarea rows="4" cols="40" name="settle" id="remark" class="validate[required,custom[noSpecialContratNum],maxSize[120]]"
+					<textarea rows="4" cols="40" name="settle" id="remark" class=""
 						data-is="isAmount isEnough" style="resize: none;" name="remark">${(contractView.jpaContract.settle)!''}</textarea>
 				</div>
 				<div class="ui-form-item">
