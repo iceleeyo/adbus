@@ -23,7 +23,6 @@ import com.pantuo.web.view.InvoiceView;
 public interface UserServiceInter {
 
 	public abstract long count();
-	public abstract long countModeldesc();
 
 	public abstract long countGroups();
 

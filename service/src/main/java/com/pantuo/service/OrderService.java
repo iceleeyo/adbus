@@ -9,7 +9,6 @@ import java.util.Map;
 
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
-import org.activiti.engine.identity.User;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,15 +20,12 @@ import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.ConstantImpl;
 import com.mysema.query.types.Ops;
-import com.mysema.query.types.Order;
 import com.mysema.query.types.Predicate;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.expr.StringOperation;
 import com.pantuo.ActivitiConfiguration;
-import com.pantuo.dao.OrderBusesRepository;
 import com.pantuo.dao.OrdersRepository;
 import com.pantuo.dao.pojo.JpaCpd;
-import com.pantuo.dao.pojo.JpaOrderBuses;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.QJpaOrders;
@@ -40,7 +36,6 @@ import com.pantuo.mybatis.domain.OrdersExample;
 import com.pantuo.mybatis.domain.Product;
 import com.pantuo.mybatis.domain.RoleCpd;
 import com.pantuo.mybatis.domain.Supplies;
-import com.pantuo.mybatis.persistence.OrderBusesMapper;
 import com.pantuo.mybatis.persistence.OrdersMapper;
 import com.pantuo.mybatis.persistence.ProductMapper;
 import com.pantuo.mybatis.persistence.RoleCpdMapper;
@@ -48,11 +43,11 @@ import com.pantuo.pojo.HistoricTaskView;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService.TaskQueryType;
 import com.pantuo.service.impl.UserService;
+import com.pantuo.service.security.Request;
 import com.pantuo.util.Constants;
 import com.pantuo.util.DateConverter;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.Pair;
-import com.pantuo.service.security.Request;
 import com.pantuo.web.view.OrderView;
 import com.pantuo.web.view.SectionView;
 
@@ -127,10 +122,6 @@ public class OrderService {
 	ActivitiService activitiService;
 	@Autowired
 	UserService userService;
-    @Autowired
-    private OrderBusesRepository orderBusesRepo;
-    @Autowired
-    private OrderBusesMapper orderBusesMapper;
     @Autowired
     private ProductMapper productMapper;
     
@@ -326,9 +317,6 @@ public class OrderService {
         return false;
     }
 
-    public void saveOrderBuses(JpaOrderBuses orderBuses) {
-        orderBusesRepo.save(orderBuses);
-    }
 
     public void updateWithBuses(JpaOrders order) {
         ordersRepository.save(order);

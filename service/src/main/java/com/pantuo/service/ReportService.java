@@ -1,24 +1,28 @@
 package com.pantuo.service;
 
-import com.mysema.query.types.expr.BooleanExpression;
-import com.pantuo.dao.GoodsRepository;
-import com.pantuo.dao.pojo.*;
-import com.pantuo.mybatis.domain.TimeslotReport;
-import com.pantuo.mybatis.persistence.ReportMapper;
-import com.pantuo.pojo.TableRequest;
-import com.pantuo.pojo.highchart.DayList;
-import com.pantuo.simulate.CountMonth;
-import com.pantuo.util.DateUtil;
-import com.pantuo.web.view.CountMonthView;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import com.mysema.query.types.expr.BooleanExpression;
+import com.pantuo.dao.GoodsRepository;
+import com.pantuo.dao.pojo.JpaCity;
+import com.pantuo.dao.pojo.JpaGoods;
+import com.pantuo.dao.pojo.JpaOrders;
+import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.dao.pojo.QJpaGoods;
+import com.pantuo.mybatis.domain.TimeslotReport;
+import com.pantuo.mybatis.persistence.ReportMapper;
+import com.pantuo.pojo.highchart.DayList;
+import com.pantuo.util.DateUtil;
 
 /**
  * @author tliu
@@ -34,8 +38,6 @@ public class ReportService {
 
     @Autowired
     private TimeslotService timeslotService;
-    @Autowired
-     CountMonth countMonth;
 
     public List<TimeslotReport> getRemainTimeslots(int city, Date from, Date to, Boolean peak) {
         List<TimeslotReport> report = mapper.getRemainTimeslots(city, from, to, peak);
@@ -308,16 +310,4 @@ public class ReportService {
 
     }
 
-	public List<CountMonthView> getCountMonthView(int city, TableRequest req, Principal principal) throws ParseException {
-		String yd=req.getFilter("day");
-		if(StringUtils.isNotBlank(yd)){
-			String yd2=yd+"-1";
-			countMonth.act((Date)new SimpleDateFormat("yyyy-MM-dd").parseObject(yd2));
-		}
-		List<CountMonthView> views=new ArrayList<CountMonthView>();
-		for(Map.Entry<Integer, CountMonthView> mEntry :countMonth.map.entrySet()){
-			views.add(mEntry.getValue());
-		}
-		return views;
-	}
 }

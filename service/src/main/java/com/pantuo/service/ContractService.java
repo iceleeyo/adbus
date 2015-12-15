@@ -40,8 +40,6 @@ import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.OrdersExample;
 import com.pantuo.mybatis.persistence.AttachmentMapper;
 import com.pantuo.mybatis.persistence.BlackAdMapper;
-import com.pantuo.mybatis.persistence.BusContractMapper;
-import com.pantuo.mybatis.persistence.BusMapper;
 import com.pantuo.mybatis.persistence.ContractIdMapper;
 import com.pantuo.mybatis.persistence.ContractMapper;
 import com.pantuo.mybatis.persistence.CpdProductMapper;
@@ -70,10 +68,6 @@ public class ContractService {
 	ContractMapper contractMapper;
 	@Autowired
 	OrdersMapper ordersMapper;
-	@Autowired
-	BusMapper busMapper;
-	@Autowired
-	BusContractMapper busContractMapper;
 	@Autowired
 	AttachmentMapper attachmentMapper;
 	@Autowired
@@ -163,7 +157,7 @@ public class ContractService {
 		ContractExample example = new ContractExample();
 		ContractExample.Criteria ca = example.createCriteria();
         ca.andCityEqualTo(city);
-        if (Request.hasAuth(principal, SystemRoles.advertiser.name()) && !Request.hasAuth(principal, SystemRoles.ShibaOrderManager.name())) {
+        if (Request.hasOnlyAuth(principal, SystemRoles.advertiser.name()) ) {
         	ca.andUserIdEqualTo(Request.getUserId(principal));
         }
 		if (StringUtils.isNoneBlank(name)) {
@@ -257,67 +251,7 @@ public class ContractService {
 		criteria.andCityEqualTo(cityId);
 		return contractMapper.selectByExample(example);
 	}
-public Bus findBusByPlateNum(String plateNumber){
-	BusExample example=new BusExample();
-	BusExample.Criteria criteria=example.createCriteria();
-	criteria.andPlateNumberEqualTo(plateNumber);
-	List<Bus> list=busMapper.selectByExample(example);
-	if(list.size()>0){
-		return list.get(0);
-	}
-	return null;
-	
-}
-	public Pair<Boolean, String> saveBusContract(int city, String plateNumber,int contractid,String startdate,String enddate) throws ParseException {
-		Date starDate=(Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(startdate);
-		Date endDate=(Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(enddate);
-		String[] pn=plateNumber.split(",");
-		for(int i=0;i<pn.length;i++){
-			if(StringUtils.isNotBlank(pn[i])){
-				Bus bus=findBusByPlateNum(pn[i]);
-				if(bus!=null){
-					if(checkEnable(bus.getId(),contractid,starDate,endDate)){
-						return new Pair<Boolean, String>(false, "车牌号为'"+bus.getPlateNumber()+"'的车上下刊时间冲突，保存失败");
-					}
-					BusContract busContract=new BusContract();
-					busContract.setEnable(true);
-					busContract.setCity(city);
-					busContract.setStartDate(starDate);
-					busContract.setEndDate(endDate);
-					busContract.setContractid(contractid);
-					busContract.setBusid(bus.getId());
-					busContractMapper.insert(busContract);
-				}else{
-					return new Pair<Boolean, String>(false, "车牌号'"+pn[i]+"'不存在");
-				}
-			}
-		}
-		return new Pair<Boolean, String>(true, "保存成功");
-	}
 
-	private boolean checkEnable(int busid, int contractid, Date starDate, Date endDate) {
-		BusContractExample example=new BusContractExample();
-		BusContractExample.Criteria criteria=example.createCriteria();
-		BusContractExample.Criteria criteria2=example.createCriteria();
-		BusContractExample.Criteria criteria3=example.createCriteria();
-		criteria.andBusidEqualTo(busid);
-		criteria.andContractidEqualTo(contractid);
-		criteria.andStartDateLessThanOrEqualTo(starDate);
-		criteria.andEndDateGreaterThanOrEqualTo(starDate);
-		criteria2.andBusidEqualTo(busid);
-		criteria2.andContractidEqualTo(contractid);
-		criteria2.andStartDateLessThanOrEqualTo(endDate);
-		criteria2.andEndDateGreaterThanOrEqualTo(endDate);
-		criteria3.andBusidEqualTo(busid);
-		criteria3.andContractidEqualTo(contractid);
-		criteria3.andStartDateGreaterThanOrEqualTo(starDate);
-		criteria3.andEndDateLessThanOrEqualTo(endDate);
-		example.or(criteria2);
-		if(busContractMapper.selectByExample(example).size()>0){
-			return true;
-		}
-		return false;
-	}
 
 	public Contract selectContractById(int contractId) {
 		return contractMapper.selectByPrimaryKey(contractId);

@@ -112,7 +112,6 @@ public interface ActivitiService {
 	 */
 	public String reset(int city, String p);
 	
-	public String resetBusWorkFlow(int city, String p);
 
 	public OrderView findOrderViewByTaskId(String taskid,Principal principal);
 	
@@ -174,11 +173,8 @@ public interface ActivitiService {
 	 */
 	public Pair<Boolean, String> closeOrder(int orderid,String closeRemark, String taskid, Principal principal);
 
-	public OrderView findBodyContractByTaskId(String taskid, Principal principal);
 
-	public Pair<Boolean, String> LockStore(int parseInt, String taskid, int contractid, Principal principal,boolean canSchedule,String LockDate)throws ParseException;
 
-	public Pair<Boolean, String> financialCheck(int parseInt, String taskid, String financialcomment, boolean paymentResult, Principal principal);
 
 	public Pair<Boolean, String> uploadXiaoY(int mainid, String taskid, String approve2Comments, Principal principal,HttpServletRequest request)throws BusinessException;
 
