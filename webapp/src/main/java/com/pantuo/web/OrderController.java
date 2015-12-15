@@ -5,10 +5,8 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +28,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,10 +36,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.pantuo.dao.pojo.BaseEntity;
-import com.pantuo.dao.pojo.JpaBus;
 import com.pantuo.dao.pojo.JpaCity;
-import com.pantuo.dao.pojo.JpaOrderBuses;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProductV2;
@@ -62,10 +56,10 @@ import com.pantuo.service.OrderService;
 import com.pantuo.service.ProductService;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.service.UserServiceInter;
+import com.pantuo.service.security.Request;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
-import com.pantuo.service.security.Request;
 import com.pantuo.util.Variable;
 import com.pantuo.web.view.InvoiceView;
 import com.pantuo.web.view.OrderView;
@@ -266,13 +260,6 @@ public class OrderController {
 		}
 		model.addAttribute("activityId", activityId);
 
-        //选车
-        if (city != null && city.getMediaType() == JpaCity.MediaType.body) {
-            model.addAttribute("lines", busService.getAllBuslines(cityId, prod.getLineLevel(), null, 0, 9999, null,null).getContent());
-            model.addAttribute("models", busService.getAllBusModels(cityId, null,null, null, 0, 9999, null).getContent());
-            model.addAttribute("companies", busService.getAllBusinessCompanies(cityId, null, null, 0, 9999, null).getContent());
-            model.addAttribute("categories", JpaBus.Category.values());
-        }
 		return "handleView2";
 	}
 
@@ -360,13 +347,6 @@ public class OrderController {
 		model.addAttribute("quafiles", quafiles);
 
 
-        //选车
-        if (city != null && city.getMediaType() == JpaCity.MediaType.body) {
-            model.addAttribute("lines", busService.getAllBuslines(cityId, prod.getLineLevel(), null, 0, 9999, null,null).getContent());
-            model.addAttribute("models", busService.getAllBusModels(cityId,null, null, null, 0, 9999, null).getContent());
-            model.addAttribute("companies", busService.getAllBusinessCompanies(cityId, null, null, 0, 9999, null).getContent());
-            model.addAttribute("categories", JpaBus.Category.values());
-        }
 		return "relateSup";
 	}
 
@@ -505,54 +485,6 @@ public class OrderController {
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
 
-    @RequestMapping(value = "ajax-order-buses", method = RequestMethod.POST)
-    @ResponseBody
-    public JpaOrders orderBuses(@CookieValue(value = "city", defaultValue = "-1") int city,
-                                            JpaOrderBuses orderBuses) {
-        int orderId = orderBuses.getOrder().getId();
-        JpaOrders order = orderService.getJpaOrder(orderId);
-
-        if (order == null) {
-            JpaOrders result =  new JpaOrders();
-            result.setErrorInfo(BaseEntity.ERROR, "无效订单");
-            return result;
-        }
-
-        //check order status
-        JpaOrders.Status status = activitiService.getOrderStatus(orderId);
-        if (status == null || status.ordinal() >= JpaOrders.Status.scheduled.ordinal()) {
-            JpaOrders result =  new JpaOrders();
-            result.setErrorInfo(BaseEntity.ERROR, "订单" + status.getNameStr() + ", 无法更改公交线路");
-            return result;
-        }
-
-        if (orderBuses.getBusNumber() <= 0) {
-            JpaOrders result =  new JpaOrders();
-            result.setErrorInfo(BaseEntity.ERROR, "请填写正确的巴士数量");
-            return result;
-        }
-
-        //validate
-        order.getOrderBuses().add(orderBuses);
-        if (order.getSelectableBusesNumber() < 0) {
-            order.setErrorInfo(BaseEntity.ERROR, "选择巴士数量超过套餐总数");
-        }
-
-        orderService.saveOrderBuses(orderBuses);
-        order.setErrorInfo(BaseEntity.OK, "选车成功");
-        return order;
-    }
-
-    @RequestMapping(value = "ajax-orderedbuses", method = RequestMethod.GET)
-    @ResponseBody
-    public DataTablePage<JpaOrderBuses> getOrderedBuses(@CookieValue(value = "city", defaultValue = "-1") int city,
-                                            @RequestParam("orderId") int orderId) {
-        JpaOrders order = orderService.getJpaOrder(orderId);
-        if (order == null) {
-            return new DataTablePage(Collections.EMPTY_LIST);
-        }
-        return new DataTablePage(order.getOrderBusesList());
-    }
     
     @PreAuthorize(" hasRole('ShibaOrderManager')")
 	@RequestMapping(value = "/setOrderPrice", method = RequestMethod.POST)
@@ -562,42 +494,4 @@ public class OrderController {
 	}
 
 
-    @RequestMapping(value = "ajax-remove-order-buses", method = RequestMethod.POST)
-    @ResponseBody
-    public JpaOrders removeOrderedBuses(@CookieValue(value = "city", defaultValue = "-1") int city,
-                                                        @RequestParam("orderId") int orderId,
-                                                        @RequestParam("id") int id) {
-        JpaOrders order = orderService.getJpaOrder(orderId);
-        if (order == null) {
-            JpaOrders result =  new JpaOrders();
-            result.setErrorInfo(BaseEntity.ERROR, "没找到对应的订单");
-            return result;
-        }
-
-        //check order status
-        JpaOrders.Status status = activitiService.getOrderStatus(orderId);
-        if (status == null || status.ordinal() >= JpaOrders.Status.scheduled.ordinal()) {
-            JpaOrders result =  new JpaOrders();
-            result.setErrorInfo(BaseEntity.ERROR, "订单" + status.getNameStr() + ", 无法更改公交线路");
-            return result;
-        }
-
-        Set<JpaOrderBuses> orderBuses = order.getOrderBuses();
-        JpaOrderBuses found = null;
-        for (JpaOrderBuses b : orderBuses) {
-            if (b.getId() == id) {
-                found = b;
-                break;
-            }
-        }
-        if (found == null) {
-            JpaOrders result =  new JpaOrders();
-            result.setErrorInfo(BaseEntity.ERROR, "没找到对应的条目");
-            return result;
-        }
-
-        order.getOrderBuses().remove(found);
-        orderService.updateWithBuses(order);
-        return order;
-    }
 }

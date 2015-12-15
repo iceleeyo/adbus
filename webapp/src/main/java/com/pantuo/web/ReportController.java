@@ -57,12 +57,6 @@ public class ReportController {
 		return "publishCountM";
 	}
     
-    @RequestMapping("ajax-publishCountM")
-	@ResponseBody
-	public List<CountMonthView> getCountMonthView(TableRequest req, Principal principal,
-			@CookieValue(value = "city", defaultValue = "-1") int city) throws ParseException {
-		return service.getCountMonthView(city, req, principal);
-	}
 	@PreAuthorize(" hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
 			+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
 			+ "or hasRole('ShibaSuppliesManager')  ")

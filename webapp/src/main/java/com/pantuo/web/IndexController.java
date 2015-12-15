@@ -36,7 +36,6 @@ import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProduct.FrontShow;
 import com.pantuo.dynamic.service.GroovySimpleInterface;
 import com.pantuo.pojo.TableRequest;
-import com.pantuo.service.BusLineCheckService;
 import com.pantuo.service.CardService;
 import com.pantuo.service.CityService;
 import com.pantuo.service.CpdService;
@@ -67,8 +66,6 @@ public class IndexController {
 	@Autowired
 	@Lazy
 	private ProductService productService;
-	@Autowired
-	private BusLineCheckService busLineCheckService;
 	@Autowired
 	private ScheduleService scheduleService;
 	
@@ -232,7 +229,6 @@ public class IndexController {
 		model.addAttribute("imageList", imageList.getContent());
 		model.addAttribute("noteList", noteList.getContent());
 		model.addAttribute("bodyList", bodyList.getContent());
-		model.addAttribute("buslineList", busLineCheckService.getlines(ids,map));
 		request.getSession().setAttribute("medetype", medetype);
 		return pageName;
 		//return "redirect:/index.html";
