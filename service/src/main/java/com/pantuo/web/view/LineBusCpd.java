@@ -1,8 +1,5 @@
 package com.pantuo.web.view;
 
-import java.util.Map;
-
-import com.pantuo.dao.pojo.JpaBodyContract;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.mybatis.domain.Bus;
 import com.pantuo.mybatis.domain.BusContract;
@@ -16,7 +13,6 @@ public class LineBusCpd {
 	
 	BusLock buslock;
 	String impSite;
-	public Map<String, JpaBodyContract> map;
 	
 	//已安装车辆显示
 	private BusContract busContract;
@@ -27,14 +23,6 @@ public class LineBusCpd {
 
 	public void setSerialNumber(String serialNumber) {
 		this.serialNumber = serialNumber;
-	}
-
-	public Map<String, JpaBodyContract> getMap() {
-		return map;
-	}
-
-	public void setMap(Map<String, JpaBodyContract> map) {
-		this.map = map;
 	}
 
 	public Bus getBus() {

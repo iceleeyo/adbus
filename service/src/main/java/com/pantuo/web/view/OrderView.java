@@ -2,7 +2,6 @@ package com.pantuo.web.view;
 
 import java.util.Date;
 import java.util.Map;
-import java.util.Set;
 
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.repository.ProcessDefinition;
@@ -11,8 +10,6 @@ import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import com.pantuo.dao.pojo.JpaBodyContract;
-import com.pantuo.dao.pojo.JpaOrderBuses;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaSupplies;
@@ -21,7 +18,6 @@ import com.pantuo.util.OrderIdSeq;
 public class OrderView {
 
     JpaOrders order;
-    Set<JpaOrderBuses> orderBuses;
     JpaProduct product;
 	JpaSupplies supplies;
 	// -- 临时属性 --//
@@ -41,8 +37,6 @@ public class OrderView {
 	private boolean approve1Result;
 	private Date task_createTime;
 	
-	//=====================================
-	private JpaBodyContract jpaBodyContract;
 	
 	private int need_cars;//合同需要车辆总数
 	private int done_cars;//已安装车辆总数
@@ -80,17 +74,9 @@ public class OrderView {
 			this.id = order.getId();
 		}
 		this.order = order;
-        this.orderBuses = order.getOrderBuses();
 
 	}
 
-    public Set<JpaOrderBuses> getOrderBuses() {
-        return orderBuses;
-    }
-
-    public void setOrderBuses(Set<JpaOrderBuses> orderBuses) {
-        this.orderBuses = orderBuses;
-    }
 
 
 	public boolean isApprove1Result() {
@@ -321,13 +307,6 @@ public class OrderView {
 		this.definitionKey = definitionKey;
 	}
 
-	public JpaBodyContract getJpaBodyContract() {
-		return jpaBodyContract;
-	}
-
-	public void setJpaBodyContract(JpaBodyContract jpaBodyContract) {
-		this.jpaBodyContract = jpaBodyContract;
-	}
 
 	public int getNeed_cars() {
 		return need_cars;
