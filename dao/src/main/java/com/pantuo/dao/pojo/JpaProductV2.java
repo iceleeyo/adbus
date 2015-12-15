@@ -22,7 +22,6 @@ public class JpaProductV2 extends CityEntity {
 
 	private String name; //套餐名称
 	private double price; //套餐价格
-	private String jbremarks;//备注
 	private String remarks;//备注
 	private String creater;//创建人
 	private Status stats;//上下架
@@ -99,14 +98,6 @@ public class JpaProductV2 extends CityEntity {
 
 	public void setCreater(String creater) {
 		this.creater = creater;
-	}
-
-	public String getJbremarks() {
-		return jbremarks;
-	}
-
-	public void setJbremarks(String jbremarks) {
-		this.jbremarks = jbremarks;
 	}
 
 	public String getAddressList() {

@@ -4,7 +4,6 @@ import javax.persistence.*;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.pantuo.dao.pojo.JpaBusline.Level;
 
 import java.util.*;
 
@@ -49,7 +48,6 @@ public class JpaProduct extends CityEntity {
     private int firstNumber;	//首播次数
     private int lastNumber;		//末播次数
     private double hotRatio;	//高峰占比
-    private JpaBusline.Level lineLevel; //车身广告线路级别
     private int busNumber;      //车身广告公交车数量
     private int days;			//播放天数
     private double price;		//套餐价格，车身广告的媒体费
@@ -75,7 +73,7 @@ public class JpaProduct extends CityEntity {
     }
 
     public JpaProduct(int id, Type type, String name, long duration, int playNumber, int firstNumber, int lastNumber,
-			double hotRatio, Level lineLevel, int busNumber, int days, double price, double produceCost,
+			double hotRatio,  int busNumber, int days, double price, double produceCost,
 			boolean padding, boolean enabled, boolean exclusive, String exclusiveUser, String remarks) {
 		super();
 		this.id = id;
@@ -86,7 +84,6 @@ public class JpaProduct extends CityEntity {
 		this.firstNumber = firstNumber;
 		this.lastNumber = lastNumber;
 		this.hotRatio = hotRatio;
-		this.lineLevel = lineLevel;
 		this.busNumber = busNumber;
 		this.days = days;
 		this.price = price;
@@ -100,12 +97,11 @@ public class JpaProduct extends CityEntity {
 
 	//车身
     public static JpaProduct newForBody(int city, String name,
-                      JpaBusline.Level lineLevel, int busNumber,
+                      int busNumber,
                       int days, double price, double produceCost) {
         JpaProduct p = new JpaProduct();
         p.setCity(city);
         p.setName(name);
-        p.setLineLevel(lineLevel);
         p.setBusNumber(busNumber);
         p.setDays(days);
         p.setPrice(price);
@@ -215,13 +211,6 @@ public class JpaProduct extends CityEntity {
 		this.duration = duration;
 	}
 
-    public JpaBusline.Level getLineLevel() {
-        return lineLevel;
-    }
-
-    public void setLineLevel(JpaBusline.Level lineLevel) {
-        this.lineLevel = lineLevel;
-    }
 
     public int getBusNumber() {
         return busNumber;
@@ -269,7 +258,7 @@ public class JpaProduct extends CityEntity {
 	public String toString() {
 		return "JpaProduct [id=" + id + ", type=" + type + ", name=" + name + ", duration=" + duration
 				+ ", playNumber=" + playNumber + ", firstNumber=" + firstNumber + ", lastNumber=" + lastNumber
-				+ ", hotRatio=" + hotRatio + ", lineLevel=" + lineLevel + ", busNumber=" + busNumber + ", days=" + days
+				+ ", hotRatio=" + hotRatio +  ", busNumber=" + busNumber + ", days=" + days
 				+ ", price=" + price + ", produceCost=" + produceCost + ", padding=" + padding + ", enabled=" + enabled
 				+ ", exclusive=" + exclusive + ", exclusiveUser=" + exclusiveUser + ", remarks=" + remarks + "]";
 	}
@@ -289,13 +278,5 @@ public class JpaProduct extends CityEntity {
 	public void setTags(String tags) {
 		this.tags = tags;
 	}
-
-	/*public JpaCpd getJpaCpd() {
-		return jpaCpd;
-	}
-
-	public void setJpaCpd(JpaCpd jpaCpd) {
-		this.jpaCpd = jpaCpd;
-	}*/
 
 }

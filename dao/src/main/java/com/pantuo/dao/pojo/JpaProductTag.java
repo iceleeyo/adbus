@@ -4,8 +4,6 @@ import javax.persistence.*;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.pantuo.dao.pojo.JpaBusline.Level;
-
 import java.util.*;
 
 /**

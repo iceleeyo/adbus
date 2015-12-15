@@ -72,8 +72,6 @@ public class JpaOrders extends CityEntity {
     
     private double price = 0;		//订单价格 管理员可以根据套餐价格调整订单的价格 比如打折 促销
 
-    @OneToMany(cascade = { CascadeType.ALL }, mappedBy="order", fetch = FetchType.EAGER, orphanRemoval = true)
-    private Set<JpaOrderBuses> orderBuses;
 
     public JpaOrders() {
         //for serialization
@@ -82,7 +80,7 @@ public class JpaOrders extends CityEntity {
     public JpaOrders(int id, String userId, JpaSupplies supplies, JpaProduct product, JpaInvoiceDetail invoiceDetail,
 			int contractId, String contractCode, Date startTime, Date endTime, Type type, PayType payType,
 			Status stats, String ordRemark, String creator, int isInvoice, Date scheduleDay, Date shangboDay,
-			Date jianboDay, Date financialCheckDay, Date cancelDay, Set<JpaOrderBuses> orderBuses) {
+			Date jianboDay, Date financialCheckDay, Date cancelDay) {
 		super();
 		this.id = id;
 		this.userId = userId;
@@ -104,7 +102,6 @@ public class JpaOrders extends CityEntity {
 		this.jianboDay = jianboDay;
 		this.financialCheckDay = financialCheckDay;
 		this.cancelDay = cancelDay;
-		this.orderBuses = orderBuses;
 	}
 
 	public JpaOrders(int city, int orderId) {
@@ -257,59 +254,7 @@ public class JpaOrders extends CityEntity {
         this.creator = creator;
     }
 
-    public Set<JpaOrderBuses> getOrderBuses() {
-        return orderBuses;
-    }
 
-    public void setOrderBuses(Set<JpaOrderBuses> orderBuses) {
-        this.orderBuses = orderBuses;
-    }
-
-    public List<JpaOrderBuses> getOrderBusesList() {
-        List<JpaOrderBuses> buses = null;
-        if (orderBuses != null)
-            buses = new ArrayList<JpaOrderBuses>(orderBuses);
-        else
-            buses = new ArrayList<JpaOrderBuses>();
-
-        Collections.sort(buses, new Comparator<JpaOrderBuses>() {
-            @Override
-            public int compare(JpaOrderBuses o1, JpaOrderBuses o2) {
-                return o1.getId() - o2.getId();
-            }
-        });
-        return buses;
-    }
-    public List<JpaOrderBuses> getOrderBusesListByPriority() {
-        List<JpaOrderBuses> buses = null;
-        if (orderBuses != null)
-            buses = new ArrayList<JpaOrderBuses>(orderBuses);
-        else
-            buses = new ArrayList<JpaOrderBuses>();
-
-        Collections.sort(buses, new Comparator<JpaOrderBuses>() {
-            @Override
-            public int compare(JpaOrderBuses o1, JpaOrderBuses o2) {
-                return o2.getPriority() - o1.getPriority();
-            }
-        });
-        return buses;
-    }
-
-
-
-    public int getSelectableBusesNumber() {
-        if (product == null)
-            return 0;
-        int ordered = 0;
-        if (orderBuses != null) {
-            for (JpaOrderBuses o : orderBuses) {
-                ordered += o.getBusNumber();
-            }
-        }
-        return product.getBusNumber() - ordered;
-    }
-    
 
     public Date getScheduleDay() {
         return scheduleDay;
