@@ -1,20 +1,19 @@
 package com.pantuo.activiti;
 
 
-import com.pantuo.dao.pojo.JpaOrders;
-import com.pantuo.dao.pojo.JpaProduct;
-import com.pantuo.dao.pojo.ScheduleLog;
-import com.pantuo.dao.pojo.UserDetail;
-import com.pantuo.service.ActivitiService;
-import com.pantuo.service.BusScheduleService;
-import com.pantuo.service.OrderService;
-import com.pantuo.service.ScheduleService;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.pantuo.dao.pojo.JpaOrders;
+import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.service.ActivitiService;
+import com.pantuo.service.OrderService;
+import com.pantuo.service.ScheduleService;
 
 @Service("generateSchedule")
 public class GenerateSchedule implements JavaDelegate {
@@ -26,8 +25,6 @@ public class GenerateSchedule implements JavaDelegate {
     @Autowired
     private OrderService orderService;
 
-    @Autowired
-    private BusScheduleService busScheduleService;
 
 
     //@Override
@@ -65,8 +62,6 @@ public class GenerateSchedule implements JavaDelegate {
 //                    execution.setVariable("scheduleComments", log.getDescription());
 //                }
             } else if (order.getType() == JpaProduct.Type.body) {
-                boolean result = busScheduleService.schedule(order);
-                execution.setVariable("scheduleResult", result);
             } else if (order.getType() == JpaProduct.Type.info || order.getType() == JpaProduct.Type.image) {
 //                boolean result = scheduleService.scheduleInfoImg(order);
 //                execution.setVariable("scheduleResult", result);

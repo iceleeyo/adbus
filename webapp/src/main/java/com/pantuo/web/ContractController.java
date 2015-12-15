@@ -3,28 +3,10 @@ package com.pantuo.web;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.pantuo.dao.IndustryRepository;
-import com.pantuo.dao.pojo.JpaBlackAd;
-import com.pantuo.dao.pojo.JpaCity;
-import com.pantuo.dao.pojo.JpaContract;
-import com.pantuo.dao.pojo.JpaIndustry;
-import com.pantuo.dao.pojo.JpaProduct;
-import com.pantuo.dao.pojo.UserDetail;
-import com.pantuo.mybatis.domain.BusContract;
-import com.pantuo.mybatis.domain.Contract;
-import com.pantuo.mybatis.domain.Industry;
-import com.pantuo.pojo.DataTablePage;
-import com.pantuo.pojo.TableRequest;
-import com.pantuo.service.ContractServiceData;
-import com.pantuo.service.UserServiceInter;
-import com.pantuo.service.security.Request;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -34,13 +16,31 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.pantuo.dao.IndustryRepository;
+import com.pantuo.dao.pojo.JpaBlackAd;
+import com.pantuo.dao.pojo.JpaCity;
+import com.pantuo.dao.pojo.JpaContract;
+import com.pantuo.dao.pojo.JpaIndustry;
+import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.mybatis.domain.Contract;
+import com.pantuo.mybatis.domain.Industry;
+import com.pantuo.pojo.DataTablePage;
+import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ContractService;
-import com.pantuo.util.NumberPageUtil;
+import com.pantuo.service.ContractServiceData;
+import com.pantuo.service.UserServiceInter;
+import com.pantuo.service.security.Request;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.ContractView;
-import com.pantuo.web.view.InvoiceView;
 
 /**
  * 
@@ -79,17 +79,6 @@ public class ContractController {
 		List<Contract> contracts = contractService.querybodyContractList(cityId);
 		model.addAttribute("contracts", contracts);
 		return "bus_contractEnter";
-	}
-	@RequestMapping(value = "saveBusContract", method = RequestMethod.POST)
-	@ResponseBody
-	public Pair<Boolean, String> saveBusContract(@CookieValue(value = "city", defaultValue = "-1") int city,
-			@RequestParam(value = "contractid") int contractid,
-			@RequestParam(value = "plateNumber") String plateNumber,
-			@RequestParam(value = "startdate") String startdate,
-			@RequestParam(value = "enddate") String enddate,
-		 Principal principal, HttpServletRequest request) throws IllegalStateException,
-			IOException, ParseException {
-		return contractService.saveBusContract(city,plateNumber,contractid,startdate,enddate);
 	}
 	@PreAuthorize(" hasRole('ShibaOrderManager')  "+" or hasRole('bodyContractManager')")
 	@RequestMapping(value = "saveContract", method = RequestMethod.POST)

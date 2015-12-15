@@ -55,7 +55,6 @@ import com.pantuo.dao.GoodsBlackRepository;
 import com.pantuo.dao.TimeslotRepository;
 import com.pantuo.dao.pojo.BoxRemain;
 import com.pantuo.dao.pojo.JpaBox;
-import com.pantuo.dao.pojo.JpaBusSchedule;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaGoods;
@@ -71,11 +70,9 @@ import com.pantuo.mybatis.domain.GoodsBlackExample;
 import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.mybatis.persistence.GoodsBlackMapper;
 import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
-import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.FlatScheduleListItem;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
-import com.pantuo.service.BusScheduleService;
 import com.pantuo.service.CityService;
 import com.pantuo.service.ContractService;
 import com.pantuo.service.OrderService;
@@ -126,8 +123,6 @@ public class ScheduleController {
 	@Autowired
 	private ActivitiService activitiService;
 
-	@Autowired
-	private BusScheduleService busScheduleService;
 	@Autowired
 	private SuppliesService suppliesService;
 	@Autowired
@@ -377,34 +372,6 @@ public class ScheduleController {
 		}
 	}
 
-	/**
-	 * 排期表
-	 */
-	@RequestMapping("order-body-ajax-list")
-	@ResponseBody
-	public DataTablePage<JpaBusSchedule> getBodyScheduleListForOrder(
-			@RequestParam(value = "orderId", required = true) int orderId,
-			@CookieValue(value = "city", defaultValue = "-1") int cityId, TableRequest req) {
-
-		try {
-			JpaOrders order = orderService.getJpaOrder(orderId);
-			if (order.getType() != JpaProduct.Type.body) {
-				return new DataTablePage(Collections.EMPTY_LIST);
-			}
-
-			JpaCity city = cityService.fromId(order.getCity());
-			if (city.getId() != cityId || city.getMediaType() != JpaCity.MediaType.body)
-				return new DataTablePage(Collections.EMPTY_LIST);
-
-			Page<JpaBusSchedule> busSchedules = busScheduleService.getByOrder(cityId, orderId, req.getPage(),
-					req.getLength(), req.getSort("id"));
-
-			return new DataTablePage<>(busSchedules, req.getDraw());
-		} catch (Exception e) {
-			log.error("Fail to get schedule for order {}", orderId, e);
-			return new DataTablePage(Collections.EMPTY_LIST);
-		}
-	}
 
 	/**
 	 * 剩余时段表表单
@@ -820,10 +787,10 @@ public class ScheduleController {
 							s.getOperFristcomment(), s.getOperFinaluser(), s.getOperFinalcomment(), s.getSeqNumber(),
 							s.getCarNumber(), s.getResponseCid());
 					JpaProduct p = new JpaProduct(Integer.MAX_VALUE, JpaProduct.Type.video, "filler", s.getDuration(),
-							0, 0, 0, 0, JpaBusline.Level.A, 0, 0, 0, 0, true, true, false, null, null);
+							0, 0, 0, 0, 0, 0, 0, 0, true, true, false, null, null);
 					JpaOrders o = new JpaOrders(Integer.MAX_VALUE, "", js, p, null, 0, null, null, null,
 							JpaProduct.Type.video, JpaOrders.PayType.remit, JpaOrders.Status.completed, null, null, 0,
-							null, null, null, null, null, null);
+							null, null, null, null, null);
 					JpaGoods g = new JpaGoods(box.getCity(), 0, s.getDuration(), false, false, 0);
 					g.setOrder(o);
 					box.put(g, start);
@@ -1205,11 +1172,11 @@ public class ScheduleController {
 								s.getOperFristcomment(), s.getOperFinaluser(), s.getOperFinalcomment(),
 								s.getSeqNumber(), s.getCarNumber(), s.getResponseCid());
 						JpaProduct p = new JpaProduct(Integer.MAX_VALUE, JpaProduct.Type.video, "filler",
-								s.getDuration(), 0, 0, 0, 0, JpaBusline.Level.A, 0, 0, 0, 0, true, true, false, null,
+								s.getDuration(), 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, null,
 								null);
 						JpaOrders o = new JpaOrders(Integer.MAX_VALUE, "", js, p, null, 0, null, null, null,
 								JpaProduct.Type.video, JpaOrders.PayType.remit, JpaOrders.Status.completed, null, null,
-								0, null, null, null, null, null, null);
+								0, null, null, null,  null, null);
 						JpaGoods g = new JpaGoods(city, 0, s.getDuration(), false, false, 0);
 						g.setInboxPosition(jpaGoodsBlack.getInboxPosition());
 						g.setSort_index(jpaGoodsBlack.getSort_index());
