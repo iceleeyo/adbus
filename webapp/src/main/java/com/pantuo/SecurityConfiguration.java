@@ -107,7 +107,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 						"/body", "/**/public**/**", "/**/public**", "/register", "/user/**", "/doRegister",
 						"/validate/**", "/f/**", "/product/d/**", "/product/c/**", "/product/sift**",
 						"/product/sift_data", "/carbox/sift_body", "/product/ajaxdetail/**", "/order/iwant/**",
-						"/order/ibus/**").permitAll().antMatchers("/**").authenticated().anyRequest().permitAll().and()
+						"/order/ibus/**","/icbc**","/urs").permitAll().antMatchers("/**").authenticated().anyRequest().permitAll().and()
 				.formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/order/myTask/1")
 				.successHandler(new SimpleRoleAuthenticationSuccessHandler())
 				.failureHandler(new SimpleRoleAuthenticationFailHandler())
