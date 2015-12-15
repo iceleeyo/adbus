@@ -14,6 +14,10 @@
 	<name>AdBus webapp project</name>
 
 	<build>
+	
+ 
+    
+    
 		<finalName>adbus</finalName>
 		<resources>
 			<resource>
@@ -23,6 +27,7 @@
 				</includes>
 				<filtering>false</filtering>
 			</resource>
+        
 		</resources>
 
 		<testResources>
@@ -167,6 +172,15 @@
 			<artifactId>service</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
+		<!-- 	<dependency>
+			<groupId>com.pantuo</groupId>
+			<artifactId>scheduled</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		 -->
+		
+		
 		<dependency>
 			<groupId>com.blogspot.nurkiewicz.springwadl</groupId>
 			<artifactId>generator</artifactId>
@@ -353,6 +367,16 @@
 			<version>2.0.4</version>
 		</dependency>
 		-->
+		<dependency>
+			<groupId>com.infosec</groupId>
+			<artifactId>Infosec-lib</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.infosec</groupId>
+			<artifactId>icbc-lib</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>com.google</groupId>
 			<artifactId>memory-measurer</artifactId>
