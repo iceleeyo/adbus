@@ -13,8 +13,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -70,13 +70,13 @@ import com.pantuo.service.AttachmentService;
 import com.pantuo.service.BusService;
 import com.pantuo.service.CardService;
 import com.pantuo.service.ProductService;
+import com.pantuo.service.security.Request;
 import com.pantuo.simulate.ProductProcessCount;
 import com.pantuo.util.CardUtil;
 import com.pantuo.util.JsonTools;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.ProductOrderCount;
-import com.pantuo.service.security.Request;
 import com.pantuo.web.view.MediaSurvey;
 import com.pantuo.web.view.PlanRequest;
 import com.pantuo.web.view.ProductView;
@@ -109,8 +109,6 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	BusOrderDetailV2Repository busOrderDetailV2Repository;
 	@Autowired
-	BusService busService;
-	@Autowired
 	AttachmentService attachmentService;
 
 	@Autowired
@@ -119,9 +117,9 @@ public class ProductServiceImpl implements ProductService {
 	OrdersMapper ordersMapper;
 	@Autowired
 	BusOrderV2Mapper v2OMapper;
-
 	@Autowired
-	BusService busservice;
+	BusService busService;
+
 
 	private static Logger log = LoggerFactory.getLogger(ProductServiceImpl.class);
 
@@ -214,16 +212,7 @@ public class ProductServiceImpl implements ProductService {
 					
 				}
 				query = query == null ? subQuery : query.and(subQuery);
-			} else if (StringUtils.equals(entry.getKey(), "lev") && vIntegers.size() > 0) {
-				BooleanExpression subQuery = null;
-				List<JpaBusline.Level> right = new ArrayList<JpaBusline.Level>();
-				for (String type : vIntegers) {
-					right.add(JpaBusline.Level.valueOf(type));
-				}
-				subQuery = subQuery == null ? QJpaProduct.jpaProduct.lineLevel.in(right) : subQuery
-						.and(QJpaProduct.jpaProduct.lineLevel.in(right));
-				query = query == null ? subQuery : query.and(subQuery);
-			}
+			} 
 
 		}
 
@@ -618,7 +607,7 @@ public class ProductServiceImpl implements ProductService {
 			v2.setLeval(JpaBusline.Level.valueOf(checkResult.getRight().level).ordinal());
 			v2.setStartTime((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(startDate1));
 			v2.setSeriaNum(seriaNum);
-			double basePrice = busservice.getMoneyFromBusModel(JpaBusline.Level.valueOf(checkResult.getRight().level),
+			double basePrice = busService.getMoneyFromBusModel(JpaBusline.Level.valueOf(checkResult.getRight().level),
 					checkResult.getRight().doubleChecker) * 1d;
 			v2.setPrice(basePrice * checkResult.getRight().days / 30 * number);
 			v2.setDays(checkResult.getRight().days);
@@ -701,7 +690,7 @@ public class ProductServiceImpl implements ProductService {
 		Pair<Boolean, PlanRequest> checkResult = checkPlan(city, select);
 		if (!checkResult.getLeft())
 			return 0d;
-		double basePrice = busservice.getMoneyFromBusModel(JpaBusline.Level.valueOf(checkResult.getRight().level),
+		double basePrice = busService.getMoneyFromBusModel(JpaBusline.Level.valueOf(checkResult.getRight().level),
 				checkResult.getRight().doubleChecker) * 1d;
 		basePrice *= checkResult.getRight().days / 30;
 		return basePrice;

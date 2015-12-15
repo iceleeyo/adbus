@@ -31,7 +31,6 @@ import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.ActivitiConfiguration;
-import com.pantuo.dao.ModelDescRepository;
 import com.pantuo.dao.UserDetailRepository;
 import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.QUserDetail;
@@ -44,7 +43,6 @@ import com.pantuo.mybatis.domain.InvoiceExample;
 import com.pantuo.mybatis.persistence.AttachmentMapper;
 import com.pantuo.mybatis.persistence.InvoiceMapper;
 import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
-import com.pantuo.service.ActivitiService;
 import com.pantuo.service.ActivitiService.SystemRoles;
 import com.pantuo.service.AttachmentService;
 import com.pantuo.service.GoupManagerService;
@@ -53,8 +51,8 @@ import com.pantuo.service.SuppliesService;
 import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.security.ActivitiUserDetails;
 import com.pantuo.service.security.ActivitiUserDetailsService;
-import com.pantuo.util.Pair;
 import com.pantuo.service.security.Request;
+import com.pantuo.util.Pair;
 import com.pantuo.web.view.AutoCompleteView;
 import com.pantuo.web.view.InvoiceView;
 
@@ -67,8 +65,6 @@ public class UserService implements UserServiceInter {
 	private static Logger log = LoggerFactory.getLogger(UserService.class);
 	@Autowired
 	private UserDetailRepository userRepo;
-	@Autowired
-	private ModelDescRepository modelDescRepository;
 
 	@Autowired
 	private IdentityService identityService;
@@ -102,9 +98,6 @@ public class UserService implements UserServiceInter {
 	 */
 	public long count() {
 		return userRepo.count();
-	}
-	public long countModeldesc() {
-		return modelDescRepository.count();
 	}
 
 	/**

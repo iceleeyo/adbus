@@ -34,7 +34,6 @@ import org.activiti.engine.impl.task.TaskDefinition;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.runtime.ProcessInstanceQuery;
-import org.activiti.engine.task.IdentityLink;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
 import org.apache.commons.lang3.BooleanUtils;
@@ -53,24 +52,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.pantuo.ActivitiConfiguration;
-import com.pantuo.dao.BodyContractRepository;
 import com.pantuo.dao.pojo.JpaAttachment;
-import com.pantuo.dao.pojo.JpaBodyContract;
-import com.pantuo.dao.pojo.JpaBusLock;
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Bodycontract;
-import com.pantuo.mybatis.domain.BusLock;
-import com.pantuo.mybatis.domain.BusLockExample;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.mybatis.domain.InvoiceDetail;
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.Product;
 import com.pantuo.mybatis.persistence.BodycontractMapper;
-import com.pantuo.mybatis.persistence.BusLockMapper;
 import com.pantuo.mybatis.persistence.ContractMapper;
 import com.pantuo.mybatis.persistence.InvoiceDetailMapper;
 import com.pantuo.mybatis.persistence.InvoiceMapper;
@@ -89,6 +82,7 @@ import com.pantuo.service.MailTask.Type;
 import com.pantuo.service.OrderService;
 import com.pantuo.service.ProductService;
 import com.pantuo.service.SuppliesService;
+import com.pantuo.service.security.Request;
 import com.pantuo.simulate.MailJob;
 import com.pantuo.util.BeanUtils;
 import com.pantuo.util.BusinessException;
@@ -98,7 +92,6 @@ import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.OrderException;
 import com.pantuo.util.OrderIdSeq;
 import com.pantuo.util.Pair;
-import com.pantuo.service.security.Request;
 import com.pantuo.web.view.OrderView;
 import com.pantuo.web.view.SuppliesView;
 
@@ -139,14 +132,10 @@ public class ActivitiServiceImpl implements ActivitiService {
 	@Autowired
 	private InvoiceDetailMapper invoiceDetailMapper;
 	@Autowired
-	BodyContractRepository bodyContractRepository;
-	@Autowired
 	private CityService cityService;
 
 	@Autowired
 	private CpdService cpdService;
-	@Autowired
-	private BusLockMapper busLockMapper;
 
 	@Autowired
 	private MailService mailService;
@@ -1022,69 +1011,6 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 	}
 
-	public Pair<Boolean, String> LockStore(int orderid, String taskid, int contractid, Principal principal,
-			boolean canSchedule, String LockDate) throws ParseException {
-		Bodycontract bodycontract = bodycontractMapper.selectByPrimaryKey(orderid);
-		if (bodycontract != null) {
-			if (canSchedule) {
-				bodycontract.setStats(JpaBodyContract.Status.enable.ordinal());
-				bodycontract.setLockExpiredTime((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(LockDate));
-				bodycontract.setContractid(contractid);
-				Contract contract=contractMapper.selectByPrimaryKey(contractid);
-				if(contract!=null){
-					bodycontract.setContractName(contract.getContractName());
-					bodycontract.setContractCode(contract.getContractCode());
-				}
-			} else {
-				bodycontract.setStats(JpaBodyContract.Status.close.ordinal());
-			}
-			if (bodycontractMapper.updateByPrimaryKey(bodycontract) > 0) {
-				BusLockExample example = new BusLockExample();
-				BusLockExample.Criteria criteria = example.createCriteria();
-				criteria.andSeriaNumEqualTo(bodycontract.getSeriaNum());
-				List<BusLock> list = busLockMapper.selectByExample(example);
-				for (BusLock busLock : list) {
-					if (busLock != null) {
-						if (canSchedule) {
-							busLock.setLockExpiredTime((Date) new SimpleDateFormat("yyyy-MM-dd").parseObject(LockDate));
-							busLock.setStats(JpaBusLock.Status.enable.ordinal());
-						} else {
-							busLock.setStats(JpaBusLock.Status.close.ordinal());
-						}
-						busLockMapper.updateByPrimaryKey(busLock);
-					}
-				}
-			}
-		}
-		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("canSchedule", canSchedule);
-		return complete(taskid, variables, principal);
-	}
-	public Pair<Boolean, String> financialCheck(int parseInt, String taskid, String financialcomment, boolean paymentResult, Principal principal)  {
-		Bodycontract bodycontract = bodycontractMapper.selectByPrimaryKey(parseInt);
-		   if (bodycontract != null) {
-				BusLockExample example = new BusLockExample();
-				BusLockExample.Criteria criteria = example.createCriteria();
-				criteria.andSeriaNumEqualTo(bodycontract.getSeriaNum());
-				List<BusLock> list = busLockMapper.selectByExample(example);
-				if(list.size()>0){
-					bodycontract.setLockExpiredTime(list.get(0).getEndDate());
-					bodycontractMapper.updateByPrimaryKey(bodycontract);
-				}
-				for (BusLock busLock : list) {
-					if (busLock != null) {
-						busLock.setLockExpiredTime(busLock.getEndDate());
-						busLockMapper.updateByPrimaryKey(busLock);
-					}
-				}
-			}else{
-				return new Pair<Boolean, String>(false,"信息丢失");
-			}
-		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("paymentResult", paymentResult);
-		variables.put("financialcomment", financialcomment);
-		return complete(taskid, variables, principal);
-}
 	// 根据OrderId 及taskName 完成task
 	public void finishTaskByTaskName(int orderid, String taskName, String userId) {
 		List<ProcessInstance> list = runtimeService.createProcessInstanceQuery().involvedUser(userId)
@@ -1168,47 +1094,6 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return r;
 	}
 
-	public String resetBusWorkFlow(int city, String p) {
-		StringBuilder sb = new StringBuilder();
-		List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery()
-				.processDefinitionKey("busFlowV2").variableValueEquals(ActivitiService.CITY, city)
-				.includeProcessVariables().list();
-		for (ProcessInstance processInstance : processInstances) {
-
-			if (StringUtils.contains(p, "deleteAll")) {
-				runtimeService.deleteProcessInstance(processInstance.getId(), "");
-
-			} else {
-				Map<String, Object> info = processInstance.getProcessVariables();
-
-				Integer orderid = (Integer) info.get(ORDER_ID);
-				if (orderid != null) {
-					JpaBodyContract order = bodyContractRepository.findOne(orderid);
-					if (order == null) {
-						sb.append(orderid + ",");
-						runtimeService.deleteProcessInstance(processInstance.getId(), "");
-					}
-				}
-			}
-		}
-		/**
-		 *  清理完成的订单里找不到订单 数据异常的工作流
-		 */
-
-		List<HistoricProcessInstance> list = historyService.createHistoricProcessInstanceQuery()
-				.variableValueEquals(ActivitiService.CITY, city).finished().processDefinitionKey("busFlowV2")
-				.includeProcessVariables().orderByProcessInstanceStartTime().desc().list();
-		for (HistoricProcessInstance historicProcessInstance : list) {
-			Integer hisId = (Integer) historicProcessInstance.getProcessVariables().get(ORDER_ID);
-			if (hisId != null && hisId > 0) {
-				JpaBodyContract or = bodyContractRepository.findOne(hisId);
-				if (or == null) {
-					historyService.deleteHistoricProcessInstance(historicProcessInstance.getId());
-				}
-			}
-		}
-		return sb.toString();
-	}
 
 	public String reset(int city, String p) {
 		StringBuilder sb = new StringBuilder();
@@ -1298,27 +1183,6 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return v;
 	}
 
-	public OrderView findBodyContractByTaskId(String taskid, Principal principal) {
-		Task task = taskService.createTaskQuery().taskId(taskid).singleResult();
-		String processInstanceId = task.getProcessInstanceId();
-		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
-				.processInstanceId(processInstanceId).includeProcessVariables().singleResult();
-		OrderView v = new OrderView();
-		Map<String, Object> variables = taskService.getVariables(taskid);
-		int orderid = (Integer) variables.get(ORDER_ID);
-		JpaBodyContract order = bodyContractRepository.findOne(orderid);
-		if (order != null) {
-			v.setJpaBodyContract(order);
-		}
-		v.setTask(task);
-		v.setTask_id(taskid);
-		v.setProcessInstance(processInstance);
-		v.setProcessInstanceId(processInstance.getId());
-		v.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
-		v.setVariables(variables);
-		v.setTask_name(getOrderState(processInstance.getProcessVariables()));
-		return v;
-	}
 
 	public JpaOrders.Status getOrderStatus(int orderId) {
 		ProcessInstance instance = runtimeService.createProcessInstanceQuery().includeProcessVariables()
@@ -1888,4 +1752,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		variables.put("approve2Comments", approve2Comments);
 		return complete(taskid, variables, principal);
 	}
+
+
+	
 }
