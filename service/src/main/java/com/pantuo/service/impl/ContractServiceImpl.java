@@ -64,7 +64,7 @@ public class ContractServiceImpl implements ContractServiceData {
 			if (StringUtils.isNotBlank(code)) {
 				query = query.and(QJpaContract.jpaContract.contractCode.like("%" + code + "%"));
 			}
-		if (Request.hasAuth(principal, ActivitiConfiguration.ORDER)) {
+		if (Request.hasAuth(principal, ActivitiConfiguration.ORDER) || Request.hasAuth(principal, "ShibaOrderManager")) {
 		} else if (Request.hasAuth(principal, ActivitiConfiguration.ADVERTISER)) {
 			query = query.and(QJpaContract.jpaContract.userId.eq(Request.getUserId(principal)));
 			query = query.or(QJpaContract.jpaContract.creator.eq(Request.getUserId(principal)));
