@@ -9,6 +9,16 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 	color: #E0296C;
     font-weight: 800;
 }
+.operation-ok
+{
+	color: #29E039;
+    font-weight: 800;
+}
+.operation-cancel
+{
+	color: #E0B229;
+    font-weight: 800;
+}
 </style>
 
 <script type="text/javascript">
@@ -104,8 +114,8 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                                 :'<a class="table-action operation " href="javascript:void(0);" url="${rc.contextPath}/user/' + data + '/enable">启用</a> &nbsp;')
                         + '<a class="operation" href="${rc.contextPath}/user/u_edit/' + data + '" >编辑</a> &nbsp;'
                         +(row.ustats=='init' ? '':'<a href="javascript:void(0)" class="operation" onclick="UserQualifi(\'${rc.contextPath}\',\'' + row.username + '\');" >查看资质</a>&nbsp;'
-                        +(row.ustats!='authentication' ? '<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/user/ustats/' + data + '/authentication">认证通过</a> &nbsp;'
-                                :'<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/user/ustats/' + data + '/unauthentication">撤销认证</a> &nbsp;'))
+                        +(row.ustats!='authentication' ? '<a class="table-action operation-ok" href="javascript:void(0);" url="${rc.contextPath}/user/ustats/' + data + '/authentication">认证通过</a> &nbsp;'
+                                :'<a class="table-action operation-cancel" href="javascript:void(0);" url="${rc.contextPath}/user/ustats/' + data + '/unauthentication">撤销认证</a> &nbsp;'))
                         ;
                     }},
             ],
