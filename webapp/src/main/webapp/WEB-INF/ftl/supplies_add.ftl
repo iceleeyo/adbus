@@ -128,6 +128,7 @@ $(document).ready(function() {
 			suppotFile[1] = "mp4";
 			suppotFile[2] = "rmvb";
 			suppotFile[3] = "mpeg2";
+			suppotFile[4] = "mpg";
 			var flag=false;
 			for (var i = 0; i < suppotFile.length; i++) {
 				if (suppotFile[i] == fileType) {
@@ -136,7 +137,7 @@ $(document).ready(function() {
 			}
 				if(flag == false)
 				{
-				jDialog.Alert("文件类型只支持AVI,MP4,RMVB,MPEG2");
+				jDialog.Alert("文件类型只支持AVI,MP4,RMVB,MPEG2,MPG");
 				return;
 				}
 		}
@@ -167,6 +168,7 @@ $(document).ready(function() {
 			suppotFile[0] = "gif";
 			suppotFile[1] = "bmp";
 			suppotFile[2] = "jpg";
+			suppotFile[3] = "pdf";
 			var flag=false;
 			for (var i = 0; i < suppotFile.length; i++) {
 				if (suppotFile[i] == fileType) {
@@ -175,7 +177,7 @@ $(document).ready(function() {
 			}
 			if(flag == false)
 			{
-				jDialog.Alert("资质类型只支持GIF,BMP,JPG");
+				jDialog.Alert("资质类型只支持GIF,BMP,JPG,PDF");
 				return;
 			}
 		}
@@ -342,10 +344,10 @@ $(document).ready(function() {
 					<span class="icon"></span> 温馨提示
 				</div>
 				<ol>
-					<li>1.请提供符合产品要求的物料类型，视频类型格式支持<font color="red">AVI，MP4，RMVB，MPEG-2</font>。
+					<li>1.请提供符合产品要求的物料类型，视频类型格式支持<font color="red">AVI，MP4，RMVB，MPEG-2，MPG</font>。
 					</li>
 					<li>2.图片类型格式支持<font color="red">GIF，PNG，JPG</font>；资质类型格式支持<font
-						color="red">GIF，PNG，JPG</font>。
+						color="red">GIF，PNG，JPG，PDF</font>。
 					</li>
 					<li>3.在必须要的时候，请上传物料说明和广告资质。</li>
 					<li>4.如果物料的文件比较大，可能需要一定的时间，请耐心等待。文件大小尽量控制在200M以内。</li>

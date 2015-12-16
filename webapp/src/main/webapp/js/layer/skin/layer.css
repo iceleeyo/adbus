@@ -657,7 +657,8 @@ html #layui_layer_skinlayercss {
 .layui-layer-tips {
     background: 0 0;
     box-shadow: none;
-    border: none
+    border: none;
+    overflow: auto;
 }
 
 .layui-layer-tips .layui-layer-content {
@@ -670,7 +671,8 @@ html #layui_layer_skinlayercss {
     border-radius: 3px;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, .3);
     background-color: #F90;
-    color: #fff
+    color: #fff;
+    overflow: auto;
 }
 
 .layui-layer-tips .layui-layer-close {

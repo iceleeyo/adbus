@@ -416,8 +416,8 @@ function supEnter(tourl,city,type){
 					 
 					 //图片说明
 					 +'<div id="otherType" style="display: none"> <div class="worm-tips"> <div class="tips-title"><span class="icon"></span> 温馨提示</div>'
-					 +'<ol> <li>1.请提供符合产品要求的物料类型，视频类型格式支持<font color="red">AVI，MP4，RMVB，MPEG-2</font>。</li>'
-					 +'<li>2.图片类型格式支持<font color="red">GIF，PNG，JPG</font>；资质类型格式支持<font color="red">GIF，PNG，JPG</font>。</li>'
+					 +'<ol> <li>1.请提供符合产品要求的物料类型，视频类型格式支持<font color="red">AVI，MP4，RMVB，MPEG-2，MPG</font>。</li>'
+					 +'<li>2.图片类型格式支持<font color="red">GIF，PNG，JPG</font>；资质类型格式支持<font color="red">GIF，PNG，JPG，PDF</font>。</li>'
 					 +'<li>3.在必须要的时候，请上传物料说明和广告资质。</li> <li>4.如果物料的文件比较大，可能需要一定的时间，请耐心等待。文件大小尽量控制在200M以内。</li><li>5.请勿上传违反国家广告法及相关法律法规的物料文件。</li><li>6.视频节目物料素材应符合合同附件《节目制作规范》的相关要求。</li>'
 					 +'<li>7.广告物料及节目播出带（三期备播节目物料）须在广告/节目首个发布日的7个工作日前将送达乙方指定地址。如因延误或错误送达导致广告/节目延误发布的，责任由甲方承担。</li>'
 					 +'</ol> </div> </div>'
@@ -544,12 +544,12 @@ function IvcEnter(tourl){
 					 +'<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]" type="text" name="regisaddr" id="regisaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 					 +'<div class="ui-form-item"> <label class="ui-labeli mt10"><span class="ui-form-required">*</span>注册固定电话:</label>'
 					 +'<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]" type="text" name="fixphone" id="fixphone" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-					 +'<div class="ui-form-item"> <label class="ui-labeli mt10"><span class="ui-form-required">*</span>营业执照复印件: </label>'
-					 +'<div id="newUpload2"> <div id="div_1"> <input type="file" name="licensefile" id="Sfile" class="validate[required]"> </div> </div> </div>'
-					 +'<div class="ui-form-item"> <label class="ui-labeli mt10"><span class="ui-form-required">*</span>税务登记复印件: </label><div id="newUpload2"> <div class="filebox" id="div_1">'
-					 +'<input type="file" name="taxfile" id="Sfile2" class="validate[required]"> </div> </div> </div>'
-					 +'<div class="ui-form-item"> <label class="ui-labeli mt10"><span class="ui-form-required">*</span>一般纳税人资格认证复印件: </label>'
-					 +'<input type="file" name="taxpayerfile" id="Sfile3" class="validate[required]"> </div> </div> </div></div>'
+					 +'<div class="ui-form-item"> <label class="ui-labeli mt10">营业执照复印件: </label>'
+					 +'<div id="newUpload2"> <div id="div_1"> <input type="file" name="licensefile" id="Sfile"> </div> </div> </div>'
+					 +'<div class="ui-form-item"> <label class="ui-labeli mt10">税务登记复印件: </label><div id="newUpload2"> <div class="filebox" id="div_1">'
+					 +'<input type="file" name="taxfile" id="Sfile2"> </div> </div> </div>'
+					 +'<div class="ui-form-item"> <label class="ui-labeli mt10">一般纳税人资格认证复印件: </label>'
+					 +'<input type="file" name="taxpayerfile" id="Sfile3"> </div> </div> </div></div>'
 					 +'<div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdrawi" style="margin-left:50px;" class="block-btn" onclick="subIvc(\''+tourl+'\');" value="提交"></div>'
 					 +'<div id="progress1"> <div class="percent"></div> <div class="pbar"></div> <div class="elapsed"></div> </div> </form>'
 				});
@@ -592,6 +592,7 @@ function subSup() {
 		suppotFile[1] = "mp4";
 		suppotFile[2] = "rmvb";
 		suppotFile[3] = "mpeg2";
+		suppotFile[4] = "mpg";
 		var flag=false;
 		for (var i = 0; i < suppotFile.length; i++) {
 			if (suppotFile[i] == fileType) {
@@ -600,7 +601,7 @@ function subSup() {
 		}
 			if(flag == false)
 			{
-				layer.msg('文件类型只支持AVI,MP4,RMVB,MPEG2', {icon: 5});
+				layer.msg('文件类型只支持AVI,MP4,RMVB,MPEG2,MPG', {icon: 5});
 			//jDialog.Alert("文件类型只支持AVI,MP4,RMVB");
 			return;
 			}
@@ -633,6 +634,7 @@ function subSup() {
 		suppotFile[0] = "gif";
 		suppotFile[1] = "bmp";
 		suppotFile[2] = "jpg";
+		suppotFile[3] = "pdf";
 		var flag=false;
 		for (var i = 0; i < suppotFile.length; i++) {
 			if (suppotFile[i] == fileType) {
@@ -641,7 +643,7 @@ function subSup() {
 		}
 		if(flag == false)
 		{
-		layer.msg('文件类型只支持GIF,BMP,JPG', {icon: 5});
+		layer.msg('资质类型只支持GIF,BMP,JPG,PDF', {icon: 5});
 			//jDialog.Alert("资质类型只支持GIF,BMP,JPG");
 			return;
 		}

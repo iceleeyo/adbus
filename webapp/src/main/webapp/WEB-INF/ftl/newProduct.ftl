@@ -28,6 +28,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 		$(".ui_timepicker").datetimepicker({
 			//showOn: "button",
 			//buttonImage: "./css/images/icon_calendar.gif",
+			
 			//buttonImageOnly: true,
 			showSecond : true,
 			timeFormat : 'hh:mm:ss',
