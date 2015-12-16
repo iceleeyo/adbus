@@ -2164,7 +2164,7 @@ $(".qq i").click(function(){
 });
 
 //QQ客服列表
-$(".pg-side-item.qq a").click(function(){
+$(".qq a").click(function(){
 	//页面层
 	layer.open({
 		type: 1,
