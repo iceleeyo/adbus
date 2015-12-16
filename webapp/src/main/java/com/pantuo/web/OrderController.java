@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,6 +59,7 @@ import com.pantuo.service.SuppliesService;
 import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.security.Request;
 import com.pantuo.util.DateUtil;
+import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Variable;
@@ -210,6 +212,13 @@ public class OrderController {
 		return	activitiService.closeOrder(org.apache.commons.lang.math.NumberUtils.toInt(orderid),closeRemark, taskid, principal);
 	}
 
+	public static Date addDay(Date date, int n) {
+		Calendar calendar = DateUtil.newCalendar();
+		calendar.setTime(date);
+		calendar.add(Calendar.DATE, n);
+		return (calendar.getTime());
+	}
+
 	@RequestMapping(value = "/handl/{taskid}", produces = "text/html;charset=utf-8")
 	public String HandleView2(Model model,
             @PathVariable("taskid") String taskid,
@@ -229,6 +238,9 @@ public class OrderController {
 		ExecutionEntity executionEntity = (ExecutionEntity) runtimeService.createExecutionQuery()
 				.executionId(task.getExecutionId()).processInstanceId(task.getProcessInstanceId()).singleResult();
 		OrderView v = activitiService.findOrderViewByTaskId(taskid, principal);
+		if(v.getOrder()!=null){
+			v.getOrder().setEndTime(addDay(v.getOrder().getEndTime(),-1));  
+		}
 		String activityId = executionEntity.getActivityId();
 		ProcessInstance pe = activitiService.findProcessInstanceByTaskId(taskid);
 		List<HistoricTaskView> activitis = activitiService.findHistoricUserTask(cityId, pe.getProcessInstanceId(),
