@@ -2163,6 +2163,22 @@ $(".qq i").click(function(){
 	});
 });
 
+//QQ客服列表
+$(".qq a").click(function(){
+	//页面层
+	layer.open({
+		type: 1,
+		title: "QQ客服列表",
+	    skin: 'layui-layer-rim', //加上边框
+	    area: ['420px', '260px'], //宽高
+	    content: ''
+	    +'<div class="qq_layer">'
+	    +'<span class="child"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=492918047&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:2118878347:51" alt="联系我们" title="联系我们"/><span>QQ客服：2118878347</span></a></span>'
+	    +'<span class="child"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=492918047&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:2952734147:51" alt="联系我们" title="联系我们"/><span>QQ客服：2952734147</span></a></span>'
+	    +'<span class="child"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=492918047&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:2275955417:51" alt="联系我们" title="联系我们"/><span>QQ客服：2275955417</span></a></span>'
+	   	+'</div>'
+	});
+});
 //详情图片放大
 $(".sm-imgs img").mouseover(function(){
 	var url=$(this).attr('src');
