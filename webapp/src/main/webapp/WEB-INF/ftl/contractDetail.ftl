@@ -18,14 +18,14 @@ function go_back(){
 		</H3>
 		<DIV class="summary mt10 uplan-summary-div">
 			<UL class="uplan-detail-ul">
-				<LI style="width: 240px;"><SPAN>合同编号：</SPAN><SPAN class="con">${(view.jpaContract.contractCode)!''}</SPAN></LI>
+				<LI style="width: 300px;"><SPAN>合同编号：</SPAN><SPAN class="con">${(view.jpaContract.contractCode)!''}</SPAN></LI>
 				<LI style="width: 240px;"><SPAN>合同类型：</SPAN><SPAN class="con">
 				<#if view.jpaContract.parentid==0>主合同<#else>子合同</#if>
 				</SPAN></LI>
 				<LI style="width: 240px;"><SPAN>媒体类型：</SPAN><SPAN class="con">${(view.jpaContract.type)!''}</SPAN></LI>
 
 				<li style="width: 750; border-bottom: 1px solid #F7F7F7"></li>
-				<LI style="width: 240px;"><SPAN>广告主：</SPAN><SPAN class="con">${(view.jpaContract.userId)!''}</SPAN></LI>
+				<LI style="width: 300px;"><SPAN>广告主：</SPAN><SPAN class="con">${(view.jpaContract.userId)!''}</SPAN></LI>
 				<LI style="width: 240px;"><SPAN>金额（人民币：元）：</SPAN><SPAN
 					class="con">${(view.jpaContract.amounts)!''}</SPAN></LI>
 
