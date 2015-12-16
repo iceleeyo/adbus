@@ -153,9 +153,12 @@ public class ContractService {
 		ContractExample example = new ContractExample();
 		ContractExample.Criteria ca = example.createCriteria();
         ca.andCityEqualTo(city);
-        if (Request.hasOnlyAuth(principal, SystemRoles.advertiser.name()) ) {
-        	ca.andUserIdEqualTo(Request.getUserId(principal));
-        }
+		if (Request.hasOnlyAuth(principal, SystemRoles.advertiser.name())) {
+			log.info("Contract advertiser query:{}", Request.getUserId(principal));
+			ca.andUserIdEqualTo(Request.getUserId(principal));
+		} else {
+			log.info("Contract admin query:{}", Request.getUserId(principal));
+		}
 		if (StringUtils.isNoneBlank(name)) {
 			ca.andContractNameLike("%" + name + "%");
 		}
