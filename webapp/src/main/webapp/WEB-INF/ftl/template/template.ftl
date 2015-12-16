@@ -59,8 +59,12 @@ security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 	src="${rc.contextPath}/js/layer.onload.js"></script>
 <script type="text/javascript" language="javascript"
 	src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
-
-
+	
+	
+<link rel="stylesheet" type="text/css"
+	href="${rc.contextPath}/index_-css/jack.css">
+<link rel="stylesheet" type="text/css"
+	href="${rc.contextPath}/css/layer.css">
 <link rel="stylesheet" type="text/css"
 	href="${rc.contextPath}/css/sea.css">
 <link rel="stylesheet" type="text/css"
