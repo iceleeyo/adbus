@@ -1,3 +1,5 @@
+<link rel="stylesheet" type="text/css"
+	href="${rc.contextPath}/css/layer.css">
 <style type="text/css">
 .side-exp-select {
 	cursor: pointer;
@@ -385,7 +387,7 @@
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/user/edit_pwd"> 修改密码 </a></li>
 			</ul></li> <@security.authorize ifAnyGranted="advertiser">
-		<li class="pg-side-item qq"><a class="pg-side-item-t aa-icon" onclick="alertQQ()" href="javascript:void(0);" > 
+		<li class="pg-side-item qq"><a class="pg-side-item-t aa-icon" href="javascript:void(0);" > 
 		<i class="s-left pg-icon-a a-icon"
 				style="background:url(${rc.contextPath}/imgs/cs.png) no-repeat;"></i>
 				在线客服
@@ -395,8 +397,8 @@
 </div>
 <script type="text/javascript">
 
-//QQ客服列表
 
+//QQ客服列表
 $(".qq a").click(function(){
 	//页面层
 	layer.open({
