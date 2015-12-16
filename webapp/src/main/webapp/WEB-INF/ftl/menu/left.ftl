@@ -396,7 +396,7 @@
 <script type="text/javascript">
 
 //QQ客服列表
-function alertQQ()
+
 $(".qq a").click(function(){
 	//页面层
 	layer.open({
