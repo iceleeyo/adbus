@@ -385,8 +385,8 @@
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/user/edit_pwd"> 修改密码 </a></li>
 			</ul></li> <@security.authorize ifAnyGranted="advertiser">
-		<li class="pg-side-item qq"><a class="pg-side-item-t aa-icon" href="javascript:void(0);" > 
-		<i class="s-left pg-icon-a a-icon"
+		<li class="pg-side-item "><a class="pg-side-item-t aa-icon" href="javascript:void(0);" > 
+		<i class="s-left pg-icon-a a-icon qq"
 				style="background:url(${rc.contextPath}/imgs/cs.png) no-repeat;"></i>
 				在线客服
 		</a></li> </@security.authorize>
