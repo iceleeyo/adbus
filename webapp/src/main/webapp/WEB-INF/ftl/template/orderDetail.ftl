@@ -105,9 +105,9 @@ function supDetail(data){
 			<#if orderview.payTypeString?has_content>
 			<li style="width: 200px;"><SPAN>支付方式：</SPAN><SPAN class="con">${(orderview.payTypeString)!''}</SPAN></li>
 			<#if orderview.payTypeString?has_content && orderview.payTypeString=="关联合同">
-			<li style="width: 200px;"><SPAN>合同号：</SPAN><SPAN class="con">
+			<li style="width: 280px;"><SPAN>合同号：</SPAN><SPAN class="con">
 					<@security.authorize ifAnyGranted="ShibaFinancialManager">
-					<a class="layer-tips" tip="点击可查看发票详细内容!" onclick="contractdetail('${rc.contextPath}',${(orderview.order.contractId)!''});"
+					<a class="layer-tips" tip="点击可查看合同详细内容!" onclick="contractdetail('${rc.contextPath}',${(orderview.order.contractId)!''});"
 					href="javascript:void(0)">${(orderview.order.contractCode)!''}</a>
 					</@security.authorize>
 					<@security.authorize ifNotGranted="ShibaFinancialManager">
