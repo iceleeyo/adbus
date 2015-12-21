@@ -37,8 +37,8 @@ public class IcbcController {
 
 	@RequestMapping(value = "/icbc_demo", method = RequestMethod.GET)
 	public String config(Model model, HttpSession session) {
-		String TranTime = "20151225195923";
-		String contractNo = String.valueOf((20151211101091L) + s.incrementAndGet());
+		String TranTime = "20151226195923";
+		String contractNo = String.valueOf((20151211101098L) + s.incrementAndGet());
 		String callback = "http://busme.cn/icbcCallBack";
 		model.addAttribute("TranTime", TranTime);
 		model.addAttribute("callback", callback);
