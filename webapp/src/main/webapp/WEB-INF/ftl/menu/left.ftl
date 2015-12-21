@@ -323,7 +323,9 @@
 				ifAnyGranted="report_meusersumary">
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/report/public/MediaUsageCountM"> 媒体使用汇总
-				</a></li> </@security.authorize> <@security.authorize
+				</a></li> </@security.authorize>
+				<#--
+				 <@security.authorize
 				ifAnyGranted="report_yearsalecount">
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/report/body/monthp"> 年售出情况 </a></li>
@@ -332,6 +334,9 @@
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/report/body/daylinep"> 线路细分 </a></li>
 				</@security.authorize>
+				-->
+				
+				
 			</ul></li> </@security.authorize> <#if _utype == 'screen'> <@security.authorize
 		ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,contract_input,contract_list,contract_search,contract_buy">
 		<li class="pg-side-item"><a class="pg-side-item-t hh-icon"> <i
