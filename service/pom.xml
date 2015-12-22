@@ -35,6 +35,19 @@
 
 
 	<build>
+
+		<resources>
+
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
+
+
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -79,7 +92,7 @@
 		</dependency>
 
 
-		 
+
 
 		<dependency>
 			<groupId>org.apache.poi</groupId>
@@ -108,16 +121,16 @@
 		</dependency>
 
 
-		 
 
- 
+
+
 
 
 		<!-- file upload -->
 
 
 
-		 
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
