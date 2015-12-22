@@ -26,7 +26,7 @@ js=["js/highslide/highslide-full.js", "js/video-js/video.js",
 						<#if view.mainView.suppliesType?? &&
 						view.mainView.suppliesType!=2>
 						<div class="withdraw-title">
-						<span>如果您的浏览器不能正常预览，请下载文件预览。</span>  
+						<span style="font-size:18px;">如果您的浏览器不能正常预览，请下载文件预览。</span>  
 						</div>
 						<table width="100%" class="uplan-table">
 							<tbody>
