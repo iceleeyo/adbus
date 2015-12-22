@@ -1533,7 +1533,7 @@ function showCloseRemark(mainPath,orderid,taskid){
     		area: ['420px', '540px'], 
     		content: ''
 					 +'<br/><div>'
-					 +'<textarea onclick="this.innerHTML=\'\';" id="closeRemark" type="textarea" style="margin-left:25px;height: 391px; width: 367px;">'
+					 +'<textarea onclick="this.innerHTML=\'\';" id="closeRemark" type="textarea" style="margin-left:25px;height: 391px; width: 367px;border:1px;">'
 					 + '请输入订单关闭原因'
 					 +'</textarea><br>'
 					 +' <div class="ui-form-item widthdrawBtBox" style="margin-left:-20px;margin-top:20px;"> <input type="button" id="uploadbutton" class="block-btn" onclick="closeOrder(\''+mainPath+'\',\''+orderid+'\','+taskid+');" value="提交"> </div>'
