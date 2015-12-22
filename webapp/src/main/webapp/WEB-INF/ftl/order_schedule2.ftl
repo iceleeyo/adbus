@@ -59,6 +59,9 @@ div#toolbar {
 	height: 100%;
 	z-index: 1
 }
+.ls-10{
+	margin-left: 7%;
+}
 </style>
 <script type="text/javascript">
     var table;
@@ -127,10 +130,7 @@ div#toolbar {
         initTable();
     } );
 </script>
-
-<@orderDetail.orderDetail orderview=orderview
-suppliesView=suppliesView quafiles="" suppliesLink=true
-viewScheduleLink=false/> 
+ 
 <div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear">
 	<H3 class="text-xl title-box">
 		<A class="black" href="#">排期表</A>
