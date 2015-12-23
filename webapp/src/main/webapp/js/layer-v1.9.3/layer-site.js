@@ -733,7 +733,7 @@ function qEdit(tourl,id){
 	    				 +'type="text" name="title" id="title" value="'+data.mainView.title+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 	    				 +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>邮寄地址:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
                          +'type="text" name="mailaddr" value="'+data.mainView.mailaddr+'" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-                         +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>邮寄联系人:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
+                         +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>邮寄联系人:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[2],maxSize[120]]"'
                          +'type="text" name="contactman" value="'+data.mainView.contactman+'" id="contactman" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
                          +'<div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required">*</span>联系方式:</label> <input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]"'
                          +'type="text" name="phonenum" value="'+data.mainView.phonenum+'" id="phonenum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
