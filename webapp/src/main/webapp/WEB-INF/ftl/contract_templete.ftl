@@ -208,11 +208,14 @@
 		<span class="s2">法定代表人 ： </span><span class="s3">${userDetail.legalman!''}</span>
 	</p>
 	<p class="p2">
+		<span class="s2">邮编 ： </span><span class="s3"></span>
+	</p>
+	<%-- <p class="p2">
 		<span class="s2">联系人：</span><span class="s3">${userDetail.relateman!''}</span>
 	</p>
 	<p class="p2">
 		<span class="s2">联系电话：</span><span class="s3">${userDetail.phone!''}</span>
-	</p>
+	</p> --%>
 	<p class="p2"></p>
 	<p class="p2">
 		<span class="s2">乙方：北京世巴传媒有限公司</span>
@@ -224,11 +227,14 @@
 		<span class="s2">法定代表人：罗晓军 </span>
 	</p>
 	<p class="p2">
+		<span class="s2">邮编 ： </span><span class="s3">100048</span>
+	</p>
+	<!-- <p class="p2">
 		<span class="s2">联系人：</span>
 	</p>
 	<p class="p2">
 		<span class="s2">联系电话：</span>
-	</p>
+	</p> -->
 	<p class="p3">
 		<span class="s2">鉴于乙方拥有北广传媒移动电视媒体平台公交频道的使用权、经营权，根据《中华人民共和国广告法》、《中华人民共和国合同法》及有关规定，甲乙双方本着友好合作、共同发展的意愿，就甲方委托乙方制作、发布广告</span><span>/节目</span><span
 			class="s2">事宜，达成如下合同：</span>
@@ -306,29 +312,33 @@
 	</p>
 	
 	<p class="p7">
-		<span class="s7">2. </span><span>甲方在订单有效期内付费后，乙方才开始为甲方提供服务。订单的有效期为：自甲方在乙方官网确认订单起至7日届满或至乙方该服务刊期（版位）不足时（以二者早发生为准）。如甲方未在订单有效期内付费，订单以及就订单所订购服务所达成的一切条款失效。</span>
+		<span class="s7">2. </span><span>甲方在订单有效期内付费后，乙方才开始为甲方提供服务。订单的有效期为：自甲方在乙方官网确认订单起至5个工作日届满。如甲方未在订单有效期内付费，订单以及就订单所订购服务所达成的一切条款失效。</span>
 	</p>
 	<p class="p7">
 		<span class="s7">3. </span><span>通过银行转账（或在线支付）的方式将广告费用支付至乙方指定账户，汇款信息如下：
 <br><br><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;账户名称：北京世巴传媒有限公司
 <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;账号:0200207909200097152
 <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;开户银行名称：中国工商银行股份有限公司北京知春路支行
+<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;甲方如需开具发票，应按乙方要求提供完备的信息和资质证件，在乙方进行资质审核通过且确认款项到账后7个工作日内，开具相应有效发票。  
 		</B></span>
 	</p>
 	<p class="p5">
-		<span class="s5">三、 发布形式</span>
+		<span class="s5">三、 提交物料素材要求</span>
 	</p>
-	<p class="p6">
-		<span>见套餐说明。</span>
+	<p class="p7">
+		<span class="s7">1. &nbsp;</span><span>视频广告物料素材：DVC pro带或提供电子版MPEG-2格式文件，要求：720*576像素；PAL制；帧速率：25帧每秒；声音：-8至-12db。报审的视频广告需在广告画面右上角打上“广告”字样。（字样要求：使用苹果系统制作，白色，楷体，90号字；使用大洋系统制作，白色，楷体，字宽37、字高28）</span>
+	</p>
+	<p class="p7">
+		<span class="s7">2. &nbsp;</span><span>INFO广告物料素材：字幕每条50个汉字（含全角字符及标点符号）以内；图片每单位20秒，图片要求：129*166像素。图片为PNG格式。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">3. &nbsp;</span><span>视频节目物料素材应符合合同附件《节目制作规范》的相关要求。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">4. &nbsp;</span><span>广告物料及节目播出带（三期备播节目物料）须在广告/节目首个发布日的7个工作日前提交乙方审核。如因延误或错误送达导致广告/节目延误发布的，责任由甲方承担。</span>
 	</p>
 	<p class="p5">
-		<span class="s5">四、 </span><span class="s6"> </span><span class="s5">物料素材及送达要求</span>
-	</p>
-	<p class="p6">
-		<span>见套餐说明。</span>
-	</p>
-	<p class="p5">
-		<span class="s1">五、</span><span class="s2"> </span><span class="s5">发布约定</span>
+		<span class="s1">四、</span><span class="s2"> </span><span class="s5">发布约定</span>
 	</p>
 	<p class="p7">
 		<span class="s7">1. &nbsp;</span><span>发布内容的约定</span>
@@ -380,7 +390,7 @@
 			class="s2">内容或者补充相关证件并中止</span><span>广告/节目</span><span class="s2">发布。如甲方不能在乙方规定的时间内进行内容修改或提供相关证件，乙方有权终止发布，一切法律后果由甲方承担，同时，乙方对中止期间的发布不再另行补充发布。</span>
 	</p>
 	<p class="p2">
-		<span class="s5">六、 甲方的权利及义务</span>
+		<span class="s5">五、 甲方的权利及义务</span>
 	</p>
 	<p class="p7">
 		<span class="s7">1. &nbsp;</span><span>甲方应于广告/节目发布日的 </span><span
@@ -398,7 +408,7 @@
 			class="s2">发生的因食品安全和就餐环境安全等造成的热心观众人身伤害等损失(包括但不限于支付的赔偿金、罚款、违约金、律师费、调查取证费等)的，甲方应当全额赔偿，乙方不承担任何赔偿责任。</span>
 	</p>
 	<p class="p2">
-		<span class="s5">七、 乙方的权利及义务</span>
+		<span class="s5">六、 乙方的权利及义务</span>
 	</p>
 	<p class="p10">
 		<span class="s7">1. &nbsp;</span><span class="s2">乙方如有任何发布变更，应及时通知甲方并获得甲方同意后另行安排发布。</span>
@@ -410,16 +420,13 @@
 		<span class="s7">3. &nbsp;</span><span>乙方可以以宣传合作关系为目的，在包括但不限于乙方的网站、微博、微信产品包装、宣传册、为促销、展示等制作的各类销售、宣传资料中免费使用甲方或其代理的广告主的商标、标识。此项权利不受本合同期限的限制。</span>
 	</p>
 	<p class="p2">
-		<span class="s5">八、 违约责任</span>
+		<span class="s5">七、 违约责任</span>
 	</p>
 	<p class="p7">
-		<span class="s7">1. &nbsp;</span><span>甲方逾期付款的，该广告/节目发布日期相应顺延。广告/节目播出日期顺延期间，乙方可自行安排播出其他广告/节目，相关损失由甲方自行承担。逾期10个工作日，甲方仍未能付清应付款项的，乙方可以解除本合同。</span>
-	</p>
-	<p class="p7">
-		<span class="s7">2. &nbsp;</span><span>甲方逾期付款的，每逾期一日，甲方应按逾期部分的千分之五，向乙方支付逾期付款违约金。同时乙方有权选择即时停止发布甲方广告。乙方因此提出解除合同的，甲方已经支付的广告费不予返还。同时甲方还应按合同未履行部分广告费的30%支付给乙方违约金。</span>
+		<span class="s7">1. &nbsp;</span><span>甲方违反本合同约定无故解除合同的，已经支付的广告费用不予返还。</span>
 	</p>
 	<p class="p5">
-		<span class="s5">九、 担保及免责</span>
+		<span class="s5">八、 担保及免责</span>
 	</p>
 	<p class="p10">
 		<span class="s7">1. &nbsp;</span><span>双方分别向对方陈述并担保，于本合同签订日且延续至本合同履行完毕：</span>
@@ -434,25 +441,25 @@
 		<span class="s7">2. &nbsp;</span><span>在本合同有效广告/节目发布期内，如乙方及其执行媒体出现任何纠纷或乙方与履行本合同有关的政府批准、许可等资质面临撤销或/丧失，乙方应在出现该等情形后立即通知甲方。如因前述情形导致甲方广告/节目未能及时、完整发布的，双方均可单方终止本合同，甲方就未能发布的部分免除向乙方的支付义务（如已预付，乙方应将相应款项退还甲方）。在前述情形下，双方互不承担违约责任。</span>
 	</p>
 	<p class="p2">
-		<span class="s5">十、 保密条款</span>
+		<span class="s5">九、 保密条款</span>
 	</p>
 	<p class="p3">
 		<span>任何一方对于因签署或履行本合同而了解或接触到的对方的商业秘密及其他机密资料和信息，无论该信息或资料是否标明&ldquo;保密&rdquo;字样（以下简称&ldquo;保密信息&rdquo;）均应保守秘密；非经对方事先书面同意或为履行本合同之目的，任何一方不得向第三方泄露、给予或转让该等保密信息。法律另有规定的除外。</span>
 	</p>
 	<p class="p5">
-		<span class="s1">十一、不可抗力</span>
+		<span class="s1">十、不可抗力</span>
 	</p>
 	<p class="p3">
 		<span>因法律（包括但不限于法律、法规、部门规章、规范性文件、地方性法规、行政命令等）变更、自然灾害，或因重大新闻转播、现场直播（包括但不限于国家重大会议直播、重大体育赛事直播等）、临时性节目调整（如政府机构因须征用或占用乙方媒体平台造成的节目调整等）、相关部门于常规时间的设备检修、车辆检修或其它不可抗拒的因素而影响甲方广告/节目正常发布时，乙方应尽早通知甲方，对受影响未能如期发布的广告/节目，乙方应另行安排同等级时段的等额时间发布（此类情况，不属于错、漏发布范围，不按前述错、漏补充发布的规定执行）；仍无法发布的，乙方有权提前终止本合同而无需向甲方承担违约责任。</span>
 	</p>
 	<p class="p5">
-		<span class="s5">十二、争议解决与适用法律</span>
+		<span class="s5">十一、争议解决与适用法律</span>
 	</p>
 	<p class="p3">
 		<span>双方就本合同项下条款的解释和履行发生争议时，应以善意通过协商解决该争议。如协商不成，则应向乙方住所地人民法院起诉解决。</span>
 	</p>
 	<p class="p5">
-		<span class="s5">十三、合同生效与终止</span>
+		<span class="s5">十二、合同生效与终止</span>
 	</p>
 	<p class="p7">
 		<span class="s7">1. &nbsp;</span><span>本合同自双方签署盖章之日起生效。双方签字盖章日期不一致的，以较晚的日期为本合同的生效日期。</span>
@@ -464,7 +471,7 @@
 		<span class="s7">3. &nbsp;</span><span>除本合同另有约定之外，任何一方可在另一方发生重大违约行为后通知对方，并在违约方收到通知后7个工作日之内仍未更正其违约行为时有权立即终止本合同。</span>
 	</p>
 	<p class="p5">
-		<span class="s5">十四、其它规定</span>
+		<span class="s5">十三、其它规定</span>
 	</p>
 	<p class="p7">
 		<span class="s7">1. &nbsp;</span><span>甲乙双方确认，因履行本合同而相互发生或者提供的所有通知、文件、资料，应按本合同首部的联系方式送达，送达后即对甲乙双方产生对应的法律效力。其它联系方式未经双方确认的均视为无效。一方如变更联系方式的，应提前叁个工作日以书面形式通知对方，告知变更内容。</span>
@@ -496,6 +503,12 @@
 	</p>
 	<p class="p7">
 		<span class="s7">6. &nbsp;</span><span>本合同未尽事宜，甲乙双方可另行协商签订补充合同。补充合同与本合同具有同等法律效力。</span>
+	</p>
+	<p class="p5">
+		<span class="s5">十四、附件</span>
+	</p>
+	<p class="p7">
+		<span class="s7">1. &nbsp;</span><span>1.节目制作规范。</span>
 	</p>
 	<p class="p7"></p>
 </body>
