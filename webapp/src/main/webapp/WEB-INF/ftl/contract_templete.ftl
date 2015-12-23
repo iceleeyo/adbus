@@ -210,13 +210,13 @@
 	<p class="p2">
 		<span class="s2">邮编 ： </span><span class="s3"></span>
 	</p>
-	<%-- <p class="p2">
+	<!--  <p class="p2">
 		<span class="s2">联系人：</span><span class="s3">${userDetail.relateman!''}</span>
 	</p>
 	<p class="p2">
 		<span class="s2">联系电话：</span><span class="s3">${userDetail.phone!''}</span>
-	</p> --%>
-	<p class="p2"></p>
+	</p> 
+	<p class="p2"></p> -->
 	<p class="p2">
 		<span class="s2">乙方：北京世巴传媒有限公司</span>
 	</p>
@@ -508,8 +508,225 @@
 		<span class="s5">十四、附件</span>
 	</p>
 	<p class="p7">
-		<span class="s7">1. &nbsp;</span><span>1.节目制作规范。</span>
+		<span class="s7">1. &nbsp;</span><span>节目制作规范。</span>
 	</p>
 	<p class="p7"></p>
+	
+	<p class="p7">
+		<span class="s7"></span><span>附件：</span>
+	</p>
+	<p class="p1">
+		<span class="s1">节目制作规范</span>
+	</p>
+	<p class="p3">
+		<span>为适应移动电视的媒体特性，提高移动电视的节目质量，根据上级有关规定，特制定本规范。</span>
+	</p>
+	<p class="p5">
+		<span class="s5">一、节目制作格式要求</span>
+	</p>
+	<p class="p3">
+		<span>送审节目按照播出带送播标准制作，转数字视频采用.mpg格式。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">1. &nbsp;</span><span>节目播出带时间要求</span>
+	</p>
+	<p class="p3">
+		<span>BETACAM/SP、DIGITAL BETACAM、DVCPRO磁带要求明确标注播出带节目时长（时间精确度为帧）、起始时间码（TC码）及结束时间码（TC码），对应相应的节目时间长度、起始画面、结束画面。播出带作初始化，必须连续TC码串播。为保证节目播出上传安全，要求节目片头从00：01：30:00开始静帧画面进入。</span>
+	</p>
+	<p class="p3">
+<span>
+<br><br><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;00：00：00：00—00:01:00:00;&nbsp;&nbsp;彩条＋千周标准音
+<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;00：01：00：00—00:01:29:22&nbsp;&nbsp;黑场
+<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（00：01：20：00—00:01:25:00&nbsp;&nbsp;黑场＋节目标引字幕）
+<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;00：01：29：23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;节目片头静帧  
+<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;00：01：30：00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;节目片头
+<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如：《》总字第*期
+<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;首播日期：****年*月*日
+		</B></span>
+	</p>
+	<p class="p7">
+		<span class="s7">（1） &nbsp;</span><span>节目片头统一10秒(原则上不得超过15秒)，并以进节目内容或节目提要结束。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">（2） &nbsp;</span><span>节目片花不超过片头长度。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">2. &nbsp;</span><span>节目片花不超过片头长度。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">3. &nbsp;</span><span>节目结束与节目结束前在画面上加入滚屏循环底，时长约为10秒，可以适当调节。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">4. &nbsp;</span><span>节目结尾保留大于30秒的黑场信号。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">5. &nbsp;</span><span>同一盘磁带录制两个以上节目的，两个节目之间应有2分钟黑场，并静帧画面进入，保证画面完整。</span>
+	</p>
+	
+	<p class="p5">
+		<span class="s5">二、声音要求</span>
+	</p>
+	<p class="p3">
+<span>
+<br><br><B>
+<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sony(BETA):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-10)db上下±20%
+<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Panasonic(DVC):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-8)db上下±20%
+		</B></span>
+	</p>
+	<p class="p7">
+		<span class="s7">1. &nbsp;</span><span>要求演播室声音和解说声音大小一致。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">2. &nbsp;</span><span>外景声音必须保证声音质量，要采用专业话筒拾音，不得出现回响。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">3. &nbsp;</span><span>声道要求：播出带声道为左声道（CH－1）和右声道（CH－2）为混合音,丽音声道（CH-3、CH－4）不能有任何声音。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">4. &nbsp;</span><span>不能出现多于8秒静帧无声音，否则视为播出事故。</span>
+	</p>
+	<p class="p5">
+		<span class="s5">三、文字要求</span>
+	</p>
+	<p class="p7">
+		<span class="s7">1. &nbsp;</span><span>字幕条</span>
+	</p>
+	<p class="p7">
+		<span>字幕条左侧为节目LOGO，无节目LOGO的节目可用片头落副字样作为左侧LOGO。LOGO距左边界至少40像素，距离下边界至少25像素。</span>
+	</p>
+	<p class="p7">
+		<span>字幕条上半部半透明部分为小标题内容，为黑体38号字，文字颜色白色（R240 G240 B240）；字幕条下半部分为唱词字幕（跟话字幕），为黑体35号字，文字颜色白色（R240 G240 B240）；唱词左对齐。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">2. &nbsp;</span><span>人名字幕条</span>
+	</p>
+	<p class="p7">
+		<span>上部为人物头衔，为黑体28号字，文字颜色深红色（R60 G0 B0）；下部为人名，为黑体28号字，文字颜色白色（R240 G240 B240）。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">3. &nbsp;</span><span>全屏字幕板</span>
+	</p>
+	<p class="p7">
+		<span>上部题目，为黑体35号字，文字颜色深红色（R60 G0 B0）；下部内容，为黑体40号字，文字颜色白色（R240 G240 B240）。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">4. &nbsp;</span><span>提示字幕</span>
+	</p>
+	<p class="p7">
+		<span>节目中要出现与节目内容相呼应的提示字幕，字幕大小一般为字幕条跟话字幕的两倍以上，字号为：黑体70，字体颜色应考虑节目画面内容适当搭配，重点考虑红、绿、黄等突出醒目的色彩。</span>
+	</p>
+	<p class="p5">
+		<span class="s5">四、画面及内容要求</span>
+	</p>
+	<p class="p7">
+		<span class="s7">1. &nbsp;</span><span>播出带画面不得出现杂帧、带伤现象。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">2. &nbsp;</span><span>画面像素应保持高水平，使用旧素材应注意整体画面的效果和质量。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">3. &nbsp;</span><span>转场特技，放置在两个镜头中间使用。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">4. &nbsp;</span><span>节目镜头使用规范：</span>
+	</p>
+	<p class="p7">
+		<span>鉴于移动电视收视的特性及效果，建议大于一半的镜头采用近景及特写镜头，减少中景，尽量不用全景。原则上1分钟节目特写镜头不得少于5个,以固定镜头拍摄为主,少用或不用推拉摇移镜头。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">5. &nbsp;</span><span>用镜头讲故事，镜头的剪辑要有逻辑性，按照故事情节将镜头组接起来,不能造成情节上的混乱。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">6. &nbsp;</span><span>节目内容要突出真实性、故事性和趣味性，建议多采用同期声、长镜头等纪实手法采编制作。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">7. &nbsp;</span><span>节目须做到声画对位。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">8. &nbsp;</span><span>画面质量应保持高水平，使用旧素材应注意整体画面的效果和质量。使用旧素材时，应在画面右上角标出资料两字。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">9. &nbsp;</span><span>隐黑、渐起等制作手法不适合移动电视，避免出现。</span>
+	</p>
+	<p class="p5">
+		<span class="s5">五、主持人要求</span>
+	</p>
+	<p class="p7">
+		<span>原则上不使用主持人，确需使用主持人的，应于每年移动电视节目评审会通过后方可出镜，临时增加主持人，应经公司领导同意。主持人应具有相应的从业资格证书。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">1. &nbsp;</span><span>定妆：</span>
+	</p>
+	<p class="p7">
+		<span>主持人定妆工作由公司统一组织、确认。主持人个人发型及形象不可随意改变，如剪、烫、染发或进行整容手术等，如确需改变，必须经节目部上报公司，获得批准后方可实施。</span>
+	</p>
+	<p class="p7">
+		<span>因主持人形象问题给节目和公司带来不利影响和损失的，由主持人承担，并按照公司相关管理规定对责任人进行处罚。定妆后须拍摄定妆照，并张贴、留存备案。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">2. &nbsp;</span><span>化妆：</span>
+	</p>
+	<p class="p7">
+		<span>主持人按照公司定妆要求，由化妆师化妆或自行化妆。</span>
+	</p>
+	<p class="p7">
+		<span>主持人出镜时不得涂抹带颜色的指甲油，透明无色指甲油除外。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">3. &nbsp;</span><span>着装：</span>
+	</p>
+	<p class="p7">
+		<span>主持人出镜保持大方得体，按公司统一定妆要求着装，树立良好的屏幕形象。</span>
+	</p>
+	<p class="p7">
+		<span>主持人应挑选适合当日节目内容的服装上镜，主编或制片人有权拒绝主持人穿着不适合节目的服装出镜。</span>
+	</p>
+	<p class="p7">
+		<span>主持人出镜相邻两天中，不得出现相同的服装。</span>
+	</p>
+	<p class="p7">
+		<span>主持人在使用公司服装或租借服装的过程中，应确保服装完好，因个人原因造成服装污损、褶皱、丢失等现象的，要酌情补偿赔付。为确保服装不被污损，主持人应尽量在化妆完成后穿着出镜服装。</span>
+	</p>
+	<p class="p7">
+		<span>主持人出镜时，不得佩戴任何首饰，包括项链、耳环、戒指、手链、手镯，可以佩戴与服装风格相搭配的胸针。</span>
+	</p>
+	<p class="p5">
+		<span class="s5">六、节目命名规范</span>
+	</p>
+	<p class="p7">
+		<span>日常播出节目期号命名方式为年度后两位数字加节目期号，节目期号统一从001开始，例如：《一路同行》(13010)；日播节目期号命名方式为年度后加日期，例如：《整点播报》131201。</span>
+	</p>
+	<p class="p7">
+		<span>片尾应注明字幕：移动电视规定统一片尾使用左飞字幕，时长不超过15秒，使用黑体35号字，颜色为深红色（R60 G0 B0）。如联合制作播出的：</span>
+	</p>
+	<p class="p3">
+<span>
+<br><br><B>
+<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;北广传媒移动电视
+<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*****公司
+<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;联合制作
+		</B></span>
+	</p>
+	<p class="p5">
+		<span class="s5">七、节目录像带管理</span>
+	</p>
+	<p class="p7">
+		<span class="s7">1. &nbsp;</span><span>凡需录制节目的磁带，必须做到使用无机械损伤；无卷边、受潮及霉变的磁带。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">2. &nbsp;</span><span>播出节目必须附有《北京北广传媒移动电视有限公司播出审定卡》。</span>
+	</p>
+	<p class="p7">
+		<span class="s7">3. &nbsp;</span><span>技审、领导审核通过后，方可播出。</span>
+	</p>
+	<p class="p5">
+		<span class="s5">八、本《规范》适用于自制和合作节目，宣传片和广告不在适用范围之内。</span>
+	</p>
+	<p class="p5">
+		<span class="s5">九、以上办法为原则性规定，如有特殊情况，须报公司领导同意后方可实施。</span>
+	</p>
+	<p class="p5">
+		<span class="s5">十、本《规范》自公布之日起实行,《主持人出镜形象及服装使用管理规定》（移动公司发[2008]14号）予以废止。</span>
+	</p>
 </body>
 </html>
