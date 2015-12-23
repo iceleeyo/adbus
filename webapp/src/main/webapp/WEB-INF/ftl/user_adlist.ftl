@@ -66,16 +66,9 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                             return data.length ? data[0].name : "";
                         }
                     } },  
-                    { "data": "utype", "defaultContent": "", "render": function(data) {
-		                   if(data=='screen'){
-                           		 return '移动电视';
-                            }  else if(data=='body'){
-                          		 	 return '车身广告';
-                            }else {
-                            	return '注册广告主'; 
-                            }
-                    }
-                },
+                    { "data": "company", "defaultContent": ""},
+                    
+             
                 { "data": "enabled", "defaultContent": "", "render": function(data) {
                     switch(data) {
                         case true:
@@ -158,7 +151,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 			<tr>
 				<th orderBy="username">用户名</th>
 				<th>所属组</th>
-				<th>类型</th>
+				<th>所属公司</th>
 				<th orderBy="enabled">状态</th>
 				<th>认证状态</th>
 				<th>管理</th>
