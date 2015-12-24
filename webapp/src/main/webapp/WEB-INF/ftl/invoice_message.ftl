@@ -220,7 +220,7 @@ dt {
 
 
 					<div class="ui-form-item">
-						<label class="ui-label mt10"> 营业执照复印件: </label> <#if
+						<label class="ui-label mt10"> 银行开户许可证复印件: </label> <#if
 						invoiceView?exists > <#list invoiceView.files as item> <#if
 						item?has_content && item.type==6> <a
 							href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">
