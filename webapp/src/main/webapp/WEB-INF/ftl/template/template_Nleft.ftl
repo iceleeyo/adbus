@@ -136,7 +136,7 @@ security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 					</#if> 
 
 					<!--主体开始-->
-					<div class="ls-10">
+					<div class="ls-10" style="margin-left:2%;width:96%;">
 						<#nested> <br>
 					</div>
 					<!--主体结束-->
