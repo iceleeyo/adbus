@@ -80,15 +80,7 @@
 							</div>
 							</#if>
 							<div class="clearfix socials">
-								<ul class="social">
-									<li><a href="" class="qq icon"></a></li>
-									<li><a href="" class="wechat icon"></a></li>
-									<li><a href="" class="weibo icon"></a></li>
-									<li><a href="" class="email icon"></a></li>
-								</ul>
-								<div class="focus">
-									<a href="javascript:void(0)" class="btn btn-focus">+ 关注</a>
-								</div>
+								
 							</div>
 						</div>
 						<div class="d-right">

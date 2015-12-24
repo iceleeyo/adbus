@@ -14,10 +14,24 @@
 <link rel="stylesheet" type="text/css"
 	href="${rc.contextPath}/index_css/login.css">
 <link rel="stylesheet" type="text/css"
+	href="${rc.contextPath}/index_css/jack.css">
+<script type="text/javascript" language="javascript"
+	src="${rc.contextPath}/js/layer/layer.js"></script>
+<!--增加lay最新版本-->
+<script type="text/javascript" language="javascript"
+	src="${rc.contextPath}/js/layer-v1.9.3/layer/layer.js"></script>
+<script type="text/javascript" language="javascript"
+	src="${rc.contextPath}/js/layer.onload.js"></script>
+<script type="text/javascript" language="javascript"
+	src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
+<link rel="stylesheet" type="text/css"
 	href="${rc.contextPath}/js/validation/validationEngine.jquery.css">
 <style type="text/css">
 .s-right {
 	color: #009DEB;
+}
+.layui-layer-title{
+	background-color:#7D7D92 !important;
 }
 
 
@@ -49,6 +63,7 @@
         }
         return url;
     }
+
 </script>
 
 
@@ -103,8 +118,8 @@
 		
 		<div class="tipsask">
 		</div>
-		<div class="tipshelp">
-		<span class="service"></span>
+		<div class="tipshelp qq">
+		<a href="javascript:void(0)"><span class="service"></span></a>
 		<span class="phone"></span>
 		</div>
 	</div>
@@ -112,3 +127,21 @@
 	<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
 </body>
 </html>
+<script type="text/javascript">
+//QQ客服列表
+$(".tipshelp a").click(function(){
+	//页面层
+	layer.open({
+		type: 1,
+		title: "QQ客服列表",
+	    skin: 'layui-layer-rim', //加上边框
+	    area: ['420px', '260px'], //宽高
+	    content: ''
+	    +'<div class="qq_layer">'
+	    +'<span class="child"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2118878347&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:2118878347:51" alt="联系我们" title="联系我们"/><span>QQ客服：2118878347</span></a></span>'
+	    +'<span class="child"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2952734147&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:2952734147:51" alt="联系我们" title="联系我们"/><span>QQ客服：2952734147</span></a></span>'
+	    +'<span class="child"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2275955417&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:2275955417:51" alt="联系我们" title="联系我们"/><span>QQ客服：2275955417</span></a></span>'
+	   	+'</div>'
+	});
+});
+</script>
