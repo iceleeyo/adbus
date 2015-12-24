@@ -321,8 +321,9 @@ $(document).ready(function() {
 								class="validate[required]">
 						</div>
 					</div>
+					
 					<input class="btn-sm btn-success" type="button" id="btn_add3"
-						value="增加一行" style="margin-top: 10px;"><br>
+						value="增加一行" style="margin-top: 10px;"><br><span><br>备注：如果有代理公司，需要同时上传代理公司资质</span>
 				</div>
 				<div class="ui-form-item widthdrawBtBox">
 					<input type="button" id="subWithdraw" class="block-btn"
