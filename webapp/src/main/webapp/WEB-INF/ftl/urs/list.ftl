@@ -11,7 +11,7 @@
 <style type="text/css">
 
 .conDiv{
-	width:72%;
+	width:95%;
 	margin:0 auto;
 }
 </style>
@@ -33,7 +33,7 @@
        <#list methodList as c>
        <tr>
         <td>${c.controllerName!''}</td>
-     	<td>${c.methodName!''}：</td>
+     	<td>${c.methodName!''}</td>
      	<td>${c.requestUrl!''}</td>
      	<td><font color="red">${c.ftlName!''}</font></td>
        </tr>    
