@@ -80,10 +80,12 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
                 	var d= $.format.date(data, "yyyy-MM-dd HH:mm:ss");
                 	return d;
                 }},
-                  { "data": "order.created", "defaultContent": "","render": function(data, type, row, meta) {
+                { "data": "finishedState", "defaultContent": "" },
+                { "data": "order.created", "defaultContent": "","render": function(data, type, row, meta) {
                 	 var tr= "<a target='_blank' class='operation' href='${rc.contextPath}/order/orderDetail/" +(row.id)+ "?pid="+(row.processInstanceId) +  "'>查看详情</a>";
                 	return tr;
-                }},{ "data": "finishedState", "defaultContent": "" },
+                }},
+                
                 
             ],
             "language": {
@@ -203,8 +205,9 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 				<!-- <th>素材号</th>-->
 				<th orderBy="startTime">创建时间</th>
 				<th orderBy="endTime">结束时间</th>
-				<th>订单详情</th>
+				
 				<th>最终状态</th>
+				<th>订单详情</th>
 
 			</tr>
 		</thead>
