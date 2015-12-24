@@ -544,7 +544,7 @@ function IvcEnter(tourl){
 					 +'<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]" type="text" name="regisaddr" id="regisaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 					 +'<div class="ui-form-item"> <label class="ui-labeli mt10"><span class="ui-form-required">*</span>注册固定电话:</label>'
 					 +'<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[5],maxSize[120]]" type="text" name="fixphone" id="fixphone" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
-					 +'<div class="ui-form-item"> <label class="ui-labeli mt10">营业执照复印件: </label>'
+					 +'<div class="ui-form-item"> <label class="ui-labeli mt10">银行开户许可证复印件: </label>'
 					 +'<div id="newUpload2"> <div id="div_1"> <input type="file" name="licensefile" id="Sfile"> </div> </div> </div>'
 					 +'<div class="ui-form-item"> <label class="ui-labeli mt10">税务登记复印件: </label><div id="newUpload2"> <div class="filebox" id="div_1">'
 					 +'<input type="file" name="taxfile" id="Sfile2"> </div> </div> </div>'
