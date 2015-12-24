@@ -22,6 +22,7 @@
     <table class="conTab" >
     <thead>
      <tr>
+     <th></th>
      	<th>Controller</th>
      	<th> 方法：</th>
      	<th> url：</th>
@@ -31,6 +32,7 @@
     <tbody>
        <#list methodList as c>
        <tr>
+        <td>${c_index+1}</td>
         <td>${c.controllerName!''}</td>
      	<td>${c.methodName!''}</td>
      	<td>${c.requestUrl!''}</td>
