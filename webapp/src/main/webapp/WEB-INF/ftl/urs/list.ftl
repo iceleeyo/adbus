@@ -11,7 +11,6 @@
 <style type="text/css">
 
 .conDiv{
-	width:95%;
 	margin:0 auto;
 }
 </style>
