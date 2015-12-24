@@ -205,13 +205,16 @@ function tocard(pathurl){
 				<div class="title">
 					<span>自选产品</span>
 				</div>
+				<!-- 暂时隐掉
 				<div class="title_cart">
 					<a href="${rc.contextPath}/product/sift"><span>自定义产品</span></a>
 				</div>
+				-->
 
 				<div class="back">
 					<div class="back-items">
-						<div class="back-item">
+						<!-- 暂时隐掉
+						 <div class="back-item">
 							<span class="desp">所属地区：</span> <span class="sift-list" qt="c">
 								<a class="item active" style="background: #ff9966" href="#"	sort="-1" qc="all">北京</a> 
 								<a class="item" href="#" sort="-3" qc="2">天津<i>×</i></a>
@@ -220,7 +223,7 @@ function tocard(pathurl){
 								<a class="item" href="#" sort="-3" qc="2">抚顺<i>×</i></a>
 							</span>
 						</div>
-
+						 -->
 						<div class="back-item">
 							<span class="desp">产品类型：</span> <span class="sift-list" qt="t">
 								<a class="item active" href="#" sort="-1" qc="all">所有</a>
