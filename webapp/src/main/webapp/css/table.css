@@ -23,16 +23,16 @@
 	margin-top: 20px;
 }
 
-#table,#his_table {
+#table, #his_table {
 	text-align: left;
 	font-size: 14px;
 }
 
-#table .hl,#his_table .hl {
+#table .hl, #his_table .hl {
 	background-color: #ffff00;
 }
 
-#table th,#his_table th {
+#table th, #his_table th {
 	background-color: #3bafda;
 	color: white;
 	font-weight: normal;
@@ -45,6 +45,7 @@ div#toolbar {
 	margin: 5px;
 	padding: 10px 0 10px 0;
 }
+
 div#toolbar input {
 	height: 30px;
 	border-radius: 2px;
@@ -57,11 +58,13 @@ div#toolbar2 {
 	margin: 5px;
 	padding: 10px 0 10px 0;
 }
+
 div#toolbar2 input {
 	height: 30px;
 	border-radius: 2px;
 	border: 1px solid #C5C5C5;
 }
+
 div#table_length {
 	float: right;
 	padding: 10px 0 10px;
@@ -72,8 +75,8 @@ div#table2_length {
 	padding: 10px 0 10px;
 }
 
-table.dataTable td,table.dataTable th {
-	//text-align: left;
+table.dataTable td, table.dataTable th { //
+	text-align: left;
 }
 
 .align-left {
@@ -85,10 +88,44 @@ table.dataTable td,table.dataTable th {
 }
 
 div.DTTT_container {
-    margin: 14px 0;
+	margin: 14px 0;
 }
 
- .div.dataTables_wrapper {
-        margin: 0 auto;
-    }
-th, td { white-space: nowrap;}
+.div.dataTables_wrapper {
+	margin: 0 auto;
+}
+
+th, td {
+	white-space: nowrap;
+}
+
+table.conTab {
+	border-collapse:collapse; 
+	border-bottom: solid 1px #e0e0e0;
+	line-height: 20px;
+}
+
+.h1 {
+	line-height: 20px;
+	padding-bottom: 15px;
+	font-size: 22px;
+	font-weight: 500;
+	margin-bottom: 0px;
+	position: relative;
+	color: #a2a2a2;
+}
+
+table.conTab th {
+	font-weight: normal;
+	background-color: #3bafda;
+	font-weight: normal;
+	text-align: left;
+	line-height: 20px;
+	padding: 5px 10px;
+	color: white;
+}
+
+table.conTab tbody td {
+	padding: 8px 10px;
+	border: solid 1px #e0e0e0;
+}
