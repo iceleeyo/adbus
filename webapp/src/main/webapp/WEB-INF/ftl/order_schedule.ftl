@@ -14,7 +14,7 @@ menu="上刊巴士列表"> </#if> <@frame.html title=menu>
 
 .div {
 	text-align: center;
-	margin: 25px;
+	margin: 10px;
 }
 
 div#toolbar {

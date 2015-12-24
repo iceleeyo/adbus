@@ -13,7 +13,7 @@
 
 .div {
 	text-align: center;
-	margin: 25px;
+	margin: 10px;
 }
 
 div#toolbar {
