@@ -1,4 +1,4 @@
-<#import "template/template.ftl" as frame> <#import
+<#import "template/template_Nleft.ftl" as frame> <#import
 "template/orderDetail.ftl" as orderDetail/> <@frame.html title="订单详细"
 js=["js/highslide/highslide-full.js", "js/video-js/video.js",
 "js/video-js/lang/zh-CN.js"] css=["js/highslide/highslide.css",
