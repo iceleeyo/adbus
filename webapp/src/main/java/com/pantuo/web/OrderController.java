@@ -238,8 +238,8 @@ public class OrderController {
 		ExecutionEntity executionEntity = (ExecutionEntity) runtimeService.createExecutionQuery()
 				.executionId(task.getExecutionId()).processInstanceId(task.getProcessInstanceId()).singleResult();
 		OrderView v = activitiService.findOrderViewByTaskId(taskid, principal);
-		if(v.getOrder()!=null){
-			v.getOrder().setEndTime(addDay(v.getOrder().getEndTime(),-1));  
+		if (v.getOrder() != null && v.getOrder().getEndTime() != null) {
+			v.getOrder().setEndTime(addDay(v.getOrder().getEndTime(), -1));
 		}
 		String activityId = executionEntity.getActivityId();
 		ProcessInstance pe = activitiService.findProcessInstanceByTaskId(taskid);
