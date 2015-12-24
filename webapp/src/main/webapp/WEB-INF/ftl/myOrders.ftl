@@ -44,6 +44,9 @@ var table;
             	
                 { "data": "order.startTime", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd");
+                	if (typeof(d) == "undefined"){
+                		return '';
+                	}
                 	return d+'至'+$.format.date(row.order.endTime, "yyyy-MM-dd");
                 }},
                 { "data": "order.created", "defaultContent": "","render": function(data, type, row, meta) {
