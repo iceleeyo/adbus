@@ -1,4 +1,4 @@
-<#import "template/template.ftl" as frame> <#import
+<#import "template/template_Nleft.ftl" as frame> <#import
 "template/orderDetail.ftl" as orderDetail/> <#if mediaType == 'screen'>
 <#global menu="排期表"> </#if> <@frame.html title=menu>
 
