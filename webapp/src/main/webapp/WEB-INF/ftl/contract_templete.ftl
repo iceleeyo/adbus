@@ -284,7 +284,7 @@
 	</#if>
 	<#if ordersList??>
 	<#assign sum=0/>
-		<table width="90%" border="0" cellspacing="0" cellpadding="0">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<#list ordersList as item>
 		<tr style="height:40px;">
 			<td >套餐名称</td><td COLSPAN=3 >${item.product.name}</td>
