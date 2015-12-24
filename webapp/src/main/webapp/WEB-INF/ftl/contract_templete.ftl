@@ -124,7 +124,7 @@
 
 .p7 {
 	text-indent: 0.29166666in;
-	margin-left: 0.29166666in;
+	
 	margin-top: 0.108333334in;
 	margin-bottom: 0.108333334in;
 	text-align: start;
@@ -218,7 +218,7 @@
 	</p> 
 	<p class="p2"></p> -->
 	<p class="p2">
-		<span class="s2">乙方：北京世巴传媒有限公司</span>
+		<span class="s2">乙方：北京世巴传媒有限公司</span><br>
 	</p>
 	<p class="p2">
 		<span class="s2">住所：北京市海淀区紫竹院路32号 </span>
@@ -267,7 +267,7 @@
 			<td >媒体类型</td><td >${item.product.type.typeName}</td>
 			<td >广告时长（秒）</td><td >${item.product.duration}</td>
 			<td >播出频次（次/天）</td><td >${item.product.playNumber}</td>
-			<td >数量</td><td >${item.needCount}</td>			
+			<td >数量</td><td>&nbsp;&nbsp;${item.needCount}&nbsp;&nbsp;</td>			
 		</tr>
 		<tr style="height:40px;">
 			<td >总价（元）</td><th COLSPAN=7>￥${item.totalprice}</th>
@@ -284,7 +284,7 @@
 	</#if>
 	<#if ordersList??>
 	<#assign sum=0/>
-		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<table width="90%" border="0" cellspacing="0" cellpadding="0">
 	<#list ordersList as item>
 		<tr style="height:40px;">
 			<td >套餐名称</td><td COLSPAN=3 >${item.product.name}</td>
@@ -294,7 +294,7 @@
 			<td >媒体类型</td><td >${item.product.type.typeName}</td>
 			<td >广告时长（秒）</td><td >${item.product.duration}</td>
 			<td >播出频次（次/天）</td><td >${item.product.playNumber}</td>
-			<td >数量</td><td >1</td>			
+			<td >数量</td><td>&nbsp;&nbsp;1&nbsp;&nbsp;</td>			
 		</tr>
 		<tr style="height:40px;">
 			<td >总价（元）</td><td COLSPAN=7>￥${item.price}</td>
@@ -318,9 +318,9 @@
 		<span class="s7">3. </span><span>通过银行转账（或在线支付）的方式将广告费用支付至乙方指定账户，汇款信息如下：
 <br><br><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;账户名称：北京世巴传媒有限公司
 <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;账号:0200207909200097152
-<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;开户银行名称：中国工商银行股份有限公司北京知春路支行
-<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;甲方如需开具发票，应按乙方要求提供完备的信息和资质证件，在乙方进行资质审核通过且确认款项到账后7个工作日内，开具相应有效发票。  
-		</B></span>
+<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;开户银行名称：中国工商银行股份有限公司北京知春路支行</B>
+<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;甲方如需开具发票，应按乙方要求提供完备的信息和资质证件，在乙方进行资质审核通过且确认款项到账后7个工作日内，开具相应有效发票。  
+		</span>
 	</p>
 	<p class="p5">
 		<span class="s5">三、 提交物料素材要求</span>
@@ -410,13 +410,13 @@
 	<p class="p2">
 		<span class="s5">六、 乙方的权利及义务</span>
 	</p>
-	<p class="p10">
+	<p class="p7">
 		<span class="s7">1. &nbsp;</span><span class="s2">乙方如有任何发布变更，应及时通知甲方并获得甲方同意后另行安排发布。</span>
 	</p>
-	<p class="p10">
+	<p class="p7">
 		<span class="s7">2. &nbsp;</span><span>因乙方过错导致发布错误，乙方应按&ldquo;错一补一&rdquo;的原则对甲方给予补偿。甲方对乙方的实际发布如有异议，应就存在异议的广告/节目发布后两周内书面提出并与乙方核对，否则视为甲方认可乙方的广告/节目发布无误。每周二下午13：00&mdash;17：00为移动电视停播检修时间，不予补播。</span>
 	</p>
-	<p class="p10">
+	<p class="p7">
 		<span class="s7">3. &nbsp;</span><span>乙方可以以宣传合作关系为目的，在包括但不限于乙方的网站、微博、微信产品包装、宣传册、为促销、展示等制作的各类销售、宣传资料中免费使用甲方或其代理的广告主的商标、标识。此项权利不受本合同期限的限制。</span>
 	</p>
 	<p class="p2">
@@ -428,7 +428,7 @@
 	<p class="p5">
 		<span class="s5">八、 担保及免责</span>
 	</p>
-	<p class="p10">
+	<p class="p7">
 		<span class="s7">1. &nbsp;</span><span>双方分别向对方陈述并担保，于本合同签订日且延续至本合同履行完毕：</span>
 	</p>
 	<p class="p7">
@@ -437,7 +437,7 @@
 	<p class="p7">
 		<span class="s7">2) &nbsp;</span><span>其签署及履行本合同符合其应遵守的全部法律、法规及规定，并已取得所有必须的批准、同意、许可签署及履行本合同。</span>
 	</p>
-	<p class="p10">
+	<p class="p7">
 		<span class="s7">2. &nbsp;</span><span>在本合同有效广告/节目发布期内，如乙方及其执行媒体出现任何纠纷或乙方与履行本合同有关的政府批准、许可等资质面临撤销或/丧失，乙方应在出现该等情形后立即通知甲方。如因前述情形导致甲方广告/节目未能及时、完整发布的，双方均可单方终止本合同，甲方就未能发布的部分免除向乙方的支付义务（如已预付，乙方应将相应款项退还甲方）。在前述情形下，双方互不承担违约责任。</span>
 	</p>
 	<p class="p2">
@@ -510,10 +510,17 @@
 	<p class="p7">
 		<span class="s7">1. &nbsp;</span><span>节目制作规范。</span>
 	</p>
-	<p class="p7"></p>
-	
 	<p class="p7">
-		<span class="s7"></span><span>附件：</span>
+	<span class="s7"><br><br>&nbsp;&nbsp;&nbsp;&nbsp;（以下无正文）<br><br>
+	&nbsp;&nbsp;&nbsp;甲方单位名称（盖章）：              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;乙方单位名称（盖章）：
+	<br><br><br><br>
+	&nbsp;&nbsp;&nbsp;授权代表（签字）：                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;授权代表（签字）：
+	<br><br><br><br>
+	&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;月&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;月&nbsp;&nbsp;日
+	<br><br><br><br></span></p>
+	
+	<p class="p5">
+		<span class="s5">附件：</span>
 	</p>
 	<p class="p1">
 		<span class="s1">节目制作规范</span>
@@ -535,7 +542,7 @@
 	</p>
 	<p class="p3">
 <span>
-<br><br><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;00：00：00：00—00:01:00:00;&nbsp;&nbsp;彩条＋千周标准音
+<B>&nbsp;&nbsp;&nbsp;00：00：00：00—00:01:00:00;&nbsp;&nbsp;彩条＋千周标准音
 <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;00：01：00：00—00:01:29:22&nbsp;&nbsp;黑场
 <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（00：01：20：00—00:01:25:00&nbsp;&nbsp;黑场＋节目标引字幕）
 <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;00：01：29：23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;节目片头静帧  
@@ -568,8 +575,8 @@
 	</p>
 	<p class="p3">
 <span>
-<br><br><B>
-<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sony(BETA):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-10)db上下±20%
+<B>
+&nbsp;&nbsp;Sony(BETA):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-10)db上下±20%
 <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Panasonic(DVC):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-8)db上下±20%
 		</B></span>
 	</p>
@@ -701,8 +708,8 @@
 	</p>
 	<p class="p3">
 <span>
-<br><br><B>
-<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;北广传媒移动电视
+<B>
+&nbsp;&nbsp;&nbsp;北广传媒移动电视
 <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*****公司
 <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;联合制作
 		</B></span>
@@ -728,5 +735,6 @@
 	<p class="p5">
 		<span class="s5">十、本《规范》自公布之日起实行,《主持人出镜形象及服装使用管理规定》（移动公司发[2008]14号）予以废止。</span>
 	</p>
+	<br><br><br><br><br><br><br><br>
 </body>
 </html>
