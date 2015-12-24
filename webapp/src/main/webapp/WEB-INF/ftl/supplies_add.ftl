@@ -291,10 +291,7 @@ $(document).ready(function() {
 					</select>
 
 				</div>
-				<div class="ui-form-item">
-					<label class="ui-label mt10">备注：</label>
-					<textarea rows="4" cols="40" style="resize: none;" name="operFristcomment"></textarea>
-				</div>
+				
 				<div class="ui-form-item" id="text" style="display: none;">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>文本信息</label>
 
@@ -303,7 +300,7 @@ $(document).ready(function() {
 						name="infoContext"></textarea>
 				</div>
 				<div class="ui-form-item" id="file">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>物料上传</label>
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>物料文件</label>
 					<div id="newUpload2">
 						<div class="filebox" id="div_1">
 							<input type="file" name="file" id="Sfile"
@@ -314,7 +311,7 @@ $(document).ready(function() {
 						value="增加一行" style="margin-top: 10px;"><br>
 				</div>
 				<div class="ui-form-item">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>资质上传</label>
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>资质文件</label>
 					<div id="newUpload3">
 						<div id="quadiv_1">
 							<input type="file" name="qua" id="Sfile1"
@@ -324,6 +321,10 @@ $(document).ready(function() {
 					
 					<input class="btn-sm btn-success" type="button" id="btn_add3"
 						value="增加一行" style="margin-top: 10px;"><br><span><br>备注：如果有代理公司，需要同时上传代理公司资质</span>
+				</div>
+				<div class="ui-form-item">
+					<label class="ui-label mt10">备注信息</label>
+					<textarea rows="4" cols="40" style="resize: none;" name="operFristcomment"></textarea>
 				</div>
 				<div class="ui-form-item widthdrawBtBox">
 					<input type="button" id="subWithdraw" class="block-btn"
