@@ -139,7 +139,7 @@ function tocard(pathurl){
 							<li><a href="javascript:void(0)">全屏硬广</a></li>
 							<li><a href="javascript:void(0)">INFO字幕</a></li>
 							<li><a href="javascript:void(0)">INFO图片</a></li>
-							<li><a href="javascript:void(0)">二类节目</a></li>
+							
 							<li><a href="${rc.contextPath}/product/sift">更多》</a></li>
 						</ul>
 						<div class="select-items clearfix">
