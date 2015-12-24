@@ -270,7 +270,7 @@
 			<td >数量</td><td>&nbsp;&nbsp;${item.needCount}&nbsp;&nbsp;</td>			
 		</tr>
 		<tr style="height:40px;">
-			<td >总价（元）</td><th COLSPAN=7>￥${item.totalprice}</th>
+			<td >总价（元）</td><th COLSPAN=7>¥${item.totalprice}</th>
 		</tr>
 		<#assign sum=sum+(item.totalprice) />
 	</#list>
@@ -278,7 +278,7 @@
 			<td>合同结算情况</td><th COLSPAN=7>一次性付款</th>
 		</tr>
 		<tr>
-			<td>签约价格（元）</td><th COLSPAN=7>￥${sum}</th>
+			<td>签约价格（元）</td><th COLSPAN=7>¥${sum}</th>
 		</tr>
 		</table><br>
 	</#if>
@@ -297,7 +297,7 @@
 			<td >数量</td><td>&nbsp;&nbsp;1&nbsp;&nbsp;</td>			
 		</tr>
 		<tr style="height:40px;">
-			<td >总价（元）</td><td COLSPAN=7>￥${item.price}</td>
+			<td >总价（元）</td><td COLSPAN=7>¥${item.price}</td>
 		</tr>
 		<#assign sum=sum+(item.price) />
 	</#list>
@@ -305,7 +305,7 @@
 			<td>合同结算情况</td><th COLSPAN=7>一次性付款</th>
 		</tr>
 		<tr>
-			<td>签约价格（元）</td><th COLSPAN=7>￥${sum}</th>
+			<td>签约价格（元）</td><th COLSPAN=7>¥${sum}</th>
 		</tr>
 		</table><br>
 	</#if>
