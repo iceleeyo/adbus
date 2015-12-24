@@ -36,17 +36,29 @@ public class RestLoggingInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
+		putViewMap(handler, modelAndView);
+		log.info("<==> Took {} ms.", (System.currentTimeMillis() - (Long) request.getAttribute("_start_ts_")));
+	}
+
+	private void putViewMap(Object handler, ModelAndView modelAndView) {
 		if (handler != null) {
 			if (handler instanceof HandlerMethod) {
 				HandlerMethod method = (HandlerMethod) handler;
 				if (method.getMethod() != null) {
+					String viewName = modelAndView != null ? modelAndView.getViewName() : StringUtils.EMPTY;
 					String key = splitCglib(method.getBean().getClass().getSimpleName()) + method.getMethod().getName();
-					URL_VIEWMAP.put(key, modelAndView != null ? modelAndView.getViewName() : StringUtils.EMPTY);
+					if (URL_VIEWMAP.containsKey(key)) {
+						String v = URL_VIEWMAP.get(key);
+						if (!StringUtils.contains(v, viewName)) {
+							URL_VIEWMAP.put(key, v + "," + viewName);
+						}
+					} else {
+						URL_VIEWMAP.put(key, viewName);
+					}
 				}
 
 			}
 		}
-		log.info("<==> Took {} ms.", (System.currentTimeMillis() - (Long) request.getAttribute("_start_ts_")));
 	}
 
 	public String splitCglib(String str) {
