@@ -133,7 +133,7 @@ div#toolbar {
  
 <div class="p20bs mt10 withdraw-wrap color-white-bg fn-clear">
 	<H3 class="text-xl title-box">
-		<A class="black" href="#">排期表</A>
+		<A class="black" href="#">排期表【排期内容很多，请上下左右拖拽，可以看到全部排期。】</A>
 	</H3>
 	<div class="div" style="overflow-x: auto;">
 	<div style="float:left">
