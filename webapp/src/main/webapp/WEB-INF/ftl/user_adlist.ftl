@@ -24,7 +24,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
             "columnDefs": [
                 {
                     "sClass": "align-left", "targets": [0,1] ,
-                    "orderable": false, "targets": [1, 3]
+                    "orderable": false, "targets": [1, 2,3,4,5,6]
                 },
             ],
             "ajax": {
@@ -152,7 +152,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 				<th orderBy="username">用户名</th>
 				<th>所属组</th>
 				<th>所属公司</th>
-				<th orderBy="enabled">状态</th>
+				<th>状态</th>
 				<th>认证状态</th>
 				<th>管理</th>
 			</tr>
