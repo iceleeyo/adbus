@@ -83,11 +83,12 @@ function supDetail(data){
 			<li style="width:400px;"><SPAN>合同编号：</SPAN><SPAN class="con">
 			<a onclick="eleContract('${rc.contextPath}',${orderview.order.id!''});">${(orderview.order.contractCode)!''}</a></SPAN></li>
 
-
+			<@security.authorize
+			ifAnyGranted="ShibaOrderManager,ShibaFinancialManager">
 			<li style="width: 200px;"><SPAN>电子合同：</SPAN>
 				<SPAN class="con"><a class="layer-tips" tip="点击可查看电子合同!"
 					onclick="eleContract('${rc.contextPath}',${orderview.order.id!''});">查看</a></SPAN></li>
-
+			</#if>
 			<#if (orderview.order.ordRemark!'')?length lt 38>
 			<li style="width: 720px;"><SPAN> 备注信息：</SPAN><SPAN class="con">${orderview.order.ordRemark!''}</SPAN></li>
 			<#else>
@@ -130,13 +131,15 @@ function supDetail(data){
 			   <#if contract?? && contract.parentid!=0>
 			<li style="width: 200px;"><SPAN>结算方式：</SPAN><SPAN class="con">统一结算</SPAN></li>
 			</#if>
+			<@security.authorize
+			ifAnyGranted="ShibaOrderManager,ShibaFinancialManager">
 			<li style="width: 200px;"><SPAN>是否开发票：</SPAN><SPAN class="con">
 					<#if orderview.order.isInvoice==1 > <a class="layer-tips"
 					tip="点击可查看发票详细内容!"
 					onclick="invoicedetail('${rc.contextPath}',${orderview.order.id!''});"
 					href="javascript:void(0)"> 是(查看详情)</a> <#else> 否 </#if>
 			</SPAN></li>
-
+			</#if>
 
 
 			<li class="s-left f-iconli"><span class="s-left tt"><i
