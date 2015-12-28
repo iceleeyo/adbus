@@ -2,6 +2,27 @@
 <head>
 <META http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+<script type="text/javascript"
+	src="${rc.contextPath}/index_js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript"
+	src="${rc.contextPath}/js/jquery-dateFormat.js"></script>
+	
+<script type="text/javascript">
+function getEnd(date,days){
+	var d=new Date(date);
+	if(d==""){
+		return "";
+	}else{
+	    d.setDate(d.getDate()+ (days)); 
+	    var m=d.getMonth()+1;
+	    d.getFullYear()+'-'+m+'-'+d.getDate();
+	   	d= $.format.date(d, "yyyy-MM-dd");
+	   	document.write(d);
+	}
+	
+
+}
+</script>
 <style type="text/css">
 
 .block-btn {
@@ -289,7 +310,11 @@
 	<#list cardBoxMedis as item>
 		<tr style="height:40px;">
 			<td >套餐名称</td><td COLSPAN=3 >${item.product.name}</td>
-			<td >刊期(天)</td><td COLSPAN=3 >${item.product.days}</td>
+			<td >刊期(天)</td><td COLSPAN=3 id="days">${item.product.days}</td>
+		</tr>
+		<tr style="height:40px;">
+			<td >上刊时间</td><td COLSPAN=3 id="startDate">${item.startTime}</td>
+			<td >下刊时间</td><td COLSPAN=3 id="endDate"><script> getEnd('${item.startTime}',${item.product.days});</script></td>
 		</tr>
 		<tr style="height:40px;">
 			<td >媒体类型</td><td >${item.product.type.typeName}</td>
@@ -298,7 +323,7 @@
 			<td >数量</td><td>&nbsp;&nbsp;${item.needCount}&nbsp;&nbsp;</td>			
 		</tr>
 		<tr style="height:40px;">
-			<td >总价（元）</td><th COLSPAN=7>¥${item.totalprice}</th>
+			<td >总价（元）</td><th COLSPAN="7" align="center">¥${item.totalprice}</th>
 		</tr>
 		<#assign sum=sum+(item.totalprice) />
 	</#list>
@@ -306,7 +331,7 @@
 			<td>合同结算情况</td><th COLSPAN=7>一次性付款</th>
 		</tr>
 		<tr>
-			<td>签约价格（元）</td><th COLSPAN=7>¥${sum}</th>
+			<td>签约价格（元）</td><th COLSPAN="7" align="center">¥${sum}</th>
 		</tr>
 		</table><br>
 	</#if>
