@@ -325,7 +325,7 @@
 			<td >数量</td><td>&nbsp;&nbsp;1&nbsp;&nbsp;</td>			
 		</tr>
 		<tr style="height:40px;">
-			<td >总价（元）</td><td COLSPAN=7>¥${item.price}</td>
+			<td >总价（元）</td><th COLSPAN=7>¥${item.price}</th>
 		</tr>
 		<#assign sum=sum+(item.price) />
 	</#list>
