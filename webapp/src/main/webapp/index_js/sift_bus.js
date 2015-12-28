@@ -178,20 +178,7 @@ function initPro(pathUrl,sh,price1,price2,p){
 			
 			function pageselectCallback(page_index, jq){
 				//page_index
-				//$("#goto1").trigger("click");
 				initPro2(pathUrl,sh,page_index*data.size,price1,price2,p);
-			 //   document.getElementById('tohere').scrollIntoView();
-				//var t = $('#tohere').offset().top;
-		        //$(window).scrollTop(t);
-		       // $('html,body').animate({scrollTop: $("#tohere").offset().top}, 500);
-		      //  alert(1);
-		        //$("#div").animate({scrollTop:$("#tohere").offset().top}, 500);
-		       //location.href = "#Jhonse";
-				//location.href='http://127.0.0.1/secondLevelPage#Jhonse'
-				//$("#goto1").trigger("click");
-				  //  $('a').click();
-				
-				
 				return false;
 			}
 				
@@ -207,7 +194,7 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 	}
 	$("#productList").html("");
 	$.ajax({
-		url : pathUrl + "/product/sift_data?filter[sh]="+sh+"&filter[price1]="+price1+"&filter[price2]="+price2+"&filter[p]="+p+"&filter[searchText]="+text,
+		url : pathUrl + "/product/sift_data?filter[sh]="+sh+"&filter[price1]="+price1+"&filter[price2]="+price2+"&filter[p]="+p+"&filter[searchText]="+text+"&start="+page,
 		data:{},
 		type : "POST",
 		success : function(data) {
@@ -303,7 +290,7 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 			//跳转到瞄点
 			var mo2g = '<span id="_click" ><span>';
 		    $('#goto').append(mo2g);
-		    $('#_click').trigger("click");
+		   $('#_click').trigger("click");
 		}}, "text");
 }
 function changeByprice(purl){
