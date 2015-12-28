@@ -3,6 +3,23 @@
 <META http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
 <style type="text/css">
+
+.block-btn {
+    border: 0;
+    font-size: 14px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    background: #00a8e8;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    padding: 0 24px;
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-left:400px;
+}
 .b1 {
 	white-space-collapsing: preserve;
 }
@@ -18,7 +35,7 @@
 .s1 {
 	font-weight: bold;
 	color: black;
-	font-size: 16px;
+	font-size: 20px;
 }
 
 .s2 {
@@ -80,6 +97,15 @@
 	hyphenate: auto;
 	font-family: 宋体;
 	font-size: 14pt;
+}
+.p21 {
+	margin-top: 0.108333334in;
+	margin-bottom: 0.108333334in;
+	text-align: justify;
+	hyphenate: auto;
+	font-family: 宋体;
+	font-size: 14pt;
+	text-align: right;
 }
 
 .p3 {
@@ -190,13 +216,15 @@
 <meta content="Administrator" name="author">
 </head>
 <body class="b1 b2">
+<div id="divPrint">
+	<p class="p21">
+		<span class="s2">合同编号：</span><span class="s3">${contractCode!''}</span>
+	</p>
 	<p class="p1">
 		<span class="s1">广告/节目发布合同</span>
 	</p>
 	<#if contractCode??>
-	<p class="p2">
-		<span class="s2">合同编号：</span><span class="s3">${contractCode!''}</span>
-	</p>
+	
 	</#if>
 	<p class="p2">
 		<span class="s2">甲方：</span><span class="s3">${userDetail.company!''}</span>
@@ -735,6 +763,23 @@
 	<p class="p5">
 		<span class="s5">十、本《规范》自公布之日起实行,《主持人出镜形象及服装使用管理规定》（移动公司发[2008]14号）予以废止。</span>
 	</p>
-	<br><br><br><br><br><br><br><br>
+	<br><br>
+</div>
+
+<a class="block-btn" style="margin-top: -5px;" href="javascript:printme()" target="_self">打印合同</a>
+</body>
+<script>   
+var global_Html = "";   
+function printme() {
+        global_Html = document.body.innerHTML;       
+      document.body.innerHTML = document.getElementById('divPrint').innerHTML;         　　　　　　　　　　　　　　     
+       window.print();
+        window.setTimeout(function () {
+            document.body.innerHTML = global_Html;       
+}, 1500);   
+}
+</script>
+<br><br><br><br><br><br>
+
 </body>
 </html>
