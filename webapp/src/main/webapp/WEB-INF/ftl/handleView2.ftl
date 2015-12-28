@@ -1136,11 +1136,11 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 				</TR>
 
 
-				<!-- <TR style="height: 45px;">
+				<TR style="height: 45px;display:none;">
 					<TH width="20%">是否通过</TH>
 					<TD><input name="ScheduleResult" type="radio" value="true"
 						checked="checked" style="padding: 5px 15px;" />符合要求
-				</TR> -->
+				</TR>
 		</TABLE>
 		<div style="margin: 10px 0 0; text-align: center;">
 			<button onclick="submitSchedule();" class="block-btn">提交确认结果</button>
