@@ -80,14 +80,10 @@ function supDetail(data){
 					date_format="yyyy-MM-dd">${(orderview.order.startTime?date)!''}</SPAN></li>
 			<li style="width: 200px;"><SPAN>到期时间：</SPAN><SPAN class="con"><#setting
 					date_format="yyyy-MM-dd">${(orderview.order.endTime?date)!''}</SPAN></li>
-			<li style="width:400px;"><SPAN>合同编号：</SPAN><SPAN class="con">
-			<a onclick="eleContract('${rc.contextPath}',${orderview.order.id!''});">${(orderview.order.contractCode)!''}</a></SPAN></li>
-
 			<@security.authorize
 			ifAnyGranted="ShibaOrderManager,ShibaFinancialManager">
-			<li style="width: 200px;"><SPAN>电子合同：</SPAN>
-				<SPAN class="con"><a class="layer-tips" tip="点击可查看电子合同!"
-					onclick="eleContract('${rc.contextPath}',${orderview.order.id!''});">查看</a></SPAN></li>
+			<li style="width:400px;"><SPAN>合同编号：</SPAN><SPAN class="con">
+			<a onclick="eleContract('${rc.contextPath}',${orderview.order.id!''});">${(orderview.order.contractCode)!''}</a></SPAN></li>
 			</@security.authorize>
 			<#if (orderview.order.ordRemark!'')?length lt 38>
 			<li style="width: 720px;"><SPAN> 备注信息：</SPAN><SPAN class="con">${orderview.order.ordRemark!''}</SPAN></li>
