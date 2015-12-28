@@ -201,7 +201,10 @@ function tocard(pathurl){
 					</div>
 				</div>
 			</div>
-			<div class="recommand customs pd">
+				<a id="force" name="force"></a>
+			<div class="recommand customs pd" id="tohere"  name="tohere" >
+		
+			
 				<div class="title">
 					<span>自选产品</span>
 				</div>
@@ -271,6 +274,7 @@ function tocard(pathurl){
 						<div class="paginate">
 							<div id="Pagination" class="pagination"></div>
 						</div>
+						<a href="#force" id="goto"  ></a>
 
 						<div class="cart-box" style="margin-top: 20px;">
 							<a onclick="tocard('${rc.contextPath}');">
@@ -280,7 +284,6 @@ function tocard(pathurl){
 								type="hidden" id="lc" value="1" /> </@security.authorize>
 								<@security.authorize access="! isAuthenticated()"> <input
 								type="hidden" id="lc" value="0" /> </@security.authorize>
-
 							</a>
 						</div>
 					</div>
