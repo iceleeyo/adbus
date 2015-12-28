@@ -143,10 +143,11 @@ function supDetail(data){
 
 			<li class="s-left f-iconli"><span class="s-left tt"><i
 					class="s-left ff-icon"></i>物料及资质</span></li> <#if suppliesLink>
+					<#if (orderview.order.supplies.id>1)>
 			<li style="width: 200px;"><SPAN>物料资质：</SPAN><SPAN class="con"><a
 					href="javascript:void(0)"
 					onclick="supDetail(${(suppliesView.mainView.id)!''})">查看</a></SPAN></li>
-
+					</#if>
 			<li style="width: 200px;"><SPAN>审批合格号：</SPAN><SPAN class="con">
 					<#if suppliesView.mainView.seqNumber?has_content >
 					${(suppliesView.mainView.seqNumber)!''} <#else> -- </#if> </SPAN></li> <#if
