@@ -88,7 +88,7 @@ function supDetail(data){
 			<li style="width: 200px;"><SPAN>电子合同：</SPAN>
 				<SPAN class="con"><a class="layer-tips" tip="点击可查看电子合同!"
 					onclick="eleContract('${rc.contextPath}',${orderview.order.id!''});">查看</a></SPAN></li>
-			</#if>
+			</@security.authorize>
 			<#if (orderview.order.ordRemark!'')?length lt 38>
 			<li style="width: 720px;"><SPAN> 备注信息：</SPAN><SPAN class="con">${orderview.order.ordRemark!''}</SPAN></li>
 			<#else>
@@ -139,8 +139,7 @@ function supDetail(data){
 					onclick="invoicedetail('${rc.contextPath}',${orderview.order.id!''});"
 					href="javascript:void(0)"> 是(查看详情)</a> <#else> 否 </#if>
 			</SPAN></li>
-			</#if>
-
+			</@security.authorize>
 
 			<li class="s-left f-iconli"><span class="s-left tt"><i
 					class="s-left ff-icon"></i>物料及资质</span></li> <#if suppliesLink>
