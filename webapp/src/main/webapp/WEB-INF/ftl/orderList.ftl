@@ -79,6 +79,13 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
             	{ "data": "order.contractCode", "defaultContent": "", "render": function(data, type, row, meta) {
                         return "<a class='operation' onclick='eleContract(\"${rc.contextPath}\","+row.order.id+")' >"+data+"</a>";
                     }},
+                { "data": "order.startTime", "defaultContent": "","render": function(data, type, row, meta) {
+                	var d= $.format.date(data, "yyyy-MM-dd");
+                   	if (typeof(d) == "undefined"){
+                    	return '';
+                    }
+                    	return d+'至'+$.format.date(row.order.endTime, "yyyy-MM-dd");
+                }},
             	{ "data": "product.name", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         var filter = $('#order.productId').val();
@@ -245,6 +252,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
 				<th>下单用户</th>
 				<th orderBy="longOrderId">订单编号</th>
 				<th>合同编号</th>
+				<th>广告刊期</th>
 				<th>套餐名称</th>
 				<th>媒体类型</th>
 				<th orderBy="created">创建时间</th> <@security.authorize

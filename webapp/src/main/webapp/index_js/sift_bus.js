@@ -266,12 +266,13 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 					
 				});
 				$("#leftPlus"+k).click(function(){
+					var oldValue=$(this).prev().val();//获取文本框对象现有值
 					var lc=$("#lc").val();
 					if(lc=="0"){
 						islogin(pathUrl);
 					}
 					if(lc=="1"){
-					var oldValue=$(this).prev().val();//获取文本框对象现有值
+					if(oldValue<=0){
 					$(this).prev().val(parseInt(oldValue)+1);
 					var sot=$(this).attr("sot");
 					$.ajax({
@@ -283,6 +284,7 @@ function initPro2(pathUrl,sh,page,price1,price2,p){
 							setCarCount(data.cardCount);
 							setCarCount(data.cardCount_top);
 							}}, "text");
+					}
 					}
 				 }); 
 				k++;

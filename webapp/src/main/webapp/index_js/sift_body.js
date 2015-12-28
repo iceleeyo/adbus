@@ -284,11 +284,12 @@ function initPro2(pathUrl,sh,page){
 					
 				});
 				$("#leftPlus"+k).click(function(){
+					var oldValue=$(this).prev().val();//获取文本框对象现有值
 					var lc=$("#lc").val();
 					if(lc=="0"){
 						islogin(pathUrl);
 					}
-					var oldValue=$(this).prev().val();//获取文本框对象现有值
+					if(oldValue<=0){
 					$(this).prev().val(parseInt(oldValue)+1);
 					var sot=$(this).attr("sot");
 					if(lc=="1"){
@@ -302,11 +303,12 @@ function initPro2(pathUrl,sh,page){
 								setCarCount(data.cardCount_top);
 							}}, "text");	
 					}
-					
+					}
 				}); 
 				k++;
 			});
 		}}, "text");
+	
 }
 
 function initSwift2(purl){
