@@ -1,17 +1,15 @@
 package com.pantuo.web;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
+import java.io.BufferedOutputStream; 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.security.Principal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -36,7 +34,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
@@ -55,7 +52,6 @@ import com.pantuo.dao.GoodsBlackRepository;
 import com.pantuo.dao.TimeslotRepository;
 import com.pantuo.dao.pojo.BoxRemain;
 import com.pantuo.dao.pojo.JpaBox;
-import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaGoods;
 import com.pantuo.dao.pojo.JpaGoodsBlack;
@@ -77,6 +73,7 @@ import com.pantuo.service.CityService;
 import com.pantuo.service.ContractService;
 import com.pantuo.service.OrderService;
 import com.pantuo.service.ProductService;
+import com.pantuo.service.ReportService;
 import com.pantuo.service.ScheduleService;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.service.TimeslotService;
@@ -91,9 +88,14 @@ import com.pantuo.web.schedule.ScheduleInfo;
 import com.pantuo.web.view.OrderView;
 import com.pantuo.web.view.SolitSortView;
 import com.pantuo.web.view.SuppliesView;
+import com.pantuo.web.view.report.BlackAdGrouop;
+import com.pantuo.web.view.report.FreeBox;
+import com.pantuo.web.view.report.Report;
+import com.pantuo.web.view.report.UiBox;
 
 /**
  * @author tliu
+ * @author impanxh重构
  *
  * 排期表controller
  */
@@ -132,6 +134,10 @@ public class ScheduleController {
 	private GoodsBlackRepository goodsBlackRepository;
 	@Autowired
 	GoodsBlackMapper goodsBlackMapper;
+
+	@Autowired
+	ReportService reportService;
+
 	public static final List<BlackAd> ls = new ArrayList<BlackAd>();
 
 	/**
@@ -209,7 +215,8 @@ public class ScheduleController {
 		if (order.getType() == JpaProduct.Type.info || order.getType() == JpaProduct.Type.image) {
 			return scheduleService.scheduleInfoImg(order, taskid, startdate1);
 		} else {
-			SchedUltResult r = scheduleService.checkInventory(id, taskid, startdate1, ischeck, bm == 1, request, principal);
+			SchedUltResult r = scheduleService.checkInventory(id, taskid, startdate1, ischeck, bm == 1, request,
+					principal);
 			return r;
 		}
 		//		log.info("SchedUltResult time:{}",System.currentTimeMillis()-t);
@@ -372,7 +379,6 @@ public class ScheduleController {
 		}
 	}
 
-
 	/**
 	 * 剩余时段表表单
 	 * @return
@@ -431,6 +437,30 @@ public class ScheduleController {
 	@ResponseBody
 	public List<Report> getScheduleReportList(TableRequest req,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
+		return getBoxResult(req, city);
+	}
+
+	/**
+	 * 
+	 * 剩余时段表导出excel
+	 *
+	 * @param req
+	 * @param city
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 * @author impanxh@gmail.com
+	 */
+	@RequestMapping("ajax-reportBoxExcel")
+	@ResponseBody
+	public void reportBoxExcel(TableRequest req,	Principal principal, @CookieValue(value = "city", defaultValue = "-1") int city) {
+		req.setPushLet(new com.pantuo.web.push.PushLet("/reportBoxExcel/", principal));
+		req.getPushLet().pushMsgToClient("开始查询要导出的数据!");
+		List<Report> result = getBoxResult(req, city);
+		
+		reportService.exportEexcel(req, city, result);
+	}
+
+	private List<Report> getBoxResult(TableRequest req, int city) {
 		String name = req.getFilter("name");
 		String fromStr = req.getFilter("from");
 		String endStr = req.getFilter("end");
@@ -1148,248 +1178,4 @@ public class ScheduleController {
 		return list;
 	}
 
-	public static class BlackAdGrouop {
-		Map<Integer, List<JpaGoodsBlack>> timeslotMap;
-		Map<Integer, Supplies> blackSuppliesMap;
-
-		public BlackAdGrouop(Map<Integer, List<JpaGoodsBlack>> timeslotMap, Map<Integer, Supplies> blackSuppliesMap) {
-			this.timeslotMap = timeslotMap;
-			this.blackSuppliesMap = blackSuppliesMap;
-		}
-
-		public List<JpaGoods> getBlackGoods(int timeslotId, int city) {
-			List<JpaGoods> list = new ArrayList<JpaGoods>();
-			if (this.timeslotMap.containsKey(timeslotId)) {
-				List<JpaGoodsBlack> blacks = this.timeslotMap.get(timeslotId);
-
-				for (JpaGoodsBlack jpaGoodsBlack : blacks) {
-					Supplies s = this.blackSuppliesMap.get(jpaGoodsBlack.getSuppliesId());
-					if (s != null) {
-						JpaSupplies js = new JpaSupplies(city, s.getName(),
-								JpaProduct.Type.values()[s.getSuppliesType()], s.getIndustryId(), s.getUserId(),
-								s.getDuration(), s.getFilePath(), s.getInfoContext(),
-								/*JpaSupplies.Status.values()[s.getStats()],*/null, s.getOperFristuser(),
-								s.getOperFristcomment(), s.getOperFinaluser(), s.getOperFinalcomment(),
-								s.getSeqNumber(), s.getCarNumber(), s.getResponseCid());
-						JpaProduct p = new JpaProduct(Integer.MAX_VALUE, JpaProduct.Type.video, "filler",
-								s.getDuration(), 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, null,
-								null);
-						JpaOrders o = new JpaOrders(Integer.MAX_VALUE, "", js, p, null, 0, null, null, null,
-								JpaProduct.Type.video, JpaOrders.PayType.remit, JpaOrders.Status.completed, null, null,
-								0, null, null, null,  null, null);
-						JpaGoods g = new JpaGoods(city, 0, s.getDuration(), false, false, 0);
-						g.setInboxPosition(jpaGoodsBlack.getInboxPosition());
-						g.setSort_index(jpaGoodsBlack.getSort_index());
-						g.setOrder(o);
-						list.add(g);
-					}
-				}
-			}
-			return list;
-		}
-	}
-
-	public static class Report implements Serializable {
-		private Map<String/*date*/, UiBox> boxes;
-		private JpaTimeslot slot;
-
-		public Report(JpaTimeslot slot) {
-			this.slot = slot;
-			this.boxes = new HashMap<String, UiBox>();
-		}
-
-		public String addBox(Box box) {
-			String key = DateUtil.longDf.get().format(box.getDay());
-			if (!(box instanceof UiBox))
-				box = new UiBox(box);
-			boxes.put(key, (UiBox) box);
-			return key;
-		}
-
-		public String addBox(JpaBox box) {
-			List<JpaGoods> goods = box.getGoods();
-
-			String key = DateUtil.longDf.get().format(box.getDay());
-			UiBox b = boxes.get(key);
-			if (b == null) {
-				b = new UiBox(box);
-				boxes.put(key, b);
-			}
-			if (goods != null) {
-				for (JpaGoods g : goods) {
-					b.addGood(g);
-				}
-			}
-			return key;
-		}
-
-		public String addBox(JpaBox box, JpaGoods good) {
-			String key = DateUtil.longDf.get().format(box.getDay());
-			UiBox b = boxes.get(key);
-			if (b != null) {
-				b.addGood(good);
-			} else {
-				b = new UiBox(box);
-				b.addGood(good);
-				boxes.put(key, b);
-			}
-
-			return key;
-		}
-
-		public Map<String/*date*/, UiBox> getBoxes() {
-			return boxes;
-		}
-
-		private void setBoxes(Map<String, UiBox> boxes) {
-			this.boxes = boxes;
-		}
-
-		private UiBox getBox(String dayStr) {
-			return boxes.get(dayStr);
-		}
-
-		public JpaTimeslot getSlot() {
-			return slot;
-		}
-	}
-
-	public static class FreeBox {
-
-		long begin;
-		long end;
-
-		public FreeBox(long begin, long end) {
-			super();
-			this.begin = begin;
-			this.end = end;
-		}
-
-		/**
-		 * @see java.lang.Object#toString()
-		 * @since pantuo 1.0-SNAPSHOT
-		 */
-		@Override
-		public String toString() {
-			return "FreeBox [begin=" + begin + ", end=" + end + "]";
-		}
-
-	}
-
-	public static class UiBox extends Box {
-		private List<JpaGoods> goods;
-
-		public UiBox() {
-			goods = new ArrayList<JpaGoods>();
-		}
-
-		public UiBox(Box box) {
-			BeanUtils.copyProperties(box, this);
-			if (goods == null) {
-				goods = new ArrayList<JpaGoods>();
-			}
-		}
-
-		public UiBox(JpaBox box) {
-			BeanUtils.copyProperties(box, this);
-			goods = new ArrayList<JpaGoods>();
-		}
-
-		public void addGood(JpaGoods good) {
-			//cut connection from JpaGoods to Box to avoid loop in serialization
-			good.setBox(null);
-			goods.add(good);
-		}
-
-		public List<JpaGoods> getGoods() {
-			return goods;
-		}
-
-		public void setGoods(List<JpaGoods> goods) {
-			this.goods = goods;
-		}
-
-		public List<JpaGoods> fetchSortedGoods(/*add param by impanxh*/boolean queryBlackIn,
-				BlackAdGrouop blackAdGrouop) {
-			List<JpaGoods> list = null;
-			if (goods != null)
-				list = new ArrayList<JpaGoods>(goods);
-			else
-				list = new ArrayList<JpaGoods>();
-
-			if (queryBlackIn) {
-				list.addAll(blackAdGrouop.getBlackGoods(getSlotId(), getCity()));
-			}
-			Collections.sort(list, new Comparator<JpaGoods>() {
-				//  @Override
-				public int compare(JpaGoods o1, JpaGoods o2) {
-					return (int) (o1.getSort_index() - o2.getSort_index());
-					//return (int) (o1.getInboxPosition() - o2.getInboxPosition());
-				}
-			});
-			return list;
-		}
-
-		/**
-		 * 
-		 * 查空的档位 impanxh
-		 *
-		 * @return
-		 * @since pantuo 1.0-SNAPSHOT
-		 */
-		public List<FreeBox> fetchFreeGoods() {
-			List<FreeBox> free = new ArrayList<FreeBox>();
-			List<JpaGoods> goods = fetchSortedGoods(false, null);
-			if (goods.isEmpty()) {
-				free.add(new FreeBox(0, getSize()));
-			} else {
-				int s = goods.size();
-				for (int i = 0; i < s; i++) {
-					JpaGoods row = goods.get(i);
-					boolean isNoramlElement = false;
-					if (i == 0) {
-						//处理头部
-						if (row.getInboxPosition() == 0) {
-							if (s == 1) {//如果只有一段 比如 0-30 那么剩余就是 30-180
-								free.add(new FreeBox(row.getSize(), getSize()));
-							} else {
-								if (goods.get(1).getInboxPosition() != row.getSize()) {
-									free.add(new FreeBox(row.getSize(), goods.get(1).getInboxPosition()));
-								}
-							}
-						} else {//如果直接开始的时候不是0 比如 第一段是30-45 那么空余是0-30
-							free.add(new FreeBox(0, row.getInboxPosition()));
-							isNoramlElement = true;
-							/*isNoramlElement=true;
-							long f = row.getSize() + row.getInboxPosition();
-							long _end = (i + 1) >= s ? getSize() : goods.get(i + 1).getInboxPosition();
-							if (f != _end) {
-								free.add(new FreeBox(f, _end));
-							}*/
-						}
-					} else {
-						isNoramlElement = true;
-					}
-					if (isNoramlElement) {
-						long f = row.getSize() + row.getInboxPosition();
-						long _end = (i + 1) >= s ? getSize() : goods.get(i + 1).getInboxPosition();
-						if (f != _end) {
-							free.add(new FreeBox(f, _end));
-						}
-					}
-				}
-			}
-			return free;
-
-		}
-
-		public String getRemainStr() {
-			//	System.out.println(this.getDay() +" " +this.getSize() +" "+ getRemain() +" " +( getFremain()));
-
-			int f = getFremain() == null ? 0 : (30 - getFremain());
-			return DateUtil.toShortStr(this.getSize() - getRemain() + f);//
-			//	return DateUtil.toShortStr( getRemain() );//
-		}
-
-	}
 }

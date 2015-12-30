@@ -1,13 +1,14 @@
 package com.pantuo.pojo;
 
-import com.pantuo.dao.pojo.JpaGoods;
-import com.pantuo.util.DateUtil;
-import com.pantuo.web.ScheduleController;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Iterator;
-import java.util.Map;
+import com.pantuo.dao.pojo.JpaGoods;
+import com.pantuo.util.DateUtil;
+import com.pantuo.web.view.report.Report;
+import com.pantuo.web.view.report.UiBox;
 
 public class FlatScheduleListItem {
     private String slotDesc;
@@ -96,15 +97,15 @@ public class FlatScheduleListItem {
         }
     }
 
-    public FlatScheduleListItem(String monthDay, ScheduleController.Report r) {
+    public FlatScheduleListItem(String monthDay, Report r) {
         this.monthDay = monthDay;
         slotDesc = StringUtils.defaultString(r.getSlot().getName(), "");
         slot = StringUtils.defaultString(r.getSlot().getStartTimeStr());
         slotSize = (int) r.getSlot().getDuration();
         JpaGoods good = null;
         if (!r.getBoxes().isEmpty()) {
-            Iterator<Map.Entry<String, ScheduleController.UiBox>> iter = r.getBoxes().entrySet().iterator();
-            ScheduleController.UiBox box = iter.next().getValue();
+            Iterator<Map.Entry<String, UiBox>> iter = r.getBoxes().entrySet().iterator();
+            UiBox box = iter.next().getValue();
             if (box.getGoods() != null && !box.getGoods().isEmpty()) {
                 good = box.getGoods().get(0);
             }
