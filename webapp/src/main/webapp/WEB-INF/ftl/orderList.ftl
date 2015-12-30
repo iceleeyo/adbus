@@ -54,7 +54,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
             "ordering": true,
             "serverSide": true,
             "scrollX": true,
-            "aaSorting": [[5, "desc"]],
+            "aaSorting": [[6, "desc"]],
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
                  { "orderable": false, "targets": [0,1,2,3,4,6] },
