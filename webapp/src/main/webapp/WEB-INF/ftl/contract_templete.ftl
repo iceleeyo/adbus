@@ -2,12 +2,21 @@
 <head>
 <META http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+<link rel="stylesheet" type="text/css"
+	href="${rc.contextPath}/css/layer.css">
 <script type="text/javascript"
 	src="${rc.contextPath}/index_js/jquery-1.11.1.min.js"></script>
 <script type="text/javascript"
 	src="${rc.contextPath}/js/jquery-dateFormat.js"></script>
-	
+
 <script type="text/javascript">
+$(document).ready(function(){
+	if($('#legalman').text()==""){
+		layer.msg("法定代表人为空，无法提交订单");
+		$("#subWithdraworder").attr("disabled", true);
+		$("#subWithdraworder").css("background-color", "#85A2AD");
+	}
+});
 function getEnd(date,days){
 	var d=new Date(date);
 	if(d==""){
@@ -254,7 +263,7 @@ function getEnd(date,days){
 		<span class="s2">住所：</span><span class="s3">${userDetail.companyAddr!''}</span>
 	</p>
 	<p class="p2">
-		<span class="s2">法定代表人 ： </span><span class="s3">${userDetail.legalman!''}</span>
+		<span class="s2">法定代表人 ： </span><span id="legalman" class="s3">${userDetail.legalman!''}</span>
 	</p>
 	<p class="p2">
 		<span class="s2">邮编 ： </span><span class="s3"></span>
@@ -289,16 +298,16 @@ function getEnd(date,days){
 			class="s2">事宜，达成如下合同：</span>
 	</p>
 	<p class="p5">
-		<span class="s5">一、</span><span class="s1">执行媒体</span>
+		<span class="s5">一、执行媒体</span>
 	</p>
 	<p class="p3">
 		<span class="s2">执行媒体为乙方&ldquo;北广传媒移动电视公交频道&rdquo;。</span> 
 	</p>
 
 	<p class="p5">
-		<span class="s5">二、 </span><span class="s1">发布内容、</span><span
-			class="s5">付款金额</span><span class="s1">（单位：人民币）</span><span
-			class="s5">、</span><span class="s1">付款方式</span>
+		<span class="s5">二、 发布内容、</span><span
+			class="s5">付款金额</span><span class="s5">（单位：人民币）</span><span
+			class="s5">、</span><span class="s5">付款方式</span>
 	</p>
 	<p class="p7">
 		<span class="s7">1. </span><span>发布内容</span>
@@ -391,7 +400,7 @@ function getEnd(date,days){
 		<span class="s7">4. &nbsp;</span><span>广告物料及节目播出带（三期备播节目物料）须在广告/节目首个发布日的7个工作日前提交乙方审核。如因延误或错误送达导致广告/节目延误发布的，责任由甲方承担。</span>
 	</p>
 	<p class="p5">
-		<span class="s1">四、</span><span class="s2"> </span><span class="s5">发布约定</span>
+		<span class="s5">四、发布约定</span>
 	</p>
 	<p class="p7">
 		<span class="s7">1. &nbsp;</span><span>发布内容的约定</span>
@@ -500,7 +509,7 @@ function getEnd(date,days){
 		<span>任何一方对于因签署或履行本合同而了解或接触到的对方的商业秘密及其他机密资料和信息，无论该信息或资料是否标明&ldquo;保密&rdquo;字样（以下简称&ldquo;保密信息&rdquo;）均应保守秘密；非经对方事先书面同意或为履行本合同之目的，任何一方不得向第三方泄露、给予或转让该等保密信息。法律另有规定的除外。</span>
 	</p>
 	<p class="p5">
-		<span class="s1">十、不可抗力</span>
+		<span class="s5">十、不可抗力</span>
 	</p>
 	<p class="p3">
 		<span>因法律（包括但不限于法律、法规、部门规章、规范性文件、地方性法规、行政命令等）变更、自然灾害，或因重大新闻转播、现场直播（包括但不限于国家重大会议直播、重大体育赛事直播等）、临时性节目调整（如政府机构因须征用或占用乙方媒体平台造成的节目调整等）、相关部门于常规时间的设备检修、车辆检修或其它不可抗拒的因素而影响甲方广告/节目正常发布时，乙方应尽早通知甲方，对受影响未能如期发布的广告/节目，乙方应另行安排同等级时段的等额时间发布（此类情况，不属于错、漏发布范围，不按前述错、漏补充发布的规定执行）；仍无法发布的，乙方有权提前终止本合同而无需向甲方承担违约责任。</span>
@@ -804,7 +813,15 @@ function printme() {
 }, 1500);   
 }
 </script>
+
 <br><br><br><br><br><br>
 
 </body>
+<!--增加lay最新版本-->
+	<script type="text/javascript" language="javascript"
+		src="${rc.contextPath}/js/layer-v1.9.3/layer/layer.js"></script>
+	<script type="text/javascript" language="javascript"
+		src="${rc.contextPath}/js/layer.onload.js"></script>
+	<script type="text/javascript" language="javascript"
+		src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>	
 </html>
