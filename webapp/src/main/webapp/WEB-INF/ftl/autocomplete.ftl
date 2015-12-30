@@ -6,7 +6,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 <input id="autocomplete">
 <script>
 $( "#autocomplete" ).autocomplete({
-  source: "/webapp/dts/autoComplete"
+  source: "/dts/autoComplete"
 });
 </script>
 </@frame.html>
