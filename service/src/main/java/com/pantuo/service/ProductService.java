@@ -35,7 +35,7 @@ public interface ProductService {
 
     JpaProduct findById(int productId);
 
-    void saveProduct(int city, JpaProduct product,MediaSurvey survey,HttpServletRequest request);
+    void saveProduct(int city, JpaProduct product,MediaSurvey survey,HttpServletRequest request,Principal principal);
 
     public int countMyList(int city, String name, String code, HttpServletRequest request);
 

@@ -315,7 +315,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	//  @Override
-	public void saveProduct(int city, JpaProduct product,MediaSurvey survey,HttpServletRequest request) {
+	public void saveProduct(int city, JpaProduct product,MediaSurvey survey,HttpServletRequest request,Principal principal) {
 		try {
 			if(null!=survey){
 				product.setJsonString(JsonTools.getJsonFromObject(survey));
@@ -324,6 +324,7 @@ public class ProductServiceImpl implements ProductService {
 				}
 			}
 			product.setCity(city);
+			product.setUpdator(Request.getUserId(principal));
 			com.pantuo.util.BeanUtils.filterXss(product);
 			product.setExclusiveUser(product.getExclusiveUser());
 			productRepo.save(product);
