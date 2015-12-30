@@ -255,7 +255,7 @@ div#toolbar {
         );
 
         $("#export_xls").click(function(){
-            location.href='${rc.contextPath}/schedule/list.xls?filter[day]=${day}';
+            location.href='${rc.contextPath}/schedule/exportList?filter[day]=${day}';
         });
         
         $("#load_black").click(function(){

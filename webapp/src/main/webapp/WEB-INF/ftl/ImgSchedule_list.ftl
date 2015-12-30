@@ -137,7 +137,7 @@ div#toolbar {
         );
 
         $("#export_xls").click(function(){
-            location.href='${rc.contextPath}/schedule/InfoImglist.xls/image?filter[day]=${day}';
+            location.href='${rc.contextPath}/schedule/exportInfoImglist/image?filter[day]=${day}';
         });
 
         $('#name').change(function() {
