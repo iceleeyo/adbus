@@ -41,7 +41,7 @@ function go_back(){
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
 	<form data-name="withdraw" name="userForm2" id="userForm2"
-		class="ui-form" method="post" action="u_edit/update"
+		class="ui-form" method="post" action="/user/u_edit/update"
 		enctype="multipart/form-data">
 		<div class="withdraw-title fn-clear">
 			<span>用户信息</span> <a class="block-btn" style="margin-top: -5px;"
@@ -113,7 +113,15 @@ function go_back(){
 						data-is="isAmount isEnough" autocomplete="off"
 						disableautocomplete="" value="${userDetail.department!''}">
 				</div>
+					<div class="ui-form-item">
+					<label class="ui-label mt10">邮编:</label> <input class="ui-input"
+						type="text" name="zipCode" id="zipCode"
+						data-is="isAmount isEnough" autocomplete="off"
+						disableautocomplete="" value="${userDetail.zipCode!''}">
+				</div>
 			</div>
+			 <input type="hidden" name="isSuperUpdate" id="isSuperUpdate"
+						 value="${isSuperUpdate!''}"/>
 			<div class="widthdrawBtBox">
 					<input type="button" id="subWithdraw" class="block-btn"
 						onclick="sub();" value="保存">

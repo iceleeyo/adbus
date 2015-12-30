@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -349,6 +350,12 @@ public class UserManagerController {
 		model.addAttribute("userDetail", userService.getByUsernameSafe(Request.getUserId(principal)));
 		return "qualification_Enter";
 	}
+	@RequestMapping(value = "/editAdUser/{userName}", produces = "text/html;charset=utf-8")
+	public String editAdUser(Model model,@PathVariable(value = "userName") String userName,HttpServletRequest request) {
+		model.addAttribute("userDetail", userService.getByUsernameSafe(userName));
+		model.addAttribute("isSuperUpdate","Y");
+		return "qualification_Enter";
+	}
 	
 	@RequestMapping(value = "/updateQualifi", method = { RequestMethod.POST })
 	@ResponseBody
@@ -391,10 +398,13 @@ public class UserManagerController {
 		userService.createUserFromPage(detail,request,principal);
 		return detail;
 	}
+
 	@RequestMapping(value = "/u_edit/update", method = { RequestMethod.POST })
 	@ResponseBody
-	public Pair<Boolean, String> updateUser(UserDetail detail, Principal principal,HttpServletRequest request) {
-		return userService.updateUserFromPage(detail,principal, request);
+	public Pair<Boolean, String> updateUser(UserDetail detail,
+			@RequestParam(value = "isSuperUpdate", required = false, defaultValue = "N") String isSuperUpdate,
+			Principal principal, HttpServletRequest request) {
+		return userService.updateUserFromPage(BooleanUtils.toBoolean(isSuperUpdate), detail, principal, request);
 	}
 	
 	@RequestMapping(value = "savequalifi", method = RequestMethod.POST)

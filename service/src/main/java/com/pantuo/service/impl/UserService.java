@@ -193,6 +193,8 @@ public class UserService implements UserServiceInter {
 					query = (query == null ? q.utype.eq(UType.body) : query.and(q.utype.eq(UType.body)));
 				}else if(u==UType.screen){
 					query = (query == null ? q.utype.ne(UType.body) : query.and(q.utype.ne(UType.body)));
+				}else if(u==UType.pub){
+					query = (query == null ? q.utype.eq(UType.pub) : query.and(q.utype.eq(UType.pub)));
 				}
 				
 				
@@ -434,7 +436,7 @@ public class UserService implements UserServiceInter {
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
 	@Transactional
-	public Pair<Boolean, String> updateUserFromPage(UserDetail user, Principal principal, HttpServletRequest request) {
+	public Pair<Boolean, String> updateUserFromPage(boolean isForceUpdate,UserDetail user, Principal principal, HttpServletRequest request) {
 		user.buildMySelf();
 		UserDetail dbUser = getByUsername(user.getUsername());
 		if (dbUser == null) {
@@ -442,49 +444,60 @@ public class UserService implements UserServiceInter {
 		}
 		if (!Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)
 				&& !StringUtils.equals(user.getUsername(), Request.getUserId(principal))) {
-			if (user.getGroups() == null || user.getGroups().isEmpty()) {
-				return new Pair<Boolean, String>(false, "请至少选择一个分组");
-			} else if (user.getUser() != null) {
-				List<Group> existGroup = dbUser.getGroups();
-				com.pantuo.util.BeanUtils.copyPropertiesFilterZero(user, dbUser);
-				userRepo.save(dbUser);//先更新user_detail 信息
-				org.activiti.engine.identity.User activitiUser = identityService.createUserQuery()
-						.userId(dbUser.getUsername()).singleResult();
-				activitiUser.setEmail(user.getEmail());
-				activitiUser.setFirstName(user.getFirstName());
-				activitiUser.setLastName(user.getLastName());
-				identityService.saveUser(activitiUser);//更新工作流中的user表
-				//先删除原工作流中的用户权限 只增加不能减
-				for (Group g : existGroup) {
-					identityService.deleteMembership(dbUser.getUsername(), g.getId());
-				}
-				//再重建用户的权限 
-				for (Group g : user.getGroups()) {
-					identityService.createMembership(dbUser.getUsername(), g.getId());
-				}
 
+			if (isForceUpdate) {
+				//---管理员修改广告主信息
+				updateUser(user, dbUser);
 				return new Pair<Boolean, String>(true, "保存成功");
+			} else {
+				if (user.getGroups() == null || user.getGroups().isEmpty()) {
+					return new Pair<Boolean, String>(false, "请至少选择一个分组");
+				} else if (user.getUser() != null) {
+					List<Group> existGroup = dbUser.getGroups();
+					com.pantuo.util.BeanUtils.copyPropertiesFilterZero(user, dbUser);
+					userRepo.save(dbUser);//先更新user_detail 信息
+					org.activiti.engine.identity.User activitiUser = identityService.createUserQuery()
+							.userId(dbUser.getUsername()).singleResult();
+					activitiUser.setEmail(user.getEmail());
+					activitiUser.setFirstName(user.getFirstName());
+					activitiUser.setLastName(user.getLastName());
+					identityService.saveUser(activitiUser);//更新工作流中的user表
+					//先删除原工作流中的用户权限 只增加不能减
+					for (Group g : existGroup) {
+						identityService.deleteMembership(dbUser.getUsername(), g.getId());
+					}
+					//再重建用户的权限 
+					for (Group g : user.getGroups()) {
+						identityService.createMembership(dbUser.getUsername(), g.getId());
+					}
+
+					return new Pair<Boolean, String>(true, "保存成功");
+				}
 			}
 			return new Pair<Boolean, String>(false, "保存失败");
 		} else {
 			if (!StringUtils.equals(user.getUsername(), Request.getUserId(principal))) {
 				return new Pair<Boolean, String>(false, "操作非法");
 			} else if (user.getUser() != null) {
-				UType u =dbUser.getUtype();//用户类型不能修改
-				com.pantuo.util.BeanUtils.copyPropertiesFilterZero(user, dbUser);
-				dbUser.setUtype(u);
-				userRepo.save(dbUser);//先更新user_detail 信息
-				org.activiti.engine.identity.User activitiUser = identityService.createUserQuery()
-						.userId(dbUser.getUsername()).singleResult();
-				activitiUser.setEmail(user.getEmail());
-				activitiUser.setFirstName(user.getFirstName());
-				activitiUser.setLastName(user.getLastName());
-				identityService.saveUser(activitiUser);//更新工作流中的user表
+				updateUser(user, dbUser);
 				//suppliesService.savequlifi(principal, request, null);
 				return new Pair<Boolean, String>(true, "保存成功");
 			}
 			return new Pair<Boolean, String>(false, "保存失败");
 		}
+	}
+
+	private void updateUser(UserDetail user, UserDetail dbUser) {
+		UType u =dbUser.getUtype();//用户类型不能修改
+		com.pantuo.util.BeanUtils.copyPropertiesFilterZero(user, dbUser);
+		dbUser.setUtype(u);
+		userRepo.save(dbUser);//先更新user_detail 信息
+		org.activiti.engine.identity.User activitiUser = identityService.createUserQuery()
+				.userId(dbUser.getUsername()).singleResult();
+		activitiUser.setEmail(user.getEmail());
+		activitiUser.setFirstName(user.getFirstName());
+		activitiUser.setLastName(user.getLastName());
+		identityService.saveUser(activitiUser);//更新工作流中的user表
 	}
 
 	/**

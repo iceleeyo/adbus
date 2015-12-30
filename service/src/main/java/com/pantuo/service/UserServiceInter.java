@@ -90,7 +90,7 @@ public	Page<UserDetail> getUsers(String utype, String name, Boolean isEnabled, i
 
 	public  List<Invoice> queryInvoiceByUser(int cityId, Principal principal);
 
-	public  Pair<Boolean, String> updateUserFromPage(UserDetail detail, Principal principal,
+	public  Pair<Boolean, String> updateUserFromPage(boolean isForceUpdate, UserDetail detail, Principal principal,
 			HttpServletRequest request);
 	 /**
 	  * 

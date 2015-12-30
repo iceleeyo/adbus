@@ -95,7 +95,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                     "render": function(data, type, row, meta) {
                         return (row.enabled ? '<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/user/' + data + '/disable">禁用</a> &nbsp;'
                                 :'<a class="table-action operation " href="javascript:void(0);" url="${rc.contextPath}/user/' + data + '/enable">启用</a> &nbsp;')
-                        + '<a class="operation" href="${rc.contextPath}/user/u_edit/' + data + '" >编辑</a> &nbsp;'
+                        + '<a class="operation" href="${rc.contextPath}/user/editAdUser/' + data + '" >编辑</a> &nbsp;'
                         +(row.ustats=='init' ? '':'<a href="javascript:void(0)" class="operation" onclick="UserQualifi(\'${rc.contextPath}\',\'' + row.username + '\');" >查看资质</a>&nbsp;'
                         +(row.ustats!='authentication' ? '<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/user/ustats/' + data + '/authentication">认证通过</a> &nbsp;'
                                 :'<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/user/ustats/' + data + '/unauthentication">撤销认证</a> &nbsp;'))
@@ -144,7 +144,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
 	<div class="withdraw-title">
-		广告主用户列表 <a class="block-btn" href="${rc.contextPath}/user/enter">添加用户</a>
+	广告主用户列表 <a class="block-btn" href="${rc.contextPath}/register">添加用户</a>
 	</div>
 	<table id="table" class="display" cellspacing="0" width="100%">
 		<thead>

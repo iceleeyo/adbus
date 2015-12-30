@@ -78,6 +78,8 @@ public class UserDetail extends BaseEntity {
 	public String qulifijsonstr;
 	public UStats ustats;
 	public int isActivate;
+	@Column(length=12) 
+	public String zipCode;
 	 
 	//以下是页面表单值 
 	@Transient
@@ -321,6 +323,14 @@ public class UserDetail extends BaseEntity {
 
 	public void setGroupIdList(String groupIdList) {
 		this.groupIdList = groupIdList;
+	}
+
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
 	}
 
 
