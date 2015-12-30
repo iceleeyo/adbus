@@ -126,7 +126,7 @@ public class ProductServiceImpl implements ProductService {
 	public Page<JpaProduct> getAllProducts(int city, boolean includeExclusive, String exclusiveUser, TableRequest req) {
 		String name = req.getFilter("name"),stats=req.getFilter("stats");
 		int page = req.getPage(), pageSize = req.getLength();
-		Sort sort = req.getSort("id");
+		Sort sort = req.getSort("enabled");
 
 		if (page < 0)
 			page = 0;
