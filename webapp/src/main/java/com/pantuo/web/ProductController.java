@@ -55,6 +55,8 @@ import com.pantuo.web.view.MediaSurvey;
 import com.pantuo.web.view.PlanRequest;
 import com.pantuo.web.view.ProductView;
 
+import scala.annotation.target.param;
+
 /**
  * @author xl
  */
@@ -155,7 +157,7 @@ public class ProductController {
     @RequestMapping(value = "/frontshow/{productId}/{enable}", method = { RequestMethod.POST})
     @ResponseBody
     public JpaProduct frontshow(@PathVariable("productId") int productId,
-                                 @PathVariable("enable") String enable,
+                                 @PathVariable("enable") String enable,Principal principal,
                                  @CookieValue(value="city", defaultValue = "-1") int city) {
         JpaProduct product = productService.findById(productId);
         if (product == null) {
@@ -164,7 +166,7 @@ public class ProductController {
             return p;
         }
             product.setFrontShow(FrontShow.valueOf(enable));
-            productService.saveProduct(city, product,null,null);
+            productService.saveProduct(city, product,null,null,principal);
         return product;
     }
     
@@ -306,7 +308,7 @@ public class ProductController {
     @RequestMapping(value = "/save", method = { RequestMethod.POST})
     public String createProduct(
             JpaProduct prod,JpaCpd jpacpd,MediaSurvey survey,@RequestParam(value="startDate1")  String startDate1,@RequestParam(value="biddingDate1")  String biddingDate1,
-            @CookieValue(value="city", defaultValue = "-1") int city,
+            @CookieValue(value="city", defaultValue = "-1") int city,Principal principal,
             HttpServletRequest request) {
         if (prod.getId() > 0) {
             log.info("Updating product {}", prod.getName());
@@ -315,7 +317,7 @@ public class ProductController {
         }
         try {
         	prod.setFrontShow(FrontShow.N);
-            productService.saveProduct(city, prod,survey,request);
+            productService.saveProduct(city, prod,survey,request,principal);
             if(prod.getIscompare()==1){
             	if (biddingDate1.length() > 1 && startDate1.length()>1 ) {
             		jpacpd.setStartDate((Date) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parseObject(startDate1));
@@ -333,12 +335,13 @@ public class ProductController {
     public String saveCompareProduct(
     		JpaProduct product,JpaCpd cpd,MediaSurvey survey,@RequestParam(value="productid") int productid,@RequestParam(value="cpdid") int cpdid,
     		@RequestParam(value="startDate1") String startDate1,@RequestParam(value="biddingDate1")  String biddingDate1,
+    		Principal principal,
     		@CookieValue(value="city", defaultValue = "-1") int city,
     		HttpServletRequest request) {
     	try {
     		product.setId(productid);
     		product.setFrontShow(FrontShow.N);
-    		productService.saveProduct(city, product,survey,request);
+    		productService.saveProduct(city, product,survey,request,principal);
     			if (biddingDate1.length() > 1 && startDate1.length()>1 ) {
     				cpd.setStartDate((Date) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parseObject(startDate1));
     				cpd.setBiddingDate((Date) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parseObject(biddingDate1));

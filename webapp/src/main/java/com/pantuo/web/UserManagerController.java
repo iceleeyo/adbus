@@ -182,17 +182,24 @@ public class UserManagerController {
 		mailJob.putMailTask(new MailTask(user, Type.sendCanCompareMail)); 
 		return user;
 	}
+	@RequestMapping(value = "getUserDetail", method = { RequestMethod.GET })
+	@ResponseBody
+	public UserDetail getUserDetail(Principal principal) {
+		return userService.findDetailByUsername(Request.getUserId(principal));
+	}
 
 	@RequestMapping(value = "/invoice", produces = "text/html;charset=utf-8")
 	public String invoice(Model model,Principal principal,HttpServletRequest request) {
-		//InvoiceView invoiceView=userService.findInvoiceByUser(principal);
-		//model.addAttribute("invoiceView", invoiceView);
+		UserDetail user = userService.findDetailByUsername(Request.getUserId(principal));
+		model.addAttribute("userDetail", user);
 		return "invoice_message";
 	}
 	
 	@RequestMapping(value = "/invoice_edit/{invoice_id}", produces = "text/html;charset=utf-8")
 	public String invoice_edit(Model model,@PathVariable("invoice_id") int invoice_id,Principal principal,HttpServletRequest request) {
 		InvoiceView invoiceView=userService.findInvoiceByUser(invoice_id,principal);
+		UserDetail user = userService.findDetailByUsername(Request.getUserId(principal));
+		model.addAttribute("userDetail", user);
 		model.addAttribute("invoiceView", invoiceView);
 		return "invoice_message";
 	}

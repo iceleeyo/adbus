@@ -517,6 +517,12 @@ function hideother(){
 
 //弹出录入发票窗口
 function IvcEnter(tourl){
+	$.ajax({
+		url : tourl+"/user/getUserDetail",
+		type : "GET",
+		data : {
+		},
+		success : function(data) {
 			layer.open({
     		type: 1,
     		title: "发票信息录入",
@@ -527,7 +533,7 @@ function IvcEnter(tourl){
     				 +'<div class="mt10 radiobox" style="display:inline-block"> <input type="radio" name="type" checked="checked" onchange="showother()" value="special">&nbsp;增值税专用发票'
     				 +'<input type="radio" name="type"  onchange="hideother()" value="normal">&nbsp;普通发票&nbsp;&nbsp; </div> </div>'
     				 +'<div class="ui-form-item"> <label class="ui-labeli mt10"> <span class="ui-form-required">* </span>发票抬头: </label>'
-    				 +'<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[2],maxSize[120]]" type="text" name="title" id="title" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""></div>'
+    				 +'<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[2],maxSize[120]]" type="text" readonly="readonly" name="title" id="title" value="'+isNotEmptyString(data.company)+'" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""></div>'
     				 +'<div class="ui-form-item"> <label class="ui-labeli mt10"><span class="ui-form-required">*</span>邮寄地址:</label>'
 					 +'<input class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[2],maxSize[120]]" type="text" name="mailaddr" id="mailaddr" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 					 +'<div class="ui-form-item"> <label class="ui-labeli mt10"><span class="ui-form-required">*</span>邮寄联系人:</label>'
@@ -559,12 +565,11 @@ function IvcEnter(tourl){
             success :  false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
             promptPosition: "topLeft",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
             maxErrorsPerField: 1,
-            //failure : function() { alert("验证失败，请检查。");  }//验证失败时调用的函数
-            //success : function() { callSuccessFunction() },//验证通过时调用的函数
         });
-			//initiCheck();
-			//initInvoiceRadioIcheck();
-
+		}
+		
+	}, "text");
+	
 }
 
 //提交物料
