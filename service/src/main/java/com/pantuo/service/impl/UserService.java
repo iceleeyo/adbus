@@ -113,7 +113,7 @@ public class UserService implements UserServiceInter {
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
 	public Page<UserDetail> getAllUsers(String utype,String name, int page, int pageSize, Sort order) {
-		return getUsers(  utype,name, null, page, pageSize, order,null);
+		return getUsers(  utype,name, null, page, pageSize, order,null,null);
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class UserService implements UserServiceInter {
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
 	public Page<UserDetail> getValidUsers(String utype,int page, int pageSize, Sort order) {
-		return getUsers(  utype,null, true, page, pageSize, order,null);
+		return getUsers(  utype,null, true, page, pageSize, order,null,null);
 	}
 
 	/**
@@ -133,12 +133,17 @@ public class UserService implements UserServiceInter {
 	}
 
 	public Page<UserDetail> getUsers(String utype, String name, Boolean isEnabled, int page, int pageSize,
-			Sort order,UType loginUserType) {
+			Sort order,UType loginUserType,String ustats) {
 		if (page < 0)
 			page = 0;
 		if (pageSize < 1)
 			pageSize = 1;
 		//test();
+		UStats ustatsQuery =null;
+		try {
+			  ustatsQuery = UStats.valueOf(ustats);
+		} catch (Exception e) {
+		}
 
 		//String utype =utype ;// req != null ? req.getFilter("utype") : null;
 		Page<UserDetail> result = null;
@@ -156,18 +161,23 @@ public class UserService implements UserServiceInter {
 				}else if(u==UType.pub){
 					query = (query == null ? q.utype.eq(UType.pub) : query.and(q.utype.ne(UType.pub)));
 				}
+				if (ustatsQuery != null ) {
+					query = (query == null ? q.ustats.eq(ustatsQuery) : query.and(q.ustats.eq(ustatsQuery)));
+				}
 				//query = (query == null ? q.utype.eq(u) : query.and(q.utype.eq(u)));
 				result = userRepo.findAll(query, p);
 			} else {
 				if(loginUserType!=null){
+					BooleanExpression query = null;
 					if(loginUserType==UType.body){
-						BooleanExpression query = null;
 						query = (query == null ? q.utype.eq(UType.body) : query.and(q.utype.eq(UType.body)));
 						result = userRepo.findAll(query, p);
 					}else if(loginUserType==UType.screen){
-						BooleanExpression query = null;
 						query = (query == null ? q.utype.ne(UType.body) : query.and(q.utype.ne(UType.body)));
 						result = userRepo.findAll(query, p);
+					}
+					if (ustatsQuery != null) {
+						query = (query == null ? q.ustats.eq(ustatsQuery) : query.and(q.ustats.eq(ustatsQuery)));
 					}
 					
 				}else {
@@ -196,9 +206,10 @@ public class UserService implements UserServiceInter {
 				}else if(u==UType.pub){
 					query = (query == null ? q.utype.eq(UType.pub) : query.and(q.utype.eq(UType.pub)));
 				}
-				
-				
-				
+				if (ustatsQuery != null) {
+					query = (query == null ? q.ustats.eq(ustatsQuery) : query.and(q.ustats.eq(ustatsQuery)));
+				}
+
 				//query = (query == null ? q.utype.eq(u) : query.and(q.utype.eq(u)));
 			}
 			result = userRepo.findAll(query, p);

@@ -138,7 +138,7 @@ public class UserManagerController {
 		/*return new DataTablePage(userService.getAllUsers(req.getFilter("utype"),req.getFilter("name"), req.getPage(), req.getLength(),
 				req.getSort("id")), req.getDraw());*/
 		return new DataTablePage<UserDetail>(userService.getUsers(req.getFilter("utype"), req.getFilter("name"), null,
-				req.getPage(), req.getLength(), req.getSort("id"), UType.valueOf(user)), req.getDraw());
+				req.getPage(), req.getLength(), req.getSort("id"), UType.valueOf(user),req.getFilter("ustats")), req.getDraw());
 	}
 	@RequestMapping(value = "/invoiceList")
 	public String invoicelist() {

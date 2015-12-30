@@ -10,8 +10,8 @@ import org.activiti.engine.identity.Group;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
-
 import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.dao.pojo.UserDetail.UStats;
 import com.pantuo.dao.pojo.UserDetail.UType;
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.Invoice;
@@ -28,7 +28,7 @@ public interface UserServiceInter {
 
 	public abstract Page<UserDetail> getAllUsers(String utype,String name, int page, int pageSize, Sort order);
 public	Page<UserDetail> getUsers(String utype, String name, Boolean isEnabled, int page, int pageSize,
-			Sort order,UType loginUserType);
+			Sort order,UType loginUserType, String ustats);
 
 	public abstract Page<UserDetail> getValidUsers(String utype,int page, int pageSize, Sort order);
 

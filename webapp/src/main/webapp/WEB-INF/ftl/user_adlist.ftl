@@ -34,6 +34,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                 data: function(d) {
                     return $.extend( {}, d, {
                         "filter[name]" : $('#name').val(),
+                        "filter[ustats]" : $('#ustats').val(),
                         "filter[utype]" : '${usertype!''}'
                         
                     } );
@@ -123,10 +124,20 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                         '    <span>' +
                         '        <input id="name" value="">' +
                         '    </span>' +
+                          '    <span>' +
+                        '      认证状态' +
+                        '    </span>' +
+	                         '<select class="ui-input ui-input-mini" name="ustats" id="ustats">' +
+	                    '<option value="defaultAll" selected="selected">所有状态</option>' +
+	                  	'<option value="init">未上传资质</option>' +
+	                  	'<option value="authentication">认证通过</option>' +
+	                  	'<option value="upload">待认证</option>' +
+	                    '<option value="unauthentication">资质不合格</option>' +
+	         			'</select>' +
                         '</div>'
         );
 
-        $('#name').change(function() {
+        $('#name,#ustats').change(function() {
             table.fnDraw();
         });
         bindLayerMouseOver();
