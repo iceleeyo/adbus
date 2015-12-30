@@ -94,18 +94,6 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                             return '<span class="invalid">禁用</span>';
                     }
                 } },
-                <#--
-                 { "data": "ustats", "defaultContent": "", "render": function(data) {
-                    if (data == 'init')
-                            return '<span class="processed layer-tips" tip="已认证的用户可以参与竞价!">未上传资质</span>'; 
-                        if (data == 'authentication')
-                    return '<span class="invalid">认证通过</span>'; 
-                        if (data == 'upload')
-                    return '<span class="invalid">待认证</span>';
-                        if (data == 'unauthentication')
-                    return '<span class="invalid">资质不合格</span>';
-                     
-                } },-->
                 
                 { "data": function( row, type, set, meta) {
                     return row.username;
