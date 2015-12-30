@@ -172,7 +172,6 @@ function checkEndTime(){
                         "&filter[end]=" + "${end}"+
                         "&filter[type]=" + "${type}";
                          layer.load(1);
-                         alert(params);
                        $.ajax({
 					    			url:'${rc.contextPath}/schedule/ajax-reportBoxExcel?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1&'+params,
 					    			type:"GET",
