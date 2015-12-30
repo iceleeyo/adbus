@@ -76,8 +76,11 @@ dt {
 		}).submit();
 		var type=$('input:radio[name="type"]:checked').val();
 		if(type=="special"){
+		var uptime = window.setTimeout(function(){
 			var uploadProcess={upath:'${rc.contextPath}/upload/process'};
 	 		$('#progress1').anim_progressbar(uploadProcess);
+			   	clearTimeout(uptime);
+						},2000)
 		}
 		
 	}
