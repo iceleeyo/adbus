@@ -27,7 +27,8 @@ public class JpaAttachment extends BaseEntity {
          xiaoY,           //小样12
          workP,          //施工照片13
          user_code ,         //用户个人资质14（组织机构代码证书）
-         payvoucher      //支付凭证
+         payvoucher,      //支付凭证15
+         fp_other      //16
     } 
 
     @Id

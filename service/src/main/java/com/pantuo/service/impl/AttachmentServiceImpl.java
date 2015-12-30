@@ -154,6 +154,9 @@ public class AttachmentServiceImpl implements AttachmentService {
 							else if(StringUtils.equals(fn, "user_code")){
 								t.setType(JpaAttachment.Type.user_code.ordinal());
 							}
+							else if(StringUtils.equals(fn, "fp_other")){
+								t.setType(JpaAttachment.Type.fp_other.ordinal());
+							}
 							else if(StringUtils.equals(fn, "user_tax")){
 								t.setType(JpaAttachment.Type.user_tax.ordinal());
 							}
@@ -250,14 +253,18 @@ public class AttachmentServiceImpl implements AttachmentService {
 			AttachmentExample.Criteria ca=example.createCriteria();
 			AttachmentExample.Criteria ca2=example.createCriteria();
 			AttachmentExample.Criteria ca3=example.createCriteria();
+			AttachmentExample.Criteria ca4=example.createCriteria();
 			ca.andMainIdEqualTo(main_id);
 			ca2.andMainIdEqualTo(main_id);
 			ca3.andMainIdEqualTo(main_id);
+			ca4.andMainIdEqualTo(main_id);
 			ca.andTypeEqualTo(JpaAttachment.Type.license.ordinal());
 			ca2.andTypeEqualTo(JpaAttachment.Type.tax.ordinal());
 			ca3.andTypeEqualTo(JpaAttachment.Type.taxpayer.ordinal());
+			ca4.andTypeEqualTo(JpaAttachment.Type.fp_other.ordinal());
 			example.or(ca2);
 			example.or(ca3);
+			example.or(ca4);
 			return attachmentMapper.selectByExample(example);
 		}
 		
@@ -320,31 +327,37 @@ public class AttachmentServiceImpl implements AttachmentService {
 									t.setUrl(p.getRight());
 									attachmentMapper.updateByPrimaryKey(t);
 								}
-							  if(StringUtils.equals(fn, "taxfile") && t.getType()==JpaAttachment.Type.tax.ordinal()){
+								else if(StringUtils.equals(fn, "taxfile") && t.getType()==JpaAttachment.Type.tax.ordinal()){
 									t.setUpdated(new Date());
 									t.setName(oriFileName);
 									t.setUrl(p.getRight());
 									attachmentMapper.updateByPrimaryKey(t);
 								}
-							  if(StringUtils.equals(fn, "taxpayerfile") && t.getType()==JpaAttachment.Type.taxpayer.ordinal()){
+								else if(StringUtils.equals(fn, "fp_other") && t.getType()==JpaAttachment.Type.fp_other.ordinal()){
 									t.setUpdated(new Date());
 									t.setName(oriFileName);
 									t.setUrl(p.getRight());
 									attachmentMapper.updateByPrimaryKey(t);
 								}
-							  if(StringUtils.equals(fn, "user_license") && t.getType()==JpaAttachment.Type.user_license.ordinal()){
+								else  if(StringUtils.equals(fn, "taxpayerfile") && t.getType()==JpaAttachment.Type.taxpayer.ordinal()){
+									t.setUpdated(new Date());
+									t.setName(oriFileName);
+									t.setUrl(p.getRight());
+									attachmentMapper.updateByPrimaryKey(t);
+								}
+								else if(StringUtils.equals(fn, "user_license") && t.getType()==JpaAttachment.Type.user_license.ordinal()){
 								  t.setUpdated(new Date());
 								  t.setName(oriFileName);
 								  t.setUrl(p.getRight());
 								  attachmentMapper.updateByPrimaryKey(t);
 							  }
-							  if(StringUtils.equals(fn, "user_tax") && t.getType()==JpaAttachment.Type.user_tax.ordinal()){
+								else  if(StringUtils.equals(fn, "user_tax") && t.getType()==JpaAttachment.Type.user_tax.ordinal()){
 								  t.setUpdated(new Date());
 								  t.setName(oriFileName);
 								  t.setUrl(p.getRight());
 								  attachmentMapper.updateByPrimaryKey(t);
 							  }
-							  if(StringUtils.equals(fn, "user_code") && t.getType()==JpaAttachment.Type.user_code.ordinal()){
+								else  if(StringUtils.equals(fn, "user_code") && t.getType()==JpaAttachment.Type.user_code.ordinal()){
 								  t.setUpdated(new Date());
 								  t.setName(oriFileName);
 								  t.setUrl(p.getRight());
