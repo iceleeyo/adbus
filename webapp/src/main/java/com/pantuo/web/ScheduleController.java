@@ -967,7 +967,7 @@ public class ScheduleController {
 	/**
 	 * 排条单
 	 */
-	@RequestMapping("list.xls")
+	@RequestMapping("exportList")
 	public void exportScheduleDetailList(TableRequest req,
 			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city,
 			HttpServletResponse resp) {
@@ -1086,7 +1086,7 @@ public class ScheduleController {
 		 * 图片info排条单
 		 * @throws ParseException 
 		 */
-	@RequestMapping("InfoImglist.xls/{mtype}")
+	@RequestMapping("exportInfoImglist/{mtype}")
 	public void exportInfoScheduleDetailList(TableRequest req, @PathVariable("mtype") String mtype,
 			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city,
 			HttpServletResponse resp) throws ParseException {
