@@ -85,7 +85,7 @@ js=["js/jquery-ui/jquery-ui.js","js/layer-v1.9.3/layer/layer.js","js/layer.onloa
                     return '<a class="table-link" href="${rc.contextPath}/order/over/' +  (row.id) +'">'+data+'</a> &nbsp;'; 
                 } },
                   </@security.authorize>
-                
+                { "data": "updator", "defaultContent": ""},
                 { "data": function( row, type, set, meta) {
                     return row.id;
                 },
@@ -204,6 +204,7 @@ var url="${rc.contextPath}/product/checkProHadBought/"+id;
 				<th>首页</th>
 				<th>进行中</th>
 				<th>已结束</th> </@security.authorize>
+				<th>最后修改人</th>
 				<th>管理</th>
 			</tr>
 		</thead>

@@ -130,16 +130,22 @@ dt {
 
 				</div>
 
+         
 				<div class="ui-form-item">
 					<label class="ui-label mt10"> <span
 						class="ui-form-required">* </span>发票抬头:
 					</label> <input
 						class="ui-input validate[required,custom[noSpecialLetterChinese],maxSize[120]]"
-						type="text" name="title" id="title"
-						value="${(invoiceView.mainView.title)!''}"
+						type="text" name="title" id="title" readonly="readonly" style="border: none;"
+						value="${(userDetail.company)!''}"
 						data-is="isAmount isEnough" autocomplete="off"
 						disableautocomplete="">
 				</div>
+				<#if !(userDetail.company?has_content)>
+				<div class="ui-form-item">
+					发票抬头必须填所属公司名称，请在用户信息菜单完善相关信息
+				</div>
+				</#if>
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>邮寄地址:</label>
 					<input

@@ -246,7 +246,16 @@
 	<script src="index_js/unslider.min.js"></script>
 	<script type="text/javascript">
 		function check(){
-			layer.open({
+		$.ajax({
+		url : "${rc.contextPath}/user/getUserDetail",
+		type : "GET",
+		data : {
+		},
+		success : function(data) {
+		 if(typeof(data.company)=="undefined" || data.company=="" || typeof(data.legalman)=="undefined" || data.legalman==""){
+		    layer.msg("请从‘用户信息’菜单进去完善相关信息");
+		 }else{
+		   layer.open({
 	    		type: 1,
 	    		title: "电子合同",
 	    		skin: 'layui-layer-rim', 
@@ -255,6 +264,10 @@
 				   +' '
 				   +'<iframe  style="width:99%;height:90%" src="${rc.contextPath}/user/contract_templete?meids=${meids!''}"/><div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraworder" class="block-btn" onclick="payment();" value="确认" style="margin:10px 0px -10px 45%;"> </div>'
 				});
+		 }
+			}
+			});
+			
 		}
 		function payment(){
 		var paytype=$('#payway :radio[name=payType]:checked').val();
@@ -276,7 +289,6 @@
 		$.ajax({
 			url:"${rc.contextPath}/carbox/payment",
 			type:"POST",
-			async:false,
 			dataType:"json",
 			data:{"divid":divid,"isdiv":isdiv,"seriaNum":seriaNum,"paytype":paytype,"meids":meids,"boids":boids,"startdate1":startdate1},
 			success:function(data){
