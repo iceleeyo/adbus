@@ -95,7 +95,7 @@ dt {
 <div class="withdraw-wrap color-white-bg fn-clear">
 	<form data-name="withdraw" name="userForm2" id="userForm2"
 		class="ui-form" method="post"
-		action="${rc.contextPath}/user/saveInvoice"
+		action="${rc.contextPath}/user/saveInvoice?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1"
 		enctype="multipart/form-data">
 		<#if invoiceView?? && invoiceView.mainView??> <input type="hidden"
 			name="id" value="${(invoiceView.mainView.id)!''}" /> </#if>
