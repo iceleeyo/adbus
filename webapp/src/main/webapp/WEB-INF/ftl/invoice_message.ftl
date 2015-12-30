@@ -1,8 +1,9 @@
 <#import "template/template.ftl" as frame> <#global menu="发票录入">
 <@frame.html title="发票信息录入" js=["js/jquery-ui/jquery-ui.js",
-"js/datepicker.js","js/progressbar.js",
-"js/jquery.datepicker.region.cn.js","js/layer-v1.9.3/layer-site.js"]
-css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css"]>
+"js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
+"js/jquery.datepicker.region.cn.js","js/progressbar.js"]
+css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]>
+<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"]/>
 <style type="text/css">
 .ui-form-item div {
 	display: inline-block;
@@ -75,7 +76,6 @@ dt {
 		}).submit();
 		var type=$('input:radio[name="type"]:checked').val();
 		if(type=="special"){
-		   alert(1);
 			var uploadProcess={upath:'${rc.contextPath}/upload/process'};
 	 		$('#progress1').anim_progressbar(uploadProcess);
 		}
