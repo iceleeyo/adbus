@@ -99,6 +99,7 @@ function checkEndTime(){
             "searching": false,
             "ordering": false,
             "serverSide": true,
+                "scrollX": true,
             "ajax": {
                 type: "POST",
                 url: "${rc.contextPath}/schedule/box-ajax-list",
