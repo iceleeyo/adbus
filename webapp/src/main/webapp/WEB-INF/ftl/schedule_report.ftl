@@ -1,7 +1,8 @@
 <#import "template/template.ftl" as frame> <#global menu="剩余时段">
+<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="剩余时段" js=["js/jquery-dateFormat.js",
 "js/jquery-ui/jquery-ui.js", "js/datepicker.js",
-"js/jquery.datepicker.region.cn.js"] css=["js/jquery-ui/jquery-ui.css"]>
+"js/jquery.datepicker.region.cn.js","js/ajax-pushlet-client.js","js/ajax-pushlet-business.js"] css=["js/jquery-ui/jquery-ui.css"]>
 
 <style type="text/css">
 #table {
@@ -156,12 +157,32 @@ function checkEndTime(){
                         '    <span>' +
                         '        <input id="name" value="">' +
                         '    </span>' +'    <span>[备注：黄色代表占用时段，绿色代表剩余时段。]</span>' +
+                        '&nbsp;&nbsp;<a class="block-btn" style="background: #ff9966" id="export_xls" href="javascript:void(0);">导出查询数据</a>'+
                         '</div>'
         );
 
         $('#name').change(function() {
             table.fnDraw();
         });
+        
+        $("#export_xls").click(function(){
+          var params =  "&filter[name]=" + $('#name').val()+
+                        "&filter[from]=" + "${from}"+
+                        "&filter[days]=" + "${days}"+
+                        "&filter[end]=" + "${end}"+
+                        "&filter[type]=" + "${type}";
+                         layer.load(1);
+                         alert(params);
+                       $.ajax({
+					    			url:'${rc.contextPath}/schedule/ajax-reportBoxExcel?dos_authorize_token=b157f4ea25e968b0e3d646ef10ff6624&t=v1&'+params,
+					    			type:"GET",
+					    			dataType:"json",
+					    			success:function(data){
+					    			}
+					       });  
+					       
+        });
+        
     }
 
     function drawCallback() {
@@ -223,4 +244,9 @@ function checkEndTime(){
 
 	</table>
 </div>
+<script type="text/javascript">  
+    $(document).ready(function() {
+      initExportExcelPushLet("/reportBoxExcel/<@security.authentication property="principal.user.id"/>");
+    } );   
+</script>
 </@frame.html>
