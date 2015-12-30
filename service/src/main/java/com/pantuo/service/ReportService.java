@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.expr.BooleanExpression;
@@ -44,7 +45,8 @@ public class ReportService {
 
     @Autowired
     private TimeslotService timeslotService;
-
+    @Value("${publish.path}")
+	private String rootPath;
     /**
      * 
      * 导出剩余时段 
@@ -93,7 +95,7 @@ public class ReportService {
 
 				}
 			}
-			String excelPath = exu.exportFileByInation(fileName, null);
+			String excelPath = exu.exportFileByInation(fileName, rootPath);
 			map = new HashMap<String, String>();
 			map.put("excelPath", excelPath);
 			map.put("tag", "ok");
