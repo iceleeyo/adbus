@@ -53,7 +53,7 @@
       <userTask id="jianboReport" name="用户确认" activiti:candidateUsers="${_owner.username}"></userTask>
       <sequenceFlow id="flow34" sourceRef="shangboEmail" targetRef="jianboReport"></sequenceFlow>
       <userTask id="submitSchedule" name="提交排期表" activiti:candidateGroups="ShibaSuppliesManager"></userTask>
-      <userTask id="inputSchedule" name="录入排期表" activiti:candidateGroups="BeiguangScheduleManager"></userTask>
+      <userTask id="inputSchedule" name="排期表审核" activiti:candidateGroups="BeiguangScheduleManager"></userTask>
       <sequenceFlow id="flow39" sourceRef="submitSchedule" targetRef="inputSchedule"></sequenceFlow>
       <sequenceFlow id="flow40" sourceRef="inputSchedule" targetRef="effectiveEmail"></sequenceFlow>
       <serviceTask id="effectiveEmail" name="发送订单生效邮件" activiti:delegateExpression="${messageBox}">
