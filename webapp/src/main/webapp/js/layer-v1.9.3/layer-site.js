@@ -291,6 +291,8 @@ function invoicedetail(tourl,orderid){
 			var sid=""
 			var nashui="";
 			var nid=""
+			var other="";
+			var otherid=""
 		
 			$.each(data.files, function(i, item) {
 			  if(item.type==6){
@@ -305,6 +307,10 @@ function invoicedetail(tourl,orderid){
 			  if(item.type==8){
 			   nashui=item.name;
 			   nid=item.id;
+			  }
+			  if(item.type==16){
+				  other=item.name;
+				  otherid=item.id;
 			  }
 			});
 				layer.open({
@@ -339,7 +345,8 @@ function invoicedetail(tourl,orderid){
                          +'type="text" name="fixphone" value="'+data.detailView.fixphone+'" id="fixphone" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
 						 +'<div class="ui-form-item"> <label class="ui-label mt10">营业执照复印件:</label> <a href="'+tourl+'/downloadFile/'+yuserid+'/'+yid+'"> '+yingye+'</a> </div>'
 						 +'<div class="ui-form-item"> <label class="ui-label mt10">税务登记复印件:</label><a href="'+tourl+'/downloadFile/'+yuserid+'/'+sid+'"> '+shuiwu+' </a></div>'
-						 +'<div class="ui-form-item"> <label class="ui-label mt10">纳税人资格认证复印件:</label> <a href="'+tourl+'/downloadFile/'+yuserid+'/'+nid+'">'+nashui+' </a></div></div>'
+						 +'<div class="ui-form-item"> <label class="ui-label mt10">纳税人资格认证复印件:</label> <a href="'+tourl+'/downloadFile/'+yuserid+'/'+nid+'">'+nashui+' </a></div>'
+						 +'<div class="ui-form-item"> <label class="ui-label mt10">其它:</label> <a href="'+tourl+'/downloadFile/'+otherid+'/'+otherid+'">'+other+' </a></div></div>'
 						 +'<div class="ui-form-item widthdrawBtBox">  </div></form>'
 		});
 				if(type=="普通发票"){
@@ -555,9 +562,11 @@ function IvcEnter(tourl){
 					 +'<div class="ui-form-item"> <label class="ui-labeli mt10">税务登记复印件: </label><div id="newUpload2"> <div class="filebox" id="div_1">'
 					 +'<input type="file" name="taxfile" id="Sfile2"> </div> </div> </div>'
 					 +'<div class="ui-form-item"> <label class="ui-labeli mt10">一般纳税人资格认证复印件: </label>'
-					 +'<input type="file" name="taxpayerfile" id="Sfile3"> </div> </div> </div></div>'
+					 +'<input type="file" name="taxpayerfile" id="Sfile3"> </div> '
+					 +'<div class="ui-form-item"> <label class="ui-labeli mt10">其它: </label>'
+					 +'<div id="newUpload2"> <div id="div_1"> <input type="file" name="fp_other" id="Sfile"> </div> </div> </div> </div> </div> </div>'
 					 +'<div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdrawi" style="margin-left:50px;" class="block-btn" onclick="subIvc(\''+tourl+'\');" value="提交"></div>'
-					 +'<div id="progress1"> <div class="percent"></div> <div class="pbar"></div> <div class="elapsed"></div> </div> </form>'
+					 +'<div id="progress1"> <div class="percent"></div> <div class="pbar"></div> <div class="elapsed"></div> </div></form>'
 				});
 			$("#userForm3").validationEngine({
             validationEventTrigger:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
@@ -711,6 +720,8 @@ function qEdit(tourl,id){
 			var sid=""
 			var nashui="";
 			var nid=""
+				var other="";
+			var otherid=""
 			$.each(data.files, function(i, item) {
 			  if(item.type==6){
 			   yingye=item.name;
@@ -724,6 +735,10 @@ function qEdit(tourl,id){
 			  if(item.type==8){
 			   nashui=item.name;
 			   nid=item.id;
+			  }
+			  if(item.type==16){
+				  other=item.name;
+				  otherid=item.id;
 			  }
 			});
 				layer.open({
@@ -754,7 +769,8 @@ function qEdit(tourl,id){
                          +'type="text" name="fixphone" value="'+data.mainView.fixphone+'" id="fixphone" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> </div>'
                          +'<div class="ui-form-item"> <label class="ui-label mt10">营业执照复印件:</label> <a href="'+tourl+'/downloadFile/'+yuserid+'/'+yid+'"> '+yingye+'</a> </div>'
 						 +'<div class="ui-form-item"> <label class="ui-label mt10">税务登记复印件:</label><a href="'+tourl+'/downloadFile/'+yuserid+'/'+sid+'"> '+shuiwu+' </a></div>'
-						 +'<div class="ui-form-item"> <label class="ui-label mt10">纳税人资格认证复印件:</label> <a href="'+tourl+'/downloadFile/'+yuserid+'/'+nid+'">'+nashui+' </a></div></div>'
+						 +'<div class="ui-form-item"> <label class="ui-label mt10">纳税人资格认证复印件:</label> <a href="'+tourl+'/downloadFile/'+yuserid+'/'+nid+'">'+nashui+' </a></div>'
+						 +'<div class="ui-form-item"> <label class="ui-label mt10">其它:</label> <a href="'+tourl+'/downloadFile/'+otherid+'/'+otherid+'">'+other+' </a></div></div>'
 						 +'<div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdrawInvoice" class="block-btn" onclick="subInvoice();" value="确认"> </div></form>'
 
 		});

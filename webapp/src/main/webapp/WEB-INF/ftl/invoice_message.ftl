@@ -269,7 +269,23 @@ dt {
 						</#if>
 
 					</div>
-
+					<div class="ui-form-item">
+						<label class="ui-label mt10"> 其它: </label> 
+						<#if invoiceView??> 
+						<#list invoiceView.files as item> 
+						   <#if item?has_content && item.type==16> 
+							<a href="${rc.contextPath}/downloadFile/${item.userId!''}/${item.id!''}">
+							${item.name!''}</a> &nbsp;&nbsp; &nbsp; 
+							</#if> 
+							</#list>
+						 <#else>
+						  <div id="newUpload2">
+							<div id="div_1">
+								<input type="file" name="fp_other" id="Sfile3" >
+							</div>
+						  </div>
+						</#if>
+					</div>
 				</div>
 				<div class="ui-form-item widthdrawBtBox">
 					<input type="button" id="subWithdraw" class="block-btn"
