@@ -34,7 +34,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
             "columnDefs": [
                 {
                     "sClass": "align-left", "targets": [0,1] ,
-                    "orderable": false, "targets": [1,2,4,5]
+                    "orderable": false, "targets": [1,2,4]
                 },
             ],
             "ajax": {
@@ -94,15 +94,16 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                             return '<span class="invalid">禁用</span>';
                     }
                 } },
+             
                 
                 { "data": function( row, type, set, meta) {
                     return row.username;
                 },
                     "render": function(data, type, row, meta) {
-                       var w=  (row.enabled ? '<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/user/' + data + '/disable">禁用</a> &nbsp;'
+                        return (row.enabled ? '<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/user/' + data + '/disable">禁用</a> &nbsp;'
                                 :'<a class="table-action operation " href="javascript:void(0);" url="${rc.contextPath}/user/' + data + '/enable">启用</a> &nbsp;')
-                       w+= '<a class="operation" href="${rc.contextPath}/user/u_edit/' + data + '" >编辑</a> &nbsp;';
-                        return w;
+                        + '<a class="operation" href="${rc.contextPath}/user/u_edit/' + data + '" >编辑</a> &nbsp;'
+                        ;
                     }},
             ],
             "language": {
@@ -156,7 +157,6 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 				<th>所属组</th>
 				<th>类型</th>
 				<th orderBy="enabled">状态</th>
-			<!--	<th>认证状态</th>-->
 				<th>管理</th>
 			</tr>
 		</thead>
