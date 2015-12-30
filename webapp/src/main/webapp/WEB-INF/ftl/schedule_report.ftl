@@ -167,7 +167,6 @@ function checkEndTime(){
         });
         
         $("#export_xls").click(function(){
-          initExportExcelPushLet("/reportBoxExcel/<@security.authentication property="principal.user.id"/>");
           var params =  "&filter[name]=" + $('#name').val()+
                         "&filter[from]=" + "${from}"+
                         "&filter[days]=" + "${days}"+
@@ -247,7 +246,7 @@ function checkEndTime(){
 </div>
 <script type="text/javascript">  
     $(document).ready(function() {
-     // initExportExcelPushLet("/reportBoxExcel/<@security.authentication property="principal.user.id"/>");
+     initExportExcelPushLet("/reportBoxExcel/<@security.authentication property="principal.user.id"/>");
     } );   
 </script>
 </@frame.html>
