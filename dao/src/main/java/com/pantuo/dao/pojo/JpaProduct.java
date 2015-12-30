@@ -56,6 +56,8 @@ public class JpaProduct extends CityEntity {
     private boolean enabled = true;
     private boolean exclusive = false;  //是否专用套餐，专用套餐定向对某一个用户有效
     private String exclusiveUser;   //定向用户
+    private String creator;       //创建人
+    private String updator;       //最后修改人
     private String remarks;
     private String tags;
     @Column(length=128) 
@@ -119,6 +121,22 @@ public class JpaProduct extends CityEntity {
 
 	public void setExclusive(boolean exclusive) {
 		this.exclusive = exclusive;
+	}
+
+	public String getCreator() {
+		return creator;
+	}
+
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
+
+	public String getUpdator() {
+		return updator;
+	}
+
+	public void setUpdator(String updator) {
+		this.updator = updator;
 	}
 
 	public String getJsonString() {
