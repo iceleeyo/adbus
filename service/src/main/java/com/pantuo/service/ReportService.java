@@ -9,6 +9,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,15 +24,18 @@ import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.QJpaGoods;
 import com.pantuo.mybatis.domain.TimeslotReport;
 import com.pantuo.mybatis.persistence.ReportMapper;
+import com.pantuo.pojo.TableRequest;
 import com.pantuo.pojo.highchart.DayList;
 import com.pantuo.util.DateUtil;
+import com.pantuo.util.ExcelFastUtil;
+import com.pantuo.web.view.report.Report;
 
 /**
- * @author tliu
+ * @author impanxh
  */
 @Service
 public class ReportService {
-
+	private static Logger log = LoggerFactory.getLogger(ReportService.class);
     @Autowired
     private ReportMapper mapper;
 
@@ -39,6 +45,100 @@ public class ReportService {
     @Autowired
     private TimeslotService timeslotService;
 
+    /**
+     * 
+     * 导出剩余时段 
+     *
+     * @param req
+     * @param city
+     * @param list
+     * @since pantuo 1.0-SNAPSHOT
+     */
+	public void exportEexcel(TableRequest req, int city, List<Report> list) {
+		req.getPushLet().pushMsgToClient("开始生成Excel");
+
+		StringBuilder headTitles = new StringBuilder();
+		headTitles.append("广告包名称,");
+		headTitles.append("播出时间,");
+		headTitles.append("包长,");
+		List<String> dates = getDates(req);
+		for (String date : dates) {
+			headTitles.append(date);
+			headTitles.append(",");
+		}
+
+		Map<String, String> map = null;
+		try {
+			String fileName = "剩余时段导出_";
+			ExcelFastUtil exu = new ExcelFastUtil(headTitles.toString(), fileName);
+			exu.createHead();
+			if (list != null && !list.isEmpty()) {
+				int c = 0;
+				for (Report view : list) {
+					exu.createRow();
+					exu.setCell(StringUtils.trimToEmpty(view.getSlot().getName()), 0);
+					exu.setCell(StringUtils.trimToEmpty(view.getSlot().getStartTimeStr()), 1);
+					exu.setCell(StringUtils.trimToEmpty(view.getSlot().getDurationStr()), 2);
+					int row = 3;
+					for (String date : dates) {
+						String output = null;
+						if (view.getBoxes().containsKey(date)) {
+							output = view.getBoxes().get(date).getRemainStr();
+						} else {
+							output = view.getSlot().getDurationStr();
+						}
+						exu.setCell(StringUtils.trimToEmpty(output), row);
+						row++;
+					}
+
+				}
+			}
+			String excelPath = exu.exportFileByInation(fileName, null);
+			map = new HashMap<String, String>();
+			map.put("excelPath", excelPath);
+			map.put("tag", "ok");
+		} catch (Exception e) {
+			req.getPushLet().pushMsgToClient("生成Excel失败,可能服务器存储已满");
+			log.info("export ex:{}", e);
+			map.put("tag", "wrong");
+		}
+		req.getPushLet().pushMsgToClient("Excel生成结束,开始下载!");
+		req.getPushLet().endAndClosePush(map);
+	}
+
+	private List<String>   getDates(TableRequest req) {
+		String fromStr = req.getFilter("from");
+		String endStr = req.getFilter("end");
+		Date from = null, end = null;
+		
+		if (StringUtils.isNotBlank(fromStr)) {
+			try {
+				from = DateUtil.longDf.get().parse(fromStr);
+			} catch (Exception e) {
+			}
+		}
+		if (StringUtils.isNotBlank(endStr)) {
+			try {
+				end = DateUtil.longDf.get().parse(endStr);
+			} catch (Exception e) {
+			}
+		}
+		if (from == null) {
+			from = new Date();
+		}
+		if (end == null) {
+			end = DateUtil.dateAdd(from, 10);
+		}
+		Date d = from;
+		List<String> dates = new ArrayList<String>();
+		dates.add(DateUtil.longDf.get().format(d));
+		while (d.before(end)) {
+			d = DateUtil.dateAdd(d, 1);//DateUtils.addDays(d, 1);
+			dates.add(DateUtil.longDf.get().format(d));
+		}
+		return dates;
+	}
+    
     public List<TimeslotReport> getRemainTimeslots(int city, Date from, Date to, Boolean peak) {
         List<TimeslotReport> report = mapper.getRemainTimeslots(city, from, to, peak);
 

@@ -9,6 +9,8 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.NullHandling;
 import org.springframework.data.domain.Sort.Order;
 
+import com.pantuo.web.push.PushInter;
+
 /**
  * Created by tliu on 4/13/15.
  */
@@ -18,6 +20,7 @@ public class TableRequest {
     private List<Map<String/*column*/, String/*dir*/>> order;
     private int draw;
     private Map<String, String> filter;
+    private PushInter pushLet = PushInter.DONOTHING;
 
     public TableRequest() {
     }
@@ -155,4 +158,11 @@ public class TableRequest {
                 ", start=" + start +
                 '}';
     }
+    public PushInter getPushLet() {
+		return pushLet;
+	}
+
+	public void setPushLet(PushInter pushLet) {
+		this.pushLet = pushLet;
+	}
 }
