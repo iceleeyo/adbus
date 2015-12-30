@@ -113,8 +113,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                     "render": function(data, type, row, meta) {
                         return (row.enabled ? '<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/user/' + data + '/disable">禁用</a> &nbsp;'
                                 :'<a class="table-action operation " href="javascript:void(0);" url="${rc.contextPath}/user/' + data + '/enable">启用</a> &nbsp;')
-                        + '<a class="operation" href="${rc.contextPath}/user/u_edit/' + data + '" >编辑</a> &nbsp;'
-                        ;
+                        + '<a class="operation" href="${rc.contextPath}/user/u_edit/' + data + '" >编辑</a> &nbsp;';
                     }},
             ],
             "language": {
