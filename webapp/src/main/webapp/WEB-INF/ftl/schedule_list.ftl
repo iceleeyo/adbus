@@ -248,7 +248,7 @@ div#toolbar {
     function initComplete() {
         $("div#toolbar").html(
                 '<div style="float:right">' +
-                        '    <span><a href="javascript:void()" id="export_xls" class="btn-sm btn-success">导出Excel</a>' +
+                        '    <span><a href="javascript:void()" id="export_xls" class="btn-sm " style="background: #ff9966">导出Excel</a>' +
                         '    <span><a href="javascript:void()" id="load_black" class="btn-sm btn-success">重新加载底版</a>' +
                         '    </span>' +
                         '</div>'
