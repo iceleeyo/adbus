@@ -18,6 +18,12 @@
 .invalid {
 	color: red;
 }
+.passpass {
+	color: green;
+}
+.doing {
+	color: orange;
+}
 
 .tableTr {
 	margin-top: 20px;
