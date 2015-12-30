@@ -25,7 +25,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
             "columnDefs": [
                 {
                     "sClass": "align-left", "targets": [0,1] ,
-                    "orderable": false, "targets": [1, 2,4,5]
+                    "orderable": false, "targets": [1, 2,4,5,6]
                 },
             ],
             "ajax": {
