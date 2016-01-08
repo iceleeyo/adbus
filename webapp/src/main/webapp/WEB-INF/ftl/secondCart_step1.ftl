@@ -259,16 +259,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="jack jacksec" style="height: 296px; top: 160.5px;">
-			<ul class="icons">
-				<li class="up"><i></i></li>
-				<li class="qq"><i></i></li>
-				<li class="tel"><i></i></li>
-				<li class="wechat"><i></i></li>
-				<li class="down"><i></i></li>
-			</ul>
-			<a class="switch"></a>
-		</div>
+		<#include "/template/custom_service.ftl" />
 
 		<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
 		<script src="index_js/unslider.min.js"></script>

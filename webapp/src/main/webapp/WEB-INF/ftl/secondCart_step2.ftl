@@ -224,16 +224,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="jack jacksec" style="height: 296px; top: 160.5px;">
-		<ul class="icons">
-			<li class="up"><i></i></li>
-			<li class="qq"><i></i></li>
-			<li class="tel"><i></i></li>
-			<li class="wechat"><i></i></li>
-			<li class="down"><i></i></li>
-		</ul>
-		<a class="switch"></a>
-	</div>
+	<#include "/template/custom_service.ftl" />
 
 	<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
 	<!--增加lay最新版本-->
@@ -262,7 +253,7 @@
 	    		area: ['800px', '600px'], 
 	    		content:''
 				   +' '
-				   +'<iframe  style="width:99%;height:90%" src="${rc.contextPath}/user/contract_templete?meids=${meids!''}"/><div class="ui-form-item widthdrawBtBox"> <input type="button" id="subWithdraworder" class="block-btn" onclick="payment();" value="确认" style="margin:10px 0px -10px 45%;"> </div>'
+				   +'<iframe  style="width:99%;height:90%" src="${rc.contextPath}/user/contract_templete?meids=${meids!''}"/><div class="ui-form-item widthdrawBtBox" style="width: 42%;"> <input type="button" id="subWithdraworder" class="block-btn" onclick="payment();" value="确认" style="margin:10px 0px -10px 45%;"> </div>'
 				});
 		 }
 			}
