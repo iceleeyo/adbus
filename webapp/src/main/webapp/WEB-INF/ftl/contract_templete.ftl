@@ -244,7 +244,7 @@ function getEnd(date,days){
 .table-c table tr{border-left:1px solid #000;border-top:1px solid #000;height: 40px;}
 .p21_hr{border: none;border-top: 1px solid rgb(199, 192, 192); line-height: 0px; margin:0px;}
 .p21 .s2{color:rgb(199, 192, 192);}
-.logo{height: 50px;width: 100px;}
+.logo{height: 50px;width: 100px; }
 </style>
 <meta content="Administrator" name="author">
 </head>
