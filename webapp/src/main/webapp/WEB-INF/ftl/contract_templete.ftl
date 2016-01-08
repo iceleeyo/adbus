@@ -129,8 +129,8 @@ function getEnd(date,days){
 	font-size: 14pt;
 }
 .p21 {
-	margin-top: 0.108333334in;
-	margin-bottom: 0.108333334in;
+	margin-top: 0;
+	margin-bottom: 0;
 	text-align: justify;
 	hyphenate: auto;
 	font-family: 宋体;
@@ -242,13 +242,19 @@ function getEnd(date,days){
 .table-c table td{border-left:1px solid #000;border-top:1px solid #000;padding-left:5px;width: 15%;}
 .table-c table th{border-left:1px solid #000;border-top:1px solid #000}
 .table-c table tr{border-left:1px solid #000;border-top:1px solid #000;height: 40px;}
+.p21_hr{border: none;border-top: 1px solid rgb(199, 192, 192); line-height: 0px; margin:0px;}
+.p21 .s2{color:rgb(199, 192, 192);}
+.logo{height: 50px;width: 100px;}
 </style>
 <meta content="Administrator" name="author">
 </head>
 <body class="b1 b2">
 <div id="divPrint">
+		<img class="logo" src="${rc.contextPath}/imgs/shiba_log.jpg">
 	<p class="p21">
+		<span class="s2" style="position: absolute; right: 50%;">北京世巴传媒有限公司</span>
 		<span class="s2">合同编号：</span><span class="s3">${contractCode!''}</span>
+		<hr class="p21_hr" />
 	</p>
 	<p class="p1">
 		<span class="s1">广告/节目发布合同</span>
