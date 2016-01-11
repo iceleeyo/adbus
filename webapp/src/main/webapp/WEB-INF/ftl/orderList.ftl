@@ -57,7 +57,12 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
             "aaSorting": [[6, "desc"]],
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                 { "orderable": false, "targets": [0,1,2,3,4,5,7,8] },
+                <@security.authorize ifAnyGranted="advertiser">
+                 { "orderable": false, "targets": [0,1,2,3,4,5,7] },
+                  </@security.authorize>
+                 <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+                  { "orderable": false, "targets": [0,1,2,3,4,5,7,8] },
+                  </@security.authorize>
             ],
             "ajax": {
                 type: "GET",
