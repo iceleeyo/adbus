@@ -104,7 +104,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 		 <input id ="img1_url" name="user_license" type="hidden" value="<#if jsonView?? && jsonView.user_license?has_content>${jsonView.user_license}</#if>"/>
 		 <input id ="img2_url" name="user_tax" type="hidden" value="<#if jsonView?? && jsonView.user_tax?has_content>${jsonView.user_tax}</#if>"/>
 		 <input id ="img3_url" name="user_code" type="hidden" value="<#if jsonView?? && jsonView.user_code?has_content>${jsonView.user_code}</#if>"/>
-				<div class="ui-form-item widthdrawBtBox">
+				<div class="widthdrawBtBox">
 						<input type="button"id="subWithdraw" class="block-btn" onclick="sub();" value="保存">
 				</div>
 			</div>
