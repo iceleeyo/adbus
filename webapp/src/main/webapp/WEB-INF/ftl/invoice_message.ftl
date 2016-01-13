@@ -291,7 +291,7 @@ dt {
 						</#if>
 					</div>
 				</div>
-				<div class="ui-form-item widthdrawBtBox">
+				<div class="widthdrawBtBox">
 					<input type="button" id="subWithdraw" class="block-btn"
 						onclick="sub();" value="提交">
 				</div>
