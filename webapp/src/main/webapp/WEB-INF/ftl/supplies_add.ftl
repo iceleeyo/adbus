@@ -326,7 +326,7 @@ $(document).ready(function() {
 					<label class="ui-label mt10">备注信息</label>
 					<textarea rows="4" cols="40" style="resize: none;" name="operFristcomment"></textarea>
 				</div>
-				<div class="ui-form-item widthdrawBtBox">
+				<div class="widthdrawBtBox">
 					<input type="button" id="subWithdraw" class="block-btn"
 						onclick="sub2();" value="开始上传">
 					<input type="button" id="subWithdraw" class="block-btn"
