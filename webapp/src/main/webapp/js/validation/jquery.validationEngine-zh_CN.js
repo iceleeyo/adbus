@@ -34,9 +34,6 @@
                 "url":{
                     "regex":"/^[a-zA-z]:\\/\\/[^s]$/",//这些验证请自己加强
                     "alertText":"* 请输入有效的网址."},
-                "zipcode":{
-                    "regex":"/^[1-9]\d{5}$/",
-                    "alertText":"* 请输入有效的邮政编码."},
                 "qq":{
                     "regex":"/^[1-9]\d{4,9}$/",
                     "alertText":"* 请输入有效的QQ号码."},
@@ -72,6 +69,10 @@
                         return (field.val() == "test") ? true : false;
                     },
                     "alertText": "* Field must equal test"
+                },
+                "zipcode":{
+                    "regex":"/^[1-9]\d{5}$/",
+                    "alertText":"* 请输入有效的邮政编码."
                 },
                 "dateRange": {
                     "regex": "none",
