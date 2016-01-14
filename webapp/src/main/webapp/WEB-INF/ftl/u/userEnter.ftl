@@ -248,7 +248,7 @@ function go_back(){
 						autocomplete="off" disableautocomplete="" placeholder="请输入所属部门">
 				</div>
 			</div>
-			<div class="ui-form-item widthdrawBtBox">
+			<div class="widthdrawBtBox">
 				<input type="button" id="subWithdraw" class="block-btn"
 					onclick="sub();" value="创建用户">
 			</div>
