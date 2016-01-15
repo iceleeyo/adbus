@@ -601,7 +601,7 @@ function getEnd(date,days){
 		<span>送审节目按照播出带送播标准制作，转数字视频采用.mpg格式。</span>
 	</p>
 	<p class="p7">
-		<span class="s7">1. &nbsp;</span><span>节目播出带时间要求</span>
+		<span class="s7">1.</span><span>节目播出带时间要求</span>
 	</p>
 	<p class="p3">
 		<span>BETACAM/SP、DIGITAL BETACAM、DVCPRO磁带要求明确标注播出带节目时长（时间精确度为帧）、起始时间码（TC码）及结束时间码（TC码），对应相应的节目时间长度、起始画面、结束画面。播出带作初始化，必须连续TC码串播。为保证节目播出上传安全，要求节目片头从00：01：30:00开始静帧画面进入。</span>
@@ -618,22 +618,22 @@ function getEnd(date,days){
 		</B></span>
 	</p>
 	<p class="p7">
-		<span class="s7">（1） &nbsp;</span><span>节目片头统一10秒(原则上不得超过15秒)，并以进节目内容或节目提要结束。</span>
+		<span class="s7">（1）</span><span>节目片头统一10秒(原则上不得超过15秒)，并以进节目内容或节目提要结束。</span>
 	</p>
 	<p class="p7">
-		<span class="s7">（2） &nbsp;</span><span>节目片花不超过片头长度。</span>
+		<span class="s7">（2）</span><span>节目片花不超过片头长度。</span>
 	</p>
 	<p class="p7">
-		<span class="s7">2. &nbsp;</span><span>节目片花不超过片头长度。</span>
+		<span class="s7">2.</span><span>节目片花不超过片头长度。</span>
 	</p>
 	<p class="p7">
-		<span class="s7">3. &nbsp;</span><span>节目结束与节目结束前在画面上加入滚屏循环底，时长约为10秒，可以适当调节。</span>
+		<span class="s7">3.</span><span>节目结束与节目结束前在画面上加入滚屏循环底，时长约为10秒，可以适当调节。</span>
 	</p>
 	<p class="p7">
-		<span class="s7">4. &nbsp;</span><span>节目结尾保留大于30秒的黑场信号。</span>
+		<span class="s7">4.</span><span>节目结尾保留大于30秒的黑场信号。</span>
 	</p>
 	<p class="p7">
-		<span class="s7">5. &nbsp;</span><span>同一盘磁带录制两个以上节目的，两个节目之间应有2分钟黑场，并静帧画面进入，保证画面完整。</span>
+		<span class="s7">5.</span><span>同一盘磁带录制两个以上节目的，两个节目之间应有2分钟黑场，并静帧画面进入，保证画面完整。</span>
 	</p>
 	
 	<p class="p5">
@@ -647,22 +647,22 @@ function getEnd(date,days){
 		</B></span>
 	</p>
 	<p class="p7">
-		<span class="s7">1. &nbsp;</span><span>要求演播室声音和解说声音大小一致。</span>
+		<span class="s7">1.</span><span>要求演播室声音和解说声音大小一致。</span>
 	</p>
 	<p class="p7">
-		<span class="s7">2. &nbsp;</span><span>外景声音必须保证声音质量，要采用专业话筒拾音，不得出现回响。</span>
+		<span class="s7">2.</span><span>外景声音必须保证声音质量，要采用专业话筒拾音，不得出现回响。</span>
 	</p>
 	<p class="p7">
-		<span class="s7">3. &nbsp;</span><span>声道要求：播出带声道为左声道（CH－1）和右声道（CH－2）为混合音,丽音声道（CH-3、CH－4）不能有任何声音。</span>
+		<span class="s7">3.</span><span>声道要求：播出带声道为左声道（CH－1）和右声道（CH－2）为混合音,丽音声道（CH-3、CH－4）不能有任何声音。</span>
 	</p>
 	<p class="p7">
-		<span class="s7">4. &nbsp;</span><span>不能出现多于8秒静帧无声音，否则视为播出事故。</span>
+		<span class="s7">4.</span><span>不能出现多于8秒静帧无声音，否则视为播出事故。</span>
 	</p>
 	<p class="p5">
 		<span class="s5">三、文字要求</span>
 	</p>
 	<p class="p7">
-		<span class="s7">1. &nbsp;</span><span>字幕条</span>
+		<span class="s7">1.</span><span>字幕条</span>
 	</p>
 	<p class="p7">
 		<span>字幕条左侧为节目LOGO，无节目LOGO的节目可用片头落副字样作为左侧LOGO。LOGO距左边界至少40像素，距离下边界至少25像素。</span>
@@ -671,19 +671,19 @@ function getEnd(date,days){
 		<span>字幕条上半部半透明部分为小标题内容，为黑体38号字，文字颜色白色（R240 G240 B240）；字幕条下半部分为唱词字幕（跟话字幕），为黑体35号字，文字颜色白色（R240 G240 B240）；唱词左对齐。</span>
 	</p>
 	<p class="p7">
-		<span class="s7">2. &nbsp;</span><span>人名字幕条</span>
+		<span class="s7">2.</span><span>人名字幕条</span>
 	</p>
 	<p class="p7">
 		<span>上部为人物头衔，为黑体28号字，文字颜色深红色（R60 G0 B0）；下部为人名，为黑体28号字，文字颜色白色（R240 G240 B240）。</span>
 	</p>
 	<p class="p7">
-		<span class="s7">3. &nbsp;</span><span>全屏字幕板</span>
+		<span class="s7">3.</span><span>全屏字幕板</span>
 	</p>
 	<p class="p7">
 		<span>上部题目，为黑体35号字，文字颜色深红色（R60 G0 B0）；下部内容，为黑体40号字，文字颜色白色（R240 G240 B240）。</span>
 	</p>
 	<p class="p7">
-		<span class="s7">4. &nbsp;</span><span>提示字幕</span>
+		<span class="s7">4.</span><span>提示字幕</span>
 	</p>
 	<p class="p7">
 		<span>节目中要出现与节目内容相呼应的提示字幕，字幕大小一般为字幕条跟话字幕的两倍以上，字号为：黑体70，字体颜色应考虑节目画面内容适当搭配，重点考虑红、绿、黄等突出醒目的色彩。</span>
@@ -692,34 +692,34 @@ function getEnd(date,days){
 		<span class="s5">四、画面及内容要求</span>
 	</p>
 	<p class="p7">
-		<span class="s7">1. &nbsp;</span><span>播出带画面不得出现杂帧、带伤现象。</span>
+		<span class="s7">1.</span><span>播出带画面不得出现杂帧、带伤现象。</span>
 	</p>
 	<p class="p7">
-		<span class="s7">2. &nbsp;</span><span>画面像素应保持高水平，使用旧素材应注意整体画面的效果和质量。</span>
+		<span class="s7">2.</span><span>画面像素应保持高水平，使用旧素材应注意整体画面的效果和质量。</span>
 	</p>
 	<p class="p7">
-		<span class="s7">3. &nbsp;</span><span>转场特技，放置在两个镜头中间使用。</span>
+		<span class="s7">3.</span><span>转场特技，放置在两个镜头中间使用。</span>
 	</p>
 	<p class="p7">
-		<span class="s7">4. &nbsp;</span><span>节目镜头使用规范：</span>
+		<span class="s7">4.</span><span>节目镜头使用规范：</span>
 	</p>
 	<p class="p7">
 		<span>鉴于移动电视收视的特性及效果，建议大于一半的镜头采用近景及特写镜头，减少中景，尽量不用全景。原则上1分钟节目特写镜头不得少于5个,以固定镜头拍摄为主,少用或不用推拉摇移镜头。</span>
 	</p>
 	<p class="p7">
-		<span class="s7">5. &nbsp;</span><span>用镜头讲故事，镜头的剪辑要有逻辑性，按照故事情节将镜头组接起来,不能造成情节上的混乱。</span>
+		<span class="s7">5.</span><span>用镜头讲故事，镜头的剪辑要有逻辑性，按照故事情节将镜头组接起来,不能造成情节上的混乱。</span>
 	</p>
 	<p class="p7">
-		<span class="s7">6. &nbsp;</span><span>节目内容要突出真实性、故事性和趣味性，建议多采用同期声、长镜头等纪实手法采编制作。</span>
+		<span class="s7">6.</span><span>节目内容要突出真实性、故事性和趣味性，建议多采用同期声、长镜头等纪实手法采编制作。</span>
 	</p>
 	<p class="p7">
-		<span class="s7">7. &nbsp;</span><span>节目须做到声画对位。</span>
+		<span class="s7">7.</span><span>节目须做到声画对位。</span>
 	</p>
 	<p class="p7">
-		<span class="s7">8. &nbsp;</span><span>画面质量应保持高水平，使用旧素材应注意整体画面的效果和质量。使用旧素材时，应在画面右上角标出资料两字。</span>
+		<span class="s7">8.</span><span>画面质量应保持高水平，使用旧素材应注意整体画面的效果和质量。使用旧素材时，应在画面右上角标出资料两字。</span>
 	</p>
 	<p class="p7">
-		<span class="s7">9. &nbsp;</span><span>隐黑、渐起等制作手法不适合移动电视，避免出现。</span>
+		<span class="s7">9.</span><span>隐黑、渐起等制作手法不适合移动电视，避免出现。</span>
 	</p>
 	<p class="p5">
 		<span class="s5">五、主持人要求</span>
@@ -728,7 +728,7 @@ function getEnd(date,days){
 		<span>原则上不使用主持人，确需使用主持人的，应于每年移动电视节目评审会通过后方可出镜，临时增加主持人，应经公司领导同意。主持人应具有相应的从业资格证书。</span>
 	</p>
 	<p class="p7">
-		<span class="s7">1. &nbsp;</span><span>定妆：</span>
+		<span class="s7">1.</span><span>定妆：</span>
 	</p>
 	<p class="p7">
 		<span>主持人定妆工作由公司统一组织、确认。主持人个人发型及形象不可随意改变，如剪、烫、染发或进行整容手术等，如确需改变，必须经节目部上报公司，获得批准后方可实施。</span>
@@ -737,7 +737,7 @@ function getEnd(date,days){
 		<span>因主持人形象问题给节目和公司带来不利影响和损失的，由主持人承担，并按照公司相关管理规定对责任人进行处罚。定妆后须拍摄定妆照，并张贴、留存备案。</span>
 	</p>
 	<p class="p7">
-		<span class="s7">2. &nbsp;</span><span>化妆：</span>
+		<span class="s7">2.</span><span>化妆：</span>
 	</p>
 	<p class="p7">
 		<span>主持人按照公司定妆要求，由化妆师化妆或自行化妆。</span>
@@ -746,7 +746,7 @@ function getEnd(date,days){
 		<span>主持人出镜时不得涂抹带颜色的指甲油，透明无色指甲油除外。</span>
 	</p>
 	<p class="p7">
-		<span class="s7">3. &nbsp;</span><span>着装：</span>
+		<span class="s7">3.</span><span>着装：</span>
 	</p>
 	<p class="p7">
 		<span>主持人出镜保持大方得体，按公司统一定妆要求着装，树立良好的屏幕形象。</span>
@@ -784,13 +784,13 @@ function getEnd(date,days){
 		<span class="s5">七、节目录像带管理</span>
 	</p>
 	<p class="p7">
-		<span class="s7">1. &nbsp;</span><span>凡需录制节目的磁带，必须做到使用无机械损伤；无卷边、受潮及霉变的磁带。</span>
+		<span class="s7">1.</span><span>凡需录制节目的磁带，必须做到使用无机械损伤；无卷边、受潮及霉变的磁带。</span>
 	</p>
 	<p class="p7">
-		<span class="s7">2. &nbsp;</span><span>播出节目必须附有《北京北广传媒移动电视有限公司播出审定卡》。</span>
+		<span class="s7">2.</span><span>播出节目必须附有《北京北广传媒移动电视有限公司播出审定卡》。</span>
 	</p>
 	<p class="p7">
-		<span class="s7">3. &nbsp;</span><span>技审、领导审核通过后，方可播出。</span>
+		<span class="s7">3.</span><span>技审、领导审核通过后，方可播出。</span>
 	</p>
 	<p class="p5">
 		<span class="s5">八、本《规范》适用于自制和合作节目，宣传片和广告不在适用范围之内。</span>
