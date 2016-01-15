@@ -116,7 +116,7 @@ public class IndexController {
 				@CookieValue(value = "city", defaultValue = "-1") int city) {
 //		  makeCookieValueRight(city == -1 ? 2 : (city % 2 == 1 ? city + 1 : city), response);
 		  model.addAttribute("auctionList", cpdService.getIndexCpdList(city, 4));
-	    	return "caseMore";
+	    	return "index_menu/caseMorePage";
 	    }
 	 @RequestMapping(value = "/caseMore1")
 	    public String caseMore1(Model model, HttpServletRequest request, HttpServletResponse response,
