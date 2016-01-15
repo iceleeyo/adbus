@@ -353,7 +353,7 @@ function getEnd(date,days){
 			<td >刊期(天)</td><td COLSPAN=3 >${item.product.days}</td>
 		</tr>
 		<tr style="height:40px;">
-			<td >上刊时间</td><td COLSPAN=3 id="startDate">${item.startTime}</td>
+			<td >上刊时间</td><td COLSPAN=3 id="startDate">${item.startTime!''}</td>
 			<td >下刊时间</td><td COLSPAN=3 id="endDate"><script> getEnd('${item.startTime}',${item.product.days});</script></td>
 		</tr>
 		<tr style="height:40px;">
