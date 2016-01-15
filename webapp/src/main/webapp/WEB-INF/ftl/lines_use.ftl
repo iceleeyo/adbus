@@ -210,7 +210,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 
 <div class="withdraw-wrap color-white-bg fn-clear">
 	<div class="withdraw-title">
-		<span> 空媒体统计</span>
+		<span> 空媒体查询</span>
 	</div>
 	<table id="table" class="display compact" cellspacing="0" width="100%">
 		<thead>
