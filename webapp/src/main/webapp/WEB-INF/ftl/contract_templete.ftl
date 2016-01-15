@@ -94,7 +94,7 @@ function getEnd(date,days){
 .s7 {
 	display: inline-block;
 	text-indent: 0;
-	min-width: 0.4027778in;
+	min-width: 0.3027778in;
 }
 
 .s8 {
