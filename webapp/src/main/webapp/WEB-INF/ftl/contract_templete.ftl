@@ -129,14 +129,15 @@ function getEnd(date,days){
 	font-size: 14pt;
 }
 .p21 {
-	margin-top: 0.108333334in;
-	margin-bottom: 0.108333334in;
+	margin-top: 0;
+	margin-bottom: 0;
 	text-align: justify;
 	hyphenate: auto;
 	font-family: 宋体;
 	font-size: 14pt;
-	text-align: right;
+	
 }
+
 
 .p3 {
 	text-indent: 0.3888889in;
@@ -242,14 +243,22 @@ function getEnd(date,days){
 .table-c table td{border-left:1px solid #000;border-top:1px solid #000;padding-left:5px;width: 15%;}
 .table-c table th{border-left:1px solid #000;border-top:1px solid #000}
 .table-c table tr{border-left:1px solid #000;border-top:1px solid #000;height: 40px;}
+.p21_hr{border: none;border-top: 1px solid rgb(199, 192, 192); line-height: 0px; margin:0px;}
+.p21 .s2{color:rgb(199, 192, 192);}
+.logo{height: 40px;width: 80px;}
 </style>
 <meta content="Administrator" name="author">
 </head>
 <body class="b1 b2">
 <div id="divPrint">
+	
 	<p class="p21">
-		<span class="s2">合同编号：</span><span class="s3">${contractCode!''}</span>
+		<img class="logo" src="${rc.contextPath}/imgs/shiba_log.jpg">
+		<span class="s2" >北京世巴传媒有限公司</span>
+		<span class="s2" style="padding-left:250px;" >合同编号：</span><span class="s3">${contractCode!''}</span>
+		<hr class="p21_hr" />
 	</p>
+	
 	<p class="p1">
 		<span class="s1">广告/节目发布合同</span>
 	</p>
@@ -288,12 +297,9 @@ function getEnd(date,days){
 	<p class="p2">
 		<span class="s2">邮编 ： </span><span class="s3">100048</span>
 	</p>
-	<!-- <p class="p2">
-		<span class="s2">联系人：</span>
-	</p>
-	<p class="p2">
-		<span class="s2">联系电话：</span>
-	</p> -->
+	
+	<br>
+	
 	<p class="p3">
 		<span class="s2">鉴于乙方拥有北广传媒移动电视媒体平台公交频道的使用权、经营权，根据《中华人民共和国广告法》、《中华人民共和国合同法》及有关规定，甲乙双方本着友好合作、共同发展的意愿，就甲方委托乙方制作、发布广告/节目事宜，达成如下合同：</span>
 	</p>
