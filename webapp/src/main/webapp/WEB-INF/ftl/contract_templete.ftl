@@ -9,7 +9,7 @@
 <script type="text/javascript"
 	src="${rc.contextPath}/js/jquery-dateFormat.js"></script>
 
-<script type="text/javascript">
+<script type="text/javascript">  
 $(document).ready(function(){
 	if($('#legalman').text()==""){
 		layer.msg("法定代表人为空，无法提交订单");
@@ -129,8 +129,8 @@ function getEnd(date,days){
 	font-size: 14pt;
 }
 .p21 {
-	margin-top: 0;
-	margin-bottom: 0;
+	margin-top: 0.108333334in;
+	margin-bottom: 0.108333334in;
 	text-align: justify;
 	hyphenate: auto;
 	font-family: 宋体;
@@ -242,19 +242,13 @@ function getEnd(date,days){
 .table-c table td{border-left:1px solid #000;border-top:1px solid #000;padding-left:5px;width: 15%;}
 .table-c table th{border-left:1px solid #000;border-top:1px solid #000}
 .table-c table tr{border-left:1px solid #000;border-top:1px solid #000;height: 40px;}
-.p21_hr{border: none;border-top: 1px solid rgb(199, 192, 192); line-height: 0px; margin:0px;}
-.p21 .s2{color:rgb(199, 192, 192);}
-.logo{height: 50px;width: 100px;}
 </style>
 <meta content="Administrator" name="author">
 </head>
 <body class="b1 b2">
 <div id="divPrint">
-		<img class="logo" src="${rc.contextPath}/imgs/shiba_log.jpg">
 	<p class="p21">
-		<span class="s2" style="position: absolute; right: 50%;">北京世巴传媒有限公司</span>
 		<span class="s2">合同编号：</span><span class="s3">${contractCode!''}</span>
-		<hr class="p21_hr" />
 	</p>
 	<p class="p1">
 		<span class="s1">广告/节目发布合同</span>
@@ -328,7 +322,7 @@ function getEnd(date,days){
 			<td >刊期(天)</td><td COLSPAN=3 id="days">${item.product.days}</td>
 		</tr>
 		<tr style="height:40px;">
-			<td >上刊时间</td><td COLSPAN=3 id="startDate">${item.startTime}</td>
+			<td >上刊时间</td><td COLSPAN=3 id="startDate">${item.startTime!''}</td>
 			<td >下刊时间</td><td COLSPAN=3 id="endDate"><script> getEnd('${item.startTime}',${item.product.days});</script></td>
 		</tr>
 		<tr style="height:40px;">
