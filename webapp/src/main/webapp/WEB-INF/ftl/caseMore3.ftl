@@ -59,9 +59,10 @@
 					</div>
 				</div>
 				<div class="c-contain">
-					<img src="index_img/11.png"> <img src="index_img/12.png">
+					<img src="index_img/maidanglao.jpg">
 					<img src="index_img/21.png"> <img src="index_img/22.png">
 					<img src="index_img/31.png"> <img src="index_img/32.png">
+					<img src="index_img/toufangpinpai.jpg">
 					<!-- <div class="c-head">
 							<p class="head-en">MAJOR RESEARCH FINDINGS</p>
 							<p class="head-zh">研究背景回顾</p>

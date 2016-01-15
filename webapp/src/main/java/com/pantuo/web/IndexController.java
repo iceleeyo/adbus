@@ -118,6 +118,27 @@ public class IndexController {
 		  model.addAttribute("auctionList", cpdService.getIndexCpdList(city, 4));
 	    	return "caseMore";
 	    }
+	 @RequestMapping(value = "/caseMore1")
+	    public String caseMore1(Model model, HttpServletRequest request, HttpServletResponse response,
+				@CookieValue(value = "city", defaultValue = "-1") int city) {
+//		  makeCookieValueRight(city == -1 ? 2 : (city % 2 == 1 ? city + 1 : city), response);
+		  model.addAttribute("auctionList", cpdService.getIndexCpdList(city, 4));
+	    	return "caseMore1";
+	    }
+	 @RequestMapping(value = "/caseMore2")
+	    public String caseMore2(Model model, HttpServletRequest request, HttpServletResponse response,
+				@CookieValue(value = "city", defaultValue = "-1") int city) {
+//		  makeCookieValueRight(city == -1 ? 2 : (city % 2 == 1 ? city + 1 : city), response);
+		  model.addAttribute("auctionList", cpdService.getIndexCpdList(city, 4));
+	    	return "caseMore2";
+	    }
+	 @RequestMapping(value = "/caseMore3")
+	    public String caseMore3(Model model, HttpServletRequest request, HttpServletResponse response,
+				@CookieValue(value = "city", defaultValue = "-1") int city) {
+//		  makeCookieValueRight(city == -1 ? 2 : (city % 2 == 1 ? city + 1 : city), response);
+		  model.addAttribute("auctionList", cpdService.getIndexCpdList(city, 4));
+	    	return "caseMore3";
+	    }
 	@RequestMapping(value = "/body", produces = "text/html;charset=utf-8")
 	public String body(Model model, HttpServletRequest request, HttpServletResponse response,
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
