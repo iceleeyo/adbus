@@ -46,7 +46,7 @@
 					<div class="c-title">
 						<span class="aline"></span> <span class="ver-ali">项目介绍</span>
 					</div>
-					<p class="casename">肯德基视频广告</p>
+					<p class="casename">好爸爸手洗洗衣露产品推广</p>
 					<div class="tags">
 						<span class="title">案例标签</span> <span class="icon-tag"></span> <span
 							class="tag">全屏</span> <span class="tag">32次</span> <span
