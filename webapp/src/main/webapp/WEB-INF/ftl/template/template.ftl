@@ -46,8 +46,6 @@ security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 	src="${rc.contextPath}/js/jquery.validate.js"></script>
 <script type="text/javascript" language="javascript"
 	src="${rc.contextPath}/js/jquery.ulmenu.js"></script>
-<script type="text/javascript" language="javascript"
-	src="${rc.contextPath}/js/jquery.fancybox-1.3.4.pack.js"></script>
 <#list js as entry>
 <script type="text/javascript" language="javascript"
 	src="${rc.contextPath}/${entry}"></script>

@@ -250,9 +250,8 @@
 						</div>
 						<img src="index_img/example1.jpg">
 						<div class="desp">
-							<span>视频广告</span>
+							<span>移动视频广告</span>
 							<p>58同城门户推广</p>
-							<span>红色  醒目 直接</span>
 						</div>
 						<div class="hover-m">
 							<div class="hover-bottom"></div>
@@ -266,9 +265,8 @@
 						</div>
 						<img src="index_img/example2.jpg">
 						<div class="desp">
-							<span>视频广告</span>
-							<p>好爸爸手洗洗衣露产品推广</p>
-							<span>直接 传播面广</span>
+							<span>移动视频广告</span>
+							<p>立白好爸爸手洗洗衣露产品推广</p>
 						</div>
 						<div class="hover-m">
 							<div class="hover-bottom"></div>
@@ -282,9 +280,8 @@
 						</div>
 						<img src="index_img/example3.jpg">
 						<div class="desp">
-							<span>视频广告</span>
+							<span>移动视频广告</span>
 							<p>麦当劳产品推广</p>
-							<span>醒目 直白 受众广</span>
 						</div>
 						<div class="hover-m">
 							<div class="hover-bottom"></div>

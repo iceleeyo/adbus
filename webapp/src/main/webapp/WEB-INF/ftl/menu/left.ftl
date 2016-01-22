@@ -1,6 +1,9 @@
 <link rel="stylesheet" type="text/css"
 	href="${rc.contextPath}/css/layer.css">
 <style type="text/css">
+.layui-layer-title{
+	background-color:#7D7D92 !important;
+}
 .side-exp-select {
 	cursor: pointer;
 	color: #fff;
@@ -391,7 +394,22 @@
 					href="${rc.contextPath}/user/qualification"> 用户信息 </a></li>
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/user/edit_pwd"> 修改密码 </a></li>
-			</ul></li> <@security.authorize ifAnyGranted="advertiser">
+			</ul></li>
+			<li class="pg-side-item"><a class="pg-side-item-t ff-icon" >
+						<i class="s-left pg-icon-a e-icon"></i> 客户信息
+				</a>
+					<ul class="pg-side-exp-list">
+				<li class="pg-side-exp-item"><a class="side-exp-item-t"
+					href="${rc.contextPath}/user/clientList"> 客户列表 </a></li>
+				<li class="pg-side-exp-item"><a class="side-exp-item-t"
+					href="${rc.contextPath}/user/clientAdd"> 客户添加 </a></li>
+				<li class="pg-side-exp-item"><a class="side-exp-item-t"
+					href="${rc.contextPath}/user/list"> 视频用户列表 </a></li>
+					</ul>
+			</li>  
+			 <@security.authorize ifAnyGranted="advertiser">
+			
+			
 		<li class="pg-side-item qq"><a class="pg-side-item-t aa-icon" href="javascript:void(0);" > 
 		<i class="s-left pg-icon-a a-icon"
 				style="background:url(${rc.contextPath}/imgs/cs.png) no-repeat;"></i>
@@ -425,7 +443,6 @@ $(".qq a").click(function(){
 			if (menu) {
 				var curr = $(this);
 				var st = 0;
-
 				var list = $(this).find(".side-exp-item-t");
 				list.each(function() {
 					if ($(this).text().trim() == menu) {
