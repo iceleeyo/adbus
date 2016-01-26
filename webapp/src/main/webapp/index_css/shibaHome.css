@@ -88,6 +88,36 @@
 .background-five .adv .taobao {
   background: url(../index_img/line.jpg) no-repeat -1855px 0;
 }
+.background-five .adv .glico {
+  background: url(../index_img/line.jpg) no-repeat -20px -150px;;
+}
+.background-five .adv .anquan {
+  background: url(../index_img/line.jpg) no-repeat -1625px -150px;
+}
+.background-five .adv .wubatc {
+  background: url(../index_img/line.jpg) no-repeat -1395px -150px;
+}
+.background-five .adv .cocacola {
+  background: url(../index_img/line.jpg) no-repeat -475px -150px;
+}
+.background-five .adv .zhongchao {
+  background: url(../index_img/line.jpg) no-repeat -1165px -150px;
+}
+.background-five .adv .pepsi {
+  background: url(../index_img/line.jpg) no-repeat -1843px -150px;
+}
+.background-five .adv .hunanTV {
+  background: url(../index_img/line.jpg) no-repeat -245px -150px; 
+}
+.background-five .adv .jinlongyu {
+  background: url(../index_img/line.jpg) no-repeat -475px -150px;
+}
+.background-five .adv .kfc {
+  background: url(../index_img/line.jpg) no-repeat -705px -150px;
+}
+.background-five .adv .liby {
+  background: url(../index_img/line.jpg) no-repeat -948px -150px;
+}
 .clearfix:after {
   visibility: hidden;
   display: block;
