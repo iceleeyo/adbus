@@ -25,16 +25,16 @@
 				<div class="title-en"></div>
 				<div class="title-zh">合作伙伴</div>
 				<ul class="adv">
-					<li class="mobile"></li>
-					<li class="mengniu"></li>
-					<li class="lenovo"></li>
-					<li class="jd"></li>
+					<li class="glico"></li>
+					<li class="anquan"></li>
+					<li class="wubatc"></li>
+					<li class="zhongchao"></li>
 					<li class="suning"></li>
-					<li class="apple"></li>
-					<li class="weiqian"></li>
-					<li class="unilever"></li>
-					<li class="cocacola"></li>
-					<li class="taobao"></li>
+					<li class="pepsi"></li>
+					<li class="hunanTV"></li>
+					<li class="jinlongyu"></li>
+					<li class="kfc"></li>
+					<li class="liby"></li>
 				</ul>
 			</div>
 		</section>
