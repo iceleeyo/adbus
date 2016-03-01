@@ -142,7 +142,6 @@ var url="${rc.contextPath}/product/checkProHadBought/"+id;
                         '    </span>' +
                         '    &nbsp;&nbsp<span>状态</span>' +
                         '    <span><select id="stats">' +
-                        '        <option value="defaultAll">所有</option>' +
                         '        <option value="true">正常</option>' +
                         '        <option value="false">已下架</option>' +
                         '    </select></span>' +
