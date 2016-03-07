@@ -831,6 +831,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 	public void startProcess2(int cityId, UserDetail u, JpaOrders order) {
 		Map<String, Object> initParams = new HashMap<String, Object>();
+		//String ssu=u.getUsername();
+		//u.setUsername(u.getCompany());
 		initParams.put(ActivitiService.OWNER, u);
 		initParams.put(ActivitiService.CREAT_USERID, u.getUsername());
 		initParams.put(ActivitiService.ORDER_ID, order.getId());
@@ -854,6 +856,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		ProcessInstance process = runtimeService.startProcessInstanceByKey(MAIN_PROCESS, initParams);
 		List<Task> tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime()
 				.desc().listPage(0, 1);
+		//u.setUsername(ssu);
 		if (!tasks.isEmpty()) {
 			Task task = tasks.get(0);
 			if (StringUtils.equals("submitOrder", task.getTaskDefinitionKey())) {

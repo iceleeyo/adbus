@@ -634,7 +634,7 @@ public class CardServiceImpl implements CardService {
 		int city;
 		int productCount;
 		double price;
-
+		JpaCity.MediaType mediaType;
 		public int getProductCount() {
 			return productCount;
 		}
@@ -665,6 +665,15 @@ public class CardServiceImpl implements CardService {
 			this.productCount = productCount;
 			this.price = price;
 		}
+
+		public JpaCity.MediaType getMediaType() {
+			return mediaType;
+		}
+
+		public void setMediaType(JpaCity.MediaType mediaType) {
+			this.mediaType = mediaType;
+		}
+		
 
 	}
 
@@ -703,10 +712,11 @@ public class CardServiceImpl implements CardService {
 				double w = cardboxMedia.getPrice() * cardboxMedia.getNeedCount();
 				if (!map.containsKey(cardboxMedia.getCity())) {
 					map.put(cardboxMedia.getCity(), new TypeCount(cardboxMedia.getCity(), m, w));
-				} else {
+				}  
 					TypeCount v = map.get(cardboxMedia.getCity());
 					v.setPrice(v.getPrice() + w);
-				}
+				
+					v.setMediaType(JpaCity.MediaType.screen);
 
 			}
 		}
@@ -716,10 +726,10 @@ public class CardServiceImpl implements CardService {
 				double w = obj.getTotalprice();
 				if (!map.containsKey(obj.getCity())) {
 					map.put(obj.getCity(), new TypeCount(obj.getCity(), l, w));
-				} else {
-					TypeCount v = map.get(obj.getCity());
-					v.setPrice(v.getPrice() + w);
 				}
+				TypeCount v = map.get(obj.getCity());
+				v.setPrice(v.getPrice() + w);
+				v.setMediaType(JpaCity.MediaType.body);
 			}
 		}
 		return map.values();
@@ -746,13 +756,16 @@ public class CardServiceImpl implements CardService {
 			helper.setProductCount(typeCount.getProductCount());
 			helper.setIsPay(1);
 			helper.setStats(JpaCardBoxHelper.Stats.init.ordinal());
-			JpaCity _city = cityService.fromId(typeCount.getCity());
+			helper.setMediaType(typeCount.mediaType.ordinal());
+			helper.setCardBodyIds(boids);
+			helper.setNewBodySeriaNum(Only1ServieUniqLong.getUniqLongNumber());
+			/*JpaCity _city = cityService.fromId(typeCount.getCity());
 			if (_city != null) {
 				helper.setMediaType(_city.getMediaType().ordinal());
-			}
+			}*/
 
 			int a=cardboxHelpMapper.insert(helper);
-			if(a>0 && helper.getMediaType()==0){
+			if(a>0 && helper.getMediaType()==0 && medisIds!=null && !medisIds.isEmpty()){
 				change2Order(startdate1,medisIds,helper,principal);
 			}
 		}
@@ -882,11 +895,11 @@ public class CardServiceImpl implements CardService {
 		List<CardBoxHelperView> views = new ArrayList<CardBoxHelperView>();
 		for (JpaCardBoxHelper jpaCardBoxHelper : list.getContent()) {
 			CardBoxHelperView obj = new CardBoxHelperView(jpaCardBoxHelper);
-
-			JpaCity _city = cityService.fromId(jpaCardBoxHelper.getCity());
+			obj.setMedia_type(jpaCardBoxHelper.getMediaType().ordinal());
+			/*JpaCity _city = cityService.fromId(jpaCardBoxHelper.getCity());
 			if (_city != null) {
 				obj.setMedia_type(_city.getMediaType().ordinal());
-			}
+			}*/
 
 			views.add(obj);
 		}
@@ -1009,11 +1022,19 @@ public class CardServiceImpl implements CardService {
 		Pageable p = new PageRequest(page, length, sort);
 		String helpid = req.getFilter("helpid");
 		JpaCardBoxHelper help = cardHelperRepository.findOne(NumberUtils.toInt(helpid));
+
+		List<Integer> ids = CardUtil.parseIdsFromString(help.getCardBodyIds());
 		BooleanExpression query = QJpaCardBoxBody.jpaCardBoxBody.city.eq(help.getCity());
-		query = query.and(QJpaCardBoxBody.jpaCardBoxBody.seriaNum.eq(help.getSeriaNum()));
-		query=query.and(QJpaCardBoxBody.jpaCardBoxBody.isConfirm.eq(1));
+		if (ids != null && !ids.isEmpty()) {
+			//query = query.and(QJpaCardBoxBody.jpaCardBoxBody.seriaNum.eq(help.getSeriaNum()));
+			query = query.and(QJpaCardBoxBody.jpaCardBoxBody.isConfirm.eq(1));
+			query = query.and(QJpaCardBoxBody.jpaCardBoxBody.id.in(ids));
+		} else {
+			query = query.and(QJpaCardBoxBody.jpaCardBoxBody.id.eq(-1));
+		}
 		return query == null ? cardBoxBodyRepository.findAll(p) : cardBoxBodyRepository.findAll(query, p);
 	}
+	
 
 	@Override
 	public Page<JpaCardBoxMedia> queryCarBoxMedia(int cityId, TableRequest req, int page, int length, Sort sort) {

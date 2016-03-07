@@ -489,7 +489,7 @@ public class ProductServiceImpl implements ProductService {
 			pageSize = 1;
 		sort = (sort == null ? new Sort("id") : sort);
 		Pageable p = new PageRequest(page, pageSize, sort);
-		BooleanExpression query = city >= 0 ? QJpaProductV2.jpaProductV2.city.eq(city) : QJpaProduct.jpaProduct.city.goe(0);
+		BooleanExpression query = city >= 0 ? QJpaProductV2.jpaProductV2.city.eq(city) : QJpaProductV2.jpaProductV2.city.goe(0);
 		if (StringUtils.isNotBlank(name)) {
 			query = query.and(QJpaProductV2.jpaProductV2.name.like("%" + name + "%"));
 		}
