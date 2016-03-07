@@ -54,6 +54,11 @@ public class JpaCardBoxHelper extends CityEntity {
 	private MediaType mediaType;
 	private Stats stats;
 	
+	//车身购物车的流程
+	
+	private long newBodySeriaNum;
+	//对应的购物车产品ids
+	private String cardBodyIds;
 	
 	
 	public int getId() {
@@ -174,6 +179,22 @@ public class JpaCardBoxHelper extends CityEntity {
 
 	public void setMediaType(MediaType mediaType) {
 		this.mediaType = mediaType;
+	}
+
+	public long getNewBodySeriaNum() {
+		return newBodySeriaNum;
+	}
+
+	public void setNewBodySeriaNum(long newBodySeriaNum) {
+		this.newBodySeriaNum = newBodySeriaNum;
+	}
+
+	public String getCardBodyIds() {
+		return cardBodyIds;
+	}
+
+	public void setCardBodyIds(String cardBodyIds) {
+		this.cardBodyIds = cardBodyIds;
 	}
 
 	 
