@@ -44,7 +44,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                        	{ "data": "r.userid", "defaultContent": ""},
                   </@security.authorize>
             
-            	{ "data": "r.seriaNum", "defaultContent": "","render": function(data, type, row, meta) {
+            	{ "data": "r.newBodySeriaNum", "defaultContent": "","render": function(data, type, row, meta) {
                 	var option= "W"+data;
                 	return option;
                 }},
@@ -58,6 +58,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                 	}
                 }},
             	{ "data": "r.totalMoney", "defaultContent": ""},
+            	<#--
             	{ "data": "r.isdivid", "defaultContent": "","render": function(data, type, row, meta) {
             	   if(data==0){
             	      return '否';
@@ -67,11 +68,11 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
             	}},
             	{ "data": "r.fengqi", "defaultContent": "","render": function(data, type, row, meta) {
             	   if(row.r.isdivid==0){
-            	      return '--';
+            	      return '';
             	   }else{
             	      return data;
             	   }
-            	}},
+            	}},-->
             	{ "data": "r.productCount", "defaultContent": ""},
             	{ "data": "r.payType", "defaultContent": "","render": function(data, type, row, meta) {
                 	var t='';
@@ -185,8 +186,8 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
 				<th>订单号</th>
 				<th>媒体类型</th>
 				<th>订单总价</th>
-				<th>是否分期</th>
-				<th>分期数</th>
+				<#--<th>是否分期</th>
+				<th>分期数</th>-->
 				<th>相关产品个数</th>
 				<th>支付方式</th>
 				<th orderBy="created">下单时间</th>
