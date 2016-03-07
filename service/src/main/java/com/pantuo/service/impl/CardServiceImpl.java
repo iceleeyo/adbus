@@ -878,8 +878,8 @@ public class CardServiceImpl implements CardService {
 		}
 		if (StringUtils.isNoneBlank(orderid)) {
 			long seriaNum = NumberUtils.toLong(StringUtils.replace(orderid, "W", StringUtils.EMPTY));
-			query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.seriaNum.eq(seriaNum) : query
-					.and(QJpaCardBoxHelper.jpaCardBoxHelper.seriaNum.eq(seriaNum));
+			query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.newBodySeriaNum.eq(seriaNum) : query
+					.and(QJpaCardBoxHelper.jpaCardBoxHelper.newBodySeriaNum.eq(seriaNum));
 		}
 
 //		if (StringUtils.isNoneBlank(media_type) && !StringUtils.equals("defaultAll", media_type)) {
