@@ -48,6 +48,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                 	var option= "W"+data;
                 	return option;
                 }},
+                <#--
                 { "data": "media_type", "defaultContent": "","render": function(data, type, row, meta) {
                    if(data==0){
                    	 return '移动视频';
@@ -56,7 +57,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                    }else {
                 		return "";
                 	}
-                }},
+                }},-->
             	{ "data": "r.totalMoney", "defaultContent": ""},
             	<#--
             	{ "data": "r.isdivid", "defaultContent": "","render": function(data, type, row, meta) {
@@ -184,7 +185,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
 				<th>下单用户</th> 
 				</@security.authorize>
 				<th>订单号</th>
-				<th>媒体类型</th>
+				<!--<th>媒体类型</th>-->
 				<th>订单总价</th>
 				<#--<th>是否分期</th>
 				<th>分期数</th>-->
