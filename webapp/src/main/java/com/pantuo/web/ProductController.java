@@ -103,7 +103,8 @@ public class ProductController {
     @ResponseBody
     public DataTablePage<JpaProductV2> productV2_list( TableRequest req,
     		@CookieValue(value="city", defaultValue = "-1") int city,
-    		Principal principal) {
+    		Principal principal,HttpServletResponse response) {
+    	 response.setHeader("Access-Control-Allow-Origin", "*");
     	Page<JpaProductV2> page = productService.searchProductV2s(city, principal, req);
     	return new DataTablePage(page, req.getDraw());
     }
@@ -121,8 +122,10 @@ public class ProductController {
     		@CookieValue(value="city", defaultValue = "-1") int city,@RequestParam(value = "pid",required=false ,defaultValue="0") int pid,
     		@RequestParam(value = "orderid",required=false ,defaultValue="0") int orderid,
     		@RequestParam(value="seriaNum",required=false,defaultValue="0") long seriaNum,
-    		Principal principal) {
+    		Principal principal,HttpServletResponse response) {
+    	
     	Page<JpaBusOrderDetailV2> page = productService.searchBusOrderDetailV2(orderid,pid,seriaNum,city, principal, req);
+    	 response.setHeader("Access-Control-Allow-Origin", "*");
     	return new DataTablePage(page, req.getDraw());
     }
     @RequestMapping("compareProduct-list")
@@ -184,8 +187,10 @@ public class ProductController {
 	@ResponseBody
 	public Pair<Boolean, String> saveProductV2(ProductV2 productV2,MediaSurvey survey,
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
-			HttpServletRequest request, @RequestParam(value = "seriaNum", required = true) long seriaNum) {
+			HttpServletRequest request,HttpServletResponse response, @RequestParam(value = "seriaNum", required = true) long seriaNum) {
 		productV2.setCity(city);
+		
+		 response.setHeader("Access-Control-Allow-Origin", "*");
 		return productService.saveProductV2(productV2, survey,seriaNum, Request.getUserId(principal));
 	}
 	@RequestMapping(value = "/buyBodyPro/{pid}")
@@ -357,9 +362,11 @@ public class ProductController {
     @ResponseBody
     public Pair<Boolean, Long> saveBusOrderDetail(
     		JpaBusOrderDetailV2 prod,@CookieValue(value="city", defaultValue = "-1") int city,
-    		HttpServletRequest request, @RequestParam(value = "seriaNum", required = true) long seriaNum) {
+    		HttpServletRequest request, @RequestParam(value = "seriaNum", required = true) long seriaNum,HttpServletResponse response) {
     	  prod.setCity(city);
     	  prod.setSeriaNum(seriaNum);
+    	  
+    	  response.setHeader("Access-Control-Allow-Origin", "*");
     	  return productService.saveBusOrderDetail(prod);
     }
     @RequestMapping(value = "ajax-remove-busOrderDetail", method = RequestMethod.POST)
@@ -392,7 +399,8 @@ public class ProductController {
     	return "BusOrderV2_list";
     }
     @RequestMapping(value = "/productV2_list")
-    public String productV2_list() {
+    public String productV2_list(HttpServletResponse response) {
+    	 response.setHeader("Access-Control-Allow-Origin", "*");
     	return "productV2_list";
     }
     @RequestMapping(value = "/auction")

@@ -253,7 +253,7 @@ public class UserManagerController {
 			
 		}else{
 			UserDetail userDetail = userService.findByUsername(Request.getUserId(principal));
-			if(meids!=null && meids!=""){
+			if(StringUtils.isNoneBlank(meids)){
 				List<JpaCardBoxMedia> cardBoxMedis=productService.selectProByMedias(meids);
 				model.addAttribute("cardBoxMedis", cardBoxMedis);
 			}

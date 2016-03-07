@@ -18,6 +18,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter;
+import org.springframework.web.bind.support.NgTableAttributeArgumentResolver;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -124,6 +126,12 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 
 		RequestMappingHandlerAdapter adapter = new RequestMappingHandlerAdapter();
 		adapter.setMessageConverters(converters);
+		
+		List<HandlerMethodArgumentResolver>  argumentResolvers=new ArrayList<HandlerMethodArgumentResolver>();
+		argumentResolvers.add(new NgTableAttributeArgumentResolver()) ;
+		adapter.setCustomArgumentResolvers(argumentResolvers);
+		
+		
 		return adapter;
 	}
 
