@@ -112,7 +112,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 						,"/product/ajax-BusOrderDetailV2**"
 						,"/product/productV2_list**"
 						,"/product/saveProductV2**"
-						,"/product/ajax-productV2_list**").permitAll().antMatchers("/**").authenticated().anyRequest().permitAll().and()
+						,"/product/ajax-productV2_list**"
+						,"/carbox/carTask**").permitAll().antMatchers("/**").authenticated().anyRequest().permitAll().and()
 				.formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/order/myTask/1")
 				.successHandler(new SimpleRoleAuthenticationSuccessHandler())
 				.failureHandler(new SimpleRoleAuthenticationFailHandler())
