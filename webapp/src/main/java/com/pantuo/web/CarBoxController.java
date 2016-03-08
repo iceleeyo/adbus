@@ -173,20 +173,23 @@ public class CarBoxController {
 	}
 	@RequestMapping("ajax-queryCarBoxBody")
 	@ResponseBody
-	public DataTablePage<JpaCardBoxBody> queryCarBoxBody(TableRequest req,
+	public DataTablePage<JpaCardBoxBody> queryCarBoxBody(HttpServletResponse response,TableRequest req,
 			@CookieValue(value = "city", defaultValue = "-1") int cityId) {
 		Page<JpaCardBoxBody> jpabuspage = cardService.queryCarBoxBody(cityId, req, req.getPage(), req.getLength(),
 				req.getSort("totalprice"));
+		 response.setHeader("Access-Control-Allow-Origin", "*");
 		return new DataTablePage(jpabuspage, req.getDraw());
 	}
 	@RequestMapping("/queryCarHelperyByid/{id}")
 	@ResponseBody
-	public JpaCardBoxHelper queryCarHelperyByid(@PathVariable("id") int id) {
+	public JpaCardBoxHelper queryCarHelperyByid(@PathVariable("id") int id,HttpServletResponse response) {
+		 response.setHeader("Access-Control-Allow-Origin", "*");
 		return cardService.queryCarHelperyByid(id);
 	}
 	@RequestMapping("/editCarHelper")
 	@ResponseBody
-	public Pair<Boolean, String> editCarHelper(CardboxHelper helper,@RequestParam("stat") String stas) {
+	public Pair<Boolean, String> editCarHelper(CardboxHelper helper,@RequestParam("stat") String stas,HttpServletResponse response) {
+		 response.setHeader("Access-Control-Allow-Origin", "*");
 		return cardService.editCarHelper(helper,stas);
 	}
 	@RequestMapping("ajax-queryCarBoxMedia")

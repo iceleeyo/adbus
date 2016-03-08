@@ -120,7 +120,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 						,"/upload/saveSimpleFile**"
 						,"/product/ajax-productV2_list**"
 						,"/carbox/carTask**"
-						,"/carbox/ajax-queryCarBoxBody**").permitAll().antMatchers("/**").authenticated().anyRequest().permitAll().and()
+						,"/carbox/ajax-queryCarBoxBody/**"
+						,"/carbox/queryCarHelperyByid/**"
+						,"/carbox/editCarHelper**").permitAll().antMatchers("/**").authenticated().anyRequest().permitAll().and()
 				.formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/order/myTask/1")
 				.successHandler(new SimpleRoleAuthenticationSuccessHandler())
 				.failureHandler(new SimpleRoleAuthenticationFailHandler())
