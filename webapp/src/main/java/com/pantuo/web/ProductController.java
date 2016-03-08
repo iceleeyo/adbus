@@ -360,7 +360,7 @@ public class ProductController {
     	return productService.saveBodyCombo(productV2,detailV2, survey,userID,city,orderDetailV2Id,productV2Id);
     }
     //根据车身产品ID获取json串
-    @RequestMapping(value = "getBodyProViewJson/{id}")
+    @RequestMapping(value = "/getBodyProViewJson/{id}")
     @ResponseBody
     public String getBodyProViewJson(@PathVariable int id,
                                 Model model, HttpServletRequest request,HttpServletResponse response) {
