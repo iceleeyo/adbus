@@ -108,6 +108,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 						"/validate/**", "/f/**", "/product/d/**", "/product/c/**", "/product/sift**",
 						"/product/sift_data", "/carbox/sift_body", "/product/ajaxdetail/**", "/order/iwant/**",
 						"/order/ibus/**","/icbc**","/urs"
+						//---add open api
 						,"/product/saveBusOrderDetail**"
 						,"/product/ajax-BusOrderDetailV2**"
 						,"/product/productV2_list**"
