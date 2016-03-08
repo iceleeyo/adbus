@@ -86,4 +86,8 @@ public interface ProductService {
 	List<JpaCardBoxMedia> selectProByMedias(String meids);
 
 	public void fillImg(JpaProduct product);
+	Pair<Boolean, String> saveBodyCombo(ProductV2 productV2, JpaBusOrderDetailV2 detailV2, MediaSurvey survey,
+			String userId, int city);
+	Long acountPrice(JpaBusOrderDetailV2 prod);
+	Page<JpaBusOrderDetailV2> findAllBusOrderDetailV2(int city, Principal principal, TableRequest req);
 }

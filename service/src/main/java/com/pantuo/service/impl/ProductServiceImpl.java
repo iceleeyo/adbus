@@ -400,6 +400,16 @@ public class ProductServiceImpl implements ProductService {
 		return new Pair<Boolean, Long>(false,sumprice);
 	}
 
+	@Override
+	public Long acountPrice(JpaBusOrderDetailV2 prod) {
+		 long price=0;
+		 if(prod!=null){
+			 price=busService.getMoneyFromBusModel(prod.getLeval(), prod.isDoubleDecker());
+			 price=price*prod.getBusNumber()*prod.getDays()/30;
+		 }
+		return price;
+	}
+
 	private long getSumPriceBySerinum(long seriaNum) {
 		BusOrderDetailV2Example example=new BusOrderDetailV2Example();
 		example.createCriteria().andSeriaNumEqualTo(seriaNum);
@@ -478,6 +488,33 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	public Pair<Boolean, String> saveBodyCombo(ProductV2 productV2, JpaBusOrderDetailV2 detailV2, MediaSurvey survey,
+			String userId, int city) {
+		 long price=busService.getMoneyFromBusModel(detailV2.getLeval(), detailV2.isDoubleDecker());
+		 price=price*detailV2.getBusNumber()*detailV2.getDays()/30;
+		if(null!=survey){
+			productV2.setJsonString(JsonTools.getJsonFromObject(survey));
+		}
+		productV2.setPrice((double) price);
+		productV2.setCreated(new Date());
+		productV2.setUpdated(new Date());
+		productV2.setCreater(userId);
+		productV2.setCity(city);
+		productV2.setStats(0);
+		int a = productV2Mapper.insert(productV2);
+		if (a > 0) {
+			 detailV2.setCity(city);
+			 detailV2.setSeriaNum(0);
+			 detailV2.setPrice(price);
+			 detailV2.setJpaProductV2(productV2Repository.findOne(productV2.getId()));
+			if(busOrderDetailV2Repository.save(detailV2)!=null){
+			return new Pair<Boolean, String>(true, "添加套餐成功");
+		   } 
+		}
+			return new Pair<Boolean, String>(false, "添加套餐失败");
+	}
+
+	@Override
 	public Page<JpaProductV2> searchProductV2s(int city, Principal principal, TableRequest req) {
 		String name = req.getFilter("name");
 		int page = req.getPage(), pageSize = req.getLength();
@@ -495,7 +532,29 @@ public class ProductServiceImpl implements ProductService {
 		}
 		return productV2Repository.findAll(query, p);
 	}
-
+	@Override
+	public Page<JpaBusOrderDetailV2> findAllBusOrderDetailV2(int city, Principal principal, TableRequest req) {
+		String name = req.getFilter("name"),stats=req.getFilter("stats");
+		int page = req.getPage(), pageSize = req.getLength();
+		Sort sort = req.getSort("id");
+		
+		if (page < 0)
+			page = 0;
+		if (pageSize < 1)
+			pageSize = 1;
+		sort = (sort == null ? new Sort("id") : sort);
+		Pageable p = new PageRequest(page, pageSize, sort);
+		BooleanExpression query = city >= 0 ? QJpaBusOrderDetailV2.jpaBusOrderDetailV2.city.eq(city) :QJpaBusOrderDetailV2.jpaBusOrderDetailV2.city.goe(0);
+		if (StringUtils.isNotBlank(name)) {
+			query = query.and(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.JpaProductV2.name.like("%" + name + "%"));
+		}
+		if (StringUtils.isNotBlank(stats)) {
+			query = query.and(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.JpaProductV2.stats.eq(JpaProductV2.Status.valueOf(stats)));
+		}else{
+			query = query.and(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.JpaProductV2.stats.eq(JpaProductV2.Status.valueOf("online")));
+		}
+		return busOrderDetailV2Repository.findAll(query, p);
+	}
 	@Override
 	public Pair<Boolean, String> buyBodyPro(int pid, int city, String userId) {
 		JpaProductV2 productV2=productV2Repository.findOne(pid);
