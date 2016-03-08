@@ -874,7 +874,9 @@ public class CardServiceImpl implements CardService {
 						.and(QJpaCardBoxHelper.jpaCardBoxHelper.userid.eq(u));
 			}
 		} else {
-			query = QJpaCardBoxHelper.jpaCardBoxHelper.userid.eq(u);
+			if(StringUtils.isNoneBlank(u)){
+				query = QJpaCardBoxHelper.jpaCardBoxHelper.userid.eq(u);
+			}
 		}
 		if (StringUtils.isNoneBlank(orderid)) {
 			long seriaNum = NumberUtils.toLong(StringUtils.replace(orderid, "W", StringUtils.EMPTY));
