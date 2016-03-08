@@ -101,11 +101,11 @@ public class ProductController {
     }
     @RequestMapping("ajax-productV2_list")
     @ResponseBody
-    public DataTablePage<JpaProductV2> productV2_list( TableRequest req,
+    public DataTablePage<JpaBusOrderDetailV2> productV2_list( TableRequest req,
     		@CookieValue(value="city", defaultValue = "-1") int city,
     		Principal principal,HttpServletResponse response) {
     	 response.setHeader("Access-Control-Allow-Origin", "*");
-    	Page<JpaProductV2> page = productService.searchProductV2s(city, principal, req);
+    	Page<JpaBusOrderDetailV2> page = productService.findAllBusOrderDetailV2(city, principal, req);
     	return new DataTablePage(page, req.getDraw());
     }
     @RequestMapping("ajax-busOrderV2_list/{type}")
@@ -242,12 +242,7 @@ public class ProductController {
         }
         return "newProduct";
     }
-    @RequestMapping(value = "/newBodyPro", produces = "text/html;charset=utf-8")
-    public String newBodyPro(Model model) {
-    	model.addAttribute("seriaNum", Only1ServieUniqLong.getUniqLongNumber());
-    	model.addAttribute("lineLevels", JpaBusline.Level.values());
-    	return "newBodyPro";
-    }
+   
    
     @PreAuthorize(" hasRole('ShibaOrderManager')  ")
     @RequestMapping(value = "/{id}", produces = "text/html;charset=utf-8")
@@ -358,6 +353,38 @@ public class ProductController {
     	}
     	return "compareProduct_list";
     }
+    @RequestMapping(value = "/newBodyPro", produces = "text/html;charset=utf-8")
+    public String newBodyPro(Model model) {
+    	model.addAttribute("seriaNum", Only1ServieUniqLong.getUniqLongNumber());
+    	model.addAttribute("lineLevels", JpaBusline.Level.values());
+    	return "newBodyPro";
+    }
+    
+    //打开添加车身套餐页面
+    @RequestMapping(value = "/newBodyCombo", produces = "text/html;charset=utf-8")
+    public String newBodyCombo(Model model) {
+    	model.addAttribute("seriaNum", Only1ServieUniqLong.getUniqLongNumber());
+    	model.addAttribute("lineLevels", JpaBusline.Level.values());
+    	return "newBodyCombo";
+    }
+    //添加车身套餐
+    @RequestMapping(value = "/saveBodyCombo")
+    @ResponseBody
+    public Pair<Boolean, String> saveBodyCombo(ProductV2 productV2,MediaSurvey survey,JpaBusOrderDetailV2 detailV2,
+    		@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
+    		HttpServletRequest request) {
+    	productV2.setCity(city);
+    	return productService.saveBodyCombo(productV2,detailV2, survey,Request.getUserId(principal),city);
+    }
+    @RequestMapping(value = "/saveProductV2")
+	@ResponseBody
+	public Pair<Boolean, String> saveProductV2(ProductV2 productV2,MediaSurvey survey,
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
+			HttpServletRequest request, @RequestParam(value = "seriaNum", required = true) long seriaNum) {
+		productV2.setCity(city);
+		return productService.saveProductV2(productV2, survey,seriaNum, Request.getUserId(principal));
+	}
+    
     @RequestMapping(value = "/saveBusOrderDetail", method = { RequestMethod.POST})
     @ResponseBody
     public Pair<Boolean, Long> saveBusOrderDetail(
@@ -368,6 +395,11 @@ public class ProductController {
     	  
     	  response.setHeader("Access-Control-Allow-Origin", "*");
     	  return productService.saveBusOrderDetail(prod);
+    }
+    @RequestMapping(value = "/acountPrice", method = { RequestMethod.POST})
+    @ResponseBody
+    public Long acountPrice(JpaBusOrderDetailV2 prod) {
+    	return productService.acountPrice(prod);
     }
     @RequestMapping(value = "ajax-remove-busOrderDetail", method = RequestMethod.POST)
 	@ResponseBody

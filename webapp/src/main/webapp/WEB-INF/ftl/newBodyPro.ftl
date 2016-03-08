@@ -114,15 +114,25 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
   function addBusOrderDetail() {
       if (!$("#form1").validationEngine('validateBeforeSubmit'))
             return;
-		$('#form1').ajaxForm(function(data) {
-		if(data.left){
-		     layer.msg("添加成功");
-		       orderBusesTable.dataTable()._fnAjaxUpdate();
-		       $("#sumprice").val(data.right);
+            
+             $('#form1').ajaxForm({ 
+   success: function(data) { 
+  		 if(data.left){
+		           layer.msg("添加成功");
+     		 $("#sumprice").val(data.right);
+		      
 		     }else{
 		     layer.msg("操作失败");
 		     }
-		}).submit();
+     orderBusesTable.dataTable()._fnAjaxUpdate();
+   }, 
+   error: function(jqXHR) { 
+      if(jqXHR.status==0){ alert("连接错误"); }
+                           else if (jqXHR.status == 404) { alert("404错误"); }
+                           else if (jqXHR.status == 500) {  alert("500错误,服务器暂时抽筋了");}
+			   } 
+			}).submit();; 
+ 
 	}
     $(document).ready(function() {
         refreshOrderedBuses();
@@ -215,7 +225,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 <div class="withdraw-wrap color-white-bg fn-clear"
 	style="margin-top: 10px;">
 	<form data-name="withdraw" name="form2" id="form2" class="ui-form"
-		method="post" action="saveProductV2" enctype="multipart/form-data">
+		method="post" action="${rc.contextPath}/product/saveProductV2" enctype="multipart/form-data">
 		<div class="withdrawInputs">
 			<div class="ui-form-item toggle bodyToggle">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>套餐价格:</label>

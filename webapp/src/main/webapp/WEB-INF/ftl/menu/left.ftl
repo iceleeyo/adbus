@@ -81,8 +81,6 @@
 						href="${rc.contextPath}/product/myAuctionList"> 我的获拍 </a></li> </#if>
 					<#if city.mediaType == 'body'>
 					<li class="pg-side-exp-item"><a class="side-exp-item-t"
-						href="${rc.contextPath}/product/productV2_list"> 车身套餐列表 </a></li>
-					<li class="pg-side-exp-item"><a class="side-exp-item-t"
 						href="${rc.contextPath}/product/busOrderV2_list/my"> 我的订单 </a></li>
 					</#if> </@security.authorize> <@security.authorize
 					ifAnyGranted="bodysales">
@@ -137,26 +135,23 @@
 					href="${rc.contextPath}/schedule/mediaInventory"> 媒体库存查询 </a></li>
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/timeslot/list"> 时段设置 </a></li>
-			</ul></li> </@security.authorize> </#if> <@security.authorize
-		ifAnyGranted="bodyContractManager,sale_packageDesign,sale_packageList,sale_packageOrder">
-		<li class="pg-side-item"><a class="pg-side-item-t gg-icon"> <i
-				class="s-left pg-icon-a i-icon"></i> 套餐管理
-		</a>
+			</ul></li> </@security.authorize> </#if>
+			 
+		<li class="pg-side-item">
+			<a class="pg-side-item-t gg-icon"> 
+					<i class="s-left pg-icon-a i-icon"></i> 车身产品管理
+			</a>
 			<ul class="pg-side-exp-list">
-				<@security.authorize
-				ifAnyGranted="bodyContractManager,sale_packageDesign">
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
-					href="${rc.contextPath}/product/newBodyPro"> 车身套餐定义 </a></li>
-				</@security.authorize> <@security.authorize
-				ifAnyGranted="bodyContractManager,sale_packageList">
+					href="${rc.contextPath}/product/newBodyCombo"> 车身产品定义 </a></li>
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
-					href="${rc.contextPath}/product/productV2_list"> 车身套餐列表 </a></li>
-				</@security.authorize> <@security.authorize
-				ifAnyGranted="bodyContractManager,sale_packageOrder">
+					href="${rc.contextPath}/product/productV2_list"> 车身产品列表 </a></li>
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
-					href="${rc.contextPath}/product/busOrderV2_list/all"> 车身订单列表 </a></li>
-				</@security.authorize>
-			</ul></li> </@security.authorize> <@security.authorize
+					href="${rc.contextPath}/product/busOrderV2_list/all">车身订单列表 </a></li>
+			</ul>
+		</li> 
+			
+			<@security.authorize
 		ifAnyGranted="contract_input,contract_list,contract_buy">
 		<li class="pg-side-item"><a class="pg-side-item-t gg-icon"> <i
 				class="s-left pg-icon-a g-icon"></i> 合同管理
