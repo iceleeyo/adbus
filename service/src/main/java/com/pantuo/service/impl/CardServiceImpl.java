@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +47,7 @@ import com.pantuo.dao.pojo.QJpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.QJpaCardBoxBody;
 import com.pantuo.dao.pojo.QJpaCardBoxHelper;
 import com.pantuo.dao.pojo.QJpaCardBoxMedia;
+import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.CardboxBody;
 import com.pantuo.mybatis.domain.CardboxBodyExample;
 import com.pantuo.mybatis.domain.CardboxHelper;
@@ -63,8 +65,10 @@ import com.pantuo.service.CardService;
 import com.pantuo.service.CityService;
 import com.pantuo.service.ContractService;
 import com.pantuo.service.security.Request;
+import com.pantuo.util.BeanUtils;
 import com.pantuo.util.CardUtil;
 import com.pantuo.util.DateUtil;
+import com.pantuo.util.JsonTools;
 import com.pantuo.util.Only1ServieUniqLong;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.BodyProView;
@@ -759,6 +763,19 @@ public class CardServiceImpl implements CardService {
 			helper.setStats(JpaCardBoxHelper.Stats.init.ordinal());
 			helper.setMediaType(typeCount.mediaType.ordinal());
 			helper.setCardBodyIds(boids);
+			UserDetail user = Request.getUser(principal);
+			if (user != null) {
+				//过滤掉不需要存的字段 风险大
+				UserDetail u = new UserDetail();
+				BeanUtils.copyProperties(user, u);
+				u.setGroups(null);
+				u.setFunctions(null);
+				u.setPassword(StringUtils.EMPTY);
+				u.setRoles(null);
+				u.setUser(null);
+				u.setQulifijsonstr(StringUtils.EMPTY);
+				helper.setUserJson(JsonTools.getJsonFromObject(u));
+			}
 			helper.setNewBodySeriaNum(Only1ServieUniqLong.getUniqLongNumber());
 			/*JpaCity _city = cityService.fromId(typeCount.getCity());
 			if (_city != null) {
