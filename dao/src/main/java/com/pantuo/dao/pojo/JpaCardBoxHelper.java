@@ -53,6 +53,8 @@ public class JpaCardBoxHelper extends CityEntity {
 	private int isPay;
 	private MediaType mediaType;
 	private Stats stats;
+	//用户信息
+	private String userJson;
 	
 	//车身购物车的流程
 	
@@ -195,6 +197,14 @@ public class JpaCardBoxHelper extends CityEntity {
 
 	public void setCardBodyIds(String cardBodyIds) {
 		this.cardBodyIds = cardBodyIds;
+	}
+
+	public String getUserJson() {
+		return userJson;
+	}
+
+	public void setUserJson(String userJson) {
+		this.userJson = userJson;
 	}
 
 	 
