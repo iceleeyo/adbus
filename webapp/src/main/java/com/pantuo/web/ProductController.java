@@ -362,10 +362,13 @@ public class ProductController {
     @RequestMapping(value = "/saveBodyCombo")
     @ResponseBody
     public Pair<Boolean, String> saveBodyCombo(ProductV2 productV2,MediaSurvey survey,JpaBusOrderDetailV2 detailV2,
-    		@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
-    		HttpServletRequest request) {
-    	productV2.setCity(city);
-    	return productService.saveBodyCombo(productV2,detailV2, survey,Request.getUserId(principal),city);
+    		@CookieValue(value = "city", defaultValue = "-1") int cityID, Principal principal,
+    		HttpServletRequest request,HttpServletResponse response) {
+    	 int city=cityID==-1?2:cityID;
+    	 String userID=principal==null?productV2.getCreater():Request.getUserId(principal);
+    	 productV2.setCity(city);
+    	 response.setHeader("Access-Control-Allow-Origin", "*");
+    	return productService.saveBodyCombo(productV2,detailV2, survey,userID,city);
     }
     @RequestMapping(value = "/saveProductV2")
 	@ResponseBody
@@ -389,7 +392,8 @@ public class ProductController {
     }
     @RequestMapping(value = "/acountPrice", method = { RequestMethod.POST})
     @ResponseBody
-    public Long acountPrice(JpaBusOrderDetailV2 prod) {
+    public Long acountPrice(JpaBusOrderDetailV2 prod,HttpServletResponse response) {
+    	 response.setHeader("Access-Control-Allow-Origin", "*");
     	return productService.acountPrice(prod);
     }
     @RequestMapping(value = "ajax-remove-busOrderDetail", method = RequestMethod.POST)
@@ -512,9 +516,10 @@ public class ProductController {
 	
 	@RequestMapping(value = "/changeStats/{proId}/{enable}", method = { RequestMethod.POST})
     @ResponseBody
-    public Pair<Boolean, String> changeStats(@PathVariable("proId") int proId,
+    public Pair<Boolean, String> changeStats(@PathVariable("proId") int proId,HttpServletResponse response,
     		@PathVariable("enable") String enable,
                                  @CookieValue(value="city", defaultValue = "-1") int city) {
+		 response.setHeader("Access-Control-Allow-Origin", "*");
 		 return productService.changeProV2Stats(proId,enable);
     }
 	

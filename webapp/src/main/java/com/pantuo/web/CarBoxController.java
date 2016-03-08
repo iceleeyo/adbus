@@ -154,8 +154,9 @@ public class CarBoxController {
 	@RequestMapping("ajax-myCards")
 	@ResponseBody
 	public DataTablePage<CardBoxHelperView> myCards(TableRequest req,
-			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal) {
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,HttpServletResponse response) {
 		Page<CardBoxHelperView> page = cardService.myCards(city, principal, req);
+		 response.setHeader("Access-Control-Allow-Origin", "*");
 		return new DataTablePage(page, req.getDraw());
 	}
 	@RequestMapping(value = "/queryCarBoxBody/{helpid}")

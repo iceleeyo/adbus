@@ -84,8 +84,9 @@ public class UploadController {
 	}
 	@RequestMapping(value = "saveSimpleFile", method = RequestMethod.POST)
 	@ResponseBody
-	public String  saveSimpleFile(HttpServletRequest request, Principal principal,
+	public String  saveSimpleFile(HttpServletRequest request,HttpServletResponse response,Principal principal,
 			ModelMap model) throws IOException, BusinessException {
+		 response.setHeader("Access-Control-Allow-Origin", "*");
 		return attachmentService.saveAttachmentSimple(request);
 	}
 	 @RequestMapping(value = "upload2" , method = RequestMethod.POST )  
