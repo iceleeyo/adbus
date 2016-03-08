@@ -183,16 +183,7 @@ public class ProductController {
 		}
 		return rPair;
 	}
-	@RequestMapping(value = "/saveProductV2")
-	@ResponseBody
-	public Pair<Boolean, String> saveProductV2(ProductV2 productV2,MediaSurvey survey,
-			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
-			HttpServletRequest request,HttpServletResponse response, @RequestParam(value = "seriaNum", required = true) long seriaNum) {
-		productV2.setCity(city);
-		
-		 response.setHeader("Access-Control-Allow-Origin", "*");
-		return productService.saveProductV2(productV2, survey,seriaNum, Request.getUserId(principal));
-	}
+	
 	@RequestMapping(value = "/buyBodyPro/{pid}")
 	@ResponseBody
 	public Pair<Boolean, String> buyBodyPro(
@@ -380,11 +371,11 @@ public class ProductController {
 	@ResponseBody
 	public Pair<Boolean, String> saveProductV2(ProductV2 productV2,MediaSurvey survey,
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
-			HttpServletRequest request, @RequestParam(value = "seriaNum", required = true) long seriaNum) {
+			HttpServletRequest request,HttpServletResponse response, @RequestParam(value = "seriaNum", required = true) long seriaNum) {
 		productV2.setCity(city);
+		response.setHeader("Access-Control-Allow-Origin", "*");
 		return productService.saveProductV2(productV2, survey,seriaNum, Request.getUserId(principal));
 	}
-    
     @RequestMapping(value = "/saveBusOrderDetail", method = { RequestMethod.POST})
     @ResponseBody
     public Pair<Boolean, Long> saveBusOrderDetail(
