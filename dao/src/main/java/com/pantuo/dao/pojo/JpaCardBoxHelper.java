@@ -1,5 +1,6 @@
 package com.pantuo.dao.pojo;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -53,6 +54,7 @@ public class JpaCardBoxHelper extends CityEntity {
 	private int isPay;
 	private MediaType mediaType;
 	private Stats stats;
+	@Column(length = 2024)
 	//用户信息
 	private String userJson;
 	
