@@ -16,6 +16,7 @@ import com.pantuo.mybatis.domain.CardboxHelper;
 import com.pantuo.mybatis.domain.CardboxMedia;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.util.Pair;
+import com.pantuo.web.view.BodyProView;
 import com.pantuo.web.view.CardBoxHelperView;
 import com.pantuo.web.view.CardTotalView;
 import com.pantuo.web.view.CardView;
@@ -143,4 +144,6 @@ public interface CardService {
 	public UserQualifiView getUserQualifiView(String qulifijsonstr);
 
 	public boolean updateCardMeida(String start, int mediaId);
+
+	public BodyProView getBodyProViewfromJsonStr(String jString);
 }

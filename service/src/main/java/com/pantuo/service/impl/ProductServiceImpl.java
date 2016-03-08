@@ -77,6 +77,7 @@ import com.pantuo.util.JsonTools;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.Pair;
 import com.pantuo.util.ProductOrderCount;
+import com.pantuo.web.view.BodyProView;
 import com.pantuo.web.view.MediaSurvey;
 import com.pantuo.web.view.PlanRequest;
 import com.pantuo.web.view.ProductView;
@@ -489,7 +490,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Pair<Boolean, String> saveBodyCombo(ProductV2 productV2, JpaBusOrderDetailV2 detailV2, MediaSurvey survey,
-			String userId, int city) {
+			String userId, int city, int orderDetailV2Id, int productV2Id) {
 		 long price=busService.getMoneyFromBusModel(detailV2.getLeval(), detailV2.isDoubleDecker());
 		 price=price*detailV2.getBusNumber()*detailV2.getDays()/30;
 		if(null!=survey){
@@ -502,16 +503,38 @@ public class ProductServiceImpl implements ProductService {
 		productV2.setCity(city);
 		productV2.setStats(0);
 		int a = productV2Mapper.insert(productV2);
+		if(productV2Id>0){
+			productV2.setId(productV2Id);
+			a=productV2Mapper.updateByPrimaryKeySelective(productV2);
+		}
 		if (a > 0) {
 			 detailV2.setCity(city);
 			 detailV2.setSeriaNum(0);
 			 detailV2.setPrice(price);
 			 detailV2.setJpaProductV2(productV2Repository.findOne(productV2.getId()));
+			 if(orderDetailV2Id>0){
+				 detailV2.setId(orderDetailV2Id); 
+			 }
 			if(busOrderDetailV2Repository.save(detailV2)!=null){
-			return new Pair<Boolean, String>(true, "添加套餐成功");
+			return new Pair<Boolean, String>(true, "操作成功");
 		   } 
 		}
-			return new Pair<Boolean, String>(false, "添加套餐失败");
+			return new Pair<Boolean, String>(false, "操作失败");
+	}
+
+	@Override
+	public String getBodyProViewJson(int id) {
+		JpaBusOrderDetailV2 orderDetailV2=busOrderDetailV2Repository.findOne(id);
+		if(orderDetailV2!=null && orderDetailV2.getJpaProductV2()!=null){
+			ProductV2 productV2=productV2Mapper.selectByPrimaryKey(orderDetailV2.getJpaProductV2().getId());
+			MediaSurvey mediaSurvey=cardService.getJsonfromJsonStr(productV2.getJsonString());
+			BodyProView bodyProView=new BodyProView();
+			bodyProView.setMediaSurvey(mediaSurvey);
+			bodyProView.setOrderDetailV2(orderDetailV2);
+			bodyProView.setProductV2(productV2);
+			return JsonTools.getJsonFromObject(bodyProView);
+		}
+		return null;
 	}
 
 	@Override

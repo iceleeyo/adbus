@@ -67,6 +67,7 @@ import com.pantuo.util.CardUtil;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.Only1ServieUniqLong;
 import com.pantuo.util.Pair;
+import com.pantuo.web.view.BodyProView;
 import com.pantuo.web.view.CardBoxHelperView;
 import com.pantuo.web.view.CardTotalView;
 import com.pantuo.web.view.CardView;
@@ -1088,6 +1089,23 @@ public class CardServiceImpl implements CardService {
 			t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 			t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
 			s = t.readValue(jsonString, MediaSurvey.class);
+		} catch (Exception e) {
+			log.error("getJsonfromJsonStr,{}", e);
+		}
+		return s;
+	}
+	@Override
+	public BodyProView getBodyProViewfromJsonStr(String jsonString) {
+		
+		BodyProView s = null;
+		if (StringUtils.isBlank(jsonString)) {
+			return s;
+		}
+		try {
+			ObjectMapper t = new ObjectMapper();
+			t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+			t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
+			s = t.readValue(jsonString, BodyProView.class);
 		} catch (Exception e) {
 			log.error("getJsonfromJsonStr,{}", e);
 		}

@@ -95,7 +95,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 		           
 		           <div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>车身产品名称：</label>
-				<input class="ui-input validate[required]" type="text" value=""
+				<input class="ui-input validate[required]" type="text" value="<#if jsonView?? && jsonView.productV2??>${jsonView.productV2.name!''}<#else></#if>"
 					name="name" id="name" data-is="isAmount isEnough"
 					autocomplete="off" disableautocomplete="" placeholder="2-20个字符">
 			</div>
@@ -104,7 +104,8 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 							class="ui-form-required">*</span>线路级别：</label> <select class="ui-input" onchange="accountPrice();"
 							name="leval" id="leval"> <#if lineLevels??> <#list
 							lineLevels as level>
-							<option value="${level.name()}">${level.nameStr}</option>
+							<option value="${level.name()}" <#if (jsonView?? && jsonView.orderDetailV2.leval.name()
+							== level.name())>selected="selected"</#if>>${level.nameStr}</option>
 							</#list> </#if>
 						</select>
 					</div>
@@ -112,8 +113,10 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 						<label class="ui-label mt10"><span
 							class="ui-form-required">*</span>车型:</label> <select class="ui-input" onchange="accountPrice();"
 							name="doubleDecker" id="doubleDecker">
-							<option value="false">单层</option>
-							<option value="true">双层</option>
+							<option value="false"  <#if (jsonView?? && jsonView.orderDetailV2.doubleDecker
+							== false)>selected="selected"</#if>>单层</option>
+							<option value="true"  <#if (jsonView?? && jsonView.orderDetailV2.doubleDecker
+							== true)>selected="selected"</#if>>双层</option>
 						</select>
 					</div>
 					<div class="ui-form-item">
@@ -137,26 +140,26 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 					</div>
 			<div class="ui-form-item toggle bodyToggle">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>价格(￥):</label>
-				<input class="ui-input validate[required]" type="text" value="3900" name="price" id="sumprice" 
+				<input class="ui-input validate[required]" type="text" value="<#if jsonView?? && jsonView.productV2??>${jsonView.productV2.price!''}<#else>3900</#if>" name="price" id="sumprice" 
 					data-is="isAmount isEnough" readonly="readonly" autocomplete="off"
 					disableautocomplete="">
 			</div>
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>商区：</label>
-				<input class="ui-input validate[required]" type="text" value=""
+				<input class="ui-input validate[required]" type="text" value="<#if jsonView?? && jsonView.productV2??>${jsonView.productV2.smallAdressList!''}<#else></#if>"
 					name="addressList" id="name" data-is="isAmount isEnough"
 					autocomplete="off" disableautocomplete="" placeholder="多个商区以,分开">
 			</div>
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>城区：</label>
-				<input class="ui-input validate[required]" type="text" value=""
+				<input class="ui-input validate[required]" type="text" value="<#if jsonView?? && jsonView.productV2??>${jsonView.productV2.smallAdressList!''}<#else></#if>"
 					name="smallAdressList" id="name" data-is="isAmount isEnough"
 					autocomplete="off" disableautocomplete="" placeholder="多个城区以,分开">
 			</div>
 
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>人次：</label>
-				<input class="ui-input validate[required]" type="text" value=""
+				<input class="ui-input validate[required]" type="text" value="<#if jsonView?? && jsonView.productV2??>${jsonView.productV2.personAvg!''}<#else></#if>"
 					name="personAvg" id="name" data-is="isAmount isEnough"
 					autocomplete="off" disableautocomplete="" placeholder="数值">
 			</div>
@@ -164,37 +167,41 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 			<div class="ui-form-item">
 				<label class="ui-label mt10"><span class="ui-form-required">*</span>套餐描述：</label>
 				<textarea rows="4" class=" validate[required]" cols="40"
-					style="resize: none;" name="remarks"></textarea>
+					style="resize: none;" name="remarks"><#if jsonView?? && jsonView.productV2??>${jsonView.productV2.remarks!''}<#else></#if></textarea>
 			</div>
 			
 			<div class="ui-form-item">
 					<label class="ui-label mt10">媒体情况：</label>
-					媒体位置&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="locationstr" value="" placeholder="例如：北京" >&nbsp;&nbsp;&nbsp;&nbsp;
-					覆盖人次&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="personnum" onkeyup="value=value.replace(/[^\d]/g,'')" value="" placeholder="" >万&nbsp;&nbsp;&nbsp;&nbsp;<br>
-					线路概况&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="linesurvey" value="" placeholder="例如：北京六环内
+					媒体位置&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="locationstr" value="<#if jsonView?? && jsonView.mediaSurvey??>${jsonView.mediaSurvey.locationstr!''}</#if>" placeholder="例如：北京" >&nbsp;&nbsp;&nbsp;&nbsp;
+					覆盖人次&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="personnum" onkeyup="value=value.replace(/[^\d]/g,'')" value="<#if jsonView?? && jsonView.mediaSurvey??>${jsonView.mediaSurvey.personnum!''}</#if>" placeholder="" >万&nbsp;&nbsp;&nbsp;&nbsp;<br>
+					线路概况&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="linesurvey" value="<#if jsonView?? && jsonView.mediaSurvey??>${jsonView.mediaSurvey.linesurvey!''}</#if>" placeholder="例如：北京六环内
                                       470余条公交线路" >&nbsp;&nbsp;&nbsp;&nbsp;
-					媒体概况&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="mesurvey" value="" placeholder="例如：19寸公交彩色液晶电视" >&nbsp;&nbsp;&nbsp;&nbsp;<br>
-					媒体属主&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="mediaowner" value="" placeholder="例如：北广传媒" >&nbsp;&nbsp;&nbsp;&nbsp;
-					媒体数量&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="mediacount" value="" placeholder="例如：12000辆车24000块屏" >&nbsp;&nbsp;
+					媒体概况&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="mesurvey" value="<#if jsonView?? && jsonView.mediaSurvey??>${jsonView.mediaSurvey.mesurvey!''}</#if>" placeholder="例如：19寸公交彩色液晶电视" >&nbsp;&nbsp;&nbsp;&nbsp;<br>
+					媒体属主&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="mediaowner" value="<#if jsonView?? && jsonView.mediaSurvey??>${jsonView.mediaSurvey.mediaowner!''}</#if>" placeholder="例如：北广传媒" >&nbsp;&nbsp;&nbsp;&nbsp;
+					媒体数量&nbsp;&nbsp;<input style="width:250px;" id="exclusiveUser" name="mediacount" value="<#if jsonView?? && jsonView.mediaSurvey??>${jsonView.mediaSurvey.mediacount!''}</#if>" placeholder="例如：12000辆车24000块屏" >&nbsp;&nbsp;
 			</div>
+			<#if jsonView?? > 
+			   <input type="hidden" name="orderDetailV2Id" value="${jsonView.orderDetailV2.id}" />
+			   <input type="hidden" name="productV2Id" value="${jsonView.productV2.id}" />
+		</#if>
 		 <input id="img1_url" name="img1_url" type="hidden"
-		    value="<#if jsonView?? && jsonView.img1_url?has_content>${jsonView.img1_url}</#if>" />
+		    value="<#if jsonView?? && jsonView.mediaSurvey.img1_url?has_content>${jsonView.mediaSurvey.img1_url}</#if>" />
 		<input id="img2_url" name="img2_url" type="hidden"
-			value="<#if jsonView?? && jsonView.img2_url?has_content>${jsonView.img2_url}</#if>" />
+			value="<#if jsonView?? && jsonView.mediaSurvey.img2_url?has_content>${jsonView.mediaSurvey.img2_url}</#if>" />
 		<input id="img3_url" name="img3_url" type="hidden"
-			value="<#if jsonView?? && jsonView.img3_url?has_content>${jsonView.img3_url}</#if>" />
+			value="<#if jsonView?? && jsonView.mediaSurvey.img3_url?has_content>${jsonView.mediaSurvey.img3_url}</#if>" />
 		<input id="img4_url" name="img4_url" type="hidden"
-			value="<#if jsonView?? && jsonView.img4_url?has_content>${jsonView.img4_url}</#if>" />
+			value="<#if jsonView?? && jsonView.mediaSurvey.img4_url?has_content>${jsonView.mediaSurvey.img4_url}</#if>" />
 		<input id="intro1_url" name="intro1_url" type="hidden"
-			value="<#if jsonView?? && jsonView.intro1_url?has_content>${jsonView.intro1_url}</#if>" />
+			value="<#if jsonView?? && jsonView.mediaSurvey.intro1_url?has_content>${jsonView.mediaSurvey.intro1_url}</#if>" />
 		<input id="intro2_url" name="intro2_url" type="hidden"
-			value="<#if jsonView?? && jsonView.intro2_url?has_content>${jsonView.intro2_url}</#if>" />
+			value="<#if jsonView?? && jsonView.mediaSurvey.intro2_url?has_content>${jsonView.mediaSurvey.intro2_url}</#if>" />
 		<input id="intro3_url" name="intro3_url" type="hidden"
-			value="<#if jsonView?? && jsonView.intro3_url?has_content>${jsonView.intro3_url}</#if>" />
+			value="<#if jsonView?? && jsonView.mediaSurvey.intro3_url?has_content>${jsonView.mediaSurvey.intro3_url}</#if>" />
 		<input id="intro4_url" name="intro4_url" type="hidden"
-			value="<#if jsonView?? && jsonView.intro4_url?has_content>${jsonView.intro4_url}</#if>" />
+			value="<#if jsonView?? && jsonView.mediaSurvey.intro4_url?has_content>${jsonView.mediaSurvey.intro4_url}</#if>" />
 			<div class="ui-form-item widthdrawBtBox" style="padding: 20px 0px 0px 0px; text-align: center;">
-					<input type="button" id="subutton" class="block-btn" onclick="sub();" value="生成套餐">
+					<input type="button" id="subutton" class="block-btn" onclick="sub();" value="保存产品">
 		           <input type="button" id="subWithdraw" class="block-btn" onclick="showdoc();" value="上传产品图片">
 				
 			</div>
@@ -206,7 +213,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				<label class="ui-label mt10">产品缩略图1</label>
 				<form id="img1" method="post" enctype="multipart/form-data">
 					<img
-						src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}</#if>"
+						src="<#if jsonView?? && jsonView.mediaSurvey.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.mediaSurvey.img1_url}</#if>"
 						id="img1_img"  border="1px solid #d0d0d0;" />
 					<input id="img1_file" class="select_img" name="img1_file"
 						type="file" onchange="uploadImaget('img1');" />
@@ -216,7 +223,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				<label class="ui-label mt10"><span class="ui-form-required"></span>产品缩略图2</label>
 				<form id="img2" method="post" enctype="multipart/form-data">
 					<img
-						src="<#if jsonView?? && jsonView.img2_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img2_url}</#if>"
+						src="<#if jsonView?? && jsonView.mediaSurvey.img2_url?has_content>${rc.contextPath}/upload_temp/${jsonView.mediaSurvey.img2_url}</#if>"
 						id="img2_img"  border="1px solid #d0d0d0;" />
 					<input id="img2_file" class="select_img" name="img2_file"
 						type="file" onchange="uploadImaget('img2');" />
@@ -226,7 +233,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				<label class="ui-label mt10"><span class="ui-form-required"></span>产品缩略图3</label>
 				<form id="img3" method="post" enctype="multipart/form-data">
 					<img
-						src="<#if jsonView?? && jsonView.img3_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img3_url}</#if>"
+						src="<#if jsonView?? && jsonView.mediaSurvey.img3_url?has_content>${rc.contextPath}/upload_temp/${jsonView.mediaSurvey.img3_url}</#if>"
 						id="img3_img"  border="1px solid #d0d0d0;" />
 					<input id="img3_file" class="select_img" name="img3_file"
 						type="file" onchange="uploadImaget('img3');" />
@@ -236,7 +243,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				<label class="ui-label mt10"><span class="ui-form-required"></span>产品缩略图4</label>
 				<form id="img4" method="post" enctype="multipart/form-data">
 					<img
-						src="<#if jsonView?? && jsonView.img4_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img4_url}</#if>"
+						src="<#if jsonView?? && jsonView.mediaSurvey.img4_url?has_content>${rc.contextPath}/upload_temp/${jsonView.mediaSurvey.img4_url}</#if>"
 						id="img4_img"  border="1px solid #d0d0d0;" />
 					<input id="img4_file" class="select_img" name="img4_file"
 						type="file" onchange="uploadImaget('img4');" />
@@ -248,7 +255,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				<label class="ui-label mt10"><span class="ui-form-required"></span>媒体区域图</label>
 				<form id="intro1" method="post" enctype="multipart/form-data">
 					<img
-						src="<#if jsonView?? && jsonView.intro1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro1_url}</#if>"
+						src="<#if jsonView?? && jsonView.mediaSurvey.intro1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.mediaSurvey.intro1_url}</#if>"
 						id="intro1_img" 
 						border="1px solid #d0d0d0;" /> <input id="intro1_file"
 						class="select_img" name="intro1_file" type="file"
@@ -260,7 +267,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				<label class="ui-label mt10"><span class="ui-form-required"></span>媒体展示图</label>
 				<form id="intro2" method="post" enctype="multipart/form-data">
 					<img
-						src="<#if jsonView?? && jsonView.intro2_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro2_url}</#if>"
+						src="<#if jsonView?? && jsonView.mediaSurvey.intro2_url?has_content>${rc.contextPath}/upload_temp/${jsonView.mediaSurvey.intro2_url}</#if>"
 						id="intro2_img" 
 						border="1px solid #d0d0d0;" /> <input id="intro2_file"
 						class="select_img" name="intro2_file" type="file"
@@ -271,7 +278,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				<label class="ui-label mt10"><span class="ui-form-required"></span>合作品牌图</label>
 				<form id="intro3" method="post" enctype="multipart/form-data">
 					<img
-						src="<#if jsonView?? && jsonView.intro1_ur3?has_content>${rc.contextPath}/upload_temp/${jsonView.intro3_url}</#if>"
+						src="<#if jsonView?? && jsonView.mediaSurvey.intro3_url?has_content>${rc.contextPath}/upload_temp/${jsonView.mediaSurvey.intro3_url}</#if>"
 						id="intro3_img" 
 						border="1px solid #d0d0d0;" /> <input id="intro3_file"
 						class="select_img" name="intro3_file" type="file"
@@ -282,7 +289,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
 				<label class="ui-label mt10"><span class="ui-form-required"></span>其他介绍图</label>
 				<form id="intro4" method="post" enctype="multipart/form-data">
 					<img
-						src="<#if jsonView?? && jsonView.intro4_url?has_content>${rc.contextPath}/upload_temp/${jsonView.intro4_url}</#if>"
+						src="<#if jsonView?? && jsonView.mediaSurvey.intro4_url?has_content>${rc.contextPath}/upload_temp/${jsonView.mediaSurvey.intro4_url}</#if>"
 						id="intro4_img" 
 						border="1px solid #d0d0d0;" /> <input id="intro4_file"
 						class="select_img" name="intro4_file" type="file"

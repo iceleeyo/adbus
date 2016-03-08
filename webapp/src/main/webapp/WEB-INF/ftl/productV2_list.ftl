@@ -86,6 +86,7 @@ js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer
                        	}else {
                        		operations +=	'<a class="table-action" href="javascript:void(0);" url="${rc.contextPath}/product/changeStats/' + data + '/online">上架</a> &nbsp;'
                        	}
+                       	operations +='<a class="table-link operation" onclick="editBodyCombo('+row.id+')" href="javascript:void(0);">编辑</a> &nbsp;';
                        return operations;
                         
                     }},
@@ -136,6 +137,16 @@ js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer
     function drawCallback() {
     
     }
+    function editBodyCombo(id){
+        var url="${rc.contextPath}/product/getBodyProViewJson/"+id;
+      $.post(url, function(data) {
+               if(data!=""){
+               window.location.href="${rc.contextPath}/product/BefEditBodyCombo?jsonStr="+data;
+               }else{
+                 layer.msg("操作异常");
+               }
+        	});
+}
 function buy(pid){
 		layer.confirm('确定下单吗？', {icon: 3}, function(index){
     		layer.close(index);

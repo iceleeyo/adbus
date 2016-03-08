@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.pojo.BaseEntity;
@@ -51,17 +52,21 @@ import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.security.Request;
 import com.pantuo.util.Only1ServieUniqLong;
 import com.pantuo.util.Pair;
+import com.pantuo.web.IndexController.CardSelect;
+import com.pantuo.web.view.BodyProView;
 import com.pantuo.web.view.MediaSurvey;
 import com.pantuo.web.view.PlanRequest;
 import com.pantuo.web.view.ProductView;
 
 import scala.annotation.target.param;
+import scala.collection.generic.BitOperations.Int;
 
 /**
  * @author xl
  */
 @Controller
 @RequestMapping(produces = "application/json;charset=utf-8", value = "/product")
+@SessionAttributes("bodyProView")
 public class ProductController {
     private static Logger log = LoggerFactory.getLogger(ProductController.class);
 
@@ -235,24 +240,6 @@ public class ProductController {
     }
    
    
-    @PreAuthorize(" hasRole('ShibaOrderManager')  ")
-    @RequestMapping(value = "/{id}", produces = "text/html;charset=utf-8")
-    public String updateProduct(@PathVariable int id,
-                                @ModelAttribute("city") JpaCity city,
-                                Model model, HttpServletRequest request) {
-        Page<UserDetail> users = userService.getValidUsers(null,0, 999, null);
-        model.addAttribute("users", users.getContent());
-    	model.addAttribute("prod", productService.findById(id));
-    	model.addAttribute("jsonView", cardService.getJsonfromJsonStr(productService.findById(id).getJsonString()));
-        if (city != null) {
-            model.addAttribute("types", JpaProduct.productTypesForMedia.get(city.getMediaType()));
-            if (city.getMediaType() == JpaCity.MediaType.body) {
-                model.addAttribute("lineLevels", JpaBusline.Level.values());
-            }
-        }
-//        model.addAttribute("types", JpaProduct.Type.values());
-        return "newProduct";
-    }
     @RequestMapping(value = "editComparePro/{id}", produces = "text/html;charset=utf-8")
     public String editComparePro(@PathVariable int id,
     		@ModelAttribute("city") JpaCity city,
@@ -363,12 +350,55 @@ public class ProductController {
     @ResponseBody
     public Pair<Boolean, String> saveBodyCombo(ProductV2 productV2,MediaSurvey survey,JpaBusOrderDetailV2 detailV2,
     		@CookieValue(value = "city", defaultValue = "-1") int cityID, Principal principal,
+    		@RequestParam(value="orderDetailV2Id",defaultValue = "-1") int orderDetailV2Id,
+    		@RequestParam(value="productV2Id",defaultValue = "-1") int productV2Id,
     		HttpServletRequest request,HttpServletResponse response) {
     	 int city=cityID==-1?2:cityID;
     	 String userID=principal==null?productV2.getCreater():Request.getUserId(principal);
     	 productV2.setCity(city);
     	 response.setHeader("Access-Control-Allow-Origin", "*");
-    	return productService.saveBodyCombo(productV2,detailV2, survey,userID,city);
+    	return productService.saveBodyCombo(productV2,detailV2, survey,userID,city,orderDetailV2Id,productV2Id);
+    }
+    //根据车身产品ID获取json串
+    @RequestMapping(value = "getBodyProViewJson/{id}")
+    @ResponseBody
+    public String getBodyProViewJson(@PathVariable int id,
+                                Model model, HttpServletRequest request,HttpServletResponse response) {
+    	response.setHeader("Access-Control-Allow-Origin", "*");
+        return productService.getBodyProViewJson(id);
+    }
+    @RequestMapping(value = "BefEditBodyCombo", produces = "text/html;charset=utf-8")
+    public String BefEditBodyCombo(
+    		@RequestParam(value="jsonStr",required = false) String jsonStr,
+    		Model model, HttpServletRequest request) {
+    	model.addAttribute("bodyProView", cardService.getBodyProViewfromJsonStr(jsonStr));
+    	return "redirect:/product/editBodyCombo";
+    }
+    @RequestMapping(value = "/editBodyCombo", produces = "text/html;charset=utf-8")
+    public String editBodyCombo(
+    		@ModelAttribute("bodyProView") BodyProView bodyProView,
+    		Model model, HttpServletRequest request) {
+    	//String jString=productService.getBodyProViewJson(id);
+    	model.addAttribute("lineLevels", JpaBusline.Level.values());
+    	model.addAttribute("jsonView", bodyProView);
+    	return "newBodyCombo";
+    }
+    @PreAuthorize(" hasRole('ShibaOrderManager')  ")
+    @RequestMapping(value = "/{id}", produces = "text/html;charset=utf-8")
+    public String updateProduct(@PathVariable int id,
+    		@ModelAttribute("city") JpaCity city,
+    		Model model, HttpServletRequest request) {
+    	Page<UserDetail> users = userService.getValidUsers(null,0, 999, null);
+    	model.addAttribute("users", users.getContent());
+    	model.addAttribute("prod", productService.findById(id));
+    	model.addAttribute("jsonView", cardService.getJsonfromJsonStr(productService.findById(id).getJsonString()));
+    	if (city != null) {
+    		model.addAttribute("types", JpaProduct.productTypesForMedia.get(city.getMediaType()));
+    		if (city.getMediaType() == JpaCity.MediaType.body) {
+    			model.addAttribute("lineLevels", JpaBusline.Level.values());
+    		}
+    	}
+    	return "newProduct";
     }
     @RequestMapping(value = "/saveProductV2")
 	@ResponseBody
