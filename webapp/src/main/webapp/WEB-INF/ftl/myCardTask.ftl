@@ -4,7 +4,37 @@ css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css","css/laye
 js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer-site.js"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <script type="text/javascript">
-
+ 	function gotoContract(_seriaNum,helpid){
+ 	var Purl="${bodyOnlineUrl}/busselect/ajax-onlineContractInfo?_seriaNum="+_seriaNum+"&"+"${Md5!''}";
+        
+         $.ajax({
+            url:Purl,
+            type:'get',
+            success:function(data,status,jqXHR){
+            if(jqXHR.status==200){
+                if(data!=null && typeof(data)!="undefined"){
+               var str = JSON.stringify(data);  
+               window.location = "${rc.contextPath}/bodyClient/be_createOnlineContract?_seriaNum="+_seriaNum+"&helpid="+helpid+"&jsonStr="+str;
+               }else{
+                 layer.msg("操作异常");
+               }
+               }
+               else{
+                alertCompleteMsg(jqXHR.status);
+               }
+            },
+            complete:function(jqXHR, textStatus)
+           
+					      {
+					      alertCompleteMsg(jqXHR.status);
+					      
+            },
+            error:function(jqXHR, textStatus){
+               alertCompleteMsg(jqXHR.status);
+            }
+           
+        })
+	  }
 	
     var table;
     function initTable () {
@@ -37,6 +67,10 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                     } );
                 },
                 "dataSrc": "content",
+                 "complete": function(jqXHR, textStatus)
+					      {
+					      alertCompleteMsg(jqXHR.status);
+					},
             },
             
             "columns": [
@@ -103,26 +137,25 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                 		t='<font color="greeen">审核通过</font>';
                 	}else if(data =='refu'){
                 		t='<font color="red">订单已拒绝</font>';
+                	}else if(data =='contractd'){
+                		t='<font color="greeen">合同已创建</font>';
                 	}
                 	return t;
                 }},
                 { "data": "r.remarks", "defaultContent": ""},
                 
-                { "data": function( row, type, set, meta) {
-                                                  return row.id;
-                                              },
-										"render" : function(data, type, row,
-												meta) {
-											var operations = '';
-											operations +='<a class="table-link" onclick="queryCarBoxBody(\'${rc.contextPath}\','+row.r.id+');" href="javascript:void(0)">详情</a>';
-											 <@security.authorize ifAnyGranted="bodyOnlineManager">
-											operations +='&nbsp;&nbsp;<a class="table-link" onclick="handlebodyorder(\'${rc.contextPath}\','+row.r.id+');" href="javascript:void(0)">处理</a>';
-											 </@security.authorize>
-											return operations;
-										}
+                { "data": function( row, type, set, meta) {  return row.id;},
+							"render" : function(data, type, row,meta) {
+					var operations = '';
+					if(row.r.stats=='init'){
+						operations +='<a class="table-link" onclick="queryCarBoxBody(\'${rc.contextPath}\','+row.r.id+');" href="javascript:void(0)">详情</a>';
+						operations +='&nbsp;&nbsp;<a class="table-link" onclick="handlebodyorder(\'${rc.contextPath}\','+row.r.id+",'"+"<@security.authentication property="principal.user.id"/>"+'\');" href="javascript:void(0)">处理</a>';
+					}else if(row.r.stats=='pass'){
+						operations +='&nbsp;&nbsp;<a class="table-link" onclick="gotoContract('+row.r.newBodySeriaNum+","+row.r.id+');" href="javascript:void(0)">查看合同</a>';
+					}
+					return operations;
+				}						
 									},
-				
-                
             ],
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"

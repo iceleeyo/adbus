@@ -6,6 +6,12 @@
  * @param id
  * test
  */
+function alertCompleteMsg(status){
+	  if(status==0){ layer.msg("连接电商平台网络错误!", {icon: 5}); }
+      else if (status == 404) { layer.msg("404错误", {icon: 5});  }
+      else if (status == 203) { layer.msg("电商平台通信协议失败", {icon: 5});  }
+      else if (status == 500) {  layer.msg("500错误,服务器暂时抽筋了", {icon: 5});}
+}
 function isNotEmptyString(str) {
 		if (str != null && typeof(str) != "undefined" && str != "") {
 			return str;

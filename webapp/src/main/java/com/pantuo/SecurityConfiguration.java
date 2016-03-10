@@ -115,6 +115,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 						,"/product/acountPrice**"
 						,"/product/saveBodyCombo**"
 						,"/carbox/ajax-myCards**"
+						,"/carbox/ajax-bodyOrderLog**"
 						,"/product/changeStats/**"
 						,"/product/saveProductV2**"
 						,"/upload/saveSimpleFile**"

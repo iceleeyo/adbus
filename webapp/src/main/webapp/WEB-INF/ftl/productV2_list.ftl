@@ -139,7 +139,7 @@ js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer
     }
     function editBodyCombo(id){
         var url="${rc.contextPath}/product/getBodyProViewJson/"+id;
-      $.post(url, function(data) {
+          $.post(url, function(data) {
                if(data!=""){
                window.location.href="${rc.contextPath}/product/BefEditBodyCombo?jsonStr="+data;
                }else{

@@ -1,6 +1,7 @@
 package com.pantuo.web;
 
 import java.security.Principal;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -19,15 +21,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.pantuo.dao.pojo.JpaBodyOrderLog;
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaCardBoxBody;
 import com.pantuo.dao.pojo.JpaCardBoxHelper;
 import com.pantuo.dao.pojo.JpaCardBoxMedia;
+import com.pantuo.mybatis.domain.BodyOrderLog;
 import com.pantuo.mybatis.domain.CardboxHelper;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.CardService;
+import com.pantuo.service.security.Request;
+import com.pantuo.util.MD5Util;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.CardBoxHelperView;
 import com.pantuo.web.view.CardTotalView;
@@ -145,9 +151,12 @@ public class CarBoxController {
 		return new DataTablePage(page, req.getDraw());
 	}
 	
-	
+	@Value("${body.onlineUrl}")
+	String bodyOnlineUrl;
 	@RequestMapping(value = "/carTask")
-	public String list() {
+	public String list(Model model,@RequestParam(value = "id", defaultValue = "0") int id) {
+		model.addAttribute("bodyOnlineUrl", bodyOnlineUrl);
+		model.addAttribute("Md5", MD5Util.getMd5(id));
 		return "myCardTask";
 	}
 	
@@ -158,6 +167,13 @@ public class CarBoxController {
 		Page<CardBoxHelperView> page = cardService.myCards(city, principal, req);
 		 response.setHeader("Access-Control-Allow-Origin", "*");
 		return new DataTablePage(page, req.getDraw());
+	}
+	@RequestMapping("ajax-bodyOrderLog")
+	@ResponseBody
+	public List<BodyOrderLog> getBodyOrderLog(TableRequest req,
+			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,HttpServletResponse response) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		return cardService.getBodyOrderLog(principal, req);
 	}
 	@RequestMapping(value = "/queryCarBoxBody/{helpid}")
 	public String queryCarBoxBody(Model model,@PathVariable("helpid") int helpid,HttpServletResponse response) {
@@ -188,9 +204,11 @@ public class CarBoxController {
 	}
 	@RequestMapping("/editCarHelper")
 	@ResponseBody
-	public Pair<Boolean, String> editCarHelper(CardboxHelper helper,@RequestParam("stat") String stas,HttpServletResponse response) {
+	public Pair<Boolean, String> editCarHelper(CardboxHelper helper, Principal principal,
+			@RequestParam("stat") String stas,@RequestParam(value="creater",required=false) String creater,HttpServletResponse response) {
 		 response.setHeader("Access-Control-Allow-Origin", "*");
-		return cardService.editCarHelper(helper,stas);
+		 String userId=principal==null?(creater==null?"":creater):Request.getUserId(principal);
+		return cardService.editCarHelper(helper,stas,userId);
 	}
 	@RequestMapping("ajax-queryCarBoxMedia")
 	@ResponseBody
