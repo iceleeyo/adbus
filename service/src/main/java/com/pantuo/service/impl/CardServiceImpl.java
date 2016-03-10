@@ -742,14 +742,16 @@ public class CardServiceImpl implements CardService {
 			}
 		}
 		if (bodyList != null && !bodyList.isEmpty()) {
+			double p=0.0;
 			int l = bodyList.size();
 			for (CardboxBody obj : bodyList) {
 				double w = obj.getTotalprice();
+				p+=w;
 				if (!map.containsKey(obj.getCity())) {
 					map.put(obj.getCity(), new TypeCount(obj.getCity(), l, w));
 				}
 				TypeCount v = map.get(obj.getCity());
-				v.setPrice(v.getPrice() + w);
+				v.setPrice(p);
 				v.setMediaType(JpaCity.MediaType.body);
 			}
 		}
