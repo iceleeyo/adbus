@@ -181,6 +181,10 @@
 			<generatedKey column="ID" sqlStatement="${generator.db}"
 				identity="true" />
 		</table>
+		<table schema="" tableName="body_order_log" delimitIdentifiers="${generator.delimitIdentifiers}">
+			<generatedKey column="ID" sqlStatement="${generator.db}"
+				identity="true" />
+		</table>
 		
 
 	</context>
