@@ -14,14 +14,12 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.pantuo.dao.pojo.JpaBodyOrderLog;
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaCardBoxBody;
 import com.pantuo.dao.pojo.JpaCardBoxHelper;
@@ -34,6 +32,7 @@ import com.pantuo.service.ActivitiService;
 import com.pantuo.service.CardService;
 import com.pantuo.service.security.Request;
 import com.pantuo.util.MD5Util;
+import com.pantuo.util.OpenApiV1;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.CardBoxHelperView;
 import com.pantuo.web.view.CardTotalView;
@@ -204,6 +203,7 @@ public class CarBoxController {
 	}
 	@RequestMapping("/editCarHelper")
 	@ResponseBody
+	@OpenApiV1
 	public Pair<Boolean, String> editCarHelper(CardboxHelper helper, Principal principal,
 			@RequestParam("stat") String stas,@RequestParam(value="creater",required=false) String creater,HttpServletResponse response) {
 		 response.setHeader("Access-Control-Allow-Origin", "*");
