@@ -10,11 +10,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,7 @@ import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.ActivitiConfiguration;
+import com.pantuo.dao.BodyOrderLogRepository;
 import com.pantuo.dao.BusOrderDetailV2Repository;
 import com.pantuo.dao.CardBoxBodyRepository;
 import com.pantuo.dao.CardBoxRepository;
@@ -34,6 +37,7 @@ import com.pantuo.dao.CardHelperRepository;
 import com.pantuo.dao.OrdersRepository;
 import com.pantuo.dao.ProductRepository;
 import com.pantuo.dao.UserDetailRepository;
+import com.pantuo.dao.pojo.JpaBodyOrderLog;
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaCardBoxBody;
@@ -43,11 +47,14 @@ import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaCity.MediaType;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.dao.pojo.QJpaBodyOrderLog;
 import com.pantuo.dao.pojo.QJpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.QJpaCardBoxBody;
 import com.pantuo.dao.pojo.QJpaCardBoxHelper;
 import com.pantuo.dao.pojo.QJpaCardBoxMedia;
 import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.mybatis.domain.BodyOrderLog;
+import com.pantuo.mybatis.domain.BodyOrderLogExample;
 import com.pantuo.mybatis.domain.CardboxBody;
 import com.pantuo.mybatis.domain.CardboxBodyExample;
 import com.pantuo.mybatis.domain.CardboxHelper;
@@ -55,6 +62,7 @@ import com.pantuo.mybatis.domain.CardboxMedia;
 import com.pantuo.mybatis.domain.CardboxMediaExample;
 import com.pantuo.mybatis.domain.CardboxUser;
 import com.pantuo.mybatis.domain.CardboxUserExample;
+import com.pantuo.mybatis.persistence.BodyOrderLogMapper;
 import com.pantuo.mybatis.persistence.CardboxBodyMapper;
 import com.pantuo.mybatis.persistence.CardboxHelperMapper;
 import com.pantuo.mybatis.persistence.CardboxMediaMapper;
@@ -76,6 +84,7 @@ import com.pantuo.web.view.CardBoxHelperView;
 import com.pantuo.web.view.CardTotalView;
 import com.pantuo.web.view.CardView;
 import com.pantuo.web.view.MediaSurvey;
+import com.pantuo.web.view.Offlinecontract;
 import com.pantuo.web.view.UserQualifiView;
 
 @Service
@@ -84,6 +93,8 @@ public class CardServiceImpl implements CardService {
 	CardboxMediaMapper cardMapper;
 	@Autowired
 	CardboxHelperMapper cardboxHelpMapper;
+	@Autowired
+	BodyOrderLogMapper bodyOrderLogMapper;
 	@Autowired
 	ActivitiService activitiService;
 	@Autowired
@@ -97,6 +108,8 @@ public class CardServiceImpl implements CardService {
 
 	@Autowired
 	CardHelperRepository cardHelperRepository;
+	@Autowired
+	BodyOrderLogRepository bodyOrderLogRepository;
 
 	@Autowired
 	CardboxUserMapper cardboxUserMapper;
@@ -109,10 +122,10 @@ public class CardServiceImpl implements CardService {
 	@Autowired
 	CityService cityService;
 	@Autowired
-	 UserDetailRepository userRepo;
-	
-	
+	UserDetailRepository userRepo;
+
 	private static Logger log = LoggerFactory.getLogger(CardServiceImpl.class);
+
 	@Override
 	public long getCardBingSeriaNum(Principal principal) {
 		long result = 0;
@@ -197,14 +210,13 @@ public class CardServiceImpl implements CardService {
 			page2 = cardBoxBodyRepository.findAll(query2, new PageRequest(0, 1024, new Sort("id"))).getContent();
 		}
 		CardTotalView totalView = getBoxPrice(seriaNum, isComfirm, meidLists, boidLists);
-		CardView w = new CardView(page, page2, totalView.getPrice(), getBoxTotalnum(seriaNum, isComfirm, meidLists,
-				boidLists));
+		CardView w = new CardView(page, page2, totalView.getPrice(),
+				getBoxTotalnum(seriaNum, isComfirm, meidLists, boidLists));
 		return w;
 	}
 
 	@Override
-	public CardTotalView saveCard(int proid, int needCount, Principal principal, int city, String type,
-			int IsDesign) {
+	public CardTotalView saveCard(int proid, int needCount, Principal principal, int city, String type, int IsDesign) {
 		double totalPrice = 0;
 		int totalnum = 0;
 		if (StringUtils.equals(type, "media")) {
@@ -214,7 +226,7 @@ public class CardServiceImpl implements CardService {
 					.andUserIdEqualTo(Request.getUserId(principal)).andIsConfirmEqualTo(0);
 			List<CardboxMedia> c = cardMapper.selectByExample(example);
 			JpaProduct product = productRepository.findOne(proid);
-			if (c.isEmpty()) {//无记录时增加
+			if (c.isEmpty()) {// 无记录时增加
 				CardboxMedia media = new CardboxMedia();
 				media.setCity(city);
 				media.setUserId(Request.getUserId(principal));
@@ -229,7 +241,7 @@ public class CardServiceImpl implements CardService {
 				cardMapper.insert(media);
 			} else {
 				CardboxMedia existMedia = c.get(0);
-				if (needCount == 0) {//如果是0时删除
+				if (needCount == 0) {// 如果是0时删除
 					cardMapper.deleteByExample(example);
 				} else {
 					existMedia.setNeedCount(needCount);
@@ -238,10 +250,10 @@ public class CardServiceImpl implements CardService {
 				}
 			}
 
-			//			totalPrice = getBoxPrice(seriaNum, 0, null);
-			//			totalnum = getBoxTotalnum(seriaNum, 0, null);
+			// totalPrice = getBoxPrice(seriaNum, 0, null);
+			// totalnum = getBoxTotalnum(seriaNum, 0, null);
 			return getBoxPrice(seriaNum, 0, null, null);
-			//return new Pair<Double, Integer>(totalPrice, totalnum);
+			// return new Pair<Double, Integer>(totalPrice, totalnum);
 		} else {
 			long seriaNum = getCardBingSeriaNum(principal);
 			CardboxBodyExample example = new CardboxBodyExample();
@@ -249,7 +261,7 @@ public class CardServiceImpl implements CardService {
 					.andUserIdEqualTo(Request.getUserId(principal)).andIsConfirmEqualTo(0).andIsDesignEqualTo(IsDesign);
 			List<CardboxBody> c = cardBodyMapper.selectByExample(example);
 			JpaBusOrderDetailV2 product = busOrderDetailV2Repository.findOne(proid);
-			if (c.isEmpty()) {//无记录时增加
+			if (c.isEmpty()) {// 无记录时增加
 				CardboxBody media = new CardboxBody();
 				media.setCity(city);
 				media.setUserId(Request.getUserId(principal));
@@ -265,7 +277,7 @@ public class CardServiceImpl implements CardService {
 				cardBodyMapper.insert(media);
 			} else {
 				CardboxBody existMedia = c.get(0);
-				if (needCount == 0) {//如果是0时删除
+				if (needCount == 0) {// 如果是0时删除
 					cardBodyMapper.deleteByExample(example);
 				} else {
 					existMedia.setNeedCount(needCount);
@@ -273,13 +285,14 @@ public class CardServiceImpl implements CardService {
 					cardBodyMapper.updateByPrimaryKey(existMedia);
 				}
 			}
-			  	return getBoxPrice(seriaNum, 0, null, null);
-			//return new Pair<Double, Integer>(totalPrice, totalnum);
+			return getBoxPrice(seriaNum, 0, null, null);
+			// return new Pair<Double, Integer>(totalPrice, totalnum);
 		}
 	}
 
 	@Override
-	public Pair<Boolean, String> putIncar(int proid, int needCount, int days, Principal principal, int city,String startdate1, String type) {
+	public Pair<Boolean, String> putIncar(int proid, int needCount, int days, Principal principal, int city,
+			String startdate1, String type) {
 		if (StringUtils.equals(type, "media")) {
 			long seriaNum = getCardBingSeriaNum(principal);
 			CardboxMediaExample example = new CardboxMediaExample();
@@ -287,11 +300,11 @@ public class CardServiceImpl implements CardService {
 					.andUserIdEqualTo(Request.getUserId(principal)).andIsConfirmEqualTo(0);
 			List<CardboxMedia> c = cardMapper.selectByExample(example);
 			JpaProduct product = productRepository.findOne(proid);
-			if (c.isEmpty()) {//无记录时增加
+			if (c.isEmpty()) {// 无记录时增加
 				CardboxMedia media = new CardboxMedia();
 				try {
-					if(StringUtils.isNotBlank(startdate1)){
-						Date st=DateUtil.longDf.get().parse(startdate1);
+					if (StringUtils.isNotBlank(startdate1)) {
+						Date st = DateUtil.longDf.get().parse(startdate1);
 						media.setStartTime(st);
 					}
 				} catch (ParseException e) {
@@ -311,14 +324,14 @@ public class CardServiceImpl implements CardService {
 			} else {
 				CardboxMedia existMedia = c.get(0);
 				try {
-					if(StringUtils.isNotBlank(startdate1)){
-						Date st=DateUtil.longDf.get().parse(startdate1);
+					if (StringUtils.isNotBlank(startdate1)) {
+						Date st = DateUtil.longDf.get().parse(startdate1);
 						existMedia.setStartTime(st);
 					}
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-				if (needCount == 0) {//如果是0时删除
+				if (needCount == 0) {// 如果是0时删除
 					cardMapper.deleteByExample(example);
 				} else {
 					existMedia.setNeedCount(needCount);
@@ -336,7 +349,7 @@ public class CardServiceImpl implements CardService {
 			;
 			List<CardboxBody> c = cardBodyMapper.selectByExample(example);
 			JpaBusOrderDetailV2 product = busOrderDetailV2Repository.findOne(proid);
-			if (c.isEmpty()) {//无记录时增加
+			if (c.isEmpty()) {// 无记录时增加
 				CardboxBody media = new CardboxBody();
 				media.setCity(city);
 				media.setUserId(Request.getUserId(principal));
@@ -352,7 +365,7 @@ public class CardServiceImpl implements CardService {
 				cardBodyMapper.insert(media);
 			} else {
 				CardboxBody existMedia = c.get(0);
-				if (needCount == 0) {//如果是0时删除
+				if (needCount == 0) {// 如果是0时删除
 					cardBodyMapper.deleteByExample(example);
 				} else {
 					existMedia.setNeedCount(needCount);
@@ -368,7 +381,8 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public Pair<Boolean, String> buy(int proid, int needCount, int days, Principal principal, int city, String startdate1,String type) {
+	public Pair<Boolean, String> buy(int proid, int needCount, int days, Principal principal, int city,
+			String startdate1, String type) {
 		if (StringUtils.equals(type, "media")) {
 			long seriaNum = getCardBingSeriaNum(principal);
 			CardboxMediaExample example = new CardboxMediaExample();
@@ -376,11 +390,11 @@ public class CardServiceImpl implements CardService {
 					.andUserIdEqualTo(Request.getUserId(principal));
 			List<CardboxMedia> c = cardMapper.selectByExample(example);
 			JpaProduct product = productRepository.findOne(proid);
-			if (c.isEmpty()) {//无记录时增加
+			if (c.isEmpty()) {// 无记录时增加
 				CardboxMedia media = new CardboxMedia();
 				try {
-					if(StringUtils.isNotBlank(startdate1)){
-						Date st=DateUtil.longDf.get().parse(startdate1);
+					if (StringUtils.isNotBlank(startdate1)) {
+						Date st = DateUtil.longDf.get().parse(startdate1);
 						media.setStartTime(st);
 					}
 				} catch (ParseException e) {
@@ -404,14 +418,14 @@ public class CardServiceImpl implements CardService {
 			} else {
 				CardboxMedia existMedia = c.get(0);
 				try {
-					if(StringUtils.isNotBlank(startdate1)){
-						Date st=DateUtil.longDf.get().parse(startdate1);
+					if (StringUtils.isNotBlank(startdate1)) {
+						Date st = DateUtil.longDf.get().parse(startdate1);
 						existMedia.setStartTime(st);
 					}
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-				if (needCount == 0) {//如果是0时删除
+				if (needCount == 0) {// 如果是0时删除
 					cardMapper.deleteByExample(example);
 					return new Pair<Boolean, String>(false, "");
 				} else {
@@ -481,13 +495,13 @@ public class CardServiceImpl implements CardService {
 				example.createCriteria().andSeriaNumEqualTo(seriaNum).andProductIdEqualTo(media.getProductId())
 						.andUserIdEqualTo(uid);
 				List<CardboxMedia> c = cardMapper.selectByExample(example);
-				if (c.isEmpty()) {//无记录时增加
+				if (c.isEmpty()) {// 无记录时增加
 					cardMapper.insert(media);
 					r.setLeft(true);
 					r.setRight("Addsuccess");
 				} else {
 
-					if (media.getNeedCount() == 0 || !isadd) {//如果是0时删除
+					if (media.getNeedCount() == 0 || !isadd) {// 如果是0时删除
 						cardMapper.deleteByExample(example);
 					} else {
 						CardboxMedia existMedia = c.get(0);
@@ -513,12 +527,12 @@ public class CardServiceImpl implements CardService {
 				example.createCriteria().andSeriaNumEqualTo(seriaNum).andProductIdEqualTo(media.getProductId())
 						.andUserIdEqualTo(uid);
 				List<CardboxBody> c = cardBodyMapper.selectByExample(example);
-				if (c.isEmpty()) {//无记录时增加
+				if (c.isEmpty()) {// 无记录时增加
 					cardBodyMapper.insert(media);
 					r.setLeft(true);
 					r.setRight("Addsuccess");
 				} else {
-					if (media.getNeedCount() == 0 || !isadd) {//如果是0时删除
+					if (media.getNeedCount() == 0 || !isadd) {// 如果是0时删除
 						cardBodyMapper.deleteByExample(example);
 					} else {
 						CardboxBody existBody = c.get(0);
@@ -537,10 +551,12 @@ public class CardServiceImpl implements CardService {
 	public void add(CardboxHelper helper, Principal principal) {
 
 	}
-	public CardTotalView getCarSumInfo( Principal principal) {
+
+	public CardTotalView getCarSumInfo(Principal principal) {
 		long seriaNum = getCardBingSeriaNum(principal);
 		return getBoxPrice(seriaNum, 0, null, null);
 	}
+
 	public double getBoxPrice(Principal principal) {
 		long seriaNum = getCardBingSeriaNum(principal);
 		return seriaNum == 0 ? 0 : getBoxPrice(seriaNum, 0, null, null).price;
@@ -640,6 +656,7 @@ public class CardServiceImpl implements CardService {
 		int productCount;
 		double price;
 		JpaCity.MediaType mediaType;
+
 		public int getProductCount() {
 			return productCount;
 		}
@@ -678,7 +695,6 @@ public class CardServiceImpl implements CardService {
 		public void setMediaType(JpaCity.MediaType mediaType) {
 			this.mediaType = mediaType;
 		}
-		
 
 	}
 
@@ -717,11 +733,11 @@ public class CardServiceImpl implements CardService {
 				double w = cardboxMedia.getPrice() * cardboxMedia.getNeedCount();
 				if (!map.containsKey(cardboxMedia.getCity())) {
 					map.put(cardboxMedia.getCity(), new TypeCount(cardboxMedia.getCity(), m, w));
-				}  
-					TypeCount v = map.get(cardboxMedia.getCity());
-					v.setPrice(v.getPrice() + w);
-				
-					v.setMediaType(JpaCity.MediaType.screen);
+				}
+				TypeCount v = map.get(cardboxMedia.getCity());
+				v.setPrice(v.getPrice() + w);
+
+				v.setMediaType(JpaCity.MediaType.screen);
 
 			}
 		}
@@ -741,8 +757,8 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public Pair<Boolean, String> payment(String startdate1,String paytype,int isdiv, String divid, long seriaNum, Principal principal, int city,
-			String meids, String boids) {
+	public Pair<Boolean, String> payment(String startdate1, String paytype, int isdiv, String divid, long seriaNum,
+			Principal principal, int city, String meids, String boids) {
 		List<Integer> medisIds = CardUtil.parseIdsFromString(meids);
 		List<Integer> carid = CardUtil.parseIdsFromString(boids);
 
@@ -765,7 +781,7 @@ public class CardServiceImpl implements CardService {
 			helper.setCardBodyIds(boids);
 			UserDetail user = Request.getUser(principal);
 			if (user != null) {
-				//过滤掉不需要存的字段 风险大
+				// 过滤掉不需要存的字段 风险大
 				UserDetail u = new UserDetail();
 				BeanUtils.copyProperties(user, u);
 				u.setGroups(null);
@@ -777,27 +793,28 @@ public class CardServiceImpl implements CardService {
 				helper.setUserJson(JsonTools.getJsonFromObject(u));
 			}
 			helper.setNewBodySeriaNum(Only1ServieUniqLong.getUniqLongNumber());
-			/*JpaCity _city = cityService.fromId(typeCount.getCity());
-			if (_city != null) {
-				helper.setMediaType(_city.getMediaType().ordinal());
-			}*/
+			/*
+			 * JpaCity _city = cityService.fromId(typeCount.getCity()); if
+			 * (_city != null) {
+			 * helper.setMediaType(_city.getMediaType().ordinal()); }
+			 */
 
-			int a=cardboxHelpMapper.insert(helper);
-			if(a>0 && helper.getMediaType()==0 && medisIds!=null && !medisIds.isEmpty()){
-				change2Order(startdate1,medisIds,helper,principal);
+			int a = cardboxHelpMapper.insert(helper);
+			if (a > 0 && helper.getMediaType() == 0 && medisIds != null && !medisIds.isEmpty()) {
+				change2Order(startdate1, medisIds, helper, principal);
 			}
 		}
 		return new Pair<Boolean, String>(true, "支付成功");
 	}
 
-	public void change2Order(String startdate1,List<Integer> medisIds,CardboxHelper helper,Principal principal) {
+	public void change2Order(String startdate1, List<Integer> medisIds, CardboxHelper helper, Principal principal) {
 		BooleanExpression query = QJpaCardBoxMedia.jpaCardBoxMedia.city.eq(helper.getCity());
-		query=query.and(QJpaCardBoxMedia.jpaCardBoxMedia.seriaNum.eq(helper.getSeriaNum()));
-		query=query.and(QJpaCardBoxMedia.jpaCardBoxMedia.id.in(medisIds));
-		List<JpaCardBoxMedia> mList=(List<JpaCardBoxMedia>) cardBoxRepository.findAll(query);
-		String code=contractService.getContractId();
+		query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.seriaNum.eq(helper.getSeriaNum()));
+		query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.id.in(medisIds));
+		List<JpaCardBoxMedia> mList = (List<JpaCardBoxMedia>) cardBoxRepository.findAll(query);
+		String code = contractService.getContractId();
 		for (JpaCardBoxMedia jpaCardBoxMedia : mList) {
-			JpaOrders order=new JpaOrders();
+			JpaOrders order = new JpaOrders();
 			order.setCity(jpaCardBoxMedia.getCity());
 			order.setPrice(jpaCardBoxMedia.getTotalprice());
 			order.setCreated(new Date());
@@ -807,33 +824,33 @@ public class CardServiceImpl implements CardService {
 			order.setProduct(jpaCardBoxMedia.getProduct());
 			order.setContractCode(code);
 			order.setSuppliesId(1);
-			if(jpaCardBoxMedia.getStartTime()!=null){
-				Date eDate=DateUtil.dateAdd(jpaCardBoxMedia.getStartTime(), jpaCardBoxMedia.getProduct().getDays());
+			if (jpaCardBoxMedia.getStartTime() != null) {
+				Date eDate = DateUtil.dateAdd(jpaCardBoxMedia.getStartTime(), jpaCardBoxMedia.getProduct().getDays());
 				order.setStartTime(jpaCardBoxMedia.getStartTime());
 				order.setEndTime(eDate);
 			}
-			if(StringUtils.isNotBlank(startdate1)){
+			if (StringUtils.isNotBlank(startdate1)) {
 				try {
-					Date sDate=DateUtil.longDf.get().parse(startdate1);
-					Date eDate=DateUtil.dateAdd(sDate, jpaCardBoxMedia.getProduct().getDays());
+					Date sDate = DateUtil.longDf.get().parse(startdate1);
+					Date eDate = DateUtil.dateAdd(sDate, jpaCardBoxMedia.getProduct().getDays());
 					order.setStartTime(sDate);
 					order.setEndTime(eDate);
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
 			}
-			if(helper.getPayType()==JpaOrders.PayType.valueOf("offline").ordinal()){
+			if (helper.getPayType() == JpaOrders.PayType.valueOf("offline").ordinal()) {
 				order.setStats(JpaOrders.Status.unpaid);
-			}else{
+			} else {
 				order.setStats(JpaOrders.Status.paid);
 			}
 			order.setType(jpaCardBoxMedia.getProduct().getType());
 			ordersRepository.save(order);
-			if(order.getId()>0){
-				activitiService.startProcess2(jpaCardBoxMedia.getCity(),  Request.getUser(principal), order);
+			if (order.getId() > 0) {
+				activitiService.startProcess2(jpaCardBoxMedia.getCity(), Request.getUser(principal), order);
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -854,7 +871,7 @@ public class CardServiceImpl implements CardService {
 		Map<String, List<String>> map = new HashMap<String, List<String>>();
 		String[] shSplit = StringUtils.split(requestString, ",");
 		if (shSplit != null) {
-			for (String string : shSplit) {//p1
+			for (String string : shSplit) {// p1
 				String[] one = StringUtils.split(string, "_", 2);
 				String field = one[0];
 				String v = one[1];
@@ -869,8 +886,22 @@ public class CardServiceImpl implements CardService {
 		return map;
 	}
 
+	@Override
+	public List<BodyOrderLog> getBodyOrderLog(Principal principal, TableRequest req) {
+		String helpId = req.getFilter("helpId");
+		List<BodyOrderLog> list = new ArrayList<BodyOrderLog>();
+		if (StringUtils.isNotBlank(helpId)) {
+			int hid = NumberUtils.toInt(helpId);
+			BodyOrderLogExample example = new BodyOrderLogExample();
+			example.createCriteria().andHelperIdEqualTo(hid);
+			example.setOrderByClause("id desc");
+			list = bodyOrderLogMapper.selectByExample(example);
+		}
+		return list;
+	}
+
 	public Page<CardBoxHelperView> myCards(int city, Principal principal, TableRequest req) {
-		Sort sort = new Sort(Direction.fromString("desc"), "id");//req.getSort("id");
+		Sort sort = new Sort(Direction.fromString("desc"), "id");// req.getSort("id");
 		String orderid = req.getFilter("orderid"), media_type = req.getFilter("media_type");
 		;
 		int page = req.getPage(), pageSize = req.getLength();
@@ -888,27 +919,30 @@ public class CardServiceImpl implements CardService {
 				isAdmin = true;
 			}
 			if (!isAdmin) {
-				query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.userid.eq(u) : query
-						.and(QJpaCardBoxHelper.jpaCardBoxHelper.userid.eq(u));
+				query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.userid.eq(u)
+						: query.and(QJpaCardBoxHelper.jpaCardBoxHelper.userid.eq(u));
 			}
 		} else {
-			if(StringUtils.isNoneBlank(u)){
+			if (StringUtils.isNoneBlank(u)) {
 				query = QJpaCardBoxHelper.jpaCardBoxHelper.userid.eq(u);
 			}
 		}
 		if (StringUtils.isNoneBlank(orderid)) {
 			long seriaNum = NumberUtils.toLong(StringUtils.replace(orderid, "W", StringUtils.EMPTY));
-			query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.newBodySeriaNum.eq(seriaNum) : query
-					.and(QJpaCardBoxHelper.jpaCardBoxHelper.newBodySeriaNum.eq(seriaNum));
+			query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.newBodySeriaNum.eq(seriaNum)
+					: query.and(QJpaCardBoxHelper.jpaCardBoxHelper.newBodySeriaNum.eq(seriaNum));
 		}
 
-//		if (StringUtils.isNoneBlank(media_type) && !StringUtils.equals("defaultAll", media_type)) {
-//			query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.mediaType.eq(MediaType.valueOf(media_type))
-//					: query.and(QJpaCardBoxHelper.jpaCardBoxHelper.mediaType.eq(MediaType.valueOf(media_type)));
-//		}
+		// if (StringUtils.isNoneBlank(media_type) &&
+		// !StringUtils.equals("defaultAll", media_type)) {
+		// query = query == null ?
+		// QJpaCardBoxHelper.jpaCardBoxHelper.mediaType.eq(MediaType.valueOf(media_type))
+		// :
+		// query.and(QJpaCardBoxHelper.jpaCardBoxHelper.mediaType.eq(MediaType.valueOf(media_type)));
+		// }
 		if (principal != null && !Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)) {
-			query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.city.eq(city) : query
-					.and(QJpaCardBoxHelper.jpaCardBoxHelper.city.eq(city));
+			query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.city.eq(city)
+					: query.and(QJpaCardBoxHelper.jpaCardBoxHelper.city.eq(city));
 		}
 
 		Page<JpaCardBoxHelper> list = cardHelperRepository.findAll(query, p);
@@ -916,10 +950,11 @@ public class CardServiceImpl implements CardService {
 		for (JpaCardBoxHelper jpaCardBoxHelper : list.getContent()) {
 			CardBoxHelperView obj = new CardBoxHelperView(jpaCardBoxHelper);
 			obj.setMedia_type(jpaCardBoxHelper.getMediaType().ordinal());
-			/*JpaCity _city = cityService.fromId(jpaCardBoxHelper.getCity());
-			if (_city != null) {
-				obj.setMedia_type(_city.getMediaType().ordinal());
-			}*/
+			/*
+			 * JpaCity _city = cityService.fromId(jpaCardBoxHelper.getCity());
+			 * if (_city != null) {
+			 * obj.setMedia_type(_city.getMediaType().ordinal()); }
+			 */
 
 			views.add(obj);
 		}
@@ -965,8 +1000,8 @@ public class CardServiceImpl implements CardService {
 									.eq(isDoubleChecker);
 							if (!StringUtils.equals(s[1], "0")) {
 								JpaBusline.Level level = JpaBusline.Level.valueOf(s[1]);
-								smallAdressEx = smallAdressEx.and(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.leval
-										.eq(level));
+								smallAdressEx = smallAdressEx
+										.and(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.leval.eq(level));
 							}
 							subQuery = subQuery == null ? smallAdressEx : subQuery.or(smallAdressEx);
 						}
@@ -1038,7 +1073,8 @@ public class CardServiceImpl implements CardService {
 		if (length < 1)
 			length = 1;
 		if (sort == null)
-			sort = new Sort(Direction.fromString("desc"), "price");//new Sort("id");
+			sort = new Sort(Direction.fromString("desc"), "price");// new
+																	// Sort("id");
 		Pageable p = new PageRequest(page, length, sort);
 		String helpid = req.getFilter("helpid");
 		JpaCardBoxHelper help = cardHelperRepository.findOne(NumberUtils.toInt(helpid));
@@ -1046,7 +1082,8 @@ public class CardServiceImpl implements CardService {
 		List<Integer> ids = CardUtil.parseIdsFromString(help.getCardBodyIds());
 		BooleanExpression query = QJpaCardBoxBody.jpaCardBoxBody.city.eq(help.getCity());
 		if (ids != null && !ids.isEmpty()) {
-			//query = query.and(QJpaCardBoxBody.jpaCardBoxBody.seriaNum.eq(help.getSeriaNum()));
+			// query =
+			// query.and(QJpaCardBoxBody.jpaCardBoxBody.seriaNum.eq(help.getSeriaNum()));
 			query = query.and(QJpaCardBoxBody.jpaCardBoxBody.isConfirm.eq(1));
 			query = query.and(QJpaCardBoxBody.jpaCardBoxBody.id.in(ids));
 		} else {
@@ -1054,7 +1091,6 @@ public class CardServiceImpl implements CardService {
 		}
 		return query == null ? cardBoxBodyRepository.findAll(p) : cardBoxBodyRepository.findAll(query, p);
 	}
-	
 
 	@Override
 	public Page<JpaCardBoxMedia> queryCarBoxMedia(int cityId, TableRequest req, int page, int length, Sort sort) {
@@ -1063,13 +1099,14 @@ public class CardServiceImpl implements CardService {
 		if (length < 1)
 			length = 1;
 		if (sort == null)
-			sort = new Sort(Direction.fromString("desc"), "price");//new Sort("id");
+			sort = new Sort(Direction.fromString("desc"), "price");// new
+																	// Sort("id");
 		Pageable p = new PageRequest(page, length, sort);
 		String helpid = req.getFilter("helpid");
-		JpaCardBoxHelper help=cardHelperRepository.findOne(NumberUtils.toInt(helpid));
+		JpaCardBoxHelper help = cardHelperRepository.findOne(NumberUtils.toInt(helpid));
 		BooleanExpression query = QJpaCardBoxMedia.jpaCardBoxMedia.city.eq(help.getCity());
-		query=query.and(QJpaCardBoxMedia.jpaCardBoxMedia.seriaNum.eq(help.getSeriaNum()));
-		query=query.and(QJpaCardBoxMedia.jpaCardBoxMedia.isConfirm.eq(1));
+		query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.seriaNum.eq(help.getSeriaNum()));
+		query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.isConfirm.eq(1));
 		return query == null ? cardBoxRepository.findAll(p) : cardBoxRepository.findAll(query, p);
 	}
 
@@ -1079,24 +1116,34 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public Pair<Boolean, String> editCarHelper(CardboxHelper helper,String stas) {
-		CardboxHelper cardboxHelper=cardboxHelpMapper.selectByPrimaryKey(helper.getId());
-		if(cardboxHelper==null){
-			return new Pair<Boolean, String>(false,"信息丢失");
+	public Pair<Boolean, String> editCarHelper(CardboxHelper helper, String stas, String userId) {
+		CardboxHelper cardboxHelper = cardboxHelpMapper.selectByPrimaryKey(helper.getId());
+		if (cardboxHelper == null) {
+			return new Pair<Boolean, String>(false, "信息丢失");
 		}
 		cardboxHelper.setStats(JpaCardBoxHelper.Stats.valueOf(stas).ordinal());
 		cardboxHelper.setRemarks(helper.getRemarks());
-		int a=cardboxHelpMapper.updateByPrimaryKey(cardboxHelper);
-		if(a>0){
-			return new Pair<Boolean, String>(true,"操作成功");
-		}else{
-			return new Pair<Boolean, String>(false,"操作失败");
+		int a = cardboxHelpMapper.updateByPrimaryKey(cardboxHelper);
+		if (a > 0) {
+			BodyOrderLog log = new BodyOrderLog();
+			log.setCreated(new Date());
+			log.setHelperId(cardboxHelper.getId());
+			log.setUserid(userId);
+			log.setStats(JpaCardBoxHelper.Stats.valueOf(stas).getNameStr());
+			int b = bodyOrderLogMapper.insert(log);
+			if (b > 0) {
+				return new Pair<Boolean, String>(true, "操作成功");
+			} else {
+				return new Pair<Boolean, String>(false, "操作记录保存失败");
+			}
+		} else {
+			return new Pair<Boolean, String>(false, "操作失败");
 		}
 	}
 
 	@Override
 	public MediaSurvey getJsonfromJsonStr(String jsonString) {
-	
+
 		MediaSurvey s = null;
 		if (StringUtils.isBlank(jsonString)) {
 			return s;
@@ -1111,9 +1158,10 @@ public class CardServiceImpl implements CardService {
 		}
 		return s;
 	}
+
 	@Override
 	public BodyProView getBodyProViewfromJsonStr(String jsonString) {
-		
+
 		BodyProView s = null;
 		if (StringUtils.isBlank(jsonString)) {
 			return s;
@@ -1123,6 +1171,24 @@ public class CardServiceImpl implements CardService {
 			t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 			t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
 			s = t.readValue(jsonString, BodyProView.class);
+		} catch (Exception e) {
+			log.error("getJsonfromJsonStr,{}", e);
+		}
+		return s;
+	}
+
+
+	@Override
+	public Offlinecontract getContractfromJsonStr(String jsonStr) {
+		Offlinecontract s = null;
+		if (StringUtils.isBlank(jsonStr)) {
+			return s;
+		}
+		try {
+			ObjectMapper t = new ObjectMapper();
+			t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+			t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
+			s = t.readValue(jsonStr, Offlinecontract.class);
 		} catch (Exception e) {
 			log.error("getJsonfromJsonStr,{}", e);
 		}
@@ -1148,15 +1214,15 @@ public class CardServiceImpl implements CardService {
 
 	@Override
 	public boolean updateCardMeida(String start, int mediaId) {
-		  CardboxMedia cardboxMedia=cardMapper.selectByPrimaryKey(mediaId);
-		  if(!StringUtils.isNotBlank(start) ||cardboxMedia==null ){
-			  return false;
-		  }
+		CardboxMedia cardboxMedia = cardMapper.selectByPrimaryKey(mediaId);
+		if (!StringUtils.isNotBlank(start) || cardboxMedia == null) {
+			return false;
+		}
 		try {
-			Date sDate=DateUtil.longDf.get().parse(start);
+			Date sDate = DateUtil.longDf.get().parse(start);
 			cardboxMedia.setStartTime(sDate);
-			int a=cardMapper.updateByPrimaryKey(cardboxMedia);
-			if(a>0){
+			int a = cardMapper.updateByPrimaryKey(cardboxMedia);
+			if (a > 0) {
 				return true;
 			}
 		} catch (ParseException e) {
@@ -1164,5 +1230,5 @@ public class CardServiceImpl implements CardService {
 		}
 		return false;
 	}
-	
+
 }

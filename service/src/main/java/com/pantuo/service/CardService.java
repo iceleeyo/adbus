@@ -11,6 +11,7 @@ import com.pantuo.dao.pojo.JpaCardBoxBody;
 import com.pantuo.dao.pojo.JpaCardBoxHelper;
 import com.pantuo.dao.pojo.JpaCardBoxMedia;
 import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.mybatis.domain.BodyOrderLog;
 import com.pantuo.mybatis.domain.CardboxBody;
 import com.pantuo.mybatis.domain.CardboxHelper;
 import com.pantuo.mybatis.domain.CardboxMedia;
@@ -21,6 +22,7 @@ import com.pantuo.web.view.CardBoxHelperView;
 import com.pantuo.web.view.CardTotalView;
 import com.pantuo.web.view.CardView;
 import com.pantuo.web.view.MediaSurvey;
+import com.pantuo.web.view.Offlinecontract;
 import com.pantuo.web.view.UserQualifiView;
 
 public interface CardService {
@@ -137,7 +139,7 @@ public interface CardService {
 
 	public JpaCardBoxHelper queryCarHelperyByid(int id);
 
-	public Pair<Boolean, String> editCarHelper(CardboxHelper helper, String stas);
+	public Pair<Boolean, String> editCarHelper(CardboxHelper helper, String stas, String userId);
 
 	public MediaSurvey getJsonfromJsonStr(String jsonString);
 
@@ -146,4 +148,9 @@ public interface CardService {
 	public boolean updateCardMeida(String start, int mediaId);
 
 	public BodyProView getBodyProViewfromJsonStr(String jString);
+
+	public List<BodyOrderLog>  getBodyOrderLog(Principal principal, TableRequest req);
+
+	public Offlinecontract getContractfromJsonStr(String jsonStr);
+
 }
