@@ -82,6 +82,7 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 
 		List<HandlerInterceptor> list = new ArrayList<HandlerInterceptor>();
 		list.add(new RestLoggingInterceptor());
+		list.add(new OpenApiInterceptor());
 		list.add(controllerInterceptor);
 		HandlerInterceptor[] interceptors = list.toArray(new HandlerInterceptor[0]);
 
