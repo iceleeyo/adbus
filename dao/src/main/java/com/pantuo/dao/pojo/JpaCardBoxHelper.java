@@ -20,6 +20,9 @@ public class JpaCardBoxHelper extends CityEntity {
 	  public static enum Stats {
 	        init ("待审核"),
 	        pass ("审核通过"),
+	        contractd ("合同已创建"),
+	        over ("已完成"),
+	        running ("进行中"),
 	        refu ("订单已拒绝");
 	        private final String nameStr;
 	        private Stats(String nameStr) {
