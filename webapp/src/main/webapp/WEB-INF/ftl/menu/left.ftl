@@ -360,13 +360,10 @@
 				<@security.authorize
 				ifAnyGranted="sys_userList,body_roleManager,bodysales,bodyContractManager,ShibaSuppliesManager,advertiser,UserManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 				<@security.authorize ifAnyGranted="UserManager,sys_userList">
-				<#if UType != 'body'>
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/user/list"> 视频用户列表 </a></li>
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/user/adlist"> 广告主用户列表 </a></li>
-					</#if>
-				
 				</@security.authorize>
 				
 				
