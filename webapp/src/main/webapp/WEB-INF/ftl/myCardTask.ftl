@@ -147,12 +147,12 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                 { "data": function( row, type, set, meta) {  return row.id;},
 							"render" : function(data, type, row,meta) {
 					var operations = '';
-					if(row.r.stats=='init'){
+					if(row.r.stats=='init' || row.r.stats=='pass'){
 						operations +='<a class="table-link" onclick="queryCarBoxBody(\'${rc.contextPath}\','+row.r.id+');" href="javascript:void(0)">详情</a>';
-						operations +='&nbsp;&nbsp;<a class="table-link" onclick="handlebodyorder(\'${rc.contextPath}\','+row.r.id+",'"+"<@security.authentication property="principal.user.id"/>"+'\');" href="javascript:void(0)">处理</a>';
-					}else if(row.r.stats=='pass'){
+					}else{
 						operations +='&nbsp;&nbsp;<a class="table-link" onclick="gotoContract('+row.r.newBodySeriaNum+","+row.r.id+');" href="javascript:void(0)">查看合同</a>';
 					}
+					
 					return operations;
 				}						
 									},

@@ -139,7 +139,7 @@ public interface CardService {
 
 	public JpaCardBoxHelper queryCarHelperyByid(int id);
 
-	public Pair<Boolean, String> editCarHelper(CardboxHelper helper, String stas, String userId);
+	public Pair<Boolean, String> editCarHelper(CardboxHelper helper, String stas, String userId, String remarks);
 
 	public MediaSurvey getJsonfromJsonStr(String jsonString);
 

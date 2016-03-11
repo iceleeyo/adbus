@@ -1118,7 +1118,7 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public Pair<Boolean, String> editCarHelper(CardboxHelper helper, String stas, String userId) {
+	public Pair<Boolean, String> editCarHelper(CardboxHelper helper, String stas, String userId, String remarks) {
 		CardboxHelper cardboxHelper = cardboxHelpMapper.selectByPrimaryKey(helper.getId());
 		if (cardboxHelper == null) {
 			return new Pair<Boolean, String>(false, "信息丢失");
@@ -1132,6 +1132,7 @@ public class CardServiceImpl implements CardService {
 			log.setHelperId(cardboxHelper.getId());
 			log.setUserid(userId);
 			log.setStats(JpaCardBoxHelper.Stats.valueOf(stas).getNameStr());
+			log.setRemarks(remarks);
 			int b = bodyOrderLogMapper.insert(log);
 			if (b > 0) {
 				return new Pair<Boolean, String>(true, "操作成功");

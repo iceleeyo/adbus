@@ -205,10 +205,12 @@ public class CarBoxController {
 	@ResponseBody
 	@OpenApiV1
 	public Pair<Boolean, String> editCarHelper(CardboxHelper helper, Principal principal,
-			@RequestParam("stat") String stas,@RequestParam(value="creater",required=false) String creater,HttpServletResponse response) {
+			@RequestParam("stat") String stas,
+			@RequestParam(value="remarks",required=false) String remarks,
+			@RequestParam(value="creater",required=false) String creater,HttpServletResponse response) {
 		 response.setHeader("Access-Control-Allow-Origin", "*");
 		 String userId=principal==null?(creater==null?"":creater):Request.getUserId(principal);
-		return cardService.editCarHelper(helper,stas,userId);
+		return cardService.editCarHelper(helper,stas,userId,remarks);
 	}
 	@RequestMapping("ajax-queryCarBoxMedia")
 	@ResponseBody

@@ -362,7 +362,7 @@ public class ProductController {
     //根据车身产品ID获取json串
     @RequestMapping(value = "/getBodyProViewJson/{id}")
     @ResponseBody
-    public String getBodyProViewJson(@PathVariable int id,
+    public String getBodyProViewJson(@PathVariable("id") int id,
                                 Model model, HttpServletRequest request,HttpServletResponse response) {
     	response.setHeader("Access-Control-Allow-Origin", "*");
         return productService.getBodyProViewJson(id);
