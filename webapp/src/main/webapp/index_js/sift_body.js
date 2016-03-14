@@ -221,7 +221,13 @@ function initPro2(pathUrl,sh,page){
 					leval="经纬线";
 				}
 					
-					
+				var image='';
+				if(item.imgurl!=''  &&   typeof(item.imgurl)!= "undefined"){
+					image ="<img src="+pathUrl+"/upload_temp/"+item.imgurl+" height=\"66\" width=\"100\"/>";	
+				}
+				else{
+					image ="<img src="+"/index_img/jj-4.jpg" + " height=\"66\" width=\"100\"/>";
+				}
 				  
 				
 				$("#productList").prepend(
@@ -236,7 +242,7 @@ function initPro2(pathUrl,sh,page){
 						"<input class='f-left' sot='"+k+"' id='sum_"+k+"' value=\"0\">"+
 						"<input type=\"button\" class=\"icon f-left plus\" sot='"+k+"' id='leftPlus"+k+"' /></div>"+
 						"<div class=\"map f-left inline-b\">"+
-						"<div class=\"map-box\"></div></div></div>"
+						"<div class=\"map-box\">"+image+"</div></div></div>"
 				);
 				$("#sum"+k).blur(function(){
 					var sot=$(this).attr("sot");
