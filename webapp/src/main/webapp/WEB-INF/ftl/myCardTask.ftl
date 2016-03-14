@@ -139,6 +139,10 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                 		t='<font color="red">订单已拒绝</font>';
                 	}else if(data =='contractd'){
                 		t='<font color="greeen">合同已创建</font>';
+                	}else if(data =='running'){
+                		t='<font color="greeen">进行中</font>';
+                	}else if(data =='over'){
+                		t='<font color="greeen">已完成</font>';
                 	}
                 	return t;
                 }},
