@@ -212,10 +212,8 @@
 									onclick="b_leftDec(${item.id},${item.isDesign});"></span> <input
 									type="text" id="b_sum_${item.id}"
 									onblur="boblur(${item.id},${item.isDesign});"
-									value="1"> 
-								<!-- ${item.needCount} -->
-								<span class="icon icon-sub"
-									onclick="notAllow()"></span></li><!-- b_leftPlus(${item.id},${item.isDesign}); -->
+									value="${item.needCount}"> <span class="icon icon-sub"
+									onclick="b_leftPlus(${item.id},${item.isDesign});"></span></li>
 								<li class="td td-sum">
 									<div class="td-inner">
 										<p class="sum">

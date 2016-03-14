@@ -338,12 +338,12 @@ function tocard(pathurl){
 			
 		});
 		
-		$("#leftPlus").click(function(){
+		/*$("#leftPlus").click(function(){
 			var oldValue=$(this).prev().val();//获取文本框对象现有值
 			$(this).prev().val(parseInt(oldValue)+1);
 		}); 
 		
-		/* $("#leftPlus").click(function(){
+		 $("#leftPlus").click(function(){
 			  $(this).parent().find("input").val(parseint($(this).parent().find("input"))+1);
 		});
 		$("#leftDec").click(function(){

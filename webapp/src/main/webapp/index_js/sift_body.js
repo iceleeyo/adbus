@@ -289,7 +289,7 @@ function initPro2(pathUrl,sh,page){
 					if(lc=="0"){
 						islogin(pathUrl);
 					}
-					if(oldValue<=0){
+					//if(oldValue<=0){
 					$(this).prev().val(parseInt(oldValue)+1);
 					var sot=$(this).attr("sot");
 					if(lc=="1"){
@@ -303,7 +303,7 @@ function initPro2(pathUrl,sh,page){
 								setCarCount(data.cardCount_top);
 							}}, "text");	
 					}
-					}
+					//}
 				}); 
 				k++;
 			});
