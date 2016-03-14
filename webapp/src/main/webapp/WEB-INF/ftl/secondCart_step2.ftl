@@ -289,10 +289,11 @@
 			data:{"divid":divid,"isdiv":isdiv,"seriaNum":seriaNum,"paytype":paytype,"meids":meids,"boids":boids,"startdate1":startdate1},
 			success:function(data){
 				if (data.left) {
-				if(meids==""){
-				  window.location.href="${rc.contextPath}/carbox/paySuccess/body";
-				}else{
+				if(boids==""){
+				  
 				    window.location.href="${rc.contextPath}/carbox/paySuccess/media";
+				}else{
+				window.location.href="${rc.contextPath}/carbox/paySuccess/body";
 				}
 				} else {
 					layer.msg(data.right);

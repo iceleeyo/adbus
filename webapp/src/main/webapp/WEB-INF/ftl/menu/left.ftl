@@ -139,15 +139,17 @@
 			 
 		<li class="pg-side-item">
 			<a class="pg-side-item-t gg-icon"> 
-					<i class="s-left pg-icon-a i-icon"></i> 车身产品管理
+					<i class="s-left pg-icon-a i-icon"></i> 车身网上订单
 			</a>
 			<ul class="pg-side-exp-list">
-				<li class="pg-side-exp-item"><a class="side-exp-item-t"
+				<#--<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/product/newBodyCombo"> 车身产品定义 </a></li>
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/product/productV2_list"> 车身产品列表 </a></li>
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
-					href="${rc.contextPath}/product/busOrderV2_list/all">车身订单列表 </a></li>
+					href="${rc.contextPath}/product/busOrderV2_list/all">车身订单列表 </a></li>-->
+				<li class="pg-side-exp-item"><a class="side-exp-item-t"
+					href="${rc.contextPath}/carbox/carTask">车身网上订单 </a></li>
 			</ul>
 		</li> 
 			

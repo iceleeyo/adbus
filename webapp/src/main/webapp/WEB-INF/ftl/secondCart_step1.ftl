@@ -188,11 +188,11 @@
 										<p class="rec-line">车型：<#if item.product.doubleDecker> 双层
 											<#else> 单层 </#if></p>
 										<p class="rec-line">
-											刊期： <#if item.isDesign==0> ${item.product.days/30}个月 <input
-												type="hidden" id="b_days_${item.id}"
-												value="${item.product.days/30}" /> <#else> ${item.days/30}个月
-											<input type="hidden" id="b_days_${item.id}"
-												value="${item.days/30}" /> </#if>
+											刊期： <#if item.isDesign==0> ${item.product.days/30}个月
+							<input	type="hidden" id="b_days_${item.id}" value="${item.product.days/30}" />
+							 <#else> ${item.days/30}个月
+							<input type="hidden" id="b_days_${item.id}" value="${item.days/30}" /> </#if>
+												
 										</p>
 										<span class="btn-edit"></span>
 									</div>
@@ -261,6 +261,7 @@
 
 		<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
 		<script src="index_js/unslider.min.js"></script>
+		<script src="index_js/sift_common.js"></script>
 		<!--增加lay最新版本-->
 		<script type="text/javascript" language="javascript"
 			src="${rc.contextPath}/js/layer-v1.9.3/layer/layer.js"></script>
@@ -318,6 +319,7 @@
 				if (data.left) {
 					layer.msg(data.right);
 					updateMoney();
+					initCardView('${rc.contextPath}');
 				   $("ul li[rowid="+id+"]").parent().parent().remove();
 				} else {
 					layer.msg(data.right);
@@ -340,6 +342,7 @@
 			success:function(data){
 				if (data.left) {
 				updateMoney();
+				initCardView('${rc.contextPath}');
 					layer.msg(data.right);
 				$("ul li[rowid="+id+"]").parent().parent().remove();
 				} else {
@@ -471,6 +474,7 @@
 		} 
 		
 			$(document).ready(function(e) {
+			initCardView('${rc.contextPath}');
 				$('.td-info .item-rect').hover(function() {
 					$(this).addClass('item-rect-hover');
 				}, function() {
