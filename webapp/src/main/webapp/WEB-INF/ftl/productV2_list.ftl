@@ -32,9 +32,7 @@ js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer
                 "dataSrc": "content",
                 "complete": function(jqXHR, textStatus)
 					      {
-					       if(jqXHR.status==0){ alert("连接错误"); }
-                           else if (jqXHR.status == 404) { alert("404错误"); }
-                           else if (jqXHR.status == 500) {  alert("500错误,服务器暂时抽筋了");}
+					      alertCompleteMsg(jqXHR.status);
 					},
             },
             "columns": [
