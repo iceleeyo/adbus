@@ -905,7 +905,7 @@ public class CardServiceImpl implements CardService {
 	public Page<CardBoxHelperView> myCards(int city, Principal principal, TableRequest req) {
 		Sort sort = new Sort(Direction.fromString("desc"), "id");// req.getSort("id");
 		String orderid = req.getFilter("orderid"), media_type = req.getFilter("media_type");
-		;
+		String stats = req.getFilter("stats");
 		int page = req.getPage(), pageSize = req.getLength();
 		if (page < 0)
 			page = 0;
@@ -935,6 +935,10 @@ public class CardServiceImpl implements CardService {
 					: query.and(QJpaCardBoxHelper.jpaCardBoxHelper.newBodySeriaNum.eq(seriaNum));
 		}
 
+		if (StringUtils.isNoneBlank(stats)) {
+			query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.stats.eq(JpaCardBoxHelper.Stats.valueOf(stats))
+					: query.and(QJpaCardBoxHelper.jpaCardBoxHelper.stats.eq(JpaCardBoxHelper.Stats.valueOf(stats)));
+		}
 		// if (StringUtils.isNoneBlank(media_type) &&
 		// !StringUtils.equals("defaultAll", media_type)) {
 		// query = query == null ?
