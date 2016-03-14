@@ -17,21 +17,21 @@ import com.pantuo.dao.pojo.JpaOrders.PayType;
 @Entity
 @Table(name = "cardbox_helper")
 public class JpaCardBoxHelper extends CityEntity {
-	  public static enum Stats {
-	        init ("待审核"),
-	        pass ("审核通过"),
-	        contractd ("合同已创建"),
-	        over ("已完成"),
-	        running ("进行中"),
-	        refu ("订单已拒绝");
-	        private final String nameStr;
-	        private Stats(String nameStr) {
-	            this.nameStr = nameStr;
-	        }
-	        public String getNameStr () {
-	            return nameStr;
-	        }
-	    }
+	//@JsonFormat(shape = JsonFormat.Shape)
+	//@JsonSerialize(using=JsonSerializerUtil.class)
+	public static enum Stats {
+		init("待审核"), pass("审核通过"), contractd("合同已创建"), over("已完成"), running("进行中"), refu("订单已拒绝");
+		private final String nameStr;
+
+		private Stats(String nameStr) {
+			this.nameStr = nameStr;
+		}
+
+		public String getNameStr() {
+			return nameStr;
+		}
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
@@ -45,7 +45,7 @@ public class JpaCardBoxHelper extends CityEntity {
 	private JpaInvoiceDetail invoiceDetail;
 
 	private String fengqi;//1,3,6,9,12期
-	private int isdivid=0;  //默认不分期
+	private int isdivid = 0; //默认不分期
 	private PayType payType;
 	private String mediaMark;
 	private String userid;
@@ -60,14 +60,13 @@ public class JpaCardBoxHelper extends CityEntity {
 	@Column(length = 2024)
 	//用户信息
 	private String userJson;
-	
+
 	//车身购物车的流程
-	
+
 	private long newBodySeriaNum;
 	//对应的购物车产品ids
 	private String cardBodyIds;
-	
-	
+
 	public int getId() {
 		return id;
 	}
@@ -211,8 +210,5 @@ public class JpaCardBoxHelper extends CityEntity {
 	public void setUserJson(String userJson) {
 		this.userJson = userJson;
 	}
-
-	 
- 
 
 }
