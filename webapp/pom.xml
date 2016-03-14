@@ -8,16 +8,12 @@
 		<version>1.0-SNAPSHOT</version>
 		<artifactId>adbus-parent</artifactId>
 	</parent>
-
+ 
 	<artifactId>webapp</artifactId>
 	<packaging>war</packaging>
 	<name>AdBus webapp project</name>
 
 	<build>
-	
- 
-    
-    
 		<finalName>adbus</finalName>
 		<resources>
 			<resource>
@@ -27,9 +23,8 @@
 				</includes>
 				<filtering>false</filtering>
 			</resource>
-        
 		</resources>
-
+  
 		<testResources>
 			<testResource>
 				<directory>${project.basedir}/src/test/resources</directory>
@@ -172,15 +167,6 @@
 			<artifactId>service</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
-		<!-- 	<dependency>
-			<groupId>com.pantuo</groupId>
-			<artifactId>scheduled</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		 -->
-		
-		
 		<dependency>
 			<groupId>com.blogspot.nurkiewicz.springwadl</groupId>
 			<artifactId>generator</artifactId>
@@ -366,23 +352,13 @@
 			<artifactId>pushlet</artifactId>
 			<version>2.0.4</version>
 		</dependency>
-		-->
-		<dependency>
-			<groupId>com.infosec</groupId>
-			<artifactId>Infosec-lib</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.infosec</groupId>
-			<artifactId>icbc-lib</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
+		
 		<dependency>
 			<groupId>com.google</groupId>
 			<artifactId>memory-measurer</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
-
+-->
 		<!-- 
 		<dependency>
 			<groupId>net.sourceforge.jexcelapi</groupId>
@@ -467,6 +443,16 @@
 			<artifactId>h2</artifactId>
 			<version>1.4.186</version>
 			<!--scope>test</scope -->
+		</dependency>
+       <dependency>
+			<groupId>com.infosec</groupId>
+			<artifactId>Infosec-lib</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>  
+			<groupId>com.infosec</groupId>
+			<artifactId>icbc-lib</artifactId>
+			<version>1.0-SNAPSHOT</version>
 		</dependency>
 
 	<!-- 
