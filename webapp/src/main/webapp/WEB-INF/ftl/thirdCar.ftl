@@ -138,14 +138,14 @@
 									</span>
 								</dd>
 							</dl>
-							<dl class="d-item random">
+						<!--	<dl class="d-item random">
 								<dd>
 									上刊日期： <input
 										class="ui-input datepicker validate[required,custom[date] "
 										type="text" id="startTime" data-is="isAmount isEnough"
 										autocomplete="off">
 								</dd>
-							</dl>
+							</dl>-->
 
 							<div class="btn-group">
 								<div>

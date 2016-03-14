@@ -237,6 +237,8 @@
 	<script src="index_js/unslider.min.js"></script>
 	<script type="text/javascript">
 		function check(){
+		var bid='${boids!''}';
+		if(bid==""){
 		$.ajax({
 		url : "${rc.contextPath}/user/getUserDetail",
 		type : "GET",
@@ -258,6 +260,9 @@
 		 }
 			}
 			});
+			}else{
+			payment();
+			}
 			
 		}
 		function payment(){

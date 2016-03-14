@@ -70,7 +70,7 @@
 										</div>
 									</div>
 								</li>
-								<li class="td td-name">产品名称及描述</li>
+								<li class="td td-name">车载媒体</li>
 								<li class="td td-price">单价</li>
 								<li class="td td-amount">数量</li>
 								<li class="td td-sum">合计</li>
