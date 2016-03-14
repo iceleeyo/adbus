@@ -392,36 +392,31 @@ css=["css/sift.css","js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jq
 				<div class="withdrawInputs">
 					<div class="inputs">
 						<div class="ui-form-item">
-							<label class="ui-label mt10"><span
-								class="ui-form-required">*</span>广告主: </label> <input
+							<label class="ui-label mt10">广告主: </label> <input
 								class="ui-input"
 								type="text" name="signDate1" id="relateman"
 								value="" />
 						</div>
 						<div class="ui-form-item">
-							<label class="ui-label mt10"> <span
-								class="ui-form-required">*</span>相关公司:
+							<label class="ui-label mt10"> 相关公司:
 							</label> <input class="ui-input" type="text"
 								name="contractCode" value="" id="company"
 							 />
 						</div>
 						<div class="ui-form-item">
-							<label class="ui-label mt10"><span
-								class="ui-form-required">*</span>公司地址:</label> <input
+							<label class="ui-label mt10">公司地址:</label> <input
 								class="ui-input" type="text" name="companyAddr"
 								value="" id="companyAddr"
 								 />
 						</div>
 						<div class="ui-form-item">
-							<label class="ui-label mt10"><span
-								class="ui-form-required">*</span>联系电话:</label> <input
+							<label class="ui-label mt10">联系电话:</label> <input
 								class="ui-input" type="text" name="companyAddr"
 								value="" id="phone"
 								 />
 						</div>
 						<div class="ui-form-item">
-							<label class="ui-label mt10"><span
-								class="ui-form-required">*</span>区号:</label> <input
+							<label class="ui-label mt10">区号:</label> <input
 								class="ui-input validate[required]" type="text" name="company"
 								value="" id="zipcode"
 								 />

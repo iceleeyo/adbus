@@ -337,7 +337,8 @@
 				-->
 				
 				
-			</ul></li> </@security.authorize> <#if _utype == 'screen'> <@security.authorize
+			</ul></li> </@security.authorize> 
+			 <@security.authorize
 		ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,contract_input,contract_list,contract_search,contract_buy">
 		<li class="pg-side-item"><a class="pg-side-item-t hh-icon"> <i
 				class="s-left pg-icon-a c-icon"></i> 视频报表管理
@@ -353,7 +354,7 @@
 
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/report/dayorderp"> 销售报表 </a></li>
-			</ul></li> </@security.authorize> </#if>
+			</ul></li> </@security.authorize> 
 
 		<li class="pg-side-item"><a class="pg-side-item-t ff-icon"> <i
 				class="s-left pg-icon-a e-icon"></i> 用户信息
