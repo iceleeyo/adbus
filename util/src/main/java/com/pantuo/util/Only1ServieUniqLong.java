@@ -1,6 +1,7 @@
 package com.pantuo.util;
 
 import java.util.concurrent.atomic.AtomicLong;
+
 /**
  * 
  * <b><code>Only1ServieUniqLong</code></b>
@@ -12,8 +13,13 @@ import java.util.concurrent.atomic.AtomicLong;
  * @since pantuo 1.0-SNAPSHOT
  */
 public class Only1ServieUniqLong {
-	private  static java.util.concurrent.atomic.AtomicLong autolong = new AtomicLong(System.currentTimeMillis());
+	private static java.util.concurrent.atomic.AtomicLong autolong = new AtomicLong(System.currentTimeMillis());
+
 	public static long getUniqLongNumber() {
 		return autolong.incrementAndGet();
+	}
+
+	public static String getUniqByDbId(int id) {
+		return DateUtil.longDf3.get().format(System.currentTimeMillis()) + String.format("%5d", id).replace(" ", "0");
 	}
 }
