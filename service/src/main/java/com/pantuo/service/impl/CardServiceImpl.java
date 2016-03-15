@@ -794,14 +794,22 @@ public class CardServiceImpl implements CardService {
 				u.setQulifijsonstr(StringUtils.EMPTY);
 				helper.setUserJson(JsonTools.getJsonFromObject(u));
 			}
-			helper.setNewBodySeriaNum(Only1ServieUniqLong.getUniqLongNumber());
+		//	helper.setNewBodySeriaNum(Only1ServieUniqLong.getUniqLongNumber());
 			/*
 			 * JpaCity _city = cityService.fromId(typeCount.getCity()); if
 			 * (_city != null) {
 			 * helper.setMediaType(_city.getMediaType().ordinal()); }
 			 */
-
+			helper.setNewBodySeriaNum(0L);
 			int a = cardboxHelpMapper.insert(helper);
+			if (a > 0) {
+				int id = helper.getId();
+				CardboxHelper r = new CardboxHelper();
+				r.setId(id);
+				r.setNewBodySeriaNum(Long.parseLong(Only1ServieUniqLong.getUniqByDbId(id)));
+				cardboxHelpMapper.updateByPrimaryKeySelective(r);
+			}
+			
 			if (a > 0 && helper.getMediaType() == 0 && medisIds != null && !medisIds.isEmpty()) {
 				change2Order(startdate1, medisIds, helper, principal);
 			}
