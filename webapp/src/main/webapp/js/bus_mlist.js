@@ -1,4 +1,5 @@
 function initSwift(table){
+	//-2
     $('.item i').hide();
       	var isClick = false;
       	$('.sift-list .item').click(function(){
