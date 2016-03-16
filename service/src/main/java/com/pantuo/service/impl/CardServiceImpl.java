@@ -16,6 +16,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+import org.hibernate.id.uuid.Helper;
 import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,6 +85,7 @@ import com.pantuo.web.view.CardBoxHelperView;
 import com.pantuo.web.view.CardTotalView;
 import com.pantuo.web.view.CardView;
 import com.pantuo.web.view.MediaSurvey;
+import com.pantuo.web.view.MessageView;
 import com.pantuo.web.view.Offlinecontract;
 import com.pantuo.web.view.UserQualifiView;
 
@@ -759,14 +761,15 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public Pair<Boolean, String> payment(String startdate1, String paytype, int isdiv, String divid, long seriaNum,
+	public Pair<Boolean, Object> payment(String startdate1, String paytype, int isdiv, String divid, long seriaNum,
 			Principal principal, int city, String meids, String boids) {
 		List<Integer> medisIds = CardUtil.parseIdsFromString(meids);
 		List<Integer> carid = CardUtil.parseIdsFromString(boids);
 
 		Collection<TypeCount> list = countCardByCity(seriaNum, 0, medisIds, carid);
-
+       double totalMoney=0.0;
 		for (TypeCount typeCount : list) {
+			totalMoney+=typeCount.getPrice();
 			CardboxHelper helper = new CardboxHelper();
 			helper.setCity(typeCount.getCity());
 			helper.setCreated(new Date());
@@ -813,8 +816,10 @@ public class CardServiceImpl implements CardService {
 			if (a > 0 && helper.getMediaType() == 0 && medisIds != null && !medisIds.isEmpty()) {
 				change2Order(startdate1, medisIds, helper, principal);
 			}
+			MessageView v=new MessageView(totalMoney, helper.getSeriaNum(),"创建订单成功");
+			return new Pair<Boolean, Object>(true, v);
 		}
-		return new Pair<Boolean, String>(true, "支付成功");
+		return new Pair<Boolean, Object>(false, new MessageView(0,0,"操作异常"));
 	}
 
 	public void change2Order(String startdate1, List<Integer> medisIds, CardboxHelper helper, Principal principal) {
@@ -834,6 +839,8 @@ public class CardServiceImpl implements CardService {
 			order.setProduct(jpaCardBoxMedia.getProduct());
 			order.setContractCode(code);
 			order.setSuppliesId(1);
+			order.setStats(JpaOrders.Status.unpaid);
+			order.setRunningNum(helper.getSeriaNum());
 			if (jpaCardBoxMedia.getStartTime() != null) {
 				Date eDate = DateUtil.dateAdd(jpaCardBoxMedia.getStartTime(), jpaCardBoxMedia.getProduct().getDays());
 				order.setStartTime(jpaCardBoxMedia.getStartTime());
@@ -849,11 +856,11 @@ public class CardServiceImpl implements CardService {
 					e.printStackTrace();
 				}
 			}
-			if (helper.getPayType() == JpaOrders.PayType.valueOf("offline").ordinal()) {
+			/*if (helper.getPayType() == JpaOrders.PayType.valueOf("offline").ordinal()) {
 				order.setStats(JpaOrders.Status.unpaid);
 			} else {
 				order.setStats(JpaOrders.Status.paid);
-			}
+			}*/
 			order.setType(jpaCardBoxMedia.getProduct().getType());
 			ordersRepository.save(order);
 			if (order.getId() > 0) {

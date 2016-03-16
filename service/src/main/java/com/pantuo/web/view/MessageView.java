@@ -11,6 +11,9 @@ public class MessageView {
 	public JpaMessage mainView;
 	long longOrderId;
 	Date createId;
+	double TotalMoney;//金额
+	long runningNum;//交易流水号
+	String msg;
 
 	public MessageView(JpaMessage mainView, int longOrderId, JpaOrders order) {
 		this.mainView = mainView;
@@ -18,6 +21,14 @@ public class MessageView {
 			this.createId = order.getCreated();
 			this.longOrderId = OrderIdSeq.getIdFromDate(longOrderId, order.getCreated());
 		}
+	}
+
+
+	public MessageView(double totalMoney, long runningNum, String msg) {
+		super();
+		TotalMoney = totalMoney;
+		this.runningNum = runningNum;
+		this.msg = msg;
 	}
 
 	public JpaMessage getMainView() {
@@ -34,6 +45,30 @@ public class MessageView {
 
 	public void setLongOrderId(long longOrderId) {
 		this.longOrderId = longOrderId;
+	}
+
+	public double getTotalMoney() {
+		return TotalMoney;
+	}
+
+	public void setTotalMoney(double totalMoney) {
+		TotalMoney = totalMoney;
+	}
+
+	public long getRunningNum() {
+		return runningNum;
+	}
+
+	public void setRunningNum(long runningNum) {
+		this.runningNum = runningNum;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
 	}
 
 	public Date getCreateId() {
