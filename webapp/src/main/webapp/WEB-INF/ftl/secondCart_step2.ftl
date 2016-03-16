@@ -334,6 +334,7 @@
 		var isdiv=$('#payway0 :radio[name=isdiv]:checked').val();
 		var divid=$("#dividpay").val();
 		var seriaNum=${seriaNum};
+		var runningNum=${runningNum};
 		var meids='${meids!''}';
 		var boids='${boids!''}';
 		var startdate1='${startdate1!''}';
@@ -350,7 +351,7 @@
 			url:"${rc.contextPath}/carbox/payment",
 			type:"POST",
 			dataType:"json",
-			data:{"divid":divid,"isdiv":isdiv,"seriaNum":seriaNum,"paytype":paytype,"meids":meids,"boids":boids,"startdate1":startdate1},
+			data:{"divid":divid,"isdiv":isdiv,"seriaNum":seriaNum,"paytype":paytype,"meids":meids,"boids":boids,"startdate1":startdate1,"runningNum":runningNum},
 			success:function(data){
 				if (data.left) {
 				if(boids==""){
