@@ -4,6 +4,8 @@
  @Author: 鐠愩倕绺�
  @Blog閿涳拷sentsin.com
  
+ 
+ comment 2016-03-16去掉边框阴影 
  */
 
 *html {
@@ -60,9 +62,10 @@ html #layui_layer_skinlayercss {
 }
 
 .layui-layer-border {
+	/*
     border: 1px solid #B2B2B2;
     border: 1px solid rgba(0, 0, 0, .3);
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, .2)
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, .2)*/
 }
 
 .layui-layer-moves {
@@ -573,9 +576,9 @@ html #layui_layer_skinlayercss {
 
 .layui-layer-msg {
     min-width: 170px;
-    border-radius: 3px;
+   /* border-radius: 3px;
     border: 5px solid #8D8D8D;
-    border: 5px solid rgba(0, 0, 0, .4)
+    border: 5px solid rgba(0, 0, 0, .4)*/
 }
 
 .layui-layer-msg .layui-layer-content .layui-layer-ico {
