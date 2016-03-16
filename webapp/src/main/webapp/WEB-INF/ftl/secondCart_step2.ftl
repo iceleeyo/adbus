@@ -297,6 +297,36 @@
 			
 		}
 		
+		function canelPay(runningNum){
+				$("#payMsg").html("订单已产生,但支付还未成功！<br>5秒后跳转到后台");
+							setTimeout(function(){
+							  window.location.href="${rc.contextPath}/order/myTask/1";
+							},5000)
+		}
+		function checkPayStatus(runningNum){
+				$.ajax({
+					url:"${rc.contextPath}/carbox/ajax-checkPayStats",
+					type:"POST",
+					dataType:"json",
+					data:{"runningNum":runningNum },
+					success:function(data){
+						if (data) {
+							$("#payMsg").html("支付成功,3秒后跳转到后台");
+							setTimeout(function(){
+							  window.location.href="${rc.contextPath}/carbox/paySuccess/media";
+							},3000)
+						}else{
+							$("#payMsg").html("支付还未成功！,5秒后跳转到后台");
+							setTimeout(function(){
+							  window.location.href="${rc.contextPath}/order/myTask/1";
+							},5000)
+							
+						}
+					}
+		          }); 
+          
+          }
+		
 		function payment(){
 		var paytype=$('#payway :radio[name=payType]:checked').val();
 		var isdiv=$('#payway0 :radio[name=isdiv]:checked').val();
@@ -324,9 +354,10 @@
 				if(boids==""){
 					$("input[name='ContractNo']").attr("value", data.right.runningNum);
 				    layer.closeAll();
-				  layer.msg('<h3 style="line-height: 45px;font-size: 15px;">请您在新打开的页面完成支付！</h3><br><span class="tip_font">•支付完成前请不要关闭此窗口<br>•支付失败时，可以迅速联系我们客服(400-1111-000)</span>'
-				  +'<br><br><a class="block-btn" href="javascript:void(0);"  onclick="check1()">确认成功 </a><a class="fail-btn" href="javascript:void(0);"'
-				  +'  onclick="hiddleLayer()">确认失败 </a>',{time: 300000,icon:9});
+				  layer.msg('<h3 style="line-height: 45px;font-size: 15px;"><span id="payMsg">请您在新打开的页面完成支付！<span></h3><br><span class="tip_font">•支付完成前请不要关闭此窗口<br>•支付失败时，可以迅速联系我们客服(400-1111-000)</span>'
+				  +'<br><br><a class="block-btn" href="javascript:void(0);"  onclick="checkPayStatus(' + data.right.runningNum
+				  +')">确认成功 </a><a class="fail-btn" href="javascript:void(0);"'
+				  +'  onclick="canelPay()">确认失败 </a>',{time: 300000,icon:9});
 				  $('#icbcOPer').click(); 
 				 //   window.location.href="${rc.contextPath}/carbox/paySuccess/media";
 				}else{
