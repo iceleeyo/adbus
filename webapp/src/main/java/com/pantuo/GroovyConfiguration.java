@@ -21,6 +21,22 @@ import com.pantuo.dynamic.service.GroovyFactory;
 @Configuration
 public class GroovyConfiguration {
 
+	@Bean
+	public GroovyFactory groovyFactory() {
+		GroovyFactory factory = new GroovyFactory();
+		factory.setDirectory("groovy");//, "/com/pantuo/service/impl"
+		return factory;
+	}
+
+	@Bean
+	public ScriptFactoryPostProcessor processor() {
+		return new ScriptFactoryPostProcessor();
+	}
+
+	
+	
+	
+
 	@Deprecated
 	public boolean initialize() throws Exception {
 		GenericGroovyApplicationContext ctx = new GenericGroovyApplicationContext();
@@ -37,18 +53,6 @@ public class GroovyConfiguration {
 		// GroovyScriptFactory factory= new GroovyScriptFactory();
 		// factory.
 		return null;
-	}
-
-	@Bean
-	public GroovyFactory groovyFactory() {
-		GroovyFactory factory = new GroovyFactory();
-		factory.setDirectory("groovy");//, "/com/pantuo/service/impl"
-		return factory;
-	}
-
-	@Bean
-	public ScriptFactoryPostProcessor processor() {
-		return new ScriptFactoryPostProcessor();
 	}
 
 }
