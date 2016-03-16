@@ -242,7 +242,7 @@
 			    <input type="hidden" name="TranTime" value="${TranTime}" />
 			    <input type="hidden" name="Shop_acc_num" value="0200004519000100173"/>
 			    <input type="hidden" name="PayeeAcct" value="0200004519000100173"/>
-			    <input type="hidden" name="GoodsCode" value="CODE:MEDIA"/>
+			    <input type="hidden" name="GoodsCode" value="CODE_MEDIA"/>
 			    <input type="hidden" name="GoodsName" value="SPTC"/>
 			    <input type="hidden" name="Amount" value="1"/>
 			    <!--金额为不带小数点的到分的一个字符串，即“112390”代表的是“1123.90元”-->
