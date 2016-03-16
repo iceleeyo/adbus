@@ -233,7 +233,7 @@
 			    <input type="hidden" name="MerchantURL" value="${callback}"/>
 			    <input type="hidden" name="ContractNo" value="${contractNo}"/>
 			    <!--金额为不带小数点的到分的一个字符串，即“112390”代表的是“1123.90元”-->
-			    <input type="hidden" name="ContractAmt" value="10"/>
+			    <input type="hidden" name="ContractAmt" value="${totalPrice}"/>
 			    <input type="hidden" name="Account_cur" value="001"/>
 			    <input type="hidden" name="JoinFlag" value="2"/>
 			    <input type="hidden" name="Mer_Icbc20_signstr" value="${a1}"/>
@@ -242,8 +242,8 @@
 			    <input type="hidden" name="TranTime" value="${TranTime}" />
 			    <input type="hidden" name="Shop_acc_num" value="0200004519000100173"/>
 			    <input type="hidden" name="PayeeAcct" value="0200004519000100173"/>
-			    <input type="hidden" name="GoodsCode" value="001"/>
-			    <input type="hidden" name="GoodsName" value="paper"/>
+			    <input type="hidden" name="GoodsCode" value="CODE:MEDIA"/>
+			    <input type="hidden" name="GoodsName" value="SPTC"/>
 			    <input type="hidden" name="Amount" value="1"/>
 			    <!--金额为不带小数点的到分的一个字符串，即“112390”代表的是“1123.90元”-->
 			    <input type="hidden" name="TransFee" value="1"/>
