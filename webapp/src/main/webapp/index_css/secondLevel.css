@@ -1889,6 +1889,31 @@ ol, ul {
 	font-weight: 600;
 	letter-spacing: 2px;
 }
+.fail-btn {
+	border: 1px solid #8E8E8E;
+	font-size: 14px;
+	height: 32px;
+	line-height: 32px;
+	text-align: center;
+	background: #fff;
+	color: #000;
+	cursor: pointer;
+	display: inline-block;
+	padding: 0 24px;
+	text-decoration: none;
+	font-weight: 600;
+	letter-spacing: 2px;
+}
+
+.tip_font{
+	font-size: 14px;
+}
+
+.btn_wp{
+	margin: 30px 0 0;
+    text-align: center;
+}
+
 .pro-til{
 	font-size:18px;
 	color:#c90000;
