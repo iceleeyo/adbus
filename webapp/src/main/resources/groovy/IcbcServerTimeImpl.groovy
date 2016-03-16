@@ -23,6 +23,6 @@ import com.pantuo.service.IcbcServerTime
 @Service
 public class IcbcServerTimeImpl implements IcbcServerTime  {
 	public long getTime(){
-		return 20160321155528L;
+		return 20160325145528L;
 	}
 }
