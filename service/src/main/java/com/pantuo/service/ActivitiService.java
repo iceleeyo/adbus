@@ -172,7 +172,7 @@ public interface ActivitiService {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	public Pair<Boolean, String> closeOrder(int orderid,String closeRemark, String taskid, Principal principal);
-
+	public ProcessInstance findProcessInstanceByOrderId(int orderid, String userId);
 
 
 

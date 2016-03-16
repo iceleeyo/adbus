@@ -1217,6 +1217,17 @@ public class ActivitiServiceImpl implements ActivitiService {
 	}
 
 	// 根据OrderId查找流程实例
+	public ProcessInstance findProcessInstanceByOrderId(int orderid, String userId) {
+		// 找到流程实例
+		List<ProcessInstance> list = runtimeService.createProcessInstanceQuery().involvedUser(userId)
+				.includeProcessVariables().variableValueEquals(ORDER_ID, orderid).orderByProcessInstanceId().desc()
+				.listPage(0, 1);
+		ProcessInstance processInstance = null;
+		if (list != null && !list.isEmpty()) {
+			processInstance = list.get(0);
+		}
+		return processInstance;
+	}
 	public ProcessView findPidByOrderid(int orderid, String userId) {
 		// 找到流程实例
 		List<ProcessInstance> list = runtimeService.createProcessInstanceQuery().involvedUser(userId)

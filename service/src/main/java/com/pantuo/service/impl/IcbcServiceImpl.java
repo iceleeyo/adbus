@@ -2,10 +2,17 @@ package com.pantuo.service.impl;
 
 import java.io.FileInputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.activiti.engine.TaskService;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +20,11 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.mysema.query.types.expr.BooleanExpression;
+import com.pantuo.dao.OrdersRepository;
+import com.pantuo.dao.pojo.JpaOrders;
+import com.pantuo.dao.pojo.QJpaOrders;
+import com.pantuo.service.ActivitiService;
 import com.pantuo.service.IcbcServerTime;
 
 import cn.com.infosec.icbc.ReturnValue;
@@ -29,6 +41,13 @@ import cn.com.infosec.icbc.ReturnValue;
 @Service
 public class IcbcServiceImpl {
 	private static Logger log = LoggerFactory.getLogger(IcbcServiceImpl.class);
+	@Autowired
+	OrdersRepository ordersRepository;
+	@Autowired
+	ActivitiService activitiService;
+	@Autowired
+    TaskService taskService;
+	
 	@Autowired
 	@Lazy
 	IcbcServerTime icbcServerTime;
@@ -67,12 +86,44 @@ public class IcbcServiceImpl {
 			log.info("srcLength=" + src.length());
 			byte[] s2 = src.getBytes("gbk");
 			r = ReturnValue.verifySign(s2, s2.length, bcert, sign);
+			if(r==0){
+				String rnum=request.getParameter("ContractNo");
+				if(StringUtils.isNotBlank(rnum)){
+					long runningNum=NumberUtils.toLong(rnum);
+					changeOrder2Paid(runningNum);
+				}
+			}
 			log.info("r_gbk=" + r);
 			//log.info("r_src=" + ReturnValue.verifySign(src.getBytes(), src.length(), bcert, sign));
 		} catch (Exception e) {
 			log.error("check=", e);
 		}
 		return r;
+	}
+
+	private void changeOrder2Paid(long runningNum) {
+		BooleanExpression query=QJpaOrders.jpaOrders.runningNum.eq(runningNum);
+		List<JpaOrders> list=(List<JpaOrders>) ordersRepository.findAll(query);
+		for (JpaOrders jpaOrders : list) {
+			jpaOrders.setStats(JpaOrders.Status.paid);
+			ordersRepository.save(jpaOrders);
+			ProcessInstance processInstance = activitiService.findProcessInstanceByOrderId(jpaOrders.getId(), jpaOrders.getUserId());
+			if (processInstance != null ) {
+				List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).orderByTaskCreateTime()
+						.desc().listPage(0, 5);
+				if (!tasks.isEmpty()) {
+					for (Task task : tasks) {
+						if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
+							if (jpaOrders.getStats().equals(JpaOrders.Status.paid)) {
+								Map<String, Object> variables = new HashMap<String, Object>();
+								variables.put(ActivitiService.R_USERPAYED, true);
+								taskService.complete(task.getId(),variables);
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public String getCallSign(HttpServletRequest request) {
