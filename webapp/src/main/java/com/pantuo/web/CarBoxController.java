@@ -220,4 +220,10 @@ public class CarBoxController {
 				req.getSort("totalprice"));
 		return new DataTablePage(jpabuspage, req.getDraw());
 	}
+	
+	@RequestMapping(value = "/ajax-checkPayStats")
+	@ResponseBody
+	public boolean saveCardBoxMedia(@RequestParam(value = "runningNum", required = true) long runningNum) {
+		return cardService.checkPayed(runningNum);
+	}
 }
