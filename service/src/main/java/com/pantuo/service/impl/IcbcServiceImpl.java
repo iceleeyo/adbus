@@ -9,12 +9,33 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import cn.com.infosec.icbc.ReturnValue;
 
 @Service
 public class IcbcServiceImpl {
 	private static Logger log = LoggerFactory.getLogger(IcbcServiceImpl.class);
+
+	public void sufficeIcbcSubmit(Model model, long _seriam) {
+		String TranTime = "20160321155523";
+		String contractNo = String.valueOf(_seriam);
+		String callback = "http://busme.cn/icbcCallBack";
+		StringBuilder dBuilder = new StringBuilder();
+		dBuilder.append("APIName=B2B&APIVersion=001.001.001.001&Shop_code=0200EC14729207").append("&MerchantURL=");
+		dBuilder.append(callback);
+		dBuilder.append("&ContractNo=");
+		dBuilder.append(contractNo);
+		dBuilder.append("&ContractAmt=10");
+		dBuilder.append("&Account_cur=001&JoinFlag=2&SendType=0&TranTime=" + TranTime + "&");
+		dBuilder.append("Shop_acc_num=0200004519000100173&PayeeAcct=0200004519000100173");
+
+		model.addAttribute("a1", jiami(dBuilder.toString()));
+		model.addAttribute("a2", jiami2(dBuilder.toString()));
+		model.addAttribute("contractNo", contractNo);
+		model.addAttribute("TranTime", TranTime);
+		model.addAttribute("callback", callback);
+	}
 
 	public int checkCallBack(String src, HttpServletRequest request) {
 		int r = -1;
