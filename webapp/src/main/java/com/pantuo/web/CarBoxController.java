@@ -91,7 +91,7 @@ public class CarBoxController {
 	}
 	@RequestMapping(value = "/payment")
 	@ResponseBody
-	public Pair<Boolean, String> payment(
+	public Pair<Boolean, Object> payment(
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal,
 			@RequestParam(value = "paytype", required = false) String paytype,
 			@RequestParam(value = "divid", required = false) String divid,
@@ -103,7 +103,7 @@ public class CarBoxController {
 			@RequestParam(value = "seriaNum", required = false) long seriaNum) {
 		
 		
-		 Pair<Boolean, String> r=cardService.payment(startdate1,paytype,isdiv,divid, seriaNum, principal, city,  meids,boids);
+		 Pair<Boolean, Object> r=cardService.payment(startdate1,paytype,isdiv,divid, seriaNum, principal, city,  meids,boids);
 		 if(r.getLeft()){
 			 cardService.updateCardboxUser(seriaNum,principal);
 			 cardService.confirmByids(principal,meids,boids);
