@@ -763,13 +763,12 @@ public class CardServiceImpl implements CardService {
 
 	@Override
 	public Pair<Boolean, Object> payment(String startdate1, String paytype, int isdiv, String divid, long seriaNum,
-			Principal principal, int city, String meids, String boids) {
+			Principal principal, int city, String meids, String boids,long runningNum) {
 		List<Integer> medisIds = CardUtil.parseIdsFromString(meids);
 		List<Integer> carid = CardUtil.parseIdsFromString(boids);
 
 		Collection<TypeCount> list = countCardByCity(seriaNum, 0, medisIds, carid);
 		double totalMoney = 0.0;
-       long runningNum=Only1ServieUniqLong.getUniqLongNumber();
 		for (TypeCount typeCount : list) {
 			totalMoney += typeCount.getPrice();
 			CardboxHelper helper = new CardboxHelper();

@@ -106,7 +106,7 @@ public interface CardService {
 	  Page<JpaBusOrderDetailV2> searchProducts(int city, Principal principal,
 	    		TableRequest req);
 
-	public Pair<Boolean, Object> payment(String startdate1,String paytype,int isdiv, String divid, long seriaNum, Principal principal, int city, String meids, String boids);
+	public Pair<Boolean, Object> payment(String startdate1,String paytype,int isdiv, String divid, long seriaNum, Principal principal, int city, String meids, String boids, long runningNum);
 
 	public void updateCardboxUser(long seriaNum, Principal principal);
 

@@ -70,6 +70,7 @@ public class IcbcServiceImpl {
 		model.addAttribute("contractNo", contractNo);
 		model.addAttribute("TranTime", TranTime);
 		model.addAttribute("callback", callback);
+		model.addAttribute("runningNum", _seriam);
 	}
 
 	public int checkCallBack(String src, HttpServletRequest request) {
