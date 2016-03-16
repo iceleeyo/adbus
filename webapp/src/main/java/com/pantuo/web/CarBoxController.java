@@ -100,10 +100,12 @@ public class CarBoxController {
 			@RequestParam(value = "isdiv", required = false) int isdiv,
 			@RequestParam(value = "startdate1", required = false) String startdate1,
 			@RequestParam(value = "payment", required = false) String payment,
-			@RequestParam(value = "seriaNum", required = false) long seriaNum) {
+			@RequestParam(value = "seriaNum", required = false) long seriaNum,
+			@RequestParam(value = "runningNum", required = false) long runningNum
+			) {
 		
 		
-		 Pair<Boolean, Object> r=cardService.payment(startdate1,paytype,isdiv,divid, seriaNum, principal, city,  meids,boids);
+		 Pair<Boolean, Object> r=cardService.payment(startdate1,paytype,isdiv,divid, seriaNum, principal, city,  meids,boids,runningNum);
 		 if(r.getLeft()){
 			 cardService.updateCardboxUser(seriaNum,principal);
 			 cardService.confirmByids(principal,meids,boids);

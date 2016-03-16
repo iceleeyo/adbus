@@ -43,6 +43,7 @@ import com.pantuo.service.OrderService;
 import com.pantuo.service.ProductService;
 import com.pantuo.service.ScheduleService;
 import com.pantuo.service.impl.IcbcServiceImpl;
+import com.pantuo.util.Only1ServieUniqLong;
 import com.pantuo.util.image.ValidateCode;
 import com.pantuo.web.schedule.SchedUltResult;
 
@@ -349,7 +350,7 @@ public class CardSelect{
 		model.addAttribute("meids", cardselect.meids);
 		model.addAttribute("boids", cardselect.boids);
 		model.addAttribute("startdate1", startdate1);
-		icbcService.sufficeIcbcSubmit(model, -1L);
+		icbcService.sufficeIcbcSubmit(model, Only1ServieUniqLong.getUniqLongNumber());
 	 	return "secondCart_step2";
 	}
 	
