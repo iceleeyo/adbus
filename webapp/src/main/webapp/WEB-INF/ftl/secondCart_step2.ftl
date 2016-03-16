@@ -223,6 +223,37 @@
 				</div>
 			</div>
 		</div>
+					<!-- icbc begin-->
+					
+			<form id="form1"  target="_blank"  action="https://corporbank3.dccnet.com.cn/servlet/ICBCINBSEBusinessServlet" method="post">
+			    <input type="hidden" name="APIName" value="B2B"/>
+			    <input type="hidden" name="APIVersion" value="001.001.001.001"/>
+			    <input type="hidden" name="Shop_code" value="0200EC14729207"/>
+			    <!--若不正确，将无银行反馈信息，注意不能省略"http://"-->
+			    <input type="hidden" name="MerchantURL" value="${callback}"/>
+			    <input type="hidden" name="ContractNo" value="${contractNo}"/>
+			    <!--金额为不带小数点的到分的一个字符串，即“112390”代表的是“1123.90元”-->
+			    <input type="hidden" name="ContractAmt" value="10"/>
+			    <input type="hidden" name="Account_cur" value="001"/>
+			    <input type="hidden" name="JoinFlag" value="2"/>
+			    <input type="hidden" name="Mer_Icbc20_signstr" value="${a1}"/>
+			    <input type="hidden" name="Cert" value="${a2}"/>
+			    <input type="hidden" name="SendType" value="0"/>
+			    <input type="hidden" name="TranTime" value="${TranTime}" />
+			    <input type="hidden" name="Shop_acc_num" value="0200004519000100173"/>
+			    <input type="hidden" name="PayeeAcct" value="0200004519000100173"/>
+			    <input type="hidden" name="GoodsCode" value="001"/>
+			    <input type="hidden" name="GoodsName" value="paper"/>
+			    <input type="hidden" name="Amount" value="1"/>
+			    <!--金额为不带小数点的到分的一个字符串，即“112390”代表的是“1123.90元”-->
+			    <input type="hidden" name="TransFee" value="1"/>
+			    <input type="hidden" name="ShopRemark" value=""/>
+			    <input type="hidden" name="ShopRem" value=""/>
+			    <input type="submit" id="icbcOPer" value="确定"/>
+			</form>
+			
+			<!--end icbc -->
+		
 	</div>
 	<#include "/template/custom_service.ftl" />
 
@@ -265,6 +296,7 @@
 			}
 			
 		}
+		
 		function payment(){
 		var paytype=$('#payway :radio[name=payType]:checked').val();
 		var isdiv=$('#payway0 :radio[name=isdiv]:checked').val();
@@ -290,18 +322,15 @@
 			success:function(data){
 				if (data.left) {
 				if(boids==""){
+					$("input[name='ContractNo']").attr("value", data.right.runningNum);
 				    layer.closeAll();
-				  layer.msg('<h3 style="line-height: 45px;">请您在新打开的页面完成支付！</h3><br><br><span class="tip_font">•支付完成前请不要关闭此窗口<br>•支付失败时，可以迅速联系我们客服(400-1111-000)</span>'
-				  +'<br><br><div class="btn_wp"><a class="block-btn" href="javascript:void(0);"  onclick="check1()">确认成功 </a><a class="fail-btn" href="javascript:void(0);"'
-				  +'  onclick="check1()">确认失败 </a></div>',{time: 300000,icon:9});
-				 
+				  layer.msg('<h3 style="line-height: 45px;font-size: 15px;">请您在新打开的页面完成支付！</h3><br><span class="tip_font">•支付完成前请不要关闭此窗口<br>•支付失败时，可以迅速联系我们客服(400-1111-000)</span>'
+				  +'<br><br><a class="block-btn" href="javascript:void(0);"  onclick="check1()">确认成功 </a><a class="fail-btn" href="javascript:void(0);"'
+				  +'  onclick="hiddleLayer()">确认失败 </a>',{time: 300000,icon:9});
+				  $('#icbcOPer').click(); 
 				 //   window.location.href="${rc.contextPath}/carbox/paySuccess/media";
 				}else{
-				 
-									
-							 
-				
-				//window.location.href="${rc.contextPath}/carbox/paySuccess/body";
+				window.location.href="${rc.contextPath}/carbox/paySuccess/body";
 				}
 				} else {
 					layer.msg(data.right);
