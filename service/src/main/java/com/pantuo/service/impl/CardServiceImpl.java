@@ -768,6 +768,7 @@ public class CardServiceImpl implements CardService {
 
 		Collection<TypeCount> list = countCardByCity(seriaNum, 0, medisIds, carid);
        double totalMoney=0.0;
+       long runningNum=Only1ServieUniqLong.getUniqLongNumber();
 		for (TypeCount typeCount : list) {
 			totalMoney+=typeCount.getPrice();
 			CardboxHelper helper = new CardboxHelper();
@@ -814,15 +815,15 @@ public class CardServiceImpl implements CardService {
 			}
 			
 			if (a > 0 && helper.getMediaType() == 0 && medisIds != null && !medisIds.isEmpty()) {
-				change2Order(startdate1, medisIds, helper, principal);
+				change2Order(startdate1, medisIds, helper,runningNum, principal);
 			}
-			MessageView v=new MessageView(totalMoney, helper.getSeriaNum(),"创建订单成功");
+			MessageView v=new MessageView(totalMoney, runningNum,"创建订单成功");
 			return new Pair<Boolean, Object>(true, v);
 		}
 		return new Pair<Boolean, Object>(false, new MessageView(0,0,"操作异常"));
 	}
 
-	public void change2Order(String startdate1, List<Integer> medisIds, CardboxHelper helper, Principal principal) {
+	public void change2Order(String startdate1, List<Integer> medisIds, CardboxHelper helper, long runningNum, Principal principal) {
 		BooleanExpression query = QJpaCardBoxMedia.jpaCardBoxMedia.city.eq(helper.getCity());
 		query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.seriaNum.eq(helper.getSeriaNum()));
 		query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.id.in(medisIds));
@@ -840,7 +841,7 @@ public class CardServiceImpl implements CardService {
 			order.setContractCode(code);
 			order.setSuppliesId(1);
 			order.setStats(JpaOrders.Status.unpaid);
-			order.setRunningNum(helper.getSeriaNum());
+			order.setRunningNum(runningNum);
 			if (jpaCardBoxMedia.getStartTime() != null) {
 				Date eDate = DateUtil.dateAdd(jpaCardBoxMedia.getStartTime(), jpaCardBoxMedia.getProduct().getDays());
 				order.setStartTime(jpaCardBoxMedia.getStartTime());
