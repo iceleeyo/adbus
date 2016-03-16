@@ -298,10 +298,11 @@
 		}
 		
 		function canelPay(runningNum){
-				$("#payMsg").html("订单已产生,但支付还未成功！<br>5秒后跳转到后台");
-							setTimeout(function(){
-							  window.location.href="${rc.contextPath}/order/myTask/1";
-							},5000)
+							var i=5;
+							 setInterval(function(){               
+		           				 if(i == 0) { window.location.href="${rc.contextPath}/order/myTask/1";}
+	               				$("#payMsg").html("订单已产生,但支付还未成功！<br><font color='red'>"+(i--)+"</font>秒后跳转到后台");
+	           				 },1000);
 		}
 		function checkPayStatus(runningNum){
 				$.ajax({
@@ -311,17 +312,18 @@
 					data:{"runningNum":runningNum },
 					success:function(data){
 						if (data) {
-							$("#payMsg").html("支付成功,3秒后跳转到后台");
-							setTimeout(function(){
-							  window.location.href="${rc.contextPath}/carbox/paySuccess/media";
-							},3000)
+							var i=3;
+							 setInterval(function(){               
+		           				 if(i == 0) { window.location.href="${rc.contextPath}/carbox/paySuccess/media";}
+	               				$("#payMsg").html("支付成功！,<font color='red'>"+(i--)+"</font>秒后跳转到后台");
+	           				 },1000);
 						}else{
-							$("#payMsg").html("支付还未成功！,5秒后跳转到后台");
-							setTimeout(function(){
-							  window.location.href="${rc.contextPath}/order/myTask/1";
-							},5000)
-							
-						}
+							var i=5;
+							 setInterval(function(){               
+		           				 if(i == 0) { window.location.href="${rc.contextPath}/order/myTask/1";}
+	               				$("#payMsg").html("支付还未成功！,<font color='red'>"+(i--)+"</font>秒后跳转到后台");
+	           				 },1000);
+	           			 }
 					}
 		          }); 
           
