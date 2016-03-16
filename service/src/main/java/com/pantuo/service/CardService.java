@@ -152,5 +152,11 @@ public interface CardService {
 	public List<BodyOrderLog>  getBodyOrderLog(Principal principal, TableRequest req);
 
 	public Offlinecontract getContractfromJsonStr(String jsonStr);
+	
+	
+	public boolean checkPayed(long runningNum);
+		
+		
+		
 
 }
