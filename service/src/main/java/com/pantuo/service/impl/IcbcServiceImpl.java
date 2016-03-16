@@ -8,17 +8,33 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import cn.com.infosec.icbc.ReturnValue;
+import com.pantuo.service.IcbcServerTime;
 
+import cn.com.infosec.icbc.ReturnValue;
+/**
+ * 
+ * <b><code>IcbcServiceImpl</code></b>
+ * <p>
+ * 工商银行 api
+ * </p>
+ * <b>Creation Time:</b> 2016年3月16日 下午1:24:58
+ * @author impanxh@gmail.com
+ * @since pantuo 1.0-SNAPSHOT
+ */
 @Service
 public class IcbcServiceImpl {
 	private static Logger log = LoggerFactory.getLogger(IcbcServiceImpl.class);
+	@Autowired
+	@Lazy
+	IcbcServerTime icbcServerTime;
 
 	public void sufficeIcbcSubmit(Model model, long _seriam) {
-		String TranTime = "20160321155523";
+		String TranTime = String.valueOf(icbcServerTime.getTime());
 		String contractNo = String.valueOf(_seriam);
 		String callback = "http://busme.cn/icbcCallBack";
 		StringBuilder dBuilder = new StringBuilder();
