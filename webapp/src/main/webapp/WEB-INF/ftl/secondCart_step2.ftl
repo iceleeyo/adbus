@@ -346,6 +346,10 @@
 		  layer.msg("没有seriaNum,操作异常");
 		  return;
 		}
+		if(runningNum=="" || typeof(runningNum)=="undefined"){
+		  layer.msg("没有流水号,操作异常");
+		  return;
+		}
 		 $("#subid").attr("onclick",'');
 		$.ajax({
 			url:"${rc.contextPath}/carbox/payment",
