@@ -26,8 +26,10 @@ import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.QJpaOrders;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.IcbcServerTime;
+import com.pantuo.web.view.CardView;
 
 import cn.com.infosec.icbc.ReturnValue;
+
 /**
  * 
  * <b><code>IcbcServiceImpl</code></b>
@@ -46,13 +48,14 @@ public class IcbcServiceImpl {
 	@Autowired
 	ActivitiService activitiService;
 	@Autowired
-    TaskService taskService;
-	
+	TaskService taskService;
+
 	@Autowired
 	@Lazy
 	IcbcServerTime icbcServerTime;
 
-	public void sufficeIcbcSubmit(Model model, long _seriam) {
+	public void sufficeIcbcSubmit(Model model, long _seriam, CardView cardView) {
+		long totalPrice = cardView == null ? 0 : (long) (cardView.getTotalPrice() * 100);
 		String TranTime = String.valueOf(icbcServerTime.getTime());
 		String contractNo = String.valueOf(_seriam);
 		String callback = "http://busme.cn/icbcCallBack";
@@ -61,16 +64,20 @@ public class IcbcServiceImpl {
 		dBuilder.append(callback);
 		dBuilder.append("&ContractNo=");
 		dBuilder.append(contractNo);
-		dBuilder.append("&ContractAmt=10");
+		dBuilder.append("&ContractAmt=");
+		dBuilder.append(totalPrice);
 		dBuilder.append("&Account_cur=001&JoinFlag=2&SendType=0&TranTime=" + TranTime + "&");
 		dBuilder.append("Shop_acc_num=0200004519000100173&PayeeAcct=0200004519000100173");
 
-		model.addAttribute("a1", jiami(dBuilder.toString()));
-		model.addAttribute("a2", jiami2(dBuilder.toString()));
+		String str = dBuilder.toString();
+		log.info(str);
+		model.addAttribute("a1", jiami(str));
+		model.addAttribute("a2", jiami2(str));
 		model.addAttribute("contractNo", contractNo);
 		model.addAttribute("TranTime", TranTime);
 		model.addAttribute("callback", callback);
 		model.addAttribute("runningNum", _seriam);
+		model.addAttribute("totalPrice", totalPrice);
 	}
 
 	public int checkCallBack(String src, HttpServletRequest request) {
@@ -87,10 +94,10 @@ public class IcbcServiceImpl {
 			log.info("srcLength=" + src.length());
 			byte[] s2 = src.getBytes("gbk");
 			r = ReturnValue.verifySign(s2, s2.length, bcert, sign);
-			if(r==0){
-				String rnum=request.getParameter("ContractNo");
-				if(StringUtils.isNotBlank(rnum)){
-					long runningNum=NumberUtils.toLong(rnum);
+			if (r == 0) {
+				String rnum = request.getParameter("ContractNo");
+				if (StringUtils.isNotBlank(rnum)) {
+					long runningNum = NumberUtils.toLong(rnum);
 					changeOrder2Paid(runningNum);
 				}
 			}
@@ -103,22 +110,23 @@ public class IcbcServiceImpl {
 	}
 
 	private void changeOrder2Paid(long runningNum) {
-		BooleanExpression query=QJpaOrders.jpaOrders.runningNum.eq(runningNum);
-		List<JpaOrders> list=(List<JpaOrders>) ordersRepository.findAll(query);
+		BooleanExpression query = QJpaOrders.jpaOrders.runningNum.eq(runningNum);
+		List<JpaOrders> list = (List<JpaOrders>) ordersRepository.findAll(query);
 		for (JpaOrders jpaOrders : list) {
 			jpaOrders.setStats(JpaOrders.Status.paid);
 			ordersRepository.save(jpaOrders);
-			ProcessInstance processInstance = activitiService.findProcessInstanceByOrderId(jpaOrders.getId(), jpaOrders.getUserId());
-			if (processInstance != null ) {
-				List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).orderByTaskCreateTime()
-						.desc().listPage(0, 5);
+			ProcessInstance processInstance = activitiService.findProcessInstanceByOrderId(jpaOrders.getId(),
+					jpaOrders.getUserId());
+			if (processInstance != null) {
+				List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId())
+						.orderByTaskCreateTime().desc().listPage(0, 5);
 				if (!tasks.isEmpty()) {
 					for (Task task : tasks) {
 						if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
 							if (jpaOrders.getStats().equals(JpaOrders.Status.paid)) {
 								Map<String, Object> variables = new HashMap<String, Object>();
 								variables.put(ActivitiService.R_USERPAYED, true);
-								taskService.complete(task.getId(),variables);
+								taskService.complete(task.getId(), variables);
 							}
 						}
 					}
