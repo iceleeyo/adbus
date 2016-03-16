@@ -9,6 +9,7 @@
 <link rel="stylesheet" type="text/css" href="/css/account.css">
 <title>确认订单信息</title>
 
+
 </head>
 <body>
 	<header> <!-- 头部开始 --> <#include "/index_menu/index_top.ftl"
@@ -361,7 +362,7 @@
 				if(boids==""){
 					$("input[name='ContractNo']").attr("value", data.right.runningNum);
 				    layer.closeAll();
-				  layer.msg('<h3 style="line-height: 45px;font-size: 15px;"><span id="payMsg">请您在新打开的页面完成支付！<span></h3><br><span class="tip_font">•支付完成前请不要关闭此窗口<br>•支付失败时，可以迅速联系我们客服(400-1111-000)</span>'
+				  layer.msg('<h3 style="line-height: 45px;font-size: 15px;"><span id="payMsg">请您在新打开的页面插上U盾完成支付！<span></h3><br><span class="tip_font">•支付完成前请不要关闭此窗口<br>•支付失败时，可以迅速联系我们客服(010-88510188)</span>'
 				  +'<br><br><a class="block-btn" href="javascript:void(0);"  onclick="checkPayStatus(' + data.right.runningNum
 				  +')">确认成功 </a><a class="fail-btn" href="javascript:void(0);"'
 				  +'  onclick="canelPay()">确认失败 </a>',{time: 300000,icon:9});
@@ -371,7 +372,7 @@
 				window.location.href="${rc.contextPath}/carbox/paySuccess/body";
 				}
 				} else {
-					layer.msg(data.right);
+					layer.msg(data.right.msg,{time: 5000,icon: 5});
 				}
 			}
           });  
