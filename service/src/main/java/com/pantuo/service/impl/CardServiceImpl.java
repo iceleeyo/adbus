@@ -53,6 +53,7 @@ import com.pantuo.dao.pojo.QJpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.QJpaCardBoxBody;
 import com.pantuo.dao.pojo.QJpaCardBoxHelper;
 import com.pantuo.dao.pojo.QJpaCardBoxMedia;
+import com.pantuo.dao.pojo.QJpaOrders;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.BodyOrderLog;
 import com.pantuo.mybatis.domain.BodyOrderLogExample;
@@ -212,8 +213,8 @@ public class CardServiceImpl implements CardService {
 			page2 = cardBoxBodyRepository.findAll(query2, new PageRequest(0, 1024, new Sort("id"))).getContent();
 		}
 		CardTotalView totalView = getBoxPrice(seriaNum, isComfirm, meidLists, boidLists);
-		CardView w = new CardView(page, page2, totalView.getPrice(),
-				getBoxTotalnum(seriaNum, isComfirm, meidLists, boidLists));
+		CardView w = new CardView(page, page2, totalView.getPrice(), getBoxTotalnum(seriaNum, isComfirm, meidLists,
+				boidLists));
 		return w;
 	}
 
@@ -744,11 +745,11 @@ public class CardServiceImpl implements CardService {
 			}
 		}
 		if (bodyList != null && !bodyList.isEmpty()) {
-			double p=0.0;
+			double p = 0.0;
 			int l = bodyList.size();
 			for (CardboxBody obj : bodyList) {
 				double w = obj.getTotalprice();
-				p+=w;
+				p += w;
 				if (!map.containsKey(obj.getCity())) {
 					map.put(obj.getCity(), new TypeCount(obj.getCity(), l, w));
 				}
@@ -767,10 +768,10 @@ public class CardServiceImpl implements CardService {
 		List<Integer> carid = CardUtil.parseIdsFromString(boids);
 
 		Collection<TypeCount> list = countCardByCity(seriaNum, 0, medisIds, carid);
-       double totalMoney=0.0;
+		double totalMoney = 0.0;
        long runningNum=Only1ServieUniqLong.getUniqLongNumber();
 		for (TypeCount typeCount : list) {
-			totalMoney+=typeCount.getPrice();
+			totalMoney += typeCount.getPrice();
 			CardboxHelper helper = new CardboxHelper();
 			helper.setCity(typeCount.getCity());
 			helper.setCreated(new Date());
@@ -798,7 +799,7 @@ public class CardServiceImpl implements CardService {
 				u.setQulifijsonstr(StringUtils.EMPTY);
 				helper.setUserJson(JsonTools.getJsonFromObject(u));
 			}
-		//	helper.setNewBodySeriaNum(Only1ServieUniqLong.getUniqLongNumber());
+			//	helper.setNewBodySeriaNum(Only1ServieUniqLong.getUniqLongNumber());
 			/*
 			 * JpaCity _city = cityService.fromId(typeCount.getCity()); if
 			 * (_city != null) {
@@ -813,14 +814,14 @@ public class CardServiceImpl implements CardService {
 				r.setNewBodySeriaNum(Long.parseLong(Only1ServieUniqLong.getUniqByDbId(id)));
 				cardboxHelpMapper.updateByPrimaryKeySelective(r);
 			}
-			
+
 			if (a > 0 && helper.getMediaType() == 0 && medisIds != null && !medisIds.isEmpty()) {
 				change2Order(startdate1, medisIds, helper,runningNum, principal);
 			}
 			MessageView v=new MessageView(totalMoney, runningNum,"创建订单成功");
 			return new Pair<Boolean, Object>(true, v);
 		}
-		return new Pair<Boolean, Object>(false, new MessageView(0,0,"操作异常"));
+		return new Pair<Boolean, Object>(false, new MessageView(0, 0, "操作异常"));
 	}
 
 	public void change2Order(String startdate1, List<Integer> medisIds, CardboxHelper helper, long runningNum, Principal principal) {
@@ -937,8 +938,8 @@ public class CardServiceImpl implements CardService {
 				isAdmin = true;
 			}
 			if (!isAdmin) {
-				query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.userid.eq(u)
-						: query.and(QJpaCardBoxHelper.jpaCardBoxHelper.userid.eq(u));
+				query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.userid.eq(u) : query
+						.and(QJpaCardBoxHelper.jpaCardBoxHelper.userid.eq(u));
 			}
 		} else {
 			if (StringUtils.isNoneBlank(u)) {
@@ -947,8 +948,8 @@ public class CardServiceImpl implements CardService {
 		}
 		if (StringUtils.isNoneBlank(orderid)) {
 			long seriaNum = NumberUtils.toLong(StringUtils.replace(orderid, "W", StringUtils.EMPTY));
-			query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.newBodySeriaNum.eq(seriaNum)
-					: query.and(QJpaCardBoxHelper.jpaCardBoxHelper.newBodySeriaNum.eq(seriaNum));
+			query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.newBodySeriaNum.eq(seriaNum) : query
+					.and(QJpaCardBoxHelper.jpaCardBoxHelper.newBodySeriaNum.eq(seriaNum));
 		}
 
 		if (StringUtils.isNoneBlank(stats)) {
@@ -963,8 +964,8 @@ public class CardServiceImpl implements CardService {
 		// query.and(QJpaCardBoxHelper.jpaCardBoxHelper.mediaType.eq(MediaType.valueOf(media_type)));
 		// }
 		if (principal != null && !Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)) {
-			query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.city.eq(city)
-					: query.and(QJpaCardBoxHelper.jpaCardBoxHelper.city.eq(city));
+			query = query == null ? QJpaCardBoxHelper.jpaCardBoxHelper.city.eq(city) : query
+					.and(QJpaCardBoxHelper.jpaCardBoxHelper.city.eq(city));
 		}
 
 		Page<JpaCardBoxHelper> list = cardHelperRepository.findAll(query, p);
@@ -1022,8 +1023,8 @@ public class CardServiceImpl implements CardService {
 									.eq(isDoubleChecker);
 							if (!StringUtils.equals(s[1], "0")) {
 								JpaBusline.Level level = JpaBusline.Level.valueOf(s[1]);
-								smallAdressEx = smallAdressEx
-										.and(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.leval.eq(level));
+								smallAdressEx = smallAdressEx.and(QJpaBusOrderDetailV2.jpaBusOrderDetailV2.leval
+										.eq(level));
 							}
 							subQuery = subQuery == null ? smallAdressEx : subQuery.or(smallAdressEx);
 						}
@@ -1200,7 +1201,6 @@ public class CardServiceImpl implements CardService {
 		return s;
 	}
 
-
 	@Override
 	public Offlinecontract getContractfromJsonStr(String jsonStr) {
 		Offlinecontract s = null;
@@ -1252,6 +1252,20 @@ public class CardServiceImpl implements CardService {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public boolean checkPayed(long runningNum) {
+		boolean r = false;
+		BooleanExpression query = QJpaOrders.jpaOrders.runningNum.eq(runningNum);
+		List<JpaOrders> list = (List<JpaOrders>) ordersRepository.findAll(query);
+		for (JpaOrders jpaOrders : list) {
+			if (jpaOrders.getStats().equals(JpaOrders.Status.paid)) {
+				r = true;
+				break;
+			}
+		}
+		return r;
 	}
 
 }
