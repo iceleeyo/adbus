@@ -69,6 +69,7 @@ public class JpaOrders extends CityEntity {
     private Date jianboDay;
     private Date financialCheckDay;
     private Date cancelDay;
+    private long runningNum;//交易流水号
     
     private double price = 0;		//订单价格 管理员可以根据套餐价格调整订单的价格 比如打折 促销
 
@@ -304,6 +305,14 @@ public class JpaOrders extends CityEntity {
 
 	public void setOrdRemark(String ordRemark) {
 		this.ordRemark = ordRemark;
+	}
+
+	public long getRunningNum() {
+		return runningNum;
+	}
+
+	public void setRunningNum(long runningNum) {
+		this.runningNum = runningNum;
 	}
 
 	@Override
