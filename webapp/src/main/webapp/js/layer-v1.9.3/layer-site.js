@@ -6,6 +6,11 @@
  * @param id
  * test
  */
+
+function hiddleLayer() {
+	 layer.closeAll();	 
+}
+
 function alertCompleteMsg(status){
 	  if(status==0){ layer.msg("连接电商平台网络错误!", {icon: 5}); }
       else if (status == 404) { layer.msg("404错误", {icon: 5});  }
@@ -2216,3 +2221,10 @@ $(function(){
 		 $(this).stop().animate({height:$h,width:$w,left:"0px",top:"0px"},800);
 	});
 });
+
+
+
+
+
+
+
