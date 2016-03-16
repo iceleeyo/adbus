@@ -19,7 +19,7 @@ $(document).ready(function(){
 });
 function getEnd(date,days){
 	var d=new Date(date);
-	if(d==""){
+	if(date=='' || d==""){
 		return "";
 	}else{
 	    d.setDate(d.getDate()+ (days)-1); 
@@ -329,7 +329,7 @@ function getEnd(date,days){
 		</tr>
 		<tr style="height:40px;">
 			<td >上刊时间</td><td COLSPAN=3 id="startDate">${item.startTime!''}</td>
-			<td >下刊时间</td><td COLSPAN=3 id="endDate"><script> getEnd('${item.startTime}',${item.product.days});</script></td>
+			<td >下刊时间</td><td COLSPAN=3 id="endDate"><script> getEnd('${item.startTime!''}',${item.product.days});</script></td>
 		</tr>
 		<tr style="height:40px;">
 			<td >媒体类型</td><td >${item.product.type.typeName}</td>
@@ -360,7 +360,7 @@ function getEnd(date,days){
 		</tr>
 		<tr style="height:40px;">
 			<td >上刊时间</td><td COLSPAN=3 id="startDate">${item.startTime!''}</td>
-			<td >下刊时间</td><td COLSPAN=3 id="endDate"><script> getEnd('${item.startTime}',${item.product.days});</script></td>
+			<td >下刊时间</td><td COLSPAN=3 id="endDate"><script> getEnd('${item.startTime!''}',${item.product.days});</script></td>
 		</tr>
 		<tr style="height:40px;">
 			<td >媒体类型</td><td >${item.product.type.typeName}</td>
