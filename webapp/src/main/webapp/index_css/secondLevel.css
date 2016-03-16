@@ -1903,16 +1903,13 @@ ol, ul {
 	text-decoration: none;
 	font-weight: 600;
 	letter-spacing: 2px;
+	margin-left:15px;
 }
 
 .tip_font{
 	font-size: 14px;
 }
 
-.btn_wp{
-	margin: 30px 0 0;
-    text-align: center;
-}
 
 .pro-til{
 	font-size:18px;
