@@ -151,7 +151,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                 { "data": function( row, type, set, meta) {  return row.id;},
 							"render" : function(data, type, row,meta) {
 					var operations = '';
-					if(row.r.stats=='init' || row.r.stats=='pass'){
+					if(row.r.stats=='init' || row.r.stats=='pass'|| row.r.stats=='refu'){
 						operations +='<a class="table-link" onclick="queryCarBoxBody(\'${rc.contextPath}\','+row.r.id+');" href="javascript:void(0)">详情</a>';
 					}else{
 						operations +='&nbsp;&nbsp;<a class="table-link" onclick="gotoContract('+row.r.newBodySeriaNum+","+row.r.id+');" href="javascript:void(0)">查看合同</a>';

@@ -353,6 +353,9 @@ css=["css/sift.css","js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jq
     $(document).ready(function() {
         initHistoryTable();
     } );
+     function lastPage(){
+    window.history.go(-1);
+  }
 </script>
 
 <div id="relateSup">

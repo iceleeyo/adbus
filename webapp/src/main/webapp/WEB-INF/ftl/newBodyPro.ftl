@@ -127,6 +127,7 @@ css=["js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jquery-ui-1.8.16.
      orderBusesTable.dataTable()._fnAjaxUpdate();
    }, 
    error: function(jqXHR) { 
+   		 
       if(jqXHR.status==0){ alert("连接错误"); }
                            else if (jqXHR.status == 404) { alert("404错误"); }
                            else if (jqXHR.status == 500) {  alert("500错误,服务器暂时抽筋了");}
