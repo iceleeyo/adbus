@@ -290,10 +290,18 @@
 			success:function(data){
 				if (data.left) {
 				if(boids==""){
-				  
-				    window.location.href="${rc.contextPath}/carbox/paySuccess/media";
+				    layer.closeAll();
+				  layer.msg('请您在新打开的页面完成支付！<br><br>•支付完成前请不要关闭此窗口<br>•支付失败时，可以迅速联系我们客服(400-1111-000)'
+				  +'<br><br><a class="block-btn" href="javascript:void(0);"  onclick="check1()">确认成功 </a><a href="javascript:void(0);"'
+				  +'  onclick="check1()">确认失败 </a>',{time: 300000,icon:9});
+				 
+				 //   window.location.href="${rc.contextPath}/carbox/paySuccess/media";
 				}else{
-				window.location.href="${rc.contextPath}/carbox/paySuccess/body";
+				 
+									
+							 
+				
+				//window.location.href="${rc.contextPath}/carbox/paySuccess/body";
 				}
 				} else {
 					layer.msg(data.right);
