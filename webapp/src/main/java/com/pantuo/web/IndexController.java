@@ -46,6 +46,7 @@ import com.pantuo.service.impl.IcbcServiceImpl;
 import com.pantuo.util.Only1ServieUniqLong;
 import com.pantuo.util.image.ValidateCode;
 import com.pantuo.web.schedule.SchedUltResult;
+import com.pantuo.web.view.CardView;
 
 /**
  * Index controller
@@ -339,21 +340,21 @@ public class CardSelect{
 		model.addAttribute("startdate1", startdate1);
 		return "redirect:/selected";
 	}
+
 	@RequestMapping(value = "/selected", produces = "text/html;charset=utf-8")
-	public String toCard2(Model model,HttpServletRequest request,Principal principal,
-			@RequestParam(value="startdate1" , required = false) String startdate1,
-			@ModelAttribute("_cardSelect") CardSelect cardselect
-			) {
+	public String toCard2(Model model, HttpServletRequest request, Principal principal,
+			@RequestParam(value = "startdate1", required = false) String startdate1,
+			@ModelAttribute("_cardSelect") CardSelect cardselect) {
+		CardView carid = null;
 		//@RequestParam(value="meids" , required = false) String meids,@RequestParam(value="boids" , required = false) String boids
-		model.addAttribute("infos", cardService.getMediaList(principal,0,cardselect.meids,cardselect.boids));
+		model.addAttribute("infos", carid = cardService.getMediaList(principal, 0, cardselect.meids, cardselect.boids));
 		model.addAttribute("seriaNum", cardService.getCardBingSeriaNum(principal));
 		model.addAttribute("meids", cardselect.meids);
 		model.addAttribute("boids", cardselect.boids);
 		model.addAttribute("startdate1", startdate1);
-		icbcService.sufficeIcbcSubmit(model, Only1ServieUniqLong.getUniqLongNumber());
-	 	return "secondCart_step2";
+		icbcService.sufficeIcbcSubmit(model, Only1ServieUniqLong.getUniqLongNumber(), carid);
+		return "secondCart_step2";
 	}
-	
 	
 	
 	

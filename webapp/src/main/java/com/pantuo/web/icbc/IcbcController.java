@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pantuo.service.impl.IcbcServiceImpl;
+import com.pantuo.web.view.CardView;
 
 @Controller
 public class IcbcController {
@@ -48,7 +49,8 @@ public class IcbcController {
 	@RequestMapping(value = "/icbc_demo", method = RequestMethod.GET)
 	public String config(Model model) {
 		long _seriam = 20160321155523L;
-		icbcService.sufficeIcbcSubmit(model, _seriam);
+		CardView c = new CardView(null, null, 1d, 1);
+		icbcService.sufficeIcbcSubmit(model, _seriam, c);
 		return "/icbc/testpay";
 	}
 
