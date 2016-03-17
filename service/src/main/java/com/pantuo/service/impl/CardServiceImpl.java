@@ -880,7 +880,7 @@ public class CardServiceImpl implements CardService {
 			order.setType(jpaCardBoxMedia.getProduct().getType());
 			ordersRepository.save(order);
 			if (order.getId() > 0) {
-				if(PayType.online.name().equals(paytype)){
+				if(!PayType.online.name().equals(paytype)){
 					Orders orderUpdate =new Orders();
 					orderUpdate.setId(order.getId());
 					orderUpdate.setRunningNum(OrderIdSeq.getLongOrderId(order));
