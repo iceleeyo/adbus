@@ -529,6 +529,8 @@ function pay() {
 	     var invoiceid=0;
 	     var contents="";
 	     var receway="";
+	     var orderid = $("#orderid").val();
+		var taskid = $("#taskid").val();
 	     var temp=document.getElementsByName("payType");
 	       var isinvoice=0;
 	       if($("input[type='checkbox']").is(':checked')==true){
@@ -547,7 +549,15 @@ function pay() {
 	              jDialog.Alert("请选择合同");
 	              return;
 	            }
-	         }else if(payType=="others"){
+	         }else if(payType=="online"){
+	         layer.msg('<h3 style="line-height: 45px;font-size: 15px;"><span id="payMsg">请您在新打开的页面插上U盾完成支付！<span></h3><br><span class="tip_font">•支付完成前请不要关闭此窗口<br>•支付失败时，可以迅速联系我们客服(010-88510188)</span>'
+							  +'<br><br><a class="block-btn" href="javascript:void(0);"  onclick="checkPayStatus(' + orderid
+							  +')">确认成功 </a><a class="fail-btn" href="javascript:void(0);"'
+							  +'  onclick="canelPay()">确认失败 </a>',{time: 300000,icon:9});
+							  $('#icbcOPer').click(); 
+							  return;
+	         }
+	         else if(payType=="others"){
 	             var otp=$("#otherpay  option:selected").val();
 	              if(otp==""){
 	              jDialog.Alert("请选择支付方式");
@@ -558,8 +568,7 @@ function pay() {
 	         }else{
 	            contractid=-1;
 	         }
-		var orderid = $("#orderid").val();
-		var taskid = $("#taskid").val();
+		
 		if(isinvoice==1){
 		        //contents=$("#contents  option:selected").val();
 	            //receway=$("#receway  option:selected").val();
@@ -613,7 +622,37 @@ function pay() {
 			}
 		}, "text");
 	}
-	
+	function canelPay(){
+							var i=5;
+							 setInterval(function(){               
+		           				 if(i == 1) { window.location.href="${rc.contextPath}/order/myTask/1";}
+	               				$("#payMsg").html("<br><font color='red'>"+(i--)+"</font>秒后跳转到后台");
+	           				 },1000);
+		}
+		function checkPayStatus(orderID){
+				$.ajax({
+					url:"${rc.contextPath}/carbox/ajax-checkPayStats",
+					type:"POST",
+					dataType:"json",
+					data:{"orderId":orderId },
+					success:function(data){
+						if (data) {
+							var i=3;
+							 setInterval(function(){               
+		           				 if(i == 1) { window.location.href="${rc.contextPath}/carbox/paySuccess/media";}
+	               				$("#payMsg").html("支付成功！,<font color='red'>"+(i--)+"</font>秒后跳转到后台");
+	           				 },1000);
+						}else{
+							var i=5;
+							 setInterval(function(){               
+		           				 if(i == 1) { window.location.href="${rc.contextPath}/order/myTask/1";}
+	               				$("#payMsg").html("支付还未成功！,<font color='red'>"+(i--)+"</font>秒后跳转到后台");
+	           				 },1000);
+	           			 }
+					}
+		          }); 
+          
+          }
 	function modifyOrder() {
 	        var supplieid=$("#supplieid  option:selected").val();
 	            var stardate1=$("#startdate1").val();
@@ -739,6 +778,35 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 			</p>
 		</H3>
 		<BR>
+		
+		<form id="form1"  target="_blank"  action="https://corporbank3.dccnet.com.cn/servlet/ICBCINBSEBusinessServlet" method="post">
+			    <input type="hidden" name="APIName" value="B2B"/>
+			    <input type="hidden" name="APIVersion" value="001.001.001.001"/>
+			    <input type="hidden" name="Shop_code" value="0200EC14729207"/>
+			    <!--若不正确，将无银行反馈信息，注意不能省略"http://"-->
+			    <input type="hidden" name="MerchantURL" value="${callback}"/>
+			    <input type="hidden" name="ContractNo" value="${contractNo}"/>
+			    <!--金额为不带小数点的到分的一个字符串，即“112390”代表的是“1123.90元”-->
+			    <input type="hidden" name="ContractAmt" value="${totalPrice}"/>
+			    <input type="hidden" name="Account_cur" value="001"/>
+			    <input type="hidden" name="JoinFlag" value="2"/>
+			    <input type="hidden" name="Mer_Icbc20_signstr" value="${a1}"/>
+			    <input type="hidden" name="Cert" value="${a2}"/>
+			    <input type="hidden" name="SendType" value="0"/>
+			    <input type="hidden" name="TranTime" value="${TranTime}" />
+			    <input type="hidden" name="Shop_acc_num" value="0200004519000100173"/>
+			    <input type="hidden" name="PayeeAcct" value="0200004519000100173"/>
+			    <input type="hidden" name="GoodsCode" value="CODE_MEDIA"/>
+			    <input type="hidden" name="GoodsName" value="SPTC"/>
+			    <input type="hidden" name="Amount" value="1"/>
+			    <!--金额为不带小数点的到分的一个字符串，即“112390”代表的是“1123.90元”-->
+			    <input type="hidden" name="TransFee" value="1"/>
+			    <input type="hidden" name="ShopRemark" value=""/>
+			    <input type="hidden" name="ShopRem" value=""/>
+			    <input type="submit" id="icbcOPer" value="确定"/>
+			</form>
+			
+			
 		<TABLE class="ui-table ui-table-gray">
 			<!-- <TR class="dark" style="height:40px;text-align:center;border-radius: 5px 5px 0 0;">
     									<TD width="100%" colspan=4 style="border-radius: 5px 5px 0 0;"><H4>广告主支付订单</H4></TD>

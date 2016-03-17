@@ -154,7 +154,7 @@ public interface CardService {
 	public Offlinecontract getContractfromJsonStr(String jsonStr);
 	
 	
-	public boolean checkPayed(long runningNum);
+	public boolean checkPayed(long runningNum, int orderId);
 		
 		
 		

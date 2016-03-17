@@ -1273,8 +1273,15 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public boolean checkPayed(long runningNum) {
+	public boolean checkPayed(long runningNum, int orderId) {
 		boolean r = false;
+		if( orderId>0){
+			BooleanExpression query = QJpaOrders.jpaOrders.id.eq(orderId);
+			JpaOrders orders=ordersRepository.findOne(query);
+			if (orders.getStats().equals(JpaOrders.Status.paid)) {
+				r = true;
+			}
+		}else{
 		BooleanExpression query = QJpaOrders.jpaOrders.runningNum.eq(runningNum);
 		List<JpaOrders> list = (List<JpaOrders>) ordersRepository.findAll(query);
 		for (JpaOrders jpaOrders : list) {
@@ -1282,6 +1289,8 @@ public class CardServiceImpl implements CardService {
 				r = true;
 				break;
 			}
+		}
+		
 		}
 		return r;
 	}

@@ -50,6 +50,7 @@ import com.pantuo.pojo.HistoricTaskView;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.ActivitiService.TaskQueryType;
+import com.pantuo.service.impl.IcbcServiceImpl;
 import com.pantuo.service.BusService;
 import com.pantuo.service.ContractService;
 import com.pantuo.service.CpdService;
@@ -61,8 +62,10 @@ import com.pantuo.service.security.Request;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.NumberPageUtil;
+import com.pantuo.util.Only1ServieUniqLong;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Variable;
+import com.pantuo.web.view.CardView;
 import com.pantuo.web.view.InvoiceView;
 import com.pantuo.web.view.OrderView;
 import com.pantuo.web.view.SuppliesView;
@@ -101,7 +104,8 @@ public class OrderController {
 	private TaskService taskService;
 	@Autowired
 	private CpdService cpdService;
-
+	@Autowired
+	IcbcServiceImpl icbcService;
 	
 	
 	@RequestMapping(value = "/ibus/{product_id}", produces = "text/html;charset=utf-8")
@@ -264,6 +268,9 @@ public class OrderController {
 		model.addAttribute("claimTime", claimTime);
 		if(v!=null && v.getOrder()!=null){
 		model.addAttribute("contract", contractService.selectContractById(v.getOrder().getContractId()));
+		if(StringUtils.equals(task.getName(), "支付")){
+			icbcService.sufficeIcbcSubmit(model,v.getLongOrderId(), new CardView(null, null, v.getOrder().getPrice(), 1),"offline");
+		}
 		}
 		model.addAttribute("InvoiceList", InvoiceList);
 		model.addAttribute("activitis", activitis);
@@ -271,6 +278,7 @@ public class OrderController {
 			activityId = ActivitiService.R_MODIFY_ORDER;
 		}
 		model.addAttribute("activityId", activityId);
+		
 
 		return "handleView2";
 	}

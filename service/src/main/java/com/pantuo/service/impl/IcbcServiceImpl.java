@@ -13,6 +13,7 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.QJpaOrders;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.IcbcServerTime;
+import com.pantuo.util.OrderIdSeq;
 import com.pantuo.web.view.CardView;
 
 import cn.com.infosec.icbc.ReturnValue;
@@ -84,6 +86,7 @@ public class IcbcServiceImpl {
 		int r = -1;
 		try {
 			String notifySign = request.getParameter("NotifySign");
+			String paytype=request.getParameter("p");
 			log.info("notifySign=" + notifySign);
 			byte[] sign = ReturnValue.base64dec(notifySign.getBytes());
 			String p = this.getClass().getResource("/icbc").getPath();
@@ -98,7 +101,7 @@ public class IcbcServiceImpl {
 				String rnum = request.getParameter("ContractNo");
 				if (StringUtils.isNotBlank(rnum)) {
 					long runningNum = NumberUtils.toLong(rnum);
-					changeOrder2Paid(runningNum);
+					changeOrder2Paid(runningNum,paytype);
 				}
 			}
 			log.info("r_gbk=" + r);
@@ -109,32 +112,45 @@ public class IcbcServiceImpl {
 		return r;
 	}
 
-	private void changeOrder2Paid(long runningNum) {
+	private void changeOrder2Paid(long runningNum,String paytype) {
+		if(StringUtils.equals(paytype, "offline")){
+			int dbid=OrderIdSeq.longOrderId2DbId(runningNum);
+			BooleanExpression query = QJpaOrders.jpaOrders.id.eq(dbid);
+			JpaOrders orders=ordersRepository.findOne(query);
+			if(orders!=null){
+				orders.setStats(JpaOrders.Status.paid);
+				ordersRepository.save(orders);
+				changrOrderFlowStats(orders);
+			}
+		}else{
 		BooleanExpression query = QJpaOrders.jpaOrders.runningNum.eq(runningNum);
 		List<JpaOrders> list = (List<JpaOrders>) ordersRepository.findAll(query);
 		for (JpaOrders jpaOrders : list) {
 			jpaOrders.setStats(JpaOrders.Status.paid);
 			ordersRepository.save(jpaOrders);
-			ProcessInstance processInstance = activitiService.findProcessInstanceByOrderId(jpaOrders.getId(),
-					jpaOrders.getUserId());
-			if (processInstance != null) {
-				List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId())
-						.orderByTaskCreateTime().desc().listPage(0, 5);
-				if (!tasks.isEmpty()) {
-					for (Task task : tasks) {
-						if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
-							if (jpaOrders.getStats().equals(JpaOrders.Status.paid)) {
-								Map<String, Object> variables = new HashMap<String, Object>();
-								variables.put(ActivitiService.R_USERPAYED, true);
-								taskService.complete(task.getId(), variables);
-							}
+			changrOrderFlowStats(jpaOrders);
+		}
+		}
+	}
+   public void changrOrderFlowStats(JpaOrders jpaOrders){
+	   ProcessInstance processInstance = activitiService.findProcessInstanceByOrderId(jpaOrders.getId(),
+				jpaOrders.getUserId());
+		if (processInstance != null) {
+			List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId())
+					.orderByTaskCreateTime().desc().listPage(0, 5);
+			if (!tasks.isEmpty()) {
+				for (Task task : tasks) {
+					if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
+						if (jpaOrders.getStats().equals(JpaOrders.Status.paid)) {
+							Map<String, Object> variables = new HashMap<String, Object>();
+							variables.put(ActivitiService.R_USERPAYED, true);
+							taskService.complete(task.getId(), variables);
 						}
 					}
 				}
 			}
 		}
-	}
-
+   }
 	public String getCallSign(HttpServletRequest request) {
 
 		StringBuilder sb = new StringBuilder();
