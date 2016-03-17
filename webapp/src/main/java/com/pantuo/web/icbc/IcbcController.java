@@ -27,9 +27,9 @@ public class IcbcController {
 	@Autowired
 	IcbcServiceImpl icbcService;
 
-	@RequestMapping(value = "/icbcCallBack/{paytype}")
+	@RequestMapping(value = "/icbcCallBack")
 	@ResponseBody
-	public String icbcCallBack(@PathVariable("paytype") String paytype,Model model, HttpServletRequest request) {
+	public String icbcCallBack(String paytype,Model model, HttpServletRequest request) {
 		try {
 			request.setCharacterEncoding("GBK");
 		} catch (UnsupportedEncodingException e) {
@@ -43,7 +43,7 @@ public class IcbcController {
 		}
 		String src = icbcService.getCallSign(request);
 		log.info("src=" + src);
-		log.info("paytype=" + paytype);
+		log.info("paytype=" + request.getParameter("p"));
 		icbcService.checkCallBack(src, request);
 		return "200";
 	}
