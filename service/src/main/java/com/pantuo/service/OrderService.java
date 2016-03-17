@@ -246,6 +246,10 @@ public class OrderService {
 	public JpaOrders getJpaOrder(int orderId) {
 		return ordersRepository.findOne(orderId);
 	}
+	
+	public List<JpaOrders> getJpaOrders(List<Integer> orderId) {
+		return ordersRepository.findAll(orderId);
+	}
 
 	public Iterable<JpaOrders> getOrdersForSchedule(int city, Date day, JpaProduct.Type type) {
 		Predicate query = QJpaOrders.jpaOrders.city.eq(city)

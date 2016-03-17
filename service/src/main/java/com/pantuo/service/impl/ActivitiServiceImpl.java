@@ -466,12 +466,13 @@ public class ActivitiServiceImpl implements ActivitiService {
 			queryList.taskDefinitionKey(taskKey);
 			//queryList.taskVariableValueEquals("paymentResult", true);
 		}
-
+		long t = System.currentTimeMillis();
 		long c = countQuery.count();
 		NumberPageUtil pageUtil = new NumberPageUtil((int) c, page, pageSize);
 
 		taskOrderBy(sort, queryList);
 		tasks = queryList.listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
+		log.info("queryList_time:{}", System.currentTimeMillis() - t);
 		//	tasks = query.orderByTaskPriority()
 		//		.desc().ororderByTaskCreateTime().desc().listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
 
@@ -489,7 +490,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 
 		if (!orders.isEmpty()) {
+			
 			List<JpaOrders> jpaLists = orderService.getJpaOrders(orders);
+		
 			for (JpaOrders jpaOrders : jpaLists) {
 				orderMap.put(jpaOrders.getId(), jpaOrders);
 			}
