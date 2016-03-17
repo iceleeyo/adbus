@@ -359,18 +359,21 @@
 			data:{"divid":divid,"isdiv":isdiv,"seriaNum":seriaNum,"paytype":paytype,"meids":meids,"boids":boids,"startdate1":startdate1,"runningNum":runningNum},
 			success:function(data){
 				if (data.left) {
-				if(boids==""){
-					$("input[name='ContractNo']").attr("value", data.right.runningNum);
-				    layer.closeAll();
-				  layer.msg('<h3 style="line-height: 45px;font-size: 15px;"><span id="payMsg">请您在新打开的页面插上U盾完成支付！<span></h3><br><span class="tip_font">•支付完成前请不要关闭此窗口<br>•支付失败时，可以迅速联系我们客服(010-88510188)</span>'
-				  +'<br><br><a class="block-btn" href="javascript:void(0);"  onclick="checkPayStatus(' + data.right.runningNum
-				  +')">确认成功 </a><a class="fail-btn" href="javascript:void(0);"'
-				  +'  onclick="canelPay()">确认失败 </a>',{time: 300000,icon:9});
-				  $('#icbcOPer').click(); 
-				 //   window.location.href="${rc.contextPath}/carbox/paySuccess/media";
-				}else{
-				window.location.href="${rc.contextPath}/carbox/paySuccess/body";
-				}
+					if(boids==""){
+						if(data.right.paytype =='online'){
+							$("input[name='ContractNo']").attr("value", data.right.runningNum);
+							    layer.closeAll();
+							  layer.msg('<h3 style="line-height: 45px;font-size: 15px;"><span id="payMsg">请您在新打开的页面插上U盾完成支付！<span></h3><br><span class="tip_font">•支付完成前请不要关闭此窗口<br>•支付失败时，可以迅速联系我们客服(010-88510188)</span>'
+							  +'<br><br><a class="block-btn" href="javascript:void(0);"  onclick="checkPayStatus(' + data.right.runningNum
+							  +')">确认成功 </a><a class="fail-btn" href="javascript:void(0);"'
+							  +'  onclick="canelPay()">确认失败 </a>',{time: 300000,icon:9});
+							  $('#icbcOPer').click(); 
+						} else {
+							window.location.href="${rc.contextPath}/carbox/paySuccess/media";
+						}
+					} else {//car
+						window.location.href="${rc.contextPath}/carbox/paySuccess/body";
+					}
 				} else {
 					layer.msg(data.right.msg,{time: 5000,icon: 5});
 				}
