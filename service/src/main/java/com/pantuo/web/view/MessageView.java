@@ -14,6 +14,7 @@ public class MessageView {
 	double TotalMoney;//金额
 	long runningNum;//交易流水号
 	String msg;
+	String paytype;
 
 	public MessageView(JpaMessage mainView, int longOrderId, JpaOrders order) {
 		this.mainView = mainView;
@@ -23,12 +24,17 @@ public class MessageView {
 		}
 	}
 
-
 	public MessageView(double totalMoney, long runningNum, String msg) {
-		super();
 		TotalMoney = totalMoney;
 		this.runningNum = runningNum;
 		this.msg = msg;
+	}
+
+	public MessageView(double totalMoney, long runningNum, String msg, String paytype) {
+		TotalMoney = totalMoney;
+		this.runningNum = runningNum;
+		this.msg = msg;
+		this.paytype = paytype;
 	}
 
 	public JpaMessage getMainView() {
@@ -77,6 +83,14 @@ public class MessageView {
 
 	public void setCreateId(Date createId) {
 		this.createId = createId;
+	}
+
+	public String getPaytype() {
+		return paytype;
+	}
+
+	public void setPaytype(String paytype) {
+		this.paytype = paytype;
 	}
 
 }

@@ -47,6 +47,7 @@ import com.pantuo.dao.pojo.JpaCardBoxMedia;
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaCity.MediaType;
 import com.pantuo.dao.pojo.JpaOrders;
+import com.pantuo.dao.pojo.JpaOrders.PayType;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.QJpaBodyOrderLog;
 import com.pantuo.dao.pojo.QJpaBusOrderDetailV2;
@@ -64,11 +65,13 @@ import com.pantuo.mybatis.domain.CardboxMedia;
 import com.pantuo.mybatis.domain.CardboxMediaExample;
 import com.pantuo.mybatis.domain.CardboxUser;
 import com.pantuo.mybatis.domain.CardboxUserExample;
+import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.persistence.BodyOrderLogMapper;
 import com.pantuo.mybatis.persistence.CardboxBodyMapper;
 import com.pantuo.mybatis.persistence.CardboxHelperMapper;
 import com.pantuo.mybatis.persistence.CardboxMediaMapper;
 import com.pantuo.mybatis.persistence.CardboxUserMapper;
+import com.pantuo.mybatis.persistence.OrdersMapper;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.CardService;
@@ -80,6 +83,7 @@ import com.pantuo.util.CardUtil;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.JsonTools;
 import com.pantuo.util.Only1ServieUniqLong;
+import com.pantuo.util.OrderIdSeq;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.BodyProView;
 import com.pantuo.web.view.CardBoxHelperView;
@@ -126,6 +130,9 @@ public class CardServiceImpl implements CardService {
 	CityService cityService;
 	@Autowired
 	UserDetailRepository userRepo;
+	
+	@Autowired
+	OrdersMapper orderMapper;
 
 	private static Logger log = LoggerFactory.getLogger(CardServiceImpl.class);
 
@@ -763,7 +770,7 @@ public class CardServiceImpl implements CardService {
 
 	@Override
 	public Pair<Boolean, Object> payment(String startdate1, String paytype, int isdiv, String divid, long seriaNum,
-			Principal principal, int city, String meids, String boids,long runningNum) {
+			Principal principal, int city, String meids, String boids, long runningNum) {
 		List<Integer> medisIds = CardUtil.parseIdsFromString(meids);
 		List<Integer> carid = CardUtil.parseIdsFromString(boids);
 
@@ -815,15 +822,15 @@ public class CardServiceImpl implements CardService {
 			}
 
 			if (a > 0 && helper.getMediaType() == 0 && medisIds != null && !medisIds.isEmpty()) {
-				change2Order(startdate1, medisIds, helper,runningNum, principal);
+				change2Order(paytype, startdate1, medisIds, helper, runningNum, principal);
 			}
-			MessageView v=new MessageView(totalMoney, runningNum,"创建订单成功");
+			MessageView v = new MessageView(totalMoney, runningNum, "创建订单成功", paytype);
 			return new Pair<Boolean, Object>(true, v);
 		}
-		return new Pair<Boolean, Object>(false, new MessageView(0, 0, "操作异常"));
+		return new Pair<Boolean, Object>(false, new MessageView(0, 0, "操作异常", paytype));
 	}
 
-	public void change2Order(String startdate1, List<Integer> medisIds, CardboxHelper helper, long runningNum, Principal principal) {
+	public void change2Order(String paytype,String startdate1, List<Integer> medisIds, CardboxHelper helper, long runningNum, Principal principal) {
 		BooleanExpression query = QJpaCardBoxMedia.jpaCardBoxMedia.city.eq(helper.getCity());
 		query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.seriaNum.eq(helper.getSeriaNum()));
 		query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.id.in(medisIds));
@@ -840,8 +847,12 @@ public class CardServiceImpl implements CardService {
 			order.setProduct(jpaCardBoxMedia.getProduct());
 			order.setContractCode(code);
 			order.setSuppliesId(1);
+			
 			order.setStats(JpaOrders.Status.unpaid);
+			
+			//线上runningNum 线下orderid 20160317101313
 			order.setRunningNum(runningNum);
+			
 			if (jpaCardBoxMedia.getStartTime() != null) {
 				Date eDate = DateUtil.dateAdd(jpaCardBoxMedia.getStartTime(), jpaCardBoxMedia.getProduct().getDays());
 				order.setStartTime(jpaCardBoxMedia.getStartTime());
@@ -865,6 +876,14 @@ public class CardServiceImpl implements CardService {
 			order.setType(jpaCardBoxMedia.getProduct().getType());
 			ordersRepository.save(order);
 			if (order.getId() > 0) {
+				if(PayType.online.name().equals(paytype)){
+					Orders orderUpdate =new Orders();
+					orderUpdate.setId(order.getId());
+					orderUpdate.setRunningNum(OrderIdSeq.getLongOrderId(order));
+					orderMapper.updateByPrimaryKeySelective(orderUpdate);
+				}
+			
+				
 				activitiService.startProcess2(jpaCardBoxMedia.getCity(), Request.getUser(principal), order);
 			}
 		}
