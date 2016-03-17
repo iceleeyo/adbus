@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,9 +27,9 @@ public class IcbcController {
 	@Autowired
 	IcbcServiceImpl icbcService;
 
-	@RequestMapping(value = "/icbcCallBack")
+	@RequestMapping(value = "/icbcCallBack/{paytype}")
 	@ResponseBody
-	public String icbcCallBack(Model model, HttpServletRequest request) {
+	public String icbcCallBack(@PathVariable("paytype") String paytype,Model model, HttpServletRequest request) {
 		try {
 			request.setCharacterEncoding("GBK");
 		} catch (UnsupportedEncodingException e) {
@@ -42,6 +43,7 @@ public class IcbcController {
 		}
 		String src = icbcService.getCallSign(request);
 		log.info("src=" + src);
+		log.info("paytype=" + paytype);
 		icbcService.checkCallBack(src, request);
 		return "200";
 	}
@@ -50,7 +52,7 @@ public class IcbcController {
 	public String config(Model model) {
 		long _seriam = 20160321155523L;
 		CardView c = new CardView(null, null, 1d, 1);
-		icbcService.sufficeIcbcSubmit(model, _seriam, c);
+		icbcService.sufficeIcbcSubmit(model, _seriam, c,"k");
 		return "/icbc/testpay";
 	}
 

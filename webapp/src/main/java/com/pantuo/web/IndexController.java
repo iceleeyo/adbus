@@ -352,7 +352,7 @@ public class CardSelect{
 		model.addAttribute("meids", cardselect.meids);
 		model.addAttribute("boids", cardselect.boids);
 		model.addAttribute("startdate1", startdate1);
-		icbcService.sufficeIcbcSubmit(model, Only1ServieUniqLong.getUniqLongNumber(), carid);
+		icbcService.sufficeIcbcSubmit(model, Only1ServieUniqLong.getUniqLongNumber(), carid,"online");
 		return "secondCart_step2";
 	}
 	
