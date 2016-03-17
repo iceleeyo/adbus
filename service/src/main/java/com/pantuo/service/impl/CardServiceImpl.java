@@ -273,7 +273,7 @@ public class CardServiceImpl implements CardService {
 			JpaBusOrderDetailV2 product = busOrderDetailV2Repository.findOne(proid);
 			if (c.isEmpty()) {// 无记录时增加
 				CardboxBody media = new CardboxBody();
-				media.setCity(city);
+				media.setCity(2);
 				media.setUserId(Request.getUserId(principal));
 				media.setCreated(new Date());
 				media.setNeedCount(needCount);
@@ -777,6 +777,9 @@ public class CardServiceImpl implements CardService {
 		Collection<TypeCount> list = countCardByCity(seriaNum, 0, medisIds, carid);
 		double totalMoney = 0.0;
 		for (TypeCount typeCount : list) {
+			log.info("typeCount:{},{},{},{}",typeCount.getMediaType(),medisIds,boids,carid);
+		}
+		for (TypeCount typeCount : list) {
 			totalMoney += typeCount.getPrice();
 			CardboxHelper helper = new CardboxHelper();
 			helper.setCity(typeCount.getCity());
@@ -824,10 +827,11 @@ public class CardServiceImpl implements CardService {
 			if (a > 0 && helper.getMediaType() == 0 && medisIds != null && !medisIds.isEmpty()) {
 				change2Order(paytype, startdate1, medisIds, helper, runningNum, principal);
 			}
-			MessageView v = new MessageView(totalMoney, runningNum, "创建订单成功", paytype);
-			return new Pair<Boolean, Object>(true, v);
+			
 		}
-		return new Pair<Boolean, Object>(false, new MessageView(0, 0, "操作异常", paytype));
+		MessageView v = new MessageView(totalMoney, runningNum, "创建订单成功", paytype);
+		return new Pair<Boolean, Object>(true, v);
+		//return new Pair<Boolean, Object>(false, new MessageView(0, 0, "操作异常", paytype));
 	}
 
 	public void change2Order(String paytype,String startdate1, List<Integer> medisIds, CardboxHelper helper, long runningNum, Principal principal) {
