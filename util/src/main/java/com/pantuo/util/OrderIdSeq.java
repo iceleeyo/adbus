@@ -32,7 +32,7 @@ public class OrderIdSeq {
 		return NumberUtils.toLong(sd.format(date)) * split + maxId + id;
 	}
 
-	public int longOrderId2DbId(long longOrderId) {
+	public static int longOrderId2DbId(long longOrderId) {
 		return (int) (longOrderId - (longOrderId / split) * split - maxId);
 	}
 
