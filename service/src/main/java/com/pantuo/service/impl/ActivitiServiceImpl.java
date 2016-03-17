@@ -6,8 +6,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
@@ -473,17 +475,49 @@ public class ActivitiServiceImpl implements ActivitiService {
 		//	tasks = query.orderByTaskPriority()
 		//		.desc().ororderByTaskCreateTime().desc().listPage(pageUtil.getLimitStart(), pageUtil.getPagesize());
 
+		Map<String, ProcessInstance> processMap = new HashMap<String, ProcessInstance>();
+
+		Map<Integer, JpaOrders> orderMap = new HashMap<Integer, JpaOrders>();
+
+		Set<String> proesccId = new HashSet<String>();
+		List<Integer> orders = new ArrayList<Integer>();
 		for (Task task : tasks) {
 			String processInstanceId = task.getProcessInstanceId();
-			ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
-					.processInstanceId(processInstanceId).singleResult();
+			proesccId.add(processInstanceId);
+			Map<String, Object> var = task.getProcessVariables();
+			orders.add((Integer) var.get(ORDER_ID));
+		}
+
+		if (!orders.isEmpty()) {
+			List<JpaOrders> jpaLists = orderService.getJpaOrders(orders);
+			for (JpaOrders jpaOrders : jpaLists) {
+				orderMap.put(jpaOrders.getId(), jpaOrders);
+			}
+		}
+
+		if (!proesccId.isEmpty()) {
+			List<ProcessInstance> pList = runtimeService.createProcessInstanceQuery().processInstanceIds(proesccId)
+					.list();
+			if (pList != null) {
+				for (ProcessInstance processInstance : pList) {
+					processMap.put(processInstance.getId(), processInstance);
+				}
+			}
+		}
+
+		for (Task task : tasks) {
+			String processInstanceId = task.getProcessInstanceId();
+
+			ProcessInstance processInstance = processMap.get(processInstanceId);
+			//ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
+			//		.processInstanceId(processInstanceId).singleResult();
 			Map<String, Object> var = task.getProcessVariables();
 			Integer orderid = (Integer) var.get(ORDER_ID);
 
 			OrderView v = new OrderView();
-			JpaOrders order = orderService.queryOrderDetail(orderid, principal);
+			JpaOrders order = orderMap.get(orderid);//orderService.queryOrderDetail(orderid, principal);
 			if (order != null) {
-				JpaProduct product = productService.findById(order.getProductId());
+				JpaProduct product = order.getProduct();//productService.findById(order.getProductId());
 				v.setProduct(product);
 				v.setOrder(order);
 				v.setTask(task);
