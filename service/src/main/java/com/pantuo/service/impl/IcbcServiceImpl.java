@@ -54,11 +54,11 @@ public class IcbcServiceImpl {
 	@Lazy
 	IcbcServerTime icbcServerTime;
 
-	public void sufficeIcbcSubmit(Model model, long _seriam, CardView cardView) {
+	public void sufficeIcbcSubmit(Model model, long _seriam, CardView cardView, String paytype) {
 		long totalPrice = cardView == null ? 0 : (long) (cardView.getTotalPrice() * 100);
 		String TranTime = String.valueOf(icbcServerTime.getTime());
 		String contractNo = String.valueOf(_seriam);
-		String callback = "http://busme.cn/icbcCallBack";
+		String callback = "http://busme.cn/icbcCallBack/"+paytype;
 		StringBuilder dBuilder = new StringBuilder();
 		dBuilder.append("APIName=B2B&APIVersion=001.001.001.001&Shop_code=0200EC14729207").append("&MerchantURL=");
 		dBuilder.append(callback);
