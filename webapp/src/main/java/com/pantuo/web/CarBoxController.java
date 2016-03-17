@@ -226,7 +226,7 @@ public class CarBoxController {
 	@RequestMapping(value = "/ajax-checkPayStats")
 	@ResponseBody
 	public boolean saveCardBoxMedia(
-			@RequestParam(value = "runningNum", required = false) long runningNum,
+			@RequestParam(value = "runningNum", defaultValue = "0") long runningNum,
 			@RequestParam(value = "orderId", defaultValue = "-1") int orderId
 			) {
 		return cardService.checkPayed(runningNum,orderId);
