@@ -629,7 +629,7 @@ function pay() {
 	               				$("#payMsg").html("<br><font color='red'>"+(i--)+"</font>秒后跳转到后台");
 	           				 },1000);
 		}
-		function checkPayStatus(orderID){
+		function checkPayStatus(orderId){
 				$.ajax({
 					url:"${rc.contextPath}/carbox/ajax-checkPayStats",
 					type:"POST",
@@ -779,7 +779,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 		</H3>
 		<BR>
 		
-		<form id="form1"  target="_blank"  action="https://corporbank3.dccnet.com.cn/servlet/ICBCINBSEBusinessServlet" method="post">
+		<form id="form1"  target="_blank" style="display: none;" action="https://corporbank3.dccnet.com.cn/servlet/ICBCINBSEBusinessServlet" method="post">
 			    <input type="hidden" name="APIName" value="B2B"/>
 			    <input type="hidden" name="APIVersion" value="001.001.001.001"/>
 			    <input type="hidden" name="Shop_code" value="0200EC14729207"/>
