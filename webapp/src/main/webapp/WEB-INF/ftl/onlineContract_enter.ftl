@@ -574,7 +574,7 @@ css=["css/sift.css","js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jq
 				</div>
 				<div id="orderedBuses">
 					<table id="table2" class="display compact" cellspacing="0"
-						width="70%">
+						width="100%">
 						<thead>
 							<tr class="tableTr">
 								<th>期数</th>
