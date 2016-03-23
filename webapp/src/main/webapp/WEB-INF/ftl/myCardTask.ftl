@@ -134,15 +134,15 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                 	if(data =='init'){
                 		t='待审核';
                 	}else if(data =='pass'){
-                		t='<font color="greeen">审核通过</font>';
+                		t='<font color="orange">审核通过</font>';
                 	}else if(data =='refu'){
                 		t='<font color="red">订单已拒绝</font>';
                 	}else if(data =='contractd'){
-                		t='<font color="greeen">合同已创建</font>';
+                		t='<font color="##0000FF">合同已创建</font>';
                 	}else if(data =='running'){
-                		t='<font color="greeen">进行中</font>';
+                		t='<font color="00FF00">进行中</font>';
                 	}else if(data =='over'){
-                		t='<font color="greeen">已完成</font>';
+                		t='<font color="green">已完成</font>';
                 	}
                 	return t;
                 }},
@@ -154,7 +154,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
 					if(row.r.stats=='init' || row.r.stats=='pass'|| row.r.stats=='refu'){
 						operations +='<a class="table-link" onclick="queryCarBoxBody(\'${rc.contextPath}\','+row.r.id+');" href="javascript:void(0)">详情</a>';
 					}else{
-						operations +='&nbsp;&nbsp;<a class="table-link" onclick="gotoContract('+row.r.newBodySeriaNum+","+row.r.id+');" href="javascript:void(0)">查看合同</a>';
+						operations +='<a class="table-link" onclick="gotoContract('+row.r.newBodySeriaNum+","+row.r.id+');" href="javascript:void(0)">查看合同</a>';
 					}
 					
 					return operations;
