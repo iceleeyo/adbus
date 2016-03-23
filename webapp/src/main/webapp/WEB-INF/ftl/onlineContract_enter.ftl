@@ -1,5 +1,5 @@
 <#import "template/template.ftl" as frame> <#global menu="创建合同">
-<@frame.html title="创建合同"
+<@frame.html title="合同详情"
 js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js",
 "js/jquery-ui/jquery-ui.auto.complete.js","js/datepicker.js",
 "js/jquery.datepicker.region.cn.js","js/progressbar.js"]
@@ -362,7 +362,7 @@ css=["css/sift.css","js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jq
 
 <div class="p20bs mt10 color-white-bg border-ec">
 		<div class="withdraw-title">
-			<span>（一）订单产品信息</span>  
+			<span>订单产品信息</span>  
 				<a class="block-btn"
 				style="margin-top: -5px; margin-left: 5px;"
 				href="javascript:void(0);"
@@ -389,7 +389,7 @@ css=["css/sift.css","js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jq
 	</div>
 	<div id="relateSup">
 		<div class="p20bs mt10 color-white-bg border-ec">
-			<div class="withdraw-title fn-clear">（二）下单用户信息</div>
+			<div class="withdraw-title fn-clear">下单用户信息</div>
 			 
 				
 				<div class="withdrawInputs">
@@ -431,7 +431,7 @@ css=["css/sift.css","js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jq
 	<!-- over 1-->
 	<div class="p20bs mt10 color-white-bg border-ec">
 		<div class="withdraw-title">
-			<span>（三）发布线路信息</span>  
+			<span>发布线路信息</span>  
 				  
 		</div>
 		<div id="orderedBuses">
@@ -456,7 +456,7 @@ css=["css/sift.css","js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jq
 	</div>
 	<div id="relateSup">
 		<div class="p20bs mt10 color-white-bg border-ec">
-			<div class="withdraw-title fn-clear">（四）合同基本信息</div>
+			<div class="withdraw-title">合同基本信息</div>
 			<form data-name="withdraw" name="form02" id="form02" class="ui-form"
 				method="post" action="${rc.contextPath}/busselect/saveOffContract"
 				enctype="multipart/form-data">
@@ -570,7 +570,7 @@ css=["css/sift.css","js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jq
 		<div id="relateSup">
 			<div class="p20bs mt10 color-white-bg border-ec">
 				<div class="withdraw-title">
-					<span>（五）合同付款方式</span> 
+					<span>付款方式</span> 
 				</div>
 				<div id="orderedBuses">
 					<table id="table2" class="display compact" cellspacing="0"
@@ -590,7 +590,7 @@ css=["css/sift.css","js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jq
 		<div id="relateSup">
 			<div class="p20bs mt10 color-white-bg border-ec">
 				<div class="withdraw-title">
-					<span>（六）订单历史</span>  
+					<span>订单历史</span>  
 				</div>
 				<div >
 					<table id="history" class="display compact" cellspacing="0"
