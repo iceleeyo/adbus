@@ -226,7 +226,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
 				<th>订单总价</th>
 				<#--<th>是否分期</th>
 				<th>分期数</th>-->
-				<th>相关产品个数</th>
+				<th>产品个数</th>
 				<th>支付方式</th>
 				<th orderBy="created">下单时间</th>
 				<th>状态</th>
