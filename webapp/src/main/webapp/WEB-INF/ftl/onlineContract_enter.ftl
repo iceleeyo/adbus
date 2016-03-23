@@ -389,7 +389,7 @@ css=["css/sift.css","js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jq
 	</div>
 	<div id="relateSup">
 		<div class="p20bs mt10 color-white-bg border-ec">
-			<div class="withdraw-title fn-clear">下单用户信息</div>
+			<div class="withdraw-title">下单用户信息</div>
 			 
 				
 				<div class="withdrawInputs">
