@@ -3,6 +3,14 @@
 css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css","css/layer.css"]
 js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer-site.js"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
+
+<style type="text/css">
+.operation
+{
+	color: #31B533;
+    font-weight: 800;
+}
+</style>
 <script type="text/javascript">
  	function gotoContract(_seriaNum,helpid){
  	var Purl="${bodyOnlineUrl}/busselect/ajax-onlineContractInfo?_seriaNum="+_seriaNum+"&"+"${Md5!''}";
@@ -152,9 +160,9 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
 							"render" : function(data, type, row,meta) {
 					var operations = '';
 					if(row.r.stats=='init' || row.r.stats=='pass'|| row.r.stats=='refu'){
-						operations +='<a class="table-link" onclick="queryCarBoxBody(\'${rc.contextPath}\','+row.r.id+');" href="javascript:void(0)">详情</a>';
+						operations +='<a class="table-link operation" onclick="queryCarBoxBody(\'${rc.contextPath}\','+row.r.id+');" href="javascript:void(0)">详情</a>';
 					}else{
-						operations +='<a class="table-link" onclick="gotoContract('+row.r.newBodySeriaNum+","+row.r.id+');" href="javascript:void(0)">订单详情</a>';
+						operations +='<a class="table-link operation" onclick="gotoContract('+row.r.newBodySeriaNum+","+row.r.id+');" href="javascript:void(0)">订单详情</a>';
 					}
 					
 					return operations;
