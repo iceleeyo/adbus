@@ -345,13 +345,56 @@ css=["css/sift.css","js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jq
             },
         } );
     }
-
-     
-
     
+    function userMsg(){
+		loadUserInfo();
+		layer
+		.open({
+			type : 1,
+			skin : 'layui-layer-rim',
+			area : [ '900px', '400px' ],
+			content : ''
+					+ ' '
+					+ '<div class="p20bs mt10 color-white-bg border-ec" id="userM">'
+					+ '<div class="withdraw-title">下单用户信息</div><div class="withdrawInputs">'
+					+ '<div class="inputs"> <div class="ui-form-item">'
+					+ '<label class="ui-label mt10"><span class="ui-form-required"></span>广告主: </label> <input readonly="readonly" style="width:300px" class="ui-input" type="text" name="signDate1" id="relateman" value="" /> </div>'
+					+ '<div class="ui-form-item"> <label class="ui-label mt10"> <span class="ui-form-required"></span>相关公司: </label> <input style="width:300px" readonly="readonly" class="ui-input" type="text" name="contractCode" value="" id="company" />'
+					+ '</div> <div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required"></span>公司地址:</label> <input style="width:300px" readonly="readonly" class="ui-input" type="text" name="companyAddr" value="" id="companyAddr" />'
+					+ '</div> <div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required"></span>联系电话:</label> <input style="width:300px" readonly="readonly" class="ui-input" type="text" name="companyAddr" value="" id="phone" />'
+					+ '</div> <div class="ui-form-item"> <label class="ui-label mt10"><span class="ui-form-required"></span>区号:</label> <input style="width:300px" readonly="readonly" class="ui-input validate[required]" type="text" name="company" value="" id="zipcode" />'
+					+ '</div> </div> </div> </div>'
+		});
+	}
+    
+    function orderHis(){
+		var html = $('#orderHis').html();//.replace("style='display:none;'",'');
+		layer
+		.open({
+			type : 1,
+			skin : 'layui-layer-rim',
+			area : [ '1100px', '500px' ],
+			content : ''
+					+ ' '
+					+ '<div class="p20bs mt10 color-white-bg border-ec" id="orderHisT"></div>'
+		});
+		
+		$('#orderHisT').append(html);
+		$('.dataTables_scrollBody #history').css("width","100%");
+		$('.dataTables_scrollHeadInner').css("width","100%");
+		$('.display').css("width","100%");
+		//  initHistoryTable();
+		
+	}
      
     $(document).ready(function() {
-        initHistoryTable();
+    	
+    	
+    	
+    	 initHistoryTable();
+    	 $('#orderHis').hide();
+    	 
+    	 
     } );
      function lastPage(){
     window.history.go(-1);
@@ -371,6 +414,8 @@ css=["css/sift.css","js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jq
 				class="block-btn" style="margin-top: -5px;"
 				href="javascript:void(0);"
 				onclick="addPublishLine('${rc.contextPath}',${seriaNum})">发布线路</a>-->
+				<span><a onclick="userMsg()" href="javascript:void(0);">查看下单用户</a></span>  
+				<span><a onclick="orderHis()" href="javascript:void(0);">查看订单历史</a></span>  
 		</div>
 		<div id="orderFromSite">
 			<table id="orderTable" class="display compact" cellspacing="0" width="100%">
@@ -388,46 +433,6 @@ css=["css/sift.css","js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jq
 		</div>
 	</div>
 	<div id="relateSup">
-		<div class="p20bs mt10 color-white-bg border-ec">
-			<div class="withdraw-title">下单用户信息</div>
-			 
-				
-				<div class="withdrawInputs">
-					<div class="inputs">
-						<div class="ui-form-item">
-							<label class="ui-label mt10">广告主: </label> <input
-								class="ui-input"
-								type="text" name="signDate1" id="relateman"
-								value="" />
-						</div>
-						<div class="ui-form-item">
-							<label class="ui-label mt10"> 相关公司:
-							</label> <input class="ui-input" type="text"
-								name="contractCode" value="" id="company"
-							 />
-						</div>
-						<div class="ui-form-item">
-							<label class="ui-label mt10">公司地址:</label> <input
-								class="ui-input" type="text" name="companyAddr"
-								value="" id="companyAddr"
-								 />
-						</div>
-						<div class="ui-form-item">
-							<label class="ui-label mt10">联系电话:</label> <input
-								class="ui-input" type="text" name="companyAddr"
-								value="" id="phone"
-								 />
-						</div>
-						<div class="ui-form-item">
-							<label class="ui-label mt10">区号:</label> <input
-								class="ui-input validate[required]" type="text" name="company"
-								value="" id="zipcode"
-								 />
-						</div>
-					  
-					</div>
-				</div>
-		</div>
 	<!-- over 1-->
 	<div class="p20bs mt10 color-white-bg border-ec">
 		<div class="withdraw-title">
@@ -462,8 +467,8 @@ css=["css/sift.css","js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jq
 				enctype="multipart/form-data">
 				<input type="hidden" name="seriaNum" id="seriaNum"
 					value="${seriaNum}" />
-				<div class="withdrawInputs">
-					<div class="inputs">
+				<div class="withdrawInputs" style="height: 330px;">
+					<div class="inputs" style="float: left">
 						<#if offlinecontract??> <input type="hidden" name="id"
 							value="${(offlinecontract.id)!''}" /> </#if>
 						<div class="ui-form-item">
@@ -506,22 +511,6 @@ css=["css/sift.css","js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jq
 								disableautocomplete="" placeholder="请输入客户名称">
 						</div>
 						<div class="ui-form-item">
-							<label class="ui-label mt10"><span
-								class="ui-form-required"></span>联系人:</label> <input
-								class="ui-input" type="text" name="relateMan"
-								value="${(offlinecontract.relateMan)!''}" id="name"
-								data-is="isAmount isEnough" autocomplete="off"
-								disableautocomplete="" placeholder="请输入联系人，可以不填">
-						</div>
-						<div class="ui-form-item">
-							<label class="ui-label mt10"><span
-								class="ui-form-required"></span>业务员:</label> <input
-								class="ui-input" type="text" name="salesman"
-								value="${(offlinecontract.salesman)!''}" id="name"
-								data-is="isAmount isEnough" autocomplete="off"
-								disableautocomplete="" placeholder="请输入业务员名称，可以不填">
-						</div>
-						<div class="ui-form-item">
 							<label class="ui-label mt10"> <span
 								class="ui-form-required">* </span>广告形式:
 							</label> <select data-is="isAmount isEnough" name="adway" id="adway"
@@ -543,18 +532,36 @@ css=["css/sift.css","js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jq
 								disableautocomplete="" placeholder="请输入广告内容">
 						</div>
 						<div class="ui-form-item">
-							<label class="ui-label mt10 "><span
-								class="ui-form-required">*</span>发布线路:</label>
-							<textarea rows="6" cols="30" data-is="isAmount isEnough"
-								style="resize: none;" name="linecontent">${(offlinecontract.linecontent)!''}</textarea>
-						</div>
-						<div class="ui-form-item">
 							<label class="ui-label mt10"> <span
 								class="ui-form-required">*</span>合同金额:
 							</label> <input class="ui-input validate[required]" type="text"
 								name="amounts" value="${(offlinecontract.amounts)!''}"
 								data-is="isAmount isEnough" autocomplete="off"
 								disableautocomplete="" placeholder="输入合同金额">
+						</div>
+					</div>
+					
+					<div class="inputs" style="float: right; margin-right: 100px;">
+						<div class="ui-form-item">
+							<label class="ui-label mt10"><span
+								class="ui-form-required"></span>联系人:</label> <input
+								class="ui-input" type="text" name="relateMan"
+								value="${(offlinecontract.relateMan)!''}" id="name"
+								data-is="isAmount isEnough" autocomplete="off"
+								disableautocomplete="" placeholder="请输入联系人，可以不填">
+						</div>
+						<div class="ui-form-item">
+							<label class="ui-label mt10"><span
+								class="ui-form-required"></span>业务员:</label> <input
+								class="ui-input" type="text" name="salesman"
+								value="${(offlinecontract.salesman)!''}" id="name"
+								data-is="isAmount isEnough" autocomplete="off"
+								disableautocomplete="" placeholder="请输入业务员名称，可以不填">
+						</div>
+						<div class="ui-form-item">
+							<label class="ui-label mt10 ">发布线路说明:</label>
+							<textarea rows="6" cols="30" data-is="isAmount isEnough"
+								style="resize: none;" name="linecontent">${(offlinecontract.linecontent)!''}</textarea>
 						</div>
 						<div class="ui-form-item">
 							<label class="ui-label mt10"><span
@@ -587,14 +594,14 @@ css=["css/sift.css","js/jquery-ui/jquery-ui.css","css/uploadprogess.css","css/jq
 				</div>
 			</div>
 		</div>
-		<div id="relateSup">
-			<div class="p20bs mt10 color-white-bg border-ec">
+		<div id="relateSup" >
+			<div class="p20bs mt10 color-white-bg border-ec" id="orderHis" >
 				<div class="withdraw-title">
 					<span>订单历史</span>  
 				</div>
 				<div >
 					<table id="history" class="display compact" cellspacing="0"
-						>
+						width="100%">
 						<thead>
 							<tr class="tableTr">
 								<th>日期</th>

@@ -22,7 +22,9 @@ body{
 <body class="register">
 	<div class="contain" id="contain">
 		<div class="rg-logo">
+		<a href="/">
 			<img src="index_img/logo3.png" width="320" height="50">
+		</a>
 		</div>
 		<div class="rg-content clearfix">
 			<div class="rg-title">用户注册</div>
