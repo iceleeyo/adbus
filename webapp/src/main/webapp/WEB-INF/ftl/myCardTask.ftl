@@ -47,7 +47,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
     var table;
     function initTable () {
         table = $('#table').dataTable( {
-            "dom": '<"#toolbar">lrtip',
+            "dom": '<"#toolbar"><"top"il>rt<"bottom"p><"clear">',
             "searching": false,
             "ordering": false,
             "serverSide": true,
