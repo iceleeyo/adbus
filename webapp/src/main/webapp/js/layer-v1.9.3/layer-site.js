@@ -6,7 +6,6 @@
  * @param id
  * test
  */
-
 function hiddleLayer() {
 	 layer.closeAll();	 
 }
@@ -230,7 +229,7 @@ function contractdetails(tourl,contractid){
 				type: 1,
 				title: "合同详情",
 				skin: 'layui-layer-rim', //加上边框
-				area: ['750px', '550px'], //宽高
+				area: ['750px', '450px'], //宽高
 				content: '<form data-name="withdraw"  enctype="multipart/form-data"> '
 					+'<br/>'
 					+'<div class="ui-form-item" style="margin-left:110px;"> <label class="ui-label mt10"> 合同编号: </label>  <input readonly="readonly" class="ui-input-d"'
@@ -271,7 +270,7 @@ function contractdetail(tourl,contractid){
 				type: 1,
 				title: "合同详情",
 				skin: 'layui-layer-rim', //加上边框
-				area: ['900px', '700px'], //宽高
+				area: ['900px', '450px'], //宽高
 				content:''
 					   +' '
 					   +'<iframe style="width:100%;height:97%" frameborder="no" src="'+tourl+'/contract/contractDetail/'+contractid+'"/>'
