@@ -14,6 +14,8 @@ import com.pantuo.dao.ProductLocationRepository;
 import com.pantuo.dao.ProductTagRepository;
 import com.pantuo.dao.pojo.JpaProductTag;
 import com.pantuo.dao.pojo.QJpaProductTag;
+import com.pantuo.service.CardService;
+import com.pantuo.service.ProductService;
 
 import freemarker.core.Environment;
 import freemarker.ext.beans.BeansWrapper;
@@ -52,6 +54,10 @@ public class ProductLocationDirective implements TemplateDirectiveModel {
 	ProductLocationRepository productLocationRepository;
 	@Autowired
 	ProductTagRepository productTagRepository;
+	@Autowired
+	CardService cardService;
+	@Autowired
+	ProductService productService;
 
 	@Override
 	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body)
@@ -61,6 +67,9 @@ public class ProductLocationDirective implements TemplateDirectiveModel {
 		JpaProductTag jpaProductTag = getOneLocation(locationTag);
 		try {
 			env.setVariable("jpaProductTag", BeansWrapper.DEFAULT_WRAPPER.wrap(jpaProductTag));
+			if(jpaProductTag!=null && jpaProductTag.getProduct()!=null){
+				env.setVariable("jsonView", BeansWrapper.DEFAULT_WRAPPER.wrap(cardService.getJsonfromJsonStr(productService.findById(jpaProductTag.getProduct().getId()).getJsonString())));
+			}
 			body.render(env.getOut());
 		} catch (TemplateModelException e) {
 			log.error("ProductLocationDirective -ex", e);
