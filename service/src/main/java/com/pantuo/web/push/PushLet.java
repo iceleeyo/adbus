@@ -28,6 +28,10 @@ public class PushLet implements PushInter {
 	String url;
 	boolean mockBusy = true;
 
+	public PushLet() {
+		super();
+	}
+
 	public PushLet(String url, Principal principal) {
 		this.principal = principal;
 		this.url = url;

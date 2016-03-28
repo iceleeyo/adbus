@@ -37,6 +37,7 @@ import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaCpd;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProduct.FrontShow;
+import com.pantuo.dao.pojo.JpaProductLocation;
 import com.pantuo.dao.pojo.JpaProductV2;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.BusOrderDetailV2;
@@ -52,14 +53,10 @@ import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.security.Request;
 import com.pantuo.util.Only1ServieUniqLong;
 import com.pantuo.util.Pair;
-import com.pantuo.web.IndexController.CardSelect;
 import com.pantuo.web.view.BodyProView;
 import com.pantuo.web.view.MediaSurvey;
 import com.pantuo.web.view.PlanRequest;
 import com.pantuo.web.view.ProductView;
-
-import scala.annotation.target.param;
-import scala.collection.generic.BitOperations.Int;
 
 /**
  * @author xl
@@ -103,6 +100,12 @@ public class ProductController {
     		Principal principal) {
     	   Page<JpaProduct> page = productService.searchProducts(city, principal, req);
     	return new DataTablePage(productService.getProductView(page), req.getDraw());
+    }
+    @RequestMapping("getProTags")
+    @ResponseBody
+    public List<JpaProductLocation> getProTags(
+    		@RequestParam(value="belongTag",defaultValue="video") String belongTag) {
+    	return productService.getProTags(belongTag);
     }
     @RequestMapping("ajax-productV2_list")
     @ResponseBody
@@ -389,8 +392,10 @@ public class ProductController {
     		@ModelAttribute("city") JpaCity city,
     		Model model, HttpServletRequest request) {
     	Page<UserDetail> users = userService.getValidUsers(null,0, 999, null);
+    	JpaProduct product=productService.findById(id);
     	model.addAttribute("users", users.getContent());
-    	model.addAttribute("prod", productService.findById(id));
+    	model.addAttribute("prod",product);
+    	model.addAttribute("locationIds", productService.selectLocationIdsByProId(id));
     	model.addAttribute("jsonView", cardService.getJsonfromJsonStr(productService.findById(id).getJsonString()));
     	if (city != null) {
     		model.addAttribute("types", JpaProduct.productTypesForMedia.get(city.getMediaType()));

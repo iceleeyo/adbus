@@ -13,6 +13,7 @@ import com.pantuo.dao.pojo.JpaCardBoxMedia;
 import com.pantuo.dao.pojo.JpaCpd;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProduct.FrontShow;
+import com.pantuo.dao.pojo.JpaProductLocation;
 import com.pantuo.dao.pojo.JpaProductV2;
 import com.pantuo.mybatis.domain.BusOrderDetailV2;
 import com.pantuo.mybatis.domain.Product;
@@ -91,4 +92,6 @@ public interface ProductService {
 	Long acountPrice(JpaBusOrderDetailV2 prod);
 	Page<JpaBusOrderDetailV2> findAllBusOrderDetailV2(int city, Principal principal, TableRequest req);
 	String getBodyProViewJson(int id);
+	List<JpaProductLocation> getProTags(String belongTag);
+	String selectLocationIdsByProId(int id);
 }

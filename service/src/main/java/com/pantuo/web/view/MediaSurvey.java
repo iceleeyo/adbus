@@ -23,6 +23,7 @@ String locationstr; //位置
    String intro2_url;
    String intro3_url;
    String intro4_url;
+   String tagIds;
 public String getLocationstr() {
 	return locationstr;
 }
@@ -107,6 +108,12 @@ public String getMediacount() {
 }
 public void setMediacount(String mediacount) {
 	this.mediacount = mediacount;
+}
+public String getTagIds() {
+	return tagIds;
+}
+public void setTagIds(String tagIds) {
+	this.tagIds = tagIds;
 }
    
    

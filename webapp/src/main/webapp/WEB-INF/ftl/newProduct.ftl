@@ -51,6 +51,13 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 		var startDate1 = $("#startDate1").val();
 		var biddingDate1 = $("#biddingDate1").val();
 		var firstNumber=$("#firstNumber").val();
+		var o = document.getElementsByName("checkone");
+        	var dIds='';
+        	for(var i=0;i<o.length;i++){
+                if(o[i].checked)
+                dIds+=o[i].value+',';   
+           }
+           $("#tagIds").val(dIds);
 		if(firstNumber>0){
 		  if($("#duration").val()>30){
 		       jDialog.Alert("有首播时广告时长不能大于30秒");
@@ -87,7 +94,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 	}
 
 	$(document).ready(function() {
-
+	getProTags();
 		//author:pxh 2015-05-20 22:36
 		$("#exclusiveUser").autocomplete({
 			source : "${rc.contextPath}/user/autoComplete",
@@ -103,6 +110,32 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 	});
 	function check_size() {
 		return;
+	}
+	function getProTags() {
+	$("#location").html("");
+	var belongTag=$("#type  option:selected").val();
+		$.ajax({
+		url : "${rc.contextPath}/product/getProTags",
+		type : "GET",
+		data : {
+		   "belongTag":belongTag
+		},
+		success : function(data) {
+		   $.each(data, function(i, item) {
+				$("#location").append("<input type='checkbox' value='"+item.id+"' name='checkone'  />"+item.locationName+"&nbsp;&nbsp;&nbsp;");
+				if((i+1)%2==0){
+				$("#location").append("<br>");
+				}
+		});
+		if(typeof('${locationIds!''}')!="undefined"){
+		var o = document.getElementsByName("checkone");
+        	for(var i=0;i<o.length;i++){
+                if('${locationIds!''}'.indexOf(o[i].value)!=-1){
+                  o[i].checked=true;
+                }
+           }
+		}
+		}});
 	}
 </script>
 <script type="text/javascript">
@@ -124,7 +157,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 			<div class="inputs_left">
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>媒体类型：</label>
-					<select class="ui-input" name="type" id="type"> <#list
+					<select class="ui-input" name="type" id="type" onchange="getProTags()"> <#list
 						types as type>
 						<option value="${type.name()}"<#if (prod?? && prod.type
 							== type.name())>selected="selected"</#if>>${type.typeName}</option>
@@ -204,6 +237,12 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 				<div class="ui-form-item">
 					<label class="ui-label mt10">套餐描述：</label>
 					<textarea rows="4" cols="40" style="resize: none;" name="remarks"><#if prod?exists && prod.remarks?has_content >${prod.remarks!''}</#if></textarea>
+				</div>
+				<input type="hidden" id="tagIds" name="tagIds" value=""/>
+				<div class="ui-form-item">
+					<label class="ui-label mt10">首页展示位置:</label>
+					<div class="recommand timer pd" id="location">
+						</div>
 				</div>
 				<div
 					class="ui-form-item toggle videoToggle imageToggle infoToggle bodyToggle">
