@@ -36,6 +36,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.pantuo.service.directive.ProductLocationDirective;
 import com.pantuo.spring.SpringContextHolder;
 import com.pantuo.util.FreemarkerExceptionHandler;
 import com.pantuo.util.HiddleUserNameEx;
@@ -59,6 +60,9 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 	public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
 		exceptionResolvers.add(webExceptionResolver());
 	}
+	
+	@Autowired
+	ProductLocationDirective productLocationDirective;
 
 	//    @Bean
 	public HandlerExceptionResolver webExceptionResolver() {
@@ -152,6 +156,8 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 		Map<String, Object> variables = new HashMap<String, Object>();
 		variables.put("substring", getSubStrMethod());
 		variables.put("hidname", getvHiddleUserNameEx());
+		variables.put("productLocation", productLocationDirective);
+		
 		config.setFreemarkerVariables(variables);
 
 		//        Map<String, Object> myBuiltInMethods = new HashMap<String, Object>();
