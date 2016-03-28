@@ -156,7 +156,7 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 		Map<String, Object> variables = new HashMap<String, Object>();
 		variables.put("substring", getSubStrMethod());
 		variables.put("hidname", getvHiddleUserNameEx());
-		variables.put("productLocation", productLocationDirective);
+		variables.put("productLocation", productLocationDirective);//商品位置 标签根据位置取相应的商品信息
 		
 		config.setFreemarkerVariables(variables);
 
