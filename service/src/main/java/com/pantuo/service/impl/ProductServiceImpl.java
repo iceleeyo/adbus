@@ -136,7 +136,7 @@ public class ProductServiceImpl implements ProductService {
 	private static Logger log = LoggerFactory.getLogger(ProductServiceImpl.class);
 
 	public Page<JpaProduct> getAllProducts(int city, boolean includeExclusive, String exclusiveUser, TableRequest req) {
-		String name = req.getFilter("name"), stats = req.getFilter("stats");
+		String name = req.getFilter("name"), stats = req.getFilter("stats"), type = req.getFilter("type");
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("enabled");
 
@@ -155,6 +155,9 @@ public class ProductServiceImpl implements ProductService {
 		}
 		if (StringUtils.isNotBlank(name)) {
 			query = query.and(QJpaProduct.jpaProduct.name.like("%" + name + "%"));
+		}
+		if (StringUtils.isNotBlank(type)) {
+			query = query.and(QJpaProduct.jpaProduct.type.eq(JpaProduct.Type.valueOf(type)));
 		}
 		if (StringUtils.isNotBlank(stats)) {
 

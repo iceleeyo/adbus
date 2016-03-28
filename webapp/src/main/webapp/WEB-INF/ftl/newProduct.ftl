@@ -154,7 +154,8 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 			<div class="inputs_left">
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>媒体类型：</label>
-					<select class="ui-input" name="type" id="type" onchange="getProTags()"> <#list
+					<select class="ui-input" name="type" id="type" onchange="getProTags()"> 
+					<#list
 						types as type>
 						<option value="${type.name()}"<#if (prod?? && prod.type
 							== type.name())>selected="selected"</#if>>${type.typeName}</option>

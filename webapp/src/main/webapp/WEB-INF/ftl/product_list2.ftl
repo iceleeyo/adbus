@@ -32,7 +32,8 @@ js=["js/jquery-ui/jquery-ui.js","js/layer-v1.9.3/layer/layer.js","js/layer.onloa
                 data: function(d) {
                     return $.extend( {}, d, {
                         "filter[name]" : $('#name').val(),
-                        "filter[stats]" : $('#stats').val()
+                        "filter[stats]" : $('#stats').val(),
+                        "filter[type]" : $('#type').val()
                     } );
                 },
                 "dataSrc": "content",
@@ -141,14 +142,23 @@ var url="${rc.contextPath}/product/checkProHadBought/"+id;
                         '        <input id="name" value="">' +
                         '    </span>' +
                         '    &nbsp;&nbsp<span>状态</span>' +
-                        '    <span><select id="stats">' +
+                        '    <span><select class="ui-input" id="stats">' +
                         '        <option value="true">正常</option>' +
                         '        <option value="false">已下架</option>' +
                         '    </select></span>' +
+                         '    &nbsp;&nbsp<span>媒体类型</span>' +
+					'<select class="ui-input" name="type" id="type"  >'+
+					'<option value="">所有</option>'+ 
+					<#list
+						types as type>
+						'<option value="${type.name()}"<#if (prod?? && prod.type
+							== type.name())>'selected="selected"'</#if>>${type.typeName}</option>'+
+						</#list>
+					'</select>'+
                         '</div>'
         );
 
-        $('#name,#stats').change(function() {
+        $('#name,#stats,#type').change(function() {
             table.fnDraw();
         });
     }

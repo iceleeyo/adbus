@@ -438,10 +438,11 @@ public class ProductController {
 		return productService.removeBusOrderDetail(principal, city, id);
 	}
 
-    @RequestMapping(value = "/list")
-    public String contralist() {
-        return "product_list2";
-    }
+	@RequestMapping(value = "/list")
+	public String contralist(Model model, @ModelAttribute("city") JpaCity city) {
+		model.addAttribute("types", JpaProduct.productTypesForMedia.get(city.getMediaType()));
+		return "product_list2";
+	}
     @RequestMapping(value = "/showProV2Detail/{id}", produces = "text/html;charset=utf-8")
     public String showProV2Detail(Model model, @PathVariable("id") int id,HttpServletResponse response) {
     	response.setHeader("X-Frame-Options", "SAMEORIGIN");
