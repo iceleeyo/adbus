@@ -59,6 +59,7 @@ public class ProductLocationDirective implements TemplateDirectiveModel {
 
 	public JpaProductTag getOneLocation(String locationTag) {
 		BooleanExpression query = QJpaProductTag.jpaProductTag.productLocation.locationTag.eq(locationTag);
+		//add else query expression
 		return productTagRepository.findOne(query);
 	}
 }
