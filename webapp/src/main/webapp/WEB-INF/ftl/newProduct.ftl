@@ -252,7 +252,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 				
 				<input type="hidden" id="tagIds" name="tagIds" value=""/>
 				<div class="ui-form-item">
-					<label class="ui-label mt10">首页展示位置:</label>
+					<label class="ui-label mt10">首页展示位置:<br>相同位置后设置的商品<br>将替换之前设置的商品</label>
 					<div class="recommand timer pd" id="location">
 						</div>
 				</div>
