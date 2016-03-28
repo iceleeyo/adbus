@@ -27,6 +27,15 @@ import freemarker.template.TemplateModelException;
  * <b><code>ProductLocationDirective</code></b>
  * <p>
  * 商品位置 自定义标签 
+ * 
+ * 	<@productLocation locationTag="hot_left_1" >
+  			  <#if jpaProductTag??  >
+           		 <a href="">${jpaProductTag.product.name}</a><br>
+   			 </#if>
+	</@productLocation>
+ * 
+ * 
+ * 
  * </p>
  * <b>Creation Time:</b> 2016年3月28日 上午11:44:36
  * @author impanxh@gmail.com
