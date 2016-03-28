@@ -2015,8 +2015,6 @@ img.ft_fourth{
 .down{
 	float:left;
 	width:368px;
-	height:105px;
-	background-color: #FAFAFC;
 }
 .down_left{
 	float:left;
@@ -2733,6 +2731,7 @@ img.pro_rtitle{
 float:left;
 	width:245px;
 	height:290px;
+	position: relative;
 	
 }
 img.pd_film{
@@ -2770,6 +2769,8 @@ span.prod{
 	margin-top:3px;
 	font-size: 2px;
 	text-align:center;
+	position:absolute;
+	bottom:0;
 
 }
 span.pd_buynows{
@@ -2783,6 +2784,7 @@ color:#963439;
 	width:245px;
 	height:290px;
 	border-left:1px solid #C8C8C8;
+	position: relative;
 
 }
 .pd_right{
@@ -2790,6 +2792,7 @@ color:#963439;
 	width:245px;
 	height:290px;
 	border-left:1px solid #C8C8C8;
+	position: relative;
 	  
 }
 #info{
