@@ -202,6 +202,272 @@ function tocard(pathurl){
 					</div>
 				</div>
 			</div>
+			
+			<div id="con_body">
+<div id="container">
+			 <div id="ftinformation">
+				<div class="arrow_up">	
+				</div>
+			<span>热卖<br>推荐</span>
+			<img src="images/example1.png">
+			
+			</div> 
+			<div id="ftinformationr">
+				<div class="arrow_up">	
+				</div>
+			<span>热卖<br>推荐</span>
+			<img src="images/example1.png">
+			</div>
+			<div class="down">
+				<div class="down_left">
+				
+				<div class="down_texts">
+					最新的资讯<br>永远在来的路上
+				</div>
+			</div>
+			<div class="down_right">
+				<div class="down_textt">
+					2次/天  3分钟 7天<br>
+					<span class="price">价格</span><span class="pricenumber">50000</span>
+				</div>
+				<div class="down_textf">
+					<span class="buynow">立即购买</span>
+				</div>
+             </div>
+			</div>
+			<div class="downs">
+				<div class="downs_left">
+				
+				<div class="downs_texts">
+					全屏大不同<br>占有屏幕，占领眼球
+				</div>
+			</div>
+			<div class="downs_right">
+				<div class="downs_textt">
+					32次/天  15秒 7天<br>
+					<span class="price">价格</span><span class="pricenumber">980000</span>
+				</div>
+				<div class="downs_textf">
+					<span class="buynow">立即购买</span>
+				</div>
+             </div>
+			</div>
+			<div id="teamcase">
+				<div class="team_left">
+					<div class="team_leftup">
+						<img class="kid" src="images/JXH2w.jpg">
+					</div>
+					<div class="team_leftdown">
+						<div class="time">2次/天 3分钟 1个月
+						<span class="time_price">价格</span><span class="time_pricenumber">200000</span></div>
+						<div class="team_bnt">
+					   <span class="buynows">立即购买</span>
+				        </div>
+				    
+					</div>
+				</div>
+				<div class="team_center">
+					<div class="team_centerup">
+						<img class="kid" src="images/JXH2w.jpg">
+					</div>
+					<div class="team_centerdown">
+						<div class="time">2次/天 3分钟 7天
+						<span class="time_price">价格</span><span class="time_pricenumber">50000</span></div>
+						<div class="team_bnt">
+					   <span class="buynows">立即购买</span>
+				        </div>
+					
+					</div>
+				</div>
+				<div class="team_right">
+					<div class="team_rightup">
+						<img class="kid" src="images/JXH2w.jpg">
+					</div>
+					<div class="team_rightdown">
+						<div class="time">2次/天 3分钟 半年
+						<span class="time_price">价格</span><span class="time_pricenumber">1200000</span></div>
+						<div class="team_bnt">
+					   <span class="buynows">立即购买</span>
+				        </div>
+					
+					</div>
+				</div>
+			</div>
+			<div id="advertisement">
+				<div class="adver_title">
+					全屏广告
+				</div>
+				
+					<div class="pro_ineng">
+					<img src="images/adertisement.png">
+				
+				</div>
+			</div>
+			<div class="topleft">
+				<img class="tl_first" src="images/JXH2w.jpg">
+				<div class="arrow_ups">
+					<div class="arrowtext">热卖推荐</div>
+					</div>
+				<div class="tl_text">
+					<img class="tltitle" src="images/advers.png"><br>
+					<span class="tl">全屏大不同</span><br>
+					<span class="tls">每三十二次，连续7天<br>滚动播出</span>
+					<br><span class="tl_price">价格</span><span class="tl_pricenumber">980000</span>
+					<div class="tl_bnt">
+					   <span class="tl_buynows">立即购买</span>
+				        </div>
+				</div>
+			</div>
+			<div class="topright">
+				<img class="tr_first" src="images/JXH2w.jpg">
+				<div class="tr_text">
+					<img class="tltitle" src="images/advers.png"><br>
+					<span class="tl">全屏大不同</span><br>
+					<span class="tls">占有屏幕,占领眼球</span>
+					<br><span class="tl_price">价格</span><span class="tl_pricenumber">980000</span>
+					<div class="tl_bnt">
+					   <span class="tl_buynows">立即购买</span>
+				</div>
+			</div>
+		</div>
+			<div class="botleft">
+				<img class="tl_first" src="images/JXH2w.jpg">
+				<div class="arrow_ups">
+					<div class="arrowtext">热卖推荐</div>
+					</div>
+				<div class="bl_text">
+					<img class="bltitle" src="images/advers.png"><br>
+					<span class="bl">全屏大不同</span><br>
+					<span class="bls">滚动播出</span>
+					<br><span class="bl_price">价格</span><span class="bl_pricenumber">980000</span>
+					<div class="bl_bnt">
+					   <span class="bl_buynows">立即购买</span>
+				        </div>
+			</div>
+		</div>
+			<div class="botright">
+				<img class="br_first" src="images/JXH2w.jpg">
+				<img class="br_firstr" src="images/time.png">
+			<div class="br_text">
+		<img class="brtitle" src="images/advers.png"><br>
+					<span class="br">全屏大不同</span><br>
+					<span class="brs">滚动播出</span>
+					<br><span class="br_price">价格</span><span class="br_pricenumber">980000</span>
+					<div class="br_bnt">
+					   <span class="br_buynows">立即购买</span>
+				        </div>
+			</div>
+		</div>
+           <div id="program">
+				<div class="pro_title">
+					团类节目
+				</div>
+				<div class="pro_ineng">
+					<img src="images/teamment.png">
+				</div>
+			</div>
+			<div class="pro">
+			<div class="pro_topletf">
+				<img class="pro_tl" src="images/JXH2w.jpg">
+				<div class="pro_tltext">
+					<img class="pro_title" src="images/foodfas.png"><br>
+					<span class="pross">食色性也</span><br>
+					<span class="tls">2次/天 3分钟 7天</span><br>
+					<span class="pro_price">价格</span>
+					<span class="pro_pricenumber">50000</span>
+					<div class="pro_bnt">
+					   <span class="pro_buynows">立即购买</span>
+				        </div>
+				</div>
+			</div>
+		    <div class="pro_topright">
+		    	<img class="pro_tr" src="images/JXH2w.jpg">
+				<div class="pro_trtext">
+					<img class="pro_rtitle" src="images/kid.png"><br>
+					<span class="pross">食色性也</span><br>
+					<span class="tls">2次/天 3分钟 7天</span><br>
+					<span class="pro_price">价格</span>
+					<span class="pro_pricenumber">50000</span>
+					<div class="pro_bnt">
+					   <span class="pro_buynows">立即购买</span>
+				        </div>
+	       </div>
+		</div>
+            </div>
+            <div class="prodown">
+            	<div class="pd_left">
+            		<img class="pd_film" src="images/JXH2w.jpg">
+            		<div class="pd_text">
+            		<img class="pdtitle" src="images/mfilminfor.png"><br>
+					<span class="prod">最新资讯在来的路上</span><br>
+					<!-- <span class="bls">滚动播出</span>
+					<br><span class="bl_price">价格</span><span class="bl_pricenumber">980000</span> -->
+					<div class="pd_bnt">
+					   <span class="pd_buynows">立即购买</span>
+				        </div>
+            		</div>
+            	</div>
+            	<div class="pd_center">
+            		<img class="pd_film" src="images/JXH2w.jpg">
+            		<div class="pd_text">
+            		<img class="pdtitle" src="images/mtrip.png"><br>
+					<span class="prod">世界这么大带你去看看</span><br>
+					 <span class="bls">2次/天 3分 1个月</span>
+					<br><span class="bl_price">价格</span><span class="bl_pricenumber">980000</span> 
+					<div class="pd_bnt">
+					   <span class="pd_buynows">立即购买</span>
+				        </div>
+            		</div>
+            	</div>
+            	<div class="pd_right">
+            		<img class="pd_film" src="images/JXH2w.jpg">
+            		<div class="pd_text">
+            		<img class="pdtitle" src="images/youy.png"><br>
+					<span class="prod">拉近你我心距离</span><br>
+					<span class="bls">2次/天 3分钟 半年</span>
+					<br><span class="bl_price">价格</span><span class="bl_pricenumber">980000</span>
+					<div class="pd_bnt">
+					   <span class="pd_buynows">立即购买</span>
+				        </div>
+            		</div>
+            	</div>
+            </div>
+            <div id="info">
+				<div class="info_title">
+					图片字幕
+				</div>
+				<div class="pro_ineng">
+					<img src="images/infoment.png">
+				</div>
+			</div>
+			<div id="foot">
+				<div class="footleft">
+					<img class="foot_img" src="images/JXH2w.jpg">
+					<div class="footl_text">
+						<img class="footrtitle" src="images/infotupian.png"><br>
+					<span class="footr">节目下方滚动播出</span><br>
+					<span class="bls">2次/天 3分钟 半年</span>
+					<br><span class="footr_price">价格</span><span class="footr_pricenumber">980000</span>
+					<div class="footr_bnt">
+					   <span class="footr_buynows">立即购买</span>
+				        </div>
+					</div>
+				</div>
+				<div class="footright">
+					<img class="foot_img" src="images/JXH2w.jpg">
+					<div class="footr_text">
+						<img class="footrtitle" src="images/infozimu.png"><br>
+					<span class="footr">节目下方滚动播出</span><br>
+					<span class="bls">2次/天 3分钟 半年</span>
+					<br><span class="footr_price">价格</span><span class="footr_pricenumber">980000</span>
+					<div class="footr_bnt">
+					   <span class="footr_buynows">立即购买</span>
+				        </div>
+					</div>
+			</div>
+		</div>
+	</div>
+	</div>			
 			<a id="force" name="force"></a>
 			<div class="recommand customs pd" id="tohere"  name="tohere" >
 		
