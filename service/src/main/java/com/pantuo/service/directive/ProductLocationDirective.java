@@ -1,6 +1,7 @@
 package com.pantuo.service.directive;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -69,6 +70,7 @@ public class ProductLocationDirective implements TemplateDirectiveModel {
 	public JpaProductTag getOneLocation(String locationTag) {
 		BooleanExpression query = QJpaProductTag.jpaProductTag.productLocation.locationTag.eq(locationTag);
 		//add else query expression
-		return productTagRepository.findOne(query);
+		Iterable<JpaProductTag> tag = productTagRepository.findAll(query);
+		return tag.iterator().hasNext() ? tag.iterator().next() : null;
 	}
 }
