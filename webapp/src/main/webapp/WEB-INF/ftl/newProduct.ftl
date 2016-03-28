@@ -122,10 +122,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 		},
 		success : function(data) {
 		   $.each(data, function(i, item) {
-				$("#location").append("<input type='checkbox' value='"+item.id+"' name='checkone'  />"+item.locationName+"&nbsp;&nbsp;&nbsp;");
-				if((i+1)%2==0){
-				$("#location").append("<br>");
-				}
+				$("#location").append("<input type='checkbox' value='"+item.id+"' name='checkone'  />"+item.locationName+"<br>");
 		});
 		if(typeof('${locationIds!''}')!="undefined"){
 		var o = document.getElementsByName("checkone");
