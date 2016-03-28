@@ -235,12 +235,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 					<label class="ui-label mt10">套餐描述：</label>
 					<textarea rows="4" cols="40" style="resize: none;" name="remarks"><#if prod?exists && prod.remarks?has_content >${prod.remarks!''}</#if></textarea>
 				</div>
-				<input type="hidden" id="tagIds" name="tagIds" value=""/>
-				<div class="ui-form-item">
-					<label class="ui-label mt10">首页展示位置:</label>
-					<div class="recommand timer pd" id="location">
-						</div>
-				</div>
+				
 				<div
 					class="ui-form-item toggle videoToggle imageToggle infoToggle bodyToggle">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>是否为竞价套餐：</label>
@@ -252,6 +247,13 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 						<input type="radio" name="iscompare" value="0"
 							onchange="hideboth()" checked="checked">否
 					</div>
+				</div>
+				
+				<input type="hidden" id="tagIds" name="tagIds" value=""/>
+				<div class="ui-form-item">
+					<label class="ui-label mt10">首页展示位置:</label>
+					<div class="recommand timer pd" id="location">
+						</div>
 				</div>
 
 

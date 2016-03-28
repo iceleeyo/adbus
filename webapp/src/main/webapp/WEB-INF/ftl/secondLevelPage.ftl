@@ -240,7 +240,7 @@ function tocard(pathurl){
 			<@productLocation locationTag="hot_left_1" >
   			  <#if jpaProductTag??  >
 				<div class="down_textt">
-					每天${jpaProductTag.product.playNumber}次，连续${jpaProductTag.product.days}天
+					每天${jpaProductTag.product.playNumber}次，连续${jpaProductTag.product.days}天<br>
 					<span class="price">价格</span><span class="pricenumber">${jpaProductTag.product.price}</span>
 				</div>
 				<div class="down_textf">
