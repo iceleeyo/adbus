@@ -69,6 +69,9 @@ public class JpaOrders extends CityEntity {
     private Date jianboDay;
     private Date financialCheckDay;
     private Date cancelDay;
+    
+    @Column(length=2000) 
+    private String customerJson;//用户信息保存
     private long runningNum;//交易流水号
     
     private double price = 0;		//订单价格 管理员可以根据套餐价格调整订单的价格 比如打折 促销
@@ -347,6 +350,14 @@ public class JpaOrders extends CityEntity {
 
 	public void setCloseRemark(String closeRemark) {
 		this.closeRemark = closeRemark;
+	}
+
+	public String getCustomerJson() {
+		return customerJson;
+	}
+
+	public void setCustomerJson(String customerJson) {
+		this.customerJson = customerJson;
 	}
 	
 }
