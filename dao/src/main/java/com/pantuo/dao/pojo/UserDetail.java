@@ -94,7 +94,7 @@ public class UserDetail extends BaseEntity {
 	public List<String> roles;
 	//用户类型是视频还是车身 也可能是开放注册用户
 	public UType utype = UType.screen ;
-	
+	@Column(length=32) 
 	public String createBySales;//if exist 销售员增加的用户
 	
 	public String groupIdList;
