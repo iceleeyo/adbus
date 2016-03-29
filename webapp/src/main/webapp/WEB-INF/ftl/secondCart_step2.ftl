@@ -8,8 +8,6 @@
 <link rel="stylesheet" type="text/css" href="/css/one.css">
 <link rel="stylesheet" type="text/css" href="/css/account.css">
 <title>确认订单信息</title>
-
-
 </head>
 <body>
 	<header> <!-- 头部开始 --> <#include "/index_menu/index_top.ftl"
@@ -187,6 +185,13 @@
 										class="iradio"></label> <span>线上支付(工商银行)</span></li>
 									<li><input type="radio" name="payType" value="offline">
 										<label class="iradio"></label> <span>线下支付</span></li>
+										<@security.authorize ifAnyGranted="sales">
+										<span style = "margin-left:50px">广告主：</span>
+	                         				  <span>
+	                               			 <input id="autocomplete" value="" style="width:250px">
+	                               			  <input id="customerId" value="" type="hidden">
+	                            			</span>
+                            			  </@security.authorize>
 								</ul>
 							</div>
 						</div>
@@ -267,6 +272,15 @@
 	<script type="text/javascript" language="javascript"
 		src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
 	<script src="index_js/unslider.min.js"></script>
+	
+	<script type="text/javascript" language="javascript" src="/js/jquery-ui/jquery-ui.js"></script>
+<script type="text/javascript" language="javascript"
+	src="/js/jquery-ui/jquery-ui.auto.complete.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="/js/jquery-ui/jquery-ui.auto.complete.css">
+	<link rel="stylesheet" type="text/css" href="/css/autocomplete.css">
+	
+	
 	<script type="text/javascript">
 		function check(){
 		var bid='${boids!''}';
@@ -356,7 +370,9 @@
 			url:"${rc.contextPath}/carbox/payment",
 			type:"POST",
 			dataType:"json",
-			data:{"divid":divid,"isdiv":isdiv,"seriaNum":seriaNum,"paytype":paytype,"meids":meids,"boids":boids,"startdate1":startdate1,"runningNum":runningNum},
+			data:{"divid":divid,"isdiv":isdiv,"seriaNum":seriaNum,
+			"paytype":paytype,"meids":meids,"boids":boids,
+			"startdate1":startdate1,"runningNum":runningNum,"customerId":$("#customerId").val()},
 			success:function(data){
 				if (data.left) {
 					if(boids==""){
@@ -411,6 +427,24 @@
 					$(this).prev()[0].checked = true;
 					$(this).parent().siblings().removeClass('active').end().addClass('active');
 				});
+				//---
+				<@security.authorize ifAnyGranted="sales">
+		        $( "#autocomplete" ).autocomplete({
+		        	minLength: 0,
+		  			source: "${rc.contextPath}/user/queryMyCustomers",
+		  			change: function( event, ui ) { 
+		  				/*if(ui.item!=null){alert(ui.item.value);}*/
+		  			 },
+		  			 select: function(event,ui) {
+		  			 	$('#autocomplete').val(ui.item.value);
+		  			 	$('#customerId').val(ui.item.dbId);
+		  			 	
+		  			 }
+				}).focus(function () {
+       				 $(this).autocomplete("search");
+   	 			});
+				//--end autocomplete
+				  </@security.authorize>
 			});
 		</script>
 </body>

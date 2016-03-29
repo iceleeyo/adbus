@@ -54,7 +54,12 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
             "ordering": true,
             "serverSide": true,
             "scrollX": true,
+            <@security.authorize ifAnyGranted="advertiser">
             "aaSorting": [[6, "desc"]],
+             </@security.authorize>
+               <@security.authorize ifAnyGranted="sales">
+            "aaSorting": [[7, "desc"]],
+             </@security.authorize>
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
                 <@security.authorize ifAnyGranted="advertiser">
@@ -63,6 +68,10 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                  <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
                   { "orderable": false, "targets": [0,1,2,3,4,5,7,8] },
                   </@security.authorize>
+                    <@security.authorize ifAnyGranted="sales">
+                  { "orderable": false, "targets": [0,1,2,3,4,5,6,8,9] },
+                  </@security.authorize>
+                  
             ],
             "ajax": {
                 type: "GET",
@@ -74,6 +83,11 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                         ,"filter[userId]" : $('#autocomplete').val()
                          </@security.authorize>
                           ,"filter[taskKey]" : $('#taskKey').val()
+                           <@security.authorize ifAnyGranted="sales">
+				  			 ,"filter[customerName]" : $('#customerName').val()
+							</@security.authorize>
+				
+                       
                     } );
                 },
                 "dataSrc": "content",
@@ -81,6 +95,12 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
             "columns": [
             	{ "data": "order.creator", "defaultContent": ""},
             	{ "data": "longOrderId", "defaultContent": ""},
+            	 <@security.authorize ifAnyGranted="sales">
+            		{ "data": "longOrderId", "defaultContent": "","render": function(data, type, row, meta) {
+            			var customer = $.parseJSON(row.order.customerJson); 
+                        return  (typeof(customer) == "undefined"||typeof(customer.company) == "undefined")?"":customer.company;
+                    }},
+                    </@security.authorize>
             	{ "data": "order.contractCode", "defaultContent": "", "render": function(data, type, row, meta) {
                         return "<a class='operation' onclick='eleContract(\"${rc.contextPath}\","+row.order.id+")' >"+data+"</a>";
                     }},
@@ -167,7 +187,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
   		
   		 
     }
-	<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+	<@security.authorize ifAnyGranted="sales,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
@@ -179,10 +199,15 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                         '    <span>' +
                         '        <input id="autocomplete" value="">' +
                         '    </span>' +
+                        
+                           '    <span>客户：</span>' +
+                        '    <span>' +
+                        '        <input id="customerName" style="width:200px" value="">' +
+                        '    </span>' +
                         '</div>'
         );
 
-        $('#longOrderId, #autocomplete').change(function() {
+        $('#longOrderId, #autocomplete,#customerName').change(function() {
             table.fnDraw();
         });
         //author:impanxh 2015-05-20 22:36 自动补全功能
@@ -197,6 +222,26 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
   				table.fnDraw();
   			 }
 		});
+		//--
+		<@security.authorize ifAnyGranted="sales">
+		        $( "#customerName" ).autocomplete({
+		        	minLength: 0,
+		  			source: "${rc.contextPath}/user/queryMyCustomers",
+		  			change: function( event, ui ) { 
+		  				table.fnDraw();
+		  			 },
+		  			 select: function(event,ui) {
+		  			 	$('#customerName').val(ui.item.value);
+		  			 	table.fnDraw();
+		  			 }
+				}).focus(function () {
+       				 $(this).autocomplete("search");
+   	 			});
+				//--end autocomplete
+				  </@security.authorize>
+		//--
+		
+		
 		bindLayerMouseOver();
     }
     </@security.authorize>
@@ -256,6 +301,10 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
 			<tr>
 				<th>下单用户</th>
 				<th orderBy="longOrderId">订单编号</th>
+				 <@security.authorize ifAnyGranted="sales">
+				<th>客户</th>
+				</@security.authorize>
+				
 				<th>合同编号</th>
 				<th>广告刊期</th>
 				<th>套餐名称</th>
