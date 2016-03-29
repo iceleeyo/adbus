@@ -95,6 +95,8 @@ public class UserDetail extends BaseEntity {
 	//用户类型是视频还是车身 也可能是开放注册用户
 	public UType utype = UType.screen ;
 	
+	public String createBySales;//if exist 销售员增加的用户
+	
 	public String groupIdList;
 
     @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
@@ -331,6 +333,14 @@ public class UserDetail extends BaseEntity {
 
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
+	}
+
+	public String getCreateBySales() {
+		return createBySales;
+	}
+
+	public void setCreateBySales(String createBySales) {
+		this.createBySales = createBySales;
 	}
 
 
