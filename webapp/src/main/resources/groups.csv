@@ -6,6 +6,7 @@ BeiguangMaterialManager,物料终审,manager
 BeiguangScheduleManager,排期管理,manager
 ShibaSuppliesManager,物料初审,suppliesManager
 UserManager,用户管理,manager
+sales,销售,manager
 bodysales,车身销售,user
 bodyContractManager,合同管理,manager
 bodyFinancialManager,车身财务管理,manager
