@@ -204,8 +204,13 @@ function tocard(pathurl){
 			</div>
 			
 			<div id="con_body">
+			<div class="title">
+					<span>热销产品</span>
+				</div>
 <div id="container">
+
 			 <div id="ftinformation">
+			 
 				<div class="arrow_up">	
 				</div>
 			<span>热卖<br>推荐</span>
