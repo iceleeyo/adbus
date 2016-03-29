@@ -4,20 +4,18 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.codec.digest.DigestUtils;
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
-import org.hibernate.id.uuid.Helper;
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +36,6 @@ import com.pantuo.dao.CardHelperRepository;
 import com.pantuo.dao.OrdersRepository;
 import com.pantuo.dao.ProductRepository;
 import com.pantuo.dao.UserDetailRepository;
-import com.pantuo.dao.pojo.JpaBodyOrderLog;
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaCardBoxBody;
@@ -49,7 +46,6 @@ import com.pantuo.dao.pojo.JpaCity.MediaType;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaOrders.PayType;
 import com.pantuo.dao.pojo.JpaProduct;
-import com.pantuo.dao.pojo.QJpaBodyOrderLog;
 import com.pantuo.dao.pojo.QJpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.QJpaCardBoxBody;
 import com.pantuo.dao.pojo.QJpaCardBoxHelper;
@@ -77,6 +73,7 @@ import com.pantuo.service.ActivitiService;
 import com.pantuo.service.CardService;
 import com.pantuo.service.CityService;
 import com.pantuo.service.ContractService;
+import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.security.Request;
 import com.pantuo.util.BeanUtils;
 import com.pantuo.util.CardUtil;
@@ -130,6 +127,8 @@ public class CardServiceImpl implements CardService {
 	CityService cityService;
 	@Autowired
 	UserDetailRepository userRepo;
+	@Autowired
+	UserServiceInter userServiceInter;
 	
 	@Autowired
 	OrdersMapper orderMapper;
@@ -769,7 +768,7 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public Pair<Boolean, Object> payment(String startdate1, String paytype, int isdiv, String divid, long seriaNum,
+	public Pair<Boolean, Object> payment(HttpServletRequest request,String startdate1, String paytype, int isdiv, String divid, long seriaNum,
 			Principal principal, int city, String meids, String boids, long runningNum) {
 		List<Integer> medisIds = CardUtil.parseIdsFromString(meids);
 		List<Integer> carid = CardUtil.parseIdsFromString(boids);
@@ -825,7 +824,7 @@ public class CardServiceImpl implements CardService {
 			}
 
 			if (a > 0 && helper.getMediaType() == 0 && medisIds != null && !medisIds.isEmpty()) {
-				change2Order(paytype, startdate1, medisIds, helper, runningNum, principal);
+				change2Order(request,paytype, startdate1, medisIds, helper, runningNum, principal);
 			}
 			
 		}
@@ -834,12 +833,18 @@ public class CardServiceImpl implements CardService {
 		//return new Pair<Boolean, Object>(false, new MessageView(0, 0, "操作异常", paytype));
 	}
 
-	public void change2Order(String paytype,String startdate1, List<Integer> medisIds, CardboxHelper helper, long runningNum, Principal principal) {
+	public void change2Order(HttpServletRequest request,String paytype,String startdate1, List<Integer> medisIds, CardboxHelper helper, long runningNum, Principal principal) {
 		BooleanExpression query = QJpaCardBoxMedia.jpaCardBoxMedia.city.eq(helper.getCity());
 		query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.seriaNum.eq(helper.getSeriaNum()));
 		query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.id.in(medisIds));
 		List<JpaCardBoxMedia> mList = (List<JpaCardBoxMedia>) cardBoxRepository.findAll(query);
 		String code = contractService.getContractId();
+		
+		String customerId = request.getParameter("customerId");
+		UserDetail customerObject  =null;
+		if(StringUtils.isNoneBlank(customerId)){
+			customerObject = userServiceInter.findDetailByUsername(customerId);
+		}
 		for (JpaCardBoxMedia jpaCardBoxMedia : mList) {
 			JpaOrders order = new JpaOrders();
 			order.setCity(jpaCardBoxMedia.getCity());
@@ -878,6 +883,8 @@ public class CardServiceImpl implements CardService {
 				order.setStats(JpaOrders.Status.paid);
 			}*/
 			order.setType(jpaCardBoxMedia.getProduct().getType());
+			order.setCustomerJson(customerObject != null ? JsonTools.getJsonFromObject(customerObject) : JsonTools
+					.getJsonFromObject(Request.getUser(principal)));
 			ordersRepository.save(order);
 			if (order.getId() > 0) {
 				if(!PayType.online.name().equals(paytype)){
@@ -888,7 +895,7 @@ public class CardServiceImpl implements CardService {
 				}
 			
 				
-				activitiService.startProcess2(jpaCardBoxMedia.getCity(), Request.getUser(principal), order);
+				activitiService.startProcess2(jpaCardBoxMedia.getCity(), Request.getUser(principal), order,customerObject);
 			}
 		}
 

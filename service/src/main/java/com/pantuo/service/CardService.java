@@ -3,6 +3,8 @@ package com.pantuo.service;
 import java.security.Principal;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
@@ -106,7 +108,7 @@ public interface CardService {
 	  Page<JpaBusOrderDetailV2> searchProducts(int city, Principal principal,
 	    		TableRequest req);
 
-	public Pair<Boolean, Object> payment(String startdate1,String paytype,int isdiv, String divid, long seriaNum, Principal principal, int city, String meids, String boids, long runningNum);
+	public Pair<Boolean, Object> payment(HttpServletRequest request,String startdate1,String paytype,int isdiv, String divid, long seriaNum, Principal principal, int city, String meids, String boids, long runningNum);
 
 	public void updateCardboxUser(long seriaNum, Principal principal);
 

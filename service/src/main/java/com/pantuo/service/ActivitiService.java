@@ -30,6 +30,7 @@ public interface ActivitiService {
 	//工作流中的一些变量名
 	public static final String MAIN_PROCESS = "order";
 	public static final String ORDER_ID = "_orderId";
+	public static final String COMPANY = "_company";
 	public static final String CITY = "_city";
 	public static final String PRODUCT = "_product";
 	public static final String CLOSED = "_isClosed";
@@ -83,7 +84,7 @@ public interface ActivitiService {
 	 */
 	public void startProcess(int city, UserDetail u, Orders order);
 
-	public void startProcess2(int city, UserDetail u, JpaOrders order);
+	public void startProcess2(int city, UserDetail u, JpaOrders order,UserDetail customer);
 	
 	public void startTest();
 

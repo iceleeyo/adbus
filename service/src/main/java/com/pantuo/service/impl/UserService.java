@@ -277,6 +277,19 @@ public class UserService implements UserServiceInter {
 		return r;
 	}
 
+	public List<AutoCompleteView> queryMyCustomers(String name, Principal principal) {
+		List<AutoCompleteView> r = new ArrayList<AutoCompleteView>();
+		if (Request.hasAuth(principal, "sales")) {
+			BooleanExpression q = QUserDetail.userDetail.createBySales.eq(Request.getUserId(principal));
+			Iterable<UserDetail> list = userRepo.findAll(q);
+			for (UserDetail u : list) {
+				r.add(new AutoCompleteView(u.getCompany(), u.getCompany(), String.valueOf(u.getUsername())));
+			}
+		}
+		return r;
+	}
+	
+
 	public InvoiceView findInvoiceByUser(int invoice_id, Principal principal) {
 		InvoiceView v = new InvoiceView();
 		InvoiceExample example = new InvoiceExample();

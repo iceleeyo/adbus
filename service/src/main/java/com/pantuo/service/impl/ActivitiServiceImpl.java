@@ -431,7 +431,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		Sort sort = req.getSort("created");
 
 		String longId = req.getFilter("longOrderId"), userIdQuery = req.getFilter("userId"), taskKey = req
-				.getFilter("taskKey");
+				.getFilter("taskKey"),customerName=req.getFilter("customerName");
 		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
 		page = page + 1;
 		List<Task> tasks = new ArrayList<Task>();
@@ -456,6 +456,11 @@ public class ActivitiServiceImpl implements ActivitiService {
 					OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
 			queryList.processVariableValueEquals(ActivitiService.ORDER_ID,
 					OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
+		}
+		
+		if (StringUtils.isNoneBlank(customerName)) {
+			countQuery.processVariableValueLike(ActivitiService.COMPANY, "%" + customerName + "%");
+			queryList.processVariableValueLike(ActivitiService.COMPANY, "%" + customerName + "%");
 		}
 		if (StringUtils.isNoneBlank(userIdQuery)) {
 			countQuery.processVariableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
@@ -866,18 +871,20 @@ public class ActivitiServiceImpl implements ActivitiService {
 		//debug(process.getId());
 	}
 
-	public void startProcess2(int cityId, UserDetail u, JpaOrders order) {
+	public void startProcess2(int cityId, UserDetail u, JpaOrders order, UserDetail customer) {
 		Map<String, Object> initParams = new HashMap<String, Object>();
 		//String ssu=u.getUsername();
 		//u.setUsername(u.getCompany());
 		initParams.put(ActivitiService.OWNER, u);
 		initParams.put(ActivitiService.CREAT_USERID, u.getUsername());
 		initParams.put(ActivitiService.ORDER_ID, order.getId());
+		//add company for customer
+		initParams.put(ActivitiService.COMPANY, customer != null ? customer.getCompany() : StringUtils.EMPTY);
 		initParams.put(ActivitiService.CITY, cityId);
 		initParams.put(ActivitiService.PRODUCT, order.getProductId());
-		if(null!=order.getSupplies()){
+		if (null != order.getSupplies()) {
 			initParams.put(ActivitiService.SUPPLIEID, order.getSupplies().getId());
-		}else{
+		} else {
 			initParams.put(ActivitiService.SUPPLIEID, 0);
 		}
 		initParams.put(ActivitiService.NOW, new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
@@ -902,7 +909,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			}
 		}
 		tasks = taskService.createTaskQuery().processInstanceId(process.getId()).orderByTaskCreateTime().desc()
-				.listPage(0,5);
+				.listPage(0, 5);
 		if (!tasks.isEmpty()) {
 			for (Task task : tasks) {
 				if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
@@ -911,7 +918,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 					if (order.getStats().equals(JpaOrders.Status.paid)) {
 						Map<String, Object> variables = new HashMap<String, Object>();
 						variables.put(ActivitiService.R_USERPAYED, true);
-						taskService.complete(task.getId(),variables);
+						taskService.complete(task.getId(), variables);
 					}
 				}
 			}

@@ -207,7 +207,7 @@ public class OrderService {
 				//
 
 				if (isRightRole) {
-					activitiService.startProcess2(city, user, order);
+					activitiService.startProcess2(city, user, order,null);
 				} else {
 					throw new AccessDeniedException(Constants.BUSSINESS_ERROR);
 				}
