@@ -315,6 +315,16 @@ public class UserManagerController {
 			@RequestParam(value = "term") String name) {
 		return userService.autoCompleteByName(name);
 	}
+		
+		@PreAuthorize( " hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
+	+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
+	+ "or hasRole('ShibaSuppliesManager')or hasRole('UserManager')or hasRole('sales') ")
+	@RequestMapping(value = "/queryMyCustomers")
+	@ResponseBody
+	public List<AutoCompleteView> queryMyCustomers(Model model, HttpServletRequest request,
+			@RequestParam(value = "term") String name,Principal principal) {
+		return userService.queryMyCustomers(name,principal);
+	}
 
 	@RequestMapping(value = "/change_pwd")
 	@ResponseBody
