@@ -2155,7 +2155,7 @@ span.price {
 }
 
 span.pricenumber {
-	font-size: 16px;
+	font-size: 18px;
 	font-weight: 1000;
 }
 
@@ -2358,7 +2358,7 @@ span.time_price {
 }
 
 span.time_pricenumber {
-	font-size: 16px;
+	font-size: 18px;
 	font-weight: 1000;
 }
 
@@ -2458,15 +2458,16 @@ span.tl_price {
 
 span.tl_pricenumber {
 	color: #63BCDB;
-	font-size: 16px;
-	font-weight: bold;
+	font-size: 18px;
+	font-weight: 1000;
+	margin-left: 10px;
 }
 
 .tl_bnt {
 	width: 88px;
 	height: 25px;
 	background-color: #FF5E66;
-	border-radius: 15px;
+	border-radius: 18px;
 	margin-left: 2px;
 	margin-top: 5px;
 	position: relative;
@@ -2948,7 +2949,8 @@ span.footr_price {
 span.footr_pricenumber {
 	color: #63BCDB;
 	font-size: 18px;
-	font-weight: bold;
+	font-weight: 1000;
+	margin-left: 10px;
 }
 
 .footr_bnt {
