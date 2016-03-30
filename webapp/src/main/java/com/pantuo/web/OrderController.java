@@ -425,6 +425,18 @@ public class OrderController {
 		return "orderList";
 	}
 
+	@RequestMapping(value = "/customer/{orderid}", produces = "text/html;charset=utf-8")
+	public String productDetail(Model model, @PathVariable("orderid") int orderid, HttpServletRequest request,
+			HttpServletResponse response) {
+		response.setHeader("X-Frame-Options", "SAMEORIGIN");
+		JpaOrders order = orderService.getJpaOrder(orderid);
+		OrderView view = new OrderView();
+		view.setOrder(order);
+		model.addAttribute("view", view);
+		return "template/customerDetail";
+	}
+	 
+
 	@RequestMapping(value = "/myTaskbak/{pageNum}", method = RequestMethod.GET)
 	public String myTask(Model model, @PathVariable int pageNum, Principal principal) {
 		NumberPageUtil page = new NumberPageUtil(pageNum);

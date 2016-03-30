@@ -6,6 +6,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.pantuo.dao.pojo.UserDetail;
 /**
  * 
  * <b><code>JsonTools</code></b>
@@ -31,5 +33,17 @@ public class JsonTools {
 			log.error("getJsonFromObject", e);
 		}
 		return jsonString;
+	}
+	
+	
+	public static Object readValue(String Object, Class<?> valueType) {
+		Object r = null;
+		ObjectMapper t = new ObjectMapper();
+		try {
+			r = t.readValue(Object, valueType);
+		} catch (Exception e) {
+			log.error("getJsonFromObject", e);
+		}
+		return r;
 	}
 }

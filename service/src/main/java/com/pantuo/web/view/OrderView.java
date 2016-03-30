@@ -13,6 +13,8 @@ import org.apache.commons.lang3.StringUtils;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaSupplies;
+import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.util.JsonTools;
 import com.pantuo.util.OrderIdSeq;
 
 public class OrderView {
@@ -63,6 +65,10 @@ public class OrderView {
 
 	// 流程定义
 	private ProcessDefinition processDefinition;
+	
+	//客户信息
+	UserDetail customerJson = null;
+	UserQualifiView userQualifiView=null;
 
 	public JpaOrders getOrder() {
 		return order;
@@ -74,7 +80,20 @@ public class OrderView {
 			this.id = order.getId();
 		}
 		this.order = order;
-
+		fetchCustomerName();
+	}
+	
+	public void fetchCustomerName() {
+		if (order != null) {
+			String jsonString = order.getCustomerJson();
+			if (StringUtils.isNoneBlank(jsonString)) {
+				customerJson = (UserDetail) JsonTools.readValue(jsonString, UserDetail.class);
+				if (customerJson != null && StringUtils.isNoneBlank(customerJson.getQulifijsonstr())) {
+					userQualifiView = (UserQualifiView) JsonTools.readValue(customerJson.getQulifijsonstr(),
+							UserQualifiView.class);
+				}
+			}
+		}
 	}
 
 
@@ -322,6 +341,22 @@ public class OrderView {
 
 	public void setDone_cars(int done_cars) {
 		this.done_cars = done_cars;
+	}
+
+	public UserDetail getCustomerJson() {
+		return customerJson;
+	}
+
+	public void setCustomerJson(UserDetail customerJson) {
+		this.customerJson = customerJson;
+	}
+
+	public UserQualifiView getUserQualifiView() {
+		return userQualifiView;
+	}
+
+	public void setUserQualifiView(UserQualifiView userQualifiView) {
+		this.userQualifiView = userQualifiView;
 	}
 
 	 
