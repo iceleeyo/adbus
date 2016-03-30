@@ -7,7 +7,9 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.pantuo.dao.pojo.UserDetail;
+
 /**
  * 
  * <b><code>JsonTools</code></b>
@@ -34,16 +36,17 @@ public class JsonTools {
 		}
 		return jsonString;
 	}
-	
-	
+
 	public static Object readValue(String Object, Class<?> valueType) {
-		Object r = null;
-		ObjectMapper t = new ObjectMapper();
+		Object result = null;
+		ObjectMapper mapper= new ObjectMapper();
+
 		try {
-			r = t.readValue(Object, valueType);
+			mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+			result = mapper.readValue(Object, valueType);
 		} catch (Exception e) {
 			log.error("getJsonFromObject", e);
 		}
-		return r;
+		return result;
 	}
 }
