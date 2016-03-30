@@ -2,6 +2,7 @@ package com.pantuo.service.impl;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.activiti.engine.identity.User;
 import org.activiti.engine.impl.persistence.entity.UserEntity;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +33,11 @@ import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.ActivitiConfiguration;
+import com.pantuo.dao.InvoiceRepository;
 import com.pantuo.dao.UserDetailRepository;
 import com.pantuo.dao.pojo.BaseEntity;
+import com.pantuo.dao.pojo.JpaInvoice;
+import com.pantuo.dao.pojo.QJpaInvoice;
 import com.pantuo.dao.pojo.QUserDetail;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.dao.pojo.UserDetail.UStats;
@@ -40,9 +45,12 @@ import com.pantuo.dao.pojo.UserDetail.UType;
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.mybatis.domain.InvoiceExample;
+import com.pantuo.mybatis.domain.ProductTag;
+import com.pantuo.mybatis.domain.ProductTagExample;
 import com.pantuo.mybatis.persistence.AttachmentMapper;
 import com.pantuo.mybatis.persistence.InvoiceMapper;
 import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
+import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService.SystemRoles;
 import com.pantuo.service.AttachmentService;
 import com.pantuo.service.GoupManagerService;
@@ -52,9 +60,12 @@ import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.security.ActivitiUserDetails;
 import com.pantuo.service.security.ActivitiUserDetailsService;
 import com.pantuo.service.security.Request;
+import com.pantuo.util.JsonTools;
 import com.pantuo.util.Pair;
+import com.pantuo.util.ShortString;
 import com.pantuo.web.view.AutoCompleteView;
 import com.pantuo.web.view.InvoiceView;
+import com.pantuo.web.view.UserQualifiView;
 
 /**
  * @author tliu
@@ -86,6 +97,8 @@ public class UserService implements UserServiceInter {
 	UserAutoCompleteMapper userAutoCompleteMapper;
 	@Autowired
 	InvoiceMapper invoiceMapper;
+	@Autowired
+	InvoiceRepository invoiceRepository;
 	@Autowired
 	AttachmentMapper attachmentMapper;
 
@@ -138,14 +151,12 @@ public class UserService implements UserServiceInter {
 			page = 0;
 		if (pageSize < 1)
 			pageSize = 1;
-		//test();
 		UStats ustatsQuery =null;
 		try {
 			  ustatsQuery = UStats.valueOf(ustats);
 		} catch (Exception e) {
 		}
 
-		//String utype =utype ;// req != null ? req.getFilter("utype") : null;
 		Page<UserDetail> result = null;
 		Pageable p = new PageRequest(page, pageSize, (order == null ? new Sort("id") : order));
 
@@ -164,7 +175,6 @@ public class UserService implements UserServiceInter {
 				if (ustatsQuery != null ) {
 					query = (query == null ? q.ustats.eq(ustatsQuery) : query.and(q.ustats.eq(ustatsQuery)));
 				}
-				//query = (query == null ? q.utype.eq(u) : query.and(q.utype.eq(u)));
 				result = userRepo.findAll(query, p);
 			} else {
 				if(loginUserType!=null){
@@ -210,7 +220,6 @@ public class UserService implements UserServiceInter {
 					query = (query == null ? q.ustats.eq(ustatsQuery) : query.and(q.ustats.eq(ustatsQuery)));
 				}
 
-				//query = (query == null ? q.utype.eq(u) : query.and(q.utype.eq(u)));
 			}
 			result = userRepo.findAll(query, p);
 		}
@@ -242,6 +251,62 @@ public class UserService implements UserServiceInter {
 		}
 
 		return result;
+	}
+	public Page<UserDetail> getClientUser(TableRequest req, Principal principal) {
+		String company = req.getFilter("company"),relateMan=req.getFilter("relateMan");
+		int page = req.getPage(), pageSize = req.getLength();
+		Sort sort = req.getSort("id");
+		
+		if (page < 0)
+			page = 0;
+		if (pageSize < 1)
+			pageSize = 1;
+		sort = (sort == null ? new Sort("id") : sort);
+		Pageable p = new PageRequest(page, pageSize, sort);
+		BooleanExpression query = QUserDetail.userDetail.createBySales.eq(Request.getUserId(principal));
+		if (StringUtils.isNotBlank(company)) {
+			query = query.and(QUserDetail.userDetail.company.like("%"+company+"%"));
+		}
+		if (StringUtils.isNotBlank(relateMan)) {
+			query = query.and(QUserDetail.userDetail.relateman.like("%"+relateMan+"%"));
+		}
+		return userRepo.findAll(query, p);
+	}
+	
+
+	@Override
+	public Pair<Boolean, String> saveClientUser(UserDetail userDetail, UserQualifiView userQualifiView,
+			HttpServletRequest request, Principal principal) {
+		try {
+			if (null != userQualifiView) {
+				userDetail.setQulifijsonstr(JsonTools.getJsonFromObject(userQualifiView));
+			}
+			userDetail.setCreateBySales(Request.getUserId(principal));
+			if(userDetail.getId()<1){
+				userDetail.setUsername(ShortString.getRandomString(8));
+			}
+			userDetail.setCreated(new Date());
+			userRepo.save(userDetail);
+			}
+          catch (Exception e) {
+		}
+		return new Pair<Boolean, String>(true,"保存成功");
+	}
+
+	@Override
+	public Pair<Boolean, String> saveClientInvoice(JpaInvoice jpaInvoice, UserQualifiView userQualifiView,
+			HttpServletRequest request, Principal principal) {
+		try {
+			if (null != userQualifiView) {
+				jpaInvoice.setQulifijsonstr(JsonTools.getJsonFromObject(userQualifiView));
+			}
+			jpaInvoice.setCreated(new Date());
+			jpaInvoice.setType(JpaInvoice.Type.special);
+			invoiceRepository.save(jpaInvoice);
+			}
+          catch (Exception e) {
+		}
+		return new Pair<Boolean, String>(true,"保存成功");
 	}
 
 	/**
@@ -307,6 +372,16 @@ public class UserService implements UserServiceInter {
 	}
 
 	
+	@Override
+	public JpaInvoice findInvoiceByUserName(String username) {
+		BooleanExpression query=QJpaInvoice.jpaInvoice.userId.eq(username);
+		List<JpaInvoice> list=(List<JpaInvoice>) invoiceRepository.findAll(query);
+		if(list.size()>0){
+			return list.get(0);
+		}
+		return null;
+	}
+
 	/**
 	 * @see com.pantuo.service.UserServiceInter#getByUsername(java.lang.String)
 	 * @since pantuotech 1.0-SNAPSHOT
@@ -346,6 +421,19 @@ public class UserService implements UserServiceInter {
 		return u;
 	}
     
+	@Override
+	public Pair<Boolean, String> deleteClinent(String username) {
+		UserDetail userDetail=findByUsername(username);
+		if(userDetail==null){
+			return new Pair<Boolean, String>(false,"信息丢失");
+		}
+		userRepo.delete(userDetail);
+		InvoiceExample example=new InvoiceExample();
+		example.createCriteria().andUserIdEqualTo(username);
+		invoiceMapper.deleteByExample(example);
+		return new Pair<Boolean, String>(true,"删除成功");
+	}
+
 	@Override
 	public List<Integer> gettypeListByAttach(List<Attachment> attachments) {
 		List<Integer> list=new ArrayList<Integer>();

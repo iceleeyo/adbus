@@ -34,7 +34,6 @@ import com.pantuo.dao.pojo.JpaCardBoxMedia;
 import com.pantuo.dao.pojo.JpaFunction;
 import com.pantuo.dao.pojo.JpaInvoice;
 import com.pantuo.dao.pojo.JpaOrders;
-import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.dao.pojo.UserDetail.UType;
 import com.pantuo.mybatis.domain.ActIdGroup;
@@ -114,6 +113,11 @@ public class UserManagerController {
 		model.addAttribute("usertype", "screen");
 		return "user_list";
 	}
+	@RequestMapping(value = "/clientList", method = { RequestMethod.GET })
+	public String clientList(Model model) {
+		model.addAttribute("usertype", "screen");
+		return "clientList";
+	}
 	
 	@RequestMapping(value = "/adlist", method = { RequestMethod.GET })
 	public String useradlist(Model model) {
@@ -135,10 +139,13 @@ public class UserManagerController {
 	@ResponseBody
 	public DataTablePage<UserDetail> getUsers(TableRequest req, @ModelAttribute("_utype") String user) {
 		System.out.println(user);
-		/*return new DataTablePage(userService.getAllUsers(req.getFilter("utype"),req.getFilter("name"), req.getPage(), req.getLength(),
-				req.getSort("id")), req.getDraw());*/
 		return new DataTablePage<UserDetail>(userService.getUsers(req.getFilter("utype"), req.getFilter("name"), null,
 				req.getPage(), req.getLength(), req.getSort("id"), UType.valueOf(user),req.getFilter("ustats")), req.getDraw());
+	}
+	@RequestMapping(value = "/ajax-clientList", method = { RequestMethod.GET })
+	@ResponseBody
+	public DataTablePage<UserDetail> getClientList(TableRequest req,Principal principal) {
+		return new DataTablePage<UserDetail>(userService.getClientUser( req,  principal), req.getDraw());
 	}
 	@RequestMapping(value = "/invoiceList")
 	public String invoicelist() {
@@ -194,6 +201,7 @@ public class UserManagerController {
 		model.addAttribute("userDetail", user);
 		return "invoice_message";
 	}
+	
 	
 	@RequestMapping(value = "/invoice_edit/{invoice_id}", produces = "text/html;charset=utf-8")
 	public String invoice_edit(Model model,@PathVariable("invoice_id") int invoice_id,Principal principal,HttpServletRequest request) {
@@ -379,7 +387,41 @@ public class UserManagerController {
 	public Pair<Boolean, String> updateQualifi(Principal principal,UserQualifiView userQualifiView,HttpServletRequest request) {
 		return suppliesService.savequlifi(principal,userQualifiView, request, null);
 	}
-	
+	@RequestMapping(value = "/saveClientUser", method = { RequestMethod.POST })
+	@ResponseBody
+	public Pair<Boolean, String> saveClientUser(UserDetail userDetail,Principal principal,UserQualifiView userQualifiView,HttpServletRequest request) {
+		return userService.saveClientUser(userDetail,userQualifiView, request, principal);
+	}
+	@RequestMapping(value = "/saveClientInvoice", method = { RequestMethod.POST })
+	@ResponseBody
+	public Pair<Boolean, String> saveClientInvoice(JpaInvoice jpaInvoice,Principal principal,UserQualifiView userQualifiView,HttpServletRequest request) {
+		return userService.saveClientInvoice(jpaInvoice,userQualifiView, request, principal);
+	}
+	 @RequestMapping(value = "/editClient/{username}", produces = "text/html;charset=utf-8")
+	    public String editClient(@PathVariable String username,
+	    		Model model, HttpServletRequest request) {
+		   UserDetail userDetail=userService.findByUsername(username);
+	    	model.addAttribute("userDetail",userDetail);
+	    	model.addAttribute("jsonView", cardService.getUserQualifiViewfromJsonStr(userDetail.getQulifijsonstr()));
+	    	return "u/addClientUser";
+	    }
+	 @RequestMapping(value = "/clientUser_invoice/{username}", produces = "text/html;charset=utf-8")
+		public String clientUser_invoice(@PathVariable("username") String username,Model model,Principal principal,HttpServletRequest request) {
+			UserDetail user = userService.findDetailByUsername(username);
+			JpaInvoice jpaInvoice=userService.findInvoiceByUserName(username);
+			model.addAttribute("userDetail", user);
+			model.addAttribute("jpaInvoice", jpaInvoice);
+			model.addAttribute("jsonView", jpaInvoice==null?null:cardService.getUserQualifiViewfromJsonStr(jpaInvoice.getQulifijsonstr()));
+			return "u/clientUser_invoice";
+		}
+	 @RequestMapping(value = "/editClientInvoice/{username}", produces = "text/html;charset=utf-8")
+	 public String editClientInvoice(@PathVariable String username,
+			 Model model, HttpServletRequest request) {
+		 UserDetail userDetail=userService.findByUsername(username);
+		 model.addAttribute("userDetail",userDetail);
+		 model.addAttribute("jsonView", cardService.getUserQualifiViewfromJsonStr(userDetail.getQulifijsonstr()));
+		 return "u/editClientInvoice";
+	 }
 
 /*	@PreAuthorize("hasRole('advertiser') " + "or hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
 			+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
@@ -391,6 +433,10 @@ public class UserManagerController {
 		model.addAttribute("groupsList", DataInitializationService._GROUPS);
 		model.addAttribute("bdGroupsList", goupManagerService.getAllDescionGroup(city));
 		return "u/userEnter";
+	}
+	@RequestMapping(value = "/addClientUser")
+	public String addClienttUser() {
+		return "u/addClientUser";
 	}
 	//@PreAuthorize(" hasRole('UserManager')  ")
 	@RequestMapping(value = "/save", method = { RequestMethod.POST })
@@ -539,6 +585,13 @@ public class UserManagerController {
 			@RequestParam(value = "ids", required = true) String ids
 			) throws ParseException{
 		return goupManagerService.editRole(groupid,ids,rolename,funcode,fundesc,principal,city);
+	}
+	@RequestMapping(value = "/deleteClinent/{username}")
+	@ResponseBody
+	public Pair<Boolean, String> deleteClinent(@PathVariable("username") String username
+			){
+		
+		return userService.deleteClinent(username);
 	}
 	@RequestMapping("ajax-roleList")
 	@ResponseBody

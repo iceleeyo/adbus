@@ -1211,6 +1211,23 @@ public class CardServiceImpl implements CardService {
 		}
 		return s;
 	}
+	@Override
+	public UserQualifiView getUserQualifiViewfromJsonStr(String jsonString) {
+		
+		UserQualifiView s = null;
+		if (StringUtils.isBlank(jsonString)) {
+			return s;
+		}
+		try {
+			ObjectMapper t = new ObjectMapper();
+			t.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+			t.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
+			s = t.readValue(jsonString, UserQualifiView.class);
+		} catch (Exception e) {
+			log.error("getJsonfromJsonStr,{}", e);
+		}
+		return s;
+	}
 
 	@Override
 	public BodyProView getBodyProViewfromJsonStr(String jsonString) {

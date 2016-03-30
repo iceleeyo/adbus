@@ -10,6 +10,7 @@ import org.activiti.engine.identity.Group;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
+import com.pantuo.dao.pojo.JpaInvoice;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.dao.pojo.UserDetail.UStats;
 import com.pantuo.dao.pojo.UserDetail.UType;
@@ -19,6 +20,7 @@ import com.pantuo.pojo.TableRequest;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.AutoCompleteView;
 import com.pantuo.web.view.InvoiceView;
+import com.pantuo.web.view.UserQualifiView;
 
 public interface UserServiceInter {
 
@@ -111,5 +113,17 @@ public	Page<UserDetail> getUsers(String utype, String name, Boolean isEnabled, i
 
 	public abstract Pair<Boolean, String> editPwd(String userId, String oldpassword, String psw);
 	public abstract List<Integer> gettypeListByAttach(List<Attachment> attachments);
+
+	public abstract Page<UserDetail> getClientUser(TableRequest req, Principal principal);
+
+	public abstract Pair<Boolean, String> saveClientUser(UserDetail userDetail, UserQualifiView userQualifiView,
+			HttpServletRequest request, Principal principal);
+
+	public abstract JpaInvoice findInvoiceByUserName(String username);
+
+	public abstract Pair<Boolean, String> saveClientInvoice(JpaInvoice jpaInvoice, UserQualifiView userQualifiView,
+			HttpServletRequest request, Principal principal);
+
+	public abstract Pair<Boolean, String> deleteClinent(String username);
 
 }

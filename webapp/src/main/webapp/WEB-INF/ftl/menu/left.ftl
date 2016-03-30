@@ -395,9 +395,8 @@
 				</a>
 					<ul class="pg-side-exp-list">
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
-					href="${rc.contextPath}/user/clientList"> 客户列表 </a></li>
-				<li class="pg-side-exp-item"><a class="side-exp-item-t"
-					href="${rc.contextPath}/user/clientAdd"> 客户添加 </a></li>
+					href="${rc.contextPath}/user/clientList"> 销售员客户管理 </a></li>
+		
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/user/list"> 视频用户列表 </a></li>
 					</ul>

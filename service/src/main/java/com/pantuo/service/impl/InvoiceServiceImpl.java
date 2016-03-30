@@ -14,6 +14,8 @@ import com.pantuo.dao.ContractRepository;
 import com.pantuo.dao.InvoiceRepository;
 import com.pantuo.dao.pojo.JpaInvoice;
 import com.pantuo.dao.pojo.QJpaInvoice;
+import com.pantuo.dao.pojo.QUserDetail;
+import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.InvoiceServiceData;
 import com.pantuo.service.security.Request;
@@ -44,6 +46,7 @@ public class InvoiceServiceImpl implements InvoiceServiceData {
 		query = query.and(QJpaInvoice.jpaInvoice.userId.eq(Request.getUserId(principal)));
 		return invoiceRepository.findAll(query, p);
 	}
+	
 
 	public Page<JpaInvoice> getValidInvoice(int city, int page, int pageSize, Sort sort) {
 		if (page < 0)

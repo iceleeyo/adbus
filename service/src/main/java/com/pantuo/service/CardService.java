@@ -157,6 +157,8 @@ public interface CardService {
 	
 	
 	public boolean checkPayed(long runningNum, int orderId);
+
+	UserQualifiView getUserQualifiViewfromJsonStr(String jsonString);
 		
 		
 		

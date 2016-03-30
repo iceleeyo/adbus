@@ -1,5 +1,6 @@
 package com.pantuo.dao.pojo;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,6 +30,8 @@ public class JpaInvoiceDetail extends CityEntity{
 	 private String userId;
 	private String contents;
 	 private String receway;
+	 @Column(length=1000) 
+		public String qulifijsonstr;
 	public JpaInvoiceDetail() {
 	}
 	
@@ -66,6 +69,15 @@ public class JpaInvoiceDetail extends CityEntity{
 	public void setContactman(String contactman) {
 		this.contactman = contactman;
 	}
+	
+	public String getQulifijsonstr() {
+		return qulifijsonstr;
+	}
+
+	public void setQulifijsonstr(String qulifijsonstr) {
+		this.qulifijsonstr = qulifijsonstr;
+	}
+
 	public String getPhonenum() {
 		return phonenum;
 	}
