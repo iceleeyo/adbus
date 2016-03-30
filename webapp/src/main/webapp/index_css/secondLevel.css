@@ -2391,8 +2391,10 @@ span.time_pricenumber {
 
 img.tl_first {
 	position: absolute;
-	width: 340px;
-  	height: 230px;
+	width: 300px;
+  	height: 200px;
+  	margin-top:15px;
+  	margin-left:20px
 }
 
 img.tl_second {
@@ -2934,7 +2936,7 @@ span.footr {
 span.footr_price {
 	color: #63BCDB;
 	font-size: 12px;
-	margin-left: 22px;
+	margin-left: 50px;
 	font-weight: 400;
 	margin-top: 5px;
 }
@@ -2950,7 +2952,7 @@ span.footr_pricenumber {
 	height: 25px;
 	background-color: #FF5E66;
 	border-radius: 12px;
-	margin-left: 13px;
+	margin-left: 50px;
 	margin-top:13px;
 	color: #963439;
 }
