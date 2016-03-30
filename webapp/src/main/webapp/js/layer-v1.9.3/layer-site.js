@@ -34,7 +34,7 @@ function showProductlayer(tourl,id){
 	});
 	
 }
-function showCustomerlayer(tourl,id){
+function showCustomerlayer(tourl,id,fname){
 	layer.open({
 		type: 1,
 		title: "客户详细",
@@ -42,7 +42,7 @@ function showCustomerlayer(tourl,id){
 		area: ['900px', '600px'], 
 		content:''
 			+' '
-			+'<iframe style="width:100%;height:100%" frameborder="no" src="'+tourl+'/order/customer/'+id+'"/>'
+			+'<iframe style="width:100%;height:100%" frameborder="no" src="'+tourl+'/order/customer/'+id+"?fname="+fname+'"/>'
 	});
 	
 }
