@@ -379,7 +379,7 @@ function tocard(pathurl){
 						<div class="tr_text">
 							<img class="tltitle" src="images/advers.png"><br> <span
 								class="tl">${jpaProductTag.product.name}</span><br> <span
-								class="tls">每天${jpaProductTag.product.playNumber}次，连续${jpaProductTag.product.days}天</span>
+								class="tls">每天${jpaProductTag.product.playNumber}次，连续${jpaProductTag.product.days}天<br>滚动播出</span>
 							<br>
 							<span class="tl_price">价格</span><span class="tl_pricenumber">${jpaProductTag.product.price}</span>
 							<div class="tl_bnt">
