@@ -2361,6 +2361,7 @@ span.time_price {
 span.time_pricenumber {
 	font-size: 18px;
 	font-weight: 1000;
+	margin-left: 5px;
 }
 
 #advertisement {
