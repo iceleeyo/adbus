@@ -34,6 +34,18 @@ function showProductlayer(tourl,id){
 	});
 	
 }
+function showCustomerlayer(tourl,id){
+	layer.open({
+		type: 1,
+		title: "客户详细",
+		skin: 'layui-layer-rim', 
+		area: ['900px', '600px'], 
+		content:''
+			+' '
+			+'<iframe style="width:100%;height:100%" frameborder="no" src="'+tourl+'/order/customer/'+id+'"/>'
+	});
+	
+}
 function showProV2Detail(tourl,id){
 	layer.open({
 		type: 1,

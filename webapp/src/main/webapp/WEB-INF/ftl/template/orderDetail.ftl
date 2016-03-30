@@ -68,10 +68,25 @@ function supDetail(data){
 						${(orderview.order.creator)!''}</a>
 			</SPAN></li>
 			</@security.authorize> 
+			
+			<@security.authorize
+			ifAnyGranted="sales">
+			<#if orderview.customerJson?exists>
+			<li style="width: 260px;"><SPAN>客户信息：</SPAN><SPAN class="con" >
+					<a class="layer-tips" tip="点击查看客户用户信息!"
+					onclick="showCustomerlayer('${rc.contextPath}', '${(orderview.order.id)!''}');">
+						 ${substring((orderview.customerJson.company)!'', 0, 8)}</a>
+			</SPAN></li>
+			</#if>
+			</@security.authorize> 
+			
+			
 			<@security.authorize ifAnyGranted="advertiser" 
 			ifNotGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 			<li style="width: 200px;"><SPAN>下单用户：</SPAN><SPAN class="con">${(orderview.order.creator)!''}</SPAN></li>
 			</@security.authorize>
+			
+		 
 
 			<li style="width: 300px;"><SPAN>订单状态：</SPAN> <SPAN class="con">
 					<#if orderview.task_name?has_content> ${orderview.task_name!''}
