@@ -20,7 +20,6 @@
 		 	<LI style="width: 240px;"><SPAN>邮编：</SPAN><SPAN class="con">
 					${view.customerJson.zipCode!''}</SPAN> <SPAN></SPAN></LI> 
 					<li style="width: 730; border-bottom: 1px solid #F7F7F7"></li>
-			
 			<LI style="width: 100%;padding-top: 20px;"><SPAN>营业执照复印件副本：</SPAN>
 				 <#if view.userQualifiView?? && view.userQualifiView.user_license?has_content>
 				 <SPAN class="con">

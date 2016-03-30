@@ -98,7 +98,8 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
             	 <@security.authorize ifAnyGranted="sales">
             		{ "data": "longOrderId", "defaultContent": "","render": function(data, type, row, meta) {
             			var customer = $.parseJSON(row.order.customerJson); 
-                        return  (typeof(customer) == "undefined"||typeof(customer.company) == "undefined")?"":customer.company;
+            			 
+                        return  (customer == null || typeof(customer) == "undefined"||typeof(customer.company) == "undefined")?"":customer.company;
                     }},
                     </@security.authorize>
             	{ "data": "order.contractCode", "defaultContent": "", "render": function(data, type, row, meta) {

@@ -64,8 +64,10 @@ function supDetail(data){
 			ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 			<li style="width: 200px;"><SPAN>下单用户：</SPAN><SPAN class="con">
 					<a class="layer-tips" tip="点击查看下单用户信息!"
-					onclick="showOrderUserlayer('${rc.contextPath}', '${(orderview.order.creator)!''}');">
-						${(orderview.order.creator)!''}</a>
+					onclick="showCustomerlayer('${rc.contextPath}', '${(orderview.order.id)!''}','orderUserDetail');">
+						 ${substring((orderview.order.creator)!'', 0, 20)}</a>
+				<#--	onclick="showOrderUserlayer('${rc.contextPath}', '${(orderview.order.creator)!''}');">
+						${(orderview.order.creator)!''}</a>-->
 			</SPAN></li>
 			</@security.authorize> 
 			
@@ -74,7 +76,7 @@ function supDetail(data){
 			<#if orderview.customerJson?exists>
 			<li style="width: 260px;"><SPAN>客户信息：</SPAN><SPAN class="con" >
 					<a class="layer-tips" tip="点击查看客户用户信息!"
-					onclick="showCustomerlayer('${rc.contextPath}', '${(orderview.order.id)!''}');">
+					onclick="showCustomerlayer('${rc.contextPath}', '${(orderview.order.id)!''}','customerDetail');">
 						 ${substring((orderview.customerJson.company)!'', 0, 8)}</a>
 			</SPAN></li>
 			</#if>
