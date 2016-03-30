@@ -2550,6 +2550,7 @@ span.bls {
 	font-size: 14px;
 	margin-left: 2px;
 	font-weight: bold;
+	line-height: 35px;
 }
 
 span.bl_price {
@@ -2933,6 +2934,7 @@ img.foot_img {
 span.footr {
 	color: #858585;
 	font-size: 15px;
+	line-height: 35px;
 }
 
 span.footr_price {
