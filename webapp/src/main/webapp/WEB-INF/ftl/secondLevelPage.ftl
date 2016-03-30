@@ -59,9 +59,9 @@ function tocard(pathurl){
 							href="javascript:void(0)">INFO字幕</a></span> <span><a
 							href="javascript:void(0)">32次</a></span> <span><a
 							href="javascript:void(0)">64次</a></span> <span><a
-							href="javascript:void(0)">14天</a></span> 
-						<span><a href="javascript:void(0)">28天</a></span>
-						<span><a href="javascript:void(0)">90天</a></span>
+							href="javascript:void(0)">14天</a></span> <span><a
+							href="javascript:void(0)">28天</a></span> <span><a
+							href="javascript:void(0)">90天</a></span>
 					</div>
 				</div>
 			</div>
@@ -129,7 +129,7 @@ function tocard(pathurl){
 					</div>
 				</div>
 			</div> -->
-				
+
 				<div class="recommand timer pd">
 					<div class="title">
 						<span>限时套装</span>
@@ -180,8 +180,7 @@ function tocard(pathurl){
 								<#if prod.product.imgurl?has_content > <img
 									src="${rc.contextPath}/upload_temp/${prod.product.imgurl}"
 									height="100" width="100"> <#else> <img
-									src="index_img/exp1.jpg" height="100" width="100">
-								</#if>
+									src="index_img/exp1.jpg" height="100" width="100"> </#if>
 
 								<div class="cost-box">
 									<div class="cost">
@@ -202,269 +201,285 @@ function tocard(pathurl){
 					</div>
 				</div>
 			</div>
-			
+
 			<div id="con_body">
-			<div class="title">
+				<div class="title">
 					<span>热销产品</span>
 				</div>
-<div id="container">
+				<div id="container">
 
-			 <div id="ftinformation">
-			 
-				<div class="arrow_up">	
-				</div>
-			<span>热卖<br>推荐</span>
-				<@productLocation locationTag="hot_left_1" >
-  			  <#if jpaProductTag??  >
-			<img src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}?1<#else>images/example1.jpg?1</#if>">
-			</#if>
-	         </@productLocation>
-			
-			</div> 
-			<div id="ftinformationr">
-				<div class="arrow_up">	
-				</div>
-			<span>热卖<br>推荐</span>
-			<@productLocation locationTag="hot_right_1" >
-  			  <#if jpaProductTag??  >
-			<img src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}?2<#else>images/example1.jpg?2</#if>">
-			</#if>
-	         </@productLocation>
-			</div>
-			<div class="down">
-				<div class="down_left">
-				<@productLocation locationTag="hot_left_1" >
-  			  <#if jpaProductTag??  >
-				<div class="down_texts">
-					${jpaProductTag.product.name}<br>${jpaProductTag.product.remarks!''}
-				</div>
-				</#if>
-	           </@productLocation>
-			</div>
-			<div class="down_right">
-			<@productLocation locationTag="hot_left_1" >
-  			  <#if jpaProductTag??  >
-				<div class="down_textt">
-					每天${jpaProductTag.product.playNumber}次，连续${jpaProductTag.product.days}天<br>
-					<span class="price">价格</span><span class="pricenumber">${jpaProductTag.product.price}</span>
-				</div>
-				<div class="down_textf">
-					<span class="buynow"><a href="/m/public_detail/${jpaProductTag.product.id}">立即购买</a></span>
-				</div>
-             </div>
-             </#if>
-	           </@productLocation>
-			</div>
-			<div class="downs">
-				<div class="downs_left">
-				
-				<@productLocation locationTag="hot_right_1" >
-  			  <#if jpaProductTag??  >
-				<div class="down_texts">
-					${jpaProductTag.product.name}<br>${jpaProductTag.product.remarks!''}
-				</div>
-				</#if>
-	           </@productLocation>
-			</div>
-			<div class="downs_right">
-			<@productLocation locationTag="hot_right_1" >
-  			  <#if jpaProductTag??  >
-				<div class="downs_textt">
-					每天${jpaProductTag.product.playNumber}次，连续${jpaProductTag.product.days}天<br>
-					<span class="price">价格</span><span class="pricenumber">${jpaProductTag.product.price}</span>
-				</div>
-				<div class="downs_textf">
-					<span class="buynow"><a href="/m/public_detail/${jpaProductTag.product.id}">立即购买</a></span>
-				</div>
-             </div>
-              </#if>
-	           </@productLocation>
-			</div>
-			<div id="teamcase">
-				<div class="team_left">
-					<@productLocation locationTag="hot_row_1" >
-  			  <#if jpaProductTag??  >
-					<div class="team_rightup">
-						<img class="kid" src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}<#else>images/JXH2w.jpg</#if>">
+					<div id="ftinformation">
+
+						<div class="arrow_up"></div>
+						<span>热卖<br>推荐
+						</span> <@productLocation locationTag="hot_left_1" > <#if jpaProductTag??
+						> <img
+							src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}?1<#else>images/example1.jpg?1</#if>">
+						</#if> </@productLocation>
+
 					</div>
-					<div class="team_rightdown">
-						<div class="time">每天${jpaProductTag.product.playNumber}次，连续${jpaProductTag.product.days}天<br>
-						<span class="time_price">价格</span><span class="time_pricenumber">${jpaProductTag.product.price}</span></div>
-						<div class="team_bnt">
-					   <span class="buynows"><a href="/m/public_detail/${jpaProductTag.product.id}">立即购买</a></span>
-				        </div>
-					
+					<div id="ftinformationr">
+						<div class="arrow_up"></div>
+						<span>热卖<br>推荐
+						</span> <@productLocation locationTag="hot_right_1" > <#if
+						jpaProductTag?? > <img
+							src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}?2<#else>images/example1.jpg?2</#if>">
+						</#if> </@productLocation>
 					</div>
-					 </#if>
-	           </@productLocation>
-				</div>
-				<div class="team_center">
-					<@productLocation locationTag="hot_row_2" >
-  			  <#if jpaProductTag??  >
-					<div class="team_rightup">
-						<img class="kid" src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}<#else>images/JXH2w.jpg</#if>">
+					<div class="down">
+						<div class="down_left">
+							<@productLocation locationTag="hot_left_1" > <#if jpaProductTag??
+							>
+							<div class="down_texts">
+								<span>
+								${jpaProductTag.product.name}
+								</span><br>
+								${jpaProductTag.product.remarks!''}
+							</div>
+							</#if> </@productLocation>
+						</div>
+						<div class="down_right">
+							<@productLocation locationTag="hot_left_1" > <#if jpaProductTag??
+							>
+							<div class="down_textt">
+								每天${jpaProductTag.product.playNumber}次，连续${jpaProductTag.product.days}天<br>
+								<span class="price">价格</span><span class="pricenumber">${jpaProductTag.product.price}</span>
+							</div>
+							<div class="down_textf">
+								<span class="buynow"><a
+									href="/m/public_detail/${jpaProductTag.product.id}">立即购买</a></span>
+							</div>
+						</div>
+						</#if> </@productLocation>
 					</div>
-					<div class="team_rightdown">
-						<div class="time">每天${jpaProductTag.product.playNumber}次，连续${jpaProductTag.product.days}天
-						<span class="time_price">价格</span><span class="time_pricenumber">${jpaProductTag.product.price}</span></div>
-						<div class="team_bnt">
-					   <span class="buynows"><a href="/m/public_detail/${jpaProductTag.product.id}">立即购买</a></span>
-				        </div>
-					
+					<div class="downs">
+						<div class="downs_left">
+
+							<@productLocation locationTag="hot_right_1" > <#if
+							jpaProductTag?? >
+							<div class="down_texts">
+							<span>
+								${jpaProductTag.product.name}
+							</span>	
+							<br>${jpaProductTag.product.remarks!''}
+							</div>
+							</#if> </@productLocation>
+						</div>
+						<div class="downs_right">
+							<@productLocation locationTag="hot_right_1" > <#if
+							jpaProductTag?? >
+							<div class="downs_textt">
+								每天${jpaProductTag.product.playNumber}次，连续${jpaProductTag.product.days}天<br>
+								<span class="price">价格</span><span class="pricenumber">${jpaProductTag.product.price}</span>
+							</div>
+							<div class="downs_textf">
+								<span class="buynow"><a
+									href="/m/public_detail/${jpaProductTag.product.id}">立即购买</a></span>
+							</div>
+						</div>
+						</#if> </@productLocation>
 					</div>
-					 </#if>
-	           </@productLocation>
-				</div>
-				<div class="team_right">
-				<@productLocation locationTag="hot_row_3" >
-  			  <#if jpaProductTag??  >
-					<div class="team_rightup">
-						<img class="kid" src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}<#else>images/JXH2w.jpg</#if>">
+					<div id="teamcase">
+						<div class="team_left">
+							<@productLocation locationTag="hot_row_1" > <#if jpaProductTag??
+							>
+							<div class="team_rightup">
+								<img class="kid"
+									src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}<#else>images/JXH2w.jpg</#if>">
+							</div>
+							<div class="team_rightdown">
+								<div class="time">
+									每天${jpaProductTag.product.playNumber}次，连续${jpaProductTag.product.days}天<br>
+									<span class="time_price">价格</span><span
+										class="time_pricenumber">${jpaProductTag.product.price}</span>
+								</div>
+								<div class="team_bnt">
+									<span class="buynows"><a
+										href="/m/public_detail/${jpaProductTag.product.id}">立即购买</a></span>
+								</div>
+
+							</div>
+							</#if> </@productLocation>
+						</div>
+						<div class="team_center">
+							<@productLocation locationTag="hot_row_2" > <#if jpaProductTag??
+							>
+							<div class="team_rightup">
+								<img class="kid"
+									src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}<#else>images/JXH2w.jpg</#if>">
+							</div>
+							<div class="team_rightdown">
+								<div class="time">
+									每天${jpaProductTag.product.playNumber}次，连续${jpaProductTag.product.days}天
+									<span class="time_price">价格</span><span
+										class="time_pricenumber">${jpaProductTag.product.price}</span>
+								</div>
+								<div class="team_bnt">
+									<span class="buynows"><a
+										href="/m/public_detail/${jpaProductTag.product.id}">立即购买</a></span>
+								</div>
+
+							</div>
+							</#if> </@productLocation>
+						</div>
+						<div class="team_right">
+							<@productLocation locationTag="hot_row_3" > <#if jpaProductTag??
+							>
+							<div class="team_rightup">
+								<img class="kid"
+									src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}<#else>images/JXH2w.jpg</#if>">
+							</div>
+							<div class="team_rightdown">
+								<div class="time">
+									每天${jpaProductTag.product.playNumber}次，连续${jpaProductTag.product.days}天
+									<span class="time_price">价格</span><span
+										class="time_pricenumber">${jpaProductTag.product.price}</span>
+								</div>
+								<div class="team_bnt">
+									<span class="buynows"><a
+										href="/m/public_detail/${jpaProductTag.product.id}">立即购买</a></span>
+								</div>
+
+							</div>
+							</#if> </@productLocation>
+						</div>
 					</div>
-					<div class="team_rightdown">
-						<div class="time">每天${jpaProductTag.product.playNumber}次，连续${jpaProductTag.product.days}天
-						<span class="time_price">价格</span><span class="time_pricenumber">${jpaProductTag.product.price}</span></div>
-						<div class="team_bnt">
-					   <span class="buynows"><a href="/m/public_detail/${jpaProductTag.product.id}">立即购买</a></span>
-				        </div>
-					
+					<div id="advertisement">
+						<div class="adver_title">全屏广告</div>
+
+						<div class="pro_ineng">
+							<img src="images/adertisement.png">
+
+						</div>
 					</div>
-					 </#if>
-	           </@productLocation>
+					<div class="topleft">
+						<@productLocation locationTag="media_row_1" > <#if jpaProductTag??
+						> <img class="tl_first"
+							src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}<#else>images/JXH2w.jpg</#if>">
+						<div class="arrow_ups">
+							<div class="arrowtext">热卖推荐</div>
+						</div>
+						<div class="tl_text">
+							<img class="tltitle" src="images/advers.png"><br> <span
+								class="tl">${jpaProductTag.product.name}</span><br> <span
+								class="tls">每天${jpaProductTag.product.playNumber}次，连续${jpaProductTag.product.days}天<br>滚动播出
+							</span> <br>
+							<span class="tl_price">价格</span><span class="tl_pricenumber">${jpaProductTag.product.price}</span>
+							<div class="tl_bnt">
+								<span class="tl_buynows"><a
+									href="/m/public_detail/${jpaProductTag.product.id}">立即购买</a></span>
+							</div>
+						</div>
+						</#if> </@productLocation>
+					</div>
+					<div class="topright">
+						<@productLocation locationTag="media_row_2" > <#if jpaProductTag??
+						> <img class="tr_first"
+							src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}<#else>images/JXH2w.jpg</#if>">
+						<div class="tr_text">
+							<img class="tltitle" src="images/advers.png"><br> <span
+								class="tl">${jpaProductTag.product.name}</span><br> <span
+								class="tls">每天${jpaProductTag.product.playNumber}次，连续${jpaProductTag.product.days}天</span>
+							<br>
+							<span class="tl_price">价格</span><span class="tl_pricenumber">${jpaProductTag.product.price}</span>
+							<div class="tl_bnt">
+								<span class="tl_buynows"><a
+									href="/m/public_detail/${jpaProductTag.product.id}">立即购买</a></span>
+							</div>
+						</div>
+						</#if> </@productLocation>
+					</div>
+					<div class="botleft">
+						<@productLocation locationTag="media_row2_1" > <#if
+						jpaProductTag?? > <img class="tl_first"
+							src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}<#else>images/JXH2w.jpg</#if>">
+						<div class="arrow_ups">
+							<div class="arrowtext">热卖推荐</div>
+						</div>
+						<div class="tl_text">
+							<img class="tltitle" src="images/advers.png"><br> <span
+								class="tl">${jpaProductTag.product.name}</span><br> <span
+								class="tls">每天${jpaProductTag.product.playNumber}次，连续${jpaProductTag.product.days}天<br>滚动播出
+							</span> <br>
+							<span class="tl_price">价格</span><span class="tl_pricenumber">${jpaProductTag.product.price}</span>
+							<div class="tl_bnt">
+								<span class="tl_buynows"><a
+									href="/m/public_detail/${jpaProductTag.product.id}">立即购买</a></span>
+							</div>
+						</div>
+						</#if> </@productLocation>
+					</div>
+					<div class="botright">
+						<@productLocation locationTag="media_row2_2" > <#if
+						jpaProductTag?? > <img class="tr_first"
+							src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}<#else>images/JXH2w.jpg</#if>">
+						<div class="tr_text">
+							<img class="tltitle" src="images/advers.png"><br> <span
+								class="tl">${jpaProductTag.product.name}</span><br> <span
+								class="tls">每天${jpaProductTag.product.playNumber}次，连续${jpaProductTag.product.days}天</span>
+							<br>
+							<span class="tl_price">价格</span><span class="tl_pricenumber">${jpaProductTag.product.price}</span>
+							<div class="tl_bnt">
+								<span class="tl_buynows"><a
+									href="/m/public_detail/${jpaProductTag.product.id}">立即购买</a></span>
+							</div>
+						</div>
+						</#if> </@productLocation>
+					</div>
+
+					<div id="info">
+						<div class="info_title">图片字幕</div>
+						<div class="pro_ineng">
+							<img src="images/infoment.png">
+						</div>
+					</div>
+					<div id="foot">
+
+
+						<div class="footleft">
+							<@productLocation locationTag="imageText_1" > <#if
+							jpaProductTag?? > <img class="foot_img"
+								src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}<#else>images/JXH2w.jpg</#if>">
+							<div class="footl_text">
+								<img class="footrtitle" src="images/infotupian.png"><br>
+								<span class="footr">节目下方滚动播出</span><br> <span class="bls">${jpaProductTag.product.playNumber}次/天
+									${jpaProductTag.product.duration}秒${jpaProductTag.product.days}天</span>
+								<br>
+								<span class="footr_price">价格</span><span
+									class="footr_pricenumber">${jpaProductTag.product.price}</span>
+								<div class="footr_bnt">
+									<span class="footr_buynows"><a
+										href="/m/public_detail/${jpaProductTag.product.id}">立即购买</a></span>
+								</div>
+							</div>
+							</#if> </@productLocation>
+						</div>
+
+						<div class="footright">
+							<@productLocation locationTag="imageText_2" > <#if
+							jpaProductTag?? > <img class="foot_img"
+								src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}<#else>images/JXH2w.jpg</#if>">
+							<div class="footl_text">
+								<img class="footrtitle" src="images/infotupian.png"><br>
+								<span class="footr">节目下方滚动播出</span><br> <span class="bls">${jpaProductTag.product.playNumber}次/天
+									${jpaProductTag.product.duration}秒${jpaProductTag.product.days}天</span>
+								<br>
+								<span class="footr_price">价格</span><span
+									class="footr_pricenumber">${jpaProductTag.product.price}</span>
+								<div class="footr_bnt">
+									<span class="footr_buynows"><a
+										href="/m/public_detail/${jpaProductTag.product.id}">立即购买</a></span>
+								</div>
+							</div>
+							</#if> </@productLocation>
+						</div>
+					</div>
 				</div>
 			</div>
-			<div id="advertisement">
-				<div class="adver_title">
-					全屏广告
-				</div>
-				
-					<div class="pro_ineng">
-					<img src="images/adertisement.png">
-				
-				</div>
-			</div>
-			<div class="topleft">
-			<@productLocation locationTag="media_row_1" >
-  			  <#if jpaProductTag??  >
-				<img class="tl_first" src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}<#else>images/JXH2w.jpg</#if>">
-				<div class="arrow_ups">
-					<div class="arrowtext">热卖推荐</div>
-					</div>
-				<div class="tl_text">
-					<img class="tltitle" src="images/advers.png"><br>
-					<span class="tl">${jpaProductTag.product.name}</span><br>
-					<span class="tls">每天${jpaProductTag.product.playNumber}次，连续${jpaProductTag.product.days}天<br>滚动播出</span>
-					<br><span class="tl_price">价格</span><span class="tl_pricenumber">${jpaProductTag.product.price}</span>
-					<div class="tl_bnt">
-					   <span class="tl_buynows"><a href="/m/public_detail/${jpaProductTag.product.id}">立即购买</a></span>
-				        </div>
-				</div>
-				 </#if>
-	</@productLocation>
-			</div>
-			<div class="topright">
-			<@productLocation locationTag="media_row_2" >
-  			  <#if jpaProductTag??  >
-				<img class="tr_first" src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}<#else>images/JXH2w.jpg</#if>">
-				<div class="tr_text">
-					<img class="tltitle" src="images/advers.png"><br>
-					<span class="tl">${jpaProductTag.product.name}</span><br>
-					<span class="tls">每天${jpaProductTag.product.playNumber}次，连续${jpaProductTag.product.days}天</span>
-					<br><span class="tl_price">价格</span><span class="tl_pricenumber">${jpaProductTag.product.price}</span>
-					<div class="tl_bnt">
-					   <span class="tl_buynows"><a href="/m/public_detail/${jpaProductTag.product.id}">立即购买</a></span>
-				</div>
-			</div>
-			</#if>
-	</@productLocation>
-		</div>
-			<div class="botleft">
-				<@productLocation locationTag="media_row2_1" >
-  			  <#if jpaProductTag??  >
-				<img class="tl_first" src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}<#else>images/JXH2w.jpg</#if>">
-				<div class="arrow_ups">
-					<div class="arrowtext">热卖推荐</div>
-					</div>
-				<div class="tl_text">
-					<img class="tltitle" src="images/advers.png"><br>
-					<span class="tl">${jpaProductTag.product.name}</span><br>
-					<span class="tls">每天${jpaProductTag.product.playNumber}次，连续${jpaProductTag.product.days}天<br>滚动播出</span>
-					<br><span class="tl_price">价格</span><span class="tl_pricenumber">${jpaProductTag.product.price}</span>
-					<div class="tl_bnt">
-					   <span class="tl_buynows"><a href="/m/public_detail/${jpaProductTag.product.id}">立即购买</a></span>
-				        </div>
-				</div>
-				 </#if>
-	</@productLocation>
-		</div>
-			<div class="botright">
-				<@productLocation locationTag="media_row2_2" >
-  			  <#if jpaProductTag??  >
-				<img class="tr_first" src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}<#else>images/JXH2w.jpg</#if>">
-				<div class="tr_text">
-					<img class="tltitle" src="images/advers.png"><br>
-					<span class="tl">${jpaProductTag.product.name}</span><br>
-					<span class="tls">每天${jpaProductTag.product.playNumber}次，连续${jpaProductTag.product.days}天</span>
-					<br><span class="tl_price">价格</span><span class="tl_pricenumber">${jpaProductTag.product.price}</span>
-					<div class="tl_bnt">
-					   <span class="tl_buynows"><a href="/m/public_detail/${jpaProductTag.product.id}">立即购买</a></span>
-				</div>
-			</div>
-			</#if>
-	</@productLocation>
-		</div>
-           
-            <div id="info">
-				<div class="info_title">
-					图片字幕
-				</div>
-				<div class="pro_ineng">
-					<img src="images/infoment.png">
-				</div>
-			</div>
-			<div id="foot">
-			
-			
-           		 	<div class="footleft">
-			<@productLocation locationTag="imageText_1" >
-  			  <#if jpaProductTag??  >
-					<img class="foot_img" src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}<#else>images/JXH2w.jpg</#if>">
-					<div class="footl_text">
-						<img class="footrtitle" src="images/infotupian.png"><br>
-					<span class="footr">节目下方滚动播出</span><br>
-					<span class="bls">${jpaProductTag.product.playNumber}次/天 ${jpaProductTag.product.duration}秒${jpaProductTag.product.days}天</span>
-					<br><span class="footr_price">价格</span><span class="footr_pricenumber">${jpaProductTag.product.price}</span>
-					<div class="footr_bnt">
-					   <span class="footr_buynows"><a href="/m/public_detail/${jpaProductTag.product.id}">立即购买</a></span>
-				        </div>
-					</div>
-   			 </#if>
-	</@productLocation>
-				</div>
-			
-				<div class="footright">
-					<@productLocation locationTag="imageText_2" >
-  			  <#if jpaProductTag??  >
-					<img class="foot_img" src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}<#else>images/JXH2w.jpg</#if>">
-					<div class="footl_text">
-						<img class="footrtitle" src="images/infotupian.png"><br>
-					<span class="footr">节目下方滚动播出</span><br>
-					<span class="bls">${jpaProductTag.product.playNumber}次/天 ${jpaProductTag.product.duration}秒${jpaProductTag.product.days}天</span>
-					<br><span class="footr_price">价格</span><span class="footr_pricenumber">${jpaProductTag.product.price}</span>
-					<div class="footr_bnt">
-					   <span class="footr_buynows"><a href="/m/public_detail/${jpaProductTag.product.id}">立即购买</a></span>
-				        </div>
-					</div>
-   			 </#if>
-	</@productLocation>
-			</div>
-		</div>
-	</div>
-	</div>			
 			<a id="force" name="force"></a>
-			<div class="recommand customs pd" id="tohere"  name="tohere" >
-		
-			
+			<div class="recommand customs pd" id="tohere" name="tohere">
+
+
 				<div class="title">
 					<span>自选产品</span>
 				</div>
@@ -489,29 +504,28 @@ function tocard(pathurl){
 						 -->
 						<div class="back-item">
 							<span class="desp">产品类型：</span> <span class="sift-list" qt="t">
-								<a class="item active" href="#" sort="-1" qc="all">所有</a>
-								<a class="item" href="#" qc="video">全屏硬广<i>×</i></a> 
-								<a class="item" href="#" qc="image">INFO图片<i>×</i></a> 
-								<a class="item" href="#" qc="info">INFO字幕<i>×</i></a>
-								
+								<a class="item active" href="#" sort="-1" qc="all">所有</a> <a
+								class="item" href="#" qc="video">全屏硬广<i>×</i></a> <a
+								class="item" href="#" qc="image">INFO图片<i>×</i></a> <a
+								class="item" href="#" qc="info">INFO字幕<i>×</i></a>
+
 							</span>
 						</div>
 						<div class="back-item">
-							<span class="desp">日展次数：</span> 
-							<span class="sift-list" qt="s">
-								<a class="item active" href="#" sort="-1" qc="all">所有</a>
-								<a class="item" href="#" qc="0-31">0-31（含）<i>×</i></a> 
-								<a class="item"	href="#" qc="32-90">32-90（含）<i>×</i></a> 
-								<a class="item" href="#" qc="91-3000">91次以上<i>×</i></a>
+							<span class="desp">日展次数：</span> <span class="sift-list" qt="s">
+								<a class="item active" href="#" sort="-1" qc="all">所有</a> <a
+								class="item" href="#" qc="0-31">0-31（含）<i>×</i></a> <a
+								class="item" href="#" qc="32-90">32-90（含）<i>×</i></a> <a
+								class="item" href="#" qc="91-3000">91次以上<i>×</i></a>
 							</span>
 						</div>
 						<div class="back-item">
 							<span class="desp">展示期限：</span> <span class="sift-list" qt="d">
-								<a class="item active" href="#" sort="-1" qc="all">所有</a> 
-								<a class="item" href="#" qc="1-7">1-7（含）<i>×</i></a>
-								 <a class="item" href="#" qc="8-30">8-30（含）<i>×</i></a> 
-								<a class="item" href="#" qc="31-90">31-90（含）<i>×</i></a> 
-								<a class="item" href="#" qc="91-2000">91天以上<i>×</i></a>
+								<a class="item active" href="#" sort="-1" qc="all">所有</a> <a
+								class="item" href="#" qc="1-7">1-7（含）<i>×</i></a> <a
+								class="item" href="#" qc="8-30">8-30（含）<i>×</i></a> <a
+								class="item" href="#" qc="31-90">31-90（含）<i>×</i></a> <a
+								class="item" href="#" qc="91-2000">91天以上<i>×</i></a>
 							</span>
 						</div>
 					</div>
@@ -534,7 +548,7 @@ function tocard(pathurl){
 						<div class="paginate">
 							<div id="Pagination" class="pagination"></div>
 						</div>
-						<a href="#force" id="goto"  ></a>
+						<a href="#force" id="goto"></a>
 
 						<div class="cart-box" style="margin-top: 20px;">
 							<a onclick="tocard('${rc.contextPath}');">
@@ -551,7 +565,7 @@ function tocard(pathurl){
 			</div>
 
 		</div>
-		
+
 	</div>
 	<#include "/template/custom_service.ftl" />
 	<script type="text/javascript">

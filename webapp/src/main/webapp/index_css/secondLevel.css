@@ -2056,8 +2056,13 @@ img.down_text {
 	float: left;
 	width: 120px;
 	margin-left: 17px;
-	margin-top: 8px;
+	margin-top: 20px;
 	color: #8F8F91;
+}
+
+.down_texts span{
+	font-weight: 600;
+	font-size: 15px;
 }
 
 .down_right {
@@ -2092,12 +2097,14 @@ span.pricenumber {
 	border-radius: 15px;
 	margin-left: 100px;
 	margin-top: 65px;
+	position: relative;
 }
 
 span.buynow {
 	font-size: 14px;
-	margin-top: 13px;
-	margin-left: 16px;
+  	margin-top: 3px;
+  	margin-left: 16px;
+  	position: absolute;
 }
 
 .downs {
@@ -2159,12 +2166,6 @@ span.pricenumber {
 	border-radius: 15px;
 	margin-left: 60px;
 	margin-top: 65px;
-}
-
-span.buynow {
-	font-size: 14px;
-	margin-top: 13px;
-	margin-left: 16px;
 }
 
 #teamcase {
@@ -2244,13 +2245,15 @@ span.time_pricenumber {
 	border-radius: 15px;
 	margin-left: 106px;
 	margin-top: 2px;
+	position: relative;
 }
 
 span.buynows {
 	color: #4F181B;
-	font-size: 14px;
-	margin-top: 16px;
-	margin-left: 16px;
+  	font-size: 14px;
+  	margin-top: 3px;
+  	margin-left: 16px;
+  	position: absolute;
 }
 
 .team_center {
@@ -2456,19 +2459,20 @@ span.tl_pricenumber {
 }
 
 .tl_bnt {
-	width: 64px;
-	height: 18px;
+	width: 88px;
+	height: 25px;
 	background-color: #FF5E66;
-	border-radius: 10px;
+	border-radius: 15px;
 	margin-left: 2px;
 	margin-top: 5px;
-	font-size: 1px;
+	position: relative;
 }
 
 span.tl_buynows {
-	margin-top: 0px;
-	margin-left: 8px;
+	margin-top: 3px;
+	margin-left: 16px;
 	color: #963439;
+	position: absolute;
 }
 
 .topright {
@@ -2907,7 +2911,7 @@ img.foot_img {
 }
 
 .footl_text {
-	width: 130px;
+	width: 180px;
 	height: 120px;
 	margin-left: 270px;
 	margin-top: 35px;
@@ -2924,7 +2928,7 @@ img.foot_img {
 
 span.footr {
 	color: #858585;
-	font-size: 5px;
+	font-size: 13px;
 }
 
 span.footr_price {
@@ -2943,20 +2947,19 @@ span.footr_pricenumber {
 
 .footr_bnt {
 	width: 80px;
-	height: 24px;
+	height: 25px;
 	background-color: #FF5E66;
 	border-radius: 12px;
 	margin-left: 13px;
-	/*margin-top:3px;*/
-	text-align: center;
+	margin-top:3px;
 	color: #963439;
 }
 
 span.footr_buynows {
-	font-size: 12px;
-	margin-top: 10px;
-	margin-left: 5px;
+	margin-top: 3px;
+	margin-left: 13px;
 	color: #963439;
+	position: absolute;
 }
 
 #ftinformation .arrow_up {
