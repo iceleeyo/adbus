@@ -98,6 +98,8 @@ public class UserDetail extends BaseEntity {
 	public String createBySales;//if exist 销售员增加的用户
 	
 	public String groupIdList;
+	
+	 
 
     @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     private Set<JpaCity> cities;
@@ -343,5 +345,6 @@ public class UserDetail extends BaseEntity {
 		this.createBySales = createBySales;
 	}
 
+	 
 
 }
