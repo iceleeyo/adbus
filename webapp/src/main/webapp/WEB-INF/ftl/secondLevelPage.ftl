@@ -441,8 +441,8 @@ function tocard(pathurl){
 							jpaProductTag?? > <img class="foot_img"
 								src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}<#else>images/JXH2w.jpg</#if>">
 							<div class="footl_text">
-								<img class="footrtitle" src="images/infotupian.png"><br><br>
-								<span class="footr">节目下方滚动播出</span><br> <span class="bls">${jpaProductTag.product.playNumber}次/天
+								<img class="footrtitle" src="images/infotupian.png"><br>
+								<span class="footr">节目下方滚动播出</span><br><br> <span class="bls">${jpaProductTag.product.playNumber}次/天
 									${jpaProductTag.product.duration}秒${jpaProductTag.product.days}天</span>
 								<br>
 								<span class="footr_price">价格</span><span
@@ -460,8 +460,8 @@ function tocard(pathurl){
 							jpaProductTag?? > <img class="foot_img"
 								src="<#if jsonView?? && jsonView.img1_url?has_content>${rc.contextPath}/upload_temp/${jsonView.img1_url}<#else>images/JXH2w.jpg</#if>">
 							<div class="footl_text">
-								<img class="footrtitle" src="images/infotupian.png"><br><br>
-								<span class="footr">节目下方滚动播出</span><br> <span class="bls">${jpaProductTag.product.playNumber}次/天
+								<img class="footrtitle" src="images/infotupian.png"><br>
+								<span class="footr">节目下方滚动播出</span><br><br> <span class="bls">${jpaProductTag.product.playNumber}次/天
 									${jpaProductTag.product.duration}秒${jpaProductTag.product.days}天</span>
 								<br>
 								<span class="footr_price">价格</span><span
