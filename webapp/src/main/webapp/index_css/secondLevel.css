@@ -2947,7 +2947,7 @@ span.footr_price {
 
 span.footr_pricenumber {
 	color: #63BCDB;
-	font-size: 16px;
+	font-size: 18px;
 	font-weight: bold;
 }
 
@@ -2957,7 +2957,7 @@ span.footr_pricenumber {
 	background-color: #FF5E66;
 	border-radius: 12px;
 	margin-left: 50px;
-	margin-top:13px;
+	margin-top:5px;
 	color: #963439;
 }
 
