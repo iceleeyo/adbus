@@ -2383,7 +2383,7 @@ span.time_pricenumber {
 
 .topleft {
 	float: left;
-	margin-top: 32px;
+	margin-top: 20px;
 	width: 560px;
 	height: 230px;
 	background-color: #EDEDED;
@@ -2890,7 +2890,7 @@ margin-left:8px;*/
 
 #foot {
 	height: 134px;
-	margin-top: 45px;
+	margin-top: 15px;
 	float: left;
 }
 
