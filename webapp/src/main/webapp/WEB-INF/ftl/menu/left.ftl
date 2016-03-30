@@ -390,17 +390,16 @@
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/user/edit_pwd"> 修改密码 </a></li>
 			</ul></li>
+			<@security.authorize ifAnyGranted="sales">
 			<li class="pg-side-item"><a class="pg-side-item-t ff-icon" >
 						<i class="s-left pg-icon-a e-icon"></i> 客户信息
 				</a>
 					<ul class="pg-side-exp-list">
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/user/clientList"> 销售员客户管理 </a></li>
-		
-				<li class="pg-side-exp-item"><a class="side-exp-item-t"
-					href="${rc.contextPath}/user/list"> 视频用户列表 </a></li>
 					</ul>
 			</li>  
+			</@security.authorize>
 			 <@security.authorize ifAnyGranted="advertiser">
 			
 			

@@ -1410,8 +1410,8 @@ function editOrderStartD(tourl,orderid){
 	    		area: ['420px', '340px'], 
 	    		content: 
 				 '<br/><br/><form ><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/><div class="withdrawInputs" id="editOrderStartTimeForm"><div class="inputs" style="margin-left:-25px;">'
-	    		 +'<div class="ui-form-item"> <label class="ui-labels mt10"><span class="ui-form-required">*</span>物料</label> <select class="ui-input"  id="supid">'
-				 +'<option value="'+data.left.supplies.id+'" selected="selected">'+data.left.supplies.name+'</option></select> </div>'
+	    		 +'<div class="ui-form-item"> <label class="ui-labels mt10">物料</label> <select class="ui-input"  id="supid">'
+				 +'<option value="'+isNotEmptyString(data.left.supplies.id)+'" selected="selected">'+isNotEmptyString(data.left.supplies.name)+'</option></select> </div>'
 				 +'<div class="ui-form-item"> <label class="ui-labels mt10" style="width:170px;margin-left:-200px;"><span class="ui-form-required">*</span>开播时间</label>' 
 				 +'<input class="ui-input datepicker validate[required,custom[date],past[#endDate]]" type="text"  value="'+isNotEmptyString($.format.date(data.left.startTime, "yyyy-MM-dd"))+'" id="startD" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">'
 				 +'</div>'
