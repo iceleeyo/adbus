@@ -33,10 +33,21 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
             "ordering": true,
             "serverSide": true,
             "scrollX": true,
+            
+              <@security.authorize ifNotGranted="sales">
             "aaSorting": [[3, "desc"]],
+             </@security.authorize>
+             <@security.authorize ifAnyGranted="sales">
+               "aaSorting": [[4, "desc"]],
+             </@security.authorize>
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
+                  <@security.authorize ifNotGranted="sales">
                 { "orderable": false, "targets": [0,1,2,4,5,6] },
+                 </@security.authorize>
+             <@security.authorize ifAnyGranted="sales">
+               { "orderable": false, "targets": [0,1,2,3,7,5,6] },
+              </@security.authorize>
             ],
             "ajax": {
                 type: "GET",
@@ -48,6 +59,9 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
                         ,"filter[userId]" : $('#autocomplete').val()
                          </@security.authorize>
                         ,"filter[taskKey]" : $('#taskKey').val()
+                           <@security.authorize ifAnyGranted="sales">
+				  			 ,"filter[customerName]" : $('#customerName').val()
+							</@security.authorize>
                     } );
                 },
                 "dataSrc": "content",
@@ -55,6 +69,12 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
             "columns": [
             	{ "data": "order.creator", "defaultContent": ""},
             	{ "data": "longOrderId", "defaultContent": ""},
+            	 <@security.authorize ifAnyGranted="sales">
+            		{ "data": "longOrderId", "defaultContent": "","render": function(data, type, row, meta) {
+            			var customer = $.parseJSON(row.order.customerJson); 
+                        return  (typeof(customer) == "undefined"||typeof(customer.company) == "undefined")?"":customer.company;
+                    }},
+                 </@security.authorize>
             	{ "data": "product.name", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         var filter = $('#order.productId').val();
@@ -105,6 +125,13 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
                         '    <span>' +
                         '        <input id="autocomplete" value="" >' +
                         '    </span>' +
+                        <@security.authorize ifAnyGranted="sales">
+                           '    <span>客户：</span>' +
+                        '    <span>' +
+                        '        <input id="customerName" style="width:200px" value="">' +
+                        '    </span>' +
+                          </@security.authorize>
+                          
                              '<select class="ui-input ui-input-mini" name="taskKey" id="taskKey">' +
                     '<option value="defaultAll" selected="selected">所有事项</option>' +
                   	'<option value="payment">待支付</option>' +
@@ -116,7 +143,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
         );
         
        
-        $('#longOrderId, #autocomplete, #taskKey ').change(function() {
+        $('#longOrderId, #autocomplete, #taskKey,#customerName ').change(function() {
             table.fnDraw();
         });
         //author:pxh 2015-05-20 22:36
@@ -131,6 +158,12 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
   				table.fnDraw();
   			 }
 		}); 
+		
+		//--
+		<@security.authorize ifAnyGranted="sales">
+		       initCustomerAutocomplete('${rc.contextPath}',table);
+	     </@security.authorize>
+		//--
     }
 
     function drawCallback() {
@@ -177,7 +210,10 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 		<thead>
 			<tr>
 				<th>用户</th>
-				<th>订单名称</th>
+				<th>订单号</th>
+				 <@security.authorize ifAnyGranted="sales">
+				<th>客户</th>
+				</@security.authorize>
 				<th>套餐名称</th>
 				<!-- <th>素材号</th>-->
 				<th orderBy="created">创建时间</th>

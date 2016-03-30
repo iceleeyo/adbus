@@ -193,7 +193,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		Sort sort = req.getSort("created");
 		page = page + 1;
 		String longId = req.getFilter("longOrderId"), userIdQuery = req.getFilter("userId"), taskKey = req
-				.getFilter("taskKey"), productId = req.getFilter("productId");
+				.getFilter("taskKey"), productId = req.getFilter("productId"),customerName=req.getFilter("customerName");
 		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
 		List<OrderView> orders = new ArrayList<OrderView>();
 
@@ -224,6 +224,10 @@ public class ActivitiServiceImpl implements ActivitiService {
 		if (StringUtils.isNoneBlank(productId)) {
 			countQuery.variableValueEquals(ActivitiService.PRODUCT, NumberUtils.toInt(productId));
 			listQuery.variableValueEquals(ActivitiService.PRODUCT, NumberUtils.toInt(productId));
+		}
+		if (StringUtils.isNoneBlank(customerName)) {
+			countQuery.variableValueLike(ActivitiService.COMPANY, "%" + customerName + "%");
+			listQuery.variableValueLike(ActivitiService.COMPANY, "%" + customerName + "%");
 		}
 		setVarFilter(taskKey, countQuery, listQuery);
 
@@ -630,7 +634,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		Sort sort = req.getSort("created");
 
 		String longId = req.getFilter("longOrderId"), userIdQuery = req.getFilter("userId"), taskKey = req
-				.getFilter("taskKey"), stateKey = req.getFilter("stateKey"), productId = req.getFilter("productId");
+				.getFilter("taskKey"), stateKey = req.getFilter("stateKey"), productId = req.getFilter("productId"),customerName=req.getFilter("customerName");
 		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
 
 		page = page + 1;
@@ -658,7 +662,11 @@ public class ActivitiServiceImpl implements ActivitiService {
 			countQuery.variableValueEquals(ActivitiService.PRODUCT, NumberUtils.toInt(productId));
 			listQuery.variableValueEquals(ActivitiService.PRODUCT, NumberUtils.toInt(productId));
 		}
-
+		//按客户查询
+		if (StringUtils.isNoneBlank(customerName)) {
+			countQuery.variableValueLike(ActivitiService.COMPANY, "%" + customerName + "%");
+			listQuery.variableValueLike(ActivitiService.COMPANY, "%" + customerName + "%");
+		}
 		/*按用户查询 */
 		if (StringUtils.isNoneBlank(userIdQuery)) {
 			countQuery.variableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");

@@ -199,11 +199,12 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                         '    <span>' +
                         '        <input id="autocomplete" value="">' +
                         '    </span>' +
-                        
+                        <@security.authorize ifAnyGranted="sales">
                            '    <span>客户：</span>' +
                         '    <span>' +
                         '        <input id="customerName" style="width:200px" value="">' +
                         '    </span>' +
+                          </@security.authorize>
                         '</div>'
         );
 
@@ -224,21 +225,8 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
 		});
 		//--
 		<@security.authorize ifAnyGranted="sales">
-		        $( "#customerName" ).autocomplete({
-		        	minLength: 0,
-		  			source: "${rc.contextPath}/user/queryMyCustomers",
-		  			change: function( event, ui ) { 
-		  				table.fnDraw();
-		  			 },
-		  			 select: function(event,ui) {
-		  			 	$('#customerName').val(ui.item.value);
-		  			 	table.fnDraw();
-		  			 }
-				}).focus(function () {
-       				 $(this).autocomplete("search");
-   	 			});
-				//--end autocomplete
-				  </@security.authorize>
+		       initCustomerAutocomplete('${rc.contextPath}',table);
+	     </@security.authorize>
 		//--
 		
 		

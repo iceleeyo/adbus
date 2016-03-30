@@ -2141,6 +2141,25 @@ function tocard(pathurl) {
 	}
 }
 
+function initCustomerAutocomplete(pathurl,table) {
+$( "#customerName" ).autocomplete({
+	minLength: 0,
+		source: pathurl+"/user/queryMyCustomers",
+		change: function( event, ui ) { 
+			table.fnDraw();
+		 },
+		 select: function(event,ui) {
+		 	$('#customerName').val(ui.item.value);
+		 	table.fnDraw();
+		 }
+}).focus(function () {
+		 $(this).autocomplete("search");
+	});
+//--end autocomplete
+
+}
+
+
 
 //微信二维码
 $('.wechat').hover(

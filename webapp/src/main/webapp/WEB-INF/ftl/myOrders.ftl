@@ -19,10 +19,22 @@ var table;
             "ordering": true,
             "serverSide": true,
             "scrollX": true,
-              "aaSorting": [[3, "desc"]],
+                  <@security.authorize ifNotGranted="sales">
+            "aaSorting": [[3, "desc"]],
+             </@security.authorize>
+             <@security.authorize ifAnyGranted="sales">
+               "aaSorting": [[4, "desc"]],
+             </@security.authorize>
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                { "orderable": false, "targets": [0,1,2,4,5] },
+                    <@security.authorize ifNotGranted="sales">
+                  { "orderable": false, "targets": [0,1,2,4,5] },
+                 </@security.authorize>
+             <@security.authorize ifAnyGranted="sales">
+               { "orderable": false, "targets": [0,1,2,3,7,5,6] },
+              </@security.authorize>
+              
+              
             ],
             "ajax": {
                 type: "GET",
@@ -34,6 +46,9 @@ var table;
                         ,"filter[userId]" : $('#autocomplete').val()
                          </@security.authorize>
                         ,"filter[taskKey]" : $('#taskKey').val()
+                         <@security.authorize ifAnyGranted="sales">
+				  			 ,"filter[customerName]" : $('#customerName').val()
+							</@security.authorize>
                     } );
                 },
                 "dataSrc": "content",
@@ -41,7 +56,12 @@ var table;
             "columns": [
             	{ "data": "order.creator", "defaultContent": ""},
             	{ "data": "longOrderId", "defaultContent": ""},
-            	
+            	 <@security.authorize ifAnyGranted="sales">
+            		{ "data": "longOrderId", "defaultContent": "","render": function(data, type, row, meta) {
+            			var customer = $.parseJSON(row.order.customerJson); 
+                        return  (typeof(customer) == "undefined"||typeof(customer.company) == "undefined")?"":customer.company;
+                    }},
+                 </@security.authorize>
                 { "data": "order.startTime", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd");
                 	if (typeof(d) == "undefined"){
@@ -92,6 +112,13 @@ var table;
                         '    <span>' +
                         '        <input id="autocomplete" value="">' +
                         '    </span>' +
+                        
+                          <@security.authorize ifAnyGranted="sales">
+                           '    <span>客户：</span>' +
+                        '    <span>' +
+                        '        <input id="customerName" style="width:200px" value="">' +
+                        '    </span>' +
+                          </@security.authorize>
 	                         '<select class="ui-input ui-input-mini" name="taskKey" id="taskKey">' +
 	                    '<option value="defaultAll" selected="selected">所有事项</option>' +
 	                  	'<option value="payment">待支付</option>' +
@@ -105,6 +132,11 @@ var table;
 	        $('#longOrderId,#autocomplete, #taskKey').change(function() {
 	            table.fnDraw();
 	        });
+	        //--
+		<@security.authorize ifAnyGranted="sales">
+		       initCustomerAutocomplete('${rc.contextPath}',table);
+	     </@security.authorize>
+		//--
 	         //author:pxh 2015-05-20 22:36
         $( "#autocomplete" ).autocomplete({
   			source: "${rc.contextPath}/user/autoComplete",
@@ -197,6 +229,9 @@ var table;
 			<tr>
 				<th>下单用户</th>
 				<th>订单编号</th>
+				 <@security.authorize ifAnyGranted="sales">
+				<th>客户</th>
+				</@security.authorize>
 				<th>广告刊期</th>
 				<th orderBy="created">创建时间</th>
 				<th>待办事项</th>
