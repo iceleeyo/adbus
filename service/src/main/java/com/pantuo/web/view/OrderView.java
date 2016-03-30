@@ -69,6 +69,11 @@ public class OrderView {
 	//客户信息
 	UserDetail customerJson = null;
 	UserQualifiView userQualifiView=null;
+	
+	
+	//下单用户客户信息
+	UserDetail orderUserJson = null;
+	UserQualifiView orderUQualifiView=null;
 
 	public JpaOrders getOrder() {
 		return order;
@@ -82,7 +87,7 @@ public class OrderView {
 		this.order = order;
 		fetchCustomerName();
 	}
-	
+
 	public void fetchCustomerName() {
 		if (order != null) {
 			String jsonString = order.getCustomerJson();
@@ -93,9 +98,17 @@ public class OrderView {
 							UserQualifiView.class);
 				}
 			}
+
+			jsonString = order.getOrderUserJson();
+			if (StringUtils.isNoneBlank(jsonString)) {
+				orderUserJson = (UserDetail) JsonTools.readValue(jsonString, UserDetail.class);
+				if (orderUserJson != null && StringUtils.isNoneBlank(orderUserJson.getQulifijsonstr())) {
+					orderUQualifiView = (UserQualifiView) JsonTools.readValue(orderUserJson.getQulifijsonstr(),
+							UserQualifiView.class);
+				}
+			}
 		}
 	}
-
 
 
 	public boolean isApprove1Result() {
@@ -357,6 +370,22 @@ public class OrderView {
 
 	public void setUserQualifiView(UserQualifiView userQualifiView) {
 		this.userQualifiView = userQualifiView;
+	}
+
+	public UserDetail getOrderUserJson() {
+		return orderUserJson;
+	}
+
+	public void setOrderUserJson(UserDetail orderUserJson) {
+		this.orderUserJson = orderUserJson;
+	}
+
+	public UserQualifiView getOrderUQualifiView() {
+		return orderUQualifiView;
+	}
+
+	public void setOrderUQualifiView(UserQualifiView orderUQualifiView) {
+		this.orderUQualifiView = orderUQualifiView;
 	}
 
 	 

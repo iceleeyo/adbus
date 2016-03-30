@@ -883,8 +883,20 @@ public class CardServiceImpl implements CardService {
 				order.setStats(JpaOrders.Status.paid);
 			}*/
 			order.setType(jpaCardBoxMedia.getProduct().getType());
-			order.setCustomerJson(customerObject != null ? JsonTools.getJsonFromObject(customerObject) : JsonTools
-					.getJsonFromObject(Request.getUser(principal)));
+			UserDetail copy = new UserDetail();
+			UserDetail source = Request.getUser(principal);
+			BeanUtils.copyProperties(source, copy);
+			if (source.getUser() != null) {
+				copy.setFirstName(source.getUser().getFirstName());
+				copy.setEmail(source.getUser().getEmail());
+				copy.setUser(null);
+				copy.setGroups(null);
+				copy.setFunctions(null);
+			}
+			order.setOrderUserJson(JsonTools.getJsonFromObject(copy));
+			if (customerObject != null) {
+				order.setCustomerJson(JsonTools.getJsonFromObject(customerObject));
+			}
 			ordersRepository.save(order);
 			if (order.getId() > 0) {
 				if(!PayType.online.name().equals(paytype)){
