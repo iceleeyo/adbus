@@ -8,17 +8,18 @@
 			<LI style="width: 720px;"><SPAN>公司名称：</SPAN><SPAN class="con" >${view.customerJson.company!''}</SPAN>
 			</LI>
 			<li style="width: 730; border-bottom: 1px solid #F7F7F7"></li>
-			<LI style="width: 240px;"><SPAN>公司地址： </SPAN><SPAN class="con"
+			<LI style="width: 320px;"><SPAN>公司地址： </SPAN><SPAN class="con"
 				 > ${view.customerJson.companyAddr!''}</SPAN> <SPAN></SPAN>
 			</LI>  
 			<LI style="width: 240px;"><SPAN>法定代表人：</SPAN><SPAN class="con">${view.customerJson.legalman!''}</SPAN>
 			</LI>  
 			<LI style="width: 240px;"><SPAN>联系人：</SPAN><SPAN class="con">${view.customerJson.relateman!''}</SPAN>
 			</LI>
+			<li style="width: 730; border-bottom: 1px solid #F7F7F7"></li>
 			<LI style="width: 240px;"><SPAN>联系电话：</SPAN><SPAN class="con">${view.customerJson.phone!''}</SPAN></LI>
 		 	<LI style="width: 240px;"><SPAN>邮编：</SPAN><SPAN class="con">
 					${view.customerJson.zipCode!''}</SPAN> <SPAN></SPAN></LI> 
-					
+					<li style="width: 730; border-bottom: 1px solid #F7F7F7"></li>
 			
 			<LI style="width: 100%;padding-top: 20px;"><SPAN>营业执照复印件副本：</SPAN>
 				 <#if view.userQualifiView?? && view.userQualifiView.user_license?has_content>
