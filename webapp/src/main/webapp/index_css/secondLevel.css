@@ -2453,6 +2453,7 @@ span.tl_price {
 	margin-left: 2px;
 	font-weight: 400;
 	margin-top: 5px;
+	line-height:35px;
 }
 
 span.tl_pricenumber {
