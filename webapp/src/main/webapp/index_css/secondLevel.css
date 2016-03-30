@@ -1945,7 +1945,7 @@ ol, ul {
 	width: 980px;
 	padding: 35px 0 0 20px;
 	margin-right: auto;
-	height:1600px;
+	height:1530px;
     margin-right: auto;
 	margin-left: auto;
 	background-color: #fff;
@@ -2871,7 +2871,7 @@ margin-left:8px;*/
 
 #info {
 	float: left;
-	margin-top: 40px;
+	margin-top: 20px;
 	background-color: #B39156;
 	width: 958px;
 	height: 48px;
@@ -2896,7 +2896,7 @@ margin-left:8px;*/
 
 .footleft {
 	float: left;
-	width: 430px;
+	width: 450px;
 	height: 150px;
 	border-right: 1px solid #C8C8C8;
 }
