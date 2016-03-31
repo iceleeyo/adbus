@@ -456,7 +456,7 @@ public class OrderController {
 	}
 	@PreAuthorize( " hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
 			+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
-			+ "or hasRole('ShibaSuppliesManager')or hasRole('UserManager') ")
+			+ "or hasRole('ShibaSuppliesManager') or hasRole('UserManager') or hasRole('salesManager')")
 	@RequestMapping(value = "/allRuningOrders/{pageNum}")
 	public String allRuningOrders(Model model, Principal principal, @PathVariable int pageNum,
 			HttpServletRequest request, HttpServletResponse response) {
