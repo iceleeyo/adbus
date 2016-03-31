@@ -2153,6 +2153,23 @@ function tocard(pathurl) {
 	}
 }
 
+function initSalesAutocomplete(table) {
+	
+	 $("#salesMan").autocomplete({
+		    minLength: 0,
+			source : "/user/salesManAutoComplete",
+			change : function(event, ui) {
+			},
+			select : function(event, ui) {
+				$('#salesMan').val(ui.item.value);
+				table.fnDraw();
+			}
+		}).focus(function () {
+    	  $(this).autocomplete("search");
+	 	});
+}
+
+
 function initCustomerAutocomplete(pathurl,table) {
 $( "#customerName" ).autocomplete({
 	minLength: 0,
