@@ -35,8 +35,8 @@ function supDetail(data){
 			<li style="width: 200px;"><SPAN>套餐价格：</SPAN><SPAN class="con"
 				style="color: rgb(245, 135, 8);"> 
 				 <#assign priceTag=0 />
-					 <@security.authorize ifAnyGranted="ShibaOrderManager,advertiser,ShibaFinancialManager">
-								  <@security.authorize ifAnyGranted="advertiser,ShibaFinancialManager"> 
+					 <@security.authorize ifAnyGranted="sales,salesManager,ShibaOrderManager,advertiser,ShibaFinancialManager">
+								  <@security.authorize ifAnyGranted="sales,salesManager,advertiser,ShibaFinancialManager"> 
 								 	<#assign priceTag=1 />
 								  </@security.authorize>
 								  <@security.authorize ifAnyGranted="ShibaOrderManager"> 
@@ -61,7 +61,7 @@ function supDetail(data){
 			<li style="width: 200px;"><SPAN>媒体类型：</SPAN><SPAN class="con">${prod.type.typeName!''}</SPAN></li>
 
 			<@security.authorize
-			ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+			ifAnyGranted="salesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 			<li style="width: 200px;"><SPAN>下单用户：</SPAN><SPAN class="con">
 					<a class="layer-tips" tip="点击查看下单用户信息!"
 					onclick="showCustomerlayer('${rc.contextPath}', '${(orderview.order.id)!''}','orderUserDetail');">
@@ -72,7 +72,7 @@ function supDetail(data){
 			</@security.authorize> 
 			
 			<@security.authorize
-			ifAnyGranted="sales">
+			ifAnyGranted="sales,salesManager">
 			<#if orderview.customerJson?exists>
 			<li style="width: 260px;"><SPAN>客户信息：</SPAN><SPAN class="con" >
 					<a class="layer-tips" tip="点击查看客户用户信息!"
