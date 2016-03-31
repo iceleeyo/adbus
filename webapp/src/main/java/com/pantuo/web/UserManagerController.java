@@ -153,6 +153,13 @@ public class UserManagerController {
 	public DataTablePage<UserDetail> getClientList(TableRequest req,Principal principal) {
 		return new DataTablePage<UserDetail>(userService.getClientUser( req,  principal), req.getDraw());
 	}
+	//销售员自动补全
+	@RequestMapping(value = "/salesManAutoComplete")
+	@ResponseBody
+	public List<String> salesManAutoComplete(@CookieValue(value = "city", defaultValue = "-1") int city,
+			@RequestParam(value = "term") String name ) {
+		return userService.salesManAutoComplete(city, name);
+	}
 	@RequestMapping(value = "/ajax-customerHistory", method = { RequestMethod.GET })
 	@ResponseBody
 	public DataTablePage<JpaCustomerHistory> getCustomerHistory(TableRequest req,Principal principal) {

@@ -1,7 +1,8 @@
 <#import "template/template.ftl" as frame> <#global menu="销售员客户管理 ">
+<#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="销售员客户管理 "
-js=["js/layer-v1.9.3/layer/layer.js","js/layer.onload.js","js/jquery-dateFormat.js"]
-css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/uploadprogess.css","css/liselect/pkg-generator.css$ver=1431443489.css"]>
+js=["js/layer-v1.9.3/layer/layer.js","js/layer.onload.js","js/jquery-dateFormat.js","js/jquery-ui/jquery-ui.auto.complete.js"]
+css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css","css/uploadprogess.css","css/liselect/pkg-generator.css$ver=1431443489.css"]>
 
 <style type="text/css">
 .operation
@@ -43,7 +44,8 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                 data: function(d) {
                     return $.extend( {}, d, {
                         "filter[company]" : $('#company').val(),
-                        "filter[relateMan]" : $('#relateMan').val()
+                        "filter[relateMan]" : $('#relateMan').val(),
+                        "filter[salesMan]" : $('#salesMan').val()
                         
                     } );
                 },
@@ -93,12 +95,30 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                         '    <span>' +
                         '        <input id="relateMan" value="">' +
                         '    </span>' +
+                        <@security.authorize ifAnyGranted="salesManager">
+                        '    &nbsp;&nbsp;<span>业务员</span>' +
+                        '    <span>' +
+                        '        <input id="salesMan" value="">' +
+                        '    </span>' +
+                         </@security.authorize>
                         '</div>'
         );
 
-        $('#company,#relateMan').change(function() {
+        $('#company,#relateMan,#salesMan').change(function() {
             table.fnDraw();
         });
+        $("#salesMan").autocomplete({
+			    minLength: 0,
+				source : "${rc.contextPath}/user/salesManAutoComplete",
+				change : function(event, ui) {
+				},
+				select : function(event, ui) {
+					$('#salesMan').val(ui.item.value);
+					table.fnDraw();
+				}
+			}).focus(function () {
+	       	  $(this).autocomplete("search");
+	   	 	});
         bindLayerMouseOver();
     }
 

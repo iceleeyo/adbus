@@ -289,7 +289,7 @@ public class UserService implements UserServiceInter {
 	}
 
 	public Page<UserDetail> getClientUser(TableRequest req, Principal principal) {
-		String company = req.getFilter("company"),relateMan=req.getFilter("relateMan");
+		String company = req.getFilter("company"),relateMan=req.getFilter("relateMan"),salesMan=req.getFilter("salesMan");
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("id");
 		
@@ -299,16 +299,32 @@ public class UserService implements UserServiceInter {
 			pageSize = 1;
 		sort = (sort == null ? new Sort("id") : sort);
 		Pageable p = new PageRequest(page, pageSize, sort);
-		BooleanExpression query = QUserDetail.userDetail.createBySales.eq(Request.getUserId(principal));
+		BooleanExpression query = QUserDetail.userDetail.createBySales.isNotNull();
+		if(!Request.hasAuth(principal, ActivitiConfiguration.SALESMANAGER)){
+			query = query.and(QUserDetail.userDetail.createBySales.eq(Request.getUserId(principal)));
+		}
 		if (StringUtils.isNotBlank(company)) {
 			query = query.and(QUserDetail.userDetail.company.like("%"+company+"%"));
 		}
 		if (StringUtils.isNotBlank(relateMan)) {
 			query = query.and(QUserDetail.userDetail.relateman.like("%"+relateMan+"%"));
 		}
+		if (StringUtils.isNotBlank(salesMan)) {
+			query = query.and(QUserDetail.userDetail.createBySales.eq(salesMan));
+		}
+	
 		return userRepo.findAll(query, p);
 	}
 	
+
+	@Override
+	public List<String> salesManAutoComplete(int city, String name) {
+		if(StringUtils.isBlank(name)){
+			name=null;
+		}
+		List<String> list= userAutoCompleteMapper.getUserIdLike(name, "sales");
+		return list;
+	}
 
 	@Override
 	public Pair<Boolean, String> saveClientUser(UserDetail userDetail, UserQualifiView userQualifiView,

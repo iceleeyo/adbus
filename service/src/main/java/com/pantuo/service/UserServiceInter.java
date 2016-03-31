@@ -127,4 +127,6 @@ public	Page<UserDetail> getUsers(String utype, String name, Boolean isEnabled, i
 
 	public abstract Page<JpaCustomerHistory> getCustomerHistory(TableRequest req, Principal principal);
 
+	public abstract List<String> salesManAutoComplete(int city, String name);
+
 }
