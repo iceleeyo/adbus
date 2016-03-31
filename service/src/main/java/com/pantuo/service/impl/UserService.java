@@ -17,7 +17,6 @@ import org.activiti.engine.identity.User;
 import org.activiti.engine.impl.persistence.entity.UserEntity;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +32,11 @@ import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.ActivitiConfiguration;
+import com.pantuo.dao.CustomerHistoryRepository;
 import com.pantuo.dao.InvoiceRepository;
 import com.pantuo.dao.UserDetailRepository;
 import com.pantuo.dao.pojo.BaseEntity;
+import com.pantuo.dao.pojo.JpaCustomerHistory;
 import com.pantuo.dao.pojo.JpaInvoice;
 import com.pantuo.dao.pojo.QJpaInvoice;
 import com.pantuo.dao.pojo.QUserDetail;
@@ -45,8 +46,6 @@ import com.pantuo.dao.pojo.UserDetail.UType;
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.mybatis.domain.InvoiceExample;
-import com.pantuo.mybatis.domain.ProductTag;
-import com.pantuo.mybatis.domain.ProductTagExample;
 import com.pantuo.mybatis.persistence.AttachmentMapper;
 import com.pantuo.mybatis.persistence.InvoiceMapper;
 import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
@@ -102,9 +101,22 @@ public class UserService implements UserServiceInter {
 	InvoiceRepository invoiceRepository;
 	@Autowired
 	AttachmentMapper attachmentMapper;
+	@Autowired
+	CustomerHistoryRepository customerHistoryRepository;
 
 	@Autowired
 	private ActivitiUserDetailsService authUserService;
+	
+	
+	static Map<String,String> USERDETAIL_FIELD=new HashMap<String, String>();
+	static {
+		USERDETAIL_FIELD.put("phone", "联系电话");
+		USERDETAIL_FIELD.put("company", "公司名称");
+		USERDETAIL_FIELD.put("companyAddr", "公司地址");
+		USERDETAIL_FIELD.put("legalman", "法定代表人");
+		USERDETAIL_FIELD.put("relateman", "联系人");
+		USERDETAIL_FIELD.put("zipCode", "邮编");
+	}
 
 	/**
 	 * @see com.pantuo.service.UserServiceInter#count()
@@ -287,7 +299,7 @@ public class UserService implements UserServiceInter {
 				userDetail.setUsername(ShortString.getRandomString(8));
 				userDetail.setCreated(new Date());
 			}
-			
+
 			BooleanExpression query = QUserDetail.userDetail.id.eq(userDetail.getId());
 			UserDetail source = userRepo.findOne(query);
 			if (source != null) {
@@ -298,9 +310,21 @@ public class UserService implements UserServiceInter {
 				List<String> changeField = BeanUtils.copyPropertiesReturnChangeField(userDetail, source);
 
 				for (String filed : changeField) {
-					log.info(filed + "#" + org.apache.commons.beanutils.BeanUtils.getProperty(sourceCopy, filed) + "#"
-							+ org.apache.commons.beanutils.BeanUtils.getProperty(userDetail, filed));
+					if (USERDETAIL_FIELD.containsKey(filed)) {
+						Date now = new Date();
+						JpaCustomerHistory obj = new JpaCustomerHistory();
+						obj.setNewValue(org.apache.commons.beanutils.BeanUtils.getProperty(userDetail, filed));
+						obj.setOldValue(org.apache.commons.beanutils.BeanUtils.getProperty(sourceCopy, filed));
+						obj.setOperationUser(Request.getUserId(principal));
+						obj.setUpdated(now);
+						obj.setCreated(now);
+						obj.setFieldViewName(USERDETAIL_FIELD.get(filed));
+						obj.setUserDetailId(userDetail.getId());
+						customerHistoryRepository.save(obj);
+						log.info(filed + "#" + org.apache.commons.beanutils.BeanUtils.getProperty(sourceCopy, filed)
+								+ "#" + org.apache.commons.beanutils.BeanUtils.getProperty(userDetail, filed));
 
+					}
 				}
 			}
 			userRepo.save(userDetail);
