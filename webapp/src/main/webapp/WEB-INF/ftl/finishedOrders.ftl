@@ -63,7 +63,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
                     return $.extend( {}, d, {
                         "filter[longOrderId]"  : $('#longOrderId').val()
                         ,"filter[stateKey]" : $('#stateKey').val()
-                          <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+                          <@security.authorize ifAnyGranted="salesManager,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
                         ,"filter[userId]" : $('#autocomplete').val()
                          </@security.authorize>
                            <@security.authorize ifAnyGranted="sales,salesManager">
@@ -154,7 +154,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
                         '</div>'
         );
 
-        $('#longOrderId,#autocomplete,#stateKey').change(function() {
+        $('#longOrderId,#autocomplete,#stateKey,#salesMan').change(function() {
             table.fnDraw();
         });
         
