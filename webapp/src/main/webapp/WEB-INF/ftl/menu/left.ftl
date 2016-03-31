@@ -68,7 +68,7 @@
 					<li class="pg-side-exp-item"><a class="side-exp-item-t"
 						href="${rc.contextPath}/product/list"> 产品列表 </a></li>
 				</ul></li> </@security.authorize> <@security.authorize
-			ifAnyGranted="ShibaSuppliesManager,advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager,bodysales,bodyContractManager,bodyFinancialManager,bodyScheduleManager">
+			ifAnyGranted="salesManager,ShibaSuppliesManager,advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager,bodysales,bodyContractManager,bodyFinancialManager,bodyScheduleManager">
 			<li class="pg-side-item"><a class="pg-side-item-t dd-icon">
 					<i class="s-left pg-icon-a d-icon"></i> 订单管理
 			</a>
@@ -87,7 +87,7 @@
 					<li class="pg-side-exp-item"><a class="side-exp-item-t"
 						href="${rc.contextPath}/busselect/myOrders/1"> 我的订单 </a>
 						</@security.authorize> <@security.authorize
-						ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+						ifAnyGranted="salesManager,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 					
 					<li class="pg-side-exp-item"><a class="side-exp-item-t"
 						href="${rc.contextPath}/order/allRuningOrders/1"> 进行中订单 </a></li>
@@ -390,7 +390,7 @@
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/user/edit_pwd"> 修改密码 </a></li>
 			</ul></li>
-			<@security.authorize ifAnyGranted="sales">
+			<@security.authorize ifAnyGranted="salesManager,sales">
 			<li class="pg-side-item"><a class="pg-side-item-t ff-icon" >
 						<i class="s-left pg-icon-a e-icon"></i> 客户信息
 				</a>
