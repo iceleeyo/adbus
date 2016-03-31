@@ -302,7 +302,6 @@ public class UserService implements UserServiceInter {
 
 			BooleanExpression query = QUserDetail.userDetail.id.eq(userDetail.getId());
 			UserDetail source = userRepo.findOne(query);
-			
 			//add change history by impanxh
 			if (source != null) {
 				//原copy一份 

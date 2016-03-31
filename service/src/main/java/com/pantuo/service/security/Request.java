@@ -12,9 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 
 import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.security.ActivitiUserDetails;
 
 public class Request {
@@ -22,7 +24,11 @@ public class Request {
 
 	public static final String HOST_IP = "busme.cn";
 	public static final boolean IS_ONLINE = true;
-
+	@Autowired
+	private UserServiceInter userService;
+	
+	
+	
 	public static boolean isMobileRequest(HttpServletRequest request) {
 		String s1 = request.getHeader("user-agent");
 		if (StringUtils.equals(request.getParameter("from"), "mobile")) {
@@ -92,8 +98,14 @@ public class Request {
 	}
 
 	public static UserDetail getUser(Principal principal) {
-		return principal == null ? null : ((ActivitiUserDetails) ((Authentication) principal).getPrincipal())
-				.getUserDetail();
+		UserDetail detail = principal == null ? null : ((ActivitiUserDetails) ((Authentication) principal)
+				.getPrincipal()).getUserDetail();
+		if (detail != null) {
+			if (ActivitiUserDetailsService.staticUserService != null) {
+				detail = ActivitiUserDetailsService.staticUserService.getByUsername(detail.getUsername());
+			}
+		}
+		return detail;
 	}
 
 	public static String getUserId(Principal principal) {

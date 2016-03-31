@@ -21,6 +21,12 @@ import com.pantuo.service.UserServiceInter;
 public class ActivitiUserDetailsService implements UserDetailsService {
 	@Autowired
 	private UserServiceInter userService;
+	
+	 
+	public static UserServiceInter staticUserService;
+	
+	
+	
 	@Autowired
 	private HttpServletRequest request;//重点在里这里  需要xml配置lister
 
@@ -41,6 +47,7 @@ public class ActivitiUserDetailsService implements UserDetailsService {
 		}
 		//以下是认证部分
 		UserDetail user = userService.getByUsername(username);
+		staticUserService = userService;
 		if (user == null)
 			throw new UsernameNotFoundException("用户名不存在!");
 		if (user.getIsActivate() == 0) {
