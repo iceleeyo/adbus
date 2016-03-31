@@ -302,14 +302,16 @@ public class UserService implements UserServiceInter {
 
 			BooleanExpression query = QUserDetail.userDetail.id.eq(userDetail.getId());
 			UserDetail source = userRepo.findOne(query);
+			
+			//add change history by impanxh
 			if (source != null) {
-				//原copy一份
+				//原copy一份 
 				UserDetail sourceCopy = new UserDetail();
 				org.apache.commons.beanutils.BeanUtils.copyProperties(sourceCopy, source);
 				//得到变化的字段
 				List<String> changeField = BeanUtils.copyPropertiesReturnChangeField(userDetail, source);
 
-				for (String filed : changeField) {
+				for (String filed : changeField) {//变量中文转义
 					if (USERDETAIL_FIELD.containsKey(filed)) {
 						Date now = new Date();
 						JpaCustomerHistory obj = new JpaCustomerHistory();
