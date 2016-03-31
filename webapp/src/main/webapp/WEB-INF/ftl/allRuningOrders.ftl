@@ -53,7 +53,8 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
                 url: "${rc.contextPath}/order/ajax-runningAjax",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "filter[longOrderId]" : $('#longOrderId').val()
+                        "filter[longOrderId]" : $('#longOrderId').val(),
+                        "filter[salesMan]" : $('#salesMan').val()
                         <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
                         ,"filter[userId]" : $('#autocomplete').val()
                          </@security.authorize>
@@ -61,6 +62,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
                            <@security.authorize ifAnyGranted="sales,salesManager">
 				  			 ,"filter[customerName]" : $('#customerName').val()
 							</@security.authorize>
+							
                     } );
                 },
                 "dataSrc": "content",
@@ -130,7 +132,12 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
                         '        <input id="customerName" style="width:200px" value="">' +
                         '    </span>' +
                           </@security.authorize>
-                          
+                           <@security.authorize ifAnyGranted="salesManager">
+                        '    &nbsp;&nbsp;<span>业务员</span>' +
+                        '    <span>' +
+                        '        <input id="salesMan" value="">' +
+                        '    </span>' +
+                         </@security.authorize>
                              '<select class="ui-input ui-input-mini" name="taskKey" id="taskKey">' +
                     '<option value="defaultAll" selected="selected">所有事项</option>' +
                   	'<option value="payment">待支付</option>' +
@@ -142,9 +149,21 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
         );
         
        
-        $('#longOrderId, #autocomplete, #taskKey,#customerName ').change(function() {
+        $('#longOrderId, #autocomplete, #taskKey,#customerName,#salesMan ').change(function() {
             table.fnDraw();
         });
+        $("#salesMan").autocomplete({
+			    minLength: 0,
+				source : "${rc.contextPath}/user/salesManAutoComplete",
+				change : function(event, ui) {
+				},
+				select : function(event, ui) {
+					$('#salesMan').val(ui.item.value);
+					table.fnDraw();
+				}
+			}).focus(function () {
+	       	  $(this).autocomplete("search");
+	   	 	});
         //author:pxh 2015-05-20 22:36
         $( "#autocomplete" ).autocomplete({
   			source: "${rc.contextPath}/user/autoComplete",
