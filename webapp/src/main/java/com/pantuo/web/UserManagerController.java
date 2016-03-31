@@ -337,7 +337,7 @@ public class UserManagerController {
 		
 		@PreAuthorize( " hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
 	+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
-	+ "or hasRole('ShibaSuppliesManager')or hasRole('UserManager')or hasRole('sales') ")
+	+ "or hasRole('ShibaSuppliesManager')or hasRole('UserManager')or hasRole('sales') or hasRole('salesManager') ")
 	@RequestMapping(value = "/queryMyCustomers")
 	@ResponseBody
 	public List<AutoCompleteView> queryMyCustomers(Model model, HttpServletRequest request,
