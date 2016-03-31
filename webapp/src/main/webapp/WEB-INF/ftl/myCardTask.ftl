@@ -51,7 +51,6 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
             "searching": false,
             "ordering": false,
             "serverSide": true,
-            "scrollX": true,
               <@security.authorize ifAnyGranted="bodyContractManager,contract_list,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
             	"aaSorting": [[6, "desc"]],
               </@security.authorize>

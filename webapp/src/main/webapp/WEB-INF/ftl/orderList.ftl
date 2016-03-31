@@ -53,7 +53,6 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
             "searching": false,
             "ordering": true,
             "serverSide": true,
-            "scrollX": true,
             <@security.authorize ifAnyGranted="advertiser">
             "aaSorting": [[6, "desc"]],
              </@security.authorize>

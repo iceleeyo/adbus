@@ -32,7 +32,6 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
             "searching": false,
             "ordering": true,
             "serverSide": true,
-            "scrollX": true,
             
               <@security.authorize ifNotGranted="sales,salesManager">
             "aaSorting": [[3, "desc"]],

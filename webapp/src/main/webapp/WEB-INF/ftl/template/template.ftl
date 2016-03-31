@@ -98,6 +98,11 @@ security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <link rel="stylesheet" type="text/css" href="${rc.contextPath}/${entry}">
 </#list>
 <style type="text/css">
+.ls-10 {
+  width: 85%;
+  float: left;
+  margin-left: 30px;
+}
 .online-support {
 	display: none;
 	position: fixed;
@@ -118,7 +123,7 @@ security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 				<div class="container-12 mt10 s-clear">
 					<#if nav>
 					<!--顶部导航开始-->
-					<div class="container-12">
+					<!-- <div class="container-12">
 						<ul class="breadcrumb m11 s-clear">
 							<li class="s-left fsize-16 bread-homep"><#if medetype?? &&
 								medetype=="screen"> <a class="gray-text"
@@ -129,7 +134,7 @@ security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 							<li class="s-left bread-child"><a class="gray-text" href="#">${title!''}</a>
 							</li>
 						</ul>
-					</div>
+					</div> -->
 					<!--顶部导航结束-->
 					</#if> <#if left>
 					<!--菜单开始-->

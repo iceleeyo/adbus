@@ -18,7 +18,6 @@ var table;
             "searching": false,
             "ordering": true,
             "serverSide": true,
-            "scrollX": true,
                   <@security.authorize ifNotGranted="sales">
             "aaSorting": [[3, "desc"]],
              </@security.authorize>

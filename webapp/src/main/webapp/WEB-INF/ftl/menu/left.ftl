@@ -15,7 +15,9 @@
 	background: #2da7e0;
 }
 </style>
+<div id="treeTips" style="overflow: hidden; display: none;"><span id="slideIn" title="展开"></span>打开导航菜单</div>
 <div class="ls-2">
+<div id="treeTips_out" style="overflow: hidden; display: block;"><span id="slideOut" title="收起"></span>收起导航菜单</div>
 	<div class="pg-side">
 		<ul class="pg-side-list">
 			<@security.authorize
@@ -416,6 +418,19 @@
 	</div>
 </div>
 <script type="text/javascript">
+$('#treeTips').click(function(){
+	$(this).hide();
+	$('.ls-2').show();
+	$('.ls-10').css("width","85%");
+	$('.ls-10').css("margin-left","30px");
+	});
+
+$('#treeTips_out').click(function(){
+	$('.ls-2').hide();
+	$('#treeTips').show();
+	$('.ls-10').css("width","97%");
+	$('.ls-10').css("margin-left","30px");
+	});
 
 
 //QQ客服列表

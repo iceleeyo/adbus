@@ -60,7 +60,7 @@ table {
 }
 
 .container-12 {
-	width: 98%;
+	width: 100%;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -284,6 +284,54 @@ table {
 	float: left;
 	margin-left: 0px;
 	margin-right: 0px;
+}
+
+#treeTips {
+    padding: 10px 0 10px 0;
+    border-radius: 5px;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    position: fixed;
+    left: 0;
+    top: 115px;
+    width: 18px;
+    height: 160px;
+    display: none;
+    z-index: 5;
+    cursor: pointer;
+    color: rgb(162, 162, 170);
+}
+
+#treeTips_out {
+    padding: 10px 0 10px 0;
+    border-radius: 5px;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    position: fixed;
+    left: 12%;
+    top: 115px;
+    width: 18px;
+    height: 160px;
+    display: none;
+    z-index: 5;
+    cursor: pointer;
+    color: rgb(162, 162, 170);
+}
+
+#slideIn {
+    display: inline-block;
+    cursor: pointer;
+    width: 18px;
+    height: 16px;
+    background: url(../imgs/icons.gif) no-repeat scroll left -240px transparent;
+}
+
+#slideOut {
+    display: inline-block;
+    cursor: pointer;
+    width: 18px;
+    height: 16px;
+    background: url(../imgs/icons.gif) no-repeat scroll left -225px transparent;
 }
 
 .ls-10 {

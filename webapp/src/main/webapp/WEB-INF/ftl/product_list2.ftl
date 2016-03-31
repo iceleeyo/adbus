@@ -21,7 +21,6 @@ js=["js/jquery-ui/jquery-ui.js","js/layer-v1.9.3/layer/layer.js","js/layer.onloa
             "searching": false,
             "ordering": true,
             "serverSide": true,
-            "scrollX": true,
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
                 { "orderable": false, "targets": [5] },
