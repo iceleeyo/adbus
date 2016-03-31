@@ -675,8 +675,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		/*按销售员查询 */
 		if (StringUtils.isNoneBlank(salesMan)) {
-			countQuery.startedBy(salesMan);
-			listQuery.startedBy(salesMan);
+			countQuery.variableValueLike(ActivitiService.CREAT_USERID, "%" + salesMan + "%");
+			listQuery.variableValueLike(ActivitiService.CREAT_USERID, "%" + salesMan + "%");
 		}
 		
 		int c = 0;
