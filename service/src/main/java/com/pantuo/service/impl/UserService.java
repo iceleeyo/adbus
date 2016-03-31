@@ -60,6 +60,7 @@ import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.security.ActivitiUserDetails;
 import com.pantuo.service.security.ActivitiUserDetailsService;
 import com.pantuo.service.security.Request;
+import com.pantuo.util.BeanUtils;
 import com.pantuo.util.JsonTools;
 import com.pantuo.util.Pair;
 import com.pantuo.util.ShortString;
@@ -282,15 +283,31 @@ public class UserService implements UserServiceInter {
 				userDetail.setQulifijsonstr(JsonTools.getJsonFromObject(userQualifiView));
 			}
 			userDetail.setCreateBySales(Request.getUserId(principal));
-			if(userDetail.getId()<1){
+			if (userDetail.getId() < 1) {
 				userDetail.setUsername(ShortString.getRandomString(8));
+				userDetail.setCreated(new Date());
 			}
-			userDetail.setCreated(new Date());
+			
+			BooleanExpression query = QUserDetail.userDetail.id.eq(userDetail.getId());
+			UserDetail source = userRepo.findOne(query);
+			if (source != null) {
+				//原copy一份
+				UserDetail sourceCopy = new UserDetail();
+				org.apache.commons.beanutils.BeanUtils.copyProperties(sourceCopy, source);
+				//得到变化的字段
+				List<String> changeField = BeanUtils.copyPropertiesReturnChangeField(userDetail, source);
+
+				for (String filed : changeField) {
+					log.info(filed + "#" + org.apache.commons.beanutils.BeanUtils.getProperty(sourceCopy, filed) + "#"
+							+ org.apache.commons.beanutils.BeanUtils.getProperty(userDetail, filed));
+
+				}
+			}
 			userRepo.save(userDetail);
-			}
-          catch (Exception e) {
+		} catch (Exception e) {
+			log.error("store-customer-ex", e);
 		}
-		return new Pair<Boolean, String>(true,"保存成功");
+		return new Pair<Boolean, String>(true, "保存成功");
 	}
 
 	@Override
