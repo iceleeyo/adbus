@@ -27,7 +27,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
         table = $('#table').dataTable( {
             "dom": '<"#toolbar"><"top"il>rt<"bottom"p><"clear">',
             "searching": false,
-            "ordering": true,
+            "ordering": false,
             "serverSide": true,
                "iDisplayLength" : 50,
             "aLengthMenu": [[20, 50, 100], [20, 50, 100]],
@@ -68,6 +68,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                     "render": function(data, type, row, meta) {
                         var op='<a class="operation" href="javascript:void(0);" onclick="deleteClinent(\''+data+'\');" >删除</a> &nbsp;'
                          op+='<a class="operation" href="${rc.contextPath}/user/editClient/' + data + '" >编辑</a> &nbsp;'
+                         op+='<a class="operation" href="${rc.contextPath}/user/customerHistory/' + row.id + '" >修改历史</a> &nbsp;'
                          op+='<a class="operation" href="${rc.contextPath}/user/clientUser_invoice/' + data + '" >发票信息</a> &nbsp;'
                        return op; 
                     }},

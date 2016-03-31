@@ -17,6 +17,7 @@ import org.activiti.engine.identity.User;
 import org.activiti.engine.impl.persistence.entity.UserEntity;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ import com.pantuo.dao.UserDetailRepository;
 import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.JpaCustomerHistory;
 import com.pantuo.dao.pojo.JpaInvoice;
+import com.pantuo.dao.pojo.QJpaCustomerHistory;
 import com.pantuo.dao.pojo.QJpaInvoice;
 import com.pantuo.dao.pojo.QUserDetail;
 import com.pantuo.dao.pojo.UserDetail;
@@ -76,6 +78,8 @@ public class UserService implements UserServiceInter {
 	private static Logger log = LoggerFactory.getLogger(UserService.class);
 	@Autowired
 	private UserDetailRepository userRepo;
+	@Autowired
+	private CustomerHistoryRepository customerHistoryRepository;
 
 	@Autowired
 	private IdentityService identityService;
@@ -101,8 +105,6 @@ public class UserService implements UserServiceInter {
 	InvoiceRepository invoiceRepository;
 	@Autowired
 	AttachmentMapper attachmentMapper;
-	@Autowired
-	CustomerHistoryRepository customerHistoryRepository;
 
 	@Autowired
 	private ActivitiUserDetailsService authUserService;
@@ -265,6 +267,27 @@ public class UserService implements UserServiceInter {
 
 		return result;
 	}
+	
+	@Override
+	public Page<JpaCustomerHistory> getCustomerHistory(TableRequest req, Principal principal) {
+		String userId = req.getFilter("userId");
+		int page = req.getPage(), pageSize = req.getLength();
+		Sort sort = req.getSort("id");
+		
+		if (page < 0)
+			page = 0;
+		if (pageSize < 1)
+			pageSize = 1;
+		sort = (sort == null ? new Sort("id") : sort);
+		Pageable p = new PageRequest(page, pageSize, sort);
+		int id=0;
+		if(StringUtils.isNotBlank(userId)){
+			 id=NumberUtils.toInt(userId);
+		}
+		BooleanExpression query = QJpaCustomerHistory.jpaCustomerHistory.userDetailId.eq(id);
+		return customerHistoryRepository.findAll(query, p);
+	}
+
 	public Page<UserDetail> getClientUser(TableRequest req, Principal principal) {
 		String company = req.getFilter("company"),relateMan=req.getFilter("relateMan");
 		int page = req.getPage(), pageSize = req.getLength();

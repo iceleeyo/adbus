@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.JpaCardBoxMedia;
+import com.pantuo.dao.pojo.JpaCustomerHistory;
 import com.pantuo.dao.pojo.JpaFunction;
 import com.pantuo.dao.pojo.JpaInvoice;
 import com.pantuo.dao.pojo.JpaOrders;
@@ -118,6 +119,11 @@ public class UserManagerController {
 		model.addAttribute("usertype", "screen");
 		return "clientList";
 	}
+	@RequestMapping(value = "/customerHistory/{userId}")
+	public String customerHistory(Model model,@PathVariable("userId") int userId) {
+		model.addAttribute("userId", userId);
+		return "customerHistory";
+	}
 	
 	@RequestMapping(value = "/adlist", method = { RequestMethod.GET })
 	public String useradlist(Model model) {
@@ -146,6 +152,11 @@ public class UserManagerController {
 	@ResponseBody
 	public DataTablePage<UserDetail> getClientList(TableRequest req,Principal principal) {
 		return new DataTablePage<UserDetail>(userService.getClientUser( req,  principal), req.getDraw());
+	}
+	@RequestMapping(value = "/ajax-customerHistory", method = { RequestMethod.GET })
+	@ResponseBody
+	public DataTablePage<JpaCustomerHistory> getCustomerHistory(TableRequest req,Principal principal) {
+		return new DataTablePage<JpaCustomerHistory>(userService.getCustomerHistory( req,  principal), req.getDraw());
 	}
 	@RequestMapping(value = "/invoiceList")
 	public String invoicelist() {

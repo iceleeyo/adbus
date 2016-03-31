@@ -4,15 +4,14 @@ import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
 
 import org.activiti.engine.identity.Group;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
+import com.pantuo.dao.pojo.JpaCustomerHistory;
 import com.pantuo.dao.pojo.JpaInvoice;
 import com.pantuo.dao.pojo.UserDetail;
-import com.pantuo.dao.pojo.UserDetail.UStats;
 import com.pantuo.dao.pojo.UserDetail.UType;
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.Invoice;
@@ -125,5 +124,7 @@ public	Page<UserDetail> getUsers(String utype, String name, Boolean isEnabled, i
 			HttpServletRequest request, Principal principal);
 
 	public abstract Pair<Boolean, String> deleteClinent(String username);
+
+	public abstract Page<JpaCustomerHistory> getCustomerHistory(TableRequest req, Principal principal);
 
 }
