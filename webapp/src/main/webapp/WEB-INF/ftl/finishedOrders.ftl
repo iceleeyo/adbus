@@ -69,6 +69,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
                            <@security.authorize ifAnyGranted="sales,salesManager">
 				  			 ,"filter[customerName]" : $('#customerName').val()
 							</@security.authorize>
+							  ,"filter[salesMan]" : $('#salesMan').val()
                     } );
                 },
                 "dataSrc": "content",
@@ -138,6 +139,13 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
                         '        <input id="customerName" style="width:200px" value="">' +
                         '    </span>' +
                           </@security.authorize>
+                          <@security.authorize ifAnyGranted="salesManager">
+                        '    &nbsp;&nbsp;<span>业务员</span>' +
+                        '    <span>' +
+                        '        <input id="salesMan" value="">' +
+                        '    </span>' +
+                         </@security.authorize>
+                         
                         '<select class="ui-input ui-input-mini" name="stateKey" id="stateKey">' +
 	                    '<option value="defaultAll" selected="selected">所有状态</option>' +
     	              	'<option value="finished">已完成</option>' +
@@ -149,6 +157,12 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
         $('#longOrderId,#autocomplete,#stateKey').change(function() {
             table.fnDraw();
         });
+        
+         <@security.authorize ifAnyGranted="salesManager">
+      			 initSalesAutocomplete(table);
+	   	  </@security.authorize>
+	   	  
+	   	  
         //author:pxh 2015-05-20 22:36
         $( "#autocomplete" ).autocomplete({
   			source: "${rc.contextPath}/user/autoComplete",
