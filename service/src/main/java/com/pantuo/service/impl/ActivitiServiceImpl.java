@@ -675,8 +675,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		/*按销售员查询 */
 		if (StringUtils.isNoneBlank(salesMan)) {
-			countQuery.involvedUser(salesMan);
-			listQuery.involvedUser(salesMan);
+			countQuery.startedBy(salesMan);
+			listQuery.startedBy(salesMan);
 		}
 		
 		int c = 0;
