@@ -107,18 +107,9 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
         $('#company,#relateMan,#salesMan').change(function() {
             table.fnDraw();
         });
-        $("#salesMan").autocomplete({
-			    minLength: 0,
-				source : "${rc.contextPath}/user/salesManAutoComplete",
-				change : function(event, ui) {
-				},
-				select : function(event, ui) {
-					$('#salesMan').val(ui.item.value);
-					table.fnDraw();
-				}
-			}).focus(function () {
-	       	  $(this).autocomplete("search");
-	   	 	});
+          <@security.authorize ifAnyGranted="salesManager">
+      			 initSalesAutocomplete(table);
+	   	  </@security.authorize>
         bindLayerMouseOver();
     }
 
