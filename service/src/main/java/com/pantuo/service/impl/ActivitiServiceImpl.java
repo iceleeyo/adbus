@@ -635,6 +635,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 		String longId = req.getFilter("longOrderId"), userIdQuery = req.getFilter("userId"), taskKey = req
 				.getFilter("taskKey"), stateKey = req.getFilter("stateKey"), productId = req.getFilter("productId"),customerName=req.getFilter("customerName");
+		String salesMan = req.getFilter("salesMan");
 		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
 
 		page = page + 1;
@@ -672,6 +673,12 @@ public class ActivitiServiceImpl implements ActivitiService {
 			countQuery.variableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
 			listQuery.variableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
 		}
+		/*按销售员查询 */
+		if (StringUtils.isNoneBlank(salesMan)) {
+			countQuery.involvedUser(salesMan);
+			listQuery.involvedUser(salesMan);
+		}
+		
 		int c = 0;
 		if (Request.hasAuth(principal, ActivitiConfiguration.ADVERTISER)
 				&& !Request.hasAuth(principal, ActivitiConfiguration.ORDER)) {
