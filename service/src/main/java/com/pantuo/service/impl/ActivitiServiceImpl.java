@@ -193,7 +193,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		Sort sort = req.getSort("created");
 		page = page + 1;
 		String longId = req.getFilter("longOrderId"), userIdQuery = req.getFilter("userId"), taskKey = req
-				.getFilter("taskKey"), productId = req.getFilter("productId"),customerName=req.getFilter("customerName");
+				.getFilter("taskKey"), productId = req.getFilter("productId"),customerName=req.getFilter("customerName"),salesMan=req.getFilter("salesMan");
 		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
 		List<OrderView> orders = new ArrayList<OrderView>();
 
@@ -228,6 +228,10 @@ public class ActivitiServiceImpl implements ActivitiService {
 		if (StringUtils.isNoneBlank(customerName)) {
 			countQuery.variableValueLike(ActivitiService.COMPANY, "%" + customerName + "%");
 			listQuery.variableValueLike(ActivitiService.COMPANY, "%" + customerName + "%");
+		}
+		if (StringUtils.isNoneBlank(salesMan)) {
+			countQuery.variableValueEquals(ActivitiService.CREAT_USERID, salesMan);
+			listQuery.variableValueEquals(ActivitiService.CREAT_USERID, salesMan);
 		}
 		setVarFilter(taskKey, countQuery, listQuery);
 
