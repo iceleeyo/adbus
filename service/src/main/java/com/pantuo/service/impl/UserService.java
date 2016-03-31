@@ -431,6 +431,12 @@ public class UserService implements UserServiceInter {
 			for (UserDetail u : list) {
 				r.add(new AutoCompleteView(u.getCompany(), u.getCompany(), String.valueOf(u.getUsername())));
 			}
+		}else if (Request.hasAuth(principal, "salesManager")) {
+			BooleanExpression q = QUserDetail.userDetail.createBySales.isNotNull();
+			Iterable<UserDetail> list = userRepo.findAll(q);
+			for (UserDetail u : list) {
+				r.add(new AutoCompleteView(u.getCompany(), u.getCompany(), String.valueOf(u.getUsername())));
+			}
 		}
 		return r;
 	}
