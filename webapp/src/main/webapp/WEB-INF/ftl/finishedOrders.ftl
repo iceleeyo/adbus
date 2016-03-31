@@ -38,18 +38,18 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
             "ordering": true,
             "serverSide": true,
             "scrollX": true,
-               <@security.authorize ifNotGranted="sales">
+               <@security.authorize ifNotGranted="sales,salesManager">
             "aaSorting": [[3, "desc"]],
              </@security.authorize>
-             <@security.authorize ifAnyGranted="sales">
+             <@security.authorize ifAnyGranted="sales,salesManager">
                "aaSorting": [[4, "desc"]],
              </@security.authorize>
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                   <@security.authorize ifNotGranted="sales">
+                   <@security.authorize ifNotGranted="sales,salesManager">
                 { "orderable": false, "targets": [0,1,2,5,6] },
                  </@security.authorize>
-             <@security.authorize ifAnyGranted="sales">
+             <@security.authorize ifAnyGranted="sales,salesManager">
                { "orderable": false, "targets": [0,1,2,3,7,5,6] },
               </@security.authorize>
                 
@@ -67,7 +67,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
                           <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
                         ,"filter[userId]" : $('#autocomplete').val()
                          </@security.authorize>
-                           <@security.authorize ifAnyGranted="sales">
+                           <@security.authorize ifAnyGranted="sales,salesManager">
 				  			 ,"filter[customerName]" : $('#customerName').val()
 							</@security.authorize>
                     } );
@@ -77,7 +77,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
             "columns": [
             	{ "data": "order.creator", "defaultContent": ""},
             	{ "data": "longOrderId", "defaultContent": ""},
-            		 <@security.authorize ifAnyGranted="sales">
+            		 <@security.authorize ifAnyGranted="sales,salesManager">
             		{ "data": "longOrderId", "defaultContent": "","render": function(data, type, row, meta) {
             			var customer = $.parseJSON(row.order.customerJson); 
                         return  (typeof(customer) == "undefined"||typeof(customer.company) == "undefined")?"":customer.company;
@@ -121,7 +121,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
     }
     
     
-    <@security.authorize ifAnyGranted="sales,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+    <@security.authorize ifAnyGranted="salesManager,sales,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
@@ -133,7 +133,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
                         '    <span>' +
                         '        <input id="autocomplete" value="">' +
                         '    </span>' +
-                         <@security.authorize ifAnyGranted="sales">
+                         <@security.authorize ifAnyGranted="sales,salesManager">
                            '    <span>客户：</span>' +
                         '    <span>' +
                         '        <input id="customerName" style="width:200px" value="">' +
@@ -162,7 +162,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
   				table.fnDraw();
   			 }
 		});
-		<@security.authorize ifAnyGranted="sales">
+		<@security.authorize ifAnyGranted="sales,salesManager">
 		       initCustomerAutocomplete('${rc.contextPath}',table);
 	     </@security.authorize>
     }
@@ -232,7 +232,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 			<tr>
 				<th>下单用户</th>
 				<th orderBy="longOrderId">订单编号</th>
-					 <@security.authorize ifAnyGranted="sales">
+					 <@security.authorize ifAnyGranted="sales,salesManager">
 				<th>客户</th>
 				</@security.authorize>
 				<th>套餐名称</th>
