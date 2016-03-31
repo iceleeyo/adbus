@@ -137,6 +137,10 @@
 					href="${rc.contextPath}/timeslot/list"> 时段设置 </a></li>
 			</ul></li> </@security.authorize> </#if>
 			 
+			 <@security.authorize
+		ifNotGranted="sales,salesManager">
+		
+		
 		<li class="pg-side-item">
 			<a class="pg-side-item-t gg-icon"> 
 					<i class="s-left pg-icon-a i-icon"></i> 车身网上订单
@@ -152,7 +156,7 @@
 					href="${rc.contextPath}/carbox/carTask">车身网上订单 </a></li>
 			</ul>
 		</li> 
-			
+			</@security.authorize> 
 			<@security.authorize
 		ifAnyGranted="contract_input,contract_list,contract_buy">
 		<li class="pg-side-item"><a class="pg-side-item-t gg-icon"> <i
