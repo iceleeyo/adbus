@@ -69,7 +69,8 @@
         <module>dao</module>
         <module>webapp</module>
         <module>util</module>
-    <module>service</module>
+   		 <module>service</module>
+   		   <module>web</module>
     </modules>
 
 </project>
