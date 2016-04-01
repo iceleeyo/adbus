@@ -80,7 +80,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
             		 <@security.authorize ifAnyGranted="sales,salesManager">
             		{ "data": "longOrderId", "defaultContent": "","render": function(data, type, row, meta) {
             			var customer = $.parseJSON(row.order.customerJson); 
-                        return  (typeof(customer) == "undefined"||typeof(customer.company) == "undefined")?"":customer.company;
+						return  ( customer==null || customer=='undefined' ||typeof(customer) == "undefined"|| typeof(customer.company) == "undefined" )?"":customer.company;
                     }},
                  </@security.authorize>
             	{ "data": "product.name", "defaultContent": "",

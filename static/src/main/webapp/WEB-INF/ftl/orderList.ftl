@@ -56,7 +56,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
             <@security.authorize ifAnyGranted="advertiser">
             "aaSorting": [[6, "desc"]],
              </@security.authorize>
-               <@security.authorize ifAnyGranted="sales">
+               <@security.authorize ifAnyGranted="sales,salesManager">
             "aaSorting": [[7, "desc"]],
              </@security.authorize>
             "columnDefs": [
@@ -67,7 +67,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                  <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
                   { "orderable": false, "targets": [0,1,2,3,4,5,7,8] },
                   </@security.authorize>
-                    <@security.authorize ifAnyGranted="sales">
+                    <@security.authorize ifAnyGranted="sales,salesManager">
                   { "orderable": false, "targets": [0,1,2,3,4,5,6,8,9] },
                   </@security.authorize>
                   
@@ -82,7 +82,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                         ,"filter[userId]" : $('#autocomplete').val()
                          </@security.authorize>
                           ,"filter[taskKey]" : $('#taskKey').val()
-                           <@security.authorize ifAnyGranted="sales">
+                           <@security.authorize ifAnyGranted="sales,salesManager">
 				  			 ,"filter[customerName]" : $('#customerName').val()
 							</@security.authorize>
 				
@@ -94,7 +94,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
             "columns": [
             	{ "data": "order.creator", "defaultContent": ""},
             	{ "data": "longOrderId", "defaultContent": ""},
-            	 <@security.authorize ifAnyGranted="sales">
+            	 <@security.authorize ifAnyGranted="sales,salesManager">
             		{ "data": "longOrderId", "defaultContent": "","render": function(data, type, row, meta) {
             			var customer = $.parseJSON(row.order.customerJson); 
             			 
@@ -140,7 +140,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                 	var d= $.format.date(data, "yyyy-MM-dd HH:mm");
                 	return d;
                 }},
-                <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+                <@security.authorize ifAnyGranted="sales,salesManager,salesManager,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
                  { "data": "task_name", "defaultContent": "","render": function(data, type, row, meta) {
 	                 	 	return  "<a target='_blank' href='${rc.contextPath}/workflow/view/"+row.executionId+"/page/"+row.processInstanceId+"'>"+data+"</a>";
 	                   
@@ -187,7 +187,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
   		
   		 
     }
-	<@security.authorize ifAnyGranted="sales,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+	<@security.authorize ifAnyGranted="sales,salesManager,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
     function initComplete() {
         $("div#toolbar").html(
                 '<div>' +
@@ -224,7 +224,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
   			 }
 		});
 		//--
-		<@security.authorize ifAnyGranted="sales">
+		<@security.authorize ifAnyGranted="sales,salesManager">
 		       initCustomerAutocomplete('${rc.contextPath}',table);
 	     </@security.authorize>
 		//--
@@ -289,7 +289,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
 			<tr>
 				<th>下单用户</th>
 				<th orderBy="longOrderId">订单编号</th>
-				 <@security.authorize ifAnyGranted="sales">
+				 <@security.authorize ifAnyGranted="sales,salesManager">
 				<th>客户</th>
 				</@security.authorize>
 				
@@ -298,7 +298,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
 				<th>套餐名称</th>
 				<th>媒体类型</th>
 				<th orderBy="created">创建时间</th> <@security.authorize
-				ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+				ifAnyGranted="sales,salesManager,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 				<th orderBy="taskKey">当前节点</th> </@security.authorize>
 				<th>操作</th>
 			</tr>

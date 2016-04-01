@@ -72,8 +72,12 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
             	{ "data": "longOrderId", "defaultContent": ""},
             	 <@security.authorize ifAnyGranted="sales,salesManager">
             		{ "data": "longOrderId", "defaultContent": "","render": function(data, type, row, meta) {
+            			if(row.order.customerJson!=''){
             			var customer = $.parseJSON(row.order.customerJson); 
-                        return  (typeof(customer) == "undefined"||typeof(customer.company) == "undefined")?"":customer.company;
+                        return  ( customer==null || customer=='undefined' ||typeof(customer) == "undefined"|| typeof(customer.company) == "undefined" )?"":customer.company;
+                        }else {
+                        return '';
+                        }
                     }},
                  </@security.authorize>
             	{ "data": "product.name", "defaultContent": "",
