@@ -294,16 +294,27 @@
 		 if(typeof(data.company)=="undefined" || data.company=="" || typeof(data.legalman)=="undefined" || data.legalman==""){
 		    layer.msg("请从‘用户信息’菜单进去完善相关信息");
 		 }else{
-		   layer.open({
-	    		type: 1,
-	    		title: "电子合同",
-	    		skin: 'layui-layer-rim', 
-	    		area: ['800px', '600px'], 
-	    		content:''
-				   +' '
-				   +'<iframe  style="width:99%;height:90%" src="${rc.contextPath}/user/contract_templete?meids=${meids!''}"/><div class="ui-form-item widthdrawBtBox" style="width: 42%;"> <input type="button" id="subWithdraworder" class="block-btn" onclick="payment();" value="确认" style="margin:10px 0px -10px 45%;"> </div>'
+			 var customerId=$("#customerId").val();
+			<@security.authorize ifAnyGranted="sales">
+			if(customerId==''  || typeof(customerId)=="undefined" ){
+				layer.confirm('您还没有选择客户信息,确定下单吗？', {
+				  btn: ['确定','取消下单'] //按钮
+				}, function(){
+				 	  layer.closeAll();
+					  layer.open({
+			    		type: 1,
+			    		title: "电子合同",
+			    		skin: 'layui-layer-rim', 
+			    		area: ['800px', '600px'], 
+			    		content:''
+						   +' '
+						   +'<iframe  style="width:99%;height:90%" src="${rc.contextPath}/user/contract_templete?meids=${meids!''}"/><div class="ui-form-item widthdrawBtBox" style="width: 42%;"> <input type="button" id="subWithdraworder" class="block-btn" onclick="payment();" value="确认" style="margin:10px 0px -10px 45%;"> </div>'
+						});
+				}, function(){
 				});
-		 }
+			}	
+			 </@security.authorize>
+			 }
 			}
 			});
 			}else{
@@ -365,6 +376,7 @@
 		  layer.msg("没有流水号,操作异常");
 		  return;
 		}
+		var customerId=$("#customerId").val();
 		 $("#subid").attr("onclick",'');
 		$.ajax({
 			url:"${rc.contextPath}/carbox/payment",
@@ -372,7 +384,7 @@
 			dataType:"json",
 			data:{"divid":divid,"isdiv":isdiv,"seriaNum":seriaNum,
 			"paytype":paytype,"meids":meids,"boids":boids,
-			"startdate1":startdate1,"runningNum":runningNum,"customerId":$("#customerId").val()},
+			"startdate1":startdate1,"runningNum":runningNum,"customerId":customerId},
 			success:function(data){
 				if (data.left) {
 					if(boids==""){
