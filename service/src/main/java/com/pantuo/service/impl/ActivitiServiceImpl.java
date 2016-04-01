@@ -684,7 +684,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		
 		int c = 0;
-		if (Request.hasAuth(principal, ActivitiConfiguration.ADVERTISER)
+		if ((Request.hasAuth(principal, ActivitiConfiguration.ADVERTISER)||
+				Request.hasAuth(principal, ActivitiConfiguration.SALES))
 				&& !Request.hasAuth(principal, ActivitiConfiguration.ORDER)) {
 			c = (int) countQuery.involvedUser(Request.getUserId(principal)).count();
 		} else {
@@ -693,7 +694,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 		NumberPageUtil pageUtil = new NumberPageUtil((int) c, page, pageSize);
 		//Request.hasAuth(principal, ActivitiConfiguration.ADVERTISER)
 		List<HistoricProcessInstance> list = null;
-		if (Request.hasAuth(principal, ActivitiConfiguration.ADVERTISER)
+		if ((Request.hasAuth(principal, ActivitiConfiguration.ADVERTISER)||
+				Request.hasAuth(principal, ActivitiConfiguration.SALES))
 				&& !Request.hasAuth(principal, ActivitiConfiguration.ORDER)) {
 			listQuery.involvedUser(Request.getUserId(principal));
 		}
