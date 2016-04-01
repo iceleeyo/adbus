@@ -21,7 +21,7 @@
 	<div class="pg-side">
 		<ul class="pg-side-list">
 			<@security.authorize
-			ifAnyGranted="ShibaSuppliesManager,advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+			ifAnyGranted="sales,salesManager,ShibaSuppliesManager,advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 			<li class="pg-side-item"><a class="pg-side-item-t aa-icon"
 				
 				href="${rc.contextPath}/order/myTask/1"> <i
