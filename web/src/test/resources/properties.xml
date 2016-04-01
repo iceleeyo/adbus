@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+        "spring-beans.dtd">
+<beans default-lazy-init="true">
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+          lazy-init="default" autowire="default" dependency-check="default">
+        <property name="locations">
+            <list>
+                <value>classpath:test.jdbc.properties</value>
+                <value>classpath:test.redis.properties</value>
+                <value>classpath:test.activiti.properties</value>
+            </list>
+        </property>
+    </bean>
+</beans>

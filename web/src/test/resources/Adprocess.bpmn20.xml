@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="ADProcess" name="Main Process"  >
+  
+  
+  
+    <startEvent id="startevent1" name="Start" activiti:initiator="applyUserId"></startEvent>
+    
+    
+    <userTask id="servicetask2" name="世巴初核" activiti:candidateGroups="ad_sb_user"></userTask>
+    <userTask id="servicetask3" name="北广终核" activiti:candidateGroups="ad_bg_user"></userTask>
+    
+    
+   
+    
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
+    
+     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="servicetask2"></sequenceFlow>
+    <sequenceFlow id="flow4" sourceRef="servicetask2" targetRef="exclusivegateway1"></sequenceFlow>
+    <sequenceFlow id="flow5" sourceRef="servicetask3" targetRef="exclusivegateway2"></sequenceFlow>
+    
+    
+    
+    <sequenceFlow id="flow9" name="同意" sourceRef="exclusivegateway1" targetRef="servicetask3">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${fristpass}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow18" name="不同意" sourceRef="exclusivegateway1" targetRef="startevent1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${!fristpass}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow25" name="同意" sourceRef="exclusivegateway2" targetRef="endevent1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${deptLeaderPass}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow36" name="不同意" sourceRef="exclusivegateway2" targetRef="servicetask2">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${!deptLeaderPass}]]></conditionExpression>
+    </sequenceFlow>
+    <endEvent id="endevent1" name="End"></endEvent>
+  </process>
+  
+   
+</definitions>

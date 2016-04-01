@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://activiti.org/bpmn20" id="definitions">
+  <process id="busFlow" name="物料上传审核流程" isExecutable="true" activiti:candidateStarterGroups="advertiser">
+    <documentation>订单状态审核包括以下步骤：
+		 approve1:世巴初审
+		 approve2:北广审核物料
+		 payment:支付
+		 schedule:排期
+		每个步骤都会产生两个proccess变量，分别以Result和Comments结尾，描述该步骤审核的结果以及注释</documentation>
+    <startEvent id="startevent1" name="Start">
+      <documentation>开始物料上传审核流程，程序必须设置的process变量:
+        1. _owner(UserDetail類型)
+        2. 包括_theEmail，_theCompany,_timeout等变量</documentation>
+    </startEvent>
+    <sequenceFlow id="flow20" sourceRef="initializeTask" targetRef="mainSubprocess"></sequenceFlow>
+    <userTask id="errortask" name="管理员介入" activiti:candidateGroups="ShibaOrderManager"></userTask>
+    <userTask id="timeoutTask" name="订单超时" activiti:candidateGroups="ShibaOrderManager"></userTask>
+    <sequenceFlow id="flow26" sourceRef="startevent1" targetRef="initializeTask"></sequenceFlow>
+    <scriptTask id="initializeTask" name="初始化" scriptFormat="JavaScript" activiti:autoStoreVariables="false">
+      <script>
+			execution.setVariable("_theEmail", 'adbus@gscopetech.com');
+            if (!execution.hasVariable("_theCompany")) {
+			    execution.setVariable("_theCompany", 'Pantuo Tech co., Ltd');
+			}
+            if (!execution.hasVariable("_timeout")) {
+			    execution.setVariable("_timeout", 'P7D');
+		    }
+		     execution.setVariable("_userPayed", false);
+		     
+		    execution.setVariable("approve1Result", false);
+		    execution.setVariable("approve2Result", false);
+		    execution.setVariable("paymentResult", false);
+		    execution.setVariable("scheduleResult", false);
+		    
+		    execution.setVariable("shangboResult", false);
+		    execution.setVariable("jianboResult", false);
+		   
+		</script>
+    </scriptTask>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <sequenceFlow id="flow50" sourceRef="mainSubprocess" targetRef="endevent1"></sequenceFlow>
+    <sequenceFlow id="flow51" sourceRef="errortask" targetRef="endevent1"></sequenceFlow>
+    <subProcess id="mainSubprocess" name="主要业务流程">
+      <startEvent id="theStart"></startEvent>
+      <userTask id="submitOrder" name="填写合同" activiti:candidateUsers="${username}" activiti:candidateGroups="ShibaSuppliesManager">
+        <documentation>填写并上传物料单，包括物料基本信息</documentation>
+      </userTask>
+      <sequenceFlow id="flow1" sourceRef="theStart" targetRef="submitOrder"></sequenceFlow>
+      <sequenceFlow id="flow27" sourceRef="submitOrder" targetRef="approvePaymentSubprocess"></sequenceFlow>
+      <endEvent id="theEnd"></endEvent>
+      <userTask id="submitSchedule" name="回执确认" activiti:candidateGroups="ShibaSuppliesManager"></userTask>
+      <subProcess id="approvePaymentSubprocess" name="审核支付流程">
+        <exclusiveGateway id="paymentGateway" name="支付情况检查"></exclusiveGateway>
+        <sequenceFlow id="flow32" name="支付OK" sourceRef="paymentGateway" targetRef="approve2">
+          <conditionExpression xsi:type="tFormalExpression"><![CDATA[${paymentResult == true}]]></conditionExpression>
+        </sequenceFlow>
+        <sequenceFlow id="flow45" name="支付未完成" sourceRef="paymentGateway" targetRef="paymentFailureEmail">
+          <conditionExpression xsi:type="tFormalExpression"><![CDATA[${paymentResult == false}]]></conditionExpression>
+        </sequenceFlow>
+        <userTask id="financialCheck" name="财务确认" activiti:candidateGroups="ShibaFinancialManager"></userTask>
+        <sequenceFlow id="flow44" sourceRef="financialCheck" targetRef="paymentGateway"></sequenceFlow>
+        <userTask id="approve2" name="录入小样" activiti:candidateGroups="BeiguangMaterialManager">
+          <documentation>管理员审核物料信息并入库，填写物料ID等信息，程序设置审核结果的process变量：
+			1.approve2Result：true/false
+			2.approve2Comments:描述审核结果的文本</documentation>
+        </userTask>
+        <serviceTask id="paymentFailureEmail" name="发送支付失败通知" activiti:delegateExpression="${messageBox}">
+          <extensionElements>
+            <activiti:field name="actionType">
+              <activiti:string><![CDATA[payFail]]></activiti:string>
+            </activiti:field>
+            <activiti:field name="sendMail">
+              <activiti:string><![CDATA[YES]]></activiti:string>
+            </activiti:field>
+            <activiti:field name="sendSiteMsg">
+              <activiti:string><![CDATA[YES]]></activiti:string>
+            </activiti:field>
+            <activiti:field name="sendPhoneMsg">
+              <activiti:string><![CDATA[NO]]></activiti:string>
+            </activiti:field>
+          </extensionElements>
+        </serviceTask>
+        <endEvent id="endevent3" name="End"></endEvent>
+        <startEvent id="startevent2" name="Start"></startEvent>
+        <userTask id="usertask1" name="锁定线路"></userTask>
+        <sequenceFlow id="flow71" sourceRef="startevent2" targetRef="usertask1"></sequenceFlow>
+        <userTask id="usertask2" name="确认合同回执"></userTask>
+        <sequenceFlow id="flow73" sourceRef="usertask1" targetRef="usertask2"></sequenceFlow>
+        <sequenceFlow id="flow74" sourceRef="usertask2" targetRef="financialCheck"></sequenceFlow>
+        <serviceTask id="servicetask2" name="生成施工单" activiti:delegateExpression="${gusWorkListSchedule}"></serviceTask>
+        <sequenceFlow id="flow81" sourceRef="approve2" targetRef="servicetask2"></sequenceFlow>
+        <sequenceFlow id="flow82" sourceRef="servicetask2" targetRef="endevent3"></sequenceFlow>
+        <endEvent id="errorendevent2" name="ErrorEnd">
+          <errorEventDefinition errorRef="myError"></errorEventDefinition>
+        </endEvent>
+        <sequenceFlow id="flow84" sourceRef="paymentFailureEmail" targetRef="errorendevent2"></sequenceFlow>
+      </subProcess>
+      
+      
+      
+      <sequenceFlow id="flow69" sourceRef="submitSchedule" targetRef="theEnd"></sequenceFlow>
+      <sequenceFlow id="flow38" sourceRef="approvePaymentSubprocess" targetRef="submitSchedule"></sequenceFlow>
+      <serviceTask id="servicetask1" name="合同中止" activiti:delegateExpression="${canelWorkListSchedule}"></serviceTask>
+      <sequenceFlow id="flow80" sourceRef="servicetask1" targetRef="theEnd"></sequenceFlow>
+      <boundaryEvent id="boundaryerror4" name="Error" attachedToRef="approvePaymentSubprocess">
+         <errorEventDefinition errorRef="myError"></errorEventDefinition>
+      </boundaryEvent>
+     
+    </subProcess>
+    
+    
+    
+    <boundaryEvent id="boundarytimer1" name="Timer" attachedToRef="mainSubprocess" cancelActivity="false">
+      <timerEventDefinition>
+        <timeDuration>${_timeout}</timeDuration>
+      </timerEventDefinition>
+    </boundaryEvent>
+    <sequenceFlow id="flow54" sourceRef="boundarytimer1" targetRef="timeoutTask"></sequenceFlow>
+    <boundaryEvent id="boundaryerror1" name="Error" attachedToRef="mainSubprocess">
+      <errorEventDefinition></errorEventDefinition>
+    </boundaryEvent>
+    <sequenceFlow id="flow55" sourceRef="boundaryerror1" targetRef="errortask"></sequenceFlow>
+    
+    
+     <sequenceFlow id="flow85" sourceRef="boundaryerror4" targetRef="servicetask1">
+       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${canelResult == true}]]></conditionExpression>
+      </sequenceFlow>
+      
+      
+      
+      
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_busFlow">
+    <bpmndi:BPMNPlane bpmnElement="busFlow" id="BPMNPlane_busFlow">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="14.0" y="437.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="errortask" id="BPMNShape_errortask">
+        <omgdc:Bounds height="55.0" width="105.0" x="972.0" y="920.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="timeoutTask" id="BPMNShape_timeoutTask">
+        <omgdc:Bounds height="55.0" width="105.0" x="732.0" y="920.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="initializeTask" id="BPMNShape_initializeTask">
+        <omgdc:Bounds height="55.0" width="105.0" x="90.0" y="427.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="1360.0" y="446.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="mainSubprocess" id="BPMNShape_mainSubprocess">
+        <omgdc:Bounds height="774.0" width="1071.0" x="240.0" y="77.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="theStart" id="BPMNShape_theStart">
+        <omgdc:Bounds height="35.0" width="35.0" x="282.0" y="270.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="submitOrder" id="BPMNShape_submitOrder">
+        <omgdc:Bounds height="60.0" width="100.0" x="250.0" y="350.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="theEnd" id="BPMNShape_theEnd">
+        <omgdc:Bounds height="35.0" width="35.0" x="767.0" y="740.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="submitSchedule" id="BPMNShape_submitSchedule">
+        <omgdc:Bounds height="55.0" width="105.0" x="440.0" y="730.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approvePaymentSubprocess" id="BPMNShape_approvePaymentSubprocess">
+        <omgdc:Bounds height="551.0" width="813.0" x="378.0" y="110.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="paymentGateway" id="BPMNShape_paymentGateway">
+        <omgdc:Bounds height="40.0" width="40.0" x="858.0" y="482.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="financialCheck" id="BPMNShape_financialCheck">
+        <omgdc:Bounds height="55.0" width="105.0" x="693.0" y="475.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approve2" id="BPMNShape_approve2">
+        <omgdc:Bounds height="60.0" width="100.0" x="829.0" y="369.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="paymentFailureEmail" id="BPMNShape_paymentFailureEmail">
+        <omgdc:Bounds height="55.0" width="105.0" x="683.0" y="551.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent3" id="BPMNShape_endevent3">
+        <omgdc:Bounds height="35.0" width="35.0" x="1090.0" y="540.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="startevent2" id="BPMNShape_startevent2">
+        <omgdc:Bounds height="35.0" width="35.0" x="455.0" y="150.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask1" id="BPMNShape_usertask1">
+        <omgdc:Bounds height="55.0" width="105.0" x="420.0" y="250.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask2" id="BPMNShape_usertask2">
+        <omgdc:Bounds height="55.0" width="105.0" x="420.0" y="475.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask2" id="BPMNShape_servicetask2">
+        <omgdc:Bounds height="55.0" width="105.0" x="1055.0" y="371.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="errorendevent2" id="BPMNShape_errorendevent2">
+        <omgdc:Bounds height="35.0" width="35.0" x="558.0" y="590.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="boundaryerror4" id="BPMNShape_boundaryerror4">
+        <omgdc:Bounds height="30.0" width="30.0" x="910.0" y="650.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask1" id="BPMNShape_servicetask1">
+        <omgdc:Bounds height="55.0" width="121.0" x="900.0" y="730.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="boundarytimer1" id="BPMNShape_boundarytimer1">
+        <omgdc:Bounds height="30.0" width="30.0" x="770.0" y="840.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="boundaryerror1" id="BPMNShape_boundaryerror1">
+        <omgdc:Bounds height="30.0" width="30.0" x="1010.0" y="837.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow20" id="BPMNEdge_flow20">
+        <omgdi:waypoint x="195.0" y="454.0"></omgdi:waypoint>
+        <omgdi:waypoint x="240.0" y="464.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow26" id="BPMNEdge_flow26">
+        <omgdi:waypoint x="49.0" y="454.0"></omgdi:waypoint>
+        <omgdi:waypoint x="90.0" y="454.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow50" id="BPMNEdge_flow50">
+        <omgdi:waypoint x="1311.0" y="464.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1360.0" y="463.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow51" id="BPMNEdge_flow51">
+        <omgdi:waypoint x="1077.0" y="947.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1377.0" y="947.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1377.0" y="481.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="299.0" y="305.0"></omgdi:waypoint>
+        <omgdi:waypoint x="300.0" y="350.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow27" id="BPMNEdge_flow27">
+        <omgdi:waypoint x="350.0" y="380.0"></omgdi:waypoint>
+        <omgdi:waypoint x="378.0" y="385.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow32" id="BPMNEdge_flow32">
+        <omgdi:waypoint x="878.0" y="482.0"></omgdi:waypoint>
+        <omgdi:waypoint x="879.0" y="429.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="12.0" width="38.0" x="1256.0" y="568.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow45" id="BPMNEdge_flow45">
+        <omgdi:waypoint x="878.0" y="522.0"></omgdi:waypoint>
+        <omgdi:waypoint x="877.0" y="578.0"></omgdi:waypoint>
+        <omgdi:waypoint x="788.0" y="578.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="11.0" width="55.0" x="1168.0" y="680.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow44" id="BPMNEdge_flow44">
+        <omgdi:waypoint x="798.0" y="502.0"></omgdi:waypoint>
+        <omgdi:waypoint x="858.0" y="502.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow71" id="BPMNEdge_flow71">
+        <omgdi:waypoint x="472.0" y="185.0"></omgdi:waypoint>
+        <omgdi:waypoint x="472.0" y="250.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow73" id="BPMNEdge_flow73">
+        <omgdi:waypoint x="472.0" y="305.0"></omgdi:waypoint>
+        <omgdi:waypoint x="472.0" y="475.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow74" id="BPMNEdge_flow74">
+        <omgdi:waypoint x="525.0" y="502.0"></omgdi:waypoint>
+        <omgdi:waypoint x="693.0" y="502.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow81" id="BPMNEdge_flow81">
+        <omgdi:waypoint x="929.0" y="399.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1055.0" y="398.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow82" id="BPMNEdge_flow82">
+        <omgdi:waypoint x="1107.0" y="426.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1107.0" y="540.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow84" id="BPMNEdge_flow84">
+        <omgdi:waypoint x="683.0" y="578.0"></omgdi:waypoint>
+        <omgdi:waypoint x="575.0" y="590.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow69" id="BPMNEdge_flow69">
+        <omgdi:waypoint x="545.0" y="757.0"></omgdi:waypoint>
+        <omgdi:waypoint x="767.0" y="757.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow38" id="BPMNEdge_flow38">
+        <omgdi:waypoint x="784.0" y="661.0"></omgdi:waypoint>
+        <omgdi:waypoint x="492.0" y="730.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow80" id="BPMNEdge_flow80">
+        <omgdi:waypoint x="900.0" y="757.0"></omgdi:waypoint>
+        <omgdi:waypoint x="802.0" y="757.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow85" id="BPMNEdge_flow85">
+        <omgdi:waypoint x="925.0" y="680.0"></omgdi:waypoint>
+        <omgdi:waypoint x="960.0" y="730.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow54" id="BPMNEdge_flow54">
+        <omgdi:waypoint x="785.0" y="870.0"></omgdi:waypoint>
+        <omgdi:waypoint x="784.0" y="920.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow55" id="BPMNEdge_flow55">
+        <omgdi:waypoint x="1025.0" y="867.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1024.0" y="920.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

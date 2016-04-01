@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pantuo.mybatis.persistence.ReportMapper" >
+  <resultMap id="timeslotReport" type="com.pantuo.mybatis.domain.TimeslotReport" >
+    <result column="day" property="day" jdbcType="TIMESTAMP" />
+    <result column="year" property="year" jdbcType="INTEGER" />
+    <result column="month" property="month" jdbcType="INTEGER" />
+    <result column="remain" property="remain" jdbcType="BIGINT" />
+    <result column="paid" property="paid" jdbcType="BIGINT" />
+    <result column="notPaid" property="notPaid" jdbcType="BIGINT" />
+    <result column="size" property="size" jdbcType="BIGINT" />
+    <result column="industryId" property="industryId" jdbcType="INTEGER" />
+    <result column="level" property="level" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getRemainTimeslots" parameterType="map" resultMap="timeslotReport" >
+    <![CDATA[
+    select day, (sum(t.duration) - sum(b.size - b.remain)) as remain, sum(t.duration) as size
+    from timeslot t join box b on (t.id = b.slot_id and t.city = b.city
+    and t.city = #{city}
+    ]]>
+    <if test="peak != null and peak == true">
+      and t.peak = 1
+    </if>
+    <![CDATA[
+      and b.day >= #{from} and b.day <= #{to})
+    ]]>
+    group by b.day
+
+  </select>
+
+  <select id="getMonthlyRemainTimeslots" parameterType="map" resultMap="timeslotReport" >
+        <![CDATA[
+    select b.year, b.month, (sum(t.duration) - sum(b.size - b.remain)) as remain, sum(t.duration) as size
+    from timeslot t join box b on (t.id = b.slot_id and t.city = b.city
+    and t.city = #{city}
+    ]]>
+    <if test="peak != null and peak == true">
+            and t.peak = 1
+    </if>
+    <![CDATA[
+      and b.year = #{year})
+    ]]>
+      group by b.month
+  </select>
+
+  <select id="getOrderTimeslots" parameterType="map" resultMap="timeslotReport" >
+        <![CDATA[
+    select b.day, sum(case when o.stats = 0 then 0 else g.size end) as paid,
+      sum(case when o.stats = 0 then g.size else 0 end) as notPaid, sum(t.duration-g.size) as remain,
+      sum(t.duration) as size
+    from timeslot t join box b on (t.id = b.slot_id and t.city = b.city
+    and t.city = #{city}
+    ]]>
+        <if test="peak != null and peak == true">
+            and t.peak = 1
+        </if>
+        <![CDATA[
+      and b.day >= #{from} and b.day <= #{to})
+    ]]>
+    join goods g on (b.slot_id = g.box_slot_id and b.day = g.day and b.city = g.city)
+    join orders o on (g.order_id = o.id and g.city = o.city)
+    group by b.day
+  </select>
+
+    <select id="getOrderTimeslotsByIndustries" parameterType="map" resultMap="timeslotReport" >
+    select day, industryId, sum(paid) as paid, sum(notPaid) as notPaid from
+    (
+        select g.day,
+        (case
+        <foreach close="" collection="industries" item="industryId" open="" separator="">
+            when s.industry_id = #{industryId} then #{industryId}
+        </foreach>
+        else -1
+        end) as industryId,
+        case when o.stats = 0 then 0 else g.size end as paid,
+        case when o.stats = 0 then g.size else 0 end as notPaid
+        from  goods g
+        join orders o on (g.order_id = o.id and g.city = o.city
+        and g.city = #{city}
+        <![CDATA[
+          and g.day >= #{from} and g.day <= #{to})
+        ]]>
+        <if test="peak != null and peak == true">
+        join box b on (b.day = g.day and b.slot_id = g.box_slot_id and b.city = g.city)
+        join timeslot t on (b.slot_id = t.id and b.city = t.city and t.peak = 1)
+        </if>
+        join supplies s on (o.supplies_id = s.id and o.city = s.city)
+    ) tmp
+    group by day,industryId
+    </select>
+
+    <select id="getOrderBuses" parameterType="map" resultMap="timeslotReport" >
+    <![CDATA[
+        select day,
+            count(distinct paid) as paid,
+            count(distinct notPaid) as notPaid
+        from (
+            select c.day,
+              case when o.stats = 0 then null else b.id end as paid,
+              case when o.stats = 0 then b.id else null end as notPaid
+            from bus b
+            inner join bus_schedule s on b.id = s.bus_id and b.city = s.city
+            inner join calendar c on c.day >= s.start_day and c.day <= s.end_day
+            inner join orders o on s.order_id = o.id and s.city = o.city
+            where b.city=#{city} and c.day >= #{from} and c.day <= #{to}
+        ) tmp
+        group by day
+    ]]>
+    </select>
+
+    <select id="getMonthlyOrderBuses" parameterType="map" resultMap="timeslotReport" >
+    <![CDATA[
+        select year, month,
+            count(distinct paid) as paid,
+            count(distinct notPaid) as notPaid
+        from (
+            select c.year, (c.month + 1) as month,
+              case when o.stats = 0 then null else b.id end as paid,
+              case when o.stats = 0 then b.id else null end as notPaid
+            from bus b
+            inner join bus_schedule s on b.id = s.bus_id and b.city = s.city
+            inner join calendar c on c.day >= s.start_day and c.day <= s.end_day
+            inner join orders o on s.order_id = o.id and s.city = o.city
+            where b.city=#{city} and c.year = #{year}
+        ) tmp
+        group by year, month
+    ]]>
+    </select>
+
+    <select id="getOrderBusesByLineLevels" parameterType="map" resultMap="timeslotReport" >
+        select day,
+            level,
+            count(distinct paid) as paid,
+            count(distinct notPaid) as notPaid
+        from (
+            select c.day,
+              case when o.stats = 0 then null else b.id end as paid,
+              case when o.stats = 0 then b.id else null end as notPaid,
+            (case
+            <foreach close="" collection="levels" item="level" open="" separator="">
+                when l.level = #{level} then #{level}
+            </foreach>
+    <![CDATA[
+            else -1
+            end) as level
+            from bus b
+            inner join bus_schedule s on b.id = s.bus_id and b.city = s.city
+            inner join calendar c on c.day >= s.start_day and c.day <= s.end_day
+            inner join orders o on s.order_id = o.id and s.city = o.city
+            inner join bus_line l on b.city = l.city and l.id=b.line_id
+            where b.city=#{city} and c.day >= #{from} and c.day <= #{to}
+        ) tmp
+        group by day, level
+    ]]>
+    </select>
+
+    <select id="getDailyIncomeReport" parameterType="map" resultMap="timeslotReport">
+        SELECT c.day, c.year, c.month, p.type as productType, sum(p.price) as income FROM orders o
+        inner join product p on o.product_id = p.id and o.city=p.city
+        inner join city ct on o.city = ct.id
+        inner join calendar c on c.day = o.financial_check_day
+        where o.city=#{city}
+       <![CDATA[
+        and o.stats >= 1 and o.stats != 5
+        and ct.media_type = #{mediaType}
+        and o.financial_check_day >= #{from} and o.financial_check_day <= #{to}
+        ]]>
+        group by  c.day, c.year, c.month, p.type
+    </select>
+
+    <select id="getMonthlyIncomeReport" parameterType="map" resultMap="timeslotReport">
+        SELECT c.year, (c.month+1) as month, p.type as productType, sum(p.price) as income FROM orders o
+        inner join product p on o.product_id = p.id and o.city=p.city
+        inner join city ct on o.city = ct.id
+        inner join calendar c on c.day = o.financial_check_day
+        where o.city=#{city}
+       <![CDATA[
+        and o.stats >= 1 and o.stats != 5
+        and ct.media_type = #{mediaType}
+        and c.year = #{year}
+        ]]>
+        group by c.year, c.month, p.type
+    </select>
+</mapper>
