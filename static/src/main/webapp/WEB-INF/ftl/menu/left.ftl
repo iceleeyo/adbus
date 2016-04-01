@@ -80,11 +80,12 @@
 					<li class="pg-side-exp-item"><a class="side-exp-item-t"
 						href="${rc.contextPath}/order/myOrders/1"> 我的订单 </a></li>
 						
-						<@security.authorize ifAnyGranted="sales">
+						<@security.authorize ifNotGranted="sales">
 					<li class="pg-side-exp-item"><a class="side-exp-item-t"
 						href="${rc.contextPath}/product/myAuctionList"> 我的获拍 </a></li>
-					 </#if>
+					
 					 </@security.authorize>
+					  </#if>
 					<#if city.mediaType == 'body'>
 					<li class="pg-side-exp-item"><a class="side-exp-item-t"
 						href="${rc.contextPath}/product/busOrderV2_list/my"> 我的订单 </a></li>
