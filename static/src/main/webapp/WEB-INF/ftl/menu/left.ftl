@@ -70,21 +70,26 @@
 					<li class="pg-side-exp-item"><a class="side-exp-item-t"
 						href="${rc.contextPath}/product/list"> 产品列表 </a></li>
 				</ul></li> </@security.authorize> <@security.authorize
-			ifAnyGranted="salesManager,ShibaSuppliesManager,advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager,bodysales,bodyContractManager,bodyFinancialManager,bodyScheduleManager">
+			ifAnyGranted="sales,salesManager,ShibaSuppliesManager,advertiser,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager,bodysales,bodyContractManager,bodyFinancialManager,bodyScheduleManager">
 			<li class="pg-side-item"><a class="pg-side-item-t dd-icon">
 					<i class="s-left pg-icon-a d-icon"></i> 订单管理
 			</a>
 				<ul class="pg-side-exp-list">
-					<@security.authorize ifAnyGranted="advertiser"> <#if city.mediaType
-					== 'screen'>
+					<@security.authorize ifAnyGranted="advertiser,sales">
+					 <#if city.mediaType == 'screen'>
 					<li class="pg-side-exp-item"><a class="side-exp-item-t"
 						href="${rc.contextPath}/order/myOrders/1"> 我的订单 </a></li>
+						
+						<@security.authorize ifAnyGranted="sales">
 					<li class="pg-side-exp-item"><a class="side-exp-item-t"
-						href="${rc.contextPath}/product/myAuctionList"> 我的获拍 </a></li> </#if>
+						href="${rc.contextPath}/product/myAuctionList"> 我的获拍 </a></li>
+					 </#if>
+					 </@security.authorize>
 					<#if city.mediaType == 'body'>
 					<li class="pg-side-exp-item"><a class="side-exp-item-t"
 						href="${rc.contextPath}/product/busOrderV2_list/my"> 我的订单 </a></li>
-					</#if> </@security.authorize> <@security.authorize
+					</#if> 
+					</@security.authorize> <@security.authorize
 					ifAnyGranted="bodysales">
 					<li class="pg-side-exp-item"><a class="side-exp-item-t"
 						href="${rc.contextPath}/busselect/myOrders/1"> 我的订单 </a>
