@@ -67,7 +67,7 @@
  -->
     <modules>
         <module>dao</module>
-        <module>webapp</module>
+        <module>static</module>
         <module>util</module>
    		 <module>service</module>
    		   <module>web</module>
