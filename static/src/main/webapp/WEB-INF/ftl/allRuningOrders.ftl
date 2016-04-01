@@ -74,7 +74,8 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
             		{ "data": "longOrderId", "defaultContent": "","render": function(data, type, row, meta) {
             			if(row.order.customerJson!=''){
             			var customer = $.parseJSON(row.order.customerJson); 
-                        return  ( customer==null || customer=='undefined' ||typeof(customer) == "undefined"|| typeof(customer.company) == "undefined" )?"":customer.company;
+                        return  ( customer==null || customer=='undefined' ||
+                        typeof(customer) == "undefined"|| typeof(customer.company) == "undefined" )?"":customer.company;
                         }else {
                         return '';
                         }
@@ -234,7 +235,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 				<th>用户</th>
 				<th>订单号</th>
 				 <@security.authorize ifAnyGranted="sales,salesManager">
-				<th>客户</th>
+				<th>代理客户</th>
 				</@security.authorize>
 				<th>套餐名称</th>
 				<!-- <th>素材号</th>-->
