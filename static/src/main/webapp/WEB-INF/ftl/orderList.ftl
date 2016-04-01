@@ -201,7 +201,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                         '    <span>' +
                         '        <input id="autocomplete" value="">' +
                         '    </span>' +
-                        <@security.authorize ifAnyGranted="sales">
+                        <@security.authorize ifAnyGranted="sales,salesManager">
                            '    <span>客户：</span>' +
                         '    <span>' +
                         '        <input id="customerName" style="width:200px" value="">' +
