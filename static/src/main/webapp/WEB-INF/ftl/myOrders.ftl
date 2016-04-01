@@ -99,7 +99,7 @@ var table;
 		table.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
     
-    	<@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+    	<@security.authorize ifAnyGranted="sales,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 	    	function initComplete() {
 	        $("div#toolbar").html(
 	                '<div>' +
