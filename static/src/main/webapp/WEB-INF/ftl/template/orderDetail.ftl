@@ -72,7 +72,7 @@ function supDetail(data){
 			</@security.authorize> 
 			
 			<@security.authorize
-			ifAnyGranted="sales,salesManager">
+			ifAnyGranted="sales,salesManagersales,salesManager,ShibaOrderManager,ShibaFinancialManager">
 			<#if orderview.customerJson?exists>
 			<li style="width: 260px;"><SPAN>客户信息：</SPAN><SPAN class="con" >
 					<a class="layer-tips" tip="点击查看客户用户信息!"

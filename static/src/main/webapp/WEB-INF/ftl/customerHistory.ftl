@@ -54,7 +54,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                 { "data": "newValue", "defaultContent": ""},
                 { "data": "operationUser", "defaultContent": ""},
                 { "data": "updated", "defaultContent": "","render": function(data, type, row, meta) {
-                	var d= $.format.date(data, "yyyy-MM-dd");
+                	var d= $.format.date(data, "yyyy-MM-dd HH:mm");
                 	return d;
                 }},
                
