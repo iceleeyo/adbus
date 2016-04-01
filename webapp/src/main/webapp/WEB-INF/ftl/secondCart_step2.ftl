@@ -186,7 +186,7 @@
 									<li><input type="radio" name="payType" value="offline">
 										<label class="iradio"></label> <span>线下支付</span></li>
 										<@security.authorize ifAnyGranted="sales">
-										<span style = "margin-left:50px">广告主：</span>
+										<span style = "margin-left:50px">客户列表</span>
 	                         				  <span>
 	                               			 <input id="autocomplete" value="" style="width:250px">
 	                               			  <input id="customerId" value="" type="hidden">
