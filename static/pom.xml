@@ -9,7 +9,7 @@
 		<artifactId>adbus-parent</artifactId>
 	</parent>
  
-	<artifactId>webapp</artifactId>
+	<artifactId>static</artifactId>
 	<packaging>war</packaging>
 	<name>AdBus webapp project</name>
 
