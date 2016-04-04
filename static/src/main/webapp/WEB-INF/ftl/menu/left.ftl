@@ -408,7 +408,7 @@
 				</a>
 					<ul class="pg-side-exp-list">
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
-					href="${rc.contextPath}/user/clientList"> 销售员客户管理 </a></li>
+					href="${rc.contextPath}/user/clientList">客户管理 </a></li>
 					</ul>
 			</li>  
 			</@security.authorize>
