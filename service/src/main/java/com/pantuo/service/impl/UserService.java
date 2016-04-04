@@ -335,7 +335,7 @@ public class UserService implements UserServiceInter {
 			}
 			
 			if (userDetail.getId() < 1) {
-				userDetail.setUsername(ShortString.getRandomString(8));
+				userDetail.setUsername(ShortString.getRandomString(8).toLowerCase());
 				userDetail.setCreated(new Date());
 				userDetail.setCreateBySales(Request.getUserId(principal));
 			}
@@ -344,6 +344,8 @@ public class UserService implements UserServiceInter {
 			UserDetail source = userRepo.findOne(query);
 			//add change history by impanxh
 			if (source != null) {
+				userDetail.setCreateBySales(source.getCreateBySales());
+				//----------
 				//原copy一份 
 				UserDetail sourceCopy = new UserDetail();
 				org.apache.commons.beanutils.BeanUtils.copyProperties(sourceCopy, source);
