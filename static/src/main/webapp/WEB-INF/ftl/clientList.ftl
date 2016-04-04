@@ -30,6 +30,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
             "searching": false,
             "ordering": false,
             "serverSide": true,
+              "scrollX": true,
                "iDisplayLength" : 50,
             "aLengthMenu": [[20, 50, 100], [20, 50, 100]],
             "columnDefs": [
@@ -68,7 +69,11 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                     return row.username;
                 },
                     "render": function(data, type, row, meta) {
-                        var op='<a class="operation" href="javascript:void(0);" onclick="deleteClinent(\''+data+'\');" >删除</a> &nbsp;'
+                    
+                        var op=''
+                        if(row.createBySales == '<@security.authentication property="principal.user.id"/>'){
+                         op+='<a class="operation" href="javascript:void(0);" onclick="deleteClinent(\''+data+'\');" >删除</a> &nbsp;'
+                        }
                          op+='<a class="operation" href="${rc.contextPath}/user/editClient/' + data + '" >编辑</a> &nbsp;'
                          op+='<a class="operation" href="${rc.contextPath}/user/customerHistory/' + row.id + '" >修改历史</a> &nbsp;'
                          op+='<a class="operation" href="${rc.contextPath}/user/clientUser_invoice/' + data + '" >发票信息</a> &nbsp;'
