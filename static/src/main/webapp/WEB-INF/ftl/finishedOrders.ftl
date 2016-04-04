@@ -166,6 +166,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 	   	  
         //author:pxh 2015-05-20 22:36
         $( "#autocomplete" ).autocomplete({
+      		  minLength: 0,
   			source: "${rc.contextPath}/user/autoComplete",
   			change: function( event, ui ) { 
   				/*if(ui.item!=null){alert(ui.item.value);}*/
@@ -175,6 +176,8 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
   			 $('#autocomplete').val(ui.item.value);
   				table.fnDraw();
   			 }
+		}).focus(function () {
+		 $(this).autocomplete("search");
 		});
 		<@security.authorize ifAnyGranted="sales,salesManager">
 		       initCustomerAutocomplete('${rc.contextPath}',table);

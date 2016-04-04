@@ -18,6 +18,7 @@ var table;
             "searching": false,
             "ordering": true,
             "serverSide": true,
+              "scrollX": true,
                   <@security.authorize ifNotGranted="sales">
             "aaSorting": [[3, "desc"]],
              </@security.authorize>
@@ -58,7 +59,8 @@ var table;
             	 <@security.authorize ifAnyGranted="sales">
             		{ "data": "longOrderId", "defaultContent": "","render": function(data, type, row, meta) {
             			var customer = $.parseJSON(row.order.customerJson); 
-                        return  (typeof(customer) == "undefined"||typeof(customer.company) == "undefined")?"":customer.company;
+                        return  (customer == null || customer=='undefined'
+                        || typeof(customer) == "undefined"||typeof(customer.company) == "undefined")?"":customer.company;
                     }},
                  </@security.authorize>
                 { "data": "order.startTime", "defaultContent": "","render": function(data, type, row, meta) {
@@ -107,11 +109,12 @@ var table;
 	                        '    <span>' +
 	                        '        <input id="longOrderId" value="">' +
 	                        '    </span>' +
+	                    <@security.authorize ifAnyGranted="salesManager,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 	                             '    <span>广告主：</span>' +
                         '    <span>' +
                         '        <input id="autocomplete" value="">' +
                         '    </span>' +
-                        
+                          </@security.authorize>
                           <@security.authorize ifAnyGranted="sales">
                            '    <span>客户：</span>' +
                         '    <span>' +
@@ -138,6 +141,7 @@ var table;
 		//--
 	         //author:pxh 2015-05-20 22:36
         $( "#autocomplete" ).autocomplete({
+            minLength: 0,
   			source: "${rc.contextPath}/user/autoComplete",
   			change: function( event, ui ) { 
   				/*if(ui.item!=null){alert(ui.item.value);}*/
@@ -147,7 +151,9 @@ var table;
   			 $('#autocomplete').val(ui.item.value);
   				table.fnDraw();
   			 }
-		}); 
+		}).focus(function () {
+		 $(this).autocomplete("search");
+		});
 	    }
    </@security.authorize>
  <@security.authorize ifAnyGranted="advertiser">

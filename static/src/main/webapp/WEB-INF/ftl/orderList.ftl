@@ -98,7 +98,6 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
             	 <@security.authorize ifAnyGranted="sales,salesManager">
             		{ "data": "longOrderId", "defaultContent": "","render": function(data, type, row, meta) {
             			var customer = $.parseJSON(row.order.customerJson); 
-            			 
                         return  (customer == null || customer=='undefined'
                         || typeof(customer) == "undefined"||typeof(customer.company) == "undefined")?"":customer.company;
                     }},
@@ -197,10 +196,12 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                         '    <span>' +
                         '        <input id="longOrderId" value="">' +
                         '    </span>' +
+                           <@security.authorize ifAnyGranted="salesManager,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
                           '    <span>广告主：</span>' +
                         '    <span>' +
                         '        <input id="autocomplete" value="">' +
                         '    </span>' +
+                         </@security.authorize>
                         <@security.authorize ifAnyGranted="sales,salesManager">
                            '    <span>客户：</span>' +
                         '    <span>' +
@@ -215,6 +216,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
         });
         //author:impanxh 2015-05-20 22:36 自动补全功能
         $( "#autocomplete" ).autocomplete({
+       		 minLength: 0,
   			source: "${rc.contextPath}/user/autoComplete",
   			change: function( event, ui ) { 
   				/*if(ui.item!=null){alert(ui.item.value);}*/
@@ -224,6 +226,8 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
   			 $('#autocomplete').val(ui.item.value);
   				table.fnDraw();
   			 }
+		}).focus(function () {
+		 $(this).autocomplete("search");
 		});
 		//--
 		<@security.authorize ifAnyGranted="sales,salesManager">
