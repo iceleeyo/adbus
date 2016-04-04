@@ -333,10 +333,11 @@ public class UserService implements UserServiceInter {
 			if (null != userQualifiView) {
 				userDetail.setQulifijsonstr(JsonTools.getJsonFromObject(userQualifiView));
 			}
-			userDetail.setCreateBySales(Request.getUserId(principal));
+			
 			if (userDetail.getId() < 1) {
 				userDetail.setUsername(ShortString.getRandomString(8));
 				userDetail.setCreated(new Date());
+				userDetail.setCreateBySales(Request.getUserId(principal));
 			}
 
 			BooleanExpression query = QUserDetail.userDetail.id.eq(userDetail.getId());
