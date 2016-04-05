@@ -249,7 +249,7 @@
 							<div class="inner-right">
 								<span>总价:</span> <span id="aprice" class="acount-price">￥${infos.totalPrice}</span>
 								<a href="javascript:void(0);" onclick="selectPro()">
-									<div class="btn-over">生成订单</div>
+									<div class="btn-over">确认选择</div>
 								</a>
 							</div>
 						</div>

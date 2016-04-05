@@ -260,6 +260,7 @@ public class UserManagerController {
 			@RequestParam(value="orderid" ,required=false, defaultValue ="0") int orderid,
 			@RequestParam(value="productid" ,required=false, defaultValue ="0") int productid,
 			@RequestParam(value = "meids", required = false) String meids,
+			@RequestParam(value = "customerId", required = false) String customerId,
 			HttpServletRequest request,HttpServletResponse response) {
 		response.setHeader("X-Frame-Options", "SAMEORIGIN");
 		if(orderid>0){
@@ -271,7 +272,11 @@ public class UserManagerController {
 					}
 				}
 				List<JpaOrders> ordersList=orderService.findordersList(orders.getContractCode());
-				UserDetail userDetail = userService.findByUsername(orders.getUserId());
+				String username=orders.getUserId();
+				if(StringUtils.isNotBlank(customerId)){
+					username=customerId;
+				}
+				UserDetail userDetail = userService.findByUsername(username);
 				model.addAttribute("ordersList", ordersList);
 				model.addAttribute("userDetail", userDetail);
 				model.addAttribute("contractCode",orders.getContractCode());

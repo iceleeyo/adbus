@@ -275,7 +275,7 @@ function getEnd(date,days){
 		<span class="s2">法定代表人 ： </span><span id="legalman" class="s3">${userDetail.legalman!''}</span>
 	</p>
 	<p class="p2">
-		<span class="s2">邮编 ： </span><span class="s3"></span>
+		<span class="s2">邮编 ： </span><span class="s3">${userDetail.zipCode!''}</span>
 	</p>
 	<!--  <p class="p2">
 		<span class="s2">联系人：</span><span class="s3">${userDetail.relateman!''}</span>
