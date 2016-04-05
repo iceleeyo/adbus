@@ -154,8 +154,7 @@
         </sequenceFlow>
         <userTask id="payment" name="支付" activiti:candidateUsers="${_owner.username}"></userTask>
         <sequenceFlow id="flow31" sourceRef="payPlangateWay" targetRef="financialCheck">
-              <conditionExpression xsi:type="tFormalExpression"><![CDATA[${payPlan == false}]]></conditionExpression>
-            
+          <conditionExpression xsi:type="tFormalExpression"><![CDATA[${payPlan == false}]]></conditionExpression>
         </sequenceFlow>
         <userTask id="approve2" name="终审" activiti:candidateGroups="BeiguangMaterialManager">
           <documentation>管理员审核物料信息并入库，填写物料ID等信息，程序设置审核结果的process变量：
@@ -218,19 +217,13 @@
         <endEvent id="endevent4" name="End"></endEvent>
         <exclusiveGateway id="payPlangateWay" name="订单分期"></exclusiveGateway>
         <sequenceFlow id="flow67" sourceRef="payment" targetRef="payPlangateWay"></sequenceFlow>
-        
-        
         <userTask id="setPayPlan" name="分期设置" activiti:candidateGroups="ShibaFinancialManager"></userTask>
         <sequenceFlow id="flow68" sourceRef="payPlangateWay" targetRef="setPayPlan">
-             <conditionExpression xsi:type="tFormalExpression"><![CDATA[${payPlan == true}]]></conditionExpression>
+          <conditionExpression xsi:type="tFormalExpression"><![CDATA[${payPlan == true}]]></conditionExpression>
         </sequenceFlow>
         <userTask id="userFristPay" name="用户首付款" activiti:candidateUsers="${_owner.username}"></userTask>
         <sequenceFlow id="flow70" sourceRef="setPayPlan" targetRef="userFristPay"></sequenceFlow>
         <sequenceFlow id="flow71" sourceRef="userFristPay" targetRef="financialCheck"></sequenceFlow>
-        
-        
-        
-        
       </subProcess>
       <sequenceFlow id="flow38" sourceRef="approvePaymentSubprocess" targetRef="submitSchedule"></sequenceFlow>
       <boundaryEvent id="boundaryerror2" name="Error" attachedToRef="approvePaymentSubprocess">
@@ -242,7 +235,7 @@
 		    execution.setVariable("approve1Comments", "该订单无法排期");
 		</script>
       </scriptTask>
-      <sequenceFlow id="flow62" sourceRef="resetApprove1ScriptTask" targetRef="mainSubprocess"></sequenceFlow>
+      <sequenceFlow id="flow62" sourceRef="resetApprove1ScriptTask" targetRef="approvePaymentSubprocess"></sequenceFlow>
     </subProcess>
     <boundaryEvent id="boundarytimer1" name="Timer" attachedToRef="mainSubprocess" cancelActivity="false">
       <timerEventDefinition>
@@ -598,7 +591,7 @@
       <bpmndi:BPMNEdge bpmnElement="flow62" id="BPMNEdge_flow62">
         <omgdi:waypoint x="1072.0" y="814.0"></omgdi:waypoint>
         <omgdi:waypoint x="1160.0" y="749.0"></omgdi:waypoint>
-        <omgdi:waypoint x="1312.0" y="501.0"></omgdi:waypoint>
+        <omgdi:waypoint x="835.0" y="721.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow54" id="BPMNEdge_flow54">
         <omgdi:waypoint x="786.0" y="907.0"></omgdi:waypoint>
