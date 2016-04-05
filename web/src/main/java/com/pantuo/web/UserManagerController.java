@@ -59,6 +59,7 @@ import com.pantuo.service.impl.GoupManagerServiceImpl;
 import com.pantuo.service.security.Request;
 import com.pantuo.simulate.MailJob;
 import com.pantuo.util.GlobalMethods;
+import com.pantuo.util.JsonTools;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.AutoCompleteView;
 import com.pantuo.web.view.InvoiceView;
@@ -273,17 +274,21 @@ public class UserManagerController {
 				}
 				List<JpaOrders> ordersList=orderService.findordersList(orders.getContractCode());
 				String username=orders.getUserId();
-				if(StringUtils.isNotBlank(customerId)){
-					username=customerId;
-				}
 				UserDetail userDetail = userService.findByUsername(username);
+				if(StringUtils.isNotBlank(orders.getCustomerJson())){
+					userDetail=(UserDetail) JsonTools.readValue(orders.getCustomerJson(), UserDetail.class);
+				}
 				model.addAttribute("ordersList", ordersList);
 				model.addAttribute("userDetail", userDetail);
 				model.addAttribute("contractCode",orders.getContractCode());
 			}
 			
 		}else{
-			UserDetail userDetail = userService.findByUsername(Request.getUserId(principal));
+			String username=Request.getUserId(principal);
+			if(StringUtils.isNotBlank(customerId)){
+				username=customerId;
+			}
+			UserDetail userDetail = userService.findByUsername(username);
 			if(StringUtils.isNoneBlank(meids)){
 				List<JpaCardBoxMedia> cardBoxMedis=productService.selectProByMedias(meids);
 				model.addAttribute("cardBoxMedis", cardBoxMedis);

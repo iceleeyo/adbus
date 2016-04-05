@@ -103,7 +103,10 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                     }},
                     </@security.authorize>
             	{ "data": "order.contractCode", "defaultContent": "", "render": function(data, type, row, meta) {
-                        return "<a class='operation' onclick='eleContract(\"${rc.contextPath}\","+row.order.id+")' >"+data+"</a>";
+            	var customer = $.parseJSON(row.order.customerJson);
+            	var customerId=(customer == null || customer=='undefined'
+                        || typeof(customer) == "undefined"||typeof(customer.username) == "undefined")?"":customer.username;
+                        return "<a class='operation' onclick='eleContract(\"${rc.contextPath}\","+row.order.id+",\""+customerId+"\")' >"+data+"</a>";
                     }},
                 { "data": "order.startTime", "defaultContent": "","render": function(data, type, row, meta) {
                 	var d= $.format.date(data, "yyyy-MM-dd");

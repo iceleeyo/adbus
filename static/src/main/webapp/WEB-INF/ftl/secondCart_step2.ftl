@@ -295,6 +295,7 @@
 								});
 		}
 		function check(){
+		var customerId=$("#customerId").val();
 		var bid='${boids!''}';
 		if(bid==""){
 		$.ajax({
@@ -303,10 +304,6 @@
 		data : {
 		},
 		success : function(data) {
-			 if(typeof(data.company)=="undefined" || data.company=="" || typeof(data.legalman)=="undefined" || data.legalman==""){
-			    layer.msg("请从‘用户信息’菜单进去完善相关信息");
-			 }else{
-					 var customerId=$("#customerId").val();
 					<@security.authorize ifAnyGranted="sales">
 					if(customerId==''  || typeof(customerId)=="undefined" ){
 						layer.confirm('您还没有选择客户信息,确定下单吗？', {
@@ -321,10 +318,13 @@
 					}	
 					 </@security.authorize>
 					 <@security.authorize ifNotGranted="sales">
+					  if(typeof(data.company)=="undefined" || data.company=="" || typeof(data.legalman)=="undefined" || data.legalman==""){
+			             layer.msg("请从‘用户信息’菜单进去完善相关信息");
+			             return;
+			            }
 					 		contractConFirm();
 					  </@security.authorize>
 				 }
-			}
 			});//end ajax
 			}else{
 			payment();
