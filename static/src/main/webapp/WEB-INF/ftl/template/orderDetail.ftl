@@ -32,6 +32,7 @@ function supDetail(data){
 			<SPAN class="con-title"><a class="layer-tips" tip="点击可查看套餐详细内容!"
 					onclick="showProductlayer('${rc.contextPath}',${prod.id});">${prod.name!''}</a></SPAN></li>
 			<#if !(cpdDetail?exists)>
+			
 			<li style="width: 200px;"><SPAN>套餐价格：</SPAN><SPAN class="con"
 				style="color: rgb(245, 135, 8);"> 
 				 <#assign priceTag=0 />
@@ -53,7 +54,29 @@ function supDetail(data){
 						<span id="prodPrice">#{(orderview.order.price)!'';m2M2}</span>
 				</a>
 				</#if>  
-			</SPAN><SPAN>元</SPAN></li> </#if>
+			</SPAN><SPAN>元</SPAN></li>
+			
+			<li style="width: 200px;"><SPAN>已确认收款：</SPAN><SPAN class="con"
+				style="color: rgb(245, 135, 8);"> 
+				 <#assign priceTag=0 />
+					 <@security.authorize ifAnyGranted="sales,salesManager,ShibaOrderManager,advertiser,ShibaFinancialManager">
+								  <@security.authorize ifAnyGranted="sales,salesManager,advertiser,ShibaFinancialManager"> 
+								 	<#assign priceTag=1 />
+								  </@security.authorize>
+								  <@security.authorize ifAnyGranted="ShibaOrderManager"> 
+								 	<#assign priceTag=2 />
+								  </@security.authorize>
+					 </@security.authorize>
+				<#if priceTag == 0>
+				  **
+				<#elseif priceTag == 1>
+				  #{(orderview.order.payPrice)!'';m2M2}
+				<#elseif priceTag == 2>
+				   <span id="prodPrice">#{(orderview.order.payPrice)!'';m2M2}</span>
+				</#if>  
+			</SPAN><SPAN>元</SPAN></li>
+			
+			 </#if>
 			<#if cpdDetail?exists>
 				<li style="width: 200px;"><SPAN>套餐底价：</SPAN>${cpdDetail.saleprice!''}</li>
 				<li style="width: 200px;"><SPAN><b>成交价</b>：</SPAN><font color='#ff9966'>${cpdDetail.comparePrice!''}</font></li>
