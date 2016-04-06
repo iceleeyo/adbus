@@ -133,7 +133,7 @@ public class OrderService {
 				Orders record = new Orders();
 				record.setId(orderid);
 				record.setPayPrice(basePrice);
-				ordersMapper.updateByPrimaryKeySelective(record);
+			//	ordersMapper.updateByPrimaryKeySelective(record);
 			}
 
 		}
