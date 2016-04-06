@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
@@ -54,6 +56,7 @@ import org.springframework.ui.Model;
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaOrders;
+import com.pantuo.dao.pojo.JpaPayPlan;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Contract;
@@ -1016,8 +1019,11 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return 1;
 	}
 
-	public Pair<Object, String> payment(int orderid, String taskid, int contractid, String payType, int isinvoice,
+	public Pair<Object, String> payment(HttpServletRequest request
+			,int orderid, String taskid, int contractid, String payType, int isinvoice,
 			int invoiceid, String contents, String receway, UserDetail u) {
+		
+		String payNextLocation = request.getParameter("payNextLocation"),payWay=request.getParameter("payWay"); 
 		InvoiceDetail invoiceDetail = new InvoiceDetail();
 		Invoice invoice = invoiceMapper.selectByPrimaryKey(invoiceid);
 		Orders orders = ordersMapper.selectByPrimaryKey(orderid);
@@ -1034,7 +1040,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 			Map<String, Object> info = taskService.getVariables(task.getId());
 			UserDetail ul = (UserDetail) info.get(ActivitiService.OWNER);
 			if (ul != null && ObjectUtils.equals(ul.getUsername(), u.getUsername())) {
-				if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
+				if (StringUtils.equals("payment", task.getTaskDefinitionKey()) 
+						||StringUtils.equals("userFristPay", task.getTaskDefinitionKey())) {
 					if (relateContract(orderid, contractid, payType, isinvoice, invoiceDetail, u.getUsername(),
 							StringUtils.EMPTY) > 0) {
 						taskService.claim(task.getId(), u.getUsername());
@@ -1044,7 +1051,14 @@ public class ActivitiServiceImpl implements ActivitiService {
 						MailTask mailTask = new MailTask(u.getUsername(), orderid, null, task.getTaskDefinitionKey(),
 								Type.sendCompleteMail);
 						taskService.complete(task.getId(), variables);
-
+						//首付
+						if (StringUtils.equals("userFristPay", task.getTaskDefinitionKey())) {
+							Pair<Object, String> subResult = orderService.updatePlanState(payWay,orderid, payNextLocation,
+									JpaPayPlan.PayState.check);
+							if (subResult != null) {
+								return subResult;
+							}
+						}
 						mailJob.putMailTask(mailTask);
 						if (orders != null) {
 							return new Pair<Object, String>(orders, String.format("订单支付成功%s!",

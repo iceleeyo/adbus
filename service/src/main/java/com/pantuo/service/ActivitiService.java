@@ -89,7 +89,7 @@ public interface ActivitiService {
 	
 	public void startTest();
 
-	public Pair<Object, String> payment(int orderid, String taskid, int contractid, String payType, int isinvoice,int invoiceid,
+	public Pair<Object, String> payment(HttpServletRequest request,int orderid, String taskid, int contractid, String payType, int isinvoice,int invoiceid,
 			String contents,String receway,UserDetail u);
 
 	public Page<OrderView> findTask(int city, Principal principal, TableRequest req, TaskQueryType tqType);
