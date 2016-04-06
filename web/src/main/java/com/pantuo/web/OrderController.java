@@ -266,6 +266,9 @@ public class OrderController {
 		model.addAttribute("orderview", v);
 		model.addAttribute("prod", prod);
 		model.addAttribute("claimTime", claimTime);
+		
+		orderService.fullFristPayInfo(model, activityId, v);;
+		
 		if(v!=null && v.getOrder()!=null){
 		model.addAttribute("contract", contractService.selectContractById(v.getOrder().getContractId()));
 		if(StringUtils.equals(task.getName(), "支付") || StringUtils.equals(activityId, "userFristPay")){
@@ -279,6 +282,7 @@ public class OrderController {
 		}
 		model.addAttribute("activityId", activityId);
 		orderService.fullPayPlanInfo(model, activityId, v);
+	
 
 		return "handleView2";
 	}
