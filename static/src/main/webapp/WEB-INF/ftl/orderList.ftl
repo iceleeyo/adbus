@@ -1,4 +1,4 @@
-<#import "template/template.ftl" as frame> <#global menu="待办事项">
+6<#import "template/template.ftl" as frame> <#global menu="待办事项">
 <@frame.html title="待办事项列表"
 css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css","css/layer.css"]
 js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer-site.js"]>
@@ -168,8 +168,10 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
 	                        	 tr= "<a class='operation' href='${rc.contextPath}/order/handl/"+taskId+ "'>"+row.task_name+"</a>&nbsp;";
 	                  	  	 }else if(row.definitionKey =='jianboReport'){
 		                  	  	  tr= "<a class='operation' href='${rc.contextPath}/order/handl/"+taskId+ "'>播放确认</a>&nbsp;";
+		                 	}else if(row.definitionKey =='userFristPay'){
+		                  	  	  tr= "<a class='operation' href='${rc.contextPath}/order/handl/"+taskId+ "'>付首款</a>&nbsp;";
 		                 	}else{
-	                  	  	  tr= "<a class='operation' href='${rc.contextPath}/order/handl/"+taskId+ "'>办理</a>&nbsp;";
+	                  	  	  	tr= "<a class='operation' href='${rc.contextPath}/order/handl/"+taskId+ "'>办理</a>&nbsp;";
 	                  	  	 }
 	                    }	
 	                    if(row.canClosed==true){
