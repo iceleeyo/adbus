@@ -76,7 +76,8 @@ public class JpaOrders extends CityEntity {
     private long runningNum;//交易流水号
     
     private double price = 0;		//订单价格 管理员可以根据套餐价格调整订单的价格 比如打折 促销
-
+    
+    private double payPrice = 0;//已支付金额
 
     public JpaOrders() {
         //for serialization
@@ -367,6 +368,14 @@ public class JpaOrders extends CityEntity {
 
 	public void setOrderUserJson(String orderUserJson) {
 		this.orderUserJson = orderUserJson;
+	}
+
+	public double getPayPrice() {
+		return payPrice;
+	}
+
+	public void setPayPrice(double payPrice) {
+		this.payPrice = payPrice;
 	}
 	
 }
