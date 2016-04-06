@@ -1339,6 +1339,30 @@ suppliesView=suppliesView/>
 
 		<TABLE class="ui-table ui-table-gray">
 			<TBODY>
+				<#if orderview.order.payType != "dividpay">
+					<TR>
+						<TD width="20%">已支付金额</TD>
+						<TD colspan=3 style="border-radius: 0 0 0">
+						  <font color="orange"><B>#{ (orderview.order.price)!'';m2M2}</B></font><br> 
+						  </TD>
+					</TR>
+				 </#if> 
+				 
+				 <#if orderview.order.payType == "dividpay">
+					<TR>
+						<TD width="20%">已支付金额</TD>
+						<TD colspan=3 style="border-radius: 0 0 0">
+						  <font color="orange"><B>#{ (payed)!'';m2M2}</B></font><br> 
+						  </TD>
+					</TR>
+					
+					<TR>
+						<TD width="20%">待支付金额</TD>
+						<TD colspan=3 style="border-radius: 0 0 0">
+						  <font color="orange"><B>#{ (needPay)!'';m2M2}</B></font><br> 
+						  </TD>
+					</TR>
+				 </#if> 
 				<TR>
 					<TD width="20%">签收时间</TD>
 					<TD colspan=3 style="border-radius: 0 0 0"><#setting
