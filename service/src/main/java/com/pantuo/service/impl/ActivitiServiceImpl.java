@@ -310,7 +310,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 	}
 	private void setVarFilter(String taskKey, ProcessInstanceQuery countQuery, ProcessInstanceQuery listQuery) {
 		if (StringUtils.isNoneBlank(taskKey) && !StringUtils.startsWith(taskKey, ActivitiService.R_DEFAULTALL)) {
-			if (StringUtils.equals(ActivitiService.OrderStatus.payment.name(), taskKey)) {
+			if (StringUtils.equals(ActivitiService.OrderStatus.payment.name(), taskKey) || StringUtils.equals(ActivitiService.OrderStatus.setPayPlan.name(), taskKey)||StringUtils.equals(ActivitiService.OrderStatus.userFristPay.name(), taskKey)) {
 				//未支付
 				countQuery.variableValueEquals(ActivitiService.R_USERPAYED, false);
 				listQuery.variableValueEquals(ActivitiService.R_USERPAYED, false);
@@ -936,9 +936,10 @@ public class ActivitiServiceImpl implements ActivitiService {
 				if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
 					taskService.claim(task.getId(), u.getUsername());
 					//如果是线上已经支付过了，完成这一步
-					if (order.getStats().equals(JpaOrders.Status.paid)) {
+					if (order.getStats().equals(JpaOrders.Status.paid) || order.getPayType().name().equals("dividpay")) {
 						Map<String, Object> variables = new HashMap<String, Object>();
 						variables.put(ActivitiService.R_USERPAYED, true);
+						variables.put(ActivitiService.PAYPLAN, true);
 						taskService.complete(task.getId(), variables);
 					}
 				}

@@ -378,7 +378,7 @@ function invoicedetail(tourl,orderid){
 		}, "text");
 }
 //查看电子合同
-function eleContract(tourl,orderid){
+function eleContract(tourl,orderid,customerId){
 	$.ajax({
 		url : tourl +"/order/eleContract/"+orderid,
 		type : "POST",
@@ -392,7 +392,7 @@ function eleContract(tourl,orderid){
 	    		area: ['800px', '650px'], 
 	    		content:''
 	    			 +' '
-	  			   	 +'<iframe style="width:99%;height:96%" frameborder="no" src="'+tourl+'/user/contract_templete?orderid='+orderid+'"/><div class="ui-form-item widthdrawBtBox"> </div>'
+	  			   	 +'<iframe style="width:99%;height:96%" frameborder="no" src="'+tourl+'/user/contract_templete?customerId='+customerId+'&orderid='+orderid+'"/><div class="ui-form-item widthdrawBtBox"> </div>'
 	  			});
 		}
 	}, "text");

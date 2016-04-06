@@ -52,6 +52,7 @@ public interface ActivitiService {
 
 	public static String R_DEFAULTALL = "defaultAll";
 	public static String R_USERPAYED = "_userPayed";
+	public static String PAYPLAN = "payPlan";
 	public static String U_ADVERTISER = "advertiser";
 	
 	public static String R_FINISHED = "finished";
@@ -67,7 +68,7 @@ public interface ActivitiService {
 	}
 
 	public static enum OrderStatus {
-		payment, auth, report, over,be_contractEnable/*待合同生效*/,be_workcomple/*待施工完成*/
+		payment, auth, report, over,be_contractEnable/*待合同生效*/,be_workcomple/*待施工完成*/,setPayPlan,userFristPay
 	}
 
 	public static String paymentString = "待支付", authString = "已支付待审核", reportString = "已排期待上播", overString = "已上播";

@@ -185,6 +185,8 @@
 										class="iradio"></label> <span>线上支付(工商银行)</span></li>
 									<li><input type="radio" name="payType" value="offline">
 										<label class="iradio"></label> <span>线下支付</span></li>
+									<li><input type="radio" name="payType" value="dividpay">
+										<label class="iradio"></label> <span>分期付款</span></li>
 										<@security.authorize ifAnyGranted="sales">
 										<span style = "margin-left:50px">客户列表</span>
 	                         				  <span>

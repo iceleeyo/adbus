@@ -263,6 +263,18 @@ function inputSchedule() {
 	]);
 }
 
+//分期设置
+function comitPayPlan() {
+	complete('${taskid!''}',[
+		
+	]);
+}
+//分期设置
+function userFristPay() {
+	complete('${taskid!''}',[
+		
+	]);
+}
 //上播报告
 function shangboReport() {
     var shangboResult=$('#shangboReport :radio[name=shangboResult]:checked').val();
@@ -764,8 +776,9 @@ function uploadImaget(formId) {
 
 
 <@orderDetail.orderDetail orderview=orderview quafiles=quafiles
-suppliesView=suppliesView/> <#if activityId == "payment" || activityId
-== "relateSup">
+suppliesView=suppliesView/> 
+
+<#if activityId == "payment" || activityId == "relateSup">
 <!-- 支付-->
 <div id="payment" class="payment relateSup" style="display: none;">
 	<#if city.mediaType == 'body'> <@pickBuses.pickBuses
@@ -817,17 +830,16 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 					<input type="radio" name="payType" value="online">在线支付 
 					<input type="radio" name="payType" value="remit">汇款支付 
 					<input type="radio"	name="payType" value="others">其他支付
-					<input type="radio" name="payType" value="contract">关联合同				
 				</TD>
 				<TD>
-					<div id="contractCode">
+					<#--<div id="contractCode">
 						<select class="ui-input" name="contractCode" id="contractCode">
 							<option value="" selected="selected">请选择合同</option> <#if
 							contracts?exists> <#list contracts as c>
 							<option value="${c.id}">${c.contractName!''}</option> </#list>
 							</#if>
 						</select>
-					</div>
+					</div>-->
 					<div id="otherpay">
 						<select class="ui-input" name="otherpay" id="otherpay">
 							<option value="" selected="selected">请选择支付方式</option>
@@ -848,83 +860,7 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 				</TD>
 			</TR>
 			</tbody>
-			<TR style="height: 45px;">
-				<TD style="text-align: right">发票信息</TD>
-				<TD colspan=3><input type="checkbox" id="check1" />开具发票
-					<#assign invoicelength=( (InvoiceList?size/4)?ceiling )> <a
-					href="javascript:;" onclick="IvcEnter('${rc.contextPath}');">录入发票</a>
-				</TD>
-			</TR>
-			
-			<tbody id="invoiceTab" style="display: none;">
-				<TR>
-					<td style="text-align: right">发票抬头</td>
-					<TD colspan=3>
-						<div class="cart_address_wrap" id="cartAddress"
-							style="width: 540px;">
-							<#if (InvoiceList?size>0)>
-							<ul class="cart_address_list clearfix" style="width: 550px;"
-								id="cartAddressList">
-								<#list InvoiceList as ilist>
-								<li data-aid="${ilist.id}"
-									tip="${ (ilist.type==1)?string('专用发票','普通发票')}:${ilist.title!''}"
-									class="layer-tips"><span href="javascript:;" class=""
-									style="text-decoration: none;" data-aid="${ilist.id}">
-										<div class="item">
-											<i></i> <span class="">
-												${substring(ilist.title,0,11)} <br> <b
-												class="cart_address_edit"
-												style="display: none; position: inherit;"
-												onclick="qEdit('${rc.contextPath}',${ilist.id})"
-												id="${ilist.id}">编辑</b>
-											</span>
-										</div>
-								</span></li> </#list> <#else> 暂无发票，请录入发票 </#if>
-							</ul>
-							<input type="hidden" id="hiddenINvoiceId" value="0" />
-						</div>
-					</TD>
-				</TR>
-
-				<#if (InvoiceList?size>0)>
-
-				<TR>
-					<td style="text-align: right">发票内容</td>
-					<td colspan="3">
-						<!-- <select style="margin: 20px;" id="contents">
-				               						<option value="">请选择发票开具内容</option>
-				               						<option value="广告发布费">广告发布费</option>
-				               						<option value="广告制作费">广告制作费</option>
-				               						<option value="其他">其他</option>
-				               			</select> -->
-						<div id="conten">
-							<div class="item">
-								<i></i><a content="广告发布费" class="select-type">广告发布费</a>
-							</div>
-							<div class="item">
-								<i></i><a content="制作费" class="select-type">制作费</a>
-							</div>
-						</div> <input type="hidden" id="contents" value="" />
-					</td>
-				</TR>
-
-				<TR style="display: none;">
-					<td style="text-align: right">领取方式</td>
-					<td colspan="3">
-						<div id="rece" style="display: none;">
-							<div class="item">
-								<i></i><a recew="自取" class="select-type">自取</a>
-							</div>
-							<div class="item">
-								<i></i><a recew="邮寄" class="select-type">邮寄</a>
-							</div>
-							<input type="hidden" id="receway" value="自取" />
-						</div>
-					</td>
-				</TR>
-				</#if>
-				<!-- tbody结束 -->
-			</tbody>
+		
 		</TABLE>
 		<div style="margin: 10px 0 0; text-align: center;">
 			<button type="button" onclick="pay()" class="block-btn">确认支付</button>
@@ -945,7 +881,100 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 
 	</div>
 </div>
-</#if> <#if activityId == "relateSup">
+</#if>
+
+<!-- 用户首付款-->
+<#if activityId == "userFristPay">
+<div id="userFristPay" class="userFristPay" style="display: none;">
+	<div class="p20bs mt10 color-white-bg border-ec">
+		<H3 class="text-xl title-box">
+			<p style="text-align: left">
+				<A class="black" href="#">支付订单</A>
+			</p>
+		</H3>
+		<BR>
+		
+		<form id="form1"  target="_blank" style="display: none;" action="https://corporbank3.dccnet.com.cn/servlet/ICBCINBSEBusinessServlet" method="post">
+			    <input type="hidden" name="APIName" value="B2B"/>
+			    <input type="hidden" name="APIVersion" value="001.001.001.001"/>
+			    <input type="hidden" name="Shop_code" value="0200EC14729207"/>
+			    <!--若不正确，将无银行反馈信息，注意不能省略"http://"-->
+			    <input type="hidden" name="MerchantURL" value="${callback}"/>
+			    <input type="hidden" name="ContractNo" value="${contractNo}"/>
+			    <!--金额为不带小数点的到分的一个字符串，即“112390”代表的是“1123.90元”-->
+			    <input type="hidden" name="ContractAmt" value="${totalPrice}"/>
+			    <input type="hidden" name="Account_cur" value="001"/>
+			    <input type="hidden" name="JoinFlag" value="2"/>
+			    <input type="hidden" name="Mer_Icbc20_signstr" value="${a1}"/>
+			    <input type="hidden" name="Cert" value="${a2}"/>
+			    <input type="hidden" name="SendType" value="0"/>
+			    <input type="hidden" name="TranTime" value="${TranTime}" />
+			    <input type="hidden" name="Shop_acc_num" value="0200004519000100173"/>
+			    <input type="hidden" name="PayeeAcct" value="0200004519000100173"/>
+			    <input type="hidden" name="GoodsCode" value="CODE_MEDIA"/>
+			    <input type="hidden" name="GoodsName" value="SPTC"/>
+			    <input type="hidden" name="Amount" value="1"/>
+			    <!--金额为不带小数点的到分的一个字符串，即“112390”代表的是“1123.90元”-->
+			    <input type="hidden" name="TransFee" value="1"/>
+			    <input type="hidden" name="ShopRemark" value=""/>
+			    <input type="hidden" name="ShopRem" value=""/>
+			    <input type="submit" id="icbcOPer" value="确定"/>
+			</form>
+			
+			
+		<TABLE class="ui-table ui-table-gray">
+			<TR style="height: 45px;">
+				<TD width="20%" style="text-align: right">支付方式</TD>
+				<TD>
+					<input type="radio" name="payType" value="online">在线支付 
+					<input type="radio" name="payType" value="remit">汇款支付 
+					<input type="radio"	name="payType" value="others">其他支付
+				</TD>
+				<TD>
+					<div id="otherpay">
+						<select class="ui-input" name="otherpay" id="otherpay">
+							<option value="" selected="selected">请选择支付方式</option>
+							<option value="check">支票</option>
+							<option value="cash">现金</option>
+						</select>
+					</div>
+				</TD>
+			</TR>
+			<tbody id="pingzhengTab">
+			<TR style="height: 45px;">
+				<TD style="text-align: right">上传有效银行支付凭证（可选）</TD>
+				<TD colspan=3>
+				  <form id="form_img" method="post" enctype="multipart/form-data"> 
+                     <img src="" id="showImg" width="200" height="100" border="1px solid #d0d0d0;"/>
+                     <input id ="fileMaterial" name="fileMaterial" type="file" onchange="uploadImaget('form_img');"/>
+                 </form>
+				</TD>
+			</TR>
+			</tbody>
+		
+		</TABLE>
+		<div style="margin: 10px 0 0; text-align: center;">
+			<button type="button" onclick="userFristPay()" class="block-btn">确认支付</button>
+		</div>
+		
+		<div class="worm-tips">
+		<div class="tips-title">
+			<span class="icon"></span>
+			<font color="orange"><B>温馨提示</B></font><br>
+			三方一致：合同甲方公司名称-付款方银行开户名称-开具发票抬头名称<br>
+			线下付款的账户信息：<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;开户行：<B>工行知春路支行</B><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;账户名称：<b>北京世巴传媒有限公司</b><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;收款方账号：<b>0200207909200097152</b><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;公司地址：北京市海淀区紫竹院路32号15号平房	电话：68427368<br>
+		</div>
+		</div>
+
+	</div>
+</div>
+</#if>
+
+ <#if activityId == "relateSup">
 <!-- 支付和绑定素材-->
 <div id="relateSup" class="relateSup" style="display: none;">
 	<#if city.mediaType == 'body'> <@pickBuses.pickBuses
@@ -1336,7 +1365,34 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 
 	</div>
 </div>
-</#if> <#if activityId == "shangboReport">
+</#if>
+
+ <#if activityId == "setPayPlan">
+<!-- 分期设置 -->
+<div id="setPayPlan" class="setPayPlan" style="display: none;">
+	<div class="p20bs mt10 color-white-bg border-ec">
+		<H3 class="text-xl title-box">
+			<A class="black" href="#">分期设置</A>
+		</H3>
+		<BR>
+		<TABLE class="ui-table ui-table-gray">
+			<TBODY>
+				<TR>
+					<TH width="20%">签收时间</TH>
+					<TD colspan=2 style="border-radius: 0 0 0"><#setting
+						date_format="yyyy-MM-dd HH:mm:ss"> ${claimTime!''}</TD>
+				</TR>
+		</TABLE>
+		<div style="margin: 10px 0 0; text-align: center;">
+			<button onclick="comitPayPlan();" class="block-btn">提交</button>
+		</div>
+
+	</div>
+</div>
+</#if>
+
+
+ <#if activityId == "shangboReport">
 <!-- 上播报告 -->
 <div id="shangboReport" class="shangboReport" style="display: none;">
 	<div class="p20bs mt10 color-white-bg border-ec">
@@ -1378,7 +1434,9 @@ suppliesView=suppliesView/> <#if activityId == "payment" || activityId
 
 	</div>
 </div>
-</#if> <#if activityId == "jianboReport">
+</#if>
+
+ <#if activityId == "jianboReport">
 <!-- 监播报告 -->
 <div id="jianboReport" class="jianboReport" style="display: none;">
 	<div class="p20bs mt10 color-white-bg border-ec">

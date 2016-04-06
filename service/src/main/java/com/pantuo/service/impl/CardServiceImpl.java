@@ -856,7 +856,7 @@ public class CardServiceImpl implements CardService {
 			order.setProduct(jpaCardBoxMedia.getProduct());
 			order.setContractCode(code);
 			order.setSuppliesId(1);
-			
+			order.setPayType(JpaOrders.PayType.valueOf(paytype));
 			order.setStats(JpaOrders.Status.unpaid);
 			
 			//线上runningNum 线下orderid 20160317101313

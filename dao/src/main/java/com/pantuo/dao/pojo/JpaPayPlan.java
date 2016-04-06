@@ -45,6 +45,8 @@ public class JpaPayPlan extends BaseEntity {
 	private String setPlanUser;//分期设置人
 	@Column(length=32) 
 	private String payUser;//支付人
+	private String remarks;
+	
 
 	public static enum PayState {
 		init/*未支付*/, payed/*已支付*/, check/*等待款项检查*/
@@ -115,6 +117,14 @@ public class JpaPayPlan extends BaseEntity {
 
 	public void setPayUser(String payUser) {
 		this.payUser = payUser;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
 	}
 
 	 
