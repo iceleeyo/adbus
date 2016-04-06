@@ -1156,6 +1156,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 						Type.sendCompleteMail);
 
 				taskService.complete(taskId, variables);
+				//自动签收首付款 环节
 				autoClaimFristPayUser(task, orderId);
 				
 				mailJob.putMailTask(mailTask);

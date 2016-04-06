@@ -173,7 +173,7 @@ public class OrderService {
 			}
 		}
 
-		model.addAttribute("payNext", r == 0 ? StringUtils.EMPTY : String.valueOf(r));
+		model.addAttribute("payNext",r);
 		model.addAttribute("payNextLocation", ids.toString());
 		model.addAttribute("allLocation", allIds.toString());
 
@@ -184,7 +184,7 @@ public class OrderService {
 			if (view != null) {
 				JpaOrders order = view.getOrder();
 				double payPrice = order.getPrice() - order.getPayPrice();
-				model.addAttribute("payAll", payPrice >= 0 ? String.valueOf(payPrice) : StringUtils.EMPTY);
+				model.addAttribute("payAll", payPrice);
 				getPayNextMoney(order.getId(), model);
 			}
 		}
