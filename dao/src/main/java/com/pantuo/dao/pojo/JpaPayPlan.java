@@ -2,6 +2,7 @@ package com.pantuo.dao.pojo;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -38,10 +39,11 @@ public class JpaPayPlan extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "orderId")
 	private JpaOrders order;
-	private PayType payType;
-	private PayState PayState; 
+	private PayType payType;//付款方式 
+	private PayState payState; //付款状态 从 init 到check 到payed
+	@Column(length=32) 
 	private String setPlanUser;//分期设置人
-
+	@Column(length=32) 
 	private String payUser;//支付人
 
 	public static enum PayState {
@@ -91,6 +93,14 @@ public class JpaPayPlan extends BaseEntity {
 		this.payType = payType;
 	}
 
+	public PayState getPayState() {
+		return payState;
+	}
+
+	public void setPayState(PayState payState) {
+		this.payState = payState;
+	}
+
 	public String getSetPlanUser() {
 		return setPlanUser;
 	}
@@ -107,4 +117,5 @@ public class JpaPayPlan extends BaseEntity {
 		this.payUser = payUser;
 	}
 
+	 
 }
