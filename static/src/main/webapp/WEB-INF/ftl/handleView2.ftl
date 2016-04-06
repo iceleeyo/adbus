@@ -535,15 +535,17 @@ function confirmSchedule() {
 		});
 	}
 	
-function pay() {
+function pay(tp) {
 	    var contractid=-1;
 	     var payType="";
+	      var payWay="";
 	     var invoiceid=0;
 	     var contents="";
 	     var receway="";
 	     var orderid = $("#orderid").val();
 		var taskid = $("#taskid").val();
 	     var temp=document.getElementsByName("payType");
+	       var payWayTemp=document.getElementsByName("payWay");
 	       var isinvoice=0;
 	       if($("input[type='checkbox']").is(':checked')==true){
 	       isinvoice=1;
@@ -555,7 +557,22 @@ function pay() {
            if(temp[i].checked)
             payType = temp[i].value;
          }
-	        if(payType=="contract"){
+           for(var i=0;i<payWayTemp.length;i++)
+         {
+           if(payWayTemp[i].checked)
+            payWay = payWayTemp[i].value;
+         }
+         if(tp=='userFristPay'){
+         	if(payWay==""){
+         		 jDialog.Alert("请选择分期付款方式");
+	         	 return;
+         	}
+         }
+      	   var payWayPost = payWay =='payAll'?$("#allLocation").val():$("#payNextLocation").val();
+            if(payType==""){
+            	 jDialog.Alert("请选择支付方式");
+	         	 return;
+            }else if(payType=="contract"){
 	            contractid=$("#contractCode  option:selected").val();
 	            if(contractid==""){
 	              jDialog.Alert("请选择合同");
@@ -612,7 +629,9 @@ function pay() {
 				"isinvoice":isinvoice,
 				"invoiceid":invoiceid,
 				"contents":contents,
-				"receway":receway
+				"receway":receway,
+				"payWay":payWay,
+				"payNextLocation":payWayPost
 			},
 			success : function(data) {
 				jDialog.Alert(data.right);
@@ -863,7 +882,7 @@ suppliesView=suppliesView/>
 		
 		</TABLE>
 		<div style="margin: 10px 0 0; text-align: center;">
-			<button type="button" onclick="pay()" class="block-btn">确认支付</button>
+			<button type="button" onclick="pay('')" class="block-btn">确认支付</button>
 		</div>
 		
 		<div class="worm-tips">
@@ -889,7 +908,7 @@ suppliesView=suppliesView/>
 	<div class="p20bs mt10 color-white-bg border-ec">
 		<H3 class="text-xl title-box">
 			<p style="text-align: left">
-				<A class="black" href="#">支付订单</A>
+				<A class="black" href="#">订单首付款</A>
 			</p>
 		</H3>
 		<BR>
@@ -921,7 +940,20 @@ suppliesView=suppliesView/>
 			    <input type="submit" id="icbcOPer" value="确定"/>
 			</form>
 			
-			
+			<TABLE class="ui-table ui-table-gray">
+			<TR style="height: 45px;">
+				<TD width="20%" style="text-align: right">分期付款</TD>
+				<TD>
+					<input type="radio" name="payWay" value="payAll">余额付款 <font color="orange">#{(payAll)!'';m2M2} </font>
+					<#if payNext gt 0 >
+					<input type="hidden" id="payNextLocation" value="${payNextLocation!''}"/> 
+					<input type="radio" name="payWay" value="payNext">本期付款 <font color="orange">#{(payNext)!'';m2M2}</font>
+					</#if>
+					
+					<input type="hidden" id="allLocation" value="${allLocation!''}"/> 
+				</TD>
+			</TR>
+		</TABLE>
 		<TABLE class="ui-table ui-table-gray">
 			<TR style="height: 45px;">
 				<TD width="20%" style="text-align: right">支付方式</TD>
@@ -951,10 +983,9 @@ suppliesView=suppliesView/>
 				</TD>
 			</TR>
 			</tbody>
-		
 		</TABLE>
 		<div style="margin: 10px 0 0; text-align: center;">
-			<button type="button" onclick="userFristPay()" class="block-btn">确认支付</button>
+			<button type="button" onclick="pay('userFristPay')" class="block-btn">确认支付</button>
 		</div>
 		
 		<div class="worm-tips">
@@ -1019,7 +1050,7 @@ suppliesView=suppliesView/>
 						</div>
 					</TD>
 					<TD width="25%" style="text-align: center;">
-						<button type="button" onclick="pay()" class="block-btn">确认支付</button>
+						<button type="button" onclick="pay('')" class="block-btn">确认支付</button>
 					</TD>
 				</TR>
 		</TABLE>
