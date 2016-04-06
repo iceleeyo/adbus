@@ -9,7 +9,8 @@ css=["js/jquery-ui/jquery-ui.css"]>
 
 <script type="text/javascript">
     $(document).ready(function() {
-        initPayPlanTable('${rc.contextPath}',${orderId});
+        initPayPlanTable('${rc.contextPath}',${orderId},'<@security.authorize
+			ifAnyGranted="ShibaFinancialManager">edit</@security.authorize>');
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
@@ -19,14 +20,24 @@ css=["js/jquery-ui/jquery-ui.css"]>
 				<th>期数</th>
 								<th>金额</th>
 								<th>付款日期</th>
+								<th>状态</th>
+								<th>付款人</th>
 								<th>备注</th>
-								<th>操作</th>
+								<@security.authorize ifAnyGranted="ShibaFinancialManager"> 
+								<th>操作</th></@security.authorize>
+								
+							<@security.authorize ifNotGranted="ShibaFinancialManager"> 
+								<th></th></@security.authorize>
 			</tr>
 		</thead>
 
 	</table>
+	<br><br><br>
 	<div class="worm-tips">
-		<div class="tips-title"></div>
+	
+		<div class="tips-title">
+		注:已支付的期数不能修改或是删除
+		</div>
 	</div>
 </div>
 </@frame.html>
