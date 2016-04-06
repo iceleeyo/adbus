@@ -1156,6 +1156,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 						Type.sendCompleteMail);
 
 				taskService.complete(taskId, variables);
+				autoClaimFristPayUser(task, orderId);
+				
 				mailJob.putMailTask(mailTask);
 				r.setRight("操作成功 " + getNextTaskInfo(mailTask.getFinishDate(), orderId) + "!");
 			} else {
@@ -1167,6 +1169,23 @@ public class ActivitiServiceImpl implements ActivitiService {
 			r = new Pair<Boolean, String>(false, StringUtils.EMPTY);
 		}
 		return r;
+	}
+
+	private void autoClaimFristPayUser(Task task, Integer orderId) {
+		//setPayPlan
+		if(StringUtils.equals(task.getTaskDefinitionKey(), "setPayPlan")){
+			List<Task>	tasks = taskService.createTaskQuery().processInstanceId(task.getProcessInstanceId()).orderByTaskCreateTime().desc()
+					.listPage(0, 5);
+			for (Task task2 : tasks) {
+				if(StringUtils.equals(task2.getTaskDefinitionKey(), "userFristPay")){
+					Orders orders = 	orderService.selectOrderById(orderId);
+					if(orders!=null){
+					//默认用户签收首付款
+					taskService.claim(task.getId(),(String)task.getProcessVariables().get(ActivitiService.CREAT_USERID));
+					}
+				}
+			}
+		}
 	}
 
 
