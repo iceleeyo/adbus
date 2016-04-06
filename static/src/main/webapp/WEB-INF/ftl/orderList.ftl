@@ -1,4 +1,4 @@
-6<#import "template/template.ftl" as frame> <#global menu="待办事项">
+<#import "template/template.ftl" as frame> <#global menu="待办事项">
 <@frame.html title="待办事项列表"
 css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css","css/layer.css"]
 js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer-site.js"]>
