@@ -17,6 +17,10 @@ import com.pantuo.dao.pojo.JpaOrders.PayType;
  * <b><code>JpaPayPlan</code></b>
  * <p>
  * 分期表
+ * 
+ * 
+ * 注意点：设置分期时候 后期设置的时间不能小于前期的时间 
+ * 删除的时候判断用户是否已支付 payUser==null表示未有人支付
  * </p>
  * <b>Creation Time:</b> 2016年4月6日 上午9:48:02
  * @author impanxh@gmail.com
