@@ -996,18 +996,24 @@ public class ActivitiServiceImpl implements ActivitiService {
 			if (null != invoiceDetail.getId()) {
 				orders.setInvoiceId(invoiceDetail.getId());
 			}
+
 			if (contract != null && contract.getContractCode() != null && payType.equals("contract")) {
 				orders.setContractId(contractid);
-//				orders.setContractCode(contract.getContractCode());
-				orders.setPayType(1);
-			} else if (payType.equals("online")) {
-				orders.setPayType(0);
-			} else if (payType.equals("check")) {
-				orders.setPayType(2);
-			} else if (payType.equals("cash")) {
-				orders.setPayType(4);
-			} else {
-				orders.setPayType(3);
+			}
+			if (orders.getPayType() == null || orders.getPayType().intValue() != 6) {
+				if (contract != null && contract.getContractCode() != null && payType.equals("contract")) {
+					orders.setContractId(contractid);
+					//				orders.setContractCode(contract.getContractCode());
+					orders.setPayType(1);
+				} else if (payType.equals("online")) {
+					orders.setPayType(0);
+				} else if (payType.equals("check")) {
+					orders.setPayType(2);
+				} else if (payType.equals("cash")) {
+					orders.setPayType(4);
+				} else {
+					orders.setPayType(3);
+				}
 			}
 			if (StringUtils.isNoneBlank(taskName)) {
 				finishTaskByTaskName(orderid, taskName, userId);
