@@ -193,6 +193,11 @@
 			<generatedKey column="ID" sqlStatement="${generator.db}"
 				identity="true" />
 		</table>
+		<table schema="" tableName="payPlan" delimitIdentifiers="${generator.delimitIdentifiers}">
+			<generatedKey column="ID" sqlStatement="${generator.db}"
+				identity="true" />
+		</table>
+		
 		
 
 	</context>
