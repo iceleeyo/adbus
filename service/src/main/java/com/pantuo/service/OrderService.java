@@ -179,6 +179,29 @@ public class OrderService {
 
 	}
 
+	public double payed(int orderid) {
+		double r = 0;
+		PayPlanExample example = new PayPlanExample();
+		example.createCriteria().andOrderIdEqualTo(orderid).andPayStateEqualTo(JpaPayPlan.PayState.check.ordinal());
+		example.setOrderByClause("day asc");
+		List<PayPlan> plan = payPlanMapper.selectByExample(example);
+		for (PayPlan payPlan : plan) {
+			r += payPlan.getPrice();
+		}
+		return r;
+	}
+	
+	public void fullFristPayInfo(Model model, String activityId, OrderView view) {
+		if (StringUtils.equals("financialCheck", activityId)) {
+			if (view != null) {
+				JpaOrders order = view.getOrder();
+				double payed = payed(order.getId());
+				model.addAttribute("payed", payed);
+				model.addAttribute("needPay", order.getPrice() - payed < 0 ? 0 : order.getPrice() - payed);
+			}
+		}
+	}
+
 	public void fullPayPlanInfo(Model model, String activityId, OrderView view) {
 		if (StringUtils.equals("userFristPay", activityId)) {
 			if (view != null) {
