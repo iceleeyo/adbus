@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
 import org.apache.commons.lang3.StringUtils;
@@ -33,6 +35,7 @@ import com.pantuo.dao.OrdersRepository;
 import com.pantuo.dao.PayPlanRepository;
 import com.pantuo.dao.pojo.JpaCpd;
 import com.pantuo.dao.pojo.JpaOrders;
+import com.pantuo.dao.pojo.JpaOrders.PayType;
 import com.pantuo.dao.pojo.JpaPayPlan;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.QJpaOrders;
@@ -80,8 +83,8 @@ public class OrderService {
 
 	}
 	
-	public Pair<Object, String> updatePlanState(String payWay, int orderid, String payNextLocation,
-			JpaPayPlan.PayState state) {
+	public Pair<Object, String> updatePlanState(HttpServletRequest request,String payWay, int orderid, String payNextLocation,
+			JpaPayPlan.PayState state,String uid) {
 		Pair<Object, String> r = null;
 		String[] split = StringUtils.split(payNextLocation, "_");
 		if (split.length > 0) {
@@ -94,6 +97,12 @@ public class OrderService {
 					if (plan != null) {
 						payPrice += plan.getPrice();
 						plan.setPayState(state.ordinal());
+						plan.setPayUser(uid);
+						plan.setUpdated(new Date());
+						try {
+							plan.setPayType(PayType.valueOf(request.getParameter("payType")).ordinal());
+						} catch (Exception e) {
+						}
 						planList.add(plan);
 						if (plan.getOrderId().intValue() != orderid) {
 							return new Pair<Object, String>(false, "非法操作");

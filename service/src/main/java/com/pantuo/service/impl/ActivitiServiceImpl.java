@@ -1053,8 +1053,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 						taskService.complete(task.getId(), variables);
 						//首付
 						if (StringUtils.equals("userFristPay", task.getTaskDefinitionKey())) {
-							Pair<Object, String> subResult = orderService.updatePlanState(payWay,orderid, payNextLocation,
-									JpaPayPlan.PayState.check);
+							Pair<Object, String> subResult = orderService.updatePlanState(request,payWay,orderid, payNextLocation,
+									JpaPayPlan.PayState.check,u.getUsername());
 							if (subResult != null) {
 								return subResult;
 							}
