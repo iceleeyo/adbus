@@ -116,6 +116,7 @@ function supDetail(data){
 
 
 			<li class="s-left f-iconli"><span class="s-left tt"><i class="s-left ff-icon"></i>支付及发票</span></li> 
+			 <li style="width: 200px;"><SPAN>分期详情：</SPAN><SPAN class="con"><a href="javascript:void(0)" onclick="queryPayPlanDetail('${rc.contextPath}',${orderview.order.id!''});" >查看</a></SPAN></li>
 			<#if orderview.payTypeString?has_content>
 			<li style="width: 200px;"><SPAN>支付方式：</SPAN><SPAN class="con">${(orderview.payTypeString)!''}</SPAN></li>
 			<#if orderview.payTypeString?has_content && orderview.payTypeString=="关联合同">
@@ -131,6 +132,8 @@ function supDetail(data){
 			  <#elseif orderview.payTypeString?has_content && orderview.payTypeString=="线上支付">
 			     <li style="width: 200px;"><SPAN>流水号：</SPAN><SPAN class="con">123912800234</SPAN></li>
 			  </#if>
+			  
+			  
 			  <@security.authorize ifAnyGranted="advertiser,ShibaFinancialManager">
 			      <li style="width: 200px;"><SPAN>支付凭证：</SPAN><SPAN class="con">
 			      <#if suppliesView.payvouchers??>

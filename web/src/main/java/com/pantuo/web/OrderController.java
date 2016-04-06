@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,18 +38,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaOrders;
+import com.pantuo.dao.pojo.JpaPayPlan;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProductV2;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.mybatis.domain.Orders;
+import com.pantuo.mybatis.domain.PayPlan;
 import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.HistoricTaskView;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.ActivitiService.TaskQueryType;
-import com.pantuo.service.impl.IcbcServiceImpl;
 import com.pantuo.service.BusService;
 import com.pantuo.service.ContractService;
 import com.pantuo.service.CpdService;
@@ -58,11 +58,10 @@ import com.pantuo.service.OrderService;
 import com.pantuo.service.ProductService;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.service.UserServiceInter;
+import com.pantuo.service.impl.IcbcServiceImpl;
 import com.pantuo.service.security.Request;
 import com.pantuo.util.DateUtil;
-import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.NumberPageUtil;
-import com.pantuo.util.Only1ServieUniqLong;
 import com.pantuo.util.Pair;
 import com.pantuo.util.Variable;
 import com.pantuo.web.view.CardView;
@@ -529,5 +528,51 @@ public class OrderController {
 		return orderService.updateOrderPrice(orderId, price);
 	}
 
-
+	@RequestMapping(value = "ajax-getPayPlan", method = RequestMethod.GET)
+	@ResponseBody
+	public List<PayPlan> getPayPlan(HttpServletResponse response,
+			@RequestParam("orderId") int orderId) {
+		 response.setHeader("Access-Control-Allow-Origin", "*");
+		return orderService.getPayPlan(orderId);
+	}
+	@RequestMapping(value = "/deletePayPlan/{id}")
+	@ResponseBody
+	public Pair<Boolean, String> deletePayPlan(@PathVariable("id") int id
+			){
+		
+		return orderService.deletePayPlan(id);
+	}
+	@RequestMapping(value = "/checkOrderPrice/{id}")
+	@ResponseBody
+	public Pair<Boolean, String> checkOrderPrice(@PathVariable("id") int id
+			){
+		
+		return orderService.checkOrderPrice(id);
+	}
+	@RequestMapping(value = "/queryPayPlanByid/{id}")
+	@ResponseBody
+	public JpaPayPlan queryPayPlanByid(Model model,
+			@PathVariable("id") int id, HttpServletRequest request) {
+		   return orderService.queryPayPlanByid(id);
+	} 
+	@RequestMapping(value = "/savePayPlan")
+	@ResponseBody
+	public Pair<Boolean, String> savePayPlan(PayPlan payPlan,
+			 Principal principal,@RequestParam(value = "payDate") String payDate,
+			HttpServletRequest request, @RequestParam(value = "orderId", defaultValue = "0") int orderId)  {
+		return orderService.savePayPlan(payPlan, orderId, payDate,Request.getUserId(principal));
+	}
+	@RequestMapping(value = "/queryPayPlanDetail/{orderId}")
+	public String toPayPlanDetail(Model model, @PathVariable("orderId") int orderId, HttpServletResponse response) {
+		response.setHeader("X-Frame-Options", "SAMEORIGIN");
+		model.addAttribute("orderId", orderId);
+		return "payPlanDetail";
+	}
+	@RequestMapping("ajax-queryPayPlanDetail")
+	@ResponseBody
+	public DataTablePage<JpaPayPlan> queryPayPlanDetail(TableRequest req)
+			{
+		Page<JpaPayPlan> jpabuspage = orderService.queryPayPlanDetail(req ,req.getPage(), req.getLength());
+		return new DataTablePage(jpabuspage, req.getDraw());
+	}
 }

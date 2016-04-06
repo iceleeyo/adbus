@@ -265,11 +265,31 @@ function inputSchedule() {
 
 //分期设置
 function comitPayPlan() {
-	complete('${taskid!''}',[
-		
-	]);
+layer.confirm('确定提交吗？', {icon: 3}, function(index){
+  		layer.close(index);
+		    if(true){
+$.ajax({
+		url:"${rc.contextPath}/order/checkOrderPrice/"+$("#orderid").val(),
+		type:"POST",
+		async:false,
+		dataType:"json",
+		success:function(data){
+			if (data.left) {
+			complete('${taskid!''}',[]);
+			} else {
+			layer.confirm('分期总价和订单价格不相等,确定提交吗？', {icon: 3}, function(index){
+  		      layer.close(index);
+		      if(true){
+		      complete('${taskid!''}',[]);
+			//	layer.alert(data.right,{icon: 5});
+				}}); 
+			}
+		}
+	});  
+	}});  
+	
 }
-//分期设置
+//用户首付款
 function userFristPay() {
 	complete('${taskid!''}',[
 		
@@ -1425,9 +1445,14 @@ suppliesView=suppliesView/>
  <#if activityId == "setPayPlan">
 <!-- 分期设置 -->
 <div id="setPayPlan" class="setPayPlan" style="display: none;">
+
 	<div class="p20bs mt10 color-white-bg border-ec">
 		<H3 class="text-xl title-box">
 			<A class="black" href="#">分期设置</A>
+			<div class="withdraw-title">
+			 <a class="block-btn"
+						style="margin-top: -5px;" href="javascript:void(0);"
+						onclick="addPayPlan('${rc.contextPath}')">添加分期</a>	</div>
 		</H3>
 		<BR>
 		<TABLE class="ui-table ui-table-gray">
@@ -1436,6 +1461,26 @@ suppliesView=suppliesView/>
 					<TH width="20%">签收时间</TH>
 					<TD colspan=2 style="border-radius: 0 0 0"><#setting
 						date_format="yyyy-MM-dd HH:mm:ss"> ${claimTime!''}</TD>
+				</TR>
+				<TR>
+				<TD colspan=2 style="border-radius: 0 0 0">
+				
+				<div class="withdraw-wrap color-white-bg fn-clear">
+	<table id="payPlanTable" class="display nowrap" cellspacing="0">
+		<thead>
+			<tr>
+				<th>期数</th>
+								<th>金额</th>
+								<th>付款日期</th>
+								<th>备注</th>
+								<th>操作</th>
+			</tr>
+		</thead>
+
+	</table>
+</div>
+				
+			</TD>
 				</TR>
 		</TABLE>
 		<div style="margin: 10px 0 0; text-align: center;">
@@ -1543,6 +1588,7 @@ suppliesView=suppliesView/>
 
 
 $(document).ready(function(){
+initPayPlanTable('${rc.contextPath}',$("#orderid").val());
 		$('input').on('ifChecked', function(event){
 			var p =($(this).val());
 			if($(this).attr("name")=='payType'){

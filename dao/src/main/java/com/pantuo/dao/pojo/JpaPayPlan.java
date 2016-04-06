@@ -28,14 +28,14 @@ import com.pantuo.dao.pojo.JpaOrders.PayType;
  * @since pantuo 1.0-SNAPSHOT
  */
 @Entity
-@Table(name = "payPlan")
+@Table(name = "pay_plan")
 public class JpaPayPlan extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private Date day;//分期付款日  4.5  4.8     delete if payUser==null
 	private double price = 0;
-
+     private int periodNum;  //期数
 	@ManyToOne
 	@JoinColumn(name = "orderId")
 	private JpaOrders order;
@@ -61,6 +61,14 @@ public class JpaPayPlan extends BaseEntity {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getPeriodNum() {
+		return periodNum;
+	}
+
+	public void setPeriodNum(int periodNum) {
+		this.periodNum = periodNum;
 	}
 
 	public Date getDay() {

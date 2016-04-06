@@ -19,6 +19,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.access.AccessDeniedException;
@@ -35,6 +37,7 @@ import com.pantuo.dao.OrdersRepository;
 import com.pantuo.dao.PayPlanRepository;
 import com.pantuo.dao.pojo.JpaCpd;
 import com.pantuo.dao.pojo.JpaOrders;
+import com.pantuo.dao.pojo.JpaPayPlan;
 import com.pantuo.dao.pojo.JpaOrders.PayType;
 import com.pantuo.dao.pojo.JpaPayPlan;
 import com.pantuo.dao.pojo.JpaProduct;
@@ -82,6 +85,7 @@ public class OrderService {
 		return ordersMapper.selectByPrimaryKey(id);
 
 	}
+
 	
 	public Pair<Object, String> updatePlanState(HttpServletRequest request,String payWay, int orderid, String payNextLocation,
 			JpaPayPlan.PayState state,String uid) {
@@ -235,17 +239,14 @@ public class OrderService {
 	}
 
 	public Iterable<JpaOrders> selectOrderByUser(int city, String userid, Integer id) {
-		/*		OrdersExample example = new OrdersExample();
-				OrdersExample.Criteria c = example.createCriteria();
-		        c.andCityEqualTo(city);
-				if (null != userid && userid != "") {
-					c.andUserIdEqualTo(userid);
-				}
-				if (null != id && id > 0) {
-					c.andIdEqualTo(id);
-				}
-
-				return ordersMapper.selectByExample(example);*/
+		/*
+		 * OrdersExample example = new OrdersExample(); OrdersExample.Criteria c
+		 * = example.createCriteria(); c.andCityEqualTo(city); if (null !=
+		 * userid && userid != "") { c.andUserIdEqualTo(userid); } if (null !=
+		 * id && id > 0) { c.andIdEqualTo(id); }
+		 * 
+		 * return ordersMapper.selectByExample(example);
+		 */
 		BooleanExpression q = QJpaOrders.jpaOrders.city.eq(city);
 		if (StringUtils.isNotBlank(userid))
 			q = q.and(QJpaOrders.jpaOrders.userId.eq(userid));
@@ -266,6 +267,8 @@ public class OrderService {
 	@Autowired
 	OrdersRepository ordersRepository;
 	@Autowired
+	PayPlanRepository payPlanRepository;
+	@Autowired
 	private RuntimeService runtimeService;
 	@Autowired
 	ActivitiService activitiService;
@@ -274,6 +277,11 @@ public class OrderService {
 	@Autowired
 	private ProductMapper productMapper;
 
+
+	// public int countMyList(String name,String code, HttpServletRequest
+	// request) ;
+	// public List<JpaContract> queryContractList(NumberPageUtil page, String
+	// name, String code, HttpServletRequest request);
 	@Autowired
 	CpdService cpdService;
 
@@ -286,7 +294,7 @@ public class OrderService {
 			com.pantuo.util.BeanUtils.filterXss(order);
 			order.setCreated(new Date());
 			order.setUpdated(new Date());
-			//	
+			//
 			order.setUserId(Request.getUserId(principal));
 			if (order.getPayType() == JpaOrders.PayType.contract.ordinal()) {
 
@@ -314,7 +322,7 @@ public class OrderService {
 	public void saveOrderJpa(int city, JpaOrders order, UserDetail user, int cpdid, JpaProduct prod) {
 		order.setCity(city);
 		try {
-			//设置订单的价格
+			// 设置订单的价格
 			if (prod.getIscompare() == 1) {
 				JpaCpd cpd = cpdService.queryOneCpdByPid(prod.getId());
 				if (cpd == null) {
@@ -331,7 +339,7 @@ public class OrderService {
 
 			if (order.getId() > -1) {
 				boolean isRightRole = true;
-				if (cpdid > 0) {//如果是竞价商品 判断用户对不对
+				if (cpdid > 0) {// 如果是竞价商品 判断用户对不对
 					RoleCpd cpd = roleCpdMapper.selectByPrimaryKey(cpdid);
 					if (cpd != null) {
 						if (StringUtils.equals(cpd.getUserId(), user.getUsername())) {
@@ -345,7 +353,7 @@ public class OrderService {
 					} else {
 						isRightRole = false;
 					}
-				} else {//如果不带cpdid参数 需要验证一次是否是竞价商品 如果是 肯定是伪造的请求
+				} else {// 如果不带cpdid参数 需要验证一次是否是竞价商品 如果是 肯定是伪造的请求
 					if (prod == null) {
 						isRightRole = false;
 					} else if (prod.getIscompare() == 1) {
@@ -363,29 +371,23 @@ public class OrderService {
 
 			}
 
-			/*if (order.getId() > -1) {
-				//if(order.getSuppliesId()>2){
-				activitiService.startProcess2(city, user, order);
-				//}
-				r = new Pair<Boolean, String>(true, "下订单成功！");
-				if (cpdid > 0) {
-					RoleCpd cpd = roleCpdMapper.selectByPrimaryKey(cpdid);
-					if (cpd != null) {
-						if (StringUtils.equals(cpd.getUserId(), user.getUsername())) {
-							cpd.setCheckOrder(JpaCpd.CheckOrder.Y.ordinal());
-							roleCpdMapper.updateByPrimaryKeySelective(cpd);
-						} else {
-							log.warn("{},cpdid:{},非法操作",user.getUsername(),cpdid);
-						}
-					} else {
-
-					}
-				}
-
-			}*/
+			/*
+			 * if (order.getId() > -1) { //if(order.getSuppliesId()>2){
+			 * activitiService.startProcess2(city, user, order); //} r = new
+			 * Pair<Boolean, String>(true, "下订单成功！"); if (cpdid > 0) { RoleCpd
+			 * cpd = roleCpdMapper.selectByPrimaryKey(cpdid); if (cpd != null) {
+			 * if (StringUtils.equals(cpd.getUserId(), user.getUsername())) {
+			 * cpd.setCheckOrder(JpaCpd.CheckOrder.Y.ordinal());
+			 * roleCpdMapper.updateByPrimaryKeySelective(cpd); } else {
+			 * log.warn("{},cpdid:{},非法操作",user.getUsername(),cpdid); } } else {
+			 * 
+			 * } }
+			 * 
+			 * }
+			 */
 		} catch (Exception e) {
 			log.error("order ", e);
-			//r = new Pair<Boolean, String>(false, "下订单失败！");
+			// r = new Pair<Boolean, String>(false, "下订单失败！");
 			if (e instanceof AccessDeniedException) {
 				throw e;
 			}
@@ -416,7 +418,7 @@ public class OrderService {
 	}
 
 	public JpaOrders queryOrderDetail(int orderid, Principal principal) {
-		//		return ordersMapper.selectByPrimaryKey(orderid);
+		// return ordersMapper.selectByPrimaryKey(orderid);
 		JpaOrders r = selectJpaOrdersById(orderid);
 		//判断单纯是广告主身份的
 		if (r != null && principal != null && Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)) {
@@ -435,9 +437,11 @@ public class OrderService {
 			for (HistoricTaskView historicTaskView : views) {
 				if (historicTaskView.getEndTime() != null) {
 					v.put(historicTaskView.getTaskDefinitionKey(),
-							new SectionView(DateConverter.doConvertToString(historicTaskView.getEndTime(),
-									DateConverter.DATE_PATTERN), DateConverter.doConvertToString(
-									historicTaskView.getEndTime(), DateConverter.TIME_PATTERN)));
+							new SectionView(
+									DateConverter.doConvertToString(historicTaskView.getEndTime(),
+											DateConverter.DATE_PATTERN),
+							DateConverter.doConvertToString(historicTaskView.getEndTime(),
+									DateConverter.TIME_PATTERN)));
 				}
 			}
 		}
@@ -537,8 +541,8 @@ public class OrderService {
 
 	public Pair<Object, Object> findOrderAndSup(int city, Principal principal, int orderid) {
 		JpaOrders orders = ordersRepository.findOne(orderid);
-		List<Supplies> supplieslist = suppliesService.querySuppliesByUser(city, principal, orders.getProduct()
-				.getType().ordinal());
+		List<Supplies> supplieslist = suppliesService.querySuppliesByUser(city, principal,
+				orders.getProduct().getType().ordinal());
 		return new Pair<Object, Object>(orders, supplieslist);
 	}
 
@@ -546,4 +550,112 @@ public class OrderService {
 		BooleanExpression query = QJpaOrders.jpaOrders.contractCode.eq(code);
 		return (List<JpaOrders>) ordersRepository.findAll(query);
 	}
+
+	public List<PayPlan> getPayPlan(int orderId) {
+		PayPlanExample example=new PayPlanExample();
+		example.createCriteria().andOrderIdEqualTo(orderId);
+		example.setOrderByClause("day asc");
+		List<PayPlan> list=payPlanMapper.selectByExample(example);
+		return list;
+	}
+
+	public Pair<Boolean, String> deletePayPlan(int id) {
+		PayPlan payPlan=payPlanMapper.selectByPrimaryKey(id);
+		if(payPlan==null){
+			return new Pair<Boolean, String>(false,"信息丢失");
+		}
+		if(!StringUtils.isBlank(payPlan.getPayUser())){
+			return new Pair<Boolean, String>(false,"已有用户付款，删除失败");
+		}
+		int a=payPlanMapper.deleteByPrimaryKey(id);
+		if(a>0){
+			return new Pair<Boolean, String>(true,"删除成功");
+		}
+		return new Pair<Boolean, String>(false,"操作失败");
+
+	}
+
+	public JpaPayPlan queryPayPlanByid(int id) {
+		return payPlanRepository.findOne(id);
+	}
+
+	public Pair<Boolean, String> savePayPlan(PayPlan payPlan, int orderId,String payDate, String userId) {
+		Date date=new Date();
+		if (StringUtils.isNotBlank(payDate)) {
+			try {
+				date=DateUtil.longDf.get().parse(payDate);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		PayPlanExample example2=new PayPlanExample();
+		example2.createCriteria().andOrderIdEqualTo(orderId);
+		example2.setOrderByClause("day desc");
+		List<PayPlan> list=payPlanMapper.selectByExample(example2);
+		if(list.size()>0){
+			if(list.get(0).getDay().after(date)){
+				return new Pair<Boolean, String>(false, "付款日期不得小于已添加分期的付款日期，保存失败");
+			}
+		}
+		payPlan.setDay(date);
+		payPlan.setSetPlanUser(userId);
+		
+		if (null != payPlan.getId() && payPlan.getId() > 0) {
+			PayPlan dividpay2 = payPlanMapper.selectByPrimaryKey(payPlan.getId());
+			if(dividpay2.getPayState()!=JpaPayPlan.PayState.init.ordinal()){
+				return new Pair<Boolean, String>(false, "已有用户付款禁止修改");
+			}
+			com.pantuo.util.BeanUtils.copyProperties(payPlan, dividpay2);
+			if (payPlanMapper.updateByPrimaryKey(dividpay2) > 0) {
+				return new Pair<Boolean, String>(true, "修改成功");
+			}
+			return new Pair<Boolean, String>(false, "操作失败");
+		}
+		PayPlanExample example=new PayPlanExample();
+		example.createCriteria().andOrderIdEqualTo(orderId).andPeriodNumEqualTo(payPlan.getPeriodNum());
+		if(payPlanMapper.countByExample(example)>0){
+			return new Pair<Boolean, String>(false, "期数重复，保存失败");
+		}
+		payPlan.setPayState(JpaPayPlan.PayState.init.ordinal());
+		payPlan.setOrderId(orderId);
+		
+		if (payPlanMapper.insert(payPlan) > 0) {
+			return new Pair<Boolean, String>(true, "保存成功");
+		}
+		return new Pair<Boolean, String>(false, "保存失败");
+	}
+
+	public Page<JpaPayPlan> queryPayPlanDetail(TableRequest req, int page, int length) {
+		if (page < 0)
+			page = 0;
+		if (length < 1)
+			length = 1;
+		Pageable p = new PageRequest(page, length,  new Sort("id"));
+		int id=0;
+		String orderId=req.getFilter("orderId");
+		if (StringUtils.isNotBlank(orderId)) {
+			id=NumberUtils.toInt(orderId);
+		}
+		BooleanExpression query = QJpaPayPlan.jpaPayPlan.order.id.eq(id);
+		return  payPlanRepository.findAll(query, p);
+	}
+
+	public Pair<Boolean, String> checkOrderPrice(int id) {
+		double p=0;
+		Orders orders=ordersMapper.selectByPrimaryKey(id);
+		if(orders==null){
+			return new Pair<Boolean, String>(false,"信息丢失");
+		}
+		PayPlanExample example=new PayPlanExample();
+		example.createCriteria().andOrderIdEqualTo(id);
+		List<PayPlan> list=payPlanMapper.selectByExample(example);
+		for (PayPlan payPlan : list) {
+			p+=payPlan.getPrice();
+		}
+		if(p!=orders.getPrice()){
+			return new Pair<Boolean, String>(false,"分期总价和订单价格不相等");
+		}
+		return new Pair<Boolean, String>(true,"操作成功");
+	}
+
 }
