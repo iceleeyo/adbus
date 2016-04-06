@@ -97,7 +97,7 @@ function dateInput(inputId,prouctId){
 	checkTime(forceInput,prouctId);
 }
 var planTable;
-function initPayPlanTable(purl,orderId) {
+function initPayPlanTable(purl,orderId,canEdit) {
 	planTable = $('#payPlanTable')
 			.dataTable(
 					{
@@ -119,18 +119,28 @@ function initPayPlanTable(purl,orderId) {
 						"columns" : [
 								{ "data": "periodNum", "defaultContent": ""}, 
 								{ "data": "price", "defaultContent": ""}, 
+							 
 								{ "data": "day", "defaultContent": "", "render": function(data) {
                                           return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
                                      } },
+                                 	{ "data": "payState", "defaultContent": "", "render": function(data) {
+                                        return data==0?"待支付":(data==1?"已支付":"支付待确认");
+                                      } }, 
+      								{ "data": "payUser", "defaultContent": ""},
                                      { "data": "remarks", "defaultContent": ""}, 
+                                     
+                                     
                                      { "data": function( row, type, set, meta) {
                                               return row.id;
                                           },
 									"render" : function(data, type, row,
 											meta) {
 										var operations = '';
-										operations += '<a class="operation" href="javascript:void(0);" onclick="deletePayPlan('+data+');" >删除</a>';
-										operations +='&nbsp;&nbsp;<a href="javascript:void(0)"; onclick="toeditPayPlan(\''+purl+'\','+data+');" >修改</a>';
+										if(row.payUser==null && canEdit =='edit'){
+											operations += '<a class="operation" href="javascript:void(0);" onclick="deletePayPlan('+data+');" >删除</a>';
+											operations +='&nbsp;&nbsp;<a href="javascript:void(0)"; onclick="toeditPayPlan(\''+purl+'\','+data+');" >修改</a>';
+										}
+										
 										return operations;
 									}
 								},
@@ -369,7 +379,7 @@ function queryPayPlanDetail(tourl, orderId) {
 		type : 1,
 		title : "订单分期详情",
 		skin : 'layui-layer-rim',
-		area : [ '800px', '500px' ],
+		area : [ '1000px', '500px' ],
 		content : '' + ' '
 				+ '<iframe style="width:99%;height:98%" frameborder="no" src="'
 				+ tourl + '/order/queryPayPlanDetail/' + orderId + '"/>'
