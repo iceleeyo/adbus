@@ -195,7 +195,7 @@ public class OrderController {
 			@RequestParam(value = "payType") String payType, @RequestParam(value = "isinvoice") int isinvoice, @RequestParam(value = "invoiceid") int invoiceid,
 			@RequestParam(value = "contents") String contents,@RequestParam(value = "receway") String receway,
 			Principal principal, HttpServletRequest request, HttpServletResponse response) {
-		return activitiService.payment(Integer.parseInt(orderid), taskid, contractid, payType, isinvoice,invoiceid,contents,receway,
+		return activitiService.payment(request,Integer.parseInt(orderid), taskid, contractid, payType, isinvoice,invoiceid,contents,receway,
 				Request.getUser(principal));
 	}
 
@@ -268,7 +268,7 @@ public class OrderController {
 		model.addAttribute("claimTime", claimTime);
 		if(v!=null && v.getOrder()!=null){
 		model.addAttribute("contract", contractService.selectContractById(v.getOrder().getContractId()));
-		if(StringUtils.equals(task.getName(), "支付")){
+		if(StringUtils.equals(task.getName(), "支付") || StringUtils.equals(activityId, "userFristPay")){
 			icbcService.sufficeIcbcSubmit(model,v.getLongOrderId(), new CardView(null, null, v.getOrder().getPrice(), 1),"offline");
 		}
 		}
@@ -278,7 +278,7 @@ public class OrderController {
 			activityId = ActivitiService.R_MODIFY_ORDER;
 		}
 		model.addAttribute("activityId", activityId);
-		
+		orderService.fullPayPlanInfo(model, activityId, v);
 
 		return "handleView2";
 	}
