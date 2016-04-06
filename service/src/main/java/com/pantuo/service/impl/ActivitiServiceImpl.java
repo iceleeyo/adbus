@@ -1174,16 +1174,13 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 	private void autoClaimFristPayUser(Task task, Integer orderId) {
 		//setPayPlan
-		if(StringUtils.equals(task.getTaskDefinitionKey(), "setPayPlan")){
-			List<Task>	tasks = taskService.createTaskQuery().processInstanceId(task.getProcessInstanceId()).orderByTaskCreateTime().desc()
-					.listPage(0, 5);
-			for (Task task2 : tasks) {
-				if(StringUtils.equals(task2.getTaskDefinitionKey(), "userFristPay")){
-					Orders orders = 	orderService.selectOrderById(orderId);
-					if(orders!=null){
+		if (StringUtils.equals(task.getTaskDefinitionKey(), "setPayPlan")) {
+			List<Task> tasks = taskService.createTaskQuery().processInstanceId(task.getProcessInstanceId()).list();
+			for (Task eachTask : tasks) {
+				if (StringUtils.equals(eachTask.getTaskDefinitionKey(), "userFristPay")) {
 					//默认用户签收首付款
-					taskService.claim(task.getId(),(String)task.getProcessVariables().get(ActivitiService.CREAT_USERID));
-					}
+					taskService.claim(eachTask.getId(),
+							(String) task.getProcessVariables().get(ActivitiService.CREAT_USERID));
 				}
 			}
 		}
