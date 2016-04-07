@@ -1163,6 +1163,13 @@ public class ActivitiServiceImpl implements ActivitiService {
 						Type.sendCompleteMail);
 
 				taskService.complete(taskId, variables);
+				
+				if(StringUtils.equals( "financialCheck", task.getTaskDefinitionKey()) ){//且判断是分期的话 
+					//根据页面选中值 更新分期状态
+					
+				}
+				
+				
 				//自动签收首付款 环节
 				autoClaimFristPayUser(task, orderId);
 				
