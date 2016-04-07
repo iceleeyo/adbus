@@ -49,7 +49,7 @@ public class JpaPayPlan extends BaseEntity {
 	
 
 	public static enum PayState {
-		init/*未支付*/, payed/*已支付*/, check/*等待款项检查*/
+		payed/*已支付*/,	init/*未支付*/, fail/*未收到款项*/, check/*等待款项检查*/
 	}
 
 	public JpaPayPlan() {
