@@ -91,13 +91,6 @@
       </serviceTask>
       <sequenceFlow id="flow42" sourceRef="jianboReport" targetRef="theEnd"></sequenceFlow>
       <subProcess id="approvePaymentSubprocess" name="审核支付流程">
-        <exclusiveGateway id="paymentGateway" name="支付情况检查"></exclusiveGateway>
-        <sequenceFlow id="flow32" name="支付OK" sourceRef="paymentGateway" targetRef="endevent4">
-          <conditionExpression xsi:type="tFormalExpression"><![CDATA[${paymentResult == true}]]></conditionExpression>
-        </sequenceFlow>
-        <sequenceFlow id="flow45" name="支付未完成" sourceRef="paymentGateway" targetRef="paymentFailureEmail">
-          <conditionExpression xsi:type="tFormalExpression"><![CDATA[${paymentResult == false}]]></conditionExpression>
-        </sequenceFlow>
         <exclusiveGateway id="approve2Gateway" name="终审情况"></exclusiveGateway>
         <sequenceFlow id="flow13" name="不通过" sourceRef="approve2Gateway" targetRef="approve1">
           <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approve2Result == false}]]></conditionExpression>
@@ -105,8 +98,6 @@
         <sequenceFlow id="flow15" name="通过" sourceRef="approve2Gateway" targetRef="approveEmail">
           <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approve2Result == true}]]></conditionExpression>
         </sequenceFlow>
-        <userTask id="financialCheck" name="财务确认" activiti:candidateGroups="ShibaFinancialManager"></userTask>
-        <sequenceFlow id="flow44" sourceRef="financialCheck" targetRef="paymentGateway"></sequenceFlow>
         <inclusiveGateway id="readyGateway" name="订单支付及物料情况确认"></inclusiveGateway>
         <sequenceFlow id="flow37" name="订单/支付/物料OK" sourceRef="readyGateway" targetRef="generateSchedule">
           <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approve1Result == true && approve2Result == true  }]]></conditionExpression>
@@ -153,9 +144,6 @@
           <conditionExpression xsi:type="tFormalExpression"><![CDATA[${paymentResult == false}]]></conditionExpression>
         </sequenceFlow>
         <userTask id="payment" name="支付" activiti:candidateUsers="${_owner.username}"></userTask>
-        <sequenceFlow id="flow31" sourceRef="payPlangateWay" targetRef="financialCheck">
-          <conditionExpression xsi:type="tFormalExpression"><![CDATA[${payPlan == false}]]></conditionExpression>
-        </sequenceFlow>
         <userTask id="approve2" name="终审" activiti:candidateGroups="BeiguangMaterialManager">
           <documentation>管理员审核物料信息并入库，填写物料ID等信息，程序设置审核结果的process变量：
 			1.approve2Result：true/false
@@ -210,7 +198,7 @@
         <sequenceFlow id="flow61" name="无法生成排期表" sourceRef="scheduleGateway" targetRef="scheduleErrorEvent">
           <conditionExpression xsi:type="tFormalExpression"><![CDATA[${scheduleResult == false}]]></conditionExpression>
         </sequenceFlow>
-        <sequenceFlow id="flow64" sourceRef="paymentFailureEmail" targetRef="payment"></sequenceFlow>
+        <sequenceFlow id="flow64" sourceRef="paymentFailureEmail" targetRef="exclusivegateway1"></sequenceFlow>
         <userTask id="bindstatic" name="绑定素材" activiti:candidateUsers="${_owner.username}"></userTask>
         <sequenceFlow id="flow65" sourceRef="bindstatic" targetRef="approve1"></sequenceFlow>
         <sequenceFlow id="flow66" sourceRef="orderSubmittedGateway" targetRef="bindstatic"></sequenceFlow>
@@ -223,7 +211,14 @@
         </sequenceFlow>
         <userTask id="userFristPay" name="用户首付款" activiti:candidateUsers="${_owner.username}"></userTask>
         <sequenceFlow id="flow70" sourceRef="setPayPlan" targetRef="userFristPay"></sequenceFlow>
-        <sequenceFlow id="flow71" sourceRef="userFristPay" targetRef="financialCheck"></sequenceFlow>
+        <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+        <sequenceFlow id="flow73" sourceRef="exclusivegateway1" targetRef="payment">
+             <conditionExpression xsi:type="tFormalExpression"><![CDATA[${payPlan == false}]]></conditionExpression>
+        </sequenceFlow>
+        <sequenceFlow id="flow75" sourceRef="exclusivegateway1" targetRef="userFristPay">
+             <conditionExpression xsi:type="tFormalExpression"><![CDATA[${payPlan == true}]]>
+             </conditionExpression>
+        </sequenceFlow>
       </subProcess>
       <sequenceFlow id="flow38" sourceRef="approvePaymentSubprocess" targetRef="submitSchedule"></sequenceFlow>
       <boundaryEvent id="boundaryerror2" name="Error" attachedToRef="approvePaymentSubprocess">
@@ -301,14 +296,8 @@
       <bpmndi:BPMNShape bpmnElement="approvePaymentSubprocess" id="BPMNShape_approvePaymentSubprocess">
         <omgdc:Bounds height="574.0" width="913.0" x="379.0" y="147.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="paymentGateway" id="BPMNShape_paymentGateway">
-        <omgdc:Bounds height="40.0" width="40.0" x="1020.0" y="519.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="approve2Gateway" id="BPMNShape_approve2Gateway">
         <omgdc:Bounds height="40.0" width="40.0" x="760.0" y="453.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="financialCheck" id="BPMNShape_financialCheck">
-        <omgdc:Bounds height="55.0" width="105.0" x="830.0" y="587.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="readyGateway" id="BPMNShape_readyGateway">
         <omgdc:Bounds height="40.0" width="40.0" x="974.0" y="452.0"></omgdc:Bounds>
@@ -338,7 +327,7 @@
         <omgdc:Bounds height="55.0" width="105.0" x="844.0" y="445.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="paymentFailureEmail" id="BPMNShape_paymentFailureEmail">
-        <omgdc:Bounds height="55.0" width="105.0" x="845.0" y="512.0"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="105.0" x="970.0" y="512.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="generateSchedule" id="BPMNShape_generateSchedule">
         <omgdc:Bounds height="55.0" width="105.0" x="1104.0" y="445.0"></omgdc:Bounds>
@@ -359,7 +348,7 @@
         <omgdc:Bounds height="55.0" width="105.0" x="421.0" y="361.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="endevent4" id="BPMNShape_endevent4">
-        <omgdc:Bounds height="35.0" width="35.0" x="1162.0" y="522.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="1220.0" y="522.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="payPlangateWay" id="BPMNShape_payPlangateWay">
         <omgdc:Bounds height="40.0" width="40.0" x="576.0" y="594.0"></omgdc:Bounds>
@@ -368,7 +357,10 @@
         <omgdc:Bounds height="55.0" width="105.0" x="544.0" y="660.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="userFristPay" id="BPMNShape_userFristPay">
-        <omgdc:Bounds height="55.0" width="105.0" x="830.0" y="660.0"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="105.0" x="858.0" y="660.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="890.0" y="519.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="boundaryerror2" id="BPMNShape_boundaryerror2">
         <omgdc:Bounds height="30.0" width="30.0" x="1051.0" y="710.0"></omgdc:Bounds>
@@ -434,21 +426,6 @@
         <omgdi:waypoint x="626.0" y="857.0"></omgdi:waypoint>
         <omgdi:waypoint x="811.0" y="857.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow32" id="BPMNEdge_flow32">
-        <omgdi:waypoint x="1060.0" y="539.0"></omgdi:waypoint>
-        <omgdi:waypoint x="1154.0" y="539.0"></omgdi:waypoint>
-        <omgdi:waypoint x="1162.0" y="539.0"></omgdi:waypoint>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="16.0" width="38.0" x="1097.0" y="503.0"></omgdc:Bounds>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow45" id="BPMNEdge_flow45">
-        <omgdi:waypoint x="1020.0" y="539.0"></omgdi:waypoint>
-        <omgdi:waypoint x="950.0" y="539.0"></omgdi:waypoint>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="16.0" width="55.0" x="941.0" y="570.0"></omgdc:Bounds>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow13" id="BPMNEdge_flow13">
         <omgdi:waypoint x="760.0" y="473.0"></omgdi:waypoint>
         <omgdi:waypoint x="594.0" y="472.0"></omgdi:waypoint>
@@ -463,11 +440,6 @@
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="16.0" width="22.0" x="808.0" y="412.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow44" id="BPMNEdge_flow44">
-        <omgdi:waypoint x="935.0" y="614.0"></omgdi:waypoint>
-        <omgdi:waypoint x="1040.0" y="614.0"></omgdi:waypoint>
-        <omgdi:waypoint x="1040.0" y="559.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow37" id="BPMNEdge_flow37">
         <omgdi:waypoint x="1014.0" y="472.0"></omgdi:waypoint>
@@ -521,10 +493,6 @@
           <omgdc:Bounds height="16.0" width="33.0" x="472.0" y="518.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow31" id="BPMNEdge_flow31">
-        <omgdi:waypoint x="616.0" y="614.0"></omgdi:waypoint>
-        <omgdi:waypoint x="830.0" y="614.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">
         <omgdi:waypoint x="781.0" y="418.0"></omgdi:waypoint>
         <omgdi:waypoint x="780.0" y="453.0"></omgdi:waypoint>
@@ -557,8 +525,8 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow64" id="BPMNEdge_flow64">
-        <omgdi:waypoint x="845.0" y="539.0"></omgdi:waypoint>
-        <omgdi:waypoint x="649.0" y="539.0"></omgdi:waypoint>
+        <omgdi:waypoint x="970.0" y="539.0"></omgdi:waypoint>
+        <omgdi:waypoint x="930.0" y="539.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow65" id="BPMNEdge_flow65">
         <omgdi:waypoint x="526.0" y="388.0"></omgdi:waypoint>
@@ -578,11 +546,15 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow70" id="BPMNEdge_flow70">
         <omgdi:waypoint x="649.0" y="687.0"></omgdi:waypoint>
-        <omgdi:waypoint x="830.0" y="687.0"></omgdi:waypoint>
+        <omgdi:waypoint x="858.0" y="687.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow71" id="BPMNEdge_flow71">
-        <omgdi:waypoint x="882.0" y="660.0"></omgdi:waypoint>
-        <omgdi:waypoint x="882.0" y="642.0"></omgdi:waypoint>
+      <bpmndi:BPMNEdge bpmnElement="flow73" id="BPMNEdge_flow73">
+        <omgdi:waypoint x="890.0" y="539.0"></omgdi:waypoint>
+        <omgdi:waypoint x="649.0" y="539.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow75" id="BPMNEdge_flow75">
+        <omgdi:waypoint x="910.0" y="559.0"></omgdi:waypoint>
+        <omgdi:waypoint x="910.0" y="660.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow38" id="BPMNEdge_flow38">
         <omgdi:waypoint x="835.0" y="721.0"></omgdi:waypoint>
