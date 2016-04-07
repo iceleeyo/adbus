@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
@@ -266,13 +268,25 @@ public class OrderController {
 		model.addAttribute("prod", prod);
 		model.addAttribute("claimTime", claimTime);
 		
-		orderService.fullFristPayInfo(model, activityId, v);;
-		
+		orderService.fullFristPayInfo(model, activityId, v);
+		orderService.fullPayPlanInfo(model, activityId, v);
 		if(v!=null && v.getOrder()!=null){
 		model.addAttribute("contract", contractService.selectContractById(v.getOrder().getContractId()));
-		if(StringUtils.equals(task.getName(), "支付") || StringUtils.equals(activityId, "userFristPay")){
-			icbcService.sufficeIcbcSubmit(model,v.getLongOrderId(), new CardView(null, null, v.getOrder().getPrice(), 1),"offline");
-		}
+			if (StringUtils.equals(task.getName(), "支付") || StringUtils.equals(activityId, "userFristPay")) {
+				if (StringUtils.equals(activityId, "userFristPay")) {
+					Map<String, Object> modelMap = model.asMap();
+					//总金额的工商支付
+					icbcService.sufficeIcbcSubmit(model, v.getLongOrderId(),
+							new CardView(null, null, (Double) modelMap.get("payAll"), 1), "offline", StringUtils.EMPTY,
+							"&L=".concat((String) modelMap.get("allLocation")));
+					icbcService.sufficeIcbcSubmit(model, v.getLongOrderId(),
+							new CardView(null, null, (Double) modelMap.get("payNext"), 1), "offline",
+							"_plan", "&L=".concat((String) modelMap.get("payNextLocation")));
+				} else {
+					icbcService.sufficeIcbcSubmit(model, v.getLongOrderId(), new CardView(null, null, v.getOrder()
+							.getPrice(), 1), "offline");
+				}
+			}
 		}
 		model.addAttribute("InvoiceList", InvoiceList);
 		model.addAttribute("activitis", activitis);
@@ -280,7 +294,7 @@ public class OrderController {
 			activityId = ActivitiService.R_MODIFY_ORDER;
 		}
 		model.addAttribute("activityId", activityId);
-		orderService.fullPayPlanInfo(model, activityId, v);
+	
 	
 
 		return "handleView2";

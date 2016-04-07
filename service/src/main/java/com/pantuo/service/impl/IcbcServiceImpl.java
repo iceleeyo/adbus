@@ -2,6 +2,7 @@ package com.pantuo.service.impl;
 
 import java.io.FileInputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,11 @@ import org.springframework.ui.Model;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.dao.OrdersRepository;
 import com.pantuo.dao.pojo.JpaOrders;
+import com.pantuo.dao.pojo.JpaPayPlan;
 import com.pantuo.dao.pojo.QJpaOrders;
+import com.pantuo.dao.pojo.JpaOrders.PayType;
+import com.pantuo.mybatis.domain.PayPlan;
+import com.pantuo.mybatis.persistence.PayPlanMapper;
 import com.pantuo.service.ActivitiService;
 import com.pantuo.service.IcbcServerTime;
 import com.pantuo.util.OrderIdSeq;
@@ -55,12 +60,20 @@ public class IcbcServiceImpl {
 	@Autowired
 	@Lazy
 	IcbcServerTime icbcServerTime;
-
+	@Autowired
+	private PayPlanMapper payPlanMapper;
+	
 	public void sufficeIcbcSubmit(Model model, long _seriam, CardView cardView, String paytype) {
+		
+		sufficeIcbcSubmit(model, _seriam, cardView, paytype, StringUtils.EMPTY,  StringUtils.EMPTY);
+		
+		
+	}
+	public void sufficeIcbcSubmit(Model model, long _seriam, CardView cardView, String paytype,String attributeTag,String elseParams) {
 		long totalPrice = cardView == null ? 0 : (long) (cardView.getTotalPrice() * 100);
 		String TranTime = String.valueOf(icbcServerTime.getTime());
 		String contractNo = String.valueOf(_seriam);
-		String callback = "http://busme.cn/icbcCallBack?p="+paytype;
+		String callback = "http://busme.cn/icbcCallBack?p="+paytype+elseParams;
 		StringBuilder dBuilder = new StringBuilder();
 		dBuilder.append("APIName=B2B&APIVersion=001.001.001.001&Shop_code=0200EC14729207").append("&MerchantURL=");
 		dBuilder.append(callback);
@@ -73,20 +86,20 @@ public class IcbcServiceImpl {
 
 		String str = dBuilder.toString();
 		log.info(str);
-		model.addAttribute("a1", jiami(str));
-		model.addAttribute("a2", jiami2(str));
-		model.addAttribute("contractNo", contractNo);
-		model.addAttribute("TranTime", TranTime);
-		model.addAttribute("callback", callback);
-		model.addAttribute("runningNum", _seriam);
-		model.addAttribute("totalPrice", totalPrice);
+		model.addAttribute("a1".concat(attributeTag), jiami(str));
+		model.addAttribute("a2".concat(attributeTag), jiami2(str));
+		model.addAttribute("contractNo".concat(attributeTag), contractNo);
+		model.addAttribute("TranTime".concat(attributeTag), TranTime);
+		model.addAttribute("callback".concat(attributeTag), callback);
+		model.addAttribute("runningNum".concat(attributeTag), _seriam);
+		model.addAttribute("totalPrice".concat(attributeTag), totalPrice);
 	}
 
 	public int checkCallBack(String src, HttpServletRequest request) {
 		int r = -1;
 		try {
 			String notifySign = request.getParameter("NotifySign");
-			String paytype=request.getParameter("p");
+			String paytype = request.getParameter("p");
 			log.info("notifySign=" + notifySign);
 			byte[] sign = ReturnValue.base64dec(notifySign.getBytes());
 			String p = this.getClass().getResource("/icbc").getPath();
@@ -101,7 +114,7 @@ public class IcbcServiceImpl {
 				String rnum = request.getParameter("ContractNo");
 				if (StringUtils.isNotBlank(rnum)) {
 					long runningNum = NumberUtils.toLong(rnum);
-					changeOrder2Paid(runningNum,paytype);
+					changeOrder2Paid(runningNum,paytype,request);
 				}
 			}
 			log.info("r_gbk=" + r);
@@ -112,7 +125,7 @@ public class IcbcServiceImpl {
 		return r;
 	}
 
-	private void changeOrder2Paid(long runningNum,String paytype) {
+	private void changeOrder2Paid(long runningNum,String paytype, HttpServletRequest request) {
 		if(StringUtils.equals(paytype, "offline")){
 			int dbid=OrderIdSeq.longOrderId2DbId(runningNum);
 			BooleanExpression query = QJpaOrders.jpaOrders.id.eq(dbid);
@@ -120,7 +133,7 @@ public class IcbcServiceImpl {
 			if(orders!=null){
 				orders.setStats(JpaOrders.Status.paid);
 				ordersRepository.save(orders);
-				changrOrderFlowStats(orders);
+				changrOrderFlowStats(orders,request);
 			}
 		}else{
 		BooleanExpression query = QJpaOrders.jpaOrders.runningNum.eq(runningNum);
@@ -128,23 +141,42 @@ public class IcbcServiceImpl {
 		for (JpaOrders jpaOrders : list) {
 			jpaOrders.setStats(JpaOrders.Status.paid);
 			ordersRepository.save(jpaOrders);
-			changrOrderFlowStats(jpaOrders);
+			changrOrderFlowStats(jpaOrders,request);
 		}
 		}
 	}
-   public void changrOrderFlowStats(JpaOrders jpaOrders){
+   public void changrOrderFlowStats(JpaOrders jpaOrders, HttpServletRequest request){
 	   ProcessInstance processInstance = activitiService.findProcessInstanceByOrderId(jpaOrders.getId(),
 				jpaOrders.getUserId());
 		if (processInstance != null) {
-			List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId())
+			List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()) 
 					.orderByTaskCreateTime().desc().listPage(0, 5);
 			if (!tasks.isEmpty()) {
 				for (Task task : tasks) {
+					
 					if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
 						if (jpaOrders.getStats().equals(JpaOrders.Status.paid)) {
 							Map<String, Object> variables = new HashMap<String, Object>();
 							variables.put(ActivitiService.R_USERPAYED, true);
 							taskService.complete(task.getId(), variables);
+						}
+					} else if (StringUtils.equals("userFristPay", task.getTaskDefinitionKey())) {
+
+						String planIds = request.getParameter("L");
+						String[] ids = StringUtils.split(planIds, "_");
+						for (String string : ids) {
+							int id = NumberUtils.toInt(string, -1);
+							if (id > 0) {
+								PayPlan plan = payPlanMapper.selectByPrimaryKey(id);
+								if (plan != null) {
+									plan.setPayState(JpaPayPlan.PayState.check.ordinal());
+									plan.setPayUser(jpaOrders.getUserId());
+									plan.setUpdated(new Date());
+									plan.setPayType(PayType.online.ordinal());
+									payPlanMapper.updateByPrimaryKey(plan);
+								}
+							}
+
 						}
 					}
 				}
