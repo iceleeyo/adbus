@@ -52,7 +52,8 @@ public interface ActivitiService {
 
 	public static String R_DEFAULTALL = "defaultAll";
 	public static String R_USERPAYED = "_userPayed";
-	public static String PAYPLAN = "payPlan";
+	public static String PAYPLAN = "payPlan";  //是否分期
+	public static String INDEXPAY = "indexpay";  //首付是否付过
 	public static String U_ADVERTISER = "advertiser";
 	
 	public static String R_FINISHED = "finished";

@@ -178,6 +178,9 @@ public class IcbcServiceImpl {
 							}
 
 						}
+						Map<String, Object> variables = new HashMap<String, Object>();
+						variables.put(ActivitiService.INDEXPAY, true);
+						taskService.complete(task.getId(), variables);
 					}
 				}
 			}

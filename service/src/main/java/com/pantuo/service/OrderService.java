@@ -653,7 +653,7 @@ public class OrderService {
 			p+=payPlan.getPrice();
 		}
 		if(p!=orders.getPrice()){
-			return new Pair<Boolean, String>(false,"分期总价和订单价格不相等");
+			return new Pair<Boolean, String>(false,String.valueOf(p));
 		}
 		return new Pair<Boolean, String>(true,"操作成功");
 	}
