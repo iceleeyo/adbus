@@ -154,7 +154,7 @@ function initPayPlanTable(purl,orderId,canEdit) {
 					});
 }
 function drawCallback2() {
-	$('.table-action').click(function() {
+	/*$('.table-action').click(function() {
 		$.post($(this).attr("url"), function(data) {
 		if(data){
 			planTable.dataTable()._fnAjaxUpdate();
@@ -162,7 +162,7 @@ function drawCallback2() {
 			 alert("操作失败");
 			 }
 		})
-	});
+	});*/
 }
 function initComplete2() {
 	$("div#toolbar").attr("style", "width: 70%;")

@@ -275,14 +275,18 @@ $.ajax({
 		dataType:"json",
 		success:function(data){
 			if (data.left) {
-			complete('${taskid!''}',[]);
+			complete('${taskid!''}',[{
+			key: 'indexpay',
+			value: 'false',
+			type: 'B'
+		}]);
 			} else {
-			layer.confirm('分期总价和订单价格不相等,确定提交吗？', {icon: 3}, function(index){
-  		      layer.close(index);
-		      if(true){
-		      complete('${taskid!''}',[]);
-			//	layer.alert(data.right,{icon: 5});
-				}}); 
+			layer.msg('分期总价为  ￥<font color="red">'+data.right+'</font>,和订单价格不相等',{icon: 5});
+			//layer.confirm('分期总价和订单价格不相等,确定提交吗？', {icon: 3}, function(index){
+  		     // layer.close(index);
+		      //if(true){
+		     // complete('${taskid!''}',[]);
+			//	}}); 
 			}
 		}
 	});  
@@ -1464,7 +1468,12 @@ suppliesView=suppliesView/>
  <#if activityId == "setPayPlan">
 <!-- 分期设置 -->
 <div id="setPayPlan" class="setPayPlan" style="display: none;">
-
+<script type="text/javascript">
+$(document).ready(function(){
+initPayPlanTable('${rc.contextPath}',$("#orderid").val(),'<@security.authorize
+			ifAnyGranted="ShibaFinancialManager">edit</@security.authorize>');
+});
+</script>
 	<div class="p20bs mt10 color-white-bg border-ec">
 		<H3 class="text-xl title-box">
 			<A class="black" href="#">分期设置</A>
@@ -1491,8 +1500,15 @@ suppliesView=suppliesView/>
 				<th>期数</th>
 								<th>金额</th>
 								<th>付款日期</th>
+								<th>状态</th>
+								<th>付款人</th>
 								<th>备注</th>
-								<th>操作</th>
+								<@security.authorize ifAnyGranted="ShibaFinancialManager"> 
+								<th>操作</th></@security.authorize>
+								
+							<@security.authorize ifNotGranted="ShibaFinancialManager"> 
+								<th></th>
+								</@security.authorize>
 			</tr>
 		</thead>
 
@@ -1604,10 +1620,8 @@ suppliesView=suppliesView/>
 
 
 <script type="text/javascript">
-
-
 $(document).ready(function(){
-initPayPlanTable('${rc.contextPath}',$("#orderid").val());
+
 		$('input').on('ifChecked', function(event){
 			var p =($(this).val());
 			if($(this).attr("name")=='payType'){

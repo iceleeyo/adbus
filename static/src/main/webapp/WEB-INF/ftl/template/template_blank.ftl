@@ -25,6 +25,9 @@ security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 	src="${rc.contextPath}/js/jquery-dataTables-fnNameOrdering.js"></script>
 <script type="text/javascript" language="javascript"
 	src="${rc.contextPath}/js/jquery-dataTables-fnNoColumnsParams.js"></script>
+	<script type="text/javascript" language="javascript"
+	src="${rc.contextPath}/js/jquery-dataTables-fnCounterColumns.js"></script>
+	
 <script type="text/javascript" language="javascript"
 	src="${rc.contextPath}/js/layer/layer.js"></script>
 <script type="text/javascript" language="javascript"
