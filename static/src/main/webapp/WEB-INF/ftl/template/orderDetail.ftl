@@ -55,7 +55,7 @@ function supDetail(data){
 				</a>
 				</#if>  
 			</SPAN><SPAN>元</SPAN></li>
-			
+			<#if orderview.order.payType=='dividpay'>
 			<li style="width: 200px;"><SPAN>已确认收款：</SPAN><SPAN class="con"
 				style="color: rgb(245, 135, 8);"> 
 				 <#assign priceTag=0 />
@@ -75,7 +75,7 @@ function supDetail(data){
 				   <span id="prodPrice">#{(orderview.order.payPrice)!'';m2M2}</span>
 				</#if>  
 			</SPAN><SPAN>元</SPAN></li>
-			
+			</#if>  
 			 </#if>
 			<#if cpdDetail?exists>
 				<li style="width: 200px;"><SPAN>套餐底价：</SPAN>${cpdDetail.saleprice!''}</li>
@@ -170,14 +170,13 @@ function supDetail(data){
 			   <#if contract?? && contract.parentid!=0>
 			<li style="width: 200px;"><SPAN>结算方式：</SPAN><SPAN class="con">统一结算</SPAN></li>
 			</#if>
-			<@security.authorize
-			ifAnyGranted="ShibaOrderManager,ShibaFinancialManager">
-			<li style="width: 200px;"><SPAN>是否开发票：</SPAN><SPAN class="con">
-					<#if orderview.order.isInvoice==1 > <a class="layer-tips"
-					tip="点击可查看发票详细内容!"
-					onclick="invoicedetail('${rc.contextPath}',${orderview.order.id!''});"
-					href="javascript:void(0)"> 是(查看详情)</a> <#else> 否 </#if>
-			</SPAN></li>
+			<@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager">
+				<li style="width: 200px;"><SPAN>是否开发票：</SPAN><SPAN class="con">
+						<#if orderview.order.isInvoice==1 > <a class="layer-tips"
+						tip="点击可查看发票详细内容!"
+						onclick="invoicedetail('${rc.contextPath}',${orderview.order.id!''});"
+						href="javascript:void(0)"> 是(查看详情)</a> <#else> 否 </#if>
+				</SPAN></li>
 			</@security.authorize>
 
 			<li class="s-left f-iconli"><span class="s-left tt"><i

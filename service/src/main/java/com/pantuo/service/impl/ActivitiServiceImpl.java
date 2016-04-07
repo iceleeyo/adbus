@@ -900,6 +900,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		//String ssu=u.getUsername();
 		//u.setUsername(u.getCompany());
 		initParams.put(ActivitiService.OWNER, u);
+		initParams.put(ActivitiService.PAYPLAN, false);
 		initParams.put(ActivitiService.CREAT_USERID, u.getUsername());
 		initParams.put(ActivitiService.ORDER_ID, order.getId());
 		//add company for customer
@@ -938,7 +939,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			for (Task task : tasks) {
 				if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
 					taskService.claim(task.getId(), u.getUsername());
-					//如果是线上已经支付过了，完成这一步
+					//如果是线上支付，完成这一步
 					if (order.getStats().equals(JpaOrders.Status.paid) || order.getPayType().name().equals("dividpay")) {
 						Map<String, Object> variables = new HashMap<String, Object>();
 						variables.put(ActivitiService.R_USERPAYED, true);
