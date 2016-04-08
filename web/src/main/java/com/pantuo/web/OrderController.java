@@ -196,7 +196,7 @@ public class OrderController {
 			@RequestParam(value = "payType") String payType, @RequestParam(value = "isinvoice") int isinvoice, @RequestParam(value = "invoiceid") int invoiceid,
 			@RequestParam(value = "contents") String contents,@RequestParam(value = "receway") String receway,
 			Principal principal, HttpServletRequest request, HttpServletResponse response) {
-		return activitiService.payment(request,Integer.parseInt(orderid), taskid, contractid, payType, isinvoice,invoiceid,contents,receway,
+		return activitiService.payment(request,NumberUtils.toInt(orderid), taskid, contractid, payType, isinvoice,invoiceid,contents,receway,
 				Request.getUser(principal));
 	}
 
@@ -294,12 +294,23 @@ public class OrderController {
 			activityId = ActivitiService.R_MODIFY_ORDER;
 		}
 		model.addAttribute("activityId", activityId);
-	
-	
-
 		return "handleView2";
 	}
-
+	@RequestMapping(value = "/orderDetail/{orderid}", produces = "text/html;charset=utf-8")
+	public String orderDetail(Model model, @PathVariable("orderid") int orderid,
+			@RequestParam(value = "taskid", required = false) String taskid,
+			@RequestParam(value = "auto", required = false) String auto,
+			@RequestParam(value = "pid", required = false) String pid, Principal principal,
+			@CookieValue(value = "city", defaultValue = "-1") int city, HttpServletRequest request) throws Exception {
+		return activitiService.showOrderDetail(city, model, orderid, taskid, pid, principal,BooleanUtils.toBoolean(auto));
+	}
+	@RequestMapping(value = "/toRestPay/{orderid}", produces = "text/html;charset=utf-8")
+	public String toRestPay(Model model, @PathVariable("orderid") int orderid,Principal principal,
+			@RequestParam(value = "pid", required = false) String pid,
+			@CookieValue(value = "city", defaultValue = "-1") int city,
+			 HttpServletRequest request)  {
+		return activitiService.toRestPay(model,orderid,city,pid,principal);
+	}
 	@RequestMapping(value = "modifyOrder")
 	@ResponseBody
 	public Pair<Object, String> modifyOrder(@RequestParam(value = "orderid") String orderid,
@@ -387,14 +398,6 @@ public class OrderController {
 		return "relateSup";
 	}
 
-	@RequestMapping(value = "/orderDetail/{orderid}", produces = "text/html;charset=utf-8")
-	public String orderDetail(Model model, @PathVariable("orderid") int orderid,
-			@RequestParam(value = "taskid", required = false) String taskid,
-			@RequestParam(value = "auto", required = false) String auto,
-			@RequestParam(value = "pid", required = false) String pid, Principal principal,
-			@CookieValue(value = "city", defaultValue = "-1") int city, HttpServletRequest request) throws Exception {
-		return activitiService.showOrderDetail(city, model, orderid, taskid, pid, principal,BooleanUtils.toBoolean(auto));
-	}
 
 	 
 	/**
@@ -516,10 +519,6 @@ public class OrderController {
 	public String finishedOrders() {
 		return "finishedOrders";
 	}
-	@RequestMapping(value = "/payPlanOrders")
-	public String payPlanOrders() {
-		return "payPlanOrders";
-	}
 	@RequestMapping(value = "/over/{productid}")
 	public String product_finish(Model model, Principal principal, @PathVariable int productid,  
 			HttpServletRequest request, HttpServletResponse response) {
@@ -587,10 +586,21 @@ public class OrderController {
 		model.addAttribute("orderId", orderId);
 		return "payPlanDetail";
 	}
+	@RequestMapping(value = "/payPlanOrders")
+	public String payPlanOrders() {
+		return "payPlanOrders";
+	}
+	@RequestMapping("ajax-payPlanOrders")
+	@ResponseBody
+	public DataTablePage<OrderView> getPayPlanOrders(TableRequest req,Principal principal)
+			{
+		Page<OrderView> page = orderService.getPayPlanOrders(req ,req.getPage(), req.getLength(),Request.getUserId(principal));
+		return new DataTablePage(page, req.getDraw());
+	}
 	@RequestMapping("ajax-queryPayPlanDetail")
 	@ResponseBody
-	public DataTablePage<JpaPayPlan> queryPayPlanDetail(TableRequest req)
-			{
+	public DataTablePage<JpaPayPlan> queryPayPlanDetail(TableRequest req,Principal principal)
+	{
 		Page<JpaPayPlan> jpabuspage = orderService.queryPayPlanDetail(req ,req.getPage(), req.getLength());
 		return new DataTablePage(jpabuspage, req.getDraw());
 	}

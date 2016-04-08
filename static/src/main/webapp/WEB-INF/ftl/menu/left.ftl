@@ -119,13 +119,10 @@
 												     已完成的订单(广告主)
 												</a>
 											</li>-->
-					<#if city.mediaType == 'screen'>
 					<li class="pg-side-exp-item"><a class="side-exp-item-t"
-						href="${rc.contextPath}/order/finished"> 已完成订单 </a></li> </#if> <#if
-					city.mediaType == 'body'></li>
-			<li class="pg-side-exp-item"><a class="side-exp-item-t"
-				href="${rc.contextPath}/busselect/finished"> 已完成订单 </a></li> </#if>
-
+						href="${rc.contextPath}/order/finished"> 已完成订单 </a></li> 
+					<li class="pg-side-exp-item"><a class="side-exp-item-t"
+						href="${rc.contextPath}/order/payPlanOrders">待支付分期订单 </a></li> 
 		</ul>
 		</li> </@security.authorize> <#if city.mediaType == 'screen'>
 		<@security.authorize

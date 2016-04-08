@@ -22,7 +22,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -37,7 +36,6 @@ import com.pantuo.dao.OrdersRepository;
 import com.pantuo.dao.PayPlanRepository;
 import com.pantuo.dao.pojo.JpaCpd;
 import com.pantuo.dao.pojo.JpaOrders;
-import com.pantuo.dao.pojo.JpaPayPlan;
 import com.pantuo.dao.pojo.JpaOrders.PayType;
 import com.pantuo.dao.pojo.JpaPayPlan;
 import com.pantuo.dao.pojo.JpaProduct;
@@ -64,6 +62,7 @@ import com.pantuo.service.security.Request;
 import com.pantuo.util.Constants;
 import com.pantuo.util.DateConverter;
 import com.pantuo.util.DateUtil;
+import com.pantuo.util.OrderIdSeq;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.OrderView;
 import com.pantuo.web.view.SectionView;
@@ -656,6 +655,27 @@ public class OrderService {
 			return new Pair<Boolean, String>(false,String.valueOf(p));
 		}
 		return new Pair<Boolean, String>(true,"操作成功");
+	}
+
+
+	public Page<OrderView> getPayPlanOrders(TableRequest req, int page, int length,String userId) {
+		List<OrderView> views = new ArrayList<OrderView>();
+		if (page < 0)
+			page = 0;
+		if (length < 1)
+			length = 1;
+		Pageable p = new PageRequest(page, length,  new Sort("id"));
+		BooleanExpression query = QJpaOrders.jpaOrders.userId.eq(userId);
+		query=query.and(QJpaOrders.jpaOrders.price.gt(QJpaOrders.jpaOrders.payPrice));
+		List<JpaOrders> list= (List<JpaOrders>) ordersRepository.findAll(query);
+		for (JpaOrders jpaOrders : list) {
+			OrderView v = new OrderView();
+			v.setOrder(jpaOrders);
+			v.setLongOrderId(OrderIdSeq.getLongOrderId(jpaOrders));
+			views.add(v);
+		}
+		return new org.springframework.data.domain.PageImpl<OrderView>(
+				views, p,views.size());
 	}
 
 }

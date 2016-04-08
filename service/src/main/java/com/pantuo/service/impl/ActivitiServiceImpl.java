@@ -94,6 +94,7 @@ import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.OrderException;
 import com.pantuo.util.OrderIdSeq;
 import com.pantuo.util.Pair;
+import com.pantuo.web.view.CardView;
 import com.pantuo.web.view.OrderView;
 import com.pantuo.web.view.SuppliesView;
 
@@ -1366,11 +1367,15 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		return processInstance;
 	}
-	public ProcessView findPidByOrderid(int orderid, String userId) {
+
+	public ProcessView findPidByOrderid(int orderid, String userId, boolean filterUser) {
 		// 找到流程实例
-		List<ProcessInstance> list = runtimeService.createProcessInstanceQuery().involvedUser(userId)
-				.includeProcessVariables().variableValueEquals(ORDER_ID, orderid).orderByProcessInstanceId().desc()
-				.listPage(0, 1);
+		ProcessInstanceQuery query = runtimeService.createProcessInstanceQuery();
+		if (filterUser) {
+			query = query.involvedUser(userId);
+		}
+		List<ProcessInstance> list = runtimeService.createProcessInstanceQuery().includeProcessVariables()
+				.variableValueEquals(ORDER_ID, orderid).orderByProcessInstanceId().desc().listPage(0, 1);
 		ProcessInstance processInstance = null;
 		String pid = null;
 		Map<String, Object> var = null;
@@ -1378,8 +1383,11 @@ public class ActivitiServiceImpl implements ActivitiService {
 			processInstance = list.get(0);
 		}
 		if (processInstance == null) {
-			HistoricProcessInstance hpie = historyService.createHistoricProcessInstanceQuery().finished()
-					.involvedUser(userId).processDefinitionKey(MAIN_PROCESS).includeProcessVariables()
+			HistoricProcessInstanceQuery istoricQuery = historyService.createHistoricProcessInstanceQuery();
+			if (filterUser) {
+				istoricQuery = istoricQuery.involvedUser(userId);
+			}
+			HistoricProcessInstance hpie = istoricQuery.finished().processDefinitionKey(MAIN_PROCESS).includeProcessVariables()
 					.variableValueEquals(ORDER_ID, orderid).singleResult();
 			if (hpie != null) {
 				pid = hpie.getId();
@@ -1721,7 +1729,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 				}
 
 			} else if (order != null) {
-				ProcessView pw = findPidByOrderid(order.getId(), Request.getUserId(principal));
+				ProcessView pw = findPidByOrderid(order.getId(), Request.getUserId(principal),true);
 				if (pw.pid != null) {
 					activitis = findHistoricUserTask(city, pw.pid, null);
 					orderView.setTask_name(getOrderState(pw.var));
@@ -1740,6 +1748,66 @@ public class ActivitiServiceImpl implements ActivitiService {
 			model.addAttribute("prod", prod);
 			return "finishedOrderDetail";
 		}
+	}
+	@Autowired
+	IcbcServiceImpl icbcService;
+	@Override
+	public String toRestPay(Model model, int orderid,int city, String pid, Principal principal) {
+		OrderView orderView = gotoView(model, orderid, city, principal);
+		
+		
+		
+		orderService.fullPayPlanInfo(model, "userFristPay", orderView);
+		Map<String, Object> modelMap = model.asMap();
+		//总金额的工商支付
+		icbcService.sufficeIcbcSubmit(model, orderView.getLongOrderId(),
+				new CardView(null, null, (Double) modelMap.get("payAll"), 1), "offline", StringUtils.EMPTY,
+				"&L=".concat((String) modelMap.get("allLocation")));
+		icbcService.sufficeIcbcSubmit(model, orderView.getLongOrderId(),
+				new CardView(null, null, (Double) modelMap.get("payNext"), 1), "offline",
+				"_plan", "&L=".concat((String) modelMap.get("payNextLocation")));
+		return "restPay";
+	}
+
+	private OrderView gotoView(Model model, int orderid, int city, Principal principal) {
+		JpaOrders order = orderService.selectJpaOrdersById(orderid);
+		JpaProduct prod = null;
+		Long longorderid = null;
+		List<HistoricTaskView> activitis = null;
+		OrderView orderView = new OrderView();
+		SuppliesView suppliesView = null;
+		SuppliesView quafiles = null;
+
+		if (order != null) {
+			orderView.setOrder(order);
+			prod = productService.findById(order.getProductId());
+			longorderid = OrderIdSeq.getIdFromDate(order.getId(), order.getCreated());
+			suppliesView = suppliesService.getSuppliesDetail(orderView.getOrder(), principal);
+			quafiles = suppliesService.getQua(orderView.getOrder().getSuppliesId(), null);
+			prod = productService.findById(order.getProductId());
+		} else {
+			throw new OrderException("订单信息丢失!");
+		}
+		orderView.setTask_name(StringUtils.EMPTY);
+
+			ProcessView pw = findPidByOrderid(order.getId(), Request.getUserId(principal),false);
+			if (pw.pid != null) {
+				activitis = findHistoricUserTask(city, pw.pid, null);
+				orderView.setTask_name(getOrderState(pw.var));
+			}
+		
+
+		model.addAttribute("activitis", activitis);
+		model.addAttribute("suppliesView", suppliesView);
+		model.addAttribute("quafiles", quafiles);
+		model.addAttribute("order", order);
+		model.addAttribute("longorderid", longorderid);
+		model.addAttribute("orderview", orderView);
+		if(orderView!=null && orderView.getOrder()!=null){
+		model.addAttribute("contract", contractService.selectContractById(orderView.getOrder().getContractId()));
+		}
+		model.addAttribute("prod", prod);
+		return orderView;
 	}
 
 	@Override

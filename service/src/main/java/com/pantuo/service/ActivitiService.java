@@ -184,4 +184,6 @@ public interface ActivitiService {
 
 
 	public Pair<Boolean, String> checkApproveResult(String orderid);
+
+	public String toRestPay(Model model, int orderid, int city, String pid, Principal principal);
 }

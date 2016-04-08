@@ -575,11 +575,6 @@ function pay(tp) {
 	     var temp=document.getElementsByName("payType");
 	       var payWayTemp=document.getElementsByName("payWay");
 	       var isinvoice=0;
-	       if($("input[type='checkbox']").is(':checked')==true){
-	       isinvoice=1;
-	       }else{
-	       isinvoice=0;
-	       }
 	      for(var i=0;i<temp.length;i++)
          {
            if(temp[i].checked)
@@ -631,26 +626,6 @@ function pay(tp) {
 	            contractid=-1;
 	         }
 		
-		if(isinvoice==1){
-		        //contents=$("#contents  option:selected").val();
-	            //receway=$("#receway  option:selected").val();
-	              receway=$("#receway").val();
-	              contents=$("#contents").val();
-	           invoiceid=  $("#hiddenINvoiceId").val();
-	            if(  (invoiceid) == "0"){
-	              jDialog.Alert("请选择发票");
-	              return;
-	            }
-	            if(contents==""){
-	              jDialog.Alert("请选择发票开具内容");
-	              return;
-	            }
-	            if(receway==""){
-	              jDialog.Alert("请选择发票领取方式");
-	              return;
-	            }
-	            
-	  }
 		$.ajax({
 			url : "${rc.contextPath}/order/payment",
 			type : "POST",
