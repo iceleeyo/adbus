@@ -11,6 +11,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.pantuo.dao.pojo.JpaOrders;
+import com.pantuo.dao.pojo.JpaOrders.PayType;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaSupplies;
 import com.pantuo.dao.pojo.UserDetail;
@@ -215,7 +216,11 @@ public class OrderView {
 		if (order == null || order.getPayType() == null) {
 			return org.apache.commons.lang3.StringUtils.EMPTY;
 		}
-		switch (order.getPayType()) {
+		return getPayName(order.getPayType());
+	}
+
+	public static String getPayName(PayType type) {
+		switch (type) {
 		case contract:
 			return "关联合同";
 		case online:
@@ -226,6 +231,8 @@ public class OrderView {
 			return "汇款";
 		case cash:
 			return "现金交易";
+		case dividpay:
+			return "分期付款";
 		default:
 			return "";
 		}
