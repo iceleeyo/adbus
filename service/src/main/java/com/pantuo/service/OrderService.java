@@ -54,6 +54,7 @@ import com.pantuo.mybatis.persistence.OrdersMapper;
 import com.pantuo.mybatis.persistence.PayPlanMapper;
 import com.pantuo.mybatis.persistence.ProductMapper;
 import com.pantuo.mybatis.persistence.RoleCpdMapper;
+import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.HistoricTaskView;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService.TaskQueryType;
@@ -65,6 +66,7 @@ import com.pantuo.util.DateUtil;
 import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.OrderIdSeq;
 import com.pantuo.util.Pair;
+import com.pantuo.web.view.OrderPlanView;
 import com.pantuo.web.view.OrderView;
 import com.pantuo.web.view.SectionView;
 
@@ -85,6 +87,18 @@ public class OrderService {
 		return ordersMapper.selectByPrimaryKey(id);
 
 	}
+	
+	
+	public void updatePayPrice(Integer id, double payPrice) {
+		Orders order = selectOrderById(id);
+		if (order != null) {
+			Orders record = new Orders();
+			record.setId(id);
+			record.setPayPrice(payPrice + order.getPayPrice());
+			ordersMapper.updateByPrimaryKeySelective(record);
+		}
+	}
+ 
 
 	
 	public Pair<Object, String> updatePlanState(HttpServletRequest request,String payWay, int orderid, String payNextLocation,
@@ -625,7 +639,49 @@ public class OrderService {
 		return new Pair<Boolean, String>(false, "保存失败");
 	}
 
+	public DataTablePage<OrderPlanView> queryAllPlan(TableRequest req) {
+		int page = req.getPage(), length = req.getLength();
+		if (page < 0)
+			page = 0;
+		if (length < 1)
+			length = 1;
+		Pageable p = new PageRequest(page, length, req.getSort("payState"));
+		String orderId = req.getFilter("orderId"), payState = req.getFilter("payState"), aduser = req
+				.getFilter("userId"), salesMan = req.getFilter("salesMan");
+
+		BooleanExpression query = QJpaPayPlan.jpaPayPlan.id.goe(0);
+
+		if (StringUtils.isNoneBlank(payState)) {
+			if (!StringUtils.equals("defaultAll", payState)) {
+				query = query.and(QJpaPayPlan.jpaPayPlan.payState.eq(JpaPayPlan.PayState.valueOf(payState)));
+			}
+		} else {
+			query = query.and(QJpaPayPlan.jpaPayPlan.payState.eq(JpaPayPlan.PayState.check));
+		}
+
+		if (StringUtils.isNotBlank(aduser)) {
+			query = query.and(QJpaPayPlan.jpaPayPlan.order.creator.eq(aduser));
+		}
+		if (StringUtils.isNotBlank(salesMan)) {
+			query = query.and(QJpaPayPlan.jpaPayPlan.order.creator.eq(salesMan));
+		}
+		if (StringUtils.isNotBlank(orderId)) {
+			query = query.and(QJpaPayPlan.jpaPayPlan.order.id.eq(OrderIdSeq.longOrderId2DbId(NumberUtils
+					.toLong(orderId))));
+		}
+
+		Page<JpaPayPlan> result = payPlanRepository.findAll(query, p);
+		List<OrderPlanView> plans = new ArrayList<OrderPlanView>();
+		for (JpaPayPlan plan : result.getContent()) {
+			plans.add(new OrderPlanView(plan));
+		}
+		org.springframework.data.domain.PageImpl<OrderPlanView> r = new org.springframework.data.domain.PageImpl<OrderPlanView>(
+				plans, p, result.getTotalElements());
+		return new DataTablePage<OrderPlanView>(r, req.getDraw());
+	}
+	
 	public Page<JpaPayPlan> queryPayPlanDetail(TableRequest req, int page, int length) {
+		
 		if (page < 0)
 			page = 0;
 		if (length < 1)

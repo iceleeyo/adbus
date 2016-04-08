@@ -54,6 +54,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.pantuo.ActivitiConfiguration;
+import com.pantuo.dao.PayPlanRepository;
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaPayPlan;
@@ -95,6 +96,7 @@ import com.pantuo.util.OrderException;
 import com.pantuo.util.OrderIdSeq;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.CardView;
+import com.pantuo.web.view.OrderPlanView;
 import com.pantuo.web.view.OrderView;
 import com.pantuo.web.view.SuppliesView;
 
@@ -119,6 +121,10 @@ public class ActivitiServiceImpl implements ActivitiService {
 	private OrderService orderService;
 	@Autowired
 	private PayPlanMapper payPlanMapper;
+	
+	
+	@Autowired
+	private PayPlanRepository payPlanRepository;
 	@Autowired
 	@Lazy
 	private ProductService productService;
@@ -1186,13 +1192,22 @@ public class ActivitiServiceImpl implements ActivitiService {
 								}
 							}
 
-							boolean b = (Boolean) variables.get("paymentResult");
+							boolean isPayed = (Boolean) variables.get("paymentResult");
 							List<PayPlan> list = payPlanMapper.selectByExample(e);
+							double payMoney = 0;
 							for (PayPlan payPlan : list) {
-								payPlan.setPayState(b ? JpaPayPlan.PayState.payed.ordinal() : JpaPayPlan.PayState.fail
-										.ordinal());
+								payPlan.setPayState(isPayed ? JpaPayPlan.PayState.payed.ordinal()
+										: JpaPayPlan.PayState.fail.ordinal());
+								if (isPayed) {
+									payMoney += payPlan.getPrice();
+								}
 								payPlanMapper.updateByPrimaryKey(payPlan);
 							}
+							if (isPayed && payMoney > 0) {
+								orderService.updatePayPrice(orderId, payMoney);
+							}
+							
+
 						}
 					}
 				}
@@ -1751,12 +1766,20 @@ public class ActivitiServiceImpl implements ActivitiService {
 	}
 	@Autowired
 	IcbcServiceImpl icbcService;
+	
+	
+	public String toPlanDetail(Model model, int planId, int city, String pid, Principal principal){
+		JpaPayPlan plan = 	payPlanRepository .findOne(planId);
+		if(plan!=null){
+			OrderView orderView = gotoView(model, plan.getOrder().getId(), city, principal);
+			model.addAttribute("planView", new OrderPlanView(plan));
+			
+		}
+		return "toPlanDetail";
+	}
 	@Override
 	public String toRestPay(Model model, int orderid,int city, String pid, Principal principal) {
 		OrderView orderView = gotoView(model, orderid, city, principal);
-		
-		
-		
 		orderService.fullPayPlanInfo(model, "userFristPay", orderView);
 		Map<String, Object> modelMap = model.asMap();
 		//总金额的工商支付

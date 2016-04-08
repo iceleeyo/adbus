@@ -186,4 +186,6 @@ public interface ActivitiService {
 	public Pair<Boolean, String> checkApproveResult(String orderid);
 
 	public String toRestPay(Model model, int orderid, int city, String pid, Principal principal);
+	//财务 分期确认
+	public String toPlanDetail(Model model, int planId, int city, String pid, Principal principal);
 }
