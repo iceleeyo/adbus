@@ -1169,15 +1169,27 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 				taskService.complete(taskId, variables);
 				
-				if(StringUtils.equals( "financialCheck", task.getTaskDefinitionKey()) ){//且判断是分期的话 
+				if (StringUtils.equals("financialCheck", task.getTaskDefinitionKey())) {//且判断是分期的话 
 					//根据页面选中值 更新分期状态
-					if(task.getProcessVariables().containsKey(ActivitiService.PAYPLAN) &&((Boolean) task.getProcessVariables().get(ActivitiService.PAYPLAN))==true){
-						if(task.getProcessVariables().containsKey("paymentResult") && (Boolean)task.getProcessVariables().get("paymentResult")==false){
-							PayPlanExample e=new PayPlanExample();
-							e.createCriteria().andOrderIdEqualTo(orderId).andPayStateEqualTo(JpaPayPlan.PayState.check.ordinal());
-							List<PayPlan> list=payPlanMapper.selectByExample(e);
+					if (task.getProcessVariables().containsKey(ActivitiService.PAYPLAN)
+							&& ((Boolean) task.getProcessVariables().get(ActivitiService.PAYPLAN)) == true) {
+						if (task.getProcessVariables().containsKey("paymentResult")) {
+							PayPlanExample e = new PayPlanExample();
+							PayPlanExample.Criteria criteria = e.createCriteria();
+							criteria.andOrderIdEqualTo(orderId).andPayStateEqualTo(JpaPayPlan.PayState.check.ordinal());
+							//避免更新用户后支付的分期
+							if (variables.containsKey(ActivitiService.FILTERTIME)) {
+								if (variables.get(ActivitiService.FILTERTIME) instanceof Long) {
+									long time = (Long) variables.get(ActivitiService.FILTERTIME);
+									criteria.andUpdatedLessThan(new Date(time));
+								}
+							}
+
+							boolean b = (Boolean) task.getProcessVariables().get("paymentResult");
+							List<PayPlan> list = payPlanMapper.selectByExample(e);
 							for (PayPlan payPlan : list) {
-								payPlan.setPayState(JpaPayPlan.PayState.fail.ordinal());
+								payPlan.setPayState(b ? JpaPayPlan.PayState.payed.ordinal() : JpaPayPlan.PayState.fail
+										.ordinal());
 								payPlanMapper.updateByPrimaryKey(payPlan);
 							}
 						}
