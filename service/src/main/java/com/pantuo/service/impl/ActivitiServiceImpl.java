@@ -63,11 +63,14 @@ import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.mybatis.domain.InvoiceDetail;
 import com.pantuo.mybatis.domain.Orders;
+import com.pantuo.mybatis.domain.PayPlan;
+import com.pantuo.mybatis.domain.PayPlanExample;
 import com.pantuo.mybatis.domain.Product;
 import com.pantuo.mybatis.persistence.ContractMapper;
 import com.pantuo.mybatis.persistence.InvoiceDetailMapper;
 import com.pantuo.mybatis.persistence.InvoiceMapper;
 import com.pantuo.mybatis.persistence.OrdersMapper;
+import com.pantuo.mybatis.persistence.PayPlanMapper;
 import com.pantuo.mybatis.persistence.ProductMapper;
 import com.pantuo.pojo.HistoricTaskView;
 import com.pantuo.pojo.TableRequest;
@@ -113,6 +116,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 	// private SimpleSmtpServer mailServer;
 	@Autowired
 	private OrderService orderService;
+	@Autowired
+	private PayPlanMapper payPlanMapper;
 	@Autowired
 	@Lazy
 	private ProductService productService;
@@ -1166,7 +1171,17 @@ public class ActivitiServiceImpl implements ActivitiService {
 				
 				if(StringUtils.equals( "financialCheck", task.getTaskDefinitionKey()) ){//且判断是分期的话 
 					//根据页面选中值 更新分期状态
-					
+					if(task.getProcessVariables().containsKey(ActivitiService.PAYPLAN) &&((Boolean) task.getProcessVariables().get(ActivitiService.PAYPLAN))==true){
+						if(task.getProcessVariables().containsKey("paymentResult") && (Boolean)task.getProcessVariables().get("paymentResult")==false){
+							PayPlanExample e=new PayPlanExample();
+							e.createCriteria().andOrderIdEqualTo(orderId).andPayStateEqualTo(JpaPayPlan.PayState.check.ordinal());
+							List<PayPlan> list=payPlanMapper.selectByExample(e);
+							for (PayPlan payPlan : list) {
+								payPlan.setPayState(JpaPayPlan.PayState.fail.ordinal());
+								payPlanMapper.updateByPrimaryKey(payPlan);
+							}
+						}
+					}
 				}
 				
 				

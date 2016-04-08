@@ -20,6 +20,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 				<th>期数</th>
 								<th>金额</th>
 								<th>付款日期</th>
+								<th>付款方式</th>
 								<th>状态</th>
 								<th>付款人</th>
 								<th>备注</th>

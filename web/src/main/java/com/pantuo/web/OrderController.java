@@ -516,6 +516,10 @@ public class OrderController {
 	public String finishedOrders() {
 		return "finishedOrders";
 	}
+	@RequestMapping(value = "/payPlanOrders")
+	public String payPlanOrders() {
+		return "payPlanOrders";
+	}
 	@RequestMapping(value = "/over/{productid}")
 	public String product_finish(Model model, Principal principal, @PathVariable int productid,  
 			HttpServletRequest request, HttpServletResponse response) {

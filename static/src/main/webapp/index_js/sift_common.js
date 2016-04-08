@@ -123,8 +123,14 @@ function initPayPlanTable(purl,orderId,canEdit) {
 								{ "data": "day", "defaultContent": "", "render": function(data) {
                                           return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
                                      } },
-                                 	{ "data": "payState", "defaultContent": "", "render": function(data) {
-                                        return data==0?"待支付":(data==1?"已支付":"支付待确认");
+                                 	{ "data": "payType", "defaultContent": "", "render": function(data) {
+                                 		if(data==null){
+                                 			return '';
+                                 		}
+                                        return data==0?"线上支付":"线下支付";
+                                      } }, 
+                                      { "data": "payState", "defaultContent": "", "render": function(data) {
+                                    	  return data==0?"已支付":(data==1?"未支付":(data==2?"支付失败":"支付待确认"));
                                       } }, 
       								{ "data": "payUser", "defaultContent": ""},
                                      { "data": "remarks", "defaultContent": ""}, 
