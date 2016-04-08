@@ -230,6 +230,10 @@ function financial() {
 			key: 'financialcomment',
 			value: financialcomment,
 			type: 'S'
+		},{
+			key: 'filterTime',
+			value: ${.now?long},
+			type: 'L'
 		}
 	]);
 }
@@ -607,7 +611,12 @@ function pay(tp) {
 							  +'<br><br><a class="block-btn" href="javascript:void(0);"  onclick="checkPayStatus(' + orderid
 							  +')">确认成功 </a><a class="fail-btn" href="javascript:void(0);"'
 							  +'  onclick="canelPay()">确认失败 </a>',{time: 300000,icon:9});
-							  $('#icbcOPer').click(); 
+							  if( payWay =='payAll'){
+							  		$('#icbcOPer').click();
+							  } 
+							   if( payWay =='payNext'){
+							  		$('#planSubmit').click();
+							  } 
 							  return;
 	         }
 	         else if(payType=="others"){
@@ -936,6 +945,31 @@ suppliesView=suppliesView/>
 			</p>
 		</H3>
 		<BR>
+		
+		<!-- plan -->
+		<form id="form2"  target="_blank" style="display: none;" action="https://corporbank3.dccnet.com.cn/servlet/ICBCINBSEBusinessServlet" method="post">
+			    <input type="hidden" name="APIName" value="B2B"/>
+			    <input type="hidden" name="APIVersion" value="001.001.001.001"/>
+			    <input type="hidden" name="Shop_code" value="0200EC14729207"/>
+			    <input type="hidden" name="MerchantURL" value="${callback_plan}"/>
+			    <input type="hidden" name="ContractNo" value="${contractNo_plan}"/>
+			    <input type="hidden" name="ContractAmt" value="${totalPrice_plan}"/>
+			    <input type="hidden" name="Account_cur" value="001"/>
+			    <input type="hidden" name="JoinFlag" value="2"/>
+			    <input type="hidden" name="Mer_Icbc20_signstr" value="${a1_plan}"/>
+			    <input type="hidden" name="Cert" value="${a2_plan}"/>
+			    <input type="hidden" name="SendType" value="0"/>
+			    <input type="hidden" name="TranTime" value="${TranTime_plan}" />
+			    <input type="hidden" name="Shop_acc_num" value="0200004519000100173"/>
+			    <input type="hidden" name="PayeeAcct" value="0200004519000100173"/>
+			    <input type="hidden" name="GoodsCode" value="CODE_MEDIA"/>
+			    <input type="hidden" name="GoodsName" value="SPTC"/>
+			    <input type="hidden" name="Amount" value="1"/>
+			    <input type="hidden" name="TransFee" value="1"/>
+			    <input type="hidden" name="ShopRemark" value=""/>
+			    <input type="hidden" name="ShopRem" value=""/>
+			    <input type="submit" id="planSubmit" value="确定"/>
+			</form>
 		
 		<form id="form1"  target="_blank" style="display: none;" action="https://corporbank3.dccnet.com.cn/servlet/ICBCINBSEBusinessServlet" method="post">
 			    <input type="hidden" name="APIName" value="B2B"/>
@@ -1379,7 +1413,7 @@ suppliesView=suppliesView/>
 					<TR>
 						<TD width="20%">已支付金额</TD>
 						<TD colspan=3 style="border-radius: 0 0 0">
-						  <font color="orange"><B>#{ (orderview.order.price)!'';m2M2}</B></font><br> 
+						  <font color="orange"><B>#{ (orderview.order.price)!'';m2M2} </B></font><br> 
 						  </TD>
 					</TR>
 				 </#if> 
