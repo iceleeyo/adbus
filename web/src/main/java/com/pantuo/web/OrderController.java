@@ -68,6 +68,7 @@ import com.pantuo.util.Pair;
 import com.pantuo.util.Variable;
 import com.pantuo.web.view.CardView;
 import com.pantuo.web.view.InvoiceView;
+import com.pantuo.web.view.OrderPlanView;
 import com.pantuo.web.view.OrderView;
 import com.pantuo.web.view.SuppliesView;
 
@@ -313,6 +314,18 @@ public class OrderController {
 			@CookieValue(value = "city", defaultValue = "-1") int city, HttpServletRequest request) throws Exception {
 		return activitiService.showOrderDetail(city, model, orderid, taskid, pid, principal,BooleanUtils.toBoolean(auto));
 	}
+	
+	
+	
+	@RequestMapping(value = "/toPlanDetail/{planId}", produces = "text/html;charset=utf-8")
+	public String to1PlanDetail(Model model, @PathVariable("planId") int planId,Principal principal,
+			@RequestParam(value = "pid", required = false) String pid,
+			@CookieValue(value = "city", defaultValue = "-1") int city,
+			 HttpServletRequest request)  {
+		return activitiService.toPlanDetail(model,planId,city,pid,principal);
+	}
+	
+	
 	@RequestMapping(value = "/toRestPay/{orderid}", produces = "text/html;charset=utf-8")
 	public String toRestPay(Model model, @PathVariable("orderid") int orderid,Principal principal,
 			@RequestParam(value = "pid", required = false) String pid,
@@ -492,6 +505,20 @@ public class OrderController {
 		return "allRuningOrders";
 	}
 	
+	
+	
+	@RequestMapping(value = "/planOrders")
+	public String planOrders() {
+		return "planOrders";
+	}
+
+	@RequestMapping("ajax-planOrders")
+	@ResponseBody
+	public Page<OrderPlanView> ajaxPlanOrders(TableRequest req, Principal principal,
+			@CookieValue(value = "city", defaultValue = "-1") int city) {
+		return orderService.queryAllPlan(req);
+	}
+	
 	@RequestMapping(value = "/product/{productid}/{pageNum}")
 	public String productOrders(Model model, Principal principal, @PathVariable int productid, @PathVariable int pageNum,
 			HttpServletRequest request, HttpServletResponse response) {
@@ -528,6 +555,8 @@ public class OrderController {
 	public String finishedOrders() {
 		return "finishedOrders";
 	}
+	
+	
 	@RequestMapping(value = "/over/{productid}")
 	public String product_finish(Model model, Principal principal, @PathVariable int productid,  
 			HttpServletRequest request, HttpServletResponse response) {
