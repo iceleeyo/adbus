@@ -19,15 +19,9 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
         table = $('#table').dataTable( {
            "dom": '<"#toolbar"><"top"il>rt<"bottom"p><"clear">',
             "searching": false,
-            "ordering": true,
+            "ordering": false,
             "serverSide": true,
               "scrollX": true,
-                  <@security.authorize ifNotGranted="sales">
-            "aaSorting": [[3, "desc"]],
-             </@security.authorize>
-             <@security.authorize ifAnyGranted="sales">
-               "aaSorting": [[4, "desc"]],
-             </@security.authorize>
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
                   { "orderable": false, "targets": [0,1,2,4,5] },
@@ -131,7 +125,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 		ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 		<a id="tab4" href="${rc.contextPath}/order/join/1">我参与的订单</a>
 		</@security.authorize> <a id="tab3"
-			href="${rc.contextPath}/order/finished" class="active">
+			href="${rc.contextPath}/order/finished" >
 			已完成的订单<span id="recordsTotal" style="background-color: #ff9966; font-size: 14px; border-radius: 4px;"></span></a>
 			<a id="tab4"
 			href="${rc.contextPath}/order/payPlanOrders" class="active">

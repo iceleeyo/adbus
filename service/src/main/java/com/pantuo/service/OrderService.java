@@ -62,6 +62,7 @@ import com.pantuo.service.security.Request;
 import com.pantuo.util.Constants;
 import com.pantuo.util.DateConverter;
 import com.pantuo.util.DateUtil;
+import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.OrderIdSeq;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.OrderView;
@@ -140,7 +141,7 @@ public class OrderService {
 			}
 
 		}
-		return r;
+		return  new Pair<Object, String>(true, "操作成功");
 
 	}
 
@@ -667,6 +668,8 @@ public class OrderService {
 		Pageable p = new PageRequest(page, length,  new Sort("id"));
 		BooleanExpression query = QJpaOrders.jpaOrders.userId.eq(userId);
 		query=query.and(QJpaOrders.jpaOrders.price.gt(QJpaOrders.jpaOrders.payPrice));
+		query=query.and(QJpaOrders.jpaOrders.payPrice.gt(0));
+		query=query.and(QJpaOrders.jpaOrders.payType.eq(JpaOrders.PayType.dividpay));
 		List<JpaOrders> list= (List<JpaOrders>) ordersRepository.findAll(query);
 		for (JpaOrders jpaOrders : list) {
 			OrderView v = new OrderView();
@@ -674,8 +677,9 @@ public class OrderService {
 			v.setLongOrderId(OrderIdSeq.getLongOrderId(jpaOrders));
 			views.add(v);
 		}
+		NumberPageUtil pageUtil = new NumberPageUtil(views.size(), page, length);
 		return new org.springframework.data.domain.PageImpl<OrderView>(
-				views, p,views.size());
+				views, p,pageUtil.getTotal());
 	}
 
 }

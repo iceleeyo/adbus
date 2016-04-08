@@ -199,6 +199,15 @@ public class OrderController {
 		return activitiService.payment(request,NumberUtils.toInt(orderid), taskid, contractid, payType, isinvoice,invoiceid,contents,receway,
 				Request.getUser(principal));
 	}
+	@RequestMapping(value = "updatePlanState")
+	@ResponseBody
+	public Pair<Object, String> updatePlanState(@RequestParam(value = "orderid") int orderid,
+			@RequestParam(value = "payType") String payType,
+			@RequestParam(value = "payNextLocation") String payNextLocation,
+			Principal principal, HttpServletRequest request, HttpServletResponse response) {
+		return orderService.updatePlanState(request,payType,orderid, payNextLocation,
+				JpaPayPlan.PayState.check,Request.getUserId(principal));
+	}
 
 	@RequestMapping(value = "claim/{taskid}")
 	@ResponseBody

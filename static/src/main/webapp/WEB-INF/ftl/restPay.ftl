@@ -7,6 +7,7 @@ js=["js/highslide/highslide-full.js", "js/video-js/video.js","js/jquery-dateForm
 function go_back(){
 	history.go(-1);
 }
+
 </script>
 
  <#import "template/orderDetail.ftl" as orderDetail/>
@@ -15,9 +16,170 @@ suppliesView=suppliesView/>
 <div id="setPayPlan" class="setPayPlan" >
 <script type="text/javascript">
 $(document).ready(function(){
+ $('input').iCheck({
+    checkboxClass: 'icheckbox_square-green',
+    radioClass: 'iradio_square-green',
+    increaseArea: '10%' // optional
+  });
+	$("#otherpay").hide();
+	$("#contractCode").hide();
+    $("#pingzhengTab").hide();
+    $('input').on('ifChecked', function(event){
+			var p =($(this).val());
+			if($(this).attr("name")=='payType'){
+				if(p=='contract'){
+					showContract();
+				}else if(p == 'online'){
+					hideall();
+				}else if(p == 'remit'){
+					hideboth();
+				}else{
+				 	hideContract();
+				}
+			}
+		});
 initPayPlanTable('${rc.contextPath}',${orderview.order.id},'<@security.authorize
 			ifAnyGranted="ShibaFinancialManager">edit</@security.authorize>');
 });
+function uploadImaget(formId) { 
+    var image_name=$("#fileMaterial").val();
+    if(image_name != ''){
+    var imgs=image_name.split(".");
+    var img_subfier= imgs[imgs.length-1].toLocaleLowerCase();
+    var img_parr = ["jpg", "jpeg", "gif","png"]; 
+    
+    if(image_name !=''){
+        if($.inArray(img_subfier, img_parr) ==-1){
+            jDialog.Alert("请上传['jpg','gif','png','jpeg']格式的图片!");
+            return false;
+        }
+    }
+    var options = { 
+            url : "${rc.contextPath}/upload/savePayvoucher/${orderview.order.id!''}",
+            type : "POST",
+            dataType : "json",
+            success : function(data) {
+             if(data !=null && data!=""){
+                  $("#showImg").attr("src","${rc.contextPath}/upload_temp/"+data);
+                   } 
+                 }
+        }; 
+        $("#" +formId+"").ajaxSubmit(options);
+        document.getElementById(formId).reset();
+        }
+}
+function showContract(){
+	     $("#contractCode").show();
+	     $("#otherpay").hide();
+	     $("#pingzhengTab").hide();
+	}
+	function hideContract(){
+	     $("#contractCode").hide();
+	     $("#otherpay").show();
+	     $("#pingzhengTab").hide();
+	}
+	function hideboth(){
+		
+	     $("#contractCode").hide();
+	     $("#otherpay").hide();
+	     $("#pingzhengTab").show();
+	}
+	function hideall(){
+		
+	     $("#contractCode").hide();
+	     $("#otherpay").hide();
+	     $("#pingzhengTab").hide();
+	}
+	function pay(tp) {
+	    var contractid=-1;
+	     var payType="";
+	      var payWay="";
+	     var invoiceid=0;
+	     var contents="";
+	     var receway="";
+	     var orderid = ${orderview.order.id};
+	     var temp=document.getElementsByName("payType");
+	       var payWayTemp=document.getElementsByName("payWay");
+	       var isinvoice=0;
+	      for(var i=0;i<temp.length;i++)
+         {
+           if(temp[i].checked)
+            payType = temp[i].value;
+         }
+           for(var i=0;i<payWayTemp.length;i++)
+         {
+           if(payWayTemp[i].checked)
+            payWay = payWayTemp[i].value;
+         }
+         if(tp=='userFristPay'){
+         	if(payWay==""){
+         		 jDialog.Alert("请选择分期付款方式");
+	         	 return;
+         	}
+         }
+      	   var payWayPost = payWay =='payAll'?$("#allLocation").val():$("#payNextLocation").val();
+            if(payType==""){
+            	 jDialog.Alert("请选择支付方式");
+	         	 return;
+            }else if(payType=="contract"){
+	            contractid=$("#contractCode  option:selected").val();
+	            if(contractid==""){
+	              jDialog.Alert("请选择合同");
+	              return;
+	            }
+	         }else if(payType=="online"){
+	         layer.msg('<h3 style="line-height: 45px;font-size: 15px;"><span id="payMsg">请您在新打开的页面插上U盾完成支付！<span></h3><br><span class="tip_font">•支付完成前请不要关闭此窗口<br>•支付失败时，可以迅速联系我们客服(010-88510188)</span>'
+							  +'<br><br><a class="block-btn" href="javascript:void(0);"  onclick="checkPayStatus(' + orderid
+							  +')">确认成功 </a><a class="fail-btn" href="javascript:void(0);"'
+							  +'  onclick="canelPay()">确认失败 </a>',{time: 300000,icon:9});
+							  if( payWay =='payAll'){
+							  		$('#icbcOPer').click();
+							  } 
+							   if( payWay =='payNext'){
+							  		$('#planSubmit').click();
+							  } 
+							  return;
+	         }
+	         else if(payType=="others"){
+	             var otp=$("#otherpay  option:selected").val();
+	              if(otp==""){
+	              jDialog.Alert("请选择支付方式");
+	              return;
+	               }else{
+	               payType=$("#otherpay option:selected").val();
+	                }
+	         }else{
+	            contractid=-1;
+	         }
+		
+		$.ajax({
+			url : "${rc.contextPath}/order/updatePlanState",
+			type : "POST",
+			data : {
+				"orderid" :orderid,
+				"payType":payWay,
+				"payNextLocation":payWayPost
+			},
+			success : function(data) {
+				jDialog.Alert(data.right);
+				var uptime = window.setTimeout(function(){
+				if(data.left.suppliesId=='1'){
+				  var a = document.createElement('a');
+    	        a.href='${rc.contextPath}/order/myTask/1';
+            	document.body.appendChild(a);
+             	a.click();
+				}else{
+				var a = document.createElement('a');
+    	        a.href='${rc.contextPath}/order/payPlanOrders';
+            	document.body.appendChild(a);
+             	a.click();
+             	}
+			   	clearTimeout(uptime);
+						},2000)
+				
+			}
+		}, "text");
+	}
 </script>
 
 	<div class="p20bs mt10 color-white-bg border-ec">

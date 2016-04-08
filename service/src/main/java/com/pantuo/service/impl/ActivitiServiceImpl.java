@@ -1186,7 +1186,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 								}
 							}
 
-							boolean b = (Boolean) task.getProcessVariables().get("paymentResult");
+							boolean b = (Boolean) variables.get("paymentResult");
 							List<PayPlan> list = payPlanMapper.selectByExample(e);
 							for (PayPlan payPlan : list) {
 								payPlan.setPayState(b ? JpaPayPlan.PayState.payed.ordinal() : JpaPayPlan.PayState.fail
