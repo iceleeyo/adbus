@@ -97,8 +97,7 @@ function dateInput(inputId,prouctId){
 	checkTime(forceInput,prouctId);
 }
 var planTable;
-
-function initPayPlanTable(purl,orderId,canEdit) {
+function initPayPlanTable(purl,orderId,handle) {
 	planTable = $('#payPlanTable')
 			.dataTable(
 					{
@@ -120,7 +119,6 @@ function initPayPlanTable(purl,orderId,canEdit) {
 						"columns" : [
 								{ "data": "periodNum", "defaultContent": ""}, 
 								{ "data": "price", "defaultContent": ""}, 
-							 
 								{ "data": "day", "defaultContent": "", "render": function(data) {
                                           return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
                                      } },
@@ -150,8 +148,10 @@ function initPayPlanTable(purl,orderId,canEdit) {
 									"render" : function(data, type, row,
 											meta) {
 										var operations = '';
-										if(row.payUser==null && canEdit =='edit'){
-											operations += '<a class="operation" href="javascript:void(0);" onclick="deletePayPlan('+data+');" >删除</a>';
+										if((row.payUser==null||typeof(row.payUser)=="undefined") && handle.indexOf('edit')!=-1){
+											if(handle.indexOf('del')!=-1){
+												operations += '<a class="operation" href="javascript:void(0);" onclick="deletePayPlan('+data+');" >删除</a>';
+											}
 											operations +='&nbsp;&nbsp;<a href="javascript:void(0)"; onclick="toeditPayPlan(\''+purl+'\','+data+');" >修改</a>';
 										}
 										
