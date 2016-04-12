@@ -1202,6 +1202,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 								if (isPayed) {
 									payMoney += payPlan.getPrice();
 								}
+								payPlan.setReduceUser(u.getUsername());
 								payPlanMapper.updateByPrimaryKey(payPlan);
 							}
 							if (isPayed && payMoney > 0) {
