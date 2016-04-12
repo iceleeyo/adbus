@@ -45,6 +45,7 @@ public class JpaPayPlan extends BaseEntity {
 	private String setPlanUser;//分期设置人
 	@Column(length=32) 
 	private String payUser;//支付人
+	private String reduceUser;//分期确认人
 	private String remarks;
 	
 
@@ -133,6 +134,14 @@ public class JpaPayPlan extends BaseEntity {
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
+	}
+
+	public String getReduceUser() {
+		return reduceUser;
+	}
+
+	public void setReduceUser(String reduceUser) {
+		this.reduceUser = reduceUser;
 	}
 
 	 
