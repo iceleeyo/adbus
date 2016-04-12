@@ -97,6 +97,7 @@ function dateInput(inputId,prouctId){
 	checkTime(forceInput,prouctId);
 }
 var planTable;
+
 function initPayPlanTable(purl,orderId,canEdit) {
 	planTable = $('#payPlanTable')
 			.dataTable(
@@ -133,6 +134,7 @@ function initPayPlanTable(purl,orderId,canEdit) {
                                     	  return data==0?"已支付":(data==1?"未支付":(data==2?"支付失败":"支付待确认"));
                                       } }, 
       								{ "data": "payUser", "defaultContent": ""},
+      								{ "data": "setPlanUser", "defaultContent": ""},
       								{ "data": "reduceUser", "defaultContent": ""},
       								{ "data": "updated", "defaultContent": "", "render": function(data) {
                                         return data == null ? "" : $.format.date(data, "yyyy-MM-dd hh:mm");
