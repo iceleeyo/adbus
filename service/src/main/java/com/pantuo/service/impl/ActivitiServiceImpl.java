@@ -60,6 +60,7 @@ import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaPayPlan;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.dao.pojo.JpaPayPlan.PayState;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.mybatis.domain.InvoiceDetail;
@@ -1777,6 +1778,32 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		return "toPlanDetail";
 	}
+	
+	public Pair<Object, String> updatePlan(String rad, JpaPayPlan planParams, Principal principal) {
+		Pair<Object, String> r = new Pair<Object, String>(true, "操作成功!");
+
+		PayPlan plan = payPlanMapper.selectByPrimaryKey(planParams.getId());
+		if (BooleanUtils.toBoolean(rad)) {
+			if (plan != null) {
+				Orders order = ordersMapper.selectByPrimaryKey(plan.getOrderId());
+				if (order != null) {
+					Orders record = new Orders();
+					record.setId(plan.getOrderId());
+					record.setPayPrice(order.getPayPrice() + plan.getPrice());
+					ordersMapper.updateByPrimaryKeySelective(record);
+				}
+			}
+		}
+		if (plan != null) {
+			plan.setRemarks(planParams.getRemarks());
+			plan.setPayState(BooleanUtils.toBoolean(rad) ? PayState.payed.ordinal() : PayState.fail.ordinal());
+			plan.setReduceUser(Request.getUserId(principal));
+			plan.setUpdated(new Date());
+			payPlanMapper.updateByPrimaryKey(plan);
+		}
+		return r;
+	}
+	
 	@Override
 	public String toRestPay(Model model, int orderid,int city, String pid, Principal principal) {
 		OrderView orderView = gotoView(model, orderid, city, principal);

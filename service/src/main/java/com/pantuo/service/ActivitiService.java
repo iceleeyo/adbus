@@ -14,8 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.ui.Model;
 
-
 import com.pantuo.dao.pojo.JpaOrders;
+import com.pantuo.dao.pojo.JpaPayPlan;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.pojo.HistoricTaskView;
@@ -188,4 +188,14 @@ public interface ActivitiService {
 	public String toRestPay(Model model, int orderid, int city, String pid, Principal principal);
 	//财务 分期确认
 	public String toPlanDetail(Model model, int planId, int city, String pid, Principal principal);
+	
+	public Pair<Object, String> updatePlan(String rad,JpaPayPlan plan,  Principal principal);
+	
+	
+	
+	
+	
+	
+	
+	
 }
