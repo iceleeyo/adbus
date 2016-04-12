@@ -133,7 +133,13 @@ function initPayPlanTable(purl,orderId,canEdit) {
                                     	  return data==0?"已支付":(data==1?"未支付":(data==2?"支付失败":"支付待确认"));
                                       } }, 
       								{ "data": "payUser", "defaultContent": ""},
-                                     { "data": "remarks", "defaultContent": ""}, 
+      								{ "data": "reduceUser", "defaultContent": ""},
+      								{ "data": "updated", "defaultContent": "", "render": function(data) {
+                                        return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
+                                    }},
+                                     { "data": "remarks", "defaultContent": "", "render": function(data) {
+                                   	  return '<span   class="layer-tips" style="color: #ff9966" tip="'+data+'">'+data.substr(0,10)+'</span>';
+                                     } }, 
                                      
                                      
                                      { "data": function( row, type, set, meta) {
@@ -173,6 +179,7 @@ function drawCallback2() {
 function initComplete2() {
 	$("div#toolbar").attr("style", "width: 70%;")
 	$("div#toolbar").html('');
+	bindLayerMouseOver();
 }
 function deletePayPlan(id){
     layer.confirm('确定删除吗？', {icon: 3}, function(index){
