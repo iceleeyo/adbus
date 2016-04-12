@@ -322,9 +322,16 @@ public class OrderController {
 			@RequestParam(value = "pid", required = false) String pid,
 			@CookieValue(value = "city", defaultValue = "-1") int city,
 			 HttpServletRequest request)  {
+		model.addAttribute("planId", planId);
 		return activitiService.toPlanDetail(model,planId,city,pid,principal);
 	}
 	
+	@RequestMapping(value = "updatePlan")
+	@ResponseBody
+	public Pair<Object, String> updatePlan(JpaPayPlan plan, @RequestParam(value = "rad", required = false) String rad,
+			Principal principal, HttpServletRequest request, HttpServletResponse response) {
+		return activitiService.updatePlan(rad, plan, principal);
+	}
 	
 	@RequestMapping(value = "/toRestPay/{orderid}", produces = "text/html;charset=utf-8")
 	public String toRestPay(Model model, @PathVariable("orderid") int orderid,Principal principal,
