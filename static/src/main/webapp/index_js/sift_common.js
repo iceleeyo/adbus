@@ -121,7 +121,7 @@ function initPayPlanTable(purl,orderId,canEdit) {
 								{ "data": "price", "defaultContent": ""}, 
 							 
 								{ "data": "day", "defaultContent": "", "render": function(data) {
-                                          return data == null ? "" : $.format.date(data, "yyyy-MM-dd hh:mm");
+                                          return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
                                      } },
                                  	{ "data": "payType", "defaultContent": "", "render": function(data) {
                                  		if(data==null){
