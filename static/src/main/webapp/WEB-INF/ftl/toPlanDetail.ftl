@@ -136,13 +136,15 @@ initPayPlanTable('${rc.contextPath}',${orderview.order.id},'<@security.authorize
 					<font color="orange">#{(planView.plan.price)!'';m2M2} </font>
 				</TD>
 			</TR>
+			
+			<#if planView.payName?exists >
 			<TR style="height: 45px;">
 				<TD width="20%" style="text-align: right">支付方式</TD>
 				<TD>
 					 ${planView.payName!''} 
 				</TD>
 			</TR>
-			
+			</#if>
 			<#if planView.plan.payState == "check">
 			<TR style="height: 45px;">
 					<TD style="text-align: right">支付状态</TD>

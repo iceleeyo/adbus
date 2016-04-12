@@ -8,6 +8,11 @@
 <link rel="stylesheet" type="text/css" href="/css/one.css">
 <link rel="stylesheet" type="text/css" href="/css/account.css">
 <title>确认订单信息</title>
+
+
+
+
+
 </head>
 <body>
 	<header> <!-- 头部开始 --> <#include "/index_menu/index_top.ftl"
@@ -185,8 +190,13 @@
 										class="iradio"></label> <span>线上支付(工商银行)</span></li>
 									<li><input type="radio" name="payType" value="offline">
 										<label class="iradio"></label> <span>线下支付</span></li>
-									<li><input type="radio" name="payType" value="dividpay">
-										<label class="iradio"></label> <span>分期付款</span></li>
+										
+										
+									<li>
+									<input type="radio" name="payType" value="dividpay">
+										<label class="iradio"></label> <span tip=" <ul class='layer_notice'><a><font color='orange'><B>温馨提示</B></font><br>选择分期付款方式<br>  北巴相关订单处理部门将根据订单情况设置分期的细节<br> 待分期设置后
+										<br> 可在后台待办事项看到相应的处理事项</ul></a>" class="layer-tips2">分期付款</span>
+										</li>
 										<@security.authorize ifAnyGranted="sales">
 										<span style = "margin-left:50px">客户列表</span>
 	                         				  <span>
@@ -273,6 +283,10 @@
 		src="${rc.contextPath}/js/layer.onload.js"></script>
 	<script type="text/javascript" language="javascript"
 		src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
+		<link rel="stylesheet" type="text/css"
+		href="${rc.contextPath}/js/layer-v1.9.3/layer.site.css"> 
+		
+		
 	<script src="index_js/unslider.min.js"></script>
 	
 	<script type="text/javascript" language="javascript" src="/js/jquery-ui/jquery-ui.js"></script>
@@ -431,7 +445,7 @@
 				});
 		});
 			$(document).ready(function(e) {
-			 
+			 bindLayerMouseWithOpen(6000);
 				//默认.active下radio选中
 				if($('li').is('.active')){
 					$('.active').prev()[0].checked = true;

@@ -10,7 +10,7 @@ css=["js/jquery-ui/jquery-ui.css"]>
 <script type="text/javascript">
     $(document).ready(function() {
         initPayPlanTable('${rc.contextPath}',${orderId},'<@security.authorize
-			ifAnyGranted="ShibaFinancialManager">edit</@security.authorize>');
+			ifAnyGranted="ShibaFinancialManager"></@security.authorize>');
     } );
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">

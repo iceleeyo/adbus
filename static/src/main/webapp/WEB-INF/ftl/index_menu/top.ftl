@@ -89,12 +89,18 @@
 								<a class="pg-nav-item s-left" href="#">论坛</a>-->
 	<@security.authorize access="isAuthenticated()"> <a
 		class="pg-nav-item s-left" href="${rc.contextPath}/message/all">消息<span
-		id="msgNumber" class="layer-tips" style="color: #ff9966"></span></a> <span
-		class="pg-nav-item s-left"> <#if _utype?? && _utype ==
-		'screen'> <a onclick="tocard('${rc.contextPath}');"><img
+		id="msgNumber" class="layer-tips" style="color: #ff9966"></span></a> 
+		
+		<@security.authorize
+			ifAnyGranted="advertiser,sales,salesManager">
+		<span
+		class="pg-nav-item s-left">  <a onclick="tocard('${rc.contextPath}');"><img
 			class="shop_icon" alt=""
 			src="${rc.contextPath}/index_img/icon_cart.png"> <span
-			id="cardCount_top" style="color: #ff9966"></span> </#if> </a>
+			id="cardCount_top" style="color: #ff9966"></span> </a>
+			 </@security.authorize>
+			
+			
 	</span> <@security.authorize access="isAuthenticated()"> <input type="hidden"
 		id="lc" value="1" /> </@security.authorize> <@security.authorize
 	access="! isAuthenticated()"> <input type="hidden" id="lc" value="0" />
@@ -115,6 +121,11 @@
 	src="${rc.contextPath}/js/layer.onload.js"></script>
 <script type="text/javascript" language="javascript"
 	src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
+	
+	
+	<script src="${rc.contextPath}/index_js/sift_common.js"></script>
+	
+	
 <script type="text/javascript">
 	/**
 	 * 查看购物车判断登陆状态
@@ -128,4 +139,5 @@
 			window.location.href = pathurl + "/toCard";
 		}
 	}
+	initCardView('${rc.contextPath}');
 </script>
