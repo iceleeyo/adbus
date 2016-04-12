@@ -1816,6 +1816,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		icbcService.sufficeIcbcSubmit(model, orderView.getLongOrderId(),
 				new CardView(null, null, (Double) modelMap.get("payNext"), 1), "offline",
 				"_plan", "&L=".concat((String) modelMap.get("payNextLocation")));
+		model.addAttribute("orderId", orderid);
 		return "restPay";
 	}
 

@@ -4,10 +4,27 @@ js=["js/highslide/highslide-full.js", "js/video-js/video.js","js/jquery-dateForm
 "js/video-js/lang/zh-CN.js"] css=["js/highslide/highslide.css",
 "js/video-js/video-js.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","css/liselect/pkg-generator.css$ver=1431443489.css"]> <#include "template/preview.ftl" />
 <script type="text/javascript">
+$(function(){
+   checkNeedPay(${orderId});
+});
 function go_back(){
 	history.go(-1);
 }
-
+function checkNeedPay(orderId){
+console.log(orderId);
+  $.ajax({
+			url : "${rc.contextPath}/order/checkNeedPay",
+			type : "POST",
+			data : {
+				"orderId" :orderId
+			},
+			success : function(data) {
+				if(!data){
+				   $("#userFristPay").hide();
+				}
+			}
+		}, "text");
+}
 </script>
 
  <#import "template/orderDetail.ftl" as orderDetail/>
@@ -157,7 +174,8 @@ function showContract(){
 			type : "POST",
 			data : {
 				"orderid" :orderid,
-				"payType":payWay,
+				"payType":payType,
+				"payWay":payWay,
 				"payNextLocation":payWayPost
 			},
 			success : function(data) {
@@ -224,7 +242,7 @@ function showContract(){
 	<div class="p20bs mt10 color-white-bg border-ec">
 		<H3 class="text-xl title-box">
 			<p style="text-align: left">
-				<A class="black" href="#">订单首付款</A>
+				<A class="black" href="#">订单分期付款</A>
 			</p>
 		</H3>
 		<BR>

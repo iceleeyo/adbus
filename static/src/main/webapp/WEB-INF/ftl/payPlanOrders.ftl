@@ -33,6 +33,8 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
                 url: "${rc.contextPath}/order/ajax-payPlanOrders",
                 data: function(d) {
                     return $.extend( {}, d, {
+	                    "filter[longOrderId]"  : $('#longOrderId').val(),
+	                    "filter[stateKey]" : $('#stateKey').val()
                     } );
                 },
                 "dataSrc": "content",
@@ -73,9 +75,22 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
     
     function initComplete() {
         $("div#toolbar").html(
-               ''
+              '<div>' +
+                        '    <span>订单号：</span>' +
+                        '    <span>' +
+                        '        <input id="longOrderId" value="">' +
+                        '    </span>' + 
+                         
+                        '<select class="ui-input ui-input-mini" name="stateKey" id="stateKey">' +
+	                    '<option value="defaultAll" selected="selected">所有状态</option>' +
+    	              	'<option value="notcomplete">待支付订单</option>' +
+        	          	'<option value="complete">支付完成订单</option>' +
+         				'</select>' +
+                        '</div>'
         );
-	   	  
+	   	   $('#longOrderId,#stateKey').change(function() {
+            table.fnDraw();
+        });
         //author:pxh 2015-05-20 22:36
         $( "#autocomplete" ).autocomplete({
       		  minLength: 0,

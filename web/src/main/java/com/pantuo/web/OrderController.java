@@ -72,6 +72,8 @@ import com.pantuo.web.view.OrderPlanView;
 import com.pantuo.web.view.OrderView;
 import com.pantuo.web.view.SuppliesView;
 
+import scala.collection.generic.BitOperations.Int;
+
 /**
  * 
  *
@@ -203,10 +205,10 @@ public class OrderController {
 	@RequestMapping(value = "updatePlanState")
 	@ResponseBody
 	public Pair<Object, String> updatePlanState(@RequestParam(value = "orderid") int orderid,
-			@RequestParam(value = "payType") String payType,
+			@RequestParam(value = "payWay") String payWay,
 			@RequestParam(value = "payNextLocation") String payNextLocation,
 			Principal principal, HttpServletRequest request, HttpServletResponse response) {
-		return orderService.updatePlanState(request,payType,orderid, payNextLocation,
+		return orderService.updatePlanState(request,payWay,orderid, payNextLocation,
 				JpaPayPlan.PayState.check,Request.getUserId(principal));
 	}
 
@@ -354,6 +356,12 @@ public class OrderController {
 	public Pair<Boolean, String> checkApproveResult(@RequestParam(value = "orderid") String orderid
 			)  {
 		return activitiService.checkApproveResult(orderid);
+	}
+	@RequestMapping(value = "checkNeedPay")
+	@ResponseBody
+	public Boolean checkNeedPay(@RequestParam(value = "orderId" ,defaultValue="0") int  orderid
+			)  {
+		return orderService.checkNeedPay(orderid);
 	}
 	@RequestMapping(value = "findOrderAndSup/{orderid}")
 	@ResponseBody
