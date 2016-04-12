@@ -1,7 +1,7 @@
 <#import "template/template.ftl" as frame> <#global menu="分期订单">
 <@frame.html title="分期订单"
 css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]
-js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
+js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","index_js/sift_common.js","js/datepicker.js","js/jquery.datepicker.region.cn.js"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <style type="text/css">
 .operation
@@ -97,6 +97,9 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
                    },
                    { "data": "plan.order.created", "defaultContent": "","render": function(data, type, row, meta) {
                 	 var tr= "<a class='operation' target='_blank' href='${rc.contextPath}/order/toPlanDetail/" +(row.plan.id)+  "'>详情</a>";
+                	 if(row.plan.payUser==null||typeof(row.plan.payUser)=="undefined" ||row.plan.payUser==''){
+                	  tr+= "<a class='operation' target='_blank' onclick=\"toeditPayDay('','" +( row.plan.id)   +"')\">&nbsp;修改</a>";
+                	 }
                 	return tr;
                 }}
             ],
