@@ -121,7 +121,7 @@ function initPayPlanTable(purl,orderId,canEdit) {
 								{ "data": "price", "defaultContent": ""}, 
 							 
 								{ "data": "day", "defaultContent": "", "render": function(data) {
-                                          return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
+                                          return data == null ? "" : $.format.date(data, "yyyy-MM-dd hh:mm");
                                      } },
                                  	{ "data": "payType", "defaultContent": "", "render": function(data) {
                                  		if(data==null){
@@ -135,7 +135,7 @@ function initPayPlanTable(purl,orderId,canEdit) {
       								{ "data": "payUser", "defaultContent": ""},
       								{ "data": "reduceUser", "defaultContent": ""},
       								{ "data": "updated", "defaultContent": "", "render": function(data) {
-                                        return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
+                                        return data == null ? "" : $.format.date(data, "yyyy-MM-dd hh:mm");
                                     }},
                                      { "data": "remarks", "defaultContent": "", "render": function(data) {
                                    	  return '<span   class="layer-tips" style="color: #ff9966" tip="'+data+'">'+data.substr(0,10)+'</span>';
