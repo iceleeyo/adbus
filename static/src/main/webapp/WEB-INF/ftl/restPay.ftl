@@ -205,12 +205,7 @@ function showContract(){
 			<A class="black" href="#">分期详情</A>
 		</H3>
 		<BR>
-		<TABLE class="ui-table ui-table-gray">
-			<TBODY>
-				<TR>
-				<TD colspan=2 style="border-radius: 0 0 0">
-				
-				<div class="withdraw-wrap color-white-bg fn-clear">
+		 
 	<table id="payPlanTable" class="display nowrap" cellspacing="0">
 		<thead>
 			<tr>
@@ -220,6 +215,9 @@ function showContract(){
 								<th>付款方式</th>
 								<th>状态</th>
 								<th>付款人</th>
+									<th>分期设置人</th>
+								<th>处理人</th>
+								<th>最后操作时间</th>
 								<th>备注</th>
 								<@security.authorize ifAnyGranted="ShibaFinancialManager"> 
 								<th>操作</th></@security.authorize>
@@ -231,12 +229,6 @@ function showContract(){
 		</thead>
 
 	</table>
-</div>
-				
-			</TD>
-				</TR>
-		</TABLE>
-	</div>
 </div>
 <div id="userFristPay" class="userFristPay" >
 	<div class="p20bs mt10 color-white-bg border-ec">
