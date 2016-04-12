@@ -94,10 +94,17 @@
 					ifAnyGranted="bodysales">
 					<li class="pg-side-exp-item"><a class="side-exp-item-t"
 						href="${rc.contextPath}/busselect/myOrders/1"> 我的订单 </a>
-						</@security.authorize> <@security.authorize
+						</@security.authorize>
+						 <@security.authorize
 						ifAnyGranted="salesManager,ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
-					<li class="pg-side-exp-item"><a class="side-exp-item-t"
+					
+					
+					 <@security.authorize ifAnyGranted="ShibaFinancialManager">
+					<li class="pg-side-exp-item">
+					<a class="side-exp-item-t"
 						href="${rc.contextPath}/order/planOrders"> 分期订单 </a></li>
+					</@security.authorize>	
+						
 					<li class="pg-side-exp-item"><a class="side-exp-item-t"
 						href="${rc.contextPath}/order/allRuningOrders/1"> 进行中订单 </a></li>
 					</@security.authorize> <@security.authorize

@@ -25,7 +25,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
                "aaSorting": [[4, "asc"]],
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-               { "orderable": false, "targets": [2,3,8,9] },
+               { "orderable": false, "targets": [2,3,8,9,10] },
             ],
             "ajax": {
                 type: "GET",
@@ -91,7 +91,9 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 	                	 }
 	               	 }
                    },
-                   { "data": "task_assignee", "defaultContent": ""
+                   { "data": "plan.setPlanUser", "defaultContent": ""},
+                   
+                   { "data": "plan.reduceUser", "defaultContent": ""
                    },
                    { "data": "plan.order.created", "defaultContent": "","render": function(data, type, row, meta) {
                 	 var tr= "<a class='operation' target='_blank' href='${rc.contextPath}/order/toPlanDetail/" +(row.plan.id)+  "'>详情</a>";
@@ -207,6 +209,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 				<th orderBy="periodNum">期数</th>
 				<th orderBy="price">金额</th>
 			   <th orderBy="payState">状态</th>
+			   <th>分期设置人</th>
 				<th>处理人</th>
 				<th>操作</th>
 			</tr>

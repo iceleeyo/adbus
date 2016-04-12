@@ -18,6 +18,41 @@ $(document).ready(function(){
 initPayPlanTable('${rc.contextPath}',${orderview.order.id},'<@security.authorize
 			ifAnyGranted="ShibaFinancialManager"></@security.authorize>');
 });
+	
+	<#if planView.plan.payState == "check">
+		function pay(pid) {
+	       var rad=document.getElementsByName("rad");
+           for(var i=0;i<rad.length;i++)
+         {
+           if(rad[i].checked)
+            rad = rad[i].value;
+         }
+         console.log(rad);
+		$.ajax({
+			url : "${rc.contextPath}/order/updatePlan",
+			type : "POST",
+			data : {
+				"rad" :rad,
+				"remarks" :$("#remarks").val(),
+				"id" :pid
+			 
+			},
+			success : function(data) {
+				jDialog.Alert(data.right);
+				var uptime = window.setTimeout(function(){
+					var a = document.createElement('a');
+	    	        a.href='${rc.contextPath}/order/toPlanDetail/'+pid;
+	            	document.body.appendChild(a);
+	             	a.click();
+			   	clearTimeout(uptime);
+						},2000)
+				
+			}
+		}, "text");
+	}
+
+	</#if>
+
 </script>
 
 	<div class="p20bs mt10 color-white-bg border-ec">
@@ -25,12 +60,8 @@ initPayPlanTable('${rc.contextPath}',${orderview.order.id},'<@security.authorize
 			<A class="black" href="#">订单分期详情</A>
 		</H3>
 		<BR>
-		<TABLE class="ui-table ui-table-gray">
-			<TBODY>
-				<TR>
-				<TD colspan=2 style="border-radius: 0 0 0">
+	 
 				
-				<div class="withdraw-wrap color-white-bg fn-clear">
 	<table id="payPlanTable" class="display nowrap" cellspacing="0">
 		<thead>
 			<tr>
@@ -40,6 +71,8 @@ initPayPlanTable('${rc.contextPath}',${orderview.order.id},'<@security.authorize
 								<th>付款方式</th>
 								<th>状态</th>
 								<th>付款人</th>
+								<th>处理人</th>
+								<th>最后操作时间</th>
 								<th>备注</th>
 								<@security.authorize ifAnyGranted="ShibaFinancialManager"> 
 								<th>操作</th></@security.authorize>
@@ -51,11 +84,8 @@ initPayPlanTable('${rc.contextPath}',${orderview.order.id},'<@security.authorize
 		</thead>
 
 	</table>
-</div>
 				
-			</TD>
-				</TR>
-		</TABLE>
+			 
 	</div>
 </div>
 <div id="userFristPay" class="userFristPay" >
@@ -115,21 +145,21 @@ initPayPlanTable('${rc.contextPath}',${orderview.order.id},'<@security.authorize
 			<#if planView.plan.payState == "check">
 			<TR style="height: 45px;">
 					<TD style="text-align: right">支付状态</TD>
-					<TD><input name="rad" type="radio" value="true"
+					<TD><input name="rad" type="radio" value="Y"
 						checked="checked" style="padding: 5px 15px;" />支付正常 <input
-						name="rad" type="radio" value="false" style="padding: 5px 15px;" />支付异常</TD>
+						name="rad" type="radio" value="N" style="padding: 5px 15px;" />支付异常</TD>
 				</TR>
 				<TR>
 					<TD style="text-align: right">审核意见</TD>
-					<TD colspan=3><textarea name="financialcomment"
-							id="financialcomment" class="textareaBox"
+					<TD colspan=3><textarea name="remarks"
+							id="remarks" class="textareaBox"
 							style="margin: 5px 0; width: 400px; margin-top: 5px;"></textarea></TD>
 				</TR>
 				</#if>
 		</TABLE>
 		<div style="margin: 10px 0 0; text-align: center;">
 			<#if planView.plan.payState == "check">
-			<button type="button" onclick="pay('userFristPay')" class="block-btn">确认支付</button>
+			<button type="button" onclick="pay('${planId!''}')" class="block-btn">确认支付</button>
 			</#if>
 		</div>
 		 
