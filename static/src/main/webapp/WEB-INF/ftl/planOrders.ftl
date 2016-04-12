@@ -205,7 +205,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 				<th orderBy="order.id">订单号</th>
 				<th>代理客户</th>
 				<th>套餐名称</th>
-				<th orderBy="day">支付时间 </th>
+				<th orderBy="day">约定付款日 </th>
 				<th orderBy="periodNum">期数</th>
 				<th orderBy="price">金额</th>
 			   <th orderBy="payState">状态</th>
