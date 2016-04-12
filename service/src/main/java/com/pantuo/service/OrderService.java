@@ -598,12 +598,17 @@ public class OrderService {
 			}
 		}
 		PayPlanExample example2 = new PayPlanExample();
-		example2.createCriteria().andOrderIdEqualTo(orderId);
+		PayPlanExample.Criteria ca = 	example2.createCriteria();
+		ca.andOrderIdEqualTo(orderId);
+		if(null != payPlan.getId() && payPlan.getId() > 0){
+			ca.andIdNotEqualTo(payPlan.getId() );
+		}
+		
 		example2.setOrderByClause("day desc");
 		List<PayPlan> list = payPlanMapper.selectByExample(example2);
 		if (list.size() > 0) {
 			if (list.get(0).getDay().after(date)) {
-				return new Pair<Boolean, String>(false, "付款日期不得小于已添加分期的付款日期，保存失败");
+				return new Pair<Boolean, String>(false, "保存失败:付款日期不得小于已添加分期的最后付款日期");
 			}
 		}
 		payPlan.setDay(date);
