@@ -300,6 +300,10 @@
 	<script type="text/javascript">
 		function contractConFirm(){
 		var customerId=$("#customerId").val();
+		var cusId='';
+		if(typeof(customerId)=="undefined"){
+		      customerId=cusId;
+		}
 					 layer.open({
 					    		type: 1,
 					    		title: "电子合同",
