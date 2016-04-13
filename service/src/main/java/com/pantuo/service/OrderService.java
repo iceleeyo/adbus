@@ -747,15 +747,14 @@ public class OrderService {
 			int orderId = OrderIdSeq.checkAndGetRealyOrderId(id);
 			query = query.and(QJpaOrders.jpaOrders.id.eq(orderId));
 		}
-		List<JpaOrders> list = (List<JpaOrders>) ordersRepository.findAll(query);
-		for (JpaOrders jpaOrders : list) {
+		Page<JpaOrders> list  = ordersRepository.findAll(query,p);
+		for (JpaOrders jpaOrders : list.getContent()) {
 			OrderView v = new OrderView();
 			v.setOrder(jpaOrders);
 			v.setLongOrderId(OrderIdSeq.getLongOrderId(jpaOrders));
 			views.add(v);
 		}
-		NumberPageUtil pageUtil = new NumberPageUtil(views.size(), page, length);
-		return new org.springframework.data.domain.PageImpl<OrderView>(views, p, pageUtil.getTotal());
+		return new org.springframework.data.domain.PageImpl<OrderView>(views, p,list.getTotalElements());
 	}
 
 	public Boolean checkNeedPay(int orderid) {
