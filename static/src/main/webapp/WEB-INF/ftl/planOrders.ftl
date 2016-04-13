@@ -23,6 +23,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","index_j
             "ordering": true,
             "serverSide": true,
                "aaSorting": [[4, "asc"]],
+                 "scrollX": true,
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
                { "orderable": false, "targets": [2,3,8,9,10] },
