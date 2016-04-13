@@ -19,12 +19,13 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
         table = $('#table').dataTable( {
            "dom": '<"#toolbar"><"top"il>rt<"bottom"p><"clear">',
             "searching": false,
-            "ordering": false,
+            "ordering": true,
             "serverSide": true,
               "scrollX": true,
+               "aaSorting": [[1, "desc"]],
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                  { "orderable": false, "targets": [0,1,2,4,5] },
+                  { "orderable": false, "targets": [2,5] },
               
               
             ],
@@ -149,14 +150,14 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 	<table id="table" class="display" cellspacing="0" width="100%">
 		<thead>
 			<tr>
-				<th>下单用户</th>
-				<th orderBy="longOrderId">订单编号</th>
+				<th orderBy="creator">下单用户</th>
+				<th orderBy="id">订单编号</th>
 			   <@security.authorize ifAnyGranted="sales,salesManager">
 				<th>代理客户</th>
 				</@security.authorize>
 				<th>产品名称</th>
-				<th>订单总价</th>
-				<th>已支付金额</th>
+				<th orderBy="price">订单总价</th>
+				<th orderBy="payPrice">已支付金额</th>
 				<th>操作</th>
 
 			</tr>
