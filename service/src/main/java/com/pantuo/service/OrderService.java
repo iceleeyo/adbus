@@ -760,7 +760,11 @@ public class OrderService {
 
 	public Boolean checkNeedPay(int orderid) {
 		PayPlanExample example=new PayPlanExample();
-		example.createCriteria().andOrderIdEqualTo(orderid).andPayStateEqualTo(JpaPayPlan.PayState.init.ordinal());
+		PayPlanExample.Criteria criterion=example.createCriteria();
+		PayPlanExample.Criteria criterion2=example.createCriteria();
+		criterion.andOrderIdEqualTo(orderid).andPayStateEqualTo(JpaPayPlan.PayState.init.ordinal());
+		criterion2.andOrderIdEqualTo(orderid).andPayStateEqualTo(JpaPayPlan.PayState.fail.ordinal());
+		example.or(criterion2);
 		int count=payPlanMapper.countByExample(example);
 		if(count>0){
 			return true;
