@@ -733,12 +733,14 @@ public class OrderService {
 				//.and(QJpaOrders.jpaOrders.price.gt(QJpaOrders.jpaOrders.payPrice))
 				.and(QJpaOrders.jpaOrders.payPrice.gt(0))
 				.and(QJpaOrders.jpaOrders.payType.eq(JpaOrders.PayType.dividpay));
-		if (StringUtils.isNoneBlank(stateKey) && !StringUtils.startsWith(stateKey, ActivitiService.R_DEFAULTALL)) {
+		if (StringUtils.isNoneBlank(stateKey)) {
 			if (StringUtils.equals(stateKey, "complete")) {
 				query = query.and(QJpaOrders.jpaOrders.price.eq(QJpaOrders.jpaOrders.payPrice));
-			}else{
+			}else if(StringUtils.equals(stateKey, "notcomplete")){
 				query = query.and(QJpaOrders.jpaOrders.price.gt(QJpaOrders.jpaOrders.payPrice));
 			}
+		}else{
+			query = query.and(QJpaOrders.jpaOrders.price.gt(QJpaOrders.jpaOrders.payPrice));
 		}
 		if (StringUtils.isNotBlank(longId)) {
 			long id = NumberUtils.toLong(longId);
