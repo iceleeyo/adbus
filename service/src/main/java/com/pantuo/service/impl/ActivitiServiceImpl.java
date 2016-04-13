@@ -1208,15 +1208,14 @@ public class ActivitiServiceImpl implements ActivitiService {
 							if (isPayed && payMoney > 0) {
 								orderService.updatePayPrice(orderId, payMoney);
 							}
-							
-
+							if (!isPayed) {//如果支付失败 让用户回到首支付
+								autoClaimFristPayUser(task, orderId, "financialCheck");
+							}
 						}
 					}
 				}
-				
-				
 				//自动签收首付款 环节
-				autoClaimFristPayUser(task, orderId);
+				autoClaimFristPayUser(task, orderId,"setPayPlan");
 				
 				mailJob.putMailTask(mailTask);
 				r.setRight("操作成功 " + getNextTaskInfo(mailTask.getFinishDate(), orderId) + "!");
@@ -1231,9 +1230,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return r;
 	}
 
-	private void autoClaimFristPayUser(Task task, Integer orderId) {
+	private void autoClaimFristPayUser(Task task, Integer orderId, String equalTaskKey) {
 		//setPayPlan
-		if (StringUtils.equals(task.getTaskDefinitionKey(), "setPayPlan")) {
+		if (StringUtils.equals(task.getTaskDefinitionKey(), equalTaskKey)) {
 			List<Task> tasks = taskService.createTaskQuery().processInstanceId(task.getProcessInstanceId()).list();
 			for (Task eachTask : tasks) {
 				if (StringUtils.equals(eachTask.getTaskDefinitionKey(), "userFristPay")) {
