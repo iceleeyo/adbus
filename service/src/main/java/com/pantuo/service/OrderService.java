@@ -171,16 +171,14 @@ public class OrderService {
 
 			if (obj.getDay().before(now)) {
 				//往期
-				if (obj.getPayState().intValue() == (JpaPayPlan.PayState.fail.ordinal())
-						|| obj.getPayState().intValue() == (JpaPayPlan.PayState.init.ordinal())) {
+				if (isNeedPay(obj)) {
 					r += obj.getPrice();
 					ids.append(obj.getId());
 					ids.append("_");
 				}
 			} else {
 				//下一期的第一期
-				if (obj.getPayState().intValue() == (JpaPayPlan.PayState.fail.ordinal())
-						|| obj.getPayState().intValue() == (JpaPayPlan.PayState.init.ordinal())) {
+				if (isNeedPay(obj)) {
 					r += obj.getPrice();
 					ids.append(obj.getId());
 					ids.append("_");
@@ -194,6 +192,11 @@ public class OrderService {
 		model.addAttribute("payNextLocation", ids.toString());
 		model.addAttribute("allLocation", allIds.toString());
 
+	}
+
+	private boolean isNeedPay(PayPlan obj) {
+		return obj.getPayState().intValue() == (JpaPayPlan.PayState.fail.ordinal())
+				|| obj.getPayState().intValue() == (JpaPayPlan.PayState.init.ordinal());
 	}
 
 	public double payed(int orderid) {
