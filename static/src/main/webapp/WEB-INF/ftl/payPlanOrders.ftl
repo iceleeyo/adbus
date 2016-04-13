@@ -83,7 +83,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
                          
                         '<select class="ui-input ui-input-mini" name="stateKey" id="stateKey">' +
 	                    '<option value="defaultAll" selected="selected">所有状态</option>' +
-    	              	'<option value="notcomplete">待支付订单</option>' +
+    	              	'<option value="notcomplete" selected="selected">待支付订单</option>' +
         	          	'<option value="complete">支付完成订单</option>' +
          				'</select>' +
                         '</div>'
