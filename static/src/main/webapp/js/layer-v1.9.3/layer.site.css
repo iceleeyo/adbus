@@ -1,0 +1,10 @@
+.layer_notice {
+    float: left;
+    width: 330px;
+    overflow: hidden;
+    background: #5FB878;
+    padding: 10px;
+}
+.layer_notice a {
+    color: #fff;
+}

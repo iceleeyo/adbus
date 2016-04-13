@@ -358,7 +358,7 @@ function toeditPayDay(purl,id) {
 												+ '<div class="widthdrawBtBox" style="position: absolute; bottom: 10px;">'
 												+ '<input type="button" onclick="ajaxEditPayday()" class="block-btn" style="margin-left:180px" value="确认" ></div>'
 												+ '</form>'
-												+'<div class="ui-form-item"> <span>注:为了保证订单分期的总额和订单总金额相等,分期金额不允许调整!</span></div>'
+												+'<div class="worm-tips"><div class="tips-title"> <span>注:为了保证订单分期的总额和订单总金额相等,分期金额不允许调整!</div></div>'
 												+ '<div id="worm-tips" class="worm-tips" style="width:350px;display:none;"></div>'
 									});
 							var checkin = $('#payDate1').datepicker().on(
