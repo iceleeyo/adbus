@@ -1202,6 +1202,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 								if (isPayed) {
 									payMoney += payPlan.getPrice();
 								}
+								payPlan.setRemarks((String) variables.get("financialcomment"));
 								payPlan.setReduceUser(u.getUsername());
 								payPlanMapper.updateByPrimaryKey(payPlan);
 							}
