@@ -1,4 +1,15 @@
-
+	/**
+	 * 查看购物车判断登陆状态
+	 */
+	function tocard(pathurl) {
+		var lc = $("#lc").val();
+		if (lc == "0") {
+			window.location.href = "/login";
+		}
+		if (lc == "1") {
+			window.location.href = pathurl + "/toCard";
+		}
+	}
 
 function setCarCount(catCount){
 	var exp = catCount;
