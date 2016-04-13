@@ -1,5 +1,7 @@
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<#import "template/template.ftl" as frame> <@frame.html title="订单详细"
+<#import "template/template.ftl" as frame> 
+<#global menu="分期订单">
+<@frame.html title="订单详细"
 js=["js/highslide/highslide-full.js", "js/video-js/video.js","js/jquery-dateFormat.js","index_js/sift_common.js",
 "js/video-js/lang/zh-CN.js"] css=["js/highslide/highslide.css",
 "js/video-js/video-js.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","css/liselect/pkg-generator.css$ver=1431443489.css"]> <#include "template/preview.ftl" />
