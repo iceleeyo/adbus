@@ -170,13 +170,17 @@ public class OrderService {
 		for (PayPlan obj : plan) {
 
 			if (obj.getDay().before(now)) {
-				if (obj.getPayState().intValue() == (JpaPayPlan.PayState.init.ordinal())) {
+				//往期
+				if (obj.getPayState().intValue() == (JpaPayPlan.PayState.fail.ordinal())
+						|| obj.getPayState().intValue() == (JpaPayPlan.PayState.init.ordinal())) {
 					r += obj.getPrice();
 					ids.append(obj.getId());
 					ids.append("_");
 				}
 			} else {
-				if (obj.getPayState().intValue() == (JpaPayPlan.PayState.init.ordinal())) {
+				//下一期的第一期
+				if (obj.getPayState().intValue() == (JpaPayPlan.PayState.fail.ordinal())
+						|| obj.getPayState().intValue() == (JpaPayPlan.PayState.init.ordinal())) {
 					r += obj.getPrice();
 					ids.append(obj.getId());
 					ids.append("_");
