@@ -81,6 +81,7 @@
 	<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript">
 		$(function(){
+			initCardView('');
 			var _winHeight = $(window).height(),
 			    _winWidth = $(window).width();
 			$('.background-one .slider').css({'height': _winHeight, 'width': _winWidth});

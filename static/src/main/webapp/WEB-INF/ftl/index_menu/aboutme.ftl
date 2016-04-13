@@ -80,6 +80,7 @@
 		src="${rc.contextPath}/index_js/index.js"></script>
 	<script type="text/javascript">
 		$(function() {
+			initCardView('');
 			var _winHeight = $(window).height(), _winWidth = $(window).width();
 			$('.background-one .slider').css({
 				'height' : _winHeight,

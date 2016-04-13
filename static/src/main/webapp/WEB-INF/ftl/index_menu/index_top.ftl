@@ -79,6 +79,14 @@
 	</span> <@security.authorize access="isAuthenticated()"> <a
 		href="javascript:;" class="pg-nav-item s-left" onclick="logout();">[退出]</a>
 	</@security.authorize> </@security.authorize>
+	
+	 <@security.authorize access="isAuthenticated()"> <input
+					type="hidden" id="lc" value="1" /> </@security.authorize>
+				<@security.authorize access="! isAuthenticated()"> <input
+					type="hidden" id="lc" value="0" /> </@security.authorize>
+					
+					
+					
 </div>
 </nav>
 
