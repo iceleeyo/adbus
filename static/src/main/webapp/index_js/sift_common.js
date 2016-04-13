@@ -137,7 +137,7 @@ function initPayPlanTable(purl,orderId,handle) {
                                  		if(data==null){
                                  			return '';
                                  		}
-                                        return data==0?"线上支付":"线下支付";
+                                        return data==0?"线上支付":(data==3?"汇款":(data==2?"支票支付":(data==4?"现金":"其他方式")));
                                       } }, 
                                       { "data": "payState", "defaultContent": "", "render": function(data) {
                                     	  return data==0?"已支付":(data==1?"未支付":(data==2?"支付失败":"支付待确认"));
