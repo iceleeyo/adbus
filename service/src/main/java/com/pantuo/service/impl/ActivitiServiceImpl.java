@@ -1183,6 +1183,13 @@ public class ActivitiServiceImpl implements ActivitiService {
 				MailTask mailTask = new MailTask(u.getUsername(), orderId, null, task.getTaskDefinitionKey(),
 						Type.sendCompleteMail);
 
+				//支付确认失败
+				if (StringUtils.equals("financialCheck", task.getTaskDefinitionKey())
+						&& task.getProcessVariables().containsKey("paymentResult")
+						&& ((Boolean) variables.get("paymentResult")) == false) {
+					variables.put(ActivitiService.R_USERPAYED, false);
+				}
+
 				taskService.complete(taskId, variables);
 				
 				if (StringUtils.equals("financialCheck", task.getTaskDefinitionKey())) {//且判断是分期的话 
@@ -1218,6 +1225,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 								orderService.updatePayPrice(orderId, payMoney);
 							}
 							if (!isPayed) {//如果支付失败 让用户回到首支付
+							
 								autoClaimFristPayUser(task, orderId, "financialCheck");
 							}
 						}
