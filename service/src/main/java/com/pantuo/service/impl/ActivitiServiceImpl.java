@@ -952,11 +952,16 @@ public class ActivitiServiceImpl implements ActivitiService {
 			for (Task task : tasks) {
 				if (StringUtils.equals("payment", task.getTaskDefinitionKey())) {
 					taskService.claim(task.getId(), u.getUsername());
-					//如果是线上支付，完成这一步
-					if (order.getStats().equals(JpaOrders.Status.paid) || order.getPayType().name().equals("dividpay")) {
+					//如果是分期
+					if(order.getPayType().name().equals("dividpay")){
+						Map<String, Object> variables = new HashMap<String, Object>();
+						variables.put(ActivitiService.R_USERPAYED, false);
+						variables.put(ActivitiService.PAYPLAN, true);
+						taskService.complete(task.getId(), variables);
+					}else if(order.getStats().equals(JpaOrders.Status.paid)){
 						Map<String, Object> variables = new HashMap<String, Object>();
 						variables.put(ActivitiService.R_USERPAYED, true);
-						variables.put(ActivitiService.PAYPLAN, true);
+						variables.put(ActivitiService.PAYPLAN, false);
 						taskService.complete(task.getId(), variables);
 					}
 				}
@@ -1066,6 +1071,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 							StringUtils.EMPTY) > 0) {
 						taskService.claim(task.getId(), u.getUsername());
 						Map<String, Object> variables = new HashMap<String, Object>();
+//						if(){
+//							
+//						}
 						variables.put(ActivitiService.R_USERPAYED, true);
 
 						MailTask mailTask = new MailTask(u.getUsername(), orderid, null, task.getTaskDefinitionKey(),
