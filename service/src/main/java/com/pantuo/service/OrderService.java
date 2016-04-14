@@ -728,7 +728,7 @@ public class OrderService {
 		if (length < 1)
 			length = 1;
 		String longId = req.getFilter("longOrderId"), stateKey = req.getFilter("stateKey");
-		Pageable p = new PageRequest(page, length, new Sort("id"));
+		Pageable p = new PageRequest(page, length, req.getSort("id"));
 		BooleanExpression query = QJpaOrders.jpaOrders.userId.eq(userId)
 				//.and(QJpaOrders.jpaOrders.price.gt(QJpaOrders.jpaOrders.payPrice))
 				.and(QJpaOrders.jpaOrders.payPrice.gt(0))
@@ -736,10 +736,10 @@ public class OrderService {
 		if (StringUtils.isNoneBlank(stateKey)) {
 			if (StringUtils.equals(stateKey, "complete")) {
 				query = query.and(QJpaOrders.jpaOrders.price.eq(QJpaOrders.jpaOrders.payPrice));
-			}else if(StringUtils.equals(stateKey, "notcomplete")){
+			} else if (StringUtils.equals(stateKey, "notcomplete")) {
 				query = query.and(QJpaOrders.jpaOrders.price.gt(QJpaOrders.jpaOrders.payPrice));
 			}
-		}else{
+		} else {
 			query = query.and(QJpaOrders.jpaOrders.price.gt(QJpaOrders.jpaOrders.payPrice));
 		}
 		if (StringUtils.isNotBlank(longId)) {
@@ -747,14 +747,14 @@ public class OrderService {
 			int orderId = OrderIdSeq.checkAndGetRealyOrderId(id);
 			query = query.and(QJpaOrders.jpaOrders.id.eq(orderId));
 		}
-		Page<JpaOrders> list  = ordersRepository.findAll(query,p);
+		Page<JpaOrders> list = ordersRepository.findAll(query, p);
 		for (JpaOrders jpaOrders : list.getContent()) {
 			OrderView v = new OrderView();
 			v.setOrder(jpaOrders);
 			v.setLongOrderId(OrderIdSeq.getLongOrderId(jpaOrders));
 			views.add(v);
 		}
-		return new org.springframework.data.domain.PageImpl<OrderView>(views, p,list.getTotalElements());
+		return new org.springframework.data.domain.PageImpl<OrderView>(views, p, list.getTotalElements());
 	}
 
 	public Boolean checkNeedPay(int orderid) {
