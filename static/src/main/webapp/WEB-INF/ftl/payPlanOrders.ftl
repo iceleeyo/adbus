@@ -25,7 +25,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
                "aaSorting": [[1, "desc"]],
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                  { "orderable": false, "targets": [2,5] },
+                  { "orderable": false, "targets": [0,2,3,4,5,6] },
               
               
             ],
