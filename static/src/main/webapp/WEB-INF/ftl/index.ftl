@@ -11,22 +11,12 @@
 <link rel="stylesheet" type="text/css" href="index_css/jack.css">
 <link rel="stylesheet" type="text/css" href="index_css/shibaHome.css">
 <link rel="stylesheet" type="text/css" href="index_css/index_sea.css">
-<script src="js/jquery.pagination.js"></script>
 
+<script type="text/javascript" src="index_js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="js/jquery.pagination.js"></script>
+<script src="index_js/sift_common.js"></script>
 </head>
 <script type="text/javascript">
-	/**
-	 * 查看购物车判断登陆状态
-	 */
-	function tocard(pathurl) {
-		var lc = $("#lc").val();
-		if (lc == "0") {
-			window.location.href = "/login";
-		}
-		if (lc == "1") {
-			window.location.href = pathurl + "/toCard";
-		}
-	}
 </script>
 <link rel="stylesheet" type="text/css" href="index_css/line-spin-clockwise-fade.css">
 <link rel="stylesheet" type="text/css" href="index_css/loaders.css" />
@@ -87,7 +77,11 @@
 					onclick="tocard('${rc.contextPath}');"><img class="shop_icon"
 						alt="" src="../index_img/icon_cart.png"> <span
 						id="cardCount_top" style="color: #ff9966"></span> </a>
-				</span> <@security.authorize access="isAuthenticated()"> <input
+				</span>
+				
+				
+				
+				 <@security.authorize access="isAuthenticated()"> <input
 					type="hidden" id="lc" value="1" /> </@security.authorize>
 				<@security.authorize access="! isAuthenticated()"> <input
 					type="hidden" id="lc" value="0" /> </@security.authorize>
@@ -374,6 +368,7 @@
 <script type="text/javascript" language="javascript"
 	src="${rc.contextPath}/js/layer-v1.9.3/layer-site.js"></script>
 	<script type="text/javascript">
+		initCardView('');
 		/**
 		 * 登出
 		 */
