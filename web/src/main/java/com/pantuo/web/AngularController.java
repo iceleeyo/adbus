@@ -27,7 +27,7 @@ import org.springframework.web.bind.support.NgTable;
 import com.pantuo.web.table.AngularRequest;
 
 /**
- *   Test
+ *   Test 测试
  * <b><code>AngularController</code></b>
  * <p>
  * angular mvc 
