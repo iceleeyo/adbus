@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.Lazy;
 
-import com.pantuo.service.ContractInitService;
 import com.pantuo.service.DataInitializationService;
 
 /**
@@ -24,7 +23,7 @@ public class InitializationConfiguration {
 	
 	
 	@Autowired
-	ContractInitService contractInitService;
+	//ContractInitService contractInitService;
 	
 	/**
 	 * 初始化线路对应的车辆数量

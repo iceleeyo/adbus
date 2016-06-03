@@ -108,7 +108,8 @@ public class OrderService {
 				int id = NumberUtils.toInt(string, -1);
 				if (id > 0) {
 					PayPlan plan = payPlanMapper.selectByPrimaryKey(id);
-					if (plan != null) {
+					//判断状态
+					if (plan != null && (plan.getPayState() == JpaPayPlan.PayState.fail.ordinal() || plan.getPayState() == JpaPayPlan.PayState.init.ordinal())) {
 						payPrice += plan.getPrice();
 						plan.setPayState(state.ordinal());
 						plan.setPayUser(uid);

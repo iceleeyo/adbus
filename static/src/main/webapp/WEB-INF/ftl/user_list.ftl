@@ -100,10 +100,17 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                     return row.username;
                 },
                     "render": function(data, type, row, meta) {
-                        return (row.enabled ? '<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/user/' + data + '/disable">禁用</a> &nbsp;'
-                                :'<a class="table-action operation " href="javascript:void(0);" url="${rc.contextPath}/user/' + data + '/enable">启用</a> &nbsp;')
-                        + '<a class="operation" href="${rc.contextPath}/user/u_edit/' + data + '" >编辑</a> &nbsp;'
-                        ;
+                    var opt='';
+                    if(row.enabled){
+                    opt+='<a class="table-action operation" href="javascript:void(0);" url="${rc.contextPath}/user/' + data + '/disable">禁用</a> &nbsp;'
+                    }else{
+                    opt+='<a class="table-action operation " href="javascript:void(0);" url="${rc.contextPath}/user/' + data + '/enable">启用</a> &nbsp;'
+                    }
+                      opt+= '<a class="operation" href="${rc.contextPath}/user/u_edit/' + data + '" >编辑</a> &nbsp;'
+                        if(row.isActivate==0){
+                       opt+=  '<a class="operation" href="javascript:void(0)" onclick="delUser(\''+data+'\')" >删除</a> &nbsp;'
+                        }
+                        return opt;
                     }},
             ],
             "language": {
@@ -139,7 +146,30 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
         });
     }
     
-     
+     function delUser(username){
+	var bln=window.confirm("确定删除该用户吗？");
+    if(bln){
+	 $.ajax({
+			url:"${rc.contextPath}/user/delUser/"+username,
+			type:"POST",
+			async:false,
+			dataType:"json",
+			data:{},
+			success:function(data){
+				if (data.left == true) {
+					layer.msg(data.right);
+				   var uptime = window.setTimeout(function(){
+				window.location.reload();
+			   	clearTimeout(uptime);
+						},2000)
+				} else {
+					layer.msg(data.right);
+				}
+			}
+      });  
+   }
+	   
+	}
 
     $(document).ready(function() {
         initTable();

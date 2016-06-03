@@ -512,6 +512,7 @@ public class UserService implements UserServiceInter {
 		return u;
 	}
     
+
 	@Override
 	public Pair<Boolean, String> deleteClinent(String username) {
 		UserDetail userDetail=findByUsername(username);

@@ -560,6 +560,14 @@ public class UserManagerController {
 		
 		return "u/userEdit";
 	}
+	@PreAuthorize(" hasRole('UserManager')  ")
+	@RequestMapping(value = "/delUser/{userId}")
+	@ResponseBody
+	public Pair<Boolean, String> delUser(
+			@PathVariable("userId") String userId, HttpServletRequest request) {
+		
+		return userService.deleteClinent(userId);
+	}
 	@RequestMapping(value = "/addRole")
 	public String addRole(Model model) {
 		List<JpaFunction> functions= goupManagerService.getAllFunction();
