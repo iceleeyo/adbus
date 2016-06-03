@@ -16,6 +16,10 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 	
     var table;
     function initTable () {
+    	
+    	
+    	 
+    
         table = $('#table').dataTable( {
            "dom": '<"#toolbar"><"top"il>rt<"bottom"p><"clear">',
             "searching": false,
@@ -25,9 +29,12 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
                "aaSorting": [[1, "desc"]],
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
+               <@security.authorize ifAnyGranted="advertiser">
+                  { "orderable": false, "targets": [0,2,3,4,5] },
+                </@security.authorize>
+                <@security.authorize ifAnyGranted="sales,salesManager">
                   { "orderable": false, "targets": [0,2,3,4,5,6] },
-              
-              
+                </@security.authorize>
             ],
             "ajax": {
                 type: "GET",
