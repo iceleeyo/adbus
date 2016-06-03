@@ -307,6 +307,10 @@ function userFristPay() {
 function shangboReport() {
     var shangboResult=$('#shangboReport :radio[name=shangboResult]:checked').val();
 	var shangboComments=$("#shangboComments").val();
+	if(shangboComments==""){
+	  jDialog.Alert("请填写意见");
+	  return;
+	}
 	complete('${taskid!''}',[
 		{
 			key: 'shangboResult',
@@ -325,6 +329,10 @@ function shangboReport() {
 function jianboReport() {
     var jianboResult=$('#jianboReport :radio[name=jianboResult]:checked').val();
 	var jianboComments=$("#jianboComments").val();
+	if(jianboComments==""){
+	  jDialog.Alert("请填写意见");
+	  return;
+	}
 	complete('${taskid!''}',[
 		{
 			key: 'jianboResult',
