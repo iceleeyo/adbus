@@ -51,7 +51,7 @@
 <#if _utype?? && _utype == 'body'>
 <div class="logo_bus"></div>
 <#elseif _utype?? && _utype == 'screen'>
-<div class="logo_screen"></div>
+<a href="/"><div class="logo_screen"></div></a>
 <#else>
 <div class="logo2"></div>
 </#if>
