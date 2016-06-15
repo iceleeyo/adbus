@@ -17,12 +17,16 @@ css=["js/highslide/highslide.css",
 	border: 1px solid #3BAFDA;
 }
 
+.title-box{
+    border-bottom: 0px;
+}
+
 .withdraw-wrap{
 	border-top:0;
 }
 
 .ui-table-gray tr{
-	background: null;
+	background: none;
 }
 
 .ui-table-gray tr th{
