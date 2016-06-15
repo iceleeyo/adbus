@@ -4125,16 +4125,13 @@ a.ui-progressbar-circle-join {
 	background: rgb(225, 228, 233);
 }
 .ui-table-gray tr:first-child th {
-	border-radius: 5px 0px 0px;
+	/**border-radius: 5px 0px 0px;**/
 }
 .ui-table-gray tr:first-child td {
-	border-radius: 0px 5px 0px 0px;
 }
 .ui-table-gray tr:last-child th {
-	border-radius: 0px 0px 0px 5px;
 }
 .ui-table-gray tr:last-child td {
-	border-radius: 0px 0px 5px;
 }
 .ui-table-center th {
 	text-align: center;
