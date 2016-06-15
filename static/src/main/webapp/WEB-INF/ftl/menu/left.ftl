@@ -455,8 +455,8 @@ $(".qq a").click(function(){
 	    content: ''
 	    +'<div class="qq_layer">'
 	    +'<span class="child"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2118878347&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:2118878347:51" alt="联系我们" title="联系我们"/><span>QQ客服：2118878347</span></a></span>'
-	    +'<span class="child"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2952734147&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:2952734147:51" alt="联系我们" title="联系我们"/><span>QQ客服：2952734147</span></a></span>'
-	    +'<span class="child"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2275955417&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:2275955417:51" alt="联系我们" title="联系我们"/><span>QQ客服：2275955417</span></a></span>'
+	    +'<span class="child"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2148989479&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:2148989479:51" alt="联系我们" title="联系我们"/><span>QQ客服：2148989479</span></a></span>'
+	    +'<span class="child"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=3461937837&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:3461937837:51" alt="联系我们" title="联系我们"/><span>QQ客服：3461937837</span></a></span>'
 	   	+'</div>'
 	});
 });

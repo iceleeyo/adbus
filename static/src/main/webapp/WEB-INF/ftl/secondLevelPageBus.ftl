@@ -120,6 +120,8 @@ function tocard(pathurl){
 					</div>
 				</div>
 			</div> -->
+			
+			<!--
 			<div class="recommand timer pd">
 				<div class="title">
 					<span>限时套装</span>
@@ -185,6 +187,7 @@ function tocard(pathurl){
 				</div>
 			</div>
 			</div>
+			-->
 			<div class="recommand customs pd">
 				<div class="title">
 					<span>定制自选</span>
