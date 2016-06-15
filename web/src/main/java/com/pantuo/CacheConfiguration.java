@@ -11,7 +11,7 @@ import redis.clients.jedis.JedisPoolConfig;
 @Configuration
 @ImportResource("classpath:/properties.xml")
 //@EnableCaching(mode = AdviceMode.ASPECTJ)
-public class CacheConfiguration {
+public class CacheConfiguration {  
 
     @Value("${redis.hostname}")
     private String redisHostName;
