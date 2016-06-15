@@ -17,6 +17,18 @@ css=["js/highslide/highslide.css",
 	border: 1px solid #3BAFDA;
 }
 
+.withdraw-wrap{
+	border-top:0;
+}
+
+.ui-table-gray tr{
+	background: null;
+}
+
+.ui-table-gray tr th{
+	color: white;
+}
+
 .banknameformError .parentFormuserForm3 .formError {
 	opacity: 0.87;
 	position: absolute;
@@ -307,10 +319,6 @@ function userFristPay() {
 function shangboReport() {
     var shangboResult=$('#shangboReport :radio[name=shangboResult]:checked').val();
 	var shangboComments=$("#shangboComments").val();
-	if(shangboComments==""){
-	  jDialog.Alert("请填写意见");
-	  return;
-	}
 	complete('${taskid!''}',[
 		{
 			key: 'shangboResult',
@@ -329,10 +337,6 @@ function shangboReport() {
 function jianboReport() {
     var jianboResult=$('#jianboReport :radio[name=jianboResult]:checked').val();
 	var jianboComments=$("#jianboComments").val();
-	if(jianboComments==""){
-	  jDialog.Alert("请填写意见");
-	  return;
-	}
 	complete('${taskid!''}',[
 		{
 			key: 'jianboResult',
@@ -820,7 +824,7 @@ suppliesView=suppliesView/>
 	order=orderview.order product=orderview.product city=city
 	lineLevel=prod.lineLevel categories=categories/> </#if>
 	<div class="p20bs mt10 color-white-bg border-ec">
-		<H3 class="text-xl title-box">
+		<H3 style="border-bottom:0;" class="text-xl title-box">
 			<p style="text-align: left">
 				<A class="black" href="#">支付订单</A>
 			</p>
@@ -1496,7 +1500,7 @@ initPayPlanTable('${rc.contextPath}',$("#orderid").val(),'<@security.authorize
 			<A class="black" href="#">分期设置</A>
 			<div class="withdraw-title">
 			 <a class="block-btn"
-						style="margin-top: -5px;" href="javascript:void(0);"
+						style="margin-top: -30px;" href="javascript:void(0);"
 						onclick="addPayPlan('${rc.contextPath}')">添加分期</a>	</div>
 		</H3>
 		<BR>
@@ -1893,11 +1897,4 @@ $(document).ready(function(){
     
     
   </#if>  
-    
-    
-
-
-
-
-
 </@frame.html>

@@ -32,7 +32,7 @@ function supDetail(data){
 			<SPAN class="con-title"><a class="layer-tips" tip="点击可查看套餐详细内容!"
 					onclick="showProductlayer('${rc.contextPath}',${prod.id});">${prod.name!''}</a></SPAN></li>
 			<#if !(cpdDetail?exists)>
-			
+			<br/>
 			<li style="width: 200px;"><SPAN>套餐价格：</SPAN><SPAN class="con"
 				style="color: rgb(245, 135, 8);"> 
 				 <#assign priceTag=0 />

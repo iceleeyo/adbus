@@ -28,7 +28,8 @@ audio, canvas, video {
 
 body, button, input, select, textarea, table {
 	font: 14px/1.5 '微软雅黑', YaHei, tahoma, arial, "Hiragino Sans GB",
-		\5b8b\4f53
+		\5b8b\4f53
+
 }
 
 input, select, textarea {
@@ -5530,7 +5531,6 @@ a.button-disable, a.button-disable:active, a.button-disable:hover {
 .ui-table-gray tbody th, .ui-table-gray tbody td {
 	padding: 0 40px;
 	line-height: 34px;
-	border: 2px solid #fff;
 	border-top: 0;
 	border-bottom: 0;
 	color: #222;
@@ -5561,13 +5561,6 @@ a.button-disable, a.button-disable:active, a.button-disable:hover {
 	border-radius: 0 5px 0 0
 }
 
-.ui-table-gray tr:last-child th {
-	border-radius: 0 0 0 5px
-}
-
-.ui-table-gray tr:last-child td {
-	border-radius: 0 0 5px
-}
 
 .ui-table-center th, .ui-table-center td {
 	text-align: center

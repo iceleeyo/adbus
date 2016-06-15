@@ -3068,7 +3068,6 @@
 
 .title-box {
 	padding-bottom: 10px;
-	border-bottom: 1px solid #e0e0e0;
 	text-align: left;
 }
 
@@ -3113,6 +3112,10 @@
 .uplan-detail-ul .con {
 	margin-left: 15px;
 	color: #000
+}
+
+.con a{
+	color: #00A8E8;
 }
 
 .uplan-detail-ul .con-title {
