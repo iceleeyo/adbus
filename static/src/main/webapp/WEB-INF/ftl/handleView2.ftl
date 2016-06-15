@@ -30,7 +30,7 @@ css=["js/highslide/highslide.css",
 }
 
 .ui-table-gray tr th{
-	color: white;
+	//color: white;
 }
 
 .banknameformError .parentFormuserForm3 .formError {
