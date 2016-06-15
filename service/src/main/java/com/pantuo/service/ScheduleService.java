@@ -1020,8 +1020,7 @@ public class ScheduleService {
 					//goods.setBox(box);
 					JpaBox storeBox = getJpaBoxFromEntity(command.order, box);
 					goods.setBox(storeBox);
-					//--------
-
+//llll
 					//goods.setBox(box);
 					command.gs.add(goods);
 					command.boxEx.put(box.getId(), box);
