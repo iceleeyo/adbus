@@ -15,6 +15,7 @@ import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProduct.FrontShow;
 import com.pantuo.dao.pojo.JpaProductLocation;
 import com.pantuo.dao.pojo.JpaProductV2;
+import com.pantuo.dao.pojo.JpaVideo32Group;
 import com.pantuo.mybatis.domain.BusOrderDetailV2;
 import com.pantuo.mybatis.domain.Product;
 import com.pantuo.mybatis.domain.ProductV2;
@@ -94,4 +95,5 @@ public interface ProductService {
 	String getBodyProViewJson(int id);
 	List<JpaProductLocation> getProTags(String belongTag);
 	String selectLocationIdsByProId(int id);
+	List<JpaVideo32Group> getAllVideo32Group();
 }

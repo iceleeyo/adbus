@@ -104,13 +104,18 @@ public class IndexController {
 	}
 	
 	
+	 @RequestMapping(value = "/testReport")
+	    public String testReport(Model model, HttpServletRequest request, HttpServletResponse response
+			) {
+	    	return "report/test";
+	    }
 	 @RequestMapping(value = "/secondLevelPage")
-	    public String secondLevelPage(Model model, HttpServletRequest request, HttpServletResponse response,
-				@CookieValue(value = "city", defaultValue = "-1") int city) {
+	 public String secondLevelPage(Model model, HttpServletRequest request, HttpServletResponse response,
+			 @CookieValue(value = "city", defaultValue = "-1") int city) {
 //		 makeCookieValueRight(city == -1 ? 1 : (city % 2 == 0 ? city - 1 : city), response);
 		 model.addAttribute("auctionList", cpdService.getIndexCpdList(city, 4));
-	    	return "secondLevelPage";
-	    }
+		 return "secondLevelPage";
+	 }
 	 @RequestMapping(value = "/secondLevelPageBus")
 	    public String secondLevelPageBus(Model model, HttpServletRequest request, HttpServletResponse response,
 				@CookieValue(value = "city", defaultValue = "-1") int city) {
@@ -301,6 +306,9 @@ public class CardSelect{
 		JpaProduct j=cardService.getJpaProductByid(id);
 		model.addAttribute("jpaProduct", j);
 		model.addAttribute("jsonView", cardService.getJsonfromJsonStr(j.getJsonString()));
+		if(j!=null && j.getType()==JpaProduct.Type.inchof32){
+			model.addAttribute("lines", productService.getAllVideo32Group());
+		}
 		return "thirdCarMedia";
 	}
 	

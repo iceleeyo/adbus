@@ -9,8 +9,9 @@
 
 </head>
 <body>
-	<header> <!-- 头部开始 --> <#include "/index_menu/index_top.ftl"
-	/> <!-- 头部结束 --> </header>
+	<header> <!-- 头部开始 -->
+	 <#include "/index_menu/index_top.ftl"/> 
+	<!-- 头部结束 --> </header>
 	<div class="content">
 		<div class="side-nav">
 
@@ -95,7 +96,11 @@
 							<dl class="d-item">
 								<dt>次数：</dt>
 								<dd>${jpaProduct.duration}秒/次
+								<#if jpaProduct.type=='inchof32'>
+								&nbsp;12次/小时</dd>
+								<#else>
 									&nbsp;${jpaProduct.playNumber}次/天</dd>
+									</#if>
 							</dl>
 							<dl class="d-item">
 								<dt>刊期：</dt>
@@ -107,6 +112,30 @@
 								</dt>
 								<dd id="price">￥${jpaProduct.price}</dd>
 							</dl>
+							<input type="hidden" id="sh"/>
+							<#if jpaProduct.type=='inchof32'>
+								<dl class="d-item number">
+								<dt>线路：</dt><br>
+								<dd>
+				<div class="back">
+					<div class="back-items">
+					   <div class="back-item">
+							<span class="sift-list" qt="lines">
+								<a class="item active" style="display:none" href="#" sort="-1" qc="all">所有</a> 
+							<#list lines as item>
+				             	<a class="item" href="#" qc="${item.id}">${item.name}<i>×</i></a> 
+					                <#if item_index!=0 && item_index%6 == 0>
+						            <br>
+					             </#if>
+					          </#list>
+							</span>
+						</div>
+					
+			     </div>
+			</div>
+								</dd>
+							</dl>
+								<#else>
 							<dl class="d-item number">
 								<dt>数量：</dt>
 								<dd>
@@ -118,6 +147,7 @@
 									</span>
 								</dd>
 							</dl>
+							</#if>
 							<dl class="d-item random">
 								<dd>
 									上播日期： <input
@@ -229,12 +259,21 @@
 
 	<script type="text/javascript">
 		  $(document).ready(function() {
+		   initSwift2('${rc.contextPath}');
 		  $("#kanqi li").click(function(){
 				var days=$(this).children().attr("qc");		
 				changeMonyByDays(days);
 			});
 	    } );
 		function buy(pathurl,id){
+		var mediaType='${jpaProduct.type}';
+		var sh=$("#sh").val();
+		if('inchof32'==mediaType){
+		  if(sh=="" || sh=="lines_all,"){
+		    layer.msg("请选择线路");
+		   return;
+		  }
+		}
 		var startdate1=$("#startdate1").val();
 		if(startdate1==""){
 		   layer.msg("请填写开播日期");
@@ -248,7 +287,7 @@
 		if(lc=="1"){	
 		         $.ajax({
 							url : "${rc.contextPath}/carbox/buy/media",
-							data:{"proid":id,"needCount":$("#needCount").val(),"days":0,"startdate1":startdate1},
+							data:{"proid":id,"needCount":$("#needCount").val(),"days":0,"startdate1":startdate1,"sh":sh},
 							type : "POST",
 							success : function(data) {
 							if(data.left){
@@ -258,6 +297,14 @@
 		}
 		}
 		function putIncar(pathurl,id){
+		var mediaType='${jpaProduct.type}';
+		var sh=$("#sh").val();
+		if('inchof32'==mediaType){
+		  if(sh==""|| sh=="lines_all,"){
+		    layer.msg("请选择线路");
+		   return;
+		  }
+		}
 		    var startdate1=$("#startdate1").val();
 			var lc=$("#lc").val();
 			if(lc=="0"){
@@ -266,7 +313,7 @@
 			if(lc=="1"){
 		         $.ajax({
 							url : "${rc.contextPath}/carbox/putIncar/media",
-							data:{"proid":id,"needCount":$("#needCount").val(),"days":0,"startdate1":startdate1},
+							data:{"proid":id,"needCount":$("#needCount").val(),"days":0,"startdate1":startdate1,"sh":sh},
 							type : "POST",
 							success : function(data) {
 							alert(data.right);
@@ -317,6 +364,7 @@
         
 		   
 		});
+		
 	</script>
 </body>
 </html>

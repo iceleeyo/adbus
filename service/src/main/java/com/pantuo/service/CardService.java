@@ -114,9 +114,9 @@ public interface CardService {
 
 	public JpaBusOrderDetailV2 getJpaBusOrderDetailV2Byid(int id);
 
-	public Pair<Boolean, String> putIncar(int proid, int needCount, int days, Principal principal, int city,String startdate1, String type);
+	public Pair<Boolean, String> putIncar(int proid, int needCount, int days, Principal principal, int city,String startdate1, String type, HttpServletRequest request);
 
-	public Pair<Boolean, String> buy(int proid, int needCount, int days, Principal principal, int city, String startdate1, String type);
+	public Pair<Boolean, String> buy(int proid, int needCount, int days, Principal principal, int city, String startdate1, String type, HttpServletRequest request);
 	
 	
 	

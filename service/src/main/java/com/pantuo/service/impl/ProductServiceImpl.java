@@ -41,6 +41,7 @@ import com.pantuo.dao.ProductLocationRepository;
 import com.pantuo.dao.ProductRepository;
 import com.pantuo.dao.ProductTagRepository;
 import com.pantuo.dao.ProductV2Repository;
+import com.pantuo.dao.VedioGroupRepository;
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaBusOrderV2;
 import com.pantuo.dao.pojo.JpaBusline;
@@ -51,6 +52,7 @@ import com.pantuo.dao.pojo.JpaProduct.FrontShow;
 import com.pantuo.dao.pojo.JpaProductLocation;
 import com.pantuo.dao.pojo.JpaProductTag;
 import com.pantuo.dao.pojo.JpaProductV2;
+import com.pantuo.dao.pojo.JpaVideo32Group;
 import com.pantuo.dao.pojo.QJpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.QJpaBusOrderV2;
 import com.pantuo.dao.pojo.QJpaCardBoxMedia;
@@ -132,8 +134,15 @@ public class ProductServiceImpl implements ProductService {
 	BusOrderV2Mapper v2OMapper;
 	@Autowired
 	BusService busService;
+	@Autowired
+	VedioGroupRepository vedioGroupRepository;
 
 	private static Logger log = LoggerFactory.getLogger(ProductServiceImpl.class);
+
+	@Override
+	public List<JpaVideo32Group> getAllVideo32Group() {
+		return vedioGroupRepository.findAll();
+	}
 
 	public Page<JpaProduct> getAllProducts(int city, boolean includeExclusive, String exclusiveUser, TableRequest req) {
 		String name = req.getFilter("name"), stats = req.getFilter("stats"), type = req.getFilter("type");

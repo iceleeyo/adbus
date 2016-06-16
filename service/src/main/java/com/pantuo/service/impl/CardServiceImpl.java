@@ -26,6 +26,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.Lists;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.BodyOrderLogRepository;
@@ -299,9 +300,24 @@ public class CardServiceImpl implements CardService {
 		}
 	}
 
+	public List<Integer> getLineIdsBySh(String sh){
+		List<Integer> lineIds=Lists.newArrayList();
+		if(StringUtils.isNotBlank(sh)){
+			String[] shSplit = StringUtils.split(sh, ",");
+			if (shSplit != null) {
+				for (String string : shSplit) {// p1
+					String[] one = StringUtils.split(string, "_");
+					lineIds.add(NumberUtils.toInt(one[1]));
+				}
+			}
+		}
+		return lineIds;
+	}
 	@Override
 	public Pair<Boolean, String> putIncar(int proid, int needCount, int days, Principal principal, int city,
-			String startdate1, String type) {
+			String startdate1, String type,HttpServletRequest request) {
+		String sh=request.getParameter("sh");
+		List<Integer> lineIds=getLineIdsBySh(sh);
 		if (StringUtils.equals(type, "media")) {
 			long seriaNum = getCardBingSeriaNum(principal);
 			CardboxMediaExample example = new CardboxMediaExample();
@@ -391,7 +407,9 @@ public class CardServiceImpl implements CardService {
 
 	@Override
 	public Pair<Boolean, String> buy(int proid, int needCount, int days, Principal principal, int city,
-			String startdate1, String type) {
+			String startdate1, String type,HttpServletRequest request) {
+		String sh=request.getParameter("sh");
+		List<Integer> lineIds=getLineIdsBySh(sh);
 		if (StringUtils.equals(type, "media")) {
 			long seriaNum = getCardBingSeriaNum(principal);
 			CardboxMediaExample example = new CardboxMediaExample();
