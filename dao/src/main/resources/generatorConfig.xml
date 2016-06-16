@@ -2,7 +2,7 @@
 <!DOCTYPE generatorConfiguration
   PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
   "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
-<generatorConfiguration>
+<generatorConfiguration>  
 	<properties
 		url="file:///${project.build.outputDirectory}/${adbus.env}.generator.properties" />
 	<classPathEntry location="${generator.classPathEntry}" />
