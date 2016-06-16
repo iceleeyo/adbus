@@ -197,6 +197,22 @@
 			<generatedKey column="ID" sqlStatement="${generator.db}"
 				identity="true" />
 		</table>
+		<table schema="" tableName="video32Order" delimitIdentifiers="${generator.delimitIdentifiers}">
+			<generatedKey column="ID" sqlStatement="${generator.db}"
+				identity="true" />
+		</table>
+		<table schema="" tableName="Video32Group" delimitIdentifiers="${generator.delimitIdentifiers}">
+			<generatedKey column="ID" sqlStatement="${generator.db}"
+				identity="true" />
+		</table>
+		<table schema="" tableName="video32OrderDetail" delimitIdentifiers="${generator.delimitIdentifiers}">
+			<generatedKey column="ID" sqlStatement="${generator.db}"
+				identity="true" />
+		</table>
+		<table schema="" tableName="Video32OrderStatus" delimitIdentifiers="${generator.delimitIdentifiers}">
+			<generatedKey column="ID" sqlStatement="${generator.db}"
+				identity="true" />
+		</table>
 		
 		
 
