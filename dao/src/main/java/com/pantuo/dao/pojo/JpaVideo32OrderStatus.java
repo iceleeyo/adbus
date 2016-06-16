@@ -44,5 +44,41 @@ public class JpaVideo32OrderStatus extends BaseEntity {
 	public String creater;
 	public Result r = Result.Z;
 	public String comment;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public Jpa32Order getOrder() {
+		return order;
+	}
+	public void setOrder(Jpa32Order order) {
+		this.order = order;
+	}
+	public String getOperation() {
+		return operation;
+	}
+	public void setOperation(String operation) {
+		this.operation = operation;
+	}
+	public String getCreater() {
+		return creater;
+	}
+	public void setCreater(String creater) {
+		this.creater = creater;
+	}
+	public Result getR() {
+		return r;
+	}
+	public void setR(Result r) {
+		this.r = r;
+	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 
 }

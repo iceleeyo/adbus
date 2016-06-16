@@ -54,5 +54,59 @@ public class JpaVideo32OrderDetail {
 	public Date endTime;
 	public Status stats;
 	public long runningNum;//交易流水号
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public JpaSupplies getSupplies() {
+		return supplies;
+	}
+	public void setSupplies(JpaSupplies supplies) {
+		this.supplies = supplies;
+	}
+	public JpaVideo32Group getGroup() {
+		return group;
+	}
+	public void setGroup(JpaVideo32Group group) {
+		this.group = group;
+	}
+	public Jpa32Order getOrder() {
+		return order;
+	}
+	public void setOrder(Jpa32Order order) {
+		this.order = order;
+	}
+	public Date getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+	public Date getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+	public Status getStats() {
+		return stats;
+	}
+	public void setStats(Status stats) {
+		this.stats = stats;
+	}
+	public long getRunningNum() {
+		return runningNum;
+	}
+	public void setRunningNum(long runningNum) {
+		this.runningNum = runningNum;
+	}
 
 }

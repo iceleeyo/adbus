@@ -119,4 +119,12 @@ public class JpaCardBoxMedia extends CityEntity {
 	public JpaCardBoxMedia() {
 	}
 
+	public JpaVideo32Group getGroup() {
+		return group;
+	}
+
+	public void setGroup(JpaVideo32Group group) {
+		this.group = group;
+	}
+
 }

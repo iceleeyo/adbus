@@ -369,6 +369,10 @@ public class CardServiceImpl implements CardService {
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
+					
+					if (groupId > 0) {
+						media.setGroupId(groupId);
+					}
 					media.setCity(city);
 					media.setUserId(Request.getUserId(principal));
 					media.setCreated(new Date());

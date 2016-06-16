@@ -53,4 +53,108 @@ public class Jpa32Order extends BaseEntity {
 		//for serialization
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public JpaInvoiceDetail getInvoiceDetail() {
+		return invoiceDetail;
+	}
+
+	public void setInvoiceDetail(JpaInvoiceDetail invoiceDetail) {
+		this.invoiceDetail = invoiceDetail;
+	}
+
+	public PayType getPayType() {
+		return payType;
+	}
+
+	public void setPayType(PayType payType) {
+		this.payType = payType;
+	}
+
+	public Status getStats() {
+		return stats;
+	}
+
+	public void setStats(Status stats) {
+		this.stats = stats;
+	}
+
+	public String getOrdRemark() {
+		return ordRemark;
+	}
+
+	public void setOrdRemark(String ordRemark) {
+		this.ordRemark = ordRemark;
+	}
+
+	public String getCloseRemark() {
+		return closeRemark;
+	}
+
+	public void setCloseRemark(String closeRemark) {
+		this.closeRemark = closeRemark;
+	}
+
+	public String getCreator() {
+		return creator;
+	}
+
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
+
+	public String getOrderUserJson() {
+		return orderUserJson;
+	}
+
+	public void setOrderUserJson(String orderUserJson) {
+		this.orderUserJson = orderUserJson;
+	}
+
+	public String getCustomerJson() {
+		return customerJson;
+	}
+
+	public void setCustomerJson(String customerJson) {
+		this.customerJson = customerJson;
+	}
+
+	public long getRunningNum() {
+		return runningNum;
+	}
+
+	public void setRunningNum(long runningNum) {
+		this.runningNum = runningNum;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public double getPayPrice() {
+		return payPrice;
+	}
+
+	public void setPayPrice(double payPrice) {
+		this.payPrice = payPrice;
+	}
+
 }
