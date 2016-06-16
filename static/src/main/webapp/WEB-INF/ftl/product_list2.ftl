@@ -50,14 +50,16 @@ js=["js/jquery-ui/jquery-ui.js","js/layer-v1.9.3/layer/layer.js","js/layer.onloa
                     "render": function(data, type, row, meta) {
                         if (data == 'video')
                             return '全屏硬广';
-                        if (data == 'image')
+                       else if (data == 'image')
                             return 'INFO图片';
-                        if (data == 'body')
+                       else if (data == 'body')
                             return '车身';
-                        if (data == 'info')
+                        else if (data == 'info')
                             return 'INFO字幕';
-                        if (data == 'team')
+                       else if (data == 'team')
                             return '团类广告';
+                       else if (data == 'inchof32')
+                            return '32寸屏广告';
                         return '';
                     } },
                 { "data": "price", "defaultContent": "", "render": $.fn.dataTable.render.number( ',', '.', 2, ' ')  },

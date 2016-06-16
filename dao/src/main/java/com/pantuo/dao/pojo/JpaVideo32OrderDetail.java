@@ -47,6 +47,9 @@ public class JpaVideo32OrderDetail {
 	@ManyToOne
 	@JoinColumn(name = "groupId")
 	public JpaVideo32Group group;
+	@ManyToOne
+	@JoinColumn(name = "orderId")
+	public Jpa32Order order;
 	public Date startTime;
 	public Date endTime;
 	public Status stats;
