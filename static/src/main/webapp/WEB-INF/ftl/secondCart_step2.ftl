@@ -82,8 +82,16 @@
 								</li>
 								<li class="td td-info">
 									<div class="td-inner">
+									<#if item.product.type =='inchof32'>
+									<p class="perio">线路：${item.group.name}</p>
+									</#if>
 										<span> 时长：${item.product.duration}秒/次</span> 
-										<span class="perio">频次：${item.product.playNumber}次/天</span> 
+										
+										<#if item.product.type !='inchof32'>
+										<p class="perio">单日播放次数：${item.product.playNumber}次</p>
+										<#else>
+										<p class="perio">小时播放次数：12次</p>
+										</#if>
 										<span class="perio">刊期：${item.product.days}天</span>
 										<#if item.startTime?has_content>
 										<span class="perio">上播日期：${item.startTime?string("yyyy-MM-dd")}</span>

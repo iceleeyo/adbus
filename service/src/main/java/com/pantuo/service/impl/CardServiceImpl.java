@@ -26,7 +26,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import com.google.common.collect.Lists;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.BodyOrderLogRepository;
@@ -37,6 +36,7 @@ import com.pantuo.dao.CardHelperRepository;
 import com.pantuo.dao.OrdersRepository;
 import com.pantuo.dao.ProductRepository;
 import com.pantuo.dao.UserDetailRepository;
+import com.pantuo.dao.VedioGroupRepository;
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaCardBoxBody;
@@ -47,6 +47,7 @@ import com.pantuo.dao.pojo.JpaCity.MediaType;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaOrders.PayType;
 import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.dao.pojo.JpaVideo32Group;
 import com.pantuo.dao.pojo.QJpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.QJpaCardBoxBody;
 import com.pantuo.dao.pojo.QJpaCardBoxHelper;
@@ -130,7 +131,8 @@ public class CardServiceImpl implements CardService {
 	UserDetailRepository userRepo;
 	@Autowired
 	UserServiceInter userServiceInter;
-	
+	@Autowired
+	VedioGroupRepository  groupRep;
 	@Autowired
 	OrdersMapper orderMapper;
 
@@ -299,9 +301,32 @@ public class CardServiceImpl implements CardService {
 			// return new Pair<Double, Integer>(totalPrice, totalnum);
 		}
 	}
+	
+	/**
+	 * 
+	 * 分析参数存在
+	 *
+	 * @param groups
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	public List<Integer> getGroupids(String groups) {
+		List<Integer> r = getLineIdsBySh(groups);
+		if (!r.isEmpty()) {
+
+			List<JpaVideo32Group> page = groupRep.findAll(r);
+			r.clear();
+			for (JpaVideo32Group jpaVideo32Group : page) {
+				r.add(jpaVideo32Group.getId());
+			}
+
+		}
+
+		return r;
+	}
 
 	public List<Integer> getLineIdsBySh(String sh){
-		List<Integer> lineIds=Lists.newArrayList();
+		List<Integer> lineIds = new ArrayList<Integer>();
 		if(StringUtils.isNotBlank(sh)){
 			String[] shSplit = StringUtils.split(sh, ",");
 			if (shSplit != null) {
@@ -317,54 +342,67 @@ public class CardServiceImpl implements CardService {
 	public Pair<Boolean, String> putIncar(int proid, int needCount, int days, Principal principal, int city,
 			String startdate1, String type,HttpServletRequest request) {
 		String sh=request.getParameter("sh");
-		List<Integer> lineIds=getLineIdsBySh(sh);
 		if (StringUtils.equals(type, "media")) {
 			long seriaNum = getCardBingSeriaNum(principal);
-			CardboxMediaExample example = new CardboxMediaExample();
-			example.createCriteria().andSeriaNumEqualTo(seriaNum).andProductIdEqualTo(proid)
-					.andUserIdEqualTo(Request.getUserId(principal)).andIsConfirmEqualTo(0);
-			List<CardboxMedia> c = cardMapper.selectByExample(example);
-			JpaProduct product = productRepository.findOne(proid);
-			if (c.isEmpty()) {// 无记录时增加
-				CardboxMedia media = new CardboxMedia();
-				try {
-					if (StringUtils.isNotBlank(startdate1)) {
-						Date st = DateUtil.longDf.get().parse(startdate1);
-						media.setStartTime(st);
-					}
-				} catch (ParseException e) {
-					e.printStackTrace();
+			List<Integer> groupIds=  getGroupids(sh) ;
+			if(groupIds.isEmpty()){
+				groupIds.add(-1);
+			}
+			
+			for (Integer groupId : groupIds) {
+
+				CardboxMediaExample example = new CardboxMediaExample();
+				CardboxMediaExample.Criteria ca = example.createCriteria();
+				ca.andSeriaNumEqualTo(seriaNum).andProductIdEqualTo(proid).andUserIdEqualTo(Request.getUserId(principal)).andIsConfirmEqualTo(0);
+				if (groupId > 0) {
+					ca.andGroupIdEqualTo(groupId);//add 分组
 				}
-				media.setCity(city);
-				media.setUserId(Request.getUserId(principal));
-				media.setCreated(new Date());
-				media.setNeedCount(needCount);
-				media.setPrice(product.getPrice());
-				media.setTotalprice(product.getPrice() * needCount);
-				media.setSeriaNum(seriaNum);
-				media.setProductId(proid);
-				media.setIsConfirm(0);
-				media.setType(product.getType().ordinal());
-				cardMapper.insert(media);
-			} else {
-				CardboxMedia existMedia = c.get(0);
-				try {
-					if (StringUtils.isNotBlank(startdate1)) {
-						Date st = DateUtil.longDf.get().parse(startdate1);
-						existMedia.setStartTime(st);
+				List<CardboxMedia> c = cardMapper.selectByExample(example);
+				JpaProduct product = productRepository.findOne(proid);
+				if (c.isEmpty()) {// 无记录时增加
+					CardboxMedia media = new CardboxMedia();
+					try {
+						if (StringUtils.isNotBlank(startdate1)) {
+							Date st = DateUtil.longDf.get().parse(startdate1);
+							media.setStartTime(st);
+						}
+					} catch (ParseException e) {
+						e.printStackTrace();
 					}
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				if (needCount == 0) {// 如果是0时删除
-					cardMapper.deleteByExample(example);
+					
+					if (groupId > 0) {
+						media.setGroupId(groupId);
+					}
+					media.setCity(city);
+					media.setUserId(Request.getUserId(principal));
+					media.setCreated(new Date());
+					media.setNeedCount(needCount);
+					media.setPrice(product.getPrice());
+					media.setTotalprice(product.getPrice() * needCount);
+					media.setSeriaNum(seriaNum);
+					media.setProductId(proid);
+					media.setIsConfirm(0);
+					media.setType(product.getType().ordinal());
+					cardMapper.insert(media);
 				} else {
-					existMedia.setNeedCount(needCount);
-					existMedia.setTotalprice(product.getPrice() * needCount);
-					cardMapper.updateByPrimaryKey(existMedia);
+					CardboxMedia existMedia = c.get(0);
+					try {
+						if (StringUtils.isNotBlank(startdate1)) {
+							Date st = DateUtil.longDf.get().parse(startdate1);
+							existMedia.setStartTime(st);
+						}
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					if (needCount == 0) {// 如果是0时删除
+						cardMapper.deleteByExample(example);
+					} else {
+						existMedia.setNeedCount(needCount);
+						existMedia.setTotalprice(product.getPrice() * needCount);
+						cardMapper.updateByPrimaryKey(existMedia);
+					}
 				}
 			}
-
 			return new Pair<Boolean, String>(true, "加入购物车成功");
 		} else {
 			long seriaNum = getCardBingSeriaNum(principal);

@@ -99,8 +99,15 @@
 								</li>
 								<li class="td td-info">
 									<div class="item-rect">
+									<#if item.product.type =='inchof32'>
+									<p class="rec-line">线路：${item.group.name}</p>
+									</#if>
 										<p class="rec-line">时长（秒）：${item.product.duration}</p>
+										<#if item.product.type !='inchof32'>
 										<p class="rec-line">单日播放次数：${item.product.playNumber}次</p>
+										<#else>
+										<p class="rec-line">小时播放次数：12次</p>
+										</#if>
 										<p class="rec-line">刊期：${item.product.days}天</p>
 									<p class="rec-line">上播日期： <input style="width:80px"
 										class="ui-input datepicker validate[required,custom[date] "
