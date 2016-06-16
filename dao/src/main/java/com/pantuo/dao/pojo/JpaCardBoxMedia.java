@@ -29,6 +29,10 @@ public class JpaCardBoxMedia extends CityEntity {
 	private double totalprice = 0;//价格
 	private Date startTime;
 	
+	@ManyToOne
+	@JoinColumn(name = "groupId")
+	public JpaVideo32Group group;
+	
 	private long seriaNum;//表单序列号
 
 	public int getId() {
