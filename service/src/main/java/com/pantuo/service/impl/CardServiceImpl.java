@@ -901,7 +901,13 @@ public class CardServiceImpl implements CardService {
 		if(StringUtils.isNoneBlank(customerId)){
 			customerObject = userServiceInter.findDetailByUsername(customerId);
 		}
+		List<JpaCardBoxMedia> c32Media= new ArrayList<JpaCardBoxMedia>();
 		for (JpaCardBoxMedia jpaCardBoxMedia : mList) {
+			
+			if(jpaCardBoxMedia.getProduct().getType().equals(JpaProduct.Type.inchof32)){
+				c32Media.add(jpaCardBoxMedia);	
+				continue;
+			}
 			JpaOrders order = new JpaOrders();
 			order.setCity(jpaCardBoxMedia.getCity());
 			order.setPrice(jpaCardBoxMedia.getTotalprice());
@@ -965,6 +971,9 @@ public class CardServiceImpl implements CardService {
 				
 				activitiService.startProcess2(jpaCardBoxMedia.getCity(), Request.getUser(principal), order,customerObject);
 			}
+		}
+		if(c32Media.size()>0){
+			
 		}
 
 	}
