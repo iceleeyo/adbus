@@ -345,7 +345,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -359,5 +359,16 @@
             <artifactId>h2</artifactId>
             <version>1.4.186</version>
         </dependency>
+        
+        
+        
+        	<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>1.0.24</version>
+		</dependency>
+		
+		
+		
 	</dependencies>
 </project>

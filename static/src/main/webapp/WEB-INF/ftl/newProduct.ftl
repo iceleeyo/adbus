@@ -97,6 +97,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 	getProTags();
 		//author:pxh 2015-05-20 22:36
 		$("#exclusiveUser").autocomplete({
+			 minLength: 0,
 			source : "${rc.contextPath}/user/autoComplete",
 			change : function(event, ui) {
 				/*if(ui.item!=null){alert(ui.item.value);}*/
@@ -106,7 +107,9 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 				$('#exclusiveUser').val(ui.item.value);
 				//table.fnDraw();
 			}
-		});
+		}).focus(function () {
+		 $(this).autocomplete("search");
+		});;
 	});
 	function check_size() {
 		return;
@@ -303,23 +306,23 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 
 				<div class="ui-form-item">
 					<label class="ui-label mt10">媒体情况：</label> 媒体位置&nbsp;&nbsp;<input
-						style="width: 250px;" class="ui-input" id="exclusiveUser" name="locationstr"
+						style="width: 250px;" class="ui-input" id="exclusiveUser0" name="locationstr"
 						value="<#if jsonView??>${jsonView.locationstr!''}</#if>"
 						placeholder="例如：北京"> 覆盖人次&nbsp;&nbsp;<input
-						style="width: 250px;" class="ui-input" id="exclusiveUser" name="personnum"
+						style="width: 250px;" class="ui-input" id="exclusiveUser1" name="personnum"
 						onkeyup="value=value.replace(/[^\d]/g,'')"
 						value="<#if jsonView??>${jsonView.personnum!''}</#if>"
 						placeholder="例如：1000万人"> 线路概况&nbsp;&nbsp;<input
-						style="width: 250px;" class="ui-input" id="exclusiveUser" name="linesurvey"
+						style="width: 250px;" class="ui-input" id="exclusiveUser2" name="linesurvey"
 						value="<#if jsonView??>${jsonView.linesurvey!''}</#if>"
 						placeholder="例如：北京六环内470余条公交线路"> 媒体概况&nbsp;&nbsp;<input
-						style="width: 250px;" class="ui-input" id="exclusiveUser" name="mesurvey"
+						style="width: 250px;" class="ui-input" id="exclusiveUser3" name="mesurvey"
 						value="<#if jsonView??>${jsonView.mesurvey!''}</#if>"
 						placeholder="例如：19寸公交彩色液晶电视"><br> 媒体属主&nbsp;&nbsp;<input
-						style="width: 250px;" class="ui-input" id="exclusiveUser" name="mediaowner"
+						style="width: 250px;" class="ui-input" id="exclusiveUser4" name="mediaowner"
 						value="<#if jsonView??>${jsonView.mediaowner!''}</#if>"
 						placeholder="例如：北广传媒"> 媒体数量&nbsp;&nbsp;<input
-						style="width: 250px;" class="ui-input" id="exclusiveUser" name="mediacount"
+						style="width: 250px;" class="ui-input" id="exclusiveUser5" name="mediacount"
 						value="<#if jsonView??>${jsonView.mediacount!''}</#if>"
 						placeholder="例如：12000辆车24000块屏">
 

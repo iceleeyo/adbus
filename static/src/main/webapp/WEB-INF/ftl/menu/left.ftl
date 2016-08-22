@@ -25,12 +25,14 @@
 			<li class="pg-side-item"><a class="pg-side-item-t aa-icon"
 				href="${rc.contextPath}/order/myTask/1"> <i class="s-left pg-icon-a a-icon"></i> 待办事项 </a>
 			</li> 
+			
+			<!--
 			 <@security.authorize
 			ifAnyGranted="advertiser,ShibaFinancialManager">
 			<li class="pg-side-item"><a class="pg-side-item-t aa-icon"
 				href="${rc.contextPath}/order/to32OrderList/1"> <i class="s-left pg-icon-a a-icon"></i> 32寸媒体待办 </a>
 			</li> 
-			</@security.authorize>
+			</@security.authorize>-->
 			</@security.authorize>
 			
 			 <@security.authorize

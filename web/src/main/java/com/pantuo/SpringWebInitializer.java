@@ -26,7 +26,7 @@ public class SpringWebInitializer extends AbstractAnnotationConfigDispatcherServ
     @Override
     protected Class[] getRootConfigClasses() {
         return new Class[] { InitializationConfiguration.class, DaoBeanConfiguration.class, ActivitiConfiguration.class, WebAppConfiguration.class, SecurityConfiguration.class, CacheConfiguration.class, SchedulerConfiguration.class
-        		,GroovyConfiguration.class};
+        		,GroovyConfiguration.class,DruidAopConfiguration.class};
     }
 
     @Override
