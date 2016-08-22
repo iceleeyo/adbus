@@ -43,6 +43,8 @@ import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaPayPlan;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaProductV2;
+import com.pantuo.dao.pojo.JpaVideo32OrderDetail;
+import com.pantuo.dao.pojo.JpaVideo32OrderStatus;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.Invoice;
 import com.pantuo.mybatis.domain.Orders;
@@ -211,6 +213,12 @@ public class OrderController {
 		return orderService.updatePlanState(request,payWay,orderid, payNextLocation,
 				JpaPayPlan.PayState.check,Request.getUserId(principal));
 	}
+	@RequestMapping(value = "video32OrderPay")
+	@ResponseBody
+	public Pair<Object, String> video32OrderPay(
+			Principal principal, HttpServletRequest request) {
+		return orderService.video32OrderPay(request,principal);
+	}
 
 	@RequestMapping(value = "claim/{taskid}")
 	@ResponseBody
@@ -307,6 +315,17 @@ public class OrderController {
 		}
 		model.addAttribute("activityId", activityId);
 		return "handleView2";
+	}
+	@RequestMapping(value = "/hand32Order/{orderStatusId}", produces = "text/html;charset=utf-8")
+	public String hand32Order(Model model,
+			@PathVariable("orderStatusId") int orderStatusId,
+			Principal principal,HttpServletRequest request){
+				JpaVideo32OrderStatus video32OrderStatus=orderService.findJpaVideo32OrderStatus(principal,orderStatusId);
+				if(video32OrderStatus!=null){
+					model.addAttribute("video32OrderStatus", video32OrderStatus);
+					model.addAttribute("activityId", video32OrderStatus.getStatus().name());
+				}
+		return "video32OrderHandle";
 	}
 	@RequestMapping(value = "/orderDetail/{orderid}", produces = "text/html;charset=utf-8")
 	public String orderDetail(Model model, @PathVariable("orderid") int orderid,
@@ -476,10 +495,21 @@ public class OrderController {
 		Page<OrderView> w = orderService.getOrderList(city, req, principal);
 		return new DataTablePage(w, req.getDraw());
 	}
+	@RequestMapping("ajax-video32Orderlist")
+	@ResponseBody
+	public DataTablePage<JpaVideo32OrderStatus> getVideo32Orderlist(TableRequest req, Principal principal,
+			@CookieValue(value = "city", defaultValue = "-1") int city) {
+		Page<JpaVideo32OrderStatus> page = orderService.getVideo32Orderlist(city, req, principal);
+		return new DataTablePage(page, req.getDraw());
+	}
 
 	@RequestMapping(value = "/myTask/{pageNum}")
 	public String list() {
 		return "orderList";
+	}
+	@RequestMapping(value = "/to32OrderList/{pageNum}")
+	public String to32OrderList() {
+		return "video32OrderList";
 	}
 
 	@RequestMapping(value = "/customer/{orderid}", produces = "text/html;charset=utf-8")
@@ -604,6 +634,19 @@ public class OrderController {
 			@RequestParam("orderId") int orderId) {
 		 response.setHeader("Access-Control-Allow-Origin", "*");
 		return orderService.getPayPlan(orderId);
+	}
+	/**
+	 * 获取32寸屏订单批次
+	 * @param response
+	 * @param orderId
+	 * @return
+	 */
+	@RequestMapping(value = "ajax-getOrder32Detail", method = RequestMethod.GET)
+	@ResponseBody
+	public List<JpaVideo32OrderDetail> getOrder32Detail(HttpServletResponse response,
+			@RequestParam("orderId") int orderId) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		return orderService.getOrder32Detail(orderId);
 	}
 	@PreAuthorize( "hasRole('ShibaFinancialManager')")
 	@RequestMapping(value = "/deletePayPlan/{id}")

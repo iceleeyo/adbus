@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -23,13 +24,35 @@ import org.apache.poi.hwpf.converter.PicturesManager;
 import org.apache.poi.hwpf.converter.WordToHtmlConverter;
 import org.apache.poi.hwpf.usermodel.PictureType;
 import org.w3c.dom.Document;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 public class Word2Html {
 	 public static void main(String argv[]) {  
-	        try {  
-	            convert2Html("D://1.doc","D://1.html");  
-	        } catch (Exception e) {  
-	            e.printStackTrace();  
-	        }  
+		 List<Map<String, Object>> list=Lists.newArrayList();
+		 List<Double> list2=Lists.newArrayList();
+		 list2.add(34.5);
+		 list2.add(64.5);
+		 list2.add(38.5);
+		 list2.add(94.54);
+		 Map<String, Object> map=Maps.newLinkedHashMap();
+		 Map<String, Object> map2=Maps.newLinkedHashMap();
+		 map.put("name", "小李");
+		 map2.put("name", "小章");
+		 map.put("money", list2);
+		 map2.put("money", list2);
+		 list.add(map);
+		 list.add(map2);
+		 List<String> list3=Lists.newLinkedList();
+		 list3.add("201601");
+		 list3.add("201602");
+		 System.out.println(JsonTools.getJsonFromObject(list3));
+		 System.out.println(JsonTools.getJsonFromObject(list));
+//	        try {  
+//	            convert2Html("D://1.doc","D://1.html");  
+//	        } catch (Exception e) {  
+//	            e.printStackTrace();  
+//	        }  
 	    }  
 	  
 	    public static void writeFile(String content, String path) {  

@@ -14,6 +14,7 @@ import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.h2.util.New;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.w3c.dom.ls.LSInput;
 
 import com.mysema.query.types.ConstantImpl;
 import com.mysema.query.types.Ops;
@@ -34,13 +36,21 @@ import com.mysema.query.types.expr.StringOperation;
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.OrdersRepository;
 import com.pantuo.dao.PayPlanRepository;
+import com.pantuo.dao.Vedio32OrderDetailRepository;
+import com.pantuo.dao.Vedio32OrderRepository;
+import com.pantuo.dao.Vedio32OrderStatusRepository;
+import com.pantuo.dao.pojo.Jpa32Order;
 import com.pantuo.dao.pojo.JpaCpd;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaOrders.PayType;
 import com.pantuo.dao.pojo.JpaPayPlan;
 import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.dao.pojo.JpaVideo32OrderDetail;
+import com.pantuo.dao.pojo.JpaVideo32OrderStatus;
 import com.pantuo.dao.pojo.QJpaOrders;
 import com.pantuo.dao.pojo.QJpaPayPlan;
+import com.pantuo.dao.pojo.QJpaVideo32OrderDetail;
+import com.pantuo.dao.pojo.QJpaVideo32OrderStatus;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Contract;
 import com.pantuo.mybatis.domain.Orders;
@@ -63,7 +73,6 @@ import com.pantuo.service.security.Request;
 import com.pantuo.util.Constants;
 import com.pantuo.util.DateConverter;
 import com.pantuo.util.DateUtil;
-import com.pantuo.util.NumberPageUtil;
 import com.pantuo.util.OrderIdSeq;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.OrderPlanView;
@@ -77,6 +86,12 @@ public class OrderService {
 
 	@Autowired
 	private PayPlanMapper payPlanMapper;
+	@Autowired
+	private Vedio32OrderStatusRepository vedio32OrderStatusRepository;
+	@Autowired
+	private Vedio32OrderRepository vedio32OrderRepository;
+	@Autowired
+	private Vedio32OrderDetailRepository vedio32OrderDetailRepository;
 
 	@Autowired
 	private SuppliesService suppliesService;
@@ -433,7 +448,28 @@ public class OrderService {
 	public Page<OrderView> getOrderList(int city, TableRequest req, Principal principal) {
 		return activitiService.findTask(city, principal, req, TaskQueryType.task);
 	}
+	public Page<JpaVideo32OrderStatus> getVideo32Orderlist(int city, TableRequest req, Principal principal) {
+		UserDetail userDetail=Request.getUser(principal);
+		List<JpaVideo32OrderStatus.Status> status=userService.queryOrderStatus(userDetail);
+		//String name = req.getFilter("name"), stats = req.getFilter("stats"), type = req.getFilter("type");
+		int page = req.getPage(), pageSize = req.getLength();
+		Sort sort = req.getSort("id");
 
+		if (page < 0)
+			page = 0;
+		if (pageSize < 1)
+			pageSize = 1;
+		sort = (sort == null ? new Sort("id") : sort);
+		Pageable p = new PageRequest(page, pageSize, sort);
+		BooleanExpression query = QJpaVideo32OrderStatus.jpaVideo32OrderStatus.r.eq(JpaVideo32OrderStatus.Result.N);
+		if(Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)){
+			query=query.and(QJpaVideo32OrderStatus.jpaVideo32OrderStatus.creater.eq(Request.getUserId(principal)));
+		}
+		if(status.size()>0){
+			query=query.and(QJpaVideo32OrderStatus.jpaVideo32OrderStatus.status.in(status));
+		}
+		return vedio32OrderStatusRepository.findAll(query, p);
+	}
 	public JpaOrders queryOrderDetail(int orderid, Principal principal) {
 		// return ordersMapper.selectByPrimaryKey(orderid);
 		JpaOrders r = selectJpaOrdersById(orderid);
@@ -771,5 +807,53 @@ public class OrderService {
 		}
 		return false;
 	}
+
+	public JpaVideo32OrderStatus findJpaVideo32OrderStatus(Principal principal, int orderStatusId) {
+		JpaVideo32OrderStatus video32OrderStatus=vedio32OrderStatusRepository.findOne(orderStatusId);
+		return video32OrderStatus;
+	}
+
+	public Pair<Object, String> video32OrderPay(HttpServletRequest request, Principal principal) {
+		String orderid=request.getParameter("orderid");
+		String payType=request.getParameter("payType");
+		List<JpaVideo32OrderStatus> list=find32OrderStatus(JpaVideo32OrderStatus.Status.paid,JpaVideo32OrderStatus.Result.N,NumberUtils.toInt(orderid));
+		if(list.size()>0){
+			JpaVideo32OrderStatus one=list.get(0);
+			one.setCreater(Request.getUserId(principal));
+			one.setUpdated(new Date());
+			one.setR(JpaVideo32OrderStatus.Result.Y);
+			Jpa32Order order=one.getOrder();
+			order.setPayType(Jpa32Order.PayType.valueOf(payType));
+			vedio32OrderRepository.save(order);
+			if(vedio32OrderStatusRepository.save(one)!=null &&  vedio32OrderRepository.save(order)!=null){
+				List<JpaVideo32OrderStatus> list2=find32OrderStatus(JpaVideo32OrderStatus.Status.payed,JpaVideo32OrderStatus.Result.Z,NumberUtils.toInt(orderid));
+               if(list2.size()>0){
+            	   //用户支付后更改下一个状态(财务审核)为N
+            	   JpaVideo32OrderStatus one2=list.get(0);
+            	   one2.setR(JpaVideo32OrderStatus.Result.N);
+            	   if(vedio32OrderStatusRepository.save(one2)!=null){
+            		   return new Pair<Object, String>(true, "支付成功");
+            	   }
+               }
+			}
+		}
+		return new Pair<Object, String>(false, "操作异常");
+	}
+	public List<JpaVideo32OrderStatus> find32OrderStatus(JpaVideo32OrderStatus.Status status,JpaVideo32OrderStatus.Result r,
+			int orderId){
+		BooleanExpression q=QJpaVideo32OrderStatus.jpaVideo32OrderStatus.status.eq(status)
+				.and(QJpaVideo32OrderStatus.jpaVideo32OrderStatus.r.eq(r))
+				.and(QJpaVideo32OrderStatus.jpaVideo32OrderStatus.order.id.eq(orderId));
+		List<JpaVideo32OrderStatus> list=(List<JpaVideo32OrderStatus>) vedio32OrderStatusRepository.findAll(q);
+		return list;
+	}
+
+	public List<JpaVideo32OrderDetail> getOrder32Detail(int orderId) {
+		BooleanExpression q=QJpaVideo32OrderDetail.jpaVideo32OrderDetail.order.id.eq(orderId);
+		List<JpaVideo32OrderDetail> list=(List<JpaVideo32OrderDetail>) vedio32OrderDetailRepository.findAll(q);
+		return list;
+	}
+
+	
 
 }

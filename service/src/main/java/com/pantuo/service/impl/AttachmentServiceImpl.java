@@ -212,7 +212,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 							AttachmentExample.Criteria criteria=example.createCriteria();
 							criteria.andMainIdEqualTo(main_id);
 							criteria.andUserIdEqualTo(user_id);
-							criteria.andTypeEqualTo(JpaAttachment.Type.payvoucher.ordinal());
+							criteria.andTypeEqualTo(file_type.ordinal());
 							List<Attachment> attachments=attachmentMapper.selectByExample(example);
 							if(attachments.size()>0){
 								Attachment t=attachments.get(0);

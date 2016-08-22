@@ -31,6 +31,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.Lists;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.CustomerHistoryRepository;
@@ -39,6 +40,7 @@ import com.pantuo.dao.UserDetailRepository;
 import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.JpaCustomerHistory;
 import com.pantuo.dao.pojo.JpaInvoice;
+import com.pantuo.dao.pojo.JpaVideo32OrderStatus;
 import com.pantuo.dao.pojo.QJpaCustomerHistory;
 import com.pantuo.dao.pojo.QJpaInvoice;
 import com.pantuo.dao.pojo.QUserDetail;
@@ -562,7 +564,16 @@ public class UserService implements UserServiceInter {
 		}
 		return list;
 	}
-
+	public  List<JpaVideo32OrderStatus.Status>  queryOrderStatus(UserDetail u){
+		List<JpaVideo32OrderStatus.Status> sList=Lists.newArrayList();
+		List<String> userGoups=getUserGroupList(u);
+		for (String one : userGoups) {
+			if(JpaVideo32OrderStatus.statusMap.containsKey(one)){
+				sList.add(JpaVideo32OrderStatus.statusMap.get(one));
+			}
+		}
+		return sList;
+	}
 	/*	public void test() {
 			JpaSysConfig g = sysConfigMapper.selectByPrimaryKey(1);
 			if (g != null) {

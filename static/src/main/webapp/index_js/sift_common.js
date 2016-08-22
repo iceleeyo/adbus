@@ -178,6 +178,45 @@ function initPayPlanTable(purl,orderId,handle) {
 						"drawCallback" : drawCallback2,
 					});
 }
+
+//获取32寸屏订单批次
+var orderDetailTable;
+function initOrderDetailTable(purl,orderId) {
+	orderDetailTable = $('#orderDetailTable')
+	.dataTable(
+			{
+				"dom" : '<"#toolbar">t',
+				"searching" : false,
+				"ordering" : false,
+				"serverSide" : false,
+				"ajax" : {
+					type : "GET",
+					url : purl+"/order/ajax-getPayPlan",
+					data : function(d) {
+						return $.extend({}, d, {
+							"filter[orderId]" : orderId
+						});
+					},
+					"dataSrc": function(json) {return json;},
+				},
+				"columns" : [
+				             { "data": "periodNum", "defaultContent": ""}, 
+				             { "data": "periodNum", "defaultContent": ""}, 
+				             { "data": "updated", "defaultContent": "", "render": function(data) {
+				            	 return data == null ? "" : $.format.date(data, "yyyy-MM-dd hh:mm");
+				             }},
+				             { "data": "updated", "defaultContent": "", "render": function(data) {
+				            	 return data == null ? "" : $.format.date(data, "yyyy-MM-dd hh:mm");
+				             }},
+				             
+				             ],
+				             "language" : {
+				            	 "url" : "/js/jquery.dataTables.lang.cn.json"
+				             },
+				             "initComplete" : initComplete2,
+				             "drawCallback" : drawCallback2,
+			});
+}
 function drawCallback2() {
 	/*$('.table-action').click(function() {
 		$.post($(this).attr("url"), function(data) {

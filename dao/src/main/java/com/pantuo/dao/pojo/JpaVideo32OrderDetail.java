@@ -72,6 +72,11 @@ public class JpaVideo32OrderDetail {
 	public void setSupplies(JpaSupplies supplies) {
 		this.supplies = supplies;
 	}
+	 public void setSuppliesId(int suppliesId) {
+	        if (supplies == null)
+	            supplies = new JpaSupplies();
+	        this.supplies.setId(suppliesId);
+	    }
 	public JpaVideo32Group getGroup() {
 		return group;
 	}

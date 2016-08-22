@@ -36,7 +36,11 @@ import com.pantuo.dao.CardHelperRepository;
 import com.pantuo.dao.OrdersRepository;
 import com.pantuo.dao.ProductRepository;
 import com.pantuo.dao.UserDetailRepository;
+import com.pantuo.dao.Vedio32OrderDetailRepository;
+import com.pantuo.dao.Vedio32OrderRepository;
+import com.pantuo.dao.Vedio32OrderStatusRepository;
 import com.pantuo.dao.VedioGroupRepository;
+import com.pantuo.dao.pojo.Jpa32Order;
 import com.pantuo.dao.pojo.JpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.JpaBusline;
 import com.pantuo.dao.pojo.JpaCardBoxBody;
@@ -48,12 +52,15 @@ import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaOrders.PayType;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaVideo32Group;
+import com.pantuo.dao.pojo.JpaVideo32OrderDetail;
+import com.pantuo.dao.pojo.JpaVideo32OrderStatus;
 import com.pantuo.dao.pojo.QJpaBusOrderDetailV2;
 import com.pantuo.dao.pojo.QJpaCardBoxBody;
 import com.pantuo.dao.pojo.QJpaCardBoxHelper;
 import com.pantuo.dao.pojo.QJpaCardBoxMedia;
 import com.pantuo.dao.pojo.QJpaOrders;
 import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.dao.pojo.JpaBusline.Level;
 import com.pantuo.mybatis.domain.BodyOrderLog;
 import com.pantuo.mybatis.domain.BodyOrderLogExample;
 import com.pantuo.mybatis.domain.CardboxBody;
@@ -125,6 +132,12 @@ public class CardServiceImpl implements CardService {
 	CardBoxBodyRepository cardBoxBodyRepository;
 	@Autowired
 	OrdersRepository ordersRepository;
+	@Autowired
+	Vedio32OrderRepository vedio32OrderRepository;
+	@Autowired
+	Vedio32OrderStatusRepository statusRepository;
+	@Autowired
+	Vedio32OrderDetailRepository detailRepository;
 	@Autowired
 	CityService cityService;
 	@Autowired
@@ -895,17 +908,28 @@ public class CardServiceImpl implements CardService {
 		query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.id.in(medisIds));
 		List<JpaCardBoxMedia> mList = (List<JpaCardBoxMedia>) cardBoxRepository.findAll(query);
 		String code = contractService.getContractId();
-		
+		UserDetail copy = new UserDetail();
+		UserDetail source = Request.getUser(principal);
+		BeanUtils.copyProperties(source, copy);
+		if (source.getUser() != null) {
+			copy.setFirstName(source.getUser().getFirstName());
+			copy.setEmail(source.getUser().getEmail());
+			copy.setUser(null);
+			copy.setGroups(null);
+			copy.setFunctions(null);
+		}
 		String customerId = request.getParameter("customerId");
 		UserDetail customerObject  =null;
 		if(StringUtils.isNoneBlank(customerId)){
 			customerObject = userServiceInter.findDetailByUsername(customerId);
 		}
 		List<JpaCardBoxMedia> c32Media= new ArrayList<JpaCardBoxMedia>();
+		double totalPrice=0;
 		for (JpaCardBoxMedia jpaCardBoxMedia : mList) {
 			
 			if(jpaCardBoxMedia.getProduct().getType().equals(JpaProduct.Type.inchof32)){
 				c32Media.add(jpaCardBoxMedia);	
+				totalPrice+=jpaCardBoxMedia.getPrice();
 				continue;
 			}
 			JpaOrders order = new JpaOrders();
@@ -945,16 +969,7 @@ public class CardServiceImpl implements CardService {
 				order.setStats(JpaOrders.Status.paid);
 			}*/
 			order.setType(jpaCardBoxMedia.getProduct().getType());
-			UserDetail copy = new UserDetail();
-			UserDetail source = Request.getUser(principal);
-			BeanUtils.copyProperties(source, copy);
-			if (source.getUser() != null) {
-				copy.setFirstName(source.getUser().getFirstName());
-				copy.setEmail(source.getUser().getEmail());
-				copy.setUser(null);
-				copy.setGroups(null);
-				copy.setFunctions(null);
-			}
+			
 			order.setOrderUserJson(JsonTools.getJsonFromObject(copy));
 			if (customerObject != null) {
 				order.setCustomerJson(JsonTools.getJsonFromObject(customerObject));
@@ -973,7 +988,50 @@ public class CardServiceImpl implements CardService {
 			}
 		}
 		if(c32Media.size()>0){
-			
+			Jpa32Order jpa32Order=new Jpa32Order();
+			jpa32Order.setCreated(new Date());
+			jpa32Order.setUpdated(new Date());
+			jpa32Order.setOrderUserJson(JsonTools.getJsonFromObject(copy));
+			if (customerObject != null) {
+				jpa32Order.setCustomerJson(JsonTools.getJsonFromObject(customerObject));
+			}
+			jpa32Order.setPayType(Jpa32Order.PayType.valueOf(paytype));
+			jpa32Order.setStats(Jpa32Order.Status.ings);
+			jpa32Order.setCreator(Request.getUserId(principal));
+			jpa32Order.setRunningNum(runningNum);
+			jpa32Order.setPrice(totalPrice);
+			Jpa32Order jpa32Order2=vedio32OrderRepository.save(jpa32Order);
+			if(jpa32Order2!=null){
+				 for (JpaVideo32OrderStatus.Status s : JpaVideo32OrderStatus.Status.values()) {
+					 JpaVideo32OrderStatus st=new JpaVideo32OrderStatus();
+					 st.setCreated(new Date());
+					 st.setUpdated(new Date());
+					 st.setOrder(jpa32Order2);
+					 st.setStatus(s);
+					 if(s.equals(JpaVideo32OrderStatus.Status.paid)){
+						 st.setR(JpaVideo32OrderStatus.Result.N);
+						 st.setCreater(Request.getUserId(principal));
+					 }else{
+						 st.setR(JpaVideo32OrderStatus.Result.Z);
+					 }
+					 statusRepository.save(st);
+		            }
+				for (JpaCardBoxMedia jpaCardBoxMedia2 : c32Media) {
+					JpaVideo32OrderDetail detail=new JpaVideo32OrderDetail();
+					detail.setSuppliesId(1);
+					detail.setGroup(jpaCardBoxMedia2.getGroup());
+					detail.setOrder(jpa32Order2);
+					detail.setRunningNum(runningNum);
+					if (jpaCardBoxMedia2.getStartTime() != null) {
+						Date eDate = DateUtil.dateAdd(jpaCardBoxMedia2.getStartTime(), jpaCardBoxMedia2.getProduct().getDays());
+						detail.setStartTime(jpaCardBoxMedia2.getStartTime());
+						detail.setEndTime(eDate);
+					}
+					detail.setStats(JpaVideo32OrderDetail.Status.upload);
+					detail.setUserId(Request.getUserId(principal));
+					detailRepository.save(detail);
+				}
+			}
 		}
 
 	}

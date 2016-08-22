@@ -9,6 +9,7 @@ import java.util.Iterator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -80,7 +81,12 @@ public class UploadController {
 	@ResponseBody
 	public String  savePayvoucher(HttpServletRequest request, Principal principal,@PathVariable("orderid") int orderid,
 			ModelMap model) throws IOException, BusinessException {
-		return attachmentService.savePayvoucher(request, Request.getUserId(principal), orderid, JpaAttachment.Type.payvoucher, null);
+		JpaAttachment.Type fileType=JpaAttachment.Type.payvoucher;
+		String type=request.getParameter("filetype");
+		if(StringUtils.isNotBlank(type)){
+			fileType=JpaAttachment.Type.valueOf(type);
+		}
+		return attachmentService.savePayvoucher(request, Request.getUserId(principal), orderid, fileType, null);
 	}
 	@RequestMapping(value = "saveSimpleFile", method = RequestMethod.POST)
 	@ResponseBody

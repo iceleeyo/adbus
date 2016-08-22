@@ -5,6 +5,7 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.security.Principal;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 
+import com.google.common.collect.Lists;
+import com.pantuo.dao.pojo.JpaVideo32OrderStatus;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.security.ActivitiUserDetails;
@@ -24,8 +27,6 @@ public class Request {
 
 	public static final String HOST_IP = "busme.cn";
 	public static final boolean IS_ONLINE = true;
-	@Autowired
-	private UserServiceInter userService;
 	
 	
 	
@@ -107,7 +108,6 @@ public class Request {
 		}
 		return detail;
 	}
-
 	public static String getUserId(Principal principal) {
 		return principal == null ? "" : principal.getName();
 	}

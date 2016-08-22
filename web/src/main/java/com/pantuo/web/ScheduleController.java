@@ -1,7 +1,7 @@
 package com.pantuo.web;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream; 
+import java.io.BufferedOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.Principal;
@@ -24,8 +24,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import net.sf.jxls.transformer.XLSTransformer;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.math.NumberUtils;
@@ -92,6 +90,8 @@ import com.pantuo.web.view.report.BlackAdGrouop;
 import com.pantuo.web.view.report.FreeBox;
 import com.pantuo.web.view.report.Report;
 import com.pantuo.web.view.report.UiBox;
+
+import net.sf.jxls.transformer.XLSTransformer;
 
 /**
  * @author tliu
