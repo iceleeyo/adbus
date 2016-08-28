@@ -30,7 +30,6 @@ public class TestController {
 	@RequestMapping("/putTocar")
 	@ResponseBody
 	public void putTocar(OrderRequest req) {
-
 		System.out.println(req.toString());
 
 	}
