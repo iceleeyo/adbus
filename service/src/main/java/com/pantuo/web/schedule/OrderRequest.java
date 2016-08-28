@@ -7,9 +7,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @lombok.Getter
 @lombok.Setter
+@lombok.ToString
 public class OrderRequest {
-	public int productId;
-	public int playNumbers;
+	public int _productId;
+	public int _playNumbers;
 	public List<Between> area;
 	public List<DayRule> dayRule;
 	Type type;
@@ -20,18 +21,20 @@ public class OrderRequest {
 
 	@lombok.Getter
 	@lombok.Setter
+	@lombok.ToString
 	class Between {
 		@DateTimeFormat(pattern = "yyyy-MM-dd")  
-		Date startDate, endDate;
+		Date _startDate, _endDate;
 	}
 
 	@lombok.Getter
 	@lombok.Setter
+	@lombok.ToString
 	class DayRule {
 		@DateTimeFormat(pattern = "HH:mm")  
-		Date startTime, endTime;
+		Date _startTime, _endTime;
 		//播放次数
-		int playNumber;
+		int _playNumber;
 	}
 
 	//每个包默认播1次

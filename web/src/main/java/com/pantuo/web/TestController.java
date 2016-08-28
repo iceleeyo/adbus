@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.pantuo.web.schedule.OrderRequest;
 import com.pantuo.web.view.ScheduleRequest;
 
 /**
@@ -22,7 +23,15 @@ public class TestController {
 	@ResponseBody
 	public void getAllContracts(ScheduleRequest req, @DateTimeFormat(pattern = "yyyy-MM-dd") Date c2) {
 
-		System.out.println(new  SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(req.getCreateTime()));
+		System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(req.getCreateTime()));
+
+	}
+
+	@RequestMapping("/putTocar")
+	@ResponseBody
+	public void putTocar(OrderRequest req) {
+
+		System.out.println(req.toString());
 
 	}
 
