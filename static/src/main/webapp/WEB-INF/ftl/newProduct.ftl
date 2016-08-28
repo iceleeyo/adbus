@@ -58,12 +58,14 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
                 dIds+=o[i].value+',';   
            }
            $("#tagIds").val(dIds);
+        <!--
 		if(firstNumber>0){
 		  if($("#duration").val()>30){
 		       jDialog.Alert("有首播时广告时长不能大于30秒");
 				return false;
 		  }
 		}
+		-->
 		if (iscompare == 1) {
 			if (biddingDate1 < startDate1) {
 				jDialog.Alert("截止时间不能小于开拍时间");
@@ -184,7 +186,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 						autocomplete="off" disableautocomplete="" placeholder="5-180秒">秒/次
 					<p class="ui-term-placeholder"></p>
 				</div>
-
+<#--
 				<div
 					class="ui-form-item toggle videoToggle imageToggle infoToggle teamToggle">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>单日播放次数：</label>
@@ -225,6 +227,8 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 						id="days" data-is="isAmount isEnough" autocomplete="off"
 						disableautocomplete="" placeholder="最少1天">
 				</div>
+				
+				-->
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>
 						<span >套餐价格（元）：</span>
@@ -236,7 +240,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 						id="price" data-is="isAmount isEnough" autocomplete="off"
 						disableautocomplete="">
 				</div>
-
+				
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required"></span>产品定向：</label>
 					<span> <input id="exclusiveUser" name="exclusiveUser"
