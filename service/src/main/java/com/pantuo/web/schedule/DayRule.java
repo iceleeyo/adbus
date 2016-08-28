@@ -7,11 +7,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 @lombok.Getter
 @lombok.Setter
 @lombok.ToString
-class DayRule {
+public class DayRule {
 	@DateTimeFormat(pattern = "HH:mm")
 	Date  oStartTime;
 	@DateTimeFormat(pattern = "HH:mm")
 	Date oEndTime;
 	//播放次数
-	int oPlayNumber;
+	int oPlayNumber=0;
 }
