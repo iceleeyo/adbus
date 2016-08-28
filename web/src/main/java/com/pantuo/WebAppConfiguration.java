@@ -14,10 +14,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter;
+import org.springframework.web.bind.support.ConfigurableWebBindingInitializer;
 import org.springframework.web.bind.support.NgTableAttributeArgumentResolver;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -60,7 +62,7 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 	public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
 		exceptionResolvers.add(webExceptionResolver());
 	}
-	
+
 	@Autowired
 	ProductLocationDirective productLocationDirective;
 
@@ -71,10 +73,8 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		ResourceHandlerRegistration registration = registry.addResourceHandler("/*.html", "/js/**", "/style/**",
-				"/css/**", "/images/**", "/imgs/**", "/doc/**", "/upload_temp/**");
-		registration.addResourceLocations("/", "/js/", "/style/", "/css/", "/images/", "/imgs/", "/doc/",
-				"/upload_temp/");
+		ResourceHandlerRegistration registration = registry.addResourceHandler("/*.html", "/js/**", "/style/**", "/css/**", "/images/**", "/imgs/**", "/doc/**", "/upload_temp/**");
+		registration.addResourceLocations("/", "/js/", "/style/", "/css/", "/images/", "/imgs/", "/doc/", "/upload_temp/");
 
 		ResourceHandlerRegistration rdup = registry.addResourceHandler("/homepage/**");
 		rdup.addResourceLocations("/homepage/");
@@ -128,16 +128,21 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 
 			converters.add(converter);
 		}
-
 		RequestMappingHandlerAdapter adapter = new RequestMappingHandlerAdapter();
 		adapter.setMessageConverters(converters);
-		
-		List<HandlerMethodArgumentResolver>  argumentResolvers=new ArrayList<HandlerMethodArgumentResolver>();
-		argumentResolvers.add(new NgTableAttributeArgumentResolver()) ;
+
+		List<HandlerMethodArgumentResolver> argumentResolvers = new ArrayList<HandlerMethodArgumentResolver>();
+		argumentResolvers.add(new NgTableAttributeArgumentResolver());
 		adapter.setCustomArgumentResolvers(argumentResolvers);
-		
-		
+		////默认自动注册对@NumberFormat和@DateTimeFormat的支持  
+		ConfigurableWebBindingInitializer initializer = new ConfigurableWebBindingInitializer();
+		initializer.setConversionService(defaultSonvers());
+		adapter.setWebBindingInitializer(initializer);
 		return adapter;
+	}
+
+	public DefaultFormattingConversionService defaultSonvers() {
+		return new DefaultFormattingConversionService();
 	}
 
 	@Bean
@@ -157,7 +162,7 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 		variables.put("substring", getSubStrMethod());
 		variables.put("hidname", getvHiddleUserNameEx());
 		variables.put("productLocation", productLocationDirective);//商品位置 标签根据位置取相应的商品信息
-		
+
 		config.setFreemarkerVariables(variables);
 
 		//        Map<String, Object> myBuiltInMethods = new HashMap<String, Object>();
