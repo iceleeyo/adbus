@@ -177,7 +177,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 						autocomplete="off" disableautocomplete="" placeholder="2-20个字符">
 				</div>
 				<div
-					class="ui-form-item toggle videoToggle imageToggle infoToggle teamToggle inchof32Toggle">
+					class="ui-form-item toggle videoToggle imageToggle teamToggle inchof32Toggle">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>广告/节目长度：</label>
 					<input class="ui-input validate[required,integer,min[5],max[180]]" style="width:150px"
 						onkeyup="value=value.replace(/[^\d]/g,'')"
