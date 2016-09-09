@@ -1496,7 +1496,7 @@ suppliesView=suppliesView/>
 <script type="text/javascript">
 $(document).ready(function(){
 initPayPlanTable('${rc.contextPath}',$("#orderid").val(),'<@security.authorize
-			ifAnyGranted="ShibaFinancialManager">edit_del</@security.authorize>');
+			ifAnyGranted="sales">edit_del</@security.authorize>');
 });
 </script>
 	<div class="p20bs mt10 color-white-bg border-ec">

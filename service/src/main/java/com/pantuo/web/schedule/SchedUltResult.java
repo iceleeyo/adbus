@@ -17,7 +17,7 @@ public class SchedUltResult {
 	public boolean isLock = false;//是否有其他用户正在排期
 	public boolean isScheduleOver = false;
 
-	
+	int slotNum;
 
 	public String getMsg() {
 		return msg;
@@ -58,12 +58,26 @@ public class SchedUltResult {
 		this.isFrist = isFrist;
 	}
 
+	public SchedUltResult(String msg, Boolean isScheduled, int slotNum) {
+		this.msg = msg;
+		this.isScheduled = isScheduled;
+		this.slotNum=slotNum;
+	}
+
 	public boolean isLock() {
 		return isLock;
 	}
 
 	public void setLock(boolean isLock) {
 		this.isLock = isLock;
+	}
+
+	public int getSlotNum() {
+		return slotNum;
+	}
+
+	public void setSlotNum(int slotNum) {
+		this.slotNum = slotNum;
 	}
 
 	/**

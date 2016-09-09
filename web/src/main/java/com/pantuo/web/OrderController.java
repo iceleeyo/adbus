@@ -648,7 +648,7 @@ public class OrderController {
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		return orderService.getOrder32Detail(orderId);
 	}
-	@PreAuthorize( "hasRole('ShibaFinancialManager')")
+	@PreAuthorize( "hasRole('sales')")
 	@RequestMapping(value = "/deletePayPlan/{id}")
 	@ResponseBody
 	public Pair<Boolean, String> deletePayPlan(@PathVariable("id") int id

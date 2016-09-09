@@ -43,6 +43,18 @@ public class DateUtil {
         cal.add(Calendar.DATE, days);
         return cal.getTime();
     }
+    public static Date secondAdd(Date date, int second) {
+    	Calendar cal = DateUtil.newCalendar();
+    	cal.setTime(date);
+    	cal.add(Calendar.SECOND, second);
+    	return cal.getTime();
+    }
+    public static Date hourAdd(Date date, int second) {
+    	Calendar cal = DateUtil.newCalendar();
+    	cal.setTime(date);
+    	cal.add(Calendar.HOUR, second);
+    	return cal.getTime();
+    }
     public static long getQuot(Date date1, Date date2){
     	  long quot = 0;
     	  try {
