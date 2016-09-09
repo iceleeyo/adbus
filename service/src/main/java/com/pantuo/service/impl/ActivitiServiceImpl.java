@@ -992,6 +992,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 						}
 					}
 				}
+				/**
+				 * 销售 分期自动 签收
+				 */
 				if (StringUtils.equals("setPayPlan", task.getTaskDefinitionKey()) && haveGroup(u, "sales")) {
 					taskService.claim(task.getId(), u.getUsername());
 				}
