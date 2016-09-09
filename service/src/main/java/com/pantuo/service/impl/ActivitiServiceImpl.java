@@ -992,8 +992,29 @@ public class ActivitiServiceImpl implements ActivitiService {
 						}
 					}
 				}
+				if (StringUtils.equals("setPayPlan", task.getTaskDefinitionKey()) && haveGroup(u, "sales")) {
+					taskService.claim(task.getId(), u.getUsername());
+				}
+				
 			}
 		}
+	}
+
+	public boolean haveGroup(UserDetail u, String... group) {
+		boolean r = true;
+		if (u.getGroups().size() == 0) {
+			r = false;
+		}
+		for (int i = 0; i < group.length; i++) {
+			boolean isHitGroup = false;
+			for (org.activiti.engine.identity.Group c : u.getGroups()) {
+				if (c.getId().equals(group[i])) {
+					isHitGroup = true;
+				}
+			}
+			r = r && isHitGroup;
+		}
+		return r;
 	}
 
 	private void debug(String processid) {

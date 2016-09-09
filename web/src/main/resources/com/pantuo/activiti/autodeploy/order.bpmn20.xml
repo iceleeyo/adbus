@@ -216,7 +216,7 @@
         <endEvent id="endevent4" name="End"></endEvent>
         <exclusiveGateway id="payPlangateWay" name="订单分期"></exclusiveGateway>
         <sequenceFlow id="flow67" sourceRef="payment" targetRef="payPlangateWay"></sequenceFlow>
-        <userTask id="setPayPlan" name="分期设置" activiti:candidateGroups="ShibaFinancialManager"></userTask>
+        <userTask id="setPayPlan" name="分期设置" activiti:candidateGroups="sales"></userTask>
         <sequenceFlow id="flow68" sourceRef="payPlangateWay" targetRef="setPayPlan">
           <conditionExpression xsi:type="tFormalExpression"><![CDATA[${payPlan == true}]]></conditionExpression>
         </sequenceFlow>
