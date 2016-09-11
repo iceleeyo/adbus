@@ -66,7 +66,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                  { "orderable": false, "targets": [0,1,2,3,4,5,7] },
                   </@security.authorize>
                  <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
-                  { "orderable": false, "targets": [0,1,2,3,4,5,7,8] },
+                  { "orderable": false, "targets": [0,1,2,3,4,5,7] },
                   </@security.authorize>
                     <@security.authorize ifAnyGranted="sales,salesManager">
                   { "orderable": false, "targets": [0,1,2,3,4,5,6,8,9] },
