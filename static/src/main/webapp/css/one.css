@@ -5558,7 +5558,7 @@ a.button-disable, a.button-disable:active, a.button-disable:hover {
 }
 
 .ui-table-gray tr:first-child td {
-	border-radius: 0 5px 0 0
+	border-right: 1px solid white;
 }
 
 

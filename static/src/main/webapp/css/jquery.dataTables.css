@@ -21,6 +21,7 @@ table.dataTable, table.sorting_asc tfoot th {
   font-weight: normal;
   text-align: left;
   line-height: 20px;
+  border-right: 1px solid white;
 }
 th.sorting_asc ,.sorting_disabled ,.sorting_desc ,.sorting{
 	color: white;
