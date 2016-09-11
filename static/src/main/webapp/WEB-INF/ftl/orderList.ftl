@@ -58,9 +58,15 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
             <@security.authorize ifAnyGranted="advertiser">
             "aaSorting": [[6, "desc"]],
              </@security.authorize>
-               <@security.authorize ifAnyGranted="sales,salesManager">
+
+              <@security.authorize ifAnyGranted="sales,salesManager">
             "aaSorting": [[9, "desc"]],
-             </@security.authorize>
+              </@security.authorize>
+
+              <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
+            "aaSorting": [[8, "desc"]],
+              </@security.authorize>
+
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
                 <@security.authorize ifAnyGranted="advertiser">
@@ -70,7 +76,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                   { "orderable": false, "targets": [0,1,2,3,4,5,6,7,8] },
                   </@security.authorize>
                     <@security.authorize ifAnyGranted="sales,salesManager">
-                  { "orderable": false, "targets": [0,1,2,3,4,5,6,8] },
+                  { "orderable": false, "targets": [0,1,2,3,4,5,6,7] },
                   </@security.authorize>
                   
             ],
