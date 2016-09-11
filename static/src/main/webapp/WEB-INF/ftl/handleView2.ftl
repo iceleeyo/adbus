@@ -27,10 +27,16 @@ css=["js/highslide/highslide.css",
 
 .ui-table-gray tr{
 	background: none;
+
 }
 
 .ui-table-gray tr th{
 	//color: white;
+}
+
+#payPlanTable th{
+	font-weight: 600;
+    color: white;
 }
 
 .banknameformError .parentFormuserForm3 .formError {
@@ -1518,7 +1524,6 @@ initPayPlanTable('${rc.contextPath}',$("#orderid").val(),'<@security.authorize
 				<TR>
 				<TD colspan=2 style="border-radius: 0 0 0">
 				
-				<div class="withdraw-wrap color-white-bg fn-clear">
 	<table id="payPlanTable" class="display nowrap" cellspacing="0">
 		<thead>
 			<tr>
@@ -1542,7 +1547,6 @@ initPayPlanTable('${rc.contextPath}',$("#orderid").val(),'<@security.authorize
 		</thead>
 
 	</table>
-</div>
 				
 			</TD>
 				</TR>
