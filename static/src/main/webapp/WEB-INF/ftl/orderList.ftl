@@ -64,7 +64,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
               </@security.authorize>
 
               <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
-            "aaSorting": [[8, "desc"]],
+            "aaSorting": [[8, "desc"]], 
               </@security.authorize>
 
             "columnDefs": [
