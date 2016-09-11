@@ -56,7 +56,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
             "iDisplayLength" : 50,
              "scrollX": true,
             <@security.authorize ifAnyGranted="advertiser">
-            "aaSorting": [[6, "desc"]],
+            "aaSorting": [[7, "desc"]],
              </@security.authorize>
 
               <@security.authorize ifAnyGranted="sales,salesManager">
@@ -70,7 +70,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
                 <@security.authorize ifAnyGranted="advertiser">
-                 { "orderable": false, "targets": [0,1,2,3,4,5,7] },
+                 { "orderable": false, "targets": [0,1,2,3,4,5,6] },
                   </@security.authorize>
                  <@security.authorize ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
                   { "orderable": false, "targets": [0,1,2,3,4,5,6,7,8] },
