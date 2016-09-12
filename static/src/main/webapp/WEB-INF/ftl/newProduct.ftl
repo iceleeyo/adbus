@@ -221,7 +221,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 						<span >套餐播放天数：</span>
 						<span class="toggle bodyToggle">广告展示天数：</span> <span
 						class="toggle teamToggle">周期(天/期)：</span> </label> <input
-						class="ui-input validate[required,integer,min[1]"
+						class="ui-input validate[required,integer,min[1],max[9999999]"
 						onkeyup="value=value.replace(/[^\d.]/g,'')"
 						value="<#if prod??>${prod.days!''}<#else>7</#if>" name="days"
 						id="days" data-is="isAmount isEnough" autocomplete="off"
