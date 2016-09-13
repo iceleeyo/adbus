@@ -369,7 +369,7 @@
 			 <@security.authorize
 		ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,contract_input,contract_list,contract_search,contract_buy">
 		<li class="pg-side-item"><a class="pg-side-item-t hh-icon"> <i
-				class="s-left pg-icon-a c-icon"></i> 视频报表管理
+				class="s-left pg-icon-a c-icon"></i> 报表管理
 		</a>
 			<ul class="pg-side-exp-list">
 				<@security.authorize ifAnyGranted="ShibaFinancialManager">
@@ -392,7 +392,7 @@
 				ifAnyGranted="sys_userList,body_roleManager,bodysales,bodyContractManager,ShibaSuppliesManager,advertiser,UserManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 				<@security.authorize ifAnyGranted="UserManager,sys_userList">
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
-					href="${rc.contextPath}/user/list"> 视频用户列表 </a></li>
+					href="${rc.contextPath}/user/list"> 用户列表 </a></li>
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/user/adlist"> 广告主用户列表 </a></li>
 				</@security.authorize>
