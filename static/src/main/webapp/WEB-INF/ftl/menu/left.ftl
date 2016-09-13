@@ -400,7 +400,7 @@
 				
 				 <#-- <@security.authorize ifAnyGranted="body_roleManager"> 
 				 <li class="pg-side-exp-item"><a class="side-exp-item-t"
-					href="${rc.contextPath}/user/bodyuserlist"> 车身用户列表 </a></li>
+					href="${rc.contextPath}/user/bodyuserlist"> 车身用户列表  </a></li>
 				   <li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/user/role_list"> 车身角色管理 </a>
 					</li>
