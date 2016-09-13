@@ -1517,11 +1517,6 @@ initPayPlanTable('${rc.contextPath}',$("#orderid").val(),'<@security.authorize
 		<TABLE class="ui-table ui-table-gray">
 			<TBODY>
 				<TR>
-					<TH width="20%">签收时间</TH>
-					<TD colspan=2 style="border-radius: 0 0 0"><#setting
-						date_format="yyyy-MM-dd HH:mm:ss"> ${claimTime!''}</TD>
-				</TR>
-				<TR>
 				<TD colspan=2 style="border-radius: 0 0 0">
 				
 	<table id="payPlanTable" class="display nowrap" cellspacing="0">
