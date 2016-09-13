@@ -317,12 +317,13 @@ public class UserManagerController {
 			JpaOrders order = orders.get(0);
 			if (order.getPayType().name().equals("dividpay")) {
 				buildr.append("分期付款<br>");
-				Pageable p = new PageRequest(0	, 200,new Sort("periodNum"));
+				Pageable p = new PageRequest(0	, 200,new Sort("day"));
 				BooleanExpression query = QJpaPayPlan.jpaPayPlan.order.id.eq(order.getId());
 				Page<JpaPayPlan> plans = payPlanRepository.findAll(query,p);
 				if (!plans.getContent().isEmpty()) {
+					int t=0; 
 					for (JpaPayPlan jpaPayPlan : plans) {
-						buildr.append("第" + jpaPayPlan.getPeriodNum() + "期");
+						buildr.append("第" + (t++)+ "期");
 						buildr.append(" 金额:" + jpaPayPlan.getPrice());
 						buildr.append(" 付款时间:" + DateUtil.longDf.get().format(jpaPayPlan.getDay()));
 						buildr.append("<br>");
