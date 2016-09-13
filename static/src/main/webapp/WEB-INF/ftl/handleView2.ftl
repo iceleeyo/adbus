@@ -51,9 +51,7 @@ table.dataTable tbody th, table.dataTable tbody td{
 	padding: 3px 10px;
 }
 
-.ui-table-gray tbody th, .ui-table-gray tbody td{
-	padding: 0;
-}
+
 .banknameformError .parentFormuserForm3 .formError {
 	opacity: 0.87;
 	position: absolute;
@@ -1287,7 +1285,7 @@ suppliesView=suppliesView/>
 			<TBODY>
 				<TR>
 					<TD width="20%">签收时间</TD>
-					<TD colspan=3 style="border-radius: 0 0 0">
+					<TD colspan=3 style="border-radius: 0 0 0;">
 						<#setting date_format="yyyy-MM-dd HH:mm:ss"> ${claimTime!''}
 					</TD>
 				</TR>
@@ -1531,7 +1529,7 @@ initPayPlanTable('${rc.contextPath}',$("#orderid").val(),'<@security.authorize
 		<TABLE class="ui-table ui-table-gray">
 			<TBODY>
 				<TR>
-				<TD colspan=2 style="border-radius: 0 0 0">
+				<TD colspan=2 style="border-radius: 0 0 0;padding:0;">
 				
 	<table id="payPlanTable" class="display nowrap" cellspacing="0">
 		<thead>
