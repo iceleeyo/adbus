@@ -43,7 +43,7 @@ css=["js/highslide/highslide.css",
 }
 
 #payPlanTable a{
-	color: #69F969;
+	color: #31B533;
     font-weight: 800;
 }
 
@@ -51,6 +51,9 @@ table.dataTable tbody th, table.dataTable tbody td{
 	padding: 3px 10px;
 }
 
+.ui-table-gray tbody th, .ui-table-gray tbody td{
+	padding: 0;
+}
 .banknameformError .parentFormuserForm3 .formError {
 	opacity: 0.87;
 	position: absolute;
