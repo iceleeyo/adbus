@@ -286,11 +286,7 @@ function addPayPlan(url) {
 						+ orderId
 						+ '>'
 						+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
-						+ '<div class="ui-form-item"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/> <label class="ui-label mt10">期数：</label>'
-						+ '<input class="ui-input " type="text" value="" name="periodNum"  '
-						+ 'id="periodNum" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\\d.]/g,\'\')}else{this.value=this.value.replace(/[^\\d.]/g,\'\')}" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-						+ '</div>'
-						+ '<div class="ui-form-item"> <label class="ui-label mt10">金额：</label>'
+						+ '<br><div class="ui-form-item"> <label class="ui-label mt10">金额：</label>'
 						+ '<input class="ui-input " type="text" value="" name="price" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\\d.]/g,\'\')}else{this.value=this.value.replace(/[^\\d.]/g,\'\')}"'
 						+ 'id="amounts" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
 						+ '</div>'
