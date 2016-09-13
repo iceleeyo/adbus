@@ -644,21 +644,7 @@ public class OrderService {
 				e.printStackTrace();
 			}
 		}
-		PayPlanExample example2 = new PayPlanExample();
-		PayPlanExample.Criteria ca = 	example2.createCriteria();
-		ca.andOrderIdEqualTo(orderId);
-		if(null != payPlan.getId() && payPlan.getId() > 0){
-			ca.andIdNotEqualTo(payPlan.getId() );
-		}
-		
-		example2.setOrderByClause("day desc");
-		/*
-		List<PayPlan> list = payPlanMapper.selectByExample(example2);
-		if (list.size() > 0) {
-			if (list.get(0).getDay().after(date)) {
-				return new Pair<Boolean, String>(false, "保存失败:付款日期不得小于已添加分期的最后付款日期");
-			}
-		}*/
+	
 		payPlan.setDay(date);
 		payPlan.setSetPlanUser(userId);
 
@@ -669,6 +655,7 @@ public class OrderService {
 			}
 			com.pantuo.util.BeanUtils.copyProperties(payPlan, dividpay2);
 			if (payPlanMapper.updateByPrimaryKey(dividpay2) > 0) {
+				updatePayNum(orderId);
 				return new Pair<Boolean, String>(true, "修改成功");
 			}
 			return new Pair<Boolean, String>(false, "操作失败");
@@ -682,9 +669,25 @@ public class OrderService {
 		payPlan.setOrderId(orderId);
 		payPlan.setPeriodNum(0);
 		if (payPlanMapper.insert(payPlan) > 0) {
+			updatePayNum(orderId);
 			return new Pair<Boolean, String>(true, "保存成功");
 		}
 		return new Pair<Boolean, String>(false, "保存失败");
+	}
+	
+	public void updatePayNum(int orderId) {
+		PayPlanExample example2 = new PayPlanExample();
+		PayPlanExample.Criteria ca = example2.createCriteria();
+		ca.andOrderIdEqualTo(orderId);
+		example2.setOrderByClause("day asc");
+		List<PayPlan> list = payPlanMapper.selectByExample(example2);
+		if (list.size() > 0) {
+			int i = 0;
+			for (PayPlan payPlan : list) {
+				payPlan.setPeriodNum(++i);
+				payPlanMapper.updateByPrimaryKey(payPlan);
+			}
+		}
 	}
 
 	public DataTablePage<OrderPlanView> queryAllPlan(TableRequest req) {
