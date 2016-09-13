@@ -1513,7 +1513,6 @@ initPayPlanTable('${rc.contextPath}',$("#orderid").val(),'<@security.authorize
 						style="margin-top: -30px;" href="javascript:void(0);"
 						onclick="addPayPlan('${rc.contextPath}')">添加分期</a>	</div>
 		</H3>
-		<BR>
 		<TABLE class="ui-table ui-table-gray">
 			<TBODY>
 				<TR>

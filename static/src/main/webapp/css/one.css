@@ -5529,7 +5529,6 @@ a.button-disable, a.button-disable:active, a.button-disable:hover {
 }
 
 .ui-table-gray tbody th, .ui-table-gray tbody td {
-	padding: 0 40px;
 	line-height: 34px;
 	border-top: 0;
 	border-bottom: 0;

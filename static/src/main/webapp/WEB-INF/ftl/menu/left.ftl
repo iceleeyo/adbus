@@ -44,11 +44,11 @@
 			</a></li> </@security.authorize> 
 				<@security.authorize ifAnyGranted="bodyOnlineManager">
 				<!-- 移除广告主权限，车身网上订单暂未开放 -->
-			<li class="pg-side-item">
+			<#-- <li class="pg-side-item">
 			      <a class="pg-side-item-t aa-icon"  href="${rc.contextPath}/carbox/carTask">
 					 <i class="s-left pg-icon-a d-icon"></i> 车身网上订单
 			       </a>
-			</li> 
+			</li>  -->
 			</@security.authorize> 
 			<@security.authorize
 			ifAnyGranted="advertiser,ShibaOrderManager,BeiguangMaterialManager,ShibaSuppliesManager">
@@ -163,21 +163,21 @@
 		ifNotGranted="sales,salesManager">
 		
 		
-		<li class="pg-side-item">
+		<#-- <li class="pg-side-item">
 			<a class="pg-side-item-t gg-icon"> 
 					<i class="s-left pg-icon-a i-icon"></i> 车身网上订单
 			</a>
 			<ul class="pg-side-exp-list">
-				<#--<li class="pg-side-exp-item"><a class="side-exp-item-t"
+				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/product/newBodyCombo"> 车身产品定义 </a></li>
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/product/productV2_list"> 车身产品列表 </a></li>
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
-					href="${rc.contextPath}/product/busOrderV2_list/all">车身订单列表 </a></li>-->
+					href="${rc.contextPath}/product/busOrderV2_list/all">车身订单列表 </a></li>
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/carbox/carTask">车身网上订单 </a></li>
 			</ul>
-		</li> 
+		</li>  -->
 			</@security.authorize> 
 			<@security.authorize
 		ifAnyGranted="contract_input,contract_list,contract_buy">
@@ -203,8 +203,8 @@
 				</@security.authorize> <@security.authorize
 				ifAnyGranted="bodyContractManager,contract_list">
 
-				<li class="pg-side-exp-item"><a class="side-exp-item-t"
-					href="${rc.contextPath}/busselect/offContract_list"> 车身合同列表 </a></li>
+				<#-- <li class="pg-side-exp-item"><a class="side-exp-item-t"
+					href="${rc.contextPath}/busselect/offContract_list"> 车身合同列表 </a></li> -->
 				</@security.authorize> <@security.authorize
 				ifAnyGranted="bodyContractManager,contract_buy">
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
@@ -338,7 +338,7 @@
 				</@security.authorize>
 			</ul></li> </@security.authorize> <@security.authorize
 		ifAnyGranted="report_monthcount,report_meusersumary,report_yearsalecount,report_line">
-		<li class="pg-side-item"><a class="pg-side-item-t gg-icon"> <i
+		<#-- <li class="pg-side-item"><a class="pg-side-item-t gg-icon"> <i
 				class="s-left pg-icon-a l-icon"></i> 车身报表管理
 		</a>
 			<ul class="pg-side-exp-list">
@@ -350,7 +350,7 @@
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/report/public/MediaUsageCountM"> 媒体使用汇总
 				</a></li> </@security.authorize>
-				<#--
+				
 				 <@security.authorize
 				ifAnyGranted="report_yearsalecount">
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
@@ -360,10 +360,12 @@
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/report/body/daylinep"> 线路细分 </a></li>
 				</@security.authorize>
-				-->
 				
 				
-			</ul></li> </@security.authorize> 
+				
+			</ul>
+			</li> -->
+		 </@security.authorize> 
 			 <@security.authorize
 		ifAnyGranted="ShibaSuppliesManager,ShibaOrderManager,ShibaFinancialManager,contract_input,contract_list,contract_search,contract_buy">
 		<li class="pg-side-item"><a class="pg-side-item-t hh-icon"> <i
@@ -396,13 +398,13 @@
 				</@security.authorize>
 				
 				
-				 <@security.authorize ifAnyGranted="body_roleManager"> 
+				 <#-- <@security.authorize ifAnyGranted="body_roleManager"> 
 				 <li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/user/bodyuserlist"> 车身用户列表 </a></li>
 				   <li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/user/role_list"> 车身角色管理 </a>
 					</li>
-				</@security.authorize>
+				</@security.authorize> -->
 				 <@security.authorize
 				ifAnyGranted="advertiser,ShibaOrderManager">
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
