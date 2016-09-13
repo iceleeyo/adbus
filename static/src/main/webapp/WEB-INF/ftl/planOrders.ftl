@@ -202,6 +202,11 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","index_j
 </script>
 
 <div class="withdraw-wrap color-white-bg fn-clear">
+
+    <div class="withdraw-title"
+      style="padding-top: 0px; text-align: left;">分期订单</div>
+
+
 	<table id="table" class="display" cellspacing="0" width="100%">
 		<thead>
 			<tr>
