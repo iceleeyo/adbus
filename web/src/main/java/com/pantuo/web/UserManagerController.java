@@ -290,6 +290,7 @@ public class UserManagerController {
 				model.addAttribute("ordersList", ordersList);
 				model.addAttribute("userDetail", userDetail);
 				model.addAttribute("payplan", getPayInfo(ordersList));
+				model.addAttribute("payplanView", getPayInfoView(ordersList));
 				model.addAttribute("contractCode",orders.getContractCode());
 			}
 			
@@ -310,6 +311,27 @@ public class UserManagerController {
 
 	@Autowired
 	PayPlanRepository payPlanRepository;
+	
+
+	public Pair<String, List<JpaPayPlan>> getPayInfoView(List<JpaOrders> orders) {
+		Pair<String, List<JpaPayPlan>> pair = new Pair<String, List<JpaPayPlan>>();
+		if (orders != null && !orders.isEmpty()) {
+			JpaOrders order = orders.get(0);
+			if (order.getPayType().name().equals("dividpay")) {
+				pair.setLeft("分期付款");
+				Pageable p = new PageRequest(0, 200, new Sort("day"));
+				BooleanExpression query = QJpaPayPlan.jpaPayPlan.order.id.eq(order.getId());
+				Page<JpaPayPlan> plans = payPlanRepository.findAll(query, p);
+				if (!plans.getContent().isEmpty()) {
+					pair.setRight(plans.getContent());
+
+				}
+			} else {
+				pair.setLeft("一次性付款");
+			}
+		}
+		return pair;
+	}
 
 	public String getPayInfo(List<JpaOrders> orders) {
 		StringBuilder buildr = new StringBuilder();
