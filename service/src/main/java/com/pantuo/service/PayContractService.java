@@ -14,7 +14,7 @@ public interface PayContractService {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	public List<String> queryMyUnPayOrders(Principal principal);
+	public List<String> queryMyUnPayOrders(Principal principal, String customName);
 	/**
 	 * 
 	 * 根据订单号查
