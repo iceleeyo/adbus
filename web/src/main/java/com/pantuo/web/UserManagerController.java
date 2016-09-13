@@ -15,6 +15,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -28,13 +32,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.ActivitiConfiguration;
+import com.pantuo.dao.PayPlanRepository;
 import com.pantuo.dao.pojo.BaseEntity;
 import com.pantuo.dao.pojo.JpaCardBoxMedia;
 import com.pantuo.dao.pojo.JpaCustomerHistory;
 import com.pantuo.dao.pojo.JpaFunction;
 import com.pantuo.dao.pojo.JpaInvoice;
 import com.pantuo.dao.pojo.JpaOrders;
+import com.pantuo.dao.pojo.JpaPayPlan;
+import com.pantuo.dao.pojo.QJpaPayPlan;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.dao.pojo.UserDetail.UType;
 import com.pantuo.mybatis.domain.ActIdGroup;
@@ -58,6 +66,7 @@ import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.impl.GoupManagerServiceImpl;
 import com.pantuo.service.security.Request;
 import com.pantuo.simulate.MailJob;
+import com.pantuo.util.DateUtil;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.JsonTools;
 import com.pantuo.util.Pair;
@@ -280,6 +289,7 @@ public class UserManagerController {
 				}
 				model.addAttribute("ordersList", ordersList);
 				model.addAttribute("userDetail", userDetail);
+				model.addAttribute("payplan", getPayInfo(ordersList));
 				model.addAttribute("contractCode",orders.getContractCode());
 			}
 			
@@ -297,7 +307,34 @@ public class UserManagerController {
 		}
 		return "contract_templete";
 	}
-	
+
+	@Autowired
+	PayPlanRepository payPlanRepository;
+
+	public String getPayInfo(List<JpaOrders> orders) {
+		StringBuilder buildr = new StringBuilder();
+		if (orders != null && !orders.isEmpty()) {
+			JpaOrders order = orders.get(0);
+			if (order.getPayType().name().equals("dividpay")) {
+				buildr.append("分期付款<br>");
+				Pageable p = new PageRequest(0	, 200,new Sort("periodNum"));
+				BooleanExpression query = QJpaPayPlan.jpaPayPlan.order.id.eq(order.getId());
+				Page<JpaPayPlan> plans = payPlanRepository.findAll(query,p);
+				if (!plans.getContent().isEmpty()) {
+					for (JpaPayPlan jpaPayPlan : plans) {
+						buildr.append("第" + jpaPayPlan.getPeriodNum() + "期");
+						buildr.append(" 金额:" + jpaPayPlan.getPrice());
+						buildr.append(" 付款时间:" + DateUtil.longDf.get().format(jpaPayPlan.getDay()));
+						buildr.append("<br>");
+					}
+				}
+			}else {
+				buildr.append("一次性付款");	
+			}
+		}
+		return buildr.toString();
+	}
+
 	@RequestMapping(value = "/busContract_templete", produces = "text/html;charset=utf-8")
 	public String busContract_templete(Model model,Principal principal,
 			@RequestParam(value="orderid" ,required=false, defaultValue ="0") int orderid,

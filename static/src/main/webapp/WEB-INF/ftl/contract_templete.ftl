@@ -374,7 +374,7 @@ function getEnd(date,days){
 		<#assign sum=sum+(item.price) />
 	</#list>
 		<tr>
-			<td>合同结算情况</td><th COLSPAN=7>一次性付款</th>
+			<td>合同结算情况</td><th COLSPAN=7>${payplan!''}</th>
 		</tr>
 		<tr>
 			<td>签约价格（元）</td><th COLSPAN=7>¥${sum}</th>

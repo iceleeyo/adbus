@@ -154,7 +154,7 @@
         </sequenceFlow>
         <userTask id="payment" name="支付" activiti:candidateUsers="${_owner.username}"></userTask>
         <sequenceFlow id="flow31" sourceRef="payPlangateWay" targetRef="financialCheck">
-          <conditionExpression xsi:type="tFormalExpression"><![CDATA[${payPlan == false}]]></conditionExpression>
+          <conditionExpression xsi:type="tFormalExpression"><![CDATA[${payPlan == false && isContractPayed == false}]]></conditionExpression>
         </sequenceFlow>
         <userTask id="approve2" name="终审" activiti:candidateGroups="BeiguangMaterialManager">
           <documentation>管理员审核物料信息并入库，填写物料ID等信息，程序设置审核结果的process变量：
@@ -218,16 +218,16 @@
         <sequenceFlow id="flow67" sourceRef="payment" targetRef="payPlangateWay"></sequenceFlow>
         <userTask id="setPayPlan" name="分期设置" activiti:candidateGroups="sales"></userTask>
         <sequenceFlow id="flow68" sourceRef="payPlangateWay" targetRef="setPayPlan">
-          <conditionExpression xsi:type="tFormalExpression"><![CDATA[${payPlan == true}]]></conditionExpression>
+          <conditionExpression xsi:type="tFormalExpression"><![CDATA[${payPlan == true && isContractPayed == false}]]></conditionExpression>
         </sequenceFlow>
         <userTask id="userFristPay" name="用户首付款" activiti:candidateUsers="${_owner.username}"></userTask>
         <sequenceFlow id="flow70" sourceRef="setPayPlan" targetRef="userFristPay"></sequenceFlow>
         <sequenceFlow id="flow71" sourceRef="userFristPay" targetRef="financialCheck"></sequenceFlow>
         <sequenceFlow id="flow72" sourceRef="paymentFailureEmail" targetRef="payment"></sequenceFlow>
         <sequenceFlow id="flow73" sourceRef="paymentGateway" targetRef="servicetask1">
-             <conditionExpression xsi:type="tFormalExpression"><![CDATA[${paymentResult == false && payPlan == true}]]></conditionExpression>
+          <conditionExpression xsi:type="tFormalExpression"><![CDATA[${paymentResult == false && payPlan == true}]]></conditionExpression>
         </sequenceFlow>
-           <serviceTask id="servicetask1" name="发送支付失败通知" activiti:delegateExpression="${messageBox}">
+        <serviceTask id="servicetask1" name="发送支付失败通知" activiti:delegateExpression="${messageBox}">
           <extensionElements>
             <activiti:field name="actionType">
               <activiti:string><![CDATA[payFail]]></activiti:string>
@@ -244,6 +244,10 @@
           </extensionElements>
         </serviceTask>
         <sequenceFlow id="flow74" sourceRef="servicetask1" targetRef="userFristPay"></sequenceFlow>
+        <sequenceFlow id="flow75" sourceRef="payPlangateWay" targetRef="endevent4">
+             <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isContractPayed == true}]]></conditionExpression> 
+            
+        </sequenceFlow>
       </subProcess>
       <sequenceFlow id="flow38" sourceRef="approvePaymentSubprocess" targetRef="submitSchedule"></sequenceFlow>
       <boundaryEvent id="boundaryerror2" name="Error" attachedToRef="approvePaymentSubprocess">
@@ -614,6 +618,11 @@
       <bpmndi:BPMNEdge bpmnElement="flow74" id="BPMNEdge_flow74">
         <omgdi:waypoint x="1048.0" y="687.0"></omgdi:waypoint>
         <omgdi:waypoint x="935.0" y="687.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow75" id="BPMNEdge_flow75">
+        <omgdi:waypoint x="596.0" y="594.0"></omgdi:waypoint>
+        <omgdi:waypoint x="794.0" y="566.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1179.0" y="557.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow38" id="BPMNEdge_flow38">
         <omgdi:waypoint x="835.0" y="721.0"></omgdi:waypoint>
