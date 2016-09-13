@@ -112,8 +112,9 @@ function initPayPlanTable(purl,orderId,handle) {
 	planTable = $('#payPlanTable')
 			.dataTable(
 					{
-						"dom" : '<"#toolbar">t',
+						 "dom": '<"#toolbar">rt',
 						"searching" : false,
+						"iDisplayLength" : 1500,
 						"ordering" : false,
 						"serverSide" : false,
 						"ajax" : {
@@ -186,6 +187,7 @@ function initOrderDetailTable(purl,orderId) {
 	.dataTable(
 			{
 				"dom" : '<"#toolbar">t',
+				"iDisplayLength" : 1500,
 				"searching" : false,
 				"ordering" : false,
 				"serverSide" : false,

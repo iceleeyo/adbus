@@ -914,6 +914,12 @@ public class ActivitiServiceImpl implements ActivitiService {
 		//u.setUsername(u.getCompany());
 		initParams.put(ActivitiService.OWNER, u);
 		initParams.put(ActivitiService.PAYPLAN, false);
+		
+		initParams.put("isContractPayed", false);
+		
+		
+		
+		
 		initParams.put(ActivitiService.CREAT_USERID, u.getUsername());
 		initParams.put(ActivitiService.ORDER_ID, order.getId());
 		//add company for customer
@@ -957,7 +963,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 						Map<String, Object> variables = new HashMap<String, Object>();
 						variables.put(ActivitiService.R_USERPAYED, false);
 						variables.put(ActivitiService.PAYPLAN, true);
+						//variables.put("isContractPayed", true);
 						taskService.complete(task.getId(), variables);
+						
 					}else if(order.getStats().equals(JpaOrders.Status.paid)){
 						Map<String, Object> variables = new HashMap<String, Object>();
 						variables.put(ActivitiService.R_USERPAYED, true);
