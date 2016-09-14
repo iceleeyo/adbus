@@ -311,11 +311,11 @@ $(document).ready(function() {
 						value="增加一行" style="margin-top: 10px;"><br>
 				</div>
 				<div class="ui-form-item">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>资质文件</label>
+					<label class="ui-label mt10">资质文件</label>
 					<div id="newUpload3">
 						<div id="quadiv_1">
 							<input type="file" name="qua" id="Sfile1"
-								class="validate[required]">
+								class="">
 						</div>
 					</div>
 					

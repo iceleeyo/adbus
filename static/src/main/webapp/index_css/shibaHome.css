@@ -630,6 +630,11 @@
   width: 480px;
   font-size: 20px;
 }
+.mid_about {
+  width: 480px;
+  font-size: 15px;
+}
+}
 .background-six .slide-container .view3 .left {
   float: left;
   margin-right: 30px;
