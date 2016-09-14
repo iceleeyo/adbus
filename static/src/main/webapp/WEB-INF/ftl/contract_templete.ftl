@@ -506,12 +506,12 @@ function getEnd(date,days){
 	</#list>
 		<tr>
 			<td>合同结算情况</td><td COLSPAN=7>
-			${ (payplanView.right?size)!''}
 			<#if (payplanView.right)??>
-			<#list payplanView.right as right>
 			<span style="display:block;padding-top:5px;">
 			甲方支付乙方广告费用金额共计<script>convertCurrency(${sum});</script> (¥${sum}元),分
 			 ${ (payplanView.right?size)!''} 次支付：</span><br>
+			
+			<#list payplanView.right as right>
 			
 			<span style="display:block;padding-top:5px;">
 				第${(right_index+1)!""}次：
