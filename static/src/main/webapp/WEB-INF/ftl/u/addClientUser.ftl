@@ -130,10 +130,10 @@ function uploadImaget(formId) {
 						disableautocomplete="" placeholder="">
 				</div>
 				<div class="ui-form-item">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>联系电话:</label>
-					<input class="ui-input validate[required,custom[phone]]"
+					<label class="ui-label mt10">联系电话:</label>
+					<input class="ui-input validate[custom[phone]]"
 						type="text" name="phone" id="phone" data-is="isAmount isEnough" value="<#if userDetail??>${userDetail.phone!''}</#if>"
-						autocomplete="off" disableautocomplete="" placeholder="请输入联系电话">
+						autocomplete="off" disableautocomplete="">
 				</div>
 				<#if userDetail?? >
 				 <input type="hidden" name="id" value="${userDetail.id}" />
