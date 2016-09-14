@@ -522,7 +522,7 @@ function queryPayPlanDetail(tourl, orderId) {
 		type : 1,
 		title : "订单分期详情",
 		skin : 'layui-layer-rim',
-		area : [ '1000px', '500px' ],
+		area : [ '1200px', '500px' ],
 		content : '' + ' '
 				+ '<iframe style="width:99%;height:98%" frameborder="no" src="'
 				+ tourl + '/order/queryPayPlanDetail/' + orderId + '"/>'

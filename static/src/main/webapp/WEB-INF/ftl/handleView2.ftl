@@ -832,6 +832,12 @@ function uploadImaget(formId) {
         document.getElementById(formId).reset();
         }
 }
+
+function prodPrice(){
+	var prodPrice = $("#prodPrice").text();
+	document.write(prodPrice);
+}
+
 </script>
 <input type="hidden" id="orderid" value="${orderview.order.id!''}" />
 <input type="hidden" id="taskid" value="${taskid!''}" />
@@ -1521,6 +1527,7 @@ initPayPlanTable('${rc.contextPath}',$("#orderid").val(),'<@security.authorize
 	<div class="p20bs mt10 color-white-bg border-ec">
 		<H3 class="text-xl title-box">
 			<A class="black" href="#">分期设置</A>
+			<span style="font-size: 14px; color: #00A8E8; padding-left: 15px;">套餐总价：<script>prodPrice();</script></span><em style="font-size:14px;">元</em>
 			<div class="withdraw-title">
 			 <a class="block-btn"
 						style="margin-top: -30px;" href="javascript:void(0);"

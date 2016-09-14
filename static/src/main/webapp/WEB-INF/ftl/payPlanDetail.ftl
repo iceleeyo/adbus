@@ -13,7 +13,12 @@ css=["js/jquery-ui/jquery-ui.css"]>
 			ifAnyGranted="ShibaFinancialManager"></@security.authorize>');
     } );
 </script>
-<div class="withdraw-wrap color-white-bg fn-clear">
+<style type="text/css">
+.ls-101 {
+	margin-left: 0px;
+}
+</style>
+<div class="withdraw-wrap color-white-bg fn-clear" style="width:100%">
 	<table id="payPlanTable" class="display nowrap" cellspacing="0">
 		<thead>
 			<tr>

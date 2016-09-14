@@ -500,23 +500,28 @@ function getEnd(date,days){
 		</tr>
 		<tr style="height:40px;">
 			<td >总价（元）</td><td COLSPAN=7>
-				¥${item.price}元</td>
+				¥${(item.price)!''}元</td>
 		</tr>
 		<#assign sum=sum+(item.price) />
 	</#list>
 		<tr>
 			<td>合同结算情况</td><td COLSPAN=7>
-			<span style="display:block;padding-top:5px;">
-			甲方支付乙方广告费用金额共计<script>convertCurrency(${sum});</script> (¥${sum}元),分
-			 ${ payplanView.right?size} 次支付：</span><br>
+			${ (payplanView.right?size)!''}
+			<#if (payplanView.right)??>
 			<#list payplanView.right as right>
 			<span style="display:block;padding-top:5px;">
-				第${right_index+1}次：
+			甲方支付乙方广告费用金额共计<script>convertCurrency(${sum});</script> (¥${sum}元),分
+			 ${ (payplanView.right?size)!''} 次支付：</span><br>
+			
+			<span style="display:block;padding-top:5px;">
+				第${(right_index+1)!""}次：
 				${right.day?string("yyyy年MM月dd日 ")}
-				<#-- ${(right.day!''}  --> 前支付广告费用金额为<script>convertCurrency(${right.price});</script>(¥${right.price}元)
+				<#-- ${(right.day!''}  --> 前支付广告费用金额为<script>convertCurrency(${(right.price)!''});</script>(¥${(right.price)!''}元)
 			</span> <br>
 			</#list> 
-
+			<#else>
+				${payplanView.left}
+			</#if>
 			</td>
 		</tr>
 		<tr>

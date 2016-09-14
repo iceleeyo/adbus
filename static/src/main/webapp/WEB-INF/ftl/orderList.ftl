@@ -305,10 +305,20 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
 
 
 <div class="withdraw-wrap color-white-bg fn-clear">
-  <div class="withdraw-title" style="padding-top: 0px; text-align: left;">
+  <div class="tabs">
+    <a href="${rc.contextPath}/order/myTask/1" class="active">
     待办事项 <span id="recordsTotal"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
+    </a>
+    <a href="${rc.contextPath}/order/planOrders" class="">
+    分期订单 <span id="recordsTotal"
+      style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
+    </a>
   </div>
+
+ <#--  <div class="withdraw-title" style="padding-top: 0px; text-align: left;">
+
+  </div> -->
   <table id="table" class="display" cellspacing="0" width="100%">
     <thead>
       <tr>
