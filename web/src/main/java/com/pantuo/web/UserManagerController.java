@@ -326,6 +326,7 @@ public class UserManagerController {
 					pair.setRight(plans.getContent());
 
 				}
+				log.info("orderid:{},playSize:{}" ,order.getId(),plans.getContent().size());
 			} else {
 				pair.setLeft("一次性付款");
 			}
