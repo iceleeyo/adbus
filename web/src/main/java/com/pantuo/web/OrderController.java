@@ -630,10 +630,10 @@ public class OrderController {
 
 	@RequestMapping(value = "ajax-getPayPlan", method = RequestMethod.GET)
 	@ResponseBody
-	public List<PayPlan> getPayPlan(HttpServletResponse response,
+	public List<PayPlan> getPayPlan(HttpServletResponse response,TableRequest req,
 			@RequestParam("orderId") int orderId) {
 		 response.setHeader("Access-Control-Allow-Origin", "*");
-		return orderService.getPayPlan(orderId);
+		return orderService.getPayPlan(req);
 	}
 	/**
 	 * 获取32寸屏订单批次
@@ -677,9 +677,12 @@ public class OrderController {
 		return orderService.savePayPlan(payPlan, orderId, payDate,Request.getUserId(principal));
 	}
 	@RequestMapping(value = "/queryPayPlanDetail/{orderId}")
-	public String toPayPlanDetail(Model model, @PathVariable("orderId") int orderId, HttpServletResponse response) {
+	public String toPayPlanDetail(Model model, @PathVariable("orderId") int orderId,
+			@RequestParam("type") String type,
+			HttpServletResponse response) {
 		response.setHeader("X-Frame-Options", "SAMEORIGIN");
 		model.addAttribute("orderId", orderId);
+		model.addAttribute("type", type);
 		return "payPlanDetail";
 	}
 	@RequestMapping(value = "/payPlanOrders")

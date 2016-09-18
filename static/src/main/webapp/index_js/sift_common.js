@@ -108,7 +108,7 @@ function dateInput(inputId,prouctId){
 	checkTime(forceInput,prouctId);
 }
 var planTable;
-function initPayPlanTable(purl,orderId,handle) {
+function initPayPlanTable(purl,orderId,handle,type) {
 	planTable = $('#payPlanTable')
 			.dataTable(
 					{
@@ -123,7 +123,8 @@ function initPayPlanTable(purl,orderId,handle) {
 							data : function(d) {
 								return $.extend({}, d, {
 									"orderId" : orderId,
-									"filter[orderId]" : orderId
+									"filter[orderId]" : orderId,
+									"filter[planType]" : type
 								});
 							},
 							 "dataSrc": function(json) {return json;},
@@ -272,7 +273,7 @@ function deletePayPlan(id){
 	});  
 }*/
 //弹出添加分期付款的窗口
-function addPayPlan(url) {
+function addPayPlan(url,type) {
 	var orderId=$("#orderid").val();
 	layer
 			.open({
@@ -286,7 +287,7 @@ function addPayPlan(url) {
 						+ orderId
 						+ '>'
 						+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
-						+ '<br><div class="ui-form-item"> <label class="ui-label mt10">金额：</label>'
+						+ '<br><input type="hidden" name="type" value="'+type+'"/><div class="ui-form-item"> <label class="ui-label mt10">金额：</label>'
 						+ '<input class="ui-input " type="text" value="" name="price" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\\d.]/g,\'\')}else{this.value=this.value.replace(/[^\\d.]/g,\'\')}"'
 						+ 'id="amounts" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
 						+ '</div>'
@@ -517,7 +518,7 @@ function editPayPlan() {
 }
 
 //查看订单分期详情
-function queryPayPlanDetail(tourl, orderId) {
+function queryPayPlanDetail(tourl, orderId,type) {
 	layer.open({
 		type : 1,
 		title : "订单分期详情",
@@ -525,7 +526,7 @@ function queryPayPlanDetail(tourl, orderId) {
 		area : [ '1000px', '500px' ],
 		content : '' + ' '
 				+ '<iframe style="width:99%;height:98%" frameborder="no" src="'
-				+ tourl + '/order/queryPayPlanDetail/' + orderId + '"/>'
+				+ tourl + '/order/queryPayPlanDetail/' + orderId + '?type='+type+'"/>'
 	});
 
 }

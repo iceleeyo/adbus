@@ -56,7 +56,7 @@ $(document).ready(function(){
 			}
 		});
 initPayPlanTable('${rc.contextPath}',${orderview.order.id},'<@security.authorize
-			ifAnyGranted="ShibaFinancialManager">edit</@security.authorize>');
+			ifAnyGranted="ShibaFinancialManager">edit</@security.authorize>','order');
 });
 function uploadImaget(formId) { 
     var image_name=$("#fileMaterial").val();
@@ -296,7 +296,7 @@ function showContract(){
 			<TR style="height: 45px;">
 				<TD width="20%" style="text-align: right">分期详情</TD>
 				<TD>
-					<SPAN></SPAN><SPAN class="con"><a href="javascript:void(0)" onclick="queryPayPlanDetail('${rc.contextPath}',${orderview.order.id!''});" >查看</a></SPAN>
+					<SPAN></SPAN><SPAN class="con"><a href="javascript:void(0)" onclick="queryPayPlanDetail('${rc.contextPath}',${orderview.order.id!''},'order');" >查看</a></SPAN>
 				</TD>
 			</TR>
 			
