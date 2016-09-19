@@ -39,6 +39,7 @@ import com.pantuo.service.ContractService;
 import com.pantuo.service.ContractServiceData;
 import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.security.Request;
+import com.pantuo.spring.JsonFilter;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.ContractView;
 
@@ -133,6 +134,7 @@ public class ContractController {
 	}
 	@RequestMapping("ajax-list")
 	@ResponseBody
+	@JsonFilter(keys = {"contractName", "industry.id","industry.description"})
 	public DataTablePage<JpaContract> getAllContracts(TableRequest req,
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal) {
 		return new DataTablePage(contractServiceDate.getAllContracts(city, req, principal), req.getDraw());

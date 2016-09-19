@@ -51,7 +51,7 @@ public class GroovyFactory implements ApplicationContextAware {
 
 		for (String groovyPath : directory) {
 			String realDirectory = root + File.separator + groovyPath;
-
+			logger.info("groovy path:{} ",realDirectory);
 			File[] files = new File(realDirectory).listFiles(new FileFilter() {
 				@Override
 				public boolean accept(File pathname) {
