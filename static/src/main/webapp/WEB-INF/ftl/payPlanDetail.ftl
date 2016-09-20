@@ -9,8 +9,9 @@ css=["js/jquery-ui/jquery-ui.css"]>
 
 <script type="text/javascript">
     $(document).ready(function() {
+    
         initPayPlanTable('${rc.contextPath}',${orderId},'<@security.authorize
-			ifAnyGranted="ShibaFinancialManager"></@security.authorize>');
+			ifAnyGranted="ShibaFinancialManager"></@security.authorize>','${type}');
     } );
 </script>
 <style type="text/css">

@@ -605,9 +605,16 @@ public class OrderService {
 		return (List<JpaOrders>) ordersRepository.findAll(query);
 	}
 
-	public List<PayPlan> getPayPlan(int orderId) {
+	public List<PayPlan> getPayPlan(TableRequest req) {
+		int OrderId=req.getFilterInt("orderId",0);
+		 String planType=req.getFilter("planType"),seriaNum=req.getFilter("seriaNum");
 		PayPlanExample example = new PayPlanExample();
-		example.createCriteria().andOrderIdEqualTo(orderId);
+		PayPlanExample.Criteria criteria=example.createCriteria();
+		if(StringUtils.isNotBlank(planType) && JpaPayPlan.Type.order==JpaPayPlan.Type.valueOf(planType)){
+			criteria.andOrderIdEqualTo(OrderId);
+		}else if(StringUtils.isNotBlank(seriaNum)){
+			criteria.andSeriaNumEqualTo(NumberUtils.toLong(seriaNum));
+		}
 		example.setOrderByClause("day asc");
 		List<PayPlan> list = payPlanMapper.selectByExample(example);
 		final java.util.concurrent.atomic.AtomicInteger periodNum = new AtomicInteger(0);
@@ -635,7 +642,19 @@ public class OrderService {
 		return payPlanRepository.findOne(id);
 	}
 
-	public Pair<Boolean, String> savePayPlan(PayPlan payPlan, int orderId, String payDate, String userId) {
+	public Pair<Boolean, String> savePayPlan(PayPlan payPlan,String userId,HttpServletRequest request) {
+		String payDate=request.getParameter("payDate");
+		String orderIdStr=request.getParameter("orderId");
+		String seriaNumStr=request.getParameter("seriaNum");
+		int orderId=0;
+		long seriaNum=0;
+		if(StringUtils.isNotBlank(orderIdStr)){
+			orderId=NumberUtils.toInt(orderIdStr);
+		}
+		if(StringUtils.isNotBlank(seriaNumStr)){
+			seriaNum=NumberUtils.toInt(seriaNumStr);
+		}
+		
 		Date date = new Date();
 		if (StringUtils.isNotBlank(payDate)) {
 			try {
@@ -655,7 +674,7 @@ public class OrderService {
 			}
 			com.pantuo.util.BeanUtils.copyProperties(payPlan, dividpay2);
 			if (payPlanMapper.updateByPrimaryKey(dividpay2) > 0) {
-				updatePayNum(orderId);
+				updatePayNum(orderId,seriaNum,dividpay2.getType());
 				return new Pair<Boolean, String>(true, "修改成功");
 			}
 			return new Pair<Boolean, String>(false, "操作失败");
@@ -666,19 +685,28 @@ public class OrderService {
 		//	return new Pair<Boolean, String>(false, "期数重复，保存失败");
 		}
 		payPlan.setPayState(JpaPayPlan.PayState.init.ordinal());
-		payPlan.setOrderId(orderId);
+		if(orderId>0){
+			payPlan.setOrderId(orderId);
+			payPlan.setSeriaNum(0l);
+		}else{
+			payPlan.setOrderId(null);
+		}
 		payPlan.setPeriodNum(0);
 		if (payPlanMapper.insert(payPlan) > 0) {
-			updatePayNum(orderId);
+			updatePayNum(orderId,seriaNum,payPlan.getType());
 			return new Pair<Boolean, String>(true, "保存成功");
 		}
 		return new Pair<Boolean, String>(false, "保存失败");
 	}
 	
-	public void updatePayNum(int orderId) {
+	public void updatePayNum(int orderId, Long seriaNum,int type) {
 		PayPlanExample example2 = new PayPlanExample();
 		PayPlanExample.Criteria ca = example2.createCriteria();
-		ca.andOrderIdEqualTo(orderId);
+		if(JpaPayPlan.Type.order.ordinal()==type){
+			ca.andOrderIdEqualTo(orderId);
+		}else{
+			ca.andSeriaNumEqualTo(seriaNum);
+		}
 		example2.setOrderByClause("day asc");
 		List<PayPlan> list = payPlanMapper.selectByExample(example2);
 		if (list.size() > 0) {

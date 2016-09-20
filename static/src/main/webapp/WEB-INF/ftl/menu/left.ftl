@@ -60,16 +60,26 @@
 					<li class="pg-side-exp-item"><a class="side-exp-item-t"
 						href="${rc.contextPath}/supplies/list"> 物料管理 </a></li>
 
-				</ul></li> </@security.authorize> <@security.authorize
-			ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,bodyContractManager">
-			<li class="pg-side-item"><a class="pg-side-item-t ee-icon"
-				href="#"> <i class="s-left pg-icon-a g-icon"></i> 合同管理
-			</a>
+				</ul></li> </@security.authorize> 
+		
+	<@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,sales">
+		<li class="pg-side-item">
+		    <a class="pg-side-item-t ee-icon" href="#"> <i class="s-left pg-icon-a g-icon"></i> 合同管理 </a>
 				<ul class="pg-side-exp-list">
-					<li class="pg-side-exp-item"><a class="side-exp-item-t"
-						href="${rc.contextPath}/contract/list"> 屏幕广告合同 </a></li>
-				</ul></li> </@security.authorize> <@security.authorize
-			ifAnyGranted="ShibaOrderManager">
+				  <li class="pg-side-exp-item">
+					<a class="side-exp-item-t" href="${rc.contextPath}/payContract/newPayContract"> 创建合同 </a>
+				  </li>
+				  <li class="pg-side-exp-item">
+					<a class="side-exp-item-t" href="${rc.contextPath}/payContract/list"> 合同列表 </a>
+				  </li>
+				 <#-- <li class="pg-side-exp-item">
+					<a class="side-exp-item-t" href="${rc.contextPath}/contract/list"> 屏幕广告合同 </a>
+				  </li>-->
+				</ul>
+		</li> 
+	</@security.authorize>
+				
+		 <@security.authorize	ifAnyGranted="ShibaOrderManager">
 			<li class="pg-side-item"><a class="pg-side-item-t cc-icon">
 					<i class="s-left pg-icon-a h-icon"></i> 产品中心
 			</a>

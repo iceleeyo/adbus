@@ -3,7 +3,17 @@ package com.pantuo.service;
 import java.security.Principal;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.data.domain.Page;
+
 import com.pantuo.dao.pojo.JpaOrders;
+import com.pantuo.dao.pojo.JpaPayContract;
+import com.pantuo.mybatis.domain.PaycontractWithBLOBs;
+import com.pantuo.pojo.TableRequest;
+import com.pantuo.util.Pair;
+import com.pantuo.web.view.AutoCompleteView;
+import com.pantuo.web.view.OrderView;
 
 public interface PayContractService {
 	/**
@@ -36,5 +46,11 @@ public interface PayContractService {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	public boolean checkSameCustom(List<String> orderId);
+	public List<AutoCompleteView> OrderIdComplete(Principal principal, String name, HttpServletRequest request);
+	public List<OrderView> showOrderDetail(String orderIds);
+	Pair<Boolean, String> savePayContract(Principal principal, PaycontractWithBLOBs contract, HttpServletRequest request);
+	public Page<JpaPayContract> getAllContracts(TableRequest req, Principal principal);
+	public JpaPayContract getPayContractById(int id);
+	public Pair<Boolean, String> delPayContract(Principal principal, int contractId);
 
 }

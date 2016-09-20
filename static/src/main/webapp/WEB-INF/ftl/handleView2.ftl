@@ -1019,7 +1019,7 @@ suppliesView=suppliesView/>
 			<TR style="height: 45px;">
 				<TD width="20%" style="text-align: right">分期详情</TD>
 				<TD>
-					<SPAN></SPAN><SPAN class="con"><a href="javascript:void(0)" onclick="queryPayPlanDetail('${rc.contextPath}',${orderview.order.id!''});" >查看</a></SPAN>
+					<SPAN></SPAN><SPAN class="con"><a href="javascript:void(0)" onclick="queryPayPlanDetail('${rc.contextPath}',${orderview.order.id!''},'order');" >查看</a></SPAN>
 				</TD>
 			</TR>
 			
@@ -1452,7 +1452,7 @@ suppliesView=suppliesView/>
 				 <TR>
 						<TD width="20%">分期详情</TD>
 						<TD colspan=3 style="border-radius: 0 0 0">
-						  <SPAN> </SPAN><SPAN class="con"><a href="javascript:void(0)" onclick="queryPayPlanDetail('${rc.contextPath}',${orderview.order.id!''});" >查看</a></SPAN><br> 
+						  <SPAN> </SPAN><SPAN class="con"><a href="javascript:void(0)" onclick="queryPayPlanDetail('${rc.contextPath}',${orderview.order.id!''},'order');" >查看</a></SPAN><br> 
 						  </TD>
 					</TR>
 				
@@ -1521,7 +1521,7 @@ suppliesView=suppliesView/>
 <script type="text/javascript">
 $(document).ready(function(){
 initPayPlanTable('${rc.contextPath}',$("#orderid").val(),'<@security.authorize
-			ifAnyGranted="sales">edit_del</@security.authorize>');
+			ifAnyGranted="sales">edit_del</@security.authorize>','order');
 });
 </script>
 	<div class="p20bs mt10 color-white-bg border-ec">
@@ -1531,7 +1531,7 @@ initPayPlanTable('${rc.contextPath}',$("#orderid").val(),'<@security.authorize
 			<div class="withdraw-title">
 			 <a class="block-btn"
 						style="margin-top: -30px;" href="javascript:void(0);"
-						onclick="addPayPlan('${rc.contextPath}')">添加分期</a>	</div>
+						onclick="addPayPlan('${rc.contextPath}',${orderview.order.id!''},'',0)">添加分期</a>	</div>
 		</H3>
 		<TABLE class="ui-table ui-table-gray">
 			<TBODY>

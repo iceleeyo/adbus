@@ -123,7 +123,7 @@ function supDetail(data){
 			<@security.authorize
 			ifAnyGranted="ShibaOrderManager,ShibaFinancialManager">
 			<li style="width:400px;"><SPAN>合同编号：</SPAN><SPAN class="con">
-			<a onclick="eleContract('${rc.contextPath}',${orderview.order.id!''});">${(orderview.order.contractCode)!''}</a></SPAN></li>
+			<a onclick="eleContract('${rc.contextPath}',${orderview.order.id!''},0,0);">${(orderview.order.contractCode)!''}</a></SPAN></li>
 			</@security.authorize>
 			<#if (orderview.order.ordRemark!'')?length lt 38>
 			<li style="width: 720px;"><SPAN> 备注信息：</SPAN><SPAN class="con">${orderview.order.ordRemark!''}</SPAN></li>
@@ -139,7 +139,7 @@ function supDetail(data){
 
 
 			<li class="s-left f-iconli"><span class="s-left tt"><i class="s-left ff-icon"></i>支付及发票</span></li> 
-			 <li style="width: 200px;"><SPAN>分期详情：</SPAN><SPAN class="con"><a href="javascript:void(0)" onclick="queryPayPlanDetail('${rc.contextPath}',${orderview.order.id!''});" >查看</a></SPAN></li>
+			 <li style="width: 200px;"><SPAN>分期详情：</SPAN><SPAN class="con"><a href="javascript:void(0)" onclick="queryPayPlanDetail('${rc.contextPath}',${orderview.order.id!''},'order');" >查看</a></SPAN></li>
 			<#if orderview.payTypeString?has_content>
 			<li style="width: 200px;"><SPAN>支付方式：</SPAN><SPAN class="con">${(orderview.payTypeString)!''}</SPAN></li>
 			<#if orderview.payTypeString?has_content && orderview.payTypeString=="关联合同">

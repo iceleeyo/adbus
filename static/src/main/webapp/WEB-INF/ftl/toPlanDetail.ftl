@@ -18,7 +18,7 @@ suppliesView=suppliesView/>
 <script type="text/javascript">
 $(document).ready(function(){
 initPayPlanTable('${rc.contextPath}',${orderview.order.id},'<@security.authorize
-			ifAnyGranted="ShibaFinancialManager"></@security.authorize>');
+			ifAnyGranted="ShibaFinancialManager"></@security.authorize>','order');
 });
 	
 	<#if planView.plan.payState == "check">

@@ -142,7 +142,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
               var customer = $.parseJSON(row.order.customerJson);
               var customerId=(customer == null || customer=='undefined'
                         || typeof(customer) == "undefined"||typeof(customer.username) == "undefined")?"":customer.username;
-                        return "<a class='operation' onclick='eleContract(\"${rc.contextPath}\","+row.order.id+",\""+customerId+"\")' >"+data+"</a>";
+                        return "<a class='operation' onclick='eleContract(\"${rc.contextPath}\","+row.order.id+",\""+customerId+"\",0)' >"+data+"</a>";
               }},
               { "data": "product.name", "defaultContent": "",
                     "render": function(data, type, row, meta) {

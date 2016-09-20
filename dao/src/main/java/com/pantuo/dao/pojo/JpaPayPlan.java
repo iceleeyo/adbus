@@ -36,10 +36,12 @@ public class JpaPayPlan extends BaseEntity {
 	private Date day;//分期付款日  4.5  4.8     delete if payUser==null
 	private double price = 0;
      private int periodNum;  //期数
+     private long seriaNum;
 	@ManyToOne
 	@JoinColumn(name = "orderId")
 	private JpaOrders order;
 	private PayType payType;//付款方式 
+	private Type type;//类型
 	private PayState payState; //付款状态 从 init 到check 到payed
 	@Column(length=32) 
 	private String setPlanUser;//分期设置人
@@ -51,6 +53,9 @@ public class JpaPayPlan extends BaseEntity {
 
 	public static enum PayState {
 		payed/*已支付*/,	init/*未支付*/, fail/*未收到款项*/, check/*等待款项检查*/
+	}
+	public static enum Type {
+		order/*订单*/,	contract/*合同*/
 	}
 
 	public JpaPayPlan() {
@@ -84,6 +89,14 @@ public class JpaPayPlan extends BaseEntity {
 		return price;
 	}
 
+	public long getSeriaNum() {
+		return seriaNum;
+	}
+
+	public void setSeriaNum(long seriaNum) {
+		this.seriaNum = seriaNum;
+	}
+
 	public void setPrice(double price) {
 		this.price = price;
 	}
@@ -110,6 +123,14 @@ public class JpaPayPlan extends BaseEntity {
 
 	public void setPayState(PayState payState) {
 		this.payState = payState;
+	}
+
+	public Type getType() {
+		return type;
+	}
+
+	public void setType(Type type) {
+		this.type = type;
 	}
 
 	public String getSetPlanUser() {
