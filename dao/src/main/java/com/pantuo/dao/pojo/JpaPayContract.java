@@ -28,6 +28,9 @@ public class JpaPayContract extends BaseEntity {
 	private int id;
 	private String userId;
 	private String contractCode;
+	private Double price;
+	private long seriaNum;
+	boolean delFlag=false;
 	/*
 	 * list<integer>
 	 * {11,22,33,44}

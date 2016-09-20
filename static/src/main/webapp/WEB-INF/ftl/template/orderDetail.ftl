@@ -123,7 +123,7 @@ function supDetail(data){
 			<@security.authorize
 			ifAnyGranted="ShibaOrderManager,ShibaFinancialManager">
 			<li style="width:400px;"><SPAN>合同编号：</SPAN><SPAN class="con">
-			<a onclick="eleContract('${rc.contextPath}',${orderview.order.id!''});">${(orderview.order.contractCode)!''}</a></SPAN></li>
+			<a onclick="eleContract('${rc.contextPath}',${orderview.order.id!''},0,0);">${(orderview.order.contractCode)!''}</a></SPAN></li>
 			</@security.authorize>
 			<#if (orderview.order.ordRemark!'')?length lt 38>
 			<li style="width: 720px;"><SPAN> 备注信息：</SPAN><SPAN class="con">${orderview.order.ordRemark!''}</SPAN></li>

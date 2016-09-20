@@ -10,10 +10,10 @@ function go_back(){
 	history.go(-1);
 }
     $(document).ready(function() {
-    var seriaNum='${seriaNum}';
+        
+        var seriaNum='${jpaPayContract.seriaNum!''}';
        initPayPlanTable('${rc.contextPath}',0,'<@security.authorize
 			ifAnyGranted="sales">edit_del</@security.authorize>','contract',seriaNum);
-        
         
     });
 </script>
@@ -23,19 +23,15 @@ function split( val ) {
       return val.split( /,\s*/ );
     }
 	$(document).ready(function() {
-			 $( "#customerName" ).autocomplete({
-		        	minLength: 0,
-		  			source: "${rc.contextPath}/user/queryMyCustomers",
-		  			change: function( event, ui ) { 
-		  				$("#orderid").val("");
-		  				$("#inputs").html("");
-		  			 },
-		  			 select: function(event,ui) {
-		  			 	$('#customerName').val(ui.item.value);  
-		  			 	$('#customerId').val(ui.item.dbId);  
+	$("#orderid").val(${jpaPayContract.orderJson});
+	showOrderDetail($("#orderid").val())
+	var customerName=${jpaPayContract.customerJson}.company;
+	var customerId=${jpaPayContract.customerJson}.username;
+	$("#customerName").val(customerName);
+	$("#customerId").val(customerId);
    $("#orderid").autocomplete({
         minLength: 0,
-        source : "${rc.contextPath}/payContract/OrderIdComplete?customerName="+$('#customerName').val(),
+        source : "${rc.contextPath}/payContract/OrderIdComplete?customerName="+customerName,
         focus: function() {
           return false;
         },
@@ -56,10 +52,6 @@ function split( val ) {
        				 $(this).autocomplete("search");
    	 	});
 		  			 	
-		  			 }
-				}).focus(function () {
-       				 $(this).autocomplete("search");
-   	 			});
 					});
 
 function showOrderDetail(orderIds){
@@ -117,21 +109,20 @@ $.ajax({
 		<div class="withdraw-title fn-clear">
 			<span>创建合同 </span> 
 		</div>
-		
-		<input type="hidden" name="seriaNum" value="${seriaNum}"/>
+		<input type="hidden" value="${jpaPayContract.id}" name="id"/>
 		<div class="withdrawInputs">
 			<div class="inputs" >
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>合同编号:</label>
 					<input
 						class="ui-input  validate[required,minSize[2],maxSize[100]]"
-						type="text" name="contractCode" id="contractCode" value="${contractCode}" readonly="readonly"
+						type="text" name="contractCode" readonly="readonly" id="contractCode" value="${jpaPayContract.contractCode}" readonly="readonly"
 						data-is="isAmount isEnough" autocomplete="off"
 						disableautocomplete="" placeholder=""/>
 				</div>
 				<div class="ui-form-item">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>选择客户:</label>
-					<input id="customerName"  value="" style="height:40px;width:250px">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>代理客户:</label>
+					<input id="customerName"  value="" style="height:40px;width:250px" readonly="readonly">
 					<input id="customerId" name="customerId" value="" type="hidden">
 				</div>
 				<div class="ui-form-item">
@@ -140,7 +131,7 @@ $.ajax({
 				</div>
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>合同价格(￥):</label>
-					<input id="price" value="" name="price" style="height:30px;width:200px"/>
+					<input id="price" value="${jpaPayContract.price}" name="price" style="height:30px;width:200px"/>
 				</div>
 			
 
@@ -157,7 +148,7 @@ $.ajax({
 			<div class="withdraw-title">
 			 <a class="block-btn"
 						style="margin-top: -30px;" href="javascript:void(0);"
-						onclick="addPayPlan('${rc.contextPath}',0,${seriaNum},1)">添加分期</a>	</div>
+						onclick="addPayPlan('${rc.contextPath}',0,${jpaPayContract.seriaNum!''},1)">添加分期</a>	</div>
 		</H3>
 		<TABLE class="ui-table ui-table-gray">
 			<TBODY>
@@ -191,8 +182,7 @@ $.ajax({
 				</TR>
 		</TABLE>
 	</div>
-		
-		    <div class="widthdrawBtBox">
+		<div class="widthdrawBtBox">
 				<input type="button" id="subWithdraw" class="block-btn"
 					onclick="sub();" value="提交">
 			</div>

@@ -60,7 +60,7 @@ security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 	
 	
 <link rel="stylesheet" type="text/css"
-	href="${rc.contextPath}/index_-css/jack.css">
+	href="${rc.contextPath}/index_css/jack.css">
 <link rel="stylesheet" type="text/css"
 	href="${rc.contextPath}/css/layer.css">
 <link rel="stylesheet" type="text/css"

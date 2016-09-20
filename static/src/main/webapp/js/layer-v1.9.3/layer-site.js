@@ -378,24 +378,16 @@ function invoicedetail(tourl,orderid){
 		}, "text");
 }
 //查看电子合同
-function eleContract(tourl,orderid,customerId){
-	$.ajax({
-		url : tourl +"/order/eleContract/"+orderid,
-		type : "POST",
-		data : {
-		},
-		success : function(data) {
-			layer.open({
-	    		type: 1,
-	    		title: "电子合同",
-	    		skin: 'layui-layer-rim', 
-	    		area: ['800px', '650px'], 
-	    		content:''
-	    			 +' '
-	  			   	 +'<iframe style="width:99%;height:96%" frameborder="no" src="'+tourl+'/user/contract_templete?customerId='+customerId+'&orderid='+orderid+'"/><div class="ui-form-item widthdrawBtBox"> </div>'
-	  			});
-		}
-	}, "text");
+function eleContract(tourl,orderid,customerId,payContractId){
+	layer.open({
+		type: 1,
+		title: "电子合同",
+		skin: 'layui-layer-rim', 
+		area: ['800px', '650px'], 
+		content:''
+			   	 +'<iframe style="width:99%;height:96%" frameborder="no" src="'+tourl+'/user/contract_templete?payContractId='+payContractId+'&customerId='+customerId+'&orderid='+orderid+'"/>'
+			   	 +'<div class="ui-form-item widthdrawBtBox"> </div>'
+			});
 }
 
 //弹出上传物料窗口

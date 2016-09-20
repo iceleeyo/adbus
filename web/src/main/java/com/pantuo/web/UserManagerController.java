@@ -3,6 +3,8 @@ package com.pantuo.web;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,6 +50,8 @@ import com.pantuo.dao.pojo.UserDetail.UType;
 import com.pantuo.mybatis.domain.ActIdGroup;
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.Orders;
+import com.pantuo.mybatis.domain.Paycontract;
+import com.pantuo.mybatis.persistence.PaycontractMapper;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService.SystemRoles;
@@ -60,6 +64,7 @@ import com.pantuo.service.MailService;
 import com.pantuo.service.MailTask;
 import com.pantuo.service.MailTask.Type;
 import com.pantuo.service.OrderService;
+import com.pantuo.service.PayContractService;
 import com.pantuo.service.ProductService;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.service.UserServiceInter;
@@ -117,7 +122,11 @@ public class UserManagerController {
 	@Autowired
 	@Lazy
 	CardService cardService;
+	@Autowired
+	PaycontractMapper paycontractMapper;
 	
+	@Autowired
+	PayContractService payContractService;
 	
 	@RequestMapping(value = "/list", method = { RequestMethod.GET })
 	public String userlist(Model model) {
@@ -268,6 +277,7 @@ public class UserManagerController {
 	@RequestMapping(value = "/contract_templete", produces = "text/html;charset=utf-8")
 	public String contract_templete(Model model,Principal principal,
 			@RequestParam(value="orderid" ,required=false, defaultValue ="0") int orderid,
+			@RequestParam(value="payContractId" ,required=false, defaultValue ="0") int payContractId,
 			@RequestParam(value="productid" ,required=false, defaultValue ="0") int productid,
 			@RequestParam(value = "meids", required = false) String meids,
 			@RequestParam(value = "customerId", required = false) String customerId,
@@ -293,6 +303,26 @@ public class UserManagerController {
 				model.addAttribute("payplanView", getPayInfoView(ordersList));
 				model.addAttribute("contractCode",orders.getContractCode());
 			}
+			
+		}else if(payContractId>0){
+			Paycontract paycontract=paycontractMapper.selectByPrimaryKey(payContractId);
+			if(paycontract!=null && StringUtils.isNotBlank(paycontract.getOrderJson())){
+				List<String> idStrings = (List<String>) JsonTools.readValue(paycontract.getOrderJson(),List.class);
+				List<JpaOrders> jpaOrders = payContractService.queryOrders(idStrings);
+				if(jpaOrders.size()>0){
+					String username=jpaOrders.get(0).getUserId();
+					UserDetail userDetail = userService.findByUsername(username);
+					if(StringUtils.isNotBlank(jpaOrders.get(0).getCustomerJson())){
+						userDetail=(UserDetail) JsonTools.readValue(jpaOrders.get(0).getCustomerJson(), UserDetail.class);
+					}
+					model.addAttribute("ordersList", jpaOrders);
+					model.addAttribute("userDetail", userDetail);
+					model.addAttribute("payplan", getPayInfo(jpaOrders));
+					model.addAttribute("payplanView", getPayInfoView(jpaOrders));
+					model.addAttribute("contractCode",paycontract.getContractCode());
+				}
+			}
+			
 			
 		}else{
 			String username=Request.getUserId(principal);

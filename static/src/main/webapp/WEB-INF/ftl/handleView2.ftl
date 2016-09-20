@@ -1524,7 +1524,7 @@ initPayPlanTable('${rc.contextPath}',$("#orderid").val(),'<@security.authorize
 			<div class="withdraw-title">
 			 <a class="block-btn"
 						style="margin-top: -30px;" href="javascript:void(0);"
-						onclick="addPayPlan('${rc.contextPath}',0)">添加分期</a>	</div>
+						onclick="addPayPlan('${rc.contextPath}',${orderview.order.id!''},'',0)">添加分期</a>	</div>
 		</H3>
 		<TABLE class="ui-table ui-table-gray">
 			<TBODY>

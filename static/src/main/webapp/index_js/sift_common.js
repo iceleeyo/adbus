@@ -108,7 +108,7 @@ function dateInput(inputId,prouctId){
 	checkTime(forceInput,prouctId);
 }
 var planTable;
-function initPayPlanTable(purl,orderId,handle,type) {
+function initPayPlanTable(purl,orderId,handle,type,seriaNum) {
 	planTable = $('#payPlanTable')
 			.dataTable(
 					{
@@ -124,6 +124,7 @@ function initPayPlanTable(purl,orderId,handle,type) {
 								return $.extend({}, d, {
 									"orderId" : orderId,
 									"filter[orderId]" : orderId,
+									"filter[seriaNum]" : seriaNum,
 									"filter[planType]" : type
 								});
 							},
@@ -273,8 +274,7 @@ function deletePayPlan(id){
 	});  
 }*/
 //弹出添加分期付款的窗口
-function addPayPlan(url,type) {
-	var orderId=$("#orderid").val();
+function addPayPlan(url,orderId,seriaNum,type) {
 	layer
 			.open({
 				type : 1,
@@ -283,11 +283,13 @@ function addPayPlan(url,type) {
 				area : [ '470px', '400px' ],
 				content : '' + '<form id="fenqiform" action='
 						+ url
-						+ '/order/savePayPlan?orderId='
-						+ orderId
+						+ '/order/savePayPlan'
 						+ '>'
 						+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
-						+ '<br><input type="hidden" name="type" value="'+type+'"/><div class="ui-form-item"> <label class="ui-label mt10">金额：</label>'
+						+'<input type="hidden" name="type" value="'+type+'"/>'
+						+'<input type="hidden" name="orderId" value="'+orderId+'"/>'
+						+'<input type="hidden" name="seriaNum" value="'+seriaNum+'"/>'
+						+ '<br><div class="ui-form-item"> <label class="ui-label mt10">金额：</label>'
 						+ '<input class="ui-input " type="text" value="" name="price" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\\d.]/g,\'\')}else{this.value=this.value.replace(/[^\\d.]/g,\'\')}"'
 						+ 'id="amounts" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
 						+ '</div>'
@@ -325,12 +327,7 @@ function toeditPayPlan(purl,id) {
 												+ '/order/savePayPlan'
 												+ '>'
 												+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
-												+ '<div class="ui-form-item"><input type="hidden" name ="id" value="'+data.id+'"/><input type="hidden" name ="orderId" value="'+data.order.id+'"/><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/> <label class="ui-label mt10">期数：</label>'
-												+ '<input class="ui-input " type="text" value="'
-												+ data.periodNum
-												+ '" name="periodNum"  readonly="readonly" '
-												+ 'id="periodNum" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
-												+ '</div>'
+												+'<input type="hidden" name ="id" value="'+data.id+'"/><input type="hidden" name ="orderId" value="'+data.order.id+'"/><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/> '
 												+ '<div class="ui-form-item"> <label class="ui-label mt10">金额：</label>'
 												+ '<input class="ui-input " type="text" value="'
 												+ data.price

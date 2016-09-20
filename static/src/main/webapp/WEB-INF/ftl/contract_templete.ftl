@@ -499,11 +499,14 @@ function getEnd(date,days){
 			<td >数量</td><td>&nbsp;&nbsp;1&nbsp;&nbsp;</td>			
 		</tr>
 		<tr style="height:40px;">
-			<td >总价（元）</td><td COLSPAN=7>
+			<td >订单价格（元）</td><td COLSPAN=7>
 				¥${item.price}元</td>
 		</tr>
 		<#assign sum=sum+(item.price) />
+		<tr ><td COLSPAN=8></td></tr>
 	</#list>
+		
+		<#if payplanView.right??>
 		<tr>
 			<td>合同结算情况</td><td COLSPAN=7>
 			<span style="display:block;padding-top:5px;">
@@ -513,14 +516,16 @@ function getEnd(date,days){
 			<span style="display:block;padding-top:5px;">
 				第${right_index+1}次：
 				${right.day?string("yyyy年MM月dd日 ")}
-				<#-- ${(right.day!''}  --> 前支付广告费用金额为<script>convertCurrency(${right.price});</script>(¥${right.price}元)
+				前支付广告费用金额为<script>convertCurrency(${right.price});</script>(¥${right.price}元)
 			</span> <br>
 			</#list> 
 
 			</td>
 		</tr>
+		
+		</#if>
 		<tr>
-			<td>签约价格（元）</td><td COLSPAN="7" align="center"><script>convertCurrency(${sum});</script>(¥${sum}元)</td>
+			<td>签约总价（元）</td><td COLSPAN="7" align="center"><script>convertCurrency(${sum});</script>(¥${sum}元)</td>
 		</tr>
 		</table><br>
 	</#if>

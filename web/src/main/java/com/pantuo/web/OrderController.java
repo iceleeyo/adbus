@@ -630,8 +630,8 @@ public class OrderController {
 
 	@RequestMapping(value = "ajax-getPayPlan", method = RequestMethod.GET)
 	@ResponseBody
-	public List<PayPlan> getPayPlan(HttpServletResponse response,TableRequest req,
-			@RequestParam("orderId") int orderId) {
+	public List<PayPlan> getPayPlan(HttpServletResponse response,TableRequest req
+			) {
 		 response.setHeader("Access-Control-Allow-Origin", "*");
 		return orderService.getPayPlan(req);
 	}
@@ -674,7 +674,7 @@ public class OrderController {
 	public Pair<Boolean, String> savePayPlan(PayPlan payPlan,
 			 Principal principal,@RequestParam(value = "payDate") String payDate,
 			HttpServletRequest request, @RequestParam(value = "orderId", defaultValue = "0") int orderId)  {
-		return orderService.savePayPlan(payPlan, orderId, payDate,Request.getUserId(principal));
+		return orderService.savePayPlan(payPlan,Request.getUserId(principal),request);
 	}
 	@RequestMapping(value = "/queryPayPlanDetail/{orderId}")
 	public String toPayPlanDetail(Model model, @PathVariable("orderId") int orderId,
