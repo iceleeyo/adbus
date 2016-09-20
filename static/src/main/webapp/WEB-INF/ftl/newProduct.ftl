@@ -171,48 +171,48 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>套餐名称：</label>
 					<input
-						class="ui-input validate[required,custom[noSpecialLetterChinese],minSize[2],maxSize[60]]"
+						class="ui-input validate[required,custom[noSpecialLetterChinese]]"
 						type="text" value="<#if prod??>${prod.name!''}<#else></#if>"
 						name="name" id="name" data-is="isAmount isEnough"
-						autocomplete="off" disableautocomplete="" placeholder="2-20个字符">
+						autocomplete="off" disableautocomplete="">
 				</div>
 				<div
 					class="ui-form-item toggle videoToggle imageToggle teamToggle inchof32Toggle">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>广告/节目长度：</label>
-					<input class="ui-input validate[required,integer,min[5],max[180]]" style="width:150px"
+					<input class="ui-input validate[required,integer]" style="width:150px"
 						onkeyup="value=value.replace(/[^\d]/g,'')"
 						value="<#if prod??>${prod.duration!''}<#else>25</#if>"
 						name="duration" id="duration" data-is="isAmount isEnough"
-						autocomplete="off" disableautocomplete="" placeholder="5-180秒">秒/次
+						autocomplete="off" disableautocomplete="">秒/次
 					<p class="ui-term-placeholder"></p>
 				</div>
 <#-- <#-- -->
 				<div
 					class="ui-form-item toggle videoToggle imageToggle infoToggle teamToggle">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>单日播放次数：</label>
-					<input class="ui-input validate[required,integer,min[1],max[100]"
+					<input class="ui-input validate[required,integer]"
 						onkeyup="value=value.replace(/[^\d.]/g,'')" type="text"
 						value="<#if prod??>${prod.playNumber!''}<#else>24</#if>"
 						name="playNumber" id="playNumber" data-is="isAmount isEnough"
-						autocomplete="off" disableautocomplete="" placeholder="1-100次">
+						autocomplete="off" disableautocomplete="">
 				</div>
 				<div
 					class="ui-form-item toggle inchof32Toggle">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>播放频率：</label>
-					<input class="ui-input validate[required,integer,min[1],max[100]" style="width:150px"
+					<input class="ui-input validate[required,integer]" style="width:150px"
 						onkeyup="value=value.replace(/[^\d.]/g,'')" type="text"
 						value="12" readonly="readonly"
 						 data-is="isAmount isEnough"
-						autocomplete="off" disableautocomplete="" placeholder="1-100次"> 次/小时
+						autocomplete="off" disableautocomplete=""> 次/小时
 				</div>
 
 				<div class="ui-form-item toggle videoToggle">
 					<label class="ui-label mt10">首播次数：</label>
-					<input class="ui-input validate[integer,min[0],max[30]"
+					<input class="ui-input validate[integer]"
 						onkeyup="value=value.replace(/[^\d.]/g,'')"
 						value="<#if prod??>${prod.firstNumber!''}<#else>0</#if>"
 						name="firstNumber" id="firstNumber" data-is="isAmount isEnough"
-						autocomplete="off" disableautocomplete="" placeholder="0-30次">
+						autocomplete="off" disableautocomplete="">
 				</div>
 				<input type="hidden" value="0.1" name="hotRatio"/>
 				<input type="hidden" value="0" name="lastNumber"/>
@@ -221,11 +221,11 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 						<span >套餐播放天数：</span>
 						<span class="toggle bodyToggle">广告展示天数：</span> <span
 						class="toggle teamToggle">周期(天/期)：</span> </label> <input
-						class="ui-input validate[required,integer,min[1],max[9999999]"
+						class="ui-input validate[required,integer]"
 						onkeyup="value=value.replace(/[^\d.]/g,'')"
 						value="<#if prod??>${prod.days!''}<#else>7</#if>" name="days"
 						id="days" data-is="isAmount isEnough" autocomplete="off"
-						disableautocomplete="" placeholder="最少1天">
+						disableautocomplete="">
 				</div>
 				<#-- over -->
 				
@@ -233,12 +233,12 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>
 						<span >套餐价格（元）：</span>
 						 </label> <input
-						class="ui-input validate[required,number,min[0],max[10000000]"
+						class="ui-input validate[required,number]"
 						onblur="bu(this)"
 						onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/\D+\./g,'')}"
-						value="<#if prod??>${prod.price!''}<#else>0</#if>" name="price"
+						value="<#if prod??>${prod.price!''}</#if>" name="price"
 						id="price" data-is="isAmount isEnough" autocomplete="off"
-						disableautocomplete="">
+						disableautocomplete="" placeholder="请输入套餐价格">
 				</div>
 				
 				<div class="ui-form-item">
@@ -280,7 +280,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 							class="ui-form-required">*</span> <span
 							class="toggle videoToggle imageToggle infoToggle">竞拍底价（元）：</span>
 							<span class="toggle bodyToggle">竞拍底价（元）：</span> </label> <input
-							class="ui-input validate[required,number,min[1]"
+							class="ui-input validate[required,number]"
 							onblur="bu(this)"
 							onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\d.]/g,'')}else{this.value=this.value.replace(/\D+\./g,'')}"
 							value="<#if prod??>${prod.price!''}<#else>0</#if>"
