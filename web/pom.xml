@@ -403,6 +403,17 @@
 			<!--scope>test</scope -->
 		</dependency>
 
+
+<!-- 
+	<dependency>
+		<groupId>com.github.bmsantos</groupId>
+		<artifactId>dynafilter</artifactId>
+		<version>1.0.0</version>
+	</dependency>
+ -->
+
+
+
 	<!-- 
 		<dependency>
 			<groupId>org.apache.poi</groupId>

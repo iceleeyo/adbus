@@ -48,17 +48,28 @@ public class JsonFilterAdvice implements ResponseBodyAdvice<Object> {
 			ServerHttpRequest request, ServerHttpResponse response) {
 		JsonFilter annotation = returnType.getMethodAnnotation(JsonFilter.class);
 		List<String> possibleFilters = Arrays.asList(annotation.keys());
-
 		if (body instanceof DataTablePage) {
-			for (Object bean : ((DataTablePage<?>) body).getContent()) {
+			long t = System.currentTimeMillis();
+			List<?> list = ((DataTablePage<?>) body).getContent();
+			for (Object bean : list) {
 				for (String propertyName : possibleFilters) {
 					setNestedPropertyValue(bean, propertyName, null);
 				}
 			}
+			logger.info("filter list(size:{}) json time : {}", list.size(), System.currentTimeMillis() - t);
 		}
 		return body;
 	}
 
+	/**
+	 * 
+	 * 设置对象 字段 值 
+	 *
+	 * @param bean
+	 * @param propertyName
+	 * @param value
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
 	public void setNestedPropertyValue(Object bean, String propertyName, Object value) {
 		PropertyUtilsBean beanUtil = new PropertyUtilsBean();
 		String[] propertyLevels = propertyName.split("\\.");
