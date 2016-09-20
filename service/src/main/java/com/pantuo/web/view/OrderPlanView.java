@@ -26,7 +26,8 @@ public class OrderPlanView {
 	}
 
 	public long getLongOrderId() {
-		if (plan != null) {
+		if (plan != null && plan.getOrder() != null) {
+
 			return OrderIdSeq.getLongOrderId(plan.getOrder());
 		}
 		return 0L;

@@ -37,6 +37,10 @@ public class JpaPayPlan extends BaseEntity {
 	private double price = 0;
      private int periodNum;  //期数
      private long seriaNum;
+     @ManyToOne
+ 	@JoinColumn(name = "contractId")
+ 	private JpaPayContract contract;
+     
 	@ManyToOne
 	@JoinColumn(name = "orderId")
 	private JpaOrders order;
@@ -163,6 +167,14 @@ public class JpaPayPlan extends BaseEntity {
 
 	public void setReduceUser(String reduceUser) {
 		this.reduceUser = reduceUser;
+	}
+
+	public JpaPayContract getContract() {
+		return contract;
+	}
+
+	public void setContract(JpaPayContract contract) {
+		this.contract = contract;
 	}
 
 	 

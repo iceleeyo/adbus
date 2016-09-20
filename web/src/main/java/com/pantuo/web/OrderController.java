@@ -556,6 +556,11 @@ public class OrderController {
 	public String planOrders() {
 		return "planOrders";
 	}
+	
+	@RequestMapping(value = "/planContract")
+	public String planContract() {
+		return "planContract";
+	}
 
 	@RequestMapping("ajax-planOrders")
 	@ResponseBody

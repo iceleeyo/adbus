@@ -36,6 +36,7 @@ import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.expr.StringOperation;
 import com.pantuo.ActivitiConfiguration;
 import com.pantuo.dao.OrdersRepository;
+import com.pantuo.dao.PayContractRepository;
 import com.pantuo.dao.PayPlanRepository;
 import com.pantuo.dao.Vedio32OrderDetailRepository;
 import com.pantuo.dao.Vedio32OrderRepository;
@@ -44,11 +45,13 @@ import com.pantuo.dao.pojo.Jpa32Order;
 import com.pantuo.dao.pojo.JpaCpd;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaOrders.PayType;
+import com.pantuo.dao.pojo.JpaPayContract;
 import com.pantuo.dao.pojo.JpaPayPlan;
 import com.pantuo.dao.pojo.JpaProduct;
 import com.pantuo.dao.pojo.JpaVideo32OrderDetail;
 import com.pantuo.dao.pojo.JpaVideo32OrderStatus;
 import com.pantuo.dao.pojo.QJpaOrders;
+import com.pantuo.dao.pojo.QJpaPayContract;
 import com.pantuo.dao.pojo.QJpaPayPlan;
 import com.pantuo.dao.pojo.QJpaVideo32OrderDetail;
 import com.pantuo.dao.pojo.QJpaVideo32OrderStatus;
@@ -82,6 +85,9 @@ import com.pantuo.web.view.SectionView;
 
 @Service
 public class OrderService {
+
+	@Autowired
+	PayContractRepository payContractRepository;
 	@Autowired
 	private RoleCpdMapper roleCpdMapper;
 
@@ -113,8 +119,7 @@ public class OrderService {
 		}
 	}
 
-	public Pair<Object, String> updatePlanState(HttpServletRequest request, String payWay, int orderid,
-			String payNextLocation, JpaPayPlan.PayState state, String uid) {
+	public Pair<Object, String> updatePlanState(HttpServletRequest request, String payWay, int orderid, String payNextLocation, JpaPayPlan.PayState state, String uid) {
 		Pair<Object, String> r = null;
 		String[] split = StringUtils.split(payNextLocation, "_");
 		if (split.length > 0) {
@@ -212,8 +217,7 @@ public class OrderService {
 	}
 
 	private boolean isNeedPay(PayPlan obj) {
-		return obj.getPayState().intValue() == (JpaPayPlan.PayState.fail.ordinal())
-				|| obj.getPayState().intValue() == (JpaPayPlan.PayState.init.ordinal());
+		return obj.getPayState().intValue() == (JpaPayPlan.PayState.fail.ordinal()) || obj.getPayState().intValue() == (JpaPayPlan.PayState.init.ordinal());
 	}
 
 	public double payed(int orderid) {
@@ -438,10 +442,8 @@ public class OrderService {
 
 	public Iterable<JpaOrders> getOrdersForSchedule(int city, Date day, JpaProduct.Type type) {
 		Predicate query = QJpaOrders.jpaOrders.city.eq(city)
-				.and(QJpaOrders.jpaOrders.startTime.stringValue()
-						.loe(StringOperation.create(Ops.STRING_CAST, ConstantImpl.create(day))))
-				.and(QJpaOrders.jpaOrders.endTime.after(day)).and(QJpaOrders.jpaOrders.type.eq(type))
-				.and(QJpaOrders.jpaOrders.stats.eq(JpaOrders.Status.paid));
+				.and(QJpaOrders.jpaOrders.startTime.stringValue().loe(StringOperation.create(Ops.STRING_CAST, ConstantImpl.create(day))))
+				.and(QJpaOrders.jpaOrders.endTime.after(day)).and(QJpaOrders.jpaOrders.type.eq(type)).and(QJpaOrders.jpaOrders.stats.eq(JpaOrders.Status.paid));
 
 		return ordersRepository.findAll(query);
 	}
@@ -449,9 +451,10 @@ public class OrderService {
 	public Page<OrderView> getOrderList(int city, TableRequest req, Principal principal) {
 		return activitiService.findTask(city, principal, req, TaskQueryType.task);
 	}
+
 	public Page<JpaVideo32OrderStatus> getVideo32Orderlist(int city, TableRequest req, Principal principal) {
-		UserDetail userDetail=Request.getUser(principal);
-		List<JpaVideo32OrderStatus.Status> status=userService.queryOrderStatus(userDetail);
+		UserDetail userDetail = Request.getUser(principal);
+		List<JpaVideo32OrderStatus.Status> status = userService.queryOrderStatus(userDetail);
 		//String name = req.getFilter("name"), stats = req.getFilter("stats"), type = req.getFilter("type");
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("id");
@@ -463,21 +466,21 @@ public class OrderService {
 		sort = (sort == null ? new Sort("id") : sort);
 		Pageable p = new PageRequest(page, pageSize, sort);
 		BooleanExpression query = QJpaVideo32OrderStatus.jpaVideo32OrderStatus.r.eq(JpaVideo32OrderStatus.Result.N);
-		if(Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)){
-			query=query.and(QJpaVideo32OrderStatus.jpaVideo32OrderStatus.creater.eq(Request.getUserId(principal)));
+		if (Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)) {
+			query = query.and(QJpaVideo32OrderStatus.jpaVideo32OrderStatus.creater.eq(Request.getUserId(principal)));
 		}
-		if(status.size()>0){
-			query=query.and(QJpaVideo32OrderStatus.jpaVideo32OrderStatus.status.in(status));
+		if (status.size() > 0) {
+			query = query.and(QJpaVideo32OrderStatus.jpaVideo32OrderStatus.status.in(status));
 		}
 		return vedio32OrderStatusRepository.findAll(query, p);
 	}
+
 	public JpaOrders queryOrderDetail(int orderid, Principal principal) {
 		// return ordersMapper.selectByPrimaryKey(orderid);
 		JpaOrders r = selectJpaOrdersById(orderid);
 		// 判断单纯是广告主身份的
 		if (r != null && principal != null && Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)) {
-			if (!(StringUtils.isNoneBlank(r.getUserId())
-					&& StringUtils.equals(r.getUserId(), Request.getUserId(principal)))) {
+			if (!(StringUtils.isNoneBlank(r.getUserId()) && StringUtils.equals(r.getUserId(), Request.getUserId(principal)))) {
 				throw new AccessDeniedException(Constants.BUSSINESS_ERROR);
 			}
 		}
@@ -490,12 +493,8 @@ public class OrderService {
 		if (!views.isEmpty()) {
 			for (HistoricTaskView historicTaskView : views) {
 				if (historicTaskView.getEndTime() != null) {
-					v.put(historicTaskView.getTaskDefinitionKey(),
-							new SectionView(
-									DateConverter.doConvertToString(historicTaskView.getEndTime(),
-											DateConverter.DATE_PATTERN),
-							DateConverter.doConvertToString(historicTaskView.getEndTime(),
-									DateConverter.TIME_PATTERN)));
+					v.put(historicTaskView.getTaskDefinitionKey(), new SectionView(DateConverter.doConvertToString(historicTaskView.getEndTime(), DateConverter.DATE_PATTERN),
+							DateConverter.doConvertToString(historicTaskView.getEndTime(), DateConverter.TIME_PATTERN)));
 				}
 			}
 		}
@@ -568,8 +567,7 @@ public class OrderService {
 		activitiService.startTest();
 	}
 
-	public Pair<Boolean, String> editOrderStartTime(int orderid, int supid, String startD, String ordRemark, int city,
-			Principal principal) {
+	public Pair<Boolean, String> editOrderStartTime(int orderid, int supid, String startD, String ordRemark, int city, Principal principal) {
 		JpaOrders orders = ordersRepository.findOne(orderid);
 		if (orders == null) {
 			return new Pair<Boolean, String>(false, "信息丢失");
@@ -595,8 +593,7 @@ public class OrderService {
 
 	public Pair<Object, Object> findOrderAndSup(int city, Principal principal, int orderid) {
 		JpaOrders orders = ordersRepository.findOne(orderid);
-		List<Supplies> supplieslist = suppliesService.querySuppliesByUser(city, principal,
-				orders.getProduct().getType().ordinal());
+		List<Supplies> supplieslist = suppliesService.querySuppliesByUser(city, principal, orders.getProduct().getType().ordinal());
 		return new Pair<Object, Object>(orders, supplieslist);
 	}
 
@@ -606,13 +603,13 @@ public class OrderService {
 	}
 
 	public List<PayPlan> getPayPlan(TableRequest req) {
-		int OrderId=req.getFilterInt("orderId",0);
-		 String planType=req.getFilter("planType"),seriaNum=req.getFilter("seriaNum");
+		int OrderId = req.getFilterInt("orderId", 0);
+		String planType = req.getFilter("planType"), seriaNum = req.getFilter("seriaNum");
 		PayPlanExample example = new PayPlanExample();
-		PayPlanExample.Criteria criteria=example.createCriteria();
-		if(StringUtils.isNotBlank(planType) && JpaPayPlan.Type.order==JpaPayPlan.Type.valueOf(planType)){
+		PayPlanExample.Criteria criteria = example.createCriteria();
+		if (StringUtils.isNotBlank(planType) && JpaPayPlan.Type.order == JpaPayPlan.Type.valueOf(planType)) {
 			criteria.andOrderIdEqualTo(OrderId);
-		}else if(StringUtils.isNotBlank(seriaNum)){
+		} else if (StringUtils.isNotBlank(seriaNum)) {
 			criteria.andSeriaNumEqualTo(NumberUtils.toLong(seriaNum));
 		}
 		example.setOrderByClause("day asc");
@@ -642,19 +639,19 @@ public class OrderService {
 		return payPlanRepository.findOne(id);
 	}
 
-	public Pair<Boolean, String> savePayPlan(PayPlan payPlan,String userId,HttpServletRequest request) {
-		String payDate=request.getParameter("payDate");
-		String orderIdStr=request.getParameter("orderId");
-		String seriaNumStr=request.getParameter("seriaNum");
-		int orderId=0;
-		long seriaNum=0;
-		if(StringUtils.isNotBlank(orderIdStr)){
-			orderId=NumberUtils.toInt(orderIdStr);
+	public Pair<Boolean, String> savePayPlan(PayPlan payPlan, String userId, HttpServletRequest request) {
+		String payDate = request.getParameter("payDate");
+		String orderIdStr = request.getParameter("orderId");
+		String seriaNumStr = request.getParameter("seriaNum");
+		int orderId = 0;
+		long seriaNum = 0;
+		if (StringUtils.isNotBlank(orderIdStr)) {
+			orderId = NumberUtils.toInt(orderIdStr);
 		}
-		if(StringUtils.isNotBlank(seriaNumStr)){
-			seriaNum=NumberUtils.toInt(seriaNumStr);
+		if (StringUtils.isNotBlank(seriaNumStr)) {
+			seriaNum = NumberUtils.toInt(seriaNumStr);
 		}
-		
+
 		Date date = new Date();
 		if (StringUtils.isNotBlank(payDate)) {
 			try {
@@ -663,7 +660,7 @@ public class OrderService {
 				e.printStackTrace();
 			}
 		}
-	
+
 		payPlan.setDay(date);
 		payPlan.setSetPlanUser(userId);
 
@@ -674,7 +671,7 @@ public class OrderService {
 			}
 			com.pantuo.util.BeanUtils.copyProperties(payPlan, dividpay2);
 			if (payPlanMapper.updateByPrimaryKey(dividpay2) > 0) {
-				updatePayNum(orderId,seriaNum,dividpay2.getType());
+				updatePayNum(orderId, seriaNum, dividpay2.getType());
 				return new Pair<Boolean, String>(true, "修改成功");
 			}
 			return new Pair<Boolean, String>(false, "操作失败");
@@ -682,29 +679,39 @@ public class OrderService {
 		PayPlanExample example = new PayPlanExample();
 		example.createCriteria().andOrderIdEqualTo(orderId).andPeriodNumEqualTo(payPlan.getPeriodNum());
 		if (payPlanMapper.countByExample(example) > 0) {
-		//	return new Pair<Boolean, String>(false, "期数重复，保存失败");
+			//	return new Pair<Boolean, String>(false, "期数重复，保存失败");
 		}
 		payPlan.setPayState(JpaPayPlan.PayState.init.ordinal());
-		if(orderId>0){
+		if (orderId > 0) {
 			payPlan.setOrderId(orderId);
 			payPlan.setSeriaNum(0l);
-		}else{
+		} else {
 			payPlan.setOrderId(null);
 		}
 		payPlan.setPeriodNum(0);
+
 		if (payPlanMapper.insert(payPlan) > 0) {
-			updatePayNum(orderId,seriaNum,payPlan.getType());
+			updatePayNum(orderId, payPlan.getSeriaNum(), payPlan.getType());
 			return new Pair<Boolean, String>(true, "保存成功");
 		}
 		return new Pair<Boolean, String>(false, "保存失败");
 	}
-	
-	public void updatePayNum(int orderId, Long seriaNum,int type) {
+
+	public JpaPayContract queryConractBySerid(long serid) {
+		BooleanExpression query = QJpaPayContract.jpaPayContract.seriaNum.eq(serid);
+		Iterable<JpaPayContract> iterator = payContractRepository.findAll(query);
+		if (iterator.iterator().hasNext()) {
+			return iterator.iterator().next();
+		}
+		return null;
+	}
+
+	public void updatePayNum(int orderId, Long seriaNum, int type) {
 		PayPlanExample example2 = new PayPlanExample();
 		PayPlanExample.Criteria ca = example2.createCriteria();
-		if(JpaPayPlan.Type.order.ordinal()==type){
+		if (JpaPayPlan.Type.order.ordinal() == type) {
 			ca.andOrderIdEqualTo(orderId);
-		}else{
+		} else {
 			ca.andSeriaNumEqualTo(seriaNum);
 		}
 		example2.setOrderByClause("day asc");
@@ -725,8 +732,9 @@ public class OrderService {
 		if (length < 1)
 			length = 1;
 		Pageable p = new PageRequest(page, length, req.getSort("payState"));
-		String orderId = req.getFilter("orderId"), payState = req.getFilter("payState"),
-				aduser = req.getFilter("userId"), salesMan = req.getFilter("salesMan");
+		String orderId = req.getFilter("orderId"), payState = req.getFilter("payState"), aduser = req.getFilter("userId"), salesMan = req.getFilter("salesMan"), q = req
+				.getFilter("q"),subOrderid = req.getFilter("subOrderid");
+		boolean isContractQuery = StringUtils.equals(q, JpaPayPlan.Type.contract.name());
 
 		BooleanExpression query = QJpaPayPlan.jpaPayPlan.id.goe(0);
 
@@ -739,23 +747,29 @@ public class OrderService {
 		}
 
 		if (StringUtils.isNotBlank(aduser)) {
-			query = query.and(QJpaPayPlan.jpaPayPlan.order.creator.eq(aduser));
+			query = query.and(isContractQuery ? QJpaPayPlan.jpaPayPlan.contract.userId.eq(aduser) : QJpaPayPlan.jpaPayPlan.order.creator.eq(aduser));
 		}
 		if (StringUtils.isNotBlank(salesMan)) {
-			query = query.and(QJpaPayPlan.jpaPayPlan.order.creator.eq(salesMan));
+			query = query.and(isContractQuery ? QJpaPayPlan.jpaPayPlan.contract.userId.eq(salesMan) : QJpaPayPlan.jpaPayPlan.order.creator.eq(salesMan));
 		}
 		if (StringUtils.isNotBlank(orderId)) {
-			query = query
-					.and(QJpaPayPlan.jpaPayPlan.order.id.eq(OrderIdSeq.longOrderId2DbId(NumberUtils.toLong(orderId))));
+			query = query.and(isContractQuery ? QJpaPayPlan.jpaPayPlan.contract.contractCode.like("%".concat(orderId).concat("%")) : QJpaPayPlan.jpaPayPlan.order.id.eq(OrderIdSeq
+					.longOrderId2DbId(NumberUtils.toLong(orderId))));
 		}
-
+		if (isContractQuery && StringUtils.isNotBlank(subOrderid)) {
+			query = query.and(QJpaPayPlan.jpaPayPlan.contract.orderJson.like("%".concat(subOrderid).concat("%")));
+		}
+		
+		
+		if (StringUtils.equals(q, JpaPayPlan.Type.contract.name())) {
+			query = query.and(QJpaPayPlan.jpaPayPlan.type.eq(JpaPayPlan.Type.contract));
+		}
 		Page<JpaPayPlan> result = payPlanRepository.findAll(query, p);
 		List<OrderPlanView> plans = new ArrayList<OrderPlanView>();
 		for (JpaPayPlan plan : result.getContent()) {
 			plans.add(new OrderPlanView(plan));
 		}
-		org.springframework.data.domain.PageImpl<OrderPlanView> r = new org.springframework.data.domain.PageImpl<OrderPlanView>(
-				plans, p, result.getTotalElements());
+		org.springframework.data.domain.PageImpl<OrderPlanView> r = new org.springframework.data.domain.PageImpl<OrderPlanView>(plans, p, result.getTotalElements());
 		return new DataTablePage<OrderPlanView>(r, req.getDraw());
 	}
 
@@ -802,9 +816,8 @@ public class OrderService {
 		String longId = req.getFilter("longOrderId"), stateKey = req.getFilter("stateKey");
 		Pageable p = new PageRequest(page, length, req.getSort("id"));
 		BooleanExpression query = QJpaOrders.jpaOrders.userId.eq(userId)
-				//.and(QJpaOrders.jpaOrders.price.gt(QJpaOrders.jpaOrders.payPrice))
-				.and(QJpaOrders.jpaOrders.payPrice.gt(0))
-				.and(QJpaOrders.jpaOrders.payType.eq(JpaOrders.PayType.dividpay));
+		//.and(QJpaOrders.jpaOrders.price.gt(QJpaOrders.jpaOrders.payPrice))
+				.and(QJpaOrders.jpaOrders.payPrice.gt(0)).and(QJpaOrders.jpaOrders.payType.eq(JpaOrders.PayType.dividpay));
 		if (StringUtils.isNoneBlank(stateKey)) {
 			if (StringUtils.equals(stateKey, "complete")) {
 				query = query.and(QJpaOrders.jpaOrders.price.eq(QJpaOrders.jpaOrders.payPrice));
@@ -830,65 +843,62 @@ public class OrderService {
 	}
 
 	public Boolean checkNeedPay(int orderid) {
-		PayPlanExample example=new PayPlanExample();
-		PayPlanExample.Criteria criterion=example.createCriteria();
-		PayPlanExample.Criteria criterion2=example.createCriteria();
+		PayPlanExample example = new PayPlanExample();
+		PayPlanExample.Criteria criterion = example.createCriteria();
+		PayPlanExample.Criteria criterion2 = example.createCriteria();
 		criterion.andOrderIdEqualTo(orderid).andPayStateEqualTo(JpaPayPlan.PayState.init.ordinal());
 		criterion2.andOrderIdEqualTo(orderid).andPayStateEqualTo(JpaPayPlan.PayState.fail.ordinal());
 		example.or(criterion2);
-		int count=payPlanMapper.countByExample(example);
-		if(count>0){
+		int count = payPlanMapper.countByExample(example);
+		if (count > 0) {
 			return true;
 		}
 		return false;
 	}
 
 	public JpaVideo32OrderStatus findJpaVideo32OrderStatus(Principal principal, int orderStatusId) {
-		JpaVideo32OrderStatus video32OrderStatus=vedio32OrderStatusRepository.findOne(orderStatusId);
+		JpaVideo32OrderStatus video32OrderStatus = vedio32OrderStatusRepository.findOne(orderStatusId);
 		return video32OrderStatus;
 	}
 
 	public Pair<Object, String> video32OrderPay(HttpServletRequest request, Principal principal) {
-		String orderid=request.getParameter("orderid");
-		String payType=request.getParameter("payType");
-		List<JpaVideo32OrderStatus> list=find32OrderStatus(JpaVideo32OrderStatus.Status.paid,JpaVideo32OrderStatus.Result.N,NumberUtils.toInt(orderid));
-		if(list.size()>0){
-			JpaVideo32OrderStatus one=list.get(0);
+		String orderid = request.getParameter("orderid");
+		String payType = request.getParameter("payType");
+		List<JpaVideo32OrderStatus> list = find32OrderStatus(JpaVideo32OrderStatus.Status.paid, JpaVideo32OrderStatus.Result.N, NumberUtils.toInt(orderid));
+		if (list.size() > 0) {
+			JpaVideo32OrderStatus one = list.get(0);
 			one.setCreater(Request.getUserId(principal));
 			one.setUpdated(new Date());
 			one.setR(JpaVideo32OrderStatus.Result.Y);
-			Jpa32Order order=one.getOrder();
+			Jpa32Order order = one.getOrder();
 			order.setPayType(Jpa32Order.PayType.valueOf(payType));
 			vedio32OrderRepository.save(order);
-			if(vedio32OrderStatusRepository.save(one)!=null &&  vedio32OrderRepository.save(order)!=null){
-				List<JpaVideo32OrderStatus> list2=find32OrderStatus(JpaVideo32OrderStatus.Status.payed,JpaVideo32OrderStatus.Result.Z,NumberUtils.toInt(orderid));
-               if(list2.size()>0){
-            	   //用户支付后更改下一个状态(财务审核)为N
-            	   JpaVideo32OrderStatus one2=list.get(0);
-            	   one2.setR(JpaVideo32OrderStatus.Result.N);
-            	   if(vedio32OrderStatusRepository.save(one2)!=null){
-            		   return new Pair<Object, String>(true, "支付成功");
-            	   }
-               }
+			if (vedio32OrderStatusRepository.save(one) != null && vedio32OrderRepository.save(order) != null) {
+				List<JpaVideo32OrderStatus> list2 = find32OrderStatus(JpaVideo32OrderStatus.Status.payed, JpaVideo32OrderStatus.Result.Z, NumberUtils.toInt(orderid));
+				if (list2.size() > 0) {
+					//用户支付后更改下一个状态(财务审核)为N
+					JpaVideo32OrderStatus one2 = list.get(0);
+					one2.setR(JpaVideo32OrderStatus.Result.N);
+					if (vedio32OrderStatusRepository.save(one2) != null) {
+						return new Pair<Object, String>(true, "支付成功");
+					}
+				}
 			}
 		}
 		return new Pair<Object, String>(false, "操作异常");
 	}
-	public List<JpaVideo32OrderStatus> find32OrderStatus(JpaVideo32OrderStatus.Status status,JpaVideo32OrderStatus.Result r,
-			int orderId){
-		BooleanExpression q=QJpaVideo32OrderStatus.jpaVideo32OrderStatus.status.eq(status)
-				.and(QJpaVideo32OrderStatus.jpaVideo32OrderStatus.r.eq(r))
+
+	public List<JpaVideo32OrderStatus> find32OrderStatus(JpaVideo32OrderStatus.Status status, JpaVideo32OrderStatus.Result r, int orderId) {
+		BooleanExpression q = QJpaVideo32OrderStatus.jpaVideo32OrderStatus.status.eq(status).and(QJpaVideo32OrderStatus.jpaVideo32OrderStatus.r.eq(r))
 				.and(QJpaVideo32OrderStatus.jpaVideo32OrderStatus.order.id.eq(orderId));
-		List<JpaVideo32OrderStatus> list=(List<JpaVideo32OrderStatus>) vedio32OrderStatusRepository.findAll(q);
+		List<JpaVideo32OrderStatus> list = (List<JpaVideo32OrderStatus>) vedio32OrderStatusRepository.findAll(q);
 		return list;
 	}
 
 	public List<JpaVideo32OrderDetail> getOrder32Detail(int orderId) {
-		BooleanExpression q=QJpaVideo32OrderDetail.jpaVideo32OrderDetail.order.id.eq(orderId);
-		List<JpaVideo32OrderDetail> list=(List<JpaVideo32OrderDetail>) vedio32OrderDetailRepository.findAll(q);
+		BooleanExpression q = QJpaVideo32OrderDetail.jpaVideo32OrderDetail.order.id.eq(orderId);
+		List<JpaVideo32OrderDetail> list = (List<JpaVideo32OrderDetail>) vedio32OrderDetailRepository.findAll(q);
 		return list;
 	}
-
-	
 
 }

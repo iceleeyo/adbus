@@ -31,11 +31,15 @@ import com.pantuo.dao.pojo.JpaPayContract;
 import com.pantuo.dao.pojo.QJpaOrders;
 import com.pantuo.dao.pojo.QJpaPayContract;
 import com.pantuo.dao.pojo.UserDetail;
+import com.pantuo.mybatis.domain.PayPlan;
+import com.pantuo.mybatis.domain.PayPlanExample;
 import com.pantuo.mybatis.domain.PaycontractWithBLOBs;
 import com.pantuo.mybatis.persistence.OrdersMapper;
+import com.pantuo.mybatis.persistence.PayPlanMapper;
 import com.pantuo.mybatis.persistence.PaycontractMapper;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
+import com.pantuo.service.OrderService;
 import com.pantuo.service.PayContractService;
 import com.pantuo.service.UserServiceInter;
 import com.pantuo.service.security.Request;
@@ -48,6 +52,11 @@ import com.pantuo.web.view.OrderView;
 
 @Service
 public class PayContractServiceImpl implements PayContractService {
+	@Autowired
+	OrderService orderService;
+	
+	@Autowired
+	private PayPlanMapper payPlanMapper;
 	@Autowired
 	OrdersMapper ordersMapper;
 	@Autowired
@@ -220,12 +229,24 @@ public class PayContractServiceImpl implements PayContractService {
 			contract.setUserId(Request.getUserId(principal));
 			contract.setOrderJson(JsonTools.getJsonFromObject(idStrings));
 			contract.setDelFlag(false);
+			
+			
 			int r = paycontractMapper.insert(contract);
 			if (r > 0) {
+				updateContractPlan(contract);
 				return new Pair<Boolean, String>(true, "合同创建成功！");
 			}
 		}
 		return new Pair<Boolean, String>(false, "操作失败！");
+	}
+	public void  updateContractPlan(PaycontractWithBLOBs contract){
+		
+		PayPlan plan =new PayPlan();
+		plan.setContractId(contract.getId());
+		PayPlanExample example=new PayPlanExample();
+		example.createCriteria().andSeriaNumEqualTo(contract.getSeriaNum());
+		payPlanMapper.updateByExampleSelective(plan, example);
+		
 	}
 
 	@Override
