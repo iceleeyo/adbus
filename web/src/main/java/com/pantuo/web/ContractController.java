@@ -133,6 +133,9 @@ public class ContractController {
 	}
 	@RequestMapping("ajax-list")
 	@ResponseBody
+//	@DynaFilter(value = JpaContract.class, fields = { "contractName","industry.id","industry.description","upload" })
+
+//	@JsonFilter(keys = {"contractName", "industry.id","industry.description","upload"})
 	public DataTablePage<JpaContract> getAllContracts(TableRequest req,
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal) {
 		return new DataTablePage(contractServiceDate.getAllContracts(city, req, principal), req.getDraw());
