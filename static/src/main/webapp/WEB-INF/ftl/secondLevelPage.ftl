@@ -345,7 +345,7 @@ function tocard(pathurl){
 						</div>
 					</div>
 					<div id="advertisement">
-						<div class="adver_title">全屏广告</div>
+						<div class="adver_title">硬广广告</div>
 
 						<div class="pro_ineng">
 							<img src="images/adertisement.png">
