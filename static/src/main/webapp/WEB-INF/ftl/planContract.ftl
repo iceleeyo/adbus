@@ -22,11 +22,11 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","index_j
             "searching": false,
             "ordering": true,
             "serverSide": true,
-               "aaSorting": [[4, "asc"]],
+               "aaSorting": [[5, "asc"]],
                  "scrollX": true,
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-               { "orderable": false, "targets": [2,3,8,9,10] },
+               { "orderable": false, "targets": [0,3,8,9,10] },
             ],
             "ajax": {
                 type: "GET",
@@ -51,6 +51,13 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","index_j
                 "dataSrc": "content",
             },
             "columns": [
+           		  { "data": "plan.order.created", "defaultContent": "","render": function(data, type, row, meta) {
+                	 var tr= "<a class='operation' target='_blank' href='${rc.contextPath}/payContract/updatePayContractPlanState/" +(row.plan.id)+  "'>办理</a>";
+                	 if(row.plan.payUser==null||typeof(row.plan.payUser)=="undefined" ||row.plan.payUser==''){
+                	//  tr+= "<a class='operation' target='_blank' onclick=\"toeditPayDay('','" +( row.plan.id)   +"')\">&nbsp;修改</a>";
+                	 }
+                	return tr;
+                }},
             	{ "data": "plan.contract.userId", "defaultContent": ""},
             	{ "data": "plan.contract.contractCode", "defaultContent": "","render": function(data, type, row, meta) {
                 
@@ -102,16 +109,8 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","index_j
 	               	 }
                    },
                    { "data": "plan.setPlanUser", "defaultContent": ""},
-                   
                    { "data": "plan.reduceUser", "defaultContent": ""
-                   },
-                   { "data": "plan.order.created", "defaultContent": "","render": function(data, type, row, meta) {
-                	 var tr= "<a class='operation' target='_blank' href='${rc.contextPath}/order/toPlanDetail/" +(row.plan.id)+  "'>详情</a>";
-                	 if(row.plan.payUser==null||typeof(row.plan.payUser)=="undefined" ||row.plan.payUser==''){
-                	  tr+= "<a class='operation' target='_blank' onclick=\"toeditPayDay('','" +( row.plan.id)   +"')\">&nbsp;修改</a>";
-                	 }
-                	return tr;
-                }}
+                   }
             ],
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
@@ -223,6 +222,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","index_j
 	<table id="table" class="display" cellspacing="0" width="100%">
 		<thead>
 			<tr>
+				<th >操作</th>
 				<th orderBy="contract.userId">用户</th>
 				<th orderBy="contract.contractCode">合同编号</th>
 				<th>代理客户</th>
@@ -233,7 +233,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","index_j
 			   <th orderBy="payState">状态</th>
 			   <th>分期设置人</th>
 				<th>处理人</th>
-				<th>操作</th>
+				
 			</tr>
 		</thead>
 

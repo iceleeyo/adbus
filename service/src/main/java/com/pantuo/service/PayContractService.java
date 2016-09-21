@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaPayContract;
+import com.pantuo.dao.pojo.JpaPayPlan;
 import com.pantuo.mybatis.domain.PaycontractWithBLOBs;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.util.Pair;
@@ -52,5 +53,29 @@ public interface PayContractService {
 	public Page<JpaPayContract> getAllContracts(TableRequest req, Principal principal);
 	public JpaPayContract getPayContractById(int id);
 	public Pair<Boolean, String> delPayContract(Principal principal, int contractId);
+	
+	
+	
+	
+	/**
+	 * 
+	 * 根据分期查合同信息
+	 *
+	 * @param planId
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	public JpaPayContract queryContractByPlanId(int planId);
+	
+	
+	/**
+	 * 
+	 * 根据id查plan
+	 *
+	 * @param planId
+	 * @return
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	public JpaPayPlan queryByPlanId(int planId);
 
 }

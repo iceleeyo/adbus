@@ -26,8 +26,10 @@ import com.google.common.collect.Sets;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.dao.OrdersRepository;
 import com.pantuo.dao.PayContractRepository;
+import com.pantuo.dao.PayPlanRepository;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaPayContract;
+import com.pantuo.dao.pojo.JpaPayPlan;
 import com.pantuo.dao.pojo.QJpaOrders;
 import com.pantuo.dao.pojo.QJpaPayContract;
 import com.pantuo.dao.pojo.UserDetail;
@@ -54,7 +56,7 @@ import com.pantuo.web.view.OrderView;
 public class PayContractServiceImpl implements PayContractService {
 	@Autowired
 	OrderService orderService;
-	
+
 	@Autowired
 	private PayPlanMapper payPlanMapper;
 	@Autowired
@@ -73,6 +75,9 @@ public class PayContractServiceImpl implements PayContractService {
 
 	@Autowired
 	PayContractRepository payContractRepository;
+	
+	@Autowired
+	PayPlanRepository payPlanRepository;
 
 	/**
 	 * 
@@ -87,8 +92,8 @@ public class PayContractServiceImpl implements PayContractService {
 		if (StringUtils.isBlank(customName)) {
 			return idList;
 		}
-		ProcessInstanceQuery queryTools = runtimeService.createProcessInstanceQuery().includeProcessVariables()
-				.processDefinitionKey(ActivitiService.MAIN_PROCESS).involvedUser(Request.getUserId(principal));
+		ProcessInstanceQuery queryTools = runtimeService.createProcessInstanceQuery().includeProcessVariables().processDefinitionKey(ActivitiService.MAIN_PROCESS)
+				.involvedUser(Request.getUserId(principal));
 		if (!StringUtils.isBlank(customName)) {
 			queryTools = queryTools.variableValueLike(ActivitiService.COMPANY, "%" + customName + "%");
 		}
@@ -186,14 +191,13 @@ public class PayContractServiceImpl implements PayContractService {
 	}
 
 	@Override
-	public Pair<Boolean, String> savePayContract(Principal principal, PaycontractWithBLOBs contract,
-			HttpServletRequest request) {
+	public Pair<Boolean, String> savePayContract(Principal principal, PaycontractWithBLOBs contract, HttpServletRequest request) {
 		String orderIds = request.getParameter("orderid");
 		if (StringUtils.isNotBlank(orderIds)) {
 			String[] arr = StringUtils.split(orderIds, ",");
 			List<String> idStrings = Arrays.asList(arr);
 			contract.setOrderJson(JsonTools.getJsonFromObject(idStrings));
-			if (null!=contract.getId() && contract.getId() > 0) {
+			if (null != contract.getId() && contract.getId() > 0) {
 				PaycontractWithBLOBs paycontractWithBLOBs = paycontractMapper.selectByPrimaryKey(contract.getId());
 				if (paycontractWithBLOBs != null) {
 					paycontractWithBLOBs.setUpdated(new Date());
@@ -229,8 +233,7 @@ public class PayContractServiceImpl implements PayContractService {
 			contract.setUserId(Request.getUserId(principal));
 			contract.setOrderJson(JsonTools.getJsonFromObject(idStrings));
 			contract.setDelFlag(false);
-			
-			
+
 			int r = paycontractMapper.insert(contract);
 			if (r > 0) {
 				updateContractPlan(contract);
@@ -239,14 +242,15 @@ public class PayContractServiceImpl implements PayContractService {
 		}
 		return new Pair<Boolean, String>(false, "操作失败！");
 	}
-	public void  updateContractPlan(PaycontractWithBLOBs contract){
-		
-		PayPlan plan =new PayPlan();
+
+	public void updateContractPlan(PaycontractWithBLOBs contract) {
+
+		PayPlan plan = new PayPlan();
 		plan.setContractId(contract.getId());
-		PayPlanExample example=new PayPlanExample();
+		PayPlanExample example = new PayPlanExample();
 		example.createCriteria().andSeriaNumEqualTo(contract.getSeriaNum());
 		payPlanMapper.updateByExampleSelective(plan, example);
-		
+
 	}
 
 	@Override
@@ -274,14 +278,24 @@ public class PayContractServiceImpl implements PayContractService {
 
 	@Override
 	public Pair<Boolean, String> delPayContract(Principal principal, int contractId) {
-		JpaPayContract contract=payContractRepository.findOne(contractId);
-		if(contract!=null){
+		JpaPayContract contract = payContractRepository.findOne(contractId);
+		if (contract != null) {
 			contract.setDelFlag(true);
-			if(payContractRepository.save(contract)!=null){
+			if (payContractRepository.save(contract) != null) {
 				return new Pair<Boolean, String>(true, "删除成功");
 			}
 		}
 		return new Pair<Boolean, String>(false, "操作失败");
 	}
 
+	public JpaPayPlan queryByPlanId(int planId){
+		return payPlanRepository.findOne(planId);
+	}
+
+	@Override
+	public JpaPayContract queryContractByPlanId(int planId) {
+		JpaPayPlan plan = queryByPlanId(planId);
+		return plan != null ? plan.getContract() : null;
+	}
+	 
 }

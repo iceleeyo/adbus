@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pantuo.dao.pojo.JpaContract;
 import com.pantuo.dao.pojo.JpaPayContract;
+import com.pantuo.dao.pojo.JpaPayPlan;
 import com.pantuo.mybatis.domain.PayPlan;
 import com.pantuo.mybatis.domain.Paycontract;
 import com.pantuo.mybatis.domain.PaycontractWithBLOBs;
@@ -27,6 +28,7 @@ import com.pantuo.service.PayContractService;
 import com.pantuo.util.Only1ServieUniqLong;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.AutoCompleteView;
+import com.pantuo.web.view.OrderPlanView;
 import com.pantuo.web.view.OrderView;
 
 @Controller
@@ -90,6 +92,19 @@ public class PayContractController {
 		return "payContract/editPayContract";
 		
 	}
+	
+	@RequestMapping(value = "/updatePayContractPlanState/{planId}")
+	public String updatePayContractPlanState(Model model, Principal principal, @PathVariable("planId") int planId) {
+
+		JpaPayPlan plan = payContractService.queryByPlanId(planId);
+		if (plan != null) {
+			model.addAttribute("jpaPayContract", plan.getContract());
+			model.addAttribute("planView",  new OrderPlanView (plan));
+		}
+
+		return "payContract/updatePayContractPlanState";
+	}
+	
 	
 
 }
