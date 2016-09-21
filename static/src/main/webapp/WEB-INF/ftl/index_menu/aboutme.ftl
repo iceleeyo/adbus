@@ -64,13 +64,13 @@
 					<div class="slider view3">
 						<div class="view-text">
 							<div class="left">
-								<img src="index_img/wp1_1.jpg" height="180" width="180">
+								<img src="index_img/wbwc.jpg" height="180" width="180">
 							</div>
 							<div class="right">
-								<h3>010-87899736</h3>
+								<h3>010-88510188</h3>
 								<div>地址：北京市海淀区紫竹院路32号</div>
 								<div>邮编：100048</div>
-								<div>网址：http://www.wbmedia.com.cn</div>
+								<div>网址：http://www.busme.cn</div>
 							</div>
 						</div>
 					</div>
