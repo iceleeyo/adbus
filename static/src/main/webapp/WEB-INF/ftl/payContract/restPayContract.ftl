@@ -1,23 +1,23 @@
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<#import "template/template.ftl" as frame> <@frame.html title="订单详细"
-js=["js/highslide/highslide-full.js", "js/video-js/video.js","js/jquery-dateFormat.js","index_js/sift_common.js",
-"js/video-js/lang/zh-CN.js"] css=["js/highslide/highslide.css",
-"js/video-js/video-js.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","css/liselect/pkg-generator.css$ver=1431443489.css"]> <#include "template/preview.ftl" />
+<#import "../template/template.ftl" as frame> <#global menu="合同分期支付">
+<@frame.html title="合同分期支付 " js=["../js/jquery-ui/jquery-ui.js","../js/datepicker.js","../js/jquery.datepicker.region.cn.js",
+"../index_js/sift_common.js","../js/jquery-ui/jquery-ui.auto.complete.js","../js/jquery-dateFormat.js"]
+css=["../js/jquery-ui/jquery-ui.css","../css/autocomplete.css","../js/jquery-ui/jquery-ui.auto.complete.css"]>
+
 <script type="text/javascript">
 $(function(){
-   checkNeedPay(${orderId});
+   checkNeedPay(${jpaPayContract.id !''});
 });
 function go_back(){
 	history.go(-1);
 }
-function checkNeedPay(orderId){
-console.log(orderId);
+function checkNeedPay(payContractId){
   $.ajax({
 			url : "${rc.contextPath}/order/checkNeedPay",
 			type : "POST",
 			data : {
-				"orderId" :orderId,
-				"payContractId" :0
+				"orderId" :0,
+				"payContractId" :payContractId
 			},
 			success : function(data) {
 				if(!data){
@@ -27,14 +27,26 @@ console.log(orderId);
 		}, "text");
 }
 </script>
-
- <#import "template/orderDetail.ftl" as orderDetail/>
- <@orderDetail.orderDetail orderview=orderview quafiles=quafiles
-suppliesView=suppliesView/>
-<div id="setPayPlan" class="setPayPlan" >
 <script type="text/javascript">
-$(document).ready(function(){
- $('input').iCheck({
+function go_back(){
+	history.go(-1);
+}
+    $(document).ready(function() {
+        
+        var seriaNum='${jpaPayContract.seriaNum!''}';
+       initPayPlanTable('${rc.contextPath}',${jpaPayContract.id!''},'<@security.authorize
+			ifAnyGranted="sales">edit_del</@security.authorize>','contract',seriaNum);
+        
+    });
+</script>
+
+<script type="text/javascript">
+function split( val ) {
+      return val.split( /,\s*/ );
+    }
+	$(document).ready(function() {
+	
+	$('input').iCheck({
     checkboxClass: 'icheckbox_square-green',
     radioClass: 'iradio_square-green',
     increaseArea: '10%' // optional
@@ -56,9 +68,47 @@ $(document).ready(function(){
 				}
 			}
 		});
-initPayPlanTable('${rc.contextPath}',${orderview.order.id},'<@security.authorize
-			ifAnyGranted="ShibaFinancialManager">edit</@security.authorize>','order');
-});
+	
+	$("#orderid").val(${jpaPayContract.orderJson});
+	showOrderDetail($("#orderid").val())
+	var customerName=${jpaPayContract.customerJson}.company;
+	var customerId=${jpaPayContract.customerJson}.username;
+	$("#customerName").val(customerName);
+	$("#customerId").val(customerId);
+		  			 	
+					});
+
+function showOrderDetail(orderIds){
+$.ajax({
+		url :"${rc.contextPath}/payContract/showOrderDetail?orderIds="+orderIds,
+		data:{},
+		type : "POST",
+		success : function(data) {
+		$("#inputs").html("");
+		 var op="";
+		 var price=0;
+			$.each(data,function(i,item){
+			 op+="<DIV class=\"p20bs color-white-bg border-ec\">"
+						   +"<DIV class=\"summary uplan-summary-div\">"
+		              +"<UL class=\"uplan-detail-ul\">"
+			+"<li class=\"s-left f-iconli\"><span class=\"s-left tt\"><i class=\"s-left ff-icon\"></i>订单信息</span></li>"
+			+"<li style=\"width: 200px;\"><SPAN>订单号：</SPAN><a target='_blank' href='${rc.contextPath}/order/orderDetail/"+item.order.id+"'>  "+item.longOrderId+"</a></li>"
+			+"<li style=\"width: 200px;\"><SPAN>套餐名称：</SPAN>"
+			+"<a class='layer-tips' tip='点击可查看套餐详细内容!' onclick=\"showProductlayer('${rc.contextPath}',"+item.order.product.id+");\">"
+			+item.order.product.name+"</a></li>"
+			+"<li style=\"width: 200px;\"><SPAN>订单价格：</SPAN>"+item.order.price+"</li>"
+			+"<li style=\"width: 200px;\"><SPAN>媒体类型：</SPAN>"+item.order.product.type+"</li>"
+			+"<li style=\"width: 200px;\"><SPAN>下单用户：</SPAN>"+item.order.creator+"</li>"
+			+"</UL></DIV></DIV><br>"
+			price+=item.order.price;
+				});
+				$("#inputs").html(op);
+				$("#price").val(price);
+				}
+		});
+}
+
+
 function uploadImaget(formId) { 
     var image_name=$("#fileMaterial").val();
     if(image_name != ''){
@@ -73,7 +123,7 @@ function uploadImaget(formId) {
         }
     }
     var options = { 
-            url : "${rc.contextPath}/upload/savePayvoucher/${orderview.order.id!''}",
+            url : "${rc.contextPath}/upload/savePayvoucher/${jpaPayContract.id!''}",
             type : "POST",
             dataType : "json",
             success : function(data) {
@@ -115,7 +165,6 @@ function showContract(){
 	     var invoiceid=0;
 	     var contents="";
 	     var receway="";
-	     var orderid = ${orderview.order.id};
 	     var temp=document.getElementsByName("payType");
 	       var payWayTemp=document.getElementsByName("payWay");
 	       var isinvoice=0;
@@ -131,7 +180,7 @@ function showContract(){
          }
          if(tp=='userFristPay'){
          	if(payWay==""){
-         		 jDialog.Alert("请选择分期付款方式");
+         		 layer.msg("请选择分期付款方式");
 	         	 return;
          	}
          }
@@ -139,29 +188,11 @@ function showContract(){
             if(payType==""){
             	 jDialog.Alert("请选择支付方式");
 	         	 return;
-            }else if(payType=="contract"){
-	            contractid=$("#contractCode  option:selected").val();
-	            if(contractid==""){
-	              jDialog.Alert("请选择合同");
-	              return;
-	            }
-	         }else if(payType=="online"){
-	         layer.msg('<h3 style="line-height: 45px;font-size: 15px;"><span id="payMsg">请您在新打开的页面插上U盾完成支付！<span></h3><br><span class="tip_font">•支付完成前请不要关闭此窗口<br>•支付失败时，可以迅速联系我们客服(010-88510188)</span>'
-							  +'<br><br><a class="block-btn" href="javascript:void(0);"  onclick="checkPayStatus(' + orderid
-							  +')">确认成功 </a><a class="fail-btn" href="javascript:void(0);"'
-							  +'  onclick="canelPay()">确认失败 </a>',{time: 300000,icon:9});
-							  if( payWay =='payAll'){
-							  		$('#icbcOPer').click();
-							  } 
-							   if( payWay =='payNext'){
-							  		$('#planSubmit').click();
-							  } 
-							  return;
-	         }
+            }
 	         else if(payType=="others"){
 	             var otp=$("#otherpay  option:selected").val();
 	              if(otp==""){
-	              jDialog.Alert("请选择支付方式");
+	              layer.msg("请选择支付方式");
 	              return;
 	               }else{
 	               payType=$("#otherpay option:selected").val();
@@ -174,49 +205,85 @@ function showContract(){
 			url : "${rc.contextPath}/order/updatePlanState",
 			type : "POST",
 			data : {
-				"orderid" :orderid,
+				"orderid" :0,
+				"payContractId" :${jpaPayContract.id},
 				"payType":payType,
 				"payWay":payWay,
 				"payNextLocation":payWayPost
 			},
 			success : function(data) {
-				jDialog.Alert(data.right);
-				var uptime = window.setTimeout(function(){
-				if(data.left.suppliesId=='1'){
-				  var a = document.createElement('a');
-    	        a.href='${rc.contextPath}/order/myTask/1';
-            	document.body.appendChild(a);
-             	a.click();
-				}else{
-				var a = document.createElement('a');
-    	        a.href='${rc.contextPath}/order/payPlanOrders';
-            	document.body.appendChild(a);
-             	a.click();
-             	}
-			   	clearTimeout(uptime);
-						},2000)
-				
-			}
+				layer.msg(data.right);
+				 window.location.href='${rc.contextPath}/payContract/notPayContract';
+				}
 		}, "text");
 	}
 </script>
 
-	<div class="p20bs mt10 color-white-bg border-ec">
+<div class="withdraw-wrap color-white-bg fn-clear">
+
+	<form data-name="withdraw" id="contractForm"
+		class="ui-form" method="post" action="${rc.contextPath}/payContract/savePayContract"
+		enctype="multipart/form-data">
+		<div class="withdraw-title fn-clear">
+			<span>创建合同 </span> 
+		</div>
+		<input type="hidden" value="${jpaPayContract.id}" name="id"/>
+		<div class="withdrawInputs">
+			<div class="inputs" >
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>合同编号:</label>
+					<input
+						class="ui-input  validate[required,minSize[2],maxSize[100]]"
+						type="text" name="contractCode" readonly="readonly" id="contractCode" value="${jpaPayContract.contractCode}" readonly="readonly"
+						data-is="isAmount isEnough" autocomplete="off"
+						disableautocomplete="" placeholder=""/>
+				</div>
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>代理客户:</label>
+					<input id="customerName"  value="" style="height:40px;width:250px" readonly="readonly">
+					<input id="customerId" name="customerId" value="" type="hidden">
+				</div>
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>选择订单:</label>
+					<input id="orderid" value="" name="orderid" readonly="readonly" style="height:50px;width:650px"/>
+				</div>
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>合同价格(￥):</label>
+					<input id="price" value="${jpaPayContract.price}" readonly="readonly" name="price" style="height:30px;width:200px"/>
+				</div>
+			
+
+			</div>
+			
+		</div>
+		</form>
+		<div id="inputs">
+		
+		</div>
+		
+		<div class="p20bs mt10 color-white-bg border-ec">
 		<H3 class="text-xl title-box">
-			<A class="black" href="#">分期详情</A>
+			<A class="black" href="#">分期设置</A>
+			<div class="withdraw-title">
+			 <a class="block-btn"
+						style="margin-top: -30px;" href="javascript:void(0);"
+						onclick="addPayPlan('${rc.contextPath}',0,${jpaPayContract.seriaNum!''},1)">添加分期</a>	</div>
 		</H3>
-		<BR>
-		 
+		<TABLE class="ui-table ui-table-gray">
+			<TBODY>
+				<TR>
+				<TD colspan=2 style="border-radius: 0 0 0;padding:0;">
+				
 	<table id="payPlanTable" class="display nowrap" cellspacing="0">
 		<thead>
 			<tr>
-				<th>期数</th>
+				                <th>期数</th>
 								<th>金额</th>
 								<th>付款日期</th>
 								<th>付款方式</th>
 								<th>状态</th>
 								<th>付款人</th>
-									<th>分期设置人</th>
+								<th>分期设置人</th>
 								<th>处理人</th>
 								<th>最后操作时间</th>
 								<th>备注</th>
@@ -230,77 +297,28 @@ function showContract(){
 		</thead>
 
 	</table>
+			</TD>
+				</TR>
+		</TABLE>
+	</div>
 </div>
+
+
 <div id="userFristPay" class="userFristPay" >
 	<div class="p20bs mt10 color-white-bg border-ec">
 		<H3 class="text-xl title-box">
 			<p style="text-align: left">
-				<A class="black" href="#">订单分期付款</A>
+				<A class="black" href="#">合同分期付款</A>
 			</p>
 		</H3>
 		<BR>
-		
-		<!-- plan -->
-		<form id="form2"  target="_blank" style="display: none;" action="https://corporbank3.dccnet.com.cn/servlet/ICBCINBSEBusinessServlet" method="post">
-			    <input type="hidden" name="APIName" value="B2B"/>
-			    <input type="hidden" name="APIVersion" value="001.001.001.001"/>
-			    <input type="hidden" name="Shop_code" value="0200EC14729207"/>
-			    <input type="hidden" name="MerchantURL" value="${callback_plan}"/>
-			    <input type="hidden" name="ContractNo" value="${contractNo_plan}"/>
-			    <input type="hidden" name="ContractAmt" value="${totalPrice_plan}"/>
-			    <input type="hidden" name="Account_cur" value="001"/>
-			    <input type="hidden" name="JoinFlag" value="2"/>
-			    <input type="hidden" name="Mer_Icbc20_signstr" value="${a1_plan}"/>
-			    <input type="hidden" name="Cert" value="${a2_plan}"/>
-			    <input type="hidden" name="SendType" value="0"/>
-			    <input type="hidden" name="TranTime" value="${TranTime_plan}" />
-			    <input type="hidden" name="Shop_acc_num" value="0200004519000100173"/>
-			    <input type="hidden" name="PayeeAcct" value="0200004519000100173"/>
-			    <input type="hidden" name="GoodsCode" value="CODE_MEDIA"/>
-			    <input type="hidden" name="GoodsName" value="SPTC"/>
-			    <input type="hidden" name="Amount" value="1"/>
-			    <input type="hidden" name="TransFee" value="1"/>
-			    <input type="hidden" name="ShopRemark" value=""/>
-			    <input type="hidden" name="ShopRem" value=""/>
-			    <input type="submit" id="planSubmit" value="确定"/>
-			</form>
-		
-		<form id="form1"  target="_blank" style="display: none;" action="https://corporbank3.dccnet.com.cn/servlet/ICBCINBSEBusinessServlet" method="post">
-			    <input type="hidden" name="APIName" value="B2B"/>
-			    <input type="hidden" name="APIVersion" value="001.001.001.001"/>
-			    <input type="hidden" name="Shop_code" value="0200EC14729207"/>
-			    <!--若不正确，将无银行反馈信息，注意不能省略"http://"-->
-			    <input type="hidden" name="MerchantURL" value="${callback}"/>
-			    <input type="hidden" name="ContractNo" value="${contractNo}"/>
-			    <!--金额为不带小数点的到分的一个字符串，即“112390”代表的是“1123.90元”-->
-			    <input type="hidden" name="ContractAmt" value="${totalPrice}"/>
-			    <input type="hidden" name="Account_cur" value="001"/>
-			    <input type="hidden" name="JoinFlag" value="2"/>
-			    <input type="hidden" name="Mer_Icbc20_signstr" value="${a1}"/>
-			    <input type="hidden" name="Cert" value="${a2}"/>
-			    <input type="hidden" name="SendType" value="0"/>
-			    <input type="hidden" name="TranTime" value="${TranTime}" />
-			    <input type="hidden" name="Shop_acc_num" value="0200004519000100173"/>
-			    <input type="hidden" name="PayeeAcct" value="0200004519000100173"/>
-			    <input type="hidden" name="GoodsCode" value="CODE_MEDIA"/>
-			    <input type="hidden" name="GoodsName" value="SPTC"/>
-			    <input type="hidden" name="Amount" value="1"/>
-			    <!--金额为不带小数点的到分的一个字符串，即“112390”代表的是“1123.90元”-->
-			    <input type="hidden" name="TransFee" value="1"/>
-			    <input type="hidden" name="ShopRemark" value=""/>
-			    <input type="hidden" name="ShopRem" value=""/>
-			    <input type="submit" id="icbcOPer" value="确定"/>
-			</form>
-			
 			<TABLE class="ui-table ui-table-gray">
-			
 			<TR style="height: 45px;">
 				<TD width="20%" style="text-align: right">分期详情</TD>
 				<TD>
-					<SPAN></SPAN><SPAN class="con"><a href="javascript:void(0)" onclick="queryPayPlanDetail('${rc.contextPath}',${orderview.order.id!''},'order');" >查看</a></SPAN>
+					<SPAN></SPAN><SPAN class="con"><a href="javascript:void(0)" onclick="queryPayPlanDetail('${rc.contextPath}',0,'contract');" >查看</a></SPAN>
 				</TD>
 			</TR>
-			
 			
 			<TR style="height: 45px;">
 				<TD width="20%" style="text-align: right">分期付款</TD>
@@ -319,7 +337,6 @@ function showContract(){
 			<TR style="height: 45px;">
 				<TD width="20%" style="text-align: right">支付方式</TD>
 				<TD>
-					<input type="radio" name="payType" value="online">在线支付 
 					<input type="radio" name="payType" value="remit">汇款支付 
 					<input type="radio"	name="payType" value="others">其他支付
 				</TD>
@@ -367,12 +384,4 @@ function showContract(){
 
 	</div>
 </div>
-
- <#include "template/hisDetail.ftl" />
 </@frame.html>
-
-
-
-
-
-

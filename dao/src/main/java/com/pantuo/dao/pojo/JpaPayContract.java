@@ -29,6 +29,7 @@ public class JpaPayContract extends BaseEntity {
 	private String userId;
 	private String contractCode;
 	private Double price;
+	private double payPrice = 0;//已支付金额
 	private long seriaNum;
 	boolean delFlag=false;
 	/*

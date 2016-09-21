@@ -50,11 +50,21 @@ public class PayContractController {
 	public String contralist() {
 		return "payContract/payContractList";
 	}
+	@RequestMapping(value = "/notPayContract")
+	public String notPayContract() {
+		return "payContract/notPayContract";
+	}
 	@RequestMapping("ajax-list")
 	@ResponseBody
 	public DataTablePage<JpaPayContract> getAllContracts(TableRequest req,
 			 Principal principal) {
 		return new DataTablePage(payContractService.getAllContracts(req, principal), req.getDraw());
+	}
+	@RequestMapping("ajax-notPayContract")
+	@ResponseBody
+	public DataTablePage<JpaPayContract> getAllNotPayContracts(TableRequest req,
+			Principal principal) {
+		return new DataTablePage(payContractService.getAllNotPayContracts(req, principal), req.getDraw());
 	}
 	@RequestMapping(value = "/OrderIdComplete")
 	@ResponseBody
@@ -90,6 +100,12 @@ public class PayContractController {
 		JpaPayContract contract= payContractService.getPayContractById(id);
 		model.addAttribute("jpaPayContract", contract);
 		return "payContract/editPayContract";
+		
+	}
+	@RequestMapping(value = "/toRestPayContract/{id}")
+	public String toRestPayContract(Model model, Principal principal,@PathVariable("id") int contarctId
+			) {
+		return  payContractService.toRestPayContract(contarctId,model,principal);
 		
 	}
 	

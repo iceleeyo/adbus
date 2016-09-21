@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.data.domain.Page;
+import org.springframework.ui.Model;
 
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaPayContract;
@@ -77,5 +78,7 @@ public interface PayContractService {
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
 	public JpaPayPlan queryByPlanId(int planId);
+	public Page<JpaPayContract> getAllNotPayContracts(TableRequest req, Principal principal);
+	public String toRestPayContract(int contarctId, Model model, Principal principal);
 
 }

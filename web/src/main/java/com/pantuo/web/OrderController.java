@@ -206,11 +206,13 @@ public class OrderController {
 	}
 	@RequestMapping(value = "updatePlanState")
 	@ResponseBody
-	public Pair<Object, String> updatePlanState(@RequestParam(value = "orderid") int orderid,
+	public Pair<Object, String> updatePlanState(
+			@RequestParam(value = "orderid",required=false,defaultValue="0") int orderid,
+			@RequestParam(value = "payContractId",required=false,defaultValue="0") int payContractId,
 			@RequestParam(value = "payWay") String payWay,
 			@RequestParam(value = "payNextLocation") String payNextLocation,
 			Principal principal, HttpServletRequest request, HttpServletResponse response) {
-		return orderService.updatePlanState(request,payWay,orderid, payNextLocation,
+		return orderService.updatePlanState(request,payWay,orderid,payContractId, payNextLocation,
 				JpaPayPlan.PayState.check,Request.getUserId(principal));
 	}
 	@RequestMapping(value = "video32OrderPay")
@@ -378,9 +380,10 @@ public class OrderController {
 	}
 	@RequestMapping(value = "checkNeedPay")
 	@ResponseBody
-	public Boolean checkNeedPay(@RequestParam(value = "orderId" ,defaultValue="0") int  orderid
+	public Boolean checkNeedPay(@RequestParam(value = "orderId" ,defaultValue="0") int  orderid,
+			@RequestParam(value = "payContractId" ,defaultValue="0") int  payContractId
 			)  {
-		return orderService.checkNeedPay(orderid);
+		return orderService.checkNeedPay(orderid,payContractId);
 	}
 	@RequestMapping(value = "findOrderAndSup/{orderid}")
 	@ResponseBody

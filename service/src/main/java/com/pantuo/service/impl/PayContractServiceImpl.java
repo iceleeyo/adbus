@@ -20,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -30,6 +31,7 @@ import com.pantuo.dao.PayPlanRepository;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaPayContract;
 import com.pantuo.dao.pojo.JpaPayPlan;
+import com.pantuo.dao.pojo.QJpaCalendar;
 import com.pantuo.dao.pojo.QJpaOrders;
 import com.pantuo.dao.pojo.QJpaPayContract;
 import com.pantuo.dao.pojo.UserDetail;
@@ -233,6 +235,7 @@ public class PayContractServiceImpl implements PayContractService {
 			contract.setUserId(Request.getUserId(principal));
 			contract.setOrderJson(JsonTools.getJsonFromObject(idStrings));
 			contract.setDelFlag(false);
+			contract.setPayPrice(0.0);
 
 			int r = paycontractMapper.insert(contract);
 			if (r > 0) {
@@ -269,6 +272,43 @@ public class PayContractServiceImpl implements PayContractService {
 			query = query.and(QJpaPayContract.jpaPayContract.contractCode.like("%" + code + "%"));
 		}
 		return payContractRepository.findAll(query, p);
+	}
+
+	@Override
+	public Page<JpaPayContract> getAllNotPayContracts(TableRequest req, Principal principal) {
+		String code = req.getFilter("contractCode"),stateKey = req.getFilter("stateKey");;
+		int page = req.getPage(), pageSize = req.getLength();
+		Sort sort = req.getSort("id");
+		if (page < 0)
+			page = 0;
+		if (pageSize < 1)
+			pageSize = 1;
+		sort = (sort == null ? new Sort("id") : sort);
+		Pageable p = new PageRequest(page, pageSize, sort);
+		BooleanExpression query = QJpaPayContract.jpaPayContract.delFlag.isFalse();
+		if (StringUtils.isNotBlank(code)) {
+			query = query.and(QJpaPayContract.jpaPayContract.contractCode.like("%" + code + "%"));
+		}
+		if (StringUtils.isNoneBlank(stateKey)) {
+			if (StringUtils.equals(stateKey, "complete")) {
+				query=query.and(QJpaPayContract.jpaPayContract.price.loe(QJpaPayContract.jpaPayContract.payPrice));
+			} else if (StringUtils.equals(stateKey, "notcomplete")) {
+				query=query.and(QJpaPayContract.jpaPayContract.price.gt(QJpaPayContract.jpaPayContract.payPrice));
+			}
+		} else {
+			query=query.and(QJpaPayContract.jpaPayContract.price.gt(QJpaPayContract.jpaPayContract.payPrice));
+		}
+		return payContractRepository.findAll(query, p);
+	}
+
+	@Override
+	public String toRestPayContract(int contarctId, Model model, Principal principal) {
+		JpaPayContract contract=getPayContractById(contarctId);
+		double payAll = contract.getPrice() - contract.getPayPrice();
+		model.addAttribute("payAll", payAll);
+		orderService.getPayNextMoney(0,contarctId, model);
+		model.addAttribute("jpaPayContract", contract);
+		return "payContract/restPayContract";
 	}
 
 	@Override
