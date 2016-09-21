@@ -91,7 +91,7 @@
                 { "data": "suppliesType", "defaultContent": "",
                 "render": function(data, type, row, meta) {
                         if (data == 'video')
-                            return '全屏硬广';
+                            return '硬广广告';
                         if (data == 'image')
                             return 'INFO图片';
                         if (data == 'info')

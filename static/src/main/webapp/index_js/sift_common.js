@@ -396,7 +396,7 @@ function toeditPayDay(purl,id) {
 												+ '</div>'
 												+ '<div class="ui-form-item"> <label class="ui-label mt10">备注：</label>'
 												+ '<textarea rows="4" cols="40"  data-is="isAmount isEnough" style="resize: none;" name="remarks">'
-												+ data.remarks
+												+ data.remarks	
 												+ '</textarea>'
 												+ '</div>'
 												

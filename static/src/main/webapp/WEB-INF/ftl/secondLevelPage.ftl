@@ -54,7 +54,7 @@ function tocard(pathurl){
 						<button class="search-btn" type="submit" id="search-btn">搜索</button>
 					</div>
 					<div class="search-key">
-						<span><a href="javascript:void(0)">全屏硬广</a></span> <span><a
+						<span><a href="javascript:void(0)">硬广广告</a></span> <span><a
 							href="javascript:void(0)">INFO图片</a></span> <span><a
 							href="javascript:void(0)">INFO字幕</a></span> <span><a
 							href="javascript:void(0)">32次</a></span> <span><a
@@ -137,7 +137,7 @@ function tocard(pathurl){
 					<div class="re-box clearfix">
 						<ul class="select">
 							<li class="active"><a href="javascript:void(0)">全部</a></li>
-							<li><a href="javascript:void(0)">全屏硬广</a></li>
+							<li><a href="javascript:void(0)">硬广广告</a></li>
 							<li><a href="javascript:void(0)">INFO字幕</a></li>
 							<li><a href="javascript:void(0)">INFO图片</a></li>
 							<li><a href="javascript:void(0)">二类节目</a></li>
@@ -505,7 +505,7 @@ function tocard(pathurl){
 						<div class="back-item">
 							<span class="desp">产品类型：</span> <span class="sift-list" qt="t">
 								<a class="item active" href="#" sort="-1" qc="all">所有</a> <a
-								class="item" href="#" qc="video">全屏硬广<i>×</i></a> <a
+								class="item" href="#" qc="video">硬广广告<i>×</i></a> <a
 								class="item" href="#" qc="image">INFO图片<i>×</i></a> 
 								<a class="item" href="#" qc="info">INFO字幕<i>×</i></a>
 								<a class="item" href="#" qc="inchof32">32寸屏广告<i>×</i></a>

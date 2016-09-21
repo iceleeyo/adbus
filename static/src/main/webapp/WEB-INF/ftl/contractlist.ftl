@@ -66,7 +66,7 @@ js=["js/jquery-dateFormat.js","js/layer-v1.9.3/layer/layer.js"]>
                 { "data": "type", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         if (data == 'video')
-                            return '全屏硬广';
+                            return '硬广广告';
                         if (data == 'image')
                             return 'INFO图片';
                         if (data == 'info')

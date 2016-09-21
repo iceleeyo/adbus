@@ -197,7 +197,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 						autocomplete="off" disableautocomplete="">
 				</div>
 				<div
-					class="ui-form-item toggle inchof32Toggle">
+					class="ui-form-item toggle">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>播放频率：</label>
 					<input class="ui-input validate[required,integer]" style="width:150px"
 						onkeyup="value=value.replace(/[^\d.]/g,'')" type="text"

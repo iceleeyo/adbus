@@ -455,7 +455,7 @@ function supEnter(tourl,city,type){
 				);
 		}else if(type=="video"){
 			$("#suppliesType").append(
-			"<option value='0'>全屏硬广</option>"
+			"<option value='0'>硬广广告</option>"
 				);
 			$("#text").hide();
             $("#file").show();
