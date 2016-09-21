@@ -191,7 +191,7 @@ div#toolbar {
 			<tr>
 				<th></th>
 				<th>序号</th>
-				<th>广告编号</th>
+				<th>审批合格号</th>
 				<th>图片包名称</th>
 				<th>性质</th>
 				<th>图片名称</th>

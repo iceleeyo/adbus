@@ -187,7 +187,7 @@ function approve2(){
 	   return;
 	}
 	if(seqNumber==""){
-	   jDialog.Alert("请填写广告编号");
+	   jDialog.Alert("请填写审批合格号");
 	   return;
 	}
 	
@@ -1301,7 +1301,7 @@ suppliesView=suppliesView/>
 						onclick="supDetail(${(suppliesView.mainView.id)!''})">查看</a></TD>
 				</TR>
 				<TR>
-					<TD>广告编号</TD>
+					<TD>审批合格号</TD>
 					<input type="hidden" id="suppliesid"
 						value="${suppliesView.mainView.id!''}" />
 					<TD colspan=3><input id="seqNumber" class="textareaBox"
