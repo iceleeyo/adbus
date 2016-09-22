@@ -67,12 +67,14 @@ import com.pantuo.mybatis.domain.InvoiceDetail;
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.PayPlan;
 import com.pantuo.mybatis.domain.PayPlanExample;
+import com.pantuo.mybatis.domain.Paycontract;
 import com.pantuo.mybatis.domain.Product;
 import com.pantuo.mybatis.persistence.ContractMapper;
 import com.pantuo.mybatis.persistence.InvoiceDetailMapper;
 import com.pantuo.mybatis.persistence.InvoiceMapper;
 import com.pantuo.mybatis.persistence.OrdersMapper;
 import com.pantuo.mybatis.persistence.PayPlanMapper;
+import com.pantuo.mybatis.persistence.PaycontractMapper;
 import com.pantuo.mybatis.persistence.ProductMapper;
 import com.pantuo.pojo.HistoricTaskView;
 import com.pantuo.pojo.TableRequest;
@@ -133,6 +135,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 	private SuppliesService suppliesService;
 	@Autowired
 	private OrdersMapper ordersMapper;
+	@Autowired
+	private PaycontractMapper paycontractMapper;
 	@Autowired
 	private ContractMapper contractMapper;
 	@Autowired
@@ -1835,11 +1839,15 @@ public class ActivitiServiceImpl implements ActivitiService {
 		if (BooleanUtils.toBoolean(rad)) {
 			if (plan != null) {
 				Orders order = ordersMapper.selectByPrimaryKey(plan.getOrderId());
+				Paycontract paycontract = paycontractMapper.selectByPrimaryKey(plan.getContractId());
 				if (order != null) {
 					Orders record = new Orders();
 					record.setId(plan.getOrderId());
 					record.setPayPrice(order.getPayPrice() + plan.getPrice());
 					ordersMapper.updateByPrimaryKeySelective(record);
+				}else if(paycontract!=null){
+					paycontract.setPayPrice(paycontract.getPayPrice()+plan.getPrice());
+					paycontractMapper.updateByPrimaryKey(paycontract);
 				}
 			}
 		}

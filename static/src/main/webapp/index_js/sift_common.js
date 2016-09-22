@@ -327,7 +327,7 @@ function toeditPayPlan(purl,id) {
 												+ '/order/savePayPlan'
 												+ '>'
 												+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
-												+'<input type="hidden" name ="id" value="'+data.id+'"/><input type="hidden" name ="orderId" value="'+data.order.id+'"/><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/> '
+												+'<input type="hidden" name ="id" value="'+data.id+'"/><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/> '
 												+ '<div class="ui-form-item"> <label class="ui-label mt10">金额：</label>'
 												+ '<input class="ui-input " type="text" value="'
 												+ data.price

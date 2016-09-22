@@ -213,9 +213,13 @@ function showContract(){
 			},
 			success : function(data) {
 				layer.msg(data.right);
-				 window.location.href='${rc.contextPath}/payContract/notPayContract';
+				setTimeout('handle()',1500);
 				}
 		}, "text");
+	}
+	
+	function handle(){
+	  window.location.reload();
 	}
 </script>
 

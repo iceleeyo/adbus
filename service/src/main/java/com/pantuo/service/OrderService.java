@@ -158,46 +158,46 @@ public class OrderService {
 				}
 
 			}
-			if (orderid > 0) {
-				Orders order = ordersMapper.selectByPrimaryKey(orderid);
-				double basePrice = 0;
-				if (order != null) {
-					basePrice = order.getPayPrice();
-					if (StringUtils.equals(payWay, "payAll")) {
-						basePrice += (order.getPrice() - order.getPayPrice());
-					} else if (StringUtils.equals(payWay, "payNext")) {
-						basePrice += payPrice;
-					}
-				}
-
-				if (basePrice > 0) {
-					Orders record = new Orders();
-					record.setId(orderid);
-					record.setPayPrice(basePrice);
-					ordersMapper.updateByPrimaryKeySelective(record);
-				}
-				return new Pair<Object, String>(true, "操作成功");
-
-			} else if(payContractId>0){
-				PaycontractWithBLOBs paycontract = paycontractMapper.selectByPrimaryKey(payContractId);
-				double basePrice = 0;
-				if (paycontract != null) {
-					basePrice = paycontract.getPayPrice();
-					if (StringUtils.equals(payWay, "payAll")) {
-						basePrice += (paycontract.getPrice() - paycontract.getPayPrice());
-					} else if (StringUtils.equals(payWay, "payNext")) {
-						basePrice += payPrice;
-					}
-				}
-
-				if (basePrice > 0) {
-					paycontract.setPayPrice(basePrice);
-					paycontractMapper.updateByPrimaryKeyWithBLOBs(paycontract);
-				}
-				return new Pair<Object, String>(true, "操作成功");
-			}
+//			if (orderid > 0) {
+//				Orders order = ordersMapper.selectByPrimaryKey(orderid);
+//				double basePrice = 0;
+//				if (order != null) {
+//					basePrice = order.getPayPrice();
+//					if (StringUtils.equals(payWay, "payAll")) {
+//						basePrice += (order.getPrice() - order.getPayPrice());
+//					} else if (StringUtils.equals(payWay, "payNext")) {
+//						basePrice += payPrice;
+//					}
+//				}
+//
+//				if (basePrice > 0) {
+//					Orders record = new Orders();
+//					record.setId(orderid);
+//					record.setPayPrice(basePrice);
+//					ordersMapper.updateByPrimaryKeySelective(record);
+//				}
+//				return new Pair<Object, String>(true, "操作成功");
+//
+//			} else if(payContractId>0){
+//				PaycontractWithBLOBs paycontract = paycontractMapper.selectByPrimaryKey(payContractId);
+//				double basePrice = 0;
+//				if (paycontract != null) {
+//					basePrice = paycontract.getPayPrice();
+//					if (StringUtils.equals(payWay, "payAll")) {
+//						basePrice += (paycontract.getPrice() - paycontract.getPayPrice());
+//					} else if (StringUtils.equals(payWay, "payNext")) {
+//						basePrice += payPrice;
+//					}
+//				}
+//
+//				if (basePrice > 0) {
+//					paycontract.setPayPrice(basePrice);
+//					paycontractMapper.updateByPrimaryKeyWithBLOBs(paycontract);
+//				}
+//				return new Pair<Object, String>(true, "操作成功");
+//			}
 		}
-		return new Pair<Object, String>(false, "操作失败");
+		return new Pair<Object, String>(true, "操作成功");
 		
 
 	}

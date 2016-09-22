@@ -76,7 +76,7 @@
 					<a class="side-exp-item-t" href="${rc.contextPath}/payContract/notPayContract">待支付合同 </a>
 				  </li>
 						<li class="pg-side-exp-item"><a class="side-exp-item-t"
-					href="${rc.contextPath}/order/planContract"> 分期合同 </a></li>
+					href="${rc.contextPath}/order/planContract">合同收款确认</a></li>
 				 <#-- <li class="pg-side-exp-item">
 					<a class="side-exp-item-t" href="${rc.contextPath}/contract/list"> 屏幕广告合同 </a>
 				  </li>-->

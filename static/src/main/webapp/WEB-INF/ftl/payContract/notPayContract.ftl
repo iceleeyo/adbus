@@ -17,6 +17,7 @@ js=["../js/jquery-dateFormat.js","../js/layer-v1.9.3/layer-site.js"]>
             "dom": '<"#toolbar"><"top"il>rt<"bottom"p><"clear">',
             "searching": false,
             "ordering": true,
+            "aaSorting": [[3, "desc"]],
             "serverSide": true,
             "scrollX": true,
             "columnDefs": [
@@ -144,8 +145,8 @@ $('#test').on('click', function(){
 				<th orderBy="contractCode">合同编号</th>
 				<th>所关联订单</th>
 				<th>合同价格(元)</th>
-				<th>已支付金额(元)</th>
-				<th orderBy="endDate">创建时间</th>
+				<th>已确认支付(元)</th>
+				<th orderBy="created">创建时间</th>
 				<th orderBy="userId">创建人</th>
 				<th>管理</th>
 			</tr>
