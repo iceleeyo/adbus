@@ -148,7 +148,7 @@ function supDetail(data){
 			<li class="s-left f-iconli"><span class="s-left tt"><i class="s-left ff-icon"></i>支付及发票</span></li> 
 			 <li style="width: 200px;"><SPAN>分期详情：</SPAN><SPAN class="con">
 			 <#if orderview.order.jpaPayContract??>
-			 	<a target="_blank" href="${rc.contextPath}/payContract/toRestPayContract/${orderview.order.jpaPayContract.id!0}"  >查看</a>
+			 	<a target="_blank" href="${rc.contextPath}/payContract/toEditPayContract/${orderview.order.jpaPayContract.id!0}"  >查看</a>
 			 <#else>
 			 <a href="javascript:void(0)" onclick="queryPayPlanDetail('${rc.contextPath}',${orderview.order.id!''},'order');" >查看</a>
 			 </#if>
