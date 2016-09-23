@@ -1,6 +1,6 @@
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<#import "../template/template.ftl" as frame> <#global menu="创建合同">
-<@frame.html title="创建合同 " js=["../js/jquery-ui/jquery-ui.js","../js/datepicker.js","../js/jquery.datepicker.region.cn.js",
+<#import "../template/template.ftl" as frame> <#global menu="合同列表">
+<@frame.html title="创建修改 " js=["../js/jquery-ui/jquery-ui.js","../js/datepicker.js","../js/jquery.datepicker.region.cn.js",
 "../index_js/sift_common.js","../js/jquery-ui/jquery-ui.auto.complete.js","../js/jquery-dateFormat.js"]
 css=["../js/jquery-ui/jquery-ui.css","../css/autocomplete.css","../js/jquery-ui/jquery-ui.auto.complete.css"]>
 
@@ -107,7 +107,7 @@ $.ajax({
 		class="ui-form" method="post" action="${rc.contextPath}/payContract/savePayContract"
 		enctype="multipart/form-data">
 		<div class="withdraw-title fn-clear">
-			<span>创建合同 </span> 
+			<span>合同修改 </span> 
 		</div>
 		<input type="hidden" value="${jpaPayContract.id}" name="id"/>
 		<div class="withdrawInputs">

@@ -35,7 +35,7 @@ function go_back(){
         
         var seriaNum='${jpaPayContract.seriaNum!''}';
        initPayPlanTable('${rc.contextPath}',${jpaPayContract.id!''},'<@security.authorize
-			ifAnyGranted="sales">edit_del</@security.authorize>','contract',seriaNum);
+			ifAnyGranted="sales">doNoting</@security.authorize>','contract',seriaNum);
         
     });
 </script>
@@ -229,7 +229,7 @@ function showContract(){
 		class="ui-form" method="post" action="${rc.contextPath}/payContract/savePayContract"
 		enctype="multipart/form-data">
 		<div class="withdraw-title fn-clear">
-			<span>创建合同 </span> 
+			<span>合同分期支付 </span> 
 		</div>
 		<input type="hidden" value="${jpaPayContract.id}" name="id"/>
 		<div class="withdrawInputs">
@@ -267,7 +267,7 @@ function showContract(){
 		
 		<div class="p20bs mt10 color-white-bg border-ec">
 		<H3 class="text-xl title-box">
-			<A class="black" href="#">分期设置</A>
+			<A class="black" href="#">分期详情</A>
 			<div class="withdraw-title">
 			 <a class="block-btn"
 						style="margin-top: -30px;" href="javascript:void(0);"
@@ -317,12 +317,12 @@ function showContract(){
 		</H3>
 		<BR>
 			<TABLE class="ui-table ui-table-gray">
-			<TR style="height: 45px;">
+		<#--	<TR style="height: 45px;">
 				<TD width="20%" style="text-align: right">分期详情</TD>
 				<TD>
-					<SPAN></SPAN><SPAN class="con"><a href="javascript:void(0)" onclick="queryPayPlanDetail('${rc.contextPath}',0,'contract');" >查看</a></SPAN>
+					<SPAN></SPAN><SPAN class="con"><a href="javascript:void(0)" onclick="queryPayPlanDetail('${rc.contextPath}',${jpaPayContract.id},'contract');" >查看</a></SPAN>
 				</TD>
-			</TR>
+			</TR>-->
 			
 			<TR style="height: 45px;">
 				<TD width="20%" style="text-align: right">分期付款</TD>
