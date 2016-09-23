@@ -61,11 +61,11 @@
 						href="${rc.contextPath}/supplies/list"> 物料管理 </a></li>
 
 				</ul></li> </@security.authorize> 
-		
-	<@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,sales">
+	<@security.authorize ifAnyGranted="ShibaFinancialManager,sales">
 		<li class="pg-side-item">
 		    <a class="pg-side-item-t ee-icon" href="#"> <i class="s-left pg-icon-a g-icon"></i> 合同管理 </a>
 				<ul class="pg-side-exp-list">
+				  <@security.authorize ifAnyGranted="sales">
 				  <li class="pg-side-exp-item">
 					<a class="side-exp-item-t" href="${rc.contextPath}/payContract/newPayContract"> 创建合同 </a>
 				  </li>
@@ -75,11 +75,15 @@
 				  <li class="pg-side-exp-item">
 					<a class="side-exp-item-t" href="${rc.contextPath}/payContract/notPayContract">待支付合同 </a>
 				  </li>
+				  </@security.authorize>
+				  <@security.authorize ifAnyGranted="ShibaFinancialManager">
 						<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/order/planContract">合同收款确认</a></li>
+					</@security.authorize>
 				 <#-- <li class="pg-side-exp-item">
 					<a class="side-exp-item-t" href="${rc.contextPath}/contract/list"> 屏幕广告合同 </a>
 				  </li>-->
+				  
 				</ul>
 		</li> 
 	</@security.authorize>
