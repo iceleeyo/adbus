@@ -240,10 +240,24 @@ public class PayContractServiceImpl implements PayContractService {
 			int r = paycontractMapper.insert(contract);
 			if (r > 0) {
 				updateContractPlan(contract);
+				List<JpaOrders> orders=queryOrders(idStrings);
+				if(orders.size()>0){
+					relateContract2Order(orders,contract.getId());
+				}
 				return new Pair<Boolean, String>(true, "合同创建成功！");
 			}
 		}
 		return new Pair<Boolean, String>(false, "操作失败！");
+	}
+
+	public void relateContract2Order(List<JpaOrders> orders, Integer payContratcId) {
+		JpaPayContract contract=payContractRepository.findOne(payContratcId);
+		for (JpaOrders jpaOrders : orders) {
+			jpaOrders.setJpaPayContract(contract);
+			jpaOrders.setContractCode(contract.getContractCode());
+			ordersRepository.save(jpaOrders);
+		}
+		
 	}
 
 	public void updateContractPlan(PaycontractWithBLOBs contract) {

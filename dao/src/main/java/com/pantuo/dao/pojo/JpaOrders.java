@@ -53,6 +53,9 @@ public class JpaOrders extends CityEntity {
     @ManyToOne
     @JoinColumn(name = "invoiceId")
     private JpaInvoiceDetail invoiceDetail;
+    @ManyToOne
+    @JoinColumn(name = "payContractId")
+    private JpaPayContract jpaPayContract;
     private int contractId;
     private String contractCode;
     private Date startTime;
@@ -372,6 +375,14 @@ public class JpaOrders extends CityEntity {
 
 	public double getPayPrice() {
 		return payPrice;
+	}
+
+	public JpaPayContract getJpaPayContract() {
+		return jpaPayContract;
+	}
+
+	public void setJpaPayContract(JpaPayContract jpaPayContract) {
+		this.jpaPayContract = jpaPayContract;
 	}
 
 	public void setPayPrice(double payPrice) {
