@@ -99,7 +99,7 @@ public class PayContractServiceImpl implements PayContractService {
 		if (!StringUtils.isBlank(customName)) {
 			queryTools = queryTools.variableValueLike(ActivitiService.COMPANY, "%" + customName + "%");
 		}
-		List<ProcessInstance> processInstances = queryTools.list();
+		List<ProcessInstance> processInstances = queryTools.orderByProcessInstanceId().desc().list();
 		for (ProcessInstance processInstance : processInstances) {
 			Integer orderid = (Integer) processInstance.getProcessVariables().get(ActivitiService.ORDER_ID);
 			if (orderid > 0) {
