@@ -1,4 +1,4 @@
-<#import "template/template.ftl" as frame> <#global menu="分期订单">
+<#import "template/template.ftl" as frame> <#global menu="待办事项">
 <@frame.html title="分期订单"
 css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]
 js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","index_js/sift_common.js","js/datepicker.js","js/jquery.datepicker.region.cn.js"]>
@@ -203,13 +203,16 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","index_j
 
 <div class="withdraw-wrap color-white-bg fn-clear">
  <div class="tabs">
+    <a href="${rc.contextPath}/order/myTask/1" class="">
+    待办事项 <span id="recordsTotal"
+      style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
+    </a>
     <a href="${rc.contextPath}/order/planOrders" class="active">
     分期订单 <span id="recordsTotal"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
     </a>
-    <a href="${rc.contextPath}/order/myTask/1" class="">
-    待办事项 <span id="recordsTotal"
-      style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
+    <a href="${rc.contextPath}/order/payPlanOrders" class="">
+      待支付分期订单<span id="recordsTotal" style="background-color: #ff9966; font-size: 14px; border-radius: 4px;"></span>
     </a>
   </div>
 
