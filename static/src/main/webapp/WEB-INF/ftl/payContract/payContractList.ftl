@@ -17,12 +17,12 @@ js=["../js/jquery-dateFormat.js","../js/layer-v1.9.3/layer-site.js"]>
             "dom": '<"#toolbar"><"top"il>rt<"bottom"p><"clear">',
             "searching": false,
             "ordering": true,
-            "aaSorting": [[3, "desc"]],
+            "aaSorting": [[4, "desc"]],
             "serverSide": true,
             "scrollX": true,
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                { "orderable": false, "targets": [0,1,2,3,4] },
+                { "orderable": false, "targets": [0,1,2,3,6] },
             ],
             "ajax": {
                 type: "GET",
@@ -38,6 +38,17 @@ js=["../js/jquery-dateFormat.js","../js/layer-v1.9.3/layer-site.js"]>
                 { "data": "contractCode","defaultContent": "", "render": function(data, type, row, meta) {
                 
                     return "<a class='operation' onclick='eleContract(\"${rc.contextPath}\",0,0,"+row.id+")' >"+data+"</a>";
+                
+                }},
+                 { "data": "","defaultContent": "", "render": function(data, type, row, meta) {
+                
+                	var json = jQuery.parseJSON(row.customerJson)
+		                if (typeof(json) != "undefined"){
+		                 		console.log(json);
+		                		return json.company; 
+		                }
+                
+                    return "";
                 
                 }},
                 { "data": "orderJson","defaultContent": "", "render": function(data) {
@@ -138,6 +149,7 @@ $('#test').on('click', function(){
 		<thead>
 			<tr class="tableTr">
 				<th orderBy="contractCode">合同编号</th>
+					<th>客户</th>
 				<th>所关联订单</th>
 				<th>合同价格(元)</th>
 				<th orderBy="created">创建时间</th>

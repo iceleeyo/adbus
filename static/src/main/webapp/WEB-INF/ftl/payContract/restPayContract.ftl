@@ -52,7 +52,7 @@ function split( val ) {
     increaseArea: '10%' // optional
   });
 	$("#otherpay").hide();
-	$("#contractCode").hide();
+	//$("#contractCode").hide();
     $("#pingzhengTab").hide();
     $('input').on('ifChecked', function(event){
 			var p =($(this).val());
@@ -137,24 +137,24 @@ function uploadImaget(formId) {
         }
 }
 function showContract(){
-	     $("#contractCode").show();
+	     //$("#contractCode").show();
 	     $("#otherpay").hide();
 	     $("#pingzhengTab").hide();
 	}
 	function hideContract(){
-	     $("#contractCode").hide();
+	     //$("#contractCode").hide();
 	     $("#otherpay").show();
 	     $("#pingzhengTab").hide();
 	}
 	function hideboth(){
 		
-	     $("#contractCode").hide();
+	     //$("#contractCode").hide();
 	     $("#otherpay").hide();
 	     $("#pingzhengTab").show();
 	}
 	function hideall(){
 		
-	     $("#contractCode").hide();
+	     //$("#contractCode").hide();
 	     $("#otherpay").hide();
 	     $("#pingzhengTab").hide();
 	}
@@ -237,10 +237,7 @@ function showContract(){
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>合同编号:</label>
 					<input
-						class="ui-input  validate[required,minSize[2],maxSize[100]]"
-						type="text" name="contractCode" readonly="readonly" id="contractCode" value="${jpaPayContract.contractCode}" readonly="readonly"
-						data-is="isAmount isEnough" autocomplete="off"
-						disableautocomplete="" placeholder=""/>
+						  name="contractCode"  id="contractCode" value="${jpaPayContract.contractCode}"  style="height:40px;width:250px" readonly="readonly"/>
 				</div>
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>代理客户:</label>

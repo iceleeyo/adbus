@@ -17,7 +17,7 @@ js=["../js/jquery-dateFormat.js","../js/layer-v1.9.3/layer-site.js"]>
             "dom": '<"#toolbar"><"top"il>rt<"bottom"p><"clear">',
             "searching": false,
             "ordering": true,
-            "aaSorting": [[3, "desc"]],
+            "aaSorting": [[5, "desc"]],
             "serverSide": true,
             "scrollX": true,
             "columnDefs": [
@@ -36,6 +36,14 @@ js=["../js/jquery-dateFormat.js","../js/layer-v1.9.3/layer-site.js"]>
                 "dataSrc": "content",
             },
             "columns": [
+             { "data": function( row, type, set, meta) {
+                    return row.id;
+                },
+                    "render": function(data, type, row, meta) {
+                    var operations='';
+                        operations +='&nbsp;&nbsp;<a class="table-link operation" target="_blank" href="${rc.contextPath}/payContract/toRestPayContract/' + data +'" >支付</a>';
+                         return operations;
+                    }},
                 { "data": "contractCode","defaultContent": "", "render": function(data, type, row, meta) {
                 
                     return "<a class='operation' onclick='eleContract(\"${rc.contextPath}\",0,0,"+row.id+")' >"+data+"</a>";
@@ -51,14 +59,7 @@ js=["../js/jquery-dateFormat.js","../js/layer-v1.9.3/layer-site.js"]>
                     return  $.format.date(data, "yyyy-MM-dd");
                 } },
                 { "data": "userId","defaultContent": ""},
-                { "data": function( row, type, set, meta) {
-                    return row.id;
-                },
-                    "render": function(data, type, row, meta) {
-                    var operations='';
-                        operations +='&nbsp;&nbsp;<a class="table-link operation" target="_blank" href="${rc.contextPath}/payContract/toRestPayContract/' + data +'" >详情</a>';
-                         return operations;
-                    }},
+               
             ],
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
@@ -142,13 +143,14 @@ $('#test').on('click', function(){
 	<table id="table" class="display" cellspacing="0" width="100%">
 		<thead>
 			<tr class="tableTr">
+				<th>管理</th>
 				<th orderBy="contractCode">合同编号</th>
 				<th>所关联订单</th>
 				<th>合同价格(元)</th>
 				<th>已确认支付(元)</th>
 				<th orderBy="created">创建时间</th>
 				<th orderBy="userId">创建人</th>
-				<th>管理</th>
+				
 			</tr>
 		</thead>
 
