@@ -53,7 +53,7 @@ function tocard(pathurl){
 					<div class="search-handle">
 						<button class="search-btn" type="submit" id="search-btn">搜索</button>
 					</div>
-					<div class="search-key">
+					<div class="search-key"> 
 						<span><a href="javascript:void(0)">硬广广告</a></span> <span><a
 							href="javascript:void(0)">INFO图片</a></span> <span><a
 							href="javascript:void(0)">INFO字幕</a></span> <span><a
