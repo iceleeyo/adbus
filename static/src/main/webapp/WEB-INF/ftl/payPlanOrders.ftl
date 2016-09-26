@@ -151,7 +151,13 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
     </@security.authorize>
 			<a href="${rc.contextPath}/order/payPlanOrders" class="active">
 			待支付分期订单<span id="recordsTotal" style="background-color: #ff9966; font-size: 14px; border-radius: 4px;"></span></a>
-	</div>
+	<@security.authorize ifAnyGranted="sales">
+    <a href="${rc.contextPath}/payContract/notPayContract" class="">
+    待支付合同 <span id="recordsTotal"
+      style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
+    </a>
+    </@security.authorize>
+  </div>
 	<table id="table" class="display" cellspacing="0" width="100%">
 		<thead>
 			<tr>

@@ -72,9 +72,6 @@
 				  <li class="pg-side-exp-item">
 					<a class="side-exp-item-t" href="${rc.contextPath}/payContract/list"> 合同列表 </a>
 				  </li>
-				  <li class="pg-side-exp-item">
-					<a class="side-exp-item-t" href="${rc.contextPath}/payContract/notPayContract">待支付合同 </a>
-				  </li>
 				  </@security.authorize>
 				  <@security.authorize ifAnyGranted="ShibaFinancialManager">
 						<li class="pg-side-exp-item"><a class="side-exp-item-t"
