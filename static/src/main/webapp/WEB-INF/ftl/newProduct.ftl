@@ -203,7 +203,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 						onkeyup="value=value.replace(/[^\d.]/g,'')" type="text"
 						value="12" readonly="readonly"
 						 data-is="isAmount isEnough"
-						autocomplete="off" disableautocomplete=""> 次/小时
+						autocomplete="off" disableautocomplete=""> 次/小时  
 				</div>
 
 				<div class="ui-form-item toggle videoToggle">
