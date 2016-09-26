@@ -202,8 +202,7 @@
 										
 									<li>
 									<input type="radio" name="payType" value="dividpay">
-										<label class="iradio"></label> <span tip=" <ul class='layer_notice'><a><font color='orange'><B>温馨提示</B></font><br>选择分期付款方式<br>  北巴相关订单处理部门将根据订单情况设置分期的细节<br> 待分期设置后
-										<br> 可在后台待办事项看到相应的处理事项</ul></a>" class="layer-tips2">分期付款</span>
+										<label class="iradio"></label> <span>分期付款</span>
 										</li>
 										<@security.authorize ifAnyGranted="sales">
 										<span style = "margin-left:50px">客户列表</span>
@@ -308,6 +307,7 @@
 	<script type="text/javascript">
 		function contractConFirm(){
 		var customerId=$("#customerId").val();
+		var paytype=$('#payway :radio[name=payType]:checked').val();
 		var cusId='';
 		if(typeof(customerId)=="undefined"){
 		      customerId=cusId;
@@ -319,7 +319,7 @@
 					    		area: ['800px', '600px'], 
 					    		content:''
 								   +' '
-								   +'<iframe  style="width:99%;height:90%" src="${rc.contextPath}/user/contract_templete?customerId='+customerId+'&meids=${meids!''}"/><div class="ui-form-item widthdrawBtBox" style="width: 42%;"> <input type="button" id="subWithdraworder" class="block-btn" onclick="payment();" value="确认" style="margin:10px 0px -10px 45%;"> </div>'
+								   +'<iframe  style="width:99%;height:90%" src="${rc.contextPath}/user/contract_templete?paytype='+paytype+'&customerId='+customerId+'&meids=${meids!''}"/><div class="ui-form-item widthdrawBtBox" style="width: 42%;"> <input type="button" id="subWithdraworder" class="block-btn" onclick="payment();" value="确认" style="margin:10px 0px -10px 45%;"> </div>'
 								});
 		}
 		function check(){
