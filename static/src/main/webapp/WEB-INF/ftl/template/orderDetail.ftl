@@ -199,7 +199,7 @@ function supDetail(data){
 					href="javascript:void(0)"
 					onclick="supDetail(${(suppliesView.mainView.id)!''})">查看</a></SPAN></li>
 					</#if>
-			<li style="width: 500px;"><SPAN>审批合格号：</SPAN><SPAN class="con">
+			<li style="width: 500px;"><SPAN>审批合格号： </SPAN><SPAN class="con">
 					<#if suppliesView.mainView.seqNumber?has_content >
 					${(suppliesView.mainView.seqNumber)!''} <#else> -- </#if> </SPAN></li> <#if
 			quafiles?? > </#if> </#if> <#if ischedule?? && ischedule=='Y'>

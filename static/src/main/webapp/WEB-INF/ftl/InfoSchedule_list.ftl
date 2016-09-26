@@ -182,7 +182,7 @@ div#toolbar {
 			<tr>
 				<th></th>
 				<th>序号</th>
-				<th>审批合格号</th>
+				<th>审批合格号</th>  
 				<th>字幕服务信息内容</th>
 			</tr>
 		</thead>

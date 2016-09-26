@@ -187,7 +187,7 @@ function approve2(){
 	   return;
 	}
 	if(seqNumber==""){
-	   jDialog.Alert("请填写审批合格号");
+	   jDialog.Alert("请填写审批合格号"); 
 	   return;
 	}
 	
