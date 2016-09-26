@@ -332,14 +332,6 @@ function getEnd(date,days){
     待收款分期订单 <span id="recordsTotal"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
     </a>
-<<<<<<< Updated upstream
-=======
-    
-    
-    
-    
-    
->>>>>>> Stashed changes
      <a href="${rc.contextPath}/order/planContract" class="">
     待收款确认合同 <span id="recordsTotal"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
