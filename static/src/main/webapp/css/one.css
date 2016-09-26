@@ -2501,6 +2501,10 @@ a.button-disable, a.button-disable:active, a.button-disable:hover {
 	list-style: none
 }
 
+.newPay-order {
+	margin-left: 17px;
+}
+
 .ui-form fieldset {
 	border: 0
 }

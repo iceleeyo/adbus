@@ -162,8 +162,6 @@ $('#test').on('click', function(){
     </@security.authorize>
   </div>
 	
-	<div class="withdraw-title" style="margin-top:20px;">
-		<span>合同列表</span>	</div>
 	<table id="table" class="display" cellspacing="0" width="100%">
 		<thead>
 			<tr class="tableTr">
