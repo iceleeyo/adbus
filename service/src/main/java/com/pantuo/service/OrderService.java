@@ -17,6 +17,7 @@ import org.activiti.engine.RuntimeService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.h2.util.New;
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -475,8 +476,13 @@ public class OrderService {
 		return ordersRepository.findOne(orderId);
 	}
 
-	public List<JpaOrders> getJpaOrders(List<Integer> orderId) {
-		return ordersRepository.findAll(orderId);
+	public List<JpaOrders> getJpaOrders(TableRequest req, List<Integer> orderId) {
+		BooleanExpression query=QJpaOrders.jpaOrders.id.in(orderId);
+		String proName=req.getFilter("proName");
+		if(StringUtils.isNotBlank(proName)){
+			query=query.and(QJpaOrders.jpaOrders.product.name.like("%"+proName+"%"));
+		}
+		return (List<JpaOrders>) ordersRepository.findAll(query);
 	}
 
 	public Iterable<JpaOrders> getOrdersForSchedule(int city, Date day, JpaProduct.Type type) {

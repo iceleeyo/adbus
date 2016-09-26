@@ -602,6 +602,14 @@ public class UserManagerController {
 			Principal principal, HttpServletRequest request) {
 		return userService.updateUserFromPage(BooleanUtils.toBoolean(isSuperUpdate), detail, principal, request);
 	}
+	
+	@PreAuthorize(" hasRole('UserManager')  ")
+	@RequestMapping(value = "/resetPW", method = { RequestMethod.POST })
+	@ResponseBody
+	public Pair<Boolean, String> resetPassW( @RequestParam(value = "userName") String userName,
+			Principal principal) {
+		return userService.resetPassW(userName, principal);
+	}
 
 	@RequestMapping(value = "savequalifi", method = RequestMethod.POST)
 	@ResponseBody

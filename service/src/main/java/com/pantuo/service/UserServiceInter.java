@@ -129,5 +129,7 @@ public	Page<UserDetail> getUsers(String utype, String name, Boolean isEnabled, i
 
 	public abstract List<String> salesManAutoComplete(int city, String name);
 
+	public abstract Pair<Boolean, String> resetPassW(String userName, Principal principal);
+
 
 }

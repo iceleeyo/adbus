@@ -56,6 +56,7 @@ var table;
             "columns": [
             	{ "data": "order.creator", "defaultContent": ""},
             	{ "data": "longOrderId", "defaultContent": ""},
+            	{ "data": "order.product.name", "defaultContent": ""},
             	 <@security.authorize ifAnyGranted="sales">
             		{ "data": "longOrderId", "defaultContent": "","render": function(data, type, row, meta) {
             			var customer = $.parseJSON(row.order.customerJson); 
@@ -234,6 +235,7 @@ var table;
 			<tr>
 				<th>下单用户</th>
 				<th>订单编号</th>
+				<th>套餐名称</th>
 				 <@security.authorize ifAnyGranted="sales">
 				<th>客户</th>
 				</@security.authorize>

@@ -439,7 +439,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("created");
 
-		String longId = req.getFilter("longOrderId"), userIdQuery = req.getFilter("userId"), taskKey = req.getFilter("taskKey"), customerName = req.getFilter("customerName");
+		String longId = req.getFilter("longOrderId"), userIdQuery = req.getFilter("userId"), 
+				taskKey = req.getFilter("taskKey"), customerName = req.getFilter("customerName");
 		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
 		page = page + 1;
 		List<Task> tasks = new ArrayList<Task>();
@@ -502,7 +503,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 		if (!orders.isEmpty()) {
 
-			List<JpaOrders> jpaLists = orderService.getJpaOrders(orders);
+			List<JpaOrders> jpaLists = orderService.getJpaOrders(req,orders);
 
 			for (JpaOrders jpaOrders : jpaLists) {
 				orderMap.put(jpaOrders.getId(), jpaOrders);

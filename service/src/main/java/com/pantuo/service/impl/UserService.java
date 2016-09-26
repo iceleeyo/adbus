@@ -717,6 +717,18 @@ public class UserService implements UserServiceInter {
 		identityService.saveUser(activitiUser);//更新工作流中的user表
 	}
 
+	@Override
+	public Pair<Boolean, String> resetPassW(String userName, Principal principal) {
+		org.activiti.engine.identity.User activitiUser = identityService.createUserQuery()
+				.userId(userName).singleResult();
+		if(activitiUser==null){
+			return new Pair<Boolean, String>(false,"用户信息丢失");
+		}
+		activitiUser.setPassword("123456");
+		identityService.saveUser(activitiUser);//更新工作流中的user表
+	    return new Pair<Boolean, String>(true,"用户"+userName+"重置密码成功");
+	}
+
 	/**
 	 * @see com.pantuo.service.UserServiceInter#createUserFromPage(com.pantuo.dao.pojo.UserDetail)
 	 * @since pantuotech 1.0-SNAPSHOT

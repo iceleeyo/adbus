@@ -108,8 +108,10 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                     }
                       opt+= '<a class="operation" href="${rc.contextPath}/user/u_edit/' + data + '" >编辑</a> &nbsp;'
                         if(row.isActivate==0){
-                       opt+=  '<a class="operation" href="javascript:void(0)" onclick="delUser(\''+data+'\')" >删除</a> &nbsp;'
+                         opt+=  '<a class="operation" href="javascript:void(0)" onclick="delUser(\''+data+'\')" >删除</a> &nbsp;'
                         }
+                         opt+=  '<a class="operation" href="javascript:void(0)" onclick="resetPW(\''+data+'\')" >重置密码</a> &nbsp;'
+                        
                         return opt;
                     }},
             ],
@@ -175,6 +177,29 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
         initTable();
          bindLayerMouseOver();
     } );
+    
+    function resetPW(userName){
+    layer.confirm('确定重置密码为123456吗？', {icon: 3}, function(index){
+    		layer.close(index);
+		    if(true){
+		    	 $.ajax({
+		    			url:"${rc.contextPath}/user/resetPW",
+		    			type:"POST",
+		    			async:false,
+		    			dataType:"json",
+		    			data:{"userName":userName},
+		    			success:function(data){
+		    				if (data.left) {
+		    					layer.msg(data.right);
+		    					 table.dataTable()._fnAjaxUpdate();
+		    				} else {
+		    					layer.msg(data.right,{icon: 5});
+		    				}
+		    			}
+		       });  
+		       }
+		});	
+    }
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
 	<div class="withdraw-title">

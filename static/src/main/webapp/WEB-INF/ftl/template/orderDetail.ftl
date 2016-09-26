@@ -201,30 +201,34 @@ function supDetail(data){
 					</#if>
 			<li style="width: 500px;"><SPAN>审批合格号：</SPAN><SPAN class="con">
 					<#if suppliesView.mainView.seqNumber?has_content >
-					${(suppliesView.mainView.seqNumber)!''} <#else> -- </#if> </SPAN></li> <#if
-			quafiles?? > </#if> </#if> <#if ischedule?? && ischedule=='Y'>
+					${(suppliesView.mainView.seqNumber)!''} <#else> -- </#if> </SPAN></li> 
+			<#if quafiles?? > </#if> </#if>
+			
+		<@security.authorize ifNotGranted="advertiser">
+		    <#if ischedule?? && ischedule=='Y'>
 			<#else>
 			<li class="s-left f-iconli"><span class="s-left tt"><i
-					class="s-left ff-icon"></i>排期信息</span></li> <#if orderview.task_name?exists &&
+					class="s-left ff-icon"></i>排期信息</span></li> 
+					
+			<#if orderview.task_name?exists &&
 			orderview.task_id?? && (orderview.task_name=='已排期待上播' ||
 			orderview.task_name=='已上播' ||orderview.task_name=='已排期待上播')>
-			<li style="width: 200px;"><SPAN>排期状态：<a target="_blank"
-					href="${rc.contextPath}/schedule/${orderview.order.id!''}">
-						<#if city.mediaType == 'screen'> 查看排期表 <#elseif city.mediaType ==
-						'body'> 查看上刊巴士列表 </#if> </a></SPAN></li> <#elseif orderview.task_name?exists &&
-			(orderview.task_name=='已排期待上播' || orderview.task_name=='已上播'
-			||orderview.task_name=='已排期待上播')>
-			<li style="width: 200px;"><SPAN>排期状态：<a target="_blank"
-					href="${rc.contextPath}/schedule/${orderview.order.id!''}">
-						<#if city.mediaType == 'screen'> 查看排期表 <#elseif city.mediaType ==
-						'body'> 查看上刊巴士列表 </#if> </a> <#elseif orderview.task_name=='已完成' >
-					<li style="width: 200px;"><SPAN>排期状态：<a target="_blank"
-							href="${rc.contextPath}/schedule/${orderview.order.id!''}">
-								<#if city.mediaType == 'screen'> 查看排期表 <#elseif city.mediaType
-								== 'body'> 查看上刊巴士列表 </#if> </a> <#else>
+			<li style="width: 200px;"><SPAN>排期状态：
+			
+				<a target="_blank"	href="${rc.contextPath}/schedule/${orderview.order.id!''}">
+					查看排期表 </a></SPAN></li> 
+		
+					 <#elseif orderview.task_name=='已完成' >
+					<li style="width: 200px;"><SPAN>排期状态：
+							<a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">
+								查看排期表 </a> 
+					 <#else>
 
 							<li style="width: 200px;"><SPAN>排期状态：</SPAN> <SPAN
-								class="con">暂未排期</SPAN></li> </#if> </#if> 
+								class="con">暂未排期</SPAN></li> 
+					  </#if> 
+					</#if> 
+			</@security.authorize>
 		</UL>
 	</DIV>
 </DIV>

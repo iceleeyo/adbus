@@ -103,6 +103,7 @@ function getEnd(date,days){
                           ,"filter[taskKey]" : $('#taskKey').val()
                            <@security.authorize ifAnyGranted="sales,salesManager">
                  ,"filter[customerName]" : $('#customerName').val()
+                 ,"filter[proName]" : $('#proName').val()
               </@security.authorize>
         
                        
@@ -239,10 +240,14 @@ function getEnd(date,days){
                         '        <input id="customerName" style="width:200px" value="">' +
                         '    </span>' +
                           </@security.authorize>
+                           '  &nbsp; &nbsp; <span>产品名称：</span>' +
+                        '    <span>' +
+                        '        <input id="proName" style="width:200px" value="">' +
+                        '    </span>' +
                         '</div>'
         );
 
-        $('#longOrderId, #autocomplete,#customerName').change(function() {
+        $('#longOrderId, #autocomplete,#customerName,#proName').change(function() {
             table.fnDraw();
         });
         //author:impanxh 2015-05-20 22:36 自动补全功能
