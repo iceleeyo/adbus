@@ -86,7 +86,7 @@
 		</li> 
 	</@security.authorize>
 				
-		 <@security.authorize	ifAnyGranted="ShibaOrderManager">
+		 <@security.authorize	ifAnyGranted="ShibaOrderManager,sales">
 			<li class="pg-side-item"><a class="pg-side-item-t cc-icon">
 					<i class="s-left pg-icon-a h-icon"></i> 产品中心
 			</a>

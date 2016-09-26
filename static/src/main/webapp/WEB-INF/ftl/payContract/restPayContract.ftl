@@ -88,10 +88,10 @@ $.ajax({
 		 var op="";
 		 var price=0;
 			$.each(data,function(i,item){
-			 op+="<DIV class=\"p20bs color-white-bg border-ec\">"
+			 op+="<DIV class=\"newPay-order\">"
 						   +"<DIV class=\"summary uplan-summary-div\">"
 		              +"<UL class=\"uplan-detail-ul\">"
-			+"<li class=\"s-left f-iconli\"><span class=\"s-left tt\"><i class=\"s-left ff-icon\"></i>订单信息</span></li>"
+			+"<li class=\"s-left f-iconli\"><span class=\"s-left tt\"><i class=\"s-left ff-icon\"></i></span></li>"
 			+"<li style=\"width: 200px;\"><SPAN>订单号：</SPAN><a target='_blank' href='${rc.contextPath}/order/orderDetail/"+item.order.id+"'>  "+item.longOrderId+"</a></li>"
 			+"<li style=\"width: 200px;\"><SPAN>套餐名称：</SPAN>"
 			+"<a class='layer-tips' tip='点击可查看套餐详细内容!' onclick=\"showProductlayer('${rc.contextPath}',"+item.order.product.id+");\">"
@@ -99,7 +99,7 @@ $.ajax({
 			+"<li style=\"width: 200px;\"><SPAN>订单价格：</SPAN>"+item.order.price+"</li>"
 			+"<li style=\"width: 200px;\"><SPAN>媒体类型：</SPAN>"+item.order.product.type+"</li>"
 			+"<li style=\"width: 200px;\"><SPAN>下单用户：</SPAN>"+item.order.creator+"</li>"
-			+"</UL></DIV></DIV><br>"
+			+"</UL></DIV></DIV>"
 			price+=item.order.price;
 				});
 				$("#inputs").html(op);
@@ -250,7 +250,7 @@ function showContract(){
 				</div>
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>合同价格(￥):</label>
-					<input id="price" value="${jpaPayContract.price}" readonly="readonly" name="price" style="height:30px;width:200px"/>
+					<input id="price" value="${jpaPayContract.price}" readonly="readonly" name="price" style="height:40px;width:250px;margin-top:5px;"/>
 				</div>
 			
 

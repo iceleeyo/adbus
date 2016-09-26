@@ -144,7 +144,7 @@ public class ProductServiceImpl implements ProductService {
 		return vedioGroupRepository.findAll();
 	}
 
-	public Page<JpaProduct> getAllProducts(int city, boolean includeExclusive, String exclusiveUser, TableRequest req) {
+	public Page<JpaProduct> getAllProducts(int city, boolean includeExclusive, String exclusiveUser, TableRequest req,Principal principal) {
 		String name = req.getFilter("name"), stats = req.getFilter("stats"), type = req.getFilter("type");
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("enabled");
@@ -156,11 +156,18 @@ public class ProductServiceImpl implements ProductService {
 		sort = (sort == null ? new Sort("id") : sort);
 		Pageable p = new PageRequest(page, pageSize, sort);
 		BooleanExpression query = city >= 0 ? QJpaProduct.jpaProduct.city.eq(city) : QJpaProduct.jpaProduct.city.goe(0);
-		if (!includeExclusive) {
-			query = query.and(QJpaProduct.jpaProduct.exclusive.eq(false));
-		} else if (exclusiveUser != null) {
-			query = query.and(QJpaProduct.jpaProduct.exclusive.eq(false)
-					.or(QJpaProduct.jpaProduct.exclusiveUser.eq(exclusiveUser)));
+		
+		
+		if (Request.hasAuth(principal, ActivitiConfiguration.SALES) ) {
+			if(!Request.hasAuth(principal, ActivitiConfiguration.ORDER) ){
+			query = query.and(QJpaProduct.jpaProduct.creator.eq(Request.getUserId(principal)).or(QJpaProduct.jpaProduct.exclusive.eq(false)));
+			}
+		} else {
+			if (!includeExclusive) {
+				query = query.and(QJpaProduct.jpaProduct.exclusive.eq(false));
+			} else if (exclusiveUser != null) {
+				query = query.and(QJpaProduct.jpaProduct.exclusive.eq(false).or(QJpaProduct.jpaProduct.exclusiveUser.eq(exclusiveUser)));
+			}
 		}
 		if (StringUtils.isNotBlank(name)) {
 			query = query.and(QJpaProduct.jpaProduct.name.like("%" + name + "%"));
@@ -363,6 +370,7 @@ public class ProductServiceImpl implements ProductService {
 				}
 			}
 			product.setCity(city);
+			product.setCreator(Request.getUserId(principal));
 			product.setUpdator(Request.getUserId(principal));
 			com.pantuo.util.BeanUtils.filterXss(product);
 			product.setExclusiveUser(product.getExclusiveUser());

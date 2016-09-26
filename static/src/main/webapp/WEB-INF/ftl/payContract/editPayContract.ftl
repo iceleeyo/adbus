@@ -131,7 +131,7 @@ $.ajax({
 				</div>
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>合同价格(￥):</label>
-					<input id="price" value="${jpaPayContract.price}" name="price" style="height:30px;width:200px"/>
+					<input id="price" value="${jpaPayContract.price}" name="price" style="height:40px;width:200px;margin-top:5px;"/>
 				</div>
 			
 
