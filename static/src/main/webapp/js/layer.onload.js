@@ -49,9 +49,9 @@ function bindLayerMouseWithOpen(time){
 	
 }
 function bindLayerMouseOver(){
-	bindLayerMouseOverWithTime(120000);
+	bindLayerMouseOverWithTime(120000); 
 }
 
 $(document).ready(function(){
 	bindLayerMouseOver();
-})
+}) 
