@@ -163,9 +163,7 @@ $('#test').on('click', function(){
   </div>
 	
 	<div class="withdraw-title" style="margin-top:20px;">
-		<span>合同列表</span>
-	    <a class="block-btn" href="${rc.contextPath}/payContract/newPayContract">创建合同</a>
-	</div>
+		<span>合同列表</span>	</div>
 	<table id="table" class="display" cellspacing="0" width="100%">
 		<thead>
 			<tr class="tableTr">
