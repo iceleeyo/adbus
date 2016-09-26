@@ -1,4 +1,4 @@
-<#import "../template/template.ftl" as frame> <#global menu="待支付合同">
+<#import "../template/template.ftl" as frame> <#global menu="待办事项">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
 <@frame.html title="待支付合同"
 js=["../js/jquery-dateFormat.js","../js/layer-v1.9.3/layer-site.js"]>
@@ -142,15 +142,19 @@ $('#test').on('click', function(){
     </a>
     <@security.authorize ifAnyGranted="ShibaFinancialManager">
     <a href="${rc.contextPath}/order/planOrders" class="">
-    分期订单 <span id="recordsTotal"
+    待收款分期订单 <span id="recordsTotal"
+      style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
+    </a>
+    <a href="${rc.contextPath}/order/planContract" class="">
+    待收款确认合同 <span id="recordsTotal"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
     </a>
     </@security.authorize>
+    <@security.authorize ifAnyGranted="sales">
     <a href="${rc.contextPath}/order/payPlanOrders" class="">
     待支付分期订单 <span id="recordsTotal"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
     </a>
-    <@security.authorize ifAnyGranted="sales">
     <a href="${rc.contextPath}/payContract/notPayContract" class="active">
     待支付合同 <span id="recordsTotal"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
