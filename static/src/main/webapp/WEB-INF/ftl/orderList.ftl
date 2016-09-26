@@ -27,7 +27,18 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
       }
     }, "text");
   }
-
+function getEnd(date,days){
+	var d=new Date(date);
+	if(date=='' || d==""){
+		return "";
+	}else{
+	    d.setDate(d.getDate()+ days); 
+	    var m=d.getMonth()+1;
+	    d.getFullYear()+'-'+m+'-'+d.getDate();
+	   	d= $.format.date(d, "yyyy-MM-dd");
+	   	return d;
+	}
+}
   function claim(orderid,taskid){
   $.ajax({
       url : "${rc.contextPath}/order/claim/"+taskid,
@@ -157,10 +168,11 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
                 } },
                 { "data": "order.startTime", "defaultContent": "","render": function(data, type, row, meta) {
                   var d= $.format.date(data, "yyyy-MM-dd");
+                  var d2=getEnd(row.order.endTime,-1);
                     if (typeof(d) == "undefined"){
                       return '';
                     }
-                      return d+'至'+$.format.date(row.order.endTime, "yyyy-MM-dd");
+                      return d+'至'+d2;
                 }},
               
               { "data": "product.type", "defaultContent": "",

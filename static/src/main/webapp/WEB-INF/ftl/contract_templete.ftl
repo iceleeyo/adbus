@@ -474,13 +474,14 @@ function getEnd(date,days){
 	</#list>
 		<tr>
 			<td>合同结算情况</td><td COLSPAN=7>
-			<#if paytype?? && paytype=='online'>
+		<#if paytype?? && paytype=='online'>
 			  线上支付
 			  <#elseif paytype?? && paytype=='offline'>
 			  线下支付
 			  <#else>
 			  分期付款
 			  </#if>
+			
 			</td>
 		</tr>
 		<tr>
@@ -507,33 +508,33 @@ function getEnd(date,days){
 			<td >数量</td><td>&nbsp;&nbsp;1&nbsp;&nbsp;</td>			
 		</tr>
 		<tr style="height:40px;">
-			<td >总价（元）</td><td COLSPAN=7>
-				¥${(item.price)!''}元</td>
+			<td >订单价格（元）</td><td COLSPAN=7>
+				¥${item.price}元</td>
 		</tr>
 		<#assign sum=sum+(item.price) />
+		<tr ><td COLSPAN=8></td></tr>
 	</#list>
+		
+		<#if payplanView.right??>
 		<tr>
 			<td>合同结算情况</td><td COLSPAN=7>
-			<#if (payplanView.right)??>
 			<span style="display:block;padding-top:5px;">
 			甲方支付乙方广告费用金额共计<script>convertCurrency(${sum});</script> (¥${sum}元),分
-			 ${ (payplanView.right?size)!''} 次支付：</span><br>
-			
+			 ${ payplanView.right?size} 次支付：</span><br>
 			<#list payplanView.right as right>
-			
 			<span style="display:block;padding-top:5px;">
-				第${(right_index+1)!""}次：
+				第${right_index+1}次：
 				${right.day?string("yyyy年MM月dd日 ")}
-				<#-- ${(right.day!''}  --> 前支付广告费用金额为<script>convertCurrency(${(right.price)!''});</script>(¥${(right.price)!''}元)
+				前支付广告费用金额为<script>convertCurrency(${right.price});</script>(¥${right.price}元)
 			</span> <br>
 			</#list> 
-			<#else>
-				${payplanView.left}
-			</#if>
+
 			</td>
 		</tr>
+		
+		</#if>
 		<tr>
-			<td>签约价格（元）</td><td COLSPAN="7" align="center"><script>convertCurrency(${sum});</script>(¥${sum}元)</td>
+			<td>签约总价格（元）</td><td COLSPAN="7" align="center"><script>convertCurrency(${sum});</script>(¥${sum}元)</td>
 		</tr>
 		</table><br>
 	</#if>
