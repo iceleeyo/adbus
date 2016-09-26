@@ -647,6 +647,10 @@ header .area {
 	color: #fff;
 }
 
+.price {
+    width: 15%;
+}
+
 #b04 {
 	width: 100%;
 }
