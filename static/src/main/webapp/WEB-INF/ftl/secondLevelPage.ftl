@@ -507,7 +507,7 @@ function tocard(pathurl){
 								<a class="item active" href="#" sort="-1" qc="all">所有</a> <a
 								class="item" href="#" qc="video">硬广广告<i>×</i></a> <a
 								class="item" href="#" qc="image">INFO图片<i>×</i></a> 
-								<a class="item" href="#" qc="info">INFO字幕<i>×</i></a>
+								<a class="item" href="#" qc="info">INFO字幕<i>×</i></a>   
 								<a class="item" href="#" qc="inchof32">32寸屏广告<i>×</i></a>
 
 							</span>
