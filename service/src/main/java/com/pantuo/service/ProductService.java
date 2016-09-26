@@ -28,7 +28,7 @@ import com.pantuo.web.view.ProductView;
 
 public interface ProductService {
     Page<JpaProduct> getAllProducts(int city,  boolean includeExclusive, String exclusiveUser,
-    		TableRequest req);
+    		TableRequest req,Principal principal);
     Page<JpaProduct> searchProducts(int city, Principal principal,
     		TableRequest req);
 

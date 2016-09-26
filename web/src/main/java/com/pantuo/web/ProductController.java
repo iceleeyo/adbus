@@ -87,9 +87,9 @@ public class ProductController {
  Principal principal) {
 		Page<JpaProduct> page = null;
 		if (Request.hasAuth(principal, ActivitiConfiguration.ORDER)) {
-			page = productService.getAllProducts(city, true, null, req);
+			page = productService.getAllProducts(city, true, null, req,principal);
 		} else {
-			page = productService.getAllProducts(city, true, Request.getUserId(principal), req);
+			page = productService.getAllProducts(city, true, Request.getUserId(principal), req,principal);
 		}
 		return new DataTablePage(productService.getProductView(page), req.getDraw());
 	}
@@ -228,7 +228,7 @@ public class ProductController {
 		model.addAttribute("jpaCpd", jpaCpd);
 		model.addAttribute("userCpdList", userCpdList);
 	}
-    @PreAuthorize(" hasRole('ShibaOrderManager') ")
+    @PreAuthorize(" hasRole('ShibaOrderManager')  or hasRole('sales') ")
     @RequestMapping(value = "/new", produces = "text/html;charset=utf-8")
     public String newProduct(Model model, @ModelAttribute("city") JpaCity city) {
     	Page<UserDetail> users = userService.getValidUsers(null,0, 999, null);
@@ -285,7 +285,7 @@ public class ProductController {
     	return  cpdService.isMycompare(cpdid,principal);
     }
 
-    @PreAuthorize(" hasRole('ShibaOrderManager')  ")
+    @PreAuthorize(" hasRole('ShibaOrderManager') or hasRole('sales') ")
     @RequestMapping(value = "/save", method = { RequestMethod.POST})
     public String createProduct(
             JpaProduct prod,JpaCpd jpacpd,MediaSurvey survey,@RequestParam(value="startDate1")  String startDate1,@RequestParam(value="biddingDate1")  String biddingDate1,
