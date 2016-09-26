@@ -291,6 +291,7 @@ public class UserManagerController {
 			@RequestParam(value="productid" ,required=false, defaultValue ="0") int productid,
 			@RequestParam(value = "meids", required = false) String meids,
 			@RequestParam(value = "customerId", required = false) String customerId,
+			@RequestParam(value = "paytype", required = false) String paytype,
 			HttpServletRequest request,HttpServletResponse response) {
 		response.setHeader("X-Frame-Options", "SAMEORIGIN");
 		if (orderid > 0) {
@@ -346,6 +347,7 @@ public class UserManagerController {
 			}
 			model.addAttribute("userDetail", userDetail);
 		}
+		model.addAttribute("paytype", paytype);
 		return "contract_templete";
 	}
 

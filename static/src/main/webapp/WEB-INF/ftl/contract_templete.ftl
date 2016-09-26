@@ -473,7 +473,15 @@ function getEnd(date,days){
 		<#assign sum=sum+(item.totalprice) />
 	</#list>
 		<tr>
-			<td>合同结算情况</td><td COLSPAN=7>一次性付款</td>
+			<td>合同结算情况</td><td COLSPAN=7>
+			<#if paytype?? && paytype=='online'>
+			  线上支付
+			  <#elseif paytype?? && paytype=='offline'>
+			  线下支付
+			  <#else>
+			  分期付款
+			  </#if>
+			</td>
 		</tr>
 		<tr>
 			<td>签约价格（元）</td><td COLSPAN="7" align="center"><script>convertCurrency(${sum});</script>(¥${sum}元)</td>
