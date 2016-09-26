@@ -1,5 +1,5 @@
-<#import "template/template.ftl" as frame> <#global menu="合同收款确认">
-<@frame.html title="合同收款确认"
+<#import "template/template.ftl" as frame> <#global menu="分期合同">
+<@frame.html title="分期合同"
 css=["js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css"]
 js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","index_js/sift_common.js","js/datepicker.js","js/jquery.datepicker.region.cn.js"]>
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />

@@ -135,8 +135,30 @@ $('#test').on('click', function(){
 });
 </script>
 <div class="withdraw-wrap color-white-bg fn-clear">
+ <div class="tabs">
+    <a href="${rc.contextPath}/order/myTask/1" class="">
+    待办事项 <span id="recordsTotal"
+      style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
+    </a>
+    <@security.authorize ifAnyGranted="ShibaFinancialManager">
+    <a href="${rc.contextPath}/order/planOrders" class="">
+    分期订单 <span id="recordsTotal"
+      style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
+    </a>
+    </@security.authorize>
+    <a href="${rc.contextPath}/order/payPlanOrders" class="">
+    待支付分期订单 <span id="recordsTotal"
+      style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
+    </a>
+    <@security.authorize ifAnyGranted="sales">
+    <a href="${rc.contextPath}/payContract/notPayContract" class="active">
+    待支付合同 <span id="recordsTotal"
+      style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
+    </a>
+    </@security.authorize>
+  </div>
 	
-	<div class="withdraw-title">
+	<div class="withdraw-title" style="margin-top:20px;">
 		<span>合同列表</span>
 	    <a class="block-btn" href="${rc.contextPath}/payContract/newPayContract">创建合同</a>
 	</div>

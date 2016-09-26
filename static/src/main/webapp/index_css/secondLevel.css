@@ -469,11 +469,7 @@ header .area {
 }
 
 .activity {
-	width: 36%;
-}
-
-.price {
-	width: 21%;
+	width: 53%;
 }
 
 .num {
@@ -558,7 +554,7 @@ header .area {
 
 .buy .cont .num {
 	margin-top: 25px;
-	margin-left: 8%;
+	margin-left: 4%;
 	line-height: 100px;
 }
 
@@ -587,7 +583,6 @@ header .area {
 
 .buy .cont .map {
 	padding-top: 8px;
-	margin-left: 5%;
 	line-height: 100px;
 }
 
@@ -650,6 +645,10 @@ header .area {
 	cursor: pointer;
 	font-size: 20px;
 	color: #fff;
+}
+
+.price {
+    width: 15%;
 }
 
 #b04 {

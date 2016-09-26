@@ -192,6 +192,7 @@ public class UserService implements UserServiceInter {
 				if (ustatsQuery != null ) {
 					query = (query == null ? q.ustats.eq(ustatsQuery) : query.and(q.ustats.eq(ustatsQuery)));
 				}
+				query = (query == null ? q.createBySales.isNull()  : query.and(q.createBySales.isNull() ));
 				result = userRepo.findAll(query, p);
 			} else {
 				if(loginUserType!=null){
@@ -201,6 +202,7 @@ public class UserService implements UserServiceInter {
 						result = userRepo.findAll(query, p);
 					}else if(loginUserType==UType.screen){
 						query = (query == null ? q.utype.ne(UType.body) : query.and(q.utype.ne(UType.body)));
+						query = (query == null ? q.createBySales.isNull()  : query.and(q.createBySales.isNull() ));
 						result = userRepo.findAll(query, p);
 					}
 					if (ustatsQuery != null) {
@@ -208,7 +210,6 @@ public class UserService implements UserServiceInter {
 					}
 					
 				}else {
-					
 					result = userRepo.findAll(p);	
 				}
 				
@@ -238,6 +239,7 @@ public class UserService implements UserServiceInter {
 				}
 
 			}
+			query = (query == null ? q.createBySales.isNull()  : query.and(q.createBySales.isNull() ));
 			result = userRepo.findAll(query, p);
 		}
 

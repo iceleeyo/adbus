@@ -1492,8 +1492,13 @@ public class ActivitiServiceImpl implements ActivitiService {
 			} else if (StringUtils.equals("usertask4", w.getTaskDefinitionKey())) {
 				String key = String.format(f, historicTaskInstance.getId(), "shigongComments");
 				w.setComment((String) temp.get(key));
+			}else if (StringUtils.equals("setPayPlan", w.getTaskDefinitionKey())) {
+				boolean r=(boolean)temp.get("isContractPayed");
+				if(r){
+					w.setComment("系统自动关联合同分期！");
+				}
 			}
-
+			
 			view.add(w);
 		}
 		//extractDebug(taskInstances);

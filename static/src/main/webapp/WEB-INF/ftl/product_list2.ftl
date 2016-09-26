@@ -49,7 +49,7 @@ js=["js/jquery-ui/jquery-ui.js","js/layer-v1.9.3/layer/layer.js","js/layer.onloa
                 { "data": "type", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         if (data == 'video')
-                            return '全屏硬广';
+                            return '硬广广告';
                        else if (data == 'image')
                             return 'INFO图片';
                        else if (data == 'body')

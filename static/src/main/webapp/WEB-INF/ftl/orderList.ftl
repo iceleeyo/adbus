@@ -166,7 +166,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
               { "data": "product.type", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         if (data == 'video')
-                            return '全屏硬广';
+                            return '硬广广告';
                         if (data == 'image')
                             return 'INFO图片';
                         if (data == 'body')
@@ -310,10 +310,33 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
     待办事项 <span id="recordsTotal"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
     </a>
+    <@security.authorize ifAnyGranted="ShibaFinancialManager">
     <a href="${rc.contextPath}/order/planOrders" class="">
-    分期订单 <span id="recordsTotal"
+    待收款分期订单 <span id="recordsTotal"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
     </a>
+    
+    
+    
+    
+    
+     <a href="${rc.contextPath}/payContract/notPayContract" class="">
+    待收款确认合同 <span id="recordsTotal"
+      style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
+    </a>
+    </@security.authorize>
+    
+    
+    <@security.authorize ifAnyGranted="sales">
+    <a href="${rc.contextPath}/order/payPlanOrders" class="">
+    待支付分期订单 <span id="recordsTotal"
+      style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
+    </a>
+    <a href="${rc.contextPath}/payContract/notPayContract" class="">
+    待支付合同 <span id="recordsTotal"
+      style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
+    </a>
+    </@security.authorize>
   </div>
 
  <#--  <div class="withdraw-title" style="padding-top: 0px; text-align: left;">

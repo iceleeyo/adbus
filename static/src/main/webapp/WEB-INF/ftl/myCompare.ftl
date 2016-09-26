@@ -35,7 +35,7 @@ js=["js/jquery-ui/jquery-ui.js","js/jquery-dateFormat.js","js/layer-v1.9.3/layer
                 { "data": "product.type", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         if (data == 'video')
-                            return '全屏硬广';
+                            return '硬广广告';
                         if (data == 'image')
                             return 'INFO图片';
                         if (data == 'body')
