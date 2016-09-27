@@ -18,7 +18,7 @@ import java.util.Date;
         columnList="city, userId, stats, type, startTime, endTime"))
 public class JpaOrders extends CityEntity {
     public static enum PayType {
-        online, contract,check,remit,cash,offline,dividpay
+        online, contract,check,remit,cash,offline,dividpay,payContract
     }
     public static enum Status {
         unpaid ("未支付"),
@@ -72,9 +72,9 @@ public class JpaOrders extends CityEntity {
     private Date jianboDay;
     private Date financialCheckDay;
     private Date cancelDay;
-    @Column(length=2000) 
+    @Column(length=200) 
     private String orderUserJson;//用户信息保存
-    @Column(length=2000) 
+    @Column(length=200) 
     private String customerJson;//客户信息保存
     private long runningNum;//交易流水号
     
