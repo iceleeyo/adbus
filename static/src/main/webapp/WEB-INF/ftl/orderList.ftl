@@ -151,6 +151,9 @@ function getEnd(date,days){
                 </@security.authorize>
               
               { "data": "order.contractCode", "defaultContent": "", "render": function(data, type, row, meta) {
+              if(typeof(data)=="undefined"){
+                return "";
+              }
               var customer = $.parseJSON(row.order.customerJson);
               var customerId=(customer == null || customer=='undefined'
                         || typeof(customer) == "undefined"||typeof(customer.username) == "undefined")?"":customer.username;
@@ -338,10 +341,10 @@ function getEnd(date,days){
     </a>
     </@security.authorize>
     <@security.authorize ifAnyGranted="sales">
-    <a href="${rc.contextPath}/order/payPlanOrders" class="">
+  <#--  <a href="${rc.contextPath}/order/payPlanOrders" class="">
     待支付分期订单 <span id="recordsTotal"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
-    </a>
+    </a>-->
     <a href="${rc.contextPath}/payContract/notPayContract" class="">
     待支付合同 <span id="recordsTotal"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>

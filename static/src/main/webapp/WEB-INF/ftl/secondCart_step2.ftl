@@ -328,9 +328,10 @@
 								});
 		}
 		function check(){
+		var paytype=$('#payway :radio[name=payType]:checked').val();
 		var customerId=$("#customerId").val();
 		var bid='${boids!''}';
-		if(bid==""){
+		if(paytype!="payContract"){
 		$.ajax({
 		url : "${rc.contextPath}/user/getUserDetail",
 		type : "GET",

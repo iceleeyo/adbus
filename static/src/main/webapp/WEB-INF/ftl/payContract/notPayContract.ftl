@@ -151,10 +151,10 @@ $('#test').on('click', function(){
     </a>
     </@security.authorize>
     <@security.authorize ifAnyGranted="sales">
-    <a href="${rc.contextPath}/order/payPlanOrders" class="">
+   <#-- <a href="${rc.contextPath}/order/payPlanOrders" class="">
     待支付分期订单 <span id="recordsTotal"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
-    </a>
+    </a>-->
     <a href="${rc.contextPath}/payContract/notPayContract" class="active">
     待支付合同 <span id="recordsTotal"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>

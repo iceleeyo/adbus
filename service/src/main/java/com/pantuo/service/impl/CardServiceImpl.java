@@ -940,7 +940,9 @@ public class CardServiceImpl implements CardService {
 			order.setUserId(jpaCardBoxMedia.getUserId());
 			order.setCreator(jpaCardBoxMedia.getUserId());
 			order.setProduct(jpaCardBoxMedia.getProduct());
-			order.setContractCode(code);
+			if(JpaOrders.PayType.valueOf(paytype)!=JpaOrders.PayType.payContract){
+				order.setContractCode(code);
+			}
 			order.setSuppliesId(1);
 			order.setPayType(JpaOrders.PayType.valueOf(paytype));
 			order.setStats(JpaOrders.Status.unpaid);
