@@ -443,10 +443,6 @@ function savePayPlan() {
 		layer.msg("请选择付款日期");
 		return;
 	}
-//	if (payDate1<today) {
-//		layer.msg("请选择今天以后的日期");
-//		return;
-//	}
 	$('#fenqiform').ajaxForm(function(data) {
 		if (data.left) {
 			layer.msg("添加成功");
