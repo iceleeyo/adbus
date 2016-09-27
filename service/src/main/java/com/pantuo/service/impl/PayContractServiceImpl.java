@@ -4,7 +4,9 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +33,6 @@ import com.pantuo.dao.PayPlanRepository;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaPayContract;
 import com.pantuo.dao.pojo.JpaPayPlan;
-import com.pantuo.dao.pojo.QJpaCalendar;
 import com.pantuo.dao.pojo.QJpaOrders;
 import com.pantuo.dao.pojo.QJpaPayContract;
 import com.pantuo.dao.pojo.UserDetail;
@@ -89,8 +90,8 @@ public class PayContractServiceImpl implements PayContractService {
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	public List<String> queryMyUnPayOrders(Principal principal, String customName) {
-		List<String> idList = Lists.newArrayList();
+	public Map<String,String> queryMyUnPayOrders(Principal principal, String customName) {
+		Map<String,String> idList = new LinkedHashMap<String,String>();
 		if (StringUtils.isBlank(customName)) {
 			return idList;
 		}
@@ -106,7 +107,8 @@ public class PayContractServiceImpl implements PayContractService {
 				JpaOrders order = ordersRepository.findOne(orderid);
 				if (order != null) {
 					long longOrderId = OrderIdSeq.getIdFromDate(orderid, order.getCreated());
-					idList.add(String.valueOf(longOrderId));
+					String id=String.valueOf(longOrderId);
+					idList.put(id,id.concat(",") +order.getProduct().getName().concat(",")+ order.getProduct().getType().getTypeName()+","+order.getPrice());
 				}
 			}
 
@@ -128,9 +130,9 @@ public class PayContractServiceImpl implements PayContractService {
 	public List<AutoCompleteView> OrderIdComplete(Principal principal, String name, HttpServletRequest request) {
 		List<AutoCompleteView> r = new ArrayList<AutoCompleteView>();
 		String customName = request.getParameter("customerName");
-		List<String> idList = queryMyUnPayOrders(principal, customName);
-		for (String string : idList) {
-			r.add(new AutoCompleteView(string, string));
+		Map<String,String> idList = queryMyUnPayOrders(principal, customName);
+		for (Map.Entry<String,String> entry : idList.entrySet()) {
+			r.add(new AutoCompleteView(entry.getKey()	, entry.getValue()));
 		}
 		return r;
 	}
