@@ -66,6 +66,7 @@ js=["../js/jquery-dateFormat.js","../js/layer-v1.9.3/layer-site.js"]>
             },
             "initComplete": initComplete,
             "drawCallback": drawCallback,
+            "fnDrawCallback": fnDrawCallback
         } );
         table.fnNameOrdering("orderBy").fnNoColumnsParams();
     }
@@ -118,6 +119,12 @@ function delContract(conid){
             })
         });
     }
+    function fnDrawCallback(){
+	    var record_count = (this.fnSettings().fnRecordsTotal() );
+	    if(record_count>0){
+	      $("#notPayContracts").html("&nbsp;"+record_count+"&nbsp;"); 
+	      }
+    }
 
     $(document).ready(function() {
         initTable();
@@ -137,28 +144,33 @@ $('#test').on('click', function(){
 <div class="withdraw-wrap color-white-bg fn-clear">
  <div class="tabs">
     <a href="${rc.contextPath}/order/myTask/1" class="">
-    待办事项 <span id="recordsTotal"
+    待办事项 <span id="orderTaskCount"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
     </a>
     <@security.authorize ifAnyGranted="ShibaFinancialManager">
     <a href="${rc.contextPath}/order/planOrders" class="">
-    待收款分期订单 <span id="recordsTotal"
+    待收款分期订单 <span id="planOrders"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
     </a>
     <a href="${rc.contextPath}/order/planContract" class="">
-    待收款确认合同 <span id="recordsTotal"
+    待收款确认合同 <span id="planContract"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
     </a>
     </@security.authorize>
-    <@security.authorize ifAnyGranted="sales">
-   <#-- <a href="${rc.contextPath}/order/payPlanOrders" class="">
-    待支付分期订单 <span id="recordsTotal"
-      style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
-    </a>-->
-    <a href="${rc.contextPath}/payContract/notPayContract" class="active">
-    待支付合同 <span id="recordsTotal"
+    <@security.authorize ifAnyGranted="sales,ShibaOrderManager,advertiser">
+    
+     <@security.authorize ifAnyGranted="ShibaOrderManager,advertiser">
+ 	   <a href="${rc.contextPath}/order/payPlanOrders" class="">
+    待支付分期订单 <span id="payPlanOrders"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
     </a>
+     </@security.authorize>
+      <@security.authorize ifAnyGranted="sales">
+    <a href="${rc.contextPath}/payContract/notPayContract" class="active">
+    待支付合同 <span id="notPayContracts"
+      style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
+    </a>
+     </@security.authorize>
     </@security.authorize>
   </div>
 	
@@ -178,6 +190,17 @@ $('#test').on('click', function(){
 
 	</table>
 </div>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        queryTaskCount('orderTaskCount,notPayContracts,planOrders,planContract,payPlanOrders');
+    } );
+</script> 
+
+
+
 </@frame.html>
 
 

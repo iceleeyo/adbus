@@ -2261,7 +2261,18 @@ $(function(){
 	});
 });
 
-
+function queryTaskCount(types){
+    $.ajax({
+      url : "/payContract/ajax-taskCount?types="+types,
+      type : "POST",
+      success : function(data) {
+      console.log(data);
+      $.each(data, function(key, value) { 
+			 $("#"+key).html("&nbsp;"+value+"&nbsp;");
+		}); 
+      }
+    }, "text");
+}
 
 
 

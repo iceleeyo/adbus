@@ -82,5 +82,11 @@ public interface PayContractService {
 	public Page<JpaPayContract> getAllNotPayContracts(TableRequest req, Principal principal);
 	public String toRestPayContract(int contarctId, Model model, Principal principal);
 	public void updateContractPlan(PaycontractWithBLOBs contract);
+	
+	
+	
+	public long getAllNotPayContractCount(TableRequest req, Principal principal) ;
+		
+		
 
 }

@@ -290,10 +290,13 @@ public class PayContractServiceImpl implements PayContractService {
 		}
 		return payContractRepository.findAll(query, p);
 	}
-
+	public long getAllNotPayContractCount(TableRequest req, Principal principal) {
+		BooleanExpression query = getQueryExpress(req);
+		return payContractRepository.count(query);
+	}
 	@Override
 	public Page<JpaPayContract> getAllNotPayContracts(TableRequest req, Principal principal) {
-		String code = req.getFilter("contractCode"),stateKey = req.getFilter("stateKey");;
+		BooleanExpression query = getQueryExpress(req);
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("id");
 		if (page < 0)
@@ -302,6 +305,13 @@ public class PayContractServiceImpl implements PayContractService {
 			pageSize = 1;
 		sort = (sort == null ? new Sort("id") : sort);
 		Pageable p = new PageRequest(page, pageSize, sort);
+		return payContractRepository.findAll(query, p);
+	}
+
+	private BooleanExpression getQueryExpress(TableRequest req) {
+		String code = req.getFilter("contractCode"),stateKey = req.getFilter("stateKey");;
+		
+		
 		BooleanExpression query = QJpaPayContract.jpaPayContract.delFlag.isFalse();
 		if (StringUtils.isNotBlank(code)) {
 			query = query.and(QJpaPayContract.jpaPayContract.contractCode.like("%" + code + "%"));
@@ -315,7 +325,7 @@ public class PayContractServiceImpl implements PayContractService {
 		} else {
 			query=query.and(QJpaPayContract.jpaPayContract.price.gt(QJpaPayContract.jpaPayContract.payPrice));
 		}
-		return payContractRepository.findAll(query, p);
+		return query;
 	}
 
 	@Override

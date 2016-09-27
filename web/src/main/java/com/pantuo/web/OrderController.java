@@ -701,7 +701,7 @@ public class OrderController {
 	@ResponseBody
 	public DataTablePage<OrderView> getPayPlanOrders(TableRequest req,Principal principal)
 			{
-		Page<OrderView> page = orderService.getPayPlanOrders(req ,req.getPage(), req.getLength(),Request.getUserId(principal));
+		Page<OrderView> page = orderService.getPayPlanOrders(req ,Request.getUserId(principal));
 		return new DataTablePage(page, req.getDraw());
 	}
 	@RequestMapping("ajax-queryPayPlanDetail")

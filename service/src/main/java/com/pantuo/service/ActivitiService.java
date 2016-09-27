@@ -97,6 +97,9 @@ public interface ActivitiService {
 			String contents,String receway,UserDetail u);
 
 	public Page<OrderView> findTask(int city, Principal principal, TableRequest req, TaskQueryType tqType);
+	
+	
+	public long findTaskCount(int city, Principal principal, TableRequest req, TaskQueryType tqType);
 
 	public Page<OrderView> finished(int city, Principal principal, TableRequest req);
 

@@ -434,13 +434,49 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 	}
 
+	public long findTaskCount(int city, Principal principal, TableRequest req, TaskQueryType tqType) {
+		String userid = Request.getUserId(principal);
+
+		String longId = req.getFilter("longOrderId"), userIdQuery = req.getFilter("userId"), taskKey = req.getFilter("taskKey"), customerName = req.getFilter("customerName");
+		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
+		List<Task> tasks = new ArrayList<Task>();
+		List<OrderView> leaves = new ArrayList<OrderView>();
+		TaskQuery countQuery = taskService.createTaskQuery().processDefinitionKey(MAIN_PROCESS);
+		/**
+		 * 根据查询方式 查我的待办事项或是 我提交的task
+		 */
+		if (tqType == TaskQueryType.task) {
+			countQuery.taskCandidateOrAssigned(userid);
+		} else {
+			countQuery.processVariableValueEquals(ActivitiService.CREAT_USERID, userid);
+		}
+
+		countQuery.processVariableValueEquals(ActivitiService.CITY, city);
+		if (longOrderId > 0) {
+			countQuery.processVariableValueEquals(ActivitiService.ORDER_ID, OrderIdSeq.checkAndGetRealyOrderId(longOrderId));
+		}
+
+		if (StringUtils.isNoneBlank(customerName)) {
+			countQuery.processVariableValueLike(ActivitiService.COMPANY, "%" + customerName + "%");
+		}
+		if (StringUtils.isNoneBlank(userIdQuery)) {
+			countQuery.processVariableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
+		}
+		if (StringUtils.isNoneBlank(taskKey) && !StringUtils.startsWith(taskKey, ActivitiService.R_DEFAULTALL)) {
+			countQuery.taskDefinitionKey(taskKey);
+			//queryList.taskVariableValueEquals("paymentResult", true);
+		}
+		long c = countQuery.count();
+		return c;
+
+	}
+
 	public Page<OrderView> findTask(int city, Principal principal, TableRequest req, TaskQueryType tqType) {
 		String userid = Request.getUserId(principal);
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("created");
 
-		String longId = req.getFilter("longOrderId"), userIdQuery = req.getFilter("userId"), 
-				taskKey = req.getFilter("taskKey"), customerName = req.getFilter("customerName");
+		String longId = req.getFilter("longOrderId"), userIdQuery = req.getFilter("userId"), taskKey = req.getFilter("taskKey"), customerName = req.getFilter("customerName");
 		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
 		page = page + 1;
 		List<Task> tasks = new ArrayList<Task>();
@@ -503,7 +539,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 		if (!orders.isEmpty()) {
 
-			List<JpaOrders> jpaLists = orderService.getJpaOrders(req,orders);
+			List<JpaOrders> jpaLists = orderService.getJpaOrders(req, orders);
 
 			for (JpaOrders jpaOrders : jpaLists) {
 				orderMap.put(jpaOrders.getId(), jpaOrders);
@@ -933,7 +969,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 						variables.put(ActivitiService.R_USERPAYED, true);
 						variables.put(ActivitiService.PAYPLAN, false);
 						taskService.complete(task.getId(), variables);
-					} 
+					}
 				}
 			}
 		}
@@ -1499,13 +1535,13 @@ public class ActivitiServiceImpl implements ActivitiService {
 			} else if (StringUtils.equals("usertask4", w.getTaskDefinitionKey())) {
 				String key = String.format(f, historicTaskInstance.getId(), "shigongComments");
 				w.setComment((String) temp.get(key));
-			}else if (StringUtils.equals("setPayPlan", w.getTaskDefinitionKey())) {
-				boolean r=(boolean)temp.get("isContractPayed");
-				if(r){
+			} else if (StringUtils.equals("setPayPlan", w.getTaskDefinitionKey())) {
+				boolean r = (boolean) temp.get("isContractPayed");
+				if (r) {
 					w.setComment("系统自动关联合同分期！");
 				}
 			}
-			
+
 			view.add(w);
 		}
 		//extractDebug(taskInstances);
@@ -1783,7 +1819,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 								if (!tasks.isEmpty()) {
 									for (Task task : tasks) {
 										taskService.setVariable(task.getId(), "paymentResult", true);
-										taskService.setVariable(task.getId(),ActivitiService.PAYPLAN, true);
+										taskService.setVariable(task.getId(), ActivitiService.PAYPLAN, true);
 										taskService.setVariable(task.getId(), "paymentResult_message", "财务收到第一笔");
 										/*
 										if (StringUtils.equals("setPayPlan", task.getTaskDefinitionKey())) {
@@ -1797,19 +1833,19 @@ public class ActivitiServiceImpl implements ActivitiService {
 												taskService.complete(task.getId(), variables);
 
 											}*/
-										}
 									}
 								}
-
 							}
 
 						}
-					}
 
-					paycontract.setPayPrice(paycontract.getPayPrice() + plan.getPrice());
-					paycontractMapper.updateByPrimaryKey(paycontract);
+					}
 				}
+
+				paycontract.setPayPrice(paycontract.getPayPrice() + plan.getPrice());
+				paycontractMapper.updateByPrimaryKey(paycontract);
 			}
+		}
 		if (plan != null) {
 			plan.setRemarks(planParams.getRemarks());
 			plan.setPayState(BooleanUtils.toBoolean(rad) ? PayState.payed.ordinal() : PayState.fail.ordinal());

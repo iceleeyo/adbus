@@ -782,14 +782,32 @@ public class OrderService {
 			}
 		}
 	}
-
+	public long countPlanOrders(TableRequest req) {
+		BooleanExpression query = queryExpress(req);
+		return 	 payPlanRepository.count(query);
+		
+	}
 	public DataTablePage<OrderPlanView> queryAllPlan(TableRequest req) {
+		
+		BooleanExpression query = queryExpress(req);
+		
 		int page = req.getPage(), length = req.getLength();
 		if (page < 0)
 			page = 0;
 		if (length < 1)
 			length = 1;
 		Pageable p = new PageRequest(page, length, req.getSort("payState"));
+		Page<JpaPayPlan> result = payPlanRepository.findAll(query, p);
+		List<OrderPlanView> plans = new ArrayList<OrderPlanView>();
+		for (JpaPayPlan plan : result.getContent()) {
+			plans.add(new OrderPlanView(plan));
+		}
+		org.springframework.data.domain.PageImpl<OrderPlanView> r = new org.springframework.data.domain.PageImpl<OrderPlanView>(
+				plans, p, result.getTotalElements());
+		return new DataTablePage<OrderPlanView>(r, req.getDraw());
+	}
+
+	private BooleanExpression queryExpress(TableRequest req) {
 		String orderId = req.getFilter("orderId"), payState = req.getFilter("payState"),
 				aduser = req.getFilter("userId"), salesMan = req.getFilter("salesMan"), q = req.getFilter("q"),
 				subOrderid = req.getFilter("subOrderid");
@@ -827,14 +845,7 @@ public class OrderService {
 		if (StringUtils.equals(q, JpaPayPlan.Type.contract.name())) {
 			query = query.and(QJpaPayPlan.jpaPayPlan.type.eq(JpaPayPlan.Type.contract));
 		}
-		Page<JpaPayPlan> result = payPlanRepository.findAll(query, p);
-		List<OrderPlanView> plans = new ArrayList<OrderPlanView>();
-		for (JpaPayPlan plan : result.getContent()) {
-			plans.add(new OrderPlanView(plan));
-		}
-		org.springframework.data.domain.PageImpl<OrderPlanView> r = new org.springframework.data.domain.PageImpl<OrderPlanView>(
-				plans, p, result.getTotalElements());
-		return new DataTablePage<OrderPlanView>(r, req.getDraw());
+		return query;
 	}
 
 	public Page<JpaPayPlan> queryPayPlanDetail(TableRequest req, int page, int length) {
@@ -870,15 +881,40 @@ public class OrderService {
 		}
 		return new Pair<Boolean, String>(true, "操作成功");
 	}
+	public long countPayPlanOrders(TableRequest req, String userId) {
+		BooleanExpression query = payPlanOrdersExpress(req, userId);
+		return ordersRepository.count(query);
+	}
+	public Page<OrderView> getPayPlanOrders(TableRequest req, String userId) {
+		
+		BooleanExpression query = payPlanOrdersExpress(req, userId);
+		
+		
 
-	public Page<OrderView> getPayPlanOrders(TableRequest req, int page, int length, String userId) {
+		int page=req.getPage();
+		int length=req.getLength(); 
 		List<OrderView> views = new ArrayList<OrderView>();
 		if (page < 0)
 			page = 0;
 		if (length < 1)
 			length = 1;
-		String longId = req.getFilter("longOrderId"), stateKey = req.getFilter("stateKey");
+		
 		Pageable p = new PageRequest(page, length, req.getSort("id"));
+		Page<JpaOrders> list = ordersRepository.findAll(query, p);
+		
+		
+		for (JpaOrders jpaOrders : list.getContent()) {
+			OrderView v = new OrderView();
+			v.setOrder(jpaOrders);
+			v.setLongOrderId(OrderIdSeq.getLongOrderId(jpaOrders));
+			views.add(v);
+		}
+		return new org.springframework.data.domain.PageImpl<OrderView>(views, p, list.getTotalElements());
+	}
+
+	private BooleanExpression payPlanOrdersExpress(TableRequest req, String userId) {
+		String longId = req.getFilter("longOrderId"), stateKey = req.getFilter("stateKey");
+	
 		BooleanExpression query = QJpaOrders.jpaOrders.userId.eq(userId)
 				// .and(QJpaOrders.jpaOrders.price.gt(QJpaOrders.jpaOrders.payPrice))
 				.and(QJpaOrders.jpaOrders.payPrice.gt(0))
@@ -897,14 +933,7 @@ public class OrderService {
 			int orderId = OrderIdSeq.checkAndGetRealyOrderId(id);
 			query = query.and(QJpaOrders.jpaOrders.id.eq(orderId));
 		}
-		Page<JpaOrders> list = ordersRepository.findAll(query, p);
-		for (JpaOrders jpaOrders : list.getContent()) {
-			OrderView v = new OrderView();
-			v.setOrder(jpaOrders);
-			v.setLongOrderId(OrderIdSeq.getLongOrderId(jpaOrders));
-			views.add(v);
-		}
-		return new org.springframework.data.domain.PageImpl<OrderView>(views, p, list.getTotalElements());
+		return query;
 	}
 
 	public Boolean checkNeedPay(int orderid, int payContractId) {

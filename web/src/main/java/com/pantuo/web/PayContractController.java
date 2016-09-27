@@ -2,29 +2,27 @@ package com.pantuo.web;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.pantuo.dao.pojo.JpaContract;
 import com.pantuo.dao.pojo.JpaPayContract;
 import com.pantuo.dao.pojo.JpaPayPlan;
-import com.pantuo.mybatis.domain.PayPlan;
-import com.pantuo.mybatis.domain.Paycontract;
 import com.pantuo.mybatis.domain.PaycontractWithBLOBs;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ContractService;
 import com.pantuo.service.PayContractService;
+import com.pantuo.service.impl.TaskCountService;
 import com.pantuo.util.Only1ServieUniqLong;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.AutoCompleteView;
@@ -38,6 +36,8 @@ public class PayContractController {
 	PayContractService payContractService;
 	@Autowired
 	ContractService contractService;
+	@Autowired
+	TaskCountService taskCountService;
 	
 	@RequestMapping(value = "/newPayContract", produces = "text/html;charset=utf-8")
 	public String createPayContract(Model model, HttpServletRequest request) {
@@ -54,6 +54,13 @@ public class PayContractController {
 	public String notPayContract() {
 		return "payContract/notPayContract";
 	}
+	
+	@RequestMapping("ajax-taskCount")
+	@ResponseBody
+	public Map<String, Long> taskCount(@RequestParam(value = "types", required = false) String types, TableRequest req, Principal principal) {
+		return taskCountService.countTaskByType(types, req, principal);
+	}
+	
 	@RequestMapping("ajax-list")
 	@ResponseBody
 	public DataTablePage<JpaPayContract> getAllContracts(TableRequest req,

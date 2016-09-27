@@ -204,28 +204,32 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","index_j
 <div class="withdraw-wrap color-white-bg fn-clear">
  <div class="tabs">
     <a href="${rc.contextPath}/order/myTask/1" class="">
-    待办事项 <span id="recordsTotal"
+    待办事项 <span id="orderTaskCount"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
     </a>
     <@security.authorize ifAnyGranted="ShibaFinancialManager">
     <a href="${rc.contextPath}/order/planOrders" class="active">
-    待收款分期订单 <span id="recordsTotal"
+    待收款分期订单 <span id="planOrders"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
     </a>
     <a href="${rc.contextPath}/order/planContract" class="">
-    待收款确认合同 <span id="recordsTotal"
+    待收款确认合同 <span id="planContract"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
     </a>
     </@security.authorize>
-    <@security.authorize ifAnyGranted="sales">
-    <a href="${rc.contextPath}/order/payPlanOrders" class="">
-    待支付分期订单 <span id="recordsTotal"
+     <@security.authorize ifAnyGranted="sales,ShibaOrderManager,advertiser">
+     <@security.authorize ifAnyGranted="ShibaOrderManager,advertiser">
+ 	   <a href="${rc.contextPath}/order/payPlanOrders" class="">
+    待支付分期订单 <span id="payPlanOrders"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
     </a>
+     </@security.authorize>
+      <@security.authorize ifAnyGranted="sales">
     <a href="${rc.contextPath}/payContract/notPayContract" class="">
-    待支付合同 <span id="recordsTotal"
+    待支付合同 <span id="notPayContracts"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
     </a>
+     </@security.authorize>
     </@security.authorize>
   </div>
 
@@ -249,4 +253,11 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","index_j
 
 	</table>
 </div>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        queryTaskCount('orderTaskCount,notPayContracts,planOrders,planContract,payPlanOrders');
+    } );
+</script> 
 </@frame.html>
