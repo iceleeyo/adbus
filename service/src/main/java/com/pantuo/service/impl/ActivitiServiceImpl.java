@@ -922,12 +922,18 @@ public class ActivitiServiceImpl implements ActivitiService {
 						//variables.put("isContractPayed", true);
 						taskService.complete(task.getId(), variables);
 
+					} else if (order.getPayType().name().equals("payContract")) {
+						Map<String, Object> variables = new HashMap<String, Object>();
+						variables.put(ActivitiService.R_USERPAYED, true);
+						variables.put(ActivitiService.PAYPLAN, false);
+						variables.put("isContractPayed", true);
+						taskService.complete(task.getId(), variables);
 					} else if (order.getStats().equals(JpaOrders.Status.paid)) {
 						Map<String, Object> variables = new HashMap<String, Object>();
 						variables.put(ActivitiService.R_USERPAYED, true);
 						variables.put(ActivitiService.PAYPLAN, false);
 						taskService.complete(task.getId(), variables);
-					}
+					} 
 				}
 			}
 		}
@@ -1776,6 +1782,10 @@ public class ActivitiServiceImpl implements ActivitiService {
 										.desc().listPage(0, 5);
 								if (!tasks.isEmpty()) {
 									for (Task task : tasks) {
+										taskService.setVariable(task.getId(), "paymentResult", true);
+										taskService.setVariable(task.getId(),ActivitiService.PAYPLAN, true);
+										taskService.setVariable(task.getId(), "paymentResult_message", "财务收到第一笔");
+										/*
 										if (StringUtils.equals("setPayPlan", task.getTaskDefinitionKey())) {
 											taskService.claim(task.getId(), (String) task.getProcessVariables().get(ActivitiService.CREAT_USERID));
 												Map<String, Object> variables = new HashMap<String, Object>();
@@ -1786,7 +1796,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 												variables.put("paymentResult_message", "财务收到第一笔");
 												taskService.complete(task.getId(), variables);
 
-											}
+											}*/
 										}
 									}
 								}
