@@ -737,7 +737,7 @@ public class OrderService {
 			// return new Pair<Boolean, String>(false, "期数重复，保存失败");
 		}
 		payPlan.setPayState(JpaPayPlan.PayState.init.ordinal());
-		if (orderId > 0) {
+		if (orderId > 0 && JpaPayPlan.Type.order.ordinal() == payPlan.getType()) {
 			payPlan.setOrderId(orderId);
 			payPlan.setSeriaNum(0l);
 		} else {
@@ -774,6 +774,9 @@ public class OrderService {
 		if (list.size() > 0) {
 			int i = 0;
 			for (PayPlan payPlan : list) {
+				if(orderId>0 && JpaPayPlan.Type.contract.ordinal() == type){
+					payPlan.setContractId(orderId);
+				}
 				payPlan.setPeriodNum(++i);
 				payPlanMapper.updateByPrimaryKey(payPlan);
 			}
