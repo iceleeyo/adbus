@@ -157,7 +157,14 @@ function getEnd(date,days){
               var customer = $.parseJSON(row.order.customerJson);
               var customerId=(customer == null || customer=='undefined'
                         || typeof(customer) == "undefined"||typeof(customer.username) == "undefined")?"":customer.username;
-                        return "<a class='operation' onclick='eleContract(\"${rc.contextPath}\","+row.order.id+",\""+customerId+"\",0)' >"+data+"</a>";
+                        var b=false;
+                         <@security.authorize ifAnyGranted="sales,ShibaFinancialManager">
+                           b=true;
+                          </@security.authorize>
+                          if(b){
+                            return "<a class='operation' onclick='eleContract(\"${rc.contextPath}\","+row.order.id+",\""+customerId+"\",0)' >"+data+"</a>";
+                          }
+                          return data;
               }},
               { "data": "product.name", "defaultContent": "",
                     "render": function(data, type, row, meta) {

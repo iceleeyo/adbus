@@ -120,18 +120,16 @@ function supDetail(data){
 					date_format="yyyy-MM-dd">${(orderview.order.startTime?date)!''}</SPAN></li>
 			<li style="width: 200px;"><SPAN>到期时间：</SPAN><SPAN class="con"><#setting
 					date_format="yyyy-MM-dd">${(orderview.order.endTime?date)!''}</SPAN></li>
-			<@security.authorize
-			ifAnyGranted="ShibaOrderManager,ShibaFinancialManager,sales">
-			<li style="width:400px;"><SPAN>合同编号：</SPAN><SPAN class="con">
 			
+		<@security.authorize ifAnyGranted="ShibaFinancialManager,sales">
+			<li style="width:400px;"><SPAN>合同编号：</SPAN><SPAN class="con">
 			<#if orderview.order.jpaPayContract??>
 			<a onclick="eleContract('${rc.contextPath}',0,0,${orderview.order.jpaPayContract.id!0});">${(orderview.order.contractCode)!''}</a>
 			<#else>
 			<a onclick="eleContract('${rc.contextPath}',${orderview.order.id!''},0,0);">${(orderview.order.contractCode)!''}</a>
 			</#if>
-			
 			</SPAN></li>
-			</@security.authorize>
+		</@security.authorize>
 			<#if (orderview.order.ordRemark!'')?length lt 38>
 			<li style="width: 720px;"><SPAN> 备注信息：</SPAN><SPAN class="con">${orderview.order.ordRemark!''}</SPAN></li>
 			<#else>
@@ -183,7 +181,7 @@ function supDetail(data){
 			   <#if contract?? && contract.parentid!=0>
 			<li style="width: 200px;"><SPAN>结算方式：</SPAN><SPAN class="con">统一结算</SPAN></li>
 			</#if>
-			<@security.authorize ifAnyGranted="ShibaOrderManager,ShibaFinancialManager">
+			<@security.authorize ifAnyGranted="sales,ShibaFinancialManager">
 				<li style="width: 200px;"><SPAN>是否开发票：</SPAN><SPAN class="con">
 						<#if orderview.order.isInvoice==1 > <a class="layer-tips"
 						tip="点击可查看发票详细内容!"
