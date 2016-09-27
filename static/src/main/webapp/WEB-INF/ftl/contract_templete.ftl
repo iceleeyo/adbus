@@ -478,8 +478,10 @@ function getEnd(date,days){
 			  线上支付
 			  <#elseif paytype?? && paytype=='offline'>
 			  线下支付
-			  <#else>
+			  <#elseif paytype?? && paytype=='dividpay'>
 			  分期付款
+			  <#else>
+			   合同分期
 			  </#if>
 			
 			</td>
