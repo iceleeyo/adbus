@@ -478,6 +478,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 		String longId = req.getFilter("longOrderId"), userIdQuery = req.getFilter("userId"), taskKey = req.getFilter("taskKey"), customerName = req.getFilter("customerName");
 		Long longOrderId = StringUtils.isBlank(longId) ? 0 : NumberUtils.toLong(longId);
+		String proName=req.getFilter("proName");
 		page = page + 1;
 		List<Task> tasks = new ArrayList<Task>();
 		List<OrderView> leaves = new ArrayList<OrderView>();
@@ -508,6 +509,10 @@ public class ActivitiServiceImpl implements ActivitiService {
 		if (StringUtils.isNoneBlank(userIdQuery)) {
 			countQuery.processVariableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
 			queryList.processVariableValueLike(ActivitiService.CREAT_USERID, "%" + userIdQuery + "%");
+		}
+		if(StringUtils.isNotBlank(proName)){
+		   countQuery.processVariableValueLike(ActivitiService.PRONAME, "%" + proName + "%");
+			queryList.processVariableValueLike(ActivitiService.PRONAME, "%" + proName + "%");
 		}
 		if (StringUtils.isNoneBlank(taskKey) && !StringUtils.startsWith(taskKey, ActivitiService.R_DEFAULTALL)) {
 			countQuery.taskDefinitionKey(taskKey);
@@ -916,6 +921,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 		initParams.put(ActivitiService.CREAT_USERID, u.getUsername());
 		initParams.put(ActivitiService.ORDER_ID, order.getId());
+		initParams.put(ActivitiService.PRONAME, null==order.getProduct()?"":order.getProduct().getName());
 		//add company for customer
 		initParams.put(ActivitiService.COMPANY, customer != null ? customer.getCompany() : StringUtils.EMPTY);
 		initParams.put(ActivitiService.CITY, cityId);

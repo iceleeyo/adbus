@@ -478,10 +478,6 @@ public class OrderService {
 
 	public List<JpaOrders> getJpaOrders(TableRequest req, List<Integer> orderId) {
 		BooleanExpression query=QJpaOrders.jpaOrders.id.in(orderId);
-		String proName=req.getFilter("proName");
-		if(StringUtils.isNotBlank(proName)){
-			query=query.and(QJpaOrders.jpaOrders.product.name.like("%"+proName+"%"));
-		}
 		return (List<JpaOrders>) ordersRepository.findAll(query);
 	}
 

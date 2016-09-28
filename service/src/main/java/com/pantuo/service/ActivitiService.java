@@ -30,6 +30,7 @@ public interface ActivitiService {
 	//工作流中的一些变量名
 	public static final String MAIN_PROCESS = "order";
 	public static final String ORDER_ID = "_orderId";
+	public static final String PRONAME = "_proName";
 	public static final String COMPANY = "_company";
 	public static final String CITY = "_city";
 	public static final String PRODUCT = "_product";
