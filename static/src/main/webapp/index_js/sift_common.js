@@ -166,7 +166,7 @@ function initPayPlanTable(purl,orderId,handle,type,seriaNum) {
 											if(handle.indexOf('del')!=-1){
 												operations += '<a class="operation" href="javascript:void(0);" onclick="deletePayPlan('+data+');" >删除</a>';
 											}
-											operations +='&nbsp;&nbsp;<a href="javascript:void(0)"; onclick="toeditPayPlan(\''+purl+'\','+data+');" >修改</a>';
+											operations +='&nbsp;&nbsp;<a class="operation" href="javascript:void(0)"; onclick="toeditPayPlan(\''+purl+'\','+data+');" >修改</a>';
 										}
 										
 										return operations;
@@ -427,7 +427,7 @@ function GetDateStr() {
 	return y+"-"+m+"-"+d; 
 	} 
 function savePayPlan() {
-//	 var today=GetDateStr();
+	 var today=GetDateStr();
 	na = $("#periodNum").val();
 	amounts = $("#amounts").val();
 	payDate1 = $("#payDate1").val();

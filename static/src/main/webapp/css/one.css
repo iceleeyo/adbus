@@ -5559,6 +5559,7 @@ a.button-disable, a.button-disable:active, a.button-disable:hover {
 
 .ui-table-gray tr:first-child th {
 	border-radius: 5px 0 0;
+	color: white;
 }
 
 .ui-table-gray tr:first-child td {
@@ -6937,7 +6938,7 @@ a.ui-side-sub-item-link:hover {
 }
 
 .operation {
-	color: #69F969;
+	color: #31B533;
 	font-weight: 800;
 }
 
