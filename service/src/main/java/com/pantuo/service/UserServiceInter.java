@@ -48,6 +48,18 @@ public	Page<UserDetail> getUsers(String utype, String name, Boolean isEnabled, i
 	public abstract List<AutoCompleteView> autoCompleteByName(String name);
 	
 	
+	
+	/**
+	 * 
+	 * sales 自动补全
+	 *
+	 * @param name
+	 * @return
+	 * @since pantuotech 1.0-SNAPSHOT
+	 */
+	public   List<AutoCompleteView> salesAutoCompleteByName(String name);
+	
+	
 	public  List<AutoCompleteView> queryMyCustomers(String name,Principal principal);
 
 	public abstract UserDetail getByUsername(String username);

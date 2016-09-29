@@ -12,6 +12,8 @@ import com.pantuo.vo.ModelCountView;
 public interface UserAutoCompleteMapper {
 
 	List<String> getUserIdLike(@Param("uname") String uname,@Param("groupId") String groupId);
+	
+	List<String> getSalesIdLike(@Param("uname") String uname,@Param("groupId") String groupId);
 
 	List<Integer> selectAllProId();
 

@@ -458,6 +458,13 @@ public class UserManagerController {
 	public List<AutoCompleteView> queryUserByname(Model model, HttpServletRequest request, @RequestParam(value = "term") String name) {
 		return userService.autoCompleteByName(name);
 	}
+	
+	
+	@RequestMapping(value = "/salesAutoComplete")
+	@ResponseBody
+	public List<AutoCompleteView> querySalesByname(Model model, HttpServletRequest request, @RequestParam(value = "term" , required = false) String name) {
+		return userService.salesAutoCompleteByName(name);
+	}
 
 	@PreAuthorize(" hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')" + "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
 			+ "or hasRole('ShibaSuppliesManager')or hasRole('UserManager') or hasRole('sales') or hasRole('salesManager') ")

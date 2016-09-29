@@ -38,6 +38,10 @@ public class JpaPayContract extends BaseEntity {
 	 */
 	@Column(length = 1024)
 	private String orderJson;
+	@Column(length = 32)
+	private String salesName;// 销售名字
+	@Lob
+	private String remark;//备注
 
 	@Lob
 	private String orderUserJson;//用户信息保存

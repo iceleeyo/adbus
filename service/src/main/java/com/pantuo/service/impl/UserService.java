@@ -429,6 +429,18 @@ public class UserService implements UserServiceInter {
 		}
 		return r;
 	}
+	
+	public List<AutoCompleteView> salesAutoCompleteByName(String name) {
+		name = StringUtils.isNoneBlank(name) ? "%" + name.trim() + "%" : null;
+		List<String> us = userAutoCompleteMapper.getSalesIdLike(name, "sales");
+		List<AutoCompleteView> r = new ArrayList<AutoCompleteView>();
+		if (!us.isEmpty()) {
+			for (String u : us) {
+				r.add(new AutoCompleteView(u, u));
+			}
+		}
+		return r;
+	}
 
 	public List<AutoCompleteView> queryMyCustomers(String name, Principal principal) {
 		List<AutoCompleteView> r = new ArrayList<AutoCompleteView>();

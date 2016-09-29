@@ -2,6 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.pantuo.mybatis.persistence.UserAutoCompleteMapper">
 
+    
+    <select id="getSalesIdLike" parameterType="map" resultType="java.lang.String">
+		select FIRST_ from ACT_ID_MEMBERSHIP join ACT_ID_USER on ACT_ID_MEMBERSHIP.USER_ID_ =ACT_ID_USER.ID_  where GROUP_ID_ = #{groupId}
+		<if test="uname != null  ">
+			and USER_ID_ like "%"#{uname}"%"
+		</if>
+		order by USER_ID_ limit 30
+	</select>
+    
 
 	<select id="getUserIdLike" parameterType="map" resultType="java.lang.String">
 		select USER_ID_ from ACT_ID_MEMBERSHIP where GROUP_ID_ = #{groupId}
