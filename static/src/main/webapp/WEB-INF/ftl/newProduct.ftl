@@ -227,6 +227,15 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 						id="days" data-is="isAmount isEnough" autocomplete="off"
 						disableautocomplete="">
 				</div>
+
+				<div class="ui-form-item toggle inchof32Toggle">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>
+						<span >合同屏幕数：</span></label><input
+						class="ui-input validate[required,integer]"
+						onkeyup="value=value.replace(/[^\d.]/g,'')" name=""
+						id="" data-is="isAmount isEnough" autocomplete="off"
+						disableautocomplete="">
+				</div>
 				<#-- over -->
 				
 				<div class="ui-form-item">
