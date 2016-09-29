@@ -275,7 +275,7 @@ public class PayContractServiceImpl implements PayContractService {
 
 	@Override
 	public Page<JpaPayContract> getAllContracts(TableRequest req, Principal principal) {
-		String code = req.getFilter("contractCode");
+		String code = req.getFilter("contractCode"),salesName= req.getFilter("salesName");
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("id");
 		if (page < 0)
@@ -287,6 +287,9 @@ public class PayContractServiceImpl implements PayContractService {
 		BooleanExpression query = QJpaPayContract.jpaPayContract.delFlag.isFalse();
 		if (StringUtils.isNotBlank(code)) {
 			query = query.and(QJpaPayContract.jpaPayContract.contractCode.like("%" + code + "%"));
+		}
+		if (StringUtils.isNotBlank(salesName)) {
+			query = query.and(QJpaPayContract.jpaPayContract.salesName.like("%" + salesName + "%"));
 		}
 		return payContractRepository.findAll(query, p);
 	}

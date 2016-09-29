@@ -23,6 +23,26 @@ function split( val ) {
       return val.split( /,\s*/ );
     }
 	$(document).ready(function() {
+	
+	
+			$("#salesNameId").autocomplete({
+        minLength: 0,
+        source : "${rc.contextPath}/user/salesAutoComplete",
+        focus: function() {
+          return false;
+        },
+        select: function( event, ui ) {
+         $('#salesNameId').val(ui.item.value);
+           return false;
+        },
+        change: function( event, ui ) { 
+		  			 },
+      }).focus(function () {
+       				 $(this).autocomplete("search");
+   	 	});
+	
+	
+	
 			 $( "#customerName" ).autocomplete({
 		        	minLength: 0,
 		  			source: "${rc.contextPath}/user/queryMyCustomers",
@@ -129,6 +149,11 @@ $.ajax({
 						data-is="isAmount isEnough" autocomplete="off"
 						disableautocomplete="" placeholder=""/>
 				</div>
+				
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>业务员:</label>
+					<input id="salesNameId2" name="salesName"  value="" style="height:40px;width:250px">
+				</div>
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>选择客户:</label>
 					<input id="customerName"  value="" style="height:40px;width:250px">
@@ -141,6 +166,11 @@ $.ajax({
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>合同价格(￥):</label>
 					<input id="price" value="" name="price" style="height:30px;width:200px;margin-top:5px;"/>
+				</div>
+				
+				<div class="ui-form-item">
+					<label class="ui-label mt10">备注:</label>
+					<textarea id="remark"   name="remark"  type="textarea" style="height: 151px; width: 655px;"></textarea>
 				</div>
 			
 

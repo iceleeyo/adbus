@@ -51,6 +51,7 @@ import com.pantuo.mybatis.domain.ActIdGroup;
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.Paycontract;
+import com.pantuo.mybatis.domain.PaycontractWithBLOBs;
 import com.pantuo.mybatis.persistence.PaycontractMapper;
 import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.TableRequest;
@@ -316,7 +317,7 @@ public class UserManagerController {
 			}
 			
 		}else if(payContractId>0){
-			Paycontract paycontract=paycontractMapper.selectByPrimaryKey(payContractId);
+			PaycontractWithBLOBs paycontract=paycontractMapper.selectByPrimaryKey(payContractId);
 			if(paycontract!=null && StringUtils.isNotBlank(paycontract.getOrderJson())){
 				List<String> idStrings = (List<String>) JsonTools.readValue(paycontract.getOrderJson(),List.class);
 				List<JpaOrders> jpaOrders = payContractService.queryOrders(idStrings);
@@ -331,6 +332,7 @@ public class UserManagerController {
 					model.addAttribute("payplan", getPayInfo(jpaOrders));
 					model.addAttribute("payplanView", getPayInfoView(null,paycontract));
 					model.addAttribute("contractCode",paycontract.getContractCode());
+					model.addAttribute("paycontract",paycontract);
 				}
 			}
 			

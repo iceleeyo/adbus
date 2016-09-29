@@ -6,9 +6,8 @@
     <select id="getSalesIdLike" parameterType="map" resultType="java.lang.String">
 		select FIRST_ from ACT_ID_MEMBERSHIP join ACT_ID_USER on ACT_ID_MEMBERSHIP.USER_ID_ =ACT_ID_USER.ID_  where GROUP_ID_ = #{groupId}
 		<if test="uname != null  ">
-			and USER_ID_ like "%"#{uname}"%"
+			and ACT_ID_USER.FIRST_ like #{uname}
 		</if>
-		order by USER_ID_ limit 30
 	</select>
     
 

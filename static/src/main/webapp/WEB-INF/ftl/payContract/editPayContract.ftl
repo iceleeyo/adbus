@@ -120,6 +120,11 @@ $.ajax({
 						data-is="isAmount isEnough" autocomplete="off"
 						disableautocomplete="" placeholder=""/>
 				</div>
+				
+				<div class="ui-form-item">
+					<label class="ui-label mt10"><span class="ui-form-required">*</span>业务员:</label>
+					<input id="salesName2"  value="${jpaPayContract.salesName!''}" style="height:40px;width:250px" readonly="readonly">
+				</div>
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>代理客户:</label>
 					<input id="customerName"  value="" style="height:40px;width:250px" readonly="readonly">
@@ -133,6 +138,12 @@ $.ajax({
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>合同价格(￥):</label>
 					<input id="price" value="${jpaPayContract.price}" name="price" style="height:40px;width:200px;margin-top:5px;"/>
 				</div>
+				
+				<div class="ui-form-item">
+					<label class="ui-label mt10">备注:</label>
+					<textarea id="remark"   name="remark"  type="textarea" style="height: 151px; width: 655px;">${jpaPayContract.remark!''}</textarea>
+				</div>
+				
 			
 
 			</div>

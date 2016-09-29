@@ -29,7 +29,9 @@ js=["../js/jquery-dateFormat.js","../js/layer-v1.9.3/layer-site.js"]>
                 url: "${rc.contextPath}/payContract/ajax-list",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        "filter[contractCode]" : $('#contractCode').val()
+                        "filter[contractCode]" : $('#contractCode').val(),
+                           "filter[salesName]" : $('#salesName').val(),
+                        
                     } );
                 },
                 "dataSrc": "content",
@@ -40,6 +42,7 @@ js=["../js/jquery-dateFormat.js","../js/layer-v1.9.3/layer-site.js"]>
                     return "<a class='operation' onclick='eleContract(\"${rc.contextPath}\",0,0,"+row.id+")' >"+data+"</a>";
                 
                 }},
+                 { "data": "salesName","defaultContent": ""},
                  { "data": "","defaultContent": "", "render": function(data, type, row, meta) {
                 
                 	var json = jQuery.parseJSON(row.customerJson)
@@ -108,10 +111,12 @@ function delContract(conid){
                 '<div>' +
                         '    <span>合同号：</span>' +
                         '        <input id="contractCode" value="">' +
+                        '    <span>业务员：</span>' +
+                        '        <input id="salesName" value="">' +
                         '</div>'
         );
 
-        $('#contractCode').change(function() {
+        $('#contractCode,#salesName').change(function() {
             table.fnDraw();
         });
     }
@@ -149,6 +154,7 @@ $('#test').on('click', function(){
 		<thead>
 			<tr class="tableTr">
 				<th orderBy="contractCode">合同编号</th>
+				<th>业务员</th>
 					<th>客户</th>
 				<th>所关联订单</th>
 				<th>合同价格(元)</th>
