@@ -6,6 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>车身广告产品</title>
+<style type="text/css">
+.buy .cont .price{
+	margin-top: -2px !important;
+}
+</style>
 <script type="text/javascript">
 /**
  * 加入购物车判断登陆状态
