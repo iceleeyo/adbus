@@ -43,7 +43,7 @@ $.ajax({
 		 var op="";
 		 var price=0;
 			$.each(data,function(i,item){
-			 op+="<DIV class=\"p20bs color-white-bg border-ec\">"
+			 op+="<DIV class=\"newPay-order\">"
 						   +"<DIV class=\"summary uplan-summary-div\">"
 		              +"<UL class=\"uplan-detail-ul\">"
 			+"<li class=\"s-left f-iconli\"><span class=\"s-left tt\"><i class=\"s-left ff-icon\"></i>订单信息</span></li>"
