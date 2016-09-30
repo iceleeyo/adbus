@@ -141,14 +141,14 @@ $.ajax({
 		<input type="hidden" name="seriaNum" value="${seriaNum}"/>
 		<div class="withdrawInputs">
 			<div class="inputs" >
-				<div class="ui-form-item">
+				<#--<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>合同编号:</label>
 					<input
 						class="ui-input  validate[required,minSize[2],maxSize[100]]"
 						type="text" name="contractCode" id="contractCode" value="${contractCode}" readonly="readonly"
 						data-is="isAmount isEnough" autocomplete="off"
 						disableautocomplete="" placeholder=""/>
-				</div>
+				</div>-->
 				
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>业务员:</label>

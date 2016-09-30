@@ -41,7 +41,7 @@ public class PayContractController {
 	
 	@RequestMapping(value = "/newPayContract", produces = "text/html;charset=utf-8")
 	public String createPayContract(Model model, HttpServletRequest request) {
-		model.addAttribute("contractCode", contractService.getContractId());
+//		model.addAttribute("contractCode", contractService.getContractId());
 		model.addAttribute("seriaNum",Only1ServieUniqLong.getUniqLongNumber());
 		return "payContract/newPayContract";
 	}

@@ -44,6 +44,7 @@ import com.pantuo.mybatis.persistence.PayPlanMapper;
 import com.pantuo.mybatis.persistence.PaycontractMapper;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService;
+import com.pantuo.service.ContractService;
 import com.pantuo.service.OrderService;
 import com.pantuo.service.PayContractService;
 import com.pantuo.service.UserServiceInter;
@@ -81,7 +82,8 @@ public class PayContractServiceImpl implements PayContractService {
 	
 	@Autowired
 	PayPlanRepository payPlanRepository;
-
+	@Autowired
+	ContractService contractService;
 	/**
 	 * 
 	 * 查我的未支付订单
@@ -239,6 +241,7 @@ public class PayContractServiceImpl implements PayContractService {
 			contract.setOrderJson(JsonTools.getJsonFromObject(idStrings));
 			contract.setDelFlag(false);
 			contract.setPayPrice(0.0);
+			contract.setContractCode(contractService.getContractId());
 
 			int r = paycontractMapper.insert(contract);
 			if (r > 0) {
