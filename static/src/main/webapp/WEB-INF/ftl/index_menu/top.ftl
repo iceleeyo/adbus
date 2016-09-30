@@ -67,7 +67,7 @@
 						-->
 </ul>
 <div class="s-right s-clear">
-	<a class="pg-nav-item s-left" href="http://busme.cn/secondLevelPage">回到首页</a>
+	<a class="pg-nav-item s-left" href="/secondLevelPage">回到首页</a>
 	<span class="pg-nav-item s-left">您好，</span> <span>
 		<@security.authorize access="isAuthenticated()"> <#if medetype?? &&
 		medetype=="screen"> <a class="pg-nav-item s-left"
