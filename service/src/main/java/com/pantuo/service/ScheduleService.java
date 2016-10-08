@@ -1353,6 +1353,7 @@ public class ScheduleService {
 					goodsMapper.updateByPrimaryKey(record);
 				}
 				p.setLeft(true);
+				p.setRight("订单取消排期成功!");
 				return p;
 
 			} catch (ParseException e) {
