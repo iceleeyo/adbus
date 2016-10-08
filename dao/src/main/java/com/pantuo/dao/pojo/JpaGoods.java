@@ -23,6 +23,8 @@ public class JpaGoods extends CityEntity implements Comparable<JpaGoods>, Serial
     private int sort_index;
     private boolean first;  //放在箱子首位
     private boolean last;   //放在箱子末尾
+    
+    private boolean isDeleted;//0 false
 
     @ManyToOne
     @JoinColumns({
@@ -171,6 +173,14 @@ public class JpaGoods extends CityEntity implements Comparable<JpaGoods>, Serial
 
 	public void setSort_index(int sort_index) {
 		this.sort_index = sort_index;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
     
     

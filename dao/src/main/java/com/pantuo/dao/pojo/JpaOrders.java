@@ -67,6 +67,7 @@ public class JpaOrders extends CityEntity {
     private String closeRemark;
     private String creator;
     private int isInvoice;
+    private boolean isScheduled;;//0 false
     private Date scheduleDay;
     private Date shangboDay;
     private Date jianboDay;
@@ -387,6 +388,14 @@ public class JpaOrders extends CityEntity {
 
 	public void setPayPrice(double payPrice) {
 		this.payPrice = payPrice;
+	}
+
+	public boolean isScheduled() {
+		return isScheduled;
+	}
+
+	public void setScheduled(boolean isScheduled) {
+		this.isScheduled = isScheduled;
 	}
 	
 }
