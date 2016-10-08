@@ -14,6 +14,7 @@ public class MediaInventory {
     private int bsize;
     private int normalremain;
     private int fremain;
+    int isDelete;
     
 	public MediaInventory() {
 	}
@@ -39,6 +40,13 @@ public class MediaInventory {
 	}
 	public void setDay(Date day) {
 		this.day = day;
+	}
+	
+	public int getIsDelete() {
+		return isDelete;
+	}
+	public void setIsDelete(int isDelete) {
+		this.isDelete = isDelete;
 	}
 	public void setBsize(int bsize) {
 		this.bsize = bsize;

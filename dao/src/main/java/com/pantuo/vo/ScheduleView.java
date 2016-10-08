@@ -17,6 +17,7 @@ public class ScheduleView {
     private int bsize;
     private String day;
     Map<String/*date*/, Integer> map=new HashMap<String, Integer>();
+    Map<String/*date*/, SchObj> map2=new HashMap<String, SchObj>();
 	public ScheduleView() {
 	}
 	public String getBname() {
@@ -42,8 +43,38 @@ public class ScheduleView {
 	public Map<String, Integer> getMap() {
 		return map;
 	}
+	public class SchObj{
+		
+		public SchObj(int num, int del) {
+			this.num = num;
+			this.del = del;
+		}
+		int num;
+		int del;
+		public int getNum() {
+			return num;
+		}
+		public void setNum(int num) {
+			this.num = num;
+		}
+		public int getDel() {
+			return del;
+		}
+		public void setDel(int del) {
+			this.del = del;
+		}
+		
+		
+	}
 	public void setMap(Map<String, Integer> map) {
 		this.map = map;
+	}
+	
+	public Map<String, SchObj> getMap2() {
+		return map2;
+	}
+	public void setMap2(Map<String, SchObj> map2) {
+		this.map2 = map2;
 	}
 	public String getDay() {
 		return day;

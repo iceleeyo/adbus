@@ -81,6 +81,7 @@ import com.pantuo.util.OrderIdSeq;
 import com.pantuo.util.Pair;
 import com.pantuo.vo.MediaInventory;
 import com.pantuo.vo.ScheduleView;
+import com.pantuo.vo.ScheduleView.SchObj;
 import com.pantuo.web.schedule.SchedUltResult;
 import com.pantuo.web.schedule.ScheduleInfo;
 import com.pantuo.web.view.OrderView;
@@ -291,7 +292,7 @@ public class ScheduleController {
 			for (MediaInventory mediaInventory : list) {
 				ScheduleView scheduleView = map.get(mediaInventory.getSotid());
 				String d = DateUtil.longDf.get().format(mediaInventory.getDay());
-				scheduleView.getMap().put(d, mediaInventory.getNum());
+				scheduleView.getMap2().put(d, scheduleView.new SchObj(mediaInventory.getNum(), mediaInventory.getIsDelete()));
 
 			}
 			return map.values();

@@ -96,9 +96,12 @@ div#toolbar {
     <#list dates as d>
                     { "data":  "", "defaultContent": "","render" : function(data, type, row, meta) {
                         var result = '';
-                        if (row.map['${d}'] ) {
-                            result= row.map['${d}'];
-                            return result;
+                        if (row.map2['${d}'] ) {
+                            result= row.map2['${d}'];
+                            if(result.del==1){
+                            return '<p><s><font color="red">'+result.num+'</font></p></s>'
+                            }
+                            return result.num;
                             }
                     return "";
                 }},

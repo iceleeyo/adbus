@@ -945,6 +945,9 @@ public class ScheduleService {
 		if (!isOnlyCheck && isAllAllow.isScheduled) {
 			listener.update("系统开始保存排期结果.");
 			long t3 = System.currentTimeMillis();
+			for (JpaGoods jpaGoods : gs) {
+				jpaGoods.setDeleted(false);
+			}
 			goodsRepo.save(gs);
 			//boxRepo.save(boxEx.values());//原来的保存无用了
 			for (Box boxUpdate : boxEx.values()) {
@@ -1374,6 +1377,7 @@ public class ScheduleService {
 			}
 			Date end = DateUtil.dateAdd(order.getStartTime(), order.getProduct().getDays());
 			order.setEndTime(end);
+			order.setScheduled(true);
 			ordersRepository.save(order);
 			listener.endResult(r);
 			return r;

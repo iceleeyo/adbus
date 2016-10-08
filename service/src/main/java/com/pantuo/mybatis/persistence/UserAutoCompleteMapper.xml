@@ -48,9 +48,9 @@
     where  date_format(box.day, '%Y%m%d')=date_format(#{datestr},'%Y%m%d') order by timeslot.id asc
   </select>
 <select id="getScheduleViewByDateStr"  resultType="com.pantuo.vo.MediaInventory">
-   select  timeslot.id as sotid, timeslot.name as bname,timeslot.start_time as startTime,count(goods.box_slot_id) as num,timeslot.duration as duration,goods.day as day
+   select  timeslot.id as sotid, timeslot.name as bname,timeslot.start_time as startTime,count(goods.box_slot_id) as num,timeslot.duration as duration,goods.day as day,goods.is_deleted as isDelete
  from timeslot,goods where goods.box_slot_id=timeslot.id and order_id=#{orderid} and goods.day>=date_format(#{datestr},'%Y%m%d')
-group by goods.box_slot_id,goods.day order by timeslot.id asc
+group by goods.box_slot_id,goods.day,goods.is_deleted order by timeslot.id asc
   </select>
 <select id="selectFunidsByPid"   resultType="com.pantuo.mybatis.domain.BusFunction">
     select   bus_function.id, bus_function.created, bus_function.updated, bus_function.city, funcode, fundesc,
