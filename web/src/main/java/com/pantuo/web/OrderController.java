@@ -608,6 +608,10 @@ public class OrderController {
 	public String finishedOrders() {
 		return "finishedOrders";
 	}
+	@RequestMapping(value = "/scheduleAdjust")
+	public String scheduleAdjust() {
+		return "scheduleAdjust";
+	}
 	
 	
 	@RequestMapping(value = "/over/{productid}")
@@ -625,6 +629,14 @@ public class OrderController {
 			@CookieValue(value = "city", defaultValue = "-1") int city) {
 		Page<OrderView> w = activitiService
 				.finished(city, principal,req);
+		return new DataTablePage<OrderView>(w, req.getDraw());
+	}
+	@RequestMapping("ajax-scheduleAdjust")
+	@ResponseBody
+	public DataTablePage<OrderView> scheduleAdjust(TableRequest req, Principal principal
+			) {
+		Page<OrderView> w = activitiService.scheduleAdjust(principal,req);
+				
 		return new DataTablePage<OrderView>(w, req.getDraw());
 	}
 

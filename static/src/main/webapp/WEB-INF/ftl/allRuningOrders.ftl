@@ -71,9 +71,9 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
             	{ "data": "order.creator", "defaultContent": ""},
             	{ "data": "longOrderId", "defaultContent": ""},
             	 <@security.authorize ifAnyGranted="sales,salesManager">
-            		{ "data": "longOrderId", "defaultContent": "","render": function(data, type, row, meta) {
-            			if(row.order.customerJson!=''){
-            			var customer = $.parseJSON(row.order.customerJson); 
+            		{ "data": "order.customerJson", "defaultContent": "","render": function(data, type, row, meta) {
+            			if(data!=''){
+            			var customer = $.parseJSON(data); 
                         return  ( customer==null || customer=='undefined' ||
                         typeof(customer) == "undefined"|| typeof(customer.company) == "undefined" )?"":customer.company;
                         }else {

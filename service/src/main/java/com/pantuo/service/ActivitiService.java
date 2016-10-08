@@ -194,6 +194,8 @@ public interface ActivitiService {
 	public String toPlanDetail(Model model, int planId, int city, String pid, Principal principal);
 	
 	public Pair<Object, String> updatePlan(String rad,JpaPayPlan plan,  Principal principal);
+
+	public Page<OrderView> scheduleAdjust(Principal principal, TableRequest req);
 	
 	
 	

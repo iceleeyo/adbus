@@ -175,7 +175,7 @@ public class ScheduleController {
 		return r;
 	}
 
-	@RequestMapping(value = "/canelOrderWithStartDay", method = RequestMethod.GET)
+	@RequestMapping(value = "/canelOrderWithStartDay", method = RequestMethod.POST)
 	@ResponseBody
 	public Pair<Boolean, String> canelOrderWithStartDay(HttpServletRequest request, HttpServletResponse response, Principal principal,
 			@RequestParam(value = "canelAfterAll", required = false) String canelAfterAll,@RequestParam(value = "orderid", required = false) int orderid, @RequestParam(value = "startdate", required = false) String startdate) throws Exception {

@@ -208,8 +208,7 @@ function supDetail(data){
 			<li class="s-left f-iconli"><span class="s-left tt"><i
 					class="s-left ff-icon"></i>排期信息</span></li> 
 					
-			<#if orderview.task_name?exists &&
-			orderview.task_id?? && (orderview.task_name=='已排期待上播' ||
+			<#if orderview.task_name?exists && (orderview.task_name=='已排期待上播' ||
 			orderview.task_name=='已上播' ||orderview.task_name=='已排期待上播')>
 			<li style="width: 200px;"><SPAN>排期状态：
 			

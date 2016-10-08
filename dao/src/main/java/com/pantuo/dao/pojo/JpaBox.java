@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pantuo.util.DateUtil;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.Where;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,6 +51,7 @@ public class JpaBox extends CityEntity implements Comparable<JpaBox>, Serializab
     private JpaTimeslot timeslot;
 
     @OneToMany(cascade = { CascadeType.ALL }, mappedBy="box", fetch = FetchType.EAGER)
+    @Where(clause="is_deleted=0")
     private List<JpaGoods> goods;
 
     private int tmpAbsoluteWight;       //绝对权重，越大越靠前

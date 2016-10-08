@@ -54,12 +54,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.alibaba.druid.support.json.JSONUtils;
+import com.mysema.query.types.expr.BooleanExpression;
 import com.pantuo.ActivitiConfiguration;
+import com.pantuo.dao.OrdersRepository;
 import com.pantuo.dao.PayPlanRepository;
 import com.pantuo.dao.pojo.JpaCity;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaPayPlan;
 import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.dao.pojo.QJpaOrders;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.dao.pojo.JpaPayPlan.PayState;
 import com.pantuo.mybatis.domain.Contract;
@@ -160,6 +163,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 	@Autowired
 	private MailJob mailJob;
+	
+	@Autowired
+	OrdersRepository ordersRepository;
 
 	/**
 	 * @deprecated
@@ -762,6 +768,31 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		Pageable p = new PageRequest(page, pageSize, sort);
 		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(orders, p, pageUtil.getTotal());
+		return r;
+	}
+
+	@Override
+	public Page<OrderView> scheduleAdjust(Principal principal, TableRequest req) {
+		int page = req.getPage(), pageSize = req.getLength();
+		Sort sort = req.getSort("created");
+		
+		if (page < 0)
+			page = 0;
+		if (pageSize < 1)
+			pageSize = 1;
+		sort = (sort == null ? new Sort("id") : sort);
+		Pageable p = new PageRequest(page, pageSize, sort);
+		
+		List<OrderView> orders = new ArrayList<OrderView>();
+		BooleanExpression q = QJpaOrders.jpaOrders.isScheduled.eq(true);
+	
+		List<JpaOrders> list= (List<JpaOrders>) ordersRepository.findAll(q);
+		for (JpaOrders jpaOrders : list) {
+			OrderView v = new OrderView();
+			v.setOrder(jpaOrders);
+			orders.add(v);
+		}
+		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(orders, p, list.size());
 		return r;
 	}
 
@@ -1718,6 +1749,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 				if (v != null && v.getOrder() != null) {
 					model.addAttribute("contract", contractService.selectContractById(v.getOrder().getContractId()));
 				}
+				if (v.getOrder() != null && v.getOrder() != null) {
+					v.getOrder().setEndTime(DateUtil.dateAdd(v.getOrder().getEndTime(), -1));
+				}
 				model.addAttribute("prod", prod);
 			} catch (Exception e) {
 				log.error(e.getMessage());
@@ -1725,6 +1759,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 			return "orderDetail";
 		} else {
 			JpaOrders order = orderService.queryOrderDetail(orderid, principal);
+			if (order != null && order != null) {
+				order.setEndTime(DateUtil.dateAdd(order.getEndTime(), -1));
+			}
 			JpaProduct prod = null;
 			Long longorderid = null;
 			List<HistoricTaskView> activitis = null;

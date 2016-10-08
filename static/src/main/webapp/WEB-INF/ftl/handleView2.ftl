@@ -11,6 +11,8 @@ js=["js/nano.js","js/highslide/highslide-full.js",
 ]
 css=["js/highslide/highslide.css",
 "js/video-js/video-js.css","css/uploadprogess.css","css/jquery-ui-1.8.16.custom.css","css/liselect/pkg-generator.css$ver=1431443489.css"]>
+
+
 <#include "template/preview.ftl" />
 <style type="text/css">
 .textareaBox {
