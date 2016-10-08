@@ -175,6 +175,13 @@ public class ScheduleController {
 		return r;
 	}
 
+	@RequestMapping(value = "/canelOrderWithStartDay", method = RequestMethod.GET)
+	@ResponseBody
+	public Pair<Boolean, String> canelOrderWithStartDay(HttpServletRequest request, HttpServletResponse response, Principal principal,
+			@RequestParam(value = "canelAfterAll", required = false) String canelAfterAll,@RequestParam(value = "orderid", required = false) int orderid, @RequestParam(value = "startdate", required = false) String startdate) throws Exception {
+		return scheduleService.canelScheduleStartDay(BooleanUtils.toBoolean(canelAfterAll),orderid, startdate, principal);
+	}
+	
 	/** 
 	 * process 获取进度 
 	 * @param request 

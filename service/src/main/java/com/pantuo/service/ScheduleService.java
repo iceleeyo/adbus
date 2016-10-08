@@ -69,9 +69,12 @@ import com.pantuo.dao.pojo.ScheduleLog;
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.Box;
 import com.pantuo.mybatis.domain.BoxExample;
+import com.pantuo.mybatis.domain.Goods;
+import com.pantuo.mybatis.domain.GoodsExample;
 import com.pantuo.mybatis.domain.Infoimgschedule;
 import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.mybatis.persistence.BoxMapper;
+import com.pantuo.mybatis.persistence.GoodsMapper;
 import com.pantuo.mybatis.persistence.GoodsSortMapper;
 import com.pantuo.mybatis.persistence.InfoimgscheduleMapper;
 import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
@@ -111,12 +114,15 @@ public class ScheduleService {
 	private TaskService taskService;
 	@Autowired
 	private GoodsRepository goodsRepo;
+
+	@Autowired
+	private GoodsMapper goodsMapper;
+
 	@Autowired
 	private BoxRepository boxRepo;
 	@Autowired
 	private BoxMapper boxMapper;
-	
-	
+
 	@Autowired
 	private OrdersRepository ordersRepository;
 	@Autowired
@@ -143,9 +149,11 @@ public class ScheduleService {
 	public static Map<Date, List<Box>> BOXDAYMAP = new HashMap<Date, List<Box>>(365 * 5 * 2);
 	//all box 
 	public static Map<Integer, Box> ALLBOX = new HashMap<Integer, Box>(107 * 365 * 5 * 2);
+	//  soletid#day,boxid
+	public static Map<String, Integer> BOX_HELP = new HashMap<String, Integer>(107 * 365 * 5 * 2);
 	public static Map<Integer, Integer/*slotid,peak*/> PEAK = new HashMap<Integer, Integer>();
-	
-	public static int DEFAULT_ROLE=100000;
+
+	public static int DEFAULT_ROLE = 100000;
 
 	public ScheduleLog schedule(Date day, int orderId) {
 		return schedule(day, orderService.getJpaOrder(orderId));
@@ -158,8 +166,7 @@ public class ScheduleService {
 	public ScheduleLog schedule(JpaOrders order) {
 		if (order == null || order.getId() == 0) {
 			log.error("Order {} does not exists or not persisted");
-			return new ScheduleLog(order.getCity(), new Date(), 0, ScheduleLog.Status.failed, "Order " + order
-					+ " does not exists or not persisted");
+			return new ScheduleLog(order.getCity(), new Date(), 0, ScheduleLog.Status.failed, "Order " + order + " does not exists or not persisted");
 		}
 		return schedule(order, order.getStartTime(), order.getProduct().getDays());
 	}
@@ -181,16 +188,14 @@ public class ScheduleService {
 
 		if (order == null || order.getId() == 0) {
 			log.error("Order {} does not exists or not persisted");
-			return new ScheduleLog(city, cal.getTime(), 0, ScheduleLog.Status.failed, "Order " + order
-					+ " does not exists or not persisted");
+			return new ScheduleLog(city, cal.getTime(), 0, ScheduleLog.Status.failed, "Order " + order + " does not exists or not persisted");
 		}
 		cal.setTime(start);
 		int orderId = order.getId();
 
 		if (days == 0) {
 			log.info("Order {} has 0 days", orderId);
-			return new ScheduleLog(city, cal.getTime(), orderId, ScheduleLog.Status.scheduled, "Order " + orderId
-					+ " has 0 days");
+			return new ScheduleLog(city, cal.getTime(), orderId, ScheduleLog.Status.scheduled, "Order " + orderId + " has 0 days");
 		}
 
 		List<ScheduleLog> slogList = scheduleLogRepository.findByCityAndOrderId(city, orderId);
@@ -198,13 +203,10 @@ public class ScheduleService {
 			for (ScheduleLog slog : slogList) {
 				if (slog.getStatus() == ScheduleLog.Status.scheduled) {
 					log.info("Scheduling for day {} and order {} has already completed", slog.getDay(), orderId);
-					return new ScheduleLog(city, slog.getDay(), orderId, ScheduleLog.Status.duplicate,
-							"duplicate with day " + slog.getDay());
+					return new ScheduleLog(city, slog.getDay(), orderId, ScheduleLog.Status.duplicate, "duplicate with day " + slog.getDay());
 				} else if (slog.getStatus() == ScheduleLog.Status.scheduling) {
-					log.info("Other thread is now scheduling for day {} and order {}, please wait", slog.getDay(),
-							orderId);
-					return new ScheduleLog(city, slog.getDay(), orderId, ScheduleLog.Status.racing, "racing with day "
-							+ slog.getDay());
+					log.info("Other thread is now scheduling for day {} and order {}, please wait", slog.getDay(), orderId);
+					return new ScheduleLog(city, slog.getDay(), orderId, ScheduleLog.Status.racing, "racing with day " + slog.getDay());
 				}
 			}
 		}
@@ -250,8 +252,7 @@ public class ScheduleService {
 					}
 					l.add(b);
 				}
-				log.info(":::[R1]Found {} db scheduled boxes from {} to {}, order {}", boxList.size(), start, end,
-						orderId);
+				log.info(":::[R1]Found {} db scheduled boxes from {} to {}, order {}", boxList.size(), start, end, orderId);
 
 				log.info(":::[R1]Filling up from timeslots in case db scheduled boxes is empty");
 				cal.setTime(start);
@@ -299,8 +300,7 @@ public class ScheduleService {
 						slog.setDescription("[R1]Success at " + new Date());
 					}
 				} else {
-					log.error("[R1]Can not arrange the schedule, {} entries can not be boxed, will go to [R2]", s
-							.getHotNotBoxed().size());
+					log.error("[R1]Can not arrange the schedule, {} entries can not be boxed, will go to [R2]", s.getHotNotBoxed().size());
 					//                    slog.setStatus(ScheduleLog.Status.failed);
 					//                    slog.setDescription("[R1]" + s.getHotNotBoxed().size() + " entries can not be boxed");
 					//                    break;
@@ -351,8 +351,7 @@ public class ScheduleService {
 						slog.setDescription("[R2]success at " + new Date());
 						success++;
 					} else {
-						log.error("[R2]Can not arrange the schedule, {} entries can not be boxed", s.getHotNotBoxed()
-								.size());
+						log.error("[R2]Can not arrange the schedule, {} entries can not be boxed", s.getHotNotBoxed().size());
 						slog.setStatus(ScheduleLog.Status.failed);
 						slog.setDescription("[R2]" + s.getHotNotBoxed().size() + " entries can not be boxed");
 						break;
@@ -444,9 +443,7 @@ public class ScheduleService {
 	public Iterable<JpaBox> getBoxesAndGoods(Date from, int days) {
 		from = DateUtil.trimDate(from);
 		Date to = DateUtils.addDays(from, days);
-		Predicate query = QJpaBox.jpaBox.day.before(to).and(
-				QJpaBox.jpaBox.day.stringValue()
-						.goe(StringOperation.create(Ops.STRING_CAST, ConstantImpl.create(from))));
+		Predicate query = QJpaBox.jpaBox.day.before(to).and(QJpaBox.jpaBox.day.stringValue().goe(StringOperation.create(Ops.STRING_CAST, ConstantImpl.create(from))));
 
 		return boxRepo.findAll(query);
 	}
@@ -459,8 +456,7 @@ public class ScheduleService {
 		from = DateUtil.trimDate(from);
 		Date to = DateUtils.addDays(from, days);
 		BooleanExpression query = QJpaGoodsBlack.jpaGoodsBlack.day.before(to).and(
-				QJpaGoodsBlack.jpaGoodsBlack.day.stringValue().goe(
-						StringOperation.create(Ops.STRING_CAST, ConstantImpl.create(from))));
+				QJpaGoodsBlack.jpaGoodsBlack.day.stringValue().goe(StringOperation.create(Ops.STRING_CAST, ConstantImpl.create(from))));
 		query = query.and(QJpaGoodsBlack.jpaGoodsBlack.slotId.eq(soltid));
 		return goodsBlackRepository.findAll(query);
 	}
@@ -469,8 +465,7 @@ public class ScheduleService {
 		from = DateUtil.trimDate(from);
 		Date to = DateUtils.addDays(from, days);
 		BooleanExpression query = QJpaGoods.jpaGoods.box.day.before(to).and(
-				QJpaGoods.jpaGoods.box.day.stringValue().goe(
-						StringOperation.create(Ops.STRING_CAST, ConstantImpl.create(from))));
+				QJpaGoods.jpaGoods.box.day.stringValue().goe(StringOperation.create(Ops.STRING_CAST, ConstantImpl.create(from))));
 		query = query.and(QJpaGoods.jpaGoods.box.timeslot.id.eq(soltid));
 		return goodsRepo.findAll(query);
 	}
@@ -561,8 +556,7 @@ public class ScheduleService {
 		from = DateUtil.trimDate(from);
 		Date to = DateUtils.addDays(from, days);
 		Predicate query = QJpaGoodsBlack.jpaGoodsBlack.day.before(to).and(
-				QJpaGoodsBlack.jpaGoodsBlack.day.stringValue().goe(
-						StringOperation.create(Ops.STRING_CAST, ConstantImpl.create(from))));
+				QJpaGoodsBlack.jpaGoodsBlack.day.stringValue().goe(StringOperation.create(Ops.STRING_CAST, ConstantImpl.create(from))));
 		return goodsBlackRepository.findAll(query);
 	}
 
@@ -602,8 +596,7 @@ public class ScheduleService {
 		}
 		Map<String, Object> variables = new HashMap<String, Object>();
 		variables.put("scheduleResult", true);
-		MailTask mailTask = new MailTask(order.getUserId(), order.getId(), null, task.getTaskDefinitionKey(),
-				Type.sendCompleteMail);
+		MailTask mailTask = new MailTask(order.getUserId(), order.getId(), null, task.getTaskDefinitionKey(), Type.sendCompleteMail);
 		taskService.complete(task.getId(), variables);
 		mailJob.putMailTask(mailTask);
 		Date end = DateUtil.dateAdd(order.getStartTime(), order.getProduct().getDays());
@@ -664,10 +657,9 @@ public class ScheduleService {
 		public ScheduleProgressListener listener;
 		public ScheduleType type;
 		public boolean peak = false;//是否是高峰
-		
 
-		public ScheduleContent(List<JpaGoods> gs, Map<Integer, Box> boxEx, JpaOrders order,
-				Map<Date, List<Box>> boxMap, int numberPlayer, ScheduleProgressListener listener, ScheduleType type) {
+		public ScheduleContent(List<JpaGoods> gs, Map<Integer, Box> boxEx, JpaOrders order, Map<Date, List<Box>> boxMap, int numberPlayer, ScheduleProgressListener listener,
+				ScheduleType type) {
 			this.gs = gs;
 			this.boxEx = boxEx;
 			this.order = order;
@@ -677,8 +669,8 @@ public class ScheduleService {
 			this.type = type;
 			this.needSchedule = Collections.emptyMap();
 		}
-		
-		public Map<Date,Map<Integer,AtomicInteger>> boxScheduleCount =   new HashMap<Date, Map<Integer,AtomicInteger>>();;
+
+		public Map<Date, Map<Integer, AtomicInteger>> boxScheduleCount = new HashMap<Date, Map<Integer, AtomicInteger>>();;
 
 		Map<Date, AtomicInteger> needSchedule;
 
@@ -708,6 +700,8 @@ public class ScheduleService {
 		long t = System.currentTimeMillis();
 		Map<Date, List<Box>> tempBoxMap = new HashMap<Date, List<Box>>(365 * 5 * 2);
 		Map<Integer, Box> alBox = new HashMap<Integer, Box>(107 * 365 * 5 * 2);
+
+		Map<String, Integer> boxHelper = new HashMap<String, Integer>(107 * 365 * 5 * 2);
 		while (true) {
 			BoxExample busExample = new BoxExample();
 			busExample.createCriteria().andIdGreaterThan(beginIndex);
@@ -718,6 +712,7 @@ public class ScheduleService {
 			for (Box box : boxList) {
 				count++;
 				beginIndex = box.getId();
+				boxHelper.put(box.getSlotId() + "#" + box.getDay().getTime(), box.getId());
 			}
 			putMemory(boxList, tempBoxMap, alBox);
 			if (boxList.size() < fetchsize) {
@@ -729,16 +724,18 @@ public class ScheduleService {
 			RW_LOCK.writeLock().lock();
 			BOXDAYMAP.putAll(tempBoxMap);
 			ALLBOX.putAll(alBox);
+			BOX_HELP.putAll(boxHelper);
 		} finally {
 			RW_LOCK.writeLock().unlock();
 		}
 		tempBoxMap.clear();
 		alBox.clear();
+		boxHelper.clear();
 		log.info("#*****# update AllMemory record:{} time:{} ms", count, System.currentTimeMillis() - w1);
 		log.info("#initBaseBox - Load {} mybatis box data  from Db :{} ms", count, System.currentTimeMillis() - t);
-		
+
 		long t2 = System.currentTimeMillis();
-		int city=1;
+		int city = 1;
 		Page<JpaTimeslot> slots = timeslotService.getAllTimeslots(city, null, 0, 9999, null, false);
 		/**
 		 * init peak
@@ -747,7 +744,7 @@ public class ScheduleService {
 			PEAK.put(jpaTimeslot.getId(), jpaTimeslot.isPeak() ? 1 : 0);
 		}
 		log.info("#Load timesolt data from Db record:{} time:{} ms", PEAK.size(), System.currentTimeMillis() - t2);
-		
+
 		return String.valueOf(count);
 	}
 
@@ -885,8 +882,7 @@ public class ScheduleService {
 		return box;
 	}
 
-	public SchedUltResult schedule2(JpaOrders order, boolean isOnlyCheck, boolean peak,
-			ScheduleProgressListener listener) {
+	public SchedUltResult schedule2(JpaOrders order, boolean isOnlyCheck, boolean peak, ScheduleProgressListener listener) {
 		//检查内存
 		checkDbBoxState(order, isOnlyCheck, listener);
 
@@ -899,7 +895,7 @@ public class ScheduleService {
 		for (int i = 0; i < days; i++) {
 			Date day = cal.getTime();
 			List<Box> memoryBoxList = getBoxListByDate(day);
-			tempMap.put(day, copyBoxList(memoryBoxList , peak));
+			tempMap.put(day, copyBoxList(memoryBoxList, peak));
 			cal.add(Calendar.DATE, 1);
 		}
 		//----------
@@ -914,8 +910,7 @@ public class ScheduleService {
 			//如果有首播排首播
 			int playNum = order.getProduct().getFirstNumber();
 
-			ScheduleContent command1 = new ScheduleContent(gs, boxEx, order, tempMap, playNum, listener,
-					ScheduleType.HASFRIST);
+			ScheduleContent command1 = new ScheduleContent(gs, boxEx, order, tempMap, playNum, listener, ScheduleType.HASFRIST);
 			isAllAllow = scheduleFristAlgorithm.scheduleFrist(command1);// scheduleFirst(gs, boxEx, order, playNum, tempMap, EMPTY_MAP);
 			//listener.update("订单首播排期结束!");
 			//listener.update("开始常规时间段排期.");
@@ -923,8 +918,7 @@ public class ScheduleService {
 				//首播排完了排非首播
 				playNum = order.getProduct().getPlayNumber() - order.getProduct().getFirstNumber();
 				if (playNum > 0) {
-					ScheduleContent command = new ScheduleContent(gs, boxEx, order, tempMap, playNum, listener,
-							ScheduleType.HASFRIST);
+					ScheduleContent command = new ScheduleContent(gs, boxEx, order, tempMap, playNum, listener, ScheduleType.HASFRIST);
 					command.boxScheduleCount = command1.boxScheduleCount;
 					isAllAllow = scheduleAlgorithm.scheduleNormal(command);
 				}
@@ -933,8 +927,7 @@ public class ScheduleService {
 			int playNum = order.getProduct().getPlayNumber();
 			//listener.update("开始常规时间段排期.");
 			//排非首播
-			ScheduleContent command = new ScheduleContent(gs, boxEx, order, tempMap, playNum, listener,
-					ScheduleType.ALLNORMAL);
+			ScheduleContent command = new ScheduleContent(gs, boxEx, order, tempMap, playNum, listener, ScheduleType.ALLNORMAL);
 			//isAllAllow = scheduleNormal(command);
 			isAllAllow = scheduleAlgorithm.scheduleNormal(command);
 			if (!isAllAllow.isScheduled) {
@@ -1023,7 +1016,7 @@ public class ScheduleService {
 					//goods.setBox(box);
 					JpaBox storeBox = getJpaBoxFromEntity(command.order, box);
 					goods.setBox(storeBox);
-//llll
+					//llll
 					//goods.setBox(box);
 					command.gs.add(goods);
 					command.boxEx.put(box.getId(), box);
@@ -1042,8 +1035,7 @@ public class ScheduleService {
 				}
 			} else {//计算常规时间段 排期后排首播时的库存情况 
 				if (k < command.numberPlayer) {
-					return new SchedUltResult("实际可上刊次数:" + (numberCopy - r.get()) + " 订单上刊次数" + numberCopy, false, day,
-							true);
+					return new SchedUltResult("实际可上刊次数:" + (numberCopy - r.get()) + " 订单上刊次数" + numberCopy, false, day, true);
 				}
 
 			}
@@ -1121,8 +1113,7 @@ public class ScheduleService {
 		}
 	};
 
-	public SchedUltResult checkForWeb(String start, int productId, int city, HttpServletRequest request,
-			Principal principal) {
+	public SchedUltResult checkForWeb(String start, int productId, int city, HttpServletRequest request, Principal principal) {
 		Date startDate;
 		SchedUltResult r = null;
 		try {
@@ -1134,13 +1125,11 @@ public class ScheduleService {
 			f.add(Calendar.DATE, 365 * 3);
 
 			if (startDate.before(b.getTime())) {
-				r = new SchedUltResult("系统目前支持的排期时间段:" + DateUtil.longDf.get().format(b.getTime()) + " - "
-						+ DateUtil.longDf.get().format(f.getTime()), false, null, false);
+				r = new SchedUltResult("系统目前支持的排期时间段:" + DateUtil.longDf.get().format(b.getTime()) + " - " + DateUtil.longDf.get().format(f.getTime()), false, null, false);
 				return r;
 			}
 			if (startDate.after(f.getTime())) {
-				r = new SchedUltResult("系统目前支持的排期时间段:" + DateUtil.longDf.get().format(b.getTime()) + " - "
-						+ DateUtil.longDf.get().format(f.getTime()), false, null, false);
+				r = new SchedUltResult("系统目前支持的排期时间段:" + DateUtil.longDf.get().format(b.getTime()) + " - " + DateUtil.longDf.get().format(f.getTime()), false, null, false);
 				return r;
 			}
 			order.setStartTime(startDate);
@@ -1161,8 +1150,7 @@ public class ScheduleService {
 
 	public SchedUltResult checkInventory(int id, String startdate1, HttpServletRequest request, Principal principal) {
 
-		ScheduleProgressListener listener = new ScheduleProgressListener(request.getSession(), principal,
-				ScheduleProgressListener.Type._checkFeature);
+		ScheduleProgressListener listener = new ScheduleProgressListener(request.getSession(), principal, ScheduleProgressListener.Type._checkFeature);
 
 		JpaOrders order = orderService.getJpaOrder(id);
 		Date d = order.getStartTime();
@@ -1305,10 +1293,88 @@ public class ScheduleService {
 	}
 
 	static ReentrantLock lock = new ReentrantLock();
+	
+	static ReentrantLock CALEL_LOCK = new ReentrantLock();
 	public static String currOperatorUser = StringUtils.EMPTY;
+	
+	public Pair<Boolean, String> canelScheduleStartDay(boolean isCallAfterDayAll, int orderid, String startdate1, Principal principal) {
+		Pair<Boolean, String> p = null;
+		try {
+			CALEL_LOCK.lock();
+			p = _canelScheduleStartDay(isCallAfterDayAll, orderid, startdate1, principal);
+		} catch (Exception e) {
+			log.error("lock error:", e);
+		} finally {
+			CALEL_LOCK.unlock();
+		}
+		return p;
+	}
 
-	public SchedUltResult checkInventory(int id, String taskid, String startdate1, boolean ischeck, boolean peak,
-			HttpServletRequest request, Principal principal) {
+	public Pair<Boolean, String> _canelScheduleStartDay(boolean isCallAfterDayAll, int orderid, String startdate1, Principal principal) {
+		Pair<Boolean, String> p = new Pair<Boolean, String>(false, StringUtils.EMPTY);
+
+		JpaOrders order = orderService.getJpaOrder(orderid);
+		if (order == null) {
+			p.setRight("订单丢失");
+			return p;
+		}
+		if (StringUtils.isNotBlank(startdate1)) {
+			try {
+				Date d = DateUtil.longDf.get().parse(startdate1);
+				Date end = DateUtil.dateAdd(order.getStartTime(), order.getProduct().getDays());
+				if (!(order.getStartTime().before(d) && end.after(d))) {
+					p.setRight("要取消的日期未在订单的播出范围内!");
+					return p;
+				}
+
+				List<Goods> goods = findGoodsByOrderAndStartDay(isCallAfterDayAll, orderid, d);
+
+				for (Goods record : goods) {
+					record.setIsDeleted(true);
+					String key = record.getBoxSlotId() + "#" + record.getDay().getTime();
+					if (BOX_HELP.containsKey(key)) {
+						Integer boxTableId = BOX_HELP.get(key);
+						if (ALLBOX.containsKey(boxTableId)) {
+							Box box = ALLBOX.get(boxTableId);
+							if (record.getSortIndex() == 0) {
+								//更新首播
+								box.setFremain(box.getFremain() - record.getSize().intValue());
+							} else {
+								//更新不是首播
+								box.setRemain(box.getRemain() - record.getSize().intValue());
+							}
+							boxMapper.updateByPrimaryKey(box);
+						} else {
+							log.warn("goods:miss box:{}", boxTableId);
+						}
+					} else {
+						log.warn("goods:miss box:{}", record.getId());
+					}
+					goodsMapper.updateByPrimaryKey(record);
+				}
+				p.setLeft(true);
+				return p;
+
+			} catch (ParseException e) {
+				log.error("Parse date error:{}", e);
+			}
+		}
+
+		return p;
+	}
+
+	public List<Goods> findGoodsByOrderAndStartDay(boolean isCallAfterDayAll, int orderId, Date startDay) {
+		GoodsExample example = new GoodsExample();
+		if (isCallAfterDayAll) {
+			example.createCriteria().andOrderIdEqualTo(orderId).andDayGreaterThanOrEqualTo(startDay).andIsDeletedEqualTo(false);
+		} else {
+			example.createCriteria().andOrderIdEqualTo(orderId).andDayEqualTo(startDay).andIsDeletedEqualTo(false);
+			;
+		}
+		return goodsMapper.selectByExample(example);
+	}
+
+	public SchedUltResult checkInventory(int id, String taskid, String startdate1, boolean ischeck, boolean peak, HttpServletRequest request, Principal principal) {
 		//检查
 		if (ischeck) {
 			return runCheck(id, taskid, startdate1, ischeck, peak, request, principal);
@@ -1343,8 +1409,7 @@ public class ScheduleService {
 
 	}
 
-	private SchedUltResult runCheck(int id, String taskid, String startdate1, boolean ischeck, boolean peak,
-			HttpServletRequest request, Principal principal) {
+	private SchedUltResult runCheck(int id, String taskid, String startdate1, boolean ischeck, boolean peak, HttpServletRequest request, Principal principal) {
 		ScheduleProgressListener listener = new ScheduleProgressListener(request.getSession(), principal);
 
 		JpaOrders order = orderService.getJpaOrder(id);
@@ -1370,8 +1435,7 @@ public class ScheduleService {
 				}
 				Map<String, Object> variables = new HashMap<String, Object>();
 				variables.put("scheduleResult", true);
-				MailTask mailTask = new MailTask(order.getUserId(), id, null, task.getTaskDefinitionKey(),
-						Type.sendCompleteMail);
+				MailTask mailTask = new MailTask(order.getUserId(), id, null, task.getTaskDefinitionKey(), Type.sendCompleteMail);
 				taskService.complete(task.getId(), variables);
 				mailJob.putMailTask(mailTask);
 			}
