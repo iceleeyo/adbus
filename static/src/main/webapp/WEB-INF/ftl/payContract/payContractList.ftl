@@ -22,7 +22,7 @@ js=["../js/jquery-dateFormat.js","../js/layer-v1.9.3/layer-site.js"]>
             "scrollX": true,
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                { "orderable": false, "targets": [0,1,2,3,6] },
+                { "orderable": false, "targets": [0,1,2,3,6,8] },
             ],
             "ajax": {
                 type: "GET",
@@ -59,6 +59,7 @@ js=["../js/jquery-dateFormat.js","../js/layer-v1.9.3/layer-site.js"]>
                     return  obj;
                 } },
                 { "data": "price","defaultContent": ""},
+                   { "data": "payPrice","defaultContent": ""},
                 { "data": "created", "defaultContent": "", "render": function(data) {
                     return  $.format.date(data, "yyyy-MM-dd");
                 } },
@@ -157,7 +158,8 @@ $('#test').on('click', function(){
 				<th>业务员</th>
 					<th>客户</th>
 				<th>所关联订单</th>
-				<th>合同价格(元)</th>
+				<th orderBy="price">合同价格(元)</th>
+			   <th orderBy="payPrice">已确认收款(元)</th>
 				<th orderBy="created">创建时间</th>
 				<th orderBy="userId">创建人</th>
 				<th>管理</th>
