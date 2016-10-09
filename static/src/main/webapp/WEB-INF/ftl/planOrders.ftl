@@ -202,7 +202,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","index_j
 </script>
 
 <div class="withdraw-wrap color-white-bg fn-clear">
- <div class="tabs">
+ <div class="tabs"> 
  <@security.authorize ifAnyGranted="ShibaFinancialManager">
     <a href="${rc.contextPath}/order/planContract" class="">
     待收款确认合同 <span id="planContract"
