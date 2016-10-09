@@ -22,21 +22,11 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
             "searching": false,
             "ordering": true,
             "serverSide": true,
-               <@security.authorize ifNotGranted="sales,salesManager">
-            "aaSorting": [[3, "desc"]],
-             </@security.authorize>
+            "aaSorting": [[6, "desc"]],
   
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                   <@security.authorize ifNotGranted="sales,salesManager">
-                { "orderable": false, "targets": [0,1,2,5] },
-                 </@security.authorize>
-             <@security.authorize ifAnyGranted="sales,salesManager">
-               { "orderable": false, "targets": [0,1,2,3,4,5] },
-              </@security.authorize>
-                
-                
-               
+                { "orderable": false, "targets": [0,1,2,3,4,5] },
             ],
             "aLengthMenu": [[10,25, 40, 100], [10,25, 40, 100]],
             "ajax": {
@@ -204,7 +194,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 				<th>套餐名称</th>
 				<th>合同编号</th>
 				<th>广告刊期</th>
-				<th orderBy="startTime">创建时间</th>
+				<th orderBy="created">创建时间</th>
 				<th>订单详情</th>
 
 			</tr>
