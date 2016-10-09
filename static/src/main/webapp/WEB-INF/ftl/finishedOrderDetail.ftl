@@ -45,9 +45,13 @@ function confirmSchedule() {
 		            success:function(data) {
 		                layer.closeAll("loading");
 		                if(data.left){
-		                  layer.msg(data.right);
+		                  layer.msg(data.right+"<br>3秒后自动刷新页面!",{icon: 6});
+		                  
+		                   setTimeout(function() {
+		            				location.reload();
+		       				 }, 1000 * 3);
 		                } else {
-		                  layer.msg(data.right);
+		                  layer.msg(data.right, {icon: 5});
 		                }
 		            }
 		        }, "text");
@@ -71,6 +75,15 @@ suppliesView=suppliesView/>
 		<TABLE class="ui-table ui-table-gray">
 			<TBODY>
 				<input type="hidden" id="ischeckInventory" value="0" />
+				
+				<TR>
+					<TH>订单排期日期</TH>
+					<TD colspan=3>
+                    <#setting
+					date_format="yyyy-MM-dd">${(orderview.order.startTime?date)!''} - <#setting
+					date_format="yyyy-MM-dd">${(orderview.order.endTime?date)!''} 						
+					</TD>
+				</TR>
 				<TR>
 					<TH>撤销日期</TH>
 					<TD colspan=3>
@@ -99,6 +112,86 @@ suppliesView=suppliesView/>
 	</div>
 </div>
 
+
+<script type="text/javascript">
+    var table;
+    function initTable () {
+        table = $('#table').dataTable( {
+			"dom" : '<"#toolbar2">t',
+            "searching": false,
+            
+            "ordering": false,
+            "serverSide": true,
+            "ajax": {
+                type: "GET",
+                url: "${rc.contextPath}/schedule/ajax-queryChangeLog",
+                data: function(d) {
+                    return $.extend( {}, d, {
+                        "filter[orderId]" : $('#orderId').val()
+                    } );
+                },
+                "dataSrc": "content",
+            },
+            "columns": [
+                 { "data": "created", "defaultContent": "", "render": function(data) {
+                    return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
+                }},
+                { "data": "userId", "defaultContent": ""
+                      },
+                { "data": "startDate", "defaultContent": "",
+                    },
+                      { "data": "isCallAfterDayAll", "defaultContent": "",
+                    },
+                
+            ],
+            "language": {
+                "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
+            },
+            "initComplete": initComplete,
+            "drawCallback": drawCallback,
+        } );
+        table.fnNameOrdering("orderBy").fnNoColumnsParams();
+    }
+
+    function initComplete() {
+    }
+
+    function drawCallback() {
+        $('.table-action').click(function() {
+            $.post($(this).attr("url"), function() {
+                table.fnDraw(true);
+            })
+        });
+    }
+
+    $(document).ready(function() {
+        initTable();
+    } );
+</script>
+
+<div id="generateSchedule" class="generateSchedule" >
+	<div class="p20bs mt10 color-white-bg border-ec">
+		<H3 class="text-xl title-box">
+			<p style="text-align: left">
+				<A class="black" href="">调整历史</A>
+			</p>
+		</H3>
+		<input type="hidden" id ="orderId" value ="${orderview.order.id}">
+		<#--<iframe style="width:100%;height:200px" frameborder="no" src="/schedule/changeLog?orderid=${orderview.order.id}"/>'-->
+		<table id="table" class="display compact" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th>操作时间</th>
+				<th>操作用户</th>
+				<th>撤销日期</th>
+				<th>撤销当天以后所有排期</th>
+			</tr>
+		</thead>
+
+	</table>
+		 
+	</div>
+</div>
 
 
 <#include "template/hisDetail.ftl" />

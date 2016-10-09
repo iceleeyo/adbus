@@ -56,6 +56,7 @@ import com.pantuo.dao.pojo.JpaGoodsBlack;
 import com.pantuo.dao.pojo.JpaInfoImgSchedule;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.dao.pojo.JpaScheduleChangeLog;
 import com.pantuo.dao.pojo.JpaSupplies;
 import com.pantuo.dao.pojo.JpaTimeslot;
 import com.pantuo.mybatis.domain.BlackAd;
@@ -180,6 +181,19 @@ public class ScheduleController {
 	public Pair<Boolean, String> canelOrderWithStartDay(HttpServletRequest request, HttpServletResponse response, Principal principal,
 			@RequestParam(value = "canelAfterAll", required = false) String canelAfterAll,@RequestParam(value = "orderid", required = false) int orderid, @RequestParam(value = "startdate", required = false) String startdate) throws Exception {
 		return scheduleService.canelScheduleStartDay(BooleanUtils.toBoolean(canelAfterAll),orderid, startdate, principal);
+	}
+	
+	 @RequestMapping(value = "/changeLog")
+	    public String list(Model model,@RequestParam(value = "orderid", required = false) String orderid, HttpServletResponse response) {
+		 model.addAttribute("orderid", orderid);
+		 response.setHeader("X-Frame-Options", "SAMEORIGIN");
+	        return "scheduleChangeLog";
+	    }
+	
+	@RequestMapping(value = "ajax-queryChangeLog", method = RequestMethod.GET)
+	@ResponseBody
+	public Page<JpaScheduleChangeLog> queryChangeLog(TableRequest req) {
+		return scheduleService.queryChangeLog(req);
 	}
 	
 	/** 

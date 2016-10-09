@@ -33,8 +33,9 @@ import jxl.write.WritableWorkbook;
 
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
-import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +43,9 @@ import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.ConstantImpl;
@@ -53,6 +57,7 @@ import com.pantuo.dao.BoxRepository;
 import com.pantuo.dao.GoodsBlackRepository;
 import com.pantuo.dao.GoodsRepository;
 import com.pantuo.dao.OrdersRepository;
+import com.pantuo.dao.ScheduleChangeLogRepository;
 import com.pantuo.dao.ScheduleLogRepository;
 import com.pantuo.dao.TimeslotRepository;
 import com.pantuo.dao.pojo.JpaBox;
@@ -61,11 +66,14 @@ import com.pantuo.dao.pojo.JpaGoodsBlack;
 import com.pantuo.dao.pojo.JpaInfoImgSchedule;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaProduct;
+import com.pantuo.dao.pojo.JpaScheduleChangeLog;
 import com.pantuo.dao.pojo.JpaTimeslot;
 import com.pantuo.dao.pojo.QJpaBox;
 import com.pantuo.dao.pojo.QJpaGoods;
 import com.pantuo.dao.pojo.QJpaGoodsBlack;
+import com.pantuo.dao.pojo.QJpaScheduleChangeLog;
 import com.pantuo.dao.pojo.ScheduleLog;
+import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Attachment;
 import com.pantuo.mybatis.domain.Box;
 import com.pantuo.mybatis.domain.BoxExample;
@@ -78,13 +86,15 @@ import com.pantuo.mybatis.persistence.GoodsMapper;
 import com.pantuo.mybatis.persistence.GoodsSortMapper;
 import com.pantuo.mybatis.persistence.InfoimgscheduleMapper;
 import com.pantuo.mybatis.persistence.UserAutoCompleteMapper;
+import com.pantuo.pojo.DataTablePage;
 import com.pantuo.pojo.SlotBoxBar;
+import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.MailTask.Type;
+import com.pantuo.service.security.Request;
 import com.pantuo.simulate.MailJob;
 import com.pantuo.util.BeanUtils;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.Pair;
-import com.pantuo.service.security.Request;
 import com.pantuo.util.Schedule;
 import com.pantuo.vo.MediaInventory;
 import com.pantuo.vo.ScheduleView;
@@ -101,6 +111,9 @@ import com.pantuo.web.view.SolitSortView;
 public class ScheduleService {
 	private static Logger log = LoggerFactory.getLogger(ScheduleService.class);
 
+	@Autowired
+	ScheduleChangeLogRepository scheduleChangeLogRepository;
+	
 	@Autowired
 	@Lazy
 	private ProductService productService;
@@ -1297,6 +1310,16 @@ public class ScheduleService {
 	static ReentrantLock CALEL_LOCK = new ReentrantLock();
 	public static String currOperatorUser = StringUtils.EMPTY;
 	
+	 
+	public Page<JpaScheduleChangeLog> queryChangeLog(TableRequest req) {
+		String orderId = req.getFilter("orderId");
+		BooleanExpression query = QJpaScheduleChangeLog.jpaScheduleChangeLog.orderid.eq(NumberUtils.toInt(orderId));
+		Sort sort = req.getSort("id");
+		Pageable p = new PageRequest(0, 100, sort);
+		Page<JpaScheduleChangeLog> page = scheduleChangeLogRepository.findAll(query, p);
+		return new DataTablePage<JpaScheduleChangeLog>(page, req.getDraw());
+	}
+	
 	public Pair<Boolean, String> canelScheduleStartDay(boolean isCallAfterDayAll, int orderid, String startdate1, Principal principal) {
 		Pair<Boolean, String> p = null;
 		try {
@@ -1309,7 +1332,6 @@ public class ScheduleService {
 		}
 		return p;
 	}
-
 	public Pair<Boolean, String> _canelScheduleStartDay(boolean isCallAfterDayAll, int orderid, String startdate1, Principal principal) {
 		Pair<Boolean, String> p = new Pair<Boolean, String>(false, StringUtils.EMPTY);
 
@@ -1322,13 +1344,16 @@ public class ScheduleService {
 			try {
 				Date d = DateUtil.longDf.get().parse(startdate1);
 				Date end = DateUtil.dateAdd(order.getStartTime(), order.getProduct().getDays());
-				if (!(order.getStartTime().before(d) && end.after(d))) {
+				if (!(((order.getStartTime().getTime() == d.getTime()) || order.getStartTime().before(d)) && end.after(d))) {
 					p.setRight("要取消的日期未在订单的播出范围内!");
 					return p;
 				}
 
 				List<Goods> goods = findGoodsByOrderAndStartDay(isCallAfterDayAll, orderid, d);
-
+				if (goods.isEmpty()) {
+					p.setRight("指定的日期没有要取消的排期,可能排期已经取消.");
+					return p;
+				}
 				for (Goods record : goods) {
 					record.setIsDeleted(true);
 					String key = record.getBoxSlotId() + "#" + record.getDay().getTime();
@@ -1352,6 +1377,7 @@ public class ScheduleService {
 					}
 					goodsMapper.updateByPrimaryKey(record);
 				}
+				saveChangeLog(isCallAfterDayAll,orderid, startdate1, principal);
 				p.setLeft(true);
 				p.setRight("订单取消排期成功!");
 				return p;
@@ -1362,6 +1388,21 @@ public class ScheduleService {
 		}
 
 		return p;
+	}
+	
+	public void saveChangeLog(boolean isCallAfterDayAll, int orderid, String startdate1, Principal principal){
+		JpaScheduleChangeLog log = new JpaScheduleChangeLog();
+		UserDetail user = 	Request.getUser(principal);
+		if(user!=null){
+			String name = user.getUsername()+ "#" + user.getUser()!=null?user.getUser().getFirstName():"";
+			log.setUserId(name);
+			log.setUpdated(new Date());
+			log.setCreated(new Date());
+			log.setStartDate(startdate1);
+			log.setOrderid(orderid);
+			log.setIsCallAfterDayAll(BooleanUtils.toStringYesNo(isCallAfterDayAll));
+		}
+		scheduleChangeLogRepository.save(log);
 	}
 
 	public List<Goods> findGoodsByOrderAndStartDay(boolean isCallAfterDayAll, int orderId, Date startDay) {
