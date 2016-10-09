@@ -297,6 +297,7 @@ public class UserManagerController {
 		response.setHeader("X-Frame-Options", "SAMEORIGIN");
 		if (orderid > 0) {
 			Orders orders = orderService.selectOrderById(orderid);
+			JpaOrders jpaOrders = orderService.getJpaOrder(orderid);
 			if (orders != null) {
 				if (Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)) {
 					if (!StringUtils.equals(Request.getUserId(principal), orders.getUserId())) {
@@ -314,6 +315,7 @@ public class UserManagerController {
 				model.addAttribute("payplan", getPayInfo(ordersList));
 				model.addAttribute("payplanView", getPayInfoView(orders,null));
 				model.addAttribute("contractCode", orders.getContractCode());
+				model.addAttribute("paycontract",jpaOrders.getJpaPayContract());
 			}
 			
 		}else if(payContractId>0){

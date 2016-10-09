@@ -801,13 +801,13 @@ public class ActivitiServiceImpl implements ActivitiService {
 	    	int id=OrderIdSeq.longOrderId2DbId(NumberUtils.toLong(longId));
 	    	q=q.and(QJpaOrders.jpaOrders.id.eq(id));
 	    }
-		List<JpaOrders> list= (List<JpaOrders>) ordersRepository.findAll(q);
-		for (JpaOrders jpaOrders : list) {
+		Page<JpaOrders> page2=  ordersRepository.findAll(q,p);
+		for (JpaOrders jpaOrders : page2.getContent()) {
 			OrderView v = new OrderView();
 			v.setOrder(jpaOrders);
 			orders.add(v);
 		}
-		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(orders, p, list.size());
+		org.springframework.data.domain.PageImpl<OrderView> r = new org.springframework.data.domain.PageImpl<OrderView>(orders, p, page2.getContent().size());
 		return r;
 	}
 

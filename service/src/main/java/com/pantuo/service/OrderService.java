@@ -64,6 +64,7 @@ import com.pantuo.mybatis.domain.OrdersExample;
 import com.pantuo.mybatis.domain.PayPlan;
 import com.pantuo.mybatis.domain.PayPlanExample;
 import com.pantuo.mybatis.domain.Paycontract;
+import com.pantuo.mybatis.domain.PaycontractExample;
 import com.pantuo.mybatis.domain.PaycontractWithBLOBs;
 import com.pantuo.mybatis.domain.Product;
 import com.pantuo.mybatis.domain.RoleCpd;
@@ -999,5 +1000,6 @@ public class OrderService {
 		List<JpaVideo32OrderDetail> list = (List<JpaVideo32OrderDetail>) vedio32OrderDetailRepository.findAll(q);
 		return list;
 	}
+
 
 }
