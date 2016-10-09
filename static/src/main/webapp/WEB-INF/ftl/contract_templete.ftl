@@ -1514,7 +1514,7 @@ function getEnd(date,days){
 		<#assign sum=sum+(item.price) />
 		<tr ><td COLSPAN=8></td></tr>
 	</#list>
-		<tr ><td>备注</td> <td COLSPAN=7>${paycontract.remark!''}</td></tr>
+		<tr ><td>备注</td> <td COLSPAN=7>${(paycontract.remark)!''}</td></tr>	
 		
 		
 		<#if payplanView.right??>
