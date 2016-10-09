@@ -335,7 +335,7 @@ public class OrderController {
 			@RequestParam(value = "auto", required = false) String auto,
 			@RequestParam(value = "pid", required = false) String pid, Principal principal,
 			@CookieValue(value = "city", defaultValue = "-1") int city, HttpServletRequest request) throws Exception {
-		return activitiService.showOrderDetail(city, model, orderid, taskid, pid, principal,BooleanUtils.toBoolean(auto));
+		return activitiService.showOrderDetail(city, model, orderid, taskid, pid, principal,BooleanUtils.toBoolean(auto),request);
 	}
 	
 	

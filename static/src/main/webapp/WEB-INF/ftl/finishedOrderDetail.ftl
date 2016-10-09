@@ -63,6 +63,7 @@ function confirmSchedule() {
 
 <@orderDetail.orderDetail orderview=orderview quafiles=quafiles
 suppliesView=suppliesView/> 
+<#if scheduleTag??>
 <div id="generateSchedule" class="generateSchedule" >
 	<div class="p20bs mt10 color-white-bg border-ec">
 		<H3 class="text-xl title-box">
@@ -192,7 +193,7 @@ suppliesView=suppliesView/>
 		 
 	</div>
 </div>
-
+</#if>
 
 <#include "template/hisDetail.ftl" />
 </@frame.html>

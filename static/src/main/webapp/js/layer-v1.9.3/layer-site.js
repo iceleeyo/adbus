@@ -2286,4 +2286,15 @@ function layerOpen(w){
 	});
 }	
 
-
+function getEnd(date,days){
+	var d=new Date(date);
+	if(date=='' || d==""){
+		return "";
+	}else{
+	    d.setDate(d.getDate()+ days); 
+	    var m=d.getMonth()+1;
+	    d.getFullYear()+'-'+m+'-'+d.getDate();
+	   	d= $.format.date(d, "yyyy-MM-dd");
+	   	return d;
+	}
+}

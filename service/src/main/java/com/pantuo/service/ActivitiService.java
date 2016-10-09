@@ -167,7 +167,7 @@ public interface ActivitiService {
 
 	public Pair<Object, String> modifyOrder(int city, String startdate1,int orderid, String taskid, int supplieid, UserDetail user)throws ParseException;
 
-	public String showOrderDetail(int city, Model model, int orderid, String taskid, String pid, Principal principal, boolean isAutoGoto);
+	public String showOrderDetail(int city, Model model, int orderid, String taskid, String pid, Principal principal, boolean isAutoGoto, HttpServletRequest request);
 
     public JpaOrders.Status fetchStatusAfterTaskComplete(Task task);
 	

@@ -202,6 +202,10 @@
 			<generatedKey column="ID" sqlStatement="${generator.db}"
 				identity="true" />
 		</table>
+		<table schema="" tableName="schedule_changlog" delimitIdentifiers="${generator.delimitIdentifiers}">
+			<generatedKey column="ID" sqlStatement="${generator.db}"
+				identity="true" />
+		</table>
 		
 		
 

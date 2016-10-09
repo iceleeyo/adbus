@@ -42,6 +42,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -784,8 +785,22 @@ public class ActivitiServiceImpl implements ActivitiService {
 		Pageable p = new PageRequest(page, pageSize, sort);
 		
 		List<OrderView> orders = new ArrayList<OrderView>();
-		BooleanExpression q = QJpaOrders.jpaOrders.isScheduled.eq(true);
-	
+		BooleanExpression q = QJpaOrders.jpaOrders.isScheduled.eq(true).and(QJpaOrders.jpaOrders.type.eq(JpaProduct.Type.video));
+	    String longId = req.getFilter("longOrderId"), userId = req.getFilter("userId"), 
+	    salesMan = req.getFilter("salesMan"),proName=req.getFilter("proName");
+	    if(StringUtils.isNotBlank(proName)){
+	    	q=q.and(QJpaOrders.jpaOrders.product.name.like("%"+proName+"%"));
+	    }
+	    if(StringUtils.isNotBlank(userId)){
+	    	q=q.and(QJpaOrders.jpaOrders.userId.like("%"+userId+"%"));
+	    }
+	    if(StringUtils.isNotBlank(salesMan)){
+	    	q=q.and(QJpaOrders.jpaOrders.userId.like("%"+salesMan+"%"));
+	    }
+	    if(StringUtils.isNotBlank(longId)){
+	    	int id=OrderIdSeq.longOrderId2DbId(NumberUtils.toLong(longId));
+	    	q=q.and(QJpaOrders.jpaOrders.id.eq(id));
+	    }
 		List<JpaOrders> list= (List<JpaOrders>) ordersRepository.findAll(q);
 		for (JpaOrders jpaOrders : list) {
 			OrderView v = new OrderView();
@@ -1713,7 +1728,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return map;
 	}
 
-	public String showOrderDetail(int city, Model model, int orderid, String taskid, String pid, Principal principal, boolean isAutoGoto) {
+	public String showOrderDetail(int city, Model model, int orderid, String taskid, String pid, Principal principal, boolean isAutoGoto,HttpServletRequest request) {
 
 		/**
 		 *  自动判断是否是结束的任务
@@ -1725,7 +1740,10 @@ public class ActivitiServiceImpl implements ActivitiService {
 				taskid = tasks.get(0).getId();
 			}
 		}
-
+        String scheduleTag=request.getParameter("scheduleTag");
+        if(StringUtils.isNotBlank(scheduleTag) && StringUtils.equals(scheduleTag, "1")){
+        	model.addAttribute("scheduleTag", scheduleTag);
+        }
 		if (StringUtils.isNotBlank(taskid)) {
 			try {
 				Task task = taskService.createTaskQuery().taskId(taskid).singleResult();

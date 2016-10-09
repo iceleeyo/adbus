@@ -27,18 +27,7 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
       }
     }, "text");
   }
-function getEnd(date,days){
-	var d=new Date(date);
-	if(date=='' || d==""){
-		return "";
-	}else{
-	    d.setDate(d.getDate()+ days); 
-	    var m=d.getMonth()+1;
-	    d.getFullYear()+'-'+m+'-'+d.getDate();
-	   	d= $.format.date(d, "yyyy-MM-dd");
-	   	return d;
-	}
-}
+
   function claim(orderid,taskid){
   $.ajax({
       url : "${rc.contextPath}/order/claim/"+taskid,
