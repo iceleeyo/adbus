@@ -27,7 +27,18 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
       }
     }, "text");
   }
-
+function getEnd(date,days){
+	var d=new Date(date);
+	if(date=='' || d==""){
+		return "";
+	}else{
+	    d.setDate(d.getDate()+ days); 
+	    var m=d.getMonth()+1;
+	    d.getFullYear()+'-'+m+'-'+d.getDate();
+	   	d= $.format.date(d, "yyyy-MM-dd");
+	   	return d;
+	}
+}
   function claim(orderid,taskid){
   $.ajax({
       url : "${rc.contextPath}/order/claim/"+taskid,
@@ -322,7 +333,13 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
 
 <div class="withdraw-wrap color-white-bg fn-clear">
   <div class="tabs">
-    <a href="${rc.contextPath}/order/myTask/1" class="active">
+    <@security.authorize ifAnyGranted="ShibaFinancialManager">
+    <a href="${rc.contextPath}/order/planContract" class="">
+    待收款确认合同 <span id="planContract"
+      style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
+    </a>
+    </@security.authorize>
+     <a href="${rc.contextPath}/order/myTask/1" class="active">
     待办事项 <span id="orderTaskCount"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
     </a>
@@ -331,15 +348,10 @@ js=["js/layer.min.js","js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateF
     待收款分期订单 <span id="planOrders"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
     </a>
-     <a href="${rc.contextPath}/order/planContract" class="">
-    待收款确认合同 <span id="planContract"
-      style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
-    </a>
     </@security.authorize>
-    <@security.authorize ifAnyGranted="sales,ShibaOrderManager,advertiser">
-    
+     <@security.authorize ifAnyGranted="sales,ShibaOrderManager,advertiser">
      <@security.authorize ifAnyGranted="ShibaOrderManager,advertiser">
- 	   <a href="${rc.contextPath}/order/payPlanOrders" class="">
+     <a href="${rc.contextPath}/order/payPlanOrders" class="">
     待支付分期订单 <span id="payPlanOrders"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
     </a>

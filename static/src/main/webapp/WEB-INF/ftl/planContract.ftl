@@ -215,6 +215,12 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","index_j
 
 <div class="withdraw-wrap color-white-bg fn-clear">
 <div class="tabs">
+    <@security.authorize ifAnyGranted="ShibaFinancialManager">
+    <a href="${rc.contextPath}/order/planContract" class="active">
+    待收款确认合同 <span id="planContract"
+      style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
+    </a>
+    </@security.authorize>
     <a href="${rc.contextPath}/order/myTask/1" class="">
     待办事项 <span id="orderTaskCount"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
@@ -222,10 +228,6 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","index_j
     <@security.authorize ifAnyGranted="ShibaFinancialManager">
     <a href="${rc.contextPath}/order/planOrders" class="">
     待收款分期订单 <span id="planOrders"
-      style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
-    </a>
-    <a href="${rc.contextPath}/order/planContract" class="active">
-    待收款确认合同 <span id="planContract"
       style="background-color: #ff9966; color: #fff; font-size: 14px; border-radius: 4px;"></span>
     </a>
     </@security.authorize>
