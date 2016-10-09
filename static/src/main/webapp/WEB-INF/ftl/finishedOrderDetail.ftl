@@ -135,7 +135,7 @@ suppliesView=suppliesView/>
             },
             "columns": [
                  { "data": "created", "defaultContent": "", "render": function(data) {
-                    return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
+                    return data == null ? "" : $.format.date(data, "yyyy-MM-dd HH:mm");
                 }},
                 { "data": "userId", "defaultContent": ""
                       },
