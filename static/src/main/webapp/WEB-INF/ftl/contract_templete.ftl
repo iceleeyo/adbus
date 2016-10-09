@@ -1515,10 +1515,6 @@ function getEnd(date,days){
 		<tr ><td COLSPAN=8></td></tr>
 	</#list>
 		<tr ><td>备注</td> <td COLSPAN=7>${paycontract.remark!''}</td></tr>
-=======
-		<tr ><td>备注</td> <td COLSPAN=7>
-		${(paycontract.remark)!''}</td></tr>
->>>>>>> origin/master
 		
 		
 		<#if payplanView.right??>

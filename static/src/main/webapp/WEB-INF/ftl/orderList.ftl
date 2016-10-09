@@ -332,7 +332,7 @@ function getEnd(date,days){
 
 
 <div class="withdraw-wrap color-white-bg fn-clear">
-  <div class="tabs">
+  <div class="tabs"> 
   <@security.authorize ifAnyGranted="ShibaFinancialManager">
      <a href="${rc.contextPath}/order/planContract" class="">
     待收款确认合同 <span id="planContract"
