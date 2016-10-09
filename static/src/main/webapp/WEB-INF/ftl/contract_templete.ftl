@@ -516,7 +516,6 @@ function getEnd(date,days){
 		<#assign sum=sum+(item.price) />
 		<tr ><td COLSPAN=8></td></tr>
 	</#list>
-<<<<<<< HEAD
 		
 		<#if payplanView.right??>
 		<tr>
@@ -535,8 +534,8 @@ function getEnd(date,days){
 			</td>
 		</tr>
 		
-		</<tr id="if"></tr>
-		<tr ><td>备注</td> <td COLSPAN=7>${paycontract.remark!''}</td></tr>
+		</#if>
+		<tr ><td>备注</td> <td COLSPAN=7>${(paycontract.remark)!''}</td></tr>
 		<tr>
 			<td>签约总价格（元）</td><td COLSPAN="7" align="center"><script>convertCurrency(${sum});</script>(¥${sum}元)</td>
 		</tr>
@@ -1514,7 +1513,7 @@ function getEnd(date,days){
 		<#assign sum=sum+(item.price) />
 		<tr ><td COLSPAN=8></td></tr>
 	</#list>
-		<tr ><td>备注</td> <td COLSPAN=7>${(paycontract.remark)!''}</td></tr>	
+		<tr ><td>备注</td> <td COLSPAN=7>${(paycontract.remark)!''}</td></tr>
 		
 		
 		<#if payplanView.right??>
