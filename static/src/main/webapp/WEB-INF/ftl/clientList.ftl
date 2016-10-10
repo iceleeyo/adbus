@@ -94,7 +94,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                 '<div>' +
                         '    <span>公司名称</span>' +
                         '    <span>' +
-                        '        <input id="company" value="">' +
+                        '        <input style="width: 440px;" id="company" value="">' +
                         '    </span>' +
                         '    &nbsp;&nbsp;<span>联系人</span>' +
                         '    <span>' +

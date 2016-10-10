@@ -171,7 +171,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>套餐名称：</label>
 					<input
-						class="ui-input validate[required,custom[noSpecialLetterChinese]]"
+						class="ui-input validate[required]"
 						type="text" value="<#if prod??>${prod.name!''}<#else></#if>"
 						name="name" id="name" data-is="isAmount isEnough"
 						autocomplete="off" disableautocomplete="">

@@ -92,7 +92,7 @@ function uploadImaget(formId) {
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>公司名称:</label>
 					<input
-						class="ui-input  validate[required,minSize[2],maxSize[100]]"
+						class="ui-input  validate[required]" style="width:440px;"
 						type="text" name="company" id="company" value="<#if userDetail??>${userDetail.company!''}</#if>"
 						data-is="isAmount isEnough" autocomplete="off"
 						disableautocomplete="" placeholder="">
@@ -100,7 +100,7 @@ function uploadImaget(formId) {
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>公司地址:</label>
 					<input
-						class="ui-input  validate[required,minSize[2],maxSize[100]]"
+						class="ui-input  validate[required]" style="width:440px;"
 						type="text" name="companyAddr" id="companyAddr" value="<#if userDetail??>${userDetail.companyAddr!''}</#if>"
 						data-is="isAmount isEnough" autocomplete="off"
 						disableautocomplete="" placeholder="">
