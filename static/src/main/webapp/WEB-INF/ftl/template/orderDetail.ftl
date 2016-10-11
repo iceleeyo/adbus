@@ -124,9 +124,9 @@ function supDetail(data){
 		<@security.authorize ifAnyGranted="ShibaFinancialManager,sales">
 			<li style="width:400px;"><SPAN>合同编号：</SPAN><SPAN class="con">
 			<#if orderview.order.jpaPayContract??>
-			<a target="_blank" href="${rc.contextPath}/payContract/toEditPayContract/${orderview.order.jpaPayContract.id!0}">${(orderview.order.contractCode)!''}</a>
+			<a onclick="eleContract('${rc.contextPath}',0,0,${orderview.order.jpaPayContract.id!0});">${(orderview.order.contractCode)!''}</a>
 			<#else>
-			<a target="_blank" href="${rc.contextPath}/payContract/toEditPayContract/${orderview.order.id!0}">${(orderview.order.contractCode)!''}</a>
+			<a onclick="eleContract('${rc.contextPath}',${orderview.order.id!''},0,0);">${(orderview.order.contractCode)!''}</a>
 			</#if>
 			</SPAN></li>
 		</@security.authorize>
@@ -143,7 +143,7 @@ function supDetail(data){
 			</#if>
 
 
-			<#-- <li class="s-left f-iconli"><span class="s-left tt"><i class="s-left ff-icon"></i>支付及发票</span></li> 
+			<li class="s-left f-iconli"><span class="s-left tt"><i class="s-left ff-icon"></i>支付及发票</span></li> 
 			 <li style="width: 200px;"><SPAN>分期详情：</SPAN><SPAN class="con">
 			 <#if orderview.order.jpaPayContract??>
 			 	<a target="_blank" href="${rc.contextPath}/payContract/toEditPayContract/${orderview.order.jpaPayContract.id!0}"  >查看</a>
@@ -188,7 +188,7 @@ function supDetail(data){
 						onclick="invoicedetail('${rc.contextPath}',${orderview.order.id!''});"
 						href="javascript:void(0)"> 是(查看详情)</a> <#else> 否 </#if>
 				</SPAN></li>
-			</@security.authorize> -->
+			</@security.authorize>
 
 			<li class="s-left f-iconli"><span class="s-left tt"><i
 					class="s-left ff-icon"></i>物料及资质</span></li> <#if suppliesLink>
