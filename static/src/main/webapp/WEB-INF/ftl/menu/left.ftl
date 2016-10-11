@@ -63,7 +63,7 @@
 				</ul></li> </@security.authorize> 
 	<@security.authorize ifAnyGranted="sales">
 		<li class="pg-side-item">
-		    <a class="pg-side-item-t ee-icon" href="#"> <i class="s-left pg-icon-a g-icon"></i> 合同管理 </a>
+		    <a class="pg-side-item-t ee-icon" href="#"> <i class="s-left pg-icon-a n-icon"></i> 合同管理 </a>
 				<ul class="pg-side-exp-list">
 				  <@security.authorize ifAnyGranted="sales">
 				  <li class="pg-side-exp-item">
@@ -444,7 +444,7 @@
 			</ul></li>
 			<@security.authorize ifAnyGranted="salesManager,sales">
 			<li class="pg-side-item"><a class="pg-side-item-t ff-icon" >
-						<i class="s-left pg-icon-a e-icon"></i> 客户信息
+						<i class="s-left pg-icon-a g-icon"></i> 客户信息
 				</a>
 					<ul class="pg-side-exp-list">
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"

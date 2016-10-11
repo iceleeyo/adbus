@@ -442,6 +442,11 @@ table {
 	background-size: 25px;
 }
 
+.n-icon {
+	background: url(../imgs/icon-new.png?v=1548a) no-repeat 0 -218px;
+	background-size: 25px;
+}
+
 .pg-icon-a {
 	width: 25px;
 	height: 25px;

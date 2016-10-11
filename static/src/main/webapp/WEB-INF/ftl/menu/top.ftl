@@ -48,7 +48,7 @@
 								</a>
 							</div> -->
 				<div class="s-right s-clear">
-				<a class="pg-nav-item s-left" href="/secondLevelPage">回到首页</a>
+				<a class="pg-nav-item s-left" href="http://busme.cn/secondLevelPage">回到首页</a>
 					<span class="pg-nav-item s-left" style="padding: 0;">您好，</span> <span>
 						<@security.authorize access="isAuthenticated()"> <#if medetype??
 						&& medetype=="screen"> <a class="pg-nav-item s-left"
@@ -64,7 +64,7 @@
 							</@security.authorize> 
 					</span> <#--<span class="arrow-down"></span>-->
 					
-
+	
 					<!--<a class="pg-nav-item s-left" href="#">
 									<i class="icon-msg fsize-12">1</i>
 									消息
