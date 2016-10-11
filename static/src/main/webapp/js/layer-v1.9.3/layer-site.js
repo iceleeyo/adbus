@@ -1371,7 +1371,7 @@ function setOrderPrice(tourl,orderid){
 			 +'<input class="ui-inputLayer validate[required,custom[number],min[1]]" onblur="bu(this)" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\\d.]/g,\'\')}else{this.value=this.value.replace(/[^\\d.]/g,\'\')}"'
 			 +' type="text" name="price" id="price" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="请输入订单金额">'
 			 +'</div>'
-			  +' <div class="ui-form-item widthdrawBtBox" style="margin-left:-20px;"> <input type="button" id="uploadbutton" class="block-btn" onclick="setPriceHelp(\''+postPath+'\','+orderid+');" value="修改订单价格"> </div>'
+			  +' <div class="ui-form-item widthdrawBtBox" style="margin-left:-167px;"> <input type="button" id="uploadbutton" class="block-btn" onclick="setPriceHelp(\''+postPath+'\','+orderid+');" value="修改订单价格"> </div>'
 			 +' </div> </div></form>' 
 			
 			});

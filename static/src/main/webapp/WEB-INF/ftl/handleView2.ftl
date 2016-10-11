@@ -1347,7 +1347,7 @@ suppliesView=suppliesView/>
 				</TR>
 				<TR>
 					<TH width="20%">排期表</TH>
-					<TD colspan=2 style="border-radius: 0 0 0"><a target="_blank"
+					<TD colspan=2 style="border-radius: 0 0 0"><a target="_blank" style="color:#00A8E8;" 
 						href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
 				</TR>
 
@@ -1499,7 +1499,7 @@ suppliesView=suppliesView/>
 				</TR>
 				<TR>
 					<TH width="20%">排期表</TH>
-					<TD style="border-radius: 0 0 0"><a target="_blank"
+					<TD style="border-radius: 0 0 0"><a target="_blank" style="color:#00A8E8;" 
 						href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
 				</TR>
 				<TR>
@@ -1593,7 +1593,7 @@ initPayPlanTable('${rc.contextPath}',$("#orderid").val(),'<@security.authorize
 				</TR>
 				<TR>
 					<TH width="20%">排期表</TH>
-					<TD colspan=2 style="border-radius: 0 0 0"><a target="_blank"
+					<TD colspan=2 style="border-radius: 0 0 0"><a target="_blank" style="color:#00A8E8;" 
 						href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
 				</TR>
 				<TR>
@@ -1638,7 +1638,7 @@ initPayPlanTable('${rc.contextPath}',$("#orderid").val(),'<@security.authorize
 				</TR>
 				<TR>
 					<TH width="20%">排期表</TH>
-					<TD style="border-radius: 0 0 0"><a target="_blank"
+					<TD style="border-radius: 0 0 0"><a target="_blank" style="color:#00A8E8;" 
 						href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
 				</TR>
 				<TR>
