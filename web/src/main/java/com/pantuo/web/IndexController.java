@@ -427,4 +427,15 @@ public class CardSelect{
 	@Autowired
 	@Lazy
 	GroovySimpleInterface foo;
+	
+	
+
+
+	@RequestMapping(value = "report/public_log")
+	public String public_log() {
+		return "report/log";
+	}
+
+	
+	
 }

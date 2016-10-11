@@ -452,9 +452,14 @@
 					</ul>
 			</li>  
 			</@security.authorize>
+			<ul class="pg-side-exp-list">
+		<li class="pg-side-item"><a class="pg-side-item-t aa-icon"
+			href="/report/public_log"> <i class="s-left pg-icon-a a-icon"
+				></i>系统更新日志</a></li> 
+			</ul>
 			 <@security.authorize ifAnyGranted="advertiser">
-			
-			
+			 
+			 	
 		<li class="pg-side-item qq"><a class="pg-side-item-t aa-icon" href="javascript:void(0);" > 
 		<i class="s-left pg-icon-a a-icon"
 				style="background:url(${rc.contextPath}/imgs/cs.png) no-repeat;"></i>

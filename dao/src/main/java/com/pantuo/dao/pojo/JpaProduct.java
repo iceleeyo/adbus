@@ -16,7 +16,7 @@ import java.util.*;
 @Table(name="product")
 public class JpaProduct extends CityEntity {
     public static enum Type {
-        video("硬广广告"), image("INFO图片"), info("INFO字幕"),team("团类广告"), body("车身"), other("其他"),mixture("混合类型"),inchof32("32寸屏广告");
+        video("硬广广告"), image("INFO图片"), info("INFO字幕"),team("团类广告"), body("车身"), other("其他"),inchof32("32寸屏广告");//,mixture("混合类型")
 
         private final String name;
         private Type(String name) {
@@ -33,7 +33,7 @@ public class JpaProduct extends CityEntity {
 
     public static Map<JpaCity.MediaType, List<Type>> productTypesForMedia = new HashMap<JpaCity.MediaType, List<Type>>();
     static {
-        productTypesForMedia.put(JpaCity.MediaType.screen, Arrays.asList(Type.video, Type.image, Type.info,Type.team,Type.mixture,Type.inchof32));
+        productTypesForMedia.put(JpaCity.MediaType.screen, Arrays.asList(Type.video, Type.image, Type.info,Type.team,Type.inchof32));
         productTypesForMedia.put(JpaCity.MediaType.body, Arrays.asList(Type.body));
     }
 
