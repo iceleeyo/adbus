@@ -212,12 +212,12 @@ function supDetail(data){
 			orderview.task_name=='已上播' ||orderview.task_name=='已排期待上播')>
 			<li style="width: 200px;"><SPAN>排期状态：
 			
-				<a target="_blank"	href="${rc.contextPath}/schedule/${orderview.order.id!''}">
+				<a target="_blank" style="color:#00A8E8;" href="${rc.contextPath}/schedule/${orderview.order.id!''}">
 					查看排期表 </a></SPAN></li> 
 		
 					 <#elseif orderview.task_name=='已完成' >
 					<li style="width: 200px;"><SPAN>排期状态：
-							<a target="_blank" href="${rc.contextPath}/schedule/${orderview.order.id!''}">
+							<a target="_blank" style="color:#00A8E8;"  href="${rc.contextPath}/schedule/${orderview.order.id!''}">
 								查看排期表 </a> 
 					 <#else>
 
