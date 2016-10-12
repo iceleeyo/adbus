@@ -451,11 +451,14 @@
 					</ul>
 			</li>  
 			</@security.authorize>
+		<@security.authorize
+		ifAnyGranted="bodysales,bodyContractManager,bodyScheduleManager,ShibaSuppliesManager,ShibaOrderManager,BeiguangScheduleManager">
 			<ul class="pg-side-exp-list">
 		<li class="pg-side-item"><a class="pg-side-item-t aa-icon"
 			href="/report/public_log"> <i class="s-left pg-icon-a a-icon"
 				></i>系统更新日志</a></li> 
 			</ul>
+		</@security.authorize>
 			 <@security.authorize ifAnyGranted="advertiser">
 			 
 			 	
