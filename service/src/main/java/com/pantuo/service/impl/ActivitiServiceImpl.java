@@ -1227,6 +1227,23 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return r;
 	}
 
+	public void updateOrderSeqNumber(String taskId, String seqNumber) {
+
+		if (StringUtils.isNoneBlank(seqNumber)) {
+			Task task;
+			try {
+				task = findTaskById(taskId, true);
+				Integer orderId = (Integer) task.getProcessVariables().get(ORDER_ID);
+				Orders record = new Orders();
+				record.setId(orderId);
+				record.setSeqNumber(seqNumber);
+				ordersMapper.updateByPrimaryKeySelective(record);
+			} catch (Exception e) {
+				log.error("updateOrderSeqNumber-ex", e);
+			}
+		}
+
+	}
 	public Pair<Boolean, String> complete(String taskId, Map<String, Object> variables, Principal principal) {
 		Pair<Boolean, String> r = new Pair<Boolean, String>(true, StringUtils.EMPTY);
 		UserDetail u = Request.getUser(principal);

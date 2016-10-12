@@ -153,7 +153,7 @@ function approve1(){
 	}
 	
 	if(seqNumber!=""){
-	   approve2ResultValue="true";
+	   approve2ResultValue="false";
 	}else{
 	    approve2ResultValue="false";
 	}

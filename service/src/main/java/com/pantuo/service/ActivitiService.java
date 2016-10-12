@@ -116,6 +116,17 @@ public interface ActivitiService {
 	 * @since pantuotech 1.0-SNAPSHOT
 	 */
 	public Pair<Boolean, String> complete(String taskId, Map<String, Object> variables, Principal principal);
+	
+	
+	/**
+	 * 
+	 * 根据taskid 根据order表seqNumber
+	 *
+	 * @param taskId
+	 * @param seqNumber
+	 * @since pantuo 1.0-SNAPSHOT
+	 */
+	public void updateOrderSeqNumber(String taskId,String seqNumber);
 
 	/*
 	 * 扫描工作流 去掉订单不存在的工作流

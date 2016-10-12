@@ -198,8 +198,9 @@ function supDetail(data){
 					onclick="supDetail(${(suppliesView.mainView.id)!''})">查看</a></SPAN></li>
 					</#if>
 			<li style="width: 500px;"><SPAN>审批合格号： </SPAN><SPAN class="con">
-					<#if suppliesView.mainView.seqNumber?has_content >
-					${(suppliesView.mainView.seqNumber)!''} <#else> -- </#if> </SPAN></li> 
+			
+			${orderview.order.seqNumber!''}
+					 </SPAN></li> 
 			<#if quafiles?? > </#if> </#if>
 			
 		<@security.authorize ifNotGranted="advertiser">
