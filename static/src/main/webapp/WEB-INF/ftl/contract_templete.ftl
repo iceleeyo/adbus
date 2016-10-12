@@ -369,6 +369,10 @@ function getEnd(date,days){
 	font-size: 10pt;
 }
 
+.fy{
+	page-break-after:always;
+
+}
 .table-c table{border-right:1px solid #000;border-bottom:1px solid #000;height:40px;}
 .table-c table td{border-left:1px solid #000;border-top:1px solid #000;padding-left:5px;width: 15%;}
 .table-c table th{border-left:1px solid #000;border-top:1px solid #000}
@@ -385,7 +389,7 @@ function getEnd(date,days){
 	<p class="p21">
 		<img class="logo" src="${rc.contextPath}/imgs/shiba_log.jpg">
 		<span class="s2" >北京世巴传媒有限公司</span>
-		<span class="s2" style="padding-left:240px;" >合同编号：</span><span class="s3">${contractCode!''}</span>
+		<span class="s2" style="float:right; text-align:right;margin-top: 26px;" >合同编号：<span class="s3">${contractCode!''}</span></span>
 		<hr class="p21_hr" />
 	</p>
 	
@@ -399,7 +403,7 @@ function getEnd(date,days){
 		<span class="s2">甲方：</span><span class="s3">${userDetail.company!''}</span>
 	</p>
 	<p class="p2">
-		<span class="s2">住所：</span><span class="s3">${userDetail.companyAddr!''}</span>
+		<span class="s2">住所：</span><span class="s3">${<userDetail class="compa"></userDetail>nyAddr!''}</span>
 	</p>
 	<p class="p2">
 		<span class="s2">法定代表人 ： </span><span id="legalman" class="s3">${userDetail.legalman!''}</span>
@@ -742,7 +746,7 @@ function getEnd(date,days){
 	<p class="p7">
 		<span class="s7">1.</span><span>节目制作规范。</span>
 	</p>
-	<p class="p7">
+	<p class="p7 fy">
 	<span class="s7"><br><br>&nbsp;&nbsp;&nbsp;&nbsp;（以下无正文）<br><br>
 	&nbsp;&nbsp;&nbsp;甲方单位名称（盖章）：              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;乙方单位名称（盖章）：
 	<br><br><br><br>

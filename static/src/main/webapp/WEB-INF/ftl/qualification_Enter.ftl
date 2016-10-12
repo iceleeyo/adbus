@@ -114,7 +114,7 @@ function go_back(){
 						disableautocomplete="" value="${userDetail.department!''}">
 				</div>
 					<div class="ui-form-item">
-					<label class="ui-label mt10">邮编:</label> <input class="ui-input validate[required,custom[zipcode]]"
+					<label class="ui-label mt10">邮编:</label> <input class="ui-input"
 						type="text" name="zipCode" id="zipCode"
 						data-is="isAmount isEnough" autocomplete="off"
 						disableautocomplete="" value="${userDetail.zipCode!''}">

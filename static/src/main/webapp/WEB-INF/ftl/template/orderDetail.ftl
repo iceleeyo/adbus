@@ -168,27 +168,27 @@ function supDetail(data){
 			  </#if>
 			  
 			  
-			  <@security.authorize ifAnyGranted="advertiser,ShibaFinancialManager">
+			  <#-- <@security.authorize ifAnyGranted="advertiser,ShibaFinancialManager">
 			      <li style="width: 200px;"><SPAN>支付凭证：</SPAN><SPAN class="con">
 			      <#if suppliesView.payvouchers??>
 			      <a href="javascript:void(0)" onclick="queryPayvoucher('${rc.contextPath}',${orderview.order.id!''});" >查看</a>
 			      <#else>
 			               无
 			      </#if>
-			  </@security.authorize>
+			  </@security.authorize> -->
 			      </SPAN></li>
 			   </#if>
 			   <#if contract?? && contract.parentid!=0>
 			<li style="width: 200px;"><SPAN>结算方式：</SPAN><SPAN class="con">统一结算</SPAN></li>
 			</#if>
-			<@security.authorize ifAnyGranted="sales,ShibaFinancialManager">
+			<#-- <@security.authorize ifAnyGranted="sales,ShibaFinancialManager">
 				<li style="width: 200px;"><SPAN>是否开发票：</SPAN><SPAN class="con">
 						<#if orderview.order.isInvoice==1 > <a class="layer-tips"
 						tip="点击可查看发票详细内容!"
 						onclick="invoicedetail('${rc.contextPath}',${orderview.order.id!''});"
 						href="javascript:void(0)"> 是(查看详情)</a> <#else> 否 </#if>
 				</SPAN></li>
-			</@security.authorize>
+			</@security.authorize> -->
 
 			<li class="s-left f-iconli"><span class="s-left tt"><i
 					class="s-left ff-icon"></i>物料及资质</span></li> <#if suppliesLink>
