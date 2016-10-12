@@ -403,7 +403,7 @@ function getEnd(date,days){
 		<span class="s2">甲方：</span><span class="s3">${userDetail.company!''}</span>
 	</p>
 	<p class="p2">
-		<span class="s2">住所：</span><span class="s3">${<userDetail class="compa"></userDetail>nyAddr!''}</span>
+		<span class="s2">住所：</span><span class="s3">${userDetail.companyAddr!''}</span>
 	</p>
 	<p class="p2">
 		<span class="s2">法定代表人 ： </span><span id="legalman" class="s3">${userDetail.legalman!''}</span>
