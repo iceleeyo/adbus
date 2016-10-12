@@ -686,6 +686,7 @@ public class OrderService {
 		} else if (null != payPlan.getTableType() && payPlan.getTableType() == 1) {
 			payPlan.setPayState(JpaPayPlan.PayState.check.ordinal());
 			payPlan.setSeriaNum(0l);
+			payPlan.setPayUser(userId);
 		} else {
 			payPlan.setPayState(JpaPayPlan.PayState.init.ordinal());
 		}

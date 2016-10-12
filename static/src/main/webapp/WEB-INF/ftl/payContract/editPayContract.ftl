@@ -13,6 +13,9 @@ function go_back(){
            var seriaNum='${jpaPayContract.seriaNum!''}';
 			initPlan('${rc.contextPath}',0,'<@security.authorize
 			ifAnyGranted="sales">edit_del</@security.authorize>','contract',seriaNum);
+			
+			    initPayPlanTable('${rc.contextPath}',${jpaPayContract.id!''},'<@security.authorize ifAnyGranted="sales">donothing</@security.authorize>','contract',seriaNum);
+			
         
     });
 </script>
@@ -188,6 +191,45 @@ $.ajax({
 				</TR>
 		</TABLE>
 	</div>
+	<div class="p20bs mt10 color-white-bg border-ec">
+		<H3 class="text-xl title-box">
+			<A class="black" href="#">收款详情</A>
+		  <div class="withdraw-title">
+		
+	    	</div>
+		</H3>
+		<TABLE class="ui-table ui-table-gray">
+			<TBODY>
+				<TR>
+				<TD colspan=2 style="border-radius: 0 0 0;padding:0;">
+				
+	  <table id="payPlanTable" class="display nowrap" cellspacing="0">
+		<thead>
+			<tr>
+				                <th>期数</th>
+								<th>金额</th>
+								<th>付款日期</th>
+								<th>付款方式</th>
+								<th>状态</th>
+								<th>付款人</th>
+								<th>分期设置人</th>
+								<th>处理人</th>
+								<th>最后操作时间</th>
+								<th>备注</th>
+								<@security.authorize ifAnyGranted="ShibaFinancialManager"> 
+								<th>操作</th></@security.authorize>
+								
+							<@security.authorize ifNotGranted="ShibaFinancialManager"> 
+								<th></th>
+								</@security.authorize>
+			</tr>
+		</thead>
+	   </table>
+			</TD>
+				</TR>
+		</TABLE>
+</div>
+	
 		<div class="widthdrawBtBox">
 				<input type="button" id="subWithdraw" class="block-btn"
 					onclick="sub();" value="提交">
