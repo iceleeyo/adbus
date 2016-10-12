@@ -199,7 +199,7 @@ function supDetail(data){
 					</#if>
 			<li style="width: 500px;"><SPAN>审批合格号： </SPAN><SPAN class="con">
 			
-			${orderview.order.seqNumber!''}
+			${(orderview.order.seqNumber)!''}
 					 </SPAN></li> 
 			<#if quafiles?? > </#if> </#if>
 			
