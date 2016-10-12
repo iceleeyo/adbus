@@ -193,6 +193,7 @@
 							<span class="legged">支付方式</span>
 							<div class="select-items legged">
 								<ul class="iradios">
+								<@security.authorize ifAnyGranted="advertiser">
 									<li class="active"><input type="radio" name="payType"
 										checked="checked" value="online"> <label
 										class="iradio"></label> <span>线上支付(工商银行)</span></li>
@@ -204,6 +205,8 @@
 									<input type="radio" name="payType" value="dividpay">
 										<label class="iradio"></label> <span>分期付款</span>
 										</li>
+										  </@security.authorize>
+										
 										<@security.authorize ifAnyGranted="sales">
 										<li>
 									<input type="radio" name="payType" value="payContract">
