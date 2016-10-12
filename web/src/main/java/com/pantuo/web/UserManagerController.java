@@ -377,7 +377,7 @@ public class UserManagerController {
 		}else if(paycontract!=null){
 			pair.setLeft("分期付款");
 			Pageable p = new PageRequest(0, 200, new Sort("day"));
-			BooleanExpression query = QJpaPayPlan.jpaPayPlan.contract.id.eq(paycontract.getId());
+			BooleanExpression query = QJpaPayPlan.jpaPayPlan.contract.id.eq(paycontract.getId()).and( QJpaPayPlan.jpaPayPlan.tableType.eq(JpaPayPlan.TableType.plan));
 			Page<JpaPayPlan> plans = payPlanRepository.findAll(query, p);
 			if (!plans.getContent().isEmpty()) {
 				pair.setRight(plans.getContent());

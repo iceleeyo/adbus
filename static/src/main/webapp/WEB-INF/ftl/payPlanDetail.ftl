@@ -29,7 +29,6 @@ css=["js/jquery-ui/jquery-ui.css"]>
 								<th>付款方式</th>
 								<th>状态</th>
 								<th>付款人</th>
-										<th>分期设置人</th>
 								<th>处理人</th>
 								<th>最后操作时间</th>
 								<th>备注</th>

@@ -161,7 +161,7 @@ $.ajax({
 			<div class="withdraw-title">
 			 <a class="block-btn"
 						style="margin-top: -30px;" href="javascript:void(0);"
-						onclick="addPayPlan('${rc.contextPath}',${jpaPayContract.id!''},${jpaPayContract.seriaNum!''},1,1)">添加分期</a>	</div>
+						onclick="addPayPlan('${rc.contextPath}',${jpaPayContract.id!''},${jpaPayContract.seriaNum!''},1,0)">添加分期</a>	</div>
 		</H3>
 		<TABLE class="ui-table ui-table-gray">
 			<TBODY>
@@ -212,7 +212,6 @@ $.ajax({
 								<th>付款方式</th>
 								<th>状态</th>
 								<th>付款人</th>
-								<th>分期设置人</th>
 								<th>处理人</th>
 								<th>最后操作时间</th>
 								<th>备注</th>
