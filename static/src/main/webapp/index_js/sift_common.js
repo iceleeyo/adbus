@@ -125,7 +125,8 @@ function initPayPlanTable(purl,orderId,handle,type,seriaNum) {
 									"orderId" : orderId,
 									"filter[orderId]" : orderId,
 									"filter[seriaNum]" : seriaNum,
-									"filter[planType]" : type
+									"filter[planType]" : type,
+									"filter[tableType]" : "reced"
 								});
 							},
 							 "dataSrc": function(json) {return json;},
@@ -152,6 +153,9 @@ function initPayPlanTable(purl,orderId,handle,type,seriaNum) {
                                         return data == null ? "" : $.format.date(data, "yyyy-MM-dd hh:mm");
                                     }},
                                      { "data": "remarks", "defaultContent": "", "render": function(data) {
+                                    	 if(data=="" || typeof(data)=="undefined"){
+                                    		return ''; 
+                                    	 }
                                    	  return '<span   class="layer-tips" style="color: #ff9966" tip="'+data+'">'+data.substr(0,10)+'</span>';
                                      } }, 
                                      
@@ -164,7 +168,7 @@ function initPayPlanTable(purl,orderId,handle,type,seriaNum) {
 										var operations = '';
 										if((row.payUser==null||typeof(row.payUser)=="undefined") && handle.indexOf('edit')!=-1){
 											if(handle.indexOf('del')!=-1){
-												operations += '<a class="operation" href="javascript:void(0);" onclick="deletePayPlan('+data+');" >删除</a>';
+												operations += '<a class="operation" href="javascript:void(0);" onclick="deletePayPlan('+data+',\'reced\');" >删除</a>';
 											}
 											operations +='&nbsp;&nbsp;<a class="operation" href="javascript:void(0)"; onclick="toeditPayPlan(\''+purl+'\','+data+');" >修改</a>';
 										}
@@ -180,6 +184,73 @@ function initPayPlanTable(purl,orderId,handle,type,seriaNum) {
 						"initComplete" : initComplete2,
 						"drawCallback" : drawCallback2,
 					});
+}
+var planTableOfPlan;
+function initPlan(purl,orderId,handle,type,seriaNum) {
+	planTableOfPlan = $('#planTableOfPlan')
+	.dataTable(
+			{
+				"dom": '<"#toolbar">rt',
+				"searching" : false,
+				"iDisplayLength" : 1500,
+				"ordering" : false,
+				"serverSide" : false,
+				"ajax" : {
+					type : "GET",
+					url : purl+"/order/ajax-getPayPlan",
+					data : function(d) {
+						return $.extend({}, d, {
+							"orderId" : orderId,
+							"filter[orderId]" : orderId,
+							"filter[seriaNum]" : seriaNum,
+							"filter[planType]" : type,
+							"filter[tableType]" : "plan"
+						});
+					},
+					"dataSrc": function(json) {return json;},
+				},
+				"columns" : [
+				             { "data": "periodNum", "defaultContent": ""}, 
+				             { "data": "price", "defaultContent": ""}, 
+				             { "data": "day", "defaultContent": "", "render": function(data) {
+				            	 return data == null ? "" : $.format.date(data, "yyyy-MM-dd");
+				             } },
+				             { "data": "setPlanUser", "defaultContent": ""},
+				             { "data": "updated", "defaultContent": "", "render": function(data) {
+				            	 return data == null ? "" : $.format.date(data, "yyyy-MM-dd hh:mm");
+				             }},
+				             { "data": "remarks", "defaultContent": "", "render": function(data) {
+				            	 if(data=="" || typeof(data)=="undefined"){
+                             		return ''; 
+                             	 }
+				            	 return '<span   class="layer-tips" style="color: #ff9966" tip="'+data+'">'+data.substr(0,10)+'</span>';
+				             } }, 
+				             
+				             
+				             { "data": function( row, type, set, meta) {
+				            	 return row.id;
+				             },
+				             "render" : function(data, type, row,
+				            		 meta) {
+				            	 var operations = '';
+				            	 if( handle.indexOf('edit')!=-1){
+				            		 if(handle.indexOf('del')!=-1){
+				            			 operations += '<a class="operation" href="javascript:void(0);" onclick="deletePayPlan('+data+',\'plan\');" >删除</a>';
+				            		 }
+				            		 operations +='&nbsp;&nbsp;<a class="operation" href="javascript:void(0)"; onclick="toeditPayPlan(\''+purl+'\','+data+');" >修改</a>';
+				            	 }
+				            	 
+				            	 return operations;
+				             }
+				             },
+				             
+				             ],
+				             "language" : {
+				            	 "url" : "/js/jquery.dataTables.lang.cn.json"
+				             },
+				             "initComplete" : initComplete2,
+				             "drawCallback" : drawCallback2,
+			});
 }
 
 //获取32寸屏订单批次
@@ -222,22 +293,13 @@ function initOrderDetailTable(purl,orderId) {
 			});
 }
 function drawCallback2() {
-	/*$('.table-action').click(function() {
-		$.post($(this).attr("url"), function(data) {
-		if(data){
-			planTable.dataTable()._fnAjaxUpdate();
-			 }else{
-			 alert("操作失败");
-			 }
-		})
-	});*/
 }
 function initComplete2() {
 	$("div#toolbar").attr("style", "width: 70%;")
 	$("div#toolbar").html('');
 	bindLayerMouseOver();
 }
-function deletePayPlan(id){
+function deletePayPlan(id,tableType){
     layer.confirm('确定删除吗？', {icon: 3}, function(index){
   		layer.close(index);
 		    if(true){
@@ -249,7 +311,13 @@ function deletePayPlan(id){
 		    			success:function(data){
 		    				if (data.left) {
 		    					layer.msg(data.right);
-		    					planTable.dataTable()._fnAjaxUpdate();
+		    					if(tableType=="plan"){
+		    						planTableOfPlan.dataTable()._fnAjaxUpdate();
+		    					}else{
+		    						planTable.dataTable()._fnAjaxUpdate();
+		    					}
+		    					
+		    					
 		    				} else {
 		    					layer.msg(data.right,{icon: 5});
 		    				}
@@ -274,7 +342,7 @@ function deletePayPlan(id){
 	});  
 }*/
 //弹出添加分期付款的窗口
-function addPayPlan(url,orderId,seriaNum,type) {
+function addPayPlan(url,orderId,seriaNum,type,tableType) {
 	layer
 			.open({
 				type : 1,
@@ -287,6 +355,7 @@ function addPayPlan(url,orderId,seriaNum,type) {
 						+ '>'
 						+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
 						+'<input type="hidden" name="type" value="'+type+'"/>'
+						+'<input type="hidden" name="tableType" value="'+tableType+'"/>'
 						+'<input type="hidden" name="orderId" value="'+orderId+'"/>'
 						+'<input type="hidden" name="seriaNum" value="'+seriaNum+'"/>'
 						+ '<br><div class="ui-form-item"> <label class="ui-label mt10">金额：</label>'
@@ -301,7 +370,7 @@ function addPayPlan(url,orderId,seriaNum,type) {
 						+ '</div>'
 						+ '</div>'
 						+ '<div class="widthdrawBtBox" style="position: absolute; bottom: 10px;">'
-						+ '<input type="button" onclick="savePayPlan()" class="block-btn" style="margin-left:180px" value="确认" ></div>'
+						+ '<input type="button" onclick="savePayPlan('+tableType+')" class="block-btn" style="margin-left:180px" value="确认" ></div>'
 						+ '</form>'
 						+ '<div id="worm-tips" class="worm-tips" style="width:350px;display:none;"></div>'
 			});
@@ -327,12 +396,13 @@ function toeditPayPlan(purl,id) {
 												+ '/order/savePayPlan'
 												+ '>'
 												+ '<div class="inputs" style="margin-top: 40px;margin-left: -30px;">'
-												+'<input type="hidden" name ="id" value="'+data.id+'"/><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/> '
+												+'<input type="hidden" name ="id" value="'+data.id+'"/>'
+												+'<input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/> '
 												+ '<div class="ui-form-item"> <label class="ui-label mt10">金额：</label>'
 												+ '<input class="ui-input " type="text" value="'
 												+ data.price
 												+ '" name="price"  '
-												+ 'id="price" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
+												+ 'id="price2" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="">'
 												+ '</div>'
 												+ '<div class="ui-form-item toggle bodyToggle"> <label class="ui-label mt10">付款日期:</label>'
 												+ '<input class="ui-input datepicker validate[required,custom[date],past[#payDate1]]" type="text" name="payDate" value="'
@@ -347,7 +417,7 @@ function toeditPayPlan(purl,id) {
 												+ '</div>'
 												+ '</div>'
 												+ '<div class="widthdrawBtBox" style="position: absolute; bottom: 10px;">'
-												+ '<input type="button" onclick="editPayPlan()" class="block-btn" style="margin-left:180px" value="确认" ></div>'
+												+ '<input type="button" onclick="editPayPlan(\''+data.tableType+'\')"; class="block-btn" style="margin-left:180px" value="确认" ></div>'
 												+ '</form>'
 												+ '<div id="worm-tips" class="worm-tips" style="width:350px;display:none;"></div>'
 									});
@@ -426,7 +496,7 @@ function GetDateStr() {
 	d=d<10?"0"+d : d;
 	return y+"-"+m+"-"+d; 
 	} 
-function savePayPlan() {
+function savePayPlan(tableType) {
 	 var today=GetDateStr();
 	na = $("#periodNum").val();
 	amounts = $("#amounts").val();
@@ -446,7 +516,12 @@ function savePayPlan() {
 	$('#fenqiform').ajaxForm(function(data) {
 		if (data.left) {
 			layer.msg("添加成功");
-			planTable.dataTable()._fnAjaxUpdate();
+			if(tableType==0){
+			 planTableOfPlan.dataTable()._fnAjaxUpdate();
+			}else{
+				planTable.dataTable()._fnAjaxUpdate();
+			}
+			
 			$("#cc").trigger("click");
 		} else {
 			layer.msg(data.right, {icon: 5});
@@ -477,15 +552,10 @@ function ajaxEditPayday() {
 		}
 	}).submit();
 }
-function editPayPlan() {
+function editPayPlan(tableType) {
 	var today=GetDateStr();
-	na = $("#periodNum").val();
-	amounts = $("#price").val();
+	var amounts = $("#price2").val();
 	payDate = $("#payDate1").val();
-	if (na == "") {
-		layer.msg("请填写期数");
-		return;
-	}
 	if (amounts == "") {
 		layer.msg("请填写付款金额");
 		return;
@@ -502,7 +572,13 @@ function editPayPlan() {
 	$('#editPayPlanForm').ajaxForm(function(data) {
 		if (data.left) {
 			layer.msg("修改成功");
-			planTable.dataTable()._fnAjaxUpdate();
+			if(tableType=="plan"){
+				planTableOfPlan.dataTable()._fnAjaxUpdate();
+			}else{
+				planTable.dataTable()._fnAjaxUpdate();
+			}
+			
+			
 			$("#cc").trigger("click");
 		} else {
 			layer.msg(data.right);

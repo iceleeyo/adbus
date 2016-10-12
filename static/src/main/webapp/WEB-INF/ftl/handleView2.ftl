@@ -671,6 +671,7 @@ function pay(tp) {
 				"taskid" :taskid,
 				"contractid":contractid,
 				"payType":payType,
+				"paytype":payType,
 				"isinvoice":isinvoice,
 				"invoiceid":invoiceid,
 				"contents":contents,
@@ -1533,7 +1534,7 @@ initPayPlanTable('${rc.contextPath}',$("#orderid").val(),'<@security.authorize
 			<div class="withdraw-title">
 			 <a class="block-btn"
 						style="margin-top: -30px;" href="javascript:void(0);"
-						onclick="addPayPlan('${rc.contextPath}',${orderview.order.id!''},'',0)">添加分期</a>	</div>
+						onclick="addPayPlan('${rc.contextPath}',${orderview.order.id!''},'',0,1)">添加分期</a>	</div>
 		</H3>
 		<TABLE class="ui-table ui-table-gray">
 			<TBODY>
@@ -1550,7 +1551,7 @@ initPayPlanTable('${rc.contextPath}',$("#orderid").val(),'<@security.authorize
 								<th>状态</th>
 								<th>付款人</th>
 								<th>分期设置人</th>
-									<th>处理人</th>
+								<th>处理人</th>
 								<th>最后操作时间</th>
 								<th>备注</th>
 								<@security.authorize ifAnyGranted="ShibaFinancialManager"> 

@@ -59,6 +59,7 @@ import com.pantuo.service.BusService;
 import com.pantuo.service.ContractService;
 import com.pantuo.service.CpdService;
 import com.pantuo.service.OrderService;
+import com.pantuo.service.PayContractService;
 import com.pantuo.service.ProductService;
 import com.pantuo.service.SuppliesService;
 import com.pantuo.service.UserServiceInter;
@@ -208,12 +209,16 @@ public class OrderController {
 	@ResponseBody
 	public Pair<Object, String> updatePlanState(
 			@RequestParam(value = "orderid",required=false,defaultValue="0") int orderid,
+			@RequestParam(value = "payWay",required=false) String payWay,
+			@RequestParam(value = "payNextLocation",required=false) String payNextLocation,
 			@RequestParam(value = "payContractId",required=false,defaultValue="0") int payContractId,
-			@RequestParam(value = "payWay") String payWay,
-			@RequestParam(value = "payNextLocation") String payNextLocation,
-			Principal principal, HttpServletRequest request, HttpServletResponse response) {
-		return orderService.updatePlanState(request,payWay,orderid,payContractId, payNextLocation,
-				JpaPayPlan.PayState.check,Request.getUserId(principal));
+			PayPlan payPlan,Principal principal, HttpServletRequest request) {
+		if(orderid>0 && StringUtils.isNoneBlank(payWay)){
+			return orderService.updatePlanState(request,payWay,orderid,payContractId, payNextLocation,
+					JpaPayPlan.PayState.check,Request.getUserId(principal));
+		}
+		
+		return orderService.savePayPlan(payPlan, Request.getUserId(principal), request);
 	}
 	@RequestMapping(value = "video32OrderPay")
 	@ResponseBody
@@ -691,7 +696,7 @@ public class OrderController {
 	} 
 	@RequestMapping(value = "/savePayPlan")
 	@ResponseBody
-	public Pair<Boolean, String> savePayPlan(PayPlan payPlan,
+	public Pair<Object, String> savePayPlan(PayPlan payPlan,
 			 Principal principal,@RequestParam(value = "payDate") String payDate,
 			HttpServletRequest request, @RequestParam(value = "orderId", defaultValue = "0") int orderId)  {
 		return orderService.savePayPlan(payPlan,Request.getUserId(principal),request);
@@ -713,7 +718,7 @@ public class OrderController {
 	@ResponseBody
 	public DataTablePage<OrderView> getPayPlanOrders(TableRequest req,Principal principal)
 			{
-		Page<OrderView> page = orderService.getPayPlanOrders(req ,Request.getUserId(principal));
+		Page<OrderView> page = orderService.getPayPlanOrders(req ,principal);
 		return new DataTablePage(page, req.getDraw());
 	}
 	@RequestMapping("ajax-queryPayPlanDetail")

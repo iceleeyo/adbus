@@ -1901,10 +1901,10 @@ public class ActivitiServiceImpl implements ActivitiService {
 						}
 
 					}
+					paycontract.setPayPrice(paycontract.getPayPrice() + plan.getPrice());
+					paycontractMapper.updateByPrimaryKey(paycontract);
 				}
 
-				paycontract.setPayPrice(paycontract.getPayPrice() + plan.getPrice());
-				paycontractMapper.updateByPrimaryKey(paycontract);
 			}
 		}
 		if (plan != null) {

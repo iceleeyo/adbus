@@ -129,7 +129,6 @@ public class OrderService {
 			int payContractId, String payNextLocation, JpaPayPlan.PayState state, String uid) {
 		String[] split = StringUtils.split(payNextLocation, "_");
 		if (split.length > 0) {
-			double payPrice = 0;
 			List<PayPlan> planList = new ArrayList<PayPlan>();
 			for (String string : split) {// 先判断能否更新
 				int id = NumberUtils.toInt(string, -1);
@@ -138,12 +137,11 @@ public class OrderService {
 					// 判断状态
 					if (plan != null && (plan.getPayState() == JpaPayPlan.PayState.fail.ordinal()
 							|| plan.getPayState() == JpaPayPlan.PayState.init.ordinal())) {
-						payPrice += plan.getPrice();
 						plan.setPayState(state.ordinal());
 						plan.setPayUser(uid);
 						plan.setUpdated(new Date());
 						try {
-							plan.setPayType(PayType.valueOf(request.getParameter("payType")).ordinal());
+							plan.setPayType(PayType.valueOf(request.getParameter("paytype")).ordinal());
 						} catch (Exception e) {
 						}
 						planList.add(plan);
@@ -160,47 +158,8 @@ public class OrderService {
 				}
 
 			}
-//			if (orderid > 0) {
-//				Orders order = ordersMapper.selectByPrimaryKey(orderid);
-//				double basePrice = 0;
-//				if (order != null) {
-//					basePrice = order.getPayPrice();
-//					if (StringUtils.equals(payWay, "payAll")) {
-//						basePrice += (order.getPrice() - order.getPayPrice());
-//					} else if (StringUtils.equals(payWay, "payNext")) {
-//						basePrice += payPrice;
-//					}
-//				}
-//
-//				if (basePrice > 0) {
-//					Orders record = new Orders();
-//					record.setId(orderid);
-//					record.setPayPrice(basePrice);
-//					ordersMapper.updateByPrimaryKeySelective(record);
-//				}
-//				return new Pair<Object, String>(true, "操作成功");
-//
-//			} else if(payContractId>0){
-//				PaycontractWithBLOBs paycontract = paycontractMapper.selectByPrimaryKey(payContractId);
-//				double basePrice = 0;
-//				if (paycontract != null) {
-//					basePrice = paycontract.getPayPrice();
-//					if (StringUtils.equals(payWay, "payAll")) {
-//						basePrice += (paycontract.getPrice() - paycontract.getPayPrice());
-//					} else if (StringUtils.equals(payWay, "payNext")) {
-//						basePrice += payPrice;
-//					}
-//				}
-//
-//				if (basePrice > 0) {
-//					paycontract.setPayPrice(basePrice);
-//					paycontractMapper.updateByPrimaryKeyWithBLOBs(paycontract);
-//				}
-//				return new Pair<Object, String>(true, "操作成功");
-//			}
 		}
 		return new Pair<Object, String>(true, "操作成功");
-		
 
 	}
 
@@ -226,7 +185,7 @@ public class OrderService {
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.MILLISECOND, 0);
-		Date now =  cal.getTime();
+		Date now = cal.getTime();
 		for (PayPlan obj : plan) {
 
 			if (obj.getDay().before(now)) {
@@ -478,7 +437,7 @@ public class OrderService {
 	}
 
 	public List<JpaOrders> getJpaOrders(TableRequest req, List<Integer> orderId) {
-		BooleanExpression query=QJpaOrders.jpaOrders.id.in(orderId);
+		BooleanExpression query = QJpaOrders.jpaOrders.id.in(orderId);
 		return (List<JpaOrders>) ordersRepository.findAll(query);
 	}
 
@@ -656,13 +615,20 @@ public class OrderService {
 
 	public List<PayPlan> getPayPlan(TableRequest req) {
 		int OrderId = req.getFilterInt("orderId", 0);
-		String planType = req.getFilter("planType"), seriaNum = req.getFilter("seriaNum");
+		String planType = req.getFilter("planType"), tableType = req.getFilter("tableType"),
+				seriaNum = req.getFilter("seriaNum");
 		PayPlanExample example = new PayPlanExample();
 		PayPlanExample.Criteria criteria = example.createCriteria();
 		if (StringUtils.isNotBlank(planType) && JpaPayPlan.Type.order == JpaPayPlan.Type.valueOf(planType)) {
 			criteria.andOrderIdEqualTo(OrderId);
+		} else if (StringUtils.isNotBlank(planType) && JpaPayPlan.Type.contract == JpaPayPlan.Type.valueOf(planType)
+				&& OrderId > 0) {
+			criteria.andContractIdEqualTo(OrderId);
 		} else if (StringUtils.isNotBlank(seriaNum)) {
 			criteria.andSeriaNumEqualTo(NumberUtils.toLong(seriaNum));
+		}
+		if (StringUtils.isNotBlank(tableType)) {
+			criteria.andTableTypeEqualTo(JpaPayPlan.TableType.valueOf(tableType).ordinal());
 		}
 		example.setOrderByClause("day asc");
 		List<PayPlan> list = payPlanMapper.selectByExample(example);
@@ -691,19 +657,18 @@ public class OrderService {
 		return payPlanRepository.findOne(id);
 	}
 
-	public Pair<Boolean, String> savePayPlan(PayPlan payPlan, String userId, HttpServletRequest request) {
+	public Pair<Object, String> savePayPlan(PayPlan payPlan, String userId, HttpServletRequest request) {
 		String payDate = request.getParameter("payDate");
 		String orderIdStr = request.getParameter("orderId");
-		String seriaNumStr = request.getParameter("seriaNum");
+		// String seriaNumStr = request.getParameter("seriaNum");
+		String paytype = request.getParameter("paytype");
 		int orderId = 0;
-		long seriaNum = 0;
 		if (StringUtils.isNotBlank(orderIdStr)) {
 			orderId = NumberUtils.toInt(orderIdStr);
 		}
-		if (StringUtils.isNotBlank(seriaNumStr)) {
-			seriaNum = NumberUtils.toInt(seriaNumStr);
+		if (StringUtils.isNotBlank(paytype)) {
+			payPlan.setPayType(JpaOrders.PayType.valueOf(paytype).ordinal());
 		}
-
 		Date date = new Date();
 		if (StringUtils.isNotBlank(payDate)) {
 			try {
@@ -715,25 +680,28 @@ public class OrderService {
 
 		payPlan.setDay(date);
 		payPlan.setSetPlanUser(userId);
+		payPlan.setUpdated(new Date());
+		if (orderId > 0) {
+			payPlan.setPayState(JpaPayPlan.PayState.init.ordinal());
+		} else if (null != payPlan.getTableType() && payPlan.getTableType() == 1) {
+			payPlan.setPayState(JpaPayPlan.PayState.check.ordinal());
+			payPlan.setSeriaNum(0l);
+		} else {
+			payPlan.setPayState(JpaPayPlan.PayState.init.ordinal());
+		}
 
 		if (null != payPlan.getId() && payPlan.getId() > 0) {
 			PayPlan dividpay2 = payPlanMapper.selectByPrimaryKey(payPlan.getId());
 			if (dividpay2.getPayState() != JpaPayPlan.PayState.init.ordinal()) {
-				return new Pair<Boolean, String>(false, "已有用户付款禁止修改");
+				return new Pair<Object, String>(false, "已有用户付款禁止修改");
 			}
 			com.pantuo.util.BeanUtils.copyProperties(payPlan, dividpay2);
 			if (payPlanMapper.updateByPrimaryKey(dividpay2) > 0) {
-				updatePayNum(orderId, seriaNum, dividpay2.getType());
-				return new Pair<Boolean, String>(true, "修改成功");
+				updatePayNum(orderId, dividpay2);
+				return new Pair<Object, String>(true, "修改成功");
 			}
-			return new Pair<Boolean, String>(false, "操作失败");
+			return new Pair<Object, String>(false, "操作失败");
 		}
-		PayPlanExample example = new PayPlanExample();
-		example.createCriteria().andOrderIdEqualTo(orderId).andPeriodNumEqualTo(payPlan.getPeriodNum());
-		if (payPlanMapper.countByExample(example) > 0) {
-			// return new Pair<Boolean, String>(false, "期数重复，保存失败");
-		}
-		payPlan.setPayState(JpaPayPlan.PayState.init.ordinal());
 		if (orderId > 0 && JpaPayPlan.Type.order.ordinal() == payPlan.getType()) {
 			payPlan.setOrderId(orderId);
 			payPlan.setSeriaNum(0l);
@@ -743,10 +711,10 @@ public class OrderService {
 		payPlan.setPeriodNum(0);
 
 		if (payPlanMapper.insert(payPlan) > 0) {
-			updatePayNum(orderId, payPlan.getSeriaNum(), payPlan.getType());
-			return new Pair<Boolean, String>(true, "保存成功");
+			updatePayNum(orderId, payPlan);
+			return new Pair<Object, String>(true, "保存成功");
 		}
-		return new Pair<Boolean, String>(false, "保存失败");
+		return new Pair<Object, String>(true, "操作成功");
 	}
 
 	public JpaPayContract queryConractBySerid(long serid) {
@@ -758,36 +726,42 @@ public class OrderService {
 		return null;
 	}
 
-	public void updatePayNum(int orderId, Long seriaNum, int type) {
+	public void updatePayNum(int orderId, PayPlan payPlan) {
+
 		PayPlanExample example2 = new PayPlanExample();
 		PayPlanExample.Criteria ca = example2.createCriteria();
-		if (JpaPayPlan.Type.order.ordinal() == type) {
+		if (JpaPayPlan.Type.order.ordinal() == payPlan.getType()) {
 			ca.andOrderIdEqualTo(orderId);
+		} else if (null != payPlan.getContractId()) {
+			ca.andContractIdEqualTo(payPlan.getContractId());
 		} else {
-			ca.andSeriaNumEqualTo(seriaNum);
+			ca.andSeriaNumEqualTo(payPlan.getSeriaNum());
 		}
+		ca.andTableTypeEqualTo(payPlan.getTableType());
 		example2.setOrderByClause("day asc");
 		List<PayPlan> list = payPlanMapper.selectByExample(example2);
 		if (list.size() > 0) {
 			int i = 0;
-			for (PayPlan payPlan : list) {
-				if(orderId>0 && JpaPayPlan.Type.contract.ordinal() == type){
-					payPlan.setContractId(orderId);
+			for (PayPlan one : list) {
+				if (orderId > 0 && JpaPayPlan.Type.contract.ordinal() == one.getType()) {
+					one.setContractId(orderId);
 				}
-				payPlan.setPeriodNum(++i);
-				payPlanMapper.updateByPrimaryKey(payPlan);
+				one.setPeriodNum(++i);
+				payPlanMapper.updateByPrimaryKey(one);
 			}
 		}
 	}
+
 	public long countPlanOrders(TableRequest req) {
 		BooleanExpression query = queryExpress(req);
-		return 	 payPlanRepository.count(query);
-		
+		return payPlanRepository.count(query);
+
 	}
+
 	public DataTablePage<OrderPlanView> queryAllPlan(TableRequest req) {
-		
+
 		BooleanExpression query = queryExpress(req);
-		
+
 		int page = req.getPage(), length = req.getLength();
 		if (page < 0)
 			page = 0;
@@ -811,6 +785,7 @@ public class OrderService {
 		boolean isContractQuery = StringUtils.equals(q, JpaPayPlan.Type.contract.name());
 
 		BooleanExpression query = QJpaPayPlan.jpaPayPlan.id.goe(0);
+		query = query.and(QJpaPayPlan.jpaPayPlan.tableType.eq(JpaPayPlan.TableType.reced));
 		if (isContractQuery) {
 			query = query.and(QJpaPayPlan.jpaPayPlan.contract.id.gt(0));
 		}
@@ -878,28 +853,27 @@ public class OrderService {
 		}
 		return new Pair<Boolean, String>(true, "操作成功");
 	}
-	public long countPayPlanOrders(TableRequest req, String userId) {
-		BooleanExpression query = payPlanOrdersExpress(req, userId);
+
+	public long countPayPlanOrders(TableRequest req, Principal principal) {
+		BooleanExpression query = payPlanOrdersExpress(req, principal);
 		return ordersRepository.count(query);
 	}
-	public Page<OrderView> getPayPlanOrders(TableRequest req, String userId) {
-		
-		BooleanExpression query = payPlanOrdersExpress(req, userId);
-		
-		
 
-		int page=req.getPage();
-		int length=req.getLength(); 
+	public Page<OrderView> getPayPlanOrders(TableRequest req, Principal principal) {
+
+		BooleanExpression query = payPlanOrdersExpress(req, principal);
+
+		int page = req.getPage();
+		int length = req.getLength();
 		List<OrderView> views = new ArrayList<OrderView>();
 		if (page < 0)
 			page = 0;
 		if (length < 1)
 			length = 1;
-		
+
 		Pageable p = new PageRequest(page, length, req.getSort("id"));
 		Page<JpaOrders> list = ordersRepository.findAll(query, p);
-		
-		
+
 		for (JpaOrders jpaOrders : list.getContent()) {
 			OrderView v = new OrderView();
 			v.setOrder(jpaOrders);
@@ -909,13 +883,14 @@ public class OrderService {
 		return new org.springframework.data.domain.PageImpl<OrderView>(views, p, list.getTotalElements());
 	}
 
-	private BooleanExpression payPlanOrdersExpress(TableRequest req, String userId) {
+	private BooleanExpression payPlanOrdersExpress(TableRequest req, Principal principal) {
 		String longId = req.getFilter("longOrderId"), stateKey = req.getFilter("stateKey");
-	
-		BooleanExpression query = QJpaOrders.jpaOrders.userId.eq(userId)
-				// .and(QJpaOrders.jpaOrders.price.gt(QJpaOrders.jpaOrders.payPrice))
-				.and(QJpaOrders.jpaOrders.payPrice.gt(0))
+
+		BooleanExpression query = QJpaOrders.jpaOrders.payPrice.gt(0)
 				.and(QJpaOrders.jpaOrders.payType.eq(JpaOrders.PayType.dividpay));
+		if (Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)) {
+			query = query.and(QJpaOrders.jpaOrders.userId.eq(Request.getUserId(principal)));
+		}
 		if (StringUtils.isNoneBlank(stateKey)) {
 			if (StringUtils.equals(stateKey, "complete")) {
 				query = query.and(QJpaOrders.jpaOrders.price.eq(QJpaOrders.jpaOrders.payPrice));
@@ -1000,6 +975,5 @@ public class OrderService {
 		List<JpaVideo32OrderDetail> list = (List<JpaVideo32OrderDetail>) vedio32OrderDetailRepository.findAll(q);
 		return list;
 	}
-
 
 }

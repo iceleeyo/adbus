@@ -257,7 +257,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js","index_j
 				<th orderBy="contract.contractCode">合同编号</th>
 				<th>代理客户</th>
 				<th>订单号</th>
-				<th orderBy="day">约定付款日 </th>
+				<th orderBy="day">付款日 </th>
 				<th orderBy="periodNum">期数</th>
 				<th orderBy="price">金额</th>
 			   <th orderBy="payState">状态</th>

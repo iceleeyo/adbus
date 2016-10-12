@@ -45,6 +45,7 @@ public class JpaPayPlan extends BaseEntity {
 	@JoinColumn(name = "orderId")
 	private JpaOrders order;
 	private PayType payType;//付款方式 
+	private TableType tableType;
 	private Type type;//类型
 	private PayState payState; //付款状态 从 init 到check 到payed
 	@Column(length=32) 
@@ -60,6 +61,9 @@ public class JpaPayPlan extends BaseEntity {
 	}
 	public static enum Type {
 		order/*订单*/,	contract/*合同*/
+	}
+	public static enum TableType {
+		plan/*计划*/,	reced/*实收*/
 	}
 
 	public JpaPayPlan() {
@@ -87,6 +91,14 @@ public class JpaPayPlan extends BaseEntity {
 
 	public void setDay(Date day) {
 		this.day = day;
+	}
+
+	public TableType getTableType() {
+		return tableType;
+	}
+
+	public void setTableType(TableType tableType) {
+		this.tableType = tableType;
 	}
 
 	public double getPrice() {

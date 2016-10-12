@@ -32,10 +32,10 @@ function go_back(){
 	history.go(-1);
 }
     $(document).ready(function() {
-        
         var seriaNum='${jpaPayContract.seriaNum!''}';
-       initPayPlanTable('${rc.contextPath}',${jpaPayContract.id!''},'<@security.authorize
-			ifAnyGranted="sales">doNoting</@security.authorize>','contract',seriaNum);
+        
+    initPlan('${rc.contextPath}',${jpaPayContract.id!''},'<@security.authorize ifAnyGranted="sales">doNoting</@security.authorize>','contract',seriaNum);
+    initPayPlanTable('${rc.contextPath}',${jpaPayContract.id!''},'<@security.authorize ifAnyGranted="sales">donothing</@security.authorize>','contract',seriaNum);
         
     });
 </script>
@@ -159,46 +159,29 @@ function showContract(){
 	     $("#pingzhengTab").hide();
 	}
 	function pay(tp) {
-	    var contractid=-1;
-	     var payType="";
-	      var payWay="";
-	     var invoiceid=0;
-	     var contents="";
-	     var receway="";
-	     var temp=document.getElementsByName("payType");
-	       var payWayTemp=document.getElementsByName("payWay");
-	       var isinvoice=0;
-	      for(var i=0;i<temp.length;i++)
-         {
-           if(temp[i].checked)
-            payType = temp[i].value;
-         }
-           for(var i=0;i<payWayTemp.length;i++)
-         {
-           if(payWayTemp[i].checked)
-            payWay = payWayTemp[i].value;
-         }
-         if(tp=='userFristPay'){
-         	if(payWay==""){
-         		 layer.msg("请选择分期付款方式");
-	         	 return;
-         	}
-         }
-      	   var payWayPost = payWay =='payAll'?$("#allLocation").val():$("#payNextLocation").val();
-            if(payType==""){
-            	 jDialog.Alert("请选择支付方式");
+	     var paytype=$('#userFristPay :radio[name=payType]:checked').val();
+	     var payPrice=$("#payPrice").val();
+	     var payDate1=$("#payDate1").val();
+            if(typeof(paytype)=="undefined"){
+            	 layer.msg("请选择支付方式");
 	         	 return;
             }
-	         else if(payType=="others"){
+            if(payPrice==""){
+            	 layer.msg("请输入金额");
+	         	 return;
+            }
+            if(payDate1==""){
+            	 layer.msg("请选择付款日期");
+	         	 return;
+            }
+	         else if(paytype=="others"){
 	             var otp=$("#otherpay  option:selected").val();
 	              if(otp==""){
 	              layer.msg("请选择支付方式");
 	              return;
 	               }else{
-	               payType=$("#otherpay option:selected").val();
+	               paytype=$("#otherpay option:selected").val();
 	                }
-	         }else{
-	            contractid=-1;
 	         }
 		
 		$.ajax({
@@ -206,10 +189,12 @@ function showContract(){
 			type : "POST",
 			data : {
 				"orderid" :0,
-				"payContractId" :${jpaPayContract.id},
-				"payType":payType,
-				"payWay":payWay,
-				"payNextLocation":payWayPost
+				"contractId" :${jpaPayContract.id},
+				"paytype":paytype,
+				"price":payPrice,
+				"payDate":payDate1,
+				 "tableType":1,
+				 "type":1
 			},
 			success : function(data) {
 				layer.msg(data.right);
@@ -262,20 +247,53 @@ function showContract(){
 		
 		</div>
 		
-		<div class="p20bs mt10 color-white-bg border-ec">
+	<div class="p20bs mt10 color-white-bg border-ec">
 		<H3 class="text-xl title-box">
-			<A class="black" href="#">分期详情</A>
-			<div class="withdraw-title">
-			 <a class="block-btn"
-						style="margin-top: -30px;" href="javascript:void(0);"
-						onclick="addPayPlan('${rc.contextPath}',0,${jpaPayContract.seriaNum!''},1)">添加分期</a>	</div>
+			<A class="black" href="#">分期计划</A>
+		  <div class="withdraw-title">
+	    	</div>
 		</H3>
 		<TABLE class="ui-table ui-table-gray">
 			<TBODY>
 				<TR>
 				<TD colspan=2 style="border-radius: 0 0 0;padding:0;">
 				
-	<table id="payPlanTable" class="display nowrap" cellspacing="0">
+	  <table id="planTableOfPlan" class="display nowrap" cellspacing="0">
+		<thead>
+			<tr>
+				                <th>期数</th>
+								<th>金额</th>
+								<th>付款日期</th>
+								<th>分期设置人</th>
+								<th>最后操作时间</th>
+								<th>备注</th>
+								<@security.authorize ifAnyGranted="ShibaFinancialManager"> 
+								<th>操作</th></@security.authorize>
+							<@security.authorize ifNotGranted="ShibaFinancialManager"> 
+								<th></th>
+								</@security.authorize>
+			</tr>
+		</thead>
+	   </table>
+			</TD>
+				</TR>
+		</TABLE>
+</div>
+
+
+	<div class="p20bs mt10 color-white-bg border-ec">
+		<H3 class="text-xl title-box">
+			<A class="black" href="#">收款详情</A>
+		  <div class="withdraw-title">
+		
+	    	</div>
+		</H3>
+		<TABLE class="ui-table ui-table-gray">
+			<TBODY>
+				<TR>
+				<TD colspan=2 style="border-radius: 0 0 0;padding:0;">
+				
+	  <table id="payPlanTable" class="display nowrap" cellspacing="0">
 		<thead>
 			<tr>
 				                <th>期数</th>
@@ -296,14 +314,11 @@ function showContract(){
 								</@security.authorize>
 			</tr>
 		</thead>
-
-	</table>
+	   </table>
 			</TD>
 				</TR>
 		</TABLE>
-	</div>
 </div>
-
 
 <div id="userFristPay" class="userFristPay" >
 	<div class="p20bs mt10 color-white-bg border-ec">
@@ -314,23 +329,17 @@ function showContract(){
 		</H3>
 		<BR>
 			<TABLE class="ui-table ui-table-gray">
-		<#--	<TR style="height: 45px;">
-				<TD width="20%" style="text-align: right">分期详情</TD>
-				<TD>
-					<SPAN></SPAN><SPAN class="con"><a href="javascript:void(0)" onclick="queryPayPlanDetail('${rc.contextPath}',${jpaPayContract.id},'contract');" >查看</a></SPAN>
-				</TD>
-			</TR>-->
 			
 			<TR style="height: 45px;">
-				<TD width="20%" style="text-align: right">分期付款</TD>
+				<TD width="20%" style="text-align: right">付款金额</TD>
 				<TD>
-					<input type="radio" name="payWay" value="payAll">余额付款 <font color="orange">#{(payAll)!'';m2M2} </font>
-					<#if payNext gt 0 >
-					<input type="hidden" id="payNextLocation" value="${payNextLocation!''}"/> 
-					<input type="radio" name="payWay" value="payNext">本期付款 <font color="orange">#{(payNext)!'';m2M2}</font>
-					</#if>
-					
-					<input type="hidden" id="allLocation" value="${allLocation!''}"/> 
+				  <input type="text" id="payPrice" value="" onkeyup="value=value.replace(/[^\d]/g,'')" /> 
+				</TD>
+				</TR>
+			<TR style="height: 45px;">
+				<TD width="20%" style="text-align: right">付款日期</TD>
+				<TD>
+				  <input class="ui-input datepicker validate[required,custom[date],past[#payDate1]]" type="text"  value="" id="payDate1" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="">
 				</TD>
 			</TR>
 		</TABLE>

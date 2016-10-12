@@ -12,7 +12,10 @@ function go_back(){
     $(document).ready(function() {
         
         var seriaNum='${jpaPayContract.seriaNum!''}';
-       initPayPlanTable('${rc.contextPath}',0,'<@security.authorize
+        
+        initPlan('${rc.contextPath}',${jpaPayContract.id!''},'<@security.authorize ifAnyGranted="sales">doNoting</@security.authorize>','contract',seriaNum);
+        
+       initPayPlanTable('${rc.contextPath}',${jpaPayContract.id!''},'<@security.authorize
 			ifAnyGranted="sales">edit_del</@security.authorize>','contract',seriaNum);
         
     });
@@ -164,11 +167,41 @@ $.ajax({
 		
 		<div class="p20bs mt10 color-white-bg border-ec">
 		<H3 class="text-xl title-box">
-			<A class="black" href="#">分期详情</A>
-		<!--	<div class="withdraw-title">
-			 <a class="block-btn"
-						style="margin-top: -30px;" href="javascript:void(0);"
-						onclick="addPayPlan('${rc.contextPath}',0,${jpaPayContract.seriaNum!''},1)">添加分期</a>	</div>-->
+			<A class="black" href="#">分期计划</A>
+		  <div class="withdraw-title">
+	    	</div>
+		</H3>
+		<TABLE class="ui-table ui-table-gray">
+			<TBODY>
+				<TR>
+				<TD colspan=2 style="border-radius: 0 0 0;padding:0;">
+				
+	  <table id="planTableOfPlan" class="display nowrap" cellspacing="0">
+		<thead>
+			<tr>
+				                <th>期数</th>
+								<th>金额</th>
+								<th>付款日期</th>
+								<th>分期设置人</th>
+								<th>最后操作时间</th>
+								<th>备注</th>
+								<@security.authorize ifAnyGranted="ShibaFinancialManager"> 
+								<th>操作</th></@security.authorize>
+							<@security.authorize ifNotGranted="ShibaFinancialManager"> 
+								<th></th>
+								</@security.authorize>
+			</tr>
+		</thead>
+	   </table>
+			</TD>
+				</TR>
+		</TABLE>
+</div>
+		
+		<div class="p20bs mt10 color-white-bg border-ec">
+		<H3 class="text-xl title-box">
+			<A class="black" href="#">收款详情</A>
+	
 		</H3>
 		<TABLE class="ui-table ui-table-gray">
 			<TBODY>
@@ -202,12 +235,6 @@ $.ajax({
 				</TR>
 		</TABLE>
 	</div>
-	<!--
-		<div class="widthdrawBtBox">
-				<input type="button" id="subWithdraw" class="block-btn"
-					onclick="sub();" value="提交">
-			</div>
-			-->
 			
 			
 			
@@ -285,7 +312,7 @@ $.ajax({
 		</TABLE>
 		<div style="margin: 10px 0 0; text-align: center;">
 			<#if planView.plan.payState == "check">
-			<button type="button" onclick="pay('${planId!''}')" class="block-btn">确认支付</button>
+			<button type="button" onclick="pay('${planId!''}')" class="block-btn">确认</button>
 			</#if>
 		</div>
 		 

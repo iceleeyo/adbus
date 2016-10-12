@@ -175,29 +175,20 @@ function showContract(){
 			type : "POST",
 			data : {
 				"orderid" :orderid,
-				"payType":payType,
+				"paytype":payType,
 				"payWay":payWay,
 				"payNextLocation":payWayPost
 			},
 			success : function(data) {
-				jDialog.Alert(data.right);
-				var uptime = window.setTimeout(function(){
-				if(data.left.suppliesId=='1'){
-				  var a = document.createElement('a');
-    	        a.href='${rc.contextPath}/order/myTask/1';
-            	document.body.appendChild(a);
-             	a.click();
-				}else{
-				var a = document.createElement('a');
-    	        a.href='${rc.contextPath}/order/payPlanOrders';
-            	document.body.appendChild(a);
-             	a.click();
-             	}
-			   	clearTimeout(uptime);
-						},2000)
+				layer.msg(data.right);
+				setTimeout('handle()',1500);
 				
 			}
 		}, "text");
+	}
+	
+	function handle(){
+	  window.location.reload();
 	}
 </script>
 
@@ -346,7 +337,7 @@ function showContract(){
 			</tbody>
 		</TABLE>
 		<div style="margin: 10px 0 0; text-align: center;">
-			<button type="button" onclick="pay('userFristPay')" class="block-btn">确认支付</button>
+			<button type="button" onclick="pay('userFristPay')" class="block-btn">提交</button>
 		</div>
 		
 		<div class="worm-tips">

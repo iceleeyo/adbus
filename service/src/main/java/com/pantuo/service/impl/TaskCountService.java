@@ -47,7 +47,7 @@ public class TaskCountService {
 			map.put("planContract", orderService.countPlanOrders(req));
 		}
 		if (StringUtils.contains(query, "payPlanOrders")) {
-			map.put("payPlanOrders", orderService.countPayPlanOrders(req, Request.getUserId(principal)));
+			map.put("payPlanOrders", orderService.countPayPlanOrders(req, principal));
 		}
 		return map;
 	}
