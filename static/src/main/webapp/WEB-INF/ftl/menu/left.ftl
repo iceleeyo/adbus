@@ -156,10 +156,9 @@
 											</li>-->
 					<li class="pg-side-exp-item"><a class="side-exp-item-t"
 						href="${rc.contextPath}/order/finished"> 已完成订单 </a></li> 
-						<#--
+						 
 					<li class="pg-side-exp-item"><a class="side-exp-item-t"
-						href="${rc.contextPath}/order/scheduleAdjust"> 排期调整 </a></li> 
-						-->
+						href="${rc.contextPath}/order/scheduleAdjust"> 订单排期调整 </a></li> 
 						<#--
 					<li class="pg-side-exp-item"><a class="side-exp-item-t"
 						href="${rc.contextPath}/order/payPlanOrders">待支付分期订单 </a></li>

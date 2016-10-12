@@ -470,10 +470,11 @@ public class OrderController {
 	 */
 	@RequestMapping(value = "/{taskId}/complete", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
-	public Pair<Boolean, String> completeTask(@PathVariable("taskId") String taskId, Principal principal,
-			Supplies supplies, Variable variable, @CookieValue(value = "city", defaultValue = "-1") int city) {
-		if (null != supplies && null != supplies.getSeqNumber() && !supplies.getSeqNumber().equals("")) {
+	public Pair<Boolean, String> completeTask(@PathVariable("taskId") String taskId, Principal principal, Supplies supplies, Variable variable,
+			@CookieValue(value = "city", defaultValue = "-1") int city) {
+		if (null != supplies && StringUtils.isNoneBlank(supplies.getSeqNumber())) {
 			suppliesService.updateSupplies(city, supplies);
+			activitiService.updateOrderSeqNumber(taskId, supplies.getSeqNumber());
 		}
 		return activitiService.complete(taskId, variable.getVariableMap(), principal);
 	}

@@ -252,8 +252,8 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 				
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required"></span>产品定向：</label>
-					<span> <input id="exclusiveUser" name="exclusiveUser"
-						value="" placeholder="请选择广告主" style="margin-top: 8px;">
+					<span> <input id="exclusiveUser" name="exclusiveUser" 
+						value="${prod.exclusiveUser!''}" placeholder="请选择广告主" style="margin-top: 8px;">
 					</span>
 				</div>
 

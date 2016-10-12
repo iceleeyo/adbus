@@ -82,6 +82,10 @@ public class JpaOrders extends CityEntity {
     private double price = 0;		//订单价格 管理员可以根据套餐价格调整订单的价格 比如打折 促销
     
     private double payPrice = 0;//已支付金额
+    
+    
+    //审核号
+    private String seqNumber;
 
     public JpaOrders() {
         //for serialization
@@ -396,6 +400,14 @@ public class JpaOrders extends CityEntity {
 
 	public void setScheduled(boolean isScheduled) {
 		this.isScheduled = isScheduled;
+	}
+
+	public String getSeqNumber() {
+		return seqNumber;
+	}
+
+	public void setSeqNumber(String seqNumber) {
+		this.seqNumber = seqNumber;
 	}
 	
 }

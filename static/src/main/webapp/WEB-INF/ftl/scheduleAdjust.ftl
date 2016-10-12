@@ -21,12 +21,13 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
             "dom": '<"#toolbar"><"top"il>rt<"bottom"p><"clear">',
             "searching": false,
             "ordering": true,
+             "scrollX": true,
             "serverSide": true,
-            "aaSorting": [[6, "desc"]],
+            "aaSorting": [[7, "desc"]],
   
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                { "orderable": false, "targets": [0,1,2,3,4,5] },
+                { "orderable": false, "targets": [0,1,2,3,4,5,6] },
             ],
             "aLengthMenu": [[10,25, 40, 100], [10,25, 40, 100]],
             "ajax": {
@@ -43,6 +44,10 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
                 "dataSrc": "content",
             },
             "columns": [
+            { "data": "order.created", "defaultContent": "","render": function(data, type, row, meta) {
+                	 var tr= '<a target="_blank" class="operation" href="${rc.contextPath}/order/orderDetail/'+row.id+'?scheduleTag=1">撤销排期</a>';
+                	return tr;
+                }},
             	{ "data": "order.creator", "defaultContent": ""},
             	{ "data": "longOrderId", "defaultContent": ""},
             		 <@security.authorize ifAnyGranted="sales,salesManager">
@@ -91,10 +96,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
                 	var d= $.format.date(data, "yyyy-MM-dd HH:mm:ss");
                 	return d;
                 }},
-                { "data": "order.created", "defaultContent": "","render": function(data, type, row, meta) {
-                	 var tr= '<a target="_blank" class="operation" href="${rc.contextPath}/order/orderDetail/'+row.id+'?scheduleTag=1">排期调整</a>';
-                	return tr;
-                }},
+                
                 
                 
             ],
@@ -186,6 +188,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 	<table id="table" class="display" cellspacing="0" width="100%">
 		<thead>
 			<tr>
+				<th>操作</th>
 				<th>下单用户</th>
 				<th orderBy="longOrderId">订单编号</th>
 					 <@security.authorize ifAnyGranted="sales,salesManager">
@@ -195,11 +198,12 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 				<th>合同编号</th>
 				<th>广告刊期</th>
 				<th orderBy="created">创建时间</th>
-				<th>订单详情</th>
+				
 
 			</tr>
 		</thead>
 
 	</table>
+	<div>本页面提供对已排期的订单提供撤销排期功能.<br>可以指定取消某一天的排期或是取消某一天后的所有排期 </div>
 </div>
 </@frame.html>
