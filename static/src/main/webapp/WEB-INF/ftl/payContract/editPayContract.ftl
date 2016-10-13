@@ -206,13 +206,13 @@ $.ajax({
 	  <table id="payPlanTable" class="display nowrap" cellspacing="0">
 		<thead>
 			<tr>
-				                <th>期数</th>
+				                <th>次数</th>
 								<th>金额</th>
 								<th>付款日期</th>
 								<th>付款方式</th>
 								<th>状态</th>
 								<th>付款人</th>
-								<th>处理人</th>
+								<th>确认人</th>
 								<th>最后操作时间</th>
 								<th>备注</th>
 								<@security.authorize ifAnyGranted="ShibaFinancialManager"> 
