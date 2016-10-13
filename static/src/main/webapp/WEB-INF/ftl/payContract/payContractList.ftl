@@ -119,6 +119,7 @@ function delContract(conid){
     	              	'<option value="ing" selected="selected">进行中</option>' +
         	          	'<option value="completed">已完成</option>' +
         	          	'<option value="closed">已关闭</option>' +
+        	          		'<option value="del">已删除</option>' +
          				'</select>' +
                         '</div>'
         );

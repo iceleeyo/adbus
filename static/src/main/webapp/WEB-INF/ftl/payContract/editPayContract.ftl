@@ -271,7 +271,7 @@ $.ajax({
 				<input type="button" id="saveBt" class="block-btn"
 					onclick="sub();" value="保存">
 					
-				<#if isUsed gt 0 >
+				<#if usedNumber gt 0 >
 				<span style="color: #ff9966">
 					<input type="button" id="closeBt" class="block-btn" disabled=disabled style="background:gray"
 					 value="关闭">	当前合同下有待审核的款项,不能关闭<span>

@@ -301,6 +301,8 @@ public class PayContractServiceImpl implements PayContractService {
 				query = query.and(QJpaPayContract.jpaPayContract.payPrice.goe(QJpaPayContract.jpaPayContract.price));
 			}else if(StringUtils.equals("closed", stateKey)){
 				query = query.and(QJpaPayContract.jpaPayContract.closeFlag.eq(true));
+			}else if(StringUtils.equals("del", stateKey)){
+				query = query.and(QJpaPayContract.jpaPayContract.delFlag.eq(true));
 			}
 		}else{
 			query = query.and(QJpaPayContract.jpaPayContract.closeFlag.eq(false));
