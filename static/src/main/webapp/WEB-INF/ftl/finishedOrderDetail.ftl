@@ -40,7 +40,8 @@ function confirmSchedule() {
 		            data:{
 		                "startdate":startdate1,
 		                "orderid":orderid,
-		                "canelAfterAll":bm
+		                "canelAfterAll":bm,
+		                 "remark": $("#remark").val()
 		            },
 		            success:function(data) {
 		                layer.closeAll("loading");
@@ -91,17 +92,25 @@ suppliesView=suppliesView/>
                     <input class="ui-input datepicker validate[required,custom[date],past[#upDate1]]" type="text"  value="" id="startdate1" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> 						
 					</TD>
 				</TR>
+				
+				
+					<TR>
+					<TH>撤销原因</TH>
+					<TD colspan=3>
+                   <textarea   id="remark" name="remark" type="textarea" style="height: 121px; width: 355px;"></textarea>					
+					</TD>
+				</TR>
 				<TR>
 					<TH>撤销选项</TH>
 					<TD colspan=3>
-                    <input type="radio" name="bm" value="N" checked=checked/>撤销当天
-					<input name="bm" type="radio" value="Y" />撤销当天以后所有排期				
+                    <input type="radio" name="bm" value="N" checked=checked/>取消当天
+					<input name="bm" type="radio" value="Y" />取消当天以后所有排期				
 					</TD>
 				</TR>
 				<TR>
 					<TH>操作</TH>
 					<TD colspan=3>
-						  <button id="sureButton" onclick="confirmSchedule();" class="block-btn" >确定撤销</button>
+						  <button id="sureButton" onclick="confirmSchedule();" class="block-btn" >确定取消</button>
 					</TD>
 				</TR>
 				
@@ -141,7 +150,20 @@ suppliesView=suppliesView/>
                       },
                 { "data": "startDate", "defaultContent": "",
                     },
-                      { "data": "isCallAfterDayAll", "defaultContent": "",
+                      { "data": "isCallAfterDayAll", "defaultContent": "", "render": function(data) {
+                    return data == "yes" ? "是" : "否";
+                }
+                    },
+                       { "data": "remark", "defaultContent": "", "render": function(data, type, row, meta) {
+                       	if (typeof(data) == "undefined"){return "";}	
+                       		if(data.length > 38) {
+                       		 return  '<a class="layer-tips" tip="'+row.remark+'">' +data.substring(0,38)+ '</a>' ;
+							}else {
+							 return  '<a class="layer-tips" tip="'+row.remark+'">' +row.remark+ '</a>' ;
+							}
+                       
+                   			
+               			 }
                     },
                 
             ],
@@ -155,6 +177,7 @@ suppliesView=suppliesView/>
     }
 
     function initComplete() {
+    	bindLayerMouseOver();
     }
 
     function drawCallback() {
@@ -184,8 +207,9 @@ suppliesView=suppliesView/>
 			<tr>
 				<th>操作时间</th>
 				<th>操作用户</th>
-				<th>撤销日期</th>
-				<th>撤销当天以后所有排期</th>
+				<th>取消日期</th>
+				<th>取消当天以后所有排期</th>
+				<th>取消原因</th>
 			</tr>
 		</thead>
 

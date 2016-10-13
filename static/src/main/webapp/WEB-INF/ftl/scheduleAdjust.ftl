@@ -45,7 +45,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
             },
             "columns": [
             { "data": "order.created", "defaultContent": "","render": function(data, type, row, meta) {
-                	 var tr= '<a target="_blank" class="operation" href="${rc.contextPath}/order/orderDetail/'+row.id+'?scheduleTag=1">撤销排期</a>';
+                	 var tr= '<a target="_blank" class="operation" href="${rc.contextPath}/order/orderDetail/'+row.id+'?scheduleTag=1">取消排期</a>';
                 	return tr;
                 }},
             	{ "data": "order.creator", "defaultContent": ""},
