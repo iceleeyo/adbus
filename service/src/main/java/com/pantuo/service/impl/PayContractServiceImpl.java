@@ -382,10 +382,7 @@ public class PayContractServiceImpl implements PayContractService {
 		if(contract==null){
 			return new Pair<Boolean, String>(false, "合同不存在");
 		}
-		BooleanExpression q=QJpaPayPlan.jpaPayPlan.contract.id.eq(contractId)
-				.and(QJpaPayPlan.jpaPayPlan.payState.eq(JpaPayPlan.PayState.check))
-				.and(QJpaPayPlan.jpaPayPlan.tableType.eq(JpaPayPlan.TableType.reced));
-		int count=(int) payPlanRepository.count(q);
+		int count = queryContractUse(contractId);
 		if(count>0){
 			return new Pair<Boolean, String>(false, "当前合同下有待审核的款项,不能关闭");
 		}
@@ -403,6 +400,14 @@ public class PayContractServiceImpl implements PayContractService {
 			return new Pair<Boolean, String>(true, "操作成功");
 		}
 		return new Pair<Boolean, String>(true, "操作成功");
+	}
+
+	public int queryContractUse(int contractId) {
+		BooleanExpression q=QJpaPayPlan.jpaPayPlan.contract.id.eq(contractId)
+				.and(QJpaPayPlan.jpaPayPlan.payState.eq(JpaPayPlan.PayState.check))
+				.and(QJpaPayPlan.jpaPayPlan.tableType.eq(JpaPayPlan.TableType.reced));
+		int count=(int) payPlanRepository.count(q);
+		return count;
 	}
 
 	public JpaPayPlan queryByPlanId(int planId){

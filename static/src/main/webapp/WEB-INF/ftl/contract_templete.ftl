@@ -522,22 +522,40 @@ function getEnd(date,days){
 	</#list>
 		
 		<#if payplanView.right??>
-		<tr>
-			<td>合同结算情况</td><td COLSPAN=7>
-			<span style="display:block;padding-top:5px;">
-			甲方支付乙方广告费用金额共计<script>convertCurrency(${sum});</script> (¥${sum}元),分
-			 ${ payplanView.right?size} 次支付：</span><br>
-			<#list payplanView.right as right>
-			<span style="display:block;padding-top:5px;">
-				第${right_index+1}次：
-				${right.day?string("yyyy年MM月dd日 ")}
-				前支付广告费用金额为<script>convertCurrency(${right.price});</script>(¥${right.price}元)
-			</span> <br>
-			</#list> 
-
-			</td>
-		</tr>
 		
+			<#if payplanView.right?size gt 1  >
+			<tr>
+				<td>合同结算情况</td><td COLSPAN=7>
+				<span style="display:block;padding-top:5px;">
+				甲方支付乙方广告费用金额共计<script>convertCurrency(${sum});</script> (¥${sum}元),分
+				 ${ payplanView.right?size} 次支付：</span><br>
+				<#list payplanView.right as right>
+				<span style="display:block;padding-top:5px;">
+					第${right_index+1}次：
+					${right.day?string("yyyy年MM月dd日 ")}
+					前支付广告费用金额为<script>convertCurrency(${right.price});</script>(¥${right.price}元)
+				</span> <br>
+				</#list> 
+	
+				</td>
+			</tr>
+			  <#else>
+			  
+			  <tr>
+				<td>合同结算情况</td><td COLSPAN=7>
+				<span style="display:block;padding-top:5px;">
+				甲方支付乙方广告费用金额共计<script>convertCurrency(${sum});</script> (¥${sum}元) </span><br>
+				<#list payplanView.right as right>
+				<span style="display:block;padding-top:5px;">
+				 甲方承诺
+					${right.day?string("yyyy年MM月dd日 ")}前一次性付清
+				</span> <br>
+				</#list> 
+	
+				</td>
+			</tr>
+			
+			</#if>
 		</#if>
 		<tr ><td>备注</td> <td COLSPAN=7>${(paycontract.remark)!''}</td></tr>
 		<tr>

@@ -270,8 +270,25 @@ $.ajax({
 		<div class="widthdrawBtBox">
 				<input type="button" id="saveBt" class="block-btn"
 					onclick="sub();" value="保存">
-				<input type="button" id="closeBt" class="block-btn"
+					
+				<#if isUsed gt 0 >
+				<span style="color: #ff9966">
+					<input type="button" id="closeBt" class="block-btn" disabled=disabled style="background:gray"
+					 value="关闭">	当前合同下有待审核的款项,不能关闭<span>
+				<#else> 
+				<#if jpaPayContract.closeFlag >
+				<span style="color: #ff9966">
+				<input type="button" id="closeBt" tip="合同已关闭"   class="block-btn layer-tips"  style="background:gray"
+					 value="关闭"> <span>
+					<#else> 
+						<span style="color: #ff9966">
+					<input type="button" id="closeBt" class="block-btn"
 					onclick="closeContract();" value="关闭">
+					</span>
+					
+					  </#if>
+					
+			   </#if>
 			</div>
 		<div class="worm-tips">
 			<div class="tips-title">
@@ -283,4 +300,10 @@ $.ajax({
 		</div>
 	
 </div>
+<script type="text/javascript">
+
+$(document).ready(function(){
+	bindLayerMouseOver();
+}) 
+</script>
 </@frame.html>

@@ -113,6 +113,7 @@ public class PayContractController {
 	public String toEditPayContract(Model model, Principal principal,@PathVariable("id") int id
 			) {
 		JpaPayContract contract= payContractService.getPayContractById(id);
+		model.addAttribute("isUsed", payContractService. queryContractUse(  id) );
 		model.addAttribute("jpaPayContract", contract);
 		return "payContract/editPayContract";
 		
