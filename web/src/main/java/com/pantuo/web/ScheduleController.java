@@ -38,6 +38,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -179,8 +180,10 @@ public class ScheduleController {
 	@RequestMapping(value = "/canelOrderWithStartDay", method = RequestMethod.POST)
 	@ResponseBody
 	public Pair<Boolean, String> canelOrderWithStartDay(HttpServletRequest request, HttpServletResponse response, Principal principal,
-			@RequestParam(value = "canelAfterAll", required = false) String canelAfterAll,@RequestParam(value = "orderid", required = false) int orderid, @RequestParam(value = "startdate", required = false) String startdate) throws Exception {
-		return scheduleService.canelScheduleStartDay(BooleanUtils.toBoolean(canelAfterAll),orderid, startdate, principal);
+			@RequestParam(value = "canelAfterAll", required = false) String canelAfterAll,
+			@RequestParam(value = "remark", required = false) String  remark,
+			@RequestParam(value = "orderid", required = false) int orderid, @RequestParam(value = "startdate", required = false) String startdate) throws Exception {
+		return scheduleService.canelScheduleStartDay(BooleanUtils.toBoolean(canelAfterAll),orderid,remark, startdate, principal);
 	}
 	
 	 @RequestMapping(value = "/changeLog")

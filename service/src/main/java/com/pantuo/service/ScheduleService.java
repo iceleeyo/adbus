@@ -1320,11 +1320,11 @@ public class ScheduleService {
 		return new DataTablePage<JpaScheduleChangeLog>(page, req.getDraw());
 	}
 	
-	public Pair<Boolean, String> canelScheduleStartDay(boolean isCallAfterDayAll, int orderid, String startdate1, Principal principal) {
+	public Pair<Boolean, String> canelScheduleStartDay(boolean isCallAfterDayAll, int orderid,String remark,  String startdate1, Principal principal) {
 		Pair<Boolean, String> p = null;
 		try {
 			CALEL_LOCK.lock();
-			p = _canelScheduleStartDay(isCallAfterDayAll, orderid, startdate1, principal);
+			p = _canelScheduleStartDay(isCallAfterDayAll, orderid,remark, startdate1, principal);
 		} catch (Exception e) {
 			log.error("lock error:", e);
 		} finally {
@@ -1332,7 +1332,7 @@ public class ScheduleService {
 		}
 		return p;
 	}
-	public Pair<Boolean, String> _canelScheduleStartDay(boolean isCallAfterDayAll, int orderid, String startdate1, Principal principal) {
+	public Pair<Boolean, String> _canelScheduleStartDay(boolean isCallAfterDayAll, int orderid,String remark,  String startdate1, Principal principal) {
 		Pair<Boolean, String> p = new Pair<Boolean, String>(false, StringUtils.EMPTY);
 
 		JpaOrders order = orderService.getJpaOrder(orderid);
@@ -1377,7 +1377,7 @@ public class ScheduleService {
 					}
 					goodsMapper.updateByPrimaryKey(record);
 				}
-				saveChangeLog(isCallAfterDayAll,orderid, startdate1, principal);
+				saveChangeLog(isCallAfterDayAll,orderid,remark, startdate1, principal);
 				p.setLeft(true);
 				p.setRight("订单取消排期成功!");
 				return p;
@@ -1390,7 +1390,7 @@ public class ScheduleService {
 		return p;
 	}
 	
-	public void saveChangeLog(boolean isCallAfterDayAll, int orderid, String startdate1, Principal principal){
+	public void saveChangeLog(boolean isCallAfterDayAll, int orderid,String remark, String startdate1, Principal principal){
 		JpaScheduleChangeLog log = new JpaScheduleChangeLog();
 		UserDetail user = 	Request.getUser(principal);
 		if(user!=null){
@@ -1400,6 +1400,7 @@ public class ScheduleService {
 			log.setCreated(new Date());
 			log.setStartDate(startdate1);
 			log.setOrderid(orderid);
+			log.setRemark(remark);
 			log.setIsCallAfterDayAll(BooleanUtils.toStringYesNo(isCallAfterDayAll));
 		}
 		scheduleChangeLogRepository.save(log);
