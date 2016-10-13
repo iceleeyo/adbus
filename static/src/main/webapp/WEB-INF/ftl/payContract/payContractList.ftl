@@ -31,6 +31,7 @@ js=["../js/jquery-dateFormat.js","../js/layer-v1.9.3/layer-site.js"]>
                     return $.extend( {}, d, {
                         "filter[contractCode]" : $('#contractCode').val(),
                            "filter[salesName]" : $('#salesName').val(),
+                           "filter[stateKey]" : $('#stateKey').val()
                         
                     } );
                 },
@@ -70,7 +71,6 @@ js=["../js/jquery-dateFormat.js","../js/layer-v1.9.3/layer-site.js"]>
                     "render": function(data, type, row, meta) {
                     var operations='';
                         operations +='&nbsp;&nbsp;<a class="table-link operation" href="${rc.contextPath}/payContract/toEditPayContract/' + data +'" >编辑</a>';
-                       <#-- operations +='<a class="table-link operation" onclick="contractdetail(\'${rc.contextPath}\','+data+');" href="javascript:void(0)">详情</a>';-->
                         operations +='&nbsp;&nbsp;<a class="table-link operation" href="javascript:delContract('+data+');" >删除</a>  &nbsp;';
                          return operations;
                     }},
@@ -114,10 +114,16 @@ function delContract(conid){
                         '        <input id="contractCode" value="">' +
                         '    <span>业务员：</span>' +
                         '        <input id="salesName" value="">' +
+                         '&nbsp;&nbsp;<select class="ui-input ui-input-mini" name="stateKey" id="stateKey">' +
+	                    '<option value="defaultAll" >所有状态</option>' +
+    	              	'<option value="ing" selected="selected">进行中</option>' +
+        	          	'<option value="completed">已完成</option>' +
+        	          	'<option value="closed">已关闭</option>' +
+         				'</select>' +
                         '</div>'
         );
 
-        $('#contractCode,#salesName').change(function() {
+        $('#contractCode,#salesName,#stateKey').change(function() {
             table.fnDraw();
         });
     }

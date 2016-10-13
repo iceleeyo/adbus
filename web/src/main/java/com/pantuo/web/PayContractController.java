@@ -101,6 +101,14 @@ public class PayContractController {
 		return payContractService.delPayContract(principal,contractId);
 		
 	}
+	@RequestMapping(value = "colseContract",method = RequestMethod.GET)
+	@ResponseBody
+	public Pair<Boolean, String> colseContract(Principal principal,@RequestParam("id") int contractId
+			,@RequestParam("agreement") String agreement
+			) {
+		return payContractService.colseContract(contractId,agreement,principal);
+		
+	}
 	@RequestMapping(value = "/toEditPayContract/{id}")
 	public String toEditPayContract(Model model, Principal principal,@PathVariable("id") int id
 			) {

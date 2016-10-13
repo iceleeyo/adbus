@@ -42,6 +42,8 @@ js=["../js/jquery-dateFormat.js","../js/layer-v1.9.3/layer-site.js"]>
                     "render": function(data, type, row, meta) {
                     var operations='';
                         operations +='&nbsp;&nbsp;<a class="table-link operation" target="_blank" href="${rc.contextPath}/payContract/toRestPayContract/' + data +'" >支付</a>';
+                 operations +='&nbsp;&nbsp;<a class="table-link operation" href="${rc.contextPath}/payContract/toEditPayContract/' + data +'" >关闭</a>';
+                        
                          return operations;
                     }},
                 { "data": "contractCode","defaultContent": "", "render": function(data, type, row, meta) {

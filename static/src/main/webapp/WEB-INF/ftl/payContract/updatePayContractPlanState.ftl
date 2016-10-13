@@ -130,7 +130,7 @@ $.ajax({
 		class="ui-form" method="post" action="${rc.contextPath}/payContract/savePayContract"
 		enctype="multipart/form-data">
 		<div class="withdraw-title fn-clear">
-			<span>创建合同 </span> 
+			<span>收款确认 </span> 
 		</div>
 		<input type="hidden" value="${jpaPayContract.id}" name="id"/>
 		<div class="withdrawInputs">

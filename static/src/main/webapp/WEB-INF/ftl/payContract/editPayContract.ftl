@@ -101,6 +101,40 @@ $.ajax({
 							},2000) 
 		}).submit();
 	}
+	function closeContract(){
+	if (!$("#contractForm").validationEngine('validateBeforeSubmit'))
+			return;
+		var agreement=$("#agreement").val();
+		if(agreement==""){
+		  layer.msg("请填写补充协议");
+		  return;
+		}
+		var param={"id":$("#contractId").val(),"agreement":agreement};
+		layer.confirm('确定关闭合同吗？', {icon: 3}, function(index){
+    		layer.close(index);
+		    if(true){
+		    	 $.ajax({
+		    			url:"${rc.contextPath}/payContract/colseContract",
+		    			type:"GET",
+		    			async:false,
+		    			dataType:"json",
+		    			data:param,
+		    			success:function(data){
+		    				if (data.left) {
+		    					layer.msg(data.right);
+		    					setTimeout('handle()',1500);
+		    				} else {
+		    					layer.msg(data.right,{icon: 5});
+		    				}
+		    			}
+		       });  
+		       }
+		});		
+    
+	}
+	function handle(){
+	  window.location.href="${rc.contextPath}/payContract/list";
+	}
 </script>
 
 <div class="withdraw-wrap color-white-bg fn-clear">
@@ -111,7 +145,7 @@ $.ajax({
 		<div class="withdraw-title fn-clear">
 			<span>合同修改 </span> 
 		</div>
-		<input type="hidden" value="${jpaPayContract.id}" name="id"/>
+		<input type="hidden" id="contractId" value="${jpaPayContract.id}" name="id"/>
 		<div class="withdrawInputs">
 			<div class="inputs" >
 				<div class="ui-form-item">
@@ -143,7 +177,11 @@ $.ajax({
 				
 				<div class="ui-form-item">
 					<label class="ui-label mt10">备注:</label>
-					<textarea id="remark"   name="remark"  type="textarea" style="height: 151px; width: 655px;">${jpaPayContract.remark!''}</textarea>
+					<textarea id="remark"   name="remark"  type="textarea" style="height: 120px; width: 655px;">${jpaPayContract.remark!''}</textarea>
+				</div>
+				<div class="ui-form-item">
+					<label class="ui-label mt10">补充协议:</label>
+					<textarea id="agreement"   name="agreement"  type="textarea" style="height: 120px; width: 655px;">${jpaPayContract.agreement!''}</textarea>
 				</div>
 				
 			
@@ -230,8 +268,10 @@ $.ajax({
 </div>
 	
 		<div class="widthdrawBtBox">
-				<input type="button" id="subWithdraw" class="block-btn"
-					onclick="sub();" value="提交">
+				<input type="button" id="saveBt" class="block-btn"
+					onclick="sub();" value="保存">
+				<input type="button" id="closeBt" class="block-btn"
+					onclick="closeContract();" value="关闭">
 			</div>
 		<div class="worm-tips">
 			<div class="tips-title">

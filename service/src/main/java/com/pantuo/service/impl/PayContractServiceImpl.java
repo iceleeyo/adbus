@@ -33,8 +33,10 @@ import com.pantuo.dao.PayPlanRepository;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaPayContract;
 import com.pantuo.dao.pojo.JpaPayPlan;
+import com.pantuo.dao.pojo.QJpaContractPayPlan;
 import com.pantuo.dao.pojo.QJpaOrders;
 import com.pantuo.dao.pojo.QJpaPayContract;
+import com.pantuo.dao.pojo.QJpaPayPlan;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.PayPlan;
 import com.pantuo.mybatis.domain.PayPlanExample;
@@ -242,7 +244,7 @@ public class PayContractServiceImpl implements PayContractService {
 			contract.setDelFlag(false);
 			contract.setPayPrice(0.0);
 			contract.setContractCode(contractService.getContractId());
-
+			contract.setCloseFlag(false);
 			int r = paycontractMapper.insert(contract);
 			if (r > 0) {
 				updateContractPlan(contract);
@@ -278,7 +280,8 @@ public class PayContractServiceImpl implements PayContractService {
 
 	@Override
 	public Page<JpaPayContract> getAllContracts(TableRequest req, Principal principal) {
-		String code = req.getFilter("contractCode"),salesName= req.getFilter("salesName");
+		String code = req.getFilter("contractCode"),stateKey=req.getFilter("stateKey"),
+				salesName= req.getFilter("salesName");
 		int page = req.getPage(), pageSize = req.getLength();
 		Sort sort = req.getSort("id");
 		if (page < 0)
@@ -290,6 +293,18 @@ public class PayContractServiceImpl implements PayContractService {
 		BooleanExpression query = QJpaPayContract.jpaPayContract.delFlag.isFalse();
 		if (StringUtils.isNotBlank(code)) {
 			query = query.and(QJpaPayContract.jpaPayContract.contractCode.like("%" + code + "%"));
+		}
+		if (StringUtils.isNotBlank(stateKey)) {
+			if(StringUtils.equals("ing", stateKey)){
+				query = query.and(QJpaPayContract.jpaPayContract.price.gt(QJpaPayContract.jpaPayContract.payPrice));
+			}else if(StringUtils.equals("completed", stateKey)){
+				query = query.and(QJpaPayContract.jpaPayContract.payPrice.goe(QJpaPayContract.jpaPayContract.price));
+			}else if(StringUtils.equals("closed", stateKey)){
+				query = query.and(QJpaPayContract.jpaPayContract.closeFlag.eq(true));
+			}
+		}else{
+			query = query.and(QJpaPayContract.jpaPayContract.closeFlag.eq(false));
+			query = query.and(QJpaPayContract.jpaPayContract.price.gt(QJpaPayContract.jpaPayContract.payPrice));
 		}
 		if (StringUtils.isNotBlank(salesName)) {
 			query = query.and(QJpaPayContract.jpaPayContract.salesName.like("%" + salesName + "%"));
@@ -318,7 +333,7 @@ public class PayContractServiceImpl implements PayContractService {
 		String code = req.getFilter("contractCode"),stateKey = req.getFilter("stateKey");;
 		
 		
-		BooleanExpression query = QJpaPayContract.jpaPayContract.delFlag.isFalse();
+		BooleanExpression query = QJpaPayContract.jpaPayContract.delFlag.isFalse().and(QJpaPayContract.jpaPayContract.closeFlag.isFalse());
 		if (StringUtils.isNotBlank(code)) {
 			query = query.and(QJpaPayContract.jpaPayContract.contractCode.like("%" + code + "%"));
 		}
@@ -359,6 +374,35 @@ public class PayContractServiceImpl implements PayContractService {
 			}
 		}
 		return new Pair<Boolean, String>(false, "操作失败");
+	}
+
+	@Override
+	public Pair<Boolean, String> colseContract(int contractId, String agreement, Principal principal) {
+		JpaPayContract contract = payContractRepository.findOne(contractId);
+		if(contract==null){
+			return new Pair<Boolean, String>(false, "合同不存在");
+		}
+		BooleanExpression q=QJpaPayPlan.jpaPayPlan.contract.id.eq(contractId)
+				.and(QJpaPayPlan.jpaPayPlan.payState.eq(JpaPayPlan.PayState.check))
+				.and(QJpaPayPlan.jpaPayPlan.tableType.eq(JpaPayPlan.TableType.reced));
+		int count=(int) payPlanRepository.count(q);
+		if(count>0){
+			return new Pair<Boolean, String>(false, "当前合同下有待审核的款项,不能关闭");
+		}
+		if(contract.isCloseFlag()){
+			return new Pair<Boolean, String>(false, "合同已经关闭");
+		}
+		if(contract.getPrice()==contract.getPayPrice() || contract.getPayPrice()>contract.getPrice()){
+			return new Pair<Boolean, String>(false, "合同已完成");
+		}
+		contract.setAgreement(agreement);
+		contract.setCloseFlag(true);
+		contract.setUpdated(new Date());
+		contract.setUpdator(Request.getUserId(principal));
+		if(payContractRepository.save(contract)!=null){
+			return new Pair<Boolean, String>(true, "操作成功");
+		}
+		return new Pair<Boolean, String>(true, "操作成功");
 	}
 
 	public JpaPayPlan queryByPlanId(int planId){

@@ -378,9 +378,7 @@ function showContract(){
 		<div class="worm-tips">
 		<div class="tips-title">
 			<span class="icon"></span>
-			<font color="orange"><B>说明</B></font><br>
-			余额付款：指订单不采用分期模式支付一次性需要支付的总额<br>
-			本期付款：根据北京世巴传媒公司财务部门指出的分期计划,<br>本期款项等于历史未付款项 加 付款日最近一期的款项<br>
+			
 			<font color="orange"><B>温馨提示</B></font><br>
 			三方一致：合同甲方公司名称-付款方银行开户名称-开具发票抬头名称<br>
 			线下付款的账户信息：<br>

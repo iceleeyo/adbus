@@ -27,11 +27,15 @@ public class JpaPayContract extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private String userId;
+	private String updator;
 	private String contractCode;
 	private Double price;
 	private double payPrice = 0;//已支付金额
 	private long seriaNum;
-	boolean delFlag=false;
+	boolean delFlag=false;   //1为已删除
+	boolean closeFlag=false;  //1为关闭
+	@Lob
+	private String agreement;//补充协议
 	/*
 	 * list<integer>
 	 * {11,22,33,44}
