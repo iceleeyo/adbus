@@ -5,6 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -24,6 +27,8 @@ import com.itextpdf.tool.xml.ElementList;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
 
 public class HtmlHeaderFooter {
+	
+	private static Logger log = LoggerFactory.getLogger(HtmlHeaderFooter.class);
 	public static final String DEST = "results/events/html_header_footer.pdf";
 
 	public static final String EMPTY = "<table width=\"100%\" border=\"0\"><tr><td></td></tr></table>";
@@ -122,9 +127,9 @@ public class HtmlHeaderFooter {
 				cb.endText();
 				cb.restoreState();
 			} catch (DocumentException e) {
-				e.printStackTrace();
+				log.error("onendPage", e);
 			} catch (IOException e) {
-				e.printStackTrace();
+				log.error("onendPage", e);
 			}
 
 		}
@@ -137,9 +142,9 @@ public class HtmlHeaderFooter {
 		try {
 			new HtmlHeaderFooter().createPdf(destFile, htmlPath);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error("onendPage", e);
 		} catch (DocumentException e) {
-			e.printStackTrace();
+			log.error("onendPage", e);
 		}
 
 	}
