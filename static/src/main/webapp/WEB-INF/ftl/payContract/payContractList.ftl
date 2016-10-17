@@ -72,6 +72,7 @@ js=["../js/jquery-dateFormat.js","../js/layer-v1.9.3/layer-site.js"]>
                     var operations='';
                         operations +='&nbsp;&nbsp;<a class="table-link operation" href="${rc.contextPath}/payContract/toEditPayContract/' + data +'" >编辑</a>';
                         operations +='&nbsp;&nbsp;<a class="table-link operation" href="javascript:delContract('+data+');" >删除</a>  &nbsp;';
+                        operations +='&nbsp;&nbsp;<a class="table-link operation" href="javascript:getHtmlPath(\'${rc.contextPath}\','+data+');" >下载</a>  &nbsp;';
                          return operations;
                     }},
             ],

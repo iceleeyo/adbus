@@ -389,7 +389,22 @@ function eleContract(tourl,orderid,customerId,payContractId){
 			   	 +'<div class="ui-form-item widthdrawBtBox"> </div>'
 			});
 }
-
+//弹出上传物料窗口
+function getHtmlPath(tourl,payContractId){
+	$.ajax({
+		url : tourl+"/user/createHtml",
+		type : "POST",
+		data : {
+			"payContractId":payContractId,
+			"createHtmlTag":1
+		},
+		success : function(data) {
+			alert(data);
+		}
+	});
+}
+    		
+    		
 //弹出上传物料窗口
 function supEnter(tourl,city,type){
 	$.ajax({

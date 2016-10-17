@@ -1,7 +1,15 @@
 package com.pantuo.service;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.security.Principal;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -11,13 +19,12 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.h2.util.New;
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +36,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.w3c.dom.ls.LSInput;
 
 import com.mysema.query.types.ConstantImpl;
 import com.mysema.query.types.Ops;
@@ -44,6 +50,7 @@ import com.pantuo.dao.Vedio32OrderDetailRepository;
 import com.pantuo.dao.Vedio32OrderRepository;
 import com.pantuo.dao.Vedio32OrderStatusRepository;
 import com.pantuo.dao.pojo.Jpa32Order;
+import com.pantuo.dao.pojo.JpaCardBoxMedia;
 import com.pantuo.dao.pojo.JpaCpd;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.JpaOrders.PayType;
@@ -59,12 +66,12 @@ import com.pantuo.dao.pojo.QJpaVideo32OrderDetail;
 import com.pantuo.dao.pojo.QJpaVideo32OrderStatus;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.mybatis.domain.Contract;
+import com.pantuo.mybatis.domain.ContractId;
 import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.OrdersExample;
 import com.pantuo.mybatis.domain.PayPlan;
 import com.pantuo.mybatis.domain.PayPlanExample;
 import com.pantuo.mybatis.domain.Paycontract;
-import com.pantuo.mybatis.domain.PaycontractExample;
 import com.pantuo.mybatis.domain.PaycontractWithBLOBs;
 import com.pantuo.mybatis.domain.Product;
 import com.pantuo.mybatis.domain.RoleCpd;
@@ -83,6 +90,8 @@ import com.pantuo.service.security.Request;
 import com.pantuo.util.Constants;
 import com.pantuo.util.DateConverter;
 import com.pantuo.util.DateUtil;
+import com.pantuo.util.FreeMarker;
+import com.pantuo.util.JsonTools;
 import com.pantuo.util.OrderIdSeq;
 import com.pantuo.util.Pair;
 import com.pantuo.web.view.OrderPlanView;
@@ -96,7 +105,8 @@ public class OrderService {
 	PayContractRepository payContractRepository;
 	@Autowired
 	private RoleCpdMapper roleCpdMapper;
-
+    @Autowired
+    PayContractService payContractService;
 	@Autowired
 	private PayPlanMapper payPlanMapper;
 	@Autowired
@@ -977,4 +987,163 @@ public class OrderService {
 		return list;
 	}
 
+	public String createHtml(Map<String, Object> asMap, HttpServletRequest request) {
+		String path = request.getSession().getServletContext().getRealPath("WEB-INF/ftl/");
+		FreeMarker hf = new FreeMarker();
+		String jdPath=request.getSession().getServletContext().getRealPath("tempdir") + "/"
+				+ new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()) + ".html";
+		String xdPath="tempdir/"+new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()) + ".html";
+		File outFile = new File(jdPath);
+		Writer out = null;
+		try {
+			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile), "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		try {
+			hf.init(path);
+			hf.process(asMap, "contract_templete.ftl", out);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+           return xdPath;
+	}
+
+	public String contract_templete(Model model, Principal principal, HttpServletRequest request,
+			HttpServletResponse response) {
+		String orderidStr = request.getParameter("orderid");
+		String payContractIdStr = request.getParameter("payContractId");
+		String customerId = request.getParameter("customerId");
+		String meids = request.getParameter("meids");
+		String paytype = request.getParameter("paytype");
+		String createHtmlTag=request.getParameter("createHtmlTag");
+		int orderid = 0;
+		int payContractId = 0;
+		if (StringUtils.isNotBlank(orderidStr)) {
+			orderid = NumberUtils.toInt(orderidStr);
+		}
+		if (StringUtils.isNotBlank(payContractIdStr)) {
+			payContractId = NumberUtils.toInt(payContractIdStr);
+		}
+		response.setHeader("X-Frame-Options", "SAMEORIGIN");
+		if (orderid > 0) {
+			Orders orders = selectOrderById(orderid);
+			JpaOrders jpaOrders = getJpaOrder(orderid);
+			if (orders != null) {
+				if (Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)) {
+					if (!StringUtils.equals(Request.getUserId(principal), orders.getUserId())) {
+						throw new AccessDeniedException("非法操作！");
+					}
+				}
+				List<JpaOrders> ordersList = findordersList(orders.getContractCode());
+				String username = orders.getUserId();
+				UserDetail userDetail = userService.findByUsername(username);
+				if (StringUtils.isNotBlank(orders.getCustomerJson())) {
+					userDetail = (UserDetail) JsonTools.readValue(orders.getCustomerJson(), UserDetail.class);
+				}
+				model.addAttribute("ordersList", ordersList);
+				model.addAttribute("userDetail", userDetail);
+				model.addAttribute("payplan", getPayInfo(ordersList));
+				model.addAttribute("payplanView", getPayInfoView(orders, null));
+				model.addAttribute("contractCode", orders.getContractCode());
+				model.addAttribute("paycontract", jpaOrders.getJpaPayContract());
+			}
+
+		} else if (payContractId > 0) {
+			PaycontractWithBLOBs paycontract = paycontractMapper.selectByPrimaryKey(payContractId);
+			if (paycontract != null && StringUtils.isNotBlank(paycontract.getOrderJson())) {
+				List<String> idStrings = (List<String>) JsonTools.readValue(paycontract.getOrderJson(), List.class);
+				List<JpaOrders> jpaOrders = payContractService.queryOrders(idStrings);
+				if (jpaOrders.size() > 0) {
+					String username = jpaOrders.get(0).getUserId();
+					UserDetail userDetail = userService.findByUsername(username);
+					if (StringUtils.isNotBlank(jpaOrders.get(0).getCustomerJson())) {
+						userDetail = (UserDetail) JsonTools.readValue(jpaOrders.get(0).getCustomerJson(),
+								UserDetail.class);
+					}
+					model.addAttribute("ordersList", jpaOrders);
+					model.addAttribute("userDetail", userDetail);
+					model.addAttribute("payplan", getPayInfo(jpaOrders));
+					model.addAttribute("payplanView", getPayInfoView(null, paycontract));
+					model.addAttribute("contractCode", paycontract.getContractCode());
+					model.addAttribute("paycontract", paycontract);
+					
+				}
+			}
+
+		} else {
+			String username = Request.getUserId(principal);
+			if (StringUtils.isNotBlank(customerId)) {
+				username = customerId;
+			}
+			UserDetail userDetail = userService.findByUsername(username);
+			if (StringUtils.isNoneBlank(meids)) {
+				List<JpaCardBoxMedia> cardBoxMedis = productService.selectProByMedias(meids);
+				model.addAttribute("cardBoxMedis", cardBoxMedis);
+			}
+			model.addAttribute("userDetail", userDetail);
+		}
+		model.addAttribute("paytype", paytype);
+		if(StringUtils.isNotBlank(createHtmlTag) && StringUtils.equals(createHtmlTag, "1")){
+			 return createHtml(model.asMap(), request);
+		}
+		return "contract_templete";
+	}
+
+	public Pair<String, List<JpaPayPlan>> getPayInfoView(Orders order, Paycontract paycontract) {
+		Pair<String, List<JpaPayPlan>> pair = new Pair<String, List<JpaPayPlan>>();
+		if (order != null) {
+			if (order.getPayType() == JpaOrders.PayType.dividpay.ordinal()) {
+				pair.setLeft("分期付款");
+				Pageable p = new PageRequest(0, 200, new Sort("day"));
+				BooleanExpression query = QJpaPayPlan.jpaPayPlan.order.id.eq(order.getId());
+				Page<JpaPayPlan> plans = payPlanRepository.findAll(query, p);
+				if (!plans.getContent().isEmpty()) {
+					pair.setRight(plans.getContent());
+
+				}
+				log.info("orderid:{},playSize:{}", order.getId(), plans.getContent().size());
+			} else {
+				pair.setLeft("一次性付款");
+			}
+		} else if (paycontract != null) {
+			pair.setLeft("分期付款");
+			Pageable p = new PageRequest(0, 200, new Sort("day"));
+			BooleanExpression query = QJpaPayPlan.jpaPayPlan.contract.id.eq(paycontract.getId())
+					.and(QJpaPayPlan.jpaPayPlan.tableType.eq(JpaPayPlan.TableType.plan));
+			Page<JpaPayPlan> plans = payPlanRepository.findAll(query, p);
+			if (!plans.getContent().isEmpty()) {
+				pair.setRight(plans.getContent());
+
+			}
+		}
+		return pair;
+	}
+
+	public String getPayInfo(List<JpaOrders> orders) {
+		StringBuilder buildr = new StringBuilder();
+		if (orders != null && !orders.isEmpty()) {
+			JpaOrders order = orders.get(0);
+			if (order.getPayType().name().equals("dividpay")) {
+				buildr.append("分期付款<br>");
+				Pageable p = new PageRequest(0, 200, new Sort("day"));
+				BooleanExpression query = QJpaPayPlan.jpaPayPlan.order.id.eq(order.getId());
+				Page<JpaPayPlan> plans = payPlanRepository.findAll(query, p);
+				if (!plans.getContent().isEmpty()) {
+					int t = 0;
+					for (JpaPayPlan jpaPayPlan : plans) {
+						buildr.append("第" + (++t) + "期");
+						buildr.append(" 金额:" + jpaPayPlan.getPrice());
+						buildr.append(" 付款时间:" + DateUtil.longDf.get().format(jpaPayPlan.getDay()));
+						buildr.append("<br>");
+					}
+				}
+			} else {
+				buildr.append("一次性付款");
+			}
+		}
+		return buildr.toString();
+	}
 }
