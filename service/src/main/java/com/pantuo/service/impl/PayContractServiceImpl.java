@@ -252,7 +252,7 @@ public class PayContractServiceImpl implements PayContractService {
 				if(orders.size()>0){
 					relateContract2Order(orders,contract.getId());
 				}
-				return new Pair<Boolean, String>(true, "合同创建成功！");
+				return new Pair<Boolean, String>(true, "合同创建成功！").put("contractInfo", contract);
 			}
 		}
 		return new Pair<Boolean, String>(false, "操作失败！");
@@ -290,22 +290,22 @@ public class PayContractServiceImpl implements PayContractService {
 			pageSize = 1;
 		sort = (sort == null ? new Sort("id") : sort);
 		Pageable p = new PageRequest(page, pageSize, sort);
-		BooleanExpression query = QJpaPayContract.jpaPayContract.delFlag.isFalse();
+		BooleanExpression query = QJpaPayContract.jpaPayContract.id.gt(0);
 		if (StringUtils.isNotBlank(code)) {
 			query = query.and(QJpaPayContract.jpaPayContract.contractCode.like("%" + code + "%"));
 		}
 		if (StringUtils.isNotBlank(stateKey)) {
 			if(StringUtils.equals("ing", stateKey)){
-				query = query.and(QJpaPayContract.jpaPayContract.price.gt(QJpaPayContract.jpaPayContract.payPrice));
+				query = query.and(QJpaPayContract.jpaPayContract.delFlag.eq(false).and(QJpaPayContract.jpaPayContract.price.gt(QJpaPayContract.jpaPayContract.payPrice)));
 			}else if(StringUtils.equals("completed", stateKey)){
-				query = query.and(QJpaPayContract.jpaPayContract.payPrice.goe(QJpaPayContract.jpaPayContract.price));
+				query = query.and(QJpaPayContract.jpaPayContract.delFlag.eq(false).and(QJpaPayContract.jpaPayContract.payPrice.goe(QJpaPayContract.jpaPayContract.price)));
 			}else if(StringUtils.equals("closed", stateKey)){
 				query = query.and(QJpaPayContract.jpaPayContract.closeFlag.eq(true));
 			}else if(StringUtils.equals("del", stateKey)){
 				query = query.and(QJpaPayContract.jpaPayContract.delFlag.eq(true));
 			}
 		}else{
-			query = query.and(QJpaPayContract.jpaPayContract.closeFlag.eq(false));
+			query = query.and(QJpaPayContract.jpaPayContract.delFlag.eq(false).and( QJpaPayContract.jpaPayContract.closeFlag.eq(false)));
 			query = query.and(QJpaPayContract.jpaPayContract.price.gt(QJpaPayContract.jpaPayContract.payPrice));
 		}
 		if (StringUtils.isNotBlank(salesName)) {
