@@ -287,73 +287,14 @@ public class UserManagerController {
 
 	@RequestMapping(value = "/contract_templete", produces = "text/html;charset=utf-8")
 	public String contract_templete(Model model,Principal principal,
-			@RequestParam(value="orderid" ,required=false, defaultValue ="0") int orderid,
-			@RequestParam(value="payContractId" ,required=false, defaultValue ="0") int payContractId,
-			@RequestParam(value="productid" ,required=false, defaultValue ="0") int productid,
-			@RequestParam(value = "meids", required = false) String meids,
-			@RequestParam(value = "customerId", required = false) String customerId,
-			@RequestParam(value = "paytype", required = false) String paytype,
 			HttpServletRequest request,HttpServletResponse response) {
-		response.setHeader("X-Frame-Options", "SAMEORIGIN");
-		if (orderid > 0) {
-			Orders orders = orderService.selectOrderById(orderid);
-			JpaOrders jpaOrders = orderService.getJpaOrder(orderid);
-			if (orders != null) {
-				if (Request.hasOnlyAuth(principal, ActivitiConfiguration.ADVERTISER)) {
-					if (!StringUtils.equals(Request.getUserId(principal), orders.getUserId())) {
-						throw new AccessDeniedException("非法操作！");
-					}
-				}
-				List<JpaOrders> ordersList = orderService.findordersList(orders.getContractCode());
-				String username = orders.getUserId();
-				UserDetail userDetail = userService.findByUsername(username);
-				if (StringUtils.isNotBlank(orders.getCustomerJson())) {
-					userDetail = (UserDetail) JsonTools.readValue(orders.getCustomerJson(), UserDetail.class);
-				}
-				model.addAttribute("ordersList", ordersList);
-				model.addAttribute("userDetail", userDetail);
-				model.addAttribute("payplan", getPayInfo(ordersList));
-				model.addAttribute("payplanView", getPayInfoView(orders,null));
-				model.addAttribute("contractCode", orders.getContractCode());
-				model.addAttribute("paycontract",jpaOrders.getJpaPayContract());
-			}
-			
-		}else if(payContractId>0){
-			PaycontractWithBLOBs paycontract=paycontractMapper.selectByPrimaryKey(payContractId);
-			if(paycontract!=null && StringUtils.isNotBlank(paycontract.getOrderJson())){
-				List<String> idStrings = (List<String>) JsonTools.readValue(paycontract.getOrderJson(),List.class);
-				List<JpaOrders> jpaOrders = payContractService.queryOrders(idStrings);
-				if(jpaOrders.size()>0){
-					String username=jpaOrders.get(0).getUserId();
-					UserDetail userDetail = userService.findByUsername(username);
-					if(StringUtils.isNotBlank(jpaOrders.get(0).getCustomerJson())){
-						userDetail=(UserDetail) JsonTools.readValue(jpaOrders.get(0).getCustomerJson(), UserDetail.class);
-					}
-					model.addAttribute("ordersList", jpaOrders);
-					model.addAttribute("userDetail", userDetail);
-					model.addAttribute("payplan", getPayInfo(jpaOrders));
-					model.addAttribute("payplanView", getPayInfoView(null,paycontract));
-					model.addAttribute("contractCode",paycontract.getContractCode());
-					model.addAttribute("paycontract",paycontract);
-				}
-			}
-			
-			
-		}else{
-			String username = Request.getUserId(principal);
-			if (StringUtils.isNotBlank(customerId)) {
-				username = customerId;
-			}
-			UserDetail userDetail = userService.findByUsername(username);
-			if (StringUtils.isNoneBlank(meids)) {
-				List<JpaCardBoxMedia> cardBoxMedis = productService.selectProByMedias(meids);
-				model.addAttribute("cardBoxMedis", cardBoxMedis);
-			}
-			model.addAttribute("userDetail", userDetail);
-		}
-		model.addAttribute("paytype", paytype);
-		
-		return "contract_templete";
+		return orderService.contract_templete(model,principal,request,response);
+	}
+	@RequestMapping(value = "/createHtml", method = RequestMethod.POST)
+	@ResponseBody
+	public String createHtml(Model model,Principal principal,
+			HttpServletRequest request,HttpServletResponse response) {
+		return orderService.contract_templete(model,principal,request,response);
 	}
 
 	@Autowired

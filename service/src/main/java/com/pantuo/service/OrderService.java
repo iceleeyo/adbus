@@ -94,6 +94,7 @@ import com.pantuo.util.FreeMarker;
 import com.pantuo.util.JsonTools;
 import com.pantuo.util.OrderIdSeq;
 import com.pantuo.util.Pair;
+import com.pantuo.util.pdf.HtmlHeaderFooter;
 import com.pantuo.web.view.OrderPlanView;
 import com.pantuo.web.view.OrderView;
 import com.pantuo.web.view.SectionView;
@@ -1008,7 +1009,8 @@ public class OrderService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-           return xdPath;
+		 HtmlHeaderFooter.generalPdf(xdPath="tempdir/"+new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()) + ".pdf", jdPath);
+         return xdPath;
 	}
 
 	public String contract_templete(Model model, Principal principal, HttpServletRequest request,

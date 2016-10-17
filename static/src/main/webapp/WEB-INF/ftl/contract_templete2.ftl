@@ -1,167 +1,15 @@
 <html>
 <head>
-<META http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+<META http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="X-Frame-Options" content="SAMEORIGIN"/>
 <link rel="stylesheet" type="text/css"
-	href="http://busme.cn/css/layer.css">
+	href="/css/layer.css"/>
 <script type="text/javascript"
-	src="http://busme.cn/index_js/jquery-1.11.1.min.js"></script>
+	src="/index_js/jquery-1.11.1.min.js"></script>
 <script type="text/javascript"
-	src="http://busme.cn/js/jquery-dateFormat.js"></script>
+	src="/js/jquery-dateFormat.js"></script>
 
 
-<script language="JavaScript" type="text/JavaScript">
-function convertCurrency(currencyDigits) { 
-// Constants: 
-    var MAXIMUM_NUMBER = 99999999999.99; 
-    // Predefine the radix characters and currency symbols for output: 
-    var CN_ZERO = "零"; 
-    var CN_ONE = "壹"; 
-    var CN_TWO = "贰"; 
-    var CN_THREE = "叁"; 
-    var CN_FOUR = "肆"; 
-    var CN_FIVE = "伍"; 
-    var CN_SIX = "陆"; 
-    var CN_SEVEN = "柒"; 
-    var CN_EIGHT = "捌"; 
-    var CN_NINE = "玖"; 
-    var CN_TEN = "拾"; 
-    var CN_HUNDRED = "佰"; 
-    var CN_THOUSAND = "仟"; 
-    var CN_TEN_THOUSAND = "万"; 
-    var CN_HUNDRED_MILLION = "亿"; 
-    var CN_SYMBOL = "人民币："; 
-    var CN_DOLLAR = "元"; 
-    var CN_TEN_CENT = "角"; 
-    var CN_CENT = "分"; 
-    var CN_INTEGER = "整"; 
-     
-// Variables: 
-    var integral;    // Represent integral part of digit number. 
-    var decimal;    // Represent decimal part of digit number. 
-    var outputCharacters;    // The output result. 
-    var parts; 
-    var digits, radices, bigRadices, decimals; 
-    var zeroCount; 
-    var i, p, d; 
-    var quotient, modulus; 
-     
-// Validate input string: 
-    currencyDigits = currencyDigits.toString(); 
-    if (currencyDigits == "") { 
-        alert("请输入小写金额！"); 
-        return ""; 
-    } 
-    if (currencyDigits.match(/[^,.\d]/) != null) { 
-        alert("小写金额含有无效字符！"); 
-        return ""; 
-    } 
-    if ((currencyDigits).match(/^((\d{1,3}(,\d{3})*(.((\d{3},)*\d{1,3}))?)|(\d+(.\d+)?))$/) == null) { 
-        alert("小写金额的格式不正确！"); 
-        return ""; 
-    } 
-     
-// Normalize the format of input digits: 
-    currencyDigits = currencyDigits.replace(/,/g, "");    // Remove comma delimiters. 
-    currencyDigits = currencyDigits.replace(/^0+/, "");    // Trim zeros at the beginning. 
-    // Assert the number is not greater than the maximum number. 
-    if (Number(currencyDigits) > MAXIMUM_NUMBER) { 
-        alert("金额过大，应小于1000亿元！"); 
-        return ""; 
-    } 
-     
-// Process the coversion from currency digits to characters: 
-    // Separate integral and decimal parts before processing coversion: 
-    parts = currencyDigits.split("."); 
-    if (parts.length > 1) { 
-        integral = parts[0]; 
-        decimal = parts[1]; 
-        // Cut down redundant decimal digits that are after the second. 
-        decimal = decimal.substr(0, 2); 
-    } 
-    else { 
-        integral = parts[0]; 
-        decimal = ""; 
-    } 
-    // Prepare the characters corresponding to the digits: 
-    digits = new Array(CN_ZERO, CN_ONE, CN_TWO, CN_THREE, CN_FOUR, CN_FIVE, CN_SIX, CN_SEVEN, CN_EIGHT, CN_NINE); 
-    radices = new Array("", CN_TEN, CN_HUNDRED, CN_THOUSAND); 
-    bigRadices = new Array("", CN_TEN_THOUSAND, CN_HUNDRED_MILLION); 
-    decimals = new Array(CN_TEN_CENT, CN_CENT); 
-    // Start processing: 
-    outputCharacters = ""; 
-    // Process integral part if it is larger than 0: 
-    if (Number(integral) > 0) { 
-        zeroCount = 0; 
-        for (i = 0; i < integral.length; i++) { 
-            p = integral.length - i - 1; 
-            d = integral.substr(i, 1); 
-            quotient = p / 4; 
-            modulus = p % 4; 
-            if (d == "0") { 
-                zeroCount++; 
-            } 
-            else { 
-                if (zeroCount > 0) 
-                { 
-                    outputCharacters += digits[0]; 
-                } 
-                zeroCount = 0; 
-                outputCharacters += digits[Number(d)] + radices[modulus]; 
-            } 
-            if (modulus == 0 && zeroCount < 4) { 
-                outputCharacters += bigRadices[quotient]; 
-                zeroCount = 0; 
-            } 
-        } 
-        outputCharacters += CN_DOLLAR; 
-    } 
-    // Process decimal part if there is: 
-    if (decimal != "") { 
-        for (i = 0; i < decimal.length; i++) { 
-            d = decimal.substr(i, 1); 
-            if (d != "0") { 
-                outputCharacters += digits[Number(d)] + decimals[i]; 
-            } 
-        } 
-    } 
-    // Confirm and return the final output string: 
-    if (outputCharacters == "") { 
-        outputCharacters = CN_ZERO + CN_DOLLAR; 
-    } 
-    if (decimal == "") { 
-        outputCharacters += CN_INTEGER; 
-    } 
-    outputCharacters = CN_SYMBOL + outputCharacters; 
-    document.write(outputCharacters);
-} 
-</script>
-
-
-
-<script type="text/javascript">  
-$(document).ready(function(){
-	if($('#legalman').text()==""){
-		layer.msg("法定代表人为空，无法提交订单");
-		$("#subWithdraworder").attr("disabled", true);
-		$("#subWithdraworder").css("background-color", "#85A2AD");
-	}
-});
-function getEnd(date,days){
-	var d=new Date(date);
-	if(date=='' || d==""){
-		return "";
-	}else{
-	    d.setDate(d.getDate()+ (days)-1); 
-	    var m=d.getMonth()+1;
-	    d.getFullYear()+'-'+m+'-'+d.getDate();
-	   	d= $.format.date(d, "yyyy-MM-dd");
-	   	document.write(d);
-	}
-	
-
-}
-</script>
 <style type="text/css">
 
 .block-btn {
@@ -373,26 +221,24 @@ function getEnd(date,days){
 	page-break-after:always;
 
 }
-.table-c table{border-right:1px solid #000;border-bottom:1px solid #000;height:40px;}
-.table-c table td{border-left:1px solid #000;border-top:1px solid #000;padding-left:5px;width: 15%;}
-.table-c table th{border-left:1px solid #000;border-top:1px solid #000}
-.table-c table tr{border-left:1px solid #000;border-top:1px solid #000;height: 40px;}
-.p21_hr{border: none;border-top: 1px solid rgb(199, 192, 192); line-height: 0px; margin:0px;}
+.table-c table{border-right:1px solid #000;border-bottom:0.5px solid gray;height:40px;}
+.table-c table td{border-left:0.5px solid #000;border-right:0.5px solid #000;border-top:0.5px solid #000;padding-left:5px;width: 15%;}
+.table-c table th{border-left:1px solid #000;border-top:0px solid #000}
+.table-c table tr{border-left:0.5px solid #000;border-top:0px solid #000;height: 40px;}
+.p21_hr{border: none;border-top: 0.5px solid rgb(199, 192, 192); line-height: 0px; margin:0px;}
 .p21 .s2{color:rgb(199, 192, 192);}
 .logo{height: 40px;width: 80px;}
 </style>
-<meta content="Administrator" name="author">
+<meta content="Administrator" name="author"/>
 </head>
 <body class="b1 b2">
-<div id="divPrint">
+ <div id="divPrint">
 	
+
 	
 	<p class="p1">
 		<span class="s1">广告/节目发布合同</span>
 	</p>
-	<#if contractCode??>
-	
-	</#if>
 	<p class="p2">
 		<span class="s2">甲方：</span><span class="s3">${userDetail.company!''}</span>
 	</p>
@@ -405,16 +251,10 @@ function getEnd(date,days){
 	<p class="p2">
 		<span class="s2">邮编 ： </span><span class="s3">${userDetail.zipCode!''}</span>
 	</p>
-	<!--  <p class="p2">
-		<span class="s2">联系人：</span><span class="s3">${userDetail.relateman!''}</span>
-	</p>
+	
+	<br/>
 	<p class="p2">
-		<span class="s2">联系电话：</span><span class="s3">${userDetail.phone!''}</span>
-	</p> 
-	<p class="p2"></p> -->
-	<br>
-	<p class="p2">
-		<span class="s2">乙方：北京世巴传媒有限公司</span><br>
+		<span class="s2">乙方：北京世巴传媒有限公司</span><br/>
 	</p>
 	<p class="p2">
 		<span class="s2">住所：北京市海淀区紫竹院路32号 </span>
@@ -423,10 +263,10 @@ function getEnd(date,days){
 		<span class="s2">法定代表人：罗晓军 </span>
 	</p>
 	<p class="p2">
-		<span class="s2">邮编 ： </span><span class="s3">100048</span>
+		<span class="s2">邮编 ：100048</span>
 	</p>
 	
-	<br>
+	<br/>
 	
 	<p class="p3">
 		<span class="s2">鉴于乙方拥有北广传媒移动电视媒体平台公交频道的使用权、经营权，根据《中华人民共和国广告法》、《中华人民共和国合同法》及有关规定，甲乙双方本着友好合作、共同发展的意愿，就甲方委托乙方制作、发布广告/节目事宜，达成如下合同：</span>
@@ -447,51 +287,10 @@ function getEnd(date,days){
 		<span class="s7">1. </span><span>发布内容</span>
 	</p>
 	<p class="p2 table-c">
-	<#if cardBoxMedis??>
-	<#assign sum=0/>
-		<table width="100%" border="0.01" cellspacing="0" cellpadding="0">
-	<#list cardBoxMedis as item>
-		<tr style="height:40px;">
-			<td >套餐名称</td><td COLSPAN=3 >${item.product.name}</td>
-			<td >刊期(天)</td><td COLSPAN=3 id="days">${item.product.days}</td>
-		</tr>
-		<tr style="height:40px;">
-			<td >上刊时间</td><td COLSPAN=3 id="startDate">${item.startTime!''}</td>
-			<td >下刊时间</td><td COLSPAN=3 id="endDate"><script> getEnd('${item.startTime!''}',${item.product.days});</script></td>
-		</tr>
-		<tr style="height:40px;">
-			<td >媒体类型</td><td >${item.product.type.typeName}</td>
-			<td >广告时长（秒）</td><td >${item.product.duration}</td>
-			<td >播出频次（次/天）</td><td >${item.product.playNumber}</td>
-			<td >数量</td><td>&nbsp;&nbsp;${item.needCount}&nbsp;&nbsp;</td>			
-		</tr>
-		<tr style="height:40px;">
-			<td >总价（元）</td><td COLSPAN="7" align="center">¥${item.totalprice}</td>
-		</tr>
-		<#assign sum=sum+(item.totalprice) />
-	</#list>
-		<tr>
-			<td>合同结算情况</td><td COLSPAN=7>
-		<#if paytype?? && paytype=='online'>
-			  线上支付
-			  <#elseif paytype?? && paytype=='offline'>
-			  线下支付
-			  <#elseif paytype?? && paytype=='dividpay'>
-			  分期付款
-			  <#else>
-			   合同分期
-			  </#if>
-			
-			</td>
-		</tr>
-		<tr>
-			<td>签约价格（元）</td><td COLSPAN="7" align="center"><script>convertCurrency(${sum});</script>(¥${sum}元)</td>
-		</tr>
-		</table><br>
-	</#if>
+	
 	<#if ordersList??>
 	<#assign sum=0/>
-		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<table width="100%" border="0.01" cellspacing="0.01" cellpadding="0.01">
 	<#list ordersList as item>
 		<tr style="height:40px;">
 			<td >套餐名称</td><td COLSPAN=3 >${item.product.name}</td>
@@ -508,11 +307,11 @@ function getEnd(date,days){
 			<td >数量</td><td>&nbsp;&nbsp;1&nbsp;&nbsp;</td>			
 		</tr>
 		<tr style="height:40px;">
-			<td >订单价格（元）</td><td COLSPAN=7>
+			<td >订单价格（元）</td><td COLSPAN="7">
 				¥${item.price}元</td>
 		</tr>
 		<#assign sum=sum+(item.price) />
-		<tr ><td COLSPAN=8></td></tr>
+		<tr ><td COLSPAN="8"></td></tr>
 	</#list>
 		
 		<#if payplanView.right??>
@@ -521,14 +320,14 @@ function getEnd(date,days){
 			<tr>
 				<td>合同结算情况</td><td COLSPAN=7>
 				<span style="display:block;padding-top:5px;">
-				甲方支付乙方广告费用金额共计<script>convertCurrency(${sum});</script> (¥${sum}元),分
-				 ${ payplanView.right?size} 次支付：</span><br>
+				甲方支付乙方广告费用金额共计4分
+				 ${ payplanView.right?size} 次支付：</span><br/>
 				<#list payplanView.right as right>
 				<span style="display:block;padding-top:5px;">
 					第${right_index+1}次：
 					${right.day?string("yyyy年MM月dd日 ")}
-					前支付广告费用金额为<script>convertCurrency(${right.price});</script>(¥${right.price}元)
-				</span> <br>
+					前支付广告费用金额为(¥${right.price}元)
+				</span> <br/>
 				</#list> 
 	
 				</td>
@@ -538,12 +337,12 @@ function getEnd(date,days){
 			  <tr>
 				<td>合同结算情况</td><td COLSPAN=7>
 				<span style="display:block;padding-top:5px;">
-				甲方支付乙方广告费用金额共计<script>convertCurrency(${sum});</script> (¥${sum}元) </span><br>
+				甲方支付乙方广告费用金额共计 (¥${sum}元) </span><br/>
 				<#list payplanView.right as right>
 				<span style="display:block;padding-top:5px;">
 				 甲方承诺
 					${right.day?string("yyyy年MM月dd日 ")}前一次性付清
-				</span> <br>
+				</span> <br/>
 				</#list> 
 	
 				</td>
@@ -551,30 +350,29 @@ function getEnd(date,days){
 			
 			</#if>
 		</#if>
-		<tr ><td>备注</td> <td COLSPAN=7>${(paycontract.remark)!''}</td></tr>
+		<tr ><td>备注</td> <td COLSPAN="7">${(paycontract.remark)!''}</td></tr>
 		<tr>
-			<td>签约总价格（元）</td><td COLSPAN="7" align="center"><script>convertCurrency(${sum});</script>(¥${sum}元)</td>
+			<td>签约总价格（元）</td><td COLSPAN="7" align="center">(¥${sum}元)</td>
 		</tr>
-		</table><br>
+		</table><br/>
 	</#if>
 	</p>
-	
 	<p class="p7">
 		<span class="s7">2.</span><span>甲方在订单有效期内付费后，乙方才开始为甲方提供服务。订单的有效期为：自甲方在乙方官网确认订单起至5个工作日届满。如甲方未在订单有效期内付费，订单以及就订单所订购服务所达成的一切条款失效。</span>
 	</p>
 	<p class="p7">
 		<span class="s7">3.</span><span>通过银行转账（或在线支付）的方式将广告费用支付至乙方指定账户，汇款信息如下：
-<br><br><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;账户名称：北京世巴传媒有限公司
-<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;账号:0200207909200097152
-<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;开户银行名称：中国工商银行股份有限公司北京知春路支行</B>
-<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;甲方如需开具发票，应按乙方要求提供完备的信息和资质证件，在乙方进行资质审核通过且确认款项到账后7个工作日内，开具相应有效发票。  
+<br/><br/><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;账户名称：北京世巴传媒有限公司
+<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;账号:0200207909200097152
+<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;开户银行名称：中国工商银行股份有限公司北京知春路支行</B>
+<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;甲方如需开具发票，应按乙方要求提供完备的信息和资质证件，在乙方进行资质审核通过且确认款项到账后7个工作日内，开具相应有效发票。  
 		</span>
 	</p>
 	<p class="p5">
 		<span class="s5">三、提交物料素材要求</span>
 	</p>
 	<p class="p7">
-		<span class="s7">1.</span><span>视频广告物料素材：DVC pro带或提供电子版MPEG-2格式文件，要求：720*576像素；PAL制；帧速率：25帧每秒；声音：-8至-12db。报审的视频广告需在广告画面右上角打上“广告”字样。（字样要求：使用苹果系统制作，白色，楷体，90号字；使用大洋系统制作，白色，楷体，字宽37、字高28）</span>
+		<span class="s7">1.</span><span>视频广告物料素材：DVC pro带或提供电子版MPEG-2格式文件，要求：720*576像素；PAL制；帧速率：25帧每秒；声音：-8至-12db。报审的视频广告需在广告画面右上角打上“广告”字样。（字样要求：使用苹果系统制作，白色，楷体，90号字；使用大洋系统制作，白色，楷体，字宽37、字高28）</span>
 	</p>
 	<p class="p7">
 		<span class="s7">2.</span><span>INFO广告物料素材：字幕每条50个汉字（含全角字符及标点符号）以内；图片每单位20秒，图片要求：129*166像素。图片为PNG格式。</span>
@@ -759,13 +557,13 @@ function getEnd(date,days){
 		<span class="s7">1.</span><span>节目制作规范。</span>
 	</p>
 	<p class="p7 fy">
-	<span class="s7"><br><br>&nbsp;&nbsp;&nbsp;&nbsp;（以下无正文）<br><br>
+	<span class="s7"><br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;（以下无正文）<br/><br/>
 	&nbsp;&nbsp;&nbsp;甲方单位名称（盖章）：              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;乙方单位名称（盖章）：
-	<br><br><br><br>
+	<br/><br/><br/><br/>
 	&nbsp;&nbsp;&nbsp;授权代表（签字）：                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;授权代表（签字）：
-	<br><br><br><br>
+	<br/><br/><br/><br/>
 	&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;月&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;月&nbsp;&nbsp;日
-	<br><br><br><br></span></p>
+	<br/><br/><br/><br/></span></p>
 	
 	<p class="p5">
 		<span class="s5">附件：</span>
@@ -791,12 +589,12 @@ function getEnd(date,days){
 	<p class="p3">
 <span>
 <B>&nbsp;&nbsp;&nbsp;00：00：00：00—00:01:00:00;&nbsp;&nbsp;彩条＋千周标准音
-<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;00：01：00：00—00:01:29:22&nbsp;&nbsp;黑场
-<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（00：01：20：00—00:01:25:00&nbsp;&nbsp;黑场＋节目标引字幕）
-<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;00：01：29：23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;节目片头静帧  
-<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;00：01：30：00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;节目片头
-<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如：《》总字第*期
-<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;首播日期：****年*月*日
+<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;00：01：00：00—00:01:29:22&nbsp;&nbsp;黑场
+<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（00：01：20：00—00:01:25:00&nbsp;&nbsp;黑场＋节目标引字幕）
+<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;00：01：29：23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;节目片头静帧  
+<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;00：01：30：00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;节目片头
+<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如：《》总字第*期
+<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;首播日期：****年*月*日
 		</B></span>
 	</p>
 	<p class="p7">
@@ -825,7 +623,7 @@ function getEnd(date,days){
 <span>
 <B>
 &nbsp;&nbsp;Sony(BETA):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-10)db上下±20%
-<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Panasonic(DVC):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-8)db上下±20%
+<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Panasonic(DVC):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-8)db上下±20%
 		</B></span>
 	</p>
 	<p class="p7">
@@ -958,8 +756,8 @@ function getEnd(date,days){
 <span>
 <B>
 &nbsp;&nbsp;&nbsp;北广传媒移动电视
-<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*****公司
-<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;联合制作
+<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*****公司
+<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;联合制作
 		</B></span>
 	</p>
 	<p class="p5">
@@ -983,19 +781,9 @@ function getEnd(date,days){
 	<p class="p5">
 		<span class="s5">十、本《规范》自公布之日起实行,《主持人出镜形象及服装使用管理规定》（移动公司发[2008]14号）予以废止。</span>
 	</p>
-	<br><br>
+	<br/><br/>
 </div>
-
+ 
 </body>
-
-<br><br><br><br><br><br>
-
-</body>
-<!--增加lay最新版本-->
-	<script type="text/javascript" language="javascript"
-		src="http://busme.cn/js/layer-v1.9.3/layer/layer.js"></script>
-	<script type="text/javascript" language="javascript"
-		src="http://busme.cn/js/layer.onload.js"></script>
-	<script type="text/javascript" language="javascript"
-		src="http://busme.cn/js/layer-v1.9.3/layer-site.js"></script>	
+ 
 </html>
