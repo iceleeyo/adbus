@@ -2,6 +2,8 @@ package com.pantuo;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -302,7 +304,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			}
 
 			Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+			Set<String> authority = new HashSet<String>();
+			
+			for (GrantedAuthority grantedAuthority : authorities){
+				authority.add(grantedAuthority.getAuthority());
+			}
+				
 			for (GrantedAuthority grantedAuthority : authorities) {
+				
+				
+				
 				//如果是车身销售员 到我的订单 没有待办事项
 				if (StringUtils.startsWith(grantedAuthority.getAuthority(), "bodysales")) {
 					isBodysales = true;
@@ -320,6 +331,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			request.getSession().setAttribute("_utype", udetail.getUtype().name());
 			request.getSession().setAttribute("UType", udetail.getUtype().name());
 
+			if(authority.contains("ShibaFinancialManager") && authority.size()==1){
+				//makeCookieRight(request, response, false);
+				return "/order/planContract";
+			}
 			if (isBodysales) {
 				makeCookieRight(request, response, false);
 				return "/user/qualification";

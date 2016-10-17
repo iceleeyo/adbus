@@ -352,6 +352,7 @@ public class UserManagerController {
 			model.addAttribute("userDetail", userDetail);
 		}
 		model.addAttribute("paytype", paytype);
+		
 		return "contract_templete";
 	}
 

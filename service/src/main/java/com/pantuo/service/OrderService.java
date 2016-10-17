@@ -1004,7 +1004,7 @@ public class OrderService {
 		}
 		try {
 			hf.init(path);
-			hf.process(asMap, "contract_templete.ftl", out);
+			hf.process(asMap, "contract_templete2.ftl", out);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

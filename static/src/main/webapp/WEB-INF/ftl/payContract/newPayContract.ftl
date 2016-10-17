@@ -118,13 +118,22 @@ $.ajax({
 		$('#contractForm').ajaxForm(function(data) {
 				if(data.right){
 					layer.msg("保存成功");
+						layer.confirm('保存成功！', {
+						  btn: ['去支付页面','回到合同列表'] 
+						}, function(){
+							 window.location.href="${rc.contextPath}/payContract/toRestPayContract/"+data.hold.contractInfo.id;		
+						}, function(){
+						  window.location.href="${rc.contextPath}/payContract/list";
+						  
+						});
 				}else {
 					layer.msg("操作失败");
 				}
+				<#--
 				window.setTimeout(function(){
 				window.location.href="${rc.contextPath}/payContract/list",
 				   	clearTimeout(uptime);
-							},2000) 
+							},2000) -->
 		}).submit();
 	}
 </script>
@@ -224,10 +233,14 @@ $.ajax({
 			</div>
 		<div class="worm-tips">
 			<div class="tips-title">
-				<span class="icon"></span> 温馨提示
+				<span class="icon"></span> 温馨提示,合同相关事项
 			</div>
 			<ol>
-				<li>...</li>
+				<li>1:分期信息录入</li>
+				<li>2:分期信息录入后可在  待办事项中 ->'待支付合同' 进行支付</li>
+				<li>3:财务可在  待办事项中 ->'待收款确认合同' 菜单中对用户支付进行确认</li>
+				<li>4:销售可在订单进行中对订单进行关闭操作 ,适用于订单未完成所有分期提前关闭的场景</li>
+				<li>   4.1:如果相应的合同有订单支付了 账务未处理 请先联系财务进行收款确认 再关闭</li>
 			</ol>
 		</div>
 	
