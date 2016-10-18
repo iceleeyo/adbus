@@ -40,7 +40,9 @@ js=["../js/jquery-dateFormat.js","../js/layer-v1.9.3/layer-site.js"]>
             "columns": [
                 { "data": "contractCode","defaultContent": "", "render": function(data, type, row, meta) {
                 
-                    return "<a class='operation' onclick='eleContract(\"${rc.contextPath}\",0,0,"+row.id+")' >"+data+"</a>";
+                    var operations =  "<a class='operation' onclick='eleContract(\"${rc.contextPath}\",0,0,"+row.id+")' >"+data+"</a>&nbsp;&nbsp;";
+                      operations +='&nbsp;&nbsp;<a class="table-link operation" href="javascript:getHtmlPath(\'${rc.contextPath}\',\''+row.id+'\');" >下载</a>  &nbsp;';
+                      return operations;
                 
                 }},
                  { "data": "salesName","defaultContent": ""},
@@ -72,7 +74,7 @@ js=["../js/jquery-dateFormat.js","../js/layer-v1.9.3/layer-site.js"]>
                     var operations='';
                         operations +='&nbsp;&nbsp;<a class="table-link operation" href="${rc.contextPath}/payContract/toEditPayContract/' + data +'" >编辑</a>';
                         operations +='&nbsp;&nbsp;<a class="table-link operation" href="javascript:delContract('+data+');" >删除</a>  &nbsp;';
-                        operations +='&nbsp;&nbsp;<a class="table-link operation" href="javascript:getHtmlPath(\'${rc.contextPath}\','+data+');" >下载</a>  &nbsp;';
+                      
                          return operations;
                     }},
             ],

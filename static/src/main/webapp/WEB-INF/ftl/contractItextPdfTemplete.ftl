@@ -293,8 +293,8 @@
 		<table width="100%" border="0.01" cellspacing="0.01" cellpadding="0.01">
 	<#list ordersList as item>
 		<tr style="height:40px;">
-			<td >套餐名称</td><td COLSPAN=3 >${item.product.name}</td>
-			<td >刊期(天)</td><td COLSPAN=3 >${item.product.days}</td>
+			<td style="width:77px">套餐名称</td><td COLSPAN=3 >${item.product.name}</td>
+			<td style="width:85px">刊期(天)</td><td COLSPAN=3 >${item.product.days}</td>
 		</tr>
 		<tr style="height:40px;">
 			<td >上刊时间</td><td COLSPAN=3 id="startDate"> <#if item.startTime??> ${item.startTime?string("yyyy-MM-dd")}</#if></td>
@@ -320,13 +320,13 @@
 			<tr>
 				<td>合同结算情况</td><td COLSPAN="7">
 				<span style="display:block;padding-top:5px;">
-				甲方支付乙方广告费用金额共计4分
+				甲方支付乙方广告费用金额共计人民币：${changeMoney(sum)} (¥${sum?c}元),分
 				 ${ payplanView.right?size} 次支付：</span><br/>
 				<#list payplanView.right as right>
 				<span style="display:block;padding-top:5px;">
 					第${right_index+1}次：
-					${right.day?string("yyyy年MM月dd日 ")}
-					前支付广告费用金额为${changeMoney(item.price)}  (¥${right.price?c}元)
+					${right.day?string("yyyy年MM月dd日")}
+					前支付广告费用金额为${changeMoney(right.price)} (¥${right.price?c}元)
 				</span> <br/>
 				</#list> 
 	
@@ -335,9 +335,9 @@
 			  <#else>
 			  
 			  <tr>
-				<td>合同结算情况</td><td COLSPAN=7>
+				<td>合同结算情况</td><td COLSPAN="7">
 				<span style="display:block;padding-top:5px;">
-				甲方支付乙方广告费用金额共计 ${changeMoney(sum)} (¥${sum?c}元) </span><br/>
+				甲方支付乙方广告费用金额共计人民币：${changeMoney(sum)} (¥${sum?c}元) </span><br/>
 				<#list payplanView.right as right>
 				<span style="display:block;padding-top:5px;">
 				 甲方承诺
@@ -352,7 +352,7 @@
 		</#if>
 		<tr ><td>备注</td> <td COLSPAN="7">${(paycontract.remark)!''}</td></tr>
 		<tr>
-			<td>签约总价格（元）</td><td COLSPAN="7" align="center"> ${changeMoney(sum)} (¥${sum?c}元)</td>
+			<td >签约总价格（元）</td><td COLSPAN="7" align="center" style="text-align:center;"> 人民币：${changeMoney(sum)} (¥${sum?c}元)</td>
 		</tr>
 		</table><br/>
 	</#if>

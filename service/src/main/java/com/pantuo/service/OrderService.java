@@ -993,16 +993,14 @@ public class OrderService {
 
 		String pdfOutDir = "pdfOutDir";
 		FreeMarker hf = new FreeMarker();
-		
+
 		Date date = new Date();
 		String dateDir = new SimpleDateFormat("yyyyMMdd").format(date);
-		String fname = dateDir
-				+ "/"
-				+ (StringUtils.isBlank((String) asMap.get("_contractCode")) ? new SimpleDateFormat("yyyyMMddhhmmss").format(date) : ((String) asMap.get("_contractCode"))
-						.replaceAll("\\s*", ""));
+		String _contractCode = (String) asMap.get("_contractCode");
+		String fname = dateDir + "/" + (StringUtils.isBlank(_contractCode) ? new SimpleDateFormat("yyyyMMddhhmmss").format(date) : (_contractCode).replaceAll("\\s*", ""));
 		String jdPath = request.getSession().getServletContext().getRealPath(pdfOutDir) + "/" + fname + ".html";
 
-		log.info(" pdfPath:{}", jdPath);
+		log.info(" generalHtml:{}", jdPath);
 		String xdPath = pdfOutDir + "/" + fname + ".html";
 		File outFile = new File(jdPath);
 		outFile.getParentFile().mkdirs();
@@ -1010,12 +1008,14 @@ public class OrderService {
 		try {
 			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile), "UTF-8"));
 			String path = request.getSession().getServletContext().getRealPath("WEB-INF/ftl/");
-			hf.init(path).setSharedVariable("changeMoney", new ChangeMoney())
-			.process(asMap, "contractItextPdfTemplete.ftl", out);
+			hf.init(path).setSharedVariable("changeMoney", new ChangeMoney()).process(asMap, "contractItextPdfTemplete.ftl", out);
 		} catch (Exception e) {
-			log.info("createHtml-ex", e);
+			log.error("createHtml-ex", e);
 		}
-		ItextPdfTools.generalPdf(xdPath = pdfOutDir + fname + ".pdf", jdPath);
+		xdPath = pdfOutDir + "/" + fname + ".pdf";
+		String pdfFile;
+		log.info("pdfFile:{}", pdfFile = request.getSession().getServletContext().getRealPath("/") + pdfOutDir + "/" + fname + ".pdf");
+		ItextPdfTools.generalPdf(_contractCode,pdfFile, jdPath);
 		outFile.delete();
 		return xdPath;
 	}

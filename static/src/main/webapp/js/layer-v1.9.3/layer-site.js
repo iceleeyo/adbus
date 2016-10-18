@@ -399,7 +399,7 @@ function getHtmlPath(tourl,payContractId){
 			"createHtmlTag":1
 		},
 		success : function(data) {
-			location.href="../"+data;
+			window.open("../"+data);
 		}
 	});
 }

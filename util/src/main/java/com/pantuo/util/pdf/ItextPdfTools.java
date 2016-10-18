@@ -27,7 +27,7 @@ import com.itextpdf.tool.xml.ElementList;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
 
 public class ItextPdfTools {
-	
+
 	private static Logger log = LoggerFactory.getLogger(ItextPdfTools.class);
 	public static final String DEST = "results/events/html_header_footer.pdf";
 
@@ -69,12 +69,14 @@ public class ItextPdfTools {
 		protected ElementList header;
 		protected ElementList footer;
 		protected ElementList empty;
+		private String _contractCode = null;
 
-		public HeaderFooter() throws IOException {
+		public HeaderFooter(String _contractCode) throws IOException {
 			header = XMLWorkerHelper.parseToElementList(HEADER, null);
 			footer = XMLWorkerHelper.parseToElementList(FOOTER, null);
 
 			empty = XMLWorkerHelper.parseToElementList(EMPTY, null);
+			this._contractCode = _contractCode;
 		}
 
 		public void onEndPage(PdfWriter writer, Document document) {
@@ -108,7 +110,7 @@ public class ItextPdfTools {
 				// 中  
 				//   cb.showTextAligned(PdfContentByte.ALIGN_CENTER, "第" + writer.getPageNumber() + "页", (document.right() + document.left()) / 2, x, 0);  
 				// 右    
-				cb.showTextAligned(PdfContentByte.ALIGN_RIGHT, "合同编号：WBM（XS）-16-10-14-11", document.right() - 30, x, 0);
+				cb.showTextAligned(PdfContentByte.ALIGN_RIGHT, "合同编号：" + _contractCode, document.right() - 30, x, 0);
 
 				//Footer runs Smootly..
 				float y = document.bottom(-20);
@@ -136,11 +138,11 @@ public class ItextPdfTools {
 
 	}
 
-	public static void generalPdf(String destFile, String htmlPath) {
+	public static void generalPdf(String _contractCode, String destFile, String htmlPath) {
 		File file = new File(destFile);
 		file.getParentFile().mkdirs();
 		try {
-			new ItextPdfTools().createPdf(destFile, htmlPath);
+			new ItextPdfTools().createPdf(_contractCode,destFile, htmlPath);
 		} catch (IOException e) {
 			log.error("onendPage", e);
 		} catch (DocumentException e) {
@@ -152,10 +154,10 @@ public class ItextPdfTools {
 	public static void main(String[] args) throws IOException, DocumentException {
 		File file = new File(DEST);
 		file.getParentFile().mkdirs();
-		new ItextPdfTools().createPdf(DEST, "contract_templete.html");
+		new ItextPdfTools().createPdf("--test--", DEST, "contract_templete.html");
 	}
 
-	public void createPdf(String filename, String htmlPath) throws IOException, DocumentException {
+	public void createPdf(String _contractCode, String filename, String htmlPath) throws IOException, DocumentException {
 		// step 1
 		Document document = new Document(PageSize.A4, 66, 66, 86, 72);
 
@@ -166,7 +168,7 @@ public class ItextPdfTools {
 
 		rect.setBorderColor(BaseColor.GRAY);
 		writer.setBoxSize("art", rect);
-		writer.setPageEvent(new HeaderFooter());
+		writer.setPageEvent(new HeaderFooter(_contractCode));
 		// step 3
 		document.open();
 
