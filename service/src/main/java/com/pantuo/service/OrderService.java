@@ -989,28 +989,33 @@ public class OrderService {
 	}
 
 	public String createHtml(Map<String, Object> asMap, HttpServletRequest request) {
-		String path = request.getSession().getServletContext().getRealPath("WEB-INF/ftl/");
+
+		String pdfOutDir = "pdfOutDir";
 		FreeMarker hf = new FreeMarker();
-		String jdPath=request.getSession().getServletContext().getRealPath("tempdir") + "/"
-				+ new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()) + ".html";
-		String xdPath="tempdir/"+new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()) + ".html";
+		Date date = new Date();
+		String dateDir = new SimpleDateFormat("yyyyMMdd").format(date);
+		String fname = dateDir
+				+ "/"
+				+ (StringUtils.isBlank((String) asMap.get("_contractCode")) ? new SimpleDateFormat("yyyyMMddhhmmss").format(date) : ((String) asMap.get("_contractCode"))
+						.replaceAll("\\s*", ""));
+		String jdPath = request.getSession().getServletContext().getRealPath(pdfOutDir) + "/" + fname + ".html";
+
+		log.info(" pdfPath:{}", jdPath);
+		String xdPath = pdfOutDir + "/" + fname + ".html";
 		File outFile = new File(jdPath);
+		outFile.getParentFile().mkdirs();
 		Writer out = null;
 		try {
 			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile), "UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		try {
+			String path = request.getSession().getServletContext().getRealPath("WEB-INF/ftl/");
 			hf.init(path);
 			hf.process(asMap, "contractItextPdfTemplete.ftl", out);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.info("createHtml-ex", e);
 		}
-		 ItextPdfTools.generalPdf(xdPath="tempdir/"+new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()) + ".pdf", jdPath);
-         return xdPath;
+		ItextPdfTools.generalPdf(xdPath = pdfOutDir + fname + ".pdf", jdPath);
+		outFile.delete();
+		return xdPath;
 	}
 
 	public String contract_templete(Model model, Principal principal, HttpServletRequest request,
@@ -1030,6 +1035,7 @@ public class OrderService {
 			payContractId = NumberUtils.toInt(payContractIdStr);
 		}
 		response.setHeader("X-Frame-Options", "SAMEORIGIN");
+		String _contractCode =null;
 		if (orderid > 0) {
 			Orders orders = selectOrderById(orderid);
 			JpaOrders jpaOrders = getJpaOrder(orderid);
@@ -1056,14 +1062,14 @@ public class OrderService {
 		} else if (payContractId > 0) {
 			PaycontractWithBLOBs paycontract = paycontractMapper.selectByPrimaryKey(payContractId);
 			if (paycontract != null && StringUtils.isNotBlank(paycontract.getOrderJson())) {
+				_contractCode = paycontract.getContractCode();
 				List<String> idStrings = (List<String>) JsonTools.readValue(paycontract.getOrderJson(), List.class);
 				List<JpaOrders> jpaOrders = payContractService.queryOrders(idStrings);
 				if (jpaOrders.size() > 0) {
 					String username = jpaOrders.get(0).getUserId();
 					UserDetail userDetail = userService.findByUsername(username);
 					if (StringUtils.isNotBlank(jpaOrders.get(0).getCustomerJson())) {
-						userDetail = (UserDetail) JsonTools.readValue(jpaOrders.get(0).getCustomerJson(),
-								UserDetail.class);
+						userDetail = (UserDetail) JsonTools.readValue(jpaOrders.get(0).getCustomerJson(), UserDetail.class);
 					}
 					model.addAttribute("ordersList", jpaOrders);
 					model.addAttribute("userDetail", userDetail);
@@ -1071,8 +1077,9 @@ public class OrderService {
 					model.addAttribute("payplanView", getPayInfoView(null, paycontract));
 					model.addAttribute("contractCode", paycontract.getContractCode());
 					model.addAttribute("paycontract", paycontract);
-					
+
 				}
+				model.addAttribute("_contractCode", _contractCode);
 			}
 
 		} else {
