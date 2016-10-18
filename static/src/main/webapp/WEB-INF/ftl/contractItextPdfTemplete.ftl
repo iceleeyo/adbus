@@ -326,7 +326,7 @@
 				<span style="display:block;padding-top:5px;">
 					第${right_index+1}次：
 					${right.day?string("yyyy年MM月dd日")}
-					前支付广告费用金额为${changeMoney(right.price)} (¥${right.price?c}元)
+					前支付广告费用金额为人民币：${changeMoney(right.price)} (¥${right.price?c}元)
 				</span> <br/>
 				</#list> 
 	

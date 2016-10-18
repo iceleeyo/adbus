@@ -991,8 +991,9 @@ function getEnd(date,days){
 	</p>
 	<br><br>
 </div>
-
+<#--
 <a class="block-btn" style="margin-top: -5px;margin-left: 42%;" href="javascript:printme()" target="_self">打印合同</a>
+-->
 </body>
 <script>   
 var global_Html = "";   
