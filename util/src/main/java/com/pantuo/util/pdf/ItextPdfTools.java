@@ -26,9 +26,9 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.ElementList;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
 
-public class HtmlHeaderFooter {
+public class ItextPdfTools {
 	
-	private static Logger log = LoggerFactory.getLogger(HtmlHeaderFooter.class);
+	private static Logger log = LoggerFactory.getLogger(ItextPdfTools.class);
 	public static final String DEST = "results/events/html_header_footer.pdf";
 
 	public static final String EMPTY = "<table width=\"100%\" border=\"0\"><tr><td></td></tr></table>";
@@ -38,7 +38,7 @@ public class HtmlHeaderFooter {
 	private final Font FooterFont = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD);
 	private final Integer Year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
 
-	public HtmlHeaderFooter() {
+	public ItextPdfTools() {
 		StringBuilder Builder = new StringBuilder("Corporacion Droling");
 		FooterFont.setColor(BaseColor.BLUE);
 		Builder.append(Year).append('.').append(" ").append("#Pagina: %d");
@@ -49,7 +49,7 @@ public class HtmlHeaderFooter {
 	private Chunk getChunk() {
 		Chunk Chunk = null;
 		try {
-			final java.net.URL URL = HtmlHeaderFooter.class.getResource("c.jpg");
+			final java.net.URL URL = ItextPdfTools.class.getResource("header.jpg");
 			Image Imagex = Image.getInstance(URL);
 			Imagex.setAlignment(Image.MIDDLE);
 			Imagex.setAlt("Corporacion Droling");
@@ -140,7 +140,7 @@ public class HtmlHeaderFooter {
 		File file = new File(destFile);
 		file.getParentFile().mkdirs();
 		try {
-			new HtmlHeaderFooter().createPdf(destFile, htmlPath);
+			new ItextPdfTools().createPdf(destFile, htmlPath);
 		} catch (IOException e) {
 			log.error("onendPage", e);
 		} catch (DocumentException e) {
@@ -152,7 +152,7 @@ public class HtmlHeaderFooter {
 	public static void main(String[] args) throws IOException, DocumentException {
 		File file = new File(DEST);
 		file.getParentFile().mkdirs();
-		new HtmlHeaderFooter().createPdf(DEST, "contract_templete.html");
+		new ItextPdfTools().createPdf(DEST, "contract_templete.html");
 	}
 
 	public void createPdf(String filename, String htmlPath) throws IOException, DocumentException {
