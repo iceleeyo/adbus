@@ -907,7 +907,7 @@ public class CardServiceImpl implements CardService {
 		query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.seriaNum.eq(helper.getSeriaNum()));
 		query = query.and(QJpaCardBoxMedia.jpaCardBoxMedia.id.in(medisIds));
 		List<JpaCardBoxMedia> mList = (List<JpaCardBoxMedia>) cardBoxRepository.findAll(query);
-		String code = contractService.getContractId();
+		
 		UserDetail copy = new UserDetail();
 		UserDetail source = Request.getUser(principal);
 		BeanUtils.copyProperties(source, copy);
@@ -941,6 +941,7 @@ public class CardServiceImpl implements CardService {
 			order.setCreator(jpaCardBoxMedia.getUserId());
 			order.setProduct(jpaCardBoxMedia.getProduct());
 			if(JpaOrders.PayType.valueOf(paytype)!=JpaOrders.PayType.payContract){
+				String code = contractService.getContractId();
 				order.setContractCode(code);
 			}
 			order.setSuppliesId(1);
