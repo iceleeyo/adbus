@@ -87,6 +87,7 @@ import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.ActivitiService.TaskQueryType;
 import com.pantuo.service.impl.UserService;
 import com.pantuo.service.security.Request;
+import com.pantuo.util.ChangeMoney;
 import com.pantuo.util.Constants;
 import com.pantuo.util.DateConverter;
 import com.pantuo.util.DateUtil;
@@ -992,6 +993,7 @@ public class OrderService {
 
 		String pdfOutDir = "pdfOutDir";
 		FreeMarker hf = new FreeMarker();
+		
 		Date date = new Date();
 		String dateDir = new SimpleDateFormat("yyyyMMdd").format(date);
 		String fname = dateDir
@@ -1008,8 +1010,8 @@ public class OrderService {
 		try {
 			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile), "UTF-8"));
 			String path = request.getSession().getServletContext().getRealPath("WEB-INF/ftl/");
-			hf.init(path);
-			hf.process(asMap, "contractItextPdfTemplete.ftl", out);
+			hf.init(path).setSharedVariable("changeMoney", new ChangeMoney())
+			.process(asMap, "contractItextPdfTemplete.ftl", out);
 		} catch (Exception e) {
 			log.info("createHtml-ex", e);
 		}
@@ -1046,6 +1048,12 @@ public class OrderService {
 					}
 				}
 				List<JpaOrders> ordersList = findordersList(orders.getContractCode());
+				for (JpaOrders jpaOrders2 : ordersList) {
+					int days=jpaOrders2.getProduct().getDays();
+					if(null!=jpaOrders2.getStartTime() && days>0){
+						jpaOrders2.setEndTime(DateUtil.dateAdd(jpaOrders2.getStartTime(), days-2));
+					}
+				}
 				String username = orders.getUserId();
 				UserDetail userDetail = userService.findByUsername(username);
 				if (StringUtils.isNotBlank(orders.getCustomerJson())) {
@@ -1065,6 +1073,12 @@ public class OrderService {
 				_contractCode = paycontract.getContractCode();
 				List<String> idStrings = (List<String>) JsonTools.readValue(paycontract.getOrderJson(), List.class);
 				List<JpaOrders> jpaOrders = payContractService.queryOrders(idStrings);
+				for (JpaOrders jpaOrders2 : jpaOrders) {
+					int days=jpaOrders2.getProduct().getDays();
+					if(null!=jpaOrders2.getStartTime() && days>0){
+						jpaOrders2.setEndTime(DateUtil.dateAdd(jpaOrders2.getStartTime(), days-1));
+					}
+				}
 				if (jpaOrders.size() > 0) {
 					String username = jpaOrders.get(0).getUserId();
 					UserDetail userDetail = userService.findByUsername(username);

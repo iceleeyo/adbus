@@ -13,6 +13,8 @@
     <url-pattern>*.htm</url-pattern>
     <url-pattern>*.ico</url-pattern>
     <url-pattern>*.txt</url-pattern>
+    <url-pattern>*.html</url-pattern>
+    <url-pattern>*.pdf</url-pattern>
   </servlet-mapping>
   <filter>
     <filter-name>xssFilter</filter-name>

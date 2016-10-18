@@ -240,16 +240,16 @@
 		<span class="s1">广告/节目发布合同</span>
 	</p>
 	<p class="p2">
-		<span class="s2">甲方：</span><span class="s3">${userDetail.company!''}</span>
+		<span class="s2">甲方：</span><span class="s3">巴士在线科技有限公司</span>
 	</p>
 	<p class="p2">
-		<span class="s2">住所：</span><span class="s3">${userDetail.companyAddr!''}</span>
+		<span class="s2">住所：</span><span class="s3">上海市中山南路268号新源广场22楼</span>
 	</p>
 	<p class="p2">
-		<span class="s2">法定代表人 ： </span><span id="legalman" class="s3">${userDetail.legalman!''}</span>
+		<span class="s2">法定代表人 ： </span><span id="legalman" class="s3">王献蜀</span>
 	</p>
 	<p class="p2">
-		<span class="s2">邮编 ： </span><span class="s3">${userDetail.zipCode!''}</span>
+		<span class="s2">邮编 ： </span><span class="s3"></span>
 	</p>
 	
 	<br/>
@@ -288,74 +288,32 @@
 	</p>
 	<p class="p2 table-c">
 	
-	<#if ordersList??>
-	<#assign sum=0/>
 		<table width="100%" border="0.01" cellspacing="0.01" cellpadding="0.01">
-	<#list ordersList as item>
 		<tr style="height:40px;">
-			<td >套餐名称</td><td COLSPAN=3 >${item.product.name}</td>
-			<td >刊期(天)</td><td COLSPAN=3 >${item.product.days}</td>
+			<td >套餐名称</td><td COLSPAN=3 >世巴金纺静电篇15秒</td>
+			<td >刊期(天)</td><td COLSPAN=3 >14</td>
 		</tr>
 		<tr style="height:40px;">
-			<td >上刊时间</td><td COLSPAN=3 id="startDate"> <#if item.startTime??> ${item.startTime?string("yyyy-MM-dd")}</#if></td>
-			<td >下刊时间</td><td COLSPAN=3 id="endDate"><#if item.endTime??>  ${item.endTime?string("yyyy-MM-dd")}</#if></td>
+			<td >上刊时间</td><td COLSPAN=3 id="startDate">  2016-10-10</td>
+			<td >下刊时间</td><td COLSPAN=3 id="endDate">  2016-10-23</td>
 		</tr>
 		<tr style="height:40px;">
-			<td >媒体类型</td><td >${item.product.type.typeName}</td>
-			<td >广告时长（秒）</td><td >${item.product.duration}</td>
-			<td >播出频次（次/天）</td><td >${item.product.playNumber}</td>
+			<td >媒体类型</td><td >硬广广告</td>
+			<td >广告时长（秒）</td><td >15</td>
+			<td >播出频次（次/天）</td><td >15</td>
 			<td >数量</td><td>&nbsp;&nbsp;1&nbsp;&nbsp;</td>			
 		</tr>
 		<tr style="height:40px;">
 			<td >订单价格（元）</td><td COLSPAN="7">
-				  ¥${item.price?c}元</td>
+				  ¥73500元</td>
 		</tr>
-		<#assign sum=sum+(item.price) />
 		<tr ><td COLSPAN="8"></td></tr>
-	</#list>
 		
-		<#if payplanView.right??>
-		
-			<#if payplanView.right?size gt 1  >
-			<tr>
-				<td>合同结算情况</td><td COLSPAN="7">
-				<span style="display:block;padding-top:5px;">
-				甲方支付乙方广告费用金额共计4分
-				 ${ payplanView.right?size} 次支付：</span><br/>
-				<#list payplanView.right as right>
-				<span style="display:block;padding-top:5px;">
-					第${right_index+1}次：
-					${right.day?string("yyyy年MM月dd日 ")}
-					前支付广告费用金额为${changeMoney(item.price)}  (¥${right.price?c}元)
-				</span> <br/>
-				</#list> 
-	
-				</td>
-			</tr>
-			  <#else>
-			  
-			  <tr>
-				<td>合同结算情况</td><td COLSPAN=7>
-				<span style="display:block;padding-top:5px;">
-				甲方支付乙方广告费用金额共计 ${changeMoney(sum)} (¥${sum?c}元) </span><br/>
-				<#list payplanView.right as right>
-				<span style="display:block;padding-top:5px;">
-				 甲方承诺
-					${right.day?string("yyyy年MM月dd日 ")}前一次性付清
-				</span> <br/>
-				</#list> 
-	
-				</td>
-			</tr>
-			
-			</#if>
-		</#if>
-		<tr ><td>备注</td> <td COLSPAN="7">${(paycontract.remark)!''}</td></tr>
+		<tr ><td>备注</td> <td COLSPAN="7">甲方支付乙方广告费用金额共计人民币：柒万叁仟伍佰元整（¥73500元），甲方承诺2016年10月8日前一次性付清。</td></tr>
 		<tr>
-			<td>签约总价格（元）</td><td COLSPAN="7" align="center"> ${changeMoney(sum)} (¥${sum?c}元)</td>
+			<td>签约总价格（元）</td><td COLSPAN="7" align="center"> 柒万叁千伍佰元整 (¥73500元)</td>
 		</tr>
 		</table><br/>
-	</#if>
 	</p>
 	<p class="p7">
 		<span class="s7">2.</span><span>甲方在订单有效期内付费后，乙方才开始为甲方提供服务。订单的有效期为：自甲方在乙方官网确认订单起至5个工作日届满。如甲方未在订单有效期内付费，订单以及就订单所订购服务所达成的一切条款失效。</span>

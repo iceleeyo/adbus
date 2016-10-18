@@ -40,6 +40,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.pantuo.service.directive.ProductLocationDirective;
 import com.pantuo.spring.SpringContextHolder;
+import com.pantuo.util.ChangeMoney;
 import com.pantuo.util.FreemarkerExceptionHandler;
 import com.pantuo.util.HiddleUserNameEx;
 import com.pantuo.util.SubstringEx;
@@ -160,6 +161,7 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 
 		Map<String, Object> variables = new HashMap<String, Object>();
 		variables.put("substring", getSubStrMethod());
+		variables.put("changeMoney", getChangeMoney());
 		variables.put("hidname", getvHiddleUserNameEx());
 		variables.put("productLocation", productLocationDirective);//商品位置 标签根据位置取相应的商品信息
 
@@ -173,6 +175,9 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 
 	TemplateMethodModelEx getSubStrMethod() {
 		return new SubstringEx();
+	}
+	TemplateMethodModelEx getChangeMoney() {
+		return new ChangeMoney();
 	}
 
 	TemplateMethodModelEx getvHiddleUserNameEx() {
