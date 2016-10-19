@@ -26,7 +26,16 @@ import com.itextpdf.text.pdf.PdfTemplate;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.ElementList;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
-
+/**
+ * 
+ * <b><code>ItextPdfTools</code></b>
+ * <p>
+ * pdf导出 
+ * </p>
+ * <b>Creation Time:</b> 2016年10月19日 下午1:41:22
+ * @author impanxh@gmail.com
+ * @since pantuo 1.0-SNAPSHOT
+ */
 public class ItextPdfTools {
 
 	private static Logger log = LoggerFactory.getLogger(ItextPdfTools.class);
@@ -49,7 +58,7 @@ public class ItextPdfTools {
 		try {
 			baseFont = BaseFont.createFont("simsun.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 		} catch (Exception e) {
-			log.error("init  baseFont error", e);
+			log.error("init baseFont error", e);
 		}
 		return;
 	}
@@ -93,9 +102,6 @@ public class ItextPdfTools {
 			cb.saveState();
 			// 开始  
 			cb.beginText();
-			BaseFont bf;
-			//try {
-			//	bf = BaseFont.createFont("simsun.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 			// bf = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);   
 			//bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.EMBEDDED);
 			cb.setFontAndSize(baseFont, 10);
@@ -138,12 +144,6 @@ public class ItextPdfTools {
 			cb.endText();
 			cb.addTemplate(totalPages, middle, y);
 			cb.restoreState();
-			/*
-				} catch (DocumentException e) {
-					log.error("onendPage", e);
-				} catch (IOException e) {
-					log.error("onendPage", e);
-				}*/
 
 		}
 
@@ -159,7 +159,6 @@ public class ItextPdfTools {
 		public void onCloseDocument(PdfWriter writer, Document document) {
 			totalPages.beginText();
 			totalPages.setFontAndSize(baseFont, 10);
-			//totalPages.setTextMatrix(0, 0);
 			totalPages.showText(String.valueOf(writer.getPageNumber() - 1));
 			totalPages.endText();
 
