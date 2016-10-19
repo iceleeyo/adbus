@@ -144,14 +144,17 @@
 												</a>
 											</li>-->
 					<li class="pg-side-exp-item"><a class="side-exp-item-t"
-						href="${rc.contextPath}/order/finished"> 已完成订单 </a></li> 
+						href="${rc.contextPath}/order/finished"> 已完成订单 </a></li>
 						 
+					<@security.authorize
+					ifAnyGranted="ShibaOrderManager">	 
 					<li class="pg-side-exp-item"><a class="side-exp-item-t"
 						href="${rc.contextPath}/order/scheduleAdjust"> 提前下刊 </a></li> 
 						<#--
 					<li class="pg-side-exp-item"><a class="side-exp-item-t"
 						href="${rc.contextPath}/order/payPlanOrders">待支付分期订单 </a></li>
 						--> 
+					</@security.authorize>
 		</ul>
 		</li> </@security.authorize> <#if city.mediaType == 'screen'>
 		<@security.authorize
