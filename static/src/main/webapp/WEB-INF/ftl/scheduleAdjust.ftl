@@ -50,13 +50,11 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
                 }},
             	{ "data": "order.creator", "defaultContent": ""},
             	{ "data": "longOrderId", "defaultContent": ""},
-            		 <@security.authorize ifAnyGranted="sales,salesManager">
             		{ "data": "order.customerJson", "defaultContent": "","render": function(data, type, row, meta) {
             			var customer = $.parseJSON(data); 
 						return  ( customer==null || customer=='undefined' 
 						||typeof(customer) == "undefined"|| typeof(customer.company) == "undefined" )?"":customer.company;
                     }},
-                 </@security.authorize>
             	{ "data": "order.product.name", "defaultContent": "",
                     "render": function(data, type, row, meta) {
                         var filter = $('#order.productId').val();
@@ -142,9 +140,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
             table.fnDraw();
         });
         
-         <@security.authorize ifAnyGranted="salesManager">
       			 initSalesAutocomplete(table);
-	   	  </@security.authorize>
 	   	  
 	   	  
 		
@@ -191,9 +187,7 @@ js=["js/jquery-ui/jquery-ui.auto.complete.js","js/jquery-dateFormat.js"]>
 				<th>操作</th>
 				<th>下单用户</th>
 				<th orderBy="longOrderId">订单编号</th>
-					 <@security.authorize ifAnyGranted="sales,salesManager">
 				<th>代理客户</th>
-				</@security.authorize>
 				<th>套餐名称</th>
 				<th>合同编号</th>
 				<th>广告刊期</th>
