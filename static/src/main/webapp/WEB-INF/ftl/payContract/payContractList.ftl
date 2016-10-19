@@ -177,6 +177,7 @@ $('#test').on('click', function(){
 		</thead>
 
 	</table>
+	<div><span  style="color: #ff9966"><a target='_blank' href='http://www.jisupdf.com/'>PDF浏览器下载</a></span></div>
 </div>
 </@frame.html>
 
