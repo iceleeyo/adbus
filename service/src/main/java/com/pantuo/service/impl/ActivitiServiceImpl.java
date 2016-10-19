@@ -73,6 +73,7 @@ import com.pantuo.mybatis.domain.Orders;
 import com.pantuo.mybatis.domain.PayPlan;
 import com.pantuo.mybatis.domain.PayPlanExample;
 import com.pantuo.mybatis.domain.Paycontract;
+import com.pantuo.mybatis.domain.PaycontractWithBLOBs;
 import com.pantuo.mybatis.domain.Product;
 import com.pantuo.mybatis.persistence.ContractMapper;
 import com.pantuo.mybatis.persistence.InvoiceDetailMapper;
@@ -1794,7 +1795,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 			return "orderDetail";
 		} else {
 			JpaOrders order = orderService.queryOrderDetail(orderid, principal);
-			if (order != null && order != null) {
+			if (order != null && order.getEndTime() != null) {
 				order.setEndTime(DateUtil.dateAdd(order.getEndTime(), -1));
 			}
 			JpaProduct prod = null;
@@ -1871,7 +1872,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		if (BooleanUtils.toBoolean(rad)) {
 			if (plan != null) {
 				Orders order = ordersMapper.selectByPrimaryKey(plan.getOrderId());
-				Paycontract paycontract = paycontractMapper.selectByPrimaryKey(plan.getContractId());
+				PaycontractWithBLOBs paycontract = paycontractMapper.selectByPrimaryKey(plan.getContractId());
 				if (order != null) {
 					Orders record = new Orders();
 					record.setId(plan.getOrderId());

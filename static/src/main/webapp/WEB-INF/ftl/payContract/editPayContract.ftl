@@ -168,7 +168,7 @@ $.ajax({
 				</div>
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>选择订单:</label>
-					<input id="orderid" value="" name="orderid" style="height:50px;width:650px"/>
+					<textarea id="orderid" value="" name="orderid" style="height:70px;width:650px"></textarea>
 				</div>
 				<div class="ui-form-item">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>合同价格(￥):</label>
