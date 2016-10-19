@@ -22,6 +22,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
+import com.itextpdf.text.pdf.PdfTemplate;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.ElementList;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
@@ -37,12 +38,19 @@ public class ItextPdfTools {
 	private final Phrase phrase;
 	private final Font FooterFont = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD);
 	private final Integer Year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
+	BaseFont baseFont = null;
 
 	public ItextPdfTools() {
 		StringBuilder Builder = new StringBuilder("Corporacion Droling");
 		FooterFont.setColor(BaseColor.BLUE);
 		Builder.append(Year).append('.').append(" ").append("#Pagina: %d");
-		phrase = new Phrase(getChunk()); //The Image is Loaded here with success.. :thumbup:        
+		phrase = new Phrase(getChunk()); //The Image is Loaded here with success.. :thumbup:     
+
+		try {
+			baseFont = BaseFont.createFont("simsun.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+		} catch (Exception e) {
+			log.error("init  baseFont error", e);
+		}
 		return;
 	}
 
@@ -86,63 +94,83 @@ public class ItextPdfTools {
 			// 开始  
 			cb.beginText();
 			BaseFont bf;
-			try {
-				bf = BaseFont.createFont("simsun.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-				// bf = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);   
-				//bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.EMBEDDED);
-				cb.setFontAndSize(bf, 10);
+			//try {
+			//	bf = BaseFont.createFont("simsun.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+			// bf = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);   
+			//bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.EMBEDDED);
+			cb.setFontAndSize(baseFont, 10);
 
-				//-----------
+			//-----------
 
-				Rectangle rect = writer.getBoxSize("art");
-				//[Header]new Phrase(Chunk) Chunk have the image.... Not working Nothing Show..
-				// ColumnText.showTextAligned(writer.getDirectContent(),Element.ALIGN_LEFT,phrase,rect.getRight(), rect.getTop(),0);
+			Rectangle rect = writer.getBoxSize("art");
+			//[Header]new Phrase(Chunk) Chunk have the image.... Not working Nothing Show..
+			// ColumnText.showTextAligned(writer.getDirectContent(),Element.ALIGN_LEFT,phrase,rect.getRight(), rect.getTop(),0);
 
-				// Header  
-				float x = document.top(-30);// 位置  
-				// 左  
-				//   cb.showTextAligned(PdfContentByte.ALIGN_LEFT, "H-Left", document.left(), x, 0);  
-				//ColumnText.showTextAligned(writer.getDirectContent(),Element.ALIGN_LEFT,phrase,document.left(), x,0);
+			// Header  
+			float x = document.top(-30);// 位置  
+			// 左  
+			//   cb.showTextAligned(PdfContentByte.ALIGN_LEFT, "H-Left", document.left(), x, 0);  
+			//ColumnText.showTextAligned(writer.getDirectContent(),Element.ALIGN_LEFT,phrase,document.left(), x,0);
 
-				ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, phrase, document.left(), x + 30, 0);
+			ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, phrase, document.left(), x + 30, 0);
 
-				//				cb.showTextAligned(PdfContentByte.ALIGN_CENTER, "北京世巴传媒有限公司", (document.right() + document.left()) / 2 - 130, x, 0);
-				// 中  
-				//   cb.showTextAligned(PdfContentByte.ALIGN_CENTER, "第" + writer.getPageNumber() + "页", (document.right() + document.left()) / 2, x, 0);  
-				// 右    
-				cb.showTextAligned(PdfContentByte.ALIGN_RIGHT, "合同编号：" + _contractCode, document.right() - 30, x, 0);
+			//				cb.showTextAligned(PdfContentByte.ALIGN_CENTER, "北京世巴传媒有限公司", (document.right() + document.left()) / 2 - 130, x, 0);
+			// 中  
+			//   cb.showTextAligned(PdfContentByte.ALIGN_CENTER, "第" + writer.getPageNumber() + "页", (document.right() + document.left()) / 2, x, 0);  
+			// 右    
+			cb.showTextAligned(PdfContentByte.ALIGN_RIGHT, "合同编号：" + _contractCode, document.right() - 30, x, 0);
 
-				//Footer runs Smootly..
-				float y = document.bottom(-20);
-				//[Header]new Phrase(Chunk) Chunk have the image.... Not working Nothing Show..
-				//     ColumnText.showTextAligned(writer.getDirectContent(),Element.ALIGN_LEFT,phrase,document.left(), y,0);
+			//Footer runs Smootly..
+			float y = document.bottom(-20);
+			//[Header]new Phrase(Chunk) Chunk have the image.... Not working Nothing Show..
+			//     ColumnText.showTextAligned(writer.getDirectContent(),Element.ALIGN_LEFT,phrase,document.left(), y,0);
 
-				// Footer  
+			// Footer  
+			float middle = (document.right() + document.left()) / 2;
+			// 左  
+			//   cb.showTextAligned(PdfContentByte.ALIGN_LEFT, "F-Left", document.left(), y, 0);  
+			// 中  
+			cb.showTextAligned(PdfContentByte.ALIGN_CENTER, writer.getPageNumber() + "/", middle - 5, y, 0);
+			//cb.showTextAligned(PdfContentByte.ALIGN_CENTER, "第" + writer.getPageNumber() + "页", (document.right() + document.left()) / 2, y, 0);
+			// 右  
+			//  cb.showTextAligned(PdfContentByte.ALIGN_RIGHT, "F-Right", document.right(), y, 0);  
 
-				// 左  
-				//   cb.showTextAligned(PdfContentByte.ALIGN_LEFT, "F-Left", document.left(), y, 0);  
-				// 中  
-				cb.showTextAligned(PdfContentByte.ALIGN_CENTER, "第" + writer.getPageNumber() + "页", (document.right() + document.left()) / 2, y, 0);
-				// 右  
-				//  cb.showTextAligned(PdfContentByte.ALIGN_RIGHT, "F-Right", document.right(), y, 0);  
-
-				cb.endText();
-				cb.restoreState();
-			} catch (DocumentException e) {
-				log.error("onendPage", e);
-			} catch (IOException e) {
-				log.error("onendPage", e);
-			}
+			cb.endText();
+			cb.addTemplate(totalPages, middle, y);
+			cb.restoreState();
+			/*
+				} catch (DocumentException e) {
+					log.error("onendPage", e);
+				} catch (IOException e) {
+					log.error("onendPage", e);
+				}*/
 
 		}
 
+		private PdfTemplate totalPages;
+
+		@Override
+		public void onOpenDocument(PdfWriter writer, Document document) {
+			totalPages = writer.getDirectContent().createTemplate(100, 100);
+			totalPages.setBoundingBox(new Rectangle(-20, -20, 100, 100));
+		}
+
+		@Override
+		public void onCloseDocument(PdfWriter writer, Document document) {
+			totalPages.beginText();
+			totalPages.setFontAndSize(baseFont, 10);
+			//totalPages.setTextMatrix(0, 0);
+			totalPages.showText(String.valueOf(writer.getPageNumber() - 1));
+			totalPages.endText();
+
+		}
 	}
 
 	public static void generalPdf(String _contractCode, String destFile, String htmlPath) {
 		File file = new File(destFile);
 		file.getParentFile().mkdirs();
 		try {
-			new ItextPdfTools().createPdf(_contractCode,destFile, htmlPath);
+			new ItextPdfTools().createPdf(_contractCode, destFile, htmlPath);
 		} catch (IOException e) {
 			log.error("onendPage", e);
 		} catch (DocumentException e) {
