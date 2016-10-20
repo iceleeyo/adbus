@@ -8,9 +8,4 @@ ShibaSuppliesManager,物料初审,suppliesManager
 UserManager,用户管理,manager
 sales,销售,manager
 salesManager,销售总监,manager
-bodysales,车身销售,user
-bodyContractManager,合同管理,manager
-bodyFinancialManager,车身财务管理,manager
-bodyScheduleManager,车身媒介管理,manager
-bodyOnlineManager,车身网上订单管理,manager
-body_roleManager,车身用户以及角色管理,manager
+contractManager,合同管理,manager

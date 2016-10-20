@@ -9,10 +9,5 @@ hr,123456,用户管理员,,hr@pantuo.com,UserManager
 sales,123456,销售专员,,sales@pantuo.com,SalesManager
 adusera,123456,广告主A,,adv@pantuo.com,advertiser
 aduserb,123456,广告主B,,adv@pantuo.com,advertiser
-xiaoli,123456,管理员,,adv@pantuo.com,advertiser
-aduserm,123456,广告主m,,adv@pantuo.com,advertiser
 bodysales,123456,车身销售,,269048814@qq.com,bodysales
-contract,123456,合同管理,,269048814@qq.com,bodyContractManager
-bodyfinancial,123456,车身财务管理,,269048814@qq.com,bodyFinancialManager
-bodySchedule,123456,车身工单管理,,269048814@qq.com,bodyScheduleManager
-bodyorder,123456,车身网上订单管理,,493626221@qq.com,bodyOnlineManager
+contract,123456,合同管理,,269048814@qq.com,contractManager
