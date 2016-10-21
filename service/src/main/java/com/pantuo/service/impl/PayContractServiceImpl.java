@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -362,6 +363,22 @@ public class PayContractServiceImpl implements PayContractService {
 	}
 
 	@Override
+	public Pair<Boolean, String> saveMark(int id, HttpServletRequest request, Principal principal) {
+		JpaPayContract contract= getPayContractById(id);
+		String jsonStr=request.getParameter("jsonStr");
+		if(contract==null){
+			return new Pair<Boolean, String>(false, "合同不存在");
+		}
+		if(StringUtils.isNotBlank(jsonStr)){
+			contract.setAgreement(jsonStr);
+			if(payContractRepository.save(contract)!=null){
+				return new Pair<Boolean, String>(true, "保存成功");
+			}
+		}
+		return new Pair<Boolean, String>(false, "操作失败");
+	}
+
+	@Override
 	public JpaPayContract getPayContractById(int id) {
 		return payContractRepository.findOne(id);
 	}
@@ -410,6 +427,15 @@ public class PayContractServiceImpl implements PayContractService {
 				.and(QJpaPayPlan.jpaPayPlan.tableType.eq(JpaPayPlan.TableType.reced));
 		int count=(int) payPlanRepository.count(q);
 		return count;
+	}
+
+	@Override
+	public Map<String, String> getAgreemet(JpaPayContract contract) {
+		Map<String, String> map=new HashMap<>();
+		if(StringUtils.isNotBlank(contract.getAgreement())){
+			map=(Map<String, String>) JsonTools.readValue(contract.getAgreement(), Map.class);
+		}
+		return map;
 	}
 
 	public JpaPayPlan queryByPlanId(int planId){

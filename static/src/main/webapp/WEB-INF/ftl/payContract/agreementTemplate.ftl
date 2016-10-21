@@ -1,9 +1,9 @@
 <html>
 <head>
-<META http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+<META http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="X-Frame-Options" content="SAMEORIGIN"/>
 <link rel="stylesheet" type="text/css"
-	href="http://busme.cn/css/layer.css">
+	href="http://busme.cn/css/layer.css"/>
 <script type="text/javascript"
 	src="http://busme.cn/index_js/jquery-1.11.1.min.js"></script>
 <script type="text/javascript"
@@ -11,22 +11,6 @@
 
 
 
-<script type="text/javascript">  
-function getEnd(date,days){
-	var d=new Date(date);
-	if(date=='' || d==""){
-		return "";
-	}else{
-	    d.setDate(d.getDate()+ (days)-1); 
-	    var m=d.getMonth()+1;
-	    d.getFullYear()+'-'+m+'-'+d.getDate();
-	   	d= $.format.date(d, "yyyy-MM-dd");
-	   	document.write(d);
-	}
-	
-
-}
-</script>
 <style type="text/css">
 
 .block-btn {
@@ -246,30 +230,23 @@ function getEnd(date,days){
 .p21 .s2{color:rgb(199, 192, 192);}
 .logo{height: 40px;width: 80px;}
 </style>
-<meta content="Administrator" name="author">
 </head>
 <body class="b1 b2">
 <div id="divPrint">
 	
-	<p class="p21">
-		<img class="logo" src="http://busme.cn/imgs/shiba_log.jpg">
-		<span class="s2" >北京世巴传媒有限公司</span>
-		<span class="s2" style="float:right; text-align:right;margin-top: 26px;" >合同编号：<span class="s3">${(jpaPayContract.contractCode)!''}</span></span>
-		<hr class="p21_hr" />
-	</p>
 	
 	<p class="p1">
 		<span class="s1">关于  ${(jpaPayContract.contractCode)!''} 合同的补充协议</span>
 	</p>
 	<p class="p2">
-		<span class="s2">甲方（全称）：</span><span class="s3"><input type="text" value="${(agreement.jia)!''}" class="text party" id="jia"></span></span>
+		<span class="s2">甲方（全称）：</span><span class="s3">${(agreement.jia)!''}</span>
 	</p>
 	<p class="p2">
-		<span class="s2">乙方（全称）：</span><span class="s3"><input type="text" value="${(agreement.yi)!''}" class="text partyB" id="yi"></span>
+		<span class="s2">乙方（全称）：</span><span class="s3">${(agreement.yi)!''}</span>
 	</p>
 	
 	
-	<br>
+	<br/>
 	
 	<p class="p3">
 		<span class="s2">本协议中的所有术语，除非另有说明，否则其定义与双方于2016年5月24日签订的合同编号为${contractCode!''}的广告/节目发布合同，（以下简称“原合同”）中的定义相同。发布内容为《   》硬广广告，发布时间为2016年06月01日至2016年12月31日止。</span>
@@ -280,13 +257,13 @@ function getEnd(date,days){
 	
 	<p class="p7">
 		<span class="s7">1. </span>
-		<textarea rows="5" cols="20" id="agree1">${(agreement.agree1)!''}</textarea>
+		${(agreement.agree1)!''}
 	</p>
 
 	
 	<p class="p7">
 		<span class="s7">2.</span><span></span>
-		<textarea rows="5" cols="20" id="agree2">${(agreement.agree2)!''}</textarea>
+		${(agreement.agree2)!''}
 	</p>
 	<p class="p7">
 		<span class="s7">3.</span><span>本协议生效后，即成为原协议不可分割的组成部分，与原协议具有同等的法律效力;本协议与原协议有相互冲突时，以本协议为准。  
@@ -303,57 +280,19 @@ function getEnd(date,days){
 
 	
 	<p class="p7 fy">
-	<span class="s7"><br><br<br><br>
-	&nbsp;&nbsp;&nbsp;甲方（盖章）：              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;乙方（盖章）：
-	<br><br><br><br>
+	<span class="s7"><br/><br/><br/>
+	&nbsp;&nbsp;&nbsp;甲方（盖章）：                &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;乙方（盖章）：
+	<br/><br/><br/><br/>
 	&nbsp;&nbsp;&nbsp;授权代表（签字）：                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;授权代表（签字）：
-	<br><br><br><br>
-	&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;月&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;月&nbsp;&nbsp;日
-	<br><br><br><br></span></p>
+	<br/><br/><br/><br/>
+	&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;月&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;月&nbsp;&nbsp;日
+	<br/><br/><br/><br/>
+	</span></p>
 	
-	
-	<br><br>
 </div>
-<a class="block-btn" style="margin-top: -5px;margin-left: 42%;" href="javascript:saveAgree()" target="_self">保存</a>
 </body>
-<script>   
-var global_Html = "";   
-function saveAgree() {
-                var obj=new Object(); 
-                obj.jia=$("#jia").val();
-                obj.yi=$("#yi").val();
-                obj.agree1=$("#agree1").val();
-                obj.agree2=$("#agree2").val();
-           var str = JSON.stringify(obj);  
-       var param={"jsonStr":str}
-       var id=${jpaPayContract.id};
-      $.ajax({
-		    			url:"${rc.contextPath}/payContract/saveMark/"+id,
-		    			type:"POST",
-		    			async:false,
-		    			dataType:"json",
-		    			data:param,
-		    			success:function(data){
-		    			layer.msg(data.right);
-		    			if(data.left){
-		    			   window.setTimeout('hand',1500);
-		    			}
-		    			}
-		       });  
-}
-function hand(){
-window.location.reload();
-}
-</script>
 
-<br><br><br><br><br><br>
 
-</body>
-<!--增加lay最新版本-->
-	<script type="text/javascript" language="javascript"
-		src="http://busme.cn/js/layer-v1.9.3/layer/layer.js"></script>
-	<script type="text/javascript" language="javascript"
-		src="http://busme.cn/js/layer.onload.js"></script>
-	<script type="text/javascript" language="javascript"
-		src="http://busme.cn/js/layer-v1.9.3/layer-site.js"></script>	
+
+
 </html>

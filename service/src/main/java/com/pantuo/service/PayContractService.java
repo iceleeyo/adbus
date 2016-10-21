@@ -91,4 +91,6 @@ public interface PayContractService {
 		
 
 	public int queryContractUse(int contractId);
+	public Pair<Boolean, String> saveMark(int id, HttpServletRequest request, Principal principal);
+	public Map<String,String> getAgreemet(JpaPayContract contract);
 }

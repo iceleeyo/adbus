@@ -1169,4 +1169,41 @@ public class OrderService {
 		}
 		return buildr.toString();
 	}
+
+	public String getAgreementPath(HttpServletRequest request
+			) {
+		Map<String, Object> asMap=new HashMap<>();
+		String cid=request.getParameter("payContractId");
+		int conractId=NumberUtils.toInt(cid);
+		JpaPayContract contract= payContractService.getPayContractById(conractId);
+		asMap.put("jpaPayContract", contract);
+		asMap.put("agreement", payContractService.getAgreemet(contract));
+		String pdfOutDir = "pdfOutDir";
+		FreeMarker hf = new FreeMarker();
+
+		Date date = new Date();
+		String dateDir = new SimpleDateFormat("yyyyMMdd").format(date);
+		String _contractCode =contract.getContractCode()+"(补充协议)";
+		String fname = dateDir + "/" + (StringUtils.isBlank(_contractCode) ? new SimpleDateFormat("yyyyMMddhhmmss").format(date) : (_contractCode).replaceAll("\\s*", ""));
+		String jdPath = request.getSession().getServletContext().getRealPath(pdfOutDir) + "/" + fname + ".html";
+
+		log.info(" generalHtml:{}", jdPath);
+		String xdPath = pdfOutDir + "/" + fname + ".html";
+		File outFile = new File(jdPath);
+		outFile.getParentFile().mkdirs();
+		Writer out = null;
+		try {
+			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile), "UTF-8"));
+			String path = request.getSession().getServletContext().getRealPath("WEB-INF/ftl/payContract/");
+			hf.init(path).process(asMap, "agreementTemplate.ftl", out);
+		} catch (Exception e) {
+			log.error("createHtml-ex", e);
+		}
+		xdPath = pdfOutDir + "/" + fname + ".pdf";
+		String pdfFile;
+		log.info("pdfFile:{}", pdfFile = request.getSession().getServletContext().getRealPath("/") + pdfOutDir + "/" + fname + ".pdf");
+		ItextPdfTools.generalPdf(_contractCode,pdfFile, jdPath);
+		outFile.delete();
+		return xdPath;
+	}
 }

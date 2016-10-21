@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -120,20 +122,28 @@ public class PayContractController {
 	}
 	
 	@RequestMapping(value = "/mark/{id}")
-	public String mark(Model model, Principal principal,@PathVariable("id") int id
+	public String mark(Model model, Principal principal,@PathVariable("id") int id,HttpServletResponse response,
+			@RequestParam(value="type") String type
 			) {
+		response.setHeader("X-Frame-Options", "SAMEORIGIN");
 		JpaPayContract contract= payContractService.getPayContractById(id);
 		model.addAttribute("usedNumber", payContractService. queryContractUse(  id) );
 		model.addAttribute("jpaPayContract", contract);
-		return "payContract/contract_supplementary";
+		model.addAttribute("agreement", payContractService.getAgreemet(contract));
+		if(StringUtils.equals("edit", type)){
+			return "payContract/contract_supplementary";
+		}
+		return "payContract/contract_supplementary2";
 		
 	}
 	
 	@RequestMapping(value = "/saveMark/{id}")
-	public Pair<Boolean ,String> saveMark(Model model, Principal principal,@PathVariable("id") int id
+	@ResponseBody
+	public Pair<Boolean ,String> saveMark( Principal principal,@PathVariable("id") int id
+			,HttpServletRequest request
 			) {
-		JpaPayContract contract= payContractService.getPayContractById(id);
-		return null;
+		
+		return payContractService.saveMark(id,request,principal);
 		
 	}
 	@RequestMapping(value = "/toRestPayContract/{id}")

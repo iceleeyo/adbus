@@ -296,6 +296,12 @@ public class UserManagerController {
 			HttpServletRequest request,HttpServletResponse response) {
 		return orderService.contract_templete(model,principal,request,response);
 	}
+	@RequestMapping(value = "/getAgreementPath", method = RequestMethod.POST)
+	@ResponseBody
+	public String getAgreementPath(Model model,Principal principal,
+			HttpServletRequest request,HttpServletResponse response) {
+		return orderService.getAgreementPath(request);
+	}
 
 	@Autowired
 	PayPlanRepository payPlanRepository;

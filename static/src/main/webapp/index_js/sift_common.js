@@ -598,3 +598,15 @@ function queryPayPlanDetail(tourl, orderId,type) {
 	});
 
 }
+//编辑补充协议
+function editAgreement(tourl,payContractId,type){
+	layer.open({
+		type: 1,
+		title: "编辑补充协议",
+		skin: 'layui-layer-rim', 
+		area: ['800px', '650px'], 
+		content:''
+			+'<iframe style="width:99%;height:96%" frameborder="no" src="'+tourl+'/payContract/mark/'+payContractId+'?type='+type+'"/>'
+			+'<div class="ui-form-item widthdrawBtBox"> </div>'
+	});
+}

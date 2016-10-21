@@ -389,7 +389,7 @@ function eleContract(tourl,orderid,customerId,payContractId){
 			   	 +'<div class="ui-form-item widthdrawBtBox"> </div>'
 			});
 }
-//弹出上传物料窗口
+//下载合同
 function getHtmlPath(tourl,payContractId){
 	$.ajax({
 		url : tourl+"/user/createHtml",
@@ -400,6 +400,19 @@ function getHtmlPath(tourl,payContractId){
 		},
 		success : function(data) {
 			window.open("../"+data);
+		}
+	});
+}
+//下载补充协议
+function getAgreementPath(tourl,payContractId){
+	$.ajax({
+		url : tourl+"/user/getAgreementPath",
+		type : "POST",
+		data : {
+			"payContractId":payContractId
+		},
+		success : function(data) {
+			window.open("../../"+data);
 		}
 	});
 }

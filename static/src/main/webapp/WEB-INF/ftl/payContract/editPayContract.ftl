@@ -180,8 +180,14 @@ $.ajax({
 					<textarea id="remark"   name="remark"  type="textarea" style="height: 120px; width: 655px;">${jpaPayContract.remark!''}</textarea>
 				</div>
 				<div class="ui-form-item">
-					<label class="ui-label mt10">补充协议:</label>
-					<textarea id="agreement"   name="agreement"  type="textarea" style="height: 120px; width: 655px;">${jpaPayContract.agreement!''}</textarea>
+				<label class="ui-label mt10">补充协议:</label>
+			         <a class="block-btn"
+						style="margin-top: 10px;" href="javascript:void(0);"
+						onclick="editAgreement('${rc.contextPath}',${jpaPayContract.id},'edit')">编辑补充协议</a>	
+						
+				 <a class="block-btn"
+						style="margin-top: 10px;" href="javascript:void(0);"
+						onclick="getAgreementPath('${rc.contextPath}',${jpaPayContract.id})">查看</a>	
 				</div>
 				
 			
