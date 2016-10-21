@@ -118,6 +118,24 @@ public class PayContractController {
 		return "payContract/editPayContract";
 		
 	}
+	
+	@RequestMapping(value = "/mark/{id}")
+	public String mark(Model model, Principal principal,@PathVariable("id") int id
+			) {
+		JpaPayContract contract= payContractService.getPayContractById(id);
+		model.addAttribute("usedNumber", payContractService. queryContractUse(  id) );
+		model.addAttribute("jpaPayContract", contract);
+		return "payContract/contract_supplementary";
+		
+	}
+	
+	@RequestMapping(value = "/saveMark/{id}")
+	public Pair<Boolean ,String> saveMark(Model model, Principal principal,@PathVariable("id") int id
+			) {
+		JpaPayContract contract= payContractService.getPayContractById(id);
+		return null;
+		
+	}
 	@RequestMapping(value = "/toRestPayContract/{id}")
 	public String toRestPayContract(Model model, Principal principal,@PathVariable("id") int contarctId
 			) {

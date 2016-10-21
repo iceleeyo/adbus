@@ -11,6 +11,7 @@ import javax.servlet.ServletContext;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.delegate.Expression;
+import org.activiti.engine.identity.Group;
 import org.activiti.engine.identity.User;
 import org.activiti.engine.impl.task.TaskDefinition;
 import org.activiti.engine.task.IdentityLink;
@@ -29,6 +30,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.pantuo.dao.pojo.JpaOrders;
 import com.pantuo.dao.pojo.UserDetail;
 import com.pantuo.service.ActivitiService;
+import com.pantuo.service.ActivitiService.SystemRoles;
 import com.pantuo.service.MailService;
 import com.pantuo.service.MailTask;
 import com.pantuo.service.OrderService;
@@ -107,12 +109,10 @@ public class MailServiceImpl implements MailService {
 		if (u != null) {//
 			String userName = u.getUsername();
 			UserDetail userDetail = userService.findByUsername(userName);
-			if (userDetail != null && userDetail.getUser() != null
-					&& StringUtils.isNoneBlank(userDetail.getUser().getEmail())) {
+			if (userDetail != null && userDetail.getUser() != null && StringUtils.isNoneBlank(userDetail.getUser().getEmail())) {
 				Mail mail = getMailService(userDetail.getUser().getEmail());
 				mail.setSubject("[北巴广告交易系统]资质审核通过通知");
-				mail.setContent(getCompareTemplete(userDetail.getUser().getLastName(),
-						u.getUstats().ordinal() == UserDetail.UStats.authentication.ordinal(),
+				mail.setContent(getCompareTemplete(userDetail.getUser().getLastName(), u.getUstats().ordinal() == UserDetail.UStats.authentication.ordinal(),
 						"http://" + Request.getServerIp()));
 				boolean r = mail.sendMail();
 				log.info("sennd mail to notify user {} can compre, success: N|Y {}", userName, r);
@@ -129,14 +129,11 @@ public class MailServiceImpl implements MailService {
 			String userName = u.getUsername();
 			String md5 = userService.getUserUniqCode(userName);
 			UserDetail userDetail = userService.findByUsername(userName);
-			if (userDetail != null && userDetail.getUser() != null
-					&& StringUtils.isNoneBlank(userDetail.getUser().getEmail())) {
+			if (userDetail != null && userDetail.getUser() != null && StringUtils.isNoneBlank(userDetail.getUser().getEmail())) {
 				Mail mail = getMailService(userDetail.getUser().getEmail());
 				mail.setSubject("[北巴广告交易系统]账号激活通知");
-				mail.setContent(getActiviteTemplete(
-						userDetail.getUser().getFirstName(),
-						String.format(StringUtils.trim("http://" + serverIP + "/user/activate?userId=%s&uuid=%s"),
-								u.getUsername(), md5)));
+				mail.setContent(getActiviteTemplete(userDetail.getUser().getFirstName(),
+						String.format(StringUtils.trim("http://" + serverIP + "/user/activate?userId=%s&uuid=%s"), u.getUsername(), md5)));
 				boolean r = mail.sendMail();
 				log.info("sennd mail to notify user {} can compre, success: N|Y {}", userName, r);
 			}
@@ -152,10 +149,8 @@ public class MailServiceImpl implements MailService {
 		;//可能会存在问题
 		Mail mail = getMailService(u.getUser().getEmail());
 		mail.setSubject("[北巴广告交易系统]找回您的账户密码");
-		mail.setContent(getMailTemplete(
-				u.getUser().getLastName(),
-				String.format(StringUtils.trim("http://" + serverIP + "/user/reset_pwd?userId=%s&uuid=%s"),
-						u.getUsername(), md5)));
+		mail.setContent(getMailTemplete(u.getUser().getLastName(),
+				String.format(StringUtils.trim("http://" + serverIP + "/user/reset_pwd?userId=%s&uuid=%s"), u.getUsername(), md5)));
 		Pair<Boolean, String> resultPair = null;
 		String email = u.getUser().getEmail();
 		String regex = "(\\w{3})(\\w+)(\\w{3})(@\\w+)";
@@ -276,8 +271,7 @@ public class MailServiceImpl implements MailService {
 			}
 		}
 		*/
-		List<Task> tasks = taskService.createTaskQuery().processVariableValueEquals(ActivitiService.ORDER_ID, orderId)
-				.orderByTaskCreateTime().desc().list();
+		List<Task> tasks = taskService.createTaskQuery().processVariableValueEquals(ActivitiService.ORDER_ID, orderId).orderByTaskCreateTime().desc().list();
 		/**
 		 * 这里做个时间的判断 ,完成一个结点时，待办事项创建时间 大于这次办理时间的才进行邮件通知,避免重复通知到以前需要处理的 待办事项
 		 */
@@ -295,8 +289,7 @@ public class MailServiceImpl implements MailService {
 				}
 			} else {
 				// todo 
-				log.info("f_{},c_{}_{}", mailTask.getFinishDate().getTime(), task.getCreateTime().getTime(),
-						task.getName());
+				log.info("f_{},c_{}_{}", mailTask.getFinishDate().getTime(), task.getCreateTime().getTime(), task.getName());
 			}
 		}
 	}
@@ -315,16 +308,32 @@ public class MailServiceImpl implements MailService {
 				Thread.sleep(300);
 			} catch (InterruptedException e) {
 			}
-			sendMailtoUser(orderId, user, identityLink, task);
+			sendMailtoUser(orderId, u, identityLink, task);
 		}
 	}
 
-	private void sendMailtoUser(Integer orderId, User user2, IdentityLink identityLink, Task task) {
+	public boolean isOnlyGroup(List<Group> listGroup, String group) {
+		boolean r = false;
+		if (!listGroup.isEmpty()) {
+			if (listGroup.size() == 1) {
+				for (Group g : listGroup) {
+					if (StringUtils.equals(group, g.getId())) {
+						r = true;
+						break;
+					}
+				}
+			}
+		}
+		return r;
+	}
+
+	private void sendMailtoUser(Integer orderId, UserDetail user2, IdentityLink identityLink, Task task) {
 		if (StringUtils.isBlank(user2.getEmail())) {
 			return;
 		}
-		String context = getCompleteTemplete(user2.getFirstName(), orderId, "http://" + Request.getServerIp()
-				+ "/order/myTask/1", task);
+		List<Group> listGroup = identityService.createGroupQuery().groupMember(user2.getUser().getId()).list();
+		String goTo = isOnlyGroup(listGroup, SystemRoles.advertiser.name()) ? "http://" + Request.getServerIp() + "/order/myTask/1" : "http://" + Request.getServerIp() + "/wbm";
+		String context = getCompleteTemplete(user2.getUser().getFirstName(), orderId, goTo, task);
 		if (OSinfoUtils.isMacOS() || OSinfoUtils.isMacOSX() || OSinfoUtils.isWindows()) {
 			Mail mail = getMailService(user2.getEmail());
 			mail.setSubject("[北巴广告交易系统]待办事项通知");

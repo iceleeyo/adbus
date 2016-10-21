@@ -105,7 +105,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.permitAll()
 				.antMatchers("/favicon.ico","/code", "/login_bus", "/busselect/work**/**", "/intro**","/client**", "/about-me", "/media",
 						"/effect", "*/media**", "*/effect**", "*/partner**", "/partner", "*/aboutme**", "/aboutme","/caseMore**",
-						"/loginForLayer", "/index", "/backend**", "/screen", "/secondLevelPage", "/secondLevelPageBus",
+						"/loginForLayer", "/index","/wbm**", "/backend**", "/screen", "/secondLevelPage", "/secondLevelPageBus",
 						"/body", "/**/public**/**", "/**/public**", "/register", "/user/**", "/doRegister",
 						"/validate/**", "/f/**", "/product/d/**", "/product/c/**", "/product/sift**",
 						"/product/sift_data", "/carbox/sift_body", "/product/ajaxdetail/**", "/order/iwant/**",
@@ -209,8 +209,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			}
 			String referer = request.getHeader("referer");
 			log.info("SimpleRoleAuthenticationFailHandler ,referer :{}", referer);
-			if (StringUtils.contains(referer, "/backend")) {
-				return "/backend?error=relogin";
+			if (StringUtils.contains(referer, "/backend")||StringUtils.contains(referer, "/wbm")) {
+				return "/wbm?error=relogin";
 			} else {
 				log.info("for debug determineTargetUrl:1");
 				return "/login?error=relogin";
@@ -291,9 +291,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				if (StringUtils.contains(referer, "/login_bus") && udetail.getUtype() != UType.body) {
 					clearLogin(authentication, request);
 					return "/login_bus";
-				} else if (StringUtils.contains(referer, "/backend") && udetail.getUtype() != UType.screen) {
+				} else if ((StringUtils.contains(referer, "/wbm") ||StringUtils.contains(referer, "/backend")) && udetail.getUtype() != UType.screen) {
 					clearLogin(authentication, request);
-					return "/backend";
+					return "/wbm";
 				} else if (StringUtils.contains(referer, "/login") && !StringUtils.contains(referer, "/login_bus")
 						&& udetail.getUtype() != UType.pub) {
 					clearLogin(authentication, request);
@@ -330,7 +330,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			}
 			request.getSession().setAttribute("_utype", udetail.getUtype().name());
 			request.getSession().setAttribute("UType", udetail.getUtype().name());
-
+			if(authority.contains("contractManager") && authority.size()==1){
+				//makeCookieRight(request, response, false);
+				return "/payContract/list";
+			}
 			if(authority.contains("ShibaFinancialManager") && authority.size()==1){
 				//makeCookieRight(request, response, false);
 				return "/order/planContract";

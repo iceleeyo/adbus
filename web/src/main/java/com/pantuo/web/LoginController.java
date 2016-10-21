@@ -74,9 +74,16 @@ public class LoginController {
 			return "login_bus";
 		}
 	}
-
+	@RequestMapping(value = "/wbm", produces = "text/html;charset=utf-8")
+	public String wbm(Model model, HttpServletRequest request, Authentication auth) {
+		return backend(model, request, auth);
+	}
 	@RequestMapping(value = "/backend", produces = "text/html;charset=utf-8")
 	public String login(Model model, HttpServletRequest request, Authentication auth) {
+		return backend(model, request, auth);
+	}
+
+	private String backend(Model model, HttpServletRequest request, Authentication auth) {
 		log.info("---backend-----:{}" ,Request.getIpAddr(request));
 		if (StringUtils.equals(isBodySys, "body")) {
 			return "redirect:/login_bus";
@@ -112,7 +119,7 @@ public class LoginController {
 					&& StringUtils.equals(UType.pub.name(), (String) request.getSession().getAttribute("UType"))) {
 				return "logMini";
 			} else {
-				return "redirect:/backend";
+				return "redirect:/wbm";
 			}
 		}
 
