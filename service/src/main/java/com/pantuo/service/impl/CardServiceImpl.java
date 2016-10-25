@@ -11,6 +11,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.codehaus.jackson.map.DeserializationConfig;
@@ -355,6 +356,7 @@ public class CardServiceImpl implements CardService {
 	public Pair<Boolean, String> putIncar(int proid, int needCount, int days, Principal principal, int city,
 			String startdate1, String type,HttpServletRequest request) {
 		String sh=request.getParameter("sh");
+		String isChangeOrder=request.getParameter("isChangeOrder");
 		if (StringUtils.equals(type, "media")) {
 			long seriaNum = getCardBingSeriaNum(principal);
 			List<Integer> groupIds=  getGroupids(sh) ;
@@ -396,6 +398,8 @@ public class CardServiceImpl implements CardService {
 					media.setProductId(proid);
 					media.setIsConfirm(0);
 					media.setType(product.getType().ordinal());
+					if(StringUtils.isNoneBlank(isChangeOrder))
+					media.setIsChangeOrder(BooleanUtils.toBoolean(isChangeOrder));
 					cardMapper.insert(media);
 				} else {
 					CardboxMedia existMedia = c.get(0);
@@ -407,6 +411,11 @@ public class CardServiceImpl implements CardService {
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
+					
+					if(StringUtils.isNoneBlank(isChangeOrder))
+						existMedia.setIsChangeOrder(BooleanUtils.toBoolean(isChangeOrder));
+					
+					
 					if (needCount == 0) {// 如果是0时删除
 						cardMapper.deleteByExample(example);
 					} else {
@@ -944,6 +953,7 @@ public class CardServiceImpl implements CardService {
 				String code = contractService.getContractId();
 				order.setContractCode(code);
 			}
+			order.setIsChangeOrder(jpaCardBoxMedia.getIsChangeOrder());
 			order.setSuppliesId(1);
 			order.setPayType(JpaOrders.PayType.valueOf(paytype));
 			order.setStats(JpaOrders.Status.unpaid);

@@ -28,11 +28,11 @@ public class JpaCardBoxMedia extends CityEntity {
 	private int isConfirm = 0;//1代表已确认
 	private double totalprice = 0;//价格
 	private Date startTime;
-	
+	private boolean isChangeOrder = false;
 	@ManyToOne
 	@JoinColumn(name = "groupId")
 	public JpaVideo32Group group;
-	
+
 	private long seriaNum;//表单序列号
 
 	public int getId() {
@@ -107,7 +107,6 @@ public class JpaCardBoxMedia extends CityEntity {
 		this.price = price;
 	}
 
-
 	public double getTotalprice() {
 		return totalprice;
 	}
@@ -127,4 +126,11 @@ public class JpaCardBoxMedia extends CityEntity {
 		this.group = group;
 	}
 
+	public boolean getIsChangeOrder() {
+		return isChangeOrder;
+	}
+
+	public void setIsChangeOrder(boolean isChangeOrder) {
+		this.isChangeOrder = isChangeOrder;
+	}
 }

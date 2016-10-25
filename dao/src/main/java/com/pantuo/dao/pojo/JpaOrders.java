@@ -83,6 +83,8 @@ public class JpaOrders extends CityEntity {
     
     private double payPrice = 0;//已支付金额
     
+    private boolean isChangeOrder = false;
+    
     
     //审核号
     private String seqNumber;
@@ -408,6 +410,14 @@ public class JpaOrders extends CityEntity {
 
 	public void setSeqNumber(String seqNumber) {
 		this.seqNumber = seqNumber;
+	}
+
+	public boolean getIsChangeOrder() {
+		return isChangeOrder;
+	}
+
+	public void setIsChangeOrder(boolean isChangeOrder) {
+		this.isChangeOrder = isChangeOrder;
 	}
 	
 }
