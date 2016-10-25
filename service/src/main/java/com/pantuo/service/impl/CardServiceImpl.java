@@ -1431,7 +1431,7 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public boolean updateCardMeida(String start, int mediaId) {
+	public boolean updateCardMeida(String start, int mediaId,String isChangeOrder) {
 		CardboxMedia cardboxMedia = cardMapper.selectByPrimaryKey(mediaId);
 		if (!StringUtils.isNotBlank(start) || cardboxMedia == null) {
 			return false;

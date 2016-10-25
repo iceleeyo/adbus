@@ -88,10 +88,12 @@ function checkTime(start,prouctId){
 		 }}, "text");
 }
 function updateCardMeida(start,carmediaId){
+	
+//	isChangeOrder
 	var forceInput = $("#"+start).val();
 	$.ajax({
 		url : "/updateCardMeida",
-		data:{"start":  forceInput, "mediaId":carmediaId},
+		data:{"start":  forceInput, "mediaId":carmediaId,"isChangeOrder":isChangeOrder},
 		type : "GET",
 		success : function(data) { 
 			  if(!data){

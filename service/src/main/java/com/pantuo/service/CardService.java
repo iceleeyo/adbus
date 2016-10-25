@@ -147,7 +147,7 @@ public interface CardService {
 
 	public UserQualifiView getUserQualifiView(String qulifijsonstr);
 
-	public boolean updateCardMeida(String start, int mediaId);
+	public boolean updateCardMeida(String start, int mediaId,String isChangeOrder);
 
 	public BodyProView getBodyProViewfromJsonStr(String jString);
 

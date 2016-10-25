@@ -114,6 +114,9 @@
 										type="text" value="<#if item.startTime?has_content>${item.startTime?string("yyyy-MM-dd")}</#if>" id="st_${item.product.id}" data-is="isAmount isEnough"
 										autocomplete="off" onchange="dateInput('st_${item.product.id}',${item.product.id}),updateCardMeida('st_${item.product.id}',${item.id})">
 										</p>
+										
+											<p class="rec-line"><input class="hideinput" id="isChangeOrder" type="checkbox" value="N" name="isChangeOrder">换版订单 	
+										</p>
 										<span class="btn-edit"></span>
 									</div>
 								</li>

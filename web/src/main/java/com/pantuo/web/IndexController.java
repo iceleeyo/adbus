@@ -325,10 +325,10 @@ public class CardSelect{
 	}
 	@RequestMapping(value = "/updateCardMeida", method = RequestMethod.GET)
 	@ResponseBody
-	public boolean updateCardMeida(String start, int mediaId,
+	public boolean updateCardMeida(String start, int mediaId,String isChangeOrder, 
 			@RequestParam(value = "city", required = false, defaultValue = "1") int city, HttpServletRequest request,
 			Principal principal) {
-		return cardService.updateCardMeida(start,mediaId);
+		return cardService.updateCardMeida(start,mediaId,isChangeOrder);
 	}
 	
 	@RequestMapping(value = "/buy/{type}",produces = "text/html;charset=utf-8")
