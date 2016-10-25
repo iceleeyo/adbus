@@ -1073,11 +1073,17 @@ public class OrderService {
 				_contractCode = paycontract.getContractCode();
 				List<String> idStrings = (List<String>) JsonTools.readValue(paycontract.getOrderJson(), List.class);
 				List<JpaOrders> jpaOrders = payContractService.queryOrders(idStrings);
+
+				List<JpaOrders> filteredList = new ArrayList<JpaOrders>();
 				for (JpaOrders jpaOrders2 : jpaOrders) {
-					int days=jpaOrders2.getProduct().getDays();
-					if(null!=jpaOrders2.getStartTime() && days>0){
-						jpaOrders2.setEndTime(DateUtil.dateAdd(jpaOrders2.getStartTime(), days-1));
+					int days = jpaOrders2.getProduct().getDays();
+					if (null != jpaOrders2.getStartTime() && days > 0) {
+						jpaOrders2.setEndTime(DateUtil.dateAdd(jpaOrders2.getStartTime(), days - 1));
 					}
+					if (!jpaOrders2.getIsChangeOrder()) {
+						filteredList.add(jpaOrders2);
+					}
+
 				}
 				if (jpaOrders.size() > 0) {
 					String username = jpaOrders.get(0).getUserId();
@@ -1085,7 +1091,7 @@ public class OrderService {
 					if (StringUtils.isNotBlank(jpaOrders.get(0).getCustomerJson())) {
 						userDetail = (UserDetail) JsonTools.readValue(jpaOrders.get(0).getCustomerJson(), UserDetail.class);
 					}
-					model.addAttribute("ordersList", jpaOrders);
+					model.addAttribute("ordersList", filteredList);
 					model.addAttribute("userDetail", userDetail);
 					model.addAttribute("payplan", getPayInfo(jpaOrders));
 					model.addAttribute("payplanView", getPayInfoView(null, paycontract));

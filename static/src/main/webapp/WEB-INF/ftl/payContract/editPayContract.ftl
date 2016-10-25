@@ -68,7 +68,7 @@ $.ajax({
 			$.each(data,function(i,item){
 			var ischange='否';
 			if(item.order.isChangeOrder){
-			ischange='是';
+			ischange='<SPAN style="color: red">是</SPAN>';
 			}
 			 op+="<DIV class=\"newPay-order\">"
 						   +"<DIV class=\"summary uplan-summary-div\">"

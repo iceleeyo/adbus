@@ -120,6 +120,9 @@ function supDetail(data){
 					date_format="yyyy-MM-dd">${(orderview.order.startTime?date)!''}</SPAN></li>
 			<li style="width: 200px;"><SPAN>到期时间：</SPAN><SPAN class="con"><#setting
 					date_format="yyyy-MM-dd">${(orderview.order.endTime?date)!''}</SPAN></li>
+					
+					<li style="width: 200px;"><SPAN>是否为换版订单：</SPAN><SPAN class="con"><#setting
+					date_format="yyyy-MM-dd"><#if orderview.order.isChangeOrder?? && orderview.order.isChangeOrder>是<#else>否</#if></SPAN></li>
 			
 		<@security.authorize ifAnyGranted="ShibaFinancialManager,sales">
 			<li style="width:400px;"><SPAN>合同编号：</SPAN><SPAN class="con">
