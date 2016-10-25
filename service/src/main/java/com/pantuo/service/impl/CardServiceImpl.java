@@ -264,6 +264,7 @@ public class CardServiceImpl implements CardService {
 				media.setProductId(proid);
 				media.setIsConfirm(0);
 				media.setType(product.getType().ordinal());
+				media.setIsChangeOrder(false);
 				cardMapper.insert(media);
 			} else {
 				CardboxMedia existMedia = c.get(0);
