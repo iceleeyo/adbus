@@ -1433,12 +1433,14 @@ public class CardServiceImpl implements CardService {
 	@Override
 	public boolean updateCardMeida(String start, int mediaId,String isChangeOrder) {
 		CardboxMedia cardboxMedia = cardMapper.selectByPrimaryKey(mediaId);
-		if (!StringUtils.isNotBlank(start) || cardboxMedia == null) {
+		if ( cardboxMedia == null) {
 			return false;
 		}
 		try {
-			Date sDate = DateUtil.longDf.get().parse(start);
-			cardboxMedia.setStartTime(sDate);
+			if(StringUtils.isNotBlank(start)) {
+				Date sDate = DateUtil.longDf.get().parse(start);
+				cardboxMedia.setStartTime(sDate);
+			}
 			cardboxMedia.setIsChangeOrder(BooleanUtils.toBoolean(isChangeOrder));
 			int a = cardMapper.updateByPrimaryKey(cardboxMedia);
 			if (a > 0) {
