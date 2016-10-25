@@ -114,8 +114,9 @@
 										type="text" value="<#if item.startTime?has_content>${item.startTime?string("yyyy-MM-dd")}</#if>" id="st_${item.product.id}" data-is="isAmount isEnough"
 										autocomplete="off" onchange="dateInput('st_${item.product.id}',${item.product.id}),updateCardMeida('st_${item.product.id}',${item.id})">
 										</p>
-										
-											<p class="rec-line"><input class="hideinput" id="isChangeOrder" type="checkbox" value="N" name="isChangeOrder">换版订单 	
+										<@security.authorize ifAnyGranted="sales">
+											<p class="rec-line"><input class="hideinput" id="isChangeOrder" onclick="updateCardMeida('st_${item.product.id}',${item.id})" type="checkbox"  value="N" name="isChangeOrder">换版订单 	
+										</@security.authorize>
 										</p>
 										<span class="btn-edit"></span>
 									</div>
@@ -483,7 +484,10 @@
 			 }
 		} 
 		
+		
 			$(document).ready(function(e) {
+			
+			
 			initCardView('${rc.contextPath}');
 				$('.td-info .item-rect').hover(function() {
 					$(this).addClass('item-rect-hover');

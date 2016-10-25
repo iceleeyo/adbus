@@ -81,7 +81,7 @@
 									</div>
 								</li>
 								<li class="td td-info">
-									<div class="td-inner">
+									<div class="td-inner" style="margin-top:-20px">
 									<#if item.product.type =='inchof32'>
 									<p class="perio">线路：${item.group.name}</p>
 									</#if>
@@ -96,6 +96,14 @@
 										<#if item.startTime?has_content>
 										<span class="perio">上播日期：${item.startTime?string("yyyy-MM-dd")}</span>
 										</#if>
+									              是否为换版广告：
+										<#if item.isChangeOrder>
+										是
+										<#else>
+										否
+										</#if>
+										
+									
 											
 									</div>
 								</li>

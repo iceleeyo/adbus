@@ -66,6 +66,10 @@ $.ajax({
 		 var op="";
 		 var price=0;
 			$.each(data,function(i,item){
+			var ischange='否';
+			if(item.order.isChangeOrder){
+			ischange='是';
+			}
 			 op+="<DIV class=\"newPay-order\">"
 						   +"<DIV class=\"summary uplan-summary-div\">"
 		              +"<UL class=\"uplan-detail-ul\">"
@@ -77,6 +81,7 @@ $.ajax({
 			+"<li style=\"width: 200px;\"><SPAN>订单价格：</SPAN>"+item.order.price+"</li>"
 			+"<li style=\"width: 200px;\"><SPAN>媒体类型：</SPAN>"+item.order.product.type+"</li>"
 			+"<li style=\"width: 200px;\"><SPAN>下单用户：</SPAN>"+item.order.creator+"</li>"
+			+"<li style=\"width: 200px;\"><SPAN>是否为换版订单：</SPAN>"+ischange+"</li>"
 			+"</UL></DIV></DIV><br>"
 			price+=item.order.price;
 				});

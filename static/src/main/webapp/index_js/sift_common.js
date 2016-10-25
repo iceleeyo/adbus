@@ -88,8 +88,12 @@ function checkTime(start,prouctId){
 		 }}, "text");
 }
 function updateCardMeida(start,carmediaId){
-	
-//	isChangeOrder
+	var o = document.getElementsByName("isChangeOrder");
+	var isChangeOrder='N';
+	for(var i=0;i<o.length;i++){
+        if(o[i].checked)
+        	isChangeOrder='Y';;   
+   }
 	var forceInput = $("#"+start).val();
 	$.ajax({
 		url : "/updateCardMeida",

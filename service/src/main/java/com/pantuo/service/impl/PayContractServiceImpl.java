@@ -113,7 +113,7 @@ public class PayContractServiceImpl implements PayContractService {
 				if (order != null) {
 					long longOrderId = OrderIdSeq.getIdFromDate(orderid, order.getCreated());
 					String id=String.valueOf(longOrderId);
-					idList.put(id,id.concat(",") +order.getProduct().getName().concat(",")+ order.getProduct().getType().getTypeName()+","+order.getPrice());
+					idList.put(id,id.concat(",") +order.getProduct().getName().concat(",")+ order.getProduct().getType().getTypeName()+","+order.getPrice()+","+(order.getIsChangeOrder() ?"换版订单":""));
 				}
 			}
 

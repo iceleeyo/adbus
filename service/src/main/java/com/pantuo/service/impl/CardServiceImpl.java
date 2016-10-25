@@ -1439,6 +1439,7 @@ public class CardServiceImpl implements CardService {
 		try {
 			Date sDate = DateUtil.longDf.get().parse(start);
 			cardboxMedia.setStartTime(sDate);
+			cardboxMedia.setIsChangeOrder(BooleanUtils.toBoolean(isChangeOrder));
 			int a = cardMapper.updateByPrimaryKey(cardboxMedia);
 			if (a > 0) {
 				return true;
