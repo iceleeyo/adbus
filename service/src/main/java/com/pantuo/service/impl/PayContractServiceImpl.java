@@ -396,7 +396,7 @@ public class PayContractServiceImpl implements PayContractService {
 	}
 
 	@Override
-	public Pair<Boolean, String> colseContract(int contractId, String agreement, Principal principal) {
+	public Pair<Boolean, String> colseContract(int contractId, Principal principal) {
 		JpaPayContract contract = payContractRepository.findOne(contractId);
 		if(contract==null){
 			return new Pair<Boolean, String>(false, "合同不存在");
@@ -411,7 +411,6 @@ public class PayContractServiceImpl implements PayContractService {
 		if(contract.getPrice()==contract.getPayPrice() || contract.getPayPrice()>contract.getPrice()){
 			return new Pair<Boolean, String>(false, "合同已完成");
 		}
-		contract.setAgreement(agreement);
 		contract.setCloseFlag(true);
 		contract.setUpdated(new Date());
 		contract.setUpdator(Request.getUserId(principal));
@@ -434,6 +433,10 @@ public class PayContractServiceImpl implements PayContractService {
 		Map<String, String> map=new HashMap<>();
 		if(StringUtils.isNotBlank(contract.getAgreement())){
 			map=(Map<String, String>) JsonTools.readValue(contract.getAgreement(), Map.class);
+		}
+		if(StringUtils.isNotBlank(contract.getCustomerJson())){
+			UserDetail userDetail = (UserDetail) JsonTools.readValue(contract.getCustomerJson(), UserDetail.class);
+			map.put("company", userDetail.getCompany());
 		}
 		return map;
 	}

@@ -86,7 +86,7 @@ public interface PayContractService {
 	
 	
 	public long getAllNotPayContractCount(TableRequest req, Principal principal) ;
-	public Pair<Boolean, String> colseContract(int contractId, String agreement, Principal principal);
+	public Pair<Boolean, String> colseContract(int contractId,  Principal principal);
 		
 		
 

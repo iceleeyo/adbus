@@ -239,32 +239,26 @@
 		<span class="s1">关于  ${(jpaPayContract.contractCode)!''} 合同的补充协议</span>
 	</p>
 	<p class="p2">
-		<span class="s2">甲方（全称）：</span><span class="s3">${(agreement.jia)!''}</span>
+		<span class="s2">甲方（全称）：</span><span class="s3">${(agreement.company)!''}</span>
 	</p>
 	<p class="p2">
-		<span class="s2">乙方（全称）：</span><span class="s3">${(agreement.yi)!''}</span>
+		<span class="s2">乙方（全称）：</span><span class="s3">北京世巴传媒有限公司 </span>
 	</p>
 	
 	
 	<br/>
 	
 	<p class="p3">
-		<span class="s2">本协议中的所有术语，除非另有说明，否则其定义与双方于2016年5月24日签订的合同编号为${contractCode!''}的广告/节目发布合同，（以下简称“原合同”）中的定义相同。发布内容为《   》硬广广告，发布时间为2016年06月01日至2016年12月31日止。</span>
+		<span class="s2">本协议中的所有术语，除非另有说明，否则其定义与双方于 ${((jpaPayContract.created)?string("yyyy年MM月dd日"))!''}签订的合同编号为 ${(jpaPayContract.contractCode)!''}的广告/节目发布合同，（以下简称“原合同”）中的定义相同。发布内容为《   》硬广广告，发布时间为2016年06月01日至2016年12月31日止。</span>
 	</p>
 	<p class="p3">
 		<span class="s2">甲乙双方本着互利互惠的原则，经友好协商，依据实际情况，在原合同基础上变更合同条款部分内容，特订立以下补充协议。</span>
 	</p>
 	
 	<p class="p7">
-		<span class="s7">1. </span>
 		${(agreement.agree1)!''}
 	</p>
 
-	
-	<p class="p7">
-		<span class="s7">2.</span><span></span>
-		${(agreement.agree2)!''}
-	</p>
 	<p class="p7">
 		<span class="s7">3.</span><span>本协议生效后，即成为原协议不可分割的组成部分，与原协议具有同等的法律效力;本协议与原协议有相互冲突时，以本协议为准。  
 		</span>

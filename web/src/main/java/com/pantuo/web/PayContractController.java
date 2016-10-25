@@ -106,9 +106,9 @@ public class PayContractController {
 	@RequestMapping(value = "colseContract",method = RequestMethod.GET)
 	@ResponseBody
 	public Pair<Boolean, String> colseContract(Principal principal,@RequestParam("id") int contractId
-			,@RequestParam("agreement") String agreement
+			,@RequestParam(value="agreement",required=false) String agreement
 			) {
-		return payContractService.colseContract(contractId,agreement,principal);
+		return payContractService.colseContract(contractId,principal);
 		
 	}
 	@RequestMapping(value = "/toEditPayContract/{id}")
@@ -122,18 +122,14 @@ public class PayContractController {
 	}
 	
 	@RequestMapping(value = "/mark/{id}")
-	public String mark(Model model, Principal principal,@PathVariable("id") int id,HttpServletResponse response,
-			@RequestParam(value="type") String type
+	public String mark(Model model, Principal principal,@PathVariable("id") int id,HttpServletResponse response
 			) {
 		response.setHeader("X-Frame-Options", "SAMEORIGIN");
 		JpaPayContract contract= payContractService.getPayContractById(id);
 		model.addAttribute("usedNumber", payContractService. queryContractUse(  id) );
 		model.addAttribute("jpaPayContract", contract);
 		model.addAttribute("agreement", payContractService.getAgreemet(contract));
-		if(StringUtils.equals("edit", type)){
-			return "payContract/contract_supplementary";
-		}
-		return "payContract/contract_supplementary2";
+		return "payContract/contract_supplementary";
 		
 	}
 	

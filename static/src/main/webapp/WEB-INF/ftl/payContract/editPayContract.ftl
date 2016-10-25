@@ -109,12 +109,7 @@ $.ajax({
 	function closeContract(){
 	if (!$("#contractForm").validationEngine('validateBeforeSubmit'))
 			return;
-		var agreement=$("#agreement").val();
-		if(agreement==""){
-		  layer.msg("请填写补充协议");
-		  return;
-		}
-		var param={"id":$("#contractId").val(),"agreement":agreement};
+		var param={"id":$("#contractId").val()};
 		layer.confirm('确定关闭合同吗？', {icon: 3}, function(index){
     		layer.close(index);
 		    if(true){
@@ -188,7 +183,7 @@ $.ajax({
 				<label class="ui-label mt10">补充协议:</label>
 			         <a class="block-btn"
 						style="margin-top: 10px;" href="javascript:void(0);"
-						onclick="editAgreement('${rc.contextPath}',${jpaPayContract.id},'edit')">编辑补充协议</a>	
+						onclick="editAgreement('${rc.contextPath}',${jpaPayContract.id})">编辑补充协议</a>	
 						
 				 <a class="block-btn"
 						style="margin-top: 10px;" href="javascript:void(0);"
