@@ -93,7 +93,6 @@ $.ajax({
 			price+=item.order.price;
 				});
 				$("#inputs").html(op);
-				$("#price").val(price);
 				}
 		});
 }
