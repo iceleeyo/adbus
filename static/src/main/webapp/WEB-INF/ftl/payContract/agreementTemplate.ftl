@@ -249,7 +249,7 @@
 	<br/>
 	
 	<p class="p3">
-		<span class="s2">本协议中的所有术语，除非另有说明，否则其定义与双方于 ${((jpaPayContract.created)?string("yyyy年MM月dd日"))!''}签订的合同编号为 ${(jpaPayContract.contractCode)!''}的广告/节目发布合同，（以下简称“原合同”）中的定义相同。发布内容为《   》硬广广告，发布时间为2016年06月01日至2016年12月31日止。</span>
+		<span class="s2">本协议中的所有术语，除非另有说明，否则其定义与双方于 ${(agreement.signD)!''}签订的合同编号为 ${(jpaPayContract.contractCode)!''}的广告/节目发布合同，（以下简称“原合同”）中的定义相同。发布内容为《 ${(agreement.publish)!''}  》硬广广告，发布时间为${(agreement.startD)!''}至${(agreement.endD)!''}止。</span>
 	</p>
 	<p class="p3">
 		<span class="s2">甲乙双方本着互利互惠的原则，经友好协商，依据实际情况，在原合同基础上变更合同条款部分内容，特订立以下补充协议。</span>

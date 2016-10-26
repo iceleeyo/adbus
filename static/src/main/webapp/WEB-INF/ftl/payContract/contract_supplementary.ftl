@@ -4,11 +4,17 @@
 <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
 <link rel="stylesheet" type="text/css"
 	href="http://busme.cn/css/layer.css">
-<script type="text/javascript"
-	src="http://busme.cn/index_js/jquery-1.11.1.min.js"></script>
-<script type="text/javascript"
-	src="http://busme.cn/js/jquery-dateFormat.js"></script>
+   <script type="text/javascript" src="${rc.contextPath}/index_js/jquery-1.11.1.min.js"></script>
+	<script src="${rc.contextPath}/js/datepicker.js"></script>
+	<script src="${rc.contextPath}/js/jquery.datepicker.region.cn.js"></script>
+	<script src="${rc.contextPath}/js/jquery-ui/jquery-ui.js"></script>
+	<script src="${rc.contextPath}/js/jquery-dateFormat.js"></script>
 
+
+<link rel="stylesheet" type="text/css"
+	href="${rc.contextPath}/js/jquery-ui/jquery-ui.css">
+<link rel="stylesheet" type="text/css"
+	href="${rc.contextPath}/css/jquery-ui-1.8.16.custom.css">
 
 
 <script type="text/javascript">  
@@ -272,7 +278,11 @@ function getEnd(date,days){
 	<br>
 	
 	<p class="p3">
-		<span class="s2">本协议中的所有术语，除非另有说明，否则其定义与双方于 ${((jpaPayContract.created)?string("yyyy年MM月dd日"))!''}签订的合同编号为 ${(jpaPayContract.contractCode)!''}的广告/节目发布合同，（以下简称“原合同”）中的定义相同。发布内容为《   》硬广广告，发布时间为2016年06月01日至2016年12月31日止。</span>
+		<span class="s2">本协议中的所有术语，除非另有说明，否则其定义与双方于 <input style="width:90px" class="ui-input datepicker validate[required,custom[date] " type="text" value="${(agreement.signD)!''}" id="signD" >签订的合同编号为 ${(jpaPayContract.contractCode)!''}的广告/节目发布合同（以下简称“原合同”）中的定义相同。
+		发布内容为《<textarea rows="3" cols="50" id="publish">${(agreement.publish)!''}</textarea>   》硬广广告，发布时间为 <input style="width:90px" class="ui-input datepicker validate[required,custom[date] " type="text" value="${(agreement.startD)!''}" id="startD" >至 <input style="width:90px" class="ui-input datepicker validate[required,custom[date] " type="text" value="${(agreement.endD)!''}" id="endD" >止。</span>
+										
+										
+										 
 	</p>
 	<p class="p3">
 		<span class="s2">甲乙双方本着互利互惠的原则，经友好协商，依据实际情况，在原合同基础上变更合同条款部分内容，特订立以下补充协议。</span>
@@ -315,6 +325,10 @@ var global_Html = "";
 function saveAgree() {
                 var obj=new Object(); 
                 obj.agree1=$("#agree1").val();
+                obj.signD=$("#signD").val();
+                obj.startD=$("#startD").val();
+                obj.endD=$("#endD").val();
+                obj.publish=$("#publish").val();
            var str = JSON.stringify(obj);  
        var param={"jsonStr":str}
        var id=${jpaPayContract.id};
