@@ -279,19 +279,20 @@ function getEnd(date,days){
 	</p>
 	
 	<p class="p7">
-		<textarea rows="7" cols="90" id="agree1">${(agreement.agree1)!''}</textarea>
+	<span class="s7">1.</span>
+		<textarea style="margin-left:30px;" rows="7" cols="90" id="agree1">${(agreement.agree1)!''}</textarea>
 	</p>
 
 	<p class="p7">
-		<span class="s7">3.</span><span>本协议生效后，即成为原协议不可分割的组成部分，与原协议具有同等的法律效力;本协议与原协议有相互冲突时，以本协议为准。  
+		<span class="s7">2.</span><span>本协议生效后，即成为原协议不可分割的组成部分，与原协议具有同等的法律效力;本协议与原协议有相互冲突时，以本协议为准。  
 		</span>
 	</p>
 	<p class="p7">
-		<span class="s7">4.</span><span>除本协议中明确所作修改的条款之外，原协议的其余部分继续有效。  
+		<span class="s7">3.</span><span>除本协议中明确所作修改的条款之外，原协议的其余部分继续有效。  
 		</span>
 	</p>
 	<p class="p7">
-		<span class="s7">5.</span><span>本协议一式肆份，甲、乙双方各执贰份，具有同等法律效力，自双方签字盖章之日起生效。
+		<span class="s7">4.</span><span>本协议一式肆份，甲、乙双方各执贰份，具有同等法律效力，自双方签字盖章之日起生效。
 		</span>
 	</p>
 
