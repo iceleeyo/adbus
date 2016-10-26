@@ -293,21 +293,21 @@
 		<table width="100%" border="0.01" cellspacing="0.01" cellpadding="0.01">
 	<#list ordersList as item>
 		<tr style="height:40px;">
-			<td style="width:77px">套餐名称</td><td COLSPAN=3 >${item.product.name}</td>
-			<td style="width:85px">刊期(天)</td><td COLSPAN=3 >${item.product.days}</td>
+			<td style="width:77px">套餐名称</td><td style="text-align: center;" COLSPAN=3 >${item.product.name}</td>
+			<td style="width:85px">刊期(天)</td><td style="text-align: center;" COLSPAN=3 >${item.product.days}</td>
 		</tr>
 		<tr style="height:40px;">
-			<td >上刊时间</td><td COLSPAN=3 id="startDate"> <#if item.startTime??> ${item.startTime?string("yyyy-MM-dd")}</#if></td>
-			<td >下刊时间</td><td COLSPAN=3 id="endDate"><#if item.endTime??>  ${item.endTime?string("yyyy-MM-dd")}</#if></td>
+			<td >上刊时间</td><td style="text-align: center;" COLSPAN=3 id="startDate"> <#if item.startTime??> ${item.startTime?string("yyyy-MM-dd")}</#if></td>
+			<td >下刊时间</td><td style="text-align: center;" COLSPAN=3 id="endDate"><#if item.endTime??>  ${item.endTime?string("yyyy-MM-dd")}</#if></td>
 		</tr>
 		<tr style="height:40px;">
-			<td >媒体类型</td><td >${item.product.type.typeName}</td>
-			<td >广告时长（秒）</td><td >${item.product.duration}</td>
-			<td >播出频次（次/天）</td><td >${item.product.playNumber}</td>
-			<td >数量</td><td>&nbsp;&nbsp;1&nbsp;&nbsp;</td>			
+			<td >媒体类型</td><td style="text-align: center;" >${item.product.type.typeName}</td>
+			<td >广告时长（秒）</td><td style="text-align: center;" >${item.product.duration}</td>
+			<td >播出频次（次/天）</td><td style="text-align: center;" >${item.product.playNumber}</td>
+			<td >数量</td><td style="text-align: center;">1</td>			
 		</tr>
 		<tr style="height:40px;">
-			<td >订单价格（元）</td><td COLSPAN="7">
+			<td >订单价格（元）</td><td style="text-align: center;" COLSPAN="7">
 				  ¥${item.price?c}元</td>
 		</tr>
 		<#assign sum=sum+(item.price) />

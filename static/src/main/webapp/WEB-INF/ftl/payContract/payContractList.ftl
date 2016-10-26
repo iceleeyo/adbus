@@ -41,10 +41,20 @@ js=["../js/jquery-dateFormat.js","../js/layer-v1.9.3/layer-site.js"]>
                 { "data": "contractCode","defaultContent": "", "render": function(data, type, row, meta) {
                 
                     var operations =  "<a class='operation' onclick='eleContract(\"${rc.contextPath}\",0,0,"+row.id+")' >"+data+"</a>&nbsp;&nbsp;";
-                      operations +='&nbsp;&nbsp;<a class="table-link operation" href="javascript:getHtmlPath(\'${rc.contextPath}\',\''+row.id+'\');" >下载</a>  &nbsp;';
                       return operations;
                 
                 }},
+                { "data": function( row, type, set, meta) {
+                    return row.id;
+                },
+                    "render": function(data, type, row, meta) {
+                    var operations='';
+                        operations +='<a class="table-link operation" href="javascript:getHtmlPath(\'${rc.contextPath}\',\''+row.id+'\');" >下载</a>  &nbsp;';
+                        operations +='&nbsp;&nbsp;<a class="table-link operation" href="${rc.contextPath}/payContract/toEditPayContract/' + data +'" >编辑</a>';
+                        operations +='&nbsp;&nbsp;<a class="table-link operation" href="javascript:delContract('+data+');" >删除</a>  &nbsp;';
+                      
+                         return operations;
+                    }},
                  { "data": "salesName","defaultContent": ""},
                  { "data": "","defaultContent": "", "render": function(data, type, row, meta) {
                 
@@ -67,16 +77,7 @@ js=["../js/jquery-dateFormat.js","../js/layer-v1.9.3/layer-site.js"]>
                     return  $.format.date(data, "yyyy-MM-dd");
                 } },
                 { "data": "userId","defaultContent": ""},
-                { "data": function( row, type, set, meta) {
-                    return row.id;
-                },
-                    "render": function(data, type, row, meta) {
-                    var operations='';
-                        operations +='&nbsp;&nbsp;<a class="table-link operation" href="${rc.contextPath}/payContract/toEditPayContract/' + data +'" >编辑</a>';
-                        operations +='&nbsp;&nbsp;<a class="table-link operation" href="javascript:delContract('+data+');" >删除</a>  &nbsp;';
-                      
-                         return operations;
-                    }},
+                
             ],
             "language": {
                 "url": "${rc.contextPath}/js/jquery.dataTables.lang.cn.json"
@@ -165,6 +166,7 @@ $('#test').on('click', function(){
 		<thead>
 			<tr class="tableTr">
 				<th orderBy="contractCode">合同编号</th>
+                <th>管理</th>
 				<th>业务员</th>
 					<th>客户</th>
 				<th>所关联订单</th>
@@ -172,7 +174,6 @@ $('#test').on('click', function(){
 			   <th orderBy="payPrice">已确认收款(元)</th>
 				<th orderBy="created">创建时间</th>
 				<th orderBy="userId">创建人</th>
-				<th>管理</th>
 			</tr>
 		</thead>
 
