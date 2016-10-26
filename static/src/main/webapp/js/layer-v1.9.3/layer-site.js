@@ -1359,10 +1359,6 @@ function subInvoice(){
 
 function setPriceHelp(tourl,orderid){
 	var p= ($("#price").val());
-	if(p<=0 || p==""){
-		layer.msg('订单金额必须大于0', {icon: 5});
-		return;
-	}
 	document.getElementById('uploadbutton').setAttribute('disabled',true); 
 	$("#uploadbutton").css("background-color","#85A2AD");
 	$.ajax({
@@ -1396,7 +1392,7 @@ function setOrderPrice(tourl,orderid){
     		content: 
 			 '<br/><br/><form id="priceForm"><input type="hidden" id ="cc" class="layui-layer-ico layui-layer-close layui-layer-close1"/><div class="withdrawInputs"><div class="inputs" style="margin-left:-25px;">'
 			 +'<div class="ui-form-item"> <label class="ui-labels mt10" style="width:170px;"><span class="ui-form-required">*</span>订单价格</label>' 
-			 +'<input class="ui-inputLayer validate[required,custom[number],min[1]]" onblur="bu(this)" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\\d.]/g,\'\')}else{this.value=this.value.replace(/[^\\d.]/g,\'\')}"'
+			 +'<input class="ui-inputLayer validate[required,custom[number]" onblur="bu(this)" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^\\d.]/g,\'\')}else{this.value=this.value.replace(/[^\\d.]/g,\'\')}"'
 			 +' type="text" name="price" id="price" data-is="isAmount isEnough" autocomplete="off" disableautocomplete="" placeholder="请输入订单金额">'
 			 +'</div>'
 			  +' <div class="ui-form-item widthdrawBtBox" style="margin-left:-167px;"> <input type="button" id="uploadbutton" class="block-btn" onclick="setPriceHelp(\''+postPath+'\','+orderid+');" value="修改订单价格"> </div>'

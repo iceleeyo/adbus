@@ -28,7 +28,7 @@ function supDetail(data){
 
 			<li class="s-left f-iconli"><span class="s-left tt"><i
 					class="s-left ff-icon"></i>订单信息</span></li>
-			<li style="width: 1000px;"><SPAN>套餐名称：</SPAN>
+			<li style="width: 100%;"><SPAN>套餐名称：</SPAN>
 			<SPAN class="con-title"><a class="layer-tips" tip="点击可查看套餐详细内容!"
 					onclick="showProductlayer('${rc.contextPath}',${prod.id});">${prod.name!''}</a></SPAN></li>
 			<#if !(cpdDetail?exists)>
