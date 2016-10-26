@@ -17,12 +17,12 @@ js=["../js/jquery-dateFormat.js","../js/layer-v1.9.3/layer-site.js"]>
             "dom": '<"#toolbar"><"top"il>rt<"bottom"p><"clear">',
             "searching": false,
             "ordering": true,
-            "aaSorting": [[6, "desc"]],
+            "aaSorting": [[7, "desc"]],
             "serverSide": true,
             "scrollX": true,
             "columnDefs": [
                 { "sClass": "align-left", "targets": [0] },
-                { "orderable": false, "targets": [0,1,2,3,4,5,7,8] },
+                { "orderable": false, "targets": [0,1,2,3,4,5,6,8] },
             ],
             "ajax": {
                 type: "GET",

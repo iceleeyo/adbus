@@ -213,6 +213,10 @@ public class PayContractServiceImpl implements PayContractService {
 					BeanUtils.copyProperties(contract, paycontractWithBLOBs);
 					int r = paycontractMapper.updateByPrimaryKeyWithBLOBs(paycontractWithBLOBs);
 					if (r > 0) {
+						List<JpaOrders> orders=queryOrders(idStrings);
+						if(orders.size()>0){
+							relateContract2Order(orders,contract.getId());
+						}
 						updateContractPlan(paycontractWithBLOBs);
 						return new Pair<Boolean, String>(true, "合同修改成功！");
 					}
