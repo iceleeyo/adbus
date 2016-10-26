@@ -278,8 +278,8 @@ function getEnd(date,days){
 	<br>
 	
 	<p class="p3">
-		<span class="s2">本协议中的所有术语，除非另有说明，否则其定义与双方于 <input style="width:90px" class="ui-input datepicker validate[required,custom[date] " type="text" value="${(agreement.signD)!''}" id="signD" >签订的合同编号为 ${(jpaPayContract.contractCode)!''}的广告/节目发布合同（以下简称“原合同”）中的定义相同。
-		发布内容为《<textarea rows="3" cols="50" id="publish">${(agreement.publish)!''}</textarea>   》硬广广告，发布时间为 <input style="width:90px" class="ui-input datepicker validate[required,custom[date] " type="text" value="${(agreement.startD)!''}" id="startD" >至 <input style="width:90px" class="ui-input datepicker validate[required,custom[date] " type="text" value="${(agreement.endD)!''}" id="endD" >止。</span>
+		<span class="s2">本协议中的所有术语，除非另有说明，否则其定义与双方于 <input style="width:90px;border-color: #00A7E8;" class="ui-input datepicker validate[required,custom[date] " type="text" value="${(agreement.signD)!''}" id="signD" >签订的合同编号为 ${(jpaPayContract.contractCode)!''}的广告/节目发布合同（以下简称“原合同”）中的定义相同。<br/><br/>
+		发布内容为《<textarea rows="3" cols="50" id="publish">${(agreement.publish)!''}</textarea>   》硬广广告。<br/><br/>发布时间为 <input style="width:90px; border-color: #00A7E8;" class="ui-input datepicker validate[required,custom[date] " type="text" value="${(agreement.startD)!''}" id="startD" >至 <input style="width:90px; border-color: #00A7E8;" class="ui-input datepicker validate[required,custom[date] " type="text" value="${(agreement.endD)!''}" id="endD" >止。</span>
 										
 										
 										 

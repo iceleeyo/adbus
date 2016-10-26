@@ -49,7 +49,7 @@ js=["../js/jquery-dateFormat.js","../js/layer-v1.9.3/layer-site.js"]>
                 },
                     "render": function(data, type, row, meta) {
                     var operations='';
-                        operations +='<a class="table-link operation" href="javascript:getHtmlPath(\'${rc.contextPath}\',\''+row.id+'\');" >下载</a>  &nbsp;';
+                        operations +='<a class="table-link operation" href="javascript:getHtmlPath(\'${rc.contextPath}\',\''+row.id+'\');" >下载</a>';
                         operations +='&nbsp;&nbsp;<a class="table-link operation" href="${rc.contextPath}/payContract/toEditPayContract/' + data +'" >编辑</a>';
                         operations +='&nbsp;&nbsp;<a class="table-link operation" href="javascript:delContract('+data+');" >删除</a>  &nbsp;';
                       

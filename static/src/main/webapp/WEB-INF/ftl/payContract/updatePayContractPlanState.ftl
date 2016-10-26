@@ -3,7 +3,13 @@
 <@frame.html title="分期合同办理 " js=["../js/jquery-ui/jquery-ui.js","../js/datepicker.js","../js/jquery.datepicker.region.cn.js",
 "../index_js/sift_common.js","../js/jquery-ui/jquery-ui.auto.complete.js","../js/jquery-dateFormat.js"]
 css=["../js/jquery-ui/jquery-ui.css","../css/autocomplete.css","../js/jquery-ui/jquery-ui.auto.complete.css"]>
+<style type="text/css">
+.font-type{
+	color: #00A8E8;
+    font-weight: 600;
 
+}	
+</style>
 
 <script type="text/javascript">
 function go_back(){
@@ -50,14 +56,14 @@ $.ajax({
 						   +"<DIV class=\"summary uplan-summary-div\">"
 		              +"<UL class=\"uplan-detail-ul\">"
 			+"<li class=\"s-left f-iconli\"><span class=\"s-left tt\"><i class=\"s-left ff-icon\"></i>订单信息</span></li>"
-			+"<li style=\"width: 200px;\"><SPAN>订单号：</SPAN><a target='_blank' href='${rc.contextPath}/order/orderDetail/"+item.order.id+"'>  "+item.longOrderId+"</a></li>"
-			+"<li style=\"width: 200px;\"><SPAN>套餐名称：</SPAN>"
+			+"<li style=\"width: 200px;\"><SPAN class=\"font-type\">订单号：</SPAN><a target='_blank' href='${rc.contextPath}/order/orderDetail/"+item.order.id+"'>  "+item.longOrderId+"</a></li>"
+			+"<li style=\"width: 330px;\"><SPAN class=\"font-type\">套餐名称：</SPAN>"
 			+"<a class='layer-tips' tip='点击可查看套餐详细内容!' onclick=\"showProductlayer('${rc.contextPath}',"+item.order.product.id+");\">"
 			+item.order.product.name+"</a></li>"
-			+"<li style=\"width: 200px;\"><SPAN>订单价格：</SPAN>"+item.order.price+"</li>"
-			+"<li style=\"width: 200px;\"><SPAN>媒体类型：</SPAN>"+item.order.product.type+"</li>"
-			+"<li style=\"width: 200px;\"><SPAN>下单用户：</SPAN>"+item.order.creator+"</li>"
-			+"</UL></DIV></DIV><br>"
+			+"<li style=\"width: 155px;\"><SPAN class=\"font-type\">订单价格：</SPAN>"+item.order.price+"</li>"
+			+"<li style=\"width: 140px;\"><SPAN class=\"font-type\">媒体类型：</SPAN>"+item.order.product.type+"</li>"
+			+"<li style=\"width: 200px;\"><SPAN class=\"font-type\">下单用户：</SPAN>"+item.order.creator+"</li>"
+			+"</UL></DIV></DIV>"
 			price+=item.order.price;
 				});
 				$("#inputs").html(op);
