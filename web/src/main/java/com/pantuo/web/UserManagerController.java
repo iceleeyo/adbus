@@ -705,4 +705,9 @@ public class UserManagerController {
 	public List<RoleView> roleList(@CookieValue(value = "city", defaultValue = "-1") int cityId) {
 		return goupManagerService.findAllBodyRoles(cityId);
 	}
+	
+	@RequestMapping("testVedio")
+	public String  testVedio(){
+		return "testVideo";
+	}
 }

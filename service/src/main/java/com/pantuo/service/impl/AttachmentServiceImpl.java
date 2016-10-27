@@ -26,6 +26,7 @@ import com.pantuo.mybatis.domain.AttachmentExample;
 import com.pantuo.mybatis.persistence.AttachmentMapper;
 import com.pantuo.service.AttachmentService;
 import com.pantuo.util.BusinessException;
+import com.pantuo.util.FFmpegUtil;
 import com.pantuo.util.FileHelper;
 import com.pantuo.util.GlobalMethods;
 import com.pantuo.util.Pair;
@@ -118,6 +119,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 									storeName += FileHelper.getFileExtension(oriFileName,true));
 							File localFile = new File(p.getLeft());
 							file.transferTo(localFile);
+							FFmpegUtil.mpgToMp4(p.getLeft());
 						    AttachmentExample example=new AttachmentExample();
 							AttachmentExample.Criteria criteria=example.createCriteria();
 							criteria.andMainIdEqualTo(main_id);
@@ -166,6 +168,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 							t.setCreated(new Date());
 							t.setUpdated(t.getCreated());
 							t.setName(oriFileName);
+							log.info(p.getRight());
 							t.setUrl(p.getRight());
 							t.setUserId(user_id);
 							attachmentMapper.insert(t);

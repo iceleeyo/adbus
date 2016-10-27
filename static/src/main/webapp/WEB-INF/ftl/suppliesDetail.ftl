@@ -31,20 +31,20 @@ js=["js/highslide/highslide-full.js", "js/video-js/video.js",
 							<tbody>
 								<tr class="uplan-table-th">
 									<td
-										style="width: 15%; text-align: center; vertical-align: middle">
+										style="width: 45%; text-align: center; vertical-align: middle">
 										<div class="th-md">预览</div>
 									</td>
 									<td style="text-align: center; vertical-align: middle">
 										<div class="th-md">物料名称</div>
 									</td>
-									<td style="text-align: center; vertical-align: middle">
+									<td style="width: 10%;text-align: center; vertical-align: middle">
 										<div class="th-md">类型</div>
 									</td>
 									<td
 										style="width: 15%; text-align: center; vertical-align: middle">
 										<div class="th-md">文件名称</div>
 									</td>
-									<td style="text-align: center; vertical-align: middle">
+									<td style="width: 7%; text-align: center; vertical-align: middle">
 										<div class="th-md">操作</div>
 									</td>
 								</tr>
@@ -52,6 +52,11 @@ js=["js/highslide/highslide-full.js", "js/video-js/video.js",
 								<#list view.files as item>
 								<tr>
 									<td>
+									
+									<video width="450" height="330"  autoplay="autoplay" controls="controls" >
+  <source src="/upload_temp/${(  ( item.url)?replace('mpg','mp4')  )!''}"   type="video/mp4" />
+</video>
+<#--
 <object classid="clsid:05589FA1-C356-11CE-BF01-00AA0055595A" id="ActiveMovie1" width="239" height="250">
 <param name="Appearance" value="0">
 <param name="AutoStart" value="-1">
@@ -82,7 +87,7 @@ js=["js/highslide/highslide-full.js", "js/video-js/video.js",
 <param name="ShowTracker" value="-1">
 <param name="Volume" value="-480">
 </object>
-
+-->
 									</td>
 									<td>${view.mainView.name!''}</td>
 									<td><#if item.type?? && item.type==4> 物料文件 <#elseif

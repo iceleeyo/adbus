@@ -1887,34 +1887,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 							if (dbid == 0) {
 								continue;
 							}
-							int orderid = OrderIdSeq.longOrderId2DbId(dbid);
-							List<ProcessInstance> list = runtimeService.createProcessInstanceQuery().variableValueEquals(ORDER_ID, orderid).orderByProcessInstanceId().desc()
-									.listPage(0, 1);
-
-							for (ProcessInstance processInstance : list) {
-
-								List<Task> tasks = taskService.createTaskQuery().includeProcessVariables().processInstanceId(processInstance.getId()).orderByTaskCreateTime()
-										.desc().listPage(0, 5);
-								if (!tasks.isEmpty()) {
-									for (Task task : tasks) {
-										taskService.setVariable(task.getId(), "paymentResult", true);
-										taskService.setVariable(task.getId(), ActivitiService.PAYPLAN, true);
-										taskService.setVariable(task.getId(), "paymentResult_message", "财务收到第一笔");
-										/*
-										if (StringUtils.equals("setPayPlan", task.getTaskDefinitionKey())) {
-											taskService.claim(task.getId(), (String) task.getProcessVariables().get(ActivitiService.CREAT_USERID));
-												Map<String, Object> variables = new HashMap<String, Object>();
-												variables.put(ActivitiService.R_USERPAYED, false);
-												variables.put(ActivitiService.PAYPLAN, true);
-												variables.put("isContractPayed", true);
-												variables.put("paymentResult", true);
-												variables.put("paymentResult_message", "财务收到第一笔");
-												taskService.complete(task.getId(), variables);
-
-											}*/
-									}
-								}
-							}
+							closeOrderPay(dbid);
 
 						}
 
@@ -1935,6 +1908,37 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return r;
 	}
 
+	public void closeOrderPay(long dbid){
+		int orderid = OrderIdSeq.longOrderId2DbId(dbid);
+		List<ProcessInstance> list = runtimeService.createProcessInstanceQuery().variableValueEquals(ORDER_ID, orderid).orderByProcessInstanceId().desc()
+				.listPage(0, 1);
+
+		for (ProcessInstance processInstance : list) {
+
+			List<Task> tasks = taskService.createTaskQuery().includeProcessVariables().processInstanceId(processInstance.getId()).orderByTaskCreateTime()
+					.desc().listPage(0, 5);
+			if (!tasks.isEmpty()) {
+				for (Task task : tasks) {
+					taskService.setVariable(task.getId(), "paymentResult", true);
+					taskService.setVariable(task.getId(), ActivitiService.PAYPLAN, true);
+					taskService.setVariable(task.getId(), "paymentResult_message", "财务收到第一笔");
+					/*
+					if (StringUtils.equals("setPayPlan", task.getTaskDefinitionKey())) {
+						taskService.claim(task.getId(), (String) task.getProcessVariables().get(ActivitiService.CREAT_USERID));
+							Map<String, Object> variables = new HashMap<String, Object>();
+							variables.put(ActivitiService.R_USERPAYED, false);
+							variables.put(ActivitiService.PAYPLAN, true);
+							variables.put("isContractPayed", true);
+							variables.put("paymentResult", true);
+							variables.put("paymentResult_message", "财务收到第一笔");
+							taskService.complete(task.getId(), variables);
+
+						}*/
+				}
+			}
+		}
+	}
+	
 	@Override
 	public String toRestPay(Model model, int orderid, int city, String pid, Principal principal) {
 		OrderView orderView = gotoView(model, orderid, city, principal);
