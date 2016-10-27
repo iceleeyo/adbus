@@ -207,6 +207,8 @@ public interface ActivitiService {
 	public Pair<Object, String> updatePlan(String rad,JpaPayPlan plan,  Principal principal);
 
 	public Page<OrderView> scheduleAdjust(Principal principal, TableRequest req);
+
+	void closeOrderPay(int dbid);
 	
 	
 	

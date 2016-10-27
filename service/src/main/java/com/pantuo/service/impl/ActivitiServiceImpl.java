@@ -1887,7 +1887,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 							if (dbid == 0) {
 								continue;
 							}
-							closeOrderPay(dbid);
+							int orderid = OrderIdSeq.longOrderId2DbId(dbid);
+							closeOrderPay(orderid);
 
 						}
 
@@ -1908,9 +1909,10 @@ public class ActivitiServiceImpl implements ActivitiService {
 		return r;
 	}
 
-	public void closeOrderPay(long dbid){
-		int orderid = OrderIdSeq.longOrderId2DbId(dbid);
-		List<ProcessInstance> list = runtimeService.createProcessInstanceQuery().variableValueEquals(ORDER_ID, orderid).orderByProcessInstanceId().desc()
+	@Override
+	public void closeOrderPay(int dbid){
+		
+		List<ProcessInstance> list = runtimeService.createProcessInstanceQuery().includeProcessVariables().variableValueEquals(ORDER_ID, dbid).orderByProcessInstanceId().desc()
 				.listPage(0, 1);
 
 		for (ProcessInstance processInstance : list) {
@@ -1922,18 +1924,6 @@ public class ActivitiServiceImpl implements ActivitiService {
 					taskService.setVariable(task.getId(), "paymentResult", true);
 					taskService.setVariable(task.getId(), ActivitiService.PAYPLAN, true);
 					taskService.setVariable(task.getId(), "paymentResult_message", "财务收到第一笔");
-					/*
-					if (StringUtils.equals("setPayPlan", task.getTaskDefinitionKey())) {
-						taskService.claim(task.getId(), (String) task.getProcessVariables().get(ActivitiService.CREAT_USERID));
-							Map<String, Object> variables = new HashMap<String, Object>();
-							variables.put(ActivitiService.R_USERPAYED, false);
-							variables.put(ActivitiService.PAYPLAN, true);
-							variables.put("isContractPayed", true);
-							variables.put("paymentResult", true);
-							variables.put("paymentResult_message", "财务收到第一笔");
-							taskService.complete(task.getId(), variables);
-
-						}*/
 				}
 			}
 		}

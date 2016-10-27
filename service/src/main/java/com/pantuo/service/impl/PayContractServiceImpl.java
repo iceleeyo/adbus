@@ -263,12 +263,18 @@ public class PayContractServiceImpl implements PayContractService {
 		return new Pair<Boolean, String>(false, "操作失败！");
 	}
 
+	
+	@Autowired
+	ActivitiService activitiService;
 	public void relateContract2Order(List<JpaOrders> orders, Integer payContratcId) {
 		JpaPayContract contract=payContractRepository.findOne(payContratcId);
 		for (JpaOrders jpaOrders : orders) {
 			jpaOrders.setJpaPayContract(contract);
 			jpaOrders.setContractCode(contract.getContractCode());
 			ordersRepository.save(jpaOrders);
+			if(contract.getPayPrice()>0){
+				activitiService.closeOrderPay(jpaOrders.getId());
+			}
 		}
 		
 	}
