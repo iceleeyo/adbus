@@ -1914,7 +1914,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		
 		List<ProcessInstance> list = runtimeService.createProcessInstanceQuery().includeProcessVariables().variableValueEquals(ORDER_ID, dbid).orderByProcessInstanceId().desc()
 				.listPage(0, 1);
-
+          log.info("ordersSize:{}"+list.size());
 		for (ProcessInstance processInstance : list) {
 
 			List<Task> tasks = taskService.createTaskQuery().includeProcessVariables().processInstanceId(processInstance.getId()).orderByTaskCreateTime()
