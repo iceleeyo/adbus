@@ -84,7 +84,9 @@ public class JpaOrders extends CityEntity {
     private double payPrice = 0;//已支付金额
     
     private boolean isChangeOrder = false;
-    
+	@ManyToOne
+	@JoinColumn(name = "groupId")
+	public JpaVideo32Group group;
     
     //审核号
     private String seqNumber;
@@ -417,6 +419,18 @@ public class JpaOrders extends CityEntity {
 	}
 
 	public void setIsChangeOrder(boolean isChangeOrder) {
+		this.isChangeOrder = isChangeOrder;
+	}
+
+	public JpaVideo32Group getGroup() {
+		return group;
+	}
+
+	public void setGroup(JpaVideo32Group group) {
+		this.group = group;
+	}
+
+	public void setChangeOrder(boolean isChangeOrder) {
 		this.isChangeOrder = isChangeOrder;
 	}
 	
