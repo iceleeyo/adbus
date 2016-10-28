@@ -30,7 +30,8 @@ function supDetail(data){
 					class="s-left ff-icon"></i>订单信息</span></li>
 			<li style="width: 100%;"><SPAN>套餐名称：</SPAN>
 			<SPAN class="con-title"><a class="layer-tips" tip="点击可查看套餐详细内容!"
-					onclick="showProductlayer('${rc.contextPath}',${prod.id});">${prod.name!''}</a></SPAN></li>
+			href="/m/public_detail/${prod.id}" target="_blank"
+					>${prod.name!''}</a></SPAN></li>
 			<#if !(cpdDetail?exists)>
 			<br/>
 			<li style="width: 200px;"><SPAN>套餐价格：</SPAN><SPAN class="con"
@@ -82,7 +83,10 @@ function supDetail(data){
 				<li style="width: 200px;"><SPAN><b>成交价</b>：</SPAN><font color='#ff9966'>${cpdDetail.comparePrice!''}</font></li>
 			</#if>
 			<li style="width: 200px;"><SPAN>媒体类型：</SPAN><SPAN class="con">${prod.type.typeName!''}</SPAN></li>
-
+			<#if orderview.order.product.type == "inchof32">
+				<li style="width: 200px;"><SPAN>投放线路：</SPAN>
+				<SPAN style="color:red" class="con">${(orderview.order.group.name)!''}</SPAN></li>
+			</#if>
 			<@security.authorize
 			ifAnyGranted="salesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">
 			<li style="width: 200px;"><SPAN>下单用户：</SPAN><SPAN class="con">
@@ -207,11 +211,11 @@ function supDetail(data){
 			<#if quafiles?? > </#if> </#if>
 			
 		<@security.authorize ifNotGranted="advertiser">
+			<#if orderview.order.product.type!="inchof32">		
 		    <#if ischedule?? && ischedule=='Y'>
 			<#else>
 			<li class="s-left f-iconli"><span class="s-left tt"><i
 					class="s-left ff-icon"></i>排期信息</span></li> 
-					
 			<#if orderview.task_name?exists && (orderview.task_name=='已排期待上播' ||
 			orderview.task_name=='已上播' ||orderview.task_name=='已排期待上播')>
 			<li style="width: 200px;"><SPAN>排期状态：
@@ -228,6 +232,7 @@ function supDetail(data){
 							<li style="width: 200px;"><SPAN>排期状态：</SPAN> <SPAN
 								class="con">暂未排期</SPAN></li> 
 					  </#if> 
+					</#if> 
 					</#if> 
 			</@security.authorize>
 		</UL>

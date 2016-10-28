@@ -401,6 +401,7 @@ public class CardServiceImpl implements CardService {
 					media.setType(product.getType().ordinal());
 					if(StringUtils.isNoneBlank(isChangeOrder))
 					media.setIsChangeOrder(BooleanUtils.toBoolean(isChangeOrder));
+					else media.setIsChangeOrder(false);
 					cardMapper.insert(media);
 				} else {
 					CardboxMedia existMedia = c.get(0);
@@ -937,12 +938,13 @@ public class CardServiceImpl implements CardService {
 		double totalPrice=0;
 		for (JpaCardBoxMedia jpaCardBoxMedia : mList) {
 			
-			if(jpaCardBoxMedia.getProduct().getType().equals(JpaProduct.Type.inchof32)){
-				c32Media.add(jpaCardBoxMedia);	
-				totalPrice+=jpaCardBoxMedia.getPrice();
-				continue;
-			}
+//			if(jpaCardBoxMedia.getProduct().getType().equals(JpaProduct.Type.inchof32)){
+//				c32Media.add(jpaCardBoxMedia);	
+//				totalPrice+=jpaCardBoxMedia.getPrice();
+//				continue;
+//			}
 			JpaOrders order = new JpaOrders();
+			order.setGroup(jpaCardBoxMedia.getGroup());
 			order.setCity(jpaCardBoxMedia.getCity());
 			order.setPrice(jpaCardBoxMedia.getTotalprice());
 			order.setCreated(new Date());
@@ -1001,52 +1003,52 @@ public class CardServiceImpl implements CardService {
 				activitiService.startProcess2(jpaCardBoxMedia.getCity(), Request.getUser(principal), order,customerObject);
 			}
 		}
-		if(c32Media.size()>0){
-			Jpa32Order jpa32Order=new Jpa32Order();
-			jpa32Order.setCreated(new Date());
-			jpa32Order.setUpdated(new Date());
-			jpa32Order.setOrderUserJson(JsonTools.getJsonFromObject(copy));
-			if (customerObject != null) {
-				jpa32Order.setCustomerJson(JsonTools.getJsonFromObject(customerObject));
-			}
-			jpa32Order.setPayType(Jpa32Order.PayType.valueOf(paytype));
-			jpa32Order.setStats(Jpa32Order.Status.ings);
-			jpa32Order.setCreator(Request.getUserId(principal));
-			jpa32Order.setRunningNum(runningNum);
-			jpa32Order.setPrice(totalPrice);
-			Jpa32Order jpa32Order2=vedio32OrderRepository.save(jpa32Order);
-			if(jpa32Order2!=null){
-				 for (JpaVideo32OrderStatus.Status s : JpaVideo32OrderStatus.Status.values()) {
-					 JpaVideo32OrderStatus st=new JpaVideo32OrderStatus();
-					 st.setCreated(new Date());
-					 st.setUpdated(new Date());
-					 st.setOrder(jpa32Order2);
-					 st.setStatus(s);
-					 if(s.equals(JpaVideo32OrderStatus.Status.paid)){
-						 st.setR(JpaVideo32OrderStatus.Result.N);
-						 st.setCreater(Request.getUserId(principal));
-					 }else{
-						 st.setR(JpaVideo32OrderStatus.Result.Z);
-					 }
-					 statusRepository.save(st);
-		            }
-				for (JpaCardBoxMedia jpaCardBoxMedia2 : c32Media) {
-					JpaVideo32OrderDetail detail=new JpaVideo32OrderDetail();
-					detail.setSuppliesId(1);
-					detail.setGroup(jpaCardBoxMedia2.getGroup());
-					detail.setOrder(jpa32Order2);
-					detail.setRunningNum(runningNum);
-					if (jpaCardBoxMedia2.getStartTime() != null) {
-						Date eDate = DateUtil.dateAdd(jpaCardBoxMedia2.getStartTime(), jpaCardBoxMedia2.getProduct().getDays());
-						detail.setStartTime(jpaCardBoxMedia2.getStartTime());
-						detail.setEndTime(eDate);
-					}
-					detail.setStats(JpaVideo32OrderDetail.Status.upload);
-					detail.setUserId(Request.getUserId(principal));
-					detailRepository.save(detail);
-				}
-			}
-		}
+//		if(c32Media.size()>0){
+//			Jpa32Order jpa32Order=new Jpa32Order();
+//			jpa32Order.setCreated(new Date());
+//			jpa32Order.setUpdated(new Date());
+//			jpa32Order.setOrderUserJson(JsonTools.getJsonFromObject(copy));
+//			if (customerObject != null) {
+//				jpa32Order.setCustomerJson(JsonTools.getJsonFromObject(customerObject));
+//			}
+//			jpa32Order.setPayType(Jpa32Order.PayType.valueOf(paytype));
+//			jpa32Order.setStats(Jpa32Order.Status.ings);
+//			jpa32Order.setCreator(Request.getUserId(principal));
+//			jpa32Order.setRunningNum(runningNum);
+//			jpa32Order.setPrice(totalPrice);
+//			Jpa32Order jpa32Order2=vedio32OrderRepository.save(jpa32Order);
+//			if(jpa32Order2!=null){
+//				 for (JpaVideo32OrderStatus.Status s : JpaVideo32OrderStatus.Status.values()) {
+//					 JpaVideo32OrderStatus st=new JpaVideo32OrderStatus();
+//					 st.setCreated(new Date());
+//					 st.setUpdated(new Date());
+//					 st.setOrder(jpa32Order2);
+//					 st.setStatus(s);
+//					 if(s.equals(JpaVideo32OrderStatus.Status.paid)){
+//						 st.setR(JpaVideo32OrderStatus.Result.N);
+//						 st.setCreater(Request.getUserId(principal));
+//					 }else{
+//						 st.setR(JpaVideo32OrderStatus.Result.Z);
+//					 }
+//					 statusRepository.save(st);
+//		            }
+//				for (JpaCardBoxMedia jpaCardBoxMedia2 : c32Media) {
+//					JpaVideo32OrderDetail detail=new JpaVideo32OrderDetail();
+//					detail.setSuppliesId(1);
+//					detail.setGroup(jpaCardBoxMedia2.getGroup());
+//					detail.setOrder(jpa32Order2);
+//					detail.setRunningNum(runningNum);
+//					if (jpaCardBoxMedia2.getStartTime() != null) {
+//						Date eDate = DateUtil.dateAdd(jpaCardBoxMedia2.getStartTime(), jpaCardBoxMedia2.getProduct().getDays());
+//						detail.setStartTime(jpaCardBoxMedia2.getStartTime());
+//						detail.setEndTime(eDate);
+//					}
+//					detail.setStats(JpaVideo32OrderDetail.Status.upload);
+//					detail.setUserId(Request.getUserId(principal));
+//					detailRepository.save(detail);
+//				}
+//			}
+//		}
 
 	}
 

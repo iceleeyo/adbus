@@ -237,7 +237,7 @@ public class ScheduleController {
 		//		long t=System.currentTimeMillis();
 		//add by xiaoli
 		JpaOrders order = orderService.getJpaOrder(id);
-		if (order.getType() == JpaProduct.Type.info || order.getType() == JpaProduct.Type.image) {
+		if (order.getType() == JpaProduct.Type.info || order.getType() == JpaProduct.Type.image ||  order.getType() == JpaProduct.Type.inchof32) {
 			return scheduleService.scheduleInfoImg(order, taskid, startdate1);
 		} else {
 			SchedUltResult r = scheduleService.checkInventory(id, taskid, startdate1, ischeck, bm == 1, request,

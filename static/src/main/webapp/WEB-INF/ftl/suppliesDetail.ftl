@@ -25,7 +25,7 @@ js=["js/highslide/highslide-full.js", "js/video-js/video.js",
 						<#if view.mainView.suppliesType?? &&
 						view.mainView.suppliesType!=2>
 						<div class="withdraw-title">
-						<span style="font-size:18px;">如果您的浏览器不能正常预览视频，请通过下载文件进行预览。</span>  
+					 	<span style="font-size:18px;">目前支持mpg视频格式上传预览</span>  
 						</div>
 						<table width="100%" class="uplan-table">
 							<tbody>
@@ -52,10 +52,13 @@ js=["js/highslide/highslide-full.js", "js/video-js/video.js",
 								<#list view.files as item>
 								<tr>
 									<td>
-									
+									<#if  item.url?contains("mpg") || item.url?contains("mp4")>
 									<video width="450" height="330"  autoplay="autoplay" controls="controls" >
   <source src="/upload_temp/${(  ( item.url)?replace('mpg','mp4')  )!''}"   type="video/mp4" />
 </video>
+<#else>
+   <img src="/upload_temp/${(  ( item.url)?replace('mpg','mp4')  )!''}"  width="450" height="330"/>
+</#if>
 <#--
 <object classid="clsid:05589FA1-C356-11CE-BF01-00AA0055595A" id="ActiveMovie1" width="239" height="250">
 <param name="Appearance" value="0">

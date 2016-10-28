@@ -73,6 +73,22 @@ $.ajax({
 		 var ap="";
 		 var price=0;
 			$.each(data,function(i,item){
+			var type=item.order.product.type;
+			console.log(type);
+			var typeStr='';
+			         if (type == 'video')
+                            typeStr= '硬广广告';
+                        if (type == 'image')
+                            typeStr= 'INFO图片';
+                        if (type == 'body')
+                            typeStr= '车身';
+                        if (type == 'info')
+                            typeStr= 'INFO字幕';
+                        if (type == 'team')
+                            typeStr= '团类广告';
+                         if (type == 'inchof32')
+                            typeStr= '32寸屏';
+			
 			var ischange='否';
 			if(item.order.isChangeOrder){
 			ischange='<SPAN style="color: red">是</SPAN>';
@@ -86,7 +102,7 @@ $.ajax({
 			+"<a class='layer-tips' tip='点击可查看套餐详细内容!' onclick=\"showProductlayer('${rc.contextPath}',"+item.order.product.id+");\">"
 			+item.order.product.name+"</a></li>"
 			+"<li style=\"width: 155px;\"><SPAN class=\"font-type\">订单价格：</SPAN>"+item.order.price+"</li>"
-			+"<li style=\"width: 130px;\"><SPAN class=\"font-type\">媒体类型：</SPAN>"+item.order.product.type+"</li>"
+			+"<li style=\"width: 130px;\"><SPAN class=\"font-type\">媒体类型：</SPAN>"+typeStr+"</li>"
 			+"<li style=\"width: 140px;\"><SPAN class=\"font-type\">下单用户：</SPAN>"+item.order.creator+"</li>"
 			+"<li style=\"width: 120px;\"><SPAN class=\"font-type\">换版订单：</SPAN>"+ischange+"</li>"
 			+"</UL></DIV></DIV>"

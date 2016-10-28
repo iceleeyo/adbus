@@ -98,6 +98,8 @@
                             return 'INFO字幕';
                         if (data == 'team')
                             return '二类节目';
+                        if (data == 'inchof32')
+                            return '32寸屏';
                         return '';
                 } },
                 { "data": "industry.name", "defaultContent": ""},

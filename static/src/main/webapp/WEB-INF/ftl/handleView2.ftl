@@ -1188,7 +1188,15 @@ suppliesView=suppliesView/>
 				<TR>
 					<TH>开播日期</TH>
 					<TD colspan=3>
-                    <input class="ui-input datepicker validate[required,custom[date],past[#upDate1]]" type="text"  value="<#if orderview.order.startTime?has_content>${(orderview.order.startTime)?string("yyyy-MM-dd")}</#if>" id="startdate1" onchange="dateInput('startdate1',${orderview.order.product.id})"; data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> 						
+					
+                    <input class="ui-input datepicker validate[required,custom[date],past[#upDate1]]" type="text"  
+                    value="<#if orderview.order.startTime?has_content>${(orderview.order.startTime)?string("yyyy-MM-dd")}</#if>" 
+                    id="startdate1" <#if orderview.order.product.type!="inchof32">
+                    
+                    onchange="dateInput('startdate1',${orderview.order.product.id})";
+                    
+                    </#if>
+                     data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> 						
 						</TD>
 				</TR>
 				<#if (orderview.order.supplies.id>1)>
@@ -1241,7 +1249,9 @@ suppliesView=suppliesView/>
 				<TR>
 					<TH>实际开播日期</TH>
 					<TD colspan=3>
-                    <input class="ui-input datepicker validate[required,custom[date],past[#upDate1]]" type="text"  value="${orderview.order.startTime?string("yyyy-MM-dd")}" id="startdate1" data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> 						
+                    <input class="ui-input datepicker validate[required,custom[date],past[#upDate1]]" type="text"  
+                    value="${orderview.order.startTime?string("yyyy-MM-dd")}" id="startdate1" 
+                    data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> 						
 					</TD>
 				</TR>
 				<#if paymentResult>
@@ -1263,7 +1273,7 @@ suppliesView=suppliesView/>
 						<button onclick="checkInventory();" class="block-btn">检查库存</button> 
 						<button id="sureButton" onclick="confirmSchedule();" class="block-btn" style="background:#f2f2f2"><font style="font-weight:bold;font-style:italic;">确定排期</font></button>
 						  <#else>
-						  <button id="sureButton" onclick="confirmSchedule();" class="block-btn" >确定排期</button>
+						  <button id="sureButton2" onclick="confirmSchedule();" class="block-btn" >确定排期</button>
 						 </#if>
 						<#else>
 						订单未经财务确认,暂不能排期!
@@ -1342,16 +1352,24 @@ suppliesView=suppliesView/>
 		<TABLE class="ui-table ui-table-gray">
 			<TBODY>
 				<TR>
-					<TH width="20%">签收时间</TH>
-					<TD colspan=2 style="border-radius: 0 0 0"><#setting
-						date_format="yyyy-MM-dd HH:mm:ss"> ${claimTime!''}</TD>
 				</TR>
 				<TR>
+					<TH width="20%">签收时间</TH>
+					<TD colspan=2 >
+					<#setting
+						date_format="yyyy-MM-dd HH:mm:ss"> ${claimTime!''}
+						</TD>
+				</TR><#if orderview.order.product.type!="inchof32">
+				<TR>
 					<TH width="20%">排期表</TH>
-					<TD colspan=2 style="border-radius: 0 0 0"><a target="_blank" style="color:#00A8E8;" 
-						href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
+					<TD colspan=2 style="border-radius: 0 0 0">
+					
+					<a target="_blank" style="color:#00A8E8;" 
+						href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a>
+					
+						</TD>
 				</TR>
-
+	</#if>
 
 				<TR style="height: 45px;display:none;">
 					<TH width="20%">是否通过</TH>
@@ -1493,16 +1511,21 @@ suppliesView=suppliesView/>
 
 		<TABLE class="ui-table ui-table-gray">
 			<TBODY>
+				<TR></TR>
 				<TR>
 					<TH width="20%">签收时间</TH>
 					<TD style="border-radius: 0 0 0"><#setting
 						date_format="yyyy-MM-dd HH:mm:ss"> ${claimTime!''}</TD>
 				</TR>
+					<#if orderview.order.product.type!="inchof32">
 				<TR>
 					<TH width="20%">排期表</TH>
-					<TD style="border-radius: 0 0 0"><a target="_blank" style="color:#00A8E8;" 
-						href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
+					<TD style="border-radius: 0 0 0">
+					<a target="_blank" style="color:#00A8E8;" 
+						href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a>
+					</TD>
 				</TR>
+						</#if>
 				<TR>
 					<TH>排期意见</TH>
 					<TD><textarea name="inputScheduleComments"
@@ -1587,15 +1610,19 @@ initPayPlanTable('${rc.contextPath}',$("#orderid").val(),'<@security.authorize
 		<TABLE class="ui-table ui-table-gray">
 			<TBODY>
 				<TR>
+				</TR>
+				<TR>
 					<TH width="20%">签收时间</TH>
 					<TD colspan=2 style="border-radius: 0 0 0"><#setting
 						date_format="yyyy-MM-dd HH:mm:ss"> ${claimTime!''}</TD>
 				</TR>
+				<#if orderview.order.product.type!="inchof32">
 				<TR>
 					<TH width="20%">排期表</TH>
 					<TD colspan=2 style="border-radius: 0 0 0"><a target="_blank" style="color:#00A8E8;" 
 						href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
 				</TR>
+				</#if>
 				<TR>
 					<TH>上播意见</TH>
 					<TD colspan=2><textarea name="shangboComments"
@@ -1632,15 +1659,19 @@ initPayPlanTable('${rc.contextPath}',$("#orderid").val(),'<@security.authorize
 		<TABLE class="ui-table ui-table-gray">
 			<TBODY>
 				<TR>
+				</TR>
+				<TR>
 					<TH width="20%">签收时间</TH>
 					<TD style="border-radius: 0 0 0"><#setting
 						date_format="yyyy-MM-dd HH:mm:ss"> ${claimTime!''}</TD>
 				</TR>
+				<#if orderview.order.product.type!="inchof32">
 				<TR>
 					<TH width="20%">排期表</TH>
 					<TD style="border-radius: 0 0 0"><a target="_blank" style="color:#00A8E8;" 
 						href="${rc.contextPath}/schedule/${orderview.order.id!''}">查看排期表</a></TD>
 				</TR>
+				</#if>
 				<TR>
 					<TH>意见</TH>
 					<TD><textarea name="jianboComments" id="jianboComments"

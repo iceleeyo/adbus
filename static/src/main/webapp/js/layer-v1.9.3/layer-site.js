@@ -493,7 +493,13 @@ function supEnter(tourl,city,type){
 			);
 			$("#text").hide();
             $("#file").show();
-		}else if(type=="info"){
+		}else if(type=="inchof32"){
+			$("#suppliesType").append(
+					"<option value='6'>32寸屏图片</option>"
+					);
+					$("#text").hide();
+		            $("#file").show();
+				}else if(type=="info"){
 			$("#suppliesType").append(
 			"<option value='2'>INFO字幕</option>"
 			);

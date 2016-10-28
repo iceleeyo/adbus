@@ -727,8 +727,8 @@ header .area {
 }
 
 .cart-container .panel .panel-item {
-	height: 120px;
-	line-height: 120px;
+	height: 140px;
+	line-height: 140px;
 }
 
 .tabline {
@@ -809,7 +809,7 @@ header .area {
 }
 
 .panel .item-rect {
-	height: 116px;
+	height: 136px;
 	padding: 10px 0;
 	position: relative;
 	box-sizing: border-box;
@@ -844,6 +844,11 @@ header .area {
 }
 
 .panel .price, .panel .sum {
+	color: #ff5151;
+	font-size: 16px;
+}
+
+.price_2 {
 	color: #ff5151;
 	font-size: 16px;
 }
@@ -890,6 +895,7 @@ header .area {
 
 .panel .td-handle {
 	width: 90px;
+	margin-top: 12px;
 }
 
 .td-item p {
@@ -987,8 +993,7 @@ header .area {
 }
 
 .panel-head .cart-check label {
-	margin: 0 10px;
-	margin-top: 25%;
+	margin: 8 10px;
 }
 
 .panel-item .td-check {
@@ -997,6 +1002,7 @@ header .area {
 
 .cart-check label {
 	margin: auto 10px;
+	margin-top: 10px;
 }
 
 .acount-fix {
@@ -1087,8 +1093,9 @@ header .area {
 }
 
 .cart-step2 .panel .panel-item {
-	height: 100px;
+	/* height: 100px; */
 	line-height: 100px;
+	padding-top: 20px;
 }
 
 .cart-step2 .panel-head .td, .cart-step2 .panel-item .td {

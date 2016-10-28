@@ -20,7 +20,7 @@ public class Jpa32Order extends BaseEntity {
 	public static final long serialVersionUID = 3501204647397695580L;
 
 	public static enum PayType {
-		online, contract, check, remit, cash, offline, dividpay
+		online, contract, check, remit, cash, offline, dividpay,payContract
 	}
 
 	public static enum Status {

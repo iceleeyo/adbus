@@ -198,6 +198,8 @@ function getEnd(date,days){
                             return 'INFO字幕';
                         if (data == 'team')
                             return '团类广告';
+                            else
+                            return '32寸屏';
                         return '';
                     } },
 

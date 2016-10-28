@@ -83,7 +83,9 @@
 								<li class="td td-info">
 									<div class="td-inner" style="margin-top:-20px">
 									<#if item.product.type =='inchof32'>
-									<p class="perio">线路：${item.group.name}</p>
+									<p class="perio">线路：
+									  ${(item.group.name)!''}
+									</p>
 									</#if>
 										<span> 时长：${item.product.duration}秒/次</span> 
 										
@@ -109,7 +111,7 @@
 								</li>
 								<li class="td td-price">
 									<div class="td-inner">
-										<p class="price">
+										<p class="price_2">
 											<em>￥</em>${item.price}</p>
 									</div>
 								</li>
