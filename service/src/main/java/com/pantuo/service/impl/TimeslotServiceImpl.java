@@ -119,6 +119,7 @@ public List<JpaInfoImgSchedule> getInfoSchedule(int city, TableRequest req, Prin
      Date to = DateUtils.addDays(from, 1);
 	BooleanExpression query = QJpaInfoImgSchedule.jpaInfoImgSchedule.date.before(to).and(QJpaInfoImgSchedule.jpaInfoImgSchedule.date.stringValue().goe(StringOperation.create(Ops.STRING_CAST, ConstantImpl.create(from))));
 	query=query.and(QJpaInfoImgSchedule.jpaInfoImgSchedule.type.eq(JpaInfoImgSchedule.Type.valueOf(mtype)));
+	query=query.and(QJpaInfoImgSchedule.jpaInfoImgSchedule.isDeleted.eq(false));
 	return (List<JpaInfoImgSchedule>) infoImgScheduleRepository.findAll(query);
 }
 }
