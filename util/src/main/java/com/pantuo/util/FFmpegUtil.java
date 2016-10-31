@@ -40,11 +40,11 @@ public class FFmpegUtil {
 			exec.setExitValues(null);
 			PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream, errorStream);
 			exec.setStreamHandler(streamHandler);
+			exec.execute(command);
 			String out = outputStream.toString("gbk");
 			String error = errorStream.toString("gbk");
 			log.info(out);
 			log.error(error);
-			exec.execute(command);
 		} catch (IOException e) {
 			log.error("linux shell sendmail error", e);
 		}
