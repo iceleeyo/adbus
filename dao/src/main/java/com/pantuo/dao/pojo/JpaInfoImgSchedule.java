@@ -38,6 +38,8 @@ public class JpaInfoImgSchedule extends CityEntity {
     private Type type;
     private String proper;
     private long duration;
+    
+    private boolean isDeleted;//0 false
 
     public int getId() {
         return id;
@@ -94,6 +96,14 @@ public class JpaInfoImgSchedule extends CityEntity {
 
 	public void setAttachment(JpaAttachment attachment) {
 		this.attachment = attachment;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 }
