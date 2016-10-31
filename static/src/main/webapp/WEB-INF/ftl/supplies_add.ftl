@@ -213,7 +213,11 @@ $(document).ready(function() {
 		document.getElementById('subWithdraw').setAttribute('disabled',true);
 		  $("#subWithdraw").css("background-color","#85A2AD");
 		    var uploadProcess={upath:'${rc.contextPath}/upload/process'};
-		  $('#progress1').anim_progressbar(uploadProcess);
+		     var uptime = window.setTimeout(function(){
+				 $('#progress1').anim_progressbar(uploadProcess);
+			   	clearTimeout(uptime);
+						},2000)
+		 
 		  }
 	}
 
