@@ -694,9 +694,11 @@ function subSup() {
 				Sfile1.length)).toLowerCase();
 		var suppotFile = new Array();
 		suppotFile[0] = "gif";
+	
 		suppotFile[1] = "bmp";
 		suppotFile[2] = "jpg";
 		suppotFile[3] = "pdf";
+		suppotFile[4] = "png";
 		var flag=false;
 		for (var i = 0; i < suppotFile.length; i++) {
 			if (suppotFile[i] == fileType) {
@@ -705,7 +707,7 @@ function subSup() {
 		}
 		if(flag == false)
 		{
-		layer.msg('资质类型只支持GIF,BMP,JPG,PDF', {icon: 5});
+		layer.msg('资质类型只支持GIF,BMP,JPG,PNG,PDF', {icon: 5});
 			//jDialog.Alert("资质类型只支持GIF,BMP,JPG");
 			return;
 		}

@@ -169,6 +169,7 @@ $(document).ready(function() {
 			suppotFile[1] = "bmp";
 			suppotFile[2] = "jpg";
 			suppotFile[3] = "pdf";
+				suppotFile[4] = "png";
 			var flag=false;
 			for (var i = 0; i < suppotFile.length; i++) {
 				if (suppotFile[i] == fileType) {
@@ -177,7 +178,7 @@ $(document).ready(function() {
 			}
 			if(flag == false)
 			{
-				jDialog.Alert("资质类型只支持GIF,BMP,JPG,PDF");
+				jDialog.Alert("资质类型只支持GIF,BMP,JPG,PNG,PDF");
 				return;
 			}
 		}

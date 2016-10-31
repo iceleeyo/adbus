@@ -44,8 +44,17 @@ hr{height:0;border-left:none;border-right:0;border-top:1px dashed #2d2f34;border
 				<h2><a href="#">2016年<i></i></a></h2>
 				<div class="list">
 					<ul>
-					
 						<li class="cls highlight">
+							<p class="date">2016-10-31</p>
+							<p class="intro">功能修改</p>
+							<p class="version">视频1.1</p>
+							<div class="more">
+                              <p>1.mpg 视频文件上传提供浏览</p>
+                              <p>2.图片文字订单支持 排期调整[提前下刊]</p>
+                              <p>3.32寸视频产品支持下单流程</p>
+							</div>
+				    </li>
+						<li class="cls  ">
 							<p class="date">2016-10-18</p>
 							<p class="intro">功能修改</p>
 							<p class="version">视频1.1</p>
