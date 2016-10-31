@@ -641,6 +641,7 @@ public class ScheduleService {
 		mailJob.putMailTask(mailTask);
 		Date end = DateUtil.dateAdd(order.getStartTime(), order.getProduct().getDays());
 		order.setEndTime(end);
+		order.setScheduled(true);
 		ordersRepository.save(order);
 		return new SchedUltResult(StringUtils.EMPTY, true, start, true);
 	}
@@ -679,6 +680,7 @@ public class ScheduleService {
 					} else {
 						infoimgschedule.setDuration(a);
 					}
+					infoimgschedule.setIsDeleted(false);
 					infoimgscheduleMapper.insert(infoimgschedule);
 					sum += a;
 					i--;
