@@ -6,14 +6,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 /**
  * 
  * <b><code>ExcelFastUtil</code></b>
@@ -79,6 +82,58 @@ public class ExcelFastUtil {
 		cell.setCellValue(data);
 	}
 
+	private static boolean isNumeric(String str) {
+		for (int i = str.length(); --i >= 0;) {
+			if (!Character.isDigit(str.charAt(i))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public void setDynamicCell(Object data, int cellNum) {
+		createCell(cellNum);
+		if (data == null) {
+			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+			cell.setCellValue(StringUtils.EMPTY);
+		} else {
+			boolean isNumber = true;
+			if (data instanceof String) {
+				if (!isNumeric((String) data)) {
+					isNumber = false;
+					cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+					cell.setCellValue((String) data);
+				}
+			}
+			if (data instanceof Number || isNumber) {
+				cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+				cell.setCellValue(NumberUtils.toDouble(String.valueOf(data)));
+			}
+		}
+
+	}
+
+	public void setNumberCell(double data, int cellNum) {
+		createCell(cellNum);
+		cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+		cell.setCellValue(data);
+	}
+
+	public HSSFCellStyle getDateCellType() {
+		HSSFCellStyle cellStyle = workbook.createCellStyle();
+		HSSFDataFormat format = workbook.createDataFormat();
+		cellStyle.setDataFormat(format.getFormat("yyyy-MM-dd"));// HSSFDataFormat.getBuiltinFormat("yyyy-MM-dd"));
+		return cellStyle;
+	}
+
+	public void setDateCell(Date data, int cellNum, HSSFCellStyle cellStyle) {
+		if (data != null) {
+			createCell(cellNum);
+			cell.setCellValue(data);
+			cell.setCellStyle(cellStyle);
+		}
+	}
+
 	public HSSFCellStyle getFontColor(short color) {
 		cell.setCellType(HSSFCell.CELL_TYPE_STRING);
 		HSSFCellStyle cellStyle = workbook.createCellStyle();
@@ -91,10 +146,12 @@ public class ExcelFastUtil {
 		font.setColor(color); //绿字
 		cellStyle.setFont(font);
 		return cellStyle;
-	
+
 	}
-	public void setFontColor(HSSFCellStyle cellStyle){
-		cell.setCellStyle(cellStyle);;
+
+	public void setFontColor(HSSFCellStyle cellStyle) {
+		cell.setCellStyle(cellStyle);
+		;
 	}
 
 	public void createHead() {
@@ -103,16 +160,18 @@ public class ExcelFastUtil {
 			setCell(head_titles[i], i);
 		}
 	}
+
+	public String exportFileByInation(String file_name, String rootPath) {
+		return exportFileByInation0(file_name, rootPath, new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()), true);
+	}
+
 	/**
-	 * 
-	 *  
-	 *
 	 * @param file_name
 	 * @param rootPath 工程根的目录
 	 * @return
 	 * @since pantuo 1.0-SNAPSHOT
 	 */
-	public String exportFileByInation(String file_name,String rootPath) {
+	public String exportFileByInation0(String file_name, String rootPath, String uniqName, boolean haveDateSubPath) {
 		String exlpath = null;
 		try {
 			String export = new File("").getAbsolutePath();
@@ -120,9 +179,9 @@ public class ExcelFastUtil {
 				export = rootPath;
 			}
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
-            String date=new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-			String xlsPath = "/export/" + formatter.format(new Date());
-			file_name=file_name+date;
+
+			String xlsPath = "/export/" + (haveDateSubPath ? formatter.format(new Date()) : StringUtils.EMPTY);
+			file_name = file_name + uniqName;
 			String fileDir = export + xlsPath;
 			FileHelper.buildDir(fileDir);
 			String excelPath = fileDir + "/" + file_name + ".xls";

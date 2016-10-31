@@ -657,6 +657,7 @@ public class ScheduleService {
 			infoimgschedule.setDuration((long) 0);
 			infoimgschedule.setOrderId(order.getId());
 			infoimgschedule.setType(JpaInfoImgSchedule.Type.info.ordinal());
+			infoimgschedule.setIsDeleted(false);
 			infoimgscheduleMapper.insert(infoimgschedule);
 		} else {
 			List<Attachment> list = attachmentService.queryimg(null, order.getSuppliesId());
@@ -673,6 +674,7 @@ public class ScheduleService {
 					infoimgschedule.setOrderId(order.getId());
 					infoimgschedule.setType(JpaInfoImgSchedule.Type.image.ordinal());
 					infoimgschedule.setAttamentId(attachment.getId());
+					infoimgschedule.setIsDeleted(false);
 					if (i == 1) {
 						infoimgschedule.setDuration(duration - sum);
 					} else {

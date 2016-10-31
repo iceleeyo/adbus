@@ -100,7 +100,7 @@ import net.sf.jxls.transformer.XLSTransformer;
  * @author tliu
  * @author impanxh重构
  *
- * 排期表controller
+ *         排期表controller
  */
 @Controller
 @RequestMapping(produces = "application/json;charset=utf-8", value = "/schedule")
@@ -179,32 +179,36 @@ public class ScheduleController {
 
 	@RequestMapping(value = "/canelOrderWithStartDay", method = RequestMethod.POST)
 	@ResponseBody
-	public Pair<Boolean, String> canelOrderWithStartDay(HttpServletRequest request, HttpServletResponse response, Principal principal,
-			@RequestParam(value = "canelAfterAll", required = false) String canelAfterAll,
-			@RequestParam(value = "remark", required = false) String  remark,
-			@RequestParam(value = "orderid", required = false) int orderid, @RequestParam(value = "startdate", required = false) String startdate) throws Exception {
-		return scheduleService.canelScheduleStartDay(BooleanUtils.toBoolean(canelAfterAll),orderid,remark, startdate, principal);
+	public Pair<Boolean, String> canelOrderWithStartDay(HttpServletRequest request, HttpServletResponse response,
+			Principal principal, @RequestParam(value = "canelAfterAll", required = false) String canelAfterAll,
+			@RequestParam(value = "remark", required = false) String remark,
+			@RequestParam(value = "orderid", required = false) int orderid,
+			@RequestParam(value = "startdate", required = false) String startdate) throws Exception {
+		return scheduleService.canelScheduleStartDay(BooleanUtils.toBoolean(canelAfterAll), orderid, remark, startdate,
+				principal);
 	}
-	
-	 @RequestMapping(value = "/changeLog")
-	    public String list(Model model,@RequestParam(value = "orderid", required = false) String orderid, HttpServletResponse response) {
-		 model.addAttribute("orderid", orderid);
-		 response.setHeader("X-Frame-Options", "SAMEORIGIN");
-	        return "scheduleChangeLog";
-	    }
-	
+
+	@RequestMapping(value = "/changeLog")
+	public String list(Model model, @RequestParam(value = "orderid", required = false) String orderid,
+			HttpServletResponse response) {
+		model.addAttribute("orderid", orderid);
+		response.setHeader("X-Frame-Options", "SAMEORIGIN");
+		return "scheduleChangeLog";
+	}
+
 	@RequestMapping(value = "ajax-queryChangeLog", method = RequestMethod.GET)
 	@ResponseBody
 	public Page<JpaScheduleChangeLog> queryChangeLog(TableRequest req) {
 		return scheduleService.queryChangeLog(req);
 	}
-	
-	/** 
-	 * process 获取进度 
-	 * @param request 
-	 * @param response 
-	 * @return 
-	 * @throws Exception 
+
+	/**
+	 * process 获取进度
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
 	 */
 	@RequestMapping(value = "/session/{_key}", method = RequestMethod.GET)
 	@ResponseBody
@@ -213,12 +217,13 @@ public class ScheduleController {
 		return (ScheduleInfo) request.getSession().getAttribute(_key);
 	}
 
-	/** 
-	 * process 获取进度 
-	 * @param request 
-	 * @param response 
-	 * @return 
-	 * @throws Exception 
+	/**
+	 * process 获取进度
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
 	 */
 	@RequestMapping(value = "/process", method = RequestMethod.GET)
 	@ResponseBody
@@ -234,17 +239,18 @@ public class ScheduleController {
 			@RequestParam(value = "taskid", required = false) String taskid,
 			@RequestParam(value = "bm", required = false, defaultValue = "0") int bm,
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal) {
-		//		long t=System.currentTimeMillis();
-		//add by xiaoli
+		// long t=System.currentTimeMillis();
+		// add by xiaoli
 		JpaOrders order = orderService.getJpaOrder(id);
-		if (order.getType() == JpaProduct.Type.info || order.getType() == JpaProduct.Type.image ||  order.getType() == JpaProduct.Type.inchof32) {
+		if (order.getType() == JpaProduct.Type.info || order.getType() == JpaProduct.Type.image
+				|| order.getType() == JpaProduct.Type.inchof32) {
 			return scheduleService.scheduleInfoImg(order, taskid, startdate1);
 		} else {
 			SchedUltResult r = scheduleService.checkInventory(id, taskid, startdate1, ischeck, bm == 1, request,
 					principal);
 			return r;
 		}
-		//		log.info("SchedUltResult time:{}",System.currentTimeMillis()-t);
+		// log.info("SchedUltResult time:{}",System.currentTimeMillis()-t);
 
 	}
 
@@ -270,9 +276,15 @@ public class ScheduleController {
 	 */
 	@RequestMapping("{orderId}")
 	public String getOrderSchedule(Model model, @PathVariable("orderId") int orderId, Principal principal) {
-
+		model.addAttribute("orderId", orderId);
 		JpaOrders order = orderService.getJpaOrder(orderId);
-
+		if (order != null && order.getProduct() != null) {
+			if (order.getProduct().getType() == JpaProduct.Type.image) {
+				return "orderImgSchedule";
+			} else if (order.getProduct().getType() == JpaProduct.Type.info) {
+				return "orderInfoSchedule";
+			}
+		}
 		if (order != null && order.getStartTime().before(order.getEndTime())) {
 			Calendar cal = DateUtil.newCalendar();
 			cal.setTime(order.getStartTime());
@@ -283,7 +295,8 @@ public class ScheduleController {
 				cal.add(Calendar.DATE, 1);
 			}
 			model.addAttribute("dates", dates);
-			OrderView orderView = activitiService.findOrderViewByOrder(orderId, principal); //new OrderView();
+			OrderView orderView = activitiService.findOrderViewByOrder(orderId, principal); // new
+																							// OrderView();
 			orderView.setProduct(order.getProduct());
 			orderView.setOrder(order);
 			JpaCity city = cityService.fromId(order.getCity());
@@ -294,6 +307,7 @@ public class ScheduleController {
 			model.addAttribute("suppliesView", suppliesView);
 			model.addAttribute("ischedule", "Y");
 		}
+		
 		return "order_schedule2";
 	}
 
@@ -316,7 +330,8 @@ public class ScheduleController {
 			for (MediaInventory mediaInventory : list) {
 				ScheduleView scheduleView = map.get(mediaInventory.getSotid());
 				String d = DateUtil.longDf.get().format(mediaInventory.getDay());
-				scheduleView.getMap2().put(d, scheduleView.new SchObj(mediaInventory.getNum(), mediaInventory.getIsDelete()));
+				scheduleView.getMap2().put(d,
+						scheduleView.new SchObj(mediaInventory.getNum(), mediaInventory.getIsDelete()));
 
 			}
 			return map.values();
@@ -360,7 +375,7 @@ public class ScheduleController {
 		try {
 			JpaOrders order = orderService.getJpaOrder(orderId);
 			if (order.getType() != JpaProduct.Type.video) {
-				//TODO: image/info排期
+				// TODO: image/info排期
 				return Collections.EMPTY_LIST;
 			}
 
@@ -390,7 +405,7 @@ public class ScheduleController {
 				}
 			}
 
-			//remove empty rows
+			// remove empty rows
 			Iterator<Report> iter = reports.iterator();
 			while (iter.hasNext()) {
 				Report r = iter.next();
@@ -406,6 +421,7 @@ public class ScheduleController {
 
 	/**
 	 * 剩余时段表表单
+	 * 
 	 * @return
 	 */
 	@RequestMapping("report")
@@ -451,7 +467,7 @@ public class ScheduleController {
 		return "schedule_report";
 	}
 
-	/*@PreAuthorize(" !hasRole('advertiser')  ")*/
+	/* @PreAuthorize(" !hasRole('advertiser')  ") */
 	@PreAuthorize(" hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
 			+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
 			+ "or hasRole('ShibaSuppliesManager')  ")
@@ -477,11 +493,12 @@ public class ScheduleController {
 	 */
 	@RequestMapping("ajax-reportBoxExcel")
 	@ResponseBody
-	public void reportBoxExcel(TableRequest req,	Principal principal, @CookieValue(value = "city", defaultValue = "-1") int city) {
+	public void reportBoxExcel(TableRequest req, Principal principal,
+			@CookieValue(value = "city", defaultValue = "-1") int city) {
 		req.setPushLet(new com.pantuo.web.push.PushLet("/reportBoxExcel/", principal));
 		req.getPushLet().pushMsgToClient("开始查询要导出的数据!");
 		List<Report> result = getBoxResult(req, city);
-		
+
 		reportService.exportEexcel(req, city, result);
 	}
 
@@ -493,7 +510,7 @@ public class ScheduleController {
 		JpaProduct.Type type = req.getFilter("type", JpaProduct.Type.class, JpaProduct.Type.video);
 
 		if (type != JpaProduct.Type.video) {
-			//TODO:image/info 排期单
+			// TODO:image/info 排期单
 			return Collections.EMPTY_LIST;
 		}
 
@@ -503,16 +520,15 @@ public class ScheduleController {
 			Date end = DateUtil.longDf.get().parse(endStr);
 			List<Box> boxes = service.getBoxes(from, days, end);
 
-			//total row
+			// total row
 			long totalDuration = 0;
-			Map<String/*date*/, UiBox> totalBoxes = new HashMap<String, UiBox>();
+			Map<String/* date */, UiBox> totalBoxes = new HashMap<String, UiBox>();
 			Date d = from;
-			/*for (int i = 0; i < days; i++) {
-				UiBox t = new UiBox();
-				t.setDay(d);
-				totalBoxes.put(DateUtil.longDf.get().format(d), t);
-				d = DateUtils.addDays(d, 1);
-			}*/
+			/*
+			 * for (int i = 0; i < days; i++) { UiBox t = new UiBox();
+			 * t.setDay(d); totalBoxes.put(DateUtil.longDf.get().format(d), t);
+			 * d = DateUtils.addDays(d, 1); }
+			 */
 			while (!d.after(end)) {
 				UiBox t = new UiBox();
 				t.setDay(d);
@@ -540,15 +556,16 @@ public class ScheduleController {
 					String key = r.addBox(b);
 					Box t = totalBoxes.get(key);
 					if (t != null) {
-						//System.out.println(key+"  " +t.getRemain() +" -- "+ );
-						//	t.setRemain(t.getRemain() - (b.getRemain()-30 + b.getFremain() ));
+						// System.out.println(key+" " +t.getRemain() +" -- "+ );
+						// t.setRemain(t.getRemain() - (b.getRemain()-30 +
+						// b.getFremain() ));
 						t.setRemain(t.getRemain() + b.getRemain() - 30 + b.getFremain());
 					}
 				}
 
 			}
 
-			//add total row
+			// add total row
 			Report totalReport = new Report(new JpaTimeslot(city, "汇总", null, totalDuration, false));
 			totalReport.setBoxes(totalBoxes);
 			reports.add(totalReport);
@@ -560,12 +577,13 @@ public class ScheduleController {
 		}
 	}
 
-	/* @PreAuthorize(" !hasRole('advertiser')  ")*/
+	/* @PreAuthorize(" !hasRole('advertiser')  ") */
 	@PreAuthorize(" hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
 			+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
 			+ "or hasRole('ShibaSuppliesManager')  ")
 	/**
 	 * 排条单表单
+	 * 
 	 * @return
 	 */
 	@RequestMapping("list")
@@ -651,7 +669,7 @@ public class ScheduleController {
 		JpaProduct.Type type = req.getFilter("type", JpaProduct.Type.class, JpaProduct.Type.video);
 
 		if (type != JpaProduct.Type.video) {
-			//TODO:image/info 排条单
+			// TODO:image/info 排条单
 			return Collections.EMPTY_LIST;
 		}
 
@@ -666,14 +684,14 @@ public class ScheduleController {
 			Map<Integer, Supplies> blackSuppliesMap = buildSuppliesMap(blackSupplies);
 
 			Iterable<JpaBox> boxes = service.getBoxesAndGoods(day, 1);
-			//查底版 impanxh
+			// 查底版 impanxh
 			Iterable<JpaGoodsBlack> blacks = service.getFreeGoods(day, 1);
 
 			Map<Integer, List<JpaGoodsBlack>> timeslotMap = chageList2Map(blacks);
 
-			//total row
+			// total row
 			long totalDuration = 0;
-			Map<String/*date*/, UiBox> totalBoxes = new HashMap<String, UiBox>();
+			Map<String/* date */, UiBox> totalBoxes = new HashMap<String, UiBox>();
 			Date d = day;
 			String dStr = DateUtil.longDf.get().format(d);
 			for (int i = 0; i < 1; i++) {
@@ -699,7 +717,7 @@ public class ScheduleController {
 
 			for (JpaBox b : boxes) {
 				if (filler) {
-					///    fillBoxWithFiller(ran, b, fillerSupplies);
+					/// fillBoxWithFiller(ran, b, fillerSupplies);
 				}
 				Report r = reportMap.get(b.getSlotId());
 				if (r != null) {
@@ -716,15 +734,18 @@ public class ScheduleController {
 				for (Report r : reports) {
 					findFreeGoodsInBoxes(jicount, r.getBoxes(), blackSupplies);
 					if (filler && r.getBoxes().isEmpty()) {
-						//   fillReportWithFiller(ran, cityId, day, r, fillerSupplies);
+						// fillReportWithFiller(ran, cityId, day, r,
+						// fillerSupplies);
 					}
 				}
 			}
 
-			//add total row
-			/*            Report totalReport = new Report(new JpaTimeslot("汇总", null, totalDuration, false));
-			            totalReport.setBoxes(totalBoxes);
-			            reports.add(totalReport);*/
+			// add total row
+			/*
+			 * Report totalReport = new Report(new JpaTimeslot("汇总", null,
+			 * totalDuration, false)); totalReport.setBoxes(totalBoxes);
+			 * reports.add(totalReport);
+			 */
 
 			return flatDetailForGoods(dStr, reports, new BlackAdGrouop(timeslotMap, blackSuppliesMap));
 		} catch (Exception e) {
@@ -805,7 +826,7 @@ public class ScheduleController {
 				goodsBlackRepository.save(saveList);
 			}
 
-			//System.out.println(uiBox.getSlotId());
+			// System.out.println(uiBox.getSlotId());
 		}
 
 	}
@@ -838,7 +859,7 @@ public class ScheduleController {
 					JpaSupplies js = new JpaSupplies(box.getCity(), s.getName(),
 							JpaProduct.Type.values()[s.getSuppliesType()], s.getIndustryId(), s.getUserId(),
 							s.getDuration(), s.getFilePath(), s.getInfoContext(),
-							/*JpaSupplies.Status.values()[s.getStats()],*/null, s.getOperFristuser(),
+							/* JpaSupplies.Status.values()[s.getStats()], */null, s.getOperFristuser(),
 							s.getOperFristcomment(), s.getOperFinaluser(), s.getOperFinalcomment(), s.getSeqNumber(),
 							s.getCarNumber(), s.getResponseCid());
 					JpaProduct p = new JpaProduct(Integer.MAX_VALUE, JpaProduct.Type.video, "filler", s.getDuration(),
@@ -993,9 +1014,8 @@ public class ScheduleController {
 	 * 排条单
 	 */
 	@RequestMapping("exportList")
-	public void exportScheduleDetailList(TableRequest req,
-			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city,
-			HttpServletResponse resp) {
+	public void exportScheduleDetailList(TableRequest req, @CookieValue(value = "city", defaultValue = "-1") int cityId,
+			@ModelAttribute("city") JpaCity city, HttpServletResponse resp) {
 		String dayStr = req.getFilter("day");
 
 		String dayStr2 = dayStr;
@@ -1029,11 +1049,11 @@ public class ScheduleController {
 		for (Report r : list) {
 			scheduleList.add(new FlatScheduleListItem(monthDay, r));
 		}
-		//        for (Object r : scheduleList) {
-		//        	FlatScheduleListItem w=	 (FlatScheduleListItem) (r);
-		//        	System.err.println(w.toString());
-		//        }
-		//        scheduleList= getTotalRecord(scheduleList,monthDay);
+		// for (Object r : scheduleList) {
+		// FlatScheduleListItem w= (FlatScheduleListItem) (r);
+		// System.err.println(w.toString());
+		// }
+		// scheduleList= getTotalRecord(scheduleList,monthDay);
 		Map beans = new HashMap();
 		beans.put("report", scheduleList);
 		beans.put("title", dayStr2 + "全天档_二频道_标准版广告排条单");
@@ -1106,11 +1126,24 @@ public class ScheduleController {
 			@CookieValue(value = "city", defaultValue = "-1") int city, Principal principal) throws ParseException {
 		return timeslotService.getInfoSchedule(city, req, principal, mtype);
 	}
+	@RequestMapping("orderSchedule/{mtype}")
+	@ResponseBody
+	public List<JpaInfoImgSchedule> orderSchedule(TableRequest req, @PathVariable("mtype") String mtype,
+			 Principal principal) throws ParseException {
+		return timeslotService.orderSchedule(req, principal, mtype);
+	}
+	@RequestMapping("exportOrderSchedule/{mtype}")
+	@ResponseBody
+	public String exportOrderSchedule(TableRequest req, @PathVariable("mtype") String mtype,
+			 Principal principal) throws ParseException {
+		return timeslotService.exportOrderSchedule(req, principal, mtype);
+	}
 
 	/**
-		 * 图片info排条单
-		 * @throws ParseException 
-		 */
+	 * 图片info排条单
+	 * 
+	 * @throws ParseException
+	 */
 	@RequestMapping("exportInfoImglist/{mtype}")
 	public void exportInfoScheduleDetailList(TableRequest req, @PathVariable("mtype") String mtype,
 			@CookieValue(value = "city", defaultValue = "-1") int cityId, @ModelAttribute("city") JpaCity city,
@@ -1140,7 +1173,8 @@ public class ScheduleController {
 		XLSTransformer transformer = new XLSTransformer();
 		try {
 			resp.setHeader("Content-Type", "application/x-xls");
-			resp.setHeader("Content-Disposition", "attachment; filename=\"" + mtype + "schedule-[" + dayStr + "].xls\"");
+			resp.setHeader("Content-Disposition",
+					"attachment; filename=\"" + mtype + "schedule-[" + dayStr + "].xls\"");
 			InputStream is = new BufferedInputStream(ScheduleController.class.getResourceAsStream(templateFileName));
 			org.apache.poi.ss.usermodel.Workbook workbook = transformer.transformXLS(is, beans);
 			if (!StringUtils.equals("info", mtype)) {
@@ -1169,27 +1203,21 @@ public class ScheduleController {
 		List<Report> list = new LinkedList<Report>();
 		for (Report r : reports) {
 			UiBox box = r.getBox(day);
-			/*if (box == null || box.getGoods().isEmpty()) {
-				//fill in blank box
-				list.add(r);//by liuchao
-			} else {
-				//create report records for each goods
-				List<JpaGoods> goods = box.fetchSortedGoods(true, blackGroup);
-				//clear goods to make it ready for later copy
-				box.setGoods(null);
-				for (JpaGoods g : goods) {
-					UiBox b = new UiBox(box);
-					b.addGood(g);
-					Report newReport = new Report(r.getSlot());
-					newReport.addBox(b);
-					list.add(newReport);
-				}
-			}*/
+			/*
+			 * if (box == null || box.getGoods().isEmpty()) { //fill in blank
+			 * box list.add(r);//by liuchao } else { //create report records for
+			 * each goods List<JpaGoods> goods = box.fetchSortedGoods(true,
+			 * blackGroup); //clear goods to make it ready for later copy
+			 * box.setGoods(null); for (JpaGoods g : goods) { UiBox b = new
+			 * UiBox(box); b.addGood(g); Report newReport = new
+			 * Report(r.getSlot()); newReport.addBox(b); list.add(newReport); }
+			 * }
+			 */
 
 			if (box != null) {
-				//create report records for each goods
+				// create report records for each goods
 				List<JpaGoods> goods = box.fetchSortedGoods(true, blackGroup);
-				//clear goods to make it ready for later copy
+				// clear goods to make it ready for later copy
 				box.setGoods(null);
 				for (JpaGoods g : goods) {
 					UiBox b = new UiBox(box);

@@ -38,4 +38,8 @@ public interface TimeslotService {
     void saveTimeslots(Iterable<JpaTimeslot> timeslots);
 
 	List<JpaInfoImgSchedule> getInfoSchedule(int city, TableRequest req, Principal principal, String mtype) throws ParseException;
+
+	List<JpaInfoImgSchedule> orderSchedule(TableRequest req, Principal principal, String mtype);
+
+	String exportOrderSchedule(TableRequest req, Principal principal, String mtype);
 }
