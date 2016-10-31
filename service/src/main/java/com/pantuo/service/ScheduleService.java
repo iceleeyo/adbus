@@ -80,6 +80,7 @@ import com.pantuo.mybatis.domain.BoxExample;
 import com.pantuo.mybatis.domain.Goods;
 import com.pantuo.mybatis.domain.GoodsExample;
 import com.pantuo.mybatis.domain.Infoimgschedule;
+import com.pantuo.mybatis.domain.InfoimgscheduleExample;
 import com.pantuo.mybatis.domain.Supplies;
 import com.pantuo.mybatis.persistence.BoxMapper;
 import com.pantuo.mybatis.persistence.GoodsMapper;
@@ -1396,34 +1397,53 @@ public class ScheduleService {
 					return p;
 				}
 
-				List<Goods> goods = findGoodsByOrderAndStartDay(isCallAfterDayAll, orderid, d);
-				if (goods.isEmpty()) {
-					p.setRight("指定的日期没有要取消的排期,可能排期已经取消.");
-					return p;
-				}
-				for (Goods record : goods) {
-					record.setIsDeleted(true);
-					String key = record.getBoxSlotId() + "#" + record.getDay().getTime();
-					if (BOX_HELP.containsKey(key)) {
-						Integer boxTableId = BOX_HELP.get(key);
-						if (ALLBOX.containsKey(boxTableId)) {
-							Box box = ALLBOX.get(boxTableId);
-							if (record.getSortIndex() == 0) {
-								// 更新首播
-								box.setFremain(box.getFremain() - record.getSize().intValue());
-							} else {
-								// 更新不是首播
-								box.setRemain(box.getRemain() - record.getSize().intValue());
-							}
-							boxMapper.updateByPrimaryKey(box);
-						} else {
-							log.warn("goods:miss box:{}", boxTableId);
-						}
-					} else {
-						log.warn("goods:miss box:{}", record.getId());
+				
+				if (order.getProduct().getType().ordinal() == JpaProduct.Type.video.ordinal()) {
+					
+					List<Goods> goods = findGoodsByOrderAndStartDay(isCallAfterDayAll, orderid, d);
+					if (goods.isEmpty()) {
+						p.setRight("指定的日期没有要取消的排期,可能排期已经取消.");
+						return p;
 					}
-					goodsMapper.updateByPrimaryKey(record);
+					for (Goods record : goods) {
+						record.setIsDeleted(true);
+						String key = record.getBoxSlotId() + "#" + record.getDay().getTime();
+						if (BOX_HELP.containsKey(key)) {
+							Integer boxTableId = BOX_HELP.get(key);
+							if (ALLBOX.containsKey(boxTableId)) {
+								Box box = ALLBOX.get(boxTableId);
+								if (record.getSortIndex() == 0) {
+									// 更新首播
+									box.setFremain(box.getFremain() - record.getSize().intValue());
+								} else {
+									// 更新不是首播
+									box.setRemain(box.getRemain() - record.getSize().intValue());
+								}
+								boxMapper.updateByPrimaryKey(box);
+							} else {
+								log.warn("goods:miss box:{}", boxTableId);
+							}
+						} else {
+							log.warn("goods:miss box:{}", record.getId());
+						}
+						goodsMapper.updateByPrimaryKey(record);
+					}
+
 				}
+
+				if (order.getProduct().getType().ordinal() == JpaProduct.Type.info.ordinal() || order.getProduct().getType().ordinal() == JpaProduct.Type.image.ordinal()) {
+					List<Infoimgschedule> schedule = findInfoSchudleByOrderAndStartDay(isCallAfterDayAll, orderid, d);
+
+					if (schedule.isEmpty()) {
+						p.setRight("指定的日期没有要取消的排期,可能排期已经取消.");
+						return p;
+					}
+					for (Infoimgschedule record : schedule) {
+						record.setIsDeleted(true);
+						infoimgscheduleMapper.updateByPrimaryKey(record);
+					}
+				}
+
 				saveChangeLog(isCallAfterDayAll, orderid, remark, startdate1, principal);
 				p.setLeft(true);
 				p.setRight("订单取消排期成功!");
@@ -1453,7 +1473,16 @@ public class ScheduleService {
 		}
 		scheduleChangeLogRepository.save(log);
 	}
-
+	public List<Infoimgschedule> findInfoSchudleByOrderAndStartDay(boolean isCallAfterDayAll, int orderId, Date startDay) {
+		InfoimgscheduleExample example = new InfoimgscheduleExample();
+		if (isCallAfterDayAll) {
+			example.createCriteria().andOrderIdEqualTo(orderId).andDateGreaterThanOrEqualTo(startDay)
+					.andIsDeletedEqualTo(false);
+		} else {
+			example.createCriteria().andOrderIdEqualTo(orderId).andDateEqualTo(startDay).andIsDeletedEqualTo(false);
+		}
+		return infoimgscheduleMapper.selectByExample(example);
+	}
 	public List<Goods> findGoodsByOrderAndStartDay(boolean isCallAfterDayAll, int orderId, Date startDay) {
 		GoodsExample example = new GoodsExample();
 		if (isCallAfterDayAll) {

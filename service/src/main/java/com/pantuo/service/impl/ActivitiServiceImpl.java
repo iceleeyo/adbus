@@ -786,7 +786,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		Pageable p = new PageRequest(page, pageSize, sort);
 		
 		List<OrderView> orders = new ArrayList<OrderView>();
-		BooleanExpression q = QJpaOrders.jpaOrders.isScheduled.eq(true).and(QJpaOrders.jpaOrders.type.eq(JpaProduct.Type.video));
+		BooleanExpression q = QJpaOrders.jpaOrders.isScheduled.eq(true);//.and(QJpaOrders.jpaOrders.type.eq(JpaProduct.Type.video));
 	    String longId = req.getFilter("longOrderId"), userId = req.getFilter("userId"), 
 	    salesMan = req.getFilter("salesMan"),proName=req.getFilter("proName");
 	    if(StringUtils.isNotBlank(proName)){
