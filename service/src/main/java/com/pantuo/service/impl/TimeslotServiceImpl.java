@@ -27,19 +27,14 @@ import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.expr.StringOperation;
 import com.pantuo.dao.InfoImgScheduleRepository;
 import com.pantuo.dao.TimeslotRepository;
-import com.pantuo.dao.pojo.JpaBlackAd;
 import com.pantuo.dao.pojo.JpaInfoImgSchedule;
 import com.pantuo.dao.pojo.JpaTimeslot;
-import com.pantuo.dao.pojo.QJpaBlackAd;
-import com.pantuo.dao.pojo.QJpaBox;
 import com.pantuo.dao.pojo.QJpaInfoImgSchedule;
 import com.pantuo.dao.pojo.QJpaTimeslot;
 import com.pantuo.pojo.TableRequest;
 import com.pantuo.service.TimeslotService;
 import com.pantuo.util.DateUtil;
 import com.pantuo.util.ExcelFastUtil;
-
-import sun.util.logging.resources.logging;
 
 @Service
 public class TimeslotServiceImpl implements TimeslotService {
@@ -131,6 +126,7 @@ public class TimeslotServiceImpl implements TimeslotService {
 				.and(QJpaInfoImgSchedule.jpaInfoImgSchedule.date.stringValue()
 						.goe(StringOperation.create(Ops.STRING_CAST, ConstantImpl.create(from))));
 		query = query.and(QJpaInfoImgSchedule.jpaInfoImgSchedule.type.eq(JpaInfoImgSchedule.Type.valueOf(mtype)));
+		query=query.and(QJpaInfoImgSchedule.jpaInfoImgSchedule.isDeleted.eq(false));
 		return (List<JpaInfoImgSchedule>) infoImgScheduleRepository.findAll(query);
 	}
 
@@ -139,6 +135,7 @@ public class TimeslotServiceImpl implements TimeslotService {
 		int orderId = req.getFilterInt("orderId", 0);
 		BooleanExpression query = QJpaInfoImgSchedule.jpaInfoImgSchedule.order.id.eq(orderId);
 		query = query.and(QJpaInfoImgSchedule.jpaInfoImgSchedule.type.eq(JpaInfoImgSchedule.Type.valueOf(mtype)));
+		
 		return (List<JpaInfoImgSchedule>) infoImgScheduleRepository.findAll(query);
 	}
 
@@ -166,7 +163,7 @@ public class TimeslotServiceImpl implements TimeslotService {
 					int cellNum = 0;
 					exu.createRow();
 					exu.setDateCell(one.getDate(), cellNum++, cellStyle);
-					exu.setDynamicCell(supoliesNull ? "" : one.getOrder().getSupplies().getSeqNumber(), cellNum++);
+					exu.setCell(supoliesNull ? "" : one.getOrder().getSupplies().getSeqNumber(), cellNum++);
 					exu.setCell(supoliesNull ? "" : one.getOrder().getSupplies().getInfoContext(), cellNum++);
 					exu.setDynamicCell(one.isDeleted() ? "已失效" : "正常", cellNum++);
 				}
@@ -195,7 +192,7 @@ public class TimeslotServiceImpl implements TimeslotService {
 					int cellNum = 0;
 					exu.createRow();
 					exu.setDateCell(one.getDate(), cellNum++, cellStyle);
-					exu.setDynamicCell(supoliesNull ? "" : one.getOrder().getSupplies().getSeqNumber(), cellNum++);
+					exu.setCell(supoliesNull ? "" : one.getOrder().getSupplies().getSeqNumber(), cellNum++);
 					exu.setDynamicCell(supoliesNull ? "" : one.getOrder().getSupplies().getName(), cellNum++);
 					exu.setCell("新", cellNum++);
 					exu.setDynamicCell(attamentNumm ? "" : one.getAttachment().getName(), cellNum++);
