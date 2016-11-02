@@ -112,7 +112,7 @@
 									<p class="rec-line">上播日期： <input style="width:80px"
 										class="ui-input datepicker validate[required,custom[date] "
 										type="text" value="<#if item.startTime?has_content>${item.startTime?string("yyyy-MM-dd")}</#if>" id="st_${item.product.id}" data-is="isAmount isEnough"
-										autocomplete="off" onchange="dateInput('st_${item.product.id}',${item.product.id}),updateCardMeida('st_${item.product.id}',${item.id})">
+										autocomplete="off"  <#if item.product.type=='video'>onchange="dateInput('st_${item.product.id}',${item.product.id}),updateCardMeida('st_${item.product.id}',${item.id})" </#if>>
 										</p>
 										<@security.authorize ifAnyGranted="sales">
 											<p class="rec-line"><input class="hideinput" id="isChangeOrder" onclick="updateCardMeida('st_${item.product.id}',${item.id})" type="checkbox"  value="N" name="isChangeOrder">换版订单 	
