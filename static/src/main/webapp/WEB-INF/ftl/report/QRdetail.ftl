@@ -1,4 +1,4 @@
-<#import "../template/template.ftl" as frame> <#global menu="二维码列表 ">
+<#import "../template/template.ftl" as frame> <#global menu="二维码列表">
 <@frame.html title="详情 " js=["js/jquery-ui/jquery-ui.js",
 "js/datepicker.js", "js/jquery.datepicker.region.cn.js","js/highcharts/highcharts.js","js/highcharts/exporting.js"]
 css=["js/jquery-ui/jquery-ui.css"]>
