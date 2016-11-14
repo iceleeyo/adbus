@@ -399,7 +399,8 @@
 
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/report/dayorderp"> 销售报表 </a></li>
-			</ul></li> </@security.authorize> 
+			</ul></li> 
+		</@security.authorize> 
 
 		<li class="pg-side-item"><a class="pg-side-item-t ff-icon"> <i
 				class="s-left pg-icon-a e-icon"></i> 用户信息
@@ -445,6 +446,20 @@
 					</ul>
 			</li>  
 			</@security.authorize>
+			
+			 
+		<#if username='dan'>
+		<li class="pg-side-item"><a class="pg-side-item-t hh-icon"> <i
+				class="s-left pg-icon-a c-icon"></i> 二维码管理
+		</a>
+			<ul class="pg-side-exp-list">
+				<li class="pg-side-exp-item"><a class="side-exp-item-t"
+					href="${rc.contextPath}/report/addQR"> 制作二维码 </a></li>
+				<li class="pg-side-exp-item"><a class="side-exp-item-t"
+					href="${rc.contextPath}/report/QRList"> 二维码列表 </a></li>
+			</ul></li> 
+		</#if> 
+			
 		<@security.authorize
 		ifAnyGranted="bodysales,bodyContractManager,bodyScheduleManager,ShibaSuppliesManager,ShibaOrderManager,BeiguangScheduleManager">
 			<ul class="pg-side-exp-list">

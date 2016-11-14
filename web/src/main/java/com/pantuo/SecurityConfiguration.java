@@ -330,6 +330,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			}
 			request.getSession().setAttribute("_utype", udetail.getUtype().name());
 			request.getSession().setAttribute("UType", udetail.getUtype().name());
+			request.getSession().setAttribute("username", udetail.getUsername());
 			if(authority.contains("contractManager") && authority.size()==1){
 				//makeCookieRight(request, response, false);
 				return "/payContract/list";

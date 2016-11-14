@@ -23,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -56,6 +57,19 @@ public class ReportController {
 	public String sift() {
 		return "publishCountM";
 	}
+    @RequestMapping(value = "/addQR")
+    public String addQR() {
+    	return "report/addQR";
+    }
+    @RequestMapping(value = "/QRList")
+    public String QRList() {
+    	return "report/QRList";
+    }
+    @RequestMapping(value = "/QRdetail/{para}")
+    public String QRdetail(@PathVariable("para") String para,Model model) {
+    	model.addAttribute("para", para);
+    	return "report/QRdetail";
+    }
     
 	@PreAuthorize(" hasRole('ShibaOrderManager')" + " or hasRole('ShibaFinancialManager')"
 			+ "or hasRole('BeiguangMaterialManager')" + "or hasRole('BeiguangScheduleManager')"
