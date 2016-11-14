@@ -27,10 +27,15 @@ css=["js/jquery-ui/jquery-ui.css"]>
 	if (!$("#userForm2").validationEngine('validateBeforeSubmit'))
 			return;
 		$('#userForm2').ajaxForm(function(data) {
-				if(typeof(data)!='undefined' &&　data.img!=''){
+				if(typeof(data)!='undefined' &&　data.img!='' && data.error==1){
 					$("#img").attr("src",data.img);
+						layer.msg("增加成功");
 				}else {
-					layer.msg("操作失败");
+					if(data.error==0){
+						layer.msg("增加失败,系统已存在相同的链接.", {icon: 5});
+					}else {
+						layer.msg("操作失败");
+					}
 				}
 				
 		}).submit();

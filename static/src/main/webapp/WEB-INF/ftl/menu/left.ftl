@@ -454,8 +454,6 @@
 		</a>
 			<ul class="pg-side-exp-list">
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
-					href="${rc.contextPath}/report/addQR"> 制作二维码 </a></li>
-				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/report/QRList"> 二维码列表 </a></li>
 			</ul></li> 
 		</#if> 

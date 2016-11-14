@@ -42,7 +42,9 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                 url: "http://60.205.168.48:9009/url/list",
                 data: function(d) {
                     return $.extend( {}, d, {
-                        
+                           "filter[description_s]" : $('#description_s').val() ,
+                              "filter[sourceUrl_s]" : $('#sourceUrl_s').val() 
+                           
                     } );
                 },
                  "dataSrc": function (json) { 
@@ -89,10 +91,19 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
 
     function initComplete() {
         $("div#toolbar").html(
-                ''
+                 '<div>' +
+                     '    <span>url搜索：</span>' +
+                        '    <span>' +
+                        '        <input id="sourceUrl_s" style="width:500px" value="">' +
+                        '    </span>' +
+                            '    <span>备注搜索：</span>' +
+                        '    <span>' +
+                        '        <input id="description_s" style="width:200px" value="">' +
+                        '    </span>' +
+                          '</div>'
         );
 
-        $('#company,#relateMan,#salesMan').change(function() {
+        $('#description_s,#sourceUrl_s').change(function() {
             table.fnDraw();
         });
 
