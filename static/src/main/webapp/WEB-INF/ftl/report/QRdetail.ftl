@@ -64,8 +64,8 @@ css=["js/jquery-ui/jquery-ui.css"]>
      var url="http://60.205.168.48:9009/url/getByid/"+para;
      
      $.get(url, function(data) {
-               $("#sourceUrl_s").append(data.sourceUrl_s);
-               $("#description_s").append(data.description_s);
+               $("#sourceUrl_s").append('<h3>'+data.sourceUrl_s+'</h3>');
+               $("#description_s").append('<h3>'+data.description_s+'</h3>');
                $("#img").attr("src",data.img);
             })
             
@@ -93,18 +93,11 @@ css=["js/jquery-ui/jquery-ui.css"]>
 		class="ui-form" method="post" action="http://60.205.168.48:9009/url/save"
 		enctype="multipart/form-data">
 		<div class="withdrawInputs">
-			<div class="inputs">
-				<div class="ui-form-item">
-					<label class="ui-label mt10">url:</label>
-						<span id="sourceUrl_s"></span>
-				</div>
-				<div class="ui-form-item">
-					<label class="ui-label mt10">描述:</label>
-					<span id="description_s"></span>
-				</div>
 				
             <div >
-                     <img src="" id="img" width="300" height="300" style="margin-left:200px" border="1px solid #d0d0d0;"/>
+						<span id="sourceUrl_s" ></span>
+					<span id="description_s" ></span>
+                     <img src="" id="img" width="300" height="300"  border="1px solid #d0d0d0;"/>
 			</div>
 		</div>
 	
