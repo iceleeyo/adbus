@@ -1191,10 +1191,9 @@ suppliesView=suppliesView/>
 					
                     <input class="ui-input datepicker validate[required,custom[date],past[#upDate1]]" type="text"  
                     value="<#if orderview.order.startTime?has_content>${(orderview.order.startTime)?string("yyyy-MM-dd")}</#if>" 
-                    id="startdate1" <#if orderview.order.product.type!="inchof32">
-                    
-                    onchange="dateInput('startdate1',${orderview.order.product.id})";
-                    
+                    id="startdate1"
+                     <#if orderview.order.product.type =="video">
+                    	onchange="dateInput('startdate1',${orderview.order.product.id})";
                     </#if>
                      data-is="isAmount isEnough" autocomplete="off" disableautocomplete=""> 						
 						</TD>
