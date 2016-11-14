@@ -450,11 +450,13 @@
 			 
 		<#if username='dan'>
 		<li class="pg-side-item"><a class="pg-side-item-t hh-icon"> <i
-				class="s-left pg-icon-a c-icon"></i> 二维码管理
+				class="s-left pg-icon-a c-icon"></i> 创新产品
 		</a>
 			<ul class="pg-side-exp-list">
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					href="${rc.contextPath}/report/QRList"> 二维码列表 </a></li>
+					<li class="pg-side-exp-item"><a class="side-exp-item-t"
+					 > 待推出 </a></li>
 			</ul></li> 
 		</#if> 
 			
