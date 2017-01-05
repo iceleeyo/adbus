@@ -1,6 +1,6 @@
-<#import "../template/QRtemplate.ftl" as frame> <#global menu="二维码列表">
+<#import "../template/QRtemplate.ftl" as frame> <#global menu="扫码广告">
 <#assign security=JspTaglibs["/WEB-INF/tlds/security.tld"] />
-<@frame.html title="二维码列表"
+<@frame.html title="扫码广告"
 js=["js/layer-v1.9.3/layer/layer.js","js/layer.onload.js","js/jquery-dateFormat.js","js/jquery-ui/jquery-ui.auto.complete.js"]
 css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-ui/jquery-ui.auto.complete.css","css/autocomplete.css","css/uploadprogess.css","css/liselect/pkg-generator.css$ver=1431443489.css"]>
 <style type="text/css">
@@ -75,7 +75,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
                     "render": function(data, type, row, meta) {
                     
                         var op=''
-                         op+='<a class="operation"  onclick="showQRlayer(\''+data+'\');" >查看二维码</a> &nbsp;'
+                         op+='<a class="operation"  onclick="showQRlayer(\''+data+"','"+row.description_s+'\');" >查看二维码</a> &nbsp;'
                          op+='<a class="operation"  href="${rc.contextPath}/report/QRdetail/'+row.targetUrl_s+'" >详情</a> &nbsp;'
                        return op; 
                     }},
@@ -145,14 +145,22 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.16.custom.css","js/jquery-u
          bindLayerMouseOver();
     } );
     
-    function showQRlayer(data){
+    function showQRlayer(data,description_s){
+    
+    if(description_s.indexOf("消乐")>=0){
+    	data="http://busme.cn/imgs/p/xiaoxiaole.jpg";
+    }
+    if(description_s.indexOf("锤子")>=0){
+    	data="http://busme.cn/imgs/p/chuizi.png";
+    }
+    console.log(data);
 	layer.open({
 		type: 1,
 		title: "二维码",
 		skin: 'layui-layer-rim', 
-		area: ['400px', '400px'], 
+		area: ['950px', '600px'], 
 		content:''
-			+'<img src='+data+'/> '
+			+'<img src='+data+'> '
 	});
 	
 }

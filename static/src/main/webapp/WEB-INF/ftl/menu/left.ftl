@@ -454,7 +454,7 @@
 		</a>
 			<ul class="pg-side-exp-list">
 				<li class="pg-side-exp-item"><a class="side-exp-item-t"
-					href="${rc.contextPath}/report/QRList"> 二维码列表 </a></li>
+					href="${rc.contextPath}/report/QRList"> 扫码广告 </a></li>
 					<li class="pg-side-exp-item"><a class="side-exp-item-t"
 					 > 待推出 </a></li>
 			</ul></li> 

@@ -64,9 +64,25 @@ css=["js/jquery-ui/jquery-ui.css"]>
      var url="http://60.205.168.48:9009/url/getByid/"+para;
      
      $.get(url, function(data) {
+<<<<<<< Updated upstream
                $("#sourceUrl_s").append('<h3 style="margin-left:32px">'+data.sourceUrl_s+'</h3>');
                $("#description_s").append('<h3 style="margin-left:32px">'+data.description_s+'</h3>');
+=======
+     	
+     
+               $("#sourceUrl_s").append('<h3>'+data.sourceUrl_s+'</h3>');
+               $("#description_s").append('<h3>'+data.description_s+'</h3>');
+>>>>>>> Stashed changes
                $("#img").attr("src",data.img);
+               
+                
+		    if(data.description_s.indexOf("消乐")>=0){
+		     $("#img").attr("src","http://busme.cn/imgs/p/xiaoxiaole.jpg");	
+		    }
+		    if(data.description_s.indexOf("锤子")>=0){
+		    	 $("#img").attr("src","http://busme.cn/imgs/p/chuizi.png");
+		    }
+		    
             })
             
             
