@@ -121,9 +121,10 @@
 					<div class="back-items">
 					   <div class="back-item">
 							<span class="sift-list" qt="lines">
-								<a class="item active" style="display:none" href="#" sort="-1" qc="all">所有</a> 
+								<a class="item active "  style="display:none" href="#" sort="-1" qc="all">所有</a> 
 							<#list lines as item>
-				             	<a class="item" href="#" qc="${item.id}">${item.name}<i>×</i></a> 
+							
+				             	<a class="item layer-tips" href="#" tip="共有${item.num}块屏幕,总价${jpaProduct.price*item.num}元" qc="${item.id}">${item.name}<i>×</i></a> 
 					                <#if item_index!=0 && item_index%6 == 0>
 						            <br>
 					             </#if>
@@ -316,7 +317,7 @@
 							data:{"proid":id,"needCount":$("#needCount").val(),"days":0,"startdate1":startdate1,"sh":sh},
 							type : "POST",
 							success : function(data) {
-							alert(data.right);
+							layer.msg(data.right);
 							setCarCount(data.cardCount);
 							setCarCount(data.cardCount_top);
 						}}, "text");

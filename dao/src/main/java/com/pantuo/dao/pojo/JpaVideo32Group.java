@@ -15,6 +15,7 @@ public class JpaVideo32Group {
 	private int id;
 	private String name;
 	private int sortBy;
+	private int num; //屏幕数
 
 	public JpaVideo32Group() {
 	}
@@ -41,6 +42,14 @@ public class JpaVideo32Group {
 
 	public void setSortBy(int sortBy) {
 		this.sortBy = sortBy;
+	}
+
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
 	}
 
 }

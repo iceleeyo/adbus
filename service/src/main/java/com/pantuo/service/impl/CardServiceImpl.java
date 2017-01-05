@@ -366,7 +366,7 @@ public class CardServiceImpl implements CardService {
 			}
 			
 			for (Integer groupId : groupIds) {
-
+				JpaVideo32Group g=null;
 				CardboxMediaExample example = new CardboxMediaExample();
 				CardboxMediaExample.Criteria ca = example.createCriteria();
 				ca.andSeriaNumEqualTo(seriaNum).andProductIdEqualTo(proid).andUserIdEqualTo(Request.getUserId(principal)).andIsConfirmEqualTo(0);
@@ -387,14 +387,17 @@ public class CardServiceImpl implements CardService {
 					}
 					
 					if (groupId > 0) {
+						g=groupRep.findOne(groupId);
 						media.setGroupId(groupId);
 					}
+					double price=g!=null?(product.getPrice()*g.getNum()):product.getPrice();
+					double tprice=g!=null?price:product.getPrice()* needCount;
 					media.setCity(city);
 					media.setUserId(Request.getUserId(principal));
 					media.setCreated(new Date());
 					media.setNeedCount(needCount);
-					media.setPrice(product.getPrice());
-					media.setTotalprice(product.getPrice() * needCount);
+					media.setPrice(price);
+					media.setTotalprice(tprice);
 					media.setSeriaNum(seriaNum);
 					media.setProductId(proid);
 					media.setIsConfirm(0);
