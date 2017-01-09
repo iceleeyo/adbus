@@ -40,6 +40,15 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 			var type = $("#type").val();
 			$(".toggle").hide();
 			$("." + type + "Toggle").show();
+               if( typeof($("#productId").val())=='undefined'){
+	                if(type.indexOf('32')!=-1){
+	                  $('#duration').val(30);
+	                  $('#playNumber').val(80);
+	                }else{
+	                  $('#duration').val(25);
+	                  $('#playNumber').val(24);
+	                }
+                }
 		}
 		$("#type").change(toggleFields);
 		toggleFields();
@@ -136,6 +145,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
                   o[i].checked=true;
                 }
            }
+        	
 		}
 		}});
 	}
@@ -186,9 +196,9 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 						autocomplete="off" disableautocomplete="">秒/次
 					<p class="ui-term-placeholder"></p>
 				</div>
-<#-- <#-- -->
+				
 				<div
-					class="ui-form-item toggle videoToggle imageToggle infoToggle teamToggle">
+					class="ui-form-item toggle videoToggle imageToggle infoToggle teamToggle inchof32Toggle">
 					<label class="ui-label mt10"><span class="ui-form-required">*</span>单日播放次数：</label>
 					<input class="ui-input validate[required,integer]"
 						onkeyup="value=value.replace(/[^\d.]/g,'')" type="text"
@@ -229,10 +239,10 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 				</div>
 
 				<div class="ui-form-item toggle inchof32Toggle">
-					<label class="ui-label mt10"><span class="ui-form-required">*</span>
+					<label class="ui-label mt10">
 						<span >合同屏幕数：</span></label><input
 						class="ui-input validate[required,integer]"
-						onkeyup="value=value.replace(/[^\d.]/g,'')" name=""
+						onkeyup="value=value.replace(/[^\d.]/g,'')" name="" value="1" readonly="readonly"
 						id="" data-is="isAmount isEnough" autocomplete="off"
 						disableautocomplete="">
 				</div>
@@ -349,7 +359,7 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 			</div>
 
 		</div>
-		<#if prod?? > <input type="hidden" name="id" value="${prod.id}" />
+		<#if prod?? > <input type="hidden" name="id" id="productId" value="${prod.id}" />
 		</#if> <input id="img1_url" name="img1_url" type="hidden"
 			value="<#if jsonView?? && jsonView.img1_url?has_content>${jsonView.img1_url}</#if>" />
 		<input id="img2_url" name="img2_url" type="hidden"
