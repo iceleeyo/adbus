@@ -85,7 +85,7 @@ function supDetail(data){
 			<li style="width: 200px;"><SPAN>媒体类型：</SPAN><SPAN class="con">${prod.type.typeName!''}</SPAN></li>
 			<#if orderview.order.product.type == "inchof32">
 				<li style="width: 200px;"><SPAN>投放线路：</SPAN>
-				<SPAN style="color:red" class="con">${(orderview.order.group.name)!''}</SPAN></li>
+				<SPAN style="color:red" class="con layer-tips" tip="有${(orderview.order.group.num)!''}块屏">${(orderview.order.group.name)!''}[${(orderview.order.group.num)!''}块屏]</SPAN></li>
 			</#if>
 			<@security.authorize
 			ifAnyGranted="salesManager,ShibaOrderManager,ShibaFinancialManager,BeiguangScheduleManager,BeiguangMaterialManager">

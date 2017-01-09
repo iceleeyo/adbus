@@ -124,7 +124,7 @@
 								<a class="item active "  style="display:none" href="#" sort="-1" qc="all">所有</a> 
 							<#list lines as item>
 							
-				             	<a class="item layer-tips" href="#" tip="共有${item.num}块屏幕,总价${jpaProduct.price*item.num}元" qc="${item.id}">${item.name}<i>×</i></a> 
+				             	<a class="item layer-tips" href="#" tip="${item.num}块屏幕,总价${jpaProduct.price*item.num}元" qc="${item.id}">${item.name}<i>×</i></a> 
 					                <#if item_index!=0 && item_index%6 == 0>
 						            <br>
 					             </#if>

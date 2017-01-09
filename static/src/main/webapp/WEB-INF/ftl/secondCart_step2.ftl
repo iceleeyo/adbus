@@ -84,7 +84,7 @@
 									<div class="td-inner" style="margin-top:-20px">
 									<#if item.product.type =='inchof32'>
 									<p class="perio">线路：
-									  ${(item.group.name)!''}
+									<font color='#ff9966'>  ${(item.group.name)!''}[${(item.group.num)!''}块屏]</font>
 									</p>
 									</#if>
 										<span> 时长：${item.product.duration}秒/次</span> 
