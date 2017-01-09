@@ -1,0 +1,12 @@
+*.properties
+*.properties
+*.project
+dao/.classpath
+*.classpath
+service/.settings/org.eclipse.wst.common.component
+*.prefs
+static/.settings/org.eclipse.jdt.core.prefs
+*.classpath
+util/.project
+*.classpath
+web/.settings/org.eclipse.core.resources.prefs
