@@ -100,7 +100,7 @@
 								<li class="td td-info">
 									<div class="item-rect">
 									<#if item.product.type =='inchof32'>
-									<p class="rec-line">线路：${(item.group.name)!''}</p>
+									<p class="rec-line">线路：<font color='#ff9966'>${(item.group.name)!''}[${(item.group.num)!''}块屏]</font></p>
 									</#if>
 										<p class="rec-line">时长（秒）：${item.product.duration}</p>
 										<#if item.product.type !='inchof32'>
