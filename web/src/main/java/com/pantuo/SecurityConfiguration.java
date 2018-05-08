@@ -100,7 +100,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/", "/*.html", "/login", "/logout", "/homepage/**", "/css/**", "/images/**", "/imgs/**",
+				.antMatchers("/","/**/**/*.txt**","/.well-known/pki-validation/fileauth.txt**","/*.txt", "/*.html", "/login", "/logout", "/homepage/**", "/css/**", "/images/**", "/imgs/**",
 						"/js/**", "/index_js/**", "/index_img/**", "/index_css/**", "/style/**", "/upload_temp/**")
 				.permitAll()
 				.antMatchers("/favicon.ico","/code", "/login_bus", "/busselect/work**/**", "/intro**","/client**", "/about-me", "/media",

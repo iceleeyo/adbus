@@ -44,9 +44,11 @@ css=["js/jquery-ui/jquery-ui.css","css/jquery-ui-1.8.17.custom.css","css/jquery-
 	                if(type.indexOf('32')!=-1){
 	                  $('#duration').val(30);
 	                  $('#playNumber').val(80);
+	                  $('#days').val(30);
 	                }else{
 	                  $('#duration').val(25);
 	                  $('#playNumber').val(24);
+	                    $('#days').val(7);
 	                }
                 }
 		}

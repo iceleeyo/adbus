@@ -60,7 +60,9 @@ div#toolbar {
                         "filter[contractid]" : $('#cid').val(),
                         "filter[linename]" : $('#linename').val(),
                         "filter[model]" : $('#model').val(),
-                        "filter[company]" : $('#company').val()
+                        "filter[company]" : $('#company').val(),
+                        "filter[bkTag]" : $('#bkTag').val()
+                        
                     } );
                 },
                 "dataSrc": "content",
@@ -132,10 +134,16 @@ div#toolbar {
                                             	'<option value="市场">市场</option>'+
                                             	'<option value="其他">其他</option>'+
          			'</select><br>' +
+         			
+         			  '&nbsp;&nbsp <select class="ui-input ui-input-mini"  id="bkTag">' +
+                    '<option value="" selected="selected">所有</option>' +
+                  	                           '<option value="0">正常合同订单</option>'+
+                                            	'<option value="1">补刊订单[来自锁定线路菜单]</option>'+
+         			'</select><br>' +
                         '</div>'
         );
 
-        $('#contractCode,#linename,#model,#company').change(function() {
+        $('#contractCode,#linename,#model,#company,#bkTag').change(function() {
             orderBusesTable.fnDraw();
         });
         

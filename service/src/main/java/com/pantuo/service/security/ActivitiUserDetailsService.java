@@ -19,8 +19,9 @@ import com.pantuo.service.UserServiceInter;
  */
 @Service
 public class ActivitiUserDetailsService implements UserDetailsService {
+	
 	@Autowired
-	private UserServiceInter userService;
+	private UserServiceInter userService;      
 	
 	 
 	public static UserServiceInter staticUserService;
